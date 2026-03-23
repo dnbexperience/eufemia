@@ -1960,4 +1960,41 @@ Several component types that accepted `(...args: any[]) => any` for render funct
 - Replace import from path `style/themes/theme-eiendom/` with `style/themes/eiendom/`
 - Replace import from path `style/themes/theme-carnegie/` with `style/themes/carnegie/`
 
+## Props Type Exports
+
+All `export type Props` declarations have been renamed to use a component-prefixed name to avoid ambiguity when re-exported through barrel files.
+
+If you import `Props` types from component modules, update your imports to use the new names:
+
+| Module path                             | Before  | After                      |
+| --------------------------------------- | ------- | -------------------------- |
+| `components/card`                       | `Props` | `CardProps`                |
+| `components/flex/Horizontal`            | `Props` | `HorizontalProps`          |
+| `components/flex/Stack`                 | `Props` | `StackProps`               |
+| `components/flex/Vertical`              | `Props` | `VerticalProps`            |
+| `extensions/forms/Field/String`         | `Props` | `FieldStringProps`         |
+| `extensions/forms/Field/Number`         | `Props` | `FieldNumberProps`         |
+| `extensions/forms/Field/Boolean`        | `Props` | `FieldBooleanProps`        |
+| `extensions/forms/Field/Selection`      | `Props` | `FieldSelectionProps`      |
+| `extensions/forms/Field/Toggle`         | `Props` | `FieldToggleProps`         |
+| `extensions/forms/Value/String`         | `Props` | `ValueStringProps`         |
+| `extensions/forms/Value/Number`         | `Props` | `ValueNumberProps`         |
+| `extensions/forms/Form/Handler`         | `Props` | `FormHandlerProps`         |
+| `extensions/forms/Iterate/Array`        | `Props` | `IterateArrayProps`        |
+| `extensions/forms/Wizard/Step`          | `Props` | `WizardStepProps`          |
+| `extensions/forms/FieldBlock`           | `Props` | `FieldBlockProps`          |
+| `extensions/forms/ValueBlock`           | `Props` | `ValueBlockProps`          |
+| `extensions/forms/DataContext/Provider` | `Props` | `DataContextProviderProps` |
+
+The table above shows the most commonly used types. The same pattern applies to all Field, Value, Form, Iterate, and Wizard sub-components (91 types total).
+
+For example, update:
+
+```diff
+-import type { Props as StringFieldProps } from '@dnb/eufemia/extensions/forms/Field/String'
++import type { FieldStringProps } from '@dnb/eufemia/extensions/forms/Field/String'
+```
+
+An ESLint rule (`naming-conventions/no-bare-props-export`) is now enforced to prevent re-introducing bare `Props` exports.
+
 _January 23, 2026_

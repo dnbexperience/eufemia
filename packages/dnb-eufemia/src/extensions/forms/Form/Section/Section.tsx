@@ -10,7 +10,7 @@ import EditContainer from './EditContainer'
 import Toolbar from './Toolbar'
 import { cleanPath } from '../../hooks/usePath'
 
-import type { Props as DataContextProps } from '../../DataContext/Provider'
+import type { DataContextProviderProps as DataContextProps } from '../../DataContext/Provider'
 import type { ContainerMode } from './containers/SectionContainer'
 import type { Path, FieldProps, OnChange, Schema } from '../../types'
 import type { JsonObject } from '../../utils/json-pointer'

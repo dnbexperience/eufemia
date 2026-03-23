@@ -9,9 +9,10 @@ import SubmitButton from '../../Form/SubmitButton'
 import useTranslation from '../../hooks/useTranslation'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ComponentProps & Omit<ButtonProps, 'variant'>
+export type WizardNextButtonProps = ComponentProps &
+  Omit<ButtonProps, 'variant'>
 
-function NextButton(props: Props) {
+function NextButton(props: WizardNextButtonProps) {
   const translations = useTranslation().WizardNextButton
 
   const {

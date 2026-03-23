@@ -1,11 +1,11 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import type { Props } from '..'
+import type { FieldOptionProps } from '..'
 import { Field } from '../../..'
 
 describe('Field.Option', () => {
-  const props: Props = {}
+  const props: FieldOptionProps = {}
 
   it('should render with props', () => {
     const { container } = render(<Field.Option {...props} />)

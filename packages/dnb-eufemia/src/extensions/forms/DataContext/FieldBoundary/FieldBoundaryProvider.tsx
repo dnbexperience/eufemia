@@ -4,13 +4,15 @@ import FieldBoundaryContext from './FieldBoundaryContext'
 import DataContext from '../Context'
 import type { Path } from '../../types'
 
-export type Props = {
+export type FieldBoundaryProviderProps = {
   showErrors?: boolean
   onPathError?: (path: Path, error: Error) => void
   children: React.ReactNode
 }
 
-export default function FieldBoundaryProvider(props: Props) {
+export default function FieldBoundaryProvider(
+  props: FieldBoundaryProviderProps
+) {
   const { showErrors = undefined, onPathError = null, children } = props
   const [, forceUpdate] = useReducer(() => ({}), {})
   const { showAllErrors } = useContext(DataContext)

@@ -39,14 +39,19 @@ import {
 import { getMessagesFromError } from '../../FieldBlock'
 import { clearedArray } from '../../hooks/useFieldProps'
 
-import type { ContainerMode, ElementChild, Props, Value } from './types'
+import type {
+  ContainerMode,
+  ElementChild,
+  IterateArrayProps,
+  Value,
+} from './types'
 import type { Identifier } from '../../types'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type * from './types'
 
-function ArrayComponent(props: Props) {
+function ArrayComponent(props: IterateArrayProps) {
   const [salt, forceUpdate] = useReducer(() => ({}), {})
 
   const {
@@ -111,7 +116,7 @@ function ArrayComponent(props: Props) {
       typeof props.minItems === 'number' ||
       typeof props.maxItems === 'number'
     ) {
-      shared.schema = (p: Props) => {
+      shared.schema = (p: IterateArrayProps) => {
         let s = z.array(z.any())
         if (typeof p.minItems === 'number') {
           s = s.min(p.minItems, { message: 'IterateArray.errorMinItems' })

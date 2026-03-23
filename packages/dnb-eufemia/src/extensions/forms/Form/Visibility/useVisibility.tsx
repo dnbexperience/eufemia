@@ -3,11 +3,13 @@ import pointer from '../../utils/json-pointer'
 import DataContext from '../../DataContext/Context'
 import usePath from '../../hooks/usePath'
 import type { Path } from '../../types'
-import type { Props } from './Visibility'
+import type { FormVisibilityProps } from './Visibility'
 
-export type { Props }
+export type { FormVisibilityProps }
 
-export default function useVisibility(props?: Partial<Props>) {
+export default function useVisibility(
+  props?: Partial<FormVisibilityProps>
+) {
   const {
     hasFieldError,
     filterDataHandler,
@@ -47,7 +49,7 @@ export default function useVisibility(props?: Partial<Props>) {
         pathFalse,
         inferData,
         filterData,
-      }: Partial<Props> = propsRef.current
+      }: Partial<FormVisibilityProps> = propsRef.current
     ) => {
       if (typeof visible === 'boolean') {
         return visible

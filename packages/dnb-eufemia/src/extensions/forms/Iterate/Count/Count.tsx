@@ -4,7 +4,7 @@ import type { Path } from '../../types'
 import { useData, getData } from '../../Form'
 import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 
-export type Props = {
+export type IterateCountProps = {
   /**
    * The path (JSON Pointer) to the array or object to count.
    */
@@ -21,12 +21,12 @@ export type Props = {
   filter?: (item: unknown) => boolean
 }
 
-export function Count(props: Props) {
+export function Count(props: IterateCountProps) {
   const { data } = useData(props.id)
   return countData(data, props)
 }
 
-function countData(data: unknown, { path, filter }: Props) {
+function countData(data: unknown, { path, filter }: IterateCountProps) {
   if (pointer.has(data, path)) {
     const value = pointer.get(data, path)
     if (Array.isArray(value)) {
@@ -41,7 +41,7 @@ function countData(data: unknown, { path, filter }: Props) {
   return NaN
 }
 
-export function count(props: Props) {
+export function count(props: IterateCountProps) {
   const { data } = getData(props.id)
   return countData(data, props)
 }
@@ -50,7 +50,10 @@ export function useCount(id: SharedStateId = undefined) {
   const { data } = useData(id)
 
   const count = useCallback(
-    (path: Props['path'], filter?: Props['filter']) => {
+    (
+      path: IterateCountProps['path'],
+      filter?: IterateCountProps['filter']
+    ) => {
       return countData(data, { path, filter })
     },
     [data]

@@ -7,7 +7,7 @@ import type { SpacingProps } from '../../../../shared/types'
 import { FormStatus } from '../../../../components'
 import { combineLabelledBy } from '../../../../shared/component-helper'
 
-export type Props = Omit<
+export type FormElementProps = Omit<
   React.HTMLProps<HTMLFormElement>,
   'ref' | 'autoComplete'
 > &
@@ -19,11 +19,11 @@ export type Props = Omit<
     preventDefaultOnSubmit?: boolean
   }
 
-export default function FormElement(props: Props) {
+export default function FormElement(props: FormElementProps) {
   return <FormElementInstance {...props} />
 }
 
-function FormElementInstance(props: Props) {
+function FormElementInstance(props: FormElementProps) {
   const id = useId()
   const dataContext = useContext(DataContext)
   const { submitState, restHandlerProps } = dataContext || {}
@@ -40,7 +40,7 @@ function FormElementInstance(props: Props) {
   } = {
     ...restHandlerProps,
     ...props,
-  } as Props
+  } as FormElementProps
 
   /**
    * Set to true,

@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import type { Props as StringValueProps } from '../String'
+import type { ValueStringProps as StringValueProps } from '../String'
 import StringValue from '../String'
 import {
   format,
@@ -9,9 +9,9 @@ import useTranslation from '../../hooks/useTranslation'
 import { isValueEmpty } from '../../ValueBlock'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = StringValueProps
+export type ValueOrganizationNumberProps = StringValueProps
 
-function OrganizationNumber(props: Props) {
+function OrganizationNumber(props: ValueOrganizationNumberProps) {
   const translations = useTranslation().OrganizationNumber
 
   const toInput = useCallback((value) => {
@@ -23,7 +23,7 @@ function OrganizationNumber(props: Props) {
     }).toString()
   }, [])
 
-  const stringValueProps: Props = {
+  const stringValueProps: ValueOrganizationNumberProps = {
     ...props,
     label: props.label ?? (props.inline ? undefined : translations.label),
     toInput,

@@ -22,14 +22,16 @@ export type SectionContainerProps = {
   variant?: 'outline' | 'basic' | 'filled'
 }
 
-export type Props = {
+export type SectionContainerAllProps = {
   mode: ContainerMode
   open?: boolean | undefined
   ariaLabel?: string
   omitFocusManagementRef?: React.RefObject<boolean | undefined>
 } & SectionContainerProps
 
-function SectionContainer(props: Props & FlexContainerProps) {
+function SectionContainer(
+  props: SectionContainerAllProps & FlexContainerProps
+) {
   const {
     mode,
     open,

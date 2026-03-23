@@ -1,10 +1,12 @@
 import React, { useCallback, useMemo } from 'react'
-import type { Props as ToggleAllProps } from '../Toggle/Toggle'
+import type { FieldToggleProps as ToggleAllProps } from '../Toggle/Toggle'
 import Toggle from '../Toggle/Toggle'
 import useDependencePaths from './useDependencePaths'
 import type { Path } from '../../types'
 
-export type Props = Partial<Omit<ToggleAllProps, 'textOn' | 'textOff'>> & {
+export type FieldIndeterminateProps = Partial<
+  Omit<ToggleAllProps, 'textOn' | 'textOff'>
+> & {
   /**
    * An array of paths to the data object.
    */
@@ -19,7 +21,7 @@ export type Props = Partial<Omit<ToggleAllProps, 'textOn' | 'textOff'>> & {
   propagateIndeterminateState?: 'checked' | 'unchecked' | 'auto'
 }
 
-export default function Indeterminate(props: Props) {
+export default function Indeterminate(props: FieldIndeterminateProps) {
   const {
     dependencePaths,
     propagateIndeterminateState = 'checked',

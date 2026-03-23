@@ -1,13 +1,13 @@
 import React from 'react'
-import type { Props as StringValueProps } from '../String'
+import type { ValueStringProps as StringValueProps } from '../String'
 import StringValue from '../String'
 import useTranslation from '../../hooks/useTranslation'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = StringValueProps
+export type ValueNameProps = StringValueProps
 
-function Name(props: Props) {
-  const StringValueProps: Props = {
+function Name(props: ValueNameProps) {
+  const StringValueProps: ValueNameProps = {
     ...props,
   }
 
@@ -15,10 +15,10 @@ function Name(props: Props) {
 }
 withComponentMarkers(Name, { _supportsSpacingProps: true })
 
-Name.First = function FirstName(props: Props) {
+Name.First = function FirstName(props: ValueNameProps) {
   const translations = useTranslation()
 
-  const nameProps: Props = {
+  const nameProps: ValueNameProps = {
     ...props,
     label: props.label ?? translations.FirstName.label,
   }
@@ -27,10 +27,10 @@ Name.First = function FirstName(props: Props) {
 }
 Name.First['_supportsSpacingProps'] = true
 
-Name.Last = function LastName(props: Props) {
+Name.Last = function LastName(props: ValueNameProps) {
   const translations = useTranslation()
 
-  const nameProps: Props = {
+  const nameProps: ValueNameProps = {
     ...props,
     label: props.label ?? translations.LastName.label,
   }
@@ -39,10 +39,10 @@ Name.Last = function LastName(props: Props) {
 }
 Name.Last['_supportsSpacingProps'] = true
 
-Name.Company = function CompanyName(props: Props) {
+Name.Company = function CompanyName(props: ValueNameProps) {
   const translations = useTranslation()
 
-  const nameProps: Props = {
+  const nameProps: ValueNameProps = {
     ...props,
     label: props.label ?? translations.CompanyName.label,
   }

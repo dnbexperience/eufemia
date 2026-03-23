@@ -3,7 +3,7 @@ import type { ContextState } from '../../DataContext'
 import useHasContentChanged from './useHasContentChanged'
 import useReportError from './useReportError'
 
-export type Props = {
+export type UseHandleStatusProps = {
   outerContext: ContextState
   preventUncommittedChanges: boolean
   error: Error
@@ -15,7 +15,7 @@ export default function useHandleStatus({
   preventUncommittedChanges,
   error,
   name,
-}: Props) {
+}: UseHandleStatusProps) {
   const { hasContentChanged } = useHasContentChanged({
     enabled: preventUncommittedChanges,
   })

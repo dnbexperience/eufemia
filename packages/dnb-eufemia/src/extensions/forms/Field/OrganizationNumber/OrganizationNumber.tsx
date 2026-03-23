@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import type { Props as StringFieldProps } from '../String'
+import type { FieldStringProps as StringFieldProps } from '../String'
 import StringField from '../String'
 import useTranslation from '../../hooks/useTranslation'
 import type { Validator, ValidatorWithCustomValidators } from '../../types'
@@ -11,13 +11,16 @@ export type OrganizationNumberValidator = ValidatorWithCustomValidators<
     organizationNumberValidator: Validator<string>
   }
 >
-export type Props = Omit<StringFieldProps, 'onBlurValidator'> & {
+export type FieldOrganizationNumberProps = Omit<
+  StringFieldProps,
+  'onBlurValidator'
+> & {
   validate?: boolean
   omitMask?: boolean
   onBlurValidator?: OrganizationNumberValidator | false
 }
 
-function OrganizationNumber(props: Props) {
+function OrganizationNumber(props: FieldOrganizationNumberProps) {
   const translations = useTranslation().OrganizationNumber
   const { errorOrgNo, errorOrgNoLength, errorRequired, label } =
     translations

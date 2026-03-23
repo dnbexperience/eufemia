@@ -8,11 +8,11 @@ import { convertJsxToString } from '../../../../shared/component-helper'
 import type { Data } from '../../Field/Selection'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ValueProps<string> & {
+export type ValueSelectionProps = ValueProps<string> & {
   dataPath?: Path
 }
 
-function Selection(props: Props) {
+function Selection(props: ValueSelectionProps) {
   const { fieldInternalsRef } = useContext(Context) || {}
   const { path, dataPath, value, ...rest } = useValueProps(props)
   const { getValueByPath } = useDataValue()

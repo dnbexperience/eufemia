@@ -11,12 +11,14 @@ import EditButton from './EditButton'
 import SectionContainerContext from '../containers/SectionContainerContext'
 import withComponentMarkers from '../../../../../shared/helpers/withComponentMarkers'
 
-export type Props = {
+export type FormSectionViewContainerProps = {
   title?: React.ReactNode
   onEdit?: () => void
 }
 
-export type AllProps = Props & SectionContainerProps & FlexContainerProps
+export type AllProps = FormSectionViewContainerProps &
+  SectionContainerProps &
+  FlexContainerProps
 
 function ViewContainer(props: AllProps) {
   const { children, className, title, onEdit, ...restProps } = props || {}

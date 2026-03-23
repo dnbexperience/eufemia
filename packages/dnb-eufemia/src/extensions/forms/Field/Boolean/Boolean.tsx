@@ -1,5 +1,5 @@
 import React from 'react'
-import type { Props as ToggleFieldProps } from '../Toggle'
+import type { FieldToggleProps as ToggleFieldProps } from '../Toggle'
 import ToggleField from '../Toggle'
 import useTranslation from '../../hooks/useTranslation'
 import type { FieldProps } from '../../types'
@@ -18,9 +18,9 @@ type SharedFieldProps = Omit<
   'layout' | 'layoutOptions'
 >
 
-export type Props = SharedFieldProps & BooleanProps
+export type FieldBooleanProps = SharedFieldProps & BooleanProps
 
-function BooleanComponent(props: Props) {
+function BooleanComponent(props: FieldBooleanProps) {
   const { trueText, falseText, ...restProps } = props
   const translations = useTranslation().BooleanField
 

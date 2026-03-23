@@ -1,14 +1,14 @@
 import React, { useCallback } from 'react'
-import type { Props as StringValueProps } from '../String'
+import type { ValueStringProps as StringValueProps } from '../String'
 import StringValue from '../String'
 import { format } from '../../../../components/number-format/NumberUtils'
 import useTranslation from '../../hooks/useTranslation'
 import { isValueEmpty } from '../../ValueBlock'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = StringValueProps
+export type ValuePhoneNumberProps = StringValueProps
 
-function PhoneNumber(props: Props) {
+function PhoneNumber(props: ValuePhoneNumberProps) {
   const translations = useTranslation().PhoneNumber
 
   const label =
@@ -24,7 +24,7 @@ function PhoneNumber(props: Props) {
     }).toString()
   }, [])
 
-  const stringValueProps: Props = {
+  const stringValueProps: ValuePhoneNumberProps = {
     ...props,
     label,
     toInput,

@@ -12,7 +12,7 @@ import DataContext from '../DataContext/Context'
 import ValueProviderContext from '../Value/Provider/ValueProviderContext'
 import SummaryListContext from '../Value/SummaryList/SummaryListContext'
 
-export type Props<Value> = ValueProps<Value>
+export type UseValueProps<Value> = ValueProps<Value>
 
 export default function useValueProps<Value = unknown, Props = unknown>(
   localProps: Props & ValueProps<Value>

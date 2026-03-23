@@ -4,7 +4,7 @@ import type { FieldProps, Path } from '../types'
 import DataContext from '../DataContext/Context'
 import IterateItemContext from '../Iterate/IterateItemContext'
 
-export type Props<Value> = {
+export type UseExternalValueProps<Value> = {
   path?: Path | undefined
   itemPath?: Path
   value?: Value
@@ -14,7 +14,9 @@ export type Props<Value> = {
   emptyValue?: FieldProps<Value>['emptyValue']
 }
 
-export default function useExternalValue<Value>(props: Props<Value>) {
+export default function useExternalValue<Value>(
+  props: UseExternalValueProps<Value>
+) {
   const {
     path,
     itemPath,

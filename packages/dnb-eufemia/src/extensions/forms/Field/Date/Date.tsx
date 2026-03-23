@@ -10,7 +10,7 @@ import type {
 } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import clsx from 'clsx'
-import type { Props as FieldBlockProps } from '../../FieldBlock'
+import type { FieldBlockProps } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import SharedContext from '../../../../shared/Context'
 import { parseISO, isValid, isBefore, isAfter, startOfDay } from 'date-fns'
@@ -581,7 +581,7 @@ function validateRangeOrder({
     : undefined
 
   if (startDate && endDate && isAfter(startDate, endDate)) {
-    const options: FormatDateOptions = {
+    const options: DateFormatOptions = {
       locale,
       options: { dateStyle: 'long' },
     }

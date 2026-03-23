@@ -36,7 +36,7 @@ export type VisibleWhen =
       validateContinuously?: boolean
     }
 
-export type Props = {
+export type FormVisibilityProps = {
   visible?: boolean
   /** Given data context path must be defined to show children */
   pathDefined?: Path
@@ -76,7 +76,7 @@ export type Props = {
   | 'compensateForGap'
 >
 
-function Visibility(props: Props) {
+function Visibility(props: FormVisibilityProps) {
   const {
     visible,
     pathDefined,

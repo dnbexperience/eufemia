@@ -5,12 +5,12 @@ import { getCurrencySymbol } from '../../../../components/number-format/NumberUt
 import { CURRENCY } from '../../../../shared/defaults'
 import type { CurrencyISO } from '../../constants/currencies'
 import useDataValue from '../../hooks/useDataValue'
-import type { Props as NumberFieldProps } from '../Number'
+import type { FieldNumberProps as NumberFieldProps } from '../Number'
 import NumberField from '../Number'
 import type { PathStrict } from '../../types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = NumberFieldProps & {
+export type FieldCurrencyProps = NumberFieldProps & {
   /**
    * Will change the currency.
    * You can also set a path as the value, e.g. `/myCurrencyPath`.
@@ -18,7 +18,7 @@ export type Props = NumberFieldProps & {
   currency?: PathStrict | CurrencyISO
 }
 
-function Currency(props: Props) {
+function Currency(props: FieldCurrencyProps) {
   const sharedContext = useContext(SharedContext)
   const { getSourceValue } = useDataValue()
 

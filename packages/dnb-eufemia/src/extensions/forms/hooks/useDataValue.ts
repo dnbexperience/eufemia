@@ -6,7 +6,7 @@ import DataContext from '../DataContext/Context'
 import IterateItemContext from '../Iterate/IterateItemContext'
 import usePath from './usePath'
 
-export type Props<Value> = {
+export type UseDataValueProps<Value> = {
   path?: Path | undefined
   value?: Value
 }

@@ -15,7 +15,7 @@ import type {
   Identifier,
   Schema,
 } from '../types'
-import type { Props as ProviderProps } from './Provider'
+import type { DataContextProviderProps as ProviderProps } from './Provider'
 import type { SnapshotName } from '../Form/Snapshot'
 import type { SharedStateId } from '../../../shared/helpers/useSharedState'
 

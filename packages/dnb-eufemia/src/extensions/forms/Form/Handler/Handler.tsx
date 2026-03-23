@@ -1,13 +1,13 @@
 import React, { useEffect, useRef } from 'react'
 import type { JsonObject } from '../../utils/json-pointer'
 import { warn } from '../../../../shared/helpers'
-import type { Props as ProviderProps } from '../../DataContext/Provider'
+import type { DataContextProviderProps as ProviderProps } from '../../DataContext/Provider'
 import DataContextProvider from '../../DataContext/Provider'
-import type { Props as FormElementProps } from '../Element'
+import type { FormElementProps as FormElementProps } from '../Element'
 import FormElement from '../Element'
 import type { ContextState } from '../../DataContext'
 
-export type Props = FormElementProps & {
+export type FormHandlerProps = FormElementProps & {
   /**
    * Will enable autoComplete for all nested Field.String fields
    */
@@ -20,7 +20,7 @@ export type Props = FormElementProps & {
 }
 
 type AllowedProviderContextProps = ProviderProps<JsonObject> &
-  Pick<Props, 'decoupleForm' | 'autoComplete' | 'disabled'> &
+  Pick<FormHandlerProps, 'decoupleForm' | 'autoComplete' | 'disabled'> &
   Pick<ContextState, 'restHandlerProps' | 'hasElementRef'>
 
 const allowedProviderContextProps: Array<
@@ -56,7 +56,8 @@ const allowedProviderContextProps: Array<
 ]
 
 export default function FormHandler<Data extends JsonObject>(
-  props: ProviderProps<Data> & Omit<Props, keyof ProviderProps<Data>>
+  props: ProviderProps<Data> &
+    Omit<FormHandlerProps, keyof ProviderProps<Data>>
 ) {
   const { decoupleForm, children } = props
 

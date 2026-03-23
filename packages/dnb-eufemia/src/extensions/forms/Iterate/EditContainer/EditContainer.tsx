@@ -13,7 +13,7 @@ import CancelButton, { useWasNew } from './CancelButton'
 import { replaceItemNo } from '../ItemNo'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = {
+export type IterateEditContainerProps = {
   /**
    * The title of the EditContainer.
    */
@@ -40,7 +40,7 @@ export type Props = {
   toolbarVariant?: ArrayItemAreaProps['toolbarVariant']
 }
 
-export type AllProps = Props &
+export type AllProps = IterateEditContainerProps &
   Omit<FlexContainerProps, 'onAnimationEnd'> &
   ArrayItemAreaProps
 
@@ -81,7 +81,7 @@ export default function EditContainer(props: AllProps) {
 }
 
 export function EditContainerWithoutToolbar(
-  props: Props &
+  props: IterateEditContainerProps &
     Omit<FlexContainerProps, 'onAnimationEnd'> & {
       toolbar?: React.ReactNode
     }

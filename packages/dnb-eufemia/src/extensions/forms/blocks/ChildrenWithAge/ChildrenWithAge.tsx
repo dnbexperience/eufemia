@@ -14,7 +14,7 @@ import withComponentMarkers from '../../../../shared/helpers/withComponentMarker
 type Mode = 'edit' | 'summary'
 type Variant = Array<'joint-responsibility' | 'daycare'>
 
-export type Props = SectionProps & {
+export type ChildrenWithAgeProps = SectionProps & {
   mode?: Mode
   enableAdditionalQuestions?: Variant
   toWizardStep?: number
@@ -27,8 +27,8 @@ export default function ChildrenWithAge({
   enableAdditionalQuestions,
   toWizardStep,
   ...props
-}: Props) {
-  const spacingProps = pickSpacingProps<Props>(props)
+}: ChildrenWithAgeProps) {
+  const spacingProps = pickSpacingProps<ChildrenWithAgeProps>(props)
   const restProps = omitSpacingProps(props)
   return (
     <Form.Section translations={translations} required {...restProps}>
@@ -51,7 +51,7 @@ export default function ChildrenWithAge({
 function EditContainer({
   spacingProps,
   enableAdditionalQuestions,
-}: Props & {
+}: ChildrenWithAgeProps & {
   spacingProps?: SpacingProps
 }) {
   const tr = Form.useTranslation<Translation>()
@@ -190,7 +190,7 @@ function EditContainer({
 function SummaryContainer({
   spacingProps,
   toWizardStep,
-}: Props & {
+}: ChildrenWithAgeProps & {
   spacingProps?: SpacingProps
 }) {
   const tr = Form.useTranslation<Translation>()

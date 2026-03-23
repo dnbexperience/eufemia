@@ -31,7 +31,7 @@ import {
   makeAjvInstance,
 } from '../../../'
 import { isCI } from 'repo-utils'
-import type { Props as StringFieldProps } from '../../../Field/String'
+import type { FieldStringProps as StringFieldProps } from '../../../Field/String'
 import type {
   ContextState,
   FilterData,

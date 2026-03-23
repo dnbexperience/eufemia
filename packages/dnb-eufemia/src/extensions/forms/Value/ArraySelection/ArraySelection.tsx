@@ -9,9 +9,10 @@ import type { ListFormatProps } from '../../../../components/list-format'
 import ListFormat from '../../../../components/list-format'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ValueProps<Array<number | string>> & ListFormatProps
+export type ValueArraySelectionProps = ValueProps<Array<number | string>> &
+  ListFormatProps
 
-function ArraySelection(props: Props) {
+function ArraySelection(props: ValueArraySelectionProps) {
   const { fieldInternalsRef } = useContext(Context) || {}
   const {
     path,

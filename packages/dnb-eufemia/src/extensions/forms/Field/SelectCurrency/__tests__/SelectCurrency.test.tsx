@@ -2,7 +2,7 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { Props } from '../SelectCurrency'
+import type { FieldSelectCurrencyProps } from '../SelectCurrency'
 import { Provider } from '../../../../../shared'
 import DataContext from '../../../DataContext/Context'
 import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListProvider'
@@ -11,7 +11,7 @@ import type { CurrencyISO } from '../../../constants/currencies'
 
 describe('Field.SelectCurrency', () => {
   it('should render with props', () => {
-    const props: Props = {}
+    const props: FieldSelectCurrencyProps = {}
     render(<Field.SelectCurrency {...props} />)
     expect(document.querySelector('input')).toBeInTheDocument()
   })

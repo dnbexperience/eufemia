@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useReducer, useRef } from 'react'
 import clsx from 'clsx'
 import { Card, HeightAnimation } from '../../../../components'
-import type { Props as CardProps } from '../../../../components/card/Card'
+import type { CardProps } from '../../../../components/card/Card'
 import type { HeightAnimationOnEndStates } from '../../../../components/height-animation/HeightAnimationInstance'
 import type { HeightAnimationProps } from '../../../../components/HeightAnimation'
 import type { IterateItemContextState } from '../IterateItemContext'
@@ -23,7 +23,7 @@ export type ArrayItemAreaProps = {
   toolbarVariant?: 'minimumOneItem' | 'custom'
 } & Omit<CardProps, 'onAnimationEnd' | 'data'>
 
-export type Props = {
+export type ArrayItemAreaAllProps = {
   mode: ContainerMode
   open?: boolean | undefined
   ariaLabel?: string
@@ -32,7 +32,7 @@ export type Props = {
   Pick<HeightAnimationProps, 'onAnimationEnd'>
 
 function ArrayItemArea(
-  props: Props & Omit<FlexContainerProps, 'onAnimationEnd'>
+  props: ArrayItemAreaAllProps & Omit<FlexContainerProps, 'onAnimationEnd'>
 ) {
   const [, forceUpdate] = useReducer(() => ({}), {})
 

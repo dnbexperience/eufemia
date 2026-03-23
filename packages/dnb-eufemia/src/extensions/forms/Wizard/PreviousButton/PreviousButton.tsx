@@ -9,9 +9,9 @@ import ButtonRow from '../../Form/ButtonRow'
 import useTranslation from '../../hooks/useTranslation'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ComponentProps & ButtonProps
+export type WizardPreviousButtonProps = ComponentProps & ButtonProps
 
-function PreviousButton(props: Props) {
+function PreviousButton(props: WizardPreviousButtonProps) {
   const translations = useTranslation().WizardPreviousButton
 
   const {
@@ -28,7 +28,7 @@ function PreviousButton(props: Props) {
     return null as React.JSX.Element
   }
 
-  const params: Props = {}
+  const params: WizardPreviousButtonProps = {}
   if (activeIndex === 0) {
     params.disabled = true
   }
