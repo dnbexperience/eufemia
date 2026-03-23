@@ -160,4 +160,98 @@ describe('Stat.Rating', () => {
 
     expect(rating.getAttribute('id')).toBe('my-rating')
   })
+
+  it('clamps value when it exceeds max', () => {
+    render(<Stat.Rating value={8} max={5} />)
+
+    const stars = document.querySelectorAll('.dnb-stat__rating-star')
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(stars).toHaveLength(5)
+
+    // All stars should be fully filled
+    for (const star of stars) {
+      expect(star.getAttribute('data-fill')).toBe('1.00')
+    }
+
+    expect(rating).toHaveAttribute('aria-label', '5 av 5')
+  })
+
+  it('clamps negative value to zero', () => {
+    render(<Stat.Rating value={-3} />)
+
+    const stars = document.querySelectorAll('.dnb-stat__rating-star')
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    // All stars should be empty
+    for (const star of stars) {
+      expect(star.getAttribute('data-fill')).toBe('0.00')
+    }
+
+    expect(rating).toHaveAttribute('aria-label', '0 av 5')
+  })
+
+  it('renders all empty stars when value is 0', () => {
+    render(<Stat.Rating value={0} />)
+
+    const stars = document.querySelectorAll('.dnb-stat__rating-star')
+
+    expect(stars).toHaveLength(5)
+
+    for (const star of stars) {
+      expect(star.getAttribute('data-fill')).toBe('0.00')
+    }
+  })
+
+  it('supports max=1 for single star', () => {
+    render(<Stat.Rating value={0.5} max={1} />)
+
+    const stars = document.querySelectorAll('.dnb-stat__rating-star')
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(stars).toHaveLength(1)
+    expect(stars[0].getAttribute('data-fill')).toBe('0.50')
+    expect(rating).toHaveAttribute('aria-label', '0.5 av 1')
+  })
+
+  it('falls back to default max when max=0', () => {
+    render(<Stat.Rating value={3} max={0} />)
+
+    const stars = document.querySelectorAll('.dnb-stat__rating-star')
+
+    expect(stars).toHaveLength(5)
+  })
+
+  it('floors fractional max values', () => {
+    render(<Stat.Rating value={2} max={3.7} />)
+
+    const stars = document.querySelectorAll('.dnb-stat__rating-star')
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(stars).toHaveLength(3)
+    expect(rating).toHaveAttribute('aria-label', '2 av 3')
+  })
+
+  it('treats NaN value as 0', () => {
+    render(<Stat.Rating value={NaN} />)
+
+    const stars = document.querySelectorAll('.dnb-stat__rating-star')
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(stars).toHaveLength(5)
+
+    for (const star of stars) {
+      expect(star.getAttribute('data-fill')).toBe('0.00')
+    }
+
+    expect(rating).toHaveAttribute('aria-label', '0 av 5')
+  })
+
+  it('displays fractional value with one decimal in aria-label', () => {
+    render(<Stat.Rating value={3.75} />)
+
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(rating).toHaveAttribute('aria-label', '3.8 av 5')
+  })
 })
