@@ -13,6 +13,7 @@ export type ListScrollViewProps = {
   children: React.ReactNode
   maxVisibleListItems?: number
   skeleton?: SkeletonShow
+  disabled?: boolean
 } & Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> &
   SpacingProps &
   ScrollViewAllProps
@@ -27,6 +28,7 @@ function ListScrollView(props: ListScrollViewProps) {
     children,
     maxVisibleListItems,
     skeleton,
+    disabled,
     style,
     innerRef,
     ...rest
@@ -128,22 +130,21 @@ function ListScrollView(props: ListScrollViewProps) {
     </ScrollView>
   )
 
-  if (skeleton !== undefined) {
-    return (
-      <ListContext.Provider
-        value={{
-          variant: parentContext?.variant ?? 'basic',
-          separated: parentContext?.separated ?? false,
-          skeleton,
-          disabled: parentContext?.disabled,
-        }}
-      >
-        {scrollViewContent}
-      </ListContext.Provider>
-    )
-  }
+  const appliedSkeleton = skeleton ?? parentContext?.skeleton
+  const appliedDisabled = disabled ?? parentContext?.disabled
 
-  return scrollViewContent
+  return (
+    <ListContext.Provider
+      value={{
+        variant: parentContext?.variant ?? 'basic',
+        separated: parentContext?.separated ?? false,
+        skeleton: appliedSkeleton,
+        disabled: appliedDisabled,
+      }}
+    >
+      {scrollViewContent}
+    </ListContext.Provider>
+  )
 }
 
 function getVisibleListItemsHeight(
