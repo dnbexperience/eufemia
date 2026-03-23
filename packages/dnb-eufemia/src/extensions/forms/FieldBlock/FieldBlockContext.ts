@@ -31,7 +31,7 @@ export type StatusContentState = { id: string; text: React.ReactNode }
 export type StatusContent = {
   error: StatusContentState
   warning: StatusContentState
-  info: StatusContentState
+  information: StatusContentState
 }
 
 export type FieldBlockContextProps = {
