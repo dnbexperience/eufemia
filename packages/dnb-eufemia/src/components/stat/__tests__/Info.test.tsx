@@ -107,4 +107,37 @@ describe('Stat.Info', () => {
 
     expect(info.classList).toContain('custom-class')
   })
+
+  it('warns when used outside Stat.Root', () => {
+    const log = spyOnEufemiaWarn()
+
+    render(<Stat.Info>Details</Stat.Info>)
+
+    expect(log).toHaveBeenCalledWith(
+      expect.stringContaining('Eufemia'),
+      expect.stringContaining('Stat.Info should be used inside Stat.Root')
+    )
+
+    log.mockRestore()
+  })
+
+  it('does not warn when used inside Stat.Root', () => {
+    const log = spyOnEufemiaWarn()
+
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content>
+          <Stat.Info>Details</Stat.Info>
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    expect(log).not.toHaveBeenCalledWith(
+      expect.stringContaining('Eufemia'),
+      expect.stringContaining('Stat.Info should be used inside Stat.Root')
+    )
+
+    log.mockRestore()
+  })
 })
