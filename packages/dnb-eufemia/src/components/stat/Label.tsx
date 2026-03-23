@@ -46,7 +46,7 @@ function Label(props: LabelProps) {
 
   const Element = elementProp ?? (inRoot ? 'dt' : 'span')
 
-  const { skeletonClass, applySkeletonAttributes } =
+  const { hasSkeleton, skeletonClass, applySkeletonAttributes } =
     useStatSkeleton(skeleton)
   const resolvedLineHeight = getHeadingLineHeightSize(fontSize)
 
@@ -81,7 +81,11 @@ function Label(props: LabelProps) {
 
   applySkeletonAttributes(attributes)
 
-  return <Element {...attributes}>{children}</Element>
+  return (
+    <StatRootContext.Provider value={{ inRoot, skeleton: hasSkeleton }}>
+      <Element {...attributes}>{children}</Element>
+    </StatRootContext.Provider>
+  )
 }
 
 Label._supportsSpacingProps = true

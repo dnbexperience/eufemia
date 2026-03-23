@@ -40,7 +40,7 @@ function Rating(props: RatingProps) {
   } = props
 
   const { skeletonClass, applySkeletonAttributes } =
-    useStatSkeleton(skeleton)
+    useStatSkeleton(skeleton, 'shape')
 
   const defaultMax = variant === 'progressive' ? 7 : 5
   const resolvedMax =

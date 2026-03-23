@@ -5,6 +5,7 @@ import Icon, { type IconIcon } from '../icon/Icon'
 import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
+import Context from '../../shared/Context'
 
 export type ItemIconProps = Omit<FlexItemProps, 'children'> & {
   children: IconIcon
@@ -18,14 +19,15 @@ function ItemIcon({
   skeleton,
   ...rest
 }: ItemIconProps) {
+  const context = useContext(Context)
   const inheritedSkeleton = useContext(ListContext)?.skeleton
   const appliedSkeleton = skeleton ?? inheritedSkeleton
 
-  return (
+  const content = (
     <FlexItem
       className={classnames(
         'dnb-list__item__icon',
-        appliedSkeleton && createSkeletonClass('font', true),
+        appliedSkeleton && createSkeletonClass('shape', true),
         className
       )}
       innerSpace={{ left: 'small' }}
@@ -34,6 +36,16 @@ function ItemIcon({
       <Icon size="medium">{children}</Icon>
     </FlexItem>
   )
+
+  if (appliedSkeleton) {
+    return (
+      <Context.Provider value={{ ...context, skeleton: appliedSkeleton }}>
+        {content}
+      </Context.Provider>
+    )
+  }
+
+  return content
 }
 ItemIcon._supportsSpacingProps = true
 

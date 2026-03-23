@@ -4,10 +4,14 @@ import {
   createSkeletonClass,
   skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
+import type { SkeletonMethods } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatRootContext from './StatRootContext'
 
-export default function useStatSkeleton(skeleton?: SkeletonShow) {
+export default function useStatSkeleton(
+  skeleton?: SkeletonShow,
+  method: SkeletonMethods = 'font'
+) {
   const context = React.useContext(Context)
   const { skeleton: rootSkeleton } = React.useContext(StatRootContext)
 
@@ -18,7 +22,7 @@ export default function useStatSkeleton(skeleton?: SkeletonShow) {
   return {
     hasSkeleton,
     context,
-    skeletonClass: createSkeletonClass('font', hasSkeleton, context),
+    skeletonClass: createSkeletonClass(method, hasSkeleton, context),
     applySkeletonAttributes: (
       attributes: React.HTMLProps<HTMLElement>
     ) => {
