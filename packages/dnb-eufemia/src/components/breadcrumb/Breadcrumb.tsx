@@ -105,10 +105,10 @@ export type BreadcrumbProps = {
   backToText?: React.ReactNode
 
   /**
-   * If variant='collapse', you can override isCollapsed for the collapsed content by updating this value.
+   * If variant='collapse', you can override collapsed state for the collapsed content by updating this value.
    * Default: null
    */
-  isCollapsed?: boolean
+  collapsed?: boolean
 
   /**
    * Use one of the Section component style types (style_type)
@@ -136,7 +136,7 @@ export type BreadcrumbProps = {
   /**
    * Will be called when breadcrumb expands or collapses.
    */
-  onToggle?: (isCollapsed: boolean) => void
+  onToggle?: (collapsed: boolean) => void
 
   /**
    * Send along a custom React Ref.
@@ -155,7 +155,7 @@ const defaultProps: Partial<BreadcrumbAllProps> = {
   goBackText: 'Back',
   homeText: 'Home',
   backToText: 'Back to...',
-  isCollapsed: true,
+  collapsed: true,
   styleType: 'transparent',
   collapsedStyleType: 'info',
   spacing: false,
@@ -186,7 +186,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
     backToText, // has a translation in context
     styleType,
     collapsedStyleType,
-    isCollapsed: overrideIsCollapsed,
+    collapsed: overrideCollapsed,
     spacing,
     noAnimation,
     data,
@@ -199,20 +199,20 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
 
   const [, forceUpdate] = useReducer(() => ({}), {})
 
-  const isCollapsedRef = useRef(overrideIsCollapsed)
+  const isCollapsedRef = useRef(overrideCollapsed)
 
   const { isLarge } = useMedia()
 
   useEffect(() => {
-    if (overrideIsCollapsed !== isCollapsedRef.current) {
-      isCollapsedRef.current = overrideIsCollapsed
+    if (overrideCollapsed !== isCollapsedRef.current) {
+      isCollapsedRef.current = overrideCollapsed
       forceUpdate()
     }
-  }, [overrideIsCollapsed])
+  }, [overrideCollapsed])
 
   // Auto-collapse breadcrumbs if going from small screen to large screen.
   useEffect(() => {
-    if (isLarge && overrideIsCollapsed !== false) {
+    if (isLarge && overrideCollapsed !== false) {
       // Call onToggle if breadcrumbs is expanded and is going to collapse due to large screen size.
       if (isCollapsedRef.current === false) {
         onToggle?.(true)
@@ -222,7 +222,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
 
       forceUpdate()
     }
-  }, [isLarge, overrideIsCollapsed, onToggle])
+  }, [isLarge, overrideCollapsed, onToggle])
 
   const onClickHandler = useCallback(() => {
     isCollapsedRef.current = !isCollapsedRef.current
@@ -294,7 +294,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
               <BreadcrumbMultiple
                 data={data}
                 items={items}
-                isCollapsed={false}
+                collapsed={false}
                 noAnimation={noAnimation}
               />
             )}
@@ -318,7 +318,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
           <BreadcrumbMultiple
             data={data}
             items={items}
-            isCollapsed={isCollapsedRef.current}
+            collapsed={isCollapsedRef.current}
             noAnimation={noAnimation}
           />
         </Section>
