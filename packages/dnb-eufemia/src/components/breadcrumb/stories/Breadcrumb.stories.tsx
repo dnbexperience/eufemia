@@ -122,7 +122,7 @@ export const CustomCollapsedBreadcrumb = () => {
     <Provider>
       <Breadcrumb
         data={breadcrumbItems}
-        isCollapsed={collapsed}
+        collapsed={collapsed}
         onClick={() => {
           console.log('Collapsing')
           setCollapsed(!collapsed)

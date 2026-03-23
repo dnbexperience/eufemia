@@ -18,10 +18,11 @@ v11 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 2. Replace `<Context.Provider>` with `<Context>` when using Eufemia contexts directly (React 19 deprecation).
 3. Replace `inputClass` with `inputClassName` on Input and InputMasked components.
 4. Replace `textareaClass` with `textareaClassName` on Textarea component.
-5. If you import Eufemia SCSS source files with `@import`, replace with `@use` and namespace your mixin/variable calls (see [SCSS: @import → @use](#scss-import--use)).
-6. Replace the `size` prop with `span` on `Flex.Item` and `Card` components.
-7. If you `@use` Eufemia SCSS source files and reference internal mixins, rename them to camelCase (see [SCSS mixin renames](#scss-mixin-renames)).
-8. Replace the `as` prop with `element` on the `H` heading element.
+5. Replace `isCollapsed` with `collapsed` on the Breadcrumb component.
+6. If you import Eufemia SCSS source files with `@import`, replace with `@use` and namespace your mixin/variable calls (see [SCSS: @import → @use](#scss-import--use)).
+7. Replace the `size` prop with `span` on `Flex.Item` and `Card` components.
+8. If you `@use` Eufemia SCSS source files and reference internal mixins, rename them to camelCase (see [SCSS mixin renames](#scss-mixin-renames)).
+9. Replace the `as` prop with `element` on the `H` heading element.
 
 ### innerRef → ref
 

@@ -266,7 +266,7 @@ describe('Breadcrumb aria', () => {
           { href: '/page1/page2', text: 'Page 2' },
         ]}
         variant="collapse"
-        isCollapsed={false}
+        collapsed={false}
       />
     )
     expect(await axeComponent(Component)).toHaveNoViolations()
