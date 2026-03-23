@@ -221,7 +221,7 @@ describe('ItemAccordion', () => {
     expect(header.getAttribute('tabindex')).toBe('-1')
   })
 
-  it('content region has id, aria-labelledby, aria-hidden and aria-expanded', () => {
+  it('content region has id, aria-labelledby and aria-hidden', () => {
     render(
       <ItemAccordion>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
@@ -240,10 +240,10 @@ describe('ItemAccordion', () => {
     expect(contentRegion.getAttribute('id')).toBe(contentId)
     expect(contentRegion.getAttribute('aria-labelledby')).toBe(headerId)
     expect(contentRegion.getAttribute('aria-hidden')).toBe('true')
-    expect(contentRegion.getAttribute('aria-expanded')).toBe('false')
+    expect(contentRegion).not.toHaveAttribute('aria-expanded')
   })
 
-  it('content region has aria-hidden false and aria-expanded true when open', () => {
+  it('content region has aria-hidden false when open and no aria-expanded', () => {
     render(
       <ItemAccordion open>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
@@ -259,7 +259,7 @@ describe('ItemAccordion', () => {
 
     expect(contentRegion).toBeInTheDocument()
     expect(contentRegion.getAttribute('aria-hidden')).toBe('false')
-    expect(contentRegion.getAttribute('aria-expanded')).toBe('true')
+    expect(contentRegion).not.toHaveAttribute('aria-expanded')
   })
 
   describe('keepInDOM', () => {
