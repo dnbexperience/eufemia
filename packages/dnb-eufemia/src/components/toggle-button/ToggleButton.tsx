@@ -305,7 +305,7 @@ class ToggleButton extends React.PureComponent<
               typeof propValue === 'string' ||
               typeof propValue === 'number'
             ) {
-              checked = contextValues.includes(propValue)
+              checked = contextValues.includes(String(propValue))
             }
           }
 

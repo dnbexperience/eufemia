@@ -8,6 +8,7 @@ import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryC
 import PushContainerContext from '../PushContainer/PushContainerContext'
 import { close } from '../../../../icons'
 import type { ButtonProps } from '../../../../components/Button'
+import type { ButtonClickEvent } from '../../../../components/button/Button'
 import type { Props as RemoveButtonProps } from '../RemoveButton'
 import RemoveButton from '../RemoveButton'
 import type { ContainerMode } from '../Array'
@@ -70,10 +71,9 @@ export default function CancelButton(props: Props) {
           switchContainerMode?.('view')
         }
 
-        // eslint-disable-next-line @typescript-eslint/consistent-type-imports
         onClick?.(
           event as unknown as React.MouseEvent<HTMLButtonElement> &
-            import('../../../../components/button/Button').ButtonClickEvent
+            ButtonClickEvent
         )
       }) // because of the re-render of "restoreOriginalData"
     },

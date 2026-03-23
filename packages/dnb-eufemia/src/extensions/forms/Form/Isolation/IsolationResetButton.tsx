@@ -5,6 +5,7 @@ import useTranslation from '../../hooks/useTranslation'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import { reset } from '../../../../icons'
 import type { ButtonProps } from '../../../../components/Button'
+import type { ButtonClickEvent } from '../../../../components/button/Button'
 import useHasContentChanged from './useHasContentChanged'
 import { omitDataValueReadWriteProps } from '../../types'
 import useDataContextSnapshot from './useDataContextSnapshot'
@@ -57,10 +58,9 @@ export default function IsolationResetButton(props: Props) {
       event?: React.SyntheticEvent
     }) => {
       close?.()
-      // eslint-disable-next-line @typescript-eslint/consistent-type-imports
       onClick?.(
         event as unknown as React.MouseEvent<HTMLButtonElement> &
-          import('../../../../components/button/Button').ButtonClickEvent
+          ButtonClickEvent
       )
       handleReset()
       setShowBoundaryErrors?.(false)
