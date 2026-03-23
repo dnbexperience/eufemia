@@ -137,6 +137,7 @@ function AccordionHeader(props: AccordionHeaderProps) {
     title,
   } = useContext(ItemAccordionContext)
 
+  const inheritedSkeleton = useContext(ListContext)?.skeleton
   const isInactive = pending || disabled
 
   const handleClick = useCallback(
@@ -166,6 +167,7 @@ function AccordionHeader(props: AccordionHeaderProps) {
       className={classnames(
         'dnb-list__item__accordion__header',
         chevronPosition === 'left' && 'dnb-list__item--chevron-left',
+        inheritedSkeleton && createSkeletonClass('font', true),
         className
       )}
       id={`${accordionId}-header`}
