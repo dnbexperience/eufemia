@@ -67,13 +67,13 @@ describe('Stat.Label', () => {
     expect(label.classList).toContain('dnb-sr-only')
   })
 
-  it('renders dt outside Stat.Root and warns', () => {
+  it('renders span outside Stat.Root and warns', () => {
     const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
 
     render(<Stat.Label>Revenue growth</Stat.Label>)
 
     const label = document.querySelector('.dnb-stat__label')
-    expect(label.tagName.toLowerCase()).toBe('dt')
+    expect(label.tagName.toLowerCase()).toBe('span')
 
     const didWarn = spy.mock.calls.some((call) =>
       call
