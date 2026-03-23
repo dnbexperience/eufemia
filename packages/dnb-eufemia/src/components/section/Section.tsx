@@ -101,11 +101,6 @@ export type SectionProps = {
    * Define a React.Ref.
    */
   ref?: React.RefObject<HTMLElement>
-
-  /**
-   * @deprecated in v11 use "innerSpace" prop instead
-   */
-  spacing?: SectionSpacing | ResponsiveProp<SectionSpacing>
 }
 
 type SectionSpacingProps = Omit<SpacingProps, 'innerSpace'> & {
@@ -165,8 +160,6 @@ export function SectionParams(
     className,
     children,
 
-    spacing,
-
     ...attributes
   } = props
 
@@ -178,8 +171,6 @@ export function SectionParams(
     className: clsx(
       'dnb-section',
       `dnb-section--${variant ? variant : 'default'}`,
-      spacing &&
-        `dnb-section--spacing-${spacing === true ? 'large' : spacing}`,
       className
     ),
     style: {
