@@ -199,7 +199,10 @@ export const SectionZIndex = () => (
 
 export const Info = () => (
   <ComponentBox hideCode data-visual-test="section-info">
-    <Section innerSpace={{ top: 'large', bottom: 'large' }} variant="info">
+    <Section
+      innerSpace={{ top: 'large', bottom: 'large' }}
+      variant="information"
+    >
       <P space={0}>
         Generic info section: <Anchor href="#">info</Anchor>
       </P>

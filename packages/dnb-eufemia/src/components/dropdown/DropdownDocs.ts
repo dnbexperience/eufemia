@@ -121,12 +121,12 @@ export const DropdownProperties: PropertiesTableProps = {
   },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['"error"', '"info"', 'boolean'],
+    type: ['"error"', '"information"', 'boolean'],
     status: 'optional',
   },
   statusState: {
     doc: "Defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.",
-    type: ['"error"', '"info"'],
+    type: ['"error"', '"information"'],
     status: 'optional',
   },
   statusProps: {

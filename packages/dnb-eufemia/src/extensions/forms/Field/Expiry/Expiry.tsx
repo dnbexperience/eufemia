@@ -241,7 +241,7 @@ function Expiry(props: ExpiryProps = {}) {
     : warning
     ? 'warning'
     : info
-    ? 'info'
+    ? 'information'
     : null
 
   const fieldBlockProps: FieldBlockProps = {

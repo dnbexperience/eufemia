@@ -32,6 +32,18 @@ describe('Section component', () => {
       'dnb-section',
       'dnb-section--warning',
     ])
+
+    rerender(
+      <Section variant="information">
+        text
+      </Section>
+    )
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-space',
+      'dnb-section',
+      'dnb-section--information',
+    ])
   })
 
   it('should support custom class name', () => {

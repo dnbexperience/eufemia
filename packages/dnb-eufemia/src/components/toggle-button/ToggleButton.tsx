@@ -355,8 +355,8 @@ class ToggleButton extends React.PureComponent<
 
           if (status) {
             // do not send along the message, but only the status states
-            if (statusState === 'info') {
-              componentParams.statusState = 'info'
+            if (statusState === 'information') {
+              componentParams.statusState = 'information'
             } else {
               componentParams.status = 'error'
             }

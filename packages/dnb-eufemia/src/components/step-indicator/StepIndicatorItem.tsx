@@ -25,7 +25,7 @@ import type { StepIndicatorMouseEvent } from './StepIndicator'
 import Context from '../../shared/Context'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 
-export type StepIndicatorStatusState = 'warning' | 'info' | 'error'
+export type StepIndicatorStatusState = 'warning' | 'information' | 'error'
 export type StepIndicatorItemProps = Omit<
   React.HTMLProps<HTMLElement>,
   'title' | 'data' | 'onClick'
@@ -199,7 +199,7 @@ function StepIndicatorItem({
   }
 
   const stateIcons: Record<StepIndicatorStatusState, IconIcon> = {
-    info: InfoIcon,
+    information: InfoIcon,
     error: ErrorIcon,
     warning: WarnIcon,
   }

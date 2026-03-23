@@ -236,7 +236,7 @@ exports[`Section scss have to match default theme snapshot 1`] = `
   --text-color: var(--color-black-80);
   --background-color: var(--color-sand-yellow);
 }
-.dnb-section--pistachio, .dnb-section--info {
+.dnb-section--pistachio, .dnb-section--information {
   --text-color: var(--color-black-80);
   --background-color: var(--color-pistachio);
 }

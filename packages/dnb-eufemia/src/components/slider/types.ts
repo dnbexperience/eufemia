@@ -36,7 +36,7 @@ export type SliderProps = {
   status?: string | boolean
 
   /** defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`. */
-  statusState?: 'error' | 'info'
+  statusState?: 'error' | 'information'
 
   /** use an object to define additional FormStatus properties. */
   statusProps?: Record<string, unknown>

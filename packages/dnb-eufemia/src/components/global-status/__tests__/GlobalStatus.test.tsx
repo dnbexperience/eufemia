@@ -952,8 +952,8 @@ describe('GlobalStatus component', () => {
 
     expect(element.classList).toContain('dnb-global-status--warning')
 
-    rerender(<GlobalStatus state="info" />)
-    expect(element.classList).toContain('dnb-global-status--info')
+    rerender(<GlobalStatus state="information" />)
+    expect(element.classList).toContain('dnb-global-status--information')
 
     rerender(<GlobalStatus state="success" />)
     expect(element.classList).toContain('dnb-global-status--success')
@@ -1015,12 +1015,12 @@ describe('GlobalStatus component', () => {
         show
         autoScroll={false}
         noAnimation
-        state="info"
+        state="information"
         items={fixedItems}
       />
     )
 
-    expect(element).toHaveClass('dnb-global-status--info')
+    expect(element).toHaveClass('dnb-global-status--information')
     expect(element).not.toHaveClass('dnb-global-status--error')
   })
 
@@ -1082,13 +1082,13 @@ describe('GlobalStatus component', () => {
           show
           autoScroll={false}
           noAnimation
-          state="info"
+          state="information"
           text="Test"
         />
       </Provider>
     )
 
-    expect(element).toHaveClass('dnb-global-status--info')
+    expect(element).toHaveClass('dnb-global-status--information')
     expect(element).not.toHaveClass('dnb-global-status--error')
     expect(closeButton.textContent).toContain('Lukk')
   })

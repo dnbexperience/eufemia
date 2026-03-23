@@ -78,7 +78,7 @@ export const DialogProperties: PropertiesTableProps = {
   },
   confirmType: {
     doc: 'For variant confirmation, the dialog is either an informational (`info`) or a warning (`warning`) message. Defaults to `info`.',
-    type: ['"info"', '"warning"'],
+    type: ['"information"', '"warning"'],
     status: 'optional',
   },
   declineText: {

@@ -41,7 +41,7 @@ export const GlobalInfoOverlayError = () => (
 export const GlobalStatusInfo = () => (
   <ComponentBox data-visual-test="global-status-info">
     <GlobalStatus
-      state="info"
+      state="information"
       title="Custom info title ..."
       text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
       items={['Status text 1', 'Status text 2']}

@@ -178,7 +178,7 @@ export const InputExampleNumbers = () => (
         autocomplete="on"
         placeholder="Placeholder text"
         status="Numbers are using DNB Mono (monospace)"
-        statusState="info"
+        statusState="information"
         value="1234567890"
         onChange={({ value }) => {
           console.log('onChange', value)

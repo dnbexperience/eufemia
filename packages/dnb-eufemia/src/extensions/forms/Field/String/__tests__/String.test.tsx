@@ -1923,7 +1923,7 @@ describe('Field.String', () => {
       const ids = document.querySelectorAll(`#${describedBy}`)
       expect(ids).toHaveLength(1)
       expect(ids[0]).toBeInTheDocument()
-      expect(ids[0]).toHaveClass('dnb-form-status--info')
+      expect(ids[0]).toHaveClass('dnb-form-status--information')
       expect(ids[0]).toHaveTextContent('Info message')
     })
 
@@ -2126,7 +2126,7 @@ describe('Field.String', () => {
 
       expect(input).toHaveAttribute(
         'aria-describedby',
-        'unique-form-status--error unique-form-status--warning unique-form-status--info'
+        'unique-form-status--error unique-form-status--warning unique-form-status--information'
       )
 
       const [first, second, third] = Array.from(
@@ -2135,7 +2135,10 @@ describe('Field.String', () => {
 
       expect(first).toHaveAttribute('id', 'unique-form-status--error')
       expect(second).toHaveAttribute('id', 'unique-form-status--warning')
-      expect(third).toHaveAttribute('id', 'unique-form-status--info')
+      expect(third).toHaveAttribute(
+        'id',
+        'unique-form-status--information'
+      )
 
       expect(
         document.querySelectorAll('#unique-form-status--error')
@@ -2144,7 +2147,7 @@ describe('Field.String', () => {
         document.querySelectorAll('#unique-form-status--warning')
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('#unique-form-status--info')
+        document.querySelectorAll('#unique-form-status--information')
       ).toHaveLength(1)
 
       await userEvent.type(input, 'x')
@@ -2156,14 +2159,14 @@ describe('Field.String', () => {
         document.querySelectorAll('#unique-form-status--warning')
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('#unique-form-status--info')
+        document.querySelectorAll('#unique-form-status--information')
       ).toHaveLength(1)
 
       fireEvent.blur(input)
 
       expect(input).toHaveAttribute(
         'aria-describedby',
-        'unique-form-status--error unique-form-status--warning unique-form-status--info'
+        'unique-form-status--error unique-form-status--warning unique-form-status--information'
       )
     })
 
@@ -2181,7 +2184,7 @@ describe('Field.String', () => {
 
       expect(input).toHaveAttribute(
         'aria-describedby',
-        'unique-form-status--error unique-form-status--warning unique-form-status--info'
+        'unique-form-status--error unique-form-status--warning unique-form-status--information'
       )
 
       const [first, second, third] = Array.from(
@@ -2190,7 +2193,10 @@ describe('Field.String', () => {
 
       expect(first).toHaveAttribute('id', 'unique-form-status--error')
       expect(second).toHaveAttribute('id', 'unique-form-status--warning')
-      expect(third).toHaveAttribute('id', 'unique-form-status--info')
+      expect(third).toHaveAttribute(
+        'id',
+        'unique-form-status--information'
+      )
 
       expect(
         document.querySelectorAll('#unique-form-status--error')
@@ -2199,7 +2205,7 @@ describe('Field.String', () => {
         document.querySelectorAll('#unique-form-status--warning')
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('#unique-form-status--info')
+        document.querySelectorAll('#unique-form-status--information')
       ).toHaveLength(1)
     })
 
