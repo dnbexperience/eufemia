@@ -253,7 +253,6 @@ describe('Tabs component', () => {
         'dnb-tabs__content',
         'dnb-section',
         'dnb-section--black-3',
-        'dnb-section--spacing-large',
         'dnb-no-focus',
         'dnb-space',
         'dnb-height-animation',
