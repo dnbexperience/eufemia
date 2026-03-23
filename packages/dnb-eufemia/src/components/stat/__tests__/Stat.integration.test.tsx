@@ -413,4 +413,46 @@ describe('Stat integration', () => {
     expect(amount).toBeInTheDocument()
     expect(percent).toBeInTheDocument()
   })
+
+  it('should validate standalone Currency with ARIA rules', async () => {
+    const component = render(
+      <Stat.Currency value={1234} srLabel="Revenue" />
+    )
+
+    expect(await axeComponent(component)).toHaveNoViolations()
+  })
+
+  it('should validate standalone Percent with ARIA rules', async () => {
+    const component = render(
+      <Stat.Percent value={42.5} srLabel="Change" />
+    )
+
+    expect(await axeComponent(component)).toHaveNoViolations()
+  })
+
+  it('should validate standalone Number with ARIA rules', async () => {
+    const component = render(<Stat.Number value={9876} srLabel="Count" />)
+
+    expect(await axeComponent(component)).toHaveNoViolations()
+  })
+
+  it('should validate standalone Trend with ARIA rules', async () => {
+    const component = render(
+      <Stat.Trend srLabel="Change">+5.2%</Stat.Trend>
+    )
+
+    expect(await axeComponent(component)).toHaveNoViolations()
+  })
+
+  it('should validate standalone Rating with ARIA rules', async () => {
+    const component = render(<Stat.Rating value={3.5} srLabel="Rating" />)
+
+    expect(await axeComponent(component)).toHaveNoViolations()
+  })
+
+  it('should validate standalone Info with ARIA rules', async () => {
+    const component = render(<Stat.Info>Additional information</Stat.Info>)
+
+    expect(await axeComponent(component)).toHaveNoViolations()
+  })
 })
