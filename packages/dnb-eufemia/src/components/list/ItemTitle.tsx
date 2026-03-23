@@ -6,6 +6,7 @@ import ItemSubline from './ItemSubline'
 import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
+import Context from '../../shared/Context'
 
 /**
  * Props for List.Cell.Title (ItemTitle).
@@ -25,10 +26,11 @@ function ItemTitleBase({
   children,
   ...rest
 }: ItemTitleProps) {
+  const context = useContext(Context)
   const inheritedSkeleton = useContext(ListContext)?.skeleton
   const appliedSkeleton = skeleton ?? inheritedSkeleton
 
-  return (
+  const content = (
     <FlexItem
       innerSpace={{ left: 'small' }}
       className={classnames(
@@ -41,6 +43,16 @@ function ItemTitleBase({
       <span className={`dnb-t__size--${fontSize}`}>{children}</span>
     </FlexItem>
   )
+
+  if (appliedSkeleton) {
+    return (
+      <Context.Provider value={{ ...context, skeleton: appliedSkeleton }}>
+        {content}
+      </Context.Provider>
+    )
+  }
+
+  return content
 }
 ItemTitleBase._supportsSpacingProps = true
 

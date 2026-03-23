@@ -5,6 +5,7 @@ import Hr from '../../elements/Hr'
 import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
+import Context from '../../shared/Context'
 
 export type ItemFooterProps = FlexItemProps & {
   /** If `true`, applies skeleton loading state. Inherits from parent List context when not set. */
@@ -17,10 +18,11 @@ function ItemFooter({
   children,
   ...rest
 }: ItemFooterProps) {
+  const context = useContext(Context)
   const inheritedSkeleton = useContext(ListContext)?.skeleton
   const appliedSkeleton = skeleton ?? inheritedSkeleton
 
-  return (
+  const content = (
     <>
       <Hr
         top={false}
@@ -39,6 +41,16 @@ function ItemFooter({
       </FlexItem>
     </>
   )
+
+  if (appliedSkeleton) {
+    return (
+      <Context.Provider value={{ ...context, skeleton: appliedSkeleton }}>
+        {content}
+      </Context.Provider>
+    )
+  }
+
+  return content
 }
 ItemFooter._supportsSpacingProps = true
 

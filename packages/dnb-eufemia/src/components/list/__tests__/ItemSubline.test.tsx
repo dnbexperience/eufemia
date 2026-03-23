@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { render } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import ItemSubline from '../ItemSubline'
 import ItemContent from '../ItemContent'
 import Container from '../Container'
+import Context from '../../../shared/Context'
 
 describe('ItemSubline', () => {
   it('renders with children', () => {
@@ -172,6 +173,22 @@ describe('ItemSubline', () => {
 
     expect(element.classList).toContain('dnb-skeleton')
     expect(element.classList).toContain('dnb-skeleton--font')
+  })
+
+  it('propagates skeleton to children via context', () => {
+    function SkeletonConsumer() {
+      const context = useContext(Context)
+      return <span data-skeleton={String(Boolean(context?.skeleton))} />
+    }
+
+    render(
+      <ItemSubline skeleton>
+        <SkeletonConsumer />
+      </ItemSubline>
+    )
+
+    const consumer = document.querySelector('[data-skeleton]')
+    expect(consumer.getAttribute('data-skeleton')).toBe('true')
   })
 
   it('has no axe violations', async () => {

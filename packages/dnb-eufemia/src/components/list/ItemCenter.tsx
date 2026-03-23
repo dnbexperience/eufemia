@@ -4,6 +4,7 @@ import FlexItem, { type Props as FlexItemProps } from '../flex/Item'
 import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
+import Context from '../../shared/Context'
 
 export type ItemCenterProps = FlexItemProps & {
   /** Font size of the center content. Defaults to `basis`. */
@@ -19,12 +20,14 @@ function ItemCenter({
   fontSize = 'basis',
   fontWeight = 'regular',
   skeleton,
+  children,
   ...rest
 }: ItemCenterProps) {
+  const context = useContext(Context)
   const inheritedSkeleton = useContext(ListContext)?.skeleton
   const appliedSkeleton = skeleton ?? inheritedSkeleton
 
-  return (
+  const content = (
     <FlexItem
       className={classnames(
         'dnb-list__item__center',
@@ -35,8 +38,20 @@ function ItemCenter({
       )}
       innerSpace={{ left: 'small' }}
       {...rest}
-    />
+    >
+      {children}
+    </FlexItem>
   )
+
+  if (appliedSkeleton) {
+    return (
+      <Context.Provider value={{ ...context, skeleton: appliedSkeleton }}>
+        {content}
+      </Context.Provider>
+    )
+  }
+
+  return content
 }
 
 ItemCenter._supportsSpacingProps = true

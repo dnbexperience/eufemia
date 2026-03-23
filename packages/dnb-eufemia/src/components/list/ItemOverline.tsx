@@ -4,6 +4,7 @@ import FlexItem, { type Props as FlexItemProps } from '../flex/Item'
 import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
+import Context from '../../shared/Context'
 
 /**
  * Props for List.Cell.Title.Overline (ItemOverline).
@@ -26,10 +27,11 @@ function ItemOverline({
   children,
   ...rest
 }: ItemOverlineProps) {
+  const context = useContext(Context)
   const inheritedSkeleton = useContext(ListContext)?.skeleton
   const appliedSkeleton = skeleton ?? inheritedSkeleton
 
-  return (
+  const content = (
     <FlexItem
       className={classnames(
         'dnb-list__item__overline',
@@ -43,6 +45,16 @@ function ItemOverline({
       {children}
     </FlexItem>
   )
+
+  if (appliedSkeleton) {
+    return (
+      <Context.Provider value={{ ...context, skeleton: appliedSkeleton }}>
+        {content}
+      </Context.Provider>
+    )
+  }
+
+  return content
 }
 ItemOverline._supportsSpacingProps = true
 

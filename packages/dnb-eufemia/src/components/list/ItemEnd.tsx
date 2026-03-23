@@ -4,6 +4,7 @@ import FlexItem, { type Props as FlexItemProps } from '../flex/Item'
 import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
+import Context from '../../shared/Context'
 
 /**
  * Props for List.Cell.End (ItemEnd).
@@ -24,12 +25,14 @@ function ItemEnd(props: ItemEndProps) {
     fontSize = 'basis',
     skeleton,
     className,
+    children,
     ...rest
   } = props
+  const context = useContext(Context)
   const inheritedSkeleton = useContext(ListContext)?.skeleton
   const appliedSkeleton = skeleton ?? inheritedSkeleton
 
-  return (
+  const content = (
     <FlexItem
       className={classnames(
         'dnb-list__item__end',
@@ -40,8 +43,20 @@ function ItemEnd(props: ItemEndProps) {
       )}
       innerSpace={{ left: 'small', right: 'medium' }}
       {...rest}
-    />
+    >
+      {children}
+    </FlexItem>
   )
+
+  if (appliedSkeleton) {
+    return (
+      <Context.Provider value={{ ...context, skeleton: appliedSkeleton }}>
+        {content}
+      </Context.Provider>
+    )
+  }
+
+  return content
 }
 ItemEnd._supportsSpacingProps = true
 
