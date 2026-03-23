@@ -387,6 +387,14 @@ export const ItemActionEvents: PropertiesTableProps = {
   },
 }
 
+export const ItemAccordionEvents: PropertiesTableProps = {
+  onClick: {
+    doc: 'Fired when the user clicks or activates the accordion header (click or Enter/Space key). In controlled mode (when `open` is provided), use this to update the `open` prop. Receives the native event.',
+    type: '(event) => void',
+    status: 'optional',
+  },
+}
+
 export const CardProperties: PropertiesTableProps = {
   children: {
     doc: 'Card content. Typically a `List.Container` (optionally wrapped in `List.ScrollView`). The card provides a visual container with border-radius resets and scrollbar integration for the list inside it.',
