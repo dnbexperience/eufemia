@@ -5,6 +5,7 @@ import type { SpacingProps } from '../../shared/types'
 import { validateDOMAttributes, warn } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatValueContext from './StatValueContext'
+import StatRootContext from './StatRootContext'
 import useStatSkeleton from './useStatSkeleton'
 
 const infoContextValue = {
@@ -27,6 +28,8 @@ export type InfoProps = {
 } & SpacingProps
 
 function Info(props: InfoProps) {
+  const { inRoot } = React.useContext(StatRootContext)
+
   const {
     children,
     element: Element = 'span',
@@ -47,6 +50,10 @@ function Info(props: InfoProps) {
 
   const { skeletonClass, applySkeletonAttributes } =
     useStatSkeleton(skeleton)
+
+  if (!inRoot) {
+    warn('Stat.Info should be used inside Stat.Root')
+  }
 
   const attributes = validateDOMAttributes(props, {
     ...rest,
