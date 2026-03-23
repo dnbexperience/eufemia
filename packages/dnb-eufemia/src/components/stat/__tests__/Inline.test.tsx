@@ -85,4 +85,19 @@ describe('Stat.Inline', () => {
     expect(inline.classList).toContain('dnb-skeleton')
     expect(inline).toHaveAttribute('aria-disabled', 'true')
   })
+
+  it('propagates skeleton to children', () => {
+    render(
+      <Stat.Inline skeleton>
+        <Stat.Trend>+1.2%</Stat.Trend>
+        <Stat.Info>(additional information)</Stat.Info>
+      </Stat.Inline>
+    )
+
+    const trend = document.querySelector('.dnb-stat__trend')
+    const info = document.querySelector('.dnb-stat__info')
+
+    expect(trend.classList).toContain('dnb-skeleton')
+    expect(info.classList).toContain('dnb-skeleton')
+  })
 })
