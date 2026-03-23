@@ -382,6 +382,14 @@ describe('Stat.Number', () => {
     expect(root.classList).not.toContain('dnb-stat--tone-negative')
   })
 
+  it('colorizes negative zero as negative tone', () => {
+    render(<Stat.Number value={-0} signDisplay="always" colorizeBySign />)
+
+    const root = document.querySelector('.dnb-stat')
+    expect(root.classList).toContain('dnb-stat--tone-negative')
+    expect(root.classList).not.toContain('dnb-stat--tone-positive')
+  })
+
   it('supports percent formatting', () => {
     render(<Stat.Number value={12.3} percent />)
 
