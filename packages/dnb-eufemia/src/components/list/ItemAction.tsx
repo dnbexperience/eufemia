@@ -1,7 +1,7 @@
 import classnames from 'classnames'
-import { ListVariant } from './ListContext'
+import { ListVariant, ListContext } from './ListContext'
 import ItemContent, { ItemContentProps } from './ItemContent'
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useContext, useRef } from 'react'
 import IconPrimary from '../IconPrimary'
 import Anchor from '../Anchor'
 import ItemIcon from './ItemIcon'
@@ -40,7 +40,9 @@ function ItemAction(props: ItemActionProps) {
     ...rest
   } = props
 
-  const isInactive = pending || disabled
+  const inheritedDisabled = useContext(ListContext)?.disabled
+  const appliedDisabled = disabled ?? inheritedDisabled
+  const isInactive = pending || appliedDisabled
 
   const handleClick = useCallback(
     (

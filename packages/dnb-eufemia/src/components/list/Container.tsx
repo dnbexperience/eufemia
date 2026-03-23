@@ -9,6 +9,7 @@ export type ListContainerProps = {
   variant?: ListVariant
   separated?: boolean
   skeleton?: SkeletonShow
+  disabled?: boolean
 } & FlexProps
 
 function ListContainer(props: ListContainerProps) {
@@ -18,6 +19,7 @@ function ListContainer(props: ListContainerProps) {
     variant = 'basic',
     separated = false,
     skeleton,
+    disabled,
     wrapChildrenInSpace = false,
     ...rest
   } = props
@@ -26,10 +28,16 @@ function ListContainer(props: ListContainerProps) {
   const globalContext = useContext(SharedContext)
   const appliedSkeleton =
     skeleton ?? parentContext?.skeleton ?? globalContext?.skeleton
+  const appliedDisabled = disabled ?? parentContext?.disabled
 
   return (
     <ListContext.Provider
-      value={{ variant, separated, skeleton: appliedSkeleton }}
+      value={{
+        variant,
+        separated,
+        skeleton: appliedSkeleton,
+        disabled: appliedDisabled,
+      }}
     >
       <FlexContainer
         element="ul"

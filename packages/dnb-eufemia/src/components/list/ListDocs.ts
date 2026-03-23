@@ -11,6 +11,11 @@ export const ContainerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  disabled: {
+    doc: 'When `true`, all child items are visually dimmed and interaction is prevented. Individual items can override this with their own `disabled` prop.',
+    type: 'boolean',
+    status: 'optional',
+  },
   children: {
     doc: 'List items. Use `List.Item.Basic`, `List.Item.Action`, or `List.Item.Accordion` as direct children.',
     type: 'React.ReactNode',

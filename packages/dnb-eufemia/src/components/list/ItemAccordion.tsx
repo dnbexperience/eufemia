@@ -72,6 +72,8 @@ function ItemAccordion(props: ItemAccordionProps) {
 
   const [openState, setOpen] = useState(open)
   const accordionId = useId(idProp)
+  const inheritedDisabled = useContext(ListContext)?.disabled
+  const appliedDisabled = disabled ?? inheritedDisabled
   const childArray = React.Children.toArray(children)
   const hasExplicitHeader = childArray.some(
     (child) =>
@@ -88,7 +90,7 @@ function ItemAccordion(props: ItemAccordionProps) {
         open,
         openState,
         pending,
-        disabled,
+        disabled: appliedDisabled,
         keepInDOM,
         chevronPosition,
         accordionId,
@@ -106,7 +108,7 @@ function ItemAccordion(props: ItemAccordionProps) {
         )}
         direction="vertical"
         pending={pending}
-        disabled={disabled}
+        disabled={appliedDisabled}
         variant={variant}
         {...rest}
       >
