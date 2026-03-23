@@ -689,4 +689,21 @@ describe('ItemAccordion', () => {
 
     expect(content.classList).toContain('dnb-skeleton')
   })
+
+  it('applies skeleton class to AccordionHeader when Container has skeleton', () => {
+    render(
+      <Container skeleton>
+        <ItemAccordion>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content body</ItemAccordion.Content>
+        </ItemAccordion>
+      </Container>
+    )
+
+    const header = document.querySelector(
+      '.dnb-list__item__accordion__header'
+    )
+
+    expect(header.classList).toContain('dnb-skeleton')
+  })
 })
