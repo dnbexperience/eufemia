@@ -500,5 +500,69 @@ describe('ItemAction', () => {
       expect(element.getAttribute('href')).toBeNull()
       expect(hrefElement).toBeNull()
     })
+
+    it('calls onClick on mouse click when href is provided', () => {
+      const handleClick = jest.fn()
+
+      render(
+        <ItemAction href="/path" onClick={handleClick}>
+          Link content
+        </ItemAction>
+      )
+
+      const element = document.querySelector(hrefSelector)
+
+      fireEvent.click(element)
+
+      expect(handleClick).toHaveBeenCalledTimes(1)
+    })
+
+    it('does not call onClick on mouse click when href is provided and disabled', () => {
+      const handleClick = jest.fn()
+
+      render(
+        <ItemAction href="/path" onClick={handleClick} disabled>
+          Link content
+        </ItemAction>
+      )
+
+      const element = document.querySelector(hrefSelector)
+
+      fireEvent.click(element)
+
+      expect(handleClick).not.toHaveBeenCalled()
+    })
+
+    it('does not call onClick on mouse click when href is provided and pending', () => {
+      const handleClick = jest.fn()
+
+      render(
+        <ItemAction href="/path" onClick={handleClick} pending>
+          Link content
+        </ItemAction>
+      )
+
+      const element = document.querySelector(hrefSelector)
+
+      fireEvent.click(element)
+
+      expect(handleClick).not.toHaveBeenCalled()
+    })
+
+    it('does not double-fire onClick on keyboard activation with href', () => {
+      const handleClick = jest.fn()
+
+      render(
+        <ItemAction href="/path" onClick={handleClick}>
+          Link content
+        </ItemAction>
+      )
+
+      const element = document.querySelector(hrefSelector)
+
+      fireEvent.keyDown(element, { key: 'Enter' })
+
+      expect(handleClick).toHaveBeenCalledTimes(1)
+    })
   })
 })

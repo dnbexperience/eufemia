@@ -82,11 +82,10 @@ function ItemAction(props: ItemActionProps) {
         event.preventDefault()
         if (!isInactive) {
           anchorRef.current?.click()
-          onClick?.(event as unknown as React.MouseEvent<HTMLDivElement>)
         }
       }
     },
-    [onClick, isInactive]
+    [isInactive]
   )
 
   const actionClassName = classnames(
@@ -113,6 +112,7 @@ function ItemAction(props: ItemActionProps) {
         role="link"
         tabIndex={isInactive ? -1 : 0}
         aria-disabled={isInactive ? true : undefined}
+        onClick={handleClick}
         onKeyDown={handleLinkKeyDown}
         variant={variant}
         selected={selected}
