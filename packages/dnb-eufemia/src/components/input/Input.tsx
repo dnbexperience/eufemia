@@ -187,9 +187,9 @@ export type InputProps = Omit<
      */
     skeleton?: SkeletonShow
     /**
-     * In case we have to set a custom input class.
+     * In case we have to set a custom class on the input element.
      */
-    inputClass?: string
+    inputClassName?: string
     /**
      * Provide the Input element with any attributes by using an Object `inputAttributes={{size:'2'}}` or a JSON Object `inputAttributes='{"size":"2"}'`. **NB:** Keep in mind, that also every not listed component property will be sent along and set as an Input element attribute.
      */
@@ -305,7 +305,7 @@ export const inputDefaultProps = {
   stretch: null,
   disabled: null,
   skeleton: null,
-  inputClass: null,
+  inputClassName: null,
   inputAttributes: null,
   inputElement: null,
   ref: null,
@@ -585,7 +585,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     _omitInputShellClass,
     suffix,
     align,
-    inputClass,
+    inputClassName,
     submitButtonTitle,
     clearButtonTitle,
     submitButtonVariant,
@@ -680,7 +680,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     : {}
 
   const inputParams = {
-    className: clsx('dnb-input__input', inputClass),
+    className: clsx('dnb-input__input', inputClassName),
     autoComplete: autocomplete,
     type,
     id,

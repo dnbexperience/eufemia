@@ -149,7 +149,7 @@ export type InputMaskedProps = Omit<
     stretch?: boolean
     disabled?: boolean
     skeleton?: SkeletonShow
-    inputClass?: string
+    inputClassName?: string
     inputAttributes?: InputInputAttributes
     inputElement?: InputElement
     icon?: IconIcon
