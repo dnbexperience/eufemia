@@ -172,7 +172,11 @@ function AmountBase(props: AmountProps) {
       : null)
   const numericValue = Number(rawValue)
   const signTone =
-    numericValue > 0 ? 'positive' : numericValue < 0 ? 'negative' : null
+    numericValue > 0
+      ? 'positive'
+      : numericValue < 0 || Object.is(numericValue, -0)
+      ? 'negative'
+      : null
 
   const currencyClass = classnames(
     'dnb-stat__currency',
