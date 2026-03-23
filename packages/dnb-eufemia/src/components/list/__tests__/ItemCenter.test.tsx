@@ -1,6 +1,8 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import ItemCenter from '../ItemCenter'
+import ItemContent from '../ItemContent'
 import Container from '../Container'
 
 describe('ItemCenter', () => {
@@ -93,5 +95,17 @@ describe('ItemCenter', () => {
 
     expect(element.classList).toContain('dnb-skeleton')
     expect(element.classList).toContain('dnb-skeleton--font')
+  })
+
+  it('has no axe violations', async () => {
+    const { container } = render(
+      <Container>
+        <ItemContent>
+          <ItemCenter>Center content</ItemCenter>
+        </ItemContent>
+      </Container>
+    )
+
+    expect(await axeComponent(container)).toHaveNoViolations()
   })
 })

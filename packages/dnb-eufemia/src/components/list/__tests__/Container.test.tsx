@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import Container, { ListContainerProps } from '../Container'
 import ItemContent from '../ItemContent'
 import Provider from '../../../shared/Provider'
@@ -202,5 +203,16 @@ describe('List Container', () => {
     const item = document.querySelector('.dnb-list__item')
 
     expect(item.classList).not.toContain('dnb-list__item--disabled')
+  })
+
+  it('has no axe violations', async () => {
+    const { container } = render(
+      <Container>
+        <ItemContent>Item one</ItemContent>
+        <ItemContent>Item two</ItemContent>
+      </Container>
+    )
+
+    expect(await axeComponent(container)).toHaveNoViolations()
   })
 })
