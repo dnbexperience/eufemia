@@ -3,12 +3,29 @@
 
 import React from 'react'
 import { render } from '@testing-library/react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import {
+  axeComponent,
+  loadScss,
+  spyOnEufemiaWarn,
+} from '../../../core/jest/jestSetup'
 import Provider from '../../../shared/Provider'
 import Stat from '../Stat'
 import Amount from '../Amount'
 
 describe('Stat.Amount', () => {
+  it('emits a deprecation warning when used', () => {
+    const log = spyOnEufemiaWarn()
+
+    render(<Stat.Amount value={100} />)
+
+    expect(log).toHaveBeenCalledWith(
+      expect.stringContaining('Eufemia'),
+      expect.stringContaining('Stat.Amount is deprecated')
+    )
+
+    log.mockRestore()
+  })
+
   it('renders plain amount by default without currency', () => {
     render(<Stat.Amount value={12345.67} />)
 

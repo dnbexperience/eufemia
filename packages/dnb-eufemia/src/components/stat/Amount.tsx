@@ -14,6 +14,7 @@ import { formatReturnValue } from '../number-format/NumberUtils'
 import {
   convertJsxToString,
   validateDOMAttributes,
+  warn,
 } from '../../shared/component-helper'
 import StatValueContext from './StatValueContext'
 import useStatSkeleton from './useStatSkeleton'
@@ -306,6 +307,12 @@ export { AmountBase }
 /**
  * @deprecated Use `Stat.Number` instead.
  */
-const Amount = AmountBase
+function Amount(props: AmountProps) {
+  warn('Stat.Amount is deprecated. Use Stat.Number instead.')
+
+  return <AmountBase {...props} />
+}
+
+Amount._supportsSpacingProps = true
 
 export default Amount
