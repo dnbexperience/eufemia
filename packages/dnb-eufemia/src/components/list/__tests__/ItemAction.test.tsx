@@ -177,6 +177,35 @@ describe('ItemAction', () => {
     expect(element.classList).toContain('dnb-skeleton--font')
   })
 
+  it('applies selected modifier class when selected', () => {
+    render(<ItemAction selected>Content</ItemAction>)
+
+    const element = document.querySelector('.dnb-list__item__action')
+
+    expect(element.classList).toContain('dnb-list__item--selected')
+    expect(element.classList).toContain('dnb-list__item--selection')
+  })
+
+  it('applies variant modifier class', () => {
+    render(<ItemAction variant="basic">Content</ItemAction>)
+
+    const element = document.querySelector('.dnb-list__item__action')
+
+    expect(element.classList).toContain('dnb-list--variant-basic')
+  })
+
+  it('forwards selected to ItemContent when href is set', () => {
+    render(
+      <ItemAction href="/test" selected>
+        Content
+      </ItemAction>
+    )
+
+    const element = document.querySelector('.dnb-list__item__action')
+
+    expect(element.classList).toContain('dnb-list__item--selected')
+  })
+
   describe('pending', () => {
     it('applies pending modifier when pending is true', () => {
       render(<ItemAction pending>Content</ItemAction>)

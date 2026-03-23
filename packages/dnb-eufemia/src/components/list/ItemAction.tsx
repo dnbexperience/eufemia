@@ -31,6 +31,7 @@ function ItemAction(props: ItemActionProps) {
     selected,
     pending,
     disabled,
+    skeleton,
     chevronPosition = 'right',
     icon,
     title,
@@ -111,6 +112,9 @@ function ItemAction(props: ItemActionProps) {
         tabIndex={isInactive ? -1 : 0}
         aria-disabled={isInactive ? true : undefined}
         onKeyDown={handleLinkKeyDown}
+        variant={variant}
+        selected={selected}
+        skeleton={skeleton}
         pending={pending}
         disabled={disabled}
         {...rest}
@@ -138,6 +142,9 @@ function ItemAction(props: ItemActionProps) {
       aria-disabled={isInactive ? true : undefined}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
+      variant={variant}
+      selected={selected}
+      skeleton={skeleton}
       pending={pending}
       disabled={disabled}
       {...rest}
