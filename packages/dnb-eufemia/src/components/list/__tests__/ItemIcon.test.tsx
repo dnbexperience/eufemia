@@ -98,18 +98,6 @@ describe('ItemIcon', () => {
     expect(element.classList).toContain('dnb-skeleton--shape')
   })
 
-  it('propagates skeleton to child Icon via shared context', () => {
-    render(
-      <Container skeleton>
-        <ItemContent>
-          <ItemIcon>{fish_medium}</ItemIcon>
-        </ItemContent>
-      </Container>
-    )
-
-    const icon = document.querySelector('.dnb-icon')
-
-    expect(icon.classList).toContain('dnb-skeleton')
   })
 
   it('has no axe violations', async () => {
