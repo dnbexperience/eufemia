@@ -516,8 +516,7 @@ describe('Stat integration', () => {
   })
 
   it('propagates skeleton from Content to non-Stat children like IconPrimary', () => {
-    const IconPrimary =
-      require('../../icon/IconPrimary').default
+    const IconPrimary = require('../../icon/IconPrimary').default
 
     render(
       <Stat.Content skeleton>
@@ -531,8 +530,7 @@ describe('Stat integration', () => {
   })
 
   it('propagates skeleton from Root through Content to non-Stat children', () => {
-    const IconPrimary =
-      require('../../icon/IconPrimary').default
+    const IconPrimary = require('../../icon/IconPrimary').default
 
     render(
       <Stat.Root skeleton>
