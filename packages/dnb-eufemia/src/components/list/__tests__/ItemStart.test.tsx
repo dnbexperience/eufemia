@@ -36,6 +36,30 @@ describe('ItemStart', () => {
     expect(element.classList).not.toContain('dnb-t__size--basis')
   })
 
+  it('does not apply fontWeight medium class by default', () => {
+    render(<ItemStart>Content</ItemStart>)
+
+    const element = document.querySelector('.dnb-list__item__start')
+
+    expect(element.classList).not.toContain('dnb-t__weight--medium')
+  })
+
+  it('applies fontWeight="medium"', () => {
+    render(<ItemStart fontWeight="medium">Content</ItemStart>)
+
+    const element = document.querySelector('.dnb-list__item__start')
+
+    expect(element.classList).toContain('dnb-t__weight--medium')
+  })
+
+  it('omits fontWeight class when fontWeight is regular', () => {
+    render(<ItemStart fontWeight="regular">Content</ItemStart>)
+
+    const element = document.querySelector('.dnb-list__item__start')
+
+    expect(element.classList).not.toContain('dnb-t__weight--medium')
+  })
+
   it('merges custom className', () => {
     render(<ItemStart className="my-start">Content</ItemStart>)
 
