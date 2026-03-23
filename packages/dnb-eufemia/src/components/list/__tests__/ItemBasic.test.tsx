@@ -146,4 +146,32 @@ describe('ItemBasic', () => {
   it('declares _supportsSpacingProps for flex layout', () => {
     expect(ItemBasic._supportsSpacingProps).toBe(true)
   })
+
+  it('applies disabled modifier class when disabled', () => {
+    render(<ItemBasic disabled>Disabled item</ItemBasic>)
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.classList).toContain('dnb-list__item--disabled')
+  })
+
+  it('applies pending modifier and pending indicator when pending', () => {
+    render(<ItemBasic pending>Pending item</ItemBasic>)
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.classList).toContain('dnb-list__item--pending')
+    expect(
+      element.querySelector('.dnb-list__item__pending')
+    ).toBeInTheDocument()
+  })
+
+  it('applies skeleton font class when skeleton is true', () => {
+    render(<ItemBasic skeleton>Skeleton item</ItemBasic>)
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.classList).toContain('dnb-skeleton')
+    expect(element.classList).toContain('dnb-skeleton--font')
+  })
 })
