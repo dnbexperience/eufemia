@@ -1,6 +1,9 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import {
+  axeComponent,
+  spyOnEufemiaWarn,
+} from '../../../core/jest/jestSetup'
 import Stat from '../Stat'
 import NumberFormat from '../../number-format/NumberFormat'
 
@@ -213,5 +216,22 @@ describe('Stat.Trend', () => {
     expect(trend.classList).toContain('dnb-stat__trend--neutral')
     expect(sign).not.toBeInTheDocument()
     expect(value.textContent).toBe('0')
+  })
+
+  it('warns when children value cannot be resolved', () => {
+    const log = spyOnEufemiaWarn()
+
+    render(
+      <Stat.Trend>
+        <div />
+      </Stat.Trend>
+    )
+
+    expect(log).toHaveBeenCalledWith(
+      expect.stringContaining('Eufemia'),
+      expect.stringContaining('could not resolve a value')
+    )
+
+    log.mockRestore()
   })
 })

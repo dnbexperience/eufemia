@@ -5,6 +5,7 @@ import type { SpacingProps } from '../../shared/types'
 import {
   convertJsxToString,
   validateDOMAttributes,
+  warn,
 } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatValueContext from './StatValueContext'
@@ -130,7 +131,14 @@ function getValueFromChildren(children: React.ReactNode): number | string {
     }
   }
 
-  return convertJsxToString(children) || '0'
+  const text = convertJsxToString(children)
+  if (!text) {
+    warn(
+      'Stat.Trend could not resolve a value from the provided children. Falling back to "0".'
+    )
+  }
+
+  return text || '0'
 }
 
 function resolveTrendValue(value: number | string) {
