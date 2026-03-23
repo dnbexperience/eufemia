@@ -123,7 +123,13 @@ export default function ContentWrapper({
             }) => {
               return (
                 <Section
-                  spacing={contentStyle ? false : undefined}
+                  innerSpace={
+                    contentSpacing
+                      ? contentSpacing === true
+                        ? 'large'
+                        : contentSpacing
+                      : false
+                  }
                   variant={contentStyle ? contentStyle : undefined}
                   ref={ref}
                   {...props}
@@ -135,11 +141,6 @@ export default function ContentWrapper({
       className={clsx(
         'dnb-tabs__content',
         'dnb-no-focus',
-        contentSpacing
-          ? `dnb-section--spacing-${
-              contentSpacing === true ? 'large' : contentSpacing
-            }`
-          : null,
         createSpacingClasses(rest)
       )}
       duration={600}

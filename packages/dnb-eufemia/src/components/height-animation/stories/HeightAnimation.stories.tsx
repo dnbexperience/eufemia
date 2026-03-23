@@ -60,7 +60,7 @@ export const HeightAnimationSandbox = () => {
           duration={1000}
           onOpen={setIsOpen}
         >
-          <Section spacing backgroundColor="lavender">
+          <Section innerSpace backgroundColor="lavender">
             <P>Your content</P>
           </Section>
           {contentState && <P>More content</P>}
@@ -115,7 +115,7 @@ export function HeightAnimationKeepInDOM() {
 
         <StyledSection backgroundColor="lavender" top>
           <HeightAnimation open={openState} duration={1000}>
-            <Section spacing backgroundColor="lavender">
+            <Section innerSpace backgroundColor="lavender">
               <P space={0}>Your content</P>
             </Section>
             {contentState && <P space={0}>More content</P>}

@@ -227,7 +227,7 @@ export const DialogSandbox = () => (
       >
         <P>This is a Modal Window with no close button.</P>
         <P>Click outside me, and I will be closed within 1 second.</P>
-        <Section top spacing variant="divider">
+        <Section top innerSpace variant="divider">
           <Input label="Focus:">Focus me with Tab key</Input>
         </Section>
       </Dialog>
@@ -270,7 +270,7 @@ export const DialogSandbox = () => (
 
     <Box>
       <Dialog title="Dialog Title">
-        <Dialog.Body spacing backgroundColor="mint-green">
+        <Dialog.Body innerSpace backgroundColor="mint-green">
           <P>This is the modal text.</P>
         </Dialog.Body>
       </Dialog>
@@ -336,11 +336,11 @@ export const DialogSandbox = () => (
           console.log('onClose', e)
         }}
       >
-        <Dialog.Body spacing>
+        <Dialog.Body innerSpace>
           <Hr />
           <H2 top>Some content</H2>
           <Input>Focus me with Tab key</Input>
-          <Section top spacing>
+          <Section top innerSpace>
             <P>
               <Switch label="Checked:" checked />
             </P>
@@ -389,7 +389,7 @@ class ModalRerenderExample extends React.PureComponent {
         }}
         title={this.state.title}
       >
-        <Dialog.Body spacing>
+        <Dialog.Body innerSpace>
           <DatePicker label="DatePicker" right />
           <Dropdown
             label="Dropdown"
@@ -519,11 +519,11 @@ const ModalCloseExample = () => {
         }}
       >
         <Hr />
-        <Section spacing>
+        <Section innerSpace>
           <H2>Some content {count}</H2>
           <Input>Focus me with Tab key</Input>
         </Section>
-        <Section spacing>
+        <Section innerSpace>
           <P>
             <Switch label="Checked:" checked />
           </P>
@@ -558,7 +558,7 @@ const ModalTriggerExample = () => {
                 open={true}
                 labelledBy="custom-triggerer"
               >
-                <Section spacing variant="divider">
+                <Section innerSpace variant="divider">
                   <P>This Modal was opened by a custom trigger button.</P>
                 </Section>
               </Dialog>

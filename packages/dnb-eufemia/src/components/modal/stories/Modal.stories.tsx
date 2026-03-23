@@ -72,7 +72,7 @@ export const ModalSandbox = () => (
       >
         <P>This is a Modal Window with no close button.</P>
         <P>Click outside me, and I will be closed within 1 second.</P>
-        <Section top spacing variant="divider">
+        <Section top innerSpace variant="divider">
           <Input label="Focus:">Focus me with Tab key</Input>
         </Section>
       </Modal>
@@ -115,7 +115,7 @@ export const ModalSandbox = () => (
 
     <Box>
       <Modal title="Modal Title">
-        <Modal.Content spacing backgroundColor="mint-green">
+        <Modal.Content innerSpace backgroundColor="mint-green">
           <P>This is the modal text.</P>
         </Modal.Content>
       </Modal>
@@ -174,11 +174,11 @@ export const ModalSandbox = () => (
           console.log('onClose', e)
         }}
       >
-        <Modal.Content spacing>
+        <Modal.Content innerSpace>
           <Hr />
           <H2 top>Some content</H2>
           <Input>Focus me with Tab key</Input>
-          <Section top spacing>
+          <Section top innerSpace>
             <P>
               <Switch label="Checked:" checked />
             </P>
@@ -241,7 +241,7 @@ class ModalRerenderExample extends React.PureComponent {
         triggerAttributes={{ text: this.state.triggerText }}
         title={this.state.title}
       >
-        <Modal.Content spacing>
+        <Modal.Content innerSpace>
           {/* <Hr /> */}
           {/* <Box>
           <H2>Some content</H2>
@@ -374,11 +374,11 @@ const ModalCloseExample = () => {
         }}
       >
         <Hr />
-        <Section spacing>
+        <Section innerSpace>
           <H2>Some content {count}</H2>
           <Input>Focus me with Tab key</Input>
         </Section>
-        <Section spacing>
+        <Section innerSpace>
           <P>
             <Switch label="Checked:" checked />
           </P>
@@ -411,7 +411,7 @@ const ModalTriggerExample = () => {
                 open={true}
                 labelledBy="custom-triggerer"
               >
-                <Section spacing variant="divider">
+                <Section innerSpace variant="divider">
                   <P>This Modal was opened by a custom trigger button.</P>
                 </Section>
               </Modal>

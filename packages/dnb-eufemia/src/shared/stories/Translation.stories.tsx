@@ -84,7 +84,7 @@ export const TranslationSandbox = () => (
           </Translation>
 
           <Dialog title="Modal Title">
-            <Dialog.Body spacing backgroundColor="mint-green">
+            <Dialog.Body innerSpace backgroundColor="mint-green">
               <P>This is the modal text.</P>
             </Dialog.Body>
           </Dialog>

@@ -120,7 +120,7 @@ export const SectionWrapped = () => (
   <Wrapper>
     <WidthWrapper>
       <WidthWrapperInner>
-        <Section backgroundColor="emerald-green" spacing>
+        <Section backgroundColor="emerald-green" innerSpace>
           <p className="dnb-p">
             Tempor auctor mi vel sociosqu suspendisse eros fames congue at
           </p>
