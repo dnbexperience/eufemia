@@ -256,4 +256,25 @@ describe('Stat.Label', () => {
     expect(info.classList).toContain('dnb-skeleton')
     expect(info).toHaveAttribute('aria-disabled', 'true')
   })
+
+  it('does not block Root skeleton propagation when Label has no explicit skeleton prop', () => {
+    render(
+      <Stat.Root skeleton>
+        <Stat.Label>
+          <Stat.Info>Extra label info</Stat.Info>
+        </Stat.Label>
+        <Stat.Content>
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const info = document.querySelector('.dnb-stat__info')
+    const currency = document.querySelector(
+      '.dnb-stat__content-item > .dnb-stat'
+    )
+
+    expect(info.classList).toContain('dnb-skeleton')
+    expect(currency.classList).toContain('dnb-skeleton')
+  })
 })
