@@ -4,6 +4,8 @@
  *
  */
 
+'use client'
+
 /**
  * Library Index heading to autogenerate all the components and extensions
  * Used by "prepareHeadings"

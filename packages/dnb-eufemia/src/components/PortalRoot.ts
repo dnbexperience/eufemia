@@ -4,6 +4,8 @@
  *
  */
 
+'use client'
+
 /**
  * Library Index portal-root to autogenerate all the components and extensions
  * Used by "preparePortalRoots"

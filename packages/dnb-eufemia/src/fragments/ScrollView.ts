@@ -4,6 +4,8 @@
  *
  */
 
+'use client'
+
 /**
  * Library Index scroll-view to autogenerate all the fragments and extensions
  * Used by "prepareScrollViews"

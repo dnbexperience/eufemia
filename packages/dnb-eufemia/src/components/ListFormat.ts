@@ -4,6 +4,8 @@
  *
  */
 
+'use client'
+
 /**
  * Library Index list-format to autogenerate all the components and extensions
  * Used by "prepareListFormats"

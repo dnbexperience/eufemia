@@ -4,6 +4,8 @@
  *
  */
 
+'use client'
+
 /**
  * Library Index date-picker to autogenerate all the components and extensions
  * Used by "prepareDatePickers"

@@ -4,6 +4,8 @@
  *
  */
 
+'use client'
+
 /**
  * Library Index switch to autogenerate all the components and extensions
  * Used by "prepareSwitchs"

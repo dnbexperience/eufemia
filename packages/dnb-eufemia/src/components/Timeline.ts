@@ -4,6 +4,8 @@
  *
  */
 
+'use client'
+
 /**
  * Library Index timeline to autogenerate all the components and extensions
  * Used by "prepareTimelines"

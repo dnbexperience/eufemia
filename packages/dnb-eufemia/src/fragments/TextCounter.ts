@@ -4,6 +4,8 @@
  *
  */
 
+'use client'
+
 /**
  * Library Index text-counter to autogenerate all the fragments and extensions
  * Used by "prepareTextCounters"

@@ -4,6 +4,8 @@
  *
  */
 
+'use client'
+
 /**
  * Library Index visually-hidden to autogenerate all the components and extensions
  * Used by "prepareVisuallyHiddens"

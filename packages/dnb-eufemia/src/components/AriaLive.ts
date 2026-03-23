@@ -4,6 +4,8 @@
  *
  */
 
+'use client'
+
 /**
  * Library Index aria-live to autogenerate all the components and extensions
  * Used by "prepareAriaLives"

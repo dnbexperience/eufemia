@@ -4,6 +4,8 @@
  *
  */
 
+'use client'
+
 /**
  * Library Index height-animation to autogenerate all the components and extensions
  * Used by "prepareHeightAnimations"

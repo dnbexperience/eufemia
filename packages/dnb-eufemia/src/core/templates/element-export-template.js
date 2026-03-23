@@ -1,3 +1,5 @@
+'use client'
+
 /**
  * Library Index template to autogenerate all the elements and extensions
  * Used by "prepareTemplates"

@@ -4,6 +4,8 @@
  *
  */
 
+'use client'
+
 /**
  * Library Index progress-indicator to autogenerate all the components and extensions
  * Used by "prepareProgressIndicators"

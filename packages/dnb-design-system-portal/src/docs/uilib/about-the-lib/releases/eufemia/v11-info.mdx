@@ -1997,4 +1997,8 @@ For example, update:
 
 An ESLint rule (`naming-conventions/no-bare-props-export`) is now enforced to prevent re-introducing bare `Props` exports.
 
+## React Server Components
+
+All component, element, extension, and fragment entry points now include `"use client"` directives. This marks Eufemia components as client components in React Server Component (RSC) environments such as the Next.js App Router. No action is needed — existing consumers are unaffected, but RSC-based apps can now import Eufemia components without manually adding client boundaries.
+
 _January 23, 2026_

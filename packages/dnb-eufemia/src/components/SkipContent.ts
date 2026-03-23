@@ -4,6 +4,8 @@
  *
  */
 
+'use client'
+
 /**
  * Library Index skip-content to autogenerate all the components and extensions
  * Used by "prepareSkipContents"

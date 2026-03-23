@@ -4,6 +4,8 @@
  *
  */
 
+'use client'
+
 /**
  * Main Index template to autogenerate all the libs
  * Used by "prepareTemplates"

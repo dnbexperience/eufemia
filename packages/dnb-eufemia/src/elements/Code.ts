@@ -4,6 +4,8 @@
  *
  */
 
+'use client'
+
 /**
  * Library Index code to autogenerate all the elements and extensions
  * Used by "prepareCodes"

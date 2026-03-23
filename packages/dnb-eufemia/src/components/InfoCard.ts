@@ -4,6 +4,8 @@
  *
  */
 
+'use client'
+
 /**
  * Library Index info-card to autogenerate all the components and extensions
  * Used by "prepareInfoCards"

@@ -4,6 +4,8 @@
  *
  */
 
+'use client'
+
 /**
  * Library Index global-status to autogenerate all the components and extensions
  * Used by "prepareGlobalStatuss"

@@ -4,6 +4,8 @@
  *
  */
 
+'use client'
+
 /**
  * Library Index drawer-list to autogenerate all the fragments and extensions
  * Used by "prepareDrawerLists"

@@ -4,6 +4,8 @@
  *
  */
 
+'use client'
+
 /**
  * Library Index drawer to autogenerate all the components and extensions
  * Used by "prepareDrawers"

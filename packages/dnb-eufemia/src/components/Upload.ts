@@ -4,6 +4,8 @@
  *
  */
 
+'use client'
+
 /**
  * Library Index upload to autogenerate all the components and extensions
  * Used by "prepareUploads"

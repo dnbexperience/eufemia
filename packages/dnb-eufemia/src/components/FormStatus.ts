@@ -4,6 +4,8 @@
  *
  */
 
+'use client'
+
 /**
  * Library Index form-status to autogenerate all the components and extensions
  * Used by "prepareFormStatuss"

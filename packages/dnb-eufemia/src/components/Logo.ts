@@ -4,6 +4,8 @@
  *
  */
 
+'use client'
+
 /**
  * Library Index logo to autogenerate all the components and extensions
  * Used by "prepareLogos"
