@@ -39,6 +39,7 @@ import type {
 } from '../../shared/types'
 import type { FormStatusBaseProps } from '../FormStatus'
 import type { AnchorProps } from '../Anchor'
+import type { ThemeSurface } from '../../shared/Theme'
 
 export type ButtonText = string | React.ReactNode
 export type ButtonVariant =
@@ -112,9 +113,9 @@ export type ButtonProps = {
    */
   variant?: ButtonVariant
   /**
-   * Changes component style based on background. Defaults to `undefined`.
+   * Changes component style based on background. Defaults to `"default"`.
    */
-  surface?: 'dark'
+  surface?: ThemeSurface | 'default'
   /**
    * The size of the button. For now there is `small`, `medium`, `default` and `large`.
    */
@@ -202,7 +203,7 @@ type ButtonState = {
   afterContent: React.ReactNode | null
 }
 
-const buttonDefaultProps = {
+const buttonDefaultProps: ButtonProps = {
   type: null, // defaults to 'button' to prevent accidental form submissions (except when used as Anchor)
   text: null,
   variant: null,
@@ -314,7 +315,7 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
       skeleton,
       element,
       ref: _ref,
-      surface,
+      surface = this.context?.theme?.surface ?? 'default',
       ...attributes
     } = props
 
@@ -397,8 +398,7 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
       'dnb-button',
       `dnb-button--${usedVariant || 'primary'}`,
       usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
-      (this.context?.theme?.surface === 'dark' || surface === 'dark') &&
-        `dnb-button--surface-dark`,
+      surface === 'dark' && `dnb-button--surface-dark`,
       icon && `dnb-button--icon-position-${iconPosition}`,
       stretch && 'dnb-button--stretch',
       icon && usedIconSize && `dnb-button--icon-size-${usedIconSize}`,

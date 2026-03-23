@@ -33,8 +33,8 @@ export const ButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   surface: {
-    doc: 'Changes component style based on background. Defaults to `undefined`.',
-    type: `"dark"`,
+    doc: 'Changes component style based on background. Defaults to `"default"`.',
+    type: ['"dark"', '"default"'],
     status: 'optional',
   },
   size: {
