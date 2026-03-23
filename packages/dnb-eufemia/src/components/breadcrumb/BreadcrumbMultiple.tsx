@@ -6,7 +6,7 @@ import BreadcrumbItem from './BreadcrumbItem'
 import BreadcrumbItemContext from './BreadcrumbItemContext'
 
 type BreadcrumbMultipleProps = {
-  isCollapsed: boolean
+  collapsed: boolean
   noAnimation: boolean
   data: Array<BreadcrumbItemProps>
   items:
@@ -15,14 +15,14 @@ type BreadcrumbMultipleProps = {
 }
 
 export const BreadcrumbMultiple = ({
-  isCollapsed,
+  collapsed,
   items,
   noAnimation,
   data,
 }: BreadcrumbMultipleProps) => {
   return (
     <HeightAnimation
-      open={!isCollapsed}
+      open={!collapsed}
       animate={!noAnimation}
       className="dnb-breadcrumb__multiple"
     >

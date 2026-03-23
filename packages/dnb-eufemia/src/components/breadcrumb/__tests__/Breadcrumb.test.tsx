@@ -153,7 +153,7 @@ describe('Breadcrumb', () => {
           { href: '/page1/page2', text: 'Page 2' },
         ]}
         variant="collapse"
-        isCollapsed={overrideCollapse}
+        collapsed={overrideCollapse}
         onClick={jest.fn()}
       />
     )
@@ -478,7 +478,7 @@ describe('Breadcrumb', () => {
             { href: '/page1/page2', text: 'Page 2' },
           ]}
           variant="collapse"
-          isCollapsed={false}
+          collapsed={false}
         />
       )
 
@@ -532,7 +532,7 @@ describe('Breadcrumb aria', () => {
           { href: '/page1/page2', text: 'Page 2' },
         ]}
         variant="collapse"
-        isCollapsed={false}
+        collapsed={false}
       />
     )
     expect(await axeComponent(Component)).toHaveNoViolations()
