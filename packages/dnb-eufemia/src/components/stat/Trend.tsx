@@ -169,11 +169,11 @@ function resolveTrendValue(value: number | string) {
   const normalized = String(value || '')
   const match = normalized.match(/^([+\-−])\s?(.*)$/)
 
-  if (!match) {
+  if (!match || !match[2]) {
     return {
       tone: 'neutral' as const,
       sign: null,
-      displayValue: normalized,
+      displayValue: normalized || '0',
     }
   }
 

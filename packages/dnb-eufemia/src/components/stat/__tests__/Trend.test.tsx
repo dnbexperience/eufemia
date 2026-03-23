@@ -190,4 +190,28 @@ describe('Stat.Trend', () => {
     expect(sign.textContent).toBe('+')
     expect(value.textContent).toBe('3.1%')
   })
+
+  it('renders sign-only string "-" as neutral with displayValue "0"', () => {
+    render(<Stat.Trend value="-" />)
+
+    const trend = document.querySelector('.dnb-stat__trend')
+    const sign = document.querySelector('.dnb-stat__trend-sign')
+    const value = document.querySelector('.dnb-stat__trend-value')
+
+    expect(trend.classList).toContain('dnb-stat__trend--neutral')
+    expect(sign).not.toBeInTheDocument()
+    expect(value.textContent).toBe('-')
+  })
+
+  it('renders sign-only string "+" as neutral with displayValue "0"', () => {
+    render(<Stat.Trend value="+" />)
+
+    const trend = document.querySelector('.dnb-stat__trend')
+    const sign = document.querySelector('.dnb-stat__trend-sign')
+    const value = document.querySelector('.dnb-stat__trend-value')
+
+    expect(trend.classList).toContain('dnb-stat__trend--neutral')
+    expect(sign).not.toBeInTheDocument()
+    expect(value.textContent).toBe('+')
+  })
 })
