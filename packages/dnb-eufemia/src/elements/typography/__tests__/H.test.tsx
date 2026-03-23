@@ -35,7 +35,7 @@ describe('H element', () => {
 
   it('can set h2', () => {
     render(
-      <H as="h2" size="medium">
+      <H element="h2" size="medium">
         Test heading
       </H>
     )
