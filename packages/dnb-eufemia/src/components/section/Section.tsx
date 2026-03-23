@@ -106,11 +106,6 @@ export type SectionProps = {
    * @deprecated in v11 use "innerSpace" prop instead
    */
   spacing?: SectionSpacing | ResponsiveProp<SectionSpacing>
-
-  /**
-   * @deprecated in v11 use "innerRef" prop instead
-   */
-  inner_ref?: React.RefObject<HTMLElement>
 }
 
 type SectionSpacingProps = Omit<SpacingProps, 'innerSpace'> & {
@@ -171,7 +166,6 @@ export function SectionParams(
     children,
 
     spacing,
-    inner_ref,
 
     ...attributes
   } = props
