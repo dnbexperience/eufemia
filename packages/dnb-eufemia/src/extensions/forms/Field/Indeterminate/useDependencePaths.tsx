@@ -1,11 +1,11 @@
 import { useCallback, useContext, useMemo, useRef } from 'react'
 import pointer from '../../utils/json-pointer'
 import DataContext from '../../DataContext/Context'
-import type { Props } from './Indeterminate'
+import type { FieldIndeterminateProps } from './Indeterminate'
 
 export default function useDependencePaths(
-  dependencePaths: Props['dependencePaths'],
-  propagateIndeterminateState: Props['propagateIndeterminateState']
+  dependencePaths: FieldIndeterminateProps['dependencePaths'],
+  propagateIndeterminateState: FieldIndeterminateProps['propagateIndeterminateState']
 ) {
   const { data, fieldInternalsRef, handlePathChange } =
     useContext(DataContext) || {}

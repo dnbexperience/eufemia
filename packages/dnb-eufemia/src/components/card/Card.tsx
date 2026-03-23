@@ -14,7 +14,7 @@ import type { FlexItemProps } from '../flex/Item'
 import type { SpaceTypeMedia } from '../../shared/types'
 import type { SpaceProps } from '../Space'
 
-export type Props = {
+export type CardProps = {
   /**
    * Define a title that appears on top of the Card
    */
@@ -43,7 +43,7 @@ export type Props = {
   } & SpaceProps &
   Omit<React.HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'title' | 'span'>
 
-function Card(props: Props) {
+function Card(props: CardProps) {
   const nestedContext = useContext(CardContext)
 
   const {

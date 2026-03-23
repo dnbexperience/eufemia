@@ -30,10 +30,10 @@ import useId from '../../../shared/helpers/useId'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 
 /**
- * Props are documented in ValueDocs.ts
+ * ValueBlockProps are documented in ValueDocs.ts
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type Props = Omit<ValueProps<any>, 'value'> & {
+export type ValueBlockProps = Omit<ValueProps<any>, 'value'> & {
   id?: string
 
   /** The id to link a element with */
@@ -63,7 +63,7 @@ export type Props = Omit<ValueProps<any>, 'value'> & {
   children?: React.ReactNode
 }
 
-function ValueBlock(localProps: Props) {
+function ValueBlock(localProps: ValueBlockProps) {
   const summaryListContext = useContext(SummaryListContext)
   const valueBlockContext = useContext(ValueBlockContext)
   const { prerenderFieldProps } = useContext(DataContext) || {}
@@ -83,7 +83,7 @@ function ValueBlock(localProps: Props) {
     path,
     itemPath,
     labelSrOnly,
-    transformLabel = (label: Props['label']) => label,
+    transformLabel = (label: ValueBlockProps['label']) => label,
     inline,
     maxWidth = props.composition ? props.maxWidth : 'large',
     placeholder,
@@ -336,7 +336,7 @@ export default ValueBlock
 
 const transformLabelParameters = {
   convertJsxToString,
-} as unknown as Parameters<Props['transformLabel']>[1]
+} as unknown as Parameters<ValueBlockProps['transformLabel']>[1]
 
 function VisibilityWrapper({ children }) {
   const visibilityContext = useContext(VisibilityContext)

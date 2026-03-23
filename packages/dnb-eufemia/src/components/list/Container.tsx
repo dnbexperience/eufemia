@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 import clsx from 'clsx'
-import { ListVariant, ListContext } from './ListContext'
-import FlexContainer, { Props as FlexProps } from '../flex/Stack'
+import type { ListVariant } from './ListContext'
+import { ListContext } from './ListContext'
+import type { StackProps as FlexProps } from '../flex/Stack'
+import FlexContainer from '../flex/Stack'
 import type { SkeletonShow } from '../Skeleton'
 import SharedContext from '../../shared/Context'
-import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ListContainerProps = {
   id?: string

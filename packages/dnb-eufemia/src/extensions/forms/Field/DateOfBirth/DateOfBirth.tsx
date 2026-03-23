@@ -7,7 +7,7 @@ import React, {
   useRef,
 } from 'react'
 import StringField from '../String'
-import type { Props as CompositionFieldProps } from '../Composition'
+import type { FieldCompositionProps as CompositionFieldProps } from '../Composition'
 import CompositionField from '../Composition'
 import SelectionField from '../Selection'
 import SharedContext from '../../../../shared/Context'
@@ -43,7 +43,7 @@ export type DateOfBirthValidator = ValidatorWithCustomValidators<
   }
 >
 
-export type Props = Omit<
+export type FieldDateOfBirthProps = Omit<
   FieldPropsWithExtraValue<string, AdditionalArgs, undefined | string>,
   'layout' | 'layoutOptions'
 > & {
@@ -57,7 +57,7 @@ export type Props = Omit<
 
 export const DEFAULT_DATE_FORMAT = 'yyyy-MM-dd'
 
-function DateOfBirth(props: Props) {
+function DateOfBirth(props: FieldDateOfBirthProps) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const {
     errorDateOfBirth,
@@ -75,9 +75,11 @@ function DateOfBirth(props: Props) {
 
   const { dateFormat = DEFAULT_DATE_FORMAT, labelSuffix, required } = props
 
-  const dayRef = useRef<Props['value']>(props?.emptyValue)
-  const monthRef = useRef<Props['value']>(props?.emptyValue)
-  const yearRef = useRef<Props['value']>(props?.emptyValue)
+  const dayRef = useRef<FieldDateOfBirthProps['value']>(props?.emptyValue)
+  const monthRef = useRef<FieldDateOfBirthProps['value']>(
+    props?.emptyValue
+  )
+  const yearRef = useRef<FieldDateOfBirthProps['value']>(props?.emptyValue)
 
   const errorMessages = useMemo(() => {
     return {
@@ -147,7 +149,7 @@ function DateOfBirth(props: Props) {
     return dateOfBirthValidator
   }, [propOnBlurValidator, dateOfBirthValidator])
 
-  const preparedProps: Props = useMemo(
+  const preparedProps: FieldDateOfBirthProps = useMemo(
     () => ({
       ...otherProps,
       value: propValue,

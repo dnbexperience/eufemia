@@ -9,7 +9,7 @@ import type { ValueProps } from '../../types'
 import { useVerifyChildren } from './useVerifyChildren'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = Omit<
+export type ValueSummaryListProps = Omit<
   DlAllProps,
   'label' | 'labelSrOnly' | 'children'
 > & {
@@ -19,7 +19,7 @@ export type Props = Omit<
   inheritLabel?: ValueProps['inheritLabel']
 }
 
-function SummaryList(props: Props) {
+function SummaryList(props: ValueSummaryListProps) {
   const {
     className,
     children,

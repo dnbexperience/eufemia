@@ -1,19 +1,19 @@
 import React from 'react'
-import type { Props as DateValueProps } from '../Date/Date'
+import type { ValueDateProps as DateValueProps } from '../Date/Date'
 import DateComponent from '../Date/Date'
 import useTranslation from '../../hooks/useTranslation'
 import { DEFAULT_DATE_FORMAT } from '../../Field/DateOfBirth/DateOfBirth'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = DateValueProps & {
+export type ValueDateOfBirthProps = DateValueProps & {
   dateFormat?: string
 }
 
-function DateOfBirth(props: Props) {
+function DateOfBirth(props: ValueDateOfBirthProps) {
   const translations = useTranslation().DateOfBirth
   const { dateFormat = DEFAULT_DATE_FORMAT, ...otherProps } = props
 
-  const dateValueProps: Props = {
+  const dateValueProps: ValueDateOfBirthProps = {
     ...otherProps,
     label: props.label ?? translations.label,
     dateFormat,

@@ -7,7 +7,7 @@ import {
   Radio,
 } from '../../../../components'
 import ButtonRow from '../../Form/ButtonRow'
-import type { Props as FieldBlockProps } from '../../FieldBlock'
+import type { FieldBlockProps } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import type { FieldProps } from '../../types'
@@ -51,13 +51,16 @@ export type ToggleProps = {
   ) => void
 }
 
-export type Props = Omit<FieldProps<unknown>, 'layout' | 'layoutOptions'> &
+export type FieldToggleProps = Omit<
+  FieldProps<unknown>,
+  'layout' | 'layoutOptions'
+> &
   ToggleProps
 
-function Toggle(props: Props) {
+function Toggle(props: FieldToggleProps) {
   const translations = useTranslation().ToggleField
 
-  const preparedProps: Props = {
+  const preparedProps: FieldToggleProps = {
     ...props,
     errorMessages: props.errorMessages,
   }

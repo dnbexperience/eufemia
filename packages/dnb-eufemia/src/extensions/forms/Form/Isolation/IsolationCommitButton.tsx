@@ -7,9 +7,9 @@ import Button from '../../../../components/button/Button'
 import { check } from '../../../../icons'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ButtonProps
+export type IsolationCommitButtonProps = ButtonProps
 
-function IsolationCommitButton(props: Props) {
+function IsolationCommitButton(props: IsolationCommitButtonProps) {
   const translations = useTranslation().Isolation
 
   const { className, children, text, ...rest } = props

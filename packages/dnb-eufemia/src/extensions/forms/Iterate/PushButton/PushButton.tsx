@@ -17,7 +17,7 @@ import { usePath } from '../../hooks'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ButtonProps & {
+export type IteratePushButtonProps = ButtonProps & {
   path?: Path
   itemPath?: Path
   pushValue: unknown | ((value: unknown) => void)
@@ -28,7 +28,7 @@ export type Props = ButtonProps & {
   value?: unknown
 }
 
-function PushButton(props: Props) {
+function PushButton(props: IteratePushButtonProps) {
   const { handlePathChange } = useContext(DataContext) || {}
   const iterateItemContext = useContext(IterateItemContext)
   const { handlePush } = iterateItemContext ?? {}

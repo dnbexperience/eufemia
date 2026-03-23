@@ -8,11 +8,11 @@ import WizardContext from '../Context'
 import DataContext from '../../DataContext/Context'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ComponentProps & {
+export type WizardButtonsProps = ComponentProps & {
   children?: string
 }
 
-function Buttons(props: Props) {
+function Buttons(props: WizardButtonsProps) {
   const { className } = props
   const { activeIndex, totalStepsRef } = useContext(WizardContext) || {}
 

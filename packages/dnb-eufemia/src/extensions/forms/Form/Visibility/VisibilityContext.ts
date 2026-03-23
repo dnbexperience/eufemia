@@ -1,11 +1,11 @@
 import { createContext } from 'react'
-import type { Props } from './Visibility'
+import type { FormVisibilityProps } from './Visibility'
 
 type VisibilityContext = {
   isVisible: boolean
   keepInDOM: boolean
   inheritVisibility?: boolean
-  props?: Props
+  props?: FormVisibilityProps
 }
 
 const VisibilityContext = createContext<VisibilityContext>(null)

@@ -23,7 +23,7 @@ import MainHeading from '../MainHeading'
 import SubmitButton from '../SubmitButton'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = {
+export type FormInfoOverlayProps = {
   /**
    * The content to show.
    * If not given, the children will be shown.
@@ -54,7 +54,7 @@ export type Props = {
   className?: string
 }
 
-function InfoOverlay(props: Props) {
+function InfoOverlay(props: FormInfoOverlayProps) {
   const { id: idProp, formState } = useContext(DataContext)
 
   const {

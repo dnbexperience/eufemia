@@ -82,7 +82,7 @@ export type SharedAttachments<Data = unknown> = {
   internalDataRef?: ContextState['internalDataRef']
 }
 
-export type Props<Data extends JsonObject> =
+export type DataContextProviderProps<Data extends JsonObject> =
   IsolationProviderProps<Data> & {
     /**
      * Unique ID to communicate with the hook Form.useData
@@ -208,7 +208,7 @@ export type Props<Data extends JsonObject> =
 const isArrayJsonPointer = /^\/\d+(\/|$)/
 
 export default function Provider<Data extends JsonObject>(
-  props: Props<Data>
+  props: DataContextProviderProps<Data>
 ) {
   const [, forceUpdate] = useReducer(() => ({}), {})
 
@@ -1739,10 +1739,12 @@ export default function Provider<Data extends JsonObject>(
     updateDataValue,
     setData,
     clearData,
-    visibleDataHandler,
-    filterDataHandler,
+    visibleDataHandler:
+      visibleDataHandler as ContextState['visibleDataHandler'],
+    filterDataHandler:
+      filterDataHandler as ContextState['filterDataHandler'],
     getSubmitData,
-    getSubmitParams,
+    getSubmitParams: getSubmitParams as ContextState['getSubmitParams'],
     addOnChangeHandler,
     scrollToTop,
     registerSectionSchema,
@@ -1782,7 +1784,7 @@ export default function Provider<Data extends JsonObject>(
     id,
     data: internalDataRef.current,
     internalDataRef,
-    props,
+    props: props as ContextState['props'],
     ...rest,
   }
 
@@ -1828,8 +1830,8 @@ export default function Provider<Data extends JsonObject>(
 }
 
 type FormStatusBufferProps = {
-  minimumAsyncBehaviorTime?: Props<JsonObject>['minimumAsyncBehaviorTime']
-  asyncSubmitTimeout?: Props<JsonObject>['asyncSubmitTimeout']
+  minimumAsyncBehaviorTime?: DataContextProviderProps<JsonObject>['minimumAsyncBehaviorTime']
+  asyncSubmitTimeout?: DataContextProviderProps<JsonObject>['asyncSubmitTimeout']
   formState: ContextState['formState']
   waitFor: boolean
   onTimeout: () => void

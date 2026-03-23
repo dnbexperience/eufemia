@@ -1,7 +1,7 @@
 import type React from 'react'
 import type { FieldProps } from '../../types'
 
-export type Props = FieldProps<number | string> & {
+export type FieldOptionProps = FieldProps<number | string> & {
   /** Title for the option. Overrides `children`. */
   title?: React.ReactNode
   /** Secondary text. */
@@ -13,6 +13,6 @@ export type Props = FieldProps<number | string> & {
   style?: React.CSSProperties
 }
 
-export default function Option(_props: Props) {
+export default function Option(_props: FieldOptionProps) {
   return null
 }

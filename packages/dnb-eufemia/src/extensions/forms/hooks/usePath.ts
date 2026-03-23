@@ -4,14 +4,14 @@ import useId from '../../../shared/helpers/useId'
 import SectionContext from '../Form/Section/SectionContext'
 import IterateItemContext from '../Iterate/IterateItemContext'
 
-export type Props = {
+export type UsePathProps = {
   id?: string
   path?: Path
   itemPath?: Path
   omitSectionPath?: boolean
 }
 
-export default function usePath(props: Props = {}) {
+export default function usePath(props: UsePathProps = {}) {
   const { path: pathProp, itemPath: itemPathProp, omitSectionPath } = props
   const id = useId(props.id)
   const { path: sectionPath } = useContext(SectionContext) ?? {}

@@ -6,9 +6,9 @@ import { Button } from '../../../../../components'
 import { edit } from '../../../../../icons'
 import type { ButtonProps } from '../../../../../components/button/Button'
 
-export type Props = ButtonProps
+export type FormSectionEditButtonProps = ButtonProps
 
-export default function EditButton(props: Props) {
+export default function EditButton(props: FormSectionEditButtonProps) {
   const sectionContainerContext = useContext(SectionContainerContext)
   const { onEdit } = useContext(ToolbarContext) || {}
   const { switchContainerMode, disableEditing } =

@@ -10,7 +10,7 @@ import FieldProvider from '../../Field/Provider'
 import type { VisibleWhen } from '../../Form/Visibility'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ComponentProps &
+export type WizardStepProps = ComponentProps &
   FlexContainerProps & {
     /**
      * An unique title of the step.
@@ -55,7 +55,7 @@ export type Props = ComponentProps &
     prerenderFieldProps?: boolean
   }
 
-function Step(props: Props): React.JSX.Element {
+function Step(props: WizardStepProps): React.JSX.Element {
   const {
     id,
     className,

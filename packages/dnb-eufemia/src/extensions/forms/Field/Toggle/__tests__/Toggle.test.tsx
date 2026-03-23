@@ -2,13 +2,16 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import DataContext from '../../../DataContext/Context'
-import type { Props } from '../Toggle'
+import type { FieldToggleProps } from '../Toggle'
 import { Field, FieldBlock, Form, Iterate } from '../../..'
 import userEvent from '@testing-library/user-event'
 
 describe('Field.Toggle', () => {
   it('should render with props', () => {
-    const props: Props = { valueOn: 'checked', valueOff: 'unchecked' }
+    const props: FieldToggleProps = {
+      valueOn: 'checked',
+      valueOff: 'unchecked',
+    }
     render(<Field.Toggle {...props} />)
     expect(document.querySelector('input')).toBeInTheDocument()
   })
