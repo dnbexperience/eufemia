@@ -8,7 +8,7 @@ export const InfoProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'Info color style variant.',
+    doc: 'Info color style variant. `"default"` is deprecated — use `"plain"` instead.',
     type: ['"plain"', '"subtle"', '"prominent"'],
     defaultValue: 'subtle',
     status: 'optional',
