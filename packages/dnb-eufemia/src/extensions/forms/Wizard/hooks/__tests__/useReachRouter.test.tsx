@@ -54,7 +54,7 @@ describe('useReachRouter', () => {
     }
   }
 
-  const visitStep = (index) => {
+  const visitStep = (index: unknown) => {
     const url = new URL(window.location.href)
     url.searchParams.set(`${identifier}-step`, String(index))
     window.history.pushState({}, '', url.toString())
@@ -208,9 +208,10 @@ describe('useReachRouter', () => {
     mockUrl()
 
     const navigate = jest.fn()
-    const useLocation = jest.fn(() => {
+    const useLocation = jest.fn((): { href: string; search: string } => {
       return {
         href: 'invalid-url',
+        search: '',
       }
     })
 

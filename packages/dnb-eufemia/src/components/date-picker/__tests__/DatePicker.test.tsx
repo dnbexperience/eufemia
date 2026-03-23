@@ -760,9 +760,9 @@ describe('DatePicker component', () => {
 
   it('will render the result of "onDaysRender"', () => {
     const customClassName = 'dnb-date-picker__day--weekend'
-    const onDaysRender = jest.fn((days) => {
-      return days.map((dateObject) => {
-        if (isWeekend(dateObject.date)) {
+    const onDaysRender = jest.fn((days: Record<string, unknown>[]) => {
+      return days.map((dateObject: Record<string, unknown>) => {
+        if (isWeekend(dateObject.date as Date)) {
           dateObject.isInactive = true
           dateObject.className = customClassName
         }
@@ -805,9 +805,9 @@ describe('DatePicker component', () => {
   it('will render the result of "onDaysRender" using getOsloDate', () => {
     const osloDate = getOsloDate()
 
-    const onDaysRender = jest.fn((days) => {
-      return days.map((dayObject) => {
-        dayObject.isToday = isSameDay(dayObject.date, osloDate)
+    const onDaysRender = jest.fn((days: Record<string, unknown>[]) => {
+      return days.map((dayObject: Record<string, unknown>) => {
+        dayObject.isToday = isSameDay(dayObject.date as Date, osloDate)
         return dayObject
       })
     })
@@ -2129,7 +2129,7 @@ describe('DatePicker component', () => {
   })
 
   it('resets date correctly between interactions', async () => {
-    let outerState
+    let outerState: string | undefined
     const onChange = jest.fn(({ date }) => (outerState = date))
     const { rerender } = render(
       <DatePicker onChange={onChange} showInput date="2019-02-01" />
@@ -4264,7 +4264,7 @@ describe('DatePicker calc', () => {
 
     const startDate = new Date('2020-02-01')
     const endDate = new Date('2020-03-31')
-    const hoverDate = null
+    const hoverDate: Date | null = null
     const minDate = date
     const maxDate = new Date('2020-04-20')
     const month = date
@@ -4509,7 +4509,7 @@ describe('Custom text for buttons', () => {
         document.querySelectorAll('input.dnb-input__input')
       )
 
-      let date = null
+      let date: string | null = null
 
       const getData = jest.fn(() => date)
       const clipboardData = { getData }

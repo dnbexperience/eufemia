@@ -53,7 +53,7 @@ export function BooleanReset() {
           showEmpty
         />
         <Button
-          onClick={() => update('/questions/isThisTrue', () => undefined)}
+          onClick={() => update('/questions/isThisTrue', (): undefined => undefined)}
         >
           Reset
         </Button>

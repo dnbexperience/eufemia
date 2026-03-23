@@ -580,8 +580,10 @@ describe('A single Tab component', () => {
   })
 
   it('has to work when conditional rendering "Tabs.Content" as children components', () => {
-    const whenUndefined = undefined
-    const whenNull = null
+    // eslint-disable-next-line @typescript-eslint/no-inferrable-types
+    const whenUndefined: undefined = undefined
+    // eslint-disable-next-line @typescript-eslint/no-inferrable-types
+    const whenNull: null = null
     const showFirst = false
 
     render(

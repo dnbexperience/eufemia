@@ -89,8 +89,8 @@ describe('HeightAnimationInstance', () => {
 
       mockHeight(100, element)
 
-      const addedNodes = []
-      const removedNodes = []
+      const addedNodes: NodeList[] = []
+      const removedNodes: NodeList[] = []
 
       const observer = new MutationObserver((mutationsList) => {
         for (const mutation of mutationsList) {
@@ -133,8 +133,8 @@ describe('HeightAnimationInstance', () => {
 
       mockHeight(100, element)
 
-      const addedNodes = []
-      const removedNodes = []
+      const addedNodes: NodeList[] = []
+      const removedNodes: NodeList[] = []
 
       const observer = new MutationObserver((mutationsList) => {
         for (const mutation of mutationsList) {
@@ -197,8 +197,8 @@ describe('HeightAnimationInstance', () => {
       element.setAttribute('data-width', String(200))
       jest.spyOn(element, 'clientWidth', 'get').mockReturnValueOnce(100)
 
-      const addedNodes = []
-      const removedNodes = []
+      const addedNodes: NodeList[] = []
+      const removedNodes: NodeList[] = []
 
       const observer = new MutationObserver((mutationsList) => {
         for (const mutation of mutationsList) {
@@ -225,7 +225,7 @@ describe('HeightAnimationInstance', () => {
 
       expect(addedNodes).toHaveLength(1)
       expect(addedNodes[0]).toHaveLength(1)
-      expect(addedNodes[0][0].style.width).toBe('100px')
+      expect((addedNodes[0][0] as HTMLElement).style.width).toBe('100px')
       expect(element).not.toHaveAttribute('style')
     })
 
@@ -235,7 +235,7 @@ describe('HeightAnimationInstance', () => {
 
       mockHeight(100, element)
 
-      const styles = []
+      const styles: Node[] = []
 
       const observer = new MutationObserver((mutationsList) => {
         for (const mutation of mutationsList) {
@@ -258,7 +258,7 @@ describe('HeightAnimationInstance', () => {
       observer.disconnect()
 
       expect(styles).toHaveLength(1)
-      expect(styles[0].getAttribute('style')).toBe(
+      expect((styles[0] as HTMLElement).getAttribute('style')).toBe(
         'visibility: hidden; opacity: 0; height: auto; position: absolute;'
       )
     })
@@ -424,7 +424,7 @@ describe('HeightAnimationInstance', () => {
 
   describe('open', () => {
     beforeEach(() => {
-      globalThis.bypassTime = 1
+      ;(globalThis as Record<string, unknown>).bypassTime = 1
     })
 
     it('should call getUnknownHeight', () => {
@@ -563,7 +563,7 @@ describe('HeightAnimationInstance', () => {
 
   describe('close', () => {
     beforeEach(() => {
-      globalThis.bypassTime = 1
+      ;(globalThis as Record<string, unknown>).bypassTime = 1
     })
 
     it('should call setAsClosed when criteria are met', () => {
@@ -818,7 +818,7 @@ describe('HeightAnimationInstance', () => {
 
   describe('canFinish', () => {
     beforeEach(() => {
-      globalThis.animationDuration = undefined
+      ;(globalThis as Record<string, unknown>).animationDuration = undefined
     })
 
     it('should return true if enough time has passed', () => {
@@ -860,18 +860,18 @@ describe('HeightAnimationInstance', () => {
 
       expect(inst.shouldBypassAnimation()).toBe(false)
 
-      globalThis.IS_TEST = true
+      ;(globalThis as Record<string, unknown>).IS_TEST = true
 
       expect(inst.shouldBypassAnimation()).toBe(false)
 
-      globalThis.IS_TEST = false
-      globalThis.bypassTime = -1
+      ;(globalThis as Record<string, unknown>).IS_TEST = false
+      ;(globalThis as Record<string, unknown>).bypassTime = -1
 
       expect(inst.shouldBypassAnimation()).toBe(false)
     })
 
     it('should return true when firstTime is not set or bypassTime has not elapsed', () => {
-      globalThis.bypassTime = 10
+      ;(globalThis as Record<string, unknown>).bypassTime = 10
 
       const inst = new HeightAnimationInstance()
       inst.setElement(element)
@@ -882,7 +882,7 @@ describe('HeightAnimationInstance', () => {
 
       expect(inst.shouldBypassAnimation()).toBe(true)
 
-      globalThis.bypassTime = 0
+      ;(globalThis as Record<string, unknown>).bypassTime = 0
 
       inst.callAnimationStart() // to set firstTime" with a timestamp
 

@@ -9,9 +9,9 @@ const nb = nbNO['nb-NO']
 
 describe('EditContainer and ViewContainer', () => {
   it('should switch mode on pressing edit button', async () => {
-    let containerMode = null
+    let containerMode: string | null = null
 
-    const ContextConsumer = () => {
+    const ContextConsumer = (): null => {
       const context = React.useContext(SectionContainerContext)
       containerMode = context.containerMode
 
@@ -59,9 +59,9 @@ describe('EditContainer and ViewContainer', () => {
   })
 
   it('should switch mode from view to edit on error during submit', async () => {
-    let containerMode = null
+    let containerMode: string | null = null
 
-    const ContextConsumer = () => {
+    const ContextConsumer = (): null => {
       const context = React.useContext(SectionContainerContext)
       containerMode = context.containerMode
 
@@ -104,9 +104,9 @@ describe('EditContainer and ViewContainer', () => {
   })
 
   it('should open in view mode when there are no errors', async () => {
-    let containerMode = null
+    let containerMode: string | null = null
 
-    const ContextConsumer = () => {
+    const ContextConsumer = (): null => {
       const context = React.useContext(SectionContainerContext)
       containerMode = context.containerMode
 
@@ -130,9 +130,9 @@ describe('EditContainer and ViewContainer', () => {
 
   describe('Cancel routine', () => {
     it('should keep edit open and show section error on Cancel after submit error', async () => {
-      let containerMode = null
+      let containerMode: string | null = null
 
-      const ContextConsumer = () => {
+      const ContextConsumer = (): null => {
         const context = React.useContext(SectionContainerContext)
         containerMode = context.containerMode
         return null
@@ -267,9 +267,9 @@ describe('EditContainer and ViewContainer', () => {
     })
 
     it('should keep edit after cancel then form submit when invalid', async () => {
-      let containerMode = null
+      let containerMode: string | null = null
 
-      const ContextConsumer = () => {
+      const ContextConsumer = (): null => {
         const context = React.useContext(SectionContainerContext)
         containerMode = context.containerMode
         return null
@@ -343,9 +343,9 @@ describe('EditContainer and ViewContainer', () => {
     })
 
     it('should keep edit (when view rendered first) after cancel then submit when invalid', async () => {
-      let containerMode = null
+      let containerMode: string | null = null
 
-      const ContextConsumer = () => {
+      const ContextConsumer = (): null => {
         const context = React.useContext(SectionContainerContext)
         containerMode = context.containerMode
         return null
@@ -414,9 +414,9 @@ describe('EditContainer and ViewContainer', () => {
     })
 
     it('should reset entered data on Cancel press, when containerMode is set to "edit"', async () => {
-      let containerMode = null
+      let containerMode: string | null = null
 
-      const ContextConsumer = () => {
+      const ContextConsumer = (): null => {
         const context = React.useContext(SectionContainerContext)
         containerMode = context.containerMode
 
@@ -469,9 +469,9 @@ describe('EditContainer and ViewContainer', () => {
 
   describe('validateInitially', () => {
     it('fields open in edit mode and show errors when there are errors', async () => {
-      let containerMode = null
+      let containerMode: string | null = null
 
-      const ContextConsumer = () => {
+      const ContextConsumer = (): null => {
         const context = React.useContext(SectionContainerContext)
         containerMode = context.containerMode
 
@@ -570,9 +570,9 @@ describe('EditContainer and ViewContainer', () => {
     })
 
     it('the cancel button should keep edit mode when invalid', async () => {
-      let containerMode = null
+      let containerMode: string | null = null
 
-      const ContextConsumer = () => {
+      const ContextConsumer = (): null => {
         const context = React.useContext(SectionContainerContext)
         containerMode = context.containerMode
 
@@ -616,9 +616,9 @@ describe('EditContainer and ViewContainer', () => {
 
   describe('focus management', () => {
     it('should set focus on __element when containerMode changes', async () => {
-      let containerMode = null
+      let containerMode: string | null = null
 
-      const ContextConsumer = () => {
+      const ContextConsumer = (): null => {
         const context = React.useContext(SectionContainerContext)
         containerMode = context.containerMode
 
@@ -723,9 +723,9 @@ describe('EditContainer and ViewContainer', () => {
     })
 
     it('should set focus after the section is opened', async () => {
-      let containerMode = null
+      let containerMode: string | null = null
 
-      const ContextConsumer = () => {
+      const ContextConsumer = (): null => {
         const context = React.useContext(SectionContainerContext)
         containerMode = context.containerMode
 
@@ -840,9 +840,9 @@ describe('EditContainer and ViewContainer', () => {
   })
 
   it('should reset entered data on Cancel press when path is set', async () => {
-    let containerMode = null
+    let containerMode: string | null = null
 
-    const ContextConsumer = () => {
+    const ContextConsumer = (): null => {
       const context = React.useContext(SectionContainerContext)
       containerMode = context.containerMode
 

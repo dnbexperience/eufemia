@@ -1,5 +1,6 @@
 import { sync } from 'globby'
 import fs from 'fs-extra'
+// @ts-expect-error no types for lebab
 import { transform } from 'lebab'
 import { transformFilesToESM } from '../transformToESM'
 

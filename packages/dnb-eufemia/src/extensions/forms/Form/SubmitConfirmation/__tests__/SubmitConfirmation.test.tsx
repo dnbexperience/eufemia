@@ -65,7 +65,7 @@ describe('Form.SubmitConfirmation', () => {
     })
 
     it('should keep pending state when confirmationState is "readyToBeSubmitted" and onSubmit is async', async () => {
-      const onSubmit = jest.fn(async () => null)
+      const onSubmit = jest.fn(async (): Promise<null> => null)
       const confirmationStateRef: React.RefObject<
         ConfirmParams['confirmationState']
       > = React.createRef()

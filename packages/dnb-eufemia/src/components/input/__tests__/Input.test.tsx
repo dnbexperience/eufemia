@@ -170,7 +170,7 @@ describe('Input component', () => {
   it('events gets emitted correctly: "onChange" and "onKeyDown"', () => {
     const initValue = 'init value'
     const newValue = 'new value'
-    const emptyValue = null // gets emitted also on values as null
+    const emptyValue = null as string | null // gets emitted also on values as null
 
     const onChange = jest.fn()
     const onKeyDown = jest.fn() // additional native event test
@@ -214,7 +214,7 @@ describe('Input component', () => {
     )
 
     const initValue = 'new prop value'
-    const emptyValue = null
+    const emptyValue = null as string | null
 
     rerender(
       <Input {...props} value={initValue}>
@@ -287,7 +287,7 @@ describe('Input component', () => {
     const { rerender } = render(<Input placeholder="Placeholder" />)
 
     const newValue = 'new value'
-    const emptyValue = null
+    const emptyValue = null as string | null
     const zeroValue = 0
 
     rerender(<Input placeholder="Placeholder" value={newValue} />)
@@ -342,7 +342,7 @@ describe('Input component', () => {
   })
 
   it('placeholder prop should accept React Element', () => {
-    const Placeholder = ({ children }) => <span>{children}</span>
+    const Placeholder = ({ children }: { children: React.ReactNode }) => <span>{children}</span>
 
     const { rerender } = render(
       <Input placeholder={<Placeholder>Placeholder</Placeholder>} />

@@ -20,7 +20,7 @@ describe('FieldBoundaryProvider', () => {
     const contextRef: React.RefObject<FieldBoundaryContextState> =
       React.createRef()
 
-    const ContextConsumer = () => {
+    const ContextConsumer = (): null => {
       contextRef.current = useContext(FieldBoundaryContext)
       return null
     }
@@ -129,7 +129,7 @@ describe('FieldBoundaryProvider', () => {
     const contextRef: React.RefObject<FieldBoundaryContextState> =
       React.createRef()
 
-    const ContextConsumer = () => {
+    const ContextConsumer = (): null => {
       contextRef.current = useContext(FieldBoundaryContext)
       return null
     }
@@ -150,7 +150,7 @@ describe('FieldBoundaryProvider', () => {
     const contextRef: React.RefObject<FieldBoundaryContextState> =
       React.createRef()
 
-    const ContextConsumer = () => {
+    const ContextConsumer = (): null => {
       contextRef.current = useContext(FieldBoundaryContext)
       return null
     }
@@ -203,7 +203,7 @@ describe('FieldBoundaryProvider', () => {
     const contextRef: React.RefObject<FieldBoundaryContextState> =
       React.createRef()
 
-    const Contexts = ({ children }) => {
+    const Contexts = ({ children }: { children: React.ReactNode }) => {
       contextRef.current = useContext(FieldBoundaryContext)
       return <>{children}</>
     }
@@ -239,7 +239,7 @@ describe('FieldBoundaryProvider', () => {
   })
 
   it('should set number for showBoundaryErrors as a truthy value', async () => {
-    const showBoundaryErrors = {
+    const showBoundaryErrors: Record<string, unknown> = {
       view: null,
       edit: null,
     }

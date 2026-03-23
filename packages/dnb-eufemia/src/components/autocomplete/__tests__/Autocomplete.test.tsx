@@ -6,7 +6,7 @@
 import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import * as helpers from '../../../shared/helpers'
-import type { AutocompleteAllProps } from '../Autocomplete'
+import type { AutocompleteAllProps, AutocompleteOnTypeParams } from '../Autocomplete'
 import Autocomplete from '../Autocomplete'
 import { SubmitButton } from '../../input/Input'
 import { format } from '../../number-format/NumberUtils'
@@ -427,7 +427,7 @@ describe('Autocomplete component', () => {
   })
 
   describe('id', () => {
-    const testAllIds = (id) => {
+    const testAllIds = (id: string) => {
       // DrawerList specifics
       expect(
         document.querySelector('.dnb-drawer-list').getAttribute('id')
@@ -1084,7 +1084,7 @@ describe('Autocomplete component', () => {
       format(22233344425, { ban: true }),
       format(1234.5, { currency: true }),
       format('+47116000', { phone: true }),
-    ] as DrawerListData
+    ] as DrawerListDataArray
 
     render(
       <Autocomplete
@@ -1148,7 +1148,7 @@ describe('Autocomplete component', () => {
       '2111 11 34567',
       '2222 22 42567',
       '2333 33 44425',
-    ] as DrawerListData
+    ] as DrawerListDataArray
 
     render(
       <Autocomplete
@@ -1186,7 +1186,7 @@ describe('Autocomplete component', () => {
       '2111 11 34567',
       '2222 22 42567',
       '2333 33 44425',
-    ] as DrawerListData
+    ] as DrawerListDataArray
 
     render(
       <Autocomplete
@@ -1661,7 +1661,7 @@ describe('Autocomplete component', () => {
       { selectedKey: 'c', content: ['CC', 'cc'] },
     ]
 
-    const onTypeHandler = ({ value, updateData }) => {
+    const onTypeHandler = ({ value, updateData }: AutocompleteOnTypeParams) => {
       if (value === 'c') {
         updateData(newMockData)
       }
@@ -1841,7 +1841,7 @@ describe('Autocomplete component', () => {
   })
 
   it('should allow showing "no-options" via showNoOptionsItem in async mode', async () => {
-    const onTypeHandler = ({ value, updateData, showNoOptionsItem }) => {
+    const onTypeHandler = ({ value, updateData, showNoOptionsItem }: AutocompleteOnTypeParams) => {
       if (value === 'x') {
         updateData([])
         showNoOptionsItem()
@@ -1885,7 +1885,7 @@ describe('Autocomplete component', () => {
     const mockDataA = [{ selectedKey: 'a', content: 'A' }]
     const mockDataB = [{ selectedKey: 'b', content: 'B' }]
 
-    const onTypeHandler = ({ value, updateData }) => {
+    const onTypeHandler = ({ value, updateData }: AutocompleteOnTypeParams) => {
       if (value === 'a') {
         updateData(mockDataA)
       } else if (value === 'b') {
@@ -2911,7 +2911,7 @@ describe('Autocomplete component', () => {
       { selectedValue: 'c value', content: '22 cc' },
     ]
 
-    const onTypeHandler = ({ updateData }) => {
+    const onTypeHandler = ({ updateData }: AutocompleteOnTypeParams) => {
       updateData(mockData)
     }
 
@@ -2957,14 +2957,14 @@ describe('Autocomplete component', () => {
     const WithState = () => {
       const [data, setData] = React.useState(mockDataA)
 
-      const onTypeHandler = ({ debounce, ...args }) => {
+      const onTypeHandler = ({ debounce, ...args }: AutocompleteOnTypeParams) => {
         debounce(() => {
           args.showIndicator()
           setTimeout(() => {
             args.hideIndicator()
             setData(mockDataB)
           }, 1)
-        }, 1)
+        }, undefined, 1)
       }
 
       return (
@@ -3029,7 +3029,7 @@ describe('Autocomplete component', () => {
     expect(
       (document.querySelector('.dnb-input__input') as HTMLInputElement)
         .value
-    ).toBe(mockData[props.value])
+    ).toBe((mockData as unknown[])[props.value as number])
   })
 
   it('has correct selected value after new selection', () => {
@@ -3042,7 +3042,7 @@ describe('Autocomplete component', () => {
     expect(
       (document.querySelector('.dnb-input__input') as HTMLInputElement)
         .value
-    ).toBe(mockData[props.value])
+    ).toBe((mockData as unknown[])[props.value as number])
   })
 
   it('has a default title if no value is given', () => {
@@ -4446,13 +4446,13 @@ describe('Autocomplete scss', () => {
   })
 })
 
-const keyDownOnInput = (key) => {
+const keyDownOnInput = (key: string) => {
   fireEvent.keyDown(document.querySelector('.dnb-input__input'), {
     key,
   })
 }
 
-const dispatchKeyDown = (key) => {
+const dispatchKeyDown = (key: string) => {
   document.dispatchEvent(
     new KeyboardEvent('keydown', {
       key,

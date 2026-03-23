@@ -23,7 +23,7 @@ export function RenderDuringSSR() {
     },
     {
       title: 'Bestill eller erstatt ' + count,
-      onClick: ({ currentStep }) =>
+      onClick: ({ currentStep }: { currentStep: number }) =>
         console.log('currentStep:', currentStep),
       status:
         'Du må velge bestill nytt kort eller erstatt kort for å kunne fullføre bestillingen din.',

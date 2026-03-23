@@ -58,7 +58,7 @@ describe('pickSpacingProps', () => {
 
 describe('getSpaceVariant', () => {
   it('should ignore', () => {
-    const MockComponent = (props) => <div {...props} />
+    const MockComponent = (props: Record<string, unknown>) => <div {...props} />
     MockComponent._supportsSpacingProps = undefined
 
     expect(getSpaceVariant(<MockComponent />)).toBeFalsy()
@@ -66,7 +66,7 @@ describe('getSpaceVariant', () => {
   })
 
   it('should return true', () => {
-    const MockComponent = (props) => <div {...props} />
+    const MockComponent = (props: Record<string, unknown>) => <div {...props} />
     MockComponent._supportsSpacingProps = true
 
     expect(getSpaceVariant(<MockComponent />)).toBe(true)
@@ -81,14 +81,14 @@ describe('getSpaceVariant', () => {
   })
 
   it('should return false', () => {
-    const MockComponent = (props) => <div {...props} />
+    const MockComponent = (props: Record<string, unknown>) => <div {...props} />
     MockComponent._supportsSpacingProps = false
 
     expect(getSpaceVariant(<MockComponent />)).toBe(false)
   })
 
   it('should return children', () => {
-    const MockComponent = (props) => <div {...props} />
+    const MockComponent = (props: Record<string, unknown>) => <div {...props} />
     MockComponent._supportsSpacingProps = 'children'
 
     expect(getSpaceVariant(<MockComponent />)).toBe('children')

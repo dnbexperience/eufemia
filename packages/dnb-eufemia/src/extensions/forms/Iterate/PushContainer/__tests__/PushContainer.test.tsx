@@ -14,6 +14,7 @@ import {
 } from '../../..'
 import { Div } from '../../../../../elements'
 import DataContext from '../../../DataContext/Context'
+import type { ContextState } from '../../../DataContext/Context'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
@@ -1615,7 +1616,7 @@ describe('PushContainer', () => {
 
       let hasErrors = false
 
-      const ErrorReporter = () => {
+      const ErrorReporter = (): null => {
         hasErrors = useContext(DataContext).hasErrors()
         return null
       }
@@ -2424,7 +2425,7 @@ describe('PushContainer', () => {
   })
 
   it('should render custom Toolbar', () => {
-    const Toolbar = (props) => {
+    const Toolbar = (props: Record<string, unknown>) => {
       return (
         <Div id="toolbar" {...props}>
           Custom Toolbar
@@ -2704,8 +2705,8 @@ describe('PushContainer', () => {
       const onChange = jest.fn()
       const onCommit = jest.fn()
 
-      let internalContext = null
-      const CollectInternalData = () => {
+      let internalContext: ContextState | null = null
+      const CollectInternalData = (): null => {
         internalContext = useContext(DataContext)
         return null
       }
@@ -2734,7 +2735,7 @@ describe('PushContainer', () => {
       )
 
       await userEvent.click(button)
-      expect(internalContext.internalDataRef.current).toEqual({
+      expect(internalContext!.internalDataRef.current).toEqual({
         pushContainerItems: ['default value'],
       })
       expect(onChange).toHaveBeenCalledTimes(1)
@@ -2749,7 +2750,7 @@ describe('PushContainer', () => {
       )
 
       await userEvent.click(button)
-      expect(internalContext.internalDataRef.current).toEqual({
+      expect(internalContext!.internalDataRef.current).toEqual({
         pushContainerItems: ['default value'],
       })
       expect(onChange).toHaveBeenCalledTimes(2)

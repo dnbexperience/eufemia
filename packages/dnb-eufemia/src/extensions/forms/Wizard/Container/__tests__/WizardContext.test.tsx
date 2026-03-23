@@ -32,7 +32,7 @@ describe('Wizard.Context', () => {
     it('should skip onStepChange call when skipStepChangeCallBeforeMounted is true', async () => {
       const onStepChange = jest.fn()
 
-      const MyStep = ({ title }) => {
+      const MyStep = ({ title }: { title: React.ReactNode }) => {
         const { activeIndex, setActiveIndex } = useStep()
 
         const previous = useCallback(() => {
@@ -91,7 +91,7 @@ describe('Wizard.Context', () => {
     it('should skip onStepChange call when skipStepChangeCall is true', async () => {
       const onStepChange = jest.fn()
 
-      const MyStep = ({ title }) => {
+      const MyStep = ({ title }: { title: React.ReactNode }) => {
         const { activeIndex, setActiveIndex } = useStep()
 
         const previous = useCallback(() => {
@@ -150,7 +150,7 @@ describe('Wizard.Context', () => {
     it('should skip internal (given in the hook) data onStepChange call when skipStepChangeCallFromHook is true', async () => {
       const onStepChange = jest.fn()
 
-      const MyStep = ({ title }) => {
+      const MyStep = ({ title }: { title: React.ReactNode }) => {
         const { activeIndex, setActiveIndex } = useStep(undefined, {
           onStepChange,
         })

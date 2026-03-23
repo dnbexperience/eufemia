@@ -456,7 +456,7 @@ const DropdownStory = () => {
             text="Randomize"
             variant="tertiary"
             onClick={() => {
-              const random = (min, max) =>
+              const random = (min: number, max: number) =>
                 Math.floor(Math.random() * (max - min + 1)) + min
               setSelectedItem(random(0, dropdownData.length - 1))
             }}
@@ -706,7 +706,7 @@ function CurrencySelector({
   onChange,
   value = null,
   ...props
-}) {
+}: { currencies: string[]; onChange: (value: string) => void; value?: string | null; [key: string]: any }) {
   let itemIndex = currencies.indexOf(value)
   itemIndex = itemIndex > -1 ? itemIndex : null
   return (
@@ -719,9 +719,9 @@ function CurrencySelector({
         if (event && typeof event.persist === 'function') {
           event.persist()
         }
-        onChange(selectedValue)
+        onChange(selectedValue as string)
       }}
-      data={currencies.map((currency) => ({
+      data={currencies.map((currency: string) => ({
         selectedValue: currency,
         content: (
           <>
@@ -736,7 +736,7 @@ function CurrencySelector({
 function DropdownStatesSync() {
   const [state, setState] = React.useState({})
 
-  const handleOnChange = (props) => {
+  const handleOnChange = (props: Record<string, unknown>) => {
     console.log('DropdownStates', props)
     setState({ state: Math.random() })
   }
@@ -772,9 +772,9 @@ function CurrencyDropdown() {
   React.useEffect(() => {
     console.log('ccyPair:', ccyPair)
   }, [ccyPair])
-  const handleBaseCurrencyChange = (base) =>
+  const handleBaseCurrencyChange = (base: string) =>
     setCcyPair((prev) => ({ ...prev, base, terms: undefined }))
-  const handleTermsCurrencyChange = (terms) =>
+  const handleTermsCurrencyChange = (terms: string) =>
     setCcyPair((prev) => ({ ...prev, terms }))
 
   return (
@@ -904,7 +904,7 @@ export function UpdateData() {
   const [filtersToShow, setFiltersToShow] = React.useState(filter1ToShow)
   const [preventClose, setPreventClose] = React.useState(true)
 
-  const onFilterChange = ({ value, data }) => {
+  const onFilterChange = ({ value, data }: { value: any; data: any }) => {
     setValue(value)
     if (data?.selectedKey === 'key_1' || data?.selectedKey === 'key_2') {
       setFiltersToShow(filter2ToShow)

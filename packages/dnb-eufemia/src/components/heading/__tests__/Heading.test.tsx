@@ -151,7 +151,7 @@ describe('Heading component', () => {
   it('should match after level state update', () => {
     const warn = jest.fn()
 
-    const RenderComp = (props) => (
+    const RenderComp = (props: Record<string, unknown>) => (
       <React.StrictMode>
         <Heading debug={warn} {...props}>
           Heading #1

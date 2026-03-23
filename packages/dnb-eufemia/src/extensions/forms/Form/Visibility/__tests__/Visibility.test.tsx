@@ -751,13 +751,13 @@ describe('Visibility', () => {
       let result = undefined
 
       const filterDataHandler: FilterData = ({ props }) => {
-        return !props['data-exclude-field']
+        return !(props as Record<string, unknown>)['data-exclude-field']
       }
 
       const MockForm = () => {
         const { filterData } = Form.useData('my-form')
 
-        const Output = React.useCallback(() => {
+        const Output = React.useCallback((): null => {
           result = filterData(filterDataHandler)
           return null
         }, [filterData])
@@ -1034,9 +1034,9 @@ describe('Visibility', () => {
 
   describe('visibleWhen with "isValid"', () => {
     it('should return only false when field path is non existent', () => {
-      const collectResult = []
+      const collectResult: boolean[] = []
 
-      const MockComponent = () => {
+      const MockComponent = (): null => {
         const result = useVisibility().check({
           visibleWhen: {
             path: '/non-existent-path',
@@ -1057,9 +1057,9 @@ describe('Visibility', () => {
     })
 
     it('should return only false on first render', () => {
-      const collectResult = []
+      const collectResult: boolean[] = []
 
-      const MockComponent = () => {
+      const MockComponent = (): null => {
         const result = useVisibility().check({
           visibleWhen: {
             path: '/myPath',
@@ -1090,9 +1090,9 @@ describe('Visibility', () => {
     })
 
     it('should support fields without focus and blur events', async () => {
-      const collectResult = []
+      const collectResult: boolean[] = []
 
-      const MockComponent = () => {
+      const MockComponent = (): null => {
         const result = useVisibility().check({
           visibleWhen: {
             path: '/myPath',

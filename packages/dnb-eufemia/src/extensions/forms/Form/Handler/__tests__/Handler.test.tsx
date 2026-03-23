@@ -617,7 +617,7 @@ describe('Form.Handler', () => {
     })
 
     it('should disable form elements during submit indicator when formStatus is pending', () => {
-      const onSubmit = async () => null
+      const onSubmit = async (): Promise<null> => null
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -636,8 +636,8 @@ describe('Form.Handler', () => {
     })
 
     it('should not disable form elements during an async validator handling', async () => {
-      const onSubmit = async () => null
-      const asyncValidator = async () => {
+      const onSubmit = async (): Promise<null> => null
+      const asyncValidator = async (): Promise<null> => {
         return null
       }
 
@@ -671,7 +671,7 @@ describe('Form.Handler', () => {
     })
 
     it('should set focus on previously activeElement when submit is completed', async () => {
-      const onSubmit = async () => null
+      const onSubmit = async (): Promise<null> => null
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -867,7 +867,7 @@ describe('Form.Handler', () => {
       const onSubmit: OnSubmit = jest.fn()
       const onSubmitComplete = jest.fn()
 
-      const asyncValidator = async () => {
+      const asyncValidator = async (): Promise<null> => {
         return null
       }
 
@@ -912,7 +912,7 @@ describe('Form.Handler', () => {
 
     it('should not call async onChangeValidator when field is not mounted anymore', async () => {
       const onSubmit: OnSubmit = jest.fn()
-      const asyncValidator = jest.fn(async () => {
+      const asyncValidator = jest.fn(async (): Promise<null> => {
         return null
       })
 
@@ -964,7 +964,7 @@ describe('Form.Handler', () => {
     })
 
     it('should accept custom minimumAsyncBehaviorTime value', async () => {
-      const onSubmit = async () => null
+      const onSubmit = async (): Promise<null> => null
 
       render(
         <Form.Handler onSubmit={onSubmit} minimumAsyncBehaviorTime={4}>
@@ -990,7 +990,7 @@ describe('Form.Handler', () => {
 
   describe('SubmitIndicator', () => {
     it('should show SubmitIndicator when formStatus is pending', async () => {
-      const onSubmit = async () => null
+      const onSubmit = async (): Promise<null> => null
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -1017,7 +1017,7 @@ describe('Form.Handler', () => {
     })
 
     it('should show SubmitIndicator when onSubmit is async', async () => {
-      const onSubmit = async () => null
+      const onSubmit = async (): Promise<null> => null
 
       render(
         <Form.Handler onSubmit={onSubmit}>

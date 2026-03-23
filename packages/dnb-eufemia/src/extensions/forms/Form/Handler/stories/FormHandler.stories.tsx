@@ -197,7 +197,7 @@ function useCancelAsyncOperations() {
 }
 
 function Options() {
-  const handleSliderChange = useCallback((value) => {
+  const handleSliderChange = useCallback((value: number) => {
     requestTimeoutOffset = value
   }, [])
 
@@ -215,7 +215,7 @@ function Options() {
   )
 }
 
-const onSubmit = async function (data) {
+const onSubmit = async function (data: unknown) {
   console.log('onSubmit', data)
   const request = createRequest()
 
@@ -251,7 +251,7 @@ const onFieldChange = debounceAsync(async function (value) {
 const onSubmitRequest = () => {
   console.log('onSubmitRequest')
 }
-const onSubmitComplete = (data, result) => {
+const onSubmitComplete = (data: unknown, result: unknown) => {
   console.log('onSubmitComplete', data, result)
 }
 
@@ -364,7 +364,7 @@ export function UseValidation() {
   )
 }
 
-function UseValidationComponent() {
+function UseValidationComponent(): React.JSX.Element | null {
   const { setFieldStatus } = Form.useValidation()
 
   useEffect(() => {

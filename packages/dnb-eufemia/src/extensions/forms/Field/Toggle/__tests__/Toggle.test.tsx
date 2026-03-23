@@ -2,6 +2,7 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import DataContext from '../../../DataContext/Context'
+import type { ContextState } from '../../../DataContext/Context'
 import type { Props } from '../Toggle'
 import { Field, FieldBlock, Form, Iterate } from '../../..'
 import userEvent from '@testing-library/user-event'
@@ -204,7 +205,7 @@ describe('Field.Toggle', () => {
       })
 
       it('should store "displayValue" in data context', async () => {
-        let dataContext = null
+        let dataContext: ContextState | null = null
 
         render(
           <Form.Handler>
@@ -226,7 +227,7 @@ describe('Field.Toggle', () => {
           </Form.Handler>
         )
 
-        expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        expect(dataContext!.fieldDisplayValueRef.current).toEqual({
           '/mySelection': {
             type: 'field',
             value: 'On!',
@@ -236,7 +237,7 @@ describe('Field.Toggle', () => {
         await userEvent.tab()
         await userEvent.keyboard('{Enter}')
 
-        expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        expect(dataContext!.fieldDisplayValueRef.current).toEqual({
           '/mySelection': {
             type: 'field',
             value: 'Off!',
@@ -468,7 +469,7 @@ describe('Field.Toggle', () => {
       })
 
       it('should store "displayValue" in data context', async () => {
-        let dataContext = null
+        let dataContext: ContextState | null = null
 
         render(
           <Form.Handler>
@@ -490,7 +491,7 @@ describe('Field.Toggle', () => {
           </Form.Handler>
         )
 
-        expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        expect(dataContext!.fieldDisplayValueRef.current).toEqual({
           '/mySelection': {
             type: 'field',
             value: 'On!',
@@ -500,7 +501,7 @@ describe('Field.Toggle', () => {
         await userEvent.tab()
         await userEvent.keyboard('{Enter}')
 
-        expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        expect(dataContext!.fieldDisplayValueRef.current).toEqual({
           '/mySelection': {
             type: 'field',
             value: 'Off!',

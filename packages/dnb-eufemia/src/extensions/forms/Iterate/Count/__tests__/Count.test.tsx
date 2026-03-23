@@ -33,8 +33,8 @@ describe('Iterate.Count', () => {
         const data = {
           myList: [1, 2, 3],
         }
-        const filter = (value) => {
-          return value > 1
+        const filter = (value: unknown) => {
+          return (value as number) > 1
         }
 
         const { container } = render(
@@ -73,8 +73,8 @@ describe('Iterate.Count', () => {
         const data = {
           myList: [1, 2, 3],
         }
-        const filter = (value) => {
-          return value > 1
+        const filter = (value: unknown) => {
+          return (value as number) > 1
         }
         let value = null
 

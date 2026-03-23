@@ -11,7 +11,7 @@ import { Provider } from '../../../shared'
 
 describe('ToggleButton group component', () => {
   it('should not have _formElement property', () => {
-    expect(ToggleButton.Group['_formElement']).toBeUndefined()
+    expect((ToggleButton.Group as unknown as Record<string, unknown>)['_formElement']).toBeUndefined()
   })
 
   it('should support vertical label', () => {
@@ -377,7 +377,7 @@ describe('ToggleButton group component', () => {
       )
     }
 
-    const TestButton = (Comp, id) => {
+    const TestButton = (Comp: React.ReactElement, id: string) => {
       render(Comp)
 
       const sel = `button#${id}`

@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { Form, Wizard } from '../../..'
 
 describe('Wizard.Buttons', () => {
-  const Step = ({ title }) => {
+  const Step = ({ title }: { title: React.ReactNode }) => {
     return (
       <Wizard.Step>
         <output>{title}</output>

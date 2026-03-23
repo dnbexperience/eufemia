@@ -35,7 +35,7 @@ describe('useNumberFormat', () => {
   })
 
   it('will inherit NumberFormat props from provider', () => {
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
       <Provider
         locale="nb-NO" // should get overwritten by the NumberFormat props
         NumberFormat={{
@@ -52,7 +52,7 @@ describe('useNumberFormat', () => {
   })
 
   it('will inherit locale from provider', () => {
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
       <Provider
         locale="en-GB"
         NumberFormat={{
@@ -68,7 +68,7 @@ describe('useNumberFormat', () => {
   })
 
   it('should show dashes when number is invalid', () => {
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
       <Provider
         locale="en-GB"
         NumberFormat={{

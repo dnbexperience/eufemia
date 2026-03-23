@@ -438,16 +438,17 @@ describe('ChildrenWithAge', () => {
     )
 
     const { propsOfFields } = generateRef.current()
+    const fields = propsOfFields as Record<string, unknown>
 
     // Test essential properties without snapshots
-    expect(propsOfFields['hasChildren']).toMatchObject({
+    expect(fields['hasChildren']).toMatchObject({
       path: '/hasChildren',
       required: true,
       valueType: 'boolean',
       variant: 'buttons',
     })
 
-    expect(propsOfFields['countChildren']).toMatchObject({
+    expect(fields['countChildren']).toMatchObject({
       path: '/countChildren',
       required: true,
       valueType: 'number',
@@ -455,7 +456,7 @@ describe('ChildrenWithAge', () => {
       minimum: 1,
     })
 
-    expect(propsOfFields['children']).toMatchObject({
+    expect(fields['children']).toMatchObject({
       path: '/children',
       required: false,
     })

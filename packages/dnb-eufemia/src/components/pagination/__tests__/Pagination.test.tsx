@@ -277,7 +277,7 @@ describe('Infinity scroller', () => {
     minWaitTime: 0,
   }
 
-  const PageItem = ({ children }) => (
+  const PageItem = ({ children }: { children: React.ReactNode }) => (
     <div className="page-item">{children}</div>
   )
 
@@ -286,7 +286,7 @@ describe('Infinity scroller', () => {
   }
 
   it('should load pages with intersection observer (after)', async () => {
-    const action = ({ pageNumber, setContent }) => {
+    const action = ({ pageNumber, setContent }: { pageNumber: number; setContent: (page: number, content: React.ReactNode) => void }) => {
       setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
     }
 
@@ -297,7 +297,7 @@ describe('Infinity scroller', () => {
     const observe = jest.fn()
     const disconnect = jest.fn()
 
-    let callObserver
+    let callObserver: (entries: Array<{ isIntersecting: boolean }>) => void
     window.IntersectionObserver = jest.fn().mockImplementation((cb) => {
       callObserver = cb
       return {
@@ -360,12 +360,12 @@ describe('Infinity scroller', () => {
   })
 
   it('should handle startupCount properly', async () => {
-    let resetInfinityHandler
+    let resetInfinityHandler: (() => void) | undefined
 
     const onStartup = jest.fn()
     const onChange = jest.fn()
 
-    let callObserver
+    let callObserver: (entries: Array<{ isIntersecting: boolean }>) => void
     window.IntersectionObserver = jest.fn().mockImplementation((cb) => {
       callObserver = cb
       return {
@@ -382,7 +382,7 @@ describe('Infinity scroller', () => {
     const startupPage = 2
     const perPageCount = 10
 
-    const tableItems = []
+    const tableItems: Array<{ ssn: number; content: React.ReactNode }> = []
     for (let i = 1; i <= 60; i++) {
       tableItems.push({
         ssn: i,
@@ -390,7 +390,7 @@ describe('Infinity scroller', () => {
       })
     }
 
-    const localStack = { current: {} }
+    const localStack = { current: {} as Record<number, React.ReactNode> }
 
     const MyComponent = () => {
       const [{ InfinityMarker, endInfinity, resetInfinity }] =
@@ -410,7 +410,7 @@ describe('Infinity scroller', () => {
         })
       const items = Object.values(localStack.current)
 
-      const action = ({ pageNumber }) => {
+      const action = ({ pageNumber }: { pageNumber: number }) => {
         setCurrentPage(pageNumber)
 
         if (pageNumber === 1) {
@@ -423,11 +423,11 @@ describe('Infinity scroller', () => {
           minWaitTime={0}
           currentPage={currentPage}
           startupCount={2}
-          onStartup={(e) => {
+          onStartup={(e: { pageNumber: number }) => {
             action(e)
             onStartup(e)
           }}
-          onChange={(e) => {
+          onChange={(e: { pageNumber: number }) => {
             action(e)
             onChange(e)
           }}
@@ -477,7 +477,7 @@ describe('Infinity scroller', () => {
     ).toBe('page-50')
 
     localStack.current = {}
-    resetInfinityHandler()
+    resetInfinityHandler!()
 
     await waitForComponent()
 
@@ -495,7 +495,7 @@ describe('Infinity scroller', () => {
   it('should handle re-render with decreasing currentPage and not show the loadbar', async () => {
     const perPageCount = 10
 
-    const tableItems = []
+    const tableItems: Array<{ ssn: number; content: React.ReactNode }> = []
     for (let i = 1; i <= 60; i++) {
       tableItems.push({
         ssn: i,
@@ -503,7 +503,7 @@ describe('Infinity scroller', () => {
       })
     }
 
-    const localStack = { current: {} }
+    const localStack = { current: {} as Record<number, React.ReactNode> }
 
     const MyComponent = () => {
       const [{ InfinityMarker }] = React.useState(createPagination)
@@ -553,7 +553,7 @@ describe('Infinity scroller', () => {
   })
 
   it('should load pages with load more button (before)', async () => {
-    const action = ({ pageNumber, setContent }) => {
+    const action = ({ pageNumber, setContent }: { pageNumber: number; setContent: (page: number, content: React.ReactNode) => void }) => {
       setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
     }
 
@@ -683,13 +683,13 @@ describe('Infinity scroller', () => {
   it('should support setContent from createPagination', async () => {
     const { Pagination, setContent } = createPagination()
 
-    const PageItem = ({ children }) => (
+    const PageItem = ({ children }: { children: React.ReactNode }) => (
       <div className="page-item">{children}</div>
     )
 
     render(
       <Pagination pageCount={3} currentPage={1}>
-        {({ pageNumber, setContent: internalSetContent }) => {
+        {({ pageNumber, setContent: internalSetContent }: { pageNumber: number; setContent: (page: number, content: React.ReactNode) => void }) => {
           internalSetContent(
             pageNumber,
             <PageItem>page-{pageNumber}</PageItem>
@@ -715,7 +715,7 @@ describe('Infinity scroller', () => {
   })
 
   it('should support InfinityMarker from createPagination', async () => {
-    let resetInfinityHandler
+    let resetInfinityHandler: (() => void) | undefined
 
     const onStartup = jest.fn()
     const onChange = jest.fn()
@@ -730,7 +730,7 @@ describe('Infinity scroller', () => {
 
       resetInfinityHandler = resetInfinity
 
-      const action = ({ pageNumber }) => {
+      const action = ({ pageNumber }: { pageNumber: number }) => {
         setCurrentPage(pageNumber)
 
         if (pageNumber === 1) {
@@ -742,11 +742,11 @@ describe('Infinity scroller', () => {
         <InfinityMarker
           minWaitTime={0}
           currentPage={currentPage}
-          onStartup={(e) => {
+          onStartup={(e: { pageNumber: number }) => {
             action(e)
             onStartup(e)
           }}
-          onChange={(e) => {
+          onChange={(e: { pageNumber: number }) => {
             action(e)
             onChange(e)
           }}
@@ -791,7 +791,7 @@ describe('Infinity scroller', () => {
     expect(onLoad).toHaveBeenCalledTimes(3)
     expect(onEnd).toHaveBeenCalledTimes(1)
 
-    resetInfinityHandler()
+    resetInfinityHandler!()
 
     await waitForComponent()
 
@@ -817,7 +817,7 @@ describe('Infinity scroller', () => {
   })
 
   it('should forward load button props', async () => {
-    const action = ({ pageNumber, setContent }) => {
+    const action = ({ pageNumber, setContent }: { pageNumber: number; setContent: (page: number, content: React.ReactNode) => void }) => {
       setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
     }
 
@@ -844,7 +844,7 @@ describe('Infinity scroller', () => {
   })
 
   it('should accept custom component as value for loadButton', async () => {
-    const action = ({ pageNumber, setContent }) => {
+    const action = ({ pageNumber, setContent }: { pageNumber: number; setContent: (page: number, content: React.ReactNode) => void }) => {
       setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
     }
 

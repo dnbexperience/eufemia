@@ -23,7 +23,7 @@ import enGB from '../../../shared/locales/en-GB'
 
 const en = enGB['en-GB'].NumberFormat
 
-const Component = (props) => {
+const Component = (props: Record<string, unknown>) => {
   return <NumberFormat id="unique" {...props} />
 }
 

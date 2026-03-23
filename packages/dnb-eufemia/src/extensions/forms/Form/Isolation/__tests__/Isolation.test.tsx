@@ -19,12 +19,12 @@ import type { ComponentMarkers } from '../../../../../shared/helpers/withCompone
 const nb = nbNO['nb-NO']
 
 describe('Form.Isolation', () => {
-  let log = null
+  let log: ReturnType<typeof spyOnEufemiaWarn> | null = null
   beforeEach(() => {
     log = spyOnEufemiaWarn()
   })
   afterEach(() => {
-    log.mockRestore()
+    log!.mockRestore()
   })
 
   it('should have constant of _supportsSpacingProps="undefined"', () => {
@@ -2030,15 +2030,15 @@ describe('Form.Isolation', () => {
 
   describe('store data in data context', () => {
     it('should set the field value to the data context', async () => {
-      let outerContext = null
-      let innerContext = null
+      let outerContext: ReturnType<typeof Form.useData> | null = null
+      let innerContext: ReturnType<typeof Form.useData> | null = null
 
-      const CollectOuterData = () => {
+      const CollectOuterData = (): null => {
         outerContext = Form.useData()
         return null
       }
 
-      const CollectInnerData = () => {
+      const CollectInnerData = (): null => {
         innerContext = Form.useData()
         return null
       }
@@ -2055,10 +2055,10 @@ describe('Form.Isolation', () => {
         </Form.Handler>
       )
 
-      expect(innerContext.data).toEqual({
+      expect(innerContext!.data).toEqual({
         inner: undefined,
       })
-      expect(outerContext.data).toEqual({
+      expect(outerContext!.data).toEqual({
         outer: undefined,
       })
 
@@ -2074,25 +2074,25 @@ describe('Form.Isolation', () => {
         </Form.Handler>
       )
 
-      expect(innerContext.data).toEqual({
+      expect(innerContext!.data).toEqual({
         inner: 'inner value',
         outer: 'outer value',
       })
-      expect(outerContext.data).toEqual({
+      expect(outerContext!.data).toEqual({
         outer: 'outer value',
       })
     })
 
     it('should set the iterate value to the data context', async () => {
-      let outerContext = null
-      let innerContext = null
+      let outerContext: ReturnType<typeof Form.useData> | null = null
+      let innerContext: ReturnType<typeof Form.useData> | null = null
 
-      const CollectOuterData = () => {
+      const CollectOuterData = (): null => {
         outerContext = Form.useData()
         return null
       }
 
-      const CollectInnerData = () => {
+      const CollectInnerData = (): null => {
         innerContext = Form.useData()
         return null
       }
@@ -2113,11 +2113,11 @@ describe('Form.Isolation', () => {
         </Form.Handler>
       )
 
-      expect(innerContext.data).toEqual({
+      expect(innerContext!.data).toEqual({
         inner: [{ item: undefined }],
         outer: [{ item: undefined }],
       })
-      expect(outerContext.data).toEqual({
+      expect(outerContext!.data).toEqual({
         outer: [{ item: undefined }],
       })
 
@@ -2137,25 +2137,25 @@ describe('Form.Isolation', () => {
         </Form.Handler>
       )
 
-      expect(innerContext.data).toEqual({
+      expect(innerContext!.data).toEqual({
         inner: [{ item: undefined }], // TODO: should be 'inner value'
         outer: [{ item: undefined }], // TODO: should be 'outer value'
       })
-      expect(outerContext.data).toEqual({
+      expect(outerContext!.data).toEqual({
         outer: [{ item: undefined }], // TODO: should be 'outer value'
       })
     })
 
     it('should set the iterate value to the data context using defaultValue', async () => {
-      let outerContext = null
-      let innerContext = null
+      let outerContext: ReturnType<typeof Form.useData> | null = null
+      let innerContext: ReturnType<typeof Form.useData> | null = null
 
-      const CollectOuterData = () => {
+      const CollectOuterData = (): null => {
         outerContext = Form.useData()
         return null
       }
 
-      const CollectInnerData = () => {
+      const CollectInnerData = (): null => {
         innerContext = Form.useData()
         return null
       }
@@ -2176,11 +2176,11 @@ describe('Form.Isolation', () => {
         </Form.Handler>
       )
 
-      expect(innerContext.data).toEqual({
+      expect(innerContext!.data).toEqual({
         inner: [{ item: undefined }],
         outer: [{ item: undefined }],
       })
-      expect(outerContext.data).toEqual({
+      expect(outerContext!.data).toEqual({
         outer: [{ item: undefined }],
       })
 
@@ -2200,25 +2200,25 @@ describe('Form.Isolation', () => {
         </Form.Handler>
       )
 
-      expect(innerContext.data).toEqual({
+      expect(innerContext!.data).toEqual({
         inner: [{ item: 'inner value' }],
         outer: [{ item: 'outer value' }],
       })
-      expect(outerContext.data).toEqual({
+      expect(outerContext!.data).toEqual({
         outer: [{ item: 'outer value' }],
       })
     })
 
     it('should not set the field value to the outer context when wrapped in a section', async () => {
-      let outerContext = null
-      let innerContext = null
+      let outerContext: ReturnType<typeof Form.useData> | null = null
+      let innerContext: ReturnType<typeof Form.useData> | null = null
 
-      const CollectOuterData = () => {
+      const CollectOuterData = (): null => {
         outerContext = Form.useData()
         return null
       }
 
-      const CollectInnerData = () => {
+      const CollectInnerData = (): null => {
         innerContext = Form.useData()
         return null
       }
@@ -2236,12 +2236,12 @@ describe('Form.Isolation', () => {
         </Form.Handler>
       )
 
-      expect(innerContext.data).toEqual({
+      expect(innerContext!.data).toEqual({
         mySection: {
           isolated: undefined,
         },
       })
-      expect(outerContext.data).toEqual({
+      expect(outerContext!.data).toEqual({
         mySection: {},
       })
 
@@ -2258,12 +2258,12 @@ describe('Form.Isolation', () => {
         </Form.Handler>
       )
 
-      expect(innerContext.data).toEqual({
+      expect(innerContext!.data).toEqual({
         mySection: {
           isolated: 'isolated value',
         },
       })
-      expect(outerContext.data).toEqual({
+      expect(outerContext!.data).toEqual({
         mySection: {},
       })
     })
@@ -3088,7 +3088,7 @@ describe('Form.Isolation', () => {
 
       const dataReference = Form.Isolation.createDataReference()
 
-      const SetDelayedData = () => {
+      const SetDelayedData = (): null => {
         const { update } = Form.useData()
 
         React.useEffect(() => {
@@ -3197,11 +3197,11 @@ describe('Form.Isolation', () => {
       let outerDataContext = null
       let innerDataContext = null
 
-      const OuterDataContext = () => {
+      const OuterDataContext = (): null => {
         outerDataContext = useContext(DataContext).data
         return null
       }
-      const InnerDataContext = () => {
+      const InnerDataContext = (): null => {
         innerDataContext = useContext(DataContext).data
         return null
       }
@@ -3258,11 +3258,11 @@ describe('Form.Isolation', () => {
       let outerDataContext = null
       let innerDataContext = null
 
-      const OuterDataContext = () => {
+      const OuterDataContext = (): null => {
         outerDataContext = useContext(DataContext).data
         return null
       }
-      const InnerDataContext = () => {
+      const InnerDataContext = (): null => {
         innerDataContext = useContext(DataContext).data
         return null
       }
@@ -3368,7 +3368,7 @@ describe('Form.Isolation', () => {
     })
 
     it('should prevent navigation when useReportError reports an error', async () => {
-      const ReportError = () => {
+      const ReportError = (): null => {
         useReportError(new Error('My error'))
         return null
       }

@@ -21,7 +21,7 @@ describe('Form.useTranslation', () => {
       wrapper: ({ children }) => <Provider>{children}</Provider>,
     })
 
-    const nb = {}
+    const nb = {} as Record<string, unknown>
     extendDeep(nb, forms_nbNO['nb-NO'], global_nbNO['nb-NO'])
     nb['formatMessage'] = expect.any(Function)
     nb['renderMessage'] = expect.any(Function)
@@ -36,7 +36,7 @@ describe('Form.useTranslation', () => {
       ),
     })
 
-    const nb = {}
+    const nb = {} as Record<string, unknown>
     extendDeep(nb, forms_nbNO['nb-NO'], global_nbNO['nb-NO'])
     nb['formatMessage'] = expect.any(Function)
     nb['renderMessage'] = expect.any(Function)
@@ -51,7 +51,7 @@ describe('Form.useTranslation', () => {
       ),
     })
 
-    const gb = {}
+    const gb = {} as Record<string, unknown>
     extendDeep(gb, forms_enGB['en-GB'], global_enGB['en-GB'])
     gb['formatMessage'] = expect.any(Function)
     gb['renderMessage'] = expect.any(Function)
@@ -64,7 +64,7 @@ describe('Form.useTranslation', () => {
       ),
     })
 
-    const nb = {}
+    const nb = {} as Record<string, unknown>
     extendDeep(nb, forms_nbNO['nb-NO'], global_nbNO['nb-NO'])
     nb['formatMessage'] = expect.any(Function)
     nb['renderMessage'] = expect.any(Function)
@@ -285,7 +285,7 @@ describe('Form.useTranslation', () => {
     // @ts-expect-error - Testing that identifier string is not supported as parameter
     const { result } = renderHook(() => useTranslation('Email.label'))
 
-    const nb = {}
+    const nb = {} as Record<string, unknown>
     extendDeep(nb, forms_nbNO['nb-NO'], global_nbNO['nb-NO'])
     nb['formatMessage'] = expect.any(Function)
     nb['renderMessage'] = expect.any(Function)
@@ -300,7 +300,7 @@ describe('Form.useTranslation', () => {
       ),
     })
 
-    const gb = {}
+    const gb = {} as Record<string, unknown>
     extendDeep(gb, forms_enGB['en-GB'], global_enGB['en-GB'])
     gb['formatMessage'] = expect.any(Function)
     gb['renderMessage'] = expect.any(Function)
@@ -315,7 +315,7 @@ describe('Form.useTranslation', () => {
       ),
     })
 
-    const gb = {}
+    const gb = {} as Record<string, unknown>
     extendDeep(gb, forms_enGB['en-GB'], global_enGB['en-GB'])
     gb['formatMessage'] = expect.any(Function)
     gb['renderMessage'] = expect.any(Function)
@@ -330,7 +330,7 @@ describe('Form.useTranslation', () => {
       ),
     })
 
-    const gb = {}
+    const gb = {} as Record<string, unknown>
     extendDeep(gb, forms_enGB['en-GB'], global_enGB['en-GB'])
     gb['formatMessage'] = expect.any(Function)
     gb['renderMessage'] = expect.any(Function)

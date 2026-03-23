@@ -6,7 +6,7 @@ export default {
   title: 'Eufemia/Extensions/Forms/FieldAndValueVisibility',
 }
 
-const LogVisibleData = () => {
+const LogVisibleData = (): null => {
   const { data, reduceToVisibleFields } = Form.useData()
   React.useEffect(() => {
     console.log(

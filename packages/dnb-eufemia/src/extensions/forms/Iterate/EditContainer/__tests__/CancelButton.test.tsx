@@ -78,7 +78,7 @@ describe('CancelButton', () => {
     const setShowError = jest.fn()
     const setShowBoundaryErrors = jest.fn()
 
-    const SetErrorOnce = () => {
+    const SetErrorOnce = (): null => {
       const { setFieldError } = React.useContext(FieldBoundaryContext)
       React.useEffect(() => {
         setFieldError?.('/x' as any, new Error('err'))

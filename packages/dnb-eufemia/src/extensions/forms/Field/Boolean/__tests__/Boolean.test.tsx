@@ -158,7 +158,7 @@ describe('Field.Boolean', () => {
     })
 
     it('should store "displayValue" in data context', async () => {
-      let dataContext = null
+      let dataContext: DataContext.ContextState | null = null
 
       render(
         <Form.Handler>
@@ -176,7 +176,7 @@ describe('Field.Boolean', () => {
         </Form.Handler>
       )
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
           type: 'field',
           value: 'Ja',
@@ -186,7 +186,7 @@ describe('Field.Boolean', () => {
       await userEvent.tab()
       await userEvent.keyboard('{Enter}')
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
           type: 'field',
           value: 'Nei',
@@ -195,7 +195,7 @@ describe('Field.Boolean', () => {
     })
 
     it('should store "displayValue" when inside iterate', async () => {
-      let dataContext = null
+      let dataContext: DataContext.ContextState | null = null
 
       render(
         <Form.Handler
@@ -220,7 +220,7 @@ describe('Field.Boolean', () => {
         </Form.Handler>
       )
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/myArray/0/mySelection': {
           type: 'field',
           value: 'Ja',
@@ -234,7 +234,7 @@ describe('Field.Boolean', () => {
       await userEvent.tab()
       await userEvent.keyboard('{Enter}')
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/myArray/0/mySelection': {
           type: 'field',
           value: 'Nei',
@@ -463,7 +463,7 @@ describe('Field.Boolean', () => {
     })
 
     it('should store "displayValue" in data context', async () => {
-      let dataContext = null
+      let dataContext: DataContext.ContextState | null = null
 
       render(
         <Form.Handler>
@@ -481,7 +481,7 @@ describe('Field.Boolean', () => {
         </Form.Handler>
       )
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
           type: 'field',
           value: 'Ja',
@@ -491,7 +491,7 @@ describe('Field.Boolean', () => {
       await userEvent.tab()
       await userEvent.keyboard('{Enter}')
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
           type: 'field',
           value: 'Nei',
@@ -500,7 +500,7 @@ describe('Field.Boolean', () => {
     })
 
     it('should store "displayValue" when inside iterate', async () => {
-      let dataContext = null
+      let dataContext: DataContext.ContextState | null = null
 
       render(
         <Form.Handler
@@ -525,7 +525,7 @@ describe('Field.Boolean', () => {
         </Form.Handler>
       )
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/myArray/0/mySelection': {
           type: 'field',
           value: 'Ja',
@@ -539,7 +539,7 @@ describe('Field.Boolean', () => {
       await userEvent.tab()
       await userEvent.keyboard('{Enter}')
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/myArray/0/mySelection': {
           type: 'field',
           value: 'Nei',
@@ -748,7 +748,7 @@ describe('Field.Boolean', () => {
     })
 
     it('should store "displayValue" in data context', async () => {
-      let dataContext = null
+      let dataContext: DataContext.ContextState | null = null
 
       render(
         <Form.Handler>
@@ -766,7 +766,7 @@ describe('Field.Boolean', () => {
         </Form.Handler>
       )
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
           type: 'field',
           value: 'Ja',
@@ -776,7 +776,7 @@ describe('Field.Boolean', () => {
       await userEvent.tab()
       await userEvent.keyboard('{Enter}')
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
           type: 'field',
           value: 'Nei',
@@ -785,7 +785,7 @@ describe('Field.Boolean', () => {
     })
 
     it('should store "displayValue" when inside iterate', async () => {
-      let dataContext = null
+      let dataContext: DataContext.ContextState | null = null
 
       render(
         <Form.Handler
@@ -810,7 +810,7 @@ describe('Field.Boolean', () => {
         </Form.Handler>
       )
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/myArray/0/mySelection': {
           type: 'field',
           value: 'Ja',
@@ -824,7 +824,7 @@ describe('Field.Boolean', () => {
       await userEvent.tab()
       await userEvent.keyboard('{Enter}')
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/myArray/0/mySelection': {
           type: 'field',
           value: 'Nei',
@@ -1222,7 +1222,7 @@ describe('Field.Boolean', () => {
           <Form.Handler id="unique" data={{}}>
             <Field.Boolean variant="buttons" path="/isTrue" />
             <Form.SubmitButton
-              onClick={() => update('/isTrue', () => undefined)}
+              onClick={() => update('/isTrue', (): undefined => undefined)}
             />
           </Form.Handler>
         )
@@ -1538,7 +1538,7 @@ describe('Field.Boolean', () => {
           <Form.Handler id="unique" data={{}}>
             <Field.Boolean variant="radio" path="/isTrue" />
             <Form.SubmitButton
-              onClick={() => update('/isTrue', () => undefined)}
+              onClick={() => update('/isTrue', (): undefined => undefined)}
             />
           </Form.Handler>
         )

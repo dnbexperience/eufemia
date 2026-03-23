@@ -18,7 +18,7 @@ describe('extendPropsWithContext', () => {
 
   it('should use props and default, but not context', () => {
     const props = { foo: 'is defined as a prop' }
-    const defaultProps = { foo: 'default value', bar: null }
+    const defaultProps = { foo: 'default value', bar: null as string | null }
     const context1 = { foo: 'bar' }
 
     const result = extendPropsWithContext(props, defaultProps, context1)
@@ -30,8 +30,8 @@ describe('extendPropsWithContext', () => {
   })
 
   it('should not fail when props is null', () => {
-    const props = null
-    const defaultProps = { foo: 'default value', bar: null }
+    const props: Record<string, string> | null = null
+    const defaultProps = { foo: 'default value', bar: null as string | null }
     const context1 = { foo: 'bar' }
 
     const result = extendPropsWithContext(props, defaultProps, context1)
@@ -44,8 +44,8 @@ describe('extendPropsWithContext', () => {
 
   it('should not fail when context is null', () => {
     const props = { foo: 'is defined as a prop' }
-    const defaultProps = { foo: 'default value', bar: null }
-    const context1 = null
+    const defaultProps = { foo: 'default value', bar: null as string | null }
+    const context1: Record<string, string> | null = null
 
     const result = extendPropsWithContext(props, defaultProps, context1)
 
@@ -57,7 +57,7 @@ describe('extendPropsWithContext', () => {
 
   it('should not fail when defaultProps is null', () => {
     const props = {}
-    const defaultProps = null
+    const defaultProps: Record<string, string> | null = null
     const context1 = { foo: 'bar' }
 
     const result = extendPropsWithContext(props, defaultProps, context1)

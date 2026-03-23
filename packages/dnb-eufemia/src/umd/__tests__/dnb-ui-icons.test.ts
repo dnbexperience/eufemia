@@ -9,7 +9,7 @@ import * as dnbIcons from '../dnb-ui-icons'
 
 describe('UMD icons package', () => {
   it('has to have no default export', () => {
-    expect(dnbIcons['default']).toBeType('undefined')
+    expect((dnbIcons as Record<string, unknown>)['default']).toBeType('undefined')
   })
 
   it('has to have a chevron_left icon', () => {

@@ -5,7 +5,7 @@ import VisibilityByTheme from '../VisibilityByTheme'
 
 describe('VisibilityByTheme', () => {
   it('renders content if not visible or hidden was given', () => {
-    const Component = (props) => (
+    const Component = (props: Record<string, unknown>) => (
       <Theme name="eiendom" {...props}>
         <VisibilityByTheme>
           <p>I'm visible</p>
@@ -19,7 +19,7 @@ describe('VisibilityByTheme', () => {
   })
 
   it('renders content on name match', () => {
-    const Component = (props) => (
+    const Component = (props: Record<string, unknown>) => (
       <Theme name="eiendom" {...props}>
         <VisibilityByTheme visible="eiendom">
           <p>I'm visible</p>
@@ -37,7 +37,7 @@ describe('VisibilityByTheme', () => {
   })
 
   it('skips render when hidden matches', () => {
-    const Component = (props) => (
+    const Component = (props: Record<string, unknown>) => (
       <Theme name="eiendom" {...props}>
         <VisibilityByTheme hidden="sbanken">
           <p>I'm visible</p>
@@ -59,7 +59,7 @@ describe('VisibilityByTheme', () => {
   })
 
   it('prefers visible over hidden', () => {
-    const Component = (props) => (
+    const Component = (props: Record<string, unknown>) => (
       <Theme name="eiendom" {...props}>
         <VisibilityByTheme visible="eiendom" hidden="sbanken">
           <p>I'm visible</p>
@@ -81,7 +81,7 @@ describe('VisibilityByTheme', () => {
   })
 
   it('renders content on match from names in an array', () => {
-    const Component = (props) => (
+    const Component = (props: Record<string, unknown>) => (
       <Theme name="eiendom" {...props}>
         <VisibilityByTheme visible={['eiendom', 'sbanken']}>
           <p>I'm visible</p>
@@ -103,7 +103,7 @@ describe('VisibilityByTheme', () => {
   })
 
   it('renders content on match from names in an object inside an array', () => {
-    const Component = (props) => (
+    const Component = (props: Record<string, unknown>) => (
       <Theme name="eiendom" {...props}>
         <VisibilityByTheme
           visible={[{ name: 'eiendom' }, { name: 'sbanken' }]}
@@ -127,7 +127,7 @@ describe('VisibilityByTheme', () => {
   })
 
   it('renders content on match by several theme criteria', () => {
-    const Component = (props) => (
+    const Component = (props: Record<string, unknown>) => (
       <Theme name="eiendom" variant="red" {...props}>
         <VisibilityByTheme
           visible={[

@@ -835,7 +835,7 @@ describe('FieldBlock', () => {
 
   it('should set hasError on provider', () => {
     let hasNestedError = false
-    const MockComponent = (props) => {
+    const MockComponent = (props: Record<string, unknown>): React.ReactElement => {
       const { hasError } = useFieldProps(props)
       hasNestedError = hasError
       return null
@@ -1063,7 +1063,7 @@ describe('FieldBlock', () => {
 
     describe('summarize errors', () => {
       it('should summarize errors in one FormStatus component', () => {
-        const MockComponent = () => {
+        const MockComponent = (): null => {
           useFieldProps({
             required: true,
             validateInitially: true,
@@ -1444,7 +1444,7 @@ describe('FieldBlock', () => {
     })
 
     it('should show indicator two (2) times when nested with useFieldProps', async () => {
-      const onChange = jest.fn(async () => {
+      const onChange = jest.fn(async (): Promise<null> => {
         await wait(10)
         return null
       })
@@ -1714,7 +1714,7 @@ describe('FieldBlock', () => {
   })
 })
 
-function MockComponent({ label = null, id = null }) {
+function MockComponent({ label = null, id = null }: { label?: string | null; id?: string | null }) {
   return (
     <>
       {label && <label htmlFor={id}>{label}</label>}

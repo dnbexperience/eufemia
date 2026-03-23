@@ -182,7 +182,7 @@ describe('Form.Element', () => {
   })
 
   it('should ensure that only a string can be set as the id', () => {
-    const myId = () => null
+    const myId = (): null => null
     render(
       // @ts-expect-error
       <Form.Element id={myId}>

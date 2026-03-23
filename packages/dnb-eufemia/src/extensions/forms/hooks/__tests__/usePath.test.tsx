@@ -242,7 +242,7 @@ describe('usePath', () => {
   })
 
   it('should return id if not path is given', () => {
-    const path = undefined
+    const path: string | undefined = undefined
     const id = 'testId'
     const { result } = renderHook(() => usePath({ path, id }))
     expect(result.current.identifier).toBe(id)

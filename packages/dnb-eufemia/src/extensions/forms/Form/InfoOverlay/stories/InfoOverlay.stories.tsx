@@ -7,7 +7,7 @@ export default {
 }
 
 export function BothStatuses() {
-  const formId = () => null
+  const formId = (): null => null
   return (
     <>
       <Form.Handler

@@ -437,7 +437,7 @@ describe('useTranslation with an ID', () => {
       return <>{str}</>
     }
 
-    const ChangeLocale = (props) => {
+    const ChangeLocale = (props: Record<string, unknown>) => {
       const { setLocale } = React.useContext(Context)
 
       return (

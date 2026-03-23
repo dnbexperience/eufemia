@@ -393,9 +393,9 @@ describe('PushButton', () => {
     it('should stay in edit mode when pushing new item (with changed items beforehand)', async () => {
       let outerData = null
 
-      let containerModeOfFirstItem = null
+      let containerModeOfFirstItem: unknown = null
 
-      const ContainerModeConsumer = () => {
+      const ContainerModeConsumer = (): null => {
         const context = React.useContext(IterateItemContext)
         if (context.index === 0) {
           containerModeOfFirstItem = context.containerMode

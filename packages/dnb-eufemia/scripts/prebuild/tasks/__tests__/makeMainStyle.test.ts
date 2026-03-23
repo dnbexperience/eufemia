@@ -8,6 +8,21 @@ import { getFontBasePath } from '../../../../src/plugins/postcss-font-url-rewrit
 import { runFactory } from '../makeMainStyle'
 import { isCI } from 'repo-utils'
 
+declare global {
+  // eslint-disable-next-line no-var
+  var core: string[]
+  // eslint-disable-next-line no-var
+  var components: string[]
+  // eslint-disable-next-line no-var
+  var files: string[]
+  // eslint-disable-next-line no-var
+  var elements: string[]
+  // eslint-disable-next-line no-var
+  var theme: string[]
+  // eslint-disable-next-line no-var
+  var css: string[]
+}
+
 jest.mock('ora', () => {
   return jest.fn(() => ({
     start: jest.fn(),
@@ -148,7 +163,7 @@ if (isCI) {
 
   describe('makeMainStyle with enableBuildStyleScope', () => {
     // Ensure enableBuildStyleScope returns true
-    let originalEnv
+    let originalEnv: string | undefined
     beforeAll(() => {
       originalEnv = process.env.NODE_ENV
       process.env.NODE_ENV = 'production'

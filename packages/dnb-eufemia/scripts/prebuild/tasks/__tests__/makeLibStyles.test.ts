@@ -5,6 +5,13 @@
 
 import { runFactory } from '../makeLibStyles'
 
+declare global {
+  // eslint-disable-next-line no-var
+  var css: string[]
+  // eslint-disable-next-line no-var
+  var files: string[]
+}
+
 jest.mock('ora', () => {
   return jest.fn(() => ({
     start: jest.fn(),
@@ -63,7 +70,7 @@ describe('makeLibStyles transform main SASS to CSS', () => {
 
 describe('makeLibStyles with enableBuildStyleScope', () => {
   // Ensure enableBuildStyleScope returns true
-  let originalEnv
+  let originalEnv: string | undefined
   beforeAll(() => {
     originalEnv = process.env.NODE_ENV
     process.env.NODE_ENV = 'production'

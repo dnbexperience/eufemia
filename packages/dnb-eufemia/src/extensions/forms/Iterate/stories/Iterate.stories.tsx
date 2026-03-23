@@ -70,7 +70,7 @@ const MyEditItemForm = () => {
   )
 }
 
-const MyEditItem = (props) => {
+const MyEditItem = (props: Record<string, unknown>) => {
   return (
     <Iterate.EditContainer
       title="Edit account holder {itemNo}"
@@ -186,8 +186,8 @@ export const InitialOpen = () => {
               defaultValue={[null]}
               animate
               onChangeValidator={(arrayValue) => {
-                const findFirstDuplication = (arr) =>
-                  arr.findIndex((e, i) => arr.indexOf(e) !== i)
+                const findFirstDuplication = (arr: unknown[]) =>
+                  arr.findIndex((e: unknown, i: number) => arr.indexOf(e) !== i)
 
                 const count = arrayValue.filter(Boolean).length
                 const index = findFirstDuplication(arrayValue)

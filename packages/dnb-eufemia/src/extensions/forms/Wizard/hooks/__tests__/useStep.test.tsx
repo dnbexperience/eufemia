@@ -456,7 +456,7 @@ describe('useStep', () => {
         ) as HTMLElement
       let setter: ReturnType<typeof useStep>['setActiveIndex']
 
-      const Consumer = () => {
+      const Consumer = (): null => {
         const { setActiveIndex } = useStep(identifier)
 
         React.useEffect(() => {
@@ -627,7 +627,7 @@ describe('useStep', () => {
     it('should call onStepChange event by using setActiveIndex', async () => {
       const onStepChange = jest.fn()
 
-      const Sidecar = () => {
+      const Sidecar = (): null => {
         useStep(identifier, { onStepChange })
         return null
       }
@@ -717,7 +717,7 @@ describe('useStep', () => {
     it('should call onStepChange event by using buttons', async () => {
       const onStepChange = jest.fn()
 
-      const Sidecar = () => {
+      const Sidecar = (): null => {
         useStep(identifier, { onStepChange })
         return null
       }
@@ -832,7 +832,7 @@ describe('useStep', () => {
         )
       }
 
-      const Sidecar = () => {
+      const Sidecar = (): null => {
         useStep(identifier, { onStepChange: onStepChange1b })
         useStep(identifier, { onStepChange: onStepChange2b })
         useStep(identifier, { onStepChange: onStepChange3b })

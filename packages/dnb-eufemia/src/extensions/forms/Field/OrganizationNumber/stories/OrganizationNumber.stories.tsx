@@ -134,7 +134,7 @@ export function OrganizationNumberValidator() {
 }
 
 export function CustomValidator() {
-  const simpleValidator = (value) => {
+  const simpleValidator = (value: string) => {
     return value?.length < 4 ? Error('At least 4 characters') : undefined
   }
 
@@ -177,7 +177,7 @@ export function CustomValidator() {
 }
 
 export function CustomOnBlurValidator() {
-  const simpleValidator = (value) => {
+  const simpleValidator = (value: string) => {
     return value?.length < 4 ? Error('At least 4 characters') : undefined
   }
 
@@ -212,7 +212,7 @@ export function CustomOnBlurValidator() {
 }
 
 export function CustomValidatorReturnArray() {
-  const validatorX = (value) => {
+  const validatorX = (value: string) => {
     return value?.length < 4 ? Error('At least 4 characters') : undefined
   }
 
@@ -259,7 +259,7 @@ export function CustomValidatorReturnArray() {
 }
 
 export function CustomOnBlurValidatorReturnArray() {
-  const validatorX = (value) => {
+  const validatorX = (value: string) => {
     return value?.length < 4 ? Error('At least 4 characters') : undefined
   }
 
@@ -298,7 +298,7 @@ export function CustomOnBlurValidatorReturnArray() {
 }
 
 export function StringValidatorSimple() {
-  const validatorX = (value) => {
+  const validatorX = (value: string) => {
     return value?.length < 4 ? Error('At least 4 characters') : undefined
   }
 

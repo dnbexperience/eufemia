@@ -161,7 +161,7 @@ describe('additional tests', () => {
       error = e
     }
     expect(error).toBeInstanceOf(Error)
-    expect(error.message).toBe('Please try again!')
+    expect((error as Error).message).toBe('Please try again!')
 
     // Restore the original fetch mock
     global.fetch = originalFetch

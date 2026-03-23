@@ -459,7 +459,7 @@ describe('getSoftKeyboardAttributes', () => {
   })
 
   it('should return undefined if mask is not an instance of createNumberMask', () => {
-    const mask = () => null
+    const mask = (): null => null
     mask.instanceOf = 'someOtherMask'
 
     const result = getSoftKeyboardAttributes(mask)
@@ -471,7 +471,7 @@ describe('getSoftKeyboardAttributes', () => {
       value: true,
     })
 
-    const mask = () => null
+    const mask = (): null => null
     mask.instanceOf = 'createNumberMask'
     mask.maskParams = { allowNegative: true }
 
@@ -480,7 +480,7 @@ describe('getSoftKeyboardAttributes', () => {
   })
 
   it('should return inputMode as "decimal" if allowDecimal is true and decimalLimit is not 0', () => {
-    const mask = () => null
+    const mask = (): null => null
     mask.instanceOf = 'createNumberMask'
     mask.maskParams = { allowDecimal: true, decimalLimit: 2 }
 
@@ -489,11 +489,11 @@ describe('getSoftKeyboardAttributes', () => {
   })
 
   it('should return inputMode as "numeric" if allowDecimal is false or decimalLimit is 0', () => {
-    const mask1 = () => null
+    const mask1 = (): null => null
     mask1.instanceOf = 'createNumberMask'
     mask1.maskParams = { allowDecimal: false, decimalLimit: 2 }
 
-    const mask2 = () => null
+    const mask2 = (): null => null
     mask2.maskParams = { allowDecimal: true, decimalLimit: 0 }
     mask2.instanceOf = 'createNumberMask'
 

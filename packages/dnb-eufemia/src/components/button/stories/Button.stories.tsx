@@ -216,7 +216,7 @@ export const ButtonSandbox = () => (
         text="Secondary button with href"
         href="?no-cache=1"
         icon="add"
-        onClick={(e) => e.preventDefault()}
+        onClick={(e: React.MouseEvent) => e.preventDefault()}
       />
     </Box>
     <Box>
@@ -305,7 +305,7 @@ export const ButtonSandbox = () => (
   </Wrapper>
 )
 
-const Template: any = (props) => {
+const Template: any = (props: Record<string, unknown>) => {
   return (
     <>
       <Button icon="chevron_right" size="small" {...props} />

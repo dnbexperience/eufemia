@@ -73,7 +73,7 @@ export const TooltipSandbox = () => {
       </Box>
       <Box>
         <Button
-          onClick={(e) => {
+          onClick={(e: React.SyntheticEvent) => {
             console.log(e)
           }}
           tooltip={<Tooltip>Tooltip for this Button 1b</Tooltip>}
@@ -81,7 +81,7 @@ export const TooltipSandbox = () => {
           Button with Tooltip 1
         </Button>
         <Button
-          onClick={(e) => {
+          onClick={(e: React.SyntheticEvent) => {
             console.log(e)
           }}
           tooltip={

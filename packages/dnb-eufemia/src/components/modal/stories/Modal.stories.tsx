@@ -222,7 +222,7 @@ class ModalRerenderExample extends React.PureComponent {
     title: 'Modal Title',
     triggerText: 'Open Modal',
   }
-  timeout
+  timeout: NodeJS.Timeout
 
   componentDidMount() {
     this.timeout = setTimeout(() => {
@@ -332,7 +332,7 @@ const ModalCloseExample = () => {
   const [count, setCount] = React.useState(0)
 
   React.useEffect(() => {
-    let timeout
+    let timeout: NodeJS.Timeout
 
     if (openState) {
       timeout = setTimeout(() => {
@@ -352,11 +352,11 @@ const ModalCloseExample = () => {
         title="Modal Title"
         open={openState}
         openModal={(open) => {
-          const timeout = setTimeout(open, 3e3)
+          const timeout: number = setTimeout(open, 3e3)
           return () => clearTimeout(timeout)
         }}
         closeModal={(close) => {
-          let timeout
+          let timeout: ReturnType<typeof setTimeout>
 
           if (!openState) {
             console.log('Modal was opened')

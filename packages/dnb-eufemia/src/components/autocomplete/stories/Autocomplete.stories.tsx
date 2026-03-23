@@ -22,6 +22,7 @@ import {
 } from '../..'
 import { Anchor, Flex, Li, Ol, P, Section, Space } from '../../../'
 import { Context, Provider } from '../../../shared'
+import type { AutocompleteOnTypeParams } from '../Autocomplete'
 import { SubmitButton } from '../../input/Input'
 import { format } from '../../number-format/NumberUtils'
 import type {
@@ -864,10 +865,11 @@ export const AsyncSearchExample = () => {
     hideIndicator,
     updateData,
     debounce,
-  }) => {
+  }: AutocompleteOnTypeParams) => {
     showIndicator()
     debounce(
-      ({ value }) => {
+      (...args: unknown[]) => {
+        const { value } = (args[0] || {}) as { value: string }
         let newData = []
         if (value.toLowerCase() === 'a') {
           newData = dataA

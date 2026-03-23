@@ -1,7 +1,9 @@
 import { runCssVersionMismatchWarning } from '../runCssVersionMismatchWarning'
 
 describe('runCssVersionMismatchWarning', () => {
-  let consoleErrorSpy, consoleWarnSpy, originalGetComputedStyle
+  let consoleErrorSpy: jest.SpyInstance,
+    consoleWarnSpy: jest.SpyInstance,
+    originalGetComputedStyle: typeof window.getComputedStyle
 
   const NODE_ENV = process.env.NODE_ENV
 

@@ -7,7 +7,7 @@ import { mergeTranslations } from '../../../../../shared'
 import svSE_forms_countries from '../../../constants/locales/countries/sv-SE'
 import daDK_forms_countries from '../../../constants/locales/countries/da-DK'
 
-const getOneCountry = (countries, country: string) => {
+const getOneCountry = (countries: ReadonlyArray<{ iso: string; i18n?: Record<string, string> }>, country: string) => {
   return countries.find((c) => c.iso === country)
 }
 

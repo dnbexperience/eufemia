@@ -137,7 +137,7 @@ describe('Iterate.Array', () => {
       it('should show placeholder when value is undefined', () => {
         const renderProp = jest.fn()
 
-        const list = undefined
+        const list: unknown[] | undefined = undefined
 
         render(
           <Iterate.Array value={list} placeholder="Placeholder text">
@@ -156,7 +156,7 @@ describe('Iterate.Array', () => {
       it('should show placeholder when emptyValue is same as instance', () => {
         const renderProp = jest.fn()
 
-        const list = []
+        const list: unknown[] = []
 
         render(
           <Iterate.Array
@@ -179,7 +179,7 @@ describe('Iterate.Array', () => {
       it('should show given placeholder when value is empty', () => {
         const renderProp = jest.fn()
 
-        const list = []
+        const list: unknown[] = []
 
         render(
           <Iterate.Array value={list} placeholder="Placeholder text">
@@ -196,7 +196,7 @@ describe('Iterate.Array', () => {
       })
 
       it('should render span when placeholder is a string', () => {
-        const list = []
+        const list: unknown[] = []
 
         render(
           <Iterate.Array value={list} placeholder="Placeholder text">
@@ -1077,7 +1077,7 @@ describe('Iterate.Array', () => {
     })
 
     it('should validate during typing and show error when duplicate item is added', async () => {
-      const findFirstDuplication = (arr) =>
+      const findFirstDuplication = (arr: unknown[]) =>
         arr.findIndex((e, i) => arr.indexOf(e) !== i)
 
       const onChangeValidator = jest.fn((arrayValue) => {
@@ -1831,10 +1831,10 @@ describe('Iterate.Array', () => {
 
   describe('itemPath', () => {
     it('should preserve sibling values when stale iterate item callbacks are called out of order', async () => {
-      let latestData = null
+      let latestData: { items: Array<{ name: string }> } | null = null
       const changeItemValue: Array<(value: string) => void> = []
 
-      function CaptureItemChange(props: { index: number }) {
+      function CaptureItemChange(props: { index: number }): React.ReactNode {
         const { handleChange } = useContext(IterateItemContext)
 
         useEffect(() => {
@@ -1885,7 +1885,7 @@ describe('Iterate.Array', () => {
 
     it('should iterate over the values given in data context', () => {
       const onSubmit = jest.fn()
-      let collectedContext = null
+      let collectedContext: ContextState = null
 
       render(
         <Form.Handler
@@ -1934,7 +1934,7 @@ describe('Iterate.Array', () => {
 
     it('should iterate over the values given as defaultValue', () => {
       const onSubmit = jest.fn()
-      let collectedContext = null
+      let collectedContext: ContextState = null
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -1980,7 +1980,7 @@ describe('Iterate.Array', () => {
 
     it('should iterate over the values given as defaultValue (nested)', () => {
       const onSubmit = jest.fn()
-      let collectedContext = null
+      let collectedContext: ContextState = null
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -2115,7 +2115,7 @@ describe('Iterate.Array', () => {
     })
 
     it('should remove array item inside AnimatedContainer from data context when itemValue is undefined', async () => {
-      let collectedContext = null
+      let collectedContext: ContextState = null
 
       render(
         <Form.Handler
@@ -2207,9 +2207,9 @@ describe('Iterate.Array', () => {
   })
 
   it('should set elementRef', () => {
-    let elementRef = null
+    let elementRef: HTMLElement | null = null
 
-    const ContextConsumer = () => {
+    const ContextConsumer = (): React.ReactNode => {
       const context = React.useContext(IterateItemContext)
 
       useEffect(() => {
@@ -2232,7 +2232,7 @@ describe('Iterate.Array', () => {
   it('should set index and value', () => {
     let contextToTest = null
 
-    const ContextConsumer = () => {
+    const ContextConsumer = (): React.ReactNode => {
       const context = React.useContext(IterateItemContext)
 
       useEffect(() => {

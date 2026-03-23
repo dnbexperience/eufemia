@@ -8,7 +8,7 @@ export default {
   title: 'Eufemia/Components/SectionLayout',
 }
 
-function PageWrapper({ children }) {
+function PageWrapper({ children }: { children: React.ReactNode }) {
   const PageWrapperStyles = styled(Flex.Stack)`
     max-width: calc(var(--layout-large) - 0rem);
 

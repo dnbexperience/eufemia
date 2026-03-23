@@ -7,7 +7,7 @@ import IterateItemContext from '../../Iterate/IterateItemContext'
 describe('useExternalValue', () => {
   const transformers = {
     current: {
-      fromExternal: (val) => val,
+      fromExternal: (val: unknown) => val,
     },
   }
 
@@ -26,7 +26,7 @@ describe('useExternalValue', () => {
   it('should transform value using fromExternal when provided', () => {
     const transformers = {
       current: {
-        fromExternal: (val) => val.toUpperCase(),
+        fromExternal: (val: unknown) => (val as string).toUpperCase(),
       },
     }
 
@@ -54,7 +54,7 @@ describe('useExternalValue', () => {
 
   describe('with iterate context', () => {
     it('should return iterate element value when itemPath is "/"', () => {
-      const wrapper = ({ children }) => (
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
         <IterateItemContext
           value={{
             value: 'iterate-value',
@@ -77,7 +77,7 @@ describe('useExternalValue', () => {
     })
 
     it('should return value from iterate element using itemPath', () => {
-      const wrapper = ({ children }) => (
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
         <IterateItemContext
           value={{
             value: {
@@ -104,11 +104,11 @@ describe('useExternalValue', () => {
     it('should transform value using fromExternal when provided', () => {
       const transformers = {
         current: {
-          fromExternal: (val) => val.toUpperCase(),
+          fromExternal: (val: unknown) => (val as string).toUpperCase(),
         },
       }
 
-      const wrapper = ({ children }) => (
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
         <IterateItemContext
           value={{
             value: {
@@ -135,7 +135,7 @@ describe('useExternalValue', () => {
 
   describe('with data context', () => {
     it('should return full data when path is "/"', () => {
-      const wrapper = ({ children }) => (
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
         <DataContext.Provider
           data={{
             foo: 'bar',
@@ -158,7 +158,7 @@ describe('useExternalValue', () => {
     })
 
     it('should return value from data using path', () => {
-      const wrapper = ({ children }) => (
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
         <DataContext.Provider
           data={{
             nested: {
@@ -185,11 +185,11 @@ describe('useExternalValue', () => {
     it('should transform value using fromExternal when provided', () => {
       const transformers = {
         current: {
-          fromExternal: (val) => val.toUpperCase(),
+          fromExternal: (val: unknown) => (val as string).toUpperCase(),
         },
       }
 
-      const wrapper = ({ children }) => (
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
         <DataContext.Provider
           data={{
             nested: {
@@ -214,7 +214,7 @@ describe('useExternalValue', () => {
     })
 
     it('should return emptyValue when path does not exist', () => {
-      const wrapper = ({ children }) => (
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
         <DataContext.Provider data={{}}>{children}</DataContext.Provider>
       )
 
@@ -233,7 +233,7 @@ describe('useExternalValue', () => {
   })
 
   it('should handle priority order: value > iterate > data context', () => {
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
       <IterateItemContext
         value={{
           value: 'iterate-value',

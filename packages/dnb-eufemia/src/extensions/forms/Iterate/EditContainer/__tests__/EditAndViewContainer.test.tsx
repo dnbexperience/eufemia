@@ -72,9 +72,9 @@ describe('EditContainer and ViewContainer', () => {
   })
 
   it('should switch mode from view to edit when a field errors', async () => {
-    let containerMode = null
+    let containerMode: string | null = null
 
-    const ContextConsumer = () => {
+    const ContextConsumer = (): null => {
       const context = React.useContext(IterateItemContext)
       containerMode = context.containerMode
 
@@ -109,9 +109,9 @@ describe('EditContainer and ViewContainer', () => {
   })
 
   it('should switch mode from view to edit when pressing done button', async () => {
-    let containerMode = null
+    let containerMode: string | null = null
 
-    const ContextConsumer = () => {
+    const ContextConsumer = (): null => {
       const context = React.useContext(IterateItemContext)
       containerMode = context.containerMode
 
@@ -153,9 +153,9 @@ describe('EditContainer and ViewContainer', () => {
   })
 
   it('should switch mode from view to edit on error during submit', async () => {
-    let containerMode = null
+    let containerMode: string | null = null
 
-    const ContextConsumer = () => {
+    const ContextConsumer = (): null => {
       const context = React.useContext(IterateItemContext)
       containerMode = context.containerMode
 
@@ -196,9 +196,9 @@ describe('EditContainer and ViewContainer', () => {
 
   describe('Cancel routine', () => {
     it('should stay in edit and show container error on Cancel after submit error', async () => {
-      let containerMode = null
+      let containerMode: string | null = null
 
-      const ContextConsumer = () => {
+      const ContextConsumer = (): null => {
         const context = React.useContext(IterateItemContext)
         containerMode = context.containerMode
         return null
@@ -248,9 +248,9 @@ describe('EditContainer and ViewContainer', () => {
     })
 
     it('should keep edit after cancel when required error exists, and submit should still be edit', async () => {
-      let containerMode = null
+      let containerMode: string | null = null
 
-      const ContextConsumer = () => {
+      const ContextConsumer = (): null => {
         const context = React.useContext(IterateItemContext)
         containerMode = context.containerMode
         return null
@@ -320,9 +320,9 @@ describe('EditContainer and ViewContainer', () => {
     })
 
     it('should keep edit after cancel (when view is rendered first), and submit should still be edit', async () => {
-      let containerMode = null
+      let containerMode: string | null = null
 
-      const ContextConsumer = () => {
+      const ContextConsumer = (): null => {
         const context = React.useContext(IterateItemContext)
         containerMode = context.containerMode
         return null
@@ -392,9 +392,9 @@ describe('EditContainer and ViewContainer', () => {
     })
 
     it('should reset entered data on Cancel press, when containerMode is set to "edit"', async () => {
-      let containerMode = null
+      let containerMode: string | null = null
 
-      const ContextConsumer = () => {
+      const ContextConsumer = (): null => {
         const context = React.useContext(IterateItemContext)
         containerMode = context.containerMode
         return null
@@ -437,9 +437,9 @@ describe('EditContainer and ViewContainer', () => {
   })
 
   it('should not show error if every field is required via Form.Handler required', async () => {
-    let containerMode = null
+    let containerMode: string | null = null
 
-    const ContextConsumer = () => {
+    const ContextConsumer = (): null => {
       const context = React.useContext(IterateItemContext)
       containerMode = context.containerMode
 
@@ -484,9 +484,9 @@ describe('EditContainer and ViewContainer', () => {
 
   describe('focus management', () => {
     it('should not set focus when container opens initially in edit mode', async () => {
-      let containerMode = null
+      let containerMode: string | null = null
 
-      const ContextConsumer = () => {
+      const ContextConsumer = (): null => {
         const context = React.useContext(IterateItemContext)
         containerMode = context.containerMode
 
@@ -523,9 +523,9 @@ describe('EditContainer and ViewContainer', () => {
     })
 
     it('should only set focus on newly added element when containerMode changes', async () => {
-      const containerMode = []
+      const containerMode: Array<string> = []
 
-      const ContextConsumer = () => {
+      const ContextConsumer = (): null => {
         const context = React.useContext(IterateItemContext)
         containerMode.push(context.containerMode)
 
@@ -866,9 +866,9 @@ describe('EditContainer and ViewContainer', () => {
   })
 
   it('should set all items to the given containerMode', async () => {
-    let containerMode = null
+    let containerMode: string | null = null
 
-    const ContextConsumer = () => {
+    const ContextConsumer = (): null => {
       const context = React.useContext(IterateItemContext)
       containerMode = context.containerMode
 
@@ -1314,9 +1314,9 @@ describe('EditContainer and ViewContainer', () => {
   })
 
   it('should open in "edit" mode without focusing', async () => {
-    const containerMode = {}
+    const containerMode: Record<number, string> = {}
 
-    const ContextConsumer = () => {
+    const ContextConsumer = (): null => {
       const context = React.useContext(IterateItemContext)
       containerMode[context.index] = context.containerMode
 
@@ -1341,9 +1341,9 @@ describe('EditContainer and ViewContainer', () => {
   })
 
   it('should set first item to "view" mode when a new is pushed to the array', async () => {
-    const containerMode = {}
+    const containerMode: Record<number, string> = {}
 
-    const ContextConsumer = () => {
+    const ContextConsumer = (): null => {
       const context = React.useContext(IterateItemContext)
       containerMode[context.index] = context.containerMode
 
@@ -1390,9 +1390,9 @@ describe('EditContainer and ViewContainer', () => {
   })
 
   it('should keep first item in "edit" mode when there is an error', async () => {
-    const containerMode = {}
+    const containerMode: Record<number, string> = {}
 
-    const ContextConsumer = () => {
+    const ContextConsumer = (): null => {
       const context = React.useContext(IterateItemContext)
       containerMode[context.index] = context.containerMode
 

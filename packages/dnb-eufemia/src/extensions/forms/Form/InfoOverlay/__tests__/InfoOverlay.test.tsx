@@ -456,7 +456,7 @@ describe('Form.InfoOverlay', () => {
 
   it('should not bleed content property to data', () => {
     const formId = 'bleeed'
-    let outerContext = null
+    let outerContext: ReturnType<typeof Form.useData> | null = null
 
     const MyForm = () => {
       outerContext = Form.useData(formId)
@@ -468,24 +468,24 @@ describe('Form.InfoOverlay', () => {
     }
     render(<MyForm />)
 
-    expect(outerContext.data).toEqual(undefined)
+    expect(outerContext!.data).toEqual(undefined)
 
     act(() => {
       Form.InfoOverlay.setContent(formId, <>info content</>)
     })
-    expect(outerContext.data).toEqual(undefined)
+    expect(outerContext!.data).toEqual(undefined)
     act(() => {
       Form.InfoOverlay.setContent(formId, 'success')
     })
-    expect(outerContext.data).toEqual(undefined)
+    expect(outerContext!.data).toEqual(undefined)
     act(() => {
       Form.InfoOverlay.setContent(formId, 'error')
     })
-    expect(outerContext.data).toEqual(undefined)
+    expect(outerContext!.data).toEqual(undefined)
     act(() => {
       Form.InfoOverlay.setContent(formId, undefined)
     })
-    expect(outerContext.data).toEqual(undefined)
+    expect(outerContext!.data).toEqual(undefined)
   })
 
   it('should work together with onSubmit and reduceToVisibleFields', () => {

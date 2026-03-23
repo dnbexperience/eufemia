@@ -2,10 +2,10 @@ import { act } from '@testing-library/react'
 
 export function initializeTestSetup() {
   beforeEach(() => {
-    globalThis.IS_TEST = false
-    globalThis.readjustTime = 10
-    globalThis.bypassTime = -1
-    globalThis.animationDuration = -1
+    ;(globalThis as Record<string, unknown>).IS_TEST = false
+    ;(globalThis as Record<string, unknown>).readjustTime = 10
+    ;(globalThis as Record<string, unknown>).bypassTime = -1
+    ;(globalThis as Record<string, unknown>).animationDuration = -1
 
     const requestAnimationFrame = jest.fn((fn) => {
       nextAnimationFrame = fn
@@ -16,10 +16,10 @@ export function initializeTestSetup() {
       .mockImplementation(requestAnimationFrame)
   })
   afterEach(() => {
-    globalThis.IS_TEST = undefined
-    globalThis.readjustTime = undefined
-    globalThis.bypassTime = undefined
-    globalThis.animationDuration = undefined
+    ;(globalThis as Record<string, unknown>).IS_TEST = undefined
+    ;(globalThis as Record<string, unknown>).readjustTime = undefined
+    ;(globalThis as Record<string, unknown>).bypassTime = undefined
+    ;(globalThis as Record<string, unknown>).animationDuration = undefined
   })
 }
 
@@ -44,7 +44,7 @@ export const mockHeight = (
 }
 
 // Will be overwritten when using "initializeTestSetup"
-export let nextAnimationFrame = () => null
+export let nextAnimationFrame = (): null | void => null
 export const runAnimation = () => {
   nextAnimationFrame()
   nextAnimationFrame()

@@ -125,7 +125,7 @@ describe('Context', () => {
   })
 
   it('should support fallback "translation" for non-existent locale', () => {
-    let translation = undefined
+    let translation: Record<string, unknown> | undefined = undefined
 
     render(
       <Provider locale="non-existent">
@@ -139,7 +139,7 @@ describe('Context', () => {
     )
 
     expect(translation).not.toBeUndefined()
-    expect(translation.DatePicker.month).toBe('måned')
+    expect((translation!.DatePicker as Record<string, unknown>).month).toBe('måned')
   })
 
   it('should preserve all translations when Provider supplies partial translations', () => {

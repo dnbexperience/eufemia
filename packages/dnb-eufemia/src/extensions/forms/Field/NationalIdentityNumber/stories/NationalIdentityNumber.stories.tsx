@@ -8,7 +8,7 @@ export default {
   title: 'Eufemia/Extensions/Forms/NationalIdentityNumber',
 }
 
-const simpleValidator = (value) => {
+const simpleValidator = (value: string) => {
   return value?.length < 4 ? Error('At least 4 characters') : undefined
 }
 
@@ -633,7 +633,7 @@ export function CustomOnBlurValidatorFunction() {
 }
 
 export function CustomValidatorFunctionReturnArray() {
-  const validatorX = (value) => {
+  const validatorX = (value: string) => {
     return value?.length < 4 ? Error('At least 4 characters') : undefined
   }
 
@@ -702,7 +702,7 @@ export function CustomValidatorFunctionReturnArray() {
 }
 
 export function CustomOnBlurValidatorFunctionReturnArray() {
-  const validatorX = (value) => {
+  const validatorX = (value: string) => {
     return value?.length < 4 ? Error('At least 4 characters') : undefined
   }
 

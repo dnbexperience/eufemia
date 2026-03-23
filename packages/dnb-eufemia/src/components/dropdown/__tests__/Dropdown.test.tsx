@@ -79,24 +79,24 @@ describe('Dropdown component', () => {
 
   it('has correct value on keydown "ArrowDown" and "Enter"', () => {
     render(<Dropdown {...props} data={mockData} />)
-    let elem: HTMLUListElement
+    let elem: Element
 
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
     ).toBe(
-      (mockData[props.value] as DrawerListDataArrayObject).selectedValue
+      (mockData[props.value as number] as DrawerListDataArrayObject).selectedValue
     )
     expect(
       document.querySelector('.dnb-dropdown__trigger')
     ).toHaveAttribute(
       'title',
-      (mockData[props.value] as DrawerListDataArrayObject).selectedValue
+      (mockData[props.value as number] as DrawerListDataArrayObject).selectedValue
     )
 
     keydown(' ')
 
     elem = document.querySelectorAll('.dnb-drawer-list__option')[
-      props.value
+      props.value as number
     ]
     expect(elem.classList).toContain('dnb-drawer-list__option--focus')
     expect(elem.classList).toContain('dnb-drawer-list__option--selected')
@@ -1254,7 +1254,7 @@ describe('Dropdown component', () => {
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
     ).toBe(
-      (mockData[props.value] as DrawerListDataArrayObject).selectedValue
+      (mockData[props.value as number] as DrawerListDataArrayObject).selectedValue
     )
   })
 
@@ -1268,7 +1268,7 @@ describe('Dropdown component', () => {
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
     ).toBe(
-      (mockData[props.value] as DrawerListDataArrayObject).selectedValue
+      (mockData[props.value as number] as DrawerListDataArrayObject).selectedValue
     )
   })
 
@@ -1310,11 +1310,11 @@ describe('Dropdown component', () => {
   })
 
   it('should support title as `React.ReactNode`', () => {
-    const TitleAsChildren = ({ children }) => {
+    const TitleAsChildren = ({ children }: { children?: React.ReactNode }) => {
       return <span id="title-as-children">{children}</span>
     }
 
-    const TitleAsProp = ({ title }) => {
+    const TitleAsProp = ({ title }: { title?: React.ReactNode }) => {
       return <span id="title-as-prop">{title}</span>
     }
 
@@ -1351,7 +1351,7 @@ describe('Dropdown component', () => {
       document.querySelector('.dnb-dropdown__trigger')
     ).toHaveAttribute(
       'title',
-      (mockData[props.value] as DrawerListDataArrayObject).selectedValue
+      (mockData[props.value as number] as DrawerListDataArrayObject).selectedValue
     )
   })
 
@@ -1365,7 +1365,7 @@ describe('Dropdown component', () => {
       document.querySelector('.dnb-dropdown__trigger')
     ).toHaveAttribute(
       'title',
-      (mockData[props.value] as DrawerListDataArrayObject).selectedValue
+      (mockData[props.value as number] as DrawerListDataArrayObject).selectedValue
     )
   })
 
@@ -1684,7 +1684,7 @@ describe('Dropdown component', () => {
         .mockImplementation(() => height)
     }
 
-    window.scrollTo = function resizeTo({ top = window.pageYOffset }) {
+    window.scrollTo = function resizeTo({ top = window.pageYOffset }: ScrollToOptions) {
       Object.assign(this, {
         pageYOffset: top,
       }).dispatchEvent(new this.Event('scroll'))
@@ -2141,7 +2141,7 @@ describe('Dropdown scss', () => {
   })
 })
 
-const keydown = (key) => {
+const keydown = (key: string) => {
   fireEvent.keyDown(
     document.querySelector('button.dnb-dropdown__trigger'),
     {
@@ -2154,7 +2154,7 @@ const open = () => {
   fireEvent.click(document.querySelector('button.dnb-dropdown__trigger'))
 }
 
-const dispatchKeyDown = (key) => {
+const dispatchKeyDown = (key: string) => {
   document.dispatchEvent(
     new KeyboardEvent('keydown', {
       key,

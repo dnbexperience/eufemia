@@ -11,7 +11,7 @@ import { Provider } from '../../../shared'
 
 describe('Radio group component', () => {
   it('should not have _formElement property', () => {
-    expect(Radio.Group['_formElement']).toBeUndefined()
+    expect((Radio.Group as unknown as Record<string, unknown>)['_formElement']).toBeUndefined()
   })
 
   it('has to set correct value using keys', () => {

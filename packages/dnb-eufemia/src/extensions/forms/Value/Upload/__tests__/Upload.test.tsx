@@ -99,7 +99,7 @@ describe('Value.Upload', () => {
       ).toHaveTextContent('fileName.png')
     })
 
-    let dataContext = null
+    let dataContext: DataContext.ContextState | null = null
 
     // Don't rerender, but render again to make sure the files are not set
     unmount()
@@ -115,7 +115,7 @@ describe('Value.Upload', () => {
       </Form.Handler>
     )
 
-    expect(dataContext.internalDataRef.current.myFiles).toEqual([
+    expect(dataContext!.internalDataRef.current.myFiles).toEqual([
       {
         exists: false,
         file: new File([], 'fileName.png'),

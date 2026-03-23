@@ -778,7 +778,7 @@ describe('getOrCreatePortalElement', () => {
     const tempDocument = global.document
 
     // Override the function temporarily to simulate server-side behavior
-    const serverSideFunction = (id: string) => {
+    const serverSideFunction = (id: string): null => {
       // This simulates the actual check in getOrCreatePortalElement
       if (
         typeof window === 'undefined' ||

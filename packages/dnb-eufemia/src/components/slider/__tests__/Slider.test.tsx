@@ -538,7 +538,7 @@ describe('Slider component', () => {
       pageX: 80,
       rawValue: 80,
       value: 80,
-      number: null,
+      number: null as string | null,
       width: 100,
     }
     expect(onChange).toHaveBeenCalledWith(changeObject)
@@ -638,8 +638,8 @@ describe('Slider component', () => {
             max={200}
             value={[0, 200]} // <-- Here we do not update the value
             onChange={({ value }) => {
-              setMinVal(value[0])
-              setMaxVal(value[1])
+              setMinVal((value as number[])[0])
+              setMaxVal((value as number[])[1])
             }}
           />
         )
@@ -978,7 +978,7 @@ const resetMouseSimulation = () => {
   }
 }
 
-const simulateMouseMove = (props) => {
+const simulateMouseMove = (props: Record<string, unknown>) => {
   act(() => {
     fireEvent.mouseUp(document.querySelector('.dnb-slider__track'))
     fireEvent.mouseDown(document.querySelector('.dnb-slider__track'))

@@ -195,9 +195,15 @@ describe('runFactory', () => {
   })
 })
 
-type FactoryResult = Record<string, string>
+type FactoryResult = Record<string, string[]>
 
-const make = async ({ scssOutputPath, targetFile }) => {
+const make = async ({
+  scssOutputPath,
+  targetFile,
+}: {
+  scssOutputPath: string
+  targetFile: string
+}) => {
   return (await runFactory({
     targetFile,
     scssOutputPath,
@@ -208,7 +214,7 @@ const make = async ({ scssOutputPath, targetFile }) => {
       ),
     ],
     returnResult: true,
-  })) as FactoryResult
+  })) as unknown as FactoryResult
 }
 
 const getThemeContent = async ({
@@ -216,6 +222,11 @@ const getThemeContent = async ({
   targetFile = 'components',
   scssOutputPath = path.resolve(__dirname, '../../../../src/style/themes'),
   factoryResult = null,
+}: {
+  name: string
+  targetFile?: string
+  scssOutputPath?: string
+  factoryResult?: FactoryResult | null
 }) => {
   if (!factoryResult) {
     factoryResult = await make({ scssOutputPath, targetFile })

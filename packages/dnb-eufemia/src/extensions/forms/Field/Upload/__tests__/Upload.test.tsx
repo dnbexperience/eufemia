@@ -8,7 +8,7 @@ import { BYTES_IN_A_MEGA_BYTE } from '../../../../../components/upload/UploadVer
 import { createMockFile } from '../../../../../components/upload/__tests__/testHelpers'
 import nbNOForms from '../../../constants/locales/nb-NO'
 import nbNOShared from '../../../../../shared/locales/nb-NO'
-import type { UploadFileNative, UploadValue } from '../Upload'
+import type { UploadFile, UploadFileNative, UploadValue } from '../Upload'
 
 const nbForms = nbNOForms['nb-NO']
 const nbShared = nbNOShared['nb-NO']
@@ -1674,7 +1674,7 @@ describe('Field.Upload', () => {
     })
 
     it('should add new files from fileHandler with async function with multiple actions', async () => {
-      const newFile = (fileId) => {
+      const newFile = (fileId: number) => {
         return createMockFile(`${fileId}.png`, 100, 'image/png')
       }
 
@@ -1687,7 +1687,7 @@ describe('Field.Upload', () => {
         newFile(5),
       ]
 
-      const asyncValidatorResolvingWithSuccess = (id) =>
+      const asyncValidatorResolvingWithSuccess = (id: number) =>
         new Promise<UploadValue>((resolve) =>
           setTimeout(
             () =>
@@ -1712,7 +1712,7 @@ describe('Field.Upload', () => {
             .mockReturnValueOnce(asyncValidatorResolvingWithSuccess(0))
             .mockReturnValueOnce(asyncValidatorNeverResolving())
             .mockReturnValueOnce(asyncValidatorResolvingWithSuccess(2))
-            .mockReturnValueOnce(asyncValidatorNeverResolving())}
+            .mockReturnValueOnce(asyncValidatorNeverResolving()) as never}
         />
       )
 
@@ -1765,7 +1765,7 @@ describe('Field.Upload', () => {
         await wait(1)
       })
 
-      const newFile = (fileId) => {
+      const newFile = (fileId: number) => {
         return createMockFile(`${fileId}.png`, 100, 'image/png')
       }
 
@@ -1773,17 +1773,17 @@ describe('Field.Upload', () => {
 
       const filesSecondUpload = [newFile(1)]
 
-      const asyncValidatorResolvingWithSuccess = (files) =>
+      const asyncValidatorResolvingWithSuccess = (files: UploadFileNative[]) =>
         new Promise<UploadValue>((resolve) =>
           setTimeout(() => {
-            const filesToResolve = files.map((file, i) => {
+            const filesToResolve = files.map((file: UploadFileNative, i: number) => {
               return {
                 file: file,
                 id: makeUniqueId(),
                 exists: false,
               }
             })
-            resolve(filesToResolve)
+            resolve(filesToResolve as unknown as UploadValue)
           }, 1)
         )
 
@@ -1793,10 +1793,10 @@ describe('Field.Upload', () => {
           fileHandler={jest
             .fn(asyncValidatorResolvingWithSuccess)
             .mockReturnValueOnce(
-              asyncValidatorResolvingWithSuccess(filesFirstUpload)
+              asyncValidatorResolvingWithSuccess(filesFirstUpload as unknown as UploadFileNative[])
             )
             .mockReturnValueOnce(
-              asyncValidatorResolvingWithSuccess(filesSecondUpload)
+              asyncValidatorResolvingWithSuccess(filesSecondUpload as unknown as UploadFileNative[])
             )}
         />
       )
@@ -2193,7 +2193,7 @@ describe('Field.Upload', () => {
       ).toBe(1)
     })
 
-    let dataContext = null
+    let dataContext: Record<string, unknown> | null = null
 
     // Don't rerender, but render again to make sure the files are not set
     unmount()
@@ -2210,7 +2210,10 @@ describe('Field.Upload', () => {
     )
 
     await waitFor(() => {
-      expect(dataContext?.internalDataRef?.current?.myFiles).toEqual([
+      expect(
+        (dataContext?.internalDataRef as { current: Record<string, unknown> })
+          ?.current?.myFiles
+      ).toEqual([
         {
           exists: false,
           file: new File([], 'fileName.png'),
@@ -2455,7 +2458,7 @@ describe('Field.Upload', () => {
       )
 
       const onSubmit = jest.fn()
-      let latestData = null
+      let latestData: Record<string, unknown> | null = null
 
       const firstItemFile = createMockFile(
         'first-item-file.png',
@@ -2538,10 +2541,11 @@ describe('Field.Upload', () => {
       ])
 
       await waitFor(() => {
-        expect(latestData?.listOfFiles?.[0]?.files?.[0]?.file?.name).toBe(
+        const listOfFiles = latestData?.listOfFiles as Array<{ files: Array<{ file: { name: string } }> }>
+        expect(listOfFiles?.[0]?.files?.[0]?.file?.name).toBe(
           'first-item-file.png'
         )
-        expect(latestData?.listOfFiles?.[1]?.files?.[0]?.file?.name).toBe(
+        expect(listOfFiles?.[1]?.files?.[0]?.file?.name).toBe(
           'second-item-file.png'
         )
         expect(
@@ -2957,8 +2961,8 @@ describe('Field.Upload', () => {
       )
     }
 
-    let dataContext = null
-    function LogContext() {
+    let dataContext: Record<string, unknown> | null = null
+    function LogContext(): null {
       dataContext = useContext(DataContext.Context).data
       return null
     }
@@ -3609,7 +3613,7 @@ describe('Field.Upload', () => {
       const callOrder: string[] = []
       const onValidationError = jest.fn((files) => {
         callOrder.push('onValidationError')
-        return files.map((file) => ({
+        return files.map((file: UploadFile) => ({
           ...file,
           description: 'Modified by validation handler',
         }))
@@ -3657,7 +3661,7 @@ describe('Field.Upload', () => {
 
     it('should allow setting removeLink on files with validation errors', async () => {
       const onValidationError = jest.fn((files) => {
-        return files.map((file) => ({
+        return files.map((file: UploadFile) => ({
           ...file,
           removeLink: true,
         }))
@@ -3696,7 +3700,7 @@ describe('Field.Upload', () => {
 
     it('should allow setting multiple custom properties on invalid files', async () => {
       const onValidationError = jest.fn((files) => {
-        return files.map((file) => ({
+        return files.map((file: UploadFile) => ({
           ...file,
           removeLink: true,
           removeDeleteButton: true,
@@ -3755,7 +3759,7 @@ describe('Field.Upload', () => {
 
     it('should work with both sync onValidationError and async fileHandler', async () => {
       const onValidationError = jest.fn((files) => {
-        return files.map((file) => ({
+        return files.map((file: UploadFile) => ({
           ...file,
           removeLink: true,
         }))
@@ -3763,7 +3767,7 @@ describe('Field.Upload', () => {
 
       const fileHandler = jest.fn((files) => {
         return Promise.resolve(
-          files.map((file) => ({
+          files.map((file: UploadFile) => ({
             ...file,
             id: 'server-id',
           }))
@@ -3816,7 +3820,7 @@ describe('Field.Upload', () => {
 
     it('should handle only invalid files without fileHandler', async () => {
       const onValidationError = jest.fn((files) => {
-        return files.map((file) => ({
+        return files.map((file: UploadFile) => ({
           ...file,
           removeLink: true,
         }))
@@ -3920,7 +3924,7 @@ describe('Field.Upload', () => {
 
     it('should work with onFileDelete on files modified by onValidationError', async () => {
       const onValidationError = jest.fn((files) => {
-        return files.map((file) => ({
+        return files.map((file: UploadFile) => ({
           ...file,
           removeLink: true,
           description: 'Cannot upload',
@@ -3971,7 +3975,7 @@ describe('Field.Upload', () => {
 
     it('should support deleteButtonProps on files with validation errors', async () => {
       const onValidationError = jest.fn((files) => {
-        return files.map((file) => ({
+        return files.map((file: UploadFile) => ({
           ...file,
           deleteButtonProps: {
             icon: 'exclamation',
@@ -4019,14 +4023,14 @@ describe('Field.Upload', () => {
 
     it('should be mutually exclusive with fileHandler - only invalid files trigger onValidationError', async () => {
       const onValidationError = jest.fn((files) => {
-        return files.map((file) => ({
+        return files.map((file: UploadFile) => ({
           ...file,
           description: 'Validation failed',
         }))
       })
 
       const fileHandler = jest.fn((files) => {
-        return files.map((file) => ({
+        return files.map((file: UploadFile) => ({
           ...file,
           id: `server_${file.file.name}`,
         }))
@@ -4092,7 +4096,7 @@ describe('Field.Upload', () => {
 
     it('should trigger onValidationError for files with errorMessage set via value prop', async () => {
       const onValidationError = jest.fn((files) => {
-        return files.map((file) => ({
+        return files.map((file: UploadFile) => ({
           ...file,
           description: 'Error handled by onValidationError',
         }))
@@ -4151,7 +4155,7 @@ describe('Field.Upload', () => {
 
       const fileHandler = jest.fn((files) => {
         // Simulate fileHandler returning file with error
-        return files.map((file) => ({
+        return files.map((file: UploadFile) => ({
           ...file,
           id: 'server-id',
           errorMessage: 'Server validation failed',

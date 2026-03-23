@@ -87,7 +87,7 @@ describe('Field.Slider', () => {
     })
 
     it('should store "displayValue" in data context', async () => {
-      let dataContext = null
+      let dataContext: DataContext.ContextState | null = null
 
       render(
         <Form.Handler
@@ -108,7 +108,7 @@ describe('Field.Slider', () => {
         </Form.Handler>
       )
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/myValue': {
           type: 'field',
           value: '400,00 €',
@@ -118,7 +118,7 @@ describe('Field.Slider', () => {
       await userEvent.keyboard('{Tab>3}')
       await userEvent.type(document.activeElement, '{ArrowRight}')
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/myValue': {
           type: 'field',
           value: '401,00 €',
@@ -325,7 +325,7 @@ const resetMouseSimulation = () => {
   }
 }
 
-const simulateMouseMove = (props) => {
+const simulateMouseMove = (props: Record<string, unknown>) => {
   act(() => {
     fireEvent.mouseUp(document.querySelector('.dnb-slider__track'))
     fireEvent.mouseDown(document.querySelector('.dnb-slider__track'))

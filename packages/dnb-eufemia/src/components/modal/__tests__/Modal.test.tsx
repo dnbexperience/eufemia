@@ -15,8 +15,8 @@ import * as helpers from '../../../shared/helpers'
 import userEvent from '@testing-library/user-event'
 import ModalHeaderBar from '../parts/ModalHeaderBar'
 
-global.userAgent = jest.spyOn(navigator, 'userAgent', 'get')
-global.appVersion = jest.spyOn(navigator, 'appVersion', 'get')
+;(globalThis as Record<string, unknown>).userAgent = jest.spyOn(navigator, 'userAgent', 'get')
+;(globalThis as Record<string, unknown>).appVersion = jest.spyOn(navigator, 'appVersion', 'get')
 
 const props: ModalProps = {
   title: 'modal_title',
@@ -888,7 +888,7 @@ describe('Modal component', () => {
 
   it('will prevent closing the modal on preventClose', async () => {
     let preventClose = true
-    let testTriggeredBy = null
+    let testTriggeredBy: string | null = null
     const onClose = jest.fn(
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
     )
@@ -987,7 +987,7 @@ describe('Modal component', () => {
   })
 
   it('will close the modal on overlay click', () => {
-    let testTriggeredBy = null
+    let testTriggeredBy: string | null = null
     const onClose = jest.fn(
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
     )
@@ -1058,7 +1058,7 @@ describe('Modal component', () => {
   })
 
   it('has working open event and close event on changing the "open" prop', async () => {
-    let testTriggeredBy = null
+    let testTriggeredBy: string | null = null
     const onClose = jest.fn(
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
     )
@@ -1211,8 +1211,8 @@ describe('Modal component', () => {
     )
     const elem = document.querySelector('button')
 
-    global.userAgent.mockReturnValue('iPhone OS 12')
-    global.appVersion.mockReturnValue('OS 12_0_0')
+    ;((globalThis as Record<string, unknown>).userAgent as jest.SpyInstance).mockReturnValue('iPhone OS 12')
+    ;((globalThis as Record<string, unknown>).appVersion as jest.SpyInstance).mockReturnValue('OS 12_0_0')
 
     const addEventListener = jest
       .spyOn(document, 'addEventListener')
@@ -1274,7 +1274,7 @@ describe('Modal component', () => {
     )
     const elem = document.querySelector('button')
 
-    global.userAgent.mockReturnValue('Android; 7.')
+    ;((globalThis as Record<string, unknown>).userAgent as jest.SpyInstance).mockReturnValue('Android; 7.')
 
     expect(document.body).not.toHaveAttribute('style')
 
@@ -1771,11 +1771,11 @@ describe('Modal component', () => {
         const MockComponent = () => {
           const [open, setOpen] = React.useState(false)
 
-          const onOpenHandler = (...args) => {
+          const onOpenHandler = (...args: unknown[]) => {
             setOpen(true)
             onOpen(...args)
           }
-          const onCloseHandler = (...args) => {
+          const onCloseHandler = (...args: unknown[]) => {
             setOpen(false)
             onClose(...args)
           }

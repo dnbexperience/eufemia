@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event'
 import type { Props } from '../SelectCurrency'
 import { Provider } from '../../../../../shared'
 import DataContext from '../../../DataContext/Context'
+import type { ContextState } from '../../../DataContext/Context'
 import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListProvider'
 import { Field, Form, FieldBlock, Value, Iterate } from '../../..'
 import type { CurrencyISO } from '../../../constants/currencies'
@@ -838,7 +839,7 @@ describe('Field.SelectCurrency', () => {
   })
 
   it('should store "displayValue" in data context', async () => {
-    let dataContext = null
+    let dataContext: ContextState | null = null
 
     render(
       <Form.Handler locale="en-GB">
@@ -852,7 +853,7 @@ describe('Field.SelectCurrency', () => {
       </Form.Handler>
     )
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect(dataContext!.fieldDisplayValueRef.current).toEqual({
       '/currency': {
         type: 'field',
         value: 'Norwegian krone',
@@ -866,7 +867,7 @@ describe('Field.SelectCurrency', () => {
     await userEvent.keyboard('{Enter}')
     DrawerListProvider['blurDelay'] = 201
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect(dataContext!.fieldDisplayValueRef.current).toEqual({
       '/currency': {
         type: 'field',
         value: 'Danish krone',

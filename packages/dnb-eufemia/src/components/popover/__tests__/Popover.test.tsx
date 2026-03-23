@@ -130,13 +130,13 @@ describe('Popover', () => {
   ) => {
     const originalResizeObserver = global.ResizeObserver
     global.ResizeObserver = class ResizeObserver {
-      observe() {
+      observe(): null {
         return null
       }
-      unobserve() {
+      unobserve(): null {
         return null
       }
-      disconnect() {
+      disconnect(): null {
         return null
       }
     }

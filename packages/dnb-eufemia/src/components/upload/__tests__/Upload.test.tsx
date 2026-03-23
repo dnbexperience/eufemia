@@ -11,7 +11,7 @@ import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
 import { createMockFile } from './testHelpers'
 import { loadScss, axeComponent, wait } from '../../../core/jest/jestSetup'
-import type { UploadAllProps } from '../types'
+import type { UploadAllProps, UploadFileNative } from '../types'
 import useUpload from '../useUpload'
 import Provider from '../../../shared/Provider'
 import IconPrimary from '../../IconPrimary'
@@ -209,7 +209,7 @@ describe('Upload', () => {
     })
 
     it('does not render fileTypeDescription when acceptedFileTypes is empty', () => {
-      const acceptedFileTypes = []
+      const acceptedFileTypes: string[] = []
 
       render(
         <Upload {...defaultProps} acceptedFileTypes={acceptedFileTypes} />
@@ -1208,7 +1208,7 @@ describe('Upload', () => {
     })
 
     it('does not render any file when file is undefined', async () => {
-      const files = [{ file: undefined }]
+      const files = [{ file: undefined as unknown as File }]
 
       const id = 'random-id'
 
@@ -1230,7 +1230,7 @@ describe('Upload', () => {
     })
 
     it('does not render any file when list of files is undefined', async () => {
-      const files = [undefined]
+      const files = [undefined] as unknown as UploadFileNative[]
 
       const id = 'random-id'
 
@@ -1252,7 +1252,7 @@ describe('Upload', () => {
     })
 
     it('does not render any file when undefined', async () => {
-      const files = undefined
+      const files = undefined as unknown as UploadFileNative[]
 
       const id = 'random-id'
 
@@ -1349,7 +1349,7 @@ describe('Upload', () => {
     })
 
     it('shows no files', async () => {
-      const files = []
+      const files: UploadFileNative[] = []
 
       const id = 'random-id3'
 

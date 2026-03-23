@@ -65,7 +65,7 @@ describe('useHasContentChanged', () => {
     const data = { name: 'foo' }
     let hasContentChanged = null
 
-    const RenderTheHook = () => {
+    const RenderTheHook = (): null => {
       const { hasContentChanged: hasChanged } = useHasContentChanged({
         enabled: true,
       })
@@ -101,7 +101,7 @@ describe('useHasContentChanged', () => {
     }
     let hasContentChanged = null
 
-    const RenderTheHook = () => {
+    const RenderTheHook = (): null => {
       const { hasContentChanged: hasChanged } = useHasContentChanged({
         enabled: true,
       })
@@ -139,7 +139,7 @@ describe('useHasContentChanged', () => {
     const dataReference = createDataReference()
     let hasContentChanged = null
 
-    const RenderTheHook = () => {
+    const RenderTheHook = (): null => {
       const { hasContentChanged: hasChanged } = useHasContentChanged({
         enabled: true,
       })

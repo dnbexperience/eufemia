@@ -308,7 +308,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should call async "onPathChange" on path change', () => {
-      const onPathChange = jest.fn(async () => null)
+      const onPathChange = jest.fn(async (): Promise<null> => null)
 
       const { rerender } = render(
         <DataContext.Provider
@@ -359,8 +359,8 @@ describe('DataContext.Provider', () => {
       it('should call "onChange" validated when async and unvalidated when sync', async () => {
         const log = jest.spyOn(console, 'log').mockImplementation()
 
-        const onChangeSync = jest.fn(() => null)
-        const onChangeAsync = jest.fn(async () => null)
+        const onChangeSync = jest.fn((): null => null)
+        const onChangeAsync = jest.fn(async (): Promise<null> => null)
 
         const { rerender } = render(
           <DataContext.Provider onChange={onChangeAsync}>
@@ -798,8 +798,8 @@ describe('DataContext.Provider', () => {
           filteredData = filterData(filterDataHandler)
         })
 
-        const filterDataHandler = ({ props }) => {
-          return !props['data-exclude-field']
+        const filterDataHandler: FilterData = ({ props }) => {
+          return !(props as Record<string, unknown>)['data-exclude-field']
         }
 
         const MockForm = () => {
@@ -910,7 +910,7 @@ describe('DataContext.Provider', () => {
       result,
     }: {
       result: React.RefObject<ContextState>
-    }) => {
+    }): null => {
       result.current = useContext(DataContext.Context)
       return null
     }
@@ -919,7 +919,7 @@ describe('DataContext.Provider', () => {
       const onSubmit = async () => {
         return { status: 'pending' } as const
       }
-      const onSubmitComplete = jest.fn(async () => null)
+      const onSubmitComplete = jest.fn(async (): Promise<null> => null)
 
       render(
         <DataContext.Provider
@@ -1032,8 +1032,8 @@ describe('DataContext.Provider', () => {
     })
 
     describe('should evaluate long onChangeValidator and onBlurValidator before continue with async onSubmit', () => {
-      let eventsStart = []
-      let eventsEnd = []
+      let eventsStart: Array<string> = []
+      let eventsEnd: Array<string> = []
 
       const onSubmit = async () => {
         eventsStart.push('onSubmit')
@@ -1407,7 +1407,7 @@ describe('DataContext.Provider', () => {
 
     it('should set "formState" to "pending" when when "onSubmit" is async', async () => {
       const result = createRef<ContextState>()
-      const onSubmit = async () => null
+      const onSubmit = async (): Promise<null> => null
 
       render(
         <DataContext.Provider onSubmit={onSubmit}>
@@ -1431,7 +1431,7 @@ describe('DataContext.Provider', () => {
 
     it('should show submit indicator during submit when "onSubmit" is used', async () => {
       const result = createRef<ContextState>()
-      const onSubmit = async () => null
+      const onSubmit = async (): Promise<null> => null
 
       render(
         <DataContext.Provider onSubmit={onSubmit}>
@@ -1756,7 +1756,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should fulfill first the form event before the field event', async () => {
-      const events = []
+      const events: Array<string> = []
 
       const onChangeForm: OnChange = async () => {
         events.push('onChangeForm')
@@ -2029,7 +2029,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should show indicator during all async operations', async () => {
-      const events = []
+      const events: Array<string> = []
 
       const onChangeValidator = debounceAsync(async () => {
         await wait(101)
@@ -4057,7 +4057,7 @@ describe('DataContext.Provider', () => {
 
     it('should contain data on first render, when nested', () => {
       const initialData = { foo: 'bar' }
-      const nestedMockData = []
+      const nestedMockData: Array<unknown> = []
 
       const NestedMock = () => {
         const { data } = Form.useData(identifier)
@@ -4082,8 +4082,8 @@ describe('DataContext.Provider', () => {
       const log = spyOnEufemiaWarn()
 
       const initialData = { foo: 'bar' }
-      const sidecarMockData = []
-      const nestedMockData = []
+      const sidecarMockData: Array<unknown> = []
+      const nestedMockData: Array<unknown> = []
 
       const SidecarMock = () => {
         const { data } = Form.useData(identifier)
@@ -4122,10 +4122,10 @@ describe('DataContext.Provider', () => {
     })
 
     it('should be able to update data from side car', async () => {
-      const sidecarMockData = []
-      const nestedMockData = []
+      const sidecarMockData: Array<unknown> = []
+      const nestedMockData: Array<unknown> = []
 
-      const SidecarMock = () => {
+      const SidecarMock = (): null => {
         const { data, update } = Form.useData(identifier)
 
         useEffect(() => {
@@ -4177,8 +4177,8 @@ describe('DataContext.Provider', () => {
       const log = spyOnEufemiaWarn()
 
       const initialData = { foo: 'bar' }
-      const sidecarMockData = []
-      const nestedMockData = []
+      const sidecarMockData: Array<unknown> = []
+      const nestedMockData: Array<unknown> = []
 
       const SidecarMock = () => {
         const { data } = Form.useData(identifier)
@@ -4363,7 +4363,7 @@ describe('DataContext.Provider', () => {
       expect(inputElement).toHaveValue('bar')
 
       act(() => {
-        update('/foo', (value) => {
+        update('/foo', (value: unknown) => {
           return 'foo ' + value
         })
       })
@@ -4424,7 +4424,7 @@ describe('DataContext.Provider', () => {
         const { data, update } = Form.useData(identifier, existingData)
 
         const increment = React.useCallback(() => {
-          update('/count', (count) => {
+          update('/count', (count: number) => {
             return count + 1
           })
         }, [update])
@@ -4518,7 +4518,7 @@ describe('DataContext.Provider', () => {
         )
 
         const increment = React.useCallback(() => {
-          update('/count', (count) => {
+          update('/count', (count: number) => {
             return count + 1
           })
         }, [update])
@@ -4556,7 +4556,7 @@ describe('DataContext.Provider', () => {
         const { data, update } = Form.useData(identifier, { count: 1 })
 
         React.useEffect(() => {
-          update('/count', (count) => count + 1)
+          update('/count', (count: number) => count + 1)
         }, [update])
 
         countRender++
@@ -5286,7 +5286,7 @@ describe('DataContext.Provider', () => {
     const onSubmit = jest.fn((data, { transformData }) => {
       transformedData = transformData(
         data,
-        ({ value, displayValue, label }) => {
+        ({ value, displayValue, label }: { value: unknown; displayValue: unknown; label: unknown }) => {
           return { value, displayValue, label }
         }
       )
@@ -5402,7 +5402,7 @@ describe('DataContext.Provider', () => {
     const onSubmit = jest.fn((data, { transformData }) => {
       transformedData = transformData(
         data,
-        ({ value, displayValue, label }) => {
+        ({ value, displayValue, label }: { value: unknown; displayValue: unknown; label: unknown }) => {
           return { value, displayValue, label }
         }
       )
@@ -5590,7 +5590,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should remove data entries of hidden Iterate.Array using Visibility within a Wizard', async () => {
-      let submitData = null
+      let submitData: Record<string, unknown> | null = null
 
       const onSubmit = jest.fn(async (data, { reduceToVisibleFields }) => {
         await new Promise((resolve) => requestAnimationFrame(resolve)) // ensure we wait for the fields to unmount
@@ -5985,9 +5985,9 @@ describe('DataContext.Provider', () => {
     })
 
     it('should treat enableAsyncMode fields as async', async () => {
-      let contextValue: ContextState = null
+      let contextValue: ContextState | null = null
 
-      const AsyncField = () => {
+      const AsyncField = (): null => {
         const dataContext = React.useContext(DataContext.Context)
 
         React.useEffect(() => {
@@ -5999,7 +5999,7 @@ describe('DataContext.Provider', () => {
         return null
       }
 
-      const Reporter = () => {
+      const Reporter = (): null => {
         contextValue = React.useContext(DataContext.Context)
         return null
       }

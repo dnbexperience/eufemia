@@ -3,6 +3,7 @@ import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { screen, render, within, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import DataContext from '../../../DataContext/Context'
+import type { ContextState } from '../../../DataContext/Context'
 import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListProvider'
 import { makeOptions } from '../Selection'
 import { Field, Form } from '../../..'
@@ -176,7 +177,7 @@ describe('Selection', () => {
   })
 
   it('supports render prop children with options from dataPath in dropdown', async () => {
-    let receivedOptions = []
+    let receivedOptions: unknown[] = []
 
     render(
       <Form.Handler
@@ -361,7 +362,7 @@ describe('variants', () => {
     })
 
     it('supports render prop children with options from dataPath', () => {
-      let receivedOptions = []
+      let receivedOptions: unknown[] = []
 
       render(
         <Form.Handler
@@ -744,7 +745,7 @@ describe('variants', () => {
     })
 
     it('should store "displayValue" in data context', async () => {
-      let dataContext = null
+      let dataContext: ContextState | null = null
 
       render(
         <Form.Handler
@@ -776,7 +777,7 @@ describe('variants', () => {
         </Form.Handler>
       )
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
           type: 'field',
           value: 'Foo!',
@@ -786,7 +787,7 @@ describe('variants', () => {
       await userEvent.tab()
       await userEvent.keyboard('{ArrowDown}')
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
           type: 'field',
           value: 'Bar!',
@@ -1232,7 +1233,7 @@ describe('variants', () => {
     })
 
     it('should store "displayValue" in data context', async () => {
-      let dataContext = null
+      let dataContext: ContextState | null = null
 
       render(
         <Form.Handler
@@ -1264,7 +1265,7 @@ describe('variants', () => {
         </Form.Handler>
       )
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
           type: 'field',
           value: 'Foo!',
@@ -1275,7 +1276,7 @@ describe('variants', () => {
       await userEvent.tab()
       await userEvent.click(document.activeElement)
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
           type: 'field',
           value: 'Bar!',
@@ -1769,7 +1770,7 @@ describe('variants', () => {
     })
 
     it('should store "displayValue" in data context', async () => {
-      let dataContext = null
+      let dataContext: ContextState | null = null
 
       render(
         <Form.Handler
@@ -1801,7 +1802,7 @@ describe('variants', () => {
         </Form.Handler>
       )
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
           type: 'field',
           value: 'Foo!',
@@ -1816,7 +1817,7 @@ describe('variants', () => {
       await userEvent.keyboard('{Enter}')
       DrawerListProvider['blurDelay'] = 201
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
           type: 'field',
           value: 'Bar!',
@@ -2540,7 +2541,7 @@ describe('variants', () => {
     })
 
     it('should store "displayValue" in data context', async () => {
-      let dataContext = null
+      let dataContext: ContextState | null = null
 
       render(
         <Form.Handler
@@ -2572,7 +2573,7 @@ describe('variants', () => {
         </Form.Handler>
       )
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
           type: 'field',
           value: 'Foo!',
@@ -2587,7 +2588,7 @@ describe('variants', () => {
       await userEvent.keyboard('{Enter}')
       DrawerListProvider['blurDelay'] = 201
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
           type: 'field',
           value: 'Bar!',

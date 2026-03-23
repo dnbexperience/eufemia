@@ -16,14 +16,14 @@ export const Expiry = () => {
   return <Field.Expiry onChange={onChange} value={value} />
 }
 
-const transformOut = (internal, args) => {
-  const { year, month } = args
+const transformOut = (internal: unknown, args: unknown) => {
+  const { year, month } = args as { year: string; month: string }
   return { year, month }
 }
 
-const transformIn = (external) => {
+const transformIn = (external: unknown) => {
   if (external) {
-    const { year, month } = external
+    const { year, month } = external as { year: string; month: string }
     return { year, month }
   }
 }

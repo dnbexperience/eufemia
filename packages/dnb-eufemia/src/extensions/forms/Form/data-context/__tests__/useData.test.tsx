@@ -10,7 +10,7 @@ import userEvent from '@testing-library/user-event'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import { Button } from '../../../../../components'
 import { DataContext, Field, Form, Wizard, Iterate } from '../../..'
-import type { FilterData } from '../../../DataContext/Context'
+import type { FilterData, ContextState } from '../../../DataContext/Context'
 import Provider from '../../../DataContext/Provider'
 import useData from '../useData'
 
@@ -52,7 +52,7 @@ describe('Form.useData', () => {
   })
 
   it('should not throw when used within a Form.Handler and Wizard without id', () => {
-    const MockComponent = () => {
+    const MockComponent = (): null => {
       Form.useData()
       return null
     }
@@ -81,7 +81,7 @@ describe('Form.useData', () => {
   it('should work inside Wizard when prerender (step 2', () => {
     let collectData = null
 
-    const MockComponent = () => {
+    const MockComponent = (): null => {
       const { data } = Form.useData()
       collectData = data
       return null
@@ -134,7 +134,7 @@ describe('Form.useData', () => {
     expect(result.current.data).toEqual({ key: 'value' })
 
     act(() => {
-      result.current.update('/key', (value) => {
+      result.current.update('/key', (value: unknown) => {
         return 'changed ' + value
       })
     })
@@ -163,7 +163,7 @@ describe('Form.useData', () => {
   })
 
   it('should get data with a function reference as the id', () => {
-    const myId = () => null
+    const myId = (): null => null
     const { result } = renderHook(() => useData(myId), {
       wrapper: ({ children }) => (
         <>
@@ -309,7 +309,7 @@ describe('Form.useData', () => {
     })
 
     it('should remove and render in sync', async () => {
-      let dataContext = null
+      let dataContext: ContextState | null = null
       let dataFromHook = null
 
       const MockComponent = () => {
@@ -354,7 +354,7 @@ describe('Form.useData', () => {
 
       render(<MockComponent />)
 
-      expect(dataContext.data).toEqual({
+      expect(dataContext!.data).toEqual({
         owners: {
           hasOwners: true,
           otherOwners: [],
@@ -371,7 +371,7 @@ describe('Form.useData', () => {
         document.querySelector('input[type="checkbox"]')
       )
 
-      expect(dataContext.data).toEqual({
+      expect(dataContext!.data).toEqual({
         owners: {
           hasOwners: true,
           otherOwners: ['foo'],
@@ -386,7 +386,7 @@ describe('Form.useData', () => {
 
       await userEvent.click(document.querySelector('button'))
 
-      expect(dataContext.data).toEqual({
+      expect(dataContext!.data).toEqual({
         owners: {
           hasOwners: false,
           otherOwners: undefined, // should ideally not be there. But the field did add it back again.
@@ -401,7 +401,7 @@ describe('Form.useData', () => {
 
       await userEvent.click(document.querySelector('button'))
 
-      expect(dataContext.data).toEqual({
+      expect(dataContext!.data).toEqual({
         owners: {
           hasOwners: true,
           otherOwners: undefined, // should ideally not be there. But the field did add it back again.
@@ -418,7 +418,7 @@ describe('Form.useData', () => {
         document.querySelector('input[type="checkbox"]')
       )
 
-      expect(dataContext.data).toEqual({
+      expect(dataContext!.data).toEqual({
         owners: {
           hasOwners: true,
           otherOwners: ['foo'],
@@ -433,7 +433,7 @@ describe('Form.useData', () => {
 
       await userEvent.click(document.querySelector('button'))
 
-      expect(dataContext.data).toEqual({
+      expect(dataContext!.data).toEqual({
         owners: {
           hasOwners: false,
           otherOwners: undefined, // should ideally not be there. But the field did add it back again.
@@ -448,7 +448,7 @@ describe('Form.useData', () => {
 
       await userEvent.click(document.querySelector('button'))
 
-      expect(dataContext.data).toEqual({
+      expect(dataContext!.data).toEqual({
         owners: {
           hasOwners: true,
           otherOwners: undefined, // should ideally not be there. But the field did add it back again.
@@ -465,7 +465,7 @@ describe('Form.useData', () => {
 
   it('"update" should re-render when value has changed', () => {
     let rerendered = 0
-    const MockComponent = () => {
+    const MockComponent = (): null => {
       useData(identifier)
 
       rerendered += 1
@@ -484,7 +484,7 @@ describe('Form.useData', () => {
     expect(rerendered).toBe(2)
 
     act(() => {
-      result.current.update('/key', (value) => {
+      result.current.update('/key', (value: unknown) => {
         return 'changed ' + value
       })
     })
@@ -520,7 +520,7 @@ describe('Form.useData', () => {
       expect(B.current.data).toEqual({ key: 'value' })
 
       act(() => {
-        B.current.update('/key', (value) => {
+        B.current.update('/key', (value: unknown) => {
           return 'changed ' + value
         })
       })
@@ -576,7 +576,7 @@ describe('Form.useData', () => {
     })
 
     it('should set emptyValue as the value of the field', async () => {
-      let dataContext = null
+      let dataContext: ContextState | null = null
 
       const MockComponent = () => {
         const { update } = useData()
@@ -610,17 +610,17 @@ describe('Form.useData', () => {
         </Form.Handler>
       )
 
-      expect(dataContext.data).toEqual({ foo: 'foo' })
+      expect(dataContext!.data).toEqual({ foo: 'foo' })
       expect(document.querySelector('input')).toHaveValue('foo')
 
       await userEvent.click(document.querySelector('button'))
 
-      expect(dataContext.data).toEqual({ foo: 'empty' })
+      expect(dataContext!.data).toEqual({ foo: 'empty' })
       expect(document.querySelector('input')).toHaveValue('empty')
     })
 
     it('should set emptyValue when no value is given', () => {
-      let dataContext = null
+      let dataContext: ContextState | null = null
 
       render(
         <Form.Handler>
@@ -635,12 +635,12 @@ describe('Form.useData', () => {
         </Form.Handler>
       )
 
-      expect(dataContext.data).toEqual({ foo: 'empty' })
+      expect(dataContext!.data).toEqual({ foo: 'empty' })
       expect(document.querySelector('input')).toHaveValue('empty')
     })
 
     it('should prioritize defaultValue over emptyValue', () => {
-      let dataContext = null
+      let dataContext: ContextState | null = null
 
       render(
         <Form.Handler>
@@ -660,12 +660,12 @@ describe('Form.useData', () => {
         </Form.Handler>
       )
 
-      expect(dataContext.data).toEqual({ foo: 'foo' })
+      expect(dataContext!.data).toEqual({ foo: 'foo' })
       expect(document.querySelector('input')).toHaveValue('foo')
     })
 
     it('should set emptyValue as the value of the field without showing error', async () => {
-      let dataContext = null
+      let dataContext: ContextState | null = null
 
       const MockComponent = () => {
         const { update } = Form.useData()
@@ -700,7 +700,7 @@ describe('Form.useData', () => {
         </Form.Handler>
       )
 
-      expect(dataContext.data).toEqual({ foo: 'foo' })
+      expect(dataContext!.data).toEqual({ foo: 'foo' })
       expect(document.querySelector('input')).toHaveValue('foo')
       expect(
         document.querySelector('.dnb-form-status')
@@ -708,7 +708,7 @@ describe('Form.useData', () => {
 
       await userEvent.click(document.querySelector('button'))
 
-      expect(dataContext.data).toEqual({ foo: 'empty' })
+      expect(dataContext!.data).toEqual({ foo: 'empty' })
       expect(document.querySelector('input')).toHaveValue('empty')
       expect(
         document.querySelector('.dnb-form-status')
@@ -721,7 +721,7 @@ describe('Form.useData', () => {
     })
 
     it('should validate the field after useData update', async () => {
-      let dataContext = null
+      let dataContext: ContextState | null = null
 
       const MockComponent = () => {
         const { update } = Form.useData()
@@ -751,7 +751,7 @@ describe('Form.useData', () => {
         </Form.Handler>
       )
 
-      expect(dataContext.data).toEqual({ foo: 'foo' })
+      expect(dataContext!.data).toEqual({ foo: 'foo' })
       expect(document.querySelector('input')).toHaveValue('foo')
       expect(
         document.querySelector('.dnb-form-status')
@@ -760,12 +760,12 @@ describe('Form.useData', () => {
       await userEvent.click(document.querySelector('button'))
       await userEvent.type(document.querySelector('input'), 'bar')
 
-      expect(dataContext.data).toEqual({ foo: 'bar' })
+      expect(dataContext!.data).toEqual({ foo: 'bar' })
       expect(document.querySelector('input')).toHaveValue('bar')
 
       await userEvent.click(document.querySelector('button'))
 
-      expect(dataContext.data).toEqual({ foo: undefined })
+      expect(dataContext!.data).toEqual({ foo: undefined })
       expect(document.querySelector('input')).toHaveValue('')
       expect(
         document.querySelector('.dnb-form-status')
@@ -778,7 +778,7 @@ describe('Form.useData', () => {
     })
 
     it('should update and render in sync', async () => {
-      let dataContext = null
+      let dataContext: ContextState | null = null
       let dataFromHook = null
 
       const MockComponent = () => {
@@ -823,7 +823,7 @@ describe('Form.useData', () => {
 
       render(<MockComponent />)
 
-      expect(dataContext.data).toEqual({
+      expect(dataContext!.data).toEqual({
         owners: {
           hasOwners: true,
           otherOwners: [],
@@ -840,7 +840,7 @@ describe('Form.useData', () => {
         document.querySelector('input[type="checkbox"]')
       )
 
-      expect(dataContext.data).toEqual({
+      expect(dataContext!.data).toEqual({
         owners: {
           hasOwners: true,
           otherOwners: ['foo'],
@@ -855,7 +855,7 @@ describe('Form.useData', () => {
 
       await userEvent.click(document.querySelector('button'))
 
-      expect(dataContext.data).toEqual({
+      expect(dataContext!.data).toEqual({
         owners: {
           hasOwners: false,
           otherOwners: [],
@@ -870,7 +870,7 @@ describe('Form.useData', () => {
 
       await userEvent.click(document.querySelector('button'))
 
-      expect(dataContext.data).toEqual({
+      expect(dataContext!.data).toEqual({
         owners: {
           hasOwners: true,
           otherOwners: [],
@@ -887,7 +887,7 @@ describe('Form.useData', () => {
         document.querySelector('input[type="checkbox"]')
       )
 
-      expect(dataContext.data).toEqual({
+      expect(dataContext!.data).toEqual({
         owners: {
           hasOwners: true,
           otherOwners: ['foo'],
@@ -902,7 +902,7 @@ describe('Form.useData', () => {
 
       await userEvent.click(document.querySelector('button'))
 
-      expect(dataContext.data).toEqual({
+      expect(dataContext!.data).toEqual({
         owners: {
           hasOwners: false,
           otherOwners: [],
@@ -917,7 +917,7 @@ describe('Form.useData', () => {
 
       await userEvent.click(document.querySelector('button'))
 
-      expect(dataContext.data).toEqual({
+      expect(dataContext!.data).toEqual({
         owners: {
           hasOwners: true,
           otherOwners: [],
@@ -1430,7 +1430,7 @@ describe('Form.useData', () => {
     it('should return visible data after visibility change', async () => {
       let collectedData = null
 
-      const Output = () => {
+      const Output = (): null => {
         const { data, reduceToVisibleFields } = Form.useData()
 
         // Use useEffect to ensure we get the latest data
@@ -1490,7 +1490,7 @@ describe('Form.useData', () => {
     it('should keep paths with "keepPaths"', async () => {
       let collectedData = null
 
-      const Output = () => {
+      const Output = (): null => {
         const { data, reduceToVisibleFields } = Form.useData()
 
         // Use useEffect to ensure we get the latest data
@@ -1564,7 +1564,7 @@ describe('Form.useData', () => {
     it('should exclude paths with "removePaths"', async () => {
       let collectedData = null
 
-      const Output = () => {
+      const Output = (): null => {
         const { data, reduceToVisibleFields } = Form.useData()
 
         // Use useEffect to ensure we get the latest data
@@ -1622,7 +1622,7 @@ describe('Form.useData', () => {
     it('should return visible data after unmount and mount', async () => {
       let collectedData = null
 
-      const Output = () => {
+      const Output = (): null => {
         const { data, reduceToVisibleFields } = Form.useData()
 
         // Use useEffect to ensure we get the latest data

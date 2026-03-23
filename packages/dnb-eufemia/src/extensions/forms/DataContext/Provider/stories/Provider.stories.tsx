@@ -18,7 +18,7 @@ const Component = () => {
   const { data, update } = Form.useData('update-id', existingData)
 
   const increment = React.useCallback(() => {
-    update('/count', (count) => {
+    update('/count', (count: number) => {
       return count + 1
     })
   }, [update])

@@ -49,7 +49,7 @@ describe('debounce', () => {
   })
 
   it('use given instance', () => {
-    const instance = () => null
+    const instance = (): null => null
     instance.property = 'hello'
 
     const debounced = debounce(
@@ -119,8 +119,8 @@ describe('debounce', () => {
   })
 
   it('should return sync/async function based on its input', () => {
-    expect(isAsync(debounce(async () => null))).toBeTruthy()
-    expect(isAsync(debounce(() => null))).toBeFalsy()
+    expect(isAsync(debounce(async (): Promise<null> => null))).toBeTruthy()
+    expect(isAsync(debounce((): null => null))).toBeFalsy()
   })
 })
 
@@ -206,7 +206,7 @@ describe('debounceAsync', () => {
 
   it('call "addCancelEvent" method on cancel', async () => {
     const onCancel = jest.fn()
-    let wasCanceled = undefined
+    let wasCanceled: (() => boolean) | undefined = undefined
 
     const debounced = debounceAsync(async function (this: {
       addCancelEvent: (fn: () => void) => () => boolean
@@ -221,23 +221,23 @@ describe('debounceAsync', () => {
     debounced()
 
     expect(onCancel).toHaveBeenCalledTimes(0)
-    expect(wasCanceled()).toBe(false)
+    expect(wasCanceled!()).toBe(false)
 
     debounced.cancel()
 
     expect(onCancel).toHaveBeenCalledTimes(1)
-    expect(wasCanceled()).toBe(true)
+    expect(wasCanceled!()).toBe(true)
 
     debounced()
 
     expect(onCancel).toHaveBeenCalledTimes(1)
-    expect(wasCanceled()).toBe(false)
+    expect(wasCanceled!()).toBe(false)
   })
 
   it('call "addCancelEvent" method on cancel – from the return', async () => {
     const onCancel = jest.fn()
 
-    const debounced = debounceAsync(async () => null, delay)
+    const debounced = debounceAsync(async (): Promise<null> => null, delay)
 
     const wasCanceled = debounced.addCancelEvent(onCancel)
 
@@ -262,7 +262,7 @@ describe('debounceAsync', () => {
   })
 
   it('should return sync/async function based on its input', () => {
-    expect(isAsync(debounceAsync(async () => null))).toBeTruthy()
-    expect(isAsync(debounceAsync(() => null))).toBeFalsy()
+    expect(isAsync(debounceAsync(async (): Promise<null> => null))).toBeTruthy()
+    expect(isAsync(debounceAsync((): null => null))).toBeFalsy()
   })
 })

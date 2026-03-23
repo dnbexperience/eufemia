@@ -8,6 +8,7 @@ import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 import { css, Global } from '@emotion/react'
 
+import type { SpaceType } from '../types'
 import { Space, Input } from '../../'
 import { H1, H2, P } from '../../..'
 import Provider from '../../../shared/Provider'
@@ -628,7 +629,7 @@ function TestCase() {
   return (
     <CustomStyle>
       {listOfBoxes.map((v) => (
-        <Space key={v} top={v}>
+        <Space key={v} top={v as SpaceType}>
           <MagicBox />
         </Space>
       ))}

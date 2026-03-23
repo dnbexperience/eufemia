@@ -135,9 +135,9 @@ describe('StyleScope', () => {
 
 describe('useIsolatedStyleScope', () => {
   it('uses style scope from context', () => {
-    let scopeElement = null
+    let scopeElement: HTMLElement | null = null
 
-    const MockComponent = () => {
+    const MockComponent = (): null => {
       const { getScopeElement } = useIsolatedStyleScope()
 
       React.useEffect(() => {
@@ -153,13 +153,13 @@ describe('useIsolatedStyleScope', () => {
       </IsolatedStyleScope>
     )
 
-    expect(scopeElement.className).toBe('my-scope')
+    expect(scopeElement!.className).toBe('my-scope')
   })
 
   it('returns undefined when used outside of a style scope', () => {
-    let scopeElement = null
+    let scopeElement: HTMLElement | null = null
 
-    const MockComponent = () => {
+    const MockComponent = (): null => {
       const { getScopeElement } = useIsolatedStyleScope()
 
       React.useEffect(() => {
@@ -175,10 +175,10 @@ describe('useIsolatedStyleScope', () => {
   })
 
   it('returns the custom ref element if provided', () => {
-    let scopeElement = null
+    let scopeElement: HTMLElement | null = null
     const customRef = React.createRef<HTMLDivElement>()
 
-    const MockComponent = () => {
+    const MockComponent = (): null => {
       const { getScopeElement } = useIsolatedStyleScope()
 
       React.useEffect(() => {
@@ -195,15 +195,15 @@ describe('useIsolatedStyleScope', () => {
     )
 
     expect(customRef.current).toBe(scopeElement)
-    expect(scopeElement.className).toBe('custom-scope')
+    expect(scopeElement!.className).toBe('custom-scope')
   })
 
   it('returns the correct element in nested style scopes when having different uniqueKeys and scopeHash', () => {
-    let outerElement = null
-    let innerElement = null
-    let innerGetsOuter = null
+    let outerElement: HTMLElement | null = null
+    let innerElement: HTMLElement | null = null
+    let innerGetsOuter: HTMLElement | null = null
 
-    const OuterComponent = () => {
+    const OuterComponent = (): null => {
       const { getScopeElement } = useIsolatedStyleScope()
 
       React.useEffect(() => {
@@ -213,7 +213,7 @@ describe('useIsolatedStyleScope', () => {
       return null
     }
 
-    const InnerComponent = () => {
+    const InnerComponent = (): null => {
       const { getScopeElement } = useIsolatedStyleScope()
       const { getScopeElement: getOuterScope } =
         useIsolatedStyleScope('outer-scope')
@@ -234,16 +234,16 @@ describe('useIsolatedStyleScope', () => {
     )
 
     expect(innerElement).not.toBe(outerElement)
-    expect(outerElement.className).toBe('outer-scope')
-    expect(innerElement.className).toBe('inner-scope')
+    expect(outerElement!.className).toBe('outer-scope')
+    expect(innerElement!.className).toBe('inner-scope')
     expect(innerGetsOuter).toBe(outerElement)
   })
 
   it('returns the same element in nested style scopes when scopeHash is the same', () => {
-    let outerElement = null
-    let innerElement = null
+    let outerElement: HTMLElement | null = null
+    let innerElement: HTMLElement | null = null
 
-    const OuterComponent = () => {
+    const OuterComponent = (): null => {
       const { getScopeElement } = useIsolatedStyleScope()
 
       React.useEffect(() => {
@@ -253,7 +253,7 @@ describe('useIsolatedStyleScope', () => {
       return null
     }
 
-    const InnerComponent = () => {
+    const InnerComponent = (): null => {
       const { getScopeElement } = useIsolatedStyleScope()
 
       React.useEffect(() => {
@@ -273,14 +273,14 @@ describe('useIsolatedStyleScope', () => {
     )
 
     expect(innerElement).toBe(outerElement)
-    expect(outerElement.className).toBe('same-scope')
+    expect(outerElement!.className).toBe('same-scope')
   })
 
   it('can retrieve parent scope element by scopeHash from inner scope', () => {
-    let parentScopeElement = null
-    let innerScopeElement = null
+    let parentScopeElement: HTMLElement | null = null
+    let innerScopeElement: HTMLElement | null = null
 
-    const InnerComponent = () => {
+    const InnerComponent = (): null => {
       const { getScopeElement } = useIsolatedStyleScope()
       const { getScopeElement: getParentScope } =
         useIsolatedStyleScope('parent-scope')
@@ -301,14 +301,14 @@ describe('useIsolatedStyleScope', () => {
       </IsolatedStyleScope>
     )
 
-    expect(innerScopeElement.className).toBe('child-scope')
-    expect(parentScopeElement.className).toBe('parent-scope')
+    expect(innerScopeElement!.className).toBe('child-scope')
+    expect(parentScopeElement!.className).toBe('parent-scope')
   })
 
   it('returns null after unmounting the style scope', () => {
-    let scopeElement = null
+    let scopeElement: HTMLElement | null = null
 
-    const MockComponent = () => {
+    const MockComponent = (): null => {
       const { getScopeElement } = useIsolatedStyleScope()
 
       React.useEffect(() => {
@@ -324,7 +324,7 @@ describe('useIsolatedStyleScope', () => {
       </IsolatedStyleScope>
     )
 
-    expect(scopeElement.className).toBe('my-scope')
+    expect(scopeElement!.className).toBe('my-scope')
 
     unmount()
 
@@ -333,10 +333,10 @@ describe('useIsolatedStyleScope', () => {
   })
 
   it('returns the outer element when "outer-scope" is given to the hook', () => {
-    let outerElement = null
-    let innerElement = null
+    let outerElement: HTMLElement | null = null
+    let innerElement: HTMLElement | null = null
 
-    const OuterComponent = () => {
+    const OuterComponent = (): null => {
       const { getScopeElement } = useIsolatedStyleScope()
 
       React.useEffect(() => {
@@ -346,7 +346,7 @@ describe('useIsolatedStyleScope', () => {
       return null
     }
 
-    const InnerComponent = () => {
+    const InnerComponent = (): null => {
       const { getScopeElement } = useIsolatedStyleScope('outer-scope')
 
       React.useEffect(() => {

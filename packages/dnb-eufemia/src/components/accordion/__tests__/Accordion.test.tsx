@@ -332,7 +332,7 @@ describe('Accordion container component', () => {
     )
   }
 
-  const Container = (props) => {
+  const Container = (props: Record<string, unknown>) => {
     return (
       <>
         <Increment />

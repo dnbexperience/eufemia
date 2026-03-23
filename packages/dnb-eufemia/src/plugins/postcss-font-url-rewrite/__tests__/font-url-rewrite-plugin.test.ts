@@ -4,7 +4,7 @@ import postcssFontUrlRewrite from '../font-url-rewrite-plugin'
 import { getFontBasePath } from '../config'
 
 describe('font-url-rewrite-plugin', () => {
-  const processCSS = async (css, opts = {}) => {
+  const processCSS = async (css: string, opts = {}) => {
     return await postcss([postcssFontUrlRewrite(opts)]).process(css, {
       from: undefined,
     })
@@ -395,7 +395,7 @@ function checkUrlExists(
         },
         timeout: 5000,
       },
-      (res) => {
+      (res: { statusCode: number }) => {
         resolve({
           status: res.statusCode,
           accessible: res.statusCode === 200,

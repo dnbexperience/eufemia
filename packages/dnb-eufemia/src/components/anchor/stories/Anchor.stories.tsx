@@ -116,7 +116,7 @@ export const AnchorSandbox = () => {
   )
 }
 
-const TextComponent = ({ children }) => <span>{children}</span>
+const TextComponent = ({ children }: { children: React.ReactNode }) => <span>{children}</span>
 
 export const AnchorTargetBlank = () => {
   return (

@@ -47,7 +47,7 @@ export const ComponentAsLabel = () => {
       >
         <ToggleButton
           bottom
-          onChange={() => setStatus((s) => (!s ? 'min status' : null))}
+          onChange={() => setStatus((s: string | null) => (!s ? 'min status' : null))}
         >
           set status
         </ToggleButton>
@@ -198,7 +198,7 @@ export const GlobalStatuseSandbox = () => (
   </Wrapper>
 )
 
-const scrolltoElement = { current: null }
+const scrolltoElement = { current: null as HTMLElement | null }
 
 const InputWithError = () => {
   const [haveAnErrorMessage1, setErrorMessage1] = React.useState(false)
@@ -319,7 +319,7 @@ export const SimulateSteps = () => {
             title="New title"
             text="First long info text ..."
             item="Item from status #1"
-            onClose={({ statusId }) => {
+            onClose={({ statusId }: { statusId: string }) => {
               console.log('onClose 1', statusId)
             }}
           />
@@ -328,7 +328,7 @@ export const SimulateSteps = () => {
             statusId="custom-id-2"
             text="Second long info text ..."
             item="Item from status #2"
-            onClose={({ statusId }) => {
+            onClose={({ statusId }: { statusId: string }) => {
               console.log('onClose 2', statusId)
             }}
           />
@@ -647,9 +647,8 @@ export function GlobalStatusSelector() {
     </Section>
   )
 
-  function setGlobalStatus(event) {
-    const input = event.target as HTMLInputElement
-    const value = input.value as GlobalStatusState
+  function setGlobalStatus(event: { value: string }) {
+    const value = event.value as GlobalStatusState
 
     setPickerState(value)
   }

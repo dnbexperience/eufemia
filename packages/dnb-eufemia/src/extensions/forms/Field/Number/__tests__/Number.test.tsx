@@ -1346,7 +1346,7 @@ describe('Field.Number', () => {
         },
       }
 
-      const data = {
+      const data: Record<string, unknown> = {
         myFieldWithNull: null,
         myFieldWithUndefined: undefined,
         myFieldWithEmptyString: '',
@@ -1985,7 +1985,7 @@ describe('Field.Number', () => {
   })
 
   it('should store "displayValue" in data context', async () => {
-    let dataContext = null
+    let dataContext: DataContext.ContextState | null = null
 
     render(
       <Form.Handler>
@@ -2001,7 +2001,7 @@ describe('Field.Number', () => {
 
     const input = document.querySelector('input')
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect(dataContext!.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
         type: 'field',
         value: '123',
@@ -2010,7 +2010,7 @@ describe('Field.Number', () => {
 
     await userEvent.type(input, '{Backspace>2}4')
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect(dataContext!.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
         type: 'field',
         value: '14',
@@ -2019,7 +2019,7 @@ describe('Field.Number', () => {
 
     await userEvent.type(input, '{Backspace>5}')
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect(dataContext!.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
         type: 'field',
       },
@@ -2027,7 +2027,7 @@ describe('Field.Number', () => {
   })
 
   it('should store "displayValue" when inside iterate', async () => {
-    let dataContext = null
+    let dataContext: DataContext.ContextState | null = null
 
     render(
       <Form.Handler
@@ -2048,7 +2048,7 @@ describe('Field.Number', () => {
 
     const input = document.querySelector('input')
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect(dataContext!.fieldDisplayValueRef.current).toEqual({
       '/myArray/0/myValue': {
         type: 'field',
         value: '123',
@@ -2061,7 +2061,7 @@ describe('Field.Number', () => {
 
     await userEvent.type(input, '{Backspace>2}4')
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect(dataContext!.fieldDisplayValueRef.current).toEqual({
       '/myArray/0/myValue': {
         type: 'field',
         value: '14',
@@ -2074,7 +2074,7 @@ describe('Field.Number', () => {
 
     await userEvent.type(input, '{Backspace>5}')
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect(dataContext!.fieldDisplayValueRef.current).toEqual({
       '/myArray/0/myValue': {
         type: 'field',
       },
@@ -2292,8 +2292,8 @@ describe('Field.Number', () => {
     })
 
     it('should show error during typing when using custom validator with validateContinuously', async () => {
-      const validator = (value) => {
-        if (value > 1000) {
+      const validator = (value: unknown) => {
+        if ((value as number) > 1000) {
           return new Error('Value must be less than or equal to 1000')
         }
       }

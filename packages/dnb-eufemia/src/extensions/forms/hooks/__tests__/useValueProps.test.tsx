@@ -77,7 +77,7 @@ describe('useValueProps', () => {
   it('should call use "toInput" to prepare value', () => {
     const value = 1
 
-    const toInput = (value) => value + 1
+    const toInput = (value: unknown) => (value as number) + 1
     const { result } = renderHook(() => useValueProps({ value, toInput }))
 
     expect(result.current.value).toBe(2)
@@ -86,7 +86,7 @@ describe('useValueProps', () => {
   it('should call use "fromExternal" to prepare value', () => {
     const value = 1
 
-    const fromExternal = (value) => value + 1
+    const fromExternal = (value: number) => value + 1
     const { result } = renderHook(() =>
       useValueProps({ value, fromExternal })
     )
@@ -95,7 +95,7 @@ describe('useValueProps', () => {
   })
 
   it('should handle "undefined" value', () => {
-    const value = undefined
+    const value: unknown = undefined
 
     const { result } = renderHook(() => useValueProps({ value }))
 
@@ -172,7 +172,7 @@ describe('useValueProps', () => {
   it('should use "toInput" to prepare value from context', () => {
     const path = '/contextValue'
 
-    const toInput = (value) => value + 1
+    const toInput = (value: unknown) => (value as number) + 1
     const { result } = renderHook(() => useValueProps({ path, toInput }), {
       wrapper: ({ children }) => (
         <Provider

@@ -35,12 +35,12 @@ export const PaginationTableMarker = () => (
     <InfinityPaginationTable tableItems={tableItems} />
   </Wrapper>
 )
-const tableItems = []
+const tableItems: Array<{ ssn: number; text: string; expanded: boolean }> = []
 for (let i = 1; i <= 60; i++) {
   tableItems.push({ ssn: i, text: String(i), expanded: false })
 }
 
-const InfinityPaginationTable = ({ tableItems, ...props }) => {
+const InfinityPaginationTable = ({ tableItems, ...props }: { tableItems: Array<{ ssn: number; text: string; expanded: boolean }>; [key: string]: any }) => {
   const startupPage = 1 // what we start with
   const perPageCount = 10 // how many items per page
   const [{ InfinityMarker, endInfinity, resetInfinity }] =
@@ -48,10 +48,10 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const [orderDirection, setOrderDirection] = React.useState('asc')
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
   const [currentPage, setCurrentPage] = React.useState(startupPage)
-  const localStack = React.useRef({})
+  const localStack = React.useRef<Record<number, any>>({})
   tableItems = reorderDirection(tableItems, orderDirection)
   tableItems
-    .filter((cur, idx) => {
+    .filter((cur: any, idx: number) => {
       const floor = (currentPage - 1) * perPageCount
       const ceil = floor + perPageCount
       return idx >= floor && idx < ceil
@@ -63,8 +63,8 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
   let items = Object.values(localStack.current)
   items = reorderDirection(items, orderDirection)
 
-  const onToggleExpanded = ({ ssn: _ssn }, pageNumber, element = null) => {
-    const index = tableItems.findIndex(({ ssn }) => ssn === _ssn)
+  const onToggleExpanded = ({ ssn: _ssn }: { ssn: number }, pageNumber: number, element: HTMLElement | null = null) => {
+    const index = tableItems.findIndex(({ ssn }: { ssn: number }) => ssn === _ssn)
     if (index > -1) {
       const item = tableItems[index]
       tableItems[index] = {
@@ -76,13 +76,13 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
       setHeight({ element, expanded: !item.expanded })
     }
   }
-  const onMounted = (items) => {
+  const onMounted = (items: Array<{ element: { current: HTMLElement | null }; expanded: boolean }>) => {
     items.forEach(({ element: { current: element }, expanded }) =>
       setHeight({ element, expanded, animation: false })
     )
   }
 
-  let serverDelayTimeout
+  let serverDelayTimeout: NodeJS.Timeout
   React.useEffect(() => () => clearTimeout(serverDelayTimeout))
   const resetHandler = () => {
     clearTimeout(serverDelayTimeout)
@@ -133,7 +133,7 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
       <tbody>
         <InfinityMarker
           markerElement="tr"
-          fallbackElement={({ className, ...props }) => (
+          fallbackElement={({ className, ...props }: { className?: string; [key: string]: any }) => (
             <TableRow className={className}>
               <TableData colSpan={2} {...props} />
             </TableRow>
@@ -143,7 +143,7 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
           startupPage={startupPage}
           startupCount={2}
           currentPage={currentPage} // Mandatory
-          onLoad={({ pageNumber }) => {
+          onLoad={({ pageNumber }: { pageNumber: number }) => {
             console.log('onLoad: with page', pageNumber)
 
             if (pageNumber > tableItems.length / perPageCount) {
@@ -158,13 +158,13 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
               ) // simulate random delay
             }
           }}
-          onStartup={({ pageNumber }) => {
+          onStartup={({ pageNumber }: { pageNumber: number }) => {
             console.log('onStartup: with page', pageNumber)
           }}
-          onChange={({ pageNumber }) => {
+          onChange={({ pageNumber }: { pageNumber: number }) => {
             console.log('onChange: with page', pageNumber)
           }}
-          onEnd={({ pageNumber }) => {
+          onEnd={({ pageNumber }: { pageNumber: number }) => {
             console.log('onEnd: with page', pageNumber)
           }}
         >
@@ -186,8 +186,14 @@ const InfinityPagination = ({
   onToggleExpanded,
   onMounted,
   ...props
-}) => {
-  const mountedItems = React.useMemo(() => [], [items])
+}: {
+  items: any[]
+  currentPage: number
+  onToggleExpanded: (item: any, page: number, el: HTMLElement) => void
+  onMounted: (items: any[]) => void
+  [key: string]: any
+}): React.ReactNode => {
+  const mountedItems: any[] = React.useMemo((): any[] => [], [items])
 
   React.useEffect(() => {
     if (onMounted && mountedItems.length > 0) {
@@ -195,9 +201,9 @@ const InfinityPagination = ({
     }
   }, [onMounted, mountedItems])
 
-  return items.map((item) => {
+  return items.map((item: any) => {
     const params = {
-      onClick: (e) => {
+      onClick: (e: React.MouseEvent<HTMLElement>) => {
         if (!hasSelectedText()) {
           onToggleExpanded(item, currentPage, e.currentTarget)
         }
@@ -291,7 +297,7 @@ const setHeight = ({
   element = null,
   expanded = false,
   animation = true,
-} = {}) => {
+}: { element?: HTMLElement | null; expanded?: boolean; animation?: boolean } = {}) => {
   if (
     element &&
     typeof window !== 'undefined' &&
@@ -301,7 +307,7 @@ const setHeight = ({
       element = element.parentElement
     }
     const newHeight = expanded
-      ? window.getComputedStyle(element)['max-height'] // maxHeight
+      ? (window.getComputedStyle(element) as any)['max-height'] // maxHeight
       : element.scrollHeight
     window.requestAnimationFrame(() => {
       if (animation) {
@@ -314,8 +320,8 @@ const setHeight = ({
   }
 }
 
-const reorderDirection = (items, dir) =>
-  items.sort(({ text: A }, { text: B }) => {
+const reorderDirection = (items: any[], dir: string) =>
+  items.sort(({ text: A }: { text: string }, { text: B }: { text: string }) => {
     const a = parseFloat(A)
     const b = parseFloat(B)
     return (dir === 'asc' ? a > b : a < b) ? 1 : -1

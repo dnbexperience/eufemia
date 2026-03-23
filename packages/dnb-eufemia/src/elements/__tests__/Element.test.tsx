@@ -10,7 +10,7 @@ import type { ElementAllProps } from '../Element'
 import Element, { defaultProps } from '../Element'
 import { Provider } from '../../shared'
 
-const myPElement = (props) => <p {...props} />
+const myPElement: React.FC = (props) => <p {...props} />
 
 const props: ElementAllProps = {
   as: 'p',
@@ -114,7 +114,7 @@ describe('Element', () => {
   })
 
   it('does not have ref null inside default props', () => {
-    expect(defaultProps['ref']).toBe(undefined)
+    expect((defaultProps as Record<string, unknown>)['ref']).toBe(undefined)
   })
 
   it('should validate with ARIA rules as a Element element', async () => {

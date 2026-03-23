@@ -11,7 +11,7 @@ describe('useTheme', () => {
   })
 
   it('returns given theme context', () => {
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
       <Theme name="eiendom" variant="soft" surface="dark">
         {children}
       </Theme>
@@ -28,7 +28,7 @@ describe('useTheme', () => {
   })
 
   it('returns boolean constants', () => {
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
       <Theme name="sbanken">{children}</Theme>
     )
     const { result } = renderHook(() => useTheme(), { wrapper })
@@ -43,7 +43,7 @@ describe('useTheme', () => {
   })
 
   it('will return false on all constants when no name was given', () => {
-    const wrapper = ({ children }) => <Theme>{children}</Theme>
+    const wrapper = ({ children }: { children: React.ReactNode }) => <Theme>{children}</Theme>
     const { result } = renderHook(() => useTheme(), { wrapper })
 
     expect(result.current).toEqual({

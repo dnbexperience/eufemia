@@ -37,10 +37,15 @@ jest.mock('fs', () => {
 })
 
 jest.mock('fs-extra', () => {
-  const writeStream = {
-    end: () => null,
-    close: () => null,
-    on: jest.fn((state, cb) => {
+  type WriteStreamMock = {
+    end: () => null
+    close: () => null
+    on: jest.Mock
+  }
+  const writeStream: WriteStreamMock = {
+    end: (): null => null,
+    close: (): null => null,
+    on: jest.fn((state: string, cb: () => void): WriteStreamMock => {
       if (state === 'finish') {
         cb()
       }

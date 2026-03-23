@@ -2,22 +2,22 @@ import { isAsync } from '../isAsync'
 
 describe('isAsync', () => {
   it('should return correct result based on arrow functions', () => {
-    expect(isAsync(() => null)).toBeFalsy()
-    expect(isAsync(async () => null)).toBeTruthy()
+    expect(isAsync((): null => null)).toBeFalsy()
+    expect(isAsync(async (): Promise<null> => null)).toBeTruthy()
 
-    const IAmSync = () => null
-    const IAmAsync = async () => null
+    const IAmSync = (): null => null
+    const IAmAsync = async (): Promise<null> => null
 
     expect(isAsync(IAmSync)).toBeFalsy()
     expect(isAsync(IAmAsync)).toBeTruthy()
   })
 
   it('should return correct result based with jest mock', () => {
-    expect(isAsync(jest.fn(() => null))).toBeFalsy()
-    expect(isAsync(jest.fn(async () => null))).toBeTruthy()
+    expect(isAsync(jest.fn((): null => null))).toBeFalsy()
+    expect(isAsync(jest.fn(async (): Promise<null> => null))).toBeTruthy()
 
-    const IAmSync = jest.fn(() => null)
-    const IAmAsync = jest.fn(async () => null)
+    const IAmSync = jest.fn((): null => null)
+    const IAmAsync = jest.fn(async (): Promise<null> => null)
 
     expect(isAsync(IAmSync)).toBeFalsy()
     expect(isAsync(IAmAsync)).toBeTruthy()
@@ -25,20 +25,20 @@ describe('isAsync', () => {
 
   it('should return correct result based normal functions', () => {
     expect(
-      isAsync(function () {
+      isAsync(function (): null {
         return null
       })
     ).toBeFalsy()
     expect(
-      isAsync(async function () {
+      isAsync(async function (): Promise<null> {
         return null
       })
     ).toBeTruthy()
 
-    function IAmSync() {
+    function IAmSync(): null {
       return null
     }
-    async function IAmAsync() {
+    async function IAmAsync(): Promise<null> {
       return null
     }
 
@@ -48,14 +48,14 @@ describe('isAsync', () => {
 
   it('should not support functions with a promise', () => {
     expect(
-      isAsync(() => {
-        return new Promise(() => null)
+      isAsync((): Promise<null> => {
+        return new Promise((): null => null)
       })
     ).toBeFalsy()
 
     expect(
-      isAsync(function () {
-        return new Promise(() => null)
+      isAsync(function (): Promise<null> {
+        return new Promise((): null => null)
       })
     ).toBeFalsy()
   })
@@ -66,7 +66,7 @@ describe('isAsync', () => {
 
   it('should return correct result based async function transpiled using @babel/plugin-transform-async-to-generator', () => {
     /* eslint-disable */
-    function asyncGeneratorStep(n, t, e, r, o, a, c) {
+    function asyncGeneratorStep(n: any, t: any, e: any, r: any, o: any, a: any, c: any): void {
       try {
         var i = n[a](c),
           u = i.value
@@ -75,16 +75,16 @@ describe('isAsync', () => {
       }
       i.done ? t(u) : Promise.resolve(u).then(r, o)
     }
-    function _asyncToGenerator(n) {
+    function _asyncToGenerator(n: any) {
       return function (this: unknown) {
         var t = this,
           e = arguments
         return new Promise(function (r, o) {
           var a = n.apply(t, e)
-          function _next(n) {
+          function _next(n: any) {
             asyncGeneratorStep(a, r, o, _next, _throw, 'next', n)
           }
-          function _throw(n) {
+          function _throw(n: any) {
             asyncGeneratorStep(a, r, o, _next, _throw, 'throw', n)
           }
           _next(void 0)
@@ -103,7 +103,7 @@ describe('isAsync', () => {
   })
 
   it('should return true if the situation is unclear', () => {
-    function IAmSync() {
+    function IAmSync(): null {
       return null
     }
     Object.defineProperty(IAmSync.constructor, 'name', {

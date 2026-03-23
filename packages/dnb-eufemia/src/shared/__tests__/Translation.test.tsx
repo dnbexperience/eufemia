@@ -64,13 +64,13 @@ describe('flatten translations', () => {
 })
 
 describe('context.getTranslation', () => {
-  const MagicContext = (props) => {
+  const MagicContext = (props: Record<string, unknown>) => {
     return (
       <Context.Consumer>
         {(context) => {
           const title = context.getTranslation(props).HelpButton.title
           const otherString =
-            context.getTranslation(props).HelpButton?.['other']?.string
+            (context.getTranslation(props).HelpButton as Record<string, Record<string, string>>)?.['other']?.string
           return (
             <>
               <p className="locale">{context.locale}</p>

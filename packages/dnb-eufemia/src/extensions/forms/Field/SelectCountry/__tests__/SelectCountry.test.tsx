@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event'
 import type { Props } from '../SelectCountry'
 import { Provider } from '../../../../../shared'
 import DataContext from '../../../DataContext/Context'
+import type { ContextState } from '../../../DataContext/Context'
 import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListProvider'
 import { Field, Form, FieldBlock, Value, Iterate } from '../../..'
 import type { CountryISO } from '../../../constants/countries'
@@ -637,7 +638,7 @@ describe('Field.SelectCountry', () => {
   })
 
   it('should store "displayValue" in data context', async () => {
-    let dataContext = null
+    let dataContext: ContextState | null = null
 
     render(
       <Form.Handler locale="en-GB">
@@ -651,7 +652,7 @@ describe('Field.SelectCountry', () => {
       </Form.Handler>
     )
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect(dataContext!.fieldDisplayValueRef.current).toEqual({
       '/country': {
         type: 'field',
         value: 'Norway',
@@ -665,7 +666,7 @@ describe('Field.SelectCountry', () => {
     await userEvent.keyboard('{Enter}')
     DrawerListProvider['blurDelay'] = 201
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect(dataContext!.fieldDisplayValueRef.current).toEqual({
       '/country': {
         type: 'field',
         value: 'Denmark',

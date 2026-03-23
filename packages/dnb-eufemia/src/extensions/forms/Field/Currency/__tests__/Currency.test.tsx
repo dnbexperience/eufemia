@@ -4,6 +4,7 @@ import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from '../../../../../shared'
 import DataContext from '../../../DataContext/Context'
+import type { ContextState } from '../../../DataContext/Context'
 import { Field, Form } from '../../../'
 
 describe('Field.Currency', () => {
@@ -67,7 +68,7 @@ describe('Field.Currency', () => {
   })
 
   it('should store "displayValue" in data context', async () => {
-    let dataContext = null
+    let dataContext: ContextState | null = null
 
     render(
       <Form.Handler>
@@ -83,7 +84,7 @@ describe('Field.Currency', () => {
 
     const input = document.querySelector('input')
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect(dataContext!.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
         type: 'field',
         value: '123 kr',
@@ -92,7 +93,7 @@ describe('Field.Currency', () => {
 
     await userEvent.type(input, '4')
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect(dataContext!.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
         type: 'field',
         value: '1 234 kr',
@@ -101,7 +102,7 @@ describe('Field.Currency', () => {
 
     await userEvent.keyboard('{Backspace>5}')
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect(dataContext!.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
         type: 'field',
       },

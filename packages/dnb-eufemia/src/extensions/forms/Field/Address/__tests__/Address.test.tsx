@@ -111,10 +111,10 @@ describe('Field.Address', () => {
   })
 
   it('should replace Field.String with custom element', async () => {
-    const CustomElement = (props) => (
+    const CustomElement = (props: Record<string, unknown>) => (
       <textarea className="custom-element" {...props} />
     )
-    render(<Field.Address element={CustomElement} />)
+    render(<Field.Address element={CustomElement as React.ComponentType} />)
 
     const element = document.querySelector('.custom-element')
     expect(element.nodeName).toBe('TEXTAREA')

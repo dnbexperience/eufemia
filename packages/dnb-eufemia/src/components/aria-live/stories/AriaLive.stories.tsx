@@ -109,7 +109,7 @@ export function AriaLiveAdditions() {
               icon="add"
               iconPosition="left"
               onClick={() => {
-                update('/content', (content) => {
+                update('/content', (content: string[]) => {
                   const c = content.length + 1
                   content.push(`Line ${c}`)
                   return [...content]
@@ -122,7 +122,7 @@ export function AriaLiveAdditions() {
               icon="subtract"
               iconPosition="left"
               onClick={() => {
-                update('/content', (content) => {
+                update('/content', (content: string[]) => {
                   content.pop()
                   return [...content]
                 })

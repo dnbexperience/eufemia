@@ -273,7 +273,7 @@ describe('Wizard.Container', () => {
       )
     }
 
-    const onStepChange = async (step, mode) => {
+    const onStepChange = async (step: number, mode: string) => {
       if (mode === 'next') {
         await wait(100)
       }
@@ -354,7 +354,7 @@ describe('Wizard.Container', () => {
         )
       }
 
-      const onStepChange = async (step, mode) => {
+      const onStepChange = async (step: number, mode: string) => {
         if (mode === 'next') {
           await wait(100)
         }
@@ -437,7 +437,7 @@ describe('Wizard.Container', () => {
         )
       }
 
-      const onStepChange = async (step, mode) => {
+      const onStepChange = async (step: number, mode: string) => {
         if (mode === 'next') {
           await wait(100)
         }
@@ -520,7 +520,7 @@ describe('Wizard.Container', () => {
         )
       }
 
-      const onStepChange = async (step, mode) => {
+      const onStepChange = async (step: number, mode: string) => {
         if (mode === 'next') {
           await wait(100)
         }
@@ -748,7 +748,7 @@ describe('Wizard.Container', () => {
   })
 
   it('supports wizard layout to be in their own components', async () => {
-    let context = null
+    let context: ReturnType<typeof Wizard.useStep> | null = null
 
     const Step1 = () => {
       context = Wizard.useStep()
@@ -786,7 +786,7 @@ describe('Wizard.Container', () => {
     )
 
     expect(output()).toHaveTextContent('Step 1')
-    expect(context.activeIndex).toBe(0)
+    expect(context!.activeIndex).toBe(0)
 
     rerender(
       <Wizard.Container aria-label="step 2">
@@ -798,7 +798,7 @@ describe('Wizard.Container', () => {
     await userEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('Step 2')
-    expect(context.activeIndex).toBe(1)
+    expect(context!.activeIndex).toBe(1)
 
     rerender(
       <Wizard.Container aria-label="step 3">
@@ -810,7 +810,7 @@ describe('Wizard.Container', () => {
     await userEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('Step 3')
-    expect(context.activeIndex).toBe(2)
+    expect(context!.activeIndex).toBe(2)
   })
 
   it('should trigger next step when submitting the form', async () => {
@@ -1135,7 +1135,7 @@ describe('Wizard.Container', () => {
               title="Step 1"
               includeWhen={{
                 path: '/enabledStep',
-                hasValue: (value) => {
+                hasValue: (value: string) => {
                   return value === 'group-1'
                 },
               }}
@@ -1187,7 +1187,7 @@ describe('Wizard.Container', () => {
               title="Step 3"
               includeWhen={{
                 path: '/enabledStep',
-                hasValue: (value) => {
+                hasValue: (value: string) => {
                   return value === 'group-1'
                 },
               }}
@@ -1254,7 +1254,7 @@ describe('Wizard.Container', () => {
     })
 
     it('should provide "id" prop and "same" mode in "onStepChange"', async () => {
-      const onStepChange = jest.fn(async () => null)
+      const onStepChange = jest.fn(async (): Promise<null> => null)
 
       render(
         <Form.Handler defaultData={{ enabledStep: 'group-2' }}>
@@ -1405,7 +1405,7 @@ describe('Wizard.Container', () => {
 
   describe('async step change', () => {
     it('should disable and enable buttons', async () => {
-      const onStepChange = async () => null
+      const onStepChange = async (): Promise<null> => null
 
       render(
         <Wizard.Container onStepChange={onStepChange}>
@@ -1457,7 +1457,7 @@ describe('Wizard.Container', () => {
     })
 
     it('should provide id prop in "onStepChange"', async () => {
-      const onStepChange = jest.fn(async () => null)
+      const onStepChange = jest.fn(async (): Promise<null> => null)
 
       render(
         <Wizard.Container onStepChange={onStepChange} mode="loose">
@@ -1507,7 +1507,7 @@ describe('Wizard.Container', () => {
     })
 
     it('should handle async onSubmit', async () => {
-      const onSubmit = async () => null
+      const onSubmit = async (): Promise<null> => null
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -1579,7 +1579,7 @@ describe('Wizard.Container', () => {
     })
 
     it('should handle async onChangeValidator', async () => {
-      const asyncValidator = async () => null
+      const asyncValidator = async (): Promise<null> => null
 
       render(
         <Wizard.Container>
@@ -1701,7 +1701,7 @@ describe('Wizard.Container', () => {
     })
 
     it('should handle async onBlurValidator', async () => {
-      const onBlurValidator = async () => null
+      const onBlurValidator = async (): Promise<null> => null
 
       render(
         <Wizard.Container>
@@ -4458,8 +4458,8 @@ describe('Wizard.Container', () => {
     })
 
     it('should put prerendered fields (Step 1) in the portal inside an hidden iframe', async () => {
-      const addedNodes = []
-      const removedNodes = []
+      const addedNodes: NodeList[] = []
+      const removedNodes: NodeList[] = []
 
       const observer = new MutationObserver((mutationsList) => {
         for (const mutation of mutationsList) {
@@ -4506,9 +4506,9 @@ describe('Wizard.Container', () => {
       expect(addedNodes[0]).toHaveLength(1)
       expect(addedNodes[0][0]).toBe(document.body.querySelector('div'))
       expect(addedNodes[1]).toHaveLength(1)
-      expect(addedNodes[1][0].tagName).toBe('IFRAME')
+      expect((addedNodes[1][0] as Element).tagName).toBe('IFRAME')
 
-      const iframe = addedNodes[1][0]
+      const iframe = addedNodes[1][0] as HTMLElement
       expect(iframe).toHaveAttribute('hidden', '')
       expect(iframe).toHaveAttribute('title', 'Wizard Prerender')
       expect(iframe).toHaveTextContent('')

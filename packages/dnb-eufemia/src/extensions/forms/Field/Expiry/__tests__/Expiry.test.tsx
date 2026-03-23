@@ -965,7 +965,7 @@ describe('Field.Expiry', () => {
   })
 
   it('should store "displayValue" in data context', async () => {
-    let dataContext = null
+    let dataContext: DataContext.ContextState | null = null
 
     render(
       <Form.Handler>
@@ -979,7 +979,7 @@ describe('Field.Expiry', () => {
       </Form.Handler>
     )
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect(dataContext!.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
         type: 'field',
         value: '08/35',
@@ -989,7 +989,7 @@ describe('Field.Expiry', () => {
     await userEvent.tab()
     await userEvent.keyboard('1236')
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect(dataContext!.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
         type: 'field',
         value: '12/36',

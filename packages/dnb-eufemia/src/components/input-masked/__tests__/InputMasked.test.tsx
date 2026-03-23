@@ -616,8 +616,8 @@ describe('InputMasked component', () => {
     const setSelectionRange = jest.fn()
     const preventDefault = jest.fn()
 
-    const simulate = ({ name, value, selectionPosition, key }) => {
-      fireEvent[name](document.querySelector('input'), {
+    const simulate = ({ name, value, selectionPosition, key }: { name: string; value: string; selectionPosition: number; key: string }) => {
+      ;(fireEvent as unknown as Record<string, (el: Element | null, opts: Record<string, unknown>) => void>)[name](document.querySelector('input'), {
         target: {
           value,
           selectionStart: selectionPosition,
@@ -655,8 +655,8 @@ describe('InputMasked component', () => {
     const MockComponent = () => {
       const [controlledValue, setControlledValue] = React.useState(123456)
 
-      const handleChange = (props) => {
-        setControlledValue(props.numberValue)
+      const handleChange = (props: Record<string, unknown>) => {
+        setControlledValue(props.numberValue as number)
         onChange(props)
       }
 
@@ -1415,7 +1415,7 @@ describe('InputMasked component asNumber', () => {
 
     const elem = document.querySelector('input')
 
-    const pressDotAndUseItAsComma = ({ value }) => {
+    const pressDotAndUseItAsComma = ({ value }: { value: string }) => {
       const key = '.'
       fireEvent.keyDown(document.querySelector('input'), {
         key,
@@ -1652,8 +1652,8 @@ describe('InputMasked component asCurrency', () => {
       const [controlledValue, setControlledValue] =
         React.useState(123456.1234)
 
-      const handleChange = (props) => {
-        setControlledValue(props.numberValue)
+      const handleChange = (props: Record<string, unknown>) => {
+        setControlledValue(props.numberValue as number)
         onChange(props)
       }
 
@@ -2151,11 +2151,11 @@ describe('InputMasked with custom mask', () => {
 
     const input = document.querySelector('input')
 
-    expect(input['runCorrectCaretPosition']).toBeType('undefined')
+    expect((input as unknown as Record<string, unknown>)['runCorrectCaretPosition']).toBeType('undefined')
 
     fireEvent.focus(input)
 
-    expect(input['runCorrectCaretPosition']).toBeType('function')
+    expect((input as unknown as Record<string, unknown>)['runCorrectCaretPosition']).toBeType('function')
   })
 
   it('should set correct cursor position when navigating using keyboard', async () => {
@@ -2550,7 +2550,7 @@ describe('inputmode', () => {
 
 describe('controlled', () => {
   it('should correctly update with new value from outside', async () => {
-    const MockComponent = (props) => {
+    const MockComponent = (props: Record<string, unknown>) => {
       const [value, setValue] = React.useState('')
       return (
         <>

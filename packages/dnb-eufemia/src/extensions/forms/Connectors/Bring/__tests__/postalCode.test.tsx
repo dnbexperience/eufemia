@@ -25,7 +25,8 @@ describe('postalCode', () => {
   })
 
   describe('onChangeValidator', () => {
-    let onChangeValidator = null
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let onChangeValidator: any = null
 
     beforeEach(() => {
       onChangeValidator = withConfig(Connectors.Bring.postalCode.validator)
@@ -112,8 +113,8 @@ describe('postalCode', () => {
 
       const mockSignal = {
         aborted: false,
-        onabort: null,
-        reason: undefined,
+        onabort: null as ((this: AbortSignal, ev: Event) => unknown) | null,
+        reason: undefined as unknown,
         throwIfAborted: jest.fn(),
         addEventListener: jest.fn(),
         removeEventListener: jest.fn(),
@@ -343,7 +344,8 @@ describe('postalCode', () => {
   })
 
   describe('onBlurValidator', () => {
-    let onBlurValidator = null
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let onBlurValidator: any = null
 
     beforeEach(() => {
       onBlurValidator = withConfig(Connectors.Bring.postalCode.validator)
@@ -595,7 +597,8 @@ describe('postalCode', () => {
   })
 
   describe('autofill', () => {
-    let onChange = null
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let onChange: any = null
 
     beforeEach(() => {
       onChange = withConfig(Connectors.Bring.postalCode.autofill, {
@@ -822,7 +825,7 @@ describe('postalCode', () => {
   })
 })
 
-function createFetchMock(overwrite = null, delay = null) {
+function createFetchMock(overwrite: Record<string, unknown> | null = null, delay: (() => Promise<void>) | null = null) {
   return jest.fn(async () => {
     await delay?.()
     const response = {
@@ -832,7 +835,7 @@ function createFetchMock(overwrite = null, delay = null) {
       type: 'basic',
       url: '',
       headers: new Headers(),
-      body: null,
+      body: null as ReadableStream | null,
       bodyUsed: false,
       redirected: false,
       clone: () => {
@@ -856,5 +859,5 @@ function createFetchMock(overwrite = null, delay = null) {
       ...overwrite,
     }
     return Promise.resolve(response)
-  })
+  }) as unknown as typeof globalThis.fetch
 }

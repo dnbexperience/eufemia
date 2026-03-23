@@ -8,7 +8,7 @@ import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
 beforeEach(() => {
-  globalThis.fetch = createFetchMock()
+  globalThis.fetch = createFetchMock() as unknown as typeof fetch
 })
 
 describe('address', () => {
@@ -25,7 +25,8 @@ describe('address', () => {
   })
 
   describe('autofill', () => {
-    let addressSuggestionsElement = null
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let addressSuggestionsElement: any = null
 
     beforeEach(() => {
       addressSuggestionsElement = withConfig(
@@ -283,7 +284,7 @@ describe('address', () => {
 
       render(
         <Form.Handler defaultData={{ countryCode: 'SE' }}>
-          <Field.Address.Street element={addressSuggestionsElement} />
+          <Field.Address.Street element={addressSuggestionsElement as never} />
           <Field.PostalCodeAndCity
             countryCode="/myCountryCode"
             postalCode={{
@@ -320,7 +321,7 @@ describe('address', () => {
 
       render(
         <Form.Handler>
-          <Field.Address.Street element={addressSuggestionsElement} />
+          <Field.Address.Street element={addressSuggestionsElement as never} />
         </Form.Handler>
       )
 
@@ -335,7 +336,7 @@ describe('address', () => {
   })
 })
 
-function createFetchMock(overwrite = null, delay = null) {
+function createFetchMock(overwrite: Record<string, unknown> | null = null, delay: (() => Promise<void>) | null = null) {
   return jest.fn(async () => {
     await delay?.()
     const response = {
@@ -345,7 +346,7 @@ function createFetchMock(overwrite = null, delay = null) {
       type: 'basic',
       url: '',
       headers: new Headers(),
-      body: null,
+      body: null as ReadableStream | null,
       bodyUsed: false,
       redirected: false,
       clone: () => {

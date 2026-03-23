@@ -11,7 +11,9 @@ import pointer, {
 } from '../../json-pointer'
 
 describe('json-pointer', () => {
-  let rfcExample, rfcValues, rfcParsed
+  let rfcExample: Record<string, unknown>,
+    rfcValues: Record<string, unknown>,
+    rfcParsed: Record<string, { tokens: string[]; value: unknown }>
 
   function resetExamples() {
     rfcExample = {
@@ -88,11 +90,11 @@ describe('json-pointer', () => {
     })
 
     it('should work for with inherited properties', () => {
-      function O() {
+      function O(this: Record<string, unknown>) {
         // empty
       }
       O.prototype.x = 10
-      expect(get(new O(), '/x')).toBe(10)
+      expect(get(new (O as unknown as new () => Record<string, unknown>)(), '/x')).toBe(10)
       expect(get(Object.create({ x: 10 }), '/x')).toBe(10)
     })
   })
@@ -104,25 +106,25 @@ describe('json-pointer', () => {
     })
 
     it('should set a value on an object with pointer', () => {
-      const obj = {
+      const obj: Record<string, unknown> = {
         existing: 'bla',
       }
 
       set(obj, '/new-value/bla', 'expected')
-      expect(obj['new-value'].bla).toBe('expected')
+      expect((obj['new-value'] as Record<string, unknown>).bla).toBe('expected')
     })
 
     it('should set a value on an object with tokens', () => {
-      const obj = {
+      const obj: Record<string, unknown> = {
         existing: 'bla',
       }
 
       set(obj, ['new-value', 'bla'], 'expected')
-      expect(obj['new-value'].bla).toBe('expected')
+      expect((obj['new-value'] as Record<string, unknown>).bla).toBe('expected')
     })
 
     it('should work on first level with pointer', () => {
-      const obj = {
+      const obj: Record<string, unknown> = {
         existing: 'bla',
       }
 
@@ -131,16 +133,16 @@ describe('json-pointer', () => {
     })
 
     it('should work on frozen objects', () => {
-      const obj = {
+      const obj: Record<string, unknown> = {
         frozen: Object.freeze({}),
       }
 
       set(obj, '/frozen/first-level', 'expected')
-      expect(obj['frozen']['first-level']).toBe('expected')
+      expect((obj['frozen'] as Record<string, unknown>)['first-level']).toBe('expected')
     })
 
     it('should work on first level with tokens', () => {
-      const obj = {
+      const obj: Record<string, unknown> = {
         existing: 'bla',
       }
 
@@ -149,7 +151,7 @@ describe('json-pointer', () => {
     })
 
     it('should create arrays for numeric reference tokens and objects for other tokens', () => {
-      const obj = []
+      const obj: Array<Record<string, unknown>> = []
       set(obj, '/0/test/0', 'expected')
       expect(Array.isArray(obj)).toBe(true)
       expect(Array.isArray(obj[0])).toBe(false)
@@ -157,7 +159,7 @@ describe('json-pointer', () => {
     })
 
     it('should create arrays for numeric reference tokens and objects for other tokens when tokens are passed', () => {
-      const obj = []
+      const obj: Array<Record<string, unknown>> = []
       set(obj, ['0', 'test', '0'], 'expected')
       expect(Array.isArray(obj)).toBe(true)
       expect(Array.isArray(obj[0])).toBe(false)
@@ -191,7 +193,7 @@ describe('json-pointer', () => {
 
       it('should work for "' + p + '"', () => {
         remove(rfcExample, p)
-        expect(() => get(pointer, rfcExample)).toThrow(Error)
+        expect(() => get(pointer, rfcExample as unknown as PointerPath)).toThrow(Error)
       })
     })
 
@@ -204,7 +206,7 @@ describe('json-pointer', () => {
     it('should work for "/foo/1"', () => {
       const p = '/foo/1'
       remove(rfcExample, p)
-      expect(() => get(pointer, rfcExample)).toThrow(Error)
+      expect(() => get(pointer, rfcExample as unknown as PointerPath)).toThrow(Error)
     })
 
     Object.keys(rfcParsed).forEach((p) => {
@@ -230,7 +232,7 @@ describe('json-pointer', () => {
     it('should work for ["foo","1"]', () => {
       const p = ['foo', '1']
       remove(rfcExample, p)
-      expect(() => get(pointer, rfcExample)).toThrow(Error)
+      expect(() => get(pointer, rfcExample as unknown as PointerPath)).toThrow(Error)
     })
   })
 
@@ -346,9 +348,9 @@ describe('json-pointer', () => {
       expect(count).toBe(3)
 
       count = 0
-      walk({ bla: { foo: 'foo', bar: 'bar', baz: 'baz' } }, (value) => {
+      walk({ bla: { foo: 'foo', bar: 'bar', baz: 'baz' } }, (value): false | void => {
         count++
-        return value === 'bar' ? false : true
+        return value === 'bar' ? false : undefined
       })
 
       expect(count).toBe(2)

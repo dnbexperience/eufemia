@@ -89,7 +89,7 @@ describe('useVerifyChildren', () => {
 
     const IgnoredComponent = () => <>Ignored</>
 
-    const TestComponent = () => {
+    const TestComponent = (): null => {
       const { verifyChild } = useVerifyChildren({
         children: (
           <>
@@ -116,7 +116,7 @@ describe('useVerifyChildren', () => {
   it('should ignore Form.Visibility', () => {
     const log = jest.spyOn(console, 'log').mockImplementation()
 
-    const TestComponent = () => {
+    const TestComponent = (): null => {
       const { verifyChild } = useVerifyChildren({
         children: (
           <>
@@ -143,7 +143,7 @@ describe('useVerifyChildren', () => {
   it('should ignore React.Fragment', () => {
     const log = jest.spyOn(console, 'log').mockImplementation()
 
-    const TestComponent = () => {
+    const TestComponent = (): null => {
       const { verifyChild } = useVerifyChildren({
         children: (
           <>

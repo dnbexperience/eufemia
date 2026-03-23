@@ -93,7 +93,7 @@ export function HeightAnimationKeepInDOM() {
     const [openState, setOpenState] = React.useState(true)
     const [contentState, setContentState] = React.useState(false)
 
-    const onChangeHandler = ({ checked }) => {
+    const onChangeHandler = ({ checked }: { checked: boolean }) => {
       setOpenState(checked)
     }
 

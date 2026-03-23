@@ -106,18 +106,18 @@ const ContentTrAccordion = ({
     </Tr>
   )
 
-  function trClickHandler(event) {
+  function trClickHandler(event: React.SyntheticEvent) {
     console.log('trClickHandler', event)
   }
-  function trOpenHandler(event) {
+  function trOpenHandler(event: { target: HTMLTableRowElement }) {
     console.log('trOpenHandler', event)
   }
-  function trCloseHandler(event) {
+  function trCloseHandler(event: { target: HTMLTableRowElement }) {
     console.log('trCloseHandler', event)
   }
 }
 
-const HeaderSortButton = ({ children }) => {
+const HeaderSortButton = ({ children }: { children: React.ReactNode }) => {
   return (
     <Th.SortButton
       wrap={false}

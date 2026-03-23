@@ -255,11 +255,11 @@ const RadioGroupsWithStatus = () => {
     </Form.Handler>
   )
 }
-const shuffleArray = (arr) =>
+const shuffleArray = (arr: any[]) =>
   arr
-    .map((a) => [Math.random(), a])
-    .sort((a, b) => a[0] - b[0])
-    .map((a) => a[1])
+    .map((a: any) => [Math.random(), a])
+    .sort((a: any, b: any) => a[0] - b[0])
+    .map((a: any) => a[1])
 
 export const GlobalStatusExample = () => {
   return (

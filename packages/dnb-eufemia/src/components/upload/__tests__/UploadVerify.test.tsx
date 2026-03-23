@@ -9,7 +9,7 @@ describe('verifyFiles', () => {
     const errorLargeFile = 'error message %size'
 
     const rawFiles = [{ file: file1 }]
-    const acceptedFileTypes = []
+    const acceptedFileTypes: string[] = []
 
     const files = verifyFiles(rawFiles, {
       fileMaxSize,
@@ -31,7 +31,7 @@ describe('verifyFiles', () => {
     const errorLargeFile = 'error message %size'
 
     const rawFiles = [{ file: file1 }]
-    const acceptedFileTypes = []
+    const acceptedFileTypes: string[] = []
 
     const files = verifyFiles(rawFiles, {
       fileMaxSize,
@@ -70,7 +70,7 @@ describe('verifyFiles', () => {
     const file1 = createMockFile('fileName1.png', 100, 'image/png')
 
     const rawFiles = [{ file: file1 }]
-    const acceptedFileTypes = []
+    const acceptedFileTypes: string[] = []
 
     const files = verifyFiles(rawFiles, {
       fileMaxSize: 1000,

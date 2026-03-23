@@ -53,7 +53,7 @@ describe('useSharedState', () => {
   })
 
   it('should update the shared state with a function reference as id', () => {
-    const identifier = () => null
+    const identifier = (): null => null
     const { result } = renderHook(() =>
       useSharedState(identifier, { test: 'initial' })
     )
@@ -64,7 +64,7 @@ describe('useSharedState', () => {
   })
 
   it('should update the shared state with an async function reference as id', () => {
-    const identifier = async () => null
+    const identifier = async (): Promise<null> => null
     const { result } = renderHook(() =>
       useSharedState(identifier, { test: 'initial' })
     )
@@ -264,7 +264,7 @@ describe('useWeakSharedState', () => {
       useWeakSharedState(identifier)
     )
 
-    const getStateOf = (identifier) => {
+    const getStateOf = (identifier: Record<string, never>) => {
       return createSharedState(identifier).get()
     }
 
@@ -288,7 +288,7 @@ describe('useWeakSharedState', () => {
       useSharedState(identifier)
     )
 
-    const getStateOf = (identifier) => {
+    const getStateOf = (identifier: Record<string, never>) => {
       return createSharedState(identifier).get()
     }
 
@@ -306,7 +306,7 @@ describe('useWeakSharedState', () => {
 describe('createReferenceKey', () => {
   it('should return the same object for the same references', () => {
     const ref1 = {}
-    const ref2 = () => null
+    const ref2 = (): null => null
 
     const key1 = createReferenceKey(ref1, ref2)
     const key2 = createReferenceKey(ref1, ref2)
@@ -348,7 +348,7 @@ describe('createReferenceKey', () => {
 
   it('should cache the combined reference', () => {
     const ref1 = {}
-    const ref2 = () => null
+    const ref2 = (): null => null
 
     const key1 = createReferenceKey(ref1, ref2)
     const key2 = createReferenceKey(ref1, ref2)

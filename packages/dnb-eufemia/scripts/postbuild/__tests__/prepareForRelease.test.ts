@@ -30,9 +30,9 @@ describe('cleanupPackage', () => {
 
 describe('buildExportsMap', () => {
   it('returns a stable exports map', async () => {
-    const exportsMap = await buildExportsMap({
+    const exportsMap = (await buildExportsMap({
       buildDir: packpath.self(),
-    })
+    })) as Record<string, unknown>
 
     expect(exportsMap['.']).toEqual(
       expect.objectContaining({
@@ -123,10 +123,10 @@ describe('package.json', () => {
 
   // Skipped as we do not use this currently
   describe.skip('exports', () => {
-    const resolveTarget = (target) =>
+    const resolveTarget = (target: string) =>
       path.resolve(buildDir, target.replace(/^\.\//, ''))
 
-    const assertTargetExists = (target) => {
+    const assertTargetExists = (target: unknown) => {
       if (Array.isArray(target)) {
         target.forEach(assertTargetExists)
         return
@@ -138,7 +138,7 @@ describe('package.json', () => {
     }
 
     const assertExport = (
-      key,
+      key: string,
       expected?: Record<string, string> | string
     ) => {
       const exportsMap = packageJson.exports as Record<string, ExportEntry>
@@ -175,7 +175,7 @@ describe('package.json', () => {
     }
 
     const assertPatternExport = (
-      key,
+      key: string,
       expected: Record<string, string | string[]>
     ) => {
       const exportsMap = packageJson.exports as Record<string, ExportEntry>
@@ -356,7 +356,7 @@ describe('release config', () => {
     expect(Array.isArray(releaseRc.plugins)).toBe(true)
 
     // Verify npm plugin has provenance config
-    const npmPlugin = releaseRc.plugins.find(
+    const npmPlugin = (releaseRc.plugins as ReleasePlugin[]).find(
       (plugin) =>
         Array.isArray(plugin) && plugin[0] === '@semantic-release/npm'
     )

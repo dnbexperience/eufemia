@@ -24,7 +24,7 @@ describe('At', () => {
 
   it('should handle path changes correctly', () => {
     const contextData = { a: { b: 'test' } }
-    let handlePathChange = null
+    let handlePathChange: unknown = null
 
     const MockComponent = () => {
       const context = useContext(Context)
@@ -45,7 +45,7 @@ describe('At', () => {
     )
 
     act(() => {
-      handlePathChange('/c', 'new value')
+      ;(handlePathChange as (...args: unknown[]) => void)('/c', 'new value')
     })
 
     expect(document.querySelector('output')).toHaveTextContent(

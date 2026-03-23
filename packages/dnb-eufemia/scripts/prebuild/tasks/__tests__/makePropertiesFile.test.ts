@@ -9,7 +9,8 @@ import makePropertiesFile, {
 } from '../makePropertiesFile'
 
 describe('makePropertiesFile', () => {
-  const global = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const global: Record<string, any> = {
     ui: null,
     sbanken: null,
     uiTokens: null,
@@ -259,13 +260,13 @@ describe('makePropertiesFile', () => {
       })
 
       it('error on unsupported characters', () => {
-        let err
+        let err: unknown
         try {
           transformFigmaPath(['Colo*rs', 'Pri ma?ry', 'Da(rk'])
         } catch (e) {
           err = e
         }
-        expect(err.message).toEqual(
+        expect((err as Error).message).toEqual(
           `Unsupported characters [ '*', ' ', '?', '(' ] in variable: "Colo*rs/Pri ma?ry/Da(rk"`
         )
       })
@@ -348,7 +349,9 @@ describe('makePropertiesFile', () => {
   })
 
   describe('Tailwind CSS Properties Generation', () => {
-    let uiTailwindResult, sbankenTailwindResult, eiendomTailwindResult
+    let uiTailwindResult: string
+    let sbankenTailwindResult: string
+    let eiendomTailwindResult: string
 
     beforeAll(async () => {
       await makePropertiesFile()

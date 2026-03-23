@@ -1,7 +1,7 @@
 import { runOldBuildDateWarning } from '../runOldBuildDateWarning'
 
 describe('runOldBuildDateWarning', () => {
-  let consoleLogSpy
+  let consoleLogSpy: jest.SpyInstance
 
   const NODE_ENV = process.env.NODE_ENV
 

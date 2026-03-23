@@ -20,7 +20,7 @@ const MockComponent = (
       instance.remove()
     }
   }, [])
-  const onChange = useCallback(() => null, [])
+  const onChange = useCallback((): null => null, [])
 
   return (
     <>
@@ -239,7 +239,7 @@ describe('InputModeNumber', () => {
 
       const inputElement = document.querySelector('input')
 
-      inputElement['runCorrectCaretPosition'] = runCorrectCaretPosition
+      ;(inputElement as unknown as Record<string, unknown>)['runCorrectCaretPosition'] = runCorrectCaretPosition
 
       expect(inputElement).toHaveAttribute('type', 'text')
 

@@ -80,7 +80,7 @@ export const Transform = () => {
 }
 
 export const TransformInOnFormHandler = () => {
-  const transformIn = ({ value }) => {
+  const transformIn = ({ value }: { value: unknown }) => {
     if (value === undefined) {
       return ''
     }

@@ -44,8 +44,8 @@ describe('useNextRouter', () => {
     const forceUpdateRef: React.RefObject<() => void> = createRef()
 
     const useRouter = jest.fn(() => {
-      const push = useCallback((href) => {
-        window.history.replaceState({}, '', href)
+      const push = useCallback((href: unknown) => {
+        window.history.replaceState({}, '', href as string)
         forceUpdateRef.current()
       }, [])
 
@@ -76,7 +76,7 @@ describe('useNextRouter', () => {
     }
   }
 
-  const visitStep = (index) => {
+  const visitStep = (index: unknown) => {
     const url = new URL(window.location.href)
     url.searchParams.set(`${identifier}-step`, String(index))
     window.history.pushState({}, '', url.toString())
@@ -218,8 +218,8 @@ describe('useNextRouter', () => {
     const get = jest.fn()
     const searchParams = { get }
     const useRouter = jest.fn()
-    const useSearchParams = jest.fn(() => {
-      return searchParams
+    const useSearchParams = jest.fn((): URLSearchParams => {
+      return searchParams as unknown as URLSearchParams
     })
 
     const Step = () => {

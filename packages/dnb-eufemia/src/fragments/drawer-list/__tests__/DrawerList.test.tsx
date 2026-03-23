@@ -16,7 +16,6 @@ import userEvent from '@testing-library/user-event'
 import type {
   DrawerListAllProps,
   DrawerListDataArray,
-  DrawerListData,
   DrawerListGroupTitles,
 } from '../DrawerList'
 import DrawerList from '../DrawerList'
@@ -433,7 +432,7 @@ describe('DrawerList component', () => {
     const contextRef: React.RefObject<DrawerListContextValue> =
       React.createRef()
 
-    const ContextConsumer = () => {
+    const ContextConsumer = (): null => {
       contextRef.current = React.useContext(DrawerListContext)
       return null
     }
@@ -483,7 +482,7 @@ describe('DrawerList component', () => {
     const contextRef: React.RefObject<DrawerListContextValue> =
       React.createRef()
 
-    const ContextConsumer = () => {
+    const ContextConsumer = (): null => {
       contextRef.current = React.useContext(DrawerListContext)
       return null
     }
@@ -545,7 +544,7 @@ describe('DrawerList component', () => {
     // select the current
     keydown(' ')
 
-    const notChangedItem = mockData[props.value]
+    const notChangedItem = (mockData as DrawerListDataArray)[props.value as number]
     await waitFor(() => {
       expect(onSelect.mock.calls[0][0].data).toStrictEqual(notChangedItem)
       expect(onSelect.mock.calls[0][0].selectedItem).toBe(2)
@@ -576,7 +575,7 @@ describe('DrawerList component', () => {
       expect(onSelect.mock.calls[1][0].selectedItem).toBe(undefined)
       expect(onSelect.mock.calls[1][0].activeItem).toBe(3)
 
-      const selectedItem = mockData[(props.value as number) + 1]
+      const selectedItem = (mockData as DrawerListDataArray)[(props.value as number) + 1]
       expect(onSelect.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
     })
   })
@@ -600,7 +599,7 @@ describe('DrawerList component', () => {
   })
 
   describe('id', () => {
-    const testAllIds = (id) => {
+    const testAllIds = (id: string) => {
       expect(
         document.querySelector('.dnb-drawer-list').getAttribute('id')
       ).toBe(`${id}-drawer-list`)
@@ -718,7 +717,7 @@ describe('DrawerList component', () => {
   })
 
   it('will lock body scroll when enableBodyLock is true', () => {
-    const MockComponent = (p) => (
+    const MockComponent = (p: Record<string, unknown>) => (
       <DrawerList {...props} data={mockData} enableBodyLock {...p} />
     )
 
@@ -755,7 +754,7 @@ describe('DrawerList component', () => {
     keydown(' ')
 
     await waitFor(() => {
-      const selectedItem = mockData[(props.value as number) + 1]
+      const selectedItem = (mockData as DrawerListDataArray)[(props.value as number) + 1]
       expect(onChange.mock.calls[0][0].data).toStrictEqual(selectedItem)
       expect(onSelect.mock.calls[1][0].data).toStrictEqual(selectedItem)
     })
@@ -786,7 +785,7 @@ describe('DrawerList component', () => {
     keydown('Enter')
 
     await waitFor(() => {
-      const selectedItem = mockData[(props.value as number) + 2]
+      const selectedItem = (mockData as DrawerListDataArray)[(props.value as number) + 2]
       expect(onChange.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
       expect(onSelect.mock.calls[3][0].data).toStrictEqual(selectedItem) // second call!
     })
@@ -923,7 +922,7 @@ describe('DrawerList component', () => {
   })
 
   it('should update and correctly set selected item on data prop change', () => {
-    const data: Record<string, DrawerListData> = {
+    const data: Record<string, Array<{ selectedKey: string; content: string }>> = {
       first: [
         { selectedKey: 'key_1', content: 'Content 1' },
         { selectedKey: 'key_2', content: 'Content 2' },
@@ -1564,7 +1563,7 @@ describe('DrawerList scss', () => {
   })
 })
 
-const keydown = (key) => {
+const keydown = (key: string) => {
   act(() => {
     document.dispatchEvent(new KeyboardEvent('keydown', { key }))
   })

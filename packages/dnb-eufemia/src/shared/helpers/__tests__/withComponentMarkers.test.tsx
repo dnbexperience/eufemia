@@ -13,7 +13,7 @@ import type { SpacingProps } from '../../../components/space/types'
 
 describe('withComponentMarkers', () => {
   it('should set _formElement marker', () => {
-    function MyComponent() {
+    function MyComponent(): null {
       return null
     }
 
@@ -25,7 +25,7 @@ describe('withComponentMarkers', () => {
   })
 
   it('should set _supportsSpacingProps to true', () => {
-    function MyComponent() {
+    function MyComponent(): null {
       return null
     }
 
@@ -39,7 +39,7 @@ describe('withComponentMarkers', () => {
   })
 
   it('should set _supportsSpacingProps to "children"', () => {
-    function MyComponent() {
+    function MyComponent(): null {
       return null
     }
 
@@ -53,7 +53,7 @@ describe('withComponentMarkers', () => {
   })
 
   it('should set _supportsSpacingProps to false', () => {
-    function MyComponent() {
+    function MyComponent(): null {
       return null
     }
 
@@ -67,7 +67,7 @@ describe('withComponentMarkers', () => {
   })
 
   it('should set _isHeadingElement marker', () => {
-    function MyHeading() {
+    function MyHeading(): null {
       return null
     }
 
@@ -79,7 +79,7 @@ describe('withComponentMarkers', () => {
   })
 
   it('should set multiple markers at once', () => {
-    function MyFormComponent() {
+    function MyFormComponent(): null {
       return null
     }
 
@@ -98,7 +98,7 @@ describe('withComponentMarkers', () => {
   })
 
   it('should mutate the same function reference', () => {
-    function MyComponent() {
+    function MyComponent(): null {
       return null
     }
 
@@ -124,13 +124,13 @@ describe('withComponentMarkers', () => {
     const element = React.createElement(MyComponent)
 
     // Simulates how FieldBlock and flex/utils read markers
-    expect(element.type['_formElement']).toBe(true)
-    expect(element.type['_supportsSpacingProps']).toBe(true)
+    expect((element.type as unknown as Record<string, unknown>)['_formElement']).toBe(true)
+    expect((element.type as unknown as Record<string, unknown>)['_supportsSpacingProps']).toBe(true)
   })
 
   it('should work with class components', () => {
     class MyClassComponent extends React.Component {
-      render() {
+      render(): null {
         return null
       }
     }
@@ -245,7 +245,7 @@ describe('withComponentMarkers', () => {
 
       // Each item should be wrapped in a Space element
       items.forEach((item) => {
-        expect(item.parentElement.className).toMatch(/dnb-space/)
+        expect(item.parentElement!.className).toMatch(/dnb-space/)
       })
     })
 
@@ -263,7 +263,7 @@ describe('withComponentMarkers', () => {
 
       const item = document.querySelector('.no-space-item')
       // The element should not be wrapped in a Space
-      expect(item.parentElement.className).toMatch(/dnb-flex-container/)
+      expect(item!.parentElement!.className).toMatch(/dnb-flex-container/)
     })
 
     it('should pass spacing to children when _supportsSpacingProps is "children"', () => {
@@ -274,7 +274,7 @@ describe('withComponentMarkers', () => {
       }
       withComponentMarkers(ChildItem, { _supportsSpacingProps: true })
 
-      function WrapperComponent({ children }) {
+      function WrapperComponent({ children }: { children: React.ReactNode }) {
         return <div className="wrapper">{children}</div>
       }
       withComponentMarkers(WrapperComponent, {
@@ -349,7 +349,7 @@ describe('withComponentMarkers', () => {
     })
 
     it('should not add divider line below marked heading in Flex.Container', () => {
-      function MyHeading({ children }) {
+      function MyHeading({ children }: { children: React.ReactNode }) {
         return <h2>{children}</h2>
       }
       withComponentMarkers(MyHeading, {
@@ -366,7 +366,7 @@ describe('withComponentMarkers', () => {
 
       // The heading should not have a bottom border / divider line
       const heading = document.querySelector('h2')
-      expect(heading.parentElement.className).not.toMatch(
+      expect(heading!.parentElement!.className).not.toMatch(
         /dnb-flex-container__divider/
       )
     })

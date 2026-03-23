@@ -99,7 +99,7 @@ describe('Theme', () => {
   it('provides surface through the theme context', () => {
     let receivedTheme = null
 
-    const ThemeConsumer = () => {
+    const ThemeConsumer = (): null => {
       receivedTheme = React.useContext(Context)?.theme
 
       return null

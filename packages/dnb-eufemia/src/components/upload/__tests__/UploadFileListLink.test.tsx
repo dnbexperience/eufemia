@@ -112,7 +112,7 @@ describe('UploadFileListLink', () => {
   })
 
   describe('as non-clickable', () => {
-    const props = { ...defaultProps, href: undefined, onClick: undefined }
+    const props = { ...defaultProps, href: undefined as string | undefined, onClick: undefined as (() => void) | undefined }
 
     it('renders the span with a dnb-p class', () => {
       render(<UploadFileLink {...props} />)

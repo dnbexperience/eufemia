@@ -137,13 +137,13 @@ describe('babel build', () => {
       const files = await getCommittedFiles(10)
 
       files
-        .filter((filePath) => {
+        .filter((filePath: string) => {
           return filePath.includes('/dnb-eufemia/src/')
         })
-        .map((filePath) => {
+        .map((filePath: string) => {
           return filePath.replace('packages/dnb-eufemia/', '')
         })
-        .forEach((filePath) => {
+        .forEach((filePath: string) => {
           const absolutePath = path.resolve(process.cwd(), filePath)
           if (fs.existsSync(absolutePath)) {
             const content = fs.readFileSync(absolutePath, 'utf-8')

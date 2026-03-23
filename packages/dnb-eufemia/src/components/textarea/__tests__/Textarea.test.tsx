@@ -68,7 +68,7 @@ describe('Textarea component', () => {
       </Textarea>
     )
     const initValue = 'new prop value'
-    const emptyValue = null
+    const emptyValue = null as string | null
 
     rerender(
       <Textarea {...props} value={initValue}>
@@ -130,7 +130,7 @@ describe('Textarea component', () => {
     const { rerender } = render(<Textarea placeholder="Placeholder" />)
 
     const newValue = 'new value'
-    const emptyValue = null
+    const emptyValue = null as string | null
     const zeroValue = '0'
 
     rerender(<Textarea value={newValue} />)
@@ -146,7 +146,7 @@ describe('Textarea component', () => {
   })
 
   it('placeholder prop should accept React Element', () => {
-    const Placeholder = ({ children }) => <span>{children}</span>
+    const Placeholder = ({ children }: { children: React.ReactNode }) => <span>{children}</span>
 
     const { rerender } = render(
       <Textarea placeholder={<Placeholder>Placeholder</Placeholder>} />

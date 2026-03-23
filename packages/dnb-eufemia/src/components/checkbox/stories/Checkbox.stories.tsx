@@ -13,7 +13,7 @@ export default {
   title: 'Eufemia/Components/Checkbox',
 }
 
-const CustomRow = styled((props) => (
+const CustomRow = styled((props: Record<string, unknown>) => (
   <Flex.Horizontal align="baseline" {...props} />
 ))`
   > .dnb-form-label {

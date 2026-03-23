@@ -432,7 +432,7 @@ describe('isolated-style-scope-plugin', () => {
     })
 
     it('should not replace existing default scope hash with undefined scope hash returned from function', async () => {
-      const scopeHash = jest.fn(() => undefined)
+      const scopeHash = jest.fn((): undefined => undefined)
       await run(
         '.eufemia-scope--something .my-class { color: red; }',
         '.eufemia-scope--something .my-class { color: red; }',
@@ -870,7 +870,7 @@ describe('isolated-style-scope-plugin', () => {
       })
 
       it('should not replace existing default scope hash with undefined scope hash returned from function', async () => {
-        const scopeHash = jest.fn(() => undefined)
+        const scopeHash = jest.fn((): undefined => undefined)
         await run(
           ':global(.eufemia-scope--something) .my-class { color: red; }',
           ':global(.eufemia-scope--something) .my-class { color: red; }',

@@ -41,7 +41,7 @@ describe('Table.ScrollView', () => {
   })
 
   it('should have tabindex="0"', () => {
-    let renderResizeObserver = null
+    let renderResizeObserver: (() => void) | null = null
 
     const observe = jest.fn()
     const init = jest.fn((callback) => {
@@ -65,7 +65,7 @@ describe('Table.ScrollView', () => {
       jest.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(102)
       jest.spyOn(ref.current, 'offsetWidth', 'get').mockReturnValue(100)
 
-      renderResizeObserver()
+      renderResizeObserver!()
     })
 
     expect(element.getAttribute('tabindex')).toBe('0')
@@ -74,13 +74,13 @@ describe('Table.ScrollView', () => {
       jest.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(101)
       jest.spyOn(ref.current, 'offsetWidth', 'get').mockReturnValue(100)
 
-      renderResizeObserver()
+      renderResizeObserver!()
     })
 
     expect(element).not.toHaveAttribute('tabindex')
   })
 
   it('should have constant of _supportsSpacingProps', () => {
-    expect(ScrollView['_supportsSpacingProps']).toBe(true)
+    expect((ScrollView as unknown as Record<string, unknown>)['_supportsSpacingProps']).toBe(true)
   })
 })

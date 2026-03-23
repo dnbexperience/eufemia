@@ -59,7 +59,7 @@ test.describe('Typography for UI', () => {
   test('line-height examples should have correct line-height', async ({
     page,
   }) => {
-    const lineHeights = {
+    const lineHeights: Record<string, string> = {
       '.lh-12': '12px',
       '.lh-16': '16px',
       '.lh-20': '20px',
@@ -71,7 +71,7 @@ test.describe('Typography for UI', () => {
     for (const selector in lineHeights) {
       const lineHeight = lineHeights[selector]
       const element = page.locator(selector)
-      await expect(element).toHaveCSS('line-height', lineHeight)
+      await expect(element).toHaveCSS('line-height', lineHeight!)
     }
   })
 
@@ -146,7 +146,7 @@ test.describe('Typography for Sbanken', () => {
   test('line-height examples should have correct line-height', async ({
     page,
   }) => {
-    const lineHeights = {
+    const lineHeights: Record<string, string> = {
       '.lh-12': '12px',
       '.lh-16': '16px',
       '.lh-20': '20px',
@@ -158,7 +158,7 @@ test.describe('Typography for Sbanken', () => {
     for (const selector in lineHeights) {
       const lineHeight = lineHeights[selector]
       const element = page.locator(selector)
-      await expect(element).toHaveCSS('line-height', lineHeight)
+      await expect(element).toHaveCSS('line-height', lineHeight!)
     }
   })
 

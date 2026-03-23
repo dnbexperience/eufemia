@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react'
 import { Field, Form, Iterate, Value } from '../../..'
+import type { FilterDataHandlerCallback } from '../../../DataContext/Context'
 import { Flex, Section } from '../../../../../components'
 import { P, Ul, Li } from '../../../../../elements'
 
@@ -73,8 +74,8 @@ export const RadioDisabled = () => {
   )
 }
 
-const filterDataHandler = ({ props }) => {
-  return !props['data-exclude-field']
+const filterDataHandler: FilterDataHandlerCallback<boolean | undefined> = ({ props }) => {
+  return !(props as Record<string, unknown>)['data-exclude-field']
 }
 
 const OutputWithoutId = () => {

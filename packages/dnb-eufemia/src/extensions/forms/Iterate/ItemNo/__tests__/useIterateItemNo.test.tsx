@@ -83,7 +83,7 @@ describe('useIterateItemNo', () => {
 
     const Item = () => {
       const str = useIterateItemNo({ label })
-      return <Field.String label={renderWithFormatting(str)} />
+      return <Field.String label={renderWithFormatting(str as string)} />
     }
 
     render(

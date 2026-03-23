@@ -136,7 +136,7 @@ describe('ArraySelection', () => {
     })
 
     it('supports render prop children with options from dataPath', () => {
-      let receivedOptions = []
+      let receivedOptions: unknown[] = []
 
       render(
         <Form.Handler
@@ -467,7 +467,7 @@ describe('ArraySelection', () => {
     })
 
     it('should store "displayValue" in data context', async () => {
-      let dataContext = null
+      let dataContext: DataContext.ContextState | null = null
 
       render(
         <Form.Handler
@@ -498,7 +498,7 @@ describe('ArraySelection', () => {
         </Form.Handler>
       )
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
           type: 'field',
         },
@@ -507,7 +507,7 @@ describe('ArraySelection', () => {
       await userEvent.tab()
       await userEvent.keyboard('{Enter}')
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
           type: 'field',
           value: ['Foo!'],
@@ -518,7 +518,7 @@ describe('ArraySelection', () => {
       await userEvent.tab()
       await userEvent.keyboard('{Enter}')
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
           type: 'field',
           value: ['Foo!', 'Bar!'],
@@ -528,7 +528,7 @@ describe('ArraySelection', () => {
       await userEvent.tab()
       await userEvent.keyboard('{Enter}')
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
           type: 'field',
           value: ['Bar!'],
@@ -539,7 +539,7 @@ describe('ArraySelection', () => {
       await userEvent.tab()
       await userEvent.keyboard('{Enter}')
 
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect(dataContext!.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
           type: 'field',
         },
@@ -989,7 +989,7 @@ describe('ArraySelection', () => {
       })
 
       it('should store "displayValue" in data context', async () => {
-        let dataContext = null
+        let dataContext: DataContext.ContextState | null = null
 
         render(
           <Form.Handler
@@ -1020,7 +1020,7 @@ describe('ArraySelection', () => {
           </Form.Handler>
         )
 
-        expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        expect(dataContext!.fieldDisplayValueRef.current).toEqual({
           '/mySelection': {
             type: 'field',
           },
@@ -1029,7 +1029,7 @@ describe('ArraySelection', () => {
         await userEvent.tab()
         await userEvent.keyboard('{Enter}')
 
-        expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        expect(dataContext!.fieldDisplayValueRef.current).toEqual({
           '/mySelection': {
             type: 'field',
             value: ['Foo!'],
@@ -1040,7 +1040,7 @@ describe('ArraySelection', () => {
         await userEvent.tab()
         await userEvent.keyboard('{Enter}')
 
-        expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        expect(dataContext!.fieldDisplayValueRef.current).toEqual({
           '/mySelection': {
             type: 'field',
             value: ['Foo!', 'Bar!'],
@@ -1050,7 +1050,7 @@ describe('ArraySelection', () => {
         await userEvent.tab()
         await userEvent.keyboard('{Enter}')
 
-        expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        expect(dataContext!.fieldDisplayValueRef.current).toEqual({
           '/mySelection': {
             type: 'field',
             value: ['Bar!'],
@@ -1061,7 +1061,7 @@ describe('ArraySelection', () => {
         await userEvent.tab()
         await userEvent.keyboard('{Enter}')
 
-        expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        expect(dataContext!.fieldDisplayValueRef.current).toEqual({
           '/mySelection': {
             type: 'field',
           },
@@ -1073,7 +1073,7 @@ describe('ArraySelection', () => {
         const onSubmit = jest.fn((data, { transformData }) => {
           transformedData = transformData(
             data,
-            ({ value, displayValue, label }) => {
+            ({ value, displayValue, label }: Record<string, unknown>) => {
               return { value, displayValue, label }
             }
           )

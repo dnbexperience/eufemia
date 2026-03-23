@@ -27,7 +27,7 @@ describe('Form.Handler', () => {
 
       const Tr = (p: Tr<typeof translations>) => <Translation {...p} />
 
-      const MockComponent = (props) => {
+      const MockComponent = (props: Record<string, unknown>) => {
         return (
           <Form.Handler translations={translations} {...props}>
             <Field.PhoneNumber />
@@ -89,7 +89,7 @@ describe('Form.Handler', () => {
         return t.PhoneNumber.numberLabel
       }
 
-      const MockComponent = (props) => {
+      const MockComponent = (props: Record<string, unknown>) => {
         return (
           <Form.Handler translations={translations} {...props}>
             <Field.PhoneNumber />
@@ -156,7 +156,7 @@ describe('Form.Section', () => {
 
       const Tr = (p: Tr<typeof translations>) => <Translation {...p} />
 
-      const MockComponent = (props) => {
+      const MockComponent = (props: Record<string, unknown>) => {
         return (
           <Form.Handler {...props}>
             <Form.Section translations={translations}>
@@ -217,7 +217,7 @@ describe('Form.Section', () => {
         <Translation {...p} />
       )
 
-      const MockComponent = (props) => {
+      const MockComponent = (props: Record<string, unknown>) => {
         return (
           <Form.Handler translations={handlerTranslations} {...props}>
             <Form.Section translations={sectionTranslations}>
@@ -285,7 +285,7 @@ describe('Form.Section', () => {
         return t.PhoneNumber.numberLabel
       }
 
-      const MockComponent = (props) => {
+      const MockComponent = (props: Record<string, unknown>) => {
         return (
           <Form.Handler {...props}>
             <Form.Section translations={translations}>
@@ -370,7 +370,7 @@ describe('Form.Section', () => {
         return t.PhoneNumber.numberLabel
       }
 
-      const MockComponent = (props) => {
+      const MockComponent = (props: Record<string, unknown>) => {
         return (
           <Form.Handler translations={handlerTranslations} {...props}>
             <Form.Section translations={sectionTranslations}>
@@ -447,7 +447,7 @@ describe('Shared Provider', () => {
 
       const Tr = (p: Tr<typeof translations>) => <Translation {...p} />
 
-      const MockComponent = (props) => {
+      const MockComponent = (props: Record<string, unknown>) => {
         return (
           <Provider translations={translations} {...props}>
             <Form.Handler>
@@ -511,7 +511,7 @@ describe('Shared Provider', () => {
         return t.PhoneNumber.numberLabel
       }
 
-      const MockComponent = (props) => {
+      const MockComponent = (props: Record<string, unknown>) => {
         return (
           <Provider translations={translations} {...props}>
             <Form.Handler>

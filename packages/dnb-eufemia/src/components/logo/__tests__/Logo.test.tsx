@@ -246,7 +246,7 @@ describe('Logo component', () => {
   })
 
   it('should keep the original viewBox on the svg', () => {
-    const SvgFactory = (props) => (
+    const SvgFactory = (props: React.SVGProps<SVGSVGElement>) => (
       <svg viewBox="0 0 10 10" {...props}>
         <circle cx="5" cy="5" r="5" />
       </svg>
@@ -284,7 +284,7 @@ describe('Logo component', () => {
   })
 
   it('should not forward non-DOM props when svg is a theme factory', () => {
-    const SvgFactory = (props) => (
+    const SvgFactory = (props: React.SVGProps<SVGSVGElement>) => (
       <svg viewBox="0 0 10 10" {...props}>
         <circle cx="5" cy="5" r="5" />
       </svg>

@@ -250,7 +250,7 @@ describe('useFieldProps', () => {
         {
           initialProps: {
             onStatusChange,
-            error: errorValue,
+            error: errorValue as Error | undefined,
           },
           wrapper: Provider,
         }
@@ -388,7 +388,7 @@ describe('useFieldProps', () => {
             ...props,
           }),
         {
-          initialProps: { error: undefined },
+          initialProps: { error: undefined as Error | undefined },
           wrapper: Provider,
         }
       )
@@ -764,7 +764,7 @@ describe('useFieldProps', () => {
   })
 
   it('should return correct "hasError" state but no error object when nested in "FieldBlock"', async () => {
-    const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
+    const wrapper = ({ children }: { children: React.ReactNode }) => <FieldBlock>{children}</FieldBlock>
 
     const { result } = renderHook(
       () =>
@@ -1244,9 +1244,9 @@ describe('useFieldProps', () => {
     })
 
     it('should render error message given as string', () => {
-      const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
+      const wrapper = ({ children }: { children: React.ReactNode }) => <FieldBlock>{children}</FieldBlock>
 
-      const error = 'A formatted error message'
+      const error: string | undefined = 'A formatted error message'
 
       const { rerender } = renderHook(
         (props: any) => useFieldProps(props),
@@ -1256,7 +1256,7 @@ describe('useFieldProps', () => {
         }
       )
 
-      expect(document.querySelector('.dnb-form-status').textContent).toBe(
+      expect(document.querySelector('.dnb-form-status')!.textContent).toBe(
         'A formatted error message'
       )
 
@@ -1268,7 +1268,7 @@ describe('useFieldProps', () => {
     })
 
     it('should render error message given as JSX', () => {
-      const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
+      const wrapper = ({ children }: { children: React.ReactNode }) => <FieldBlock>{children}</FieldBlock>
 
       const error = (
         <>
@@ -1285,9 +1285,9 @@ describe('useFieldProps', () => {
       )
 
       expect(
-        document.querySelector('.dnb-form-status__text').innerHTML
+        document.querySelector('.dnb-form-status__text')!.innerHTML
       ).toBe('A <strong>formatted</strong> error message')
-      expect(document.querySelector('.dnb-form-status').textContent).toBe(
+      expect(document.querySelector('.dnb-form-status')!.textContent).toBe(
         'A formatted error message'
       )
 
@@ -1299,7 +1299,7 @@ describe('useFieldProps', () => {
     })
 
     it('should render error messages given as JSX in an array', () => {
-      const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
+      const wrapper = ({ children }: { children: React.ReactNode }) => <FieldBlock>{children}</FieldBlock>
 
       const { rerender } = renderHook(
         (props: any) => useFieldProps(props),
@@ -1319,7 +1319,7 @@ describe('useFieldProps', () => {
       )
 
       expect(
-        document.querySelector('.dnb-form-status__text').innerHTML
+        document.querySelector('.dnb-form-status__text')!.innerHTML
       ).toBe(
         nb.Field.errorSummary +
           `<ul class="dnb-ul"><li class="dnb-li">First <strong>formatted</strong> error message</li><li class="dnb-li">Second <strong>formatted</strong> error message</li></ul>`
@@ -1352,7 +1352,7 @@ describe('useFieldProps', () => {
 
       it('should update error message given via errorMessages', () => {
         const props = {
-          value: undefined,
+          value: undefined as string | undefined,
           required: true,
           validateInitially: true,
         }
@@ -1424,7 +1424,7 @@ describe('useFieldProps', () => {
       })
 
       it('should render error message given as JSX', () => {
-        const wrapper = ({ children }) => (
+        const wrapper = ({ children }: { children: React.ReactNode }) => (
           <FieldBlock>{children}</FieldBlock>
         )
 
@@ -1449,10 +1449,10 @@ describe('useFieldProps', () => {
         )
 
         expect(
-          document.querySelector('.dnb-form-status__text').innerHTML
+          document.querySelector('.dnb-form-status__text')!.innerHTML
         ).toBe('A <strong>formatted</strong> error message')
         expect(
-          document.querySelector('.dnb-form-status').textContent
+          document.querySelector('.dnb-form-status')!.textContent
         ).toBe('A formatted error message')
 
         rerender({ error: undefined, errorMessages })
@@ -1677,7 +1677,7 @@ describe('useFieldProps', () => {
   })
 
   describe('with async onChange', () => {
-    const validateBlur = async (result, value) => {
+    const validateBlur = async (result: { current: ReturnType<typeof useFieldProps> }, value: unknown) => {
       act(() => {
         result.current.handleChange(value)
         result.current.handleBlur()
@@ -1685,9 +1685,9 @@ describe('useFieldProps', () => {
     }
 
     it('should not set fieldState on rerender or on blur', async () => {
-      const onChange: OnChange<unknown> = async () => {
+      const onChange = (async (): Promise<null> => {
         return null
-      }
+      }) as unknown as OnChange<unknown>
 
       const { result, rerender } = renderHook(
         (props: any) => useFieldProps(props),
@@ -1716,9 +1716,9 @@ describe('useFieldProps', () => {
     })
 
     it('should set fieldState to pending and success on changes', async () => {
-      const onChange: OnChange<unknown> = async () => {
+      const onChange = (async (): Promise<null> => {
         return null
-      }
+      }) as unknown as OnChange<unknown>
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
@@ -1794,7 +1794,7 @@ describe('useFieldProps', () => {
     })
 
     it('should validate "onChangeValidator" before onChange call', async () => {
-      const events = []
+      const events: Array<string> = []
 
       const onChange: OnChange<unknown> = async (value) => {
         events.push('onChange')
@@ -1842,7 +1842,7 @@ describe('useFieldProps', () => {
     })
 
     it('should validate "onBlurValidator" before onChange call', async () => {
-      const events = []
+      const events: Array<string> = []
 
       const onChange: OnChange<unknown> = async (value) => {
         events.push('onChange')
@@ -1890,9 +1890,9 @@ describe('useFieldProps', () => {
     })
 
     it('should set "disabled" on blur when "onBlurValidator" and async onChange is given', async () => {
-      const onChange: OnChange<unknown> = async () => null
-      const onChangeValidator = async () => null
-      const onBlurValidator = async () => null
+      const onChange = (async (): Promise<null> => null) as unknown as OnChange<unknown>
+      const onChangeValidator = async (): Promise<null> => null
+      const onBlurValidator = async (): Promise<null> => null
 
       const { result, rerender } = renderHook(
         (props: any) => useFieldProps(props),
@@ -1945,7 +1945,7 @@ describe('useFieldProps', () => {
     })
 
     it('should validate "onChangeValidator" and "onBlurValidator" before onChange call', async () => {
-      const events = []
+      const events: Array<string> = []
 
       const onChange: OnChange<unknown> = async (value) => {
         events.push('onChange')
@@ -2007,7 +2007,7 @@ describe('useFieldProps', () => {
     })
 
     it('should skip onChange call when "onChangeValidator" returns error', async () => {
-      const events = []
+      const events: Array<string> = []
       const onChange: OnChange<unknown> = async () => {
         events.push('onChange')
       }
@@ -2051,7 +2051,7 @@ describe('useFieldProps', () => {
     })
 
     it('should skip onChange call when "onBlurValidator" returns error', async () => {
-      const events = []
+      const events: Array<string> = []
       const onChange: OnChange<unknown> = jest.fn(async () => {
         events.push('onChange')
       })
@@ -2128,7 +2128,7 @@ describe('useFieldProps', () => {
     })
 
     it('should wait for both "onChangeValidator" and "onBlurValidator" and DataContext onChange before local onChange call', async () => {
-      const events = []
+      const events: Array<string> = []
       const path = '/foo'
 
       const onChange: OnChange<unknown> = async () => {
@@ -2199,7 +2199,7 @@ describe('useFieldProps', () => {
     })
 
     it('should handle gracefully the "onChangeValidator" and "onBlurValidator" and DataContext "onChange" and before the local onChange call', async () => {
-      const events = []
+      const events: Array<string> = []
       const path = '/foo'
 
       const onChangeField: OnChange<string> = async (value) => {
@@ -2220,14 +2220,14 @@ describe('useFieldProps', () => {
 
         return { success: 'saved' } as const
       }
-      const onChangeValidator = async (value) => {
+      const onChangeValidator = async (value: unknown) => {
         events.push('onChangeValidator')
 
         if (value === 'invalid') {
           return new Error('Error message by onChangeValidator')
         }
       }
-      const onBlurValidator = async (value) => {
+      const onBlurValidator = async (value: unknown) => {
         events.push('onBlurValidator')
 
         if (value === 'invalid') {
@@ -2362,7 +2362,7 @@ describe('useFieldProps', () => {
     })
 
     it('should have correct order for when calling the "onChangeValidator" (if initiated and "onBlurValidator") and DataContext "onChange", before the local onChange call', async () => {
-      const events = []
+      const events: Array<string> = []
       const path = '/foo'
 
       const onChangeField: OnChange<string> = async (value) => {
@@ -2387,14 +2387,14 @@ describe('useFieldProps', () => {
           return { success: 'saved' } as const
         }
       }
-      const onChangeValidator = async (value) => {
+      const onChangeValidator = async (value: unknown) => {
         events.push('onChangeValidator')
 
         if (value === 'invalid-onChangeValidator') {
           return new Error('Error in onChangeValidator')
         }
       }
-      const onBlurValidator = async (value) => {
+      const onBlurValidator = async (value: unknown) => {
         events.push('onBlurValidator')
 
         if (value === 'invalid-onBlurValidator') {
@@ -2615,9 +2615,9 @@ describe('useFieldProps', () => {
     })
 
     it('should provide "additionalArgs" to onChange', async () => {
-      const onChange: OnChange<unknown> = jest.fn(async () => {
+      const onChange = jest.fn(async (): Promise<null> => {
         return null
-      })
+      }) as unknown as OnChange<unknown>
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
@@ -3464,7 +3464,7 @@ describe('useFieldProps', () => {
 
   it('should return "hasError" when outer FieldBlocks as error', () => {
     let hasOuterError = false
-    const MockComponent = (props) => {
+    const MockComponent = (props: Record<string, any>): null => {
       const { hasError } = useFieldProps(props)
       hasOuterError = hasError
       return null
@@ -3621,7 +3621,7 @@ describe('useFieldProps', () => {
   })
 
   it('should call async context onChange when no error is present', async () => {
-    const onChange = jest.fn(async () => null)
+    const onChange = jest.fn(async (): Promise<null> => null) as any
 
     const { result } = renderHook((props: any) => useFieldProps(props), {
       initialProps: {
@@ -3644,7 +3644,7 @@ describe('useFieldProps', () => {
   })
 
   it('should not call async context onChange when error is present', async () => {
-    const onChange = jest.fn(async () => null)
+    const onChange = jest.fn(async (): Promise<null> => null) as any
 
     const { result } = renderHook((props: any) => useFieldProps(props), {
       initialProps: {
@@ -3663,7 +3663,7 @@ describe('useFieldProps', () => {
   })
 
   it('should set emptyValue when handleChange gets undefined', async () => {
-    const onSubmit = jest.fn(() => null)
+    const onSubmit = jest.fn((): null => null) as any
 
     const first = {}
     const { result } = renderHook((props: any) => useFieldProps(props), {
@@ -3676,7 +3676,7 @@ describe('useFieldProps', () => {
 
     const form = document.querySelector('form')
 
-    fireEvent.submit(form)
+    fireEvent.submit(form!)
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { foo: first },
@@ -3689,7 +3689,7 @@ describe('useFieldProps', () => {
       result.current.handleChange(second)
     })
 
-    fireEvent.submit(form)
+    fireEvent.submit(form!)
     expect(onSubmit).toHaveBeenCalledTimes(2)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { foo: second },
@@ -3701,7 +3701,7 @@ describe('useFieldProps', () => {
       result.current.handleChange(undefined)
     })
 
-    fireEvent.submit(form)
+    fireEvent.submit(form!)
     expect(onSubmit).toHaveBeenCalledTimes(3)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { foo: first },
@@ -3711,7 +3711,7 @@ describe('useFieldProps', () => {
   })
 
   it('should not call onChange when value is not changed', async () => {
-    const onChange = jest.fn(async () => null)
+    const onChange = jest.fn(async (): Promise<null> => null) as any
 
     const { result } = renderHook((props: any) => useFieldProps(props), {
       initialProps: {
@@ -3729,7 +3729,7 @@ describe('useFieldProps', () => {
   })
 
   it('should call onChange regardless of value is changed or not when executeOnChangeRegardlessOfUnchangedValue is true', async () => {
-    const onChange = jest.fn(async () => null)
+    const onChange = jest.fn(async (): Promise<null> => null) as any
 
     const { result } = renderHook(
       (props) =>
@@ -3757,7 +3757,7 @@ describe('useFieldProps', () => {
   })
 
   it('should call async context onChange regardless of error when executeOnChangeRegardlessOfError is true', async () => {
-    const onChange = jest.fn(async () => null)
+    const onChange = jest.fn(async (): Promise<null> => null) as any
 
     const { result } = renderHook(
       (props) =>
@@ -3814,7 +3814,7 @@ describe('useFieldProps', () => {
     })
 
     describe('with async onChangeValidator', () => {
-      const validateBlur = async (result, value = Date.now()) => {
+      const validateBlur = async (result: { current: ReturnType<typeof useFieldProps> }, value: string | number = Date.now()) => {
         act(() => {
           result.current.handleChange(String(value))
           result.current.handleBlur()
@@ -3822,7 +3822,7 @@ describe('useFieldProps', () => {
       }
 
       it('should set fieldState', async () => {
-        const onChangeValidator = async () => {
+        const onChangeValidator = async (): Promise<null> => {
           await wait(1)
 
           return null
@@ -3923,17 +3923,17 @@ describe('useFieldProps', () => {
         expect(result.current.fieldState).toBe('pending')
         expect(result.current.error).toBeUndefined()
         expect(result.current.disabled).toBeUndefined()
-        expect(sharedResult.current.get().fieldState).toBe('pending')
-        expect(sharedResult.current.get().error).toBeUndefined()
-        expect(sharedResult.current.get().disabled).toBeUndefined()
+        expect(sharedResult.current.get()!.fieldState).toBe('pending')
+        expect(sharedResult.current.get()!.error).toBeUndefined()
+        expect(sharedResult.current.get()!.disabled).toBeUndefined()
 
         await waitFor(() => {
           expect(result.current.fieldState).toBe('complete')
           expect(result.current.error).toBeUndefined()
           expect(result.current.disabled).toBeUndefined()
-          expect(sharedResult.current.get().fieldState).toBe('complete')
-          expect(sharedResult.current.get().error).toBeUndefined()
-          expect(sharedResult.current.get().disabled).toBeUndefined()
+          expect(sharedResult.current.get()!.fieldState).toBe('complete')
+          expect(sharedResult.current.get()!.error).toBeUndefined()
+          expect(sharedResult.current.get()!.disabled).toBeUndefined()
         })
 
         rerender({
@@ -3955,17 +3955,17 @@ describe('useFieldProps', () => {
         expect(result.current.fieldState).toBe('pending')
         expect(result.current.error).toBeUndefined()
         expect(result.current.disabled).toBeUndefined()
-        expect(sharedResult.current.get().fieldState).toBe('pending')
-        expect(sharedResult.current.get().error).toBeUndefined()
-        expect(sharedResult.current.get().disabled).toBeUndefined()
+        expect(sharedResult.current.get()!.fieldState).toBe('pending')
+        expect(sharedResult.current.get()!.error).toBeUndefined()
+        expect(sharedResult.current.get()!.disabled).toBeUndefined()
 
         await waitFor(() => {
           expect(result.current.fieldState).toBe('complete')
           expect(result.current.error).toBeUndefined()
           expect(result.current.disabled).toBeUndefined()
-          expect(sharedResult.current.get().fieldState).toBe('complete')
-          expect(sharedResult.current.get().error).toBeUndefined()
-          expect(sharedResult.current.get().disabled).toBeUndefined()
+          expect(sharedResult.current.get()!.fieldState).toBe('complete')
+          expect(sharedResult.current.get()!.error).toBeUndefined()
+          expect(sharedResult.current.get()!.disabled).toBeUndefined()
         })
 
         rerender({
@@ -3981,17 +3981,17 @@ describe('useFieldProps', () => {
         expect(result.current.fieldState).toBe('pending')
         expect(result.current.error).toBeUndefined()
         expect(result.current.disabled).toBeTruthy()
-        expect(sharedResult.current.get().fieldState).toBe('pending')
-        expect(sharedResult.current.get().error).toBeUndefined()
-        expect(sharedResult.current.get().disabled).toBeTruthy()
+        expect(sharedResult.current.get()!.fieldState).toBe('pending')
+        expect(sharedResult.current.get()!.error).toBeUndefined()
+        expect(sharedResult.current.get()!.disabled).toBeTruthy()
 
         await waitFor(() => {
           expect(result.current.fieldState).toBe('error')
           expect(result.current.error).toBeInstanceOf(Error)
           expect(result.current.disabled).toBeUndefined()
-          expect(sharedResult.current.get().fieldState).toBe('error')
-          expect(sharedResult.current.get().error).toBeInstanceOf(Error)
-          expect(sharedResult.current.get().disabled).toBeUndefined()
+          expect(sharedResult.current.get()!.fieldState).toBe('error')
+          expect(sharedResult.current.get()!.error).toBeInstanceOf(Error)
+          expect(sharedResult.current.get()!.disabled).toBeUndefined()
 
           expect(sharedResult.current.get()).toEqual({
             disabled: undefined,
@@ -4114,12 +4114,12 @@ describe('useFieldProps', () => {
         )
 
         const input = document.querySelector('input')
-        await userEvent.type(input, '1{Backspace}1')
+        await userEvent.type(input!, '1{Backspace}1')
 
         expect(window.requestAnimationFrame).toHaveBeenCalledTimes(1)
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-        await userEvent.type(input, '234')
+        await userEvent.type(input!, '234')
 
         expect(screen.queryByRole('alert')).toBeInTheDocument()
         expect(screen.queryByRole('alert')).toHaveTextContent(
@@ -4200,7 +4200,7 @@ describe('useFieldProps', () => {
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-        fireEvent.submit(document.querySelector('form'))
+        fireEvent.submit(document.querySelector('form')!)
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -4239,7 +4239,7 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        fireEvent.submit(document.querySelector('form'))
+        fireEvent.submit(document.querySelector('form')!)
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -4249,7 +4249,7 @@ describe('useFieldProps', () => {
         })
 
         // Make a change to the ref input
-        await userEvent.type(inputWithRefValue, '2')
+        await userEvent.type(inputWithRefValue!, '2')
 
         expect(screen.queryByRole('alert')).toHaveTextContent(
           'The amount should be greater than 22'
@@ -4278,7 +4278,7 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        fireEvent.submit(document.querySelector('form'))
+        fireEvent.submit(document.querySelector('form')!)
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -4287,7 +4287,7 @@ describe('useFieldProps', () => {
           )
         })
 
-        await userEvent.type(inputWithRefValue, '{Backspace}')
+        await userEvent.type(inputWithRefValue!, '{Backspace}')
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         expect(onChangeValidator).toHaveBeenCalledTimes(2)
@@ -4321,7 +4321,7 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        fireEvent.submit(document.querySelector('form'))
+        fireEvent.submit(document.querySelector('form')!)
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -4330,12 +4330,12 @@ describe('useFieldProps', () => {
           )
         })
 
-        await userEvent.type(inputWithRefValue, '{Backspace}')
+        await userEvent.type(inputWithRefValue!, '{Backspace}')
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         expect(onChangeValidator).toHaveBeenCalledTimes(2)
 
-        await userEvent.type(inputWithRefValue, '2')
+        await userEvent.type(inputWithRefValue!, '2')
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
@@ -4392,11 +4392,11 @@ describe('useFieldProps', () => {
             )
           })
 
-          await userEvent.type(inputWithRefValue, '{Backspace}')
+          await userEvent.type(inputWithRefValue!, '{Backspace}')
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-          await userEvent.type(inputWithRefValue, '3')
+          await userEvent.type(inputWithRefValue!, '3')
 
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -4456,11 +4456,11 @@ describe('useFieldProps', () => {
             )
           })
 
-          await userEvent.type(inputWithRefValue, '{Backspace}')
+          await userEvent.type(inputWithRefValue!, '{Backspace}')
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-          await userEvent.type(inputWithRefValue, '3')
+          await userEvent.type(inputWithRefValue!, '3')
 
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -4512,7 +4512,7 @@ describe('useFieldProps', () => {
           )
 
           // Show error message
-          fireEvent.submit(document.querySelector('form'))
+          fireEvent.submit(document.querySelector('form')!)
 
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -4521,11 +4521,11 @@ describe('useFieldProps', () => {
             )
           })
 
-          await userEvent.type(inputWithRefValue, '{Backspace}')
+          await userEvent.type(inputWithRefValue!, '{Backspace}')
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-          await userEvent.type(inputWithRefValue, '3')
+          await userEvent.type(inputWithRefValue!, '3')
 
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -4574,7 +4574,7 @@ describe('useFieldProps', () => {
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-        fireEvent.submit(document.querySelector('form'))
+        fireEvent.submit(document.querySelector('form')!)
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -4618,7 +4618,7 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        fireEvent.submit(document.querySelector('form'))
+        fireEvent.submit(document.querySelector('form')!)
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -4628,7 +4628,7 @@ describe('useFieldProps', () => {
         })
 
         // Make a change to the ref input
-        await userEvent.type(inputWithRefValue, '2')
+        await userEvent.type(inputWithRefValue!, '2')
 
         expect(screen.queryByRole('alert')).toHaveTextContent(
           'The amount should be greater than 22'
@@ -4662,7 +4662,7 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        fireEvent.submit(document.querySelector('form'))
+        fireEvent.submit(document.querySelector('form')!)
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -4671,7 +4671,7 @@ describe('useFieldProps', () => {
           )
         })
 
-        await userEvent.type(inputWithRefValue, '{Backspace}')
+        await userEvent.type(inputWithRefValue!, '{Backspace}')
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         expect(onChangeValidator).toHaveBeenCalledTimes(2)
@@ -4710,7 +4710,7 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        fireEvent.submit(document.querySelector('form'))
+        fireEvent.submit(document.querySelector('form')!)
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -4719,12 +4719,12 @@ describe('useFieldProps', () => {
           )
         })
 
-        await userEvent.type(inputWithRefValue, '{Backspace}')
+        await userEvent.type(inputWithRefValue!, '{Backspace}')
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         expect(onChangeValidator).toHaveBeenCalledTimes(2)
 
-        await userEvent.type(inputWithRefValue, '2')
+        await userEvent.type(inputWithRefValue!, '2')
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
@@ -4785,11 +4785,11 @@ describe('useFieldProps', () => {
             )
           })
 
-          await userEvent.type(inputWithRefValue, '{Backspace}')
+          await userEvent.type(inputWithRefValue!, '{Backspace}')
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-          await userEvent.type(inputWithRefValue, '3')
+          await userEvent.type(inputWithRefValue!, '3')
 
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -4853,11 +4853,11 @@ describe('useFieldProps', () => {
             )
           })
 
-          await userEvent.type(inputWithRefValue, '{Backspace}')
+          await userEvent.type(inputWithRefValue!, '{Backspace}')
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-          await userEvent.type(inputWithRefValue, '3')
+          await userEvent.type(inputWithRefValue!, '3')
 
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -4913,7 +4913,7 @@ describe('useFieldProps', () => {
           )
 
           // Show error message
-          fireEvent.submit(document.querySelector('form'))
+          fireEvent.submit(document.querySelector('form')!)
 
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -4922,11 +4922,11 @@ describe('useFieldProps', () => {
             )
           })
 
-          await userEvent.type(inputWithRefValue, '{Backspace}')
+          await userEvent.type(inputWithRefValue!, '{Backspace}')
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-          await userEvent.type(inputWithRefValue, '3')
+          await userEvent.type(inputWithRefValue!, '3')
 
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -4975,7 +4975,7 @@ describe('useFieldProps', () => {
         expect(barValidator).toHaveBeenCalledTimes(0)
 
         await userEvent.type(
-          document.querySelector('input'),
+          document.querySelector('input')!,
           '{Backspace}bar'
         )
 
@@ -5025,7 +5025,7 @@ describe('useFieldProps', () => {
         expect(barValidator).toHaveBeenCalledTimes(0)
 
         await userEvent.type(
-          document.querySelector('input'),
+          document.querySelector('input')!,
           '{Backspace}bar'
         )
 
@@ -5039,7 +5039,7 @@ describe('useFieldProps', () => {
     })
 
     it('should rerender returned error message given as JSX', () => {
-      const onChangeValidator = (value) => {
+      const onChangeValidator = (value: unknown) => {
         if (value === '1') {
           return (
             <>
@@ -5048,7 +5048,7 @@ describe('useFieldProps', () => {
           )
         }
       }
-      const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
+      const wrapper = ({ children }: { children: React.ReactNode }) => <FieldBlock>{children}</FieldBlock>
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: { onChangeValidator },
@@ -5060,9 +5060,9 @@ describe('useFieldProps', () => {
       })
 
       expect(
-        document.querySelector('.dnb-form-status__text').innerHTML
+        document.querySelector('.dnb-form-status__text')!.innerHTML
       ).toBe('A <strong>formatted</strong> error message')
-      expect(document.querySelector('.dnb-form-status').textContent).toBe(
+      expect(document.querySelector('.dnb-form-status')!.textContent).toBe(
         'A formatted error message'
       )
 
@@ -5076,12 +5076,12 @@ describe('useFieldProps', () => {
     })
 
     it('should rerender returned error message given as string', () => {
-      const onChangeValidator = (value) => {
+      const onChangeValidator = (value: unknown) => {
         if (value === '1') {
           return 'A formatted error message'
         }
       }
-      const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
+      const wrapper = ({ children }: { children: React.ReactNode }) => <FieldBlock>{children}</FieldBlock>
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: { onChangeValidator },
@@ -5092,7 +5092,7 @@ describe('useFieldProps', () => {
         result.current.handleChange('1')
       })
 
-      expect(document.querySelector('.dnb-form-status').textContent).toBe(
+      expect(document.querySelector('.dnb-form-status')!.textContent).toBe(
         'A formatted error message'
       )
 
@@ -5107,9 +5107,9 @@ describe('useFieldProps', () => {
 
     describe('exportValidators', () => {
       it('should call exported validators from mock component', async () => {
-        let internalValidators, fooValidator, barValidator, bazValidator
+        let internalValidators: jest.Mock = undefined!, fooValidator: jest.Mock = undefined!, barValidator: jest.Mock = undefined!, bazValidator: jest.Mock = undefined!
 
-        const MockComponent = (props) => {
+        const MockComponent = (props: Record<string, any>) => {
           barValidator = jest.fn((value) => {
             if (value.includes('bar')) {
               return new Error('bar')
@@ -5178,7 +5178,7 @@ describe('useFieldProps', () => {
         )
 
         await userEvent.type(
-          document.querySelector('input'),
+          document.querySelector('input')!,
           '{Backspace}bar'
         )
         await waitFor(() => {
@@ -5191,7 +5191,7 @@ describe('useFieldProps', () => {
         expect(internalValidators).toHaveBeenCalledTimes(0)
 
         await userEvent.type(
-          document.querySelector('input'),
+          document.querySelector('input')!,
           '{Backspace}baz'
         )
 
@@ -5221,14 +5221,14 @@ describe('useFieldProps', () => {
 
         const input = document.querySelector('input')
 
-        await userEvent.type(input, '123')
-        fireEvent.blur(input)
+        await userEvent.type(input!, '123')
+        fireEvent.blur(input!)
 
         expect(onBlurValidator).toHaveBeenCalledTimes(1)
         expect(document.querySelector('.dnb-form-status')).toBeNull()
 
-        await userEvent.type(input, '4')
-        fireEvent.blur(input)
+        await userEvent.type(input!, '4')
+        fireEvent.blur(input!)
 
         expect(onBlurValidator).toHaveBeenCalledTimes(2)
         await waitFor(() => {
@@ -5251,7 +5251,7 @@ describe('useFieldProps', () => {
           return [exportedValidator]
         })
 
-        const MockComponent = (props) => {
+        const MockComponent = (props: Record<string, any>) => {
           return (
             <Field.String
               label="Label"
@@ -5265,13 +5265,13 @@ describe('useFieldProps', () => {
 
         const input = document.querySelector('input')
 
-        await userEvent.type(input, '123')
-        fireEvent.blur(input)
+        await userEvent.type(input!, '123')
+        fireEvent.blur(input!)
 
         expect(document.querySelector('.dnb-form-status')).toBeNull()
 
-        await userEvent.type(input, '4')
-        fireEvent.blur(input)
+        await userEvent.type(input!, '4')
+        fireEvent.blur(input!)
 
         expect(exportedValidator).toHaveBeenCalledTimes(2)
         expect(myValidator).toHaveBeenCalledTimes(2)
@@ -5281,8 +5281,8 @@ describe('useFieldProps', () => {
           ).toHaveTextContent('Error message')
         })
 
-        await userEvent.type(input, '{Backspace}4')
-        fireEvent.blur(input)
+        await userEvent.type(input!, '{Backspace}4')
+        fireEvent.blur(input!)
 
         expect(exportedValidator).toHaveBeenCalledTimes(3)
         expect(myValidator).toHaveBeenCalledTimes(3)
@@ -5306,7 +5306,7 @@ describe('useFieldProps', () => {
           return [exportedValidator]
         })
 
-        const MockComponent = (props) => {
+        const MockComponent = (props: Record<string, any>) => {
           return (
             <Field.String
               label="Label"
@@ -5320,13 +5320,13 @@ describe('useFieldProps', () => {
 
         const input = document.querySelector('input')
 
-        await userEvent.type(input, '123')
-        fireEvent.blur(input)
+        await userEvent.type(input!, '123')
+        fireEvent.blur(input!)
 
         expect(document.querySelector('.dnb-form-status')).toBeNull()
 
-        await userEvent.type(input, '4')
-        fireEvent.blur(input)
+        await userEvent.type(input!, '4')
+        fireEvent.blur(input!)
 
         expect(exportedValidator).toHaveBeenCalledTimes(1)
         expect(myValidator).toHaveBeenCalledTimes(4)
@@ -5336,8 +5336,8 @@ describe('useFieldProps', () => {
           ).toHaveTextContent('Error message')
         })
 
-        await userEvent.type(input, '{Backspace}4')
-        fireEvent.blur(input)
+        await userEvent.type(input!, '{Backspace}4')
+        fireEvent.blur(input!)
 
         expect(exportedValidator).toHaveBeenCalledTimes(2)
         expect(myValidator).toHaveBeenCalledTimes(6)
@@ -5349,9 +5349,9 @@ describe('useFieldProps', () => {
       })
 
       it('should call returned validators (barValidator should not be called)', async () => {
-        let internalValidators, fooValidator, barValidator, bazValidator
+        let internalValidators: jest.Mock = undefined!, fooValidator: jest.Mock = undefined!, barValidator: jest.Mock = undefined!, bazValidator: jest.Mock = undefined!
 
-        const MockComponent = (props) => {
+        const MockComponent = (props: Record<string, any>) => {
           barValidator = jest.fn((value) => {
             if (value.includes('bar')) {
               return new Error('bar')
@@ -5420,7 +5420,7 @@ describe('useFieldProps', () => {
         )
 
         await userEvent.type(
-          document.querySelector('input'),
+          document.querySelector('input')!,
           '{Backspace}bar' // remove one letter from bar, so the bar validator should return undefined
         )
         await waitFor(() => {
@@ -5434,7 +5434,7 @@ describe('useFieldProps', () => {
         expect(internalValidators).toHaveBeenCalledTimes(0)
 
         await userEvent.type(
-          document.querySelector('input'),
+          document.querySelector('input')!,
           '{Backspace}baz'
         )
 
@@ -5458,7 +5458,7 @@ describe('useFieldProps', () => {
           return [exportedValidator]
         })
 
-        const MockComponent = (props) => {
+        const MockComponent = (props: Record<string, any>) => {
           return (
             <Field.String
               label="Label"
@@ -5479,15 +5479,15 @@ describe('useFieldProps', () => {
       })
 
       it('should not run exported internal validators when a onChangeValidator is given', async () => {
-        const exportedValidator = jest.fn(() => {
+        const exportedValidator = jest.fn((): undefined => {
           return undefined
         })
 
-        const myValidator = jest.fn(() => {
+        const myValidator = jest.fn((): undefined => {
           return undefined
         })
 
-        const MockComponent = (props) => {
+        const MockComponent = (props: Record<string, any>) => {
           return (
             <Field.String
               label="Label"
@@ -5508,9 +5508,9 @@ describe('useFieldProps', () => {
       })
 
       it('should not call internal validators when they are not returned in the publicValidator', async () => {
-        let internalValidators, barValidator, bazValidator
+        let internalValidators: jest.Mock = undefined!, barValidator: jest.Mock = undefined!, bazValidator: jest.Mock = undefined!
 
-        const MockComponent = (props) => {
+        const MockComponent = (props: Record<string, any>) => {
           barValidator = jest.fn((value) => {
             if (value.includes('bar')) {
               return new Error('bar')
@@ -5572,7 +5572,7 @@ describe('useFieldProps', () => {
         )
 
         await userEvent.type(
-          document.querySelector('input'),
+          document.querySelector('input')!,
           '{Backspace}bar'
         )
         await expect(() => {
@@ -5584,7 +5584,7 @@ describe('useFieldProps', () => {
         expect(internalValidators).toHaveBeenCalledTimes(0)
 
         await userEvent.type(
-          document.querySelector('input'),
+          document.querySelector('input')!,
           '{Backspace}baz'
         )
 
@@ -5676,7 +5676,7 @@ describe('useFieldProps', () => {
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-        fireEvent.submit(document.querySelector('form'))
+        fireEvent.submit(document.querySelector('form')!)
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -5716,8 +5716,8 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Make a change to the input with the validator
-        await userEvent.type(inputWithOnBlurValidator, '2')
-        fireEvent.blur(inputWithOnBlurValidator)
+        await userEvent.type(inputWithOnBlurValidator!, '2')
+        fireEvent.blur(inputWithOnBlurValidator!)
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -5727,7 +5727,7 @@ describe('useFieldProps', () => {
         })
 
         // Make a change to the ref input
-        await userEvent.type(inputWithRefValue, '3')
+        await userEvent.type(inputWithRefValue!, '3')
 
         expect(screen.queryByRole('alert')).toHaveTextContent(
           'The amount should be greater than 123'
@@ -5756,13 +5756,13 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        fireEvent.submit(document.querySelector('form'))
+        fireEvent.submit(document.querySelector('form')!)
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
         })
 
-        await userEvent.type(inputWithRefValue, '{Backspace}')
+        await userEvent.type(inputWithRefValue!, '{Backspace}')
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         expect(onBlurValidator).toHaveBeenCalledTimes(2)
@@ -5796,18 +5796,18 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        fireEvent.submit(document.querySelector('form'))
+        fireEvent.submit(document.querySelector('form')!)
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
         })
 
-        await userEvent.type(inputWithRefValue, '{Backspace}')
+        await userEvent.type(inputWithRefValue!, '{Backspace}')
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         expect(onBlurValidator).toHaveBeenCalledTimes(2)
 
-        await userEvent.type(inputWithRefValue, '2')
+        await userEvent.type(inputWithRefValue!, '2')
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
@@ -5856,11 +5856,11 @@ describe('useFieldProps', () => {
 
           expect(screen.queryByRole('alert')).toBeInTheDocument()
 
-          await userEvent.type(inputWithRefValue, '{Backspace}')
+          await userEvent.type(inputWithRefValue!, '{Backspace}')
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-          await userEvent.type(inputWithRefValue, '3')
+          await userEvent.type(inputWithRefValue!, '3')
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         })
@@ -5908,11 +5908,11 @@ describe('useFieldProps', () => {
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-          await userEvent.type(inputWithRefValue, '{Backspace}')
+          await userEvent.type(inputWithRefValue!, '{Backspace}')
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-          await userEvent.type(inputWithRefValue, '3')
+          await userEvent.type(inputWithRefValue!, '3')
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         })
@@ -5975,7 +5975,7 @@ describe('useFieldProps', () => {
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-        fireEvent.submit(document.querySelector('form'))
+        fireEvent.submit(document.querySelector('form')!)
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -6021,8 +6021,8 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Make a change to the input with the validator
-        await userEvent.type(inputWithOnBlurValidator, '2')
-        fireEvent.blur(inputWithOnBlurValidator)
+        await userEvent.type(inputWithOnBlurValidator!, '2')
+        fireEvent.blur(inputWithOnBlurValidator!)
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -6032,7 +6032,7 @@ describe('useFieldProps', () => {
         })
 
         // Make a change to the ref input
-        await userEvent.type(inputWithRefValue, '3')
+        await userEvent.type(inputWithRefValue!, '3')
 
         expect(screen.queryByRole('alert')).toHaveTextContent(
           'The amount should be greater than 123'
@@ -6067,13 +6067,13 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        fireEvent.submit(document.querySelector('form'))
+        fireEvent.submit(document.querySelector('form')!)
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
         })
 
-        await userEvent.type(inputWithRefValue, '{Backspace}')
+        await userEvent.type(inputWithRefValue!, '{Backspace}')
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         expect(onBlurValidator).toHaveBeenCalledTimes(2)
@@ -6113,18 +6113,18 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        fireEvent.submit(document.querySelector('form'))
+        fireEvent.submit(document.querySelector('form')!)
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
         })
 
-        await userEvent.type(inputWithRefValue, '{Backspace}')
+        await userEvent.type(inputWithRefValue!, '{Backspace}')
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         expect(onBlurValidator).toHaveBeenCalledTimes(2)
 
-        await userEvent.type(inputWithRefValue, '2')
+        await userEvent.type(inputWithRefValue!, '2')
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
@@ -6181,11 +6181,11 @@ describe('useFieldProps', () => {
 
           expect(screen.queryByRole('alert')).toBeInTheDocument()
 
-          await userEvent.type(inputWithRefValue, '{Backspace}')
+          await userEvent.type(inputWithRefValue!, '{Backspace}')
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-          await userEvent.type(inputWithRefValue, '3')
+          await userEvent.type(inputWithRefValue!, '3')
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         })
@@ -6237,11 +6237,11 @@ describe('useFieldProps', () => {
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-          await userEvent.type(inputWithRefValue, '{Backspace}')
+          await userEvent.type(inputWithRefValue!, '{Backspace}')
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-          await userEvent.type(inputWithRefValue, '3')
+          await userEvent.type(inputWithRefValue!, '3')
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         })
@@ -6273,9 +6273,9 @@ describe('useFieldProps', () => {
 
     describe('exportValidators', () => {
       it('should call returned validators (barValidator should not be called)', async () => {
-        let internalValidators, fooValidator, barValidator, bazValidator
+        let internalValidators: jest.Mock = undefined!, fooValidator: jest.Mock = undefined!, barValidator: jest.Mock = undefined!, bazValidator: jest.Mock = undefined!
 
-        const MockComponent = (props) => {
+        const MockComponent = (props: Record<string, any>) => {
           barValidator = jest.fn((value) => {
             if (value.includes('bar')) {
               return new Error('bar')
@@ -6323,7 +6323,7 @@ describe('useFieldProps', () => {
           </Form.Handler>
         )
 
-        fireEvent.submit(document.querySelector('form'))
+        fireEvent.submit(document.querySelector('form')!)
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toHaveTextContent('foo')
@@ -6347,10 +6347,10 @@ describe('useFieldProps', () => {
         const input = document.querySelector('input')
 
         await userEvent.type(
-          input,
+          input!,
           '{Backspace}bar' // remove one letter from bar, so the bar validator should return undefined
         )
-        fireEvent.blur(input)
+        fireEvent.blur(input!)
         await waitFor(() => {
           // Here we should not see the bar validator called
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -6361,8 +6361,8 @@ describe('useFieldProps', () => {
         expect(bazValidator).toHaveBeenCalledTimes(1)
         expect(internalValidators).toHaveBeenCalledTimes(0)
 
-        await userEvent.type(input, ' baz')
-        fireEvent.blur(input)
+        await userEvent.type(input!, ' baz')
+        fireEvent.blur(input!)
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toHaveTextContent('baz')
@@ -6521,7 +6521,7 @@ describe('useFieldProps', () => {
       const onBlurValidator = jest.fn(
         () => new Error('Error message by onBlurValidator')
       )
-      const onChange = jest.fn(async () => null)
+      const onChange = jest.fn(async (): Promise<null> => null) as any
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
@@ -6592,7 +6592,7 @@ describe('useFieldProps', () => {
         return [exportedValidator]
       })
 
-      const MockComponent = (props) => {
+      const MockComponent = (props: Record<string, any>) => {
         return (
           <Field.String
             onBlurValidator={props.onBlurValidator}
@@ -6611,7 +6611,7 @@ describe('useFieldProps', () => {
       })
     })
 
-    const validateBlur = async (result, value = Date.now()) => {
+    const validateBlur = async (result: { current: ReturnType<typeof useFieldProps> }, value: string | number = Date.now()) => {
       act(() => {
         result.current.handleChange(String(value))
         result.current.handleBlur()
@@ -6668,7 +6668,7 @@ describe('useFieldProps', () => {
     })
 
     it('should return disable=true during async onBlurValidator validation', async () => {
-      const onBlurValidator = async () => {
+      const onBlurValidator = async (): Promise<null> => {
         await wait(1)
 
         return null
@@ -6792,7 +6792,7 @@ describe('useFieldProps', () => {
     })
 
     it('should rerender returned error message given as JSX', () => {
-      const onBlurValidator = (value) => {
+      const onBlurValidator = (value: unknown) => {
         if (value === '1') {
           return (
             <>
@@ -6801,7 +6801,7 @@ describe('useFieldProps', () => {
           )
         }
       }
-      const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
+      const wrapper = ({ children }: { children: React.ReactNode }) => <FieldBlock>{children}</FieldBlock>
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: { onBlurValidator },
@@ -6814,9 +6814,9 @@ describe('useFieldProps', () => {
       })
 
       expect(
-        document.querySelector('.dnb-form-status__text').innerHTML
+        document.querySelector('.dnb-form-status__text')!.innerHTML
       ).toBe('A <strong>formatted</strong> error message')
-      expect(document.querySelector('.dnb-form-status').textContent).toBe(
+      expect(document.querySelector('.dnb-form-status')!.textContent).toBe(
         'A formatted error message'
       )
 
@@ -6830,12 +6830,12 @@ describe('useFieldProps', () => {
     })
 
     it('should rerender returned error message given as string', () => {
-      const onBlurValidator = (value) => {
+      const onBlurValidator = (value: unknown) => {
         if (value === '1') {
           return 'A formatted error message'
         }
       }
-      const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
+      const wrapper = ({ children }: { children: React.ReactNode }) => <FieldBlock>{children}</FieldBlock>
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: { onBlurValidator },
@@ -6847,7 +6847,7 @@ describe('useFieldProps', () => {
         result.current.handleBlur()
       })
 
-      expect(document.querySelector('.dnb-form-status').textContent).toBe(
+      expect(document.querySelector('.dnb-form-status')!.textContent).toBe(
         'A formatted error message'
       )
 
@@ -6960,9 +6960,9 @@ describe('useFieldProps', () => {
     })
 
     it('should remove error from context when field has no error', async () => {
-      let dataContextError = null
-      let fieldBoundaryContextError = null
-      let hasInvalidStepsState = null
+      let dataContextError: boolean | null = null
+      let fieldBoundaryContextError: boolean | null = null
+      let hasInvalidStepsState: (() => boolean) | null = null
 
       const MockComponent = () => {
         return (
@@ -6978,14 +6978,14 @@ describe('useFieldProps', () => {
 
                 <FieldBoundaryContext.Consumer>
                   {(context) => {
-                    fieldBoundaryContextError = context.hasVisibleError
+                    fieldBoundaryContextError = context!.hasVisibleError
                     return null
                   }}
                 </FieldBoundaryContext.Consumer>
 
                 <WizardContext.Consumer>
                   {(context) => {
-                    hasInvalidStepsState = context.hasInvalidStepsState
+                    hasInvalidStepsState = context!.hasInvalidStepsState
                     return null
                   }}
                 </WizardContext.Consumer>
@@ -7022,33 +7022,33 @@ describe('useFieldProps', () => {
 
       expect(dataContextError).toBe(false)
       expect(fieldBoundaryContextError).toBe(false)
-      expect(hasInvalidStepsState()).toBe(false)
+      expect(hasInvalidStepsState!()).toBe(false)
 
-      fireEvent.submit(document.querySelector('form'))
+      fireEvent.submit(document.querySelector('form')!)
 
       expect(dataContextError).toBe(true)
       expect(fieldBoundaryContextError).toBe(true)
-      expect(hasInvalidStepsState()).toBe(true)
+      expect(hasInvalidStepsState!()).toBe(true)
 
-      await userEvent.type(document.querySelector('input'), 'foo')
+      await userEvent.type(document.querySelector('input')!, 'foo')
       await userEvent.click(
-        document.querySelectorAll('[role="option"]')[0]
+        document.querySelectorAll('[role="option"]')[0]!
       )
 
       expect(document.querySelector('input')).toHaveValue('Foo')
 
       expect(dataContextError).toBe(true)
       expect(fieldBoundaryContextError).toBe(true)
-      expect(hasInvalidStepsState()).toBe(true)
+      expect(hasInvalidStepsState!()).toBe(true)
 
       expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
         'Show this error!'
       )
 
-      await userEvent.click(document.querySelector('input'))
+      await userEvent.click(document.querySelector('input')!)
       await userEvent.click(
-        document.querySelectorAll('[role="option"]')[1]
+        document.querySelectorAll('[role="option"]')[1]!
       )
 
       expect(document.querySelector('input')).toHaveValue('Bar')
@@ -7056,7 +7056,7 @@ describe('useFieldProps', () => {
 
       expect(dataContextError).toBe(false)
       expect(fieldBoundaryContextError).toBe(false)
-      expect(hasInvalidStepsState()).toBe(false)
+      expect(hasInvalidStepsState!()).toBe(false)
     })
   })
 
@@ -7251,12 +7251,12 @@ describe('useFieldProps', () => {
   })
 
   describe('warn about duplicated paths', () => {
-    let log = null
+    let log: ReturnType<typeof spyOnEufemiaWarn> | null = null
     beforeEach(() => {
       log = spyOnEufemiaWarn()
     })
     afterEach(() => {
-      log.mockRestore()
+      log!.mockRestore()
     })
 
     it('for the "path" prop', () => {
@@ -7277,7 +7277,7 @@ describe('useFieldProps', () => {
     })
 
     it('should not warn when omitMultiplePathWarning is true', () => {
-      const MockComponent = () => {
+      const MockComponent = (): null => {
         useFieldProps(
           { path: '/myPath' },
           { omitMultiplePathWarning: true }
@@ -7456,7 +7456,7 @@ describe('Zod schema support', () => {
       },
     }
 
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
       <SectionContext value={{ path: '', errorPrioritization }}>
         <Provider schema={jsonSchema} ajvInstance={makeAjvInstance()}>
           {children}
@@ -7495,7 +7495,7 @@ describe('Zod schema support', () => {
     const errorPrioritization: SectionContextState['errorPrioritization'] =
       ['contextSchema']
 
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
       <SectionContext value={{ path: '', errorPrioritization }}>
         <Provider schema={undefined}>{children}</Provider>
       </SectionContext>
@@ -7517,7 +7517,7 @@ describe('Zod schema support', () => {
     const identifier = '/testField'
 
     // Test with Zod schema
-    const zodWrapper = ({ children }) => (
+    const zodWrapper = ({ children }: { children: React.ReactNode }) => (
       <SectionContext
         value={{
           path: '',
@@ -7549,7 +7549,7 @@ describe('Zod schema support', () => {
       },
     }
 
-    const jsonWrapper = ({ children }) => (
+    const jsonWrapper = ({ children }: { children: React.ReactNode }) => (
       <SectionContext
         value={{
           path: '',
@@ -7590,7 +7590,7 @@ describe('Zod schema support', () => {
       },
     })
 
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
       <Provider schema={mockZodSchema}>{children}</Provider>
     )
 
@@ -7618,7 +7618,7 @@ describe('Zod schema support', () => {
     const errorPrioritization: SectionContextState['errorPrioritization'] =
       ['contextSchema', 'fieldSchema']
 
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
       <SectionContext value={{ path: '', errorPrioritization }}>
         <Provider schema={mockZodSchema} ajvInstance={makeAjvInstance()}>
           {children}
@@ -7650,7 +7650,7 @@ describe('Zod schema support', () => {
     }
 
     // Context Zod schema succeeds (mocked in beforeEach)
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
       <SectionContext value={{ path: '', errorPrioritization }}>
         <Provider schema={mockZodSchema} ajvInstance={makeAjvInstance()}>
           {children}
@@ -7691,7 +7691,7 @@ describe('Zod schema support', () => {
     }
 
     // Context Zod schema succeeds (mocked in beforeEach)
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
       <SectionContext value={{ path: '', errorPrioritization }}>
         <Provider schema={mockZodSchema} ajvInstance={makeAjvInstance()}>
           {children}

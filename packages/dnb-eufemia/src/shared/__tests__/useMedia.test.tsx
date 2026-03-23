@@ -5,14 +5,14 @@
 
 import React from 'react'
 import { render, waitFor, act, renderHook } from '@testing-library/react'
-import type { UseMediaProps } from '../useMedia'
+import type { UseMediaProps, UseMediaResult } from '../useMedia'
 import useMedia from '../useMedia'
 import Provider from '../Provider'
 import 'mock-match-media/jest-setup'
 import { setMedia, matchMedia } from 'mock-match-media'
 import { mockMediaQuery } from './helpers/MediaQueryMocker'
 
-const wrapper = ({ children }) => (
+const wrapper = ({ children }: { children: React.ReactNode }) => (
   <React.StrictMode>{children}</React.StrictMode>
 )
 
@@ -536,7 +536,7 @@ describe('useMedia', () => {
         const MEDIUM = '60em'
         const LARGE = '80em'
 
-        const wrapper = (props) => (
+        const wrapper = (props: Record<string, unknown>) => (
           <Provider
             {...props}
             value={{
@@ -546,7 +546,9 @@ describe('useMedia', () => {
                 large: '80em',
               },
             }}
-          />
+          >
+            {(props as { children?: React.ReactNode }).children}
+          </Provider>
         )
         const { result } = renderHook(useMedia, { wrapper })
 
@@ -872,9 +874,9 @@ describe('useMedia', () => {
       const query = `(min-width: 60.00625em)`
       matchMedia.useMediaQuery(query)
 
-      const results = []
+      const results: UseMediaResult[] = []
 
-      const MockComponent = () => {
+      const MockComponent = (): null => {
         results.push(useMedia())
         return null
       }
@@ -896,9 +898,9 @@ describe('useMedia', () => {
       const query = `(min-width: 60.00625em)`
       matchMedia.useMediaQuery(query)
 
-      const results = []
+      const results: UseMediaResult[] = []
 
-      const MockComponent = () => {
+      const MockComponent = (): null => {
         results.push(
           useMedia({
             initialValue: {
@@ -934,11 +936,11 @@ describe('useMedia', () => {
 
   describe('ssr', () => {
     beforeAll(() => {
-      global.window['__SSR_TEST__'] = true
+      (global.window as unknown as Record<string, unknown>)['__SSR_TEST__'] = true
     })
 
     afterAll(() => {
-      delete global.window['__SSR_TEST__']
+      delete (global.window as unknown as Record<string, unknown>)['__SSR_TEST__']
     })
 
     it('will by default return false on all sizes', () => {

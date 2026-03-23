@@ -28,7 +28,7 @@ const CustomStyle = styled.div`
 `
 
 const ref = { current: null as HTMLInputElement | null }
-const MagicOpen = (props) => {
+const MagicOpen = (props: Record<string, unknown>) => {
   const [open, setOpen] = React.useState(false)
   const [selected, setSelected] = React.useState('C')
 
@@ -91,7 +91,7 @@ const MagicOpen = (props) => {
   )
 }
 
-const DrawerListWithState = (props) => {
+const DrawerListWithState = (props: Record<string, unknown>) => {
   const [open, setOpen] = React.useState(false)
 
   return (

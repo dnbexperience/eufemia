@@ -227,7 +227,7 @@ describe('StepIndicator redesign', () => {
 })
 
 describe('StepIndicator in loose mode', () => {
-  const renderComponent = (props = null) => {
+  const renderComponent = (props: Record<string, unknown> | null = null) => {
     return render(
       <StepIndicator
         currentStep={1}
@@ -370,7 +370,7 @@ describe('StepIndicator in loose mode', () => {
   })
 
   it('should react on isCurrent data prop change', () => {
-    const TestComp = (props) => {
+    const TestComp = (props: Record<string, unknown> & { data: StepIndicatorData }) => {
       return <StepIndicator mode="loose" expandedInitially {...props} />
     }
 
@@ -490,7 +490,7 @@ describe('StepIndicator in loose mode', () => {
 })
 
 describe('StepIndicator in strict mode', () => {
-  const renderComponent = (props = null) => {
+  const renderComponent = (props: Record<string, unknown> | null = null) => {
     return render(
       <StepIndicator
         currentStep={1}
@@ -562,7 +562,7 @@ describe('StepIndicator in strict mode', () => {
 })
 
 describe('StepIndicator in static mode', () => {
-  const renderComponent = (props = null) => {
+  const renderComponent = (props: Record<string, unknown> | null = null) => {
     return render(
       <StepIndicator
         currentStep={1}

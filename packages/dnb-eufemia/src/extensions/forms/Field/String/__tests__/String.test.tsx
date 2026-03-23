@@ -10,6 +10,7 @@ import {
 import userEvent from '@testing-library/user-event'
 import SharedProvider from '../../../../../shared/Provider'
 import DataContext from '../../../DataContext/Context'
+import type { ContextState } from '../../../DataContext/Context'
 import Provider from '../../../DataContext/Provider'
 import { GlobalStatus } from '../../../../../components'
 import type { Validator } from '../../..'
@@ -30,7 +31,7 @@ import enGB from '../../../constants/locales/en-GB'
 const nb = nbNO['nb-NO']
 const en = enGB['en-GB']
 
-const syncValidatorReturningUndefined = () => undefined
+const syncValidatorReturningUndefined = (): undefined => undefined
 
 const syncValidatorReturningError = () =>
   new Error('I think this is wrong')
@@ -1673,7 +1674,7 @@ describe('Field.String', () => {
   })
 
   it('should store "displayValue" in data context', async () => {
-    let dataContext = null
+    let dataContext: ContextState | null = null
 
     render(
       <Form.Handler>
@@ -1693,7 +1694,7 @@ describe('Field.String', () => {
 
     const input = document.querySelector('input')
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect(dataContext!.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
         type: 'field',
         value: '123',
@@ -1702,7 +1703,7 @@ describe('Field.String', () => {
 
     await userEvent.type(input, '{Backspace}4')
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect(dataContext!.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
         type: 'field',
         value: '124',
@@ -1711,7 +1712,7 @@ describe('Field.String', () => {
 
     await userEvent.type(input, '{Backspace>5}')
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect(dataContext!.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
         type: 'field',
       },
@@ -1723,7 +1724,7 @@ describe('Field.String', () => {
     const onSubmit = jest.fn((data, { transformData }) => {
       transformedData = transformData(
         data,
-        ({ value, displayValue, label }) => {
+        ({ value, displayValue, label }: Record<string, unknown>) => {
           return { value, displayValue, label }
         }
       )
@@ -1781,7 +1782,7 @@ describe('Field.String', () => {
   })
 
   it('should store "displayValue" when inside iterate', async () => {
-    let dataContext = null
+    let dataContext: ContextState | null = null
 
     render(
       <Form.Handler
@@ -1806,7 +1807,7 @@ describe('Field.String', () => {
 
     const input = document.querySelector('input')
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect(dataContext!.fieldDisplayValueRef.current).toEqual({
       '/myArray/0/myValue': {
         type: 'field',
         value: '123',
@@ -1819,7 +1820,7 @@ describe('Field.String', () => {
 
     await userEvent.type(input, '{Backspace}4')
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect(dataContext!.fieldDisplayValueRef.current).toEqual({
       '/myArray/0/myValue': {
         type: 'field',
         value: '124',
@@ -1832,7 +1833,7 @@ describe('Field.String', () => {
 
     await userEvent.type(input, '{Backspace>5}')
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect(dataContext!.fieldDisplayValueRef.current).toEqual({
       '/myArray/0/myValue': {
         type: 'field',
       },

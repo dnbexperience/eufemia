@@ -22,7 +22,7 @@ const defaultContext = {
   hide: null,
   contentId: null,
   close: null,
-}
+} as React.ComponentProps<typeof ModalContext>['value']
 
 function renderWithContext(
   ui: React.ReactElement,

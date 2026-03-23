@@ -69,7 +69,7 @@ describe('ScrollView', () => {
   })
 
   it('should set tabindex based on ResizeObserver when interactive is set to auto', () => {
-    let renderResizeObserver = null
+    let renderResizeObserver: (() => void) | null = null
 
     const observe = jest.fn()
     const init = jest.fn((callback) => {
@@ -91,7 +91,7 @@ describe('ScrollView', () => {
       jest.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(102)
       jest.spyOn(ref.current, 'offsetWidth', 'get').mockReturnValue(100)
 
-      renderResizeObserver()
+      renderResizeObserver!()
     })
 
     expect(element.getAttribute('tabindex')).toBe('0')
@@ -100,7 +100,7 @@ describe('ScrollView', () => {
       jest.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(101)
       jest.spyOn(ref.current, 'offsetWidth', 'get').mockReturnValue(100)
 
-      renderResizeObserver()
+      renderResizeObserver!()
     })
 
     expect(element).not.toHaveAttribute('tabindex')
@@ -133,6 +133,6 @@ describe('ScrollView', () => {
   })
 
   it('should have constant of _supportsSpacingProps', () => {
-    expect(ScrollView['_supportsSpacingProps']).toBe(true)
+    expect((ScrollView as unknown as Record<string, unknown>)['_supportsSpacingProps']).toBe(true)
   })
 })

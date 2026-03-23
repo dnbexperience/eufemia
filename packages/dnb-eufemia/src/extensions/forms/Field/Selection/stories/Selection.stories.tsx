@@ -136,7 +136,7 @@ export function NestingWithLogic() {
           <Form.Visibility
             visibleWhen={{
               path: '/mySelection',
-              hasValue: (value) =>
+              hasValue: (value: unknown) =>
                 value === 'showAdditionalOption' || value === 'showMeMore',
             }}
             animate

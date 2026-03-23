@@ -73,7 +73,7 @@ describe('Switch component', () => {
       )
     }
 
-    const TestStates = (Comp) => {
+    const TestStates = (Comp: React.ReactElement) => {
       render(Comp)
 
       // re-render + default state is true

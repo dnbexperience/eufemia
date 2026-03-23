@@ -33,7 +33,7 @@ describe('assignPropsWithContext', () => {
   })
 
   it('should not fail when props is null', () => {
-    const props = null
+    const props: Record<string, string> | null = null
     const context1 = { foo: 'bar' }
 
     const result = assignPropsWithContext(props, context1)
@@ -45,7 +45,7 @@ describe('assignPropsWithContext', () => {
 
   it('should not fail when context is null', () => {
     const props = { foo: 'is defined as a prop' }
-    const context1 = null
+    const context1: Record<string, string> | null = null
 
     const result = assignPropsWithContext(props, context1)
 

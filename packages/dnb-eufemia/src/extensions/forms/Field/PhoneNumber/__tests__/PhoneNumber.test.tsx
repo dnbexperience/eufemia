@@ -1905,7 +1905,7 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should store "displayValue" in data context', async () => {
-    let dataContext = null
+    let dataContext: Record<string, unknown> = null
 
     render(
       <Form.Handler>
@@ -1926,7 +1926,7 @@ describe('Field.PhoneNumber', () => {
       '.dnb-forms-field-phone-number__country-code input'
     )
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect((dataContext!.fieldDisplayValueRef as { current: unknown }).current).toEqual({
       '/myValue': {
         type: 'field',
         value: '+47 99 99',
@@ -1938,7 +1938,7 @@ describe('Field.PhoneNumber', () => {
     await event.keyboard('{ArrowRight>7}8888')
 
     expect(input).toHaveValue('99 99 88 88')
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect((dataContext!.fieldDisplayValueRef as { current: unknown }).current).toEqual({
       '/myValue': {
         type: 'field',
         value: '+47 99 99 88 88',
@@ -1948,7 +1948,7 @@ describe('Field.PhoneNumber', () => {
     await event.keyboard('{Backspace>12}')
 
     expect(input).toHaveValue('')
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect((dataContext!.fieldDisplayValueRef as { current: unknown }).current).toEqual({
       '/myValue': {
         type: 'field',
         value: undefined,
@@ -1958,7 +1958,7 @@ describe('Field.PhoneNumber', () => {
     await event.keyboard('123')
 
     expect(input).toHaveValue('12 3')
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+    expect((dataContext!.fieldDisplayValueRef as { current: unknown }).current).toEqual({
       '/myValue': {
         type: 'field',
         value: '+47 12 3',
@@ -1972,7 +1972,7 @@ describe('Field.PhoneNumber', () => {
     DrawerListProvider['blurDelay'] = 201
 
     await waitFor(() => {
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      expect((dataContext.fieldDisplayValueRef as { current: unknown }).current).toEqual({
         '/myValue': {
           type: 'field',
           value: '+47 12 3',

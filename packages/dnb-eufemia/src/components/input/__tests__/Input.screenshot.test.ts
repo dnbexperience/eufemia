@@ -9,7 +9,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
-  const extend = (selector) => ({
+  const extend = (selector: string) => ({
     style: {
       width: '200px', // make sure our input gets an explicit width, because of mac/linux rendering differences
     },

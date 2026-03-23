@@ -23,7 +23,7 @@ jest.mock('../MediaQueryUtils', () => ({
   isMatchMediaSupported: jest.fn(),
 }))
 
-const wrapper = ({ children }) => (
+const wrapper = ({ children }: { children: React.ReactNode }) => (
   <React.StrictMode>{children}</React.StrictMode>
 )
 

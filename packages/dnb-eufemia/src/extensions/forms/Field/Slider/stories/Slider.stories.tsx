@@ -55,7 +55,7 @@ export function Slider() {
   )
 }
 
-const transformOut = (internal) => {
+const transformOut = (internal: unknown) => {
   return { someValue: internal }
 }
 

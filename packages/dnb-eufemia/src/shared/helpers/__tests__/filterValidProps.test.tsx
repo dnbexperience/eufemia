@@ -12,7 +12,7 @@ describe('filterValidProps', () => {
       foo: string
     }
     const props: Props = { key: 'only-me', foo: 'bar' }
-    const validKeys = { key: null }
+    const validKeys = { key: null as null }
 
     const result = filterValidProps(props, validKeys)
     expect(result).toEqual({
@@ -26,8 +26,8 @@ describe('filterValidProps', () => {
       foo: string
     }
     const props: Props = { key: 'only-me', foo: 'bar' }
-    const validKeys = { key: null, foo: null }
-    const excludeKeys = { foo: null }
+    const validKeys = { key: null as null, foo: null as null }
+    const excludeKeys = { foo: null as null }
 
     const result = filterValidProps(props, validKeys, excludeKeys)
     expect(result).toEqual({
@@ -41,7 +41,7 @@ describe('filterValidProps', () => {
       foo: string
     }
     const props: Props = { key: 'only-me', foo: 'bar' }
-    const excludeKeys = { foo: null }
+    const excludeKeys = { foo: null as null }
 
     const result = filterValidProps(props, null, excludeKeys)
     expect(result).toEqual({

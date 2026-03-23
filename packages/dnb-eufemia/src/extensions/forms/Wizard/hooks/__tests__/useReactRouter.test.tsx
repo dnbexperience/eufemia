@@ -8,7 +8,7 @@ import userEvent from '@testing-library/user-event'
 
 describe('useReactRouter', () => {
   let identifier: string
-  let stepIndex = null
+  let stepIndex: number | null = null
 
   beforeEach(() => {
     stepIndex = null
@@ -65,7 +65,7 @@ describe('useReactRouter', () => {
         fU()
       }, [])
 
-      return [paramsRef.current, setSearchParams]
+      return [paramsRef.current, setSearchParams] as [typeof searchParams, typeof setSearchParams]
     })
 
     return {
@@ -77,7 +77,7 @@ describe('useReactRouter', () => {
     }
   }
 
-  const visitStep = (index) => {
+  const visitStep = (index: number) => {
     stepIndex = index
     const url = new URL(window.location.href)
     url.searchParams.set(`${identifier}-step`, String(index))
@@ -240,7 +240,7 @@ describe('useReactRouter', () => {
     const searchParams = { get }
     const setSearchParams = jest.fn()
     const useSearchParams = jest.fn(() => {
-      return [searchParams, setSearchParams]
+      return [searchParams, setSearchParams] as [typeof searchParams, typeof setSearchParams]
     })
 
     const Step = () => {

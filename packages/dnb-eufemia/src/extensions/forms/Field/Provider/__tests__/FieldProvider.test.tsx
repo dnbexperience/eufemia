@@ -17,7 +17,7 @@ describe('Field.Provider', () => {
   it('should merge inheritedContext with props passed to extend', () => {
     let collectedProps = null
 
-    const Collector = (props) => {
+    const Collector = (props: Record<string, unknown>) => {
       return (
         <FieldProviderContext.Consumer>
           {({ extend }) => {
@@ -43,7 +43,7 @@ describe('Field.Provider', () => {
   it('props passed to extend should override inheritedContext', () => {
     let collectedProps = null
 
-    const Collector = (props) => {
+    const Collector = (props: Record<string, unknown>) => {
       return (
         <FieldProviderContext.Consumer>
           {({ extend }) => {
@@ -69,7 +69,7 @@ describe('Field.Provider', () => {
   it('props passed to extend should override nested inheritedContext', () => {
     let collectedProps = null
 
-    const Collector = (props) => {
+    const Collector = (props: Record<string, unknown>) => {
       return (
         <FieldProviderContext.Consumer>
           {({ extend }) => {
@@ -97,7 +97,7 @@ describe('Field.Provider', () => {
   it('second provider should override nested inheritedContext', () => {
     let collectedProps = null
 
-    const Collector = (props) => {
+    const Collector = (props: Record<string, unknown>) => {
       return (
         <FieldProviderContext.Consumer>
           {({ extend }) => {

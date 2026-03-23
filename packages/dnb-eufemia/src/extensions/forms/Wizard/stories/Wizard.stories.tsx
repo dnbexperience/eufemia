@@ -35,10 +35,10 @@ const createRequest = () => {
 }
 
 export const Basic = () => {
-  const onStepChange = useCallback(async (index, mode) => {
+  const onStepChange = useCallback(async (index: number, mode: string) => {
     console.log('onStepChange', index, mode)
   }, [])
-  const onSubmit = useCallback((data) => {
+  const onSubmit = useCallback((data: unknown) => {
     console.log('onSubmit', data)
   }, [])
 
@@ -175,7 +175,7 @@ const validator2 = debounceAsync(async (value) => {
 })
 
 export function AsyncStepChange() {
-  const onStepChange = useCallback(async (index, mode) => {
+  const onStepChange = useCallback(async (index: number, mode: string) => {
     console.log('onStepChange', index)
 
     if (mode === 'next') {
@@ -186,7 +186,7 @@ export function AsyncStepChange() {
     return { info: 'Info message: ' + index }
   }, [])
 
-  const onSubmit = useCallback(async (data) => {
+  const onSubmit = useCallback(async (data: unknown) => {
     console.log('onSubmit', data)
 
     const request = createRequest()
@@ -370,7 +370,7 @@ export const AsyncWizard = () => {
     )
   }
 
-  const onStepChange = async (step, mode) => {
+  const onStepChange = async (step: number, mode: string) => {
     if (mode === 'next') {
       await new Promise((resolve) => setTimeout(resolve, 1000))
     }

@@ -30,7 +30,7 @@ describe('Tools.Log', () => {
   })
 
   it('should format "undefined"', () => {
-    const data = { foo: { bar: undefined } }
+    const data = { foo: { bar: undefined as unknown } }
     render(
       <Form.Handler data={data}>
         <Tools.Log />
@@ -42,7 +42,7 @@ describe('Tools.Log', () => {
   })
 
   it('should render a label when given', () => {
-    const data = { foo: { bar: undefined } }
+    const data = { foo: { bar: undefined as unknown } }
     render(
       <Form.Handler data={data}>
         <Tools.Log label="My label" />

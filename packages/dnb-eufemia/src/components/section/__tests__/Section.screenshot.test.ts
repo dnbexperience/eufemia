@@ -29,7 +29,7 @@ describe.each(['ui', 'sbanken'])('Section for %s', (themeName) => {
     url: '/uilib/components/section/demos/',
   })
 
-  test.each(sections[themeName])(
+  test.each((sections as Record<string, string[]>)[themeName])(
     'have to match %p section',
     async (...[sectionName]) => {
       const screenshot = await makeScreenshot({

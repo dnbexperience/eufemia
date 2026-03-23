@@ -54,7 +54,7 @@ describe('HeightAnimation', () => {
   })
 
   it('should adjust height when content changes', async () => {
-    globalThis.readjustTime = 1
+    ;(globalThis as Record<string, unknown>).readjustTime = 1
 
     const { rerender } = render(
       <HeightAnimation open={false}>123</HeightAnimation>

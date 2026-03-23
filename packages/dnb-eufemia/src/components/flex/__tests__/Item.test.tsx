@@ -469,13 +469,13 @@ describe('Flex.Item', () => {
 })
 
 function getSpacingClasses() {
-  const collection = []
+  const collection: string[][] = []
   const elements = document.querySelectorAll('.dnb-flex-item')
 
   elements.forEach((node) => {
     const element = node.querySelector('.dnb-flex-item__spacer')
 
-    const item = []
+    const item: string[] = []
 
     Object.values(element.classList)
       .reverse()
