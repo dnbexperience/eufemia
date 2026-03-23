@@ -315,4 +315,68 @@ describe('List', () => {
       expect(await axeComponent(container)).toHaveNoViolations()
     })
   })
+
+  it('forwards data-* attributes on Container', () => {
+    render(
+      <List.Container data-testid="my-list">
+        <List.Item.Basic title="Row">
+          <List.Cell.End>Value</List.Cell.End>
+        </List.Item.Basic>
+      </List.Container>
+    )
+
+    const list = document.querySelector('.dnb-list')
+
+    expect(list).toHaveAttribute('data-testid', 'my-list')
+  })
+
+  it('forwards custom className on Container', () => {
+    render(
+      <List.Container className="custom-list">
+        <List.Item.Basic title="Row">
+          <List.Cell.End>Value</List.Cell.End>
+        </List.Item.Basic>
+      </List.Container>
+    )
+
+    const list = document.querySelector('.dnb-list')
+
+    expect(list.classList).toContain('custom-list')
+  })
+
+  it('forwards data-* attributes on Item.Action', () => {
+    render(
+      <List.Container>
+        <List.Item.Action
+          title="Action"
+          onClick={() => {}}
+          data-testid="action-item"
+        >
+          <List.Cell.End>123</List.Cell.End>
+        </List.Item.Action>
+      </List.Container>
+    )
+
+    const item = document.querySelector('.dnb-list__item__action')
+
+    expect(item).toHaveAttribute('data-testid', 'action-item')
+  })
+
+  it('forwards aria-label on Item.Action', () => {
+    render(
+      <List.Container>
+        <List.Item.Action
+          title="Action"
+          onClick={() => {}}
+          aria-label="Perform action"
+        >
+          <List.Cell.End>123</List.Cell.End>
+        </List.Item.Action>
+      </List.Container>
+    )
+
+    const item = document.querySelector('.dnb-list__item__action')
+
+    expect(item).toHaveAttribute('aria-label', 'Perform action')
+  })
 })

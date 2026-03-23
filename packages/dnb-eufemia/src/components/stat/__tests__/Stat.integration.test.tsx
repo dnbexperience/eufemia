@@ -545,4 +545,68 @@ describe('Stat integration', () => {
 
     expect(icon.classList).toContain('dnb-skeleton')
   })
+
+  it('forwards data-* attributes on Root', () => {
+    render(
+      <Stat.Root data-testid="my-stat">
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content>
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const root = document.querySelector('.dnb-stat__root')
+
+    expect(root).toHaveAttribute('data-testid', 'my-stat')
+  })
+
+  it('forwards aria-label on Currency', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content>
+          <Stat.Currency value={1234} aria-label="Revenue amount" />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const currency = document.querySelector(
+      '.dnb-stat__content-item > .dnb-stat'
+    )
+
+    expect(currency).toHaveAttribute('aria-label', 'Revenue amount')
+  })
+
+  it('forwards data-* attributes on Trend', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label>Growth</Stat.Label>
+        <Stat.Content>
+          <Stat.Trend data-testid="trend-indicator">+5%</Stat.Trend>
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const trend = document.querySelector('.dnb-stat__trend')
+
+    expect(trend).toHaveAttribute('data-testid', 'trend-indicator')
+  })
+
+  it('forwards custom className on Label and Content', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label className="custom-label">Revenue</Stat.Label>
+        <Stat.Content className="custom-content">
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const label = document.querySelector('.dnb-stat__label')
+    const content = document.querySelector('.dnb-stat__content-item')
+
+    expect(label.classList).toContain('custom-label')
+    expect(content.classList).toContain('custom-content')
+  })
 })
