@@ -179,4 +179,28 @@ describe('List Container', () => {
 
     expect(item.classList).not.toContain('dnb-skeleton')
   })
+
+  it('propagates disabled to child items via context', () => {
+    render(
+      <Container disabled>
+        <ItemContent>Item</ItemContent>
+      </Container>
+    )
+
+    const item = document.querySelector('.dnb-list__item')
+
+    expect(item.classList).toContain('dnb-list__item--disabled')
+  })
+
+  it('allows individual items to override disabled from container', () => {
+    render(
+      <Container disabled>
+        <ItemContent disabled={false}>Item</ItemContent>
+      </Container>
+    )
+
+    const item = document.querySelector('.dnb-list__item')
+
+    expect(item.classList).not.toContain('dnb-list__item--disabled')
+  })
 })

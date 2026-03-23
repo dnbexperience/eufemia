@@ -135,6 +135,7 @@ function ListScrollView(props: ListScrollViewProps) {
           variant: parentContext?.variant ?? 'basic',
           separated: parentContext?.separated ?? false,
           skeleton,
+          disabled: parentContext?.disabled,
         }}
       >
         {scrollViewContent}

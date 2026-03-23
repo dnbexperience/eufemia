@@ -6,6 +6,7 @@ export type ListContext = {
   variant: ListVariant
   separated: boolean
   skeleton?: SkeletonShow
+  disabled?: boolean
 }
 
 export const ListContext = createContext<ListContext | undefined>(
