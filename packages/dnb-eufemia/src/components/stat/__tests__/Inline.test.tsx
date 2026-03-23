@@ -100,4 +100,43 @@ describe('Stat.Inline', () => {
     expect(trend.classList).toContain('dnb-skeleton')
     expect(info.classList).toContain('dnb-skeleton')
   })
+
+  it('does not propagate skeleton to children when not set', () => {
+    render(
+      <Stat.Inline>
+        <Stat.Trend>+1.2%</Stat.Trend>
+        <Stat.Info>(additional information)</Stat.Info>
+      </Stat.Inline>
+    )
+
+    const trend = document.querySelector('.dnb-stat__trend')
+    const info = document.querySelector('.dnb-stat__info')
+
+    expect(trend.classList).not.toContain('dnb-skeleton')
+    expect(info.classList).not.toContain('dnb-skeleton')
+    expect(trend).not.toHaveAttribute('aria-disabled')
+    expect(info).not.toHaveAttribute('aria-disabled')
+  })
+
+  it('inherits skeleton from Root context', () => {
+    render(
+      <Stat.Root skeleton>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content>
+          <Stat.Inline>
+            <Stat.Trend>+1.2%</Stat.Trend>
+            <Stat.Info>(info)</Stat.Info>
+          </Stat.Inline>
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const inline = document.querySelector('.dnb-stat__inline')
+    const trend = document.querySelector('.dnb-stat__trend')
+    const info = document.querySelector('.dnb-stat__info')
+
+    expect(inline.classList).toContain('dnb-skeleton')
+    expect(trend.classList).toContain('dnb-skeleton')
+    expect(info.classList).toContain('dnb-skeleton')
+  })
 })
