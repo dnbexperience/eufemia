@@ -61,6 +61,7 @@ function ItemAccordion(props: ItemAccordionProps) {
     variant,
     pending,
     disabled,
+    skeleton,
     open = false,
     keepInDOM = false,
     chevronPosition = 'right',
@@ -109,6 +110,7 @@ function ItemAccordion(props: ItemAccordionProps) {
         direction="vertical"
         pending={pending}
         disabled={appliedDisabled}
+        skeleton={skeleton}
         variant={variant}
         {...rest}
       >
