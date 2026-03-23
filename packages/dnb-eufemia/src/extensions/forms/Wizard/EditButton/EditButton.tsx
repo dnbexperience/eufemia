@@ -15,9 +15,10 @@ import {
 } from '../../../../components/flex/utils'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ComponentProps & ButtonProps & { toStep?: StepIndex }
+export type WizardEditButtonProps = ComponentProps &
+  ButtonProps & { toStep?: StepIndex }
 
-function EditButton(props: Props) {
+function EditButton(props: WizardEditButtonProps) {
   const translations = useTranslation().WizardEditButton
   const { setActiveIndex } = useStep()
 

@@ -13,10 +13,7 @@ import type { InputAlign, InputSize } from '../../../../components/Input'
 import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import clsx from 'clsx'
-import type {
-  Props as FieldBlockProps,
-  FieldBlockWidth,
-} from '../../FieldBlock'
+import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import type { FieldProps, Schema } from '../../types'
@@ -30,7 +27,7 @@ import DataContext from '../../DataContext/Context'
 import * as z from 'zod'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = FieldProps<number, undefined | number> & {
+export type FieldNumberProps = FieldProps<number, undefined | number> & {
   ref?: React.RefObject<HTMLInputElement>
   inputClassName?: string
   currency?: InputMaskedProps['asCurrency']
@@ -61,7 +58,7 @@ export type Props = FieldProps<number, undefined | number> & {
 const defaultMinimum = Number.MIN_SAFE_INTEGER
 const defaultMaximum = Number.MAX_SAFE_INTEGER
 
-function NumberComponent(props: Props) {
+function NumberComponent(props: FieldNumberProps) {
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
   const sharedContext = useContext(SharedContext)
@@ -89,7 +86,7 @@ function NumberComponent(props: Props) {
       // at validation time (min/max/exclusive/multipleOf). This keeps rules
       // in sync with dynamic prop changes and avoids stale closures.
       props.schema ??
-      ((p: Props) => {
+      ((p: FieldNumberProps) => {
         // Helper function to format validation values with currency/percent suffix
         const formatValidationValue = (value: number) => {
           const formatOptions: Partial<NumberFormatOptionParams> = {
@@ -298,7 +295,7 @@ function NumberComponent(props: Props) {
   )
 
   const ref = useRef<HTMLInputElement>(undefined)
-  const preparedProps: Props = {
+  const preparedProps: FieldNumberProps = {
     valueType: 'number',
     validateContinuously: validateContinuouslyRef.current,
     ...props,

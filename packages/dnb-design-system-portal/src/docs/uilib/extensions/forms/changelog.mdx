@@ -21,6 +21,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 - Removed automatic horizontal card-coupled outset alignment for [Form.MainHeading](/uilib/extensions/forms/Form/MainHeading/), [Form.SubHeading](/uilib/extensions/forms/Form/SubHeading/), [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton/) and [Form.ButtonRow](/uilib/extensions/forms/Form/ButtonRow/).
 - [Form.Card](/uilib/extensions/forms/Form/Card/) no longer enables `outset` by default.
 - [Card.Provider](/uilib/components/card/) / [Form.Card.Provider](/uilib/extensions/forms/Form/Card/) has been removed (including `disableCardBreakout`).
+- All `export type Props` in Field, Value, Form, Iterate, Wizard, and DataContext modules have been renamed to use a component-prefixed name (e.g. `FieldStringProps`, `ValueNumberProps`, `FormHandlerProps`). An ESLint rule now enforces this convention.
 
 ## v10.100.0
 

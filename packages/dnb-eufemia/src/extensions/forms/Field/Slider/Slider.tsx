@@ -1,8 +1,5 @@
 import React, { useCallback, useContext, useMemo, useRef } from 'react'
-import type {
-  Props as FieldBlockProps,
-  FieldBlockWidth,
-} from '../../FieldBlock'
+import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import type { FieldProps, Path } from '../../types'
@@ -21,7 +18,7 @@ export type SliderVisibilityEvent = React.MouseEvent<HTMLButtonElement> & {
 }
 
 export type SliderValue = number | Array<number>
-export type Props = FieldProps<SliderValue> & {
+export type FieldSliderProps = FieldProps<SliderValue> & {
   /**
    * Define an array with JSON Pointers for multiple thumb buttons.
    */
@@ -45,7 +42,7 @@ export type Props = FieldProps<SliderValue> & {
   width?: FieldBlockWidth
 }
 
-function SliderComponent(props: Props) {
+function SliderComponent(props: FieldSliderProps) {
   const dataContextRef = useRef<ContextState>(undefined)
   dataContextRef.current = useContext<ContextState>(DataContext)
   const {

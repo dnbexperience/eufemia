@@ -11,12 +11,12 @@ import { omitDataValueReadWriteProps } from '../../types'
 import { trash } from '../../../../icons'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ButtonProps &
+export type IterateRemoveButtonProps = ButtonProps &
   DataValueReadWriteComponentProps<unknown[]> & {
     showConfirmDialog?: boolean
   }
 
-function RemoveButton(props: Props) {
+function RemoveButton(props: IterateRemoveButtonProps) {
   const iterateItemContext = useContext(IterateItemContext)
   const { handleRemove, itemPath, index } = iterateItemContext || {}
 

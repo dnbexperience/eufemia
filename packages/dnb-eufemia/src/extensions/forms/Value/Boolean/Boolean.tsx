@@ -6,12 +6,12 @@ import type { ValueProps } from '../../types'
 import useTranslation from '../../hooks/useTranslation'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ValueProps<boolean> & {
+export type ValueBooleanProps = ValueProps<boolean> & {
   trueText?: React.ReactNode
   falseText?: React.ReactNode
 }
 
-function BooleanComponent(props: Props) {
+function BooleanComponent(props: ValueBooleanProps) {
   const translations = useTranslation().BooleanField
   const { value, className, trueText, falseText, ...rest } =
     useValueProps(props)

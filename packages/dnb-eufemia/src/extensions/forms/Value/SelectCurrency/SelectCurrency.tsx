@@ -7,9 +7,9 @@ import useCurrency from './useCurrency'
 import type { CurrencyISO } from '../../constants/currencies'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ValueProps<CurrencyISO>
+export type ValueSelectCurrencyProps = ValueProps<CurrencyISO>
 
-function SelectCurrency(props: Props) {
+function SelectCurrency(props: ValueSelectCurrencyProps) {
   const translations = useTranslation().SelectCurrency
   const {
     value,

@@ -1,5 +1,5 @@
 import React from 'react'
-import type { Props as DataContextProps } from '../../DataContext/Provider'
+import type { DataContextProviderProps as DataContextProps } from '../../DataContext/Provider'
 import type { FormStatusProps } from '../../../../components/FormStatus'
 import FieldProviderContext from './FieldProviderContext'
 import SharedProvider from '../../../../shared/Provider'

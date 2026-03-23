@@ -63,7 +63,10 @@ type OnlyItemPathRequired = {
   itemPath: Path
 }
 
-export type Props = (OnlyPathRequired | OnlyItemPathRequired) & {
+export type IteratePushContainerProps = (
+  | OnlyPathRequired
+  | OnlyItemPathRequired
+) & {
   /**
    * The title of the container.
    */
@@ -136,7 +139,7 @@ export type Props = (OnlyPathRequired | OnlyItemPathRequired) & {
   children: React.ReactNode
 } & Pick<IsolationProps<JsonObject>, 'dataReference'>
 
-export type AllProps = Props &
+export type AllProps = IteratePushContainerProps &
   SpacingProps &
   Omit<EditContainerProps, 'data'>
 

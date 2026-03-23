@@ -15,10 +15,7 @@ import {
 import useCountries from './useCountries'
 import { useFieldProps } from '../../hooks'
 import type { FieldPropsWithExtraValue } from '../../types'
-import type {
-  Props as FieldBlockProps,
-  FieldBlockWidth,
-} from '../../FieldBlock'
+import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import useTranslation from '../../hooks/useTranslation'
 import type {
@@ -34,7 +31,7 @@ export type CountryFilterSet =
   | 'Prioritized'
 export type { CountryType }
 
-export type Props = FieldPropsWithExtraValue<
+export type FieldSelectCountryProps = FieldPropsWithExtraValue<
   CountryISO,
   CountryType,
   undefined | string
@@ -66,7 +63,7 @@ export type Props = FieldPropsWithExtraValue<
   size?: AutocompleteAllProps['size']
 }
 
-function SelectCountry(props: Props) {
+function SelectCountry(props: FieldSelectCountryProps) {
   const sharedContext = useContext(SharedContext)
   const fieldBlockContext = useContext(FieldBlockContext)
   const {
@@ -108,7 +105,7 @@ function SelectCountry(props: Props) {
     [errorRequired]
   )
 
-  const preparedProps: Props = {
+  const preparedProps: FieldSelectCountryProps = {
     errorMessages,
     ...props,
     width:
@@ -291,7 +288,7 @@ function SelectCountry(props: Props) {
 type GetCountryData = {
   countries: typeof listOfCountries
   lang?: CountryLang
-  filter?: Props['filterCountries']
+  filter?: FieldSelectCountryProps['filterCountries']
   sort?: Extract<CountryFilterSet, 'Prioritized'>
   makeObject?: (
     country: CountryType,

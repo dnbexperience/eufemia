@@ -13,10 +13,7 @@ import currencies, {
 } from '../../constants/currencies'
 import { useFieldProps } from '../../hooks'
 import type { FieldPropsWithExtraValue } from '../../types'
-import type {
-  Props as FieldBlockProps,
-  FieldBlockWidth,
-} from '../../FieldBlock'
+import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import useTranslation from '../../hooks/useTranslation'
 import type {
@@ -32,7 +29,7 @@ export type CurrencyFilterSet =
   | 'Prioritized'
 export type { CurrencyType }
 
-export type Props = FieldPropsWithExtraValue<
+export type FieldSelectCurrencyProps = FieldPropsWithExtraValue<
   CurrencyISO,
   CurrencyType,
   undefined | string
@@ -64,7 +61,7 @@ export type Props = FieldPropsWithExtraValue<
   size?: AutocompleteAllProps['size']
 }
 
-function SelectCurrency(props: Props) {
+function SelectCurrency(props: FieldSelectCurrencyProps) {
   const sharedContext = useContext(SharedContext)
   const fieldBlockContext = useContext(FieldBlockContext)
   const {
@@ -105,7 +102,7 @@ function SelectCurrency(props: Props) {
     [errorRequired]
   )
 
-  const preparedProps: Props = {
+  const preparedProps: FieldSelectCurrencyProps = {
     errorMessages,
     ...props,
     width:
@@ -287,7 +284,7 @@ function SelectCurrency(props: Props) {
 
 type GetCurrencyData = {
   lang?: CurrencyLang
-  filter?: Props['filterCurrencies']
+  filter?: FieldSelectCurrencyProps['filterCurrencies']
   enableSort?: Extract<CurrencyFilterSet, 'Prioritized'>
   enableSearch?: boolean
   makeObject?: (

@@ -12,7 +12,7 @@ import RemoveButton from './RemoveButton'
 import { replaceItemNo } from '../ItemNo'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = {
+export type IterateViewContainerProps = {
   /**
    * The title of the ViewContainer.
    */
@@ -29,7 +29,7 @@ export type Props = {
   toolbarVariant?: ArrayItemAreaProps['toolbarVariant']
 }
 
-export type AllProps = Props &
+export type AllProps = IterateViewContainerProps &
   Omit<FlexContainerProps, 'onAnimationEnd'> &
   ArrayItemAreaProps
 
