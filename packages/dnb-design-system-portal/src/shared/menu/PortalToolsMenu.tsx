@@ -56,7 +56,7 @@ export default function PortalToolsMenu({
       }}
       {...props}
     >
-      <Drawer.Body spacing>
+      <Drawer.Body innerSpace>
         <Space>
           <H2 skeleton={false} size="small">
             Show everything behind skeletons
