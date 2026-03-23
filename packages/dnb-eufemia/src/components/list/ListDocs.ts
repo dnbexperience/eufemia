@@ -202,6 +202,12 @@ export const ItemStartProperties: PropertiesTableProps = {
     defaultValue: "'basis'",
     status: 'optional',
   },
+  fontWeight: {
+    doc: 'Font weight of the start content. Defaults to `regular`.',
+    type: ["'regular'", "'medium'"],
+    defaultValue: "'regular'",
+    status: 'optional',
+  },
   children: {
     doc: 'Start content of the list item (e.g. icon, label).',
     type: 'React.ReactNode',
