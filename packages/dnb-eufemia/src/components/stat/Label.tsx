@@ -29,7 +29,7 @@ export type LabelProps = {
 } & SpacingProps
 
 function Label(props: LabelProps) {
-  const { inRoot } = useContext(StatRootContext)
+  const { inRoot, skeleton: rootSkeleton } = useContext(StatRootContext)
 
   const {
     children,
@@ -48,6 +48,13 @@ function Label(props: LabelProps) {
 
   const { hasSkeleton, skeletonClass, applySkeletonAttributes } =
     useStatSkeleton(skeleton)
+
+  // Only override the root skeleton context if this Label has an
+  // explicit skeleton prop — otherwise, let the root value propagate.
+  const childSkeleton =
+    skeleton !== null && skeleton !== undefined
+      ? hasSkeleton
+      : rootSkeleton
   const resolvedLineHeight = getHeadingLineHeightSize(fontSize)
 
   let variant = variantProp
@@ -82,7 +89,7 @@ function Label(props: LabelProps) {
   applySkeletonAttributes(attributes)
 
   return (
-    <StatRootContext.Provider value={{ inRoot, skeleton: hasSkeleton }}>
+    <StatRootContext.Provider value={{ inRoot, skeleton: childSkeleton }}>
       <Element {...attributes}>{children}</Element>
     </StatRootContext.Provider>
   )
