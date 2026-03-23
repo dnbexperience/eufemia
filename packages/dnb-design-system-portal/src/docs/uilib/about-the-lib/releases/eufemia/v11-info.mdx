@@ -24,6 +24,7 @@ v11 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 8. If you `@use` Eufemia SCSS source files and reference internal mixins, rename them to camelCase (see [SCSS mixin renames](#scss-mixin-renames)).
 9. Replace the `as` prop with `element` on the `H` heading element.
 10. Replace `prerender` with `keepInDOM` on Tabs and Accordion components.
+11. Replace `styleType` (or `style_type`) with `backgroundColor` on Breadcrumb, Dialog.Body, and Drawer.Body components.
 
 ### innerRef → ref
 
@@ -642,6 +643,12 @@ New props added:
 
 - Replace `direction` in `<Dl>` with `layout`.
 
+### [Breadcrumb](/uilib/components/breadcrumb/)
+
+#### Properties
+
+- Replace `styleType` (or `style_type`) with `backgroundColor`.
+
 ### [BreadcrumbItem](/uilib/components/breadcrumb/)
 
 - Removed passing down properties to the internal `span`.
@@ -884,6 +891,12 @@ render(<Logo svg={SbankenCompact} />)
 #### Properties
 
 - Replace `shadow_class` with `shadowClass`.
+
+### [Dialog.Body](/uilib/components/dialog/) and [Drawer.Body](/uilib/components/drawer/)
+
+#### Properties
+
+- Replace `styleType` (or `style_type`) with `backgroundColor`.
 
 ### [Heading](/uilib/components/heading/)
 

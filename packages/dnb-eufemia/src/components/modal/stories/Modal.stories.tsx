@@ -72,7 +72,7 @@ export const ModalSandbox = () => (
       >
         <P>This is a Modal Window with no close button.</P>
         <P>Click outside me, and I will be closed within 1 second.</P>
-        <Section top spacing style_type="divider">
+        <Section top spacing variant="divider">
           <Input label="Focus:">Focus me with Tab key</Input>
         </Section>
       </Modal>
@@ -115,7 +115,7 @@ export const ModalSandbox = () => (
 
     <Box>
       <Modal title="Modal Title">
-        <Modal.Content spacing style_type="mint-green">
+        <Modal.Content spacing backgroundColor="mint-green">
           <P>This is the modal text.</P>
         </Modal.Content>
       </Modal>
@@ -411,7 +411,7 @@ const ModalTriggerExample = () => {
                 open={true}
                 labelledBy="custom-triggerer"
               >
-                <Section spacing style_type="divider">
+                <Section spacing variant="divider">
                   <P>This Modal was opened by a custom trigger button.</P>
                 </Section>
               </Modal>

@@ -146,7 +146,7 @@ export const DrawerSandbox = () => (
           title: 'Tertiary test',
         }}
       >
-        <Drawer.Body styleType="pistachio">
+        <Drawer.Body backgroundColor="pistachio">
           Drawer.Body
           <Drawer title="Title 2" open={true}>
             New content 2 <Drawer title="Title 3">New content 3</Drawer>

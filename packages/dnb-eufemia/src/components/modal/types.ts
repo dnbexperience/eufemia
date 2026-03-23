@@ -44,7 +44,7 @@ export type ModalProps = ModalRootProps & {
   openDelay?: string | number
 
   /**
-   * If set to `true` (boolean or string), then the user can&#39;t close the modal/drawer.
+   * If set to `true` (boolean or string), then the user can't close the modal/drawer.
    */
   preventClose?: boolean
 
