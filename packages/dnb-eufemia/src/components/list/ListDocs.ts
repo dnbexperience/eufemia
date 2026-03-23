@@ -72,6 +72,18 @@ export const ItemContentProperties: PropertiesTableProps = {
 }
 
 export const ItemCenterProperties: PropertiesTableProps = {
+  fontSize: {
+    doc: 'Font size of the center content. Defaults to `basis`. Use `small` for smaller text.',
+    type: ["'small'", "'basis'"],
+    defaultValue: "'basis'",
+    status: 'optional',
+  },
+  fontWeight: {
+    doc: 'Font weight of the center content. Defaults to `regular`.',
+    type: ["'regular'", "'medium'"],
+    defaultValue: "'regular'",
+    status: 'optional',
+  },
   children: {
     doc: 'Center content of the list item. Grows to fill available space.',
     type: 'React.ReactNode',
