@@ -3,6 +3,7 @@ import classnames from 'classnames'
 import Flex from '../flex/Flex'
 import type { Props as FlexHorizontalProps } from '../flex/Horizontal'
 import type { SkeletonShow } from '../skeleton/Skeleton'
+import { warn } from '../../shared/component-helper'
 import StatRootContext from './StatRootContext'
 import useStatSkeleton from './useStatSkeleton'
 
@@ -21,6 +22,10 @@ function Inline({
   const { inRoot } = React.useContext(StatRootContext)
   const { hasSkeleton, skeletonClass, applySkeletonAttributes } =
     useStatSkeleton(skeleton)
+
+  if (!inRoot) {
+    warn('Stat.Inline should be used inside Stat.Root')
+  }
 
   const attributes: Record<string, unknown> = {}
   applySkeletonAttributes(attributes as React.HTMLProps<HTMLElement>)
