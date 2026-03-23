@@ -66,7 +66,7 @@ export const AccordionProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  prerender: {
+  keepInDOM: {
     doc: 'If set to `true` the content will be present, even the accordion is not expanded. Can be useful for assistive technology or SEO.',
     type: 'boolean',
     status: 'optional',
