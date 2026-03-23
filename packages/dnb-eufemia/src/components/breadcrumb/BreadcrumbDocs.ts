@@ -56,11 +56,12 @@ export const BreadcrumbProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  isCollapsed: {
-    doc: 'For variant `collapse`, override isCollapsed for the collapsed content by updating this value using the provided property `onClick`.',
+  collapsed: {
+    doc: 'For variant `collapse`, override collapsed state for the collapsed content by updating this value using the provided property `onClick`.',
     type: 'boolean',
     status: 'optional',
   },
+
   spacing: {
     doc: 'Include spacing properties from [Section](/uilib/components/section/properties) in breadcrumb. If only `true` is given, the spacing will be `small`. Defaults to `false`.',
     type: 'Various',
