@@ -1,6 +1,6 @@
 import type { PropertiesTableProps } from '../../shared/types'
 
-export const inputMaskedProperties: PropertiesTableProps = {
+export const InputMaskedProperties: PropertiesTableProps = {
   asNumber: {
     doc: 'Set to `true` to automatically set a number mask based on the given or inherited locale.',
     type: 'boolean',
@@ -73,7 +73,7 @@ export const inputMaskedProperties: PropertiesTableProps = {
   },
 }
 
-export const inputMaskedEvents: PropertiesTableProps = {
+export const InputMaskedEvents: PropertiesTableProps = {
   onChange: {
     doc: 'Will be called on value changes made by the user. Returns an object with the value as a string and the native event: `{ value, numberValue, cleanedValue, event }`.',
     type: 'function',
@@ -86,7 +86,7 @@ export const inputMaskedEvents: PropertiesTableProps = {
   },
 }
 
-export const inputMaskedMaskOptionsProperties: PropertiesTableProps = {
+export const InputMaskedMaskOptionsProperties: PropertiesTableProps = {
   prefix: {
     doc: 'What to display before the amount. Defaults to an empty string.',
     type: 'string',

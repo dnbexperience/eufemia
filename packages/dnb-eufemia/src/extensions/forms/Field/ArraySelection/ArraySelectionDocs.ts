@@ -1,6 +1,6 @@
 import type { PropertiesTableProps } from '../../../../shared/types'
 
-export const arraySelectionProperties: PropertiesTableProps = {
+export const ArraySelectionProperties: PropertiesTableProps = {
   variant: {
     doc: 'Choice of UI feature.',
     type: [`'checkbox'`, `'button'`, `'checkbox-button'`],
