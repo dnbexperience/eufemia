@@ -305,10 +305,12 @@ AmountBase._supportsSpacingProps = true
 export { AmountBase }
 
 /**
- * @deprecated Use `Stat.Number` instead.
+ * @deprecated Use `Stat.Number` instead. `Stat.Currency` and `Stat.Percent` are not affected.
  */
 function Amount(props: AmountProps) {
-  warn('Stat.Amount is deprecated. Use Stat.Number instead.')
+  warn(
+    'Stat.Amount is deprecated. Use Stat.Number instead. Stat.Currency and Stat.Percent are not affected by this deprecation.'
+  )
 
   return <AmountBase {...props} />
 }
