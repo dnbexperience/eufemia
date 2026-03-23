@@ -19,6 +19,7 @@ import { omitSpacingProps, pickSpacingProps } from '../flex/utils'
 import ItemIcon from './ItemIcon'
 import ItemTitle from './ItemTitle'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import Context from '../../shared/Context'
 
 export type ItemAccordionIconPosition = 'left' | 'right'
 
@@ -141,6 +142,7 @@ function AccordionHeader(props: AccordionHeaderProps) {
     title,
   } = useContext(ItemAccordionContext)
 
+  const context = useContext(Context)
   const inheritedSkeleton = useContext(ListContext)?.skeleton
   const isInactive = pending || disabled
 
@@ -166,7 +168,7 @@ function AccordionHeader(props: AccordionHeaderProps) {
     [handleClick]
   )
 
-  return (
+  const content = (
     <FlexItem
       className={classnames(
         'dnb-list__item__accordion__header',
@@ -191,12 +193,23 @@ function AccordionHeader(props: AccordionHeaderProps) {
       {chevronPosition === 'right' && <ChevronIcon />}
     </FlexItem>
   )
+
+  if (inheritedSkeleton) {
+    return (
+      <Context.Provider value={{ ...context, skeleton: inheritedSkeleton }}>
+        {content}
+      </Context.Provider>
+    )
+  }
+
+  return content
 }
 ItemAccordion.Header = AccordionHeader
 AccordionHeader._supportsSpacingProps = true
 
 function AccordionContent(props: ItemContentProps) {
   const { className, children, ...rest } = props
+  const context = useContext(Context)
   const { openState, accordionId, keepInDOM } = useContext(
     ItemAccordionContext
   )
@@ -204,7 +217,7 @@ function AccordionContent(props: ItemContentProps) {
 
   const spacingProps = pickSpacingProps(rest)
 
-  return (
+  const content = (
     <FlexItem
       className={classnames(
         'dnb-list__item__accordion__content',
@@ -223,6 +236,16 @@ function AccordionContent(props: ItemContentProps) {
       </HeightAnimation>
     </FlexItem>
   )
+
+  if (inheritedSkeleton) {
+    return (
+      <Context.Provider value={{ ...context, skeleton: inheritedSkeleton }}>
+        {content}
+      </Context.Provider>
+    )
+  }
+
+  return content
 }
 ItemAccordion.Content = AccordionContent
 AccordionContent._supportsSpacingProps = true

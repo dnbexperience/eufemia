@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { render } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import Container from '../Container'
 import ItemContent, { ItemContentProps } from '../ItemContent'
+import Context from '../../../shared/Context'
 
 describe('ItemContent', () => {
   it('renders with props as an object', () => {
@@ -161,6 +162,22 @@ describe('ItemContent', () => {
     const element = document.querySelector('.dnb-list__item')
 
     expect(element.classList).not.toContain('dnb-skeleton')
+  })
+
+  it('propagates skeleton to children via context', () => {
+    function SkeletonConsumer() {
+      const context = useContext(Context)
+      return <span data-skeleton={String(Boolean(context?.skeleton))} />
+    }
+
+    render(
+      <ItemContent skeleton>
+        <SkeletonConsumer />
+      </ItemContent>
+    )
+
+    const consumer = document.querySelector('[data-skeleton]')
+    expect(consumer.getAttribute('data-skeleton')).toBe('true')
   })
 
   it('applies disabled modifier when disabled is true', () => {

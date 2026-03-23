@@ -4,6 +4,7 @@ import FlexItem, { type Props as FlexItemProps } from '../flex/Item'
 import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
+import Context from '../../shared/Context'
 
 export type ItemSublineVariant = 'description'
 
@@ -31,10 +32,11 @@ function ItemSubline({
   children,
   ...rest
 }: ItemSublineProps) {
+  const context = useContext(Context)
   const inheritedSkeleton = useContext(ListContext)?.skeleton
   const appliedSkeleton = skeleton ?? inheritedSkeleton
 
-  return (
+  const content = (
     <FlexItem
       className={classnames(
         'dnb-list__item__subline',
@@ -49,6 +51,16 @@ function ItemSubline({
       {children}
     </FlexItem>
   )
+
+  if (appliedSkeleton) {
+    return (
+      <Context.Provider value={{ ...context, skeleton: appliedSkeleton }}>
+        {content}
+      </Context.Provider>
+    )
+  }
+
+  return content
 }
 ItemSubline._supportsSpacingProps = true
 

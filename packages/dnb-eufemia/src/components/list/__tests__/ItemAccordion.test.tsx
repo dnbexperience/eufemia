@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import ItemAccordion from '../ItemAccordion'
 import Container from '../Container'
+import Context from '../../../shared/Context'
 
 describe('ItemAccordion', () => {
   it('renders with Header and Content', () => {
@@ -768,5 +769,47 @@ describe('ItemAccordion', () => {
     expect(accordion.classList).toContain('dnb-skeleton')
     expect(accordion.classList).toContain('dnb-skeleton--font')
     expect(accordion.classList).toContain('dnb-list__item--disabled')
+  })
+
+  it('propagates skeleton to AccordionHeader children via context', () => {
+    function SkeletonConsumer() {
+      const context = useContext(Context)
+      return <span data-skeleton={String(Boolean(context?.skeleton))} />
+    }
+
+    render(
+      <Container skeleton>
+        <ItemAccordion>
+          <ItemAccordion.Header>
+            <SkeletonConsumer />
+          </ItemAccordion.Header>
+          <ItemAccordion.Content>Content body</ItemAccordion.Content>
+        </ItemAccordion>
+      </Container>
+    )
+
+    const consumer = document.querySelector('[data-skeleton]')
+    expect(consumer.getAttribute('data-skeleton')).toBe('true')
+  })
+
+  it('propagates skeleton to AccordionContent children via context', () => {
+    function SkeletonConsumer() {
+      const context = useContext(Context)
+      return <span data-skeleton={String(Boolean(context?.skeleton))} />
+    }
+
+    render(
+      <Container skeleton>
+        <ItemAccordion open>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>
+            <SkeletonConsumer />
+          </ItemAccordion.Content>
+        </ItemAccordion>
+      </Container>
+    )
+
+    const consumer = document.querySelector('[data-skeleton]')
+    expect(consumer.getAttribute('data-skeleton')).toBe('true')
   })
 })

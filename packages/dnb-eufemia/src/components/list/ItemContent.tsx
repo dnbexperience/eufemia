@@ -4,6 +4,7 @@ import { ListVariant, ListContext } from './ListContext'
 import FlexContainer, { Props as FlexProps } from '../flex/Container'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
+import Context from '../../shared/Context'
 
 export type ItemContentProps = {
   variant?: ListVariant
@@ -24,6 +25,7 @@ function ItemContent(props: ItemContentProps) {
     skeleton,
     ...rest
   } = props
+  const context = useContext(Context)
   const inheritedVariant = useContext(ListContext)?.variant
   const inheritedSkeleton = useContext(ListContext)?.skeleton
   const inheritedDisabled = useContext(ListContext)?.disabled
@@ -31,7 +33,7 @@ function ItemContent(props: ItemContentProps) {
   const appliedSkeleton = skeleton ?? inheritedSkeleton
   const appliedDisabled = disabled ?? inheritedDisabled
 
-  return (
+  const content = (
     <FlexContainer
       element="li"
       direction="horizontal"
@@ -55,6 +57,16 @@ function ItemContent(props: ItemContentProps) {
       {pending && <Pending />}
     </FlexContainer>
   )
+
+  if (appliedSkeleton) {
+    return (
+      <Context.Provider value={{ ...context, skeleton: appliedSkeleton }}>
+        {content}
+      </Context.Provider>
+    )
+  }
+
+  return content
 }
 ItemContent._supportsSpacingProps = true
 
