@@ -21,6 +21,7 @@ v11 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 5. If you import Eufemia SCSS source files with `@import`, replace with `@use` and namespace your mixin/variable calls (see [SCSS: @import → @use](#scss-import--use)).
 6. Replace the `size` prop with `span` on `Flex.Item` and `Card` components.
 7. If you `@use` Eufemia SCSS source files and reference internal mixins, rename them to camelCase (see [SCSS mixin renames](#scss-mixin-renames)).
+8. Replace the `as` prop with `element` on the `H` heading element.
 
 ### innerRef → ref
 
@@ -892,7 +893,7 @@ render(<Logo svg={SbankenCompact} />)
 
 #### Properties
 
-- Replace `as` with `element`. The `as` prop is still supported but deprecated.
+- Replace `as` with `element`.
 
 **Before:**
 
