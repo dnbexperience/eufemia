@@ -238,4 +238,22 @@ describe('Stat.Label', () => {
 
     spy.mockRestore()
   })
+
+  it('propagates skeleton to child components via context', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label skeleton>
+          <Stat.Info>Extra label info</Stat.Info>
+        </Stat.Label>
+        <Stat.Content>
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const info = document.querySelector('.dnb-stat__info')
+
+    expect(info.classList).toContain('dnb-skeleton')
+    expect(info).toHaveAttribute('aria-disabled', 'true')
+  })
 })

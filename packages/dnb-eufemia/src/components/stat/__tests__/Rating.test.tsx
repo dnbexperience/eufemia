@@ -133,8 +133,58 @@ describe('Stat.Rating', () => {
     const rating = document.querySelector('.dnb-stat__rating')
 
     expect(rating.classList).toContain('dnb-skeleton')
-    expect(rating.classList).toContain('dnb-skeleton--font')
+    expect(rating.classList).toContain('dnb-skeleton--shape')
     expect(rating).toHaveAttribute('aria-disabled', 'true')
+  })
+
+  it('propagates skeleton from Root to stars variant', () => {
+    render(
+      <Stat.Root skeleton>
+        <Stat.Label>Rating</Stat.Label>
+        <Stat.Content>
+          <Stat.Rating value={3.5} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(rating.classList).toContain('dnb-skeleton')
+    expect(rating.classList).toContain('dnb-skeleton--shape')
+    expect(rating).toHaveAttribute('aria-disabled', 'true')
+  })
+
+  it('propagates skeleton from Root to progressive variant', () => {
+    render(
+      <Stat.Root skeleton>
+        <Stat.Label>Rating</Stat.Label>
+        <Stat.Content>
+          <Stat.Rating variant="progressive" value={4} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(rating.classList).toContain('dnb-skeleton')
+    expect(rating.classList).toContain('dnb-skeleton--shape')
+    expect(rating).toHaveAttribute('aria-disabled', 'true')
+  })
+
+  it('propagates skeleton from Content to Rating', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label>Rating</Stat.Label>
+        <Stat.Content skeleton>
+          <Stat.Rating value={3} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(rating.classList).toContain('dnb-skeleton')
+    expect(rating.classList).toContain('dnb-skeleton--shape')
   })
 
   it('supports spacing props', () => {

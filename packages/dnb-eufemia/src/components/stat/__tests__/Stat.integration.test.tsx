@@ -77,6 +77,65 @@ describe('Stat integration', () => {
     expect(info.classList).toContain('dnb-skeleton')
   })
 
+  it('propagates skeleton from Root to Rating with shape mode', () => {
+    render(
+      <Stat.Root skeleton>
+        <Stat.Label>Stars rating</Stat.Label>
+        <Stat.Content>
+          <Stat.Rating value={4} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(rating.classList).toContain('dnb-skeleton')
+    expect(rating.classList).toContain('dnb-skeleton--shape')
+    expect(rating).toHaveAttribute('aria-disabled', 'true')
+  })
+
+  it('propagates skeleton from Root to progressive Rating with shape mode', () => {
+    render(
+      <Stat.Root skeleton>
+        <Stat.Label>Risk</Stat.Label>
+        <Stat.Content>
+          <Stat.Rating variant="progressive" value={5} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(rating.classList).toContain('dnb-skeleton')
+    expect(rating.classList).toContain('dnb-skeleton--shape')
+    expect(rating).toHaveAttribute('aria-disabled', 'true')
+  })
+
+  it('propagates skeleton from Label to its children via context', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label skeleton>
+          <Stat.Info>Subtext</Stat.Info>
+        </Stat.Label>
+        <Stat.Content>
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const label = document.querySelector('.dnb-stat__label')
+    const info = document.querySelector('.dnb-stat__info')
+    const currency = document.querySelector(
+      '.dnb-stat__content-item > .dnb-stat'
+    )
+
+    expect(label.classList).toContain('dnb-skeleton')
+    expect(info.classList).toContain('dnb-skeleton')
+    expect(info).toHaveAttribute('aria-disabled', 'true')
+    // Currency should NOT have skeleton since Label skeleton is scoped to Label's children
+    expect(currency.classList).not.toContain('dnb-skeleton')
+  })
+
   it('propagates locale from Provider to Currency', () => {
     render(
       <Provider locale="en-GB">
@@ -454,5 +513,36 @@ describe('Stat integration', () => {
     const component = render(<Stat.Info>Additional information</Stat.Info>)
 
     expect(await axeComponent(component)).toHaveNoViolations()
+  })
+
+  it('propagates skeleton from Content to non-Stat children like IconPrimary', () => {
+    const IconPrimary = require('../../icon/IconPrimary').default
+
+    render(
+      <Stat.Content skeleton>
+        <IconPrimary icon="arrow_up" />
+      </Stat.Content>
+    )
+
+    const icon = document.querySelector('.dnb-icon')
+
+    expect(icon.classList).toContain('dnb-skeleton')
+  })
+
+  it('propagates skeleton from Root through Content to non-Stat children', () => {
+    const IconPrimary = require('../../icon/IconPrimary').default
+
+    render(
+      <Stat.Root skeleton>
+        <Stat.Label>Trend</Stat.Label>
+        <Stat.Content direction="vertical">
+          <IconPrimary icon="arrow_up" />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const icon = document.querySelector('.dnb-icon')
+
+    expect(icon.classList).toContain('dnb-skeleton')
   })
 })
