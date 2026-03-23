@@ -1323,6 +1323,22 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
 .dnb-pagination__button {
   max-width: 3.5rem;
 }
+.dnb-pagination__button.dnb-button--secondary {
+  --btn-color-border--hover: var(--token-color-stroke-action-hover);
+  --btn-color-border--active: transparent;
+  --btn-color-text--default: var(--token-color-text-action);
+  --btn-color-text--hover: var(--token-color-text-action-hover);
+  --btn-color-text--active: var(--token-color-text-action-pressed);
+}
+.dnb-pagination__button.dnb-button--primary {
+  --btn-color-bg--default: var(--token-color-background-selected);
+  --btn-color-bg--hover: var(
+    --token-color-background-action-hover-subtle
+  );
+  --btn-color-border--hover: var(--token-color-stroke-action-hover);
+  --btn-color-text--default: var(--token-color-text-action-inverse);
+  --btn-color-text--hover: var(--token-color-text-action-hover);
+}
 .dnb-pagination__button--large-number {
   max-width: unset;
 }
@@ -1347,6 +1363,7 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
   animation: show-page 300ms ease-out forwards;
 }
 .dnb-pagination__dots {
+  color: var(--token-color-icon-neutral-alternative);
   align-self: flex-end;
 }
 .dnb-pagination__marker {
@@ -1384,17 +1401,5 @@ exports[`Pagination scss have to match default theme snapshot 1`] = `
 "/*
 * Pagination theme
 *
-*/
-.dnb-core-style .dnb-pagination__button.dnb-button--primary, .dnb-core-style .dnb-pagination__button.dnb-button--primary:not(:active):hover:not([disabled]), .dnb-pagination__button.dnb-button--primary, .dnb-pagination__button.dnb-button--primary:not(:active):hover:not([disabled]) {
-  background-color: var(--color-emerald-green);
-  color: var(--color-mint-green);
-}
-html[data-whatinput=keyboard] .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus {
-  color: var(--color-emerald-green);
-  background-color: var(--color-mint-green);
-}
-
-.dnb-pagination__dots {
-  color: var(--color-black-55);
-}"
+*/"
 `;
