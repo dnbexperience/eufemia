@@ -1,7 +1,9 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import { fish_medium } from '../../../icons'
 import ItemIcon from '../ItemIcon'
+import ItemContent from '../ItemContent'
 import Container from '../Container'
 
 describe('ItemIcon', () => {
@@ -94,5 +96,17 @@ describe('ItemIcon', () => {
 
     expect(element.classList).toContain('dnb-skeleton')
     expect(element.classList).toContain('dnb-skeleton--font')
+  })
+
+  it('has no axe violations', async () => {
+    const { container } = render(
+      <Container>
+        <ItemContent>
+          <ItemIcon>{fish_medium}</ItemIcon>
+        </ItemContent>
+      </Container>
+    )
+
+    expect(await axeComponent(container)).toHaveNoViolations()
   })
 })

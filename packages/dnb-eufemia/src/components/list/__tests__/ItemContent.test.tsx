@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import Container from '../Container'
 import ItemContent, { ItemContentProps } from '../ItemContent'
 
@@ -172,5 +173,15 @@ describe('ItemContent', () => {
 
   it('declares _supportsSpacingProps for flex layout', () => {
     expect(ItemContent._supportsSpacingProps).toBe(true)
+  })
+
+  it('has no axe violations', async () => {
+    const { container } = render(
+      <Container>
+        <ItemContent>Content</ItemContent>
+      </Container>
+    )
+
+    expect(await axeComponent(container)).toHaveNoViolations()
   })
 })
