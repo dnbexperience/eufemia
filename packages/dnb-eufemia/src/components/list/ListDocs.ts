@@ -409,6 +409,11 @@ export const ScrollViewProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  disabled: {
+    doc: 'When `true`, dims all child items and prevents interaction. Propagated via context so nested `List.Container` and items inherit it.',
+    type: 'boolean',
+    status: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],

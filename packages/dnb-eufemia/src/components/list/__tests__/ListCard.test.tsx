@@ -457,4 +457,53 @@ describe('List.ScrollView', () => {
     expect(item.classList).toContain('dnb-list--variant-basic')
     expect(item.classList).toContain('dnb-skeleton')
   })
+
+  it('propagates parent Container skeleton through ScrollView without explicit skeleton prop', () => {
+    render(
+      <List.Container skeleton>
+        <List.ScrollView>
+          <List.Item.Basic title="Item">
+            <List.Cell.End>Value</List.Cell.End>
+          </List.Item.Basic>
+        </List.ScrollView>
+      </List.Container>
+    )
+
+    const item = document.querySelector('.dnb-list__item')
+
+    expect(item.classList).toContain('dnb-skeleton')
+    expect(item.classList).toContain('dnb-skeleton--font')
+  })
+
+  it('propagates disabled prop to child items via context', () => {
+    render(
+      <List.ScrollView disabled>
+        <List.Container>
+          <List.Item.Basic title="Item">
+            <List.Cell.End>Value</List.Cell.End>
+          </List.Item.Basic>
+        </List.Container>
+      </List.ScrollView>
+    )
+
+    const item = document.querySelector('.dnb-list__item')
+
+    expect(item.classList).toContain('dnb-list__item--disabled')
+  })
+
+  it('propagates parent Container disabled through ScrollView without explicit disabled prop', () => {
+    render(
+      <List.Container disabled>
+        <List.ScrollView>
+          <List.Item.Basic title="Item">
+            <List.Cell.End>Value</List.Cell.End>
+          </List.Item.Basic>
+        </List.ScrollView>
+      </List.Container>
+    )
+
+    const item = document.querySelector('.dnb-list__item')
+
+    expect(item.classList).toContain('dnb-list__item--disabled')
+  })
 })
