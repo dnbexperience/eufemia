@@ -153,7 +153,7 @@ export type TextareaProps = Omit<
      * Set a number to define how many rows the Textarea can auto grow.
      */
     autoResizeMaxRows?: TextareaAutoresizeMaxRows
-    textareaClass?: string
+    textareaClassName?: string
     readOnly?: boolean
     rows?: TextareaRows
     cols?: TextareaCols
@@ -264,7 +264,7 @@ function TextareaComponent(
     keepPlaceholder,
     align,
     size,
-    textareaClass,
+    textareaClassName,
     readOnly,
     className,
     autoResize,
@@ -505,7 +505,7 @@ function TextareaComponent(
     className: clsx(
       'dnb-textarea__textarea',
       'dnb-input__border',
-      textareaClass
+      textareaClassName
     ),
     role: 'textbox',
     value: currentHasValue ? value : '',

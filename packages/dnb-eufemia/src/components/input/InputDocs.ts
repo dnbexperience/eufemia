@@ -71,11 +71,12 @@ export const InputProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  inputClass: {
-    doc: 'In case we have to set a custom input class.',
+  inputClassName: {
+    doc: 'In case we have to set a custom class on the input element.',
     type: 'string',
     status: 'optional',
   },
+
   type: {
     doc: 'Choose between `text`, `number`, `email`, `password`, `url`, `tel` and `search`.',
     type: 'string',
