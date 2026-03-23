@@ -41,8 +41,8 @@ export const BreadcrumbProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  styleType: {
-    doc: 'Use one of the Section component style types (style_type). Defaults to `transparent`.',
+  backgroundColor: {
+    doc: 'Use one of the Section background colors. Defaults to `transparent`.',
     type: 'Various',
     status: 'optional',
   },

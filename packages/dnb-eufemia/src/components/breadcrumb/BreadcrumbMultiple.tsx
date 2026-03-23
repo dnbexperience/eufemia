@@ -29,7 +29,7 @@ export const BreadcrumbMultiple = ({
       <Section
         className="dnb-breadcrumb__list"
         element="ol"
-        style_type="transparent"
+        backgroundColor="transparent"
       >
         {data?.map((breadcrumbItem, i) => {
           return (
