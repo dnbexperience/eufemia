@@ -25,13 +25,13 @@ describe('Stat.Content', () => {
     spy.mockRestore()
   })
 
-  it('renders dd outside Stat.Root and warns', () => {
+  it('renders span outside Stat.Root and warns', () => {
     const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
 
     render(<Stat.Content />)
 
     const content = document.querySelector('.dnb-stat__content-item')
-    expect(content.tagName.toLowerCase()).toBe('dd')
+    expect(content.tagName.toLowerCase()).toBe('span')
 
     const didWarn = spy.mock.calls.some((call) =>
       call
