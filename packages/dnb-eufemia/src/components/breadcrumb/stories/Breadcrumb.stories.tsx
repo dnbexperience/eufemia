@@ -85,29 +85,33 @@ export const BreadcrumbSandbox = () => {
         <Multiple />
       </Box>
       <Box>
-        <Breadcrumb data={breadcrumbItems} styleType="sea-green" />
+        <Breadcrumb data={breadcrumbItems} backgroundColor="sea-green" />
       </Box>
       <Box>
         <Breadcrumb
           data={breadcrumbItems}
           spacing="medium"
-          styleType="sea-green"
+          backgroundColor="sea-green"
         />
-      </Box>
-      <Box>
-        <Breadcrumb data={breadcrumbItems} spacing styleType="fire-red" />
       </Box>
       <Box>
         <Breadcrumb
           data={breadcrumbItems}
           spacing
-          styleType="emerald-green"
+          backgroundColor="fire-red"
         />
       </Box>
       <Box>
         <Breadcrumb
           data={breadcrumbItems}
-          styleType="mint-green"
+          spacing
+          backgroundColor="emerald-green"
+        />
+      </Box>
+      <Box>
+        <Breadcrumb
+          data={breadcrumbItems}
+          backgroundColor="mint-green"
           spacing
           variant="collapse"
         />

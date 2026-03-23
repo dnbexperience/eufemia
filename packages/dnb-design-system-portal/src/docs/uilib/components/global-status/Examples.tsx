@@ -316,7 +316,7 @@ export const GlobalStatusUpdate = () => (
         React.useEffect(() => () => inst.current.remove(), [])
 
         return (
-          <Section top spacing style_type="divider">
+          <Section top spacing variant="divider">
             <ToggleButton
               text="Toggle"
               variant="checkbox"

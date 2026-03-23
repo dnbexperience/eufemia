@@ -86,7 +86,7 @@ export default function ModalHeaderBar({
 
   return (
     <Section
-      style_type="white"
+      backgroundColor="white"
       className={clsx(
         'dnb-modal__header__bar',
         showShadow && shadowClass,

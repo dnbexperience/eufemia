@@ -17,33 +17,12 @@ import Space from '../space/Space'
 import { getColor } from '../../shared/helpers'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type SectionVariants = 'error' | 'info' | 'warning' | 'success'
-
-export type SectionStyle =
+export type SectionVariants =
+  | 'error'
+  | 'info'
+  | 'warning'
+  | 'success'
   | 'divider'
-  | 'white'
-  | 'transparent'
-
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'lavender'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'pistachio'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'emerald-green'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'sea-green'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'fire-red'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'fire-red-8'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'sand-yellow'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'black-3'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'mint-green'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'mint-green-12'
 
 export type SectionSpacing =
   | boolean
@@ -64,7 +43,7 @@ export type SectionRoundedCorner =
 
 export type SectionProps = {
   /**
-   * Defines the semantic purpose and subsequently the style of the visual helper. Will take precedence over the style_type prop
+   * Defines the semantic purpose and subsequently the style of the visual helper.
    */
   variant?: SectionVariants | string
 
@@ -127,10 +106,11 @@ export type SectionProps = {
    * @deprecated in v11 use "innerSpace" prop instead
    */
   spacing?: SectionSpacing | ResponsiveProp<SectionSpacing>
+
   /**
-   * @deprecated in v11 use "background" prop instead
+   * @deprecated in v11 use "innerRef" prop instead
    */
-  style_type?: SectionStyle | string
+  inner_ref?: React.RefObject<HTMLElement>
 }
 
 type SectionSpacingProps = Omit<SpacingProps, 'innerSpace'> & {
@@ -191,7 +171,7 @@ export function SectionParams(
     children,
 
     spacing,
-    style_type,
+    inner_ref,
 
     ...attributes
   } = props
@@ -203,7 +183,7 @@ export function SectionParams(
     ...attributes,
     className: clsx(
       'dnb-section',
-      `dnb-section--${variant ? variant : style_type || 'default'}`,
+      `dnb-section--${variant ? variant : 'default'}`,
       spacing &&
         `dnb-section--spacing-${spacing === true ? 'large' : spacing}`,
       className
