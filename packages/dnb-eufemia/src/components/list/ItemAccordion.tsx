@@ -124,7 +124,6 @@ function ItemAccordion(props: ItemAccordionProps) {
 ItemAccordion._supportsSpacingProps = true
 
 export type AccordionHeaderProps = {
-  open?: boolean
   onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 } & ItemContentProps
 
