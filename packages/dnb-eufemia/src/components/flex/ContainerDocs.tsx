@@ -44,7 +44,7 @@ export const FlexContainerProperties: PropertiesTableProps = {
     defaultValue: `'space'`,
     status: 'optional',
   },
-  sizeCount: {
+  columns: {
     doc: 'Define how many parts your layout should be divided in. Should be used in combination with a [Flex.Item](/uilib/layout/flex/item).',
     type: 'number',
     defaultValue: '12',

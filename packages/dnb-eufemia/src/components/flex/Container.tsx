@@ -30,7 +30,7 @@ export type FlexContainerProps = {
   direction?: 'horizontal' | 'vertical'
   wrap?: boolean
   rowGap?: Gap
-  sizeCount?: number
+  columns?: number
   justify?:
     | 'flex-start'
     | 'flex-end'
@@ -90,7 +90,7 @@ function FlexContainer(props: FlexContainerAllProps) {
     element = 'div',
     direction = 'horizontal',
     wrap = true,
-    sizeCount = 12,
+    columns = 12,
     rowGap,
     justify = 'flex-start',
     align = 'flex-start',
@@ -113,13 +113,13 @@ function FlexContainer(props: FlexContainerAllProps) {
       isHeadingElement(child) || (i > 0 && isHeadingElement(previousChild))
     )
   })
-  const hasSizeProp =
+  const hasSpanProp =
     !hasHeading &&
     direction === 'horizontal' &&
     childrenArray.some((child) => child['props']?.span)
 
   const { key: mediaKey } = useMedia({
-    disabled: !hasSizeProp,
+    disabled: !hasSpanProp,
     breakpoints,
     queries,
   })
@@ -219,7 +219,7 @@ function FlexContainer(props: FlexContainerAllProps) {
     spacing && `${n}--spacing-${spacing}`,
     wrap && `${n}--wrap`,
     rowGapClass,
-    hasSizeProp && `${n}--has-size`,
+    hasSpanProp && `${n}--has-span`,
     divider && `${n}--divider-${divider}`,
     className
   )
@@ -230,8 +230,8 @@ function FlexContainer(props: FlexContainerAllProps) {
       className={cn}
       data-media-key={mediaKey}
       style={
-        hasSizeProp
-          ? ({ '--sizeCount': sizeCount, ...style } as React.CSSProperties)
+        hasSpanProp
+          ? ({ '--columns': columns, ...style } as React.CSSProperties)
           : style
       }
       {...rest}

@@ -943,7 +943,7 @@ describe('Flex.Container', () => {
     const MEDIUM = '59em' // 60em
     const LARGE = '79em' // 80em
 
-    it('should set default "sizeCount" of 12', () => {
+    it('should set default "columns" of 12', () => {
       const { rerender } = render(
         <Flex.Container>
           <Flex.Item span={6}>FlexItem</Flex.Item>
@@ -952,15 +952,15 @@ describe('Flex.Container', () => {
 
       const element = document.querySelector('.dnb-flex-container')
 
-      expect(element.getAttribute('style')).toBe('--sizeCount: 12;')
+      expect(element.getAttribute('style')).toBe('--columns: 12;')
 
       rerender(
-        <Flex.Container sizeCount={6}>
+        <Flex.Container columns={6}>
           <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
-      expect(element.getAttribute('style')).toBe('--sizeCount: 6;')
+      expect(element.getAttribute('style')).toBe('--columns: 6;')
 
       rerender(
         <Flex.Container>
@@ -971,7 +971,7 @@ describe('Flex.Container', () => {
       expect(element.getAttribute('style')).toBe('')
     })
 
-    it('should set --has-size class', () => {
+    it('should set --has-span class', () => {
       render(
         <Flex.Container>
           <Flex.Item span={6}>FlexItem</Flex.Item>
@@ -980,7 +980,7 @@ describe('Flex.Container', () => {
 
       const element = document.querySelector('.dnb-flex-container')
 
-      expect(element).toHaveClass('dnb-flex-container--has-size')
+      expect(element).toHaveClass('dnb-flex-container--has-span')
     })
 
     it('should set data-media-key', () => {
@@ -1056,7 +1056,7 @@ describe('Flex.Container', () => {
 
       const element = document.querySelector('.dnb-flex-container')
 
-      expect(element).toHaveClass('dnb-flex-container--has-size')
+      expect(element).toHaveClass('dnb-flex-container--has-span')
       expect(element).toHaveClass('dnb-flex-container--spacing-small')
       expect(element).toHaveClass('dnb-flex-container--row-gap-small')
 
@@ -1066,7 +1066,7 @@ describe('Flex.Container', () => {
         </Flex.Container>
       )
 
-      expect(element).toHaveClass('dnb-flex-container--has-size')
+      expect(element).toHaveClass('dnb-flex-container--has-span')
       expect(element).toHaveClass('dnb-flex-container--spacing-small')
       expect(element).not.toHaveClass('dnb-flex-container--row-gap-small')
     })

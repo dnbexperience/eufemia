@@ -31,7 +31,7 @@
 
   // Handle column spans
   &--responsive {
-    --sizeCount--default: 12;
+    --columns--default: 12;
     --span--default: var(--small);
 
     .dnb-flex-container[data-media-key='small'] & {
@@ -45,7 +45,7 @@
     }
 
     --flex-basis: calc(
-      100% / var(--sizeCount, var(--sizeCount--default)) *
+      100% / var(--columns, var(--columns--default)) *
         var(--span, var(--span--default))
     );
 

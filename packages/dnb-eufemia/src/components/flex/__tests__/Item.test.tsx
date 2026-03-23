@@ -250,7 +250,7 @@ describe('Flex.Item', () => {
       const element = document.querySelector('.dnb-flex-container')
 
       expect(element.className).not.toContain(
-        'dnb-flex-container--has-size'
+        'dnb-flex-container--has-span'
       )
       expect(getSpacingClasses()).toEqual([
         ['dnb-space__left--zero', 'dnb-space__right--small'],
@@ -270,7 +270,7 @@ describe('Flex.Item', () => {
       )
 
       expect(element.className).not.toContain(
-        'dnb-flex-container--has-size'
+        'dnb-flex-container--has-span'
       )
       expect(getSpacingClasses()).toEqual([
         ['dnb-space__left--small', 'dnb-space__right--small'],

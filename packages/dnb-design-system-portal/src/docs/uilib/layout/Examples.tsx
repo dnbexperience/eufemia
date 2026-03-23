@@ -111,7 +111,7 @@ export const HorizontalFlexItemResponsiveSizeCustomColumns = () => {
         defaultBreakpoints,
         defaultQueries,
       }}
-      data-visual-test="flex-item-custom-size"
+      data-visual-test="flex-item-custom-span"
     >
       {() => {
         const breakpoints = {
@@ -138,7 +138,7 @@ export const HorizontalFlexItemResponsiveSizeCustomColumns = () => {
           <CustomMediaQuery>
             <Flex.Container
               direction="horizontal"
-              sizeCount={4}
+              columns={4}
               breakpoints={breakpoints}
               queries={queries}
             >

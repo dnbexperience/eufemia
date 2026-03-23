@@ -1356,6 +1356,17 @@ render(<Logo svg={SbankenCompact} />)
 - Replace `spacing` with `gap` on all Flex components.
 - `rowGap` no longer accepts value `true`. Replace `true` with `undefined` or remove the property to get the same behavior.
 
+### [Flex.Container](/uilib/layout/flex/container/)
+
+#### Properties
+
+- Replace `sizeCount` with `columns`.
+
+#### Styling
+
+- Replace CSS class `dnb-flex-container--has-size` with `dnb-flex-container--has-span`.
+- Replace CSS variable `--sizeCount` with `--columns`.
+
 ### Removal of FormRow and FormSet
 
 For more information on how to replace these, see [FormSet/FormRow deprecation](/uilib/about-the-lib/releases/eufemia/form-set-row-deprecation-v11#deprecation).

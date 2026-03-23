@@ -12,7 +12,7 @@ export const FlexItemProperties: PropertiesTableProps = {
     status: 'optional',
   },
   span: {
-    doc: 'To set the span (parts) in percentage with numbers from 1 to 12 (`sizeCount`). You can also provide [Media Query](/uilib/usage/layout/media-queries/) types in an object. You can also use the value `auto` to disable it on a specific screen size. Wrap your Flex.Items inside a [Flex.Container](/uilib/layout/flex/container).',
+    doc: 'To set the span (parts) in percentage with numbers from 1 to 12 (`columns`). You can also provide [Media Query](/uilib/usage/layout/media-queries/) types in an object. You can also use the value `auto` to disable it on a specific screen size. Wrap your Flex.Items inside a [Flex.Container](/uilib/layout/flex/container).',
     type: ['number', 'object'],
     status: 'optional',
   },
