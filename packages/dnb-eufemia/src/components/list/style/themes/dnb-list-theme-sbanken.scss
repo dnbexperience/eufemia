@@ -16,4 +16,13 @@
     --item-icon-color: var(--item-navigation-color);
     --item-pending-color: var(--sb-color-gray-light-3);
   }
+
+  &__item--disabled {
+    color: var(--sb-color-gray-dark-2);
+
+    --item-navigation-color: var(--sb-color-gray-dark-2);
+    --item-navigation-color--active: var(--sb-color-gray-dark-2);
+    --item-icon-color: var(--sb-color-gray-dark-2);
+    --item-outline-color: var(--sb-color-gray-light);
+  }
 }
