@@ -502,6 +502,24 @@ describe('Stat.Amount', () => {
     expect(content.textContent).toBe('- 12,346NOK')
   })
 
+  it('displays minus sign for negative zero when signDisplay is always', () => {
+    render(<Stat.Amount value={-0} signDisplay="always" />)
+
+    const sign = document.querySelector('.dnb-stat__sign')
+    const amount = document.querySelector('.dnb-stat__amount')
+
+    expect(sign.textContent).toBe('\u2212')
+    expect(amount.textContent).toBe('0')
+  })
+
+  it('has correct screen reader text for negative zero with signDisplay always', () => {
+    render(<Stat.Amount value={-0} signDisplay="always" />)
+
+    const srOnly = document.querySelector('.dnb-sr-only')
+
+    expect(srOnly.getAttribute('data-text')).toBe('\u22120')
+  })
+
   it('supports opt-in sign tone colorization', () => {
     const { rerender } = render(
       <Stat.Amount

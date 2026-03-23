@@ -140,8 +140,13 @@ function AmountBase(props: AmountProps) {
   }
 
   const parts = formatted.parts as NumberFormatParts
+  const isNegativeZero = Object.is(Number(rawValue), -0)
   const renderSign =
-    signDisplay === 'always' && parts.sign ? parts.sign : null
+    signDisplay === 'always' && parts.sign
+      ? isNegativeZero && parts.sign === '+'
+        ? '\u2212'
+        : parts.sign
+      : null
   const spaceAfterSign = renderSign === '-' || renderSign === '−'
   const renderedAmount = renderSign ? parts.number : parts.signedNumber
 
@@ -228,6 +233,14 @@ function AmountBase(props: AmountProps) {
   )
 
   let aria = formatted.aria
+
+  if (
+    isNegativeZero &&
+    signDisplay === 'always' &&
+    typeof aria === 'string'
+  ) {
+    aria = aria.replace(/^\+/, '\u2212')
+  }
 
   if (prefix) {
     const prefixElement = renderAffix(
