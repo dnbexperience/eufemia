@@ -270,7 +270,7 @@ export const DialogSandbox = () => (
 
     <Box>
       <Dialog title="Dialog Title">
-        <Dialog.Body spacing styleType="mint-green">
+        <Dialog.Body spacing backgroundColor="mint-green">
           <P>This is the modal text.</P>
         </Dialog.Body>
       </Dialog>

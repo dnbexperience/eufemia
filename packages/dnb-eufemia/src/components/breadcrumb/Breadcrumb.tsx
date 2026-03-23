@@ -111,10 +111,10 @@ export type BreadcrumbProps = {
   collapsed?: boolean
 
   /**
-   * Use one of the Section component style types (styleType)
+   * Use one of the Section background colors.
    * Default: transparent
    */
-  styleType?: SectionBackgroundColor
+  backgroundColor?: SectionBackgroundColor
 
   /**
    * Use one of the Section component variants
@@ -156,7 +156,7 @@ const defaultProps: Partial<BreadcrumbAllProps> = {
   homeText: 'Home',
   backToText: 'Back to...',
   collapsed: true,
-  styleType: 'transparent',
+  backgroundColor: 'transparent',
   collapsedStyleType: 'info',
   spacing: false,
 }
@@ -184,7 +184,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
     goBackText, // has a translation in context
     homeText,
     backToText, // has a translation in context
-    styleType,
+    backgroundColor,
     collapsedStyleType,
     collapsed: overrideCollapsed,
     spacing,
@@ -264,7 +264,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
     >
       <Section
         className="dnb-breadcrumb__bar"
-        backgroundColor={styleType || 'transparent'}
+        backgroundColor={backgroundColor || 'transparent'}
         innerSpace={innerSpace}
       >
         {currentVariant === 'single' ? (

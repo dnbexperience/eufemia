@@ -11,21 +11,21 @@ type DialogBodyProps = {
   className?: string
 
   /**
-   * Color/Style of the dialog body
+   * Background color of the dialog body.
    */
-  styleType?: SectionBackgroundColor
+  backgroundColor?: SectionBackgroundColor
 } & ModalInnerProps
 
 export default function DialogBody({
   className,
-  styleType,
+  backgroundColor,
   ref,
   ...props
 }: DialogBodyProps & React.HTMLProps<HTMLElement>) {
   return (
     <ModalInner
       {...props}
-      backgroundColor={styleType}
+      backgroundColor={backgroundColor}
       className={clsx('dnb-dialog__body', className)}
     />
   )

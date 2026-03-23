@@ -11,21 +11,21 @@ type DrawerBodyProps = {
   className?: string
 
   /**
-   * Color/Style of the drawer body
+   * Background color of the drawer body.
    */
-  styleType?: SectionBackgroundColor
+  backgroundColor?: SectionBackgroundColor
 } & ModalInnerProps
 
 export default function DrawerBody({
   className,
-  styleType,
+  backgroundColor,
   ref,
   ...props
 }: DrawerBodyProps & React.HTMLProps<HTMLElement>) {
   return (
     <ModalInner
       {...props}
-      backgroundColor={styleType}
+      backgroundColor={backgroundColor}
       className={clsx('dnb-drawer__body', className)}
     />
   )

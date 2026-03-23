@@ -24,6 +24,7 @@ v11 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 8. If you `@use` Eufemia SCSS source files and reference internal mixins, rename them to camelCase (see [SCSS mixin renames](#scss-mixin-renames)).
 9. Replace the `as` prop with `element` on the `H` heading element.
 10. Replace `prerender` with `keepInDOM` on Tabs and Accordion components.
+11. Replace `styleType` (or `style_type`) with `backgroundColor` on Breadcrumb, Dialog.Body, and Drawer.Body components.
 
 ### innerRef → ref
 
@@ -123,12 +124,6 @@ $ pnpm add @dnb/eufemia@11
    - `fire-red-8`
 2. Remove `spacing`. Use `innerSpace` instead.
 3. Replace `inner_ref` with `ref`.
-
-### [HelpButton](/uilib/components/help-button/)
-
-#### Translations
-
-- Replace `HelpButton.aria_role` with `HelpButton.ariaRole`.
 
 ### [HelpButton](/uilib/components/help-button/)
 
@@ -246,13 +241,6 @@ $ pnpm add @dnb/eufemia@11
 - Replace `search_content` with `searchContent`.
 - Replace `class_name` with `className`.
 
-#### DrawerListDataArrayObject
-
-- Replace `selected_value` with `selectedValue`.
-- Replace `suffix_value` with `suffixValue`.
-- Replace `search_content` with `searchContent`.
-- Replace `class_name` with `className`.
-
 ### [Dropdown](/uilib/components/dropdown/)
 
 #### Properties
@@ -319,13 +307,6 @@ $ pnpm add @dnb/eufemia@11
 - Replace `search_content` with `searchContent`.
 - Replace `class_name` with `className`.
 
-#### DrawerListDataArrayObject
-
-- Replace `selected_value` with `selectedValue`.
-- Replace `suffix_value` with `suffixValue`.
-- Replace `search_content` with `searchContent`.
-- Replace `class_name` with `className`.
-
 ### [DrawerList](/uilib/components/fragments/drawer-list/)
 
 #### Properties
@@ -379,13 +360,6 @@ $ pnpm add @dnb/eufemia@11
 #### Styling
 
 - Replace CSS class `dnb-drawer-list--opened` with `dnb-drawer-list--open`.
-
-#### DrawerListDataArrayObject
-
-- Replace `selected_value` with `selectedValue`.
-- Replace `suffix_value` with `suffixValue`.
-- Replace `search_content` with `searchContent`.
-- Replace `class_name` with `className`.
 
 #### DrawerListDataArrayObject
 
@@ -632,15 +606,6 @@ New props added:
 
 - Replace `expanded_id` with `expandedId`.
 
-### [Accordion.Group](/uilib/components/accordion/)
-
-- Replace `allow_close_all` with `allowCloseAll`.
-- Replace `expanded_id` with `expandedId`.
-
-### [Accordion.Provider](/uilib/components/accordion/)
-
-- Replace `expanded_id` with `expandedId`.
-
 ### [Tag](/uilib/components/tag/)
 
 #### Events
@@ -677,6 +642,12 @@ New props added:
 #### Properties
 
 - Replace `direction` in `<Dl>` with `layout`.
+
+### [Breadcrumb](/uilib/components/breadcrumb/)
+
+#### Properties
+
+- Replace `styleType` (or `style_type`) with `backgroundColor`.
 
 ### [BreadcrumbItem](/uilib/components/breadcrumb/)
 
@@ -721,10 +692,6 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 #### Translations
 
 - Remove translation `PaymentCard.text_card_number` as it's not supported anymore.
-- Replace `product_code` with `productCode`.
-- Replace `card_number` with `cardNumber`.
-- Replace `card_status` with `cardStatus`.
-- Replace `raw_data` with `rawData`.
 
 #### `cardStatus` property
 
@@ -925,6 +892,12 @@ render(<Logo svg={SbankenCompact} />)
 
 - Replace `shadow_class` with `shadowClass`.
 
+### [Dialog.Body](/uilib/components/dialog/) and [Drawer.Body](/uilib/components/drawer/)
+
+#### Properties
+
+- Replace `styleType` (or `style_type`) with `backgroundColor`.
+
 ### [Heading](/uilib/components/heading/)
 
 #### Properties
@@ -995,14 +968,6 @@ render(<Logo svg={SbankenCompact} />)
 
 #### Translations
 
-- Replace translation `Skeleton.aria_busy` with `Skeleton.ariaBusy`.
-- Replace translation `Skeleton.aria_ready` with `Skeleton.ariaReady`.
-
-### [Skeleton](/uilib/components/skeleton/)
-
-- Replace `no_animation` with `noAnimation`.
-- Replace `aria_busy` with `ariaBusy`.
-- Replace `aria_ready` with `ariaReady`.
 - Replace translation `Skeleton.aria_busy` with `Skeleton.ariaBusy`.
 - Replace translation `Skeleton.aria_ready` with `Skeleton.ariaReady`.
 
@@ -1232,7 +1197,6 @@ render(<Logo svg={SbankenCompact} />)
 
 - Replace `status` with `statusCode`.
 - Replace `code` with `errorMessageCode`.
-- Replace translation `GlobalError.code` with `GlobalError.errorMessageCode`.
 
 #### Translations
 
@@ -1317,10 +1281,6 @@ render(<Logo svg={SbankenCompact} />)
 - Replace translation `GlobalStatus.close_text` with `GlobalStatus.closeText`.
 - Replace translation `GlobalStatus.default_title` with `GlobalStatus.defaultTitle`.
 - Replace translation `GlobalStatus.status_anchor_text` with `GlobalStatus.statusAnchorText`.
-
-#### GlobalStatusController
-
-- Replace `remove_on_unmount` with `removeOnUnmount`.
 
 #### GlobalStatusController
 
