@@ -182,10 +182,11 @@
   }
 
   &__close.dnb-button {
+    --btn-color-icon--default: var(--popover-color-icon);
+
     position: absolute;
     top: var(--inner-space);
     right: var(--inner-space);
-    --btn-color-icon--default: var(--popover-color-icon);
 
     // Make long pressing easier on touch devices
     user-select: none;

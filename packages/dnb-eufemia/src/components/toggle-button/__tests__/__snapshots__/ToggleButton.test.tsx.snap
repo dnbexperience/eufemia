@@ -548,23 +548,8 @@ button .dnb-form-status__text {
   overflow-wrap: break-word;
   white-space: normal;
 }
-.dnb-button--tertiary > * {
-  z-index: 2;
-}
-.dnb-button--tertiary::before {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: var(--button-tertiary-focus-left);
-  bottom: 0;
-  right: var(--button-tertiary-focus-right);
-  background-color: inherit;
-  height: inherit;
-  border-radius: inherit;
-}
-.dnb-skeleton .dnb-button--tertiary::before {
-  content: none;
+.dnb-button__icon {
+  margin: var(--button-icon-margin-top) var(--button-icon-margin-right) 0 var(--button-icon-margin-left);
 }
 .dnb-button--primary, .dnb-button--secondary, .dnb-button--tertiary {
   color: var(--btn-color-text, var(--btn-color-text--default));
@@ -819,6 +804,24 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
     --token-color-component-button-text-action-destructive-pressed
   );
 }
+.dnb-button--tertiary > * {
+  z-index: 2;
+}
+.dnb-button--tertiary::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: var(--button-tertiary-focus-left);
+  bottom: 0;
+  right: var(--button-tertiary-focus-right);
+  background-color: inherit;
+  height: inherit;
+  border-radius: inherit;
+}
+.dnb-skeleton .dnb-button--tertiary::before {
+  content: none;
+}
 .dnb-button--tertiary {
   --btn-color-icon--default: var(--token-color-icon-action);
   --btn-color-icon--hover: var(--token-color-icon-action-hover);
@@ -1051,9 +1054,6 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   --button-padding-left: var(--button-padding--default);
   --button-padding-right: var(--button-padding--default);
   width: auto;
-}
-.dnb-button__icon {
-  margin: var(--button-icon-margin-top) var(--button-icon-margin-right) 0 var(--button-icon-margin-left);
 }
 .dnb-button--has-text.dnb-button--icon-position-left {
   --button-padding-left: var(--button-padding-icon);

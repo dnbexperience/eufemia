@@ -15,12 +15,10 @@
   --dropdown-foreground-color-error: var(--sb-color-red);
   --dropdown-background-color-disabled: var(--sb-color-gray-light);
   --dropdown-background-color-error-active: var(--sb-color-white);
-
   --dropdown-sb-icon-color--default: var(--sb-color-text);
   --dropdown-sb-icon-color--hover: var(--sb-color-violet);
   --dropdown-sb-icon-color--active: inherit;
   --dropdown-sb-icon-color--focus: inherit;
-
   --dropdown-error-border-inset: inset;
 
   &__icon {
@@ -67,8 +65,7 @@
         @include button-mixins.buttonFocus(
           var(--sb-color-blue-dark),
           var(--sb-color-blue-light-3)
-        ) {
-        }
+        );
       }
     }
   }

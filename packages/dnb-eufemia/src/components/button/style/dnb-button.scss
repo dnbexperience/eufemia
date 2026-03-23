@@ -65,28 +65,9 @@
     white-space: normal;
   }
 
-  &--tertiary {
-    > * {
-      z-index: 2;
-    }
-
-    &::before {
-      content: '';
-      position: absolute;
-      z-index: 1; // to be visible in other absolute contexts
-      top: 0;
-      left: var(--button-tertiary-focus-left);
-      bottom: 0;
-      right: var(--button-tertiary-focus-right);
-
-      background-color: inherit;
-      height: inherit;
-      border-radius: inherit;
-
-      .dnb-skeleton & {
-        content: none;
-      }
-    }
+  &__icon {
+    margin: var(--button-icon-margin-top) var(--button-icon-margin-right) 0
+      var(--button-icon-margin-left);
   }
 
   &--primary,
@@ -107,7 +88,6 @@
       --btn-color-icon: var(--btn-color-icon--hover);
       --btn-color-text: var(--btn-color-text--hover);
       --btn-color-underline: var(--btn-color-underline--hover);
-
       --btn-border-inset: var(--btn-border-inset--hover);
       --button-border-width: var(--button-border-width--hover);
       --btn-input-separator-color: var(--btn-input-separator-color--hover);
@@ -119,7 +99,6 @@
       --btn-color-icon: var(--btn-color-icon--active);
       --btn-color-text: var(--btn-color-text--active);
       --btn-color-underline: var(--btn-color-underline--active);
-
       --btn-border-inset: var(--btn-border-inset--active);
       --button-border-width: var(--button-border-width--active);
       --btn-input-separator-color: var(
@@ -133,7 +112,6 @@
       --btn-color-icon: var(--token-color-icon-action-focus);
       --btn-color-text: var(--token-color-text-action-focus);
       --btn-color-underline: var(--btn-color-underline--focus);
-
       --btn-border-inset: var(--btn-border-inset--focus);
       --button-border-width: var(--button-border-width--focus);
       --btn-input-separator-color: var(--btn-input-separator-color--focus);
@@ -409,6 +387,28 @@
 
   // Tertiary button
   &--tertiary {
+    > * {
+      z-index: 2;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      z-index: 1; // to be visible in other absolute contexts
+      top: 0;
+      left: var(--button-tertiary-focus-left);
+      bottom: 0;
+      right: var(--button-tertiary-focus-right);
+
+      background-color: inherit;
+      height: inherit;
+      border-radius: inherit;
+
+      .dnb-skeleton & {
+        content: none;
+      }
+    }
+
     // Icon
     --btn-color-icon--default: var(--token-color-icon-action);
     --btn-color-icon--hover: var(--token-color-icon-action-hover);
@@ -512,10 +512,10 @@
       --btn-color-bg--default: transparent;
       --btn-color-bg--hover: var(--token-color-background-action);
       --btn-color-bg--active: var(--token-color-background-action-pressed);
-
       --btn-color-bg--disabled: var(
         --token-color-background-neutral-subtle
       );
+
       // Border
       --btn-color-border--default: transparent;
       --btn-color-border--hover: transparent;
@@ -702,10 +702,6 @@
     --button-padding-left: var(--button-padding--default);
     --button-padding-right: var(--button-padding--default);
     width: auto;
-  }
-  &__icon {
-    margin: var(--button-icon-margin-top) var(--button-icon-margin-right) 0
-      var(--button-icon-margin-left);
   }
   &--has-text#{&}--icon-position-left {
     --button-padding-left: var(--button-padding-icon);
