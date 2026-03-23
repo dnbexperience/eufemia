@@ -3,6 +3,73 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.101.1](https://github.com/dnbexperience/eufemia/compare/v10.101.0...v10.101.1) (2026-03-23)
+
+
+### :zap: Refactoring
+
+* **List:** use distinct class for ItemFooter separator ([#7144](https://github.com/dnbexperience/eufemia/issues/7144)) ([1a4ed68](https://github.com/dnbexperience/eufemia/commit/1a4ed682f70576dc9db794b950e6626723296d1b))
+
+
+### :white_check_mark: Tests
+
+* **Stat:** add Inline skeleton propagation edge case tests ([#7149](https://github.com/dnbexperience/eufemia/issues/7149)) ([6bd3611](https://github.com/dnbexperience/eufemia/commit/6bd3611854499c6cd810e39d52c653bc86c48bcc))
+* **Stat:** add NaN and Infinity edge case tests for Stat.Number ([#7107](https://github.com/dnbexperience/eufemia/issues/7107)) ([76b178f](https://github.com/dnbexperience/eufemia/commit/76b178fd3316f9dbe659906d10a6d1ce7214b3a6))
+
+
+### :memo: Documentation
+
+* **List:** add fontSize and fontWeight props to ItemCenter properties table ([#7159](https://github.com/dnbexperience/eufemia/issues/7159)) ([9e2d4ab](https://github.com/dnbexperience/eufemia/commit/9e2d4ab681eb774fc01e1a1f90f298103121ab58)), closes [#7157](https://github.com/dnbexperience/eufemia/issues/7157)
+* **List:** add fontWeight prop to ItemStart properties table ([#7158](https://github.com/dnbexperience/eufemia/issues/7158)) ([2e71467](https://github.com/dnbexperience/eufemia/commit/2e714674f71d1d34a92648f21b387d7e0b2975eb)), closes [#7156](https://github.com/dnbexperience/eufemia/issues/7156)
+* **List:** improve ListCard documentation ([#7082](https://github.com/dnbexperience/eufemia/issues/7082)) ([21e5454](https://github.com/dnbexperience/eufemia/commit/21e5454f029f0253a943f805bbe046681dfc2d58))
+* **Stat:** add Inline description and Amount deprecation note ([#7103](https://github.com/dnbexperience/eufemia/issues/7103)) ([3c84b96](https://github.com/dnbexperience/eufemia/commit/3c84b966166c34ca954db22ccc34d727cb9bc438))
+* **Stat:** add value prop to Trend documentation ([#7120](https://github.com/dnbexperience/eufemia/issues/7120)) ([4dce0d3](https://github.com/dnbexperience/eufemia/commit/4dce0d32b72912968885133a63049808926079d9))
+
+
+### :bug: Bug Fixes
+
+* **List.Container:** propagate skeleton to child items via context ([#7101](https://github.com/dnbexperience/eufemia/issues/7101)) ([715f2a4](https://github.com/dnbexperience/eufemia/commit/715f2a4d858bac11b15d02dd9fe1092d47bac017))
+* **List.ScrollView:** propagate skeleton to child items ([#7104](https://github.com/dnbexperience/eufemia/issues/7104)) ([0792d2e](https://github.com/dnbexperience/eufemia/commit/0792d2e4ee0ce0a90549bebd64dcacdc78c17382))
+* **List:** add disabled color overrides to Sbanken theme ([#7155](https://github.com/dnbexperience/eufemia/issues/7155)) ([cf20fcd](https://github.com/dnbexperience/eufemia/commit/cf20fcdf18648917be46b7e435d66174678393f6))
+* **List:** add disabled prop to interactive items ([#7105](https://github.com/dnbexperience/eufemia/issues/7105)) ([d6d35a2](https://github.com/dnbexperience/eufemia/commit/d6d35a277efdab1909c33e2669f008eb83485b33))
+* **List:** add disabled prop to ItemAccordion via context ([#7127](https://github.com/dnbexperience/eufemia/issues/7127)) ([3317e19](https://github.com/dnbexperience/eufemia/commit/3317e1997bce2c703868d9457570e81b020753e4))
+* **List:** add fontSize and fontWeight props to ItemCenter for consistency with ItemEnd ([#7157](https://github.com/dnbexperience/eufemia/issues/7157)) ([0a6fd70](https://github.com/dnbexperience/eufemia/commit/0a6fd702d28ed3f6174cf1ae8121ccbd7d1be1ac))
+* **List:** add fontWeight prop to ItemStart for consistency with ItemEnd ([#7156](https://github.com/dnbexperience/eufemia/issues/7156)) ([3189bc1](https://github.com/dnbexperience/eufemia/commit/3189bc1273719c8fb4b7e728b73e1b0c015580d1))
+* **List:** add skeleton support to all cell components ([#7128](https://github.com/dnbexperience/eufemia/issues/7128)) ([020f2e8](https://github.com/dnbexperience/eufemia/commit/020f2e8dbfe2773423ddaa57b63689bcc3f388ab))
+* **List:** always propagate skeleton and disabled through ScrollView context ([#7160](https://github.com/dnbexperience/eufemia/issues/7160)) ([e412612](https://github.com/dnbexperience/eufemia/commit/e41261270fcd2f174cccc24d4eb0b11521d76dd0))
+* **List:** apply skeleton class to AccordionHeader ([#7143](https://github.com/dnbexperience/eufemia/issues/7143)) ([1c1cdc4](https://github.com/dnbexperience/eufemia/commit/1c1cdc48c08bcf012322c2e25a47d112c922d14b))
+* **List:** correct Sbanken theme variable name to --item-background-color ([#7131](https://github.com/dnbexperience/eufemia/issues/7131)) ([6302dc4](https://github.com/dnbexperience/eufemia/commit/6302dc4c976427e29a1b18333fa184503add5b69))
+* **List:** default separated to false in Container ([#7125](https://github.com/dnbexperience/eufemia/issues/7125)) ([cde4a39](https://github.com/dnbexperience/eufemia/commit/cde4a393881f8ef429b3bd53bd7554418e0cbffa))
+* **List:** explicitly forward skeleton prop in ItemAccordion ([#7140](https://github.com/dnbexperience/eufemia/issues/7140)) ([b73bf1c](https://github.com/dnbexperience/eufemia/commit/b73bf1c908295636d74eaaac2ff48c4cab33693b))
+* **List:** forward selected, variant and skeleton props in ItemAction ([#7139](https://github.com/dnbexperience/eufemia/issues/7139)) ([3eacdd0](https://github.com/dnbexperience/eufemia/commit/3eacdd0e17ad9357c78d2cd08b51b33f45539000))
+* **List:** inherit parent context values in ScrollView skeleton provider ([#7117](https://github.com/dnbexperience/eufemia/issues/7117)) ([c3bf34c](https://github.com/dnbexperience/eufemia/commit/c3bf34c1fd8969d34b9ddb49e86d1c9861230dc9))
+* **List:** inherit skeleton from context in AccordionContent ([#7135](https://github.com/dnbexperience/eufemia/issues/7135)) ([07e1daa](https://github.com/dnbexperience/eufemia/commit/07e1daa611324c432efe02c1ffd7b526ec000043))
+* **List:** inherit skeleton from SharedContext Provider ([#7132](https://github.com/dnbexperience/eufemia/issues/7132)) ([b587cfc](https://github.com/dnbexperience/eufemia/commit/b587cfc3041ac875553f2527964c94e39689d5c3))
+* **List:** propagate skeleton property to children via shared Context ([#7161](https://github.com/dnbexperience/eufemia/issues/7161)) ([4f96fda](https://github.com/dnbexperience/eufemia/commit/4f96fda56d05e1c933e28b54ba5aa0b85272c924))
+* **List:** remove redundant HTMLDivElement type from Container and ItemContent props ([#7109](https://github.com/dnbexperience/eufemia/issues/7109)) ([4496ae0](https://github.com/dnbexperience/eufemia/commit/4496ae0610faa7ba24921c9b2326e644dec08776))
+* **List:** remove redundant variant resolution from ItemBasic ([#7111](https://github.com/dnbexperience/eufemia/issues/7111)) ([150e23c](https://github.com/dnbexperience/eufemia/commit/150e23ce3eb4920100f3981f00d3c3bf23b2ed33))
+* **List:** remove trailing comma from CSS var() fallback ([#7134](https://github.com/dnbexperience/eufemia/issues/7134)) ([7d2e9a4](https://github.com/dnbexperience/eufemia/commit/7d2e9a4d275bc32d25194d2c791b99c30dabd9f2))
+* **List:** support disabled prop on Container to disable all child items ([#7142](https://github.com/dnbexperience/eufemia/issues/7142)) ([af504ac](https://github.com/dnbexperience/eufemia/commit/af504ac3bd44ebe503f85a818ddfa44eb30ec910))
+* **List:** use FlexItem props for ItemIcon instead of ItemContentProps ([#7115](https://github.com/dnbexperience/eufemia/issues/7115)) ([83cd047](https://github.com/dnbexperience/eufemia/commit/83cd0477a20d887931feb0b047aca34d5631e955))
+* **List:** use FlexItemProps for cell components instead of ItemContentProps ([#7121](https://github.com/dnbexperience/eufemia/issues/7121)) ([87a2501](https://github.com/dnbexperience/eufemia/commit/87a25011d262d1db75a3cd271d3a0374a68ce6d1))
+* **List:** use FlexItemProps for ItemSubline instead of ItemContentProps ([#7126](https://github.com/dnbexperience/eufemia/issues/7126)) ([33b2add](https://github.com/dnbexperience/eufemia/commit/33b2add46bdd3b87a9ebbad77a42095637be3179))
+* **Stat:** add explicit id prop to Label, Content, Trend, Rating, and Info ([#7114](https://github.com/dnbexperience/eufemia/issues/7114)) ([653b83f](https://github.com/dnbexperience/eufemia/commit/653b83fa5bfc877c07978be127be982fb843c2b3))
+* **Stat:** add id and style props to Root type and documentation ([#7130](https://github.com/dnbexperience/eufemia/issues/7130)) ([31e88c2](https://github.com/dnbexperience/eufemia/commit/31e88c201ef8e77054fa52aaa2d5853d136fe299))
+* **Stat:** add NumberExport.ts for standalone import ([#7091](https://github.com/dnbexperience/eufemia/issues/7091)) ([4d21ea0](https://github.com/dnbexperience/eufemia/commit/4d21ea01d5dbd02ed4e128738d6cbb1569ff8250))
+* **Stat:** add runtime deprecation warning for Stat.Amount ([#7138](https://github.com/dnbexperience/eufemia/issues/7138)) ([771bd13](https://github.com/dnbexperience/eufemia/commit/771bd13c27be9e27c045d1827a0e12da8f2663bc))
+* **Stat:** add skeleton support to Stat.Inline ([#7099](https://github.com/dnbexperience/eufemia/issues/7099)) ([71a0014](https://github.com/dnbexperience/eufemia/commit/71a001443a9ac05422fcdd6bc29fcfe3ca60cd4d))
+* **Stat:** add style prop to Trend, Rating, Info, and Content types ([#7085](https://github.com/dnbexperience/eufemia/issues/7085)) ([d77f674](https://github.com/dnbexperience/eufemia/commit/d77f674a3c8bbf4ee60a85853e78ff45f6b55e9d))
+* **Stat:** apply skeleton class and aria-disabled to Content element ([#7090](https://github.com/dnbexperience/eufemia/issues/7090)) ([ce459b3](https://github.com/dnbexperience/eufemia/commit/ce459b3d691e2c996ade30dacf3b7feccced2183))
+* **Stat:** colorizeBySign works without signDisplay ([962c09f](https://github.com/dnbexperience/eufemia/commit/962c09f49b17aaba6a933e75d3afcf7f0fe42920))
+* **Stat:** default Content to span element when used outside Root ([#7147](https://github.com/dnbexperience/eufemia/issues/7147)) ([9bf77ff](https://github.com/dnbexperience/eufemia/commit/9bf77ffca26dabad6090161146583ae486a24a8f))
+* **Stat:** default Label to span element when used outside Root ([#7146](https://github.com/dnbexperience/eufemia/issues/7146)) ([a739107](https://github.com/dnbexperience/eufemia/commit/a7391075e1b8ee34015e6cc268d3956a1c10c1ff))
+* **Stat:** explicitly destructure and pass style prop in Info ([#7136](https://github.com/dnbexperience/eufemia/issues/7136)) ([4c6579d](https://github.com/dnbexperience/eufemia/commit/4c6579d72d09500fb880d10c12a68a890d7f3831))
+* **Stat:** explicitly destructure and pass style prop in Rating ([#7118](https://github.com/dnbexperience/eufemia/issues/7118)) ([cb8b2f5](https://github.com/dnbexperience/eufemia/commit/cb8b2f5adef379a3026b5c2731d929482b606a54))
+* **Stat:** explicitly destructure and pass style prop in Trend ([#7119](https://github.com/dnbexperience/eufemia/issues/7119)) ([729b4da](https://github.com/dnbexperience/eufemia/commit/729b4dab68dcc468183ff43d704b72f0e06f0894))
+* **Stat:** propagate skeleton context from Inline to children ([#7137](https://github.com/dnbexperience/eufemia/issues/7137)) ([186b98f](https://github.com/dnbexperience/eufemia/commit/186b98fd00102953747d9d3c38882c7f7c970081))
+* **Stat:** render NaN and Infinity as em dash in Trend ([#7092](https://github.com/dnbexperience/eufemia/issues/7092)) ([a30024a](https://github.com/dnbexperience/eufemia/commit/a30024a288fc930a51b5981d27fa2622686df66c))
+* **Stat:** warn when Content appears before Label in Root ([#7089](https://github.com/dnbexperience/eufemia/issues/7089)) ([47bdb29](https://github.com/dnbexperience/eufemia/commit/47bdb294e3c3f4b4ddcca08f258fb2857f8239ae))
+
 ## [10.101.0](https://github.com/dnbexperience/eufemia/compare/v10.100.1...v10.101.0) (2026-03-20)
 
 
