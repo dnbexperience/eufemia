@@ -16,7 +16,7 @@ export type ElementChild =
       index: number,
       arrayItems: Array<IterateItemContextState>
     ) => React.ReactNode)
-export type Props = Omit<
+export type IterateArrayProps = Omit<
   FlexContainerProps,
   keyof Omit<React.HTMLAttributes<HTMLDivElement>, 'className'>
 > &

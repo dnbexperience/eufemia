@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react'
-import type { Props as StringFieldProps } from '../String'
+import type { FieldStringProps as StringFieldProps } from '../String'
 import StringField from '../String'
 import useTranslation from '../../hooks/useTranslation'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = StringFieldProps
+export type FieldEmailProps = StringFieldProps
 
 // Allow Unicode characters in local part (before @)
 const aText = `[A-Za-z0-9!#$%&'*+/=?^_\\x60{|}~\\u0080-\\uFFFF-]+`
@@ -27,7 +27,7 @@ export const pattern =
   `)\\]` +
   `)$`
 
-function Email(props: Props) {
+function Email(props: FieldEmailProps) {
   const { label, errorRequired, errorPattern } = useTranslation().Email
 
   const errorMessages = useMemo(
@@ -39,7 +39,7 @@ function Email(props: Props) {
     [errorPattern, errorRequired, props.errorMessages]
   )
 
-  const StringFieldProps: Props = {
+  const StringFieldProps: FieldEmailProps = {
     label,
     autoComplete: 'email',
     inputMode: 'email',

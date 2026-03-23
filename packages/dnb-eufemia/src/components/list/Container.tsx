@@ -2,7 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import type { ListVariant } from './ListContext'
 import { ListContext } from './ListContext'
-import type { Props as FlexProps } from '../flex/Stack'
+import type { StackProps as FlexProps } from '../flex/Stack'
 import FlexContainer from '../flex/Stack'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 

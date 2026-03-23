@@ -1,6 +1,6 @@
 import React from 'react'
 import type { AutocompleteOnTypeParams } from '../../../../components/autocomplete/Autocomplete'
-import type { Props as SelectionProps } from '../../Field/Selection'
+import type { FieldSelectionProps as SelectionProps } from '../../Field/Selection'
 import Selection from '../../Field/Selection'
 import type {
   Path,

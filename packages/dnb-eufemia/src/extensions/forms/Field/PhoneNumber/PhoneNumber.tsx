@@ -15,9 +15,9 @@ import type {
   CountryType,
 } from '../../constants/countries'
 import useCountries from '../SelectCountry/useCountries'
-import type { Props as StringFieldProps } from '../String'
+import type { FieldStringProps as StringFieldProps } from '../String'
 import StringField from '../String'
-import type { Props as CompositionFieldProps } from '../Composition'
+import type { FieldCompositionProps as CompositionFieldProps } from '../Composition'
 import CompositionField from '../Composition'
 import { useFieldProps } from '../../hooks'
 import type { FieldPropsWithExtraValue, Schema } from '../../types'
@@ -36,7 +36,7 @@ export type AdditionalArgs = {
   iso?: string
 }
 
-export type Props = Omit<
+export type FieldPhoneNumberProps = Omit<
   FieldPropsWithExtraValue<string, AdditionalArgs, undefined | string>,
   'layout' | 'layoutOptions' | 'labelSize'
 > & {
@@ -93,7 +93,7 @@ type EventValues = {
   phoneNumber?: string
 }
 
-function PhoneNumber(props: Props = {}) {
+function PhoneNumber(props: FieldPhoneNumberProps = {}) {
   const sharedContext = useContext(SharedContext)
   const {
     numberLabel: defaultLabel,
@@ -102,9 +102,13 @@ function PhoneNumber(props: Props = {}) {
   } = useTranslation().PhoneNumber
   const lang = sharedContext.locale?.split('-')[0] as CountryLang
 
-  const countryCodeRef = useRef<Props['value']>(props.emptyValue)
+  const countryCodeRef = useRef<FieldPhoneNumberProps['value']>(
+    props.emptyValue
+  )
   const prevCountryCodeRef = useRef(countryCodeRef.current)
-  const numberRef = useRef<Props['value']>(props.emptyValue)
+  const numberRef = useRef<FieldPhoneNumberProps['value']>(
+    props.emptyValue
+  )
   const dataRef = useRef<Array<DrawerListDataArrayItem> | null>(null)
   const langRef = useRef<string>(lang)
   const wasFilled = useRef<boolean>(false)
@@ -210,7 +214,7 @@ function PhoneNumber(props: Props = {}) {
 
     if (!props.pattern) return undefined
     // Use Zod internally when only pattern is provided
-    return (p: Props) => {
+    return (p: FieldPhoneNumberProps) => {
       let s = z.string()
       if (p?.pattern) {
         try {
@@ -222,12 +226,12 @@ function PhoneNumber(props: Props = {}) {
       return s
     }
   }, [props.schema, props.pattern])
-  const defaultProps: Partial<Props> = {
+  const defaultProps: Partial<FieldPhoneNumberProps> = {
     ...(schema ? { schema } : {}),
     errorMessages,
   }
   const ref = useRef<HTMLInputElement>(undefined)
-  const preparedProps: Props = {
+  const preparedProps: FieldPhoneNumberProps = {
     ...props,
     ...defaultProps,
     validateRequired,

@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import type { Props as StringFieldProps } from '../String'
+import type { FieldStringProps as StringFieldProps } from '../String'
 import StringField from '../String'
 import useTranslation from '../../hooks/useTranslation'
 import type { Validator, ValidatorWithCustomValidators } from '../../types'
@@ -20,7 +20,7 @@ export type CompanyNameValidator = ValidatorWithCustomValidators<
   }
 >
 
-export type Props = Omit<StringFieldProps, 'onBlurValidator'> & {
+export type FieldNameProps = Omit<StringFieldProps, 'onBlurValidator'> & {
   onBlurValidator?: NameValidator | false
 }
 
@@ -35,7 +35,7 @@ export const namePattern =
 export const companyPattern =
   '^(?!.*[-\\s]{2})(?!.*[\\.]{2})[\\p{L}\\p{N}]([\\p{L}\\p{N}\\p{P}\\p{Zs}.]*[\\p{L}\\p{N}])?$'
 
-function Name(props: Props) {
+function Name(props: FieldNameProps) {
   const {
     onBlurValidator: onBlurValidatorProp,
     minLength: minLengthProp = 1,
@@ -86,7 +86,7 @@ function Name(props: Props) {
 }
 withComponentMarkers(Name, { _supportsSpacingProps: true })
 
-Name.First = function FirstName(props: Props) {
+Name.First = function FirstName(props: FieldNameProps) {
   const translations = useTranslation().FirstName
   const errorMessages = useMemo(() => {
     return {
@@ -100,7 +100,7 @@ Name.First = function FirstName(props: Props) {
     translations.errorRequired,
   ])
 
-  const nameProps: Props = {
+  const nameProps: FieldNameProps = {
     label: translations.label,
     autoComplete: 'given-name',
     ...props,
@@ -111,7 +111,7 @@ Name.First = function FirstName(props: Props) {
 }
 Name.First['_supportsSpacingProps'] = true
 
-Name.Last = function LastName(props: Props) {
+Name.Last = function LastName(props: FieldNameProps) {
   const translations = useTranslation().LastName
   const errorMessages = useMemo(() => {
     return {
@@ -125,7 +125,7 @@ Name.Last = function LastName(props: Props) {
     translations.errorRequired,
   ])
 
-  const nameProps: Props = {
+  const nameProps: FieldNameProps = {
     label: translations.label,
     autoComplete: 'family-name',
     ...props,
@@ -136,7 +136,7 @@ Name.Last = function LastName(props: Props) {
 }
 Name.Last['_supportsSpacingProps'] = true
 
-Name.Company = function CompanyName(props: Props) {
+Name.Company = function CompanyName(props: FieldNameProps) {
   const translations = useTranslation().CompanyName
   const {
     onBlurValidator: onBlurValidatorProp,

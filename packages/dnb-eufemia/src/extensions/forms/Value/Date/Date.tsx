@@ -1,5 +1,5 @@
 import React, { useCallback, useContext } from 'react'
-import type { Props as StringValueProps } from '../String'
+import type { ValueStringProps as StringValueProps } from '../String'
 import StringValue from '../String'
 import useTranslation from '../../hooks/useTranslation'
 import type { AnyLocale } from '../../../../shared/Context'
@@ -13,13 +13,13 @@ import {
 import { DEFAULT_DATE_FORMAT } from '../../Field/DateOfBirth/DateOfBirth'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = StringValueProps & {
+export type ValueDateProps = StringValueProps & {
   variant?: 'long' | 'short' | 'numeric'
   locale?: AnyLocale
   dateFormat?: string
 }
 
-function DateComponent(props: Props) {
+function DateComponent(props: ValueDateProps) {
   const translations = useTranslation().Date
   const { locale: contextLocale } = useContext(SharedContext)
   const locale = props.locale ?? contextLocale
@@ -51,7 +51,7 @@ function DateComponent(props: Props) {
     [locale, options, dateFormat]
   )
 
-  const stringProps: Props = {
+  const stringProps: ValueDateProps = {
     ...props,
     label: props.label ?? translations.label,
     // @ts-expect-error - strictFunctionTypes
@@ -61,7 +61,7 @@ function DateComponent(props: Props) {
 }
 
 function convertVariantToDateStyle(
-  variant: Props['variant']
+  variant: ValueDateProps['variant']
 ): Intl.DateTimeFormatOptions {
   if (variant === 'long') {
     return { dateStyle: 'long' }

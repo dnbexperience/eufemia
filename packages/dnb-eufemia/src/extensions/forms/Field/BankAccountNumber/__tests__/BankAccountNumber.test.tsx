@@ -2,7 +2,7 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { render, waitFor, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { Props } from '..'
+import type { FieldBankAccountNumberProps } from '..'
 import type { Validator } from '../../..'
 import { Field, Form } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
@@ -11,7 +11,7 @@ const nb = nbNO['nb-NO']
 
 describe('Field.BankAccountNumber', () => {
   it('should render with props', () => {
-    const props: Props = {}
+    const props: FieldBankAccountNumberProps = {}
 
     render(<Field.BankAccountNumber {...props} />)
 

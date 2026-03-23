@@ -15,7 +15,7 @@ export type ToolbarParams = {
   items: Array<unknown>
   value: unknown
 }
-export type Props = Omit<SpaceAllProps, 'children'> & {
+export type IterateToolbarProps = Omit<SpaceAllProps, 'children'> & {
   children?: React.ReactNode | ((params: ToolbarParams) => React.ReactNode)
 }
 
@@ -23,7 +23,7 @@ export default function Toolbar({
   children,
   className,
   ...rest
-}: Props = {}) {
+}: IterateToolbarProps = {}) {
   const {
     index,
     value,

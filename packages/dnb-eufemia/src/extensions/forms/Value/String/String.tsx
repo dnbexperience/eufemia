@@ -5,9 +5,9 @@ import { useValueProps } from '../../hooks'
 import type { ValueProps } from '../../types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ValueProps<string>
+export type ValueStringProps = ValueProps<string>
 
-function StringComponent(props: Props) {
+function StringComponent(props: ValueStringProps) {
   const { value, className, ...rest } = useValueProps(props)
 
   return (

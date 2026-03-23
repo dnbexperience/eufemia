@@ -7,9 +7,9 @@ import useCountry from './useCountry'
 import type { CountryISO } from '../../constants/countries'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ValueProps<CountryISO>
+export type ValueSelectCountryProps = ValueProps<CountryISO>
 
-function SelectCountry(props: Props) {
+function SelectCountry(props: ValueSelectCountryProps) {
   const translations = useTranslation().SelectCountry
   const {
     value,

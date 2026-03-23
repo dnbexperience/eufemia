@@ -10,7 +10,7 @@ import NumberFormat from '../../../../components/NumberFormat'
 import type { SpacingProps } from '../../../../shared/types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = Omit<ValueProps<number>, 'defaultValue'> &
+export type ValueNumberProps = Omit<ValueProps<number>, 'defaultValue'> &
   Omit<
     NumberFormatProps,
     keyof SpacingProps
@@ -22,7 +22,7 @@ export type Props = Omit<ValueProps<number>, 'defaultValue'> &
     maximum?: number
   }>
 
-function NumberValue(props: Props) {
+function NumberValue(props: ValueNumberProps) {
   const {
     value: valueProp,
     minimum = Number.MIN_SAFE_INTEGER,

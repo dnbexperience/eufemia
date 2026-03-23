@@ -2,7 +2,7 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { Props } from '..'
+import type { FieldAddressProps } from '..'
 import { Field, Form } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 
@@ -10,7 +10,7 @@ const nb = nbNO['nb-NO']
 
 describe('Field.Address', () => {
   it('should render with props', () => {
-    const props: Props = {}
+    const props: FieldAddressProps = {}
     render(<Field.Address {...props} />)
     expect(screen.getByRole('textbox')).toBeInTheDocument()
   })

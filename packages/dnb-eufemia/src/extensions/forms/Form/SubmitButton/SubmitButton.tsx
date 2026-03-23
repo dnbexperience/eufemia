@@ -10,7 +10,7 @@ import { send } from '../../../../icons'
 import useId from '../../../../shared/helpers/useId'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = {
+export type FormSubmitButtonProps = {
   /**
    * Show the submit indicator
    */
@@ -21,7 +21,7 @@ export type Props = {
     variant?: 'send' | 'secondary'
   }
 
-function SubmitButton(props: Props) {
+function SubmitButton(props: FormSubmitButtonProps) {
   const translations = useTranslation().SubmitButton
 
   const { variant, className, showIndicator, children, text, ...rest } =

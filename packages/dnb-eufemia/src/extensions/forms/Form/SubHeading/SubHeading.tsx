@@ -10,13 +10,13 @@ import type { HeadingLevel } from '../../../../components/heading/Heading'
 import type { ComponentProps } from '../../types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ComponentProps & {
+export type FormSubHeadingProps = ComponentProps & {
   level?: HeadingLevel
   help?: HelpProps
   children?: React.ReactNode
 } & Omit<React.HTMLProps<HTMLElement>, 'size'>
 
-function SubHeading({ level, ...props }: Props) {
+function SubHeading({ level, ...props }: FormSubHeadingProps) {
   const { help, className, children, ...rest } = props
   const helpId = useId()
   const hasHelp = help?.title || help?.content

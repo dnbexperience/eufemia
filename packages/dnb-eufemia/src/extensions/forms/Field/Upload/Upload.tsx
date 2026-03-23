@@ -1,9 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import clsx from 'clsx'
-import type {
-  Props as FieldBlockProps,
-  FieldBlockWidth,
-} from '../../FieldBlock'
+import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import {
   useFieldProps,
@@ -33,7 +30,7 @@ import withComponentMarkers from '../../../../shared/helpers/withComponentMarker
 
 export type { UploadFile, UploadFileNative }
 export type UploadValue = Array<UploadFile | UploadFileNative>
-export type Props = Omit<
+export type FieldUploadProps = Omit<
   FieldProps<UploadValue, UploadValue | undefined>,
   | 'layout'
   | 'layoutOptions'
@@ -70,7 +67,7 @@ export type Props = Omit<
     width?: 'large' | 'stretch'
   }
 
-function UploadComponent(props: Props) {
+function UploadComponent(props: FieldUploadProps) {
   const sharedTr = useSharedTranslation().Upload
   const formsTr = useFormsTranslation().Upload
 

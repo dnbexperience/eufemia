@@ -8,7 +8,7 @@ import React, {
 } from 'react'
 import clsx from 'clsx'
 import SharedContext from '../../../../shared/Context'
-import type { Props as StringFieldProps } from '../String'
+import type { FieldStringProps as StringFieldProps } from '../String'
 import StringField from '../String'
 import useId from '../../../../shared/helpers/useId'
 

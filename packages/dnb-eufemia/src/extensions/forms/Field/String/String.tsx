@@ -14,10 +14,7 @@ import InputMasked from '../../../../components/InputMasked'
 import type { TextareaProps } from '../../../../components/Textarea'
 import DataContext from '../../DataContext/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
-import type {
-  Props as FieldBlockProps,
-  FieldBlockWidth,
-} from '../../FieldBlock'
+import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import { pickSpacingProps } from '../../../../components/flex/utils'
@@ -26,7 +23,7 @@ import type { TextCounterProps } from '../../../../fragments/TextCounter'
 import type { FieldProps, Schema } from '../../types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = FieldProps<string, undefined | string> & {
+export type FieldStringProps = FieldProps<string, undefined | string> & {
   // - Shared props
   multiline?: boolean
   inputClassName?: string
@@ -71,7 +68,7 @@ export type Props = FieldProps<string, undefined | string> & {
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
 }
 
-function StringComponent(props: Props) {
+function StringComponent(props: FieldStringProps) {
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
 
@@ -81,7 +78,7 @@ function StringComponent(props: Props) {
       // at validation time (min/max/pattern). This keeps rules in sync
       // with dynamic prop changes and avoids stale closures.
       props.schema ??
-      ((p: Props) => {
+      ((p: FieldStringProps) => {
         return z.string().superRefine((val, ctx) => {
           if (p.minLength !== undefined && val.length < p.minLength) {
             ctx.addIssue({
@@ -168,7 +165,7 @@ function StringComponent(props: Props) {
   )
 
   const ref = useRef<HTMLInputElement>(undefined)
-  const preparedProps: Props = {
+  const preparedProps: FieldStringProps = {
     ...props,
     schema,
     // @ts-expect-error - strictFunctionTypes

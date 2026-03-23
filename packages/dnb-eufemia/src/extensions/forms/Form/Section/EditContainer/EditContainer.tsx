@@ -14,13 +14,15 @@ import SectionContainer from '../containers/SectionContainer'
 import type { Path } from '../../../types'
 import withComponentMarkers from '../../../../../shared/helpers/withComponentMarkers'
 
-export type Props = {
+export type FormSectionEditContainerProps = {
   title?: React.ReactNode
   onDone?: () => void
   onCancel?: () => void
 }
 
-export type AllProps = Props & SectionContainerProps & FlexContainerProps
+export type AllProps = FormSectionEditContainerProps &
+  SectionContainerProps &
+  FlexContainerProps
 
 function EditContainer(props: AllProps) {
   const { children, className, title, onDone, onCancel, ...restProps } =

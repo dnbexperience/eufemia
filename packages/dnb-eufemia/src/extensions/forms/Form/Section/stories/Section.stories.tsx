@@ -3,7 +3,7 @@ import type { JSONSchema, SectionProps } from '../../..'
 import { Field, Form, Tools, Value, makeAjvInstance, z } from '../../..'
 import { Flex, Table } from '../../../../../components'
 import { Tr, Td, Th, P } from '../../../../../elements'
-import type { Props as FieldNameProps } from '../../../Field/Name'
+import type { FieldNameProps as FieldNameProps } from '../../../Field/Name'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Section',

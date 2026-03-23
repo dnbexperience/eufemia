@@ -16,6 +16,7 @@ import tsParser from '@typescript-eslint/parser'
 import tsPlugin from '@typescript-eslint/eslint-plugin'
 import docsTypesPlugin from './scripts/eslint/plugins/docs-types/index.js'
 import componentTypesPlugin from './scripts/eslint/plugins/component-types/index.js'
+import namingConventionsPlugin from './scripts/eslint/plugins/naming-conventions/index.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -406,6 +407,26 @@ export default [
           allowlist: [],
         },
       ],
+    },
+  },
+  {
+    files: [
+      'src/components/**/*.{ts,tsx}',
+      'src/elements/**/*.{ts,tsx}',
+      'src/fragments/**/*.{ts,tsx}',
+      'src/extensions/**/*.{ts,tsx}',
+    ],
+    ignores: [
+      '**/__tests__/**',
+      '**/*.test.*',
+      '**/*.spec.*',
+      '**/*.d.ts',
+    ],
+    plugins: {
+      'naming-conventions': namingConventionsPlugin,
+    },
+    rules: {
+      'naming-conventions/no-bare-props-export': 'error',
     },
   },
 ]

@@ -129,7 +129,7 @@ export type SharedFieldBlockProps = {
   statusPosition?: 'below' | 'above'
 }
 
-export type Props<Value = unknown> = SharedFieldBlockProps &
+export type FieldBlockProps<Value = unknown> = SharedFieldBlockProps &
   Pick<
     FieldProps<Value>,
     keyof ComponentProps | 'info' | 'warning' | 'error' | 'disabled'
@@ -157,7 +157,7 @@ export type Props<Value = unknown> = SharedFieldBlockProps &
     children?: React.ReactNode
   } & React.HTMLAttributes<HTMLDivElement>
 
-function FieldBlock<Value = unknown>(props: Props<Value>) {
+function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
   const nestedFieldBlockContext = !fieldBlockContext?.disableStatusSummary
@@ -165,7 +165,9 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
     : null
 
   const id = useId(props.id ?? props.forId)
-  const sharedData = createSharedState<Props>('field-block-props-' + id)
+  const sharedData = createSharedState<FieldBlockProps>(
+    'field-block-props-' + id
+  )
   const {
     className,
     forId,

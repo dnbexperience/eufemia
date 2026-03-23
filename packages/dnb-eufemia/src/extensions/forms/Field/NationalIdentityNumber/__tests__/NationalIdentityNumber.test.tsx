@@ -1,6 +1,6 @@
 import React from 'react'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
-import type { Props } from '..'
+import type { FieldNationalIdentityNumberProps } from '..'
 import type { Validator } from '../../..'
 import { Field, Form } from '../../..'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
@@ -11,7 +11,7 @@ const nb = nbNO['nb-NO']
 
 describe('Field.NationalIdentityNumber', () => {
   it('should render with props', () => {
-    const props: Props = {}
+    const props: FieldNationalIdentityNumberProps = {}
     render(<Field.NationalIdentityNumber {...props} />)
   })
 
