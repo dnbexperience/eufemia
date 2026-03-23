@@ -4,12 +4,9 @@ import { Space } from '../../../../components'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export default function TestElement({
-  className = null,
+  className,
   ...props
-}: {
-  className?: string | null
-  [key: string]: unknown
-}) {
+}: React.HTMLAttributes<HTMLElement>) {
   return (
     <Space
       className={clsx('dnb-forms-test-element', className)}

@@ -22,6 +22,7 @@ export const IconDefault = () => (
   >
     <Icon icon={Bell} title="Give Icons a Title, or ..." />
     <Icon icon={BellMedium} aria-hidden />
+    {/* @ts-expect-error - raw icon components don't accept title prop */}
     <Bell title="I'm not responsive!" />
     {/* <- Not responsive! */}
   </ComponentBox>
