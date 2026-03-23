@@ -606,7 +606,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     children, //eslint-disable-line
     value: _value, //eslint-disable-line
     selectAll, //eslint-disable-line
-    inputElement: _input_element, //eslint-disable-line
+    inputElement: _inputElement, //eslint-disable-line
     ref: _ref, //eslint-disable-line
     _innerRef, //eslint-disable-line
     inputState: _inputState, //eslint-disable-line
@@ -744,8 +744,8 @@ function InputComponent({ ref, ...restProps }: InputProps) {
         ref: React.RefObject<HTMLInputElement | null>
       ) => React.ReactNode
     )({ ...inputParams, value }, inputRef)
-  } else if (!InputElement && _input_element) {
-    InputElement = _input_element
+  } else if (!InputElement && _inputElement) {
+    InputElement = _inputElement
   }
 
   return (
