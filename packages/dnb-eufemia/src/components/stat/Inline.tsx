@@ -6,6 +6,7 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import { warn } from '../../shared/component-helper'
 import StatRootContext from './StatRootContext'
 import useStatSkeleton from './useStatSkeleton'
+import Provider from '../../shared/Provider'
 
 export type InlineProps = FlexHorizontalProps & {
   skeleton?: SkeletonShow
@@ -32,20 +33,22 @@ function Inline({
 
   return (
     <StatRootContext.Provider value={{ inRoot, skeleton: hasSkeleton }}>
-      <Flex.Horizontal
-        {...rest}
-        {...attributes}
-        gap={gap}
-        align={align}
-        className={classnames(
-          'dnb-stat',
-          'dnb-stat__inline',
-          skeletonClass,
-          className
-        )}
-      >
-        {children}
-      </Flex.Horizontal>
+      <Provider skeleton={hasSkeleton}>
+        <Flex.Horizontal
+          {...rest}
+          {...attributes}
+          gap={gap}
+          align={align}
+          className={classnames(
+            'dnb-stat',
+            'dnb-stat__inline',
+            skeletonClass,
+            className
+          )}
+        >
+          {children}
+        </Flex.Horizontal>
+      </Provider>
     </StatRootContext.Provider>
   )
 }
