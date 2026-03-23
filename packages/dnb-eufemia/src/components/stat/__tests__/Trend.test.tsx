@@ -200,7 +200,7 @@ describe('Stat.Trend', () => {
 
     expect(trend.classList).toContain('dnb-stat__trend--neutral')
     expect(sign).not.toBeInTheDocument()
-    expect(value.textContent).toBe('-')
+    expect(value.textContent).toBe('0')
   })
 
   it('renders sign-only string "+" as neutral with displayValue "0"', () => {
@@ -212,6 +212,6 @@ describe('Stat.Trend', () => {
 
     expect(trend.classList).toContain('dnb-stat__trend--neutral')
     expect(sign).not.toBeInTheDocument()
-    expect(value.textContent).toBe('+')
+    expect(value.textContent).toBe('0')
   })
 })
