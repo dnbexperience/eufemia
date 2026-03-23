@@ -61,7 +61,7 @@ export default function ModalHeader({
 
   return (
     <Section
-      style_type="white"
+      backgroundColor="white"
       className={clsx(className)}
       id={showTitle ? 'dnb-modal-' + context.id + '-title' : undefined}
       {...sectionProps}

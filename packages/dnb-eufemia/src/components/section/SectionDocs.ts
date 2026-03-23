@@ -2,7 +2,7 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const SectionProperties: PropertiesTableProps = {
   variant: {
-    doc: 'Defines the semantic purpose and subsequently the style of the visual helper. Will take precedence over the style_type property.',
+    doc: 'Defines the semantic purpose and subsequently the style of the visual helper.',
     type: 'string',
     status: 'optional',
   },
@@ -42,7 +42,7 @@ export const SectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   textColor: {
-    doc: "Define a custom text color to compliment the backgroundColor. Use a Eufemia color. Supports also media query breakpoints like `{ small: 'black-80' }`.",
+    doc: "Define a custom text color to compliment the `backgroundColor`. Use a Eufemia color. Supports also media query breakpoints like `{ small: 'black-80' }`.",
     type: 'string',
     status: 'optional',
   },
