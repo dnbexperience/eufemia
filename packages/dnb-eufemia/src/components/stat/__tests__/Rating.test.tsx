@@ -101,6 +101,24 @@ describe('Stat.Rating', () => {
     expect(rating).toHaveAttribute('aria-label', 'Morningstar 4 av 5')
   })
 
+  it('uses matching precision in aria-label and visual fill', () => {
+    render(<Stat.Rating value={2.55} />)
+
+    const rating = document.querySelector('.dnb-stat__rating')
+    const stars = document.querySelectorAll('.dnb-stat__rating-star')
+
+    expect(rating).toHaveAttribute('aria-label', '2.55 av 5')
+    expect(stars[2].getAttribute('data-fill')).toBe('0.55')
+  })
+
+  it('strips trailing zeros from fractional aria-label', () => {
+    render(<Stat.Rating value={3.5} />)
+
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(rating).toHaveAttribute('aria-label', '3.5 av 5')
+  })
+
   it('warns and clamps when max exceeds the allowed limit', () => {
     const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
 
