@@ -39,14 +39,14 @@ export const BreadcrumbDefault = () => (
         },
       ]
 
-      return <Breadcrumb data={pages} spacing />
+      return <Breadcrumb data={pages} innerSpace />
     }}
   </ComponentBox>
 )
 
 export const BreadcrumbChildren = () => (
   <ComponentBox data-visual-test="breadcrumb-children">
-    <Breadcrumb spacing>
+    <Breadcrumb innerSpace>
       <Breadcrumb.Item
         onClick={() => {
           console.log('go home!')
@@ -88,7 +88,7 @@ export const BreadcrumbCollapse = () => (
         },
       ]
 
-      return <Breadcrumb variant="collapse" data={pages} spacing />
+      return <Breadcrumb variant="collapse" data={pages} innerSpace />
     }}
   </ComponentBox>
 )
@@ -115,7 +115,7 @@ export const BreadcrumbMultiple = () => (
         },
       ]
 
-      return <Breadcrumb variant="multiple" data={pages} spacing />
+      return <Breadcrumb variant="multiple" data={pages} innerSpace />
     }}
   </ComponentBox>
 )

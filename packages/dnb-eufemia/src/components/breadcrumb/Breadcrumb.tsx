@@ -10,11 +10,7 @@ import clsx from 'clsx'
 // Components
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import type {
-  SectionSpacing,
-  SectionStyle,
-  SectionVariants,
-} from '../section/Section'
+import type { SectionStyle, SectionVariants } from '../section/Section'
 import Section from '../section/Section'
 import Button from '../button/Button'
 
@@ -22,6 +18,7 @@ import Button from '../button/Button'
 import Context from '../../shared/Context'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../skeleton/Skeleton'
+import type { InnerSpaceType } from '../space/types'
 
 // Internal
 import type { BreadcrumbItemProps } from './BreadcrumbItem'
@@ -123,10 +120,10 @@ export type BreadcrumbProps = {
   collapsedStyleType?: SectionVariants
 
   /**
-   * Include spacing properties from the Section component in breadcrumb. If only `true` is given, the spacing will be `small`.
+   * Include innerSpace properties from the Section component in breadcrumb. If only `true` is given, the innerSpace will be `small`.
    * Default: false
    */
-  spacing?: SectionSpacing
+  innerSpace?: InnerSpaceType
 
   /**
    * Will disable the height animation
@@ -146,7 +143,7 @@ export type BreadcrumbProps = {
 }
 
 export type BreadcrumbAllProps = BreadcrumbProps &
-  SpacingProps &
+  Omit<SpacingProps, 'innerSpace'> &
   Omit<React.HTMLProps<HTMLElement>, keyof BreadcrumbProps>
 
 const defaultProps: Partial<BreadcrumbAllProps> = {
@@ -158,7 +155,7 @@ const defaultProps: Partial<BreadcrumbAllProps> = {
   isCollapsed: true,
   styleType: 'transparent',
   collapsedStyleType: 'info',
-  spacing: false,
+  innerSpace: false,
 }
 
 const Breadcrumb = (localProps: BreadcrumbAllProps) => {
@@ -187,7 +184,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
     styleType,
     collapsedStyleType,
     isCollapsed: overrideIsCollapsed,
-    spacing,
+    innerSpace: innerSpaceProp,
     noAnimation,
     data,
     href,
@@ -245,7 +242,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
 
   validateDOMAttributes(allProps, props)
 
-  const innerSpace = spacing === true ? 'small' : spacing
+  const innerSpace = innerSpaceProp === true ? 'small' : innerSpaceProp
 
   const overrideSbankenSectionColor =
     useTheme()?.isSbanken && collapsedStyleType === 'info'
