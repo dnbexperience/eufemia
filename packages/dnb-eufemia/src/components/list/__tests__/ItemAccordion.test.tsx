@@ -706,4 +706,18 @@ describe('ItemAccordion', () => {
 
     expect(header.classList).toContain('dnb-skeleton')
   })
+
+  it('applies skeleton font class on accordion item when skeleton prop is set', () => {
+    render(
+      <ItemAccordion skeleton>
+        <ItemAccordion.Header>Title</ItemAccordion.Header>
+        <ItemAccordion.Content>Content</ItemAccordion.Content>
+      </ItemAccordion>
+    )
+
+    const accordion = document.querySelector('.dnb-list__item__accordion')
+
+    expect(accordion.classList).toContain('dnb-skeleton')
+    expect(accordion.classList).toContain('dnb-skeleton--font')
+  })
 })
