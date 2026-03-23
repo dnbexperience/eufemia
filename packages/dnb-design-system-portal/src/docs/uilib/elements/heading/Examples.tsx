@@ -142,9 +142,9 @@ export const HeadingRegressionTest = () => {
       </ComponentBox>
       <ComponentBox scope={{ HWrap }} data-visual-test="heading-base">
         <H>default (h1 - xx-large)</H>
-        <H as="h2">custom level (h2 - xx-large)</H>
+        <H element="h2">custom level (h2 - xx-large)</H>
         <H size="small">custom size (h1 - small)</H>
-        <H as="h2" size="small">
+        <H element="h2" size="small">
           custom level and size (h2 - small)
         </H>
       </ComponentBox>
