@@ -6,11 +6,21 @@ import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
 
 export type ItemCenterProps = FlexItemProps & {
+  /** Font size of the center content. Defaults to `basis`. */
+  fontSize?: 'small' | 'basis'
+  /** Font weight of the center content. Defaults to `regular`. */
+  fontWeight?: 'regular' | 'medium'
   /** If `true`, applies skeleton loading state. Inherits from parent List context when not set. */
   skeleton?: SkeletonShow
 }
 
-function ItemCenter({ className, skeleton, ...rest }: ItemCenterProps) {
+function ItemCenter({
+  className,
+  fontSize = 'basis',
+  fontWeight = 'regular',
+  skeleton,
+  ...rest
+}: ItemCenterProps) {
   const inheritedSkeleton = useContext(ListContext)?.skeleton
   const appliedSkeleton = skeleton ?? inheritedSkeleton
 
@@ -18,7 +28,8 @@ function ItemCenter({ className, skeleton, ...rest }: ItemCenterProps) {
     <FlexItem
       className={classnames(
         'dnb-list__item__center',
-        'dnb-t__size--basis',
+        fontSize && `dnb-t__size--${fontSize}`,
+        fontWeight === 'medium' && 'dnb-t__weight--medium',
         appliedSkeleton && createSkeletonClass('font', true),
         className
       )}
