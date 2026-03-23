@@ -139,4 +139,49 @@ describe('Stat.Inline', () => {
     expect(trend.classList).toContain('dnb-skeleton')
     expect(info.classList).toContain('dnb-skeleton')
   })
+
+  it('warns when used outside Stat.Root', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Inline>
+        <Stat.Trend>+1.2%</Stat.Trend>
+      </Stat.Inline>
+    )
+
+    const didWarn = spy.mock.calls.some((call) =>
+      call
+        .map((entry) => String(entry))
+        .join(' ')
+        .includes('Stat.Inline should be used inside Stat.Root')
+    )
+    expect(didWarn).toBe(true)
+
+    spy.mockRestore()
+  })
+
+  it('does not warn when used inside Stat.Root', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content>
+          <Stat.Inline>
+            <Stat.Trend>+1.2%</Stat.Trend>
+          </Stat.Inline>
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const didWarn = spy.mock.calls.some((call) =>
+      call
+        .map((entry) => String(entry))
+        .join(' ')
+        .includes('Stat.Inline should be used inside Stat.Root')
+    )
+    expect(didWarn).toBe(false)
+
+    spy.mockRestore()
+  })
 })
