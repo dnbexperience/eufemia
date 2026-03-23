@@ -12,6 +12,8 @@ import type { SkeletonShow } from '../Skeleton'
 export type ItemStartProps = FlexItemProps & {
   /** Font size of the start content. Defaults to `basis`. */
   fontSize?: 'small' | 'basis'
+  /** Font weight of the start content. Defaults to `regular`. */
+  fontWeight?: 'regular' | 'medium'
   /** If `true`, applies skeleton loading state. Inherits from parent List context when not set. */
   skeleton?: SkeletonShow
 }
@@ -19,6 +21,7 @@ export type ItemStartProps = FlexItemProps & {
 function ItemStart({
   className,
   fontSize = 'basis',
+  fontWeight = 'regular',
   skeleton,
   ...rest
 }: ItemStartProps) {
@@ -30,6 +33,7 @@ function ItemStart({
       className={classnames(
         'dnb-list__item__start',
         fontSize && `dnb-t__size--${fontSize}`,
+        fontWeight === 'medium' && 'dnb-t__weight--medium',
         appliedSkeleton && createSkeletonClass('font', true),
         className
       )}
