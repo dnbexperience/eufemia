@@ -35,12 +35,19 @@ export const PaginationTableMarker = () => (
     <InfinityPaginationTable tableItems={tableItems} />
   </Wrapper>
 )
-const tableItems: Array<{ ssn: number; text: string; expanded: boolean }> = []
+const tableItems: Array<{ ssn: number; text: string; expanded: boolean }> =
+  []
 for (let i = 1; i <= 60; i++) {
   tableItems.push({ ssn: i, text: String(i), expanded: false })
 }
 
-const InfinityPaginationTable = ({ tableItems, ...props }: { tableItems: Array<{ ssn: number; text: string; expanded: boolean }>; [key: string]: any }) => {
+const InfinityPaginationTable = ({
+  tableItems,
+  ...props
+}: {
+  tableItems: Array<{ ssn: number; text: string; expanded: boolean }>
+  [key: string]: any
+}) => {
   const startupPage = 1 // what we start with
   const perPageCount = 10 // how many items per page
   const [{ InfinityMarker, endInfinity, resetInfinity }] =
@@ -63,8 +70,14 @@ const InfinityPaginationTable = ({ tableItems, ...props }: { tableItems: Array<{
   let items = Object.values(localStack.current)
   items = reorderDirection(items, orderDirection)
 
-  const onToggleExpanded = ({ ssn: _ssn }: { ssn: number }, pageNumber: number, element: HTMLElement | null = null) => {
-    const index = tableItems.findIndex(({ ssn }: { ssn: number }) => ssn === _ssn)
+  const onToggleExpanded = (
+    { ssn: _ssn }: { ssn: number },
+    pageNumber: number,
+    element: HTMLElement | null = null
+  ) => {
+    const index = tableItems.findIndex(
+      ({ ssn }: { ssn: number }) => ssn === _ssn
+    )
     if (index > -1) {
       const item = tableItems[index]
       tableItems[index] = {
@@ -76,7 +89,12 @@ const InfinityPaginationTable = ({ tableItems, ...props }: { tableItems: Array<{
       setHeight({ element, expanded: !item.expanded })
     }
   }
-  const onMounted = (items: Array<{ element: { current: HTMLElement | null }; expanded: boolean }>) => {
+  const onMounted = (
+    items: Array<{
+      element: { current: HTMLElement | null }
+      expanded: boolean
+    }>
+  ) => {
     items.forEach(({ element: { current: element }, expanded }) =>
       setHeight({ element, expanded, animation: false })
     )
@@ -133,7 +151,13 @@ const InfinityPaginationTable = ({ tableItems, ...props }: { tableItems: Array<{
       <tbody>
         <InfinityMarker
           markerElement="tr"
-          fallbackElement={({ className, ...props }: { className?: string; [key: string]: any }) => (
+          fallbackElement={({
+            className,
+            ...props
+          }: {
+            className?: string
+            [key: string]: any
+          }) => (
             <TableRow className={className}>
               <TableData colSpan={2} {...props} />
             </TableRow>
@@ -297,7 +321,11 @@ const setHeight = ({
   element = null,
   expanded = false,
   animation = true,
-}: { element?: HTMLElement | null; expanded?: boolean; animation?: boolean } = {}) => {
+}: {
+  element?: HTMLElement | null
+  expanded?: boolean
+  animation?: boolean
+} = {}) => {
   if (
     element &&
     typeof window !== 'undefined' &&
@@ -321,11 +349,13 @@ const setHeight = ({
 }
 
 const reorderDirection = (items: any[], dir: string) =>
-  items.sort(({ text: A }: { text: string }, { text: B }: { text: string }) => {
-    const a = parseFloat(A)
-    const b = parseFloat(B)
-    return (dir === 'asc' ? a > b : a < b) ? 1 : -1
-  })
+  items.sort(
+    ({ text: A }: { text: string }, { text: B }: { text: string }) => {
+      const a = parseFloat(A)
+      const b = parseFloat(B)
+      return (dir === 'asc' ? a > b : a < b) ? 1 : -1
+    }
+  )
 const Wrapper = styled(Section)`
   width: 100%;
   background: var(--color-white);

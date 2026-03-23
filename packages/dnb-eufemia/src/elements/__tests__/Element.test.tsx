@@ -114,7 +114,9 @@ describe('Element', () => {
   })
 
   it('does not have ref null inside default props', () => {
-    expect((defaultProps as Record<string, unknown>)['ref']).toBe(undefined)
+    expect((defaultProps as Record<string, unknown>)['ref']).toBe(
+      undefined
+    )
   })
 
   it('should validate with ARIA rules as a Element element', async () => {

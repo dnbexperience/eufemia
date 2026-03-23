@@ -94,7 +94,12 @@ describe('json-pointer', () => {
         // empty
       }
       O.prototype.x = 10
-      expect(get(new (O as unknown as new () => Record<string, unknown>)(), '/x')).toBe(10)
+      expect(
+        get(
+          new (O as unknown as new () => Record<string, unknown>)(),
+          '/x'
+        )
+      ).toBe(10)
       expect(get(Object.create({ x: 10 }), '/x')).toBe(10)
     })
   })
@@ -111,7 +116,9 @@ describe('json-pointer', () => {
       }
 
       set(obj, '/new-value/bla', 'expected')
-      expect((obj['new-value'] as Record<string, unknown>).bla).toBe('expected')
+      expect((obj['new-value'] as Record<string, unknown>).bla).toBe(
+        'expected'
+      )
     })
 
     it('should set a value on an object with tokens', () => {
@@ -120,7 +127,9 @@ describe('json-pointer', () => {
       }
 
       set(obj, ['new-value', 'bla'], 'expected')
-      expect((obj['new-value'] as Record<string, unknown>).bla).toBe('expected')
+      expect((obj['new-value'] as Record<string, unknown>).bla).toBe(
+        'expected'
+      )
     })
 
     it('should work on first level with pointer', () => {
@@ -138,7 +147,9 @@ describe('json-pointer', () => {
       }
 
       set(obj, '/frozen/first-level', 'expected')
-      expect((obj['frozen'] as Record<string, unknown>)['first-level']).toBe('expected')
+      expect(
+        (obj['frozen'] as Record<string, unknown>)['first-level']
+      ).toBe('expected')
     })
 
     it('should work on first level with tokens', () => {
@@ -193,7 +204,9 @@ describe('json-pointer', () => {
 
       it('should work for "' + p + '"', () => {
         remove(rfcExample, p)
-        expect(() => get(pointer, rfcExample as unknown as PointerPath)).toThrow(Error)
+        expect(() =>
+          get(pointer, rfcExample as unknown as PointerPath)
+        ).toThrow(Error)
       })
     })
 
@@ -206,7 +219,9 @@ describe('json-pointer', () => {
     it('should work for "/foo/1"', () => {
       const p = '/foo/1'
       remove(rfcExample, p)
-      expect(() => get(pointer, rfcExample as unknown as PointerPath)).toThrow(Error)
+      expect(() =>
+        get(pointer, rfcExample as unknown as PointerPath)
+      ).toThrow(Error)
     })
 
     Object.keys(rfcParsed).forEach((p) => {
@@ -232,7 +247,9 @@ describe('json-pointer', () => {
     it('should work for ["foo","1"]', () => {
       const p = ['foo', '1']
       remove(rfcExample, p)
-      expect(() => get(pointer, rfcExample as unknown as PointerPath)).toThrow(Error)
+      expect(() =>
+        get(pointer, rfcExample as unknown as PointerPath)
+      ).toThrow(Error)
     })
   })
 
@@ -348,10 +365,13 @@ describe('json-pointer', () => {
       expect(count).toBe(3)
 
       count = 0
-      walk({ bla: { foo: 'foo', bar: 'bar', baz: 'baz' } }, (value): false | void => {
-        count++
-        return value === 'bar' ? false : undefined
-      })
+      walk(
+        { bla: { foo: 'foo', bar: 'bar', baz: 'baz' } },
+        (value): false | void => {
+          count++
+          return value === 'bar' ? false : undefined
+        }
+      )
 
       expect(count).toBe(2)
     })

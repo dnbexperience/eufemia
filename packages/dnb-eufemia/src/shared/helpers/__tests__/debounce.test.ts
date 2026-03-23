@@ -262,7 +262,9 @@ describe('debounceAsync', () => {
   })
 
   it('should return sync/async function based on its input', () => {
-    expect(isAsync(debounceAsync(async (): Promise<null> => null))).toBeTruthy()
+    expect(
+      isAsync(debounceAsync(async (): Promise<null> => null))
+    ).toBeTruthy()
     expect(isAsync(debounceAsync((): null => null))).toBeFalsy()
   })
 })

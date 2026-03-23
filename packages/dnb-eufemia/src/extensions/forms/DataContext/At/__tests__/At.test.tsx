@@ -45,7 +45,10 @@ describe('At', () => {
     )
 
     act(() => {
-      ;(handlePathChange as (...args: unknown[]) => void)('/c', 'new value')
+      ;(handlePathChange as (...args: unknown[]) => void)(
+        '/c',
+        'new value'
+      )
     })
 
     expect(document.querySelector('output')).toHaveTextContent(

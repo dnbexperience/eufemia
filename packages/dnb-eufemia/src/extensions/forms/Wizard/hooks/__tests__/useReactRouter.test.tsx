@@ -65,7 +65,10 @@ describe('useReactRouter', () => {
         fU()
       }, [])
 
-      return [paramsRef.current, setSearchParams] as [typeof searchParams, typeof setSearchParams]
+      return [paramsRef.current, setSearchParams] as [
+        typeof searchParams,
+        typeof setSearchParams,
+      ]
     })
 
     return {
@@ -240,7 +243,10 @@ describe('useReactRouter', () => {
     const searchParams = { get }
     const setSearchParams = jest.fn()
     const useSearchParams = jest.fn(() => {
-      return [searchParams, setSearchParams] as [typeof searchParams, typeof setSearchParams]
+      return [searchParams, setSearchParams] as [
+        typeof searchParams,
+        typeof setSearchParams,
+      ]
     })
 
     const Step = () => {

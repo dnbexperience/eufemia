@@ -239,7 +239,9 @@ describe('InputModeNumber', () => {
 
       const inputElement = document.querySelector('input')
 
-      ;(inputElement as unknown as Record<string, unknown>)['runCorrectCaretPosition'] = runCorrectCaretPosition
+      ;(inputElement as unknown as Record<string, unknown>)[
+        'runCorrectCaretPosition'
+      ] = runCorrectCaretPosition
 
       expect(inputElement).toHaveAttribute('type', 'text')
 

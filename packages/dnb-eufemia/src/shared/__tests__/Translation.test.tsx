@@ -69,8 +69,12 @@ describe('context.getTranslation', () => {
       <Context.Consumer>
         {(context) => {
           const title = context.getTranslation(props).HelpButton.title
-          const otherString =
-            (context.getTranslation(props).HelpButton as Record<string, Record<string, string>>)?.['other']?.string
+          const otherString = (
+            context.getTranslation(props).HelpButton as Record<
+              string,
+              Record<string, string>
+            >
+          )?.['other']?.string
           return (
             <>
               <p className="locale">{context.locale}</p>

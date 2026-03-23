@@ -1707,12 +1707,14 @@ describe('Field.Upload', () => {
 
       render(
         <Field.Upload
-          fileHandler={jest
-            .fn(asyncValidatorResolvingWithSuccess)
-            .mockReturnValueOnce(asyncValidatorResolvingWithSuccess(0))
-            .mockReturnValueOnce(asyncValidatorNeverResolving())
-            .mockReturnValueOnce(asyncValidatorResolvingWithSuccess(2))
-            .mockReturnValueOnce(asyncValidatorNeverResolving()) as never}
+          fileHandler={
+            jest
+              .fn(asyncValidatorResolvingWithSuccess)
+              .mockReturnValueOnce(asyncValidatorResolvingWithSuccess(0))
+              .mockReturnValueOnce(asyncValidatorNeverResolving())
+              .mockReturnValueOnce(asyncValidatorResolvingWithSuccess(2))
+              .mockReturnValueOnce(asyncValidatorNeverResolving()) as never
+          }
         />
       )
 
@@ -1773,16 +1775,20 @@ describe('Field.Upload', () => {
 
       const filesSecondUpload = [newFile(1)]
 
-      const asyncValidatorResolvingWithSuccess = (files: UploadFileNative[]) =>
+      const asyncValidatorResolvingWithSuccess = (
+        files: UploadFileNative[]
+      ) =>
         new Promise<UploadValue>((resolve) =>
           setTimeout(() => {
-            const filesToResolve = files.map((file: UploadFileNative, i: number) => {
-              return {
-                file: file,
-                id: makeUniqueId(),
-                exists: false,
+            const filesToResolve = files.map(
+              (file: UploadFileNative, i: number) => {
+                return {
+                  file: file,
+                  id: makeUniqueId(),
+                  exists: false,
+                }
               }
-            })
+            )
             resolve(filesToResolve as unknown as UploadValue)
           }, 1)
         )
@@ -1793,10 +1799,14 @@ describe('Field.Upload', () => {
           fileHandler={jest
             .fn(asyncValidatorResolvingWithSuccess)
             .mockReturnValueOnce(
-              asyncValidatorResolvingWithSuccess(filesFirstUpload as unknown as UploadFileNative[])
+              asyncValidatorResolvingWithSuccess(
+                filesFirstUpload as unknown as UploadFileNative[]
+              )
             )
             .mockReturnValueOnce(
-              asyncValidatorResolvingWithSuccess(filesSecondUpload as unknown as UploadFileNative[])
+              asyncValidatorResolvingWithSuccess(
+                filesSecondUpload as unknown as UploadFileNative[]
+              )
             )}
         />
       )
@@ -2211,8 +2221,11 @@ describe('Field.Upload', () => {
 
     await waitFor(() => {
       expect(
-        (dataContext?.internalDataRef as { current: Record<string, unknown> })
-          ?.current?.myFiles
+        (
+          dataContext?.internalDataRef as {
+            current: Record<string, unknown>
+          }
+        )?.current?.myFiles
       ).toEqual([
         {
           exists: false,
@@ -2541,7 +2554,9 @@ describe('Field.Upload', () => {
       ])
 
       await waitFor(() => {
-        const listOfFiles = latestData?.listOfFiles as Array<{ files: Array<{ file: { name: string } }> }>
+        const listOfFiles = latestData?.listOfFiles as Array<{
+          files: Array<{ file: { name: string } }>
+        }>
         expect(listOfFiles?.[0]?.files?.[0]?.file?.name).toBe(
           'first-item-file.png'
         )

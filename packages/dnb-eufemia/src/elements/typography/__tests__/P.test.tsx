@@ -36,7 +36,9 @@ describe('P element', () => {
   })
 
   it('uses the given element when nested and defined', () => {
-    const MockComponent: React.FC = (props) => <strong {...props}>Mock</strong>
+    const MockComponent: React.FC = (props) => (
+      <strong {...props}>Mock</strong>
+    )
 
     render(
       <P>

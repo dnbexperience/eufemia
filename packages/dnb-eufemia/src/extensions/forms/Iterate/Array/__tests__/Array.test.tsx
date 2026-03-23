@@ -1834,7 +1834,9 @@ describe('Iterate.Array', () => {
       let latestData: { items: Array<{ name: string }> } | null = null
       const changeItemValue: Array<(value: string) => void> = []
 
-      function CaptureItemChange(props: { index: number }): React.ReactNode {
+      function CaptureItemChange(props: {
+        index: number
+      }): React.ReactNode {
         const { handleChange } = useContext(IterateItemContext)
 
         useEffect(() => {

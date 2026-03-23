@@ -124,8 +124,14 @@ describe('withComponentMarkers', () => {
     const element = React.createElement(MyComponent)
 
     // Simulates how FieldBlock and flex/utils read markers
-    expect((element.type as unknown as Record<string, unknown>)['_formElement']).toBe(true)
-    expect((element.type as unknown as Record<string, unknown>)['_supportsSpacingProps']).toBe(true)
+    expect(
+      (element.type as unknown as Record<string, unknown>)['_formElement']
+    ).toBe(true)
+    expect(
+      (element.type as unknown as Record<string, unknown>)[
+        '_supportsSpacingProps'
+      ]
+    ).toBe(true)
   })
 
   it('should work with class components', () => {
@@ -274,7 +280,11 @@ describe('withComponentMarkers', () => {
       }
       withComponentMarkers(ChildItem, { _supportsSpacingProps: true })
 
-      function WrapperComponent({ children }: { children: React.ReactNode }) {
+      function WrapperComponent({
+        children,
+      }: {
+        children: React.ReactNode
+      }) {
         return <div className="wrapper">{children}</div>
       }
       withComponentMarkers(WrapperComponent, {

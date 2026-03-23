@@ -81,6 +81,10 @@ describe('Table.ScrollView', () => {
   })
 
   it('should have constant of _supportsSpacingProps', () => {
-    expect((ScrollView as unknown as Record<string, unknown>)['_supportsSpacingProps']).toBe(true)
+    expect(
+      (ScrollView as unknown as Record<string, unknown>)[
+        '_supportsSpacingProps'
+      ]
+    ).toBe(true)
   })
 })

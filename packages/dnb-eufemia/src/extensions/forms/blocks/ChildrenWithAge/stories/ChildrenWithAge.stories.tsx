@@ -8,8 +8,10 @@ export default {
 }
 
 const filterDataPaths = {
-  '/countChildren': ({ data }: { data: unknown }) => Boolean((data as Record<string, unknown>)?.hasChildren),
-  '/children': ({ data }: { data: unknown }) => Boolean((data as Record<string, unknown>)?.hasChildren),
+  '/countChildren': ({ data }: { data: unknown }) =>
+    Boolean((data as Record<string, unknown>)?.hasChildren),
+  '/children': ({ data }: { data: unknown }) =>
+    Boolean((data as Record<string, unknown>)?.hasChildren),
 }
 
 const myTranslations = {

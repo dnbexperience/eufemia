@@ -51,9 +51,12 @@ describe('useHeightAnimation', () => {
   const MockComponent = ({ open = false, animate = true }) => {
     const [openState, setOpenState] = useState(open)
 
-    const onChangeHandler = useCallback(({ checked }: { checked: boolean }) => {
-      setOpenState(checked)
-    }, [])
+    const onChangeHandler = useCallback(
+      ({ checked }: { checked: boolean }) => {
+        setOpenState(checked)
+      },
+      []
+    )
 
     return (
       <>

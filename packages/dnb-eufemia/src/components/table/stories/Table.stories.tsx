@@ -1369,7 +1369,15 @@ export function Overflow() {
 }
 
 export function Accodion() {
-  const AccordionTable = ({ id, showCheckbox = false, ...props }: { id: string; showCheckbox?: boolean; [key: string]: any }) => {
+  const AccordionTable = ({
+    id,
+    showCheckbox = false,
+    ...props
+  }: {
+    id: string
+    showCheckbox?: boolean
+    [key: string]: any
+  }) => {
     const TdCheckbox = () => {
       return <Checkbox label="Select row" labelSrOnly />
     }

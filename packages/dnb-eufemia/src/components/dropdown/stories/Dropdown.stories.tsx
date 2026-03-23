@@ -706,7 +706,12 @@ function CurrencySelector({
   onChange,
   value = null,
   ...props
-}: { currencies: string[]; onChange: (value: string) => void; value?: string | null; [key: string]: any }) {
+}: {
+  currencies: string[]
+  onChange: (value: string) => void
+  value?: string | null
+  [key: string]: any
+}) {
   let itemIndex = currencies.indexOf(value)
   itemIndex = itemIndex > -1 ? itemIndex : null
   return (

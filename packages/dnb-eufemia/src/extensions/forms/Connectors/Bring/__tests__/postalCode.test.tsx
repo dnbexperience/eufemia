@@ -113,7 +113,9 @@ describe('postalCode', () => {
 
       const mockSignal = {
         aborted: false,
-        onabort: null as ((this: AbortSignal, ev: Event) => unknown) | null,
+        onabort: null as
+          | ((this: AbortSignal, ev: Event) => unknown)
+          | null,
         reason: undefined as unknown,
         throwIfAborted: jest.fn(),
         addEventListener: jest.fn(),
@@ -825,7 +827,10 @@ describe('postalCode', () => {
   })
 })
 
-function createFetchMock(overwrite: Record<string, unknown> | null = null, delay: (() => Promise<void>) | null = null) {
+function createFetchMock(
+  overwrite: Record<string, unknown> | null = null,
+  delay: (() => Promise<void>) | null = null
+) {
   return jest.fn(async () => {
     await delay?.()
     const response = {

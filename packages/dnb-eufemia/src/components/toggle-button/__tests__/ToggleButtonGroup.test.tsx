@@ -11,7 +11,11 @@ import { Provider } from '../../../shared'
 
 describe('ToggleButton group component', () => {
   it('should not have _formElement property', () => {
-    expect((ToggleButton.Group as unknown as Record<string, unknown>)['_formElement']).toBeUndefined()
+    expect(
+      (ToggleButton.Group as unknown as Record<string, unknown>)[
+        '_formElement'
+      ]
+    ).toBeUndefined()
   })
 
   it('should support vertical label', () => {

@@ -5286,7 +5286,15 @@ describe('DataContext.Provider', () => {
     const onSubmit = jest.fn((data, { transformData }) => {
       transformedData = transformData(
         data,
-        ({ value, displayValue, label }: { value: unknown; displayValue: unknown; label: unknown }) => {
+        ({
+          value,
+          displayValue,
+          label,
+        }: {
+          value: unknown
+          displayValue: unknown
+          label: unknown
+        }) => {
           return { value, displayValue, label }
         }
       )
@@ -5402,7 +5410,15 @@ describe('DataContext.Provider', () => {
     const onSubmit = jest.fn((data, { transformData }) => {
       transformedData = transformData(
         data,
-        ({ value, displayValue, label }: { value: unknown; displayValue: unknown; label: unknown }) => {
+        ({
+          value,
+          displayValue,
+          label,
+        }: {
+          value: unknown
+          displayValue: unknown
+          label: unknown
+        }) => {
           return { value, displayValue, label }
         }
       )

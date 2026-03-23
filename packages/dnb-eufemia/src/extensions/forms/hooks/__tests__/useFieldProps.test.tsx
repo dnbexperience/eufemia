@@ -764,7 +764,9 @@ describe('useFieldProps', () => {
   })
 
   it('should return correct "hasError" state but no error object when nested in "FieldBlock"', async () => {
-    const wrapper = ({ children }: { children: React.ReactNode }) => <FieldBlock>{children}</FieldBlock>
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <FieldBlock>{children}</FieldBlock>
+    )
 
     const { result } = renderHook(
       () =>
@@ -1244,7 +1246,9 @@ describe('useFieldProps', () => {
     })
 
     it('should render error message given as string', () => {
-      const wrapper = ({ children }: { children: React.ReactNode }) => <FieldBlock>{children}</FieldBlock>
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <FieldBlock>{children}</FieldBlock>
+      )
 
       const error: string | undefined = 'A formatted error message'
 
@@ -1268,7 +1272,9 @@ describe('useFieldProps', () => {
     })
 
     it('should render error message given as JSX', () => {
-      const wrapper = ({ children }: { children: React.ReactNode }) => <FieldBlock>{children}</FieldBlock>
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <FieldBlock>{children}</FieldBlock>
+      )
 
       const error = (
         <>
@@ -1299,7 +1305,9 @@ describe('useFieldProps', () => {
     })
 
     it('should render error messages given as JSX in an array', () => {
-      const wrapper = ({ children }: { children: React.ReactNode }) => <FieldBlock>{children}</FieldBlock>
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <FieldBlock>{children}</FieldBlock>
+      )
 
       const { rerender } = renderHook(
         (props: any) => useFieldProps(props),
@@ -1677,7 +1685,10 @@ describe('useFieldProps', () => {
   })
 
   describe('with async onChange', () => {
-    const validateBlur = async (result: { current: ReturnType<typeof useFieldProps> }, value: unknown) => {
+    const validateBlur = async (
+      result: { current: ReturnType<typeof useFieldProps> },
+      value: unknown
+    ) => {
       act(() => {
         result.current.handleChange(value)
         result.current.handleBlur()
@@ -1890,7 +1901,8 @@ describe('useFieldProps', () => {
     })
 
     it('should set "disabled" on blur when "onBlurValidator" and async onChange is given', async () => {
-      const onChange = (async (): Promise<null> => null) as unknown as OnChange<unknown>
+      const onChange = (async (): Promise<null> =>
+        null) as unknown as OnChange<unknown>
       const onChangeValidator = async (): Promise<null> => null
       const onBlurValidator = async (): Promise<null> => null
 
@@ -3814,7 +3826,10 @@ describe('useFieldProps', () => {
     })
 
     describe('with async onChangeValidator', () => {
-      const validateBlur = async (result: { current: ReturnType<typeof useFieldProps> }, value: string | number = Date.now()) => {
+      const validateBlur = async (
+        result: { current: ReturnType<typeof useFieldProps> },
+        value: string | number = Date.now()
+      ) => {
         act(() => {
           result.current.handleChange(String(value))
           result.current.handleBlur()
@@ -5048,7 +5063,9 @@ describe('useFieldProps', () => {
           )
         }
       }
-      const wrapper = ({ children }: { children: React.ReactNode }) => <FieldBlock>{children}</FieldBlock>
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <FieldBlock>{children}</FieldBlock>
+      )
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: { onChangeValidator },
@@ -5081,7 +5098,9 @@ describe('useFieldProps', () => {
           return 'A formatted error message'
         }
       }
-      const wrapper = ({ children }: { children: React.ReactNode }) => <FieldBlock>{children}</FieldBlock>
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <FieldBlock>{children}</FieldBlock>
+      )
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: { onChangeValidator },
@@ -5107,7 +5126,10 @@ describe('useFieldProps', () => {
 
     describe('exportValidators', () => {
       it('should call exported validators from mock component', async () => {
-        let internalValidators: jest.Mock = undefined!, fooValidator: jest.Mock = undefined!, barValidator: jest.Mock = undefined!, bazValidator: jest.Mock = undefined!
+        let internalValidators: jest.Mock = undefined!,
+          fooValidator: jest.Mock = undefined!,
+          barValidator: jest.Mock = undefined!,
+          bazValidator: jest.Mock = undefined!
 
         const MockComponent = (props: Record<string, any>) => {
           barValidator = jest.fn((value) => {
@@ -5349,7 +5371,10 @@ describe('useFieldProps', () => {
       })
 
       it('should call returned validators (barValidator should not be called)', async () => {
-        let internalValidators: jest.Mock = undefined!, fooValidator: jest.Mock = undefined!, barValidator: jest.Mock = undefined!, bazValidator: jest.Mock = undefined!
+        let internalValidators: jest.Mock = undefined!,
+          fooValidator: jest.Mock = undefined!,
+          barValidator: jest.Mock = undefined!,
+          bazValidator: jest.Mock = undefined!
 
         const MockComponent = (props: Record<string, any>) => {
           barValidator = jest.fn((value) => {
@@ -5508,7 +5533,9 @@ describe('useFieldProps', () => {
       })
 
       it('should not call internal validators when they are not returned in the publicValidator', async () => {
-        let internalValidators: jest.Mock = undefined!, barValidator: jest.Mock = undefined!, bazValidator: jest.Mock = undefined!
+        let internalValidators: jest.Mock = undefined!,
+          barValidator: jest.Mock = undefined!,
+          bazValidator: jest.Mock = undefined!
 
         const MockComponent = (props: Record<string, any>) => {
           barValidator = jest.fn((value) => {
@@ -6273,7 +6300,10 @@ describe('useFieldProps', () => {
 
     describe('exportValidators', () => {
       it('should call returned validators (barValidator should not be called)', async () => {
-        let internalValidators: jest.Mock = undefined!, fooValidator: jest.Mock = undefined!, barValidator: jest.Mock = undefined!, bazValidator: jest.Mock = undefined!
+        let internalValidators: jest.Mock = undefined!,
+          fooValidator: jest.Mock = undefined!,
+          barValidator: jest.Mock = undefined!,
+          bazValidator: jest.Mock = undefined!
 
         const MockComponent = (props: Record<string, any>) => {
           barValidator = jest.fn((value) => {
@@ -6611,7 +6641,10 @@ describe('useFieldProps', () => {
       })
     })
 
-    const validateBlur = async (result: { current: ReturnType<typeof useFieldProps> }, value: string | number = Date.now()) => {
+    const validateBlur = async (
+      result: { current: ReturnType<typeof useFieldProps> },
+      value: string | number = Date.now()
+    ) => {
       act(() => {
         result.current.handleChange(String(value))
         result.current.handleBlur()
@@ -6801,7 +6834,9 @@ describe('useFieldProps', () => {
           )
         }
       }
-      const wrapper = ({ children }: { children: React.ReactNode }) => <FieldBlock>{children}</FieldBlock>
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <FieldBlock>{children}</FieldBlock>
+      )
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: { onBlurValidator },
@@ -6835,7 +6870,9 @@ describe('useFieldProps', () => {
           return 'A formatted error message'
         }
       }
-      const wrapper = ({ children }: { children: React.ReactNode }) => <FieldBlock>{children}</FieldBlock>
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <FieldBlock>{children}</FieldBlock>
+      )
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: { onBlurValidator },

@@ -71,7 +71,9 @@ describe('Step', () => {
   })
 
   it('should set stepElementRef', () => {
-    const stepElementRef: { current: HTMLElement | null } = { current: null }
+    const stepElementRef: { current: HTMLElement | null } = {
+      current: null,
+    }
 
     render(
       <WizardContext value={{ stepElementRef }}>

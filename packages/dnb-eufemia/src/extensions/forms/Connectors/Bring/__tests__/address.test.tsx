@@ -284,7 +284,9 @@ describe('address', () => {
 
       render(
         <Form.Handler defaultData={{ countryCode: 'SE' }}>
-          <Field.Address.Street element={addressSuggestionsElement as never} />
+          <Field.Address.Street
+            element={addressSuggestionsElement as never}
+          />
           <Field.PostalCodeAndCity
             countryCode="/myCountryCode"
             postalCode={{
@@ -321,7 +323,9 @@ describe('address', () => {
 
       render(
         <Form.Handler>
-          <Field.Address.Street element={addressSuggestionsElement as never} />
+          <Field.Address.Street
+            element={addressSuggestionsElement as never}
+          />
         </Form.Handler>
       )
 
@@ -336,7 +340,10 @@ describe('address', () => {
   })
 })
 
-function createFetchMock(overwrite: Record<string, unknown> | null = null, delay: (() => Promise<void>) | null = null) {
+function createFetchMock(
+  overwrite: Record<string, unknown> | null = null,
+  delay: (() => Promise<void>) | null = null
+) {
   return jest.fn(async () => {
     await delay?.()
     const response = {

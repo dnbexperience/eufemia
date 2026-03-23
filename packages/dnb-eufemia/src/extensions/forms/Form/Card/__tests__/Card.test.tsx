@@ -4,7 +4,11 @@ import { Form } from '../../..'
 
 describe('Form.Card', () => {
   it('should have constant of _supportsSpacingProps', () => {
-    expect((Form.Card as unknown as Record<string, unknown>)['_supportsSpacingProps']).toBe(true)
+    expect(
+      (Form.Card as unknown as Record<string, unknown>)[
+        '_supportsSpacingProps'
+      ]
+    ).toBe(true)
   })
 
   it('should support "outset"', () => {

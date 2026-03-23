@@ -270,10 +270,13 @@ const manyTabs = [
   { title: 'Fifth', key: 'fifth' },
   { title: 'Sixth', key: 'sixth' },
 ]
-const manyTabsContent = manyTabs.reduce((acc: Record<string, string>, { title, key }) => {
-  acc[key] = title
-  return acc
-}, {})
+const manyTabsContent = manyTabs.reduce(
+  (acc: Record<string, string>, { title, key }) => {
+    acc[key] = title
+    return acc
+  },
+  {}
+)
 const TabsInGrid = () => (
   <TabGridStyle>
     <TabGridWrapperStyle>

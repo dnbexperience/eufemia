@@ -74,7 +74,9 @@ export const RadioDisabled = () => {
   )
 }
 
-const filterDataHandler: FilterDataHandlerCallback<boolean | undefined> = ({ props }) => {
+const filterDataHandler: FilterDataHandlerCallback<
+  boolean | undefined
+> = ({ props }) => {
   return !(props as Record<string, unknown>)['data-exclude-field']
 }
 

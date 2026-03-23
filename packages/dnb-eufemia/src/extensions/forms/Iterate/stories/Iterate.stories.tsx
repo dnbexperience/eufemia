@@ -187,7 +187,9 @@ export const InitialOpen = () => {
               animate
               onChangeValidator={(arrayValue) => {
                 const findFirstDuplication = (arr: unknown[]) =>
-                  arr.findIndex((e: unknown, i: number) => arr.indexOf(e) !== i)
+                  arr.findIndex(
+                    (e: unknown, i: number) => arr.indexOf(e) !== i
+                  )
 
                 const count = arrayValue.filter(Boolean).length
                 const index = findFirstDuplication(arrayValue)

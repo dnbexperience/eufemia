@@ -936,11 +936,15 @@ describe('useMedia', () => {
 
   describe('ssr', () => {
     beforeAll(() => {
-      (global.window as unknown as Record<string, unknown>)['__SSR_TEST__'] = true
+      ;(global.window as unknown as Record<string, unknown>)[
+        '__SSR_TEST__'
+      ] = true
     })
 
     afterAll(() => {
-      delete (global.window as unknown as Record<string, unknown>)['__SSR_TEST__']
+      delete (global.window as unknown as Record<string, unknown>)[
+        '__SSR_TEST__'
+      ]
     })
 
     it('will by default return false on all sizes', () => {

@@ -66,7 +66,15 @@ describe('isAsync', () => {
 
   it('should return correct result based async function transpiled using @babel/plugin-transform-async-to-generator', () => {
     /* eslint-disable */
-    function asyncGeneratorStep(n: any, t: any, e: any, r: any, o: any, a: any, c: any): void {
+    function asyncGeneratorStep(
+      n: any,
+      t: any,
+      e: any,
+      r: any,
+      o: any,
+      a: any,
+      c: any
+    ): void {
       try {
         var i = n[a](c),
           u = i.value

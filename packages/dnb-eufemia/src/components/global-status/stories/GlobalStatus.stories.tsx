@@ -47,7 +47,9 @@ export const ComponentAsLabel = () => {
       >
         <ToggleButton
           bottom
-          onChange={() => setStatus((s: string | null) => (!s ? 'min status' : null))}
+          onChange={() =>
+            setStatus((s: string | null) => (!s ? 'min status' : null))
+          }
         >
           set status
         </ToggleButton>

@@ -332,7 +332,13 @@ function AccordionWithContainer() {
   )
 }
 
-function ChangingContent({ changeHeight, children }: { changeHeight: React.MutableRefObject<any>; children: React.ReactNode }) {
+function ChangingContent({
+  changeHeight,
+  children,
+}: {
+  changeHeight: React.MutableRefObject<any>
+  children: React.ReactNode
+}) {
   const [contentSize, changeContentSize] = React.useState(false)
   React.useLayoutEffect(() => {
     changeHeight.current?.setContainerHeight?.()

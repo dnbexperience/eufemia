@@ -616,8 +616,23 @@ describe('InputMasked component', () => {
     const setSelectionRange = jest.fn()
     const preventDefault = jest.fn()
 
-    const simulate = ({ name, value, selectionPosition, key }: { name: string; value: string; selectionPosition: number; key: string }) => {
-      ;(fireEvent as unknown as Record<string, (el: Element | null, opts: Record<string, unknown>) => void>)[name](document.querySelector('input'), {
+    const simulate = ({
+      name,
+      value,
+      selectionPosition,
+      key,
+    }: {
+      name: string
+      value: string
+      selectionPosition: number
+      key: string
+    }) => {
+      ;(
+        fireEvent as unknown as Record<
+          string,
+          (el: Element | null, opts: Record<string, unknown>) => void
+        >
+      )[name](document.querySelector('input'), {
         target: {
           value,
           selectionStart: selectionPosition,
@@ -2151,11 +2166,19 @@ describe('InputMasked with custom mask', () => {
 
     const input = document.querySelector('input')
 
-    expect((input as unknown as Record<string, unknown>)['runCorrectCaretPosition']).toBeType('undefined')
+    expect(
+      (input as unknown as Record<string, unknown>)[
+        'runCorrectCaretPosition'
+      ]
+    ).toBeType('undefined')
 
     fireEvent.focus(input)
 
-    expect((input as unknown as Record<string, unknown>)['runCorrectCaretPosition']).toBeType('function')
+    expect(
+      (input as unknown as Record<string, unknown>)[
+        'runCorrectCaretPosition'
+      ]
+    ).toBeType('function')
   })
 
   it('should set correct cursor position when navigating using keyboard', async () => {

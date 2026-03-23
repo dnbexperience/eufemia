@@ -818,7 +818,8 @@ describe('HeightAnimationInstance', () => {
 
   describe('canFinish', () => {
     beforeEach(() => {
-      ;(globalThis as Record<string, unknown>).animationDuration = undefined
+      ;(globalThis as Record<string, unknown>).animationDuration =
+        undefined
     })
 
     it('should return true if enough time has passed', () => {
@@ -859,11 +860,9 @@ describe('HeightAnimationInstance', () => {
       inst.setElement(element)
 
       expect(inst.shouldBypassAnimation()).toBe(false)
-
       ;(globalThis as Record<string, unknown>).IS_TEST = true
 
       expect(inst.shouldBypassAnimation()).toBe(false)
-
       ;(globalThis as Record<string, unknown>).IS_TEST = false
       ;(globalThis as Record<string, unknown>).bypassTime = -1
 
@@ -881,7 +880,6 @@ describe('HeightAnimationInstance', () => {
       inst.callAnimationStart() // to set firstTime" with a timestamp
 
       expect(inst.shouldBypassAnimation()).toBe(true)
-
       ;(globalThis as Record<string, unknown>).bypassTime = 0
 
       inst.callAnimationStart() // to set firstTime" with a timestamp

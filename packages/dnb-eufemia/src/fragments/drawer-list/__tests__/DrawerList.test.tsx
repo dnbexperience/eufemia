@@ -544,7 +544,9 @@ describe('DrawerList component', () => {
     // select the current
     keydown(' ')
 
-    const notChangedItem = (mockData as DrawerListDataArray)[props.value as number]
+    const notChangedItem = (mockData as DrawerListDataArray)[
+      props.value as number
+    ]
     await waitFor(() => {
       expect(onSelect.mock.calls[0][0].data).toStrictEqual(notChangedItem)
       expect(onSelect.mock.calls[0][0].selectedItem).toBe(2)
@@ -575,7 +577,9 @@ describe('DrawerList component', () => {
       expect(onSelect.mock.calls[1][0].selectedItem).toBe(undefined)
       expect(onSelect.mock.calls[1][0].activeItem).toBe(3)
 
-      const selectedItem = (mockData as DrawerListDataArray)[(props.value as number) + 1]
+      const selectedItem = (mockData as DrawerListDataArray)[
+        (props.value as number) + 1
+      ]
       expect(onSelect.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
     })
   })
@@ -754,7 +758,9 @@ describe('DrawerList component', () => {
     keydown(' ')
 
     await waitFor(() => {
-      const selectedItem = (mockData as DrawerListDataArray)[(props.value as number) + 1]
+      const selectedItem = (mockData as DrawerListDataArray)[
+        (props.value as number) + 1
+      ]
       expect(onChange.mock.calls[0][0].data).toStrictEqual(selectedItem)
       expect(onSelect.mock.calls[1][0].data).toStrictEqual(selectedItem)
     })
@@ -785,7 +791,9 @@ describe('DrawerList component', () => {
     keydown('Enter')
 
     await waitFor(() => {
-      const selectedItem = (mockData as DrawerListDataArray)[(props.value as number) + 2]
+      const selectedItem = (mockData as DrawerListDataArray)[
+        (props.value as number) + 2
+      ]
       expect(onChange.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
       expect(onSelect.mock.calls[3][0].data).toStrictEqual(selectedItem) // second call!
     })
@@ -922,7 +930,10 @@ describe('DrawerList component', () => {
   })
 
   it('should update and correctly set selected item on data prop change', () => {
-    const data: Record<string, Array<{ selectedKey: string; content: string }>> = {
+    const data: Record<
+      string,
+      Array<{ selectedKey: string; content: string }>
+    > = {
       first: [
         { selectedKey: 'key_1', content: 'Content 1' },
         { selectedKey: 'key_2', content: 'Content 2' },

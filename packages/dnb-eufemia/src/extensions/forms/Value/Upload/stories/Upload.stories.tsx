@@ -42,7 +42,11 @@ function createMockFile(name: string, size: number, type: string) {
   return file
 }
 
-async function mockAsyncFileFetching({ fileItem }: { fileItem: UploadFile }) {
+async function mockAsyncFileFetching({
+  fileItem,
+}: {
+  fileItem: UploadFile
+}) {
   const request = createRequest()
   console.log(
     'making API request to fetch the url of the file: ' +

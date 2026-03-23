@@ -286,7 +286,13 @@ describe('Infinity scroller', () => {
   }
 
   it('should load pages with intersection observer (after)', async () => {
-    const action = ({ pageNumber, setContent }: { pageNumber: number; setContent: (page: number, content: React.ReactNode) => void }) => {
+    const action = ({
+      pageNumber,
+      setContent,
+    }: {
+      pageNumber: number
+      setContent: (page: number, content: React.ReactNode) => void
+    }) => {
       setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
     }
 
@@ -553,7 +559,13 @@ describe('Infinity scroller', () => {
   })
 
   it('should load pages with load more button (before)', async () => {
-    const action = ({ pageNumber, setContent }: { pageNumber: number; setContent: (page: number, content: React.ReactNode) => void }) => {
+    const action = ({
+      pageNumber,
+      setContent,
+    }: {
+      pageNumber: number
+      setContent: (page: number, content: React.ReactNode) => void
+    }) => {
       setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
     }
 
@@ -689,7 +701,13 @@ describe('Infinity scroller', () => {
 
     render(
       <Pagination pageCount={3} currentPage={1}>
-        {({ pageNumber, setContent: internalSetContent }: { pageNumber: number; setContent: (page: number, content: React.ReactNode) => void }) => {
+        {({
+          pageNumber,
+          setContent: internalSetContent,
+        }: {
+          pageNumber: number
+          setContent: (page: number, content: React.ReactNode) => void
+        }) => {
           internalSetContent(
             pageNumber,
             <PageItem>page-{pageNumber}</PageItem>
@@ -817,7 +835,13 @@ describe('Infinity scroller', () => {
   })
 
   it('should forward load button props', async () => {
-    const action = ({ pageNumber, setContent }: { pageNumber: number; setContent: (page: number, content: React.ReactNode) => void }) => {
+    const action = ({
+      pageNumber,
+      setContent,
+    }: {
+      pageNumber: number
+      setContent: (page: number, content: React.ReactNode) => void
+    }) => {
       setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
     }
 
@@ -844,7 +868,13 @@ describe('Infinity scroller', () => {
   })
 
   it('should accept custom component as value for loadButton', async () => {
-    const action = ({ pageNumber, setContent }: { pageNumber: number; setContent: (page: number, content: React.ReactNode) => void }) => {
+    const action = ({
+      pageNumber,
+      setContent,
+    }: {
+      pageNumber: number
+      setContent: (page: number, content: React.ReactNode) => void
+    }) => {
       setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
     }
 

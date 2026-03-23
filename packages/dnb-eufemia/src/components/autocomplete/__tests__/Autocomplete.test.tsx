@@ -6,7 +6,10 @@
 import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import * as helpers from '../../../shared/helpers'
-import type { AutocompleteAllProps, AutocompleteOnTypeParams } from '../Autocomplete'
+import type {
+  AutocompleteAllProps,
+  AutocompleteOnTypeParams,
+} from '../Autocomplete'
 import Autocomplete from '../Autocomplete'
 import { SubmitButton } from '../../input/Input'
 import { format } from '../../number-format/NumberUtils'
@@ -1661,7 +1664,10 @@ describe('Autocomplete component', () => {
       { selectedKey: 'c', content: ['CC', 'cc'] },
     ]
 
-    const onTypeHandler = ({ value, updateData }: AutocompleteOnTypeParams) => {
+    const onTypeHandler = ({
+      value,
+      updateData,
+    }: AutocompleteOnTypeParams) => {
       if (value === 'c') {
         updateData(newMockData)
       }
@@ -1841,7 +1847,11 @@ describe('Autocomplete component', () => {
   })
 
   it('should allow showing "no-options" via showNoOptionsItem in async mode', async () => {
-    const onTypeHandler = ({ value, updateData, showNoOptionsItem }: AutocompleteOnTypeParams) => {
+    const onTypeHandler = ({
+      value,
+      updateData,
+      showNoOptionsItem,
+    }: AutocompleteOnTypeParams) => {
       if (value === 'x') {
         updateData([])
         showNoOptionsItem()
@@ -1885,7 +1895,10 @@ describe('Autocomplete component', () => {
     const mockDataA = [{ selectedKey: 'a', content: 'A' }]
     const mockDataB = [{ selectedKey: 'b', content: 'B' }]
 
-    const onTypeHandler = ({ value, updateData }: AutocompleteOnTypeParams) => {
+    const onTypeHandler = ({
+      value,
+      updateData,
+    }: AutocompleteOnTypeParams) => {
       if (value === 'a') {
         updateData(mockDataA)
       } else if (value === 'b') {
@@ -2957,14 +2970,21 @@ describe('Autocomplete component', () => {
     const WithState = () => {
       const [data, setData] = React.useState(mockDataA)
 
-      const onTypeHandler = ({ debounce, ...args }: AutocompleteOnTypeParams) => {
-        debounce(() => {
-          args.showIndicator()
-          setTimeout(() => {
-            args.hideIndicator()
-            setData(mockDataB)
-          }, 1)
-        }, undefined, 1)
+      const onTypeHandler = ({
+        debounce,
+        ...args
+      }: AutocompleteOnTypeParams) => {
+        debounce(
+          () => {
+            args.showIndicator()
+            setTimeout(() => {
+              args.hideIndicator()
+              setData(mockDataB)
+            }, 1)
+          },
+          undefined,
+          1
+        )
       }
 
       return (

@@ -343,7 +343,10 @@ describe.each(['ui', 'sbanken', 'carnegie', 'eiendom'])(
     }
 
     it('have to break word with icon', async () => {
-      const widths: Record<string, string> = { sbanken: '16rem', ui: '17.5rem' }
+      const widths: Record<string, string> = {
+        sbanken: '16rem',
+        ui: '17.5rem',
+      }
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="anchor-icon-break"]',
         style: { width: widths[themeName]! },

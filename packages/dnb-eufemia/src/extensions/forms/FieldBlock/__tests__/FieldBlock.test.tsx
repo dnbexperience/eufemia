@@ -835,7 +835,9 @@ describe('FieldBlock', () => {
 
   it('should set hasError on provider', () => {
     let hasNestedError = false
-    const MockComponent = (props: Record<string, unknown>): React.ReactElement => {
+    const MockComponent = (
+      props: Record<string, unknown>
+    ): React.ReactElement => {
       const { hasError } = useFieldProps(props)
       hasNestedError = hasError
       return null
@@ -1714,7 +1716,13 @@ describe('FieldBlock', () => {
   })
 })
 
-function MockComponent({ label = null, id = null }: { label?: string | null; id?: string | null }) {
+function MockComponent({
+  label = null,
+  id = null,
+}: {
+  label?: string | null
+  id?: string | null
+}) {
   return (
     <>
       {label && <label htmlFor={id}>{label}</label>}

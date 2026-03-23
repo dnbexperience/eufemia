@@ -342,7 +342,9 @@ describe('Input component', () => {
   })
 
   it('placeholder prop should accept React Element', () => {
-    const Placeholder = ({ children }: { children: React.ReactNode }) => <span>{children}</span>
+    const Placeholder = ({ children }: { children: React.ReactNode }) => (
+      <span>{children}</span>
+    )
 
     const { rerender } = render(
       <Input placeholder={<Placeholder>Placeholder</Placeholder>} />

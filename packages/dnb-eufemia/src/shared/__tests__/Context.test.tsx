@@ -139,7 +139,9 @@ describe('Context', () => {
     )
 
     expect(translation).not.toBeUndefined()
-    expect((translation!.DatePicker as Record<string, unknown>).month).toBe('måned')
+    expect(
+      (translation!.DatePicker as Record<string, unknown>).month
+    ).toBe('måned')
   })
 
   it('should preserve all translations when Provider supplies partial translations', () => {

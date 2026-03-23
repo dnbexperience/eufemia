@@ -774,7 +774,10 @@ describe('Field.Date', () => {
       '.dnb-date-picker__input'
     ) as HTMLInputElement
 
-    expect((dataContext as { fieldDisplayValueRef: { current: unknown } }).fieldDisplayValueRef.current).toEqual({
+    expect(
+      (dataContext as { fieldDisplayValueRef: { current: unknown } })
+        .fieldDisplayValueRef.current
+    ).toEqual({
       '/myValue': {
         type: 'field',
         value: '01.10.2023',
@@ -785,7 +788,10 @@ describe('Field.Date', () => {
     await userEvent.keyboard('02112024')
 
     await waitFor(() => {
-      expect((dataContext as { fieldDisplayValueRef: { current: unknown } }).fieldDisplayValueRef.current).toEqual({
+      expect(
+        (dataContext as { fieldDisplayValueRef: { current: unknown } })
+          .fieldDisplayValueRef.current
+      ).toEqual({
         '/myValue': {
           type: 'field',
           value: '02.11.2024',
@@ -813,7 +819,10 @@ describe('Field.Date', () => {
       '.dnb-date-picker__input'
     ) as HTMLInputElement
 
-    expect((dataContext as { fieldDisplayValueRef: { current: unknown } }).fieldDisplayValueRef.current).toEqual({
+    expect(
+      (dataContext as { fieldDisplayValueRef: { current: unknown } })
+        .fieldDisplayValueRef.current
+    ).toEqual({
       '/myValue': {
         type: 'field',
         value: '10/1/23',
@@ -824,7 +833,10 @@ describe('Field.Date', () => {
     await userEvent.keyboard('02112024')
 
     await waitFor(() => {
-      expect((dataContext as { fieldDisplayValueRef: { current: unknown } }).fieldDisplayValueRef.current).toEqual({
+      expect(
+        (dataContext as { fieldDisplayValueRef: { current: unknown } })
+          .fieldDisplayValueRef.current
+      ).toEqual({
         '/myValue': {
           type: 'field',
           value: '11/2/24',
@@ -1082,7 +1094,9 @@ describe('Field.Date', () => {
     await userEvent.keyboard('01102024')
 
     await waitFor(() => {
-      expect((dataContext.fieldDisplayValueRef as { current: unknown }).current).toEqual({
+      expect(
+        (dataContext.fieldDisplayValueRef as { current: unknown }).current
+      ).toEqual({
         '/date': {
           type: 'field',
           value: '01.10.2024',
@@ -1127,10 +1141,14 @@ describe('Field.Date', () => {
     expect(year.value).toBe('åååå')
 
     await waitFor(() => {
-      expect((dataContext.internalDataRef as { current: unknown }).current).toEqual({
+      expect(
+        (dataContext.internalDataRef as { current: unknown }).current
+      ).toEqual({
         '/date': undefined,
       })
-      expect((dataContext.fieldDisplayValueRef as { current: unknown }).current).toEqual({
+      expect(
+        (dataContext.fieldDisplayValueRef as { current: unknown }).current
+      ).toEqual({
         '/date': { type: 'field' },
       })
     })
@@ -1927,10 +1945,15 @@ describe('Field.Date', () => {
       }
     }
 
-    const onBlurValidator = (value: string, { validators }: { validators: Record<string, unknown> }) => {
+    const onBlurValidator = (
+      value: string,
+      { validators }: { validators: Record<string, unknown> }
+    ) => {
       const { dateValidator } = validators
 
-      return [myOnBlurValidator, dateValidator] as unknown as ReturnType<typeof myOnBlurValidator>
+      return [myOnBlurValidator, dateValidator] as unknown as ReturnType<
+        typeof myOnBlurValidator
+      >
     }
 
     const minDate = '2025-01-01'

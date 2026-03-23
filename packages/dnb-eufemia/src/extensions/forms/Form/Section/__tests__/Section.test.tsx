@@ -1265,7 +1265,9 @@ describe('Form.Section', () => {
       const errors = onSubmitRequest.mock.calls[0][0].getErrors()
 
       expect(
-        errors.some(({ path }: { path: unknown }) => path === '/customer/firstName')
+        errors.some(
+          ({ path }: { path: unknown }) => path === '/customer/firstName'
+        )
       ).toBe(true)
     })
 
@@ -1486,7 +1488,9 @@ describe('Form.Section', () => {
 
       const errors = onSubmitRequest.mock.calls[0][0].getErrors()
       expect(
-        errors.some(({ path }: { path: unknown }) => path === '/customer/firstName')
+        errors.some(
+          ({ path }: { path: unknown }) => path === '/customer/firstName'
+        )
       ).toBe(true)
     })
 
@@ -1771,10 +1775,14 @@ describe('Form.Section', () => {
 
       const errors = onSubmitRequest.mock.calls[0][0].getErrors()
       expect(
-        errors.some(({ path }: { path: unknown }) => path === '/parent/parentField')
+        errors.some(
+          ({ path }: { path: unknown }) => path === '/parent/parentField'
+        )
       ).toBe(true)
       expect(
-        errors.some(({ path }: { path: unknown }) => path === '/parent/child/city')
+        errors.some(
+          ({ path }: { path: unknown }) => path === '/parent/child/city'
+        )
       ).toBe(true)
     })
 
@@ -1865,7 +1873,9 @@ describe('Form.Section', () => {
         const errors = onSubmitRequest.mock.calls[0][0].getErrors()
         // Should have error from handler schema (minLength: 5), not section schema
         expect(
-          errors.some(({ path }: { path: unknown }) => path === '/customer/firstName')
+          errors.some(
+            ({ path }: { path: unknown }) => path === '/customer/firstName'
+          )
         ).toBe(true)
       })
 
@@ -1930,7 +1940,9 @@ describe('Form.Section', () => {
         // Section schema fails (minLength: 5), so error should be present
         // This verifies that section schema validation runs even when handler schema would pass
         expect(
-          errors.some(({ path }: { path: unknown }) => path === '/customer/firstName')
+          errors.some(
+            ({ path }: { path: unknown }) => path === '/customer/firstName'
+          )
         ).toBe(true)
       })
 
@@ -2070,7 +2082,9 @@ describe('Form.Section', () => {
         const errors = onSubmitRequest.mock.calls[0][0].getErrors()
         // Should have error from handler schema
         expect(
-          errors.some(({ path }: { path: unknown }) => path === '/customer/firstName')
+          errors.some(
+            ({ path }: { path: unknown }) => path === '/customer/firstName'
+          )
         ).toBe(true)
       })
 
@@ -2115,7 +2129,9 @@ describe('Form.Section', () => {
         const errors = onSubmitRequest.mock.calls[0][0].getErrors()
         // Should have error from section schema
         expect(
-          errors.some(({ path }: { path: unknown }) => path === '/customer/firstName')
+          errors.some(
+            ({ path }: { path: unknown }) => path === '/customer/firstName'
+          )
         ).toBe(true)
       })
     })

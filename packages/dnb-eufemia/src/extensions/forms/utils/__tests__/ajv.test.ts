@@ -31,7 +31,9 @@ describe('enhanceAjvInstance', () => {
     expect(ajvInstance).toBeDefined()
     expect(ajvInstance).toBeInstanceOf(Ajv)
     expect(ajvInstance).toBe(ajv) // Should return the same instance
-    expect((ajvInstance as unknown as Record<string, unknown>)['__ajvErrors__']).toBe(true) // Should be enhanced
+    expect(
+      (ajvInstance as unknown as Record<string, unknown>)['__ajvErrors__']
+    ).toBe(true) // Should be enhanced
   })
 
   it('should not re-enhance an already enhanced Ajv instance', () => {
@@ -41,11 +43,15 @@ describe('enhanceAjvInstance', () => {
 
     // First enhancement
     const ajvInstance1 = enhanceAjvInstance(ajv)
-    expect((ajvInstance1 as unknown as Record<string, unknown>)['__ajvErrors__']).toBe(true)
+    expect(
+      (ajvInstance1 as unknown as Record<string, unknown>)['__ajvErrors__']
+    ).toBe(true)
 
     // Second enhancement should not cause issues
     const ajvInstance2 = enhanceAjvInstance(ajv)
     expect(ajvInstance2).toBe(ajv)
-    expect((ajvInstance2 as unknown as Record<string, unknown>)['__ajvErrors__']).toBe(true)
+    expect(
+      (ajvInstance2 as unknown as Record<string, unknown>)['__ajvErrors__']
+    ).toBe(true)
   })
 })

@@ -45,7 +45,13 @@ export const InfinitySandbox = () => {
     currentPage: 3,
   }
 
-  const action = ({ pageNumber, setContent }: { pageNumber: number; setContent: (page: number, content: React.ReactNode) => void }) => {
+  const action = ({
+    pageNumber,
+    setContent,
+  }: {
+    pageNumber: number
+    setContent: (page: number, content: React.ReactNode) => void
+  }) => {
     console.log('pageNumber', pageNumber)
     setTimeout(() => {
       setContent(
@@ -130,7 +136,13 @@ export const PaginationSandbox = () => (
     </Box>
     <Box>
       <Pagination pageCount={2}>
-        {({ pageNumber, setContent }: { pageNumber: number; setContent: (page: number, content: React.ReactNode) => void }) => {
+        {({
+          pageNumber,
+          setContent,
+        }: {
+          pageNumber: number
+          setContent: (page: number, content: React.ReactNode) => void
+        }) => {
           const timeout = setTimeout(
             () => {
               setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
@@ -151,7 +163,9 @@ export const PaginationSandbox = () => (
           console.log('onChange:', pageNumber)
         }}
       >
-        {({ pageNumber }: { pageNumber: number }) => <P>Page {pageNumber}</P>}
+        {({ pageNumber }: { pageNumber: number }) => (
+          <P>Page {pageNumber}</P>
+        )}
       </Pagination>
     </Box>
 
@@ -232,7 +246,13 @@ const HeightLimit = styled.div`
   background-color: var(--color-white);
   border: 4px solid blue;
 `
-const PaginationWithState = ({ children, ...props }: { children: (pageNumber: number) => React.ReactNode; [key: string]: any }) => {
+const PaginationWithState = ({
+  children,
+  ...props
+}: {
+  children: (pageNumber: number) => React.ReactNode
+  [key: string]: any
+}) => {
   const [currentPage, setCurrentPage] = React.useState(1)
   const [{ Pagination: PaginationInstance, setContent, resetContent }] =
     React.useState(createPagination)
@@ -262,7 +282,13 @@ const PaginationWithState = ({ children, ...props }: { children: (pageNumber: nu
     </PaginationInstance>
   )
 }
-const InfinityPagination = ({ children, ...props }: { children: (pageNumber: number, ref?: React.Ref<any>) => React.ReactNode; [key: string]: any }) => {
+const InfinityPagination = ({
+  children,
+  ...props
+}: {
+  children: (pageNumber: number, ref?: React.Ref<any>) => React.ReactNode
+  [key: string]: any
+}) => {
   return (
     <Pagination
       mode="infinity"

@@ -530,7 +530,9 @@ describe('useValidation', () => {
   })
 
   it('should return correct state without an identifier', () => {
-    const result: { current: ReturnType<typeof useValidation> | undefined } = { current: undefined }
+    const result: {
+      current: ReturnType<typeof useValidation> | undefined
+    } = { current: undefined }
 
     const MockComponent = () => {
       result.current = useValidation()
@@ -651,7 +653,11 @@ describe('useValidation', () => {
       it('should set and remove a field error', async () => {
         const onSubmit = jest.fn()
 
-        const MockProvider = ({ children }: { children: React.ReactNode }) => {
+        const MockProvider = ({
+          children,
+        }: {
+          children: React.ReactNode
+        }) => {
           return (
             <Form.Handler onSubmit={onSubmit}>
               <Field.String label="My field" path="/myField" />
@@ -707,7 +713,11 @@ describe('useValidation', () => {
       it('should set and remove a field error, warning and info', async () => {
         const onSubmit = jest.fn()
 
-        const MockProvider = ({ children }: { children: React.ReactNode }) => {
+        const MockProvider = ({
+          children,
+        }: {
+          children: React.ReactNode
+        }) => {
           return (
             <Form.Handler onSubmit={onSubmit}>
               <Field.String label="My field" path="/myField" />
