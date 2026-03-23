@@ -80,7 +80,7 @@ export const TabsSandbox = () => {
 
         <Tabs
           bottom
-          prerender
+          keepInDOM
           contentStyle="black-3"
           contentSpacing={false}
         >

@@ -36,7 +36,7 @@ export default function AccordionContent(props: AccordionContentProps) {
   const {
     id,
     expanded,
-    prerender,
+    keepInDOM,
     preventRerender,
     singleContainer,
     disabled,
@@ -86,7 +86,7 @@ export default function AccordionContent(props: AccordionContentProps) {
 
     const {
       expanded,
-      prerender,
+      keepInDOM,
       preventRerender,
       preventRerenderConditional,
     } = context
@@ -101,7 +101,7 @@ export default function AccordionContent(props: AccordionContentProps) {
       /**
        * Ensure we do not render, if it is not expanded
        */
-      if (!(expanded || prerender)) {
+      if (!(expanded || keepInDOM)) {
         content = null
       }
 
@@ -146,7 +146,7 @@ export default function AccordionContent(props: AccordionContentProps) {
     ...rest,
   }
 
-  const keepInDOM = prerender || preventRerender
+  const keepInDOMContent = keepInDOM || preventRerender
 
   const innerParams = {
     id: `${id}-content`,
@@ -177,7 +177,7 @@ export default function AccordionContent(props: AccordionContentProps) {
       {...wrapperParams}
       open={expanded}
       animate={animate}
-      keepInDOM={keepInDOM}
+      keepInDOM={keepInDOMContent}
       ref={elementRef}
     >
       <section {...innerParams}>{content}</section>

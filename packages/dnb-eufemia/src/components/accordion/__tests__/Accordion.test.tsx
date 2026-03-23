@@ -145,8 +145,8 @@ describe('Accordion component', () => {
     )
   })
 
-  it('should have hidden content when "prerender" is true but closed', () => {
-    render(<Accordion {...props} prerender={true} />)
+  it('should have hidden content when "keepInDOM" is true but closed', () => {
+    render(<Accordion {...props} keepInDOM={true} />)
 
     expect(
       Array.from(
