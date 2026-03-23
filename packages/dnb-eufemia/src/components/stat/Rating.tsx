@@ -59,7 +59,7 @@ function Rating(props: RatingProps) {
   const normalizedValue = clamp(safeValue, 0, clampedMax)
   const labelValue = Number.isInteger(normalizedValue)
     ? String(normalizedValue)
-    : normalizedValue.toFixed(1)
+    : String(parseFloat(normalizedValue.toFixed(2)))
   const { Stat: { rating: ratingTemplate = '%value of %max' } = {} } =
     useTranslation()
   const localizedRating = ratingTemplate
