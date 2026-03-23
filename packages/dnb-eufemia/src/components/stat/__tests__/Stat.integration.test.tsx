@@ -514,4 +514,37 @@ describe('Stat integration', () => {
 
     expect(await axeComponent(component)).toHaveNoViolations()
   })
+
+  it('propagates skeleton from Content to non-Stat children like IconPrimary', () => {
+    const IconPrimary =
+      require('../../icon/IconPrimary').default
+
+    render(
+      <Stat.Content skeleton>
+        <IconPrimary icon="arrow_up" />
+      </Stat.Content>
+    )
+
+    const icon = document.querySelector('.dnb-icon')
+
+    expect(icon.classList).toContain('dnb-skeleton')
+  })
+
+  it('propagates skeleton from Root through Content to non-Stat children', () => {
+    const IconPrimary =
+      require('../../icon/IconPrimary').default
+
+    render(
+      <Stat.Root skeleton>
+        <Stat.Label>Trend</Stat.Label>
+        <Stat.Content direction="vertical">
+          <IconPrimary icon="arrow_up" />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const icon = document.querySelector('.dnb-icon')
+
+    expect(icon.classList).toContain('dnb-skeleton')
+  })
 })
