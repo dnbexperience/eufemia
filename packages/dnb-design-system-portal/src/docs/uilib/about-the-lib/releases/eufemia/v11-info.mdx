@@ -16,9 +16,11 @@ v11 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 
 1. Replace `innerRef` with `ref` on all Eufemia components.
 2. Replace `<Context.Provider>` with `<Context>` when using Eufemia contexts directly (React 19 deprecation).
-3. If you import Eufemia SCSS source files with `@import`, replace with `@use` and namespace your mixin/variable calls (see [SCSS: @import → @use](#scss-import--use)).
-4. Replace the `size` prop with `span` on `Flex.Item` and `Card` components.
-5. If you `@use` Eufemia SCSS source files and reference internal mixins, rename them to camelCase (see [SCSS mixin renames](#scss-mixin-renames)).
+3. Replace `inputClass` with `inputClassName` on Input and InputMasked components.
+4. Replace `textareaClass` with `textareaClassName` on Textarea component.
+5. If you import Eufemia SCSS source files with `@import`, replace with `@use` and namespace your mixin/variable calls (see [SCSS: @import → @use](#scss-import--use)).
+6. Replace the `size` prop with `span` on `Flex.Item` and `Card` components.
+7. If you `@use` Eufemia SCSS source files and reference internal mixins, rename them to camelCase (see [SCSS mixin renames](#scss-mixin-renames)).
 
 ### innerRef → ref
 
@@ -388,7 +390,7 @@ $ pnpm add @dnb/eufemia@11
 - Replace `clear_button_title` with `clearButtonTitle`.
 - Replace `clear` with `showClearButton`.
 - Replace `keep_placeholder` with `keepPlaceholder`.
-- Replace `input_class` with `inputClass`.
+- Replace `input_class` with `inputClassName`.
 - Replace `input_attributes` with `inputAttributes`.
 - Replace `input_element` with `inputElement`.
 - Replace `icon_size` with `iconSize`.
@@ -456,7 +458,7 @@ New props added:
 - Replace `submit_button_title` with `submitButtonTitle`.
 - Replace `clear_button_title` with `clearButtonTitle`.
 - Replace `keep_placeholder` with `keepPlaceholder`.
-- Replace `input_class` with `inputClass`.
+- Replace `input_class` with `inputClassName`.
 - Replace `input_attributes` with `inputAttributes`.
 - Replace `input_element` with `inputElement`.
 - Replace `icon_size` with `iconSize`.
@@ -553,7 +555,7 @@ New props added:
 - Replace `status_no_animation` with `statusNoAnimation`.
 - Replace `autoresize_max_rows` with `autoResizeMaxRows`.
 - Replace `autoresize` with `autoResize`.
-- Replace `textarea_class` with `textareaClass`.
+- Replace `textarea_class` with `textareaClassName`.
 - Replace `textarea_attributes` with `textareaAttributes`.
 - Replace `inner_ref` with `ref`.
 - Replace `textarea_element` with `textareaElement`.
