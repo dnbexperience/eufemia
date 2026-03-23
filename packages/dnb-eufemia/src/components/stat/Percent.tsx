@@ -1,5 +1,5 @@
 import React from 'react'
-import Amount, { AmountProps } from './Amount'
+import { AmountBase, type AmountProps } from './Amount'
 
 export type PercentProps = Omit<
   AmountProps,
@@ -7,7 +7,7 @@ export type PercentProps = Omit<
 >
 
 function Percent(props: PercentProps) {
-  return <Amount {...props} percent />
+  return <AmountBase {...props} percent />
 }
 
 Percent._supportsSpacingProps = true

@@ -7,7 +7,7 @@ import React, {
 } from 'react'
 import classnames from 'classnames'
 import useId from '../../shared/helpers/useId'
-import { ListVariant } from './ListContext'
+import { ListVariant, ListContext } from './ListContext'
 import ItemContent, { ItemContentProps } from './ItemContent'
 import FlexItem from '../flex/Item'
 import type { IconIcon } from '../icon/Icon'
@@ -18,6 +18,8 @@ import Space from '../space/Space'
 import { omitSpacingProps, pickSpacingProps } from '../flex/utils'
 import ItemIcon from './ItemIcon'
 import ItemTitle from './ItemTitle'
+import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import Context from '../../shared/Context'
 
 export type ItemAccordionIconPosition = 'left' | 'right'
 
@@ -28,6 +30,10 @@ export type ItemAccordionProps = {
    * When true, keeps the accordion content in the DOM when closed. Defaults to false.
    */
   keepInDOM?: boolean
+  /**
+   * When true, the accordion is visually dimmed and interaction is prevented.
+   */
+  disabled?: boolean
   chevronPosition?: ItemAccordionIconPosition
   icon?: IconIcon
   title?: React.ReactNode
@@ -38,6 +44,7 @@ const ItemAccordionContext = createContext<{
   open?: boolean
   openState: boolean
   pending?: boolean
+  disabled?: boolean
   keepInDOM?: boolean
   chevronPosition?: ItemAccordionIconPosition
   accordionId: string
@@ -54,6 +61,8 @@ function ItemAccordion(props: ItemAccordionProps) {
     children,
     variant,
     pending,
+    disabled,
+    skeleton,
     open = false,
     keepInDOM = false,
     chevronPosition = 'right',
@@ -65,6 +74,8 @@ function ItemAccordion(props: ItemAccordionProps) {
 
   const [openState, setOpen] = useState(open)
   const accordionId = useId(idProp)
+  const inheritedDisabled = useContext(ListContext)?.disabled
+  const appliedDisabled = disabled ?? inheritedDisabled
   const childArray = React.Children.toArray(children)
   const hasExplicitHeader = childArray.some(
     (child) =>
@@ -81,6 +92,7 @@ function ItemAccordion(props: ItemAccordionProps) {
         open,
         openState,
         pending,
+        disabled: appliedDisabled,
         keepInDOM,
         chevronPosition,
         accordionId,
@@ -98,6 +110,8 @@ function ItemAccordion(props: ItemAccordionProps) {
         )}
         direction="vertical"
         pending={pending}
+        disabled={appliedDisabled}
+        skeleton={skeleton}
         variant={variant}
         {...rest}
       >
@@ -120,6 +134,7 @@ function AccordionHeader(props: AccordionHeaderProps) {
     setOpen,
     onClick,
     pending,
+    disabled,
     chevronPosition,
     accordionId,
     openState,
@@ -127,14 +142,18 @@ function AccordionHeader(props: AccordionHeaderProps) {
     title,
   } = useContext(ItemAccordionContext)
 
+  const context = useContext(Context)
+  const inheritedSkeleton = useContext(ListContext)?.skeleton
+  const isInactive = pending || disabled
+
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      if (!pending) {
+      if (!isInactive) {
         setOpen((prev) => !prev)
         onClick && onClick(event)
       }
     },
-    [onClick, pending, setOpen]
+    [onClick, isInactive, setOpen]
   )
 
   const handleKeyDown = useCallback(
@@ -149,19 +168,20 @@ function AccordionHeader(props: AccordionHeaderProps) {
     [handleClick]
   )
 
-  return (
+  const content = (
     <FlexItem
       className={classnames(
         'dnb-list__item__accordion__header',
         chevronPosition === 'left' && 'dnb-list__item--chevron-left',
+        inheritedSkeleton && createSkeletonClass('font', true),
         className
       )}
       id={`${accordionId}-header`}
       role="button"
       aria-controls={`${accordionId}-content`}
       aria-expanded={openState}
-      aria-disabled={pending ? true : undefined}
-      tabIndex={pending ? -1 : 0}
+      aria-disabled={isInactive ? true : undefined}
+      tabIndex={isInactive ? -1 : 0}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       {...rest}
@@ -173,22 +193,37 @@ function AccordionHeader(props: AccordionHeaderProps) {
       {chevronPosition === 'right' && <ChevronIcon />}
     </FlexItem>
   )
+
+  if (inheritedSkeleton) {
+    return (
+      <Context.Provider
+        value={{ ...context, skeleton: inheritedSkeleton }}
+      >
+        {content}
+      </Context.Provider>
+    )
+  }
+
+  return content
 }
 ItemAccordion.Header = AccordionHeader
 AccordionHeader._supportsSpacingProps = true
 
 function AccordionContent(props: ItemContentProps) {
   const { className, children, ...rest } = props
+  const context = useContext(Context)
   const { openState, accordionId, keepInDOM } = useContext(
     ItemAccordionContext
   )
+  const inheritedSkeleton = useContext(ListContext)?.skeleton
 
   const spacingProps = pickSpacingProps(rest)
 
-  return (
+  const content = (
     <FlexItem
       className={classnames(
         'dnb-list__item__accordion__content',
+        inheritedSkeleton && createSkeletonClass('font', true),
         className
       )}
       id={`${accordionId}-content`}
@@ -203,6 +238,18 @@ function AccordionContent(props: ItemContentProps) {
       </HeightAnimation>
     </FlexItem>
   )
+
+  if (inheritedSkeleton) {
+    return (
+      <Context.Provider
+        value={{ ...context, skeleton: inheritedSkeleton }}
+      >
+        {content}
+      </Context.Provider>
+    )
+  }
+
+  return content
 }
 ItemAccordion.Content = AccordionContent
 AccordionContent._supportsSpacingProps = true

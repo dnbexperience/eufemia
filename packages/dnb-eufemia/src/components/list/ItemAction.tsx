@@ -1,7 +1,7 @@
 import classnames from 'classnames'
-import { ListVariant } from './ListContext'
+import { ListVariant, ListContext } from './ListContext'
 import ItemContent, { ItemContentProps } from './ItemContent'
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useContext, useRef } from 'react'
 import IconPrimary from '../IconPrimary'
 import Anchor from '../Anchor'
 import ItemIcon from './ItemIcon'
@@ -13,6 +13,7 @@ export type ItemActionIconPosition = 'left' | 'right'
 export type ItemActionProps = {
   variant?: ListVariant
   selected?: boolean
+  disabled?: boolean
   chevronPosition?: ItemActionIconPosition
   icon?: IconIcon
   title?: React.ReactNode
@@ -29,6 +30,8 @@ function ItemAction(props: ItemActionProps) {
     variant,
     selected,
     pending,
+    disabled,
+    skeleton,
     chevronPosition = 'right',
     icon,
     title,
@@ -38,6 +41,10 @@ function ItemAction(props: ItemActionProps) {
     ...rest
   } = props
 
+  const inheritedDisabled = useContext(ListContext)?.disabled
+  const appliedDisabled = disabled ?? inheritedDisabled
+  const isInactive = pending || appliedDisabled
+
   const handleClick = useCallback(
     (
       event: React.MouseEvent<
@@ -45,11 +52,11 @@ function ItemAction(props: ItemActionProps) {
         MouseEvent
       >
     ) => {
-      if (!pending) {
+      if (!isInactive) {
         onClick && onClick(event as React.MouseEvent<HTMLDivElement>)
       }
     },
-    [onClick, pending]
+    [onClick, isInactive]
   )
 
   const handleKeyDown = useCallback(
@@ -73,13 +80,13 @@ function ItemAction(props: ItemActionProps) {
     (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault()
-        if (!pending) {
+        if (!isInactive) {
           anchorRef.current?.click()
           onClick?.(event as unknown as React.MouseEvent<HTMLDivElement>)
         }
       }
     },
-    [onClick, pending]
+    [onClick, isInactive]
   )
 
   const actionClassName = classnames(
@@ -104,19 +111,24 @@ function ItemAction(props: ItemActionProps) {
       <ItemContent
         className={actionClassName}
         role="link"
-        tabIndex={pending ? -1 : 0}
-        aria-disabled={pending ? true : undefined}
+        tabIndex={isInactive ? -1 : 0}
+        aria-disabled={isInactive ? true : undefined}
         onKeyDown={handleLinkKeyDown}
+        variant={variant}
+        selected={selected}
+        skeleton={skeleton}
         pending={pending}
+        disabled={disabled}
         {...rest}
       >
         <Anchor
           noStyle
           ref={anchorRef}
-          href={href}
+          href={isInactive ? undefined : href}
           target={target}
           rel={rel}
           tabIndex={-1}
+          aria-disabled={isInactive ? true : undefined}
         >
           {content}
         </Anchor>
@@ -128,11 +140,15 @@ function ItemAction(props: ItemActionProps) {
     <ItemContent
       className={actionClassName}
       role="button"
-      tabIndex={pending ? -1 : 0}
-      aria-disabled={pending ? true : undefined}
+      tabIndex={isInactive ? -1 : 0}
+      aria-disabled={isInactive ? true : undefined}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
+      variant={variant}
+      selected={selected}
+      skeleton={skeleton}
       pending={pending}
+      disabled={disabled}
       {...rest}
     >
       {content}

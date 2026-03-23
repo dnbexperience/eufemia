@@ -1,7 +1,9 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import Container, { ListContainerProps } from '../Container'
 import ItemContent from '../ItemContent'
+import Provider from '../../../shared/Provider'
 
 describe('List Container', () => {
   it('renders with props as an object', () => {
@@ -107,5 +109,110 @@ describe('List Container', () => {
     expect(children[1].tagName).toBe('LI')
     expect(children[1]).toHaveClass('dnb-space__top--small')
     expect(list.querySelector(':scope > div')).toBeNull()
+  })
+
+  it('propagates skeleton to child items via context', () => {
+    render(
+      <Container skeleton>
+        <ItemContent>Item 1</ItemContent>
+        <ItemContent>Item 2</ItemContent>
+      </Container>
+    )
+
+    const items = document.querySelectorAll('.dnb-list__item')
+
+    items.forEach((item) => {
+      expect(item.classList).toContain('dnb-skeleton')
+      expect(item.classList).toContain('dnb-skeleton--font')
+    })
+  })
+
+  it('allows individual items to override skeleton from container', () => {
+    render(
+      <Container skeleton>
+        <ItemContent>Skeleton item</ItemContent>
+        <ItemContent skeleton={false}>Not skeleton</ItemContent>
+      </Container>
+    )
+
+    const items = document.querySelectorAll('.dnb-list__item')
+
+    expect(items[0].classList).toContain('dnb-skeleton')
+    expect(items[1].classList).not.toContain('dnb-skeleton')
+  })
+
+  it('defaults separated to false when not provided', () => {
+    render(
+      <Container>
+        <ItemContent>Item</ItemContent>
+      </Container>
+    )
+
+    const element = document.querySelector('.dnb-list__container')
+
+    expect(element.classList).not.toContain('dnb-list--separated')
+  })
+
+  it('inherits skeleton from SharedContext Provider', () => {
+    render(
+      <Provider skeleton>
+        <Container>
+          <ItemContent>Item</ItemContent>
+        </Container>
+      </Provider>
+    )
+
+    const item = document.querySelector('.dnb-list__item')
+
+    expect(item.classList).toContain('dnb-skeleton')
+  })
+
+  it('allows local skeleton prop to override SharedContext', () => {
+    render(
+      <Provider skeleton>
+        <Container skeleton={false}>
+          <ItemContent>Item</ItemContent>
+        </Container>
+      </Provider>
+    )
+
+    const item = document.querySelector('.dnb-list__item')
+
+    expect(item.classList).not.toContain('dnb-skeleton')
+  })
+
+  it('propagates disabled to child items via context', () => {
+    render(
+      <Container disabled>
+        <ItemContent>Item</ItemContent>
+      </Container>
+    )
+
+    const item = document.querySelector('.dnb-list__item')
+
+    expect(item.classList).toContain('dnb-list__item--disabled')
+  })
+
+  it('allows individual items to override disabled from container', () => {
+    render(
+      <Container disabled>
+        <ItemContent disabled={false}>Item</ItemContent>
+      </Container>
+    )
+
+    const item = document.querySelector('.dnb-list__item')
+
+    expect(item.classList).not.toContain('dnb-list__item--disabled')
+  })
+
+  it('has no axe violations', async () => {
+    const { container } = render(
+      <Container>
+        <ItemContent>Item one</ItemContent>
+        <ItemContent>Item two</ItemContent>
+      </Container>
+    )
+
+    expect(await axeComponent(container)).toHaveNoViolations()
   })
 })

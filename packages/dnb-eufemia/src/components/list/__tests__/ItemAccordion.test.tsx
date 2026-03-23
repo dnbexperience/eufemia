@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import ItemAccordion from '../ItemAccordion'
+import Container from '../Container'
+import Context from '../../../shared/Context'
 
 describe('ItemAccordion', () => {
   it('renders with Header and Content', () => {
@@ -470,6 +472,77 @@ describe('ItemAccordion', () => {
     )
   })
 
+  it('applies disabled CSS class when disabled', () => {
+    render(
+      <ItemAccordion disabled>
+        <ItemAccordion.Header>Title</ItemAccordion.Header>
+        <ItemAccordion.Content>Content</ItemAccordion.Content>
+      </ItemAccordion>
+    )
+
+    const item = document.querySelector('.dnb-list__item')
+
+    expect(item.classList).toContain('dnb-list__item--disabled')
+  })
+
+  it('header has aria-disabled and tabIndex -1 when disabled', () => {
+    render(
+      <ItemAccordion disabled>
+        <ItemAccordion.Header>Title</ItemAccordion.Header>
+        <ItemAccordion.Content>Content</ItemAccordion.Content>
+      </ItemAccordion>
+    )
+
+    const header = document.querySelector(
+      '.dnb-list__item__accordion__header'
+    )
+
+    expect(header.getAttribute('aria-disabled')).toBe('true')
+    expect(header.getAttribute('tabindex')).toBe('-1')
+  })
+
+  it('does not toggle open state when disabled and header is clicked', () => {
+    render(
+      <ItemAccordion disabled>
+        <ItemAccordion.Header>Title</ItemAccordion.Header>
+        <ItemAccordion.Content>Content</ItemAccordion.Content>
+      </ItemAccordion>
+    )
+
+    const accordion = document.querySelector('.dnb-list__item__accordion')
+    const header = document.querySelector(
+      '.dnb-list__item__accordion__header'
+    )
+
+    fireEvent.click(header)
+    expect(accordion.classList).not.toContain(
+      'dnb-list__item__accordion--open'
+    )
+  })
+
+  it('does not toggle open state when disabled and header receives Enter', () => {
+    render(
+      <ItemAccordion disabled open>
+        <ItemAccordion.Header>Title</ItemAccordion.Header>
+        <ItemAccordion.Content>Content</ItemAccordion.Content>
+      </ItemAccordion>
+    )
+
+    const accordion = document.querySelector('.dnb-list__item__accordion')
+    const header = document.querySelector(
+      '.dnb-list__item__accordion__header'
+    )
+
+    expect(accordion.classList).toContain(
+      'dnb-list__item__accordion--open'
+    )
+
+    fireEvent.keyDown(header, { key: 'Enter' })
+    expect(accordion.classList).toContain(
+      'dnb-list__item__accordion--open'
+    )
+  })
+
   it('renders chevron on the right by default (chevronPosition right)', () => {
     render(
       <ItemAccordion>
@@ -521,5 +594,222 @@ describe('ItemAccordion', () => {
 
   it('declares _supportsSpacingProps for flex layout', () => {
     expect(ItemAccordion._supportsSpacingProps).toBe(true)
+  })
+
+  describe('disabled', () => {
+    it('applies disabled modifier when disabled is true', () => {
+      render(
+        <ItemAccordion disabled>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content</ItemAccordion.Content>
+        </ItemAccordion>
+      )
+
+      const accordion = document.querySelector(
+        '.dnb-list__item__accordion'
+      )
+
+      expect(accordion.classList).toContain('dnb-list__item--disabled')
+    })
+
+    it('has aria-disabled and tabIndex -1 on header when disabled', () => {
+      render(
+        <ItemAccordion disabled>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content</ItemAccordion.Content>
+        </ItemAccordion>
+      )
+
+      const header = document.querySelector(
+        '.dnb-list__item__accordion__header'
+      )
+
+      expect(header.getAttribute('aria-disabled')).toBe('true')
+      expect(header.getAttribute('tabindex')).toBe('-1')
+    })
+
+    it('does not toggle when disabled and header is clicked', () => {
+      render(
+        <ItemAccordion disabled>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content</ItemAccordion.Content>
+        </ItemAccordion>
+      )
+
+      const accordion = document.querySelector(
+        '.dnb-list__item__accordion'
+      )
+      const header = document.querySelector(
+        '.dnb-list__item__accordion__header'
+      )
+
+      fireEvent.click(header)
+
+      expect(accordion.classList).not.toContain(
+        'dnb-list__item__accordion--open'
+      )
+    })
+
+    it('does not toggle when disabled and Enter key is pressed', () => {
+      render(
+        <ItemAccordion disabled>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content</ItemAccordion.Content>
+        </ItemAccordion>
+      )
+
+      const header = document.querySelector(
+        '.dnb-list__item__accordion__header'
+      )
+
+      fireEvent.keyDown(header, { key: 'Enter' })
+
+      const accordion = document.querySelector(
+        '.dnb-list__item__accordion'
+      )
+
+      expect(accordion.classList).not.toContain(
+        'dnb-list__item__accordion--open'
+      )
+    })
+  })
+
+  it('applies skeleton class to AccordionContent when Container has skeleton', () => {
+    render(
+      <Container skeleton>
+        <ItemAccordion open>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content body</ItemAccordion.Content>
+        </ItemAccordion>
+      </Container>
+    )
+
+    const content = document.querySelector(
+      '.dnb-list__item__accordion__content'
+    )
+
+    expect(content.classList).toContain('dnb-skeleton')
+  })
+
+  it('applies skeleton class to AccordionHeader when Container has skeleton', () => {
+    render(
+      <Container skeleton>
+        <ItemAccordion>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content body</ItemAccordion.Content>
+        </ItemAccordion>
+      </Container>
+    )
+
+    const header = document.querySelector(
+      '.dnb-list__item__accordion__header'
+    )
+
+    expect(header.classList).toContain('dnb-skeleton')
+  })
+
+  it('applies skeleton font class on accordion item when skeleton prop is set', () => {
+    render(
+      <ItemAccordion skeleton>
+        <ItemAccordion.Header>Title</ItemAccordion.Header>
+        <ItemAccordion.Content>Content</ItemAccordion.Content>
+      </ItemAccordion>
+    )
+
+    const accordion = document.querySelector('.dnb-list__item__accordion')
+
+    expect(accordion.classList).toContain('dnb-skeleton')
+    expect(accordion.classList).toContain('dnb-skeleton--font')
+  })
+
+  it('applies skeleton class to auto-generated header when Container has skeleton', () => {
+    render(
+      <Container skeleton>
+        <ItemAccordion title="Auto title">
+          <ItemAccordion.Content>Content body</ItemAccordion.Content>
+        </ItemAccordion>
+      </Container>
+    )
+
+    const header = document.querySelector(
+      '.dnb-list__item__accordion__header'
+    )
+
+    expect(header.classList).toContain('dnb-skeleton')
+  })
+
+  it('applies skeleton class to AccordionContent when skeleton prop is set on ItemAccordion inside Container', () => {
+    render(
+      <Container>
+        <ItemAccordion skeleton open>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content body</ItemAccordion.Content>
+        </ItemAccordion>
+      </Container>
+    )
+
+    const accordion = document.querySelector('.dnb-list__item__accordion')
+
+    expect(accordion.classList).toContain('dnb-skeleton')
+    expect(accordion.classList).toContain('dnb-skeleton--font')
+  })
+
+  it('applies skeleton and disabled together on accordion item', () => {
+    render(
+      <Container skeleton disabled>
+        <ItemAccordion>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content body</ItemAccordion.Content>
+        </ItemAccordion>
+      </Container>
+    )
+
+    const accordion = document.querySelector('.dnb-list__item__accordion')
+
+    expect(accordion.classList).toContain('dnb-skeleton')
+    expect(accordion.classList).toContain('dnb-skeleton--font')
+    expect(accordion.classList).toContain('dnb-list__item--disabled')
+  })
+
+  it('propagates skeleton to AccordionHeader children via context', () => {
+    function SkeletonConsumer() {
+      const context = useContext(Context)
+      return <span data-skeleton={String(Boolean(context?.skeleton))} />
+    }
+
+    render(
+      <Container skeleton>
+        <ItemAccordion>
+          <ItemAccordion.Header>
+            <SkeletonConsumer />
+          </ItemAccordion.Header>
+          <ItemAccordion.Content>Content body</ItemAccordion.Content>
+        </ItemAccordion>
+      </Container>
+    )
+
+    const consumer = document.querySelector('[data-skeleton]')
+    expect(consumer.getAttribute('data-skeleton')).toBe('true')
+  })
+
+  it('propagates skeleton to AccordionContent children via context', () => {
+    function SkeletonConsumer() {
+      const context = useContext(Context)
+      return <span data-skeleton={String(Boolean(context?.skeleton))} />
+    }
+
+    render(
+      <Container skeleton>
+        <ItemAccordion open>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>
+            <SkeletonConsumer />
+          </ItemAccordion.Content>
+        </ItemAccordion>
+      </Container>
+    )
+
+    const consumer = document.querySelector('[data-skeleton]')
+    expect(consumer.getAttribute('data-skeleton')).toBe('true')
   })
 })

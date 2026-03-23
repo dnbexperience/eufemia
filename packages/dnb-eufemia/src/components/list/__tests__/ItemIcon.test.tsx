@@ -1,7 +1,10 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import { fish_medium } from '../../../icons'
 import ItemIcon from '../ItemIcon'
+import ItemContent from '../ItemContent'
+import Container from '../Container'
 
 describe('ItemIcon', () => {
   it('renders with icon as children', () => {
@@ -60,5 +63,50 @@ describe('ItemIcon', () => {
 
   it('declares _supportsSpacingProps for flex layout', () => {
     expect(ItemIcon._supportsSpacingProps).toBe(true)
+  })
+
+  it('does not accept unrelated ItemContent props', () => {
+    render(<ItemIcon>{fish_medium}</ItemIcon>)
+
+    const element = document.querySelector('.dnb-flex-item')
+
+    expect(element.getAttribute('variant')).toBeNull()
+    expect(element.getAttribute('selected')).toBeNull()
+    expect(element.getAttribute('pending')).toBeNull()
+    expect(element.getAttribute('skeleton')).toBeNull()
+  })
+
+  it('applies skeleton class when skeleton prop is true', () => {
+    render(<ItemIcon skeleton>{fish_medium}</ItemIcon>)
+
+    const element = document.querySelector('.dnb-list__item__icon')
+
+    expect(element.classList).toContain('dnb-skeleton')
+    expect(element.classList).toContain('dnb-skeleton--font')
+  })
+
+  it('inherits skeleton from Container context', () => {
+    render(
+      <Container skeleton>
+        <ItemIcon>{fish_medium}</ItemIcon>
+      </Container>
+    )
+
+    const element = document.querySelector('.dnb-list__item__icon')
+
+    expect(element.classList).toContain('dnb-skeleton')
+    expect(element.classList).toContain('dnb-skeleton--font')
+  })
+
+  it('has no axe violations', async () => {
+    const { container } = render(
+      <Container>
+        <ItemContent>
+          <ItemIcon>{fish_medium}</ItemIcon>
+        </ItemContent>
+      </Container>
+    )
+
+    expect(await axeComponent(container)).toHaveNoViolations()
   })
 })

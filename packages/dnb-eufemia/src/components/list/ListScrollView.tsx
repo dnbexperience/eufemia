@@ -1,15 +1,19 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useContext, useRef, useState } from 'react'
 import classnames from 'classnames'
 import ScrollView, {
   ScrollViewAllProps,
 } from '../../fragments/scroll-view/ScrollView'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
+import { ListContext } from './ListContext'
+import type { SkeletonShow } from '../Skeleton'
 
 import type { SpacingProps } from '../../shared/types'
 
 export type ListScrollViewProps = {
   children: React.ReactNode
   maxVisibleListItems?: number
+  skeleton?: SkeletonShow
+  disabled?: boolean
 } & Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> &
   SpacingProps &
   ScrollViewAllProps
@@ -17,10 +21,14 @@ export type ListScrollViewProps = {
 const defaultListItemOutlineCompensation = '0.125rem'
 
 function ListScrollView(props: ListScrollViewProps) {
+  const parentContext = useContext(ListContext)
+
   const {
     className,
     children,
     maxVisibleListItems,
+    skeleton,
+    disabled,
     style,
     innerRef,
     ...rest
@@ -106,7 +114,7 @@ function ListScrollView(props: ListScrollViewProps) {
     ...style,
   }
 
-  return (
+  const scrollViewContent = (
     <ScrollView
       className={classnames(
         'dnb-list__card__scroll-view',
@@ -120,6 +128,22 @@ function ListScrollView(props: ListScrollViewProps) {
     >
       {children}
     </ScrollView>
+  )
+
+  const appliedSkeleton = skeleton ?? parentContext?.skeleton
+  const appliedDisabled = disabled ?? parentContext?.disabled
+
+  return (
+    <ListContext.Provider
+      value={{
+        variant: parentContext?.variant ?? 'basic',
+        separated: parentContext?.separated ?? false,
+        skeleton: appliedSkeleton,
+        disabled: appliedDisabled,
+      }}
+    >
+      {scrollViewContent}
+    </ListContext.Provider>
   )
 }
 

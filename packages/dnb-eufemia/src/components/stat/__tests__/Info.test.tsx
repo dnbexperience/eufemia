@@ -68,11 +68,43 @@ describe('Stat.Info', () => {
     expect(info).toHaveAttribute('aria-disabled', 'true')
   })
 
+  it('supports spacing props', () => {
+    render(<Stat.Info top="large">Some additional content</Stat.Info>)
+
+    const info = document.querySelector('.dnb-stat__info')
+
+    expect(info.classList).toContain('dnb-space__top--large')
+  })
+
   it('should validate with ARIA rules', async () => {
     const component = render(
       <Stat.Info>Some additional content</Stat.Info>
     )
 
     expect(await axeComponent(component)).toHaveNoViolations()
+  })
+
+  it('supports id prop', () => {
+    render(<Stat.Info id="my-info">Details</Stat.Info>)
+
+    const info = document.querySelector('.dnb-stat__info')
+
+    expect(info.getAttribute('id')).toBe('my-info')
+  })
+
+  it('applies style prop to the element', () => {
+    render(<Stat.Info style={{ color: 'red' }}>Details</Stat.Info>)
+
+    const info = document.querySelector('.dnb-stat__info')
+
+    expect(info.getAttribute('style')).toContain('color: red')
+  })
+
+  it('supports className prop', () => {
+    render(<Stat.Info className="custom-class">Details</Stat.Info>)
+
+    const info = document.querySelector('.dnb-stat__info')
+
+    expect(info.classList).toContain('custom-class')
   })
 })

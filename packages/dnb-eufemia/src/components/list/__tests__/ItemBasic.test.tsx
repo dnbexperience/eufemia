@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import Container from '../Container'
 import ItemBasic, { ItemBasicProps } from '../ItemBasic'
 import { fish_medium } from '../../../icons'
@@ -84,6 +85,34 @@ describe('ItemBasic', () => {
     expect(element.classList).toContain('dnb-list--variant-basic')
   })
 
+  it('applies variant prop directly without a Container', () => {
+    render(<ItemBasic variant="basic">Direct variant</ItemBasic>)
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.classList).toContain('dnb-list--variant-basic')
+  })
+
+  it('does not apply variant class when no variant and no Container', () => {
+    render(<ItemBasic>No variant</ItemBasic>)
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.className).not.toContain('dnb-list--variant')
+  })
+
+  it('forwards variant prop to ItemContent when inside a Container', () => {
+    render(
+      <Container variant="basic">
+        <ItemBasic variant="basic">With prop and context</ItemBasic>
+      </Container>
+    )
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.classList).toContain('dnb-list--variant-basic')
+  })
+
   it('applies selected modifier class when selected', () => {
     render(<ItemBasic selected>Selected item</ItemBasic>)
 
@@ -117,5 +146,43 @@ describe('ItemBasic', () => {
 
   it('declares _supportsSpacingProps for flex layout', () => {
     expect(ItemBasic._supportsSpacingProps).toBe(true)
+  })
+
+  it('applies disabled modifier class when disabled', () => {
+    render(<ItemBasic disabled>Disabled item</ItemBasic>)
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.classList).toContain('dnb-list__item--disabled')
+  })
+
+  it('applies pending modifier and pending indicator when pending', () => {
+    render(<ItemBasic pending>Pending item</ItemBasic>)
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.classList).toContain('dnb-list__item--pending')
+    expect(
+      element.querySelector('.dnb-list__item__pending')
+    ).toBeInTheDocument()
+  })
+
+  it('applies skeleton font class when skeleton is true', () => {
+    render(<ItemBasic skeleton>Skeleton item</ItemBasic>)
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.classList).toContain('dnb-skeleton')
+    expect(element.classList).toContain('dnb-skeleton--font')
+  })
+
+  it('has no axe violations', async () => {
+    const { container } = render(
+      <Container>
+        <ItemBasic title="Title">Content</ItemBasic>
+      </Container>
+    )
+
+    expect(await axeComponent(container)).toHaveNoViolations()
   })
 })

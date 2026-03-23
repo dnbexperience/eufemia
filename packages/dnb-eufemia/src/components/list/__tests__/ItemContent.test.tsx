@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { render } from '@testing-library/react'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import Container from '../Container'
 import ItemContent, { ItemContentProps } from '../ItemContent'
+import Context from '../../../shared/Context'
 
 describe('ItemContent', () => {
   it('renders with props as an object', () => {
@@ -137,7 +139,66 @@ describe('ItemContent', () => {
     expect(element.classList).toContain('dnb-skeleton--font')
   })
 
+  it('inherits skeleton from parent container context', () => {
+    render(
+      <Container skeleton>
+        <ItemContent>Content</ItemContent>
+      </Container>
+    )
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.classList).toContain('dnb-skeleton')
+    expect(element.classList).toContain('dnb-skeleton--font')
+  })
+
+  it('overrides inherited skeleton with own skeleton prop', () => {
+    render(
+      <Container skeleton>
+        <ItemContent skeleton={false}>Content</ItemContent>
+      </Container>
+    )
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.classList).not.toContain('dnb-skeleton')
+  })
+
+  it('propagates skeleton to children via context', () => {
+    function SkeletonConsumer() {
+      const context = useContext(Context)
+      return <span data-skeleton={String(Boolean(context?.skeleton))} />
+    }
+
+    render(
+      <ItemContent skeleton>
+        <SkeletonConsumer />
+      </ItemContent>
+    )
+
+    const consumer = document.querySelector('[data-skeleton]')
+    expect(consumer.getAttribute('data-skeleton')).toBe('true')
+  })
+
+  it('applies disabled modifier when disabled is true', () => {
+    render(<ItemContent disabled>Content</ItemContent>)
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.classList).toContain('dnb-list__item--disabled')
+  })
+
   it('declares _supportsSpacingProps for flex layout', () => {
     expect(ItemContent._supportsSpacingProps).toBe(true)
+  })
+
+  it('has no axe violations', async () => {
+    const { container } = render(
+      <Container>
+        <ItemContent>Content</ItemContent>
+      </Container>
+    )
+
+    expect(await axeComponent(container)).toHaveNoViolations()
   })
 })

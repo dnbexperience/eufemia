@@ -67,13 +67,13 @@ describe('Stat.Label', () => {
     expect(label.classList).toContain('dnb-sr-only')
   })
 
-  it('renders dt outside Stat.Root and warns', () => {
+  it('renders span outside Stat.Root and warns', () => {
     const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
 
     render(<Stat.Label>Revenue growth</Stat.Label>)
 
     const label = document.querySelector('.dnb-stat__label')
-    expect(label.tagName.toLowerCase()).toBe('dt')
+    expect(label.tagName.toLowerCase()).toBe('span')
 
     const didWarn = spy.mock.calls.some((call) =>
       call
@@ -127,6 +127,18 @@ describe('Stat.Label', () => {
     spy.mockRestore()
   })
 
+  it('supports spacing props', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label top="large">Revenue growth</Stat.Label>
+      </Stat.Root>
+    )
+
+    const label = document.querySelector('.dnb-stat__label')
+
+    expect(label.classList).toContain('dnb-space__top--large')
+  })
+
   it('should validate with ARIA rules', async () => {
     const component = render(
       <Stat.Root>
@@ -138,5 +150,92 @@ describe('Stat.Label', () => {
     )
 
     expect(await axeComponent(component)).toHaveNoViolations()
+  })
+
+  it('supports id prop', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label id="my-label">Revenue</Stat.Label>
+      </Stat.Root>
+    )
+
+    const label = document.querySelector('.dnb-stat__label')
+
+    expect(label.getAttribute('id')).toBe('my-label')
+  })
+
+  it('applies style prop to the element', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label style={{ color: 'red' }}>Revenue</Stat.Label>
+      </Stat.Root>
+    )
+
+    const label = document.querySelector('.dnb-stat__label')
+
+    expect(label.getAttribute('style')).toContain('color: red')
+  })
+
+  it('supports className prop', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label className="custom-class">Revenue</Stat.Label>
+      </Stat.Root>
+    )
+
+    const label = document.querySelector('.dnb-stat__label')
+
+    expect(label.classList).toContain('custom-class')
+  })
+
+  it('uses custom element prop when outside Stat.Root', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(<Stat.Label element="span">Revenue</Stat.Label>)
+
+    const label = document.querySelector('.dnb-stat__label')
+    expect(label.tagName.toLowerCase()).toBe('span')
+
+    spy.mockRestore()
+  })
+
+  it('applies correct CSS classes when outside Stat.Root', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Label
+        fontSize="medium"
+        fontWeight="bold"
+        variant="subtle"
+        className="custom"
+      >
+        Revenue
+      </Stat.Label>
+    )
+
+    const label = document.querySelector('.dnb-stat__label')
+
+    expect(label.classList).toContain('dnb-stat')
+    expect(label.classList).toContain('dnb-stat__label')
+    expect(label.classList).toContain('dnb-stat__label--subtle')
+    expect(label.classList).toContain('dnb-t__size--medium')
+    expect(label.classList).toContain('dnb-t__weight--bold')
+    expect(label.classList).toContain('custom')
+
+    spy.mockRestore()
+  })
+
+  it('supports skeleton when outside Stat.Root', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(<Stat.Label skeleton>Revenue</Stat.Label>)
+
+    const label = document.querySelector('.dnb-stat__label')
+
+    expect(label.classList).toContain('dnb-skeleton')
+    expect(label.classList).toContain('dnb-skeleton--font')
+    expect(label).toHaveAttribute('aria-disabled', 'true')
+
+    spy.mockRestore()
   })
 })

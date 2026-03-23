@@ -14,6 +14,7 @@ import { formatReturnValue } from '../number-format/NumberUtils'
 import {
   convertJsxToString,
   validateDOMAttributes,
+  warn,
 } from '../../shared/component-helper'
 import StatValueContext from './StatValueContext'
 import useStatSkeleton from './useStatSkeleton'
@@ -164,12 +165,9 @@ function AmountBase(props: AmountProps) {
     resolvedMainSize === resolvedAuxiliarySize
       ? 'medium'
       : null)
+  const numericValue = Number(rawValue)
   const signTone =
-    parts.sign === '+'
-      ? 'positive'
-      : parts.sign === '-' || parts.sign === '−'
-      ? 'negative'
-      : null
+    numericValue > 0 ? 'positive' : numericValue < 0 ? 'negative' : null
 
   const currencyClass = classnames(
     'dnb-stat__currency',
@@ -309,6 +307,12 @@ export { AmountBase }
 /**
  * @deprecated Use `Stat.Number` instead.
  */
-const Amount = AmountBase
+function Amount(props: AmountProps) {
+  warn('Stat.Amount is deprecated. Use Stat.Number instead.')
+
+  return <AmountBase {...props} />
+}
+
+Amount._supportsSpacingProps = true
 
 export default Amount

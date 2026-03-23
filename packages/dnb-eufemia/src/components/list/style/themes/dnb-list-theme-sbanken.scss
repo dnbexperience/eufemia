@@ -6,7 +6,7 @@
 .dnb-list {
   &--variant-basic {
     --item-outline-color: var(--border-color, var(--sb-color-gray-light));
-    --item-background: var(--sb-color-white);
+    --item-background-color: var(--sb-color-white);
     --item-selected-background-color: var(
       --internal-color-background-selected-subtle,
       var(--sb-color-gray-light)
@@ -15,5 +15,14 @@
     --item-navigation-color--active: var(--sb-color-purple-alternative);
     --item-icon-color: var(--item-navigation-color);
     --item-pending-color: var(--sb-color-gray-light-3);
+  }
+
+  &__item--disabled {
+    color: var(--sb-color-gray-dark-2);
+
+    --item-navigation-color: var(--sb-color-gray-dark-2);
+    --item-navigation-color--active: var(--sb-color-gray-dark-2);
+    --item-icon-color: var(--sb-color-gray-dark-2);
+    --item-outline-color: var(--sb-color-gray-light);
   }
 }

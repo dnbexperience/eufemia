@@ -1,20 +1,57 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import classnames from 'classnames'
-import FlexItem from '../flex/Item'
-import { ItemContentProps } from './ItemContent'
+import FlexItem, { type Props as FlexItemProps } from '../flex/Item'
+import { ListContext } from './ListContext'
+import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import type { SkeletonShow } from '../Skeleton'
+import Context from '../../shared/Context'
 
-function ItemCenter({ className, ...rest }: ItemContentProps) {
-  return (
+export type ItemCenterProps = FlexItemProps & {
+  /** Font size of the center content. Defaults to `basis`. */
+  fontSize?: 'small' | 'basis'
+  /** Font weight of the center content. Defaults to `regular`. */
+  fontWeight?: 'regular' | 'medium'
+  /** If `true`, applies skeleton loading state. Inherits from parent List context when not set. */
+  skeleton?: SkeletonShow
+}
+
+function ItemCenter({
+  className,
+  fontSize = 'basis',
+  fontWeight = 'regular',
+  skeleton,
+  children,
+  ...rest
+}: ItemCenterProps) {
+  const context = useContext(Context)
+  const inheritedSkeleton = useContext(ListContext)?.skeleton
+  const appliedSkeleton = skeleton ?? inheritedSkeleton
+
+  const content = (
     <FlexItem
       className={classnames(
         'dnb-list__item__center',
-        'dnb-t__size--basis',
+        fontSize && `dnb-t__size--${fontSize}`,
+        fontWeight === 'medium' && 'dnb-t__weight--medium',
+        appliedSkeleton && createSkeletonClass('font', true),
         className
       )}
       innerSpace={{ left: 'small' }}
       {...rest}
-    />
+    >
+      {children}
+    </FlexItem>
   )
+
+  if (appliedSkeleton) {
+    return (
+      <Context.Provider value={{ ...context, skeleton: appliedSkeleton }}>
+        {content}
+      </Context.Provider>
+    )
+  }
+
+  return content
 }
 
 ItemCenter._supportsSpacingProps = true

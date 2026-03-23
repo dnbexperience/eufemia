@@ -409,6 +409,30 @@ describe('Stat.Number', () => {
     expect(sr.getAttribute('data-text')).toBe('Ikke tilgjengelig')
   })
 
+  it('renders NaN as absent value', () => {
+    render(<Stat.Number value={NaN} />)
+
+    const amount = document.querySelector('.dnb-stat__amount')
+
+    expect(amount.textContent).toBe('–')
+  })
+
+  it('renders Infinity without crashing', () => {
+    render(<Stat.Number value={Infinity} />)
+
+    const amount = document.querySelector('.dnb-stat__amount')
+
+    expect(amount.textContent).toContain('∞')
+  })
+
+  it('renders negative Infinity without crashing', () => {
+    render(<Stat.Number value={-Infinity} />)
+
+    const amount = document.querySelector('.dnb-stat__amount')
+
+    expect(amount.textContent).toContain('∞')
+  })
+
   it('supports currencyPosition before and after', () => {
     const { rerender } = render(
       <Stat.Number

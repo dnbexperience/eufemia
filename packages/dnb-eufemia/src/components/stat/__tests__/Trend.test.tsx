@@ -89,11 +89,105 @@ describe('Stat.Trend', () => {
     expect(trend).toHaveAttribute('aria-disabled', 'true')
   })
 
+  it('renders NaN as em dash with neutral tone', () => {
+    render(<Stat.Trend value={NaN} />)
+
+    const trend = document.querySelector('.dnb-stat__trend')
+    const value = document.querySelector('.dnb-stat__trend-value')
+    const sign = document.querySelector('.dnb-stat__trend-sign')
+    const sr = document.querySelector('.dnb-stat .dnb-sr-only')
+
+    expect(trend.classList).toContain('dnb-stat__trend--neutral')
+    expect(value.textContent).toBe('\u2013')
+    expect(sign).not.toBeInTheDocument()
+    expect(sr.getAttribute('data-text')).toBe('\u2013')
+  })
+
+  it('renders Infinity as em dash with neutral tone', () => {
+    render(<Stat.Trend value={Infinity} />)
+
+    const trend = document.querySelector('.dnb-stat__trend')
+    const value = document.querySelector('.dnb-stat__trend-value')
+
+    expect(trend.classList).toContain('dnb-stat__trend--neutral')
+    expect(value.textContent).toBe('\u2013')
+  })
+
+  it('supports spacing props', () => {
+    render(<Stat.Trend top="large">12.4</Stat.Trend>)
+
+    const trend = document.querySelector('.dnb-stat__trend')
+
+    expect(trend.classList).toContain('dnb-space__top--large')
+  })
+
   it('should validate with ARIA rules', async () => {
     const component = render(
       <Stat.Trend srLabel="Change:">{12.4}</Stat.Trend>
     )
 
     expect(await axeComponent(component)).toHaveNoViolations()
+  })
+
+  it('applies style prop to the element', () => {
+    render(<Stat.Trend style={{ color: 'red' }}>+5%</Stat.Trend>)
+
+    const trend = document.querySelector('.dnb-stat__trend')
+
+    expect(trend.getAttribute('style')).toContain('color: red')
+  })
+
+  it('supports id prop', () => {
+    render(<Stat.Trend id="my-trend">+5%</Stat.Trend>)
+
+    const trend = document.querySelector('.dnb-stat__trend')
+
+    expect(trend.getAttribute('id')).toBe('my-trend')
+  })
+
+  it('renders -Infinity as em dash with neutral tone', () => {
+    render(<Stat.Trend value={-Infinity} />)
+
+    const trend = document.querySelector('.dnb-stat__trend')
+    const value = document.querySelector('.dnb-stat__trend-value')
+    const sign = document.querySelector('.dnb-stat__trend-sign')
+
+    expect(trend.classList).toContain('dnb-stat__trend--neutral')
+    expect(value.textContent).toBe('\u2013')
+    expect(sign).not.toBeInTheDocument()
+  })
+
+  it('renders empty string value as neutral with no sign', () => {
+    render(<Stat.Trend value="" />)
+
+    const trend = document.querySelector('.dnb-stat__trend')
+    const sign = document.querySelector('.dnb-stat__trend-sign')
+
+    expect(trend.classList).toContain('dnb-stat__trend--neutral')
+    expect(sign).not.toBeInTheDocument()
+  })
+
+  it('renders string with minus sign as negative', () => {
+    render(<Stat.Trend value="-5.2%" />)
+
+    const trend = document.querySelector('.dnb-stat__trend')
+    const sign = document.querySelector('.dnb-stat__trend-sign')
+    const value = document.querySelector('.dnb-stat__trend-value')
+
+    expect(trend.classList).toContain('dnb-stat__trend--negative')
+    expect(sign.textContent).toBe('-')
+    expect(value.textContent).toBe('5.2%')
+  })
+
+  it('renders string with plus sign as positive', () => {
+    render(<Stat.Trend value="+3.1%" />)
+
+    const trend = document.querySelector('.dnb-stat__trend')
+    const sign = document.querySelector('.dnb-stat__trend-sign')
+    const value = document.querySelector('.dnb-stat__trend-value')
+
+    expect(trend.classList).toContain('dnb-stat__trend--positive')
+    expect(sign.textContent).toBe('+')
+    expect(value.textContent).toBe('3.1%')
   })
 })

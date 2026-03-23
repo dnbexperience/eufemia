@@ -4,14 +4,15 @@ import { ListVariant, ListContext } from './ListContext'
 import FlexContainer, { Props as FlexProps } from '../flex/Container'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
+import Context from '../../shared/Context'
 
 export type ItemContentProps = {
   variant?: ListVariant
   selected?: boolean
   pending?: boolean
+  disabled?: boolean
   skeleton?: SkeletonShow
-} & React.HTMLAttributes<HTMLDivElement> &
-  FlexProps
+} & FlexProps
 
 function ItemContent(props: ItemContentProps) {
   const {
@@ -20,13 +21,19 @@ function ItemContent(props: ItemContentProps) {
     variant,
     selected,
     pending,
+    disabled,
     skeleton,
     ...rest
   } = props
+  const context = useContext(Context)
   const inheritedVariant = useContext(ListContext)?.variant
+  const inheritedSkeleton = useContext(ListContext)?.skeleton
+  const inheritedDisabled = useContext(ListContext)?.disabled
   const appliedVariant = variant ?? inheritedVariant
+  const appliedSkeleton = skeleton ?? inheritedSkeleton
+  const appliedDisabled = disabled ?? inheritedDisabled
 
-  return (
+  const content = (
     <FlexContainer
       element="li"
       direction="horizontal"
@@ -40,7 +47,8 @@ function ItemContent(props: ItemContentProps) {
         selected !== undefined && 'dnb-list__item--selection',
         selected && 'dnb-list__item--selected',
         pending && 'dnb-list__item--pending',
-        skeleton && createSkeletonClass('font', true),
+        appliedDisabled && 'dnb-list__item--disabled',
+        appliedSkeleton && createSkeletonClass('font', true),
         className
       )}
       {...rest}
@@ -49,6 +57,16 @@ function ItemContent(props: ItemContentProps) {
       {pending && <Pending />}
     </FlexContainer>
   )
+
+  if (appliedSkeleton) {
+    return (
+      <Context.Provider value={{ ...context, skeleton: appliedSkeleton }}>
+        {content}
+      </Context.Provider>
+    )
+  }
+
+  return content
 }
 ItemContent._supportsSpacingProps = true
 

@@ -177,6 +177,35 @@ describe('ItemAction', () => {
     expect(element.classList).toContain('dnb-skeleton--font')
   })
 
+  it('applies selected modifier class when selected', () => {
+    render(<ItemAction selected>Content</ItemAction>)
+
+    const element = document.querySelector('.dnb-list__item__action')
+
+    expect(element.classList).toContain('dnb-list__item--selected')
+    expect(element.classList).toContain('dnb-list__item--selection')
+  })
+
+  it('applies variant modifier class', () => {
+    render(<ItemAction variant="basic">Content</ItemAction>)
+
+    const element = document.querySelector('.dnb-list__item__action')
+
+    expect(element.classList).toContain('dnb-list--variant-basic')
+  })
+
+  it('forwards selected to ItemContent when href is set', () => {
+    render(
+      <ItemAction href="/test" selected>
+        Content
+      </ItemAction>
+    )
+
+    const element = document.querySelector('.dnb-list__item__action')
+
+    expect(element.classList).toContain('dnb-list__item--selected')
+  })
+
   describe('pending', () => {
     it('applies pending modifier when pending is true', () => {
       render(<ItemAction pending>Content</ItemAction>)
@@ -249,6 +278,83 @@ describe('ItemAction', () => {
 
   it('declares _supportsSpacingProps for flex layout', () => {
     expect(ItemAction._supportsSpacingProps).toBe(true)
+  })
+
+  describe('disabled', () => {
+    it('applies disabled modifier when disabled is true', () => {
+      render(<ItemAction disabled>Content</ItemAction>)
+
+      const element = document.querySelector('.dnb-list__item__action')
+
+      expect(element.classList).toContain('dnb-list__item--disabled')
+    })
+
+    it('has aria-disabled and tabIndex -1 when disabled', () => {
+      render(<ItemAction disabled>Content</ItemAction>)
+
+      const element = document.querySelector('.dnb-list__item__action')
+
+      expect(element.getAttribute('aria-disabled')).toBe('true')
+      expect(element.getAttribute('tabindex')).toBe('-1')
+    })
+
+    it('does not call onClick on click when disabled', () => {
+      const handleClick = jest.fn()
+
+      render(
+        <ItemAction disabled onClick={handleClick}>
+          Content
+        </ItemAction>
+      )
+
+      const element = document.querySelector('.dnb-list__item__action')
+
+      fireEvent.click(element)
+
+      expect(handleClick).not.toHaveBeenCalled()
+    })
+
+    it('does not call onClick on Enter key when disabled', () => {
+      const handleClick = jest.fn()
+
+      render(
+        <ItemAction disabled onClick={handleClick}>
+          Content
+        </ItemAction>
+      )
+
+      const element = document.querySelector('.dnb-list__item__action')
+
+      fireEvent.keyDown(element, { key: 'Enter' })
+
+      expect(handleClick).not.toHaveBeenCalled()
+    })
+
+    it('has aria-disabled and tabIndex -1 on href items when disabled', () => {
+      render(
+        <ItemAction disabled href="/path">
+          Content
+        </ItemAction>
+      )
+
+      const element = document.querySelector('.dnb-list__item__action')
+
+      expect(element.getAttribute('aria-disabled')).toBe('true')
+      expect(element.getAttribute('tabindex')).toBe('-1')
+    })
+
+    it('removes href from anchor when disabled', () => {
+      render(
+        <ItemAction disabled href="/path">
+          Content
+        </ItemAction>
+      )
+
+      const anchor = document.querySelector('.dnb-list__item__action a')
+
+      expect(anchor).not.toHaveAttribute('href')
+      expect(anchor.getAttribute('aria-disabled')).toBe('true')
+    })
   })
 
   describe('href', () => {

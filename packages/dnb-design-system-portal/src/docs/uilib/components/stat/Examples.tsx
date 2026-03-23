@@ -1,6 +1,4 @@
-import React from 'react'
-import ComponentBox from '../../../../shared/tags/ComponentBox'
-import Stat from '@dnb/eufemia/src/components/Stat'
+import { useTranslation } from '@dnb/eufemia/shared'
 import {
   Card,
   Code,
@@ -10,8 +8,9 @@ import {
   Icon,
   IconPrimary,
 } from '@dnb/eufemia/src'
-import { useTranslation } from '@dnb/eufemia/shared'
+import Stat from '@dnb/eufemia/src/components/Stat'
 import { globe_medium } from '@dnb/eufemia/src/icons'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
 
 export const BasicUsage = () => (
   <ComponentBox data-visual-test="stat-amount-default">
@@ -194,6 +193,27 @@ export const PercentDefault = () => (
           fontSize="medium"
           colorizeBySign
         />
+      </Stat.Content>
+    </Stat.Root>
+  </ComponentBox>
+)
+
+export const PercentColorizeBySign = () => (
+  <ComponentBox data-visual-test="stat-percent-colorize-by-sign">
+    <Stat.Root>
+      <Stat.Label>Positive without signDisplay</Stat.Label>
+      <Stat.Content>
+        <Stat.Percent value={12.3} fontSize="medium" colorizeBySign />
+      </Stat.Content>
+
+      <Stat.Label top>Negative without signDisplay</Stat.Label>
+      <Stat.Content>
+        <Stat.Percent value={-12.3} fontSize="medium" colorizeBySign />
+      </Stat.Content>
+
+      <Stat.Label top>Zero without signDisplay</Stat.Label>
+      <Stat.Content>
+        <Stat.Percent value={0} fontSize="medium" colorizeBySign />
       </Stat.Content>
     </Stat.Root>
   </ComponentBox>

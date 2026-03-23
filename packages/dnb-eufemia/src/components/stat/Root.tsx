@@ -8,7 +8,9 @@ import StatRootContext from './StatRootContext'
 
 export type RootProps = {
   children?: React.ReactNode
+  id?: string
   className?: string
+  style?: React.CSSProperties
   visualOrder?: 'label-content' | 'content-label'
   skeleton?: SkeletonShow
 } & SpacingProps
@@ -16,7 +18,9 @@ export type RootProps = {
 function Root(props: RootProps) {
   const {
     children,
+    id = null,
     className = null,
+    style = null,
     visualOrder = 'label-content',
     skeleton = null,
     ...rest
@@ -25,14 +29,22 @@ function Root(props: RootProps) {
   if (!hasOnlySupportedChildren(children)) {
     warn('Stat.Root should only contain Stat.Label and Stat.Content.')
   }
-  if (!hasRequiredLabel(children)) {
+  const hasLabel = hasRequiredLabel(children)
+  if (!hasLabel) {
     warn('Stat.Root should contain a Stat.Label.')
+  }
+  if (hasLabel && !hasValidLabelContentOrder(children)) {
+    warn(
+      'Stat.Root: every Stat.Content should be preceded by a Stat.Label for valid dt/dd pairing.'
+    )
   }
 
   return (
     <StatRootContext.Provider value={{ inRoot: true, skeleton }}>
       <Space
         element="dl"
+        id={id}
+        style={style}
         className={classnames(
           'dnb-stat',
           'dnb-stat__root',
@@ -91,4 +103,45 @@ function hasLabelChild(child: React.ReactNode): boolean {
 
   const role = (child.type as { _statRole?: string })?._statRole
   return role === 'label'
+}
+
+function flattenRoles(
+  children: React.ReactNode
+): Array<'label' | 'content'> {
+  const roles: Array<'label' | 'content'> = []
+
+  for (const child of React.Children.toArray(children)) {
+    if (!React.isValidElement(child)) {
+      continue
+    }
+
+    if (child.type === React.Fragment) {
+      roles.push(...flattenRoles(child.props.children))
+      continue
+    }
+
+    const role = (child.type as { _statRole?: string })?._statRole
+    if (role === 'label' || role === 'content') {
+      roles.push(role)
+    }
+  }
+
+  return roles
+}
+
+function hasValidLabelContentOrder(children: React.ReactNode): boolean {
+  const roles = flattenRoles(children)
+  let hasSeenLabel = false
+
+  for (const role of roles) {
+    if (role === 'label') {
+      hasSeenLabel = true
+    } else if (role === 'content') {
+      if (!hasSeenLabel) {
+        return false
+      }
+    }
+  }
+
+  return true
 }

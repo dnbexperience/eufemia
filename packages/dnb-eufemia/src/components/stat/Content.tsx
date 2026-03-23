@@ -9,7 +9,9 @@ import useStatSkeleton from './useStatSkeleton'
 
 export type ContentProps = {
   children?: React.ReactNode
+  id?: string
   className?: string
+  style?: React.CSSProperties
   element?: keyof JSX.IntrinsicElements
   direction?: 'horizontal' | 'vertical'
   skeleton?: SkeletonShow
@@ -21,13 +23,17 @@ function Content(props: ContentProps) {
   const {
     children,
     className = null,
-    element: Element = 'dd',
+    style = null,
+    element: elementProp,
     direction = 'horizontal',
     skeleton = null,
     ...rest
   } = props
 
-  const { hasSkeleton } = useStatSkeleton(skeleton)
+  const Element = elementProp ?? (inRoot ? 'dd' : 'span')
+
+  const { hasSkeleton, skeletonClass, applySkeletonAttributes } =
+    useStatSkeleton(skeleton)
 
   if (!inRoot) {
     warn('Stat.Content should be used inside Stat.Root')
@@ -35,14 +41,18 @@ function Content(props: ContentProps) {
 
   const attributes = validateDOMAttributes(props, {
     ...rest,
+    style,
     className: classnames(
       'dnb-stat',
       'dnb-stat__content-item',
       `dnb-stat__content-item--${direction}`,
       createSpacingClasses(props),
+      skeletonClass,
       className
     ),
   })
+
+  applySkeletonAttributes(attributes)
 
   return (
     <StatRootContext.Provider value={{ inRoot, skeleton: hasSkeleton }}>

@@ -25,13 +25,13 @@ describe('Stat.Content', () => {
     spy.mockRestore()
   })
 
-  it('renders dd outside Stat.Root and warns', () => {
+  it('renders span outside Stat.Root and warns', () => {
     const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
 
     render(<Stat.Content />)
 
     const content = document.querySelector('.dnb-stat__content-item')
-    expect(content.tagName.toLowerCase()).toBe('dd')
+    expect(content.tagName.toLowerCase()).toBe('span')
 
     const didWarn = spy.mock.calls.some((call) =>
       call
@@ -111,6 +111,46 @@ describe('Stat.Content', () => {
     spy.mockRestore()
   })
 
+  it('applies skeleton class and aria-disabled to Content element', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content skeleton>
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const content = document.querySelector('.dnb-stat__content-item')
+
+    expect(content.classList).toContain('dnb-skeleton')
+    expect(content.classList).toContain('dnb-skeleton--font')
+    expect(content).toHaveAttribute('aria-disabled', 'true')
+
+    spy.mockRestore()
+  })
+
+  it('supports spacing props', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content top="large">
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const content = document.querySelector('.dnb-stat__content-item')
+
+    expect(content.classList).toContain('dnb-space__top--large')
+
+    spy.mockRestore()
+  })
+
   it('should validate with ARIA rules', async () => {
     const component = render(
       <Stat.Root>
@@ -122,5 +162,110 @@ describe('Stat.Content', () => {
     )
 
     expect(await axeComponent(component)).toHaveNoViolations()
+  })
+
+  it('supports id prop', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content id="my-content">
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const content = document.querySelector('.dnb-stat__content-item')
+
+    expect(content.getAttribute('id')).toBe('my-content')
+  })
+
+  it('applies style prop to the element', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content style={{ color: 'red' }}>
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const content = document.querySelector('.dnb-stat__content-item')
+
+    expect(content.getAttribute('style')).toContain('color: red')
+
+    spy.mockRestore()
+  })
+
+  it('supports className prop', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content className="custom-class">
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const content = document.querySelector('.dnb-stat__content-item')
+
+    expect(content.classList).toContain('custom-class')
+
+    spy.mockRestore()
+  })
+
+  it('uses custom element prop when outside Stat.Root', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Content element="div">
+        <Stat.Currency value={1234} />
+      </Stat.Content>
+    )
+
+    const content = document.querySelector('.dnb-stat__content-item')
+    expect(content.tagName.toLowerCase()).toBe('div')
+
+    spy.mockRestore()
+  })
+
+  it('applies correct CSS classes when outside Stat.Root', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Content direction="vertical" className="custom">
+        <Stat.Currency value={1234} />
+      </Stat.Content>
+    )
+
+    const content = document.querySelector('.dnb-stat__content-item')
+
+    expect(content.classList).toContain('dnb-stat')
+    expect(content.classList).toContain('dnb-stat__content-item')
+    expect(content.classList).toContain('dnb-stat__content-item--vertical')
+    expect(content.classList).toContain('custom')
+
+    spy.mockRestore()
+  })
+
+  it('supports skeleton when outside Stat.Root', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Content skeleton>
+        <Stat.Currency value={1234} />
+      </Stat.Content>
+    )
+
+    const content = document.querySelector('.dnb-stat__content-item')
+
+    expect(content.classList).toContain('dnb-skeleton')
+    expect(content.classList).toContain('dnb-skeleton--font')
+    expect(content).toHaveAttribute('aria-disabled', 'true')
+
+    spy.mockRestore()
   })
 })

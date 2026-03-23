@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { render } from '@testing-library/react'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import ItemSubline from '../ItemSubline'
+import ItemContent from '../ItemContent'
+import Container from '../Container'
+import Context from '../../../shared/Context'
 
 describe('ItemSubline', () => {
   it('renders with children', () => {
@@ -137,5 +141,65 @@ describe('ItemSubline', () => {
 
   it('declares _supportsSpacingProps for flex layout', () => {
     expect(ItemSubline._supportsSpacingProps).toBe(true)
+  })
+
+  it('does not accept unrelated ItemContent props', () => {
+    render(<ItemSubline>Content</ItemSubline>)
+
+    const element = document.querySelector('.dnb-list__item__subline')
+
+    expect(element.getAttribute('selected')).toBeNull()
+    expect(element.getAttribute('pending')).toBeNull()
+    expect(element.getAttribute('skeleton')).toBeNull()
+  })
+
+  it('applies skeleton class when skeleton prop is true', () => {
+    render(<ItemSubline skeleton>Content</ItemSubline>)
+
+    const element = document.querySelector('.dnb-list__item__subline')
+
+    expect(element.classList).toContain('dnb-skeleton')
+    expect(element.classList).toContain('dnb-skeleton--font')
+  })
+
+  it('inherits skeleton from Container context', () => {
+    render(
+      <Container skeleton>
+        <ItemSubline>Content</ItemSubline>
+      </Container>
+    )
+
+    const element = document.querySelector('.dnb-list__item__subline')
+
+    expect(element.classList).toContain('dnb-skeleton')
+    expect(element.classList).toContain('dnb-skeleton--font')
+  })
+
+  it('propagates skeleton to children via context', () => {
+    function SkeletonConsumer() {
+      const context = useContext(Context)
+      return <span data-skeleton={String(Boolean(context?.skeleton))} />
+    }
+
+    render(
+      <ItemSubline skeleton>
+        <SkeletonConsumer />
+      </ItemSubline>
+    )
+
+    const consumer = document.querySelector('[data-skeleton]')
+    expect(consumer.getAttribute('data-skeleton')).toBe('true')
+  })
+
+  it('has no axe violations', async () => {
+    const { container } = render(
+      <Container>
+        <ItemContent>
+          <ItemSubline>Subline content</ItemSubline>
+        </ItemContent>
+      </Container>
+    )
+
+    expect(await axeComponent(container)).toHaveNoViolations()
   })
 })

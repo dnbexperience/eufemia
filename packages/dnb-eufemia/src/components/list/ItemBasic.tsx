@@ -1,5 +1,4 @@
-import React, { useContext } from 'react'
-import { ListContext } from './ListContext'
+import React from 'react'
 import ItemContent, { ItemContentProps } from './ItemContent'
 import ItemIcon from './ItemIcon'
 import ItemTitle from './ItemTitle'
@@ -11,12 +10,10 @@ export type ItemBasicProps = {
 } & Omit<ItemContentProps, 'title'>
 
 function ItemBasic(props: ItemBasicProps) {
-  const { icon, title, children, variant, ...rest } = props
-  const inheritedVariant = useContext(ListContext)?.variant
-  const appliedVariant = variant ?? inheritedVariant
+  const { icon, title, children, ...rest } = props
 
   return (
-    <ItemContent variant={appliedVariant} {...rest}>
+    <ItemContent {...rest}>
       {icon && <ItemIcon>{icon}</ItemIcon>}
       {title !== undefined && <ItemTitle>{title}</ItemTitle>}
       {children}

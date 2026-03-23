@@ -1,34 +1,58 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import classnames from 'classnames'
-import FlexItem from '../flex/Item'
-import { ItemContentProps } from './ItemContent'
+import FlexItem, { type Props as FlexItemProps } from '../flex/Item'
 import ItemOverline from './ItemOverline'
 import ItemSubline from './ItemSubline'
+import { ListContext } from './ListContext'
+import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import type { SkeletonShow } from '../Skeleton'
+import Context from '../../shared/Context'
 
 /**
  * Props for List.Cell.Title (ItemTitle).
- * Extends ItemContentProps and Flex.Item; supports spacing props.
+ * Extends Flex.Item; supports spacing props.
  */
-export type ItemTitleProps = ItemContentProps & {
+export type ItemTitleProps = FlexItemProps & {
   /** Font size of the title content. Defaults to `basis`. */
   fontSize?: 'small' | 'basis'
+  /** If `true`, applies skeleton loading state. Inherits from parent List context when not set. */
+  skeleton?: SkeletonShow
 }
 
 function ItemTitleBase({
   className,
   fontSize = 'basis',
+  skeleton,
   children,
   ...rest
 }: ItemTitleProps) {
-  return (
+  const context = useContext(Context)
+  const inheritedSkeleton = useContext(ListContext)?.skeleton
+  const appliedSkeleton = skeleton ?? inheritedSkeleton
+
+  const content = (
     <FlexItem
       innerSpace={{ left: 'small' }}
-      className={classnames('dnb-list__item__title', className)}
+      className={classnames(
+        'dnb-list__item__title',
+        appliedSkeleton && createSkeletonClass('font', true),
+        className
+      )}
       {...rest}
     >
       <span className={`dnb-t__size--${fontSize}`}>{children}</span>
     </FlexItem>
   )
+
+  if (appliedSkeleton) {
+    return (
+      <Context.Provider value={{ ...context, skeleton: appliedSkeleton }}>
+        {content}
+      </Context.Provider>
+    )
+  }
+
+  return content
 }
 ItemTitleBase._supportsSpacingProps = true
 

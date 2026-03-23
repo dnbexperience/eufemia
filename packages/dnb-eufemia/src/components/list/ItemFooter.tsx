@@ -1,21 +1,56 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import classnames from 'classnames'
-import FlexItem from '../flex/Item'
+import FlexItem, { type Props as FlexItemProps } from '../flex/Item'
 import Hr from '../../elements/Hr'
-import { ItemContentProps } from './ItemContent'
+import { ListContext } from './ListContext'
+import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import type { SkeletonShow } from '../Skeleton'
+import Context from '../../shared/Context'
 
-function ItemFooter({ className, children, ...rest }: ItemContentProps) {
-  return (
+export type ItemFooterProps = FlexItemProps & {
+  /** If `true`, applies skeleton loading state. Inherits from parent List context when not set. */
+  skeleton?: SkeletonShow
+}
+
+function ItemFooter({
+  className,
+  skeleton,
+  children,
+  ...rest
+}: ItemFooterProps) {
+  const context = useContext(Context)
+  const inheritedSkeleton = useContext(ListContext)?.skeleton
+  const appliedSkeleton = skeleton ?? inheritedSkeleton
+
+  const content = (
     <>
-      <Hr top={false} bottom={false} className="dnb-list__item__footer" />
+      <Hr
+        top={false}
+        bottom={false}
+        className="dnb-list__item__footer-separator"
+      />
       <FlexItem
-        className={classnames('dnb-list__item__footer', className)}
+        className={classnames(
+          'dnb-list__item__footer',
+          appliedSkeleton && createSkeletonClass('font', true),
+          className
+        )}
         {...rest}
       >
         {children}
       </FlexItem>
     </>
   )
+
+  if (appliedSkeleton) {
+    return (
+      <Context.Provider value={{ ...context, skeleton: appliedSkeleton }}>
+        {content}
+      </Context.Provider>
+    )
+  }
+
+  return content
 }
 ItemFooter._supportsSpacingProps = true
 

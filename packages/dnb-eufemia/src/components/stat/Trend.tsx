@@ -18,8 +18,10 @@ const trendContextValue = {
 export type TrendProps = {
   value?: number | string
   children?: React.ReactNode
+  id?: string
   element?: keyof JSX.IntrinsicElements
   className?: string
+  style?: React.CSSProperties
   srLabel?: React.ReactNode
   tone?: 'positive' | 'negative' | 'neutral'
   skeleton?: SkeletonShow
@@ -31,6 +33,7 @@ function Trend(props: TrendProps) {
     children,
     element: Element = 'span',
     className = null,
+    style = null,
     srLabel = null,
     tone = null,
     skeleton = null,
@@ -69,6 +72,7 @@ function Trend(props: TrendProps) {
 
   const attributes = validateDOMAttributes(props, {
     ...rest,
+    style,
     className: classnames(
       'dnb-stat',
       'dnb-stat__trend',
@@ -131,6 +135,14 @@ function getValueFromChildren(children: React.ReactNode): number | string {
 
 function resolveTrendValue(value: number | string) {
   if (typeof value === 'number') {
+    if (!Number.isFinite(value)) {
+      return {
+        tone: 'neutral' as const,
+        sign: null,
+        displayValue: '\u2013',
+      }
+    }
+
     if (value > 0) {
       return {
         tone: 'positive' as const,

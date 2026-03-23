@@ -31,6 +31,24 @@ describe('Stat.Percent', () => {
     expect(root.classList).not.toContain('dnb-stat--tone-positive')
   })
 
+  it('colorizes positive value without signDisplay', () => {
+    render(<Stat.Percent value={12.3} colorizeBySign />)
+
+    const root = document.querySelector('.dnb-stat')
+
+    expect(root.classList).toContain('dnb-stat--tone-positive')
+    expect(root.classList).not.toContain('dnb-stat--tone-negative')
+  })
+
+  it('does not colorize zero value', () => {
+    render(<Stat.Percent value={0} colorizeBySign />)
+
+    const root = document.querySelector('.dnb-stat')
+
+    expect(root.classList).not.toContain('dnb-stat--tone-positive')
+    expect(root.classList).not.toContain('dnb-stat--tone-negative')
+  })
+
   it('supports auxiliaryWeight', () => {
     render(<Stat.Percent value={12.3} auxiliaryWeight="bold" />)
 
@@ -104,6 +122,14 @@ describe('Stat.Percent', () => {
 
     expect(amount.classList).toContain('dnb-t__weight--regular')
     expect(amount.classList).not.toContain('dnb-t__weight--medium')
+  })
+
+  it('supports spacing props', () => {
+    render(<Stat.Percent value={12.3} top="large" />)
+
+    const root = document.querySelector('.dnb-stat')
+
+    expect(root.classList).toContain('dnb-space__top--large')
   })
 
   it('should validate with ARIA rules', async () => {
