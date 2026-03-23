@@ -118,7 +118,7 @@ function ItemAction(props: ItemActionProps) {
         selected={selected}
         skeleton={skeleton}
         pending={pending}
-        disabled={disabled}
+        disabled={appliedDisabled}
         {...rest}
       >
         <Anchor
@@ -148,7 +148,7 @@ function ItemAction(props: ItemActionProps) {
       selected={selected}
       skeleton={skeleton}
       pending={pending}
-      disabled={disabled}
+      disabled={appliedDisabled}
       {...rest}
     >
       {content}
