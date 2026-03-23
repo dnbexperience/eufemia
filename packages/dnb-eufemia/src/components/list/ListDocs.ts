@@ -285,8 +285,8 @@ export const ItemAccordionHeaderProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  '[List.Item.Basic](/uilib/components/list/properties/#listitembasic)': {
-    doc: 'Inherits List.Item.Basic properties (variant, pending, spacing, etc.).',
+  '[Flex.Item](/uilib/layout/flex/item/properties)': {
+    doc: 'Renders as a `Flex.Item`. Supports all `Flex.Item` properties.',
     type: 'Various',
     status: 'optional',
   },
