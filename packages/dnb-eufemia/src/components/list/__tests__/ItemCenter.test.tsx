@@ -21,6 +21,42 @@ describe('ItemCenter', () => {
     expect(element.classList).toContain('dnb-t__size--basis')
   })
 
+  it('applies fontSize="small"', () => {
+    render(<ItemCenter fontSize="small">Content</ItemCenter>)
+
+    const element = document.querySelector('.dnb-list__item__center')
+    expect(element.classList).toContain('dnb-t__size--small')
+    expect(element.classList).not.toContain('dnb-t__size--basis')
+  })
+
+  it('applies fontSize="basis"', () => {
+    render(<ItemCenter fontSize="basis">Content</ItemCenter>)
+
+    const element = document.querySelector('.dnb-list__item__center')
+    expect(element.classList).toContain('dnb-t__size--basis')
+  })
+
+  it('does not apply fontWeight medium class by default', () => {
+    render(<ItemCenter>Content</ItemCenter>)
+
+    const element = document.querySelector('.dnb-list__item__center')
+    expect(element.classList).not.toContain('dnb-t__weight--medium')
+  })
+
+  it('applies fontWeight="medium"', () => {
+    render(<ItemCenter fontWeight="medium">Content</ItemCenter>)
+
+    const element = document.querySelector('.dnb-list__item__center')
+    expect(element.classList).toContain('dnb-t__weight--medium')
+  })
+
+  it('omits fontWeight class when fontWeight is regular', () => {
+    render(<ItemCenter fontWeight="regular">Content</ItemCenter>)
+
+    const element = document.querySelector('.dnb-list__item__center')
+    expect(element.classList).not.toContain('dnb-t__weight--medium')
+  })
+
   it('merges custom className', () => {
     render(<ItemCenter className="my-center">Content</ItemCenter>)
 
