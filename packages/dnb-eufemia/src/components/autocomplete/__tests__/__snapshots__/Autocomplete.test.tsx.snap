@@ -1433,6 +1433,7 @@ html[data-visual-test] .dnb-input__input {
   --dropdown-foreground-color-error: var(--color-fire-red);
   --dropdown-background-color-disabled: var(--color-black-3);
   --dropdown-background-color-error-active: var(--color-fire-red-8);
+  --dropdown-error-border-inset: ;
   display: inline-flex;
   align-items: center;
   font-size: var(--font-size-small);
@@ -1556,13 +1557,13 @@ html[data-visual-test] .dnb-input__input {
 .dnb-dropdown__status--error.dnb-dropdown--open .dnb-dropdown__trigger:not([disabled]).dnb-button--secondary.dnb-button__status--error {
   --border-color: var(--dropdown-foreground-color-error);
   --border-width: var(--dropdown-error-border-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  box-shadow: var(--dropdown-error-border-inset) 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-dropdown__status--error.dnb-dropdown--open .dnb-dropdown__trigger {
   --border-width: var(--dropdown-error-border-width);
 }
-.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:not([disabled]) {
+.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:not([disabled]):not(:focus, :focus-visible) {
   color: var(--dropdown-foreground-color-error);
 }
 .dnb-dropdown__status--error .dnb-button--tertiary::before {
@@ -1588,12 +1589,15 @@ html[data-visual-test] .dnb-input__input {
 .dnb-dropdown__status--error .dnb-button--tertiary:disabled::before {
   --border-color: var(--color-sea-green-30);
 }
-.dnb-dropdown .dnb-button--tertiary:focus::before {
-  left: var(--button-tertiary-focus-left);
-  right: var(--button-tertiary-focus-right);
+.dnb-dropdown .dnb-button--tertiary[disabled] {
+  --button-tertiary-focus-left: 0;
+  --button-tertiary-focus-right: 0;
 }
 .dnb-dropdown__status--error .dnb-button--tertiary:not([disabled]):hover::before {
   --border-width: var(--dropdown-error-border-width);
+}
+.dnb-dropdown .dnb-button--secondary {
+  --btn-color-bg--hover: var(--token-color-background-neutral);
 }
 .dnb-dropdown--default.dnb-dropdown--is-popup .dnb-dropdown__shell, .dnb-dropdown--is-popup .dnb-dropdown__trigger {
   padding: 0;

@@ -1040,6 +1040,7 @@ legend.dnb-form-label {
   --dropdown-foreground-color-error: var(--color-fire-red);
   --dropdown-background-color-disabled: var(--color-black-3);
   --dropdown-background-color-error-active: var(--color-fire-red-8);
+  --dropdown-error-border-inset: ;
   display: inline-flex;
   align-items: center;
   font-size: var(--font-size-small);
@@ -1163,13 +1164,13 @@ legend.dnb-form-label {
 .dnb-dropdown__status--error.dnb-dropdown--open .dnb-dropdown__trigger:not([disabled]).dnb-button--secondary.dnb-button__status--error {
   --border-color: var(--dropdown-foreground-color-error);
   --border-width: var(--dropdown-error-border-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  box-shadow: var(--dropdown-error-border-inset) 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-dropdown__status--error.dnb-dropdown--open .dnb-dropdown__trigger {
   --border-width: var(--dropdown-error-border-width);
 }
-.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:not([disabled]) {
+.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:not([disabled]):not(:focus, :focus-visible) {
   color: var(--dropdown-foreground-color-error);
 }
 .dnb-dropdown__status--error .dnb-button--tertiary::before {
@@ -1195,12 +1196,15 @@ legend.dnb-form-label {
 .dnb-dropdown__status--error .dnb-button--tertiary:disabled::before {
   --border-color: var(--color-sea-green-30);
 }
-.dnb-dropdown .dnb-button--tertiary:focus::before {
-  left: var(--button-tertiary-focus-left);
-  right: var(--button-tertiary-focus-right);
+.dnb-dropdown .dnb-button--tertiary[disabled] {
+  --button-tertiary-focus-left: 0;
+  --button-tertiary-focus-right: 0;
 }
 .dnb-dropdown__status--error .dnb-button--tertiary:not([disabled]):hover::before {
   --border-width: var(--dropdown-error-border-width);
+}
+.dnb-dropdown .dnb-button--secondary {
+  --btn-color-bg--hover: var(--token-color-background-neutral);
 }
 .dnb-dropdown--default.dnb-dropdown--is-popup .dnb-dropdown__shell, .dnb-dropdown--is-popup .dnb-dropdown__trigger {
   padding: 0;
@@ -1336,15 +1340,10 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
   --dropdown-background-color-disabled: var(--color-black-3);
   --dropdown-background-color-error-active: var(--color-fire-red-8);
 }
-html:not([data-whatintent=touch]) .dnb-dropdown__trigger:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-dropdown__trigger:hover:not([disabled]) {
-  color: var(--color-emerald-green);
-}
-.dnb-dropdown__trigger[disabled] {
-  color: var(--dropdown-foreground-color-primary);
-  background-color: var(--dropdown-background-color-disabled);
+.dnb-dropdown__trigger {
+  --btn-color-text--disabled: var(--dropdown-foreground-color-primary);
+  --btn-color-text--hover: var(--color-emerald-green);
+  --btn-color-bg--disabled: var(--dropdown-background-color-disabled);
 }
 .dnb-dropdown__trigger[disabled]:not(.dnb-button--tertiary) {
   --border-color: var(--dropdown-foreground-color-primary);
