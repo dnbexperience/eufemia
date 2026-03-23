@@ -15,6 +15,8 @@ import Context from '../../shared/Context'
 export type ItemTitleProps = FlexItemProps & {
   /** Font size of the title content. Defaults to `basis`. */
   fontSize?: 'small' | 'basis'
+  /** Font weight of the title content. Defaults to `regular`. */
+  fontWeight?: 'regular' | 'medium'
   /** If `true`, applies skeleton loading state. Inherits from parent List context when not set. */
   skeleton?: SkeletonShow
 }
@@ -22,6 +24,7 @@ export type ItemTitleProps = FlexItemProps & {
 function ItemTitleBase({
   className,
   fontSize = 'basis',
+  fontWeight,
   skeleton,
   children,
   ...rest
@@ -40,7 +43,14 @@ function ItemTitleBase({
       )}
       {...rest}
     >
-      <span className={`dnb-t__size--${fontSize}`}>{children}</span>
+      <span
+        className={classnames(
+          `dnb-t__size--${fontSize}`,
+          fontWeight === 'medium' && 'dnb-t__weight--medium'
+        )}
+      >
+        {children}
+      </span>
     </FlexItem>
   )
 

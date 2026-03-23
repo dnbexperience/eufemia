@@ -53,6 +53,27 @@ describe('ItemTitle', () => {
     ).toBeInTheDocument()
   })
 
+  it('does not apply medium fontWeight by default', () => {
+    render(<ItemTitle>Title</ItemTitle>)
+
+    const element = document.querySelector('.dnb-list__item__title')
+
+    expect(
+      element.querySelector('.dnb-t__weight--medium')
+    ).not.toBeInTheDocument()
+  })
+
+  it('supports fontWeight prop with medium value', () => {
+    render(<ItemTitle fontWeight="medium">Title</ItemTitle>)
+
+    const span = document.querySelector(
+      '.dnb-list__item__title .dnb-t__weight--medium'
+    )
+
+    expect(span).toBeInTheDocument()
+    expect(span.textContent).toBe('Title')
+  })
+
   it('merges custom className', () => {
     render(<ItemTitle className="my-title">Title</ItemTitle>)
 
