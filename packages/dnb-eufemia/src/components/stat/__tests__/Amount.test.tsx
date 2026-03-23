@@ -590,11 +590,9 @@ describe('Stat.Amount', () => {
 })
 
 describe('Stat.Amount scss', () => {
-  it('includes screen-reader content for nested NumberFormat output', () => {
+  it('does not use ::before pseudo-element for screen-reader text', () => {
     const css = loadScss(require.resolve('../style/dnb-stat.scss'))
 
-    expect(css).toMatch(
-      /\.dnb-stat\s+\.dnb-sr-only::before\s*\{\s*content:\s*attr\(data-text\);?\s*\}/
-    )
+    expect(css).not.toMatch(/\.dnb-stat\s+\.dnb-sr-only::before/)
   })
 })

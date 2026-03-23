@@ -93,10 +93,8 @@
     }
   }
 
-  // Use "data-text" so Chrome does not copy the HTML as content, when pasting it in Outlook etc.
-  .dnb-sr-only::before {
-    content: attr(data-text);
-  }
+  // "data-text" is kept as a DOM marker; real text content is now
+  // rendered inside the sr-only span for reliable screen reader support.
 
   &__amount,
   &__sign {

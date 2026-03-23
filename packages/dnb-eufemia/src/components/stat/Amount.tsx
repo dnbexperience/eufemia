@@ -312,7 +312,9 @@ function AmountBase(props: AmountProps) {
         {content}
       </span>
       {/* Used for VoiceOver and NVDA when navigating with arrow keys */}
-      <span className="dnb-sr-only" data-text={srText} />
+      <span className="dnb-sr-only" data-text={srText}>
+        {srText}
+      </span>
     </Element>
   )
 }

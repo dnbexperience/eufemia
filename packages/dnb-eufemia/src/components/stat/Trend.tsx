@@ -97,7 +97,9 @@ function Trend(props: TrendProps) {
           </span>
         </span>
       </StatValueContext.Provider>
-      <span className="dnb-sr-only" data-text={srText} />
+      <span className="dnb-sr-only" data-text={srText}>
+        {srText}
+      </span>
     </Element>
   )
 }
