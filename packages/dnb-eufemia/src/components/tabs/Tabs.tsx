@@ -132,9 +132,9 @@ export type TabsProps = Omit<
     /**
      * If set to `true`, the Tabs content will pre-render all contents. The visibility will be handled by using the `hidden` and `aria-hidden` HTML attributes. Defaults to `false`.
      */
-    prerender?: boolean
+    keepInDOM?: boolean
     /**
-     * If set to `true`, the Tabs content will stay in the DOM. The visibility will be handled by using the `hidden` and `aria-hidden` HTML attributes. Similar to `prerender`, but in contrast, the content will render once the user is activating a tab. Defaults to `false`.
+     * If set to `true`, the Tabs content will stay in the DOM. The visibility will be handled by using the `hidden` and `aria-hidden` HTML attributes. Similar to `keepInDOM`, but in contrast, the content will render once the user is activating a tab. Defaults to `false`.
      */
     preventRerender?: boolean
     /**
@@ -248,7 +248,7 @@ export default class Tabs extends React.PureComponent<
     noBorder: false,
     navButtonEdge: false,
     onOpenTabNavigationFn: null,
-    prerender: false,
+    keepInDOM: false,
     preventRerender: false,
     scroll: null,
     skeleton: null,
@@ -989,9 +989,9 @@ export default class Tabs extends React.PureComponent<
 
   renderCachedContent() {
     const { selectedKey, data } = this.state
-    const { preventRerender, prerender } = this.props
+    const { preventRerender, keepInDOM } = this.props
 
-    if (prerender) {
+    if (keepInDOM) {
       this._cache = Object.entries(data).reduce((acc, [_idx, cur]) => {
         acc[cur.key] = {
           ...cur,
@@ -1028,9 +1028,9 @@ export default class Tabs extends React.PureComponent<
   }
 
   renderContent() {
-    const { preventRerender, prerender } = this.props
+    const { preventRerender, keepInDOM } = this.props
 
-    if (preventRerender || prerender) {
+    if (preventRerender || keepInDOM) {
       return this.renderCachedContent()
     }
 
@@ -1198,7 +1198,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
         selectedKey={selectedKey}
         contentStyle={this.props.contentStyle}
         contentSpacing={this.props.contentSpacing}
-        animate={this.props.prerender}
+        animate={this.props.keepInDOM}
       >
         {content}
       </ContentWrapper>

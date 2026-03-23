@@ -78,8 +78,9 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
      */
     expandedSsr?: boolean
     /**
+     * If set to `true` the content will be present, even the accordion is not expanded. Can be useful for assistive technology or SEO.
      */
-    prerender?: boolean
+    keepInDOM?: boolean
     /**
      * If set to `true` the accordion component will not re-render its content – can be useful for components you don&#39;t have control of storing the temporary state during an interaction.
      */
@@ -344,7 +345,7 @@ function Accordion({
             const {
               variant,
               className,
-              prerender,
+              keepInDOM,
               preventRerender,
               preventRerenderConditional,
               singleContainer,
@@ -378,7 +379,7 @@ function Accordion({
                 'dnb-accordion',
                 expandedState && 'dnb-accordion--expanded',
                 variant && `dnb-accordion__variant--${variant}`,
-                prerender && 'dnb-accordion--prerender',
+                keepInDOM && 'dnb-accordion--prerender',
                 createSpacingClasses(extendedProps),
                 className
               ),
@@ -402,7 +403,7 @@ function Accordion({
               ...extendedPropsForContext,
               id,
               expanded: expandedState,
-              prerender: prerender,
+              keepInDOM: keepInDOM,
               preventRerender: preventRerender,
               preventRerenderConditional: preventRerenderConditional,
               singleContainer: singleContainer,

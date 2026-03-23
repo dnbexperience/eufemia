@@ -59,13 +59,13 @@ export const TabsProperties: PropertiesTableProps = {
     type: ['React.ReactNode', 'object'],
     status: 'optional',
   },
-  prerender: {
+  keepInDOM: {
     doc: 'If set to `true`, the Tabs content will pre-render all contents. The visibility will be handled by using the `hidden` and `aria-hidden` HTML attributes. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
   preventRerender: {
-    doc: 'If set to `true`, the Tabs content will stay in the DOM. The visibility will be handled by using the `hidden` and `aria-hidden` HTML attributes. Similar to `prerender`, but in contrast, the content will render once the user is activating a tab. Defaults to `false`.',
+    doc: 'If set to `true`, the Tabs content will stay in the DOM. The visibility will be handled by using the `hidden` and `aria-hidden` HTML attributes. Similar to `keepInDOM`, but in contrast, the content will render once the user is activating a tab. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

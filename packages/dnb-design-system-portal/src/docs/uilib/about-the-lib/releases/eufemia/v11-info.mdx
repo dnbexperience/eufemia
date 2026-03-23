@@ -23,6 +23,7 @@ v11 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 7. Replace the `size` prop with `span` on `Flex.Item` and `Card` components.
 8. If you `@use` Eufemia SCSS source files and reference internal mixins, rename them to camelCase (see [SCSS mixin renames](#scss-mixin-renames)).
 9. Replace the `as` prop with `element` on the `H` heading element.
+10. Replace `prerender` with `keepInDOM` on Tabs and Accordion components.
 
 ### innerRef → ref
 
@@ -589,6 +590,7 @@ New props added:
 - Replace `remember_state` with `rememberState`.
 - Replace `prevent_rerender` with `preventRerender`.
 - Replace `no_animation` with `noAnimation`.
+- Replace `prerender` with `keepInDOM`.
 
 ### [Accordion.Group](/uilib/components/accordion/)
 
@@ -974,6 +976,7 @@ render(<Logo svg={SbankenCompact} />)
 - Replace `on_focus` with `onFocus`.
 - Replace `focus_key` with `focusKey`.
 - Replace `no_border` with `noBorder`.
+- Replace `prerender` with `keepInDOM`.
 
 ### [Pagination](/uilib/components/pagination/)
 
