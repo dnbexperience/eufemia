@@ -24,11 +24,13 @@ function Content(props: ContentProps) {
     children,
     className = null,
     style = null,
-    element: Element = 'dd',
+    element: elementProp,
     direction = 'horizontal',
     skeleton = null,
     ...rest
   } = props
+
+  const Element = elementProp ?? (inRoot ? 'dd' : 'span')
 
   const { hasSkeleton, skeletonClass, applySkeletonAttributes } =
     useStatSkeleton(skeleton)
