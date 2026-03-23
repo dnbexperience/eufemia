@@ -3,6 +3,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from 'react'
 import classnames from 'classnames'
@@ -86,21 +87,35 @@ function ItemAccordion(props: ItemAccordionProps) {
     setOpen(open)
   }, [open])
 
+  const contextValue = useMemo(
+    () => ({
+      openState,
+      pending,
+      disabled: appliedDisabled,
+      keepInDOM,
+      chevronPosition,
+      accordionId,
+      icon,
+      title,
+      setOpen,
+      onClick,
+    }),
+    [
+      openState,
+      pending,
+      appliedDisabled,
+      keepInDOM,
+      chevronPosition,
+      accordionId,
+      icon,
+      title,
+      setOpen,
+      onClick,
+    ]
+  )
+
   return (
-    <ItemAccordionContext.Provider
-      value={{
-        openState,
-        pending,
-        disabled: appliedDisabled,
-        keepInDOM,
-        chevronPosition,
-        accordionId,
-        icon,
-        title,
-        setOpen,
-        onClick,
-      }}
-    >
+    <ItemAccordionContext.Provider value={contextValue}>
       <ItemContent
         className={classnames(
           'dnb-list__item__accordion',
