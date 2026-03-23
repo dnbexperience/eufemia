@@ -22,7 +22,11 @@ function ItemFooter({
 
   return (
     <>
-      <Hr top={false} bottom={false} className="dnb-list__item__footer" />
+      <Hr
+        top={false}
+        bottom={false}
+        className="dnb-list__item__footer-separator"
+      />
       <FlexItem
         className={classnames(
           'dnb-list__item__footer',

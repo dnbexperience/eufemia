@@ -158,6 +158,7 @@
     &__end,
     &__overline,
     &__subline,
+    &__footer-separator,
     &__footer {
       display: flex;
       align-items: center;
@@ -196,18 +197,19 @@
         align-items: flex-start;
       }
     }
+    &__footer-separator {
+      grid-area: footer;
+      margin-top: var(--item-padding);
+      place-self: flex-start;
+
+      &.dnb-space__top--zero {
+        margin-top: var(--item-padding);
+      }
+    }
     &__footer {
       grid-area: footer;
       margin-top: var(--item-padding);
       padding: var(--item-padding);
-
-      &.dnb-hr {
-        place-self: flex-start;
-
-        &.dnb-space__top--zero {
-          margin-top: var(--item-padding);
-        }
-      }
     }
     &:last-of-type:not(#{&}__accordion--open) &__footer {
       border-bottom-left-radius: var(--item-rounded-corner);

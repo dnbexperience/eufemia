@@ -7,28 +7,36 @@ describe('ItemFooter', () => {
   it('renders with children', () => {
     render(<ItemFooter>Footer content</ItemFooter>)
 
-    const footers = document.querySelectorAll('.dnb-list__item__footer')
-    const contentWrapper = footers[1]
+    const contentWrapper = document.querySelector(
+      '.dnb-list__item__footer'
+    )
 
     expect(contentWrapper).toBeInTheDocument()
     expect(contentWrapper.textContent).toContain('Footer content')
   })
 
-  it('renders Hr and content wrapper with footer class', () => {
+  it('renders Hr separator and content wrapper with distinct classes', () => {
     render(<ItemFooter>Content</ItemFooter>)
 
-    const footers = document.querySelectorAll('.dnb-list__item__footer')
+    const separator = document.querySelector(
+      '.dnb-list__item__footer-separator'
+    )
+    const contentWrapper = document.querySelector(
+      '.dnb-list__item__footer'
+    )
 
-    expect(footers.length).toBe(2)
-    expect(footers[0].tagName).toBe('HR')
-    expect(footers[1].textContent).toContain('Content')
+    expect(separator).toBeInTheDocument()
+    expect(separator.tagName).toBe('HR')
+    expect(contentWrapper).toBeInTheDocument()
+    expect(contentWrapper.textContent).toContain('Content')
   })
 
   it('merges custom className on content wrapper', () => {
     render(<ItemFooter className="my-footer">Content</ItemFooter>)
 
-    const footers = document.querySelectorAll('.dnb-list__item__footer')
-    const contentWrapper = footers[1]
+    const contentWrapper = document.querySelector(
+      '.dnb-list__item__footer'
+    )
 
     expect(contentWrapper.classList).toContain('dnb-list__item__footer')
     expect(contentWrapper.classList).toContain('my-footer')
@@ -46,8 +54,9 @@ describe('ItemFooter', () => {
       </ItemFooter>
     )
 
-    const footers = document.querySelectorAll('.dnb-list__item__footer')
-    const contentWrapper = footers[1]
+    const contentWrapper = document.querySelector(
+      '.dnb-list__item__footer'
+    )
 
     expect(contentWrapper.getAttribute('data-testid')).toBe('item-footer')
     expect(contentWrapper.getAttribute('data-foo')).toBe('bar')
@@ -64,8 +73,9 @@ describe('ItemFooter', () => {
       </ItemFooter>
     )
 
-    const footers = document.querySelectorAll('.dnb-list__item__footer')
-    const contentWrapper = footers[1]
+    const contentWrapper = document.querySelector(
+      '.dnb-list__item__footer'
+    )
 
     expect(contentWrapper.classList).toContain('dnb-space__top--medium')
     expect(contentWrapper.classList).toContain('dnb-space__left--x-small')
