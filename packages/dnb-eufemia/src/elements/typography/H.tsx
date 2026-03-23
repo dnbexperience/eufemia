@@ -27,10 +27,6 @@ type HProps = SpacingProps &
      */
     element?: string
     /**
-     * @deprecated Use `element` prop instead.
-     */
-    as?: string
-    /**
      * Makes the component use the elements heading level. e.g. h3 will make the component use level 3
      */
     level?: 'use'
@@ -46,11 +42,10 @@ type HProps = SpacingProps &
     proseMaxWidth?: number | boolean
   } & ElementProps
 
-export type SharedHProps = Omit<HProps, 'element' | 'as'>
+export type SharedHProps = Omit<HProps, 'element'>
 
 const H = ({
-  element,
-  as: asProp = 'h1',
+  element = 'h1',
   is,
   level,
   size,
@@ -58,7 +53,7 @@ const H = ({
   className,
   ...props
 }: HProps) => {
-  const resolvedElement = element ?? asProp ?? is
+  const resolvedElement = element ?? is
   const numSiz = parseFloat(String(resolvedElement).substring(1))
 
   if (level === 'use') {
