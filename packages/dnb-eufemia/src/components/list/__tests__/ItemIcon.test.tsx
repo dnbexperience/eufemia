@@ -82,7 +82,7 @@ describe('ItemIcon', () => {
     const element = document.querySelector('.dnb-list__item__icon')
 
     expect(element.classList).toContain('dnb-skeleton')
-    expect(element.classList).toContain('dnb-skeleton--shape')
+    expect(element.classList).toContain('dnb-skeleton--font')
   })
 
   it('inherits skeleton from Container context', () => {
@@ -95,9 +95,7 @@ describe('ItemIcon', () => {
     const element = document.querySelector('.dnb-list__item__icon')
 
     expect(element.classList).toContain('dnb-skeleton')
-    expect(element.classList).toContain('dnb-skeleton--shape')
-  })
-
+    expect(element.classList).toContain('dnb-skeleton--font')
   })
 
   it('has no axe violations', async () => {
