@@ -1,6 +1,6 @@
 import type { PropertiesTableProps } from '../../shared/types'
 
-export const multiInputMaskEvents: PropertiesTableProps = {
+export const MultiInputMaskEvents: PropertiesTableProps = {
   onChange: {
     doc: "Runs when an input value changes. Has an object parameter with keys matching the id's defined in `inputs`, and values of string. E.g: `{month: string, year: string}`.",
     type: 'function',
@@ -18,7 +18,7 @@ export const multiInputMaskEvents: PropertiesTableProps = {
   },
 }
 
-export const multiInputMaskProperties: PropertiesTableProps = {
+export const MultiInputMaskProperties: PropertiesTableProps = {
   label: {
     doc: '`legend` element describing the group of inputs inside the components.',
     type: 'React.ReactNode',
@@ -71,7 +71,7 @@ export const multiInputMaskProperties: PropertiesTableProps = {
   },
 }
 
-export const multiInputMaskInputsProperties: PropertiesTableProps = {
+export const MultiInputMaskInputsProperties: PropertiesTableProps = {
   id: {
     doc: '(string) Defines input id. This id is also used to map the input value to the correct property on the objects used for `values` and `onChange` parameters.',
     type: 'string',
