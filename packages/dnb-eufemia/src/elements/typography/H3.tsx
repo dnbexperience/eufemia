@@ -8,7 +8,7 @@ import type { SharedHProps } from './H'
 import H from './H'
 
 const H3 = ({ size, ...props }: SharedHProps) => (
-  <H as="h3" size={size || 'auto'} {...props} />
+  <H element="h3" size={size || 'auto'} {...props} />
 )
 
 withComponentMarkers(H3, {

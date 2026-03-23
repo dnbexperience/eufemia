@@ -886,6 +886,28 @@ render(<Logo svg={SbankenCompact} />)
 - Replace `debug_counter` with debugCounter`.
 - Replace `skip_correction` with skipCorrection`.
 
+### [H (heading elements)](/uilib/elements/heading/)
+
+#### Properties
+
+- Replace `as` with `element`. The `as` prop is still supported but deprecated.
+
+**Before:**
+
+```tsx
+<H as="h2" size="medium">
+  Heading
+</H>
+```
+
+**After:**
+
+```tsx
+<H element="h2" size="medium">
+  Heading
+</H>
+```
+
 ### [Table](/uilib/components/table/)
 
 #### Properties

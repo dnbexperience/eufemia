@@ -22,8 +22,12 @@ export type HSize = HeadingSize
 type HProps = SpacingProps &
   React.HTMLAttributes<HTMLHeadingElement> & {
     /**
-     * Defines the Element Type, like "h1"
+     * Defines the Element Type, like "h1".
      * Default: h1
+     */
+    element?: string
+    /**
+     * @deprecated Use `element` prop instead.
      */
     as?: string
     /**
@@ -42,10 +46,11 @@ type HProps = SpacingProps &
     proseMaxWidth?: number | boolean
   } & ElementProps
 
-export type SharedHProps = Omit<HProps, 'as'>
+export type SharedHProps = Omit<HProps, 'element' | 'as'>
 
 const H = ({
-  as = 'h1',
+  element,
+  as: asProp = 'h1',
   is,
   level,
   size,
@@ -53,7 +58,8 @@ const H = ({
   className,
   ...props
 }: HProps) => {
-  const numSiz = parseFloat(String(as || is).substring(1))
+  const resolvedElement = element ?? asProp ?? is
+  const numSiz = parseFloat(String(resolvedElement).substring(1))
 
   if (level === 'use') {
     setNextLevel(numSiz)
@@ -77,7 +83,7 @@ const H = ({
 
   return (
     <E
-      as={as || is}
+      as={resolvedElement}
       internalClass={clsx(targetSize && `dnb-h--${targetSize}`, className)}
       {...props}
       style={{ ...style, ...props.style }}
