@@ -22,14 +22,8 @@ export const ButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'Defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `primary` (or `secondary` if icon only). The `tertiary` button is normally used together with an icon and officially supports only the default and large sizes.',
-    type: [
-      '"primary"',
-      '"secondary"',
-      '"tertiary"',
-      '"signal"',
-      '"unstyled"',
-    ],
+    doc: 'Defines the kind of button. Possible values are `primary`, `secondary` and `tertiary`. Defaults to `primary` (or `secondary` if icon only). The `tertiary` button is normally used together with an icon and officially supports only the default and large sizes.',
+    type: ['"primary"', '"secondary"', '"tertiary"', '"unstyled"'],
     status: 'optional',
   },
   surface: {

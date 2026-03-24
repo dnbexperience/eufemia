@@ -17,7 +17,7 @@ type CloseButtonProps = Omit<
     icon?: IconIcon | React.ReactNode
     iconSize?: IconSize
     iconPosition?: 'left' | 'right' | 'top'
-    variant?: 'primary' | 'secondary' | 'tertiary' | 'signal' | 'unstyled'
+    variant?: 'primary' | 'secondary' | 'tertiary' | 'unstyled'
     size?: 'default' | 'small' | 'medium' | 'large'
     text?: React.ReactNode
     children?: React.ReactNode

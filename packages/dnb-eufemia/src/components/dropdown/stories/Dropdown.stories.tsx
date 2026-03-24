@@ -71,7 +71,6 @@ const DropdownStory = () => {
         <Dropdown title="Default" data={data} />
         <Dropdown variant="secondary" title="Secondary" data={data} top />
         <Dropdown variant="primary" title="Primary" data={data} top />
-        <Dropdown variant="signal" title="Signal" data={data} top />
         <Dropdown variant="tertiary" title="Tertiary" data={data} top />
         <Dropdown
           variant="tertiary"

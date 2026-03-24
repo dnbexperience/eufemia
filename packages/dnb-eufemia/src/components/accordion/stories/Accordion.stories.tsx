@@ -184,7 +184,7 @@ function AccordionWithContainer() {
         bottom
         left
         size="small"
-        variant="signal"
+        variant="secondary"
         onClick={() => setCount((s) => s + 1)}
       >
         Increment {count}
@@ -234,7 +234,7 @@ function AccordionWithContainer() {
               bottom
               left
               size="small"
-              variant="signal"
+              variant="secondary"
               onClick={() => setCount((s) => s + 1)}
             >
               Increment {count}
@@ -282,7 +282,7 @@ function AccordionWithContainer() {
               bottom
               left
               size="small"
-              variant="signal"
+              variant="secondary"
               onClick={() => setCount((s) => s + 1)}
             >
               Increment {count}
@@ -320,7 +320,7 @@ function AccordionWithContainer() {
               bottom
               left
               size="small"
-              variant="signal"
+              variant="secondary"
               onClick={() => setCount((s) => s + 1)}
             >
               Increment {count}
