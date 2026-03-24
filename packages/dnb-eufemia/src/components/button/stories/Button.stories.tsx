@@ -262,10 +262,6 @@ export const ButtonSandbox = () => (
       />
     </Box>
     <Box>
-      <Button text="Signal" variant="signal" icon="add" />
-      <Button text="Signal" variant="signal" icon="add" disabled />
-    </Box>
-    <Box>
       <Button variant="tertiary" text="Button text" icon="add" />
 
       <Button
@@ -332,12 +328,6 @@ export const Tertiary = Template.bind({})
 Tertiary.args = {
   text: 'Button',
   variant: 'tertiary',
-}
-
-export const Signal = Template.bind({})
-Signal.args = {
-  text: 'Button',
-  variant: 'signal',
 }
 
 export const IconButton = Template.bind({})

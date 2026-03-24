@@ -62,7 +62,7 @@ export type DropdownProps = {
    */
   title?: DropdownTitle
   /**
-   * Defines the kind of dropdown. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `secondary`.
+   * Defines the kind of dropdown. Possible values are `primary`, `secondary` and `tertiary`. Defaults to `secondary`.
    */
   variant?: ButtonVariant
   /**
