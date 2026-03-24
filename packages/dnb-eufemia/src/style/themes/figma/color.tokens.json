@@ -393,6 +393,26 @@
             "com.figma.isOverride": true
           }
         },
+        "00": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              1,
+              1,
+              1
+            ],
+            "alpha": 0,
+            "hex": "#FFFFFF"
+          },
+          "$extensions": {
+            "com.figma.variableId": "VariableID:c54c613803441ec57ae65b70441423d84dc1a507/5616:2",
+            "com.figma.scopes": [
+              "ALL_SCOPES"
+            ],
+            "com.figma.isOverride": true
+          }
+        },
         "$root": {
           "$type": "color",
           "$value": {
@@ -753,6 +773,26 @@
           "$description": "Screendimmer iOS26",
           "$extensions": {
             "com.figma.variableId": "VariableID:19101e73c4357d631f8a3ada173d9ac154f73335/5552:1674",
+            "com.figma.scopes": [
+              "ALL_SCOPES"
+            ],
+            "com.figma.isOverride": true
+          }
+        },
+        "00": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0,
+              0,
+              0
+            ],
+            "alpha": 0,
+            "hex": "#000000"
+          },
+          "$extensions": {
+            "com.figma.variableId": "VariableID:640c1667d38a11a5da1648a8e432670a1dc70008/5616:6",
             "com.figma.scopes": [
               "ALL_SCOPES"
             ],

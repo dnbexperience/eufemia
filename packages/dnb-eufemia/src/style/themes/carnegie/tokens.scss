@@ -115,11 +115,21 @@
   --token-color-icon-action-pressed-ondark: var(--carnegie-greyscale-0);
   --token-color-icon-action-disabled-ondark: var(--carnegie-greyscale-400);
   --token-color-icon-neutral: var(--carnegie-greyscale-1000);
+  --token-color-icon-neutral-static: var(--carnegie-greyscale-1000);
   --token-color-icon-neutral-inverse: var(--carnegie-greyscale-0);
   --token-color-icon-neutral-ondark: var(--carnegie-greyscale-0);
   --token-color-icon-neutral-alternative: var(--carnegie-greyscale-500);
   --token-color-icon-destructive: var(--carnegie-red-600);
+  --token-color-icon-info: var(--carnegie-coldgreen-600);
+  --token-color-icon-info-subtle: var(--carnegie-green-50);
+  --token-color-icon-positive: var(--carnegie-green-700);
+  --token-color-icon-positive-subtle: var(--carnegie-green-50);
+  --token-color-icon-warning: var(--carnegie-yellow-500);
+  --token-color-icon-warning-subtle: var(--carnegie-yellow-50);
+  --token-color-icon-error: var(--carnegie-red-600);
+  --token-color-icon-error-subtle: var(--carnegie-red-50);
   --token-color-icon-marketing: var(--carnegie-greyscale-800);
+  --token-color-icon-marketing-subtle: var(--carnegie-blue-50);
   --token-color-stroke-action: var(--carnegie-greyscale-1000);
   --token-color-stroke-action-alternative: var(--carnegie-greyscale-1000);
   --token-color-stroke-action-hover: var(--carnegie-greyscale-1000);
@@ -314,6 +324,10 @@
   --token-color-component-dimmer-background: var(
     --carnegie-greyscale-1000-30
   );
+  /* stylelint-disable-next-line eufemia/token-name-policy */
+  --token-color-component-tabs-transparent-30: var(--dnb-greyscale-0-30);
+  /* stylelint-disable-next-line eufemia/token-name-policy */
+  --token-color-component-tabs-transparent-00: var(--dnb-greyscale-0-00);
   --token-color-component-switch-action-disabled-ondark: var(
     --carnegie-greyscale-800
   );

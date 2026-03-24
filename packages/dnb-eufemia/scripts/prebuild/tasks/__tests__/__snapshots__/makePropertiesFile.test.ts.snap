@@ -517,11 +517,21 @@ exports[`makePropertiesFile Tokens snapshots for carnegie 1`] = `
   --token-color-icon-action-pressed-ondark: var(--carnegie-greyscale-0);
   --token-color-icon-action-disabled-ondark: var(--carnegie-greyscale-400);
   --token-color-icon-neutral: var(--carnegie-greyscale-1000);
+  --token-color-icon-neutral-static: var(--carnegie-greyscale-1000);
   --token-color-icon-neutral-inverse: var(--carnegie-greyscale-0);
   --token-color-icon-neutral-ondark: var(--carnegie-greyscale-0);
   --token-color-icon-neutral-alternative: var(--carnegie-greyscale-500);
   --token-color-icon-destructive: var(--carnegie-red-600);
+  --token-color-icon-info: var(--carnegie-coldgreen-600);
+  --token-color-icon-info-subtle: var(--carnegie-green-50);
+  --token-color-icon-positive: var(--carnegie-green-700);
+  --token-color-icon-positive-subtle: var(--carnegie-green-50);
+  --token-color-icon-warning: var(--carnegie-yellow-500);
+  --token-color-icon-warning-subtle: var(--carnegie-yellow-50);
+  --token-color-icon-error: var(--carnegie-red-600);
+  --token-color-icon-error-subtle: var(--carnegie-red-50);
   --token-color-icon-marketing: var(--carnegie-greyscale-800);
+  --token-color-icon-marketing-subtle: var(--carnegie-blue-50);
   --token-color-stroke-action: var(--carnegie-greyscale-1000);
   --token-color-stroke-action-alternative: var(--carnegie-greyscale-1000);
   --token-color-stroke-action-hover: var(--carnegie-greyscale-1000);
@@ -533,7 +543,7 @@ exports[`makePropertiesFile Tokens snapshots for carnegie 1`] = `
   );
   --token-color-stroke-action-focus: var(--carnegie-blue-600);
   --token-color-stroke-action-focus-subtle: var(--carnegie-blue-100);
-  --token-color-stroke-action-disabled: var(--carnegie-greyscale-200);
+  --token-color-stroke-action-disabled: var(--carnegie-greyscale-300);
   --token-color-stroke-selected: var(--carnegie-greyscale-1000);
   --token-color-stroke-selected-ondark: var(--carnegie-greyscale-300);
   --token-color-stroke-action-ondark: var(--carnegie-greyscale-0);
@@ -716,6 +726,8 @@ exports[`makePropertiesFile Tokens snapshots for carnegie 1`] = `
   --token-color-component-dimmer-background: var(
     --carnegie-greyscale-1000-30
   );
+  --token-color-component-tabs-transparent-30: var(--dnb-greyscale-0-30);
+  --token-color-component-tabs-transparent-00: var(--dnb-greyscale-0-00);
   --token-color-component-switch-action-disabled-ondark: var(
     --carnegie-greyscale-800
   );
@@ -797,7 +809,7 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 1`] = `
   );
   --token-color-background-action-focus: var(--sbanken-blue-600);
   --token-color-background-action-focus-subtle: var(--sbanken-blue-100);
-  --token-color-background-action-disabled: var(--sbanken-greyscale-400);
+  --token-color-background-action-disabled: var(--sbanken-greyscale-200);
   --token-color-background-action-inverse: var(--sbanken-green-300);
   --token-color-background-action-hover-inverse: var(--sbanken-green-300);
   --token-color-background-action-hover-subtle-inverse: var(
@@ -869,7 +881,7 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 1`] = `
   --token-color-text-neutral-ondark: var(--sbanken-greyscale-0);
   --token-color-text-neutral-subtle: var(--sbanken-greyscale-600);
   --token-color-text-neutral-subtle-ondark: var(--sbanken-greyscale-200);
-  --token-color-text-destructive: var(--sbanken-orange-800);
+  --token-color-text-destructive: var(--sbanken-red-700);
   --token-color-text-destructive-inverse: var(--sbanken-orange-500);
   --token-color-text-warning: var(--sbanken-yellow-800);
   --token-color-text-warning-inverse: var(--sbanken-yellow-600);
@@ -891,11 +903,21 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 1`] = `
   --token-color-icon-action-pressed-ondark: var(--sbanken-green-400);
   --token-color-icon-action-disabled-ondark: var(--sbanken-greyscale-500);
   --token-color-icon-neutral: var(--sbanken-purple-1000);
+  --token-color-icon-neutral-static: var(--sbanken-purple-1000);
   --token-color-icon-neutral-inverse: var(--sbanken-greyscale-0);
   --token-color-icon-neutral-ondark: var(--sbanken-greyscale-0);
   --token-color-icon-neutral-alternative: var(--sbanken-greyscale-600);
-  --token-color-icon-destructive: var(--sbanken-orange-700);
+  --token-color-icon-destructive: var(--sbanken-red-700);
+  --token-color-icon-info: var(--sbanken-green-600);
+  --token-color-icon-info-subtle: var(--sbanken-green-50);
+  --token-color-icon-positive: var(--sbanken-green-700);
+  --token-color-icon-positive-subtle: var(--sbanken-green-100);
+  --token-color-icon-warning: var(--sbanken-yellow-600);
+  --token-color-icon-warning-subtle: var(--sbanken-yellow-50);
+  --token-color-icon-error: var(--sbanken-red-700);
+  --token-color-icon-error-subtle: var(--sbanken-red-200);
   --token-color-icon-marketing: var(--sbanken-purple-900);
+  --token-color-icon-marketing-subtle: var(--sbanken-purple-100);
   --token-color-stroke-action: var(--sbanken-purple-700);
   --token-color-stroke-action-alternative: var(--sbanken-greyscale-500);
   --token-color-stroke-action-hover: var(--sbanken-purple-700);
@@ -1064,6 +1086,8 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 1`] = `
   --token-color-component-dimmer-background: var(
     --sbanken-greyscale-1000-30
   );
+  --token-color-component-tabs-transparent-30: var(--dnb-greyscale-0-30);
+  --token-color-component-tabs-transparent-00: var(--dnb-greyscale-0-00);
   --token-color-component-switch-action-disabled-ondark: var(
     --sbanken-purple-1000
   );
@@ -1223,11 +1247,21 @@ exports[`makePropertiesFile Tokens snapshots for ui 1`] = `
   --token-color-icon-action-pressed-ondark: var(--dnb-coldgreen-400);
   --token-color-icon-action-disabled-ondark: var(--dnb-greyscale-400);
   --token-color-icon-neutral: var(--dnb-greyscale-800);
+  --token-color-icon-neutral-static: var(--dnb-greyscale-800);
   --token-color-icon-neutral-inverse: var(--dnb-greyscale-0);
   --token-color-icon-neutral-ondark: var(--dnb-greyscale-0);
   --token-color-icon-neutral-alternative: var(--dnb-greyscale-500);
   --token-color-icon-destructive: var(--dnb-red-600);
+  --token-color-icon-info: var(--dnb-coldgreen-600);
+  --token-color-icon-info-subtle: var(--dnb-warmgreen-50);
+  --token-color-icon-positive: var(--dnb-green-700);
+  --token-color-icon-positive-subtle: var(--dnb-green-50);
+  --token-color-icon-warning: var(--dnb-yellow-500);
+  --token-color-icon-warning-subtle: var(--dnb-yellow-50);
+  --token-color-icon-error: var(--dnb-red-600);
+  --token-color-icon-error-subtle: var(--dnb-red-50);
   --token-color-icon-marketing: var(--dnb-greyscale-800);
+  --token-color-icon-marketing-subtle: var(--dnb-blue-50);
   --token-color-stroke-action: var(--dnb-coldgreen-600);
   --token-color-stroke-action-alternative: var(--dnb-greyscale-400);
   --token-color-stroke-action-hover: var(--dnb-coldgreen-600);
@@ -1237,7 +1271,7 @@ exports[`makePropertiesFile Tokens snapshots for ui 1`] = `
   --token-color-stroke-action-pressed-inverse: var(--dnb-coldgreen-400);
   --token-color-stroke-action-focus: var(--dnb-blue-600);
   --token-color-stroke-action-focus-subtle: var(--dnb-blue-100);
-  --token-color-stroke-action-disabled: var(--dnb-greyscale-200);
+  --token-color-stroke-action-disabled: var(--dnb-greyscale-300);
   --token-color-stroke-selected: var(--dnb-coldgreen-800);
   --token-color-stroke-selected-ondark: var(--dnb-coldgreen-100);
   --token-color-stroke-action-ondark: var(--dnb-coldgreen-300);
@@ -1390,6 +1424,8 @@ exports[`makePropertiesFile Tokens snapshots for ui 1`] = `
     --dnb-greyscale-25
   );
   --token-color-component-dimmer-background: var(--dnb-greyscale-1000-30);
+  --token-color-component-tabs-transparent-30: var(--dnb-greyscale-0-30);
+  --token-color-component-tabs-transparent-00: var(--dnb-greyscale-0-00);
   --token-color-component-switch-action-disabled-ondark: var(
     --dnb-greyscale-800
   );
@@ -1415,11 +1451,14 @@ exports[`makePropertiesFile Tokens snapshots for ui 2`] = `
   --dnb-coldgreen-800: #08454d;
   --dnb-coldgreen-900: #023939;
   --dnb-coldgreen-950: #00343e;
+  --dnb-greyscale-0-30: rgba(255 255 255 / 30%);
+  --dnb-greyscale-0-00: rgba(255 255 255 / 0%);
   --dnb-greyscale-0: #fff;
   --dnb-greyscale-25: #fafafa;
   --dnb-greyscale-50: #f8f8f8;
   --dnb-greyscale-100: #ebebeb;
   --dnb-greyscale-200: #ccc;
+  --dnb-greyscale-300: #b1b1b5;
   --dnb-greyscale-400: #8e8e93;
   --dnb-greyscale-500: #737373;
   --dnb-greyscale-600: #636366;

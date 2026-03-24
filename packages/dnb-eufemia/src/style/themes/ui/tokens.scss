@@ -97,11 +97,21 @@
   --token-color-icon-action-pressed-ondark: var(--dnb-coldgreen-400);
   --token-color-icon-action-disabled-ondark: var(--dnb-greyscale-400);
   --token-color-icon-neutral: var(--dnb-greyscale-800);
+  --token-color-icon-neutral-static: var(--dnb-greyscale-800);
   --token-color-icon-neutral-inverse: var(--dnb-greyscale-0);
   --token-color-icon-neutral-ondark: var(--dnb-greyscale-0);
   --token-color-icon-neutral-alternative: var(--dnb-greyscale-500);
   --token-color-icon-destructive: var(--dnb-red-600);
+  --token-color-icon-info: var(--dnb-coldgreen-600);
+  --token-color-icon-info-subtle: var(--dnb-warmgreen-50);
+  --token-color-icon-positive: var(--dnb-green-700);
+  --token-color-icon-positive-subtle: var(--dnb-green-50);
+  --token-color-icon-warning: var(--dnb-yellow-500);
+  --token-color-icon-warning-subtle: var(--dnb-yellow-50);
+  --token-color-icon-error: var(--dnb-red-600);
+  --token-color-icon-error-subtle: var(--dnb-red-50);
   --token-color-icon-marketing: var(--dnb-greyscale-800);
+  --token-color-icon-marketing-subtle: var(--dnb-blue-50);
   --token-color-stroke-action: var(--dnb-coldgreen-600);
   --token-color-stroke-action-alternative: var(--dnb-greyscale-400);
   --token-color-stroke-action-hover: var(--dnb-coldgreen-600);
@@ -264,6 +274,8 @@
     --dnb-greyscale-25
   );
   --token-color-component-dimmer-background: var(--dnb-greyscale-1000-30);
+  --token-color-component-tabs-transparent-30: var(--dnb-greyscale-0-30);
+  --token-color-component-tabs-transparent-00: var(--dnb-greyscale-0-00);
   --token-color-component-switch-action-disabled-ondark: var(
     --dnb-greyscale-800
   );
