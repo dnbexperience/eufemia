@@ -4,6 +4,7 @@
 */
 
 @use '../../../../style/core/utilities.scss' as utilities;
+@use '../../../button/style/themes/button-mixins.scss' as button-mixins;
 
 .dnb-date-picker {
   &__container {
@@ -169,15 +170,14 @@
     .dnb-input__shell {
       @include utilities.fakeBorder(var(--color-sea-green), 0.125rem);
     }
+  }
 
-    .dnb-input__submit-button__button.dnb-button--secondary {
-      color: var(--color-white);
-      background-color: var(--color-sea-green);
-
-      &::after {
-        background-color: inherit;
-      }
-    }
+  &--open .dnb-button--input-button.dnb-button--selected {
+    --btn-color-bg--default: var(--btn-color-bg--active);
+    --btn-color-icon--default: var(--btn-color-icon--active);
+    --btn-input-separator-color--default: var(
+      --btn-input-separator-color--active
+    );
   }
 
   &__status--error:not(#{&}--open)

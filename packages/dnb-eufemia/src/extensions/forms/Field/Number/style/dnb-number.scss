@@ -1,16 +1,7 @@
 @use '../../../../../style/core/utilities.scss' as utilities;
 
 .dnb-forms-field-number {
-  --number-control-button-border-color: black;
-  --number-control-button-border-color--hover: darkgrey;
-  --number-control-button-border-color--focus: darkgrey;
   --number-control-button-border-width--focus: 0.125rem;
-  --number-control-button-background-color--hover: grey;
-  --number-control-button-color--hover: black;
-  --number-control-button-background-color--active: black;
-  --number-control-button-color--active: lightgrey;
-  --number-control-button--error: red;
-  --number-control-button--error-contrast: white;
   --number-control-button-width--small: 2rem;
   --number-control-button-width--medium: 2.5rem;
   --number-control-button-width--large: 3rem;
@@ -52,46 +43,13 @@
         --input-border-inset--disabled: ;
       }
 
-      .dnb-button--control-before,
-      .dnb-button--control-after {
-        @include utilities.hover() {
-          background-color: var(
-            --number-control-button-background-color--hover
+      &.dnb-input--disabled {
+        .dnb-button--control-before,
+        .dnb-button--control-after {
+          --btn-color-bg--disabled: var(
+            --token-color-background-neutral-subtle
           );
-          color: var(--number-control-button-color--hover);
         }
-        @include utilities.active() {
-          background-color: var(
-            --number-control-button-background-color--active
-          );
-          color: var(--number-control-button-color--active);
-        }
-      }
-    }
-
-    &--has-controls.dnb-input__status--error {
-      .dnb-button--control-before,
-      .dnb-button--control-after {
-        color: var(--number-control-button--error);
-        @include utilities.hover() {
-          background-color: var(--number-control-button--error-contrast);
-          color: var(--number-control-button--error);
-        }
-        @include utilities.active() {
-          background-color: var(--number-control-button--error);
-          color: var(--number-control-button--error-contrast);
-        }
-        &[disabled] {
-          color: var(--number-control-button--error-contrast);
-        }
-      }
-    }
-
-    &--has-controls.dnb-input--disabled {
-      .dnb-button--control-before[disabled],
-      .dnb-button--control-after[disabled] {
-        background-color: var(--color-black-3);
-        color: var(--color-black-20);
       }
     }
 

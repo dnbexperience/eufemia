@@ -6,18 +6,6 @@
 @use '../../button/style/themes/button-mixins.scss';
 @use '../../../style/core/utilities.scss' as utilities;
 
-.dnb-help-button {
-  &.dnb-help-button__inline {
-    &--open {
-      @include button-mixins.buttonHoverStyle(
-        null,
-        null,
-        var(--color-emerald-green)
-      );
-    }
-  }
-}
-
 .dnb-help-button__inline {
   svg {
     // To avoid the animations from jumping in Safari

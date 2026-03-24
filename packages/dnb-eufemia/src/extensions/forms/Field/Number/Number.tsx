@@ -441,6 +441,7 @@ function NumberComponent(props: FieldNumberProps) {
       '%s',
       String(value + step)
     ),
+    status: hasError ? 'error' : undefined,
   }
 
   const decreaseClickHandler = useCallback(() => {

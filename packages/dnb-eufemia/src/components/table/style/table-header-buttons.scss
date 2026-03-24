@@ -47,7 +47,6 @@
       padding: 0;
       padding-right: 0.5rem;
 
-      color: inherit;
       font-weight: var(--font-weight-medium);
       text-align: inherit;
       font-size: inherit;
@@ -80,8 +79,6 @@
       }
 
       @include utilities.hover() {
-        color: var(--color-sea-green);
-
         &:not(:focus) .dnb-icon {
           opacity: 1;
         }
@@ -131,8 +128,6 @@
         &::before {
           right: -0.5rem;
         }
-
-        color: var(--color-sea-green);
       }
 
       // webkit fix
