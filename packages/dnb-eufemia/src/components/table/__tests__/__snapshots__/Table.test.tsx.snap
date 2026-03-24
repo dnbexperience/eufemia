@@ -108,7 +108,6 @@ exports[`Table scss should match style dependencies css 1`] = `
 /*
  * Utilities
  */
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 /*
 * Button mixins
 *
@@ -408,7 +407,6 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 /*
  * Utilities
  */
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 /*
 * Button mixins
 *
@@ -441,7 +439,6 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 /*
  * Utilities
  */
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 /*
 * Button mixins
 *
@@ -584,7 +581,6 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 /*
  * Utilities
  */
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 /*
 * Button mixins
 *
@@ -750,7 +746,6 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 /*
  * Utilities
  */
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 /*
 * Table component
 *

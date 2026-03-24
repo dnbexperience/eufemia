@@ -8,7 +8,6 @@ exports[`Switch scss should match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 .dnb-switch__background {
   background-color: var(--color-sea-green-30);
 }
@@ -228,7 +227,6 @@ legend.dnb-form-label {
 /*
  * Utilities
  */
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 .dnb-form-status {
   --form-status-radius: 0.25rem;
   display: flex;

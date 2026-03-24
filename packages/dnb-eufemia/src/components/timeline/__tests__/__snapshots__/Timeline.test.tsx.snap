@@ -8,7 +8,6 @@ exports[`Timeline scss should match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 /*
 * Timeline theme
 *

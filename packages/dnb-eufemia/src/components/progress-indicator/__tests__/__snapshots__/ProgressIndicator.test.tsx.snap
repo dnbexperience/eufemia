@@ -25,7 +25,6 @@ exports[`ProgressIndicator scss should match style dependencies css 1`] = `
 /*
  * Utilities
  */
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 .dnb-progress-indicator {
   --progress-indicator-timing: cubic-bezier(0.5, 0, 0.5, 0.99);
   --progress-indicator-circular-circle: 314.159265359%;

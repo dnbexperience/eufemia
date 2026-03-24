@@ -111,7 +111,6 @@ p > .dnb-icon {
 /*
  * Utilities
  */
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 :root {
   --tooltip-z-index: 1100;
 }
@@ -2245,7 +2244,6 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 .dnb-autocomplete__show-all .dnb-drawer-list__option__inner {
   color: var(--color-sea-green);
 }

@@ -58,7 +58,6 @@ legend.dnb-form-label {
 /*
  * Utilities
  */
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 .dnb-form-status {
   --form-status-radius: 0.25rem;
   display: flex;
@@ -475,7 +474,6 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 .dnb-textarea {
   --textarea-border-width: 0.0625rem;
   --textarea-border-width--hover: 0.125rem;

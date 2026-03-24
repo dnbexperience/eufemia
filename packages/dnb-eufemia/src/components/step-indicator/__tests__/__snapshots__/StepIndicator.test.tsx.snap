@@ -114,7 +114,6 @@ p > .dnb-icon {
 /*
  * Utilities
  */
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 :root {
   --tooltip-z-index: 1100;
 }

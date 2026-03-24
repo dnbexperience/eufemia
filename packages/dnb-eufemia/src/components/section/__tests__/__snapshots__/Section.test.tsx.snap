@@ -12,7 +12,6 @@ exports[`Section scss has to match style dependencies css 1`] = `
 /*
  * Utilities
  */
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 :root {
   --section-z-index: 1;
 }
@@ -185,7 +184,6 @@ exports[`Section scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 .dnb-section {
   --background-color: var(--color-white);
   --outline-color--value: var(--color-black-8);

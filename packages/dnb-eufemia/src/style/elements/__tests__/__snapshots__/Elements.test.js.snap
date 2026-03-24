@@ -327,7 +327,6 @@ del .dnb-code {
 /*
  * Utilities
  */
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 .dnb-ul:not([class*=space__top]) {
   margin-top: 0;
 }

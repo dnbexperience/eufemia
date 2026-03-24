@@ -12,7 +12,6 @@ exports[`VisuallyHidden VisuallyHidden scss should match style dependencies css 
 /*
  * Utilities
  */
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 .dnb-visually-hidden--focusable:not(:focus, :focus-within) {
   user-select: none !important;
   -webkit-touch-callout: none !important;

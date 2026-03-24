@@ -103,7 +103,6 @@ p > .dnb-icon {
 /*
  * Utilities
  */
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 :root {
   --tooltip-z-index: 1100;
 }
@@ -970,7 +969,6 @@ exports[`Button scss has to match theme css for sbanken 1`] = `
 /*
  * Utilities
  */
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 /*
 * Button theme
 *
@@ -1215,7 +1213,6 @@ exports[`Button scss has to match theme css for ui 1`] = `
 /*
  * Utilities
  */
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 /*
 * Button theme
 *

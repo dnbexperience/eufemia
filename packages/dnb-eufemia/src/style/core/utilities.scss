@@ -87,7 +87,7 @@
   }
 }
 
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
+// Uses design token. Should become standard. Should be integrated with --focus-ring- variables
 @mixin focusStyle(
   $bgColor: var(--token-color-background-action-focus-subtle),
   $textColor: var(--token-color-text-neutral-inverse),

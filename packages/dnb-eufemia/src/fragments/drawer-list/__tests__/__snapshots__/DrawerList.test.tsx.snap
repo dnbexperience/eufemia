@@ -12,7 +12,6 @@ exports[`DrawerList scss has to match style dependencies css 1`] = `
 /*
  * Utilities
  */
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 .dnb-drawer-list {
   --drawer-list-height: 2rem;
   --drawer-list-padding-horizontal: 1rem;
@@ -446,7 +445,6 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 .dnb-drawer-list {
   --drawer-list-options-border-radius: 0.25rem;
   --drawer-list-option-border-width: 0.0625rem;

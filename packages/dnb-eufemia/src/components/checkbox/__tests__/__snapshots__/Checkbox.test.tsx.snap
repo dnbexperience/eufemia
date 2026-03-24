@@ -109,7 +109,6 @@ legend.dnb-form-label {
 /*
  * Utilities
  */
-/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 .dnb-form-status {
   --form-status-radius: 0.25rem;
   display: flex;
