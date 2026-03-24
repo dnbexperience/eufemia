@@ -707,7 +707,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
     --token-color-background-selected-subtle
   );
   --btn-color-border--default: var(--token-color-stroke-selected);
-  --btn-border-width--default: var(--token-color-icon-selected);
+  --btn-color-icon--default: var(--token-color-icon-selected);
   --button-border-width--default: 0.125rem;
   --btn-border-inset--default: ;
 }
