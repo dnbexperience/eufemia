@@ -45,14 +45,8 @@ export const DropdownProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'Defines the kind of dropdown. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `secondary`.',
-    type: [
-      '"primary"',
-      '"secondary"',
-      '"tertiary"',
-      '"signal"',
-      '"unstyled"',
-    ],
+    doc: 'Defines the kind of dropdown. Possible values are `primary`, `secondary` and `tertiary`. Defaults to `secondary`.',
+    type: ['"primary"', '"secondary"', '"tertiary"', '"unstyled"'],
     status: 'optional',
   },
   icon: {
