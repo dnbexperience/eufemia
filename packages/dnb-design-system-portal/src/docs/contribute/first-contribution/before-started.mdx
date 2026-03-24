@@ -217,6 +217,7 @@ $ yarn build
 - All index and lib files are getting generated
 - All the lib code gets compiled (ECMAScript 6 and ECMAScript 5.1)
 - All SASS styles are validated and compiled (to support IE)
+- Compiled CSS under `build/**/*.css` is parsed with [Lightning CSS](https://github.com/parcel-bundler/lightningcss) so invalid selectors (for example pseudo-elements not last in a compound selector) fail the build
 - All bundles get minified
 - Icons are getting converted
 
