@@ -9,17 +9,17 @@ import { useFieldProps } from '../../hooks'
 import clsx from 'clsx'
 import type { FieldBlockProps } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
-import { MultiInputMask } from '../../../../components/input-masked'
 import type {
-  MultiInputMaskProps,
-  MultiInputMaskValue,
-} from '../../../../components/input-masked'
+  SegmentedFieldProps,
+  SegmentedFieldValue,
+} from '../../../../components/input-masked/segmented-field/SegmentedField'
+import SegmentedField from '../../../../components/input-masked/segmented-field/SegmentedField'
 import { useTranslation as useSharedTranslation } from '../../../../shared'
 import useTranslation from '../../hooks/useTranslation'
 import { FormError } from '../../utils'
 import type { Translation } from '../../../../shared/Context'
 
-type ExpiryValue = MultiInputMaskValue<'month' | 'year'>
+type ExpiryValue = SegmentedFieldValue<'month' | 'year'>
 
 export type ExpiryValidator = ValidatorWithCustomValidators<
   string,
@@ -35,7 +35,7 @@ export type ExpiryProps = Omit<
   /**
    * The size of the component.
    */
-  size?: MultiInputMaskProps<'month' | 'year'>['size']
+  size?: SegmentedFieldProps<'month' | 'year'>['size']
 }
 
 function Expiry(props: ExpiryProps = {}) {
@@ -246,7 +246,7 @@ function Expiry(props: ExpiryProps = {}) {
 
   const fieldBlockProps: FieldBlockProps = {
     id,
-    forId: `${id}-input-month`,
+    forId: `${id}-input`,
     className: clsx('dnb-forms-field-expiry', className),
     label,
     ...pickSpacingProps(props),
@@ -254,7 +254,7 @@ function Expiry(props: ExpiryProps = {}) {
 
   return (
     <FieldBlock {...fieldBlockProps}>
-      <MultiInputMask
+      <SegmentedField
         stretch
         id={`${id}-input`}
         values={expiry}
@@ -272,6 +272,11 @@ function Expiry(props: ExpiryProps = {}) {
             id: 'month',
             label: monthLabel,
             mask: [/[0-9]/, /[0-9]/],
+            spinButton: {
+              min: 1,
+              max: 12,
+              getInitialValue: () => new Date().getMonth() + 1,
+            },
             placeholder: repeatPlaceholder(placeholders.month, 2),
             autoComplete: 'cc-exp-month',
             ...htmlAttributes,
@@ -280,6 +285,11 @@ function Expiry(props: ExpiryProps = {}) {
             id: 'year',
             label: yearLabel,
             mask: [/[0-9]/, /[0-9]/],
+            spinButton: {
+              min: 0,
+              max: 99,
+              getInitialValue: () => new Date().getFullYear() % 100,
+            },
             placeholder: repeatPlaceholder(placeholders.year, 2),
             autoComplete: 'cc-exp-year',
             ...htmlAttributes,

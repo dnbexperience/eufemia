@@ -2506,16 +2506,34 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   flex-flow: row-reverse;
   width: fit-content;
 }
+.dnb-date-picker .dnb-segmented-field__section.dnb-date-picker__input,
+.dnb-date-picker .dnb-segmented-field__section.dnb-input__input.dnb-date-picker__input {
+  margin-right: 0;
+  text-indent: 0;
+}
+.dnb-date-picker .dnb-segmented-field__section.dnb-date-picker__input:last-of-type,
+.dnb-date-picker .dnb-segmented-field__section.dnb-input__input.dnb-date-picker__input:last-of-type {
+  width: auto;
+}
 .dnb-date-picker .dnb-input__input.dnb-date-picker__input:first-of-type, .dnb-date-picker__input:first-of-type {
   margin-left: 0.2rem;
 }
-.dnb-multi-input-mask__fieldset:last-of-type .dnb-date-picker__input:last-of-type {
+.dnb-segmented-field__fieldset:last-of-type .dnb-date-picker__input:last-of-type {
   --input-padding--small: 0.25rem;
   --input-padding--medium: 0.333rem;
   --input-padding--large: 0.5rem;
   margin-right: 2rem;
 }
-.dnb-date-picker--medium .dnb-multi-input-mask__fieldset:first-of-type .dnb-input__input.dnb-date-picker__input:first-of-type, .dnb-date-picker--large .dnb-multi-input-mask__fieldset:first-of-type .dnb-input__input.dnb-date-picker__input:first-of-type {
+.dnb-date-picker--small .dnb-segmented-field__fieldset:last-of-type .dnb-date-picker__input:last-of-type {
+  margin-right: 1.5rem;
+}
+.dnb-date-picker--medium .dnb-segmented-field__fieldset:last-of-type .dnb-date-picker__input:last-of-type {
+  margin-right: 2.5rem;
+}
+.dnb-date-picker--large .dnb-segmented-field__fieldset:last-of-type .dnb-date-picker__input:last-of-type {
+  margin-right: 3rem;
+}
+.dnb-date-picker--medium .dnb-segmented-field__fieldset:first-of-type .dnb-input__input.dnb-date-picker__input:first-of-type, .dnb-date-picker--large .dnb-segmented-field__fieldset:first-of-type .dnb-input__input.dnb-date-picker__input:first-of-type {
   margin-left: 0.5rem;
 }
 .dnb-date-picker .dnb-input__shell {

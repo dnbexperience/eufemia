@@ -295,8 +295,8 @@ function DateComponent(props: DateProps): React.ReactElement {
         if (range) {
           const [startDate, endDate] = parseRangeValue(initialValue)
           handleChange({
-            start_date: startDate ?? undefined,
-            end_date: endDate ?? undefined,
+            startDate: startDate ?? undefined,
+            endDate: endDate ?? undefined,
           })
         } else {
           handleChange({ date: initialValue })

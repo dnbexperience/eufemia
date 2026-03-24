@@ -39,6 +39,31 @@ describe('convertStringToDate', () => {
     expect(date?.getDate()).toBe(31)
   })
 
+  it('parses with custom picker dateFormat using month token syntax', () => {
+    const date = convertStringToDate('04/01/2019', {
+      dateFormat: 'mm/dd/yyyy',
+    })
+    expect(date).toBeInstanceOf(Date)
+    expect(date?.getFullYear()).toBe(2019)
+    expect(date?.getMonth()).toBe(3)
+    expect(date?.getDate()).toBe(1)
+  })
+
+  it('does not log when strictDateFormat is used as a parsing probe', () => {
+    const log = jest.fn()
+    const mock = jest.spyOn(console, 'log').mockImplementation(log)
+
+    expect(
+      convertStringToDate('04/01/2019', {
+        dateFormat: 'dd.MM.yyyy',
+        strictDateFormat: true,
+      })
+    ).toBeNull()
+    expect(log).not.toHaveBeenCalled()
+
+    mock.mockRestore()
+  })
+
   it('returns null for invalid date', () => {
     const log = jest.fn()
     const mock = jest.spyOn(console, 'log').mockImplementation(log)
