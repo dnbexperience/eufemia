@@ -34,6 +34,8 @@ import { Stat } from '@dnb/eufemia'
 
 - `Stat.Inline` is a horizontal layout container for grouping content elements like `Stat.Trend` and `Stat.Info` side by side with consistent spacing and alignment.
 
+- `Stat.ColorizeBySign` wraps content and applies sign-based text color: green for positive values, red for negative values, and gray for zero. Negative zero (`-0`) is treated as negative.
+
 ### Deprecated
 
 - `Stat.Amount` is deprecated and will be removed in a future version. Use `Stat.Number` instead.

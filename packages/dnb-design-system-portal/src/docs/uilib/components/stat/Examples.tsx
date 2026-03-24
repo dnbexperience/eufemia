@@ -127,15 +127,16 @@ export const CurrencyDefault = () => (
         Colorized using <Code>en-GB</Code> locale
       </Stat.Label>
       <Stat.Content>
-        <Stat.Currency
-          value={-1234.5}
-          decimals={2}
-          currency="USD"
-          signDisplay="always"
-          fontSize="medium"
-          colorizeBySign
-          locale="en-GB"
-        />
+        <Stat.ColorizeBySign value={-1234.5}>
+          <Stat.Currency
+            value={-1234.5}
+            decimals={2}
+            currency="USD"
+            signDisplay="always"
+            fontSize="medium"
+            locale="en-GB"
+          />
+        </Stat.ColorizeBySign>
       </Stat.Content>
     </Stat.Root>
   </ComponentBox>
@@ -186,13 +187,14 @@ export const PercentDefault = () => (
 
       <Stat.Label top>Percentage colorized</Stat.Label>
       <Stat.Content>
-        <Stat.Percent
-          value={0.1234}
-          decimals={2}
-          signDisplay="always"
-          fontSize="medium"
-          colorizeBySign
-        />
+        <Stat.ColorizeBySign value={0.1234}>
+          <Stat.Percent
+            value={0.1234}
+            decimals={2}
+            signDisplay="always"
+            fontSize="medium"
+          />
+        </Stat.ColorizeBySign>
       </Stat.Content>
     </Stat.Root>
   </ComponentBox>
@@ -203,17 +205,53 @@ export const PercentColorizeBySign = () => (
     <Stat.Root>
       <Stat.Label>Positive without signDisplay</Stat.Label>
       <Stat.Content>
-        <Stat.Percent value={12.3} fontSize="medium" colorizeBySign />
+        <Stat.ColorizeBySign value={12.3}>
+          <Stat.Percent value={12.3} fontSize="medium" />
+        </Stat.ColorizeBySign>
       </Stat.Content>
 
       <Stat.Label top>Negative without signDisplay</Stat.Label>
       <Stat.Content>
-        <Stat.Percent value={-12.3} fontSize="medium" colorizeBySign />
+        <Stat.ColorizeBySign value={-12.3}>
+          <Stat.Percent value={-12.3} fontSize="medium" />
+        </Stat.ColorizeBySign>
       </Stat.Content>
 
       <Stat.Label top>Zero without signDisplay</Stat.Label>
       <Stat.Content>
-        <Stat.Percent value={0} fontSize="medium" colorizeBySign />
+        <Stat.ColorizeBySign value={0}>
+          <Stat.Percent value={0} fontSize="medium" />
+        </Stat.ColorizeBySign>
+      </Stat.Content>
+    </Stat.Root>
+  </ComponentBox>
+)
+
+export const ColorizeBySignDefault = () => (
+  <ComponentBox data-visual-test="stat-colorize-by-sign-default">
+    <Stat.Root>
+      <Stat.Label>With Stat.Currency</Stat.Label>
+      <Stat.Content>
+        <Stat.ColorizeBySign value={1234}>
+          <Stat.Currency value={1234} signDisplay="always" />
+        </Stat.ColorizeBySign>
+      </Stat.Content>
+
+      <Stat.Label top>With plain text</Stat.Label>
+      <Stat.Content>
+        <Stat.ColorizeBySign value={-1234}>
+          Your content
+        </Stat.ColorizeBySign>
+      </Stat.Content>
+
+      <Stat.Label top>Zero value</Stat.Label>
+      <Stat.Content>
+        <Stat.ColorizeBySign value={0}>Your content</Stat.ColorizeBySign>
+      </Stat.Content>
+
+      <Stat.Label top>Negative zero</Stat.Label>
+      <Stat.Content>
+        <Stat.ColorizeBySign value={-0}>Your content</Stat.ColorizeBySign>
       </Stat.Content>
     </Stat.Root>
   </ComponentBox>

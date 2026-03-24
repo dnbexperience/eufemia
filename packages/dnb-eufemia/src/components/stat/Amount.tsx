@@ -1,21 +1,22 @@
-import React from 'react'
 import classnames from 'classnames'
-import { NumberFormatProps } from '../number-format/NumberFormat'
-import useNumberFormatWithParts from '../number-format/useNumberFormatWithParts'
-import type { NumberFormatParts } from '../number-format/useNumberFormatWithParts'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import React from 'react'
 import type {
   TypographySize,
   TypographyWeight,
 } from '../../elements/typography/Typography'
 import { getHeadingLineHeightSize } from '../../elements/typography/Typography'
-import type { SpacingProps } from '../../shared/types'
-import { formatReturnValue } from '../number-format/NumberUtils'
 import {
   convertJsxToString,
   validateDOMAttributes,
   warn,
 } from '../../shared/component-helper'
+import type { SpacingProps } from '../../shared/types'
+import type { NumberFormatProps } from '../number-format/NumberFormat'
+import type { formatReturnValue } from '../number-format/NumberUtils'
+import type { NumberFormatParts } from '../number-format/useNumberFormatWithParts'
+import useNumberFormatWithParts from '../number-format/useNumberFormatWithParts'
+import { createSpacingClasses } from '../space/SpacingHelper'
+import ColorizeBySign from './ColorizeBySign'
 import StatValueContext from './StatValueContext'
 import useStatSkeleton from './useStatSkeleton'
 
@@ -170,13 +171,6 @@ function AmountBase(props: AmountProps) {
     resolvedMainSize === resolvedAuxiliarySize
       ? 'medium'
       : null)
-  const numericValue = Number(rawValue)
-  const signTone =
-    numericValue > 0
-      ? 'positive'
-      : numericValue < 0 || Object.is(numericValue, -0)
-      ? 'negative'
-      : null
 
   const currencyClass = classnames(
     'dnb-stat__currency',
@@ -296,7 +290,6 @@ function AmountBase(props: AmountProps) {
     style,
     className: classnames(
       'dnb-stat',
-      colorizeBySign && signTone && `dnb-stat--tone-${signTone}`,
       createSpacingClasses(props),
       skeletonClass,
       className
@@ -306,7 +299,7 @@ function AmountBase(props: AmountProps) {
 
   applySkeletonAttributes(attributes)
 
-  return (
+  const result = (
     <Element {...attributes}>
       <span className="dnb-stat__content" aria-hidden>
         {content}
@@ -315,6 +308,14 @@ function AmountBase(props: AmountProps) {
       <span className="dnb-sr-only" data-text={srText} />
     </Element>
   )
+
+  if (colorizeBySign) {
+    return (
+      <ColorizeBySign value={Number(rawValue)}>{result}</ColorizeBySign>
+    )
+  }
+
+  return result
 }
 
 AmountBase._supportsSpacingProps = true
