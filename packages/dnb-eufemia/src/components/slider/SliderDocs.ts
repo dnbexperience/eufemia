@@ -97,7 +97,7 @@ export const SliderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   statusState: {
-    doc: 'Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.',
+    doc: 'Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.',
     type: ['"error"', '"information"'],
     status: 'optional',
   },

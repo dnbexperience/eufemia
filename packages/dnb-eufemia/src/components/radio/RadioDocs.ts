@@ -42,7 +42,7 @@ export const RadioProperties: PropertiesTableProps = {
     status: 'optional',
   },
   statusState: {
-    doc: "Defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.",
+    doc: "Defines the state of the status. It's two statuses `[error, information]`. Defaults to `error`.",
     type: ['"error"', '"information"'],
     status: 'optional',
   },
@@ -90,7 +90,7 @@ export const RadioGroupProperties: PropertiesTableProps = {
     status: 'optional',
   },
   statusState: {
-    doc: "Defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.",
+    doc: "Defines the state of the status. It's two statuses `[error, information]`. Defaults to `error`.",
     type: ['"error"', '"information"'],
     status: 'optional',
   },

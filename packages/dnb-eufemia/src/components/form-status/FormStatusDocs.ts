@@ -22,7 +22,7 @@ export const FormStatusProperties: PropertiesTableProps = {
     status: 'optional',
   },
   state: {
-    doc: 'Defines the visual appearance of the status. These are the statuses `error`, `warning`, `info` and `marketing`. The default status is `error`.',
+    doc: 'Defines the visual appearance of the status. These are the statuses `error`, `warning`, `information` and `marketing`. The default status is `error`.',
     type: [
       '"error"',
       '"warning"',
