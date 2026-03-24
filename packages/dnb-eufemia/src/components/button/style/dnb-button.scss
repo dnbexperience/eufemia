@@ -587,8 +587,10 @@
           --btn-input-separator-color,
           var(--btn-input-separator-color--default)
         );
+      }
 
-        @include utilities.active() {
+      @include utilities.active() {
+        &::after {
           top: var(--input-border-width);
           bottom: var(--input-border-width);
         }
