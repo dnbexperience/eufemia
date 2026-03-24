@@ -1,6 +1,6 @@
 import type { PropertiesTableProps } from '../../../shared/types'
 
-export const segmentedFieldProperties: PropertiesTableProps = {
+export const SegmentedFieldProperties: PropertiesTableProps = {
   label: {
     doc: 'Optional `legend` describing the grouped sections.',
     type: 'React.ReactNode',
@@ -73,7 +73,7 @@ export const segmentedFieldProperties: PropertiesTableProps = {
   },
 }
 
-export const segmentedFieldInputsProperties: PropertiesTableProps = {
+export const SegmentedFieldInputsProperties: PropertiesTableProps = {
   id: {
     doc: 'Unique section id. This id is used as the key in `values`, `onChange`, `onFocus`, and `onBlur` payloads.',
     type: 'string',
@@ -107,7 +107,7 @@ export const segmentedFieldInputsProperties: PropertiesTableProps = {
     },
 }
 
-export const segmentedFieldSpinButtonProperties: PropertiesTableProps = {
+export const SegmentedFieldSpinButtonProperties: PropertiesTableProps = {
   min: {
     doc: 'Minimum numeric value for the section.',
     type: 'number',
@@ -145,7 +145,7 @@ export const segmentedFieldSpinButtonProperties: PropertiesTableProps = {
   },
 }
 
-export const segmentedFieldEvents: PropertiesTableProps = {
+export const SegmentedFieldEvents: PropertiesTableProps = {
   onChange: {
     doc: 'Runs when a section value changes. Returns an object with keys matching the `id` values defined in `inputs`, for example `{ month: string, year: string }`.',
     type: 'function',
