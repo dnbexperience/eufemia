@@ -39,6 +39,7 @@ import type {
 } from '../../shared/types'
 import type { FormStatusBaseProps } from '../FormStatus'
 import type { AnchorProps } from '../Anchor'
+import type { ThemeSurface } from '../../shared/Theme'
 
 export type ButtonText = string | React.ReactNode
 export type ButtonVariant =
@@ -112,6 +113,10 @@ export type ButtonProps = {
    */
   variant?: ButtonVariant
   /**
+   * Changes component style based on background. Defaults to `"default"`.
+   */
+  surface?: ThemeSurface | 'default'
+  /**
    * The size of the button. For now there is `small`, `medium`, `default` and `large`.
    */
   size?: ButtonSize
@@ -127,6 +132,10 @@ export type ButtonProps = {
    * Define icon width and height. Defaults to 16px.
    */
   iconSize?: IconSize
+  /**
+   * Only for icon buttons. If true, use the style for a selected icon button. Default is `false`.
+   */
+  selected?: boolean
   /**
    * Provide a string or a React Element to be shown as the tooltip content.
    */
@@ -194,7 +203,7 @@ type ButtonState = {
   afterContent: React.ReactNode | null
 }
 
-const buttonDefaultProps = {
+const buttonDefaultProps: ButtonProps = {
   type: null, // defaults to 'button' to prevent accidental form submissions (except when used as Anchor)
   text: null,
   variant: null,
@@ -299,12 +308,14 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
       icon: _icon,
       iconPosition,
       iconSize,
+      selected,
       wrap,
       bounding,
       stretch,
       skeleton,
       element,
       ref: _ref,
+      surface = this.context?.theme?.surface ?? 'default',
       ...attributes
     } = props
 
@@ -387,13 +398,14 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
       'dnb-button',
       `dnb-button--${usedVariant || 'primary'}`,
       usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
-      this.context?.theme?.surface === 'dark' &&
-        `dnb-button--on-dark-background`,
+      surface === 'dark' && `dnb-button--surface-dark`,
       icon && `dnb-button--icon-position-${iconPosition}`,
       stretch && 'dnb-button--stretch',
       icon && usedIconSize && `dnb-button--icon-size-${usedIconSize}`,
       (text || content || customContent) && 'dnb-button--has-text',
       icon && 'dnb-button--has-icon',
+      isIconOnly && 'dnb-button--icon-only',
+      selected && 'dnb-button--selected',
       wrap && 'dnb-button--wrap',
       status && `dnb-button__status--${statusState}`,
       createSkeletonClass(

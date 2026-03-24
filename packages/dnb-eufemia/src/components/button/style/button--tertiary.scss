@@ -22,7 +22,6 @@
 
       @include button-mixins.drawUnderlineBorder() {
         bottom: -0.0625rem;
-        color: transparent;
         transition: color 250ms ease-in-out;
         [data-visual-test-wrapper] & {
           transition: none;
@@ -33,13 +32,6 @@
     }
 
     @include utilities.focusVisible() {
-      outline: none;
-      @include button-mixins.buttonFocusRing(
-        'always',
-        $left: var(--button-tertiary-focus-left),
-        $right: var(--button-tertiary-focus-right)
-      );
-
       // underline
       .dnb-button__text::after {
         visibility: hidden;

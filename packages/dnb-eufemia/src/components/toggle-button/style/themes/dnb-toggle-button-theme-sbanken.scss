@@ -7,51 +7,27 @@
 
 .dnb-toggle-button {
   &__button {
-    background-color: var(--sb-color-white);
-    color: var(--sb-color-violet);
-    @include utilities.fakeBorder(var(--sb-color-violet), 0.09375rem);
-
-    @include utilities.hover() {
-      background-color: var(--sb-color-violet-light-3);
-      color: var(--sb-color-violet);
-    }
-
-    @include utilities.active() {
-      @include utilities.fakeBorder(
-        var(--sb-color-violet-light-3),
-        0.125rem
-      );
-      background-color: var(--sb-color-violet);
-      color: var(--sb-color-violet-light-3);
-    }
-
-    &[disabled] {
-      @include utilities.fakeBorder(
-        var(--sb-color-gray-light),
-        0.09375rem,
-        inset
-      );
-      color: var(--sb-color-gray-dark);
-    }
+    --btn-color-bg--default: var(--sb-color-white);
+    --btn-color-bg--hover: var(--sb-color-violet-light-3);
+    --btn-color-bg--active: var(--sb-color-violet);
+    --btn-color-bg--focus: transparent;
+    --btn-color-text--default: var(--sb-color-violet);
+    --btn-color-text--hover: var(--sb-color-violet);
+    --btn-color-text--active: var(--sb-color-violet-light-3);
+    --btn-color-text--disabled: var(--sb-color-gray-dark);
+    --btn-color-border--default: var(--sb-color-violet);
+    --btn-color-border--active: var(--sb-color-violet-light-3);
+    --btn-color-border--focus: var(--focus-ring-color);
+    --btn-color-border--disabled: var(--sb-color-gray-light);
 
     html[data-whatinput='keyboard']
       &:not([disabled]):not(:active):not(:hover):focus {
       .dnb-radio {
-        &__button {
-          background-color: transparent;
-          border-color: var(--focus-ring-color);
-          box-shadow: 0 0 0 0.0625rem var(--focus-ring-color);
-        }
         &__dot {
           background-color: var(--focus-ring-color);
         }
       }
       .dnb-checkbox {
-        &__button {
-          background-color: transparent;
-          border-color: var(--focus-ring-color);
-          box-shadow: 0 0 0 0.0625rem var(--focus-ring-color);
-        }
         &__gfx {
           color: var(--focus-ring-color);
         }
@@ -61,43 +37,19 @@
 
   /* stylelint-disable no-descending-specificity */
   &--checked &__button {
-    &[disabled] {
-      @include utilities.fakeBorder(
-        var(--sb-color-gray-light),
-        0.09375rem,
-        inset
-      );
-      background-color: var(--sb-color-gray-light);
-      color: var(--sb-color-gray-dark);
-    }
-
-    &:not([disabled]):not(:active) {
-      background-color: var(--sb-color-violet);
-      color: var(--sb-color-white);
-      box-shadow: none;
-    }
-
-    @include utilities.hover() {
-      background-color: var(--sb-color-violet);
-      color: var(--sb-color-white);
-      @include utilities.fakeBorder(var(--sb-color-violet), 0.125rem);
-    }
-
-    @include utilities.active() {
-      @include utilities.fakeBorder(
-        var(--sb-color-violet-light-3),
-        0.125rem,
-        inset
-      );
-      background-color: var(--sb-color-violet);
-      color: var(--sb-color-violet-light-3);
-    }
-
-    html[data-whatinput='keyboard']
-      &:not([disabled]):not(:active):not(:hover):focus {
-      color: var(--sb-color-blue-dark-2);
-      background-color: var(--sb-color-blue-light-2);
-    }
+    --btn-color-bg--default: var(--sb-color-violet);
+    --btn-color-bg--hover: var(--sb-color-violet);
+    --btn-color-bg--active: var(--sb-color-violet);
+    --btn-color-bg--focus: var(--sb-color-blue-light-2);
+    --btn-color-bg--disabled: var(--sb-color-gray-light);
+    --btn-color-border--hover: var(--sb-color-violet);
+    --btn-color-border--active: var(--sb-color-violet-light-3);
+    --btn-color-border--disabled: var(--sb-color-gray-light);
+    --btn-color-text--default: var(--sb-color-white);
+    --btn-color-text--hover: var(--sb-color-white);
+    --btn-color-text--active: var(--sb-color-violet-light-3);
+    --btn-color-text--focus: var(--sb-color-blue-dark-2);
+    --btn-color-text--disabled: var(--sb-color-gray-dark);
   }
   /* stylelint-enable no-descending-specificity */
 }

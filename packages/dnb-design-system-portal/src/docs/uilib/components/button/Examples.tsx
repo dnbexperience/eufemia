@@ -256,15 +256,13 @@ export const ButtonIcon = () => (
       status="error"
       left
     />
-    <VisibilityByTheme visible="sbanken">
-      <Button
-        title="Tertiary icon button"
-        size="large"
-        icon={question}
-        variant="tertiary"
-        data-visual-test="button-icon-tertiary"
-      />
-    </VisibilityByTheme>
+    <Button
+      title="Tertiary icon button"
+      size="large"
+      icon={question}
+      variant="tertiary"
+      data-visual-test="button-icon-tertiary"
+    />
   </ComponentBox>
 )
 

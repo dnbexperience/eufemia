@@ -2376,7 +2376,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     'aria-expanded': isExpanded,
     'aria-label': !hidden ? submitButtonTitle : undefined,
     tooltip: showSubmitButton ? submitButtonTitle : null,
-    className: open ? 'dnb-button--active' : null,
   }
 
   if (

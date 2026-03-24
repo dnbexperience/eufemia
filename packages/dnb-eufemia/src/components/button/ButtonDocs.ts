@@ -32,6 +32,11 @@ export const ButtonProperties: PropertiesTableProps = {
     ],
     status: 'optional',
   },
+  surface: {
+    doc: 'Changes component style based on background. Defaults to `"default"`.',
+    type: ['"dark"', '"default"'],
+    status: 'optional',
+  },
   size: {
     doc: 'The size of the button. There is `default`, `small`, `medium`  and `large`. The `tertiary` button officially supports only default and large. Changing the size mainly affects spacing, but the large tertiary button also has a larger font size.',
     type: ['"default"', '"small"', '"medium"', '"large"'],
@@ -50,6 +55,11 @@ export const ButtonProperties: PropertiesTableProps = {
   iconSize: {
     doc: 'Define icon width and height. Defaults to 16px.',
     type: 'string',
+    status: 'optional',
+  },
+  selected: {
+    doc: 'Only for icon buttons. If true, use the style for a selected icon button. Default is `false`',
+    type: 'boolean',
     status: 'optional',
   },
   href: {

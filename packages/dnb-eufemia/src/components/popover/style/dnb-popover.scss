@@ -7,6 +7,11 @@
 .dnb-popover {
   --inner-space: 0.75rem;
   --popover-border-radius: 0.5rem;
+  --popover-color-icon: var(--token-color-icon-neutral);
+
+  &--theme-dark {
+    --popover-color-icon: var(--token-color-icon-neutral-ondark);
+  }
 
   position: absolute;
   z-index: var(--popover-z-index);
@@ -177,17 +182,14 @@
   }
 
   &__close.dnb-button {
+    --btn-color-icon--default: var(--popover-color-icon);
+
     position: absolute;
     top: var(--inner-space);
     right: var(--inner-space);
-    color: inherit;
 
     // Make long pressing easier on touch devices
     user-select: none;
-
-    &:hover {
-      opacity: 0.7;
-    }
   }
 }
 
