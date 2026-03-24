@@ -204,29 +204,6 @@ export const ButtonAnchor = () => (
   </ComponentBox>
 )
 
-export const ButtonSignal = () => (
-  <ComponentBox scope={{ Bell }}>
-    <Button
-      variant="signal"
-      text="Signal Button"
-      icon={Bell}
-      data-visual-test="button-signal"
-    />
-  </ComponentBox>
-)
-
-export const ButtonSignalLarge = () => (
-  <ComponentBox scope={{ Bell }}>
-    <Button
-      variant="signal"
-      text="Large Signal Button"
-      icon={<Bell />}
-      size="large"
-      iconSize="medium"
-    />
-  </ComponentBox>
-)
-
 export const ButtonIcon = () => (
   <ComponentBox
     scope={{ question, VisibilityByTheme }}
@@ -408,48 +385,6 @@ export const TertiaryButtonSizes = () => {
         icon="bell"
         iconPosition="top"
         variant="tertiary"
-        left
-      />
-    </ComponentBox>
-  )
-}
-
-export const SignalButtonSizes = () => {
-  return (
-    <ComponentBox scope={{ Bell }} hideCode>
-      <Button
-        text="Default button"
-        onClick={() => {
-          console.log('onClick')
-        }}
-        variant="signal"
-      />
-      <Button
-        text="Large button"
-        onClick={() => {
-          console.log('onClick')
-        }}
-        size="large"
-        variant="signal"
-        left
-      />
-      <Button
-        text="Default button icon"
-        onClick={() => {
-          console.log('onClick')
-        }}
-        icon="chevron_right"
-        variant="signal"
-        left
-      />
-      <Button
-        text="Large button icon"
-        onClick={() => {
-          console.log('onClick')
-        }}
-        size="large"
-        icon="chevron_right"
-        variant="signal"
         left
       />
     </ComponentBox>

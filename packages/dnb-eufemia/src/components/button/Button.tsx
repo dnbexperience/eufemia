@@ -46,7 +46,6 @@ export type ButtonVariant =
   | 'primary'
   | 'secondary'
   | 'tertiary'
-  | 'signal'
   | 'unstyled'
 export type ButtonSize = 'default' | 'small' | 'medium' | 'large'
 export type ButtonIcon = IconIcon
@@ -109,7 +108,7 @@ export type ButtonProps = {
    */
   title?: string
   /**
-   * Defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `primary` (or `secondary` if icon only).
+   * Defines the kind of button. Possible values are `primary`, `secondary` and `tertiary`. Defaults to `primary` (or `secondary` if icon only).
    */
   variant?: ButtonVariant
   /**
