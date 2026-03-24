@@ -176,6 +176,13 @@ exports.createResolvers = ({ createResolvers }) => {
         },
       },
     },
+    MdxFrontmatter: {
+      theme: {
+        type: '[String]',
+        resolve: ({ theme }) =>
+          typeof theme === 'string' ? [theme] : theme,
+      },
+    },
   }
 
   createResolvers(resolvers)
