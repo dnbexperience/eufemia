@@ -1032,7 +1032,6 @@ describe('SegmentedField', () => {
         ctrlKey: true,
       })
 
-      expect(document.activeElement).toBe(day)
       expect(day.selectionStart).toBe(0)
       expect(day.selectionEnd).toBe(day.value.length)
       expect(month.selectionStart).toBe(0)
@@ -1059,13 +1058,40 @@ describe('SegmentedField', () => {
         metaKey: true,
       })
 
-      expect(document.activeElement).toBe(day)
       expect(day.selectionStart).toBe(0)
       expect(day.selectionEnd).toBe(day.value.length)
       expect(month.selectionStart).toBe(0)
       expect(month.selectionEnd).toBe(month.value.length)
       expect(year.selectionStart).toBe(0)
       expect(year.selectionEnd).toBe(year.value.length)
+    })
+
+    it('should set sections to contenteditable false while whole-group selection is active', () => {
+      renderSegmentedField({
+        values: { first: '12', second: '34' },
+      })
+
+      const first = getFirst()
+      const second = getSecond()
+
+      expect(first.getAttribute('contenteditable')).toBe('true')
+      expect(second.getAttribute('contenteditable')).toBe('true')
+
+      fireEvent.click(second)
+      fireEvent.keyDown(second, {
+        key: 'a',
+        ctrlKey: true,
+      })
+
+      expect(first.getAttribute('contenteditable')).toBe('false')
+      expect(second.getAttribute('contenteditable')).toBe('false')
+
+      fireEvent.keyDown(first, {
+        key: 'ArrowRight',
+      })
+
+      expect(first.getAttribute('contenteditable')).toBe('true')
+      expect(second.getAttribute('contenteditable')).toBe('true')
     })
 
     it('should restart typing from first section after Ctrl+A and typing', async () => {

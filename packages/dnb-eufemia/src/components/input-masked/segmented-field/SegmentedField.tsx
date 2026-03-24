@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { flushSync } from 'react-dom'
 import clsx from 'clsx'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 import useId from '../../../shared/helpers/useId'
@@ -64,7 +65,10 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
     Record<string, SectionSelectionMode>
   >({})
   const areInputsInFocus = useRef(false)
-  const groupSelectionRef = useRef(false)
+  const [wholeGroupSelectionUi, setWholeGroupSelectionUi] = useState(false)
+  const wholeGroupSelectionUiRef = useRef(false)
+
+  wholeGroupSelectionUiRef.current = wholeGroupSelectionUi
 
   valuesRef.current = values
 
@@ -90,7 +94,11 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
   )
 
   const clearGroupSelection = useCallback(() => {
-    groupSelectionRef.current = false
+    if (wholeGroupSelectionUiRef.current) {
+      flushSync(() => {
+        setWholeGroupSelectionUi(false)
+      })
+    }
   }, [])
 
   const clearSectionSelection = useCallback(() => {
@@ -176,15 +184,16 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
         return
       }
 
-      // To help Chrome maintain focus visibility when selecting the whole group
-      if (document.activeElement !== firstSection) {
-        firstSection.focus()
-      }
+      flushSync(() => {
+        setWholeGroupSelectionUi(true)
+      })
 
       const firstTextNode = ensureTextNode(firstSection)
       const lastTextNode = ensureTextNode(lastSection)
 
       if (!firstTextNode || !lastTextNode) {
+        clearGroupSelection()
+
         return
       }
 
@@ -206,10 +215,13 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
         sectionSelectionModeRef.current[sectionId] = 'all'
         caretPositionsRef.current[sectionId] = 0
       })
-
-      groupSelectionRef.current = true
     },
-    [caretPositionsRef, sectionRefs, sectionSelectionModeRef]
+    [
+      clearGroupSelection,
+      caretPositionsRef,
+      sectionRefs,
+      sectionSelectionModeRef,
+    ]
   )
 
   const focusSection = useCallback(
@@ -258,7 +270,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
         className="dnb-segmented-field__group"
         role="group"
         data-segmented-selection={
-          groupSelectionRef.current ? 'all' : undefined
+          wholeGroupSelectionUi ? 'all' : undefined
         }
       >
         {inputs.map(
@@ -289,7 +301,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
               sectionRefs={sectionRefs}
               caretPositionsRef={caretPositionsRef}
               sectionSelectionModeRef={sectionSelectionModeRef}
-              groupSelectionRef={groupSelectionRef}
+              wholeGroupSelectionUi={wholeGroupSelectionUi}
               clearGroupSelection={clearGroupSelection}
               clearSectionSelection={clearSectionSelection}
               selectWholeGroup={selectWholeGroup}

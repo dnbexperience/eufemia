@@ -39,7 +39,7 @@ export default function SegmentedFieldSection({
   sectionRefs,
   caretPositionsRef,
   sectionSelectionModeRef,
-  groupSelectionRef,
+  wholeGroupSelectionUi,
   clearGroupSelection,
   clearSectionSelection,
   selectWholeGroup,
@@ -111,6 +111,10 @@ export default function SegmentedFieldSection({
       return
     }
 
+    if (wholeGroupSelectionUi) {
+      return
+    }
+
     if (sectionSelectionModeRef.current[inputId] === 'all') {
       selectSection(inputId)
       return
@@ -129,6 +133,7 @@ export default function SegmentedFieldSection({
     selectSection,
     setSectionCaret,
     value,
+    wholeGroupSelectionUi,
   ])
 
   const updateValue = useCallback(
@@ -495,8 +500,12 @@ export default function SegmentedFieldSection({
         /**
          * Chrome has an issue where it focuses the nearest element with
          * contentEditable when clicking outside the Expiry field.
+         *
+         * While the whole group is selected (e.g. Cmd/Ctrl+A), segments are
+         * not contentEditable so Safari can paint one selection across all
+         * segments instead of separate editing hosts.
          */
-        contentEditable={!disabled}
+        contentEditable={!disabled && !wholeGroupSelectionUi}
         /**
          * React warns about managed children inside contentEditable.
          * We intentionally render controlled text here because each
@@ -576,7 +585,7 @@ export default function SegmentedFieldSection({
             return
           }
 
-          const hadWholeGroupSelected = groupSelectionRef.current
+          const hadWholeGroupSelected = wholeGroupSelectionUi
           clearGroupSelection()
 
           if (key === 'Enter') {

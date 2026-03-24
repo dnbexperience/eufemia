@@ -81,7 +81,7 @@ export type SegmentedFieldSectionProps = {
   sectionRefs: RefObject<Record<string, HTMLSpanElement | null>>
   caretPositionsRef: RefObject<Record<string, number>>
   sectionSelectionModeRef: RefObject<Record<string, SectionSelectionMode>>
-  groupSelectionRef: RefObject<boolean>
+  wholeGroupSelectionUi: boolean
   clearGroupSelection: () => void
   clearSectionSelection: () => void
   selectWholeGroup: (inputId: string) => void
