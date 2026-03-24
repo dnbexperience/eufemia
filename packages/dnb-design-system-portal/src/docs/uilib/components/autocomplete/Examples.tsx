@@ -38,7 +38,7 @@ export const AutocompleteDefaultExample = () => (
 export const AutocompleteStatusInfoExample = () => (
   <Wrapper>
     <ComponentBox
-      data-visual-test="autocomplete-status-info"
+      data-visual-test="autocomplete-status-information"
       scope={{ topMovies }}
     >
       <Autocomplete

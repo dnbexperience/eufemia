@@ -35,7 +35,7 @@ export type SliderProps = {
   /** text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message. */
   status?: string | boolean
 
-  /** defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`. */
+  /** defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`. */
   statusState?: 'error' | 'information'
 
   /** use an object to define additional FormStatus properties. */

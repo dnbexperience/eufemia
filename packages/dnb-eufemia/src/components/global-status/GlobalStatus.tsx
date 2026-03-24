@@ -98,7 +98,7 @@ export type GlobalStatusProps = {
    */
   iconSize?: IconSize
   /**
-   * Defines the visual appearance of the status. There are four main statuses `error`, `warning`, `info` and `success`. The default status is `error`.
+   * Defines the visual appearance of the status. There are four main statuses `error`, `warning`, `information` and `success`. The default status is `error`.
    */
   state?: GlobalStatusState
   /**

@@ -50,8 +50,8 @@ export type StepIndicatorItemProps = Omit<
    */
   status?: string | React.ReactNode
   /**
-   * Used to set the status state to be either `info`, `error` or `warn`.
-   * Defaults to `warn`.
+   * Used to set the status state to be either `information`, `error` or `warning`.
+   * Defaults to `warning`.
    */
   statusState?: StepIndicatorStatusState
   /**

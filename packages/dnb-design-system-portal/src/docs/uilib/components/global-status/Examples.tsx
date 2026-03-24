@@ -39,7 +39,7 @@ export const GlobalInfoOverlayError = () => (
 )
 
 export const GlobalStatusInfo = () => (
-  <ComponentBox data-visual-test="global-status-info">
+  <ComponentBox data-visual-test="global-status-information">
     <GlobalStatus
       state="information"
       title="Custom info title ..."

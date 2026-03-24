@@ -118,7 +118,7 @@ export type BreadcrumbProps = {
 
   /**
    * Use one of the Section component variants
-   * Default: info
+   * Default: information
    */
   collapsedStyleType?: SectionVariants
 

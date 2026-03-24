@@ -538,7 +538,7 @@ export type ToggleButtonProps = Omit<
      */
     status?: FormStatusText
     /**
-     * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
+     * Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.
      */
     statusState?: FormStatusState
     /**
