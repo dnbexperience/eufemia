@@ -295,6 +295,66 @@ describe('Field.Date', () => {
     expect(calls).toContain('2024-12-01|2025-02-28')
   })
 
+  it('should not call onChange again with the old value after clearing via select-all', async () => {
+    const onChange = jest.fn()
+
+    render(<Field.Date value="2025-11-12" onChange={onChange} />)
+
+    const [day, month, year] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    ) as Array<HTMLInputElement>
+
+    await userEvent.click(year)
+
+    fireEvent.keyDown(year, {
+      key: 'a',
+      ctrlKey: true,
+    })
+
+    onChange.mockClear()
+
+    fireEvent.keyDown(year, {
+      key: 'Backspace',
+    })
+
+    await waitFor(() => {
+      expect(day).toHaveValue('dd')
+      expect(month).toHaveValue('mm')
+      expect(year).toHaveValue(nbYearPlaceholder)
+      expect(onChange).toHaveBeenCalled()
+    })
+
+    expect(onChange.mock.calls[0][0]).toBeUndefined()
+
+    const values = onChange.mock.calls.map((call) => call[0])
+    expect(values).not.toContain('2025-11-12')
+  })
+
+  it('should not call onChange again with the old value after deleting only the year', async () => {
+    const onChange = jest.fn()
+
+    render(<Field.Date value="2025-11-12" onChange={onChange} />)
+
+    const [, , year] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    ) as Array<HTMLInputElement>
+
+    await userEvent.click(year)
+    onChange.mockClear()
+
+    await userEvent.keyboard('{Backspace>4}')
+
+    await waitFor(() => {
+      expect(year).toHaveValue(nbYearPlaceholder)
+      expect(onChange).toHaveBeenCalled()
+    })
+
+    expect(onChange.mock.calls[0][0]).toBeUndefined()
+
+    const values = onChange.mock.calls.map((call) => call[0])
+    expect(values).not.toContain('2025-11-12')
+  })
+
   describe('validation', () => {
     it('should display error on first form submit', async () => {
       render(
@@ -512,6 +572,40 @@ describe('Field.Date', () => {
       ).not.toBeInTheDocument()
     })
 
+    it('should not display error if a typed valid value is cleared/removed', async () => {
+      render(<Field.Date />)
+
+      const [day, month, year]: Array<HTMLInputElement> = Array.from(
+        document.querySelectorAll('.dnb-date-picker__input')
+      )
+
+      await userEvent.click(day)
+      await userEvent.keyboard('16012023')
+      await userEvent.click(document.body)
+
+      await waitFor(() => {
+        expect(day).toHaveValue('16')
+        expect(month).toHaveValue('01')
+        expect(year).toHaveValue('2023')
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).not.toBeInTheDocument()
+      })
+
+      await userEvent.click(year)
+      await userEvent.keyboard('{Backspace>16}')
+      await userEvent.click(document.body)
+
+      await waitFor(() => {
+        expect(day).toHaveValue('dd')
+        expect(month).toHaveValue('mm')
+        expect(year).toHaveValue(nbYearPlaceholder)
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).not.toBeInTheDocument()
+      })
+    })
+
     it('should display error if a valid value is cleared/removed when required', async () => {
       render(<Field.Date value="2023-01-16" required />)
 
@@ -568,6 +662,40 @@ describe('Field.Date', () => {
       await userEvent.click(document.body)
 
       await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).not.toBeInTheDocument()
+      })
+    })
+
+    it('should clear invalid date error when all values are removed', async () => {
+      render(<Field.Date />)
+
+      const [day, month, year]: Array<HTMLInputElement> = Array.from(
+        document.querySelectorAll('.dnb-date-picker__input')
+      )
+
+      await userEvent.click(day)
+      await userEvent.keyboard('39192025')
+      await userEvent.click(document.body)
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status__text')
+        ).toHaveTextContent(nb.Date.errorInvalidDate)
+      })
+
+      await userEvent.click(year)
+      await userEvent.keyboard('{Backspace>16}')
+      await userEvent.click(document.body)
+
+      await waitFor(() => {
+        expect(day).toHaveValue('dd')
+        expect(month).toHaveValue('mm')
+        expect(year).toHaveValue(nbYearPlaceholder)
         expect(
           document.querySelector('.dnb-form-status--error')
         ).not.toBeInTheDocument()
@@ -827,7 +955,7 @@ describe('Field.Date', () => {
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
         '/myValue': {
           type: 'field',
-          value: '11/2/24',
+          value: '2/11/24',
         },
       })
     })
@@ -965,13 +1093,14 @@ describe('Field.Date', () => {
   it('should be able to hide input', () => {
     render(<Field.Date showInput={false} />)
 
-    const [day, month, year]: Array<HTMLInputElement> = Array.from(
+    const fields: Array<HTMLInputElement> = Array.from(
       document.querySelectorAll('.dnb-date-picker__input')
     )
 
-    expect(day).toHaveAttribute('hidden')
-    expect(month).toHaveAttribute('hidden')
-    expect(year).toHaveAttribute('hidden')
+    expect(fields).toHaveLength(3)
+    expect(document.querySelector('.dnb-date-picker')).toHaveClass(
+      'dnb-date-picker--hidden'
+    )
   })
 
   it('should support custom mask order', () => {
@@ -1006,7 +1135,7 @@ describe('Field.Date', () => {
     expect(year.value).toBe(nbYearPlaceholder)
 
     const separators = Array.from(
-      document.querySelectorAll('.dnb-multi-input-mask__delimiter')
+      document.querySelectorAll('.dnb-segmented-field__delimiter')
     )
     expect(separators.map((element) => element.textContent)).toEqual([
       '/',
@@ -2749,7 +2878,7 @@ describe('Field.Date', () => {
           />
         )
 
-        const [startDay, endDay] = Array.from(
+        const [startDay] = Array.from(
           document.querySelectorAll('.dnb-date-picker__input--day')
         ) as Array<HTMLInputElement>
 
@@ -2775,9 +2904,7 @@ describe('Field.Date', () => {
         )
 
         await userEvent.click(startDay)
-        await userEvent.keyboard('{Backspace>2}01012025')
-        await userEvent.click(endDay)
-        await userEvent.keyboard('{Backspace>2}31012025')
+        await userEvent.keyboard('{Backspace}0101202531012025')
         await userEvent.click(document.body)
 
         expect(
@@ -2799,14 +2926,14 @@ describe('Field.Date', () => {
     it('should have aria-required', () => {
       render(<Field.Date required />)
 
-      const input = document.querySelector('input')
+      const input = document.querySelector('.dnb-date-picker__input')
       expect(input).toHaveAttribute('aria-required', 'true')
     })
 
     it('should have aria-invalid', () => {
       render(<Field.Date required validateInitially />)
 
-      const input = document.querySelector('input')
+      const input = document.querySelector('.dnb-date-picker__input')
       expect(input).toHaveAttribute('aria-invalid', 'true')
     })
   })
@@ -2859,14 +2986,16 @@ describe('Field.Date', () => {
           </Form.Handler>
         )
 
-        const input = document.querySelector('input')
+        const input = document.querySelector(
+          '.dnb-date-picker__input'
+        ) as HTMLElement
 
         expect(
           document.querySelector('.dnb-form-status')
         ).not.toBeInTheDocument()
 
         input.focus()
-        fireEvent.blur(input)
+        fireEvent.blur(input, { relatedTarget: document.body })
 
         await waitFor(() => {
           expect(
