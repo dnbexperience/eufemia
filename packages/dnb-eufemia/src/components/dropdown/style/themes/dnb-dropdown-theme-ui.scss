@@ -15,15 +15,12 @@
 
   // button
   &__trigger {
-    @include utilities.hover() {
-      color: var(--color-emerald-green);
-    }
+    --btn-color-text--disabled: var(--dropdown-foreground-color-primary);
+    --btn-color-text--hover: var(--color-emerald-green);
+    --btn-color-bg--disabled: var(--dropdown-background-color-disabled);
   }
 
   &__trigger[disabled] {
-    color: var(--dropdown-foreground-color-primary);
-    background-color: var(--dropdown-background-color-disabled);
-
     &:not(.dnb-button--tertiary) {
       @include utilities.fakeBorder(
         var(--dropdown-foreground-color-primary)

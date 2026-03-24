@@ -1,19 +1,6 @@
 .dnb-forms-field-number {
-  --number-control-button-border-color: var(--sb-color-purple-alternative);
-  --number-control-button-border-color--hover: var(
-    --sb-color-purple-alternative
-  );
   --number-control-separator-color: var(--sb-color-violet-light-3);
-  --number-control-button-border-color--focus: var(--focus-ring-color);
   --number-control-button-border-width--focus: var(--focus-ring-width);
-  --number-control-button-background-color--hover: var(
-    --sb-color-violet-light-3
-  );
-  --number-control-button-color--hover: var(--sb-color-purple-alternative);
-  --number-control-button-background-color--active: var(--sb-color-purple);
-  --number-control-button-color--active: var(--sb-color-violet-light-3);
-  --number-control-button--error: var(--sb-color-red);
-  --number-control-button--error-contrast: var(--sb-color-magenta-light-2);
 
   &__contents {
     &--has-controls {
@@ -43,13 +30,6 @@
       }
 
       .dnb-input__border--root {
-        --input-border-color: var(--number-control-button-border-color);
-        --input-border-color--hover: var(
-          --number-control-button-border-color--hover
-        );
-        --input-border-color--active: var(
-          --number-control-button-border-color--active
-        );
         --input-border-radius: var(--input-border-radius--active);
       }
 
@@ -63,19 +43,11 @@
     }
 
     &--has-controls.dnb-input__status--error {
-      --number-control-separator-color: var(
-        --number-control-button--error-contrast
-      );
+      --number-control-separator-color: var(--sb-color-magenta-light-2);
     }
 
     &--has-controls.dnb-input--disabled {
       --number-control-separator-color: var(--sb-color-gray-dark);
-
-      .dnb-button--control-before[disabled],
-      .dnb-button--control-after[disabled] {
-        color: var(--sb-color-gray-dark);
-        background-color: var(--sb-color-gray-light);
-      }
     }
   }
 }

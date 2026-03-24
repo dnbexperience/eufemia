@@ -106,9 +106,7 @@
     transform: rotate(180deg);
     transform-origin: 50% 50%;
   }
-  .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {
-    @include utilities.fakeBorder(var(--color-black-55), 0.0625rem, inset);
-  }
+
   .dnb-input__submit-button__button .dnb-icon {
     transition: transform 400ms ease-out;
 

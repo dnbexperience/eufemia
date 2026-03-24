@@ -129,6 +129,7 @@ export default function HelpButtonInline(props: HelpButtonInlineProps) {
             'dnb-help-button__inline--was-open',
           className
         )}
+        selected={isOpen}
         aria-controls={`${controlId}-content`}
         aria-expanded={isOpen}
         aria-label={title || undefined}

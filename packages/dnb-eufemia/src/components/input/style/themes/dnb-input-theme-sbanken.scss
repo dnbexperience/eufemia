@@ -109,8 +109,6 @@
     }
 
     .dnb-input__submit-button__button:not(:focus-visible) {
-      background-color: transparent;
-      box-shadow: none;
       border-radius: 0 var(--input-button-border-radius)
         var(--input-button-border-radius) 0;
       &:hover,

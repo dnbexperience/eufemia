@@ -22,6 +22,7 @@
   --dropdown-foreground-color-error: var(--color-fire-red);
   --dropdown-background-color-disabled: var(--color-black-3);
   --dropdown-background-color-error-active: var(--color-fire-red-8);
+  --dropdown-error-border-inset: ;
 
   display: inline-flex;
   align-items: center;
@@ -194,13 +195,15 @@
     ).dnb-button--secondary.dnb-button__status--error {
     @include utilities.fakeBorder(
       var(--dropdown-foreground-color-error),
-      var(--dropdown-error-border-width)
+      var(--dropdown-error-border-width),
+      var(--dropdown-error-border-inset)
     );
   }
   &__status--error#{&}--open &__trigger {
     --border-width: var(--dropdown-error-border-width);
   }
-  &__status--error:not(#{&}--open) &__trigger:not([disabled]) {
+  &__status--error:not(#{&}--open)
+    &__trigger:not([disabled]):not(:focus, :focus-visible) {
     color: var(--dropdown-foreground-color-error);
   }
   &__status--error .dnb-button--tertiary {
@@ -214,14 +217,17 @@
       --border-color: var(--color-sea-green-30);
     }
   }
-  .dnb-button--tertiary:focus::before {
-    left: var(--button-tertiary-focus-left);
-    right: var(--button-tertiary-focus-right);
+  .dnb-button--tertiary[disabled] {
+    --button-tertiary-focus-left: 0;
+    --button-tertiary-focus-right: 0;
   }
   &__status--error .dnb-button--tertiary:not([disabled]) {
     &:hover::before {
       --border-width: var(--dropdown-error-border-width);
     }
+  }
+  .dnb-button--secondary {
+    --btn-color-bg--hover: var(--token-color-background-neutral);
   }
 
   // Button only menu

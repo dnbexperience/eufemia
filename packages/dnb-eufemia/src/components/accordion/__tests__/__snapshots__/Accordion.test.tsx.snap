@@ -336,10 +336,10 @@ exports[`Accordion scss have to match default theme snapshot 1`] = `
     --ui-accordion-expanded-color
   );
 }
-html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:focus-visible[disabled] {
+html:not([data-whatinput=touch]) .dnb-accordion__header--outlined:focus-visible[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:focus-visible:not([disabled]) {
+html:not([data-whatinput=touch]) .dnb-accordion__header--outlined:focus-visible:not([disabled]) {
   --accordion-border-width: 0.125rem;
   --ui-accordion-border-color: var(--color-emerald-green);
   --ui-accordion-expanded-border-color: var(--color-emerald-green);
@@ -401,10 +401,10 @@ html:not([data-whatintent=touch]) .dnb-accordion__header--filled:hover:not([disa
   --ui-accordion-border-color: var(--color-sea-green);
   --ui-accordion-description-color: ar(--color-white);
 }
-html:not([data-whatintent=touch]) .dnb-accordion__header--filled:focus-visible[disabled] {
+html:not([data-whatinput=touch]) .dnb-accordion__header--filled:focus-visible[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-accordion__header--filled:focus-visible:not([disabled]) {
+html:not([data-whatinput=touch]) .dnb-accordion__header--filled:focus-visible:not([disabled]) {
   --ui-accordion-border-color: var(--color-sea-green);
 }
 .dnb-accordion__header {

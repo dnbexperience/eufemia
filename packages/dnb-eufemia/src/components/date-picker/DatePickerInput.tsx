@@ -796,10 +796,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             id={id}
             disabled={disabled}
             skeleton={skeleton}
-            className={clsx(
-              showInput && 'dnb-button--input-button',
-              open ? 'dnb-button--active' : null
-            )}
+            className={clsx(showInput && 'dnb-button--input-button')}
+            selected={open}
             aria-label={ariaLabel}
             title={title}
             size={size}

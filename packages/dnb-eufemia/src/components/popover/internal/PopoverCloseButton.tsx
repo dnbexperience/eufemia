@@ -101,13 +101,14 @@ export default function PopoverCloseButton({
     resolvedSize &&
       resolvedSize !== 'default' &&
       `dnb-button--size-${resolvedSize}`,
-    context?.theme?.surface === 'dark' && 'dnb-button--on-dark-background',
+    context?.theme?.surface === 'dark' && 'dnb-button--surface-dark',
     hasIcon && `dnb-button--icon-position-${iconPosition}`,
     hasIcon &&
       resolvedIconSize &&
       `dnb-button--icon-size-${resolvedIconSize}`,
     hasContent && 'dnb-button--has-text',
     hasIcon && 'dnb-button--has-icon',
+    isIconOnly && 'dnb-button--icon-only',
     stretch && 'dnb-button--stretch',
     wrap && 'dnb-button--wrap',
     createSkeletonClass(
