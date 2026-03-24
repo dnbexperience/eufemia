@@ -11,7 +11,7 @@
   );
   --token-color-background-action-focus: var(--sbanken-blue-600);
   --token-color-background-action-focus-subtle: var(--sbanken-blue-100);
-  --token-color-background-action-disabled: var(--sbanken-greyscale-400);
+  --token-color-background-action-disabled: var(--sbanken-greyscale-200);
   --token-color-background-action-inverse: var(--sbanken-green-300);
   --token-color-background-action-hover-inverse: var(--sbanken-green-300);
   --token-color-background-action-hover-subtle-inverse: var(
@@ -105,11 +105,21 @@
   --token-color-icon-action-pressed-ondark: var(--sbanken-green-400);
   --token-color-icon-action-disabled-ondark: var(--sbanken-greyscale-500);
   --token-color-icon-neutral: var(--sbanken-purple-1000);
+  --token-color-icon-neutral-static: var(--sbanken-purple-1000);
   --token-color-icon-neutral-inverse: var(--sbanken-greyscale-0);
   --token-color-icon-neutral-ondark: var(--sbanken-greyscale-0);
   --token-color-icon-neutral-alternative: var(--sbanken-greyscale-600);
-  --token-color-icon-destructive: var(--sbanken-orange-700);
+  --token-color-icon-destructive: var(--sbanken-red-700);
+  --token-color-icon-info: var(--sbanken-green-600);
+  --token-color-icon-info-subtle: var(--sbanken-green-50);
+  --token-color-icon-positive: var(--sbanken-green-700);
+  --token-color-icon-positive-subtle: var(--sbanken-green-100);
+  --token-color-icon-warning: var(--sbanken-yellow-600);
+  --token-color-icon-warning-subtle: var(--sbanken-yellow-50);
+  --token-color-icon-error: var(--sbanken-red-700);
+  --token-color-icon-error-subtle: var(--sbanken-red-200);
   --token-color-icon-marketing: var(--sbanken-purple-900);
+  --token-color-icon-marketing-subtle: var(--sbanken-purple-100);
   --token-color-stroke-action: var(--sbanken-purple-700);
   --token-color-stroke-action-alternative: var(--sbanken-greyscale-500);
   --token-color-stroke-action-hover: var(--sbanken-purple-700);
