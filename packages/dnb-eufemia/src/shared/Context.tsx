@@ -316,6 +316,10 @@ function handleLocaleFallbacks(
   locale: InternalLocale | AnyLocale,
   translations: Translations = {}
 ) {
+  if (translations[locale]) {
+    return locale
+  }
+
   if (locale === 'en' || String(locale).split('-')[0] === 'en') {
     return 'en-GB'
   }

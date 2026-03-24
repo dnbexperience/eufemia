@@ -585,6 +585,14 @@ function DatePicker(externalProps: DatePickerAllProps) {
     ...restProps
   } = extendedProps
 
+  const resolvedMaskOrder =
+    externalProps.maskOrder ??
+    (context.locale === 'en-US' ? 'mm/dd/yyyy' : maskOrder)
+
+  const resolvedMaskPlaceholder =
+    externalProps.maskPlaceholder ??
+    (context.locale === 'en-US' ? 'mm/dd/yyyy' : maskPlaceholder)
+
   const attributes = useMemo(
     () => filterOutNonAttributes(restProps),
     [restProps]
@@ -759,8 +767,8 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   disabled={disabled}
                   stretch={stretch}
                   skeleton={skeleton}
-                  maskOrder={maskOrder}
-                  maskPlaceholder={maskPlaceholder}
+                  maskOrder={resolvedMaskOrder}
+                  maskPlaceholder={resolvedMaskPlaceholder}
                   isRange={range}
                   showInput={showInput}
                   selectedDateTitle={selectedDateTitle}
