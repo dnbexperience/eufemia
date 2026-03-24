@@ -243,15 +243,9 @@ exports[`Section scss have to match default theme snapshot 1`] = `
   --text-color: var(--color-black-80);
   --background-color: var(--color-lavender);
 }
-.dnb-section {
-  /** deprecated */
-}
 .dnb-section--sand-yellow {
   --text-color: var(--color-black-80);
   --background-color: var(--color-sand-yellow);
-}
-.dnb-section {
-  /** deprecated */
 }
 .dnb-section--pistachio {
   --text-color: var(--color-black-80);
@@ -284,9 +278,6 @@ exports[`Section scss have to match default theme snapshot 1`] = `
 .dnb-section--fire-red {
   --text-color: var(--color-white);
   --background-color: var(--color-fire-red);
-}
-.dnb-section {
-  /** deprecated */
 }
 .dnb-section--fire-red-8 {
   --text-color: var(--color-black-80);
