@@ -234,14 +234,7 @@ const ThemeBadge = ({ theme, ...props }: { theme: ThemeNames }) => {
         `dnb-sidebar-menu__theme-badge--${theme}`
       )}
       {...props}
-    >
-      <span
-        title={themeTitleTitle}
-        className={clsx('dnb-sidebar-menu__theme-badge__title')}
-      >
-        {themeTitle}
-      </span>
-    </span>
+    />
   )
 }
 

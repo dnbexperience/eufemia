@@ -198,9 +198,8 @@
       align-items: center;
       justify-content: center;
 
-      min-width: 1.5em;
+      width: 1.5em;
       height: 1.5em;
-      padding: 0.5em;
 
       white-space: nowrap;
 
@@ -209,21 +208,22 @@
 
       transform: translateX(calc(-100% - 0.5rem));
 
-      .dnb-sidebar-menu__theme-badge__title {
-        color: white;
-      }
-
-      &.dnb-sidebar-menu__theme-badge--sbanken {
-        padding: 0;
-        font-family: var(--font-family-heading);
-        font-weight: normal;
-
-        .dnb-sidebar-menu__theme-badge__title {
+      &--sbanken {
+        &::before {
+          content: 'Sbanken';
+          font-family: var(--font-family-heading);
+          font-weight: normal;
+          color: white;
           width: 0.7em;
           height: 1.5rem;
           overflow: hidden;
           padding: 0.0625rem;
         }
+      }
+
+      &--carnegie {
+        background-image: url('/images/carnegie_badge.png');
+        background-size: contain;
       }
     }
 
