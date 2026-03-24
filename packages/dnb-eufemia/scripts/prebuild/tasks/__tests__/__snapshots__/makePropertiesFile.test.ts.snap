@@ -726,8 +726,6 @@ exports[`makePropertiesFile Tokens snapshots for carnegie 1`] = `
   --token-color-component-dimmer-background: var(
     --carnegie-greyscale-1000-30
   );
-  --token-color-component-tabs-transparent-30: var(--dnb-greyscale-0-30);
-  --token-color-component-tabs-transparent-00: var(--dnb-greyscale-0-00);
   --token-color-component-switch-action-disabled-ondark: var(
     --carnegie-greyscale-800
   );
@@ -1086,8 +1084,6 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 1`] = `
   --token-color-component-dimmer-background: var(
     --sbanken-greyscale-1000-30
   );
-  --token-color-component-tabs-transparent-30: var(--dnb-greyscale-0-30);
-  --token-color-component-tabs-transparent-00: var(--dnb-greyscale-0-00);
   --token-color-component-switch-action-disabled-ondark: var(
     --sbanken-purple-1000
   );
@@ -1424,8 +1420,6 @@ exports[`makePropertiesFile Tokens snapshots for ui 1`] = `
     --dnb-greyscale-25
   );
   --token-color-component-dimmer-background: var(--dnb-greyscale-1000-30);
-  --token-color-component-tabs-transparent-30: var(--dnb-greyscale-0-30);
-  --token-color-component-tabs-transparent-00: var(--dnb-greyscale-0-00);
   --token-color-component-switch-action-disabled-ondark: var(
     --dnb-greyscale-800
   );
@@ -1451,8 +1445,6 @@ exports[`makePropertiesFile Tokens snapshots for ui 2`] = `
   --dnb-coldgreen-800: #08454d;
   --dnb-coldgreen-900: #023939;
   --dnb-coldgreen-950: #00343e;
-  --dnb-greyscale-0-30: rgba(255 255 255 / 30%);
-  --dnb-greyscale-0-00: rgba(255 255 255 / 0%);
   --dnb-greyscale-0: #fff;
   --dnb-greyscale-25: #fafafa;
   --dnb-greyscale-50: #f8f8f8;
