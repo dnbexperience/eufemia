@@ -14,6 +14,12 @@ const Translation = TranslationModule.default
 
 describe('Provider Form.Section bug', () => {
   describe('translations', () => {
+    let spy: jest.SpyInstance
+
+    afterEach(() => {
+      spy.mockRestore()
+
+    });
 
     it('should only merge translations once', () => {
       const nbNO = { my: { list: ['y'] } }
@@ -25,7 +31,7 @@ describe('Provider Form.Section bug', () => {
         'nb-NO': nbNO,
       }
 
-      const spy = jest.spyOn(TranslationModule, 'mergeTranslations')
+      spy = jest.spyOn(TranslationModule, 'mergeTranslations')
 
 
       render(
@@ -50,6 +56,7 @@ describe('Provider Form.Section bug', () => {
       )
 
       expect(spy).toHaveBeenCalledTimes(1)
+
     })
 
   })
