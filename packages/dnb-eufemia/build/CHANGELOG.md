@@ -3,6 +3,41 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.101.2](https://github.com/dnbexperience/eufemia/compare/v10.101.1...v10.101.2) (2026-03-25)
+
+
+### :bug: Bug Fixes
+
+* add fontWeight prop to ItemTitle for API consistency with sibling components ([#7178](https://github.com/dnbexperience/eufemia/issues/7178)) ([855de28](https://github.com/dnbexperience/eufemia/commit/855de28dd24cb2a7842ff60d4888c00be49cf19b))
+* **List.Item.Accordion:** guard AccordionHeader and AccordionContent against usage outside ItemAccordion ([#7169](https://github.com/dnbexperience/eufemia/issues/7169)) ([9989d4c](https://github.com/dnbexperience/eufemia/commit/9989d4cd800f8ce6d91803a87571ebed38bf16f0))
+* **List:** add missing style.ts entry point for per-component style imports ([#7199](https://github.com/dnbexperience/eufemia/issues/7199)) ([9a3bfc0](https://github.com/dnbexperience/eufemia/commit/9a3bfc02bedcf5c7bc469eb6b5037955776b420a))
+* **List:** call onClick on mouse click when href is provided in ItemAction ([#7201](https://github.com/dnbexperience/eufemia/issues/7201)) ([eacd563](https://github.com/dnbexperience/eufemia/commit/eacd56341f244d185b5da7eb3627ad8c339a6e32))
+* **List:** remove incorrect aria-expanded from accordion content panel ([#7198](https://github.com/dnbexperience/eufemia/issues/7198)) ([2148e38](https://github.com/dnbexperience/eufemia/commit/2148e38500988bccb03076a9ffdd6374814ca571))
+* **List:** remove stale open prop from ItemAccordionContext ([#7187](https://github.com/dnbexperience/eufemia/issues/7187)) ([6088815](https://github.com/dnbexperience/eufemia/commit/6088815100c4249cc5e5acb3c6469b9790a0f2e4))
+* pass appliedDisabled instead of raw disabled prop to ItemContent in ItemAction ([#7176](https://github.com/dnbexperience/eufemia/issues/7176)) ([9df50b3](https://github.com/dnbexperience/eufemia/commit/9df50b3185b5bed9cf6090e6e49640fe183dbef8))
+* remove unused open prop from AccordionHeaderProps ([#7170](https://github.com/dnbexperience/eufemia/issues/7170)) ([cf8b32c](https://github.com/dnbexperience/eufemia/commit/cf8b32c4e7641f5c2c476fec451b9618ce9d89fc))
+* **Stat.Amount:** clarify deprecation message ([#7173](https://github.com/dnbexperience/eufemia/issues/7173)) ([cd3a07b](https://github.com/dnbexperience/eufemia/commit/cd3a07b47ccf3ac25e0abab5c61450a7cfdc9ff1))
+* **Stat.Amount:** display -0 instead of +0 for negative zero with signDisplay always ([#7179](https://github.com/dnbexperience/eufemia/issues/7179)) ([f6e3be6](https://github.com/dnbexperience/eufemia/commit/f6e3be6bf5eb6936baab47ec77cd1908ea238ea9))
+* **Stat.Amount:** handle negative zero in colorizeBySign ([#7172](https://github.com/dnbexperience/eufemia/issues/7172)) ([7f5bda2](https://github.com/dnbexperience/eufemia/commit/7f5bda2f2b51120caf5222783771394020545458))
+* **Stat.Inline:** add warning if used outside Stat.Root ([#7171](https://github.com/dnbexperience/eufemia/issues/7171)) ([6f0b834](https://github.com/dnbexperience/eufemia/commit/6f0b83460a16c43790c3d98afcb92f6cd8a3e10d))
+* **Stat.Trend:** treat sign-only string values as neutral ([#7177](https://github.com/dnbexperience/eufemia/issues/7177)) ([ac192ca](https://github.com/dnbexperience/eufemia/commit/ac192caaa1fc474997a32a08a884ea12d24d325d))
+* **Stat:** add inRoot warning to Info component ([#7186](https://github.com/dnbexperience/eufemia/issues/7186)) ([540a04b](https://github.com/dnbexperience/eufemia/commit/540a04bc16aed8c43af11e74b15cf72baffd00ff))
+* **Stat:** align Rating aria-label precision with visual fill ([#7190](https://github.com/dnbexperience/eufemia/issues/7190)) ([131e726](https://github.com/dnbexperience/eufemia/commit/131e72697126ef8824ae553b8c02b32347c311c2))
+* **Stat:** handle sign-only strings consistently in Trend ([#7183](https://github.com/dnbexperience/eufemia/issues/7183)) ([a92f0d9](https://github.com/dnbexperience/eufemia/commit/a92f0d9f24d1e015ffdd34556b14af7886f9494c))
+* **Stat:** improve skeleton handling ([#7166](https://github.com/dnbexperience/eufemia/issues/7166)) ([b6d5a4d](https://github.com/dnbexperience/eufemia/commit/b6d5a4d01081250d8e8543ede3d1c1a89177b4a8))
+* **Stat:** prevent Label from shadowing Root skeleton context ([#7185](https://github.com/dnbexperience/eufemia/issues/7185)) ([60cc42d](https://github.com/dnbexperience/eufemia/commit/60cc42d277acf563a97100e06193aea6aeb84570))
+* **Stat:** propagate skeleton to non-Stat children via Provider in Label and Inline ([#7189](https://github.com/dnbexperience/eufemia/issues/7189)) ([3135bb8](https://github.com/dnbexperience/eufemia/commit/3135bb8c953f4f32a198ba8f2ff4b414a718ae37))
+* **Stat:** warn when Trend cannot resolve value from children ([#7184](https://github.com/dnbexperience/eufemia/issues/7184)) ([22a51be](https://github.com/dnbexperience/eufemia/commit/22a51be409ddca855df840eb8e01660e413d53d9))
+
+
+### :memo: Documentation
+
+* **List:** add ItemAccordion onClick event to events tab ([#7206](https://github.com/dnbexperience/eufemia/issues/7206)) ([85d95d5](https://github.com/dnbexperience/eufemia/commit/85d95d538ce843b96575fea051929f9fe4532753))
+* **List:** fix AccordionHeader inheritance note ([#7209](https://github.com/dnbexperience/eufemia/issues/7209)) ([5711e38](https://github.com/dnbexperience/eufemia/commit/5711e380efe36dcfadcc042d4c9689852990f14e))
+* **Stat:** add relevant links section to stat info page ([#7204](https://github.com/dnbexperience/eufemia/issues/7204)) ([e9847a7](https://github.com/dnbexperience/eufemia/commit/e9847a78796273159866b79932b9060aa0024c93))
+* **Stat:** document deprecated 'default' variant in Label and Info ([#7205](https://github.com/dnbexperience/eufemia/issues/7205)) ([eb98b7b](https://github.com/dnbexperience/eufemia/commit/eb98b7b2a241063c0eef0370b9e232d663e04879))
+* **Stat:** use relative tab key paths in stat.mdx ([#7208](https://github.com/dnbexperience/eufemia/issues/7208)) ([b5b82a0](https://github.com/dnbexperience/eufemia/commit/b5b82a0640e4108ebd17812a30222c1f52c48022))
+
 ## [10.101.1](https://github.com/dnbexperience/eufemia/compare/v10.101.0...v10.101.1) (2026-03-23)
 
 
