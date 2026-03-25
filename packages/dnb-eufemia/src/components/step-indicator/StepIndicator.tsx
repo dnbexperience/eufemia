@@ -100,8 +100,8 @@ export type StepIndicatorProps = Omit<
      */
     status?: FormStatusText
     /**
-     * The type of status for the `status` prop. Is either `info`, `error` or `warn`.
-     * Defaults to `warn`.
+     * The type of status for the `status` prop. Is either `information`, `error` or `warning`.
+     * Defaults to `warning`.
      */
     statusState?: FormStatusState
     /**

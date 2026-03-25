@@ -3329,7 +3329,7 @@ describe('Autocomplete component', () => {
     ).toContain('dnb-button__status--error')
   })
 
-  it('has correct status when statusState is info', () => {
+  it('has correct status when statusState is information', () => {
     render(
       <Autocomplete
         data={mockData}
