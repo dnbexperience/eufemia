@@ -1,6 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import { NumberFormatProps } from '../number-format/NumberFormat'
+import type { NumberFormatProps } from '../number-format/NumberFormat'
 import useNumberFormatWithParts from '../number-format/useNumberFormatWithParts'
 import type { NumberFormatParts } from '../number-format/useNumberFormatWithParts'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -10,7 +10,7 @@ import type {
 } from '../../elements/typography/Typography'
 import { getHeadingLineHeightSize } from '../../elements/typography/Typography'
 import type { SpacingProps } from '../../shared/types'
-import { formatReturnValue } from '../number-format/NumberUtils'
+import type { formatReturnValue } from '../number-format/NumberUtils'
 import {
   convertJsxToString,
   validateDOMAttributes,

@@ -25,6 +25,7 @@ import type {
   EventReturnWithStateObject,
   ValueProps,
   OnSubmitParams,
+  OnSubmitReturn,
   OnSubmitRequest,
   CountryCode,
   PathStrict,
@@ -1348,7 +1349,8 @@ export default function Provider<Data extends JsonObject>(
         !hasFieldState('pending') &&
         (skipFieldValidation ? true : !hasFieldState('error'))
       ) {
-        result = await resolveStateResult(async () => {
+        let submitResult: OnSubmitReturn
+        try {
           if (isolate) {
             // Notify listeners before committing isolated data
             for (const item of fieldEventListenersRef.current) {
@@ -1357,12 +1359,9 @@ export default function Provider<Data extends JsonObject>(
                 callback()
               }
             }
-            const commitResult = await onCommit?.(
-              internalDataRef.current,
-              {
-                clearData,
-              }
-            )
+            submitResult = await onCommit?.(internalDataRef.current, {
+              clearData,
+            })
 
             // Notify listeners after committing isolated data
             for (const item of fieldEventListenersRef.current) {
@@ -1371,10 +1370,12 @@ export default function Provider<Data extends JsonObject>(
                 callback()
               }
             }
-
-            return commitResult
           } else {
-            return await onSubmit()
+            submitResult = await onSubmit()
+          }
+
+          if (submitResult instanceof Error) {
+            throw submitResult
           }
         } catch (error) {
           submitResult = { error: error as Error }

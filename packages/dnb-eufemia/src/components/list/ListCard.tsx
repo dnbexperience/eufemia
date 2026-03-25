@@ -1,6 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import Card, { Props as CardProps } from '../card/Card'
+import Card, { type Props as CardProps } from '../card/Card'
 
 export type ListCardProps = CardProps
 

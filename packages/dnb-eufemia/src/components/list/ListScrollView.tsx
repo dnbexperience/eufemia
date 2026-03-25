@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useRef, useState } from 'react'
 import classnames from 'classnames'
 import ScrollView, {
-  ScrollViewAllProps,
+  type ScrollViewAllProps,
 } from '../../fragments/scroll-view/ScrollView'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import { ListContext } from './ListContext'

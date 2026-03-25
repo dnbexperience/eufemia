@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 import { NumberFormatPropertiesCamelCase } from '../number-format/NumberFormatDocs'
 
 export const pickNumberFormatProps = (
