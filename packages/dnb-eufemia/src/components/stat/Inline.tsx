@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Flex from '../flex/Flex'
 import type { Props as FlexHorizontalProps } from '../flex/Horizontal'
 import type { SkeletonShow } from '../skeleton/Skeleton'
@@ -39,7 +39,7 @@ function Inline({
           {...attributes}
           gap={gap}
           align={align}
-          className={classnames(
+          className={clsx(
             'dnb-stat',
             'dnb-stat__inline',
             skeletonClass,

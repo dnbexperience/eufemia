@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Card, { type Props as CardProps } from '../card/Card'
 
 export type ListCardProps = CardProps
@@ -10,7 +10,7 @@ function ListCard(props: ListCardProps) {
   return (
     <Card
       stack
-      className={classnames('dnb-list__card', className)}
+      className={clsx('dnb-list__card', className)}
       {...rest}
     >
       {children}

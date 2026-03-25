@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useRef, useState } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import ScrollView, {
   type ScrollViewAllProps,
 } from '../../fragments/scroll-view/ScrollView'
@@ -116,7 +116,7 @@ function ListScrollView(props: ListScrollViewProps) {
 
   const scrollViewContent = (
     <ScrollView
-      className={classnames(
+      className={clsx(
         'dnb-list__card__scroll-view',
         'dnb-list--inset-outline',
         className

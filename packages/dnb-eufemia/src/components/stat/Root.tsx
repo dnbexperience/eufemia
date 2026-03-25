@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Space from '../space/Space'
 import type { SpacingProps } from '../../shared/types'
 import { warn } from '../../shared/component-helper'
@@ -45,7 +45,7 @@ function Root(props: RootProps) {
         element="dl"
         id={id}
         style={style}
-        className={classnames(
+        className={clsx(
           'dnb-stat',
           'dnb-stat__root',
           `dnb-stat__root--${visualOrder}`,

@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../../shared/types'
 import {
@@ -74,7 +74,7 @@ function Rating(props: RatingProps) {
     style,
     role: 'img',
     'aria-label': label,
-    className: classnames(
+    className: clsx(
       'dnb-stat',
       'dnb-stat__rating',
       `dnb-stat__rating--${variant}`,
@@ -145,7 +145,7 @@ const STAR_PATH =
 function StarIcon({ variant }: { variant: 'base' | 'active' }) {
   return (
     <svg
-      className={classnames(
+      className={clsx(
         'dnb-stat__rating-icon',
         `dnb-stat__rating-icon--${variant}`
       )}

@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import type { NumberFormatProps } from '../number-format/NumberFormat'
 import useNumberFormatWithParts from '../number-format/useNumberFormatWithParts'
 import type { NumberFormatParts } from '../number-format/useNumberFormatWithParts'
@@ -178,19 +178,19 @@ function AmountBase(props: AmountProps) {
       ? 'negative'
       : null
 
-  const currencyClass = classnames(
+  const currencyClass = clsx(
     'dnb-stat__currency',
     `dnb-t__size--${resolvedAuxiliarySize}`,
     `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
     resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
   )
-  const amountClass = classnames(
+  const amountClass = clsx(
     'dnb-stat__amount',
     `dnb-t__size--${resolvedMainSize}`,
     `dnb-t__line-height--${resolvedMainLineHeight}`,
     `dnb-t__weight--${resolvedMainWeight}`
   )
-  const percentClass = classnames(
+  const percentClass = clsx(
     'dnb-stat__percent',
     `dnb-t__size--${resolvedAuxiliarySize}`,
     `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
@@ -202,7 +202,7 @@ function AmountBase(props: AmountProps) {
       {renderSign && (
         <>
           <span
-            className={classnames(
+            className={clsx(
               'dnb-stat__sign',
               `dnb-t__size--${resolvedMainSize}`,
               `dnb-t__line-height--${resolvedMainLineHeight}`,
@@ -249,7 +249,7 @@ function AmountBase(props: AmountProps) {
   if (prefix) {
     const prefixElement = renderAffix(
       prefix,
-      classnames(
+      clsx(
         'dnb-stat__prefix',
         `dnb-t__size--${resolvedAuxiliarySize}`,
         `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
@@ -267,7 +267,7 @@ function AmountBase(props: AmountProps) {
   if (suffix) {
     const suffixElement = renderAffix(
       suffix,
-      classnames(
+      clsx(
         'dnb-stat__suffix',
         `dnb-t__size--${resolvedAuxiliarySize}`,
         `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
@@ -294,7 +294,7 @@ function AmountBase(props: AmountProps) {
     ...rest,
     id,
     style,
-    className: classnames(
+    className: clsx(
       'dnb-stat',
       colorizeBySign && signTone && `dnb-stat--tone-${signTone}`,
       createSpacingClasses(props),

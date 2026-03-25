@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../../shared/types'
 import { validateDOMAttributes, warn } from '../../shared/component-helper'
@@ -58,7 +58,7 @@ function Info(props: InfoProps) {
   const attributes = validateDOMAttributes(props, {
     ...rest,
     style,
-    className: classnames(
+    className: clsx(
       'dnb-stat',
       'dnb-stat__info',
       `dnb-stat__info--${variant}`,
