@@ -3,7 +3,7 @@
  *
  */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities' as utilities;
 
 .dnb-stat {
   &--tone-positive {
@@ -24,7 +24,7 @@
     word-break: keep-all;
   }
   &__content-item {
-    @include spaceReset();
+    @include utilities.spaceReset();
 
     display: inline-flex;
     align-items: baseline;
@@ -52,7 +52,7 @@
 
     [class*='dnb-h--'],
     .dnb-spacing & [class*='dnb-h--'] {
-      @include spaceReset();
+      @include utilities.spaceReset();
 
       font-size: inherit;
       font-weight: inherit;
@@ -60,7 +60,7 @@
   }
 
   &__root {
-    @include spaceReset();
+    @include utilities.spaceReset();
 
     display: grid;
 
