@@ -207,7 +207,7 @@
   }
 
   // Success seems to be on its way to be deprecated (no designs in figma), treat as info for now
-  &--info,
+  &--information,
   &--success {
     --text-color: var(--token-color-text-neutral);
     --background-color: var(--token-color-background-info-subtle);
