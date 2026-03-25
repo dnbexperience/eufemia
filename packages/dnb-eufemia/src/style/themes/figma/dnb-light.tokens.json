@@ -50,7 +50,7 @@
             "SHAPE_FILL"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-cor-background-action"
+            "WEB": "--token-color-background-action"
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:2c6eacc9cb63e915c7a511c82e186fa43cd591e2/5552:1432",
@@ -560,7 +560,7 @@
             "SHAPE_FILL"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-olor-background-action-disabled-ondark"
+            "WEB": "--token-color-background-action-disabled-ondark"
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:27e40ae1cb0ebb30b1528d97e6689669d30ddc48/5552:1657",
@@ -1220,7 +1220,7 @@
             "SHAPE_FILL"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--toke-color-background-marketing-subtle"
+            "WEB": "--token-color-background-marketing-subtle"
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:76c5e004e15557cb32d2d1cbcb7e7c88584d57ac/5552:1636",
@@ -2517,7 +2517,7 @@
             "STROKE"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-color-icon-neutral"
+            "WEB": "--token-color-icon-neutral-static"
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:b916c331c1588d8835c30dc9077f1d1689ec0c07/5552:1656",
@@ -2937,7 +2937,7 @@
             "SHAPE_FILL"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--toke-color-icon-marketing-subtle"
+            "WEB": "--token-color-icon-marketing-subtle"
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:76c5e004e15557cb32d2d1cbcb7e7c88584d57ac/5552:1636",
