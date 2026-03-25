@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import clsx from 'clsx'
-import type { FlexItemProps } from '../flex/Item'
+import type { FlexItemAllProps } from '../flex/Item'
 import FlexItem from '../flex/Item'
 import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
@@ -19,7 +19,7 @@ export type ItemEndProps = {
   fontSize?: 'small' | 'basis'
   /** If `true`, applies skeleton loading state. Inherits from parent List context when not set. */
   skeleton?: SkeletonShow
-} & FlexItemProps
+} & FlexItemAllProps
 
 function ItemEnd(props: ItemEndProps) {
   const {

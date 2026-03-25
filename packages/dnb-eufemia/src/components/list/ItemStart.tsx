@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import clsx from 'clsx'
-import type { FlexItemProps } from '../flex/Item'
+import type { FlexItemAllProps } from '../flex/Item'
 import FlexItem from '../flex/Item'
 import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
@@ -12,7 +12,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
  * Props for List.Cell.Start (ItemStart).
  * Extends Flex.Item; supports spacing props.
  */
-export type ItemStartProps = FlexItemProps & {
+export type ItemStartProps = FlexItemAllProps & {
   /** Font size of the start content. Defaults to `basis`. */
   fontSize?: 'small' | 'basis'
   /** Font weight of the start content. Defaults to `regular`. */

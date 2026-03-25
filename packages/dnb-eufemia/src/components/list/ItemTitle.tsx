@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import clsx from 'clsx'
-import type { FlexItemProps } from '../flex/Item'
+import type { FlexItemAllProps } from '../flex/Item'
 import FlexItem from '../flex/Item'
 import ItemOverline from './ItemOverline'
 import ItemSubline from './ItemSubline'
@@ -14,7 +14,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
  * Props for List.Cell.Title (ItemTitle).
  * Extends Flex.Item; supports spacing props.
  */
-export type ItemTitleProps = FlexItemProps & {
+export type ItemTitleProps = FlexItemAllProps & {
   /** Font size of the title content. Defaults to `basis`. */
   fontSize?: 'small' | 'basis'
   /** Font weight of the title content. Defaults to `regular`. */

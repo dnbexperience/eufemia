@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import clsx from 'clsx'
-import type { FlexItemProps } from '../flex/Item'
+import type { FlexItemAllProps } from '../flex/Item'
 import FlexItem from '../flex/Item'
 import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
@@ -8,7 +8,7 @@ import type { SkeletonShow } from '../Skeleton'
 import Context from '../../shared/Context'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type ItemCenterProps = FlexItemProps & {
+export type ItemCenterProps = FlexItemAllProps & {
   /** Font size of the center content. Defaults to `basis`. */
   fontSize?: 'small' | 'basis'
   /** Font weight of the center content. Defaults to `regular`. */

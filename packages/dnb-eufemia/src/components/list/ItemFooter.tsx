@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import clsx from 'clsx'
-import FlexItem, { type FlexItemProps } from '../flex/Item'
+import FlexItem, { type FlexItemAllProps } from '../flex/Item'
 import Hr from '../../elements/Hr'
 import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
@@ -8,7 +8,7 @@ import type { SkeletonShow } from '../Skeleton'
 import Context from '../../shared/Context'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type ItemFooterProps = FlexItemProps & {
+export type ItemFooterProps = FlexItemAllProps & {
   /** If `true`, applies skeleton loading state. Inherits from parent List context when not set. */
   skeleton?: SkeletonShow
 }

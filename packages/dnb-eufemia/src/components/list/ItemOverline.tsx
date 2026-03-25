@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import clsx from 'clsx'
-import type { FlexItemProps } from '../flex/Item'
+import type { FlexItemAllProps } from '../flex/Item'
 import FlexItem from '../flex/Item'
 import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
@@ -12,7 +12,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
  * Props for List.Cell.Title.Overline (ItemOverline).
  * Secondary line above the main row; pairs with List.Cell.Title.Subline (below title).
  */
-export type ItemOverlineProps = FlexItemProps & {
+export type ItemOverlineProps = FlexItemAllProps & {
   /** Font size of the overline content. Defaults to `x-small`. */
   fontSize?: 'basis' | 'small' | 'x-small'
   /** Font weight of the overline content. Defaults to `medium`. */

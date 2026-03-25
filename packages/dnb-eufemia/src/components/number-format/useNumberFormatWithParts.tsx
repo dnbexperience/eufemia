@@ -7,19 +7,9 @@ import type {
 
 type UseNumberFormatWithPartsOptions = Omit<
   NumberFormatOptionParams,
-  | 'currency_display'
-  | 'currency_position'
-  | 'omit_currency_sign'
-  | 'clean_copy_value'
-  | 'omit_rounding'
-  | 'options'
+  'currencyPosition'
 > & {
-  currencyDisplay?: NumberFormatOptionParams['currency_display']
-  currencyPosition?: NumberFormatOptionParams['currency_position'] | 'auto'
-  omitCurrencySign?: NumberFormatOptionParams['omit_currency_sign']
-  cleanCopyValue?: NumberFormatOptionParams['clean_copy_value']
-  omitRounding?: NumberFormatOptionParams['omit_rounding']
-  options?: NumberFormatOptionParams['options']
+  currencyPosition?: NumberFormatOptionParams['currencyPosition'] | 'auto'
   forceCurrencyAfterAmount?: boolean
 }
 
@@ -50,19 +40,15 @@ function useNumberFormatWithParts(
 
   const formatOptions: NumberFormatOptionParams = {
     ...normalizedOptions,
-    currency_display: normalizedOptions.currencyDisplay,
-    currency_position:
+    currencyPosition:
       normalizedOptions.currencyPosition === 'auto'
         ? null
         : normalizedOptions.currencyPosition,
-    omit_currency_sign: normalizedOptions.omitCurrencySign,
-    clean_copy_value: normalizedOptions.cleanCopyValue,
-    omit_rounding: normalizedOptions.omitRounding,
   }
 
   const amountOnly = useNumberFormat(value, {
     ...formatOptions,
-    omit_currency_sign: true,
+    omitCurrencySign: true,
     returnAria: true,
   })
 
