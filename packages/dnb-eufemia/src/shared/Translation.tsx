@@ -58,7 +58,11 @@ function isPlainObject(value: unknown): value is Record<string, any> {
     return false
   }
 
-  return !Array.isArray(value)
+  if (Array.isArray(value)) {
+    return false
+  }
+
+  return Object.getPrototypeOf(value) === Object.prototype
 }
 
 export function mergeTranslations(
