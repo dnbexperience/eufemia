@@ -25,95 +25,95 @@ const cssBundles = [
 
   // Themes
   {
-    path: 'build/style/themes/theme-carnegie/carnegie-theme-basis.min.css',
+    path: 'build/style/themes/carnegie/carnegie-theme-basis.min.css',
     maxSize: '10kB',
   },
   {
-    path: 'build/style/themes/theme-carnegie/carnegie-theme-components.min.css',
+    path: 'build/style/themes/carnegie/carnegie-theme-components.min.css',
     maxSize: '65kB',
   },
   {
-    path: 'build/style/themes/theme-carnegie/carnegie-theme-elements.min.css',
+    path: 'build/style/themes/carnegie/carnegie-theme-elements.min.css',
     maxSize: '10kB',
   },
   {
-    path: 'build/style/themes/theme-carnegie/carnegie-theme-extensions.min.css',
+    path: 'build/style/themes/carnegie/carnegie-theme-extensions.min.css',
     maxSize: '10kB',
   },
   {
-    path: 'build/style/themes/theme-carnegie/carnegie-theme-forms.min.css',
+    path: 'build/style/themes/carnegie/carnegie-theme-forms.min.css',
     maxSize: '10kB',
   },
   {
-    path: 'build/style/themes/theme-eiendom/eiendom-theme-basis.min.css',
+    path: 'build/style/themes/eiendom/eiendom-theme-basis.min.css',
     maxSize: '10kB',
   },
   {
-    path: 'build/style/themes/theme-eiendom/eiendom-theme-components.min.css',
+    path: 'build/style/themes/eiendom/eiendom-theme-components.min.css',
     maxSize: '65kB',
   },
   {
-    path: 'build/style/themes/theme-eiendom/eiendom-theme-elements.min.css',
+    path: 'build/style/themes/eiendom/eiendom-theme-elements.min.css',
     maxSize: '10kB',
   },
   {
-    path: 'build/style/themes/theme-eiendom/eiendom-theme-extensions.min.css',
+    path: 'build/style/themes/eiendom/eiendom-theme-extensions.min.css',
     maxSize: '10kB',
   },
   {
-    path: 'build/style/themes/theme-eiendom/eiendom-theme-forms.min.css',
+    path: 'build/style/themes/eiendom/eiendom-theme-forms.min.css',
     maxSize: '10kB',
   },
   {
-    path: 'build/style/themes/theme-sbanken/sbanken-theme-basis.min.css',
+    path: 'build/style/themes/sbanken/sbanken-theme-basis.min.css',
     maxSize: '10kB',
   },
   {
-    path: 'build/style/themes/theme-sbanken/sbanken-theme-components.min.css',
+    path: 'build/style/themes/sbanken/sbanken-theme-components.min.css',
     maxSize: '65kB',
   },
   {
-    path: 'build/style/themes/theme-sbanken/sbanken-theme-elements.min.css',
+    path: 'build/style/themes/sbanken/sbanken-theme-elements.min.css',
     maxSize: '10kB',
   },
   {
-    path: 'build/style/themes/theme-sbanken/sbanken-theme-extensions.min.css',
+    path: 'build/style/themes/sbanken/sbanken-theme-extensions.min.css',
     maxSize: '10kB',
   },
   {
-    path: 'build/style/themes/theme-sbanken/sbanken-theme-forms.min.css',
+    path: 'build/style/themes/sbanken/sbanken-theme-forms.min.css',
     maxSize: '10kB',
   },
   {
-    path: 'build/style/themes/theme-ui/ui-theme-basis.min.css',
+    path: 'build/style/themes/ui/ui-theme-basis.min.css',
     maxSize: '10kB',
   },
   {
-    path: 'build/style/themes/theme-ui/ui-theme-components.min.css',
+    path: 'build/style/themes/ui/ui-theme-components.min.css',
     maxSize: '65kB',
   },
   {
-    path: 'build/style/themes/theme-ui/ui-theme-elements.min.css',
+    path: 'build/style/themes/ui/ui-theme-elements.min.css',
     maxSize: '10kB',
   },
   {
-    path: 'build/style/themes/theme-ui/ui-theme-extensions.min.css',
+    path: 'build/style/themes/ui/ui-theme-extensions.min.css',
     maxSize: '10kB',
   },
   {
-    path: 'build/style/themes/theme-ui/ui-theme-fonts.min.css',
+    path: 'build/style/themes/ui/ui-theme-fonts.min.css',
     maxSize: '5kB',
   },
   {
-    path: 'build/style/themes/theme-ui/ui-theme-forms.min.css',
+    path: 'build/style/themes/ui/ui-theme-forms.min.css',
     maxSize: '10kB',
   },
   {
-    path: 'build/style/themes/theme-ui/ui-theme-properties.min.css',
+    path: 'build/style/themes/ui/ui-theme-properties.min.css',
     maxSize: '5kB',
   },
   {
-    path: 'build/style/themes/theme-ui/ui-theme-tags.min.css',
+    path: 'build/style/themes/ui/ui-theme-tags.min.css',
     maxSize: '10kB',
   },
 ]
