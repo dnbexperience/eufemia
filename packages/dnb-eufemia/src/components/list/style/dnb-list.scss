@@ -39,11 +39,7 @@
       border-radius: inherit;
       pointer-events: none;
 
-      @include utilities.fakeBorder(
-        var(--item-outline-color),
-        var(--item-outline-width),
-        var(--item-outline-inset)
-      );
+      border: var(--item-outline-width) solid var(--item-outline-color);
     }
 
     // Grid layout: each slot (start, icon, title, center, end) is placed by its
