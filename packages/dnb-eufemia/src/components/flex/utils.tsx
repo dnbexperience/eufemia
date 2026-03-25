@@ -177,7 +177,10 @@ function wrapWithSpace({
   }
 
   if (!wrapInSpace && isIntrinsicElement(element)) {
-    return cloneIntrinsicElementWithSpacing(element, { key, ...spaceProps })
+    return cloneIntrinsicElementWithSpacing(element, {
+      key,
+      ...spaceProps,
+    })
   }
 
   return (

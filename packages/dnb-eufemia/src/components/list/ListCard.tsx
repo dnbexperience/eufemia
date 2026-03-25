@@ -8,11 +8,7 @@ function ListCard(props: ListCardProps) {
   const { className, children, ...rest } = props
 
   return (
-    <Card
-      stack
-      className={clsx('dnb-list__card', className)}
-      {...rest}
-    >
+    <Card stack className={clsx('dnb-list__card', className)} {...rest}>
       {children}
     </Card>
   )
