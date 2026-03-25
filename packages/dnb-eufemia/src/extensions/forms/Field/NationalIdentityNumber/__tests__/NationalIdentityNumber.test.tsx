@@ -672,7 +672,7 @@ describe('Field.NationalIdentityNumber', () => {
         document.querySelector('.dnb-form-status--error')
       ).toBeInTheDocument()
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        nb.NationalIdentityNumber.errorFnrLength
+        nb.NationalIdentityNumber.errorFnr
       )
     })
 

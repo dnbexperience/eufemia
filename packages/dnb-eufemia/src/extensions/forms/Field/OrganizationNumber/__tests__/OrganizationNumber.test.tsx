@@ -611,7 +611,7 @@ describe('Field.OrganizationNumber', () => {
         document.querySelector('.dnb-form-status--error')
       ).toBeInTheDocument()
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        nb.OrganizationNumber.errorOrgNoLength
+        nb.OrganizationNumber.errorOrgNo
       )
     })
 
