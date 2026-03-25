@@ -48,7 +48,11 @@ import { useIterateItemNo } from '../Iterate/ItemNo/useIterateItemNo'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
-export const states: Array<FieldState> = ['error', 'info', 'warning']
+export const states: Array<FieldState> = [
+  'error',
+  'information',
+  'warning',
+]
 
 /**
  * The width of a field block
@@ -229,7 +233,11 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
       stateRecordRef.current[identifier] = []
     }
 
-    fieldStateIdsRef.current = { error: null, warning: null, info: null }
+    fieldStateIdsRef.current = {
+      error: null,
+      warning: null,
+      information: null,
+    }
 
     const existingIndex = stateRecordRef.current[identifier].findIndex(
       (item) => {
@@ -328,7 +336,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
       setInternalRecord({
         identifier: blockId,
         showInitially: true,
-        type: 'info',
+        type: 'information',
         content: info,
       })
     }
@@ -641,7 +649,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
           >
             <FormStatus {...statusContent?.error} />
             <FormStatus {...statusContent?.warning} />
-            <FormStatus {...statusContent?.info} />
+            <FormStatus {...statusContent?.information} />
           </div>
 
           <div

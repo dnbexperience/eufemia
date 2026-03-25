@@ -38,12 +38,12 @@ export const RadioProperties: PropertiesTableProps = {
   },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['"error"', '"info"', 'boolean'],
+    type: ['"error"', '"information"', 'boolean'],
     status: 'optional',
   },
   statusState: {
-    doc: "Defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.",
-    type: ['"error"', '"info"'],
+    doc: "Defines the state of the status. It's two statuses `[error, information]`. Defaults to `error`.",
+    type: ['"error"', '"information"'],
     status: 'optional',
   },
   statusProps: {
@@ -90,8 +90,8 @@ export const RadioGroupProperties: PropertiesTableProps = {
     status: 'optional',
   },
   statusState: {
-    doc: "Defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.",
-    type: ['"error"', '"info"'],
+    doc: "Defines the state of the status. It's two statuses `[error, information]`. Defaults to `error`.",
+    type: ['"error"', '"information"'],
     status: 'optional',
   },
   statusProps: {

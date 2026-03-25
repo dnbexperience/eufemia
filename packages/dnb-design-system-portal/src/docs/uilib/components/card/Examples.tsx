@@ -289,7 +289,7 @@ export const WithNestedSection = () => {
         <Card gap="x-small" align="stretch">
           <Form.SubHeading>Card with a nested Section</Form.SubHeading>
           <Section
-            variant="info"
+            variant="information"
             innerSpace={{ top: 'small', bottom: 'medium' }}
           >
             <Field.String width="medium" label="In nested Section" />
@@ -298,7 +298,7 @@ export const WithNestedSection = () => {
 
         <Card innerSpace="x-large" stack>
           <Section
-            variant="info"
+            variant="information"
             innerSpace={{ top: 'small', bottom: 'medium' }}
           >
             <Field.String

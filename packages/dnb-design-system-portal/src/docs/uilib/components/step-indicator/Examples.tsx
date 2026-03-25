@@ -232,9 +232,9 @@ export const StepIndicatorStatuses = () => (
           statusState: 'error',
         },
         {
-          title: 'Info',
+          title: 'Information',
           status: 'Status message',
-          statusState: 'info',
+          statusState: 'information',
         },
       ]}
     />

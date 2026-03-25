@@ -37,7 +37,7 @@
     --form-status-color-icon: var(--token-color-background-error);
   }
 
-  &--info &__shell {
+  &--information &__shell {
     --form-status-color-background: var(
       --token-color-background-info-subtle
     );
@@ -65,7 +65,7 @@
   &__variant--outlined#{&}--warning &__shell {
     --form-status-color-outline: var(--token-color-stroke-warning);
   }
-  &__variant--outlined#{&}--info &__shell {
+  &__variant--outlined#{&}--information &__shell {
     --form-status-color-outline: var(--token-color-stroke-info);
   }
   &__variant--outlined#{&}--marketing &__shell {

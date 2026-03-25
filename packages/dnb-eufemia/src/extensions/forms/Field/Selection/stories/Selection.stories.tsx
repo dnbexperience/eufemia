@@ -124,7 +124,7 @@ export function NestingWithLogic() {
             animate
             compensateForGap="auto" // makes animation smooth
           >
-            <Section variant="info" innerSpace>
+            <Section variant="information" innerSpace>
               <Field.String placeholder="Enter some value" />
             </Section>
           </Form.Visibility>
@@ -154,7 +154,7 @@ export function NestingWithLogic() {
                 hasValue: 'showMeMore',
               }}
             >
-              <Section variant="info" innerSpace>
+              <Section variant="information" innerSpace>
                 <Field.String placeholder="Enter more info" />
               </Section>
             </Form.Visibility>

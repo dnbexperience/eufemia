@@ -53,7 +53,7 @@ export const StepIndicatorProperties: PropertiesTableProps = {
   },
   statusState: {
     doc: 'The type of status shown when the `status` property is set. Defaults to `warning`.',
-    type: `['warning', 'info', 'error']`,
+    type: `['warning', 'information', 'error']`,
     status: 'optional',
   },
   skeleton: {
@@ -108,8 +108,8 @@ export const StepIndicatorStepProperties: PropertiesTableProps = {
     status: 'optional',
   },
   statusState: {
-    doc: 'In case the status state should be `info` or `error`. Defaults to `warning`.',
-    type: [`'warning'`, `'info'`, `'error'`],
+    doc: 'In case the status state should be `information` or `error`. Defaults to `warning`.',
+    type: [`'warning'`, `'information'`, `'error'`],
     status: 'optional',
   },
 }

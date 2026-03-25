@@ -48,7 +48,7 @@ export const FormStatusSandbox = () => {
         <Input
           label="Input with custom status:"
           status={<CustomStatus />}
-          statusState="info"
+          statusState="information"
           value="Input value"
         />
       </Box>
@@ -72,12 +72,17 @@ export const FormStatusSandbox = () => {
         <FormStatus>Status</FormStatus>
       </Box>
       <Box>
-        <FormStatus state="info" size="large">
+        <FormStatus state="information" size="large">
           Long info text Ipsum habitant enim ullamcorper elit sit elementum
           platea rutrum eu condimentum erat risus lacinia viverra magnis
           lobortis nibh mollis suspendisse
         </FormStatus>
-        <FormStatus state="info" size="large" stretch iconSize="small">
+        <FormStatus
+          state="information"
+          size="large"
+          stretch
+          iconSize="small"
+        >
           Long info text Ipsum habitant enim ullamcorper elit sit elementum
           platea rutrum eu condimentum erat risus lacinia viverra magnis
           lobortis nibh mollis suspendisse

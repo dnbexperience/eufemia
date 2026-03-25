@@ -15,12 +15,19 @@ const sections = {
     'divider',
     'z-index',
     'no-breakout',
-    'info',
+    'information',
     'error',
     'warning',
     'success',
   ],
-  sbanken: ['default', 'white', 'info', 'error', 'warning', 'success'],
+  sbanken: [
+    'default',
+    'white',
+    'information',
+    'error',
+    'warning',
+    'success',
+  ],
 }
 
 describe.each(['ui', 'sbanken'])('Section for %s', (themeName) => {

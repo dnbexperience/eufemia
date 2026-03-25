@@ -180,7 +180,9 @@ export const FullDrawerExample = () => (
         <Button bottom size="large" variant="secondary">
           Dolor sit
         </Button>
-        <FormStatus state="info">This is a lorem ipsum dolor</FormStatus>
+        <FormStatus state="information">
+          This is a lorem ipsum dolor
+        </FormStatus>
         <Tabs
           id="unique-linked-id"
           data={[
@@ -280,7 +282,9 @@ export const DrawerNoAnimationNoSpacing = () => (
         <Button bottom size="large" variant="secondary">
           Dolor sit
         </Button>
-        <FormStatus state="info">This is a lorem ipsum dolor</FormStatus>
+        <FormStatus state="information">
+          This is a lorem ipsum dolor
+        </FormStatus>
       </Drawer.Body>
     </Drawer>
   </ComponentBox>
@@ -380,7 +384,7 @@ export const UpdateNavigationHeaderExample = () => {
                 <Button bottom size="large" variant="secondary">
                   Dolor sit
                 </Button>
-                <FormStatus state="info">
+                <FormStatus state="information">
                   This is a lorem ipsum dolor
                 </FormStatus>
                 <Tabs

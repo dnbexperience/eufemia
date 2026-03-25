@@ -1557,7 +1557,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       })
       setBlockRecord?.({
         identifier,
-        type: 'info',
+        type: 'information',
         content: info,
         showInitially: true,
         show: true,
@@ -1682,7 +1682,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         [
           bufferedError && stateIds.error,
           warning && stateIds.warning,
-          info && stateIds.info,
+          info && stateIds.information,
         ].filter(Boolean)
       )
     }
@@ -1690,7 +1690,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     const ids = [
       (bufferedError || error) && `${id}-form-status--error`,
       warning && `${id}-form-status--warning`,
-      info && `${id}-form-status--info`,
+      info && `${id}-form-status--information`,
     ].filter(Boolean)
 
     if (ids.length) {

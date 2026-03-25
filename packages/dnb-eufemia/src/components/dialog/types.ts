@@ -90,9 +90,9 @@ export type DialogContentProps = Omit<DialogActionProps, 'children'> & {
   icon?: IconIcon
 
   /**
-   * For variant confirmation, the dialog is either an informational or a warning message. Defaults to 'info'.
+   * For variant confirmation, the dialog is either an informational or a warning message. Defaults to 'information'.
    */
-  confirmType?: 'info' | 'warning'
+  confirmType?: 'information' | 'warning'
 
   /**
    * A description will be positioned below the title, but before the content.

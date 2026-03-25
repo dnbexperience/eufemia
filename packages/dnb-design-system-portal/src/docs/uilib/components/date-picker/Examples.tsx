@@ -160,7 +160,7 @@ export const DatePickerStatusMessage = () => (
       date={new Date()}
       showInput
       status="Please select a valid date"
-      statusState="info"
+      statusState="information"
     />
   </ComponentBox>
 )

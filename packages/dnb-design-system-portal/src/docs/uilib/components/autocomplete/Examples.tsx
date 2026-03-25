@@ -38,14 +38,14 @@ export const AutocompleteDefaultExample = () => (
 export const AutocompleteStatusInfoExample = () => (
   <Wrapper>
     <ComponentBox
-      data-visual-test="autocomplete-status-info"
+      data-visual-test="autocomplete-status-information"
       scope={{ topMovies }}
     >
       <Autocomplete
         data={topMovies}
         label="Label"
         status="Please select a valid date"
-        statusState="info"
+        statusState="information"
         showSubmitButton
       />
     </ComponentBox>
