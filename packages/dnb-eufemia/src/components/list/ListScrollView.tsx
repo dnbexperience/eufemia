@@ -30,7 +30,7 @@ function ListScrollView(props: ListScrollViewProps) {
     skeleton,
     disabled,
     style,
-    innerRef,
+    ref,
     ...rest
   } = props
 
@@ -72,17 +72,17 @@ function ListScrollView(props: ListScrollViewProps) {
   }, [hasValidMaxVisibleListItems, maxVisibleListItems, style?.maxHeight])
 
   useLayoutEffect(() => {
-    if (!innerRef) {
+    if (!ref) {
       return
     }
 
-    if (typeof innerRef === 'function') {
-      innerRef(localRef.current)
+    if (typeof ref === 'function') {
+      ref(localRef.current)
       return
     }
 
-    innerRef.current = localRef.current
-  }, [innerRef])
+    ref.current = localRef.current
+  }, [ref])
 
   useLayoutEffect(() => {
     measureMaxHeight()

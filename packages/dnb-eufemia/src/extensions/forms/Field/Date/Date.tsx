@@ -581,7 +581,7 @@ function validateRangeOrder({
     : undefined
 
   if (startDate && endDate && isAfter(startDate, endDate)) {
-    const options: FormatDateOptions = {
+    const options: DateFormatOptions = {
       locale,
       options: { dateStyle: 'long' },
     }

@@ -16,7 +16,7 @@ import Provider from '../../shared/Provider'
 export type LabelProps = {
   children?: React.ReactNode
   id?: string
-  element?: keyof JSX.IntrinsicElements
+  element?: React.ElementType
   className?: string
   srOnly?: boolean
   fontSize?: TypographySize

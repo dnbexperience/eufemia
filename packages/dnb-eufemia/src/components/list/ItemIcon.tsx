@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import clsx from 'clsx'
-import FlexItem, { type Props as FlexItemProps } from '../flex/Item'
+import FlexItem, { type FlexItemProps } from '../flex/Item'
 import Icon, { type IconIcon } from '../icon/Icon'
 import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'

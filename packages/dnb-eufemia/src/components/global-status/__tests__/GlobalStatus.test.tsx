@@ -1107,7 +1107,7 @@ describe('GlobalStatus scss', () => {
           },
         ]}
         show={true}
-        autoscroll={false}
+        autoScroll={false}
       />
     )
 

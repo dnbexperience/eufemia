@@ -19,7 +19,7 @@ export type RatingProps = {
   max?: number
   id?: string
   variant?: 'stars' | 'progressive'
-  element?: keyof JSX.IntrinsicElements
+  element?: React.ElementType
   className?: string
   style?: React.CSSProperties
   srLabel?: React.ReactNode

@@ -1,7 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import Flex from '../flex/Flex'
-import type { Props as FlexHorizontalProps } from '../flex/Horizontal'
+import type { HorizontalProps as FlexHorizontalProps } from '../flex/Horizontal'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import { warn } from '../../shared/component-helper'
 import StatRootContext from './StatRootContext'

@@ -263,7 +263,7 @@ describe('List.ScrollView', () => {
 
     const offsetHeightSpy = jest
       .spyOn(HTMLElement.prototype, 'offsetHeight', 'get')
-      .mockImplementation(function () {
+      .mockImplementation(function (this: HTMLElement) {
         if (this.textContent?.includes('Item one')) {
           return currentHeights.itemOneHeight
         }
@@ -277,7 +277,7 @@ describe('List.ScrollView', () => {
 
     const offsetTopSpy = jest
       .spyOn(HTMLElement.prototype, 'offsetTop', 'get')
-      .mockImplementation(function () {
+      .mockImplementation(function (this: HTMLElement) {
         if (this.textContent?.includes('Item two')) {
           return currentHeights.itemTwoTop
         }

@@ -1,6 +1,6 @@
 import React from 'react'
 import clsx from 'clsx'
-import Card, { type Props as CardProps } from '../card/Card'
+import Card, { type CardProps } from '../card/Card'
 
 export type ListCardProps = CardProps
 

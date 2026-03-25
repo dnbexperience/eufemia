@@ -20,7 +20,7 @@ export type TrendProps = {
   value?: number | string
   children?: React.ReactNode
   id?: string
-  element?: keyof JSX.IntrinsicElements
+  element?: React.ElementType
   className?: string
   style?: React.CSSProperties
   srLabel?: React.ReactNode

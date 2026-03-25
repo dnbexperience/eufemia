@@ -13,7 +13,7 @@ export type ContentProps = {
   id?: string
   className?: string
   style?: React.CSSProperties
-  element?: keyof JSX.IntrinsicElements
+  element?: React.ElementType
   direction?: 'horizontal' | 'vertical'
   skeleton?: SkeletonShow
 } & SpacingProps

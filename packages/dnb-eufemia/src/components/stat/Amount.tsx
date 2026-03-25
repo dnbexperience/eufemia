@@ -10,7 +10,7 @@ import type {
 } from '../../elements/typography/Typography'
 import { getHeadingLineHeightSize } from '../../elements/typography/Typography'
 import type { SpacingProps } from '../../shared/types'
-import type { formatReturnValue } from '../number-format/NumberUtils'
+import type { NumberFormatReturnValue } from '../number-format/NumberUtils'
 import {
   convertJsxToString,
   validateDOMAttributes,
@@ -24,12 +24,12 @@ import useStatSkeleton from './useStatSkeleton'
  */
 export type AmountProps = Omit<
   NumberFormatProps,
-  'children' | 'currency_display' | 'currency_position'
+  'children' | 'currencyDisplay' | 'currencyPosition'
 > & {
   children?: string | number
-  element?: keyof JSX.IntrinsicElements
-  currencyDisplay?: NumberFormatProps['currency_display']
-  currencyPosition?: NumberFormatProps['currency_position']
+  element?: React.ElementType
+  currencyDisplay?: NumberFormatProps['currencyDisplay']
+  currencyPosition?: NumberFormatProps['currencyPosition']
   /**
    * Typography size fallback.
    *
@@ -135,7 +135,7 @@ function AmountBase(props: AmountProps) {
     signDisplay,
     forceCurrencyAfterAmount,
     options,
-  }) as formatReturnValue & {
+  }) as NumberFormatReturnValue & {
     parts?: NumberFormatParts
   }
 

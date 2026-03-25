@@ -79,7 +79,9 @@ function isSupportedChild(child: React.ReactNode): boolean {
   }
 
   if (child.type === React.Fragment) {
-    return hasOnlySupportedChildren(child.props.children)
+    return hasOnlySupportedChildren(
+      (child.props as { children: React.ReactNode }).children
+    )
   }
 
   const role = (child.type as { _statRole?: string })?._statRole
@@ -98,7 +100,9 @@ function hasLabelChild(child: React.ReactNode): boolean {
   }
 
   if (child.type === React.Fragment) {
-    return hasRequiredLabel(child.props.children)
+    return hasRequiredLabel(
+      (child.props as { children: React.ReactNode }).children
+    )
   }
 
   const role = (child.type as { _statRole?: string })?._statRole
@@ -116,7 +120,11 @@ function flattenRoles(
     }
 
     if (child.type === React.Fragment) {
-      roles.push(...flattenRoles(child.props.children))
+      roles.push(
+        ...flattenRoles(
+          (child.props as { children: React.ReactNode }).children
+        )
+      )
       continue
     }
 

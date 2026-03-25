@@ -209,15 +209,20 @@ function cloneIntrinsicElementWithSpacing(
     return element
   }
 
+  const elementProps = (element as React.ReactElement).props as Record<
+    string,
+    unknown
+  >
+
   return React.cloneElement(element as React.ReactElement, {
     key,
     className: clsx(
-      element.props?.className,
+      elementProps?.className as string,
       ...createSpacingClasses(spaceProps),
       className
     ),
     style: {
-      ...element.props?.style,
+      ...(elementProps?.style as React.CSSProperties),
       ...createSpacingProperties(spaceProps),
       ...style,
     },

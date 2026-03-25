@@ -1,11 +1,11 @@
 import type { PropertiesTableProps } from '../../shared/types'
-import { NumberFormatPropertiesCamelCase } from '../number-format/NumberFormatDocs'
+import { NumberFormatProperties } from '../number-format/NumberFormatDocs'
 
 export const pickNumberFormatProps = (
   keys: string[]
 ): PropertiesTableProps => {
   return Object.fromEntries(
-    keys.map((key) => [key, NumberFormatPropertiesCamelCase[key]])
+    keys.map((key) => [key, NumberFormatProperties[key]])
   )
 }
 
