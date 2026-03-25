@@ -34,28 +34,28 @@
     --form-status-color-background: var(
       --token-color-background-error-subtle
     );
-    --form-status-color-icon: var(--token-color-background-error);
+    --form-status-color-icon: var(--token-color-icon-error);
   }
 
   &--information &__shell {
     --form-status-color-background: var(
       --token-color-background-info-subtle
     );
-    --form-status-color-icon: var(--token-color-background-info);
+    --form-status-color-icon: var(--token-color-icon-info);
   }
 
   &--marketing &__shell {
     --form-status-color-background: var(
       --token-color-background-marketing-subtle
     );
-    --form-status-color-icon: var(--token-color-background-marketing);
+    --form-status-color-icon: var(--token-color-icon-marketing);
   }
 
   &--warning &__shell {
     --form-status-color-background: var(
       --token-color-background-warning-subtle
     );
-    --form-status-color-icon: var(--token-color-background-warning);
+    --form-status-color-icon: var(--token-color-icon-warning);
   }
 
   // Outlines

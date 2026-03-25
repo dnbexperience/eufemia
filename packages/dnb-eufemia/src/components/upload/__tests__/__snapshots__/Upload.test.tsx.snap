@@ -206,25 +206,25 @@ p > .dnb-icon {
   --form-status-color-background: var(
     --token-color-background-error-subtle
   );
-  --form-status-color-icon: var(--token-color-background-error);
+  --form-status-color-icon: var(--token-color-icon-error);
 }
 .dnb-form-status--information .dnb-form-status__shell {
   --form-status-color-background: var(
     --token-color-background-info-subtle
   );
-  --form-status-color-icon: var(--token-color-background-info);
+  --form-status-color-icon: var(--token-color-icon-info);
 }
 .dnb-form-status--marketing .dnb-form-status__shell {
   --form-status-color-background: var(
     --token-color-background-marketing-subtle
   );
-  --form-status-color-icon: var(--token-color-background-marketing);
+  --form-status-color-icon: var(--token-color-icon-marketing);
 }
 .dnb-form-status--warning .dnb-form-status__shell {
   --form-status-color-background: var(
     --token-color-background-warning-subtle
   );
-  --form-status-color-icon: var(--token-color-background-warning);
+  --form-status-color-icon: var(--token-color-icon-warning);
 }
 .dnb-form-status__variant--outlined.dnb-form-status--error .dnb-form-status__shell {
   --form-status-color-outline: var(--token-color-stroke-error);
