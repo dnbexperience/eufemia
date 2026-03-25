@@ -3431,7 +3431,7 @@ describe('DataContext.Provider', () => {
         await waitFor(() => {
           expect(
             document.querySelector(
-              '.dnb-forms-form__status-message.dnb-form-status--info'
+              '.dnb-forms-form__status-message.dnb-form-status--information'
             )
           ).toHaveTextContent('Please fix the errors above')
         })
@@ -3479,7 +3479,7 @@ describe('DataContext.Provider', () => {
         await waitFor(() => {
           expect(
             document.querySelector(
-              '.dnb-forms-form__status-message.dnb-form-status--warn'
+              '.dnb-forms-form__status-message.dnb-form-status--warning'
             )
           ).toHaveTextContent('Some fields need attention')
         })
@@ -3563,7 +3563,7 @@ describe('DataContext.Provider', () => {
         await waitFor(() => {
           expect(
             document.querySelector(
-              '.dnb-forms-form__status-message.dnb-form-status--warn'
+              '.dnb-forms-form__status-message.dnb-form-status--warning'
             )
           ).toHaveTextContent('Some fields need attention')
         })
@@ -3614,7 +3614,7 @@ describe('DataContext.Provider', () => {
         await waitFor(() => {
           expect(
             document.querySelector(
-              '.dnb-forms-form__status-message.dnb-form-status--info'
+              '.dnb-forms-form__status-message.dnb-form-status--information'
             )
           ).toHaveTextContent('Please review the errors above')
         })
