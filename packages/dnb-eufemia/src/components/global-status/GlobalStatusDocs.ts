@@ -32,8 +32,8 @@ export const GlobalStatusProperties: PropertiesTableProps = {
     status: 'optional',
   },
   state: {
-    doc: 'Defines the visual appearance of the status. There are four main statuses `error`, `warning`, `info` and `success`. The default status is `error`.',
-    type: ['"error"', '"info"', '"warning"', '"success"'],
+    doc: 'Defines the visual appearance of the status. There are four main statuses `error`, `warning`, `information` and `success`. The default status is `error`.',
+    type: ['"error"', '"information"', '"warning"', '"success"'],
     status: 'optional',
   },
   iconSize: {

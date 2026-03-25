@@ -355,8 +355,8 @@ class ToggleButton extends React.PureComponent<
 
           if (status) {
             // do not send along the message, but only the status states
-            if (statusState === 'info') {
-              componentParams.statusState = 'info'
+            if (statusState === 'information') {
+              componentParams.statusState = 'information'
             } else {
               componentParams.status = 'error'
             }
@@ -538,7 +538,7 @@ export type ToggleButtonProps = Omit<
      */
     status?: FormStatusText
     /**
-     * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
+     * Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.
      */
     statusState?: FormStatusState
     /**

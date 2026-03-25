@@ -118,7 +118,7 @@ export type BreadcrumbProps = {
 
   /**
    * Use one of the Section component variants
-   * Default: info
+   * Default: information
    */
   collapsedStyleType?: SectionVariants
 
@@ -157,7 +157,7 @@ const defaultProps: Partial<BreadcrumbAllProps> = {
   backToText: 'Back to...',
   collapsed: true,
   backgroundColor: 'transparent',
-  collapsedStyleType: 'info',
+  collapsedStyleType: 'information',
   spacing: false,
 }
 
@@ -248,7 +248,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
   const innerSpace = spacing === true ? 'small' : spacing
 
   const overrideSbankenSectionColor =
-    useTheme()?.isSbanken && collapsedStyleType === 'info'
+    useTheme()?.isSbanken && collapsedStyleType === 'information'
 
   return (
     <nav

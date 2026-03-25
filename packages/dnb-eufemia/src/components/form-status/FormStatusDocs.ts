@@ -22,8 +22,14 @@ export const FormStatusProperties: PropertiesTableProps = {
     status: 'optional',
   },
   state: {
-    doc: 'Defines the visual appearance of the status. These are the statuses `error`, `warning`, `info` and `marketing`. The default status is `error`.',
-    type: ['"error"', '"warning"', '"info"', '"success"', '"marketing"'],
+    doc: 'Defines the visual appearance of the status. These are the statuses `error`, `warning`, `information` and `marketing`. The default status is `error`.',
+    type: [
+      '"error"',
+      '"warning"',
+      '"information"',
+      '"success"',
+      '"marketing"',
+    ],
     status: 'optional',
   },
   size: {

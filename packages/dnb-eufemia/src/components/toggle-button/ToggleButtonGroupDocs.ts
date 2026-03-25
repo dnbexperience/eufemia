@@ -28,12 +28,12 @@ export const ToggleButtonGroupProperties: PropertiesTableProps = {
   },
   status: {
     doc: 'Uses the `form-status` component to show failure messages.',
-    type: ['"error"', '"info"', 'boolean'],
+    type: ['"error"', '"information"', 'boolean'],
     status: 'optional',
   },
   statusState: {
-    doc: 'Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.',
-    type: ['"error"', '"info"'],
+    doc: 'Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.',
+    type: ['"error"', '"information"'],
     status: 'optional',
   },
   statusProps: {

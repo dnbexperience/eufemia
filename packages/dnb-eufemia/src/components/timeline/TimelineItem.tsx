@@ -230,7 +230,7 @@ const TimelineItemContent = ({
       {infoMessage && (
         <FormStatus
           text={infoMessage}
-          state="info"
+          state="information"
           className="dnb-timeline__item__content__info"
           stretch
         />

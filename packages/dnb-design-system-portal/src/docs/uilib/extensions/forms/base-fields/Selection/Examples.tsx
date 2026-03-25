@@ -626,7 +626,7 @@ export const RadioNestingWithLogic = () => (
             animate
             compensateForGap="auto" // makes animation smooth
           >
-            <Section variant="info" innerSpace>
+            <Section variant="information" innerSpace>
               <Field.String placeholder="Enter some value" required />
             </Section>
           </Form.Visibility>
@@ -655,7 +655,7 @@ export const RadioNestingWithLogic = () => (
                 hasValue: 'showMeMore',
               }}
             >
-              <Section variant="info" innerSpace>
+              <Section variant="information" innerSpace>
                 <Field.String placeholder="Enter more info" required />
               </Section>
             </Form.Visibility>
@@ -902,7 +902,7 @@ export const ButtonNestingWithLogic = () => (
             animate
             visibleWhen={{ path: '/mySelection', hasValue: 'showInput' }}
           >
-            <Section variant="info" innerSpace>
+            <Section variant="information" innerSpace>
               <Field.String placeholder="Enter some value" />
             </Section>
           </Form.Visibility>
@@ -931,7 +931,7 @@ export const ButtonNestingWithLogic = () => (
                 hasValue: 'showMeMore',
               }}
             >
-              <Section variant="info" innerSpace>
+              <Section variant="information" innerSpace>
                 <Field.String placeholder="Enter more info" />
               </Section>
             </Form.Visibility>

@@ -74,7 +74,7 @@ export const RadioExampleGroupStatus = () => (
         value="third"
         checked
         status="Info message"
-        statusState="info"
+        statusState="information"
       />
     </Radio.Group>
   </ComponentBox>

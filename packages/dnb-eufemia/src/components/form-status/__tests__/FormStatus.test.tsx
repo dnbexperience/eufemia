@@ -357,12 +357,12 @@ describe('FormStatus component', () => {
 
   it('cache state and update it', () => {
     const { rerender } = render(
-      <FormStatus {...props} noAnimation={false} state="info" />
+      <FormStatus {...props} noAnimation={false} state="information" />
     )
 
     const element = document.querySelector('.dnb-form-status')
 
-    expect(element).toHaveClass('dnb-form-status--info')
+    expect(element).toHaveClass('dnb-form-status--information')
 
     rerender(<FormStatus {...props} noAnimation={false} state="error" />)
 
@@ -404,8 +404,8 @@ describe('FormStatus role', () => {
     ).toBe('alert')
   })
 
-  it('should have role status when state is info', () => {
-    render(<FormStatus text="status text" state="info" />)
+  it('should have role status when state is information', () => {
+    render(<FormStatus text="status text" state="information" />)
 
     expect(
       document.querySelector('.dnb-form-status').getAttribute('role')

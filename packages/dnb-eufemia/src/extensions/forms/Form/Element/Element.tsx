@@ -100,12 +100,12 @@ function FormElementInstance(props: FormElementProps) {
     >
       {children}
 
-      {['error', 'warning', 'info'].map((key) => {
+      {(['error', 'warning', 'info'] as const).map((key) => {
         const value = submitState?.[key]
         return (
           <FormStatus
             key={key}
-            state={key}
+            state={key === 'info' ? 'information' : key}
             id={`${id}-form-status-${key}`}
             className="dnb-forms-form__status-message"
             show={Boolean(value)}

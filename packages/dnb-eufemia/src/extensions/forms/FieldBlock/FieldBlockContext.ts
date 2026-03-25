@@ -3,7 +3,7 @@ import type { FieldProps, Identifier, SubmitState } from '../types'
 
 export type FieldErrorIdsRef = Record<FieldState, string>
 export type MountedFieldsRef = Map<Identifier, boolean>
-export type FieldState = 'error' | 'warning' | 'info'
+export type FieldState = 'error' | 'warning' | 'information'
 export type StateContent =
   | FieldProps<unknown>['error']
   | FieldProps<unknown>['warning']
@@ -31,7 +31,7 @@ export type StatusContentState = { id: string; text: React.ReactNode }
 export type StatusContent = {
   error: StatusContentState
   warning: StatusContentState
-  info: StatusContentState
+  information: StatusContentState
 }
 
 export type FieldBlockContextProps = {

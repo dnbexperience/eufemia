@@ -37,7 +37,7 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
     status: 'optional',
   },
   statusPosition: {
-    doc: 'Controls where status messages (`error`, `warning`, `info`) are visually shown. Use `below` (default) or `above`.',
+    doc: 'Controls where status messages (`error`, `warning`, `information`) are visually shown. Use `below` (default) or `above`.',
     type: ['"below"', '"above"'],
     status: 'optional',
   },

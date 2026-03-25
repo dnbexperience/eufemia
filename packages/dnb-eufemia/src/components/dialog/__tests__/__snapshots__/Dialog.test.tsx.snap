@@ -193,7 +193,7 @@ p > .dnb-icon {
   );
   --form-status-color-icon: var(--token-color-background-error);
 }
-.dnb-form-status--info .dnb-form-status__shell {
+.dnb-form-status--information .dnb-form-status__shell {
   --form-status-color-background: var(
     --token-color-background-info-subtle
   );
@@ -217,7 +217,7 @@ p > .dnb-icon {
 .dnb-form-status__variant--outlined.dnb-form-status--warning .dnb-form-status__shell {
   --form-status-color-outline: var(--token-color-stroke-warning);
 }
-.dnb-form-status__variant--outlined.dnb-form-status--info .dnb-form-status__shell {
+.dnb-form-status__variant--outlined.dnb-form-status--information .dnb-form-status__shell {
   --form-status-color-outline: var(--token-color-stroke-info);
 }
 .dnb-form-status__variant--outlined.dnb-form-status--marketing .dnb-form-status__shell {
@@ -1532,9 +1532,9 @@ html:not([data-visual-test]) .dnb-dialog--hide {
   --dialog-icon-color: var(--dialog-icon-color--warning);
   --dialog-icon-background: var(--dialog-icon-background--warning);
 }
-.dnb-dialog__icon__primary.dnb-dialog__icon--info {
-  --dialog-icon-color: var(--dialog-icon-color--info);
-  --dialog-icon-background: var(--dialog-icon-background--info);
+.dnb-dialog__icon__primary.dnb-dialog__icon--information {
+  --dialog-icon-color: var(--dialog-icon-color--information);
+  --dialog-icon-background: var(--dialog-icon-background--information);
 }
 .dnb-dialog__icon ~ .dnb-dialog__header {
   margin-top: 1.5rem;

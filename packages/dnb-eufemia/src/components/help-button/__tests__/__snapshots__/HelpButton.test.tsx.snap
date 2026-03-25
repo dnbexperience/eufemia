@@ -195,7 +195,7 @@ p > .dnb-icon {
   );
   --form-status-color-icon: var(--token-color-background-error);
 }
-.dnb-form-status--info .dnb-form-status__shell {
+.dnb-form-status--information .dnb-form-status__shell {
   --form-status-color-background: var(
     --token-color-background-info-subtle
   );
@@ -219,7 +219,7 @@ p > .dnb-icon {
 .dnb-form-status__variant--outlined.dnb-form-status--warning .dnb-form-status__shell {
   --form-status-color-outline: var(--token-color-stroke-warning);
 }
-.dnb-form-status__variant--outlined.dnb-form-status--info .dnb-form-status__shell {
+.dnb-form-status__variant--outlined.dnb-form-status--information .dnb-form-status__shell {
   --form-status-color-outline: var(--token-color-stroke-info);
 }
 .dnb-form-status__variant--outlined.dnb-form-status--marketing .dnb-form-status__shell {

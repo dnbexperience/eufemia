@@ -160,7 +160,7 @@ export const GlobalStatuseSandbox = () => (
         show
         noAnimation
         autoScroll={false}
-        state="info"
+        state="information"
         title="Custom Title"
         id="custom-id"
       >
@@ -553,7 +553,7 @@ export const AsFigmaGlobalStatus = () => {
     <Wrapper>
       <Box>
         <GlobalStatus
-          state="info"
+          state="information"
           title="Kortet vil bli sendt til adresse: Osloveien 68b, 1234 Oslo"
           show={true}
           autoScroll={false}
@@ -574,7 +574,7 @@ export const AsFigmaGlobalStatus = () => {
       </Box>
       <Box>
         <GlobalStatus
-          state="info"
+          state="information"
           title="Kortet vil bli sendt til adresse: Osloveien 68b, 1234 Oslo"
           text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
           items={[
@@ -635,7 +635,11 @@ export function GlobalStatusSelector() {
             value="warning"
             onChange={setGlobalStatus}
           />
-          <Radio label="info" value="info" onChange={setGlobalStatus} />
+          <Radio
+            label="information"
+            value="information"
+            onChange={setGlobalStatus}
+          />
           <Radio
             label="success"
             value="success"

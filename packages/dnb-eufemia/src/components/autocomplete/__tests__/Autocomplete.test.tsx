@@ -378,7 +378,7 @@ describe('Autocomplete component', () => {
           data={mockData}
           {...mockProps}
           status="status text"
-          statusState="info"
+          statusState="information"
           statusProps={{ stretch: true }}
           showSubmitButton
           stretch
@@ -3335,24 +3335,24 @@ describe('Autocomplete component', () => {
         data={mockData}
         {...mockProps}
         status="status text"
-        statusState="info"
+        statusState="information"
         showSubmitButton
       />
     )
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
-    ).toContain('dnb-autocomplete__status--info')
+    ).toContain('dnb-autocomplete__status--information')
     expect(document.querySelector('.dnb-form-status').classList).toContain(
-      'dnb-form-status--info'
+      'dnb-form-status--information'
     )
     expect(document.querySelector('.dnb-input').classList).toContain(
-      'dnb-input__status--info'
+      'dnb-input__status--information'
     )
     expect(
       document.querySelector('button.dnb-input__submit-button__button')
         .classList
-    ).toContain('dnb-button__status--info')
+    ).toContain('dnb-button__status--information')
   })
 
   it('should support spacing props', () => {

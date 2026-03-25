@@ -871,7 +871,7 @@ describe('FieldBlock', () => {
         const element = document.querySelector('.dnb-form-status')
 
         expect(element).toBeInTheDocument()
-        expect(element).toHaveClass('dnb-form-status--info')
+        expect(element).toHaveClass('dnb-form-status--information')
         expect(element).toHaveClass('dnb-height-animation--is-visible')
         expect(element).toHaveTextContent(blockInfo)
       })
@@ -886,7 +886,7 @@ describe('FieldBlock', () => {
         const element = document.querySelector('.dnb-form-status')
 
         expect(element).toBeInTheDocument()
-        expect(element).toHaveClass('dnb-form-status--info')
+        expect(element).toHaveClass('dnb-form-status--information')
         expect(element).toHaveClass('dnb-height-animation--is-visible')
         expect(element).toHaveTextContent(blockInfo)
       })
@@ -898,7 +898,7 @@ describe('FieldBlock', () => {
         const element = document.querySelector('.dnb-form-status')
 
         expect(element).toBeInTheDocument()
-        expect(element).toHaveClass('dnb-form-status--info')
+        expect(element).toHaveClass('dnb-form-status--information')
         expect(element).toHaveClass('dnb-height-animation--is-visible')
         expect(element).toHaveTextContent(blockInfo)
       })
