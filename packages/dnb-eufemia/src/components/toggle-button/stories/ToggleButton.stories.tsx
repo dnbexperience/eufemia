@@ -259,7 +259,7 @@ export const ToggleButtonSandbox = () => (
             value="third"
             checked
             status="Info message"
-            statusState="info"
+            statusState="information"
           />
         </ToggleButton.Group>
       </FieldBlock>
@@ -343,14 +343,14 @@ export const ToggleButtonSandbox = () => (
         text="Checked status message"
         variant="radio"
         status="Info message\n123"
-        statusState="info"
+        statusState="information"
       />
       <ToggleButton
         text="Checked status message"
         checked
         variant="checkbox"
         status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
-        statusState="info"
+        statusState="information"
         top="small"
       />
     </Box>

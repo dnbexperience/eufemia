@@ -391,7 +391,7 @@ export function getStatusState(status) {
     status &&
     status !== 'error' &&
     status !== 'warning' &&
-    status !== 'info'
+    status !== 'information'
   )
 }
 

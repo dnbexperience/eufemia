@@ -47,8 +47,8 @@ export const BreadcrumbProperties: PropertiesTableProps = {
     status: 'optional',
   },
   collapsedStyleType: {
-    doc: 'Use one of the Section component variants. Defaults to `info`.',
-    type: ['"error"', '"info"', '"warning"', '"success"'],
+    doc: 'Use one of the Section component variants. Defaults to `information`.',
+    type: ['"error"', '"information"', '"warning"', '"success"'],
     status: 'optional',
   },
   className: {

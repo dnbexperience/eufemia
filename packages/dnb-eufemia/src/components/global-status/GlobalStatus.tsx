@@ -54,7 +54,11 @@ export type GlobalStatusItem =
       statusAnchorUrl?: string | boolean
       [key: string]: unknown
     }
-export type GlobalStatusState = 'error' | 'info' | 'warning' | 'success'
+export type GlobalStatusState =
+  | 'error'
+  | 'information'
+  | 'warning'
+  | 'success'
 export type GlobalStatusShow = 'auto' | boolean
 export type GlobalStatusDelay = string | number
 export type GlobalStatusConfigObject = {
@@ -94,7 +98,7 @@ export type GlobalStatusProps = {
    */
   iconSize?: IconSize
   /**
-   * Defines the visual appearance of the status. There are four main statuses `error`, `warning`, `info` and `success`. The default status is `error`.
+   * Defines the visual appearance of the status. There are four main statuses `error`, `warning`, `information` and `success`. The default status is `error`.
    */
   state?: GlobalStatusState
   /**
@@ -302,7 +306,6 @@ export default class GlobalStatus extends React.PureComponent<
       let IconToLoad: React.ComponentType<any> = ErrorIcon
 
       switch (state) {
-        case 'info':
         case 'information':
         case 'success':
           IconToLoad = InfoIcon
@@ -433,11 +436,6 @@ export default class GlobalStatus extends React.PureComponent<
   }
 
   correctStatus(state: string | undefined) {
-    switch (state) {
-      case 'information':
-        state = 'info'
-        break
-    }
     return state
   }
 

@@ -28,10 +28,11 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match the info state', async () => {
+    it('have to match the information state', async () => {
       const screenshot = await makeScreenshot({
         style,
-        selector: '[data-visual-test="form-status-info"] .dnb-form-status',
+        selector:
+          '[data-visual-test="form-status-information"] .dnb-form-status',
       })
       expect(screenshot).toMatchImageSnapshot()
     })

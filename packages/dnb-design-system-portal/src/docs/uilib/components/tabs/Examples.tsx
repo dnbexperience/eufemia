@@ -74,7 +74,7 @@ export const TabsExampleKeepInDOM = () => (
   <Wrapper>
     <ComponentBox>
       <>
-        <Tabs keepInDOM contentStyle="info">
+        <Tabs keepInDOM contentStyle="information">
           <Tabs.Content title="Tab 1" key="first">
             <H2>Content 1</H2>
           </Tabs.Content>
@@ -155,7 +155,7 @@ export const TabsExampleScrollable = () => (
 export const TabsExampleLeftAligned = () => (
   <Wrapper>
     <ComponentBox data-visual-test="tabs-section-styles">
-      <Tabs tabsStyle="info" contentStyle="info">
+      <Tabs tabsStyle="information" contentStyle="information">
         <Tabs.Content title="First" key="first">
           <Section spacing top bottom backgroundColor="white">
             <H2 top={0} bottom>
@@ -275,7 +275,7 @@ export const TabsExampleReachRouterNavigation = () =>
                 ]}
                 selectedKey={pathname}
                 onChange={({ key }) => navigate(key)}
-                tabsStyle="info"
+                tabsStyle="information"
               >
                 <React.Suspense fallback={<em>Loading ...</em>}>
                   <Router>

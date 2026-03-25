@@ -139,7 +139,7 @@ export const CheckboxSandbox = () => (
           label="Unchecked:"
           labelPosition="left"
           status="Potenti viverra facilisi blandit sodales lorem est fusce"
-          statusState="info"
+          statusState="information"
         />
       </Box>
       <Box>
@@ -147,7 +147,7 @@ export const CheckboxSandbox = () => (
           label="Unchecked:"
           labelPosition="right"
           status="Potenti viverra facilisi blandit sodales lorem est fusce"
-          statusState="info"
+          statusState="information"
         />
       </Box>
       <Box>

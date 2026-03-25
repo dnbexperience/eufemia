@@ -36,7 +36,7 @@ export default function DialogContent({
   minWidth: minWidthProp = null,
   maxWidth: maxWidthProp = null,
   variant = 'information',
-  confirmType = 'info',
+  confirmType = 'information',
   icon = null,
   description,
   hideDecline,

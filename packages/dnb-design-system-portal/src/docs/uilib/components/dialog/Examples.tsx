@@ -146,7 +146,7 @@ export const FullDialogExample = () => (
             <Button bottom size="large" variant="secondary">
               Open example
             </Button>
-            <FormStatus state="info">
+            <FormStatus state="information">
               This is a formstatus in a Dialog
             </FormStatus>
           </Dialog>

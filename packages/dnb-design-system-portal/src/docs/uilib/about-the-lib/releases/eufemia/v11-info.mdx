@@ -19,12 +19,13 @@ v11 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 3. Replace `inputClass` with `inputClassName` on Input and InputMasked components.
 4. Replace `textareaClass` with `textareaClassName` on Textarea component.
 5. Replace `isCollapsed` with `collapsed` on the Breadcrumb component.
-6. If you import Eufemia SCSS source files with `@import`, replace with `@use` and namespace your mixin/variable calls (see [SCSS: @import → @use](#scss-import--use)).
-7. Replace the `size` prop with `span` on `Flex.Item` and `Card` components.
-8. If you `@use` Eufemia SCSS source files and reference internal mixins, rename them to camelCase (see [SCSS mixin renames](#scss-mixin-renames)).
-9. Replace the `as` prop with `element` on the `H` heading element.
-10. Replace `prerender` with `keepInDOM` on Tabs and Accordion components.
-11. Replace `styleType` (or `style_type`) with `backgroundColor` on Breadcrumb, Dialog.Body, and Drawer.Body components.
+6. Replace the state/variant value `'info'` with `'information'` in all components (e.g., `state="info"` → `state="information"`, `variant="info"` → `variant="information"`).
+7. If you import Eufemia SCSS source files with `@import`, replace with `@use` and namespace your mixin/variable calls (see [SCSS: @import → @use](#scss-import--use)).
+8. Replace the `size` prop with `span` on `Flex.Item` and `Card` components.
+9. If you `@use` Eufemia SCSS source files and reference internal mixins, rename them to camelCase (see [SCSS mixin renames](#scss-mixin-renames)).
+10. Replace the `as` prop with `element` on the `H` heading element.
+11. Replace `prerender` with `keepInDOM` on Tabs and Accordion components.
+12. Replace `styleType` (or `style_type`) with `backgroundColor` on Breadcrumb, Dialog.Body, and Drawer.Body components.
 
 ### innerRef → ref
 

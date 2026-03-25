@@ -122,7 +122,7 @@ function InfoOverlay(props: FormInfoOverlayProps) {
 
     statusContent = (
       <Section
-        variant="info"
+        variant="information"
         innerSpace={{ top: 'large', bottom: 'xx-large' }}
         {...restProps}
       >

@@ -276,9 +276,9 @@
       --dialog-icon-color: var(--dialog-icon-color--warning);
       --dialog-icon-background: var(--dialog-icon-background--warning);
     }
-    &__primary#{&}--info {
-      --dialog-icon-color: var(--dialog-icon-color--info);
-      --dialog-icon-background: var(--dialog-icon-background--info);
+    &__primary#{&}--information {
+      --dialog-icon-color: var(--dialog-icon-color--information);
+      --dialog-icon-background: var(--dialog-icon-background--information);
     }
   }
 

@@ -1877,7 +1877,7 @@ describe('DataContext.Provider', () => {
           '.dnb-forms-field-block .dnb-form-status'
         )
         expect(status).toHaveTextContent('onChangeForm-info')
-        expect(status).toHaveClass('dnb-form-status--info')
+        expect(status).toHaveClass('dnb-form-status--information')
       })
 
       // Use fireEvent over userEvent, because of its sync nature
