@@ -29,7 +29,7 @@ export const FormStatusDefault = () => (
   </ComponentBox>
 )
 
-export const FormStatusWithInfo = () => (
+export const FormStatusWithInformation = () => (
   <ComponentBox data-visual-test="form-status-information">
     <FormStatus
       title="Hover title"
@@ -49,7 +49,7 @@ export const FormStatusWithStretch = () => (
   </ComponentBox>
 )
 
-export const FormStatusWithWarn = () => (
+export const FormStatusWithWarning = () => (
   <ComponentBox data-visual-test="form-status-warning">
     <FormStatus state="warning" variant="outlined">
       Warningmessage. Take notice!
