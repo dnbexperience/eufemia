@@ -7,7 +7,6 @@ import React from 'react'
 import Provider from '../Provider'
 import { render } from '@testing-library/react'
 import * as TranslationModule from '../Translation'
-import { expect } from '@playwright/test'
 import { Form } from '../../extensions/forms'
 
 const Translation = TranslationModule.default
