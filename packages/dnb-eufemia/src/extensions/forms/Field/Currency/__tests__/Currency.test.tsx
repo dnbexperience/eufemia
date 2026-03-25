@@ -158,7 +158,7 @@ describe('Field.Currency', () => {
     // which clears the minus sign in the display.
     await userEvent.type(input, '5')
 
-    expect(input).toHaveValue('0 kr')
+    expect(input).toHaveValue('05 kr')
   })
 
   it('should work with decimal limit 0', async () => {
