@@ -137,7 +137,7 @@ export const RadioButtonSandbox = () => (
             value="third"
             checked
             status="Info message"
-            statusState="info"
+            statusState="information"
           />
         </Radio.Group>
       </Flex.Horizontal>

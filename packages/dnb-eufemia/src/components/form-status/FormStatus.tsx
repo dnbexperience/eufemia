@@ -43,7 +43,7 @@ export type FormStatusState =
   | string
   | 'error'
   | 'warning'
-  | 'info'
+  | 'information'
   | 'success'
   | 'marketing'
 export type FormStatusVariant = 'plain' | 'outlined'
@@ -63,7 +63,7 @@ export type FormStatusBaseProps = {
    */
   status?: FormStatusText
   /**
-   * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
+   * Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.
    */
   statusState?: FormStatusState
   /**
@@ -108,7 +108,7 @@ export type FormStatusProps = {
    */
   iconSize?: IconSize
   /**
-   * Defines the visual appearance of the status. These are the statuses `error`, `warning`, `info` and `marketing`. The default status is `error`.
+   * Defines the visual appearance of the status. These are the statuses `error`, `warning`, `information` and `marketing`. The default status is `error`.
    */
   state?: FormStatusState
   /**
@@ -246,11 +246,6 @@ export default class FormStatus extends React.PureComponent<
   }
 
   static correctStatus(state: FormStatusState | undefined) {
-    switch (state) {
-      case 'information':
-        state = 'info'
-        break
-    }
     return state
   }
 
@@ -268,7 +263,7 @@ export default class FormStatus extends React.PureComponent<
     > = ErrorIcon
 
     switch (FormStatus.correctStatus(state)) {
-      case 'info':
+      case 'information':
       case 'success':
         IconToLoad = InfoIcon
         break
@@ -537,7 +532,7 @@ export default class FormStatus extends React.PureComponent<
 
     if (!role) {
       switch (state) {
-        case 'info':
+        case 'information':
           params.role = 'status'
           break
         default:
@@ -653,7 +648,7 @@ export const WarnIcon = (props: WarnIconProps) => {
 }
 
 export const InfoIcon = (props: InfoIconProps) => {
-  const { title = 'info' } = props || {}
+  const { title = 'information' } = props || {}
   const isSbankenTheme = useTheme()?.name === 'sbanken'
   let fill = isSbankenTheme
     ? properties.sbanken['--sb-color-green-dark-2']

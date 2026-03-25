@@ -31,7 +31,7 @@ export function NestingWithLogic() {
             }}
             compensateForGap="auto"
           >
-            <Section variant="info" innerSpace>
+            <Section variant="information" innerSpace>
               <Field.String placeholder="Enter some value" />
             </Section>
           </Form.Visibility>
@@ -63,7 +63,7 @@ export function NestingWithLogic() {
                 },
               }}
             >
-              <Section variant="info" innerSpace>
+              <Section variant="information" innerSpace>
                 <Field.String placeholder="Enter more info" />
               </Section>
             </Form.Visibility>

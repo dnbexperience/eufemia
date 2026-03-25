@@ -14,7 +14,7 @@ exports[`GlobalStatus scss should match default theme snapshot 1`] = `
 .dnb-global-status__content .dnb-hr {
   --hr-color: var(--color-fire-red);
 }
-.dnb-global-status--info .dnb-global-status__content .dnb-hr {
+.dnb-global-status--information .dnb-global-status__content .dnb-hr {
   --hr-color: var(--color-sea-green);
 }
 .dnb-global-status--warning .dnb-global-status__content .dnb-hr {
@@ -210,7 +210,7 @@ p > .dnb-icon {
   );
   --form-status-color-icon: var(--token-color-background-error);
 }
-.dnb-form-status--info .dnb-form-status__shell {
+.dnb-form-status--information .dnb-form-status__shell {
   --form-status-color-background: var(
     --token-color-background-info-subtle
   );
@@ -234,7 +234,7 @@ p > .dnb-icon {
 .dnb-form-status__variant--outlined.dnb-form-status--warning .dnb-form-status__shell {
   --form-status-color-outline: var(--token-color-stroke-warning);
 }
-.dnb-form-status__variant--outlined.dnb-form-status--info .dnb-form-status__shell {
+.dnb-form-status__variant--outlined.dnb-form-status--information .dnb-form-status__shell {
   --form-status-color-outline: var(--token-color-stroke-info);
 }
 .dnb-form-status__variant--outlined.dnb-form-status--marketing .dnb-form-status__shell {

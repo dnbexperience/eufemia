@@ -25,7 +25,7 @@ import type { StepIndicatorMouseEvent } from './StepIndicator'
 import Context from '../../shared/Context'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 
-export type StepIndicatorStatusState = 'warning' | 'info' | 'error'
+export type StepIndicatorStatusState = 'warning' | 'information' | 'error'
 export type StepIndicatorItemProps = Omit<
   React.HTMLProps<HTMLElement>,
   'title' | 'data' | 'onClick'
@@ -50,8 +50,8 @@ export type StepIndicatorItemProps = Omit<
    */
   status?: string | React.ReactNode
   /**
-   * Used to set the status state to be either `info`, `error` or `warn`.
-   * Defaults to `warn`.
+   * Used to set the status state to be either `information`, `error` or `warning`.
+   * Defaults to `warning`.
    */
   statusState?: StepIndicatorStatusState
   /**
@@ -199,7 +199,7 @@ function StepIndicatorItem({
   }
 
   const stateIcons: Record<StepIndicatorStatusState, IconIcon> = {
-    info: InfoIcon,
+    information: InfoIcon,
     error: ErrorIcon,
     warning: WarnIcon,
   }

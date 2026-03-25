@@ -102,10 +102,10 @@ describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the status with status_state info', async () => {
+  it('have to match the status with status_state information', async () => {
     const screenshot = await makeScreenshot({
       selector:
-        '[data-visual-test="autocomplete-status-info"] .dnb-autocomplete__inner',
+        '[data-visual-test="autocomplete-status-information"] .dnb-autocomplete__inner',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

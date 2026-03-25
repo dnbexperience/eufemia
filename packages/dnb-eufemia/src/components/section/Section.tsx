@@ -19,7 +19,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type SectionVariants =
   | 'error'
-  | 'info'
+  | 'information'
   | 'warning'
   | 'success'
   | 'divider'

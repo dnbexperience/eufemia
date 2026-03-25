@@ -55,7 +55,7 @@ export function SubmitConfirmation() {
                 {...connectWithDialog}
               >
                 <Section
-                  variant="info"
+                  variant="information"
                   innerSpace={{ top: true, bottom: true }}
                   top
                 >

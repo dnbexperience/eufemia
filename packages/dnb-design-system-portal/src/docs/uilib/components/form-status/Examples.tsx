@@ -30,11 +30,11 @@ export const FormStatusDefault = () => (
 )
 
 export const FormStatusWithInfo = () => (
-  <ComponentBox data-visual-test="form-status-info">
+  <ComponentBox data-visual-test="form-status-information">
     <FormStatus
       title="Hover title"
       text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
-      state="info"
+      state="information"
     />
   </ComponentBox>
 )
@@ -118,7 +118,7 @@ export const FormStatusCustom = () => (
         <Input
           label="Input with custom status"
           status={<CustomStatus />}
-          statusState="info"
+          statusState="information"
           value="Input value"
         />
       )
@@ -130,7 +130,7 @@ export const FormStatusLarge = () => (
   <ComponentBox>
     {() => {
       return (
-        <FormStatus state="info" size="large" variant="outlined">
+        <FormStatus state="information" size="large" variant="outlined">
           My HTML{' '}
           <Anchor href="/" target="_blank">
             with a link
@@ -185,8 +185,8 @@ export const FormStatusAllVariants = () => (
       rowGap="small"
     >
       <Grid.Container columns={1}>
-        <FormStatus text="Text" state="info" variant="plain" />
-        <FormStatus text="Text" state="info" variant="outlined" />
+        <FormStatus text="Text" state="information" variant="plain" />
+        <FormStatus text="Text" state="information" variant="outlined" />
       </Grid.Container>
       <Grid.Container columns={1}>
         <FormStatus text="Text" state="success" />
