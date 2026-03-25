@@ -140,8 +140,13 @@ function AmountBase(props: AmountProps) {
   }
 
   const parts = formatted.parts as NumberFormatParts
+  const isNegativeZero = Object.is(Number(rawValue), -0)
   const renderSign =
-    signDisplay === 'always' && parts.sign ? parts.sign : null
+    signDisplay === 'always' && parts.sign
+      ? isNegativeZero && parts.sign === '+'
+        ? '\u2212'
+        : parts.sign
+      : null
   const spaceAfterSign = renderSign === '-' || renderSign === '−'
   const renderedAmount = renderSign ? parts.number : parts.signedNumber
 
@@ -167,7 +172,11 @@ function AmountBase(props: AmountProps) {
       : null)
   const numericValue = Number(rawValue)
   const signTone =
-    numericValue > 0 ? 'positive' : numericValue < 0 ? 'negative' : null
+    numericValue > 0
+      ? 'positive'
+      : numericValue < 0 || Object.is(numericValue, -0)
+      ? 'negative'
+      : null
 
   const currencyClass = classnames(
     'dnb-stat__currency',
@@ -228,6 +237,14 @@ function AmountBase(props: AmountProps) {
   )
 
   let aria = formatted.aria
+
+  if (
+    isNegativeZero &&
+    signDisplay === 'always' &&
+    typeof aria === 'string'
+  ) {
+    aria = aria.replace(/^\+/, '\u2212')
+  }
 
   if (prefix) {
     const prefixElement = renderAffix(
@@ -305,10 +322,12 @@ AmountBase._supportsSpacingProps = true
 export { AmountBase }
 
 /**
- * @deprecated Use `Stat.Number` instead.
+ * @deprecated Use `Stat.Number` instead. `Stat.Currency` and `Stat.Percent` are not affected.
  */
 function Amount(props: AmountProps) {
-  warn('Stat.Amount is deprecated. Use Stat.Number instead.')
+  warn(
+    'Stat.Amount is deprecated. Use Stat.Number instead. Stat.Currency and Stat.Percent are not affected by this deprecation.'
+  )
 
   return <AmountBase {...props} />
 }

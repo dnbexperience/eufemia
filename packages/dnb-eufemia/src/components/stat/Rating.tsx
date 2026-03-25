@@ -39,8 +39,10 @@ function Rating(props: RatingProps) {
     ...rest
   } = props
 
-  const { skeletonClass, applySkeletonAttributes } =
-    useStatSkeleton(skeleton)
+  const { skeletonClass, applySkeletonAttributes } = useStatSkeleton(
+    skeleton,
+    'shape'
+  )
 
   const defaultMax = variant === 'progressive' ? 7 : 5
   const resolvedMax =
@@ -57,7 +59,7 @@ function Rating(props: RatingProps) {
   const normalizedValue = clamp(safeValue, 0, clampedMax)
   const labelValue = Number.isInteger(normalizedValue)
     ? String(normalizedValue)
-    : normalizedValue.toFixed(1)
+    : String(parseFloat(normalizedValue.toFixed(2)))
   const { Stat: { rating: ratingTemplate = '%value of %max' } = {} } =
     useTranslation()
   const localizedRating = ratingTemplate

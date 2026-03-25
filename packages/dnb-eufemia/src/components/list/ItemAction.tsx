@@ -76,6 +76,15 @@ function ItemAction(props: ItemActionProps) {
 
   const anchorRef = useRef<HTMLAnchorElement>(null)
 
+  const handleLinkClick = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      if (!isInactive) {
+        onClick?.(event)
+      }
+    },
+    [onClick, isInactive]
+  )
+
   const handleLinkKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (event.key === 'Enter' || event.key === ' ') {
@@ -113,12 +122,13 @@ function ItemAction(props: ItemActionProps) {
         role="link"
         tabIndex={isInactive ? -1 : 0}
         aria-disabled={isInactive ? true : undefined}
+        onClick={handleLinkClick}
         onKeyDown={handleLinkKeyDown}
         variant={variant}
         selected={selected}
         skeleton={skeleton}
         pending={pending}
-        disabled={disabled}
+        disabled={appliedDisabled}
         {...rest}
       >
         <Anchor
@@ -148,7 +158,7 @@ function ItemAction(props: ItemActionProps) {
       selected={selected}
       skeleton={skeleton}
       pending={pending}
-      disabled={disabled}
+      disabled={appliedDisabled}
       {...rest}
     >
       {content}

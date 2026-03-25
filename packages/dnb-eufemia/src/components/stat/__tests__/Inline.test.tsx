@@ -3,6 +3,7 @@ import { render } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import Stat from '../Stat'
 import Provider from '../../../shared/Provider'
+import SharedContext from '../../../shared/Context'
 
 describe('Stat.Inline', () => {
   it('renders horizontal inline layout with defaults', () => {
@@ -101,6 +102,23 @@ describe('Stat.Inline', () => {
     expect(info.classList).toContain('dnb-skeleton')
   })
 
+  it('propagates skeleton to non-Stat children via SharedContext Provider', () => {
+    let contextSkeleton: unknown = undefined
+
+    function ContextReader() {
+      contextSkeleton = React.useContext(SharedContext)?.skeleton
+      return null
+    }
+
+    render(
+      <Stat.Inline skeleton>
+        <ContextReader />
+      </Stat.Inline>
+    )
+
+    expect(contextSkeleton).toBe(true)
+  })
+
   it('does not propagate skeleton to children when not set', () => {
     render(
       <Stat.Inline>
@@ -138,5 +156,50 @@ describe('Stat.Inline', () => {
     expect(inline.classList).toContain('dnb-skeleton')
     expect(trend.classList).toContain('dnb-skeleton')
     expect(info.classList).toContain('dnb-skeleton')
+  })
+
+  it('warns when used outside Stat.Root', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Inline>
+        <Stat.Trend>+1.2%</Stat.Trend>
+      </Stat.Inline>
+    )
+
+    const didWarn = spy.mock.calls.some((call) =>
+      call
+        .map((entry) => String(entry))
+        .join(' ')
+        .includes('Stat.Inline should be used inside Stat.Root')
+    )
+    expect(didWarn).toBe(true)
+
+    spy.mockRestore()
+  })
+
+  it('does not warn when used inside Stat.Root', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content>
+          <Stat.Inline>
+            <Stat.Trend>+1.2%</Stat.Trend>
+          </Stat.Inline>
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const didWarn = spy.mock.calls.some((call) =>
+      call
+        .map((entry) => String(entry))
+        .join(' ')
+        .includes('Stat.Inline should be used inside Stat.Root')
+    )
+    expect(didWarn).toBe(false)
+
+    spy.mockRestore()
   })
 })

@@ -285,8 +285,8 @@ export const ItemAccordionHeaderProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  '[List.Item.Basic](/uilib/components/list/properties/#listitembasic)': {
-    doc: 'Inherits List.Item.Basic properties (variant, pending, spacing, etc.).',
+  '[Flex.Item](/uilib/layout/flex/item/properties)': {
+    doc: 'Renders as a `Flex.Item`. Supports all `Flex.Item` properties.',
     type: 'Various',
     status: 'optional',
   },
@@ -382,6 +382,14 @@ export const ItemActionProperties: PropertiesTableProps = {
 export const ItemActionEvents: PropertiesTableProps = {
   onClick: {
     doc: 'Fired when the user clicks or activates `List.Item.Action` (click or Enter/Space key). Receives the native event. Only applicable to `List.Item.Action`.',
+    type: '(event) => void',
+    status: 'optional',
+  },
+}
+
+export const ItemAccordionEvents: PropertiesTableProps = {
+  onClick: {
+    doc: 'Fired when the user clicks or activates the accordion header (click or Enter/Space key). In controlled mode (when `open` is provided), use this to update the `open` prop. Receives the native event.',
     type: '(event) => void',
     status: 'optional',
   },

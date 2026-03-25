@@ -221,7 +221,7 @@ describe('ItemAccordion', () => {
     expect(header.getAttribute('tabindex')).toBe('-1')
   })
 
-  it('content region has id, aria-labelledby, aria-hidden and aria-expanded', () => {
+  it('content region has id, aria-labelledby and aria-hidden', () => {
     render(
       <ItemAccordion>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
@@ -240,10 +240,10 @@ describe('ItemAccordion', () => {
     expect(contentRegion.getAttribute('id')).toBe(contentId)
     expect(contentRegion.getAttribute('aria-labelledby')).toBe(headerId)
     expect(contentRegion.getAttribute('aria-hidden')).toBe('true')
-    expect(contentRegion.getAttribute('aria-expanded')).toBe('false')
+    expect(contentRegion).not.toHaveAttribute('aria-expanded')
   })
 
-  it('content region has aria-hidden false and aria-expanded true when open', () => {
+  it('content region has aria-hidden false when open and no aria-expanded', () => {
     render(
       <ItemAccordion open>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
@@ -259,7 +259,7 @@ describe('ItemAccordion', () => {
 
     expect(contentRegion).toBeInTheDocument()
     expect(contentRegion.getAttribute('aria-hidden')).toBe('false')
-    expect(contentRegion.getAttribute('aria-expanded')).toBe('true')
+    expect(contentRegion).not.toHaveAttribute('aria-expanded')
   })
 
   describe('keepInDOM', () => {
@@ -811,5 +811,51 @@ describe('ItemAccordion', () => {
 
     const consumer = document.querySelector('[data-skeleton]')
     expect(consumer.getAttribute('data-skeleton')).toBe('true')
+  })
+
+  it('warns and returns null when AccordionHeader is used outside ItemAccordion', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(<ItemAccordion.Header>Orphan header</ItemAccordion.Header>)
+
+    const header = document.querySelector(
+      '.dnb-list__item__accordion__header'
+    )
+    expect(header).not.toBeInTheDocument()
+
+    const didWarn = spy.mock.calls.some((call) =>
+      call
+        .map((entry) => String(entry))
+        .join(' ')
+        .includes(
+          'List.Item.Accordion.Header should be used inside List.Item.Accordion.'
+        )
+    )
+    expect(didWarn).toBe(true)
+
+    spy.mockRestore()
+  })
+
+  it('warns and returns null when AccordionContent is used outside ItemAccordion', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(<ItemAccordion.Content>Orphan content</ItemAccordion.Content>)
+
+    const content = document.querySelector(
+      '.dnb-list__item__accordion__content'
+    )
+    expect(content).not.toBeInTheDocument()
+
+    const didWarn = spy.mock.calls.some((call) =>
+      call
+        .map((entry) => String(entry))
+        .join(' ')
+        .includes(
+          'List.Item.Accordion.Content should be used inside List.Item.Accordion.'
+        )
+    )
+    expect(didWarn).toBe(true)
+
+    spy.mockRestore()
   })
 })

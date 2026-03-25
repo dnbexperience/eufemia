@@ -1,6 +1,7 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import ItemAction from '../ItemAction'
+import Container from '../Container'
 
 describe('ItemAction', () => {
   it('renders with children', () => {
@@ -355,6 +356,35 @@ describe('ItemAction', () => {
       expect(anchor).not.toHaveAttribute('href')
       expect(anchor.getAttribute('aria-disabled')).toBe('true')
     })
+
+    it('inherits disabled from Container and passes it to ItemContent', () => {
+      render(
+        <Container disabled>
+          <ItemAction>Content</ItemAction>
+        </Container>
+      )
+
+      const element = document.querySelector('.dnb-list__item__action')
+
+      expect(element.classList).toContain('dnb-list__item--disabled')
+      expect(element.getAttribute('aria-disabled')).toBe('true')
+      expect(element.getAttribute('tabindex')).toBe('-1')
+    })
+
+    it('inherits disabled from Container for href items', () => {
+      render(
+        <Container disabled>
+          <ItemAction href="/path">Content</ItemAction>
+        </Container>
+      )
+
+      const element = document.querySelector('.dnb-list__item__action')
+      const anchor = document.querySelector('.dnb-list__item__action a')
+
+      expect(element.classList).toContain('dnb-list__item--disabled')
+      expect(element.getAttribute('aria-disabled')).toBe('true')
+      expect(anchor).not.toHaveAttribute('href')
+    })
   })
 
   describe('href', () => {
@@ -499,6 +529,54 @@ describe('ItemAction', () => {
       expect(element.tagName).toBe('LI')
       expect(element.getAttribute('href')).toBeNull()
       expect(hrefElement).toBeNull()
+    })
+
+    it('calls onClick on mouse click when href is provided', () => {
+      const handleClick = jest.fn()
+
+      render(
+        <ItemAction href="/path" onClick={handleClick}>
+          Content
+        </ItemAction>
+      )
+
+      const listItem = document.querySelector(hrefSelector)
+
+      fireEvent.click(listItem)
+
+      expect(handleClick).toHaveBeenCalledTimes(1)
+    })
+
+    it('does not call onClick on mouse click when href is provided and pending', () => {
+      const handleClick = jest.fn()
+
+      render(
+        <ItemAction href="/path" pending onClick={handleClick}>
+          Content
+        </ItemAction>
+      )
+
+      const listItem = document.querySelector(hrefSelector)
+
+      fireEvent.click(listItem)
+
+      expect(handleClick).not.toHaveBeenCalled()
+    })
+
+    it('does not call onClick on mouse click when href is provided and disabled', () => {
+      const handleClick = jest.fn()
+
+      render(
+        <ItemAction href="/path" disabled onClick={handleClick}>
+          Content
+        </ItemAction>
+      )
+
+      const listItem = document.querySelector(hrefSelector)
+
+      fireEvent.click(listItem)
+
+      expect(handleClick).not.toHaveBeenCalled()
     })
   })
 })

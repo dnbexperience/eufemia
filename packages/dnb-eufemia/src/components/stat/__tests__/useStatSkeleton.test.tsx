@@ -20,6 +20,17 @@ describe('useStatSkeleton', () => {
     expect(result.current.skeletonClass).toContain('dnb-skeleton--font')
   })
 
+  it('uses shape method when specified', () => {
+    const { result } = renderHook(() => useStatSkeleton(true, 'shape'))
+
+    expect(result.current.hasSkeleton).toBe(true)
+    expect(result.current.skeletonClass).toContain('dnb-skeleton')
+    expect(result.current.skeletonClass).toContain('dnb-skeleton--shape')
+    expect(result.current.skeletonClass).not.toContain(
+      'dnb-skeleton--font'
+    )
+  })
+
   it('resolves skeleton from StatRootContext', () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <StatRootContext.Provider value={{ inRoot: true, skeleton: true }}>

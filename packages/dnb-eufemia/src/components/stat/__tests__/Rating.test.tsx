@@ -101,6 +101,24 @@ describe('Stat.Rating', () => {
     expect(rating).toHaveAttribute('aria-label', 'Morningstar 4 av 5')
   })
 
+  it('uses matching precision in aria-label and visual fill', () => {
+    render(<Stat.Rating value={2.55} />)
+
+    const rating = document.querySelector('.dnb-stat__rating')
+    const stars = document.querySelectorAll('.dnb-stat__rating-star')
+
+    expect(rating).toHaveAttribute('aria-label', '2.55 av 5')
+    expect(stars[2].getAttribute('data-fill')).toBe('0.55')
+  })
+
+  it('strips trailing zeros from fractional aria-label', () => {
+    render(<Stat.Rating value={3.5} />)
+
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(rating).toHaveAttribute('aria-label', '3.5 av 5')
+  })
+
   it('warns and clamps when max exceeds the allowed limit', () => {
     const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
 
@@ -133,8 +151,58 @@ describe('Stat.Rating', () => {
     const rating = document.querySelector('.dnb-stat__rating')
 
     expect(rating.classList).toContain('dnb-skeleton')
-    expect(rating.classList).toContain('dnb-skeleton--font')
+    expect(rating.classList).toContain('dnb-skeleton--shape')
     expect(rating).toHaveAttribute('aria-disabled', 'true')
+  })
+
+  it('propagates skeleton from Root to stars variant', () => {
+    render(
+      <Stat.Root skeleton>
+        <Stat.Label>Rating</Stat.Label>
+        <Stat.Content>
+          <Stat.Rating value={3.5} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(rating.classList).toContain('dnb-skeleton')
+    expect(rating.classList).toContain('dnb-skeleton--shape')
+    expect(rating).toHaveAttribute('aria-disabled', 'true')
+  })
+
+  it('propagates skeleton from Root to progressive variant', () => {
+    render(
+      <Stat.Root skeleton>
+        <Stat.Label>Rating</Stat.Label>
+        <Stat.Content>
+          <Stat.Rating variant="progressive" value={4} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(rating.classList).toContain('dnb-skeleton')
+    expect(rating.classList).toContain('dnb-skeleton--shape')
+    expect(rating).toHaveAttribute('aria-disabled', 'true')
+  })
+
+  it('propagates skeleton from Content to Rating', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label>Rating</Stat.Label>
+        <Stat.Content skeleton>
+          <Stat.Rating value={3} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(rating.classList).toContain('dnb-skeleton')
+    expect(rating.classList).toContain('dnb-skeleton--shape')
   })
 
   it('supports spacing props', () => {
