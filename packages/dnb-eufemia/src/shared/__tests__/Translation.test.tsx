@@ -7,6 +7,7 @@ import Provider from '../Provider'
 
 import nbNO from '../locales/nb-NO'
 import enGB from '../locales/en-GB'
+import useTranslation from '../useTranslation'
 
 const given_nbNO = '{foo} ({bar} av {max})'
 const given_enGB = '{foo} ({bar} of {max})'
@@ -272,6 +273,25 @@ describe('mergeTranslations', () => {
         },
       },
     })
+  })
+
+  it('should merge translations and preserve arrays as arrays', () => {
+    const nbNO = {
+      'nb-NO': { my: { list: ["y"] } },
+    }
+    const nbNO_exp = {
+      'nb-NO': { my: { list: ["b"] } },
+    }
+    const enGB = {
+      'en-GB': { my: { list: ["x"] } },
+    }
+    const result = mergeTranslations(nbNO, enGB, nbNO_exp)
+
+    expect(result).toEqual({
+      'en-GB': { my: { list: ["x"] } },
+      'nb-NO': { my: { list: ["y", "b"] } },
+    })
+
   })
 
   it('should merge translations given as objects with same keys', () => {
