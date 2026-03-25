@@ -38,7 +38,7 @@ export const SegmentedFieldProperties: PropertiesTableProps = {
   },
   statusState: {
     doc: 'Visual status state passed to the wrapped `Input` component.',
-    type: ['"error"', '"info"', '"warn"', '"disabled"'],
+    type: ['"error"', '"information"', '"warning"', '"disabled"'],
     status: 'optional',
   },
   stretch: {

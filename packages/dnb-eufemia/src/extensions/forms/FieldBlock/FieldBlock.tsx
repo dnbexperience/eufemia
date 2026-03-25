@@ -128,7 +128,7 @@ export type SharedFieldBlockProps = {
    */
   hideHelpButton?: boolean
   /**
-   * Controls where status messages (error, warning, info) are visually shown.
+   * Controls where status messages (error, warning, information) are visually shown.
    */
   statusPosition?: 'below' | 'above'
 }
