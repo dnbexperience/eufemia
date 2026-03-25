@@ -4,6 +4,7 @@
  *
  */
 
+@use './core/utilities.scss';
 @use '../extensions/forms/Field/ArraySelection/style/dnb-array-selection.scss';
 @use '../extensions/forms/Field/DateOfBirth/style/dnb-date-of-birth.scss';
 @use '../extensions/forms/Field/Expiry/style/dnb-expiry.scss';

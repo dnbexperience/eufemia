@@ -4,6 +4,7 @@
  *
  */
 
+@use './core/utilities.scss';
 @use '../extensions/forms/style/dnb-forms.scss';
 @use '../extensions/payment-card/style/dnb-payment-card.scss';
 @use '../extensions/vipps-wallet-button/style/dnb-vipps-wallet-button.scss';
