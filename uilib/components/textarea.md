@@ -1,8 +1,8 @@
 ---
 title: 'Textarea'
 description: 'The Textarea component has to be used as a multi-line text input control with an unlimited number of characters possible.'
-version: 10.101.1
-generatedAt: 2026-03-23T05:53:40.245Z
+version: 10.101.2
+generatedAt: 2026-03-25T07:08:27.650Z
 checksum: 28e0a3177d1224c5d1c079e9220e56f4b7c9e2104a850dd5c2394768613df906
 ---
 

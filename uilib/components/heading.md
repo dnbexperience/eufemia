@@ -1,8 +1,8 @@
 ---
 title: 'Heading'
 description: 'The Heading component is a helper to create automated semantic headings within a boundary of some rules.'
-version: 10.101.1
-generatedAt: 2026-03-23T05:53:39.427Z
+version: 10.101.2
+generatedAt: 2026-03-25T07:08:27.330Z
 checksum: 400a63665aa7aca0b3826acdfea84d1ee954466136ea1f63030445e5fe2760db
 ---
 

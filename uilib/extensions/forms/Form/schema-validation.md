@@ -1,8 +1,8 @@
 ---
 title: 'Form.SchemaValidation'
 description: 'Schema validation can be done with a JSON Schema which makes it possible to describe the data structure and validation needs, both for the individual value, and more complex rules across the data set.'
-version: 10.101.1
-generatedAt: 2026-03-23T05:53:40.649Z
+version: 10.101.2
+generatedAt: 2026-03-25T07:08:28.628Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: 'TermDefinition'
 description: 'TermDefinition renders a compact, inline explanation for a word or phrase with an anchor-style trigger button.'
-version: 10.101.1
-generatedAt: 2026-03-23T05:53:40.238Z
+version: 10.101.2
+generatedAt: 2026-03-25T07:08:27.641Z
 checksum: 9dc75b9f1552ed9694083681def91b6897c9b323bcf260ef4fc1e0197d370d9e
 ---
 

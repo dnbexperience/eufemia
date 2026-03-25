@@ -1,9 +1,9 @@
 ---
 title: 'List'
 description: 'List is a layout component for displaying rows of content, with optional start/center/end slots and a navigable item variant.'
-version: 10.101.1
-generatedAt: 2026-03-23T05:53:39.510Z
-checksum: c4d85f4fa25641c63c0d997470afc9144f118a91d89991b58596bd33e2f2de4b
+version: 10.101.2
+generatedAt: 2026-03-25T07:08:27.412Z
+checksum: 8c095a3afe3de690e80db52e5919b48865e094aa083b2d993d381551f7d1f613
 ---
 
 # List
@@ -1082,8 +1082,8 @@ render(
       "type": "React.ReactNode",
       "status": "optional"
     },
-    "[List.Item.Basic](/uilib/components/list/properties/#listitembasic)": {
-      "doc": "Inherits List.Item.Basic properties (variant, pending, spacing, etc.).",
+    "[Flex.Item](/uilib/layout/flex/item/properties)": {
+      "doc": "Renders as a `Flex.Item`. Supports all `Flex.Item` properties.",
       "type": "Various",
       "status": "optional"
     },
@@ -1390,6 +1390,20 @@ render(
   "props": {
     "onClick": {
       "doc": "Fired when the user clicks or activates `List.Item.Action` (click or Enter/Space key). Receives the native event. Only applicable to `List.Item.Action`.",
+      "type": "(event) => void",
+      "status": "optional"
+    }
+  }
+}
+```
+
+## List.Item.Accordion Events
+
+```json
+{
+  "props": {
+    "onClick": {
+      "doc": "Fired when the user clicks or activates the accordion header (click or Enter/Space key). In controlled mode (when `open` is provided), use this to update the `open` prop. Receives the native event.",
       "type": "(event) => void",
       "status": "optional"
     }

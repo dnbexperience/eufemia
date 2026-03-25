@@ -1,8 +1,8 @@
 ---
 title: 'Stat'
 description: 'Composable metric components for highlighted values, trends, and labels.'
-version: 10.101.1
-generatedAt: 2026-03-23T05:53:40.185Z
+version: 10.101.2
+generatedAt: 2026-03-25T07:08:27.589Z
 checksum: 30fa6d1efae36f3ea3005035dea83acba7d3bb0b6d171a7890b5e00b1da462eb
 ---
 
@@ -55,6 +55,11 @@ import { Stat } from '@dnb/eufemia'
 - When e.g. `signDisplay="always"` is used, the sign is rendered as a separate visual element with CSS spacing, while the accessible text stays based on the formatted number string.
 
 - All Stat variants keep dedicated accessibility handling. `Currency`, `Percent`, and `Trend` use a dedicated screen-reader value (`.dnb-sr-only`) based on the formatted content. `Rating` uses an accessible label (`role="img"` + `aria-label`) that includes value and max.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/stat)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/stat)
 
 ## Demos
 

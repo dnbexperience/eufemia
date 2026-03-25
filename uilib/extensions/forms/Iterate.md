@@ -1,8 +1,8 @@
 ---
 title: 'Iterate'
 description: '`Iterate` contains components and functionality for traversing values and parts of data sets such as arrays, which contain a varying number of elements where the number of components on the screen depends on how many elements the data consists of.'
-version: 10.101.1
-generatedAt: 2026-03-23T05:53:40.741Z
+version: 10.101.2
+generatedAt: 2026-03-25T07:08:28.711Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

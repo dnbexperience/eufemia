@@ -1,8 +1,8 @@
 ---
 title: 'Wizard.Step'
 description: 'Each step should be wrapped with a `Wizard.Step` component directly inside Wizard.Container.'
-version: 10.101.1
-generatedAt: 2026-03-23T05:53:40.951Z
+version: 10.101.2
+generatedAt: 2026-03-25T07:08:28.926Z
 checksum: 07919774d2afc2cdb67d93072b9824f6c039a0d4a8363a1e2e1fefa6b8430116
 ---
 
