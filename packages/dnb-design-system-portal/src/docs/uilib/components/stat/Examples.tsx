@@ -172,6 +172,29 @@ export const NumberDefault = () => (
   </ComponentBox>
 )
 
+export const TextDefault = () => (
+  <ComponentBox>
+    <Stat.Root>
+      <Stat.Label>Label</Stat.Label>
+      <Stat.Content>
+        <Stat.Text colorizeBySign={-123}>Custom content</Stat.Text>
+      </Stat.Content>
+
+      <Stat.Label top>With medium font weight and size</Stat.Label>
+      <Stat.Content>
+        <Stat.Text
+          srLabel="Screen reader label"
+          colorizeBySign={123}
+          fontWeight="medium"
+          fontSize="medium"
+        >
+          Larger and bolder
+        </Stat.Text>
+      </Stat.Content>
+    </Stat.Root>
+  </ComponentBox>
+)
+
 export const PercentDefault = () => (
   <ComponentBox data-visual-test="stat-percent-default">
     <Stat.Root>

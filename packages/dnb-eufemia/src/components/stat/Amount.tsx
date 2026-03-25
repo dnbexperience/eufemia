@@ -3,7 +3,6 @@ import classnames from 'classnames'
 import { NumberFormatProps } from '../number-format/NumberFormat'
 import useNumberFormatWithParts from '../number-format/useNumberFormatWithParts'
 import type { NumberFormatParts } from '../number-format/useNumberFormatWithParts'
-import { createSpacingClasses } from '../space/SpacingHelper'
 import type {
   TypographySize,
   TypographyWeight,
@@ -11,20 +10,17 @@ import type {
 import { getHeadingLineHeightSize } from '../../elements/typography/Typography'
 import type { SpacingProps } from '../../shared/types'
 import { formatReturnValue } from '../number-format/NumberUtils'
-import {
-  convertJsxToString,
-  validateDOMAttributes,
-  warn,
-} from '../../shared/component-helper'
+import { convertJsxToString, warn } from '../../shared/component-helper'
 import StatValueContext from './StatValueContext'
 import useStatSkeleton from './useStatSkeleton'
+import Text from './Text'
 
 /**
  * @deprecated Use `NumberProps` from `Stat.Number` instead.
  */
-export type AmountProps = Omit<
+type AmountOwnProps = Omit<
   NumberFormatProps,
-  'children' | 'currency_display' | 'currency_position'
+  'children' | 'currency_display' | 'currency_position' | 'element'
 > & {
   children?: string | number
   element?: keyof JSX.IntrinsicElements
@@ -60,7 +56,14 @@ export type AmountProps = Omit<
    * Opt-in sign-based text color (`+` => green, `-` => red).
    */
   colorizeBySign?: boolean
-} & SpacingProps
+}
+
+export type AmountProps = Omit<
+  React.HTMLProps<HTMLElement>,
+  keyof AmountOwnProps | 'ref'
+> &
+  AmountOwnProps &
+  SpacingProps
 
 const renderAffix = (
   resolved: NumberFormatProps['prefix'] | NumberFormatProps['suffix'],
@@ -104,8 +107,7 @@ function AmountBase(props: AmountProps) {
     percent = null,
     ...rest
   } = props
-  const { context, skeletonClass, applySkeletonAttributes } =
-    useStatSkeleton(skeleton)
+  const { context } = useStatSkeleton(skeleton)
   const { useBasisSize, defaultMainWeight } =
     React.useContext(StatValueContext)
   const resolvedLocale =
@@ -171,12 +173,6 @@ function AmountBase(props: AmountProps) {
       ? 'medium'
       : null)
   const numericValue = Number(rawValue)
-  const signTone =
-    numericValue > 0
-      ? 'positive'
-      : numericValue < 0 || Object.is(numericValue, -0)
-      ? 'negative'
-      : null
 
   const currencyClass = classnames(
     'dnb-stat__currency',
@@ -290,30 +286,24 @@ function AmountBase(props: AmountProps) {
     ? `${convertJsxToString(srLabel)}${' '}${aria}`
     : aria
 
-  const attributes = validateDOMAttributes(props, {
-    ...rest,
-    id,
-    style,
-    className: classnames(
-      'dnb-stat',
-      colorizeBySign && signTone && `dnb-stat--tone-${signTone}`,
-      createSpacingClasses(props),
-      skeletonClass,
-      className
-    ),
-    lang: lang || resolvedLocale || formatted.locale,
-  })
-
-  applySkeletonAttributes(attributes)
-
   return (
-    <Element {...attributes}>
+    <Text
+      {...rest}
+      id={id}
+      element={Element}
+      className={classnames('dnb-stat', className)}
+      colorizeBySign={colorizeBySign ? numericValue : false}
+      style={style}
+      lang={lang || resolvedLocale || formatted.locale}
+      skeleton={skeleton}
+      textClassName={false}
+    >
       <span className="dnb-stat__content" aria-hidden>
         {content}
       </span>
       {/* Used for VoiceOver and NVDA when navigating with arrow keys */}
       <span className="dnb-sr-only" data-text={srText} />
-    </Element>
+    </Text>
   )
 }
 

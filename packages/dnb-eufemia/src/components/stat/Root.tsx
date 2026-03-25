@@ -6,14 +6,17 @@ import { warn } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatRootContext from './StatRootContext'
 
-export type RootProps = {
-  children?: React.ReactNode
-  id?: string
-  className?: string
-  style?: React.CSSProperties
+type RootOwnProps = {
   visualOrder?: 'label-content' | 'content-label'
   skeleton?: SkeletonShow
-} & SpacingProps
+}
+
+export type RootProps = Omit<
+  React.HTMLProps<HTMLElement>,
+  keyof RootOwnProps | 'ref'
+> &
+  RootOwnProps &
+  SpacingProps
 
 function Root(props: RootProps) {
   const {

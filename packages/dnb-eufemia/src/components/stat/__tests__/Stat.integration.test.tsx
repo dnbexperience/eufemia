@@ -49,6 +49,8 @@ describe('Stat integration', () => {
     expect(currency.textContent).toBe('kr')
     expect(trend).toBeInTheDocument()
     expect(trend.classList).toContain('dnb-stat__trend--positive')
+    expect(trend.classList).not.toContain('dnb-stat__text')
+    expect(info.classList).not.toContain('dnb-stat__text')
     expect(info.textContent).toBe('Additional info')
   })
 
@@ -317,6 +319,7 @@ describe('Stat integration', () => {
     expect(rating).toHaveAttribute('role', 'img')
     expect(rating).toHaveAttribute('aria-label')
     expect(rating.getAttribute('aria-label')).toContain('4')
+    expect(rating.classList).not.toContain('dnb-stat__text')
     expect(stars).toHaveLength(5)
   })
 

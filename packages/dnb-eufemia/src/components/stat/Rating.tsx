@@ -1,35 +1,35 @@
 import React from 'react'
 import classnames from 'classnames'
-import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../../shared/types'
-import {
-  convertJsxToString,
-  validateDOMAttributes,
-  warn,
-} from '../../shared/component-helper'
+import { convertJsxToString, warn } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import { useTranslation } from '../../shared'
 import { clamp } from '../../shared/helpers/clamp'
-import useStatSkeleton from './useStatSkeleton'
+import Text from './Text'
 
 const MAX_ALLOWED = 20
 
-export type RatingProps = {
+type RatingOwnProps = {
   value?: number
   max?: number
-  id?: string
   variant?: 'stars' | 'progressive'
   element?: keyof JSX.IntrinsicElements
-  className?: string
-  style?: React.CSSProperties
   srLabel?: React.ReactNode
   skeleton?: SkeletonShow
-} & SpacingProps
+}
+
+export type RatingProps = Omit<
+  React.HTMLProps<HTMLElement>,
+  keyof RatingOwnProps | 'ref'
+> &
+  RatingOwnProps &
+  SpacingProps
 
 function Rating(props: RatingProps) {
   const {
     value = 0,
     max = null,
+    id = null,
     variant = 'stars',
     element: Element = 'span',
     className = null,
@@ -38,11 +38,6 @@ function Rating(props: RatingProps) {
     skeleton = null,
     ...rest
   } = props
-
-  const { skeletonClass, applySkeletonAttributes } = useStatSkeleton(
-    skeleton,
-    'shape'
-  )
 
   const defaultMax = variant === 'progressive' ? 7 : 5
   const resolvedMax =
@@ -69,25 +64,24 @@ function Rating(props: RatingProps) {
     ? `${convertJsxToString(srLabel)} ${localizedRating}`
     : localizedRating
 
-  const attributes = validateDOMAttributes(props, {
-    ...rest,
-    style,
-    role: 'img',
-    'aria-label': label,
-    className: classnames(
-      'dnb-stat',
-      'dnb-stat__rating',
-      `dnb-stat__rating--${variant}`,
-      createSpacingClasses(props),
-      skeletonClass,
-      className
-    ),
-  })
-
-  applySkeletonAttributes(attributes)
-
   return (
-    <Element {...attributes}>
+    <Text
+      {...rest}
+      id={id}
+      element={Element}
+      className={classnames(
+        'dnb-stat',
+        'dnb-stat__rating',
+        `dnb-stat__rating--${variant}`,
+        className
+      )}
+      style={style}
+      role="img"
+      aria-label={label}
+      skeleton={skeleton}
+      skeletonMethod="shape"
+      textClassName={false}
+    >
       {variant === 'stars' ? (
         <span className="dnb-stat__rating-stars" aria-hidden>
           {Array.from({ length: clampedMax }).map((_, index) => {
@@ -135,7 +129,7 @@ function Rating(props: RatingProps) {
           })}
         </span>
       )}
-    </Element>
+    </Text>
   )
 }
 

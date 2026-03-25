@@ -1,37 +1,40 @@
 import React from 'react'
 import classnames from 'classnames'
-import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../../shared/types'
-import { validateDOMAttributes, warn } from '../../shared/component-helper'
+import { warn } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatValueContext from './StatValueContext'
 import StatRootContext from './StatRootContext'
-import useStatSkeleton from './useStatSkeleton'
+import Text from './Text'
 
 const infoContextValue = {
   useBasisSize: true,
   defaultMainWeight: 'regular',
 } as const
 
-export type InfoProps = {
-  children?: React.ReactNode
-  id?: string
+type InfoOwnProps = {
   element?: keyof JSX.IntrinsicElements
-  className?: string
-  style?: React.CSSProperties
   variant?:
     | 'plain'
     | 'subtle'
     | 'prominent'
     | /** @deprecated Use "plain" instead */ 'default'
   skeleton?: SkeletonShow
-} & SpacingProps
+}
+
+export type InfoProps = Omit<
+  React.HTMLProps<HTMLElement>,
+  keyof InfoOwnProps | 'ref'
+> &
+  InfoOwnProps &
+  SpacingProps
 
 function Info(props: InfoProps) {
   const { inRoot } = React.useContext(StatRootContext)
 
   const {
     children,
+    id = null,
     element: Element = 'span',
     className = null,
     style = null,
@@ -48,34 +51,29 @@ function Info(props: InfoProps) {
     variant = 'plain'
   }
 
-  const { skeletonClass, applySkeletonAttributes } =
-    useStatSkeleton(skeleton)
-
   if (!inRoot) {
     warn('Stat.Info should be used inside Stat.Root')
   }
 
-  const attributes = validateDOMAttributes(props, {
-    ...rest,
-    style,
-    className: classnames(
-      'dnb-stat',
-      'dnb-stat__info',
-      `dnb-stat__info--${variant}`,
-      createSpacingClasses(props),
-      skeletonClass,
-      className
-    ),
-  })
-
-  applySkeletonAttributes(attributes)
-
   return (
-    <Element {...attributes}>
+    <Text
+      {...rest}
+      id={id}
+      element={Element}
+      className={classnames(
+        'dnb-stat',
+        'dnb-stat__info',
+        `dnb-stat__info--${variant}`,
+        className
+      )}
+      style={style}
+      skeleton={skeleton}
+      textClassName={false}
+    >
       <StatValueContext.Provider value={infoContextValue}>
         {children}
       </StatValueContext.Provider>
-    </Element>
+    </Text>
   )
 }
 
