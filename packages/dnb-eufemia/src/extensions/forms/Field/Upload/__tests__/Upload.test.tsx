@@ -4245,4 +4245,35 @@ describe('Field.Upload', () => {
       expect(await axeComponent(result)).toHaveNoViolations()
     })
   })
+
+  it('should not leak files with errors between form mounts sharing the same field id', () => {
+    const fieldId = 'shared-upload-field'
+
+    for (let i = 0; i < 3; i++) {
+      const formId = `form-${i}`
+      const { unmount } = render(
+        <Form.Handler id={formId}>
+          <Field.Upload id={fieldId} path="/myFiles" />
+        </Form.Handler>
+      )
+
+      const element = document.querySelector('.dnb-upload')
+      const file = createMockFile(
+        `file-${i}.png`,
+        5 * BYTES_IN_A_MEGA_BYTE + 1,
+        'image/png'
+      )
+
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file] },
+      })
+
+      const fileListItems = document.querySelectorAll(
+        '.dnb-upload__file-cell'
+      )
+      expect(fileListItems).toHaveLength(1)
+
+      unmount()
+    }
+  })
 })
