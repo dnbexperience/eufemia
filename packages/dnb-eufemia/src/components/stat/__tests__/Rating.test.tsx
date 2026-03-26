@@ -257,4 +257,66 @@ describe('Stat.Rating', () => {
     expect(rating.getAttribute('max')).toBeNull()
     expect(rating.getAttribute('skeleton')).toBeNull()
   })
+
+  it('renders default small size without size class', () => {
+    render(<Stat.Rating value={3} />)
+
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(rating.classList).not.toContain('dnb-stat__rating--default')
+    expect(rating.classList).not.toContain('dnb-stat__rating--medium')
+    expect(rating.classList).not.toContain('dnb-stat__rating--large')
+  })
+
+  it('applies size class for default size', () => {
+    render(<Stat.Rating value={3} size="default" />)
+
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(rating.classList).toContain('dnb-stat__rating--default')
+  })
+
+  it('applies size class for medium size', () => {
+    render(<Stat.Rating value={3} size="medium" />)
+
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(rating.classList).toContain('dnb-stat__rating--medium')
+  })
+
+  it('applies size class for large size', () => {
+    render(<Stat.Rating value={3} size="large" />)
+
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(rating.classList).toContain('dnb-stat__rating--large')
+  })
+
+  it('scales progressive step heights with size', () => {
+    render(
+      <Stat.Rating variant="progressive" value={5} max={7} size="large" />
+    )
+
+    const steps = document.querySelectorAll(
+      '.dnb-stat__rating-progressive-step--base'
+    )
+
+    const firstHeight = (steps[0] as HTMLElement).style.getPropertyValue(
+      '--dnb-stat-rating-step-height'
+    )
+    const lastHeight = (
+      steps[steps.length - 1] as HTMLElement
+    ).style.getPropertyValue('--dnb-stat-rating-step-height')
+
+    expect(parseFloat(firstHeight)).toBeCloseTo(0.25 * 2.667, 1)
+    expect(parseFloat(lastHeight)).toBeCloseTo(1 * 2.667, 1)
+  })
+
+  it('does not forward size prop to the DOM', () => {
+    render(<Stat.Rating value={3} size="medium" />)
+
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(rating.getAttribute('size')).toBeNull()
+  })
 })

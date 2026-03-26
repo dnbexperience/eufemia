@@ -150,20 +150,50 @@
   }
 
   &__rating {
+    --stat-rating-star-size: 0.75rem;
+    --stat-rating-container-height: 1.5rem;
+    --stat-rating-gap: 0.125rem;
+    --stat-rating-progressive-width: 0.25rem;
+    --stat-rating-progressive-radius: 0.0625rem;
+
     display: inline-flex;
     align-items: center;
 
     &--stars {
-      height: 1.5rem;
+      height: var(--stat-rating-container-height);
     }
 
     &--progressive {
-      height: 1.5rem;
+      height: var(--stat-rating-container-height);
+    }
+
+    &--default {
+      --stat-rating-star-size: 1rem;
+      --stat-rating-container-height: 2rem;
+      --stat-rating-gap: 0.1875rem;
+      --stat-rating-progressive-width: 0.375rem;
+      --stat-rating-progressive-radius: 0.125rem;
+    }
+
+    &--medium {
+      --stat-rating-star-size: 1.5rem;
+      --stat-rating-container-height: 2.5rem;
+      --stat-rating-gap: 0.25rem;
+      --stat-rating-progressive-width: 0.5rem;
+      --stat-rating-progressive-radius: 0.1875rem;
+    }
+
+    &--large {
+      --stat-rating-star-size: 2rem;
+      --stat-rating-container-height: 3rem;
+      --stat-rating-gap: 0.25rem;
+      --stat-rating-progressive-width: 0.625rem;
+      --stat-rating-progressive-radius: 0.25rem;
     }
 
     &-stars {
       display: inline-flex;
-      gap: 0.125rem;
+      gap: var(--stat-rating-gap);
       align-items: flex-end;
     }
 
@@ -173,8 +203,8 @@
       display: inline-block;
       flex-shrink: 0;
 
-      width: 0.75rem;
-      height: 0.75rem;
+      width: var(--stat-rating-star-size);
+      height: var(--stat-rating-star-size);
     }
 
     &-fill {
@@ -206,14 +236,14 @@
     &-progressive {
       display: inline-flex;
       align-items: flex-end;
-      gap: 0.125rem;
+      gap: var(--stat-rating-gap);
     }
 
     &-progressive-step {
       display: inline-block;
-      width: 0.25rem;
+      width: var(--stat-rating-progressive-width);
       height: var(--dnb-stat-rating-step-height, 0.25rem);
-      border-radius: 0.0625rem;
+      border-radius: var(--stat-rating-progressive-radius);
       background: linear-gradient(
         to right,
         var(--color-black-80) var(--dnb-stat-rating-step-fill, 0%),

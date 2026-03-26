@@ -9,9 +9,19 @@ import { TextInternal as Text } from './Text'
 
 const MAX_ALLOWED = 20
 
+const sizeScales: Record<RatingSize, number> = {
+  small: 1,
+  default: 1.333,
+  medium: 2,
+  large: 2.667,
+}
+
+export type RatingSize = 'small' | 'default' | 'medium' | 'large'
+
 type RatingOwnProps = {
   value?: number
   max?: number
+  size?: RatingSize
   variant?: 'stars' | 'progressive'
   element?: keyof JSX.IntrinsicElements
   srLabel?: React.ReactNode
@@ -30,6 +40,7 @@ function Rating(props: RatingProps) {
     value = 0,
     max = null,
     id = null,
+    size = 'small',
     variant = 'stars',
     element: Element = 'span',
     className = null,
@@ -52,6 +63,8 @@ function Rating(props: RatingProps) {
   const clampedMax = Math.min(resolvedMax, MAX_ALLOWED)
   const safeValue = Number.isFinite(value) ? value : 0
   const normalizedValue = clamp(safeValue, 0, clampedMax)
+
+  const sizeScale = sizeScales[size] ?? 1
   const labelValue = Number.isInteger(normalizedValue)
     ? String(normalizedValue)
     : String(parseFloat(normalizedValue.toFixed(2)))
@@ -73,6 +86,7 @@ function Rating(props: RatingProps) {
         'dnb-stat',
         'dnb-stat__rating',
         `dnb-stat__rating--${variant}`,
+        size !== 'small' && `dnb-stat__rating--${size}`,
         className
       )}
       style={style}
@@ -111,7 +125,9 @@ function Rating(props: RatingProps) {
           {Array.from({ length: clampedMax }).map((_, index) => {
             const fill = clamp(normalizedValue - index, 0, 1)
             const stepHeight =
-              clampedMax > 1 ? 0.25 + (index / (clampedMax - 1)) * 0.75 : 1
+              clampedMax > 1
+                ? (0.25 + (index / (clampedMax - 1)) * 0.75) * sizeScale
+                : 1 * sizeScale
 
             return (
               <span
