@@ -231,7 +231,11 @@ describe('Stat.Root', () => {
 
   it('forwards data-* and aria-* attributes to the DOM element', () => {
     render(
-      <Stat.Root data-testid="stat-root" data-foo="bar" aria-describedby="desc">
+      <Stat.Root
+        data-testid="stat-root"
+        data-foo="bar"
+        aria-describedby="desc"
+      >
         <Stat.Label>Revenue</Stat.Label>
       </Stat.Root>
     )

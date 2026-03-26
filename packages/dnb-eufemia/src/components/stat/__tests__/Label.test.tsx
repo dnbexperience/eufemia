@@ -346,7 +346,12 @@ describe('Stat.Label', () => {
   it('does not forward component-specific props to the DOM', () => {
     render(
       <Stat.Root>
-        <Stat.Label fontSize="medium" fontWeight="bold" variant="subtle" skeleton>
+        <Stat.Label
+          fontSize="medium"
+          fontWeight="bold"
+          variant="subtle"
+          skeleton
+        >
           Revenue
         </Stat.Label>
       </Stat.Root>

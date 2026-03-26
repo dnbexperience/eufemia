@@ -247,7 +247,9 @@ describe('Stat.Rating', () => {
   })
 
   it('does not forward component-specific props to the DOM', () => {
-    render(<Stat.Rating value={3} variant="progressive" max={7} skeleton />)
+    render(
+      <Stat.Rating value={3} variant="progressive" max={7} skeleton />
+    )
 
     const rating = document.querySelector('.dnb-stat__rating')
 
