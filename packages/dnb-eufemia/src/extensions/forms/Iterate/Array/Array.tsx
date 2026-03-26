@@ -401,6 +401,7 @@ function ArrayComponent(props: IterateArrayProps) {
   }, [arrayValue, arrayItems, onChange])
 
   const flexProps: FlexContainerProps & {
+    id?: string
     ref: FlexContainerAllProps['ref']
   } = {
     className: clsx(
@@ -410,6 +411,7 @@ function ArrayComponent(props: IterateArrayProps) {
     ),
     ...pickFlexContainerProps(props as FlexContainerProps),
     ...pickSpacingProps(props),
+    id: props?.id,
     ref: containerRef,
   }
 
