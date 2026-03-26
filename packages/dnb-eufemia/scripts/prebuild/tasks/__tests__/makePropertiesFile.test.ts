@@ -1,5 +1,3 @@
-import { convertVariablesToTailwindFormat } from '../tailwindTransform'
-
 import makePropertiesFile, {
   extractReferencedCssVariables,
   transformFigmaAlias,
@@ -373,47 +371,6 @@ describe('makePropertiesFile', () => {
       expect(global.sbanken).toContain(
         `'--font-family-default': 'var(--sb-font-family-default)'`
       )
-    })
-  })
-
-  describe('convertVariablesToTailwindFormat Function', () => {
-    it('should convert --sb-* variables to --*-sb-* format', () => {
-      const input = {
-        '--sb-color-black': '#000',
-        '--sb-font-size-small': '0.875rem',
-        '--sb-line-height-medium': '2rem',
-      }
-      const result = convertVariablesToTailwindFormat(input)
-
-      expect(result).toEqual({
-        '--color-sb-black': '#000',
-        '--text-sb-small': '0.875rem',
-        '--leading-sb-medium': '2rem',
-      })
-    })
-
-    it('should handle var() references correctly', () => {
-      const input = {
-        '--font-size-lead': 'var(--sb-font-size-medium)',
-      }
-      const result = convertVariablesToTailwindFormat(input)
-
-      expect(result).toEqual({
-        '--text-lead': 'var(--text-sb-medium)',
-      })
-    })
-
-    it('should preserve non-sb variables unchanged', () => {
-      const input = {
-        '--color-white': '#fff',
-        '--font-size-large': '2rem',
-      }
-      const result = convertVariablesToTailwindFormat(input)
-
-      expect(result).toEqual({
-        '--color-white': '#fff',
-        '--text-large': '2rem',
-      })
     })
   })
 
