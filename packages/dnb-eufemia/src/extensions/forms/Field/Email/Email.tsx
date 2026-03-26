@@ -41,6 +41,8 @@ function Email(props: Props) {
     label,
     autoComplete: 'email',
     inputMode: 'email',
+    // RFC 5321, which is used in DNB, limits the total length of an email address to 254 characters
+    maxLength: 254,
     pattern,
     trim: true,
     ...props,
