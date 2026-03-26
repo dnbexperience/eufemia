@@ -268,4 +268,49 @@ describe('Stat.Content', () => {
 
     spy.mockRestore()
   })
+
+  it('sets aria-live attribute when ariaLive prop is provided', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content ariaLive="polite">
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const content = document.querySelector('.dnb-stat__content-item')
+
+    expect(content).toHaveAttribute('aria-live', 'polite')
+  })
+
+  it('supports assertive aria-live', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content ariaLive="assertive">
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const content = document.querySelector('.dnb-stat__content-item')
+
+    expect(content).toHaveAttribute('aria-live', 'assertive')
+  })
+
+  it('does not set aria-live when ariaLive prop is not provided', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content>
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const content = document.querySelector('.dnb-stat__content-item')
+
+    expect(content).not.toHaveAttribute('aria-live')
+  })
 })
