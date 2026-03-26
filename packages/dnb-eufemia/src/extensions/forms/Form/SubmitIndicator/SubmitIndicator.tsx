@@ -14,6 +14,7 @@ import withComponentMarkers from '../../../../shared/helpers/withComponentMarker
 
 export type FormSubmitIndicatorProps = {
   state: SubmitState
+  id?: string
   label?: React.ReactNode
   showLabel?: boolean
   className?: string
@@ -24,6 +25,7 @@ function SubmitIndicator(props: FormSubmitIndicatorProps) {
   const translation = useTranslation()
 
   const {
+    id,
     className,
     children,
     state,
@@ -51,6 +53,7 @@ function SubmitIndicator(props: FormSubmitIndicatorProps) {
   }, [key, recalculate])
 
   const params = {
+    id,
     className: clsx(
       'dnb-forms-submit-indicator',
       state && `dnb-forms-submit-indicator--state-${state}`,
