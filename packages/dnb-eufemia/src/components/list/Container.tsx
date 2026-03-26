@@ -10,6 +10,7 @@ export type ListContainerProps = {
   separated?: boolean
   skeleton?: SkeletonShow
   disabled?: boolean
+  emptyState?: React.ReactNode
 } & FlexProps
 
 function ListContainer(props: ListContainerProps) {
@@ -20,6 +21,7 @@ function ListContainer(props: ListContainerProps) {
     separated = false,
     skeleton,
     disabled,
+    emptyState,
     wrapChildrenInSpace = false,
     ...rest
   } = props
@@ -29,6 +31,32 @@ function ListContainer(props: ListContainerProps) {
   const appliedSkeleton =
     skeleton ?? parentContext?.skeleton ?? globalContext?.skeleton
   const appliedDisabled = disabled ?? parentContext?.disabled
+
+  const hasChildren =
+    React.Children.toArray(children).filter(Boolean).length > 0
+
+  if (!hasChildren && emptyState) {
+    return (
+      <ListContext.Provider
+        value={{
+          variant,
+          separated,
+          skeleton: appliedSkeleton,
+          disabled: appliedDisabled,
+        }}
+      >
+        <div
+          className={classnames(
+            'dnb-list',
+            'dnb-list__empty-state',
+            className
+          )}
+        >
+          {emptyState}
+        </div>
+      </ListContext.Provider>
+    )
+  }
 
   return (
     <ListContext.Provider

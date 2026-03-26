@@ -215,4 +215,57 @@ describe('List Container', () => {
 
     expect(await axeComponent(container)).toHaveNoViolations()
   })
+
+  it('renders emptyState when children are empty', () => {
+    render(<Container emptyState="No items found" />)
+
+    const emptyState = document.querySelector('.dnb-list__empty-state')
+
+    expect(emptyState).toBeInTheDocument()
+    expect(emptyState.textContent).toBe('No items found')
+  })
+
+  it('renders emptyState as JSX', () => {
+    render(
+      <Container emptyState={<span data-testid="empty">Empty</span>} />
+    )
+
+    const emptyState = document.querySelector('.dnb-list__empty-state')
+    const content = emptyState.querySelector('[data-testid="empty"]')
+
+    expect(content).toBeInTheDocument()
+    expect(content.textContent).toBe('Empty')
+  })
+
+  it('does not render emptyState when children are present', () => {
+    render(
+      <Container emptyState="No items found">
+        <ItemContent>Item one</ItemContent>
+      </Container>
+    )
+
+    const emptyState = document.querySelector('.dnb-list__empty-state')
+    const list = document.querySelector('.dnb-list__container')
+
+    expect(emptyState).not.toBeInTheDocument()
+    expect(list).toBeInTheDocument()
+  })
+
+  it('renders normal list when no emptyState prop and no children', () => {
+    render(<Container />)
+
+    const list = document.querySelector('.dnb-list__container')
+
+    expect(list).toBeInTheDocument()
+  })
+
+  it('merges className on emptyState wrapper', () => {
+    render(<Container className="custom" emptyState="No items" />)
+
+    const emptyState = document.querySelector('.dnb-list__empty-state')
+
+    expect(emptyState.classList).toContain('dnb-list')
+    expect(emptyState.classList).toContain('dnb-list__empty-state')
+    expect(emptyState.classList).toContain('custom')
+  })
 })
