@@ -3,6 +3,36 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.102.0](https://github.com/dnbexperience/eufemia/compare/v10.101.2...v10.102.0) (2026-03-26)
+
+
+### :zap: Refactoring
+
+* move Form.Section test and fix formatting ([#7236](https://github.com/dnbexperience/eufemia/issues/7236)) ([80c663e](https://github.com/dnbexperience/eufemia/commit/80c663eaf6693c6033e6d55d49877575cb1c0d28))
+
+
+### :sparkles: Features
+
+* **List:** add explicit aria-label and aria-labelledby props ([#7231](https://github.com/dnbexperience/eufemia/issues/7231)) ([2fcb88c](https://github.com/dnbexperience/eufemia/commit/2fcb88c1a8db997dd49ebad6301f00b6aea9d9dd))
+* **List:** add explicit id prop to List sub-components ([#7239](https://github.com/dnbexperience/eufemia/issues/7239)) ([c042750](https://github.com/dnbexperience/eufemia/commit/c0427501fd97734ad17c9c938c61cb2ab1e4e570))
+* **List:** add onChange callback to ItemAccordion ([#7100](https://github.com/dnbexperience/eufemia/issues/7100)) ([ea8c457](https://github.com/dnbexperience/eufemia/commit/ea8c4577d5d1710923777d500e1e395d8e04787a))
+* **Stat:** add `Stat.Text` for custom text with `colorizeBySign`, `fontSize`, `fontWeight` ([#7224](https://github.com/dnbexperience/eufemia/issues/7224)) ([b96adb1](https://github.com/dnbexperience/eufemia/commit/b96adb15f9fa9cf0d8ff135a8e4479bf02837a1d)), closes [#7215](https://github.com/dnbexperience/eufemia/issues/7215)
+* **Stat:** add ariaLive prop to Stat.Content ([#7230](https://github.com/dnbexperience/eufemia/issues/7230)) ([9380bf6](https://github.com/dnbexperience/eufemia/commit/9380bf64c2001c7b0696ba0328d7bd4b3e5c5d27))
+* **Stat:** add explicit id prop to Stat.Inline ([#7237](https://github.com/dnbexperience/eufemia/issues/7237)) ([893ef1b](https://github.com/dnbexperience/eufemia/commit/893ef1b37df1787afa4db9f013d14b87c51ba1ef))
+
+
+### :memo: Documentation
+
+* **Stat:** add example using AriaLive for announcement during stat changes ([#7242](https://github.com/dnbexperience/eufemia/issues/7242)) ([c4af73d](https://github.com/dnbexperience/eufemia/commit/c4af73d68128cdcd73a1b780a6b089c3cbb7f6a7))
+
+
+### :bug: Bug Fixes
+
+* **Field.Email:** add default maxLength of 254 ([#7244](https://github.com/dnbexperience/eufemia/issues/7244)) ([465f1e7](https://github.com/dnbexperience/eufemia/commit/465f1e7134c0a622083c008ee30dceedb2fbe057))
+* **Field.Upload:** clear shared upload state on unmount to prevent file leaks ([#7223](https://github.com/dnbexperience/eufemia/issues/7223)) ([a2658fb](https://github.com/dnbexperience/eufemia/commit/a2658fbbf0319e41c2de5eb6891d86782720d3d3)), closes [#6684](https://github.com/dnbexperience/eufemia/issues/6684)
+* **Form.Section:** prevent repeated translation injection ([#7220](https://github.com/dnbexperience/eufemia/issues/7220)) ([1688710](https://github.com/dnbexperience/eufemia/commit/1688710a8479fc19ae97737e2a086dd957cf0a68))
+* **List:** remove redundant borders on List items inside List.Card ([#7226](https://github.com/dnbexperience/eufemia/issues/7226)) ([31625af](https://github.com/dnbexperience/eufemia/commit/31625afdc7d14449b087c8baf9e31b6acd6096d6))
+
 ## [10.101.2](https://github.com/dnbexperience/eufemia/compare/v10.101.1...v10.101.2) (2026-03-25)
 
 
