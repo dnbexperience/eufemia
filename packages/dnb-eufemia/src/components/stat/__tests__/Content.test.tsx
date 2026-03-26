@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import Stat from '../Stat'
+import AriaLive from '../../aria-live/AriaLive'
 
 describe('Stat.Content', () => {
   it('supports vertical direction inside Stat.Root', () => {
@@ -304,5 +305,36 @@ describe('Stat.Content', () => {
 
     expect(content.getAttribute('direction')).toBeNull()
     expect(content.getAttribute('skeleton')).toBeNull()
+  })
+
+  it('announces dynamic value updates when wrapped with AriaLive', async () => {
+    const { rerender } = render(
+      <AriaLive variant="content">
+        <Stat.Root>
+          <Stat.Label>Revenue</Stat.Label>
+          <Stat.Content>
+            <Stat.Currency value={1234} />
+          </Stat.Content>
+        </Stat.Root>
+      </AriaLive>
+    )
+
+    const ariaLiveElement = document.querySelector('.dnb-aria-live')
+
+    expect(ariaLiveElement).toHaveAttribute('aria-live', 'polite')
+    expect(ariaLiveElement.textContent).toContain('1\u00a0234')
+
+    rerender(
+      <AriaLive variant="content">
+        <Stat.Root>
+          <Stat.Label>Revenue</Stat.Label>
+          <Stat.Content>
+            <Stat.Currency value={5678} />
+          </Stat.Content>
+        </Stat.Root>
+      </AriaLive>
+    )
+
+    expect(ariaLiveElement.textContent).toContain('5\u00a0678')
   })
 })
