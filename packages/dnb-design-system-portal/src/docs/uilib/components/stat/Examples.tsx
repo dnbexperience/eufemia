@@ -1,8 +1,12 @@
+import React from 'react'
 import { useTranslation } from '@dnb/eufemia/shared'
 import {
+  AriaLive,
+  Button,
   Card,
   Code,
   DateFormat,
+  Flex,
   Grid,
   H3,
   Icon,
@@ -343,6 +347,37 @@ export const WithSubtleLabel = () => (
           </Grid.Container>
         )
       }
+      return <Example />
+    }}
+  </ComponentBox>
+)
+
+export const WithAriaLive = () => (
+  <ComponentBox>
+    {() => {
+      function Example() {
+        const [value, setValue] = React.useState(1234)
+
+        return (
+          <Flex.Stack>
+            <AriaLive variant="content">
+              <Stat.Root>
+                <Stat.Label>Revenue</Stat.Label>
+                <Stat.Content>
+                  <Stat.Currency value={value} />
+                </Stat.Content>
+              </Stat.Root>
+            </AriaLive>
+
+            <Button
+              text="Update value"
+              variant="secondary"
+              on_click={() => setValue((prev) => prev + 100)}
+            />
+          </Flex.Stack>
+        )
+      }
+
       return <Example />
     }}
   </ComponentBox>
