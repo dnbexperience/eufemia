@@ -311,5 +311,4 @@ describe('Stat.Rating', () => {
     expect(parseFloat(firstHeight)).toBeCloseTo(0.25 * 2.667, 1)
     expect(parseFloat(lastHeight)).toBeCloseTo(1 * 2.667, 1)
   })
-
 })
