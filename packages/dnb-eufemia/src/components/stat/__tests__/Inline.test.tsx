@@ -158,6 +158,19 @@ describe('Stat.Inline', () => {
     expect(info.classList).toContain('dnb-skeleton')
   })
 
+  it('supports id prop', () => {
+    render(
+      <Stat.Inline id="my-inline">
+        <Stat.Trend>+1.2%</Stat.Trend>
+        <Stat.Info>(additional information)</Stat.Info>
+      </Stat.Inline>
+    )
+
+    const inline = document.querySelector('.dnb-stat__inline')
+
+    expect(inline.getAttribute('id')).toBe('my-inline')
+  })
+
   it('warns when used outside Stat.Root', () => {
     const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
 
