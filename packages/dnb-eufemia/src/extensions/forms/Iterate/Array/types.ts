@@ -18,7 +18,7 @@ export type ElementChild =
     ) => React.ReactNode)
 export type IterateArrayProps = Omit<
   FlexContainerProps,
-  keyof Omit<React.HTMLAttributes<HTMLDivElement>, 'className'>
+  keyof Omit<React.HTMLAttributes<HTMLDivElement>, 'className' | 'id'>
 > &
   Pick<
     UseFieldProps<Value, undefined | Value>,
