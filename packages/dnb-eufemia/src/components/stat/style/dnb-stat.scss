@@ -6,6 +6,9 @@
 @import '../../../style/core/utilities.scss';
 
 .dnb-stat {
+  --stat-rating-active-color: currentcolor;
+  --stat-rating-base-color: lightgray;
+
   &--tone-positive {
     color: var(--color-success-green);
   }
@@ -195,11 +198,11 @@
       }
 
       &--base {
-        color: var(--color-black-20);
+        color: var(--stat-rating-base-color);
       }
 
       &--active {
-        color: var(--color-black-80);
+        color: var(--stat-rating-active-color);
       }
     }
 
@@ -216,8 +219,8 @@
       border-radius: 0.0625rem;
       background: linear-gradient(
         to right,
-        var(--color-black-80) var(--dnb-stat-rating-step-fill, 0%),
-        var(--color-black-20) var(--dnb-stat-rating-step-fill, 0%)
+        var(--stat-rating-active-color) var(--dnb-stat-rating-step-fill, 0%),
+        var(--stat-rating-base-color) var(--dnb-stat-rating-step-fill, 0%)
       );
     }
   }
