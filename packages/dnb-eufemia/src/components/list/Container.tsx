@@ -6,6 +6,7 @@ import type { SkeletonShow } from '../Skeleton'
 import SharedContext from '../../shared/Context'
 
 export type ListContainerProps = {
+  id?: string
   variant?: ListVariant
   separated?: boolean
   skeleton?: SkeletonShow
