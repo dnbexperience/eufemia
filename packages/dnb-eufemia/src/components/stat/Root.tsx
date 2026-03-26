@@ -13,6 +13,7 @@ export type RootProps = {
   style?: React.CSSProperties
   visualOrder?: 'label-content' | 'content-label'
   skeleton?: SkeletonShow
+  innerRef?: React.RefObject<HTMLElement>
 } & SpacingProps
 
 function Root(props: RootProps) {
@@ -23,6 +24,7 @@ function Root(props: RootProps) {
     style = null,
     visualOrder = 'label-content',
     skeleton = null,
+    innerRef = null,
     ...rest
   } = props
 
@@ -45,6 +47,7 @@ function Root(props: RootProps) {
         element="dl"
         id={id}
         style={style}
+        innerRef={innerRef}
         className={classnames(
           'dnb-stat',
           'dnb-stat__root',

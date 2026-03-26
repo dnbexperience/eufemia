@@ -228,4 +228,18 @@ describe('Stat.Root', () => {
     expect(didWarnOrder).toBe(false)
     spy.mockRestore()
   })
+
+  it('supports innerRef prop', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(
+      <Stat.Root innerRef={ref}>
+        <Stat.Label>Revenue growth</Stat.Label>
+      </Stat.Root>
+    )
+
+    const root = document.querySelector('.dnb-stat__root')
+
+    expect(ref.current).toBe(root)
+  })
 })

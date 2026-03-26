@@ -215,4 +215,18 @@ describe('List Container', () => {
 
     expect(await axeComponent(container)).toHaveNoViolations()
   })
+
+  it('supports innerRef prop', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(
+      <Container innerRef={ref}>
+        <ItemContent>Item one</ItemContent>
+      </Container>
+    )
+
+    const element = document.querySelector('.dnb-list')
+
+    expect(ref.current).toBe(element)
+  })
 })
