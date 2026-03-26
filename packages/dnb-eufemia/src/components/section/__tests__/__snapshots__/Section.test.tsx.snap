@@ -169,6 +169,18 @@ exports[`Section scss has to match style dependencies css 1`] = `
 .dnb-section--spacing-xx-large {
   padding-top: var(--spacing-xx-large);
   padding-bottom: var(--spacing-xx-large);
+}
+.dnb-section--error {
+  --text-color: var(--token-color-text-neutral);
+  --background-color: var(--token-color-background-error-subtle);
+}
+.dnb-section--information, .dnb-section--success {
+  --text-color: var(--token-color-text-neutral);
+  --background-color: var(--token-color-background-info-subtle);
+}
+.dnb-section--warning {
+  --text-color: var(--token-color-text-neutral);
+  --background-color: var(--token-color-background-warning-subtle);
 }"
 `;
 
@@ -185,7 +197,6 @@ exports[`Section scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 .dnb-section {
-  --background-color: var(--color-white);
   --outline-color--value: var(--color-black-8);
 }
 .dnb-section--divider {
@@ -232,11 +243,11 @@ exports[`Section scss have to match default theme snapshot 1`] = `
   --text-color: var(--color-black-80);
   --background-color: var(--color-lavender);
 }
-.dnb-section--sand-yellow, .dnb-section--warning {
+.dnb-section--sand-yellow {
   --text-color: var(--color-black-80);
   --background-color: var(--color-sand-yellow);
 }
-.dnb-section--pistachio, .dnb-section--information {
+.dnb-section--pistachio {
   --text-color: var(--color-black-80);
   --background-color: var(--color-pistachio);
 }
@@ -268,15 +279,11 @@ exports[`Section scss have to match default theme snapshot 1`] = `
   --text-color: var(--color-white);
   --background-color: var(--color-fire-red);
 }
-.dnb-section--fire-red-8, .dnb-section--error {
+.dnb-section--fire-red-8 {
   --text-color: var(--color-black-80);
   --background-color: var(--color-fire-red-8);
 }
-.dnb-section--success {
-  --text-color: var(--color-white);
-  --background-color: var(--color-success-green);
-}
-.dnb-section--fire-red .dnb-anchor, .dnb-section--emerald-green .dnb-anchor, .dnb-section--sea-green .dnb-anchor, .dnb-section--success .dnb-anchor {
+.dnb-section--fire-red .dnb-anchor, .dnb-section--emerald-green .dnb-anchor, .dnb-section--sea-green .dnb-anchor {
   --anchor-color--default: var(--token-color-text-action-ondark);
   --anchor-color--hover: var(--token-color-text-action-ondark);
   --anchor-color--active: var(--token-color-text-action-ondark);
