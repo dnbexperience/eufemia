@@ -43,6 +43,30 @@ describe('Stat.Text', () => {
     expect(text.classList).toContain('dnb-stat--tone-positive')
   })
 
+  it('supports colorizeBySign with string children containing a minus prefix', () => {
+    renderInRoot(<Stat.Text colorizeBySign>-42%</Stat.Text>)
+
+    const text = document.querySelector('.dnb-stat__text')
+
+    expect(text.classList).toContain('dnb-stat--tone-negative')
+  })
+
+  it('supports colorizeBySign with string children containing a plus prefix', () => {
+    renderInRoot(<Stat.Text colorizeBySign>+revenue</Stat.Text>)
+
+    const text = document.querySelector('.dnb-stat__text')
+
+    expect(text.classList).toContain('dnb-stat--tone-positive')
+  })
+
+  it('supports colorizeBySign with negative zero', () => {
+    renderInRoot(<Stat.Text colorizeBySign={-0}>value</Stat.Text>)
+
+    const text = document.querySelector('.dnb-stat__text')
+
+    expect(text.classList).toContain('dnb-stat--tone-negative')
+  })
+
   it('supports typography props', () => {
     renderInRoot(
       <Stat.Text fontSize="x-large" fontWeight="regular">
