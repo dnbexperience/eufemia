@@ -417,13 +417,26 @@
         &:last-of-type {
           border-radius: 0;
         }
-      }
-    }
 
-    .dnb-card:has(.dnb-scroll-view &)
-      .dnb-list__item:not(:hover):not(:focus-visible)::after {
-      border-right: none;
-      border-left: none;
+        // Remove borders inside a Card (Card provides the boundary).
+        // Non-interactive items never show these borders.
+        // Interactive items show them only on hover/focus.
+        &:not(:hover):not(:focus-visible),
+        &:not(.dnb-list__item__action):not(.dnb-list__item__accordion) {
+          &::after {
+            border-right: none;
+            border-left: none;
+          }
+
+          &:first-of-type::after {
+            border-top: none;
+          }
+
+          &:last-of-type::after {
+            border-bottom: none;
+          }
+        }
+      }
     }
 
     // Handle scrollbar

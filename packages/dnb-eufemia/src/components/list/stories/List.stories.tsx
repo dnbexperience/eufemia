@@ -12,6 +12,7 @@ import {
   List,
   NumberFormat,
   PortalRoot,
+  Space,
 } from '../../../components'
 import { Value } from '../../../extensions/forms'
 import { fish_medium } from '../../../icons'
@@ -483,5 +484,70 @@ export function ListWithPortalRoot() {
         </PortalRoot>
       </Box>
     </Wrapper>
+  )
+}
+
+export function ListBorders() {
+  const agreements = [
+    { agreementId: 123, agreementName: 'test', amount: 123 },
+    { agreementId: 1234, agreementName: 'test', amount: 123 },
+  ]
+
+  return (
+    <>
+      {/* No side borders shown */}
+      <List.Card>
+        <List.ScrollView>
+          <List.Container>
+            {agreements.map((agreement) => (
+              <List.Item.Action
+                key={agreement.agreementId}
+                title={agreement.agreementName}
+              >
+                <List.Cell.End>
+                  <NumberFormat currency value={agreement.amount} />
+                </List.Cell.End>
+              </List.Item.Action>
+            ))}
+          </List.Container>
+        </List.ScrollView>
+      </List.Card>
+
+      <Space top="medium" />
+
+      {/* Side borders shown */}
+      <List.Card>
+        <List.Container>
+          {agreements.map((agreement) => (
+            <List.Item.Basic
+              key={agreement.agreementId}
+              title={agreement.agreementName}
+            >
+              <List.Cell.End>
+                <NumberFormat currency value={agreement.amount} />
+              </List.Cell.End>
+            </List.Item.Basic>
+          ))}
+        </List.Container>
+      </List.Card>
+
+      <Space top="medium" />
+
+      {/* Side borders shown */}
+      <List.Card>
+        <List.Container>
+          {agreements.map((agreement) => (
+            <List.Item.Action
+              key={agreement.agreementId}
+              title={agreement.agreementName}
+            >
+              <List.Cell.End>
+                <NumberFormat currency value={agreement.amount} />
+              </List.Cell.End>
+            </List.Item.Action>
+          ))}
+        </List.Container>
+      </List.Card>
+    </>
   )
 }
