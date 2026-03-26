@@ -16,6 +16,7 @@ export type ContentProps = {
   element?: keyof JSX.IntrinsicElements
   direction?: 'horizontal' | 'vertical'
   skeleton?: SkeletonShow
+  ariaLive?: 'polite' | 'assertive' | 'off'
 } & SpacingProps
 
 function Content(props: ContentProps) {
@@ -28,6 +29,7 @@ function Content(props: ContentProps) {
     element: elementProp,
     direction = 'horizontal',
     skeleton = null,
+    ariaLive = null,
     ...rest
   } = props
 
@@ -43,6 +45,7 @@ function Content(props: ContentProps) {
   const attributes = validateDOMAttributes(props, {
     ...rest,
     style,
+    'aria-live': ariaLive ?? undefined,
     className: classnames(
       'dnb-stat',
       'dnb-stat__content-item',
