@@ -215,4 +215,42 @@ describe('List Container', () => {
 
     expect(await axeComponent(container)).toHaveNoViolations()
   })
+
+  it('supports aria-label on the ul element', () => {
+    render(
+      <Container aria-label="Navigation items">
+        <ItemContent>Item one</ItemContent>
+      </Container>
+    )
+
+    const element = document.querySelector('.dnb-list')
+
+    expect(element).toHaveAttribute('aria-label', 'Navigation items')
+  })
+
+  it('supports aria-labelledby on the ul element', () => {
+    render(
+      <>
+        <h2 id="list-heading">My list</h2>
+        <Container aria-labelledby="list-heading">
+          <ItemContent>Item one</ItemContent>
+        </Container>
+      </>
+    )
+
+    const element = document.querySelector('.dnb-list')
+
+    expect(element).toHaveAttribute('aria-labelledby', 'list-heading')
+  })
+
+  it('has no axe violations when aria-label is provided', async () => {
+    const { container } = render(
+      <Container aria-label="Important items">
+        <ItemContent>Item one</ItemContent>
+        <ItemContent>Item two</ItemContent>
+      </Container>
+    )
+
+    expect(await axeComponent(container)).toHaveNoViolations()
+  })
 })
