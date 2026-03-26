@@ -10,6 +10,8 @@ export type ListContainerProps = {
   separated?: boolean
   skeleton?: SkeletonShow
   disabled?: boolean
+  'aria-label'?: string
+  'aria-labelledby'?: string
 } & FlexProps
 
 function ListContainer(props: ListContainerProps) {
