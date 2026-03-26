@@ -8,7 +8,7 @@
 @use '../../../../style/core/utilities.scss' as utilities;
 
 .dnb-section {
-  /** deprecated: default should be white in v11 */
+  // deprecated: default should be white in v11
   &--mint-green-12 {
     --text-color: var(--text-color--value, var(--color-black-80));
     --background-color: var(
@@ -17,13 +17,13 @@
     );
   }
 
-  /** deprecated */
+  // deprecated
   &--mint-green {
     --text-color: var(--color-black-80);
     --background-color: var(--color-mint-green);
   }
 
-  /** deprecated */
+  // deprecated
   &--lavender {
     --text-color: var(--color-black-80);
     --background-color: var(--color-lavender);
@@ -41,25 +41,25 @@
     --background-color: var(--color-pistachio);
   }
 
-  /** deprecated */
+  // deprecated
   &--black-3 {
     --text-color: var(--color-black-80);
     --background-color: var(--color-black-3);
   }
 
-  /** deprecated */
+  // deprecated
   &--emerald-green {
     --text-color: var(--color-mint-green);
     --background-color: var(--color-emerald-green);
   }
 
-  /** deprecated */
+  // deprecated
   &--sea-green {
     --text-color: var(--color-white);
     --background-color: var(--color-sea-green);
   }
 
-  /** deprecated */
+  // deprecated
   &--fire-red {
     --text-color: var(--color-white);
     --background-color: var(--color-fire-red);
@@ -101,8 +101,10 @@
   }
 
   // contrast color
-  &--fire-red,/** deprecated */
-  &--mint-green /** deprecated */ {
+  // deprecated
+  &--fire-red,
+  // deprecated
+  &--mint-green {
     ::selection {
       background-color: var(--color-white);
     }
