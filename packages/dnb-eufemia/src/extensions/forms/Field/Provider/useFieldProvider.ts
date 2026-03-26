@@ -49,6 +49,10 @@ function useFieldProvider(props?: Omit<FieldProviderProps, 'children'>) {
     sharedProviderParams.locale = locale
   }
   sharedProviderParams.translations = useMemo(() => {
+    if (restProps.translations === undefined) {
+      return restProps.translations
+    }
+
     const translations = extendDeep(
       {},
       sharedContext.translations,
