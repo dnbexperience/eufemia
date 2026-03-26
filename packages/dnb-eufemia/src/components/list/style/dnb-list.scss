@@ -417,13 +417,20 @@
         &:last-of-type {
           border-radius: 0;
         }
-      }
-    }
 
-    .dnb-card:has(.dnb-scroll-view &)
-      .dnb-list__item:not(:hover):not(:focus-visible)::after {
-      border-right: none;
-      border-left: none;
+        &:not(:hover):not(:focus-visible)::after {
+          border-right: none;
+          border-left: none;
+        }
+
+        &:first-of-type:not(:hover):not(:focus-visible)::after {
+          border-top: none;
+        }
+
+        &:last-of-type:not(:hover):not(:focus-visible)::after {
+          border-bottom: none;
+        }
+      }
     }
 
     // Handle scrollbar
