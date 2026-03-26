@@ -4,7 +4,7 @@ import type { SpacingProps } from '../../shared/types'
 import { convertJsxToString, warn } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatValueContext from './StatValueContext'
-import Text from './Text'
+import { TextInternal as Text } from './Text'
 
 const trendContextValue = {
   useBasisSize: true,

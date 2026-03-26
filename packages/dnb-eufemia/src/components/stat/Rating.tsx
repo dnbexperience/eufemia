@@ -5,7 +5,7 @@ import { convertJsxToString, warn } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import { useTranslation } from '../../shared'
 import { clamp } from '../../shared/helpers/clamp'
-import Text from './Text'
+import { TextInternal as Text } from './Text'
 
 const MAX_ALLOWED = 20
 

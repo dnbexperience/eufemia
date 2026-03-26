@@ -5,7 +5,7 @@ import { warn } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatValueContext from './StatValueContext'
 import StatRootContext from './StatRootContext'
-import Text from './Text'
+import { TextInternal as Text } from './Text'
 
 const infoContextValue = {
   useBasisSize: true,

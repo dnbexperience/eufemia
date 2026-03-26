@@ -13,7 +13,7 @@ import { formatReturnValue } from '../number-format/NumberUtils'
 import { convertJsxToString, warn } from '../../shared/component-helper'
 import StatValueContext from './StatValueContext'
 import useStatSkeleton from './useStatSkeleton'
-import Text from './Text'
+import { TextInternal as Text } from './Text'
 
 /**
  * @deprecated Use `NumberProps` from `Stat.Number` instead.

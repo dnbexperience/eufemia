@@ -31,12 +31,13 @@ export type TextProps = Omit<
   TextOwnProps &
   SpacingProps
 
-type TextInternalProps = TextProps & {
+/** @internal */
+export type TextInternalProps = TextProps & {
   textClassName?: string | false
   skeletonMethod?: SkeletonMethods
 }
 
-function Text(props: TextInternalProps) {
+function TextInternal(props: TextInternalProps) {
   const {
     children,
     element: Element = 'span',
@@ -85,6 +86,12 @@ function Text(props: TextInternalProps) {
   applySkeletonAttributes(attributes)
 
   return <Element {...attributes}>{children}</Element>
+}
+
+TextInternal._supportsSpacingProps = true
+
+function Text(props: TextProps) {
+  return <TextInternal {...props} />
 }
 
 Text._supportsSpacingProps = true
@@ -146,4 +153,5 @@ function getValueFromChildren(children: React.ReactNode) {
   return convertJsxToString(children)
 }
 
+export { TextInternal }
 export default Text
