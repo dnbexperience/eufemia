@@ -1023,6 +1023,7 @@ button.dnb-button::-moz-focus-inner {
   --outline: 0 0 0 var(--outline-width, 1px)
     var(--outline-color, transparent);
   --outline-none: 0 0 0 0 transparent;
+  --outline-color--value: var(--token-color-stroke-neutral-subtle);
   --drop-shadow-none: var(--outline-none);
   --top: 0;
   --left: -100vw;
@@ -1142,6 +1143,39 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section::after {
   z-index: -7;
+}
+.dnb-section--divider {
+  --text-color: var(--token-color-text-neutral);
+  --background-color: var(--token-color-background-neutral);
+  --separator-color: var(--token-color-stroke-neutral-subtle);
+  z-index: 0;
+}
+.dnb-section--divider::after {
+  --box-shadow: 99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor,
+    297vw 0 0 0 currentcolor, 396vw 0 0 0 currentcolor,
+    0 0.0625rem 0 0 var(--separator-color),
+    99vw 0.0625rem 0 0 var(--separator-color),
+    0 -0.0625rem 0 0 var(--separator-color),
+    99vw -0.0625rem 0 0 var(--separator-color),
+    198vw 0.0625rem 0 0 var(--separator-color),
+    198vw -0.0625rem 0 0 var(--separator-color);
+}
+.dnb-section--transparent {
+  --background-color: transparent;
+}
+.dnb-section--default {
+  --text-color: var(
+    --text-color--value,
+    var(--token-color-text-neutral)
+  );
+  --background-color: var(
+    --background-color--value,
+    var(--token-color-background-neutral)
+  );
+}
+.dnb-section--white {
+  --text-color: var(--token-color-text-neutral);
+  --background-color: var(--token-color-background-neutral);
 }
 .dnb-section--error {
   --text-color: var(--token-color-text-neutral);
