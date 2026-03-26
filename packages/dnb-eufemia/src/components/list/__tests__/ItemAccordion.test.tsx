@@ -939,4 +939,39 @@ describe('ItemAccordion', () => {
       expect(handleChange).not.toHaveBeenCalled()
     })
   })
+
+  it('forwards data-* and aria-* attributes to the DOM element', () => {
+    render(
+      <ItemAccordion
+        data-testid="item-accordion"
+        data-foo="bar"
+        aria-label="Accordion item"
+      >
+        <ItemAccordion.Header>Title</ItemAccordion.Header>
+        <ItemAccordion.Content>Content</ItemAccordion.Content>
+      </ItemAccordion>
+    )
+
+    const element = document.querySelector('.dnb-list__item__accordion')
+
+    expect(element.getAttribute('data-testid')).toBe('item-accordion')
+    expect(element.getAttribute('data-foo')).toBe('bar')
+    expect(element.getAttribute('aria-label')).toBe('Accordion item')
+  })
+
+  it('does not forward component-specific props to the DOM', () => {
+    render(
+      <ItemAccordion variant="basic" skeleton open keepInDOM>
+        <ItemAccordion.Header>Title</ItemAccordion.Header>
+        <ItemAccordion.Content>Content</ItemAccordion.Content>
+      </ItemAccordion>
+    )
+
+    const element = document.querySelector('.dnb-list__item__accordion')
+
+    expect(element.getAttribute('variant')).toBeNull()
+    expect(element.getAttribute('skeleton')).toBeNull()
+    expect(element.getAttribute('open')).toBeNull()
+    expect(element.getAttribute('keepInDOM')).toBeNull()
+  })
 })

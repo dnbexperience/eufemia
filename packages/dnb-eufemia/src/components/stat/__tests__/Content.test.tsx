@@ -313,4 +313,42 @@ describe('Stat.Content', () => {
 
     expect(content).not.toHaveAttribute('aria-live')
   })
+
+  it('forwards data-* and aria-* attributes to the DOM element', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content
+          data-testid="stat-content"
+          data-foo="bar"
+          aria-describedby="desc"
+        >
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const content = document.querySelector('.dnb-stat__content-item')
+
+    expect(content.getAttribute('data-testid')).toBe('stat-content')
+    expect(content.getAttribute('data-foo')).toBe('bar')
+    expect(content.getAttribute('aria-describedby')).toBe('desc')
+  })
+
+  it('does not forward component-specific props to the DOM', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content direction="vertical" skeleton ariaLive="polite">
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const content = document.querySelector('.dnb-stat__content-item')
+
+    expect(content.getAttribute('direction')).toBeNull()
+    expect(content.getAttribute('skeleton')).toBeNull()
+    expect(content.getAttribute('ariaLive')).toBeNull()
+  })
 })
