@@ -187,6 +187,9 @@ You can import the pre-generated `properties-tailwind.css` files that contain al
 
 /* Import Eufemia properties in Tailwind format */
 @import '@dnb/eufemia/style/themes/ui/properties-tailwind.css' layer(utilities);
+
+/* Import Eufemia design tokens in Tailwind format */
+@import '@dnb/eufemia/style/themes/ui/tokens-tailwind.css' layer(utilities);
 ```
 
 ### Tailwind-Compatible CSS Variables
@@ -224,6 +227,29 @@ For Sbanken, the following namespaces are available:
 - **`--breakpoint-sb-*`** - (e.g., `--breakpoint-sb-small`, `--breakpoint-sb-large`)
 
 This makes Eufemia properties directly usable with Tailwind's utility classes while maintaining brand-specific variants.
+
+### Semantic Design Tokens
+
+In addition to the theme properties above, Eufemia provides semantic design tokens via `tokens-tailwind.css`. These tokens represent higher-level design decisions (e.g., "background for an action element") rather than raw values, and reference foundation color variables.
+
+The `--token-` prefix from `tokens.scss` is stripped, so the variables map directly to Tailwind's `--color-*` namespace:
+
+- **`--color-background-*`** - Background colors (e.g., `--color-background-action`, `--color-background-error-subtle`)
+- **`--color-text-*`** - Text colors (e.g., `--color-text-neutral`, `--color-text-action`)
+- **`--color-icon-*`** - Icon colors (e.g., `--color-icon-neutral`, `--color-icon-action`)
+- **`--color-stroke-*`** - Border/stroke colors (e.g., `--color-stroke-action`, `--color-stroke-error`)
+- **`--color-decorative-*`** - Decorative colors (e.g., `--color-decorative-first-base`, `--color-decorative-second-muted`)
+- **`--color-component-*`** - Component-specific tokens (e.g., `--color-component-button-background-action`)
+
+This allows usage like:
+
+```html
+<div class="bg-background-action text-text-neutral border-stroke-action">
+  Styled with semantic tokens
+</div>
+```
+
+The `tokens-tailwind.css` files are available for all themes: `ui`, `sbanken`, and `carnegie`.
 
 ## Known styling and CSS issues
 
