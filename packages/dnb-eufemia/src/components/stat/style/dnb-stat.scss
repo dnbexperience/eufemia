@@ -219,7 +219,8 @@
       border-radius: 0.0625rem;
       background: linear-gradient(
         to right,
-        var(--stat-rating-active-color) var(--dnb-stat-rating-step-fill, 0%),
+        var(--stat-rating-active-color)
+          var(--dnb-stat-rating-step-fill, 0%),
         var(--stat-rating-base-color) var(--dnb-stat-rating-step-fill, 0%)
       );
     }
