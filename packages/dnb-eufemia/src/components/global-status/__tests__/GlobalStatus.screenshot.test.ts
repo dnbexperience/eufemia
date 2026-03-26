@@ -30,7 +30,7 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
       const screenshot = await makeScreenshot({
         style,
         selector:
-          '[data-visual-test="global-status-info"] .dnb-global-status',
+          '[data-visual-test="global-status-information"] .dnb-global-status',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
