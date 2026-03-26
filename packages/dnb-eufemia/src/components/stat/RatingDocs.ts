@@ -21,6 +21,12 @@ export const RatingProperties: PropertiesTableProps = {
     defaultValue: 'stars',
     status: 'optional',
   },
+  size: {
+    doc: 'Size of the rating items. Aligns with the standard icon size scale.',
+    type: ['"small"', '"default"', '"medium"', '"large"'],
+    defaultValue: 'small',
+    status: 'optional',
+  },
   srLabel: NumberFormatPropertiesCamelCase.srLabel,
   skeleton: skeletonProperty,
   '[Space](/uilib/layout/space/properties)': spacingProperties,

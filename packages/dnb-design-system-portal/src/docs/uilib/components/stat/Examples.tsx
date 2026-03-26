@@ -258,6 +258,32 @@ export const RatingDefault = () => (
   </ComponentBox>
 )
 
+export const RatingSizes = () => (
+  <ComponentBox data-visual-test="stat-rating-sizes">
+    <Stat.Root>
+      <Stat.Label>Small (default)</Stat.Label>
+      <Stat.Content>
+        <Stat.Rating value={3.5} size="small" />
+      </Stat.Content>
+
+      <Stat.Label top>Default</Stat.Label>
+      <Stat.Content>
+        <Stat.Rating value={3.5} size="default" />
+      </Stat.Content>
+
+      <Stat.Label top>Medium</Stat.Label>
+      <Stat.Content>
+        <Stat.Rating value={3.5} size="medium" />
+      </Stat.Content>
+
+      <Stat.Label top>Large</Stat.Label>
+      <Stat.Content>
+        <Stat.Rating value={3.5} size="large" />
+      </Stat.Content>
+    </Stat.Root>
+  </ComponentBox>
+)
+
 export const WithSubtleLabel = () => (
   <ComponentBox
     data-visual-test="stat-content-label-order-subtle-label"
