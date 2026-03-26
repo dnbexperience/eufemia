@@ -368,7 +368,7 @@ export function TokenSectionOverview() {
                   ? 'For internal use only.'
                   : section.id === 'decorative'
                   ? 'For advanced custom decorative needs.'
-                  : 'For external use. Prefer base tokens; advanced tokens may change.'}
+                  : 'For external use. Prefer base tokens; advanced tokens carry semantic intent and may change across themes.'}
               </Td>
             </Tr>
           )
