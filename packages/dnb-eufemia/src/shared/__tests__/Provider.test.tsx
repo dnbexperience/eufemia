@@ -17,6 +17,8 @@ import Provider, { ProviderProps } from '../Provider'
 import { fireEvent, render } from '@testing-library/react'
 import locales from '../../shared/locales'
 import Translation from '../Translation'
+import * as TranslationModule from '../Translation'
+import { Form } from '../../extensions/forms'
 
 const en = locales['en-GB']
 
@@ -660,6 +662,38 @@ describe('Provider', () => {
       expect(document.querySelector('#root-in-inner').textContent).toBe(
         innerTranslation
       )
+    })
+
+    it('should only merge translations once when Form.Section is nested inside Provider', () => {
+      const nbNO = { my: { list: ['y'] } }
+      const enGB = { my: { list: ['x'] } }
+
+      const trans = {
+        'en-GB': enGB,
+        'nb-NO': nbNO,
+      }
+
+      const spy = jest.spyOn(TranslationModule, 'mergeTranslations')
+
+      render(
+        <Provider locale="en-GB" translations={trans}>
+          <span id="root-in-root">
+            <Translation id="Root" />
+          </span>
+          <Form.Section translations={undefined}>
+            <span id="root-in-inner">
+              <Translation id="Root" />
+            </span>
+            <span id="inner-in-inner">
+              <Translation id="Inner" />
+            </span>
+          </Form.Section>
+        </Provider>
+      )
+
+      expect(spy).toHaveBeenCalledTimes(1)
+
+      spy.mockRestore()
     })
   })
 })
