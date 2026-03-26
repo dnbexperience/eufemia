@@ -108,7 +108,7 @@
 
   // Underline colors
   &--information &__shell,
-  // Success is supposed to not be a thing in the future as it's not in the figma sketches, so using info styling for now?
+  // No designs for success state in Figma, treat as information until verified by design team
   &--success &__shell {
     --global-status-underline-color: var(--token-color-stroke-info);
   }
