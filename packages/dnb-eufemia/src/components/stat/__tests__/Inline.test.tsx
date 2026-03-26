@@ -202,4 +202,27 @@ describe('Stat.Inline', () => {
 
     spy.mockRestore()
   })
+
+  it('forwards data-* and aria-* attributes to the DOM element', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content>
+          <Stat.Inline
+            data-testid="stat-inline"
+            data-foo="bar"
+            aria-describedby="desc"
+          >
+            <Stat.Trend>+1.2%</Stat.Trend>
+          </Stat.Inline>
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const inline = document.querySelector('.dnb-stat__inline')
+
+    expect(inline.getAttribute('data-testid')).toBe('stat-inline')
+    expect(inline.getAttribute('data-foo')).toBe('bar')
+    expect(inline.getAttribute('aria-describedby')).toBe('desc')
+  })
 })

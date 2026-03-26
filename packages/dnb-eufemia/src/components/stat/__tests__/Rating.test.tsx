@@ -228,4 +228,31 @@ describe('Stat.Rating', () => {
 
     expect(rating.getAttribute('id')).toBe('my-rating')
   })
+
+  it('forwards data-* and aria-* attributes to the DOM element', () => {
+    render(
+      <Stat.Rating
+        value={3}
+        data-testid="stat-rating"
+        data-foo="bar"
+        aria-describedby="desc"
+      />
+    )
+
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(rating.getAttribute('data-testid')).toBe('stat-rating')
+    expect(rating.getAttribute('data-foo')).toBe('bar')
+    expect(rating.getAttribute('aria-describedby')).toBe('desc')
+  })
+
+  it('does not forward component-specific props to the DOM', () => {
+    render(<Stat.Rating value={3} variant="progressive" max={7} skeleton />)
+
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(rating.getAttribute('variant')).toBeNull()
+    expect(rating.getAttribute('max')).toBeNull()
+    expect(rating.getAttribute('skeleton')).toBeNull()
+  })
 })

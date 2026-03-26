@@ -322,4 +322,41 @@ describe('Stat.Label', () => {
     expect(info.classList).toContain('dnb-skeleton')
     expect(currency.classList).toContain('dnb-skeleton')
   })
+
+  it('forwards data-* and aria-* attributes to the DOM element', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label
+          data-testid="stat-label"
+          data-foo="bar"
+          aria-describedby="desc"
+        >
+          Revenue
+        </Stat.Label>
+      </Stat.Root>
+    )
+
+    const label = document.querySelector('.dnb-stat__label')
+
+    expect(label.getAttribute('data-testid')).toBe('stat-label')
+    expect(label.getAttribute('data-foo')).toBe('bar')
+    expect(label.getAttribute('aria-describedby')).toBe('desc')
+  })
+
+  it('does not forward component-specific props to the DOM', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label fontSize="medium" fontWeight="bold" variant="subtle" skeleton>
+          Revenue
+        </Stat.Label>
+      </Stat.Root>
+    )
+
+    const label = document.querySelector('.dnb-stat__label')
+
+    expect(label.getAttribute('fontSize')).toBeNull()
+    expect(label.getAttribute('fontWeight')).toBeNull()
+    expect(label.getAttribute('variant')).toBeNull()
+    expect(label.getAttribute('skeleton')).toBeNull()
+  })
 })

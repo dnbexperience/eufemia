@@ -561,4 +561,40 @@ describe('Stat.Number', () => {
 
     expect(await axeComponent(component)).toHaveNoViolations()
   })
+
+  it('forwards data-* and aria-* attributes to the DOM element', () => {
+    render(
+      <Stat.Number
+        value={1234}
+        data-testid="stat-number"
+        data-foo="bar"
+        aria-describedby="desc"
+      />
+    )
+
+    const element = document.querySelector('.dnb-stat')
+
+    expect(element.getAttribute('data-testid')).toBe('stat-number')
+    expect(element.getAttribute('data-foo')).toBe('bar')
+    expect(element.getAttribute('aria-describedby')).toBe('desc')
+  })
+
+  it('does not forward component-specific props to the DOM', () => {
+    render(
+      <Stat.Number
+        value={1234}
+        currency="NOK"
+        decimals={2}
+        skeleton
+        colorizeBySign
+      />
+    )
+
+    const element = document.querySelector('.dnb-stat')
+
+    expect(element.getAttribute('currency')).toBeNull()
+    expect(element.getAttribute('decimals')).toBeNull()
+    expect(element.getAttribute('skeleton')).toBeNull()
+    expect(element.getAttribute('colorizeBySign')).toBeNull()
+  })
 })

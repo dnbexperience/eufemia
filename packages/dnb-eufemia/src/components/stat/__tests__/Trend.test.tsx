@@ -234,4 +234,30 @@ describe('Stat.Trend', () => {
 
     log.mockRestore()
   })
+
+  it('forwards data-* and aria-* attributes to the DOM element', () => {
+    render(
+      <Stat.Trend
+        value={1.5}
+        data-testid="stat-trend"
+        data-foo="bar"
+        aria-describedby="desc"
+      />
+    )
+
+    const element = document.querySelector('.dnb-stat__trend')
+
+    expect(element.getAttribute('data-testid')).toBe('stat-trend')
+    expect(element.getAttribute('data-foo')).toBe('bar')
+    expect(element.getAttribute('aria-describedby')).toBe('desc')
+  })
+
+  it('does not forward component-specific props to the DOM', () => {
+    render(<Stat.Trend value={1.5} tone="positive" skeleton />)
+
+    const element = document.querySelector('.dnb-stat__trend')
+
+    expect(element.getAttribute('tone')).toBeNull()
+    expect(element.getAttribute('skeleton')).toBeNull()
+  })
 })
