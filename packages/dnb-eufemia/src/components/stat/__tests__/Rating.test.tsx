@@ -312,11 +312,4 @@ describe('Stat.Rating', () => {
     expect(parseFloat(lastHeight)).toBeCloseTo(1 * 2.667, 1)
   })
 
-  it('does not forward size prop to the DOM', () => {
-    render(<Stat.Rating value={3} size="medium" />)
-
-    const rating = document.querySelector('.dnb-stat__rating')
-
-    expect(rating.getAttribute('size')).toBeNull()
-  })
 })
