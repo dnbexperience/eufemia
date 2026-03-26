@@ -1,9 +1,9 @@
 ---
 title: 'List'
 description: 'List is a layout component for displaying rows of content, with optional start/center/end slots and a navigable item variant.'
-version: 10.101.2
-generatedAt: 2026-03-25T07:08:27.412Z
-checksum: 8c095a3afe3de690e80db52e5919b48865e094aa083b2d993d381551f7d1f613
+version: 10.102.0
+generatedAt: 2026-03-26T19:56:32.998Z
+checksum: 91e341c4db7b6708cf372f579a80b82f061daff553203001d8a1548b29dd80f8
 ---
 
 # List
@@ -861,6 +861,44 @@ render(
 )
 ```
 
+#### Without ScrollView
+
+`List.Card` also works without `List.ScrollView`. Side borders and redundant top/bottom borders on the first and last items are automatically removed.
+
+```tsx
+render(
+  <List.Card>
+    <List.Container>
+      <List.Item.Action
+        icon={fish_medium}
+        title="Payment received"
+        onClick={() => {}}
+      >
+        <List.Cell.End>
+          <Value.Currency value={1234} />
+        </List.Cell.End>
+      </List.Item.Action>
+
+      <List.Item.Action
+        icon={fish_medium}
+        title="Transfer sent"
+        onClick={() => {}}
+      >
+        <List.Cell.End>
+          <Value.Currency value={-500} />
+        </List.Cell.End>
+      </List.Item.Action>
+
+      <List.Item.Basic icon={fish_medium} title="Subscription">
+        <List.Cell.End>
+          <Value.Currency value={-99} />
+        </List.Cell.End>
+      </List.Item.Basic>
+    </List.Container>
+  </List.Card>
+)
+```
+
 ## List.Container
 
 ```json
@@ -1056,6 +1094,11 @@ render(
       "doc": "If set to `true`, the accordion is visually dimmed and interaction is prevented. Sets `aria-disabled`, removes tabbing, and disables click/keyboard handlers.",
       "type": "boolean",
       "defaultValue": "false",
+      "status": "optional"
+    },
+    "onChange": {
+      "doc": "Called when the accordion open state changes. Receives an object with the `expanded` state.",
+      "type": "({ expanded }) => void",
       "status": "optional"
     },
     "children": {

@@ -1,8 +1,8 @@
 ---
 title: 'Drawer'
 description: 'The Drawer component is a Modal variation that appears as a side panel at any chosen side of the page.'
-version: 10.101.2
-generatedAt: 2026-03-25T07:08:27.280Z
+version: 10.102.0
+generatedAt: 2026-03-26T19:56:32.870Z
 checksum: 8953eeeb2cb867c589fb63b790f1712d76c5101e998194e31f21f9ce479c2da0
 ---
 

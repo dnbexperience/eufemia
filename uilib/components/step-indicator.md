@@ -1,8 +1,8 @@
 ---
 title: 'StepIndicator'
 description: "The StepIndicator (progress indicator) is a visual representation of a user's progress through a set of steps or series of actions."
-version: 10.101.2
-generatedAt: 2026-03-25T07:08:27.600Z
+version: 10.102.0
+generatedAt: 2026-03-26T19:56:33.178Z
 checksum: 9fa2623cbd7d5b68c1f40f714a820c38556edadd9fa51ed52ad21238c571d658
 ---
 

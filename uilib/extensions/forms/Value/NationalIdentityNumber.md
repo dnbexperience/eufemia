@@ -1,8 +1,8 @@
 ---
 title: 'Value.NationalIdentityNumber'
 description: '`Value.NationalIdentityNumber` is a wrapper component for displaying string values, with user experience tailored for national identity number values.'
-version: 10.101.2
-generatedAt: 2026-03-25T07:08:28.818Z
+version: 10.102.0
+generatedAt: 2026-03-26T19:56:33.818Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

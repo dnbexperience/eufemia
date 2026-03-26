@@ -1,8 +1,8 @@
 ---
 title: 'Stat'
 description: 'Composable metric components for highlighted values, trends, and labels.'
-version: 10.101.2
-generatedAt: 2026-03-25T07:08:27.589Z
+version: 10.102.0
+generatedAt: 2026-03-26T19:56:33.169Z
 checksum: 30fa6d1efae36f3ea3005035dea83acba7d3bb0b6d171a7890b5e00b1da462eb
 ---
 
@@ -39,6 +39,8 @@ import { Stat } from '@dnb/eufemia'
 - `Stat.Info` renders supporting text with a smaller, muted style.
 
 - `Stat.Inline` is a horizontal layout container for grouping content elements like `Stat.Trend` and `Stat.Info` side by side with consistent spacing and alignment.
+
+- `Stat.Text` renders custom content and supports properties such as `fontSize`, `fontWeight`, and `colorizeBySign`.
 
 ### Deprecated
 
@@ -305,6 +307,31 @@ render(
 )
 ```
 
+### Text
+
+```tsx
+render(
+  <Stat.Root>
+    <Stat.Label>Label</Stat.Label>
+    <Stat.Content>
+      <Stat.Text colorizeBySign={-123}>Custom content</Stat.Text>
+    </Stat.Content>
+
+    <Stat.Label top>With medium font weight and size</Stat.Label>
+    <Stat.Content>
+      <Stat.Text
+        srLabel="Screen reader label"
+        colorizeBySign={123}
+        fontWeight="medium"
+        fontSize="medium"
+      >
+        Larger and bolder
+      </Stat.Text>
+    </Stat.Content>
+  </Stat.Root>
+)
+```
+
 ### With Subtle Label
 
 Also, the order of the content and label can be switched for visual users (not screen readers), and the label is styled with the `subtle` variant to further de-emphasize it.
@@ -430,6 +457,35 @@ function Example() {
 render(<Example />)
 ```
 
+### With AriaLive
+
+Use the [AriaLive](/uilib/components/aria-live/) component to announce dynamic value updates to screen readers. Wrap `Stat.Root` with `AriaLive` so that changes are announced when the content updates.
+
+```tsx
+function Example() {
+  const [value, setValue] = React.useState(1234)
+  return (
+    <Flex.Stack>
+      <AriaLive variant="content">
+        <Stat.Root>
+          <Stat.Label>Revenue</Stat.Label>
+          <Stat.Content>
+            <Stat.Currency value={value} />
+          </Stat.Content>
+        </Stat.Root>
+      </AriaLive>
+
+      <Button
+        text="Update value"
+        variant="secondary"
+        on_click={() => setValue((prev) => prev + 100)}
+      />
+    </Flex.Stack>
+  )
+}
+render(<Example />)
+```
+
 ## Stat.Currency
 
 <PropertiesTable props={CurrencyProperties} />
@@ -489,6 +545,10 @@ render(<Example />)
   }
 }
 ```
+
+## Stat.Text
+
+<PropertiesTable props={TextProperties} />
 
 ## Translations
 

@@ -1,8 +1,8 @@
 ---
 title: 'Autocomplete'
 description: 'The Autocomplete component is a combination of an Input and a Dropdown (ComboBox) that suggests matching data items during typing.'
-version: 10.101.2
-generatedAt: 2026-03-25T07:08:27.167Z
+version: 10.102.0
+generatedAt: 2026-03-26T19:56:32.767Z
 checksum: 8a519d33a108b12cd604e58f7193b70b81649399ae0688a433d96560790e62a7
 ---
 
