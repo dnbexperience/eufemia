@@ -269,51 +269,6 @@ describe('Stat.Content', () => {
     spy.mockRestore()
   })
 
-  it('sets aria-live attribute when ariaLive prop is provided', () => {
-    render(
-      <Stat.Root>
-        <Stat.Label>Revenue</Stat.Label>
-        <Stat.Content ariaLive="polite">
-          <Stat.Currency value={1234} />
-        </Stat.Content>
-      </Stat.Root>
-    )
-
-    const content = document.querySelector('.dnb-stat__content-item')
-
-    expect(content).toHaveAttribute('aria-live', 'polite')
-  })
-
-  it('supports assertive aria-live', () => {
-    render(
-      <Stat.Root>
-        <Stat.Label>Revenue</Stat.Label>
-        <Stat.Content ariaLive="assertive">
-          <Stat.Currency value={1234} />
-        </Stat.Content>
-      </Stat.Root>
-    )
-
-    const content = document.querySelector('.dnb-stat__content-item')
-
-    expect(content).toHaveAttribute('aria-live', 'assertive')
-  })
-
-  it('does not set aria-live when ariaLive prop is not provided', () => {
-    render(
-      <Stat.Root>
-        <Stat.Label>Revenue</Stat.Label>
-        <Stat.Content>
-          <Stat.Currency value={1234} />
-        </Stat.Content>
-      </Stat.Root>
-    )
-
-    const content = document.querySelector('.dnb-stat__content-item')
-
-    expect(content).not.toHaveAttribute('aria-live')
-  })
-
   it('forwards data-* and aria-* attributes to the DOM element', () => {
     render(
       <Stat.Root>
@@ -339,7 +294,7 @@ describe('Stat.Content', () => {
     render(
       <Stat.Root>
         <Stat.Label>Revenue</Stat.Label>
-        <Stat.Content direction="vertical" skeleton ariaLive="polite">
+        <Stat.Content direction="vertical" skeleton>
           <Stat.Currency value={1234} />
         </Stat.Content>
       </Stat.Root>
@@ -349,6 +304,5 @@ describe('Stat.Content', () => {
 
     expect(content.getAttribute('direction')).toBeNull()
     expect(content.getAttribute('skeleton')).toBeNull()
-    expect(content.getAttribute('ariaLive')).toBeNull()
   })
 })
