@@ -23,6 +23,67 @@ describe('Visibility', () => {
     )
   })
 
+  describe('id', () => {
+    it('should forward id to span wrapper when visible in default mode', () => {
+      render(
+        <Visibility id="my-id" visible>
+          Child
+        </Visibility>
+      )
+
+      const element = document.querySelector('#my-id')
+      expect(element).toBeInTheDocument()
+      expect(element.tagName).toBe('SPAN')
+      expect(element).toHaveClass('dnb-forms-visibility')
+      expect(element).toHaveTextContent('Child')
+    })
+
+    it('should not render wrapper when not visible in default mode', () => {
+      render(
+        <Visibility id="my-id" visible={false}>
+          Child
+        </Visibility>
+      )
+
+      const element = document.querySelector('#my-id')
+      expect(element).not.toBeInTheDocument()
+    })
+
+    it('should forward id to HeightAnimation wrapper when animate is true', () => {
+      render(
+        <Visibility id="my-id" animate visible>
+          Child
+        </Visibility>
+      )
+
+      const element = document.querySelector('#my-id')
+      expect(element).toBeInTheDocument()
+      expect(element).toHaveClass('dnb-forms-visibility')
+      expect(element).toHaveTextContent('Child')
+    })
+
+    it('should forward id to span when keepInDOM is true', () => {
+      render(
+        <Visibility id="my-id" keepInDOM visible={false}>
+          Child
+        </Visibility>
+      )
+
+      const element = document.querySelector('#my-id')
+      expect(element).toBeInTheDocument()
+      expect(element.tagName).toBe('SPAN')
+      expect(element).toHaveAttribute('hidden')
+      expect(element).toHaveTextContent('Child')
+    })
+
+    it('should not render wrapper when id is not provided', () => {
+      render(<Visibility visible>Child</Visibility>)
+
+      const element = document.querySelector('.dnb-forms-visibility')
+      expect(element).not.toBeInTheDocument()
+    })
+  })
+
   describe('visibility', () => {
     it('renders children when visible is true', () => {
       render(<Visibility visible={true}>Child</Visibility>)
