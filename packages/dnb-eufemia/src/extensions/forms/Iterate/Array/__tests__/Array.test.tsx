@@ -21,6 +21,32 @@ import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
 describe('Iterate.Array', () => {
+  describe('id', () => {
+    it('should forward id to the Flex.Stack wrapper element', () => {
+      render(
+        <Iterate.Array id="my-array" value={['one', 'two']}>
+          <Field.String itemPath="/" />
+        </Iterate.Array>
+      )
+
+      const element = document.querySelector('#my-array')
+      expect(element).toBeInTheDocument()
+      expect(element).toHaveClass('dnb-forms-iterate')
+    })
+
+    it('should not render id when not provided', () => {
+      render(
+        <Iterate.Array value={['one']}>
+          <Field.String itemPath="/" />
+        </Iterate.Array>
+      )
+
+      const element = document.querySelector('.dnb-forms-iterate')
+      expect(element).toBeInTheDocument()
+      expect(element).not.toHaveAttribute('id')
+    })
+  })
+
   describe('with primitive elements', () => {
     it('should distribute values and receive callbacks', async () => {
       const onChange = jest.fn()
