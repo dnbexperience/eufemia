@@ -68,6 +68,50 @@ describe('Form.Section', () => {
     log.mockRestore()
   })
 
+  describe('id', () => {
+    it('should forward id to a wrapper div element', () => {
+      render(
+        <Form.Handler>
+          <Form.Section id="my-section" path="/myPath">
+            <Field.String path="/name" />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const element = document.querySelector('#my-section')
+      expect(element).toBeInTheDocument()
+      expect(element.tagName).toBe('DIV')
+    })
+
+    it('should not render wrapper div when id is not provided', () => {
+      render(
+        <Form.Handler>
+          <Form.Section path="/myPath">
+            <Field.String path="/name" />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const wrapperDiv = form.querySelector(':scope > div:not([class])')
+      expect(wrapperDiv).not.toBeInTheDocument()
+    })
+
+    it('should render children inside the wrapper', () => {
+      render(
+        <Form.Handler>
+          <Form.Section id="my-section" path="/myPath">
+            <Field.String path="/name" />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const wrapper = document.querySelector('#my-section')
+      const input = wrapper.querySelector('input')
+      expect(input).toBeInTheDocument()
+    })
+  })
+
   it('should render section with children', () => {
     render(<MySection />)
 
@@ -130,7 +174,7 @@ describe('Form.Section', () => {
             "current": <input
               autocomplete="given-name"
               class="dnb-input__input"
-              id="id-r1i"
+              id="id-r2a"
               name="firstName"
               type="text"
             />,
@@ -155,7 +199,7 @@ describe('Form.Section', () => {
               aria-required="true"
               autocomplete="family-name"
               class="dnb-input__input"
-              id="id-r1p"
+              id="id-r2h"
               name="lastName"
               type="text"
             />,

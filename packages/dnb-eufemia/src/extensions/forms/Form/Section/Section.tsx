@@ -29,6 +29,11 @@ export type SectionBaseProps<
   Data extends JsonObject = JsonObject,
 > = {
   /**
+   * A unique identifier for the section wrapper element.
+   */
+  id?: string
+
+  /**
    * Path to the section.
    * When defined, fields inside the section will get this path as a prefix of their own path.
    */
@@ -95,6 +100,7 @@ function SectionComponent<overwriteProps = OverwritePropsDefaults>(
   props: LocalProps<overwriteProps>
 ) {
   const {
+    id,
     path,
     overwriteProps,
     translations,
@@ -197,6 +203,31 @@ function SectionComponent<overwriteProps = OverwritePropsDefaults>(
 
   const sectionProps = props as SectionProps
 
+  const content = (
+    <SectionContainerProvider
+      validateInitially={validateInitially}
+      containerMode={containerMode}
+      disableEditing={disableEditing}
+    >
+      <FieldPropsProvider
+        overwriteProps={{
+          ...overwriteProps,
+          ...(resolvedPath
+            ? (nestedProps?.overwriteProps?.[
+                resolvedPath.startsWith('/')
+                  ? resolvedPath.substring(1)
+                  : resolvedPath
+              ] as OverwritePropsDefaults)
+            : undefined),
+        }}
+        translations={translations}
+        {...fieldProps}
+      >
+        {children}
+      </FieldPropsProvider>
+    </SectionContainerProvider>
+  )
+
   return (
     <SectionContext
       value={{
@@ -205,28 +236,7 @@ function SectionComponent<overwriteProps = OverwritePropsDefaults>(
         props: sectionProps,
       }}
     >
-      <SectionContainerProvider
-        validateInitially={validateInitially}
-        containerMode={containerMode}
-        disableEditing={disableEditing}
-      >
-        <FieldPropsProvider
-          overwriteProps={{
-            ...overwriteProps,
-            ...(resolvedPath
-              ? (nestedProps?.overwriteProps?.[
-                  resolvedPath.startsWith('/')
-                    ? resolvedPath.substring(1)
-                    : resolvedPath
-                ] as OverwritePropsDefaults)
-              : undefined),
-          }}
-          translations={translations}
-          {...fieldProps}
-        >
-          {children}
-        </FieldPropsProvider>
-      </SectionContainerProvider>
+      {id ? <div id={id}>{content}</div> : content}
     </SectionContext>
   )
 }
