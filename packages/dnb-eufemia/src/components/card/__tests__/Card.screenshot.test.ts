@@ -8,102 +8,105 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe.each(['ui', 'sbanken'])('Card for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/uilib/components/card/demos/',
-  })
-
-  it('have to match border', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="layout-card-border"]',
+describe.each(['ui', 'sbanken', 'carnegie'])(
+  'Card for %s',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/card/demos/',
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match stack', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="layout-card-stack"]',
+    it('have to match border', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="layout-card-border"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match grid', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="layout-card-grid"]',
+    it('have to match stack', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="layout-card-stack"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match table', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="layout-card-table"]',
+    it('have to match grid', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="layout-card-grid"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match table with outline', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="layout-card-table-outline"]',
+    it('have to match table', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="layout-card-table"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match nested section', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="card-nested-section"]',
+    it('have to match table with outline', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="layout-card-table-outline"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match in colored section', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="card-in-colored-section"]',
+    it('have to match nested section', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="card-nested-section"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match flex', async () => {
-    const screenshot = await makeScreenshot({
-      addWrapper: false,
-      selector:
-        '[data-visual-test="layout-card-flex"] .dnb-flex-container',
+    it('have to match in colored section', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="card-in-colored-section"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match nested cards', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="layout-card-nested"]',
+    it('have to match flex', async () => {
+      const screenshot = await makeScreenshot({
+        addWrapper: false,
+        selector:
+          '[data-visual-test="layout-card-flex"] .dnb-flex-container',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match drop shadow', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="layout-card-drop-shadow"]',
+    it('have to match nested cards', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="layout-card-nested"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match outset', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="layout-card-outset"]',
-      wrapperStyle: {
-        padding: '2rem',
-      },
+    it('have to match drop shadow', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="layout-card-drop-shadow"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match background color', async () => {
-    const screenshot = await makeScreenshot({
-      selector:
-        '[data-visual-test="layout-card-background-color-outline"]',
+    it('have to match outset', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="layout-card-outset"]',
+        wrapperStyle: {
+          padding: '2rem',
+        },
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
+
+    it('have to match background color', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="layout-card-background-color-outline"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  }
+)
 
 describe.each(['ui', 'sbanken'])(
   'Card small screen for %s',
