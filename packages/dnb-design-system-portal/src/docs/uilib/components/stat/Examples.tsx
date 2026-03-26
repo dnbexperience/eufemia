@@ -1,8 +1,12 @@
+import React from 'react'
 import { useTranslation } from '@dnb/eufemia/shared'
 import {
+  AriaLive,
+  Button,
   Card,
   Code,
   DateFormat,
+  Flex,
   Grid,
   H3,
   Icon,
@@ -172,6 +176,29 @@ export const NumberDefault = () => (
   </ComponentBox>
 )
 
+export const TextDefault = () => (
+  <ComponentBox>
+    <Stat.Root>
+      <Stat.Label>Label</Stat.Label>
+      <Stat.Content>
+        <Stat.Text colorizeBySign={-123}>Custom content</Stat.Text>
+      </Stat.Content>
+
+      <Stat.Label top>With medium font weight and size</Stat.Label>
+      <Stat.Content>
+        <Stat.Text
+          srLabel="Screen reader label"
+          colorizeBySign={123}
+          fontWeight="medium"
+          fontSize="medium"
+        >
+          Larger and bolder
+        </Stat.Text>
+      </Stat.Content>
+    </Stat.Root>
+  </ComponentBox>
+)
+
 export const PercentDefault = () => (
   <ComponentBox data-visual-test="stat-percent-default">
     <Stat.Root>
@@ -320,6 +347,37 @@ export const WithSubtleLabel = () => (
           </Grid.Container>
         )
       }
+      return <Example />
+    }}
+  </ComponentBox>
+)
+
+export const WithAriaLive = () => (
+  <ComponentBox>
+    {() => {
+      function Example() {
+        const [value, setValue] = React.useState(1234)
+
+        return (
+          <Flex.Stack>
+            <AriaLive variant="content">
+              <Stat.Root>
+                <Stat.Label>Revenue</Stat.Label>
+                <Stat.Content>
+                  <Stat.Currency value={value} />
+                </Stat.Content>
+              </Stat.Root>
+            </AriaLive>
+
+            <Button
+              text="Update value"
+              variant="secondary"
+              on_click={() => setValue((prev) => prev + 100)}
+            />
+          </Flex.Stack>
+        )
+      }
+
       return <Example />
     }}
   </ComponentBox>

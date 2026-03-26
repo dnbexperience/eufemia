@@ -140,4 +140,45 @@ describe('Stat.Info', () => {
 
     log.mockRestore()
   })
+
+  it('forwards data-* and aria-* attributes to the DOM element', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content>
+          <Stat.Info
+            data-testid="stat-info"
+            data-foo="bar"
+            aria-describedby="desc"
+          >
+            Details
+          </Stat.Info>
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const info = document.querySelector('.dnb-stat__info')
+
+    expect(info.getAttribute('data-testid')).toBe('stat-info')
+    expect(info.getAttribute('data-foo')).toBe('bar')
+    expect(info.getAttribute('aria-describedby')).toBe('desc')
+  })
+
+  it('does not forward component-specific props to the DOM', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content>
+          <Stat.Info variant="prominent" skeleton>
+            Details
+          </Stat.Info>
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const info = document.querySelector('.dnb-stat__info')
+
+    expect(info.getAttribute('variant')).toBeNull()
+    expect(info.getAttribute('skeleton')).toBeNull()
+  })
 })

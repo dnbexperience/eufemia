@@ -201,4 +201,37 @@ describe('ItemContent', () => {
 
     expect(await axeComponent(container)).toHaveNoViolations()
   })
+
+  it('forwards data-* and aria-* attributes to the DOM element', () => {
+    render(
+      <ItemContent
+        data-testid="item-content"
+        data-foo="bar"
+        aria-label="Content item"
+      >
+        Content
+      </ItemContent>
+    )
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.getAttribute('data-testid')).toBe('item-content')
+    expect(element.getAttribute('data-foo')).toBe('bar')
+    expect(element.getAttribute('aria-label')).toBe('Content item')
+  })
+
+  it('does not forward component-specific props to the DOM', () => {
+    render(
+      <ItemContent variant="basic" selected pending skeleton>
+        Content
+      </ItemContent>
+    )
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.getAttribute('variant')).toBeNull()
+    expect(element.getAttribute('selected')).toBeNull()
+    expect(element.getAttribute('pending')).toBeNull()
+    expect(element.getAttribute('skeleton')).toBeNull()
+  })
 })

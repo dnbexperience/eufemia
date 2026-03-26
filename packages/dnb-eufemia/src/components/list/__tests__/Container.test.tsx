@@ -215,4 +215,86 @@ describe('List Container', () => {
 
     expect(await axeComponent(container)).toHaveNoViolations()
   })
+
+  it('supports aria-label on the ul element', () => {
+    render(
+      <Container aria-label="Navigation items">
+        <ItemContent>Item one</ItemContent>
+      </Container>
+    )
+
+    const element = document.querySelector('.dnb-list')
+
+    expect(element).toHaveAttribute('aria-label', 'Navigation items')
+  })
+
+  it('supports aria-labelledby on the ul element', () => {
+    render(
+      <>
+        <h2 id="list-heading">My list</h2>
+        <Container aria-labelledby="list-heading">
+          <ItemContent>Item one</ItemContent>
+        </Container>
+      </>
+    )
+
+    const element = document.querySelector('.dnb-list')
+
+    expect(element).toHaveAttribute('aria-labelledby', 'list-heading')
+  })
+
+  it('supports id prop', () => {
+    render(
+      <Container id="my-container">
+        <ItemContent>Item one</ItemContent>
+      </Container>
+    )
+
+    const element = document.querySelector('.dnb-list')
+
+    expect(element.getAttribute('id')).toBe('my-container')
+  })
+
+  it('has no axe violations when aria-label is provided', async () => {
+    const { container } = render(
+      <Container aria-label="Important items">
+        <ItemContent>Item one</ItemContent>
+        <ItemContent>Item two</ItemContent>
+      </Container>
+    )
+
+    expect(await axeComponent(container)).toHaveNoViolations()
+  })
+
+  it('forwards data-* and aria-* attributes to the DOM element', () => {
+    render(
+      <Container
+        data-testid="list-container"
+        data-foo="bar"
+        aria-describedby="desc"
+      >
+        <ItemContent>Item one</ItemContent>
+      </Container>
+    )
+
+    const element = document.querySelector('.dnb-list__container')
+
+    expect(element.getAttribute('data-testid')).toBe('list-container')
+    expect(element.getAttribute('data-foo')).toBe('bar')
+    expect(element.getAttribute('aria-describedby')).toBe('desc')
+  })
+
+  it('does not forward component-specific props to the DOM', () => {
+    render(
+      <Container variant="basic" separated skeleton disabled>
+        <ItemContent>Item one</ItemContent>
+      </Container>
+    )
+
+    const element = document.querySelector('.dnb-list__container')
+
+    expect(element.getAttribute('variant')).toBeNull()
+    expect(element.getAttribute('separated')).toBeNull()
+    expect(element.getAttribute('skeleton')).toBeNull()
+  })
 })

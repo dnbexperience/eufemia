@@ -158,6 +158,19 @@ describe('Stat.Inline', () => {
     expect(info.classList).toContain('dnb-skeleton')
   })
 
+  it('supports id prop', () => {
+    render(
+      <Stat.Inline id="my-inline">
+        <Stat.Trend>+1.2%</Stat.Trend>
+        <Stat.Info>(additional information)</Stat.Info>
+      </Stat.Inline>
+    )
+
+    const inline = document.querySelector('.dnb-stat__inline')
+
+    expect(inline.getAttribute('id')).toBe('my-inline')
+  })
+
   it('warns when used outside Stat.Root', () => {
     const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
 
@@ -201,5 +214,28 @@ describe('Stat.Inline', () => {
     expect(didWarn).toBe(false)
 
     spy.mockRestore()
+  })
+
+  it('forwards data-* and aria-* attributes to the DOM element', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content>
+          <Stat.Inline
+            data-testid="stat-inline"
+            data-foo="bar"
+            aria-describedby="desc"
+          >
+            <Stat.Trend>+1.2%</Stat.Trend>
+          </Stat.Inline>
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const inline = document.querySelector('.dnb-stat__inline')
+
+    expect(inline.getAttribute('data-testid')).toBe('stat-inline')
+    expect(inline.getAttribute('data-foo')).toBe('bar')
+    expect(inline.getAttribute('aria-describedby')).toBe('desc')
   })
 })

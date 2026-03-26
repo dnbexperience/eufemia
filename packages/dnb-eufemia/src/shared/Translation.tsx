@@ -53,21 +53,40 @@ Translation.withTypes = function withTypes<
 
 export default Translation
 
+function isPlainObject(value: unknown): value is Record<string, any> {
+  if (value === null || typeof value !== 'object') {
+    return false
+  }
+
+  if (Array.isArray(value)) {
+    return false
+  }
+
+  return Object.getPrototypeOf(value) === Object.prototype
+}
+
 export function mergeTranslations(
   ...translations: Array<Record<string, any>>
 ) {
   return translations.reduce((acc, cur) => {
     Object.keys(cur).forEach((key) => {
-      if (
-        acc[key] !== null &&
-        cur[key] !== null &&
-        typeof acc[key] === 'object' &&
-        typeof cur[key] === 'object'
-      ) {
-        acc[key] = mergeTranslations(acc[key], cur[key])
-      } else {
-        acc[key] = cur[key]
+      const accValue = acc[key]
+      const curValue = cur[key]
+
+      // Preserve arrays and merge them as arrays
+      if (Array.isArray(accValue) && Array.isArray(curValue)) {
+        acc[key] = [...accValue, ...curValue]
+        return
       }
+
+      // Deep-merge only plain objects
+      if (isPlainObject(accValue) && isPlainObject(curValue)) {
+        acc[key] = mergeTranslations(accValue, curValue)
+        return
+      }
+
+      // Default: last value wins
+      acc[key] = curValue
     })
 
     return acc

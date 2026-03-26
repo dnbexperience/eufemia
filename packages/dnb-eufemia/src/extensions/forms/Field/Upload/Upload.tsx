@@ -165,7 +165,7 @@ function UploadComponent(props: Props) {
     buttonProps,
   } = rest
 
-  const { files, setFiles } = useUpload(id)
+  const { files, setFiles, clearFiles } = useUpload(id)
 
   const labelWithItemNo = useIterateItemNo({
     label: label ?? title,
@@ -203,6 +203,12 @@ function UploadComponent(props: Props) {
     },
     []
   )
+
+  useEffect(() => {
+    return () => {
+      clearFiles()
+    }
+  }, [clearFiles])
 
   useEffect(() => {
     const externalFiles = value ?? []

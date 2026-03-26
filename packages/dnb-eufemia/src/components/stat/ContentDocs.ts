@@ -3,7 +3,7 @@ import { skeletonProperty, spacingProperties } from './StatDocsUtils'
 
 export const ContentProperties: PropertiesTableProps = {
   children: {
-    doc: 'Content value area. Typically contains `Stat.Currency`, `Stat.Percent`, or `Stat.Trend`.',
+    doc: 'Content value area. Typically contains `Stat.Number`, `Stat.Currency`, `Stat.Percent`, `Stat.Text`, `Stat.Trend`, or `Stat.Info`.',
     type: ['React.ReactNode'],
     status: 'optional',
   },

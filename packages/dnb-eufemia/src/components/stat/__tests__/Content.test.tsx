@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import Stat from '../Stat'
+import AriaLive from '../../aria-live/AriaLive'
 
 describe('Stat.Content', () => {
   it('supports vertical direction inside Stat.Root', () => {
@@ -267,5 +268,73 @@ describe('Stat.Content', () => {
     expect(content).toHaveAttribute('aria-disabled', 'true')
 
     spy.mockRestore()
+  })
+
+  it('forwards data-* and aria-* attributes to the DOM element', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content
+          data-testid="stat-content"
+          data-foo="bar"
+          aria-describedby="desc"
+        >
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const content = document.querySelector('.dnb-stat__content-item')
+
+    expect(content.getAttribute('data-testid')).toBe('stat-content')
+    expect(content.getAttribute('data-foo')).toBe('bar')
+    expect(content.getAttribute('aria-describedby')).toBe('desc')
+  })
+
+  it('does not forward component-specific props to the DOM', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content direction="vertical" skeleton>
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const content = document.querySelector('.dnb-stat__content-item')
+
+    expect(content.getAttribute('direction')).toBeNull()
+    expect(content.getAttribute('skeleton')).toBeNull()
+  })
+
+  it('announces dynamic value updates when wrapped with AriaLive', async () => {
+    const { rerender } = render(
+      <AriaLive variant="content">
+        <Stat.Root>
+          <Stat.Label>Revenue</Stat.Label>
+          <Stat.Content>
+            <Stat.Currency value={1234} />
+          </Stat.Content>
+        </Stat.Root>
+      </AriaLive>
+    )
+
+    const ariaLiveElement = document.querySelector('.dnb-aria-live')
+
+    expect(ariaLiveElement).toHaveAttribute('aria-live', 'polite')
+    expect(ariaLiveElement.textContent).toContain('1\u00a0234')
+
+    rerender(
+      <AriaLive variant="content">
+        <Stat.Root>
+          <Stat.Label>Revenue</Stat.Label>
+          <Stat.Content>
+            <Stat.Currency value={5678} />
+          </Stat.Content>
+        </Stat.Root>
+      </AriaLive>
+    )
+
+    expect(ariaLiveElement.textContent).toContain('5\u00a0678')
   })
 })

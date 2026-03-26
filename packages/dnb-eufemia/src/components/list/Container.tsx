@@ -6,10 +6,13 @@ import type { SkeletonShow } from '../Skeleton'
 import SharedContext from '../../shared/Context'
 
 export type ListContainerProps = {
+  id?: string
   variant?: ListVariant
   separated?: boolean
   skeleton?: SkeletonShow
   disabled?: boolean
+  'aria-label'?: string
+  'aria-labelledby'?: string
 } & FlexProps
 
 function ListContainer(props: ListContainerProps) {

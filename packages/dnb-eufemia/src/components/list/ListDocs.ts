@@ -267,6 +267,11 @@ export const ItemAccordionProperties: PropertiesTableProps = {
     defaultValue: 'false',
     status: 'optional',
   },
+  onChange: {
+    doc: 'Called when the accordion open state changes. Receives an object with the `expanded` state.',
+    type: '({ expanded }) => void',
+    status: 'optional',
+  },
   children: {
     doc: 'Header cells (e.g. `List.Cell.Start`, `List.Cell.Title`/`List.Cell.Title.Overline`, `List.Cell.End`) and optionally `List.Item.Accordion.Content` for the expandable section.',
     type: 'React.ReactNode',

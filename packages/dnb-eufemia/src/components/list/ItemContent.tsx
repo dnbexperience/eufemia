@@ -7,6 +7,7 @@ import type { SkeletonShow } from '../Skeleton'
 import Context from '../../shared/Context'
 
 export type ItemContentProps = {
+  id?: string
   variant?: ListVariant
   selected?: boolean
   pending?: boolean

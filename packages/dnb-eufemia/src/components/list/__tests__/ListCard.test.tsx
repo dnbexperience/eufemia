@@ -506,4 +506,16 @@ describe('List.ScrollView', () => {
 
     expect(item.classList).toContain('dnb-list__item--disabled')
   })
+
+  it('supports id prop', () => {
+    render(
+      <List.Card id="my-card">
+        <span>Content</span>
+      </List.Card>
+    )
+
+    const element = document.querySelector('.dnb-list__card')
+
+    expect(element.getAttribute('id')).toBe('my-card')
+  })
 })

@@ -228,4 +228,35 @@ describe('Stat.Root', () => {
     expect(didWarnOrder).toBe(false)
     spy.mockRestore()
   })
+
+  it('forwards data-* and aria-* attributes to the DOM element', () => {
+    render(
+      <Stat.Root
+        data-testid="stat-root"
+        data-foo="bar"
+        aria-describedby="desc"
+      >
+        <Stat.Label>Revenue</Stat.Label>
+      </Stat.Root>
+    )
+
+    const root = document.querySelector('.dnb-stat__root')
+
+    expect(root.getAttribute('data-testid')).toBe('stat-root')
+    expect(root.getAttribute('data-foo')).toBe('bar')
+    expect(root.getAttribute('aria-describedby')).toBe('desc')
+  })
+
+  it('does not forward component-specific props to the DOM', () => {
+    render(
+      <Stat.Root visualOrder="content-label" skeleton>
+        <Stat.Label>Revenue</Stat.Label>
+      </Stat.Root>
+    )
+
+    const root = document.querySelector('.dnb-stat__root')
+
+    expect(root.getAttribute('visualOrder')).toBeNull()
+    expect(root.getAttribute('skeleton')).toBeNull()
+  })
 })

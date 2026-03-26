@@ -13,11 +13,8 @@ import StatRootContext from './StatRootContext'
 import useStatSkeleton from './useStatSkeleton'
 import Provider from '../../shared/Provider'
 
-export type LabelProps = {
-  children?: React.ReactNode
-  id?: string
+type LabelOwnProps = {
   element?: keyof JSX.IntrinsicElements
-  className?: string
   srOnly?: boolean
   fontSize?: TypographySize
   fontWeight?: TypographyWeight
@@ -26,8 +23,14 @@ export type LabelProps = {
     | 'subtle'
     | /** @deprecated Use "plain" instead */ 'default'
   skeleton?: SkeletonShow
-  style?: React.CSSProperties
-} & SpacingProps
+}
+
+export type LabelProps = Omit<
+  React.HTMLProps<HTMLElement>,
+  keyof LabelOwnProps | 'ref'
+> &
+  LabelOwnProps &
+  SpacingProps
 
 function Label(props: LabelProps) {
   const { inRoot, skeleton: rootSkeleton } = useContext(StatRootContext)

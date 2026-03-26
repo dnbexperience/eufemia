@@ -8,15 +8,18 @@ import StatRootContext from './StatRootContext'
 import useStatSkeleton from './useStatSkeleton'
 import Provider from '../../shared/Provider'
 
-export type ContentProps = {
-  children?: React.ReactNode
-  id?: string
-  className?: string
-  style?: React.CSSProperties
+type ContentOwnProps = {
   element?: keyof JSX.IntrinsicElements
   direction?: 'horizontal' | 'vertical'
   skeleton?: SkeletonShow
-} & SpacingProps
+}
+
+export type ContentProps = Omit<
+  React.HTMLProps<HTMLElement>,
+  keyof ContentOwnProps | 'ref'
+> &
+  ContentOwnProps &
+  SpacingProps
 
 function Content(props: ContentProps) {
   const { inRoot } = useContext(StatRootContext)

@@ -10,5 +10,6 @@ export { Info } from './exports/StatExport'
 export { Inline } from './exports/StatExport'
 export { Root } from './exports/StatExport'
 export { Content } from './exports/StatExport'
+export { Text } from './exports/StatExport'
 import * as _default from './exports/StatExport'
 export { _default as default }

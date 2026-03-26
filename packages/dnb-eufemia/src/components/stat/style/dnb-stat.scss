@@ -93,6 +93,11 @@
     }
   }
 
+  &__text {
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
+  }
+
   // Use "data-text" so Chrome does not copy the HTML as content, when pasting it in Outlook etc.
   .dnb-sr-only::before {
     content: attr(data-text);

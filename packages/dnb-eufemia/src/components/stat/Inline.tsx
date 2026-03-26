@@ -9,6 +9,7 @@ import useStatSkeleton from './useStatSkeleton'
 import Provider from '../../shared/Provider'
 
 export type InlineProps = FlexHorizontalProps & {
+  id?: string
   skeleton?: SkeletonShow
 }
 

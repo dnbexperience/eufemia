@@ -1,37 +1,36 @@
 import React from 'react'
 import classnames from 'classnames'
-import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../../shared/types'
-import {
-  convertJsxToString,
-  validateDOMAttributes,
-  warn,
-} from '../../shared/component-helper'
+import { convertJsxToString, warn } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatValueContext from './StatValueContext'
-import useStatSkeleton from './useStatSkeleton'
+import { TextInternal as Text } from './Text'
 
 const trendContextValue = {
   useBasisSize: true,
   defaultMainWeight: null,
 } as const
 
-export type TrendProps = {
+type TrendOwnProps = {
   value?: number | string
-  children?: React.ReactNode
-  id?: string
   element?: keyof JSX.IntrinsicElements
-  className?: string
-  style?: React.CSSProperties
   srLabel?: React.ReactNode
   tone?: 'positive' | 'negative' | 'neutral'
   skeleton?: SkeletonShow
-} & SpacingProps
+}
+
+export type TrendProps = Omit<
+  React.HTMLProps<HTMLElement>,
+  keyof TrendOwnProps | 'ref'
+> &
+  TrendOwnProps &
+  SpacingProps
 
 function Trend(props: TrendProps) {
   const {
     value,
     children,
+    id = null,
     element: Element = 'span',
     className = null,
     style = null,
@@ -40,9 +39,6 @@ function Trend(props: TrendProps) {
     skeleton = null,
     ...rest
   } = props
-
-  const { skeletonClass, applySkeletonAttributes } =
-    useStatSkeleton(skeleton)
 
   const rawValue =
     typeof value !== 'undefined' ? value : getValueFromChildren(children)
@@ -71,23 +67,21 @@ function Trend(props: TrendProps) {
     ? `${convertJsxToString(srLabel)}${' '}${visibleText}`
     : visibleText
 
-  const attributes = validateDOMAttributes(props, {
-    ...rest,
-    style,
-    className: classnames(
-      'dnb-stat',
-      'dnb-stat__trend',
-      `dnb-stat__trend--${usedTone}`,
-      createSpacingClasses(props),
-      skeletonClass,
-      className
-    ),
-  })
-
-  applySkeletonAttributes(attributes)
-
   return (
-    <Element {...attributes}>
+    <Text
+      {...rest}
+      id={id}
+      element={Element}
+      className={classnames(
+        'dnb-stat',
+        'dnb-stat__trend',
+        `dnb-stat__trend--${usedTone}`,
+        className
+      )}
+      style={style}
+      skeleton={skeleton}
+      textClassName={false}
+    >
       <StatValueContext.Provider value={trendContextValue}>
         <span className="dnb-stat__trend-content" aria-hidden>
           {!hasCustomChildren && sign ? (
@@ -99,7 +93,7 @@ function Trend(props: TrendProps) {
         </span>
       </StatValueContext.Provider>
       <span className="dnb-sr-only" data-text={srText} />
-    </Element>
+    </Text>
   )
 }
 

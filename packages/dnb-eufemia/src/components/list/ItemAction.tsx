@@ -11,6 +11,7 @@ import type { IconIcon } from '../icon/Icon'
 export type ItemActionIconPosition = 'left' | 'right'
 
 export type ItemActionProps = {
+  id?: string
   variant?: ListVariant
   selected?: boolean
   disabled?: boolean

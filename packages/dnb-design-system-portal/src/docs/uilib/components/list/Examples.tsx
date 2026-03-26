@@ -761,3 +761,42 @@ export const InsideCard = () => {
     </ComponentBox>
   )
 }
+
+export const InsideCardWithoutScrollView = () => {
+  return (
+    <ComponentBox
+      data-visual-test="list-card-no-scroll-view"
+      scope={{ fish_medium }}
+    >
+      <List.Card>
+        <List.Container>
+          <List.Item.Action
+            icon={fish_medium}
+            title="Payment received"
+            onClick={() => {}}
+          >
+            <List.Cell.End>
+              <Value.Currency value={1234} />
+            </List.Cell.End>
+          </List.Item.Action>
+
+          <List.Item.Action
+            icon={fish_medium}
+            title="Transfer sent"
+            onClick={() => {}}
+          >
+            <List.Cell.End>
+              <Value.Currency value={-500} />
+            </List.Cell.End>
+          </List.Item.Action>
+
+          <List.Item.Basic icon={fish_medium} title="Subscription">
+            <List.Cell.End>
+              <Value.Currency value={-99} />
+            </List.Cell.End>
+          </List.Item.Basic>
+        </List.Container>
+      </List.Card>
+    </ComponentBox>
+  )
+}

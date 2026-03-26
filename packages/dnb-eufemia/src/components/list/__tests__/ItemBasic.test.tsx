@@ -176,6 +176,14 @@ describe('ItemBasic', () => {
     expect(element.classList).toContain('dnb-skeleton--font')
   })
 
+  it('supports id prop', () => {
+    render(<ItemBasic id="my-item">Content</ItemBasic>)
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.getAttribute('id')).toBe('my-item')
+  })
+
   it('has no axe violations', async () => {
     const { container } = render(
       <Container>
@@ -184,5 +192,38 @@ describe('ItemBasic', () => {
     )
 
     expect(await axeComponent(container)).toHaveNoViolations()
+  })
+
+  it('forwards data-* and aria-* attributes to the DOM element', () => {
+    render(
+      <ItemBasic
+        data-testid="item-basic"
+        data-foo="bar"
+        aria-label="Basic item"
+      >
+        Content
+      </ItemBasic>
+    )
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.getAttribute('data-testid')).toBe('item-basic')
+    expect(element.getAttribute('data-foo')).toBe('bar')
+    expect(element.getAttribute('aria-label')).toBe('Basic item')
+  })
+
+  it('does not forward component-specific props to the DOM', () => {
+    render(
+      <ItemBasic variant="basic" selected pending skeleton>
+        Content
+      </ItemBasic>
+    )
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.getAttribute('variant')).toBeNull()
+    expect(element.getAttribute('selected')).toBeNull()
+    expect(element.getAttribute('pending')).toBeNull()
+    expect(element.getAttribute('skeleton')).toBeNull()
   })
 })
