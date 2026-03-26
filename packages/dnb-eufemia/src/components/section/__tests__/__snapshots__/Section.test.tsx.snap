@@ -184,7 +184,7 @@ exports[`Section scss has to match style dependencies css 1`] = `
   --text-color: var(--token-color-text-neutral);
   --background-color: var(--token-color-background-error-subtle);
 }
-.dnb-section--info, .dnb-section--success {
+.dnb-section--information, .dnb-section--success {
   --text-color: var(--token-color-text-neutral);
   --background-color: var(--token-color-background-info-subtle);
 }
@@ -206,9 +206,6 @@ exports[`Section scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-.dnb-section {
-  /** deprecated: default should be white in v11 */
-}
 .dnb-section--mint-green-12 {
   --text-color: var(--text-color--value, var(--color-black-80));
   --background-color: var(
@@ -216,15 +213,9 @@ exports[`Section scss have to match default theme snapshot 1`] = `
     var(--color-mint-green-12)
   );
 }
-.dnb-section {
-  /** deprecated */
-}
 .dnb-section--mint-green {
   --text-color: var(--color-black-80);
   --background-color: var(--color-mint-green);
-}
-.dnb-section {
-  /** deprecated */
 }
 .dnb-section--lavender {
   --text-color: var(--color-black-80);
@@ -238,29 +229,17 @@ exports[`Section scss have to match default theme snapshot 1`] = `
   --text-color: var(--color-black-80);
   --background-color: var(--color-pistachio);
 }
-.dnb-section {
-  /** deprecated */
-}
 .dnb-section--black-3 {
   --text-color: var(--color-black-80);
   --background-color: var(--color-black-3);
-}
-.dnb-section {
-  /** deprecated */
 }
 .dnb-section--emerald-green {
   --text-color: var(--color-mint-green);
   --background-color: var(--color-emerald-green);
 }
-.dnb-section {
-  /** deprecated */
-}
 .dnb-section--sea-green {
   --text-color: var(--color-white);
   --background-color: var(--color-sea-green);
-}
-.dnb-section {
-  /** deprecated */
 }
 .dnb-section--fire-red {
   --text-color: var(--color-white);
