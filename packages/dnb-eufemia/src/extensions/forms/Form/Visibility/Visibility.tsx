@@ -37,6 +37,8 @@ export type VisibleWhen =
     }
 
 export type FormVisibilityProps = {
+  /** A unique identifier for the component's wrapper element. */
+  id?: string
   visible?: boolean
   /** Given data context path must be defined to show children */
   pathDefined?: Path
@@ -78,6 +80,7 @@ export type FormVisibilityProps = {
 
 function Visibility(props: FormVisibilityProps) {
   const {
+    id,
     visible,
     pathDefined,
     pathUndefined,
@@ -158,6 +161,7 @@ function Visibility(props: FormVisibilityProps) {
   if (animate) {
     return (
       <HeightAnimation
+        id={id}
         open={open}
         onAnimationEnd={onAnimationEnd}
         onOpen={onOpen}
@@ -177,9 +181,21 @@ function Visibility(props: FormVisibilityProps) {
 
   if (keepInDOM) {
     return (
-      <span className="dnb-forms-visibility" hidden={!open}>
+      <span id={id} className="dnb-forms-visibility" hidden={!open}>
         <FieldProvider {...providerProps}>{content}</FieldProvider>
       </span>
+    )
+  }
+
+  if (id) {
+    return (
+      <>
+        {open ? (
+          <span id={id} className="dnb-forms-visibility">
+            {content}
+          </span>
+        ) : null}
+      </>
     )
   }
 
