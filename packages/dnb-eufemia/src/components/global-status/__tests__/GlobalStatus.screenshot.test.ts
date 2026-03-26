@@ -10,68 +10,73 @@ import {
 
 const style = { width: '25rem' }
 
-describe.each(['ui', 'sbanken'])('GlobalStatus for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/uilib/components/global-status/demos/',
-  })
-
-  it('have to match the default state with custom content', async () => {
-    const screenshot = await makeScreenshot({
-      style,
-      selector: '[data-visual-test="global-status"] .dnb-global-status',
+describe.each(['ui', 'sbanken', 'carnegie'])(
+  'GlobalStatus for %s',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/global-status/demos/',
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the information state and custom content', async () => {
-    const screenshot = await makeScreenshot({
-      style,
-      selector:
-        '[data-visual-test="global-status-information"] .dnb-global-status',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match the success state and custom content', async () => {
-    const screenshot = await makeScreenshot({
-      style,
-      selector:
-        '[data-visual-test="global-status-success"] .dnb-global-status',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match the custom icon', async () => {
-    const screenshot = await makeScreenshot({
-      style,
-      selector:
-        '[data-visual-test="global-status-icon"] .dnb-global-status',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  if (themeName !== 'sbanken') {
-    it('have to match the close button in focus state', async () => {
+    it('have to match the default state with custom content', async () => {
       const screenshot = await makeScreenshot({
         style,
         selector: '[data-visual-test="global-status"] .dnb-global-status',
-        simulateSelector:
-          '[data-visual-test="global-status"] .dnb-global-status__close-button',
-        simulate: 'focus',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match the close button in hover state', async () => {
+    it('have to match the info state and custom content', async () => {
       const screenshot = await makeScreenshot({
         style,
-        selector: '[data-visual-test="global-status"] .dnb-global-status',
-        simulateSelector:
-          '[data-visual-test="global-status"] .dnb-global-status__close-button',
-        simulate: 'hover',
+        selector:
+          '[data-visual-test="global-status-information"] .dnb-global-status',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
+    it('have to match the success state and custom content', async () => {
+      const screenshot = await makeScreenshot({
+        style,
+        selector:
+          '[data-visual-test="global-status-success"] .dnb-global-status',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match the custom icon', async () => {
+      const screenshot = await makeScreenshot({
+        style,
+        selector:
+          '[data-visual-test="global-status-icon"] .dnb-global-status',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    if (themeName !== 'sbanken') {
+      it('have to match the close button in focus state', async () => {
+        const screenshot = await makeScreenshot({
+          style,
+          selector:
+            '[data-visual-test="global-status"] .dnb-global-status',
+          simulateSelector:
+            '[data-visual-test="global-status"] .dnb-global-status__close-button',
+          simulate: 'focus',
+        })
+        expect(screenshot).toMatchImageSnapshot()
+      })
+
+      it('have to match the close button in hover state', async () => {
+        const screenshot = await makeScreenshot({
+          style,
+          selector:
+            '[data-visual-test="global-status"] .dnb-global-status',
+          simulateSelector:
+            '[data-visual-test="global-status"] .dnb-global-status__close-button',
+          simulate: 'hover',
+        })
+        expect(screenshot).toMatchImageSnapshot()
+      })
+    }
   }
-})
+)

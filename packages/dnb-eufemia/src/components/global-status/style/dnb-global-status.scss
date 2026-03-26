@@ -9,11 +9,17 @@
   }
 
   &__shell {
+    --global-status-underline-color: var(--token-color-stroke-error);
+
     width: 100%;
 
     &.dnb-height-animation--hidden {
       // Ensure Section is not overflowing with its after/before pseudo elements
       overflow-y: clip;
+    }
+
+    .dnb-hr {
+      --hr-color: var(--global-status-underline-color);
     }
 
     .dnb-hr,
@@ -98,5 +104,16 @@
         margin-left: 0.5rem;
       }
     }
+  }
+
+  // Underline colors
+  &--information &__shell,
+  // No designs for success state in Figma, treat as information until verified by design team
+  &--success &__shell {
+    --global-status-underline-color: var(--token-color-stroke-info);
+  }
+
+  &--warning &__shell {
+    --global-status-underline-color: var(--token-color-stroke-warning);
   }
 }

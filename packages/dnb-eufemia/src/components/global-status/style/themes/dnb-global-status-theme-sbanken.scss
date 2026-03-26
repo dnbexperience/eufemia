@@ -15,20 +15,4 @@
       padding-right: 2.5rem;
     }
   }
-
-  &--error &__content .dnb-hr {
-    --hr-color: var(--sb-color-red);
-  }
-
-  &--information &__content .dnb-hr {
-    --hr-color: var(--sb-color-green-dark-2);
-  }
-
-  &--warning &__content .dnb-hr {
-    --hr-color: var(--sb-color-yellow-dark);
-  }
-
-  &--success &__content .dnb-hr {
-    --hr-color: var(--sb-color-green-dark-3);
-  }
 }
