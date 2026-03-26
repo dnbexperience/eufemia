@@ -16,6 +16,7 @@ import useStatSkeleton from './useStatSkeleton'
 import type { SkeletonMethods } from '../skeleton/SkeletonHelper'
 
 type TextOwnProps = {
+  /** @internal Not documented – used by internal sub-components only. */
   element?: keyof JSX.IntrinsicElements
   srLabel?: React.ReactNode
   fontSize?: TypographySize
