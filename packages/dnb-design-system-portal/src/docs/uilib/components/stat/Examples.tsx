@@ -259,7 +259,7 @@ export const RatingDefault = () => (
 )
 
 export const RatingSizes = () => (
-  <ComponentBox data-visual-test="stat-rating-sizes">
+  <ComponentBox>
     <Stat.Root>
       <Stat.Label>Small (default)</Stat.Label>
       <Stat.Content>
