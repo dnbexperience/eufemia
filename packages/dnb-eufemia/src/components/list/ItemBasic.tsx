@@ -5,6 +5,7 @@ import ItemTitle from './ItemTitle'
 import type { IconIcon } from '../icon/Icon'
 
 export type ItemBasicProps = {
+  id?: string
   icon?: IconIcon
   title?: React.ReactNode
 } & Omit<ItemContentProps, 'title'>

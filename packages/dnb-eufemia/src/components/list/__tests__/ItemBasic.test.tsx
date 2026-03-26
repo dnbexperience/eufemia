@@ -176,6 +176,14 @@ describe('ItemBasic', () => {
     expect(element.classList).toContain('dnb-skeleton--font')
   })
 
+  it('supports id prop', () => {
+    render(<ItemBasic id="my-item">Content</ItemBasic>)
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.getAttribute('id')).toBe('my-item')
+  })
+
   it('has no axe violations', async () => {
     const { container } = render(
       <Container>

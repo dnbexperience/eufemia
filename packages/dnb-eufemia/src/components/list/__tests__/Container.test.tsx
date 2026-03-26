@@ -243,6 +243,18 @@ describe('List Container', () => {
     expect(element).toHaveAttribute('aria-labelledby', 'list-heading')
   })
 
+  it('supports id prop', () => {
+    render(
+      <Container id="my-container">
+        <ItemContent>Item one</ItemContent>
+      </Container>
+    )
+
+    const element = document.querySelector('.dnb-list')
+
+    expect(element.getAttribute('id')).toBe('my-container')
+  })
+
   it('has no axe violations when aria-label is provided', async () => {
     const { container } = render(
       <Container aria-label="Important items">
