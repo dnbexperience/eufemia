@@ -421,7 +421,8 @@ function Selection(props: Props) {
       })
 
       const additionalFieldBlockProps: FieldBlockProps = {
-        asFieldset: React.Children.count(items) > 1,
+        asFieldset:
+          hasRenderPropChildren || React.Children.count(items) > 1,
         fieldsetRole:
           variant === 'radio' || variant === 'radio-list'
             ? 'radiogroup'

@@ -937,6 +937,37 @@ describe('variants', () => {
       )
       expect(await axeComponent(Comp)).toHaveNoViolations()
     })
+
+    it('should use fieldset and legend when render prop children are used', () => {
+      render(
+        <Field.Selection
+          variant="radio"
+          label="Legend"
+          data={[
+            { value: 'foo', title: 'Foo' },
+            { value: 'bar', title: 'Bar' },
+          ]}
+        >
+          {({ value: selectedValue, options = [] }) => {
+            return (
+              <div>
+                {options.map(({ value, title }) => (
+                  <Field.Option key={value} value={value} title={title} />
+                ))}
+              </div>
+            )
+          }}
+        </Field.Selection>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+      const legend = document.querySelector('legend')
+
+      expect(fieldset).toBeInTheDocument()
+      expect(fieldset).toHaveAttribute('role', 'radiogroup')
+      expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
+      expect(legend).toHaveTextContent('Legend')
+    })
   })
 
   describe('radio-list', () => {
