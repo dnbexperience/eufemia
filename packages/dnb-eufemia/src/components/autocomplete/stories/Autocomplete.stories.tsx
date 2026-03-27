@@ -887,7 +887,7 @@ export const AsyncSearchExample = () => {
     )
   }
   return (
-    <Section spacing>
+    <Section innerSpace={{ block: 'large' }}>
       <Space left>
         <P>In this demo/recreation:</P>
         <Ol>

@@ -1310,17 +1310,6 @@ const tableData = [
 export function Overflow() {
   return (
     <div>
-      {/* <h1
-        style={{
-          color: '#007272',
-          fontSize: '2rem',
-          fontWeight: '500',
-          marginBottom: '1.5rem',
-          textAlign: 'center',
-        }}
-      >
-        DNB Eufemia Design System Test - Fun Facts About DNB
-      </h1> */}
       <Table.ScrollView
         top="6rem"
         style={{
@@ -1330,17 +1319,6 @@ export function Overflow() {
         }}
       >
         <Table fixed border outline mode="accordion">
-          {/* <caption
-            style={{
-              color: '#707070',
-              fontSize: '1rem',
-              marginBottom: '1rem',
-              textAlign: 'left',
-              fontWeight: '400',
-            }}
-          >
-            Interesting Facts About DNB with Expandable Details
-          </caption> */}
           <thead>
             <Tr>
               <Th style={{ width: '30%' }}>Fun Fact</Th>
@@ -1388,15 +1366,6 @@ export function Accodion() {
             Ring the bell
           </Button>
 
-          {/* <Section top spacing>
-            <Dl>
-              <Dt>Favorittfarge</Dt>
-              <Dd>Grønn</Dd>
-              <Dt>Favorittmat</Dt>
-              <Dd>Taco</Dd>
-            </Dl>
-          </Section> */}
-
           <Button
             top
             variant="tertiary"
@@ -1406,8 +1375,6 @@ export function Accodion() {
           >
             Copy link to this row
           </Button>
-
-          {/* <CopyTooltip target={ref.current} /> */}
         </>
       )
     }

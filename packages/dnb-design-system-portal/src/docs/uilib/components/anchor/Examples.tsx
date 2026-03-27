@@ -50,7 +50,7 @@ export const AnchorBasicUse = () => (
 export const AnchorExampleInSection = () => (
   <Wrapper>
     <ComponentBox data-visual-test="anchor-in-section">
-      <Section spacing>
+      <Section innerSpace={{ block: 'large' }}>
         <Anchor
           className="dnb-anchor--no-underline"
           href="https://dnb.no/"

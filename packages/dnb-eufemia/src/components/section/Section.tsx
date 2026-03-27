@@ -24,15 +24,6 @@ export type SectionVariants =
   | 'success'
   | 'divider'
 
-export type SectionSpacing =
-  | boolean
-  | 'x-small'
-  | 'small'
-  | 'medium'
-  | 'large'
-  | 'x-large'
-  | 'xx-large'
-
 export type SectionTextColor = string
 export type SectionOutlineColor = string | boolean
 export type SectionBackgroundColor = string
@@ -103,9 +94,9 @@ export type SectionProps = {
   ref?: React.RefObject<HTMLElement>
 
   /**
-   * @deprecated in v11 use "innerSpace" prop instead
+   * @deprecated in v11 use "ref" prop instead
    */
-  spacing?: SectionSpacing | ResponsiveProp<SectionSpacing>
+  inner_ref?: React.RefObject<HTMLElement>
 }
 
 type SectionSpacingProps = Omit<SpacingProps, 'innerSpace'> & {
@@ -165,7 +156,7 @@ export function SectionParams(
     className,
     children,
 
-    spacing,
+    inner_ref,
 
     ...attributes
   } = props
@@ -178,8 +169,6 @@ export function SectionParams(
     className: clsx(
       'dnb-section',
       `dnb-section--${variant ? variant : 'default'}`,
-      spacing &&
-        `dnb-section--spacing-${spacing === true ? 'large' : spacing}`,
       className
     ),
     style: {

@@ -72,7 +72,7 @@ export function SectionLayout() {
         {/* WIP */}
         {/* <Hr fullscreen responsive /> */}
 
-        <Section spacing="medium">
+        <Section innerSpace={{ block: 'medium' }}>
           <Heading size="large">Heading</Heading>
           <P>
             Etiam suscipit risus eu sagittis lacinia. Donec volutpat,

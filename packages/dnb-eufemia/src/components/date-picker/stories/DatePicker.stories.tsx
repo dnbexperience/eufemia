@@ -351,7 +351,7 @@ const CustomDate = () => {
   const [errorStatus, setErrorStatus] = React.useState('')
 
   return (
-    <Section spacing>
+    <Section innerSpace={{ block: 'large' }}>
       {/* <H2>{count}</H2> */}
       <DatePicker
         right

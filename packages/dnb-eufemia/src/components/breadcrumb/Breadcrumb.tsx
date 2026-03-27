@@ -11,7 +11,6 @@ import clsx from 'clsx'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type {
-  SectionSpacing,
   SectionBackgroundColor,
   SectionVariants,
 } from '../section/Section'
@@ -20,7 +19,11 @@ import Button from '../button/Button'
 
 // Shared
 import Context from '../../shared/Context'
-import type { SpacingProps } from '../../shared/types'
+import type {
+  SpaceTypeAll,
+  SpaceTypeMedia,
+  SpacingProps,
+} from '../../shared/types'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 
 // Internal
@@ -123,10 +126,10 @@ export type BreadcrumbProps = {
   collapsedStyleType?: SectionVariants
 
   /**
-   * Include spacing properties from the Section component in breadcrumb. If only `true` is given, the spacing will be `small`.
+   * Include spacing properties in breadcrumb. If only `true` is given, the spacing will be `small`.
    * Default: false
    */
-  spacing?: SectionSpacing
+  spacing?: SpaceTypeAll | SpaceTypeMedia
 
   /**
    * Will disable the height animation
@@ -245,7 +248,11 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
 
   validateDOMAttributes(allProps, props)
 
-  const innerSpace = spacing === true ? 'small' : spacing
+  const innerSpace = spacing
+    ? spacing === true
+      ? 'small'
+      : spacing
+    : undefined
 
   const overrideSbankenSectionColor =
     useTheme()?.isSbanken && collapsedStyleType === 'information'
