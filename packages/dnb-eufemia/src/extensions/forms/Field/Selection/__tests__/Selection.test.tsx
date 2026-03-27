@@ -937,6 +937,37 @@ describe('variants', () => {
       )
       expect(await axeComponent(Comp)).toHaveNoViolations()
     })
+
+    it('should use fieldset and legend when render prop children are used', () => {
+      render(
+        <Field.Selection
+          variant="radio"
+          label="Legend"
+          data={[
+            { value: 'foo', title: 'Foo' },
+            { value: 'bar', title: 'Bar' },
+          ]}
+        >
+          {({ value: selectedValue, options = [] }) => {
+            return (
+              <div>
+                {options.map(({ value, title }) => (
+                  <Field.Option key={value} value={value} title={title} />
+                ))}
+              </div>
+            )
+          }}
+        </Field.Selection>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+      const legend = document.querySelector('legend')
+
+      expect(fieldset).toBeInTheDocument()
+      expect(fieldset).toHaveAttribute('role', 'radiogroup')
+      expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
+      expect(legend).toHaveTextContent('Legend')
+    })
   })
 
   describe('radio-list', () => {
@@ -3122,5 +3153,69 @@ describe('Selection width', () => {
     expect(contents.className).not.toMatch(
       /dnb-forms-field-block__contents--width/
     )
+  })
+
+  describe('unique ids with render prop children', () => {
+    it('should have unique input ids for radio variant when Field.Option is nested inside wrapper elements', () => {
+      render(
+        <Field.Selection variant="radio" label="Label">
+          {() => {
+            return (
+              <div>
+                <div>
+                  <Field.Option value="a" title="A" />
+                </div>
+                <div>
+                  <Field.Option value="b" title="B" />
+                </div>
+                <div>
+                  <Field.Option value="c" title="C" />
+                </div>
+              </div>
+            )
+          }}
+        </Field.Selection>
+      )
+
+      const inputs = document.querySelectorAll(
+        '.dnb-forms-field-selection input'
+      )
+      const ids = Array.from(inputs)
+        .map((el) => el.id)
+        .filter(Boolean)
+
+      // Each input should have a unique id
+      const uniqueIds = new Set(ids)
+      expect(uniqueIds.size).toBe(ids.length)
+    })
+
+    it('should have unique input ids for button variant when Field.Option is nested inside wrapper elements', () => {
+      render(
+        <Field.Selection variant="button" label="Label">
+          {() => {
+            return (
+              <div>
+                <div>
+                  <Field.Option value="a" title="A" />
+                </div>
+                <div>
+                  <Field.Option value="b" title="B" />
+                </div>
+              </div>
+            )
+          }}
+        </Field.Selection>
+      )
+
+      const inputs = document.querySelectorAll(
+        '.dnb-forms-field-selection input'
+      )
+      const ids = Array.from(inputs)
+        .map((el) => el.id)
+        .filter(Boolean)
+
+      const uniqueIds = new Set(ids)
+      expect(uniqueIds.size).toBe(ids.length)
+    })
   })
 })
