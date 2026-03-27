@@ -3926,11 +3926,7 @@ describe('Autocomplete component', () => {
       const onSubmit = jest.fn()
 
       render(
-        <Autocomplete
-          onSubmit={onSubmit}
-          data={mockData}
-          {...mockProps}
-        />
+        <Autocomplete onSubmit={onSubmit} data={mockData} {...mockProps} />
       )
 
       const input = document.querySelector('.dnb-input__input')
@@ -3954,11 +3950,7 @@ describe('Autocomplete component', () => {
       const onSubmit = jest.fn()
 
       render(
-        <Autocomplete
-          onSubmit={onSubmit}
-          data={mockData}
-          {...mockProps}
-        />
+        <Autocomplete onSubmit={onSubmit} data={mockData} {...mockProps} />
       )
 
       const input = document.querySelector('.dnb-input__input')
@@ -3979,11 +3971,7 @@ describe('Autocomplete component', () => {
       const onSubmit = jest.fn()
 
       render(
-        <Autocomplete
-          onSubmit={onSubmit}
-          data={mockData}
-          {...mockProps}
-        />
+        <Autocomplete onSubmit={onSubmit} data={mockData} {...mockProps} />
       )
 
       const input = document.querySelector('.dnb-input__input')
@@ -4006,11 +3994,7 @@ describe('Autocomplete component', () => {
       const onSubmit = jest.fn()
 
       render(
-        <Autocomplete
-          onSubmit={onSubmit}
-          data={mockData}
-          {...mockProps}
-        />
+        <Autocomplete onSubmit={onSubmit} data={mockData} {...mockProps} />
       )
 
       const input = document.querySelector('.dnb-input__input')
