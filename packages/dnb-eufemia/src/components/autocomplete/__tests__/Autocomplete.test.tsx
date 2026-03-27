@@ -3921,6 +3921,114 @@ describe('Autocomplete component', () => {
     })
   })
 
+  describe('onSubmit', () => {
+    it('should call onSubmit when pressing Enter with no active item', () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <Autocomplete
+          onSubmit={onSubmit}
+          data={mockData}
+          {...mockProps}
+        />
+      )
+
+      const input = document.querySelector('.dnb-input__input')
+
+      fireEvent.focus(input)
+      keyDownOnInput('Enter')
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          value: '',
+        })
+      )
+
+      const callArgs = onSubmit.mock.calls[0][0]
+      expect(callArgs.event).toBeDefined()
+      expect(callArgs.event.type).toBe('keydown')
+    })
+
+    it('should call onSubmit with the current input value', () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <Autocomplete
+          onSubmit={onSubmit}
+          data={mockData}
+          {...mockProps}
+        />
+      )
+
+      const input = document.querySelector('.dnb-input__input')
+
+      fireEvent.focus(input)
+      fireEvent.change(input, { target: { value: 'search text' } })
+      keyDownOnInput('Enter')
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          value: 'search text',
+        })
+      )
+    })
+
+    it('should not call onSubmit when an item is active via arrow key', () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <Autocomplete
+          onSubmit={onSubmit}
+          data={mockData}
+          {...mockProps}
+        />
+      )
+
+      const input = document.querySelector('.dnb-input__input')
+
+      fireEvent.focus(input)
+      keyDownOnInput('Enter') // open dropdown
+      keyDownOnInput('ArrowDown') // activate first item
+
+      onSubmit.mockClear()
+
+      fireEvent.keyDown(
+        document.querySelector('.dnb-autocomplete__list'),
+        { key: 'Enter' }
+      )
+
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+    })
+
+    it('should include event methods in the onSubmit callback', () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <Autocomplete
+          onSubmit={onSubmit}
+          data={mockData}
+          {...mockProps}
+        />
+      )
+
+      const input = document.querySelector('.dnb-input__input')
+
+      fireEvent.focus(input)
+      keyDownOnInput('Enter')
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+
+      const callArgs = onSubmit.mock.calls[0][0]
+      expect(callArgs).toHaveProperty('dataList')
+      expect(callArgs).toHaveProperty('updateData')
+      expect(callArgs).toHaveProperty('focusInput')
+      expect(callArgs).toHaveProperty('setVisible')
+      expect(callArgs).toHaveProperty('setHidden')
+    })
+  })
+
   it('gets valid element when inputRef is function', () => {
     const ref: React.RefObject<HTMLInputElement> = React.createRef()
 

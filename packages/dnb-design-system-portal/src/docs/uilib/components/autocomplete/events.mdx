@@ -17,4 +17,20 @@ The difference between `onChange` and `onSelect` is:
 - `onChange` will be called when the state changes, either with a **click** or **space/enter** keypress confirmation.
 - `onSelect` differs most when the user is navigating by keyboard. Once the user is pressing e.g. the arrow keys, the selection is changing, but not the state.
 
+### The `onSubmit` event
+
+The `onSubmit` event is called when the user presses **Enter** in the input field without having selected or navigated to an item in the list. This is useful for implementing custom behaviors such as:
+
+- Navigating to a dedicated search results page
+- Triggering an advanced search action
+
+```tsx
+<Autocomplete
+  data={myData}
+  onSubmit={({ value }) => {
+    navigateTo(`/search?q=${value}`)
+  }}
+/>
+```
+
 <AutocompleteMethods />

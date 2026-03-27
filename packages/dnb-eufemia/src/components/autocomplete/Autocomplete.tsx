@@ -144,6 +144,11 @@ export type AutocompleteOnChangeParams = {
   data: DrawerListDataArrayObject | string | null
   selectedItem?: number | string
 } & AutocompleteEventMethods
+export type AutocompleteOnSubmitParams = {
+  value: string
+  event: React.KeyboardEvent<HTMLInputElement>
+} & AutocompleteEventMethods
+
 export type AutocompleteOnSelectParams = {
   activeItem: number | string
   selectedItem?: number | string | null
@@ -334,6 +339,10 @@ export type AutocompleteProps = {
   onChange?: (event: AutocompleteOnChangeParams) => void
   onSelect?: (event: AutocompleteOnSelectParams) => void
   onClear?: (event: AutocompleteOnClearParams) => void
+  /**
+   * Will be called when the user presses Enter in the input field without selecting an item from the list. Returns an object with the input `value` and the `event`.
+   */
+  onSubmit?: (event: AutocompleteOnSubmitParams) => void
 }
 
 export type AutocompleteAllProps = AutocompleteProps &
@@ -356,6 +365,7 @@ export type AutocompleteAllProps = AutocompleteProps &
     | 'onSelect'
     | 'onResize'
     | 'onBlur'
+    | 'onSubmit'
   >
 
 const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
@@ -438,6 +448,7 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
   onChange: null,
   onSelect: null,
   onClear: null,
+  onSubmit: null,
   inputElement: null,
 }
 
@@ -613,6 +624,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     onClose: _onClose,
     onChange: _onChange,
     onSelect: _onSelect,
+    onSubmit: _onSubmit,
 
     ...attributes
   } = props
@@ -1835,6 +1847,11 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
             (!hasValidData() || !hasSelectedItem()) &&
             !hasActiveItem()
           ) {
+            dispatchCustomElementEvent(propsRef.current, 'onSubmit', {
+              value: inputValueRef.current ?? '',
+              event: e,
+              ...getEventObjects('onSubmit'),
+            })
             toggleVisible()
           } else {
             setVisible()
