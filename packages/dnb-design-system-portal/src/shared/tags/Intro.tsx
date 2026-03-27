@@ -84,7 +84,10 @@ export const IntroFooter = ({ href, text }: IntroFooterProps) => (
 
 export const Next = (props: React.ComponentProps<typeof Anchor>) => (
   <>
-    <div className="dnb-section dnb-section--spacing">
+    <div
+      className="dnb-section"
+      style={{ padding: 'var(--spacing-large) 0' }}
+    >
       <Anchor {...props} />
     </div>
   </>

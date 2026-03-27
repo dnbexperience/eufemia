@@ -6,7 +6,9 @@ import {
   combineLabelledBy,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import { createSpacingProperties } from '../space/SpacingUtils'
 import Section from '../section/Section'
+import type { InnerSpaceType } from '../space/types'
 import {
   createSharedState,
   type SharedStateReturn,
@@ -28,7 +30,7 @@ export default function ContentWrapper({
   selectedKey = null,
   contentStyle = null,
   animate = null,
-  contentSpacing = true,
+  contentInnerSpace = { top: 'large' } as InnerSpaceType | boolean,
   ...rest
 }: TabsContentWrapperProps) {
   const sharedStateRef = useRef<SharedState | null>(null)
@@ -93,7 +95,7 @@ export default function ContentWrapper({
       selectedKey,
       contentStyle,
       animate,
-      contentSpacing,
+      contentInnerSpace,
       ...rest,
     },
     params
@@ -106,6 +108,9 @@ export default function ContentWrapper({
       state.key !== null ? state : { ...state, key: activeKey }
     content = children(stateToPass) as React.ReactNode
   }
+
+  const resolvedInnerSpace =
+    contentInnerSpace === true ? 'large' : contentInnerSpace
 
   return (
     <HeightAnimation
@@ -123,8 +128,8 @@ export default function ContentWrapper({
             }) => {
               return (
                 <Section
-                  spacing={contentStyle ? false : undefined}
                   variant={contentStyle ? contentStyle : undefined}
+                  innerSpace={resolvedInnerSpace || undefined}
                   ref={ref}
                   {...props}
                 />
@@ -135,13 +140,14 @@ export default function ContentWrapper({
       className={clsx(
         'dnb-tabs__content',
         'dnb-no-focus',
-        contentSpacing
-          ? `dnb-section--spacing-${
-              contentSpacing === true ? 'large' : contentSpacing
-            }`
-          : null,
+        !contentStyle && resolvedInnerSpace && 'dnb-space',
         createSpacingClasses(rest)
       )}
+      style={
+        !contentStyle && resolvedInnerSpace
+          ? createSpacingProperties({ innerSpace: resolvedInnerSpace })
+          : undefined
+      }
       duration={600}
       animate={animate === true}
       {...params}
@@ -152,7 +158,7 @@ export default function ContentWrapper({
 }
 
 // Type definitions
-import type { SectionSpacing, SectionVariants } from '../Section'
+import type { SectionVariants } from '../Section'
 
 export type TabsContentWrapperSelectedKey = string | number
 export type TabsContentWrapperChildren =
@@ -164,7 +170,7 @@ export type TabsContentWrapperProps = {
   selectedKey?: TabsContentWrapperSelectedKey
   contentStyle?: SectionVariants | string
   animate?: boolean
-  contentSpacing?: SectionSpacing
+  contentInnerSpace?: InnerSpaceType | boolean
   children?: TabsContentWrapperChildren
 } & Omit<
   React.HTMLProps<HTMLElement>,

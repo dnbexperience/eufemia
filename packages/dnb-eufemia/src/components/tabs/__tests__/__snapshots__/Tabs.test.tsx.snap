@@ -39,8 +39,6 @@ exports[`Tabs scss has to match style dependencies css 1`] = `
   z-index: 1;
   display: flex;
   align-items: center;
-}
-.dnb-tabs__tabs, .dnb-tabs__tabs.dnb-section--spacing {
   padding-bottom: 0;
 }
 .dnb-tabs__tabs__tablist {
@@ -353,9 +351,6 @@ html[data-visual-test] .dnb-tabs .dnb-tabs__cached, html[data-visual-test] .dnb-
 }
 .dnb-tabs {
   /* stylelint-enable */
-}
-.dnb-tabs__content {
-  padding-bottom: 0;
 }
 .dnb-tabs__content:focus {
   position: relative;
