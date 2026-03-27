@@ -15,9 +15,11 @@
 
   // button
   &__trigger {
-    --btn-color-text--disabled: var(--dropdown-foreground-color-primary);
-    --btn-color-text--hover: var(--color-emerald-green);
-    --btn-color-bg--disabled: var(--dropdown-background-color-disabled);
+    --button-color-text--disabled: var(
+      --dropdown-foreground-color-primary
+    );
+    --button-color-text--hover: var(--color-emerald-green);
+    --button-color-bg--disabled: var(--dropdown-background-color-disabled);
   }
 
   &__trigger[disabled] {
