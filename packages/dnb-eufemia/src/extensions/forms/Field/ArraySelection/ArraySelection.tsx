@@ -12,7 +12,7 @@ import { DefaultErrorMessages, FieldProps, Path } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 import { HelpProps } from '../../../../components/help-button/HelpButtonInline'
-import { mapOptions, Data } from '../Selection'
+import { countOptions, mapOptions, Data } from '../Selection'
 import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import { FormError } from '../../utils'
@@ -214,7 +214,7 @@ export function useCheckboxOrToggleOptions({
 }) {
   const { setFieldInternals } = useContext(DataContext)
   const optionsCount = useMemo(
-    () => React.Children.count(children) + (dataList?.length || 0),
+    () => countOptions(children) + (dataList?.length || 0),
     [dataList, children]
   )
   const activeData: Array<OptionProps> = []

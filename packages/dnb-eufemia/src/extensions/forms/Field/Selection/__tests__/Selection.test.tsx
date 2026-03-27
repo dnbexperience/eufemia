@@ -3123,4 +3123,68 @@ describe('Selection width', () => {
       /dnb-forms-field-block__contents--width/
     )
   })
+
+  describe('unique ids with render prop children', () => {
+    it('should have unique input ids for radio variant when Field.Option is nested inside wrapper elements', () => {
+      render(
+        <Field.Selection variant="radio" label="Label">
+          {() => {
+            return (
+              <div>
+                <div>
+                  <Field.Option value="a" title="A" />
+                </div>
+                <div>
+                  <Field.Option value="b" title="B" />
+                </div>
+                <div>
+                  <Field.Option value="c" title="C" />
+                </div>
+              </div>
+            )
+          }}
+        </Field.Selection>
+      )
+
+      const inputs = document.querySelectorAll(
+        '.dnb-forms-field-selection input'
+      )
+      const ids = Array.from(inputs)
+        .map((el) => el.id)
+        .filter(Boolean)
+
+      // Each input should have a unique id
+      const uniqueIds = new Set(ids)
+      expect(uniqueIds.size).toBe(ids.length)
+    })
+
+    it('should have unique input ids for button variant when Field.Option is nested inside wrapper elements', () => {
+      render(
+        <Field.Selection variant="button" label="Label">
+          {() => {
+            return (
+              <div>
+                <div>
+                  <Field.Option value="a" title="A" />
+                </div>
+                <div>
+                  <Field.Option value="b" title="B" />
+                </div>
+              </div>
+            )
+          }}
+        </Field.Selection>
+      )
+
+      const inputs = document.querySelectorAll(
+        '.dnb-forms-field-selection input'
+      )
+      const ids = Array.from(inputs)
+        .map((el) => el.id)
+        .filter(Boolean)
+
+      const uniqueIds = new Set(ids)
+      expect(uniqueIds.size).toBe(ids.length)
+    })
+  })
 })
