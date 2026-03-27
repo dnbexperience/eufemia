@@ -764,7 +764,7 @@ export const Accordion = () => (
                 Ring the bell
               </Button>
 
-              <Section top spacing>
+              <Section top innerSpace={{ block: 'large' }}>
                 <Dl>
                   <Dt>Favorittfarge</Dt>
                   <Dd>Grønn</Dd>
@@ -883,7 +883,7 @@ export const AccordionMixed = () => (
                 Ring the bell
               </Button>
 
-              <Section top spacing>
+              <Section top innerSpace={{ block: 'large' }}>
                 <Dl>
                   <Dt>Favorittfarge</Dt>
                   <Dd>Grønn</Dd>
@@ -1884,7 +1884,7 @@ export const InCard = () => (
               </Heading>
             </Flex.Horizontal>
 
-            <Dropdown data={['My list', 'All']} more_menu />
+            <Dropdown data={['My list', 'All']} moreMenu />
           </Flex.Horizontal>
           <MyTable />
         </Card>

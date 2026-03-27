@@ -24,10 +24,10 @@ export const ProviderSandbox = () => {
     <Wrapper>
       <Box>
         <Provider locale="en-GB">
-          <Section spacing top>
+          <Section innerSpace={{ block: 'large' }} top>
             <ChangeLocale />
           </Section>
-          <Section spacing top>
+          <Section innerSpace={{ block: 'large' }} top>
             <NumberFormat>12345678</NumberFormat>
             <DatePicker
               left

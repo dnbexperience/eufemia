@@ -7,9 +7,9 @@ import React from 'react'
 import Section from '../../section/Section'
 import ModalContext from '../ModalContext'
 import clsx from 'clsx'
-import type { SectionProps } from '../../Section'
+import type { SectionAllProps } from '../../Section'
 
-export type ModalInnerProps = SectionProps
+export type ModalInnerProps = SectionAllProps
 
 function ModalInner(
   props: ModalInnerProps & React.HTMLProps<HTMLElement>

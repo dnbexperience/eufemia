@@ -82,7 +82,7 @@ export const TabsSandbox = () => {
           bottom
           keepInDOM
           contentStyle="black-3"
-          contentSpacing={false}
+          contentInnerSpace={false}
         >
           <Tabs.Content title="Tab 1" key="first">
             <>

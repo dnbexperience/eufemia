@@ -35,7 +35,8 @@ import {
 import type { DynamicElement } from '../../shared/types'
 import type { ButtonProps } from '../Button'
 import type { AnchorAllProps } from '../Anchor'
-import type { SectionSpacing, SectionVariants } from '../Section'
+import type { SectionVariants } from '../Section'
+import type { InnerSpaceType, SpaceType } from '../space/types'
 import type { SkeletonShow } from '../Skeleton'
 
 export type TabsData =
@@ -88,9 +89,9 @@ export type TabsProps = Omit<
      */
     contentStyle?: SectionVariants | string
     /**
-     * To modify the `spacing` onto the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `large`.
+     * To modify the inner space of the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `{ top: 'large' }`.
      */
-    contentSpacing?: SectionSpacing
+    contentInnerSpace?: InnerSpaceType | boolean
     label?: string
     /**
      * Define what HTML element should be used. You can provide e.g. `tabElement={GatsbyLink}` – you may then provide the `to` property inside every entry (`data={[{ to: ';url';, ... }]}`). Defaults to `<button>`.
@@ -109,9 +110,9 @@ export type TabsProps = Omit<
      */
     tabsStyle?: SectionVariants | string
     /**
-     * To modify the `spacing` inside the tab list. Defaults to `null`.
+     * To modify the top padding of the tab list. Only applies `paddingTop`. Defaults to `undefined`.
      */
-    tabsSpacing?: boolean
+    tabsInnerSpace?: SpaceType | boolean
     /**
      * If set to `true`, the default horizontal border line under the tablist will be removed. Defaults to `false`.
      */
@@ -234,13 +235,13 @@ export default class Tabs extends React.PureComponent<
     data: null,
     content: null,
     contentStyle: null,
-    contentSpacing: true,
+    contentInnerSpace: { top: 'large' },
     label: null,
     tabElement: 'button',
     selectedKey: null,
     align: 'left',
     tabsStyle: null,
-    tabsSpacing: null,
+    tabsInnerSpace: undefined,
     noBorder: false,
     navButtonEdge: false,
     onOpenTabNavigationFn: null,
@@ -1104,6 +1105,10 @@ export default class Tabs extends React.PureComponent<
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
+    // Remove Tabs-specific props that should not leak to the DOM
+    delete params.contentInnerSpace
+    delete params.tabsInnerSpace
+
     return (
       <div {...params} {...rest}>
         {children}
@@ -1121,7 +1126,7 @@ export default class Tabs extends React.PureComponent<
     const {
       align,
       tabsStyle,
-      tabsSpacing,
+      tabsInnerSpace,
       noBorder,
       navButtonEdge,
       breakout,
@@ -1134,11 +1139,6 @@ export default class Tabs extends React.PureComponent<
           'dnb-tabs__tabs',
           align ? `dnb-tabs__tabs--${align}` : null,
           tabsStyle ? `dnb-section dnb-section--${tabsStyle}` : null,
-          tabsSpacing
-            ? `dnb-section--spacing-${
-                tabsSpacing === true ? 'large' : tabsSpacing
-              }`
-            : null,
           hasScrollbar && 'dnb-tabs--has-scrollbar',
           navButtonEdge && 'dnb-tabs--at-edge',
           noBorder && 'dnb-tabs__tabs--no-border',
@@ -1146,6 +1146,15 @@ export default class Tabs extends React.PureComponent<
           className
         )}
         ref={this._tabsRef}
+        style={
+          tabsInnerSpace
+            ? {
+                paddingTop: `var(--spacing-${
+                  tabsInnerSpace === true ? 'large' : tabsInnerSpace
+                })`,
+              }
+            : undefined
+        }
         {...rest}
       >
         <ScrollNavButton
@@ -1193,7 +1202,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
         id={this._id}
         selectedKey={selectedKey}
         contentStyle={this.props.contentStyle}
-        contentSpacing={this.props.contentSpacing}
+        contentInnerSpace={this.props.contentInnerSpace}
         animate={this.props.keepInDOM}
       >
         {content}
