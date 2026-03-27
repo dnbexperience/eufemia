@@ -310,15 +310,15 @@ button .dnb-form-status__text {
 }
 
 .dnb-button {
-  --btn-color-text: var(--btn-color-text--default);
-  --btn-color-icon: var(--btn-color-icon--default);
-  --btn-color-bg: var(--btn-color-bg--default);
-  --btn-color-border: var(--btn-color-border--default);
-  --btn-color-underline: var(--btn-color-underline--default);
-  --btn-border-inset: var(--btn-border-inset--default);
-  --btn-border-inset--default: inset;
-  --btn-border-inset--hover: ;
-  --btn-border-inset--focus: ;
+  --button-color-text: var(--button-color-text--default);
+  --button-color-icon: var(--button-color-icon--default);
+  --button-color-bg: var(--button-color-bg--default);
+  --button-color-border: var(--button-color-border--default);
+  --button-color-underline: var(--button-color-underline--default);
+  --button-border-inset: var(--button-border-inset--default);
+  --button-border-inset--default: inset;
+  --button-border-inset--hover: ;
+  --button-border-inset--focus: ;
   --button-font-size: var(--font-size-basis);
   --button-font-size-small: var(--font-size-small);
   --button-icon-size--small: 0.75rem;
@@ -360,255 +360,271 @@ button .dnb-form-status__text {
   margin: var(--button-icon-margin-top) var(--button-icon-margin-right) 0 var(--button-icon-margin-left);
 }
 .dnb-button--primary, .dnb-button--secondary, .dnb-button--tertiary {
-  color: var(--btn-color-text, var(--btn-color-text--default));
-  background-color: var(--btn-color-bg, var(--btn-color-bg--default));
+  color: var(--button-color-text, var(--button-color-text--default));
+  background-color: var(--button-color-bg, var(--button-color-bg--default));
 }
 .dnb-button--primary .dnb-button__icon, .dnb-button--secondary .dnb-button__icon, .dnb-button--tertiary .dnb-button__icon {
-  color: var(--btn-color-icon, var(--btn-color-icon--default));
+  color: var(--button-color-icon, var(--button-color-icon--default));
 }
 html:not([data-whatintent=touch]) .dnb-button--primary:hover[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:hover[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:hover[disabled] {
   cursor: not-allowed;
 }
 html:not([data-whatintent=touch]) .dnb-button--primary:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]) {
-  --btn-color-bg: var(--btn-color-bg--hover);
-  --btn-color-border: var(--btn-color-border--hover);
-  --btn-color-icon: var(--btn-color-icon--hover);
-  --btn-color-text: var(--btn-color-text--hover);
-  --btn-color-underline: var(--btn-color-underline--hover);
-  --btn-border-inset: var(--btn-border-inset--hover);
+  --button-color-bg: var(--button-color-bg--hover);
+  --button-color-border: var(--button-color-border--hover);
+  --button-color-icon: var(--button-color-icon--hover);
+  --button-color-text: var(--button-color-text--hover);
+  --button-color-underline: var(--button-color-underline--hover);
+  --button-border-inset: var(--button-border-inset--hover);
   --button-border-width: var(--button-border-width--hover);
-  --btn-input-separator-color: var(--btn-input-separator-color--hover);
+  --button-input-separator-color: var(
+    --button-input-separator-color--hover
+  );
 }
 .dnb-button--primary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--primary:active[disabled], .dnb-button--secondary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:active[disabled], .dnb-button--tertiary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:active[disabled] {
   cursor: not-allowed;
 }
 .dnb-button--primary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--primary:active:not([disabled]), .dnb-button--secondary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:active:not([disabled]), .dnb-button--tertiary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) {
-  --btn-color-bg: var(--btn-color-bg--active);
-  --btn-color-border: var(--btn-color-border--active);
-  --btn-color-icon: var(--btn-color-icon--active);
-  --btn-color-text: var(--btn-color-text--active);
-  --btn-color-underline: var(--btn-color-underline--active);
-  --btn-border-inset: var(--btn-border-inset--active);
+  --button-color-bg: var(--button-color-bg--active);
+  --button-color-border: var(--button-color-border--active);
+  --button-color-icon: var(--button-color-icon--active);
+  --button-color-text: var(--button-color-text--active);
+  --button-color-underline: var(--button-color-underline--active);
+  --button-border-inset: var(--button-border-inset--active);
   --button-border-width: var(--button-border-width--active);
-  --btn-input-separator-color: var(
-    --btn-input-separator-color--active
+  --button-input-separator-color: var(
+    --button-input-separator-color--active
   );
 }
 html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible[disabled], html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible[disabled], html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
   cursor: not-allowed;
 }
 html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
-  --btn-color-bg: var(--token-color-background-action-focus-subtle);
-  --btn-color-border: var(--token-color-stroke-action-focus);
-  --btn-color-icon: var(--token-color-icon-action-focus);
-  --btn-color-text: var(--token-color-text-action-focus);
-  --btn-color-underline: var(--btn-color-underline--focus);
-  --btn-border-inset: var(--btn-border-inset--focus);
+  --button-color-bg: var(--token-color-background-action-focus-subtle);
+  --button-color-border: var(--token-color-stroke-action-focus);
+  --button-color-icon: var(--token-color-icon-action-focus);
+  --button-color-text: var(--token-color-text-action-focus);
+  --button-color-underline: var(--button-color-underline--focus);
+  --button-border-inset: var(--button-border-inset--focus);
   --button-border-width: var(--button-border-width--focus);
-  --btn-input-separator-color: var(--btn-input-separator-color--focus);
+  --button-input-separator-color: var(
+    --button-input-separator-color--focus
+  );
   outline: none;
 }
 .dnb-button--primary[disabled], .dnb-button--secondary[disabled], .dnb-button--tertiary[disabled] {
-  --btn-color-bg: var(--btn-color-bg--disabled);
-  --btn-color-border: var(--btn-color-border--disabled);
-  --btn-color-icon: var(--btn-color-icon--disabled);
-  --btn-color-text: var(--btn-color-text--disabled);
-  --btn-input-separator-color: var(
-    --btn-input-separator-color--disabled
+  --button-color-bg: var(--button-color-bg--disabled);
+  --button-color-border: var(--button-color-border--disabled);
+  --button-color-icon: var(--button-color-icon--disabled);
+  --button-color-text: var(--button-color-text--disabled);
+  --button-input-separator-color: var(
+    --button-input-separator-color--disabled
   );
 }
 .dnb-button--primary, .dnb-button--secondary, .dnb-button--tertiary::before {
-  --border-color: var(--btn-color-border, var(--btn-color-border--default));
+  --border-color: var(--button-color-border, var(--button-color-border--default));
   --border-width: var(--button-border-width, var(--button-border-width--default));
-  box-shadow: var(--btn-border-inset, var(--btn-border-inset--default)) 0 0 0 var(--border-width) var(--border-color);
+  box-shadow: var(--button-border-inset, var(--button-border-inset--default)) 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-button--primary {
-  --btn-color-bg--default: var(
+  --button-color-bg--default: var(
     --token-color-component-button-background-action
   );
-  --btn-color-bg--hover: var(
+  --button-color-bg--hover: var(
     --token-color-component-button-background-action-hover
   );
-  --btn-color-bg--active: var(--token-color-background-action-pressed);
-  --btn-color-bg--disabled: var(
+  --button-color-bg--active: var(
+    --token-color-background-action-pressed
+  );
+  --button-color-bg--disabled: var(
     --token-color-background-action-disabled
   );
-  --btn-color-border--hover: var(
+  --button-color-border--hover: var(
     --token-color-component-button-stroke-action-hover
   );
-  --btn-color-icon--default: var(
+  --button-color-icon--default: var(
     --token-color-component-button-icon-neutral
   );
-  --btn-color-icon--disabled: var(
+  --button-color-icon--disabled: var(
     --token-color-component-button-icon-action-disabled
   );
-  --btn-color-text--default: var(
+  --button-color-text--default: var(
     --token-color-component-button-text-neutral
   );
-  --btn-color-text--disabled: var(
+  --button-color-text--disabled: var(
     --token-color-component-button-text-action-disabled
   );
 }
 .dnb-button--primary.dnb-button--on-dark-background, .dnb-button--primary.dnb-button--surface-dark {
-  --btn-color-bg--default: var(--token-color-background-action-ondark);
-  --btn-color-bg--hover: var(
+  --button-color-bg--default: var(
+    --token-color-background-action-ondark
+  );
+  --button-color-bg--hover: var(
     --token-color-background-action-hover-ondark
   );
-  --btn-color-bg--active: var(
+  --button-color-bg--active: var(
     --token-color-background-action-pressed-ondark
   );
-  --btn-color-bg--disabled: var(
+  --button-color-bg--disabled: var(
     --token-color-background-action-disabled-ondark
   );
-  --btn-color-border--hover: var(
+  --button-color-border--hover: var(
     --token-color-stroke-action-hover-ondark
   );
-  --btn-color-icon--default: var(
+  --button-color-icon--default: var(
     --token-color-component-button-icon-neutral-ondark
   );
-  --btn-color-icon--disabled: var(
+  --button-color-icon--disabled: var(
     --token-color-icon-action-disabled-ondark
   );
-  --btn-color-text--default: var(
+  --button-color-text--default: var(
     --token-color-component-button-text-neutral-ondark
   );
-  --btn-color-text--disabled: var(
+  --button-color-text--disabled: var(
     --token-color-text-action-disabled-ondark
   );
 }
 .dnb-button--primary.dnb-button__status--error {
-  --btn-color-bg--default: var(
+  --button-color-bg--default: var(
     --token-color-component-button-background-action-destructive
   );
-  --btn-color-bg--hover: var(
+  --button-color-bg--hover: var(
     --token-color-component-button-background-action-destructive-hover
   );
-  --btn-color-bg--active: var(
+  --button-color-bg--active: var(
     --token-color-component-button-background-action-destructive-pressed
   );
-  --btn-color-border--hover: var(
+  --button-color-border--hover: var(
     --token-color-component-button-stroke-action-destructive-hover
   );
-  --btn-color-icon--default: var(
+  --button-color-icon--default: var(
     --token-color-component-button-icon-neutral-destructive
   );
-  --btn-color-text--default: var(
+  --button-color-text--default: var(
     --token-color-component-button-text-neutral-destructive
   );
 }
 .dnb-button--secondary {
-  --btn-color-bg--default: var(--token-color-background-neutral);
-  --btn-color-bg--hover: var(
+  --button-color-bg--default: var(--token-color-background-neutral);
+  --button-color-bg--hover: var(
     --token-color-background-action-hover-subtle
   );
-  --btn-color-bg--active: var(
+  --button-color-bg--active: var(
     --token-color-background-action-pressed-subtle
   );
-  --btn-color-bg--disabled: var(--token-color-background-neutral);
-  --btn-color-border--default: var(
+  --button-color-bg--disabled: var(--token-color-background-neutral);
+  --button-color-border--default: var(
     --token-color-component-button-stroke-action
   );
-  --btn-color-border--hover: var(
+  --button-color-border--hover: var(
     --token-color-component-button-stroke-action-hover
   );
-  --btn-color-border--active: var(--token-color-stroke-action-pressed);
-  --btn-color-border--disabled: var(
+  --button-color-border--active: var(
+    --token-color-stroke-action-pressed
+  );
+  --button-color-border--disabled: var(
     --token-color-stroke-action-disabled
   );
-  --btn-color-icon--default: var(
+  --button-color-icon--default: var(
     --token-color-component-button-icon-action
   );
-  --btn-color-icon--hover: var(
+  --button-color-icon--hover: var(
     --token-color-component-button-icon-action-hover
   );
-  --btn-color-icon--active: var(--token-color-icon-action-pressed);
-  --btn-color-icon--disabled: var(--token-color-icon-action-disabled);
-  --btn-color-text--default: var(
+  --button-color-icon--active: var(--token-color-icon-action-pressed);
+  --button-color-icon--disabled: var(--token-color-icon-action-disabled);
+  --button-color-text--default: var(
     --token-color-component-button-text-action
   );
-  --btn-color-text--hover: var(
+  --button-color-text--hover: var(
     --token-color-component-button-text-action-hover
   );
-  --btn-color-text--active: var(--token-color-text-action-pressed);
-  --btn-color-text--disabled: var(--token-color-text-action-disabled);
+  --button-color-text--active: var(--token-color-text-action-pressed);
+  --button-color-text--disabled: var(--token-color-text-action-disabled);
 }
 .dnb-button--secondary.dnb-button--icon-only {
-  --btn-color-border--default: var(--token-color-stroke-action);
-  --btn-color-border--hover: var(--token-color-stroke-action-hover);
-  --btn-color-border--active: transparent;
-  --btn-color-icon--default: var(--token-color-icon-action);
-  --btn-color-icon--hover: var(--token-color-icon-action-hover);
+  --button-color-border--default: var(--token-color-stroke-action);
+  --button-color-border--hover: var(--token-color-stroke-action-hover);
+  --button-color-border--active: transparent;
+  --button-color-icon--default: var(--token-color-icon-action);
+  --button-color-icon--hover: var(--token-color-icon-action-hover);
 }
 .dnb-button--secondary.dnb-button--on-dark-background, .dnb-button--secondary.dnb-button--surface-dark {
-  --btn-color-bg--default: transparent;
-  --btn-color-bg--hover: var(
+  --button-color-bg--default: transparent;
+  --button-color-bg--hover: var(
     --token-color-background-action-hover-subtle-ondark
   );
-  --btn-color-bg--active: var(
+  --button-color-bg--active: var(
     --token-color-background-action-pressed-subtle-ondark
   );
-  --btn-color-bg--disabled: transparent;
-  --btn-color-border--default: var(--token-color-stroke-action-ondark);
-  --btn-color-border--hover: var(
+  --button-color-bg--disabled: transparent;
+  --button-color-border--default: var(
+    --token-color-stroke-action-ondark
+  );
+  --button-color-border--hover: var(
     --token-color-stroke-action-hover-ondark
   );
-  --btn-color-border--active: var(
+  --button-color-border--active: var(
     --token-color-stroke-action-pressed-ondark
   );
-  --btn-color-border--disabled: var(
+  --button-color-border--disabled: var(
     --token-color-stroke-action-disabled-ondark
   );
-  --btn-color-icon--default: var(--token-color-icon-action-ondark);
-  --btn-color-icon--hover: var(--token-color-icon-action-hover-ondark);
-  --btn-color-icon--active: var(
+  --button-color-icon--default: var(--token-color-icon-action-ondark);
+  --button-color-icon--hover: var(
+    --token-color-icon-action-hover-ondark
+  );
+  --button-color-icon--active: var(
     --token-color-icon-action-pressed-ondark
   );
-  --btn-color-icon--disabled: var(
+  --button-color-icon--disabled: var(
     --token-color-icon-action-disabled-ondark
   );
-  --btn-color-text--default: var(--token-color-text-action-ondark);
-  --btn-color-text--hover: var(--token-color-text-action-hover-ondark);
-  --btn-color-text--active: var(
+  --button-color-text--default: var(--token-color-text-action-ondark);
+  --button-color-text--hover: var(
+    --token-color-text-action-hover-ondark
+  );
+  --button-color-text--active: var(
     --token-color-text-action-pressed-ondark
   );
-  --btn-color-text--disabled: var(
+  --button-color-text--disabled: var(
     --token-color-text-action-disabled-ondark
   );
 }
 .dnb-button--secondary.dnb-button__status--error {
-  --btn-color-bg--default: var(--token-color-background-neutral);
-  --btn-color-bg--hover: var(
+  --button-color-bg--default: var(--token-color-background-neutral);
+  --button-color-bg--hover: var(
     --token-color-component-button-background-action-destructive-hover-subtle
   );
-  --btn-color-bg--active: var(
+  --button-color-bg--active: var(
     --token-color-component-button-background-action-destructive-pressed-subtle
   );
-  --btn-color-border--default: var(
+  --button-color-border--default: var(
     --token-color-component-button-stroke-action-destructive
   );
-  --btn-color-border--hover: var(
+  --button-color-border--hover: var(
     --token-color-component-button-stroke-action-destructive-hover
   );
-  --btn-color-border--active: var(
+  --button-color-border--active: var(
     --token-color-component-button-stroke-action-destructive-pressed
   );
-  --btn-color-icon--default: var(
+  --button-color-icon--default: var(
     --token-color-component-button-icon-action-destructive
   );
-  --btn-color-icon--hover: var(
+  --button-color-icon--hover: var(
     --token-color-component-button-icon-action-destructive-hover
   );
-  --btn-color-icon--active: var(
+  --button-color-icon--active: var(
     --token-color-component-button-icon-action-destructive-pressed
   );
-  --btn-color-text--default: var(
+  --button-color-text--default: var(
     --token-color-component-button-text-action-destructive
   );
-  --btn-color-text--hover: var(
+  --button-color-text--hover: var(
     --token-color-component-button-text-action-destructive-hover
   );
-  --btn-color-text--active: var(
+  --button-color-text--active: var(
     --token-color-component-button-text-action-destructive-pressed
   );
 }
@@ -631,132 +647,140 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   content: none;
 }
 .dnb-button--tertiary {
-  --btn-color-icon--default: var(--token-color-icon-action);
-  --btn-color-icon--hover: var(--token-color-icon-action-hover);
-  --btn-color-icon--active: var(--token-color-icon-action-pressed);
-  --btn-color-icon--disabled: var(--token-color-icon-action-disabled);
-  --btn-color-text--default: var(--token-color-text-action);
-  --btn-color-text--hover: var(--token-color-text-action-hover);
-  --btn-color-text--active: var(--token-color-text-action-pressed);
-  --btn-color-text--disabled: var(--token-color-text-action-disabled);
-  --btn-color-underline--default: transparent;
-  --btn-color-underline--hover: var(
+  --button-color-icon--default: var(--token-color-icon-action);
+  --button-color-icon--hover: var(--token-color-icon-action-hover);
+  --button-color-icon--active: var(--token-color-icon-action-pressed);
+  --button-color-icon--disabled: var(--token-color-icon-action-disabled);
+  --button-color-text--default: var(--token-color-text-action);
+  --button-color-text--hover: var(--token-color-text-action-hover);
+  --button-color-text--active: var(--token-color-text-action-pressed);
+  --button-color-text--disabled: var(--token-color-text-action-disabled);
+  --button-color-underline--default: transparent;
+  --button-color-underline--hover: var(
     --token-color-background-action-hover
   );
 }
 .dnb-button--tertiary.dnb-button--icon-only {
-  --btn-color-bg--hover: var(
+  --button-color-bg--hover: var(
     --token-color-background-action-hover-subtle
   );
-  --btn-color-bg--active: var(
+  --button-color-bg--active: var(
     --token-color-background-action-pressed-subtle
   );
 }
 .dnb-button--tertiary.dnb-button--on-dark-background, .dnb-button--tertiary.dnb-button--surface-dark {
-  --btn-color-icon--default: var(--token-color-icon-action-ondark);
-  --btn-color-icon--hover: var(--token-color-icon-action-hover-ondark);
-  --btn-color-icon--active: var(
+  --button-color-icon--default: var(--token-color-icon-action-ondark);
+  --button-color-icon--hover: var(
+    --token-color-icon-action-hover-ondark
+  );
+  --button-color-icon--active: var(
     --token-color-icon-action-pressed-ondark
   );
-  --btn-color-icon--disabled: var(
+  --button-color-icon--disabled: var(
     --token-color-icon-action-disabled-ondark
   );
-  --btn-color-text--default: var(--token-color-text-action-ondark);
-  --btn-color-text--hover: var(--token-color-text-action-hover-ondark);
-  --btn-color-text--active: var(
+  --button-color-text--default: var(--token-color-text-action-ondark);
+  --button-color-text--hover: var(
+    --token-color-text-action-hover-ondark
+  );
+  --button-color-text--active: var(
     --token-color-text-action-pressed-ondark
   );
-  --btn-color-text--disabled: var(
+  --button-color-text--disabled: var(
     --token-color-text-action-disabled-ondark
   );
-  --btn-color-underline--hover: var(
+  --button-color-underline--hover: var(
     --token-color-icon-action-hover-ondark
   );
 }
 .dnb-button--tertiary.dnb-button__status--error {
-  --btn-color-icon--default: var(
+  --button-color-icon--default: var(
     --token-color-component-button-icon-action-destructive
   );
-  --btn-color-icon--hover: var(
+  --button-color-icon--hover: var(
     --token-color-component-button-icon-action-destructive-hover
   );
-  --btn-color-icon--active: var(
+  --button-color-icon--active: var(
     --token-color-component-button-icon-action-destructive-pressed
   );
-  --btn-color-text--default: var(
+  --button-color-text--default: var(
     --token-color-component-button-text-action-destructive
   );
-  --btn-color-text--hover: var(
+  --button-color-text--hover: var(
     --token-color-component-button-text-action-destructive-hover
   );
-  --btn-color-text--active: var(
+  --button-color-text--active: var(
     --token-color-component-button-text-action-destructive-pressed
   );
-  --btn-color-underline--hover: var(
+  --button-color-underline--hover: var(
     --token-color-component-button-background-action-destructive-hover
   );
 }
 .dnb-button--icon-only.dnb-button--selected {
-  --btn-color-bg--default: var(
+  --button-color-bg--default: var(
     --token-color-background-selected-subtle
   );
-  --btn-color-border--default: var(--token-color-stroke-selected);
-  --btn-color-icon--default: var(--token-color-icon-selected);
+  --button-color-border--default: var(--token-color-stroke-selected);
+  --button-color-icon--default: var(--token-color-icon-selected);
   --button-border-width--default: 0.125rem;
-  --btn-border-inset--default: ;
+  --button-border-inset--default: ;
 }
 .dnb-button--icon-only.dnb-button--input-button {
-  --btn-color-bg--default: transparent;
-  --btn-color-bg--hover: var(--token-color-background-action);
-  --btn-color-bg--active: var(--token-color-background-action-pressed);
-  --btn-color-bg--disabled: var(
+  --button-color-bg--default: transparent;
+  --button-color-bg--hover: var(--token-color-background-action);
+  --button-color-bg--active: var(
+    --token-color-background-action-pressed
+  );
+  --button-color-bg--disabled: var(
     --token-color-background-neutral-subtle
   );
-  --btn-color-border--default: transparent;
-  --btn-color-border--hover: transparent;
-  --btn-color-border--active: transparent;
-  --btn-border-inset--focus: inset;
-  --btn-color-icon--hover: var(
+  --button-color-border--default: transparent;
+  --button-color-border--hover: transparent;
+  --button-color-border--active: transparent;
+  --button-border-inset--focus: inset;
+  --button-color-icon--hover: var(
     --token-color-component-button-icon-neutral
   );
-  --btn-color-icon--active: var(
+  --button-color-icon--active: var(
     --token-color-component-button-icon-neutral
   );
-  --btn-color-icon--disabled: var(--token-color-icon-action-disabled);
-  --btn-color-text--hover: var(
+  --button-color-icon--disabled: var(
+    --token-color-icon-action-disabled
+  );
+  --button-color-text--hover: var(
     --token-color-component-button-text-neutral
   );
-  --btn-color-text--active: var(
+  --button-color-text--active: var(
     --token-color-component-button-text-neutral
   );
-  --btn-color-text--disabled: var(
+  --button-color-text--disabled: var(
     --token-color-component-button-text-action-disabled
   );
 }
 .dnb-button--icon-only.dnb-button--input-button.dnb-button__status--error {
-  --btn-color-bg--hover: var(--token-color-background-error);
-  --btn-color-bg--active: var(
+  --button-color-bg--hover: var(--token-color-background-error);
+  --button-color-bg--active: var(
     --token-color-component-button-background-action-destructive-pressed
   );
-  --btn-color-icon--hover: var(
+  --button-color-icon--hover: var(
     --token-color-component-button-icon-neutral-destructive
   );
-  --btn-color-icon--active: var(
+  --button-color-icon--active: var(
     --token-color-component-button-icon-neutral-destructive
   );
-  --btn-color-text--hover: var(
+  --button-color-text--hover: var(
     --token-color-component-button-text-neutral-destructive
   );
-  --btn-color-text--active: var(
+  --button-color-text--active: var(
     --token-color-component-button-text-neutral-destructive
   );
 }
 .dnb-button--icon-only.dnb-button--input-button {
-  --btn-input-separator-color--default: var(--btn-color-text);
-  --btn-input-separator-color--hover: var(--btn-color-bg);
-  --btn-input-separator-color--active: var(--btn-color-bg);
-  --btn-input-separator-color--focus: var(--btn-color-border);
-  --btn-input-separator-color--disabled: var(
+  --button-input-separator-color--default: var(--button-color-text);
+  --button-input-separator-color--hover: var(--button-color-bg);
+  --button-input-separator-color--active: var(--button-color-bg);
+  --button-input-separator-color--focus: var(--button-color-border);
+  --button-input-separator-color--disabled: var(
     --token-color-background-action-disabled
   );
 }
@@ -767,7 +791,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   bottom: 0;
   left: 0;
   width: var(--input-border-width);
-  background-color: var(--btn-input-separator-color, var(--btn-input-separator-color--default));
+  background-color: var(--button-input-separator-color, var(--button-input-separator-color--default));
 }
 .dnb-button--icon-only.dnb-button--input-button:active[disabled], html:not([data-whatintent=touch]) .dnb-button--icon-only.dnb-button--input-button:active[disabled] {
   cursor: not-allowed;
@@ -1203,7 +1227,7 @@ legend.dnb-form-label {
   --border-width: var(--dropdown-error-border-width);
 }
 .dnb-dropdown .dnb-button--secondary {
-  --btn-color-bg--hover: var(--token-color-background-neutral);
+  --button-color-bg--hover: var(--token-color-background-neutral);
 }
 .dnb-dropdown--default.dnb-dropdown--is-popup .dnb-dropdown__shell, .dnb-dropdown--is-popup .dnb-dropdown__trigger {
   padding: 0;
@@ -1339,9 +1363,11 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
   --dropdown-background-color-error-active: var(--color-fire-red-8);
 }
 .dnb-dropdown__trigger {
-  --btn-color-text--disabled: var(--dropdown-foreground-color-primary);
-  --btn-color-text--hover: var(--color-emerald-green);
-  --btn-color-bg--disabled: var(--dropdown-background-color-disabled);
+  --button-color-text--disabled: var(
+    --dropdown-foreground-color-primary
+  );
+  --button-color-text--hover: var(--color-emerald-green);
+  --button-color-bg--disabled: var(--dropdown-background-color-disabled);
 }
 .dnb-dropdown__trigger[disabled]:not(.dnb-button--tertiary) {
   --border-color: var(--dropdown-foreground-color-primary);

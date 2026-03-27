@@ -12,15 +12,15 @@
     --vipps-primary-color--active: #eb5320;
 
     // Background
-    --btn-color-bg--default: var(--vipps-primary-color);
-    --btn-color-bg--hover: var(--vipps-primary-color);
-    --btn-color-bg--active: var(--vipps-primary-color--active);
+    --button-color-bg--default: var(--vipps-primary-color);
+    --button-color-bg--hover: var(--vipps-primary-color);
+    --button-color-bg--active: var(--vipps-primary-color--active);
 
     // Border
-    --btn-color-border--hover: var(--vipps-primary-color);
+    --button-color-border--hover: var(--vipps-primary-color);
 
     // Text
-    --btn-color-text--default: var(--color-white);
+    --button-color-text--default: var(--color-white);
 
     font-weight: var(--font-weight-medium);
 

@@ -72,20 +72,20 @@
   &__button {
     max-width: 3.5rem;
     &.dnb-button--secondary {
-      --btn-color-border--hover: var(--token-color-stroke-action-hover);
-      --btn-color-border--active: transparent;
-      --btn-color-text--default: var(--token-color-text-action);
-      --btn-color-text--hover: var(--token-color-text-action-hover);
-      --btn-color-text--active: var(--token-color-text-action-pressed);
+      --button-color-border--hover: var(--token-color-stroke-action-hover);
+      --button-color-border--active: transparent;
+      --button-color-text--default: var(--token-color-text-action);
+      --button-color-text--hover: var(--token-color-text-action-hover);
+      --button-color-text--active: var(--token-color-text-action-pressed);
     }
     &.dnb-button--primary {
-      --btn-color-bg--default: var(--token-color-background-selected);
-      --btn-color-bg--hover: var(
+      --button-color-bg--default: var(--token-color-background-selected);
+      --button-color-bg--hover: var(
         --token-color-background-action-hover-subtle
       );
-      --btn-color-border--hover: var(--token-color-stroke-action-hover);
-      --btn-color-text--default: var(--token-color-text-action-inverse);
-      --btn-color-text--hover: var(--token-color-text-action-hover);
+      --button-color-border--hover: var(--token-color-stroke-action-hover);
+      --button-color-text--default: var(--token-color-text-action-inverse);
+      --button-color-text--hover: var(--token-color-text-action-hover);
     }
   }
 
