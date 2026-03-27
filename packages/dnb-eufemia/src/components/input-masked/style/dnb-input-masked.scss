@@ -53,6 +53,25 @@
 }
 
 .dnb-segmented-field {
+  &__delimiter {
+    display: flex;
+    user-select: none;
+
+    padding: 0 0.25rem 0 0;
+    @include utilities.isFirefox() {
+      padding: 0 0.0625rem;
+    }
+  }
+
+  .dnb-segmented-field__section,
+  .dnb-segmented-field__delimiter {
+    color: var(--input-color-placeholder); // placeholder color
+
+    &--highlight {
+      color: var(--input-color-text); // text color
+    }
+  }
+
   .dnb-segmented-field__section {
     width: fit-content;
 
@@ -72,34 +91,5 @@
     font-family: var(--font-family-monospace);
     border: none;
     background: transparent;
-  }
-
-  &__delimiter {
-    display: flex;
-    user-select: none;
-
-    padding: 0 0.25rem 0 0;
-    @include utilities.isFirefox() {
-      padding: 0 0.0625rem;
-    }
-  }
-
-  &:not(.dnb-input__status--error) {
-    .dnb-segmented-field__section,
-    .dnb-segmented-field__delimiter {
-      color: var(--color-black-55);
-
-      &--highlight {
-        color: var(--color-black);
-      }
-    }
-  }
-
-  .dnb-input__status--error &:not(:focus-within),
-  &.dnb-input__status--error:not(:focus-within) {
-    .dnb-segmented-field__section,
-    .dnb-segmented-field__delimiter {
-      color: var(--color-fire-red);
-    }
   }
 }
