@@ -31,7 +31,7 @@
 
     &:not([disabled]):not(:active) {
       background-color: var(--color-emerald-green);
-      --btn-color-border--hover: var(--color-emerald-green);
+      --button-color-border--hover: var(--color-emerald-green);
       color: var(--color-mint-green);
     }
 
@@ -105,7 +105,7 @@
       &:not([disabled]):not(:active):not(:hover):focus {
       color: var(--color-emerald-green);
       background-color: var(--color-mint-green);
-      --btn-color-border: var(--color-emerald-green);
+      --button-color-border: var(--color-emerald-green);
     }
   }
 

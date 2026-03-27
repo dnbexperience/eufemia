@@ -7,18 +7,18 @@
 
 .dnb-toggle-button {
   &__button {
-    --btn-color-bg--default: var(--sb-color-white);
-    --btn-color-bg--hover: var(--sb-color-violet-light-3);
-    --btn-color-bg--active: var(--sb-color-violet);
-    --btn-color-bg--focus: transparent;
-    --btn-color-text--default: var(--sb-color-violet);
-    --btn-color-text--hover: var(--sb-color-violet);
-    --btn-color-text--active: var(--sb-color-violet-light-3);
-    --btn-color-text--disabled: var(--sb-color-gray-dark);
-    --btn-color-border--default: var(--sb-color-violet);
-    --btn-color-border--active: var(--sb-color-violet-light-3);
-    --btn-color-border--focus: var(--focus-ring-color);
-    --btn-color-border--disabled: var(--sb-color-gray-light);
+    --button-color-bg--default: var(--sb-color-white);
+    --button-color-bg--hover: var(--sb-color-violet-light-3);
+    --button-color-bg--active: var(--sb-color-violet);
+    --button-color-bg--focus: transparent;
+    --button-color-text--default: var(--sb-color-violet);
+    --button-color-text--hover: var(--sb-color-violet);
+    --button-color-text--active: var(--sb-color-violet-light-3);
+    --button-color-text--disabled: var(--sb-color-gray-dark);
+    --button-color-border--default: var(--sb-color-violet);
+    --button-color-border--active: var(--sb-color-violet-light-3);
+    --button-color-border--focus: var(--focus-ring-color);
+    --button-color-border--disabled: var(--sb-color-gray-light);
 
     html[data-whatinput='keyboard']
       &:not([disabled]):not(:active):not(:hover):focus {
@@ -37,19 +37,19 @@
 
   /* stylelint-disable no-descending-specificity */
   &--checked &__button {
-    --btn-color-bg--default: var(--sb-color-violet);
-    --btn-color-bg--hover: var(--sb-color-violet);
-    --btn-color-bg--active: var(--sb-color-violet);
-    --btn-color-bg--focus: var(--sb-color-blue-light-2);
-    --btn-color-bg--disabled: var(--sb-color-gray-light);
-    --btn-color-border--hover: var(--sb-color-violet);
-    --btn-color-border--active: var(--sb-color-violet-light-3);
-    --btn-color-border--disabled: var(--sb-color-gray-light);
-    --btn-color-text--default: var(--sb-color-white);
-    --btn-color-text--hover: var(--sb-color-white);
-    --btn-color-text--active: var(--sb-color-violet-light-3);
-    --btn-color-text--focus: var(--sb-color-blue-dark-2);
-    --btn-color-text--disabled: var(--sb-color-gray-dark);
+    --button-color-bg--default: var(--sb-color-violet);
+    --button-color-bg--hover: var(--sb-color-violet);
+    --button-color-bg--active: var(--sb-color-violet);
+    --button-color-bg--focus: var(--sb-color-blue-light-2);
+    --button-color-bg--disabled: var(--sb-color-gray-light);
+    --button-color-border--hover: var(--sb-color-violet);
+    --button-color-border--active: var(--sb-color-violet-light-3);
+    --button-color-border--disabled: var(--sb-color-gray-light);
+    --button-color-text--default: var(--sb-color-white);
+    --button-color-text--hover: var(--sb-color-white);
+    --button-color-text--active: var(--sb-color-violet-light-3);
+    --button-color-text--focus: var(--sb-color-blue-dark-2);
+    --button-color-text--disabled: var(--sb-color-gray-dark);
   }
   /* stylelint-enable no-descending-specificity */
 }

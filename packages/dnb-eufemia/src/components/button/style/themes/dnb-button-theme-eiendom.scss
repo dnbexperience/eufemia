@@ -9,57 +9,57 @@
   &--primary,
   &--secondary,
   &--tertiary {
-    --btn-color-icon--disabled: var(--color-black-55);
-    --btn-color-text--disabled: var(--color-black-55);
+    --button-color-icon--disabled: var(--color-black-55);
+    --button-color-text--disabled: var(--color-black-55);
   }
 
   &--primary {
     // Background
-    --btn-color-bg--default: var(--color-emerald-green);
-    --btn-color-bg--hover: var(--color-sea-green);
-    --btn-color-bg--active: var(--color-sea-green);
-    --btn-color-bg--disabled: var(--color-black-8);
+    --button-color-bg--default: var(--color-emerald-green);
+    --button-color-bg--hover: var(--color-sea-green);
+    --button-color-bg--active: var(--color-sea-green);
+    --button-color-bg--disabled: var(--color-black-8);
 
     // Border
-    --btn-color-border--hover: var(--color-sea-green);
-    --btn-color-border--disabled: var(--color-black-55);
+    --button-color-border--hover: var(--color-sea-green);
+    --button-color-border--disabled: var(--color-black-55);
 
     // Icon
-    --btn-color-icon--hover: var(--color-white);
-    --btn-color-icon--active: var(--color-white);
+    --button-color-icon--hover: var(--color-white);
+    --button-color-icon--active: var(--color-white);
 
     // Text
-    --btn-color-text--hover: var(--color-white);
-    --btn-color-text--active: var(--color-white);
+    --button-color-text--hover: var(--color-white);
+    --button-color-text--active: var(--color-white);
   }
 
   &--secondary {
     // Background
-    --btn-color-bg--active: var(--color-pistachio);
-    --btn-color-bg--disabled: var(--color-white);
+    --button-color-bg--active: var(--color-pistachio);
+    --button-color-bg--disabled: var(--color-white);
 
     // Border
-    --btn-color-border--default: var(--color-emerald-green);
-    --btn-color-border--disabled: var(--color-black-55);
+    --button-color-border--default: var(--color-emerald-green);
+    --button-color-border--disabled: var(--color-black-55);
 
     // Icon
-    --btn-color-icon--default: var(--color-emerald-green);
-    --btn-color-icon--active: var(--color-emerald-green);
+    --button-color-icon--default: var(--color-emerald-green);
+    --button-color-icon--active: var(--color-emerald-green);
 
     // Text
-    --btn-color-text--default: var(--color-emerald-green);
-    --btn-color-text--active: var(--color-emerald-green);
+    --button-color-text--default: var(--color-emerald-green);
+    --button-color-text--active: var(--color-emerald-green);
   }
 
   &--tertiary {
     // Icon
-    --btn-color-icon--default: var(--color-emerald-green);
-    --btn-color-icon--hover: var(--color-emerald-green);
-    --btn-color-icon--active: var(--color-emerald-green);
+    --button-color-icon--default: var(--color-emerald-green);
+    --button-color-icon--hover: var(--color-emerald-green);
+    --button-color-icon--active: var(--color-emerald-green);
 
     // Text
-    --btn-color-text--default: var(--color-emerald-green);
-    --btn-color-text--hover: var(--color-emerald-green);
-    --btn-color-text--active: var(--color-emerald-green);
+    --button-color-text--default: var(--color-emerald-green);
+    --button-color-text--hover: var(--color-emerald-green);
+    --button-color-text--active: var(--color-emerald-green);
   }
 }

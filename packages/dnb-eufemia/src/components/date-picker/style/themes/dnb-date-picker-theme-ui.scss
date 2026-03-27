@@ -173,10 +173,10 @@
   }
 
   &--open .dnb-button--input-button.dnb-button--selected {
-    --btn-color-bg--default: var(--btn-color-bg--active);
-    --btn-color-icon--default: var(--btn-color-icon--active);
-    --btn-input-separator-color--default: var(
-      --btn-input-separator-color--active
+    --button-color-bg--default: var(--button-color-bg--active);
+    --button-color-icon--default: var(--button-color-icon--active);
+    --button-input-separator-color--default: var(
+      --button-input-separator-color--active
     );
   }
 

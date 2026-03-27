@@ -142,8 +142,8 @@
     border-radius: calc(0.095rem / 2);
 
     color: var(
-      --btn-color-underline,
-      var(--btn-color-underline--default)
+      --button-color-underline,
+      var(--button-color-underline--default)
     ); // border color
     background-color: currentcolor;
 

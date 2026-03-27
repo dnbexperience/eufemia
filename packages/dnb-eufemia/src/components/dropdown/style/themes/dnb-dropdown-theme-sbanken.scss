@@ -40,8 +40,8 @@
     }
 
     &:not(.dnb-button__status--error) {
-      --btn-color-text--disabled: var(--sb-color-gray-dark-2);
-      --btn-color-bg--disabled: var(--sb-color-gray-light);
+      --button-color-text--disabled: var(--sb-color-gray-dark-2);
+      --button-color-bg--disabled: var(--sb-color-gray-light);
 
       @include utilities.hover() {
         --dropdown-sb-icon-color: var(--dropdown-sb-icon-color--hover);
@@ -54,13 +54,13 @@
       }
 
       &.dnb-button--secondary {
-        --btn-color-text--default: var(--sb-color-gray-dark-3);
-        --btn-color-bg--hover: var(--sb-color-white);
-        --btn-color-border--default: var(
+        --button-color-text--default: var(--sb-color-gray-dark-3);
+        --button-color-bg--hover: var(--sb-color-white);
+        --button-color-border--default: var(
           --dropdown-foreground-color-primary
         );
-        --btn-color-border--hover: var(--sb-color-violet);
-        --btn-color-text--hover: var(--sb-color-gray-dark-3);
+        --button-color-border--hover: var(--sb-color-violet);
+        --button-color-text--hover: var(--sb-color-gray-dark-3);
 
         @include button-mixins.buttonFocus(
           var(--sb-color-blue-dark),
@@ -71,7 +71,7 @@
   }
 
   &--open &__trigger {
-    --btn-border-inset--hover: inset;
+    --button-border-inset--hover: inset;
   }
 
   &__trigger.dnb-button--active {

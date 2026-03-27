@@ -182,7 +182,7 @@
   }
 
   &__close.dnb-button {
-    --btn-color-icon--default: var(--popover-color-icon);
+    --button-color-icon--default: var(--popover-color-icon);
 
     position: absolute;
     top: var(--inner-space);
