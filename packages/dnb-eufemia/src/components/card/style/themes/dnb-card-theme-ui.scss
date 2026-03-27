@@ -1,8 +1,6 @@
 :root {
   // Keep these outside of the .dnb-card class so they can be used globally (dnb-help-button-inline)
-  --card-outline-color: var(--border-color, var(--color-black-8));
   --card-outline-width: 0.0625rem;
-  --card-background-color: var(--color-white);
 }
 
 .dnb-card {
