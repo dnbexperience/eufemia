@@ -26,11 +26,7 @@
 
     display: flex;
     align-items: center;
-
-    &,
-    &.dnb-section--spacing {
-      padding-bottom: 0;
-    }
+    padding-bottom: 0;
 
     &__tablist {
       display: flex;
@@ -332,10 +328,6 @@
     transition: none !important;
   }
   /* stylelint-enable */
-
-  &__content {
-    padding-bottom: 0;
-  }
 
   // Make focus ring when keyboard is used to navigate
   &__content:focus {

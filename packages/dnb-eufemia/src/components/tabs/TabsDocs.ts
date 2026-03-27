@@ -16,17 +16,9 @@ export const TabsProperties: PropertiesTableProps = {
     type: ['"divider"', '"white"', '"transparent"'],
     status: 'optional',
   },
-  contentSpacing: {
-    doc: 'To modify the `spacing` onto the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `true`.',
-    type: [
-      'boolean',
-      '"x-small"',
-      '"small"',
-      '"medium"',
-      '"large"',
-      '"x-large"',
-      '"xx-large"',
-    ],
+  contentInnerSpace: {
+    doc: "To modify the inner space of the content wrapper. Defaults to `{ top: 'large' }`.",
+    type: ['boolean', 'string', 'InnerSpaceType'],
     status: 'optional',
   },
   tabsStyle: {
@@ -34,9 +26,9 @@ export const TabsProperties: PropertiesTableProps = {
     type: ['"divider"', '"white"', '"transparent"'],
     status: 'optional',
   },
-  tabsSpacing: {
-    doc: 'To modify the `spacing` inside the tab list. Defaults to `null`.',
-    type: 'boolean',
+  tabsInnerSpace: {
+    doc: 'To modify the top padding of the tab list. Only applies `paddingTop`. Defaults to `undefined`.',
+    type: ['boolean', 'string'],
     status: 'optional',
   },
   tabElement: {

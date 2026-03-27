@@ -49,7 +49,10 @@ export function HeightAnimationDefault() {
 
               <Section backgroundColor="lavender" top>
                 <HeightAnimation open={openState}>
-                  <Section spacing backgroundColor="lavender">
+                  <Section
+                    innerSpace={{ block: 'large' }}
+                    backgroundColor="lavender"
+                  >
                     <P space={0}>Your content</P>
                   </Section>
                   {contentState && <P space={0}>More content</P>}
@@ -145,7 +148,10 @@ export function HeightAnimationKeepInDOM() {
                   keepInDOM={true}
                   duration={1000}
                 >
-                  <Section spacing backgroundColor="lavender">
+                  <Section
+                    innerSpace={{ block: 'large' }}
+                    backgroundColor="lavender"
+                  >
                     <P space={0}>Your content</P>
                   </Section>
                   {contentState && <P space={0}>More content</P>}

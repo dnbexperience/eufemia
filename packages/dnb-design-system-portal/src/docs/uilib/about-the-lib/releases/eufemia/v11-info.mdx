@@ -26,6 +26,8 @@ v11 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 10. Replace the `as` prop with `element` on the `H` heading element.
 11. Replace `prerender` with `keepInDOM` on Tabs and Accordion components.
 12. Replace `styleType` (or `style_type`) with `backgroundColor` on Breadcrumb, Dialog.Body, and Drawer.Body components.
+13. Remove `spacing` on Section. Use `innerSpace={{ block: 'large' }}` instead (see [Section](#section)).
+14. Replace `contentSpacing` with `contentInnerSpace` and `tabsSpacing` with `tabsInnerSpace` on the Tabs component.
 
 ### innerRef → ref
 
@@ -123,8 +125,27 @@ $ pnpm add @dnb/eufemia@11
    - `pistachio`
    - `fire-red`
    - `fire-red-8`
-2. Remove `spacing`. Use `innerSpace` instead.
+2. Remove `spacing`. Use `innerSpace` instead. The `spacing` prop only applied vertical (top/bottom) padding, so use the `block` shorthand to match the old behavior:
+
+- `spacing` -> `innerSpace={{ block: 'large' }}`
+- `spacing="x-small"` -> `innerSpace={{ block: 'x-small' }}`
+- `spacing="small"` -> `innerSpace={{ block: 'small' }}`
+- `spacing="medium"` -> `innerSpace={{ block: 'medium' }}`
+- `spacing="large"` -> `innerSpace={{ block: 'large' }}`
+- `spacing="x-large"` -> `innerSpace={{ block: 'x-large' }}`
+- `spacing="xx-large"` -> `innerSpace={{ block: 'xx-large' }}`
+
+You can also use `top` and `bottom` individually if you need different values, e.g. `innerSpace={{ top: 'small', bottom: 'large' }}`. Note that `innerSpace="large"` (a plain string) applies padding on **all four sides**, not just top/bottom.
+
 3. Replace `inner_ref` with `ref`.
+
+#### Types
+
+- The exported `SectionSpacing` type has been removed. If you imported it (e.g. for Breadcrumb or custom components), use the `InnerSpaceType` from `@dnb/eufemia/components/space/types` instead.
+
+#### Styling
+
+- Remove CSS classes `dnb-section--spacing`, `dnb-section--spacing-small`, etc, as they are not supported anymore.
 
 ### [HelpButton](/uilib/components/help-button/)
 
@@ -649,6 +670,7 @@ New props added:
 #### Properties
 
 - Replace `styleType` (or `style_type`) with `backgroundColor`.
+- The `spacing` prop type has changed from `SectionSpacing` to `SpaceTypeAll | SpaceTypeMedia`. All previously valid string values still work, but if you imported `SectionSpacing` to type your Breadcrumb spacing, update to use the new types.
 
 ### [BreadcrumbItem](/uilib/components/breadcrumb/)
 
@@ -899,6 +921,14 @@ render(<Logo svg={SbankenCompact} />)
 #### Properties
 
 - Replace `styleType` (or `style_type`) with `backgroundColor`.
+- Replace `spacing` with `innerSpace`. Use `block` to match the old vertical-only padding:
+  - `spacing` -> `innerSpace={{ block: 'large' }}`
+  - `spacing="x-small"` -> `innerSpace={{ block: 'x-small' }}`
+  - `spacing="small"` -> `innerSpace={{ block: 'small' }}`
+  - `spacing="medium"` -> `innerSpace={{ block: 'medium' }}`
+  - `spacing="large"` -> `innerSpace={{ block: 'large' }}`
+  - `spacing="x-large"` -> `innerSpace={{ block: 'x-large' }}`
+  - `spacing="xx-large"` -> `innerSpace={{ block: 'xx-large' }}`
 
 ### [Heading](/uilib/components/heading/)
 
@@ -979,10 +1009,10 @@ render(<Logo svg={SbankenCompact} />)
 
 - Replace `selected_key` with `selectedKey`.
 - Replace `content_style` with `contentStyle`.
-- Replace `content_spacing` with `contentSpacing`.
+- Replace `content_spacing` or `contentSpacing` with `contentInnerSpace`. The `contentSpacing` prop has been removed – use `contentInnerSpace` instead, which passes `innerSpace` to the content Section.
 - Replace `tab_element` with `tabElement`.
 - Replace `tabs_style` with `tabsStyle`.
-- Replace `tabs_spacing` with `tabsSpacing`.
+- Replace `tabs_spacing` or `tabsSpacing` with `tabsInnerSpace`. The `tabsSpacing` prop has been removed – use `tabsInnerSpace` instead.
 - Replace `nav_button_edge` with `navButtonEdge`.
 - Replace `preventRerender` with `preventRerender`.
 - Replace `on_change` with `onChange`.
@@ -992,6 +1022,10 @@ render(<Logo svg={SbankenCompact} />)
 - Replace `focus_key` with `focusKey`.
 - Replace `no_border` with `noBorder`.
 - Replace `prerender` with `keepInDOM`.
+
+#### Styling
+
+- The CSS classes `dnb-section--spacing-*` are no longer applied to the Tabs content wrapper or tab list. If you have custom CSS targeting these classes within Tabs, update to target the inline styles or use `contentInnerSpace`/`tabsInnerSpace` props instead.
 
 ### [Pagination](/uilib/components/pagination/)
 

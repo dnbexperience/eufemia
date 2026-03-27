@@ -240,7 +240,7 @@ export const DrawerCustomTriggerExample = () => (
         iconPosition: 'left',
       }}
     >
-      <Drawer.Body spacing>
+      <Drawer.Body innerSpace={{ block: 'large' }}>
         <P>Opened a Drawer with a custom trigger button!</P>
       </Drawer.Body>
     </Drawer>

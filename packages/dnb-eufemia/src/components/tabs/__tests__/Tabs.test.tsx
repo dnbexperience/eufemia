@@ -169,9 +169,9 @@ describe('Tabs component', () => {
     ])
   })
 
-  it('should support "contentSpacing" prop', () => {
+  it('should support "contentInnerSpace" prop', () => {
     render(
-      <Tabs {...props} data={tablistData} contentSpacing="small">
+      <Tabs {...props} data={tablistData} contentInnerSpace="small">
         {contentWrapperData}
       </Tabs>
     )
@@ -186,21 +186,16 @@ describe('Tabs component', () => {
     )
   })
 
-  it('should support "tabsSpacing" prop', () => {
+  it('should support "tabsInnerSpace" prop', () => {
     render(
-      <Tabs {...props} data={tablistData} tabsSpacing={true}>
+      <Tabs {...props} data={tablistData} tabsInnerSpace={true}>
         {contentWrapperData}
       </Tabs>
     )
 
-    const element = document.querySelector('.dnb-tabs__tabs')
+    const element = document.querySelector<HTMLElement>('.dnb-tabs__tabs')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-tabs__tabs',
-      'dnb-tabs__tabs--left',
-      'dnb-section--spacing-large',
-      'dnb-tabs__tabs--breakout',
-    ])
+    expect(element.style.paddingTop).toBe('var(--spacing-large)')
   })
 
   it('should support outer spacing props', () => {
@@ -253,7 +248,6 @@ describe('Tabs component', () => {
         'dnb-tabs__content',
         'dnb-section',
         'dnb-section--black-3',
-        'dnb-section--spacing-large',
         'dnb-no-focus',
         'dnb-space',
         'dnb-height-animation',
