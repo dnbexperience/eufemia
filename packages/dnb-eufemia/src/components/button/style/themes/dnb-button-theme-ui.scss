@@ -41,7 +41,7 @@
       // underline
       .dnb-button__text::after {
         html[data-whatintent='touch'] & {
-          --btn-color-underline: var(--btn-color-underline--hover);
+          --button-color-underline: var(--button-color-underline--hover);
         }
       }
     }
