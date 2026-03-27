@@ -8,6 +8,9 @@
 
 .dnb-table {
   --table-th-background-color: var(--color-white);
+  --table-th-text-color: var(--theme-color-black-80, currentColor);
+  --table-th-font-size: var(--font-size-basis);
+  --table-th-font-weight: var(--font-weight-medium);
 
   text-align: left;
 
@@ -18,11 +21,18 @@
     padding: 2rem 1rem 1rem;
 
     // typography
-    font-weight: var(--font-weight-medium);
-    color: var(--theme-color-black-80, currentColor);
-    font-size: var(--font-size-basis);
+    font-weight: var(--table-th-font-weight);
+    color: var(--table-th-text-color);
+    font-size: var(--table-th-font-size);
     line-height: var(--line-height-basis);
     vertical-align: bottom;
+
+    // Variants
+    &--subtle {
+      --table-th-text-color: var(--color-black-55);
+      --table-th-font-weight: var(--font-weight-regular);
+      --table-th-font-size: var(--font-size-small);
+    }
 
     .dnb-table__size--medium & {
       // spacing

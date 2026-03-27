@@ -34,6 +34,14 @@ export type TableThProps = {
   noWrap?: boolean
 
   /**
+   * Defines the visual variant of the table header.
+   * `default` renders with medium font weight.
+   * `subtle` renders with regular font weight and lighter color.
+   * Default: 'default'
+   */
+  variant?: 'default' | 'subtle'
+
+  /**
    * The content of the table header given as Tr.
    */
   children?: TableThChildren | Array<TableThChildren>
@@ -50,6 +58,7 @@ export default function Th(
     active,
     reversed,
     noWrap,
+    variant,
     ...props
   } = componentProps
 
@@ -75,6 +84,7 @@ export default function Th(
         active && 'dnb-table--active',
         reversed && 'dnb-table--reversed',
         noWrap && 'dnb-table--no-wrap',
+        variant && `dnb-table__th--${variant}`,
         className
       )}
       {...props}

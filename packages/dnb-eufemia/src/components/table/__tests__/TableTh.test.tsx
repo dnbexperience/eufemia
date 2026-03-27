@@ -207,6 +207,40 @@ describe('TableTh', () => {
     ])
   })
 
+  it('should set the subtle variant class', () => {
+    render(
+      <table>
+        <thead>
+          <tr>
+            <TableTh variant="subtle">th content</TableTh>
+          </tr>
+        </thead>
+      </table>
+    )
+
+    const element = document.querySelector('th')
+    expect(Array.from(element.classList)).toContain(
+      'dnb-table__th--subtle'
+    )
+  })
+
+  it('should not set variant class when variant is default', () => {
+    render(
+      <table>
+        <thead>
+          <tr>
+            <TableTh variant="default">th content</TableTh>
+          </tr>
+        </thead>
+      </table>
+    )
+
+    const element = document.querySelector('th')
+    expect(Array.from(element.classList)).toContain(
+      'dnb-table__th--default'
+    )
+  })
+
   it('should have Th.SortButton', () => {
     expect(TableTh.SortButton).toBe(TableSortButton)
   })

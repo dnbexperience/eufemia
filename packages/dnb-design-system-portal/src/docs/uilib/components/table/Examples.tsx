@@ -19,11 +19,16 @@ import {
   Flex,
   Badge,
   Tooltip,
+  Heading,
+  Icon,
+  Dropdown,
 } from '@dnb/eufemia/src'
 import {
   stop as stopIcon,
   compose as composeIcon,
   copy as copyIcon,
+  view_medium as eyeIcon,
+  trash as trashIcon,
 } from '@dnb/eufemia/src/icons'
 import {
   Button,
@@ -31,6 +36,7 @@ import {
   Checkbox,
   Input,
   Section,
+  Stat,
 } from '@dnb/eufemia/src/components'
 import Table from '@dnb/eufemia/src/components/table/Table'
 import Th from '@dnb/eufemia/src/components/table/TableTh'
@@ -1772,6 +1778,115 @@ export const ResponsiveInCard = () => (
       }
 
       return <Example />
+    }}
+  </ComponentBox>
+)
+
+export const InCard = () => (
+  <ComponentBox
+    scope={{ composeIcon, stopIcon, eyeIcon, trashIcon }}
+    hideCode
+    data-visual-test="table-in-card"
+  >
+    {() => {
+      const MyTable = () => {
+        const rows = [
+          {
+            name: 'Acme Corporation',
+            price: '142.50',
+            change: 3.24,
+          },
+          {
+            name: 'Globex Industries',
+            price: '87.30',
+            change: -1.08,
+          },
+          {
+            name: 'Initech Solutions',
+            price: '215.00',
+            change: 0.75,
+          },
+          {
+            name: 'Umbrella Corp',
+            price: '63.80',
+            change: -5.12,
+          },
+        ]
+
+        return (
+          <Table.ScrollView>
+            <Table border outline>
+              <thead>
+                <Tr noWrap>
+                  <Th variant="subtle">Stock</Th>
+                  <Th variant="subtle" align="right">
+                    Price
+                  </Th>
+                  <Th variant="subtle" align="right">
+                    Change
+                  </Th>
+                  <Th aria-label="Actions" />
+                </Tr>
+              </thead>
+
+              <tbody>
+                {rows.map((row) => (
+                  <Tr key={row.name}>
+                    <Td>{row.name}</Td>
+                    <Td align="right">{row.price}</Td>
+                    <Td align="right">
+                      <Stat.Trend>
+                        <Stat.Percent
+                          value={row.change}
+                          signDisplay="always"
+                          decimals={2}
+                        />
+                      </Stat.Trend>
+                    </Td>
+                    <Td align="right">
+                      <Button
+                        variant="tertiary"
+                        icon={trashIcon}
+                        tooltip="Remove from list"
+                      />
+                    </Td>
+                  </Tr>
+                ))}
+              </tbody>
+            </Table>
+          </Table.ScrollView>
+        )
+      }
+
+      return (
+        <Card
+          responsive={false}
+          innerSpace={0}
+          aria-labelledby="my-header"
+        >
+          <Flex.Horizontal
+            stretch
+            gap={false}
+            justify="space-between"
+            innerSpace={{ top: 'medium', inline: 'small' }}
+          >
+            <Flex.Horizontal gap="x-small">
+              <Icon icon={eyeIcon} />
+              <Heading
+                id="my-header"
+                size="medium"
+                top={false}
+                bottom={false}
+              >
+                Watchlist
+              </Heading>
+            </Flex.Horizontal>
+
+            <Dropdown data={['My list', 'All']} more_menu size="small" />
+          </Flex.Horizontal>
+          <MyTable />
+        </Card>
+      )
     }}
   </ComponentBox>
 )
