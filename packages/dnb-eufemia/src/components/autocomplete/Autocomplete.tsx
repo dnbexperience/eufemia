@@ -625,6 +625,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     onChange: _onChange,
     onSelect: _onSelect,
     onSubmit: _onSubmit,
+    onItemMouseEnter,
 
     ...attributes
   } = props
@@ -2593,6 +2594,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
               onPreChange={onPreChangeHandler}
               onKeyDown={reserveActivityHandler}
               onMouseDown={reserveActivityHandler}
+              onItemMouseEnter={onItemMouseEnter}
               independentWidth={independentWidth}
             />
           </span>

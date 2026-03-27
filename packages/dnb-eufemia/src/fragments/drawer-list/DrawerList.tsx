@@ -21,7 +21,7 @@ import type { DrawerListContextValue } from './DrawerListContext'
 import DrawerListContext from './DrawerListContext'
 import DrawerListProvider from './DrawerListProvider'
 import DrawerListPortal from './DrawerListPortal'
-import { drawerListDefaultProps } from './DrawerListHelpers'
+import { drawerListDefaultProps, getEventData } from './DrawerListHelpers'
 import { DrawerListHorizontalItem, DrawerListItem } from './DrawerListItem'
 import type { DrawerListItemProps } from './DrawerListItem'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
@@ -37,6 +37,7 @@ const propsToFilterOut: Record<string, null> = {
   onKeyDown: null,
   optionsRender: null,
   wrapperElement: null,
+  onItemMouseEnter: null,
 }
 
 export type DrawerListContent =
@@ -127,6 +128,12 @@ export type DrawerListSelectEvent = DrawerListChangeEvent & {
 export type DrawerListResizeEvent = {
   direction: string
   maxHeight: number
+}
+
+export type DrawerListItemMouseEnterEvent = {
+  item: number
+  data: DrawerListDataArrayObject | string | null
+  event: React.MouseEvent<HTMLLIElement>
 }
 
 export type DrawerListProps = {
@@ -261,6 +268,10 @@ export type DrawerListProps = {
   onPreChange?: (event: DrawerListChangeEvent) => boolean | void
   onResize?: (event: DrawerListResizeEvent) => void
   onSelect?: (event: DrawerListSelectEvent) => void
+  /**
+   * Will be called when the mouse enters a dropdown item. Returns item data and index.
+   */
+  onItemMouseEnter?: (event: DrawerListItemMouseEnterEvent) => void
 }
 
 // Internal data structures
@@ -372,6 +383,19 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
     [context.drawerList]
   )
 
+  const onItemMouseEnterCallback = context.drawerList
+    .onItemMouseEnter as DrawerListProps['onItemMouseEnter']
+
+  const onItemMouseEnterHandler = useCallback(
+    (itemId: number, event: React.MouseEvent<HTMLLIElement>) => {
+      if (onItemMouseEnterCallback) {
+        const data = getEventData(itemId, context.drawerList.data)
+        onItemMouseEnterCallback({ item: itemId, data, event })
+      }
+    },
+    [onItemMouseEnterCallback, context.drawerList.data]
+  )
+
   const {
     role,
     alignDrawer,
@@ -417,6 +441,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
     onResize: _onResize,
     onSelect: _onSelect,
     onKeyDown: _onKeyDown,
+    onItemMouseEnter: _onItemMouseEnter,
 
     ...attributes
   } = propsWithDefaults as DrawerListAllProps & {
@@ -566,6 +591,10 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
               selected: !ignoreEvents && __id === selectedItem,
               onClick: selectItemHandler,
               onKeyDown: preventTab,
+              onMouseEnter: onItemMouseEnterHandler
+                ? (e: React.MouseEvent<HTMLLIElement>) =>
+                    onItemMouseEnterHandler(__id, e)
+                : undefined,
               disabled: disabled,
               style: style,
             }
@@ -574,6 +603,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
               liParams.selected = null
               liParams.onClick = null
               liParams.onKeyDown = null
+              liParams.onMouseEnter = null
               liParams.className = clsx(
                 liParams.className,
                 'dnb-drawer-list__option--ignore'
