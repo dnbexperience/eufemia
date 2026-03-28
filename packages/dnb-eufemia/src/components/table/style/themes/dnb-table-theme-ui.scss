@@ -15,6 +15,14 @@
   text-align: left;
 
   // head
+  &__th {
+    // Variants
+    &--subtle {
+      --table-th-text-color: var(--color-black-55);
+      --table-th-font-weight: var(--font-weight-regular);
+      --table-th-font-size: var(--font-size-small);
+    }
+  }
   &__th,
   & thead th {
     // spacing
@@ -26,13 +34,6 @@
     font-size: var(--table-th-font-size);
     line-height: var(--line-height-basis);
     vertical-align: bottom;
-
-    // Variants
-    &--subtle {
-      --table-th-text-color: var(--color-black-55);
-      --table-th-font-weight: var(--font-weight-regular);
-      --table-th-font-size: var(--font-size-small);
-    }
 
     .dnb-table__size--medium & {
       // spacing

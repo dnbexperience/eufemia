@@ -18,6 +18,11 @@ exports[`Table scss should match default theme snapshot 1`] = `
   --table-th-font-weight: var(--font-weight-medium);
   text-align: left;
 }
+.dnb-table__th--subtle {
+  --table-th-text-color: var(--color-black-55);
+  --table-th-font-weight: var(--font-weight-regular);
+  --table-th-font-size: var(--font-size-small);
+}
 .dnb-table__th, .dnb-table thead th {
   padding: 2rem 1rem 1rem;
   font-weight: var(--table-th-font-weight);
@@ -25,11 +30,6 @@ exports[`Table scss should match default theme snapshot 1`] = `
   font-size: var(--table-th-font-size);
   line-height: var(--line-height-basis);
   vertical-align: bottom;
-}
-.dnb-table__th--subtle, .dnb-table thead th--subtle {
-  --table-th-text-color: var(--color-black-55);
-  --table-th-font-weight: var(--font-weight-regular);
-  --table-th-font-size: var(--font-size-small);
 }
 .dnb-table__size--medium .dnb-table__th, .dnb-table__size--medium .dnb-table thead th {
   padding: 1.375rem 1rem 0.875rem;
