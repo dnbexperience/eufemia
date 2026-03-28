@@ -494,6 +494,22 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 .dnb-table--border thead + tbody .dnb-table__tr:first-child .dnb-table__th::after {
   border-top: var(--table-border);
 }
+.dnb-table thead:has(.dnb-table__tr--even) + tbody .dnb-table__tr:first-child .dnb-table__td::after,
+.dnb-table thead:has(.dnb-table__tr--even) + tbody .dnb-table__tr:first-child .dnb-table__th::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: -0.0625rem;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-top: var(--table-border);
+}
+.dnb-table thead:has(.dnb-table__tr--even) + tbody .dnb-table__tr:first-child .dnb-table__td:last-child::after,
+.dnb-table thead:has(.dnb-table__tr--even) + tbody .dnb-table__tr:first-child .dnb-table__th:last-child::after {
+  right: 0;
+}
 .dnb-table {
   /* stylelint-disable */
 }

@@ -1815,9 +1815,9 @@ export const InCard = () => (
 
         return (
           <Table.ScrollView>
-            <Table border outline>
+            <Table outline>
               <thead>
-                <Tr noWrap>
+                <Tr noWrap variant="even">
                   <Th variant="subtle">Stock</Th>
                   <Th variant="subtle" align="right">
                     Price
@@ -1845,9 +1845,10 @@ export const InCard = () => (
                     </Td>
                     <Td align="right">
                       <Button
-                        variant="tertiary"
                         icon={trashIcon}
                         tooltip="Remove from list"
+                        variant="tertiary"
+                        bounding
                       />
                     </Td>
                   </Tr>
@@ -1868,6 +1869,7 @@ export const InCard = () => (
             stretch
             gap={false}
             justify="space-between"
+            align="center"
             innerSpace={{ top: 'medium', inline: 'small' }}
           >
             <Flex.Horizontal gap="x-small">
@@ -1882,7 +1884,7 @@ export const InCard = () => (
               </Heading>
             </Flex.Horizontal>
 
-            <Dropdown data={['My list', 'All']} more_menu size="small" />
+            <Dropdown data={['My list', 'All']} more_menu />
           </Flex.Horizontal>
           <MyTable />
         </Card>
