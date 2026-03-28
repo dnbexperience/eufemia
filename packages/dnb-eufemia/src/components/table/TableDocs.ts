@@ -153,8 +153,8 @@ export const TrEventProperties: PropertiesTableProps = {
 export const ThProperties: PropertiesTableProps = {
   variant: {
     doc: 'Defines the visual style of the table header. Use `subtle` for a lighter appearance with reduced font-weight, smaller font-size, and muted text color.',
-    type: [`'default'`, `'subtle'`],
-    defaultValue: `'default'`,
+    type: [`'emphasis'`, `'subtle'`],
+    defaultValue: `'emphasis'`,
     status: 'optional',
   },
   sortable: {

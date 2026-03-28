@@ -13,10 +13,12 @@ exports[`Table scss should match default theme snapshot 1`] = `
  */
 .dnb-table {
   --table-th-background-color: var(--color-white);
-  --table-th-text-color: var(--theme-color-black-80, currentColor);
-  --table-th-font-size: var(--font-size-basis);
-  --table-th-font-weight: var(--font-weight-medium);
   text-align: left;
+}
+.dnb-table, .dnb-table__th--emphasis {
+  --table-th-text-color: var(--theme-color-black-80, currentColor);
+  --table-th-font-weight: var(--font-weight-medium);
+  --table-th-font-size: var(--font-size-basis);
 }
 .dnb-table__th--subtle {
   --table-th-text-color: var(--color-black-55);

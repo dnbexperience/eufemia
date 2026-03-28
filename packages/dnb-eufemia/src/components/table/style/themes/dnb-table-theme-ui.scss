@@ -8,21 +8,23 @@
 
 .dnb-table {
   --table-th-background-color: var(--color-white);
-  --table-th-text-color: var(--theme-color-black-80, currentColor);
-  --table-th-font-size: var(--font-size-basis);
-  --table-th-font-weight: var(--font-weight-medium);
 
   text-align: left;
 
-  // head
-  &__th {
-    // Variants
-    &--subtle {
-      --table-th-text-color: var(--color-black-55);
-      --table-th-font-weight: var(--font-weight-regular);
-      --table-th-font-size: var(--font-size-small);
-    }
+  // Variants
+  &,
+  &__th--emphasis {
+    --table-th-text-color: var(--theme-color-black-80, currentColor);
+    --table-th-font-weight: var(--font-weight-medium);
+    --table-th-font-size: var(--font-size-basis);
   }
+  &__th--subtle {
+    --table-th-text-color: var(--color-black-55);
+    --table-th-font-weight: var(--font-weight-regular);
+    --table-th-font-size: var(--font-size-small);
+  }
+
+  // Header
   &__th,
   & thead th {
     // spacing

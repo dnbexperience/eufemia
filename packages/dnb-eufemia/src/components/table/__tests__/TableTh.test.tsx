@@ -224,12 +224,12 @@ describe('TableTh', () => {
     )
   })
 
-  it('should not set variant class when variant is default', () => {
+  it('should set variant class when variant is emphasis', () => {
     render(
       <table>
         <thead>
           <tr>
-            <TableTh variant="default">th content</TableTh>
+            <TableTh variant="emphasis">th content</TableTh>
           </tr>
         </thead>
       </table>
@@ -237,7 +237,7 @@ describe('TableTh', () => {
 
     const element = document.querySelector('th')
     expect(Array.from(element.classList)).toContain(
-      'dnb-table__th--default'
+      'dnb-table__th--emphasis'
     )
   })
 

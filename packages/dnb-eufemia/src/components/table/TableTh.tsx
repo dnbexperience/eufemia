@@ -35,11 +35,11 @@ export type TableThProps = {
 
   /**
    * Defines the visual variant of the table header.
-   * `default` renders with medium font weight.
-   * `subtle` renders with regular font weight and lighter color.
-   * Default: 'default'
+   * `emphasis` renders with medium font weight.
+   * `subtle` renders with regular font weight, smaller font size, and lighter color.
+   * Default: `emphasis`
    */
-  variant?: 'default' | 'subtle'
+  variant?: 'emphasis' | 'subtle'
 
   /**
    * The content of the table header given as Tr.
