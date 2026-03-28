@@ -25,6 +25,10 @@ exports[`Table scss should match default theme snapshot 1`] = `
   --table-th-font-weight: var(--font-weight-regular);
   --table-th-font-size: var(--font-size-small);
 }
+.dnb-table__th--subtle.dnb-table__th--subtle {
+  padding-top: 1.5rem;
+  padding-bottom: 0.5rem;
+}
 .dnb-table__th, .dnb-table thead th {
   padding: 2rem 1rem 1rem;
   font-weight: var(--table-th-font-weight);

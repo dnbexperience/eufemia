@@ -22,6 +22,11 @@
     --table-th-text-color: var(--color-black-55);
     --table-th-font-weight: var(--font-weight-regular);
     --table-th-font-size: var(--font-size-small);
+
+    &#{&} {
+      padding-top: 1.5rem;
+      padding-bottom: 0.5rem;
+    }
   }
 
   // Header
