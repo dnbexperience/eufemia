@@ -123,16 +123,15 @@ describe('Field.Email', () => {
     // 245 + '@' + 'test.com' = 254 characters – should be valid
     const validEmail = `${'a'.repeat(245)}@test.com`
     expect(validEmail).toHaveLength(254)
-    await userEvent.type(input, validEmail)
+    fireEvent.change(input, { target: { value: validEmail } })
     fireEvent.blur(input)
 
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
     // 246 + '@' + 'test.com' = 255 characters – should be invalid
-    await userEvent.clear(input)
     const tooLongEmail = `${'a'.repeat(246)}@test.com`
     expect(tooLongEmail).toHaveLength(255)
-    await userEvent.type(input, tooLongEmail)
+    fireEvent.change(input, { target: { value: tooLongEmail } })
     fireEvent.blur(input)
 
     expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -166,7 +165,7 @@ describe('Field.Email', () => {
     // 255 characters would fail default maxLength of 254, but should pass when undefined
     const longEmail = `${'a'.repeat(246)}@test.com`
     expect(longEmail).toHaveLength(255)
-    await userEvent.type(input, longEmail)
+    fireEvent.change(input, { target: { value: longEmail } })
     fireEvent.blur(input)
 
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
