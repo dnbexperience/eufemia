@@ -21261,20 +21261,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:7.1.6":
-  version: 7.1.6
-  resolution: "glob@npm:7.1.6"
-  dependencies:
-    fs.realpath: "npm:^1.0.0"
-    inflight: "npm:^1.0.4"
-    inherits: "npm:2"
-    minimatch: "npm:^3.0.4"
-    once: "npm:^1.3.0"
-    path-is-absolute: "npm:^1.0.0"
-  checksum: 10/7d6ec98bc746980d5fe4d764b9c7ada727e3fbd2a7d85cd96dd95fb18638c9c54a70c692fd2ab5d68a186dc8cd9d6a4192d3df220beed891f687db179c430237
-  languageName: node
-  linkType: hard
-
 "glob@npm:^10.2.2":
   version: 10.3.1
   resolution: "glob@npm:10.3.1"
@@ -32326,7 +32312,7 @@ __metadata:
   resolution: "react-live-ssr@workspace:tools/react-live-ssr"
   dependencies:
     prism-react-renderer: "npm:2.0.5"
-    sucrase: "npm:3.31.0"
+    sucrase: "npm:3.35.1"
     use-editable: "npm:2.3.3"
   languageName: unknown
   linkType: soft
@@ -35893,20 +35879,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sucrase@npm:3.31.0":
-  version: 3.31.0
-  resolution: "sucrase@npm:3.31.0"
+"sucrase@npm:3.35.1":
+  version: 3.35.1
+  resolution: "sucrase@npm:3.35.1"
   dependencies:
+    "@jridgewell/gen-mapping": "npm:^0.3.2"
     commander: "npm:^4.0.0"
-    glob: "npm:7.1.6"
     lines-and-columns: "npm:^1.1.6"
     mz: "npm:^2.7.0"
     pirates: "npm:^4.0.1"
+    tinyglobby: "npm:^0.2.11"
     ts-interface-checker: "npm:^0.1.9"
   bin:
     sucrase: bin/sucrase
     sucrase-node: bin/sucrase-node
-  checksum: 10/3a261c1d48cb99c5603d74ffaf75167f43bf0c82b01d8a52b6d1e2065ebd68d013bbb5ccd8832234d54a25eff2073eca968c7460e70164fe0417ab5981c28888
+  checksum: 10/539f5c6ebc1ff8d449a89eb52b8c8944a730b9840ddadbd299a7d89ebcf16c3f4bc9aa59e1f2e112a502e5cf1508f7e02065f0e97c0435eb9a7058e997dfff5a
   languageName: node
   linkType: hard
 
@@ -36523,7 +36510,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tinyglobby@npm:^0.2.12, tinyglobby@npm:^0.2.15":
+"tinyglobby@npm:^0.2.11, tinyglobby@npm:^0.2.12, tinyglobby@npm:^0.2.15":
   version: 0.2.15
   resolution: "tinyglobby@npm:0.2.15"
   dependencies:
