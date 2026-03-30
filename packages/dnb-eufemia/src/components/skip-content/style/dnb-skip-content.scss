@@ -14,7 +14,7 @@
     margin: 1rem 0;
   }
 
-  &__focus:focus {
+  &__focus:focus-visible {
     position: relative;
 
     &::before {
@@ -22,7 +22,7 @@
       position: absolute;
       inset: #{var(--focus-ring-width)};
 
-      @include utilities.focusRing();
+      @include utilities.focusRing('always');
     }
   }
 

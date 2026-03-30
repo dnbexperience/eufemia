@@ -54,8 +54,10 @@
     border-radius: 1.5rem; // same as anchor
 
     background-color: var(--skip-link-background);
+  }
 
-    @include utilities.focusRing('mouse');
+  &:focus:not(:focus-visible)::before {
+    @include utilities.focusRing('always');
   }
 
   &:hover::before {
@@ -66,8 +68,8 @@
   }
 
   // focus
-  &:focus:not(:active)::before {
-    @include utilities.focusRing();
+  &:focus-visible:not(:active)::before {
+    @include utilities.focusRing('always');
   }
 
   // focus

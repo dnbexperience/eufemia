@@ -180,6 +180,18 @@
         $outline: null
       );
     }
+  } @else if $whatinput == 'touch' {
+    @media (hover: none) {
+      @include focusStyle(
+        $bgColor: null,
+        $textColor: null,
+        $borderColor: $color,
+        $borderWidth: var(--focus-ring-width),
+        $inset: $inset,
+        $extendShadow: $extendShadow,
+        $outline: null
+      );
+    }
   }
 }
 

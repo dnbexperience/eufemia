@@ -312,7 +312,7 @@ html:not([data-visual-test]) .dnb-table > thead > tr > th.dnb-table--sortable .d
 .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active[disabled], .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active[disabled] {
   cursor: not-allowed;
 }
-.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before {
+.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled]):focus:not(:focus-visible)::before, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled]):focus:not(:focus-visible)::before {
   content: "";
   position: absolute;
   z-index: 1;
@@ -323,24 +323,30 @@ html:not([data-visual-test]) .dnb-table > thead > tr > th.dnb-table--sortable .d
   height: inherit;
   border-radius: inherit;
   outline: none;
-}
-.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before:focus:not(:focus-visible), .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before:focus:not(:focus-visible) {
+  outline: none;
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: -0.5rem;
-  bottom: 0;
-  right: -0.5rem;
-  height: inherit;
-  border-radius: inherit;
-  outline: none;
+@media (hover: none) {
+  .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: -0.5rem;
+    bottom: 0;
+    right: -0.5rem;
+    height: inherit;
+    border-radius: inherit;
+    outline: none;
+    outline: none;
+    --border-color: var(--focus-ring-color);
+    --border-width: var(--focus-ring-width);
+    box-shadow: 0 0 0 var(--border-width) var(--border-color);
+    border-color: transparent;
+  }
 }
 .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before {
   content: "";

@@ -328,7 +328,7 @@
   /* stylelint-enable */
 
   // Make focus ring when keyboard is used to navigate
-  &__content:focus {
+  &__content:focus-visible {
     position: relative;
 
     // Use "before" (instead of after) in order to not collide with Section styles
@@ -349,7 +349,7 @@
 
       border-radius: 0.5rem;
 
-      @include utilities.focusRing();
+      @include utilities.focusRing('always');
     }
   }
 

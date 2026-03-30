@@ -57,19 +57,19 @@
   $extendShadow: null
 ) {
   @include utilities.focus() {
-    &:focus-visible {
-      color: $color;
-      background-color: $background-color;
-    }
+    @content;
+  }
+
+  @include utilities.focusVisible() {
+    color: $color;
+    background-color: $background-color;
 
     @include utilities.focusRing(
-      null,
+      'always',
       $focus-color,
       inset,
       $extendShadow: $extendShadow
     );
-
-    @content;
   }
 }
 
@@ -103,25 +103,89 @@
   $right: -0.5rem
 ) {
   // Create focus-ring
-  &::before {
-    content: '';
-    position: absolute;
-    z-index: 1; // to be visible in other absolute contexts
+  // State selectors must go on the parent element, not on ::before,
+  // since pseudo-elements cannot receive :focus or :focus-visible.
+  @if $whatinput == 'keyboard' or $whatinput == null {
+    &:focus-visible::before {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: $left;
+      bottom: 0;
+      right: $right;
+      height: inherit;
+      border-radius: inherit;
+      outline: none;
 
-    top: 0;
-    left: $left;
-    bottom: 0;
-    right: $right;
+      @include utilities.focusRing(
+        'always',
+        null,
+        $inset,
+        $extendShadow: $extendShadow
+      );
+    }
+  } @else if $whatinput == 'mouse' {
+    &:focus:not(:focus-visible)::before {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: $left;
+      bottom: 0;
+      right: $right;
+      height: inherit;
+      border-radius: inherit;
+      outline: none;
 
-    height: inherit;
-    border-radius: inherit;
+      @include utilities.focusRing(
+        'always',
+        null,
+        $inset,
+        $extendShadow: $extendShadow
+      );
+    }
+  } @else if $whatinput == 'touch' {
+    @media (hover: none) {
+      &::before {
+        content: '';
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: $left;
+        bottom: 0;
+        right: $right;
+        height: inherit;
+        border-radius: inherit;
+        outline: none;
 
-    @include utilities.focusRing(
-      $whatinput,
-      null,
-      $inset,
-      $extendShadow: $extendShadow
-    );
+        @include utilities.focusRing(
+          'always',
+          null,
+          $inset,
+          $extendShadow: $extendShadow
+        );
+      }
+    }
+  } @else if $whatinput == 'always' {
+    &::before {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: $left;
+      bottom: 0;
+      right: $right;
+      height: inherit;
+      border-radius: inherit;
+
+      @include utilities.focusRing(
+        'always',
+        null,
+        $inset,
+        $extendShadow: $extendShadow
+      );
+    }
   }
 }
 
