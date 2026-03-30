@@ -135,8 +135,7 @@
     @media (hover: hover) {
       &--start-date#{&}--within-selection
         .dnb-button:hover:not([disabled]),
-      &--end-date#{&}--within-selection
-        .dnb-button:hover:not([disabled]) {
+      &--end-date#{&}--within-selection .dnb-button:hover:not([disabled]) {
         color: var(--color-mint-green-25);
         background-color: var(--color-emerald-green);
       }

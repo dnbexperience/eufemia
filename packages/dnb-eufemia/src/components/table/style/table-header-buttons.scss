@@ -193,8 +193,7 @@
         visibility: visible;
       }
 
-      &:hover:focus-visible
-        .dnb-button__text::after {
+      &:hover:focus-visible .dnb-button__text::after {
         visibility: hidden;
       }
     }

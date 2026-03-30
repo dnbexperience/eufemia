@@ -419,7 +419,8 @@
     ~ &__button {
     background-color: var(--radio-color-background-on--focus);
   }
-  &__input:not([disabled]):not(:active):not(:hover):checked:focus-visible ~ &__dot,
+  &__input:not([disabled]):not(:active):not(:hover):checked:focus-visible
+    ~ &__dot,
   &__input:not([disabled]):not(:active):not(
       :hover
     )[data-checked='true']:focus-visible
@@ -431,7 +432,9 @@
   }
 
   // Off
-  &__input:not([disabled]):not(:checked):not([data-checked='true']):focus-visible
+  &__input:not([disabled]):not(:checked):not(
+      [data-checked='true']
+    ):focus-visible
     ~ &__button {
     background-color: var(--radio-color-background-off--focus);
   }

@@ -138,8 +138,7 @@
     }
 
     // stylelint-disable-next-line
-    &:hover:focus-visible
-      .dnb-button__text::after {
+    &:hover:focus-visible .dnb-button__text::after {
       visibility: hidden;
     }
   }

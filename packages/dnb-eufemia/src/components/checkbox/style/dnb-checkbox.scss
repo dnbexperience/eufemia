@@ -453,7 +453,9 @@
   }
 
   &__status--error &__input:not([disabled]):focus-visible ~ &__button,
-  &__status--error &__input:not([disabled]):focus-visible:hover ~ &__button {
+  &__status--error
+    &__input:not([disabled]):focus-visible:hover
+    ~ &__button {
     border: none;
     background-color: var(--checkbox-color-background--error-contrast);
     @include utilities.fakeBorder(

@@ -279,13 +279,11 @@
 
     will-change: padding;
     transition: padding 1s var(--easing-default);
-  }
 
-  &__button__snap:has(.dnb-badge) {
-    margin-right: -0.5rem;
-  }
+    &:has(.dnb-badge) {
+      margin-right: -0.5rem;
+    }
 
-  &__button__snap {
     &:first-of-type.focus {
       // add space so the focus ring is visible within our overflow
       .dnb-tabs__button:focus-visible {

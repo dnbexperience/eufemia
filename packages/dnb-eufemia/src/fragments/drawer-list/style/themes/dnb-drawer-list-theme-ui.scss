@@ -166,8 +166,7 @@
     }
 
     // show focus border when using keyboard
-    &--selected#{&}--focus
-      &__inner::before {
+    &--selected#{&}--focus &__inner::before {
       visibility: visible;
 
       @include utilities.fakeBorder(
