@@ -199,7 +199,6 @@
     --background-color: transparent;
   }
 
-  // Default is used in Section.tsx to set the default colors (which is the same as white in this case) but also allows the developer to overide the colors with `style_type` prop.
   // Could be merged with white, or have white be replaced with default 🤷
   &--default {
     --text-color: var(
