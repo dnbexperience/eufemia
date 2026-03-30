@@ -1815,7 +1815,7 @@ export const InCard = () => (
 
         return (
           <Table.ScrollView>
-            <Table outline>
+            <Table outline border>
               <thead>
                 <Tr noWrap variant="even">
                   <Th variant="subtle">Stock</Th>
