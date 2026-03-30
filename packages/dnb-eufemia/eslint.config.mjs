@@ -357,6 +357,23 @@ export default [
                 "react-dom/test-utils is removed in React 19. Import 'act' from '@testing-library/react' or 'react' instead.",
             },
           ],
+        },
+      ],
+    },
+  },
+  {
+    files: ['**/src/**/__tests__/**'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'react-dom/test-utils',
+              message:
+                "react-dom/test-utils is removed in React 19. Import 'act' from '@testing-library/react' or 'react' instead.",
+            },
+          ],
           patterns: [
             {
               group: ['@dnb/eufemia/*'],
