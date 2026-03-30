@@ -92,11 +92,6 @@ export type SectionProps = {
    * Define a React.Ref.
    */
   ref?: React.RefObject<HTMLElement>
-
-  /**
-   * @deprecated in v11 use "ref" prop instead
-   */
-  inner_ref?: React.RefObject<HTMLElement>
 }
 
 type SectionSpacingProps = Omit<SpacingProps, 'innerSpace'> & {
@@ -155,8 +150,6 @@ export function SectionParams(
 
     className,
     children,
-
-    inner_ref,
 
     ...attributes
   } = props
