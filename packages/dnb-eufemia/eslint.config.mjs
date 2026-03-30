@@ -347,6 +347,29 @@ export default [
       'no-console': 'off',
       'compat/compat': 'off',
       '@typescript-eslint/no-require-imports': 'off',
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'react-dom/test-utils',
+              message:
+                "react-dom/test-utils is removed in React 19. Import 'act' from '@testing-library/react' or 'react' instead.",
+            },
+          ],
+          patterns: [
+            {
+              group: ['@dnb/eufemia/*'],
+              message: 'Do not use recursive module @dnb/eufemia!',
+            },
+            {
+              group: ['**/src/*'],
+              message:
+                'Do not import from src – but rather define correct relative paths!',
+            },
+          ],
+        },
+      ],
     },
   },
   {
