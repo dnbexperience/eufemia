@@ -193,8 +193,7 @@
         visibility: visible;
       }
 
-      html[data-whatinput='keyboard']
-        &:hover:focus
+      &:hover:focus-visible
         .dnb-button__text::after {
         visibility: hidden;
       }

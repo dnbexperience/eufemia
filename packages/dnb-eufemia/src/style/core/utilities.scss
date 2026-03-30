@@ -16,22 +16,20 @@
   box-shadow: var(--shadow-sharp);
 }
 
-// Uses html:not([data-whatintent='touch'] )
-// classes on <html> element
-// based on js touch device test
 @mixin hover() {
-  html:not([data-whatintent='touch']) &:hover {
-    &[disabled] {
-      cursor: not-allowed;
-    }
-    &:not([disabled]) {
-      @content;
+  @media (hover: hover) {
+    &:hover {
+      &[disabled] {
+        cursor: not-allowed;
+      }
+      &:not([disabled]) {
+        @content;
+      }
     }
   }
 }
 @mixin active() {
-  &:active,
-  html:not([data-whatintent='touch']) &:active {
+  &:active {
     &[disabled] {
       cursor: not-allowed;
     }
@@ -44,14 +42,12 @@
 
 @mixin focusVisible() {
   &:focus-visible {
-    @include whatInputNot('touch') {
-      &[disabled] {
-        cursor: not-allowed;
-      }
-      // stylelint-disable-next-line
-      &:not([disabled]) {
-        @content;
-      }
+    &[disabled] {
+      cursor: not-allowed;
+    }
+    // stylelint-disable-next-line
+    &:not([disabled]) {
+      @content;
     }
   }
 }
@@ -75,12 +71,36 @@
 }
 
 @mixin whatInput($whatinput: null) {
-  html[data-whatinput='#{$whatinput}'] & {
+  @if $whatinput == 'keyboard' {
+    &:focus-visible {
+      @content;
+    }
+  } @else if $whatinput == 'mouse' {
+    &:focus:not(:focus-visible) {
+      @content;
+    }
+  } @else if $whatinput == 'touch' {
+    @media (hover: none) {
+      & {
+        @content;
+      }
+    }
+  } @else {
     @content;
   }
 }
 @mixin whatInputNot($whatinput: null) {
-  html:not([data-whatinput='#{$whatinput}']) & {
+  @if $whatinput == 'keyboard' {
+    &:not(:focus-visible) {
+      @content;
+    }
+  } @else if $whatinput == 'touch' {
+    @media (hover: hover) {
+      & {
+        @content;
+      }
+    }
+  } @else {
     @content;
   }
 }
@@ -134,8 +154,22 @@
       $extendShadow: $extendShadow,
       $outline: null
     );
-  } @else {
-    @include whatInput($whatinput) {
+  } @else if $whatinput == 'keyboard' {
+    // Show focus ring only for keyboard navigation
+    &:focus-visible {
+      @include focusStyle(
+        $bgColor: null,
+        $textColor: null,
+        $borderColor: $color,
+        $borderWidth: var(--focus-ring-width),
+        $inset: $inset,
+        $extendShadow: $extendShadow,
+        $outline: null
+      );
+    }
+  } @else if $whatinput == 'mouse' {
+    // Show focus ring only for mouse focus (non-keyboard)
+    &:focus:not(:focus-visible) {
       @include focusStyle(
         $bgColor: null,
         $textColor: null,
@@ -154,9 +188,11 @@
 
   @if $whatinput == null {
     box-shadow: $replace;
-  }
-
-  html[data-whatinput='#{$whatinput}'] & {
+  } @else if $whatinput == 'keyboard' {
+    &:focus-visible {
+      box-shadow: $replace;
+    }
+  } @else {
     box-shadow: $replace;
   }
 }

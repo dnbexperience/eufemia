@@ -168,38 +168,28 @@
    * On focus state
    *
    */
-  &__input:not([disabled]):focus ~ &__button {
-    html[data-whatinput='keyboard'] & {
-      @include utilities.removeFocusRing();
+  &__input:not([disabled]):focus-visible ~ &__button {
+    @include utilities.removeFocusRing();
+  }
+
+  &__input:not([disabled]):checked:focus-visible ~ &__button {
+    background-color: var(--focus-ring-color);
+  }
+
+  &__input:not([disabled]):not(:checked):focus-visible ~ &__button {
+    @include utilities.removeFocusRing();
+  }
+
+  &__input:not([disabled]):focus-visible ~ &__background {
+    background-color: var(--sb-color-blue-light-3);
+    &::after {
+      color: var(--focus-ring-color);
+      font-weight: var(--sb-font-weight-bold);
     }
   }
 
-  &__input:not([disabled]):checked:focus ~ &__button {
-    html[data-whatinput='keyboard'] & {
-      background-color: var(--focus-ring-color);
-    }
-  }
-
-  &__input:not([disabled]):not(:checked):focus ~ &__button {
-    html[data-whatinput='keyboard'] & {
-      @include utilities.removeFocusRing();
-    }
-  }
-
-  &__input:not([disabled]):focus ~ &__background {
-    html[data-whatinput='keyboard'] & {
-      background-color: var(--sb-color-blue-light-3);
-      &::after {
-        color: var(--focus-ring-color);
-        font-weight: var(--sb-font-weight-bold);
-      }
-    }
-  }
-
-  &__input:not([disabled]):focus ~ &__button &__focus {
-    html[data-whatinput='keyboard'] & {
-      @include utilities.fakeBorder(var(--focus-ring-color), 0.0625rem);
-    }
+  &__input:not([disabled]):focus-visible ~ &__button &__focus {
+    @include utilities.fakeBorder(var(--focus-ring-color), 0.0625rem);
   }
 
   /*

@@ -132,14 +132,14 @@
       }
     }
 
-    html:not([data-whatintent='touch'])
+    @media (hover: hover) {
       &--start-date#{&}--within-selection
-      .dnb-button:hover:not([disabled]),
-    html:not([data-whatintent='touch'])
+        .dnb-button:hover:not([disabled]),
       &--end-date#{&}--within-selection
-      .dnb-button:hover:not([disabled]) {
-      color: var(--color-mint-green-25);
-      background-color: var(--color-emerald-green);
+        .dnb-button:hover:not([disabled]) {
+        color: var(--color-mint-green-25);
+        background-color: var(--color-emerald-green);
+      }
     }
 
     &--disabled .dnb-button {
@@ -157,8 +157,10 @@
       }
     }
 
-    html:not([data-whatintent='touch']) &--inactive .dnb-button[disabled] {
-      cursor: default;
+    @media (hover: hover) {
+      &--inactive .dnb-button[disabled] {
+        cursor: default;
+      }
     }
   }
 

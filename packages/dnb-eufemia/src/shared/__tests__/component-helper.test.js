@@ -41,13 +41,25 @@ afterAll(() => {
 })
 
 describe('"isTouchDevice" should', () => {
-  it('return false if what-input did not run', () => {
+  it('return false if device is not touch', () => {
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: jest.fn().mockImplementation((query) => ({
+        matches: false,
+        media: query,
+      })),
+    })
     expect(isTouchDevice()).toBe(false)
   })
   it('return true if device is touch', () => {
-    document.documentElement.setAttribute('data-whatintent', 'touch')
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: jest.fn().mockImplementation((query) => ({
+        matches: query === '(hover: none)',
+        media: query,
+      })),
+    })
     expect(isTouchDevice()).toBe(true)
-    document.documentElement.removeAttribute('data-whatintent')
   })
 })
 

@@ -144,9 +144,6 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
       simulateSelector:
         '[data-visual-test="tabs-section-styles"] .dnb-tabs__content',
       simulate: 'focus',
-      executeBeforeSimulate: () => {
-        document.documentElement.setAttribute('data-whatinput', 'keyboard')
-      },
     })
     expect(screenshot).toMatchImageSnapshot()
   })
