@@ -1,12 +1,5 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`GlobalError scss should match default theme snapshot 1`] = `
-"/*
- * GlobalError theme
- *
- */"
-`;
-
 exports[`GlobalError scss should match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
