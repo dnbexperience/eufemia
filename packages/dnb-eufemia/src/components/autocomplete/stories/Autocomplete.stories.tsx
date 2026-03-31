@@ -140,10 +140,10 @@ export function onBlur() {
       left
       data={['AAA', 'BBB', 'CCC']}
       onFocus={({ event }) => {
-        console.log('on_focus', event)
+        console.log('onFocus', event)
       }}
       onBlur={({ event }) => {
-        console.log('on_blur', event)
+        console.log('onBlur', event)
       }}
     />
   )
