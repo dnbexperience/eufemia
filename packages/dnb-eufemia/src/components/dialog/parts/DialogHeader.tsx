@@ -2,7 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import type { ModalHeaderProps } from '../../modal/parts/ModalHeader'
 import ModalHeader from '../../modal/parts/ModalHeader'
-import type { SpacingProps } from '../../space/types'
+import type { SpacingProps } from '../../../shared/types'
 
 type DialogHeaderProps = {
   titleClass?: string

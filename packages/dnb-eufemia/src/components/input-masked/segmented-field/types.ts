@@ -1,7 +1,7 @@
 import type { FocusEvent, HTMLProps, ReactNode, RefObject } from 'react'
 import type { InputProps } from '../../Input'
 import type { FormStatusState, FormStatusText } from '../../FormStatus'
-import type { SpacingProps } from '../../space/types'
+import type { SpacingProps } from '../../../shared/types'
 
 export type OverwriteMode = 'shift' | 'replace'
 

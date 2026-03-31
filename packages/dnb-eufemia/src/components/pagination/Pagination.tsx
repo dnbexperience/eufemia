@@ -21,7 +21,7 @@ import InfinityScroller from './PaginationInfinity'
 import PaginationBar from './PaginationBar'
 
 import type { SkeletonShow } from '../Skeleton'
-import type { SpacingProps, SpaceTypeAll } from '../space/types'
+import type { SpacingProps, SpaceTypeAll } from '../../shared/types'
 import type { ButtonIconPosition } from '../Button'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'

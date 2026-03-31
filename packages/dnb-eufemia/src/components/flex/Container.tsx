@@ -11,7 +11,7 @@ import {
 } from './utils'
 
 import type { MediaQueryBreakpoints } from '../../shared/MediaQueryUtils'
-import type { SpaceType } from '../space/types'
+import type { SpaceType } from '../../shared/types'
 import type { UseMediaQueries } from '../../shared/useMedia'
 import type { FlexEnd, FlexStart } from './types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'

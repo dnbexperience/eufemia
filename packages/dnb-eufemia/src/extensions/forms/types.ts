@@ -1,5 +1,5 @@
 import type { AriaAttributes } from 'react'
-import type { SpacingProps } from '../../components/space/types'
+import type { SpacingProps } from '../../shared/types'
 import type {
   ContextState,
   DataPathHandlerParameters,

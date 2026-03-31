@@ -1,7 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import type { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../../shared/types'
 import ContentWrapper, {
   type TabsContentWrapperProps,
 } from './TabsContentWrapper'

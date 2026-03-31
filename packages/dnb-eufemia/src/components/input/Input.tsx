@@ -48,7 +48,7 @@ import type {
 import type { FormStatusBaseProps } from '../FormStatus'
 import type { IconIcon, IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'
-import type { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../../shared/types'
 
 export type InputSize = 'default' | 'small' | 'medium' | 'large' | number
 export type InputValue = string | number

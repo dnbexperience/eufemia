@@ -17,7 +17,7 @@ import type { AccordionContextValue } from './AccordionContext'
 import AccordionContext from './AccordionContext'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import HeightAnimation from '../height-animation/HeightAnimation'
-import type { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../../shared/types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type AccordionContentProps = Omit<

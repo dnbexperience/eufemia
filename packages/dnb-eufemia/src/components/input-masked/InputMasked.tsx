@@ -27,7 +27,7 @@ import type {
 } from '../Input'
 import type { NumberFormatProps } from '../NumberFormat'
 import type { SkeletonShow } from '../Skeleton'
-import type { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../../shared/types'
 import type { MaskitoOptions } from '@maskito/core'
 
 export type InputMaskedMask = RegExp | Array<RegExp | string> | false

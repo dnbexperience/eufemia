@@ -19,7 +19,12 @@ import {
   combineLabelledBy,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import type { SpacingProps } from '../space/types'
+import type {
+  DynamicElement,
+  InnerSpaceType,
+  SpaceType,
+  SpacingProps,
+} from '../../shared/types'
 import {
   createSkeletonClass,
   skeletonDOMAttributes,
@@ -32,11 +37,9 @@ import {
   createSharedState,
   type SharedStateReturn,
 } from '../../shared/helpers/useSharedState'
-import type { DynamicElement } from '../../shared/types'
 import type { ButtonProps } from '../Button'
 import type { AnchorAllProps } from '../Anchor'
 import type { SectionVariants } from '../Section'
-import type { InnerSpaceType, SpaceType } from '../space/types'
 import type { SkeletonShow } from '../Skeleton'
 
 export type TabsData =
