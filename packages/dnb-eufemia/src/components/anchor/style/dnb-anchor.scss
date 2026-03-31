@@ -21,7 +21,6 @@ button.dnb-anchor {
     --anchor-underline-thickness: 0.0938rem;
     @include anchor-mixins.anchorStyle();
 
-    &.dnb-anchor--contrast, // TODO: could this be deprecated in v11?
     &.dnb-anchor--surface-dark {
       @include anchor-mixins.useAnchorDarkSurfaceStyle();
     }
