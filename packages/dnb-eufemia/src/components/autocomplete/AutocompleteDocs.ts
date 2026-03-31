@@ -295,4 +295,9 @@ export const AutocompleteEvents: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
+  onSubmit: {
+    doc: 'Will be called when the user presses Enter in the input field without selecting an item from the list. Useful for triggering custom actions like navigating to a search results page. Returns `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data).',
+    type: 'function',
+    status: 'optional',
+  },
 }
