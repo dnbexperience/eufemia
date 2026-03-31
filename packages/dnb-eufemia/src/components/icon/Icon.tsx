@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from 'react'
 import clsx from 'clsx'
-import { ErrorHandler } from '../../shared/error-helper'
 import {
+  warn,
   validateDOMAttributes,
   processChildren,
   extendPropsWithContext,
@@ -505,7 +505,7 @@ export function prerenderIcon(
     )[icon]
     return mod && mod.default ? mod.default : mod
   } catch (e) {
-    ErrorHandler(`Icon '${icon}' did not exist!`)
+    warn(`Icon '${icon}' did not exist!`)
     return null
   }
 }
