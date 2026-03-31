@@ -191,17 +191,6 @@
   }
 }
 
-@mixin extendFocusRing(
-  $first-color: null,
-  $second-color: null,
-  $width: 0.0625rem /*1px*/
-) {
-  $second: 0 0 0 calc(var(--focus-ring-width) + #{$width}) $second-color;
-  box-shadow:
-    0 0 0 $width $first-color,
-    $second;
-}
-
 @mixin dummySpacing() {
   // we use "aria-hidden" SPAN to simulate a wider width for each tab
   .dnb-dummy {
@@ -287,36 +276,6 @@
     display: none;
   }
   scrollbar-width: none; /* Firefox */
-}
-
-// Firefox fix
-@mixin isFirefox() {
-  @supports (-moz-appearance: none) {
-    @content;
-  }
-}
-
-// Chrome fix
-@mixin isChrome() {
-  @supports (-webkit-appearance: none) and
-    (not (overflow: -webkit-marquee)) and (not (-moz-appearance: none)) {
-    @content;
-  }
-}
-
-// Safari Mobile fix
-@mixin isSafariMobile() {
-  @supports (-webkit-touch-callout: none) {
-    @content;
-  }
-}
-
-// Safari Desktop fix
-@mixin isSafariDesktop() {
-  @supports (-webkit-appearance: none) and (stroke-color: transparent) and
-    (not (-webkit-touch-callout: none)) {
-    @content;
-  }
 }
 
 $breakpoints: (
