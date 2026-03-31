@@ -190,6 +190,5 @@ export default {
   '--shadow-sharp-y': '1px',
   '--shadow-sharp-blur-radius': '6px',
   '--shadow-sharp-color': 'rgb(0 0 0 / 16%)',
-  '--easing-default': 'cubic-bezier(0.42, 0, 0, 1)',
-  '--internal-color-background-selected-subtle': '#e4eed7'
+  '--easing-default': 'cubic-bezier(0.42, 0, 0, 1)'
 }; // prettier-ignore
