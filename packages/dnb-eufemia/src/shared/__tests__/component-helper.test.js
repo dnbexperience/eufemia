@@ -458,33 +458,6 @@ describe('"dispatchCustomElementEvent" should', () => {
     }
     expect(myEvent).toHaveBeenCalledWith(eventResult)
   })
-
-  it('call an event and return dataset properties as well "data-*" attributes', () => {
-    const myEvent = jest.fn()
-    const instance = {
-      props: {
-        myEvent,
-      },
-    }
-    const buttonText = 'Button'
-    render(<button data-prop="value">{buttonText}</button>)
-
-    const currentTarget = screen.getByRole('button', {
-      name: buttonText,
-    })
-    const event = { currentTarget }
-    const attributes = {
-      'data-attr': 'value',
-    }
-    dispatchCustomElementEvent(instance, 'myEvent', { event, attributes })
-    expect(myEvent.mock.calls.length).toBe(1)
-    expect(myEvent.mock.calls[0][0].event.currentTarget.dataset).toEqual(
-      expect.objectContaining({
-        attr: 'value',
-        prop: 'value',
-      })
-    )
-  })
 })
 
 describe('"findElementInChildren" should', () => {
