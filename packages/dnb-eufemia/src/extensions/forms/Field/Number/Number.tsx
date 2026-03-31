@@ -366,7 +366,6 @@ function NumberComponent(props: FieldNumberProps) {
       }
 
       if (numberValue !== null) {
-        event.persist()
         event.preventDefault()
         handleChange({ numberValue })
       }

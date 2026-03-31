@@ -67,10 +67,6 @@ function DatePickerFooter({
 
   const onCancelHandler = useCallback(
     (args: DatePickerFooterEvent) => {
-      if (args && args.event) {
-        args.event.persist()
-      }
-
       updateDates(submittedDates, (dates) => {
         onCancel?.({ ...args, ...dates })
       })
@@ -80,10 +76,6 @@ function DatePickerFooter({
 
   const onResetHandler = useCallback(
     (args: DatePickerFooterEvent) => {
-      if (args && args.event) {
-        args.event.persist()
-      }
-
       const startDate = previousDateProps.startDate
         ? convertStringToDate(previousDateProps.startDate, {
             dateFormat,

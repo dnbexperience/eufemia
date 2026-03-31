@@ -541,7 +541,6 @@ export default class GlobalStatus extends React.PureComponent<
     event: React.MouseEvent | React.KeyboardEvent,
     item: Record<string, any>
   ) => {
-    event.persist()
     const key = (event as React.KeyboardEvent).key
     if (
       (item.itemId &&
