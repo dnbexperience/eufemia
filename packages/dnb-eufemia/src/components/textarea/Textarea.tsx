@@ -227,7 +227,7 @@ function getResizeModifier() {
 /**
  * The textarea component is an umbrella component for all textareas which share the same style as the classic `text` textarea field.
  */
-function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
+export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
   const context = useContext(Context)
 
   const props = extendPropsWithContext(
