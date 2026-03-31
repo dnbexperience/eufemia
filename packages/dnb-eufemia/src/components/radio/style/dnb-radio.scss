@@ -158,7 +158,7 @@
 
   &__order {
     display: inline-flex;
-    align-items: baseline; // TODO: do we need this anymore?
+    align-items: baseline;
 
     .dnb-radio-group--column & {
       display: flex;
