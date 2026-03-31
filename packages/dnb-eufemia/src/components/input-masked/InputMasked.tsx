@@ -60,7 +60,6 @@ export type InputMaskedEventHandler = (
 export type InputMaskedOverwriteMode = MaskitoOptions['overwriteMode']
 export type InputMaskedProps = Omit<
   React.HTMLProps<HTMLInputElement>,
-  | 'ref'
   | 'placeholder'
   | 'label'
   | 'children'
@@ -165,47 +164,45 @@ export type InputMaskedProps = Omit<
     children?: InputMaskedChildren
   }
 
-const InputMasked = React.forwardRef<HTMLInputElement, InputMaskedProps>(
-  function InputMasked(props, ref) {
-    const context = React.useContext(Context)
+function InputMasked({ ref, ...restProps }: InputMaskedProps) {
+  const context = React.useContext(Context)
 
-    // Remove masks defined in Provider/Context, because it overwrites a custom mask
-    const contextInputMasked = React.useMemo(() => {
-      if (!props?.mask || !context?.InputMasked) {
-        return context?.InputMasked
+  // Remove masks defined in Provider/Context, because it overwrites a custom mask
+  const contextInputMasked = React.useMemo(() => {
+    if (!restProps?.mask || !context?.InputMasked) {
+      return context?.InputMasked
+    }
+
+    const clone = { ...context.InputMasked }
+    for (const key in clone) {
+      if (/^as[_A-Z]|numberMask|currencyMask/.test(key)) {
+        delete clone[key]
       }
+    }
 
-      const clone = { ...context.InputMasked }
-      for (const key in clone) {
-        if (/^as[_A-Z]|numberMask|currencyMask/.test(key)) {
-          delete clone[key]
-        }
-      }
+    return clone
+  }, [context?.InputMasked, restProps?.mask])
 
-      return clone
-    }, [context?.InputMasked, props?.mask])
+  const contextAndProps = React.useMemo(() => {
+    const propsWithRef = {
+      ...restProps,
+      ref,
+      _innerRef: restProps._innerRef ?? ref,
+    }
 
-    const contextAndProps = React.useMemo(() => {
-      const propsWithRef = {
-        ...props,
-        ref,
-        _innerRef: props._innerRef ?? ref,
-      }
-
-      return extendPropsWithContext(
-        propsWithRef,
-        defaultProps,
-        contextInputMasked
-      )
-    }, [contextInputMasked, props, ref])
-
-    return (
-      <InputMaskedContext value={{ props: contextAndProps, context }}>
-        <InputMaskedElement />
-      </InputMaskedContext>
+    return extendPropsWithContext(
+      propsWithRef,
+      defaultProps,
+      contextInputMasked
     )
-  }
-)
+  }, [contextInputMasked, restProps, ref])
+
+  return (
+    <InputMaskedContext value={{ props: contextAndProps, context }}>
+      <InputMaskedElement />
+    </InputMaskedContext>
+  )
+}
 
 const defaultProps = {
   ...inputDefaultProps,
