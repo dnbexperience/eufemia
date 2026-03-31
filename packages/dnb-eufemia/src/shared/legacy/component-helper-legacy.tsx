@@ -45,15 +45,18 @@ export function defineNavigator() {
           (window as Window & { IS_TEST?: boolean }).IS_TEST
         )
       ) {
-        if (navigator.platform.match(new RegExp(PLATFORM_MAC)) !== null) {
+        const platform =
+          (
+            navigator as Navigator & {
+              userAgentData?: { platform?: string }
+            }
+          ).userAgentData?.platform || navigator.platform
+
+        if (platform.match(new RegExp(PLATFORM_MAC)) !== null) {
           document.documentElement.setAttribute('data-os', 'mac')
-        } else if (
-          navigator.platform.match(new RegExp(PLATFORM_WIN)) !== null
-        ) {
+        } else if (platform.match(new RegExp(PLATFORM_WIN)) !== null) {
           document.documentElement.setAttribute('data-os', 'win')
-        } else if (
-          navigator.platform.match(new RegExp(PLATFORM_LINUX)) !== null
-        ) {
+        } else if (platform.match(new RegExp(PLATFORM_LINUX)) !== null) {
           document.documentElement.setAttribute('data-os', 'linux')
         }
       } else {
