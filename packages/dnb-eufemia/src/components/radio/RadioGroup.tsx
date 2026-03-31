@@ -32,7 +32,7 @@ import type {
   FormStatusState,
 } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
-import type { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../../shared/types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type RadioGroupLabelPosition = 'left' | 'right'

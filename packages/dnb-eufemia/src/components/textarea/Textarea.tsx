@@ -40,7 +40,7 @@ import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import type { FormStatusBaseProps } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
-import type { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../../shared/types'
 import type { TextCounterProps } from '../../fragments/TextCounter'
 
 export type TextareaSuffix = string | React.ReactNode

@@ -26,14 +26,14 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 import Tooltip, { injectTooltipSemantic } from '../tooltip/Tooltip'
+import type { NumberFormatCurrencyPosition as NumberFormatCurrencyPositionBase } from './NumberUtils'
 import {
   format,
   runIOSSelectionFix,
-  NumberFormatCurrencyPosition as NumberFormatCurrencyPositionBase,
 } from './NumberUtils'
-import { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../../shared/types'
 import type { NumberFormatOptions } from './NumberUtils'
-import { SkeletonShow } from '../Skeleton'
+import type { SkeletonShow } from '../Skeleton'
 
 // Export the Hooks
 export { default as useNumberFormat } from './useNumberFormat'

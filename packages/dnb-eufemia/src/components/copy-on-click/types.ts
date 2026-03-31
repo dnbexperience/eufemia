@@ -1,4 +1,4 @@
-import type { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../../shared/types'
 
 export type CopyOnClickProps = {
   /**

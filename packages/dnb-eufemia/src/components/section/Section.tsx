@@ -9,10 +9,10 @@ import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import type {
   DynamicElement,
+  InnerSpaceType,
   ResponsiveProp,
   SpacingProps,
 } from '../../shared/types'
-import type { InnerSpaceType } from '../space/types'
 import Space from '../space/Space'
 import { getColor } from '../../shared/helpers'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'

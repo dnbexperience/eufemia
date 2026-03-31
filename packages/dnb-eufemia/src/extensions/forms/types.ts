@@ -1,5 +1,5 @@
 import type { AriaAttributes } from 'react'
-import type { SpacingProps } from '../../components/space/types'
+import type { SpacingProps } from '../../shared/types'
 import type {
   ContextState,
   DataPathHandlerParameters,
@@ -699,7 +699,7 @@ export type OnSubmit<Data = JsonObject> = (
     filterData,
     resetForm,
     clearData,
-  }: OnSubmitParams
+  }: OnSubmitParams<Data>
 ) => OnSubmitReturn
 export type OnSubmitRequestReturn = OnSubmitReturn
 export type OnSubmitRequest = ({
