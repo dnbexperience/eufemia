@@ -33,4 +33,17 @@ The `onSubmit` event is called when the user presses **Enter** in the input fiel
 />
 ```
 
+### The `onItemMouseEnter` event
+
+The `onItemMouseEnter` event is called when the user hovers over a dropdown item. This is useful for pre-fetching data or triggering actions before the user commits to a selection.
+
+```tsx
+<Autocomplete
+  data={myData}
+  onItemMouseEnter={({ item, data, event }) => {
+    prefetchData(data)
+  }}
+/>
+```
+
 <AutocompleteMethods />

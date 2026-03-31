@@ -300,4 +300,9 @@ export const AutocompleteEvents: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
+  onItemMouseEnter: {
+    doc: 'Will be called when the mouse enters a dropdown item. Useful for pre-fetching data on hover. Returns `{ item, data, event }` where `item` is the item index and `data` is the item data.',
+    type: 'function',
+    status: 'optional',
+  },
 }
