@@ -34,7 +34,7 @@ import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 import type { FormStatusBaseProps } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
-import type { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../../shared/types'
 
 export type RadioLabel = string | React.ReactNode
 export type RadioLabelPosition = 'left' | 'right'

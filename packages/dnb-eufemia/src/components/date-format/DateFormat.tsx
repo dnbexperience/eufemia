@@ -19,7 +19,7 @@ import {
   getDateTimeSeparator,
 } from './DateFormatUtils'
 import { format } from 'date-fns'
-import type { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../../shared/types'
 import clsx from 'clsx'
 import { createSpacingClasses } from '../space/SpacingUtils'
 import type { SkeletonShow } from '../Skeleton'

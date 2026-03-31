@@ -30,7 +30,7 @@ import type { FormStatusBaseProps } from '../form-status/FormStatus'
 import FormStatus from '../form-status/FormStatus'
 import useId from '../../shared/helpers/useId'
 import type { SkeletonShow } from '../Skeleton'
-import type { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../../shared/types'
 
 export type SwitchLabelPosition = 'left' | 'right'
 export type SwitchSize = 'default' | 'medium' | 'large'

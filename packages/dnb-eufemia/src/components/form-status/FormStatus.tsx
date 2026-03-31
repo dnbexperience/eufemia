@@ -29,7 +29,7 @@ import sbanken from '../../style/themes/sbanken/properties'
 import type { GlobalStatusConfigObject } from '../GlobalStatus'
 import type { IconIcon, IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'
-import type { SpacingProps, SpaceTypeAll } from '../space/types'
+import type { SpacingProps, SpaceTypeAll } from '../../shared/types'
 
 const properties = { ui, sbanken }
 

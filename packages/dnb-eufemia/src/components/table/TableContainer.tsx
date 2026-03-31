@@ -5,7 +5,7 @@ import TableScrollView from './TableScrollView'
 import { createSpacingClasses } from '../space/SpacingUtils'
 
 import type { TableProps } from './Table'
-import type { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../../shared/types'
 import { validateDOMAttributes } from '../../shared/component-helper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 

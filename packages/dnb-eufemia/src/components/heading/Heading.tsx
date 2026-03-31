@@ -27,10 +27,9 @@ import {
 } from './HeadingHelpers'
 import type { HeadingCounter, HeadingDebugCounter } from './HeadingCounter'
 import { initCounter } from './HeadingCounter'
-import type { SpacingProps } from '../space/types'
+import type { DynamicElement, SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import { useTheme, Context } from '../../shared'
-import type { DynamicElement } from '../../shared/types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type HeadingLevelSizeResolutions = {

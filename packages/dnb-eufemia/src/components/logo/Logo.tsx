@@ -14,7 +14,7 @@ import { DnbDefault } from './LogoSvg'
 import type { UseThemeReturn } from '../../shared/useTheme'
 
 import type { IconColor } from '../Icon'
-import type { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../../shared/types'
 import type { LogoSvgComponent } from './LogoSvg'
 
 // Re-export SVG components and alt texts for convenience

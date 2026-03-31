@@ -17,7 +17,7 @@ import Space from '../space/Space'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
-import type { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../../shared/types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type SkeletonShow = boolean
