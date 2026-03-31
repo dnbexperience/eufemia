@@ -77,7 +77,6 @@ export type TextareaKeyDownEvent = TextareaEvent<
 
 export type TextareaProps = Omit<
   React.HTMLProps<HTMLElement>,
-  | 'ref'
   | 'children'
   | 'label'
   | 'size'
@@ -228,10 +227,7 @@ function getResizeModifier() {
 /**
  * The textarea component is an umbrella component for all textareas which share the same style as the classic `text` textarea field.
  */
-function TextareaComponent(
-  ownProps: TextareaProps,
-  ref: React.Ref<HTMLTextAreaElement>
-) {
+export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
   const context = useContext(Context)
 
   const props = extendPropsWithContext(
@@ -675,13 +671,7 @@ function TextareaComponent(
 
 TextareaComponent.displayName = 'Textarea'
 
-const MemoizedTextarea = React.memo(
-  React.forwardRef(TextareaComponent)
-) as React.MemoExoticComponent<
-  React.ForwardRefExoticComponent<
-    TextareaProps & React.RefAttributes<HTMLTextAreaElement>
-  >
->
+const MemoizedTextarea = React.memo(TextareaComponent)
 
 withComponentMarkers(MemoizedTextarea, {
   _formElement: true,
