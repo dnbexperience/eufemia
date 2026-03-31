@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
-import type { DynamicElement } from '../../shared/types'
+import type { DynamicElement, InnerSpaceType } from '../../shared/types'
 import {
   validateDOMAttributes,
   combineLabelledBy,
@@ -8,7 +8,6 @@ import {
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { createSpacingProperties } from '../space/SpacingUtils'
 import Section from '../section/Section'
-import type { InnerSpaceType } from '../space/types'
 import {
   createSharedState,
   type SharedStateReturn,

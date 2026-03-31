@@ -24,7 +24,7 @@ import type { ButtonIconPosition, ButtonSize } from '../Button'
 import type { FormStatusBaseProps } from '../FormStatus'
 import type { IconIcon, IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'
-import type { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../../shared/types'
 import {
   warn,
   extendPropsWithContext,

@@ -26,7 +26,7 @@ import {
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import useId from '../../shared/helpers/useId'
-import type { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../../shared/types'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 import type { FormStatusBaseProps } from '../FormStatus'

@@ -5,7 +5,7 @@
 
 import type { HTMLProps } from 'react'
 import React, { useContext, useState } from 'react'
-import type { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../../shared/types'
 
 import {
   validateDOMAttributes,

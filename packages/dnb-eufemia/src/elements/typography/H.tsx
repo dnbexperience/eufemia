@@ -6,7 +6,7 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, { useContext } from 'react'
 import clsx from 'clsx'
-import type { SpacingProps } from '../../components/space/types'
+import type { SpacingProps } from '../../shared/types'
 import type { ElementProps } from '../Element'
 import E from '../Element'
 import type { HeadingSize } from '../../components/heading/Heading'

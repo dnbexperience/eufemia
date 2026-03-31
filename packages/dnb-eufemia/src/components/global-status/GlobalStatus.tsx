@@ -39,7 +39,7 @@ import Button from '../button/Button'
 import type { FormStatusText } from '../FormStatus'
 import type { IconIcon, IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'
-import type { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../../shared/types'
 
 export type GlobalStatusTitle = React.ReactNode | boolean
 export type GlobalStatusText = string | React.ReactNode

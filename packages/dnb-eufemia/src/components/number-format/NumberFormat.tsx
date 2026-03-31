@@ -28,7 +28,7 @@ import {
 import Tooltip, { injectTooltipSemantic } from '../tooltip/Tooltip'
 import type { NumberFormatCurrencyPosition as NumberFormatCurrencyPositionBase } from './NumberUtils'
 import { format, runIOSSelectionFix } from './NumberUtils'
-import type { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../../shared/types'
 
 // TypeScript types
 export type NumberFormatValue = number | string
