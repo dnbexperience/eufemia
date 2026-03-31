@@ -646,10 +646,7 @@ export const FilledViewAndEditContainer = () => {
         const EditItemToolbar = () => {
           return (
             <Iterate.Toolbar>
-              <Flex.Horizontal
-                justify="space-between"
-                style={{ width: '100%' }}
-              >
+              <Flex.Horizontal justify="space-between" stretch>
                 <Flex.Horizontal gap="large">
                   <Iterate.EditContainer.DoneButton />
                   <Iterate.EditContainer.CancelButton />

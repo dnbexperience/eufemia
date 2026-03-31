@@ -595,4 +595,16 @@ describe('Table', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match table in card', async () => {
+    const screenshot = await makeScreenshot({
+      ...defaults,
+      style: {
+        width: '40rem',
+      },
+      url: '/uilib/components/table/demos/',
+      selector: '[data-visual-test="table-in-card"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

@@ -421,7 +421,8 @@ function Selection(props: Props) {
       })
 
       const additionalFieldBlockProps: FieldBlockProps = {
-        asFieldset: React.Children.count(items) > 1,
+        asFieldset:
+          hasRenderPropChildren || React.Children.count(items) > 1,
         fieldsetRole:
           variant === 'radio' || variant === 'radio-list'
             ? 'radiogroup'
@@ -577,8 +578,7 @@ function renderRadioItems({
     label: React.ReactNode
   }) => void
 }) {
-  const optionsCount =
-    React.Children.count(children) + (dataList?.length || 0)
+  const optionsCount = countOptions(children) + (dataList?.length || 0)
 
   const createOption = (props: OptionProps, i: number) => {
     const { value, title, children, error, help, size, ...rest } = props
@@ -627,6 +627,26 @@ function renderRadioItems({
     }),
     ...(mapOptions(children, { createOption }) || []),
   ].filter(Boolean)
+}
+
+export function countOptions(children: React.ReactNode): number {
+  let count = 0
+
+  React.Children.forEach(children, (child) => {
+    if (React.isValidElement(child)) {
+      if (child.type === OptionField) {
+        count++
+      } else if (
+        (child.props as { children?: React.ReactNode }).children
+      ) {
+        count += countOptions(
+          (child.props as { children?: React.ReactNode }).children
+        )
+      }
+    }
+  })
+
+  return count
 }
 
 export function mapOptions(
