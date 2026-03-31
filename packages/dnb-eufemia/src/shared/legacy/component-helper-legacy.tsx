@@ -4,7 +4,7 @@
  * This is a legacy component.
  */
 
-import React from 'react'
+import type React from 'react'
 import {
   warn,
   PLATFORM_MAC,
