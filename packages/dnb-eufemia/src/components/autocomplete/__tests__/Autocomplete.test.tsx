@@ -4523,6 +4523,97 @@ describe('Autocomplete markup', () => {
   })
 })
 
+describe('Autocomplete onItemMouseEnter', () => {
+  it('should call onItemMouseEnter when hovering a dropdown item', () => {
+    const onItemMouseEnter = jest.fn()
+
+    render(
+      <Autocomplete
+        onItemMouseEnter={onItemMouseEnter}
+        data={mockData}
+        {...mockProps}
+      />
+    )
+
+    const input = document.querySelector('.dnb-input__input')
+    fireEvent.focus(input)
+    fireEvent.keyDown(input, { key: 'Enter' })
+
+    const options = document.querySelectorAll('li.dnb-drawer-list__option')
+    expect(options.length).toBeGreaterThan(0)
+
+    fireEvent.mouseEnter(options[0])
+
+    expect(onItemMouseEnter).toHaveBeenCalledTimes(1)
+    expect(onItemMouseEnter).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        item: 0,
+        data: 'AA c',
+        event: expect.objectContaining({ type: 'mouseenter' }),
+      })
+    )
+  })
+
+  it('should return data object for complex items', () => {
+    const onItemMouseEnter = jest.fn()
+
+    render(
+      <Autocomplete
+        onItemMouseEnter={onItemMouseEnter}
+        data={mockData}
+        {...mockProps}
+      />
+    )
+
+    const input = document.querySelector('.dnb-input__input')
+    fireEvent.focus(input)
+    fireEvent.keyDown(input, { key: 'Enter' })
+
+    const options = document.querySelectorAll('li.dnb-drawer-list__option')
+
+    fireEvent.mouseEnter(options[2])
+
+    expect(onItemMouseEnter).toHaveBeenCalledTimes(1)
+    expect(onItemMouseEnter).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        item: 2,
+        data: expect.objectContaining({ content: ['CC', 'cc'] }),
+      })
+    )
+  })
+
+  it('should call onItemMouseEnter for each hovered item', () => {
+    const onItemMouseEnter = jest.fn()
+
+    render(
+      <Autocomplete
+        onItemMouseEnter={onItemMouseEnter}
+        data={mockData}
+        {...mockProps}
+      />
+    )
+
+    const input = document.querySelector('.dnb-input__input')
+    fireEvent.focus(input)
+    fireEvent.keyDown(input, { key: 'Enter' })
+
+    const options = document.querySelectorAll('li.dnb-drawer-list__option')
+
+    fireEvent.mouseEnter(options[0])
+    fireEvent.mouseEnter(options[1])
+
+    expect(onItemMouseEnter).toHaveBeenCalledTimes(2)
+    expect(onItemMouseEnter).toHaveBeenNthCalledWith(
+      1,
+      expect.objectContaining({ item: 0, data: 'AA c' })
+    )
+    expect(onItemMouseEnter).toHaveBeenNthCalledWith(
+      2,
+      expect.objectContaining({ item: 1, data: 'BB cc zethx' })
+    )
+  })
+})
+
 describe('Autocomplete scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
