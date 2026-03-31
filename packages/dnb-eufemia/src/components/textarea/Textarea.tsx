@@ -671,9 +671,7 @@ function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
 
 TextareaComponent.displayName = 'Textarea'
 
-const MemoizedTextarea = React.memo(
-  TextareaComponent
-) as React.MemoExoticComponent<React.FC<TextareaProps>>
+const MemoizedTextarea = React.memo(TextareaComponent)
 
 withComponentMarkers(MemoizedTextarea, {
   _formElement: true,
