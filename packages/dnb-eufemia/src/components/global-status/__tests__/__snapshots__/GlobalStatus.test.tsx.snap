@@ -1173,10 +1173,6 @@ button.dnb-button::-moz-focus-inner {
     var(--token-color-background-neutral)
   );
 }
-.dnb-section--white {
-  --text-color: var(--token-color-text-neutral);
-  --background-color: var(--token-color-background-neutral);
-}
 .dnb-section--error {
   --text-color: var(--token-color-text-neutral);
   --background-color: var(--token-color-background-error-subtle);

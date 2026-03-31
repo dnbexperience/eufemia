@@ -199,7 +199,6 @@
     --background-color: transparent;
   }
 
-  // Could be merged with white, or have white be replaced with default 🤷
   &--default {
     --text-color: var(
       --text-color--value,
@@ -209,11 +208,6 @@
       --background-color--value,
       var(--token-color-background-neutral)
     );
-  }
-
-  &--white {
-    --text-color: var(--token-color-text-neutral);
-    --background-color: var(--token-color-background-neutral);
   }
 
   // GlobalStatus states and Section variant colors
