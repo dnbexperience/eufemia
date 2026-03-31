@@ -1,8 +1,8 @@
 ---
 title: 'Table'
 description: 'Enhanced HTML Table element.'
-version: 10.102.0
-generatedAt: 2026-03-26T19:56:33.196Z
+version: 10.103.0
+generatedAt: 2026-03-31T09:00:23.584Z
 checksum: 7c03974d3eba352f7a76c58f3bf75d2ad3a8ed03a1fa6e73f0e015234353ef3b
 ---
 
@@ -1285,6 +1285,106 @@ const TablePagination = () => {
 render(<TablePagination />)
 ```
 
+## Table in Card
+
+Using the **subtle** `variant` on the `<Th>`.
+The first `<Tr>` has the property `variant="even"` which will ensure a border below it to visually separate it from the body rows.
+
+```tsx
+const MyTable = () => {
+  const rows = [
+    {
+      name: 'Acme Corporation',
+      price: '142.50',
+      change: 3.24,
+    },
+    {
+      name: 'Globex Industries',
+      price: '87.30',
+      change: -1.08,
+    },
+    {
+      name: 'Initech Solutions',
+      price: '215.00',
+      change: 0.75,
+    },
+    {
+      name: 'Umbrella Corp',
+      price: '63.80',
+      change: -5.12,
+    },
+  ]
+  return (
+    <Table.ScrollView>
+      <Table outline border>
+        <thead>
+          <Tr noWrap variant="even">
+            <Th variant="subtle">Stock</Th>
+            <Th variant="subtle" align="right">
+              Price
+            </Th>
+            <Th variant="subtle" align="right">
+              Change
+            </Th>
+            <Th aria-label="Actions" />
+          </Tr>
+        </thead>
+
+        <tbody>
+          {rows.map((row) => (
+            <Tr key={row.name}>
+              <Td>{row.name}</Td>
+              <Td align="right">{row.price}</Td>
+              <Td align="right">
+                <Stat.Trend>
+                  <Stat.Percent
+                    value={row.change}
+                    signDisplay="always"
+                    decimals={2}
+                  />
+                </Stat.Trend>
+              </Td>
+              <Td align="right">
+                <Button
+                  icon={trashIcon}
+                  tooltip="Remove from list"
+                  variant="tertiary"
+                  bounding
+                />
+              </Td>
+            </Tr>
+          ))}
+        </tbody>
+      </Table>
+    </Table.ScrollView>
+  )
+}
+render(
+  <Card responsive={false} innerSpace={0} aria-labelledby="my-header">
+    <Flex.Horizontal
+      stretch
+      gap={false}
+      justify="space-between"
+      align="center"
+      innerSpace={{
+        top: 'medium',
+        inline: 'small',
+      }}
+    >
+      <Flex.Horizontal gap="x-small">
+        <Icon icon={eyeIcon} />
+        <Heading id="my-header" size="medium" top={false} bottom={false}>
+          Watchlist
+        </Heading>
+      </Flex.Horizontal>
+
+      <Dropdown data={['My list', 'All']} more_menu />
+    </Flex.Horizontal>
+    <MyTable />
+  </Card>
+)
+```
+
 ### Responsive table in a Card
 
 **NB:** For tables with lots of content, it's best to avoid repeating the header for each row. This can be overwhelming for users who rely on screen readers.
@@ -1877,6 +1977,12 @@ render(
 ```json
 {
   "props": {
+    "variant": {
+      "doc": "Defines the visual style of the table header. Use `subtle` for a lighter appearance with reduced font-weight, smaller font-size, and muted text color.",
+      "type": ["'emphasis'", "'subtle'"],
+      "defaultValue": "'emphasis'",
+      "status": "optional"
+    },
     "sortable": {
       "doc": "Defines the table header as sortable if set to `true` (ascending).",
       "type": "boolean",

@@ -1,8 +1,8 @@
 ---
 title: 'Value.Name'
 description: '`Value.Name` is a wrapper component for displaying string values, with user experience tailored for personal, like first and last name and company names.'
-version: 10.102.0
-generatedAt: 2026-03-26T19:56:33.817Z
+version: 10.103.0
+generatedAt: 2026-03-31T09:00:24.208Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.Array'
 description: '`Iterate.Array` works in many ways similar to field-components. It has a value-property that can receive an array or you can give it a path if you want it to retrieve an array from a surrounding DataContext. All children components of Iterate.Array are rendered once per item the array-value consists of.'
-version: 10.102.0
-generatedAt: 2026-03-26T19:56:33.677Z
+version: 10.103.0
+generatedAt: 2026-03-31T09:00:24.077Z
 checksum: 6f082af7a54a82076a4489c446ffb8acad486b7c8dc38119d5665dde0ae043a4
 ---
 
@@ -428,12 +428,7 @@ const MyEditItemForm = () => {
 const EditItemToolbar = () => {
   return (
     <Iterate.Toolbar>
-      <Flex.Horizontal
-        justify="space-between"
-        style={{
-          width: '100%',
-        }}
-      >
+      <Flex.Horizontal justify="space-between" stretch>
         <Flex.Horizontal gap="large">
           <Iterate.EditContainer.DoneButton />
           <Iterate.EditContainer.CancelButton />
