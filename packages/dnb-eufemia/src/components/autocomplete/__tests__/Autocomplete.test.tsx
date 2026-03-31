@@ -3932,18 +3932,15 @@ describe('Autocomplete component', () => {
       const input = document.querySelector('.dnb-input__input')
 
       fireEvent.focus(input)
-      keyDownOnInput('Enter')
+      fireEvent.keyDown(input, { key: 'Enter' })
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
         expect.objectContaining({
           value: '',
+          event: expect.objectContaining({ type: 'keydown' }),
         })
       )
-
-      const callArgs = onSubmit.mock.calls[0][0]
-      expect(callArgs.event).toBeDefined()
-      expect(callArgs.event.type).toBe('keydown')
     })
 
     it('should call onSubmit with the current input value', () => {
@@ -3957,7 +3954,7 @@ describe('Autocomplete component', () => {
 
       fireEvent.focus(input)
       fireEvent.change(input, { target: { value: 'search text' } })
-      keyDownOnInput('Enter')
+      fireEvent.keyDown(input, { key: 'Enter' })
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
@@ -3977,8 +3974,8 @@ describe('Autocomplete component', () => {
       const input = document.querySelector('.dnb-input__input')
 
       fireEvent.focus(input)
-      keyDownOnInput('Enter') // open dropdown
-      keyDownOnInput('ArrowDown') // activate first item
+      fireEvent.keyDown(input, { key: 'Enter' }) // open dropdown
+      fireEvent.keyDown(input, { key: 'ArrowDown' }) // activate first item
 
       onSubmit.mockClear()
 
@@ -3987,7 +3984,7 @@ describe('Autocomplete component', () => {
         { key: 'Enter' }
       )
 
-      expect(onSubmit).toHaveBeenCalledTimes(0)
+      expect(onSubmit).not.toHaveBeenCalled()
     })
 
     it('should include event methods in the onSubmit callback', () => {
@@ -4000,16 +3997,18 @@ describe('Autocomplete component', () => {
       const input = document.querySelector('.dnb-input__input')
 
       fireEvent.focus(input)
-      keyDownOnInput('Enter')
+      fireEvent.keyDown(input, { key: 'Enter' })
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
-
-      const callArgs = onSubmit.mock.calls[0][0]
-      expect(callArgs).toHaveProperty('dataList')
-      expect(callArgs).toHaveProperty('updateData')
-      expect(callArgs).toHaveProperty('focusInput')
-      expect(callArgs).toHaveProperty('setVisible')
-      expect(callArgs).toHaveProperty('setHidden')
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          dataList: expect.anything(),
+          updateData: expect.any(Function),
+          focusInput: expect.any(Function),
+          setVisible: expect.any(Function),
+          setHidden: expect.any(Function),
+        })
+      )
     })
   })
 
