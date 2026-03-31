@@ -535,9 +535,8 @@ const DropdownInstance = React.memo(function DropdownInstance({
       align = 'left'
     }
   }
-  // TODO: This is an temporary fix for now.
-  // We believe this can be removed and replaced by placing the triangle based on,
-  // calculating the position based on the dropdowns width.
+  // Aligns the dropdown to the right when using independentWidth,
+  // to ensure the triangle is positioned correctly.
   if (independentWidth && iconPosition !== 'left' && !align) {
     align = 'right'
   }
