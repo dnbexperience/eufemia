@@ -78,18 +78,18 @@ export function AutoSize({
     const countChars = string.trim().length
 
     if (countChars > 0) {
-      return React.createElement(
-        Comp,
-        {
-          className: clsx(className, 'dnb-skeleton', 'dnb-skeleton--font'),
-          'data-skeleton-chars': String(countChars),
-          style: {
+      return (
+        <Comp
+          className={clsx(className, 'dnb-skeleton', 'dnb-skeleton--font')}
+          data-skeleton-chars={String(countChars)}
+          style={{
             ...(style || {}),
             '--skeleton-chars': `${countChars}ch`,
-          },
-          ...props,
-        },
-        children
+          }}
+          {...props}
+        >
+          {children}
+        </Comp>
       )
     }
   }

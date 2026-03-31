@@ -155,10 +155,12 @@ export function listFormat(
         if (v.startsWith('id-')) {
           const element = buffer.get(v)
 
-          return element.key
-            ? element
-            : // Support lists without a key
-              React.createElement(React.Fragment, { key: i }, element)
+          return element.key ? (
+            element
+          ) : (
+            // Support lists without a key
+            <React.Fragment key={i}>{element}</React.Fragment>
+          )
         }
 
         return v
