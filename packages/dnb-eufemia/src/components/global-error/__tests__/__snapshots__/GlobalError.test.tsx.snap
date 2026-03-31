@@ -1005,6 +1005,7 @@ button.dnb-button::-moz-focus-inner {
   align-items: center;
   width: 100%;
   height: 100%;
+  color: var(--token-color-text-neutral);
 }
 .dnb-global-error--center {
   display: grid;
