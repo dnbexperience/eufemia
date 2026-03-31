@@ -362,25 +362,27 @@ button .dnb-form-status__text {
 .dnb-button--primary .dnb-button__icon, .dnb-button--secondary .dnb-button__icon, .dnb-button--tertiary .dnb-button__icon {
   color: var(--button-color-icon, var(--button-color-icon--default));
 }
-html:not([data-whatintent=touch]) .dnb-button--primary:hover[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:hover[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:hover[disabled] {
+@media (hover: hover) {
+  .dnb-button--primary:hover[disabled], .dnb-button--secondary:hover[disabled], .dnb-button--tertiary:hover[disabled] {
+    cursor: not-allowed;
+  }
+  .dnb-button--primary:hover:not([disabled]), .dnb-button--secondary:hover:not([disabled]), .dnb-button--tertiary:hover:not([disabled]) {
+    --button-color-bg: var(--button-color-bg--hover);
+    --button-color-border: var(--button-color-border--hover);
+    --button-color-icon: var(--button-color-icon--hover);
+    --button-color-text: var(--button-color-text--hover);
+    --button-color-underline: var(--button-color-underline--hover);
+    --button-border-inset: var(--button-border-inset--hover);
+    --button-border-width: var(--button-border-width--hover);
+    --button-input-separator-color: var(
+      --button-input-separator-color--hover
+    );
+  }
+}
+.dnb-button--primary:active[disabled], .dnb-button--secondary:active[disabled], .dnb-button--tertiary:active[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-button--primary:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]) {
-  --button-color-bg: var(--button-color-bg--hover);
-  --button-color-border: var(--button-color-border--hover);
-  --button-color-icon: var(--button-color-icon--hover);
-  --button-color-text: var(--button-color-text--hover);
-  --button-color-underline: var(--button-color-underline--hover);
-  --button-border-inset: var(--button-border-inset--hover);
-  --button-border-width: var(--button-border-width--hover);
-  --button-input-separator-color: var(
-    --button-input-separator-color--hover
-  );
-}
-.dnb-button--primary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--primary:active[disabled], .dnb-button--secondary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:active[disabled], .dnb-button--tertiary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:active[disabled] {
-  cursor: not-allowed;
-}
-.dnb-button--primary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--primary:active:not([disabled]), .dnb-button--secondary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:active:not([disabled]), .dnb-button--tertiary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) {
+.dnb-button--primary:active:not([disabled]), .dnb-button--secondary:active:not([disabled]), .dnb-button--tertiary:active:not([disabled]) {
   --button-color-bg: var(--button-color-bg--active);
   --button-color-border: var(--button-color-border--active);
   --button-color-icon: var(--button-color-icon--active);
@@ -392,10 +394,10 @@ html:not([data-whatintent=touch]) .dnb-button--primary:hover:not([disabled]), ht
     --button-input-separator-color--active
   );
 }
-html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible[disabled], html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible[disabled], html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
+.dnb-button--primary:focus-visible[disabled], .dnb-button--secondary:focus-visible[disabled], .dnb-button--tertiary:focus-visible[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+.dnb-button--primary:focus-visible:not([disabled]), .dnb-button--secondary:focus-visible:not([disabled]), .dnb-button--tertiary:focus-visible:not([disabled]) {
   --button-color-bg: var(--token-color-background-action-focus-subtle);
   --button-color-border: var(--token-color-stroke-action-focus);
   --button-color-icon: var(--token-color-icon-action-focus);
@@ -789,10 +791,10 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   width: var(--input-border-width);
   background-color: var(--button-input-separator-color, var(--button-input-separator-color--default));
 }
-.dnb-button--icon-only.dnb-button--input-button:active[disabled], html:not([data-whatintent=touch]) .dnb-button--icon-only.dnb-button--input-button:active[disabled] {
+.dnb-button--icon-only.dnb-button--input-button:active[disabled] {
   cursor: not-allowed;
 }
-.dnb-button--icon-only.dnb-button--input-button:active:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-button--icon-only.dnb-button--input-button:active:not([disabled])::after {
+.dnb-button--icon-only.dnb-button--input-button:active:not([disabled])::after {
   top: var(--input-border-width);
   bottom: var(--input-border-width);
 }

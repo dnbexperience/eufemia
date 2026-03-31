@@ -56,15 +56,15 @@
     background-color: var(--skip-link-background);
   }
 
-  &:focus:not(:focus-visible)::before {
-    @include utilities.focusRing('always');
-  }
-
   &:hover::before {
     background-color: var(--skip-link-background--hover);
   }
   &:active::before {
     background-color: var(--skip-link-background--active);
+  }
+
+  &:focus:not(:focus-visible)::before {
+    @include utilities.focusRing('always');
   }
 
   // focus
