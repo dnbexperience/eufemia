@@ -57,9 +57,7 @@
 }
 
 @mixin focus() {
-  &:focus,
-  // html:not([data-whatintent='touch']) &:focus does nothing except increase specificity. We should remove it and fix the use cases.
-  html:not([data-whatintent='touch']) &:focus {
+  &:focus {
     &[disabled] {
       cursor: not-allowed;
     }
