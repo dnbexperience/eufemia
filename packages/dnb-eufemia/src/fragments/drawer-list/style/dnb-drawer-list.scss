@@ -76,7 +76,10 @@
 
   &__portal__style {
     position: absolute;
-    transition: all 300ms var(--easing-default);
+    transition:
+      top 300ms var(--easing-default),
+      left 300ms var(--easing-default),
+      width 300ms var(--easing-default);
 
     html[data-visual-test] & {
       transition: none !important;
