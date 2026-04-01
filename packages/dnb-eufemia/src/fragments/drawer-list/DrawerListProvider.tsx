@@ -1397,12 +1397,6 @@ export default class DrawerListProvider extends React.PureComponent<
       closeOnSelection = false,
     } = {}
   ) => {
-    // because of our delay on dispatching the event
-    // make a copy of it, so we don't break the synthetic event
-    if (event && typeof event.persist === 'function') {
-      event.persist()
-    }
-
     // if no value is set on start and we confirm, we get -1
     if (itemToSelect === -1) {
       itemToSelect = null

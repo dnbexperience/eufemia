@@ -170,7 +170,6 @@ class ToggleButton extends React.PureComponent<
     if (this.props.readOnly) {
       return event.preventDefault()
     }
-    event.persist()
 
     // only select a value once
     if (

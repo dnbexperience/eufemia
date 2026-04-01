@@ -715,9 +715,6 @@ function CurrencySelector({
       title={strings.currencyBlankLabel}
       onChange={({ data: { selectedValue }, event }) => {
         console.log('event', event)
-        if (event && typeof event.persist === 'function') {
-          event.persist()
-        }
         onChange(selectedValue)
       }}
       data={currencies.map((currency) => ({

@@ -427,10 +427,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
         return // stop here
       }
 
-      if (args && args.event && args.event.persist) {
-        args.event.persist()
-      }
-
       setOpen(false)
 
       hideTimeout.current = setTimeout(
