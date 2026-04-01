@@ -189,9 +189,6 @@ function Switch(props: SwitchProps) {
       callOnChange({ checked: updatedChecked, event })
 
       if (onChangeEnd) {
-        if (event && event.persist) {
-          event.persist()
-        }
         setTimeout(
           () => onChangeEnd({ checked: updatedChecked, event }),
           500

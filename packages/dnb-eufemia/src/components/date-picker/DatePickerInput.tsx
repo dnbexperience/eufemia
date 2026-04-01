@@ -556,8 +556,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       mode: 'start' | 'end',
       type: 'Day' | 'Month' | 'Year'
     ) => {
-      event.persist() // since we have later a state update and afterwards the callback
-
       const value = event.target.value
 
       dateRefs.current[`${mode}${type}`] = value

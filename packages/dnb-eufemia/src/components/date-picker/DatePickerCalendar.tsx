@@ -326,7 +326,6 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         return
       }
       event.preventDefault()
-      event.persist() // since we use the event after updateDates
 
       const currentDates = currentDatesRef.current
       const dateType = !isRange || nr === 0 ? 'start' : 'end'
@@ -721,8 +720,6 @@ function onSelectRange({
   event,
   setHasClickedCalendarDay,
 }: SelectRangeEvent) {
-  event.persist()
-
   if (!isRange) {
     // set only date
     return onSelect({
