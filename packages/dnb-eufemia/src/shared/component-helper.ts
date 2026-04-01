@@ -192,40 +192,6 @@ export const dispatchCustomElementEvent = (
     ...eventObjectOrig,
   }
 
-  // distribute dataset like "data-*" to both currentTarget and target
-  if (eventObject && eventObject.attributes && eventObject.event) {
-    const currentTarget = eventObject.event.currentTarget
-    if (currentTarget) {
-      try {
-        // 1. create new dataset, and copy if exists
-        const dataset = { ...(currentTarget.dataset || {}) }
-
-        // 2. copy in our attributes if they are of "data-" type
-        const attributes = { ...eventObject.attributes }
-        for (const i in attributes) {
-          if (/^data-/.test(i)) {
-            dataset[String(i).replace(/^data-/, '')] = attributes[i]
-          }
-        }
-
-        // 3. and distribute them to the targets. Use the for method because of immutability
-        for (const i in dataset) {
-          if (eventObject.event.currentTarget.dataset) {
-            eventObject.event.currentTarget.dataset[i] = dataset[i]
-          }
-          if (
-            eventObject.event.target &&
-            eventObject.event.target.dataset
-          ) {
-            eventObject.event.target.dataset[i] = dataset[i]
-          }
-        }
-      } catch (e) {
-        warn('Error on handling dataset:', e)
-      }
-    }
-  }
-
   const props = (src && src.props) || src
 
   if (typeof props[eventName] === 'function') {
