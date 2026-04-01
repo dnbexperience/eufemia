@@ -19,15 +19,28 @@ export let IS_MAC = false
 export let IS_ANDROID = false
 export let IS_LINUX = false
 
+const getPlatform = () => {
+  if (typeof navigator === 'undefined') {
+    return ''
+  }
+  return (
+    (
+      navigator as Navigator & {
+        userAgentData?: { platform?: string }
+      }
+    ).userAgentData?.platform || navigator?.platform
+  )
+}
+
 export const isMac = () =>
   (IS_MAC =
     typeof navigator !== 'undefined' &&
-    new RegExp(PLATFORM_MAC, 'i').test(navigator?.platform))
+    new RegExp(PLATFORM_MAC, 'i').test(getPlatform()))
 
 export const isWin = () =>
   (IS_WIN =
     typeof navigator !== 'undefined' &&
-    new RegExp(PLATFORM_WIN, 'i').test(navigator?.platform))
+    new RegExp(PLATFORM_WIN, 'i').test(getPlatform()))
 
 export const isAndroid = () =>
   (IS_ANDROID =
@@ -37,12 +50,12 @@ export const isAndroid = () =>
 export const isLinux = () =>
   (IS_LINUX =
     typeof navigator !== 'undefined' &&
-    new RegExp(PLATFORM_LINUX, 'i').test(navigator?.platform))
+    new RegExp(PLATFORM_LINUX, 'i').test(getPlatform()))
 
 export const isiOS = () =>
   (IS_IOS =
     typeof navigator !== 'undefined' &&
-    new RegExp(PLATFORM_IOS, 'i').test(navigator?.platform))
+    new RegExp(PLATFORM_IOS, 'i').test(getPlatform()))
 
 export const isSafari = () =>
   (IS_SAFARI =
