@@ -523,14 +523,10 @@ export default class GlobalStatus extends React.PureComponent<
         })
       } else {
         const top = element.offsetTop
-        if (window.scrollTo) {
-          window.scrollTo({
-            top,
-            behavior: 'smooth',
-          })
-        } else {
-          window.scrollTo({ top })
-        }
+        window.scrollTo({
+          top,
+          behavior: 'smooth',
+        })
       }
     } catch (e) {
       warn('GlobalStatus: Could not scroll into view!', e)
