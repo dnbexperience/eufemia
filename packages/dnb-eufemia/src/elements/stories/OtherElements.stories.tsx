@@ -267,7 +267,7 @@ export const ElementsAndSkeleton = () => {
           alt="logo"
         />
         <Hr top bottom />
-        <StyledButton className="dnb-button dnb-button--reset">
+        <StyledButton className="dnb-button dnb-button--unstyled">
           <Span>Text</Span>
           <IconPrimary icon="chevron_right" />
         </StyledButton>
