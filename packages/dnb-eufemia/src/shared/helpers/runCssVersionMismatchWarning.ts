@@ -1,3 +1,5 @@
+import { warn } from '../helpers'
+
 export function runCssVersionMismatchWarning() {
   try {
     if (
@@ -41,7 +43,7 @@ export function runCssVersionMismatchWarning() {
           ]
 
           if (isUnknown) {
-            console.warn(...consoleArguments)
+            warn(...consoleArguments)
           } else {
             console.error(...consoleArguments)
           }
