@@ -99,7 +99,7 @@ function isValidOrgNumber(digits: string) {
   let sum = 0
 
   for (let i = digits.length - 2; i >= 0; --i) {
-    sum += parseInt(digits.charAt(i)) * checkDigit
+    sum += parseInt(digits.charAt(i), 10) * checkDigit
 
     checkDigit += 1
 

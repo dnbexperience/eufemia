@@ -55,7 +55,7 @@ function NationalIdentityNumber(props: FieldNationalIdentityNumberProps) {
   const fnrValidator = useCallback(
     (value: string) => {
       if (value !== undefined) {
-        if (Number.parseInt(value.substring(0, 1)) > 3) {
+        if (Number.parseInt(value.substring(0, 1), 10) > 3) {
           return Error(errorFnr)
         }
 
@@ -75,7 +75,7 @@ function NationalIdentityNumber(props: FieldNationalIdentityNumberProps) {
   const dnrValidator = useCallback(
     (value: string) => {
       if (value !== undefined) {
-        if (Number.parseInt(value.substring(0, 1)) < 4) {
+        if (Number.parseInt(value.substring(0, 1), 10) < 4) {
           return Error(errorDnr)
         }
 
@@ -176,21 +176,23 @@ export function getBirthDateByFnrOrDnr(value: string) {
   }
 
   const yearPart = value.substring(4, 6)
-  const centuryNumber = Number.parseInt(value.substring(6, 7))
+  const centuryNumber = Number.parseInt(value.substring(6, 7), 10)
 
   const isBornIn20XX = centuryNumber >= 5
   const year = isBornIn20XX ? `20${yearPart}` : `19${yearPart}`
-  const month = Number.parseInt(value.substring(2, 4))
+  const month = Number.parseInt(value.substring(2, 4), 10)
 
   const differentiatorValue =
-    value.length > 0 ? Number.parseInt(value.substring(0, 1)) : undefined
+    value.length > 0
+      ? Number.parseInt(value.substring(0, 1), 10)
+      : undefined
   const isDnr = differentiatorValue && differentiatorValue > 3
 
   const day = isDnr
-    ? Number.parseInt(value.substring(0, 2)) - 40
-    : Number.parseInt(value.substring(0, 2))
+    ? Number.parseInt(value.substring(0, 2), 10) - 40
+    : Number.parseInt(value.substring(0, 2), 10)
 
-  return new Date(Number.parseInt(year), month - 1, day)
+  return new Date(Number.parseInt(year, 10), month - 1, day)
 }
 
 export function createMinimumAgeValidator(age: number) {
