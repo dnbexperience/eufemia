@@ -49,35 +49,24 @@ export const validateDOMAttributes = (
   // if there is an "attributes" prop, prepare these
   // mostly used for prop example usage
   if (props && props.attributes) {
-    let attr = props.attributes
-    if (attr) {
-      if (attr[0] === '{') {
-        try {
-          attr = JSON.parse(attr)
-        } catch (e) {
-          warn('Failed to parse attributes JSON:', e)
-          attr = null
+    const attr = props.attributes
+    if (attr && typeof attr === 'object') {
+      Object.entries(attr).forEach(([key, value]) => {
+        // Prevent prototype pollution
+        if (
+          key === '__proto__' ||
+          key === 'constructor' ||
+          key === 'prototype'
+        ) {
+          return
         }
-      }
-      if (attr && typeof attr === 'object') {
-        Object.entries(attr).forEach(([key, value]) => {
-          // Prevent prototype pollution
-          if (
-            key === '__proto__' ||
-            key === 'constructor' ||
-            key === 'prototype'
-          ) {
-            return
-          }
-          Object.assign(params, { [key]: value })
-        })
-      }
-      delete params.attributes
+        Object.assign(params, { [key]: value })
+      })
     }
+    delete params.attributes
   }
 
-  // remove disabled, in case it is false (this is for web components support)
-  if (params.disabled === null || params.disabled === 'false') {
+  if (params.disabled === null) {
     delete params.disabled
   }
   if (typeof params.space !== 'undefined') {
@@ -105,20 +94,8 @@ export const validateDOMAttributes = (
     delete params.labelDirection
   }
 
-  // in case disabled is a string, it's enabled, send it in as a true (this is for web components support)
-  else if (params.disabled === 'true') {
-    params.disabled = true
-  }
   if (params.disabled === true) {
     params['aria-disabled'] = true
-  }
-
-  if (props && props.tabindex) {
-    let tabIndex = props.tabindex
-    if (tabIndex === 'off') {
-      tabIndex = '-1'
-    }
-    params['tabIndex'] = tabIndex
   }
 
   // make sure we don't return a render prop as a DOM attribute

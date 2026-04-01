@@ -246,19 +246,19 @@ describe('"validateDOMAttributes" should', () => {
     expect(params).toEqual(res)
   })
 
-  it('has equal object after sending a json object as an prop.attributes', () => {
+  it('has equal object after sending an object as prop.attributes', () => {
     const attr = { foo: 'bar' }
-    const props = { attributes: JSON.stringify(attr) }
+    const props = { attributes: attr }
     const params = {}
     const res = validateDOMAttributes(props, params)
     expect(res).toEqual(attr)
   })
 
-  it('"disabled" property should be removed once its value is false', () => {
+  it('"disabled" property should be removed once its value is null', () => {
     const props = {}
     const res1 = validateDOMAttributes(
       props,
-      Object.assign({}, { disabled: 'false' })
+      Object.assign({}, { disabled: null })
     )
     expect(res1).not.toHaveProperty('disabled')
     const res2 = validateDOMAttributes(
@@ -313,12 +313,12 @@ describe('"validateDOMAttributes" should', () => {
 
   it('should prevent prototype pollution via attributes', () => {
     const props = {
-      attributes: JSON.stringify({
+      attributes: {
         __proto__: { polluted: 'value' },
         constructor: { polluted: 'value' },
         prototype: { polluted: 'value' },
         safeKey: 'safeValue',
-      }),
+      },
     }
     const params = {}
     const res = validateDOMAttributes(props, params)
