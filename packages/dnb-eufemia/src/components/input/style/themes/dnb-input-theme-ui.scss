@@ -3,77 +3,30 @@
 *
 */
 
-.dnb-input__border--tokens {
-  // Border
-  --input-border-color: var(--color-sea-green);
-  --input-border-color--hover: var(--color-emerald-green);
-  --input-border-color--active: var(--color-emerald-green);
-  --input-border-color--focus: var(--color-emerald-green);
-  --input-border-color--disabled: var(--color-black-55);
-  --input-border-color__error: var(--color-fire-red);
-  --input-border-color__error--focus: var(--color-fire-red);
-  --input-border-width: 0.0625rem;
-  --input-border-width--hover: 0.125rem;
-  --input-border-width--active: 0.125rem;
-  --input-border-width--focus: 0.125rem;
-  --input-border-width--disabled: 0.0625rem;
-  --input-border-width__error: 0.0625rem;
-  --input-border-width__error--hover: 0.125rem;
-  --input-border-width__error--active: 0.125rem;
-  --input-border-inset: inset;
-  --input-border-inset--hover: ;
-  --input-border-inset--active: ;
-  --input-border-inset--focus: ;
-  --input-border-inset--disabled: inset;
-  --input-border-radius: 0.25rem;
-  --input-border-radius--active: 0.25rem;
-  --input-border-radius--focus: 0.25rem;
-}
-
 .dnb-input {
-  color: var(--color-black);
-
   &__inner {
     color: inherit;
   }
 
   &__shell {
     color: inherit;
-    background-color: var(--input-background-color);
-    border: none;
-  }
-
-  // With statusState = "error"
-  &__status--error#{&} &__shell:not(:focus-within) {
-    color: var(--color-fire-red);
-  }
-
-  // With disabled state
-  &[data-input-state='disabled'] &__shell {
-    &,
-    .dnb-icon {
-      color: var(--color-black-55);
-    }
-    -webkit-text-fill-color: currentcolor;
-
-    background-color: var(--color-black-3);
   }
 
   // Icon
   &__icon {
-    color: var(--color-sea-green);
+    color: var(
+      --color-sea-green
+    ); // TODO: need design token for figma "Search" component
   }
   &__status--error &__icon {
-    color: var(--color-fire-red);
+    color: var(
+      --color-fire-red
+    ); // TODO: need design token for figma "Search" component
   }
 
   &__input::selection {
     background-color: var(--color-mint-green);
     color: var(--color-black);
     text-shadow: none;
-  }
-
-  &__placeholder {
-    color: var(--color-black-55);
   }
 }
