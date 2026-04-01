@@ -210,14 +210,10 @@ export function scrollToLocationHashId({
                 intersectionObserver.observe(elem)
               }
 
-              if (window.scrollTo) {
-                window.scrollTo({
-                  top,
-                  behavior: 'smooth',
-                })
-              } else {
-                document.documentElement.scrollTop = top
-              }
+              window.scrollTo({
+                top,
+                behavior: 'smooth',
+              })
             } catch (e) {
               warn('Error on scrollToLocationHashId:', e)
             }
