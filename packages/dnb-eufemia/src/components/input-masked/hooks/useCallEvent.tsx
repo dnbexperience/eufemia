@@ -108,7 +108,7 @@ export const useCallEvent = ({
             const char = value.charAt(i)
 
             if (
-              (char !== '0' && isNumber(parseInt(char))) ||
+              (char !== '0' && isNumber(parseInt(char, 10))) ||
               value.charAt(i + 1) === maskParams.decimalSymbol
             ) {
               break
