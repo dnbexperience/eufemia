@@ -11,7 +11,6 @@ import {
 const sections = {
   ui: [
     'default',
-    'white',
     'divider',
     'z-index',
     'no-breakout',
@@ -20,14 +19,7 @@ const sections = {
     'warning',
     'success',
   ],
-  sbanken: [
-    'default',
-    'white',
-    'information',
-    'error',
-    'warning',
-    'success',
-  ],
+  sbanken: ['default', 'information', 'error', 'warning', 'success'],
 }
 
 describe.each(['ui', 'sbanken'])('Section for %s', (themeName) => {
