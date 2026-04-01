@@ -1132,7 +1132,7 @@ function handleCompactBeforeDisplay({
     return // stop here
   }
 
-  value = parseInt(Math.abs(value))
+  value = parseInt(Math.abs(value), 10)
   opts.notation = 'compact'
 
   // For numbers under 1M we do

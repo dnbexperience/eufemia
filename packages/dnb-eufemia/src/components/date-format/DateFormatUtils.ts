@@ -372,13 +372,13 @@ export function parseDuration(durationString: string): number {
   ] = match
 
   return (
-    parseInt(years) * timeUnitsInMs.years +
-    parseInt(months) * timeUnitsInMs.months +
-    parseInt(weeks) * timeUnitsInMs.weeks +
-    parseInt(days) * timeUnitsInMs.days +
-    parseInt(hours) * timeUnitsInMs.hours +
-    parseInt(minutes) * timeUnitsInMs.minutes +
-    parseInt(seconds) * timeUnitsInMs.seconds
+    parseInt(years, 10) * timeUnitsInMs.years +
+    parseInt(months, 10) * timeUnitsInMs.months +
+    parseInt(weeks, 10) * timeUnitsInMs.weeks +
+    parseInt(days, 10) * timeUnitsInMs.days +
+    parseInt(hours, 10) * timeUnitsInMs.hours +
+    parseInt(minutes, 10) * timeUnitsInMs.minutes +
+    parseInt(seconds, 10) * timeUnitsInMs.seconds
   )
 }
 
@@ -397,25 +397,25 @@ function buildDurationObject(
       const result: DurationFormatInput = {}
 
       if (years !== undefined && years !== '0') {
-        result.years = parseInt(years)
+        result.years = parseInt(years, 10)
       }
       if (months !== undefined && months !== '0') {
-        result.months = parseInt(months)
+        result.months = parseInt(months, 10)
       }
       if (weeks !== undefined && weeks !== '0') {
-        result.weeks = parseInt(weeks)
+        result.weeks = parseInt(weeks, 10)
       }
       if (days !== undefined && days !== '0') {
-        result.days = parseInt(days)
+        result.days = parseInt(days, 10)
       }
       if (hours !== undefined && hours !== '0') {
-        result.hours = parseInt(hours)
+        result.hours = parseInt(hours, 10)
       }
       if (minutes !== undefined && minutes !== '0') {
-        result.minutes = parseInt(minutes)
+        result.minutes = parseInt(minutes, 10)
       }
       if (seconds !== undefined && seconds !== '0') {
-        result.seconds = parseInt(seconds)
+        result.seconds = parseInt(seconds, 10)
       }
 
       return result
