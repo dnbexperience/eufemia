@@ -1035,6 +1035,34 @@ legend.dnb-form-label {
 * Input component
 *
 */
+.dnb-input__border--tokens {
+  --input-border-color: var(--token-color-stroke-action);
+  --input-border-color--hover: var(--token-color-stroke-action-hover);
+  --input-border-color--active: var(--token-color-stroke-action-pressed);
+  --input-border-color--focus: var(--token-color-stroke-action-pressed);
+  --input-border-color--disabled: var(
+    --token-color-stroke-action-disabled
+  );
+  --input-border-color__error: var(--token-color-stroke-error);
+  --input-border-color__error--active: var(--token-color-stroke-error);
+  --input-border-color__error--focus: var(--token-color-stroke-error);
+  --input-border-width: 0.0625rem;
+  --input-border-width--hover: 0.125rem;
+  --input-border-width--active: 0.125rem;
+  --input-border-width--focus: 0.125rem;
+  --input-border-width--disabled: 0.0625rem;
+  --input-border-width__error: 0.0625rem;
+  --input-border-width__error--hover: 0.125rem;
+  --input-border-width__error--active: 0.125rem;
+  --input-border-inset: inset;
+  --input-border-inset--hover: ;
+  --input-border-inset--active: ;
+  --input-border-inset--focus: ;
+  --input-border-inset--disabled: inset;
+  --input-border-radius: var(--input-border-radius--default);
+  --input-border-radius--default: 0.25rem;
+}
+
 .dnb-input {
   --input-font-size: var(--font-size-basis);
   --input-font-size--small: var(--font-size-basis);
@@ -1048,7 +1076,19 @@ legend.dnb-form-label {
   --input-height--small: 1.5rem;
   --input-height--medium: 2.5rem;
   --input-height--large: 3rem;
-  --input-background-color: var(--color-white);
+  --input-background-color: var(--token-color-background-neutral);
+  --input-background-color--disabled: var(
+    --token-color-background-neutral-subtle
+  );
+  --input-color-text: var(--token-color-text-neutral);
+  --input-color-text--disabled: var(
+    --token-color-text-neutral-alternative
+  );
+  --input-color-placeholder: var(--token-color-text-neutral-alternative);
+  --input-color-placeholder--disabled: var(
+    --token-color-text-action-disabled
+  );
+  color: var(--input-color-text);
   display: inline-flex;
   align-items: center;
   font-size: var(--input-font-small);
@@ -1062,9 +1102,10 @@ legend.dnb-form-label {
 }
 .dnb-input__shell {
   position: relative;
+  background-color: var(--input-background-color);
   display: flex;
   align-items: center;
-  border: var(--input-border-width) solid var(--color-sea-green);
+  border: none;
 }
 .dnb-input__row {
   display: inline-flex;
@@ -1077,13 +1118,35 @@ legend.dnb-form-label {
   position: relative;
   z-index: 2;
 }
+.dnb-input__input::-webkit-search-cancel-button {
+  display: none;
+}
+.dnb-input__input::-webkit-file-upload-button {
+  outline: none;
+  margin-left: calc(var(--input-padding) * -1);
+  margin-right: calc(var(--input-padding) / 4);
+  padding-left: var(--input-padding);
+  padding-right: calc(var(--input-padding) / 4);
+}
+.dnb-input__input:not([disabled])::-webkit-file-upload-button {
+  color: var(--token-color-component-button-text-action);
+  cursor: pointer;
+}
+.dnb-input__input:not([disabled])::-webkit-file-upload-button:hover {
+  background-color: var(--token-color-background-action-hover-subtle);
+  color: var(--token-color-component-button-text-action-hover);
+}
+.dnb-input__input:not([disabled])::-webkit-file-upload-button:active {
+  background-color: var(--token-color-background-action-pressed-subtle);
+  color: var(--token-color-text-action-pressed);
+}
 .dnb-input__input[disabled] {
   user-select: none;
   opacity: 1;
 }
 .dnb-input__shell, .dnb-input__input {
   height: var(--input-height);
-  border-radius: var(--input-border-radius);
+  border-radius: var(--b-radius, var(--input-border-radius--default));
 }
 .dnb-input__placeholder, .dnb-input__input {
   width: 100%;
@@ -1108,10 +1171,11 @@ legend.dnb-form-label {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  color: var(--input-color-placeholder);
 }
 .dnb-input__border {
   display: flex;
-  border-radius: var(--b-radius, var(--input-border-radius));
+  border-radius: var(--b-radius, var(--input-border-radius--default));
   --border-color: var(--b-color, var(--input-border-color));
   --border-width: var(--b-width, var(--input-border-width));
   box-shadow: var(--b-inset, var(--input-border-inset, inset)) 0 0 0 var(--border-width) var(--border-color);
@@ -1146,7 +1210,7 @@ legend.dnb-form-label {
   --b-width: var(--input-border-width__error);
 }
 .dnb-input__status--error .dnb-input__border:focus-within {
-  --b-color: var(--input-border-color__error);
+  --b-color: var(--input-border-color__error--active);
   --b-width: var(--input-border-width__error--active);
   --b-inset: var(--input-border-inset--active);
   --b-radius: var(--input-border-radius--active);
@@ -1170,17 +1234,6 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 }
 .dnb-input input.dnb-input__input[type=file] {
   line-height: calc(var(--input-height) - 2px);
-}
-.dnb-input__input::-webkit-search-cancel-button {
-  display: none;
-}
-.dnb-input ::-webkit-file-upload-button {
-  cursor: pointer;
-  outline: none;
-  color: var(--color-sea-green);
-}
-.dnb-input ::-webkit-file-upload-button:active, .dnb-input ::-webkit-file-upload-button:hover {
-  color: var(--color-emerald-green);
 }
 .dnb-input--has-submit-element .dnb-input__placeholder, .dnb-input--has-submit-element .dnb-input__input, .dnb-input--has-clear-button .dnb-input__placeholder, .dnb-input--has-clear-button .dnb-input__input {
   padding-right: calc(var(--input-padding) * 2.5);
@@ -1212,7 +1265,7 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
   position: relative;
 }
 .dnb-input__submit-button__button {
-  border-radius: 0 var(--input-border-radius) var(--input-border-radius) 0;
+  border-radius: 0 var(--input-border-radius--default) var(--input-border-radius--default) 0;
 }
 .dnb-input > .dnb-form-label {
   line-height: var(--line-height-basis);
@@ -1336,6 +1389,10 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
   width: var(--input-height--small);
   height: var(--input-height--small);
 }
+.dnb-input[data-has-content=false] {
+  --input-border-color__error--active: var(--input-border-color--active);
+  --input-border-color__error--focus: var(--input-border-color--focus);
+}
 .dnb-input[data-has-content=true] .dnb-input--clear {
   opacity: 1;
 }
@@ -1369,6 +1426,18 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
 }
 .dnb-input--stretch .dnb-input__inner, .dnb-input--stretch .dnb-input__shell {
   width: 100%;
+}
+.dnb-input[data-input-state=disabled] {
+  --input-color-text: var(--input-color-text--disabled);
+  --input-color-placeholder: var(--input-color-placeholder--disabled);
+}
+.dnb-input[data-input-state=disabled] .dnb-input__shell,
+.dnb-input[data-input-state=disabled] .dnb-input__shell .dnb-icon {
+  color: var(--input-color-text--disabled);
+}
+.dnb-input[data-input-state=disabled] .dnb-input__shell {
+  -webkit-text-fill-color: currentcolor;
+  background-color: var(--input-background-color--disabled);
 }
 .dnb-input--stretch .dnb-form-label + .dnb-input__inner {
   width: auto;
@@ -1411,7 +1480,7 @@ html[data-visual-test] .dnb-input__input {
 }
 .dnb-input--keep-placeholder[data-input-state=focus] .dnb-input__placeholder {
   display: block;
-  color: var(--color-black-20);
+  color: var(--input-color-placeholder);
 }
 @media screen and (max-width: 40em) {
   .dnb-responsive-component .dnb-input {
@@ -1479,6 +1548,24 @@ html[data-visual-test] .dnb-input__input {
   padding-left: 0.0625rem;
 }
 
+.dnb-segmented-field__delimiter {
+  display: flex;
+  user-select: none;
+  padding: 0 0.25rem 0 0;
+}
+@supports (-moz-appearance: none) {
+  .dnb-segmented-field__delimiter {
+    padding: 0 0.0625rem;
+  }
+}
+.dnb-segmented-field .dnb-segmented-field__section,
+.dnb-segmented-field .dnb-segmented-field__delimiter {
+  color: var(--input-color-placeholder);
+}
+.dnb-segmented-field .dnb-segmented-field__section--highlight,
+.dnb-segmented-field .dnb-segmented-field__delimiter--highlight {
+  color: var(--input-color-text);
+}
 .dnb-segmented-field .dnb-segmented-field__section {
   width: fit-content;
   margin: 0;
@@ -1495,28 +1582,5 @@ html[data-visual-test] .dnb-input__input {
   font-family: var(--font-family-monospace);
   border: none;
   background: transparent;
-}
-.dnb-segmented-field__delimiter {
-  display: flex;
-  user-select: none;
-  padding: 0 0.25rem 0 0;
-}
-@supports (-moz-appearance: none) {
-  .dnb-segmented-field__delimiter {
-    padding: 0 0.0625rem;
-  }
-}
-.dnb-segmented-field:not(.dnb-input__status--error) .dnb-segmented-field__section,
-.dnb-segmented-field:not(.dnb-input__status--error) .dnb-segmented-field__delimiter {
-  color: var(--color-black-55);
-}
-.dnb-segmented-field:not(.dnb-input__status--error) .dnb-segmented-field__section--highlight,
-.dnb-segmented-field:not(.dnb-input__status--error) .dnb-segmented-field__delimiter--highlight {
-  color: var(--color-black);
-}
-.dnb-input__status--error .dnb-segmented-field:not(:focus-within) .dnb-segmented-field__section,
-.dnb-input__status--error .dnb-segmented-field:not(:focus-within) .dnb-segmented-field__delimiter, .dnb-segmented-field.dnb-input__status--error:not(:focus-within) .dnb-segmented-field__section,
-.dnb-segmented-field.dnb-input__status--error:not(:focus-within) .dnb-segmented-field__delimiter {
-  color: var(--color-fire-red);
 }"
 `;

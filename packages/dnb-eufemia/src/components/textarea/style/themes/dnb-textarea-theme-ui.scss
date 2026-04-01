@@ -2,23 +2,3 @@
 * Textarea theme
 *
 */
-
-@use '../../../../style/core/utilities.scss' as utilities;
-
-.dnb-textarea {
-  --textarea-border-width: 0.0625rem;
-  --textarea-border-width--hover: 0.125rem;
-
-  &__textarea:not([disabled]):not(#{&}--disabled):focus ~ &__state,
-  &__textarea:not([disabled]):not(#{&}--disabled):not(.no-hover):hover
-    ~ &__state {
-    --textarea-border-width: var(--textarea-border-width--hover);
-    --textarea-border-inset: ;
-  }
-
-  // We may enable this in future – right now it's unclear
-  // &__textarea:not([disabled]):not(#{&}--disabled):focus ~ &__placeholder,
-  // &__textarea:not([disabled]):not(#{&}--disabled):hover ~ &__placeholder {
-  //   color: var(--color-black);
-  // }
-}
