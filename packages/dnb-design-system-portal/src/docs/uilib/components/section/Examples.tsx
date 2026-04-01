@@ -81,19 +81,6 @@ export const Spacing = () => (
   </ComponentBox>
 )
 
-export const White = () => (
-  <ComponentBox hideCode data-visual-test="section-white">
-    <Section
-      innerSpace={{ top: 'large', bottom: 'large' }}
-      backgroundColor="white"
-    >
-      <P space={0}>
-        Visual Section: <Anchor href="#">white</Anchor>
-      </P>
-    </Section>
-  </ComponentBox>
-)
-
 export const Divider = () => (
   <ComponentBox hideCode data-visual-test="section-divider">
     <Section
