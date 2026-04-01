@@ -207,7 +207,10 @@ button .dnb-form-status__text {
     --token-color-text-neutral-alternative
   );
   --textarea-color-border: var(--token-color-stroke-action);
-  --textarea-border-radius: 0.25rem;
+  --textarea-border-radius--default: 0.25rem;
+  --textarea-border-width: var(--textarea-border-width--default);
+  --textarea-border-width--default: 0.0625rem;
+  --textarea-border-width--hover: 0.125rem;
   --textarea-rows: 2;
   --textarea-size--small: 0.25rem;
   --textarea-size--medium: 0.5rem;
@@ -262,10 +265,10 @@ button .dnb-form-status__text {
   right: calc(var(--textarea-size-vertical) * -1);
   background-color: var(--textarea-color-background);
   --border-color: var(--textarea-color-border);
-  --border-width: var(--textarea-border-width);
+  --border-width: var(--textarea-border-width, var(--textarea-border-width--default));
   box-shadow: var(--textarea-border-inset, inset) 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
-  border-radius: var(--textarea-border-radius);
+  border-radius: var(--textarea-border-radius, var(--textarea-border-radius--default));
 }
 .dnb-textarea__row {
   display: inline-flex;
@@ -450,13 +453,23 @@ html[data-visual-test] .dnb-textarea__textarea {
   caret-color: var(--color-white);
 }
 .dnb-textarea.dnb-skeleton .dnb-textarea__inner {
-  border-radius: var(--textarea-border-radius);
+  border-radius: var(--textarea-border-radius, var(--textarea-border-radius--default));
 }
 .dnb-textarea.dnb-skeleton .dnb-textarea__state, .dnb-textarea.dnb-skeleton .dnb-textarea__textarea {
   visibility: hidden;
 }
 .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state, .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):focus ~ .dnb-textarea__state {
+  --textarea-border-width: var(--textarea-border-width--hover);
+  --textarea-border-inset: ;
+}
+.dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):focus ~ .dnb-textarea__state {
   --textarea-color-border: var(--token-color-stroke-action-pressed);
+  --textarea-border-radius: var(--textarea-border-radius--focus);
+}
+.dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
+  --textarea-color-border: var(
+    --token-color-stroke-action-hover
+  );
 }
 .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled) {
   --textarea-color-text: var(--token-color-text-destructive);
@@ -470,16 +483,5 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
 "/*
 * Textarea theme
 *
-*/
-/*
- * Utilities
- */
-.dnb-textarea {
-  --textarea-border-width: 0.0625rem;
-  --textarea-border-width--hover: 0.125rem;
-}
-.dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):focus ~ .dnb-textarea__state, .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):not(.no-hover):hover ~ .dnb-textarea__state {
-  --textarea-border-width: var(--textarea-border-width--hover);
-  --textarea-border-inset: ;
-}"
+*/"
 `;

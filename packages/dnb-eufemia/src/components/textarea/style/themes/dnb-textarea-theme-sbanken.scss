@@ -6,7 +6,7 @@
 @use '../../../../style/core/utilities.scss' as utilities;
 
 .dnb-textarea {
-  --textarea-border-width: 0.0625rem;
+  --textarea-border-radius--focus: 1.5rem;
 
   &__textarea {
     // prevents clipping through rounded corners that appear on focus
@@ -19,18 +19,5 @@
 
   &__resize--medium &__shell::after {
     opacity: 0.1;
-  }
-
-  // hover
-  &__textarea:not([disabled]):not(#{&}--disabled):hover ~ &__state {
-    --textarea-border-width: 0.125rem;
-  }
-
-  // focus
-  &__textarea:not([disabled]):not(#{&}--disabled):focus {
-    ~ .dnb-textarea__state {
-      --textarea-border-radius: 1.5rem;
-      @include utilities.focusRing(null, null, inset);
-    }
   }
 }
