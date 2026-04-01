@@ -115,16 +115,19 @@ $ pnpm add @dnb/eufemia@11
 
 ### [Section](/uilib/components/section/)
 
-1. Most `style_type` variants were removed. Use the new `variant` or `backgroundColor` property instead:
-   - `mint-green`
-   - `sea-green`
-   - `emerald-green`
-   - `lavender`
-   - `black-3`
-   - `sand-yellow`
-   - `pistachio`
-   - `fire-red`
-   - `fire-red-8`
+1. All deprecated `style_type` variants and their legacy `dnb-section--...` theme classes were removed. Use the `variant` or `backgroundColor` property instead:
+
+- `mint-green-12`
+- `mint-green`
+- `sea-green`
+- `emerald-green`
+- `lavender`
+- `black-3`
+- `sand-yellow`
+- `pistachio`
+- `fire-red`
+- `fire-red-8`
+
 2. Remove `spacing`. Use `innerSpace` instead. The `spacing` prop only applied vertical (top/bottom) padding, so use the `block` shorthand to match the old behavior:
 
 - `spacing` -> `innerSpace={{ block: 'large' }}`
