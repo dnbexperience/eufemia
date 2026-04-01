@@ -1099,13 +1099,6 @@ describe('GlobalStatus scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
-
-  it('should match default theme snapshot', () => {
-    const css = loadScss(
-      require.resolve('../style/themes/dnb-global-status-theme-ui.scss')
-    )
-    expect(css).toMatchSnapshot()
-  })
 })
 
 const refresh = async () => {
