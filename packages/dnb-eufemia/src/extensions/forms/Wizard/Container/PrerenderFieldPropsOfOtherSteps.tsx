@@ -5,7 +5,7 @@ import React, {
   useReducer,
   useRef,
 } from 'react'
-import ReactDOM from 'react-dom'
+import { createPortal } from 'react-dom'
 import DataContext, {
   defaultContextState,
 } from '../../DataContext/Context'
@@ -153,7 +153,7 @@ function usePreventSubmit() {
 
 function PrerenderPortal({ children }) {
   if (typeof document !== 'undefined') {
-    return ReactDOM.createPortal(children, document.body)
+    return createPortal(children, document.body)
   }
 }
 
