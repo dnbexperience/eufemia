@@ -1,18 +1,5 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`GlobalStatus scss should match default theme snapshot 1`] = `
-"/*
- * GlobalStatus theme
- *
- */
-.dnb-global-status__icon {
-  font-size: 1rem;
-}
-.dnb-global-status__message.dnb-section--white ::selection {
-  background-color: var(--color-mint-green);
-}"
-`;
-
 exports[`GlobalStatus scss should match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
