@@ -189,7 +189,7 @@ export function Hover() {
 
   return (
     <>
-      <button>my button</button>
+      <button type="button">my button</button>
       <p>text A</p>
 
       <NumberFormat nin>18089212345</NumberFormat>
