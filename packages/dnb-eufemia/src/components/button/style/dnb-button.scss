@@ -799,42 +799,6 @@
       var(--button-border-radius--control-button) 0;
   }
 
-  &--reset {
-    margin: 0;
-    padding: 0;
-    width: auto;
-    height: auto;
-    overflow: visible;
-
-    border: none;
-    border-radius: 0;
-    background-color: transparent;
-    appearance: none;
-    box-shadow: none;
-
-    color: inherit;
-    font: inherit;
-    text-align: inherit;
-    line-height: inherit;
-
-    @include utilities.hover() {
-      box-shadow: none;
-      border: none;
-    }
-
-    &:not([disabled]):focus,
-    &:not([disabled]):active {
-      @include utilities.focusRing();
-    }
-
-    html[data-whatinput='mouse'] &:not([disabled]):focus,
-    html[data-whatinput='mouse'] &:not([disabled]):active {
-      box-shadow: none;
-      color: inherit;
-      border: none;
-    }
-  }
-
   // because we have "appearance: button" in some css resets (not our)
   &[type='button'],
   &[type='reset'],

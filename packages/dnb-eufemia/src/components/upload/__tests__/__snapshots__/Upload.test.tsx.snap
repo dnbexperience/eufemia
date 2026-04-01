@@ -954,43 +954,6 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
 .dnb-button--control-after {
   border-radius: 0 var(--button-border-radius--control-button) var(--button-border-radius--control-button) 0;
 }
-.dnb-button--reset {
-  margin: 0;
-  padding: 0;
-  width: auto;
-  height: auto;
-  overflow: visible;
-  border: none;
-  border-radius: 0;
-  background-color: transparent;
-  appearance: none;
-  box-shadow: none;
-  color: inherit;
-  font: inherit;
-  text-align: inherit;
-  line-height: inherit;
-}
-html:not([data-whatintent=touch]) .dnb-button--reset:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-button--reset:hover:not([disabled]) {
-  box-shadow: none;
-  border: none;
-}
-.dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
-  outline: none;
-}
-html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):active {
-  --border-color: var(--focus-ring-color);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):active {
-  box-shadow: none;
-  color: inherit;
-  border: none;
-}
 .dnb-button[type=button], .dnb-button[type=reset], .dnb-button[type=submit] {
   appearance: none;
   /* stylelint-disable-next-line */
