@@ -242,13 +242,7 @@ export default class HeightAnimation {
     fromHeight: HeightAnimationFromHeight,
     toHeight: HeightAnimationToHeight
   ) {
-    if (
-      !this.elem ||
-      !(
-        this.isInBrowser &&
-        typeof window.requestAnimationFrame === 'function'
-      )
-    ) {
+    if (!this.elem || !this.isInBrowser) {
       return
     }
 
@@ -285,10 +279,7 @@ export default class HeightAnimation {
     this.timeouts.forEach((id) => clearTimeout(id))
     this.timeouts = []
 
-    if (
-      this.isInBrowser &&
-      typeof window.requestAnimationFrame === 'function'
-    ) {
+    if (this.isInBrowser) {
       window.cancelAnimationFrame(this.reqId1)
       window.cancelAnimationFrame(this.reqId2)
     }
