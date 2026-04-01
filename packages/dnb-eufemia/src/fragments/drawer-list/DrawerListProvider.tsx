@@ -1381,7 +1381,7 @@ export default class DrawerListProvider extends React.PureComponent<
     itemToSelect,
     args: {
       fireSelectEvent?: boolean
-      event?: any
+      event?: React.SyntheticEvent | Event
       closeOnSelection?: boolean
     } = {}
   ) => {
