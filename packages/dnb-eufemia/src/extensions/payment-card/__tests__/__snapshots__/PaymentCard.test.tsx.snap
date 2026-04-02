@@ -137,7 +137,7 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
   border-radius: inherit;
   color: var(--color-white);
   box-shadow: var(--shadow-default);
-  transition: all 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+  transition: box-shadow 225ms cubic-bezier(0, 0, 0.2, 1) 0ms, opacity 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
   user-select: none;
 }
 .dnb-payment-card__card__wrapper {
