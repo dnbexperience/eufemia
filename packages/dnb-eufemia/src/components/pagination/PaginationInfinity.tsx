@@ -1,16 +1,12 @@
 /**
  * Web Pagination Component
- *
- * This is a legacy component.
- * For referencing while developing new features, please use a Functional component.
  */
 
-import React from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import {
   warn,
   dispatchCustomElementEvent,
-  getClosestParent,
 } from '../../shared/component-helper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import Context from '../../shared/Context'
@@ -26,152 +22,115 @@ export type InfinityScrollerProps = {
   children?: React.ReactNode
 }
 
-export default class InfinityScroller extends React.PureComponent<InfinityScrollerProps> {
-  static contextType = PaginationContext
-  context!: React.ContextType<typeof PaginationContext>
+type CallbackBufferEntry = {
+  fn: (params: Record<string, unknown>) => void
+  params: Record<string, unknown>
+}
 
-  static defaultProps = { children: null }
+type EventHandlerOptions = {
+  callStartupEvent?: boolean
+  preventWaitForDelay?: boolean
+  callOnEnd?: boolean
+  onDispatch?: (() => void) | null
+}
 
-  hideIndicator: boolean
-  useLoadButton: boolean
-  lastElement: React.RefObject<any>
-  callOnUnmount: Array<any>
-  _startupTimeout: ReturnType<typeof setTimeout>
-  _bufferTimeout: ReturnType<typeof setTimeout>
-  callbackBuffer: Array<{
-    fn: (params: Record<string, unknown>) => void
-    params: Record<string, unknown>
-  }>
-  _lastCall: number
+type GetNewContentProps = {
+  position?: 'before' | 'after'
+  skipObserver?: boolean
+  event?: React.SyntheticEvent
+  ScrollElement?: React.ComponentType<Record<string, unknown>>
+  [key: string]: unknown
+}
 
-  constructor(props: any, context: any) {
-    super(props)
-    this.hideIndicator = context.pagination.hideProgressIndicator
-    this.useLoadButton = context.pagination.useLoadButton
-    this.lastElement = React.createRef()
-    this.callOnUnmount = []
-  }
+export default function InfinityScroller({
+  children = null,
+}: InfinityScrollerProps) {
+  const { pagination } = useContext(PaginationContext)
 
-  componentWillUnmount() {
-    clearTimeout(this._startupTimeout)
-    clearTimeout(this._bufferTimeout)
-    this.callOnUnmount.forEach((f) => typeof f === 'function' && f())
-  }
+  const hideIndicator = pagination.hideProgressIndicator
+  const useLoadButton = pagination.useLoadButton
 
-  startup = () => {
-    const { startupPage, startupCount } = this.context.pagination
-    const usedStartupCount = parseFloat(startupCount)
+  const paginationRef = useRef(pagination)
+  paginationRef.current = pagination
 
-    let newPageNo, skipObserver, callStartupEvent, preventWaitForDelay
-    for (let i = 0; i < usedStartupCount; ++i) {
-      newPageNo = startupPage + i
-      skipObserver = newPageNo < usedStartupCount
-      callStartupEvent = i === 0
-      preventWaitForDelay = i <= usedStartupCount - 1
+  const callOnUnmountRef = useRef<Array<() => void>>([])
+  const startupTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null)
+  const bufferTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null)
+  const callbackBufferRef = useRef<CallbackBufferEntry[]>([])
+  const lastCallRef = useRef<number>(0)
 
-      // NB: Looks like we have to do more work here to use a waitBuffer
-      this.getNewContent(
-        newPageNo,
-        {
-          position: 'after',
-          skipObserver,
-        },
-        { callStartupEvent, preventWaitForDelay }
+  useEffect(() => {
+    return () => {
+      clearTimeout(startupTimeoutRef.current)
+      clearTimeout(bufferTimeoutRef.current)
+      callOnUnmountRef.current.forEach(
+        (f) => typeof f === 'function' && f()
       )
     }
-  }
+  }, [])
 
-  getNewContent = (
-    newPageNo: number,
-    props: any = {},
-    { callStartupEvent = false, preventWaitForDelay = false }: any = {}
-  ) => {
-    const { pageCountInternal, endInfinity } = this.context.pagination
-
-    // if "pageCount" is set do not load more than that value
-    if (newPageNo > pageCountInternal) {
-      return endInfinity()
-    }
-
-    const exists =
-      this.context.pagination.items.findIndex((obj) => {
-        return obj.pageNumber === newPageNo
-      }) > -1
-
-    if (exists) {
-      return // stop here!
-    }
-
-    const items = this.context.pagination.prefillItems(newPageNo, props)
-
-    this.context.pagination.setItems(items, () => {
-      this.callEventHandler(newPageNo, {
-        callStartupEvent,
-        preventWaitForDelay,
-      })
-    })
-  }
-
-  waitForReachedTime(
-    fn: (params: Record<string, unknown>) => void,
-    params: Record<string, unknown>
-  ) {
-    this.callbackBuffer = this.callbackBuffer || []
-    this.callbackBuffer.push({ fn, params })
-    this.callBuffer({
-      minTime: params.preventWaitForDelay
-        ? -1
-        : this.context.pagination.minTime,
-    })
-  }
-
-  callBuffer({ minTime = this.context.pagination.minTime }: any = {}) {
-    if (this.callbackBuffer.length === 0) {
+  const callBuffer = (minTime: number = paginationRef.current.minTime) => {
+    if (callbackBufferRef.current.length === 0) {
       return // stop here
     }
 
     const diff =
-      this._lastCall > 0 ? new Date().getTime() - this._lastCall : 0
+      lastCallRef.current > 0
+        ? new Date().getTime() - lastCallRef.current
+        : 0
     const waitTime = diff < minTime ? minTime : 0
 
     const nextTick = () => {
-      if (this.callbackBuffer.length > 0) {
-        this._lastCall = new Date().getTime()
-        const { fn, params } = this.callbackBuffer.shift()
+      if (callbackBufferRef.current.length > 0) {
+        lastCallRef.current = new Date().getTime()
+        const { fn, params } = callbackBufferRef.current.shift()
         fn(params)
-        this.callBuffer({
-          minTime: params.preventWaitForDelay ? -1 : minTime,
-        })
+        callBuffer(params.preventWaitForDelay ? -1 : minTime)
       }
     }
 
     if (minTime > 0) {
-      clearTimeout(this._bufferTimeout)
-      this._bufferTimeout = setTimeout(nextTick, waitTime)
+      clearTimeout(bufferTimeoutRef.current)
+      bufferTimeoutRef.current = setTimeout(nextTick, waitTime)
     } else {
       nextTick()
     }
   }
 
-  callEventHandler(
+  const waitForReachedTime = (
+    fn: (params: Record<string, unknown>) => void,
+    params: Record<string, unknown>
+  ) => {
+    callbackBufferRef.current.push({ fn, params })
+    callBuffer(
+      params.preventWaitForDelay ? -1 : paginationRef.current.minTime
+    )
+  }
+
+  const callEventHandler = (
     pageNumber: number,
     {
       callStartupEvent = false,
       preventWaitForDelay = false,
       callOnEnd = false,
       onDispatch = null,
-    }: any = {}
-  ) {
-    this.waitForReachedTime(
-      ({ pageNumber, callStartupEvent }: Record<string, unknown>) => {
-        const context = this.context.pagination
-        const createEvent = (eventName) => {
-          if (isNaN(pageNumber as number)) {
-            pageNumber = 1
+    }: EventHandlerOptions = {}
+  ) => {
+    waitForReachedTime(
+      ({
+        pageNumber: pn,
+        callStartupEvent: isStartup,
+      }: Record<string, unknown>) => {
+        const ctx = paginationRef.current
+        let resolvedPageNumber = pn as number
+
+        const createEvent = (eventName: string) => {
+          if (isNaN(resolvedPageNumber)) {
+            resolvedPageNumber = 1
           }
-          const ret = dispatchCustomElementEvent(context, eventName, {
-            pageNumber,
-            ...context,
+          const ret = dispatchCustomElementEvent(ctx, eventName, {
+            pageNumber: resolvedPageNumber,
+            ...ctx,
           })
 
           if (typeof onDispatch === 'function') {
@@ -179,14 +138,14 @@ export default class InfinityScroller extends React.PureComponent<InfinityScroll
           }
 
           if (typeof ret === 'function') {
-            this.callOnUnmount.push(ret)
+            callOnUnmountRef.current.push(ret)
           }
         }
 
         if (callOnEnd) {
           createEvent('onEnd')
         } else {
-          if (callStartupEvent) {
+          if (isStartup) {
             createEvent('onStartup')
           } else {
             createEvent('onChange')
@@ -199,9 +158,66 @@ export default class InfinityScroller extends React.PureComponent<InfinityScroll
     )
   }
 
-  handleInfinityMarker() {
-    const { children } = this.props
+  const getNewContent = (
+    newPageNo: number,
+    props: GetNewContentProps = {},
+    {
+      callStartupEvent = false,
+      preventWaitForDelay = false,
+    }: Pick<
+      EventHandlerOptions,
+      'callStartupEvent' | 'preventWaitForDelay'
+    > = {}
+  ) => {
+    const { pageCountInternal, endInfinity } = paginationRef.current
 
+    // if "pageCount" is set do not load more than that value
+    if (newPageNo > pageCountInternal) {
+      return endInfinity()
+    }
+
+    const exists =
+      paginationRef.current.items.findIndex(
+        (obj: { pageNumber: number }) => obj.pageNumber === newPageNo
+      ) > -1
+
+    if (exists) {
+      return // stop here
+    }
+
+    const items = paginationRef.current.prefillItems(newPageNo, props)
+
+    paginationRef.current.setItems(items, () => {
+      callEventHandler(newPageNo, {
+        callStartupEvent,
+        preventWaitForDelay,
+      })
+    })
+  }
+
+  const startup = () => {
+    const { startupPage, startupCount } = paginationRef.current
+    const usedStartupCount = parseFloat(startupCount)
+
+    for (let i = 0; i < usedStartupCount; ++i) {
+      const newPageNo = startupPage + i
+      const skipObserver = newPageNo < usedStartupCount
+      const callStartupEvent = i === 0
+      const preventWaitForDelay = i <= usedStartupCount - 1
+
+      // NB: Looks like we have to do more work here to use a waitBuffer
+      getNewContent(
+        newPageNo,
+        {
+          position: 'after',
+          skipObserver,
+        },
+        { callStartupEvent, preventWaitForDelay }
+      )
+    }
+  }
+
+  const handleInfinityMarker = () => {
     const {
       // our states
       lowerPage,
@@ -215,25 +231,25 @@ export default class InfinityScroller extends React.PureComponent<InfinityScroll
       fallbackElement,
       markerElement,
       indicatorElement,
-    } = this.context.pagination
+    } = paginationRef.current
 
     const Marker = () => (
       <InteractionMarker
         pageNumber={upperPage}
         markerElement={markerElement || fallbackElement}
-        onVisible={(pageNumber) => {
-          let newPageNo
+        onVisible={(pageNumber: number) => {
+          let newPageNo: number
           // load several pages at once
           for (let i = 0; i < parallelLoadCount; ++i) {
             newPageNo = pageNumber + 1 + i
             // wait on updating our own state, so we can show the indicator (pressedElement) until we get new children back
-            this.context.pagination.onPageUpdate(() => {
-              this.context.pagination.setState({
+            paginationRef.current.onPageUpdate(() => {
+              paginationRef.current.setState({
                 upperPage: newPageNo,
                 skipObserver: i + 1 < parallelLoadCount,
               })
             })
-            this.callEventHandler(newPageNo)
+            callEventHandler(newPageNo)
           }
         }}
       />
@@ -251,12 +267,12 @@ export default class InfinityScroller extends React.PureComponent<InfinityScroll
         onClick={() => {
           const newPageNo = lowerPage - 1
           // wait on updating our own state, so we can show the indicator (pressedElement) until we get new children back
-          this.context.pagination.onPageUpdate(() => {
-            this.context.pagination.setState({
+          paginationRef.current.onPageUpdate(() => {
+            paginationRef.current.setState({
               lowerPage: newPageNo,
             })
           })
-          this.callEventHandler(newPageNo)
+          callEventHandler(newPageNo)
         }}
       />
     )
@@ -273,7 +289,7 @@ export default class InfinityScroller extends React.PureComponent<InfinityScroll
             upperPage < pageCountInternal) && <Marker />}
 
         {!hasEndedInfinity &&
-          !this.hideIndicator &&
+          !hideIndicator &&
           (typeof pageCountInternal === 'undefined' ||
             upperPage < pageCountInternal) && (
             <PaginationIndicator
@@ -284,258 +300,244 @@ export default class InfinityScroller extends React.PureComponent<InfinityScroll
     )
   }
 
-  render() {
-    const {
-      // our states
-      items,
-      pageCountInternal,
-      startupPage,
-      hasEndedInfinity,
-      parallelLoadCount,
-      placeMakerBeforeContent,
+  const {
+    // our states
+    items,
+    pageCountInternal,
+    startupPage,
+    hasEndedInfinity,
+    parallelLoadCount,
+    placeMakerBeforeContent,
 
-      // our props
-      pageElement,
-      fallbackElement,
-      markerElement,
-      indicatorElement,
-      loadButton,
-    } = this.context.pagination
+    // our props
+    pageElement,
+    fallbackElement,
+    markerElement,
+    indicatorElement,
+    loadButton,
+  } = pagination
 
-    // invoke startup if needed
-    if (!(items && items.length > 0)) {
-      clearTimeout(this._startupTimeout)
-      this._startupTimeout = setTimeout(this.startup, 1) // call startup()
-      return null // stop here
-    }
+  // invoke startup if needed
+  if (!(items && items.length > 0)) {
+    clearTimeout(startupTimeoutRef.current)
+    startupTimeoutRef.current = setTimeout(startup, 1) // call startup()
+    return null // stop here
+  }
 
-    if (this.context.pagination.useMarkerOnly) {
-      return this.handleInfinityMarker()
-    }
+  if (pagination.useMarkerOnly) {
+    return handleInfinityMarker()
+  }
 
-    // make sure we handle Table markup correctly
-    const Element = preparePageElement(pageElement || React.Fragment)
+  // make sure we handle Table markup correctly
+  const Element = preparePageElement(pageElement || React.Fragment)
 
-    return items.map(
-      (
-        {
-          pageNumber,
-          hasContent,
-          content,
-          ref,
-          skipObserver,
-          ScrollElement,
-        },
-        idx
-      ) => {
-        const isLastItem = idx === items.length - 1
+  return items.map(
+    (
+      {
+        pageNumber,
+        hasContent,
+        content,
+        ref,
+        skipObserver,
+        ScrollElement,
+      }: {
+        pageNumber: number
+        hasContent: boolean
+        content: React.ReactNode
+        ref: React.Ref<HTMLElement>
+        skipObserver: boolean
+        ScrollElement: React.ComponentType<Record<string, unknown>>
+      },
+      idx: number
+    ) => {
+      const isLastItem = idx === items.length - 1
 
-        // decide to whether use the default Element, or use the scrollTo element
-        const Elem = (hasContent && ScrollElement) || Element
-        const isFragment = Elem === React.Fragment
+      // decide to whether use the default Element, or use the scrollTo element
+      const Elem = (hasContent && ScrollElement) || Element
+      const isFragment = Elem === React.Fragment
 
-        // render the marker before
-        const marker = hasContent &&
-          !this.useLoadButton &&
-          !skipObserver &&
-          !hasEndedInfinity &&
-          (typeof pageCountInternal === 'undefined' ||
-            pageNumber <= pageCountInternal) && (
-            <InteractionMarker
-              pageNumber={pageNumber}
-              markerElement={markerElement || fallbackElement}
-              onVisible={(pageNumber) => {
-                let newPageNo
-                // load several pages at once
-                for (let i = 0; i < parallelLoadCount; ++i) {
-                  newPageNo = pageNumber + 1 + i
-                  this.getNewContent(newPageNo, {
-                    position: 'after',
-                    skipObserver: i + 1 < parallelLoadCount,
+      // render the marker before
+      const marker = hasContent &&
+        !useLoadButton &&
+        !skipObserver &&
+        !hasEndedInfinity &&
+        (typeof pageCountInternal === 'undefined' ||
+          pageNumber <= pageCountInternal) && (
+          <InteractionMarker
+            pageNumber={pageNumber}
+            markerElement={markerElement || fallbackElement}
+            onVisible={(pageNumber: number) => {
+              let newPageNo: number
+              // load several pages at once
+              for (let i = 0; i < parallelLoadCount; ++i) {
+                newPageNo = pageNumber + 1 + i
+                getNewContent(newPageNo, {
+                  position: 'after',
+                  skipObserver: i + 1 < parallelLoadCount,
+                })
+              }
+            }}
+          />
+        )
+
+      const showIndicator =
+        (parallelLoadCount > 1 && idx > 0 ? isLastItem : true) &&
+        !hasContent &&
+        !hideIndicator
+
+      return (
+        <Elem key={pageNumber} {...(!isFragment && { ref })}>
+          {hasContent &&
+            startupPage > 1 &&
+            pageNumber > 1 &&
+            pageNumber <= startupPage && (
+              <InfinityLoadButton
+                element={
+                  typeof loadButton === 'function'
+                    ? loadButton
+                    : fallbackElement
+                }
+                icon="arrow_up"
+                text={loadButton?.text}
+                iconPosition={loadButton?.iconPosition}
+                onClick={(event) =>
+                  getNewContent(pageNumber - 1, {
+                    position: 'before',
+                    skipObserver: true,
+                    event,
                   })
                 }
-              }}
-            />
-          )
-
-        const showIndicator =
-          (parallelLoadCount > 1 && idx > 0 ? isLastItem : true) &&
-          !hasContent &&
-          !this.hideIndicator
-
-        return (
-          <Elem key={pageNumber} {...(!isFragment && { ref })}>
-            {hasContent &&
-              startupPage > 1 &&
-              pageNumber > 1 &&
-              pageNumber <= startupPage && (
-                <InfinityLoadButton
-                  element={
-                    typeof loadButton === 'function'
-                      ? loadButton
-                      : fallbackElement
-                  }
-                  icon="arrow_up"
-                  text={loadButton?.text}
-                  iconPosition={loadButton?.iconPosition}
-                  onClick={(event) =>
-                    this.getNewContent(pageNumber - 1, {
-                      position: 'before',
-                      skipObserver: true,
-                      event,
-                    })
-                  }
-                />
-              )}
-
-            {placeMakerBeforeContent && marker}
-            {content}
-            {!placeMakerBeforeContent && marker}
-
-            {showIndicator && (
-              <PaginationIndicator
-                indicatorElement={indicatorElement || fallbackElement}
               />
             )}
 
-            {hasContent &&
-              this.useLoadButton &&
-              isLastItem &&
-              (typeof pageCountInternal === 'undefined' ||
-                pageNumber < pageCountInternal) && (
-                <InfinityLoadButton
-                  element={
-                    typeof loadButton === 'function'
-                      ? loadButton
-                      : fallbackElement
-                  }
-                  text={loadButton?.text}
-                  iconPosition={loadButton?.iconPosition}
-                  icon="arrow_down"
-                  onClick={(event) =>
-                    this.getNewContent(pageNumber + 1, {
-                      position: 'after',
-                      skipObserver: true,
-                      ScrollElement: (props) =>
-                        hasContent && (
-                          <ScrollToElement
-                            pageElement={pageElement}
-                            {...props}
-                          />
-                        ),
-                      event,
-                    })
-                  }
-                />
-              )}
-          </Elem>
-        )
-      }
-    )
-  }
+          {placeMakerBeforeContent && marker}
+          {content}
+          {!placeMakerBeforeContent && marker}
+
+          {showIndicator && (
+            <PaginationIndicator
+              indicatorElement={indicatorElement || fallbackElement}
+            />
+          )}
+
+          {hasContent &&
+            useLoadButton &&
+            isLastItem &&
+            (typeof pageCountInternal === 'undefined' ||
+              pageNumber < pageCountInternal) && (
+              <InfinityLoadButton
+                element={
+                  typeof loadButton === 'function'
+                    ? loadButton
+                    : fallbackElement
+                }
+                text={loadButton?.text}
+                iconPosition={loadButton?.iconPosition}
+                icon="arrow_down"
+                onClick={(event) =>
+                  getNewContent(pageNumber + 1, {
+                    position: 'after',
+                    skipObserver: true,
+                    ScrollElement: (props) =>
+                      hasContent && (
+                        <ScrollToElement
+                          pageElement={pageElement}
+                          {...props}
+                        />
+                      ),
+                    event,
+                  })
+                }
+              />
+            )}
+        </Elem>
+      )
+    }
+  )
 }
 
-class InteractionMarker extends React.PureComponent<any, any> {
-  static defaultProps = {
-    markerElement: null,
-  }
-  state = { isConnected: false }
+type InteractionMarkerProps = {
+  pageNumber: number
+  markerElement?: React.ReactNode | string | null
+  onVisible: (pageNumber: number) => void
+}
 
-  _ref: React.RefObject<any>
-  intersectionObserver: IntersectionObserver | null
-  _isMounted: boolean
-  _readyTimeout: ReturnType<typeof setTimeout>
+function InteractionMarker({
+  pageNumber,
+  markerElement = null,
+  onVisible,
+}: InteractionMarkerProps) {
+  const [isConnected, setIsConnected] = useState(false)
+  const markerRef = useRef<HTMLElement>(null)
+  const observerRef = useRef<IntersectionObserver | null>(null)
+  const hasObserverSupport = useRef(
+    typeof IntersectionObserver !== 'undefined'
+  )
+  const isMountedRef = useRef(false)
+  const readyTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null)
 
-  constructor(props: any) {
-    super(props)
-
-    if (typeof props.markerElement === 'function') {
+  useEffect(() => {
+    if (typeof markerElement === 'function') {
       warn(
         'Pagination: Please use a string or React element e.g. markerElement="tr"'
       )
     }
 
-    this._ref = React.createRef<HTMLElement>()
-
-    if (typeof IntersectionObserver !== 'undefined') {
-      this.intersectionObserver = new IntersectionObserver((entries) => {
+    if (hasObserverSupport.current) {
+      observerRef.current = new IntersectionObserver((entries) => {
         const [{ isIntersecting }] = entries
         if (isIntersecting) {
-          this.callReady()
+          callReady()
         }
       })
     } else {
       warn('Pagination is missing IntersectionObserver supported!')
     }
-  }
 
-  componentDidMount() {
-    if (this._ref.current) {
-      this._isMounted = true
-      this.intersectionObserver?.observe(this._ref.current)
+    isMountedRef.current = true
+
+    if (markerRef.current) {
+      observerRef.current?.observe(markerRef.current)
     }
-  }
 
-  componentWillUnmount() {
-    this._isMounted = false
-    if (this.intersectionObserver) {
-      clearTimeout(this._readyTimeout)
-      this.intersectionObserver.disconnect()
+    return () => {
+      isMountedRef.current = false
+      clearTimeout(readyTimeoutRef.current)
+      observerRef.current?.disconnect()
     }
-  }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  callReady = () => {
-    this.intersectionObserver?.disconnect()
-    this.intersectionObserver = null
-    clearTimeout(this._readyTimeout)
-    this._readyTimeout = setTimeout(() => {
-      if (this._isMounted) {
-        this.setState({ isConnected: true })
+  const callReady = () => {
+    observerRef.current?.disconnect()
+    observerRef.current = null
+    clearTimeout(readyTimeoutRef.current)
+    readyTimeoutRef.current = setTimeout(() => {
+      if (isMountedRef.current) {
+        setIsConnected(true)
       }
-      this.props.onVisible(this.props.pageNumber)
+      onVisible(pageNumber)
     }, 1) // because of re-render loop
   }
 
-  getContentHeight() {
-    let height = 0
-
-    try {
-      const sibling = getClosestParent('dnb-table', this._ref.current)
-      height = parseFloat(
-        window.getComputedStyle(sibling.querySelector('tbody')).height
-      )
-    } catch (e) {
-      //
-    }
-
-    return height
+  if (isConnected || !hasObserverSupport.current) {
+    return null
   }
 
-  render() {
-    const { markerElement } = this.props
+  // NB: make sure we don't actually use the marker element,
+  // because it looks like React as troubles regarding handling ref during a re-render?
+  const Element =
+    markerElement && isTrElement(markerElement) ? 'tr' : 'div'
+  const ElementChild =
+    markerElement && isTrElement(markerElement) ? 'td' : 'div'
 
-    if (this.state.isConnected || !this.intersectionObserver) {
-      return null
-    }
-
-    // NB: make sure we don't actually use the marker element,
-    // because it looks like React as troubles regarding handling ref during a re-render?
-    const Element =
-      markerElement && isTrElement(markerElement) ? 'tr' : 'div'
-    const ElementChild =
-      markerElement && isTrElement(markerElement) ? 'td' : 'div'
-
-    return (
-      <Element className="dnb-pagination__marker dnb-table--ignore">
-        <ElementChild
-          className="dnb-pagination__marker__inner"
-          ref={this._ref}
-        >
-          {/* {this.props.pageNumber} */}
-        </ElementChild>
-      </Element>
-    )
-  }
+  return (
+    <Element className="dnb-pagination__marker dnb-table--ignore">
+      <ElementChild
+        className="dnb-pagination__marker__inner"
+        ref={markerRef as React.RefObject<never>}
+      />
+    </Element>
+  )
 }
 
 export function InfinityLoadButton({
@@ -546,7 +548,7 @@ export function InfinityLoadButton({
   iconPosition = 'left',
   onClick,
 }: {
-  element?: any
+  element?: React.ElementType
   pressedElement?: React.ReactNode
   icon?: string
   text?: string | null
@@ -590,8 +592,8 @@ function ScrollToElement({
   pageElement = null,
   ...props
 }: {
-  pageElement?: any
-  [key: string]: any
+  pageElement?: React.ElementType | null
+  [key: string]: unknown
 }) {
   const elementRef = React.useRef<HTMLDivElement>(null)
 
