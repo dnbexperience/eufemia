@@ -8,13 +8,13 @@ import clsx from 'clsx'
 import Context from '../../shared/Context'
 import {
   warn,
+  extendPropsWithContextInClassComponent,
   removeUndefinedProps,
   validateDOMAttributes,
   processChildren,
   getStatusState,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
 import useId from '../../shared/helpers/useId'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import {
@@ -268,7 +268,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
   )
 
   // use only the props from context, who are available here anyway
-  const props = extendPropsWithContext(
+  const props = extendPropsWithContextInClassComponent(
     {
       ...buttonDefaultProps,
       // Strip undefined values so they fall through to defaults,
@@ -307,8 +307,6 @@ function Button({ ref, ...restProps }: ButtonProps) {
     selected,
     surface = context?.theme?.surface ?? 'default',
     ref: _ref,
-    vertical: _vertical,
-    labelDirection: _labelDirection,
     ...attributes
   } = props
 
