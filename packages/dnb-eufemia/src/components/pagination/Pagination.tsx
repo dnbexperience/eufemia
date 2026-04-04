@@ -1,11 +1,8 @@
 /**
  * Web Pagination Component
- *
- * This is a legacy component.
- * For referencing while developing new features, please use a Functional component.
  */
 
-import React from 'react'
+import React, { useContext, useRef } from 'react'
 import clsx from 'clsx'
 import PaginationContext from './PaginationContext'
 import PaginationProvider from './PaginationProvider'
@@ -34,7 +31,7 @@ export type PaginationParallelLoadCount = string | number
 export type PaginationMinWaitTime = string | number
 export type PaginationMode = 'pagination' | 'infinity'
 export type PaginationLayout = 'vertical' | 'horizontal'
-export type PaginationItems = string | any[]
+export type PaginationItems = string | unknown[]
 export type PaginationSetContentHandler =
   | string
   | ((fn: (pageNumber: number, content: React.ReactNode) => void) => void)
@@ -305,117 +302,109 @@ const Pagination = PaginationFunc as PaginationComponent
 
 export default Pagination
 
-class PaginationInstance extends React.PureComponent<PaginationProps> {
-  static defaultProps = paginationDefaultProps
-  static contextType = PaginationContext
-  context!: React.ContextType<typeof PaginationContext>
+const PaginationInstance = React.memo(function PaginationInstance(
+  ownProps: PaginationProps
+) {
+  const ctx = useContext(PaginationContext)
+  const contentRef = useRef<HTMLDivElement | null>(null)
 
-  _contentRef: React.RefObject<HTMLDivElement | null>
+  // Uses extendPropsWithContextInClassComponent (onlyMergeExistingProps: true)
+  // to prevent context props not defined in paginationDefaultProps from
+  // leaking into the component and potentially reaching DOM attributes.
+  const props = extendPropsWithContextInClassComponent(
+    ownProps,
+    paginationDefaultProps,
+    ctx.getTranslation(ownProps).Pagination,
+    ctx.Pagination
+  )
 
-  constructor(props: PaginationProps) {
-    super(props)
-    this._contentRef = React.createRef()
-  }
+  const {
+    align: _align,
+    children: _children,
+    className: _className,
+    barSpace: _barSpace,
+    paginationBarLayout: _paginationBarLayout,
 
-  render() {
-    // use only the props from context, who are available here anyway
-    const ctx = this.context as Record<string, any>
-    const props = extendPropsWithContextInClassComponent(
-      this.props,
-      paginationDefaultProps,
-      ctx.getTranslation(this.props).Pagination,
-      ctx.Pagination
-    )
+    disabled: _disabled,
+    skeleton: _skeleton,
+    tagName: _tagName,
+    pageCount: _page_count,
+    currentPage: _current_page,
+    startupPage: _startupPage,
+    mode: _mode,
+    hideProgressIndicator: _hideProgressIndicator,
+    useLoadButton: _useLoadButton,
+    currentPageInternal: _currentPage,
+    markerElement: _markerElement,
+    fallbackElement: _fallbackElement,
+    setContentHandler: _setContentHandler,
+    resetContentHandler: _resetContentHandler,
+    resetPaginationHandler: _resetPaginationHandler,
+    endInfinityHandler: _endInfinityHandler,
+    minWaitTime: _minWaitTime,
+    pageElement: _pageElement,
+    startupCount: _startupCount,
+    parallelLoadCount: _parallelLoadCount,
+    buttonTitle: _buttonTitle,
+    prevTitle: _prevTitle,
+    nextTitle: _nextTitle,
+    morePages: _morePages,
+    isLoadingText: _isLoadingText,
+    loadButton: _loadButton,
+    indicatorElement: _indicatorElement,
+    placeMarkerBeforeContent: _placeMarkerBeforeContent,
 
-    const {
-      align,
-      children,
-      className,
-      barSpace,
-      paginationBarLayout,
+    ...attributes
+  } = props as Record<string, unknown>
 
-      disabled: _disabled,
-      skeleton: _skeleton,
-      tagName: _tagName,
-      pageCount: _page_count,
-      currentPage: _current_page,
-      startupPage: _startupPage,
-      mode: _mode,
-      hideProgressIndicator: _hideProgressIndicator,
-      useLoadButton: _useLoadButton,
-      currentPageInternal: _currentPage,
-      markerElement: _markerElement,
-      fallbackElement: _fallbackElement,
-      setContentHandler: _setContentHandler,
-      resetContentHandler: _resetContentHandler,
-      resetPaginationHandler: _resetPaginationHandler,
-      endInfinityHandler: _endInfinityHandler,
-      minWaitTime: _minWaitTime,
-      pageElement: _pageElement,
-      startupCount: _startupCount,
-      parallelLoadCount: _parallelLoadCount,
-      buttonTitle: _buttonTitle,
-      prevTitle: _prevTitle,
-      nextTitle: _nextTitle,
-      morePages: _morePages,
-      isLoadingText: _isLoadingText,
-      loadButton: _loadButton,
-      indicatorElement: _indicatorElement,
-      placeMarkerBeforeContent: _placeMarkerBeforeContent,
+  const { align, children, className, barSpace, paginationBarLayout } =
+    props
 
-      ...attributes
-    } = props as Record<string, any>
+  // our props
+  const { currentPageInternal, items, fallbackElement, indicatorElement } =
+    ctx.pagination
 
-    // our props
-    const {
-      currentPageInternal,
-      items,
-      fallbackElement,
-      indicatorElement,
-    } = this.context.pagination
-
-    // Pagination mode
-    if (this.context.pagination.mode === 'pagination') {
-      const mainParams = {
-        className: clsx(
-          'dnb-pagination',
-          align && `dnb-pagination--${align}`,
-          paginationBarLayout &&
-            `dnb-pagination--layout-${paginationBarLayout}`,
-          createSpacingClasses(props),
-          className
-        ),
-        ...attributes,
-      }
-
-      validateDOMAttributes(props, mainParams)
-
-      const content = items.find(
-        ({ pageNumber }) => pageNumber === currentPageInternal
-      )?.content
-
-      return (
-        <div {...mainParams}>
-          <PaginationBar contentRef={this._contentRef} space={barSpace}>
-            {children}
-          </PaginationBar>
-          {items.length > 0 && (
-            <PaginationContent ref={this._contentRef}>
-              {content || (
-                <PaginationIndicator
-                  indicatorElement={indicatorElement || fallbackElement}
-                />
-              )}
-            </PaginationContent>
-          )}
-        </div>
-      )
+  // Pagination mode
+  if (ctx.pagination.mode === 'pagination') {
+    const mainParams = {
+      className: clsx(
+        'dnb-pagination',
+        align && `dnb-pagination--${align}`,
+        paginationBarLayout &&
+          `dnb-pagination--layout-${paginationBarLayout}`,
+        createSpacingClasses(props),
+        className
+      ),
+      ...attributes,
     }
 
-    // InfinityScroller mode
-    return <InfinityScroller />
+    validateDOMAttributes(props, mainParams)
+
+    const content = items.find(
+      ({ pageNumber }) => pageNumber === currentPageInternal
+    )?.content
+
+    return (
+      <div {...mainParams}>
+        <PaginationBar contentRef={contentRef} space={barSpace}>
+          {children as React.ReactNode}
+        </PaginationBar>
+        {items.length > 0 && (
+          <PaginationContent ref={contentRef}>
+            {content || (
+              <PaginationIndicator
+                indicatorElement={indicatorElement || fallbackElement}
+              />
+            )}
+          </PaginationContent>
+        )}
+      </div>
+    )
   }
-}
+
+  // InfinityScroller mode
+  return <InfinityScroller />
+})
 
 export function InfinityMarker(props: PaginationProps) {
   const { children, ...rest } = {
@@ -470,12 +459,16 @@ export const Bar = (props: PaginationProps) => (
 export const createPagination = (
   initProps: Record<string, unknown> = {}
 ): PaginationCreateReturn => {
-  const store = React.createRef<any>()
-  const rerender = React.createRef<any>()
-  const _setContent = React.createRef<any>()
-  const _resetContent = React.createRef<any>()
-  const _resetInfinity = React.createRef<any>()
-  const _endInfinity = React.createRef<any>()
+  const store = React.createRef<Record<string, unknown>>()
+  const rerender = React.createRef<
+    ((store: React.RefObject<Record<string, unknown>>) => void) | null
+  >()
+  const _setContent = React.createRef<
+    ((pageNumber: number, content: React.ReactNode) => void) | null
+  >()
+  const _resetContent = React.createRef<(() => void) | null>()
+  const _resetInfinity = React.createRef<(() => void) | null>()
+  const _endInfinity = React.createRef<(() => void) | null>()
 
   const setContent = (pageNumber: number, content: React.ReactNode) => {
     if (pageNumber > 0) {
@@ -508,17 +501,11 @@ export const createPagination = (
   })
 
   const Pagination = (props: Record<string, unknown>) => (
-    <PaginationWrapper
-      tagName="dnb-pagination"
-      {...(args(props) as any)}
-    />
+    <PaginationWrapper {...(args(props) as PaginationProps)} />
   )
 
   const InfinityMarker = (props: Record<string, unknown>) => (
-    <InfinityMarkerWrapper
-      tagName="dnb-infinity-marker"
-      {...(args(props) as any)}
-    />
+    <InfinityMarkerWrapper {...(args(props) as PaginationProps)} />
   )
 
   return {
