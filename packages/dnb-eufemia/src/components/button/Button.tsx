@@ -248,8 +248,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
       if (typeof ref === 'function') {
         ref(instance)
       } else if (ref) {
-        ;(ref as React.MutableRefObject<HTMLElement | null>).current =
-          instance
+        ref.current = instance
       }
     },
     [ref]
@@ -293,7 +292,6 @@ function Button({ ref, ...restProps }: ButtonProps) {
     statusProps,
     statusNoAnimation,
     globalStatus,
-    id,
     disabled,
     text: _text,
     icon: _icon,
@@ -306,14 +304,13 @@ function Button({ ref, ...restProps }: ButtonProps) {
     element,
     selected,
     surface = context?.theme?.surface ?? 'default',
-    ref: _ref,
     ...attributes
   } = props
 
   const showStatus = getStatusState(status)
 
   const { text } = props
-  let { icon } = props
+  let { icon: usedIcon } = props
   let usedVariant = variant
   let usedSize = size
   let usedIconSize = iconSize
@@ -322,8 +319,8 @@ function Button({ ref, ...restProps }: ButtonProps) {
   if (
     variant === 'tertiary' &&
     (text || content) &&
-    !icon &&
-    icon !== false
+    !usedIcon &&
+    usedIcon !== false
   ) {
     warn(
       `Icon required: A Tertiary Button requires an icon to be WCAG compliant in most cases, because variant tertiary has no underline.
@@ -332,7 +329,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
   }
 
   // if only has Icon, then resize it and define it as secondary
-  const isIconOnly = Boolean(!text && !content && icon)
+  const isIconOnly = Boolean(!text && !content && usedIcon)
   if (isIconOnly) {
     if (!usedVariant) {
       usedVariant = 'secondary'
@@ -375,8 +372,8 @@ function Button({ ref, ...restProps }: ButtonProps) {
     ? Anchor
     : 'button'
   if (Element === Anchor) {
-    if (opensNewTab(props.target, props.href) && !icon) {
-      icon = launch
+    if (opensNewTab(props.target, props.href) && !usedIcon) {
+      usedIcon = launch
     }
   }
 
@@ -385,11 +382,11 @@ function Button({ ref, ...restProps }: ButtonProps) {
     `dnb-button--${usedVariant || 'primary'}`,
     usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
     surface === 'dark' && `dnb-button--surface-dark`,
-    icon && `dnb-button--icon-position-${iconPosition}`,
+    usedIcon && `dnb-button--icon-position-${iconPosition}`,
     stretch && 'dnb-button--stretch',
-    icon && usedIconSize && `dnb-button--icon-size-${usedIconSize}`,
+    usedIcon && usedIconSize && `dnb-button--icon-size-${usedIconSize}`,
     (text || content || customContent) && 'dnb-button--has-text',
-    icon && 'dnb-button--has-icon',
+    usedIcon && 'dnb-button--has-icon',
     isIconOnly && 'dnb-button--icon-only',
     selected && 'dnb-button--selected',
     wrap && 'dnb-button--wrap',
@@ -409,7 +406,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
     className: classes,
     title,
     id: resolvedId,
-    disabled: disabled,
+    disabled,
     ...attributes,
     ...(Element === Anchor && { omitClass: true }),
   }
@@ -465,13 +462,13 @@ function Button({ ref, ...restProps }: ButtonProps) {
       <Element ref={combinedRef} {...params}>
         <ButtonContent
           {...restProps}
-          icon={icon}
+          icon={usedIcon}
           iconSize={usedIconSize}
           content={text || content}
           customContent={customContent}
           isIconOnly={isIconOnly}
           skeleton={skeleton}
-          iconElement={pickIcon(icon, 'dnb-button__icon')}
+          iconElement={pickIcon(usedIcon, 'dnb-button__icon')}
         />
       </Element>
 
