@@ -258,7 +258,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
   // Generate an id only when explicitly provided or when status/tooltip
   // needs one for aria linking – mirrors the original class component logic.
   const generatedId = useId(restProps.id)
-  const _id =
+  const resolvedId =
     restProps.id || restProps.status || restProps.tooltip
       ? generatedId
       : undefined
@@ -408,7 +408,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
   const params = {
     className: classes,
     title,
-    id: _id,
+    id: resolvedId,
     disabled: disabled,
     ...attributes,
     ...(Element === Anchor && { omitClass: true }),
@@ -479,12 +479,12 @@ function Button({ ref, ...restProps }: ButtonProps) {
 
       <FormStatus
         show={showStatus}
-        id={_id + '-form-status'}
+        id={resolvedId + '-form-status'}
         globalStatus={globalStatus}
         label={text}
         text={status}
         state={statusState}
-        textId={_id + '-status'} // used for "aria-describedby"
+        textId={resolvedId + '-status'} // used for "aria-describedby"
         noAnimation={statusNoAnimation}
         skeleton={skeleton}
         {...statusProps}
@@ -492,7 +492,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
 
       {tooltip && elementRef && (
         <Tooltip
-          id={_id + '-tooltip'}
+          id={resolvedId + '-tooltip'}
           targetElement={elementRef}
           tooltip={tooltip}
         />
