@@ -497,7 +497,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
   skeletonDOMAttributes(attributes, skeleton as boolean, context)
 
   if (link) {
-    if (link) {
+    if (link === true) {
       link = 'tel'
     }
     const { ref: _ref, ...anchorAttributes } = attributes

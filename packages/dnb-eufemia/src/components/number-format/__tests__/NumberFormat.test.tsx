@@ -461,6 +461,20 @@ describe('NumberFormat component', () => {
     )
   })
 
+  it('have to render link with tel: href by default', () => {
+    render(<Component link value="99999999" />)
+    const anchor = document.querySelector('a.dnb-anchor')
+    expect(anchor).toBeInTheDocument()
+    expect(anchor.getAttribute('href')).toMatch(/^tel:/)
+  })
+
+  it('have to render link with sms: href when link="sms"', () => {
+    render(<Component link="sms" value="99999999" />)
+    const anchor = document.querySelector('a.dnb-anchor')
+    expect(anchor).toBeInTheDocument()
+    expect(anchor.getAttribute('href')).toMatch(/^sms:/)
+  })
+
   it('have to match bank account number', () => {
     const { rerender } = render(<Component ban>20001234567</Component>)
     expect(document.querySelector(displaySelector).textContent).toBe(
