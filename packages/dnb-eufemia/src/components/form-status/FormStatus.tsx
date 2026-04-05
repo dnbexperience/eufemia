@@ -303,8 +303,7 @@ function FormStatusComponent(
     if (typeof ref === 'function') {
       ref(elementRef.current)
     } else if (ref) {
-      ;(ref as React.MutableRefObject<HTMLElement | null>).current =
-        elementRef.current
+      ref.current = elementRef.current
     }
   })
 
