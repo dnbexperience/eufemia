@@ -83,7 +83,7 @@ function getInitialChecked(
 }
 
 /**
- * The toggle-button component is our enhancement of the classic toggle-button button.
+ * The toggle-button component is based on the button component.
  */
 function ToggleButton(ownProps: ToggleButtonProps) {
   const groupContext = useContext(ToggleButtonGroupContext)
@@ -108,10 +108,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
   // Track whether the internal state was just set by a click
   const skipNextPropSync = useRef(false)
 
-  // Sync checked state from props (replaces getDerivedStateFromProps).
-  // Mirrors the class component's _listenForPropChanges pattern:
-  // skipNextPropSync is always reset after each render opportunity,
-  // just like _listenForPropChanges was always set back to true.
+  // Sync checked state from props.
   if (ownProps.checked !== prevPropsChecked) {
     setPrevPropsChecked(ownProps.checked)
     if (!skipNextPropSync.current) {
@@ -126,7 +123,6 @@ function ToggleButton(ownProps: ToggleButtonProps) {
   if (!didInitRef.current) {
     didInitRef.current = true
 
-
     if (
       groupContext.name &&
       typeof ownProps.value !== 'undefined' &&
@@ -136,10 +132,10 @@ function ToggleButton(ownProps: ToggleButtonProps) {
       groupContext.setContext
     ) {
       if (groupContext.multiselect) {
-        groupContext.setContext((tmp) => ({
+        groupContext.setContext((prevContext) => ({
           values:
-            tmp && Array.isArray(tmp.values)
-              ? [...tmp.values, ownProps.value]
+            prevContext && Array.isArray(prevContext.values)
+              ? [...prevContext.values, ownProps.value]
               : [ownProps.value],
         }))
       } else {

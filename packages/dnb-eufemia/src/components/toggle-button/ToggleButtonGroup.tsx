@@ -78,7 +78,9 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
   const [prevPropsValue, setPrevPropsValue] = useState(ownProps.value)
   const [prevPropsValues, setPrevPropsValues] = useState(ownProps.values)
 
-  const tmpRef = useRef<Record<string, unknown> | undefined>(undefined)
+  const prevContextRef = useRef<Record<string, unknown> | undefined>(
+    undefined
+  )
 
   const ownPropsRef = useRef(ownProps)
   ownPropsRef.current = ownProps
@@ -226,16 +228,16 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
       contextArg:
         | Record<string, unknown>
         | ((
-            tmp: Record<string, unknown> | undefined
+            prevContext: Record<string, unknown> | undefined
           ) => Record<string, unknown>)
     ) => {
       let resolved: Record<string, unknown>
       if (typeof contextArg === 'function') {
-        resolved = contextArg(tmpRef.current)
+        resolved = contextArg(prevContextRef.current)
       } else {
         resolved = contextArg
       }
-      tmpRef.current = { ...tmpRef.current, ...resolved }
+      prevContextRef.current = { ...prevContextRef.current, ...resolved }
 
       if ('value' in resolved) {
         setValue(resolved.value as ToggleButtonGroupValue)
