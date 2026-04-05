@@ -24,7 +24,7 @@ export function extendPropsWithContext<Props>(
   }
 }
 
-export function extendPropsWithContextInClassComponent<Props>(
+export function extendExistingPropsWithContext<Props>(
   props: Props,
   defaults: DefaultsProps = {},
   ...contexts: Contexts

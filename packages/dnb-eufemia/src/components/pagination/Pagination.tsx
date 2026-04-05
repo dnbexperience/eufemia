@@ -8,7 +8,7 @@ import PaginationContext from './PaginationContext'
 import PaginationProvider from './PaginationProvider'
 import {
   validateDOMAttributes,
-  extendPropsWithContextInClassComponent,
+  extendExistingPropsWithContext,
   removeUndefinedProps,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -308,10 +308,9 @@ const PaginationInstance = React.memo(function PaginationInstance(
   const ctx = useContext(PaginationContext)
   const contentRef = useRef<HTMLDivElement | null>(null)
 
-  // Uses extendPropsWithContextInClassComponent (onlyMergeExistingProps: true)
   // to prevent context props not defined in paginationDefaultProps from
   // leaking into the component and potentially reaching DOM attributes.
-  const props = extendPropsWithContextInClassComponent(
+  const props = extendExistingPropsWithContext(
     ownProps,
     paginationDefaultProps,
     ctx.getTranslation(ownProps).Pagination,

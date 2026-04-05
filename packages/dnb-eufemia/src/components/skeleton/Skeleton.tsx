@@ -8,7 +8,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import {
-  extendPropsWithContextInClassComponent,
+  extendExistingPropsWithContext,
   removeUndefinedProps,
   validateDOMAttributes,
 } from '../../shared/component-helper'
@@ -68,7 +68,7 @@ export type SkeletonProps = {
 
 const skeletonDefaultProps = {
   show: null,
-  skeleton: null, // only to make sure we process extendPropsWithContextInClassComponent
+  skeleton: null, // only to make sure we process extendExistingPropsWithContext
   noAnimation: null,
   figure: null,
   ariaBusy: null,
@@ -86,7 +86,7 @@ function Skeleton(props: SkeletonProps) {
 
   const getProps = React.useCallback(
     (propsToExtend = props, ctx = context) => {
-      return extendPropsWithContextInClassComponent(
+      return extendExistingPropsWithContext(
         {
           ...skeletonDefaultProps,
           // Strip undefined values so they fall through to defaults,

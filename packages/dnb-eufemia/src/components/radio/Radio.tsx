@@ -7,7 +7,7 @@ import React, { useContext, useRef, useState, useCallback } from 'react'
 import clsx from 'clsx'
 import useId from '../../shared/helpers/useId'
 import {
-  extendPropsWithContextInClassComponent,
+  extendExistingPropsWithContext,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
@@ -306,17 +306,16 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
     ...removeUndefinedProps({ ...ownProps }),
   }
 
-  // Uses extendPropsWithContextInClassComponent (onlyMergeExistingProps: true)
   // to prevent context props not defined in radioDefaultProps from
   // leaking into the component and potentially reaching DOM attributes.
-  const contextProps = extendPropsWithContextInClassComponent(
+  const contextProps = extendExistingPropsWithContext(
     resolvedProps,
     radioDefaultProps,
     groupContext as Record<string, unknown>
   )
 
   // use only the props from context, who are available here anyway
-  const props = extendPropsWithContextInClassComponent(
+  const props = extendExistingPropsWithContext(
     resolvedProps,
     radioDefaultProps,
     contextProps,

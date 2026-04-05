@@ -14,7 +14,7 @@ import {
   makeUniqueId,
   validateDOMAttributes,
   dispatchCustomElementEvent,
-  extendPropsWithContextInClassComponent,
+  extendExistingPropsWithContext,
 } from '../../shared/component-helper'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import type {
@@ -707,13 +707,13 @@ export default class GlobalStatus extends React.PureComponent<
   render() {
     const { isActive } = this.state
 
-    const fallbackProps = extendPropsWithContextInClassComponent(
+    const fallbackProps = extendExistingPropsWithContext(
       this.props,
       GlobalStatus.defaultProps,
       this.context.getTranslation(this.props).GlobalStatus
     )
 
-    const props = extendPropsWithContextInClassComponent(
+    const props = extendExistingPropsWithContext(
       GlobalStatusProvider.combineMessages([
         (this.context as Record<string, unknown>)?.globalStatus as
           | Record<string, unknown>

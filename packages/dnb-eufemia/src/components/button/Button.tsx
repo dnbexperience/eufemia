@@ -8,7 +8,7 @@ import clsx from 'clsx'
 import Context from '../../shared/Context'
 import {
   warn,
-  extendPropsWithContextInClassComponent,
+  extendExistingPropsWithContext,
   removeUndefinedProps,
   validateDOMAttributes,
   processChildren,
@@ -267,7 +267,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
   )
 
   // use only the props from context, who are available here anyway
-  const props = extendPropsWithContextInClassComponent(
+  const props = extendExistingPropsWithContext(
     {
       ...buttonDefaultProps,
       // Strip undefined values so they fall through to defaults,

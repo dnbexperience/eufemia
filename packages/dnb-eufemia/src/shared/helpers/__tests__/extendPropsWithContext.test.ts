@@ -1,6 +1,6 @@
 import {
   extendPropsWithContext,
-  extendPropsWithContextInClassComponent,
+  extendExistingPropsWithContext,
 } from '../extendPropsWithContext'
 
 describe('extendPropsWithContext', () => {
@@ -104,13 +104,13 @@ describe('extendPropsWithContext', () => {
   })
 })
 
-describe('extendPropsWithContextInClassComponent', () => {
+describe('extendExistingPropsWithContext', () => {
   it('should use context if not defined in props but in default', () => {
     const defaultProps = { foo: 'should exist' }
     const props = { ...defaultProps } // Thats how ClassComponents include defaultProps
     const context1 = { foo: 'use this value' }
 
-    const result = extendPropsWithContextInClassComponent(
+    const result = extendExistingPropsWithContext(
       props,
       defaultProps,
       context1
@@ -126,7 +126,7 @@ describe('extendPropsWithContextInClassComponent', () => {
     const props = { ...defaultProps, foo: 'use this value' } // Thats how ClassComponents include defaultProps
     const context1 = { foo: 'bar' }
 
-    const result = extendPropsWithContextInClassComponent(
+    const result = extendExistingPropsWithContext(
       props,
       defaultProps,
       context1
@@ -142,7 +142,7 @@ describe('extendPropsWithContextInClassComponent', () => {
     const props = { ...defaultProps, foo: 'same' } // Thats how ClassComponents include defaultProps
     const context1 = { foo: 'use context' }
 
-    const result = extendPropsWithContextInClassComponent(
+    const result = extendExistingPropsWithContext(
       props,
       defaultProps,
       context1
