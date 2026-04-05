@@ -123,7 +123,6 @@ const PaginationProvider = (props: any) => {
   // ---- Derived values ----
   const derived = computeDerived()
 
-  // Track previous props for componentDidUpdate equivalent
   const prevPropsRef = useRef({
     currentPage: props.currentPage,
     internalContent: props.internalContent,
@@ -316,9 +315,6 @@ const PaginationProvider = (props: any) => {
       }
       if ('upperPage' in state) {
         setUpperPage(state.upperPage)
-      }
-      if ('skipObserver' in state) {
-        // skipObserver is stored in derived/context, handled via items
       }
       if (typeof cb === 'function') {
         // Store callback to run after state commits via useEffect
@@ -560,8 +556,7 @@ const PaginationProvider = (props: any) => {
     }
   }, [])
 
-  // ---- componentDidUpdate equivalent ----
-  // Use useIsomorphicLayoutEffect to apply page/content changes before paint.
+  // Sync page and content when props change
   useIsomorphicLayoutEffect(() => {
     const prevCurrentPage = prevPropsRef.current.currentPage
     const prevInternalContent = prevPropsRef.current.internalContent
