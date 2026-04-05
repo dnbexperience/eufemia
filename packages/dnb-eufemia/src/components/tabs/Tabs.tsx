@@ -3,7 +3,14 @@
  *
  */
 
-import React from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import clsx from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import Context, { type ContextProps } from '../../shared/Context'
@@ -11,13 +18,13 @@ import {
   warn,
   slugify,
   makeUniqueId,
-  extendPropsWithContextInClassComponent,
   validateDOMAttributes,
   dispatchCustomElementEvent,
   getClosestParent,
   filterProps,
   combineLabelledBy,
 } from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type {
   DynamicElement,
@@ -197,656 +204,449 @@ type TabDataItem = {
   [key: string]: unknown
 }
 
-type TabsState = {
-  data: TabDataItem[]
-  selectedKey: string | number
-  focusKey: string | number
-  atEdge: boolean
-  lastPosition: number
-  hasScrollbar: boolean
-  _selectedKey: string | number
-  _data: TabsData | TabsChildren
-  _listenForPropChanges: boolean
-  isFirst?: boolean
-  isLast?: boolean
-}
-
 type SharedState = SharedStateReturn<Record<string, unknown>> & {
   subscribe: (subscriber: () => void) => void
   unsubscribe: (subscriber: () => void) => void
 }
 
-export default class Tabs extends React.PureComponent<
-  TabsProps,
-  TabsState
-> {
-  static contextType = Context
-  context!: ContextProps
+const tabsDefaultProps: Record<string, unknown> = {
+  data: null,
+  content: null,
+  contentStyle: null,
+  contentInnerSpace: { top: 'large' },
+  label: null,
+  tabElement: 'button',
+  selectedKey: null,
+  align: 'left',
+  tabsStyle: null,
+  tabsInnerSpace: undefined,
+  noBorder: false,
+  navButtonEdge: false,
+  onOpenTabNavigationFn: null,
+  keepInDOM: false,
+  preventRerender: false,
+  scroll: null,
+  skeleton: null,
+  id: null,
+  className: null,
+  children: null,
+  render: null,
+  onChange: null,
+  onMouseEnter: null,
+  onClick: null,
+  onFocus: null,
+  breakout: true,
+}
 
-  _id: string
-  _tabsRef: React.RefObject<HTMLDivElement>
-  _tablistRef: React.RefObject<HTMLDivElement>
-  _sharedState: SharedState | null
-  _isMounted: boolean
-  _cache: Record<
-    string,
-    { content: React.ReactNode; [key: string]: unknown }
-  >
-  _props: TabsProps
+function getSelectedKeyOrFallback(
+  selectedKey: TabsSelectedKey | null,
+  data: TabDataItem[]
+) {
+  let useKey = selectedKey
 
-  static defaultProps = {
-    data: null,
-    content: null,
-    contentStyle: null,
-    contentInnerSpace: { top: 'large' },
-    label: null,
-    tabElement: 'button',
-    selectedKey: null,
-    align: 'left',
-    tabsStyle: null,
-    tabsInnerSpace: undefined,
-    noBorder: false,
-    navButtonEdge: false,
-    onOpenTabNavigationFn: null,
-    keepInDOM: false,
-    preventRerender: false,
-    scroll: null,
-    skeleton: null,
-    id: null,
-
-    className: null,
-    children: null,
-    render: null,
-    onChange: null,
-    onMouseEnter: null,
-    onClick: null,
-    onFocus: null,
-    breakout: true,
+  // 1. if selectedKey is null/undefined then try to get it from data
+  if (!useKey) {
+    useKey =
+      data.reduce<TabsSelectedKey | null>(
+        (acc, { selected, key }) => (selected ? key : acc),
+        null
+      ) ||
+      (data[0] && data[0].key)
+  } else {
+    // 2. check if the key is valid
+    // just to make sure we never get an empty content
+    const keyExists = data.findIndex(({ key }) => key == selectedKey)
+    if (keyExists === -1) {
+      // key did not exists, so we get the first one
+      useKey = data[0] && data[0].key
+    }
   }
 
-  static Content = CustomContent
-  static ContentWrapper = ContentWrapper
+  return useKey
+}
 
-  static getSelectedKeyOrFallback(
-    selectedKey: TabsSelectedKey | null,
-    data: TabDataItem[]
+function getData(props: TabsProps) {
+  const addReactElement = (
+    list: TabDataItem[],
+    reactElem: React.ReactElement,
+    reactElemIndex?: number
+  ) => {
+    if (reactElem && reactElem.type === CustomContent) {
+      // tabs data from main prop
+      const dataProps =
+        (props.children &&
+          Array.isArray(props.children) &&
+          props.children[reactElemIndex]) ||
+        {}
+
+      // props from the "CustomContent" Component
+      const componentProps = {
+        ...(reactElem.props as Record<string, unknown>),
+      }
+      if (componentProps.title === null) {
+        delete componentProps.title
+      }
+
+      const {
+        title,
+        key: _key,
+        hash,
+        ...rest
+      } = {
+        ...dataProps,
+        ...componentProps,
+        ...{ children: null }, // remove children, if there is some
+      }
+
+      list.push({
+        title,
+        key: (!_key && hash ? hash : _key) || slugify(title),
+        content: reactElem, // can be a Node or a Function
+        ...rest,
+      })
+    }
+  }
+
+  let res = []
+
+  // check if we have to use the children prop to prepare our data
+  const data = !props.data && props.children ? props.children : props.data
+
+  // if it is an array containing React Components - collect data from Tabs.Content component
+  if (
+    Array.isArray(props.children) &&
+    props.children.some(
+      (element) =>
+        typeof element === 'function' || React.isValidElement(element)
+    )
   ) {
-    let useKey = selectedKey
-
-    // 1. if selectedKey is null/undefined then try to get it from data
-    if (!useKey) {
-      useKey =
-        data.reduce<TabsSelectedKey | null>(
-          (acc, { selected, key }) => (selected ? key : acc),
-          null
-        ) ||
-        (data[0] && data[0].key)
-    } else {
-      // 2. check if the key is valid
-      // just to make sure we never get an empty content
-      const keyExists = data.findIndex(({ key }) => key == selectedKey)
-      if (keyExists === -1) {
-        // key did not exists, so we get the first one
-        useKey = data[0] && data[0].key
-      }
-    }
-
-    return useKey
+    res = props.children.reduce((list, reactElem, i) => {
+      addReactElement(list, reactElem, i)
+      return list
+    }, [])
   }
 
-  static getDerivedStateFromProps(props: TabsProps, state: TabsState) {
-    if (state._listenForPropChanges) {
-      if (props.data) {
-        if (state._data !== props.data) {
-          state._data = props.data
-          state.data = Tabs.getData(props)
-        }
-      } else if (props.children) {
-        if (state._data !== props.children) {
-          state._data = props.children
-          state.data = Tabs.getData(props)
-        }
-      }
-      if (props.selectedKey && state._selectedKey !== props.selectedKey) {
-        state.selectedKey = state._selectedKey =
-          Tabs.getSelectedKeyOrFallback(props.selectedKey, state.data)
-      }
-    }
-    state._listenForPropChanges = true
-    return state
+  // if it is a single React Component - collect data from Tabs.Content component
+  if (
+    !Array.isArray(props.children) &&
+    (typeof props.children === 'function' ||
+      React.isValidElement(props.children))
+  ) {
+    addReactElement(res, props.children as React.ReactElement)
   }
 
-  static getData(props: TabsProps) {
-    const addReactElement = (
-      list: TabDataItem[],
-      reactElem: React.ReactElement,
-      reactElemIndex?: number
-    ) => {
-      if (reactElem && reactElem.type === CustomContent) {
-        // tabs data from main prop
-        const dataProps =
-          (props.children &&
-            Array.isArray(props.children) &&
-            props.children[reactElemIndex]) ||
-          {}
+  // continue, while the children didn't contain our data
+  if (!(res && res.length > 0)) {
+    // if data is array, it looks good!
+    if (props.data && Array.isArray(data)) {
+      res = data
 
-        // props from the "CustomContent" Component
-        const componentProps = {
-          ...(reactElem.props as Record<string, unknown>),
+      // it may be a json
+    } else if (typeof data === 'string') {
+      res = data[0] === '[' ? JSON.parse(data) : []
+
+      // but it may also be an object
+    } else if (data && typeof data === 'object') {
+      res = Object.entries(data).reduce((acc, [key, obj]) => {
+        if (obj) {
+          acc.push({
+            key,
+            ...(obj as Record<string, unknown>),
+          })
         }
-        if (componentProps.title === null) {
-          delete componentProps.title
-        }
-
-        const {
-          title,
-          key: _key,
-          hash,
-          ...rest
-        } = {
-          ...dataProps,
-          ...componentProps,
-          ...{ children: null }, // remove children, if there is some
-        }
-
-        list.push({
-          title,
-          key: (!_key && hash ? hash : _key) || slugify(title),
-          content: reactElem, // can be a Node or a Function
-          ...rest,
-        })
-      }
-    }
-
-    let res = []
-
-    // check if we have to use the children prop to prepare our data
-    const data =
-      !props.data && props.children ? props.children : props.data
-
-    // if it is an array containing React Components - collect data from Tabs.Content component
-    if (
-      Array.isArray(props.children) &&
-      props.children.some(
-        (element) =>
-          typeof element === 'function' || React.isValidElement(element)
-      )
-    ) {
-      res = props.children.reduce((list, reactElem, i) => {
-        addReactElement(list, reactElem, i)
-        return list
+        return acc
       }, [])
     }
-
-    // if it is a single React Component - collect data from Tabs.Content component
-    if (
-      !Array.isArray(props.children) &&
-      (typeof props.children === 'function' ||
-        React.isValidElement(props.children))
-    ) {
-      addReactElement(res, props.children as React.ReactElement)
-    }
-
-    // continue, while the children didn't contain our data
-    if (!(res && res.length > 0)) {
-      // if data is array, it looks good!
-      if (props.data && Array.isArray(data)) {
-        res = data
-
-        // it may be a json
-      } else if (typeof data === 'string') {
-        res = data[0] === '[' ? JSON.parse(data) : []
-
-        // but it may also be an object
-      } else if (data && typeof data === 'object') {
-        res = Object.entries(data).reduce((acc, [key, obj]) => {
-          if (obj) {
-            acc.push({
-              key,
-              ...(obj as Record<string, unknown>),
-            })
-          }
-          return acc
-        }, [])
-      }
-    }
-
-    return res || []
   }
 
-  constructor(props: TabsProps) {
-    super(props)
+  return res || []
+}
 
-    this._id = props.id || makeUniqueId() // cause we need an id anyway
-    const data = Tabs.getData(props)
+function TabsComponent(ownProps: TabsProps) {
+  const context = useContext(Context)
 
-    const selectedKey = Tabs.getSelectedKeyOrFallback(
-      props.selectedKey,
-      data
-    )
+  // Extend props with context (with defaults) - do this early so sub-components can use it
+  const props = extendPropsWithContext(ownProps, tabsDefaultProps, {
+    skeleton: context?.skeleton,
+  }) as TabsProps
 
-    const lastPosition = this.getLastPosition()
-    this.state = {
-      data,
-      selectedKey,
-      focusKey: selectedKey,
-      atEdge: false,
-      lastPosition,
-      hasScrollbar: lastPosition > -1,
-      _selectedKey: selectedKey,
-      _data: props.data || props.children,
-      _listenForPropChanges: true,
+  // Ref for merged props so stable sub-components can access latest values
+  const propsRef = useRef(props)
+  propsRef.current = props
+
+  // Refs
+  const tabsRef = useRef<HTMLDivElement>(null)
+  const tablistRef = useRef<HTMLDivElement>(null)
+  const isMountedRef = useRef(false)
+  const cacheRef = useRef<
+    Record<string, { content: React.ReactNode; [key: string]: unknown }>
+  >({})
+  const listenForPropChangesRef = useRef(true)
+
+  // ID
+  const idRef = useRef(ownProps.id || makeUniqueId())
+  const _id = idRef.current
+
+  // Shared state
+  const sharedStateRef = useRef<SharedState | null>(null)
+
+  // Initialize data and keys
+  const [data, setData] = useState<TabDataItem[]>(() => getData(ownProps))
+  const [selectedKey, setSelectedKey] = useState<string | number>(() =>
+    getSelectedKeyOrFallback(ownProps.selectedKey, getData(ownProps))
+  )
+  const [focusKey, setFocusKey] = useState<string | number>(selectedKey)
+  const [hasScrollbar, setHasScrollbar] = useState(false)
+  const [isFirst, setIsFirst] = useState<boolean | undefined>(undefined)
+  const [isLast, setIsLast] = useState<boolean | undefined>(undefined)
+
+  // Track previous props for getDerivedStateFromProps equivalent
+  const [prevDataSource, setPrevDataSource] = useState(
+    ownProps.data || ownProps.children
+  )
+  const [prevSelectedKey, setPrevSelectedKey] = useState(
+    ownProps.selectedKey
+  )
+
+  // getDerivedStateFromProps equivalent
+  if (listenForPropChangesRef.current) {
+    const dataSource = ownProps.data || ownProps.children
+    if (prevDataSource !== dataSource) {
+      setPrevDataSource(dataSource)
+      const newData = getData(ownProps)
+      setData(newData)
     }
-
-    this._tabsRef = React.createRef()
-    this._tablistRef = React.createRef()
-
-    if (props.id) {
-      this._sharedState = createSharedState(props.id)
-      this._sharedState.set(this.getEventArgs({ selectedKey }))
+    if (ownProps.selectedKey && prevSelectedKey !== ownProps.selectedKey) {
+      setPrevSelectedKey(ownProps.selectedKey)
+      setSelectedKey(getSelectedKeyOrFallback(ownProps.selectedKey, data))
     }
   }
 
-  componentDidMount() {
-    this._isMounted = true
-    if (document.readyState === 'complete') {
-      this.init()
-    } else if (typeof window !== 'undefined') {
-      window.addEventListener('load', this.init)
-    }
-  }
+  // Reset listen flag after each render
+  useEffect(() => {
+    listenForPropChangesRef.current = true
+  })
 
-  componentWillUnmount() {
-    this._isMounted = false
-    this.resetWhatInput()
-    if (this._sharedState) {
-      this._sharedState = null
-    }
-    if (typeof window !== 'undefined') {
-      window.removeEventListener('resize', this.onResizeHandler)
-      window.removeEventListener('load', this.init)
-    }
-  }
+  // Store latest state in refs so stable sub-components can access them
+  const dataRef = useRef(data)
+  dataRef.current = data
+  const selectedKeyRef = useRef(selectedKey)
+  selectedKeyRef.current = selectedKey
+  const focusKeyRef = useRef(focusKey)
+  focusKeyRef.current = focusKey
+  const hasScrollbarRef = useRef(hasScrollbar)
+  hasScrollbarRef.current = hasScrollbar
+  const isFirstRef = useRef(isFirst)
+  isFirstRef.current = isFirst
+  const isLastRef = useRef(isLast)
+  isLastRef.current = isLast
+  const contextRef = useRef(context)
+  contextRef.current = context
 
-  init = () => {
-    if (this._isMounted) {
-      this.addScrollBehavior()
-
-      const hasScrollbar = this.hasScrollbar()
-      const hasLastPosition = this.hasLastPosition()
-      this.setScrollbarState({ hasScrollbar })
-
-      if (hasLastPosition) {
-        this.setLeftPosition(this.state.lastPosition)
-      }
-
-      if (hasScrollbar) {
-        this.scrollToTab({
-          type: 'selected',
-          behavior: hasLastPosition ? 'smooth' : 'auto',
-        })
-      }
-
-      /**
-       * This is a helper in order to set the focus on the content,
-       * when the Tabs component is used with real route.
-       *
-       * 1. We save the last used tab every time
-       * 2. Check if it is set
-       * 3. If yes, then focus the tab content
-       *
-       */
-      if (this.hasLastUsedTab() !== null) {
-        this.setState(null, this.setFocusOnTabButton)
-      }
-    }
-  }
-
-  componentDidUpdate(props: TabsProps) {
-    if (
-      this._sharedState &&
-      (this.props.selectedKey !== props.selectedKey ||
-        this.props.data !== props.data)
-    ) {
-      this.onResizeHandler()
-
-      if (this._sharedState) {
-        const selectedKey = this.state.selectedKey
-        this._sharedState.update(this.getEventArgs({ selectedKey }))
-      }
-    }
-  }
-
-  hasLastPosition() {
-    return this.state.lastPosition > -1
-  }
-
-  getLastPosition() {
+  // Last position from localStorage
+  const getLastPosition = useCallback(() => {
     if (typeof window !== 'undefined') {
       try {
         const pos = parseFloat(
-          window.localStorage.getItem(`tabs-pos-${this._id}`)
+          window.localStorage.getItem(`tabs-pos-${_id}`)
         )
-        window.localStorage.removeItem(`tabs-pos-${this._id}`)
+        window.localStorage.removeItem(`tabs-pos-${_id}`)
         return isNaN(pos) ? -1 : pos
       } catch (e) {
         warn(e)
       }
     }
     return -1
-  }
+  }, [_id])
 
-  hasLastUsedTab() {
+  const hasLastPosition = useCallback(() => {
+    return lastPositionRef.current > -1
+  }, [])
+
+  const lastPositionRef = useRef(getLastPosition())
+
+  const hasLastUsedTab = useCallback(() => {
     if (typeof window !== 'undefined') {
       try {
-        const key =
-          window.localStorage.getItem(`tabs-last-${this._id}`) || null
-        window.localStorage.removeItem(`tabs-last-${this._id}`)
+        const key = window.localStorage.getItem(`tabs-last-${_id}`) || null
+        window.localStorage.removeItem(`tabs-last-${_id}`)
         return key
       } catch (e) {
         warn(e)
       }
     }
     return -1
-  }
+  }, [_id])
 
-  saveLastUsedTab() {
+  const saveLastUsedTab = useCallback(() => {
     if (typeof window !== 'undefined') {
       try {
         window.localStorage.setItem(
-          `tabs-last-${this._id}`,
-          String(this.state.selectedKey)
-        ) // gets removed right afterwards
+          `tabs-last-${_id}`,
+          String(selectedKeyRef.current)
+        )
       } catch (e) {
         warn(e)
       }
     }
-  }
+  }, [_id])
 
-  saveLastPosition(position = this._tablistRef.current?.scrollLeft) {
-    if (typeof window !== 'undefined') {
-      try {
-        window.localStorage.setItem(
-          `tabs-pos-${this._id}`,
-          String(position)
-        ) // gets removed right afterwards
-      } catch (e) {
-        warn(e)
+  const saveLastPosition = useCallback(
+    (position = tablistRef.current?.scrollLeft) => {
+      if (typeof window !== 'undefined') {
+        try {
+          window.localStorage.setItem(`tabs-pos-${_id}`, String(position))
+        } catch (e) {
+          warn(e)
+        }
       }
-    }
-  }
+    },
+    [_id]
+  )
 
-  setScrollbarState = ({ hasScrollbar = this.hasScrollbar() } = {}) => {
-    if (hasScrollbar !== this.state.hasScrollbar) {
-      this.setState({
-        hasScrollbar,
-      })
-    }
-  }
-
-  onResizeHandler = () => {
-    const hasScrollbar = this.hasScrollbar()
-    this.setScrollbarState({ hasScrollbar })
-
-    // ensure that we scroll to the "active" item
-    if (hasScrollbar) {
-      this.scrollToTab({ type: 'selected' })
-    }
-  }
-
-  hasScrollbar() {
+  const checkHasScrollbar = useCallback(() => {
     return (
-      /**
-       * Safari Desktop adds one pixel "on zoom" level 1
-       * therefore we just remove it here
-       */
-      this._tablistRef.current.scrollWidth - 1 >
-      this._tablistRef.current.offsetWidth
+      tablistRef.current.scrollWidth - 1 > tablistRef.current.offsetWidth
     )
-  }
+  }, [])
 
-  addScrollBehavior() {
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', this.onResizeHandler)
+  const setLeftPosition = useCallback((scrollLeft) => {
+    try {
+      tablistRef.current.style.scrollBehavior = 'auto'
+      tablistRef.current.scrollLeft = scrollLeft
+      tablistRef.current.style.scrollBehavior = 'smooth'
+    } catch (e) {
+      //
     }
+  }, [])
 
-    // Note: We could make use of "onMediaQueryChange"
-    // But the problem is, we want constantly resize updates, and not just "one"
-    // because we don't know the media query values beforehand
-    // this.mediaQueryListener = onMediaQueryChange(
-    //   {
-    //     min: 'small',
-    //   },
-    //   this.onResizeHandler
-    // )
-  }
+  const scrollToTab = useCallback(
+    ({
+      type,
+      behavior = 'smooth',
+    }: {
+      type: string
+      behavior?: ScrollBehavior
+    }) => {
+      if (typeof window === 'undefined') {
+        return // stop here
+      }
 
-  onTablistKeyDownHandler = (e) => {
-    switch (e.key) {
-      case 'ArrowUp':
-      case 'PageUp':
-      case 'ArrowLeft':
-        e.preventDefault()
-        this.focusPrevTab(e)
-        break
-      case 'ArrowDown':
-      case 'PageDown':
-      case 'ArrowRight':
-        e.preventDefault()
-        this.focusNextTab(e)
-        break
-      case 'Home':
-        e.preventDefault()
-        this.focusFirstTab(e)
-        break
-      case 'End':
-        e.preventDefault()
-        this.focusLastTab(e)
-        break
-    }
-  }
+      if ((window as Window & { IS_TEST?: boolean }).IS_TEST) {
+        behavior = 'auto'
+      }
 
-  focusFirstTab = (e) => {
-    const key = this.state.data[0].key
-    this.focusTab(key, e, 'step')
-    this.scrollToTab({ type: 'focus' })
-  }
+      const delay = () => {
+        try {
+          if (hasScrollbarRef.current && tablistRef.current) {
+            const first = tablistRef.current.querySelector(
+              '.dnb-tabs__button__snap:first-of-type'
+            )
+            const isFirstItem = first.classList.contains(type)
+            const last = tablistRef.current.querySelector(
+              '.dnb-tabs__button__snap:last-of-type'
+            )
+            const isLastItem = last.classList.contains(type)
+            const elem = tablistRef.current.querySelector(
+              `.dnb-tabs__button.${type}`
+            )
 
-  focusLastTab = (e) => {
-    const key = this.state.data[this.state.data.length - 1].key
-    this.focusTab(key, e, 'step')
-    this.scrollToTab({ type: 'focus' })
-  }
+            const style = window.getComputedStyle(tabsRef.current)
+            const margin = parseFloat(style.marginLeft)
+            let padding = margin < 0 ? parseFloat(style.paddingLeft) : 0
 
-  focusPrevTab = (e) => {
-    this.focusTab(-1, e, 'step')
-    this.scrollToTab({ type: 'focus' })
-  }
-  focusNextTab = (e) => {
-    this.focusTab(+1, e, 'step')
-    this.scrollToTab({ type: 'focus' })
-  }
+            if (
+              !isFirstItem &&
+              !isLastItem &&
+              parseFloat(style.paddingLeft) < 16
+            ) {
+              const navButton = tabsRef.current.querySelector(
+                '.dnb-tabs__scroll-nav-button:first-of-type'
+              )
+              const additionalSpace =
+                parseFloat(window.getComputedStyle(navButton).width) * 1.5
 
-  openPrevTab = (e) => {
-    this.openTab(-1, e, 'step')
-    this.scrollToTab({ type: 'selected' })
-  }
-  openNextTab = (e) => {
-    this.openTab(+1, e, 'step')
-    this.scrollToTab({ type: 'selected' })
-  }
+              padding += additionalSpace
+            }
 
-  handleVerticalScroll = () => {
+            const leftPadding =
+              (margin < 0 ? Math.abs(margin) : 0) +
+              padding +
+              parseFloat(window.getComputedStyle(first).paddingLeft)
+            const offsetLeft = (elem as HTMLElement).offsetLeft
+
+            const left =
+              elem && !isFirstItem ? offsetLeft - leftPadding : 0
+
+            if (behavior === 'auto') {
+              tablistRef.current.style.scrollBehavior = 'auto'
+            }
+
+            tablistRef.current.scrollTo({
+              left,
+              behavior,
+            })
+
+            if (behavior === 'auto') {
+              tablistRef.current.style.scrollBehavior = ''
+            }
+
+            setIsFirst(isFirstItem)
+            setIsLast(isLastItem)
+          }
+        } catch (e) {
+          warn(e)
+        }
+      }
+
+      // Delay so Chrome/Safari makes the transition / animation smooth
+      window.requestAnimationFrame(delay)
+    },
+    []
+  )
+
+  const handleVerticalScroll = useCallback(() => {
     if (
-      this.props.scroll &&
-      this._tablistRef.current &&
-      typeof this._tablistRef.current.scrollIntoView === 'function'
+      propsRef.current.scroll &&
+      tablistRef.current &&
+      typeof tablistRef.current.scrollIntoView === 'function'
     ) {
-      this._tablistRef.current.scrollIntoView({
+      tablistRef.current.scrollIntoView({
         block: 'start',
         behavior: 'smooth',
       })
     }
-  }
+  }, [])
 
-  setLeftPosition(scrollLeft) {
+  const setFocusOnTabButton = useCallback(() => {
     try {
-      this._tablistRef.current.style.scrollBehavior = 'auto'
-      this._tablistRef.current.scrollLeft = scrollLeft
-      this._tablistRef.current.style.scrollBehavior = 'smooth'
+      const elem = tablistRef.current.querySelector(
+        '.dnb-tabs__button.focus'
+      ) as HTMLElement
+      elem.focus({ preventScroll: true })
+
+      if (
+        !document.getElementById(`${_id}-content`) &&
+        typeof process !== 'undefined' &&
+        process.env.NODE_ENV !== 'test'
+      ) {
+        warn(
+          `Could not find the required <Tabs.Content id="${_id}-content" ... /> that provides role="tabpanel"`
+        )
+      }
     } catch (e) {
-      //
+      warn(e)
     }
-  }
+  }, [_id])
 
-  scrollToTab({
-    type,
-    behavior = 'smooth',
-  }: {
-    type: string
-    behavior?: ScrollBehavior
-  }) {
-    if (typeof window === 'undefined') {
-      return // stop here
-    }
-
-    if ((window as Window & { IS_TEST?: boolean }).IS_TEST) {
-      behavior = 'auto'
-    }
-
-    const delay = () => {
-      try {
-        if (this.state.hasScrollbar && this._tablistRef.current) {
-          const first = this._tablistRef.current.querySelector(
-            '.dnb-tabs__button__snap:first-of-type'
-          )
-          const isFirst = first.classList.contains(type)
-          const last = this._tablistRef.current.querySelector(
-            '.dnb-tabs__button__snap:last-of-type'
-          )
-          const isLast = last.classList.contains(type)
-          const elem = this._tablistRef.current.querySelector(
-            `.dnb-tabs__button.${type}`
-          )
-
-          const style = window.getComputedStyle(this._tabsRef.current)
-          const margin = parseFloat(style.marginLeft)
-          let padding = margin < 0 ? parseFloat(style.paddingLeft) : 0
-
-          // Add the extra padding when we go from 1 to 2 tab so the nav button
-          if (!isFirst && !isLast && parseFloat(style.paddingLeft) < 16) {
-            const navButton = this._tabsRef.current.querySelector(
-              '.dnb-tabs__scroll-nav-button:first-of-type'
-            )
-            const additionalSpace =
-              parseFloat(window.getComputedStyle(navButton).width) * 1.5
-
-            padding += additionalSpace
-          }
-
-          const leftPadding =
-            (margin < 0 ? Math.abs(margin) : 0) +
-            padding +
-            parseFloat(window.getComputedStyle(first).paddingLeft)
-          const offsetLeft = (elem as HTMLElement).offsetLeft
-
-          const left = elem && !isFirst ? offsetLeft - leftPadding : 0
-
-          if (behavior === 'auto') {
-            this._tablistRef.current.style.scrollBehavior = 'auto'
-          }
-
-          this._tablistRef.current.scrollTo({
-            left,
-            behavior,
-          })
-
-          if (behavior === 'auto') {
-            this._tablistRef.current.style.scrollBehavior = ''
-          }
-
-          this.setState({
-            isFirst,
-            isLast,
-          })
-        }
-      } catch (e) {
-        warn(e)
-      }
-    }
-
-    // Delay so Chrome/Safari makes the transition / animation smooth
-    window.requestAnimationFrame(delay)
-  }
-
-  onMouseDown = (event) => {
-    // once we press with mouse, the focus makes the scroll view move
-    // in order to enhance UX, we prevent that and only allow a real click
-    event.preventDefault()
-  }
-
-  onKeyDownHandler = (event) => {
-    if (event.key === 'Enter') {
-      try {
-        const elem = document.getElementById(`${this._id}-content`)
-        elem.focus({ preventScroll: true })
-      } catch (e) {
-        this.warnAboutMissingContainer()
-      }
-    }
-  }
-
-  onMouseEnterHandler = (event) => {
-    const selectedKey = this.getCurrentKey(event)
-    if (selectedKey) {
-      dispatchCustomElementEvent(
-        this,
-        'onMouseEnter',
-        this.getEventArgs({ event, selectedKey })
-      )
-    }
-  }
-
-  onClickHandler = (event) => {
-    const selectedKey = this.getCurrentKey(event)
-    if (selectedKey) {
-      const ret = dispatchCustomElementEvent(
-        this,
-        'onClick',
-        this.getEventArgs({ event, selectedKey })
-      )
-
-      if (ret !== false) {
-        this.openTab(selectedKey, event)
-        this.scrollToTab({ type: 'selected' })
-      }
-    }
-  }
-
-  getCurrentKey = (event: React.SyntheticEvent) => {
-    let selectedKey: string | undefined
-    try {
-      const elem = getClosestParent(
-        'dnb-tabs__button',
-        event.target as HTMLElement
-      ) as HTMLElement | null
-      selectedKey = elem?.dataset?.tabKey
-    } catch (e) {
-      warn('Tabs Error:', e)
-    }
-
-    return selectedKey
-  }
-
-  getCurrentTitle = (selectedKey = this.state.selectedKey) => {
-    const current = this.state.data.filter(
-      ({ key }) => key == selectedKey
-    )[0]
+  const getCurrentTitle = useCallback((key?: string | number) => {
+    const useKey = key ?? selectedKeyRef.current
+    const current = dataRef.current.filter(({ key: k }) => k == useKey)[0]
     return (current && current.title) || null
-  }
+  }, [])
 
-  getStepKey(useKey, stateKey) {
-    const currentData = this.state.data.filter(({ disabled }) => !disabled)
+  const getStepKey = useCallback((useKey, stateKey) => {
+    const currentData = dataRef.current.filter(({ disabled }) => !disabled)
     const currentIndex = currentData.reduce(
       (acc, { key }, i) => (key == stateKey ? i : acc),
       -1
@@ -862,218 +662,364 @@ export default class Tabs extends React.PureComponent<
       (acc, { key }, i) => (i === nextIndex ? key : acc),
       null
     )
-  }
+  }, [])
 
-  focusTab = (focusKey, event = null, mode = null) => {
-    // for handling openPrevTab and openNextTab
-    if (mode === 'step' && parseFloat(focusKey)) {
-      focusKey = this.getStepKey(focusKey, this.state.focusKey)
+  const getEventArgs = useCallback(
+    (args) => {
+      const key =
+        typeof args.selectedKey !== 'undefined'
+          ? args.selectedKey
+          : selectedKeyRef.current
+
+      return {
+        key,
+        selectedKey: selectedKeyRef.current,
+        focusKey: focusKeyRef.current,
+        title: getCurrentTitle(key),
+        ...args,
+      }
+    },
+    [getCurrentTitle]
+  )
+
+  const focusTab = useCallback(
+    (newFocusKey, event = null, mode = null) => {
+      // for handling openPrevTab and openNextTab
+      if (mode === 'step' && parseFloat(newFocusKey)) {
+        newFocusKey = getStepKey(newFocusKey, focusKeyRef.current)
+      }
+
+      listenForPropChangesRef.current = false
+      setFocusKey(newFocusKey)
+
+      // setFocusOnTabButton will be called via useEffect below
+
+      dispatchCustomElementEvent(
+        { props: propsRef.current },
+        'onFocus',
+        getEventArgs({ event, focusKey: newFocusKey })
+      )
+
+      whatInput.specificKeys([9, 37, 39, 33, 34, 35, 36])
+    },
+    [getStepKey, getEventArgs]
+  )
+
+  // Focus tab button when focusKey changes
+  const prevFocusKeyRef = useRef(focusKey)
+  useEffect(() => {
+    if (prevFocusKeyRef.current !== focusKey) {
+      prevFocusKeyRef.current = focusKey
+      setFocusOnTabButton()
     }
+  }, [focusKey, setFocusOnTabButton])
 
-    this.setState(
-      {
-        focusKey,
-        _listenForPropChanges: false,
-      },
-      this.setFocusOnTabButton
-    )
+  const openTab = useCallback(
+    (newSelectedKey, event = null, mode = null) => {
+      // saving the position will avoid flickering if the new tab will be done by a new page load
+      saveLastPosition()
+      saveLastUsedTab()
+      whatInput.specificKeys([9])
 
-    dispatchCustomElementEvent(
-      this,
-      'onFocus',
-      this.getEventArgs({ event, focusKey })
-    )
+      // for handling openPrevTab and openNextTab
+      if (mode === 'step' && parseFloat(newSelectedKey)) {
+        newSelectedKey = getStepKey(newSelectedKey, selectedKeyRef.current)
+      }
 
-    this.setWhatInput()
-  }
+      if (typeof newSelectedKey !== 'undefined') {
+        listenForPropChangesRef.current = false
+        setSelectedKey(newSelectedKey)
+        setFocusKey(newSelectedKey)
+      }
 
-  setWhatInput() {
-    whatInput.specificKeys([9, 37, 39, 33, 34, 35, 36])
-  }
-
-  resetWhatInput() {
-    whatInput.specificKeys([9])
-  }
-
-  setFocusOnTabButton = () => {
-    try {
-      const elem = this._tablistRef.current.querySelector(
-        '.dnb-tabs__button.focus'
-      ) as HTMLElement
-      elem.focus({ preventScroll: true })
+      dispatchCustomElementEvent(
+        { props: propsRef.current },
+        'onChange',
+        getEventArgs({ event, selectedKey: newSelectedKey })
+      )
 
       if (
-        !document.getElementById(`${this._id}-content`) &&
-        typeof process !== 'undefined' &&
-        process.env.NODE_ENV !== 'test'
+        propsRef.current.onOpenTabNavigationFn &&
+        typeof window !== 'undefined'
       ) {
-        this.warnAboutMissingContainer()
-      }
-    } catch (e) {
-      warn(e)
-    }
-  }
-
-  warnAboutMissingContainer() {
-    warn(
-      `Could not find the required <Tabs.Content id="${this._id}-content" ... /> that provides role="tabpanel"`
-    )
-  }
-
-  openTab = (selectedKey, event = null, mode = null) => {
-    // saving the position will avoid flickering if the new tab will be done by a new page load
-    this.saveLastPosition()
-    this.saveLastUsedTab()
-    this.resetWhatInput()
-
-    // for handling openPrevTab and openNextTab
-    if (mode === 'step' && parseFloat(selectedKey)) {
-      selectedKey = this.getStepKey(selectedKey, this.state.selectedKey)
-    }
-
-    if (typeof selectedKey !== 'undefined') {
-      this.setState(
-        {
-          selectedKey,
-          focusKey: selectedKey,
-          _listenForPropChanges: false,
-        },
-        this.handleVerticalScroll
-      )
-    }
-
-    dispatchCustomElementEvent(
-      this,
-      'onChange',
-      this.getEventArgs({ event, selectedKey })
-    )
-
-    if (
-      this.props.onOpenTabNavigationFn &&
-      typeof window !== 'undefined'
-    ) {
-      try {
-        this.props.onOpenTabNavigationFn(selectedKey)
-      } catch (e) {
-        warn('Tabs Error:', e)
-      }
-    }
-
-    if (this._sharedState) {
-      this._sharedState.update(this.getEventArgs({ event, selectedKey }))
-    }
-  }
-
-  getEventArgs(args) {
-    const { selectedKey, focusKey } = this.state
-    const key =
-      typeof args.selectedKey !== 'undefined'
-        ? args.selectedKey
-        : selectedKey
-
-    return {
-      key,
-      selectedKey,
-      focusKey,
-      title: this.getCurrentTitle(key),
-      ...args,
-    }
-  }
-
-  isFocus(tabKey) {
-    return this.state.focusKey == tabKey
-  }
-  isSelected(tabKey) {
-    return this.state.selectedKey == tabKey
-  }
-
-  renderCachedContent() {
-    const { selectedKey, data } = this.state
-    const { preventRerender, keepInDOM } = this.props
-
-    if (keepInDOM) {
-      this._cache = Object.entries(data).reduce((acc, [_idx, cur]) => {
-        acc[cur.key] = {
-          ...cur,
-          content: this.getContent(cur.key),
+        try {
+          propsRef.current.onOpenTabNavigationFn(newSelectedKey)
+        } catch (e) {
+          warn('Tabs Error:', e)
         }
-        return acc
-      }, {})
-    } else if (preventRerender) {
-      this._cache = {
-        ...(this._cache || {}),
-        [selectedKey]: { content: this.getContent(selectedKey) },
       }
-    }
 
-    const cachedContent = Object.entries(this._cache).map(
-      ([key, { content }]) => {
-        const hide = key !== String(selectedKey)
-        return (
-          <div
-            key={key}
-            aria-hidden={hide ? true : undefined}
-            className={clsx(
-              'dnb-tabs__cached',
-              hide && 'dnb-tabs__cached--hidden'
-            )}
-          >
-            {content}
-          </div>
+      if (sharedStateRef.current) {
+        sharedStateRef.current.update(
+          getEventArgs({ event, selectedKey: newSelectedKey })
         )
       }
-    )
+    },
+    [getStepKey, getEventArgs, saveLastPosition, saveLastUsedTab]
+  )
 
-    return cachedContent
+  // Scroll on open tab (handleVerticalScroll)
+  const prevSelectedKeyForScrollRef = useRef(selectedKey)
+  useEffect(() => {
+    if (prevSelectedKeyForScrollRef.current !== selectedKey) {
+      prevSelectedKeyForScrollRef.current = selectedKey
+      handleVerticalScroll()
+    }
+  }, [selectedKey, handleVerticalScroll])
+
+  const onResizeHandler = useCallback(() => {
+    const scrollbarVisible = checkHasScrollbar()
+    setHasScrollbar(scrollbarVisible)
+
+    if (scrollbarVisible) {
+      scrollToTab({ type: 'selected' })
+    }
+  }, [checkHasScrollbar, scrollToTab])
+
+  // Synchronous shared state initialization (must happen during render, not in useEffect)
+  if (ownProps.id && !sharedStateRef.current) {
+    sharedStateRef.current = createSharedState(ownProps.id)
+    sharedStateRef.current.set({
+      key: selectedKey,
+      selectedKey,
+      focusKey,
+      title: getCurrentTitle(selectedKey),
+    })
   }
 
-  renderContent() {
-    const { preventRerender, keepInDOM } = this.props
+  // Init on mount / window load
+  useEffect(() => {
+    isMountedRef.current = true
 
-    if (preventRerender || keepInDOM) {
-      return this.renderCachedContent()
+    const init = () => {
+      if (isMountedRef.current && tablistRef.current) {
+        const scrollbarVisible = checkHasScrollbar()
+        const hasLP = lastPositionRef.current > -1
+
+        setHasScrollbar(scrollbarVisible)
+
+        if (hasLP) {
+          setLeftPosition(lastPositionRef.current)
+        }
+
+        if (scrollbarVisible) {
+          scrollToTab({
+            type: 'selected',
+            behavior: hasLP ? 'smooth' : 'auto',
+          })
+        }
+
+        if (hasLastUsedTab() !== null) {
+          setFocusOnTabButton()
+        }
+      }
     }
 
-    return this.getContent(this.state.selectedKey)
-  }
+    if (document.readyState === 'complete') {
+      init()
+    } else if (typeof window !== 'undefined') {
+      window.addEventListener('load', init)
+    }
 
-  getContent = (selectedKey) => {
-    const { children, content: _content } = this.props
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', onResizeHandler)
+    }
+
+    return () => {
+      isMountedRef.current = false
+      whatInput.specificKeys([9])
+      sharedStateRef.current = null
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', onResizeHandler)
+        window.removeEventListener('load', init)
+      }
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Update shared state when selectedKey or data changes
+  useEffect(() => {
+    if (sharedStateRef.current) {
+      onResizeHandler()
+      sharedStateRef.current.update(getEventArgs({ selectedKey }))
+    }
+  }, [selectedKey, data]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Navigation handlers
+  const focusFirstTab = useCallback(
+    (e) => {
+      const key = dataRef.current[0].key
+      focusTab(key, e, 'step')
+      scrollToTab({ type: 'focus' })
+    },
+    [focusTab, scrollToTab]
+  )
+
+  const focusLastTab = useCallback(
+    (e) => {
+      const d = dataRef.current
+      const key = d[d.length - 1].key
+      focusTab(key, e, 'step')
+      scrollToTab({ type: 'focus' })
+    },
+    [focusTab, scrollToTab]
+  )
+
+  const focusPrevTab = useCallback(
+    (e) => {
+      focusTab(-1, e, 'step')
+      scrollToTab({ type: 'focus' })
+    },
+    [focusTab, scrollToTab]
+  )
+
+  const focusNextTab = useCallback(
+    (e) => {
+      focusTab(+1, e, 'step')
+      scrollToTab({ type: 'focus' })
+    },
+    [focusTab, scrollToTab]
+  )
+
+  const openPrevTab = useCallback(
+    (e) => {
+      openTab(-1, e, 'step')
+      scrollToTab({ type: 'selected' })
+    },
+    [openTab, scrollToTab]
+  )
+
+  const openNextTab = useCallback(
+    (e) => {
+      openTab(+1, e, 'step')
+      scrollToTab({ type: 'selected' })
+    },
+    [openTab, scrollToTab]
+  )
+
+  const onTablistKeyDownHandler = useCallback(
+    (e) => {
+      switch (e.key) {
+        case 'ArrowUp':
+        case 'PageUp':
+        case 'ArrowLeft':
+          e.preventDefault()
+          focusPrevTab(e)
+          break
+        case 'ArrowDown':
+        case 'PageDown':
+        case 'ArrowRight':
+          e.preventDefault()
+          focusNextTab(e)
+          break
+        case 'Home':
+          e.preventDefault()
+          focusFirstTab(e)
+          break
+        case 'End':
+          e.preventDefault()
+          focusLastTab(e)
+          break
+      }
+    },
+    [focusPrevTab, focusNextTab, focusFirstTab, focusLastTab]
+  )
+
+  const getCurrentKey = useCallback((event: React.SyntheticEvent) => {
+    let currentKey: string | undefined
+    try {
+      const elem = getClosestParent(
+        'dnb-tabs__button',
+        event.target as HTMLElement
+      ) as HTMLElement | null
+      currentKey = elem?.dataset?.tabKey
+    } catch (e) {
+      warn('Tabs Error:', e)
+    }
+    return currentKey
+  }, [])
+
+  const onMouseEnterHandler = useCallback(
+    (event) => {
+      const key = getCurrentKey(event)
+      if (key) {
+        dispatchCustomElementEvent(
+          { props: propsRef.current },
+          'onMouseEnter',
+          getEventArgs({ event, selectedKey: key })
+        )
+      }
+    },
+    [getCurrentKey, getEventArgs]
+  )
+
+  const onClickHandler = useCallback(
+    (event) => {
+      const key = getCurrentKey(event)
+      if (key) {
+        const ret = dispatchCustomElementEvent(
+          { props: propsRef.current },
+          'onClick',
+          getEventArgs({ event, selectedKey: key })
+        )
+
+        if (ret !== false) {
+          openTab(key, event)
+          scrollToTab({ type: 'selected' })
+        }
+      }
+    },
+    [getCurrentKey, getEventArgs, openTab, scrollToTab]
+  )
+
+  const onMouseDown = useCallback((event) => {
+    event.preventDefault()
+  }, [])
+
+  const onKeyDownHandler = useCallback(
+    (event) => {
+      if (event.key === 'Enter') {
+        try {
+          const elem = document.getElementById(`${_id}-content`)
+          elem.focus({ preventScroll: true })
+        } catch (e) {
+          warn(
+            `Could not find the required <Tabs.Content id="${_id}-content" ... /> that provides role="tabpanel"`
+          )
+        }
+      }
+    },
+    [_id]
+  )
+
+  // Content rendering helper
+  const getContent = useCallback((key) => {
+    const { children, content: _content } = propsRef.current
 
     const contentToRender = children || _content
-
     let content = null
 
     if (contentToRender) {
-      if (
-        typeof contentToRender === 'object' &&
-        contentToRender[selectedKey]
-      ) {
-        // if content is provided as an object
-        content = contentToRender[selectedKey]
+      if (typeof contentToRender === 'object' && contentToRender[key]) {
+        content = contentToRender[key]
       } else if (typeof contentToRender === 'function') {
-        // if content is provided as a render prop
-        content = contentToRender.apply(this, [selectedKey])
+        content = contentToRender(key)
       } else if (React.isValidElement(contentToRender)) {
         content = contentToRender
       }
     }
 
-    // check of the content is provided in the "data" part instead
     if (!content) {
       let items = []
 
-      if (Array.isArray(this.state.data)) {
-        items = this.state.data
+      if (Array.isArray(dataRef.current)) {
+        items = dataRef.current
       } else if (Array.isArray(contentToRender)) {
         items = contentToRender
       }
 
-      // if content was provided as a React Component like "Tabs.Content"
-      // - or the content was provided as a content prop i data
       if (items) {
         content = items
-          .filter(({ key }) => key && selectedKey && key == selectedKey) // like isSelected
+          .filter(({ key: k }) => k && key && k == key)
           .reduce((acc, { content }) => content || acc, null)
       }
     }
@@ -1084,31 +1030,49 @@ export default class Tabs extends React.PureComponent<
     }
 
     return content
-  }
+  }, [])
 
-  TabsWrapperHandler = ({
+  // Store render functions in refs for stable sub-component wrappers
+  const renderWrapperRef =
+    useRef<
+      (
+        p: React.PropsWithChildren<Record<string, unknown>>
+      ) => React.ReactElement
+    >(null)
+  const renderTabsListRef =
+    useRef<
+      (
+        p: React.PropsWithChildren<
+          { className?: string } & Record<string, unknown>
+        >
+      ) => React.ReactElement
+    >(null)
+  const renderContentRef = useRef<() => React.ReactElement>(null)
+  const renderTabsRef =
+    useRef<(p?: Record<string, unknown>) => React.ReactElement>(null)
+
+  // Update render functions with latest state on every render
+  renderWrapperRef.current = ({
     children,
     ...rest
   }: React.PropsWithChildren<Record<string, unknown>>) => {
-    const { className, class: _className } = this.props as TabsProps & {
+    const { className, class: _className } = ownProps as TabsProps & {
       class?: string
     }
-    const { ...attributes } = filterProps(this.props, Tabs.defaultProps)
+    const { ...attributes } = filterProps(ownProps, tabsDefaultProps)
 
     const params: Record<string, unknown> = {
       ...attributes,
       className: clsx(
         'dnb-tabs',
-        createSpacingClasses(this.props),
+        createSpacingClasses(ownProps),
         className,
         _className
       ),
     }
 
-    // also used for code markup simulation
-    validateDOMAttributes(this.props, params)
+    validateDOMAttributes(ownProps, params)
 
-    // Remove Tabs-specific props that should not leak to the DOM
     delete params.contentInnerSpace
     delete params.tabsInnerSpace
 
@@ -1119,9 +1083,9 @@ export default class Tabs extends React.PureComponent<
     )
   }
 
-  TabsListHandler = ({
+  renderTabsListRef.current = ({
     children,
-    className,
+    className: extraClassName,
     ...rest
   }: React.PropsWithChildren<
     { className?: string } & Record<string, unknown>
@@ -1133,8 +1097,7 @@ export default class Tabs extends React.PureComponent<
       noBorder,
       navButtonEdge,
       breakout,
-    } = this.props
-    const { hasScrollbar } = this.state
+    } = propsRef.current
 
     return (
       <div
@@ -1142,13 +1105,13 @@ export default class Tabs extends React.PureComponent<
           'dnb-tabs__tabs',
           align ? `dnb-tabs__tabs--${align}` : null,
           tabsStyle ? `dnb-section dnb-section--${tabsStyle}` : null,
-          hasScrollbar && 'dnb-tabs--has-scrollbar',
+          hasScrollbarRef.current && 'dnb-tabs--has-scrollbar',
           navButtonEdge && 'dnb-tabs--at-edge',
           noBorder && 'dnb-tabs__tabs--no-border',
           breakout && 'dnb-tabs__tabs--breakout',
-          className
+          extraClassName
         )}
-        ref={this._tabsRef}
+        ref={tabsRef}
         style={
           tabsInnerSpace
             ? {
@@ -1161,40 +1124,84 @@ export default class Tabs extends React.PureComponent<
         {...rest}
       >
         <ScrollNavButton
-          onMouseDown={this.openPrevTab}
+          onMouseDown={openPrevTab}
           icon="chevron_left"
           className={clsx(
-            hasScrollbar &&
-              (typeof this.state.isFirst !== 'undefined' ||
-                this.hasLastPosition()) &&
+            hasScrollbarRef.current &&
+              (typeof isFirstRef.current !== 'undefined' ||
+                hasLastPosition()) &&
               'dnb-tabs__scroll-nav-button--visible',
-            this.state.isFirst && 'dnb-tabs__scroll-nav-button--hide'
+            isFirstRef.current && 'dnb-tabs__scroll-nav-button--hide'
           )}
         />
 
         {children}
 
         <ScrollNavButton
-          onMouseDown={this.openNextTab}
+          onMouseDown={openNextTab}
           icon="chevron_right"
           className={clsx(
-            hasScrollbar &&
-              (typeof this.state.isLast !== 'undefined' ||
-                this.hasLastPosition()) &&
+            hasScrollbarRef.current &&
+              (typeof isLastRef.current !== 'undefined' ||
+                hasLastPosition()) &&
               'dnb-tabs__scroll-nav-button--visible',
-            this.state.isLast && 'dnb-tabs__scroll-nav-button--hide'
+            isLastRef.current && 'dnb-tabs__scroll-nav-button--hide'
           )}
         />
       </div>
     )
   }
 
-  TabContentHandler = () => {
-    const { selectedKey } = this.state
+  renderContentRef.current = () => {
+    const { preventRerender, keepInDOM } = propsRef.current
+    const currentSelectedKey = selectedKeyRef.current
+    const currentData = dataRef.current
 
-    const content = this.renderContent()
+    let content
+    if (preventRerender || keepInDOM) {
+      // Cached content rendering
+      if (keepInDOM) {
+        cacheRef.current = Object.entries(currentData).reduce(
+          (acc, [_idx, cur]) => {
+            acc[cur.key] = {
+              ...cur,
+              content: getContent(cur.key),
+            }
+            return acc
+          },
+          {}
+        )
+      } else if (preventRerender) {
+        cacheRef.current = {
+          ...(cacheRef.current || {}),
+          [currentSelectedKey]: {
+            content: getContent(currentSelectedKey),
+          },
+        }
+      }
 
-    if (!this._sharedState && !content) {
+      content = Object.entries(cacheRef.current).map(
+        ([key, { content: cachedContent }]) => {
+          const hide = key !== String(currentSelectedKey)
+          return (
+            <div
+              key={key}
+              aria-hidden={hide ? true : undefined}
+              className={clsx(
+                'dnb-tabs__cached',
+                hide && 'dnb-tabs__cached--hidden'
+              )}
+            >
+              {cachedContent}
+            </div>
+          )
+        }
+      )
+    } else {
+      content = getContent(currentSelectedKey)
+    }
+
+    if (!sharedStateRef.current && !content) {
       warn(`No content was given to the Tabs component!
 Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outside of the Tabs component</Tabs.Content>
 `)
@@ -1202,34 +1209,38 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
 
     return (
       <ContentWrapper
-        id={this._id}
-        selectedKey={selectedKey}
-        contentStyle={this.props.contentStyle}
-        contentInnerSpace={this.props.contentInnerSpace}
-        animate={this.props.keepInDOM}
+        id={_id}
+        selectedKey={currentSelectedKey}
+        contentStyle={propsRef.current.contentStyle}
+        contentInnerSpace={propsRef.current.contentInnerSpace}
+        animate={propsRef.current.keepInDOM}
       >
         {content}
       </ContentWrapper>
     )
   }
 
-  TabsHandler = (props: Record<string, unknown>) => {
-    const { label, skeleton, tabElement } = { ...this._props, ...props }
-    const { selectedKey } = this.state
+  renderTabsRef.current = (extraProps: Record<string, unknown> = {}) => {
+    const mergedProps = propsRef.current
+    const { label, skeleton, tabElement } = {
+      ...mergedProps,
+      ...extraProps,
+    }
+    const currentData = dataRef.current
+    const currentFocusKey = focusKeyRef.current
+    const currentSelectedKey = selectedKeyRef.current
+    const currentContext = contextRef.current
 
     const TabElement = tabElement || 'button'
 
-    const tabs = this.state.data.map(
+    const tabs = currentData.map(
       ({ title, key, disabled = false, to, href }) => {
         const itemParams: Record<string, unknown> = { to, href }
-        const isFocus = this.isFocus(key)
-        const isSelected = this.isSelected(key)
+        const isFocus = currentFocusKey == key
+        const isSelected = currentSelectedKey == key
         if (isSelected) {
-          itemParams['aria-controls'] = `${this._id}-content`
+          itemParams['aria-controls'] = `${_id}-content`
         }
-
-        // itemParams['aria-current'] = isSelected // has best support on NVDA
-        // itemParams['aria-selected'] = isSelected // has best support on VO
 
         if (disabled) {
           itemParams.disabled = true
@@ -1240,7 +1251,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
           itemParams.type = 'button'
         }
 
-        skeletonDOMAttributes(itemParams, skeleton, this.context)
+        skeletonDOMAttributes(itemParams, skeleton, currentContext)
 
         return (
           <div
@@ -1254,24 +1265,24 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
             <TabElement
               role="tab"
               tabIndex={-1}
-              id={`${this._id}-tab-${key}`}
+              id={`${_id}-tab-${key}`}
               aria-selected={isSelected}
               className={clsx(
                 'dnb-tabs__button',
                 isFocus && 'focus',
                 isSelected && 'selected'
               )}
-              onMouseEnter={this.onMouseEnterHandler}
-              onClick={this.onClickHandler}
-              onKeyUp={this.onKeyDownHandler}
-              onMouseDown={this.onMouseDown}
+              onMouseEnter={onMouseEnterHandler}
+              onClick={onClickHandler}
+              onKeyUp={onKeyDownHandler}
+              onMouseDown={onMouseDown}
               data-tab-key={key}
               {...itemParams}
             >
               <span
                 className={clsx(
                   'dnb-tabs__button__title',
-                  createSkeletonClass('font', skeleton, this.context)
+                  createSkeletonClass('font', skeleton, currentContext)
                 )}
               >
                 {title as React.ReactNode}
@@ -1287,10 +1298,10 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
     if (label) {
       params['aria-label'] = label
     }
-    if (selectedKey) {
+    if (currentSelectedKey) {
       params['aria-labelledby'] = combineLabelledBy(
         params,
-        `${this._id}-tab-${selectedKey}`
+        `${_id}-tab-${currentSelectedKey}`
       )
     }
     return (
@@ -1298,8 +1309,8 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
         role="tablist"
         className="dnb-tabs__tabs__tablist"
         tabIndex={0}
-        onKeyDown={this.onTablistKeyDownHandler}
-        ref={this._tablistRef}
+        onKeyDown={onTablistKeyDownHandler}
+        ref={tablistRef}
         {...params}
       >
         {tabs}
@@ -1307,63 +1318,72 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
     )
   }
 
-  render() {
-    const props = (this._props = extendPropsWithContextInClassComponent(
-      this.props,
-      Tabs.defaultProps,
-      { skeleton: this.context?.skeleton }
-    ) as TabsProps)
+  // Create stable sub-component wrappers that delegate to the render refs
+  // This prevents React from unmounting/remounting when state changes
+  const Wrapper = useMemo(() => {
+    const C = (p: React.PropsWithChildren<Record<string, unknown>>) =>
+      renderWrapperRef.current(p)
+    C.displayName = 'TabsWrapper'
+    return C
+  }, [])
 
-    const { render: customRenderer } = props
+  const TabsList = useMemo(() => {
+    const C = (
+      p: React.PropsWithChildren<
+        { className?: string } & Record<string, unknown>
+      >
+    ) => renderTabsListRef.current(p)
+    C.displayName = 'TabsList'
+    return C
+  }, [])
 
-    const TabItems = this.TabsHandler as ((
-      props: Record<string, unknown>
-    ) => React.ReactNode) & {
-      displayName?: string
-    }
-    TabItems.displayName = 'Tabs'
+  const Content = useMemo(() => {
+    const C = () => renderContentRef.current()
+    C.displayName = 'TabContent'
+    return C
+  }, [])
 
-    const TabsList = this.TabsListHandler as ((
-      props: React.PropsWithChildren
-    ) => React.ReactNode) & {
-      displayName?: string
-    }
-    TabsList.displayName = 'TabsList'
+  const TabItems = useMemo(() => {
+    const C = (p?: Record<string, unknown>) => renderTabsRef.current(p)
+    C.displayName = 'Tabs'
+    return C
+  }, [])
 
-    const Wrapper = this.TabsWrapperHandler as ((
-      props: React.PropsWithChildren
-    ) => React.ReactNode) & {
-      displayName?: string
-    }
-    Wrapper.displayName = 'TabsWrapper'
-
-    const Content = this.TabContentHandler as ((
-      props: Record<string, unknown>
-    ) => React.ReactNode) & {
-      displayName?: string
-    }
-    Content.displayName = 'TabContent'
-
-    // here we reuse the component, if it has a custom renderer
-    if (typeof customRenderer === 'function') {
-      return customRenderer({
-        Wrapper,
-        Content,
-        TabsList,
-        Tabs: TabItems,
-      })
-    }
-
-    return (
-      <Wrapper>
-        <TabsList>
-          <TabItems />
-        </TabsList>
-        <Content />
-      </Wrapper>
-    )
+  // here we reuse the component, if it has a custom renderer
+  if (typeof props.render === 'function') {
+    return props.render({
+      Wrapper,
+      Content,
+      TabsList,
+      Tabs: TabItems,
+    })
   }
+
+  return (
+    <Wrapper>
+      <TabsList>
+        <TabItems />
+      </TabsList>
+      <Content />
+    </Wrapper>
+  )
 }
+
+TabsComponent.displayName = 'Tabs'
+
+type TabsWithStatics = React.FC<TabsProps> & {
+  Content: typeof CustomContent
+  ContentWrapper: typeof ContentWrapper
+}
+
+const Tabs: TabsWithStatics = Object.assign(React.memo(TabsComponent), {
+  Content: CustomContent,
+  ContentWrapper: ContentWrapper,
+}) as any
+
+withComponentMarkers(Tabs, { _supportsSpacingProps: true })
+
+export default Tabs
 
 export const Dummy = ({ children }: { children: React.ReactNode }) => {
   /**
@@ -1372,13 +1392,7 @@ export const Dummy = ({ children }: { children: React.ReactNode }) => {
    * There is also a CSS to make this work. Have a look in the styles: & > span[hidden] {...}
    */
   return (
-    <span
-      aria-hidden
-      hidden
-      className="dnb-dummy"
-      // role="textbox" // methods to try to make NVDA not read blank
-      // aria-readonly // methods to try to make NVDA not read blank
-    >
+    <span aria-hidden hidden className="dnb-dummy">
       {children}
     </span>
   )
@@ -1399,5 +1413,3 @@ const ScrollNavButton = (
     />
   )
 }
-
-withComponentMarkers(Tabs, { _supportsSpacingProps: true })
