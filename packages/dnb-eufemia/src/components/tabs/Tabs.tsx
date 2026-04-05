@@ -13,7 +13,7 @@ import React, {
 } from 'react'
 import clsx from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import Context, { type ContextProps } from '../../shared/Context'
+import Context from '../../shared/Context'
 import {
   warn,
   slugify,
@@ -80,6 +80,7 @@ export type TabsChildren =
 export type TabsProps = Omit<
   React.HTMLProps<HTMLElement>,
   | 'ref'
+  | 'data'
   | 'content'
   | 'children'
   | 'label'
