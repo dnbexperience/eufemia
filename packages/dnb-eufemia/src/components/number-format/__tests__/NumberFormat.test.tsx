@@ -27,7 +27,7 @@ const Component = (props) => {
   return <NumberFormat id="unique" {...props} />
 }
 
-const element = NumberFormat.defaultProps.element
+const element = 'span'
 const locale = LOCALE
 const value = 12345678.9876
 
@@ -459,6 +459,20 @@ describe('NumberFormat component', () => {
     expect(document.querySelector(displaySelector).textContent).toBe(
       '+47 99 99 99 99'
     )
+  })
+
+  it('have to render link with tel: href by default', () => {
+    render(<Component link value="99999999" />)
+    const anchor = document.querySelector('a.dnb-anchor')
+    expect(anchor).toBeInTheDocument()
+    expect(anchor.getAttribute('href')).toMatch(/^tel:/)
+  })
+
+  it('have to render link with sms: href when link="sms"', () => {
+    render(<Component link="sms" value="99999999" />)
+    const anchor = document.querySelector('a.dnb-anchor')
+    expect(anchor).toBeInTheDocument()
+    expect(anchor.getAttribute('href')).toMatch(/^sms:/)
   })
 
   it('have to match bank account number', () => {
