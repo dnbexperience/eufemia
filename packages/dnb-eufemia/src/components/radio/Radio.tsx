@@ -158,7 +158,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   // Track whether the internal state was just set by a change event
   const skipNextPropSync = useRef(false)
 
-  // Sync checked state from props (replaces getDerivedStateFromProps).
+  // Sync checked state from props
   // skipNextPropSync is always reset after each render opportunity.
   if (ownProps.checked !== prevPropsChecked) {
     setPrevPropsChecked(ownProps.checked)

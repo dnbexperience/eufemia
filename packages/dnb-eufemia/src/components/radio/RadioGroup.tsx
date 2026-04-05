@@ -121,7 +121,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
   // Track whether the internal state was just set by a change event
   const skipNextPropSync = useRef(false)
 
-  // Sync value state from props (replaces getDerivedStateFromProps).
+  // Sync value state from props
   // skipNextPropSync is always reset after each render opportunity,
   // matching the class component's _listenForPropChanges pattern.
   if (ownProps.value !== prevPropsValue) {
@@ -209,9 +209,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
     className
   )
 
-  const params = {
-    ...rest,
-  }
+  const params = { ...rest }
   const legendId = id + '-label'
 
   if (showStatus || suffix) {
