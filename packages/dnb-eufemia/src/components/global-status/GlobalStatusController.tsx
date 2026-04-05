@@ -25,7 +25,7 @@ export class GlobalStatusInterceptor {
     try {
       GSP = GlobalStatusProvider
     } catch (e) {
-      // do noting
+      // do nothing
     }
     if (!GSP && typeof window !== 'undefined') {
       GSP = (window as WindowWithProvider).GlobalStatusProvider
@@ -56,7 +56,7 @@ function initProvider(id: string) {
   try {
     GSP = GlobalStatusProvider
   } catch (e) {
-    // do noting
+    // do nothing
   }
   if (!GSP && typeof window !== 'undefined') {
     GSP = (window as WindowWithProvider).GlobalStatusProvider
