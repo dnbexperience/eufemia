@@ -3,16 +3,23 @@
  *
  */
 
-import React from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
+import useMountEffect from '../../shared/helpers/useMountEffect'
 import clsx from 'clsx'
 import {
   disableBodyScroll,
   enableBodyScroll,
   clearAllBodyScrollLocks,
 } from './bodyScrollLock'
+import useId from '../../shared/helpers/useId'
 import {
   warn,
-  makeUniqueId,
   InteractionInvalidation,
   combineLabelledBy,
   combineDescribedBy,
@@ -33,11 +40,6 @@ import {
 } from './helpers'
 import { getThemeClasses } from '../../shared/Theme'
 import { Context } from '../../shared'
-import type { ContextProps } from '../../shared/Context'
-
-type ModalContentState = {
-  color: string
-}
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
@@ -50,255 +52,137 @@ type CSSPropertiesWithVars = {
   '--modal-background-color': string
 } & React.CSSProperties
 
-export default class ModalContent extends React.PureComponent<
-  ModalContentProps,
-  ModalContentState
-> {
-  state = { color: null }
+export default function ModalContent(props: ModalContentProps) {
+  const {
+    hide,
+    title,
+    labelledBy,
+    id: idProp,
+    closeTitle = 'Lukk',
+    dialogTitle = 'Vindu',
+    hideCloseButton = false,
+    closeButtonAttributes,
+    noAnimation = false,
+    noAnimationOnMobile = false,
+    fullscreen = 'auto',
+    containerPlacement = 'right',
+    verticalAlignment = 'center',
+    close,
+    contentClass,
+    overlayClass,
+    contentId: contentIdProp,
+    children,
+    dialogRole = null,
+    focusSelector = null,
+    animationDuration = null,
+    preventOverlayClose,
+    open,
+    contentRef: contentRefProp,
+    scrollRef: scrollRefProp,
+    modalContentCloseRef,
+    bypassInvalidationSelectors,
+    ...rest
+  } = props
 
-  _contentRef: React.RefObject<HTMLElement>
-  _scrollRef: React.RefObject<HTMLElement>
-  _overlayClickRef: { current: null | HTMLElement }
-  _id: string
-  _lockTimeout: NodeJS.Timeout
-  _focusTimeout: NodeJS.Timeout
-  _androidFocusTimeout: NodeJS.Timeout
-  _ii: InteractionInvalidation
-  _iiLocal: InteractionInvalidation
-  _triggeredBy: ModalTriggeredBy
-  _triggeredByEvent: React.SyntheticEvent
-  _mounted = 0
-  _lastFocusTime = 0
+  const context = useContext(Context)
+  const [color, setColor] = useState<string | null>(null)
 
-  static contextType = Context
+  const internalContentRef = useRef<HTMLElement>(null)
+  const contentRef = contentRefProp || internalContentRef
+  const internalScrollRef = useRef<HTMLElement>(null)
+  const scrollRef = scrollRefProp || internalScrollRef
+  const overlayClickRef = useRef<HTMLElement | null>(null)
+  const lockTimeoutRef = useRef<NodeJS.Timeout>(null)
+  const focusTimeoutRef = useRef<NodeJS.Timeout>(null)
+  const androidFocusTimeoutRef = useRef<NodeJS.Timeout>(null)
+  const iiRef = useRef<InteractionInvalidation>(null)
+  const mountedRef = useRef(0)
+  const lastFocusTimeRef = useRef(0)
+  const triggeredByRef = useRef<ModalTriggeredBy>(undefined)
+  const triggeredByEventRef = useRef<React.SyntheticEvent>(undefined)
 
-  context!: ContextProps
-
-  constructor(props: ModalContentProps) {
-    super(props)
-    this._contentRef = this.props.contentRef || React.createRef()
-    this._scrollRef = this.props.scrollRef || React.createRef()
-    this._overlayClickRef = React.createRef()
-    if (this.props.modalContentCloseRef) {
-      const mutableModalContentCloseRef = this.props
-        .modalContentCloseRef as React.RefObject<any>
-      mutableModalContentCloseRef.current = this.setModalContentState
+  // Stable identity for the modal stack
+  const selfRef = useRef<any>(null)
+  if (!selfRef.current) {
+    selfRef.current = {
+      _id: idProp,
+      _scrollRef: scrollRef,
+      _contentRef: contentRef,
+      _iiLocal: undefined,
     }
-
-    // NB: The ""._id" is used in the __modalStack as "last._id"
-    this._id = props.id
   }
+  // Keep refs in sync
+  selfRef.current._id = idProp
+  selfRef.current._scrollRef = scrollRef
+  selfRef.current._contentRef = contentRef
 
-  componentDidUpdate(prevProps: ModalContentProps) {
-    if (prevProps.children !== this.props.children) {
-      this.setFocus()
+  const setModalContentState = useCallback(
+    (
+      event: React.SyntheticEvent,
+      { triggeredBy }: ModalCloseHandlerParams
+    ) => {
+      triggeredByRef.current = triggeredBy
+      triggeredByEventRef.current = event
+    },
+    []
+  )
+
+  // Sync modalContentCloseRef
+  useEffect(() => {
+    if (modalContentCloseRef) {
+      const mutableRef = modalContentCloseRef as React.RefObject<any>
+      mutableRef.current = setModalContentState
     }
-  }
+  }, [modalContentCloseRef, setModalContentState])
 
-  componentDidMount() {
-    const {
-      id = null,
-      noAnimation = false,
-      animationDuration = null,
-    } = this.props
+  const usedContentId = useId(contentIdProp)
 
-    const timeoutDuration: number =
-      typeof animationDuration === 'string'
-        ? parseFloat(animationDuration)
-        : animationDuration
-
-    // Add it to the index at first
-    // we use it later with getListOfModalRoots
-    addToIndex(this)
-
-    // Because of nested modals/drawers, we run this regardless
-    // has to be run at first – so the scrollbar gets removed
-    this.removeScrollPossibility() // forces browser to re-paint
-
-    this.setFocus()
-    this.setAndroidFocusHelper()
-
-    dispatchCustomElementEvent(this, 'onOpen', {
-      id,
-    })
-
-    if (noAnimation || process.env.NODE_ENV === 'test') {
-      this.lockBody() // forces browser to re-paint
-    } else {
-      this._lockTimeout = setTimeout(this.lockBody, timeoutDuration * 1.2) // a little over --modal-animation-duration
-    }
-
-    this._mounted = Date.now()
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this._focusTimeout)
-    clearTimeout(this._lockTimeout)
-    this.removeLocks()
-    this._mounted = 0
-  }
-
-  wasOpenedManually() {
-    if (this._triggeredBy) {
+  const wasOpenedManually = useCallback(() => {
+    if (triggeredByRef.current) {
       return true
     }
 
-    const { open } = this.props
     if (typeof open === 'boolean') {
       if (process.env.NODE_ENV !== 'test') {
-        const delay = Date.now() - this._mounted
-        return delay > 30 // E.g. ReactStrict mode will cause a short delay.
+        const delay = Date.now() - mountedRef.current
+        return delay > 30
       }
 
       return true
     }
 
     return false
-  }
+  }, [open])
 
-  lockBody = () => {
-    const modalRoots = getListOfModalRoots()
-    const firstLevel = modalRoots[0]
-
-    if (firstLevel === this) {
-      // List all parent elements of the modal content
-      // If contentRef is not available, use the modal root element
-      const contentElement =
-        this._contentRef.current ||
-        document.querySelector(`#${this.props.contentId}`)
-      const parentElements = getParents(contentElement)
-
-      this._ii = new InteractionInvalidation()
-      this._ii.setBypassElements(parentElements)
-      this._ii.setBypassSelector(
-        [
-          // Bypass everything inside the portal root, so no aria-hidden is set all the way down to body.
-          // This way VoiceOver is still able to navigate (with ctrl+option+arrows) inside the modal.
-          '#eufemia-portal-root',
-          '#eufemia-portal-root *',
-
-          // The same as above, but when no portal is used
-          `#${this.props.contentId}`,
-          `#${this.props.contentId} *`,
-
-          // Allow bypassing invalidation from outside
-          '.dnb-modal--bypass-invalidation',
-          '.dnb-modal--bypass-invalidation-deep *',
-
-          ...(this.props?.bypassInvalidationSelectors || []),
-        ].filter(Boolean)
-      )
-      this._ii.activate()
-    } else {
-      modalRoots.forEach((modal) => {
-        if (
-          modal !== this &&
-          typeof modal._iiLocal === 'undefined' &&
-          typeof modal._scrollRef !== 'undefined'
-        ) {
-          modal._iiLocal = new InteractionInvalidation()
-          modal._iiLocal.activate(modal._scrollRef.current)
-        }
-      })
+  const removeScrollPossibility = useCallback(() => {
+    if (scrollRef.current) {
+      disableBodyScroll(scrollRef.current)
     }
+  }, [scrollRef])
 
-    if (typeof document !== 'undefined') {
-      /** To ensure, we have always a working keydown, we call it both on the element and document */
-      document.addEventListener('keydown', this.onKeyDownHandler)
-    }
-  }
+  const revertScrollPossibility = useCallback(() => {
+    enableBodyScroll(scrollRef.current)
+    clearAllBodyScrollLocks()
+  }, [scrollRef])
 
-  removeLocks() {
-    const modalRoots = getListOfModalRoots()
-    const firstLevel = modalRoots[0]
-
-    removeFromIndex(this)
-
-    if (firstLevel === this) {
-      this._ii?.revert()
-      this.revertScrollPossibility()
-    } else {
-      try {
-        const modal = modalRoots[modalRoots.length - 2]
-        if (modal !== this && modal._iiLocal) {
-          modal._iiLocal.revert()
-          delete modal._iiLocal
-        }
-      } catch (e) {
-        warn(e)
-      }
-    }
-
-    this.removeAndroidFocusHelper()
-
-    if (this.wasOpenedManually()) {
-      const id = this.props.id
-      dispatchCustomElementEvent(this, 'onClose', {
-        id,
-        event: this._triggeredByEvent,
-        triggeredBy: this._triggeredBy || 'unmount',
-      })
-    }
-
-    if (typeof document !== 'undefined') {
-      document.removeEventListener('keydown', this.onKeyDownHandler)
-    }
-  }
-
-  setAndroidFocusHelper() {
-    if (typeof window !== 'undefined' && isAndroid()) {
-      window.addEventListener('resize', this._androidFocusHelper)
-    }
-  }
-
-  removeAndroidFocusHelper() {
-    window.removeEventListener('resize', this._androidFocusHelper)
-    clearTimeout(this._androidFocusTimeout)
-  }
-
-  _androidFocusHelper = () => {
-    const { animationDuration = null } = this.props
-    const timeoutDuration: number =
-      typeof animationDuration === 'string'
-        ? parseFloat(animationDuration)
-        : animationDuration
-
-    clearTimeout(this._androidFocusTimeout)
-    this._androidFocusTimeout = setTimeout(() => {
-      try {
-        if (
-          document.activeElement?.tagName === 'INPUT' ||
-          document.activeElement?.tagName === 'TEXTAREA'
-        ) {
-          document.activeElement.scrollIntoView()
-        }
-      } catch (e) {
-        //
-      }
-    }, timeoutDuration / 2) // Older Android needs a delay here
-  }
-
-  setFocus() {
-    const {
-      focusSelector = null,
-      noAnimation = null,
-      animationDuration = null,
-    } = this.props
-    const elem = this._contentRef.current
+  const setFocus = useCallback(() => {
+    const elem = contentRef.current
     const timeoutDuration: number =
       typeof animationDuration === 'string'
         ? parseFloat(animationDuration)
         : animationDuration
 
     if (elem) {
-      // Prevent focus if more than 2 seconds have passed
-      if (this._lastFocusTime && Date.now() - this._lastFocusTime > 2000) {
+      if (
+        lastFocusTimeRef.current &&
+        Date.now() - lastFocusTimeRef.current > 2000
+      ) {
         return // stop here
       }
-      this._lastFocusTime = Date.now()
+      lastFocusTimeRef.current = Date.now()
 
-      clearTimeout(this._focusTimeout)
-      this._focusTimeout = setTimeout(
+      clearTimeout(focusTimeoutRef.current)
+      focusTimeoutRef.current = setTimeout(
         () => {
           try {
             let focusElement = elem as HTMLElement
@@ -320,14 +204,12 @@ export default class ModalContent extends React.PureComponent<
 
               focusElement = firstHeading
             } else {
-              // Focus the hidden focus helper first so VoiceOver
               const focusHelper = elem.querySelector(
                 '.dnb-modal__close-button, .dnb-modal__focus-helper'
               ) as HTMLElement
               focusElement = focusHelper
             }
 
-            // Try to use the "first-focus" method first
             if (typeof focusSelector === 'string') {
               focusElement = elem.querySelector(focusSelector)
             }
@@ -340,233 +222,339 @@ export default class ModalContent extends React.PureComponent<
           }
         },
         noAnimation ? 0 : timeoutDuration || 0
-      ) // with this delay, the user can press esc without an focus action first
+      )
     }
+  }, [contentRef, animationDuration, focusSelector, noAnimation])
+
+  const androidFocusHelperRef = useRef<() => void>(null)
+  androidFocusHelperRef.current = () => {
+    const timeoutDuration: number =
+      typeof animationDuration === 'string'
+        ? parseFloat(animationDuration)
+        : animationDuration
+
+    clearTimeout(androidFocusTimeoutRef.current)
+    androidFocusTimeoutRef.current = setTimeout(() => {
+      try {
+        const elem = contentRef.current
+        if (elem?.tagName === 'INPUT' || elem?.tagName === 'TEXTAREA') {
+          elem.scrollIntoView()
+        }
+      } catch (e) {
+        //
+      }
+    }, timeoutDuration / 2)
   }
 
-  removeScrollPossibility() {
-    if (this._scrollRef.current) {
-      disableBodyScroll(this._scrollRef.current)
-    }
-  }
+  // Stable function reference for addEventListener/removeEventListener
+  // so removal always matches the registered listener.
+  const stableAndroidFocusHelper = useCallback(() => {
+    androidFocusHelperRef.current?.()
+  }, [])
 
-  revertScrollPossibility() {
-    enableBodyScroll(this._scrollRef.current)
-    clearAllBodyScrollLocks()
-  }
+  const closeModalContent = useCallback(
+    (
+      event: React.SyntheticEvent,
+      {
+        triggeredBy,
+        ...params
+      }: ModalCloseHandlerParams & { ifIsLatest?: boolean }
+    ) => {
+      event?.persist?.()
 
-  preventClick = (event) => {
-    if (event) {
-      event.stopPropagation()
-    }
-  }
-
-  onCloseClickHandler = (event: React.SyntheticEvent) => {
-    this.closeModalContent(event, { triggeredBy: 'button' })
-  }
-
-  onContentMouseDownHandler = (event: React.SyntheticEvent) => {
-    this._overlayClickRef.current =
-      event.target === event.currentTarget
-        ? (event.target as HTMLElement)
-        : null
-  }
-
-  onContentClickHandler = (event: React.SyntheticEvent) => {
-    /**
-     * Prevent false-positive Modal close,
-     * when e.g. selecting text inside and moving the mouse outside,
-     * we would still get this event fired. There we check if the current click,
-     * has the same target as where the click got initiated.
-     */
-    if (this._overlayClickRef.current !== event.target) {
-      return // stop here
-    }
-    this._overlayClickRef.current = null
-
-    const { preventOverlayClose } = this.props
-
-    if (!preventOverlayClose) {
-      this.closeModalContent(event, {
-        triggeredBy: 'overlay',
-        ifIsLatest: false,
+      close(event, {
+        triggeredBy,
+        ...params,
       })
-    }
-  }
+    },
+    [close]
+  )
 
-  onKeyDownHandler = (event) => {
+  const onCloseClickHandler = useCallback(
+    (event: React.SyntheticEvent) => {
+      closeModalContent(event, { triggeredBy: 'button' })
+    },
+    [closeModalContent]
+  )
+
+  const onContentMouseDownHandler = useCallback(
+    (event: React.SyntheticEvent) => {
+      overlayClickRef.current =
+        event.target === event.currentTarget
+          ? (event.target as HTMLElement)
+          : null
+    },
+    []
+  )
+
+  const onContentClickHandler = useCallback(
+    (event: React.SyntheticEvent) => {
+      if (overlayClickRef.current !== event.target) {
+        return // stop here
+      }
+      overlayClickRef.current = null
+
+      if (!preventOverlayClose) {
+        closeModalContent(event, {
+          triggeredBy: 'overlay',
+          ifIsLatest: false,
+        })
+      }
+    },
+    [preventOverlayClose, closeModalContent]
+  )
+
+  const onKeyDownHandlerRef = useRef<(event: KeyboardEvent) => void>(null)
+  onKeyDownHandlerRef.current = (event) => {
     if (event.key === 'Escape') {
       const mostCurrent = getModalRoot(-1)
 
-      if (mostCurrent === this) {
+      if (mostCurrent === selfRef.current) {
         event.preventDefault()
-        this.closeModalContent(event, {
+        closeModalContent(event as unknown as React.SyntheticEvent, {
           triggeredBy: 'keyboard',
         })
       }
     }
   }
 
-  setModalContentState = (
-    event: React.SyntheticEvent,
-    { triggeredBy }: ModalCloseHandlerParams
-  ) => {
-    this._triggeredBy = triggeredBy
-    this._triggeredByEvent = event
-  }
+  // Stable function reference for addEventListener/removeEventListener
+  // so removal always matches the registered listener.
+  const stableOnKeyDownHandler = useCallback((event: KeyboardEvent) => {
+    onKeyDownHandlerRef.current?.(event)
+  }, [])
 
-  closeModalContent(
-    event,
-    {
-      triggeredBy,
-      ...params
-    }: ModalCloseHandlerParams & { ifIsLatest?: boolean }
-  ) {
-    event?.persist?.()
+  const preventClick = useCallback((event) => {
+    if (event) {
+      event.stopPropagation()
+    }
+  }, [])
 
-    this.props.close(event, {
-      triggeredBy,
-      ...params,
+  const lockBody = useCallback(() => {
+    const modalRoots = getListOfModalRoots()
+    const firstLevel = modalRoots[0]
+
+    if (firstLevel === selfRef.current) {
+      const contentElement =
+        contentRef.current || document.querySelector(`#${usedContentId}`)
+      const parentElements = getParents(contentElement)
+
+      const ii = new InteractionInvalidation()
+      ii.setBypassElements(parentElements)
+      ii.setBypassSelector(
+        [
+          '#eufemia-portal-root',
+          '#eufemia-portal-root *',
+          `#${usedContentId}`,
+          `#${usedContentId} *`,
+          '.dnb-modal--bypass-invalidation',
+          '.dnb-modal--bypass-invalidation-deep *',
+          ...(bypassInvalidationSelectors || []),
+        ].filter(Boolean)
+      )
+      ii.activate()
+      iiRef.current = ii
+    } else {
+      modalRoots.forEach((modal) => {
+        if (
+          modal !== selfRef.current &&
+          typeof modal._iiLocal === 'undefined' &&
+          typeof modal._scrollRef !== 'undefined'
+        ) {
+          modal._iiLocal = new InteractionInvalidation()
+          modal._iiLocal.activate(modal._scrollRef.current)
+        }
+      })
+    }
+
+    if (typeof document !== 'undefined') {
+      document.addEventListener('keydown', stableOnKeyDownHandler)
+    }
+  }, [
+    contentRef,
+    usedContentId,
+    bypassInvalidationSelectors,
+    stableOnKeyDownHandler,
+  ])
+
+  const removeLocks = useCallback(() => {
+    const modalRoots = getListOfModalRoots()
+    const firstLevel = modalRoots[0]
+
+    removeFromIndex(selfRef.current)
+
+    if (firstLevel === selfRef.current) {
+      iiRef.current?.revert()
+      revertScrollPossibility()
+    } else {
+      try {
+        const modal = modalRoots[modalRoots.length - 2]
+        if (modal !== selfRef.current && modal._iiLocal) {
+          modal._iiLocal.revert()
+          delete modal._iiLocal
+        }
+      } catch (e) {
+        warn(e)
+      }
+    }
+
+    // Remove Android helper
+    window.removeEventListener('resize', stableAndroidFocusHelper)
+    clearTimeout(androidFocusTimeoutRef.current)
+
+    if (wasOpenedManually()) {
+      dispatchCustomElementEvent(props, 'onClose', {
+        id: idProp,
+        event: triggeredByEventRef.current,
+        triggeredBy: triggeredByRef.current || 'unmount',
+      })
+    }
+
+    if (typeof document !== 'undefined') {
+      document.removeEventListener('keydown', stableOnKeyDownHandler)
+    }
+  }, [
+    revertScrollPossibility,
+    stableAndroidFocusHelper,
+    wasOpenedManually,
+    props,
+    idProp,
+    stableOnKeyDownHandler,
+  ])
+
+  // Keep latest removeLocks available for cleanup
+  const removeLocksRef = useRef(removeLocks)
+  removeLocksRef.current = removeLocks
+
+  // Mount
+  useMountEffect(() => {
+    const timeoutDuration: number =
+      typeof animationDuration === 'string'
+        ? parseFloat(animationDuration)
+        : animationDuration
+
+    addToIndex(selfRef.current)
+
+    removeScrollPossibility()
+    setFocus()
+
+    if (typeof window !== 'undefined' && isAndroid()) {
+      window.addEventListener('resize', stableAndroidFocusHelper)
+    }
+
+    dispatchCustomElementEvent(props, 'onOpen', {
+      id: idProp,
     })
-  }
 
-  setBackgroundColor = (color: string) => {
-    this.setState({ color })
-  }
-
-  render() {
-    const {
-      hide,
-      title,
-      labelledBy,
-      id: _id,
-      closeTitle = 'Lukk',
-      dialogTitle = 'Vindu',
-      hideCloseButton = false,
-      closeButtonAttributes,
-      noAnimation = false,
-      noAnimationOnMobile = false,
-      fullscreen = 'auto',
-      containerPlacement = 'right',
-      verticalAlignment = 'center',
-      close,
-      contentClass,
-      overlayClass,
-      contentId,
-      children,
-      dialogRole = null,
-      ...rest
-    } = this.props
-    const { color } = this.state
-
-    const usedContentId = contentId || makeUniqueId('modal-')
-
-    const useDialogRole = !(IS_MAC || IS_SAFARI || IS_IOS)
-    let role = dialogRole || 'dialog'
-    if (!useDialogRole && role === 'dialog') {
-      role = 'region'
+    if (noAnimation || process.env.NODE_ENV === 'test') {
+      lockBody()
+    } else {
+      lockTimeoutRef.current = setTimeout(lockBody, timeoutDuration * 1.2)
     }
 
-    const contentParams = {
-      /**
-       * Do not use role="dialog" on Safari
-       *
-       * VoiceOver has troubles with role="dialog" and "Modal in Modal",
-       * the result is, only the first Modal gets focus (set by Safari)
-       *
-       * Tests have shown: Both VoiceOver are working fine with the:
-       * "aria-labelledby" and "aria-describedby" approach
-       *
-       */
-      role,
-      'aria-modal': useDialogRole ? true : undefined,
+    mountedRef.current = Date.now()
 
-      /**
-       * ARIA references
-       */
-      'aria-labelledby': combineLabelledBy(
-        this.props,
-        title ? usedContentId + '-title' : null,
-        labelledBy
-      ),
-      'aria-describedby': combineDescribedBy(
-        this.props,
-        usedContentId + '-content'
-      ),
-
-      /**
-       * If no labelledBy and no title is given,
-       * set a fallback "dialogTitle"
-       */
-      'aria-label': !title && !labelledBy ? dialogTitle : undefined,
-
-      className: clsx(
-        'dnb-modal__content',
-        fullscreen === true
-          ? 'dnb-modal__content--fullscreen'
-          : fullscreen === 'auto' && 'dnb-modal__content--auto-fullscreen',
-        containerPlacement
-          ? `dnb-modal__content--${containerPlacement || 'right'}`
-          : null,
-        `dnb-modal__vertical-alignment--${verticalAlignment}`,
-        getThemeClasses(this.context?.theme),
-        contentClass
-      ),
-      onMouseDown: this.onContentMouseDownHandler,
-      onClick: this.onContentClickHandler,
+    return () => {
+      clearTimeout(focusTimeoutRef.current)
+      clearTimeout(lockTimeoutRef.current)
+      removeLocksRef.current()
+      mountedRef.current = 0
     }
+  })
 
-    const content =
-      typeof children === 'function'
-        ? children({ ...rest, close })
-        : children
+  // Re-focus when children change
+  const prevChildrenRef = useRef(children)
+  useEffect(() => {
+    if (prevChildrenRef.current !== children) {
+      prevChildrenRef.current = children
+      setFocus()
+    }
+  }, [children, setFocus])
 
-    return (
-      <ModalContext
-        value={{
-          id: this.props.id,
-          title,
-          hideCloseButton,
-          closeButtonAttributes,
-          closeTitle,
-          hide,
-          setBackgroundColor: this.setBackgroundColor,
-          onCloseClickHandler: this.onCloseClickHandler,
-          preventClick: this.preventClick,
-          onKeyDownHandler: this.onKeyDownHandler,
-          contentRef: this._contentRef,
-          scrollRef: this._scrollRef,
-          contentId: usedContentId,
-          close,
-        }}
+  const useDialogRole = !(IS_MAC || IS_SAFARI || IS_IOS)
+  let role = dialogRole || 'dialog'
+  if (!useDialogRole && role === 'dialog') {
+    role = 'region'
+  }
+
+  const contentParams = {
+    role,
+    'aria-modal': useDialogRole ? true : undefined,
+    'aria-labelledby': combineLabelledBy(
+      props,
+      title ? usedContentId + '-title' : null,
+      labelledBy
+    ),
+    'aria-describedby': combineDescribedBy(
+      props,
+      usedContentId + '-content'
+    ),
+    'aria-label': !title && !labelledBy ? dialogTitle : undefined,
+    className: clsx(
+      'dnb-modal__content',
+      fullscreen === true
+        ? 'dnb-modal__content--fullscreen'
+        : fullscreen === 'auto' && 'dnb-modal__content--auto-fullscreen',
+      containerPlacement
+        ? `dnb-modal__content--${containerPlacement || 'right'}`
+        : null,
+      `dnb-modal__vertical-alignment--${verticalAlignment}`,
+      getThemeClasses(context?.theme),
+      contentClass
+    ),
+    onMouseDown: onContentMouseDownHandler,
+    onClick: onContentClickHandler,
+  }
+
+  const content =
+    typeof children === 'function'
+      ? children({ ...rest, close })
+      : children
+
+  return (
+    <ModalContext
+      value={{
+        id: idProp,
+        title,
+        hideCloseButton,
+        closeButtonAttributes,
+        closeTitle,
+        hide,
+        setBackgroundColor: setColor,
+        onCloseClickHandler,
+        preventClick,
+        onKeyDownHandler: stableOnKeyDownHandler,
+        contentRef,
+        scrollRef,
+        contentId: usedContentId,
+        close,
+      }}
+    >
+      <div
+        id={usedContentId}
+        style={
+          (color
+            ? { '--modal-background-color': `var(--color-${color})` }
+            : null) as CSSPropertiesWithVars
+        }
+        {...contentParams}
       >
-        <div
-          id={usedContentId}
-          /** Sets the color on scroll overflow (at the bottom) */
-          style={
-            (color
-              ? { '--modal-background-color': `var(--color-${color})` }
-              : null) as CSSPropertiesWithVars
-          }
-          {...contentParams}
-        >
-          {content}
-        </div>
+        {content}
+      </div>
 
-        <span
-          className={clsx(
-            'dnb-modal__overlay',
-            hide && 'dnb-modal__overlay--hide',
-            noAnimation && 'dnb-modal__overlay--no-animation',
-            noAnimationOnMobile &&
-              'dnb-modal__overlay--no-animation-on-mobile',
-            overlayClass
-          )}
-          aria-hidden={true}
-        />
-      </ModalContext>
-    )
-  }
+      <span
+        className={clsx(
+          'dnb-modal__overlay',
+          hide && 'dnb-modal__overlay--hide',
+          noAnimation && 'dnb-modal__overlay--no-animation',
+          noAnimationOnMobile &&
+            'dnb-modal__overlay--no-animation-on-mobile',
+          overlayClass
+        )}
+        aria-hidden={true}
+      />
+    </ModalContext>
+  )
 }
 
 function getParents(elem?: HTMLElement | null) {
