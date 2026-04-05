@@ -151,6 +151,7 @@ export type FormStatusProps = {
    * The `text` appears as the status message. Beside plain text, you can send in a React component as well.
    */
   children?: FormStatusChildren
+  ref?: React.Ref<HTMLElement>
 } & Omit<
   React.HTMLProps<HTMLElement>,
   'ref' | 'label' | 'value' | 'onFocus' | 'onBlur' | 'children' | 'size'
@@ -256,10 +257,8 @@ function getIcon({
   )
 }
 
-function FormStatusComponent(
-  ownProps: FormStatusProps,
-  ref: React.Ref<HTMLElement>
-) {
+function FormStatusComponent(ownProps: FormStatusProps) {
+  const { ref } = ownProps
   const context = useContext(Context)
 
   const props = extendPropsWithContext(
@@ -566,12 +565,8 @@ function FormStatusComponent(
 FormStatusComponent.displayName = 'FormStatus'
 
 const FormStatus = React.memo(
-  React.forwardRef(FormStatusComponent)
-) as React.MemoExoticComponent<
-  React.ForwardRefExoticComponent<
-    FormStatusProps & React.RefAttributes<HTMLElement>
-  >
->
+  FormStatusComponent
+) as React.MemoExoticComponent<React.FC<FormStatusProps>>
 
 withComponentMarkers(FormStatus, { _supportsSpacingProps: true })
 
