@@ -1,22 +1,19 @@
 /**
  * Web ToggleButton Component
- *
- * This is a legacy component.
- * For referencing while developing new features, please use a Functional component.
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
-import React from 'react'
+import React, { useContext, useRef, useState, useCallback } from 'react'
 import clsx from 'clsx'
+import useId from '../../shared/helpers/useId'
 import {
   warn,
-  makeUniqueId,
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
   dispatchCustomElementEvent,
+  removeUndefinedProps,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
@@ -31,440 +28,445 @@ import ToggleButtonGroup from './ToggleButtonGroup'
 import ToggleButtonGroupContext, {
   type ToggleButtonGroupContextValue,
 } from './ToggleButtonGroupContext'
-import Context, { type ContextProps } from '../../shared/Context'
+import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 
-type ToggleButtonState = {
-  checked?: boolean
-  _listenForPropChanges: boolean
-  _checked?: boolean
-  __checked?: boolean
+const toggleButtonDefaultProps = {
+  text: null,
+  label: null,
+  labelDirection: null,
+  labelSrOnly: null,
+  title: null,
+  checked: undefined,
+  variant: null,
+  size: null,
+  leftComponent: null,
+  disabled: null,
+  skeleton: null,
+  id: null,
+  status: null,
+  statusState: 'error',
+  statusProps: null,
+  statusNoAnimation: null,
+  globalStatus: null,
+  suffix: null,
+  value: '',
+  role: undefined,
+  icon: null,
+  iconPosition: 'right',
+  iconSize: null,
+  readOnly: false,
+
+  className: null,
+  children: null,
+
+  onChange: null,
+}
+
+const parseChecked = (state: unknown) => /true|on/.test(String(state))
+
+function getInitialChecked(
+  props: ToggleButtonProps,
+  groupContext: ToggleButtonGroupContextValue
+): boolean {
+  if (groupContext.name && typeof props.value !== 'undefined') {
+    if (typeof groupContext.value !== 'undefined') {
+      return groupContext.value === props.value
+    }
+
+    if (groupContext.values && Array.isArray(groupContext.values)) {
+      return groupContext.values.includes(props.value)
+    }
+  }
+
+  return parseChecked(props.checked)
 }
 
 /**
- * The toggle-button component is our enhancement of the classic toggle-button button.
+ * The toggle-button component is based on the button component.
  */
-class ToggleButton extends React.PureComponent<
-  ToggleButtonProps,
-  ToggleButtonState
-> {
-  static Group = ToggleButtonGroup
+function ToggleButton(ownProps: ToggleButtonProps) {
+  const groupContext = useContext(ToggleButtonGroupContext)
+  const context = useContext(Context)
+  const refButton = useRef<HTMLButtonElement>(null)
 
-  static contextType = ToggleButtonGroupContext
-  context!: ToggleButtonGroupContextValue
+  const ownPropsRef = useRef(ownProps)
+  ownPropsRef.current = ownProps
 
-  static defaultProps = {
-    text: null,
-    label: null,
-    labelDirection: null,
-    labelSrOnly: null,
-    title: null,
-    checked: undefined,
-    variant: null,
-    size: null,
-    leftComponent: null,
-    disabled: null,
-    skeleton: null,
-    id: null,
-    status: null,
-    statusState: 'error',
-    statusProps: null,
-    statusNoAnimation: null,
-    globalStatus: null,
-    suffix: null,
-    value: '',
-    role: undefined,
-    icon: null,
-    iconPosition: 'right',
-    iconSize: null,
-    readOnly: false,
+  const groupContextRef = useRef(groupContext)
+  groupContextRef.current = groupContext
 
-    className: null,
-    children: null,
+  const id = useId(ownProps.id)
 
-    onChange: null,
+  const [checked, setChecked] = useState(() =>
+    getInitialChecked(ownProps, groupContext)
+  )
+  const [prevPropsChecked, setPrevPropsChecked] = useState(
+    ownProps.checked
+  )
+
+  // Track whether the internal state was just set by a click
+  const skipNextPropSync = useRef(false)
+
+  // Sync checked state from props.
+  if (ownProps.checked !== prevPropsChecked) {
+    setPrevPropsChecked(ownProps.checked)
+    if (!skipNextPropSync.current) {
+      const newChecked = parseChecked(ownProps.checked)
+      setChecked(newChecked)
+    }
   }
+  skipNextPropSync.current = false
 
-  static parseChecked = (state: unknown) => /true|on/.test(String(state))
+  // Register initial checked value with group context
+  const didInitRef = useRef(false)
+  if (!didInitRef.current) {
+    didInitRef.current = true
 
-  static getDerivedStateFromProps(
-    props: ToggleButtonProps,
-    state: ToggleButtonState
-  ) {
-    if (state._listenForPropChanges) {
-      if (props.checked !== state._checked) {
-        state.checked = ToggleButton.parseChecked(props.checked)
+    if (
+      groupContext.name &&
+      typeof ownProps.value !== 'undefined' &&
+      typeof groupContext.value === 'undefined' &&
+      !(groupContext.values && Array.isArray(groupContext.values)) &&
+      parseChecked(ownProps.checked) &&
+      groupContext.setContext
+    ) {
+      if (groupContext.multiselect) {
+        groupContext.setContext((prevContext) => ({
+          values:
+            prevContext && Array.isArray(prevContext.values)
+              ? [...prevContext.values, ownProps.value]
+              : [ownProps.value],
+        }))
+      } else {
+        groupContext.setContext({
+          value: ownProps.value,
+        })
       }
     }
-    state._listenForPropChanges = true
-
-    state._checked = props.checked
-    state.__checked = state.checked
-
-    return state
   }
 
-  _id: string
-  _refButton = React.createRef<HTMLButtonElement>()
+  const callOnChange = useCallback(
+    ({
+      checked: isChecked,
+      event,
+    }: {
+      checked: boolean
+      event: React.SyntheticEvent
+    }) => {
+      const value = ownPropsRef.current.value ?? ''
+      if (groupContextRef.current.onChange) {
+        groupContextRef.current.onChange({
+          value,
+          event,
+        })
+      }
+      dispatchCustomElementEvent(
+        { props: ownPropsRef.current },
+        'onChange',
+        {
+          checked: isChecked,
+          value,
+          event,
+        }
+      )
+    },
+    []
+  )
 
-  constructor(
-    props: ToggleButtonProps,
-    context: ToggleButtonGroupContextValue
-  ) {
-    super(props)
-    this._id = props.id || makeUniqueId() // cause we need an id anyway
+  const checkedRef = useRef(checked)
+  checkedRef.current = checked
 
-    const initialState: ToggleButtonState = {
-      _listenForPropChanges: true,
-    }
+  const onClickHandler = useCallback(
+    ({ event }: { event: React.SyntheticEvent }) => {
+      if (ownPropsRef.current.readOnly) {
+        return event.preventDefault()
+      }
 
-    // set the startup checked values from context, if they exists
-    if (context.name && typeof props.value !== 'undefined') {
-      if (typeof context.value !== 'undefined') {
-        initialState.checked = context.value === props.value
-        initialState._listenForPropChanges = false
-      } else if (context.values && Array.isArray(context.values)) {
-        initialState.checked = context.values.includes(props.value)
-        initialState._listenForPropChanges = false
+      // only select a value once
+      if (
+        groupContextRef.current.name &&
+        !groupContextRef.current.multiselect &&
+        ownPropsRef.current.value === groupContextRef.current.value
+      ) {
+        return // stop here
+      }
 
-        // make sure we update the context
-        // with a possible custom set "checked" state
-      } else if (ToggleButton.parseChecked(props.checked)) {
-        if (context.setContext) {
-          if (context.multiselect) {
-            context.setContext((tmp) => {
-              return {
-                values:
-                  // in case we have set before a new context (other component)
-                  // we fill combine these arrays
-                  tmp && Array.isArray(tmp.values)
-                    ? [...tmp.values, props.value]
-                    : [props.value],
-              }
-            })
-          } else {
-            context.setContext({
-              value: props.value,
-            })
-          }
+      // else we change the checked state
+      const newChecked = !checkedRef.current
+      skipNextPropSync.current = true
+      setChecked(newChecked)
+      callOnChange({ checked: newChecked, event })
+
+      if (refButton.current && newChecked) {
+        // simulate focus for firefox and safari
+        // so we can get rid of the hover ring after click
+        try {
+          refButton.current.focus()
+        } catch (e) {
+          warn(e)
         }
       }
-    }
+    },
+    [callOnChange]
+  )
 
-    this.state = initialState
-  }
-
-  onKeyDownHandler = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter') {
-      this.onClickHandler({ event })
-    }
-  }
-
-  onKeyUpHandler = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter') {
-      this.onClickHandler({ event })
-    }
-  }
-
-  onClickHandler = ({ event }: { event: React.SyntheticEvent }) => {
-    if (this.props.readOnly) {
-      return event.preventDefault()
-    }
-
-    // only select a value once
-    if (
-      !this.context.multiselect &&
-      this.props.value === this.context.value
-    ) {
-      return
-    }
-
-    // else we change the checked state
-    const checked = !this.state.checked
-    this.setState({
-      checked,
-      _listenForPropChanges: false,
-    })
-    this.callOnChange({ checked, event })
-
-    if (this._refButton.current && checked) {
-      // simulate focus for firefox and safari
-      // so we can get rid of the hover ring after click
-      try {
-        this._refButton.current.focus()
-      } catch (e) {
-        warn(e)
+  const onKeyDownHandler = useCallback(
+    (event: React.KeyboardEvent) => {
+      if (event.key === 'Enter') {
+        onClickHandler({ event })
       }
+    },
+    [onClickHandler]
+  )
+
+  const onKeyUpHandler = useCallback(
+    (event: React.KeyboardEvent) => {
+      if (event.key === 'Enter') {
+        onClickHandler({ event })
+      }
+    },
+    [onClickHandler]
+  )
+
+  const resolvedProps = {
+    ...toggleButtonDefaultProps,
+    ...removeUndefinedProps({ ...ownProps }),
+  }
+
+  // Uses extendPropsWithContextInClassComponent (onlyMergeExistingProps: true)
+  // to prevent context props not defined in toggleButtonDefaultProps from
+  // leaking into the component and potentially reaching DOM attributes.
+  const contextProps = extendPropsWithContextInClassComponent(
+    resolvedProps,
+    toggleButtonDefaultProps,
+    groupContext as Record<string, unknown>
+  )
+
+  // use only the props from context, who are available here anyway
+  const props = extendPropsWithContextInClassComponent(
+    resolvedProps,
+    toggleButtonDefaultProps,
+    contextProps,
+    (context.translation as Record<string, unknown>)
+      ?.ToggleButton as Record<string, unknown>,
+    pickFormElementProps(context.formElement as Record<string, unknown>),
+    (context as Record<string, unknown>).ToggleButton as Record<
+      string,
+      unknown
+    >
+  )
+
+  const {
+    status,
+    statusState,
+    statusProps,
+    statusNoAnimation,
+    globalStatus,
+    suffix,
+    label,
+    labelDirection,
+    labelSrOnly,
+    text,
+    title,
+    readOnly,
+    className,
+    disabled,
+    skeleton,
+    variant,
+    leftComponent,
+    icon,
+    iconSize,
+    iconPosition,
+    value: propValue,
+    role,
+
+    id: _id,
+    checked: _checked,
+    children,
+    onChange,
+
+    ...rest
+  } = props
+
+  let resolvedChecked = checked
+
+  if (
+    !groupContext.multiselect &&
+    typeof groupContext.value !== 'undefined'
+  ) {
+    const contextValue = groupContext.value
+    if (typeof propValue === 'string' || typeof propValue === 'number') {
+      resolvedChecked = propValue === contextValue
+    }
+  } else if (
+    groupContext.multiselect &&
+    typeof groupContext.values !== 'undefined'
+  ) {
+    const contextValues = groupContext.values
+    if (typeof propValue === 'string' || typeof propValue === 'number') {
+      resolvedChecked = contextValues.includes(propValue)
     }
   }
 
-  callOnChange = ({
-    checked,
-    event,
-  }: {
-    checked: boolean
-    event: React.SyntheticEvent
-  }) => {
-    const { value } = this.props
-    if (this.context.onChange) {
-      this.context.onChange({
-        value,
-        event,
-      })
-    }
-    dispatchCustomElementEvent(this, 'onChange', {
-      checked,
-      value,
-      event,
-    })
+  const showStatus = getStatusState(status)
+
+  const mainParams = {
+    className: clsx(
+      'dnb-toggle-button',
+      status && `dnb-toggle-button__status--${statusState}`,
+      resolvedChecked && `dnb-toggle-button--checked`,
+      labelDirection && `dnb-toggle-button--${labelDirection}`,
+      createSpacingClasses(props),
+      className
+    ),
   }
 
-  render() {
-    return (
-      <Context.Consumer>
-        {(context: ContextProps) => {
-          // from internal context
-          const contextProps = extendPropsWithContextInClassComponent(
-            this.props,
-            ToggleButton.defaultProps,
-            this.context as Record<string, unknown>
-          )
+  // to remove spacing props
+  validateDOMAttributes(ownProps, rest)
 
-          // use only the props from context, who are available here anyway
-          const props = extendPropsWithContextInClassComponent(
-            this.props,
-            ToggleButton.defaultProps,
-            contextProps,
-            (context.translation as Record<string, unknown>)
-              ?.ToggleButton as Record<string, unknown>,
-            pickFormElementProps(
-              context.formElement as Record<string, unknown>
-            ),
-            (context as Record<string, unknown>).ToggleButton as Record<
-              string,
-              unknown
-            >
-          )
+  const buttonParams: Record<string, unknown> = {
+    id,
+    disabled,
+    skeleton,
+    text: text || children,
+    title,
+    icon,
+    iconSize: iconSize,
+    iconPosition: iconPosition,
+    [`aria-${
+      role === 'radio' || role === 'checkbox' ? 'checked' : 'pressed'
+    }`]: String(resolvedChecked || false),
+    role,
+    ...rest,
+  }
 
-          const {
-            status,
-            statusState,
-            statusProps,
-            statusNoAnimation,
-            globalStatus,
-            suffix,
-            label,
-            labelDirection,
-            labelSrOnly,
-            text,
-            title,
-            readOnly,
-            className,
-            disabled,
-            skeleton,
-            variant,
-            leftComponent,
-            icon,
-            iconSize,
-            iconPosition,
-            value: propValue,
-            role,
+  const componentParams: Record<string, unknown> = {
+    checked: resolvedChecked,
+    disabled,
+    element: 'span',
+    'data-checked': String(resolvedChecked || false),
+    'aria-checked': undefined,
+    role: undefined,
+    type: undefined,
+    name: null,
+    title: null,
+  }
 
-            id: _id,
-            // group: _group,
-            checked: _checked,
-            children,
-            onChange,
+  if (status) {
+    // do not send along the message, but only the status states
+    if (statusState === 'information') {
+      componentParams.statusState = 'information'
+    } else {
+      componentParams.status = 'error'
+    }
+  }
 
-            ...rest
-          } = props
-
-          let { checked } = this.state
-
-          if (
-            !this.context.multiselect &&
-            typeof this.context.value !== 'undefined'
-          ) {
-            const contextValue = this.context.value
-            if (
-              typeof propValue === 'string' ||
-              typeof propValue === 'number'
-            ) {
-              checked = propValue === contextValue
-            }
-          } else if (
-            this.context.multiselect &&
-            typeof this.context.values !== 'undefined'
-          ) {
-            const contextValues = this.context.values
-            if (
-              typeof propValue === 'string' ||
-              typeof propValue === 'number'
-            ) {
-              checked = contextValues.includes(propValue)
-            }
-          }
-
-          const id = this._id
-          const showStatus = getStatusState(status)
-
-          const mainParams = {
-            className: clsx(
-              'dnb-toggle-button',
-              status && `dnb-toggle-button__status--${statusState}`,
-              checked && `dnb-toggle-button--checked`,
-              labelDirection && `dnb-toggle-button--${labelDirection}`,
-              createSpacingClasses(props),
-              className
-            ),
-          }
-
-          // to remove spacing props
-          validateDOMAttributes(this.props, rest)
-
-          const buttonParams: Record<string, unknown> = {
-            id,
-            disabled,
-            skeleton,
-            text: text || children,
-            title,
-            icon,
-            iconSize: iconSize,
-            iconPosition: iconPosition,
-            [`aria-${
-              role === 'radio' || role === 'checkbox'
-                ? 'checked'
-                : 'pressed'
-            }`]: String(checked || false),
-            role,
-            ...rest,
-          }
-
-          const componentParams: Record<string, unknown> = {
-            checked,
-            disabled,
-            element: 'span',
-            'data-checked': String(checked || false),
-            'aria-checked': undefined,
-            role: undefined,
-            type: undefined,
-            name: null,
-            title: null,
-          }
-
-          if (status) {
-            // do not send along the message, but only the status states
-            if (statusState === 'information') {
-              componentParams.statusState = 'information'
-            } else {
-              componentParams.status = 'error'
-            }
-          }
-
-          if (showStatus || suffix) {
-            buttonParams['aria-describedby'] = combineDescribedBy(
-              buttonParams,
-              showStatus ? id + '-status' : null,
-              suffix ? id + '-suffix' : null
-            )
-          }
-          if (readOnly) {
-            buttonParams['aria-readonly'] = true
-            buttonParams['readOnly'] = true
-          }
-
-          let usedLeftComponent = null
-          switch (variant) {
-            case 'radio':
-              usedLeftComponent = (
-                <Radio id={`${id}-radio`} {...componentParams} />
-              )
-              break
-
-            case 'checkbox':
-              usedLeftComponent = (
-                <Checkbox id={`${id}-checkbox`} {...componentParams} />
-              )
-              break
-
-            case 'default':
-            default:
-              usedLeftComponent = leftComponent
-              break
-          }
-
-          return (
-            <span {...mainParams}>
-              {label && (
-                <FormLabel
-                  id={id + '-label'}
-                  forId={id}
-                  text={label}
-                  disabled={disabled}
-                  skeleton={skeleton}
-                  labelDirection={labelDirection}
-                  srOnly={labelSrOnly}
-                />
-              )}
-              <span className="dnb-toggle-button__inner">
-                <FormStatus
-                  show={showStatus}
-                  id={id + '-form-status'}
-                  globalStatus={globalStatus}
-                  label={label}
-                  textId={id + '-status'} // used for "aria-describedby"
-                  text={status}
-                  state={statusState}
-                  noAnimation={statusNoAnimation}
-                  skeleton={skeleton}
-                  {...statusProps}
-                />
-
-                <span className="dnb-toggle-button__shell">
-                  <AlignmentHelper />
-
-                  <Button
-                    variant="secondary"
-                    className="dnb-toggle-button__button"
-                    customContent={
-                      usedLeftComponent && (
-                        <span className="dnb-toggle-button__component">
-                          {usedLeftComponent}
-                        </span>
-                      )
-                    }
-                    {...buttonParams}
-                    ref={this._refButton}
-                    onClick={this.onClickHandler}
-                    onKeyDown={this.onKeyDownHandler}
-                    onKeyUp={this.onKeyUpHandler}
-                  />
-
-                  {suffix && (
-                    <Suffix
-                      className="dnb-toggle-button__suffix"
-                      id={id + '-suffix'} // used for "aria-describedby"
-                      context={props}
-                    >
-                      {suffix as React.ReactNode}
-                    </Suffix>
-                  )}
-                </span>
-              </span>
-            </span>
-          )
-        }}
-      </Context.Consumer>
+  if (showStatus || suffix) {
+    buttonParams['aria-describedby'] = combineDescribedBy(
+      buttonParams,
+      showStatus ? id + '-status' : null,
+      suffix ? id + '-suffix' : null
     )
   }
+  if (readOnly) {
+    buttonParams['aria-readonly'] = true
+    buttonParams['readOnly'] = true
+  }
+
+  let usedLeftComponent = null
+  switch (variant) {
+    case 'radio':
+      usedLeftComponent = <Radio id={`${id}-radio`} {...componentParams} />
+      break
+
+    case 'checkbox':
+      usedLeftComponent = (
+        <Checkbox id={`${id}-checkbox`} {...componentParams} />
+      )
+      break
+
+    case 'default':
+    default:
+      usedLeftComponent = leftComponent
+      break
+  }
+
+  return (
+    <span {...mainParams}>
+      {label && (
+        <FormLabel
+          id={id + '-label'}
+          forId={id}
+          text={label}
+          disabled={disabled}
+          skeleton={skeleton}
+          labelDirection={labelDirection}
+          srOnly={labelSrOnly}
+        />
+      )}
+      <span className="dnb-toggle-button__inner">
+        <FormStatus
+          show={showStatus}
+          id={id + '-form-status'}
+          globalStatus={globalStatus}
+          label={label}
+          textId={id + '-status'} // used for "aria-describedby"
+          text={status}
+          state={statusState}
+          noAnimation={statusNoAnimation}
+          skeleton={skeleton}
+          {...statusProps}
+        />
+
+        <span className="dnb-toggle-button__shell">
+          <AlignmentHelper />
+
+          <Button
+            variant="secondary"
+            className="dnb-toggle-button__button"
+            customContent={
+              usedLeftComponent && (
+                <span className="dnb-toggle-button__component">
+                  {usedLeftComponent}
+                </span>
+              )
+            }
+            {...buttonParams}
+            ref={refButton}
+            onClick={onClickHandler}
+            onKeyDown={onKeyDownHandler}
+            onKeyUp={onKeyUpHandler}
+          />
+
+          {suffix && (
+            <Suffix
+              className="dnb-toggle-button__suffix"
+              id={id + '-suffix'} // used for "aria-describedby"
+              context={props}
+            >
+              {suffix as React.ReactNode}
+            </Suffix>
+          )}
+        </span>
+      </span>
+    </span>
+  )
 }
 
-withComponentMarkers(ToggleButton, {
+const MemoizedToggleButton = React.memo(ToggleButton) as unknown as {
+  (props: ToggleButtonProps): React.ReactElement
+  Group: typeof ToggleButtonGroup
+}
+
+MemoizedToggleButton.Group = ToggleButtonGroup
+
+withComponentMarkers(MemoizedToggleButton, {
   _formElement: true,
   _supportsSpacingProps: true,
 })
 
-export default ToggleButton as ToggleButtonComponent
+export default MemoizedToggleButton as unknown as ToggleButtonComponent
 
 // Type definitions
 import type {
@@ -472,16 +474,10 @@ import type {
   ButtonSize,
   ButtonTooltip,
 } from '../Button'
-import type {
-  FormStatusText,
-  FormStatusState,
-  FormStatusProps,
-} from '../FormStatus'
-import type { GlobalStatusConfigObject } from '../GlobalStatus'
 import type { IconIcon, IconSize } from '../Icon'
+import type { FormStatusBaseProps } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
-import type { SpacingProps, SpaceType } from '../../shared/types'
-import type { ToggleButtonGroupProps } from './ToggleButtonGroup'
+import type { SpacingProps, SpaceType } from '../space/types'
 
 export type ToggleButtonVariant = 'default' | 'checkbox' | 'radio'
 export type ToggleButtonSuffix =
@@ -492,7 +488,7 @@ export type ToggleButtonValue =
   | string
   | number
   | Record<string, unknown>
-  | any[]
+  | unknown[]
 export type ToggleButtonChildren = string | (() => React.ReactNode)
 
 export type ToggleButtonChangeEvent = {
@@ -503,9 +499,10 @@ export type ToggleButtonChangeEvent = {
 
 export type ToggleButtonProps = Omit<
   React.HTMLProps<HTMLButtonElement>,
-  'ref' | 'label' | 'value' | 'size' | 'onChange'
+  'ref' | 'label' | 'value' | 'children' | 'onChange' | 'size'
 > &
-  Omit<SpacingProps, 'top' | 'right' | 'bottom' | 'left'> & {
+  Omit<SpacingProps, 'top' | 'right' | 'bottom' | 'left'> &
+  FormStatusBaseProps & {
     /**
      * The text shown in the ToggleButton.
      */
@@ -532,23 +529,6 @@ export type ToggleButtonProps = Omit<
      */
     skeleton?: SkeletonShow
     id?: string
-    /**
-     * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
-     */
-    status?: FormStatusText
-    /**
-     * Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.
-     */
-    statusState?: FormStatusState
-    /**
-     * Use an object to define additional FormStatus properties.
-     */
-    statusProps?: FormStatusProps
-    statusNoAnimation?: boolean
-    /**
-     * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
-     */
-    globalStatus?: GlobalStatusConfigObject
     /**
      * Text describing the content of the ToggleButton more than the label. You can also send in a React component, so it gets wrapped inside the ToggleButton component.
      */
@@ -589,7 +569,7 @@ export type ToggleButtonProps = Omit<
   }
 
 // Type for the component with static properties
-export type ToggleButtonComponent =
-  React.ComponentClass<ToggleButtonProps> & {
-    Group: React.ComponentClass<ToggleButtonGroupProps>
-  } & ComponentMarkers
+export type ToggleButtonComponent = {
+  (props: ToggleButtonProps): React.ReactElement
+  Group: typeof ToggleButtonGroup
+}
