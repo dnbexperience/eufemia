@@ -1,11 +1,14 @@
 /**
  * Web GlobalStatus Component
- *
- * This is a legacy component.
- * For referencing while developing new features, please use a Functional component.
  */
 
-import React from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import clsx from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import Context from '../../shared/Context'
@@ -235,665 +238,637 @@ export type GlobalStatusInterceptorUpdateEvents = {
   text?: string
 }
 
-type GlobalStatusComponentState = {
-  globalStatus: any
-  isActive: boolean
-  isAnimating?: boolean
+const globalStatusDefaultProps: Record<string, unknown> = {
+  id: 'main',
+  statusId: 'status-main',
+  title: null,
+  defaultTitle: null,
+  text: null,
+  items: [],
+  icon: 'error',
+  iconSize: 'medium',
+  state: 'error',
+  show: 'auto',
+  autoScroll: true,
+  autoClose: true,
+  noAnimation: false,
+  closeText: 'Lukk',
+  hideCloseButton: false,
+  omitSetFocus: false,
+  omitSetFocusOnUpdate: true,
+  delay: null,
+  statusAnchorText: null,
+  skeleton: null,
+  className: null,
+  children: null,
+  onAdjust: null,
+  onOpen: null,
+  onShow: null,
+  onClose: null,
+  onHide: null,
 }
 
-export default class GlobalStatus extends React.PureComponent<
-  GlobalStatusProps,
-  GlobalStatusComponentState
-> {
-  static contextType = Context
-  context!: React.ContextType<typeof Context>
+function getIcon({
+  state,
+  icon,
+  iconSize,
+}: {
+  state?: string
+  icon?: any
+  iconSize?: IconSize
+  theme?: string
+}) {
+  if (typeof icon === 'string') {
+    let IconToLoad: React.ComponentType<any> = ErrorIcon
 
-  static create: (props: GlobalStatusInterceptorProps) => any
-  static Update: (props: GlobalStatusInterceptorProps) => any
-  static Add: typeof GlobalStatusController
-  static Remove: typeof GlobalStatusRemove
+    switch (state) {
+      case 'information':
+      case 'success':
+        IconToLoad = InfoIcon
+        break
+      case 'warning':
+        IconToLoad = WarnIcon
+        break
+      case 'error':
+      default:
+        IconToLoad = ErrorIcon
+    }
 
-  _wrapperRef: React.RefObject<HTMLDivElement | null>
-  provider: ReturnType<typeof GlobalStatusProvider.create>
-  _globalStatus: any
-  _hadContent: boolean
-  initialActiveElement: Element | null
-  _scrollToStatusTimeout: ReturnType<typeof setTimeout> | null
-
-  static defaultProps = {
-    id: 'main',
-    statusId: 'status-main',
-    title: null,
-    defaultTitle: null,
-    text: null,
-    items: [],
-    icon: 'error',
-    iconSize: 'medium',
-    state: 'error',
-    show: 'auto',
-    autoScroll: true,
-    autoClose: true,
-    noAnimation: false,
-    closeText: 'Lukk',
-    hideCloseButton: false,
-    omitSetFocus: false,
-    omitSetFocusOnUpdate: true,
-    delay: null,
-    statusAnchorText: null,
-    skeleton: null,
-
-    className: null,
-    children: null,
-
-    onAdjust: null,
-    onOpen: null,
-    onShow: null,
-    onClose: null,
-    onHide: null,
+    icon = (
+      <Icon
+        icon={<IconToLoad state={state} />}
+        size={iconSize}
+        inheritColor={false}
+      />
+    )
   }
 
-  static getIcon({
-    state,
-    icon,
-    iconSize,
-  }: {
-    state?: string
-    icon?: any
-    iconSize?: IconSize
-    theme?: string
-  }) {
-    if (typeof icon === 'string') {
-      let IconToLoad: React.ComponentType<any> = ErrorIcon
+  return icon
+}
 
-      switch (state) {
-        case 'information':
-        case 'success':
-          IconToLoad = InfoIcon
-          break
-        case 'warning':
-          IconToLoad = WarnIcon
-          break
-        case 'error':
-        default:
-          IconToLoad = ErrorIcon
-      }
+function hasContent(globalStatus: Record<string, any>) {
+  return Boolean(globalStatus?.items?.length > 0 || globalStatus?.text)
+}
 
-      icon = (
-        <Icon
-          icon={<IconToLoad state={state} />}
-          size={iconSize}
-          inheritColor={false}
-        />
-      )
+function GlobalStatusComponent(ownProps: GlobalStatusProps) {
+  const context = useContext(Context)
+
+  // Refs
+  const wrapperRef = useRef<HTMLDivElement>(null)
+  const globalStatusRef = useRef<any>(null)
+  const hadContentRef = useRef(false)
+  const initialActiveElementRef = useRef<Element | null>(null)
+  const scrollToStatusTimeoutRef = useRef<ReturnType<
+    typeof setTimeout
+  > | null>(null)
+  const propsRef = useRef(ownProps)
+  propsRef.current = ownProps
+
+  // Provider - created once
+  const providerRef = useRef<ReturnType<
+    typeof GlobalStatusProvider.create
+  > | null>(null)
+
+  // State
+  const [providerGlobalStatus, setProviderGlobalStatus] = useState<any>(
+    () => {
+      const provider = GlobalStatusProvider.create(ownProps.id)
+      providerRef.current = provider
+      const status = provider.init(ownProps)
+      globalStatusRef.current = status
+      return status
     }
+  )
+  const [isActive, setIsActive] = useState(ownProps.show === true)
 
-    return icon
+  // getDerivedStateFromProps equivalent
+  const [prevItems, setPrevItems] = useState(ownProps.items)
+
+  let derivedGlobalStatus = providerGlobalStatus
+  if (prevItems !== ownProps.items) {
+    setPrevItems(ownProps.items)
+    derivedGlobalStatus = GlobalStatusProvider.combineMessages([
+      providerGlobalStatus,
+      ownProps,
+    ])
+    setProviderGlobalStatus(derivedGlobalStatus)
   }
-
-  static getDerivedStateFromProps(
-    props: GlobalStatusProps,
-    state: GlobalStatusComponentState & { _items?: GlobalStatusItem[] }
-  ) {
-    let globalStatus = state.globalStatus
-
-    if (state._items !== props.items) {
-      globalStatus = GlobalStatusProvider.combineMessages([
-        state.globalStatus,
-        props,
-      ])
-    }
-
-    if (props.state !== globalStatus?.state) {
-      globalStatus = { ...globalStatus, state: props.state }
-    }
-
-    return {
-      globalStatus,
-      _items: props.items,
+  if (ownProps.state !== derivedGlobalStatus?.state) {
+    derivedGlobalStatus = {
+      ...derivedGlobalStatus,
+      state: ownProps.state,
     }
   }
 
-  state = {
-    globalStatus: null,
-    isActive: false,
-  }
+  // Subscription to provider updates
+  useEffect(() => {
+    const provider = providerRef.current
 
-  constructor(props: GlobalStatusProps) {
-    super(props)
-
-    this._wrapperRef = React.createRef()
-
-    this.provider = GlobalStatusProvider.create(props.id)
-
-    // add the props as the first stack
-    this.state.globalStatus = this._globalStatus =
-      this.provider.init(props)
-
-    // and make it visible from start, if needed
-    if (props.show === true) {
-      this.state.isActive = true
-    }
-
-    this.provider.onUpdate((globalStatus) => {
+    provider.onUpdate((status) => {
       // we need the onClose later during the close process
       // so we set this here, because it gets removed from the stack
-      if (globalStatus.onClose) {
-        this._globalStatus = globalStatus
+      if (status.onClose) {
+        globalStatusRef.current = status
       }
 
       // force re-render
-      this.setState({
-        globalStatus,
-      })
+      setProviderGlobalStatus(status)
+
+      const props = propsRef.current
 
       // make sure to show the new status, inc. scroll
       if (
-        (this.props.autoClose &&
-          this._hadContent &&
-          !this.hasContent(globalStatus) &&
-          this.props.show !== true) ||
-        (typeof globalStatus.show !== 'undefined' && !globalStatus.show)
+        (props.autoClose &&
+          hadContentRef.current &&
+          !hasContent(status) &&
+          props.show !== true) ||
+        (typeof status.show !== 'undefined' && !status.show)
       ) {
-        this.setHidden()
+        setIsActive(false)
       } else if (
-        this.props.show === true ||
-        (typeof globalStatus.show !== 'undefined' && globalStatus.show)
+        props.show === true ||
+        (typeof status.show !== 'undefined' && status.show)
       ) {
-        this._hadContent = this.hasContent(globalStatus)
+        hadContentRef.current = hasContent(status)
 
-        this.setVisible()
+        // setVisible with isPassive check
+        if (props.show === 'auto' || props.show === true) {
+          setIsActive(true)
+        }
       }
     })
 
-    this.initialActiveElement = null
-  }
+    return () => {
+      clearTimeout(scrollToStatusTimeoutRef.current)
 
-  componentWillUnmount() {
-    clearTimeout(this._scrollToStatusTimeout)
+      // NB: Never unbind the provider,
+      // as a new provider else will be set BEFORE the unmount is called
+      // on the other hand; setting up the provider
+      // at the stage of mount is too late
+      // so we only empty the events
+      provider.empty()
+    }
+  }, [])
 
-    // NB: Never unbind the provider,
-    // as a new provider else will be set BEFORE thi unmount is called
-    // on the other hand; setting up the provider
-    // at the stage of componentDidMount is too late
-    // this.provider.unbind()
+  // Handle show prop changes
+  const prevShowRef = useRef(ownProps.show)
+  useEffect(() => {
+    if (prevShowRef.current !== ownProps.show) {
+      prevShowRef.current = ownProps.show
 
-    // so we inly empty the events
-    this.provider.empty()
-  }
-
-  componentDidUpdate(prevProps: GlobalStatusProps) {
-    if (prevProps.show !== this.props.show) {
-      if (this.props.show === true) {
-        this.setVisible()
+      if (ownProps.show === true) {
+        // setVisible with isPassive check
+        if (ownProps.show === 'auto' || ownProps.show === true) {
+          setIsActive(true)
+        }
       } else {
-        this.setHidden()
+        setIsActive(false)
       }
     }
-  }
+  }, [ownProps.show])
 
-  hasContent(globalStatus: Record<string, any>) {
-    return Boolean(globalStatus.items?.length > 0 || globalStatus.text)
-  }
-
-  correctStatus(state: string | undefined) {
-    return state
-  }
-
-  isPassive = () => {
-    return this.props.show !== 'auto' && this.props.show !== true
-  }
-
-  setVisible = () => {
-    if (this.isPassive()) {
-      return // stop here
-    }
-
-    this.setState({
-      isActive: true,
-    })
-  }
-
-  setHidden = () => {
-    this.setState({
-      isActive: false,
-    })
-  }
-
-  onKeyDownHandler = (e: React.KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      e.preventDefault()
-      this.closeHandler()
-    }
-  }
-
-  setFocus() {
+  const setFocus = useCallback(() => {
     if (
       typeof document !== 'undefined' &&
-      document.activeElement !== this._wrapperRef.current
+      document.activeElement !== wrapperRef.current
     ) {
-      this.initialActiveElement = document.activeElement
+      initialActiveElementRef.current = document.activeElement
     }
-    if (this._wrapperRef.current && !this.props.omitSetFocus) {
-      this._wrapperRef.current.focus({ preventScroll: true })
+    if (wrapperRef.current && !propsRef.current.omitSetFocus) {
+      wrapperRef.current.focus({ preventScroll: true })
     }
-  }
+  }, [])
 
-  closeHandler = () => {
-    this.provider.add({
+  const closeHandler = useCallback(() => {
+    providerRef.current.add({
       statusId: 'internal-close',
       show: false,
     })
 
-    if (this.initialActiveElement) {
+    if (initialActiveElementRef.current) {
       try {
-        ;(this.initialActiveElement as HTMLElement).focus()
-        this.initialActiveElement = null
+        ;(initialActiveElementRef.current as HTMLElement).focus()
+        initialActiveElementRef.current = null
       } catch (e) {
         warn(e)
       }
     }
 
     dispatchCustomElementEvent(
-      this._globalStatus,
+      globalStatusRef.current,
       'onHide',
-      this._globalStatus
+      globalStatusRef.current
     )
-  }
+  }, [])
 
-  async scrollToStatus(
-    isDone: ((elem: HTMLElement) => void) | null = null
-  ) {
-    if (
-      typeof window === 'undefined' ||
-      this.state.globalStatus.autoScroll === false
-    ) {
-      return // stop here
-    }
-    try {
-      const element = this._wrapperRef.current
-      this._scrollToStatusTimeout = isElementVisible(element, isDone)
-      if (element && typeof element.scrollIntoView === 'function') {
-        // wait a tick, to make sure that the element is visible, as firefox needs that
-        // or else it reports:
-        // scroll anchoring was disabled in a scroll container because of too many consecutive adjustments
-        await wait(1)
-        element.scrollIntoView({
-          block: 'center',
-          behavior: 'smooth',
-        })
-      } else {
-        const top = element.offsetTop
-        window.scrollTo({
-          top,
-          behavior: 'smooth',
-        })
+  const scrollToStatus = useCallback(
+    async (isDone: ((elem: HTMLElement) => void) | null = null) => {
+      if (typeof window === 'undefined') {
+        return // stop here
       }
-    } catch (e) {
-      warn('GlobalStatus: Could not scroll into view!', e)
-    }
-  }
-
-  gotoItem = (
-    event: React.MouseEvent | React.KeyboardEvent,
-    item: Record<string, any>
-  ) => {
-    const key = (event as React.KeyboardEvent).key
-    if (
-      (item.itemId &&
-        typeof document !== 'undefined' &&
-        typeof window !== 'undefined' &&
-        key === ' ') ||
-      key === 'Enter' ||
-      key === undefined
-    ) {
-      event.preventDefault()
       try {
-        // find the element
-        const element = document.getElementById(item.itemId)
-
-        if (!element) {
-          return
-        }
-
-        isElementVisible(element, (elem) => {
-          try {
-            // remove the blink animation again
-            elem.addEventListener('blur', (e) => {
-              if ((e.target as HTMLElement).classList) {
-                ;(e.target as HTMLElement).removeAttribute('tabindex')
-              }
-            })
-
-            // we don't want a visual focus style, we have our own
-            elem.classList.add('dnb-no-focus')
-
-            // in order to use the blur event
-            elem.setAttribute('tabindex', '-1')
-
-            // now show the animation
-            // we use "attention-focus" in #form-status theme
-            elem.focus({ preventScroll: true })
-          } catch (e) {
-            warn(e)
-          }
-        })
-
-        if (typeof element.scrollIntoView === 'function') {
-          // then go there
+        const element = wrapperRef.current
+        scrollToStatusTimeoutRef.current = isElementVisible(
+          element,
+          isDone
+        )
+        if (element && typeof element.scrollIntoView === 'function') {
+          // wait a tick, to make sure that the element is visible, as firefox needs that
+          await wait(1)
           element.scrollIntoView({
-            block: 'center', // center of page
+            block: 'center',
+            behavior: 'smooth',
+          })
+        } else {
+          const top = element.offsetTop
+          window.scrollTo({
+            top,
             behavior: 'smooth',
           })
         }
       } catch (e) {
-        warn(e)
+        warn('GlobalStatus: Could not scroll into view!', e)
       }
-    }
-  }
+    },
+    []
+  )
 
-  itemsRenderHandler =
-    ({ statusAnchorText, lang }) =>
-    (item, i) => {
-      const text = item?.text
-        ? item.text
-        : typeof item === 'string'
-        ? item
-        : null
+  const gotoItem = useCallback(
+    (
+      event: React.MouseEvent | React.KeyboardEvent,
+      item: Record<string, any>
+    ) => {
+      const key = (event as React.KeyboardEvent).key
+      if (
+        (item.itemId &&
+          typeof document !== 'undefined' &&
+          typeof window !== 'undefined' &&
+          key === ' ') ||
+        key === 'Enter' ||
+        key === undefined
+      ) {
+        event.preventDefault()
+        try {
+          // find the element
+          const element = document.getElementById(item.itemId)
 
-      if (!text) {
-        return null // skip this item if no content is given
-      }
+          if (!element) {
+            return
+          }
 
-      const id =
-        item.id || item.itemId ? `${item.itemId}-${i}` : makeUniqueId()
+          isElementVisible(element, (elem) => {
+            try {
+              // remove the blink animation again
+              elem.addEventListener('blur', (e) => {
+                if ((e.target as HTMLElement).classList) {
+                  ;(e.target as HTMLElement).removeAttribute('tabindex')
+                }
+              })
 
-      let anchorText = statusAnchorText
+              // we don't want a visual focus style, we have our own
+              elem.classList.add('dnb-no-focus')
 
-      if (React.isValidElement(item.statusAnchorLabel)) {
-        anchorText = (
-          <>
-            {typeof statusAnchorText === 'string'
-              ? statusAnchorText.replace('%s', '').trim()
-              : statusAnchorText}{' '}
-            {item.statusAnchorLabel}
-          </>
-        )
-      } else {
-        anchorText = String(item.statusAnchorText || statusAnchorText)
-          .replace('%s', item.statusAnchorLabel || '')
-          .replace(/[: ]$/g, '')
-      }
+              // in order to use the blur event
+              elem.setAttribute('tabindex', '-1')
 
-      const useAutolink = item.itemId && item.statusAnchorUrl === true
+              // now show the animation
+              // we use "attention-focus" in #form-status theme
+              elem.focus({ preventScroll: true })
+            } catch (e) {
+              warn(e)
+            }
+          })
 
-      return (
-        <li key={i}>
-          <p id={id} className="dnb-p">
-            {text}
-          </p>
-
-          {item && (useAutolink || item.statusAnchorUrl) && (
-            <a
-              className="dnb-anchor"
-              aria-describedby={id}
-              lang={lang}
-              href={useAutolink ? `#${item.itemId}` : item.statusAnchorUrl}
-              onClick={(e) => this.gotoItem(e, item)}
-              onKeyDown={(e) => this.gotoItem(e, item)}
-            >
-              {anchorText}
-            </a>
-          )}
-        </li>
-      )
-    }
-
-  onAnimationStart = (state: HeightAnimationOnStart) => {
-    this.setState({
-      isAnimating: true,
-    })
-
-    switch (state) {
-      case 'opening':
-        this.scrollToStatus()
-    }
-  }
-
-  onAnimationEnd = (state: HeightAnimationOnEnd) => {
-    switch (state) {
-      case 'opened':
-        this.setFocus()
-
-        dispatchCustomElementEvent(
-          this._globalStatus,
-          'onOpen',
-          this._globalStatus
-        )
-        break
-
-      case 'adjusted':
-        if (!this.props.omitSetFocusOnUpdate) {
-          this.setFocus()
+          if (typeof element.scrollIntoView === 'function') {
+            // then go there
+            element.scrollIntoView({
+              block: 'center', // center of page
+              behavior: 'smooth',
+            })
+          }
+        } catch (e) {
+          warn(e)
         }
+      }
+    },
+    []
+  )
 
-        dispatchCustomElementEvent(
-          this._globalStatus,
-          'onAdjust',
-          this._globalStatus
-        )
-        break
+  const onAnimationStart = useCallback(
+    (state: HeightAnimationOnStart) => {
+      switch (state) {
+        case 'opening':
+          scrollToStatus()
+      }
+    },
+    [scrollToStatus]
+  )
 
-      case 'closed':
-        dispatchCustomElementEvent(
-          this._globalStatus,
-          'onClose',
-          this._globalStatus
-        )
+  const onAnimationEnd = useCallback(
+    (state: HeightAnimationOnEnd) => {
+      switch (state) {
+        case 'opened':
+          setFocus()
 
-        break
-    }
-  }
+          dispatchCustomElementEvent(
+            globalStatusRef.current,
+            'onOpen',
+            globalStatusRef.current
+          )
+          break
 
-  onOpen = (isOpened: boolean) => {
+        case 'adjusted':
+          if (!propsRef.current.omitSetFocusOnUpdate) {
+            setFocus()
+          }
+
+          dispatchCustomElementEvent(
+            globalStatusRef.current,
+            'onAdjust',
+            globalStatusRef.current
+          )
+          break
+
+        case 'closed':
+          dispatchCustomElementEvent(
+            globalStatusRef.current,
+            'onClose',
+            globalStatusRef.current
+          )
+          break
+      }
+    },
+    [setFocus]
+  )
+
+  const onOpen = useCallback((isOpened: boolean) => {
     if (isOpened) {
       dispatchCustomElementEvent(
-        this._globalStatus,
+        globalStatusRef.current,
         'onShow',
-        this._globalStatus
+        globalStatusRef.current
       )
     }
+  }, [])
+
+  // Render
+
+  const fallbackProps = extendPropsWithContextInClassComponent(
+    ownProps,
+    globalStatusDefaultProps,
+    context.getTranslation(ownProps).GlobalStatus
+  )
+
+  const props = extendPropsWithContextInClassComponent(
+    GlobalStatusProvider.combineMessages([
+      (context as Record<string, unknown>)?.globalStatus as
+        | Record<string, unknown>
+        | undefined,
+      derivedGlobalStatus,
+    ]),
+    globalStatusDefaultProps,
+    fallbackProps
+  )
+
+  const lang = context.locale
+
+  const {
+    title,
+    defaultTitle,
+    state: rawState,
+    className,
+    noAnimation,
+    hideCloseButton,
+    closeText,
+    statusAnchorText,
+    skeleton,
+
+    id,
+    item,
+    items,
+    autoClose,
+    show,
+    delay,
+    autoScroll,
+    text,
+    omitSetFocus,
+    omitSetFocusOnUpdate,
+    statusId,
+    icon,
+    iconSize,
+    children,
+    removeOnUnmount,
+
+    onAdjust: _onAdjust,
+    onOpen: _onOpen,
+    onShow: _onShow,
+    onClose: _onClose,
+    onHide: _onHide,
+
+    ...attributes
+  } = props as Record<string, any>
+
+  const wrapperParams = {
+    id,
+    className: clsx(
+      'dnb-global-status__wrapper',
+      'dnb-no-focus',
+      createSkeletonClass('font', skeleton, context),
+      createSpacingClasses(props),
+      className
+    ),
+    'aria-live': (isActive ? 'assertive' : 'off') as 'assertive' | 'off',
+    onKeyDown: (e: React.KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        closeHandler()
+      }
+    },
+    tabIndex: -1,
   }
 
-  render() {
-    const { isActive } = this.state
+  const state = rawState
+  const iconToRender = getIcon({
+    state,
+    icon: icon || fallbackProps.icon,
+    iconSize: iconSize || fallbackProps.iconSize,
+    theme: context?.theme?.name || 'ui',
+  })
+  const titleToRender =
+    title || fallbackProps.title || fallbackProps.defaultTitle
+  const noAnimationUsed = noAnimation
+  const itemsToRender = props.items || []
+  const contentToRender = props.text || props.children
 
-    const fallbackProps = extendPropsWithContextInClassComponent(
-      this.props,
-      GlobalStatus.defaultProps,
-      this.context.getTranslation(this.props).GlobalStatus
-    )
+  const params = {
+    className: clsx('dnb-global-status', `dnb-global-status--${state}`),
+    ...attributes,
+  }
 
-    const props = extendPropsWithContextInClassComponent(
-      GlobalStatusProvider.combineMessages([
-        (this.context as Record<string, unknown>)?.globalStatus as
-          | Record<string, unknown>
-          | undefined,
-        this.state.globalStatus,
-      ]),
-      GlobalStatus.defaultProps,
-      fallbackProps
-    )
+  skeletonDOMAttributes(params, skeleton, context)
 
-    const lang = this.context.locale
+  // also used for code markup simulation
+  validateDOMAttributes(ownProps, params)
 
-    const {
-      title,
-      defaultTitle,
-      state: rawState,
-      className,
-      noAnimation,
-      hideCloseButton,
-      closeText,
-      statusAnchorText,
-      skeleton,
+  const itemsRenderHandler = (item, i) => {
+    const text = item?.text
+      ? item.text
+      : typeof item === 'string'
+      ? item
+      : null
 
-      id,
-      item,
-      items,
-      autoClose,
-      show,
-      delay,
-      autoScroll,
-      text,
-      omitSetFocus,
-      omitSetFocusOnUpdate,
-      statusId,
-      icon,
-      iconSize,
-      children,
-      removeOnUnmount,
-
-      onAdjust,
-      onOpen,
-      onShow,
-      onClose,
-      onHide,
-
-      ...attributes
-    } = props as Record<string, any>
-
-    const wrapperParams = {
-      id,
-      className: clsx(
-        'dnb-global-status__wrapper',
-        'dnb-no-focus',
-        createSkeletonClass('font', skeleton, this.context),
-        createSpacingClasses(props),
-        className
-      ),
-      'aria-live': (isActive ? 'assertive' : 'off') as 'assertive' | 'off',
-      onKeyDown: this.onKeyDownHandler,
-      tabIndex: -1,
+    if (!text) {
+      return null // skip this item if no content is given
     }
 
-    const state = this.correctStatus(rawState)
-    const iconToRender = GlobalStatus.getIcon({
-      state,
-      icon: icon || fallbackProps.icon,
-      iconSize: iconSize || fallbackProps.iconSize,
-      theme: this.context?.theme?.name || 'ui',
-    })
-    const titleToRender =
-      title || fallbackProps.title || fallbackProps.defaultTitle
-    const noAnimationUsed = noAnimation
-    const itemsToRender = props.items || []
-    const contentToRender = props.text || props.children
+    const id =
+      item.id || item.itemId ? `${item.itemId}-${i}` : makeUniqueId()
 
-    const params = {
-      className: clsx('dnb-global-status', `dnb-global-status--${state}`),
-      ...attributes,
+    let anchorText = statusAnchorText
+
+    if (React.isValidElement(item.statusAnchorLabel)) {
+      anchorText = (
+        <>
+          {typeof statusAnchorText === 'string'
+            ? statusAnchorText.replace('%s', '').trim()
+            : statusAnchorText}{' '}
+          {item.statusAnchorLabel}
+        </>
+      )
+    } else {
+      anchorText = String(item.statusAnchorText || statusAnchorText)
+        .replace('%s', item.statusAnchorLabel || '')
+        .replace(/[: ]$/g, '')
     }
 
-    skeletonDOMAttributes(params, skeleton, this.context)
-
-    // also used for code markup simulation
-    validateDOMAttributes(this.props, params)
-
-    const renderedItems = itemsToRender.length > 0 && (
-      <ul className="dnb-ul">
-        {itemsToRender.map(
-          this.itemsRenderHandler({ statusAnchorText, lang })
-        )}
-      </ul>
-    )
-
-    const hasContent = renderedItems || contentToRender
-
-    const renderedContent = (
-      <>
-        {title !== false && (
-          <>
-            <div
-              className="dnb-global-status__title"
-              role={titleToRender?.type ? undefined : 'paragraph'}
-              lang={lang}
-            >
-              <span className="dnb-global-status__icon">
-                {iconToRender}
-              </span>
-              {titleToRender}
-              {!hideCloseButton && (
-                <Button
-                  text={closeText}
-                  title={closeText}
-                  variant={state === 'success' ? 'secondary' : 'tertiary'}
-                  className="dnb-global-status__close-button"
-                  icon="close"
-                  onClick={this.closeHandler}
-                  size="medium"
-                  iconPosition="left"
-                />
-              )}
-            </div>
-            {hasContent && (
-              <div className="dnb-global-status__message">
-                <div
-                  className={clsx(
-                    'dnb-global-status__message__content',
-                    !renderedItems && 'dnb-space__bottom--small'
-                  )}
-                >
-                  {typeof contentToRender === 'string' ? (
-                    <p className="dnb-p">{contentToRender}</p>
-                  ) : (
-                    contentToRender
-                  )}
-                  {renderedItems}
-                </div>
-              </div>
-            )}
-            <Hr breakout />
-          </>
-        )}
-      </>
-    )
+    const useAutolink = item.itemId && item.statusAnchorUrl === true
 
     return (
-      <div {...wrapperParams} ref={this._wrapperRef} key="global-status">
-        <section {...params}>
-          <HeightAnimation
-            className="dnb-global-status__shell"
-            duration={800}
-            delay={delay}
-            open={isActive}
-            animate={!noAnimationUsed}
-            onAnimationEnd={this.onAnimationEnd}
-            onAnimationStart={this.onAnimationStart as any}
-            onOpen={this.onOpen}
+      <li key={i}>
+        <p id={id} className="dnb-p">
+          {text}
+        </p>
+
+        {item && (useAutolink || item.statusAnchorUrl) && (
+          <a
+            className="dnb-anchor"
+            aria-describedby={id}
+            lang={lang}
+            href={useAutolink ? `#${item.itemId}` : item.statusAnchorUrl}
+            onClick={(e) => gotoItem(e, item)}
+            onKeyDown={(e) => gotoItem(e, item)}
           >
-            <Section
-              element="div"
-              variant={state}
-              className="dnb-global-status__content"
-            >
-              {renderedContent}
-            </Section>
-          </HeightAnimation>
-        </section>
-      </div>
+            {anchorText}
+          </a>
+        )}
+      </li>
     )
   }
+
+  const renderedItems = itemsToRender.length > 0 && (
+    <ul className="dnb-ul">{itemsToRender.map(itemsRenderHandler)}</ul>
+  )
+
+  const hasContentToRender = renderedItems || contentToRender
+
+  const renderedContent = (
+    <>
+      {title !== false && (
+        <>
+          <div
+            className="dnb-global-status__title"
+            role={titleToRender?.type ? undefined : 'paragraph'}
+            lang={lang}
+          >
+            <span className="dnb-global-status__icon">{iconToRender}</span>
+            {titleToRender}
+            {!hideCloseButton && (
+              <Button
+                text={closeText}
+                title={closeText}
+                variant={state === 'success' ? 'secondary' : 'tertiary'}
+                className="dnb-global-status__close-button"
+                icon="close"
+                onClick={closeHandler}
+                size="medium"
+                iconPosition="left"
+              />
+            )}
+          </div>
+          {hasContentToRender && (
+            <div className="dnb-global-status__message">
+              <div
+                className={clsx(
+                  'dnb-global-status__message__content',
+                  !renderedItems && 'dnb-space__bottom--small'
+                )}
+              >
+                {typeof contentToRender === 'string' ? (
+                  <p className="dnb-p">{contentToRender}</p>
+                ) : (
+                  contentToRender
+                )}
+                {renderedItems}
+              </div>
+            </div>
+          )}
+          <Hr breakout />
+        </>
+      )}
+    </>
+  )
+
+  return (
+    <div {...wrapperParams} ref={wrapperRef} key="global-status">
+      <section {...params}>
+        <HeightAnimation
+          className="dnb-global-status__shell"
+          duration={800}
+          delay={delay}
+          open={isActive}
+          animate={!noAnimationUsed}
+          onAnimationEnd={onAnimationEnd}
+          onAnimationStart={onAnimationStart as any}
+          onOpen={onOpen}
+        >
+          <Section
+            element="div"
+            variant={state}
+            className="dnb-global-status__content"
+          >
+            {renderedContent}
+          </Section>
+        </HeightAnimation>
+      </section>
+    </div>
+  )
 }
 
-// Extend our component with controllers
-GlobalStatus.create = (
-  props: GlobalStatusInterceptorProps
-): GlobalStatusInterceptor => new GlobalStatusInterceptor(props)
+GlobalStatusComponent.displayName = 'GlobalStatus'
+
+type GlobalStatusWithStatics = React.FC<GlobalStatusProps> & {
+  create: (props: GlobalStatusInterceptorProps) => GlobalStatusInterceptor
+  Update: (props: GlobalStatusInterceptorProps) => GlobalStatusInterceptor
+  Add: typeof GlobalStatusController
+  Remove: typeof GlobalStatusRemove
+}
+
+const GlobalStatus: GlobalStatusWithStatics = Object.assign(
+  React.memo(GlobalStatusComponent),
+  {
+    create: (
+      props: GlobalStatusInterceptorProps
+    ): GlobalStatusInterceptor => new GlobalStatusInterceptor(props),
+    Update: null as any,
+    Add: GlobalStatusController,
+    Remove: GlobalStatusRemove,
+  }
+) as any
 GlobalStatus.Update = GlobalStatus.create
-GlobalStatus.Add = GlobalStatusController
-GlobalStatus.Remove = GlobalStatusRemove
 
 withComponentMarkers(GlobalStatus, { _supportsSpacingProps: true })
+
+export default GlobalStatus
 
 const isElementVisible = (
   elem: HTMLElement,
