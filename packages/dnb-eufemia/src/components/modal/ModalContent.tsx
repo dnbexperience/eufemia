@@ -236,11 +236,9 @@ export default function ModalContent(props: ModalContentProps) {
     clearTimeout(androidFocusTimeoutRef.current)
     androidFocusTimeoutRef.current = setTimeout(() => {
       try {
-        if (
-          document.activeElement?.tagName === 'INPUT' ||
-          document.activeElement?.tagName === 'TEXTAREA'
-        ) {
-          document.activeElement.scrollIntoView()
+        const elem = contentRef.current
+        if (elem?.tagName === 'INPUT' || elem?.tagName === 'TEXTAREA') {
+          elem.scrollIntoView()
         }
       } catch (e) {
         //
