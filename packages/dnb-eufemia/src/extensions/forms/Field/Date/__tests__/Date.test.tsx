@@ -1012,15 +1012,17 @@ describe('Field.Date', () => {
     it('should not display error if only the end date is cleared in range mode', async () => {
       render(<Field.Date value="2023-12-07|2023-12-14" range />)
 
-      const endYearInput = document.querySelectorAll(
-        '.dnb-date-picker__input--year'
-      )[1]
+      const [, , , endDay, endMonth, endYear] = Array.from(
+        document.querySelectorAll('.dnb-date-picker__input')
+      ) as Array<HTMLInputElement>
 
       expect(
         document.querySelector('.dnb-form-status')
       ).not.toBeInTheDocument()
 
-      await userEvent.type(endYearInput, '{Backspace>8}')
+      for (const input of [endDay, endMonth, endYear]) {
+        await userEvent.clear(input)
+      }
       await userEvent.click(document.body)
 
       await waitFor(() => {
