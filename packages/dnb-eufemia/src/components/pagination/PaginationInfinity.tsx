@@ -524,7 +524,7 @@ function InteractionMarker({
   }
 
   // NB: make sure we don't actually use the marker element,
-  // because it looks like React as troubles regarding handling ref during a re-render?
+  // because it looks like React has troubles regarding handling ref during a re-render?
   const Element =
     markerElement && isTrElement(markerElement) ? 'tr' : 'div'
   const ElementChild =
