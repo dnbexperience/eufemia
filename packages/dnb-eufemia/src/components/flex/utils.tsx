@@ -120,11 +120,7 @@ export function renderWithSpacing(
   }
 
   if (variant === 'children') {
-    return (
-      (Array.isArray(element)
-        ? element
-        : [element]) as React.ReactElement[]
-    ).map(
+    return (React.Children.toArray(element) as React.ReactElement[]).map(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (child: React.ReactElement<any>) => {
         const children = child?.props?.children
@@ -137,6 +133,7 @@ export function renderWithSpacing(
             { key: childKey || i, ...childProps },
             wrapWithSpace({
               element: element as React.ReactNode,
+              spaceProps,
               spaceProps,
               wrapInSpace,
             })
