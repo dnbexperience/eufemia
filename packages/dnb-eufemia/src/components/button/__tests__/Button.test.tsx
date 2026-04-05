@@ -505,6 +505,26 @@ describe('Button component', () => {
 // that behavior with removeUndefinedProps so that context overrides still
 // work when a consumer passes an explicit `undefined`.
 describe('undefined props should fall through to defaults', () => {
+  it('should not forward provider-only props to the DOM', () => {
+    const providerButtonProps: Partial<ButtonProps> & {
+      unexpected?: string
+    } = {
+      unexpected: 'value',
+      iconSize: 'medium',
+    }
+
+    render(
+      <Provider Button={providerButtonProps}>
+        <Button text="Button" icon="bell" />
+      </Provider>
+    )
+
+    const button = document.querySelector('.dnb-button')
+
+    expect(button).not.toHaveAttribute('unexpected')
+    expect(button.classList).toContain('dnb-button--icon-size-medium')
+  })
+
   it('should let context override a prop that is explicitly undefined', () => {
     render(
       <Provider Button={{ iconSize: 'medium' }}>
