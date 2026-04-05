@@ -1,19 +1,19 @@
 /**
  * Web FormStatus Component
- *
- * This is a legacy component.
- * For referencing while developing new features, please use a Functional component.
  */
 
-import React from 'react'
+import React, { useCallback, useContext, useEffect, useRef } from 'react'
+import useMountEffect from '../../shared/helpers/useMountEffect'
+import useUpdateEffect from '../../shared/helpers/useUpdateEffect'
 import clsx from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useTheme, Context } from '../../shared'
+import useId from '../../shared/helpers/useId'
 import {
-  makeUniqueId,
   validateDOMAttributes,
   processChildren,
-  extendPropsWithContextInClassComponent,
+  extendPropsWithContext,
+  removeUndefinedProps,
 } from '../../shared/component-helper'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -23,7 +23,10 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
-import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
+import {
+  pickFormElementProps,
+  type FormElementProps,
+} from '../../shared/helpers/filterValidProps'
 import ui from '../../style/themes/ui/properties'
 import sbanken from '../../style/themes/sbanken/properties'
 import type { GlobalStatusConfigObject } from '../GlobalStatus'
@@ -193,203 +196,237 @@ export type FormStatusIcon =
   | typeof InfoIcon
   | typeof MarketingIcon
 
-type FormStatusComponentState = {
-  id: string | null
-  _id?: string
+const formStatusDefaultProps = {
+  show: true,
+  icon: 'error',
+  iconSize: 'medium',
+  size: 'default',
+  state: 'error',
 }
 
-export default class FormStatus extends React.PureComponent<
-  FormStatusProps,
-  FormStatusComponentState
-> {
-  static contextType = Context
-  context!: React.ContextType<typeof Context>
-
-  _globalStatus: ReturnType<typeof GlobalStatusProvider.init>
-  _ref: React.RefObject<HTMLElement | null>
-  _isMounted: boolean
-  contentCache: React.ReactNode | null
-  stateCache: string | null
-
-  static defaultProps = {
-    id: null,
-    title: null,
-    show: true,
-    text: null,
-    globalStatus: null,
-    label: null,
-    icon: 'error',
-    iconSize: 'medium',
-    size: 'default',
-    variant: null,
-    state: 'error',
-    attributes: null,
-    textId: null,
-    widthSelector: null,
-    widthElement: null,
-    noAnimation: null,
-    skeleton: null,
-    stretch: null,
-    role: null,
-    className: null,
-    children: null,
-  }
-
-  static getContent(props: FormStatusProps) {
-    if (props.text) {
-      if (props.text === true) {
-        return null
-      }
-      return props.text
+function getContent(props: FormStatusProps) {
+  if (props.text) {
+    if (props.text === true) {
+      return null
     }
-    return processChildren(props)
+    return props.text
+  }
+  return processChildren(props)
+}
+
+function correctStatus(state: FormStatusState | undefined) {
+  return state
+}
+
+function getIcon({
+  state,
+  icon,
+  iconSize,
+}: Pick<FormStatusProps, 'state' | 'icon' | 'iconSize'>) {
+  if (typeof icon !== 'string') {
+    return icon as React.ReactNode
   }
 
-  static correctStatus(state: FormStatusState | undefined) {
-    return state
+  let IconToLoad: React.ComponentType<
+    ErrorIconProps | WarnIconProps | InfoIconProps | MarketingIconProps
+  > = ErrorIcon
+
+  switch (correctStatus(state)) {
+    case 'information':
+    case 'success':
+      IconToLoad = InfoIcon
+      break
+    case 'warning':
+      IconToLoad = WarnIcon
+      break
+    case 'marketing':
+      IconToLoad = MarketingIcon
+      break
+    case 'error':
+    default:
+      IconToLoad = ErrorIcon
   }
 
-  static getIcon({
-    state,
-    icon,
-    iconSize,
-  }: Pick<FormStatusProps, 'state' | 'icon' | 'iconSize'>) {
-    if (typeof icon !== 'string') {
-      return icon as React.ReactNode
+  return (
+    <Icon
+      icon={<IconToLoad title={null} state={state} />}
+      size={iconSize}
+      inheritColor={false}
+    />
+  )
+}
+
+function FormStatusComponent(
+  ownProps: FormStatusProps,
+  ref: React.Ref<HTMLElement>
+) {
+  const context = useContext(Context)
+
+  const props = extendPropsWithContext(
+    {
+      ...formStatusDefaultProps,
+      ...removeUndefinedProps({ ...ownProps }),
+    },
+    formStatusDefaultProps,
+    { skeleton: context?.skeleton },
+    pickFormElementProps(context?.formElement),
+    context?.FormStatus
+  )
+
+  const {
+    id: idProp,
+    text,
+    globalStatus,
+    label,
+    show,
+    noAnimation,
+    state: rawStateProp,
+    widthElement,
+    widthSelector,
+    ...restOfProps
+  } = props
+
+  const id = useId(idProp)
+
+  const statusId = `${id}-gs`
+
+  const elementRef = useRef<HTMLElement | null>(null)
+  const isMountedRef = useRef(false)
+  const contentCacheRef = useRef<React.ReactNode | null>(null)
+  const stateCacheRef = useRef<string | null>(null)
+
+  const ownPropsRef = useRef(ownProps)
+  ownPropsRef.current = ownProps
+
+  // Sync forwarded ref with internal ref
+  useEffect(() => {
+    if (typeof ref === 'function') {
+      ref(elementRef.current)
+    } else if (ref) {
+      ref.current = elementRef.current
+    }
+  })
+
+  const shouldAnimate = noAnimation === false
+
+  const fillCache = useCallback(() => {
+    const content = shouldAnimate && getContent(ownPropsRef.current)
+    if (content && content !== contentCacheRef.current) {
+      contentCacheRef.current = content
     }
 
-    let IconToLoad: React.ComponentType<
-      ErrorIconProps | WarnIconProps | InfoIconProps | MarketingIconProps
-    > = ErrorIcon
-
-    switch (FormStatus.correctStatus(state)) {
-      case 'information':
-      case 'success':
-        IconToLoad = InfoIcon
-        break
-      case 'warning':
-        IconToLoad = WarnIcon
-        break
-      case 'marketing':
-        IconToLoad = MarketingIcon
-        break
-      case 'error':
-      default:
-        IconToLoad = ErrorIcon
+    const stateVal = shouldAnimate && correctStatus(rawStateProp)
+    if (stateVal) {
+      stateCacheRef.current = stateVal as string
     }
+  }, [shouldAnimate, rawStateProp])
 
-    return (
-      <Icon
-        icon={<IconToLoad title={null} state={state} />}
-        size={iconSize}
-        inheritColor={false}
-      />
-    )
-  }
+  const isReadyToGetVisible = useCallback(
+    (p: FormStatusProps = props) => {
+      return p.show && getContent(p) ? true : false
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [props.show, props.text, props.children]
+  )
 
-  static getDerivedStateFromProps(
-    props: FormStatusProps,
-    state: FormStatusComponentState
-  ) {
-    if (state._id !== props.id && props.id) {
-      state.id = props.id
+  const updateWidth = useCallback(() => {
+    if (elementRef.current) {
+      setMaxWidthToElement({
+        element: elementRef.current,
+        widthElement: widthElement?.current ?? null,
+        widthSelector: widthSelector as string,
+      })
     }
+  }, [widthElement, widthSelector])
 
-    state._id = props.id
+  // Stable ref to current props for use in globalStatus callback
+  const propsRef = useRef(props)
+  propsRef.current = props
+  const isReadyToGetVisibleRef = useRef(isReadyToGetVisible)
+  isReadyToGetVisibleRef.current = isReadyToGetVisible
 
-    return state
-  }
+  const globalStatusRef =
+    useRef<ReturnType<typeof GlobalStatusProvider.init>>(null)
 
-  state = { id: null }
-
-  constructor(
-    props: FormStatusProps,
-    context: React.ContextType<typeof Context>
-  ) {
-    super(props)
-
-    // we do not use a random ID here, as we don't need it for now
-    this.state.id = props.id || makeUniqueId()
-
-    this._globalStatus = GlobalStatusProvider.init(
-      props?.globalStatus?.id ||
-        (context as Record<string, any>)?.FormStatus?.globalStatus?.id ||
-        (context as Record<string, any>)?.formElement?.globalStatus?.id ||
+  // Initialize GlobalStatusProvider once
+  useMountEffect(() => {
+    globalStatusRef.current = GlobalStatusProvider.init(
+      globalStatus?.id ||
+        context?.FormStatus?.globalStatus?.id ||
+        (
+          context?.formElement as FormElementProps & {
+            globalStatus?: GlobalStatusConfigObject
+          }
+        )?.globalStatus?.id ||
         'main',
       (provider) => {
-        // gets called once ready
-        if (this.props.state === 'error' && this.isReadyToGetVisible()) {
-          const { state, text, children, globalStatus, label } =
-            this.getProps(context)
+        const currentProps = propsRef.current
+        if (
+          currentProps.state === 'error' &&
+          isReadyToGetVisibleRef.current()
+        ) {
           provider.add({
-            state,
-            statusId: this.getStatusId(),
+            state: currentProps.state,
+            statusId,
             item: {
-              itemId: this.state.id,
-              text: globalStatus?.message || text || children,
-              statusAnchorLabel: label,
+              itemId: id,
+              text:
+                currentProps.globalStatus?.message ||
+                currentProps.text ||
+                currentProps.children,
+              statusAnchorLabel: currentProps.label,
               statusAnchorUrl: true,
             },
-            ...globalStatus,
+            ...currentProps.globalStatus,
           })
         }
       }
     )
 
-    this._ref = React.createRef()
-  }
-
-  init = () => {
-    if (this._isMounted) {
-      this._globalStatus.isReady()
-
-      this.updateWidth()
-      this.fillCache()
+    return () => {
+      globalStatusRef.current?.remove(statusId)
     }
-  }
+  })
 
-  componentDidMount() {
-    this._isMounted = true
+  // Mount/unmount and window event listeners
+  useMountEffect(() => {
+    isMountedRef.current = true
+
+    const init = () => {
+      if (isMountedRef.current) {
+        globalStatusRef.current?.isReady()
+        updateWidth()
+        fillCache()
+      }
+    }
+
     if (document.readyState === 'complete') {
-      this.init()
+      init()
     } else if (typeof window !== 'undefined') {
-      window.addEventListener('load', this.init)
+      window.addEventListener('load', init)
     }
+
     if (typeof window !== 'undefined') {
-      window.addEventListener('resize', this.updateWidth)
-    }
-  }
-
-  fillCache() {
-    const shouldAnimate = this.shouldAnimate()
-
-    // Content
-    const content = shouldAnimate && FormStatus.getContent(this.props)
-    if (content && content !== this.contentCache) {
-      this.contentCache = content
+      window.addEventListener('resize', updateWidth)
     }
 
-    // State
-    const state =
-      shouldAnimate && FormStatus.correctStatus(this.props.state)
-    if (state) {
-      this.stateCache = state as string
+    return () => {
+      isMountedRef.current = false
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('load', init)
+        window.removeEventListener('resize', updateWidth)
+      }
     }
-  }
+  })
 
-  componentWillUnmount() {
-    this._isMounted = false
-    const statusId = this.getStatusId()
-    this._globalStatus.remove(statusId)
-    if (typeof window !== 'undefined') {
-      window.removeEventListener('load', this.init)
-      window.removeEventListener('resize', this.updateWidth)
-    }
-  }
+  // Track previous props for componentDidUpdate logic
+  const prevPropsRef = useRef<FormStatusProps>(ownProps)
+  useUpdateEffect(() => {
+    const prevProps = prevPropsRef.current
+    prevPropsRef.current = ownProps
 
-  componentDidUpdate(prevProps: FormStatusProps) {
-    const { state, show, text, globalStatus, children, label } =
-      this.getProps()
+    const state = props.state
+    const { children } = props
 
     if (
       prevProps.text !== text ||
@@ -399,19 +436,17 @@ export default class FormStatus extends React.PureComponent<
         (globalStatus as Record<string, unknown>)?.show ||
       prevProps.state !== state
     ) {
-      this.fillCache()
+      fillCache()
 
       if (state === 'error') {
-        const statusId = this.getStatusId()
-
         if (show) {
-          this._globalStatus.update(
+          globalStatusRef.current?.update(
             statusId,
             {
               state,
               statusId,
               item: {
-                itemId: this.state.id,
+                itemId: id,
                 text: globalStatus?.message || text || children,
                 statusAnchorLabel: label,
                 statusAnchorUrl: true,
@@ -422,166 +457,125 @@ export default class FormStatus extends React.PureComponent<
               preventRestack: true, // because of the internal "close"
             }
           )
-        } else if (!FormStatus.getContent(this.props)) {
-          const statusId = this.getStatusId()
-          this._globalStatus.remove(statusId)
+        } else if (!getContent(ownProps)) {
+          globalStatusRef.current?.remove(statusId)
         }
       }
 
-      if (this.isReadyToGetVisible()) {
-        this.updateWidth()
+      if (isReadyToGetVisible()) {
+        updateWidth()
       }
     }
+  })
+
+  const state =
+    (correctStatus(rawStateProp) as string) || stateCacheRef.current
+  const iconToRender = getIcon({
+    state,
+    icon: restOfProps.icon,
+    iconSize: restOfProps.iconSize,
+  })
+
+  const contentToRender = getContent(ownProps)
+
+  const hasStringContent =
+    typeof contentToRender === 'string' && contentToRender.length > 0
+
+  const {
+    title,
+    size,
+    variant,
+    className,
+    stretch,
+    shellSpace,
+    textId,
+    skeleton,
+    role,
+    icon: _icon,
+    iconSize: _iconSize,
+    ...rest
+  } = restOfProps
+
+  const params: Record<string, unknown> = {
+    className: clsx(
+      'dnb-form-status',
+      state && `dnb-form-status--${state}`,
+      `dnb-form-status__size--${size}`,
+      variant && `dnb-form-status__variant--${variant}`,
+      stretch && 'dnb-form-status--stretch',
+      hasStringContent ? 'dnb-form-status--has-content' : null,
+      createSpacingClasses(props),
+      className
+    ),
+    id: !String(idProp).startsWith('null') ? id : null,
+    title,
+    role,
+    ...rest,
   }
 
-  getProps(context: React.ContextType<typeof Context> = this.context) {
-    return extendPropsWithContextInClassComponent(
-      this.props,
-      FormStatus.defaultProps,
-      { skeleton: context?.skeleton },
-      pickFormElementProps(context?.formElement),
-      context?.FormStatus
-    )
-  }
-
-  getStatusId() {
-    return `${this.state.id}-gs`
-  }
-
-  updateWidth = () => {
-    // set max-width to this form-status, using the "linked mother"
-    if (this._ref.current) {
-      const { widthElement, widthSelector } = this.props
-      setMaxWidthToElement({
-        element: this._ref.current,
-        widthElement: widthElement?.current ?? null,
-        widthSelector: widthSelector as string,
-      })
+  if (!role) {
+    switch (state) {
+      case 'information':
+        params.role = 'status'
+        break
+      default:
+        params.role = 'alert'
     }
   }
 
-  shouldAnimate() {
-    return this.props.noAnimation === false
+  const textParams = {
+    className: clsx(
+      'dnb-form-status__text',
+      createSkeletonClass('font', skeleton, context)
+    ),
+    id: !String(textId).startsWith('null') ? textId : null,
   }
 
-  isReadyToGetVisible(props: FormStatusProps = this.props) {
-    return props.show && FormStatus.getContent(props) ? true : false
+  const shellParams = {
+    className: clsx(
+      'dnb-form-status__shell',
+      createSpacingClasses({ space: shellSpace })
+    ),
   }
 
-  render() {
-    // use only the props from context, who are available here anyway
-    const props = this.getProps()
+  skeletonDOMAttributes(params, skeleton, context)
 
-    const {
-      title,
-      state: rawState,
-      size,
-      variant,
-      className,
-      stretch,
-      shellSpace,
-      textId,
+  // also used for code markup simulation
+  validateDOMAttributes(ownProps, params)
+  validateDOMAttributes(null, textParams)
 
-      show,
-      noAnimation,
-      label,
-      statusId,
-      globalStatus,
-      id,
-      text,
-      icon,
-      iconSize,
-      widthSelector,
-      widthElement,
-      skeleton,
-      children,
-      role,
-
-      ...rest
-    } = props as any
-
-    const state =
-      (FormStatus.correctStatus(rawState) as string) || this.stateCache
-    const iconToRender = FormStatus.getIcon({
-      state,
-      icon,
-      iconSize,
-    })
-
-    const contentToRender = FormStatus.getContent(this.props)
-
-    const hasStringContent =
-      typeof contentToRender === 'string' && contentToRender.length > 0
-
-    const params = {
-      className: clsx(
-        'dnb-form-status',
-        state && `dnb-form-status--${state}`,
-        `dnb-form-status__size--${size}`,
-        variant && `dnb-form-status__variant--${variant}`,
-        stretch && 'dnb-form-status--stretch',
-        hasStringContent ? 'dnb-form-status--has-content' : null,
-        createSpacingClasses(props),
-        className
-      ),
-      id: !String(id).startsWith('null') ? this.state.id : null,
-      title,
-      role,
-      ...rest,
-    }
-
-    if (!role) {
-      switch (state) {
-        case 'information':
-          params.role = 'status'
-          break
-        default:
-          params.role = 'alert'
-      }
-    }
-
-    const textParams = {
-      className: clsx(
-        'dnb-form-status__text',
-        createSkeletonClass('font', skeleton, this.context)
-      ),
-      id: !String(textId).startsWith('null') ? textId : null,
-    }
-
-    const shellParams = {
-      className: clsx(
-        'dnb-form-status__shell',
-        createSpacingClasses({ space: shellSpace })
-      ),
-    }
-
-    skeletonDOMAttributes(params, skeleton, this.context)
-
-    // also used for code markup simulation
-    validateDOMAttributes(this.props, params)
-    validateDOMAttributes(null, textParams)
-
-    return (
-      <HeightAnimation
-        element="span"
-        open={this.isReadyToGetVisible()}
-        animate={this.shouldAnimate()}
-        duration={600}
-        {...(params as any)}
-        ref={this._ref}
-      >
-        <span {...shellParams}>
-          {iconToRender}
-          <span {...textParams}>
-            {contentToRender || this.contentCache}
-          </span>
+  return (
+    <HeightAnimation
+      element="span"
+      open={isReadyToGetVisible()}
+      animate={shouldAnimate}
+      duration={600}
+      {...params}
+      ref={elementRef}
+    >
+      <span {...shellParams}>
+        {iconToRender}
+        <span {...textParams}>
+          {contentToRender || contentCacheRef.current}
         </span>
-      </HeightAnimation>
-    )
-  }
+      </span>
+    </HeightAnimation>
+  )
 }
 
+FormStatusComponent.displayName = 'FormStatus'
+
+const FormStatus = React.memo(
+  React.forwardRef(FormStatusComponent)
+) as React.MemoExoticComponent<
+  React.ForwardRefExoticComponent<
+    FormStatusProps & React.RefAttributes<HTMLElement>
+  >
+>
+
 withComponentMarkers(FormStatus, { _supportsSpacingProps: true })
+
+export default FormStatus
 
 export const ErrorIcon = (props: ErrorIconProps) => {
   const { title = 'error' } = props || {}
