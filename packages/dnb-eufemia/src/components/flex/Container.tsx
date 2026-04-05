@@ -251,7 +251,7 @@ function wrapChildren(
   props: FlexContainerAllProps,
   children: React.ReactNode
 ) {
-  return React.Children.toArray(children).map((child) => {
+  return (Array.isArray(children) ? children : [children]).map((child) => {
     if (
       React.isValidElement<any>(child) &&
       child.type['_supportsSpacingProps'] === 'children'

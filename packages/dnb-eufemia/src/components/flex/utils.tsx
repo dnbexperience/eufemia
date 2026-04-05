@@ -120,7 +120,11 @@ export function renderWithSpacing(
   }
 
   if (variant === 'children') {
-    return (React.Children.toArray(element) as React.ReactElement[]).map(
+    return (
+      (Array.isArray(element)
+        ? element
+        : [element]) as React.ReactElement[]
+    ).map(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (child: React.ReactElement<any>) => {
         const children = child?.props?.children

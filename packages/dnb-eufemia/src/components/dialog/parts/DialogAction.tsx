@@ -92,7 +92,9 @@ const DialogAction = ({
   )
 
   if (children) {
-    childrenWithCloseFunc = React.Children.map(children, (child) => {
+    childrenWithCloseFunc = (
+      Array.isArray(children) ? children : [children]
+    ).map((child) => {
       if (React.isValidElement<any>(child) && child.type === Button) {
         const childElement = child as React.ReactElement<any>
 
