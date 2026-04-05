@@ -1,17 +1,13 @@
 /**
  * Web Button Component
- *
- * This is a legacy component.
- * For referencing while developing new features, please use a Functional component.
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React from 'react'
+import React, { useCallback, useContext, useRef, useState } from 'react'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import {
   warn,
-  makeUniqueId,
   extendPropsWithContextInClassComponent,
   removeUndefinedProps,
   validateDOMAttributes,
@@ -19,6 +15,7 @@ import {
   getStatusState,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
+import useId from '../../shared/helpers/useId'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
@@ -198,11 +195,7 @@ export type ButtonProps = {
   > &
   SpacingProps
 
-type ButtonState = {
-  afterContent: React.ReactNode | null
-}
-
-const buttonDefaultProps: ButtonProps = {
+const buttonDefaultProps = {
   type: null, // defaults to 'button' to prevent accidental form submissions (except when used as Anchor)
   text: null,
   variant: null,
@@ -237,294 +230,275 @@ const buttonDefaultProps: ButtonProps = {
   onClick: null,
 }
 
-/**
- * The button component should be used as the call-to-action in a form, or as a user interaction mechanism. Generally speaking, a button should not be used when a link would do the trick. Exceptions are made at times when it is used as a navigation element in the action-nav element.
- */
-class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
-  static contextType = Context
-  context!: React.ContextType<typeof Context>
-
-  _id: string | undefined
-  _ref: React.RefObject<HTMLElement | null>
-
-  static getContent(props: ButtonProps) {
-    return processChildren(props)
-  }
-
-  constructor(props: ButtonProps) {
-    super(props)
-
-    this._id =
-      props.id || ((props.status || props.tooltip) && makeUniqueId()) // cause we need an id anyway
-    this._ref = React.createRef()
-
-    this.state = { afterContent: null }
-  }
-
-  getOnClickHandler =
-    (src: ButtonProps) =>
-    (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
-      const afterContent = dispatchCustomElementEvent(src, 'onClick', {
-        event,
-      })
-      if (afterContent && React.isValidElement(afterContent)) {
-        this.setState({
-          afterContent,
-        })
-      }
-    }
-
-  render() {
-    // use only the props from context, who are available here anyway
-    const props = extendPropsWithContextInClassComponent(
-      {
-        ...buttonDefaultProps,
-        // Strip undefined values so they fall through to defaults,
-        // preserving the legacy React defaultProps behavior.
-        ...removeUndefinedProps({ ...this.props }),
-      },
-      buttonDefaultProps,
-      { skeleton: this.context?.skeleton },
-      pickFormElementProps(this.context?.formElement),
-      this.context.Button
-    )
-
-    const {
-      className,
-      variant,
-      size,
-      title,
-      customContent,
-      tooltip,
-      status,
-      statusState,
-      statusProps,
-      statusNoAnimation,
-      globalStatus,
-      id,
-      disabled,
-      text: _text,
-      icon: _icon,
-      iconPosition,
-      iconSize,
-      selected,
-      wrap,
-      bounding,
-      stretch,
-      skeleton,
-      element,
-      ref: _ref,
-      surface = this.context?.theme?.surface ?? 'default',
-      ...attributes
-    } = props
-
-    const showStatus = getStatusState(status)
-
-    const { text } = props
-    let { icon } = props
-    let usedVariant = variant
-    let usedSize = size
-    let usedIconSize = iconSize
-    const content = ButtonClass.getContent(this.props)
-
-    if (
-      variant === 'tertiary' &&
-      (text || content) &&
-      !icon &&
-      icon !== false
-    ) {
-      warn(
-        `Icon required: A Tertiary Button requires an icon to be WCAG compliant in most cases, because variant tertiary has no underline.
-(Override this warning using icon={false}, or consider using one of the other variants)`
-      )
-    }
-
-    // if only has Icon, then resize it and define it as secondary
-    const isIconOnly = Boolean(!text && !content && icon)
-    if (isIconOnly) {
-      if (!usedVariant) {
-        usedVariant = 'secondary'
-      }
-      if (
-        !usedIconSize &&
-        (usedSize === 'default' || usedSize === 'large')
-      ) {
-        usedIconSize = 'medium'
-      }
-      if (!usedSize) {
-        usedSize = 'medium'
-      }
-
-      // Warn if icon-only button lacks accessible label
-      if (
-        process.env.NODE_ENV === 'development' &&
-        !title &&
-        !attributes['aria-label']
-      ) {
-        warn(
-          'Icon-only Button requires either a "title" or "aria-label" prop for accessibility.'
-        )
-      }
-    } else if (content) {
-      if (!usedVariant) {
-        usedVariant = 'primary'
-      }
-      if (!usedSize) {
-        usedSize = 'default'
-      }
-    }
-    if (
-      !usedIconSize &&
-      variant === 'tertiary' &&
-      iconPosition === 'top'
-    ) {
-      usedIconSize = 'medium'
-    }
-
-    const Element = element
-      ? element
-      : props.href || props.to
-      ? Anchor
-      : 'button'
-    if (Element === Anchor) {
-      ;(attributes as Record<string, unknown>).omitClass = true
-      if (opensNewTab(props.target, props.href) && !icon) {
-        icon = launch
-      }
-    }
-
-    const classes = clsx(
-      'dnb-button',
-      `dnb-button--${usedVariant || 'primary'}`,
-      usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
-      surface === 'dark' && `dnb-button--surface-dark`,
-      icon && `dnb-button--icon-position-${iconPosition}`,
-      stretch && 'dnb-button--stretch',
-      icon && usedIconSize && `dnb-button--icon-size-${usedIconSize}`,
-      (text || content || customContent) && 'dnb-button--has-text',
-      icon && 'dnb-button--has-icon',
-      isIconOnly && 'dnb-button--icon-only',
-      selected && 'dnb-button--selected',
-      wrap && 'dnb-button--wrap',
-      status && `dnb-button__status--${statusState}`,
-      createSkeletonClass(
-        variant === 'tertiary' ? 'font' : 'shape',
-        skeleton,
-        this.context
-      ),
-      createSpacingClasses(props),
-      className,
-      props.href || props.to ? '' : null, // dnb-anchor--no-underline dnb-anchor--no-hover
-      Element === Anchor && 'dnb-anchor--no-style'
-    )
-
-    const params = {
-      className: classes,
-      title,
-      id: this._id,
-      disabled: disabled,
-      ...attributes,
-    }
-
-    if (props.onClick) {
-      params.onClick = this.getOnClickHandler(props)
-    }
-
-    // Prevent navigation when used as Anchor and disabled
-    if (Element === Anchor && params.disabled) {
-      const originalOnClick = params.onClick
-      params.onClick = (e) => {
-        e.preventDefault()
-        e.stopPropagation()
-        if (typeof originalOnClick === 'function') {
-          originalOnClick(e)
-        }
-      }
-      params.tabIndex = -1
-      params['aria-disabled'] = true
-
-      // Remove href when disabled to avoid navigation via URL bar/status
-      if (params.href) {
-        delete params.href
-      }
-    }
-
-    if (Element !== Anchor && !params.type) {
-      params.type = params.type === '' ? undefined : 'button'
-    }
-    if (isIconOnly) {
-      params['aria-label'] = params['aria-label'] || title
-    }
-
-    skeletonDOMAttributes(params, skeleton, this.context)
-
-    // also used for code markup simulation
-    validateDOMAttributes(this.props, params)
-
-    return (
-      <>
-        <Element ref={this._ref} {...params}>
-          <ButtonContent
-            {...this.props}
-            icon={icon}
-            iconSize={usedIconSize}
-            content={text || content}
-            customContent={customContent}
-            isIconOnly={isIconOnly}
-            skeleton={skeleton}
-            iconElement={pickIcon(icon, 'dnb-button__icon')}
-          />
-        </Element>
-
-        {this.state.afterContent}
-
-        <FormStatus
-          show={showStatus}
-          id={this._id + '-form-status'}
-          globalStatus={globalStatus}
-          label={text}
-          text={status}
-          state={statusState}
-          textId={this._id + '-status'} // used for "aria-describedby"
-          noAnimation={statusNoAnimation}
-          skeleton={skeleton}
-          {...statusProps}
-        />
-
-        {tooltip && this._ref && (
-          <Tooltip
-            id={this._id + '-tooltip'}
-            targetElement={this._ref}
-            tooltip={tooltip}
-          />
-        )}
-      </>
-    )
-  }
+function getContent(props: ButtonProps) {
+  return processChildren(props)
 }
 
 /**
- * Function wrapper that forwards `ref` to the inner DOM element of the class component.
+ * The button component should be used as the call-to-action in a form, or as a user interaction mechanism. Generally speaking, a button should not be used when a link would do the trick. Exceptions are made at times when it is used as a navigation element in the action-nav element.
  */
-function Button({ ref, ...props }: ButtonProps) {
-  const instanceRef = React.useCallback(
-    (instance: ButtonClass | null) => {
-      const el = instance?._ref?.current ?? null
+function Button({ ref, ...restProps }: ButtonProps) {
+  const context = useContext(Context)
+  const elementRef = useRef<HTMLElement | null>(null)
+
+  const combinedRef = useCallback(
+    (instance: HTMLElement | null) => {
+      elementRef.current = instance
+
       if (typeof ref === 'function') {
-        ref(el)
+        ref(instance)
       } else if (ref) {
-        ref.current = el
+        ref.current = instance
       }
     },
     [ref]
   )
 
+  // Generate an id only when explicitly provided or when status/tooltip
+  // needs one for aria linking – mirrors the original class component logic.
+  const generatedId = useId(restProps.id)
+  const resolvedId =
+    restProps.id || restProps.status || restProps.tooltip
+      ? generatedId
+      : undefined
+
+  const [afterContent, setAfterContent] = useState<React.ReactNode | null>(
+    null
+  )
+
+  // use only the props from context, who are available here anyway
+  const props = extendPropsWithContextInClassComponent(
+    {
+      ...buttonDefaultProps,
+      // Strip undefined values so they fall through to defaults,
+      // preserving the legacy React defaultProps behavior.
+      ...removeUndefinedProps({ ...restProps }),
+    },
+    buttonDefaultProps,
+    { skeleton: context?.skeleton },
+    pickFormElementProps(context?.formElement),
+    context.Button
+  )
+
+  const {
+    className,
+    variant,
+    size,
+    title,
+    customContent,
+    tooltip,
+    status,
+    statusState,
+    statusProps,
+    statusNoAnimation,
+    globalStatus,
+    disabled,
+    text: _text,
+    icon: _icon,
+    iconPosition,
+    iconSize,
+    wrap,
+    bounding,
+    stretch,
+    skeleton,
+    element,
+    selected,
+    surface = context?.theme?.surface ?? 'default',
+    ...attributes
+  } = props
+
+  const showStatus = getStatusState(status)
+
+  const { text } = props
+  let { icon: usedIcon } = props
+  let usedVariant = variant
+  let usedSize = size
+  let usedIconSize = iconSize
+  const content = getContent(restProps)
+
+  if (
+    variant === 'tertiary' &&
+    (text || content) &&
+    !usedIcon &&
+    usedIcon !== false
+  ) {
+    warn(
+      `Icon required: A Tertiary Button requires an icon to be WCAG compliant in most cases, because variant tertiary has no underline.
+(Override this warning using icon={false}, or consider using one of the other variants)`
+    )
+  }
+
+  // if only has Icon, then resize it and define it as secondary
+  const isIconOnly = Boolean(!text && !content && usedIcon)
+  if (isIconOnly) {
+    if (!usedVariant) {
+      usedVariant = 'secondary'
+    }
+    if (
+      !usedIconSize &&
+      (usedSize === 'default' || usedSize === 'large')
+    ) {
+      usedIconSize = 'medium'
+    }
+    if (!usedSize) {
+      usedSize = 'medium'
+    }
+
+    // Warn if icon-only button lacks accessible label
+    if (
+      process.env.NODE_ENV === 'development' &&
+      !title &&
+      !attributes['aria-label']
+    ) {
+      warn(
+        'Icon-only Button requires either a "title" or "aria-label" prop for accessibility.'
+      )
+    }
+  } else if (content) {
+    if (!usedVariant) {
+      usedVariant = 'primary'
+    }
+    if (!usedSize) {
+      usedSize = 'default'
+    }
+  }
+  if (!usedIconSize && variant === 'tertiary' && iconPosition === 'top') {
+    usedIconSize = 'medium'
+  }
+
+  const Element = element
+    ? element
+    : props.href || props.to
+    ? Anchor
+    : 'button'
+  if (Element === Anchor) {
+    if (opensNewTab(props.target, props.href) && !usedIcon) {
+      usedIcon = launch
+    }
+  }
+
+  const classes = clsx(
+    'dnb-button',
+    `dnb-button--${usedVariant || 'primary'}`,
+    usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
+    surface === 'dark' && `dnb-button--surface-dark`,
+    usedIcon && `dnb-button--icon-position-${iconPosition}`,
+    stretch && 'dnb-button--stretch',
+    usedIcon && usedIconSize && `dnb-button--icon-size-${usedIconSize}`,
+    (text || content || customContent) && 'dnb-button--has-text',
+    usedIcon && 'dnb-button--has-icon',
+    isIconOnly && 'dnb-button--icon-only',
+    selected && 'dnb-button--selected',
+    wrap && 'dnb-button--wrap',
+    status && `dnb-button__status--${statusState}`,
+    createSkeletonClass(
+      variant === 'tertiary' ? 'font' : 'shape',
+      skeleton,
+      context
+    ),
+    createSpacingClasses(props),
+    className,
+    props.href || props.to ? '' : null,
+    Element === Anchor && 'dnb-anchor--no-style'
+  )
+
+  const params = {
+    className: classes,
+    title,
+    id: resolvedId,
+    disabled,
+    ...attributes,
+    ...(Element === Anchor && { omitClass: true }),
+  }
+
+  const handleClick = (
+    event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
+  ) => {
+    const result = dispatchCustomElementEvent(props, 'onClick', {
+      event,
+    })
+    if (result && React.isValidElement(result)) {
+      setAfterContent(result)
+    }
+  }
+
+  if (props.onClick) {
+    params.onClick = handleClick
+  }
+
+  // Prevent navigation when used as Anchor and disabled
+  if (Element === Anchor && params.disabled) {
+    const originalOnClick = params.onClick
+    params.onClick = (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      if (typeof originalOnClick === 'function') {
+        originalOnClick(e)
+      }
+    }
+    params.tabIndex = -1
+    params['aria-disabled'] = true
+
+    // Remove href when disabled to avoid navigation via URL bar/status
+    if (params.href) {
+      delete params.href
+    }
+  }
+
+  if (Element !== Anchor && !params.type) {
+    params.type = params.type === '' ? undefined : 'button'
+  }
+  if (isIconOnly) {
+    params['aria-label'] = params['aria-label'] || title
+  }
+
+  skeletonDOMAttributes(params, skeleton, context)
+
+  // also used for code markup simulation
+  validateDOMAttributes(restProps, params)
+
   return (
-    <ButtonClass ref={(ref ? instanceRef : undefined) as any} {...props} />
+    <>
+      <Element ref={combinedRef} {...params}>
+        <ButtonContent
+          {...restProps}
+          icon={usedIcon}
+          iconSize={usedIconSize}
+          content={text || content}
+          customContent={customContent}
+          isIconOnly={isIconOnly}
+          skeleton={skeleton}
+          iconElement={pickIcon(usedIcon, 'dnb-button__icon')}
+        />
+      </Element>
+
+      {afterContent}
+
+      <FormStatus
+        show={showStatus}
+        id={resolvedId + '-form-status'}
+        globalStatus={globalStatus}
+        label={text}
+        text={status}
+        state={statusState}
+        textId={resolvedId + '-status'} // used for "aria-describedby"
+        noAnimation={statusNoAnimation}
+        skeleton={skeleton}
+        {...statusProps}
+      />
+
+      {tooltip && elementRef && (
+        <Tooltip
+          id={resolvedId + '-tooltip'}
+          targetElement={elementRef}
+          tooltip={tooltip}
+        />
+      )}
+    </>
   )
 }
 
-Button.getContent = ButtonClass.getContent
+Button.getContent = getContent
 
 withComponentMarkers(Button, {
   _formElement: true,
