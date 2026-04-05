@@ -172,7 +172,6 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
   const elRef = useRef<HTMLElement>(null)
   const selectionRef = useRef<HTMLElement>(null)
   const generatedId = useId(propsWithDefaults.id)
-  const idRef = useRef(propsWithDefaults.tooltip ? generatedId : undefined)
   const copyTooltipTimeoutRef = useRef<ReturnType<
     typeof setTimeout
   > | null>(null)
@@ -555,7 +554,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
 
       {tooltip && (
         <Tooltip
-          id={idRef.current + '-tooltip'}
+          id={generatedId + '-tooltip'}
           targetElement={elRef}
           tooltip={tooltip as React.ReactNode}
         />
