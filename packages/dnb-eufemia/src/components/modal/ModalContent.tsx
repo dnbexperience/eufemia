@@ -260,8 +260,6 @@ export default function ModalContent(props: ModalContentProps) {
         ...params
       }: ModalCloseHandlerParams & { ifIsLatest?: boolean }
     ) => {
-      event?.persist?.()
-
       close(event, {
         triggeredBy,
         ...params,
