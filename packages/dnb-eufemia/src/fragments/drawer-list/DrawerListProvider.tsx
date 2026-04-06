@@ -166,7 +166,7 @@ const allDefaultProps = {
   ...drawerListProviderDefaultProps,
 }
 
-const blurDelay = 201 // some ms more than "DrawerListSlideDown 200ms"
+let blurDelay = 201 // some ms more than "DrawerListSlideDown 200ms"
 
 let isOpen = false
 
@@ -1575,9 +1575,21 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 
 DrawerListProviderComponent.displayName = 'DrawerListProvider'
 
-const DrawerListProvider = Object.assign(
-  React.memo(DrawerListProviderComponent),
-  { blurDelay }
-)
+const DrawerListProvider = React.memo(
+  DrawerListProviderComponent
+) as React.MemoExoticComponent<typeof DrawerListProviderComponent> & {
+  blurDelay: number
+}
+
+Object.defineProperty(DrawerListProvider, 'blurDelay', {
+  get() {
+    return blurDelay
+  },
+  set(value: number) {
+    blurDelay = value
+  },
+  enumerable: true,
+  configurable: true,
+})
 
 export default DrawerListProvider
