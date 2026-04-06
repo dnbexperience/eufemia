@@ -849,7 +849,7 @@ GlobalStatusComponent.displayName = 'GlobalStatus'
 
 type GlobalStatusWithStatics = React.FC<GlobalStatusProps> & {
   create: (props: GlobalStatusInterceptorProps) => GlobalStatusInterceptor
-  Update: (props: GlobalStatusInterceptorProps) => GlobalStatusInterceptor
+  Update: (props: GlobalStatusInterceptorProps) => any
   Add: typeof GlobalStatusController
   Remove: typeof GlobalStatusRemove
 }
