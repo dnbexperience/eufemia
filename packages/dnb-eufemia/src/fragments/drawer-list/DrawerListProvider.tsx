@@ -56,6 +56,29 @@ import type {
   DrawerListInternalData,
 } from './DrawerList'
 
+export type DrawerListProviderChainable = {
+  setVisible: (
+    args?: Record<string, unknown> | null,
+    onStateComplete?: (() => void) | null
+  ) => void
+  setHidden: (
+    args?: unknown[] | null,
+    onStateComplete?: (() => void) | null
+  ) => void
+  toggleVisible: (...args: unknown[]) => void
+  setWrapperElement: (
+    wrapperElement?: string | HTMLElement
+  ) => DrawerListProviderChainable
+  setData: DrawerListProviderProps['setData']
+  setState: DrawerListProviderProps['setState']
+  selectItem: DrawerListProviderProps['selectItem']
+  selectItemAndClose: DrawerListProviderProps['selectItemAndClose']
+  scrollToItem: DrawerListProviderProps['scrollToItem']
+  setActiveItemAndScrollToIt: DrawerListProviderProps['setActiveItemAndScrollToIt']
+  addObservers: () => void
+  removeObservers: () => void
+}
+
 export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
   Omit<
     React.HTMLProps<HTMLElement>,
@@ -82,7 +105,9 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
       state: Partial<DrawerListContextState>,
       cb?: () => void
     ) => void
-    setWrapperElement?: (wrapperElement?: string | HTMLElement) => void
+    setWrapperElement?: (
+      wrapperElement?: string | HTMLElement
+    ) => DrawerListProviderChainable
     setHidden?: (args?: unknown[], onStateComplete?: () => void) => void
     selectItemAndClose?: (
       itemToSelect: string | number,
@@ -1500,7 +1525,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   // --- Render ---
 
   // API object for method chaining (replaces "return this" pattern from class component)
-  const selfRef = useRef<Record<string, any>>({})
+  const selfRef = useRef<DrawerListProviderChainable>(null)
   selfRef.current = {
     setVisible,
     setHidden,
@@ -1550,6 +1575,9 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 
 DrawerListProviderComponent.displayName = 'DrawerListProvider'
 
-const DrawerListProvider = React.memo(DrawerListProviderComponent)
+const DrawerListProvider = Object.assign(
+  React.memo(DrawerListProviderComponent),
+  { blurDelay }
+)
 
 export default DrawerListProvider
