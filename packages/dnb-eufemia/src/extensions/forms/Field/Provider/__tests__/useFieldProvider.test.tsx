@@ -2,6 +2,7 @@ import React from 'react'
 import { renderHook } from '@testing-library/react'
 import useFieldProvider from '../useFieldProvider'
 import FieldProviderContext from '../FieldProviderContext'
+import Provider from '../../../../../shared/Provider'
 
 describe('useFieldProvider', () => {
   it('should return extend function and inherited props', () => {
@@ -85,5 +86,45 @@ describe('useFieldProvider', () => {
     expect(result.current.extend(valueProps)).toEqual({
       disabled: false,
     })
+  })
+
+  it('should not include translations in sharedProviderParams when no translations prop is given', () => {
+    const { result } = renderHook(useFieldProvider, {
+      wrapper: ({ children }) => (
+        <Provider
+          locale="nb-NO"
+          translations={{
+            'nb-NO': { Field: { errorRequired: 'Custom required' } },
+          }}
+        >
+          {children}
+        </Provider>
+      ),
+    })
+
+    expect(result.current.sharedProviderParams).not.toHaveProperty(
+      'translations'
+    )
+  })
+
+  it('should include translations in sharedProviderParams when translations prop is given', () => {
+    const translations = {
+      'nb-NO': { Field: { errorRequired: 'Override' } },
+    }
+
+    const { result } = renderHook(useFieldProvider, {
+      initialProps: { translations },
+      wrapper: ({ children }) => (
+        <Provider locale="nb-NO">{children}</Provider>
+      ),
+    })
+
+    expect(result.current.sharedProviderParams).toHaveProperty(
+      'translations'
+    )
+    expect(
+      result.current.sharedProviderParams.translations['nb-NO'].Field
+        .errorRequired
+    ).toBe('Override')
   })
 })
