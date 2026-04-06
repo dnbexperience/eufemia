@@ -17,8 +17,8 @@ import {
   makeUniqueId,
   validateDOMAttributes,
   dispatchCustomElementEvent,
-  extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import type {
   HeightAnimationOnStart,
@@ -321,8 +321,12 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
   const scrollToStatusTimeoutRef = useRef<ReturnType<
     typeof setTimeout
   > | null>(null)
-  const propsRef = useRef(ownProps)
-  propsRef.current = ownProps
+  const propsWithDefaults = {
+    ...globalStatusDefaultProps,
+    ...ownProps,
+  } as GlobalStatusProps
+  const propsRef = useRef(propsWithDefaults)
+  propsRef.current = propsWithDefaults
 
   // Provider - created once
   const providerRef = useRef<ReturnType<
@@ -417,10 +421,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
       prevShowRef.current = ownProps.show
 
       if (ownProps.show === true) {
-        // setVisible with isPassive check
-        if (ownProps.show === 'auto' || ownProps.show === true) {
-          setIsActive(true)
-        }
+        setIsActive(true)
       } else {
         setIsActive(false)
       }
@@ -613,13 +614,13 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
 
   // Render
 
-  const fallbackProps = extendPropsWithContextInClassComponent(
+  const fallbackProps = extendPropsWithContext(
     ownProps,
     globalStatusDefaultProps,
     context.getTranslation(ownProps).GlobalStatus
   )
 
-  const props = extendPropsWithContextInClassComponent(
+  const props = extendPropsWithContext(
     GlobalStatusProvider.combineMessages([
       (context as Record<string, unknown>)?.globalStatus as
         | Record<string, unknown>
