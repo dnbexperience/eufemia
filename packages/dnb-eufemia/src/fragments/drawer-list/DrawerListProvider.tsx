@@ -9,11 +9,12 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useLayoutEffect,
   useMemo,
   useReducer,
   useRef,
 } from 'react'
+import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
+import useMountEffect from '../../shared/helpers/useMountEffect'
 import Context from '../../shared/Context'
 import type { DetectOutsideClickClass } from '../../shared/component-helper'
 import {
@@ -223,8 +224,8 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     }
   }
 
-  // Process setState callbacks after render (useLayoutEffect to match class setState callback timing)
-  useLayoutEffect(() => {
+  // Process setState callbacks after render (useIsomorphicLayoutEffect to match class setState callback timing)
+  useIsomorphicLayoutEffect(() => {
     const cbs = callbacksRef.current
     if (cbs.length > 0) {
       callbacksRef.current = []
@@ -266,7 +267,6 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     alt: false,
   })
   const outsideClickRef = useRef<DetectOutsideClickClass | null>(null)
-  const isMountedRef = useRef(false)
 
   // --- Methods ---
 
@@ -1462,15 +1462,12 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   // --- Lifecycle effects ---
 
   // componentDidMount
-  useEffect(() => {
-    isMountedRef.current = true
-
+  useMountEffect(() => {
     if (propsRef.current.open) {
       setVisible()
     }
 
     return () => {
-      isMountedRef.current = false
       clearTimeout(showTimeoutRef.current)
       clearTimeout(hideTimeoutRef.current)
       clearTimeout(scrollTimeoutRef.current)
@@ -1480,7 +1477,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       removeObservers()
       setActiveState(false)
     }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  })
 
   // componentDidUpdate: open prop changes
   const prevOpenRef = useRef(props.open)
