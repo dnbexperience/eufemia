@@ -17,7 +17,6 @@ import Context from '../../shared/Context'
 import {
   warn,
   slugify,
-  makeUniqueId,
   validateDOMAttributes,
   dispatchCustomElementEvent,
   getClosestParent,
@@ -37,6 +36,10 @@ import {
   skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
 import Button from '../button/Button'
+import useId from '../../shared/helpers/useId'
+import useMounted from '../../shared/helpers/useMounted'
+import useMountEffect from '../../shared/helpers/useMountEffect'
+import useUpdateEffect from '../../shared/helpers/useUpdateEffect'
 import whatInput from '../../shared/helpers/whatInput'
 import CustomContent from './TabsCustomContent'
 import ContentWrapper from './TabsContentWrapper'
@@ -378,15 +381,14 @@ function TabsComponent(ownProps: TabsProps) {
   // Refs
   const tabsRef = useRef<HTMLDivElement>(null)
   const tablistRef = useRef<HTMLDivElement>(null)
-  const isMountedRef = useRef(false)
+  const isMountedRef = useMounted()
   const cacheRef = useRef<
     Record<string, { content: React.ReactNode; [key: string]: unknown }>
   >({})
   const listenForPropChangesRef = useRef(true)
 
   // ID
-  const idRef = useRef(ownProps.id || makeUniqueId())
-  const _id = idRef.current
+  const _id = useId(ownProps.id)
 
   // Shared state
   const sharedStateRef = useRef<SharedState | null>(null)
@@ -707,13 +709,9 @@ function TabsComponent(ownProps: TabsProps) {
   )
 
   // Focus tab button when focusKey changes
-  const prevFocusKeyRef = useRef(focusKey)
-  useEffect(() => {
-    if (prevFocusKeyRef.current !== focusKey) {
-      prevFocusKeyRef.current = focusKey
-      setFocusOnTabButton()
-    }
-  }, [focusKey, setFocusOnTabButton])
+  useUpdateEffect(() => {
+    setFocusOnTabButton()
+  }, [focusKey]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const openTab = useCallback(
     (newSelectedKey, event = null, mode = null) => {
@@ -760,13 +758,9 @@ function TabsComponent(ownProps: TabsProps) {
   )
 
   // Scroll on open tab (handleVerticalScroll)
-  const prevSelectedKeyForScrollRef = useRef(selectedKey)
-  useEffect(() => {
-    if (prevSelectedKeyForScrollRef.current !== selectedKey) {
-      prevSelectedKeyForScrollRef.current = selectedKey
-      handleVerticalScroll()
-    }
-  }, [selectedKey, handleVerticalScroll])
+  useUpdateEffect(() => {
+    handleVerticalScroll()
+  }, [selectedKey]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const onResizeHandler = useCallback(() => {
     const scrollbarVisible = checkHasScrollbar()
@@ -789,9 +783,7 @@ function TabsComponent(ownProps: TabsProps) {
   }
 
   // Init on mount / window load
-  useEffect(() => {
-    isMountedRef.current = true
-
+  useMountEffect(() => {
     const init = () => {
       if (isMountedRef.current && tablistRef.current) {
         const scrollbarVisible = checkHasScrollbar()
@@ -827,7 +819,6 @@ function TabsComponent(ownProps: TabsProps) {
     }
 
     return () => {
-      isMountedRef.current = false
       whatInput.specificKeys([9])
       sharedStateRef.current = null
       if (typeof window !== 'undefined') {
@@ -835,7 +826,7 @@ function TabsComponent(ownProps: TabsProps) {
         window.removeEventListener('load', init)
       }
     }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  })
 
   // Update shared state when selectedKey or data changes
   useEffect(() => {
