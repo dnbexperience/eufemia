@@ -257,15 +257,15 @@ function getIcon({
 }
 
 function FormStatusComponent(
-  ownProps: FormStatusProps,
-  ref: React.Ref<HTMLElement>
+  ownProps: FormStatusProps & { ref?: React.Ref<HTMLElement> }
 ) {
+  const { ref, ...restOwnProps } = ownProps
   const context = useContext(Context)
 
   const props = extendPropsWithContext(
     {
       ...formStatusDefaultProps,
-      ...removeUndefinedProps({ ...ownProps }),
+      ...removeUndefinedProps({ ...restOwnProps }),
     },
     formStatusDefaultProps,
     { skeleton: context?.skeleton },
@@ -295,8 +295,8 @@ function FormStatusComponent(
   const contentCacheRef = useRef<React.ReactNode | null>(null)
   const stateCacheRef = useRef<string | null>(null)
 
-  const ownPropsRef = useRef(ownProps)
-  ownPropsRef.current = ownProps
+  const ownPropsRef = useRef(restOwnProps)
+  ownPropsRef.current = restOwnProps
 
   // Sync forwarded ref with internal ref
   useEffect(() => {
@@ -420,10 +420,10 @@ function FormStatusComponent(
   })
 
   // Track previous props for componentDidUpdate logic
-  const prevPropsRef = useRef<FormStatusProps>(ownProps)
+  const prevPropsRef = useRef<FormStatusProps>(restOwnProps)
   useUpdateEffect(() => {
     const prevProps = prevPropsRef.current
-    prevPropsRef.current = ownProps
+    prevPropsRef.current = restOwnProps
 
     const state = props.state
     const { children } = props
@@ -457,7 +457,7 @@ function FormStatusComponent(
               preventRestack: true, // because of the internal "close"
             }
           )
-        } else if (!getContent(ownProps)) {
+        } else if (!getContent(restOwnProps)) {
           globalStatusRef.current?.remove(statusId)
         }
       }
@@ -476,7 +476,7 @@ function FormStatusComponent(
     iconSize: restOfProps.iconSize,
   })
 
-  const contentToRender = getContent(ownProps)
+  const contentToRender = getContent(restOwnProps)
 
   const hasStringContent =
     typeof contentToRender === 'string' && contentToRender.length > 0
@@ -541,7 +541,7 @@ function FormStatusComponent(
   skeletonDOMAttributes(params, skeleton, context)
 
   // also used for code markup simulation
-  validateDOMAttributes(ownProps, params)
+  validateDOMAttributes(restOwnProps, params)
   validateDOMAttributes(null, textParams)
 
   return (
@@ -566,11 +566,9 @@ function FormStatusComponent(
 FormStatusComponent.displayName = 'FormStatus'
 
 const FormStatus = React.memo(
-  React.forwardRef(FormStatusComponent)
+  FormStatusComponent
 ) as React.MemoExoticComponent<
-  React.ForwardRefExoticComponent<
-    FormStatusProps & React.RefAttributes<HTMLElement>
-  >
+  React.FC<FormStatusProps & { ref?: React.Ref<HTMLElement> }>
 >
 
 withComponentMarkers(FormStatus, { _supportsSpacingProps: true })
