@@ -19,7 +19,7 @@ export let IS_MAC = false
 export let IS_ANDROID = false
 export let IS_LINUX = false
 
-const getPlatform = () => {
+export const getPlatform = () => {
   if (typeof navigator === 'undefined') {
     return ''
   }

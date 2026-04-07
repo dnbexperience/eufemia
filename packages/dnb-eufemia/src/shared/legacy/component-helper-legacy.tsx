@@ -7,6 +7,7 @@
 import type React from 'react'
 import {
   warn,
+  getPlatform,
   PLATFORM_MAC,
   PLATFORM_WIN,
   PLATFORM_LINUX,
@@ -45,12 +46,7 @@ export function defineNavigator() {
           (window as Window & { IS_TEST?: boolean }).IS_TEST
         )
       ) {
-        const platform =
-          (
-            navigator as Navigator & {
-              userAgentData?: { platform?: string }
-            }
-          ).userAgentData?.platform || navigator.platform
+        const platform = getPlatform()
 
         if (platform.match(new RegExp(PLATFORM_MAC)) !== null) {
           document.documentElement.setAttribute('data-os', 'mac')
