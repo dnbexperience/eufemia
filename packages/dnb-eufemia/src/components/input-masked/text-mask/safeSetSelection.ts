@@ -5,14 +5,9 @@
 
 import { isAndroid } from '../../../shared/helpers'
 
-const defer: (cb: () => void) => void =
-  typeof requestAnimationFrame !== 'undefined'
-    ? (cb) => {
-        requestAnimationFrame(cb)
-      }
-    : (cb) => {
-        setTimeout(cb, 0)
-      }
+const defer = (cb: () => void) => {
+  requestAnimationFrame(cb)
+}
 
 export function safeSetSelection(
   element: HTMLInputElement,
