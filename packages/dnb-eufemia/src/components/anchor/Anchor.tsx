@@ -304,11 +304,14 @@ function getIcon(icon) {
 
 export function pickIcon(icon, className?: string) {
   if (icon?.props?.icon || icon?.props?.className?.includes('dnb-icon')) {
-    return React.createElement(icon.type, {
-      ...icon.props,
-      key: 'button-icon-clone',
-      className: clsx(icon.props?.className, className),
-    })
+    const IconComponent = icon.type as React.ComponentType<any>
+    return (
+      <IconComponent
+        {...icon.props}
+        key="button-icon-clone"
+        className={clsx(icon.props?.className, className)}
+      />
+    )
   }
 
   return null

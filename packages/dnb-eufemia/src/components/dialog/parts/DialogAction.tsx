@@ -95,19 +95,21 @@ const DialogAction = ({
     childrenWithCloseFunc = React.Children.map(children, (child) => {
       if (React.isValidElement<any>(child) && child.type === Button) {
         const childElement = child as React.ReactElement<any>
+        const ChildComponent =
+          childElement.type as React.ComponentType<any>
 
-        return React.createElement(
-          childElement.type as React.ComponentType<any>,
-          {
-            ...(childElement.props || {}),
-            onClick: (event) => {
+        return (
+          <ChildComponent
+            {...(childElement.props || {})}
+            onClick={(event) => {
               dispatchCustomElementEvent(childElement.props, 'onClick', {
                 event,
                 close,
               })
-            },
-          },
-          childElement.props.children
+            }}
+          >
+            {childElement.props.children}
+          </ChildComponent>
         )
       } else {
         return child

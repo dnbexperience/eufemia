@@ -80,19 +80,19 @@ export function IterateOverSteps({
             'undefined'
         ) {
           const key = `${index}-${activeIndexRef.current}`
+          const Step = (child as React.ReactElement<StepProps>)
+            .type as React.ComponentType<StepProps>
+          const stepProps = (child as React.ReactElement<StepProps>).props
           prerenderFieldPropsRef.current['step-' + index] = {
             index,
-            fn: () =>
-              React.createElement(
-                (child as React.ReactElement<StepProps>)
-                  .type as React.ComponentType<StepProps>,
-                {
-                  ...(child as React.ReactElement<StepProps>).props,
-                  key,
-                  index,
-                  prerenderFieldProps: true,
-                }
-              ),
+            fn: () => (
+              <Step
+                {...stepProps}
+                key={key}
+                index={index}
+                prerenderFieldProps={true}
+              />
+            ),
           }
         }
 

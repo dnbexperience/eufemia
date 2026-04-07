@@ -155,10 +155,13 @@ function runFix(comp: unknown, className: string): React.ReactNode {
   }
   if (React.isValidElement(comp)) {
     const elemProps = comp.props as Record<string, unknown>
-    return React.createElement(comp.type as React.ElementType, {
-      ...elemProps,
-      className: clsx(elemProps.className as string, className),
-    })
+    const CompType = comp.type as React.ElementType
+    return (
+      <CompType
+        {...elemProps}
+        className={clsx(elemProps.className as string, className)}
+      />
+    )
   }
   return <span className={className}>{comp as React.ReactNode}</span>
 }

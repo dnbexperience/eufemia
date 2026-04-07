@@ -411,19 +411,18 @@ function prepareIconCore(
   let iconToRender = getIcon(props)
 
   if (iconToRender && typeof iconToRender.defaultProps !== 'undefined') {
-    iconToRender = React.createElement(
-      iconToRender,
-      validateDOMAttributes(
-        {},
-        {
-          color,
-          icon,
-          size,
-          width,
-          height,
-        }
-      )
+    const IconComponent = iconToRender as React.ElementType
+    const validatedProps = validateDOMAttributes(
+      {},
+      {
+        color,
+        icon,
+        size,
+        width,
+        height,
+      }
     )
+    iconToRender = <IconComponent {...validatedProps} />
   }
 
   return {

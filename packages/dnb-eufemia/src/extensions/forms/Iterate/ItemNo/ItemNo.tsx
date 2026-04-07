@@ -38,13 +38,12 @@ export function replaceItemNo(
     const { children: childProps, ...rest } = node.props || {}
     const nextChildren = replaceItemNo(childProps, index)
     // Only clone if children changed (optional optimization)
-    return nextChildren === childProps
-      ? node
-      : React.createElement(
-          node.type as React.ComponentType<any>,
-          rest,
-          nextChildren
-        )
+    if (nextChildren === childProps) {
+      return node
+    }
+
+    const Component = node.type as React.ComponentType<any>
+    return <Component {...rest}>{nextChildren}</Component>
   }
 
   // Fallback: try to convert to string if possible

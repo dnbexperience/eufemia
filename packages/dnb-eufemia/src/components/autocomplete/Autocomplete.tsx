@@ -1366,13 +1366,15 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
                     originalChild
                   )
                 ) {
-                  result = React.createElement(
-                    originalChild.type as React.ComponentType<any>,
-                    {
-                      ...originalChild.props,
-                      key: 'clone' + cacheHash + idx,
-                    },
-                    result
+                  const OriginalComponent =
+                    originalChild.type as React.ComponentType<any>
+                  result = (
+                    <OriginalComponent
+                      {...originalChild.props}
+                      key={'clone' + cacheHash + idx}
+                    >
+                      {result}
+                    </OriginalComponent>
                   )
                 }
               }
@@ -2400,12 +2402,9 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     submitElement &&
     React.isValidElement<Record<string, unknown>>(submitElement)
   ) {
-    submitButton = React.createElement(
-      submitElement.type as React.ComponentType<any>,
-      {
-        ...submitElement.props,
-        ...triggerParams,
-      }
+    const SubmitComponent = submitElement.type as React.ComponentType<any>
+    submitButton = (
+      <SubmitComponent {...submitElement.props} {...triggerParams} />
     )
   } else if (showSubmitButton) {
     submitButton = (
@@ -2510,10 +2509,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         <span className="dnb-autocomplete__row">
           <span {...shellParams}>
             {CustomInput ? (
-              React.createElement(
-                CustomInput as React.ElementType,
-                customInputParams
-              )
+              <CustomInput {...customInputParams} />
             ) : (
               <Input
                 icon={

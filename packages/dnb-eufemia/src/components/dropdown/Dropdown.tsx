@@ -645,10 +645,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
         <span className="dnb-dropdown__row">
           <span className="dnb-dropdown__shell">
             {CustomTrigger ? (
-              React.createElement(
-                CustomTrigger as React.ElementType,
-                triggerParams
-              )
+              <CustomTrigger {...triggerParams} />
             ) : (
               <Button
                 variant={variant}

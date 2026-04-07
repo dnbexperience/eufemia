@@ -127,15 +127,17 @@ export function renderWithSpacing(
         const { key: childKey, ...childProps } = child?.props || {}
 
         return React.Children.toArray(children).map((element, i) => {
-          return React.createElement(
+          const ChildComponent =
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            child.type as React.ComponentType<any>,
-            { key: childKey || i, ...childProps },
-            wrapWithSpace({
-              element: element as React.ReactNode,
-              spaceProps,
-              wrapInSpace,
-            })
+            child.type as React.ComponentType<any>
+          return (
+            <ChildComponent key={childKey || i} {...childProps}>
+              {wrapWithSpace({
+                element: element as React.ReactNode,
+                spaceProps,
+                wrapInSpace,
+              })}
+            </ChildComponent>
           )
         })
       }
@@ -159,17 +161,13 @@ function wrapWithSpace({
   const { wrapInSpace: _, key, ...props } = spaceProps
 
   if (resolvedVariant === true) {
-    return React.createElement(
-      (element as React.ReactElement).type as React.ComponentType<any>,
-      {
-        ...((element as React.ReactElement).props as Record<
-          string,
-          unknown
-        >),
-        key,
-        ...props,
-      }
-    )
+    const ElementComponent = (element as React.ReactElement)
+      .type as React.ComponentType<any>
+    const elementProps = (element as React.ReactElement).props as Record<
+      string,
+      unknown
+    >
+    return <ElementComponent {...elementProps} key={key} {...props} />
   }
 
   if (resolvedVariant === 'children') {

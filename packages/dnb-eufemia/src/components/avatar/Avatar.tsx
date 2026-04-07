@@ -243,10 +243,8 @@ function iconAutoSize(
   icon: React.ReactElement<IconAllProps>
 ): React.ReactElement<IconAllProps> {
   if (!icon.props.size) {
-    return React.createElement(
-      icon.type as React.ComponentType<IconAllProps>,
-      { ...icon.props, size: 'auto' }
-    )
+    const IconComponent = icon.type as React.ComponentType<IconAllProps>
+    return <IconComponent {...icon.props} size="auto" />
   }
 
   return icon
