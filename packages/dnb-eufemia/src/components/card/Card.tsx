@@ -95,8 +95,8 @@ function Card(props: CardProps) {
     outset: nestedContext?.isNested
       ? false
       : outset === true
-      ? falseWhenSmall
-      : outset,
+        ? falseWhenSmall
+        : outset,
     roundedCorner: responsive ? falseWhenSmall : true,
     outline: 'var(--card-outline-color)',
     outlineWidth,

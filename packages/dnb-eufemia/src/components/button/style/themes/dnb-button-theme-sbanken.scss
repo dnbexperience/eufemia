@@ -78,10 +78,12 @@
     --button-tertiary-underline-overflow: -0.5rem;
     --button-tertiary-underline-overflow--icon: calc(
       (
-          var(--button-icon-gutter) + var(--button-icon-size) - var(
+          var(--button-icon-gutter) +
+            var(--button-icon-size) - var(
               --button-tertiary-underline-overflow
             )
-        ) * -1
+        ) *
+        -1
     );
     --button-tertiary-underline-bottom: -0.5rem;
     --button-tertiary-text-bottom--icon: 0.5rem;

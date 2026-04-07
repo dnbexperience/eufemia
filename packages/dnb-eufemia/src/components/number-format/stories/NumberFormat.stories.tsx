@@ -113,7 +113,8 @@ export const NumberFormatSandbox = () => {
                   12 345 678
                 </NumberFormat>{' '}
                 text <NumberFormat currency>12345.0</NumberFormat> text{' '}
-                <NumberFormat currency="EUR">-12345,68</NumberFormat> text{' '}
+                <NumberFormat currency="EUR">-12345,68</NumberFormat>{' '}
+                text{' '}
               </P>
             </Provider>
           </Box>

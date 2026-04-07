@@ -255,16 +255,16 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const sectionSchemaPaths = sectionSchemaPathsRef?.current
   const hasSectionSchema = Boolean(
     sectionSchemaPaths?.size &&
-      identifier &&
-      Array.from(sectionSchemaPaths).some((sectionSchemaPath) => {
-        if (sectionSchemaPath === '/') {
-          return true
-        }
-        return (
-          identifier === sectionSchemaPath ||
-          identifier.startsWith(`${sectionSchemaPath}/`)
-        )
-      })
+    identifier &&
+    Array.from(sectionSchemaPaths).some((sectionSchemaPath) => {
+      if (sectionSchemaPath === '/') {
+        return true
+      }
+      return (
+        identifier === sectionSchemaPath ||
+        identifier.startsWith(`${sectionSchemaPath}/`)
+      )
+    })
   )
 
   const defaultValueRef = useRef(defaultValue)
@@ -1239,8 +1239,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         storePath === '/'
           ? internalData
           : hasValue
-          ? pointer.get(internalData, storePath)
-          : undefined
+            ? pointer.get(internalData, storePath)
+            : undefined
 
       // If no data where found in the dataContext, look for shared data
       if (

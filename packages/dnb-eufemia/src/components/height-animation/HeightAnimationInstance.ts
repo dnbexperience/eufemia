@@ -416,8 +416,8 @@ export default class HeightAnimation {
   canFinish() {
     return Boolean(
       this.startTime &&
-        Date.now() - this.startTime >
-          (globalThis.animationDuration ?? this.duration)
+      Date.now() - this.startTime >
+        (globalThis.animationDuration ?? this.duration)
     )
   }
   /**
@@ -441,7 +441,7 @@ export default class HeightAnimation {
 
     return Boolean(
       this.firstTime &&
-        Date.now() - this.firstTime < (globalThis.bypassTime ?? 100)
+      Date.now() - this.firstTime < (globalThis.bypassTime ?? 100)
     )
   }
 }

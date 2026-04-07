@@ -273,7 +273,7 @@ function ArrayComponent(props: IterateArrayProps) {
         modesRef.current[id] = {
           current:
             containerMode ??
-            (isNew ? getNextContainerMode() ?? 'edit' : 'auto'),
+            (isNew ? (getNextContainerMode() ?? 'edit') : 'auto'),
         }
       }
 

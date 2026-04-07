@@ -416,8 +416,8 @@ function PopoverContainer(props: PopoverContainerProps) {
       alignOnTarget === 'left'
         ? -targetBodySize.width / 2
         : alignOnTarget === 'right'
-        ? targetBodySize.width / 2
-        : 0
+          ? targetBodySize.width / 2
+          : 0
     let anchorX = centerX + (isInitialVertical ? alignOffset : 0)
 
     if (arrowPositionSelector) {
@@ -515,8 +515,8 @@ function PopoverContainer(props: PopoverContainerProps) {
       autoAlignMode === 'never'
         ? false
         : autoAlignMode === 'initial'
-        ? initialAutoAlignAllowed
-        : true
+          ? initialAutoAlignAllowed
+          : true
 
     if (initialAutoAlignAllowed) {
       autoAlignInitialUsedRef.current = true

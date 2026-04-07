@@ -223,8 +223,8 @@ type EventArgs<Value, ExtraValue extends ProvideAdditionalEventArgs> = [
 export type DataValueWriteProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
-  ExtraValue extends
-    ProvideAdditionalEventArgs = ProvideAdditionalEventArgs,
+  ExtraValue extends ProvideAdditionalEventArgs =
+    ProvideAdditionalEventArgs,
 > = {
   emptyValue?: EmptyValue
   onFocus?: (...args: EventArgs<Value | EmptyValue, ExtraValue>) => void
@@ -510,8 +510,8 @@ export type FieldProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
-  ExtraValue extends
-    ProvideAdditionalEventArgs = ProvideAdditionalEventArgs,
+  ExtraValue extends ProvideAdditionalEventArgs =
+    ProvideAdditionalEventArgs,
 > = UseFieldProps<Value, EmptyValue, ErrorMessages, ExtraValue> &
   SharedFieldBlockProps
 
@@ -527,8 +527,8 @@ export type FieldPropsGeneric<
 
 export type FieldPropsWithExtraValue<
   Value = unknown,
-  ExtraValue extends
-    ProvideAdditionalEventArgs = ProvideAdditionalEventArgs,
+  ExtraValue extends ProvideAdditionalEventArgs =
+    ProvideAdditionalEventArgs,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
 > = Omit<

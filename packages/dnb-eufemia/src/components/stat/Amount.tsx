@@ -114,8 +114,8 @@ function AmountBase(props: AmountProps) {
     typeof value !== 'undefined'
       ? value
       : typeof children === 'string' || typeof children === 'number'
-      ? children
-      : null
+        ? children
+        : null
 
   const suffixStartsWithSlash =
     typeof suffix === 'string' && suffix.startsWith('/')

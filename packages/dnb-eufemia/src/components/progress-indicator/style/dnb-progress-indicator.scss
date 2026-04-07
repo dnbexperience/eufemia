@@ -143,7 +143,8 @@
 
     &__line.light {
       animation-name: progress-indicator-circular-line-light;
-      stroke-dasharray: var(--progress-indicator-circular-circle),
+      stroke-dasharray:
+        var(--progress-indicator-circular-circle),
         var(--progress-indicator-circular-circle);
       stroke-dashoffset: var(
         --progress-indicator-circular-circle-offset--max
@@ -152,7 +153,8 @@
 
     &__line.dark {
       animation-name: progress-indicator-circular-line-dark;
-      stroke-dasharray: var(--progress-indicator-circular-circle),
+      stroke-dasharray:
+        var(--progress-indicator-circular-circle),
         var(--progress-indicator-circular-circle);
       stroke-dashoffset: var(
         --progress-indicator-circular-circle-offset--min

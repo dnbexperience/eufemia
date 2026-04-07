@@ -75,9 +75,9 @@
   &__input:checked ~ &__button {
     transform: translateX(
       calc(
-        var(--switch-width--medium) - var(--button-dimension--medium) - var(
-            --switch-spacing-width--medium
-          )
+        var(--switch-width--medium) - var(
+            --button-dimension--medium
+          ) - var(--switch-spacing-width--medium)
       )
     );
   }

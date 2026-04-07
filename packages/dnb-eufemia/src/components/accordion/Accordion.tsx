@@ -271,8 +271,8 @@ function Accordion({
     return props.expanded !== undefined
       ? props.expanded
       : context?.expanded !== undefined
-      ? context.expanded
-      : false
+        ? context.expanded
+        : false
   }
 
   function setExpandedState(expanded: boolean) {
@@ -456,8 +456,8 @@ const Group = ({
   const group = props?.id
     ? props.id
     : !props.group
-    ? '#' + makeUniqueId()
-    : undefined
+      ? '#' + makeUniqueId()
+      : undefined
 
   const store = useMemo(() => new Store({ group }), [group])
 

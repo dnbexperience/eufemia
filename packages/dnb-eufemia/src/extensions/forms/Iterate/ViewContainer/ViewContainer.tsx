@@ -74,13 +74,13 @@ function ViewContainer(props: IterateViewContainerAllProps) {
       {children}
       {hasToolbar
         ? null
-        : toolbarElement ??
+        : (toolbarElement ??
           (toolbarVariant !== 'custom' && (
             <Toolbar>
               <EditButton />
               <RemoveButton />
             </Toolbar>
-          ))}
+          )))}
     </ArrayItemArea>
   )
 }

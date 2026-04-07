@@ -326,8 +326,8 @@ export default function Provider<Data extends JsonObject>(
           normalizedPath === '/'
             ? internalDataRef.current
             : pointer.has(internalDataRef.current, normalizedPath)
-            ? pointer.get(internalDataRef.current, normalizedPath)
-            : undefined
+              ? pointer.get(internalDataRef.current, normalizedPath)
+              : undefined
 
         const validationResult = validator(sectionData)
         if (validationResult === true) {
@@ -1102,8 +1102,8 @@ export default function Provider<Data extends JsonObject>(
           ? // When setting the root of the data, the whole data set should be the new value
             value
           : // For sub paths, use the existing data set (or empty array/object), but modify it below (since pointer.set is not immutable)
-            internalDataRef.current ??
-            (path.match(isArrayJsonPointer) ? [] : {})
+            (internalDataRef.current ??
+            (path.match(isArrayJsonPointer) ? [] : {}))
       ) as Data
 
       let newData: Data = null
@@ -1417,16 +1417,15 @@ export default function Provider<Data extends JsonObject>(
 
         setShowAllErrors(true)
 
-        const submitRequestResult = await resolveStateResult(
-          () =>
-            onSubmitRequest?.({
-              getErrors: () =>
-                Object.keys(fieldErrorRef.current)
-                  .map((path) => {
-                    return getDataPathHandlerParameters(path)
-                  })
-                  .filter(({ error }) => error),
-            })
+        const submitRequestResult = await resolveStateResult(() =>
+          onSubmitRequest?.({
+            getErrors: () =>
+              Object.keys(fieldErrorRef.current)
+                .map((path) => {
+                  return getDataPathHandlerParameters(path)
+                })
+                .filter(({ error }) => error),
+          })
         )
 
         applySubmitState(submitRequestResult)
@@ -1695,8 +1694,8 @@ export default function Provider<Data extends JsonObject>(
     typeof rest?.['disabled'] === 'boolean'
       ? rest?.['disabled']
       : formState === 'pending'
-      ? true
-      : undefined
+        ? true
+        : undefined
   const contextErrorMessages =
     errorMessages?.[locale ?? sharedLocale] || errorMessages
 

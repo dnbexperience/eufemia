@@ -117,8 +117,8 @@ export function formatDate(
     typeof dateValue === 'string'
       ? dateValue
       : typeof dateValue === 'number'
-      ? String(dateValue)
-      : null
+        ? String(dateValue)
+        : null
 
   // Convert to DateType (Date | string) for convertStringToDate
   // Numbers are converted to strings to preserve UTC detection
@@ -263,8 +263,8 @@ export function getRelativeTime(
       dateStyle === 'short'
         ? 'narrow'
         : dateStyle === 'medium'
-        ? 'short'
-        : 'long',
+          ? 'short'
+          : 'long',
   }
   try {
     // eslint-disable-next-line compat/compat
@@ -277,8 +277,8 @@ export function getRelativeTime(
       relativeTimeReference instanceof Date
         ? relativeTimeReference
         : typeof relativeTimeReference === 'function'
-        ? relativeTimeReference()
-        : new Date()
+          ? relativeTimeReference()
+          : new Date()
 
     const msDateDifference = date.getTime() - nowDate.getTime()
     const timeUnit = getTimeUnit(msDateDifference)
@@ -309,8 +309,8 @@ export function getRelativeTimeNextUpdateMs(
     relativeTimeReference instanceof Date
       ? relativeTimeReference
       : typeof relativeTimeReference === 'function'
-      ? relativeTimeReference()
-      : new Date()
+        ? relativeTimeReference()
+        : new Date()
   const diff = date.getTime() - nowDate.getTime()
   if (!Number.isFinite(diff)) {
     return 1000
@@ -502,8 +502,8 @@ function createDurationFormatter(
         dateStyle === 'short'
           ? 'narrow'
           : dateStyle === 'medium'
-          ? 'short'
-          : 'long',
+            ? 'short'
+            : 'long',
     })
   } catch {
     return null

@@ -203,11 +203,11 @@ function normalizeDataItem(
   return dataItem === null
     ? undefined
     : typeof dataItem === 'object' && 'content' in dataItem
-    ? dataItem
-    : {
-        content: dataItem,
-        ...(markAsTransformed ? { __isTransformed: true } : {}),
-      }
+      ? dataItem
+      : {
+          content: dataItem,
+          ...(markAsTransformed ? { __isTransformed: true } : {}),
+        }
 }
 
 export const getData = (props) => {

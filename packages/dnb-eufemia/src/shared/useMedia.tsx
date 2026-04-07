@@ -25,8 +25,8 @@ const makeLayoutEffect = () => {
   return typeof window === 'undefined'
     ? useEffect
     : window['__SSR_TEST__'] // To be able to test this hook like we are in SSR land
-    ? () => null
-    : React.useLayoutEffect
+      ? () => null
+      : React.useLayoutEffect
 }
 
 export type UseMediaProps = {

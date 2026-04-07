@@ -36,7 +36,7 @@ export function setSectionDomApi({
       get() {
         return sectionSelectionModeRef.current[inputId] === 'all'
           ? 0
-          : caretPositionsRef.current[inputId] ?? displayValue.length
+          : (caretPositionsRef.current[inputId] ?? displayValue.length)
       },
     },
     selectionEnd: {
@@ -44,7 +44,7 @@ export function setSectionDomApi({
       get() {
         return sectionSelectionModeRef.current[inputId] === 'all'
           ? displayValue.length
-          : caretPositionsRef.current[inputId] ?? displayValue.length
+          : (caretPositionsRef.current[inputId] ?? displayValue.length)
       },
     },
     setSelectionRange: {

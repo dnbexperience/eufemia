@@ -222,16 +222,17 @@ export type TranslationFlat = Partial<
   Record<TranslationObjectToFlat<TranslationValues>, string>
 >
 
-export type TranslationFlatToObject<T> = T extends Record<string, unknown>
-  ? {
-      // Mapped type to transform dot-notation keys to nested objects
-      [K in keyof T as K extends `${infer First}.${string}`
-        ? First
-        : K]: K extends `${string}.${infer Rest}`
-        ? TranslationFlatToObject<Record<Rest, T[K]>>
-        : T[K]
-    }
-  : T
+export type TranslationFlatToObject<T> =
+  T extends Record<string, unknown>
+    ? {
+        // Mapped type to transform dot-notation keys to nested objects
+        [K in keyof T as K extends `${infer First}.${string}`
+          ? First
+          : K]: K extends `${string}.${infer Rest}`
+          ? TranslationFlatToObject<Record<Rest, T[K]>>
+          : T[K]
+      }
+    : T
 
 export type TranslationObjectToFlat<T, Prefix extends string = ''> = {
   [K in keyof T]: T[K] extends Record<string, unknown>
