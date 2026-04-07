@@ -3,7 +3,8 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React, { useCallback, useContext, useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
+import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import {
@@ -240,19 +241,7 @@ function getContent(props: ButtonProps) {
 function Button({ ref, ...restProps }: ButtonProps) {
   const context = useContext(Context)
   const elementRef = useRef<HTMLElement | null>(null)
-
-  const combinedRef = useCallback(
-    (instance: HTMLElement | null) => {
-      elementRef.current = instance
-
-      if (typeof ref === 'function') {
-        ref(instance)
-      } else if (ref) {
-        ref.current = instance
-      }
-    },
-    [ref]
-  )
+  const combinedRef = useCombinedRef(ref, elementRef)
 
   // Generate an id only when explicitly provided or when status/tooltip
   // needs one for aria linking – mirrors the original class component logic.
