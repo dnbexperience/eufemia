@@ -1,9 +1,18 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent, spyOnEufemiaWarn } from '../../../core/jest/jestSetup'
 import Stat from '../Stat'
 
 describe('Stat.Currency', () => {
+  let log: ReturnType<typeof spyOnEufemiaWarn>
+
+  beforeEach(() => {
+    log = spyOnEufemiaWarn()
+  })
+
+  afterEach(() => {
+    log.mockRestore()
+  })
   it('renders currency by default', () => {
     render(<Stat.Currency value={12345.67} />)
 

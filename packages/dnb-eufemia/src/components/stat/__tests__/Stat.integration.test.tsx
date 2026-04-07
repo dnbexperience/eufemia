@@ -1,10 +1,19 @@
 import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent, spyOnEufemiaWarn } from '../../../core/jest/jestSetup'
 import Provider from '../../../shared/Provider'
 import Stat from '../Stat'
 
 describe('Stat integration', () => {
+  let log: ReturnType<typeof spyOnEufemiaWarn>
+
+  beforeEach(() => {
+    log = spyOnEufemiaWarn()
+  })
+
+  afterEach(() => {
+    log.mockRestore()
+  })
   it('renders full composition with semantic dl/dt/dd markup', () => {
     render(
       <Stat.Root>
