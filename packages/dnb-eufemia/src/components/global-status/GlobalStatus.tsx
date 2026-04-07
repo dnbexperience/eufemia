@@ -2,12 +2,7 @@
  * Web GlobalStatus Component
  */
 
-import React, {
-  useCallback,
-  useContext,
-  useRef,
-  useState,
-} from 'react'
+import React, { useCallback, useContext, useRef, useState } from 'react'
 import clsx from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import useMountEffect from '../../shared/helpers/useMountEffect'
