@@ -24,6 +24,9 @@ const config: StorybookConfig = {
     }
     return config
   },
+  typescript: {
+    reactDocgen: false,
+  },
   core: {
     disableTelemetry: true,
     disableWhatsNewNotifications: true,
