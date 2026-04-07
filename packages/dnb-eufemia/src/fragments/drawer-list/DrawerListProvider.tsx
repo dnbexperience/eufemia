@@ -102,7 +102,7 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
       itemToSelect: string | number,
       args?: {
         fireSelectEvent?: boolean
-        event?: React.SyntheticEvent | Event
+        event?: React.SyntheticEvent | Event | Record<string, unknown>
         closeOnSelection?: boolean
       }
     ) => void
@@ -1381,7 +1381,7 @@ export default class DrawerListProvider extends React.PureComponent<
     itemToSelect,
     args: {
       fireSelectEvent?: boolean
-      event?: any
+      event?: React.SyntheticEvent | Event | Record<string, unknown>
       closeOnSelection?: boolean
     } = {}
   ) => {
