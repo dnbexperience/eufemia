@@ -8,7 +8,6 @@ import { render } from '@testing-library/react'
 
 import {
   extendDeep,
-  defineNavigator,
   validateDOMAttributes,
   processChildren,
   dispatchCustomElementEvent,
@@ -26,6 +25,7 @@ import {
   escapeRegexChars,
   removeUndefinedProps,
 } from '../component-helper'
+import { defineNavigator } from '../legacy/component-helper-legacy'
 import userEvent from '@testing-library/user-event'
 
 beforeAll(() => {

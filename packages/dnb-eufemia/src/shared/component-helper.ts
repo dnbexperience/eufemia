@@ -11,7 +11,13 @@ import { getClosestParent } from './helpers/getClosest'
 import { init } from './Eufemia'
 import { defineNavigator } from './legacy/component-helper-legacy'
 
-export * from './legacy/component-helper-legacy'
+export {
+  isTouchDevice,
+  processChildren,
+  detectOutsideClick,
+  DetectOutsideClickClass,
+  checkIfHasScrollbar,
+} from './legacy/component-helper-legacy'
 export { InteractionInvalidation } from './helpers/InteractionInvalidation'
 export {
   extendPropsWithContext,
