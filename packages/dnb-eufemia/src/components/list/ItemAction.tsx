@@ -3,7 +3,7 @@ import { ListVariant, ListContext } from './ListContext'
 import ItemContent, { ItemContentProps } from './ItemContent'
 import React, { useCallback, useContext, useRef } from 'react'
 import IconPrimary from '../IconPrimary'
-import Anchor from '../Anchor'
+import Anchor, { AnchorProps } from '../Anchor'
 import ItemIcon from './ItemIcon'
 import ItemTitle from './ItemTitle'
 import type { IconIcon } from '../icon/Icon'
@@ -19,6 +19,8 @@ export type ItemActionProps = {
   icon?: IconIcon
   title?: React.ReactNode
   href?: string
+  to?: string
+  element?: AnchorProps['element']
   target?: string
   rel?: string
 } & Omit<ItemContentProps, 'title'>
@@ -37,6 +39,8 @@ function ItemAction(props: ItemActionProps) {
     icon,
     title,
     href,
+    to,
+    element,
     target,
     rel,
     ...rest
@@ -102,7 +106,7 @@ function ItemAction(props: ItemActionProps) {
   const actionClassName = classnames(
     'dnb-list__item__action',
     chevronPosition === 'left' && 'dnb-list__item--chevron-left',
-    href && 'dnb-list__item__action--href',
+    (href || to) && 'dnb-list__item__action--href',
     className
   )
 
@@ -116,7 +120,7 @@ function ItemAction(props: ItemActionProps) {
     </>
   )
 
-  if (href) {
+  if (href || to) {
     return (
       <ItemContent
         className={actionClassName}
@@ -135,7 +139,9 @@ function ItemAction(props: ItemActionProps) {
         <Anchor
           noStyle
           ref={anchorRef}
-          href={isInactive ? undefined : href}
+          {...(href != null ? { href: isInactive ? undefined : href } : {})}
+          to={isInactive ? undefined : to}
+          element={element}
           target={target}
           rel={rel}
           tabIndex={-1}

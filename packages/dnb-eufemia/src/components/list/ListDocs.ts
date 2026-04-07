@@ -331,6 +331,16 @@ export const ItemActionProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  to: {
+    doc: 'Use this prop only if you are using a router Link component as the `element` that uses the `to` property to declare the navigation url.',
+    type: 'string',
+    status: 'optional',
+  },
+  element: {
+    doc: 'Define what HTML or React element should be used for the link (e.g. `element={Link}` for React Router). Only applicable when `href` or `to` is set.',
+    type: 'React.Element',
+    status: 'optional',
+  },
   target: {
     doc: 'Link target (e.g. `_blank` for new tab). Only applicable when `href` is set.',
     type: 'string',
