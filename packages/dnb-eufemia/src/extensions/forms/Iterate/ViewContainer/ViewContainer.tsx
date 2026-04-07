@@ -29,11 +29,11 @@ export type IterateViewContainerProps = {
   toolbarVariant?: ArrayItemAreaProps['toolbarVariant']
 }
 
-export type AllProps = IterateViewContainerProps &
+export type IterateViewContainerAllProps = IterateViewContainerProps &
   Omit<FlexContainerProps, 'onAnimationEnd'> &
   ArrayItemAreaProps
 
-function ViewContainer(props: AllProps) {
+function ViewContainer(props: IterateViewContainerAllProps) {
   const {
     children,
     className,
