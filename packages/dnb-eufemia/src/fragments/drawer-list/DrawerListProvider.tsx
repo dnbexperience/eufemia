@@ -464,15 +464,12 @@ export default class DrawerListProvider extends React.PureComponent<
       try {
         const { direction, maxHeight: maxHeight } = calculateMaxHeight()
 
-        // update the states
+        // update the states in a single setState call to avoid double render
+        const stateUpdate: Partial<DrawerListContextState> = { maxHeight }
         if (this.props.direction === 'auto') {
-          this.setState({
-            direction,
-          })
+          stateUpdate.direction = direction
         }
-        this.setState({
-          maxHeight,
-        })
+        this.setState(stateUpdate)
 
         // call the event, if set
         if (onResize) {
