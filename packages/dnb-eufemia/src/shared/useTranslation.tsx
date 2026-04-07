@@ -338,8 +338,7 @@ export function formatMessage(
 
   if (typeof str === 'string') {
     for (const t in args) {
-      const regex = new RegExp(`{${t}}`, 'g')
-      str = str.replace(regex, args[t])
+      str = str.replaceAll(`{${t}}`, args[t])
     }
   }
 
