@@ -5,12 +5,13 @@
 import React, {
   useCallback,
   useContext,
-  useEffect,
   useRef,
   useState,
 } from 'react'
 import clsx from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import useMountEffect from '../../shared/helpers/useMountEffect'
+import useUpdateEffect from '../../shared/helpers/useUpdateEffect'
 import Context from '../../shared/Context'
 import {
   warn,
@@ -365,7 +366,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
   }
 
   // Subscription to provider updates
-  useEffect(() => {
+  useMountEffect(() => {
     const provider = providerRef.current
 
     provider.onUpdate((status) => {
@@ -412,19 +413,14 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
       // so we only empty the events
       provider.empty()
     }
-  }, [])
+  })
 
   // Handle show prop changes
-  const prevShowRef = useRef(ownProps.show)
-  useEffect(() => {
-    if (prevShowRef.current !== ownProps.show) {
-      prevShowRef.current = ownProps.show
-
-      if (ownProps.show === true) {
-        setIsActive(true)
-      } else {
-        setIsActive(false)
-      }
+  useUpdateEffect(() => {
+    if (ownProps.show === true) {
+      setIsActive(true)
+    } else {
+      setIsActive(false)
     }
   }, [ownProps.show])
 
