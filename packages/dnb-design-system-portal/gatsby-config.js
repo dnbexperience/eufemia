@@ -165,18 +165,18 @@ const plugins = [
                 '**/src/extensions/payment-card/**/dnb-*.scss',
               ]
           : shouldUsePrebuild()
-          ? [
-              // Use the core package
-              '**/build/style/dnb-ui-core.min.css',
-              '**/build/style/themes/**/*-theme-{basis,components}.min.css',
-              '**/build/extensions/payment-card/**/dnb-*.min.css',
-            ]
-          : [
-              // Use the core package
-              '**/src/style/dnb-ui-core.scss',
-              '**/src/style/themes/**/*-theme-{basis,components}.scss',
-              '**/src/extensions/payment-card/**/dnb-*.scss',
-            ],
+            ? [
+                // Use the core package
+                '**/build/style/dnb-ui-core.min.css',
+                '**/build/style/themes/**/*-theme-{basis,components}.min.css',
+                '**/build/extensions/payment-card/**/dnb-*.min.css',
+              ]
+            : [
+                // Use the core package
+                '**/src/style/dnb-ui-core.scss',
+                '**/src/style/themes/**/*-theme-{basis,components}.scss',
+                '**/src/extensions/payment-card/**/dnb-*.scss',
+              ],
       includeFiles: [
         '**/dnb-ui-core*',
         '**/dnb-ui-basis*',
