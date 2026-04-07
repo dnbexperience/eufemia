@@ -34,7 +34,7 @@ import Suffix from '../../shared/helpers/Suffix'
 const toggleButtonDefaultProps = {
   text: null,
   label: null,
-  labelDirection: null,
+  labelDirection: 'vertical',
   labelSrOnly: null,
   title: null,
   checked: undefined,

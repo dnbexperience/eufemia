@@ -43,7 +43,7 @@ export type ProgressIndicatorProps = {
    */
   children?: React.ReactNode
   /**
-   * Sets the position of the label. `'inside'` only works with `type='circular'. Defaults to `horizontal`.
+   * Sets the position of the label. `'inside'` only works with `type='circular'. Defaults to `vertical`.
    */
   labelDirection?: 'horizontal' | 'vertical' | 'inside'
   /**

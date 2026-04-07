@@ -2083,6 +2083,7 @@ describe('InputMasked component asCurrency', () => {
       'dnb-space__top--large',
       'dnb-input-masked',
       'dnb-input--text',
+      'dnb-input--vertical',
     ])
   })
 

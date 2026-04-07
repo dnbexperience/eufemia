@@ -31,7 +31,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
   const {
     id = fallbackId,
     label,
-    labelDirection = 'horizontal',
+    labelDirection = 'vertical',
     inputs,
     delimiter,
     onChange: onChangeExternal,

@@ -213,7 +213,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
     status: 'optional',
   },
   labelDirection: {
-    doc: 'Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.',
+    doc: 'Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.',
     type: ['"horizontal"', '"vertical"'],
     status: 'optional',
   },

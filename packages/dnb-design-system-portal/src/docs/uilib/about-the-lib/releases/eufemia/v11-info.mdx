@@ -114,6 +114,14 @@ $ pnpm add @dnb/eufemia@11
 
 ## Components
 
+### labelDirection default changed to `vertical`
+
+The `labelDirection` prop now defaults to `vertical` instead of `horizontal` on all basis form components. This means labels are rendered above the input by default. If you relied on the horizontal default, explicitly set `labelDirection="horizontal"`.
+
+Affected components: `Input`, `Textarea`, `Autocomplete`, `Dropdown`, `DatePicker`, `Slider`, `ProgressIndicator`, `ToggleButton`, `ToggleButton.Group`, `Radio.Group`.
+
+If you used `<Provider formElement={{ labelDirection: 'vertical' }}>` or `labelDirection="vertical"` to achieve vertical labels, you can now remove them.
+
 ### [Section](/uilib/components/section/)
 
 1. All deprecated `style_type` variants and their legacy `dnb-section--...` theme classes were removed. Use the `variant` or `backgroundColor` property instead:

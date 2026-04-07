@@ -12,37 +12,35 @@ import { Flex, InputMasked } from '@dnb/eufemia/src'
 export const InputMaskedExampleNumberLocale = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-masked-number">
-      <Provider formElement={{ labelDirection: 'vertical' }}>
-        <Flex.Vertical>
-          <InputMasked
-            label="Number"
-            asNumber
-            maskOptions={{ allowNegative: false }}
-            value="1234.50"
-            onChange={({ numberValue }) => {
-              console.log(numberValue)
-            }}
-          />
-          <InputMasked
-            label="Number (decimal limit)"
-            asNumber
-            numberMask={{ decimalLimit: 2 }}
-            value="1234.016"
-            onChange={({ numberValue }) => {
-              console.log(numberValue)
-            }}
-          />
-          <InputMasked
-            label="Percentage"
-            asPercent
-            numberMask={{ decimalLimit: 1 }}
-            value="1234.016"
-            onChange={({ numberValue }) => {
-              console.log(numberValue)
-            }}
-          />
-        </Flex.Vertical>
-      </Provider>
+      <Flex.Vertical>
+        <InputMasked
+          label="Number"
+          asNumber
+          maskOptions={{ allowNegative: false }}
+          value="1234.50"
+          onChange={({ numberValue }) => {
+            console.log(numberValue)
+          }}
+        />
+        <InputMasked
+          label="Number (decimal limit)"
+          asNumber
+          numberMask={{ decimalLimit: 2 }}
+          value="1234.016"
+          onChange={({ numberValue }) => {
+            console.log(numberValue)
+          }}
+        />
+        <InputMasked
+          label="Percentage"
+          asPercent
+          numberMask={{ decimalLimit: 1 }}
+          value="1234.016"
+          onChange={({ numberValue }) => {
+            console.log(numberValue)
+          }}
+        />
+      </Flex.Vertical>
     </ComponentBox>
   </Wrapper>
 )
@@ -50,35 +48,33 @@ export const InputMaskedExampleNumberLocale = () => (
 export const InputMaskedExampleCurrencyLocale = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-masked-currency">
-      <Provider formElement={{ labelDirection: 'vertical' }}>
-        <Flex.Vertical>
+      <Flex.Vertical>
+        <InputMasked
+          label="Currency"
+          asCurrency="EUR"
+          value="1234.50"
+          onChange={({ numberValue }) => {
+            console.log(numberValue)
+          }}
+        />
+        <Provider
+          locale="en-GB"
+          InputMasked={{
+            currencyMask: {
+              decimalLimit: 3,
+            },
+          }}
+        >
           <InputMasked
             label="Currency"
-            asCurrency="EUR"
-            value="1234.50"
+            asCurrency="USD"
+            value="1234.567"
             onChange={({ numberValue }) => {
               console.log(numberValue)
             }}
           />
-          <Provider
-            locale="en-GB"
-            InputMasked={{
-              currencyMask: {
-                decimalLimit: 3,
-              },
-            }}
-          >
-            <InputMasked
-              label="Currency"
-              asCurrency="USD"
-              value="1234.567"
-              onChange={({ numberValue }) => {
-                console.log(numberValue)
-              }}
-            />
-          </Provider>
-        </Flex.Vertical>
-      </Provider>
+        </Provider>
+      </Flex.Vertical>
     </ComponentBox>
   </Wrapper>
 )
@@ -86,27 +82,25 @@ export const InputMaskedExampleCurrencyLocale = () => (
 export const InputMaskedExampleCurrencyMask = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-masked-currency_mask">
-      <Provider formElement={{ labelDirection: 'vertical' }}>
-        <Flex.Vertical>
-          <InputMasked
-            label="Left aligned (default)"
-            showMask
-            currencyMask="kr"
-            onChange={({ numberValue }) => {
-              console.log(numberValue)
-            }}
-          />
-          <InputMasked
-            label="Right aligned"
-            showMask
-            currencyMask={{ currency: 'NOK' }}
-            align="right"
-            onChange={({ numberValue }) => {
-              console.log(numberValue)
-            }}
-          />
-        </Flex.Vertical>
-      </Provider>
+      <Flex.Vertical>
+        <InputMasked
+          label="Left aligned (default)"
+          showMask
+          currencyMask="kr"
+          onChange={({ numberValue }) => {
+            console.log(numberValue)
+          }}
+        />
+        <InputMasked
+          label="Right aligned"
+          showMask
+          currencyMask={{ currency: 'NOK' }}
+          align="right"
+          onChange={({ numberValue }) => {
+            console.log(numberValue)
+          }}
+        />
+      </Flex.Vertical>
     </ComponentBox>
   </Wrapper>
 )

@@ -190,7 +190,6 @@ export const CreateComposedFieldComponent = () => {
                     max={new Date().getFullYear()}
                     step={1}
                     label="Birth year"
-                    labelDirection="vertical"
                     value={parseFloat(String(value))}
                     onChange={handleBirthYearChange}
                     onDragStart={handleFocus}

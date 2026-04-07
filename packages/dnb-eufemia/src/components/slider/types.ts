@@ -26,7 +26,7 @@ export type SliderProps = {
   /** prepends the Form Label component. If no ID is provided, a random ID is created. */
   label?: React.ReactNode
 
-  /** use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`. */
+  /** use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`. */
   labelDirection?: 'vertical' | 'horizontal'
 
   /** use `true` to make the label only readable by screen readers. */

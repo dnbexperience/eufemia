@@ -156,7 +156,7 @@ describe('Circular ProgressIndicator component', () => {
       'dnb-progress-indicator',
       'dnb-space__top--large',
       'dnb-progress-indicator--show',
-      'dnb-progress-indicator--horizontal',
+      'dnb-progress-indicator--vertical',
       'dnb-progress-indicator--default',
     ])
   })
@@ -442,7 +442,7 @@ describe('Linear ProgressIndicator component', () => {
       'dnb-progress-indicator',
       'dnb-space__top--large',
       'dnb-progress-indicator--show',
-      'dnb-progress-indicator--horizontal',
+      'dnb-progress-indicator--vertical',
       'dnb-progress-indicator--default',
       'dnb-progress-indicator--full-width',
     ])

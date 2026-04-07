@@ -8,7 +8,6 @@ import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { format } from '@dnb/eufemia/src/components/number-format/NumberUtils'
 import { Slider, HelpButton, Input, Flex } from '@dnb/eufemia/src'
-import { Provider } from '@dnb/eufemia/src/shared'
 import { SliderMarker } from '@dnb/eufemia/src/components/slider/Slider'
 
 export const SliderExampleDefault = () => (
@@ -26,62 +25,58 @@ export const SliderExampleDefault = () => (
 
 export const SliderExampleMultiButtons = () => (
   <ComponentBox data-visual-test="slider-multi" scope={{ format }}>
-    <Provider formElement={{ labelDirection: 'vertical' }}>
-      <Flex.Vertical align="stretch">
-        <Slider
-          min={0}
-          max={100}
-          value={[30, 70]}
-          step={5}
-          label="Range with steps"
-          numberFormat={{ currency: 'USD' }}
-          tooltip
-          onChange={({ value }) => console.log('onChange:', value)}
-        />
-        <Slider
-          min={0}
-          max={100}
-          value={[10, 30, 50, 70]}
-          label="Multi thumbs"
-          numberFormat={(value) =>
-            format(value, { percent: true, decimals: 0 })
-          }
-          tooltip
-          onChange={({ value, number }) =>
-            console.log('onChange:', value, number)
-          }
-        />
-      </Flex.Vertical>
-    </Provider>
+    <Flex.Vertical align="stretch">
+      <Slider
+        min={0}
+        max={100}
+        value={[30, 70]}
+        step={5}
+        label="Range with steps"
+        numberFormat={{ currency: 'USD' }}
+        tooltip
+        onChange={({ value }) => console.log('onChange:', value)}
+      />
+      <Slider
+        min={0}
+        max={100}
+        value={[10, 30, 50, 70]}
+        label="Multi thumbs"
+        numberFormat={(value) =>
+          format(value, { percent: true, decimals: 0 })
+        }
+        tooltip
+        onChange={({ value, number }) =>
+          console.log('onChange:', value, number)
+        }
+      />
+    </Flex.Vertical>
   </ComponentBox>
 )
 
 export const SliderExampleMultiButtonsThumbBehavior = () => (
   <ComponentBox>
-    <Provider formElement={{ labelDirection: 'vertical' }}>
-      <Flex.Vertical align="stretch">
-        <Slider
-          multiThumbBehavior="omit"
-          value={[30, 70]}
-          label="Omit behavior"
-          numberFormat={{ currency: 'EUR' }}
-          tooltip={true}
-          onChange={({ value }) => console.log('onChange:', value)}
-        />
-        <Slider
-          multiThumbBehavior="push"
-          min={-40}
-          value={[-10, 50, 70]}
-          step={1}
-          label="Push behavior"
-          numberFormat={{ currency: true }}
-          tooltip={true}
-          onChange={({ value, number }) =>
-            console.log('onChange:', value, number)
-          }
-        />
-      </Flex.Vertical>
-    </Provider>
+    <Flex.Vertical align="stretch">
+      <Slider
+        multiThumbBehavior="omit"
+        value={[30, 70]}
+        label="Omit behavior"
+        numberFormat={{ currency: 'EUR' }}
+        tooltip={true}
+        onChange={({ value }) => console.log('onChange:', value)}
+      />
+      <Slider
+        multiThumbBehavior="push"
+        min={-40}
+        value={[-10, 50, 70]}
+        step={1}
+        label="Push behavior"
+        numberFormat={{ currency: true }}
+        tooltip={true}
+        onChange={({ value, number }) =>
+          console.log('onChange:', value, number)
+        }
+      />
+    </Flex.Vertical>
   </ComponentBox>
 )
 
@@ -108,7 +103,6 @@ export const SliderExampleHorizontalSync = () => (
                 hideButtons={true}
                 step={10}
                 label="Slider B"
-                labelDirection="vertical"
                 numberFormat={(value) =>
                   format(value, { currency: 'NOK' })
                 }
@@ -174,7 +168,6 @@ export const SliderVerticalWithSteps = () => (
             step={10}
             vertical={true}
             label="Vertical slider"
-            labelDirection="vertical"
             onChange={({ value }) => console.log('onChange:', value)}
           />
         </VerticalWrapper>

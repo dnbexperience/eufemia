@@ -22,7 +22,7 @@ export const InputProperties: PropertiesTableProps = {
     status: 'optional',
   },
   labelDirection: {
-    doc: 'Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.',
+    doc: 'Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.',
     type: 'string',
     status: 'optional',
   },

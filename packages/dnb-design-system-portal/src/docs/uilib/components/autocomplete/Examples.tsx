@@ -387,7 +387,6 @@ export const AutocompleteSuffix = () => {
             icon={null}
             showSubmitButton
             label="From account"
-            labelDirection="vertical"
           />
         )
       }}

@@ -44,7 +44,6 @@ export const ProgressIndicatorCircularLabelVerticalExample = () => (
       // label="Custom label ..."
       type="circular"
       showDefaultLabel={true}
-      labelDirection="vertical"
     />
   </ComponentBox>
 )
@@ -187,7 +186,6 @@ export const ProgressIndicatorCircularDialogExample = () => (
       <ProgressIndicator
         type="circular"
         showDefaultLabel
-        labelDirection="vertical"
         top="large"
         bottom="large"
         size="large"
@@ -221,11 +219,7 @@ export const ProgressIndicatorLinearLabelHorizontalExample = () => (
 
 export const ProgressIndicatorLinearLabelVerticalExample = () => (
   <ComponentBox>
-    <ProgressIndicator
-      type="linear"
-      showDefaultLabel={true}
-      labelDirection="vertical"
-    />
+    <ProgressIndicator type="linear" showDefaultLabel={true} />
   </ComponentBox>
 )
 
@@ -336,7 +330,6 @@ export const ProgressIndicatorLinearDialogExample = () => (
       <ProgressIndicator
         type="linear"
         showDefaultLabel
-        labelDirection="vertical"
         top="large"
         bottom="large"
       />
@@ -480,7 +473,6 @@ export const ProgressIndicatorCustomHorizontal = () => (
               type="linear"
               progress={75}
               size="1rem"
-              labelDirection="vertical"
               customColors={{
                 line: 'var(--color-summer-green)',
                 shaft: 'var(--color-sea-green)',

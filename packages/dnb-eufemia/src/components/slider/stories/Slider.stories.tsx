@@ -49,7 +49,6 @@ export function Marker() {
           },
         }}
         label="Label with some text"
-        labelDirection="vertical"
         min={-40}
         max={100}
         stretch
@@ -86,7 +85,6 @@ export function NegativeValues() {
       <Slider
         top="x-large"
         label="Label with some text"
-        labelDirection="vertical"
         multiThumbBehavior="push"
         value={value}
         min={-40}
@@ -114,7 +112,6 @@ export function MultiButtons() {
         <Slider
           top="x-large"
           label="Label with some text"
-          labelDirection="vertical"
           multiThumbBehavior="push"
           value={value}
           min={100}
@@ -134,7 +131,6 @@ export function MultiButtons() {
         <Slider
           top="x-large"
           label="Label with some text"
-          labelDirection="vertical"
           value={valueSecond}
           min={100}
           max={1000}
@@ -184,7 +180,6 @@ const SliderStory = () => {
         <VerticalWrapper>
           <Slider
             label="Label Lobortis lacus ac ligula vehicula Metus nullam ut at pellentesque:"
-            labelDirection="vertical"
             suffix="123"
             min={0}
             max={100}
