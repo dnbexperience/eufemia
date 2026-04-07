@@ -711,7 +711,7 @@ function TabsComponent(ownProps: TabsProps) {
   // Focus tab button when focusKey changes
   useUpdateEffect(() => {
     setFocusOnTabButton()
-  }, [focusKey]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [focusKey])
 
   const openTab = useCallback(
     (newSelectedKey, event = null, mode = null) => {
@@ -760,7 +760,7 @@ function TabsComponent(ownProps: TabsProps) {
   // Scroll on open tab (handleVerticalScroll)
   useUpdateEffect(() => {
     handleVerticalScroll()
-  }, [selectedKey]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [selectedKey])
 
   const onResizeHandler = useCallback(() => {
     const scrollbarVisible = checkHasScrollbar()
