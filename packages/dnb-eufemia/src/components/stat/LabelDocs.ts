@@ -34,7 +34,7 @@ export const LabelProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'Label color style variant. `"default"` is deprecated — use `"plain"` instead.',
+    doc: 'Label color style variant.',
     type: ['"plain"', '"subtle"'],
     defaultValue: 'plain',
     status: 'optional',

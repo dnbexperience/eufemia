@@ -145,33 +145,6 @@ describe('Stat.Label', () => {
     expect(contextSkeleton).toBe(false)
   })
 
-  it('warns when deprecated variant="default" is used and maps to plain', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
-
-    render(
-      <Stat.Root>
-        <Stat.Label variant="default">Revenue growth</Stat.Label>
-      </Stat.Root>
-    )
-
-    const label = document.querySelector('.dnb-stat__label')
-
-    expect(label.classList).toContain('dnb-stat__label--plain')
-    expect(label.classList).not.toContain('dnb-stat__label--default')
-
-    const didWarn = spy.mock.calls.some((call) =>
-      call
-        .map((entry) => String(entry))
-        .join(' ')
-        .includes(
-          'Stat.Label variant="default" is deprecated. Use variant="plain" instead.'
-        )
-    )
-
-    expect(didWarn).toBe(true)
-    spy.mockRestore()
-  })
-
   it('supports spacing props', () => {
     render(
       <Stat.Root>
