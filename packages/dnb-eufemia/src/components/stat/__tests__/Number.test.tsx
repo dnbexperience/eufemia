@@ -1,6 +1,9 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { axeComponent, spyOnEufemiaWarn } from '../../../core/jest/jestSetup'
+import {
+  axeComponent,
+  spyOnEufemiaWarn,
+} from '../../../core/jest/jestSetup'
 import Provider from '../../../shared/Provider'
 import Stat from '../Stat'
 import NumberComponent from '../Number'
