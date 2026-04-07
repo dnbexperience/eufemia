@@ -59,11 +59,11 @@ function Content(props: ContentProps) {
   applySkeletonAttributes(attributes)
 
   return (
-    <StatRootContext.Provider value={{ inRoot, skeleton: hasSkeleton }}>
+    <StatRootContext value={{ inRoot, skeleton: hasSkeleton }}>
       <Provider skeleton={hasSkeleton}>
         <Element {...attributes}>{children}</Element>
       </Provider>
-    </StatRootContext.Provider>
+    </StatRootContext>
   )
 }
 
