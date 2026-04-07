@@ -19,7 +19,7 @@ import IterateItemContext from '../IterateItemContext'
 import DataContext from '../../DataContext/Context'
 import VisibilityContext from '../../Form/Visibility/VisibilityContext'
 import useDataValue from '../../hooks/useDataValue'
-import type { AllProps as EditContainerProps } from '../EditContainer'
+import type { IterateEditContainerAllProps as EditContainerProps } from '../EditContainer'
 import EditContainer, {
   DoneButton,
   CancelButton,
@@ -139,11 +139,11 @@ export type IteratePushContainerProps = (
   children: React.ReactNode
 } & Pick<IsolationProps<JsonObject>, 'dataReference'>
 
-export type AllProps = IteratePushContainerProps &
+export type IteratePushContainerAllProps = IteratePushContainerProps &
   SpacingProps &
   Omit<EditContainerProps, 'data'>
 
-function PushContainer(props: AllProps) {
+function PushContainer(props: IteratePushContainerAllProps) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const outerContext = useContext(DataContext)
   const { data: outerData, required: requiredInherited } = outerContext

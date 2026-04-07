@@ -16,11 +16,12 @@ export type FormSectionViewContainerProps = {
   onEdit?: () => void
 }
 
-export type AllProps = FormSectionViewContainerProps &
-  SectionContainerProps &
-  FlexContainerProps
+export type FormSectionViewContainerAllProps =
+  FormSectionViewContainerProps &
+    SectionContainerProps &
+    FlexContainerProps
 
-function ViewContainer(props: AllProps) {
+function ViewContainer(props: FormSectionViewContainerAllProps) {
   const { children, className, title, onEdit, ...restProps } = props || {}
   const ariaLabel = useMemo(() => convertJsxToString(title), [title])
   const { disableEditing } = useContext(SectionContainerContext) || {}
