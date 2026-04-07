@@ -202,17 +202,23 @@ function getValue(props: TextareaProps) {
 function getResizeModifier() {
   try {
     if (typeof navigator !== 'undefined') {
+      const platform =
+        (
+          navigator as Navigator & {
+            userAgentData?: { platform?: string }
+          }
+        ).userAgentData?.platform || navigator.platform
+
       if (
         /Firefox|Edg/.test(navigator.userAgent) ||
-        (/Chrome/.test(navigator.userAgent) &&
-          /Win/.test(navigator.platform))
+        (/Chrome/.test(navigator.userAgent) && /Win/.test(platform))
       ) {
         return 'large'
       }
 
       if (
         /Safari|Chrome/.test(navigator.userAgent) &&
-        /Mac/.test(navigator.platform)
+        /Mac/.test(platform)
       ) {
         return 'medium'
       }
