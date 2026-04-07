@@ -14,10 +14,7 @@ const infoContextValue = {
 
 type InfoOwnProps = {
   element?: keyof React.JSX.IntrinsicElements
-  variant?:
-    | 'plain'
-    | 'subtle'
-    | 'prominent'
+  variant?: 'plain' | 'subtle' | 'prominent'
   skeleton?: SkeletonShow
 }
 

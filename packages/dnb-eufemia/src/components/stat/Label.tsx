@@ -18,9 +18,7 @@ type LabelOwnProps = {
   srOnly?: boolean
   fontSize?: TypographySize
   fontWeight?: TypographyWeight
-  variant?:
-    | 'plain'
-    | 'subtle'
+  variant?: 'plain' | 'subtle'
   skeleton?: SkeletonShow
 }
 
