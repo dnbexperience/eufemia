@@ -68,7 +68,7 @@
     "publish:prepare": "./scripts/postbuild/publish-prepare.sh",
     "reset": "rm -rf ./node_modules ./build",
     "skeleton:font": "nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/tools/createSkeletonFont.js'",
-    "start": "NODE_OPTIONS=--max-old-space-size=8192 storybook dev -p 8002 --no-open --ci --no-version-updates --disable-telemetry",
+    "start": "storybook dev -p 8002 --no-open --ci --no-version-updates --disable-telemetry",
     "test": "yarn jest",
     "test:ci": "yarn jest --ci",
     "test:deps": "depcruise -c .dependency-cruiser.js src",
@@ -160,8 +160,7 @@
     "@semantic-release/github": "8.0.7",
     "@semantic-release/npm": "12.0.2",
     "@semantic-release/release-notes-generator": "10.0.3",
-    "@storybook/addon-webpack5-compiler-swc": "4.0.3",
-    "@storybook/react-webpack5": "10.3.4",
+    "@storybook/react-vite": "10.3.4",
     "@svgr/core": "6.5.1",
     "@svgr/plugin-jsx": "6.5.1",
     "@svgr/plugin-svgo": "6.5.1",
@@ -241,7 +240,6 @@
     "start-server-and-test": "2.0.1",
     "storybook": "10.3.4",
     "storybook-utils": "workspace:*",
-    "style-loader": "3.3.1",
     "stylelint": "15.9.0",
     "stylelint-config-recommended": "12.0.0",
     "stylelint-config-standard-scss": "9.0.0",
@@ -250,7 +248,8 @@
     "traverse": "0.6.6",
     "tsdown": "0.14.2",
     "typescript": "5.9.3",
-    "vd-tool": "4.0.2"
+    "vd-tool": "4.0.2",
+    "vite": "8.0.5"
   },
   "keywords": [
     "Accessibility",

@@ -1,57 +1,30 @@
 import { createRequire } from 'node:module'
 import { dirname, join } from 'node:path'
-import type { Options } from '@swc/core'
-import type { StorybookConfig } from '@storybook/react-webpack5'
+import type { StorybookConfig } from '@storybook/react-vite'
 
 const require = createRequire(import.meta.url)
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.stories.tsx'],
-  addons: [getAbsolutePath('@storybook/addon-webpack5-compiler-swc')],
+  addons: [],
   framework: {
-    name: getAbsolutePath('@storybook/react-webpack5'),
-    options: {
-      builder: {
-        lazyCompilation: true,
-      },
-    },
-  },
-  webpackFinal: async (config) => {
-    config.module?.rules?.push({
-      test: /\.scss$/,
-      use: [
-        'style-loader',
-        {
-          loader: 'css-loader',
-          options: { sourceMap: false },
-        },
-        {
-          loader: 'sass-loader',
-          options: { sourceMap: false },
-        },
-      ],
-    })
-
-    // Disable source maps — the compiled SCSS output is too large
-    // for SourceMapDevToolPlugin (exceeds V8 max string length)
-    config.devtool = false
-
-    return config
-  },
-  swc: (config: Options): Options => {
-    if (config.jsc) {
-      config.jsc.transform = {
-        react: {
-          runtime: 'automatic',
-        },
-      }
-    }
-    return config
+    name: getAbsolutePath('@storybook/react-vite'),
+    options: {},
   },
   core: {
     disableTelemetry: true,
     disableWhatsNewNotifications: true,
     enableCrashReports: false,
+  },
+  viteFinal: async (config) => {
+    // Disable the project's postcss.config.js which scopes all styles
+    // under .eufemia-scope--portal (not present in Storybook's DOM)
+    config.css = {
+      ...config.css,
+      postcss: {},
+    }
+
+    return config
   },
 }
 export default config
