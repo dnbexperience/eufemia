@@ -228,7 +228,7 @@
     "packpath": "0.1.0",
     "postcss": "8.4.32",
     "postcss-preset-env": "9.6.0",
-    "prettier": "3.0.3",
+    "prettier": "3.8.1",
     "prettier-package-json": "2.8.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
