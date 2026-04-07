@@ -294,6 +294,10 @@
         grid-row: 1 / -1; // Center vertically
         text-decoration: none;
         color: inherit;
+
+        &:visited {
+          color: inherit;
+        }
       }
 
       // Handle action states
