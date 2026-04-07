@@ -14,6 +14,7 @@
 
 const DEFAULT_THRESHOLD = 5
 
+/** @type {import('eslint').Rule.RuleModule} */
 module.exports = {
   meta: {
     type: 'suggestion',
