@@ -40,11 +40,13 @@ export type IterateEditContainerProps = {
   toolbarVariant?: ArrayItemAreaProps['toolbarVariant']
 }
 
-export type AllProps = IterateEditContainerProps &
+export type IterateEditContainerAllProps = IterateEditContainerProps &
   Omit<FlexContainerProps, 'onAnimationEnd'> &
   ArrayItemAreaProps
 
-export default function EditContainer(props: AllProps) {
+export default function EditContainer(
+  props: IterateEditContainerAllProps
+) {
   const { toolbar, toolbarVariant, children, ...rest } = props
   const { arrayValue } = useContext(IterateItemContext)
 

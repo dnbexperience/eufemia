@@ -20,11 +20,12 @@ export type FormSectionEditContainerProps = {
   onCancel?: () => void
 }
 
-export type AllProps = FormSectionEditContainerProps &
-  SectionContainerProps &
-  FlexContainerProps
+export type FormSectionEditContainerAllProps =
+  FormSectionEditContainerProps &
+    SectionContainerProps &
+    FlexContainerProps
 
-function EditContainer(props: AllProps) {
+function EditContainer(props: FormSectionEditContainerAllProps) {
   const { children, className, title, onDone, onCancel, ...restProps } =
     props || {}
   const ariaLabel = useMemo(() => convertJsxToString(title), [title])

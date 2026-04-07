@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
 import IterateItemContext from '../IterateItemContext'
-import type { AllProps } from '../EditContainer'
+import type { IterateEditContainerAllProps } from '../EditContainer'
 import { EditContainerWithoutToolbar } from '../EditContainer'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-function AnimatedContainer(props: AllProps) {
+function AnimatedContainer(props: IterateEditContainerAllProps) {
   const iterateItemContext = useContext(IterateItemContext)
   const { isNew } = iterateItemContext ?? {}
 
