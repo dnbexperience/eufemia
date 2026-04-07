@@ -189,17 +189,6 @@
   }
 }
 
-@mixin extendFocusRing(
-  $first-color: null,
-  $second-color: null,
-  $width: 0.0625rem /*1px*/
-) {
-  $second: 0 0 0 calc(var(--focus-ring-width) + #{$width}) $second-color;
-  box-shadow:
-    0 0 0 $width $first-color,
-    $second;
-}
-
 @mixin dummySpacing() {
   // we use "aria-hidden" SPAN to simulate a wider width for each tab
   .dnb-dummy {

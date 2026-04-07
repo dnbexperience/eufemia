@@ -28,6 +28,7 @@ v11 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 12. Replace `styleType` (or `style_type`) with `backgroundColor` on Breadcrumb, Dialog.Body, and Drawer.Body components.
 13. Remove `spacing` on Section. Use `innerSpace={{ block: 'large' }}` instead (see [Section](#section)).
 14. Replace `contentSpacing` with `contentInnerSpace` and `tabsSpacing` with `tabsInnerSpace` on the Tabs component.
+15. If you use the `extendFocusRing` or `componentReset` SCSS mixins, remove them — they have been deleted (see [Removed SCSS mixins](#removed-scss-mixins)).
 
 ### innerRef → ref
 
@@ -1458,6 +1459,13 @@ These were previously used to support dual snake_case/camelCase prop naming. Sin
 #### Updated SCSS mixin: `IS_FF`
 
 The `IS_FF()` SCSS mixin now uses `@supports (-moz-appearance: none)` instead of the deprecated `@-moz-document url-prefix()` hack. No changes needed if you use the mixin — it works the same way.
+
+#### Removed SCSS mixins
+
+The following SCSS mixins have been removed:
+
+- **`extendFocusRing`** (`style/core/utilities.scss`) — added an outer ring on top of `focusRing`. Replace with a custom `box-shadow` if needed.
+- **`componentReset`** (`style/core/scopes.scss`) — applied core CSS reset rules to a single component. Use the global Eufemia CSS reset instead.
 
 ## Eufemia Forms
 
