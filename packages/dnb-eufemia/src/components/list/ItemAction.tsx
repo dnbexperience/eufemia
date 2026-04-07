@@ -23,7 +23,7 @@ export type ItemActionProps = {
   element?: AnchorProps['element']
   target?: string
   rel?: string
-} & Omit<ItemContentProps, 'title'>
+} & Omit<ItemContentProps, 'title' | 'element'>
 
 function ItemAction(props: ItemActionProps) {
   const {
