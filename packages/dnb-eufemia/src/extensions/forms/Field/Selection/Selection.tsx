@@ -468,7 +468,7 @@ function renderRadioItems({
       return createOption(props as OptionProps, i)
     }),
     ...(mapOptions(children, { createOption }) || []),
-  ].filter(Boolean)
+  ].filter(Boolean) as React.ReactNode[]
 }
 
 export function countOptions(children: React.ReactNode): number {

@@ -315,7 +315,7 @@ export function useCheckboxOrToggleOptions({
     ),
     // @ts-expect-error - strictFunctionTypes
     ...(mapOptions(children, { createOption }) || []).filter(Boolean),
-  ]
+  ] as React.ReactNode[]
 
   if (handleActiveData) {
     handleActiveData({
