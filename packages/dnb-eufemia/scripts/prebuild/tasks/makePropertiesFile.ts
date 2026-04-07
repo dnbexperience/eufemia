@@ -21,6 +21,41 @@ const TOKEN_GROUP_SEPARATOR = '-'
 const TOKEN_CSS_PREFIX = '--'
 const CSS_VARIABLE_REFERENCE_REGEX = /var\(\s*(--[a-z0-9-]+)\s*\)/gi
 const CSS_VARIABLE_DECLARATION_REGEX = /^\s*(--[a-z0-9-]+)\s*:/i
+
+function parseCSSVariables(content: string): Record<string, string> {
+  const variables: Record<string, string> = {}
+  const lines = content.split('\n')
+  let currentProp = ''
+  let currentValue = ''
+  let collecting = false
+
+  for (const line of lines) {
+    const trimmed = line.trim()
+
+    if (trimmed.startsWith('--')) {
+      const colonIdx = trimmed.indexOf(':')
+      if (colonIdx !== -1) {
+        currentProp = trimmed.substring(0, colonIdx).trim()
+        currentValue = trimmed.substring(colonIdx + 1).trim()
+        collecting = true
+      }
+    } else if (collecting) {
+      currentValue += ' ' + trimmed
+    }
+
+    if (collecting && currentValue.includes(';')) {
+      variables[currentProp] = currentValue
+        .split(';')[0]
+        .replace(/\/\* .* \*\//g, '')
+        .trim()
+      collecting = false
+      currentProp = ''
+      currentValue = ''
+    }
+  }
+
+  return variables
+}
 const TOKEN_SETS = {
   colors: {
     fileName: 'color.tokens.json',
@@ -41,18 +76,7 @@ export default async function makePropertiesFile() {
 }
 
 const transformModulesContent = async (content: string) => {
-  const variables = content
-    .split('\n')
-    .map((s) => s.trim())
-    .filter((s) => s.startsWith('--'))
-    .map((s) => s.split(':').map((s) => s.trim()))
-    .reduce((acc, [k, v]) => {
-      acc[k] = v
-        .split(';')[0]
-        .replace(/\/\* .* \*\//g, '')
-        .trim()
-      return acc
-    }, {})
+  const variables = parseCSSVariables(content)
 
   return (
     String(
@@ -72,18 +96,7 @@ export default ${JSON.stringify(variables, null, 2)}`,
 }
 
 const transformModulesContentCSS = async (content: string) => {
-  const variables = content
-    .split('\n')
-    .map((s) => s.trim())
-    .filter((s) => s.startsWith('--'))
-    .map((s) => s.split(':').map((s) => s.trim()))
-    .reduce((acc, [k, v]) => {
-      acc[k] = v
-        .split(';')[0]
-        .replace(/\/\* .* \*\//g, '')
-        .trim()
-      return acc
-    }, {})
+  const variables = parseCSSVariables(content)
 
   // Convert --sb-* variables to Tailwind-compatible format
   const convertedVariables = convertVariablesToTailwindFormat(variables)
