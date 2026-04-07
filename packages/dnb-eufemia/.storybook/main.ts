@@ -1,18 +1,42 @@
-import { join, dirname } from 'path'
+import { createRequire } from 'node:module'
+import { dirname, join } from 'node:path'
 import type { Options } from '@swc/core'
 import type { StorybookConfig } from '@storybook/react-webpack5'
 
+const require = createRequire(import.meta.url)
+
 const config: StorybookConfig = {
   stories: ['../src/**/*.stories.tsx'],
-  addons: [
-    getAbsolutePath('@storybook/preset-scss'),
-    getAbsolutePath('@storybook/addon-webpack5-compiler-swc'),
-    getAbsolutePath('@storybook/addon-essentials'),
-    getAbsolutePath('@storybook/addon-interactions'),
-  ],
+  addons: [getAbsolutePath('@storybook/addon-webpack5-compiler-swc')],
   framework: {
     name: getAbsolutePath('@storybook/react-webpack5'),
-    options: {},
+    options: {
+      builder: {
+        lazyCompilation: true,
+      },
+    },
+  },
+  webpackFinal: async (config) => {
+    config.module?.rules?.push({
+      test: /\.scss$/,
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: { sourceMap: false },
+        },
+        {
+          loader: 'sass-loader',
+          options: { sourceMap: false },
+        },
+      ],
+    })
+
+    // Disable source maps — the compiled SCSS output is too large
+    // for SourceMapDevToolPlugin (exceeds V8 max string length)
+    config.devtool = false
+
+    return config
   },
   swc: (config: Options): Options => {
     if (config.jsc) {
