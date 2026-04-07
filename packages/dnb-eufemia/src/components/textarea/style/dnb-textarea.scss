@@ -329,12 +329,7 @@
   }
 
   // with statusState = "error"
-  &__status--error:not(#{&}--focus)
-    &__textarea:not([disabled]):not(#{&}--disabled) {
-    --textarea-color-text: var(--token-color-text-destructive);
-  }
-
-  &__status--error:not(#{&}--focus)
+  &__status--error
     &__textarea:not([disabled]):not(#{&}--disabled)
     ~ &__state {
     --textarea-color-border: var(--token-color-stroke-error);

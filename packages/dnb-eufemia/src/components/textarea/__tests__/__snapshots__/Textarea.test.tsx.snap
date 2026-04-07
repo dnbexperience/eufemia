@@ -471,10 +471,7 @@ html[data-visual-test] .dnb-textarea__textarea {
     --token-color-stroke-action-hover
   );
 }
-.dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled) {
-  --textarea-color-text: var(--token-color-text-destructive);
-}
-.dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled) ~ .dnb-textarea__state {
+.dnb-textarea__status--error .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled) ~ .dnb-textarea__state {
   --textarea-color-border: var(--token-color-stroke-error);
 }"
 `;
