@@ -352,13 +352,15 @@ export type ErrorProp<Value> = MessageProp<
   | Array<string | React.ReactElement | Error | FormError>
 >
 
-export type UseFieldProps<
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+interface UseFieldPropsInterface<
   Value = unknown,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
   ExtraValue extends
     ProvideAdditionalEventArgs = ProvideAdditionalEventArgs,
-> = {
+> extends DataValueReadWriteComponentProps<Value, EmptyValue>,
+    AriaAttributes {
   // - HTML Element Attributes
   /**
    * ID added to the actual field component, and linked to the label via for-attribute
@@ -494,8 +496,15 @@ export type UseFieldProps<
    * For internal use only.
    */
   valueType?: string | number | boolean | Array<string | number | boolean>
-} & DataValueReadWriteComponentProps<Value, EmptyValue> &
-  AriaAttributes
+}
+
+export type UseFieldProps<
+  Value = unknown,
+  EmptyValue = undefined | unknown,
+  ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
+  ExtraValue extends
+    ProvideAdditionalEventArgs = ProvideAdditionalEventArgs,
+> = UseFieldPropsInterface<Value, EmptyValue, ErrorMessages, ExtraValue>
 
 export type FieldProps<
   Value = unknown,
@@ -528,7 +537,9 @@ export type FieldPropsWithExtraValue<
 > &
   DataValueWriteProps<Value, EmptyValue, ExtraValue>
 
-export type ValueProps<Value = unknown> = {
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+interface ValuePropsInterface<Value = unknown>
+  extends DataValueReadComponentProps<Value> {
   /**
    * Field label to show above the data value.
    */
@@ -593,7 +604,9 @@ export type ValueProps<Value = unknown> = {
    * Transforms the given props `value` before any other step gets entered.
    */
   fromExternal?: (external: Value) => Value
-} & DataValueReadComponentProps<Value>
+}
+
+export type ValueProps<Value = unknown> = ValuePropsInterface<Value>
 
 export type Path = string
 export type PathStrict = `/${string}`
