@@ -984,6 +984,17 @@ render(<Logo svg={SbankenCompact} />)
 
 ### [FormStatus](/uilib/components/form-status/)
 
+#### Icon colors via CSS custom properties
+
+The `ErrorIcon`, `WarnIcon`, `InfoIcon`, and `MarketingIcon` components now use CSS custom properties (`--form-status-color-icon` and `--form-status-color-icon-detail`) for their fill and stroke colors instead of importing theme property files at the JS level. This change reduces bundle size by ~15 KB by eliminating static imports of both theme property maps.
+
+If you use these icon components standalone (outside of a `FormStatus` or `GlobalStatus`), you need to ensure the following CSS custom properties are defined in a parent element:
+
+- `--form-status-color-icon` — the primary icon fill color
+- `--form-status-color-icon-detail` — the icon inner detail color (e.g., exclamation mark)
+
+The icon colors now align with the design token system (`--token-color-icon-error`, `--token-color-icon-warning`, etc.), which may result in minor color differences in the Sbanken theme compared to the previous hardcoded values.
+
 #### Properties
 
 - Replace `no_animation` with `noAnimation`.

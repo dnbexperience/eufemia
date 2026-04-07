@@ -7,7 +7,7 @@ import useMountEffect from '../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../shared/helpers/useUpdateEffect'
 import clsx from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import { useTheme, Context } from '../../shared'
+import { Context } from '../../shared'
 import useId from '../../shared/helpers/useId'
 import {
   validateDOMAttributes,
@@ -27,14 +27,10 @@ import {
   pickFormElementProps,
   type FormElementProps,
 } from '../../shared/helpers/filterValidProps'
-import ui from '../../style/themes/ui/properties'
-import sbanken from '../../style/themes/sbanken/properties'
 import type { GlobalStatusConfigObject } from '../GlobalStatus'
 import type { IconIcon, IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps, SpaceTypeAll } from '../../shared/types'
-
-const properties = { ui, sbanken }
 
 export type FormStatusText =
   | string
@@ -579,28 +575,21 @@ export default FormStatus
 
 export const ErrorIcon = (props: ErrorIconProps) => {
   const { title = 'error' } = props || {}
-  const isSbankenTheme = useTheme()?.name === 'sbanken'
-  const fill = isSbankenTheme
-    ? properties.sbanken['--sb-color-magenta']
-    : properties.ui['--color-fire-red']
-  const line = isSbankenTheme
-    ? properties.sbanken['--sb-color-magenta-light-2']
-    : properties.ui['--color-white']
 
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
       <title>{title}</title>
       <path
         d="M23.625 17.864A3.547 3.547 0 0120.45 23H3.548a3.546 3.546 0 01-3.172-5.136l8.45-14.902a3.548 3.548 0 016.347 0l8.452 14.902z"
-        fill={fill}
+        style={{ fill: 'var(--form-status-color-icon)' }}
       />
       <path
         d="M12 16.286a1.286 1.286 0 100 2.572 1.286 1.286 0 000-2.572z"
-        fill={line}
+        style={{ fill: 'var(--form-status-color-icon-detail)' }}
       />
       <path
         d="M12 13.818v-5"
-        stroke={line}
+        style={{ stroke: 'var(--form-status-color-icon-detail)' }}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -611,28 +600,21 @@ export const ErrorIcon = (props: ErrorIconProps) => {
 
 export const WarnIcon = (props: WarnIconProps) => {
   const { title = 'error' } = props || {}
-  const isSbankenTheme = useTheme()?.name === 'sbanken'
-  const fill = isSbankenTheme
-    ? properties.sbanken['--sb-color-yellow-dark']
-    : properties.ui['--color-accent-yellow']
-  const line = isSbankenTheme
-    ? properties.sbanken['--sb-color-black']
-    : properties.ui['--color-black-80']
 
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
       <title>{title}</title>
       <path
         d="M23.625 17.864A3.547 3.547 0 0120.45 23H3.548a3.546 3.546 0 01-3.172-5.136l8.45-14.902a3.548 3.548 0 016.347 0l8.452 14.902z"
-        fill={fill}
+        style={{ fill: 'var(--form-status-color-icon)' }}
       />
       <path
         d="M12 16.286a1.286 1.286 0 100 2.572 1.286 1.286 0 000-2.572z"
-        fill={line}
+        style={{ fill: 'var(--form-status-color-icon-detail)' }}
       />
       <path
         d="M12 13.818v-5"
-        stroke={line}
+        style={{ stroke: 'var(--form-status-color-icon-detail)' }}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -643,19 +625,6 @@ export const WarnIcon = (props: WarnIconProps) => {
 
 export const InfoIcon = (props: InfoIconProps) => {
   const { title = 'information' } = props || {}
-  const isSbankenTheme = useTheme()?.name === 'sbanken'
-  let fill = isSbankenTheme
-    ? properties.sbanken['--sb-color-green-dark-2']
-    : properties.ui['--color-sea-green']
-  if (props && props?.state === 'success') {
-    fill = isSbankenTheme
-      ? properties.sbanken['--sb-color-green-dark-3']
-      : properties.ui['--color-summer-green']
-  }
-
-  const line = isSbankenTheme
-    ? properties.sbanken['--sb-color-green-light-2']
-    : properties.ui['--color-white']
 
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
@@ -664,12 +633,20 @@ export const InfoIcon = (props: InfoIconProps) => {
         fillRule="evenodd"
         clipRule="evenodd"
         d="M11.268 0a11.25 11.25 0 105.566 21.017l6.112 2.91a.75.75 0 001-1l-2.911-6.112A11.234 11.234 0 0011.268 0z"
-        fill={fill}
+        style={{ fill: 'var(--form-status-color-icon)' }}
       />
-      <circle cx="11" cy="6.5" r=".5" fill="#fff" stroke={line} />
+      <circle
+        cx="11"
+        cy="6.5"
+        r=".5"
+        style={{
+          fill: 'var(--form-status-color-icon-detail)',
+          stroke: 'var(--form-status-color-icon-detail)',
+        }}
+      />
       <path
         d="M13.75 16H13a1.5 1.5 0 01-1.5-1.5v-3.75a.75.75 0 00-.75-.75H10"
-        stroke={line}
+        style={{ stroke: 'var(--form-status-color-icon-detail)' }}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -680,10 +657,6 @@ export const InfoIcon = (props: InfoIconProps) => {
 
 export const MarketingIcon = (props: MarketingIconProps) => {
   const { title = 'marketing' } = props || {}
-  const isSbankenTheme = useTheme()?.name === 'sbanken'
-  const fill = isSbankenTheme
-    ? properties.sbanken['--sb-color-violet-light']
-    : properties.ui['--color-black-80']
 
   return (
     <svg
@@ -696,7 +669,7 @@ export const MarketingIcon = (props: MarketingIconProps) => {
       <title>{title}</title>
       <path
         d="M6 15.25H4.5c-2.042 0-3.75-1.707-3.75-3.75S2.458 7.75 4.5 7.75H6v7.5ZM7.5 15.25c4.801 0 8.846 1.897 12.75 4.5V3.25c-3.904 2.603-7.949 4.5-12.75 4.5v7.5ZM23.25 10a.75.75 0 0 0-1.5 0h1.5Zm-1.5 3a.75.75 0 0 0 1.5 0h-1.5ZM8.483 21.043a.75.75 0 1 0 1.034-1.086l-1.034 1.086ZM21.75 10v3h1.5v-3h-1.5ZM6 15.25a8.058 8.058 0 0 0 2.483 5.793l1.034-1.086A6.559 6.559 0 0 1 7.5 15.25H6Z"
-        fill={fill}
+        style={{ fill: 'var(--form-status-color-icon)' }}
       />
     </svg>
   )

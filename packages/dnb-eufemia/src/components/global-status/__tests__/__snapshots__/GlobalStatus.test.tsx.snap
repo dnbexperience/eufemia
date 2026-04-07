@@ -184,12 +184,27 @@ p > .dnb-icon {
     --token-color-background-error-subtle
   );
   --form-status-color-icon: var(--token-color-icon-error);
+  --form-status-color-icon-detail: var(
+    --token-color-icon-neutral-inverse
+  );
 }
 .dnb-form-status--information .dnb-form-status__shell {
   --form-status-color-background: var(
     --token-color-background-info-subtle
   );
   --form-status-color-icon: var(--token-color-icon-info);
+  --form-status-color-icon-detail: var(
+    --token-color-icon-neutral-inverse
+  );
+}
+.dnb-form-status--success .dnb-form-status__shell {
+  --form-status-color-background: var(
+    --token-color-background-positive-subtle
+  );
+  --form-status-color-icon: var(--token-color-icon-positive);
+  --form-status-color-icon-detail: var(
+    --token-color-icon-neutral-inverse
+  );
 }
 .dnb-form-status--marketing .dnb-form-status__shell {
   --form-status-color-background: var(
@@ -202,6 +217,7 @@ p > .dnb-icon {
     --token-color-background-warning-subtle
   );
   --form-status-color-icon: var(--token-color-icon-warning);
+  --form-status-color-icon-detail: var(--token-color-text-neutral);
 }
 .dnb-form-status__variant--outlined.dnb-form-status--error .dnb-form-status__shell {
   --form-status-color-outline: var(--token-color-stroke-error);
@@ -1212,6 +1228,28 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-global-status__content .dnb-ul .dnb-anchor:last-of-type, .dnb-spacing .dnb-global-status__content .dnb-ul .dnb-anchor:last-of-type, .dnb-spacing .dnb-global-status__content .dnb-ul:not([class*=dnb-space]) .dnb-anchor:last-of-type {
   margin-left: 0.5rem;
+}
+.dnb-global-status--error {
+  --form-status-color-icon: var(--token-color-icon-error);
+  --form-status-color-icon-detail: var(
+    --token-color-icon-neutral-inverse
+  );
+}
+.dnb-global-status--information {
+  --form-status-color-icon: var(--token-color-icon-info);
+  --form-status-color-icon-detail: var(
+    --token-color-icon-neutral-inverse
+  );
+}
+.dnb-global-status--success {
+  --form-status-color-icon: var(--token-color-icon-positive);
+  --form-status-color-icon-detail: var(
+    --token-color-icon-neutral-inverse
+  );
+}
+.dnb-global-status--warning {
+  --form-status-color-icon: var(--token-color-icon-warning);
+  --form-status-color-icon-detail: var(--token-color-text-neutral);
 }
 .dnb-global-status--information .dnb-global-status__shell, .dnb-global-status--success .dnb-global-status__shell {
   --global-status-underline-color: var(--token-color-stroke-info);

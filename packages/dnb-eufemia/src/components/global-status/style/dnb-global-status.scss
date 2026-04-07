@@ -109,6 +109,33 @@
     }
   }
 
+  // Icon colors
+  &--error {
+    --form-status-color-icon: var(--token-color-icon-error);
+    --form-status-color-icon-detail: var(
+      --token-color-icon-neutral-inverse
+    );
+  }
+
+  &--information {
+    --form-status-color-icon: var(--token-color-icon-info);
+    --form-status-color-icon-detail: var(
+      --token-color-icon-neutral-inverse
+    );
+  }
+
+  &--success {
+    --form-status-color-icon: var(--token-color-icon-positive);
+    --form-status-color-icon-detail: var(
+      --token-color-icon-neutral-inverse
+    );
+  }
+
+  &--warning {
+    --form-status-color-icon: var(--token-color-icon-warning);
+    --form-status-color-icon-detail: var(--token-color-text-neutral);
+  }
+
   // Underline colors
   &--information &__shell,
   // No designs for success state in Figma, treat as information until verified by design team
