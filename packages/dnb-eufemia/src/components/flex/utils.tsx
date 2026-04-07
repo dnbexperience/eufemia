@@ -134,7 +134,6 @@ export function renderWithSpacing(
             wrapWithSpace({
               element: element as React.ReactNode,
               spaceProps,
-              spaceProps,
               wrapInSpace,
             })
           )
