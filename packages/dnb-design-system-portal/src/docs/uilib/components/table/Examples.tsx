@@ -1884,7 +1884,7 @@ export const InCard = () => (
               </Heading>
             </Flex.Horizontal>
 
-            <Dropdown data={['My list', 'All']} moreMenu />
+            <Dropdown data={['My list', 'All']} mode="more-menu" />
           </Flex.Horizontal>
           <MyTable />
         </Card>
