@@ -447,6 +447,12 @@ export default [
           allowlist: [],
         },
       ],
+      'component-types/no-inline-type-exports': [
+        'warn',
+        {
+          threshold: 5,
+        },
+      ],
     },
   },
   {
