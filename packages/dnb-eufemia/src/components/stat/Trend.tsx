@@ -82,7 +82,7 @@ function Trend(props: TrendProps) {
       skeleton={skeleton}
       textClassName={false}
     >
-      <StatValueContext.Provider value={trendContextValue}>
+      <StatValueContext value={trendContextValue}>
         <span className="dnb-stat__trend-content" aria-hidden>
           {!hasCustomChildren && sign ? (
             <span className="dnb-stat__trend-sign">{sign}</span>
@@ -91,7 +91,7 @@ function Trend(props: TrendProps) {
             {hasCustomChildren ? children : displayValue}
           </span>
         </span>
-      </StatValueContext.Provider>
+      </StatValueContext>
       <span className="dnb-sr-only" data-text={srText} />
     </Text>
   )

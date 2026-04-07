@@ -33,9 +33,9 @@ describe('useStatSkeleton', () => {
 
   it('resolves skeleton from StatRootContext', () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <StatRootContext.Provider value={{ inRoot: true, skeleton: true }}>
+      <StatRootContext value={{ inRoot: true, skeleton: true }}>
         {children}
-      </StatRootContext.Provider>
+      </StatRootContext>
     )
 
     const { result } = renderHook(() => useStatSkeleton(), { wrapper })
@@ -57,9 +57,9 @@ describe('useStatSkeleton', () => {
 
   it('local prop takes priority over Root context', () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <StatRootContext.Provider value={{ inRoot: true, skeleton: true }}>
+      <StatRootContext value={{ inRoot: true, skeleton: true }}>
         {children}
-      </StatRootContext.Provider>
+      </StatRootContext>
     )
 
     const { result } = renderHook(() => useStatSkeleton(false), {
@@ -73,9 +73,9 @@ describe('useStatSkeleton', () => {
   it('Root context takes priority over Provider', () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <Provider skeleton={false}>
-        <StatRootContext.Provider value={{ inRoot: true, skeleton: true }}>
+        <StatRootContext value={{ inRoot: true, skeleton: true }}>
           {children}
-        </StatRootContext.Provider>
+        </StatRootContext>
       </Provider>
     )
 

@@ -43,7 +43,7 @@ function Root(props: RootProps) {
   }
 
   return (
-    <StatRootContext.Provider value={{ inRoot: true, skeleton }}>
+    <StatRootContext value={{ inRoot: true, skeleton }}>
       <Space
         element="dl"
         id={id}
@@ -58,7 +58,7 @@ function Root(props: RootProps) {
       >
         {children}
       </Space>
-    </StatRootContext.Provider>
+    </StatRootContext>
   )
 }
 

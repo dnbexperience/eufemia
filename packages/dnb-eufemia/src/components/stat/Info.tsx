@@ -70,9 +70,9 @@ function Info(props: InfoProps) {
       skeleton={skeleton}
       textClassName={false}
     >
-      <StatValueContext.Provider value={infoContextValue}>
+      <StatValueContext value={infoContextValue}>
         {children}
-      </StatValueContext.Provider>
+      </StatValueContext>
     </Text>
   )
 }

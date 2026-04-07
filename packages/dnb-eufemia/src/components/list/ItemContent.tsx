@@ -63,9 +63,9 @@ function ItemContent(props: ItemContentProps) {
 
   if (appliedSkeleton) {
     return (
-      <Context.Provider value={{ ...context, skeleton: appliedSkeleton }}>
+      <Context value={{ ...context, skeleton: appliedSkeleton }}>
         {content}
-      </Context.Provider>
+      </Context>
     )
   }
 
