@@ -133,7 +133,7 @@ function ListScrollView(props: ListScrollViewProps) {
   const appliedDisabled = disabled ?? parentContext?.disabled
 
   return (
-    <ListContext.Provider
+    <ListContext
       value={{
         variant: parentContext?.variant ?? 'basic',
         separated: parentContext?.separated ?? false,
@@ -142,7 +142,7 @@ function ListScrollView(props: ListScrollViewProps) {
       }}
     >
       {scrollViewContent}
-    </ListContext.Provider>
+    </ListContext>
   )
 }
 

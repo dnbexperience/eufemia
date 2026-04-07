@@ -93,11 +93,11 @@ function Label(props: LabelProps) {
   applySkeletonAttributes(attributes)
 
   return (
-    <StatRootContext.Provider value={{ inRoot, skeleton: childSkeleton }}>
+    <StatRootContext value={{ inRoot, skeleton: childSkeleton }}>
       <Provider skeleton={hasSkeleton}>
         <Element {...attributes}>{children}</Element>
       </Provider>
-    </StatRootContext.Provider>
+    </StatRootContext>
   )
 }
 

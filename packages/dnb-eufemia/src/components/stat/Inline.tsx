@@ -33,7 +33,7 @@ function Inline({
   applySkeletonAttributes(attributes as React.HTMLProps<HTMLElement>)
 
   return (
-    <StatRootContext.Provider value={{ inRoot, skeleton: hasSkeleton }}>
+    <StatRootContext value={{ inRoot, skeleton: hasSkeleton }}>
       <Provider skeleton={hasSkeleton}>
         <Flex.Horizontal
           {...rest}
@@ -50,7 +50,7 @@ function Inline({
           {children}
         </Flex.Horizontal>
       </Provider>
-    </StatRootContext.Provider>
+    </StatRootContext>
   )
 }
 
