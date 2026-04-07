@@ -1,4 +1,6 @@
+import React from 'react'
 import type { Preview } from '@storybook/react-vite'
+import IsolatedStyleScope from '@dnb/eufemia/src/shared/IsolatedStyleScope'
 
 import '@dnb/eufemia/src/style/dnb-ui-core.scss'
 
@@ -19,6 +21,13 @@ const preview: Preview = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <IsolatedStyleScope scopeHash="eufemia-scope--portal">
+        <Story />
+      </IsolatedStyleScope>
+    ),
+  ],
 }
 
 export default preview

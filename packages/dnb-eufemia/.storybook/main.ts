@@ -16,16 +16,6 @@ const config: StorybookConfig = {
     disableWhatsNewNotifications: true,
     enableCrashReports: false,
   },
-  viteFinal: async (config) => {
-    // Disable the project's postcss.config.js which scopes all styles
-    // under .eufemia-scope--portal (not present in Storybook's DOM)
-    config.css = {
-      ...config.css,
-      postcss: {},
-    }
-
-    return config
-  },
   typescript: {
     reactDocgen: false,
   },
