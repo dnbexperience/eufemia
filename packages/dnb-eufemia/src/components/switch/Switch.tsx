@@ -28,7 +28,7 @@ import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
 import type { FormStatusBaseProps } from '../form-status/FormStatus'
 import FormStatus from '../form-status/FormStatus'
-import useId from '../../shared/helpers/useId'
+import useComponentIds from '../../shared/helpers/useComponentIds'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../../shared/types'
 
@@ -146,7 +146,8 @@ function Switch(props: SwitchProps) {
   } = allProps
 
   const [, forceUpdate] = useReducer(() => ({}), {})
-  const id = useId(idProp)
+  const { id, labelId, statusId, formStatusId, suffixId } =
+    useComponentIds(idProp)
   const isFn = typeof refProp === 'function'
   const refHook = useRef<HTMLInputElement>(undefined)
   const inputRef = (!isFn && refProp) || refHook
@@ -265,8 +266,8 @@ function Switch(props: SwitchProps) {
   if (showStatus || suffix) {
     inputParams['aria-describedby'] = combineDescribedBy(
       inputParams,
-      showStatus ? id + '-status' : null,
-      suffix ? id + '-suffix' : null
+      showStatus ? statusId : null,
+      suffix ? suffixId : null
     )
   }
   if (readOnly) {
@@ -288,7 +289,7 @@ function Switch(props: SwitchProps) {
     () =>
       label && (
         <FormLabel
-          id={id + '-label'}
+          id={labelId}
           forId={id}
           text={label}
           disabled={disabled}
@@ -296,7 +297,7 @@ function Switch(props: SwitchProps) {
           srOnly={labelSrOnly}
         />
       ),
-    [disabled, id, label, labelSrOnly, skeleton]
+    [disabled, labelId, id, label, labelSrOnly, skeleton]
   )
 
   return (
@@ -309,10 +310,10 @@ function Switch(props: SwitchProps) {
 
           <FormStatus
             show={showStatus}
-            id={id + '-form-status'}
+            id={formStatusId}
             globalStatus={globalStatus}
             label={label}
-            widthSelector={id + ', ' + id + '-label'}
+            widthSelector={id + ', ' + labelId}
             text={status}
             state={statusState}
             skeleton={skeleton}
@@ -362,7 +363,7 @@ function Switch(props: SwitchProps) {
             {suffix && (
               <Suffix
                 className="dnb-switch__suffix"
-                id={id + '-suffix'} // used for "aria-describedby"
+                id={suffixId} // used for "aria-describedby"
                 context={props}
               >
                 {suffix}

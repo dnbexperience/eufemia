@@ -5,7 +5,7 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, { useContext, useRef, useState, useCallback } from 'react'
 import clsx from 'clsx'
-import useId from '../../shared/helpers/useId'
+import useComponentIds from '../../shared/helpers/useComponentIds'
 import {
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
@@ -146,7 +146,8 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   const groupContextRef = useRef(groupContext)
   groupContextRef.current = groupContext
 
-  const id = useId(ownProps.id)
+  const { id, labelId, statusId, formStatusId, suffixId } =
+    useComponentIds(ownProps.id)
 
   const [checkedState, setCheckedState] = useState(() =>
     parseChecked(ownProps.checked)
@@ -410,8 +411,8 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   if (showStatus || suffix) {
     inputParams['aria-describedby'] = combineDescribedBy(
       inputParams,
-      showStatus ? id + '-status' : null,
-      suffix ? id + '-suffix' : null
+      showStatus ? statusId : null,
+      suffix ? suffixId : null
     )
   }
   if (readOnly) {
@@ -427,7 +428,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
 
   const labelComp = label && (
     <FormLabel
-      id={id + '-label'}
+      id={labelId}
       forId={id}
       text={label as React.ReactNode}
       disabled={disabled}
@@ -465,11 +466,11 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
 
           <FormStatus
             show={showStatus}
-            id={id + '-form-status'}
+            id={formStatusId}
             globalStatus={globalStatus}
             label={label as React.ReactNode}
-            textId={id + '-status'} // used for "aria-describedby"
-            widthSelector={id + ', ' + id + '-label'}
+            textId={statusId} // used for "aria-describedby"
+            widthSelector={id + ', ' + labelId}
             text={status}
             state={statusState}
             noAnimation={statusNoAnimation}
@@ -517,7 +518,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
             {suffix && (
               <Suffix
                 className="dnb-radio__suffix"
-                id={id + '-suffix'} // used for "aria-describedby"
+                id={suffixId} // used for "aria-describedby"
                 context={props}
               >
                 {suffix as React.ReactNode}

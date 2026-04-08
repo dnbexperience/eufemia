@@ -25,7 +25,7 @@ import {
 } from '../skeleton/SkeletonHelper'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
-import useId from '../../shared/helpers/useId'
+import useComponentIds from '../../shared/helpers/useComponentIds'
 import type { SpacingProps } from '../../shared/types'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
@@ -156,7 +156,8 @@ function Checkbox(localProps: CheckboxProps) {
   } = props
 
   const [, forceUpdate] = useReducer(() => ({}), {})
-  const id = useId(idProp)
+  const { id, labelId, statusId, formStatusId, suffixId } =
+    useComponentIds(idProp)
 
   const isFn = typeof refProp === 'function'
   const refHook = useRef<HTMLInputElement>(undefined)
@@ -272,8 +273,8 @@ function Checkbox(localProps: CheckboxProps) {
     if (showStatus || suffix) {
       inputParams['aria-describedby'] = combineDescribedBy(
         inputParams,
-        showStatus ? id + '-status' : null,
-        suffix ? id + '-suffix' : null
+        showStatus ? statusId : null,
+        suffix ? suffixId : null
       )
     }
     if (readOnly) {
@@ -315,11 +316,11 @@ function Checkbox(localProps: CheckboxProps) {
   const statusComp = (
     <FormStatus
       show={showStatus}
-      id={id + '-form-status'}
+      id={formStatusId}
       globalStatus={globalStatus}
       label={label}
-      textId={id + '-status'} // used for "aria-describedby"
-      widthSelector={id + ', ' + id + '-label'}
+      textId={statusId} // used for "aria-describedby"
+      widthSelector={id + ', ' + labelId}
       text={status}
       state={statusState}
       noAnimation={statusNoAnimation}
@@ -335,7 +336,7 @@ function Checkbox(localProps: CheckboxProps) {
       <span className="dnb-checkbox__order">
         {label && (
           <FormLabel
-            id={id + '-label'}
+            id={labelId}
             forId={id}
             text={label}
             disabled={disabled}
@@ -383,7 +384,7 @@ function Checkbox(localProps: CheckboxProps) {
         {suffix && (
           <Suffix
             className="dnb-checkbox__suffix"
-            id={id + '-suffix'} // used for "aria-describedby"
+            id={suffixId} // used for "aria-describedby"
             context={props}
           >
             {suffix}
