@@ -1,33 +1,23 @@
-import { join, dirname } from 'path'
-import type { Options } from '@swc/core'
-import type { StorybookConfig } from '@storybook/react-webpack5'
+import { createRequire } from 'node:module'
+import { dirname, join } from 'node:path'
+import type { StorybookConfig } from '@storybook/react-vite'
+
+const require = createRequire(import.meta.url)
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.stories.tsx'],
-  addons: [
-    getAbsolutePath('@storybook/preset-scss'),
-    getAbsolutePath('@storybook/addon-webpack5-compiler-swc'),
-    getAbsolutePath('@storybook/addon-essentials'),
-    getAbsolutePath('@storybook/addon-interactions'),
-  ],
+  addons: [],
   framework: {
-    name: getAbsolutePath('@storybook/react-webpack5'),
+    name: getAbsolutePath('@storybook/react-vite'),
     options: {},
-  },
-  swc: (config: Options): Options => {
-    if (config.jsc) {
-      config.jsc.transform = {
-        react: {
-          runtime: 'automatic',
-        },
-      }
-    }
-    return config
   },
   core: {
     disableTelemetry: true,
     disableWhatsNewNotifications: true,
     enableCrashReports: false,
+  },
+  typescript: {
+    reactDocgen: false,
   },
 }
 export default config
