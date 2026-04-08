@@ -14,11 +14,7 @@ const infoContextValue = {
 
 type InfoOwnProps = {
   element?: keyof React.JSX.IntrinsicElements
-  variant?:
-    | 'plain'
-    | 'subtle'
-    | 'prominent'
-    | /** @deprecated Use "plain" instead */ 'default'
+  variant?: 'plain' | 'subtle' | 'prominent'
   skeleton?: SkeletonShow
 }
 
@@ -38,18 +34,10 @@ function Info(props: InfoProps) {
     element: Element = 'span',
     className = null,
     style = null,
-    variant: variantProp = 'subtle',
+    variant = 'subtle',
     skeleton = null,
     ...rest
   } = props
-
-  let variant = variantProp
-  if (variant === 'default') {
-    warn(
-      'Stat.Info variant="default" is deprecated. Use variant="plain" instead.'
-    )
-    variant = 'plain'
-  }
 
   if (!inRoot) {
     warn('Stat.Info should be used inside Stat.Root')

@@ -18,10 +18,7 @@ type LabelOwnProps = {
   srOnly?: boolean
   fontSize?: TypographySize
   fontWeight?: TypographyWeight
-  variant?:
-    | 'plain'
-    | 'subtle'
-    | /** @deprecated Use "plain" instead */ 'default'
+  variant?: 'plain' | 'subtle'
   skeleton?: SkeletonShow
 }
 
@@ -42,7 +39,7 @@ function Label(props: LabelProps) {
     srOnly = false,
     fontSize = 'basis',
     fontWeight = 'regular',
-    variant: variantProp = 'plain',
+    variant = 'plain',
     skeleton = null,
     style = null,
     ...rest
@@ -60,14 +57,6 @@ function Label(props: LabelProps) {
       ? hasSkeleton
       : rootSkeleton
   const resolvedLineHeight = getHeadingLineHeightSize(fontSize)
-
-  let variant = variantProp
-  if (variant === 'default') {
-    warn(
-      'Stat.Label variant="default" is deprecated. Use variant="plain" instead.'
-    )
-    variant = 'plain'
-  }
 
   if (!inRoot) {
     warn('Stat.Label should be used inside Stat.Root')
