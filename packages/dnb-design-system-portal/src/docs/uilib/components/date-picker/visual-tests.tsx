@@ -1,5 +1,5 @@
 import { Provider } from '@dnb/eufemia/shared'
-import { DatePicker, Flex } from '@dnb/eufemia/src'
+import { DatePicker, Flex, Space } from '@dnb/eufemia/src'
 import { isSameDay } from 'date-fns'
 import {
   DatePickerLinked,
@@ -30,7 +30,7 @@ export default function Page() {
 
 const DatePickerScreenshotTestSizes = () => {
   return (
-    <div data-visual-test="date-picker-sizes">
+    <Space data-visual-test="date-picker-sizes">
       <Provider formElement={{ labelDirection: 'vertical' }}>
         <Flex.Vertical>
           <DatePicker
@@ -58,42 +58,43 @@ const DatePickerScreenshotTestSizes = () => {
           />
         </Flex.Vertical>
       </Provider>
-    </div>
+    </Space>
   )
 }
 
 const DatePickerScreenshotTestDisabled = () => {
   return (
-    <div data-visual-test="date-picker-disabled">
+    <Space data-visual-test="date-picker-disabled">
       <Provider formElement={{ labelDirection: 'vertical' }}>
         <Flex.Vertical>
           <DatePicker disabled />
           <DatePicker showInput disabled />
         </Flex.Vertical>
       </Provider>
-    </div>
+    </Space>
   )
 }
 
 const DatePickerLabelAlignmentRight = () => (
-  <div data-visual-test="date-picker-label-alignment-right">
+  <Space data-visual-test="date-picker-label-alignment-right">
     <DatePicker label="Label" labelAlignment="right" />
-  </div>
+  </Space>
 )
 
 const DatePickerLabelAlignmentWithButtonRight = () => (
-  <div data-visual-test="date-picker-with-button-label-alignment-right">
+  <Space data-visual-test="date-picker-with-button-label-alignment-right">
     <DatePicker label="Label" labelAlignment="right" showInput />
-  </div>
+  </Space>
 )
 
 const DatePickerYearNavigationOpen = () => (
-  <div
+  <Space
+    innerSpace
     data-visual-test="date-picker-year-navigation"
     style={{ width: '350px', height: '430px' }}
   >
-    <DatePicker date="2025-05-12" yearNavigation open left top />
-  </div>
+    <DatePicker date="2025-05-12" yearNavigation open />
+  </Space>
 )
 
 const DatePickerOnlyMonthOpen = () => (
