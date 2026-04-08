@@ -1527,7 +1527,7 @@ html:not([data-visual-test]) .dnb-dialog--hide {
   margin-top: 1.5rem;
 }
 @supports (-webkit-touch-callout: none) {
-  @media (max-height: 40em) {
+  @media screen and (max-height: 40em) {
     .dnb-dialog .dnb-scroll-view {
       max-height: 82vh;
     }
