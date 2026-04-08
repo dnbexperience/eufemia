@@ -31,9 +31,7 @@
     &::after {
       content: '';
       position: absolute;
-      inset: calc(var(--item-outline-width) * -1);
-      left: 0;
-      right: 0;
+      inset: calc(var(--item-outline-width) * -1) -1px;
       z-index: 10;
 
       border-radius: inherit;
@@ -447,6 +445,18 @@
       padding-right: calc(
         var(--padding-right) - (var(--scrollbar-track-width) * 2)
       );
+    }
+
+    // First/last items inherit the card's border radius if not inside a scroll view
+    .dnb-card:not(:has(.dnb-scroll-view)) & {
+      .dnb-list__item:first-of-type {
+        border-top-left-radius: var(--rounded-corner, 0);
+        border-top-right-radius: var(--rounded-corner, 0);
+      }
+      .dnb-list__item:last-of-type {
+        border-bottom-left-radius: var(--rounded-corner, 0);
+        border-bottom-right-radius: var(--rounded-corner, 0);
+      }
     }
   }
 }
