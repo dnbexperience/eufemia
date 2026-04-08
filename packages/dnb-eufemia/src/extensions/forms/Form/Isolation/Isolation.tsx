@@ -319,24 +319,39 @@ function IsolationProvider<Data extends JsonObject>(
           setIsolatedData,
         }}
       >
-        <DataContext.Consumer>
-          {(dataContext) => {
-            dataContextRef.current = dataContext
-
-            if (commitHandleRef) {
-              const mutableCommitHandleRef =
-                commitHandleRef as React.RefObject<() => void>
-              mutableCommitHandleRef.current = dataContext?.handleSubmit
-            }
-
-            return <IsolatedContainer>{children} </IsolatedContainer>
-          }}
-        </DataContext.Consumer>
+        <IsolationDataContextBridge
+          dataContextRef={dataContextRef}
+          commitHandleRef={commitHandleRef}
+        >
+          {children}
+        </IsolationDataContextBridge>
 
         {bubbleValidation && <BubbleValidation />}
       </IsolationContext>
     </Provider>
   )
+}
+
+function IsolationDataContextBridge({
+  dataContextRef,
+  commitHandleRef,
+  children,
+}: {
+  dataContextRef: React.RefObject<ContextState | null>
+  commitHandleRef?: React.RefObject<() => void>
+  children: React.ReactNode
+}) {
+  const dataContext = useContext(DataContext)
+  dataContextRef.current = dataContext
+
+  if (commitHandleRef) {
+    const mutableCommitHandleRef = commitHandleRef as React.RefObject<
+      () => void
+    >
+    mutableCommitHandleRef.current = dataContext?.handleSubmit
+  }
+
+  return <IsolatedContainer>{children} </IsolatedContainer>
 }
 
 function BubbleValidation() {
