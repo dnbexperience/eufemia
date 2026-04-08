@@ -38,21 +38,6 @@ describe('Stat.Info', () => {
     expect(info.classList).not.toContain('dnb-stat__info--subtle')
   })
 
-  it('supports deprecated default variant and maps to plain', () => {
-    render(
-      <Stat.Info variant="default">Some additional content</Stat.Info>
-    )
-
-    const info = document.querySelector('.dnb-stat__info')
-
-    expect(info.classList).toContain('dnb-stat__info--plain')
-    expect(info.classList).not.toContain('dnb-stat__info--default')
-    expect(log).toHaveBeenCalledWith(
-      expect.stringContaining('Eufemia'),
-      expect.stringContaining('variant="default" is deprecated')
-    )
-  })
-
   it('supports prominent variant', () => {
     render(
       <Stat.Info variant="prominent">Some additional content</Stat.Info>

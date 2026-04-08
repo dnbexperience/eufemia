@@ -10,14 +10,11 @@ import type {
 import { getHeadingLineHeightSize } from '../../elements/typography/Typography'
 import type { SpacingProps } from '../../shared/types'
 import type { NumberFormatReturnValue } from '../number-format/NumberUtils'
-import { convertJsxToString, warn } from '../../shared/component-helper'
+import { convertJsxToString } from '../../shared/component-helper'
 import StatValueContext from './StatValueContext'
 import useStatSkeleton from './useStatSkeleton'
 import { TextInternal as Text } from './Text'
 
-/**
- * @deprecated Use `NumberProps` from `Stat.Number` instead.
- */
 type AmountOwnProps = Omit<
   NumberFormatProps,
   'children' | 'currencyDisplay' | 'currencyPosition' | 'element'
@@ -310,18 +307,4 @@ function AmountBase(props: AmountProps) {
 AmountBase._supportsSpacingProps = true
 
 export { AmountBase }
-
-/**
- * @deprecated Use `Stat.Number` instead. `Stat.Currency` and `Stat.Percent` are not affected.
- */
-function Amount(props: AmountProps) {
-  warn(
-    'Stat.Amount is deprecated. Use Stat.Number instead. Stat.Currency and Stat.Percent are not affected by this deprecation.'
-  )
-
-  return <AmountBase {...props} />
-}
-
-Amount._supportsSpacingProps = true
-
-export default Amount
+export default AmountBase
