@@ -2064,4 +2064,8 @@ For example, update:
 
 An ESLint rule (`naming-conventions/no-bare-props-export`) is now enforced to prevent re-introducing bare `Props` exports.
 
+### mergeTranslations type change
+
+The `mergeTranslations` function (exported from `@dnb/eufemia/shared`) now accepts `Array<Record<string, unknown>>` instead of `Array<Record<string, any>>`. If you call this function directly with typed objects that are not assignable to `Record<string, unknown>`, you may need to add a type assertion.
+
 _January 23, 2026_
