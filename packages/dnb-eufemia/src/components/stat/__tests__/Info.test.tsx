@@ -7,6 +7,16 @@ import {
 import Stat from '../Stat'
 
 describe('Stat.Info', () => {
+  let log: ReturnType<typeof spyOnEufemiaWarn>
+
+  beforeEach(() => {
+    log = spyOnEufemiaWarn()
+  })
+
+  afterEach(() => {
+    log.mockRestore()
+  })
+
   it('renders info content and class', () => {
     render(<Stat.Info>Some additional content</Stat.Info>)
 
@@ -29,8 +39,6 @@ describe('Stat.Info', () => {
   })
 
   it('supports deprecated default variant and maps to plain', () => {
-    const log = spyOnEufemiaWarn()
-
     render(
       <Stat.Info variant="default">Some additional content</Stat.Info>
     )
@@ -43,8 +51,6 @@ describe('Stat.Info', () => {
       expect.stringContaining('Eufemia'),
       expect.stringContaining('variant="default" is deprecated')
     )
-
-    log.mockRestore()
   })
 
   it('supports prominent variant', () => {
@@ -109,21 +115,15 @@ describe('Stat.Info', () => {
   })
 
   it('warns when used outside Stat.Root', () => {
-    const log = spyOnEufemiaWarn()
-
     render(<Stat.Info>Details</Stat.Info>)
 
     expect(log).toHaveBeenCalledWith(
       expect.stringContaining('Eufemia'),
       expect.stringContaining('Stat.Info should be used inside Stat.Root')
     )
-
-    log.mockRestore()
   })
 
   it('does not warn when used inside Stat.Root', () => {
-    const log = spyOnEufemiaWarn()
-
     render(
       <Stat.Root>
         <Stat.Label>Revenue</Stat.Label>
@@ -137,8 +137,6 @@ describe('Stat.Info', () => {
       expect.stringContaining('Eufemia'),
       expect.stringContaining('Stat.Info should be used inside Stat.Root')
     )
-
-    log.mockRestore()
   })
 
   it('forwards data-* and aria-* attributes to the DOM element', () => {

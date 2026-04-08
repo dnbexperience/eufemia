@@ -1,9 +1,21 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import {
+  axeComponent,
+  spyOnEufemiaWarn,
+} from '../../../core/jest/jestSetup'
 import Stat from '../Stat'
 
 describe('Stat.Percent', () => {
+  let log: ReturnType<typeof spyOnEufemiaWarn>
+
+  beforeEach(() => {
+    log = spyOnEufemiaWarn()
+  })
+
+  afterEach(() => {
+    log.mockRestore()
+  })
   it('renders percent with separate auxiliary percent sign', () => {
     render(<Stat.Percent value={0.1234} signDisplay="always" />)
 
