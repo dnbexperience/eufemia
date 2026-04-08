@@ -28,7 +28,7 @@ import {
 import ModalContext from './ModalContext'
 import { IS_IOS, IS_SAFARI, IS_MAC, isAndroid } from '../../shared/helpers'
 import type {
-  ModalCloseHandlerParams,
+  ModalCloseEvent,
   ModalContentProps,
   ModalTriggeredBy,
 } from './types'
@@ -119,7 +119,7 @@ export default function ModalContent(props: ModalContentProps) {
   const setModalContentState = useCallback(
     (
       event: React.SyntheticEvent,
-      { triggeredBy }: ModalCloseHandlerParams
+      { triggeredBy }: ModalCloseEvent
     ) => {
       triggeredByRef.current = triggeredBy
       triggeredByEventRef.current = event
@@ -258,7 +258,7 @@ export default function ModalContent(props: ModalContentProps) {
       {
         triggeredBy,
         ...params
-      }: ModalCloseHandlerParams & { ifIsLatest?: boolean }
+      }: ModalCloseEvent & { ifIsLatest?: boolean }
     ) => {
       close(event, {
         triggeredBy,

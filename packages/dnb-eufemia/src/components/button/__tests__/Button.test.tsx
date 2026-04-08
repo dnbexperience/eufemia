@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import type { ButtonOnClick, ButtonProps } from '../Button'
+import type { ButtonClickHandler, ButtonProps } from '../Button'
 import Button from '../Button'
 import IconPrimary from '../../IconPrimary'
 import { fireEvent, render, waitFor } from '@testing-library/react'
@@ -396,7 +396,7 @@ describe('Button component', () => {
     const onClick = jest.fn()
     const { rerender } = render(<Button text="Button" onClick={onClick} />)
 
-    type Button = HTMLButtonElement & { onClickHandler: ButtonOnClick }
+    type Button = HTMLButtonElement & { onClickHandler: ButtonClickHandler }
 
     const button = document.querySelector('button') as Button
 

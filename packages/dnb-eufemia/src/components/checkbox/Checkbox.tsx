@@ -38,11 +38,11 @@ import CheckIcon from './CheckIcon'
 
 export type CheckboxLabelPosition = 'left' | 'right'
 export type CheckboxSize = 'default' | 'medium' | 'large'
-export type CheckboxOnChangeParams = {
+export type CheckboxChangeEvent = {
   checked: boolean
   event: React.ChangeEvent<HTMLInputElement>
 }
-export type CheckboxOnClickParams = React.MouseEvent<HTMLInputElement> & {
+export type CheckboxClickEvent = React.MouseEvent<HTMLInputElement> & {
   checked: boolean
   event: React.MouseEvent<HTMLInputElement>
 }
@@ -89,11 +89,11 @@ export type CheckboxProps = {
   /**
    * Will be called on state changes made by the user. Returns an boolean `{ checked, event }`.
    */
-  onChange?: (args: CheckboxOnChangeParams) => void
+  onChange?: (args: CheckboxChangeEvent) => void
   /**
    * Will be called on click made by the user. Returns the ClickEvent.
    */
-  onClick?: (args: CheckboxOnClickParams) => void
+  onClick?: (args: CheckboxClickEvent) => void
   /**
    * By providing a React.ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
@@ -192,7 +192,7 @@ function Checkbox(localProps: CheckboxProps) {
   )
 
   const handleChange = useCallback(
-    (event: CheckboxOnChangeParams['event']) => {
+    (event: CheckboxChangeEvent['event']) => {
       if (preventChangeRef.current) {
         return // stop here
       }
@@ -214,7 +214,7 @@ function Checkbox(localProps: CheckboxProps) {
   )
 
   const onChangeHandler = useCallback(
-    (event: CheckboxOnChangeParams['event']) => {
+    (event: CheckboxChangeEvent['event']) => {
       handleChange(event)
     },
     [handleChange]
@@ -248,7 +248,7 @@ function Checkbox(localProps: CheckboxProps) {
     )
 
   const onKeyDownHandler = useCallback(
-    (event: KeyboardEvent & CheckboxOnChangeParams['event']) => {
+    (event: KeyboardEvent & CheckboxChangeEvent['event']) => {
       if (event.key === 'Enter') {
         handleChange(event)
       }

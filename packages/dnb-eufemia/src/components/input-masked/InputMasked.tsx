@@ -54,7 +54,7 @@ export type InputMaskedChange = {
   numberValue?: number
   cleanedValue?: string | number
 }
-export type InputMaskedEventHandler = (
+export type InputMaskedHandler = (
   payload: InputMaskedChange
 ) => unknown
 export type InputMaskedOverwriteMode = MaskitoOptions['overwriteMode']
@@ -122,12 +122,12 @@ export type InputMaskedProps = Omit<
     overwriteMode?: InputMaskedOverwriteMode | null
     /** @internal */
     _innerRef?: React.Ref<HTMLInputElement>
-    onSubmit?: InputMaskedEventHandler
-    onFocus?: InputMaskedEventHandler
-    onBlur?: InputMaskedEventHandler
-    onChange?: InputMaskedEventHandler
-    onSubmitFocus?: InputMaskedEventHandler
-    onSubmitBlur?: InputMaskedEventHandler
+    onSubmit?: InputMaskedHandler
+    onFocus?: InputMaskedHandler
+    onBlur?: InputMaskedHandler
+    onChange?: InputMaskedHandler
+    onSubmitFocus?: InputMaskedHandler
+    onSubmitBlur?: InputMaskedHandler
     type?: string
     size?: InputSize
     value?: InputMaskedValue

@@ -9,7 +9,7 @@ import { fireEvent, render, act } from '@testing-library/react'
 import Slider, { SliderMarker } from '../Slider'
 import * as PopoverModule from '../../popover/Popover'
 
-import type { SliderAllProps, SliderOnChangeParams } from '../Slider'
+import type { SliderAllProps, SliderChangeEvent } from '../Slider'
 import { format } from '../../number-format/NumberUtils'
 import { Provider } from '../../../shared'
 
@@ -603,7 +603,7 @@ describe('Slider component', () => {
   describe('multi thumb', () => {
     const SliderWithStateUpdate = (props: SliderAllProps) => {
       const [value, setValue] = React.useState(props.value)
-      const onChangeHandler = (event: SliderOnChangeParams) => {
+      const onChangeHandler = (event: SliderChangeEvent) => {
         setValue(event.value)
         if (props.onChange) {
           props.onChange(event)

@@ -27,7 +27,7 @@ import type { CountryFilterSet } from '../SelectCountry'
 import { countryFilter, getCountryData } from '../SelectCountry'
 import useTranslation from '../../hooks/useTranslation'
 import type { DrawerListDataArrayItem } from '../../../../fragments/DrawerList'
-import type { AutocompleteOnChangeParams } from '../../../../components/Autocomplete'
+import type { AutocompleteChangeEvent } from '../../../../components/Autocomplete'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type AdditionalArgs = {
@@ -394,7 +394,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
   }, [value, props.value, lang, updateCurrentDataSet])
 
   const handleCountryCodeChange = useCallback(
-    (event: AutocompleteOnChangeParams) => {
+    (event: AutocompleteChangeEvent) => {
       const data = event.data
       const dataObj =
         data && typeof data === 'object' && 'selectedKey' in data
