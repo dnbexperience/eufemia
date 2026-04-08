@@ -31,7 +31,7 @@ exports[`Textarea scss has to match style dependencies css 1`] = `
 .dnb-form-label--vertical {
   display: block;
   margin-right: 0;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-form-label--interactive {
   cursor: pointer;
@@ -133,20 +133,20 @@ button .dnb-form-status__text {
   font-size: inherit;
 }
 .dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
+  padding-left: var(--spacing-small);
 }
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: var(--spacing-x-small);
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-form-status__text {
   white-space: normal;
 }
 .dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
+  padding-left: var(--spacing-x-small);
 }
 .dnb-form-status__shell > .dnb-icon {
   display: flex;
@@ -275,7 +275,7 @@ button .dnb-form-status__text {
   margin: var(--textarea-size-vertical) var(--textarea-size-vertical) var(--textarea-size-vertical) var(--textarea-size-horizontal);
 }
 .dnb-textarea__suffix.dnb-suffix {
-  padding-left: 1rem;
+  padding-left: var(--spacing-small);
 }
 .dnb-textarea__textarea {
   position: relative;
@@ -394,7 +394,7 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
 }
 .dnb-textarea__inner > .dnb-form-status {
   order: 2;
-  margin-top: 0.5rem;
+  margin-top: var(--spacing-x-small);
 }
 .dnb-textarea:not(.dnb-textarea--vertical) .dnb-form-label {
   margin-top: var(--textarea-size-vertical);
@@ -415,8 +415,8 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
     flex-wrap: wrap;
   }
   .dnb-textarea > .dnb-form-label {
-    margin-bottom: 0.5rem;
-    margin-top: 0.5rem;
+    margin-bottom: var(--spacing-x-small);
+    margin-top: var(--spacing-x-small);
   }
 }
 .dnb-textarea--stretch {
@@ -443,10 +443,10 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--spacing-x-small);
   }
   .dnb-responsive-component .dnb-textarea > .dnb-form-label {
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--spacing-x-small);
   }
 }
 html[data-visual-test] .dnb-textarea__textarea {
