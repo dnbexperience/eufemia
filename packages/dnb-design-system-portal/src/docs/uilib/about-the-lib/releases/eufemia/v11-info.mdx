@@ -2064,4 +2064,14 @@ For example, update:
 
 An ESLint rule (`naming-conventions/no-bare-props-export`) is now enforced to prevent re-introducing bare `Props` exports.
 
+### ToggleButton: removed ToggleButtonComponent type
+
+The `ToggleButtonComponent` type export has been removed. If you imported this type, use the inferred type from the default export instead:
+
+```diff
+-import type { ToggleButtonComponent } from '@dnb/eufemia/components/ToggleButton'
++import ToggleButton from '@dnb/eufemia/components/ToggleButton'
++type ToggleButtonComponent = typeof ToggleButton
+```
+
 _January 23, 2026_
