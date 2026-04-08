@@ -241,6 +241,22 @@ describe('Icon component', () => {
     const Comp = render(<Icon {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
+
+  it('should render data:image icon with empty alt when no alt is provided', () => {
+    const dataUri = 'data:image/png;base64,abc123'
+    render(<Icon icon={dataUri} />)
+
+    const img = document.querySelector('img')
+    expect(img).toHaveAttribute('alt', '')
+  })
+
+  it('should render data:image icon with provided alt text', () => {
+    const dataUri = 'data:image/png;base64,abc123'
+    render(<Icon icon={dataUri} alt="Custom alt" />)
+
+    const img = document.querySelector('img')
+    expect(img).toHaveAttribute('alt', 'Custom alt')
+  })
 })
 
 describe('Icon scss', () => {

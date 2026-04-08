@@ -473,7 +473,7 @@ export function prerenderIcon(
   let { icon } = props as Omit<IconProps, 'icon'> & { icon: IconType }
 
   if (typeof icon === 'string' && /^data:image\//.test(icon)) {
-    return () => <img src={String(icon)} alt={alt || 'no-alt'} />
+    return () => <img src={String(icon)} alt={alt || ''} />
   }
 
   if (typeof icon === 'function') {
