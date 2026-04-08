@@ -342,7 +342,7 @@ export const ItemActionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   elementProps: {
-    doc: 'Additional props forwarded to the `element` component (e.g. `{ replace: true, state: { from: "list" } }` for React Router Link). Only applicable when `element` is set.',
+    doc: 'Additional props forwarded to the `element` component (e.g. `{ replace: true, state: { from: "list" } }` for React Router Link).',
     type: 'object',
     status: 'optional',
   },
