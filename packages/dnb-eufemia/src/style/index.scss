@@ -1,9 +1,31 @@
 /*
-* This package includes the DNB core styles
-*
-*/
+ * This package includes the DNB core styles
+ *
+ * All styles are wrapped in the `dnb-eufemia` cascade layer.
+ * Consumer styles without @layer automatically override Eufemia styles
+ * without needing !important.
+ *
+ * Sub-layers (lowest to highest priority):
+ *   - reset: CSS reset, html/body defaults, helper classes
+ *   - base: Design tokens, custom properties, fonts, global rules, element styles
+ *   - components: All component base styles, theme overrides, and form styles
+ *
+ */
 
-// default packages import
-@use './dnb-ui-core.scss';
-@use './themes/ui/ui-theme-components.scss';
-@use './themes/ui/ui-theme-basis.scss';
+@use 'sass:meta';
+
+@layer dnb-eufemia {
+  @layer reset, base, components;
+
+  @layer reset {
+    @include meta.load-css('./dnb-ui-core');
+  }
+
+  @layer base {
+    @include meta.load-css('./themes/ui/ui-theme-basis');
+  }
+
+  @layer components {
+    @include meta.load-css('./themes/ui/ui-theme-components');
+  }
+}

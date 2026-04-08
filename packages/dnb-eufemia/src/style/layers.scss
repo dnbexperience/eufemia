@@ -1,0 +1,20 @@
+/*
+ * CSS Cascade Layers declaration for DNB Eufemia.
+ *
+ * Import this file at the top of your stylesheet to establish the layer order
+ * before any Eufemia styles are loaded.
+ *
+ * All Eufemia styles are placed inside the `dnb-eufemia` layer.
+ * Consumer styles without @layer automatically override all Eufemia styles
+ * without needing !important.
+ *
+ * Sub-layers (lowest to highest priority):
+ *   - reset: CSS reset, html/body defaults, helper classes
+ *   - base: Design tokens, custom properties, fonts, global rules, element styles
+ *   - components: All component base styles, theme overrides, and form styles
+ *
+ */
+
+@layer dnb-eufemia {
+  @layer reset, base, components;
+}
