@@ -108,7 +108,7 @@ p > .dnb-icon {
  * Utilities
  */
 :root {
-  --tooltip-z-index: 1100;
+  --tooltip-z-index: var(--z-index-tooltip);
 }
 
 .dnb-tooltip {
@@ -960,7 +960,7 @@ button.dnb-button::-moz-focus-inner {
  *
  */
 :root {
-  --section-z-index: 1;
+  --section-z-index: var(--z-index-section);
 }
 
 .dnb-section {

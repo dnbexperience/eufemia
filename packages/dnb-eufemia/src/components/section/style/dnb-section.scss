@@ -6,7 +6,7 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
 :root {
-  --section-z-index: 1;
+  --section-z-index: var(--z-index-section);
 }
 
 .dnb-section {

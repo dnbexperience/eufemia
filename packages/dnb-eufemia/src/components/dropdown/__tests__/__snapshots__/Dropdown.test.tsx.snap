@@ -112,7 +112,7 @@ p > .dnb-icon {
  * Utilities
  */
 :root {
-  --tooltip-z-index: 1100;
+  --tooltip-z-index: var(--z-index-tooltip);
 }
 
 .dnb-tooltip {

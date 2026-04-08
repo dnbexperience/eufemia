@@ -117,7 +117,7 @@ p > .dnb-icon {
  * Utilities
  */
 :root {
-  --tooltip-z-index: 1100;
+  --tooltip-z-index: var(--z-index-tooltip);
 }
 
 .dnb-tooltip {
@@ -1164,7 +1164,7 @@ button.dnb-button::-moz-focus-inner {
   }
 }
 :root {
-  --modal-z-index: 3000;
+  --modal-z-index: var(--z-index-modal);
   --modal-animation-duration: 300ms;
 }
 

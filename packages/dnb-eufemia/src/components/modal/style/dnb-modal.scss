@@ -7,7 +7,7 @@
 @use './modal-mixins.scss';
 
 :root {
-  --modal-z-index: 3000;
+  --modal-z-index: var(--z-index-modal);
   --modal-animation-duration: 300ms;
 }
 

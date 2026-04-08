@@ -252,6 +252,45 @@ This allows usage like:
 
 The `tokens-tailwind.css` files are available for all themes: `ui`, `sbanken`, and `carnegie`.
 
+## Z-Index Scale \{#z-index\}
+
+Eufemia defines a centralized z-index scale using CSS Custom Properties. This ensures consistent layering across all components and makes the stacking order discoverable and adjustable from a single place.
+
+The following tokens are defined on `:root` and control the stacking order of Eufemia components:
+
+| Token                | Default value | Usage                            |
+| -------------------- | ------------- | -------------------------------- |
+| `--z-index-section`  | `1`           | Content sections                 |
+| `--z-index-dropdown` | `100`         | Inline dropdowns, drawer-lists   |
+| `--z-index-popover`  | `1000`        | Popovers, floating elements      |
+| `--z-index-tooltip`  | `1100`        | Tooltips (always above popovers) |
+| `--z-index-modal`    | `3000`        | Dialogs, drawers, full overlays  |
+
+Each component also exposes its own CSS Custom Property that references the centralized token. This preserves backward compatibility for consumers who override the component-level property directly.
+
+| Component | Component property  | References               |
+| --------- | ------------------- | ------------------------ |
+| Section   | `--section-z-index` | `var(--z-index-section)` |
+| Popover   | `--popover-z-index` | `var(--z-index-popover)` |
+| Tooltip   | `--tooltip-z-index` | `var(--z-index-tooltip)` |
+| Modal     | `--modal-z-index`   | `var(--z-index-modal)`   |
+
+You can override the global z-index scale to adjust the layering for your application:
+
+```css
+:root {
+  --z-index-modal: 9999;
+}
+```
+
+Or override a single component's z-index:
+
+```css
+:root {
+  --modal-z-index: 5000;
+}
+```
+
 ## Known styling and CSS issues
 
 - Safari, both on mobile and desktop, has a problem where we combine `border-radius` with the usage of `inset` in a `box-shadow`. The solution for now is to not use `inset`, which results in an outer border. This is not ideal as we don't follow the UX guidelines for these browsers. We have a SASS function handling this for us: `@mixin fakeBorder`.
