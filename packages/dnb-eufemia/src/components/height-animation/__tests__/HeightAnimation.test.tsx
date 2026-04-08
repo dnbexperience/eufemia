@@ -10,6 +10,7 @@ import {
   runAnimation,
   simulateAnimationEnd,
 } from './HeightAnimationUtils'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('HeightAnimation', () => {
@@ -440,5 +441,14 @@ describe('HeightAnimation without initializeTestSetup()', () => {
     expect(ref.current instanceof HTMLDivElement).toBe(true)
     expect(ref.current.tagName).toBe('DIV')
     expect(ref.current.classList).toContain('dnb-height-animation')
+  })
+})
+
+describe('HeightAnimation aria', () => {
+  it('should validate', async () => {
+    const Component = render(
+      <HeightAnimation>visible content</HeightAnimation>
+    )
+    expect(await axeComponent(Component)).toHaveNoViolations()
   })
 })

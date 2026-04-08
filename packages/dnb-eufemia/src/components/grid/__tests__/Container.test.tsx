@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import 'mock-match-media/jest-setup'
 import Grid from '../Grid'
+import { axeComponent } from '../../../core/jest/jestSetup'
 
 describe('Grid.Container', () => {
   it('should forward HTML attributes', () => {
@@ -184,5 +185,16 @@ describe('Grid.Container', () => {
 
     const element = document.querySelector('.dnb-grid-container')
     expect(refElement).toBe(element)
+  })
+})
+
+describe('Grid.Container aria', () => {
+  it('should validate', async () => {
+    const Component = render(
+      <Grid.Container>
+        <Grid.Item>Item</Grid.Item>
+      </Grid.Container>
+    )
+    expect(await axeComponent(Component)).toHaveNoViolations()
   })
 })
