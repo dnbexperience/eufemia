@@ -18,10 +18,7 @@ import {
 } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import {
-  skeletonDOMAttributes,
-  createSkeletonClass,
-} from '../skeleton/SkeletonHelper'
+import useSkeleton from '../../shared/helpers/useSkeleton'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import FormStatus from '../form-status/FormStatus'
 import Anchor, { pickIcon, opensNewTab } from '../anchor/Anchor'
@@ -297,6 +294,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
   } = props
 
   const showStatus = getStatusState(status)
+  const skeletonHook = useSkeleton(skeleton, context)
 
   const { text } = props
   let { icon: usedIcon } = props
@@ -380,10 +378,8 @@ function Button({ ref, ...restProps }: ButtonProps) {
     selected && 'dnb-button--selected',
     wrap && 'dnb-button--wrap',
     status && `dnb-button__status--${statusState}`,
-    createSkeletonClass(
-      variant === 'tertiary' ? 'font' : 'shape',
-      skeleton,
-      context
+    skeletonHook.skeletonClass(
+      variant === 'tertiary' ? 'font' : 'shape'
     ),
     createSpacingClasses(props),
     className,
@@ -441,7 +437,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
     params['aria-label'] = params['aria-label'] || title
   }
 
-  skeletonDOMAttributes(params, skeleton, context)
+  skeletonHook.skeletonDOMAttributes(params)
 
   // also used for code markup simulation
   validateDOMAttributes(restProps, params)

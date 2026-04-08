@@ -31,10 +31,7 @@ import {
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import {
-  skeletonDOMAttributes,
-  createSkeletonClass,
-} from '../skeleton/SkeletonHelper'
+import useSkeleton from '../../shared/helpers/useSkeleton'
 
 import type { InternalLocale } from '../../shared/Context'
 import Context from '../../shared/Context'
@@ -480,6 +477,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
   })
 
   const showStatus = getStatusState(status)
+  const skeletonHook = useSkeleton(skeleton, context)
   const currentHasValue = hasValue(value)
 
   let TextareaElement: TextareaElement = props.textareaElement
@@ -537,7 +535,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       stretch && `dnb-textarea--stretch`,
       keepPlaceholder && `dnb-textarea--keep-placeholder`,
       'dnb-form-component',
-      createSkeletonClass(null, skeleton),
+      skeletonHook.skeletonClass(),
       createSpacingClasses(props),
       className
     ),
@@ -546,7 +544,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
   const innerParams = {
     className: clsx(
       'dnb-textarea__inner',
-      createSkeletonClass('shape', skeleton, context)
+      skeletonHook.skeletonClass('shape')
     ),
   }
 
@@ -565,7 +563,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
         }
       : null
 
-  skeletonDOMAttributes(innerParams, skeleton, context)
+  skeletonHook.skeletonDOMAttributes(innerParams)
 
   validateDOMAttributes(ownProps, textareaParams)
   validateDOMAttributes(null, innerParams)
