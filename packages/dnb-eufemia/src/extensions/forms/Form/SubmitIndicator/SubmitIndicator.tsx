@@ -50,6 +50,8 @@ function SubmitIndicator(props: FormSubmitIndicatorProps) {
         window.removeEventListener('resize', recalculate)
       }
     }
+
+    return undefined
   }, [key, recalculate])
 
   const params = {
@@ -108,7 +110,7 @@ function SubmitIndicator(props: FormSubmitIndicatorProps) {
 
 function willWordWrap(element: HTMLElement, word: string) {
   if (!element) {
-    return
+    return undefined
   }
 
   const { offsetHeight } = element

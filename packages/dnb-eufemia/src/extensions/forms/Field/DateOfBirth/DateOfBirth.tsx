@@ -100,6 +100,8 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
           day,
         }
       }
+
+      return undefined
     },
     [dateFormat]
   )
@@ -118,6 +120,8 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
           return Error(errorDateOfBirthFuture)
         }
       }
+
+      return undefined
     },
     [errorDateOfBirth, errorDateOfBirthFuture, dateFormat]
   )

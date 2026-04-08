@@ -393,6 +393,7 @@ function validateMonthAndYear(
   if (messages.length) {
     return messages
   }
+  return undefined
 }
 
 Expiry._supportsEufemiaSpacingProps = true

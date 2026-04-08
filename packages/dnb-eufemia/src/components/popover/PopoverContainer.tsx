@@ -130,19 +130,19 @@ function PopoverContainer(props: PopoverContainerProps) {
       if (noAnimation || globalThis.IS_TEST) {
         clearShowDelay()
         run()
-        return
+        return undefined
       }
 
       const delay = Math.max(0, parseFloat(String(showDelay)) || 0)
       if (delay === 0) {
         clearShowDelay()
         run()
-        return
+        return undefined
       }
 
       clearShowDelay()
       showDelayTimeout.current = setTimeout(run, delay)
-      return
+      return undefined
     }
 
     clearShowDelay()
@@ -195,7 +195,7 @@ function PopoverContainer(props: PopoverContainerProps) {
 
   const addPositionObserver = useCallback(() => {
     if (resizeObserver.current || typeof document === 'undefined') {
-      return
+      return undefined
     }
 
     try {
@@ -245,7 +245,7 @@ function PopoverContainer(props: PopoverContainerProps) {
 
   useLayoutEffect(() => {
     if (typeof window === 'undefined') {
-      return
+      return undefined
     }
     window.addEventListener('resize', handleViewportResize)
     return () => window.removeEventListener('resize', handleViewportResize)
@@ -253,11 +253,11 @@ function PopoverContainer(props: PopoverContainerProps) {
 
   useLayoutEffect(() => {
     if (typeof document === 'undefined') {
-      return
+      return undefined
     }
 
     if (!isActive) {
-      return
+      return undefined
     }
 
     const handleScroll = (event: Event) => {
@@ -279,7 +279,7 @@ function PopoverContainer(props: PopoverContainerProps) {
           targetRect.top <= scrollRect.bottom
 
         if (!isVisible) {
-          return
+          return undefined
         }
       }
 
@@ -300,13 +300,13 @@ function PopoverContainer(props: PopoverContainerProps) {
           setStyle(null)
         }, hideDelay + 200)
       }
-      return
+      return undefined
     }
 
     const element = elementRef?.current
 
     if (typeof window === 'undefined' || !element) {
-      return
+      return undefined
     }
 
     const resolvedRefs = isResolvedTargetRefsObject(targetElement)
@@ -341,7 +341,7 @@ function PopoverContainer(props: PopoverContainerProps) {
       !effectiveHorizontalTarget?.getBoundingClientRect ||
       !effectiveVerticalTarget?.getBoundingClientRect
     ) {
-      return
+      return undefined
     }
 
     const elementWidth = element.offsetWidth

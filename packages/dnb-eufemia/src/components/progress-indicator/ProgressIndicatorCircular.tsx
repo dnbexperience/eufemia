@@ -253,5 +253,6 @@ function correctPercentageStrokeWidth(
     const number = parseFloat(strokeWidth.slice(0, strokeWidth.length - 1))
     return `${(100 * number) / (100 - number)}%`
   }
+  return undefined
 }
 export default ProgressIndicatorCircular

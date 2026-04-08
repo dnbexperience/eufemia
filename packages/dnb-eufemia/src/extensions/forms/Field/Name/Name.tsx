@@ -45,12 +45,14 @@ function Name(props: FieldNameProps) {
   const nameValidator = useCallback((value: string) => {
     if (value !== undefined) {
       if (value === '') {
-        return // Allow empty values (required validation handles this)
+        return undefined // Allow empty values (required validation handles this)
       }
       if (!new RegExp(namePattern, 'u').test(value)) {
         return new FormError('Field.errorPattern')
       }
     }
+
+    return undefined
   }, [])
 
   const onBlurValidator = useMemo(() => {
@@ -154,12 +156,14 @@ Name.Company = function CompanyName(props: FieldNameProps) {
   const companyValidator = useCallback((value: string) => {
     if (value !== undefined) {
       if (value === '') {
-        return // Allow empty values (required validation handles this)
+        return undefined // Allow empty values (required validation handles this)
       }
       if (!new RegExp(companyPattern, 'u').test(value)) {
         return new FormError('Field.errorPattern')
       }
     }
+
+    return undefined
   }, [])
 
   const onBlurValidator = useMemo(() => {

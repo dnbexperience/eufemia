@@ -22,6 +22,7 @@ const onChangeValidator = async (value) => {
   if (!isValid) {
     return new FormError('Field.errorRequired')
   }
+  return undefined
 }
 
 export function PhoneNumber() {

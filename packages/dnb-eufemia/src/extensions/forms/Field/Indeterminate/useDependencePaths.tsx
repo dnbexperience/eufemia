@@ -27,6 +27,8 @@ export default function useDependencePaths(
             return true
           }
         }
+
+        return undefined
       })
     }
 

@@ -26,7 +26,7 @@ export function DisplaySteps({
 
   const getStepIndicatorStatus = useCallback(() => {
     if (!hasErrorInOtherStepRef.current) {
-      return // stop here
+      return undefined // stop here
     }
     if (hasInvalidStepsState(undefined, ['error'])) {
       return {

@@ -86,7 +86,7 @@ function DateFormat(props: DateFormatProps) {
     const durationString = String(value || children)
 
     if (!durationString || !isValidDuration(durationString)) {
-      return // stop here
+      return undefined // stop here
     }
 
     return parseDuration(durationString)
@@ -95,7 +95,7 @@ function DateFormat(props: DateFormatProps) {
   const getDuration = useCallback(
     (dateStyle: Intl.DateTimeFormatOptions['dateStyle']) => {
       if (durationValue === undefined) {
-        return // stop here
+        return undefined // stop here
       }
 
       return formatDuration(
@@ -131,7 +131,7 @@ function DateFormat(props: DateFormatProps) {
   const getAbsoluteDateTime = useCallback(
     (style = 'yyyy-MM-dd') => {
       if (!date || isNaN(date.getTime())) {
-        return // stop here
+        return undefined // stop here
       }
 
       return format(date, style)
@@ -153,7 +153,7 @@ function DateFormat(props: DateFormatProps) {
       hideCurrentYear?: boolean
     } = {}) => {
       if (!date || isNaN(date.getTime())) {
-        return // stop here
+        return undefined // stop here
       }
 
       // Get the original input value to detect UTC dates
@@ -235,7 +235,7 @@ function DateFormat(props: DateFormatProps) {
 
   useEffect(() => {
     if (!relativeTime || !date) {
-      return
+      return undefined
     }
 
     let timeoutId: NodeJS.Timeout
@@ -399,7 +399,7 @@ function getDate({
   if (value) {
     // Check if it's a duration string first to avoid unnecessary date conversion
     if (typeof value === 'string' && isValidDuration(value)) {
-      return // stop here // Return undefined for duration strings to avoid date conversion
+      return undefined // stop here // Return undefined for duration strings to avoid date conversion
     }
     if (typeof value === 'string') {
       return convertStringToDate(value)
@@ -414,7 +414,7 @@ function getDate({
   const childrenValue = convertJsxToString(children)
   // Check if it's a duration string first to avoid unnecessary date conversion
   if (childrenValue && isValidDuration(childrenValue)) {
-    return // stop here // Return undefined for duration strings to avoid date conversion
+    return undefined // stop here // Return undefined for duration strings to avoid date conversion
   }
   return convertStringToDate(childrenValue)
 }

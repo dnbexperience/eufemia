@@ -92,13 +92,13 @@ function DrawerListPortal({
 
   const makeStyle = useCallback(() => {
     if (typeof window === 'undefined' || !isMounted) {
-      return // stop here
+      return undefined // stop here
     }
 
     try {
       const rootElem = rootRef.current
       if (!rootElem) {
-        return // stop here
+        return undefined // stop here
       }
       const ownerElem = rootElem.parentElement
 
@@ -170,6 +170,8 @@ function DrawerListPortal({
     } catch (e) {
       warn(e)
     }
+
+    return undefined
   }, [
     isMounted,
     rootRef,
@@ -181,7 +183,7 @@ function DrawerListPortal({
 
   const addPositionObserver = useCallback(() => {
     if (setPosition.current || typeof window === 'undefined') {
-      return // stop here
+      return undefined // stop here
     }
 
     // debounce

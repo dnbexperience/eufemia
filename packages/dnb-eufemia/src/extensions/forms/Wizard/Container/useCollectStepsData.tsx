@@ -16,7 +16,7 @@ export function useCollectStepsData() {
   const collectStepsData = useCallback(
     ({ id, index, inactive, title, keepInDOM }) => {
       if (!hasInvalidStepsState) {
-        return // stop here
+        return undefined // stop here
       }
 
       let status = undefined

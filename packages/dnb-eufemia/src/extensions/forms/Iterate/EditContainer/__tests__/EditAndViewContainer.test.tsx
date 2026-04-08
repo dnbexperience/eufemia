@@ -91,6 +91,8 @@ describe('EditContainer and ViewContainer', () => {
                 if (value === '01') {
                   return new Error('error')
                 }
+
+                return undefined
               }}
             />
           </Iterate.EditContainer>
@@ -128,6 +130,8 @@ describe('EditContainer and ViewContainer', () => {
                 if (value === '01') {
                   return new Error('error')
                 }
+
+                return undefined
               }}
             />
           </Iterate.EditContainer>
@@ -172,6 +176,8 @@ describe('EditContainer and ViewContainer', () => {
                 if (value === '01') {
                   return new Error('error')
                 }
+
+                return undefined
               }}
             />
           </Iterate.EditContainer>

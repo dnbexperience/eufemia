@@ -167,6 +167,8 @@ export const useStickyHeader = ({
         stickyWarning(String(e))
       }
     }
+
+    return undefined
   }, [elementRef, sticky, stickyOffset])
 
   return { elementRef }

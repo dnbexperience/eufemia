@@ -409,6 +409,8 @@ describe('Field.SelectCountry', () => {
       if (value) {
         return `${country.name} (${value})`
       }
+
+      return undefined
     })
     const transformIn = jest.fn((external) => {
       return String(external).match(/\((.*)\)/)?.[1] || external
@@ -526,6 +528,8 @@ describe('Field.SelectCountry', () => {
       if (value) {
         return `${country.name} (${value})`
       }
+
+      return undefined
     })
     const transformIn = jest.fn((external) => {
       return String(external).match(/\((.*)\)/)?.[1] as CountryISO

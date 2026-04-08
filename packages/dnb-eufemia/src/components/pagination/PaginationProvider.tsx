@@ -180,6 +180,8 @@ const PaginationProvider = (props: any) => {
         case 'after':
           return [...existingItems, new ContentObject(obj)]
       }
+
+      return undefined
     },
     []
   )

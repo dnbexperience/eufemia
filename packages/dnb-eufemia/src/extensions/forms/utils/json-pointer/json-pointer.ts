@@ -148,6 +148,7 @@ function next(cur, refTokens, iterator, descend) {
     }
     refTokens.pop()
   }
+  return undefined
 }
 
 /**

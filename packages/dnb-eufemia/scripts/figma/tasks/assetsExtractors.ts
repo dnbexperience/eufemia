@@ -177,6 +177,7 @@ export const extractIcons = async ({
   } catch (e) {
     log.fail(ErrorHandler('extractIcons failed', e))
   }
+  return undefined
 }
 
 async function collectIconsFromFigmaDoc({
@@ -203,7 +204,7 @@ async function collectIconsFromFigmaDoc({
         /^\./.test(frameDoc.name) ||
         !frameNameSelector.test(frameDoc.name)
       ) {
-        return // stop here
+        return undefined // stop here
       }
 
       const { files, newFiles } = await frameIconsFactory({
@@ -550,6 +551,8 @@ const frameIconsFactory = async ({
         } catch (e) {
           log.fail(ErrorHandler('Failed to process new icons', e))
         }
+
+        return undefined
       }
     )
   ).filter(Boolean)

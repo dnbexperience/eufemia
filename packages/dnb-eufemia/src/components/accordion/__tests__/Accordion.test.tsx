@@ -314,11 +314,11 @@ describe('Accordion container component', () => {
     id: string
   }
   class DidRender extends React.PureComponent<DidRenderProps> {
-    state = { mounted: false }
-    componentDidMount() {
+    override state = { mounted: false }
+    override componentDidMount() {
       this.setState({ mounted: true })
     }
-    render() {
+    override render() {
       return <div id={this.props.id}>{String(this.state.mounted)}</div>
     }
   }

@@ -88,6 +88,8 @@ export default function usePath(props: UsePathProps = {}) {
     if (itemPathProp) {
       return makeIteratePath()
     }
+
+    return undefined
   }, [itemPathProp, makeIteratePath])
 
   const makePath = useCallback(

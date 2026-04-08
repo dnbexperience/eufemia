@@ -98,6 +98,7 @@ const filterDataHandler: FilterData = ({ props }) => {
   if (props.disabled === true) {
     return false
   }
+  return undefined
 }
 
 export const FilterDataStory = () => {

@@ -120,6 +120,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       ) {
         return error
       }
+
+      return undefined
     },
   } = props
 
@@ -393,6 +395,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         }
       }
     }
+
+    return undefined
   }, [
     cleanPath,
     dataContext.schema,
@@ -691,7 +695,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         if (!changedRef.current && !validateUnchanged) {
           // Avoid showing errors when blurring without having changed the value, so tabbing through several
           // fields does not make errors pop up all over the place
-          return
+          return undefined
         }
 
         addToPool(
@@ -732,7 +736,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       if (!executeOnChangeRegardlessOfUnchangedValue && valueIsUnchanged) {
         // Avoid triggering a change if the value was not actually changed. This may be caused by rendering components
         // calling onChange even if the actual value did not change.
-        return
+        return undefined
       }
 
       const transformedValue =
@@ -811,7 +815,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           type = 'field',
         } = options || {}
         if (!fieldPath || !fieldDisplayValueRef?.current) {
-          return // stop here
+          return undefined // stop here
         }
 
         fieldDisplayValueRef.current[fieldPath] = valueEqualsEmptyValue(
@@ -843,7 +847,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       if (!executeOnChangeRegardlessOfUnchangedValue && valueIsUnchanged) {
         // Avoid triggering a change if the value was not actually changed. This may be caused by rendering components
         // calling onChange even if the actual value did not change.
-        return
+        return undefined
       }
 
       // Must be set before validation
@@ -966,7 +970,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   useEffect(() => {
     if (prerenderFieldProps) {
-      return // stop here, we don't want to set the state of the field
+      return undefined // stop here, we don't want to set the state of the field
     }
 
     if (typeof activeIndexRef?.current === 'number') {
@@ -985,6 +989,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         })
       }
     }
+
+    return undefined
   }, [
     activeIndex,
     activeIndexRef,
@@ -995,7 +1001,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   useEffect(() => {
     if (prerenderFieldProps) {
-      return // stop here, we don't want to set the state of the field
+      return undefined // stop here, we don't want to set the state of the field
     }
 
     // Mount procedure.
@@ -1040,6 +1046,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         }
       }
     }
+
+    return undefined
   }, [
     existingFieldsRef,
     hasItemPath,
@@ -1052,7 +1060,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   useEffect(() => {
     if (prerenderFieldProps) {
-      return // stop here, we don't want to set the state of the field
+      return undefined // stop here, we don't want to set the state of the field
     }
 
     const mountedFields = mountedFieldsRef?.current
@@ -1091,7 +1099,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   useEffect(() => {
     if (prerenderFieldProps) {
-      return // stop here, we don't want to set the state of the field
+      return undefined // stop here, we don't want to set the state of the field
     }
 
     // Unmount procedure.
@@ -1126,7 +1134,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         (valueEqualsEmptyValue(valueRef.current) &&
           !shouldRevalidateOnLocaleChange)
       ) {
-        return // stop here
+        return undefined // stop here
       }
 
       if (onBlurValidatorRef.current && shouldRevalidateOnLocaleChange) {
@@ -1141,7 +1149,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           forceUpdate()
         })
 
-        return // stop here
+        return undefined // stop here
       }
     }
   }, [
@@ -1160,7 +1168,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   useEffect(() => {
     if (prerenderFieldProps || !dataContext?.id) {
-      return // stop here
+      return undefined // stop here
     }
 
     const sharedAttachments = createSharedState<{
@@ -1215,7 +1223,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const setContextData = useCallback(
     ({ preventUpdate = undefined } = {}) => {
       if (!hasPath && !hasItemPath) {
-        return // stop here
+        return undefined // stop here
       }
 
       let valueToStore: Value | unknown = valueProp
@@ -1507,7 +1515,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const onSubmitHandler = useCallback(async () => {
     if (hasError()) {
-      return // stop here
+      return undefined // stop here
     }
 
     addToPool(
@@ -1571,6 +1579,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         }
       }
     }
+
+    return undefined
   }, [
     error,
     identifier,
@@ -1592,7 +1602,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   useEffect(() => {
     if (!onStatusChange) {
-      return // stop here
+      return undefined // stop here
     }
 
     const status: FieldStatus = {

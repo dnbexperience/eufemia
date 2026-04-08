@@ -2735,6 +2735,8 @@ describe('Field.Date', () => {
           new Error('My custom message 2'),
         ]
       }
+
+      return undefined
     }
 
     const onBlurValidator = (value: string, { validators }) => {

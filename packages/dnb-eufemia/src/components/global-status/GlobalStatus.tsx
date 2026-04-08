@@ -245,8 +245,8 @@ export default class GlobalStatus extends React.PureComponent<
   GlobalStatusProps,
   GlobalStatusComponentState
 > {
-  static contextType = Context
-  context!: React.ContextType<typeof Context>
+  static override contextType = Context
+  override context!: React.ContextType<typeof Context>
 
   static create: (props: GlobalStatusInterceptorProps) => any
   static Update: (props: GlobalStatusInterceptorProps) => any
@@ -353,7 +353,7 @@ export default class GlobalStatus extends React.PureComponent<
     }
   }
 
-  state = {
+  override state = {
     globalStatus: null,
     isActive: false,
   }
@@ -408,7 +408,7 @@ export default class GlobalStatus extends React.PureComponent<
     this.initialActiveElement = null
   }
 
-  componentWillUnmount() {
+  override componentWillUnmount() {
     clearTimeout(this._scrollToStatusTimeout)
 
     // NB: Never unbind the provider,
@@ -421,7 +421,7 @@ export default class GlobalStatus extends React.PureComponent<
     this.provider.empty()
   }
 
-  componentDidUpdate(prevProps: GlobalStatusProps) {
+  override componentDidUpdate(prevProps: GlobalStatusProps) {
     if (prevProps.show !== this.props.show) {
       if (this.props.show === true) {
         this.setVisible()
@@ -704,7 +704,7 @@ export default class GlobalStatus extends React.PureComponent<
     }
   }
 
-  render() {
+  override render() {
     const { isActive } = this.state
 
     const fallbackProps = extendPropsWithContextInClassComponent(

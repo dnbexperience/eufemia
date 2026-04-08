@@ -55,6 +55,8 @@ export const WithFreshValidator = () => {
       if (num === undefined) {
         return new Error(`No amount was given`)
       }
+
+      return undefined
     }, [])
 
   return (
@@ -111,6 +113,8 @@ export const ConditionalInfo = () => {
             )
           )
         }
+
+        return undefined
       },
       {
         showInitially: true,
@@ -129,6 +133,8 @@ export const ConditionalInfo = () => {
         messageValues: { maximum: maximum.toString() },
       })
     }
+
+    return undefined
   }
 
   return (
@@ -157,6 +163,8 @@ export const ConditionalInfo = () => {
             if (value < 5) {
               return new Error('You done messed up, A-a-ron!')
             }
+
+            return undefined
           }}
           onBlurValidator={onBlurValidator}
         />

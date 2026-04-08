@@ -191,6 +191,8 @@ describe('Field.BankAccountNumber', () => {
       if (value.substring(0, 1) !== '1') {
         return new Error('My error')
       }
+
+      return undefined
     }
 
     const customValidator: Validator<string> = (value, { validators }) => {

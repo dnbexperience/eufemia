@@ -68,7 +68,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         const elem = e.currentTarget as HTMLElement
 
         if (elem.getAttribute('data-autofocus')) {
-          return // stop here
+          return undefined // stop here
         }
 
         if (isTouch(e.type)) {
@@ -157,7 +157,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   const removeEvents = useCallback(
     (element: HTMLElement) => {
       if (!(element instanceof HTMLElement)) {
-        return // stop here
+        return undefined // stop here
       }
       try {
         element.removeEventListener('focus', onFocus)
@@ -228,7 +228,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     const targetElement = getRefElement(cloneRef)
     if (!(targetElement instanceof HTMLElement)) {
       previousDescribedByIdRef.current = null
-      return
+      return undefined
     }
 
     const updateAriaDescribedBy = (nextId: string | null) => {
@@ -286,7 +286,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 
   const handleOverlayMouseLeave = useCallback(() => {
     if (isControlled) {
-      return
+      return undefined
     }
     const run = () => setOverlayHovered(false)
     clearOverlayTimers()

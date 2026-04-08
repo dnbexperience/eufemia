@@ -246,6 +246,8 @@ describe('Field.Expiry', () => {
         const { year, month } = external
         return { year, month }
       }
+
+      return undefined
     })
 
     render(
@@ -311,6 +313,8 @@ describe('Field.Expiry', () => {
         const { year, month } = external
         return { year, month }
       }
+
+      return undefined
     })
 
     render(
@@ -467,6 +471,8 @@ describe('Field.Expiry', () => {
       if (value?.startsWith('12')) {
         return new Error('My error message')
       }
+
+      return undefined
     }
 
     const customValidator: Validator<string> = (value, { validators }) => {

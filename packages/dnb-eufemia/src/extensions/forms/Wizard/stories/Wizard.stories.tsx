@@ -163,6 +163,7 @@ const validator1 = debounceAsync(async (value) => {
   if (value === 'invalid') {
     return Error('Error message')
   }
+  return undefined
 })
 const validator2 = debounceAsync(async (value) => {
   console.log('validator2', value)
@@ -172,6 +173,7 @@ const validator2 = debounceAsync(async (value) => {
   if (value === 'invalid') {
     return Error('Error message')
   }
+  return undefined
 })
 
 export function AsyncStepChange() {

@@ -130,7 +130,7 @@ describe('withComponentMarkers', () => {
 
   it('should work with class components', () => {
     class MyClassComponent extends React.Component {
-      render() {
+      override render() {
         return null
       }
     }

@@ -59,7 +59,7 @@ function MediaQuery(props: MediaQueryProps) {
     }
 
     if (!isMatchMediaSupported()) {
-      return
+      return undefined
     }
 
     const { query, when, not, disabled, correctRange = true, log } = props

@@ -198,6 +198,8 @@ describe('Field.Name', () => {
       if (value && !/^[A-Z]+$/.test(value)) {
         return new Error('Field.errorPattern')
       }
+
+      return undefined
     }
 
     render(
@@ -322,6 +324,8 @@ describe('Field.Name', () => {
         if (value && !value.includes('Corp')) {
           return new FormError('Field.errorPattern')
         }
+
+        return undefined
       }
 
       // Value that passes internal validator but fails custom one

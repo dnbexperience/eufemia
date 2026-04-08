@@ -896,7 +896,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
   const revalidateInputValue = useCallback(() => {
     if (props.inputValue && props.inputValue !== 'initval') {
-      return // stop here
+      return undefined // stop here
     }
     const selectedItem = getCurrentIndex(
       props.value,
@@ -938,7 +938,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       keepValueAndSelection ||
       (props.inputValue !== 'initval' && props.inputValue?.length > 0)
     ) {
-      return // stop here
+      return undefined // stop here
     }
 
     clearTimeout(_selectTimeout.current)
@@ -1443,7 +1443,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       )
 
       if (value === possibleTitle) {
-        return // stop here
+        return undefined // stop here
       }
 
       value = String(value || '').trim()
@@ -1578,7 +1578,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         args.hasFilter = false
       }
       if (disabled) {
-        return // stop here
+        return undefined // stop here
       }
       if (
         !args.hasFilter &&
@@ -1896,11 +1896,11 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   const onInputFocusHandler = useCallback(
     (event: React.FocusEvent<HTMLInputElement>) => {
       if (skipFocusDuringChange) {
-        return // stop here
+        return undefined // stop here
       }
 
       if (suppressFocusHandlerRef.current) {
-        return // stop here
+        return undefined // stop here
       }
 
       if (!hasFocusRef.current) {
@@ -2016,6 +2016,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         event,
         ...getEventObjects('onBlur'),
       })
+
+      return undefined
     },
     [
       drawerList.hasFocusOnElement,
@@ -2114,6 +2116,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
         return false
       }
+
+      return undefined
     },
     [showAll, setFocusOnInput]
   )

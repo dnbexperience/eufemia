@@ -492,6 +492,8 @@ describe('Field.Number', () => {
                     const label = props.label
                     return JSON.stringify({ value, id, label })
                   }
+
+                  return undefined
                 }}
                 id="foo"
               />
@@ -2419,6 +2421,8 @@ describe('Field.Number', () => {
         if (value > 1000) {
           return new Error('Value must be less than or equal to 1000')
         }
+
+        return undefined
       }
 
       render(

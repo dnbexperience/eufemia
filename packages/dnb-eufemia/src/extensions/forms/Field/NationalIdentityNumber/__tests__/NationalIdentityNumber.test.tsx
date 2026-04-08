@@ -314,6 +314,8 @@ describe('Field.NationalIdentityNumber', () => {
       if (value?.length < 4) {
         return new Error('My error')
       }
+
+      return undefined
     }
 
     render(
@@ -527,6 +529,8 @@ describe('Field.NationalIdentityNumber', () => {
       if (value.substring(2, 4) !== '04') {
         return new Error('custom error')
       }
+
+      return undefined
     }
 
     const customValidator: Validator<string> = (value, { validators }) => {

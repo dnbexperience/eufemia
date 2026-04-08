@@ -85,6 +85,8 @@ export default function useAriaLive(props: AriaLiveAllProps) {
         clearTimeout(timeoutRef.current)
       }
     }
+
+    return undefined
   }, [delay, children, disabled, showTextAnnouncement])
 
   return {

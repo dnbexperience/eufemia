@@ -134,7 +134,7 @@ export default function useMedia(
   const runQuery = useCallback(
     ({ when, name, key }: UseMediaQueryProps): UseMediaItem => {
       if (!isMatchMediaSupported()) {
-        return // do nothing
+        return undefined // do nothing
       }
 
       const mediaQueryList = makeMediaQueryList(

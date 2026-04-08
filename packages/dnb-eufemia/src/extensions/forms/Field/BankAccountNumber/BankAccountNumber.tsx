@@ -51,6 +51,8 @@ function BankAccountNumber(props: FieldBankAccountNumberProps) {
           return Error(errorBankAccountNumber)
         }
       }
+
+      return undefined
     },
     [errorBankAccountNumber, errorBankAccountNumberLength]
   )

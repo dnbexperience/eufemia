@@ -197,6 +197,8 @@ export const InitialOpen = () => {
                       getCountryNameByIso(arrayValue.at(index) as string)
                   )
                 }
+
+                return undefined
               }}
             >
               <MyViewItem />
@@ -233,6 +235,8 @@ export const WithArrayValidator = () => {
           if (!(arrayValue?.length > 0)) {
             return new Error('You need at least one item')
           }
+
+          return undefined
         }}
       >
         <Field.String itemPath="/" />

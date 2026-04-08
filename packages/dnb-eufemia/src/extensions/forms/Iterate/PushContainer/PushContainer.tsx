@@ -203,7 +203,7 @@ function PushContainer(props: IteratePushContainerAllProps) {
 
   const data = useMemo(() => {
     if (defaultDataProp) {
-      return // don't return a fallback, because we want to use the defaultData
+      return undefined // don't return a fallback, because we want to use the defaultData
     }
     return {
       ...isolatedData,
@@ -253,7 +253,7 @@ function PushContainer(props: IteratePushContainerAllProps) {
     const targetPath = absolutePath || relativePath
 
     if (!parentSchema || !targetPath) {
-      return // stop here
+      return undefined // stop here
     }
 
     if (isZodSchema(parentSchema)) {
@@ -275,7 +275,7 @@ function PushContainer(props: IteratePushContainerAllProps) {
         : undefined
 
       if (!itemsSchema) {
-        return // stop here
+        return undefined // stop here
       }
 
       return {
