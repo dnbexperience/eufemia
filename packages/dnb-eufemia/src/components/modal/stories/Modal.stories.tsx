@@ -335,7 +335,7 @@ const ModalCloseExample = () => {
   const [count, setCount] = React.useState(0)
 
   React.useEffect(() => {
-    let timeout
+    let timeout: any
 
     if (openState) {
       timeout = setTimeout(() => {
@@ -359,7 +359,7 @@ const ModalCloseExample = () => {
           return () => clearTimeout(timeout)
         }}
         closeModal={(close) => {
-          let timeout
+          let timeout: any
 
           if (!openState) {
             console.log('Modal was opened')

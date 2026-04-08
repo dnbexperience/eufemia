@@ -125,6 +125,6 @@ export const IconSandbox = () => (
   </Wrapper>
 )
 
-const showMe = (e) => {
+const showMe = (e: any) => {
   console.log('showMe', e)
 }

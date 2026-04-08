@@ -87,7 +87,7 @@ function StepIndicatorItem({
   const context = useContext(StepIndicatorContext)
 
   const onClickHandler = useCallback(
-    ({ event, item, currentItemNum }) => {
+    ({ event, item, currentItemNum }: any) => {
       const params = {
         event,
         item,

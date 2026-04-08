@@ -25,7 +25,7 @@ describe('postalCode', () => {
   })
 
   describe('onChangeValidator', () => {
-    let onChangeValidator = null
+    let onChangeValidator: any = null
 
     beforeEach(() => {
       onChangeValidator = withConfig(Connectors.Bring.postalCode.validator)
@@ -343,7 +343,7 @@ describe('postalCode', () => {
   })
 
   describe('onBlurValidator', () => {
-    let onBlurValidator = null
+    let onBlurValidator: any = null
 
     beforeEach(() => {
       onBlurValidator = withConfig(Connectors.Bring.postalCode.validator)
@@ -595,7 +595,7 @@ describe('postalCode', () => {
   })
 
   describe('autofill', () => {
-    let onChange = null
+    let onChange: any = null
 
     beforeEach(() => {
       onChange = withConfig(Connectors.Bring.postalCode.autofill, {
@@ -822,7 +822,7 @@ describe('postalCode', () => {
   })
 })
 
-function createFetchMock(overwrite = null, delay = null) {
+function createFetchMock(overwrite: any = null, delay: any = null) {
   return jest.fn(async () => {
     await delay?.()
     const response = {

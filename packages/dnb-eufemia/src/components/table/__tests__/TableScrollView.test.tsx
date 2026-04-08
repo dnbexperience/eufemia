@@ -41,7 +41,7 @@ describe('Table.ScrollView', () => {
   })
 
   it('should have tabindex="0"', () => {
-    let renderResizeObserver = null
+    let renderResizeObserver: any = null
 
     const observe = jest.fn()
     const init = jest.fn((callback) => {

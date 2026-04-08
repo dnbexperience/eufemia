@@ -123,10 +123,10 @@ describe('package.json', () => {
 
   // Skipped as we do not use this currently
   describe.skip('exports', () => {
-    const resolveTarget = (target) =>
+    const resolveTarget = (target: any) =>
       path.resolve(buildDir, target.replace(/^\.\//, ''))
 
-    const assertTargetExists = (target) => {
+    const assertTargetExists = (target: any) => {
       if (Array.isArray(target)) {
         target.forEach(assertTargetExists)
         return
@@ -138,7 +138,7 @@ describe('package.json', () => {
     }
 
     const assertExport = (
-      key,
+      key: any,
       expected?: Record<string, string> | string
     ) => {
       const exportsMap = packageJson.exports as Record<string, ExportEntry>
@@ -175,7 +175,7 @@ describe('package.json', () => {
     }
 
     const assertPatternExport = (
-      key,
+      key: any,
       expected: Record<string, string | string[]>
     ) => {
       const exportsMap = packageJson.exports as Record<string, ExportEntry>
@@ -357,7 +357,7 @@ describe('release config', () => {
 
     // Verify npm plugin has provenance config
     const npmPlugin = releaseRc.plugins.find(
-      (plugin) =>
+      (plugin: any) =>
         Array.isArray(plugin) && plugin[0] === '@semantic-release/npm'
     )
     expect(npmPlugin).toBeTruthy()

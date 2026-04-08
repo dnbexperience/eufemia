@@ -37,7 +37,7 @@ export function useTableAnimationHandler({
     [trRef]
   )
 
-  const onOpen = useCallback((state) => {
+  const onOpen = useCallback((state: any) => {
     setAriaLive(state ? true : null)
   }, [])
 
@@ -46,7 +46,7 @@ export function useTableAnimationHandler({
   }, [scrollViewHandler])
 
   const onAnimationEnd = useCallback(
-    (state) => {
+    (state: any) => {
       const event = { target: trRef.current }
       switch (state) {
         case 'opened':

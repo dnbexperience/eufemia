@@ -54,15 +54,15 @@ withComponentMarkers(GridItem, {
 
 export default GridItem
 
-function compute(span, modifier) {
+function compute(span: any, modifier: any) {
   if (!span) {
     return null
   }
 
   const result = {}
 
-  const collect = (media, values) => {
-    values.forEach((value, i) => {
+  const collect = (media: any, values: any) => {
+    values.forEach((value: any, i: any) => {
       const pos = i === 0 ? 's' : 'e'
       if (i === 1 && value > 0) {
         value += 1
@@ -93,7 +93,7 @@ function compute(span, modifier) {
 
   return result
 
-  function makeStyle(media, pos) {
+  function makeStyle(media: any, pos: any) {
     return `--${media}-${modifier}-${pos}`
   }
 }

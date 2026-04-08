@@ -78,7 +78,7 @@ export default function CancelButton({
   return (
     <Button
       {...triggerAttributes}
-      onClick={(args) => cancelHandler(args)}
+      onClick={(args: any) => cancelHandler(args)}
     />
   )
 }

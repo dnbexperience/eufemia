@@ -1731,7 +1731,7 @@ describe('Field.Upload', () => {
     })
 
     it('should add new files from fileHandler with async function with multiple actions', async () => {
-      const newFile = (fileId) => {
+      const newFile = (fileId: any) => {
         return createMockFile(`${fileId}.png`, 100, 'image/png')
       }
 
@@ -1744,7 +1744,7 @@ describe('Field.Upload', () => {
         newFile(5),
       ]
 
-      const asyncValidatorResolvingWithSuccess = (id) =>
+      const asyncValidatorResolvingWithSuccess = (id: any) =>
         new Promise<UploadValue>((resolve) =>
           setTimeout(
             () =>
@@ -1822,7 +1822,7 @@ describe('Field.Upload', () => {
         await wait(1)
       })
 
-      const newFile = (fileId) => {
+      const newFile = (fileId: any) => {
         return createMockFile(`${fileId}.png`, 100, 'image/png')
       }
 
@@ -1830,10 +1830,10 @@ describe('Field.Upload', () => {
 
       const filesSecondUpload = [newFile(1)]
 
-      const asyncValidatorResolvingWithSuccess = (files) =>
+      const asyncValidatorResolvingWithSuccess = (files: any) =>
         new Promise<UploadValue>((resolve) =>
           setTimeout(() => {
-            const filesToResolve = files.map((file, i) => {
+            const filesToResolve = files.map((file: any, i: any) => {
               return {
                 file: file,
                 id: makeUniqueId(),
@@ -2250,7 +2250,7 @@ describe('Field.Upload', () => {
       ).toBe(1)
     })
 
-    let dataContext = null
+    let dataContext: any = null
 
     // Don't rerender, but render again to make sure the files are not set
     unmount()
@@ -2512,7 +2512,7 @@ describe('Field.Upload', () => {
       )
 
       const onSubmit = jest.fn()
-      let latestData = null
+      let latestData: any = null
 
       const firstItemFile = createMockFile(
         'first-item-file.png',
@@ -3014,7 +3014,7 @@ describe('Field.Upload', () => {
       )
     }
 
-    let dataContext = null
+    let dataContext: any = null
     function LogContext() {
       dataContext = useContext(DataContext.Context).data
       return null
@@ -3666,7 +3666,7 @@ describe('Field.Upload', () => {
       const callOrder: string[] = []
       const onValidationError = jest.fn((files) => {
         callOrder.push('onValidationError')
-        return files.map((file) => ({
+        return files.map((file: any) => ({
           ...file,
           description: 'Modified by validation handler',
         }))
@@ -3714,7 +3714,7 @@ describe('Field.Upload', () => {
 
     it('should allow setting removeLink on files with validation errors', async () => {
       const onValidationError = jest.fn((files) => {
-        return files.map((file) => ({
+        return files.map((file: any) => ({
           ...file,
           removeLink: true,
         }))
@@ -3753,7 +3753,7 @@ describe('Field.Upload', () => {
 
     it('should allow setting multiple custom properties on invalid files', async () => {
       const onValidationError = jest.fn((files) => {
-        return files.map((file) => ({
+        return files.map((file: any) => ({
           ...file,
           removeLink: true,
           removeDeleteButton: true,
@@ -3812,7 +3812,7 @@ describe('Field.Upload', () => {
 
     it('should work with both sync onValidationError and async fileHandler', async () => {
       const onValidationError = jest.fn((files) => {
-        return files.map((file) => ({
+        return files.map((file: any) => ({
           ...file,
           removeLink: true,
         }))
@@ -3820,7 +3820,7 @@ describe('Field.Upload', () => {
 
       const fileHandler = jest.fn((files) => {
         return Promise.resolve(
-          files.map((file) => ({
+          files.map((file: any) => ({
             ...file,
             id: 'server-id',
           }))
@@ -3873,7 +3873,7 @@ describe('Field.Upload', () => {
 
     it('should handle only invalid files without fileHandler', async () => {
       const onValidationError = jest.fn((files) => {
-        return files.map((file) => ({
+        return files.map((file: any) => ({
           ...file,
           removeLink: true,
         }))
@@ -3977,7 +3977,7 @@ describe('Field.Upload', () => {
 
     it('should work with onFileDelete on files modified by onValidationError', async () => {
       const onValidationError = jest.fn((files) => {
-        return files.map((file) => ({
+        return files.map((file: any) => ({
           ...file,
           removeLink: true,
           description: 'Cannot upload',
@@ -4028,7 +4028,7 @@ describe('Field.Upload', () => {
 
     it('should support deleteButtonProps on files with validation errors', async () => {
       const onValidationError = jest.fn((files) => {
-        return files.map((file) => ({
+        return files.map((file: any) => ({
           ...file,
           deleteButtonProps: {
             icon: 'exclamation',
@@ -4076,14 +4076,14 @@ describe('Field.Upload', () => {
 
     it('should be mutually exclusive with fileHandler - only invalid files trigger onValidationError', async () => {
       const onValidationError = jest.fn((files) => {
-        return files.map((file) => ({
+        return files.map((file: any) => ({
           ...file,
           description: 'Validation failed',
         }))
       })
 
       const fileHandler = jest.fn((files) => {
-        return files.map((file) => ({
+        return files.map((file: any) => ({
           ...file,
           id: `server_${file.file.name}`,
         }))
@@ -4149,7 +4149,7 @@ describe('Field.Upload', () => {
 
     it('should trigger onValidationError for files with errorMessage set via value prop', async () => {
       const onValidationError = jest.fn((files) => {
-        return files.map((file) => ({
+        return files.map((file: any) => ({
           ...file,
           description: 'Error handled by onValidationError',
         }))
@@ -4208,7 +4208,7 @@ describe('Field.Upload', () => {
 
       const fileHandler = jest.fn((files) => {
         // Simulate fileHandler returning file with error
-        return files.map((file) => ({
+        return files.map((file: any) => ({
           ...file,
           id: 'server-id',
           errorMessage: 'Server validation failed',

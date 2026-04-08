@@ -105,7 +105,7 @@ export function ThemeWrapper({
   element = null,
   className = null,
   ...rest
-}) {
+}: any) {
   const Wrapper = element === false ? React.Fragment : element || 'div'
   const ref = React.useRef<HTMLElement>(null)
 
@@ -131,7 +131,7 @@ export function ThemeWrapper({
   )
 }
 
-export function getThemeClasses(theme: ThemeProps, className = null) {
+export function getThemeClasses(theme: ThemeProps, className: any = null) {
   if (!theme) {
     return className
   }

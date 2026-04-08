@@ -300,7 +300,7 @@ describe('Step', () => {
     })
 
     it('should prerender the step', () => {
-      const whatStepsDidRender = []
+      const whatStepsDidRender: any[] = []
 
       const CheckPrerender = () => {
         const wizardStepContext = useContext(WizardStepContext)

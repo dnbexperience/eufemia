@@ -427,7 +427,7 @@ describe('Autocomplete component', () => {
   })
 
   describe('id', () => {
-    const testAllIds = (id) => {
+    const testAllIds = (id: any) => {
       // DrawerList specifics
       expect(
         document.querySelector('.dnb-drawer-list').getAttribute('id')
@@ -1661,7 +1661,7 @@ describe('Autocomplete component', () => {
       { selectedKey: 'c', content: ['CC', 'cc'] },
     ]
 
-    const onTypeHandler = ({ value, updateData }) => {
+    const onTypeHandler = ({ value, updateData }: any) => {
       if (value === 'c') {
         updateData(newMockData)
       }
@@ -1841,7 +1841,11 @@ describe('Autocomplete component', () => {
   })
 
   it('should allow showing "no-options" via showNoOptionsItem in async mode', async () => {
-    const onTypeHandler = ({ value, updateData, showNoOptionsItem }) => {
+    const onTypeHandler = ({
+      value,
+      updateData,
+      showNoOptionsItem,
+    }: any) => {
       if (value === 'x') {
         updateData([])
         showNoOptionsItem()
@@ -1885,7 +1889,7 @@ describe('Autocomplete component', () => {
     const mockDataA = [{ selectedKey: 'a', content: 'A' }]
     const mockDataB = [{ selectedKey: 'b', content: 'B' }]
 
-    const onTypeHandler = ({ value, updateData }) => {
+    const onTypeHandler = ({ value, updateData }: any) => {
       if (value === 'a') {
         updateData(mockDataA)
       } else if (value === 'b') {
@@ -2911,7 +2915,7 @@ describe('Autocomplete component', () => {
       { selectedValue: 'c value', content: '22 cc' },
     ]
 
-    const onTypeHandler = ({ updateData }) => {
+    const onTypeHandler = ({ updateData }: any) => {
       updateData(mockData)
     }
 
@@ -2957,7 +2961,7 @@ describe('Autocomplete component', () => {
     const WithState = () => {
       const [data, setData] = React.useState(mockDataA)
 
-      const onTypeHandler = ({ debounce, ...args }) => {
+      const onTypeHandler = ({ debounce, ...args }: any) => {
         debounce(() => {
           args.showIndicator()
           setTimeout(() => {
@@ -4628,13 +4632,13 @@ describe('Autocomplete scss', () => {
   })
 })
 
-const keyDownOnInput = (key) => {
+const keyDownOnInput = (key: any) => {
   fireEvent.keyDown(document.querySelector('.dnb-input__input'), {
     key,
   })
 }
 
-const dispatchKeyDown = (key) => {
+const dispatchKeyDown = (key: any) => {
   document.dispatchEvent(
     new KeyboardEvent('keydown', {
       key,

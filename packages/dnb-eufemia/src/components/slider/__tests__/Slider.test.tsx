@@ -218,12 +218,12 @@ describe('Slider component', () => {
   })
 
   describe('Tooltip', () => {
-    const IS_TEST = globalThis.IS_TEST
+    const IS_TEST = (globalThis as any).IS_TEST
     beforeEach(() => {
-      globalThis.IS_TEST = false
+      ;(globalThis as any).IS_TEST = false
     })
     afterEach(() => {
-      globalThis.IS_TEST = IS_TEST
+      ;(globalThis as any).IS_TEST = IS_TEST
     })
 
     it('shows always a Tooltip when alwaysShowTooltip is true', () => {
@@ -978,7 +978,7 @@ const resetMouseSimulation = () => {
   }
 }
 
-const simulateMouseMove = (props) => {
+const simulateMouseMove = (props: any) => {
   act(() => {
     fireEvent.mouseUp(document.querySelector('.dnb-slider__track'))
     fireEvent.mouseDown(document.querySelector('.dnb-slider__track'))

@@ -89,8 +89,8 @@ describe('HeightAnimationInstance', () => {
 
       mockHeight(100, element)
 
-      const addedNodes = []
-      const removedNodes = []
+      const addedNodes: any[] = []
+      const removedNodes: any[] = []
 
       const observer = new MutationObserver((mutationsList) => {
         for (const mutation of mutationsList) {
@@ -133,8 +133,8 @@ describe('HeightAnimationInstance', () => {
 
       mockHeight(100, element)
 
-      const addedNodes = []
-      const removedNodes = []
+      const addedNodes: any[] = []
+      const removedNodes: any[] = []
 
       const observer = new MutationObserver((mutationsList) => {
         for (const mutation of mutationsList) {
@@ -197,7 +197,7 @@ describe('HeightAnimationInstance', () => {
       element.setAttribute('data-width', String(200))
       jest.spyOn(element, 'clientWidth', 'get').mockReturnValueOnce(100)
 
-      const addedNodes = []
+      const addedNodes: any[] = []
       const removedNodes = []
 
       const observer = new MutationObserver((mutationsList) => {
@@ -235,7 +235,7 @@ describe('HeightAnimationInstance', () => {
 
       mockHeight(100, element)
 
-      const styles = []
+      const styles: any[] = []
 
       const observer = new MutationObserver((mutationsList) => {
         for (const mutation of mutationsList) {
@@ -424,7 +424,7 @@ describe('HeightAnimationInstance', () => {
 
   describe('open', () => {
     beforeEach(() => {
-      globalThis.bypassTime = 1
+      ;(globalThis as any).bypassTime = 1
     })
 
     it('should call getUnknownHeight', () => {
@@ -563,7 +563,7 @@ describe('HeightAnimationInstance', () => {
 
   describe('close', () => {
     beforeEach(() => {
-      globalThis.bypassTime = 1
+      ;(globalThis as any).bypassTime = 1
     })
 
     it('should call setAsClosed when criteria are met', () => {
@@ -818,7 +818,7 @@ describe('HeightAnimationInstance', () => {
 
   describe('canFinish', () => {
     beforeEach(() => {
-      globalThis.animationDuration = undefined
+      ;(globalThis as any).animationDuration = undefined
     })
 
     it('should return true if enough time has passed', () => {
@@ -859,19 +859,17 @@ describe('HeightAnimationInstance', () => {
       inst.setElement(element)
 
       expect(inst.shouldBypassAnimation()).toBe(false)
-
-      globalThis.IS_TEST = true
+      ;(globalThis as any).IS_TEST = true
 
       expect(inst.shouldBypassAnimation()).toBe(false)
-
-      globalThis.IS_TEST = false
-      globalThis.bypassTime = -1
+      ;(globalThis as any).IS_TEST = false
+      ;(globalThis as any).bypassTime = -1
 
       expect(inst.shouldBypassAnimation()).toBe(false)
     })
 
     it('should return true when firstTime is not set or bypassTime has not elapsed', () => {
-      globalThis.bypassTime = 10
+      ;(globalThis as any).bypassTime = 10
 
       const inst = new HeightAnimationInstance()
       inst.setElement(element)
@@ -881,8 +879,7 @@ describe('HeightAnimationInstance', () => {
       inst.callAnimationStart() // to set firstTime" with a timestamp
 
       expect(inst.shouldBypassAnimation()).toBe(true)
-
-      globalThis.bypassTime = 0
+      ;(globalThis as any).bypassTime = 0
 
       inst.callAnimationStart() // to set firstTime" with a timestamp
 

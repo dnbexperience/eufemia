@@ -121,7 +121,7 @@ export default function Tr(
   return <tr role="row" className={className} {...trProps} />
 }
 
-function useHandleTrVariant({ variant }) {
+function useHandleTrVariant({ variant }: any) {
   const tableContext = React.useContext(TableContext)
 
   /**
@@ -192,7 +192,7 @@ function useHandleTrVariant({ variant }) {
 /**
  * Handle odd/even on re-render and React.StrictMode
  */
-export function useHandleOddEven({ children }) {
+export function useHandleOddEven({ children }: any) {
   // Create this ref in order to "auto" set even/odd class in tr elements
   const trCountRef = React.useRef({ count: 0 })
 

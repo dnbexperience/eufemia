@@ -2448,7 +2448,7 @@ describe('PushContainer', () => {
   })
 
   it('should render custom Toolbar', () => {
-    const Toolbar = (props) => {
+    const Toolbar = (props: any) => {
       return (
         <Div id="toolbar" {...props}>
           Custom Toolbar

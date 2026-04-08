@@ -202,7 +202,7 @@ describe('EditContainer and ViewContainer', () => {
 
   describe('Cancel routine', () => {
     it('should stay in edit and show container error on Cancel after submit error', async () => {
-      let containerMode = null
+      let containerMode: any = null
 
       const ContextConsumer = () => {
         const context = React.useContext(IterateItemContext)
@@ -254,7 +254,7 @@ describe('EditContainer and ViewContainer', () => {
     })
 
     it('should keep edit after cancel when required error exists, and submit should still be edit', async () => {
-      let containerMode = null
+      let containerMode: any = null
 
       const ContextConsumer = () => {
         const context = React.useContext(IterateItemContext)
@@ -326,7 +326,7 @@ describe('EditContainer and ViewContainer', () => {
     })
 
     it('should keep edit after cancel (when view is rendered first), and submit should still be edit', async () => {
-      let containerMode = null
+      let containerMode: any = null
 
       const ContextConsumer = () => {
         const context = React.useContext(IterateItemContext)
@@ -398,7 +398,7 @@ describe('EditContainer and ViewContainer', () => {
     })
 
     it('should reset entered data on Cancel press, when containerMode is set to "edit"', async () => {
-      let containerMode = null
+      let containerMode: any = null
 
       const ContextConsumer = () => {
         const context = React.useContext(IterateItemContext)
@@ -529,7 +529,7 @@ describe('EditContainer and ViewContainer', () => {
     })
 
     it('should only set focus on newly added element when containerMode changes', async () => {
-      const containerMode = []
+      const containerMode: any[] = []
 
       const ContextConsumer = () => {
         const context = React.useContext(IterateItemContext)

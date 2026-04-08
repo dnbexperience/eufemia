@@ -58,7 +58,7 @@ function ProgressIndicatorCircular(
   const doAnimation = (
     element: SVGSVGElement,
     animateOnStart = true,
-    callback = null
+    callback: any = null
   ) => {
     const min = 1
     const max = Math.PI * 100
@@ -70,7 +70,7 @@ function ProgressIndicatorCircular(
       completeCalled = false,
       stopNextRound = false
 
-    const step = (timestamp) => {
+    const step = (timestamp: any) => {
       if (!start) {
         start = timestamp
       }

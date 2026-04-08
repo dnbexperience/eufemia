@@ -180,7 +180,7 @@ export function scrollToLocationHashId({
     window.location
   ) {
     try {
-      let _timeout
+      let _timeout: any
       const id = String(window.location.hash).replace('#', '')
       if (id.length > 0) {
         const handleScroll = () => {

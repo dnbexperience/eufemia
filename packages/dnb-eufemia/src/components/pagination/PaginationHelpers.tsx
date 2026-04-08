@@ -82,7 +82,7 @@ export class ContentObject {
   }
 }
 
-export function isTrElement(Element) {
+export function isTrElement(Element: any) {
   let isTr = false
 
   if (Element === 'tr') {
@@ -100,7 +100,7 @@ export function isTrElement(Element) {
 }
 
 export function preparePageElement(
-  Element,
+  Element: any,
   includeClassName = 'dnb-pagination__page'
 ) {
   if (String(Element) === 'Symbol(react.fragment)') {
@@ -110,7 +110,7 @@ export function preparePageElement(
   if (includeClassName) {
     const isTr = isTrElement(Element)
 
-    return ({ className, children, ref, ...props }) => {
+    return ({ className, children, ref, ...props }: any) => {
       const params = {
         ...props,
         className: clsx(includeClassName, className),

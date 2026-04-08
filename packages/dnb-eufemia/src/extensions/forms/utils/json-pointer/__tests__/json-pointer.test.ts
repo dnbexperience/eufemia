@@ -11,7 +11,7 @@ import pointer, {
 } from '../../json-pointer'
 
 describe('json-pointer', () => {
-  let rfcExample, rfcValues, rfcParsed
+  let rfcExample: any, rfcValues: any, rfcParsed: any
 
   function resetExamples() {
     rfcExample = {
@@ -149,7 +149,7 @@ describe('json-pointer', () => {
     })
 
     it('should create arrays for numeric reference tokens and objects for other tokens', () => {
-      const obj = []
+      const obj: any[] = []
       set(obj, '/0/test/0', 'expected')
       expect(Array.isArray(obj)).toBe(true)
       expect(Array.isArray(obj[0])).toBe(false)
@@ -157,7 +157,7 @@ describe('json-pointer', () => {
     })
 
     it('should create arrays for numeric reference tokens and objects for other tokens when tokens are passed', () => {
-      const obj = []
+      const obj: any[] = []
       set(obj, ['0', 'test', '0'], 'expected')
       expect(Array.isArray(obj)).toBe(true)
       expect(Array.isArray(obj[0])).toBe(false)
@@ -331,7 +331,7 @@ describe('json-pointer', () => {
 
   describe('walk', () => {
     it('should iterate over an object', () => {
-      walk({ bla: { test: 'expected' } }, (value, pointer) => {
+      walk({ bla: { test: 'expected' } }, (value: any, pointer: any) => {
         expect(pointer).toBe('/bla/test')
         expect(value).toBe('expected')
       })
@@ -346,10 +346,13 @@ describe('json-pointer', () => {
       expect(count).toBe(3)
 
       count = 0
-      walk({ bla: { foo: 'foo', bar: 'bar', baz: 'baz' } }, (value) => {
-        count++
-        return value === 'bar' ? false : true
-      })
+      walk(
+        { bla: { foo: 'foo', bar: 'bar', baz: 'baz' } },
+        (value: any) => {
+          count++
+          return value === 'bar' ? false : true
+        }
+      )
 
       expect(count).toBe(2)
     })

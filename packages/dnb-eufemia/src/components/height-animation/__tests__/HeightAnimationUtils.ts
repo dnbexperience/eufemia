@@ -2,10 +2,10 @@ import { act } from '@testing-library/react'
 
 export function initializeTestSetup() {
   beforeEach(() => {
-    globalThis.IS_TEST = false
-    globalThis.readjustTime = 10
-    globalThis.bypassTime = -1
-    globalThis.animationDuration = -1
+    ;(globalThis as any).IS_TEST = false
+    ;(globalThis as any).readjustTime = 10
+    ;(globalThis as any).bypassTime = -1
+    ;(globalThis as any).animationDuration = -1
 
     const requestAnimationFrame = jest.fn((fn) => {
       nextAnimationFrame = fn
@@ -16,10 +16,10 @@ export function initializeTestSetup() {
       .mockImplementation(requestAnimationFrame)
   })
   afterEach(() => {
-    globalThis.IS_TEST = undefined
-    globalThis.readjustTime = undefined
-    globalThis.bypassTime = undefined
-    globalThis.animationDuration = undefined
+    ;(globalThis as any).IS_TEST = undefined
+    ;(globalThis as any).readjustTime = undefined
+    ;(globalThis as any).bypassTime = undefined
+    ;(globalThis as any).animationDuration = undefined
   })
 }
 

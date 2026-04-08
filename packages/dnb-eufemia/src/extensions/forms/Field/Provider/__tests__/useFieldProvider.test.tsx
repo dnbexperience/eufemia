@@ -41,7 +41,7 @@ describe('useFieldProvider', () => {
       overwriteProps: {},
     }
     const inheritedContext = { disabled: true }
-    const inheritedProps = null
+    const inheritedProps: any = null
     const extend = () => null
 
     const { result } = renderHook(useFieldProvider, {
@@ -67,7 +67,7 @@ describe('useFieldProvider', () => {
       overwriteProps: {},
     }
     const inheritedContext = { disabled: true }
-    const inheritedProps = null
+    const inheritedProps: any = null
     const extend = () => null
 
     const { result } = renderHook(useFieldProvider, {

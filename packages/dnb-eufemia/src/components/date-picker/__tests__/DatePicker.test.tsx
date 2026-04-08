@@ -1052,7 +1052,7 @@ describe('DatePicker component', () => {
   it('will render the result of "onDaysRender"', () => {
     const customClassName = 'dnb-date-picker__day--weekend'
     const onDaysRender = jest.fn((days) => {
-      return days.map((dateObject) => {
+      return days.map((dateObject: any) => {
         if (isWeekend(dateObject.date)) {
           dateObject.isInactive = true
           dateObject.className = customClassName
@@ -1097,7 +1097,7 @@ describe('DatePicker component', () => {
     const osloDate = getOsloDate()
 
     const onDaysRender = jest.fn((days) => {
-      return days.map((dayObject) => {
+      return days.map((dayObject: any) => {
         dayObject.isToday = isSameDay(dayObject.date, osloDate)
         return dayObject
       })
@@ -2413,7 +2413,7 @@ describe('DatePicker component', () => {
   })
 
   it('resets date correctly between interactions', async () => {
-    let outerState
+    let outerState: any
     const onChange = jest.fn(({ date }) => (outerState = date))
     const { rerender } = render(
       <DatePicker onChange={onChange} showInput date="2019-02-01" />
@@ -4787,7 +4787,7 @@ describe('DatePicker calc', () => {
 
     const startDate = new Date('2020-02-01')
     const endDate = new Date('2020-03-31')
-    const hoverDate = null
+    const hoverDate: any = null
     const minDate = date
     const maxDate = new Date('2020-04-20')
     const month = date
@@ -5049,7 +5049,7 @@ describe('Custom text for buttons', () => {
       const [day, month, year]: Array<HTMLInputElement> =
         getSegmentedFields()
 
-      let date = null
+      let date: any = null
 
       const getData = jest.fn(() => date)
       const clipboardData = { getData }

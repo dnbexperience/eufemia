@@ -9,7 +9,7 @@ const nb = nbNO['nb-NO']
 
 describe('EditContainer and ViewContainer', () => {
   it('should switch mode on pressing edit button', async () => {
-    let containerMode = null
+    let containerMode: any = null
 
     const ContextConsumer = () => {
       const context = React.useContext(SectionContainerContext)
@@ -130,7 +130,7 @@ describe('EditContainer and ViewContainer', () => {
 
   describe('Cancel routine', () => {
     it('should keep edit open and show section error on Cancel after submit error', async () => {
-      let containerMode = null
+      let containerMode: any = null
 
       const ContextConsumer = () => {
         const context = React.useContext(SectionContainerContext)
@@ -267,7 +267,7 @@ describe('EditContainer and ViewContainer', () => {
     })
 
     it('should keep edit after cancel then form submit when invalid', async () => {
-      let containerMode = null
+      let containerMode: any = null
 
       const ContextConsumer = () => {
         const context = React.useContext(SectionContainerContext)
@@ -343,7 +343,7 @@ describe('EditContainer and ViewContainer', () => {
     })
 
     it('should keep edit (when view rendered first) after cancel then submit when invalid', async () => {
-      let containerMode = null
+      let containerMode: any = null
 
       const ContextConsumer = () => {
         const context = React.useContext(SectionContainerContext)
@@ -414,7 +414,7 @@ describe('EditContainer and ViewContainer', () => {
     })
 
     it('should reset entered data on Cancel press, when containerMode is set to "edit"', async () => {
-      let containerMode = null
+      let containerMode: any = null
 
       const ContextConsumer = () => {
         const context = React.useContext(SectionContainerContext)
@@ -840,7 +840,7 @@ describe('EditContainer and ViewContainer', () => {
   })
 
   it('should reset entered data on Cancel press when path is set', async () => {
-    let containerMode = null
+    let containerMode: any = null
 
     const ContextConsumer = () => {
       const context = React.useContext(SectionContainerContext)

@@ -36,7 +36,7 @@ export default async function convertSvgToJsx({
   destPath = './src/icons',
   preventDelete = false,
   customIconsLockFilePath = null,
-} = {}) {
+}: any = {}) {
   if (!preventDelete) {
     const filesToDelete = await globby(
       [
@@ -122,7 +122,7 @@ const transformSvg = async ({
   destPath,
   assetsDir,
   customIconsLockFilePath,
-}) => {
+}: any) => {
   try {
     // create subfolder
     await fs.mkdir(path.resolve(ROOT_DIR, destPath, assetsDir), {
@@ -143,7 +143,7 @@ const transformSvg = async ({
   }
 }
 
-const transformSvgToReact = async ({ srcPath, destPath }) => {
+const transformSvgToReact = async ({ srcPath, destPath }: any) => {
   const files = await globby(srcPath, { cwd: ROOT_DIR })
 
   const globBase = path.resolve(ROOT_DIR, srcPath.split('*')[0])
@@ -167,7 +167,7 @@ const transformSvgToReact = async ({ srcPath, destPath }) => {
   }
 }
 
-const transformToJsx = (content, file): PromiseLike<string> => {
+const transformToJsx = (content: any, file: any): PromiseLike<string> => {
   if (String(content).trim().length === 0) {
     fs.unlinkSync(file.path)
     return Promise.resolve('')
@@ -240,7 +240,7 @@ const makeIconsEntryFiles = async ({
   destPath,
   assetsDir,
   customIconsLockFilePath = null,
-}) => {
+}: any) => {
   // get all the svg icons we find
   const icons: Array<IconItem> = (
     await globby([

@@ -9,7 +9,7 @@ export default {
 
 const initialData = { phone: '+4742345678' }
 
-const makeRequest = async (value) => {
+const makeRequest = async (value: any) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(false)
@@ -17,7 +17,7 @@ const makeRequest = async (value) => {
   })
 }
 
-const onChangeValidator = async (value) => {
+const onChangeValidator = async (value: any) => {
   const isValid = await makeRequest(value)
   if (!isValid) {
     return new FormError('Field.errorRequired')
@@ -62,7 +62,7 @@ type PhoneNumberDataShape = {
   countryCodePrefix: string
 }
 
-const transformOut = (internal, additionalArgs = {}) => {
+const transformOut = (internal: any, additionalArgs = {}) => {
   const {
     countryCode: countryCodePrefix,
     phoneNumber,

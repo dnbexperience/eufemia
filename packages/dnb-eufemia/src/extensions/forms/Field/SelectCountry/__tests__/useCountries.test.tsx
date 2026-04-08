@@ -7,8 +7,8 @@ import { mergeTranslations } from '../../../../../shared'
 import svSE_forms_countries from '../../../constants/locales/countries/sv-SE'
 import daDK_forms_countries from '../../../constants/locales/countries/da-DK'
 
-const getOneCountry = (countries, country: string) => {
-  return countries.find((c) => c.iso === country)
+const getOneCountry = (countries: any, country: string) => {
+  return countries.find((c: any) => c.iso === country)
 }
 
 describe('useCountries', () => {

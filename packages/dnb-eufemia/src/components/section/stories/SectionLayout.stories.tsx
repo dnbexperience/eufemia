@@ -8,7 +8,7 @@ export default {
   title: 'Eufemia/Components/SectionLayout',
 }
 
-function PageWrapper({ children }) {
+function PageWrapper({ children }: any) {
   const PageWrapperStyles = styled(Flex.Stack)`
     max-width: calc(var(--layout-large) - 0rem);
 

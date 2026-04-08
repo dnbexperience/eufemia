@@ -45,7 +45,7 @@ export const InfinitySandbox = () => {
     currentPage: 3,
   }
 
-  const action = ({ pageNumber, setContent }) => {
+  const action = ({ pageNumber, setContent }: any) => {
     console.log('pageNumber', pageNumber)
     setTimeout(() => {
       setContent(
@@ -158,11 +158,11 @@ export const PaginationSandbox = () => (
     <Box>
       <PaginationWithState
         align="center"
-        onChange={(pageNumber) => {
+        onChange={(pageNumber: any) => {
           console.log('onChange:', pageNumber)
         }}
       >
-        {(pageNumber) => (
+        {(pageNumber: any) => (
           <LargePage color="HotPink">{pageNumber}</LargePage>
         )}
       </PaginationWithState>
@@ -171,7 +171,7 @@ export const PaginationSandbox = () => (
     <Box>
       <HeightLimit>
         <InfinityPagination useLoadButton startupPage={5}>
-          {(pageNumber, ref) => (
+          {(pageNumber: any, ref: any) => (
             <LargePage ref={ref} color="LightCoral">
               {pageNumber}
             </LargePage>
@@ -190,7 +190,7 @@ export const PaginationSandbox = () => (
           pageCount={10}
           minWaitTime={0}
         >
-          {(pageNumber, ref) => (
+          {(pageNumber: any, ref: any) => (
             <LargePage ref={ref} color="Indigo">
               {pageNumber}
             </LargePage>
@@ -232,7 +232,7 @@ const HeightLimit = styled.div`
   background-color: var(--color-white);
   border: 4px solid blue;
 `
-const PaginationWithState = ({ children, ...props }) => {
+const PaginationWithState = ({ children, ...props }: any) => {
   const [currentPage, setCurrentPage] = React.useState(1)
   const [{ Pagination: PaginationInstance, setContent, resetContent }] =
     React.useState(createPagination)
@@ -249,7 +249,7 @@ const PaginationWithState = ({ children, ...props }) => {
       {...props}
       pageCount={30}
       currentPage={currentPage}
-      onChange={({ pageNumber }) => {
+      onChange={({ pageNumber }: any) => {
         console.log('PaginationWithState onChange:', pageNumber)
         setCurrentPage(pageNumber)
       }}
@@ -262,7 +262,7 @@ const PaginationWithState = ({ children, ...props }) => {
     </PaginationInstance>
   )
 }
-const InfinityPagination = ({ children, ...props }) => {
+const InfinityPagination = ({ children, ...props }: any) => {
   return (
     <Pagination
       mode="infinity"

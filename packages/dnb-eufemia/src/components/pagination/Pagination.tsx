@@ -378,7 +378,7 @@ const PaginationInstance = React.memo(function PaginationInstance(
     validateDOMAttributes(props, mainParams)
 
     const content = items.find(
-      ({ pageNumber }) => pageNumber === currentPageInternal
+      ({ pageNumber }: any) => pageNumber === currentPageInternal
     )?.content
 
     return (

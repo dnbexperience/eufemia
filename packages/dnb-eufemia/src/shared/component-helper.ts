@@ -129,7 +129,7 @@ export const validateDOMAttributes = (
   return params
 }
 
-export function isObject(item) {
+export function isObject(item: any) {
   return item && typeof item === 'object' && !Array.isArray(item)
 }
 
@@ -158,9 +158,9 @@ export function extendDeep(target = {}, ...sources) {
 }
 
 export const dispatchCustomElementEvent = (
-  src,
-  eventName,
-  eventObjectOrig = undefined
+  src: any,
+  eventName: any,
+  eventObjectOrig: any = undefined
 ) => {
   let ret = undefined
 
@@ -182,24 +182,25 @@ export const dispatchCustomElementEvent = (
 }
 
 // transform my_component to MyComponent
-export const toPascalCase = (s) =>
+export const toPascalCase = (s: any) =>
   s
     .split(/_/g)
     .reduce(
-      (acc, cur) =>
+      (acc: any, cur: any) =>
         acc +
         cur.replace(
           /(\w)(\w*)/g,
-          (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase()
+          (g0: any, g1: any, g2: any) =>
+            g1.toUpperCase() + g2.toLowerCase()
         ),
       ''
     )
 
 // transform MyComponent to my-component
-export const toKebabCase = (str) =>
-  str.replace(/\B[A-Z]/g, (letter) => `-${letter}`).toLowerCase()
+export const toKebabCase = (str: any) =>
+  str.replace(/\B[A-Z]/g, (letter: any) => `-${letter}`).toLowerCase()
 
-export function toCapitalized(str) {
+export function toCapitalized(str: any) {
   return typeof str === 'string'
     ? str
         .toLowerCase()
@@ -222,7 +223,7 @@ export const makeUniqueId = (prefix = 'id-', length = 8) =>
   ).slice(-length)
 let idIncrement = 0
 
-export const slugify = (s) =>
+export const slugify = (s: any) =>
   String(s)
     .toLowerCase()
     .replace(/[^\w\s-]/g, '')
@@ -238,9 +239,13 @@ export const slugify = (s) =>
  * @param {function} callback (optional)
  * @returns {HTMLElement | null} Returns the found child of all existing dom elements inside of "target"
  */
-export const isChildOfElement = (element, target, callback = null) => {
+export const isChildOfElement = (
+  element: any,
+  target: any,
+  callback: any = null
+) => {
   try {
-    const contains = (element) => {
+    const contains = (element: any) => {
       if (callback) {
         const res = callback(element)
         if (res) {
@@ -266,12 +271,12 @@ export const isChildOfElement = (element, target, callback = null) => {
 }
 
 // Round number to nearest target number
-export const roundToNearest = (num, target) => {
+export const roundToNearest = (num: any, target: any) => {
   const diff = num % target
   return diff > target / 2 ? num - diff + target : num - diff
 }
 
-export const getClosestScrollViewElement = (currentElement) => {
+export const getClosestScrollViewElement = (currentElement: any) => {
   return getClosestParent('.dnb-scroll-view', currentElement)
 }
 
@@ -295,7 +300,7 @@ export function convertJsxToString(
       }
 
       if (Array.isArray(element.props.children)) {
-        word = element.props.children.reduce((acc, word) => {
+        word = element.props.children.reduce((acc: any, word: any) => {
           if (typeof word !== 'string') {
             word = process(word)
           }
@@ -329,7 +334,7 @@ export function convertJsxToString(
     .trim()
 }
 
-export function getStatusState(status) {
+export function getStatusState(status: any) {
   return (
     status &&
     status !== 'error' &&
@@ -344,8 +349,8 @@ export function combineLabelledBy(...params) {
 export function combineDescribedBy(...params) {
   return combineAriaBy('aria-describedby', params)
 }
-function combineAriaBy(type, params) {
-  params = params.map((cur) => {
+function combineAriaBy(type: any, params: any) {
+  params = params.map((cur: any) => {
     if (Array.isArray(cur)) {
       return cur.join(' ')
     }
@@ -367,13 +372,13 @@ function combineAriaBy(type, params) {
   return params
 }
 
-export function findElementInChildren(children, find) {
+export function findElementInChildren(children: any, find: any) {
   if (!Array.isArray(children)) {
     children = [children]
   }
 
   let result = null
-  children.some((cur) => {
+  children.some((cur: any) => {
     if (cur && cur.props && cur.props.children) {
       const res = findElementInChildren(cur.props.children, find)
       if (res) {
@@ -389,11 +394,11 @@ export function findElementInChildren(children, find) {
   return result
 }
 
-export function escapeRegexChars(str) {
+export function escapeRegexChars(str: any) {
   return str.replace(/[-[\]{}()*+?.,\\^$|#]/g, '\\$&')
 }
 
-export function removeUndefinedProps(object) {
+export function removeUndefinedProps(object: any) {
   Object.keys(object || {}).forEach((key) => {
     if (object[key] === undefined) {
       delete object[key]

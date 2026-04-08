@@ -73,7 +73,7 @@ export const RadioDisabled = () => {
   )
 }
 
-const filterDataHandler = ({ props }) => {
+const filterDataHandler = ({ props }: any) => {
   return !props['data-exclude-field']
 }
 

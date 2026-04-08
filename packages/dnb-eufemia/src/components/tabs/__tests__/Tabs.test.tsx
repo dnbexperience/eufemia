@@ -574,8 +574,8 @@ describe('A single Tab component', () => {
   })
 
   it('has to work when conditional rendering "Tabs.Content" as children components', () => {
-    const whenUndefined = undefined
-    const whenNull = null
+    const whenUndefined: any = undefined
+    const whenNull: any = null
     const showFirst = false
 
     render(

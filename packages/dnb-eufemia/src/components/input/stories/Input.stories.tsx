@@ -244,7 +244,7 @@ export const InputSandbox = () => {
             <Button
               text="Submit"
               type="submit"
-              onClick={(event) => {
+              onClick={(event: any) => {
                 console.log('onClick', event)
               }}
             />
@@ -448,7 +448,7 @@ export function InputClearButton() {
 export function ControlledInput() {
   const [value, setValue] = React.useState('123')
 
-  const onChangeHandler = ({ value }) => {
+  const onChangeHandler = ({ value }: any) => {
     value = value.replace(/[^0-9]/g, '')
     setValue(value)
   }
@@ -458,7 +458,7 @@ export function ControlledInput() {
     setValue(e.target.value)
   }
 
-  const onKeyDownHandler = ({ event }) => {
+  const onKeyDownHandler = ({ event }: any) => {
     event.preventDefault()
   }
 

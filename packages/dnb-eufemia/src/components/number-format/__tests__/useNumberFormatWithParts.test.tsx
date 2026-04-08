@@ -173,7 +173,7 @@ describe('useNumberFormatWithParts', () => {
   })
 
   it('will not inherit currency from provider unless explicitly enabled', () => {
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: any) => (
       <Provider
         locale="nb-NO"
         NumberFormat={{

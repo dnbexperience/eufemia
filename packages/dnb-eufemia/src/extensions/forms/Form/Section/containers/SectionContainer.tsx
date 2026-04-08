@@ -91,7 +91,7 @@ function SectionContainer(
   }, [disableEditing, hasSubmitError, containerMode, switchContainerMode])
 
   const setFocus = useCallback(
-    (state) => {
+    (state: any) => {
       if (state === 'opened') {
         if (
           !omitFocusManagementRef.current &&
@@ -107,7 +107,7 @@ function SectionContainer(
 
   // - Remove the block with animation, if it's in the right mode
   const handleAnimationEnd = useCallback(
-    (state) => {
+    (state: any) => {
       setFocus(state)
       onAnimationEnd?.(state)
     },

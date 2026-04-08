@@ -49,7 +49,7 @@ export default function IsolationResetButton(props: Props) {
 
   const buttonWrapperRef = React.useRef<HTMLButtonElement>(null)
   const handleClick = useCallback(
-    ({ close, event }) => {
+    ({ close, event }: any) => {
       close?.()
       onClick?.(event)
       handleReset()
@@ -95,7 +95,7 @@ export default function IsolationResetButton(props: Props) {
       ) : (
         <Button
           {...triggerAttributes}
-          onClick={(args) => handleClick(args)}
+          onClick={(args: any) => handleClick(args)}
           {...buttonProps}
         >
           {resetButton}

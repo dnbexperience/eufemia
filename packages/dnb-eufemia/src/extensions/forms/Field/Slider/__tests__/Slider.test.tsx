@@ -325,7 +325,7 @@ const resetMouseSimulation = () => {
   }
 }
 
-const simulateMouseMove = (props) => {
+const simulateMouseMove = (props: any) => {
   act(() => {
     fireEvent.mouseUp(document.querySelector('.dnb-slider__track'))
     fireEvent.mouseDown(document.querySelector('.dnb-slider__track'))

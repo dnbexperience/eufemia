@@ -45,7 +45,8 @@ async function runStyleFactory() {
       @use './core/utilities.scss';
       @use './${fallbackPrefix}-ui-fragments.scss';
     `,
-    importContent: ({ relativeSource }) => `@use '${relativeSource}';`,
+    importContent: ({ relativeSource }: any) =>
+      `@use '${relativeSource}';`,
     searchGlob: [
       path.resolve(
         __dirname,
@@ -67,7 +68,8 @@ async function runStyleFactory() {
       `../../../src/style/${fallbackPrefix}-ui-elements.scss`
     ),
     customContent: `@use './core/utilities.scss';`,
-    importContent: ({ relativeSource }) => `@use '${relativeSource}';`,
+    importContent: ({ relativeSource }: any) =>
+      `@use '${relativeSource}';`,
     searchGlob: [
       path.resolve(
         __dirname,
@@ -89,7 +91,8 @@ async function runStyleFactory() {
       `../../../src/style/${fallbackPrefix}-ui-fragments.scss`
     ),
     customContent: `@use './core/utilities.scss';`,
-    importContent: ({ relativeSource }) => `@use '${relativeSource}';`,
+    importContent: ({ relativeSource }: any) =>
+      `@use '${relativeSource}';`,
     searchGlob: [
       path.resolve(
         __dirname,
@@ -111,7 +114,8 @@ async function runStyleFactory() {
       `../../../src/style/${fallbackPrefix}-ui-extensions.scss`
     ),
     customContent: `@use './core/utilities.scss';`,
-    importContent: ({ relativeSource }) => `@use '${relativeSource}';`,
+    importContent: ({ relativeSource }: any) =>
+      `@use '${relativeSource}';`,
     searchGlob: [
       path.resolve(
         __dirname,
@@ -131,7 +135,8 @@ async function runStyleFactory() {
       `../../../src/style/${fallbackPrefix}-ui-forms.scss`
     ),
     customContent: `@use './core/utilities.scss';`,
-    importContent: ({ relativeSource }) => `@use '${relativeSource}';`,
+    importContent: ({ relativeSource }: any) =>
+      `@use '${relativeSource}';`,
     searchGlob: [
       path.resolve(
         __dirname,
@@ -153,7 +158,7 @@ const runFactory = async ({
   searchGlob,
   customContent = '',
   onlyDirectories = false,
-}) => {
+}: any) => {
   try {
     searchGlob = await globby(
       searchGlob.concat(processToNamesIgnoreList),
@@ -167,7 +172,7 @@ const runFactory = async ({
   }
 
   const content = searchGlob
-    .reduce((acc, source) => {
+    .reduce((acc: any, source: any) => {
       const separator = '/src/'
       const from =
         source.substring(0, source.indexOf(separator)) + separator

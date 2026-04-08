@@ -106,18 +106,18 @@ const ContentTrAccordion = ({
     </Tr>
   )
 
-  function trClickHandler(event) {
+  function trClickHandler(event: any) {
     console.log('trClickHandler', event)
   }
-  function trOpenHandler(event) {
+  function trOpenHandler(event: any) {
     console.log('trOpenHandler', event)
   }
-  function trCloseHandler(event) {
+  function trCloseHandler(event: any) {
     console.log('trCloseHandler', event)
   }
 }
 
-const HeaderSortButton = ({ children }) => {
+const HeaderSortButton = ({ children }: any) => {
   return (
     <Th.SortButton
       wrap={false}

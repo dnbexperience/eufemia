@@ -483,7 +483,7 @@ describe('Flex.Container', () => {
     })
 
     const getMocks = () => {
-      const Wrapper = ({ children }) => {
+      const Wrapper = ({ children }: any) => {
         return <div className="wrapper">{children}</div>
       }
       Wrapper._supportsSpacingProps = undefined

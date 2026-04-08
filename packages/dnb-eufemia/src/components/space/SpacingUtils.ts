@@ -51,11 +51,11 @@ export const spacePatterns: Record<
  * @param types 'small', '16px', '1rem'
  * @returns e.g. calc(var(--spacing-large) + var(--spacing-small))
  */
-globalThis.CALC_CACHE = {}
+;(globalThis as any).CALC_CACHE = {}
 export const calc = (...types: Array<SpaceType>) => {
   const hash = types.join('|')
-  if (globalThis.CALC_CACHE[hash]) {
-    return globalThis.CALC_CACHE[hash]
+  if ((globalThis as any).CALC_CACHE[hash]) {
+    return (globalThis as any).CALC_CACHE[hash]
   }
 
   const result: Array<string> = []
@@ -67,7 +67,9 @@ export const calc = (...types: Array<SpaceType>) => {
   })
 
   return result.length
-    ? (globalThis.CALC_CACHE[hash] = `calc(${result.join(' + ')})`)
+    ? ((globalThis as any).CALC_CACHE[hash] = `calc(${result.join(
+        ' + '
+      )})`)
     : null
 }
 
@@ -238,7 +240,7 @@ export const createSpacingClasses = (
           acc = [
             ...acc,
             ...nearestTypes.map(
-              (type) => `dnb-space__${direction}--${type}`
+              (type: any) => `dnb-space__${direction}--${type}`
             ),
           ]
         }
@@ -316,7 +318,7 @@ export const createTypeModifiers = (
         if (foundType) {
           type = foundType
         } else {
-          findNearestTypes(num).forEach((type) => {
+          findNearestTypes(num).forEach((type: any) => {
             if (type) {
               acc.push(type)
             }
@@ -359,7 +361,7 @@ export const findTypeAll = (
 
 // @internal Finds from e.g. a value of "2.5rem" the nearest type = ["large", "x-small"]
 export const findNearestTypes = (num: SpaceNumber, multiply = false) => {
-  let res = []
+  let res: any[] = []
 
   const near = Object.entries(spacePatterns)
     .reverse()
@@ -375,7 +377,7 @@ export const findNearestTypes = (num: SpaceNumber, multiply = false) => {
     const foundMoreTypes = findNearestTypes(leftOver, multiply)
 
     // if the value already exists, then replace it with an x2
-    foundMoreTypes.forEach((type) => {
+    foundMoreTypes.forEach((type: any) => {
       const index = res.indexOf(type)
       if (index !== -1) {
         res[index] = multiply ? `${type}-x2` : type

@@ -62,7 +62,7 @@ function Name(props: FieldNameProps) {
 
     if (typeof onBlurValidatorProp === 'function') {
       // Prioritize the internal validator first; only then run the external one
-      return (value: string, args) => {
+      return (value: string, args: any) => {
         const coreResult = nameValidator(value)
         if (coreResult instanceof Error) {
           return coreResult
@@ -173,7 +173,7 @@ Name.Company = function CompanyName(props: FieldNameProps) {
 
     if (typeof onBlurValidatorProp === 'function') {
       // Prioritize the internal validator first; only then run the external one
-      return (value: string, args) => {
+      return (value: string, args: any) => {
         const coreResult = companyValidator(value)
         if (coreResult instanceof Error) {
           return coreResult

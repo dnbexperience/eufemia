@@ -155,7 +155,7 @@ export class Counter {
     }
   }
 
-  factorCheck({ action, level, current, report }) {
+  factorCheck({ action, level, current, report }: any) {
     if (!this.bypassChecks && level - current > 1) {
       report &&
         report.push(
@@ -190,7 +190,7 @@ export class Counter {
   setLevel(level: InternalHeadingLevel, action = 'set') {
     level = parseFloat(String(level))
 
-    const report = []
+    const report: any[] = []
 
     if (globalSyncCounter.current?.level > 0) {
       level = this.factorCheck({
@@ -270,7 +270,7 @@ export class Counter {
     this.bypassChecks = false
   }
 
-  reset(toLevel = null) {
+  reset(toLevel: any = null) {
     toLevel = parseFloat(toLevel) || 2
 
     this.level = this.entry = this.lastResetLevel = toLevel

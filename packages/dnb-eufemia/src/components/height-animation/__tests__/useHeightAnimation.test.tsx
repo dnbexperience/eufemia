@@ -51,7 +51,7 @@ describe('useHeightAnimation', () => {
   const MockComponent = ({ open = false, animate = true }) => {
     const [openState, setOpenState] = useState(open)
 
-    const onChangeHandler = useCallback(({ checked }) => {
+    const onChangeHandler = useCallback(({ checked }: any) => {
       setOpenState(checked)
     }, [])
 
@@ -179,7 +179,7 @@ describe('useHeightAnimation', () => {
   })
 
   it('should not animate when globalThis.IS_TEST is true', () => {
-    globalThis.IS_TEST = true
+    ;(globalThis as any).IS_TEST = true
 
     const { rerender } = render(<MockComponent />)
 
@@ -228,7 +228,7 @@ describe('useHeightAnimation', () => {
   })
 
   it('should call onAnimationEnd on open', () => {
-    globalThis.IS_TEST = undefined
+    ;(globalThis as any).IS_TEST = undefined
 
     const onAnimationEnd = jest.fn()
     const current: HTMLDivElement = document.createElement('div')
@@ -250,7 +250,7 @@ describe('useHeightAnimation', () => {
   })
 
   it('should call onAnimationEnd on close', () => {
-    globalThis.IS_TEST = undefined
+    ;(globalThis as any).IS_TEST = undefined
 
     const onAnimationEnd = jest.fn()
     const current: HTMLDivElement = document.createElement('div')

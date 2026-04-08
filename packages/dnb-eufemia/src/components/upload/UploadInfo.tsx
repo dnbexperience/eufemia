@@ -14,7 +14,7 @@ import Td from '../table/TableTd'
 import type { UploadAcceptedFileTypeObject, UploadProps } from './types'
 import Flex from '../../components/Flex'
 
-const prettifyAcceptedFileFormats = (acceptedFileTypes) =>
+const prettifyAcceptedFileFormats = (acceptedFileTypes: any) =>
   acceptedFileTypes.sort().join(', ').toUpperCase()
 
 const UploadInfo = () => {

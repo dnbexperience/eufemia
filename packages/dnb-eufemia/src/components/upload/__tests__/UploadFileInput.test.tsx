@@ -15,12 +15,12 @@ const defaultProps: UploadContextValue = {
   filesAmountLimit: 2,
 }
 
-const makeWrapper = (props = null) => {
+const makeWrapper = (props: any = null) => {
   const defaultContext: UploadContextValue = {
     ...defaultProps,
     ...props,
   }
-  return ({ children }) => {
+  return ({ children }: any) => {
     return <UploadContext value={defaultContext}>{children}</UploadContext>
   }
 }

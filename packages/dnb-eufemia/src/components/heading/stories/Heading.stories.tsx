@@ -20,7 +20,7 @@ const CustomStyle = styled.div`
   } */
 `
 
-const ChangeLevel = ({ level }) => {
+const ChangeLevel = ({ level }: any) => {
   React.useEffect(() => {
     setNextLevel(level)
   }, [])

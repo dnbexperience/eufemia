@@ -10,7 +10,7 @@ export function DisplaySteps({
   handleChange,
   expandedInitially,
   outset,
-}) {
+}: any) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const {
     activeIndexRef,

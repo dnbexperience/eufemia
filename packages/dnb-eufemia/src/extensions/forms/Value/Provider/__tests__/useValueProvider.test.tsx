@@ -40,7 +40,7 @@ describe('useValueProvider', () => {
       overwriteProps: {},
     }
     const inheritedContext = { inheritLabel: true }
-    const inheritedProps = null
+    const inheritedProps: any = null
     const extend = () => null
 
     const { result } = renderHook(useValueProvider, {
@@ -66,7 +66,7 @@ describe('useValueProvider', () => {
       overwriteProps: {},
     }
     const inheritedContext = { inheritLabel: true }
-    const inheritedProps = null
+    const inheritedProps: any = null
     const extend = () => null
 
     const { result } = renderHook(useValueProvider, {

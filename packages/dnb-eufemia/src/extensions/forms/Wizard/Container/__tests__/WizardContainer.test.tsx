@@ -16,7 +16,7 @@ const matchMedia = new MatchMediaMock()
 
 beforeEach(() => {
   matchMedia.useMediaQuery('(min-width: 60em)')
-  globalThis.IS_TEST = true
+  ;(globalThis as any).IS_TEST = true
 })
 
 function simulateSmallScreen() {
@@ -279,7 +279,7 @@ describe('Wizard.Container', () => {
       )
     }
 
-    const onStepChange = async (step, mode) => {
+    const onStepChange = async (step: any, mode: any) => {
       if (mode === 'next') {
         await wait(100)
       }
@@ -360,7 +360,7 @@ describe('Wizard.Container', () => {
         )
       }
 
-      const onStepChange = async (step, mode) => {
+      const onStepChange = async (step: any, mode: any) => {
         if (mode === 'next') {
           await wait(100)
         }
@@ -443,7 +443,7 @@ describe('Wizard.Container', () => {
         )
       }
 
-      const onStepChange = async (step, mode) => {
+      const onStepChange = async (step: any, mode: any) => {
         if (mode === 'next') {
           await wait(100)
         }
@@ -526,7 +526,7 @@ describe('Wizard.Container', () => {
         )
       }
 
-      const onStepChange = async (step, mode) => {
+      const onStepChange = async (step: any, mode: any) => {
         if (mode === 'next') {
           await wait(100)
         }
@@ -1145,7 +1145,7 @@ describe('Wizard.Container', () => {
               title="Step 1"
               includeWhen={{
                 path: '/enabledStep',
-                hasValue: (value) => {
+                hasValue: (value: any) => {
                   return value === 'group-1'
                 },
               }}
@@ -1197,7 +1197,7 @@ describe('Wizard.Container', () => {
               title="Step 3"
               includeWhen={{
                 path: '/enabledStep',
-                hasValue: (value) => {
+                hasValue: (value: any) => {
                   return value === 'group-1'
                 },
               }}
@@ -4489,8 +4489,8 @@ describe('Wizard.Container', () => {
     })
 
     it('should put prerendered fields (Step 1) in the portal inside an hidden iframe', async () => {
-      const addedNodes = []
-      const removedNodes = []
+      const addedNodes: any[] = []
+      const removedNodes: any[] = []
 
       const observer = new MutationObserver((mutationsList) => {
         for (const mutation of mutationsList) {

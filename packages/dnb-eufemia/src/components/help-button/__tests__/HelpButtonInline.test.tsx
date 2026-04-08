@@ -8,7 +8,7 @@ import HelpButtonInline, {
 import Dialog from '../../dialog/Dialog'
 
 describe('HelpButtonInline', () => {
-  let uniqueId = null
+  let uniqueId: any = null
 
   beforeEach(() => {
     uniqueId = makeUniqueId()

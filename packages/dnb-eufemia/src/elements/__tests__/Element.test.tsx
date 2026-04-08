@@ -10,7 +10,7 @@ import type { ElementAllProps } from '../Element'
 import Element, { defaultProps } from '../Element'
 import { Provider } from '../../shared'
 
-const myPElement = (props) => <p {...props} />
+const myPElement = (props: any) => <p {...props} />
 
 const props: ElementAllProps = {
   as: 'p',

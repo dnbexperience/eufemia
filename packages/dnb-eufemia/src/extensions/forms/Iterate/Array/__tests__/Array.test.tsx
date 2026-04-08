@@ -163,7 +163,7 @@ describe('Iterate.Array', () => {
       it('should show placeholder when value is undefined', () => {
         const renderProp = jest.fn()
 
-        const list = undefined
+        const list: any = undefined
 
         render(
           <Iterate.Array value={list} placeholder="Placeholder text">
@@ -182,7 +182,7 @@ describe('Iterate.Array', () => {
       it('should show placeholder when emptyValue is same as instance', () => {
         const renderProp = jest.fn()
 
-        const list = []
+        const list: any[] = []
 
         render(
           <Iterate.Array
@@ -205,7 +205,7 @@ describe('Iterate.Array', () => {
       it('should show given placeholder when value is empty', () => {
         const renderProp = jest.fn()
 
-        const list = []
+        const list: any[] = []
 
         render(
           <Iterate.Array value={list} placeholder="Placeholder text">
@@ -222,7 +222,7 @@ describe('Iterate.Array', () => {
       })
 
       it('should render span when placeholder is a string', () => {
-        const list = []
+        const list: any[] = []
 
         render(
           <Iterate.Array value={list} placeholder="Placeholder text">
@@ -1107,8 +1107,8 @@ describe('Iterate.Array', () => {
     })
 
     it('should validate during typing and show error when duplicate item is added', async () => {
-      const findFirstDuplication = (arr) =>
-        arr.findIndex((e, i) => arr.indexOf(e) !== i)
+      const findFirstDuplication = (arr: any) =>
+        arr.findIndex((e: any, i: any) => arr.indexOf(e) !== i)
 
       const onChangeValidator = jest.fn((arrayValue) => {
         const index = findFirstDuplication(arrayValue)
@@ -1863,7 +1863,7 @@ describe('Iterate.Array', () => {
 
   describe('itemPath', () => {
     it('should preserve sibling values when stale iterate item callbacks are called out of order', async () => {
-      let latestData = null
+      let latestData: any = null
       const changeItemValue: Array<(value: string) => void> = []
 
       function CaptureItemChange(props: { index: number }) {
@@ -2147,7 +2147,7 @@ describe('Iterate.Array', () => {
     })
 
     it('should remove array item inside AnimatedContainer from data context when itemValue is undefined', async () => {
-      let collectedContext = null
+      let collectedContext: any = null
 
       render(
         <Form.Handler

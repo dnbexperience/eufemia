@@ -248,7 +248,7 @@ export const processExtensions = async () => {
   })
 }
 
-export const processMainIndex = async ({ components, elements }) => {
+export const processMainIndex = async ({ components, elements }: any) => {
   // fix the glory main index
   await runFactory({
     templateObjectToFill: '{ Template }',
@@ -260,7 +260,7 @@ export const processMainIndex = async ({ components, elements }) => {
     ),
     destFile: path.resolve(__dirname, '../../../src/index.ts'),
     filesToFindGlob: [...components, ...elements],
-    transformNamesList: ({ result }) => {
+    transformNamesList: ({ result }: any) => {
       // because elements don't have a folder, we remove the last part of the path
       if (/\/elements\//.test(result)) {
         return result.replace(/\/[^/]+\/?$/g, "'")
@@ -285,7 +285,7 @@ export const runFactory = async ({
   filesToFindGlobByUsingFolders = false,
   processToNamesIgnoreList = [],
   transformNamesList = null,
-}) => {
+}: any) => {
   if (typeof filesToFindGlob === 'string') {
     const __orig__filesToFindGlob = filesToFindGlob
     filesToFindGlob = (await fs.readdir(filesToFindGlob))
@@ -297,13 +297,13 @@ export const runFactory = async ({
         }
       })
     if (filesToFindGlobByUsingFolders) {
-      filesToFindGlob = filesToFindGlob.filter(({ source }) =>
+      filesToFindGlob = filesToFindGlob.filter(({ source }: any) =>
         fs.lstatSync(source).isDirectory()
       )
     } else {
       filesToFindGlob = filesToFindGlob
-        .filter(({ source }) => fs.lstatSync(source).isFile())
-        .map(({ file, ...rest }) => {
+        .filter(({ source }: any) => fs.lstatSync(source).isFile())
+        .map(({ file, ...rest }: any) => {
           file = file.replace(/(\.js|\.tsx|\.ts)$/, '')
           return { file, ...rest }
         })
@@ -311,7 +311,7 @@ export const runFactory = async ({
   }
 
   filesToFindGlob = filesToFindGlob
-    .filter(({ file, source }) => {
+    .filter(({ file, source }: any) => {
       if (/not_in_use|__tests__|DS_Store/g.test(file)) {
         return false
       }
@@ -323,7 +323,7 @@ export const runFactory = async ({
         return file.includes(ignoreName)
       })
     })
-    .sort(({ file: a }, { file: b }) => (a > b ? 1 : -1))
+    .sort(({ file: a }, { file: b }: any) => (a > b ? 1 : -1))
 
   const template = await fs.readFile(srcFile, 'utf-8')
 
@@ -371,14 +371,14 @@ export const runFactory = async ({
       .replace(
         new RegExp(templateObjectToFill, 'g'),
         `{ ${filesToFindGlob
-          .map(({ file }) => toPascalCase(file))
+          .map(({ file }: any) => toPascalCase(file))
           .join(', ')} }`
       )
       // 2. replace templateListToExtend
       .replace(
         new RegExp(templateListToExtend, 'g'),
         filesToFindGlob
-          .map(({ file, source }) => {
+          .map(({ file, source }: any) => {
             let res = templateListToExtend
               .replace(
                 new RegExp(templateListToExtendBy, 'g'),

@@ -60,8 +60,9 @@ type PopoverPortalEntry = {
 
 let popoverPortal: Record<string, PopoverPortalEntry>
 if (typeof globalThis !== 'undefined') {
-  globalThis.popoverPortal = globalThis.popoverPortal || {}
-  popoverPortal = globalThis.popoverPortal as Record<
+  ;(globalThis as any).popoverPortal =
+    (globalThis as any).popoverPortal || {}
+  popoverPortal = (globalThis as any).popoverPortal as Record<
     string,
     PopoverPortalEntry
   >
@@ -227,7 +228,7 @@ function usePopoverPortalLifecycle({
       setIsInDOM(false)
     }
 
-    if (noAnimation || globalThis.IS_TEST) {
+    if (noAnimation || (globalThis as any).IS_TEST) {
       delayRender()
       delayHidden()
       return () => {

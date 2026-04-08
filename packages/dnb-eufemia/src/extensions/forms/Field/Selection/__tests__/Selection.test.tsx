@@ -176,7 +176,7 @@ describe('Selection', () => {
   })
 
   it('supports render prop children with options from dataPath in dropdown', async () => {
-    let receivedOptions = []
+    let receivedOptions: any[] = []
 
     render(
       <Form.Handler
@@ -361,7 +361,7 @@ describe('variants', () => {
     })
 
     it('supports render prop children with options from dataPath', () => {
-      let receivedOptions = []
+      let receivedOptions: any[] = []
 
       render(
         <Form.Handler

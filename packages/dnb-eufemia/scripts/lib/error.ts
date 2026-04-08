@@ -10,7 +10,7 @@ type ErrorHandlerMessage = string
 
 function ErrorHandler(
   message: ErrorHandlerMessage,
-  error = null,
+  error: any = null,
   code = ERROR_HARMLESS
 ): string {
   if (error === null && typeof message !== 'string') {

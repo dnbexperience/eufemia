@@ -69,7 +69,7 @@ describe('ScrollView', () => {
   })
 
   it('should set tabindex based on ResizeObserver when interactive is set to auto', () => {
-    let renderResizeObserver = null
+    let renderResizeObserver: any = null
 
     const observe = jest.fn()
     const init = jest.fn((callback) => {

@@ -134,7 +134,7 @@ describe('Form.useData', () => {
     expect(result.current.data).toEqual({ key: 'value' })
 
     act(() => {
-      result.current.update('/key', (value) => {
+      result.current.update('/key', (value: any) => {
         return 'changed ' + value
       })
     })
@@ -484,7 +484,7 @@ describe('Form.useData', () => {
     expect(rerendered).toBe(2)
 
     act(() => {
-      result.current.update('/key', (value) => {
+      result.current.update('/key', (value: any) => {
         return 'changed ' + value
       })
     })
@@ -520,7 +520,7 @@ describe('Form.useData', () => {
       expect(B.current.data).toEqual({ key: 'value' })
 
       act(() => {
-        B.current.update('/key', (value) => {
+        B.current.update('/key', (value: any) => {
           return 'changed ' + value
         })
       })

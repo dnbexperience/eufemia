@@ -12,7 +12,7 @@ const nb = nbNO['nb-NO'].RemoveButton
 describe('RemoveButton', () => {
   const handleRemove = jest.fn()
 
-  const wrapper = ({ children }) => (
+  const wrapper = ({ children }: any) => (
     <IterateItemContext value={{ handleRemove }}>
       {children}
     </IterateItemContext>

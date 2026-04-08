@@ -8,8 +8,8 @@ export default {
 }
 
 const filterDataPaths = {
-  '/countChildren': ({ data }) => Boolean(data?.hasChildren),
-  '/children': ({ data }) => Boolean(data?.hasChildren),
+  '/countChildren': ({ data }: any) => Boolean(data?.hasChildren),
+  '/children': ({ data }: any) => Boolean(data?.hasChildren),
 }
 
 const myTranslations = {

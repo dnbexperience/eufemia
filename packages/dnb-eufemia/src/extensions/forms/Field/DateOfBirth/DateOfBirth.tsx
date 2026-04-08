@@ -141,7 +141,7 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
 
     if (typeof propOnBlurValidator === 'function') {
       // Prioritize the internal validator first; only then run the external one
-      return (value: string, args) => {
+      return (value: string, args: any) => {
         const coreResult = dateOfBirthValidator(value)
         if (coreResult instanceof Error) {
           return coreResult
@@ -478,7 +478,7 @@ withComponentMarkers(DateOfBirth, {
 
 export default DateOfBirth
 
-function capitalizeFirstLetter(s) {
+function capitalizeFirstLetter(s: any) {
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 

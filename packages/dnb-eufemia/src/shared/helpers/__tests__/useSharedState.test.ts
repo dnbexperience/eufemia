@@ -264,7 +264,7 @@ describe('useWeakSharedState', () => {
       useWeakSharedState(identifier)
     )
 
-    const getStateOf = (identifier) => {
+    const getStateOf = (identifier: any) => {
       return createSharedState(identifier).get()
     }
 
@@ -288,7 +288,7 @@ describe('useWeakSharedState', () => {
       useSharedState(identifier)
     )
 
-    const getStateOf = (identifier) => {
+    const getStateOf = (identifier: any) => {
       return createSharedState(identifier).get()
     }
 

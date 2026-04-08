@@ -144,13 +144,13 @@ const Tag = (
   )
   const additionalButtonParams: Pick<ButtonProps, 'element' | 'type'> = {}
 
-  const isDeleteKeyboardEvent = (keyboardEvent) => {
+  const isDeleteKeyboardEvent = (keyboardEvent: any) => {
     return (
       keyboardEvent.key === 'Backspace' || keyboardEvent.key === 'Delete'
     )
   }
 
-  const handleDeleteKeyUp = (event) => {
+  const handleDeleteKeyUp = (event: any) => {
     if (isDeleteKeyboardEvent(event) && onClick) {
       onClick(event)
     }

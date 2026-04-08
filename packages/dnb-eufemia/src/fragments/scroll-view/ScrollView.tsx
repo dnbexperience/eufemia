@@ -80,7 +80,7 @@ function ScrollView(localProps: ScrollViewAllProps) {
   return <div {...mainParams}>{children}</div>
 }
 
-function useInteractive({ interactive, children, ref }) {
+function useInteractive({ interactive, children, ref }: any) {
   const [isInteractive, setAsInteractive] = React.useState(
     Boolean(interactive)
   )

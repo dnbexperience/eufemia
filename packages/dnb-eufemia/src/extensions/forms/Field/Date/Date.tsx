@@ -146,7 +146,7 @@ function DateComponent(props: DateProps): React.ReactElement {
   )
 
   const validateRequired = useCallback(
-    (value: string, { required, error }) => {
+    (value: string, { required, error }: any) => {
       if (!required) {
         return undefined
       }

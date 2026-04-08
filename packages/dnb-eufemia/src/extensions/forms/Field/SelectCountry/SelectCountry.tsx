@@ -214,7 +214,7 @@ function SelectCountry(props: FieldSelectCountryProps) {
   }, [ccFilter, countries, filter, forceUpdate])
 
   const onFocusHandler = useCallback(
-    ({ updateData }) => {
+    ({ updateData }: any) => {
       fillData()
       updateData(dataRef.current)
       handleFocus()
@@ -223,7 +223,7 @@ function SelectCountry(props: FieldSelectCountryProps) {
   )
 
   const onTypeHandler = useCallback(
-    ({ value: currentValue, setHidden, event }) => {
+    ({ value: currentValue, setHidden, event }: any) => {
       // Handle browser autofill/autocomplete
       if (typeof event?.nativeEvent?.data === 'undefined') {
         const search = currentValue.toLowerCase()

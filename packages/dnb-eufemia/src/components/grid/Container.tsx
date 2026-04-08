@@ -72,7 +72,7 @@ withComponentMarkers(GridContainer, {
 
 export default GridContainer
 
-function compute(columns) {
+function compute(columns: any) {
   if (!columns) {
     return null
   }

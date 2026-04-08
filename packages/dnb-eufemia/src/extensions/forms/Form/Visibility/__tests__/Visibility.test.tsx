@@ -1097,7 +1097,7 @@ describe('Visibility', () => {
 
   describe('visibleWhen with "isValid"', () => {
     it('should return only false when field path is non existent', () => {
-      const collectResult = []
+      const collectResult: any[] = []
 
       const MockComponent = () => {
         const result = useVisibility().check({
@@ -1120,7 +1120,7 @@ describe('Visibility', () => {
     })
 
     it('should return only false on first render', () => {
-      const collectResult = []
+      const collectResult: any[] = []
 
       const MockComponent = () => {
         const result = useVisibility().check({
@@ -1153,7 +1153,7 @@ describe('Visibility', () => {
     })
 
     it('should support fields without focus and blur events', async () => {
-      const collectResult = []
+      const collectResult: any[] = []
 
       const MockComponent = () => {
         const result = useVisibility().check({

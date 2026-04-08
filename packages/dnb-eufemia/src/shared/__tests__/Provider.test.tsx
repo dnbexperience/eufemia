@@ -237,7 +237,7 @@ describe('Provider', () => {
     })
 
     it('should change locale in root context', () => {
-      const Consumer = ({ id }) => {
+      const Consumer = ({ id }: any) => {
         const context = React.useContext(Context)
         const { locale, setLocale } = context
 
@@ -292,7 +292,7 @@ describe('Provider', () => {
     })
 
     it('should change locale in local context', () => {
-      const Consumer = ({ id }) => {
+      const Consumer = ({ id }: any) => {
         const context = React.useContext(Context)
         const { locale, setCurrentLocale } = context
 
@@ -356,7 +356,7 @@ describe('Provider', () => {
         myProperty: string
       }
 
-      const Consumer = ({ id }) => {
+      const Consumer = ({ id }: any) => {
         const context = React.useContext<
           ContextProps & Partial<ConsumerContext>
         >(Context)

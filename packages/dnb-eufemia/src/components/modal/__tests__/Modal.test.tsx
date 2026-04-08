@@ -14,9 +14,8 @@ import DialogContent from '../../dialog/DialogContent'
 import * as helpers from '../../../shared/helpers'
 import userEvent from '@testing-library/user-event'
 import ModalHeaderBar from '../parts/ModalHeaderBar'
-
-global.userAgent = jest.spyOn(navigator, 'userAgent', 'get')
-global.appVersion = jest.spyOn(navigator, 'appVersion', 'get')
+;(global as any).userAgent = jest.spyOn(navigator, 'userAgent', 'get')
+;(global as any).appVersion = jest.spyOn(navigator, 'appVersion', 'get')
 
 const props: ModalProps = {
   title: 'modal_title',
@@ -888,7 +887,7 @@ describe('Modal component', () => {
 
   it('will prevent closing the modal on preventClose', async () => {
     let preventClose = true
-    let testTriggeredBy = null
+    let testTriggeredBy: any = null
     const onClose = jest.fn(
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
     )
@@ -1211,8 +1210,8 @@ describe('Modal component', () => {
     )
     const elem = document.querySelector('button')
 
-    global.userAgent.mockReturnValue('iPhone OS 12')
-    global.appVersion.mockReturnValue('OS 12_0_0')
+    ;(global as any).userAgent.mockReturnValue('iPhone OS 12')
+    ;(global as any).appVersion.mockReturnValue('OS 12_0_0')
 
     const addEventListener = jest
       .spyOn(document, 'addEventListener')
@@ -1274,7 +1273,7 @@ describe('Modal component', () => {
     )
     const elem = document.querySelector('button')
 
-    global.userAgent.mockReturnValue('Android; 7.')
+    ;(global as any).userAgent.mockReturnValue('Android; 7.')
 
     expect(document.body).not.toHaveAttribute('style')
 

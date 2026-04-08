@@ -723,7 +723,7 @@ function makeRenderData(
   translation?: Translation['DrawerList']
 ): DrawerListRenderData {
   const renderData: DrawerListRenderData = []
-  const noIndex = []
+  const noIndex: any[] = []
 
   if (Array.isArray(data) && data.length > 0) {
     data.forEach((dataItem) => {

@@ -897,8 +897,8 @@ describe('Popover', () => {
   })
 
   it('waits for showDelay before activating the popover', async () => {
-    const IS_TEST = globalThis.IS_TEST
-    globalThis.IS_TEST = false
+    const IS_TEST = (globalThis as any).IS_TEST
+    ;(globalThis as any).IS_TEST = false
     try {
       renderWithTrigger({ showDelay: 60 })
 
@@ -920,7 +920,7 @@ describe('Popover', () => {
         expect(popoverElement).toHaveClass('dnb-popover--active')
       )
     } finally {
-      globalThis.IS_TEST = IS_TEST
+      ;(globalThis as any).IS_TEST = IS_TEST
     }
   })
 

@@ -616,7 +616,7 @@ describe('InputMasked component', () => {
     const setSelectionRange = jest.fn()
     const preventDefault = jest.fn()
 
-    const simulate = ({ name, value, selectionPosition, key }) => {
+    const simulate = ({ name, value, selectionPosition, key }: any) => {
       fireEvent[name](document.querySelector('input'), {
         target: {
           value,
@@ -655,7 +655,7 @@ describe('InputMasked component', () => {
     const MockComponent = () => {
       const [controlledValue, setControlledValue] = React.useState(123456)
 
-      const handleChange = (props) => {
+      const handleChange = (props: any) => {
         setControlledValue(props.numberValue)
         onChange(props)
       }
@@ -1415,7 +1415,7 @@ describe('InputMasked component asNumber', () => {
 
     const elem = document.querySelector('input')
 
-    const pressDotAndUseItAsComma = ({ value }) => {
+    const pressDotAndUseItAsComma = ({ value }: any) => {
       const key = '.'
       fireEvent.keyDown(document.querySelector('input'), {
         key,
@@ -1652,7 +1652,7 @@ describe('InputMasked component asCurrency', () => {
       const [controlledValue, setControlledValue] =
         React.useState(123456.1234)
 
-      const handleChange = (props) => {
+      const handleChange = (props: any) => {
         setControlledValue(props.numberValue)
         onChange(props)
       }
@@ -2551,7 +2551,7 @@ describe('inputmode', () => {
 
 describe('controlled', () => {
   it('should correctly update with new value from outside', async () => {
-    const MockComponent = (props) => {
+    const MockComponent = (props: any) => {
       const [value, setValue] = React.useState('')
       return (
         <>

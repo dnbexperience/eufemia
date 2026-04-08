@@ -149,13 +149,13 @@ describe('calc', () => {
   })
 
   it('should cache valid calls', () => {
-    globalThis.CALC_CACHE = {}
+    ;(globalThis as any).CALC_CACHE = {}
 
     calc('medium', 'large')
     calc('medium small')
     calc('0.5rem', '24px')
 
-    expect(globalThis.CALC_CACHE).toEqual({
+    expect((globalThis as any).CALC_CACHE).toEqual({
       '0.5rem|24px':
         'calc(var(--spacing-x-small) + var(--spacing-medium))',
       'medium small': 'calc(var(--spacing-medium) + var(--spacing-small))',
@@ -164,11 +164,11 @@ describe('calc', () => {
   })
 
   it('should not cache invalid calls', () => {
-    globalThis.CALC_CACHE = {}
+    ;(globalThis as any).CALC_CACHE = {}
 
     expect(calc(undefined)).toBe(null)
 
-    expect(globalThis.CALC_CACHE).toEqual({})
+    expect((globalThis as any).CALC_CACHE).toEqual({})
   })
 })
 

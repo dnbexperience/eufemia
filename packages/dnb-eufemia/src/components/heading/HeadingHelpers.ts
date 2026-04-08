@@ -168,7 +168,7 @@ export const correctInternalHeadingLevel = ({
   return counter
 }
 
-function report(debug, source, ...reports) {
+function report(debug: any, source: any, ...reports) {
   if (source) {
     const props = source.props || {}
     const identifiers = [props.id, props['class'], props.className].filter(
@@ -237,7 +237,7 @@ export function teardownHeadings() {
   }
 }
 
-export function debugCounter(counter) {
+export function debugCounter(counter: any) {
   return JSON.stringify(
     {
       group: counter.group || counter.contextCounter.group,

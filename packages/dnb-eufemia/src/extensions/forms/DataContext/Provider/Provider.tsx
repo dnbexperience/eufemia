@@ -673,7 +673,7 @@ export default function Provider<Data extends JsonObject>(
       }
 
       if (typeof handler === 'function') {
-        const run = (path) => {
+        const run = (path: any) => {
           const { type } = fieldDisplayValueRef.current[path] || {}
           if (fireHandlerWhen?.({ type }) !== false) {
             const result = handler(
@@ -692,7 +692,7 @@ export default function Provider<Data extends JsonObject>(
         }
 
         // Then iterate over the rest of the internal data set
-        pointer.walk(internalDataRef.current, (value, path) => {
+        pointer.walk(internalDataRef.current, (value: any, path: any) => {
           if (fieldInternalsRef.current[path] === undefined) {
             run(path)
           }
@@ -704,7 +704,7 @@ export default function Provider<Data extends JsonObject>(
 
         return data
       } else if (handler) {
-        const runFilter = ({ path, condition }) => {
+        const runFilter = ({ path, condition }: any) => {
           const exists = pointer.has(data, path)
           if (exists) {
             const result =
@@ -715,7 +715,7 @@ export default function Provider<Data extends JsonObject>(
           }
         }
 
-        const wildcardPaths = []
+        const wildcardPaths: any[] = []
 
         Object.entries(handler).forEach(([path, condition]) => {
           if (path.includes('*')) {
@@ -1488,7 +1488,7 @@ export default function Provider<Data extends JsonObject>(
     const transformData = (data: Data, handler: TransformData) => {
       return mutateDataHandler(data, handler, {
         mutate: false,
-        fireHandlerWhen: ({ type }) => type === 'field',
+        fireHandlerWhen: ({ type }: any) => type === 'field',
       })
     }
 

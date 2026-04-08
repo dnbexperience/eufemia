@@ -67,7 +67,7 @@ export function IconsConfig(overwrite: IconsConfig = {}) {
 
   const iconRenameList = (process.env.FIGMA_ICONS_RENAME_LIST ||
     []) as Array<{ from: string; to: string }>
-  const iconCloneList = process.env.FIGMA_ICONS_CLONE_LIST || []
+  const iconCloneList: any = process.env.FIGMA_ICONS_CLONE_LIST || []
   const canvasNameSelector = /^Icons$/ // before we have used: ^[0-9]+[_\- ]Icons$
   const frameNameSelector = /^Icons$/ // before we have used: [A-z]+ - [0-9]{1,2}
   const iconSelector = process.env.FIGMA_ICONS_SELECTOR || null
@@ -186,7 +186,7 @@ async function collectIconsFromFigmaDoc({
   assetsDir,
   forceReconvert = false,
   ...rest
-}) {
+}: any) {
   const { frameNameSelector, destDir } = IconsConfig({ assetsDir })
 
   const canvasDoc = getIconCanvasDoc({ figmaDoc })
@@ -194,8 +194,8 @@ async function collectIconsFromFigmaDoc({
     type: 'FRAME',
   })
 
-  const controlStorageLists = []
-  const listWithNewFiles = []
+  const controlStorageLists: any[] = []
+  const listWithNewFiles: any[] = []
   const listOfProcessedFiles = await asyncForEach(
     framesInTheCanvas,
     async (frameDoc) => {
@@ -230,24 +230,24 @@ async function collectIconsFromFigmaDoc({
   }
 }
 
-const runDiffControl = ({ controlStorageLists }) => {
-  const collectDiff = []
+const runDiffControl = ({ controlStorageLists }: any) => {
+  const collectDiff: any[] = []
   const sizes = Object.keys(ICON_SIZES).map((size) => `_${size}`)
-  const removeSizes = (n) =>
+  const removeSizes = (n: any) =>
     n.replace(new RegExp(`(${sizes.join('|')})$`), '')
-  const getDiff = (a, b) =>
+  const getDiff = (a: any, b: any) =>
     a.filter(
-      ({ name }) =>
-        !b.some(({ name: n }) => removeSizes(n) === removeSizes(name))
+      ({ name }: any) =>
+        !b.some(({ name: n }: any) => removeSizes(n) === removeSizes(name))
     )
 
-  controlStorageLists.forEach((cur, i, arr) => {
-    getDiff(arr[0], cur).forEach(({ size, name }) => {
+  controlStorageLists.forEach((cur: any, i: any, arr: any) => {
+    getDiff(arr[0], cur).forEach(({ size, name }: any) => {
       collectDiff.push({ [size]: name })
     })
   })
-  controlStorageLists.reverse().forEach((cur, i, arr) => {
-    getDiff(arr[0], cur).forEach(({ size, name }) => {
+  controlStorageLists.reverse().forEach((cur: any, i: any, arr: any) => {
+    getDiff(arr[0], cur).forEach(({ size, name }: any) => {
       collectDiff.push({ [size]: name })
     })
   })
@@ -274,9 +274,9 @@ const frameIconsFactory = async ({
   iconPrimaryList,
   iconCloneList,
   imageUrlExpireAfterDays,
-}) => {
-  const newFiles = []
-  const existingFiles = []
+}: any) => {
+  const newFiles: any[] = []
+  const existingFiles: any[] = []
 
   const frameId = frameDoc.id
   const originalFrameName = String(frameDoc.name)
@@ -293,7 +293,7 @@ const frameIconsFactory = async ({
 
   // get a list of icons we want to refetch
   const listOfIconObjectsFromDoc = frameDocChildren.reduce(
-    (acc, { name, children }) => {
+    (acc: any, { name, children }: any) => {
       const iconName = prerenderIconName(name)
 
       // Skip names starting with a dot
@@ -312,7 +312,7 @@ const frameIconsFactory = async ({
       }
 
       // then add every component variant to the fetch list
-      children.forEach((object) => {
+      children.forEach((object: any) => {
         if (!object.size) {
           object.size = object.name.match(/([0-9]+)/)?.[1] || null
         }
@@ -349,23 +349,25 @@ const frameIconsFactory = async ({
     }))
 
   // remove the IDs if they are in the lock file so we font need to refetch the urls
-  const iconIdsToFetchFrom = listOfIconObjectsFromDoc.filter(({ id }) => {
-    const found = listOfCachedIconUrls.find(({ id: i }) => i === id)
+  const iconIdsToFetchFrom = listOfIconObjectsFromDoc.filter(
+    ({ id }: any) => {
+      const found = listOfCachedIconUrls.find(({ id: i }) => i === id)
 
-    if (found) {
-      // Check if created has passed 30 days
-      const countDays = Math.ceil(
-        (Date.now() - found.updated) / (1e3 * 60 * 60 * 24)
-      )
-      const outdated = countDays > imageUrlExpireAfterDays
+      if (found) {
+        // Check if created has passed 30 days
+        const countDays = Math.ceil(
+          (Date.now() - found.updated) / (1e3 * 60 * 60 * 24)
+        )
+        const outdated = countDays > imageUrlExpireAfterDays
 
-      if (outdated) {
-        return true // yes, re-fetch the url
+        if (outdated) {
+          return true // yes, re-fetch the url
+        }
       }
-    }
 
-    return !found // no, we have it already
-  })
+      return !found // no, we have it already
+    }
+  )
 
   log.start(
     `> Figma: Starting to fetch ${iconIdsToFetchFrom.length} icons from the "${originalFrameName}" Canvas`
@@ -375,7 +377,7 @@ const frameIconsFactory = async ({
   const listOfAdditionalIconUrls = Object.entries(
     await getFigmaUrlByImageIds({
       figmaFile,
-      ids: iconIdsToFetchFrom.map(({ id }) => id),
+      ids: iconIdsToFetchFrom.map(({ id }: any) => id),
       params: { format },
     })
   ).map(([id, url]) => ({
@@ -400,7 +402,7 @@ const frameIconsFactory = async ({
     // clean the list of icons we will process
     .map(({ id, url }) => {
       const existingObject = listOfIconObjectsFromDoc.find(
-        ({ id: i }) => i === id
+        ({ id: i }: any) => i === id
       )
 
       return {
@@ -413,8 +415,8 @@ const frameIconsFactory = async ({
     .filter((item) => item && item.url)
 
   const listOfIconsToProcess: ListOfIcons = iconCloneList.reduce(
-    (acc, cur) => {
-      const found = acc.find(({ name }) => cur.from === name)
+    (acc: any, cur: any) => {
+      const found = acc.find(({ name }: any) => cur.from === name)
       if (found && found.name) {
         acc.push({
           ...found,
@@ -560,7 +562,7 @@ const frameIconsFactory = async ({
   return { files: listOfProcessedFiles, newFiles, existingFiles }
 }
 
-const prerenderIconName = (name, size = null) => {
+const prerenderIconName = (name: any, size: any = null) => {
   const { iconSelector, iconNameCleaner, iconRenameList } = IconsConfig()
 
   let iconName = name
@@ -602,7 +604,7 @@ const prerenderIconName = (name, size = null) => {
   return iconName
 }
 
-const prerenderIconFile = (name, format = 'svg') => {
+const prerenderIconFile = (name: any, format = 'svg') => {
   // make the frameName ready for creating a collection file for every frame
   return `${name}.${format}`
 }
@@ -612,10 +614,13 @@ const makeMetaFile = async ({
   figmaDoc,
   iconRenameList,
   assetsDir,
-}) => {
+}: any) => {
   // save the metaFile content
   const data = listOfProcessedFiles.reduce(
-    (acc, { iconName, size, id, created, name, variant, category }) => {
+    (
+      acc: any,
+      { iconName, size, id, created, name, variant, category }: any
+    ) => {
       const cleanSize = size ? size : null
       if (cleanSize && iconName.includes(cleanSize)) {
         iconName = iconName.replace(`_${cleanSize}`, '')
@@ -624,20 +629,20 @@ const makeMetaFile = async ({
       const { description, componentSetId } = figmaDoc.components[id]
       const componentSet = figmaDoc.componentSets?.[componentSetId]
 
-      let tags = []
+      let tags: any[] = []
 
       // add component tags
       tags = description
         .split(/[,;|]/g)
-        .map((s) => (s ? s.trim() : null))
+        .map((s: any) => (s ? s.trim() : null))
         .filter(Boolean)
 
       // add set tags
       tags = (componentSet?.description || '')
         .split(/[,;|]/g)
-        .map((s) => (s ? s.trim() : null))
+        .map((s: any) => (s ? s.trim() : null))
         .filter(Boolean)
-        .reduce((tags, tag) => {
+        .reduce((tags: any, tag: any) => {
           if (!tags.includes(tag)) {
             tags.push(tag)
           }
@@ -653,14 +658,16 @@ const makeMetaFile = async ({
             : iconName,
         iconName
       )
-      tags = tags.filter((item, index) => {
+      tags = tags.filter((item: any, index: any) => {
         if (item === cleanedName) {
           return false
         }
         return tags.indexOf(item) === index
       })
 
-      const foundRename = iconRenameList.find(({ to }) => to === iconName)
+      const foundRename = iconRenameList.find(
+        ({ to }: any) => to === iconName
+      )
       if (foundRename) {
         tags.push(foundRename.from)
       }
@@ -670,7 +677,7 @@ const makeMetaFile = async ({
 
         acc[iconName] = {
           ...existing,
-          tags: tags.reduce((acc, cur) => {
+          tags: tags.reduce((acc: any, cur: any) => {
             if (!acc.includes(cur) && cur !== iconName) {
               acc.push(cur)
             }
@@ -845,7 +852,7 @@ const createXMLTarBundles = async ({
   }
 }
 
-const optimizeSVGIcons = async ({ destDir, listWithFiles }) => {
+const optimizeSVGIcons = async ({ destDir, listWithFiles }: any) => {
   await asyncForEach(
     listWithFiles,
     async ({ iconFile }: { iconFile: string }) => {
@@ -857,7 +864,7 @@ const optimizeSVGIcons = async ({ destDir, listWithFiles }) => {
   )
 }
 
-const optimizeSVG = async (file) => {
+const optimizeSVG = async (file: any) => {
   if (!fs.existsSync(file)) {
     log.fail(`Figma: optimizeSVG got an non existing file: ${file}`)
     return null
@@ -896,7 +903,7 @@ const optimizeSVG = async (file) => {
   return null
 }
 
-const _insertInlineStylesToSVG = (svg) => {
+const _insertInlineStylesToSVG = (svg: any) => {
   return Object.entries(properties)
     .filter(([key]) => key.includes('--color-'))
     .reduce((acc, [key, val]) => {
@@ -910,7 +917,7 @@ const _insertInlineStylesToSVG = (svg) => {
     }, svg)
 }
 
-const getIconCanvasDoc = ({ figmaDoc }) => {
+const getIconCanvasDoc = ({ figmaDoc }: any) => {
   const { canvasNameSelector } = IconsConfig()
   return findNode(figmaDoc.document, {
     name: canvasNameSelector,
@@ -918,7 +925,7 @@ const getIconCanvasDoc = ({ figmaDoc }) => {
   })
 }
 
-const formatIconName = (n) =>
+const formatIconName = (n: any) =>
   String(n)
     .trim()
     .toLowerCase()
@@ -935,7 +942,7 @@ type IconsLockFileItem = {
 }
 type IconsLockFileMap = { [key: string]: IconsLockFileItem }
 
-export const readIconsLockFile = async ({ file }) => {
+export const readIconsLockFile = async ({ file }: any) => {
   if (fs.existsSync(file)) {
     try {
       return JSON.parse(
@@ -949,19 +956,23 @@ export const readIconsLockFile = async ({ file }) => {
 
   return {} as IconsLockFileMap
 }
-export const saveIconsLockFile = async ({ file, data, assetsDir }) => {
+export const saveIconsLockFile = async ({
+  file,
+  data,
+  assetsDir,
+}: any) => {
   await saveToFile(file, await formatIconsMetaFile(data, assetsDir))
 
   log.info(`> Figma: ${file} file got generated`)
 }
 
-const makeIconsMetaFile = (assetsDir) =>
+const makeIconsMetaFile = (assetsDir: any) =>
   path.resolve(
     __dirname,
     `../../../src/icons/${assetsDir}/icons-meta.json`
   )
 
-export const formatIconsMetaFile = async (data, assetsDir) => {
+export const formatIconsMetaFile = async (data: any, assetsDir: any) => {
   return await prettier.format(JSON.stringify(data), {
     ...prettierrc,
     filepath: makeIconsMetaFile(assetsDir),

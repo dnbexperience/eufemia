@@ -861,10 +861,10 @@ export const AsyncSearchExample = () => {
     hideIndicator,
     updateData,
     debounce,
-  }) => {
+  }: any) => {
     showIndicator()
     debounce(
-      ({ value }) => {
+      ({ value }: any) => {
         let newData = []
         if (value.toLowerCase() === 'a') {
           newData = dataA

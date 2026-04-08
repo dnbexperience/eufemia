@@ -111,7 +111,7 @@ function PushContainerContent() {
         <Form.Visibility
           visibleWhen={{
             path: '/selectedPerson',
-            hasValue: (value) =>
+            hasValue: (value: any) =>
               typeof value === 'string' && value !== 'other',
           }}
         >
@@ -121,7 +121,7 @@ function PushContainerContent() {
         <Form.Visibility
           visibleWhen={{
             path: '/selectedPerson',
-            hasValue: (value) => value === 'other',
+            hasValue: (value: any) => value === 'other',
           }}
         >
           <NewPersonDetails />

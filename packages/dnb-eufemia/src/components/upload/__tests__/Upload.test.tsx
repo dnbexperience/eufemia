@@ -209,7 +209,7 @@ describe('Upload', () => {
     })
 
     it('does not render fileTypeDescription when acceptedFileTypes is empty', () => {
-      const acceptedFileTypes = []
+      const acceptedFileTypes: any[] = []
 
       render(
         <Upload {...defaultProps} acceptedFileTypes={acceptedFileTypes} />
@@ -1230,7 +1230,7 @@ describe('Upload', () => {
     })
 
     it('does not render any file when list of files is undefined', async () => {
-      const files = [undefined]
+      const files: any[] = [undefined]
 
       const id = 'random-id'
 
@@ -1252,7 +1252,7 @@ describe('Upload', () => {
     })
 
     it('does not render any file when undefined', async () => {
-      const files = undefined
+      const files: any = undefined
 
       const id = 'random-id'
 
@@ -1349,7 +1349,7 @@ describe('Upload', () => {
     })
 
     it('shows no files', async () => {
-      const files = []
+      const files: any[] = []
 
       const id = 'random-id3'
 

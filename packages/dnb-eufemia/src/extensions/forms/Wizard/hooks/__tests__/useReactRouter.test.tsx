@@ -8,7 +8,7 @@ import userEvent from '@testing-library/user-event'
 
 describe('useReactRouter', () => {
   let identifier: string
-  let stepIndex = null
+  let stepIndex: any = null
 
   beforeEach(() => {
     stepIndex = null
@@ -77,7 +77,7 @@ describe('useReactRouter', () => {
     }
   }
 
-  const visitStep = (index) => {
+  const visitStep = (index: any) => {
     stepIndex = index
     const url = new URL(window.location.href)
     url.searchParams.set(`${identifier}-step`, String(index))

@@ -85,7 +85,7 @@ const UploadFileInput = ({
           disabled={disabled}
           text={buttonText}
           {...buttonProps}
-          onClick={(e) => {
+          onClick={(e: any) => {
             openFileDialog()
             buttonProps?.onClick?.(e)
           }}

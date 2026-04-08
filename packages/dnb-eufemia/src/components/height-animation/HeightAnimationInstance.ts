@@ -89,7 +89,7 @@ export default class HeightAnimation {
   addEndEvent(listener: HeightAnimationEventListener) {
     this.removeEndEvents() // also, remove events on every open (but not on close!)
 
-    const handleTransitionEnd = (e) => {
+    const handleTransitionEnd = (e: any) => {
       if (this.canFinish()) {
         listener(e)
       } else {
@@ -125,7 +125,7 @@ export default class HeightAnimation {
     }
 
     this.duration =
-      globalThis.animationDuration ??
+      (globalThis as any).animationDuration ??
       (parseFloat(window.getComputedStyle(this.elem).transitionDuration) *
         1000 ||
         400) // The default duration

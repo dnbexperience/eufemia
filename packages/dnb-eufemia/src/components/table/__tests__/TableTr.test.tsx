@@ -244,7 +244,7 @@ describe('TableTr', () => {
         </Table>
       )
 
-      function sortByName(a, b) {
+      function sortByName(a: any, b: any) {
         return a.localeCompare(b)
       }
 

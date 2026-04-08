@@ -397,7 +397,9 @@ describe('makePropertiesFile', () => {
   })
 
   describe('Tailwind CSS Properties Generation', () => {
-    let uiTailwindResult, sbankenTailwindResult, eiendomTailwindResult
+    let uiTailwindResult: any,
+      sbankenTailwindResult: any,
+      eiendomTailwindResult: any
 
     beforeAll(async () => {
       await makePropertiesFile()

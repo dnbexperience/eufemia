@@ -8,7 +8,7 @@ export function useIterateItemNo({
   label: labelProp,
   labelSuffix = undefined,
   required = undefined,
-}) {
+}: any) {
   const { index: iterateIndex } = useItem() || {}
 
   const { optionalLabelSuffix } = useTranslation().Field

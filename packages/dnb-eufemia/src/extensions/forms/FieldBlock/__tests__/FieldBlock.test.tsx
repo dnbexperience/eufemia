@@ -835,7 +835,7 @@ describe('FieldBlock', () => {
 
   it('should set hasError on provider', () => {
     let hasNestedError = false
-    const MockComponent = (props) => {
+    const MockComponent = (props: any) => {
       const { hasError } = useFieldProps(props)
       hasNestedError = hasError
       return null
@@ -1350,7 +1350,7 @@ describe('FieldBlock', () => {
       })
 
       it('should disable animation when globalThis.IS_TEST is true', () => {
-        globalThis.IS_TEST = true
+        ;(globalThis as any).IS_TEST = true
 
         const { rerender } = render(<FieldBlock>content</FieldBlock>)
 
@@ -1714,7 +1714,7 @@ describe('FieldBlock', () => {
   })
 })
 
-function MockComponent({ label = null, id = null }) {
+function MockComponent({ label = null, id = null }: any) {
   return (
     <>
       {label && <label htmlFor={id}>{label}</label>}

@@ -46,7 +46,7 @@ export default function CancelButton(props: Props) {
   }, [arrayValue, containerMode, index])
 
   const cancelHandler = useCallback(
-    ({ close, event }) => {
+    ({ close, event }: any) => {
       close?.()
       restoreOriginalValue?.(valueBackupRef.current)
 
@@ -119,7 +119,7 @@ export default function CancelButton(props: Props) {
   return (
     <Button
       {...triggerAttributes}
-      onClick={(args) => cancelHandler(args)}
+      onClick={(args: any) => cancelHandler(args)}
       {...rest}
     />
   )

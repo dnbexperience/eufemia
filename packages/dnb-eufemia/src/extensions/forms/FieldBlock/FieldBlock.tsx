@@ -682,7 +682,7 @@ function useEnableFieldset({
   asFieldset,
   children,
   nestedFieldBlockContext,
-}) {
+}: any) {
   return useMemo(() => {
     if (asFieldset === false) {
       return false
@@ -788,7 +788,7 @@ function fragmentHasChildren(fragment: React.ReactNode) {
 }
 
 function fragmentHasOnlyUndefinedChildren(fragment: React.ReactNode) {
-  const isUndefined = (child) => child === undefined
+  const isUndefined = (child: any) => child === undefined
 
   return (
     React.isValidElement<{ children?: React.ReactNode }>(fragment) &&

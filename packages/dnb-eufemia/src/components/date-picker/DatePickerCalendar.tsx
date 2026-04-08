@@ -641,7 +641,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                         onClick={
                           handleAsDisabled
                             ? undefined
-                            : ({ event }) =>
+                            : ({ event }: any) =>
                                 onSelectRange({
                                   day,
                                   isRange,

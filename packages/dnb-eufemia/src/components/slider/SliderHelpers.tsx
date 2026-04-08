@@ -81,7 +81,7 @@ export const roundValue = (
   return parseFloat(parseFloat(String(value)).toFixed(3))
 }
 
-export const createMockDiv = ({ width, height }) => {
+export const createMockDiv = ({ width, height }: any) => {
   const div = document.createElement('div')
   Object.assign(div.style, {
     width: `${width}px`,

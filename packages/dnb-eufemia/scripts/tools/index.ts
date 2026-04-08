@@ -14,7 +14,7 @@ export async function asyncForEach<TBase>(
   array: Array<TBase>,
   callback: AsyncForEachCallback<TBase>
 ) {
-  let res = []
+  let res: any[] = []
   for (let i = 0, l = array.length; i < l; ++i) {
     const cur = await callback(
       array[i] as (typeof array)[number],

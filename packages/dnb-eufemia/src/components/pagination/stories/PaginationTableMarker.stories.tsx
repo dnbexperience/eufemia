@@ -35,12 +35,12 @@ export const PaginationTableMarker = () => (
     <InfinityPaginationTable tableItems={tableItems} />
   </Wrapper>
 )
-const tableItems = []
+const tableItems: any[] = []
 for (let i = 1; i <= 60; i++) {
   tableItems.push({ ssn: i, text: String(i), expanded: false })
 }
 
-const InfinityPaginationTable = ({ tableItems, ...props }) => {
+const InfinityPaginationTable = ({ tableItems, ...props }: any) => {
   const startupPage = 1 // what we start with
   const perPageCount = 10 // how many items per page
   const [{ InfinityMarker, endInfinity, resetInfinity }] =
@@ -51,20 +51,24 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const localStack = React.useRef({})
   tableItems = reorderDirection(tableItems, orderDirection)
   tableItems
-    .filter((cur, idx) => {
+    .filter((cur: any, idx: any) => {
       const floor = (currentPage - 1) * perPageCount
       const ceil = floor + perPageCount
       return idx >= floor && idx < ceil
     })
-    .forEach((item) => {
+    .forEach((item: any) => {
       localStack.current[item.ssn] = item
     })
 
   let items = Object.values(localStack.current)
   items = reorderDirection(items, orderDirection)
 
-  const onToggleExpanded = ({ ssn: _ssn }, pageNumber, element = null) => {
-    const index = tableItems.findIndex(({ ssn }) => ssn === _ssn)
+  const onToggleExpanded = (
+    { ssn: _ssn }: any,
+    pageNumber: any,
+    element: any = null
+  ) => {
+    const index = tableItems.findIndex(({ ssn }: any) => ssn === _ssn)
     if (index > -1) {
       const item = tableItems[index]
       tableItems[index] = {
@@ -76,13 +80,13 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
       setHeight({ element, expanded: !item.expanded })
     }
   }
-  const onMounted = (items) => {
-    items.forEach(({ element: { current: element }, expanded }) =>
+  const onMounted = (items: any) => {
+    items.forEach(({ element: { current: element }, expanded }: any) =>
       setHeight({ element, expanded, animation: false })
     )
   }
 
-  let serverDelayTimeout
+  let serverDelayTimeout: any
   React.useEffect(() => () => clearTimeout(serverDelayTimeout))
   const resetHandler = () => {
     clearTimeout(serverDelayTimeout)
@@ -133,7 +137,7 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
       <tbody>
         <InfinityMarker
           markerElement="tr"
-          fallbackElement={({ className, ...props }) => (
+          fallbackElement={({ className, ...props }: any) => (
             <TableRow className={className}>
               <TableData colSpan={2} {...props} />
             </TableRow>
@@ -143,7 +147,7 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
           startupPage={startupPage}
           startupCount={2}
           currentPage={currentPage} // Mandatory
-          onLoad={({ pageNumber }) => {
+          onLoad={({ pageNumber }: any) => {
             console.log('onLoad: with page', pageNumber)
 
             if (pageNumber > tableItems.length / perPageCount) {
@@ -158,13 +162,13 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
               ) // simulate random delay
             }
           }}
-          onStartup={({ pageNumber }) => {
+          onStartup={({ pageNumber }: any) => {
             console.log('onStartup: with page', pageNumber)
           }}
-          onChange={({ pageNumber }) => {
+          onChange={({ pageNumber }: any) => {
             console.log('onChange: with page', pageNumber)
           }}
-          onEnd={({ pageNumber }) => {
+          onEnd={({ pageNumber }: any) => {
             console.log('onEnd: with page', pageNumber)
           }}
         >
@@ -186,7 +190,7 @@ const InfinityPagination = ({
   onToggleExpanded,
   onMounted,
   ...props
-}) => {
+}: any) => {
   const mountedItems = React.useMemo(() => [], [items])
 
   React.useEffect(() => {
@@ -195,9 +199,9 @@ const InfinityPagination = ({
     }
   }, [onMounted, mountedItems])
 
-  return items.map((item) => {
+  return items.map((item: any) => {
     const params = {
-      onClick: (e) => {
+      onClick: (e: any) => {
         if (!hasSelectedText()) {
           onToggleExpanded(item, currentPage, e.currentTarget)
         }
@@ -314,8 +318,8 @@ const setHeight = ({
   }
 }
 
-const reorderDirection = (items, dir) =>
-  items.sort(({ text: A }, { text: B }) => {
+const reorderDirection = (items: any, dir: any) =>
+  items.sort(({ text: A }, { text: B }: any) => {
     const a = parseFloat(A)
     const b = parseFloat(B)
     return (dir === 'asc' ? a > b : a < b) ? 1 : -1

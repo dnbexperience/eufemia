@@ -136,7 +136,7 @@ describe('ArraySelection', () => {
     })
 
     it('supports render prop children with options from dataPath', () => {
-      let receivedOptions = []
+      let receivedOptions: any[] = []
 
       render(
         <Form.Handler
@@ -1073,7 +1073,7 @@ describe('ArraySelection', () => {
         const onSubmit = jest.fn((data, { transformData }) => {
           transformedData = transformData(
             data,
-            ({ value, displayValue, label }) => {
+            ({ value, displayValue, label }: any) => {
               return { value, displayValue, label }
             }
           )

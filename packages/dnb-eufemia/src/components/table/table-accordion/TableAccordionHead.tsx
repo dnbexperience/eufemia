@@ -65,7 +65,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
   let headerContent = React.Children.toArray(children)
 
   const addContent = useCallback(
-    (content) => {
+    (content: any) => {
       if (tableContext.allProps.accordionChevronPlacement === 'right') {
         headerContent.push(content)
       } else {

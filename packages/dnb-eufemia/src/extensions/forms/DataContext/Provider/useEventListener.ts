@@ -1,7 +1,11 @@
 import { useCallback, useContext, useEffect, useMemo } from 'react'
 import DataContext from '../Context'
 
-export default function useEventListener(id, listener, path = undefined) {
+export default function useEventListener(
+  id: any,
+  listener: any,
+  path: any = undefined
+) {
   const { setFieldEventListener } = useContext(DataContext)
 
   useMemo(() => {

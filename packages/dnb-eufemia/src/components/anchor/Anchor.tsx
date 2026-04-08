@@ -294,11 +294,11 @@ export function scrollToHash(hash: string) {
   return undefined
 }
 
-function getIcon(icon) {
+function getIcon(icon: any) {
   return pickIcon(icon) || <IconPrimary icon={icon} />
 }
 
-export function pickIcon(icon, className?: string) {
+export function pickIcon(icon: any, className?: string) {
   if (icon?.props?.icon || icon?.props?.className?.includes('dnb-icon')) {
     return React.createElement(icon.type, {
       ...icon.props,

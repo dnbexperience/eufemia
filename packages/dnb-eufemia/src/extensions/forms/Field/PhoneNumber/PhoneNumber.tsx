@@ -125,7 +125,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
   )
 
   const validateRequired = useCallback(
-    (value: string, { required, isChanged, error }) => {
+    (value: string, { required, isChanged, error }: any) => {
       if (required) {
         const [countryCode, phoneNumber] = splitValue(value)
 
@@ -461,7 +461,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
   }, [callOnBlurOrFocus])
 
   const handleCountryCodeFocus = useCallback(
-    ({ updateData }) => {
+    ({ updateData }: any) => {
       if (!wasFilled.current) {
         wasFilled.current = true
         updateCurrentDataSet()
@@ -473,7 +473,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
   )
 
   const onTypeHandler = useCallback(
-    ({ value, updateData, revalidateInputValue, event }) => {
+    ({ value, updateData, revalidateInputValue, event }: any) => {
       // Handle browser autofill/autocomplete
       if (typeof event?.nativeEvent?.data === 'undefined') {
         // Try to detect the country code from the autofilled value.

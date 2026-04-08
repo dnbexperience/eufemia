@@ -201,7 +201,7 @@ function Skeleton(props: SkeletonProps) {
 
 export default Skeleton
 
-function Exclude(props) {
+function Exclude(props: any) {
   return <Provider {...props} skeleton={false} />
 }
 

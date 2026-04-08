@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import { Space } from '../../../../components'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export default function TestElement({ className = null, ...props }) {
+export default function TestElement({ className = null, ...props }: any) {
   return (
     <Space
       className={clsx('dnb-forms-test-element', className)}

@@ -191,7 +191,7 @@ function Selection(props: FieldSelectionProps) {
   )
 
   const onChangeHandler = useCallback(
-    ({ value }) => {
+    ({ value }: any) => {
       handleChange?.(value === undefined ? emptyValue : value)
     },
     [handleChange, emptyValue]
@@ -237,7 +237,7 @@ function Selection(props: FieldSelectionProps) {
 
   const onType = props?.autocompleteProps?.onType
   const onTypeAutocompleteHandler = useCallback(
-    (event) => {
+    (event: any) => {
       if (typeof onType === 'function') {
         const { value } = event
         onType({

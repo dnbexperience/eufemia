@@ -92,7 +92,7 @@ function ArrayComponent(props: IterateArrayProps) {
   }, [countPath, countPathLimit, getValueByPath, dataContext.data])
 
   const validateRequired = useCallback(
-    (value: Value, { emptyValue, required, error }) => {
+    (value: Value, { emptyValue, required, error }: any) => {
       if (
         required &&
         (!value || value?.length === 0 || value === emptyValue)
@@ -104,7 +104,7 @@ function ArrayComponent(props: IterateArrayProps) {
   )
 
   const preparedProps = useMemo(() => {
-    const shared = {
+    const shared: any = {
       schema: undefined,
       emptyValue: undefined,
       required: false,
@@ -483,7 +483,6 @@ function ArrayComponent(props: IterateArrayProps) {
         shellSpace={{ top: 0, bottom: 'medium' }}
         noAnimation={false}
       >
-        {/* @ts-expect-error -- strictFunctionTypes */}
         {getMessagesFromError({ content: error || limitWarning })[0]}
       </FormStatus>
     </>

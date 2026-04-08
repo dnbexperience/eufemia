@@ -19,7 +19,7 @@ import type { ComponentMarkers } from '../../../../../shared/helpers/withCompone
 const nb = nbNO['nb-NO']
 
 describe('Form.Isolation', () => {
-  let log = null
+  let log: any = null
   beforeEach(() => {
     log = spyOnEufemiaWarn()
   })

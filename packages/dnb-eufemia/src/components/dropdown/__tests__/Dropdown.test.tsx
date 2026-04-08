@@ -1183,11 +1183,11 @@ describe('Dropdown component', () => {
   })
 
   it('should support title as `React.ReactNode`', () => {
-    const TitleAsChildren = ({ children }) => {
+    const TitleAsChildren = ({ children }: any) => {
       return <span id="title-as-children">{children}</span>
     }
 
-    const TitleAsProp = ({ title }) => {
+    const TitleAsProp = ({ title }: any) => {
       return <span id="title-as-prop">{title}</span>
     }
 
@@ -2014,7 +2014,7 @@ describe('Dropdown scss', () => {
   })
 })
 
-const keydown = (key) => {
+const keydown = (key: any) => {
   fireEvent.keyDown(
     document.querySelector('button.dnb-dropdown__trigger'),
     {
@@ -2027,7 +2027,7 @@ const open = () => {
   fireEvent.click(document.querySelector('button.dnb-dropdown__trigger'))
 }
 
-const dispatchKeyDown = (key) => {
+const dispatchKeyDown = (key: any) => {
   document.dispatchEvent(
     new KeyboardEvent('keydown', {
       key,

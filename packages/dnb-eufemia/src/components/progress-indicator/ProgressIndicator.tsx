@@ -169,7 +169,7 @@ function updatePropsWithContext(
   )
 }
 
-function formatProgress(progress) {
+function formatProgress(progress: any) {
   if (parseFloat(progress) > -1) {
     return format(progress, {
       decimals: 2,

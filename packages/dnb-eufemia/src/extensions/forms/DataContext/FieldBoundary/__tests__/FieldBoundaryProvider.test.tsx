@@ -203,7 +203,7 @@ describe('FieldBoundaryProvider', () => {
     const contextRef: React.RefObject<FieldBoundaryContextState> =
       React.createRef()
 
-    const Contexts = ({ children }) => {
+    const Contexts = ({ children }: any) => {
       contextRef.current = useContext(FieldBoundaryContext)
       return <>{children}</>
     }

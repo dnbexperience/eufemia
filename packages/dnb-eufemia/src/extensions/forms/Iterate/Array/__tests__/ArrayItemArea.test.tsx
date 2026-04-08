@@ -10,19 +10,19 @@ import { simulateAnimationEnd } from '../../../../../components/height-animation
 
 describe('ArrayItemArea', () => {
   beforeEach(() => {
-    globalThis.bypassTime = -1
-    globalThis.animationDuration = -1
+    ;(globalThis as any).bypassTime = -1
+    ;(globalThis as any).animationDuration = -1
   })
 
   afterEach(() => {
-    globalThis.bypassTime = undefined
-    globalThis.animationDuration = undefined
+    ;(globalThis as any).bypassTime = undefined
+    ;(globalThis as any).animationDuration = undefined
   })
 
   it('should call "onAnimationEnd"', () => {
     const onAnimationEnd = jest.fn()
 
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: any) => (
       <IterateItemContext value={{ containerMode: 'view', value: 'foo' }}>
         {children}
       </IterateItemContext>
@@ -43,7 +43,7 @@ describe('ArrayItemArea', () => {
   it('should call "handleRemove" from the context during element remove', () => {
     const handleRemove = jest.fn()
 
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: any) => (
       <IterateItemContext value={{ containerMode: 'view', handleRemove }}>
         {children}
       </IterateItemContext>
@@ -64,7 +64,7 @@ describe('ArrayItemArea', () => {
   it('should call "fulfillRemove" from the context during element remove', () => {
     const fulfillRemove = jest.fn()
 
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: any) => (
       <IterateItemContext
         value={{ containerMode: 'view', value: 'foo', fulfillRemove }}
       >
@@ -166,7 +166,7 @@ describe('ArrayItemArea', () => {
   })
 
   it('should open delayed when isNew is true', async () => {
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: any) => (
       <IterateItemContext value={{ containerMode: 'view', isNew: true }}>
         {children}
       </IterateItemContext>
@@ -197,7 +197,7 @@ describe('ArrayItemArea', () => {
   })
 
   it('should have inner element of section', () => {
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: any) => (
       <IterateItemContext value={{ containerMode: 'view' }}>
         {children}
       </IterateItemContext>
@@ -211,7 +211,7 @@ describe('ArrayItemArea', () => {
   })
 
   it('should set aria-label', () => {
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: any) => (
       <IterateItemContext value={{ containerMode: 'view' }}>
         {children}
       </IterateItemContext>

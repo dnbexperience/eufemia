@@ -651,7 +651,7 @@ describe('useValidation', () => {
       it('should set and remove a field error', async () => {
         const onSubmit = jest.fn()
 
-        const MockProvider = ({ children }) => {
+        const MockProvider = ({ children }: any) => {
           return (
             <Form.Handler onSubmit={onSubmit}>
               <Field.String label="My field" path="/myField" />
@@ -707,7 +707,7 @@ describe('useValidation', () => {
       it('should set and remove a field error, warning and info', async () => {
         const onSubmit = jest.fn()
 
-        const MockProvider = ({ children }) => {
+        const MockProvider = ({ children }: any) => {
           return (
             <Form.Handler onSubmit={onSubmit}>
               <Field.String label="My field" path="/myField" />

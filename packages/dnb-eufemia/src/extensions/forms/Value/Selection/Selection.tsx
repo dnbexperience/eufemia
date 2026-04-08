@@ -21,7 +21,9 @@ function Selection(props: ValueSelectionProps) {
     const fieldProp = fieldInternalsRef?.current?.[path]?.props
 
     if (path || dataPath) {
-      let list = getValueByPath(dataPath)?.map?.((props) => ({ props }))
+      let list = getValueByPath(dataPath)?.map?.((props: any) => ({
+        props,
+      }))
 
       if (!list) {
         list = fieldProp?.children as Array<
@@ -29,8 +31,9 @@ function Selection(props: ValueSelectionProps) {
         >
       }
 
-      const title = list?.find?.((child) => child.props.value === value)
-        ?.props?.title
+      const title = list?.find?.(
+        (child: any) => child.props.value === value
+      )?.props?.title
 
       return title ? convertJsxToString(title) : value
     }

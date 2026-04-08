@@ -211,7 +211,7 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
   }, [ccFilter, filter, forceUpdate])
 
   const onFocusHandler = useCallback(
-    ({ updateData }) => {
+    ({ updateData }: any) => {
       fillData()
       updateData(dataRef.current)
       handleFocus()
@@ -220,7 +220,7 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
   )
 
   const onTypeHandler = useCallback(
-    ({ value: currentValue, setHidden, event }) => {
+    ({ value: currentValue, setHidden, event }: any) => {
       // Handle browser autofill/autocomplete
       if (typeof event?.nativeEvent?.data === 'undefined') {
         const search = currentValue.toLowerCase()

@@ -600,7 +600,7 @@ describe('DrawerList component', () => {
   })
 
   describe('id', () => {
-    const testAllIds = (id) => {
+    const testAllIds = (id: any) => {
       expect(
         document.querySelector('.dnb-drawer-list').getAttribute('id')
       ).toBe(`${id}-drawer-list`)
@@ -718,7 +718,7 @@ describe('DrawerList component', () => {
   })
 
   it('will lock body scroll when enableBodyLock is true', () => {
-    const MockComponent = (p) => (
+    const MockComponent = (p: any) => (
       <DrawerList {...props} data={mockData} enableBodyLock {...p} />
     )
 
@@ -1568,7 +1568,7 @@ describe('DrawerList scss', () => {
   })
 })
 
-const keydown = (key) => {
+const keydown = (key: any) => {
   act(() => {
     document.dispatchEvent(new KeyboardEvent('keydown', { key }))
   })

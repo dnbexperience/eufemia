@@ -377,7 +377,7 @@ describe('ToggleButton group component', () => {
       )
     }
 
-    const TestButton = (Comp, id) => {
+    const TestButton = (Comp: any, id: any) => {
       render(Comp)
 
       const sel = `button#${id}`

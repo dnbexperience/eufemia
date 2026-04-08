@@ -408,7 +408,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   ])
 
   const getFieldByPath = useCallback(
-    (path) => {
+    (path: any) => {
       return (
         fieldInternalsRef.current?.[path] || {
           props: undefined,
@@ -1830,4 +1830,4 @@ export type ReturnAdditional<Value> = {
 
 export { checkForError } from './useFieldError'
 
-export const clearedArray = []
+export const clearedArray: any[] = []

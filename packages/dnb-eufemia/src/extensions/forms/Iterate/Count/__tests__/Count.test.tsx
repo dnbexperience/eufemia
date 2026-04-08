@@ -33,7 +33,7 @@ describe('Iterate.Count', () => {
         const data = {
           myList: [1, 2, 3],
         }
-        const filter = (value) => {
+        const filter = (value: any) => {
           return value > 1
         }
 
@@ -73,7 +73,7 @@ describe('Iterate.Count', () => {
         const data = {
           myList: [1, 2, 3],
         }
-        const filter = (value) => {
+        const filter = (value: any) => {
           return value > 1
         }
         let value = null

@@ -46,7 +46,9 @@ export const ComponentAsLabel = () => {
       >
         <ToggleButton
           bottom
-          onChange={() => setStatus((s) => (!s ? 'min status' : null))}
+          onChange={() =>
+            setStatus((s: any) => (!s ? 'min status' : null))
+          }
         >
           set status
         </ToggleButton>
@@ -315,7 +317,7 @@ export const SimulateSteps = () => {
             title="New title"
             text="First long info text ..."
             item="Item from status #1"
-            onClose={({ statusId }) => {
+            onClose={({ statusId }: any) => {
               console.log('onClose 1', statusId)
             }}
           />
@@ -324,7 +326,7 @@ export const SimulateSteps = () => {
             statusId="custom-id-2"
             text="Second long info text ..."
             item="Item from status #2"
-            onClose={({ statusId }) => {
+            onClose={({ statusId }: any) => {
               console.log('onClose 2', statusId)
             }}
           />
@@ -647,7 +649,7 @@ export function GlobalStatusSelector() {
     </Section>
   )
 
-  function setGlobalStatus(event) {
+  function setGlobalStatus(event: any) {
     const input = event.target as HTMLInputElement
     const value = input.value as GlobalStatusState
 

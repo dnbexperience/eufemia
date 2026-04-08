@@ -197,7 +197,7 @@ describe('runFactory', () => {
 
 type FactoryResult = Record<string, string>
 
-const make = async ({ scssOutputPath, targetFile }) => {
+const make = async ({ scssOutputPath, targetFile }: any) => {
   return (await runFactory({
     targetFile,
     scssOutputPath,
@@ -216,7 +216,7 @@ const getThemeContent = async ({
   targetFile = 'components',
   scssOutputPath = path.resolve(__dirname, '../../../../src/style/themes'),
   factoryResult = null,
-}) => {
+}: any) => {
   if (!factoryResult) {
     factoryResult = await make({ scssOutputPath, targetFile })
   }

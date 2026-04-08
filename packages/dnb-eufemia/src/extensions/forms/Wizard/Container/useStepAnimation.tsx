@@ -6,7 +6,7 @@ export default function useStepAnimation({
   activeIndexRef,
   stepElementRef,
   executeLayoutAnimationRef,
-}) {
+}: any) {
   const activeIndex = activeIndexRef.current
   const indexRef = useRef(activeIndex)
 

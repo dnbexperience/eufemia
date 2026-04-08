@@ -371,7 +371,7 @@ describe('Dialog', () => {
       third: jest.fn(),
     }
 
-    const getComponent = (props) => {
+    const getComponent = (props: any) => {
       return (
         <Dialog
           {...props}

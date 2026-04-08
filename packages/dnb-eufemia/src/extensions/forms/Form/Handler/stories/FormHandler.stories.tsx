@@ -201,7 +201,7 @@ function useCancelAsyncOperations() {
 }
 
 function Options() {
-  const handleSliderChange = useCallback((value) => {
+  const handleSliderChange = useCallback((value: any) => {
     requestTimeoutOffset = value
   }, [])
 
@@ -219,7 +219,7 @@ function Options() {
   )
 }
 
-const onSubmit = async function (data) {
+const onSubmit = async function (data: any) {
   console.log('onSubmit', data)
   const request = createRequest()
 
@@ -255,7 +255,7 @@ const onFieldChange = debounceAsync(async function (value) {
 const onSubmitRequest = () => {
   console.log('onSubmitRequest')
 }
-const onSubmitComplete = (data, result) => {
+const onSubmitComplete = (data: any, result: any) => {
   console.log('onSubmitComplete', data, result)
 }
 

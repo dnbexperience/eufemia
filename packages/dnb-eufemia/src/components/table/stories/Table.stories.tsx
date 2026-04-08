@@ -403,7 +403,7 @@ export const TableOddEven = () => {
     </React.StrictMode>
   )
 
-  function sortByName(a, b) {
+  function sortByName(a: any, b: any) {
     return a.localeCompare(b)
   }
 
@@ -515,16 +515,16 @@ const ContentTr = ({
     </Tr>
   )
 
-  function trClickHandler(event) {
+  function trClickHandler(event: any) {
     console.log('trClickHandler', event)
   }
-  function trOpenHandler(event) {
+  function trOpenHandler(event: any) {
     console.log('trOpenHandler', event)
   }
-  function trCloseHandler(event) {
+  function trCloseHandler(event: any) {
     console.log('trCloseHandler', event)
   }
-  function buttonClickHandler({ event }) {
+  function buttonClickHandler({ event }: any) {
     event.preventDefault()
   }
 }
@@ -569,7 +569,7 @@ const TableContent = () => {
   )
 }
 
-const HeaderSortButton = ({ children }) => {
+const HeaderSortButton = ({ children }: any) => {
   return (
     <Th.SortButton
       wrap={false}
@@ -1347,14 +1347,14 @@ export function Overflow() {
 }
 
 export function Accodion() {
-  const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
+  const AccordionTable = ({ id, showCheckbox = false, ...props }: any) => {
     const TdCheckbox = () => {
       return <Checkbox label="Select row" labelSrOnly />
     }
     const TdInput = () => {
       return <Input label="Label" labelSrOnly size={4} />
     }
-    const Content = ({ shareId }) => {
+    const Content = ({ shareId }: any) => {
       const ref = React.useRef<HTMLButtonElement | null>(null)
       const shareHandler = () => {
         const url = new URL(location.href)
@@ -1378,7 +1378,7 @@ export function Accodion() {
         </>
       )
     }
-    const Row = ({ nr }) => {
+    const Row = ({ nr }: any) => {
       const shareId = id + '-' + nr
       return (
         <Tr id={shareId}>

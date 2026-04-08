@@ -81,7 +81,7 @@ export const DialogConfirm = () => (
             icon={edit}
             iconPosition="left"
             onClick={
-              (({ close }) => {
+              (({ close }: any) => {
                 close()
               }) as ButtonOnClick
             }
@@ -89,7 +89,7 @@ export const DialogConfirm = () => (
           <Button
             text="Jeg godtar"
             onClick={
-              (({ close }) => {
+              (({ close }: any) => {
                 close()
               }) as ButtonOnClick
             }
@@ -478,7 +478,7 @@ const ModalCloseExample = () => {
   const [count, setCount] = React.useState(0)
 
   React.useEffect(() => {
-    let timeout
+    let timeout: any
 
     if (openState === true) {
       timeout = setTimeout(() => {
@@ -504,7 +504,7 @@ const ModalCloseExample = () => {
           return () => clearTimeout(timeout)
         }}
         closeModal={(close) => {
-          let timeout
+          let timeout: any
 
           if (openState !== true) {
             console.log('Modal was opened')
@@ -551,7 +551,7 @@ const ModalTriggerExample = () => {
         <Button
           id="custom-triggerer"
           text="Custom trigger Button"
-          onClick={(e) => {
+          onClick={(e: any) => {
             return (
               <Dialog
                 title="Modal Title"

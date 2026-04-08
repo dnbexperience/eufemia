@@ -111,7 +111,7 @@ describe('Field.Address', () => {
   })
 
   it('should replace Field.String with custom element', async () => {
-    const CustomElement = (props) => (
+    const CustomElement = (props: any) => (
       <textarea className="custom-element" {...props} />
     )
     render(<Field.Address element={CustomElement} />)

@@ -11,7 +11,7 @@ import {
 describe.each(['ui', 'sbanken', 'carnegie'])(
   'Input for %s',
   (themeName) => {
-    const extend = (selector) => ({
+    const extend = (selector: any) => ({
       style: {
         width: '200px', // make sure our input gets an explicit width, because of mac/linux rendering differences
       },

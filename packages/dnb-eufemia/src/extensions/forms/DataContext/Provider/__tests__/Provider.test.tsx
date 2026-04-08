@@ -808,7 +808,7 @@ describe('DataContext.Provider', () => {
           filteredData = filterData(filterDataHandler)
         })
 
-        const filterDataHandler = ({ props }) => {
+        const filterDataHandler = ({ props }: any) => {
           return !props['data-exclude-field']
         }
 
@@ -1042,8 +1042,8 @@ describe('DataContext.Provider', () => {
     })
 
     describe('should evaluate long onChangeValidator and onBlurValidator before continue with async onSubmit', () => {
-      let eventsStart = []
-      let eventsEnd = []
+      let eventsStart: any[] = []
+      let eventsEnd: any[] = []
 
       const onSubmit = async () => {
         eventsStart.push('onSubmit')
@@ -1774,7 +1774,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should fulfill first the form event before the field event', async () => {
-      const events = []
+      const events: any[] = []
 
       const onChangeForm: OnChange = async () => {
         events.push('onChangeForm')
@@ -2057,7 +2057,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should show indicator during all async operations', async () => {
-      const events = []
+      const events: any[] = []
 
       const onChangeValidator = debounceAsync(async () => {
         await wait(101)
@@ -4335,7 +4335,7 @@ describe('DataContext.Provider', () => {
 
     it('should contain data on first render, when nested', () => {
       const initialData = { foo: 'bar' }
-      const nestedMockData = []
+      const nestedMockData: any[] = []
 
       const NestedMock = () => {
         const { data } = Form.useData(identifier)
@@ -4360,8 +4360,8 @@ describe('DataContext.Provider', () => {
       const log = spyOnEufemiaWarn()
 
       const initialData = { foo: 'bar' }
-      const sidecarMockData = []
-      const nestedMockData = []
+      const sidecarMockData: any[] = []
+      const nestedMockData: any[] = []
 
       const SidecarMock = () => {
         const { data } = Form.useData(identifier)
@@ -4400,8 +4400,8 @@ describe('DataContext.Provider', () => {
     })
 
     it('should be able to update data from side car', async () => {
-      const sidecarMockData = []
-      const nestedMockData = []
+      const sidecarMockData: any[] = []
+      const nestedMockData: any[] = []
 
       const SidecarMock = () => {
         const { data, update } = Form.useData(identifier)
@@ -4455,8 +4455,8 @@ describe('DataContext.Provider', () => {
       const log = spyOnEufemiaWarn()
 
       const initialData = { foo: 'bar' }
-      const sidecarMockData = []
-      const nestedMockData = []
+      const sidecarMockData: any[] = []
+      const nestedMockData: any[] = []
 
       const SidecarMock = () => {
         const { data } = Form.useData(identifier)
@@ -4641,7 +4641,7 @@ describe('DataContext.Provider', () => {
       expect(inputElement).toHaveValue('bar')
 
       act(() => {
-        update('/foo', (value) => {
+        update('/foo', (value: any) => {
           return 'foo ' + value
         })
       })
@@ -4702,7 +4702,7 @@ describe('DataContext.Provider', () => {
         const { data, update } = Form.useData(identifier, existingData)
 
         const increment = React.useCallback(() => {
-          update('/count', (count) => {
+          update('/count', (count: any) => {
             return count + 1
           })
         }, [update])
@@ -4796,7 +4796,7 @@ describe('DataContext.Provider', () => {
         )
 
         const increment = React.useCallback(() => {
-          update('/count', (count) => {
+          update('/count', (count: any) => {
             return count + 1
           })
         }, [update])
@@ -4834,7 +4834,7 @@ describe('DataContext.Provider', () => {
         const { data, update } = Form.useData(identifier, { count: 1 })
 
         React.useEffect(() => {
-          update('/count', (count) => count + 1)
+          update('/count', (count: any) => count + 1)
         }, [update])
 
         countRender++
@@ -5608,7 +5608,7 @@ describe('DataContext.Provider', () => {
     const onSubmit = jest.fn((data, { transformData }) => {
       transformedData = transformData(
         data,
-        ({ value, displayValue, label }) => {
+        ({ value, displayValue, label }: any) => {
           return { value, displayValue, label }
         }
       )
@@ -5724,7 +5724,7 @@ describe('DataContext.Provider', () => {
     const onSubmit = jest.fn((data, { transformData }) => {
       transformedData = transformData(
         data,
-        ({ value, displayValue, label }) => {
+        ({ value, displayValue, label }: any) => {
           return { value, displayValue, label }
         }
       )
@@ -5912,7 +5912,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should remove data entries of hidden Iterate.Array using Visibility within a Wizard', async () => {
-      let submitData = null
+      let submitData: any = null
 
       const onSubmit = jest.fn(async (data, { reduceToVisibleFields }) => {
         await new Promise((resolve) => requestAnimationFrame(resolve)) // ensure we wait for the fields to unmount

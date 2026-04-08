@@ -24,7 +24,7 @@ describe('At', () => {
 
   it('should handle path changes correctly', () => {
     const contextData = { a: { b: 'test' } }
-    let handlePathChange = null
+    let handlePathChange: any = null
 
     const MockComponent = () => {
       const context = useContext(Context)

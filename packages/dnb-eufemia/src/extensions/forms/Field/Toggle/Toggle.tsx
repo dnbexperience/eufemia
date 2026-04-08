@@ -119,7 +119,7 @@ function Toggle(props: FieldToggleProps) {
     [handleChange, valueOn, valueOff]
   )
   const handleToggleChange = useCallback(
-    ({ value }) => {
+    ({ value }: any) => {
       handleChange?.(value === 'on' ? valueOn : valueOff)
     },
     [handleChange, valueOn, valueOff]

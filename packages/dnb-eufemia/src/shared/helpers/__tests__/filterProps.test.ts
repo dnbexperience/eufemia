@@ -56,8 +56,8 @@ describe('"filterProps" should', () => {
         attr1: 'value1',
         attr2: false,
       }
-      const remove = (key) => ['key1', 'key2'].includes(key)
-      const add = (key) => key === 'key1'
+      const remove = (key: any) => ['key1', 'key2'].includes(key)
+      const add = (key: any) => key === 'key1'
 
       it('remove all unwanted properties', () => {
         expect(filterProps(attributes, remove)).toEqual({

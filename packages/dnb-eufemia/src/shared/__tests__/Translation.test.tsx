@@ -64,7 +64,7 @@ describe('flatten translations', () => {
 })
 
 describe('context.getTranslation', () => {
-  const MagicContext = (props) => {
+  const MagicContext = (props: any) => {
     return (
       <Context.Consumer>
         {(context) => {

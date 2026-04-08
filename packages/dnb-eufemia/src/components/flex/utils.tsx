@@ -154,7 +154,7 @@ function wrapWithSpace({
   spaceProps,
   variant = null,
   wrapInSpace = true,
-}) {
+}: any) {
   const resolvedVariant = variant ?? getSpaceVariant(element)
   const { wrapInSpace: _, key, ...props } = spaceProps
 

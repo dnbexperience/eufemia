@@ -54,7 +54,7 @@ describe('useReachRouter', () => {
     }
   }
 
-  const visitStep = (index) => {
+  const visitStep = (index: any) => {
     const url = new URL(window.location.href)
     url.searchParams.set(`${identifier}-step`, String(index))
     window.history.pushState({}, '', url.toString())

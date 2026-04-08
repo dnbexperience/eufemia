@@ -1144,7 +1144,7 @@ describe('Field.Date', () => {
   })
 
   it('should store "displayValue" in data context', async () => {
-    let dataContext = null
+    let dataContext: any = null
 
     render(
       <Form.Handler>
@@ -1183,7 +1183,7 @@ describe('Field.Date', () => {
   })
 
   it('should store "displayValue" in en-US locale', async () => {
-    let dataContext = null
+    let dataContext: any = null
 
     render(
       <Form.Handler locale="en-US">
@@ -1450,7 +1450,7 @@ describe('Field.Date', () => {
 
   it('will reset the value and the picker on reset click', async () => {
     const onReset = jest.fn()
-    let dataContext = null
+    let dataContext: any = null
 
     render(
       <Form.Handler>
@@ -2739,7 +2739,7 @@ describe('Field.Date', () => {
       return undefined
     }
 
-    const onBlurValidator = (value: string, { validators }) => {
+    const onBlurValidator = (value: string, { validators }: any) => {
       const { dateValidator } = validators
 
       return [myOnBlurValidator, dateValidator]

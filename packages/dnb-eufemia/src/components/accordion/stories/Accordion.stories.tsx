@@ -28,7 +28,7 @@ const TestStyles = styled.div`
   }
 `
 
-const DidRender = ({ message }) => {
+const DidRender = ({ message }: any) => {
   React.useEffect(() => {
     console.log('DidRender', message)
   }, [])
@@ -332,7 +332,7 @@ function AccordionWithContainer() {
   )
 }
 
-function ChangingContent({ changeHeight, children }) {
+function ChangingContent({ changeHeight, children }: any) {
   const [contentSize, changeContentSize] = React.useState(false)
   React.useLayoutEffect(() => {
     changeHeight.current?.setContainerHeight?.()

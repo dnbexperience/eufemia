@@ -143,7 +143,7 @@ function DrawerListOptionItem({
   children = undefined,
   className = null,
   ...props
-}) {
+}: any) {
   return (
     <span
       className={clsx(['dnb-drawer-list__option__item', className])}

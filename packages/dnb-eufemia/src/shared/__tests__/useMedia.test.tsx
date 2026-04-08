@@ -12,7 +12,7 @@ import 'mock-match-media/jest-setup'
 import { setMedia, matchMedia } from 'mock-match-media'
 import { mockMediaQuery } from './helpers/MediaQueryMocker'
 
-const wrapper = ({ children }) => (
+const wrapper = ({ children }: any) => (
   <React.StrictMode>{children}</React.StrictMode>
 )
 
@@ -536,7 +536,7 @@ describe('useMedia', () => {
         const MEDIUM = '60em'
         const LARGE = '80em'
 
-        const wrapper = (props) => (
+        const wrapper = (props: any) => (
           <Provider
             {...props}
             value={{
@@ -872,7 +872,7 @@ describe('useMedia', () => {
       const query = `(min-width: 60.00625em)`
       matchMedia.useMediaQuery(query)
 
-      const results = []
+      const results: any[] = []
 
       const MockComponent = () => {
         results.push(useMedia())
@@ -896,7 +896,7 @@ describe('useMedia', () => {
       const query = `(min-width: 60.00625em)`
       matchMedia.useMediaQuery(query)
 
-      const results = []
+      const results: any[] = []
 
       const MockComponent = () => {
         results.push(

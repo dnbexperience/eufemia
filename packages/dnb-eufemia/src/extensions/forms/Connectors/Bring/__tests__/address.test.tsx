@@ -25,7 +25,7 @@ describe('address', () => {
   })
 
   describe('autofill', () => {
-    let addressSuggestionsElement = null
+    let addressSuggestionsElement: any = null
 
     beforeEach(() => {
       addressSuggestionsElement = withConfig(
@@ -335,7 +335,7 @@ describe('address', () => {
   })
 })
 
-function createFetchMock(overwrite = null, delay = null) {
+function createFetchMock(overwrite: any = null, delay: any = null) {
   return jest.fn(async () => {
     await delay?.()
     const response = {

@@ -14,7 +14,7 @@ export function useCollectStepsData() {
   const translations = useTranslation()
 
   const collectStepsData = useCallback(
-    ({ id, index, inactive, title, keepInDOM }) => {
+    ({ id, index, inactive, title, keepInDOM }: any) => {
       if (!hasInvalidStepsState) {
         return undefined // stop here
       }

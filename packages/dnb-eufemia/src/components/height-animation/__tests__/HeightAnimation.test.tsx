@@ -55,7 +55,7 @@ describe('HeightAnimation', () => {
   })
 
   it('should adjust height when content changes', async () => {
-    globalThis.readjustTime = 1
+    ;(globalThis as any).readjustTime = 1
 
     const { rerender } = render(
       <HeightAnimation open={false}>123</HeightAnimation>
@@ -375,7 +375,7 @@ describe('HeightAnimation', () => {
   })
 
   it('should not animate when globalThis.IS_TEST is true', () => {
-    globalThis.IS_TEST = true
+    ;(globalThis as any).IS_TEST = true
 
     const { rerender } = render(<HeightAnimation />)
 
@@ -384,17 +384,16 @@ describe('HeightAnimation', () => {
     rerender(<HeightAnimation open={false} />)
 
     expect(element).not.toHaveClass('dnb-height-animation--animating')
-
-    globalThis.IS_TEST = false
+    ;(globalThis as any).IS_TEST = false
   })
 })
 
 describe('HeightAnimation without initializeTestSetup()', () => {
   beforeEach(() => {
-    globalThis.IS_TEST = false
+    ;(globalThis as any).IS_TEST = false
   })
   afterEach(() => {
-    globalThis.IS_TEST = undefined
+    ;(globalThis as any).IS_TEST = undefined
     window.requestAnimationFrame = undefined
   })
 

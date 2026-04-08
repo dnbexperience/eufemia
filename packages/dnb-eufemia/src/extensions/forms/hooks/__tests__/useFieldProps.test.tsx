@@ -764,7 +764,9 @@ describe('useFieldProps', () => {
   })
 
   it('should return correct "hasError" state but no error object when nested in "FieldBlock"', async () => {
-    const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
+    const wrapper = ({ children }: any) => (
+      <FieldBlock>{children}</FieldBlock>
+    )
 
     const { result } = renderHook(
       () =>
@@ -1244,7 +1246,9 @@ describe('useFieldProps', () => {
     })
 
     it('should render error message given as string', () => {
-      const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
+      const wrapper = ({ children }: any) => (
+        <FieldBlock>{children}</FieldBlock>
+      )
 
       const error = 'A formatted error message'
 
@@ -1268,7 +1272,9 @@ describe('useFieldProps', () => {
     })
 
     it('should render error message given as JSX', () => {
-      const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
+      const wrapper = ({ children }: any) => (
+        <FieldBlock>{children}</FieldBlock>
+      )
 
       const error = (
         <>
@@ -1299,7 +1305,9 @@ describe('useFieldProps', () => {
     })
 
     it('should render error messages given as JSX in an array', () => {
-      const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
+      const wrapper = ({ children }: any) => (
+        <FieldBlock>{children}</FieldBlock>
+      )
 
       const { rerender } = renderHook(
         (props: any) => useFieldProps(props),
@@ -1424,7 +1432,7 @@ describe('useFieldProps', () => {
       })
 
       it('should render error message given as JSX', () => {
-        const wrapper = ({ children }) => (
+        const wrapper = ({ children }: any) => (
           <FieldBlock>{children}</FieldBlock>
         )
 
@@ -1677,7 +1685,7 @@ describe('useFieldProps', () => {
   })
 
   describe('with async onChange', () => {
-    const validateBlur = async (result, value) => {
+    const validateBlur = async (result: any, value: any) => {
       act(() => {
         result.current.handleChange(value)
         result.current.handleBlur()
@@ -1794,7 +1802,7 @@ describe('useFieldProps', () => {
     })
 
     it('should validate "onChangeValidator" before onChange call', async () => {
-      const events = []
+      const events: any[] = []
 
       const onChange: OnChange<unknown> = async (value) => {
         events.push('onChange')
@@ -1844,7 +1852,7 @@ describe('useFieldProps', () => {
     })
 
     it('should validate "onBlurValidator" before onChange call', async () => {
-      const events = []
+      const events: any[] = []
 
       const onChange: OnChange<unknown> = async (value) => {
         events.push('onChange')
@@ -1949,7 +1957,7 @@ describe('useFieldProps', () => {
     })
 
     it('should validate "onChangeValidator" and "onBlurValidator" before onChange call', async () => {
-      const events = []
+      const events: any[] = []
 
       const onChange: OnChange<unknown> = async (value) => {
         events.push('onChange')
@@ -2013,7 +2021,7 @@ describe('useFieldProps', () => {
     })
 
     it('should skip onChange call when "onChangeValidator" returns error', async () => {
-      const events = []
+      const events: any[] = []
       const onChange: OnChange<unknown> = async () => {
         events.push('onChange')
       }
@@ -2057,7 +2065,7 @@ describe('useFieldProps', () => {
     })
 
     it('should skip onChange call when "onBlurValidator" returns error', async () => {
-      const events = []
+      const events: any[] = []
       const onChange: OnChange<unknown> = jest.fn(async () => {
         events.push('onChange')
       })
@@ -2134,7 +2142,7 @@ describe('useFieldProps', () => {
     })
 
     it('should wait for both "onChangeValidator" and "onBlurValidator" and DataContext onChange before local onChange call', async () => {
-      const events = []
+      const events: any[] = []
       const path = '/foo'
 
       const onChange: OnChange<unknown> = async () => {
@@ -2205,7 +2213,7 @@ describe('useFieldProps', () => {
     })
 
     it('should handle gracefully the "onChangeValidator" and "onBlurValidator" and DataContext "onChange" and before the local onChange call', async () => {
-      const events = []
+      const events: any[] = []
       const path = '/foo'
 
       const onChangeField: OnChange<string> = async (value) => {
@@ -2226,7 +2234,7 @@ describe('useFieldProps', () => {
 
         return { success: 'saved' } as const
       }
-      const onChangeValidator = async (value) => {
+      const onChangeValidator = async (value: any) => {
         events.push('onChangeValidator')
 
         if (value === 'invalid') {
@@ -2235,7 +2243,7 @@ describe('useFieldProps', () => {
 
         return undefined
       }
-      const onBlurValidator = async (value) => {
+      const onBlurValidator = async (value: any) => {
         events.push('onBlurValidator')
 
         if (value === 'invalid') {
@@ -2372,7 +2380,7 @@ describe('useFieldProps', () => {
     })
 
     it('should have correct order for when calling the "onChangeValidator" (if initiated and "onBlurValidator") and DataContext "onChange", before the local onChange call', async () => {
-      const events = []
+      const events: any[] = []
       const path = '/foo'
 
       const onChangeField: OnChange<string> = async (value) => {
@@ -2401,7 +2409,7 @@ describe('useFieldProps', () => {
 
         return undefined
       }
-      const onChangeValidator = async (value) => {
+      const onChangeValidator = async (value: any) => {
         events.push('onChangeValidator')
 
         if (value === 'invalid-onChangeValidator') {
@@ -2410,7 +2418,7 @@ describe('useFieldProps', () => {
 
         return undefined
       }
-      const onBlurValidator = async (value) => {
+      const onBlurValidator = async (value: any) => {
         events.push('onBlurValidator')
 
         if (value === 'invalid-onBlurValidator') {
@@ -3482,7 +3490,7 @@ describe('useFieldProps', () => {
 
   it('should return "hasError" when outer FieldBlocks as error', () => {
     let hasOuterError = false
-    const MockComponent = (props) => {
+    const MockComponent = (props: any) => {
       const { hasError } = useFieldProps(props)
       hasOuterError = hasError
       return null
@@ -3832,7 +3840,7 @@ describe('useFieldProps', () => {
     })
 
     describe('with async onChangeValidator', () => {
-      const validateBlur = async (result, value = Date.now()) => {
+      const validateBlur = async (result: any, value = Date.now()) => {
         act(() => {
           result.current.handleChange(String(value))
           result.current.handleBlur()
@@ -5071,7 +5079,7 @@ describe('useFieldProps', () => {
     })
 
     it('should rerender returned error message given as JSX', () => {
-      const onChangeValidator = (value) => {
+      const onChangeValidator = (value: any) => {
         if (value === '1') {
           return (
             <>
@@ -5082,7 +5090,9 @@ describe('useFieldProps', () => {
 
         return undefined
       }
-      const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
+      const wrapper = ({ children }: any) => (
+        <FieldBlock>{children}</FieldBlock>
+      )
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: { onChangeValidator },
@@ -5110,14 +5120,16 @@ describe('useFieldProps', () => {
     })
 
     it('should rerender returned error message given as string', () => {
-      const onChangeValidator = (value) => {
+      const onChangeValidator = (value: any) => {
         if (value === '1') {
           return 'A formatted error message'
         }
 
         return undefined
       }
-      const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
+      const wrapper = ({ children }: any) => (
+        <FieldBlock>{children}</FieldBlock>
+      )
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: { onChangeValidator },
@@ -5143,9 +5155,12 @@ describe('useFieldProps', () => {
 
     describe('exportValidators', () => {
       it('should call exported validators from mock component', async () => {
-        let internalValidators, fooValidator, barValidator, bazValidator
+        let internalValidators,
+          fooValidator,
+          barValidator: any,
+          bazValidator: any
 
-        const MockComponent = (props) => {
+        const MockComponent = (props: any) => {
           barValidator = jest.fn((value) => {
             if (value.includes('bar')) {
               return new Error('bar')
@@ -5297,7 +5312,7 @@ describe('useFieldProps', () => {
           return [exportedValidator]
         })
 
-        const MockComponent = (props) => {
+        const MockComponent = (props: any) => {
           return (
             <Field.String
               label="Label"
@@ -5354,7 +5369,7 @@ describe('useFieldProps', () => {
           return [exportedValidator]
         })
 
-        const MockComponent = (props) => {
+        const MockComponent = (props: any) => {
           return (
             <Field.String
               label="Label"
@@ -5397,9 +5412,12 @@ describe('useFieldProps', () => {
       })
 
       it('should call returned validators (barValidator should not be called)', async () => {
-        let internalValidators, fooValidator, barValidator, bazValidator
+        let internalValidators,
+          fooValidator,
+          barValidator: any,
+          bazValidator: any
 
-        const MockComponent = (props) => {
+        const MockComponent = (props: any) => {
           barValidator = jest.fn((value) => {
             if (value.includes('bar')) {
               return new Error('bar')
@@ -5512,7 +5530,7 @@ describe('useFieldProps', () => {
           return [exportedValidator]
         })
 
-        const MockComponent = (props) => {
+        const MockComponent = (props: any) => {
           return (
             <Field.String
               label="Label"
@@ -5541,7 +5559,7 @@ describe('useFieldProps', () => {
           return undefined
         })
 
-        const MockComponent = (props) => {
+        const MockComponent = (props: any) => {
           return (
             <Field.String
               label="Label"
@@ -5562,9 +5580,9 @@ describe('useFieldProps', () => {
       })
 
       it('should not call internal validators when they are not returned in the publicValidator', async () => {
-        let internalValidators, barValidator, bazValidator
+        let internalValidators, barValidator: any, bazValidator: any
 
-        const MockComponent = (props) => {
+        const MockComponent = (props: any) => {
           barValidator = jest.fn((value) => {
             if (value.includes('bar')) {
               return new Error('bar')
@@ -6337,9 +6355,12 @@ describe('useFieldProps', () => {
 
     describe('exportValidators', () => {
       it('should call returned validators (barValidator should not be called)', async () => {
-        let internalValidators, fooValidator, barValidator, bazValidator
+        let internalValidators,
+          fooValidator,
+          barValidator: any,
+          bazValidator: any
 
-        const MockComponent = (props) => {
+        const MockComponent = (props: any) => {
           barValidator = jest.fn((value) => {
             if (value.includes('bar')) {
               return new Error('bar')
@@ -6662,7 +6683,7 @@ describe('useFieldProps', () => {
         return [exportedValidator]
       })
 
-      const MockComponent = (props) => {
+      const MockComponent = (props: any) => {
         return (
           <Field.String
             onBlurValidator={props.onBlurValidator}
@@ -6681,7 +6702,7 @@ describe('useFieldProps', () => {
       })
     })
 
-    const validateBlur = async (result, value = Date.now()) => {
+    const validateBlur = async (result: any, value = Date.now()) => {
       act(() => {
         result.current.handleChange(String(value))
         result.current.handleBlur()
@@ -6862,7 +6883,7 @@ describe('useFieldProps', () => {
     })
 
     it('should rerender returned error message given as JSX', () => {
-      const onBlurValidator = (value) => {
+      const onBlurValidator = (value: any) => {
         if (value === '1') {
           return (
             <>
@@ -6873,7 +6894,9 @@ describe('useFieldProps', () => {
 
         return undefined
       }
-      const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
+      const wrapper = ({ children }: any) => (
+        <FieldBlock>{children}</FieldBlock>
+      )
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: { onBlurValidator },
@@ -6902,14 +6925,16 @@ describe('useFieldProps', () => {
     })
 
     it('should rerender returned error message given as string', () => {
-      const onBlurValidator = (value) => {
+      const onBlurValidator = (value: any) => {
         if (value === '1') {
           return 'A formatted error message'
         }
 
         return undefined
       }
-      const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
+      const wrapper = ({ children }: any) => (
+        <FieldBlock>{children}</FieldBlock>
+      )
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: { onBlurValidator },
@@ -7327,7 +7352,7 @@ describe('useFieldProps', () => {
   })
 
   describe('warn about duplicated paths', () => {
-    let log = null
+    let log: any = null
     beforeEach(() => {
       log = spyOnEufemiaWarn()
     })
@@ -7532,7 +7557,7 @@ describe('Zod schema support', () => {
       },
     }
 
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: any) => (
       <SectionContext value={{ path: '', errorPrioritization }}>
         <Provider schema={jsonSchema} ajvInstance={makeAjvInstance()}>
           {children}
@@ -7571,7 +7596,7 @@ describe('Zod schema support', () => {
     const errorPrioritization: SectionContextState['errorPrioritization'] =
       ['contextSchema']
 
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: any) => (
       <SectionContext value={{ path: '', errorPrioritization }}>
         <Provider schema={undefined}>{children}</Provider>
       </SectionContext>
@@ -7593,7 +7618,7 @@ describe('Zod schema support', () => {
     const identifier = '/testField'
 
     // Test with Zod schema
-    const zodWrapper = ({ children }) => (
+    const zodWrapper = ({ children }: any) => (
       <SectionContext
         value={{
           path: '',
@@ -7625,7 +7650,7 @@ describe('Zod schema support', () => {
       },
     }
 
-    const jsonWrapper = ({ children }) => (
+    const jsonWrapper = ({ children }: any) => (
       <SectionContext
         value={{
           path: '',
@@ -7666,7 +7691,7 @@ describe('Zod schema support', () => {
       },
     })
 
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: any) => (
       <Provider schema={mockZodSchema}>{children}</Provider>
     )
 
@@ -7694,7 +7719,7 @@ describe('Zod schema support', () => {
     const errorPrioritization: SectionContextState['errorPrioritization'] =
       ['contextSchema', 'fieldSchema']
 
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: any) => (
       <SectionContext value={{ path: '', errorPrioritization }}>
         <Provider schema={mockZodSchema} ajvInstance={makeAjvInstance()}>
           {children}
@@ -7726,7 +7751,7 @@ describe('Zod schema support', () => {
     }
 
     // Context Zod schema succeeds (mocked in beforeEach)
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: any) => (
       <SectionContext value={{ path: '', errorPrioritization }}>
         <Provider schema={mockZodSchema} ajvInstance={makeAjvInstance()}>
           {children}
@@ -7767,7 +7792,7 @@ describe('Zod schema support', () => {
     }
 
     // Context Zod schema succeeds (mocked in beforeEach)
-    const wrapper = ({ children }) => (
+    const wrapper = ({ children }: any) => (
       <SectionContext value={{ path: '', errorPrioritization }}>
         <Provider schema={mockZodSchema} ajvInstance={makeAjvInstance()}>
           {children}

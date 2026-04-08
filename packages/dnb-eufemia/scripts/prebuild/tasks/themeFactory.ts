@@ -79,7 +79,7 @@ async function runThemeFactory() {
       ),
       ...processToNamesIgnoreList,
     ],
-    customContent: ({ name }) => `@use './${name}-theme-forms.scss';`,
+    customContent: ({ name }: any) => `@use './${name}-theme-forms.scss';`,
     // output
     targetFile: 'components', // ui-theme-components.scss
     scssOutputPath: path.resolve(__dirname, '../../../src/style/themes'),
@@ -161,7 +161,7 @@ export async function runFactory({
   customContent = null,
   targetFile = 'basis', // ui-theme-basis.scss
   returnResult = false,
-}) {
+}: any) {
   const themeSources = await getThemeSources(filesToFindGlob)
   const themesWithRelatedFiles =
     await collectRelatedThemeFiles(themeSources)

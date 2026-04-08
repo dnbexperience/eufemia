@@ -313,7 +313,7 @@ export const transformFigmaValue = (value: FigmaValue) => {
  * `[ "Color", "Background", "Primary" ]` -> `"color-background-primary"`
  */
 export const transformFigmaPath = (path: string[]) => {
-  const unsupportedCharacters = []
+  const unsupportedCharacters: any[] = []
 
   const cleanPath = path.filter(Boolean)
 

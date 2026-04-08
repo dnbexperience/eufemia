@@ -40,7 +40,7 @@ function useShowStatus({
   outerContext,
   hasContentChanged,
   preventUncommittedChanges,
-}) {
+}: any) {
   // We just use "showAllErrors" from the outerContext to determine if we should show the status.
   const showAllErrors = outerContext?.showAllErrors
   const [showStatus, setShowStatus] = useState(showAllErrors)

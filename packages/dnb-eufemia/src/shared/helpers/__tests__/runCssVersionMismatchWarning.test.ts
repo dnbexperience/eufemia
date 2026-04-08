@@ -1,10 +1,10 @@
 import { runCssVersionMismatchWarning } from '../runCssVersionMismatchWarning'
 
 describe('runCssVersionMismatchWarning', () => {
-  let consoleErrorSpy,
-    consoleWarnSpy,
-    consoleLogSpy,
-    originalGetComputedStyle
+  let consoleErrorSpy: any,
+    consoleWarnSpy: any,
+    consoleLogSpy: any,
+    originalGetComputedStyle: any
 
   const NODE_ENV = process.env.NODE_ENV
 

@@ -274,7 +274,7 @@ describe('withComponentMarkers', () => {
       }
       withComponentMarkers(ChildItem, { _supportsSpacingProps: true })
 
-      function WrapperComponent({ children }) {
+      function WrapperComponent({ children }: any) {
         return <div className="wrapper">{children}</div>
       }
       withComponentMarkers(WrapperComponent, {
@@ -349,7 +349,7 @@ describe('withComponentMarkers', () => {
     })
 
     it('should not add divider line below marked heading in Flex.Container', () => {
-      function MyHeading({ children }) {
+      function MyHeading({ children }: any) {
         return <h2>{children}</h2>
       }
       withComponentMarkers(MyHeading, {

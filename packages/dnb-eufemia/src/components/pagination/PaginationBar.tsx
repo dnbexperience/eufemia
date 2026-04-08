@@ -139,7 +139,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     })
   }
 
-  const setPage = (currentPageInternal: number, event = null) => {
+  const setPage = (currentPageInternal: number, event: any = null) => {
     keepPageHeight()
 
     const { setState: setContextState, updatePageContent } = props
@@ -162,7 +162,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     setPage(props.currentPageInternal + 1)
   }
 
-  const clickHandler = ({ pageNumber, event }) => {
+  const clickHandler = ({ pageNumber, event }: any) => {
     setPage(pageNumber, event)
     focusPage()
   }
@@ -245,7 +245,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
               aria-current={
                 pageNumber === currentPageInternal ? 'page' : null
               }
-              onClick={(event) => clickHandler({ pageNumber, event })}
+              onClick={(event: any) => clickHandler({ pageNumber, event })}
             />
           ))}
 
@@ -290,7 +290,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
                     aria-current={
                       pageNumber === currentPageInternal ? 'page' : null
                     }
-                    onClick={(event) =>
+                    onClick={(event: any) =>
                       clickHandler({ pageNumber, event })
                     }
                   />
@@ -308,13 +308,13 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
   )
 }
 
-export const useResizeObserver = (element) => {
+export const useResizeObserver = (element: any) => {
   const [currentSize, setSize] = useState('large')
   const resizeObserver = useRef<ResizeObserver | null>(null)
 
   useEffect(() => {
     try {
-      const handleSizeChange = (width) => {
+      const handleSizeChange = (width: any) => {
         if (width <= getSizeInPx('small') && currentSize !== 'small') {
           setSize('small')
         } else if (
@@ -359,7 +359,7 @@ export const useResizeObserver = (element) => {
   return currentSize
 }
 
-const getSizeInPx = (size) => {
+const getSizeInPx = (size: any) => {
   const styleSize = styleProperties[`--layout-${size}`]
 
   if (styleSize.includes('em')) {

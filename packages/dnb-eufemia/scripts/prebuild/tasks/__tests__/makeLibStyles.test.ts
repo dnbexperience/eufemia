@@ -19,13 +19,13 @@ jest.setTimeout(30e3)
 
 describe('makeLibStyles transform main SASS to CSS', () => {
   beforeAll(async () => {
-    global.css = await runFactory(
+    ;(global as any).css = await runFactory(
       './src/components/button/style/dnb-button.scss',
       {
         returnResult: true,
       }
     )
-    global.files = await runFactory(
+    ;(global as any).files = await runFactory(
       './src/components/button/style/dnb-button.scss',
       {
         returnFiles: true,
@@ -34,28 +34,28 @@ describe('makeLibStyles transform main SASS to CSS', () => {
   })
 
   it('has to contain a button selector', () => {
-    expect(global.css[0]).toMatch(new RegExp('.dnb-button\\s?{'))
+    expect((global as any).css[0]).toMatch(new RegExp('.dnb-button\\s?{'))
   })
 
   it('has to contain a icon selector as it is a dependency', () => {
-    expect(global.css[0]).toMatch(new RegExp('.dnb-icon\\s?{'))
+    expect((global as any).css[0]).toMatch(new RegExp('.dnb-icon\\s?{'))
   })
 
   it('should not contain a reset scope like font-family', () => {
-    expect(global.css[0]).not.toContain('font-family')
+    expect((global as any).css[0]).not.toContain('font-family')
   })
 
   it('should contain a non minified and a minified content', () => {
-    expect(global.css[0]).toContain(':root {')
-    expect(global.css[1]).toContain(':root{--')
+    expect((global as any).css[0]).toContain(':root {')
+    expect((global as any).css[1]).toContain(':root{--')
   })
 
   it('includes correct files', () => {
-    expect(global.files).toHaveLength(2)
-    expect(global.files[0]).toContain(
+    expect((global as any).files).toHaveLength(2)
+    expect((global as any).files[0]).toContain(
       '/components/button/style/dnb-button.css'
     )
-    expect(global.files[1]).toContain(
+    expect((global as any).files[1]).toContain(
       '/components/button/style/dnb-button.min.css'
     )
   })
@@ -63,7 +63,7 @@ describe('makeLibStyles transform main SASS to CSS', () => {
 
 describe('makeLibStyles with enableBuildStyleScope', () => {
   // Ensure enableBuildStyleScope returns true
-  let originalEnv
+  let originalEnv: any
   beforeAll(() => {
     originalEnv = process.env.NODE_ENV
     process.env.NODE_ENV = 'production'
@@ -91,13 +91,13 @@ describe('makeLibStyles with enableBuildStyleScope', () => {
   // Run the factory
   beforeAll(async () => {
     const { runFactory } = await import('../makeLibStyles')
-    global.css = await runFactory(
+    ;(global as any).css = await runFactory(
       './src/components/button/style/dnb-button.scss',
       {
         returnResult: true,
       }
     )
-    global.files = await runFactory(
+    ;(global as any).files = await runFactory(
       './src/components/button/style/dnb-button.scss',
       {
         returnFiles: true,
@@ -106,19 +106,22 @@ describe('makeLibStyles with enableBuildStyleScope', () => {
   })
 
   it('should transform CSS to have scoped selectors', async () => {
-    expect(global.css[0]).toContain('.eufemia-scope--default ')
+    expect((global as any).css[0]).toContain('.eufemia-scope--default ')
 
-    const count = (global.css[0].match(/\.eufemia-scope--default /g) || [])
-      .length
+    const count = (
+      (global as any).css[0].match(/\.eufemia-scope--default /g) || []
+    ).length
     expect(count).toBeGreaterThan(50)
   })
 
   it('should generate isolated CSS files', async () => {
-    expect(global.files.some((f) => f.includes('--isolated.css'))).toBe(
-      true
-    )
     expect(
-      global.files.some((f) => f.includes('--isolated.min.css'))
+      (global as any).files.some((f: any) => f.includes('--isolated.css'))
+    ).toBe(true)
+    expect(
+      (global as any).files.some((f: any) =>
+        f.includes('--isolated.min.css')
+      )
     ).toBe(true)
   })
 })

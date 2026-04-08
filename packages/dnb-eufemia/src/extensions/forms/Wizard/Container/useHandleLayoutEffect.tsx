@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef } from 'react'
 export default function useHandleLayoutEffect({
   elementRef,
   stepElementRef,
-}) {
+}: any) {
   const isInteractionRef = useRef(false)
 
   useEffect(() => {

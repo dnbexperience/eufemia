@@ -1943,7 +1943,7 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should store "displayValue" in data context', async () => {
-    let dataContext = null
+    let dataContext: any = null
 
     render(
       <Form.Handler>

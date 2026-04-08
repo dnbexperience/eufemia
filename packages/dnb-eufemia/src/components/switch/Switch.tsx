@@ -170,14 +170,14 @@ function Switch(props: SwitchProps) {
   }, [checkedProp])
 
   const callOnChange = useCallback(
-    ({ checked, event }) => {
+    ({ checked, event }: any) => {
       onChange?.({ checked, event })
     },
     [onChange]
   )
 
   const onChangeHandler = useCallback(
-    (event) => {
+    (event: any) => {
       if (preventChangeRef.current) {
         return // stop here
       }

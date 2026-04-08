@@ -2417,7 +2417,7 @@ describe('Field.Number', () => {
     })
 
     it('should show error during typing when using custom validator with validateContinuously', async () => {
-      const validator = (value) => {
+      const validator = (value: any) => {
         if (value > 1000) {
           return new Error('Value must be less than or equal to 1000')
         }

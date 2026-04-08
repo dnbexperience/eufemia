@@ -99,11 +99,11 @@ export function remove<T = JsonObject>(obj: T, pointer: PointerPath) {
 /**
  * Returns a (pointer -> value) dictionary for an object
  */
-export function dict<T = JsonObject>(obj: T, descend = null) {
+export function dict<T = JsonObject>(obj: T, descend: any = null) {
   const results = {}
   walk(
     obj,
-    (value, pointer: string) => {
+    (value: any, pointer: string) => {
       results[pointer] = value
     },
     descend
@@ -114,12 +114,16 @@ export function dict<T = JsonObject>(obj: T, descend = null) {
 /**
  * Iterates over an object
  */
-export function walk<T = JsonObject>(obj: T, iterator, descend = null) {
-  const refTokens = []
+export function walk<T = JsonObject>(
+  obj: T,
+  iterator: any,
+  descend: any = null
+) {
+  const refTokens: any[] = []
 
   descend =
     descend ||
-    ((value) => {
+    ((value: any) => {
       const type = Object.prototype.toString.call(value)
       return type === '[object Object]' || type === '[object Array]'
     })
@@ -127,7 +131,7 @@ export function walk<T = JsonObject>(obj: T, iterator, descend = null) {
   next(obj, refTokens, iterator, descend)
 }
 
-function next(cur, refTokens, iterator, descend) {
+function next(cur: any, refTokens: any, iterator: any, descend: any) {
   if (Array.isArray(cur)) {
     cur = cur.reduce((acc, cur, i) => {
       acc[i] = cur
