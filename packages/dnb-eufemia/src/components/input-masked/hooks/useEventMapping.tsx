@@ -6,7 +6,7 @@
  * @returns object of events to handle
  */
 
-import React from 'react'
+import type React from 'react'
 import { useCallEvent } from './useCallEvent'
 
 type EventParams = { event: React.SyntheticEvent; value?: string }
