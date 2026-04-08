@@ -473,6 +473,7 @@ export default [
     },
     rules: {
       'naming-conventions/no-bare-props-export': 'error',
+      'naming-conventions/consistent-event-type-naming': 'warn',
     },
   },
 ]
