@@ -120,8 +120,6 @@ export type InputMaskedProps = Omit<
      * `shift` (default) moves to the next slot, `replace` keeps the cursor in place.
      */
     overwriteMode?: InputMaskedOverwriteMode | null
-    /** @internal */
-    _innerRef?: React.Ref<HTMLInputElement>
     onSubmit?: InputMaskedEventHandler
     onFocus?: InputMaskedEventHandler
     onBlur?: InputMaskedEventHandler
@@ -187,7 +185,6 @@ function InputMasked({ ref, ...restProps }: InputMaskedProps) {
     const propsWithRef = {
       ...restProps,
       ref,
-      _innerRef: restProps._innerRef ?? ref,
     }
 
     return extendPropsWithContext(
@@ -218,7 +215,6 @@ const defaultProps = {
   showMask: false,
   allowOverflow: false,
   overwriteMode: null,
-  _innerRef: null,
   onChange: null,
   onSubmit: null,
   onFocus: null,
