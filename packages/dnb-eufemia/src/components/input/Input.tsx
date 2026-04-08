@@ -11,6 +11,7 @@ import React, {
   useMemo,
 } from 'react'
 import clsx from 'clsx'
+import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
@@ -355,19 +356,7 @@ function getValue(props: InputProps) {
 function InputComponent({ ref, ...restProps }: InputProps) {
   const context = useContext(Context)
   const inputRef = useRef<HTMLInputElement | null>(null)
-
-  const combinedRef = useCallback(
-    (instance: HTMLInputElement | null) => {
-      inputRef.current = instance
-
-      if (typeof ref === 'function') {
-        ref(instance)
-      } else if (ref) {
-        ref.current = instance
-      }
-    },
-    [ref]
-  )
+  const combinedRef = useCombinedRef(ref, inputRef)
 
   const formElement = context?.formElement as
     | (typeof context.formElement & { useId?: () => string })
@@ -907,19 +896,7 @@ function InputSubmitButton({
 }) {
   const context = useContext(Context)
   const buttonRef = useRef<HTMLElement | null>(null)
-
-  const combinedButtonRef = useCallback(
-    (instance: HTMLElement | null) => {
-      buttonRef.current = instance
-
-      if (typeof ref === 'function') {
-        ref(instance)
-      } else if (ref) {
-        ref.current = instance
-      }
-    },
-    [ref]
-  )
+  const combinedButtonRef = useCombinedRef(ref, buttonRef)
 
   const [focusState, setFocusState] = useState('virgin')
 

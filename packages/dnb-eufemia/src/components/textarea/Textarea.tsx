@@ -11,6 +11,7 @@ import React, {
   useState,
 } from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
+import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import clsx from 'clsx'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
@@ -275,18 +276,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
   } = props
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
-
-  const combinedRef = useCallback(
-    (node: HTMLTextAreaElement | null) => {
-      textareaRef.current = node
-      if (typeof ref === 'function') {
-        ref(node)
-      } else if (ref) {
-        ref.current = node
-      }
-    },
-    [ref]
-  )
+  const combinedRef = useCombinedRef(ref, textareaRef)
 
   const id = useId(ownProps.id)
 
