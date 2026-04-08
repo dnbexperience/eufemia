@@ -33,7 +33,7 @@
       }
 
       &__size--large .dnb-table__th {
-        padding-top: 1.5rem;
+        padding-top: var(--spacing-medium);
       }
 
       position: relative; // because of bottom border
@@ -66,7 +66,7 @@
     }
   }
   &__foot {
-    padding: 1rem;
+    padding: var(--spacing-small);
     padding-bottom: 1.25rem; // because of 8px scrollbar
 
     &--empty {

@@ -26,7 +26,7 @@
   width: 100%;
 
   margin-top: 0;
-  margin-bottom: 0.5rem; // give room to a scrollbar
+  margin-bottom: var(--spacing-x-small); // give room to a scrollbar
 
   border-spacing: 0;
   border-collapse: collapse;

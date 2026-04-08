@@ -20,12 +20,12 @@
   }
 
   &__title {
-    padding-bottom: 1rem;
+    padding-bottom: var(--spacing-small);
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-medium);
   }
   &:not([style*='--space-']) &__title {
-    padding: 1rem;
+    padding: var(--spacing-small);
   }
 
   &.dnb-section {

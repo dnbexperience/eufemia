@@ -31,7 +31,7 @@ exports[`Radio scss has to match style dependencies css 1`] = `
 .dnb-form-label--vertical {
   display: block;
   margin-right: 0;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-form-label--interactive {
   cursor: pointer;
@@ -133,20 +133,20 @@ button .dnb-form-status__text {
   font-size: inherit;
 }
 .dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
+  padding-left: var(--spacing-small);
 }
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: var(--spacing-x-small);
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-form-status__text {
   white-space: normal;
 }
 .dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
+  padding-left: var(--spacing-x-small);
 }
 .dnb-form-status__shell > .dnb-icon {
   display: flex;
@@ -360,14 +360,14 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 }
 .dnb-radio--label-position-left .dnb-radio__order .dnb-form-label {
   order: 1;
-  padding-right: 0.5rem;
+  padding-right: var(--spacing-x-small);
 }
 .dnb-radio--label-position-right .dnb-radio__order .dnb-radio__inner {
   order: 1;
 }
 .dnb-radio--label-position-right .dnb-radio__order .dnb-form-label {
   order: 2;
-  padding-left: 0.5rem;
+  padding-left: var(--spacing-x-small);
 }
 :not(.dnb-radio-group) > .dnb-form-label + .dnb-radio {
   vertical-align: top;
@@ -378,15 +378,15 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
   margin-bottom: 0;
 }
 .dnb-radio + .dnb-form-status {
-  margin-top: 0.5rem;
-  margin-bottom: 1rem;
+  margin-top: var(--spacing-x-small);
+  margin-bottom: var(--spacing-small);
 }
 .dnb-radio > .dnb-form-status {
   transform: translateY(0.25rem); /* 4/16 */
 }
 .dnb-radio-group {
-  --radio-group-row-gap: 0.5rem;
-  --radio-group-column-gap: 1rem;
+  --radio-group-row-gap: var(--spacing-x-small);
+  --radio-group-column-gap: var(--spacing-small);
   display: inline-flex;
 }
 .dnb-radio-group, .dnb-radio-group__fieldset, .dnb-radio-group__shell {

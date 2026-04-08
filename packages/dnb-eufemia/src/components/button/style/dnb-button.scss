@@ -46,10 +46,10 @@
   --button-border-radius--control-button: 0.25rem;
   --button-padding-left: 0;
   --button-padding-right: 0;
-  --button-padding-icon: 1rem;
+  --button-padding-icon: var(--spacing-small);
   --button-padding--default: 1.5rem;
-  --button-padding--small: 1rem;
-  --button-padding--medium: 1rem;
+  --button-padding--small: var(--spacing-small);
+  --button-padding--medium: var(--spacing-small);
   --button-padding--large: 2rem;
   --button-icon-margin-top: 0;
   --button-icon-margin-left: 0;
@@ -818,7 +818,7 @@
   }
 
   & + .dnb-form-status {
-    margin-top: 0.5rem;
+    margin-top: var(--spacing-x-small);
   }
 }
 

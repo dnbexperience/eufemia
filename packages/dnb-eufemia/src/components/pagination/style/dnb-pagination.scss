@@ -23,8 +23,8 @@
   }
 
   &__bar {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: var(--spacing-small);
+    margin-bottom: var(--spacing-small);
   }
 
   &--left &__bar {
@@ -46,7 +46,7 @@
   &__bar__wrapper {
     display: flex;
     flex-flow: column wrap;
-    row-gap: 0.5rem;
+    row-gap: var(--spacing-x-small);
   }
 
   &--layout-horizontal &__bar__wrapper {
@@ -66,7 +66,7 @@
   }
 
   &__bar__inner {
-    gap: 0.5rem;
+    gap: var(--spacing-x-small);
   }
 
   &__button {
@@ -144,7 +144,7 @@
 
   &__bar__skip {
     display: flex;
-    column-gap: 1.5rem;
+    column-gap: var(--spacing-medium);
   }
 }
 

@@ -186,7 +186,7 @@ exports[`ToggleButton scss should match style dependencies css 1`] = `
 .dnb-form-label--vertical {
   display: block;
   margin-right: 0;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-form-label--interactive {
   cursor: pointer;
@@ -427,20 +427,20 @@ button .dnb-form-status__text {
   font-size: inherit;
 }
 .dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
+  padding-left: var(--spacing-small);
 }
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: var(--spacing-x-small);
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-form-status__text {
   white-space: normal;
 }
 .dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
+  padding-left: var(--spacing-x-small);
 }
 .dnb-form-status__shell > .dnb-icon {
   display: flex;
@@ -530,10 +530,10 @@ button .dnb-form-status__text {
   --button-border-radius--control-button: 0.25rem;
   --button-padding-left: 0;
   --button-padding-right: 0;
-  --button-padding-icon: 1rem;
+  --button-padding-icon: var(--spacing-small);
   --button-padding--default: 1.5rem;
-  --button-padding--small: 1rem;
-  --button-padding--medium: 1rem;
+  --button-padding--small: var(--spacing-small);
+  --button-padding--medium: var(--spacing-small);
   --button-padding--large: 2rem;
   --button-icon-margin-top: 0;
   --button-icon-margin-left: 0;
@@ -1137,7 +1137,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   outline: none;
 }
 .dnb-button + .dnb-form-status {
-  margin-top: 0.5rem;
+  margin-top: var(--spacing-x-small);
 }
 
 /* Firefox includes a hidden border which messes up button dimensions */
@@ -1318,23 +1318,23 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
 }
 .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-label {
   order: 1;
-  padding-right: 0.5rem;
+  padding-right: var(--spacing-x-small);
 }
 .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-status {
   order: 3;
-  margin-top: 0.5rem;
+  margin-top: var(--spacing-x-small);
 }
 .dnb-checkbox--label-position-right .dnb-checkbox__order .dnb-checkbox__inner {
   order: 1;
 }
 .dnb-checkbox--label-position-right .dnb-checkbox__order .dnb-form-label {
   order: 2;
-  padding-left: 0.5rem;
+  padding-left: var(--spacing-x-small);
 }
 .dnb-checkbox--label-position-right .dnb-checkbox__order + .dnb-form-status {
   order: 3;
   vertical-align: top;
-  margin-top: 0.5rem;
+  margin-top: var(--spacing-x-small);
 }
 .dnb-checkbox {
   /*
@@ -1702,14 +1702,14 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 }
 .dnb-radio--label-position-left .dnb-radio__order .dnb-form-label {
   order: 1;
-  padding-right: 0.5rem;
+  padding-right: var(--spacing-x-small);
 }
 .dnb-radio--label-position-right .dnb-radio__order .dnb-radio__inner {
   order: 1;
 }
 .dnb-radio--label-position-right .dnb-radio__order .dnb-form-label {
   order: 2;
-  padding-left: 0.5rem;
+  padding-left: var(--spacing-x-small);
 }
 :not(.dnb-radio-group) > .dnb-form-label + .dnb-radio {
   vertical-align: top;
@@ -1720,15 +1720,15 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
   margin-bottom: 0;
 }
 .dnb-radio + .dnb-form-status {
-  margin-top: 0.5rem;
-  margin-bottom: 1rem;
+  margin-top: var(--spacing-x-small);
+  margin-bottom: var(--spacing-small);
 }
 .dnb-radio > .dnb-form-status {
   transform: translateY(0.25rem); /* 4/16 */
 }
 .dnb-radio-group {
-  --radio-group-row-gap: 0.5rem;
-  --radio-group-column-gap: 1rem;
+  --radio-group-row-gap: var(--spacing-x-small);
+  --radio-group-column-gap: var(--spacing-small);
   display: inline-flex;
 }
 .dnb-radio-group, .dnb-radio-group__fieldset, .dnb-radio-group__shell {
@@ -1921,7 +1921,7 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:checked):no
   align-items: flex-start;
 }
 .dnb-toggle-button__component {
-  padding-right: 0.5rem;
+  padding-right: var(--spacing-x-small);
   display: inline-flex;
   align-items: center;
 }
@@ -1971,14 +1971,14 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:checked):no
 }
 .dnb-toggle-button .dnb-form-status {
   order: 2;
-  margin-top: 0.5rem;
+  margin-top: var(--spacing-x-small);
 }
 .dnb-toggle-button .dnb-form-label {
   margin-right: 1rem;
 }
 .dnb-toggle-button-group {
-  --toggle-button-group-column-gap: 1rem;
-  --toggle-button-group-row-gap: 1rem;
+  --toggle-button-group-column-gap: var(--spacing-small);
+  --toggle-button-group-row-gap: var(--spacing-small);
   display: inline-flex;
 }
 .dnb-toggle-button-group, .dnb-toggle-button-group__fieldset, .dnb-toggle-button-group__shell {
@@ -2031,7 +2031,7 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:checked):no
   transform: translateY(-0.5rem);
 }
 .dnb-toggle-button-group .dnb-flex-container--direction-horizontal .dnb-form-label {
-  margin-top: 0.5rem;
+  margin-top: var(--spacing-x-small);
   align-self: flex-start;
 }
 .dnb-toggle-button-group .dnb-alignment-helper {

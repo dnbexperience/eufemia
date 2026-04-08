@@ -50,14 +50,14 @@
   }
 
   &--horizontal &__label {
-    padding-left: 1rem;
+    padding-left: var(--spacing-small);
   }
   &--horizontal#{&}--small &__label {
-    padding-left: 0.5rem;
+    padding-left: var(--spacing-x-small);
   }
 
   &--vertical &__label {
-    padding-top: 0.5rem;
+    padding-top: var(--spacing-x-small);
   }
 
   &--inside &__label {

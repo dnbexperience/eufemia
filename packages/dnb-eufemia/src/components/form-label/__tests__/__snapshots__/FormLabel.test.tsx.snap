@@ -27,7 +27,7 @@ exports[`FormLabel scss has to match style dependencies css 1`] = `
 .dnb-form-label--vertical {
   display: block;
   margin-right: 0;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-form-label--interactive {
   cursor: pointer;

@@ -46,7 +46,7 @@ exports[`Elements scss has to match style dependencies css 1`] = `
   margin-right: 0;
 }
 .dnb-blockquote {
-  padding: 1.5rem;
+  padding: var(--spacing-medium);
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
   border-radius: 1rem;
@@ -81,7 +81,7 @@ exports[`Elements scss has to match style dependencies css 1`] = `
 .dnb-blockquote footer,
 .dnb-blockquote figcaption {
   display: block;
-  margin-top: 1rem;
+  margin-top: var(--spacing-small);
   font-weight: var(--font-weight-medium);
   line-height: var(--line-height-basis);
   font-style: var(--blockquote-cite-style);
@@ -93,7 +93,7 @@ exports[`Elements scss has to match style dependencies css 1`] = `
 .dnb-blockquote figcaption::before {
   content: "—";
   display: inline-block;
-  padding-right: 0.5rem;
+  padding-right: var(--spacing-x-small);
 }
 .dnb-spacing .dnb-blockquote h1, .dnb-spacing .dnb-blockquote h2, .dnb-spacing .dnb-blockquote h3, .dnb-spacing .dnb-blockquote .dnb-h--xx-large, .dnb-spacing .dnb-blockquote .dnb-h--large, .dnb-spacing .dnb-blockquote .dnb-h--medium, .dnb-spacing .dnb-blockquote .dnb-lead {
   margin: 0;
@@ -109,7 +109,7 @@ exports[`Elements scss has to match style dependencies css 1`] = `
   margin-top: 0;
 }
 .dnb-spacing .dnb-blockquote:not([class*=dnb-space__bottom]) {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--spacing-medium);
 }
 .dnb-spacing .dnb-blockquote p:last-child {
   margin-bottom: 0;
@@ -165,7 +165,7 @@ del .dnb-code {
   margin-right: 0;
 }
 .dnb-pre {
-  padding: 1rem;
+  padding: var(--spacing-small);
   border-radius: 0.5rem;
   white-space: pre;
   vertical-align: baseline;
@@ -181,20 +181,20 @@ del .dnb-code {
   font-family: var(--font-family-monospace);
 }
 .dnb-pre pre {
-  padding: 1rem;
+  padding: var(--spacing-small);
 }
 .dnb-pre .dnb-spacing pre:not([class*=dnb-space__top]) {
   margin-top: 0;
 }
 .dnb-pre .dnb-spacing pre:not([class*=dnb-space__bottom]) {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--spacing-medium);
 }
 
 .dnb-spacing .dnb-pre:not([class*=dnb-space__top]) {
   margin-top: 0;
 }
 .dnb-spacing .dnb-pre:not([class*=dnb-space__bottom]) {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--spacing-medium);
 }
 
 .dnb-skeleton > .dnb-code {
@@ -262,7 +262,7 @@ del .dnb-code {
   margin-top: 0;
 }
 .dnb-spacing .dnb-hr:not([class*=dnb-space__bottom]) {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--spacing-medium);
 }
 
 /*
@@ -320,7 +320,7 @@ del .dnb-code {
   border-radius: inherit;
 }
 .dnb-img figcaption {
-  margin-top: 0.5rem;
+  margin-top: var(--spacing-x-small);
 }
 
 /*
@@ -380,7 +380,7 @@ del .dnb-code {
 }
 .dnb-ul ul, .dnb-ul ol {
   margin-top: 0;
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--spacing-medium);
   padding-left: 2rem;
 }
 .dnb-ul li, .dnb-ul--outside li {
@@ -405,8 +405,8 @@ del .dnb-code {
 }
 .dnb-ul li {
   display: list-item;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: var(--spacing-x-small);
+  margin-bottom: var(--spacing-x-small);
 }
 
 .dnb-ol:not([class*=space__top]) {
@@ -433,7 +433,7 @@ del .dnb-code {
 }
 .dnb-ol ul, .dnb-ol ol {
   margin-top: 0;
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--spacing-medium);
   padding-left: 2rem;
 }
 .dnb-ol li, .dnb-ol--outside li {
@@ -458,12 +458,12 @@ del .dnb-code {
 }
 .dnb-ol li {
   display: list-item;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: var(--spacing-x-small);
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-ol ul, .dnb-ol ol {
   margin-top: 0;
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--spacing-medium);
   padding-left: 2rem;
 }
 .dnb-ol li, .dnb-ol--outside li {
@@ -512,8 +512,8 @@ del .dnb-code {
 }
 
 .dnb-dl {
-  --column-gap: 1rem;
-  --row-gap: 0.5rem;
+  --column-gap: var(--spacing-small);
+  --row-gap: var(--spacing-x-small);
 }
 .dnb-dl:not([class*=dnb-space__top]) {
   margin-top: 0;
@@ -612,17 +612,17 @@ del .dnb-code {
 }
 .dnb-spacing .dnb-ul:not([class*=dnb-space__bottom]),
 .dnb-spacing .dnb-ol:not([class*=dnb-space__bottom]) {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--spacing-medium);
 }
 .dnb-spacing .dnb-ul > li,
 .dnb-spacing .dnb-ol > li {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: var(--spacing-small);
+  margin-bottom: var(--spacing-small);
   /* stylelint-disable-next-line */
 }
 .dnb-spacing .dnb-ul > li > p,
 .dnb-spacing .dnb-ol > li > p {
-  margin-top: 1rem;
+  margin-top: var(--spacing-small);
 }
 .dnb-spacing .dnb-ul li > ul, .dnb-spacing .dnb-ul:not([class*=dnb-space]) li > ul, .dnb-spacing .dnb-ul li > ol, .dnb-spacing .dnb-ul:not([class*=dnb-space]) li > ol,
 .dnb-spacing .dnb-ol li > ul,
@@ -635,7 +635,7 @@ del .dnb-code {
   margin-top: 0;
 }
 .dnb-spacing .dnb-dl:not([class*=dnb-space__bottom]) {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--spacing-medium);
 }
 
 .dnb-unstyled-list {
@@ -1160,13 +1160,13 @@ sub {
   margin-top: 3rem;
 }
 .dnb-spacing .dnb-h--x-large:not([class*=space__bottom]), .dnb-core-style .dnb-spacing .dnb-h--x-large:not([class*=space__bottom]) {
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-small);
 }
 .dnb-spacing .dnb-h--large:not([class*=space__top]), .dnb-core-style .dnb-spacing .dnb-h--large:not([class*=space__top]) {
   margin-top: 3rem;
 }
 .dnb-spacing .dnb-h--large:not([class*=space__bottom]), .dnb-core-style .dnb-spacing .dnb-h--large:not([class*=space__bottom]) {
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-small);
 }
 .dnb-spacing .dnb-lead:not([class*=space__top]),
 .dnb-spacing .dnb-h--medium:not([class*=space__top]),
@@ -1180,12 +1180,12 @@ sub {
 .dnb-spacing .dnb-h--basis:not([class*=space__bottom]),
 .dnb-spacing .dnb-h--small:not([class*=space__bottom]),
 .dnb-spacing .dnb-h--x-small:not([class*=space__bottom]), .dnb-core-style .dnb-spacing .dnb-lead:not([class*=space__bottom]), .dnb-core-style .dnb-spacing .dnb-h--medium:not([class*=space__bottom]), .dnb-core-style .dnb-spacing .dnb-h--basis:not([class*=space__bottom]), .dnb-core-style .dnb-spacing .dnb-h--small:not([class*=space__bottom]), .dnb-core-style .dnb-spacing .dnb-h--x-small:not([class*=space__bottom]) {
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-small);
 }
 .dnb-spacing .dnb-p:not([class*=dnb-space__top]), .dnb-core-style .dnb-spacing .dnb-p:not([class*=dnb-space__top]) {
   margin-top: 0;
 }
 .dnb-spacing .dnb-p:not([class*=dnb-space__bottom]), .dnb-core-style .dnb-spacing .dnb-p:not([class*=dnb-space__bottom]) {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--spacing-medium);
 }"
 `;

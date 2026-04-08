@@ -97,7 +97,7 @@ fieldset.dnb-forms-field-block {
   &__grid#{&}--layout-vertical {
     flex-wrap: wrap;
     & > .dnb-form-label {
-      margin-bottom: 0.5rem;
+      margin-bottom: var(--spacing-x-small);
     }
   }
 
@@ -164,17 +164,17 @@ fieldset.dnb-forms-field-block {
     flex-flow: column;
 
     .dnb-section {
-      margin-bottom: 1rem;
+      margin-bottom: var(--spacing-small);
 
       & > .dnb-p--lead {
-        margin-bottom: 0.5rem;
+        margin-bottom: var(--spacing-x-small);
       }
     }
   }
   &__grid#{&}--layout-horizontal &__help {
     @include utilities.allAbove(small) {
       .dnb-section {
-        margin-top: 0.5rem;
+        margin-top: var(--spacing-x-small);
         margin-bottom: 0;
       }
     }
@@ -208,7 +208,7 @@ fieldset.dnb-forms-field-block {
 
   &--status-position-above {
     --field-block-status-margin-top: 0;
-    --field-block-status-margin-bottom: 0.5rem;
+    --field-block-status-margin-bottom: var(--spacing-x-small);
   }
 
   &--status-position-above &__grid#{&}--layout-horizontal {

@@ -68,7 +68,7 @@
 
   &--vertical &__suffix {
     padding-left: 0;
-    padding-top: 0.5rem;
+    padding-top: var(--spacing-x-small);
   }
 
   &__marker {
@@ -302,18 +302,18 @@
       text-align: center;
       width: 100%;
       margin-right: 0;
-      margin-bottom: 0.5rem;
+      margin-bottom: var(--spacing-x-small);
     }
   }
 
   // status
   .dnb-form-status {
     order: 2;
-    margin-top: 0.5rem;
+    margin-top: var(--spacing-x-small);
   }
 
   &--vertical .dnb-form-status {
-    margin-top: 1rem;
+    margin-top: var(--spacing-small);
   }
 
   .dnb-responsive-component & {
@@ -322,10 +322,10 @@
       flex-direction: column;
       align-items: flex-start;
 
-      margin-bottom: 0.5rem;
+      margin-bottom: var(--spacing-x-small);
 
       > .dnb-form-label {
-        margin-bottom: 0.5rem;
+        margin-bottom: var(--spacing-x-small);
       }
     }
   }

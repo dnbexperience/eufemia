@@ -207,12 +207,12 @@
 
     .dnb-form-label {
       order: 1;
-      padding-right: 0.5rem;
+      padding-right: var(--spacing-x-small);
     }
 
     .dnb-form-status {
       order: 3;
-      margin-top: 0.5rem;
+      margin-top: var(--spacing-x-small);
     }
   }
 
@@ -223,7 +223,7 @@
 
     .dnb-form-label {
       order: 2;
-      padding-left: 0.5rem;
+      padding-left: var(--spacing-x-small);
     }
 
     & + .dnb-form-status {
@@ -232,7 +232,7 @@
       // in case the status did not wrap, we want to have the status on the same line
       vertical-align: top;
 
-      margin-top: 0.5rem;
+      margin-top: var(--spacing-x-small);
     }
   }
 

@@ -268,7 +268,7 @@
   }
 
   &:not([class*='space__bottom']) {
-    margin-bottom: 1rem;
+    margin-bottom: var(--spacing-small);
   }
 }
 
@@ -278,7 +278,7 @@
   }
 
   &:not([class*='space__bottom']) {
-    margin-bottom: 1rem;
+    margin-bottom: var(--spacing-small);
   }
 }
 
@@ -288,7 +288,7 @@
   }
 
   &:not([class*='space__bottom']) {
-    margin-bottom: 1rem;
+    margin-bottom: var(--spacing-small);
   }
 }
 

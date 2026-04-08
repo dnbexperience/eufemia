@@ -199,7 +199,7 @@
 
   // label
   .dnb-form-label {
-    padding-right: 0.5rem;
+    padding-right: var(--spacing-x-small);
     margin-right: 0;
     margin-left: 0;
     margin-bottom: 0;
@@ -214,7 +214,7 @@
   }
 
   &--label-position-left &__suffix {
-    padding-left: 1rem;
+    padding-left: var(--spacing-small);
   }
 
   &--label-position-left &__order {
@@ -229,7 +229,7 @@
 
     .dnb-form-status {
       order: 3;
-      margin-top: 0.5rem;
+      margin-top: var(--spacing-x-small);
     }
   }
 
@@ -240,12 +240,12 @@
 
     .dnb-form-label {
       order: 2;
-      padding-left: 0.5rem;
+      padding-left: var(--spacing-x-small);
     }
 
     .dnb-form-status {
       order: 3;
-      margin-top: 0.5rem;
+      margin-top: var(--spacing-x-small);
     }
   }
 

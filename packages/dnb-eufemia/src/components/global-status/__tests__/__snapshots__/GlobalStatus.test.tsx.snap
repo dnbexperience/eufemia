@@ -233,20 +233,20 @@ button .dnb-form-status__text {
   font-size: inherit;
 }
 .dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
+  padding-left: var(--spacing-small);
 }
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: var(--spacing-x-small);
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-form-status__text {
   white-space: normal;
 }
 .dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
+  padding-left: var(--spacing-x-small);
 }
 .dnb-form-status__shell > .dnb-icon {
   display: flex;
@@ -336,10 +336,10 @@ button .dnb-form-status__text {
   --button-border-radius--control-button: 0.25rem;
   --button-padding-left: 0;
   --button-padding-right: 0;
-  --button-padding-icon: 1rem;
+  --button-padding-icon: var(--spacing-small);
   --button-padding--default: 1.5rem;
-  --button-padding--small: 1rem;
-  --button-padding--medium: 1rem;
+  --button-padding--small: var(--spacing-small);
+  --button-padding--medium: var(--spacing-small);
   --button-padding--large: 2rem;
   --button-icon-margin-top: 0;
   --button-icon-margin-left: 0;
@@ -943,7 +943,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   outline: none;
 }
 .dnb-button + .dnb-form-status {
-  margin-top: 0.5rem;
+  margin-top: var(--spacing-x-small);
 }
 
 /* Firefox includes a hidden border which messes up button dimensions */
@@ -1192,7 +1192,7 @@ button.dnb-button::-moz-focus-inner {
   position: absolute;
   top: 0;
   left: 0;
-  margin-top: 1.5rem;
+  margin-top: var(--spacing-medium);
 }
 .dnb-global-status__close-button, .dnb-global-status__close-button.dnb-button--tertiary {
   position: absolute;
@@ -1208,7 +1208,7 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-global-status__content .dnb-ul, .dnb-spacing .dnb-global-status__content .dnb-ul, .dnb-spacing .dnb-global-status__content .dnb-ul:not([class*=dnb-space]) {
   margin: 0;
-  padding-left: 1rem;
+  padding-left: var(--spacing-small);
 }
 .dnb-global-status__content .dnb-ul .dnb-anchor:last-of-type, .dnb-spacing .dnb-global-status__content .dnb-ul .dnb-anchor:last-of-type, .dnb-spacing .dnb-global-status__content .dnb-ul:not([class*=dnb-space]) .dnb-anchor:last-of-type {
   margin-left: 0.5rem;

@@ -72,10 +72,10 @@
     }
 
     .dnb-section {
-      margin-bottom: 0.5rem;
+      margin-bottom: var(--spacing-x-small);
 
       & > .dnb-p--lead {
-        margin-bottom: 0.5rem;
+        margin-bottom: var(--spacing-x-small);
       }
     }
   }
@@ -190,7 +190,7 @@
     & > .dnb-dl,
     &:not([class*='dnb-space']) > .dnb-dl {
       .dnb-forms-value-block__help .dnb-section {
-        margin-top: 0.5rem;
+        margin-top: var(--spacing-x-small);
       }
 
       // To ensure the help button is always on the same line as the label

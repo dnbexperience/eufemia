@@ -17,7 +17,7 @@
   width: auto;
 
   @include space-mixins.spaceReset();
-  padding: 1.5rem;
+  padding: var(--spacing-medium);
 
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
@@ -65,7 +65,7 @@
   footer,
   figcaption {
     display: block;
-    margin-top: 1rem;
+    margin-top: var(--spacing-small);
 
     font-weight: var(--font-weight-medium);
     line-height: var(--line-height-basis);
@@ -74,7 +74,7 @@
     &::before {
       content: '—';
       display: inline-block;
-      padding-right: 0.5rem;
+      padding-right: var(--spacing-x-small);
     }
   }
 

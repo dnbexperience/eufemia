@@ -45,9 +45,9 @@
 
 .dnb-drawer-list {
   --drawer-list-height: 2rem;
-  --drawer-list-padding-horizontal: 1rem;
+  --drawer-list-padding-horizontal: var(--spacing-small);
   --drawer-list-focus-border-width: 0.125rem;
-  --drawer-list-text-padding: 0.5rem;
+  --drawer-list-text-padding: var(--spacing-x-small);
   --drawer-list-height--small: 1.5rem;
   --drawer-list-height--medium: 2.5rem;
   --drawer-list-height--large: 3rem;
@@ -219,7 +219,7 @@
       outline: none;
 
       margin: 0;
-      padding: 1rem;
+      padding: var(--spacing-small);
 
       color: inherit;
       background-color: var(--drawer-list-option-inner-background);

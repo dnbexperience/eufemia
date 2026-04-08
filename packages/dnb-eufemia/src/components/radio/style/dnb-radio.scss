@@ -209,7 +209,7 @@
 
     .dnb-form-label {
       order: 1;
-      padding-right: 0.5rem;
+      padding-right: var(--spacing-x-small);
     }
   }
 
@@ -220,7 +220,7 @@
 
     .dnb-form-label {
       order: 2;
-      padding-left: 0.5rem;
+      padding-left: var(--spacing-x-small);
     }
   }
 
@@ -238,8 +238,8 @@
   }
 
   & + .dnb-form-status {
-    margin-top: 0.5rem;
-    margin-bottom: 1rem;
+    margin-top: var(--spacing-x-small);
+    margin-bottom: var(--spacing-small);
   }
 
   // adjust the form-status to the inner border for 3px
@@ -248,8 +248,8 @@
   }
 
   &-group {
-    --radio-group-row-gap: 0.5rem;
-    --radio-group-column-gap: 1rem;
+    --radio-group-row-gap: var(--spacing-x-small);
+    --radio-group-column-gap: var(--spacing-small);
 
     display: inline-flex;
 

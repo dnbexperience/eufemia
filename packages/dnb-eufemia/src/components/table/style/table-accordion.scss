@@ -227,7 +227,7 @@
       }
 
       &__spacing {
-        padding: 1rem;
+        padding: var(--spacing-small);
 
         transform: translateY(-10px);
         transition: transform 500ms var(--easing-default);

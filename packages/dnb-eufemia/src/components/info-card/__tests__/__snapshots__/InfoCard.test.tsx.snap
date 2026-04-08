@@ -16,7 +16,7 @@ exports[`InfoCard InfoCard scss has to match style dependencies css 1`] = `
   display: flex;
   flex-direction: row;
   position: relative;
-  padding: 1rem;
+  padding: var(--spacing-small);
   overflow: hidden;
   background: var(--color-white);
 }

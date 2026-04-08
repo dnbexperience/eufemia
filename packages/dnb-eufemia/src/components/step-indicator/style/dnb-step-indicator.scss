@@ -50,8 +50,8 @@
   &__item {
     &__wrapper {
       display: flex;
-      gap: 1rem;
-      padding-bottom: 1rem;
+      gap: var(--spacing-small);
+      padding-bottom: var(--spacing-small);
       position: relative;
 
       &::before {

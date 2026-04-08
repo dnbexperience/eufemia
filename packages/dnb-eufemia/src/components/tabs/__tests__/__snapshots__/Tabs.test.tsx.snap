@@ -309,7 +309,7 @@ html[data-whatinput=keyboard] .dnb-tabs__button:focus::before, html[data-whatinp
   padding-left: 0;
 }
 .dnb-tabs__button__snap:last-of-type {
-  padding-right: 0.5rem;
+  padding-right: var(--spacing-x-small);
 }
 .dnb-tabs__button__snap {
   will-change: padding;

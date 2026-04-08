@@ -237,20 +237,20 @@ button .dnb-form-status__text {
   font-size: inherit;
 }
 .dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
+  padding-left: var(--spacing-small);
 }
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: var(--spacing-x-small);
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-form-status__text {
   white-space: normal;
 }
 .dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
+  padding-left: var(--spacing-x-small);
 }
 .dnb-form-status__shell > .dnb-icon {
   display: flex;
@@ -340,10 +340,10 @@ button .dnb-form-status__text {
   --button-border-radius--control-button: 0.25rem;
   --button-padding-left: 0;
   --button-padding-right: 0;
-  --button-padding-icon: 1rem;
+  --button-padding-icon: var(--spacing-small);
   --button-padding--default: 1.5rem;
-  --button-padding--small: 1rem;
-  --button-padding--medium: 1rem;
+  --button-padding--small: var(--spacing-small);
+  --button-padding--medium: var(--spacing-small);
   --button-padding--large: 2rem;
   --button-icon-margin-top: 0;
   --button-icon-margin-left: 0;
@@ -947,7 +947,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   outline: none;
 }
 .dnb-button + .dnb-form-status {
-  margin-top: 0.5rem;
+  margin-top: var(--spacing-x-small);
 }
 
 /* Firefox includes a hidden border which messes up button dimensions */
@@ -981,7 +981,7 @@ button.dnb-button::-moz-focus-inner {
 .dnb-form-label--vertical {
   display: block;
   margin-right: 0;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-form-label--interactive {
   cursor: pointer;
@@ -1031,10 +1031,10 @@ legend.dnb-form-label {
   --input-font-size--small: var(--font-size-basis);
   --input-font-size--medium: var(--font-size-basis);
   --input-font-size--large: var(--font-size-medium);
-  --input-padding: 1rem;
-  --input-padding--small: 1rem;
-  --input-padding--medium: 1rem;
-  --input-padding--large: 1rem;
+  --input-padding: var(--spacing-small);
+  --input-padding--small: var(--spacing-small);
+  --input-padding--medium: var(--spacing-small);
+  --input-padding--large: var(--spacing-small);
   --input-height: 2rem;
   --input-height--small: 1.5rem;
   --input-height--medium: 2.5rem;
@@ -1238,8 +1238,8 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
     flex-wrap: wrap;
   }
   .dnb-input > .dnb-form-label {
-    margin-bottom: 0.5rem;
-    margin-top: 0.5rem;
+    margin-bottom: var(--spacing-x-small);
+    margin-top: var(--spacing-x-small);
   }
 }
 .dnb-input:not(.dnb-input--vertical)[class*=__status] {
@@ -1373,7 +1373,7 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
 }
 .dnb-input__inner > .dnb-form-status {
   order: 2;
-  margin-top: 0.5rem;
+  margin-top: var(--spacing-x-small);
 }
 .dnb-input--vertical {
   display: flex;
@@ -1450,13 +1450,13 @@ html[data-visual-test] .dnb-input__input {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--spacing-x-small);
   }
   .dnb-responsive-component .dnb-input__row {
     align-items: flex-start;
   }
   .dnb-responsive-component .dnb-input > .dnb-form-label {
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--spacing-x-small);
   }
 }
 
@@ -1478,10 +1478,10 @@ html[data-visual-test] .dnb-input__input {
   --dropdown-height--small: 1.5rem;
   --dropdown-height--medium: 2.5rem;
   --dropdown-height--large: 3rem;
-  --dropdown-padding-horizontal: 1rem;
+  --dropdown-padding-horizontal: var(--spacing-small);
   --dropdown-focus-border-width: 0.125rem;
   --dropdown-error-border-width: 0.125rem;
-  --dropdown-text-padding: 0.5rem;
+  --dropdown-text-padding: var(--spacing-x-small);
   --dropdown-button-padding: 0 1rem;
   --dropdown-border-radius: 0.25rem;
   --dropdown-foreground-color-primary: var(--color-black-55);
@@ -1572,8 +1572,8 @@ html[data-visual-test] .dnb-input__input {
 }
 @media screen and (max-width: 40em) {
   .dnb-dropdown--action-menu .dnb-dropdown__trigger.dnb-button {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding-left: var(--spacing-x-small);
+    padding-right: var(--spacing-x-small);
     border-radius: 50%;
   }
 }
@@ -1707,8 +1707,8 @@ html[data-visual-test] .dnb-input__input {
     flex-wrap: wrap;
   }
   .dnb-dropdown > .dnb-form-label {
-    margin-bottom: 0.5rem;
-    margin-top: 0.5rem;
+    margin-bottom: var(--spacing-x-small);
+    margin-top: var(--spacing-x-small);
   }
 }
 .dnb-dropdown--stretch {
@@ -1735,7 +1735,7 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
 }
 .dnb-dropdown__inner > .dnb-form-status {
   order: 2;
-  margin-top: 0.5rem;
+  margin-top: var(--spacing-x-small);
 }
 .dnb-dropdown--vertical {
   display: flex;
@@ -1753,10 +1753,10 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--spacing-x-small);
   }
   .dnb-responsive-component .dnb-dropdown > .dnb-form-label {
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--spacing-x-small);
   }
   .dnb-responsive-component .dnb-dropdown__helper {
     display: none;
@@ -1814,13 +1814,13 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
 }
 
 .dnb-progress-indicator--horizontal .dnb-progress-indicator__label {
-  padding-left: 1rem;
+  padding-left: var(--spacing-small);
 }
 .dnb-progress-indicator--horizontal.dnb-progress-indicator--small .dnb-progress-indicator__label {
-  padding-left: 0.5rem;
+  padding-left: var(--spacing-x-small);
 }
 .dnb-progress-indicator--vertical .dnb-progress-indicator__label {
-  padding-top: 0.5rem;
+  padding-top: var(--spacing-x-small);
 }
 .dnb-progress-indicator--inside .dnb-progress-indicator__label {
   position: absolute;
@@ -2080,9 +2080,9 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
   --autocomplete-height--small: 1.5rem;
   --autocomplete-height--medium: 2.5rem;
   --autocomplete-height--large: 3rem;
-  --autocomplete-padding-horizontal: 1rem;
+  --autocomplete-padding-horizontal: var(--spacing-small);
   --autocomplete-focus-border-width: 0.125rem;
-  --autocomplete-text-padding: 0.5rem;
+  --autocomplete-text-padding: var(--spacing-x-small);
   --autocomplete-border-radius: 0.25rem;
   display: inline-flex;
   align-items: center;
@@ -2192,7 +2192,7 @@ html[data-visual-test] .dnb-autocomplete .dnb-input__submit-button__button .dnb-
   padding-right: 3rem;
 }
 .dnb-autocomplete--icon-position-right .dnb-input--icon-position-right .dnb-autocomplete--icon-position-right .dnb-input--icon-position-right.dnb-autocomplete--icon-position-right .dnb-input--has-icon .dnb-autocomplete--icon-position-right .dnb-input__input {
-  padding-right: 1rem;
+  padding-right: var(--spacing-small);
 }
 .dnb-autocomplete--disabled .dnb-input__inner__element {
   cursor: not-allowed;
@@ -2232,8 +2232,8 @@ html[data-visual-test] .dnb-autocomplete .dnb-input__submit-button__button .dnb-
     flex-wrap: wrap;
   }
   .dnb-autocomplete > .dnb-form-label {
-    margin-bottom: 0.5rem;
-    margin-top: 0.5rem;
+    margin-bottom: var(--spacing-x-small);
+    margin-top: var(--spacing-x-small);
   }
 }
 .dnb-autocomplete--stretch {
@@ -2260,7 +2260,7 @@ label + .dnb-autocomplete[class*=__form-status] .dnb-autocomplete__shell {
 }
 .dnb-autocomplete__inner > .dnb-form-status {
   order: 2;
-  margin-top: 0.5rem;
+  margin-top: var(--spacing-x-small);
 }
 .dnb-autocomplete--vertical {
   display: flex;
@@ -2278,10 +2278,10 @@ label + .dnb-autocomplete[class*=__form-status] .dnb-autocomplete__shell {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--spacing-x-small);
   }
   .dnb-responsive-component .dnb-autocomplete > .dnb-form-label {
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--spacing-x-small);
   }
   .dnb-responsive-component .dnb-autocomplete__helper {
     display: none;

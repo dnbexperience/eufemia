@@ -91,21 +91,21 @@
       font-size: inherit;
     }
     .dnb-ul:not([class*='dnb-space__left']) {
-      padding-left: 1rem;
+      padding-left: var(--spacing-small);
     }
     .dnb-spacing & .dnb-ul:not([class*='dnb-space__bottom']) {
       .dnb-li {
-        margin-top: 0.5rem;
-        margin-bottom: 0.5rem;
+        margin-top: var(--spacing-x-small);
+        margin-bottom: var(--spacing-x-small);
       }
-      margin-bottom: 0.5rem;
+      margin-bottom: var(--spacing-x-small);
     }
 
     white-space: normal;
   }
 
   .dnb-icon + &__text {
-    padding-left: 0.5rem;
+    padding-left: var(--spacing-x-small);
   }
 
   &__shell > .dnb-icon {
@@ -135,7 +135,7 @@
   //   padding: 1rem 1.5rem;
   // }
   // &__size--large .dnb-icon + &__text {
-  //   padding-left: 1rem;
+  //   padding-left: var(--spacing-small);
   // }
   // &__size--large &__shell > .dnb-icon {
   //   margin: 0.6666666em 0.3333333em 0.6666666em 0.9999999em;

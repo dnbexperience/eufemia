@@ -1,7 +1,7 @@
 @use '../../../../style/core/utilities.scss';
 
 .dnb-blockquote {
-  --blockquote-padding-top: 1.5rem;
+  --blockquote-padding-top: var(--spacing-medium);
   --blockquote-padding-bottom: 2rem;
   --blockquote-quote-padding: 5.5rem;
   --blockquote-cite-style: normal;
@@ -11,16 +11,16 @@
   border-radius: 1.125rem;
 
   @include utilities.allBelow('small') {
-    --blockquote-padding-bottom: 1.5rem;
+    --blockquote-padding-bottom: var(--spacing-medium);
     --blockquote-quote-size: 2rem;
     --blockquote-quote-padding: 4rem;
 
     &.dnb-blockquote--top {
-      --blockquote-padding-top: 1rem;
+      --blockquote-padding-top: var(--spacing-small);
     }
 
     &:not(.dnb-blockquote--top) {
-      --blockquote-padding-left: 1rem;
+      --blockquote-padding-left: var(--spacing-small);
     }
   }
 

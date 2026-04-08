@@ -22,7 +22,7 @@
   }
 
   &__header {
-    --gap: 0.25rem;
+    --gap: var(--spacing-xx-small);
 
     display: flex;
     flex-flow: row wrap;
@@ -36,7 +36,7 @@
 
     &--only-month-label {
       justify-content: center;
-      margin-bottom: 1rem;
+      margin-bottom: var(--spacing-small);
     }
 
     &__row {

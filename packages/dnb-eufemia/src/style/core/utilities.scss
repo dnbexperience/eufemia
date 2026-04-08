@@ -414,8 +414,8 @@ $breakpoint-offset: 0;
   @media screen and (max-width: 40em) {
     flex-wrap: wrap;
     & > .dnb-form-label {
-      margin-bottom: 0.5rem;
-      margin-top: 0.5rem;
+      margin-bottom: var(--spacing-x-small);
+      margin-top: var(--spacing-x-small);
     }
   }
 }

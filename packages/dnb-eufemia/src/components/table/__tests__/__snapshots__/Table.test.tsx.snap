@@ -20,8 +20,8 @@ exports[`Table scss should match default theme snapshot 1`] = `
   --table-th-font-size: var(--font-size-small);
 }
 .dnb-table__th--subtle.dnb-table__th--subtle {
-  padding-top: 1.5rem;
-  padding-bottom: 0.5rem;
+  padding-top: var(--spacing-medium);
+  padding-bottom: var(--spacing-x-small);
 }
 .dnb-table__th, .dnb-table thead th {
   padding: 2rem 1rem 1rem;
@@ -48,14 +48,14 @@ exports[`Table scss should match default theme snapshot 1`] = `
   /* stylelint-disable */
 }
 .dnb-table__td, .dnb-table tbody .dnb-table__th, .dnb-table tbody td, .dnb-table tbody th {
-  padding: 1rem;
+  padding: var(--spacing-small);
   color: var(--theme-color-black-80, currentColor);
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
   vertical-align: baseline;
 }
 .dnb-table tbody .dnb-table__th, .dnb-table tbody th {
-  padding: 1rem;
+  padding: var(--spacing-small);
   vertical-align: baseline;
 }
 .dnb-table__size--medium tbody .dnb-table__th, .dnb-table__size--medium tbody .dnb-table__td,
@@ -141,7 +141,7 @@ exports[`Table scss should match style dependencies css 1`] = `
   table-layout: auto;
   width: 100%;
   margin-top: 0;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-x-small);
   border-spacing: 0;
   border-collapse: collapse;
 }
@@ -249,7 +249,7 @@ html[data-visual-test] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-tab
   line-height: inherit;
   margin: 0;
   padding: 0;
-  padding-right: 0.5rem;
+  padding-right: var(--spacing-x-small);
   font-weight: var(--font-weight-medium);
   text-align: inherit;
   font-size: inherit;
@@ -361,13 +361,13 @@ html[data-whatinput=touch] .dnb-table > thead > tr > th.dnb-table--sortable .dnb
   visibility: hidden;
 }
 .dnb-table > thead > tr > th.dnb-table--sortable[align=right], .dnb-table .dnb-table__th.dnb-table--sortable[align=right] {
-  padding-right: 0.5rem;
+  padding-right: var(--spacing-x-small);
 }
 .dnb-table > thead > tr > th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button, .dnb-table .dnb-table__th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button {
   flex-direction: row-reverse;
 }
 .dnb-table > thead > tr > th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right, .dnb-table .dnb-table__th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right {
-  padding-right: 0.5rem;
+  padding-right: var(--spacing-x-small);
 }
 .dnb-table > thead > tr > th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right .dnb-button__icon, .dnb-table .dnb-table__th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right .dnb-button__icon {
   margin-left: -0.5rem;
@@ -699,7 +699,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 }
 
 .dnb-table__container__body .dnb-table__size--large .dnb-table__th {
-  padding-top: 1.5rem;
+  padding-top: var(--spacing-medium);
 }
 
 .dnb-table__container__body .dnb-table {
@@ -746,7 +746,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 }
 
 .dnb-table__container__foot {
-  padding: 1rem;
+  padding: var(--spacing-small);
   padding-bottom: 1.25rem;
 }
 
@@ -972,7 +972,7 @@ html:not([data-whatinput=keyboard]) .dnb-table__tr--clickable.dnb-table__tr.dnb-
   }
 }
 .dnb-table__tr__accordion-content__inner__spacing {
-  padding: 1rem;
+  padding: var(--spacing-small);
   transform: translateY(-10px);
   transition: transform 500ms var(--easing-default);
 }

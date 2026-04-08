@@ -29,7 +29,7 @@
   }
 
   &__component {
-    padding-right: 0.5rem;
+    padding-right: var(--spacing-x-small);
 
     display: inline-flex;
     align-items: center;
@@ -106,7 +106,7 @@
   // status
   .dnb-form-status {
     order: 2;
-    margin-top: 0.5rem;
+    margin-top: var(--spacing-x-small);
   }
 
   // label
@@ -115,8 +115,8 @@
   }
 
   &-group {
-    --toggle-button-group-column-gap: 1rem;
-    --toggle-button-group-row-gap: 1rem;
+    --toggle-button-group-column-gap: var(--spacing-small);
+    --toggle-button-group-row-gap: var(--spacing-small);
     display: inline-flex;
 
     &,
@@ -169,7 +169,7 @@
 
     .dnb-flex-container {
       &--direction-horizontal .dnb-form-label {
-        margin-top: 0.5rem;
+        margin-top: var(--spacing-x-small);
         align-self: flex-start;
       }
     }

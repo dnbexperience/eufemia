@@ -33,7 +33,7 @@
   overflow: auto;
 
   @include space-mixins.spaceReset();
-  padding: 1rem;
+  padding: var(--spacing-small);
 
   border-radius: 0.5rem;
 
@@ -53,7 +53,7 @@
   font-family: var(--font-family-monospace);
 
   pre {
-    padding: 1rem;
+    padding: var(--spacing-small);
   }
 
   .dnb-spacing pre {

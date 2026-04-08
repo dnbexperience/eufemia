@@ -113,12 +113,12 @@
   }
 
   &__actions {
-    padding-top: 1.5rem;
+    padding-top: var(--spacing-medium);
 
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
-    gap: 1rem;
+    gap: var(--spacing-small);
     width: 100%;
   }
 
@@ -283,7 +283,7 @@
   }
 
   &__icon ~ &__header {
-    margin-top: 1.5rem;
+    margin-top: var(--spacing-medium);
   }
 
   // Fix for iOS on iPhone

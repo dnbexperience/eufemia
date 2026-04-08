@@ -85,7 +85,7 @@
       vertical-align: middle;
 
       &.dnb-button--has-text {
-        --button-icon-margin-top: 0.5rem;
+        --button-icon-margin-top: var(--spacing-x-small);
         .dnb-button__icon {
           align-self: center;
         }

@@ -233,20 +233,20 @@ button .dnb-form-status__text {
   font-size: inherit;
 }
 .dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
+  padding-left: var(--spacing-small);
 }
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: var(--spacing-x-small);
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-form-status__text {
   white-space: normal;
 }
 .dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
+  padding-left: var(--spacing-x-small);
 }
 .dnb-form-status__shell > .dnb-icon {
   display: flex;
@@ -336,10 +336,10 @@ button .dnb-form-status__text {
   --button-border-radius--control-button: 0.25rem;
   --button-padding-left: 0;
   --button-padding-right: 0;
-  --button-padding-icon: 1rem;
+  --button-padding-icon: var(--spacing-small);
   --button-padding--default: 1.5rem;
-  --button-padding--small: 1rem;
-  --button-padding--medium: 1rem;
+  --button-padding--small: var(--spacing-small);
+  --button-padding--medium: var(--spacing-small);
   --button-padding--large: 2rem;
   --button-icon-margin-top: 0;
   --button-icon-margin-left: 0;
@@ -943,7 +943,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   outline: none;
 }
 .dnb-button + .dnb-form-status {
-  margin-top: 0.5rem;
+  margin-top: var(--spacing-x-small);
 }
 
 /* Firefox includes a hidden border which messes up button dimensions */
@@ -977,7 +977,7 @@ button.dnb-button::-moz-focus-inner {
 .dnb-form-label--vertical {
   display: block;
   margin-right: 0;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-form-label--interactive {
   cursor: pointer;
@@ -1042,7 +1042,7 @@ legend.dnb-form-label {
 }
 .dnb-slider--vertical .dnb-slider__suffix {
   padding-left: 0;
-  padding-top: 0.5rem;
+  padding-top: var(--spacing-x-small);
 }
 .dnb-slider__marker {
   position: absolute;
@@ -1224,24 +1224,24 @@ html:not([data-whatinput=touch]) .dnb-slider__button-helper:focus-visible:not([d
   text-align: center;
   width: 100%;
   margin-right: 0;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-slider .dnb-form-status {
   order: 2;
-  margin-top: 0.5rem;
+  margin-top: var(--spacing-x-small);
 }
 .dnb-slider--vertical .dnb-form-status {
-  margin-top: 1rem;
+  margin-top: var(--spacing-small);
 }
 @media screen and (max-width: 40em) {
   .dnb-responsive-component .dnb-slider {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--spacing-x-small);
   }
   .dnb-responsive-component .dnb-slider > .dnb-form-label {
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--spacing-x-small);
   }
 }
 .dnb-slider.dnb-skeleton .dnb-slider__line, .dnb-slider.dnb-skeleton .dnb-slider__marker, .dnb-slider.dnb-skeleton .dnb-slider__state--disabled .dnb-slider__line {

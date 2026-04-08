@@ -120,7 +120,7 @@
   }
 
   &__suffix.dnb-suffix {
-    padding-left: 1rem;
+    padding-left: var(--spacing-small);
   }
 
   &__textarea {
@@ -225,7 +225,7 @@
 
   &__inner > .dnb-form-status {
     order: 2;
-    margin-top: 0.5rem;
+    margin-top: var(--spacing-x-small);
   }
 
   &:not(#{&}--vertical) .dnb-form-label {
@@ -284,10 +284,10 @@
       flex-direction: column;
       align-items: flex-start;
 
-      margin-bottom: 0.5rem;
+      margin-bottom: var(--spacing-x-small);
 
       > .dnb-form-label {
-        margin-bottom: 0.5rem;
+        margin-bottom: var(--spacing-x-small);
       }
     }
   }

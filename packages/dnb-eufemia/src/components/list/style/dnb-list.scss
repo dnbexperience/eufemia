@@ -2,10 +2,10 @@
 
 .dnb-list {
   &--variant-basic {
-    --item-padding: 1rem;
+    --item-padding: var(--spacing-small);
     --item-height: 4rem;
     --item-rounded-corner: 1.5rem;
-    --item-row-gap: 0.5rem;
+    --item-row-gap: var(--spacing-x-small);
     --item-chevron-margin: 1rem;
     --item-chevron-height: 1.5rem;
     --item-outline-width: 0.0625rem;

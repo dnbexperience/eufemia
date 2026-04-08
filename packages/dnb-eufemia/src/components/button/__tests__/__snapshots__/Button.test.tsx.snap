@@ -229,20 +229,20 @@ button .dnb-form-status__text {
   font-size: inherit;
 }
 .dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
+  padding-left: var(--spacing-small);
 }
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: var(--spacing-x-small);
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-form-status__text {
   white-space: normal;
 }
 .dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
+  padding-left: var(--spacing-x-small);
 }
 .dnb-form-status__shell > .dnb-icon {
   display: flex;
@@ -332,10 +332,10 @@ button .dnb-form-status__text {
   --button-border-radius--control-button: 0.25rem;
   --button-padding-left: 0;
   --button-padding-right: 0;
-  --button-padding-icon: 1rem;
+  --button-padding-icon: var(--spacing-small);
   --button-padding--default: 1.5rem;
-  --button-padding--small: 1rem;
-  --button-padding--medium: 1rem;
+  --button-padding--small: var(--spacing-small);
+  --button-padding--medium: var(--spacing-small);
   --button-padding--large: 2rem;
   --button-icon-margin-top: 0;
   --button-icon-margin-left: 0;
@@ -939,7 +939,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   outline: none;
 }
 .dnb-button + .dnb-form-status {
-  margin-top: 0.5rem;
+  margin-top: var(--spacing-x-small);
 }
 
 /* Firefox includes a hidden border which messes up button dimensions */
@@ -1062,7 +1062,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .
   vertical-align: middle;
 }
 .dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--has-text {
-  --button-icon-margin-top: 0.5rem;
+  --button-icon-margin-top: var(--spacing-x-small);
 }
 .dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--has-text .dnb-button__icon {
   align-self: center;
@@ -1137,7 +1137,7 @@ html[data-whatinput=keyboard] .dnb-button--tertiary:hover:focus .dnb-button__tex
   border: none;
 }
 .dnb-button--has-text.dnb-button--size-large {
-  --button-padding-icon: 1rem;
+  --button-padding-icon: var(--spacing-small);
 }
 .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-before, .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-after {
   box-shadow: none;
@@ -1306,7 +1306,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .
   vertical-align: middle;
 }
 .dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--has-text {
-  --button-icon-margin-top: 0.5rem;
+  --button-icon-margin-top: var(--spacing-x-small);
 }
 .dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--has-text .dnb-button__icon {
   align-self: center;

@@ -15,8 +15,8 @@
     appearance: none;
     background-color: var(--color-black-8);
 
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding-left: var(--spacing-x-small);
+    padding-right: var(--spacing-x-small);
 
     .dnb-button__text {
       font-size: var(--font-size-x-small);
@@ -96,6 +96,6 @@
   &__group {
     display: inline-flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: var(--spacing-x-small);
   }
 }

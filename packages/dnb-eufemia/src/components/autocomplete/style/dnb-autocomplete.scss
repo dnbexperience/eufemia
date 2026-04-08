@@ -11,9 +11,9 @@
   --autocomplete-height--small: 1.5rem;
   --autocomplete-height--medium: 2.5rem;
   --autocomplete-height--large: 3rem;
-  --autocomplete-padding-horizontal: 1rem;
+  --autocomplete-padding-horizontal: var(--spacing-small);
   --autocomplete-focus-border-width: 0.125rem;
-  --autocomplete-text-padding: 0.5rem;
+  --autocomplete-text-padding: var(--spacing-x-small);
   --autocomplete-border-radius: 0.25rem;
 
   display: inline-flex;
@@ -161,7 +161,7 @@
       padding-right: 3rem;
     }
     &--icon-position-right &--icon-position-right#{&}--has-icon &__input {
-      padding-right: 1rem;
+      padding-right: var(--spacing-small);
     }
   }
   &--disabled .dnb-input {
@@ -243,7 +243,7 @@
   }
   &__inner > .dnb-form-status {
     order: 2;
-    margin-top: 0.5rem;
+    margin-top: var(--spacing-x-small);
   }
 
   &--vertical {
@@ -266,10 +266,10 @@
       flex-direction: column;
       align-items: flex-start;
 
-      margin-bottom: 0.5rem;
+      margin-bottom: var(--spacing-x-small);
 
       > .dnb-form-label {
-        margin-bottom: 0.5rem;
+        margin-bottom: var(--spacing-x-small);
       }
       &__helper {
         display: none;

@@ -63,7 +63,7 @@
 }
 
 .dnb-suffix {
-  padding-left: 0.5rem;
+  padding-left: var(--spacing-x-small);
 
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);

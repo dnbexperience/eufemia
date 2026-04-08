@@ -200,7 +200,7 @@ exports[`Switch scss should match style dependencies css 1`] = `
 .dnb-form-label--vertical {
   display: block;
   margin-right: 0;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-form-label--interactive {
   cursor: pointer;
@@ -302,20 +302,20 @@ button .dnb-form-status__text {
   font-size: inherit;
 }
 .dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
+  padding-left: var(--spacing-small);
 }
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: var(--spacing-x-small);
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-form-status__text {
   white-space: normal;
 }
 .dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
+  padding-left: var(--spacing-x-small);
 }
 .dnb-form-status__shell > .dnb-icon {
   display: flex;
@@ -518,7 +518,7 @@ html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-sw
   display: block;
 }
 .dnb-switch .dnb-form-label {
-  padding-right: 0.5rem;
+  padding-right: var(--spacing-x-small);
   margin-right: 0;
   margin-left: 0;
   margin-bottom: 0;
@@ -530,7 +530,7 @@ html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-sw
   order: 4;
 }
 .dnb-switch--label-position-left .dnb-switch__suffix {
-  padding-left: 1rem;
+  padding-left: var(--spacing-small);
 }
 .dnb-switch--label-position-left .dnb-switch__order .dnb-switch__inner {
   order: 2;
@@ -541,18 +541,18 @@ html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-sw
 }
 .dnb-switch--label-position-left .dnb-switch__order .dnb-form-status {
   order: 3;
-  margin-top: 0.5rem;
+  margin-top: var(--spacing-x-small);
 }
 .dnb-switch--label-position-right .dnb-switch__order .dnb-switch__inner {
   order: 1;
 }
 .dnb-switch--label-position-right .dnb-switch__order .dnb-form-label {
   order: 2;
-  padding-left: 0.5rem;
+  padding-left: var(--spacing-x-small);
 }
 .dnb-switch--label-position-right .dnb-switch__order .dnb-form-status {
   order: 3;
-  margin-top: 0.5rem;
+  margin-top: var(--spacing-x-small);
 }
 .dnb-switch.dnb-skeleton .dnb-switch__input[disabled] ~ .dnb-switch__button, .dnb-switch.dnb-skeleton .dnb-switch__input[disabled] ~ .dnb-switch__background::after {
   border-color: var(--skeleton-color);

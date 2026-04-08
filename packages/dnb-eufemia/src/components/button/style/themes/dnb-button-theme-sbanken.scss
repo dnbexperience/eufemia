@@ -50,7 +50,7 @@
   border: none;
 
   &--has-text#{&}--size-large {
-    --button-padding-icon: 1rem;
+    --button-padding-icon: var(--spacing-small);
   }
 
   // Icon button

@@ -23,8 +23,8 @@
     --table-th-font-size: var(--font-size-small);
 
     &#{&} {
-      padding-top: 1.5rem;
-      padding-bottom: 0.5rem;
+      padding-top: var(--spacing-medium);
+      padding-bottom: var(--spacing-x-small);
     }
   }
 
@@ -71,7 +71,7 @@
   & tbody td,
   & tbody th {
     // spacing
-    padding: 1rem;
+    padding: var(--spacing-small);
 
     // typography
     color: var(--theme-color-black-80, currentColor);
@@ -83,7 +83,7 @@
   & tbody &__th,
   & tbody th {
     // spacing
-    padding: 1rem;
+    padding: var(--spacing-small);
 
     // typography
     vertical-align: baseline;

@@ -118,7 +118,7 @@
   .dnb-segmented-field__fieldset:last-of-type &__input:last-of-type {
     --input-padding--small: 0.25rem;
     --input-padding--medium: 0.333rem;
-    --input-padding--large: 0.5rem;
+    --input-padding--large: var(--spacing-x-small);
 
     margin-right: 2rem; // space for the button
   }
@@ -175,7 +175,7 @@
 
   &__calendar {
     position: relative;
-    padding: 1rem;
+    padding: var(--spacing-small);
 
     // border
     &::after {
@@ -199,7 +199,7 @@
 
     display: flex;
     justify-content: space-between;
-    padding-bottom: 1rem;
+    padding-bottom: var(--spacing-small);
 
     // border
     &::after {
@@ -215,8 +215,8 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
-    gap: 1rem;
-    padding: 1rem;
+    gap: var(--spacing-small);
+    padding: var(--spacing-small);
 
     &::after {
       left: 1rem;
@@ -229,13 +229,13 @@
 
     display: flex;
     justify-content: space-between;
-    padding: 1rem;
+    padding: var(--spacing-small);
   }
 
   &__labels {
     &__day {
-      padding-top: 1.5rem;
-      padding-bottom: 0.5rem;
+      padding-top: var(--spacing-medium);
+      padding-bottom: var(--spacing-x-small);
     }
   }
 
@@ -333,7 +333,7 @@
 
   &__inner > .dnb-form-status {
     order: 2;
-    margin-top: 0.5rem;
+    margin-top: var(--spacing-x-small);
   }
 
   &--vertical {
@@ -380,10 +380,10 @@
       flex-direction: column;
       align-items: flex-start;
 
-      margin-bottom: 0.5rem;
+      margin-bottom: var(--spacing-x-small);
 
       > .dnb-form-label {
-        margin-bottom: 0.5rem;
+        margin-bottom: var(--spacing-x-small);
       }
       &__helper {
         display: none;

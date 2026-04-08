@@ -237,20 +237,20 @@ button .dnb-form-status__text {
   font-size: inherit;
 }
 .dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
+  padding-left: var(--spacing-small);
 }
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: var(--spacing-x-small);
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-form-status__text {
   white-space: normal;
 }
 .dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
+  padding-left: var(--spacing-x-small);
 }
 .dnb-form-status__shell > .dnb-icon {
   display: flex;
@@ -340,10 +340,10 @@ button .dnb-form-status__text {
   --button-border-radius--control-button: 0.25rem;
   --button-padding-left: 0;
   --button-padding-right: 0;
-  --button-padding-icon: 1rem;
+  --button-padding-icon: var(--spacing-small);
   --button-padding--default: 1.5rem;
-  --button-padding--small: 1rem;
-  --button-padding--medium: 1rem;
+  --button-padding--small: var(--spacing-small);
+  --button-padding--medium: var(--spacing-small);
   --button-padding--large: 2rem;
   --button-icon-margin-top: 0;
   --button-icon-margin-left: 0;
@@ -947,7 +947,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   outline: none;
 }
 .dnb-button + .dnb-form-status {
-  margin-top: 0.5rem;
+  margin-top: var(--spacing-x-small);
 }
 
 /* Firefox includes a hidden border which messes up button dimensions */
@@ -981,7 +981,7 @@ button.dnb-button::-moz-focus-inner {
 .dnb-form-label--vertical {
   display: block;
   margin-right: 0;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-form-label--interactive {
   cursor: pointer;
@@ -1031,10 +1031,10 @@ legend.dnb-form-label {
   --input-font-size--small: var(--font-size-basis);
   --input-font-size--medium: var(--font-size-basis);
   --input-font-size--large: var(--font-size-medium);
-  --input-padding: 1rem;
-  --input-padding--small: 1rem;
-  --input-padding--medium: 1rem;
-  --input-padding--large: 1rem;
+  --input-padding: var(--spacing-small);
+  --input-padding--small: var(--spacing-small);
+  --input-padding--medium: var(--spacing-small);
+  --input-padding--large: var(--spacing-small);
   --input-height: 2rem;
   --input-height--small: 1.5rem;
   --input-height--medium: 2.5rem;
@@ -1238,8 +1238,8 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
     flex-wrap: wrap;
   }
   .dnb-input > .dnb-form-label {
-    margin-bottom: 0.5rem;
-    margin-top: 0.5rem;
+    margin-bottom: var(--spacing-x-small);
+    margin-top: var(--spacing-x-small);
   }
 }
 .dnb-input:not(.dnb-input--vertical)[class*=__status] {
@@ -1373,7 +1373,7 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
 }
 .dnb-input__inner > .dnb-form-status {
   order: 2;
-  margin-top: 0.5rem;
+  margin-top: var(--spacing-x-small);
 }
 .dnb-input--vertical {
   display: flex;
@@ -1450,13 +1450,13 @@ html[data-visual-test] .dnb-input__input {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--spacing-x-small);
   }
   .dnb-responsive-component .dnb-input__row {
     align-items: flex-start;
   }
   .dnb-responsive-component .dnb-input > .dnb-form-label {
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--spacing-x-small);
   }
 }
 
@@ -1495,17 +1495,17 @@ html[data-visual-test] .dnb-input__input {
   display: inline-flex;
   flex-flow: row wrap;
   align-items: baseline;
-  gap: 1rem;
+  gap: var(--spacing-small);
 }
 
 .dnb-segmented-field__group {
   display: inline-flex;
 }
 .dnb-segmented-field__group > .dnb-segmented-field__section.dnb-input__input:first-child {
-  padding-left: 0.5rem;
+  padding-left: var(--spacing-x-small);
 }
 .dnb-segmented-field__group > .dnb-segmented-field__section.dnb-input__input:nth-last-child(1) {
-  padding-right: 0.5rem;
+  padding-right: var(--spacing-x-small);
 }
 .dnb-segmented-field__group > .dnb-segmented-field__delimiter + .dnb-segmented-field__section.dnb-input__input {
   padding-left: 0.0625rem;

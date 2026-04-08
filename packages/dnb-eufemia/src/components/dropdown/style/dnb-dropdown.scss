@@ -12,10 +12,10 @@
   --dropdown-height--small: 1.5rem;
   --dropdown-height--medium: 2.5rem;
   --dropdown-height--large: 3rem;
-  --dropdown-padding-horizontal: 1rem;
+  --dropdown-padding-horizontal: var(--spacing-small);
   --dropdown-focus-border-width: 0.125rem;
   --dropdown-error-border-width: 0.125rem;
-  --dropdown-text-padding: 0.5rem;
+  --dropdown-text-padding: var(--spacing-x-small);
   --dropdown-button-padding: 0 1rem;
   --dropdown-border-radius: 0.25rem;
   --dropdown-foreground-color-primary: var(--color-black-55);
@@ -136,8 +136,8 @@
 
   @include utilities.allBelow(small) {
     &--action-menu &__trigger.dnb-button {
-      padding-left: 0.5rem;
-      padding-right: 0.5rem;
+      padding-left: var(--spacing-x-small);
+      padding-right: var(--spacing-x-small);
 
       border-radius: 50%;
     }
@@ -346,7 +346,7 @@
 
   &__inner > .dnb-form-status {
     order: 2;
-    margin-top: 0.5rem;
+    margin-top: var(--spacing-x-small);
   }
 
   &--vertical {
@@ -370,10 +370,10 @@
       flex-direction: column;
       align-items: flex-start;
 
-      margin-bottom: 0.5rem;
+      margin-bottom: var(--spacing-x-small);
 
       > .dnb-form-label {
-        margin-bottom: 0.5rem;
+        margin-bottom: var(--spacing-x-small);
       }
 
       &__helper {

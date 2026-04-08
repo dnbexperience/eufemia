@@ -45,7 +45,7 @@
 
       margin: 0;
       padding: 0;
-      padding-right: 0.5rem;
+      padding-right: var(--spacing-x-small);
 
       font-weight: var(--font-weight-medium);
       text-align: inherit;
@@ -137,13 +137,13 @@
     }
 
     &[align='right'] {
-      padding-right: 0.5rem;
+      padding-right: var(--spacing-x-small);
 
       .dnb-table__sort-button.dnb-button {
         flex-direction: row-reverse;
 
         &--tertiary.dnb-button--icon-position-right {
-          padding-right: 0.5rem;
+          padding-right: var(--spacing-x-small);
 
           .dnb-button__icon {
             margin-left: -0.5rem;

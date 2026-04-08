@@ -10,6 +10,6 @@
   }
 
   &:not([class*='dnb-space__bottom']) {
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--spacing-medium);
   }
 }

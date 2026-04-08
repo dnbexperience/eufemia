@@ -233,20 +233,20 @@ button .dnb-form-status__text {
   font-size: inherit;
 }
 .dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
+  padding-left: var(--spacing-small);
 }
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: var(--spacing-x-small);
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-x-small);
 }
 .dnb-form-status__text {
   white-space: normal;
 }
 .dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
+  padding-left: var(--spacing-x-small);
 }
 .dnb-form-status__shell > .dnb-icon {
   display: flex;
@@ -336,10 +336,10 @@ button .dnb-form-status__text {
   --button-border-radius--control-button: 0.25rem;
   --button-padding-left: 0;
   --button-padding-right: 0;
-  --button-padding-icon: 1rem;
+  --button-padding-icon: var(--spacing-small);
   --button-padding--default: 1.5rem;
-  --button-padding--small: 1rem;
-  --button-padding--medium: 1rem;
+  --button-padding--small: var(--spacing-small);
+  --button-padding--medium: var(--spacing-small);
   --button-padding--large: 2rem;
   --button-icon-margin-top: 0;
   --button-icon-margin-left: 0;
@@ -943,7 +943,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   outline: none;
 }
 .dnb-button + .dnb-form-status {
-  margin-top: 0.5rem;
+  margin-top: var(--spacing-x-small);
 }
 
 /* Firefox includes a hidden border which messes up button dimensions */
@@ -995,13 +995,13 @@ button.dnb-button::-moz-focus-inner {
 }
 
 .dnb-progress-indicator--horizontal .dnb-progress-indicator__label {
-  padding-left: 1rem;
+  padding-left: var(--spacing-small);
 }
 .dnb-progress-indicator--horizontal.dnb-progress-indicator--small .dnb-progress-indicator__label {
-  padding-left: 0.5rem;
+  padding-left: var(--spacing-x-small);
 }
 .dnb-progress-indicator--vertical .dnb-progress-indicator__label {
-  padding-top: 0.5rem;
+  padding-top: var(--spacing-x-small);
 }
 .dnb-progress-indicator--inside .dnb-progress-indicator__label {
   position: absolute;
@@ -1268,8 +1268,8 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
   min-height: 6rem;
 }
 .dnb-pagination__bar {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: var(--spacing-small);
+  margin-bottom: var(--spacing-small);
 }
 .dnb-pagination--left .dnb-pagination__bar {
   justify-content: flex-start;
@@ -1288,7 +1288,7 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
 .dnb-pagination__bar__wrapper {
   display: flex;
   flex-flow: column wrap;
-  row-gap: 0.5rem;
+  row-gap: var(--spacing-x-small);
 }
 @media screen and (min-width: 72.00625em) {
   .dnb-pagination--layout-horizontal .dnb-pagination__bar__wrapper {
@@ -1304,7 +1304,7 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
   align-items: flex-end;
 }
 .dnb-pagination__bar__inner {
-  gap: 0.5rem;
+  gap: var(--spacing-x-small);
 }
 .dnb-pagination__button {
   max-width: 3.5rem;
@@ -1368,7 +1368,7 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
 }
 .dnb-pagination__bar__skip {
   display: flex;
-  column-gap: 1.5rem;
+  column-gap: var(--spacing-medium);
 }
 
 @keyframes show-page {

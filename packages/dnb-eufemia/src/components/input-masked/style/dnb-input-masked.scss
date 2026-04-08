@@ -31,7 +31,7 @@
     display: inline-flex;
     flex-flow: row wrap;
     align-items: baseline;
-    gap: 1rem;
+    gap: var(--spacing-small);
   }
 }
 
@@ -39,11 +39,11 @@
   display: inline-flex;
 
   > .dnb-segmented-field__section.dnb-input__input:first-child {
-    padding-left: 0.5rem;
+    padding-left: var(--spacing-x-small);
   }
 
   > .dnb-segmented-field__section.dnb-input__input:nth-last-child(1) {
-    padding-right: 0.5rem;
+    padding-right: var(--spacing-x-small);
   }
 
   > .dnb-segmented-field__delimiter
