@@ -258,22 +258,22 @@ Eufemia defines a centralized z-index scale using CSS Custom Properties. This en
 
 The following tokens are defined on `:root` and control the stacking order of Eufemia components:
 
-| Token                  | Default value | Usage                                   |
-| ---------------------- | ------------- | --------------------------------------- |
-| `--z-index-section`    | `1`           | Content sections                        |
-| `--z-index-dropdown`   | `100`         | Inline dropdowns, drawer-lists          |
-| `--z-index-popover`    | `1000`        | Popovers, floating elements             |
-| `--z-index-tooltip`    | `1100`        | Tooltips (always above popovers)        |
-| `--z-index-modal`      | `3000`        | Dialogs, drawers, full overlays         |
+| Token                | Default value | Usage                            |
+| -------------------- | ------------- | -------------------------------- |
+| `--z-index-section`  | `1`           | Content sections                 |
+| `--z-index-dropdown` | `100`         | Inline dropdowns, drawer-lists   |
+| `--z-index-popover`  | `1000`        | Popovers, floating elements      |
+| `--z-index-tooltip`  | `1100`        | Tooltips (always above popovers) |
+| `--z-index-modal`    | `3000`        | Dialogs, drawers, full overlays  |
 
 Each component also exposes its own CSS Custom Property that references the centralized token. This preserves backward compatibility for consumers who override the component-level property directly.
 
-| Component | Component property    | References              |
-| --------- | --------------------- | ----------------------- |
-| Section   | `--section-z-index`   | `var(--z-index-section)`  |
-| Popover   | `--popover-z-index`   | `var(--z-index-popover)`  |
-| Tooltip   | `--tooltip-z-index`   | `var(--z-index-tooltip)`  |
-| Modal     | `--modal-z-index`     | `var(--z-index-modal)`    |
+| Component | Component property  | References               |
+| --------- | ------------------- | ------------------------ |
+| Section   | `--section-z-index` | `var(--z-index-section)` |
+| Popover   | `--popover-z-index` | `var(--z-index-popover)` |
+| Tooltip   | `--tooltip-z-index` | `var(--z-index-tooltip)` |
+| Modal     | `--modal-z-index`   | `var(--z-index-modal)`   |
 
 You can override the global z-index scale to adjust the layering for your application:
 
