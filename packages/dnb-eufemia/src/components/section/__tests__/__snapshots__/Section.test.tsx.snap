@@ -13,7 +13,7 @@ exports[`Section scss has to match style dependencies css 1`] = `
  * Utilities
  */
 :root {
-  --section-z-index: 1;
+  --section-z-index: var(--z-index-section);
 }
 
 .dnb-section {

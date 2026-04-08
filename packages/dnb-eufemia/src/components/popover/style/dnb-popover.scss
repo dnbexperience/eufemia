@@ -1,7 +1,7 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
 :root {
-  --popover-z-index: 1000;
+  --popover-z-index: var(--z-index-popover);
 }
 
 .dnb-popover {
