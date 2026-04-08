@@ -92,18 +92,27 @@ function ArrayComponent(props: IterateArrayProps) {
   }, [countPath, countPathLimit, getValueByPath, dataContext.data])
 
   const validateRequired = useCallback(
-    (value: Value, { emptyValue, required, error }: any) => {
+    (
+      value: Value,
+      {
+        emptyValue,
+        required,
+        error,
+      }: { emptyValue?: Value; required?: boolean; error?: Error }
+    ): Error | undefined => {
       if (
         required &&
         (!value || value?.length === 0 || value === emptyValue)
       ) {
         return error
       }
+      return undefined
     },
     []
   )
 
   const preparedProps = useMemo(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const shared: any = {
       schema: undefined,
       emptyValue: undefined,

@@ -169,8 +169,8 @@ function updatePropsWithContext(
   )
 }
 
-function formatProgress(progress: any) {
-  if (parseFloat(progress) > -1) {
+function formatProgress(progress: string | number) {
+  if (parseFloat(String(progress)) > -1) {
     return format(progress, {
       decimals: 2,
       percent: true,

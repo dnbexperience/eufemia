@@ -62,6 +62,7 @@ function Name(props: FieldNameProps) {
 
     if (typeof onBlurValidatorProp === 'function') {
       // Prioritize the internal validator first; only then run the external one
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return (value: string, args: any) => {
         const coreResult = nameValidator(value)
         if (coreResult instanceof Error) {

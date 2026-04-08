@@ -201,6 +201,7 @@ function Skeleton(props: SkeletonProps) {
 
 export default Skeleton
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function Exclude(props: any) {
   return <Provider {...props} skeleton={false} />
 }

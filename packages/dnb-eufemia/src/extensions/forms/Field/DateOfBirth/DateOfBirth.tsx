@@ -141,6 +141,7 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
 
     if (typeof propOnBlurValidator === 'function') {
       // Prioritize the internal validator first; only then run the external one
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return (value: string, args: any) => {
         const coreResult = dateOfBirthValidator(value)
         if (coreResult instanceof Error) {
@@ -478,7 +479,7 @@ withComponentMarkers(DateOfBirth, {
 
 export default DateOfBirth
 
-function capitalizeFirstLetter(s: any) {
+function capitalizeFirstLetter(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 

@@ -79,7 +79,14 @@ function UploadComponent(props: FieldUploadProps) {
   )
 
   const validateRequired = useCallback(
-    (value: UploadValue, { required, isChanged, error }: any) => {
+    (
+      value: UploadValue,
+      {
+        required,
+        isChanged,
+        error,
+      }: { required?: boolean; isChanged?: boolean; error?: Error }
+    ) => {
       const hasError = value?.some((file) => file.errorMessage)
       if (hasError) {
         return new FormError('Upload.errorInvalidFiles')

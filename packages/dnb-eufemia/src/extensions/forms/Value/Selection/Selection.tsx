@@ -21,9 +21,11 @@ function Selection(props: ValueSelectionProps) {
     const fieldProp = fieldInternalsRef?.current?.[path]?.props
 
     if (path || dataPath) {
-      let list = getValueByPath(dataPath)?.map?.((props: any) => ({
-        props,
-      }))
+      let list = getValueByPath(dataPath)?.map?.(
+        (props: Record<string, unknown>) => ({
+          props,
+        })
+      )
 
       if (!list) {
         list = fieldProp?.children as Array<
@@ -32,7 +34,9 @@ function Selection(props: ValueSelectionProps) {
       }
 
       const title = list?.find?.(
-        (child: any) => child.props.value === value
+        (child: {
+          props: { value: string | number; title?: React.ReactNode }
+        }) => child.props.value === value
       )?.props?.title
 
       return title ? convertJsxToString(title) : value

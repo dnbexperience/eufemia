@@ -133,7 +133,13 @@ const ChevronTd = ({
   ariaLive,
   isInDOM,
   accordionMoreContentSR,
-}: any) => (
+}: {
+  children?: React.ReactNode
+  colSpan?: number
+  ariaLive?: boolean
+  isInDOM?: boolean
+  accordionMoreContentSR?: string
+}) => (
   <td
     role={isInDOM ? 'cell' : undefined} // remove the "role", because the parent role is removed as well
     className="dnb-table__td"

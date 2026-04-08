@@ -15,7 +15,13 @@ export default function useDependencePaths(
       return {}
     }
 
-    const check = ({ key, whenUndefined = false }: any) => {
+    const check = ({
+      key,
+      whenUndefined = false,
+    }: {
+      key: string
+      whenUndefined?: boolean
+    }) => {
       return dependencePaths?.every((path) => {
         if (pointer.has(data, path)) {
           const value = pointer.get(data, path)

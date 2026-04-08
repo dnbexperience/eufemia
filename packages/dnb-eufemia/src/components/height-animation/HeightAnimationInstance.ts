@@ -89,7 +89,7 @@ export default class HeightAnimation {
   addEndEvent(listener: HeightAnimationEventListener) {
     this.removeEndEvents() // also, remove events on every open (but not on close!)
 
-    const handleTransitionEnd = (e: any) => {
+    const handleTransitionEnd = (e: Event) => {
       if (this.canFinish()) {
         listener(e)
       } else {

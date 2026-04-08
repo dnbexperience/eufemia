@@ -168,9 +168,14 @@ export const correctInternalHeadingLevel = ({
   return counter
 }
 
-function report(debug: any, source: any, ...reports) {
+function report(
+  debug: ((...args: unknown[]) => void) | boolean,
+  source: unknown,
+  ...reports: unknown[]
+) {
   if (source) {
-    const props = source.props || {}
+    const props =
+      (source as Record<string, Record<string, unknown>>)?.props || {}
     const identifiers = [props.id, props['class'], props.className].filter(
       Boolean
     )
@@ -178,7 +183,7 @@ function report(debug: any, source: any, ...reports) {
     reports.push(
       '\nNB: This warning was triggered by:',
       identifiers.length > 0 ? identifiers.join(', ') : '',
-      convertJsxToString(source)
+      convertJsxToString(source as React.ReactNode)
     )
   }
 
@@ -237,7 +242,12 @@ export function teardownHeadings() {
   }
 }
 
-export function debugCounter(counter: any) {
+export function debugCounter(counter: {
+  group?: string
+  level?: number
+  entry?: number
+  contextCounter?: { group?: string; level?: number; entry?: number }
+}) {
   return JSON.stringify(
     {
       group: counter.group || counter.contextCounter.group,

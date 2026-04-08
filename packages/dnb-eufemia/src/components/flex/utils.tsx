@@ -154,19 +154,26 @@ function wrapWithSpace({
   spaceProps,
   variant = null,
   wrapInSpace = true,
-}: any) {
+}: {
+  element: React.ReactNode
+  spaceProps: Record<string, unknown>
+  variant?: boolean | null
+  wrapInSpace?: boolean
+}) {
   const resolvedVariant = variant ?? getSpaceVariant(element)
   const { wrapInSpace: _, key, ...props } = spaceProps
 
   if (resolvedVariant === true) {
     return React.createElement(
-      (element as React.ReactElement).type as React.ComponentType<any>,
+      (element as React.ReactElement).type as React.ComponentType<
+        Record<string, unknown>
+      >,
       {
         ...((element as React.ReactElement).props as Record<
           string,
           unknown
         >),
-        key,
+        key: key as React.Key,
         ...props,
       }
     )
@@ -181,7 +188,7 @@ function wrapWithSpace({
   }
 
   return (
-    <Space key={key} {...props}>
+    <Space key={key as React.Key} {...props}>
       {element}
     </Space>
   )

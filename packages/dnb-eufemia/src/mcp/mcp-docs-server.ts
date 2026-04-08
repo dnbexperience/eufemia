@@ -275,7 +275,7 @@ function createDocsContext(docsRoot: string) {
     let doc = null
     let properties = null
     let events = null
-    const slug: any = null
+    const slug: string | null = null
 
     // Try multiple possible paths for the component
     const possiblePaths = conventionalDocPath(name)

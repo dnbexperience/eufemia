@@ -170,13 +170,20 @@ function Switch(props: SwitchProps) {
   }, [checkedProp])
 
   const callOnChange = useCallback(
-    ({ checked, event }: any) => {
-      onChange?.({ checked, event })
+    ({
+      checked,
+      event,
+    }: {
+      checked: boolean
+      event: React.SyntheticEvent
+    }) => {
+      onChange?.({ checked, event } as SwitchOnChangeParams)
     },
     [onChange]
   )
 
   const onChangeHandler = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (event: any) => {
       if (preventChangeRef.current) {
         return // stop here

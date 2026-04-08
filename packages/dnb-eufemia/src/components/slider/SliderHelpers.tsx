@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import type { NumberFormatReturnValue } from '../number-format/NumberUtils'
 import { format } from '../number-format/NumberUtils'
 import { clamp } from '../../shared/helpers/clamp'
@@ -81,6 +80,7 @@ export const roundValue = (
   return parseFloat(parseFloat(String(value)).toFixed(3))
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createMockDiv = ({ width, height }: any) => {
   const div = document.createElement('div')
   Object.assign(div.style, {

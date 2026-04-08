@@ -1601,7 +1601,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   )
 
   const toggleVisibleAndFocusOptions = useCallback(() => {
-    drawerListRef.current.toggleVisible(null, (isVisible: any) => {
+    drawerListRef.current.toggleVisible(null, (isVisible: boolean) => {
       if (isVisible) {
         focusDrawerList()
       }

@@ -71,7 +71,17 @@ export default function useSwitchContainerMode(path?: Path) {
   }, [])
 
   const setContainerMode = useCallback(
-    (fn: ({ hasError, index, count }: any) => ContainerMode) => {
+    (
+      fn: ({
+        hasError,
+        index,
+        count,
+      }: {
+        hasError?: boolean
+        index: number
+        count: number
+      }) => ContainerMode
+    ) => {
       const data = globalCache[hash]
       for (const id in data) {
         const item = data[id]

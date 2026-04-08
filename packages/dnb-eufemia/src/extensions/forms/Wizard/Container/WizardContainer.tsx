@@ -189,7 +189,10 @@ function WizardContainer(props: WizardContainerProps) {
    * If an index is given, it will check if the step, with the given index, has an invalid state.
    */
   const syncStepsState = useCallback(
-    (index: any = undefined, forStates = ['unknown', 'error']) => {
+    (
+      index: number | undefined = undefined,
+      forStates = ['unknown', 'error']
+    ) => {
       const checkUnknown = forStates.includes('unknown')
       const checkError = forStates.includes('error')
 
@@ -457,7 +460,7 @@ function WizardContainer(props: WizardContainerProps) {
   }, [setActiveIndex])
 
   const handleChange = useCallback(
-    ({ currentStep }: any) => {
+    ({ currentStep }: { currentStep: number }) => {
       setActiveIndex(
         currentStep,
         mode === 'loose' ? { skipErrorCheck: true } : undefined
@@ -474,6 +477,7 @@ function WizardContainer(props: WizardContainerProps) {
   )
 
   const handleSubmit = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ({ preventSubmit }: any) => {
       // - If there is a step with an error state, we need to prevent the submit
       if (hasInvalidStepsState(undefined, ['error'])) {

@@ -312,7 +312,7 @@ export default function ModalContent(props: ModalContentProps) {
     onKeyDownHandlerRef.current?.(event)
   }, [])
 
-  const preventClick = useCallback((event: any) => {
+  const preventClick = useCallback((event: React.MouseEvent) => {
     if (event) {
       event.stopPropagation()
     }

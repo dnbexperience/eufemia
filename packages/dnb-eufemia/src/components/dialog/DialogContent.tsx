@@ -95,7 +95,8 @@ export default function DialogContent({
 
   const headerExists = findElementInChildren(
     content,
-    (cur: React.ReactElement) => cur.type === DialogHeader || cur.type === ModalHeader
+    (cur: React.ReactElement) =>
+      cur.type === DialogHeader || cur.type === ModalHeader
   )
 
   const actionExists = findElementInChildren(

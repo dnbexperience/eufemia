@@ -4,13 +4,21 @@ import StepIndicator from '../../../../components/StepIndicator'
 import type { StepIndicatorItemProps } from '../../../../components/step-indicator/StepIndicatorItem'
 import { useTranslation } from '../../hooks'
 
+import type { StepIndicatorMode } from '../../../../components/step-indicator/StepIndicator'
+
 export function DisplaySteps({
   mode,
   noAnimation,
   handleChange,
   expandedInitially,
   outset,
-}: any) {
+}: {
+  mode?: StepIndicatorMode
+  noAnimation?: boolean
+  handleChange?: (params: { currentStep: number }) => void
+  expandedInitially?: boolean
+  outset?: boolean
+}) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const {
     activeIndexRef,

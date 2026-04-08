@@ -36,9 +36,16 @@ export default function ResetButton(props: Props) {
 
   const buttonWrapperRef = React.useRef<HTMLButtonElement>(null)
   const handleClick = useCallback(
-    ({ close, event }: any) => {
+    ({
+      close,
+      event,
+    }: {
+      close?: () => void
+      event?: React.SyntheticEvent
+    }) => {
       close?.()
-      onClick?.(event)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onClick?.(event as any)
       restoreOriginalValue?.()
       setShowError(false)
       setShowBoundaryErrors?.(false)
@@ -74,7 +81,10 @@ export default function ResetButton(props: Props) {
       ) : (
         <Button
           {...triggerAttributes}
-          onClick={(args: any) => handleClick(args)}
+          onClick={(args: {
+            close?: () => void
+            event?: React.SyntheticEvent
+          }) => handleClick(args)}
           {...buttonProps}
         >
           {resetButton}

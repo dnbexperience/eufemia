@@ -14,6 +14,7 @@ import Td from '../table/TableTd'
 import type { UploadAcceptedFileTypeObject, UploadProps } from './types'
 import Flex from '../../components/Flex'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const prettifyAcceptedFileFormats = (acceptedFileTypes: any) =>
   acceptedFileTypes.sort().join(', ').toUpperCase()
 

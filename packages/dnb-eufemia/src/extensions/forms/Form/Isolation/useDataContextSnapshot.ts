@@ -33,7 +33,8 @@ export default function useDataContextSnapshot({
     dataReference || {}
 
   const updateHandler = useCallback(
-    (data: any = null) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (data?: any) => {
       update(data || structuredClone(internalDataRef?.current))
       forceUpdate() // Ensure the hasContentChanged hook gets updated
     },

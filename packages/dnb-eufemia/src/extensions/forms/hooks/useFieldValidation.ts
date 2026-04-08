@@ -380,6 +380,7 @@ export default function useFieldValidation<Value>({
   // -- onChange validator orchestration --
 
   const revealOnChangeValidatorResult = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ({ result, unchangedValue }: any) => {
       const runAsync = isAsync(onChangeValidatorRef.current)
 
@@ -536,6 +537,7 @@ export default function useFieldValidation<Value>({
   )
 
   const revealOnBlurValidatorResult = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ({ result }: any) => {
       persistErrorState('gracefully', 'onBlurValidator', result)
 

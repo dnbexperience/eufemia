@@ -211,6 +211,7 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
   }, [ccFilter, filter, forceUpdate])
 
   const onFocusHandler = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ({ updateData }: any) => {
       fillData()
       updateData(dataRef.current)
@@ -220,6 +221,7 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
   )
 
   const onTypeHandler = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ({ value: currentValue, setHidden, event }: any) => {
       // Handle browser autofill/autocomplete
       if (typeof event?.nativeEvent?.data === 'undefined') {

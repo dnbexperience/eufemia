@@ -192,7 +192,7 @@ export function buildQuery(
       when = when.split(/[ ,]/g)
     }
 
-    let listOfQueries: any[] = []
+    let listOfQueries: string[] = []
 
     if (Array.isArray(when)) {
       listOfQueries = listOfQueries.concat(

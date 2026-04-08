@@ -14,8 +14,8 @@ export type ValueOrganizationNumberProps = StringValueProps
 function OrganizationNumber(props: ValueOrganizationNumberProps) {
   const translations = useTranslation().OrganizationNumber
 
-  const toInput = useCallback((value: any) => {
-    if (isValueEmpty(value)) {
+  const toInput = useCallback((value: unknown) => {
+    if (typeof value !== 'string' || isValueEmpty(value)) {
       return undefined
     }
     return format(cleanNumber(value), {

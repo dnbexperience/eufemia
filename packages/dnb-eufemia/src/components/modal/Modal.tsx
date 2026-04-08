@@ -490,7 +490,9 @@ function ModalComponent(ownProps: ModalAllProps) {
           {...usedTriggerAttributes}
           id={_id.current}
           title={title}
-          onClick={(event: React.MouseEvent) => toggleOpenClose(event.nativeEvent)}
+          onClick={(event: React.MouseEvent) =>
+            toggleOpenClose(event.nativeEvent)
+          }
           ref={triggerRef}
           className={clsx(
             'dnb-modal__trigger',

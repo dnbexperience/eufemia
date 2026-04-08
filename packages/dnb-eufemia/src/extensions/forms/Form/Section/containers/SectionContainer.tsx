@@ -91,7 +91,7 @@ function SectionContainer(
   }, [disableEditing, hasSubmitError, containerMode, switchContainerMode])
 
   const setFocus = useCallback(
-    (state: any) => {
+    (state: string) => {
       if (state === 'opened') {
         if (
           !omitFocusManagementRef.current &&
@@ -107,6 +107,7 @@ function SectionContainer(
 
   // - Remove the block with animation, if it's in the right mode
   const handleAnimationEnd = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (state: any) => {
       setFocus(state)
       onAnimationEnd?.(state)

@@ -254,7 +254,9 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
               aria-current={
                 pageNumber === currentPageInternal ? 'page' : null
               }
-              onClick={(event: React.MouseEvent) => clickHandler({ pageNumber, event })}
+              onClick={(event: React.MouseEvent) =>
+                clickHandler({ pageNumber, event })
+              }
             />
           ))}
 
@@ -317,7 +319,9 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
   )
 }
 
-export const useResizeObserver = (element: React.RefObject<HTMLElement>) => {
+export const useResizeObserver = (
+  element: React.RefObject<HTMLElement>
+) => {
   const [currentSize, setSize] = useState('large')
   const resizeObserver = useRef<ResizeObserver | null>(null)
 

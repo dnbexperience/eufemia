@@ -13,7 +13,7 @@ export function runCssVersionMismatchWarning() {
           return
         }
 
-        const getCssVersion = (element: any) => {
+        const getCssVersion = (element: Element | undefined) => {
           return element
             ? window
                 .getComputedStyle(element)

@@ -143,7 +143,10 @@ function DrawerListOptionItem({
   children = undefined,
   className = null,
   ...props
-}: any) {
+}: {
+  children?: React.ReactNode
+  className?: string | null
+} & React.HTMLAttributes<HTMLSpanElement>) {
   return (
     <span
       className={clsx(['dnb-drawer-list__option__item', className])}

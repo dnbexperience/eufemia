@@ -40,7 +40,8 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     onChangeHandler,
   }
 
-  function onChangeHandler(event: any) {
+  function onChangeHandler(...params: unknown[]) {
+    const event = params[0] as Record<string, unknown>
     dispatchCustomElementEvent(thisInstance, 'onChange', {
       id: event.id,
       expanded: event.expanded,

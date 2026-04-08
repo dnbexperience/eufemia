@@ -70,7 +70,10 @@ function RemoveButton(props: IterateRemoveButtonProps) {
   return (
     <Button
       {...triggerAttributes}
-      onClick={(args: any) => handleClick(args)}
+      onClick={(args: {
+        close?: () => void
+        event?: React.SyntheticEvent
+      }) => handleClick(args)}
       {...buttonProps}
     />
   )

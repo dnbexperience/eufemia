@@ -170,12 +170,10 @@ export const dispatchCustomElementEvent = (
   let ret = undefined
 
   const eventObject = {
-    ...(
-      (eventObjectOrig?.event &&
-        typeof eventObjectOrig.event === 'object' &&
-        eventObjectOrig.event) ||
-      {}
-    ),
+    ...((eventObjectOrig?.event &&
+      typeof eventObjectOrig.event === 'object' &&
+      eventObjectOrig.event) ||
+      {}),
     ...eventObjectOrig,
   }
 
@@ -272,8 +270,7 @@ export const isChildOfElement = (
     }
 
     while (
-      (element =
-        element && (element as HTMLElement).parentElement) &&
+      (element = element && (element as HTMLElement).parentElement) &&
       !contains(element)
     );
   } catch (e) {
@@ -289,7 +286,9 @@ export const roundToNearest = (num: number, target: number) => {
   return diff > target / 2 ? num - diff + target : num - diff
 }
 
-export const getClosestScrollViewElement = (currentElement: HTMLElement) => {
+export const getClosestScrollViewElement = (
+  currentElement: HTMLElement
+) => {
   return getClosestParent('.dnb-scroll-view', currentElement)
 }
 
@@ -313,15 +312,18 @@ export function convertJsxToString(
       }
 
       if (Array.isArray(element.props.children)) {
-        word = element.props.children.reduce((acc: string, word: React.ReactNode) => {
-          if (typeof word !== 'string') {
-            word = process(word)
-          }
-          if (typeof word === 'string') {
-            acc = (acc + (separator || '') + word).trim()
-          }
-          return acc
-        }, '')
+        word = element.props.children.reduce(
+          (acc: string, word: React.ReactNode) => {
+            if (typeof word !== 'string') {
+              word = process(word)
+            }
+            if (typeof word === 'string') {
+              acc = (acc + (separator || '') + word).trim()
+            }
+            return acc
+          },
+          ''
+        )
       } else if (element.props.children) {
         word = element.props.children
         if (typeof word !== 'string') {
@@ -408,7 +410,7 @@ export function findElementInChildren(
       const res = findElementInChildren(
         (cur as React.ReactElement<{ children?: React.ReactNode }>).props
           .children,
-        find,
+        find
       )
       if (res) {
         return (result = res)

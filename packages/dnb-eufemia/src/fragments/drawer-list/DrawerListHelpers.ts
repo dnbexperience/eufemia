@@ -176,7 +176,8 @@ export function normalizeData(
   props: Record<string, unknown> | DrawerListData
 ): DrawerListInternalData {
   const p = props as Record<string, unknown>
-  let data = preSelectData((p.data || p.children || props) as DrawerListData) ?? []
+  let data =
+    preSelectData((p.data || p.children || props) as DrawerListData) ?? []
 
   if (typeof data === 'object' && !Array.isArray(data)) {
     const list: DrawerListDataArray = []
@@ -270,7 +271,8 @@ export const getSelectedItemValue = (
   if (hasObjectKeyAsValue(state)) {
     return parseCurrentValue(
       state.data.filter(
-        (_: DrawerListInternalItem, i: number) => i === parseFloat(String(value))
+        (_: DrawerListInternalItem, i: number) =>
+          i === parseFloat(String(value))
       )[0]
     )
   }
@@ -496,7 +498,4 @@ export const getCurrentDataTitle = (
 }
 
 export const findClosest = (arr: (string | number)[], val: number) =>
-  Math.max.apply(
-    null,
-    arr.filter((v) => Number(v) <= val).map(Number)
-  )
+  Math.max.apply(null, arr.filter((v) => Number(v) <= val).map(Number))

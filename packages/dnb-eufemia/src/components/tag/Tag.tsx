@@ -144,12 +144,14 @@ const Tag = (
   )
   const additionalButtonParams: Pick<ButtonProps, 'element' | 'type'> = {}
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const isDeleteKeyboardEvent = (keyboardEvent: any) => {
     return (
       keyboardEvent.key === 'Backspace' || keyboardEvent.key === 'Delete'
     )
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleDeleteKeyUp = (event: any) => {
     if (isDeleteKeyboardEvent(event) && onClick) {
       onClick(event)

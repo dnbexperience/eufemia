@@ -82,6 +82,7 @@ export class ContentObject {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isTrElement(Element: any) {
   let isTr = false
 
@@ -110,6 +111,7 @@ export function preparePageElement(
   if (includeClassName) {
     const isTr = isTrElement(Element)
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return ({ className, children, ref, ...props }: any) => {
       const params = {
         ...props,
@@ -118,10 +120,10 @@ export function preparePageElement(
       }
       return isTr ? (
         <td>
-          <div {...params}>{children}</div>
+          <div {...params}>{children as React.ReactNode}</div>
         </td>
       ) : (
-        <Element {...params}>{children}</Element>
+        <Element {...params}>{children as React.ReactNode}</Element>
       )
     }
   }

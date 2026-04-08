@@ -37,7 +37,8 @@ export const useCallEvent = ({
   let isUnidentified = false
 
   const callEvent = (
-    { event, value }: { event: any; value?: any },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    { event, value }: { event: any; value?: string },
     name: string
   ) => {
     const maskParams = maskParamsRef.current as ReturnType<

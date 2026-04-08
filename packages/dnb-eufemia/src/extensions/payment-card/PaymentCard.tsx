@@ -254,14 +254,14 @@ function PaymentCardContent({
 
 export default PaymentCard
 
-export const getCardData = (productCode: any) => {
+export const getCardData = (productCode: string | number) => {
   const card = cardProducts.find(
     (item) => item.productCode === productCode
   )
   return card || defaultCard(productCode)
 }
 
-const defaultCard = (productCode: any) => ({
+const defaultCard = (productCode: string | number) => ({
   productCode,
   productName: '',
   displayName: '',

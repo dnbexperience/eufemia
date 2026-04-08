@@ -14,7 +14,19 @@ export function useCollectStepsData() {
   const translations = useTranslation()
 
   const collectStepsData = useCallback(
-    ({ id, index, inactive, title, keepInDOM }: any) => {
+    ({
+      id,
+      index,
+      inactive,
+      title,
+      keepInDOM,
+    }: {
+      id: string
+      index: number
+      inactive?: boolean
+      title?: React.ReactNode
+      keepInDOM?: boolean
+    }) => {
       if (!hasInvalidStepsState) {
         return undefined // stop here
       }

@@ -191,7 +191,7 @@ function Selection(props: FieldSelectionProps) {
   )
 
   const onChangeHandler = useCallback(
-    ({ value }: any) => {
+    ({ value }: { value: string | number | undefined }) => {
       handleChange?.(value === undefined ? emptyValue : value)
     },
     [handleChange, emptyValue]
@@ -237,6 +237,7 @@ function Selection(props: FieldSelectionProps) {
 
   const onType = props?.autocompleteProps?.onType
   const onTypeAutocompleteHandler = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (event: any) => {
       if (typeof onType === 'function') {
         const { value } = event

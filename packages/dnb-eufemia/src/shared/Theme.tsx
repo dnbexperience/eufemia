@@ -85,7 +85,11 @@ export default function Theme(themeProps: ThemeAllProps) {
 
   return (
     <Provider theme={theme}>
-      <ThemeWrapper element={element} theme={theme} {...restProps}>
+      <ThemeWrapper
+        element={element as React.ElementType | false}
+        theme={theme}
+        {...restProps}
+      >
         {children}
       </ThemeWrapper>
     </Provider>
@@ -105,7 +109,13 @@ export function ThemeWrapper({
   element = null,
   className = null,
   ...rest
-}: any) {
+}: {
+  children: React.ReactNode
+  theme: ThemeProps
+  element?: React.ElementType | false | null
+  className?: string | null
+  [key: string]: unknown
+}) {
   const Wrapper = element === false ? React.Fragment : element || 'div'
   const ref = React.useRef<HTMLElement>(null)
 
@@ -131,7 +141,10 @@ export function ThemeWrapper({
   )
 }
 
-export function getThemeClasses(theme: ThemeProps, className: any = null) {
+export function getThemeClasses(
+  theme: ThemeProps,
+  className: string | null = null
+) {
   if (!theme) {
     return className
   }

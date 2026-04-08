@@ -122,7 +122,7 @@ function SubmitConfirmation(props: ConfirmProps) {
       open: confirmationState === 'readyToBeSubmitted',
       onConfirm: submitHandler,
       onDecline: cancelHandler,
-      onClose: ({ triggeredBy }: any) => {
+      onClose: ({ triggeredBy }: { triggeredBy?: string }) => {
         if (triggeredBy === 'keyboard') {
           cancelHandler()
         }
@@ -166,6 +166,7 @@ function SubmitConfirmation(props: ConfirmProps) {
   }, [setFocusOnButton, setConfirmationState])
 
   const handleSubmit = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async ({ preventSubmit }: any) => {
       if (confirmationStateRef.current === 'submitInProgress') {
         return // stop here

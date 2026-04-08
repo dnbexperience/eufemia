@@ -692,11 +692,14 @@ export default function Provider<Data extends JsonObject>(
         }
 
         // Then iterate over the rest of the internal data set
-        pointer.walk(internalDataRef.current, (value: unknown, path: string) => {
-          if (fieldInternalsRef.current[path] === undefined) {
-            run(path)
+        pointer.walk(
+          internalDataRef.current,
+          (value: unknown, path: string) => {
+            if (fieldInternalsRef.current[path] === undefined) {
+              run(path)
+            }
           }
-        })
+        )
 
         if (!mutate) {
           return freshData
@@ -704,7 +707,13 @@ export default function Provider<Data extends JsonObject>(
 
         return data
       } else if (handler) {
-        const runFilter = ({ path, condition }: { path: string; condition: unknown }) => {
+        const runFilter = ({
+          path,
+          condition,
+        }: {
+          path: string
+          condition: unknown
+        }) => {
           const exists = pointer.has(data, path)
           if (exists) {
             const result =

@@ -15,8 +15,8 @@ function PhoneNumber(props: ValuePhoneNumberProps) {
   const label =
     props.label ?? (props.inline ? undefined : translations.numberLabel)
 
-  const toInput = useCallback((value: any) => {
-    if (isValueEmpty(value)) {
+  const toInput = useCallback((value: unknown) => {
+    if (typeof value !== 'string' || isValueEmpty(value)) {
       return undefined
     }
 

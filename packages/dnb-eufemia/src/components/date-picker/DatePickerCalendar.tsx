@@ -641,7 +641,8 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                         onClick={
                           handleAsDisabled
                             ? undefined
-                            : ({ event }: any) =>
+                            : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                              ({ event }: any) =>
                                 onSelectRange({
                                   day,
                                   isRange,

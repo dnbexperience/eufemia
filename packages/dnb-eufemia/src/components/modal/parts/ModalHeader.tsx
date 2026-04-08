@@ -45,9 +45,12 @@ export default function ModalHeader({
   Omit<React.HTMLProps<HTMLElement>, 'size' | 'title' | 'children'>) {
   const context = useContext(ModalContext)
 
-  const customHeader = findElementInChildren(children, (cur: any) => {
-    return cur.type === 'h1' || cur.type === H1
-  })
+  const customHeader = findElementInChildren(
+    children,
+    (cur: React.ReactElement) => {
+      return cur.type === 'h1' || cur.type === H1
+    }
+  )
 
   const usedTitle = title || context.title
   const showTitle = !customHeader && usedTitle

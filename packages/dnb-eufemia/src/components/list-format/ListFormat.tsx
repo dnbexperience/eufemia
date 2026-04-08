@@ -128,7 +128,7 @@ export function listFormat(
     return list
   }
 
-  list = replaceRootFragment(list).filter(function (item: any) {
+  list = replaceRootFragment(list).filter(function (item: unknown) {
     const isNan = typeof item === 'number' && isNaN(item)
     return item !== undefined && item !== false && item !== null && !isNan
   })
@@ -177,6 +177,7 @@ export function listFormat(
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function replaceRootFragment(children: any) {
   if (children?.type === Fragment) {
     return React.Children.toArray(children?.props?.children)

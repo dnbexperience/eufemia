@@ -5,7 +5,7 @@ import HelpButton from '../help-button/HelpButton'
 export default function TableHelpButton({
   className = null,
   ...props
-}: any) {
+}: React.ComponentProps<typeof HelpButton>) {
   return (
     <HelpButton
       className={clsx('dnb-table__help-button', className)}

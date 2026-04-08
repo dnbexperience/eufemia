@@ -409,7 +409,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
   // Prevent navigation when used as Anchor and disabled
   if (Element === Anchor && params.disabled) {
     const originalOnClick = params.onClick
-    params.onClick = (e: any) => {
+    params.onClick = (e: React.MouseEvent) => {
       e.preventDefault()
       e.stopPropagation()
       if (typeof originalOnClick === 'function') {

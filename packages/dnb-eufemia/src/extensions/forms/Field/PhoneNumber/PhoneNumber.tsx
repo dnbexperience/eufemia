@@ -125,7 +125,14 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
   )
 
   const validateRequired = useCallback(
-    (value: string, { required, isChanged, error }: any) => {
+    (
+      value: string,
+      {
+        required,
+        isChanged,
+        error,
+      }: { required?: boolean; isChanged?: boolean; error?: Error }
+    ) => {
       if (required) {
         const [countryCode, phoneNumber] = splitValue(value)
 
@@ -461,6 +468,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
   }, [callOnBlurOrFocus])
 
   const handleCountryCodeFocus = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ({ updateData }: any) => {
       if (!wasFilled.current) {
         wasFilled.current = true
@@ -473,6 +481,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
   )
 
   const onTypeHandler = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ({ value, updateData, revalidateInputValue, event }: any) => {
       // Handle browser autofill/autocomplete
       if (typeof event?.nativeEvent?.data === 'undefined') {

@@ -5,7 +5,7 @@ import Button from '../button/Button'
 export default function TableSortButton({
   className = null,
   ...props
-}: any) {
+}: React.ComponentProps<typeof Button>) {
   return (
     <Button
       className={clsx('dnb-table__sort-button', className)}

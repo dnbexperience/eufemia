@@ -513,7 +513,7 @@ export function prerenderIcon(
   }
 }
 
-function getIcon(props: any) {
+function getIcon(props: Record<string, unknown>) {
   if (props.icon) {
     return props.icon
   }

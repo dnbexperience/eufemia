@@ -294,10 +294,12 @@ export function scrollToHash(hash: string) {
   return undefined
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getIcon(icon: any) {
   return pickIcon(icon) || <IconPrimary icon={icon} />
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function pickIcon(icon: any, className?: string) {
   if (icon?.props?.icon || icon?.props?.className?.includes('dnb-icon')) {
     return React.createElement(icon.type, {

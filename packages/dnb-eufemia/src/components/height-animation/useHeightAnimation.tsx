@@ -209,7 +209,13 @@ function useOpenClose({
   instRef,
   isInitialRenderRef,
   targetRef,
-}: any) {
+}: {
+  open?: boolean
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  instRef: React.RefObject<any>
+  isInitialRenderRef: React.MutableRefObject<boolean>
+  targetRef: React.RefObject<HTMLElement | null>
+}) {
   const isTest =
     typeof process !== 'undefined' &&
     process.env.NODE_ENV === 'test' &&
@@ -259,7 +265,13 @@ function useAdjust({
   instRef,
   isInitialRenderRef,
   targetRef,
-}: any) {
+}: {
+  children?: unknown
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  instRef: React.RefObject<any>
+  isInitialRenderRef: React.MutableRefObject<boolean>
+  targetRef: React.RefObject<HTMLElement | null>
+}) {
   const fromHeight = useRef(0)
 
   const [timer] = useState(() => Date.now())

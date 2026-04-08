@@ -21,6 +21,7 @@ import {
 
 import PaginationContext from './PaginationContext'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const PaginationProvider = (props: any) => {
   const sharedContext = useContext(Context)
 

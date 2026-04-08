@@ -214,6 +214,7 @@ function SelectCountry(props: FieldSelectCountryProps) {
   }, [ccFilter, countries, filter, forceUpdate])
 
   const onFocusHandler = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ({ updateData }: any) => {
       fillData()
       updateData(dataRef.current)
@@ -223,6 +224,7 @@ function SelectCountry(props: FieldSelectCountryProps) {
   )
 
   const onTypeHandler = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ({ value: currentValue, setHidden, event }: any) => {
       // Handle browser autofill/autocomplete
       if (typeof event?.nativeEvent?.data === 'undefined') {

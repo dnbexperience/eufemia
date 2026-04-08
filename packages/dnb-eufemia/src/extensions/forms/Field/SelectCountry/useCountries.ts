@@ -23,7 +23,7 @@ export default function useCountries({
       })
 
       if (hasTranslations) {
-        const missing: any[] = []
+        const missing: string[] = []
         const defaultLocale = LOCALE.split('-')[0]
 
         const result = listOfCountries.map((country) => {

@@ -111,12 +111,15 @@ function FlexContainer(props: FlexContainerAllProps) {
     [direction, gap, rowGap]
   )
   const childrenArray = replaceRootFragment(wrapChildren(props, children))
-  const hasHeading = childrenArray.some((child: React.ReactNode, i: number) => {
-    const previousChild = childrenArray?.[i - 1]
-    return (
-      isHeadingElement(child) || (i > 0 && isHeadingElement(previousChild))
-    )
-  })
+  const hasHeading = childrenArray.some(
+    (child: React.ReactNode, i: number) => {
+      const previousChild = childrenArray?.[i - 1]
+      return (
+        isHeadingElement(child) ||
+        (i > 0 && isHeadingElement(previousChild))
+      )
+    }
+  )
   const hasSizeProp =
     !hasHeading &&
     direction === 'horizontal' &&
@@ -132,85 +135,88 @@ function FlexContainer(props: FlexContainerAllProps) {
     queries,
   })
 
-  const content = childrenArray.map((child: React.ReactNode, i: number) => {
-    // Set spacing on child components by props (instead of CSS) to be able to dynamically override by props on each child. The default
-    // is the spacing-props that controls space between children. Then override with props sent to the children, including both top
-    // and bottom when th
-    const isFirst = i === 0
-    const isLast = i >= childrenArray.length - 1
-    const previousChild = childrenArray?.[i - 1]
-    const isHeading = hasHeading && isHeadingElement(previousChild)
+  const content = childrenArray.map(
+    (child: React.ReactNode, i: number) => {
+      // Set spacing on child components by props (instead of CSS) to be able to dynamically override by props on each child. The default
+      // is the spacing-props that controls space between children. Then override with props sent to the children, including both top
+      // and bottom when th
+      const isFirst = i === 0
+      const isLast = i >= childrenArray.length - 1
+      const previousChild = childrenArray?.[i - 1]
+      const isHeading = hasHeading && isHeadingElement(previousChild)
 
-    // Always set spacing between elements in the vertical layout on the top props, and 0 on bottom, to avoid
-    // having to divide spacing between both with smaller values.
-    const start: FlexStart = direction === 'horizontal' ? 'left' : 'top'
-    const end: FlexEnd = direction === 'horizontal' ? 'right' : 'bottom'
-    // const start: Start | End = direction === 'horizontal' ? 'right' : 'top'
-    // const end: Start | End = direction === 'horizontal' ? 'left' : 'bottom'
-    const endSpacing = 0
-    let startSpacing = null
+      // Always set spacing between elements in the vertical layout on the top props, and 0 on bottom, to avoid
+      // having to divide spacing between both with smaller values.
+      const start: FlexStart = direction === 'horizontal' ? 'left' : 'top'
+      const end: FlexEnd = direction === 'horizontal' ? 'right' : 'bottom'
+      // const start: Start | End = direction === 'horizontal' ? 'right' : 'top'
+      // const end: Start | End = direction === 'horizontal' ? 'left' : 'bottom'
+      const endSpacing = 0
+      let startSpacing = null
 
-    if (
-      // No line above heading
-      !isHeading &&
-      ((divider === 'line' && !isFirst) || divider === 'line-framed')
-    ) {
-      const spaceAboveLine = getSpaceValue(end, previousChild) ?? spacing
-      startSpacing = (getSpaceValue(start, child) ?? spacing) as SpaceType
+      if (
+        // No line above heading
+        !isHeading &&
+        ((divider === 'line' && !isFirst) || divider === 'line-framed')
+      ) {
+        const spaceAboveLine = getSpaceValue(end, previousChild) ?? spacing
+        startSpacing = (getSpaceValue(start, child) ??
+          spacing) as SpaceType
 
-      return (
-        <React.Fragment key={`element-${i}`}>
-          <Hr
-            top={!isFirst ? spaceAboveLine : 0}
-            space={0}
-            className="dnb-flex-container__hr"
-          />
-
-          {renderWithSpacing(child, {
-            space: { [start]: startSpacing, [end]: endSpacing },
-            wrapInSpace: wrapChildrenInSpace,
-          })}
-
-          {divider === 'line-framed' && isLast && (
+        return (
+          <React.Fragment key={`element-${i}`}>
             <Hr
-              top={spaceAboveLine}
+              top={!isFirst ? spaceAboveLine : 0}
               space={0}
               className="dnb-flex-container__hr"
             />
-          )}
-        </React.Fragment>
-      )
+
+            {renderWithSpacing(child, {
+              space: { [start]: startSpacing, [end]: endSpacing },
+              wrapInSpace: wrapChildrenInSpace,
+            })}
+
+            {divider === 'line-framed' && isLast && (
+              <Hr
+                top={spaceAboveLine}
+                space={0}
+                className="dnb-flex-container__hr"
+              />
+            )}
+          </React.Fragment>
+        )
+      }
+
+      // No space above first element.
+      if (isFirst && direction !== 'horizontal') {
+        startSpacing = 0
+      } else {
+        // Since top space of current and bottom space of previous component is the same
+        startSpacing =
+          getSpaceValue(start, child) ??
+          getSpaceValue(end, previousChild) ??
+          spacing
+      }
+
+      if (
+        React.isValidElement(previousChild) &&
+        previousChild?.type?.['_supportsSpacingProps'] === false
+      ) {
+        startSpacing = 0
+      }
+
+      const space =
+        direction === 'horizontal'
+          ? { [start]: endSpacing, [end]: startSpacing }
+          : { [start]: startSpacing, [end]: endSpacing }
+
+      return renderWithSpacing(child, {
+        key: child?.['key'] || `element-${i}`,
+        space,
+        wrapInSpace: wrapChildrenInSpace,
+      })
     }
-
-    // No space above first element.
-    if (isFirst && direction !== 'horizontal') {
-      startSpacing = 0
-    } else {
-      // Since top space of current and bottom space of previous component is the same
-      startSpacing =
-        getSpaceValue(start, child) ??
-        getSpaceValue(end, previousChild) ??
-        spacing
-    }
-
-    if (
-      React.isValidElement(previousChild) &&
-      previousChild?.type?.['_supportsSpacingProps'] === false
-    ) {
-      startSpacing = 0
-    }
-
-    const space =
-      direction === 'horizontal'
-        ? { [start]: endSpacing, [end]: startSpacing }
-        : { [start]: startSpacing, [end]: endSpacing }
-
-    return renderWithSpacing(child, {
-      key: child?.['key'] || `element-${i}`,
-      space,
-      wrapInSpace: wrapChildrenInSpace,
-    })
-  })
+  )
 
   const n = 'dnb-flex-container'
   const rowGapClass = useMemo(() => {
