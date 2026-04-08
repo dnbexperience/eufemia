@@ -3,6 +3,9 @@ import { isSupportedCountryCode } from '../createContext'
 import { supportedCountryCodes as postalCode_supportedCountryCodes } from '../Bring/postalCode'
 import { supportedCountryCodes as address_supportedCountryCodes } from '../Bring/address'
 
+// @ts-expect-error — Storybook Vite exposes STORYBOOK_-prefixed env vars via import.meta.env
+const env: Record<string, string | undefined> = import.meta.env
+
 export default {
   title: 'Eufemia/Extensions/Forms/Connectors',
 }
@@ -14,8 +17,8 @@ export function PostalCode() {
         return `https://cors-anywhere.herokuapp.com/https://api.bring.com/address/api/${countryCode}/postal-codes/${value}`
       },
       headers: {
-        'X-Mybring-API-Uid': process.env.BRING_API_UID,
-        'X-Mybring-API-Key': process.env.BRING_API_KEY,
+        'X-Mybring-API-Uid': env.STORYBOOK_BRING_API_UID,
+        'X-Mybring-API-Key': env.STORYBOOK_BRING_API_KEY,
       },
     },
   })
@@ -81,8 +84,8 @@ export function Address() {
         return `https://cors-anywhere.herokuapp.com/https://api.bring.com/address/api/${countryCode}/addresses/suggestions?q=${value}`
       },
       headers: {
-        'X-Mybring-API-Uid': process.env.BRING_API_UID,
-        'X-Mybring-API-Key': process.env.BRING_API_KEY,
+        'X-Mybring-API-Uid': env.STORYBOOK_BRING_API_UID,
+        'X-Mybring-API-Key': env.STORYBOOK_BRING_API_KEY,
       },
     },
   })
