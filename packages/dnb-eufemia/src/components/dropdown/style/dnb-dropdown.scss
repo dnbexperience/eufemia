@@ -134,7 +134,7 @@
     width: auto;
   }
 
-  @media screen and (max-width: 40em) {
+  @include utilities.allBelow(small) {
     &--action-menu &__trigger.dnb-button {
       padding-left: 0.5rem;
       padding-right: 0.5rem;
@@ -149,7 +149,7 @@
     }
   }
 
-  @media screen and (max-width: 40em) {
+  @include utilities.allBelow(small) {
     &--action-menu &__shell &__text {
       width: 0;
       padding: 0;
@@ -365,7 +365,7 @@
   }
 
   .dnb-responsive-component & {
-    @media screen and (max-width: 40em) {
+    @include utilities.allBelow(small) {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
