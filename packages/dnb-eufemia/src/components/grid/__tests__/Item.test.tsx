@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import 'mock-match-media/jest-setup'
 import Grid from '../Grid'
+import { axeComponent } from '../../../core/jest/jestSetup'
 
 function getStyleProperties(
   element: HTMLElement,
@@ -298,5 +299,12 @@ describe('Grid.Item', () => {
     const element = document.querySelector('.dnb-grid-item')
 
     expect(element.tagName).toBe('SECTION')
+  })
+})
+
+describe('Grid.Item aria', () => {
+  it('should validate', async () => {
+    const Component = render(<Grid.Item>content</Grid.Item>)
+    expect(await axeComponent(Component)).toHaveNoViolations()
   })
 })
