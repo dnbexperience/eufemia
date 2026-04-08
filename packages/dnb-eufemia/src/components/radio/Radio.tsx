@@ -530,13 +530,10 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   )
 }
 
-const Radio = React.memo(RadioInner) as unknown as typeof RadioInner & {
-  Group: typeof RadioGroup
-  parseChecked: typeof parseChecked
-}
-
-Radio.Group = RadioGroup
-Radio.parseChecked = parseChecked
+const Radio = Object.assign(React.memo(RadioInner), {
+  Group: RadioGroup,
+  parseChecked,
+})
 
 withComponentMarkers(Radio, {
   _formElement: true,
