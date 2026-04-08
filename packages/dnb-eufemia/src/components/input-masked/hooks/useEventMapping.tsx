@@ -6,20 +6,31 @@
  * @returns object of events to handle
  */
 
+import React from 'react'
 import { useCallEvent } from './useCallEvent'
 
-export const useEventMapping = ({ setLocalValue }: any) => {
+type EventParams = { event: React.SyntheticEvent; value?: string }
+
+export const useEventMapping = ({
+  setLocalValue,
+}: {
+  setLocalValue: (value: string) => void
+}) => {
   const callEvent = useCallEvent({ setLocalValue })
 
   return {
-    onBeforeInput: (event: any) => callEvent({ event }, 'onBeforeInput'),
-    onInput: (event: any) => callEvent({ event }, 'onInput'),
-    onFocus: (params: any) => callEvent(params, 'onFocus'),
-    onBlur: (params: any) => callEvent(params, 'onBlur'),
-    onMouseUp: (event: any) => callEvent({ event }, 'onMouseUp'),
-    onMouseDown: (event: any) => callEvent({ event }, 'onMouseDown'),
-    onKeyDown: (params: any) => callEvent(params, 'onKeyDown'),
-    onSubmit: (params: any) => callEvent(params, 'onSubmit'),
-    onChange: (params: any) => callEvent(params, 'onChange'),
+    onBeforeInput: (event: React.FormEvent<HTMLInputElement>) =>
+      callEvent({ event }, 'onBeforeInput'),
+    onInput: (event: React.FormEvent<HTMLInputElement>) =>
+      callEvent({ event }, 'onInput'),
+    onFocus: (params: EventParams) => callEvent(params, 'onFocus'),
+    onBlur: (params: EventParams) => callEvent(params, 'onBlur'),
+    onMouseUp: (event: React.MouseEvent<HTMLInputElement>) =>
+      callEvent({ event }, 'onMouseUp'),
+    onMouseDown: (event: React.MouseEvent<HTMLInputElement>) =>
+      callEvent({ event }, 'onMouseDown'),
+    onKeyDown: (params: EventParams) => callEvent(params, 'onKeyDown'),
+    onSubmit: (params: EventParams) => callEvent(params, 'onSubmit'),
+    onChange: (params: EventParams) => callEvent(params, 'onChange'),
   }
 }

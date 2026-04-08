@@ -96,14 +96,23 @@ export function remove<T = JsonObject>(obj: T, pointer: PointerPath) {
   }
 }
 
+type DescentPredicate = (value: unknown) => boolean
+type IteratorCallback = (
+  value: unknown,
+  pointer: string
+) => boolean | undefined | void
+
 /**
  * Returns a (pointer -> value) dictionary for an object
  */
-export function dict<T = JsonObject>(obj: T, descend: any = null) {
+export function dict<T = JsonObject>(
+  obj: T,
+  descend: DescentPredicate | null = null
+) {
   const results = {}
   walk(
     obj,
-    (value: any, pointer: string) => {
+    (value: unknown, pointer: string) => {
       results[pointer] = value
     },
     descend
@@ -116,14 +125,14 @@ export function dict<T = JsonObject>(obj: T, descend: any = null) {
  */
 export function walk<T = JsonObject>(
   obj: T,
-  iterator: any,
-  descend: any = null
+  iterator: IteratorCallback,
+  descend: DescentPredicate | null = null
 ) {
-  const refTokens: any[] = []
+  const refTokens: string[] = []
 
   descend =
     descend ||
-    ((value: any) => {
+    ((value: unknown) => {
       const type = Object.prototype.toString.call(value)
       return type === '[object Object]' || type === '[object Array]'
     })
@@ -131,7 +140,12 @@ export function walk<T = JsonObject>(
   next(obj, refTokens, iterator, descend)
 }
 
-function next(cur: any, refTokens: any, iterator: any, descend: any) {
+function next(
+  cur: unknown,
+  refTokens: string[],
+  iterator: IteratorCallback,
+  descend: DescentPredicate
+) {
   if (Array.isArray(cur)) {
     cur = cur.reduce((acc, cur, i) => {
       acc[i] = cur
@@ -139,13 +153,14 @@ function next(cur: any, refTokens: any, iterator: any, descend: any) {
     }, {})
   }
 
+  const obj = cur as Record<string, unknown>
   let res
-  for (const key in cur) {
+  for (const key in obj) {
     refTokens.push(String(key))
-    if (descend(cur[key])) {
-      res = next(cur[key], refTokens, iterator, descend)
+    if (descend(obj[key])) {
+      res = next(obj[key], refTokens, iterator, descend)
     } else {
-      res = iterator(cur[key], compile(refTokens))
+      res = iterator(obj[key], compile(refTokens))
     }
     if (res === false) {
       return false

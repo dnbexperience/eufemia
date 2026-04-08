@@ -129,8 +129,13 @@ export const validateDOMAttributes = (
   return params
 }
 
-export function isObject(item: any) {
-  return item && typeof item === 'object' && !Array.isArray(item)
+export function isObject(item: unknown): item is Record<string, unknown> {
+  return (
+    item !== null &&
+    item !== undefined &&
+    typeof item === 'object' &&
+    !Array.isArray(item)
+  )
 }
 
 export function extendDeep(target = {}, ...sources) {
@@ -158,14 +163,19 @@ export function extendDeep(target = {}, ...sources) {
 }
 
 export const dispatchCustomElementEvent = (
-  src: any,
-  eventName: any,
-  eventObjectOrig: any = undefined
+  src: Record<string, unknown> | { props?: Record<string, unknown> },
+  eventName: string,
+  eventObjectOrig: Record<string, unknown> | undefined = undefined
 ) => {
   let ret = undefined
 
   const eventObject = {
-    ...((eventObjectOrig && eventObjectOrig.event) || {}),
+    ...(
+      (eventObjectOrig?.event &&
+        typeof eventObjectOrig.event === 'object' &&
+        eventObjectOrig.event) ||
+      {}
+    ),
     ...eventObjectOrig,
   }
 
@@ -182,25 +192,27 @@ export const dispatchCustomElementEvent = (
 }
 
 // transform my_component to MyComponent
-export const toPascalCase = (s: any) =>
+export const toPascalCase = (s: string) =>
   s
     .split(/_/g)
     .reduce(
-      (acc: any, cur: any) =>
+      (acc: string, cur: string) =>
         acc +
         cur.replace(
           /(\w)(\w*)/g,
-          (g0: any, g1: any, g2: any) =>
+          (_g0: string, g1: string, g2: string) =>
             g1.toUpperCase() + g2.toLowerCase()
         ),
       ''
     )
 
 // transform MyComponent to my-component
-export const toKebabCase = (str: any) =>
-  str.replace(/\B[A-Z]/g, (letter: any) => `-${letter}`).toLowerCase()
+export const toKebabCase = (str: string) =>
+  str.replace(/\B[A-Z]/g, (letter: string) => `-${letter}`).toLowerCase()
 
-export function toCapitalized(str: any) {
+export function toCapitalized(str: string): string
+export function toCapitalized(str: unknown): unknown
+export function toCapitalized(str: unknown) {
   return typeof str === 'string'
     ? str
         .toLowerCase()
@@ -223,7 +235,7 @@ export const makeUniqueId = (prefix = 'id-', length = 8) =>
   ).slice(-length)
 let idIncrement = 0
 
-export const slugify = (s: any) =>
+export const slugify = (s: unknown) =>
   String(s)
     .toLowerCase()
     .replace(/[^\w\s-]/g, '')
@@ -240,19 +252,19 @@ export const slugify = (s: any) =>
  * @returns {HTMLElement | null} Returns the found child of all existing dom elements inside of "target"
  */
 export const isChildOfElement = (
-  element: any,
-  target: any,
-  callback: any = null
+  element: HTMLElement | EventTarget | null,
+  target: HTMLElement | EventTarget | null,
+  callback: ((element: HTMLElement) => boolean) | null = null
 ) => {
   try {
-    const contains = (element: any) => {
-      if (callback) {
-        const res = callback(element)
+    const contains = (el: HTMLElement | EventTarget | null) => {
+      if (callback && el instanceof HTMLElement) {
+        const res = callback(el)
         if (res) {
-          return element
+          return el
         }
       }
-      return element && element === target
+      return el && el === target
     }
 
     if (contains(element)) {
@@ -260,7 +272,8 @@ export const isChildOfElement = (
     }
 
     while (
-      (element = element && element.parentElement) &&
+      (element =
+        element && (element as HTMLElement).parentElement) &&
       !contains(element)
     );
   } catch (e) {
@@ -271,12 +284,12 @@ export const isChildOfElement = (
 }
 
 // Round number to nearest target number
-export const roundToNearest = (num: any, target: any) => {
+export const roundToNearest = (num: number, target: number) => {
   const diff = num % target
   return diff > target / 2 ? num - diff + target : num - diff
 }
 
-export const getClosestScrollViewElement = (currentElement: any) => {
+export const getClosestScrollViewElement = (currentElement: HTMLElement) => {
   return getClosestParent('.dnb-scroll-view', currentElement)
 }
 
@@ -300,7 +313,7 @@ export function convertJsxToString(
       }
 
       if (Array.isArray(element.props.children)) {
-        word = element.props.children.reduce((acc: any, word: any) => {
+        word = element.props.children.reduce((acc: string, word: React.ReactNode) => {
           if (typeof word !== 'string') {
             word = process(word)
           }
@@ -334,7 +347,7 @@ export function convertJsxToString(
     .trim()
 }
 
-export function getStatusState(status: any) {
+export function getStatusState(status: unknown) {
   return (
     status &&
     status !== 'error' &&
@@ -349,38 +362,54 @@ export function combineLabelledBy(...params) {
 export function combineDescribedBy(...params) {
   return combineAriaBy('aria-describedby', params)
 }
-function combineAriaBy(type: any, params: any) {
-  params = params.map((cur: any) => {
-    if (Array.isArray(cur)) {
-      return cur.join(' ')
-    }
-    if (cur && params.includes(cur[type])) {
-      return null
-    }
-    if (cur && typeof cur[type] !== 'undefined') {
-      cur = cur[type]
-    }
-    if (typeof cur !== 'string') {
-      cur = null
-    }
-    return cur
-  })
-  params = params.filter(Boolean).join(' ')
-  if (params === '') {
-    params = undefined
-  }
-  return params
+function combineAriaBy(type: string, params: unknown[]) {
+  const mapped = params
+    .map((cur: unknown) => {
+      if (Array.isArray(cur)) {
+        return cur.join(' ')
+      }
+      if (
+        cur &&
+        typeof cur === 'object' &&
+        (cur as Record<string, unknown>)[type] !== undefined
+      ) {
+        if (params.includes((cur as Record<string, unknown>)[type])) {
+          return null
+        }
+        return (cur as Record<string, unknown>)[type] as string
+      }
+      if (typeof cur !== 'string') {
+        return null
+      }
+      return cur
+    })
+    .filter(Boolean)
+    .join(' ')
+
+  return mapped || undefined
 }
 
-export function findElementInChildren(children: any, find: any) {
+export function findElementInChildren(
+  children: React.ReactNode | React.ReactNode[],
+  find: (element: React.ReactElement) => boolean
+) {
   if (!Array.isArray(children)) {
     children = [children]
   }
 
-  let result = null
-  children.some((cur: any) => {
-    if (cur && cur.props && cur.props.children) {
-      const res = findElementInChildren(cur.props.children, find)
+  let result: React.ReactElement | null = null
+  ;(children as React.ReactNode[]).some((cur: React.ReactNode) => {
+    if (
+      cur &&
+      React.isValidElement(cur) &&
+      (cur as React.ReactElement<{ children?: React.ReactNode }>).props
+        .children
+    ) {
+      const res = findElementInChildren(
+        (cur as React.ReactElement<{ children?: React.ReactNode }>).props
+          .children,
+        find,
+      )
       if (res) {
         return (result = res)
       }
@@ -394,11 +423,17 @@ export function findElementInChildren(children: any, find: any) {
   return result
 }
 
-export function escapeRegexChars(str: any) {
+export function escapeRegexChars(str: string) {
   return str.replace(/[-[\]{}()*+?.,\\^$|#]/g, '\\$&')
 }
 
-export function removeUndefinedProps(object: any) {
+// Return type is intentionally `any` – this function is used as a pass-through
+// whose result is spread into diverse component prop types.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function removeUndefinedProps<T extends Record<string, any>>(
+  object: T
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): any {
   Object.keys(object || {}).forEach((key) => {
     if (object[key] === undefined) {
       delete object[key]

@@ -73,7 +73,10 @@ export function removeFromIndex(elem: ModalStackEntry) {
   }
 }
 
-export function getContent(props) {
+export function getContent(props: {
+  modalContent?: string | ((props: unknown) => React.ReactNode)
+  [key: string]: unknown
+}) {
   if (typeof props.modalContent === 'string') {
     return props.modalContent
   } else if (typeof props.modalContent === 'function') {

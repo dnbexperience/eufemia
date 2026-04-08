@@ -144,7 +144,7 @@ export const correctInternalHeadingLevel = ({
 
   if (!skipUpdateFromProp) {
     if (reset === true || parseFloat(String(reset)) > -1) {
-      counter.reset(reset)
+      counter.reset(typeof reset === 'number' ? reset : null)
     } else {
       update(level)
     }

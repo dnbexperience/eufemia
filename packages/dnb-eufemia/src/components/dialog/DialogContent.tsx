@@ -89,18 +89,18 @@ export default function DialogContent({
 
   const navExists = findElementInChildren(
     content,
-    (cur: any) =>
+    (cur: React.ReactElement) =>
       cur.type === DialogNavigation || cur.type === ModalHeaderBar
   )
 
   const headerExists = findElementInChildren(
     content,
-    (cur: any) => cur.type === DialogHeader || cur.type === ModalHeader
+    (cur: React.ReactElement) => cur.type === DialogHeader || cur.type === ModalHeader
   )
 
   const actionExists = findElementInChildren(
     content,
-    (cur: any) => cur.type === DialogAction
+    (cur: React.ReactElement) => cur.type === DialogAction
   )
 
   const dialogActionProps = {

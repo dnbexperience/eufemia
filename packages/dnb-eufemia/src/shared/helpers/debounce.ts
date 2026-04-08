@@ -14,7 +14,7 @@ type DebouncedOptions = {
   /**
    * The instance to bind the debounced function to.
    */
-  instance?: any
+  instance?: unknown
 
   /**
    * Whether to return a promise that resolves with the result of the debounced function.
@@ -45,25 +45,25 @@ export function debounce<T extends any[], R>(
     async = false,
   }: DebouncedOptions = {}
 ): DebouncedFunction<T, R> & ReturnHelpers {
-  let timeout: any
-  let recall: any
-  let resolvePromise: any
-  let rejectPromise: any
+  let timeout: ReturnType<typeof setTimeout> | null
+  let recall: R | undefined
+  let resolvePromise: ((value: R | PromiseLike<R>) => void) | undefined
+  let rejectPromise: ((reason?: unknown) => void) | undefined
   let canceled = false
-  const customCancels: any[] = []
+  const customCancels: Array<() => void> = []
 
   const cancel = () => {
     canceled = true
 
     clearTimeout(timeout)
-    resolvePromise?.()
+    resolvePromise?.(undefined as unknown as R)
 
     customCancels.forEach((fn) => {
       fn()
     })
   }
 
-  const addCancelEvent = (fn: any) => {
+  const addCancelEvent = (fn: () => void) => {
     if (!customCancels.includes(fn)) {
       customCancels.push(fn)
     }
@@ -73,18 +73,22 @@ export function debounce<T extends any[], R>(
     }
   }
 
-  function executedFunction(this: any, ...args: T) {
+  function executedFunction(this: unknown, ...args: T) {
     if (typeof recall === 'function') {
       recall()
     }
 
     canceled = false
 
-    const inst = instance || this || {}
+    const inst: Record<string, unknown> =
+      ((instance as Record<string, unknown>) || this || {}) as Record<
+        string,
+        unknown
+      >
     inst.cancel = cancel
     inst.addCancelEvent = addCancelEvent
 
-    const later = (callNow: any) => {
+    const later = (callNow?: boolean) => {
       timeout = null
       if (callNow || !immediate) {
         try {
@@ -133,5 +137,5 @@ export function debounce<T extends any[], R>(
     return asyncFunction as DebouncedFunction<T, R> & ReturnHelpers
   }
 
-  return syncFunction
+  return syncFunction as unknown as DebouncedFunction<T, R> & ReturnHelpers
 }

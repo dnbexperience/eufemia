@@ -296,7 +296,7 @@ export const AccordionHeader = ({
   ]
 
   if (Array.isArray(children)) {
-    const removeParts: any[] = []
+    const removeParts: React.ReactElement[] = []
     children.forEach((cur) => {
       if (React.isValidElement(cur)) {
         const part = defaultParts.find((c) => c.type === cur.type)
@@ -321,8 +321,8 @@ export const AccordionHeader = ({
     })
   }
 
-  const partsToRender: any[] = []
-  const wrapperParts: any[] = []
+  const partsToRender: React.ReactElement[] = []
+  const wrapperParts: React.ReactElement[] = []
   const wrapperComp = (
     <span className="dnb-accordion__header__wrapper" key="wrapper">
       {wrapperParts}

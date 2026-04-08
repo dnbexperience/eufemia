@@ -111,7 +111,7 @@ function FlexContainer(props: FlexContainerAllProps) {
     [direction, gap, rowGap]
   )
   const childrenArray = replaceRootFragment(wrapChildren(props, children))
-  const hasHeading = childrenArray.some((child: any, i: any) => {
+  const hasHeading = childrenArray.some((child: React.ReactNode, i: number) => {
     const previousChild = childrenArray?.[i - 1]
     return (
       isHeadingElement(child) || (i > 0 && isHeadingElement(previousChild))
@@ -120,7 +120,11 @@ function FlexContainer(props: FlexContainerAllProps) {
   const hasSizeProp =
     !hasHeading &&
     direction === 'horizontal' &&
-    childrenArray.some((child: any) => child['props']?.span)
+    childrenArray.some(
+      (child: React.ReactNode) =>
+        React.isValidElement(child) &&
+        (child.props as Record<string, unknown>)?.span
+    )
 
   const { key: mediaKey } = useMedia({
     disabled: !hasSizeProp,
@@ -128,7 +132,7 @@ function FlexContainer(props: FlexContainerAllProps) {
     queries,
   })
 
-  const content = childrenArray.map((child: any, i: any) => {
+  const content = childrenArray.map((child: React.ReactNode, i: number) => {
     // Set spacing on child components by props (instead of CSS) to be able to dynamically override by props on each child. The default
     // is the spacing-props that controls space between children. Then override with props sent to the children, including both top
     // and bottom when th
@@ -271,13 +275,16 @@ function wrapChildren(
   })
 }
 
-function replaceRootFragment(children: any) {
+function replaceRootFragment(children: React.ReactNode[]) {
   const firstChild = children[0]
   if (
     React.Children.count(children) === 1 &&
+    React.isValidElement(firstChild) &&
     firstChild?.type === Fragment
   ) {
-    return React.Children.toArray(firstChild?.props?.children)
+    return React.Children.toArray(
+      (firstChild.props as { children?: React.ReactNode }).children
+    )
   }
   return children
 }

@@ -73,7 +73,7 @@ const DialogAction = ({
   let childrenWithCloseFunc: React.ReactNode
 
   const onConfirmHandler = useCallback(
-    (event: any) => {
+    (event: React.SyntheticEvent) => {
       dispatchCustomElementEvent({ onConfirm }, 'onConfirm', {
         event,
         close,
@@ -82,7 +82,7 @@ const DialogAction = ({
     [close, onConfirm]
   )
   const onDeclineHandler = useCallback(
-    (event: any) => {
+    (event: React.SyntheticEvent) => {
       dispatchCustomElementEvent({ onDecline }, 'onDecline', {
         event,
         close,
@@ -100,7 +100,7 @@ const DialogAction = ({
           childElement.type as React.ComponentType<any>,
           {
             ...(childElement.props || {}),
-            onClick: (event: any) => {
+            onClick: (event: React.SyntheticEvent) => {
               dispatchCustomElementEvent(childElement.props, 'onClick', {
                 event,
                 close,

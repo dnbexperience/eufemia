@@ -146,9 +146,9 @@ export function parseContentTitle(
   return ret
 }
 
-export const hasObjectKeyAsValue = (data: any) => {
-  data = data?.rawData || data
-  return data && typeof data === 'object' && !Array.isArray(data)
+export const hasObjectKeyAsValue = (data: unknown) => {
+  const d = (data as Record<string, unknown>)?.rawData || data
+  return d && typeof d === 'object' && !Array.isArray(d)
 }
 
 export function preSelectData(data: DrawerListData): DrawerListDataAll {
@@ -172,8 +172,11 @@ export function preSelectData(data: DrawerListData): DrawerListDataAll {
  * @param {*} props object containing the data in props.data or props.children, or the data itself
  * @returns an array representation of the data
  */
-export function normalizeData(props: any): DrawerListInternalData {
-  let data = preSelectData(props.data || props.children || props) ?? []
+export function normalizeData(
+  props: Record<string, unknown> | DrawerListData
+): DrawerListInternalData {
+  const p = props as Record<string, unknown>
+  let data = preSelectData((p.data || p.children || props) as DrawerListData) ?? []
 
   if (typeof data === 'object' && !Array.isArray(data)) {
     const list: DrawerListDataArray = []
@@ -210,26 +213,34 @@ function normalizeDataItem(
         }
 }
 
-export const getData = (props: any) => {
+export const getData = (
+  props: Record<string, unknown> | DrawerListData
+) => {
   return normalizeData(props)
 }
 
-export const getCurrentIndex = (value: any, data: any) => {
+export const getCurrentIndex = (
+  value: string | number | null | undefined,
+  data: DrawerListInternalData | null | undefined
+) => {
   // 1. if a non-numeric value is given
   if (/[^0-9]/.test(String(value))) {
-    return data?.findIndex((cur: any) => parseCurrentValue(cur) === value)
+    return data?.findIndex(
+      (cur: DrawerListInternalItem) => parseCurrentValue(cur) === value
+    )
   }
   // 2. if "selectedKey" is given in data, we now handle it as a value, and not an index.
   if (selectedKeyExists()) {
     const index = data?.findIndex(
-      (cur: any) => String(parseCurrentValue(cur)) === String(value)
+      (cur: DrawerListInternalItem) =>
+        String(parseCurrentValue(cur)) === String(value)
     )
     if (index > -1) {
       return index
     }
   }
   // 3. if is numeric, and no matching "selectedKey", handle it as a index.
-  if (!isNaN(parseFloat(value))) {
+  if (!isNaN(parseFloat(String(value)))) {
     return value
   }
 
@@ -252,17 +263,24 @@ export const getCurrentIndex = (value: any, data: any) => {
   }
 }
 
-export const getSelectedItemValue = (value: any, state: any) => {
+export const getSelectedItemValue = (
+  value: string | number | null | undefined,
+  state: Pick<DrawerListContextState, 'data'>
+) => {
   if (hasObjectKeyAsValue(state)) {
     return parseCurrentValue(
-      state.data.filter((_: any, i: any) => i === parseFloat(value))[0]
+      state.data.filter(
+        (_: DrawerListInternalItem, i: number) => i === parseFloat(String(value))
+      )[0]
     )
   }
 
   return value
 }
 
-export const parseCurrentValue = (current: any) => {
+export const parseCurrentValue = (
+  current: DrawerListInternalItem | null | undefined
+) => {
   if (typeof current?.selectedKey !== 'undefined') {
     return current?.selectedKey
   }
@@ -272,31 +290,38 @@ export const parseCurrentValue = (current: any) => {
   return current
 }
 
-export const getEventData = (itemIndex: any, data: any) => {
-  data = getCurrentData(itemIndex, data)
+export const getEventData = (
+  itemIndex: string | number,
+  data: DrawerListInternalData
+) => {
+  let item = getCurrentData(itemIndex, data)
 
   // cleanup
-  if (data && data.__id) {
-    data = { ...data }
-    delete data.__id
-    delete data.__isTransformed
+  if (item && typeof item === 'object' && '__id' in item) {
+    item = { ...item }
+    delete (item as Record<string, unknown>).__id
+    delete (item as Record<string, unknown>).__isTransformed
   }
 
-  return data
+  return item
 }
 
-export const getCurrentData = (itemIndex: any, data: any) => {
+export const getCurrentData = (
+  itemIndex: string | number,
+  data: DrawerListInternalData | (() => DrawerListInternalData)
+): DrawerListInternalItem | null => {
   if (typeof data === 'function') {
     data = normalizeData(data)
   }
 
-  data = (data && data.find(({ __id }: any) => __id === itemIndex)) || null
+  const item =
+    (data && data.find(({ __id }) => __id === itemIndex)) || null
 
-  if (data && data.__isTransformed) {
-    return data.content
+  if (item && item.__isTransformed) {
+    return { content: item.content } as DrawerListInternalItem
   }
 
-  return data
+  return item
 }
 
 function getFirstItemFromData(data: DrawerListInternalData): number {
@@ -321,7 +346,7 @@ function getFirstItemFromData(data: DrawerListInternalData): number {
 export function prepareStartupState(
   props: DrawerListProviderProps
 ): DrawerListContextState {
-  const selectedItem: any = null
+  const selectedItem: number | null = null
   const rawData = preSelectData(
     props.data ||
       (!React.isValidElement(props.children)
@@ -459,7 +484,10 @@ export const prepareDerivedState = (
   return state
 }
 
-export const getCurrentDataTitle = (selectedItem: any, data: any) => {
+export const getCurrentDataTitle = (
+  selectedItem: string | number | null,
+  data: DrawerListInternalData
+) => {
   const currentData = getCurrentData(selectedItem, data)
   return parseContentTitle(currentData, {
     separator: ' ',
@@ -467,8 +495,8 @@ export const getCurrentDataTitle = (selectedItem: any, data: any) => {
   })
 }
 
-export const findClosest = (arr: any, val: any) =>
+export const findClosest = (arr: (string | number)[], val: number) =>
   Math.max.apply(
     null,
-    arr.filter((v: any) => v <= val)
+    arr.filter((v) => Number(v) <= val).map(Number)
   )

@@ -240,7 +240,7 @@ export const createSpacingClasses = (
           acc = [
             ...acc,
             ...nearestTypes.map(
-              (type: any) => `dnb-space__${direction}--${type}`
+              (type: SpaceType) => `dnb-space__${direction}--${type}`
             ),
           ]
         }
@@ -318,7 +318,7 @@ export const createTypeModifiers = (
         if (foundType) {
           type = foundType
         } else {
-          findNearestTypes(num).forEach((type: any) => {
+          findNearestTypes(num).forEach((type: SpaceType) => {
             if (type) {
               acc.push(type)
             }
@@ -361,7 +361,7 @@ export const findTypeAll = (
 
 // @internal Finds from e.g. a value of "2.5rem" the nearest type = ["large", "x-small"]
 export const findNearestTypes = (num: SpaceNumber, multiply = false) => {
-  let res: any[] = []
+  let res: SpaceType[] = []
 
   const near = Object.entries(spacePatterns)
     .reverse()
@@ -377,10 +377,10 @@ export const findNearestTypes = (num: SpaceNumber, multiply = false) => {
     const foundMoreTypes = findNearestTypes(leftOver, multiply)
 
     // if the value already exists, then replace it with an x2
-    foundMoreTypes.forEach((type: any) => {
+    foundMoreTypes.forEach((type: SpaceType) => {
       const index = res.indexOf(type)
       if (index !== -1) {
-        res[index] = multiply ? `${type}-x2` : type
+        res[index] = multiply ? (`${type}-x2` as SpaceType) : type
       }
     })
 

@@ -29,7 +29,9 @@ export default function TextCounter(localProps: TextCounterProps) {
   } = localProps
 
   const textRef = useRef(text)
-  const variant = /up|down/.test(String(_variant)) ? _variant : 'down'
+  const variant: string = /up|down/.test(String(_variant))
+    ? String(_variant)
+    : 'down'
   const length = (text || '').length
   const message = useMemo(() => {
     if (!(max > 0)) {

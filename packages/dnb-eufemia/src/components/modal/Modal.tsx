@@ -60,7 +60,7 @@ const modalDefaultProps: Partial<ModalAllProps> = {
   omitTriggerButton: false,
 }
 
-function getContent(props: any) {
+function getContent(props: Record<string, unknown>) {
   if (typeof props.modalContent === 'string') {
     return props.modalContent
   } else if (typeof props.modalContent === 'function') {
@@ -341,7 +341,7 @@ function ModalComponent(ownProps: ModalAllProps) {
           id,
           event,
           triggeredBy,
-          close: (e: any) => {
+          close: (e: Event) => {
             toggleOpenCloseRef.current(e, false)
           },
         })
@@ -490,7 +490,7 @@ function ModalComponent(ownProps: ModalAllProps) {
           {...usedTriggerAttributes}
           id={_id.current}
           title={title}
-          onClick={(event: any) => toggleOpenClose(event.nativeEvent)}
+          onClick={(event: React.MouseEvent) => toggleOpenClose(event.nativeEvent)}
           ref={triggerRef}
           className={clsx(
             'dnb-modal__trigger',

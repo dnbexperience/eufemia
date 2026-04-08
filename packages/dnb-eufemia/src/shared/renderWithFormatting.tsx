@@ -12,10 +12,10 @@ export type FormatOptions = {
 
 type Nodes = React.ReactNode[]
 
-const Strong = (c: any) => <strong>{c}</strong>
-const Em = (c: any) => <em>{c}</em>
-const Code = (c: any) => <CodeEl>{c}</CodeEl>
-const Link = (c: any, href: any) => (
+const Strong = (c: React.ReactNode) => <strong>{c}</strong>
+const Em = (c: React.ReactNode) => <em>{c}</em>
+const Code = (c: React.ReactNode) => <CodeEl>{c}</CodeEl>
+const Link = (c: React.ReactNode, href: string) => (
   <InlineLink href={href} rel="noopener noreferrer">
     {c}
   </InlineLink>
