@@ -23,7 +23,6 @@ export const useFilteredProps = () => {
     showMask,
     allowOverflow,
     overwriteMode,
-    _innerRef,
 
     // Get rest of possible attributes
     ...attributes
