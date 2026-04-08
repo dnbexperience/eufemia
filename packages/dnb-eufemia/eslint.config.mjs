@@ -142,6 +142,12 @@ export default [
       'no-restricted-syntax': [
         'error',
         'IfStatement > ExpressionStatement > AssignmentExpression',
+        {
+          selector:
+            'ChainExpression MemberExpression[optional=true][object.name="process"]',
+          message:
+            'Do not use optional chaining on process (process?.env). Use process.env instead – optional chaining breaks Vite define replacements.',
+        },
       ],
       'import/export': 'off',
       'import/no-anonymous-default-export': [
