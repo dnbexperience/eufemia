@@ -20,6 +20,7 @@ import { launch as launchIcon } from '../../icons'
 import type { IconIcon } from '../icon/Icon'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { DynamicElement, SpacingProps } from '../../shared/types'
+import type { ThemeSurface } from '../../shared/Theme'
 
 // Local type for react-router-dom link with only the necessary props. Done this way to prevent react-router-dom dependency.
 type ReactRouterLink = Omit<
@@ -82,10 +83,10 @@ export type AnchorProps = {
    */
   disabled?: boolean
   /**
-   * Changes component style based on background.
-   * Default: `undefined`
+   * Used to override the `surface` value from `Theme.Context`. Changes component style based on background.
+   * Default: `"default"` if there is no `Theme.Context`.
    */
-  surface?: 'dark'
+  surface?: ThemeSurface
 }
 
 export type AnchorAllProps = AnchorProps &
@@ -138,7 +139,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     noIcon,
     noLaunchIcon,
     disabled,
-    surface,
+    surface = 'default',
     ...rest
   } = allProps
 

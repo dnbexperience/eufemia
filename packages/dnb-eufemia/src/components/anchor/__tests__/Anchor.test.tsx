@@ -669,6 +669,21 @@ describe('Anchor element', () => {
       expect(anchor).toHaveClass('dnb-anchor--surface-dark')
     })
 
+    it('should override surface from Theme context', () => {
+      const { default: Theme } = require('../../../shared/Theme')
+
+      render(
+        <Theme surface="dark">
+          <Anchor href="/url" surface="default">
+            text
+          </Anchor>
+        </Theme>
+      )
+
+      const anchor = document.querySelector('.dnb-anchor')
+      expect(anchor).not.toHaveClass('dnb-anchor--surface-dark')
+    })
+
     it('should have surface class if `"surface="dark"`', () => {
       // Setup
       render(<Anchor surface="dark" />)

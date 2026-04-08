@@ -207,6 +207,54 @@ describe('Theme', () => {
     )
   })
 
+  it('provides surface nest through the theme context', () => {
+    let receivedTheme = null
+
+    const ThemeConsumer = () => {
+      receivedTheme = React.useContext(Context)?.theme
+
+      return null
+    }
+
+    render(
+      <Theme surface="dark">
+        <Theme surface="default">
+          <ThemeConsumer />
+        </Theme>
+      </Theme>
+    )
+
+    expect(receivedTheme).toEqual(
+      expect.objectContaining({
+        surface: 'default',
+      })
+    )
+  })
+
+  it('provides surface nest nest through the theme context', () => {
+    let receivedTheme = null
+
+    const ThemeConsumer = () => {
+      receivedTheme = React.useContext(Context)?.theme
+
+      return null
+    }
+
+    render(
+      <Theme surface="dark">
+        <Theme>
+          <ThemeConsumer />
+        </Theme>
+      </Theme>
+    )
+
+    expect(receivedTheme).toEqual(
+      expect.objectContaining({
+        surface: 'dark',
+      })
+    )
+  })
+
   it('sets surface as HTML classes', () => {
     render(<Theme surface="dark">content</Theme>)
 

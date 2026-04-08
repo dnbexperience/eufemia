@@ -17,8 +17,14 @@ export type ThemeVariants = string
 export type ThemeSizes = 'basis'
 export type PropMapping = string
 export type ContrastMode = boolean
+/**
+ * Changes component style based on dark token values. Defaults to `undefined`.
+ */
 export type ThemeColorScheme = 'auto' | 'light' | 'dark'
-export type ThemeSurface = 'dark' | 'default'
+/**
+ * Changes component style based on background. Defaults to `undefined`.
+ */
+export type ThemeSurface = 'default' | 'dark'
 
 export type ThemeProps = {
   name?: ThemeNames
@@ -143,7 +149,9 @@ export function getThemeClasses(theme: ThemeProps, className = null) {
     'eufemia-theme',
     name && `eufemia-theme__${name}`,
     name && variant && `eufemia-theme__${name}--${variant}`,
-    surface && `eufemia-theme__surface--${surface}`,
+    surface &&
+      surface !== 'default' &&
+      `eufemia-theme__surface--${surface}`,
     propMapping && `eufemia-theme__prop-mapping--${propMapping}`,
     contrastMode && 'eufemia-theme__contrast-mode',
     colorScheme && `eufemia-theme__color-scheme--${colorScheme}`,
