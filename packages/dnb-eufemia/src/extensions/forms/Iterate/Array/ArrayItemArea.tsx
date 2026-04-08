@@ -69,6 +69,8 @@ function ArrayItemArea(
         return 'edit'
       }
     }
+
+    return undefined
   }, [hasError, hasSubmitError])
 
   if (determineMode() === 'edit') {

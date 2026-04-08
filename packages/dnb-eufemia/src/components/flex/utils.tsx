@@ -42,7 +42,7 @@ export function getSpaceValue(
   element: React.ReactNode
 ): SpaceType | undefined {
   if (!React.isValidElement<Record<string, any>>(element)) {
-    return
+    return undefined
   }
 
   const elementProps = (element as React.ReactElement<any>).props || {}

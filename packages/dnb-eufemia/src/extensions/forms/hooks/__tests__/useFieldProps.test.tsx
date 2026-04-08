@@ -1802,6 +1802,8 @@ describe('useFieldProps', () => {
         if (value === '456') {
           return { success: 'saved' } as const
         }
+
+        return undefined
       }
       const onChangeValidator = async () => {
         events.push('onChangeValidator')
@@ -1850,6 +1852,8 @@ describe('useFieldProps', () => {
         if (value === '456') {
           return { success: 'saved' } as const
         }
+
+        return undefined
       }
       const onBlurValidator = async () => {
         events.push('onBlurValidator')
@@ -1953,6 +1957,8 @@ describe('useFieldProps', () => {
         if (value === '456') {
           return { success: 'saved' } as const
         }
+
+        return undefined
       }
       const onChangeValidator = async () => {
         events.push('onChangeValidator')
@@ -2226,6 +2232,8 @@ describe('useFieldProps', () => {
         if (value === 'invalid') {
           return new Error('Error message by onChangeValidator')
         }
+
+        return undefined
       }
       const onBlurValidator = async (value) => {
         events.push('onBlurValidator')
@@ -2233,6 +2241,8 @@ describe('useFieldProps', () => {
         if (value === 'invalid') {
           return new Error('Error message by onBlurValidator')
         }
+
+        return undefined
       }
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
@@ -2375,6 +2385,8 @@ describe('useFieldProps', () => {
         if (value !== 'invalid-onChangeForm') {
           return { success: 'saved' } as const
         }
+
+        return undefined
       }
       const onChangeForm: OnChange<{ foo: string }> = async ({ foo }) => {
         events.push('onChangeForm')
@@ -2386,6 +2398,8 @@ describe('useFieldProps', () => {
         if (foo !== 'invalid-onChangeField') {
           return { success: 'saved' } as const
         }
+
+        return undefined
       }
       const onChangeValidator = async (value) => {
         events.push('onChangeValidator')
@@ -2393,6 +2407,8 @@ describe('useFieldProps', () => {
         if (value === 'invalid-onChangeValidator') {
           return new Error('Error in onChangeValidator')
         }
+
+        return undefined
       }
       const onBlurValidator = async (value) => {
         events.push('onBlurValidator')
@@ -2400,6 +2416,8 @@ describe('useFieldProps', () => {
         if (value === 'invalid-onBlurValidator') {
           return new Error('Error in onBlurValidator')
         }
+
+        return undefined
       }
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
@@ -4098,6 +4116,8 @@ describe('useFieldProps', () => {
           if (value === '1234') {
             return new Error('onChangeValidator error')
           }
+
+          return undefined
         })
         const schema: JSONSchema = {
           type: 'string',
@@ -4181,6 +4201,8 @@ describe('useFieldProps', () => {
           if (amount >= num) {
             return new Error(`The amount should be greater than ${amount}`)
           }
+
+          return undefined
         }
 
       it('should show onChangeValidator error on form submit', async () => {
@@ -4545,6 +4567,8 @@ describe('useFieldProps', () => {
           if (amount >= num) {
             return new Error(`The amount should be greater than ${amount}`)
           }
+
+          return undefined
         }
 
       it('should show onChangeValidator error on form submit', async () => {
@@ -4944,12 +4968,16 @@ describe('useFieldProps', () => {
           if (value.includes('foo')) {
             return new Error('foo')
           }
+
+          return undefined
         })
 
         const barValidator = jest.fn((value) => {
           if (value.includes('bar')) {
             return new Error('bar')
           }
+
+          return undefined
         })
 
         const myOnChangeValidator = jest.fn(() => {
@@ -4992,12 +5020,16 @@ describe('useFieldProps', () => {
           if (value.includes('foo')) {
             return new Error('foo')
           }
+
+          return undefined
         })
 
         const barValidator = jest.fn((value) => {
           if (value.includes('bar')) {
             return new Error('bar')
           }
+
+          return undefined
         })
 
         // The main validator needs to be async, because it contains async validators in the array
@@ -5047,6 +5079,8 @@ describe('useFieldProps', () => {
             </>
           )
         }
+
+        return undefined
       }
       const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
 
@@ -5080,6 +5114,8 @@ describe('useFieldProps', () => {
         if (value === '1') {
           return 'A formatted error message'
         }
+
+        return undefined
       }
       const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
 
@@ -5114,12 +5150,16 @@ describe('useFieldProps', () => {
             if (value.includes('bar')) {
               return new Error('bar')
             }
+
+            return undefined
           })
 
           bazValidator = jest.fn((value) => {
             if (value.includes('baz')) {
               return new Error('baz')
             }
+
+            return undefined
           })
 
           internalValidators = jest.fn((value) => {
@@ -5141,6 +5181,8 @@ describe('useFieldProps', () => {
               if (value.includes('foo')) {
                 return new Error('foo')
               }
+
+              return undefined
             })
 
             return [fooValidator, barValidator, bazValidator]
@@ -5210,6 +5252,8 @@ describe('useFieldProps', () => {
           if (value === '1234') {
             return Error('Error message')
           }
+
+          return undefined
         })
 
         render(
@@ -5243,6 +5287,8 @@ describe('useFieldProps', () => {
           if (value === '1234') {
             return Error('Error message')
           }
+
+          return undefined
         })
 
         const myValidator = jest.fn((value, { validators }) => {
@@ -5298,6 +5344,8 @@ describe('useFieldProps', () => {
           if (value === '1234') {
             return Error('Error message')
           }
+
+          return undefined
         })
 
         const myValidator = jest.fn((value, { validators }) => {
@@ -5356,12 +5404,16 @@ describe('useFieldProps', () => {
             if (value.includes('bar')) {
               return new Error('bar')
             }
+
+            return undefined
           })
 
           bazValidator = jest.fn((value) => {
             if (value.includes('baz')) {
               return new Error('baz')
             }
+
+            return undefined
           })
 
           internalValidators = jest.fn((value) => {
@@ -5383,6 +5435,8 @@ describe('useFieldProps', () => {
               if (value.includes('foo')) {
                 return new Error('foo')
               }
+
+              return undefined
             })
 
             return [fooValidator, bazValidator]
@@ -5515,12 +5569,16 @@ describe('useFieldProps', () => {
             if (value.includes('bar')) {
               return new Error('bar')
             }
+
+            return undefined
           })
 
           bazValidator = jest.fn((value) => {
             if (value.includes('baz')) {
               return new Error('baz')
             }
+
+            return undefined
           })
 
           internalValidators = jest.fn((value) => {
@@ -5540,6 +5598,8 @@ describe('useFieldProps', () => {
           if (value.includes('foo')) {
             return new Error('foo')
           }
+
+          return undefined
         })
 
         render(
@@ -5657,6 +5717,8 @@ describe('useFieldProps', () => {
         if (amount >= num) {
           return new Error(`The amount should be greater than ${amount}`)
         }
+
+        return undefined
       }
 
       it('should show onBlurValidator error on form submit', async () => {
@@ -5950,6 +6012,8 @@ describe('useFieldProps', () => {
         if (amount >= num) {
           return new Error(`The amount should be greater than ${amount}`)
         }
+
+        return undefined
       }
 
       it('should show onBlurValidator error on form submit', async () => {
@@ -6280,12 +6344,16 @@ describe('useFieldProps', () => {
             if (value.includes('bar')) {
               return new Error('bar')
             }
+
+            return undefined
           })
 
           bazValidator = jest.fn((value) => {
             if (value.includes('baz')) {
               return new Error('baz')
             }
+
+            return undefined
           })
 
           internalValidators = jest.fn((value) => {
@@ -6307,6 +6375,8 @@ describe('useFieldProps', () => {
               if (value.includes('foo')) {
                 return new Error('foo')
               }
+
+              return undefined
             })
 
             return [fooValidator, bazValidator]
@@ -6800,6 +6870,8 @@ describe('useFieldProps', () => {
             </>
           )
         }
+
+        return undefined
       }
       const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
 
@@ -6834,6 +6906,8 @@ describe('useFieldProps', () => {
         if (value === '1') {
           return 'A formatted error message'
         }
+
+        return undefined
       }
       const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
 
@@ -7008,6 +7082,8 @@ describe('useFieldProps', () => {
                       if (value === 'foo') {
                         return new Error('Show this error!')
                       }
+
+                      return undefined
                     }}
                     required
                   />

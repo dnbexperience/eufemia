@@ -140,6 +140,8 @@ describe('getData', () => {
         if (props.disabled === true) {
           return false
         }
+
+        return undefined
       })
 
       render(

@@ -1031,6 +1031,8 @@ describe('DrawerList component', () => {
                 return 200
             }
           }
+
+          return undefined
         },
       })
 
@@ -1057,6 +1059,8 @@ describe('DrawerList component', () => {
           if (this.classList.contains('dnb-drawer-list__root')) {
             return 200
           }
+
+          return undefined
         },
       })
 

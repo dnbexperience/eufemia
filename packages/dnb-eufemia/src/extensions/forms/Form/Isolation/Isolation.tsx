@@ -97,6 +97,8 @@ function IsolationProvider<Data extends JsonObject>(
     if (!props?.dataReference) {
       return createDataReference()
     }
+
+    return undefined
   })
 
   const {
@@ -192,7 +194,7 @@ function IsolationProvider<Data extends JsonObject>(
   // Update the isolated data with the outside context data
   useMemo(() => {
     if (localDataRef.current === clearedData) {
-      return // stop here
+      return undefined // stop here
     }
 
     let localData = data ?? defaultData
@@ -237,7 +239,7 @@ function IsolationProvider<Data extends JsonObject>(
         : onCommitProp?.(commitData, additionalArgs)
 
       if (stop) {
-        return // stop here
+        return undefined // stop here
       }
 
       // Commit the internal data to the nested context data

@@ -893,6 +893,8 @@ describe('Visibility', () => {
         if (path === '/isVisible' && value === true) {
           return false
         }
+
+        return undefined
       })
 
       render(

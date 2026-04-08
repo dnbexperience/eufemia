@@ -466,6 +466,8 @@ export default function useFieldError<Value>({
     } else if (error === null) {
       return null
     }
+
+    return undefined
   }, [error, errorProp, initialErrorProp, prepareError])
 
   const bufferedError = getBufferedError()
@@ -533,7 +535,7 @@ export default function useFieldError<Value>({
     // To support "validateInitially={false}" prop
     if (validateInitially === false && revealErrorRef.current === false) {
       revealErrorRef.current = undefined
-      return // stop here
+      return undefined // stop here
     }
 
     const hasError = Boolean(localErrorRef.current)
@@ -561,7 +563,7 @@ export default function useFieldError<Value>({
       const error = prepareError(errorArg)
 
       if (!errorChanged(error, localErrorRef.current)) {
-        return
+        return undefined
       }
 
       if (initiator !== 'dataContextError') {
@@ -580,7 +582,7 @@ export default function useFieldError<Value>({
         (errorMethodRef.current?.weak ||
           errorMethodRef.current?.gracefully)
       ) {
-        return
+        return undefined
       }
 
       const currentError =

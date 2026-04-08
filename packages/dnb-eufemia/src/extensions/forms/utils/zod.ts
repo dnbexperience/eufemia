@@ -132,7 +132,7 @@ function getMessageValuesFromZodIssue(
   // Provide sensible defaults for well-known issues
   const code = issue?.code
   if (!code) {
-    return // Stop here
+    return undefined // Stop here
   }
   const type = issue?.['origin']
 

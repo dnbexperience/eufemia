@@ -11,6 +11,7 @@ const transformOut = (internal: unknown, additionalArgs?: unknown) => {
     const { year, month, day } = args
     return { year, month, day }
   }
+  return undefined
 }
 
 const transformIn = (external: unknown) => {
@@ -19,6 +20,7 @@ const transformIn = (external: unknown) => {
     const { year, month, day } = ext
     return `${year}-${month}-${day}`
   }
+  return undefined
 }
 
 export const DateOfBirth = () => {

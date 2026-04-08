@@ -46,6 +46,8 @@ function OrganizationNumber(props: FieldOrganizationNumberProps) {
           return Error(errorOrgNo)
         }
       }
+
+      return undefined
     },
     [errorOrgNo, errorOrgNoLength]
   )

@@ -91,6 +91,8 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
       if (currency?.iso) {
         return currency
       }
+
+      return undefined
     },
     [getCurrencyObjectByIso]
   )

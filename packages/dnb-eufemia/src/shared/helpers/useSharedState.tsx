@@ -60,6 +60,8 @@ export function useSharedState<Data>(
     if (instanceRef.current === fn?.['ref']) {
       return false
     }
+
+    return undefined
   }, [])
 
   useMountEffect(() => {
@@ -72,6 +74,8 @@ export function useSharedState<Data>(
     if (id) {
       return createSharedState<Data>(id, initialData, { shouldSync })
     }
+
+    return undefined
   }, [id, initialData, shouldSync])
   const sharedAttachment = useMemo(() => {
     if (id) {
@@ -81,6 +85,8 @@ export function useSharedState<Data>(
         { shouldSync }
       )
     }
+
+    return undefined
   }, [id, onChange, shouldSync])
 
   const syncAttachment = useCallback(
@@ -105,6 +111,8 @@ export function useSharedState<Data>(
     if (id) {
       return sharedState?.get?.()
     }
+
+    return undefined
   }, [id, sharedState])
 
   const set = useCallback(
@@ -129,7 +137,7 @@ export function useSharedState<Data>(
 
   useLayoutEffect(() => {
     if (!id) {
-      return
+      return undefined
     }
 
     forceRerender['ref'] = instanceRef.current

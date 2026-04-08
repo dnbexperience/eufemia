@@ -134,8 +134,8 @@ export default class DrawerListProvider extends React.PureComponent<
   DrawerListProviderProps,
   DrawerListContextState
 > {
-  static contextType = Context
-  context!: React.ContextType<typeof Context>
+  static override contextType = Context
+  override context!: React.ContextType<typeof Context>
 
   static defaultProps = {
     ...drawerListDefaultProps,
@@ -195,13 +195,13 @@ export default class DrawerListProvider extends React.PureComponent<
     this._refTriangle = React.createRef()
   }
 
-  componentDidMount() {
+  override componentDidMount() {
     if (this.props.open) {
       this.setVisible()
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  override componentDidUpdate(prevProps, prevState) {
     if (this.props.open !== null && this.props.open !== prevProps.open) {
       if (this.props.open) {
         this.setVisible()
@@ -234,7 +234,7 @@ export default class DrawerListProvider extends React.PureComponent<
     }
   }
 
-  componentWillUnmount() {
+  override componentWillUnmount() {
     clearTimeout(this._showTimeout)
     clearTimeout(this._hideTimeout)
     clearTimeout(this._scrollTimeout)
@@ -247,7 +247,7 @@ export default class DrawerListProvider extends React.PureComponent<
 
   refreshScrollObserver() {
     if (typeof window === 'undefined' || !this._refUl.current) {
-      return
+      return undefined
     }
     const elements = this._refUl.current?.querySelectorAll<HTMLLIElement>(
       `li.dnb-drawer-list__option,li.dnb-drawer-list__group-title`
@@ -264,7 +264,7 @@ export default class DrawerListProvider extends React.PureComponent<
 
   setScrollObserver() {
     if (typeof window === 'undefined' || !this._refUl.current) {
-      return
+      return undefined
     }
 
     this.removeScrollObserver()
@@ -278,7 +278,7 @@ export default class DrawerListProvider extends React.PureComponent<
 
       this.setOnScroll = () => {
         if (!this._refUl.current) {
-          return // stop here
+          return undefined // stop here
         }
 
         // recalculate the spots
@@ -348,7 +348,7 @@ export default class DrawerListProvider extends React.PureComponent<
       typeof document === 'undefined' ||
       !(this.state.wrapperElement || this._refRoot.current)
     ) {
-      return
+      return undefined
     }
 
     const {
@@ -529,7 +529,7 @@ export default class DrawerListProvider extends React.PureComponent<
     // We use "style.transform", because it is a independent "and quick" solution
     // we could send down spaceToLeft and spaceToRight and set it with React's "style" prop in future
     if (!this._refShell.current || !this._refUl.current) {
-      return // stop here
+      return undefined // stop here
     }
 
     try {
@@ -569,7 +569,7 @@ export default class DrawerListProvider extends React.PureComponent<
   // by simply pressing any alphabetical key
   findItemByValue(value) {
     if (this.props.skipKeysearch) {
-      return
+      return undefined
     }
 
     let index = -1
@@ -819,16 +819,16 @@ export default class DrawerListProvider extends React.PureComponent<
         warn(e)
       }
       if (!isSameDrawer && key !== 'Tab') {
-        return // stop here
+        return undefined // stop here
       }
     }
 
     if (!this.state.isOpen) {
-      return // stop here
+      return undefined // stop here
     }
 
     if (this.state.ignoreEvents && key !== 'Tab') {
-      return // stop here
+      return undefined // stop here
     }
 
     let activeItem = parseFloat(this.state.activeItem as string)
@@ -959,6 +959,8 @@ export default class DrawerListProvider extends React.PureComponent<
                   } catch (e) {
                     //
                   }
+
+                  return undefined
                 }
 
                 const prevActiveElement =
@@ -991,7 +993,7 @@ export default class DrawerListProvider extends React.PureComponent<
                 }
               }
 
-              return // stop here
+              return undefined // stop here
             }
 
             // We may consider to close the list and set the focus it the handler
@@ -1263,7 +1265,7 @@ export default class DrawerListProvider extends React.PureComponent<
       if (typeof onStateComplete === 'function') {
         onStateComplete(false)
       }
-      return // stop here
+      return undefined // stop here
     }
 
     clearTimeout(this._showTimeout)
@@ -1341,7 +1343,7 @@ export default class DrawerListProvider extends React.PureComponent<
     { overwriteOriginalData = false } = {}
   ) => {
     if (!data) {
-      return
+      return undefined
     }
 
     if (typeof data === 'function') {
@@ -1430,7 +1432,7 @@ export default class DrawerListProvider extends React.PureComponent<
           ? getClosestParent('dnb-input', elem)
           : null
       if (!isInput) {
-        return // stop here
+        return undefined // stop here
       }
     }
 
@@ -1468,7 +1470,7 @@ export default class DrawerListProvider extends React.PureComponent<
     }
   }
 
-  render() {
+  override render() {
     return (
       <DrawerListContext
         value={{

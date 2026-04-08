@@ -67,6 +67,7 @@ export const preResponseResolver: PreResponseResolver = ({ value }) => {
   if (!value) {
     return { addresses: [] }
   }
+  return undefined
 }
 
 export const responseResolver: ResponseResolver<
@@ -119,7 +120,7 @@ export function suggestions(
     }
   ) {
     if (!(typeof value === 'string')) {
-      return // stop here
+      return undefined // stop here
     }
 
     // Get country code from path or use given countryCode value
@@ -133,7 +134,7 @@ export function suggestions(
     })
 
     if (!isSupportedCountryCode(countryCode, supportedCountryCodes)) {
-      return // stop here
+      return undefined // stop here
     }
 
     try {

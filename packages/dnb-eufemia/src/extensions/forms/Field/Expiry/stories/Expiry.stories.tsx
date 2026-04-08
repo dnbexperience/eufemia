@@ -26,6 +26,7 @@ const transformIn = (external) => {
     const { year, month } = external
     return { year, month }
   }
+  return undefined
 }
 
 export const ExpiryTransformers = () => {

@@ -110,6 +110,7 @@ async function fetchDataFromAPI<Data = unknown>(
       return error as never
     }
   }
+  return undefined
 }
 
 export type FetchDataReturnValue<Data = unknown> = {

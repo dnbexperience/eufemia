@@ -464,6 +464,8 @@ async function handleElement({
       } catch (e) {
         console.error(e)
       }
+
+      return undefined
     },
     {
       selector,

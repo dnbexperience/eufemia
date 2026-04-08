@@ -20,7 +20,9 @@
     "noUncheckedIndexedAccess": true,
     "strictFunctionTypes": true,
     "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitOverride": true
   },
   "exclude": ["node_modules", "build"]
 }

@@ -44,7 +44,7 @@ function Upload(props: ValueUploadProps) {
     const valueToUse =
       value?.map((uploadFile, index) => {
         if (!uploadFile) {
-          return
+          return undefined
         }
 
         return (
@@ -68,6 +68,8 @@ function Upload(props: ValueUploadProps) {
         />
       )
     }
+
+    return undefined
   }, [
     value,
     download,
@@ -90,7 +92,7 @@ function Upload(props: ValueUploadProps) {
 
 function getSize(size: number) {
   if (!size) {
-    return
+    return undefined
   }
   // Converts from b (binary) to MB (decimal)
   const sizeInMb = size / BYTES_IN_A_MEGA_BYTE

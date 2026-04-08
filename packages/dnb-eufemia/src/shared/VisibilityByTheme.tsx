@@ -78,4 +78,5 @@ VisibilityByTheme.Name = function ThemeName() {
   if (theme.isUi) {
     return 'DNB'
   }
+  return undefined
 }

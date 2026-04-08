@@ -294,4 +294,5 @@ export const getHeadingElement = (
     case 6:
       return 'h6'
   }
+  return undefined
 }

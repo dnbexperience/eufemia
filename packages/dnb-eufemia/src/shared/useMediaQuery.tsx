@@ -49,7 +49,7 @@ export default function useMediaQuery(props: MediaQueryProps) {
   const listenerRef = useRef<MediaQueryListener>(undefined)
   useLayoutEffect(() => {
     if (disabled) {
-      return // stop here
+      return undefined // stop here
     }
 
     if (typeof listenerRef.current === 'function') {

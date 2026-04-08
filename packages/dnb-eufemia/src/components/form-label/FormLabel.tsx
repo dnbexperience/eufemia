@@ -132,7 +132,7 @@ function FormLabel(localProps: FormLabelAllProps) {
 
   useEffect(() => {
     if (!forId) {
-      return
+      return undefined
     }
 
     const forElem = document.querySelector(`#${forId}`)
@@ -215,6 +215,8 @@ function FormLabel(localProps: FormLabelAllProps) {
         }
       }
     }
+
+    return undefined
   }, [forId, labelRef])
 
   skeletonDOMAttributes(params, skeleton, context)

@@ -29,6 +29,7 @@ const transformOut = (internal: unknown, additionalArgs?: unknown) => {
   if (internal) {
     return `${country.name} (${internal})`
   }
+  return undefined
 }
 const transformIn = (external: unknown) => {
   return (String(external).match(/\((.*)\)/)?.[1] || 'NO') as CountryISO

@@ -24,6 +24,8 @@ export default function useDataContextSnapshot({
     if (enabled && !isolationContext?.dataReference) {
       return createDataReference()
     }
+
+    return undefined
   })
   const { dataReference = dataReferenceFallback, setIsolatedData } =
     isolationContext || {}

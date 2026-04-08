@@ -100,6 +100,8 @@ function useInteractive({ interactive, children, ref }) {
       observer.observe(ref.current)
       return () => observer?.disconnect()
     }
+
+    return undefined
   }, [interactive, ref]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (isInteractive) {
