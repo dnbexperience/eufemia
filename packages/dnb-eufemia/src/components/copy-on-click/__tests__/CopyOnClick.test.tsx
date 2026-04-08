@@ -206,9 +206,7 @@ describe('CopyOnClick', () => {
 
 describe('CopyOnClick aria', () => {
   it('should validate', async () => {
-    const Component = render(
-      <CopyOnClick>CopyOnClick text</CopyOnClick>
-    )
+    const Component = render(<CopyOnClick>CopyOnClick text</CopyOnClick>)
     expect(await axeComponent(Component)).toHaveNoViolations()
   })
 })

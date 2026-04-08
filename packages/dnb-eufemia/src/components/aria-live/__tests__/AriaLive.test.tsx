@@ -203,9 +203,7 @@ describe('AriaLive', () => {
 
 describe('AriaLive aria', () => {
   it('should validate', async () => {
-    const Component = render(
-      <AriaLive>Announcement content</AriaLive>
-    )
+    const Component = render(<AriaLive>Announcement content</AriaLive>)
     expect(await axeComponent(Component)).toHaveNoViolations()
   })
 })
