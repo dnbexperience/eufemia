@@ -583,7 +583,7 @@ describe('ItemAction', () => {
   describe('element and to', () => {
     const MockLink = React.forwardRef<
       HTMLAnchorElement,
-      { to: string; children: React.ReactNode }
+      { to: string; children: React.ReactNode; preventScrollReset?: boolean}
     >(({ to, children, ...rest }, ref) => (
       <a href={to} ref={ref} {...rest}>
         {children}
@@ -692,6 +692,22 @@ describe('ItemAction', () => {
 
       expect(clickSpy).toHaveBeenCalled()
       clickSpy.mockRestore()
+    })
+
+    it('forwards elementProps to the anchor element', () => {
+      render(
+        <ItemAction
+          element={MockLink}
+          to="/route"
+          elementProps={{ 'data-replace': 'true' } as Record<string, unknown>}
+        >
+          Content
+        </ItemAction>
+      )
+
+      const anchor = document.querySelector('a')
+
+      expect(anchor?.getAttribute('data-replace')).toBe('true')
     })
   })
 })

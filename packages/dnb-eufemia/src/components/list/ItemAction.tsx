@@ -3,14 +3,16 @@ import { ListVariant, ListContext } from './ListContext'
 import ItemContent, { ItemContentProps } from './ItemContent'
 import React, { useCallback, useContext, useRef } from 'react'
 import IconPrimary from '../IconPrimary'
-import Anchor, { AnchorProps } from '../Anchor'
+import Anchor from '../Anchor'
 import ItemIcon from './ItemIcon'
 import ItemTitle from './ItemTitle'
 import type { IconIcon } from '../icon/Icon'
 
 export type ItemActionIconPosition = 'left' | 'right'
 
-export type ItemActionProps = {
+export type ItemActionProps<
+  E extends React.ElementType = 'a',
+> = {
   id?: string
   variant?: ListVariant
   selected?: boolean
@@ -20,12 +22,24 @@ export type ItemActionProps = {
   title?: React.ReactNode
   href?: string
   to?: string
-  element?: AnchorProps['element']
+  element?: E
+  elementProps?: Omit<
+    React.ComponentPropsWithoutRef<E>,
+    | 'href'
+    | 'to'
+    | 'target'
+    | 'rel'
+    | 'children'
+    | 'tabIndex'
+    | 'aria-disabled'
+  >
   target?: string
   rel?: string
 } & Omit<ItemContentProps, 'title' | 'element'>
 
-function ItemAction(props: ItemActionProps) {
+function ItemAction<E extends React.ElementType = 'a'>(
+  props: ItemActionProps<E>
+) {
   const {
     className,
     onClick,
@@ -41,6 +55,7 @@ function ItemAction(props: ItemActionProps) {
     href,
     to,
     element,
+    elementProps,
     target,
     rel,
     ...rest
@@ -146,6 +161,7 @@ function ItemAction(props: ItemActionProps) {
           rel={rel}
           tabIndex={-1}
           aria-disabled={isInactive ? true : undefined}
+          {...elementProps}
         >
           {content}
         </Anchor>

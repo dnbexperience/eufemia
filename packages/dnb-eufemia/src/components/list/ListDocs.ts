@@ -341,6 +341,11 @@ export const ItemActionProperties: PropertiesTableProps = {
     type: 'React.Element',
     status: 'optional',
   },
+  elementProps: {
+    doc: 'Additional props forwarded to the `element` component (e.g. `{ replace: true, state: { from: "list" } }` for React Router Link). Only applicable when `element` is set.',
+    type: 'object',
+    status: 'optional',
+  },
   target: {
     doc: 'Link target (e.g. `_blank` for new tab). Only applicable when `href` is set.',
     type: 'string',
