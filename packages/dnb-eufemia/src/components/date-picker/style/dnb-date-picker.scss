@@ -375,7 +375,7 @@
   }
 
   .dnb-responsive-component & {
-    @media screen and (max-width: 40em) {
+    @include utilities.allBelow(small) {
       display: flex;
       flex-direction: column;
       align-items: flex-start;

@@ -34,7 +34,7 @@
 
     padding: var(--spacing-large);
 
-    @media screen and (max-width: 40em) {
+    @include utilities.allBelow(small) {
       padding: 0 var(--spacing-x-small);
     }
 
@@ -62,7 +62,7 @@
   }
 
   h1 {
-    @media screen and (max-width: 40em) {
+    @include utilities.allBelow(small) {
       // margin-top: 0;
       font-size: var(--font-size-large);
     }
