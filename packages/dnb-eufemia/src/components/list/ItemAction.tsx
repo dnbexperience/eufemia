@@ -10,9 +10,7 @@ import type { IconIcon } from '../icon/Icon'
 
 export type ItemActionIconPosition = 'left' | 'right'
 
-export type ItemActionProps<
-  E extends React.ElementType = 'a',
-> = {
+export type ItemActionProps<E extends React.ElementType = 'a'> = {
   id?: string
   variant?: ListVariant
   selected?: boolean
@@ -154,7 +152,9 @@ function ItemAction<E extends React.ElementType = 'a'>(
         <Anchor
           noStyle
           ref={anchorRef}
-          {...(href != null ? { href: isInactive ? undefined : href } : {})}
+          {...(href != null
+            ? { href: isInactive ? undefined : href }
+            : {})}
           to={isInactive ? undefined : to}
           element={element}
           target={target}

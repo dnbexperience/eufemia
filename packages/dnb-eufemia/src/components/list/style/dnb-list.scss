@@ -294,10 +294,6 @@
         grid-row: 1 / -1; // Center vertically
         text-decoration: none;
         color: inherit;
-
-        &:visited {
-          color: inherit;
-        }
       }
 
       // Handle action states
@@ -382,6 +378,10 @@
       a {
         cursor: not-allowed;
       }
+    }
+
+    &__action--href a:visited {
+      color: inherit;
     }
     &__pending {
       position: absolute;

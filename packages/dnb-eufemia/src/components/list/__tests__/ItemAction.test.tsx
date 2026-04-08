@@ -583,7 +583,11 @@ describe('ItemAction', () => {
   describe('element and to', () => {
     const MockLink = React.forwardRef<
       HTMLAnchorElement,
-      { to: string; children: React.ReactNode; preventScrollReset?: boolean}
+      {
+        to: string
+        children: React.ReactNode
+        preventScrollReset?: boolean
+      }
     >(({ to, children, ...rest }, ref) => (
       <a href={to} ref={ref} {...rest}>
         {children}
@@ -699,7 +703,9 @@ describe('ItemAction', () => {
         <ItemAction
           element={MockLink}
           to="/route"
-          elementProps={{ 'data-replace': 'true' } as Record<string, unknown>}
+          elementProps={
+            { 'data-replace': 'true' } as Record<string, unknown>
+          }
         >
           Content
         </ItemAction>
