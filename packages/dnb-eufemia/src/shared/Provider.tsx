@@ -109,8 +109,8 @@ function mergeContextWithProps<ContextT, PropsT>(
 
   if (nestedTranslations && localTranslations) {
     const mergedTranslations = mergeTranslations(
-      nestedTranslations as Record<string, any>,
-      localTranslations as Record<string, any>
+      nestedTranslations as Record<string, unknown>,
+      localTranslations as Record<string, unknown>
     )
     mergedContext.translations = mergedTranslations
   }

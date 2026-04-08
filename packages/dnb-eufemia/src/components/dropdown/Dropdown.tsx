@@ -445,10 +445,9 @@ const DropdownInstance = React.memo(function DropdownInstance({
     propsWithDefaults,
     dropdownDefaultProps,
     { skeleton: context?.skeleton },
-    (context as Record<string, any>).getTranslation(propsWithDefaults)
-      .Dropdown,
+    context.getTranslation(propsWithDefaults).Dropdown,
     pickFormElementProps(context?.formElement),
-    (context as Record<string, any>).Dropdown
+    context.Dropdown
   )
 
   const {

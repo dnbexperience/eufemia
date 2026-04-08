@@ -431,7 +431,7 @@ export default class GlobalStatus extends React.PureComponent<
     }
   }
 
-  hasContent(globalStatus: Record<string, any>) {
+  hasContent(globalStatus: Pick<GlobalStatusProps, 'items' | 'text'>) {
     return Boolean(globalStatus.items?.length > 0 || globalStatus.text)
   }
 
@@ -535,7 +535,7 @@ export default class GlobalStatus extends React.PureComponent<
 
   gotoItem = (
     event: React.MouseEvent | React.KeyboardEvent,
-    item: Record<string, any>
+    item: Extract<GlobalStatusItem, object>
   ) => {
     const key = (event as React.KeyboardEvent).key
     if (
@@ -760,7 +760,7 @@ export default class GlobalStatus extends React.PureComponent<
       onHide,
 
       ...attributes
-    } = props as Record<string, any>
+    } = props as GlobalStatusProps & Record<string, unknown>
 
     const wrapperParams = {
       id,
@@ -815,7 +815,11 @@ export default class GlobalStatus extends React.PureComponent<
           <>
             <div
               className="dnb-global-status__title"
-              role={titleToRender?.type ? undefined : 'paragraph'}
+              role={
+                (titleToRender as React.ReactElement)?.type
+                  ? undefined
+                  : 'paragraph'
+              }
               lang={lang}
             >
               <span className="dnb-global-status__icon">
@@ -824,8 +828,8 @@ export default class GlobalStatus extends React.PureComponent<
               {titleToRender}
               {!hideCloseButton && (
                 <Button
-                  text={closeText}
-                  title={closeText}
+                  text={closeText as string}
+                  title={closeText as string}
                   variant={state === 'success' ? 'secondary' : 'tertiary'}
                   className="dnb-global-status__close-button"
                   icon="close"
@@ -864,7 +868,7 @@ export default class GlobalStatus extends React.PureComponent<
           <HeightAnimation
             className="dnb-global-status__shell"
             duration={800}
-            delay={delay}
+            delay={delay as number}
             open={isActive}
             animate={!noAnimationUsed}
             onAnimationEnd={this.onAnimationEnd}

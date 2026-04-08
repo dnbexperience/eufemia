@@ -126,7 +126,7 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
     _refUl?: React.RefObject<HTMLUListElement>
     _refRoot?: React.RefObject<HTMLSpanElement>
     _rootElem?: Window | Element
-    attributes?: Record<string, any>
+    attributes?: Record<string, unknown>
     children: React.ReactNode
   }
 
@@ -150,7 +150,7 @@ export default class DrawerListProvider extends React.PureComponent<
     return prepareDerivedState(props, state)
   }
 
-  attributes: object
+  attributes: Record<string, unknown>
   _refRoot: React.RefObject<HTMLSpanElement>
   _refShell: React.RefObject<HTMLSpanElement>
   _refUl: React.RefObject<HTMLUListElement>

@@ -56,6 +56,7 @@ import type { ListFormatProps } from '../components/list-format/ListFormat'
 import type { IconPrimaryProps } from '../components/IconPrimary'
 import type { SwitchProps } from '../components/Switch'
 import type { TermDefinitionProps } from '../components/term-definition/TermDefinition'
+import type { DropdownAllProps } from '../components/dropdown/Dropdown'
 
 import type { FormElementProps } from './helpers/filterValidProps'
 import type { ThemeProps } from './Theme'
@@ -106,6 +107,7 @@ export type ContextComponents = {
 
   Switch?: Partial<SwitchProps>
   NumberFormat?: Partial<NumberFormatAllProps>
+  Dropdown?: Partial<DropdownAllProps>
   Pagination?: Partial<AccordionProps>
   TermDefinition?: Partial<TermDefinitionProps>
 

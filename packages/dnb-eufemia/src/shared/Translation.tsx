@@ -60,7 +60,7 @@ Translation.withTypes = function withTypes<
 
 export default Translation
 
-function isPlainObject(value: unknown): value is Record<string, any> {
+function isPlainObject(value: unknown): value is Record<string, unknown> {
   if (value === null || typeof value !== 'object') {
     return false
   }
@@ -73,9 +73,9 @@ function isPlainObject(value: unknown): value is Record<string, any> {
 }
 
 export function mergeTranslations(
-  ...translations: Array<Record<string, any>>
+  ...translations: Array<Record<string, unknown>>
 ) {
-  return translations.reduce((acc, cur) => {
+  return translations.reduce<Record<string, unknown>>((acc, cur) => {
     Object.keys(cur).forEach((key) => {
       const accValue = acc[key]
       const curValue = cur[key]
