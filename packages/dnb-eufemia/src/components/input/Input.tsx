@@ -200,11 +200,6 @@ export type InputProps = Omit<
      */
     inputElement?: InputElement
     /**
-     * Internal ref alias used by wrappers such as InputMasked.
-     * @internal
-     */
-    _innerRef?: React.Ref<HTMLInputElement>
-    /**
      * If set to `true`, the Input's internal "__shell" and "__border" class element will be omitted.
      * @internal
      */
@@ -597,7 +592,6 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     selectAll, //eslint-disable-line
     inputElement: _inputElement, //eslint-disable-line
     ref: _ref, //eslint-disable-line
-    _innerRef, //eslint-disable-line
     inputState: _inputState, //eslint-disable-line
 
     onSubmit, //eslint-disable-line
