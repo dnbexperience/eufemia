@@ -289,7 +289,7 @@
   // Fix for iOS on iPhone
   // Because Safari includes the navigation bar on the height
   @include utilities.isSafariMobile() {
-    @media (max-height: 40em) {
+    @media screen and (max-height: 40em) {
       .dnb-scroll-view {
         max-height: 82vh;
       }
