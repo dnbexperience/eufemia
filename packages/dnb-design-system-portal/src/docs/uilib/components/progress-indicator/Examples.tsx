@@ -339,12 +339,12 @@ export const ProgressIndicatorLinearDialogExample = () => (
 
 export const ProgressIndicatorSizesExample = () => (
   <ComponentBox data-visual-test="progress-indicator-sizes">
-    <div style={{ display: 'flex' }}>
+    <Flex.Horizontal align="center" gap={false}>
       <ProgressIndicator progress="50" size="small" />
       <ProgressIndicator progress="50" size="medium" />
       <ProgressIndicator progress="50" />
       <ProgressIndicator progress="50" size="large" />
-    </div>
+    </Flex.Horizontal>
   </ComponentBox>
 )
 
