@@ -17,7 +17,7 @@ exports[`NumberFormat scss has to match style dependencies css 1`] = `
  * Utilities
  */
 :root {
-  --tooltip-z-index: 1100;
+  --tooltip-z-index: var(--z-index-tooltip);
 }
 
 .dnb-tooltip {
