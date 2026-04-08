@@ -13,17 +13,23 @@ import Stat from '../Stat'
 import Amount from '../Amount'
 
 describe('Stat.Amount', () => {
-  it('emits a deprecation warning when used', () => {
-    const log = spyOnEufemiaWarn()
+  let log: ReturnType<typeof spyOnEufemiaWarn>
 
+  beforeEach(() => {
+    log = spyOnEufemiaWarn()
+  })
+
+  afterEach(() => {
+    log.mockRestore()
+  })
+
+  it('emits a deprecation warning when used', () => {
     render(<Stat.Amount value={100} />)
 
     expect(log).toHaveBeenCalledWith(
       expect.stringContaining('Eufemia'),
       expect.stringContaining('Stat.Amount is deprecated')
     )
-
-    log.mockRestore()
   })
 
   it('renders plain amount by default without currency', () => {

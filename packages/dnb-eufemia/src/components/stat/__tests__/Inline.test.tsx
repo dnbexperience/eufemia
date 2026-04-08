@@ -1,11 +1,23 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import {
+  axeComponent,
+  spyOnEufemiaWarn,
+} from '../../../core/jest/jestSetup'
 import Stat from '../Stat'
 import Provider from '../../../shared/Provider'
 import SharedContext from '../../../shared/Context'
 
 describe('Stat.Inline', () => {
+  let log: ReturnType<typeof spyOnEufemiaWarn>
+
+  beforeEach(() => {
+    log = spyOnEufemiaWarn()
+  })
+
+  afterEach(() => {
+    log.mockRestore()
+  })
   it('renders horizontal inline layout with defaults', () => {
     render(
       <Stat.Inline>
@@ -172,28 +184,22 @@ describe('Stat.Inline', () => {
   })
 
   it('warns when used outside Stat.Root', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
-
     render(
       <Stat.Inline>
         <Stat.Trend>+1.2%</Stat.Trend>
       </Stat.Inline>
     )
 
-    const didWarn = spy.mock.calls.some((call) =>
+    const didWarn = log.mock.calls.some((call) =>
       call
         .map((entry) => String(entry))
         .join(' ')
         .includes('Stat.Inline should be used inside Stat.Root')
     )
     expect(didWarn).toBe(true)
-
-    spy.mockRestore()
   })
 
   it('does not warn when used inside Stat.Root', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
-
     render(
       <Stat.Root>
         <Stat.Label>Revenue</Stat.Label>
@@ -205,15 +211,13 @@ describe('Stat.Inline', () => {
       </Stat.Root>
     )
 
-    const didWarn = spy.mock.calls.some((call) =>
+    const didWarn = log.mock.calls.some((call) =>
       call
         .map((entry) => String(entry))
         .join(' ')
         .includes('Stat.Inline should be used inside Stat.Root')
     )
     expect(didWarn).toBe(false)
-
-    spy.mockRestore()
   })
 
   it('forwards data-* and aria-* attributes to the DOM element', () => {
