@@ -38,7 +38,7 @@ export function useSliderEvents() {
   ) => {
     const target = event.target as HTMLButtonElement
 
-    setThumbIndex(parseFloat(target.dataset.index))
+    setThumbIndex(parseFloat(target.dataset['index']))
     setThumbState('activated')
 
     if (typeof onDragStart === 'function') {
@@ -101,7 +101,7 @@ export function useSliderEvents() {
     let elem = trackRef.current
 
     // we have to mock this for jsdom.
-    if (process.env.NODE_ENV === 'test') {
+    if (process.env['NODE_ENV'] === 'test') {
       // @ts-expect-error - Test environment mock
       elem = createMockDiv(event.detail)
       // @ts-expect-error - Test environment event override
@@ -121,7 +121,7 @@ export function useSliderEvents() {
   ) => {
     const emitEvent = event as unknown
     const currentValue = parseFloat(event.currentTarget.value)
-    const currentIndex = parseFloat(event.currentTarget.dataset.index)
+    const currentIndex = parseFloat(event.currentTarget.dataset['index'])
 
     emitChange(emitEvent as MouseEvent, currentValue)
 
@@ -152,7 +152,7 @@ export function useSliderEvents() {
     event: React.FormEvent<HTMLInputElement>
   ) => {
     const target = event.target as HTMLInputElement
-    setThumbIndex(parseFloat(target.dataset.index))
+    setThumbIndex(parseFloat(target.dataset['index']))
   }
 
   return {

@@ -37,7 +37,7 @@ export {
 export const runPrepublishTasks = async ({
   preventDelete = false,
 } = {}) => {
-  process.env.NODE_ENV = 'production'
+  process.env['NODE_ENV'] = 'production'
   log.start('Starting the prepublish process...')
   try {
     await convertSvgToJsx({ preventDelete })

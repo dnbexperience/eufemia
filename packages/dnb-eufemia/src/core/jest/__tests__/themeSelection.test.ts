@@ -1,19 +1,19 @@
 import { onMain, runOnMain, selectThemes } from '../themeSelection'
 
 describe('themeSelection', () => {
-  const previousRefName = process.env.GITHUB_REF_NAME
-  const previousRef = process.env.GITHUB_REF
-  const previousCi = process.env.CI
+  const previousRefName = process.env['GITHUB_REF_NAME']
+  const previousRef = process.env['GITHUB_REF']
+  const previousCi = process.env['CI']
 
   afterEach(() => {
-    process.env.GITHUB_REF_NAME = previousRefName
-    process.env.GITHUB_REF = previousRef
-    process.env.CI = previousCi
+    process.env['GITHUB_REF_NAME'] = previousRefName
+    process.env['GITHUB_REF'] = previousRef
+    process.env['CI'] = previousCi
   })
 
   it('returns all brands on main', () => {
-    process.env.CI = 'true'
-    process.env.GITHUB_REF_NAME = 'main'
+    process.env['CI'] = 'true'
+    process.env['GITHUB_REF_NAME'] = 'main'
 
     const result = selectThemes({
       always: ['ui', 'sbanken'],
@@ -24,8 +24,8 @@ describe('themeSelection', () => {
   })
 
   it('skips main-only brands on feature branches', () => {
-    process.env.CI = 'true'
-    process.env.GITHUB_REF_NAME = 'feature/button'
+    process.env['CI'] = 'true'
+    process.env['GITHUB_REF_NAME'] = 'feature/button'
 
     const result = selectThemes({
       always: ['ui', 'sbanken'],
@@ -36,9 +36,9 @@ describe('themeSelection', () => {
   })
 
   it('supports branch extraction from GITHUB_REF', () => {
-    process.env.CI = 'true'
-    delete process.env.GITHUB_REF_NAME
-    process.env.GITHUB_REF = 'refs/heads/main'
+    process.env['CI'] = 'true'
+    delete process.env['GITHUB_REF_NAME']
+    process.env['GITHUB_REF'] = 'refs/heads/main'
 
     const result = selectThemes({
       always: ['ui'],
@@ -49,8 +49,8 @@ describe('themeSelection', () => {
   })
 
   it('includes main-only brands on version branches', () => {
-    process.env.CI = 'true'
-    process.env.GITHUB_REF_NAME = 'v11'
+    process.env['CI'] = 'true'
+    process.env['GITHUB_REF_NAME'] = 'v11'
 
     const result = selectThemes({
       always: ['ui'],
@@ -61,8 +61,8 @@ describe('themeSelection', () => {
   })
 
   it('includes main-only brands on version branch prefixes', () => {
-    process.env.CI = 'true'
-    process.env.GITHUB_REF_NAME = 'v11-fix'
+    process.env['CI'] = 'true'
+    process.env['GITHUB_REF_NAME'] = 'v11-fix'
 
     const result = selectThemes({
       always: ['ui'],
@@ -73,9 +73,9 @@ describe('themeSelection', () => {
   })
 
   it('skips main-only brands when branch is unknown in CI', () => {
-    process.env.CI = 'true'
-    delete process.env.GITHUB_REF_NAME
-    delete process.env.GITHUB_REF
+    process.env['CI'] = 'true'
+    delete process.env['GITHUB_REF_NAME']
+    delete process.env['GITHUB_REF']
 
     const result = selectThemes({
       always: ['ui'],
@@ -86,9 +86,9 @@ describe('themeSelection', () => {
   })
 
   it('includes main-only brands locally when branch is unknown', () => {
-    delete process.env.CI
-    delete process.env.GITHUB_REF_NAME
-    delete process.env.GITHUB_REF
+    delete process.env['CI']
+    delete process.env['GITHUB_REF_NAME']
+    delete process.env['GITHUB_REF']
 
     const result = selectThemes({
       always: ['ui'],
@@ -99,8 +99,8 @@ describe('themeSelection', () => {
   })
 
   it('runs callback on main', () => {
-    process.env.CI = 'true'
-    process.env.GITHUB_REF_NAME = 'main'
+    process.env['CI'] = 'true'
+    process.env['GITHUB_REF_NAME'] = 'main'
     const callback = jest.fn()
 
     onMain(callback)
@@ -109,8 +109,8 @@ describe('themeSelection', () => {
   })
 
   it('runs callback on version branch prefixes', () => {
-    process.env.CI = 'true'
-    process.env.GITHUB_REF_NAME = 'v11-fix'
+    process.env['CI'] = 'true'
+    process.env['GITHUB_REF_NAME'] = 'v11-fix'
     const callback = jest.fn()
 
     onMain(callback)
@@ -119,8 +119,8 @@ describe('themeSelection', () => {
   })
 
   it('skips callback on non-main branches in CI', () => {
-    process.env.CI = 'true'
-    process.env.GITHUB_REF_NAME = 'feature/button'
+    process.env['CI'] = 'true'
+    process.env['GITHUB_REF_NAME'] = 'feature/button'
     const callback = jest.fn()
 
     onMain(callback)
@@ -129,8 +129,8 @@ describe('themeSelection', () => {
   })
 
   it('runs callback locally on non-main branches', () => {
-    delete process.env.CI
-    process.env.GITHUB_REF_NAME = 'feature/button'
+    delete process.env['CI']
+    process.env['GITHUB_REF_NAME'] = 'feature/button'
     const callback = jest.fn()
 
     onMain(callback)
@@ -139,8 +139,8 @@ describe('themeSelection', () => {
   })
 
   it('keeps runOnMain as an alias for onMain theme usage', () => {
-    process.env.CI = 'true'
-    process.env.GITHUB_REF_NAME = 'main'
+    process.env['CI'] = 'true'
+    process.env['GITHUB_REF_NAME'] = 'main'
 
     expect(runOnMain('eiendom')).toBe('eiendom')
   })

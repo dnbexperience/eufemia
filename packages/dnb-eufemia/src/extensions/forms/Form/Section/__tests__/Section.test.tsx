@@ -187,7 +187,7 @@ describe('Form.Section', () => {
     const { schema } = generateRef.current()
 
     expect(schema.required).toEqual(['firstName', 'lastName'])
-    expect(schema.properties.lastName).not.toHaveProperty('minLength')
+    expect(schema.properties['lastName']).not.toHaveProperty('minLength')
     expect(schema).toMatchInlineSnapshot(`
       {
         "properties": {

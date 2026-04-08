@@ -3,14 +3,14 @@ import { CurrencyProperties } from '../../Field/Currency/CurrencyDocs'
 import { NumberProperties } from '../Number/NumberDocs'
 
 const props = { ...NumberProperties }
-delete props.currency
-delete props.currencyDisplay
+delete props['currency']
+delete props['currencyDisplay']
 
 export const CurrencyValueProperties: PropertiesTableProps = {
-  value: NumberProperties.value,
-  currency: CurrencyProperties.currency,
-  currencyDisplay: CurrencyProperties.currencyDisplay,
-  currencyPosition: NumberProperties.currencyPosition,
+  value: NumberProperties['value'],
+  currency: CurrencyProperties['currency'],
+  currencyDisplay: CurrencyProperties['currencyDisplay'],
+  currencyPosition: NumberProperties['currencyPosition'],
   ...props,
   ban: undefined,
   nin: undefined,

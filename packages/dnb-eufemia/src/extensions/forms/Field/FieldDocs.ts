@@ -33,15 +33,15 @@ export const getFieldEventsWithTypes = (
   return {
     ...FieldEvents,
     onChange: {
-      ...FieldEvents.onChange,
+      ...FieldEvents['onChange'],
       type: typeString,
     },
     onFocus: {
-      ...FieldEvents.onFocus,
+      ...FieldEvents['onFocus'],
       type: typeString,
     },
     onBlur: {
-      ...FieldEvents.onBlur,
+      ...FieldEvents['onBlur'],
       type: typeString,
     },
   }

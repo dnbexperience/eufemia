@@ -19,9 +19,9 @@ describe('useFilteredProps', () => {
 
     expect(result.current.props).toBeDefined()
     expect(result.current.htmlAttributes).toBeDefined()
-    expect(result.current.htmlAttributes.id).toBe('test-input')
-    expect(result.current.htmlAttributes.className).toBe('test-class')
-    expect(result.current.htmlAttributes.placeholder).toBe(
+    expect(result.current.htmlAttributes['id']).toBe('test-input')
+    expect(result.current.htmlAttributes['className']).toBe('test-class')
+    expect(result.current.htmlAttributes['placeholder']).toBe(
       'test placeholder'
     )
   })
@@ -39,13 +39,13 @@ describe('useFilteredProps', () => {
 
     const { result } = renderHook(() => useFilteredProps(), { wrapper })
 
-    expect(result.current.htmlAttributes.mask).toBeUndefined()
-    expect(result.current.htmlAttributes.numberMask).toBeUndefined()
-    expect(result.current.htmlAttributes.currencyMask).toBeUndefined()
-    expect(result.current.htmlAttributes.asNumber).toBeUndefined()
-    expect(result.current.htmlAttributes.locale).toBeUndefined()
-    expect(result.current.htmlAttributes.showMask).toBeUndefined()
-    expect(result.current.htmlAttributes.id).toBe('test-input')
+    expect(result.current.htmlAttributes['mask']).toBeUndefined()
+    expect(result.current.htmlAttributes['numberMask']).toBeUndefined()
+    expect(result.current.htmlAttributes['currencyMask']).toBeUndefined()
+    expect(result.current.htmlAttributes['asNumber']).toBeUndefined()
+    expect(result.current.htmlAttributes['locale']).toBeUndefined()
+    expect(result.current.htmlAttributes['showMask']).toBeUndefined()
+    expect(result.current.htmlAttributes['id']).toBe('test-input')
   })
 
   it('should freeze htmlAttributes', () => {
@@ -78,11 +78,11 @@ describe('useFilteredProps', () => {
 
     const { result } = renderHook(() => useFilteredProps(), { wrapper })
 
-    expect(result.current.htmlAttributes.id).toBe('test-id')
-    expect(result.current.htmlAttributes.name).toBe('test-name')
-    expect(result.current.htmlAttributes.disabled).toBe(true)
-    expect(result.current.htmlAttributes.readOnly).toBe(false)
-    expect(result.current.htmlAttributes.maxLength).toBe(100)
-    expect(result.current.htmlAttributes.tabIndex).toBe(1)
+    expect(result.current.htmlAttributes['id']).toBe('test-id')
+    expect(result.current.htmlAttributes['name']).toBe('test-name')
+    expect(result.current.htmlAttributes['disabled']).toBe(true)
+    expect(result.current.htmlAttributes['readOnly']).toBe(false)
+    expect(result.current.htmlAttributes['maxLength']).toBe(100)
+    expect(result.current.htmlAttributes['tabIndex']).toBe(1)
   })
 })

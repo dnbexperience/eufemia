@@ -96,8 +96,9 @@ function Skeleton(props: SkeletonProps) {
         skeletonDefaultProps,
         {
           skeleton: ctx.Skeleton || ctx.skeleton,
-          noAnimation: (ctx as Record<string, unknown>)
-            .skeletonNoAnimation,
+          noAnimation: (ctx as Record<string, unknown>)[
+            'skeletonNoAnimation'
+          ],
         },
         ctx.getTranslation(propsToExtend).Skeleton
       )

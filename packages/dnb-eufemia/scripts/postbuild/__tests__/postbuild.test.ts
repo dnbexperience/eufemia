@@ -20,7 +20,7 @@ const normalizeCss = (value: string) =>
 // Filter out /es stage when BUILD_MINI is set (it's not built in mini builds)
 // Also filter it out if the directory doesn't exist (to avoid test failures)
 const getBuildStages = (stages: string[]) => {
-  const shouldSkipEs = process.env.BUILD_MINI
+  const shouldSkipEs = process.env['BUILD_MINI']
   return shouldSkipEs ? stages.filter((s) => s !== '/es') : stages
 }
 
@@ -371,7 +371,9 @@ describe('babel build', () => {
   })
 })
 
-const describeDocsBuild = process.env.BUILD_MINI ? describe.skip : describe
+const describeDocsBuild = process.env['BUILD_MINI']
+  ? describe.skip
+  : describe
 describeDocsBuild('docs build', () => {
   const docsRoot = path.resolve(packpath.self(), 'build/docs')
 

@@ -235,10 +235,10 @@ export default function SegmentedFieldSection({
       }
 
       if (direction === 'prev') {
-        return sections[index - 1]?.dataset.segmentedInputId
+        return sections[index - 1]?.dataset['segmentedInputId']
       }
 
-      return sections[index + 1]?.dataset.segmentedInputId
+      return sections[index + 1]?.dataset['segmentedInputId']
     },
     [inputId, scopeRef, sectionRefs]
   )

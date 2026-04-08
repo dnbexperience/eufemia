@@ -18,7 +18,7 @@ export const TrendProperties: PropertiesTableProps = {
     type: ['"positive"', '"negative"', '"neutral"'],
     status: 'optional',
   },
-  srLabel: NumberFormatProperties.srLabel,
+  srLabel: NumberFormatProperties['srLabel'],
   skeleton: skeletonProperty,
   '[Space](/uilib/layout/space/properties)': spacingProperties,
 }

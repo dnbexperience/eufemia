@@ -155,9 +155,9 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
         string,
         Record<string, string>
       >
-    ).ToggleButton,
+    )['ToggleButton'],
     pickFormElementProps(context?.formElement),
-    (context as Record<string, unknown>).ToggleButtonGroup as Record<
+    (context as Record<string, unknown>)['ToggleButtonGroup'] as Record<
       string,
       unknown
     >
@@ -240,10 +240,10 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
       prevContextRef.current = { ...prevContextRef.current, ...resolved }
 
       if ('value' in resolved) {
-        setValue(resolved.value as ToggleButtonGroupValue)
+        setValue(resolved['value'] as ToggleButtonGroupValue)
       }
       if ('values' in resolved) {
-        setValues(resolved.values as ToggleButtonGroupValue[])
+        setValues(resolved['values'] as ToggleButtonGroupValue[])
       }
     },
     []

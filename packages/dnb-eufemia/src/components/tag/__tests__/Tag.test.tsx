@@ -513,14 +513,14 @@ describe('Tag', () => {
   })
 
   it('warns when Tag is used without a Tag.Group as parent component', () => {
-    process.env.NODE_ENV = 'development'
+    process.env['NODE_ENV'] = 'development'
     global.console.log = jest.fn()
     render(<Tag text="Tag" />)
     expect(global.console.log).toHaveBeenCalled()
   })
 
   it('will not warn when hasLabel is true', () => {
-    process.env.NODE_ENV = 'development'
+    process.env['NODE_ENV'] = 'development'
     global.console.log = jest.fn()
     render(<Tag text="Tag" hasLabel />)
     expect(global.console.log).not.toHaveBeenCalled()

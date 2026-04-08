@@ -87,11 +87,11 @@ describe('package.json', () => {
   })
 
   it('has not these deleted fields', () => {
-    expect(packageJson.release).toBeFalsy()
-    expect(packageJson.scripts).toBeFalsy()
-    expect(packageJson.devDependencies).toBeFalsy()
-    expect(packageJson.resolutions).toBeFalsy()
-    expect(packageJson.volta).toBeFalsy()
+    expect(packageJson['release']).toBeFalsy()
+    expect(packageJson['scripts']).toBeFalsy()
+    expect(packageJson['devDependencies']).toBeFalsy()
+    expect(packageJson['resolutions']).toBeFalsy()
+    expect(packageJson['volta']).toBeFalsy()
   })
 
   it('has sideEffects fields', () => {
@@ -160,17 +160,17 @@ describe('package.json', () => {
         })
       }
 
-      if (entry.import) {
-        assertTargetExists(entry.import)
+      if (entry['import']) {
+        assertTargetExists(entry['import'])
       }
-      if (entry.require) {
-        assertTargetExists(entry.require)
+      if (entry['require']) {
+        assertTargetExists(entry['require'])
       }
-      if (entry.types) {
-        assertTargetExists(entry.types)
+      if (entry['types']) {
+        assertTargetExists(entry['types'])
       }
-      if (entry.default) {
-        assertTargetExists(entry.default)
+      if (entry['default']) {
+        assertTargetExists(entry['default'])
       }
     }
 

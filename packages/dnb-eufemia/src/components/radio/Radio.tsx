@@ -322,7 +322,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
     contextProps,
     { skeleton: context?.skeleton },
     pickFormElementProps(context.formElement),
-    (context as Record<string, unknown>)?.Radio as
+    (context as Record<string, unknown>)?.['Radio'] as
       | Record<string, unknown>
       | undefined
   )
@@ -403,8 +403,8 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   }
 
   if (!group) {
-    inputParams.type = 'checkbox'
-    inputParams.role = 'radio' // breaks axe test
+    inputParams['type'] = 'checkbox'
+    inputParams['role'] = 'radio' // breaks axe test
   }
 
   if (showStatus || suffix) {
@@ -415,7 +415,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
     )
   }
   if (readOnly) {
-    inputParams['aria-readonly'] = inputParams.readOnly = true
+    inputParams['aria-readonly'] = inputParams['readOnly'] = true
   }
 
   inputParams = Object.assign(inputParams, rest)

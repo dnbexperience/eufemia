@@ -947,8 +947,8 @@ describe('DrawerList component', () => {
       <DrawerList
         open
         noAnimation
-        data={data.first}
-        value={data.first[0].selectedKey}
+        data={data['first']}
+        value={data['first'][0].selectedKey}
         {...mockProps}
       />
     )
@@ -959,8 +959,8 @@ describe('DrawerList component', () => {
       <DrawerList
         open
         noAnimation
-        data={data.second}
-        value={data.second[1].selectedKey}
+        data={data['second']}
+        value={data['second'][1].selectedKey}
         {...mockProps}
       />
     )
@@ -971,8 +971,8 @@ describe('DrawerList component', () => {
       <DrawerList
         open
         noAnimation
-        data={data.third}
-        value={data.third[2].selectedKey}
+        data={data['third']}
+        value={data['third'][2].selectedKey}
         {...mockProps}
       />
     )

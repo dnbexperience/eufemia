@@ -190,7 +190,7 @@ export function normalizeData(props): DrawerListInternalData {
 
   return data.map((dataItem, __id) => {
     const normalized = normalizeDataItem(dataItem, true)
-    return typeof normalized?.__id !== 'undefined'
+    return typeof normalized?.['__id'] !== 'undefined'
       ? (normalized as DrawerListInternalItem)
       : { ...normalized, __id }
   })

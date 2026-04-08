@@ -171,7 +171,7 @@ export function suggestionsElement(
     additionalArgs
   ) => {
     const { cityPath, postalCodePath } = handlerConfig || {}
-    const data = additionalArgs?.data as AddressResolverPayload[0]
+    const data = additionalArgs?.['data'] as AddressResolverPayload[0]
     if (data) {
       const dataContext = additionalArgs.dataContext
 

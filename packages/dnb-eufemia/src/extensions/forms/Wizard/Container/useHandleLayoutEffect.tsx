@@ -8,7 +8,7 @@ export default function useHandleLayoutEffect({
 
   useEffect(() => {
     // Ensure we delay the mounting before layout effect is handled
-    const delay = process.env.NODE_ENV === 'test' ? 8 : 100
+    const delay = process.env['NODE_ENV'] === 'test' ? 8 : 100
     const timeout = setTimeout(() => {
       isInteractionRef.current = true
     }, delay)

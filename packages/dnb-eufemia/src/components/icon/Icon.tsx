@@ -390,14 +390,14 @@ function prepareIconCore(
     if (
       !wrapperParams['data-testid'] &&
       typeof process !== 'undefined' &&
-      process.env.NODE_ENV === 'test'
+      process.env['NODE_ENV'] === 'test'
     ) {
       wrapperParams['data-testid'] = wrapperParams['aria-label']
     }
     delete wrapperParams['aria-label']
   }
 
-  wrapperParams.className = clsx(
+  wrapperParams['className'] = clsx(
     'dnb-icon',
     modifier && `dnb-icon--${modifier}`,
     border && 'dnb-icon--border',
@@ -501,7 +501,7 @@ export function prerenderIcon(
       icon = `${icon}_${size}`
     }
     const mod = (
-      listOfIcons.dnbIcons ? listOfIcons.dnbIcons : listOfIcons
+      listOfIcons['dnbIcons'] ? listOfIcons['dnbIcons'] : listOfIcons
     )[icon]
     return mod && mod.default ? mod.default : mod
   } catch (e) {

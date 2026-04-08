@@ -94,11 +94,11 @@ function Element(localProps: ElementAllProps) {
   const isFragment = Tag === React.Fragment
 
   if (!isFragment && typeof Tag !== 'function' && ref) {
-    attributes.ref = ref
+    attributes['ref'] = ref
   }
 
   if (isFragment) {
-    return <>{attributes.children as React.ReactNode}</>
+    return <>{attributes['children'] as React.ReactNode}</>
   }
 
   return <Tag className={internalClassName} {...attributes} />

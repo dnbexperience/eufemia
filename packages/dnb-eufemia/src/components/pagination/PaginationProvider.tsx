@@ -29,12 +29,12 @@ const PaginationProvider = (props: any) => {
     const state: Record<string, unknown> = {}
 
     if (props.pageCount != null) {
-      state.pageCountInternal = parseFloat(props.pageCount) || 1
+      state['pageCountInternal'] = parseFloat(props.pageCount) || 1
     }
 
-    state.parallelLoadCount = parseFloat(props.parallelLoadCount) || 1
-    state.minTime = parseFloat(props.minWaitTime) || 0
-    state.placeMakerBeforeContent = props.placeMarkerBeforeContent
+    state['parallelLoadCount'] = parseFloat(props.parallelLoadCount) || 1
+    state['minTime'] = parseFloat(props.minWaitTime) || 0
+    state['placeMakerBeforeContent'] = props.placeMarkerBeforeContent
 
     return state
   }, [
@@ -152,7 +152,7 @@ const PaginationProvider = (props: any) => {
       existingItems = itemsRef.current
     ) => {
       const position =
-        itemProps.position ||
+        itemProps['position'] ||
         (pageNumber < currentPageInternalRef.current ? 'before' : 'after')
 
       if (isNaN(pageNumber)) {

@@ -134,8 +134,8 @@ function ToggleButton(ownProps: ToggleButtonProps) {
       if (groupContext.multiselect) {
         groupContext.setContext((prevContext) => ({
           values:
-            prevContext && Array.isArray(prevContext.values)
-              ? [...prevContext.values, ownProps.value]
+            prevContext && Array.isArray(prevContext['values'])
+              ? [...prevContext['values'], ownProps.value]
               : [ownProps.value],
         }))
       } else {
@@ -248,10 +248,11 @@ function ToggleButton(ownProps: ToggleButtonProps) {
     resolvedProps,
     toggleButtonDefaultProps,
     contextProps,
-    (context.translation as Record<string, unknown>)
-      ?.ToggleButton as Record<string, unknown>,
+    (context.translation as Record<string, unknown>)?.[
+      'ToggleButton'
+    ] as Record<string, unknown>,
     pickFormElementProps(context.formElement as Record<string, unknown>),
-    (context as Record<string, unknown>).ToggleButton as Record<
+    (context as Record<string, unknown>)['ToggleButton'] as Record<
       string,
       unknown
     >
@@ -356,9 +357,9 @@ function ToggleButton(ownProps: ToggleButtonProps) {
   if (status) {
     // do not send along the message, but only the status states
     if (statusState === 'information') {
-      componentParams.statusState = 'information'
+      componentParams['statusState'] = 'information'
     } else {
-      componentParams.status = 'error'
+      componentParams['status'] = 'error'
     }
   }
 

@@ -31,8 +31,8 @@ export const transformSass =
     // Only manipulate window.location if we're not in a test environment
     // Check for Jest environment more reliably
     const isTestEnv =
-      process.env.NODE_ENV === 'test' ||
-      process.env.JEST_WORKER_ID !== undefined ||
+      process.env['NODE_ENV'] === 'test' ||
+      process.env['JEST_WORKER_ID'] !== undefined ||
       typeof jest !== 'undefined'
 
     if (typeof window !== 'undefined' && !isTestEnv) {

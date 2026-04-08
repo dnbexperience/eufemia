@@ -314,8 +314,8 @@ const PaginationInstance = React.memo(function PaginationInstance(
   const props = extendPropsWithContextInClassComponent(
     ownProps,
     paginationDefaultProps,
-    ctx.getTranslation(ownProps).Pagination,
-    ctx.Pagination
+    ctx['getTranslation'](ownProps).Pagination,
+    ctx['Pagination']
   )
 
   const {
@@ -362,10 +362,10 @@ const PaginationInstance = React.memo(function PaginationInstance(
 
   // our props
   const { currentPageInternal, items, fallbackElement, indicatorElement } =
-    ctx.pagination
+    ctx['pagination']
 
   // Pagination mode
-  if (ctx.pagination.mode === 'pagination') {
+  if (ctx['pagination'].mode === 'pagination') {
     const mainParams = {
       className: clsx(
         'dnb-pagination',

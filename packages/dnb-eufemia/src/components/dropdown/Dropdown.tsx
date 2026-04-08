@@ -303,7 +303,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
       try {
         const element = buttonRef.current
         if (element && typeof element.focus === 'function') {
-          if (args.preventHideFocus !== true) {
+          if (args['preventHideFocus'] !== true) {
             element.focus({ preventScroll: true })
           }
           dispatchCustomElementEvent(
@@ -399,7 +399,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
   )
 
   const onSelectHandler = useCallback((args: Record<string, unknown>) => {
-    if (parseFloat(args.activeItem as string) > -1) {
+    if (parseFloat(args['activeItem'] as string) > -1) {
       const attributes = attributesRef.current || {}
       dispatchCustomElementEvent(
         { props: propsWithDefaultsRef.current },
@@ -445,10 +445,10 @@ const DropdownInstance = React.memo(function DropdownInstance({
     propsWithDefaults,
     dropdownDefaultProps,
     { skeleton: context?.skeleton },
-    (context as Record<string, any>).getTranslation(propsWithDefaults)
+    (context as Record<string, any>)['getTranslation'](propsWithDefaults)
       .Dropdown,
     pickFormElementProps(context?.formElement),
-    (context as Record<string, any>).Dropdown
+    (context as Record<string, any>)['Dropdown']
   )
 
   const {

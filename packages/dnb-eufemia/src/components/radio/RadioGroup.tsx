@@ -166,7 +166,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
     resolvedProps,
     radioGroupDefaultProps,
     pickFormElementProps(context?.formElement),
-    (context as Record<string, unknown>)?.RadioGroup as
+    (context as Record<string, unknown>)?.['RadioGroup'] as
       | Record<string, unknown>
       | undefined
   )

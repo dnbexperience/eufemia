@@ -1031,7 +1031,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     if (
       !omitMultiplePathWarning &&
       !isParentRelativePath &&
-      process.env.NODE_ENV !== 'production' &&
+      process.env['NODE_ENV'] !== 'production' &&
       (hasPath || hasItemPath) &&
       (hasPath ? !iterateItemContext : true) &&
       existingFieldsRef?.current

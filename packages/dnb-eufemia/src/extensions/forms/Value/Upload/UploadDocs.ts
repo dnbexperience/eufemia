@@ -19,5 +19,5 @@ export const UploadValueProperties: PropertiesTableProps = {
 }
 
 export const UploadValueEvents: PropertiesTableProps = {
-  onFileClick: UploadFieldEvents.onFileClick,
+  onFileClick: UploadFieldEvents['onFileClick'],
 }

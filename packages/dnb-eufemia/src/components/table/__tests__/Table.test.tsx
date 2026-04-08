@@ -5,7 +5,7 @@ import { BasicTable } from './TableMocks'
 import type { TableAllProps } from '../Table'
 import Table from '../Table'
 
-const NODE_ENV = process.env.NODE_ENV
+const NODE_ENV = process.env['NODE_ENV']
 const log = globalThis.console.log
 
 beforeEach(() => {
@@ -18,7 +18,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  process.env.NODE_ENV = NODE_ENV
+  process.env['NODE_ENV'] = NODE_ENV
   globalThis.console.log = log
 
   delete window.IntersectionObserver

@@ -7374,8 +7374,8 @@ describe('useFieldProps', () => {
     })
 
     it('should not warn when process.env.NODE_ENV is not production', () => {
-      const originalNodeEnv = process.env.NODE_ENV
-      process.env.NODE_ENV = 'production'
+      const originalNodeEnv = process.env['NODE_ENV']
+      process.env['NODE_ENV'] = 'production'
 
       render(
         <React.StrictMode>
@@ -7387,7 +7387,7 @@ describe('useFieldProps', () => {
       )
 
       expect(log).toHaveBeenCalledTimes(0)
-      process.env.NODE_ENV = originalNodeEnv
+      process.env['NODE_ENV'] = originalNodeEnv
     })
 
     it('for the "itemPath" prop', () => {

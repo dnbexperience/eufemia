@@ -1292,7 +1292,7 @@ describe('FieldBlock', () => {
       initializeTestSetup()
 
       beforeEach(() => {
-        process.env.NODE_ENV = 'development'
+        process.env['NODE_ENV'] = 'development'
       })
 
       it('should have enabled animation', () => {
@@ -1336,7 +1336,7 @@ describe('FieldBlock', () => {
       })
 
       it('should disable animation when process.env.NODE_ENV is test', () => {
-        process.env.NODE_ENV = 'test'
+        process.env['NODE_ENV'] = 'test'
 
         const { rerender } = render(<FieldBlock>content</FieldBlock>)
 

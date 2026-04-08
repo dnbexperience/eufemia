@@ -143,7 +143,7 @@ export default function ModalContent(props: ModalContentProps) {
     }
 
     if (typeof open === 'boolean') {
-      if (process.env.NODE_ENV !== 'test') {
+      if (process.env['NODE_ENV'] !== 'test') {
         const delay = Date.now() - mountedRef.current
         return delay > 30
       }
@@ -444,7 +444,7 @@ export default function ModalContent(props: ModalContentProps) {
       id: idProp,
     })
 
-    if (noAnimation || process.env.NODE_ENV === 'test') {
+    if (noAnimation || process.env['NODE_ENV'] === 'test') {
       lockBody()
     } else {
       lockTimeoutRef.current = setTimeout(lockBody, timeoutDuration * 1.2)

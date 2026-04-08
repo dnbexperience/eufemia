@@ -1052,7 +1052,7 @@ export default function Provider<Data extends JsonObject>(
           JSON.stringify(internalDataRef.current)
         )
       },
-      process.env.NODE_ENV === 'test' ? 1 : 800
+      process.env['NODE_ENV'] === 'test' ? 1 : 800
     )
   }, [sessionStorageId])
 
@@ -1803,7 +1803,7 @@ export default function Provider<Data extends JsonObject>(
         show,
         id: globalStatusId,
         title:
-          status?.stack[0]?.title ??
+          status?.stack[0]?.['title'] ??
           customErrorSummaryTitle ??
           translation.errorSummaryTitle,
       },
@@ -1874,7 +1874,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
     // which ensures that the form state is displayed for at least minimumAsyncBehaviorTime duration.
     // If the form was 'pending' for less than minimumAsyncBehaviorTime,
     // the delay will be the remaining time to reach minimumAsyncBehaviorTime.
-    const isTest = process.env.NODE_ENV === 'test'
+    const isTest = process.env['NODE_ENV'] === 'test'
     const minimum =
       minimumAsyncBehaviorTime ??
       // make it testable

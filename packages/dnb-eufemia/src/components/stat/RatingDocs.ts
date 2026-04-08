@@ -21,7 +21,7 @@ export const RatingProperties: PropertiesTableProps = {
     defaultValue: 'stars',
     status: 'optional',
   },
-  srLabel: NumberFormatProperties.srLabel,
+  srLabel: NumberFormatProperties['srLabel'],
   skeleton: skeletonProperty,
   '[Space](/uilib/layout/space/properties)': spacingProperties,
 }

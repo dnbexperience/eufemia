@@ -22,7 +22,7 @@ export const ValueProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  help: FieldBlockProperties.help,
+  help: FieldBlockProperties['help'],
   transformLabel: {
     doc: 'Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.',
     type: 'function',

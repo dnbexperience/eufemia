@@ -207,7 +207,7 @@ export function useHeightAnimation(
 function useOpenClose({ open, instRef, isInitialRenderRef, targetRef }) {
   const isTest =
     typeof process !== 'undefined' &&
-    process.env.NODE_ENV === 'test' &&
+    process.env['NODE_ENV'] === 'test' &&
     typeof globalThis.IS_TEST === 'undefined'
 
   useLayoutEffect(() => {

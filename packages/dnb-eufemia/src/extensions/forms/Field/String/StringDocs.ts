@@ -60,13 +60,13 @@ export const StringProperties: PropertiesTableProps = {
 
   // - Input props
   size: {
-    ...InputProperties.size,
-    doc: `${InputProperties.size.doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
+    ...InputProperties['size'],
+    doc: `${InputProperties['size'].doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
   },
-  align: InputProperties.align,
-  selectAll: InputProperties.selectAll,
-  clear: InputProperties.clear,
-  keepPlaceholder: InputProperties.keepPlaceholder,
+  align: InputProperties['align'],
+  selectAll: InputProperties['selectAll'],
+  clear: InputProperties['clear'],
+  keepPlaceholder: InputProperties['keepPlaceholder'],
 
   // - Textarea props
   rows: {

@@ -501,8 +501,8 @@ describe('DatePicker component', () => {
   })
 
   it('should select the whole input during focus', async () => {
-    const originalEnv = process.env.NODE_ENV
-    process.env.NODE_ENV = 'not-test'
+    const originalEnv = process.env['NODE_ENV']
+    process.env['NODE_ENV'] = 'not-test'
 
     render(<DatePicker showInput />)
 
@@ -516,7 +516,7 @@ describe('DatePicker component', () => {
     expect(day.selectionStart).toBe(0)
     expect(day.selectionEnd).toBe(2)
 
-    process.env.NODE_ENV = originalEnv
+    process.env['NODE_ENV'] = originalEnv
   })
 
   it('should clear selection when tabbing out of the last date segment', async () => {

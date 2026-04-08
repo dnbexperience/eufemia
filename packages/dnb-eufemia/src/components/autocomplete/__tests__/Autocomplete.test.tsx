@@ -2959,9 +2959,9 @@ describe('Autocomplete component', () => {
 
       const onTypeHandler = ({ debounce, ...args }) => {
         debounce(() => {
-          args.showIndicator()
+          args['showIndicator']()
           setTimeout(() => {
-            args.hideIndicator()
+            args['hideIndicator']()
             setData(mockDataB)
           }, 1)
         }, 1)

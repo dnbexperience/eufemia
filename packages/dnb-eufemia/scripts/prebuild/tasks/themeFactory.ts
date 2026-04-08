@@ -59,7 +59,7 @@ const prettierrc = JSON.parse(
 )
 const isCLI = require.main === module
 
-if (isCLI && process.env.NODE_ENV !== 'test') {
+if (isCLI && process.env['NODE_ENV'] !== 'test') {
   log.start()
   runThemeFactory().then(() => {
     log.succeed()

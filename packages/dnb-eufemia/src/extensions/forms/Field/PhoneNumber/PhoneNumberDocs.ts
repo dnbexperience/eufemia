@@ -60,15 +60,15 @@ export const PhoneNumberProperties: PropertiesTableProps = {
     status: 'optional',
   },
   label: {
-    ...FieldProperties.label,
+    ...FieldProperties['label'],
     doc: 'Label to show on the FieldBlock (wrapper around the phone number fields). Use `numberLabel` to customize the label for the number input field.',
   },
   labelDescription: {
-    ...FieldProperties.labelDescription,
+    ...FieldProperties['labelDescription'],
     doc: 'Description text shown below the label on the FieldBlock (wrapper around the phone number fields).',
   },
-  labelSrOnly: FieldProperties.labelSrOnly,
-  size: StringProperties.size,
+  labelSrOnly: FieldProperties['labelSrOnly'],
+  size: StringProperties['size'],
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],

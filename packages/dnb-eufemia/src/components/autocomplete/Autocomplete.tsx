@@ -632,8 +632,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
   // State
   const [inputValue, setInputValueState] = useState<string | null>(() => {
-    if (props.inputValue !== 'initval' && props.inputValue != null) {
-      return props.inputValue
+    if (props['inputValue'] !== 'initval' && props['inputValue'] != null) {
+      return props['inputValue']
     }
     if (drawerList && drawerList.currentTitle) {
       return drawerList.currentTitle
@@ -643,7 +643,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   const [typedInputValue, setTypedInputValue] = useState<string | null>(
     null
   )
-  const [mode, setModeState] = useState(props.mode)
+  const [mode, setModeState] = useState(props['mode'])
   const [hasFocus, setHasFocus] = useState(false)
   const hasBlurRef = useRef(false)
   const setHasBlur = useCallback((v: boolean) => {
@@ -652,7 +652,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   const [showAllNextTime, setShowAllNextTime] = useState(false)
   const [skipFocusDuringChange, setSkipFocusDuringChange] = useState(false)
   const [disableHighlightingState, setDisableHighlighting] = useState(
-    props.disableHighlighting
+    props['disableHighlighting']
   )
   const [visibleIndicator, setVisibleIndicator] = useState(false)
   const [searchIndex, setSearchIndexState] = useState<
@@ -680,12 +680,12 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   const skipFilterRef = useRef(disableFilter)
   const skipReorderRef = useRef(disableReorder)
   const searchIndexRef = useRef(searchIndex)
-  const prevDataRef = useRef(props.data)
+  const prevDataRef = useRef(props['data'])
   const dataChangedRef = useRef(false)
   const lastUpdateDataRef = useRef<DrawerListInternalData | null>(null)
-  const prevValueRef = useRef(props.value)
-  const prevInputValuePropRef = useRef(props.inputValue)
-  const prevDisableHighlightingRef = useRef(props.disableHighlighting)
+  const prevValueRef = useRef(props['value'])
+  const prevInputValuePropRef = useRef(props['inputValue'])
+  const prevDisableHighlightingRef = useRef(props['disableHighlighting'])
   const inputValueRef = useRef(inputValue)
   const typedInputValueRef = useRef(typedInputValue)
   const modeRef = useRef(mode)
@@ -711,7 +711,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     (data = drawerList.data) => {
       const lastItem = data.slice(-1)[0]
       return lastItem
-        ? lastItem.showAll || String(lastItem.__id) === 'noOptions'
+        ? lastItem['showAll'] || String(lastItem.__id) === 'noOptions'
         : false
     },
     [drawerList.data]
@@ -730,7 +730,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       if (countData(data) > 0) {
         const first = data[0]
         if (
-          !first.showAll &&
+          !first['showAll'] &&
           !['noOptions', 'indicator'].includes(String(first.__id))
         ) {
           return true
@@ -885,21 +885,21 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
   const revalidateSelectedItem = useCallback(() => {
     const selectedItem = getCurrentIndex(
-      props.value,
+      props['value'],
       drawerListRef.current.originalData
     )
 
     drawerListRef.current.setState({
       selectedItem,
     })
-  }, [props.value])
+  }, [props['value']])
 
   const revalidateInputValue = useCallback(() => {
-    if (props.inputValue && props.inputValue !== 'initval') {
+    if (props['inputValue'] && props['inputValue'] !== 'initval') {
       return undefined // stop here
     }
     const selectedItem = getCurrentIndex(
-      props.value,
+      props['value'],
       drawerListRef.current.originalData
     )
     const usedInputValue = getCurrentDataTitle(
@@ -907,7 +907,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       drawerListRef.current.originalData
     )
     setInputValue(usedInputValue)
-  }, [props.inputValue, props.value, setInputValue])
+  }, [props['inputValue'], props['value'], setInputValue])
 
   const resetSelectedItem = useCallback(() => {
     const hadValue = hasSelectedItem()
@@ -936,7 +936,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     if (
       keepValue ||
       keepValueAndSelection ||
-      (props.inputValue !== 'initval' && props.inputValue?.length > 0)
+      (props['inputValue'] !== 'initval' &&
+        props['inputValue']?.length > 0)
     ) {
       return undefined // stop here
     }
@@ -956,7 +957,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   }, [
     keepValue,
     keepValueAndSelection,
-    props.inputValue,
+    props['inputValue'],
     hasSelectedItem,
     setInputValue,
     clearInputValue,
@@ -966,12 +967,12 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     resetActiveItem()
     ignoreEvents()
     drawerListRef.current.setData(
-      props.noOptions === false
+      props['noOptions'] === false
         ? []
         : [
             {
               className: 'dnb-autocomplete__no-options',
-              content: props.noOptions,
+              content: props['noOptions'],
               ignoreEvents: true,
               __id: 'noOptions',
             },
@@ -981,7 +982,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       cacheHash: 'noOptions',
     })
     setVisible()
-  }, [resetActiveItem, ignoreEvents, props.noOptions, setVisible])
+  }, [resetActiveItem, ignoreEvents, props['noOptions'], setVisible])
 
   const showIndicatorItem = useCallback(() => {
     resetActiveItem()
@@ -989,7 +990,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     drawerListRef.current.setData([
       {
         className: 'dnb-autocomplete__indicator',
-        content: <ProgressIndicator label={props.indicatorLabel} />,
+        content: <ProgressIndicator label={props['indicatorLabel']} />,
         ignoreEvents: true,
         __id: 'indicator',
       },
@@ -998,7 +999,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       cacheHash: 'indicator',
     })
     setVisible()
-  }, [resetActiveItem, ignoreEvents, props.indicatorLabel, setVisible])
+  }, [resetActiveItem, ignoreEvents, props['indicatorLabel'], setVisible])
 
   const showIndicator = useCallback(() => {
     setVisibleIndicator(true)
@@ -1019,7 +1020,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       }
 
       const lastItem = drawerListRef.current.originalData.slice(-1)[0]
-      if (lastItem && !lastItem.showAll) {
+      if (lastItem && !lastItem['showAll']) {
         const lastActiveItem = data.slice(-1)[0]
         if (lastActiveItem) {
           data.push({
@@ -1032,7 +1033,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
             content: (
               <>
                 <IconPrimary icon="arrow_down" />
-                {props.showAll}
+                {props['showAll']}
               </>
             ),
           })
@@ -1041,7 +1042,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
       return data
     },
-    [hasFilterActive, props.showAll]
+    [hasFilterActive, props['showAll']]
   )
 
   const runFilter = useCallback(
@@ -1050,10 +1051,10 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       {
         data = null,
         searchIndex: siParam = searchIndexRef.current,
-        searchNumbers: snParam = props.searchNumbers,
+        searchNumbers: snParam = props['searchNumbers'],
         inWordIndex = parseFloat(
           String(
-            props.searchInWordIndex ?? (skipFilterRef.current ? 1 : 3)
+            props['searchInWordIndex'] ?? (skipFilterRef.current ? 1 : 3)
           )
         ) - 1,
         disableHighlighting: disableHL = false,
@@ -1081,7 +1082,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         return []
       }
 
-      const startsWithMatch = props.searchMatch === 'starts-with'
+      const startsWithMatch = props['searchMatch'] === 'starts-with'
       const rawValue = value ?? ''
       let searchWords = rawValue.split(/\s+/g).filter(Boolean)
 
@@ -1418,9 +1419,9 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     },
     [
       setSearchIndex,
-      props.searchMatch,
-      props.searchNumbers,
-      props.searchInWordIndex,
+      props['searchMatch'],
+      props['searchNumbers'],
+      props['searchInWordIndex'],
       disableHighlightingState,
     ]
   )
@@ -1658,8 +1659,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         () => {
           if (hasChanged) {
             if (
-              propsRef.current.value &&
-              propsRef.current.value !== 'initval'
+              propsRef.current['value'] &&
+              propsRef.current['value'] !== 'initval'
             ) {
               revalidateSelectedItem()
               revalidateInputValue()
@@ -2181,39 +2182,41 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   )
 
   // Handle prop-driven state updates (replaces getDerivedStateFromProps)
-  if (props.disableHighlighting !== prevDisableHighlightingRef.current) {
-    prevDisableHighlightingRef.current = props.disableHighlighting
-    setDisableHighlighting(props.disableHighlighting)
+  if (
+    props['disableHighlighting'] !== prevDisableHighlightingRef.current
+  ) {
+    prevDisableHighlightingRef.current = props['disableHighlighting']
+    setDisableHighlighting(props['disableHighlighting'])
   }
 
   if (
-    props.inputValue !== 'initval' &&
-    props.inputValue !== prevInputValuePropRef.current
+    props['inputValue'] !== 'initval' &&
+    props['inputValue'] !== prevInputValuePropRef.current
   ) {
-    prevInputValuePropRef.current = props.inputValue
-    setInputValueState(props.inputValue)
+    prevInputValuePropRef.current = props['inputValue']
+    setInputValueState(props['inputValue'])
   }
 
-  if (props.data !== prevDataRef.current) {
+  if (props['data'] !== prevDataRef.current) {
     // Handle the case where data transitions from empty to populated
-    if (props.data?.length > 0 && prevDataRef.current?.length === 0) {
+    if (props['data']?.length > 0 && prevDataRef.current?.length === 0) {
       let selectedItem = drawerList.selectedItem
 
-      if (props.defaultValue) {
-        selectedItem = props.defaultValue
+      if (props['defaultValue']) {
+        selectedItem = props['defaultValue']
       }
 
       if (
-        !props.defaultValue &&
-        props.value &&
-        props.value !== 'initval'
+        !props['defaultValue'] &&
+        props['value'] &&
+        props['value'] !== 'initval'
       ) {
-        selectedItem = props.value
+        selectedItem = props['value']
       }
 
       const currentData = getCurrentData(
         selectedItem,
-        normalizeData(props.data)
+        normalizeData(props['data'])
       )
 
       const newInputValue = parseContentTitle(currentData, {
@@ -2223,7 +2226,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       setInputValueState(newInputValue)
     }
 
-    prevDataRef.current = props.data
+    prevDataRef.current = props['data']
     dataChangedRef.current = true
   }
 
@@ -2240,7 +2243,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
   // Handle open prop on mount
   useMountEffect(() => {
-    if (props.open) {
+    if (props['open']) {
       runFilterToHighlight({ fillDataIfEmpty: true })
       setVisible()
     }
@@ -2259,7 +2262,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       // restoring all items via showAllItems().
       lastUpdateDataRef.current = null
 
-      updateData(props.data)
+      updateData(props['data'])
       if (drawerList.open || hasFocus) {
         // Match class componentDidUpdate: re-run filter after updating the
         // search index so highlight and visibility are handled consistently.
@@ -2269,16 +2272,16 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.data])
+  }, [props['data']])
 
   // Handle value prop changes (replaces componentDidUpdate value check)
   useEffect(() => {
-    if (props.value !== prevValueRef.current) {
-      prevValueRef.current = props.value
+    if (props['value'] !== prevValueRef.current) {
+      prevValueRef.current = props['value']
       revalidateSelectedItem()
       revalidateInputValue()
     }
-  }, [props.value, revalidateSelectedItem, revalidateInputValue])
+  }, [props['value'], revalidateSelectedItem, revalidateInputValue])
 
   // Cleanup timeouts on unmount
   useMountEffect(() => {
@@ -2465,12 +2468,12 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       let newString = null
 
       if (count > 0) {
-        newString = String(props.ariaLiveOptions).replace(
+        newString = String(props['ariaLiveOptions']).replace(
           '%s',
           String(count)
         )
       } else {
-        newString = props.noOptions
+        newString = props['noOptions']
       }
 
       return newString

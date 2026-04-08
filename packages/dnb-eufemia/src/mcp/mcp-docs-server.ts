@@ -138,8 +138,8 @@ async function listMarkdownFiles(rootAbs: string): Promise<string[]> {
 }
 
 function computeDocsRoot() {
-  if (process.env.EUFEMIA_DOCS_ROOT) {
-    return path.resolve(process.env.EUFEMIA_DOCS_ROOT)
+  if (process.env['EUFEMIA_DOCS_ROOT']) {
+    return path.resolve(process.env['EUFEMIA_DOCS_ROOT'])
   }
   const entryPath = process.argv[1] ? path.resolve(process.argv[1]) : ''
   const entryName = entryPath ? path.basename(entryPath) : ''

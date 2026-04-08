@@ -2,16 +2,16 @@ import type { PropertiesTableProps } from '../../../../shared/types'
 import { FieldBlockProperties } from '../../FieldBlock/FieldBlockDocs'
 
 export const CompositionProperties: PropertiesTableProps = {
-  label: FieldBlockProperties.label,
-  labelDescription: FieldBlockProperties.labelDescription,
-  labelSrOnly: FieldBlockProperties.labelSrOnly,
-  width: FieldBlockProperties.width,
-  contentWidth: FieldBlockProperties.contentWidth,
-  disabled: FieldBlockProperties.disabled,
-  error: FieldBlockProperties.error,
-  warning: FieldBlockProperties.warning,
-  info: FieldBlockProperties.info,
-  help: FieldBlockProperties.help,
+  label: FieldBlockProperties['label'],
+  labelDescription: FieldBlockProperties['labelDescription'],
+  labelSrOnly: FieldBlockProperties['labelSrOnly'],
+  width: FieldBlockProperties['width'],
+  contentWidth: FieldBlockProperties['contentWidth'],
+  disabled: FieldBlockProperties['disabled'],
+  error: FieldBlockProperties['error'],
+  warning: FieldBlockProperties['warning'],
+  info: FieldBlockProperties['info'],
+  help: FieldBlockProperties['help'],
   align: {
     doc: '`center` or `bottom` for aligning the contents vertically. Defaults to `bottom`.',
     type: ['string', 'false'],

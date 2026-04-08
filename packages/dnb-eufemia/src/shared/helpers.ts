@@ -379,12 +379,12 @@ export async function copyToClipboard(string: string) {
 export const warn = (...params) => {
   if (
     typeof process !== 'undefined' &&
-    process.env.NODE_ENV !== 'production' &&
+    process.env['NODE_ENV'] !== 'production' &&
     typeof console !== 'undefined' &&
     typeof console.log === 'function'
   ) {
     const isBrowser =
-      typeof window !== 'undefined' && process.env.NODE_ENV !== 'test'
+      typeof window !== 'undefined' && process.env['NODE_ENV'] !== 'test'
 
     if (isBrowser) {
       const styles = [

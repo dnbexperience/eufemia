@@ -145,13 +145,13 @@ function Expiry(props: ExpiryProps = {}) {
           return external
         }
 
-        if (external?.year || external?.month) {
+        if (external?.['year'] || external?.['month']) {
           const monthString = expiryValueToString(
-            external.month as string,
+            external['month'] as string,
             placeholders.month
           )
           const yearString = expiryValueToString(
-            external.year as string,
+            external['year'] as string,
             placeholders.year
           )
 

@@ -151,7 +151,7 @@ export class InteractionInvalidation {
     // JSDOM has issues with the selector :not(x *), so we used it only in the browser,
     // so we remove the asterisk from the selector, but add it to the exclude selectors list and make another querySelectorAll call
     // - so we query all bypass selectors with "asterisk" manually
-    if (process.env.NODE_ENV === 'test') {
+    if (process.env['NODE_ENV'] === 'test') {
       const allNodes = Array.from(
         (targetElement || document.documentElement).querySelectorAll(
           '*'

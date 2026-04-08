@@ -65,12 +65,12 @@ describe('makeLibStyles with enableBuildStyleScope', () => {
   // Ensure enableBuildStyleScope returns true
   let originalEnv
   beforeAll(() => {
-    originalEnv = process.env.NODE_ENV
-    process.env.NODE_ENV = 'production'
+    originalEnv = process.env['NODE_ENV']
+    process.env['NODE_ENV'] = 'production'
     jest.resetModules()
   })
   afterAll(() => {
-    process.env.NODE_ENV = originalEnv
+    process.env['NODE_ENV'] = originalEnv
   })
 
   // Mock console.log to suppress lines containing '✨'

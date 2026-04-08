@@ -27,7 +27,7 @@ export const OptionProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  help: FieldProperties.help,
+  help: FieldProperties['help'],
   children: {
     doc: 'Optional way to provide `title`. Will be ignored if `title` is used.',
     type: 'React.ReactNode',

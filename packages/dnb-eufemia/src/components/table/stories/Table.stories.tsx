@@ -301,22 +301,22 @@ export const BasicTable = () => {
           <Tr>
             <Th
               sortable
-              reversed={sortState.column1.reversed}
-              active={sortState.column1.active}
+              reversed={sortState['column1'].reversed}
+              active={sortState['column1'].active}
             >
               <Th.SortButton
-                onClick={sortHandler.column1}
+                onClick={sortHandler['column1']}
                 text="Column 1"
                 title="Sort table column"
               />
             </Th>
             <Th
               sortable
-              reversed={sortState.column2.reversed}
-              active={sortState.column2.active}
+              reversed={sortState['column2'].reversed}
+              active={sortState['column2'].active}
             >
               <Th.SortButton
-                onClick={sortHandler.column2}
+                onClick={sortHandler['column2']}
                 text="Column 2"
                 title="Sort table column"
               />
@@ -324,11 +324,11 @@ export const BasicTable = () => {
             <Th
               align="right"
               sortable
-              reversed={sortState.column3.reversed}
-              active={sortState.column3.active}
+              reversed={sortState['column3'].reversed}
+              active={sortState['column3'].active}
             >
               <Th.SortButton
-                onClick={sortHandler.column3}
+                onClick={sortHandler['column3']}
                 text="Column 3"
                 title="Sort table column"
               />
@@ -680,7 +680,7 @@ export function TableSort() {
   const [sortedRows, setRowData] = React.useState<Row[]>(mockData)
 
   React.useEffect(() => {
-    switch (sortState.column1.direction) {
+    switch (sortState['column1'].direction) {
       case 'asc':
         setRowData([...mockData].sort(compareAsc))
         break
@@ -694,10 +694,10 @@ export function TableSort() {
         setRowData(mockData)
         break
     }
-  }, [sortState.column1.direction])
+  }, [sortState['column1'].direction])
 
   React.useEffect(() => {
-    switch (sortState.column2.direction) {
+    switch (sortState['column2'].direction) {
       case 'asc':
         setRowData([...mockData].sort((a, b) => a.minAmount - b.minAmount))
         break
@@ -711,7 +711,7 @@ export function TableSort() {
         setRowData(mockData)
         break
     }
-  }, [sortState.column2.direction])
+  }, [sortState['column2'].direction])
 
   return (
     <Table>
@@ -720,20 +720,20 @@ export function TableSort() {
           <Th
             scope="col"
             sortable
-            active={sortState.column1.active}
-            reversed={sortState.column1.reversed}
+            active={sortState['column1'].active}
+            reversed={sortState['column1'].reversed}
           >
-            <Th.SortButton text="Name" onClick={sortHandler.column1} />
+            <Th.SortButton text="Name" onClick={sortHandler['column1']} />
           </Th>
           <Th
             scope="col"
             sortable
-            active={sortState.column2.active}
-            reversed={sortState.column2.reversed}
+            active={sortState['column2'].active}
+            reversed={sortState['column2'].reversed}
           >
             <Th.SortButton
               text="Min amount"
-              onClick={sortHandler.column2}
+              onClick={sortHandler['column2']}
             />
           </Th>
         </Tr>

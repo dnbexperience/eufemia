@@ -390,7 +390,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
 
         // Enable animation only in the browser and not in tests
         noAnimation:
-          process.env.NODE_ENV === 'test'
+          process.env['NODE_ENV'] === 'test'
             ? true
             : typeof globalThis !== 'undefined'
             ? globalThis.IS_TEST === true

@@ -3,15 +3,15 @@ import { runOldBuildDateWarning } from '../runOldBuildDateWarning'
 describe('runOldBuildDateWarning', () => {
   let consoleLogSpy
 
-  const NODE_ENV = process.env.NODE_ENV
+  const NODE_ENV = process.env['NODE_ENV']
 
   beforeEach(() => {
-    process.env.NODE_ENV = 'development'
+    process.env['NODE_ENV'] = 'development'
     consoleLogSpy = jest.spyOn(console, 'log').mockImplementation()
   })
 
   afterEach(() => {
-    process.env.NODE_ENV = NODE_ENV
+    process.env['NODE_ENV'] = NODE_ENV
     consoleLogSpy?.mockRestore()
     if (window?.Eufemia) {
       delete window.Eufemia.buildDate
@@ -19,7 +19,7 @@ describe('runOldBuildDateWarning', () => {
   })
 
   it('should not log any message if NODE_ENV is "production"', () => {
-    process.env.NODE_ENV = 'production'
+    process.env['NODE_ENV'] = 'production'
 
     runOldBuildDateWarning()
 

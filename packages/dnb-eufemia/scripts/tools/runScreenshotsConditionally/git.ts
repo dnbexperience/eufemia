@@ -145,10 +145,10 @@ async function getChangedFilesFromBranchBase(
   const versionRefs = await getVersionBranchRefs(context)
   const explicitBaseRef = process.env[BASE_REF_ENV_VAR]
   const githubBaseRefs = [
-    process.env.GITHUB_BASE_REF
-      ? `origin/${process.env.GITHUB_BASE_REF}`
+    process.env['GITHUB_BASE_REF']
+      ? `origin/${process.env['GITHUB_BASE_REF']}`
       : null,
-    process.env.GITHUB_BASE_REF || null,
+    process.env['GITHUB_BASE_REF'] || null,
   ]
 
   if (explicitBaseRef) {

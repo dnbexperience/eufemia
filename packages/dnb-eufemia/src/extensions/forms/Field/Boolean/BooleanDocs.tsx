@@ -17,7 +17,7 @@ export const BooleanProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  size: ToggleProperties.size,
+  size: ToggleProperties['size'],
 }
 
 export const BooleanEvents: PropertiesTableProps = {

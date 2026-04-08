@@ -89,7 +89,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
   const props = extendPropsWithContext(
     localProps,
     defaultProps,
-    context.pagination
+    context['pagination']
   ) as PaginationBarProps & PaginationBarContext
 
   const {

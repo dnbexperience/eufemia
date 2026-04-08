@@ -418,14 +418,14 @@ describe('Button component', () => {
   })
 
   it('will warn when tertiary is used without an icon', () => {
-    process.env.NODE_ENV = 'development'
+    process.env['NODE_ENV'] = 'development'
     global.console.log = jest.fn()
     render(<Button text="Button" variant="tertiary" />)
     expect(global.console.log).toHaveBeenCalled()
   })
 
   it('will warn when icon-only button has no title or aria-label', () => {
-    process.env.NODE_ENV = 'development'
+    process.env['NODE_ENV'] = 'development'
     global.console.log = jest.fn()
     render(<Button icon="bell" />)
     expect(global.console.log).toHaveBeenCalledWith(
@@ -438,7 +438,7 @@ describe('Button component', () => {
   })
 
   it('will not warn when icon-only button has a title', () => {
-    process.env.NODE_ENV = 'development'
+    process.env['NODE_ENV'] = 'development'
     global.console.log = jest.fn()
     render(<Button icon="bell" title="Bell" />)
     expect(global.console.log).not.toHaveBeenCalledWith(
@@ -451,7 +451,7 @@ describe('Button component', () => {
   })
 
   it('will not warn when icon-only button has an aria-label', () => {
-    process.env.NODE_ENV = 'development'
+    process.env['NODE_ENV'] = 'development'
     global.console.log = jest.fn()
     render(<Button icon="bell" aria-label="Bell" />)
     expect(global.console.log).not.toHaveBeenCalledWith(

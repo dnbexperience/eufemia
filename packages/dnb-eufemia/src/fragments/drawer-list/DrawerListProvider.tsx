@@ -1216,7 +1216,7 @@ export default class DrawerListProvider extends React.PureComponent<
 
       if (this.props.noAnimation) {
         // our tests want no delay!
-        if (process?.env.NODE_ENV === 'test') {
+        if (process?.env['NODE_ENV'] === 'test') {
           animationDelayHandler()
         } else {
           // We have to have still a delay, to ensure the user can press enter to toggle the open state

@@ -85,7 +85,7 @@ export default function InfinityScroller({
         lastCallRef.current = new Date().getTime()
         const { fn, params } = callbackBufferRef.current.shift()
         fn(params)
-        callBuffer(params.preventWaitForDelay ? -1 : minTime)
+        callBuffer(params['preventWaitForDelay'] ? -1 : minTime)
       }
     }
 
@@ -103,7 +103,7 @@ export default function InfinityScroller({
   ) => {
     callbackBufferRef.current.push({ fn, params })
     callBuffer(
-      params.preventWaitForDelay ? -1 : paginationRef.current.minTime
+      params['preventWaitForDelay'] ? -1 : paginationRef.current.minTime
     )
   }
 

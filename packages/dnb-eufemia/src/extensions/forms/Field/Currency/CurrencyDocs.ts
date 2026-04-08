@@ -2,8 +2,8 @@ import type { PropertiesTableProps } from '../../../../shared/types'
 import { NumberProperties } from '../Number/NumberDocs'
 
 const props = { ...NumberProperties }
-delete props.currency
-delete props.currencyDisplay
+delete props['currency']
+delete props['currencyDisplay']
 
 export const CurrencyProperties: PropertiesTableProps = {
   currency: {

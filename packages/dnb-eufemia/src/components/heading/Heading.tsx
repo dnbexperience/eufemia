@@ -261,8 +261,8 @@ export default function Heading(props: HeadingAllProps) {
       size = getHeadingSize(theme?.name)[level]
     }
   } else {
-    if (!attributes.role) {
-      attributes.role = 'heading'
+    if (!attributes['role']) {
+      attributes['role'] = 'heading'
     }
     if (!attributes['aria-level']) {
       attributes['aria-level'] = String(level)

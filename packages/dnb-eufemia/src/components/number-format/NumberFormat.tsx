@@ -157,7 +157,7 @@ function runFix(comp: unknown, className: string): React.ReactNode {
     const elemProps = comp.props as Record<string, unknown>
     return React.createElement(comp.type as React.ElementType, {
       ...elemProps,
-      className: clsx(elemProps.className as string, className),
+      className: clsx(elemProps['className'] as string, className),
     })
   }
   return <span className={className}>{comp as React.ReactNode}</span>
@@ -272,8 +272,8 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
         context.getTranslation?.(propsWithDefaultsRef.current) as
           | Record<string, Record<string, string>>
           | undefined
-      )?.NumberFormat
-      const label = message || translations?.clipboardCopy
+      )?.['NumberFormat']
+      const label = message || translations?.['clipboardCopy']
 
       if (!label) {
         return // stop here
@@ -295,7 +295,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
       context.getTranslation?.(propsWithDefaultsRef.current) as
         | Record<string, Record<string, string>>
         | undefined
-    )?.NumberFormat?.clipboardCopy
+    )?.['NumberFormat']?.['clipboardCopy']
     showCopyTooltip(label)
   }, [context, showCopyTooltip])
 
@@ -410,7 +410,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
     invalidAriaText:
       locale && locale !== context.locale
         ? null
-        : translations?.notAvailable,
+        : translations?.['notAvailable'],
   }
 
   // use only the props from context, who are available here anyway
@@ -422,15 +422,15 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
 
   if (useCtx) {
     if (useCtx.locale && !locale) {
-      formatOptions.locale = useCtx.locale
+      formatOptions['locale'] = useCtx.locale
     }
 
     // only replace if the prop is "true" and not actually a currency
     if (useCtx.currency && currency === true) {
-      formatOptions.options = formatOptions.options
-        ? { ...(formatOptions.options as object) }
+      formatOptions['options'] = formatOptions['options']
+        ? { ...(formatOptions['options'] as object) }
         : {}
-      ;(formatOptions.options as Record<string, unknown>).currency =
+      ;(formatOptions['options'] as Record<string, unknown>)['currency'] =
         useCtx.currency
     }
   }
@@ -495,8 +495,8 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
 
   const displayParams: Record<string, unknown> = {}
   if (selectAllProp || copySelection) {
-    displayParams.onClick = onClickHandler
-    displayParams.onContextMenu = onContextMenuHandler
+    displayParams['onClick'] = onClickHandler
+    displayParams['onContextMenu'] = onContextMenuHandler
   }
 
   validateDOMAttributes(ownProps, attributes)

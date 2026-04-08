@@ -432,8 +432,8 @@ function FormStatusComponent(
       prevProps.text !== text ||
       prevProps.children !== children ||
       prevProps.show !== show ||
-      (prevProps.globalStatus as Record<string, unknown>)?.show !==
-        (globalStatus as Record<string, unknown>)?.show ||
+      (prevProps.globalStatus as Record<string, unknown>)?.['show'] !==
+        (globalStatus as Record<string, unknown>)?.['show'] ||
       prevProps.state !== state
     ) {
       fillCache()
@@ -516,10 +516,10 @@ function FormStatusComponent(
   if (!role) {
     switch (state) {
       case 'information':
-        params.role = 'status'
+        params['role'] = 'status'
         break
       default:
-        params.role = 'alert'
+        params['role'] = 'alert'
     }
   }
 

@@ -18,8 +18,8 @@ type FetchFigmaIconsOptions = {
 }
 
 export const fetchFigmaIcons = async ({
-  figmaFile = process.env.FIGMA_ICONS_FILE,
-  assetsDir = process.env.ASSETS_ICONS_DIR,
+  figmaFile = process.env['FIGMA_ICONS_FILE'],
+  assetsDir = process.env['ASSETS_ICONS_DIR'],
   ...args
 }: FetchFigmaIconsOptions = {}) => {
   if (!figmaFile) {

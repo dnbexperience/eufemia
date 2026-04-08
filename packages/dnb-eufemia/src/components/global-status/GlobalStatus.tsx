@@ -377,7 +377,7 @@ export default class GlobalStatus extends React.PureComponent<
     this.provider.onUpdate((globalStatus) => {
       // we need the onClose later during the close process
       // so we set this here, because it gets removed from the stack
-      if (globalStatus.onClose) {
+      if (globalStatus['onClose']) {
         this._globalStatus = globalStatus
       }
 
@@ -392,12 +392,14 @@ export default class GlobalStatus extends React.PureComponent<
           this._hadContent &&
           !this.hasContent(globalStatus) &&
           this.props.show !== true) ||
-        (typeof globalStatus.show !== 'undefined' && !globalStatus.show)
+        (typeof globalStatus['show'] !== 'undefined' &&
+          !globalStatus['show'])
       ) {
         this.setHidden()
       } else if (
         this.props.show === true ||
-        (typeof globalStatus.show !== 'undefined' && globalStatus.show)
+        (typeof globalStatus['show'] !== 'undefined' &&
+          globalStatus['show'])
       ) {
         this._hadContent = this.hasContent(globalStatus)
 
@@ -432,7 +434,9 @@ export default class GlobalStatus extends React.PureComponent<
   }
 
   hasContent(globalStatus: Record<string, any>) {
-    return Boolean(globalStatus.items?.length > 0 || globalStatus.text)
+    return Boolean(
+      globalStatus['items']?.length > 0 || globalStatus['text']
+    )
   }
 
   correctStatus(state: string | undefined) {
@@ -539,7 +543,7 @@ export default class GlobalStatus extends React.PureComponent<
   ) => {
     const key = (event as React.KeyboardEvent).key
     if (
-      (item.itemId &&
+      (item['itemId'] &&
         typeof document !== 'undefined' &&
         typeof window !== 'undefined' &&
         key === ' ') ||
@@ -549,7 +553,7 @@ export default class GlobalStatus extends React.PureComponent<
       event.preventDefault()
       try {
         // find the element
-        const element = document.getElementById(item.itemId)
+        const element = document.getElementById(item['itemId'])
 
         if (!element) {
           return
@@ -715,7 +719,7 @@ export default class GlobalStatus extends React.PureComponent<
 
     const props = extendPropsWithContextInClassComponent(
       GlobalStatusProvider.combineMessages([
-        (this.context as Record<string, unknown>)?.globalStatus as
+        (this.context as Record<string, unknown>)?.['globalStatus'] as
           | Record<string, unknown>
           | undefined,
         this.state.globalStatus,
@@ -787,7 +791,7 @@ export default class GlobalStatus extends React.PureComponent<
       title || fallbackProps.title || fallbackProps.defaultTitle
     const noAnimationUsed = noAnimation
     const itemsToRender = props.items || []
-    const contentToRender = props.text || props.children
+    const contentToRender = props['text'] || props['children']
 
     const params = {
       className: clsx('dnb-global-status', `dnb-global-status--${state}`),

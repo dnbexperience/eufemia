@@ -17,7 +17,7 @@ function setupScope(count = 3) {
     input.className = 'dnb-multi-input-mask__input'
     input.size = i === count - 1 ? 4 : 2
     input.placeholder = i === count - 1 ? 'yyyy' : 'dd'
-    input.dataset.maskId = i === 0 ? 'month' : `input-${i}`
+    input.dataset['maskId'] = i === 0 ? 'month' : `input-${i}`
 
     container.appendChild(input)
     inputs.push(input)
@@ -256,7 +256,7 @@ describe('useHandleCursorPosition', () => {
     const next = inputs[1]
     const focusSpy = jest.spyOn(next, 'focus')
 
-    current.dataset.maskId = 'month'
+    current.dataset['maskId'] = 'month'
     current.value = ''
     current.selectionStart = 0
     current.selectionEnd = 0

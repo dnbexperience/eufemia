@@ -14,8 +14,8 @@ export const SelectCurrencyProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    ...AutocompleteProperties.size,
-    doc: `${AutocompleteProperties.size.doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
+    ...AutocompleteProperties['size'],
+    doc: `${AutocompleteProperties['size'].doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
   },
 }
 

@@ -39,11 +39,11 @@ export function selectThemes({
 const VERSION_BRANCH_PATTERN = /^v\d+/
 
 function resolveBranchName(): string | null {
-  if (process.env.GITHUB_REF_NAME) {
-    return process.env.GITHUB_REF_NAME
+  if (process.env['GITHUB_REF_NAME']) {
+    return process.env['GITHUB_REF_NAME']
   }
 
-  const ref = process.env.GITHUB_REF
+  const ref = process.env['GITHUB_REF']
   const branchPrefix = 'refs/heads/'
 
   if (ref && ref.startsWith(branchPrefix)) {

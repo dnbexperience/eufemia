@@ -225,7 +225,7 @@ function getKeysToHandle({ keysToHandle, input }: GetKeysToHandleParams) {
     return keysToHandle
   }
 
-  const masks = keysToHandle[input.dataset.maskId]
+  const masks = keysToHandle[input.dataset['maskId']]
 
   const selection =
     input.selectionStart === input.selectionEnd

@@ -1796,7 +1796,7 @@ describe('Modal component', () => {
           )
         }
 
-        process.env.NODE_ENV = 'something-else'
+        process.env['NODE_ENV'] = 'something-else'
 
         render(
           <React.StrictMode>
@@ -1809,7 +1809,7 @@ describe('Modal component', () => {
         expect(onOpen).toHaveBeenCalledTimes(2)
         expect(onClose).toHaveBeenCalledTimes(0)
 
-        process.env.NODE_ENV = 'test'
+        process.env['NODE_ENV'] = 'test'
       })
     })
   })

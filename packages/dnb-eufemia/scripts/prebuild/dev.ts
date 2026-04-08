@@ -23,7 +23,7 @@ import {
 } from './index'
 
 const dev = async () => {
-  process.env.NODE_ENV = 'production'
+  process.env['NODE_ENV'] = 'production'
   log.start('Starting dev prepublish...')
   // const preventDelete = true
 

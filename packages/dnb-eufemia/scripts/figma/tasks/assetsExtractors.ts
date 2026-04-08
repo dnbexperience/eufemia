@@ -29,7 +29,7 @@ export const ICON_SIZES = {
 }
 export const NAME_SEPARATOR = '_'
 
-const iconPrimaryList = process.env.FIGMA_ICONS_PRIMARY_LIST || [
+const iconPrimaryList = process.env['FIGMA_ICONS_PRIMARY_LIST'] || [
   'chevron_left',
   'chevron_right',
   'chevron_down',
@@ -65,15 +65,15 @@ export function IconsConfig(overwrite: IconsConfig = {}) {
     )
   }
 
-  const iconRenameList = (process.env.FIGMA_ICONS_RENAME_LIST ||
+  const iconRenameList = (process.env['FIGMA_ICONS_RENAME_LIST'] ||
     []) as Array<{ from: string; to: string }>
-  const iconCloneList = process.env.FIGMA_ICONS_CLONE_LIST || []
+  const iconCloneList = process.env['FIGMA_ICONS_CLONE_LIST'] || []
   const canvasNameSelector = /^Icons$/ // before we have used: ^[0-9]+[_\- ]Icons$
   const frameNameSelector = /^Icons$/ // before we have used: [A-z]+ - [0-9]{1,2}
-  const iconSelector = process.env.FIGMA_ICONS_SELECTOR || null
-  const iconNameCleaner = process.env.FIGMA_ICONS_NAME_SPLIT || /\/(.*)/
+  const iconSelector = process.env['FIGMA_ICONS_SELECTOR'] || null
+  const iconNameCleaner = process.env['FIGMA_ICONS_NAME_SPLIT'] || /\/(.*)/
   const imageUrlExpireAfterDays =
-    process.env.FIGMA_ICONS_URL_EXPIRES_AFTER || 30
+    process.env['FIGMA_ICONS_URL_EXPIRES_AFTER'] || 30
   const destDir = path.resolve(
     __dirname,
     '../../../assets/icons',

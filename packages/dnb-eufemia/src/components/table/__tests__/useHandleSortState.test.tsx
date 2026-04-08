@@ -113,7 +113,7 @@ describe('useHandleSortState', () => {
       one: expect.any(Function),
     }
 
-    const simulate = () => act(() => result.current.sortHandler.one())
+    const simulate = () => act(() => result.current.sortHandler['one']())
 
     simulate()
 
@@ -169,7 +169,7 @@ describe('useHandleSortState', () => {
       one: expect.any(Function),
     }
 
-    const simulate = () => act(() => result.current.sortHandler.one())
+    const simulate = () => act(() => result.current.sortHandler['one']())
 
     simulate()
 
@@ -211,7 +211,7 @@ describe('useHandleSortState', () => {
       one: expect.any(Function),
     }
 
-    const simulate = () => act(() => result.current.sortHandler.one())
+    const simulate = () => act(() => result.current.sortHandler['one']())
 
     simulate()
 
@@ -269,8 +269,10 @@ describe('useHandleSortState', () => {
       two: expect.any(Function),
     }
 
-    const simulateOne = () => act(() => result.current.sortHandler.one())
-    const simulateTwo = () => act(() => result.current.sortHandler.two())
+    const simulateOne = () =>
+      act(() => result.current.sortHandler['one']())
+    const simulateTwo = () =>
+      act(() => result.current.sortHandler['two']())
 
     simulateOne()
 
@@ -519,8 +521,10 @@ describe('useHandleSortState', () => {
       two: expect.any(Function),
     }
 
-    const simulateOne = () => act(() => result.current.sortHandler.one())
-    const simulateTwo = () => act(() => result.current.sortHandler.two())
+    const simulateOne = () =>
+      act(() => result.current.sortHandler['one']())
+    const simulateTwo = () =>
+      act(() => result.current.sortHandler['two']())
 
     expect(result.current).toEqual({
       activeSortName: 'one',

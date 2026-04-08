@@ -14,8 +14,8 @@ export function PostalCode() {
         return `https://cors-anywhere.herokuapp.com/https://api.bring.com/address/api/${countryCode}/postal-codes/${value}`
       },
       headers: {
-        'X-Mybring-API-Uid': process.env.BRING_API_UID,
-        'X-Mybring-API-Key': process.env.BRING_API_KEY,
+        'X-Mybring-API-Uid': process.env['BRING_API_UID'],
+        'X-Mybring-API-Key': process.env['BRING_API_KEY'],
       },
     },
   })
@@ -81,8 +81,8 @@ export function Address() {
         return `https://cors-anywhere.herokuapp.com/https://api.bring.com/address/api/${countryCode}/addresses/suggestions?q=${value}`
       },
       headers: {
-        'X-Mybring-API-Uid': process.env.BRING_API_UID,
-        'X-Mybring-API-Key': process.env.BRING_API_KEY,
+        'X-Mybring-API-Uid': process.env['BRING_API_UID'],
+        'X-Mybring-API-Key': process.env['BRING_API_KEY'],
       },
     },
   })

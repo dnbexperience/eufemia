@@ -6,7 +6,7 @@ describe('runCssVersionMismatchWarning', () => {
     consoleLogSpy,
     originalGetComputedStyle
 
-  const NODE_ENV = process.env.NODE_ENV
+  const NODE_ENV = process.env['NODE_ENV']
 
   beforeEach(() => {
     const requestAnimationFrame = jest.fn((fn) => {
@@ -18,7 +18,7 @@ describe('runCssVersionMismatchWarning', () => {
       .spyOn(window, 'requestAnimationFrame')
       .mockImplementation(requestAnimationFrame)
 
-    process.env.NODE_ENV = 'development'
+    process.env['NODE_ENV'] = 'development'
     originalGetComputedStyle = window.getComputedStyle
     consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation()
     consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation()
@@ -26,7 +26,7 @@ describe('runCssVersionMismatchWarning', () => {
   })
 
   afterEach(() => {
-    process.env.NODE_ENV = NODE_ENV
+    process.env['NODE_ENV'] = NODE_ENV
     window.getComputedStyle = originalGetComputedStyle
     consoleErrorSpy?.mockRestore()
     consoleWarnSpy?.mockRestore()
@@ -37,15 +37,15 @@ describe('runCssVersionMismatchWarning', () => {
   })
 
   it('should not log any error if NODE_ENV is not "development"', () => {
-    const originalNodeEnv = process.env.NODE_ENV
-    process.env.NODE_ENV = 'production'
+    const originalNodeEnv = process.env['NODE_ENV']
+    process.env['NODE_ENV'] = 'production'
 
     runCssVersionMismatchWarning()
 
     expect(consoleErrorSpy).not.toHaveBeenCalled()
     expect(consoleWarnSpy).not.toHaveBeenCalled()
 
-    process.env.NODE_ENV = originalNodeEnv
+    process.env['NODE_ENV'] = originalNodeEnv
   })
 
   it('should check body for css version', () => {

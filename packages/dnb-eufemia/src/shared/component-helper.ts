@@ -48,8 +48,8 @@ export const validateDOMAttributes = (
 ) => {
   // if there is an "attributes" prop, prepare these
   // mostly used for prop example usage
-  if (props && props.attributes) {
-    const attr = props.attributes
+  if (props && props['attributes']) {
+    const attr = props['attributes']
     if (attr && typeof attr === 'object') {
       Object.entries(attr).forEach(([key, value]) => {
         // Prevent prototype pollution
@@ -63,38 +63,38 @@ export const validateDOMAttributes = (
         Object.assign(params, { [key]: value })
       })
     }
-    delete params.attributes
+    delete params['attributes']
   }
 
-  if (params.disabled === null) {
-    delete params.disabled
+  if (params['disabled'] === null) {
+    delete params['disabled']
   }
-  if (typeof params.space !== 'undefined') {
-    delete params.space
+  if (typeof params['space'] !== 'undefined') {
+    delete params['space']
   }
-  if (typeof params.top !== 'undefined') {
-    delete params.top
+  if (typeof params['top'] !== 'undefined') {
+    delete params['top']
   }
-  if (typeof params.right !== 'undefined') {
-    delete params.right
+  if (typeof params['right'] !== 'undefined') {
+    delete params['right']
   }
-  if (typeof params.bottom !== 'undefined') {
-    delete params.bottom
+  if (typeof params['bottom'] !== 'undefined') {
+    delete params['bottom']
   }
-  if (typeof params.left !== 'undefined') {
-    delete params.left
+  if (typeof params['left'] !== 'undefined') {
+    delete params['left']
   }
-  if (typeof params.noCollapse !== 'undefined') {
-    delete params.noCollapse
+  if (typeof params['noCollapse'] !== 'undefined') {
+    delete params['noCollapse']
   }
-  if (typeof params.innerSpace !== 'undefined') {
-    delete params.innerSpace
+  if (typeof params['innerSpace'] !== 'undefined') {
+    delete params['innerSpace']
   }
-  if (typeof params.labelDirection !== 'undefined') {
-    delete params.labelDirection
+  if (typeof params['labelDirection'] !== 'undefined') {
+    delete params['labelDirection']
   }
 
-  if (params.disabled === true) {
+  if (params['disabled'] === true) {
     params['aria-disabled'] = true
   }
 

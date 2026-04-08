@@ -41,12 +41,12 @@ function logWithLabel(message: string): string {
 }
 
 function getCiBranchName(): string | null {
-  const refName = process.env.GITHUB_REF_NAME
+  const refName = process.env['GITHUB_REF_NAME']
   if (refName) {
     return refName
   }
 
-  const ref = process.env.GITHUB_REF
+  const ref = process.env['GITHUB_REF']
   if (!ref) {
     return null
   }

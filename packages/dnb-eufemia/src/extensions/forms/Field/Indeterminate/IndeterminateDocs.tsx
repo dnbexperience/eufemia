@@ -3,11 +3,11 @@ import { ToggleProperties } from '../Toggle/ToggleDocs'
 
 Object.assign(ToggleProperties, {
   valueOn: {
-    ...ToggleProperties.valueOn,
+    ...ToggleProperties['valueOn'],
     status: 'optional',
   },
   valueOff: {
-    ...ToggleProperties.valueOff,
+    ...ToggleProperties['valueOff'],
     status: 'optional',
   },
 })

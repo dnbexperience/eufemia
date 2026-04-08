@@ -95,5 +95,5 @@ export const PushContainerProperties: PropertiesTableProps = {
 }
 
 export const PushContainerEvents: PropertiesTableProps = {
-  onCommit: IsolationEvents.onCommit,
+  onCommit: IsolationEvents['onCommit'],
 }

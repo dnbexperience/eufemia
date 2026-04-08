@@ -2332,10 +2332,10 @@ describe('Field.String', () => {
         (event: React.FormEvent<HTMLInputElement>) => {
           const inputEl = event.currentTarget
           const currentVal = inputEl.value
-          const oldVal = inputEl.dataset.oldVal
+          const oldVal = inputEl.dataset['oldVal']
 
           if (currentVal.length <= oldVal.length) {
-            inputEl.dataset.oldVal = currentVal
+            inputEl.dataset['oldVal'] = currentVal
             return // stop here
           }
 
@@ -2354,7 +2354,7 @@ describe('Field.String', () => {
               caretPos - addedLength
             )
           } else {
-            inputEl.dataset.oldVal = currentVal
+            inputEl.dataset['oldVal'] = currentVal
           }
         }
       )
@@ -2362,8 +2362,8 @@ describe('Field.String', () => {
       const onFocus = jest.fn(
         (event: React.FormEvent<HTMLInputElement>) => {
           const inputEl = event.currentTarget
-          if (typeof inputEl.dataset.oldVal === 'undefined') {
-            inputEl.dataset.oldVal = inputEl.value
+          if (typeof inputEl.dataset['oldVal'] === 'undefined') {
+            inputEl.dataset['oldVal'] = inputEl.value
           }
         }
       )

@@ -23,13 +23,13 @@ export function getInstancePath(ajvError: ErrorObject): Path {
     case 'required': {
       // Required-errors are considered object errors by ajv, so they don't have instancePaths. We want to
       // show them under the relevant field
-      return `${ajvError.instancePath}/${ajvError.params.missingProperty}`
+      return `${ajvError.instancePath}/${ajvError.params['missingProperty']}`
     }
     case 'errorMessage': {
       // errorMessage structures (from ajv-errors) wrap the original error. Find instance path from original
       // to avoid issues like required-errors pointing at parent object.
-      if (ajvError.params.errors[0]) {
-        return getInstancePath(ajvError.params.errors[0])
+      if (ajvError.params['errors'][0]) {
+        return getInstancePath(ajvError.params['errors'][0])
       }
     }
   }
@@ -44,10 +44,13 @@ export function getInstancePath(ajvError: ErrorObject): Path {
  * @returns The validation rule.
  */
 export function getValidationRule(ajvError: ErrorObject): string {
-  if (ajvError.keyword === 'errorMessage' && ajvError.params.errors[0]) {
+  if (
+    ajvError.keyword === 'errorMessage' &&
+    ajvError.params['errors'][0]
+  ) {
     // errorMessage structures (from ajv-errors) wrap the original error. Find keyword from original
     // to avoid issues like required-errors pointing at parent object.
-    return getValidationRule(ajvError.params.errors[0])
+    return getValidationRule(ajvError.params['errors'][0])
   }
   return ajvError.keyword
 }
@@ -72,15 +75,15 @@ export function getMessageValues(
     case 'exclusiveMinimum':
     case 'exclusiveMaximum':
       return {
-        [validationRule]: ajvError.params?.limit,
+        [validationRule]: ajvError.params?.['limit'],
       }
     case 'multipleOf':
       return {
-        [validationRule]: ajvError.params?.multipleOf,
+        [validationRule]: ajvError.params?.['multipleOf'],
       }
     case 'pattern':
       return {
-        [validationRule]: ajvError.params?.pattern,
+        [validationRule]: ajvError.params?.['pattern'],
       }
   }
   return undefined
@@ -184,7 +187,7 @@ function ajvErrorsTransformation(
     } else {
       // Provide a human-friendly message for integer-only fields when a decimal is given
       // Ajv sets params.type for type errors
-      const expectedType = ajvError?.params?.type
+      const expectedType = ajvError?.params?.['type']
 
       if (expectedType === 'integer') {
         // Use a translation key; actual text is resolved by prepareError

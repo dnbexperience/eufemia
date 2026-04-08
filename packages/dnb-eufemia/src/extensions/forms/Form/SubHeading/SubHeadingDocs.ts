@@ -7,7 +7,7 @@ export const SubHeadingProperties: PropertiesTableProps = {
     type: 'number',
     status: 'optional',
   },
-  help: FieldProperties.help,
+  help: FieldProperties['help'],
   children: {
     doc: 'Heading text / contents.',
     type: 'React.ReactNode',

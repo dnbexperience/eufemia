@@ -427,7 +427,7 @@ export const runFactory = async ({
   return filesToFindGlob
 }
 
-if (isCLI && process.env.NODE_ENV !== 'test') {
+if (isCLI && process.env['NODE_ENV'] !== 'test') {
   log.start()
   prepareTemplates().then(() => {
     log.succeed()

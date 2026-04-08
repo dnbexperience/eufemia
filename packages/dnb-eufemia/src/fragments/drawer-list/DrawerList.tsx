@@ -544,7 +544,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
   }
 
   if (focusable) {
-    ulParams.tabIndex = 0
+    ulParams['tabIndex'] = 0
   }
 
   // also used for code markup simulation

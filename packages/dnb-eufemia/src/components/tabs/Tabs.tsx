@@ -334,8 +334,8 @@ export default class Tabs extends React.PureComponent<
         const componentProps = {
           ...(reactElem.props as Record<string, unknown>),
         }
-        if (componentProps.title === null) {
-          delete componentProps.title
+        if (componentProps['title'] === null) {
+          delete componentProps['title']
         }
 
         const {
@@ -830,7 +830,7 @@ export default class Tabs extends React.PureComponent<
         'dnb-tabs__button',
         event.target as HTMLElement
       ) as HTMLElement | null
-      selectedKey = elem?.dataset?.tabKey
+      selectedKey = elem?.dataset?.['tabKey']
     } catch (e) {
       warn('Tabs Error:', e)
     }
@@ -905,7 +905,7 @@ export default class Tabs extends React.PureComponent<
       if (
         !document.getElementById(`${this._id}-content`) &&
         typeof process !== 'undefined' &&
-        process.env.NODE_ENV !== 'test'
+        process.env['NODE_ENV'] !== 'test'
       ) {
         this.warnAboutMissingContainer()
       }
@@ -1109,8 +1109,8 @@ export default class Tabs extends React.PureComponent<
     validateDOMAttributes(this.props, params)
 
     // Remove Tabs-specific props that should not leak to the DOM
-    delete params.contentInnerSpace
-    delete params.tabsInnerSpace
+    delete params['contentInnerSpace']
+    delete params['tabsInnerSpace']
 
     return (
       <div {...params} {...rest}>
@@ -1232,12 +1232,12 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
         // itemParams['aria-selected'] = isSelected // has best support on VO
 
         if (disabled) {
-          itemParams.disabled = true
+          itemParams['disabled'] = true
           itemParams['aria-disabled'] = true
         }
 
         if (TabElement === 'button') {
-          itemParams.type = 'button'
+          itemParams['type'] = 'button'
         }
 
         skeletonDOMAttributes(itemParams, skeleton, this.context)

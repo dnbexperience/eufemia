@@ -50,7 +50,7 @@ const ProductLogo = ({
   const id = 'dnb-payment-card__card__product-type'
   return productType.cata({
     Saga: () =>
-      cardDesign.saga.cata({
+      cardDesign['saga'].cata({
         Gold: () => <SagaGold className={id} />,
         Platinum: () => <SagaPlatinum className={id} />,
         None: () => null,
@@ -62,7 +62,7 @@ const ProductLogo = ({
     Corporate: () => <Corporate className={id} />,
     WorldElite: () => <WorldElite className={id} />,
     PrivateBanking: () =>
-      cardDesign.privateBanking.cata({
+      cardDesign['privateBanking'].cata({
         Default: () => <PB className={id} />,
         None: () => null,
       }),
@@ -80,7 +80,7 @@ const BankAxeptLogo = ({
   const id = 'dnb-payment-card__card__bank-axept'
   return bankAxept.cata({
     BankAxept: () =>
-      cardDesign.bankAxept.cata({
+      cardDesign['bankAxept'].cata({
         White: () => <BankAxept className={id} fill="#FFFFFF" />,
         Black20: () => <BankAxept className={id} fill="#CCCCCC" />,
         Gray: () => <BankAxept className={id} fill="#b2b4b3" />,
@@ -103,12 +103,12 @@ const TypeLogo = ({
   const id = 'dnb-payment-card__card__credit-type'
   return cardType.cata({
     Visa: () =>
-      cardDesign.visa.cata({
+      cardDesign['visa'].cata({
         Colored: (color) => <VisaDefault className={id} fill={color} />,
         Platinum: () => <VisaPlatinum className={id} />,
       }),
     Mastercard: () =>
-      cardDesign.mastercard.cata({
+      cardDesign['mastercard'].cata({
         Default: () => <MastercardDefault className={id} />,
         Dark: () => <MastercardDark className={id} />,
       }),

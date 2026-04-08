@@ -26,7 +26,7 @@ export function useVerifyChildren({
   }, [])
 
   useEffect(() => {
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env['NODE_ENV'] !== 'production') {
       const count = countChildren(children, ignoreTypes)
       if (count > 0 && count > verifyCount.current) {
         warn(message, messageInfo)

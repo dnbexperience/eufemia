@@ -2,7 +2,7 @@ export function runOldBuildDateWarning() {
   try {
     if (
       typeof document !== 'undefined' &&
-      process.env.NODE_ENV !== 'production'
+      process.env['NODE_ENV'] !== 'production'
     ) {
       const buildDate = window.Eufemia?.buildDate
 

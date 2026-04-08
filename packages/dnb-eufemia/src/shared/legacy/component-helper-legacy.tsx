@@ -85,9 +85,9 @@ export const processChildren = (props: Record<string, any>) => {
   }
 
   const res =
-    typeof props.children === 'function'
-      ? props.children(props)
-      : props.children
+    typeof props['children'] === 'function'
+      ? props['children'](props)
+      : props['children']
 
   // if we get several react children which represents only a text
   if (Array.isArray(res)) {

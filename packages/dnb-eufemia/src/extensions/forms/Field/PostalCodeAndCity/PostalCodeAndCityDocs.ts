@@ -22,6 +22,6 @@ export const PostalCodeAndCityProperties: PropertiesTableProps = {
     type: 'object',
     status: 'required',
   },
-  help: FieldProperties.help,
-  size: StringProperties.size,
+  help: FieldProperties['help'],
+  size: StringProperties['size'],
 }

@@ -105,7 +105,7 @@ describe('Badge', () => {
   })
 
   it('does not warn when notification badge content is a number', () => {
-    process.env.NODE_ENV = 'development'
+    process.env['NODE_ENV'] = 'development'
     global.console.log = jest.fn()
     render(
       <Badge variant="notification" content={1} label="Notifications:" />
@@ -122,21 +122,21 @@ describe('Badge', () => {
   })
 
   it('warns when Badge content is a number and is missing a label', () => {
-    process.env.NODE_ENV = 'development'
+    process.env['NODE_ENV'] = 'development'
     global.console.log = jest.fn()
     render(<Badge content={1} />)
     expect(global.console.log).toHaveBeenCalled()
   })
 
   it('does not warn when Badge content is a string and label is missing', () => {
-    process.env.NODE_ENV = 'development'
+    process.env['NODE_ENV'] = 'development'
     global.console.log = jest.fn()
     render(<Badge content="text" />)
     expect(global.console.log).not.toHaveBeenCalled()
   })
 
   it('does not warn when Badge content is a number and has a label', () => {
-    process.env.NODE_ENV = 'development'
+    process.env['NODE_ENV'] = 'development'
     global.console.log = jest.fn()
     render(<Badge content="text" label="Notifications:" />)
     expect(global.console.log).not.toHaveBeenCalled()

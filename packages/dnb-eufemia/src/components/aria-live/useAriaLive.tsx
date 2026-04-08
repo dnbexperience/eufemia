@@ -64,7 +64,7 @@ export default function useAriaLive(props: AriaLiveAllProps) {
     if (showTextAnnouncement) {
       setAnnouncement('')
 
-      const isTest = process.env.NODE_ENV === 'test'
+      const isTest = process.env['NODE_ENV'] === 'test'
       const timer = setTimeout(
         () => {
           if (!disabled) {

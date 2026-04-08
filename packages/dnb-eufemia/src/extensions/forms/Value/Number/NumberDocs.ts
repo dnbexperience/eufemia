@@ -2,7 +2,7 @@ import type { PropertiesTableProps } from '../../../../shared/types'
 import { NumberFormatProperties } from '../../../../components/number-format/NumberFormatDocs'
 
 export const NumberProperties: PropertiesTableProps = {
-  value: NumberFormatProperties.value,
+  value: NumberFormatProperties['value'],
   minimum: {
     doc: 'Defines the minimum value of the rendered number. Defaults to `Number.MIN_SAFE_INTEGER`.',
     type: 'number',

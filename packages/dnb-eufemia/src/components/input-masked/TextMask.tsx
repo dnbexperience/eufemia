@@ -196,19 +196,19 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
     // Conform controlled value before render so React renders formatted value
     if (
       enhancedOptions &&
-      typeof baseProps.value === 'string' &&
-      baseProps.value != null
+      typeof baseProps['value'] === 'string' &&
+      baseProps['value'] != null
     ) {
-      const raw = String(baseProps.value)
+      const raw = String(baseProps['value'])
       const sel: readonly [number, number] = [raw.length, raw.length]
       const { value: formatted } = maskitoTransform(
         { value: raw, selection: sel },
         enhancedOptions
       )
-      baseProps.value = formatted
+      baseProps['value'] = formatted
     }
 
-    baseProps.onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    baseProps['onChange'] = (e: React.ChangeEvent<HTMLInputElement>) => {
       // Conform programmatic value changes (e.g. tests firing change directly)
       if (localRef.current && enhancedOptions) {
         const element = localRef.current

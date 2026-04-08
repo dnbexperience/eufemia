@@ -94,11 +94,11 @@ export const correctNumberValue = ({
   maskParams: InputMaskParams
 }): string => {
   let value =
-    props.value === null
+    props['value'] === null
       ? null
-      : props.value === undefined
+      : props['value'] === undefined
       ? undefined
-      : String(props.value)
+      : String(props['value'])
 
   if (isNaN(parseFloat(value))) {
     return value
@@ -132,11 +132,11 @@ export const correctNumberValue = ({
   /**
    * This only runs IF "numberFormat" is set – we do not use it else
    */
-  if (props.numberFormat) {
+  if (props['numberFormat']) {
     const options = {
       locale,
       decimals: 0,
-      ...props.numberFormat,
+      ...props['numberFormat'],
     }
     if (shouldHaveDecimals) {
       options.decimals = maskParams.decimalLimit
@@ -324,7 +324,7 @@ export const handlePercentMask = ({
   locale: string
   maskParams: InputMaskParams
 }) => {
-  const value = format(props.value as any, { locale, percent: true })
+  const value = format(props['value'] as any, { locale, percent: true })
   const m = String(value).match(/((\s|)%)$/g)
   maskParams.suffix = m?.[0] || ' %'
 

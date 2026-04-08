@@ -184,14 +184,14 @@ describe('Avatar', () => {
   })
 
   it('warns when Avatar is used without a Avatar.Group as parent component', () => {
-    process.env.NODE_ENV = 'development'
+    process.env['NODE_ENV'] = 'development'
     global.console.log = jest.fn()
     render(<Avatar />)
     expect(global.console.log).toHaveBeenCalled()
   })
 
   it('will not warn when hasLabel is true', () => {
-    process.env.NODE_ENV = 'development'
+    process.env['NODE_ENV'] = 'development'
     global.console.log = jest.fn()
     render(<Avatar hasLabel />)
     expect(global.console.log).not.toHaveBeenCalled()

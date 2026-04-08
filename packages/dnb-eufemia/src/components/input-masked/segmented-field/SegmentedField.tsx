@@ -206,7 +206,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
       selection?.addRange(range)
 
       sections.forEach((section) => {
-        const sectionId = section.dataset.segmentedInputId
+        const sectionId = section.dataset['segmentedInputId']
 
         if (!sectionId) {
           return

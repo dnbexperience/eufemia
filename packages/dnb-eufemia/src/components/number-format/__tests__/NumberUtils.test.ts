@@ -43,7 +43,7 @@ beforeAll(() => {
 
 describe('Node', () => {
   it('has icu and full-icu support', () => {
-    expect(typeof process.versions.icu).toBe('string')
+    expect(typeof process.versions['icu']).toBe('string')
 
     const intl = new Intl.NumberFormat(LOCALE, {
       style: 'currency',
