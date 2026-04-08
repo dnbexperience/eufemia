@@ -2484,7 +2484,7 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:checked):no
 .dnb-date-picker {
   --date-picker-input-height: 2rem;
   --date-picker-day-width: 2rem;
-  --date-picker-day-horizontal-spacing: 4px;
+  --date-picker-day-horizontal-spacing: 0.25rem;
   display: inline-flex;
   align-items: center;
   column-gap: var(--spacing-small);
@@ -2811,7 +2811,7 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
 .dnb-date-picker__portal {
   --date-picker-input-height: 2rem;
   --date-picker-day-width: 2rem;
-  --date-picker-day-horizontal-spacing: 4px;
+  --date-picker-day-horizontal-spacing: 0.25rem;
   --popover-z-index: calc(var(--modal-z-index) + 10);
   line-height: var(--date-picker-input-height);
 }
