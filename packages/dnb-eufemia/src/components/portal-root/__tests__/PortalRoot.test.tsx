@@ -4,6 +4,7 @@ import PortalRoot, { getOrCreatePortalElement } from '../PortalRoot'
 import IsolatedStyleScope, {
   IsolatedStyleScopeContext,
 } from '../../../shared/IsolatedStyleScope'
+import { axeComponent } from '../../../core/jest/jestSetup'
 
 describe('PortalRoot', () => {
   let originalWindow: Window & typeof globalThis
@@ -1054,5 +1055,16 @@ describe('getOrCreatePortalElement', () => {
       // Ensure provider id element not created
       expect(document.getElementById('provider-portal-root')).toBeNull()
     })
+  })
+})
+
+describe('PortalRoot aria', () => {
+  it('should validate', async () => {
+    const Component = render(
+      <PortalRoot>
+        <div>Portal content</div>
+      </PortalRoot>
+    )
+    expect(await axeComponent(Component)).toHaveNoViolations()
   })
 })

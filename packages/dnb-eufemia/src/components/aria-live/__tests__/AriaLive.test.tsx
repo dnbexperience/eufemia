@@ -1,6 +1,7 @@
 import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
 import AriaLive from '../AriaLive'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('AriaLive', () => {
@@ -197,5 +198,12 @@ describe('AriaLive', () => {
     expect((AriaLive as ComponentMarkers)._supportsSpacingProps).toBe(
       'children'
     )
+  })
+})
+
+describe('AriaLive aria', () => {
+  it('should validate', async () => {
+    const Component = render(<AriaLive>Announcement content</AriaLive>)
+    expect(await axeComponent(Component)).toHaveNoViolations()
   })
 })

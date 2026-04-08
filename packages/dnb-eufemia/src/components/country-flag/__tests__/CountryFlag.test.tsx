@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import CountryFlag from '../CountryFlag'
 import Provider from '../../../shared/Provider'
+import { axeComponent } from '../../../core/jest/jestSetup'
 
 describe('CountryFlag', () => {
   it('should use NO as default', () => {
@@ -90,5 +91,12 @@ describe('CountryFlag', () => {
 
     const element = document.querySelector('.dnb-country-flag')
     expect(refElement).toBe(element)
+  })
+})
+
+describe('CountryFlag aria', () => {
+  it('should validate', async () => {
+    const Component = render(<CountryFlag iso="NO" />)
+    expect(await axeComponent(Component)).toHaveNoViolations()
   })
 })
