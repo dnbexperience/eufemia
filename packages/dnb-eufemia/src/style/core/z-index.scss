@@ -1,0 +1,21 @@
+/*
+ * Z-Index Scale
+ *
+ * Centralized z-index token definitions for layering control.
+ * Components should reference these variables instead of hardcoding values.
+ *
+ * Layers (low to high):
+ *   section     →    1  (content sections)
+ *   dropdown    →  100  (inline dropdowns, drawer-lists)
+ *   popover     → 1000  (popovers, floating elements)
+ *   tooltip     → 1100  (tooltips, always above popovers)
+ *   modal       → 3000  (dialogs, drawers, full overlays)
+ */
+
+:root {
+  --z-index-section: 1;
+  --z-index-dropdown: 100;
+  --z-index-popover: 1000;
+  --z-index-tooltip: 1100;
+  --z-index-modal: 3000;
+}
