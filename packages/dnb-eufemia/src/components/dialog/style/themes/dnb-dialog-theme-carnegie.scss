@@ -1,0 +1,10 @@
+/*
+* Drawer theme
+*
+*/
+
+@use '../../../../style/core/utilities.scss' as utilities;
+
+.dnb-dialog {
+  --dialog-radius: 0.125rem;
+}
