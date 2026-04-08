@@ -4,14 +4,14 @@
  */
 
 .dnb-upload {
-  --upload-background: var(--color-white);
-  --upload-background--active: var(--color-pistachio);
-  --upload-border: var(--color-sea-green);
-  --upload-border--active: var(--color-emerald-green);
-  --upload-list-border: var(--color-black-8);
-  --upload-icon--default: var(--color-black-80);
-  --upload-icon--warning: var(--color-fire-red);
-  --upload-highlight: var(--color-sand-yellow);
-  --upload-text--primary: var(--color-black-55);
-  --upload-text--secondary: var(--color-black-55);
+  --upload-background: var(--token-color-background-neutral);
+  --upload-background--active: var(--token-color-decorative-third-muted);
+  --upload-border: var(--token-color-stroke-action);
+  --upload-border--active: var(--token-color-stroke-action-pressed);
+  --upload-list-border: var(--token-color-stroke-neutral-subtle);
+  --upload-icon--default: var(--token-color-icon-neutral);
+  --upload-icon--warning: var(--token-color-icon-error);
+  --upload-highlight: var(--token-color-background-warning-subtle);
+  --upload-text--primary: var(--token-color-text-neutral-alternative);
+  --upload-text--secondary: var(--token-color-text-neutral-alternative);
 }

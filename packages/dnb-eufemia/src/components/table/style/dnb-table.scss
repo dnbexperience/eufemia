@@ -46,7 +46,7 @@
     padding: 0.5rem 0 0.5rem 1rem;
 
     font-size: var(--font-size-basis);
-    background-color: var(--color-white);
+    background-color: var(--token-color-background-neutral);
     text-align: left;
 
     @include table-mixins.tableBorder() {

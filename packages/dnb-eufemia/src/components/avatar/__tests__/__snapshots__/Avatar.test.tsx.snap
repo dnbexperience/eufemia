@@ -6,17 +6,17 @@ exports[`Avatar scss should match default theme snapshot 1`] = `
 *
 */
 .dnb-avatar {
-  --color: var(--color-pistachio);
+  --color: var(--token-color-decorative-third-muted);
 }
 .dnb-avatar--primary {
-  --background-color: var(--color-emerald-green);
+  --background-color: var(--token-color-background-action-pressed);
 }
 .dnb-avatar--secondary {
-  --background-color: var(--color-sea-green);
+  --background-color: var(--token-color-background-action);
 }
 .dnb-avatar--tertiary {
-  --background-color: var(--color-mint-green);
-  --color: var(--color-emerald-green);
+  --background-color: var(--token-color-decorative-first-subtle);
+  --color: var(--token-color-text-action-pressed);
 }"
 `;
 
@@ -64,10 +64,10 @@ exports[`Avatar scss should match style dependencies css 1`] = `
   color: var(--color);
 }
 .dnb-avatar[style*="--background-color"] {
-  background-color: var(--background-color, var(--color-emerald-green));
+  background-color: var(--background-color, var(--token-color-background-action-pressed));
 }
 .dnb-avatar[style*="--color"] {
-  color: var(--color, var(--color-pistachio));
+  color: var(--color, var(--token-color-decorative-third-muted));
 }
 .dnb-avatar, .dnb-core-style .dnb-avatar {
   line-height: var(--line-height-large);
@@ -126,7 +126,7 @@ exports[`Avatar scss should match style dependencies css 1`] = `
   flex-direction: row;
 }
 .dnb-avatar__group .dnb-avatar {
-  --border-color: var(--color-black-3);
+  --border-color: var(--token-color-background-neutral-subtle);
   --border-width: 0.125rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
@@ -151,7 +151,7 @@ exports[`Avatar scss should match style dependencies css 1`] = `
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  color: var(--color-black-55);
+  color: var(--token-color-text-neutral-alternative);
 }
 .dnb-avatar__group--elements-left--size-small {
   font-size: var(--avatar-font-size-left--small);

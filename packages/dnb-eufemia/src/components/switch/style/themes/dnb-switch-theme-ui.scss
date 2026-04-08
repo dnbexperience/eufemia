@@ -7,7 +7,7 @@
 
 .dnb-switch {
   &__background {
-    background-color: var(--color-sea-green-30);
+    background-color: var(--token-color-stroke-action-disabled);
   }
 
   &__focus {
@@ -35,8 +35,8 @@
     * aka when the checkbox is not :checked
     */
   &__input:not(:checked) ~ &__button {
-    background-color: var(--color-white);
-    border-color: var(--color-sea-green);
+    background-color: var(--token-color-background-neutral);
+    border-color: var(--token-color-background-action);
   }
 
   /*
@@ -44,7 +44,7 @@
     * aka when the checkbox is :checked
     */
   &__input:checked ~ &__button {
-    background-color: var(--color-sea-green);
+    background-color: var(--token-color-background-action);
   }
 
   /*
@@ -59,7 +59,7 @@
     height: 0.5rem;
 
     border-radius: 50%;
-    border: 0.0625rem solid var(--color-sea-green);
+    border: 0.0625rem solid var(--token-color-background-action);
   }
 
   &__input:checked ~ &__background::after {
@@ -69,7 +69,7 @@
     width: 0.0625rem;
     height: 0.5rem;
     border-radius: 0.0625rem;
-    background-color: var(--color-sea-green);
+    background-color: var(--token-color-background-action);
   }
 
   &--large &__input:not(:checked) ~ &__background::after {
@@ -87,23 +87,23 @@
     *
     */
   &__input[disabled] ~ &__background {
-    background-color: var(--color-mint-green-25);
+    background-color: var(--token-color-background-selected-subtle);
   }
   &__input[disabled]:checked ~ &__background {
     &::after {
-      background-color: var(--color-sea-green-30);
+      background-color: var(--token-color-stroke-action-disabled);
     }
   }
   &__input[disabled]:not(:checked) ~ &__background {
     &::after {
-      border-color: var(--color-sea-green-30);
+      border-color: var(--token-color-stroke-action-disabled);
     }
   }
   &__input[disabled] ~ &__button {
-    border-color: var(--color-sea-green-30);
+    border-color: var(--token-color-stroke-action-disabled);
   }
   &__input[disabled]:checked ~ &__button {
-    background-color: var(--color-sea-green-30);
+    background-color: var(--token-color-stroke-action-disabled);
   }
 
   /*
@@ -117,7 +117,7 @@
   }
   &__input:not([disabled]):not(:checked):focus ~ &__button {
     html[data-whatinput='keyboard'] & {
-      background-color: var(--color-mint-green-50);
+      background-color: var(--token-color-background-action-hover-subtle);
     }
   }
   &__input:not([disabled]):checked ~ &__button &__focus {
@@ -129,8 +129,8 @@
     *
     */
   &__input:not([disabled]):not(:focus):not(:active):hover ~ &__button {
-    border-color: var(--color-sea-green);
-    background-color: var(--color-mint-green-50);
+    border-color: var(--token-color-background-action);
+    background-color: var(--token-color-background-action-hover-subtle);
   }
 
   /*
@@ -138,7 +138,7 @@
     *
     */
   &__input:not([disabled]):active ~ &__button {
-    background-color: var(--color-mint-green-50);
+    background-color: var(--token-color-background-action-hover-subtle);
     border-color: transparent;
   }
 
@@ -148,26 +148,26 @@
     */
   &__status--error &__input:not([disabled]):not(:focus):hover ~ &__button {
     // change button color
-    border-color: var(--color-fire-red);
-    background-color: var(--color-fire-red-8);
+    border-color: var(--token-color-stroke-error);
+    background-color: var(--token-color-background-error-subtle);
   }
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active):not(:hover)
     ~ &__button {
-    border-color: var(--color-fire-red-8);
+    border-color: var(--token-color-background-error-subtle);
   }
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active):not(:hover):checked
     ~ &__button {
-    background-color: var(--color-fire-red);
+    background-color: var(--token-color-stroke-error);
   }
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active)
     ~ &__background {
     // change background color
-    background-color: var(--color-fire-red-8);
+    background-color: var(--token-color-background-error-subtle);
     @include utilities.fakeBorder(
-      var(--color-fire-red),
+      var(--token-color-stroke-error),
       var(--focus-ring-width)
     );
   }
@@ -177,7 +177,7 @@
     &__input:not(:focus):not([disabled]):not(:active):checked
     ~ &__background {
     &::after {
-      background-color: var(--color-fire-red);
+      background-color: var(--token-color-stroke-error);
     }
   }
 
@@ -186,7 +186,7 @@
     &__input:not(:focus):not([disabled]):not(:active):not(:checked)
     ~ &__background {
     &::after {
-      border-color: var(--color-fire-red);
+      border-color: var(--token-color-stroke-error);
     }
   }
 
@@ -196,7 +196,7 @@
     ~ &__button
     &__focus {
     @include utilities.fakeBorder(
-      var(--color-fire-red),
+      var(--token-color-stroke-error),
       var(--focus-ring-width)
     );
   }

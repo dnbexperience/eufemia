@@ -51,7 +51,9 @@
   --checkbox-color-background-indeterminate: var(--sb-color-white);
   --checkbox-color-gfx-indeterminate: var(--sb-color-violet);
   // Indeterminate Active state
-  --checkbox-color-background-indeterminate--active: var(--color-white);
+  --checkbox-color-background-indeterminate--active: var(
+    --token-color-background-neutral
+  );
   --checkbox-color-border-indeterminate--active: var(--sb-color-gray);
   --checkbox-color-gfx-indeterminate--active: var(--sb-color-violet);
 

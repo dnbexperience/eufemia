@@ -5,34 +5,64 @@
 
 .dnb-radio {
   // Normal state
-  --radio-color-dot-on: var(--color-sea-green);
-  --radio-color-background-on: var(--color-white);
-  --radio-color-border-on: var(--color-sea-green);
-  --radio-color-background-off: var(--color-white);
-  --radio-color-border-off: var(--color-sea-green);
+  --radio-color-dot-on: var(--token-color-background-action);
+  --radio-color-background-on: var(--token-color-background-neutral);
+  --radio-color-border-on: var(--token-color-background-action);
+  --radio-color-background-off: var(--token-color-background-neutral);
+  --radio-color-border-off: var(--token-color-background-action);
   // Disabled state
-  --radio-color-dot-on--disabled: var(--color-sea-green-30);
-  --radio-color-background--disabled: var(--color-white);
-  --radio-color-border-on--disabled: var(--color-sea-green-30);
-  --radio-color-border-off--disabled: var(--color-mint-green-50);
+  --radio-color-dot-on--disabled: var(
+    --token-color-stroke-action-disabled
+  );
+  --radio-color-background--disabled: var(
+    --token-color-background-neutral
+  );
+  --radio-color-border-on--disabled: var(
+    --token-color-stroke-action-disabled
+  );
+  --radio-color-border-off--disabled: var(
+    --token-color-background-action-hover-subtle
+  );
   // Active state
-  --radio-color-dot-on--active: var(--color-mint-green-50);
-  --radio-color-border-on--active: var(--color-mint-green-50);
-  --radio-color-background-off--active: var(--color-mint-green-50);
+  --radio-color-dot-on--active: var(
+    --token-color-background-action-hover-subtle
+  );
+  --radio-color-border-on--active: var(
+    --token-color-background-action-hover-subtle
+  );
+  --radio-color-background-off--active: var(
+    --token-color-background-action-hover-subtle
+  );
   --radio-color-border-off--active: transparent;
   // Hover state
-  --radio-color-dot-on--hover: var(--color-mint-green-50);
-  --radio-color-background-on--hover: var(--color-white);
-  --radio-color-background-off--hover: var(--color-mint-green-50);
+  --radio-color-dot-on--hover: var(
+    --token-color-background-action-hover-subtle
+  );
+  --radio-color-background-on--hover: var(
+    --token-color-background-neutral
+  );
+  --radio-color-background-off--hover: var(
+    --token-color-background-action-hover-subtle
+  );
   // Focus state
-  --radio-color-dot-on--focus: var(--color-sea-green);
-  --radio-color-background-on--focus: var(--color-white);
-  --radio-color-background-off--focus: var(--color-mint-green-50);
+  --radio-color-dot-on--focus: var(--token-color-background-action);
+  --radio-color-background-on--focus: var(
+    --token-color-background-neutral
+  );
+  --radio-color-background-off--focus: var(
+    --token-color-background-action-hover-subtle
+  );
   // Error state
-  --radio-color-dot-on--error: var(--color-fire-red);
-  --radio-color-border-on--error: var(--color-fire-red);
+  --radio-color-dot-on--error: var(--token-color-stroke-error);
+  --radio-color-border-on--error: var(--token-color-stroke-error);
   --radio-color-border--error-hover: var(--radio-color-border-on--error);
-  --radio-color-background-off--error-hover: var(--color-fire-red-8);
-  --radio-color-background-on--error-hover: var(--color-white);
-  --radio-color-dot-on--error-hover: var(--color-fire-red-8);
+  --radio-color-background-off--error-hover: var(
+    --token-color-background-error-subtle
+  );
+  --radio-color-background-on--error-hover: var(
+    --token-color-background-neutral
+  );
+  --radio-color-dot-on--error-hover: var(
+    --token-color-background-error-subtle
+  );
 }

@@ -964,12 +964,12 @@ button.dnb-button::-moz-focus-inner {
 *
 */
 .dnb-tag {
-  --tag-icon-color: var(--color-sea-green);
+  --tag-icon-color: var(--token-color-icon-action);
   --tag-icon-border-color: var(--tag-icon-color);
 }
 .dnb-tag.dnb-button {
   appearance: none;
-  background-color: var(--color-black-8);
+  background-color: var(--token-color-background-neutral-base);
   padding-left: 0.5rem;
   padding-right: 0.5rem;
 }
@@ -985,9 +985,9 @@ button.dnb-button::-moz-focus-inner {
   cursor: text;
 }
 .dnb-tag--interactive.dnb-button {
-  color: var(--color-sea-green);
-  background-color: var(--color-pistachio);
-  --border-color: var(--color-sea-green);
+  color: var(--token-color-text-action);
+  background-color: var(--token-color-decorative-third-muted);
+  --border-color: var(--token-color-stroke-action);
   --border-width: 0.0625rem;
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
@@ -997,37 +997,37 @@ html:not([data-whatinput=touch]) .dnb-tag--interactive.dnb-button:focus-visible[
 }
 html:not([data-whatinput=touch]) .dnb-tag--interactive.dnb-button:focus-visible:not([disabled]) {
   outline: none;
-  --border-color: var(--color-emerald-green);
+  --border-color: var(--token-color-text-action-pressed);
   --border-width: var(--focus-ring-width);
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
-  --tag-icon-color: var(--color-emerald-green);
+  --tag-icon-color: var(--token-color-icon-action-pressed);
 }
 html:not([data-whatintent=touch]) .dnb-tag--interactive.dnb-button:hover[disabled] {
   cursor: not-allowed;
 }
 html:not([data-whatintent=touch]) .dnb-tag--interactive.dnb-button:hover:not([disabled]) {
-  --border-color: var(--color-emerald-green);
+  --border-color: var(--token-color-stroke-action-pressed);
   --border-width: 0.125rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
-  --tag-icon-color: var(--color-emerald-green);
+  --tag-icon-color: var(--token-color-icon-action-pressed);
 }
 .dnb-tag--interactive.dnb-button:active[disabled], html:not([data-whatintent=touch]) .dnb-tag--interactive.dnb-button:active[disabled] {
   cursor: not-allowed;
 }
 .dnb-tag--interactive.dnb-button:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-tag--interactive.dnb-button:active:not([disabled]) {
-  background-color: var(--color-mint-green-50);
+  background-color: var(--token-color-background-action-hover-subtle);
   --border-color: transparent;
   --border-width: 0.0625rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
-  --tag-icon-color: var(--color-sea-green);
+  --tag-icon-color: var(--token-color-icon-action);
 }
 .dnb-tag--interactive.dnb-button[disabled] {
-  color: var(--color-sea-green-30);
-  background-color: var(--color-white);
-  --border-color: var(--color-sea-green-30);
+  color: var(--token-color-text-action-disabled);
+  background-color: var(--token-color-background-neutral);
+  --border-color: var(--token-color-stroke-action-disabled);
   --border-width: 0.0625rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
@@ -1071,13 +1071,13 @@ html:not([data-whatintent=touch]) .dnb-tag--removable.dnb-button:hover:not([disa
 }
 .dnb-tag--addable {
   --tag-icon-fill-color: var(--tag-icon-color);
-  --tag-icon-stroke-color: var(--color-white);
+  --tag-icon-stroke-color: var(--token-color-text-neutral-inverse);
 }
 .dnb-tag--addable svg {
   transform: rotate(45deg);
 }
 .dnb-tag--removable {
-  --tag-icon-fill-color: var(--color-white);
+  --tag-icon-fill-color: var(--token-color-text-neutral-inverse);
   --tag-icon-stroke-color: var(--tag-icon-color);
 }
 .dnb-tag__group {

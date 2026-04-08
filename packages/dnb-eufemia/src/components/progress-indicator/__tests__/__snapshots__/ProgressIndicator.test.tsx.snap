@@ -6,10 +6,16 @@ exports[`ProgressIndicator scss should match default theme snapshot 1`] = `
 *
 */
 .dnb-progress-indicator {
-  --progress-indicator-circular-background-color: var(--color-mint-green);
-  --progress-indicator-circular-bar-color: var(--color-emerald-green);
-  --progress-indicator-linear-background-color: var(--color-black-8);
-  --progress-indicator-linear-bar-color: var(--color-sea-green);
+  --progress-indicator-circular-background-color: var(
+    --token-color-decorative-first-subtle
+  );
+  --progress-indicator-circular-bar-color: var(
+    --token-color-stroke-action-pressed
+  );
+  --progress-indicator-linear-background-color: var(
+    --token-color-background-neutral-base
+  );
+  --progress-indicator-linear-bar-color: var(--token-color-stroke-action);
 }"
 `;
 
@@ -35,10 +41,12 @@ exports[`ProgressIndicator scss should match style dependencies css 1`] = `
     var(--progress-indicator-circular-size) / 8
   );
   --progress-indicator-circular-background-color: grey;
-  --progress-indicator-circular-bar-color: var(--color-black);
+  --progress-indicator-circular-bar-color: var(
+    --token-color-stroke-neutral
+  );
   --progress-indicator-linear-size: 0.5rem;
   --progress-indicator-linear-background-color: grey;
-  --progress-indicator-linear-bar-color: var(--color-black);
+  --progress-indicator-linear-bar-color: var(--token-color-stroke-neutral);
   position: relative;
   display: inline-flex;
   align-items: center;

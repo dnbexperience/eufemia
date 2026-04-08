@@ -1,8 +1,8 @@
 @use '../../../../components/anchor/style/anchor-mixins.scss';
 
 .dnb-blockquote {
-  color: var(--color-mint-green);
-  background-color: var(--color-ocean-green);
+  color: var(--token-color-decorative-first-subtle);
+  background-color: var(--token-color-decorative-first-intense);
 
   &.dnb-blockquote--no-background {
     color: var(--theme-color-black-80, currentColor);
@@ -26,7 +26,7 @@
     .dnb-h--large,
     .dnb-h--medium,
     .dnb-lead {
-      color: var(--color-mint-green);
+      color: var(--token-color-decorative-first-subtle);
     }
   }
 }

@@ -31,7 +31,7 @@
   // simulate active state
   &--active {
     @include utilities.fakeBorder(
-      var(--color-emerald-green),
+      var(--token-color-stroke-action-pressed),
       0.125rem /*2px*/
     );
   }

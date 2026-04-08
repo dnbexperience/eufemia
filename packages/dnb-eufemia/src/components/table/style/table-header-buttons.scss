@@ -16,7 +16,7 @@
   // sortable
   & > thead > tr > th#{&}--sortable,
   & &__th#{&}--sortable {
-    color: var(--color-sea-green);
+    color: var(--token-color-text-action);
 
     .dnb-table__sort-button.dnb-button {
       > .dnb-icon {
@@ -75,7 +75,7 @@
       // underline
       &:not(:focus) .dnb-button__text::after {
         opacity: 1;
-        color: var(--color-sea-green);
+        color: var(--token-color-text-action);
       }
 
       @include utilities.hover() {
@@ -176,7 +176,7 @@
       // and underline on hover
       @include utilities.hover() {
         .dnb-button__text::after {
-          color: var(--color-sea-green);
+          color: var(--token-color-text-action);
           opacity: 1;
         }
       }

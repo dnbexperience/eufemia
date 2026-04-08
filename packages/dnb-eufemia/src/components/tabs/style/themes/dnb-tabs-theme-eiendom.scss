@@ -9,7 +9,7 @@
 .dnb-tabs {
   &__button {
     @include utilities.hover() {
-      background-color: var(--color-pistachio);
+      background-color: var(--token-color-decorative-third-muted);
     }
   }
 }

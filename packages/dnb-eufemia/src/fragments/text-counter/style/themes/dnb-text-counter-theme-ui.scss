@@ -1,8 +1,8 @@
 .dnb-text-counter {
   &.dnb-p {
-    color: var(--color-black-55);
+    color: var(--token-color-text-neutral-alternative);
   }
   &--exceeded.dnb-p {
-    color: var(--color-fire-red);
+    color: var(--token-color-text-destructive);
   }
 }

@@ -9,57 +9,89 @@
   &--primary,
   &--secondary,
   &--tertiary {
-    --button-color-icon--disabled: var(--color-black-55);
-    --button-color-text--disabled: var(--color-black-55);
+    --button-color-icon--disabled: var(
+      --token-color-text-neutral-alternative
+    );
+    --button-color-text--disabled: var(
+      --token-color-text-neutral-alternative
+    );
   }
 
   &--primary {
     // Background
-    --button-color-bg--default: var(--color-emerald-green);
-    --button-color-bg--hover: var(--color-sea-green);
-    --button-color-bg--active: var(--color-sea-green);
-    --button-color-bg--disabled: var(--color-black-8);
+    --button-color-bg--default: var(
+      --token-color-background-action-pressed
+    );
+    --button-color-bg--hover: var(--token-color-background-action);
+    --button-color-bg--active: var(--token-color-background-action);
+    --button-color-bg--disabled: var(--token-color-stroke-neutral-subtle);
 
     // Border
-    --button-color-border--hover: var(--color-sea-green);
-    --button-color-border--disabled: var(--color-black-55);
+    --button-color-border--hover: var(--token-color-background-action);
+    --button-color-border--disabled: var(
+      --token-color-text-neutral-alternative
+    );
 
     // Icon
-    --button-color-icon--hover: var(--color-white);
-    --button-color-icon--active: var(--color-white);
+    --button-color-icon--hover: var(--token-color-background-neutral);
+    --button-color-icon--active: var(--token-color-background-neutral);
 
     // Text
-    --button-color-text--hover: var(--color-white);
-    --button-color-text--active: var(--color-white);
+    --button-color-text--hover: var(--token-color-background-neutral);
+    --button-color-text--active: var(--token-color-background-neutral);
   }
 
   &--secondary {
     // Background
-    --button-color-bg--active: var(--color-pistachio);
-    --button-color-bg--disabled: var(--color-white);
+    --button-color-bg--active: var(--token-color-decorative-third-muted);
+    --button-color-bg--disabled: var(--token-color-background-neutral);
 
     // Border
-    --button-color-border--default: var(--color-emerald-green);
-    --button-color-border--disabled: var(--color-black-55);
+    --button-color-border--default: var(
+      --token-color-background-action-pressed
+    );
+    --button-color-border--disabled: var(
+      --token-color-text-neutral-alternative
+    );
 
     // Icon
-    --button-color-icon--default: var(--color-emerald-green);
-    --button-color-icon--active: var(--color-emerald-green);
+    --button-color-icon--default: var(
+      --token-color-background-action-pressed
+    );
+    --button-color-icon--active: var(
+      --token-color-background-action-pressed
+    );
 
     // Text
-    --button-color-text--default: var(--color-emerald-green);
-    --button-color-text--active: var(--color-emerald-green);
+    --button-color-text--default: var(
+      --token-color-background-action-pressed
+    );
+    --button-color-text--active: var(
+      --token-color-background-action-pressed
+    );
   }
 
   &--tertiary {
     // Icon
-    --button-color-icon--default: var(--color-emerald-green);
-    --button-color-icon--hover: var(--color-emerald-green);
-    --button-color-icon--active: var(--color-emerald-green);
+    --button-color-icon--default: var(
+      --token-color-background-action-pressed
+    );
+    --button-color-icon--hover: var(
+      --token-color-background-action-pressed
+    );
+    --button-color-icon--active: var(
+      --token-color-background-action-pressed
+    );
 
     // Text
-    --button-color-text--default: var(--color-emerald-green);
-    --button-color-text--hover: var(--color-emerald-green);
-    --button-color-text--active: var(--color-emerald-green);
+    --button-color-text--default: var(
+      --token-color-background-action-pressed
+    );
+    --button-color-text--hover: var(
+      --token-color-background-action-pressed
+    );
+    --button-color-text--active: var(
+      --token-color-background-action-pressed
+    );
   }
 }

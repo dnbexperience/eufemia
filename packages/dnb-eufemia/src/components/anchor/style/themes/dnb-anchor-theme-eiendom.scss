@@ -8,11 +8,13 @@
 
 @include anchor-mixins.notNoStyle() {
   &.dnb-anchor {
-    --anchor-color--default: var(--color-emerald-green);
-    --anchor-color--active: var(--color-sea-green);
-    --anchor-icon-color--default: var(--color-emerald-green);
-    --anchor-icon-color--active: var(--color-sea-green);
+    --anchor-color--default: var(--token-color-background-action-pressed);
+    --anchor-color--active: var(--token-color-background-action);
+    --anchor-icon-color--default: var(
+      --token-color-background-action-pressed
+    );
+    --anchor-icon-color--active: var(--token-color-background-action);
     --anchor-bg--hover: transparent;
-    --anchor-bg--active: var(--color-pistachio);
+    --anchor-bg--active: var(--token-color-decorative-third-muted);
   }
 }

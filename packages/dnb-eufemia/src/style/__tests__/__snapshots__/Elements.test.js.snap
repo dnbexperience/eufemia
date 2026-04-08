@@ -102,7 +102,7 @@ exports[`Elements scss has to match style dependencies css 1`] = `
   font-size: inherit;
 }
 .dnb-blockquote .dnb-code {
-  color: var(--color-black-80);
+  color: var(--token-color-text-neutral);
 }
 
 .dnb-spacing .dnb-blockquote:not([class*=dnb-space__top]) {

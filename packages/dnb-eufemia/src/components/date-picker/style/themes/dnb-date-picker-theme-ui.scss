@@ -10,14 +10,14 @@
   &__container {
     @include utilities.sharpDropShadow();
     border-radius: 0.25rem;
-    background-color: var(--color-white);
+    background-color: var(--token-color-background-neutral);
   }
 
   &__addon,
   &__calendar {
     // border
     &::after {
-      background-color: var(--color-black-8);
+      background-color: var(--token-color-stroke-neutral-subtle);
     }
   }
 
@@ -31,7 +31,7 @@
 
     // border
     &::after {
-      background-color: var(--color-black-8);
+      background-color: var(--token-color-stroke-neutral-subtle);
     }
 
     &--only-month-label {
@@ -61,7 +61,7 @@
 
       font-size: var(--font-size-basis);
       font-weight: var(--font-weight-medium);
-      color: var(--color-black-80);
+      color: var(--token-color-text-neutral);
     }
   }
 
@@ -69,7 +69,7 @@
     &__day {
       text-transform: capitalize;
       font-weight: var(--font-weight-medium);
-      color: var(--color-black-80);
+      color: var(--token-color-text-neutral);
     }
   }
 
@@ -109,18 +109,20 @@
     &--within-selection:not(#{&}--inactive):not(#{&}--start-date):not(
         #{&}--end-date
       ) {
-      background-color: var(--color-mint-green-50);
+      background-color: var(--token-color-background-action-hover-subtle);
     }
 
     &--start-date:not(#{&}--inactive),
     &--end-date:not(#{&}--inactive) {
       &::after {
-        background-color: var(--color-mint-green-50);
+        background-color: var(
+          --token-color-background-action-hover-subtle
+        );
       }
 
       .dnb-button {
-        color: var(--color-mint-green-25);
-        background-color: var(--color-emerald-green);
+        color: var(--token-color-text-neutral-inverse);
+        background-color: var(--token-color-background-action-pressed);
       }
     }
     &--start-date:not(#{&}--inactive):not(#{&}--preview),
@@ -138,8 +140,8 @@
     html:not([data-whatintent='touch'])
       &--end-date#{&}--within-selection
       .dnb-button:hover:not([disabled]) {
-      color: var(--color-mint-green-25);
-      background-color: var(--color-emerald-green);
+      color: var(--token-color-text-neutral-inverse);
+      background-color: var(--token-color-background-action-pressed);
     }
 
     &--disabled .dnb-button {
@@ -147,7 +149,7 @@
     }
 
     &--inactive .dnb-button {
-      color: var(--color-black-55);
+      color: var(--token-color-text-neutral-alternative);
     }
 
     &--inactive .dnb-button,
@@ -168,7 +170,10 @@
     ~ &__inner
     .dnb-input:not([data-input-state='disabled']) {
     .dnb-input__shell {
-      @include utilities.fakeBorder(var(--color-sea-green), 0.125rem);
+      @include utilities.fakeBorder(
+        var(--token-color-stroke-action),
+        0.125rem
+      );
     }
   }
 
@@ -185,7 +190,10 @@
     ~ &__inner
     .dnb-input:not([data-input-state='disabled']) {
     .dnb-input__shell {
-      @include utilities.fakeBorder(var(--color-fire-red), 0.125rem);
+      @include utilities.fakeBorder(
+        var(--token-color-stroke-error),
+        0.125rem
+      );
     }
   }
 }

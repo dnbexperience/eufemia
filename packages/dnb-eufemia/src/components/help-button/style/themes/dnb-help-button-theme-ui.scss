@@ -5,6 +5,8 @@
 
 .dnb-help-button {
   &__content {
-    --help-button-content-background: var(--color-lavender);
+    --help-button-content-background: var(
+      --token-color-background-neutral-alternative
+    );
   }
 }

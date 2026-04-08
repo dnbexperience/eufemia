@@ -8,12 +8,12 @@
 @use './themes/tag-mixins.scss' as tag-mixins;
 
 .dnb-tag {
-  --tag-icon-color: var(--color-sea-green);
+  --tag-icon-color: var(--token-color-icon-action);
   --tag-icon-border-color: var(--tag-icon-color);
 
   &.dnb-button {
     appearance: none;
-    background-color: var(--color-black-8);
+    background-color: var(--token-color-background-neutral-base);
 
     padding-left: 0.5rem;
     padding-right: 0.5rem;
@@ -35,33 +35,36 @@
 
   &--interactive {
     &.dnb-button {
-      color: var(--color-sea-green);
-      background-color: var(--color-pistachio);
+      color: var(--token-color-text-action);
+      background-color: var(--token-color-decorative-third-muted);
 
       @include utilities.fakeBorder(
-        var(--color-sea-green),
+        var(--token-color-stroke-action),
         0.0625rem,
         inset
       );
       @include button-mixins.buttonFocusVisible(
-        $focus-color: var(--color-emerald-green)
+        $focus-color: var(--token-color-text-action-pressed)
       ) {
-        --tag-icon-color: var(--color-emerald-green);
+        --tag-icon-color: var(--token-color-icon-action-pressed);
       }
       @include button-mixins.buttonHover() {
-        --tag-icon-color: var(--color-emerald-green);
+        --tag-icon-color: var(--token-color-icon-action-pressed);
       }
       @include button-mixins.buttonActive(
-        $background-color: var(--color-mint-green-50)
+        $background-color:
+          var(--token-color-background-action-hover-subtle)
       ) {
-        --tag-icon-color: var(--color-sea-green);
+        --tag-icon-color: var(--token-color-icon-action);
       }
 
       &[disabled] {
-        color: var(--color-sea-green-30);
-        background-color: var(--color-white);
+        color: var(--token-color-text-action-disabled);
+        background-color: var(--token-color-background-neutral);
 
-        @include utilities.fakeBorder(var(--color-sea-green-30));
+        @include utilities.fakeBorder(
+          var(--token-color-stroke-action-disabled)
+        );
       }
     }
   }
@@ -81,14 +84,14 @@
 
   &--addable {
     --tag-icon-fill-color: var(--tag-icon-color);
-    --tag-icon-stroke-color: var(--color-white);
+    --tag-icon-stroke-color: var(--token-color-text-neutral-inverse);
     svg {
       transform: rotate(45deg);
     }
   }
 
   &--removable {
-    --tag-icon-fill-color: var(--color-white);
+    --tag-icon-fill-color: var(--token-color-text-neutral-inverse);
     --tag-icon-stroke-color: var(--tag-icon-color);
   }
 

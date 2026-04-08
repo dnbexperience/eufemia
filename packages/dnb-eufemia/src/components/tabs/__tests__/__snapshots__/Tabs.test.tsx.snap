@@ -398,35 +398,41 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
 *
 */
 .dnb-tabs {
-  --tablist-border-color--default: var(--color-black-8);
-  --tab-title-font-color: var(--color-sea-green);
+  --tablist-border-color--default: var(
+    --token-color-stroke-neutral-subtle
+  );
+  --tab-title-font-color: var(--token-color-text-action);
   --tab-title-font-weight: var(--font-weight-regular);
   --tab-title-font-size: var(--font-size-basis);
-  --tab-title-background--hover: var(--color-mint-green-50);
-  --tab-title-color--hover: var(--color-sea-green);
-  --tab-title-border--hover: var(--color-sea-green);
-  --tab-title-color--disabled: var(--color-sea-green-30);
-  --tab-title-border--active-selected: var(--color-sea-green);
-  --tab-title-color--active-selected: var(--color-emerald-green);
+  --tab-title-background--hover: var(
+    --token-color-background-action-hover-subtle
+  );
+  --tab-title-color--hover: var(--token-color-text-action);
+  --tab-title-border--hover: var(--token-color-text-action);
+  --tab-title-color--disabled: var(--token-color-text-action-disabled);
+  --tab-title-border--active-selected: var(--token-color-text-action);
+  --tab-title-color--active-selected: var(
+    --token-color-text-action-pressed
+  );
 }
 .dnb-tabs__button__title {
   font-weight: var(--font-weight-regular);
   font-size: var(--font-size-basis);
   text-align: center;
   display: block;
-  color: var(--color-sea-green);
+  color: var(--token-color-text-action);
   padding: 0.5rem 0 0.25rem;
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:hover[disabled] {
   cursor: not-allowed;
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]) {
-  background-color: var(--color-mint-green-50);
+  background-color: var(--token-color-background-action-hover-subtle);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after {
   height: 2px;
   border-radius: 2px;
-  background-color: var(--color-sea-green);
+  background-color: var(--token-color-text-action);
 }
 .dnb-tabs__button:focus::before {
   content: "";
@@ -457,15 +463,15 @@ html[data-whatinput=keyboard] .dnb-tabs__button:focus::before {
   border-radius: 1.5rem;
 }
 .dnb-tabs__button[disabled] .dnb-tabs__button__title {
-  color: var(--color-sea-green-30);
+  color: var(--token-color-text-action-disabled);
 }
 .dnb-tabs__button:not([disabled]):active::after, .dnb-tabs__button:not([disabled]).selected::after {
   height: 2px;
   border-radius: 2px;
-  background-color: var(--color-sea-green);
+  background-color: var(--token-color-text-action);
 }
 .dnb-tabs__button:not([disabled]):active .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title {
-  color: var(--color-emerald-green);
+  color: var(--token-color-text-action-pressed);
 }
 .dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title {
   font-weight: var(--font-weight-medium);

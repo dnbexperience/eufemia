@@ -5,22 +5,28 @@
 :root {
   // Focus Ring
   --focus-ring-width: 0.125rem;
-  --focus-ring-color: var(--color-emerald-green);
+  --focus-ring-color: var(--token-color-stroke-action-pressed);
 
   // Scrollbar
   --scrollbar-track-width: 0.5rem;
   --scrollbar-thumb-width: 0.5rem;
-  --scrollbar-track-color: var(--color-black-8);
-  --scrollbar-thumb-color: var(--color-sea-green);
-  --scrollbar-thumb-hover-color: var(--color-emerald-green);
+  --scrollbar-track-color: var(--token-color-background-neutral-base);
+  --scrollbar-thumb-color: var(--token-color-background-action);
+  --scrollbar-thumb-hover-color: var(
+    --token-color-background-action-pressed
+  );
 
   // Skip Link
-  --skip-link-color: var(--color-sea-green);
-  --skip-link-color--hover: var(--color-sea-green);
-  --skip-link-color--active: var(--color-white);
-  --skip-link-background: var(--color-white);
-  --skip-link-background--hover: var(--color-mint-green-50);
-  --skip-link-background--active: var(--color-emerald-green);
+  --skip-link-color: var(--token-color-text-action);
+  --skip-link-color--hover: var(--token-color-text-action);
+  --skip-link-color--active: var(--token-color-text-neutral-inverse);
+  --skip-link-background: var(--token-color-background-neutral);
+  --skip-link-background--hover: var(
+    --token-color-background-action-hover-subtle
+  );
+  --skip-link-background--active: var(
+    --token-color-background-action-pressed
+  );
 }
 
 // ::selection appearance helper
@@ -29,7 +35,7 @@
 [class^='dnb-']::selection,
 [class^='dnb-'] ::selection {
   // Chrome does not support CSS variables in ::selection, so we use a fallback
-  background-color: var(--color-mint-green, #a5e1d2);
-  color: var(--color-black, #000);
+  background-color: var(--token-color-decorative-first-subtle, #a5e1d2);
+  color: var(--token-color-text-neutral, #000);
   text-shadow: none;
 }

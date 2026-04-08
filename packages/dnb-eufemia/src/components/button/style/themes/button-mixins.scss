@@ -14,7 +14,7 @@
 @mixin buttonHover(
   $color: null,
   $background-color: null,
-  $border-color: var(--color-emerald-green),
+  $border-color: var(--token-color-stroke-action-pressed),
   $enable-touch: null
 ) {
   @include utilities.hover() {

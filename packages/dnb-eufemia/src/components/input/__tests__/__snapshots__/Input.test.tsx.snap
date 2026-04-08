@@ -1432,7 +1432,7 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
   padding-right: 3rem;
 }
 html[data-visual-test] .dnb-input__input {
-  caret-color: var(--color-white);
+  caret-color: var(--token-color-text-neutral-inverse);
 }
 .dnb-input[data-input-state=focus] .dnb-input__placeholder {
   display: none;
@@ -1469,14 +1469,14 @@ exports[`Input scss have to match default theme snapshot 1`] = `
   color: inherit;
 }
 .dnb-input__icon {
-  color: var(--color-sea-green);
+  color: var(--token-color-icon-action);
 }
 .dnb-input__status--error .dnb-input__icon {
-  color: var(--color-fire-red);
+  color: var(--token-color-icon-error);
 }
 .dnb-input__input::selection {
-  background-color: var(--color-mint-green);
-  color: var(--color-black);
+  background-color: var(--token-color-decorative-first-subtle);
+  color: var(--token-color-text-neutral);
   text-shadow: none;
 }"
 `;

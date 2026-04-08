@@ -4,14 +4,18 @@
 */
 
 .dnb-dialog {
-  --dialog-background: var(--color-white);
+  --dialog-background: var(--token-color-background-neutral);
   --dialog-icon-positioning: -50%;
 
   // icon color
-  --dialog-icon-color--information: var(--color-emerald-green);
-  --dialog-icon-color--warning: var(--color-fire-red);
+  --dialog-icon-color--information: var(--token-color-icon-info);
+  --dialog-icon-color--warning: var(--token-color-icon-error);
 
   // icon background
-  --dialog-icon-background--information: var(--color-pistachio);
-  --dialog-icon-background--warning: var(--color-fire-red-8);
+  --dialog-icon-background--information: var(
+    --token-color-background-info-subtle
+  );
+  --dialog-icon-background--warning: var(
+    --token-color-background-error-subtle
+  );
 }

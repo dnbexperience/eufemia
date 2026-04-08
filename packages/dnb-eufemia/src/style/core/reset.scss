@@ -390,11 +390,11 @@
   html[xmlns="http://www.w3.org/1999/xhtml"]
   {
     .dnb-anchor--active {
-      color: var(--color-mint-green) !important;
+      color: var(--token-color-decorative-first-subtle) !important;
     }
 
     a.dnb-button--primary {
-      color: var(--color-white);
+      color: var(--token-color-text-neutral-inverse);
     }
 
     // reset lists

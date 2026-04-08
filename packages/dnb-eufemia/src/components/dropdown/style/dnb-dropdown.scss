@@ -18,10 +18,16 @@
   --dropdown-text-padding: 0.5rem;
   --dropdown-button-padding: 0 1rem;
   --dropdown-border-radius: 0.25rem;
-  --dropdown-foreground-color-primary: var(--color-black-55);
-  --dropdown-foreground-color-error: var(--color-fire-red);
-  --dropdown-background-color-disabled: var(--color-black-3);
-  --dropdown-background-color-error-active: var(--color-fire-red-8);
+  --dropdown-foreground-color-primary: var(
+    --token-color-text-neutral-alternative
+  );
+  --dropdown-foreground-color-error: var(--token-color-text-destructive);
+  --dropdown-background-color-disabled: var(
+    --token-color-background-neutral-subtle
+  );
+  --dropdown-background-color-error-active: var(
+    --token-color-background-error-subtle
+  );
   --dropdown-error-border-inset: ;
 
   display: inline-flex;
@@ -214,7 +220,7 @@
       --border-width: 0.0625rem;
     }
     &:disabled::before {
-      --border-color: var(--color-sea-green-30);
+      --border-color: var(--token-color-stroke-action-disabled);
     }
   }
   .dnb-button--tertiary[disabled] {

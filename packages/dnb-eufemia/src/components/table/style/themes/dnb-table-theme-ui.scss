@@ -6,7 +6,7 @@
 @use '../table-mixins.scss' as table-mixins;
 
 .dnb-table {
-  --table-th-background-color: var(--color-white);
+  --table-th-background-color: var(--token-color-background-neutral);
 
   text-align: left;
 
@@ -18,7 +18,7 @@
     --table-th-font-size: var(--font-size-basis);
   }
   &__th--subtle {
-    --table-th-text-color: var(--color-black-55);
+    --table-th-text-color: var(--token-color-text-neutral-alternative);
     --table-th-font-weight: var(--font-weight-regular);
     --table-th-font-size: var(--font-size-small);
 
@@ -124,13 +124,13 @@
 }
 
 .dnb-table__container {
-  background-color: var(--color-white);
+  background-color: var(--token-color-background-neutral);
 }
 
 .dnb-table,
 .dnb-table__container {
-  --table-border-color: var(--color-black-8);
-  --table-outline-color: var(--color-black-8);
+  --table-border-color: var(--token-color-stroke-neutral-subtle);
+  --table-outline-color: var(--token-color-stroke-neutral-subtle);
 
   html[data-visual-test] & {
     --table-border-color: blue;

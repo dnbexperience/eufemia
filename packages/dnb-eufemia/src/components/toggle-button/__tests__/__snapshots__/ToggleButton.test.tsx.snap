@@ -12,52 +12,54 @@ exports[`ToggleButton scss should match default theme snapshot 1`] = `
   stroke-width: 0.125rem;
 }
 .dnb-toggle-button .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
-  box-shadow: 0 0 0 0.0318rem var(--color-sea-green);
+  box-shadow: 0 0 0 0.0318rem var(--token-color-background-action);
 }
 .dnb-toggle-button {
   /* stylelint-disable */
 }
 .dnb-toggle-button--checked .dnb-toggle-button__button[disabled], .dnb-toggle-button--checked .dnb-toggle-button__button:focus[disabled], .dnb-toggle-button--checked .dnb-toggle-button__button:hover[disabled] {
-  background-color: var(--color-mint-green-25);
+  background-color: var(--token-color-background-selected-subtle);
 }
 .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active), .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active), .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active) {
-  background-color: var(--color-emerald-green);
-  --button-color-border--hover: var(--color-emerald-green);
-  color: var(--color-mint-green);
+  background-color: var(--token-color-background-action-pressed);
+  --button-color-border--hover: var(
+    --token-color-background-action-pressed
+  );
+  color: var(--token-color-decorative-first-subtle);
 }
 .dnb-toggle-button--checked .dnb-toggle-button__button .dnb-icon, .dnb-toggle-button--checked .dnb-toggle-button__button:focus .dnb-icon, .dnb-toggle-button--checked .dnb-toggle-button__button:hover .dnb-icon {
   color: inherit;
 }
 .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-radio__button, .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-radio__button, .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-radio__button {
   background-color: transparent;
-  border-color: var(--color-mint-green);
-  box-shadow: 0 0 0 0.0318rem var(--color-mint-green);
+  border-color: var(--token-color-decorative-first-subtle);
+  box-shadow: 0 0 0 0.0318rem var(--token-color-decorative-first-subtle);
 }
 .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-radio__dot, .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-radio__dot, .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-radio__dot {
-  background-color: var(--color-mint-green);
+  background-color: var(--token-color-decorative-first-subtle);
 }
 html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-radio__button {
-  --border-color: var(--color-emerald-green);
+  --border-color: var(--token-color-background-action-pressed);
   --border-width: 0.09375rem;
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-radio__input:not([disabled]):not(:hover):not(:active):not(:hover) ~ .dnb-radio__dot, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-radio__input:not([disabled]):not(:hover):not(:active):not(:hover) ~ .dnb-radio__dot, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-radio__input:not([disabled]):not(:hover):not(:active):not(:hover) ~ .dnb-radio__dot {
-  background-color: var(--color-emerald-green);
+  background-color: var(--token-color-background-action-pressed);
 }
 .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__button, .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-checkbox__button, .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-checkbox__button {
-  background-color: var(--color-mint-green);
-  border-color: var(--color-emerald-green);
-  box-shadow: 0 0 0 0.0318rem var(--color-emerald-green);
+  background-color: var(--token-color-decorative-first-subtle);
+  border-color: var(--token-color-background-action-pressed);
+  box-shadow: 0 0 0 0.0318rem var(--token-color-background-action-pressed);
 }
 .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__gfx, .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-checkbox__gfx, .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-checkbox__gfx {
-  color: var(--color-emerald-green);
+  color: var(--token-color-background-action-pressed);
 }
 html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-checkbox__button, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-checkbox__button, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-checkbox__button {
-  background-color: var(--color-emerald-green);
+  background-color: var(--token-color-background-action-pressed);
 }
 html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-checkbox__gfx, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-checkbox__gfx, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-checkbox__gfx {
-  color: var(--color-mint-green);
+  color: var(--token-color-decorative-first-subtle);
 }
 .dnb-toggle-button--checked .dnb-toggle-button__button[disabled] .dnb-radio__button,
 .dnb-toggle-button--checked .dnb-toggle-button__button[disabled] .dnb-checkbox__button, .dnb-toggle-button--checked .dnb-toggle-button__button:focus[disabled] .dnb-radio__button,
@@ -66,25 +68,25 @@ html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__bu
   box-shadow: none;
 }
 html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
-  color: var(--color-emerald-green);
-  background-color: var(--color-mint-green);
-  --button-color-border: var(--color-emerald-green);
+  color: var(--token-color-background-action-pressed);
+  background-color: var(--token-color-decorative-first-subtle);
+  --button-color-border: var(--token-color-background-action-pressed);
 }
 .dnb-toggle-button__button:not([disabled]):active .dnb-radio__button, .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-radio__button {
   background-color: transparent;
-  border-color: var(--color-sea-green);
-  box-shadow: 0 0 0 0.0318rem var(--color-sea-green);
+  border-color: var(--token-color-background-action);
+  box-shadow: 0 0 0 0.0318rem var(--token-color-background-action);
 }
 .dnb-toggle-button__button:not([disabled]):active .dnb-radio__dot, .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-radio__dot {
-  background-color: var(--color-sea-green);
+  background-color: var(--token-color-background-action);
 }
 .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__button, .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__button {
   background-color: transparent;
-  border-color: var(--color-sea-green);
-  box-shadow: 0 0 0 0.0318rem var(--color-sea-green);
+  border-color: var(--token-color-background-action);
+  box-shadow: 0 0 0 0.0318rem var(--token-color-background-action);
 }
 .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__gfx, .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__gfx {
-  color: var(--color-sea-green);
+  color: var(--token-color-background-action);
 }
 .dnb-toggle-button {
   /* stylelint-enable */
@@ -95,15 +97,15 @@ html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__bu
   /* stylelint-disable */
 }
 .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
-  background-color: var(--color-white);
-  color: var(--color-fire-red);
-  --border-color: var(--color-fire-red);
+  background-color: var(--token-color-background-neutral);
+  color: var(--token-color-stroke-error);
+  --border-color: var(--token-color-stroke-error);
   --border-width: 0.0625rem;
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
-  --border-color: var(--color-fire-red);
+  --border-color: var(--token-color-stroke-error);
   --border-width: 0.09375rem;
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
@@ -116,7 +118,7 @@ html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__bu
 }
 .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__input ~ .dnb-checkbox__button {
   border: none;
-  --border-color: var(--color-fire-red);
+  --border-color: var(--token-color-stroke-error);
   --border-width: 0.09375rem;
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
@@ -125,27 +127,27 @@ html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__bu
   box-shadow: none;
 }
 .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
-  color: var(--color-white);
-  background-color: var(--color-fire-red);
-  --border-color: var(--color-fire-red);
+  color: var(--token-color-background-neutral);
+  background-color: var(--token-color-stroke-error);
+  --border-color: var(--token-color-stroke-error);
   --border-width: 0.0625rem;
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:focus) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
-  --border-color: var(--color-white);
+  --border-color: var(--token-color-background-neutral);
   --border-width: 0.09375rem;
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:focus) .dnb-radio__input:not([disabled]):not(:hover) ~ .dnb-radio__dot {
-  background-color: var(--color-white);
+  background-color: var(--token-color-background-neutral);
 }
 .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__input:not([disabled]):not(:hover):not(:active) ~ .dnb-checkbox__button .dnb-checkbox__focus {
-  background-color: var(--color-white);
+  background-color: var(--token-color-background-neutral);
 }
 .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-checkbox .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-checkbox__gfx {
-  color: var(--color-fire-red);
+  color: var(--token-color-stroke-error);
 }
 .dnb-toggle-button {
   /* stylelint-enable */
@@ -1573,7 +1575,9 @@ html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:
   --radio-color-background-on--hover: lightgrey;
   --radio-color-background-off--hover: lightgrey;
   --radio-border-width--focus: 0.125rem;
-  --radio-color-background-on--focus: var(--color-white);
+  --radio-color-background-on--focus: var(
+    --token-color-background-neutral
+  );
   --radio-color-background-off--focus: lightgrey;
   --radio-color-dot-on--error: red;
   --radio-color-border-on--error: red;

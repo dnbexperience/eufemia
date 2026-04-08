@@ -82,8 +82,8 @@ exports[`NumberFormat scss has to match style dependencies css 1`] = `
   z-index: 2;
 }
 .dnb-number-format--selected .dnb-number-format__visible {
-  color: var(--color-black);
-  background-color: var(--color-mint-green);
+  color: var(--token-color-text-neutral);
+  background-color: var(--token-color-decorative-first-subtle);
 }
 .dnb-number-format__selection {
   position: absolute;

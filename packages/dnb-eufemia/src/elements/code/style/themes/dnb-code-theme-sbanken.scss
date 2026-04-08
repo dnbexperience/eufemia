@@ -8,7 +8,7 @@
 
 .dnb-pre {
   // Pre is using syntax highlighting to determine the text color, this property works as a fallback color in case of no highlighting
-  color: var(--color-mint-green-12);
+  color: var(--token-color-background-info-subtle);
   background-color: #222;
 
   &.dnb-pre--focus {

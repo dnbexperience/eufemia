@@ -1436,7 +1436,7 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
   padding-right: 3rem;
 }
 html[data-visual-test] .dnb-input__input {
-  caret-color: var(--color-white);
+  caret-color: var(--token-color-text-neutral-inverse);
 }
 .dnb-input[data-input-state=focus] .dnb-input__placeholder {
   display: none;
@@ -1484,10 +1484,16 @@ html[data-visual-test] .dnb-input__input {
   --dropdown-text-padding: 0.5rem;
   --dropdown-button-padding: 0 1rem;
   --dropdown-border-radius: 0.25rem;
-  --dropdown-foreground-color-primary: var(--color-black-55);
-  --dropdown-foreground-color-error: var(--color-fire-red);
-  --dropdown-background-color-disabled: var(--color-black-3);
-  --dropdown-background-color-error-active: var(--color-fire-red-8);
+  --dropdown-foreground-color-primary: var(
+    --token-color-text-neutral-alternative
+  );
+  --dropdown-foreground-color-error: var(--token-color-text-destructive);
+  --dropdown-background-color-disabled: var(
+    --token-color-background-neutral-subtle
+  );
+  --dropdown-background-color-error-active: var(
+    --token-color-background-error-subtle
+  );
   --dropdown-error-border-inset: ;
   display: inline-flex;
   align-items: center;
@@ -1642,7 +1648,7 @@ html[data-visual-test] .dnb-input__input {
   --border-width: 0.0625rem;
 }
 .dnb-dropdown__status--error .dnb-button--tertiary:disabled::before {
-  --border-color: var(--color-sea-green-30);
+  --border-color: var(--token-color-stroke-action-disabled);
 }
 .dnb-dropdown .dnb-button--tertiary[disabled] {
   --button-tertiary-focus-left: 0;
@@ -1788,10 +1794,12 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
     var(--progress-indicator-circular-size) / 8
   );
   --progress-indicator-circular-background-color: grey;
-  --progress-indicator-circular-bar-color: var(--color-black);
+  --progress-indicator-circular-bar-color: var(
+    --token-color-stroke-neutral
+  );
   --progress-indicator-linear-size: 0.5rem;
   --progress-indicator-linear-background-color: grey;
-  --progress-indicator-linear-bar-color: var(--color-black);
+  --progress-indicator-linear-bar-color: var(--token-color-stroke-neutral);
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -2301,18 +2309,18 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 .dnb-autocomplete__show-all .dnb-drawer-list__option__inner {
-  color: var(--color-sea-green);
+  color: var(--token-color-text-action);
 }
 .dnb-autocomplete--open .dnb-input .dnb-input__shell .dnb-input__shell, .dnb-autocomplete:not(.dnb-autocomplete__status--error) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
-  --border-color: var(--color-sea-green);
+  --border-color: var(--token-color-stroke-action);
   --border-width: 0.125rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-autocomplete--open .dnb-input .dnb-input__shell .dnb-input__submit-button__button, .dnb-autocomplete:not(.dnb-autocomplete__status--error) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__submit-button__button {
   border-radius: 0;
-  color: var(--color-white);
-  background-color: var(--color-sea-green);
+  color: var(--token-color-text-neutral-inverse);
+  background-color: var(--token-color-background-action);
   box-shadow: none;
 }
 .dnb-autocomplete--show-indicator .dnb-autocomplete__input .dnb-input__icon {
@@ -2322,7 +2330,7 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
   border-radius: var(--autocomplete-border-radius);
 }
 .dnb-autocomplete__status--error:not(.dnb-autocomplete--open) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
-  --border-color: var(--color-fire-red);
+  --border-color: var(--token-color-stroke-error);
   --border-width: 0.125rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
@@ -2332,17 +2340,17 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
   font-weight: var(--font-weight-basis);
 }
 .dnb-autocomplete__root .dnb-drawer-list__option:not([disabled]) .dnb-drawer-list__option__item:nth-of-type(n + 2) {
-  color: var(--color-black-55);
+  color: var(--token-color-text-neutral-alternative);
 }
 .dnb-autocomplete__root .dnb-drawer-list__option__item--highlight {
   font-weight: var(--font-weight-bold);
 }
 
 .dnb-autocomplete__root .dnb-drawer-list__option--selected:not([disabled]) .dnb-drawer-list__option__item:nth-of-type(n + 2) {
-  color: var(--color-white);
+  color: var(--token-color-text-neutral-inverse);
 }
 
 .dnb-autocomplete__root .dnb-drawer-list__option--selected .dnb-anchor {
-  color: var(--color-white);
+  color: var(--token-color-text-neutral-inverse);
 }"
 `;

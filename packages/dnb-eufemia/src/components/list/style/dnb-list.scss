@@ -9,12 +9,14 @@
     --item-chevron-margin: 1rem;
     --item-chevron-height: 1.5rem;
     --item-outline-width: 0.0625rem;
-    --item-outline-color: var(--color-black-8);
-    --item-navigation-color: var(--color-sea-green);
-    --item-navigation-color--active: var(--color-emerald-green);
+    --item-outline-color: var(--token-color-stroke-neutral-subtle);
+    --item-navigation-color: var(--token-color-stroke-action);
+    --item-navigation-color--active: var(
+      --token-color-stroke-action-pressed
+    );
     --item-icon-color: var(--item-navigation-color);
-    --item-pending-color: var(--color-black-3);
-    --item-background-color: var(--color-white);
+    --item-pending-color: var(--token-color-background-neutral-subtle);
+    --item-background-color: var(--token-color-background-neutral);
     --item-selected-background-color: var(
       --token-color-background-selected-subtle,
       var(--item-background-color)
@@ -216,7 +218,7 @@
       border-bottom-right-radius: var(--item-rounded-corner);
     }
     &__subline--description {
-      color: var(--color-black-55);
+      color: var(--token-color-text-neutral-alternative);
     }
 
     // Deal with chevron
@@ -364,12 +366,14 @@
     }
     &--disabled {
       cursor: not-allowed;
-      color: var(--color-black-20);
+      color: var(--token-color-stroke-neutral-bold);
 
-      --item-navigation-color: var(--color-sea-green-30);
-      --item-navigation-color--active: var(--color-sea-green-30);
-      --item-icon-color: var(--color-sea-green-30);
-      --item-outline-color: var(--color-black-8);
+      --item-navigation-color: var(--token-color-stroke-action-disabled);
+      --item-navigation-color--active: var(
+        --token-color-stroke-action-disabled
+      );
+      --item-icon-color: var(--token-color-stroke-action-disabled);
+      --item-outline-color: var(--token-color-stroke-neutral-subtle);
 
       .dnb-list__item__accordion__header {
         cursor: not-allowed;

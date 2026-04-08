@@ -40,10 +40,13 @@
   color: var(--color);
 
   &[style*='--background-color'] {
-    background-color: var(--background-color, var(--color-emerald-green));
+    background-color: var(
+      --background-color,
+      var(--token-color-background-action-pressed)
+    );
   }
   &[style*='--color'] {
-    color: var(--color, var(--color-pistachio));
+    color: var(--color, var(--token-color-decorative-third-muted));
   }
 
   // Safari needs a correct CSS specificity
@@ -125,7 +128,10 @@
     flex-direction: row;
 
     .dnb-avatar {
-      @include utilities.fakeBorder(var(--color-black-3), 0.125rem);
+      @include utilities.fakeBorder(
+        var(--token-color-background-neutral-subtle),
+        0.125rem
+      );
 
       &--size-small {
         margin-left: -0.5rem;
@@ -153,7 +159,7 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      color: var(--color-black-55);
+      color: var(--token-color-text-neutral-alternative);
 
       &--size-small {
         font-size: var(--avatar-font-size-left--small);

@@ -8,17 +8,23 @@
 .dnb-dropdown {
   --dropdown-error-border-width: 0.125rem;
   --dropdown-button-padding: 0 1rem;
-  --dropdown-foreground-color-primary: var(--color-black-55);
-  --dropdown-foreground-color-error: var(--color-fire-red);
-  --dropdown-background-color-disabled: var(--color-black-3);
-  --dropdown-background-color-error-active: var(--color-fire-red-8);
+  --dropdown-foreground-color-primary: var(
+    --token-color-text-neutral-alternative
+  );
+  --dropdown-foreground-color-error: var(--token-color-text-destructive);
+  --dropdown-background-color-disabled: var(
+    --token-color-background-neutral-subtle
+  );
+  --dropdown-background-color-error-active: var(
+    --token-color-background-error-subtle
+  );
 
   // button
   &__trigger {
     --button-color-text--disabled: var(
       --dropdown-foreground-color-primary
     );
-    --button-color-text--hover: var(--color-emerald-green);
+    --button-color-text--hover: var(--token-color-text-action-pressed);
     --button-color-bg--disabled: var(--dropdown-background-color-disabled);
   }
 

@@ -10,11 +10,11 @@ exports[`Heading component has to match style dependencies css 1`] = `
  *
  */
 .dnb-heading__debug {
-  color: var(--color-black-20);
+  color: var(--token-color-stroke-neutral-bold);
   font-weight: var(--font-weight-basis);
 }
 .dnb-heading__debug .dnb-code {
-  color: var(--color-black);
+  color: var(--token-color-text-neutral);
   font-size: 12px !important;
 }
 .dnb-heading__context {

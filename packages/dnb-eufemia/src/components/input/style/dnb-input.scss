@@ -584,7 +584,7 @@
   }
 
   html[data-visual-test] &__input {
-    caret-color: var(--color-white);
+    caret-color: var(--token-color-text-neutral-inverse);
   }
 
   &[data-input-state='focus'] &__placeholder {

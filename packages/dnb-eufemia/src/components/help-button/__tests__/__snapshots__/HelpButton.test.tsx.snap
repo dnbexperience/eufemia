@@ -6,7 +6,9 @@ exports[`HelpButton scss should match default theme snapshot 1`] = `
  *
  */
 .dnb-help-button__content {
-  --help-button-content-background: var(--color-lavender);
+  --help-button-content-background: var(
+    --token-color-background-neutral-alternative
+  );
 }"
 `;
 

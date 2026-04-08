@@ -1364,7 +1364,7 @@ html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-te
   border: none;
 }
 .dnb-button--active {
-  --border-color: var(--color-emerald-green);
+  --border-color: var(--token-color-stroke-action-pressed);
   --border-width: 0.125rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;

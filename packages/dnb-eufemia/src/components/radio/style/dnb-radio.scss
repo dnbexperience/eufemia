@@ -41,7 +41,9 @@
   --radio-color-background-off--hover: lightgrey;
   // Focus state
   --radio-border-width--focus: 0.125rem;
-  --radio-color-background-on--focus: var(--color-white);
+  --radio-color-background-on--focus: var(
+    --token-color-background-neutral
+  );
   --radio-color-background-off--focus: lightgrey;
   // Error state
   --radio-color-dot-on--error: red;

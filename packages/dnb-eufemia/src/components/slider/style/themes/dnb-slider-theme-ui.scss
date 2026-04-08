@@ -4,13 +4,17 @@
 */
 
 .dnb-slider {
-  --slider-line-before: var(--color-sea-green);
-  --slider-line-after: var(--color-mint-green-50);
-  --slider-line-before--disabled: var(--color-sea-green-30);
-  --slider-line-after--disabled: var(--color-mint-green-25);
+  --slider-line-before: var(--token-color-stroke-action);
+  --slider-line-after: var(--token-color-background-action-hover-subtle);
+  --slider-line-before--disabled: var(
+    --token-color-stroke-action-disabled
+  );
+  --slider-line-after--disabled: var(
+    --token-color-background-action-disabled
+  );
 
   &__marker:hover,
   &__marker:focus-within {
-    background-color: var(--color-emerald-green);
+    background-color: var(--token-color-background-action-pressed);
   }
 }
