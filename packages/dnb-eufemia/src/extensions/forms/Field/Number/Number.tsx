@@ -301,7 +301,6 @@ function NumberComponent(props: FieldNumberProps) {
     ...props,
     schema,
     toInput,
-    // @ts-expect-error - strictFunctionTypes
     fromInput,
     width:
       props.width ??

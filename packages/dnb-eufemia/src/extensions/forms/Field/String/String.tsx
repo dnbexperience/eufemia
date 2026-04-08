@@ -168,7 +168,6 @@ function StringComponent(props: FieldStringProps) {
   const preparedProps: FieldStringProps = {
     ...props,
     schema,
-    // @ts-expect-error - strictFunctionTypes
     fromInput,
     toEvent,
     transformValue,

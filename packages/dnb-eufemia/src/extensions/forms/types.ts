@@ -472,7 +472,8 @@ interface UseFieldPropsInterface<
   /**
    * Transforms the value before it gets returned as the `value`.
    */
-  toInput?: (external: Value | unknown) => Value | unknown
+  // eslint-disable-next-line @typescript-eslint/method-signature-style
+  toInput?(external: Value | unknown): Value | unknown
 
   /**
    * Transforms the internal value before it gets returned by even callbacks such as `onChange`, `onFocus` and `onBlur`. The second parameter returns the event type: `onChange`, `onFocus`, `onBlur` or `onBlurValidator`.
@@ -485,7 +486,8 @@ interface UseFieldPropsInterface<
   /**
    * Transforms the value given by `handleChange` before it is used in the further process flow. Use it to destruct the value from the original event object.
    */
-  fromInput?: (external: Value | unknown) => Value
+  // eslint-disable-next-line @typescript-eslint/method-signature-style
+  fromInput?(external: Value | unknown): Value
 
   /**
    * Transforms the given props `value` before any other step gets entered.
@@ -593,12 +595,14 @@ interface ValuePropsInterface<Value = unknown>
    * Transforms the `value` before it's displayed in the field (e.g. input).
    * Public API. Should not be used internally.
    */
-  transformIn?: (external: Value | unknown) => Value | unknown
+  // eslint-disable-next-line @typescript-eslint/method-signature-style
+  transformIn?(external: Value | unknown): Value | unknown
 
   /**
    * Transforms the value before it gets returned as the `value`.
    */
-  toInput?: (external: Value | unknown) => Value | unknown
+  // eslint-disable-next-line @typescript-eslint/method-signature-style
+  toInput?(external: Value | unknown): Value | unknown
 
   /**
    * Transforms the given props `value` before any other step gets entered.

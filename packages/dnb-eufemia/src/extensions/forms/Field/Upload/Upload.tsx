@@ -136,7 +136,6 @@ function UploadComponent(props: FieldUploadProps) {
     onValidationError,
     dataContext,
     ...rest
-    // @ts-expect-error - strictFunctionTypes
   } = useFieldProps(preparedProps, {
     executeOnChangeRegardlessOfError: true,
   })
