@@ -68,6 +68,8 @@ export const ModalSandbox = () => (
               return () => clearTimeout(timeout) // clear timeout on unmount
             }
           }
+
+          return undefined
         }}
       >
         <P>This is a Modal Window with no close button.</P>
@@ -221,24 +223,24 @@ export const ModalV2Sandbox = () => (
 )
 
 class ModalRerenderExample extends React.PureComponent {
-  state = {
+  override state = {
     title: 'Modal Title',
     triggerText: 'Open Modal',
   }
   timeout
 
-  componentDidMount() {
+  override componentDidMount() {
     this.timeout = setTimeout(() => {
       this.setState({ title: 'New Title' })
       this.setState({ triggerText: 'New Open Modal' })
     }, 1e3)
   }
 
-  componentWillUnmount() {
+  override componentWillUnmount() {
     clearTimeout(this.timeout)
   }
 
-  render() {
+  override render() {
     return (
       <Modal
         triggerAttributes={{ text: this.state.triggerText }}

@@ -29,6 +29,8 @@ export default function useQueryLocator(id: string = undefined) {
     } catch (error) {
       setFormError(error as Error)
     }
+
+    return undefined
   }, [name, setFormError])
 
   useLayoutEffect(() => {
@@ -51,6 +53,8 @@ export default function useQueryLocator(id: string = undefined) {
     } catch (error) {
       setFormError(error as Error)
     }
+
+    return undefined
   }, [getIndex, id, setActiveIndex, setFormError])
 
   return { getIndex }

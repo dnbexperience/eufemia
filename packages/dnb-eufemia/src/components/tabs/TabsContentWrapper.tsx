@@ -45,7 +45,7 @@ export default function ContentWrapper({
 
   useEffect(() => {
     if (!id || !sharedStateRef.current) {
-      return // stop here
+      return undefined // stop here
     }
 
     const sharedState = sharedStateRef.current

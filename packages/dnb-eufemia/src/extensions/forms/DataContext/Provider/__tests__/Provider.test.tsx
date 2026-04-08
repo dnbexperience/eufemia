@@ -404,11 +404,15 @@ describe('DataContext.Provider', () => {
           if (props.disabled === true) {
             return false
           }
+
+          return undefined
         })
         const barHandler: DataPathHandler = jest.fn(({ props }) => {
           if (props.disabled === true) {
             return false
           }
+
+          return undefined
         })
 
         const filterDataPaths: FilterData = {
@@ -518,6 +522,8 @@ describe('DataContext.Provider', () => {
           if (props.disabled === true) {
             return false
           }
+
+          return undefined
         })
 
         let filteredData = undefined
@@ -639,6 +645,8 @@ describe('DataContext.Provider', () => {
           if (/\/_/.test(path)) {
             return false
           }
+
+          return undefined
         })
 
         let filteredData = undefined
@@ -759,6 +767,8 @@ describe('DataContext.Provider', () => {
           if (value === 'remove me') {
             return false
           }
+
+          return undefined
         })
 
         let filteredData = undefined
@@ -1165,12 +1175,16 @@ describe('DataContext.Provider', () => {
         if (value === 'onChangeValidator-error') {
           return new Error('onChangeValidator-error')
         }
+
+        return undefined
       })
       const onBlurValidator = jest.fn(async (value) => {
         await wait(10)
         if (value === 'onBlurValidator-error') {
           return new Error('onBlurValidator-error')
         }
+
+        return undefined
       })
 
       render(
@@ -1463,6 +1477,8 @@ describe('DataContext.Provider', () => {
         if (value === 'invalid') {
           return Error('My error')
         }
+
+        return undefined
       }, 10)
 
       render(
@@ -1576,6 +1592,8 @@ describe('DataContext.Provider', () => {
           if (value !== 'valid') {
             return Error(`value: ${value}`)
           }
+
+          return undefined
         })
 
       render(
@@ -1795,11 +1813,15 @@ describe('DataContext.Provider', () => {
         if (myField === 'onChangeForm-error') {
           return Error('onChangeForm-error')
         }
+
+        return undefined
       }
       const onChangeField: OnChangeValue = async (value) => {
         if (value === 'onChangeField-error') {
           return Error('onChangeField-error')
         }
+
+        return undefined
       }
 
       render(
@@ -1847,11 +1869,15 @@ describe('DataContext.Provider', () => {
         if (myField === 'onChangeForm-info') {
           return { info: 'onChangeForm-info' }
         }
+
+        return undefined
       }
       const onChangeField: OnChangeValue = async (value) => {
         if (value === 'onChangeField-warning') {
           return { warning: 'onChangeField-warning' }
         }
+
+        return undefined
       }
 
       render(
@@ -1982,6 +2008,8 @@ describe('DataContext.Provider', () => {
         if (value === 'invalid') {
           return Error('My error')
         }
+
+        return undefined
       })
 
       render(
@@ -4203,6 +4231,8 @@ describe('DataContext.Provider', () => {
       if (props.disabled === true) {
         return false
       }
+
+      return undefined
     })
     let filteredData = undefined
     const onSubmit: OnSubmit = jest.fn((data, { filterData }) => {
@@ -4872,6 +4902,8 @@ describe('DataContext.Provider', () => {
         if (value !== 123) {
           return new Error('Invalid')
         }
+
+        return undefined
       })
 
       const MockComponent = () => {
@@ -4954,6 +4986,8 @@ describe('DataContext.Provider', () => {
         if (props.disabled === true) {
           return false
         }
+
+        return undefined
       })
       let filteredData = undefined
       const onSubmit: OnSubmit = jest.fn((data, { filterData }) => {
@@ -5154,6 +5188,8 @@ describe('DataContext.Provider', () => {
           if (props.disabled === true) {
             return false
           }
+
+          return undefined
         })
 
         const MockComponent = () => {

@@ -50,6 +50,7 @@ export const preResponseResolver: PreResponseResolver = ({ value }) => {
   if (!value) {
     return { postal_codes: [] }
   }
+  return undefined
 }
 
 export const responseResolver: ResponseResolver<
@@ -79,7 +80,7 @@ export function autofill(
 
   return async function autofillHandler(value, additionalArgs?) {
     if (!(typeof value === 'string' && value.length >= 4)) {
-      return // stop here
+      return undefined // stop here
     }
 
     // Get country code from path or use given countryCode value
@@ -91,7 +92,7 @@ export function autofill(
     })
 
     if (!isSupportedCountryCode(countryCode, supportedCountryCodes)) {
-      return // stop here
+      return undefined // stop here
     }
 
     try {
@@ -147,7 +148,7 @@ export function validator(
 
   return async function validatorHandler(value, additionalArgs?) {
     if (!(typeof value === 'string' && value.length >= 4)) {
-      return // stop here
+      return undefined // stop here
     }
 
     // Get country code from path or use given countryCode value, and re-validate on path changes
@@ -194,6 +195,8 @@ export function validator(
     } catch (error) {
       return error as Error
     }
+
+    return undefined
   }
 }
 

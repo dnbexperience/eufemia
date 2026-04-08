@@ -32,6 +32,7 @@ const transformOut = (internal: unknown, additionalArgs?: unknown) => {
   if (internal) {
     return `${currency.name} (${internal})`
   }
+  return undefined
 }
 const transformIn = (external: unknown) => {
   return (String(external).match(/\((.*)\)/)?.[1] || 'NOK') as CurrencyISO

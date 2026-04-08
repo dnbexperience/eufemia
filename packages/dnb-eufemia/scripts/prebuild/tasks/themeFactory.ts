@@ -235,6 +235,7 @@ export async function runFactory({
   if (returnResult) {
     return collectedOutput
   }
+  return undefined
 }
 
 /**

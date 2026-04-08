@@ -117,6 +117,8 @@ describe('Field.DateOfBirth', () => {
         if (external) {
           return `${year}-${month}-${day}`
         }
+
+        return undefined
       })
 
       render(
@@ -166,6 +168,8 @@ describe('Field.DateOfBirth', () => {
             const { year, month, day } = args
             return { year, month, day }
           }
+
+          return undefined
         }
       )
 
@@ -175,6 +179,8 @@ describe('Field.DateOfBirth', () => {
           const { year, month, day } = ext
           return `${year}-${month}-${day}`
         }
+
+        return undefined
       })
 
       render(
@@ -516,6 +522,8 @@ describe('Field.DateOfBirth', () => {
         if (value.substring(0, 4) !== '1990') {
           return new Error(customErrorMessage)
         }
+
+        return undefined
       })
 
       render(
@@ -613,6 +621,8 @@ describe('Field.DateOfBirth', () => {
         if (value.substring(0, 4) !== '1990') {
           return new Error(customError)
         }
+
+        return undefined
       }
 
       const customValidator: Validator<string> = (

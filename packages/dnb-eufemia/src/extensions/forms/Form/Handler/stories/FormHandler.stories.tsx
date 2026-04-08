@@ -58,6 +58,7 @@ const firstValidator = debounceAsync(async function firstValidator(
   if (!wasCanceled() && value !== 'valid') {
     return new Error('Custom error (A) with invalid value: ' + value) // Show this message
   }
+  return undefined
 })
 
 const secondValidator = debounceAsync(async function secondValidator(
@@ -82,6 +83,7 @@ const secondValidator = debounceAsync(async function secondValidator(
   if (!wasCanceled() && value !== 'valid') {
     return new Error('Custom error (B) with invalid value: ' + value) // Show this message
   }
+  return undefined
 })
 
 const thirdValidator = debounceAsync(async function thirdValidator(
@@ -106,6 +108,7 @@ const thirdValidator = debounceAsync(async function thirdValidator(
   if (!wasCanceled() && value !== 'valid') {
     return new Error('Custom error (C) with invalid value: ' + value) // Show this message
   }
+  return undefined
 }, 500)
 
 const submitHandler = debounceAsync(async function submit(
@@ -125,6 +128,7 @@ const submitHandler = debounceAsync(async function submit(
   } else {
     debug('Submit of data done in:', Date.now() - start)
   }
+  return undefined
 })
 
 const initialData = { fieldA: 'valid', fieldB: 'valid', fieldC: 'valid' }
@@ -292,6 +296,7 @@ const delay = debounceAsync(async function () {
   } catch (error) {
     return error
   }
+  return undefined
 })
 
 export function SubmitIndicator() {

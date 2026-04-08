@@ -220,8 +220,8 @@ export default class Tabs extends React.PureComponent<
   TabsProps,
   TabsState
 > {
-  static contextType = Context
-  context!: ContextProps
+  static override contextType = Context
+  override context!: ContextProps
 
   _id: string
   _tabsRef: React.RefObject<HTMLDivElement>
@@ -447,7 +447,7 @@ export default class Tabs extends React.PureComponent<
     }
   }
 
-  componentDidMount() {
+  override componentDidMount() {
     this._isMounted = true
     if (document.readyState === 'complete') {
       this.init()
@@ -456,7 +456,7 @@ export default class Tabs extends React.PureComponent<
     }
   }
 
-  componentWillUnmount() {
+  override componentWillUnmount() {
     this._isMounted = false
     this.resetWhatInput()
     if (this._sharedState) {
@@ -502,7 +502,7 @@ export default class Tabs extends React.PureComponent<
     }
   }
 
-  componentDidUpdate(props: TabsProps) {
+  override componentDidUpdate(props: TabsProps) {
     if (
       this._sharedState &&
       (this.props.selectedKey !== props.selectedKey ||
@@ -1307,7 +1307,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
     )
   }
 
-  render() {
+  override render() {
     const props = (this._props = extendPropsWithContextInClassComponent(
       this.props,
       Tabs.defaultProps,

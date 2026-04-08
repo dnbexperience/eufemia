@@ -274,7 +274,7 @@ export default Anchor
 
 export function scrollToHash(hash: string) {
   if (typeof document === 'undefined' || !hash || !hash.includes('#')) {
-    return // stop here
+    return undefined // stop here
   }
 
   // Only continue, when we are sure we are on the same page,
@@ -296,6 +296,7 @@ export function scrollToHash(hash: string) {
       console.error(error)
     }
   }
+  return undefined
 }
 
 function getIcon(icon) {

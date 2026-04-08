@@ -155,7 +155,7 @@ function SectionComponent<overwriteProps = OverwritePropsDefaults>(
 
   const resolvedSchema = useMemo(() => {
     if (!schema) {
-      return // stop here
+      return undefined // stop here
     }
     if (typeof schema === 'function') {
       try {
@@ -163,7 +163,7 @@ function SectionComponent<overwriteProps = OverwritePropsDefaults>(
           schema as (props: SectionBaseProps<overwriteProps>) => Schema
         )(props)
       } catch (_) {
-        return // stop here
+        return undefined // stop here
       }
     }
 
@@ -175,7 +175,7 @@ function SectionComponent<overwriteProps = OverwritePropsDefaults>(
 
   useLayoutEffect(() => {
     if (!registerSectionSchema || !resolvedSchema) {
-      return // stop here
+      return undefined // stop here
     }
 
     const normalizedIdentifier = identifier || '/'

@@ -152,6 +152,8 @@ function useHandleTrVariant({ variant }) {
       hasIncrementedRef.current = true
       return increment()
     }
+
+    return undefined
   })
 
   // StrictMode support

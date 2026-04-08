@@ -558,6 +558,8 @@ describe('Field.SelectCurrency', () => {
       if (value) {
         return `${currency.name} (${value})`
       }
+
+      return undefined
     })
     const transformIn = jest.fn((external) => {
       return String(external).match(/\((.*)\)/)?.[1] || external
@@ -701,6 +703,8 @@ describe('Field.SelectCurrency', () => {
       if (value) {
         return `${currency.name} (${value})`
       }
+
+      return undefined
     })
     const transformIn = jest.fn((external) => {
       return String(external).match(/\((.*)\)/)?.[1] as CurrencyISO

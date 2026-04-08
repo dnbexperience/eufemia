@@ -41,7 +41,7 @@ export default function ModalHeaderBar({
       typeof IntersectionObserver === 'undefined' ||
       !sectionRef.current
     ) {
-      return // stop here
+      return undefined // stop here
     }
 
     const element = sectionRef.current

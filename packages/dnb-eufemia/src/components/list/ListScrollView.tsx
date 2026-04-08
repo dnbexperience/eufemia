@@ -53,7 +53,7 @@ function ListScrollView(props: ListScrollViewProps) {
   const measureMaxHeight = useCallback(() => {
     if (!hasValidMaxVisibleListItems || style?.maxHeight) {
       setMeasuredMaxHeight(undefined)
-      return
+      return undefined
     }
 
     setOutlineCompensation(
@@ -72,12 +72,12 @@ function ListScrollView(props: ListScrollViewProps) {
 
   useLayoutEffect(() => {
     if (!ref) {
-      return
+      return undefined
     }
 
     if (typeof ref === 'function') {
       ref(localRef.current)
-      return
+      return undefined
     }
 
     ref.current = localRef.current
@@ -89,7 +89,7 @@ function ListScrollView(props: ListScrollViewProps) {
 
   useLayoutEffect(() => {
     if (!hasValidMaxVisibleListItems || style?.maxHeight) {
-      return
+      return undefined
     }
 
     window.addEventListener('resize', measureMaxHeight)

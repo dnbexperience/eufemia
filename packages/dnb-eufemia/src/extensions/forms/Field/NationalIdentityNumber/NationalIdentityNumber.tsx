@@ -68,6 +68,8 @@ function NationalIdentityNumber(props: FieldNationalIdentityNumberProps) {
           return Error(errorFnr)
         }
       }
+
+      return undefined
     },
     [errorFnr, errorFnrLength]
   )
@@ -88,6 +90,8 @@ function NationalIdentityNumber(props: FieldNationalIdentityNumberProps) {
           return Error(errorDnr)
         }
       }
+
+      return undefined
     },
     [errorDnr, errorDnrLength]
   )
@@ -172,7 +176,7 @@ export function getAgeByBirthDate(birthDate: Date): number {
 
 export function getBirthDateByFnrOrDnr(value: string) {
   if (value === undefined) {
-    return // stop here
+    return undefined // stop here
   }
 
   const yearPart = value.substring(4, 6)
@@ -198,7 +202,7 @@ export function getBirthDateByFnrOrDnr(value: string) {
 export function createMinimumAgeValidator(age: number) {
   return (value: string) => {
     if (typeof value !== 'string') {
-      return // stop here
+      return undefined // stop here
     }
 
     const identificationNumberIs7DigitsOrMore = value?.length >= 7
@@ -212,7 +216,7 @@ export function createMinimumAgeValidator(age: number) {
     if (identificationNumberIs7DigitsOrMore) {
       const date = getBirthDateByFnrOrDnr(value)
       if (getAgeByBirthDate(date) >= age) {
-        return // stop here
+        return undefined // stop here
       }
     }
 

@@ -178,6 +178,8 @@ export default function useFieldValidation<Value>({
     if (hasDataContext) {
       return getAjvInstanceDataContext?.()
     }
+
+    return undefined
   }, [hasDataContext, getAjvInstanceDataContext])
 
   // Compile synchronously on first pass
@@ -276,7 +278,7 @@ export default function useFieldValidation<Value>({
       value: Value = valueRef.current
     ): Promise<ReturnType<Validator<Value>>> => {
       if (typeof validator !== 'function') {
-        return
+        return undefined
       }
 
       const result = await validator(value, additionalArgs)
@@ -319,7 +321,7 @@ export default function useFieldValidation<Value>({
       value: Value = valueRef.current
     ): ReturnType<Validator<Value>> => {
       if (typeof validator !== 'function') {
-        return // stop here
+        return undefined // stop here
       }
 
       const result = validator(value, additionalArgs)
@@ -448,7 +450,7 @@ export default function useFieldValidation<Value>({
 
   const startOnChangeValidatorValidation = useCallback(async () => {
     if (typeof onChangeValidatorRef.current !== 'function') {
-      return
+      return undefined
     }
 
     if (isAsync(onChangeValidatorRef.current)) {
@@ -481,7 +483,7 @@ export default function useFieldValidation<Value>({
 
   const runOnChangeValidator = useCallback(async () => {
     if (!onChangeValidatorRef.current) {
-      return // stop here
+      return undefined // stop here
     }
 
     const { result, unchangedValue } = await callOnChangeValidator()
@@ -556,7 +558,7 @@ export default function useFieldValidation<Value>({
       overrideValue?: Value
     } = {}) => {
       if (typeof onBlurValidatorRef.current !== 'function') {
-        return // stop here
+        return undefined // stop here
       }
 
       if (
@@ -565,7 +567,7 @@ export default function useFieldValidation<Value>({
         !asyncBehaviorIsEnabled &&
         !isAsync(onChangeValidatorRef.current)
       ) {
-        return // stop here
+        return undefined // stop here
       }
 
       if (isAsync(onBlurValidatorRef.current)) {
@@ -604,7 +606,7 @@ export default function useFieldValidation<Value>({
 
   const runOnBlurValidator = useCallback(async () => {
     if (!onBlurValidatorRef.current) {
-      return // stop here
+      return undefined // stop here
     }
 
     const { result } = await callOnBlurValidator()
@@ -647,6 +649,8 @@ export default function useFieldValidation<Value>({
         errorPrioritization?.indexOf('contextSchema') === 0
       )
     }
+
+    return undefined
   }, [dataContextSchema, errorPrioritization, identifier])
 
   const prioritizeSectionSchema = useMemo(() => {
@@ -667,7 +671,7 @@ export default function useFieldValidation<Value>({
       }
       hideError()
       setFieldState(undefined)
-      return // stop here
+      return undefined // stop here
     }
 
     const value = valueRef.current

@@ -561,6 +561,8 @@ export function makeOptions<T = DrawerListProps['data']>(
         content: child,
       }
     }
+
+    return undefined
   }) as T
 }
 

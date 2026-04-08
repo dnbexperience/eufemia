@@ -94,6 +94,8 @@ function SelectCountry(props: FieldSelectCountryProps) {
       if (country?.iso) {
         return country
       }
+
+      return undefined
     },
     [getCountryObjectByIso]
   )

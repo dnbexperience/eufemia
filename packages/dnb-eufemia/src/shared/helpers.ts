@@ -93,7 +93,7 @@ export function applyPageFocus(
     }
 
     if (!(element instanceof HTMLElement)) {
-      return // stop here
+      return undefined // stop here
     }
 
     const role = element.getAttribute('role')
@@ -188,7 +188,7 @@ export function scrollToLocationHashId({
             const totalOffset = getOffsetTop(elem)
 
             if (totalOffset <= 0) {
-              return // stop here
+              return undefined // stop here
             }
 
             const top = totalOffset - offset
@@ -245,6 +245,7 @@ export function scrollToLocationHashId({
       warn('Error on scrollToLocationHashId:', e)
     }
   }
+  return undefined
 }
 
 export function getSelectedText() {
@@ -253,6 +254,7 @@ export function getSelectedText() {
   } catch (e) {
     //
   }
+  return undefined
 }
 
 export function emptySelectedText() {

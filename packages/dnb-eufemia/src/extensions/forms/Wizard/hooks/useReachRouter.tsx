@@ -33,6 +33,8 @@ export default function useReachRouter(
     } catch (error) {
       setFormError(error as Error)
     }
+
+    return undefined
   }, [location.search, name, setFormError])
 
   useLayoutEffect(() => {

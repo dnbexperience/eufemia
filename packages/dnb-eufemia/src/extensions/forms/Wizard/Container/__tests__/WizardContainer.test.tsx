@@ -596,12 +596,16 @@ describe('Wizard.Container', () => {
       if (value !== 'valid') {
         return new Error('onChangeValidator-error')
       }
+
+      return undefined
     }
 
     const onBlurValidator = async (value: string) => {
       if (value !== 'valid') {
         return new Error('onBlurValidator-error')
       }
+
+      return undefined
     }
 
     render(
@@ -1656,6 +1660,8 @@ describe('Wizard.Container', () => {
         if (value !== 'valid') {
           return new Error('Error message')
         }
+
+        return undefined
       }
 
       render(
@@ -1778,6 +1784,8 @@ describe('Wizard.Container', () => {
         if (value !== 'valid') {
           return new Error('Error message')
         }
+
+        return undefined
       }
 
       render(
@@ -2261,7 +2269,7 @@ describe('Wizard.Container', () => {
 
       React.useEffect(() => {
         if (!dataContext?.setFieldInternals) {
-          return
+          return undefined
         }
         dataContext.setFieldInternals(identifier, {
           enableAsyncMode: true,
@@ -2270,7 +2278,7 @@ describe('Wizard.Container', () => {
 
       React.useEffect(() => {
         if (!dataContext?.setFieldEventListener) {
-          return
+          return undefined
         }
 
         const onSubmitCall = async () => {
@@ -4274,6 +4282,8 @@ describe('Wizard.Container', () => {
         if (props['data-exclude-field']) {
           return false
         }
+
+        return undefined
       })
 
       const onChange = jest.fn()
@@ -4410,6 +4420,8 @@ describe('Wizard.Container', () => {
         if (props['data-exclude-field']) {
           return false
         }
+
+        return undefined
       })
 
       let currentData = null

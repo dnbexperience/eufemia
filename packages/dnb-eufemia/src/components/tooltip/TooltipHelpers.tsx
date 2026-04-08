@@ -43,6 +43,7 @@ export function getTargetElement(target: HTMLElement | string | null) {
       ? typeof document !== 'undefined' && document.querySelector(target)
       : target
   }
+  return undefined
 }
 
 export function getPropsFromTooltipProp(localProps: {

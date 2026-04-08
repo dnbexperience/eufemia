@@ -895,7 +895,7 @@ describe('Modal component', () => {
     const onOpen = jest.fn()
     const onClosePrevent = jest.fn(({ triggeredBy, close }) => {
       if (preventClose) {
-        return
+        return undefined
       }
       switch (triggeredBy) {
         case 'keyboard':

@@ -318,7 +318,7 @@ export default function Provider<Data extends JsonObject>(
 
       sectionSchemasRef.current.forEach(({ path, schema, validator }) => {
         if (!validator) {
-          return
+          return undefined
         }
 
         const normalizedPath = path || '/'
@@ -331,7 +331,7 @@ export default function Provider<Data extends JsonObject>(
 
         const validationResult = validator(sectionData)
         if (validationResult === true) {
-          return
+          return undefined
         }
 
         let errors: Record<Path, FormError> = {}
@@ -726,7 +726,7 @@ export default function Provider<Data extends JsonObject>(
               ) => {
                 if (idx === parts.length - 1) {
                   wildcardPaths.push({ path: subPath, condition })
-                  return
+                  return undefined
                 }
                 const list = pointer.get(subData, subPath)
                 if (Array.isArray(list)) {
@@ -1027,7 +1027,7 @@ export default function Provider<Data extends JsonObject>(
       return () => {
         const entry = sectionSchemasRef.current.get(registration.id)
         if (!entry) {
-          return // stop here
+          return undefined // stop here
         }
 
         sectionSchemasRef.current.delete(registration.id)
@@ -1094,7 +1094,7 @@ export default function Provider<Data extends JsonObject>(
   const updateDataValue: ContextState['updateDataValue'] = useCallback(
     (path, value, { preventUpdate } = {}) => {
       if (!path) {
-        return
+        return undefined
       }
 
       const givenData = (
@@ -1548,7 +1548,7 @@ export default function Provider<Data extends JsonObject>(
           }
         }
         if (stop) {
-          return // stop here
+          return undefined // stop here
         }
 
         const data = getSubmitData()
@@ -1883,7 +1883,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
     if (stateRef.current && formState === 'error') {
       clear()
       setState(undefined)
-      return
+      return undefined
     }
 
     if (formState === 'abort') {
@@ -1894,7 +1894,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
         nowRef.current = 0
         setState(undefined)
       }, minimum)
-      return
+      return undefined
     }
 
     if (formState === 'complete') {

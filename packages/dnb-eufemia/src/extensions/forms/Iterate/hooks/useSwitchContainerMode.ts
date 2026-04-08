@@ -90,6 +90,8 @@ export default function useSwitchContainerMode(path?: Path) {
         if (!hasError && index === count - 2) {
           return mode
         }
+
+        return undefined
       })
     },
     [setContainerMode]

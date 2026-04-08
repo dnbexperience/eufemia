@@ -155,6 +155,7 @@ function PrerenderPortal({ children }) {
   if (typeof document !== 'undefined') {
     return createPortal(children, document.body)
   }
+  return undefined
 }
 
 function PrerenderFieldPropsProvider({ showAllErrorsNow, children }) {

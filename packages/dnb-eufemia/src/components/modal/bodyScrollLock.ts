@@ -60,6 +60,7 @@ const setOverflowHidden = () => {
   } catch (e) {
     warn(e)
   }
+  return undefined
 }
 
 const setOverflowHiddenIOS = (
@@ -77,7 +78,7 @@ const setOverflowHiddenIOS = (
         }
         element.ontouchmove = (event) => {
           if (event.targetTouches.length !== 1) {
-            return // stop here
+            return undefined // stop here
           }
           handleScroll(event, element)
         }
@@ -155,6 +156,7 @@ const setOverflowHiddenAndroid = () => {
   } catch (e) {
     warn(e)
   }
+  return undefined
 }
 
 const preventDefault = (event: TouchEvent) => {
@@ -163,7 +165,7 @@ const preventDefault = (event: TouchEvent) => {
   })
 
   if (found || !event.cancelable) {
-    return // stop here
+    return undefined // stop here
   }
 
   event.preventDefault()
@@ -231,7 +233,7 @@ export const disableBodyScroll = (
   targetElement: HTMLElement | HTMLElement[] | null
 ) => {
   if (isServer()) {
-    return // stop here
+    return undefined // stop here
   }
 
   checkTargetElement(targetElement)
@@ -260,7 +262,7 @@ export const enableBodyScroll = (
   targetElement: HTMLElement | HTMLElement[] | null
 ) => {
   if (isServer()) {
-    return
+    return undefined
   }
 
   checkTargetElement(targetElement)
@@ -269,7 +271,7 @@ export const enableBodyScroll = (
     lockedNum -= 1
 
     if (lockedNum > 0) {
-      return // stop here
+      return undefined // stop here
     }
 
     if (typeof callbackUnlock === 'function') {
@@ -282,7 +284,7 @@ export const enableBodyScroll = (
 
 export const clearAllBodyScrollLocks = () => {
   if (isServer()) {
-    return // stop here
+    return undefined // stop here
   }
 
   try {

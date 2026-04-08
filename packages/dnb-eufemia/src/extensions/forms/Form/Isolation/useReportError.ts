@@ -31,7 +31,7 @@ export default function useReportError(
   const id = useId()
   useEffect(() => {
     if (prerenderFieldProps) {
-      return // stop here
+      return undefined // stop here
     }
 
     const path = joinPath(['internal', name, id])

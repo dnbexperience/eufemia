@@ -83,6 +83,7 @@ export function getMessageValues(
         [validationRule]: ajvError.params?.pattern,
       }
   }
+  return undefined
 }
 
 /**
@@ -119,7 +120,7 @@ export function ajvErrorsToOneFormError(
   value?: unknown
 ): FormError | undefined {
   if (!errors || errors.length === 0) {
-    return
+    return undefined
   }
   if (errors.length === 1) {
     const error = ajvErrorsTransformation(errors[0], value)

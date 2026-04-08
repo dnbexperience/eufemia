@@ -261,7 +261,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
       if (setBlockRecordNested) {
         // If this FieldBlock is inside another one, forward the call to the outer one
         setBlockRecordNested(props)
-        return
+        return undefined
       }
 
       setInternalRecord(props)
@@ -287,7 +287,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
       if (nestedFieldBlockContext) {
         // If this FieldBlock is inside another one, forward the call to the outer one
         nestedFieldBlockContext.showFieldError(identifier, show)
-        return
+        return undefined
       }
 
       if (stateRecordRef.current[identifier]) {
@@ -703,6 +703,8 @@ function useEnableFieldset({
         if (count > 1) {
           return (result = true)
         }
+
+        return undefined
       })
     }
 

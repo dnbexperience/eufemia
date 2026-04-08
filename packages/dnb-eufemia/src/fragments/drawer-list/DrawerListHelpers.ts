@@ -247,6 +247,8 @@ export const getCurrentIndex = (value, data) => {
         return true
       }
     }
+
+    return undefined
   }
 }
 
@@ -308,7 +310,7 @@ function getFirstItemFromData(data: DrawerListInternalData): number {
         firstItemIndex = index
       }
       if (item.groupIndex === 0) {
-        return
+        return undefined
       }
     }
   })

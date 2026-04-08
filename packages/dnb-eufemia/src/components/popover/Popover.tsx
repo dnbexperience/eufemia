@@ -205,11 +205,11 @@ export default function Popover(props: PopoverProps) {
 
   const focusTrigger = useCallback(() => {
     if (!restoreFocus) {
-      return
+      return undefined
     }
     const element = getCurrentTriggerElement()
     if (!element || typeof element.focus !== 'function') {
-      return
+      return undefined
     }
 
     if (focusRestoreAnimationRef.current !== null) {
@@ -232,7 +232,7 @@ export default function Popover(props: PopoverProps) {
 
   const close = useCallback(() => {
     if (preventClose) {
-      return // stop here
+      return undefined // stop here
     }
     setOpenState(false)
     focusTrigger()
@@ -266,7 +266,7 @@ export default function Popover(props: PopoverProps) {
 
   useEffect(() => {
     if (!focusOnOpen || !isOpen) {
-      return // stop here
+      return undefined // stop here
     }
 
     const timers: Array<ReturnType<typeof setTimeout>> = []
@@ -313,11 +313,11 @@ export default function Popover(props: PopoverProps) {
       overrideTarget?: EventTarget | null
     ) => {
       if (preventClose) {
-        return // stop here
+        return undefined // stop here
       }
       const target = overrideTarget ?? event.target
       if (!(target instanceof Node)) {
-        return // stop here
+        return undefined // stop here
       }
 
       const insideContent =
@@ -352,7 +352,7 @@ export default function Popover(props: PopoverProps) {
       touchStartTargetRef.current = null
 
       if (moved) {
-        return // stop here
+        return undefined // stop here
       }
 
       handleDocumentInteraction(event, target)
@@ -363,7 +363,7 @@ export default function Popover(props: PopoverProps) {
   const handleDocumentKeyDown = useCallback(
     (event: KeyboardEvent) => {
       if (event.defaultPrevented || preventClose) {
-        return // stop here
+        return undefined // stop here
       }
       if (event.key === 'Escape') {
         // Check both event.target and document.activeElement to handle different event propagation scenarios
@@ -388,7 +388,7 @@ export default function Popover(props: PopoverProps) {
 
   useEffect(() => {
     if (!isOpen) {
-      return // stop here
+      return undefined // stop here
     }
 
     document.documentElement.addEventListener(
@@ -456,7 +456,7 @@ export default function Popover(props: PopoverProps) {
     ) => {
       userHandler?.(event)
       if (event.defaultPrevented) {
-        return // stop here
+        return undefined // stop here
       }
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault()
@@ -484,7 +484,7 @@ export default function Popover(props: PopoverProps) {
     (node: HTMLElement | null) => {
       triggerRef.current = node
       if (!triggerAttrRef) {
-        return
+        return undefined
       }
       if (typeof triggerAttrRef === 'function') {
         triggerAttrRef(node)
@@ -522,7 +522,7 @@ export default function Popover(props: PopoverProps) {
     onClick: (event) => {
       triggerOnClick?.(event)
       if (event.defaultPrevented) {
-        return
+        return undefined
       }
       runTriggerClick(event)
     },
@@ -591,7 +591,7 @@ export default function Popover(props: PopoverProps) {
       onClick={(event) => {
         closeButtonProps?.onClick?.(event as any)
         if (event?.defaultPrevented) {
-          return
+          return undefined
         }
         toggle(false)
       }}

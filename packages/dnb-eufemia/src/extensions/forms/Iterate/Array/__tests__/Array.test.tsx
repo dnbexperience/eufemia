@@ -995,6 +995,8 @@ describe('Iterate.Array', () => {
         if (arrayValue.length === 2) {
           return new Error('Error message')
         }
+
+        return undefined
       })
 
       render(
@@ -1049,6 +1051,8 @@ describe('Iterate.Array', () => {
         if (arrayValue.length === 2) {
           return new Error('Error message')
         }
+
+        return undefined
       })
 
       render(
@@ -1112,6 +1116,8 @@ describe('Iterate.Array', () => {
           const value = arrayValue[index]
           return new Error(`You cannot have duplicate items: ${value}`)
         }
+
+        return undefined
       })
 
       render(
