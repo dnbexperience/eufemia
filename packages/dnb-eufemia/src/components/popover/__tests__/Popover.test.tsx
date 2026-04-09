@@ -3,6 +3,7 @@ import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import { Dialog } from '../../'
+import Button from '../../button/Button'
 import Popover from '../Popover'
 import * as PopoverContainerModule from '../PopoverContainer'
 import Provider from '../../../shared/Provider'
@@ -367,6 +368,119 @@ describe('Popover', () => {
         document.querySelector('.dnb-popover__content')
       )
     )
+  })
+
+  it('does not mark direct Button triggers as selected automatically', async () => {
+    render(
+      <Popover
+        trigger={<Button icon="question" title="Toggle popover" />}
+        content={contentText}
+      />
+    )
+
+    const trigger = document.querySelector(
+      '.dnb-button[aria-controls]'
+    ) as HTMLButtonElement
+
+    expect(trigger).not.toHaveClass('dnb-button--selected')
+
+    await userEvent.click(trigger)
+
+    await waitFor(() =>
+      expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    )
+
+    expect(trigger).not.toHaveClass('dnb-button--selected')
+  })
+
+  it('supports explicit selected={active} for render trigger Button triggers', async () => {
+    render(
+      <Popover
+        trigger={({ active, ...triggerProps }) => (
+          <Button
+            icon="question"
+            title="Toggle popover"
+            {...triggerProps}
+            selected={active}
+          />
+        )}
+        content={contentText}
+      />
+    )
+
+    const trigger = document.querySelector(
+      '.dnb-button[aria-controls]'
+    ) as HTMLButtonElement
+
+    expect(trigger).not.toHaveClass('dnb-button--selected')
+
+    await userEvent.click(trigger)
+
+    await waitFor(() =>
+      expect(trigger).toHaveClass('dnb-button--selected')
+    )
+
+    fireEvent.mouseDown(document.documentElement)
+
+    await waitFor(() =>
+      expect(trigger).not.toHaveClass('dnb-button--selected')
+    )
+  })
+
+  it('provides updated active state to trigger render props', async () => {
+    const activeStates: boolean[] = []
+
+    render(
+      <Popover
+        trigger={({ active, ref, ...triggerProps }) => {
+          activeStates.push(active)
+
+          return (
+            <button type="button" ref={ref} {...triggerProps}>
+              Trigger
+            </button>
+          )
+        }}
+        content={contentText}
+      />
+    )
+
+    const trigger = document.querySelector(
+      'button[aria-controls]'
+    ) as HTMLButtonElement
+
+    expect(activeStates.at(-1)).toBe(false)
+
+    await userEvent.click(trigger)
+
+    await waitFor(() => expect(activeStates.at(-1)).toBe(true))
+
+    fireEvent.mouseDown(document.documentElement)
+
+    await waitFor(() => expect(activeStates.at(-1)).toBe(false))
+  })
+
+  it('does not pass selected to native button triggers', async () => {
+    render(
+      <Popover
+        trigger={<button type="button">Trigger</button>}
+        content={contentText}
+      />
+    )
+
+    const trigger = document.querySelector(
+      'button[aria-controls]'
+    ) as HTMLButtonElement
+
+    expect(trigger).not.toHaveAttribute('selected')
+
+    await userEvent.click(trigger)
+
+    await waitFor(() =>
+      expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    )
+
+    expect(trigger).not.toHaveAttribute('selected')
   })
 
   it('moves focus to a custom element when focusOnOpenElement is provided', async () => {
