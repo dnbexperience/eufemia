@@ -4,8 +4,8 @@
 @use './PortalStyle.mixins.scss' as PortalMixins;
 
 $image-box-grid-color: rgb(40 180 130);
-$typography-box-grid-color: rgb(164, 255, 255);
-$example-box-grid-color: rgb(236, 236, 236);
+$typography-box-grid-color: rgb(164 255 255);
+$example-box-grid-color: rgb(236 236 236);
 
 :global {
   .fullscreen-page {
