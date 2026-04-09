@@ -1,0 +1,209 @@
+@use '../../../style/core/utilities.scss' as utilities;
+
+.dnb-menu {
+  --menu-action-padding-inline: 1rem;
+  --menu-action-padding-block: 0.75rem;
+  --menu-action-gap: 1rem;
+  --menu-action-min-height: 2.5rem;
+  --menu-action-border-radius: 0.25rem;
+  --menu-action-background-color: transparent;
+  --menu-action-background-color--hover: var(
+    --token-color-background-neutral-subtle
+  );
+  --menu-action-background-color--active: var(
+    --token-color-background-neutral-base
+  );
+  --menu-action-background-color--active-trigger: var(
+    --token-color-background-neutral-subtle
+  );
+  --menu-action-text-color: var(--token-color-text-neutral);
+  --menu-action-text-color--disabled: var(
+    --token-color-text-action-disabled
+  );
+  --menu-action-icon-color: var(--token-color-icon-neutral);
+  --menu-action-icon-color--disabled: var(
+    --token-color-icon-action-disabled
+  );
+  --menu-divider-color: var(--token-color-background-neutral-base);
+  --menu-content-padding: 0.25rem;
+
+  // Menu width should fit its content. Override Popover's min-width.
+  &.dnb-popover {
+    min-width: auto;
+  }
+
+  &__popover-content {
+    padding: 0;
+  }
+
+  &__list {
+    margin: 0;
+    padding: var(--menu-content-padding);
+
+    list-style: none;
+  }
+  // Do not wrap text in nested lists, but allow wrapping in the top-level list to support narrow containers.
+  &__list &__list {
+    white-space: nowrap;
+  }
+
+  &__action {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--menu-action-gap);
+    min-height: var(--menu-action-min-height);
+    padding: var(--menu-action-padding-block)
+      var(--menu-action-padding-inline);
+
+    border: none;
+    border-radius: var(--menu-action-border-radius);
+
+    font-family: inherit;
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
+
+    color: var(--menu-action-text-color);
+    text-decoration: none;
+    background-color: var(--menu-action-background-color);
+
+    cursor: pointer;
+    outline: none;
+
+    &__icon {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+
+      color: var(--menu-action-icon-color);
+    }
+
+    &__text {
+      flex: 1;
+      text-align: start;
+    }
+
+    // Use :focus + whatInput('keyboard') instead of focusVisible().
+    // focusVisible() relies on the browser's :focus-visible heuristic,
+    // which doesn't reliably fire when .focus() is called programmatically.
+    // We control data-whatinput via specificKeys() in MenuRoot, so
+    // arrow/nav keys register as keyboard input — making this reliable.
+    @include utilities.whatInput('keyboard') {
+      &:focus:not([disabled]) {
+        --menu-action-background-color: var(
+          --token-color-background-action-focus-subtle
+        );
+        --menu-action-text-color: var(--token-color-text-action-focus);
+        --menu-action-icon-color: var(--token-color-icon-action-focus);
+
+        @include utilities.focusRing(
+          $whatinput: 'always',
+          $color: var(--token-color-stroke-action-focus)
+        );
+      }
+    }
+
+    &:hover:not(&--disabled) {
+      background-color: var(--menu-action-background-color--hover);
+    }
+
+    &:active:not(&--disabled) {
+      background-color: var(--menu-action-background-color--active);
+    }
+
+    &--active-trigger {
+      background-color: var(
+        --menu-action-background-color--active-trigger
+      );
+    }
+
+    &--disabled {
+      color: var(--menu-action-text-color--disabled);
+      cursor: not-allowed;
+
+      .dnb-menu__action__icon {
+        color: var(--menu-action-icon-color--disabled);
+      }
+    }
+
+    &--link {
+      padding: 0;
+
+      .dnb-menu__action__link {
+        display: flex;
+        align-items: center;
+        gap: var(--menu-action-gap);
+        width: 100%;
+        padding: var(--menu-action-padding-block)
+          var(--menu-action-padding-inline);
+
+        text-decoration: none;
+        color: inherit;
+      }
+    }
+
+    &--has-submenu {
+      .dnb-menu__action__submenu-indicator {
+        margin-inline-start: auto;
+      }
+    }
+  }
+
+  &__divider {
+    height: 0.0625rem;
+    margin: var(--menu-content-padding) var(--menu-action-padding-inline);
+
+    background-color: var(--menu-divider-color);
+  }
+
+  &__header {
+    padding: var(--menu-action-padding-block)
+      var(--menu-action-padding-inline);
+    padding-block-end: 0;
+
+    list-style: none;
+
+    &__text.dnb-lead {
+      font-size: var(--font-size-small);
+    }
+  }
+
+  &__accordion {
+    list-style: none;
+
+    &--open > &__trigger {
+      background-color: var(
+        --menu-action-background-color--active-trigger
+      );
+    }
+
+    &--disabled > &__trigger {
+      color: var(--menu-action-text-color--disabled);
+      cursor: not-allowed;
+
+      .dnb-menu__action__icon {
+        color: var(--menu-action-icon-color--disabled);
+      }
+    }
+
+    &__indicator {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      margin-inline-start: auto;
+
+      .dnb-icon {
+        transition: transform 400ms var(--easing-default);
+        transform: rotate(90deg);
+      }
+    }
+
+    &--open > &__trigger &__indicator .dnb-icon {
+      transform: rotate(270deg);
+    }
+
+    .dnb-menu__list {
+      padding-inline-start: var(--menu-action-padding-inline);
+    }
+  }
+}

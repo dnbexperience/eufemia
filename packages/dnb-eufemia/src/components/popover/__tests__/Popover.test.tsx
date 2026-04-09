@@ -504,6 +504,25 @@ describe('Popover', () => {
     )
   })
 
+  it('calls onFocusComplete after focus sequence finishes', async () => {
+    const onFocusComplete = jest.fn()
+
+    render(
+      <Popover
+        open
+        noAnimation
+        onFocusComplete={onFocusComplete}
+        trigger={<button type="button">Trigger</button>}
+      >
+        Content
+      </Popover>
+    )
+
+    expect(onFocusComplete).not.toHaveBeenCalled()
+
+    await waitFor(() => expect(onFocusComplete).toHaveBeenCalledTimes(1))
+  })
+
   it('should have a delay of more than 1ms before focusing content when opened', async () => {
     renderWithTrigger({ focusOnOpen: true })
 
