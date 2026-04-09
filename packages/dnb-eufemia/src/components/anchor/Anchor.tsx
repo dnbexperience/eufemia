@@ -294,19 +294,32 @@ export function scrollToHash(hash: string) {
   return undefined
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function getIcon(icon: any) {
+function getIcon(icon: IconIcon) {
   return pickIcon(icon) || <IconPrimary icon={icon} />
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function pickIcon(icon: any, className?: string) {
-  if (icon?.props?.icon || icon?.props?.className?.includes('dnb-icon')) {
-    return React.createElement(icon.type, {
-      ...icon.props,
-      key: 'button-icon-clone',
-      className: clsx(icon.props?.className, className),
-    })
+export function pickIcon(icon: IconIcon, className?: string) {
+  if (React.isValidElement(icon)) {
+    const element = icon as unknown as React.ReactElement<
+      Record<string, unknown>
+    >
+    if (
+      element.props?.icon ||
+      (typeof element.props?.className === 'string' &&
+        element.props.className.includes('dnb-icon'))
+    ) {
+      return React.createElement(
+        element.type as React.ComponentType<Record<string, unknown>>,
+        {
+          ...element.props,
+          key: 'button-icon-clone',
+          className: clsx(
+            element.props?.className as string | undefined,
+            className
+          ),
+        }
+      )
+    }
   }
 
   return null

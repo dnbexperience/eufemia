@@ -76,12 +76,6 @@ export default function CancelButton({
   }
 
   return (
-    <Button
-      {...triggerAttributes}
-      onClick={
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (args: any) => cancelHandler(args)
-      }
-    />
+    <Button {...triggerAttributes} onClick={() => cancelHandler({})} />
   )
 }

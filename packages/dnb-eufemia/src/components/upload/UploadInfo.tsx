@@ -14,9 +14,9 @@ import Td from '../table/TableTd'
 import type { UploadAcceptedFileTypeObject, UploadProps } from './types'
 import Flex from '../../components/Flex'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const prettifyAcceptedFileFormats = (acceptedFileTypes: any) =>
-  acceptedFileTypes.sort().join(', ').toUpperCase()
+const prettifyAcceptedFileFormats = (
+  acceptedFileTypes: UploadProps['acceptedFileTypes']
+) => (acceptedFileTypes as string[]).sort().join(', ').toUpperCase()
 
 const UploadInfo = () => {
   const context = React.useContext(UploadContext)

@@ -8,6 +8,16 @@
 
 import React from 'react'
 import { cleanNumber } from '../../number-format/NumberUtils'
+
+export type InputMaskedEvent = React.SyntheticEvent<HTMLInputElement> & {
+  target: HTMLInputElement & {
+    runCorrectCaretPosition?: () => void
+    __getCorrectCaretPosition?: () => number
+  }
+  key?: string
+  isComposing?: boolean
+  data?: string
+}
 import { dispatchCustomElementEvent } from '../../../shared/component-helper'
 import { safeSetSelection } from '../text-mask/safeSetSelection'
 import { isNumber } from '../text-mask/utilities'
@@ -37,8 +47,13 @@ export const useCallEvent = ({
   let isUnidentified = false
 
   const callEvent = (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    { event, value }: { event: any; value?: string },
+    {
+      event,
+      value,
+    }: {
+      event: InputMaskedEvent
+      value?: string
+    },
     name: string
   ) => {
     const maskParams = maskParamsRef.current as ReturnType<

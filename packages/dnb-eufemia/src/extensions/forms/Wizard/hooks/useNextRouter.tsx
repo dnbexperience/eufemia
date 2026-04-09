@@ -5,7 +5,18 @@ import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared
 
 export default function useNextRouter(
   id: string = null,
-  { useRouter, usePathname, useSearchParams }: any
+  {
+    useRouter,
+    usePathname,
+    useSearchParams,
+  }: {
+    useRouter: () => { push: (url: string) => void }
+    usePathname: () => string
+    useSearchParams: () => {
+      toString: () => string
+      get: (key: string) => string | null
+    }
+  }
 ) {
   const name = id ? `${id}-step` : 'step'
   const { setFormError } = useStep(id)

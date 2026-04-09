@@ -102,7 +102,9 @@ export function useSliderEvents() {
 
     // we have to mock this for jsdom.
     if (process.env.NODE_ENV === 'test') {
-      elem = createMockDiv(event.detail)
+      elem = createMockDiv(
+        event.detail as unknown as { width: number; height: number }
+      )
       // @ts-expect-error - Test environment event override
       event = event.detail
     }

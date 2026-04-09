@@ -565,7 +565,9 @@ describe('Tools.ListAllProps', () => {
             path="/items"
             countPath="/count"
             countPathTransform={({ value, index }) => {
-              return 'item' in (value || {}) ? value : { item: index }
+              return 'item' in ((value as object) || {})
+                ? value
+                : { item: index }
             }}
           >
             <Field.Number

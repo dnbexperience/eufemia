@@ -20,9 +20,37 @@ import {
 } from './PaginationHelpers'
 
 import PaginationContext from './PaginationContext'
+import type { PaginationProps } from './Pagination'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const PaginationProvider = (props: any) => {
+type PaginationProviderProps = Omit<
+  PaginationProps,
+  'resetContentHandler' | 'resetPaginationHandler' | 'items'
+> & {
+  tagName?: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  internalContent?: any
+  useMarkerOnly?: boolean
+  resetContentHandler?: PaginationProps['resetContentHandler'] | boolean
+  resetPaginationHandler?:
+    | PaginationProps['resetPaginationHandler']
+    | boolean
+  items?: PaginationProps['items'] | ContentObject[]
+  rerender?: React.MutableRefObject<
+    | ((
+        ref: React.RefObject<{
+          pageNumber: number
+          content: React.ReactNode
+        } | null>
+      ) => void)
+    | undefined
+  >
+  store?: React.MutableRefObject<{
+    pageNumber: number
+    content: React.ReactNode
+  } | null>
+}
+
+const PaginationProvider = (props: PaginationProviderProps) => {
   const sharedContext = useContext(Context)
 
   // ---- Derive state from props (replaces getDerivedStateFromProps) ----
@@ -30,11 +58,11 @@ const PaginationProvider = (props: any) => {
     const state: Record<string, unknown> = {}
 
     if (props.pageCount != null) {
-      state.pageCountInternal = parseFloat(props.pageCount) || 1
+      state.pageCountInternal = Number(props.pageCount) || 1
     }
 
-    state.parallelLoadCount = parseFloat(props.parallelLoadCount) || 1
-    state.minTime = parseFloat(props.minWaitTime) || 0
+    state.parallelLoadCount = Number(props.parallelLoadCount) || 1
+    state.minTime = Number(props.minWaitTime) || 0
     state.placeMakerBeforeContent = props.placeMarkerBeforeContent
 
     return state
@@ -61,26 +89,24 @@ const PaginationProvider = (props: any) => {
     number | undefined
   >(() => {
     if (props.currentPage != null) {
-      return parseFloat(props.currentPage) || 1
+      return Number(props.currentPage) || 1
     }
     return undefined
   })
 
   const [startupPage, setStartupPage] = useState<number>(() => {
     return (
-      parseFloat(props.startupPage) ||
-      parseFloat(props.currentPage) ||
+      Number(props.startupPage) ||
+      Number(props.currentPage) ||
       (props.currentPage != null
-        ? parseFloat(props.currentPage) || 1
+        ? Number(props.currentPage) || 1
         : undefined)
     )
   })
 
   const [lowerPage, setLowerPage] = useState<number | undefined>(() => {
     if (props.useMarkerOnly) {
-      return (
-        parseFloat(props.startupPage) || parseFloat(props.currentPage) || 1
-      )
+      return Number(props.startupPage) || Number(props.currentPage) || 1
     }
     return undefined
   })
@@ -88,8 +114,8 @@ const PaginationProvider = (props: any) => {
   const [upperPage, setUpperPage] = useState<number | undefined>(() => {
     if (props.useMarkerOnly) {
       const sp =
-        parseFloat(props.startupPage) || parseFloat(props.currentPage) || 1
-      return sp + (parseFloat(props.startupCount) || 1) - 1 || 1
+        Number(props.startupPage) || Number(props.currentPage) || 1
+      return sp + (Number(props.startupCount) || 1) - 1 || 1
     }
     return undefined
   })
@@ -250,7 +276,7 @@ const PaginationProvider = (props: any) => {
     (pageNumber: number = startupPageRef.current) => {
       const newLowerPage = pageNumber
       const newUpperPage =
-        pageNumber + parseFloat(propsRef.current.startupCount) - 1
+        pageNumber + Number(propsRef.current.startupCount) - 1
       const newCurrentPageInternal = pageNumber
 
       setItemsState([])
@@ -440,7 +466,7 @@ const PaginationProvider = (props: any) => {
     if (typeof props.items === 'string' && props.items[0] === '[') {
       setItemsState(JSON.parse(props.items))
     } else if (Array.isArray(props.items)) {
-      setItemsState(props.items)
+      setItemsState(props.items as ContentObject[])
     }
   }, [props.items])
 
@@ -450,7 +476,7 @@ const PaginationProvider = (props: any) => {
       props.currentPage != null &&
       typeof currentPageInternalRef.current === 'undefined'
     ) {
-      setCurrentPageInternal(parseFloat(props.currentPage) || 1)
+      setCurrentPageInternal(Number(props.currentPage) || 1)
     }
   }, [props.currentPage])
 
@@ -472,13 +498,12 @@ const PaginationProvider = (props: any) => {
   // ---- Handle useMarkerOnly lowerPage/upperPage ----
   useIsomorphicLayoutEffect(() => {
     if (props.useMarkerOnly) {
-      const sp =
-        startupPageRef.current || parseFloat(props.currentPage) || 1
+      const sp = startupPageRef.current || Number(props.currentPage) || 1
       setLowerPage((prev) => {
         if (typeof prev === 'undefined') {
           return sp
         }
-        const cur = parseFloat(props.currentPage)
+        const cur = Number(props.currentPage)
         if (!isNaN(cur) && cur < prev) {
           return cur
         }
@@ -486,7 +511,7 @@ const PaginationProvider = (props: any) => {
       })
       setUpperPage((prev) => {
         if (typeof prev === 'undefined') {
-          return sp + (parseFloat(props.startupCount) || 1) - 1 || 1
+          return sp + (Number(props.startupCount) || 1) - 1 || 1
         }
         return prev
       })
@@ -565,7 +590,7 @@ const PaginationProvider = (props: any) => {
     const prevInternalContent = prevPropsRef.current.internalContent
 
     if (props.currentPage !== prevCurrentPage) {
-      const newCurrentPage = parseFloat(props.currentPage)
+      const newCurrentPage = Number(props.currentPage)
       setCurrentPageInternal(newCurrentPage)
       updatePageContent(newCurrentPage)
     } else if (props.internalContent !== prevInternalContent) {
@@ -640,7 +665,7 @@ const PaginationProvider = (props: any) => {
 
   return (
     <PaginationContext value={contextValue}>
-      {props.children}
+      {props.children as React.ReactNode}
     </PaginationContext>
   )
 }

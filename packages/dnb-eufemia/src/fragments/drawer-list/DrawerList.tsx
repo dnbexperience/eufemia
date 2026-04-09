@@ -65,6 +65,7 @@ export type DrawerListDataArrayObjectStrict = {
   render?: (children: React.ReactNode, id: string) => React.ReactNode
 }
 export type DrawerListDataArrayObject = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [customProperty: string]: any
 } & DrawerListDataArrayObjectStrict
 

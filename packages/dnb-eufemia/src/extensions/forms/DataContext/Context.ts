@@ -123,7 +123,9 @@ export type ContextState = {
   id?: SharedStateId
   hasContext: boolean
   /** The dataset for the form / form wizard */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   internalDataRef?: React.RefObject<any>
   /** Should the form validate data before submitting? */
   errors?: Record<Path, Error>
@@ -131,17 +133,21 @@ export type ContextState = {
   autoComplete?: boolean
   handlePathChange: (
     path: Path,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value?: any
   ) =>
     | EventReturnWithStateObject
     | unknown
     | Promise<EventReturnWithStateObject | unknown>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handlePathChangeUnvalidated: (path: Path, value: any) => void
   updateDataValue: (
     path: Path,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value: any,
     options?: { preventUpdate?: boolean }
   ) => void
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setData: (data: any, options?: { preventUpdate?: boolean }) => void
   clearData?: () => void
   mutateDataHandler?: MutateDataHandler<unknown>

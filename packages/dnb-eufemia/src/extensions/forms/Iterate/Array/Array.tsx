@@ -37,6 +37,7 @@ import {
   useSwitchContainerMode,
 } from '../hooks'
 import { getMessagesFromError } from '../../FieldBlock'
+import type { StateContent } from '../../FieldBlock/FieldBlockContext'
 import { clearedArray } from '../../hooks/useFieldProps'
 
 import type {
@@ -112,8 +113,9 @@ function ArrayComponent(props: IterateArrayProps) {
   )
 
   const preparedProps = useMemo(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const shared: any = {
+    const shared: IterateArrayProps & {
+      validateRequired: typeof validateRequired
+    } = {
       schema: undefined,
       emptyValue: undefined,
       required: false,
@@ -492,7 +494,11 @@ function ArrayComponent(props: IterateArrayProps) {
         shellSpace={{ top: 0, bottom: 'medium' }}
         noAnimation={false}
       >
-        {getMessagesFromError({ content: error || limitWarning })[0]}
+        {
+          getMessagesFromError({
+            content: (error || limitWarning) as StateContent,
+          })[0]
+        }
       </FormStatus>
     </>
   )

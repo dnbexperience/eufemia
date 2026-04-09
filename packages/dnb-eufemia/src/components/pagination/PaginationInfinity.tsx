@@ -532,9 +532,13 @@ function InteractionMarker({
   // NB: make sure we don't actually use the marker element,
   // because it looks like React has troubles regarding handling ref during a re-render?
   const Element =
-    markerElement && isTrElement(markerElement) ? 'tr' : 'div'
+    markerElement && isTrElement(markerElement as React.ElementType)
+      ? 'tr'
+      : 'div'
   const ElementChild =
-    markerElement && isTrElement(markerElement) ? 'td' : 'div'
+    markerElement && isTrElement(markerElement as React.ElementType)
+      ? 'td'
+      : 'div'
 
   return (
     <Element className="dnb-pagination__marker dnb-table--ignore">

@@ -21,7 +21,10 @@ import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import type { FieldProps, Path } from '../../types'
 import type { FormStatusText } from '../../../../components/FormStatus'
-import type { AutocompleteAllProps } from '../../../../components/Autocomplete'
+import type {
+  AutocompleteAllProps,
+  AutocompleteOnTypeParams,
+} from '../../../../components/Autocomplete'
 import type { DropdownAllProps } from '../../../../components/Dropdown'
 import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'
 import type {
@@ -48,7 +51,7 @@ export type Data = Array<
     text?: React.ReactNode
     disabled?: boolean
     style?: React.CSSProperties
-    [key: string]: any
+    [key: string]: unknown
   } & Partial<DrawerListDataArrayObjectStrict>
 >
 
@@ -237,14 +240,13 @@ function Selection(props: FieldSelectionProps) {
 
   const onType = props?.autocompleteProps?.onType
   const onTypeAutocompleteHandler = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (event: any) => {
+    (event: AutocompleteOnTypeParams) => {
       if (typeof onType === 'function') {
         const { value } = event
         onType({
           ...event,
           ...additionalArgs,
-          value: value === '' ? emptyValue : value,
+          value: value === '' ? (emptyValue as string) : value,
         })
       }
     },

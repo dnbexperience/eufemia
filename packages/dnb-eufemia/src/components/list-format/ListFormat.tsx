@@ -128,10 +128,15 @@ export function listFormat(
     return list
   }
 
-  list = replaceRootFragment(list).filter(function (item: unknown) {
-    const isNan = typeof item === 'number' && isNaN(item)
-    return item !== undefined && item !== false && item !== null && !isNan
-  })
+  const replaced = replaceRootFragment(list)
+  list = (Array.isArray(replaced) ? replaced : [replaced]).filter(
+    function (item: unknown) {
+      const isNan = typeof item === 'number' && isNaN(item)
+      return (
+        item !== undefined && item !== false && item !== null && !isNan
+      )
+    }
+  )
 
   const buffer = new Map()
   const hasJSX = list.some((v) => typeof v === 'object')
@@ -177,18 +182,24 @@ export function listFormat(
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function replaceRootFragment(children: any) {
-  if (children?.type === Fragment) {
-    return React.Children.toArray(children?.props?.children)
+function replaceRootFragment(
+  children: React.ReactNode
+): React.ReactNode[] | React.ReactNode {
+  if (React.isValidElement(children) && children.type === Fragment) {
+    return React.Children.toArray(
+      (children.props as { children?: React.ReactNode }).children
+    )
   }
   if (Array.isArray(children)) {
     const firstChild = children[0]
     if (
       React.Children.count(children) === 1 &&
-      firstChild?.type === Fragment
+      React.isValidElement(firstChild) &&
+      firstChild.type === Fragment
     ) {
-      return React.Children.toArray(firstChild?.props?.children)
+      return React.Children.toArray(
+        (firstChild.props as { children?: React.ReactNode }).children
+      )
     }
     return children
   }

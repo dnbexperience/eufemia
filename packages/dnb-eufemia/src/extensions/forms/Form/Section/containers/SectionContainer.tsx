@@ -7,6 +7,7 @@ import React, {
 } from 'react'
 import clsx from 'clsx'
 import { Card, HeightAnimation } from '../../../../../components'
+import type { HeightAnimationOnEnd } from '../../../../../components/height-animation/useHeightAnimation'
 import type { SectionContainerContextState } from './SectionContainerContext'
 import SectionContainerContext from './SectionContainerContext'
 import type { FlexContainerAllProps as FlexContainerProps } from '../../../../../components/flex/Container'
@@ -107,10 +108,13 @@ function SectionContainer(
 
   // - Remove the block with animation, if it's in the right mode
   const handleAnimationEnd = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (state: any) => {
+    (state: 'opened' | 'closed' | 'adjusted') => {
       setFocus(state)
-      onAnimationEnd?.(state)
+      ;(
+        onAnimationEnd as unknown as
+          | ((state: HeightAnimationOnEnd) => void)
+          | undefined
+      )?.(state)
     },
     [onAnimationEnd, setFocus]
   )

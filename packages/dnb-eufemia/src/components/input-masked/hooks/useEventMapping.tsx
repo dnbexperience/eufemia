@@ -6,10 +6,10 @@
  * @returns object of events to handle
  */
 
-import type React from 'react'
 import { useCallEvent } from './useCallEvent'
+import type { InputMaskedEvent } from './useCallEvent'
 
-type EventParams = { event: React.SyntheticEvent; value?: string }
+type EventParams = { event: InputMaskedEvent; value?: string }
 
 export const useEventMapping = ({
   setLocalValue,
@@ -19,15 +19,14 @@ export const useEventMapping = ({
   const callEvent = useCallEvent({ setLocalValue })
 
   return {
-    onBeforeInput: (event: React.FormEvent<HTMLInputElement>) =>
+    onBeforeInput: (event: InputMaskedEvent) =>
       callEvent({ event }, 'onBeforeInput'),
-    onInput: (event: React.FormEvent<HTMLInputElement>) =>
-      callEvent({ event }, 'onInput'),
+    onInput: (event: InputMaskedEvent) => callEvent({ event }, 'onInput'),
     onFocus: (params: EventParams) => callEvent(params, 'onFocus'),
     onBlur: (params: EventParams) => callEvent(params, 'onBlur'),
-    onMouseUp: (event: React.MouseEvent<HTMLInputElement>) =>
+    onMouseUp: (event: InputMaskedEvent) =>
       callEvent({ event }, 'onMouseUp'),
-    onMouseDown: (event: React.MouseEvent<HTMLInputElement>) =>
+    onMouseDown: (event: InputMaskedEvent) =>
       callEvent({ event }, 'onMouseDown'),
     onKeyDown: (params: EventParams) => callEvent(params, 'onKeyDown'),
     onSubmit: (params: EventParams) => callEvent(params, 'onSubmit'),

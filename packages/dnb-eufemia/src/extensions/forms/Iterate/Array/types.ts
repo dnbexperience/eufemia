@@ -12,7 +12,7 @@ export type Value = Array<unknown | Record<string, unknown>>
 export type ElementChild =
   | React.ReactNode
   | ((
-      value: any,
+      value: unknown,
       index: number,
       arrayItems: Array<IterateItemContextState>
     ) => React.ReactNode)
@@ -63,7 +63,10 @@ export type IterateArrayProps = Omit<
     /** Custom error messages for validation states. */
     errorMessages?: DefaultErrorMessages
     /** Transform function applied to each item before updating the count path. */
-    countPathTransform?: (params: { value: any; index: number }) => any
+    countPathTransform?: (params: {
+      value: unknown
+      index: number
+    }) => unknown
 
     // internal
     validateValue?: () => void

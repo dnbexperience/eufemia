@@ -85,10 +85,9 @@ const UploadFileInput = ({
           disabled={disabled}
           text={buttonText}
           {...buttonProps}
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          onClick={(e: any) => {
+          onClick={() => {
             openFileDialog()
-            buttonProps?.onClick?.(e)
+            buttonProps?.onClick?.(undefined)
           }}
         />
       )}

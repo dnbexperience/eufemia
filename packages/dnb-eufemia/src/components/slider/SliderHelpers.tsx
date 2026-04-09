@@ -80,8 +80,13 @@ export const roundValue = (
   return parseFloat(parseFloat(String(value)).toFixed(3))
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const createMockDiv = ({ width, height }: any) => {
+export const createMockDiv = ({
+  width,
+  height,
+}: {
+  width: number
+  height: number
+}) => {
   const div = document.createElement('div')
   Object.assign(div.style, {
     width: `${width}px`,

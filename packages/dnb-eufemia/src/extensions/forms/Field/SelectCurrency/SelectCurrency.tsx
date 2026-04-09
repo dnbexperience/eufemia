@@ -4,6 +4,10 @@ import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import { LOCALE } from '../../../../shared/defaults'
 import { Autocomplete } from '../../../../components'
+import type {
+  AutocompleteOnFocusParams,
+  AutocompleteOnTypeParams,
+} from '../../../../components/Autocomplete'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import currencies, {
   prioritizedCurrencies,
@@ -211,8 +215,7 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
   }, [ccFilter, filter, forceUpdate])
 
   const onFocusHandler = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ({ updateData }: any) => {
+    ({ updateData }: AutocompleteOnFocusParams) => {
       fillData()
       updateData(dataRef.current)
       handleFocus()
@@ -221,10 +224,15 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
   )
 
   const onTypeHandler = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ({ value: currentValue, setHidden, event }: any) => {
+    ({
+      value: currentValue,
+      setHidden,
+      event,
+    }: AutocompleteOnTypeParams) => {
       // Handle browser autofill/autocomplete
-      if (typeof event?.nativeEvent?.data === 'undefined') {
+      if (
+        typeof (event?.nativeEvent as InputEvent)?.data === 'undefined'
+      ) {
         const search = currentValue.toLowerCase()
         const currency = currencies.find(({ i18n }) =>
           Object.values(i18n).some((s) => s.toLowerCase().includes(search))

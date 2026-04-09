@@ -7,7 +7,8 @@ import React from 'react'
 import type { ContextProps } from '../../shared/Context'
 
 export type InputMaskedContextValue = {
-  props: any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  props: Record<string, any>
   context: ContextProps
 }
 

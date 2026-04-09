@@ -598,7 +598,7 @@ describe('Iterate.Array', () => {
             path="/items"
             countPath="/count"
             countPathTransform={({ value, index }) =>
-              'item' in (value || {}) ? value : { item: index }
+              'item' in ((value as object) || {}) ? value : { item: index }
             }
           >
             <Field.Number itemPath="/item" />
@@ -620,7 +620,9 @@ describe('Iterate.Array', () => {
               path="/items"
               countPath="/count"
               countPathTransform={({ value, index }) =>
-                'item' in (value || {}) ? value : { item: index }
+                'item' in ((value as object) || {})
+                  ? value
+                  : { item: index }
               }
             >
               <Field.Number itemPath="/item" defaultValue={2} />

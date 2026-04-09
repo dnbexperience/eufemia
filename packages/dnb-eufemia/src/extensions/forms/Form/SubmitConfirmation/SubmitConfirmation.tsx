@@ -166,8 +166,14 @@ function SubmitConfirmation(props: ConfirmProps) {
   }, [setFocusOnButton, setConfirmationState])
 
   const handleSubmit = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async ({ preventSubmit }: any) => {
+    async (
+      params?: { value: unknown } | { preventSubmit: () => void }
+    ) => {
+      const preventSubmit =
+        params && 'preventSubmit' in params
+          ? params.preventSubmit
+          : undefined
+
       if (confirmationStateRef.current === 'submitInProgress') {
         return // stop here
       }
@@ -180,13 +186,16 @@ function SubmitConfirmation(props: ConfirmProps) {
       submitStateRef.current = undefined
 
       // Prevent the form form from being submitted
-      preventSubmit()
+      preventSubmit?.()
 
       await setConfirmationState('readyToBeSubmitted')
     },
     [setConfirmationState, validatePreventSubmit]
   )
-  const { removeEvent } = useEventListener('onSubmit', handleSubmit)
+  const { removeEvent } = useEventListener(
+    'onSubmit',
+    handleSubmit as (...args: unknown[]) => void
+  )
 
   const submitHandler = useCallback(async () => {
     removeEvent()

@@ -477,21 +477,27 @@ function WizardContainer(props: WizardContainerProps) {
   )
 
   const handleSubmit = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ({ preventSubmit }: any) => {
+    (params?: { value: unknown } | { preventSubmit: () => void }) => {
+      const preventSubmit =
+        params && 'preventSubmit' in params
+          ? params.preventSubmit
+          : undefined
       // - If there is a step with an error state, we need to prevent the submit
       if (hasInvalidStepsState(undefined, ['error'])) {
-        return preventSubmit()
+        return preventSubmit?.()
       }
 
       if (activeIndexRef.current + 1 < totalStepsRef.current) {
         handleNext()
-        preventSubmit()
+        preventSubmit?.()
       }
     },
     [hasInvalidStepsState, handleNext]
   )
-  useEventListener('onSubmit', handleSubmit)
+  useEventListener(
+    'onSubmit',
+    handleSubmit as (...args: unknown[]) => void
+  )
 
   // NB: useVisibility needs to be imported here,
   // because it need the outer context to be available.

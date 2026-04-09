@@ -24,7 +24,7 @@ export const PaginationIndicator = ({
   ...props
 }: PaginationIndicatorProps) => {
   const context = React.useContext(Context)
-  const Element = preparePageElement(indicatorElement)
+  const Element = preparePageElement(indicatorElement as React.ElementType)
   const ElementChild = isTrElement(Element) ? 'td' : 'div'
 
   return (
@@ -82,8 +82,7 @@ export class ContentObject {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function isTrElement(Element: any) {
+export function isTrElement(Element: React.ElementType) {
   let isTr = false
 
   if (Element === 'tr') {
@@ -92,7 +91,8 @@ export function isTrElement(Element: any) {
     Element &&
     (typeof Element === 'object' || React.isValidElement(Element))
   ) {
-    if ((Element.__emotion_base || Element.target) === 'tr') {
+    const el = Element as unknown as Record<string, unknown>
+    if ((el.__emotion_base || el.target) === 'tr') {
       isTr = true
     }
   }
@@ -101,7 +101,7 @@ export function isTrElement(Element: any) {
 }
 
 export function preparePageElement(
-  Element: any,
+  Element: React.ElementType,
   includeClassName = 'dnb-pagination__page'
 ) {
   if (String(Element) === 'Symbol(react.fragment)') {
@@ -111,8 +111,17 @@ export function preparePageElement(
   if (includeClassName) {
     const isTr = isTrElement(Element)
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return ({ className, children, ref, ...props }: any) => {
+    return ({
+      className,
+      children,
+      ref,
+      ...props
+    }: {
+      className?: string
+      children?: React.ReactNode
+      ref?: React.Ref<HTMLDivElement>
+      [key: string]: unknown
+    }) => {
       const params = {
         ...props,
         className: clsx(includeClassName, className),

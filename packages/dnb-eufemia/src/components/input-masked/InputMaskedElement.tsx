@@ -32,7 +32,7 @@ export default function InputMaskedElement(): React.JSX.Element {
   return (
     <Input
       {...inputAttributes}
-      {...events}
+      {...(events as Record<string, unknown>)}
       inputElement={inputElement}
       value={localValue}
       className={clsx('dnb-input-masked', className)}

@@ -65,7 +65,10 @@ describe('useReactRouter', () => {
         fU()
       }, [])
 
-      return [paramsRef.current, setSearchParams]
+      return [paramsRef.current, setSearchParams] as unknown as [
+        URLSearchParams,
+        (params: URLSearchParams) => void,
+      ]
     })
 
     return {
@@ -240,7 +243,10 @@ describe('useReactRouter', () => {
     const searchParams = { get }
     const setSearchParams = jest.fn()
     const useSearchParams = jest.fn(() => {
-      return [searchParams, setSearchParams]
+      return [searchParams, setSearchParams] as unknown as [
+        URLSearchParams,
+        (params: URLSearchParams) => void,
+      ]
     })
 
     const Step = () => {

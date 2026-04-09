@@ -62,13 +62,12 @@ function Name(props: FieldNameProps) {
 
     if (typeof onBlurValidatorProp === 'function') {
       // Prioritize the internal validator first; only then run the external one
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return (value: string, args: any) => {
+      return (value: string, args: Record<string, unknown>) => {
         const coreResult = nameValidator(value)
         if (coreResult instanceof Error) {
           return coreResult
         }
-        return onBlurValidatorProp(value, args)
+        return onBlurValidatorProp(value, args as any)
       }
     }
 
@@ -174,12 +173,12 @@ Name.Company = function CompanyName(props: FieldNameProps) {
 
     if (typeof onBlurValidatorProp === 'function') {
       // Prioritize the internal validator first; only then run the external one
-      return (value: string, args: any) => {
+      return (value: string, args: Record<string, unknown>) => {
         const coreResult = companyValidator(value)
         if (coreResult instanceof Error) {
           return coreResult
         }
-        return onBlurValidatorProp(value, args)
+        return onBlurValidatorProp(value, args as any)
       }
     }
 

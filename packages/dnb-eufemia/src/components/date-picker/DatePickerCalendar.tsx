@@ -641,15 +641,21 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                         onClick={
                           handleAsDisabled
                             ? undefined
-                            : // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                              ({ event }: any) =>
+                            : ({
+                                event,
+                              }: {
+                                event: React.MouseEvent<
+                                  HTMLButtonElement | HTMLAnchorElement
+                                >
+                              }) =>
                                 onSelectRange({
                                   day,
                                   isRange,
                                   startDate,
                                   endDate,
                                   resetDate,
-                                  event,
+                                  event:
+                                    event as React.MouseEvent<HTMLButtonElement>,
                                   setHasClickedCalendarDay,
                                   onSelect: (state) => {
                                     updateDates(state, (dates) =>

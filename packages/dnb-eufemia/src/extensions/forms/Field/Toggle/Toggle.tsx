@@ -119,8 +119,12 @@ function Toggle(props: FieldToggleProps) {
     [handleChange, valueOn, valueOff]
   )
   const handleToggleChange = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ({ value }: any) => {
+    ({
+      value,
+    }: {
+      value: string | number | Record<string, unknown> | unknown[]
+      event: React.SyntheticEvent
+    }) => {
       handleChange?.(value === 'on' ? valueOn : valueOff)
     },
     [handleChange, valueOn, valueOff]

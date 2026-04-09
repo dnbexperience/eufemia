@@ -68,7 +68,11 @@ export type TagProps = {
    * Handle the click event on 'tag' element
    * Default: `null`
    */
-  onClick?: (args: { event: React.MouseEvent<HTMLButtonElement> }) => void
+  onClick?: (args: {
+    event:
+      | React.MouseEvent<HTMLButtonElement>
+      | React.KeyboardEvent<HTMLElement>
+  }) => void
 
   /**
    * Handle the delete event on 'tag' element
@@ -144,17 +148,15 @@ const Tag = (
   )
   const additionalButtonParams: Pick<ButtonProps, 'element' | 'type'> = {}
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const isDeleteKeyboardEvent = (keyboardEvent: any) => {
+  const isDeleteKeyboardEvent = (keyboardEvent: React.KeyboardEvent) => {
     return (
       keyboardEvent.key === 'Backspace' || keyboardEvent.key === 'Delete'
     )
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleDeleteKeyUp = (event: any) => {
+  const handleDeleteKeyUp = (event: React.KeyboardEvent<HTMLElement>) => {
     if (isDeleteKeyboardEvent(event) && onClick) {
-      onClick(event)
+      onClick({ event })
     }
   }
 
