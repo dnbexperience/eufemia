@@ -70,8 +70,7 @@ export default function CancelButton(props: Props) {
           switchContainerMode?.('view')
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        onClick?.(event as any)
+        ;(onClick as (...args: unknown[]) => void)?.(event)
       }) // because of the re-render of "restoreOriginalData"
     },
     [

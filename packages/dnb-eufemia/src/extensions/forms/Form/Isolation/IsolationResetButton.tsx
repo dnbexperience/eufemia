@@ -57,8 +57,7 @@ export default function IsolationResetButton(props: Props) {
       event?: React.SyntheticEvent
     }) => {
       close?.()
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      onClick?.(event as any)
+      ;(onClick as (...args: unknown[]) => void)?.(event)
       handleReset()
       setShowBoundaryErrors?.(false)
       buttonWrapperRef.current?.focus()

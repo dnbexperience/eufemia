@@ -141,13 +141,12 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
 
     if (typeof propOnBlurValidator === 'function') {
       // Prioritize the internal validator first; only then run the external one
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return (value: string, args: any) => {
+      return (value: string, args: Parameters<Validator<string>>[1]) => {
         const coreResult = dateOfBirthValidator(value)
         if (coreResult instanceof Error) {
           return coreResult
         }
-        return propOnBlurValidator(value, args)
+        return (propOnBlurValidator as Validator<string>)(value, args)
       }
     }
 

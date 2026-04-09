@@ -62,12 +62,12 @@ function Name(props: FieldNameProps) {
 
     if (typeof onBlurValidatorProp === 'function') {
       // Prioritize the internal validator first; only then run the external one
-      return (value: string, args: Record<string, unknown>) => {
+      return (value: string, args: Parameters<Validator<string>>[1]) => {
         const coreResult = nameValidator(value)
         if (coreResult instanceof Error) {
           return coreResult
         }
-        return onBlurValidatorProp(value, args as any)
+        return (onBlurValidatorProp as Validator<string>)(value, args)
       }
     }
 
@@ -173,12 +173,12 @@ Name.Company = function CompanyName(props: FieldNameProps) {
 
     if (typeof onBlurValidatorProp === 'function') {
       // Prioritize the internal validator first; only then run the external one
-      return (value: string, args: Record<string, unknown>) => {
+      return (value: string, args: Parameters<Validator<string>>[1]) => {
         const coreResult = companyValidator(value)
         if (coreResult instanceof Error) {
           return coreResult
         }
-        return onBlurValidatorProp(value, args as any)
+        return (onBlurValidatorProp as Validator<string>)(value, args)
       }
     }
 

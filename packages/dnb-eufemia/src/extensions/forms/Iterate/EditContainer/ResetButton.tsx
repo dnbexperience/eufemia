@@ -44,8 +44,7 @@ export default function ResetButton(props: Props) {
       event?: React.SyntheticEvent
     }) => {
       close?.()
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      onClick?.(event as any)
+      ;(onClick as (...args: unknown[]) => void)?.(event)
       restoreOriginalValue?.()
       setShowError(false)
       setShowBoundaryErrors?.(false)

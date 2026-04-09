@@ -20,6 +20,8 @@ function NextButton(props: WizardNextButtonProps) {
     iconPosition = 'right',
     icon = 'chevron_right',
     children = translations.text,
+    onClick: onClickProp,
+    ...restProps
   } = props
   const { handleNext } = useContext(WizardContext) || {}
 
@@ -34,10 +36,14 @@ function NextButton(props: WizardNextButtonProps) {
       <SubmitButton
         type="button"
         className={clsx('dnb-forms-next-button', className)}
-        onClick={handleNext as any}
+        onClick={() =>
+          onClickProp
+            ? (onClickProp as (...args: unknown[]) => void)()
+            : handleNext?.()
+        }
         iconPosition={iconPosition}
         icon={icon}
-        {...props}
+        {...restProps}
       >
         {children}
       </SubmitButton>

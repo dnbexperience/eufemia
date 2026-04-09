@@ -175,7 +175,7 @@ function Switch(props: SwitchProps) {
       event,
     }: {
       checked: boolean
-      event: React.SyntheticEvent
+      event: React.SyntheticEvent | Event
     }) => {
       onChange?.({ checked, event } as SwitchOnChangeParams)
     },
@@ -183,8 +183,7 @@ function Switch(props: SwitchProps) {
   )
 
   const onChangeHandler = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (event: any) => {
+    (event: React.SyntheticEvent | Event) => {
       if (preventChangeRef.current) {
         return // stop here
       }
@@ -197,7 +196,11 @@ function Switch(props: SwitchProps) {
 
       if (onChangeEnd) {
         setTimeout(
-          () => onChangeEnd({ checked: updatedChecked, event }),
+          () =>
+            onChangeEnd({
+              checked: updatedChecked,
+              event,
+            } as SwitchOnChangeParams),
           500
         )
       }

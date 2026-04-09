@@ -12,8 +12,9 @@ export type TabsCustomContentTitle =
   | (() => React.ReactNode)
 
 export type TabsCustomContentChildren =
+  | React.ReactNode
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  React.ReactNode | ((props: any) => React.ReactNode)
+  | ((props: any) => React.ReactNode)
 
 export type TabsCustomContentProps = {
   displayName?: string

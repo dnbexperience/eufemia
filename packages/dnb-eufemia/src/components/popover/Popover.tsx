@@ -590,7 +590,9 @@ export default function Popover(props: PopoverProps) {
       className={clsx('dnb-popover__close', closeButtonProps?.className)}
       title={closeButtonProps?.title || tr.closeButtonTitle}
       onClick={(event) => {
-        closeButtonProps?.onClick?.(event as any)
+        ;(closeButtonProps?.onClick as (...args: unknown[]) => void)?.(
+          event
+        )
         if (event?.defaultPrevented) {
           return undefined
         }
