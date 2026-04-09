@@ -19,9 +19,7 @@ const meta = {
  * - `@use 'path'`         → null (side-effect / implicit namespace — skip)
  */
 const getExplicitNamespace = (params) => {
-  const match = params.match(
-    /^(['"]).*?\1\s+as\s+(\S+)\s*;?\s*$/
-  )
+  const match = params.match(/^(['"]).*?\1\s+as\s+(\S+)\s*;?\s*$/)
 
   if (!match) {
     return null
@@ -88,9 +86,13 @@ const isNamespaceUsed = (root, namespace) => {
 
 const ruleFunction = (primary) => {
   return (root, result) => {
-    const validOptions = stylelint.utils.validateOptions(result, RULE_NAME, {
-      actual: primary,
-    })
+    const validOptions = stylelint.utils.validateOptions(
+      result,
+      RULE_NAME,
+      {
+        actual: primary,
+      }
+    )
 
     if (!validOptions) {
       return
