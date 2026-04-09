@@ -29,7 +29,7 @@ import {
 } from '@dnb/eufemia/src/extensions/forms'
 import { defaultBreakpoints } from '@dnb/eufemia/src/shared/MediaQueryUtils'
 import { defaultQueries } from '@dnb/eufemia/src/shared/useMedia'
-import { Provider, useMedia, useMediaQuery } from '@dnb/eufemia/src/shared'
+import { useMedia, useMediaQuery, Provider } from '@dnb/eufemia/src/shared'
 import type { SpacingElementProps } from '@dnb/eufemia/src/shared/types'
 import { ScrollView } from '@dnb/eufemia/src/fragments'
 
@@ -316,17 +316,15 @@ export const ResponsiveGridContainer = () => {
 
 export const FormSetAlternativeAfter = () => (
   <ComponentBox>
-    <Provider formElement={{ labelDirection: 'vertical' }}>
-      <Form.Handler>
-        <H2 top={0}>Heading</H2>
-        <FieldBlock label={<span className="dnb-h--medium">Legend</span>}>
-          <Flex.Horizontal>
-            <Input label="Label A" />
-            <Input label="Label B" />
-          </Flex.Horizontal>
-        </FieldBlock>
-      </Form.Handler>
-    </Provider>
+    <Form.Handler>
+      <H2 top={0}>Heading</H2>
+      <FieldBlock label={<span className="dnb-h--medium">Legend</span>}>
+        <Flex.Horizontal>
+          <Input label="Label A" />
+          <Input label="Label B" />
+        </Flex.Horizontal>
+      </FieldBlock>
+    </Form.Handler>
   </ComponentBox>
 )
 
@@ -465,13 +463,7 @@ export const AllComponentsVerticalLabelsTestCase = (
     data-visual-test="form-components-alignment-vertical-labels"
     {...props}
   >
-    <Provider
-      formElement={{
-        labelDirection: 'vertical',
-      }}
-    >
-      <AllComponents direction="vertical" />
-    </Provider>
+    <AllComponents direction="vertical" />
   </div>
 )
 
@@ -479,8 +471,10 @@ export const AllComponentsHorizontalTestCase = (
   props?: React.HTMLProps<HTMLDivElement>
 ) => (
   <div data-visual-test="form-components-alignment-horizontal" {...props}>
-    <ScrollView>
-      <AllComponents direction="horizontal" />
-    </ScrollView>
+    <Provider formElement={{ labelDirection: 'horizontal' }}>
+      <ScrollView>
+        <AllComponents direction="horizontal" />
+      </ScrollView>
+    </Provider>
   </div>
 )

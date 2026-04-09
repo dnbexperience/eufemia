@@ -7,7 +7,7 @@ export const SegmentedFieldProperties: PropertiesTableProps = {
     status: 'optional',
   },
   labelDirection: {
-    doc: 'Controls the legend layout direction. Defaults to `horizontal`.',
+    doc: 'Controls the legend layout direction. Defaults to `vertical`.',
     type: ['"horizontal"', '"vertical"'],
     status: 'optional',
   },

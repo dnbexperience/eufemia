@@ -45,7 +45,6 @@ export const Vertical = () => (
     <ComponentBox>
       <Textarea
         label="Vertical"
-        labelDirection="vertical"
         rows="3"
         cols="33"
         value="Textarea value with more than 3 lines\nNewline\nNewline\nNewline\nNewline"
@@ -59,7 +58,6 @@ export const CharacterCounter = () => (
     <ComponentBox data-visual-test="textarea-character-counter">
       <Textarea
         label="Count characters"
-        labelDirection="vertical"
         autoResize
         value="Textarea value\nNewline"
         status="Message to the user"

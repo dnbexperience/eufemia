@@ -101,7 +101,7 @@ export type TextareaProps = Omit<
      */
     label?: React.ReactNode
     /**
-     * Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.
+     * Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.
      */
     labelDirection?: 'vertical' | 'horizontal'
     /**
@@ -182,6 +182,7 @@ const textareaDefaultProps = {
   value: 'initval',
   statusState: 'error',
   readOnly: false,
+  labelDirection: 'vertical',
 }
 
 function hasValue(value: string | number | null | undefined) {

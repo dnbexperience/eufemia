@@ -29,6 +29,7 @@ const defaultProps: Partial<SliderAllProps> = {
   max: 100,
   value: -1,
   multiThumbBehavior: 'swap',
+  labelDirection: 'vertical',
 }
 
 export const SliderContext = React.createContext<SliderContextValue>(null)

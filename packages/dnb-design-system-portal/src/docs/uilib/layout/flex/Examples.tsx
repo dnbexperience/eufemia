@@ -171,7 +171,6 @@ export const HorizontalAutoSize = () => {
                 step={1}
                 value={2010}
                 label="Birth year"
-                labelDirection="vertical"
                 tooltip
                 alwaysShowTooltip
               />

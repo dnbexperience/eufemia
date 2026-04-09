@@ -114,13 +114,13 @@ describe('SegmentedField', () => {
       expect(legend).toHaveTextContent('My label')
     })
 
-    it('should render with horizontal label direction by default', () => {
+    it('should render with vertical label direction by default', () => {
       renderSegmentedField({ label: 'My label' })
 
       const fieldset = document.querySelector(
         '.dnb-segmented-field__fieldset'
       )
-      expect(fieldset.classList).toContain(
+      expect(fieldset.classList).not.toContain(
         'dnb-segmented-field__fieldset--horizontal'
       )
     })

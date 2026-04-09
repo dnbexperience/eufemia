@@ -45,7 +45,7 @@ export const SkeletonToggleExample = () => (
             <P top bottom>
               Paragraph Non habitasse ut nisi dictum laoreet ridiculus dui.
             </P>
-            <Input labelDirection="vertical" label="Input" />
+            <Input label="Input" />
             <Skeleton.Exclude>
               <ToggleButton
                 checked={state}

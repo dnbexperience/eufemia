@@ -208,7 +208,7 @@ export type DatePickerProps = {
    */
   label?: React.ReactNode
   /**
-   * Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.
+   * Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.
    */
   labelDirection?: 'vertical' | 'horizontal'
   /**
@@ -366,6 +366,7 @@ const defaultProps: Partial<DatePickerAllProps> = {
   direction: 'auto',
   skipPortal: false,
   yearNavigation: false,
+  labelDirection: 'vertical',
 }
 
 function DatePicker(externalProps: DatePickerAllProps) {

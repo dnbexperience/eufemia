@@ -74,7 +74,7 @@ export type RadioGroupProps = {
 
 const radioGroupDefaultProps = {
   label: null,
-  labelDirection: null,
+  labelDirection: 'vertical',
   labelSrOnly: null,
   labelPosition: null,
   title: null,
@@ -252,6 +252,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
                 ? 'vertical'
                 : 'horizontal'
             }
+            align="stretch"
             gap={vertical ? 'x-small' : 'small'}
           >
             {label && (

@@ -387,7 +387,6 @@ export const AutocompleteSuffix = () => {
             icon={null}
             showSubmitButton
             label="From account"
-            labelDirection="vertical"
           />
         )
       }}
@@ -412,6 +411,7 @@ export const AutocompleteOpened = () => {
           preventClose
           data={topMovies}
           right="large"
+          labelDirection="horizontal"
         />
         <Autocomplete
           label="Label"
@@ -423,6 +423,7 @@ export const AutocompleteOpened = () => {
           preventClose
           data={topMovies}
           className="focus-trigger"
+          labelDirection="horizontal"
         />
       </ComponentBox>
     </Wrapper>

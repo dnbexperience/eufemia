@@ -41,7 +41,7 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
     onComplete,
     label,
     indicatorLabel,
-    labelDirection = 'horizontal',
+    labelDirection = 'vertical',
     showDefaultLabel = false,
     className,
     title,

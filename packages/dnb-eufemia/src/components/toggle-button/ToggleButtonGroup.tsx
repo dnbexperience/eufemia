@@ -28,7 +28,7 @@ import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 const toggleButtonGroupDefaultProps = {
   label: null,
-  labelDirection: null,
+  labelDirection: 'vertical',
   labelSrOnly: null,
   title: null,
   multiselect: null,

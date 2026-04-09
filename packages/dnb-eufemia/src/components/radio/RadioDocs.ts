@@ -110,7 +110,7 @@ export const RadioGroupProperties: PropertiesTableProps = {
     status: 'optional',
   },
   labelDirection: {
-    doc: 'To define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`.',
+    doc: 'To define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `vertical`.',
     type: ['"vertical"', '"horizontal"'],
     status: 'optional',
   },
