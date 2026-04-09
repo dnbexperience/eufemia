@@ -100,7 +100,7 @@
     "esm/style/**/*",
     "src/style/**/*"
   ],
-  "typings": "./index.d.ts",
+  "types": "./index.d.ts",
   "dependencies": {
     "@babel/runtime-corejs3": "7.28.4",
     "@maskito/core": "5.1.0",
