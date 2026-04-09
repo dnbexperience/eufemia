@@ -3499,18 +3499,18 @@ describe('DatePicker component', () => {
     await userEvent.keyboard('12')
     expect(onBlur).toHaveBeenCalledTimes(0)
 
-    // Type year and then move to the end field
+    // Type year - auto-advance moves focus to end day field, triggering blur on start group
     await userEvent.keyboard('1212')
-    expect(onBlur).toHaveBeenCalledTimes(0)
+    await waitFor(() => {
+      expect(onBlur).toHaveBeenCalledTimes(1)
+    })
 
     const endDayInput = document.querySelectorAll(
       '.dnb-date-picker__input--day'
     )[1] as HTMLInputElement
 
+    // Focus is already in the end day field from auto-advance, so no additional blur
     await userEvent.click(endDayInput)
-    await waitFor(() => {
-      expect(onBlur).toHaveBeenCalledTimes(1)
-    })
     expect(onBlur).toHaveBeenLastCalledWith(
       expect.objectContaining({
         startDate: '1212-12-12',
