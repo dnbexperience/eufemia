@@ -242,7 +242,7 @@ const onFormChange = debounceAsync(async function (data) {
   return { warning: 'Warning message' }
 }, 500)
 
-const onFieldChange = debounceAsync(async function (value) {
+const onFieldChange = debounceAsync(async function (value: string) {
   console.log('onFieldChange with value', value)
   const request = createRequest()
 

@@ -58,14 +58,15 @@ type PopoverPortalEntry = {
   hiddenTimeout?: NodeJS.Timeout
 }
 
+declare global {
+  // eslint-disable-next-line no-var
+  var popoverPortal: Record<string, PopoverPortalEntry> | undefined
+}
+
 let popoverPortal: Record<string, PopoverPortalEntry>
 if (typeof globalThis !== 'undefined') {
-  ;(globalThis as any).popoverPortal =
-    (globalThis as any).popoverPortal || {}
-  popoverPortal = (globalThis as any).popoverPortal as Record<
-    string,
-    PopoverPortalEntry
-  >
+  globalThis.popoverPortal = globalThis.popoverPortal || {}
+  popoverPortal = globalThis.popoverPortal
 } else {
   popoverPortal = {}
 }
@@ -228,7 +229,7 @@ function usePopoverPortalLifecycle({
       setIsInDOM(false)
     }
 
-    if (noAnimation || (globalThis as any).IS_TEST) {
+    if (noAnimation || globalThis.IS_TEST) {
       delayRender()
       delayHidden()
       return () => {

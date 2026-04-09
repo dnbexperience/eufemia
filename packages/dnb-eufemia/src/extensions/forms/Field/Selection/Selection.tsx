@@ -515,7 +515,7 @@ export function mapOptions(
             createOption,
           })
           return React.createElement(
-            child.type as React.ComponentType<any>,
+            child.type as React.ComponentType<Record<string, unknown>>,
             child.props,
             nestedChildren
           )

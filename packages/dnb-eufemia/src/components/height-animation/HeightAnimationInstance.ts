@@ -27,7 +27,7 @@ export type HeightAnimationFromHeight = number
 export type HeightAnimationToHeight = number
 
 export default class HeightAnimation {
-  private state: Readonly<HeightAnimationStates>
+  state: Readonly<HeightAnimationStates>
   isInBrowser: boolean
   onStartStack: HeightAnimationOnStartStack = []
   onEndStack: HeightAnimationOnEndStack = []
@@ -125,7 +125,7 @@ export default class HeightAnimation {
     }
 
     this.duration =
-      (globalThis as any).animationDuration ??
+      globalThis.animationDuration ??
       (parseFloat(window.getComputedStyle(this.elem).transitionDuration) *
         1000 ||
         400) // The default duration

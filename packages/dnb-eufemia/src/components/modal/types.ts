@@ -28,6 +28,11 @@ export type ModalCloseHandlerParams = {
 }
 export type ModalCloseHandler = (params?: ModalCloseHandlerParams) => void
 
+export type ModalContentCloseHandler = (
+  event: React.SyntheticEvent,
+  params: ModalCloseHandlerParams
+) => void
+
 export type ModalProps = ModalRootProps & {
   /**
    * The id used internal in the modal/drawer root element. Defaults to `root`, so the element id will be `dnb-modal-root`.
@@ -317,7 +322,7 @@ export type ModalContentProps = {
   contentRef?: React.RefObject<HTMLElement>
   scrollRef?: React.RefObject<HTMLElement>
   open?: boolean
-  modalContentCloseRef?: React.RefObject<any>
+  modalContentCloseRef?: React.RefObject<ModalContentCloseHandler | null>
 }
 
 export type ModalTriggerAttributes = ButtonProps

@@ -51,11 +51,11 @@ export const spacePatterns: Record<
  * @param types 'small', '16px', '1rem'
  * @returns e.g. calc(var(--spacing-large) + var(--spacing-small))
  */
-;(globalThis as any).CALC_CACHE = {}
+globalThis.CALC_CACHE = {}
 export const calc = (...types: Array<SpaceType>) => {
   const hash = types.join('|')
-  if ((globalThis as any).CALC_CACHE[hash]) {
-    return (globalThis as any).CALC_CACHE[hash]
+  if (globalThis.CALC_CACHE[hash]) {
+    return globalThis.CALC_CACHE[hash]
   }
 
   const result: Array<string> = []
@@ -67,9 +67,7 @@ export const calc = (...types: Array<SpaceType>) => {
   })
 
   return result.length
-    ? ((globalThis as any).CALC_CACHE[hash] = `calc(${result.join(
-        ' + '
-      )})`)
+    ? (globalThis.CALC_CACHE[hash] = `calc(${result.join(' + ')})`)
     : null
 }
 

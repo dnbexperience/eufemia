@@ -41,11 +41,12 @@ export function getSpaceValue(
   type: FlexStart | FlexEnd,
   element: React.ReactNode
 ): SpaceType | undefined {
-  if (!React.isValidElement<Record<string, any>>(element)) {
+  if (!React.isValidElement<Record<string, unknown>>(element)) {
     return undefined
   }
 
-  const elementProps = (element as React.ReactElement<any>).props || {}
+  const elementProps =
+    (element as React.ReactElement<Record<string, unknown>>).props || {}
 
   return (
     elementProps?.[type] ??
@@ -73,7 +74,7 @@ export function isHeadingElement(element: React.ReactNode): boolean {
  * @returns The spacing variant (true, false or "children") of the element, or undefined if it does not support spacing props.
  */
 export function getSpaceVariant(element: React.ReactNode) {
-  if (React.isValidElement<Record<string, any>>(element)) {
+  if (React.isValidElement<Record<string, unknown>>(element)) {
     if (element?.type === Fragment) {
       return 'children'
     }
@@ -85,7 +86,8 @@ export function getSpaceVariant(element: React.ReactNode) {
     }
 
     const keys = ['space', 'top', 'right', 'bottom', 'left']
-    const props = (element as React.ReactElement<any>)?.props ?? {}
+    const props =
+      (element as React.ReactElement<Record<string, unknown>>)?.props ?? {}
     if (keys.some((key) => key in (props as object))) {
       return true
     }
@@ -121,16 +123,17 @@ export function renderWithSpacing(
 
   if (variant === 'children') {
     return (React.Children.toArray(element) as React.ReactElement[]).map(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (child: React.ReactElement<any>) => {
-        const children = child?.props?.children
-        const { key: childKey, ...childProps } = child?.props || {}
+      (child) => {
+        const childProps =
+          (child as React.ReactElement<Record<string, unknown>>)?.props ||
+          {}
+        const children = childProps?.children as React.ReactNode
+        const { key: childKey, ...restProps } = childProps
 
         return React.Children.toArray(children).map((element, i) => {
           return React.createElement(
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            child.type as React.ComponentType<any>,
-            { key: childKey || i, ...childProps },
+            child.type as React.ComponentType<Record<string, unknown>>,
+            { key: (childKey as React.Key) || i, ...restProps },
             wrapWithSpace({
               element: element as React.ReactNode,
               spaceProps,
@@ -208,14 +211,18 @@ function cloneIntrinsicElementWithSpacing(
     wrapInSpace?: boolean
   }
 ) {
-  if (!React.isValidElement<Record<string, any>>(element)) {
+  if (!React.isValidElement<Record<string, unknown>>(element)) {
     return element
   }
 
-  const elementProps = (element as React.ReactElement<any>).props || {}
+  const elementProps = ((
+    element as React.ReactElement<Record<string, unknown>>
+  ).props || {}) as Record<string, unknown>
 
   return React.createElement(
-    (element as React.ReactElement).type as React.ComponentType<any>,
+    (element as React.ReactElement).type as React.ComponentType<
+      Record<string, unknown>
+    >,
     {
       ...((element as React.ReactElement).props as Record<
         string,
@@ -223,12 +230,12 @@ function cloneIntrinsicElementWithSpacing(
       >),
       key: spaceProps.key,
       className: clsx(
-        elementProps?.className,
+        elementProps?.className as string,
         ...createSpacingClasses(spaceProps),
         className
       ),
       style: {
-        ...elementProps?.style,
+        ...(elementProps?.style as React.CSSProperties),
         ...createSpacingProperties(spaceProps),
         ...style,
       },

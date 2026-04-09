@@ -124,17 +124,26 @@ export function parseContentTitle(
     if (preferSelectedValue) {
       ret = String(
         convertJsxToString(dataItem.selectedValue, separator, (word) => {
-          const element = word as React.ReactElement<any>
+          const element = word as React.ReactElement<
+            Record<string, unknown>
+          >
           const nestedChildren =
             !element.props.children &&
             element?.type !== Icon &&
             element?.type !== CountryFlag &&
             typeof element?.type === 'function' &&
-            (element.type as () => React.ReactElement)()
+            (
+              element.type as () => React.ReactElement<
+                Record<string, unknown>
+              >
+            )()
 
-          return (nestedChildren as React.ReactElement<any>)?.props
-            ?.children
-            ? nestedChildren
+          return (
+            nestedChildren as React.ReactElement<Record<string, unknown>>
+          )?.props?.children
+            ? (nestedChildren as React.ReactElement<
+                Record<string, unknown>
+              >)
             : element
         })
       )
@@ -155,7 +164,7 @@ export function preSelectData(data: DrawerListData): DrawerListDataAll {
   if (typeof data === 'string') {
     data =
       data[0] === '{' || data[0] === '['
-        ? (JSON.parse(data) as Array<any> | Record<string, any>)
+        ? (JSON.parse(data) as DrawerListDataAll)
         : undefined
   } else if (data && React.isValidElement(data)) {
     data = []
@@ -163,7 +172,7 @@ export function preSelectData(data: DrawerListData): DrawerListDataAll {
     data = data()
   }
 
-  return data
+  return data as DrawerListDataAll
 }
 
 /**

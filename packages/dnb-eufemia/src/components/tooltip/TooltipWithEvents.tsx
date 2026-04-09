@@ -82,7 +82,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         setIsOpen(true)
       }
 
-      if (noAnimation || (globalThis as any).IS_TEST) {
+      if (noAnimation || globalThis.IS_TEST) {
         run()
       } else {
         clearTimers()
@@ -183,14 +183,17 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
    */
   const componentWrapper = useMemo(() => {
     if (isValidElement<Record<string, unknown>>(target)) {
-      return React.createElement(target.type as React.ComponentType<any>, {
-        ...target.props,
-        ref: cloneRef,
-        'aria-describedby': combineDescribedBy(
-          target.props['aria-describedby'],
-          describedById
-        ),
-      })
+      return React.createElement(
+        target.type as React.ComponentType<Record<string, unknown>>,
+        {
+          ...target.props,
+          ref: cloneRef,
+          'aria-describedby': combineDescribedBy(
+            target.props['aria-describedby'],
+            describedById
+          ),
+        }
+      )
     }
 
     cloneRef.current = target as HTMLElement

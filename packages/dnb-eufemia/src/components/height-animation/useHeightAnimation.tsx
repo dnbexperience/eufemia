@@ -69,7 +69,7 @@ export function useHeightAnimation(
   const instRef = useRef<HeightAnimationInstance | null>(null)
   const isInitialRenderRef = useRef(
     typeof globalThis !== 'undefined'
-      ? (globalThis as any).readjustTime !== -1
+      ? globalThis.readjustTime !== -1
       : true
   )
 
@@ -101,7 +101,7 @@ export function useHeightAnimation(
   useLayoutEffect(() => {
     instRef.current.setOptions({ animate })
 
-    if (typeof global !== 'undefined' && (globalThis as any).IS_TEST) {
+    if (typeof global !== 'undefined' && globalThis.IS_TEST) {
       instRef.current.setOptions({ animate: false })
     }
   }, [animate])
@@ -211,15 +211,14 @@ function useOpenClose({
   targetRef,
 }: {
   open?: boolean
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  instRef: React.RefObject<any>
+  instRef: React.RefObject<HeightAnimationInstance | null>
   isInitialRenderRef: React.MutableRefObject<boolean>
   targetRef: React.RefObject<HTMLElement | null>
 }) {
   const isTest =
     typeof process !== 'undefined' &&
     process.env.NODE_ENV === 'test' &&
-    typeof (globalThis as any).IS_TEST === 'undefined'
+    typeof globalThis.IS_TEST === 'undefined'
 
   useLayoutEffect(() => {
     instRef.current.setElement(targetRef.current)
@@ -252,7 +251,7 @@ function useOpenClose({
     const run = () => {
       isInitialRenderRef.current = false
     }
-    if ((globalThis as any).bypassTime === -1 || isTest) {
+    if (globalThis.bypassTime === -1 || isTest) {
       run()
     } else {
       window.requestAnimationFrame?.(run)
@@ -267,8 +266,7 @@ function useAdjust({
   targetRef,
 }: {
   children?: unknown
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  instRef: React.RefObject<any>
+  instRef: React.RefObject<HeightAnimationInstance | null>
   isInitialRenderRef: React.MutableRefObject<boolean>
   targetRef: React.RefObject<HTMLElement | null>
 }) {
@@ -287,7 +285,7 @@ function useAdjust({
       case 'adjusting':
         return (
           !isInitialRenderRef.current &&
-          Date.now() - timer > ((globalThis as any).readjustTime || 100)
+          Date.now() - timer > (globalThis.readjustTime || 100)
         )
     }
 

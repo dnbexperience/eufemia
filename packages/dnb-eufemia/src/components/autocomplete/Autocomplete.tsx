@@ -1366,7 +1366,9 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
                   )
                 ) {
                   result = React.createElement(
-                    originalChild.type as React.ComponentType<any>,
+                    originalChild.type as React.ComponentType<
+                      Record<string, unknown>
+                    >,
                     {
                       ...originalChild.props,
                       key: 'clone' + cacheHash + idx,
@@ -2401,7 +2403,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     React.isValidElement<Record<string, unknown>>(submitElement)
   ) {
     submitButton = React.createElement(
-      submitElement.type as React.ComponentType<any>,
+      submitElement.type as React.ComponentType<Record<string, unknown>>,
       {
         ...submitElement.props,
         ...triggerParams,

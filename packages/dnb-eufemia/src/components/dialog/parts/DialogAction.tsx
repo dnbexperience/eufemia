@@ -94,11 +94,15 @@ const DialogAction = ({
 
   if (children) {
     childrenWithCloseFunc = React.Children.map(children, (child) => {
-      if (React.isValidElement<any>(child) && child.type === Button) {
-        const childElement = child as React.ReactElement<any>
+      if (React.isValidElement(child) && child.type === Button) {
+        const childElement = child as React.ReactElement<
+          Record<string, unknown>
+        >
 
         return React.createElement(
-          childElement.type as React.ComponentType<any>,
+          childElement.type as React.ComponentType<
+            Record<string, unknown>
+          >,
           {
             ...(childElement.props || {}),
             onClick: (event: React.SyntheticEvent) => {
@@ -108,7 +112,7 @@ const DialogAction = ({
               })
             },
           },
-          childElement.props.children
+          childElement.props.children as React.ReactNode
         )
       } else {
         return child

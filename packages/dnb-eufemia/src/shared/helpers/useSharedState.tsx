@@ -8,7 +8,7 @@ export type SharedStateId =
   | string
   | (() => void)
   | Promise<() => void>
-  | React.Context<any>
+  | React.Context<unknown>
   | Record<string, unknown>
 
 /**
@@ -188,6 +188,7 @@ type SharedStateInstance<Data> = {
 
 const sharedStates: Map<
   SharedStateId,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   SharedStateInstance<any>
 > = new Map()
 

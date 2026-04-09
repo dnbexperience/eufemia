@@ -222,7 +222,7 @@ function conventionalDocPath(name: string): string[] {
 }
 
 function extractJsonBlocks(markdown: string) {
-  const blocks: Array<any> = []
+  const blocks: Array<Record<string, unknown>> = []
   const regex = /```json\s*([\s\S]*?)```/gi
   let match: RegExpExecArray | null
   while ((match = regex.exec(markdown))) {

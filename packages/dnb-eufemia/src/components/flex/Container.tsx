@@ -263,16 +263,18 @@ function wrapChildren(
 ) {
   return React.Children.toArray(children).map((child) => {
     if (
-      React.isValidElement<any>(child) &&
+      React.isValidElement(child) &&
       child.type['_supportsSpacingProps'] === 'children'
     ) {
-      const childElement = child as React.ReactElement<any>
+      const childElement = child as React.ReactElement<
+        Record<string, unknown>
+      >
       const { key, ...childProps } = childElement.props || {}
       return React.createElement(
-        childElement.type as React.ComponentType<any>,
-        { key, ...childProps },
+        childElement.type as React.ComponentType<Record<string, unknown>>,
+        { key: key as React.Key, ...childProps },
         <FlexContainer {...props}>
-          {childElement.props.children}
+          {childElement.props.children as React.ReactNode}
         </FlexContainer>
       )
     }

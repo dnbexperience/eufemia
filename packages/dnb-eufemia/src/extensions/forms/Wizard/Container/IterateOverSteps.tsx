@@ -31,7 +31,7 @@ export function IterateOverSteps({
   totalStepsRef.current = 0
 
   const childrenArray = React.Children.map(children, (child) => {
-    if (React.isValidElement<any>(child)) {
+    if (React.isValidElement(child)) {
       let step = child
 
       if (child?.type !== Step && typeof child.type === 'function') {
@@ -46,7 +46,7 @@ export function IterateOverSteps({
 
       if (child?.type === Step) {
         const { title, inactive, keepInDOM, include, id, includeWhen } =
-          (child as React.ReactElement<any>).props || {}
+          (child as React.ReactElement<StepProps>).props || {}
 
         if (include === false) {
           return null

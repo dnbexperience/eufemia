@@ -41,7 +41,7 @@ export function replaceItemNo(
     return nextChildren === childProps
       ? node
       : React.createElement(
-          node.type as React.ComponentType<any>,
+          node.type as React.ComponentType<Record<string, unknown>>,
           rest,
           nextChildren
         )

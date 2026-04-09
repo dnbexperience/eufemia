@@ -28,7 +28,12 @@ export type TextMaskMask =
   | Array<RegExp | string>
   | false
   | typeof createNumberMask
-export type TextMaskInputElement = React.ReactElement<any>
+export type TextMaskInputElement = React.ReactElement<
+  React.DetailedHTMLProps<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  >
+>
 export type TextMaskValue = string | number
 export type TextMaskProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
