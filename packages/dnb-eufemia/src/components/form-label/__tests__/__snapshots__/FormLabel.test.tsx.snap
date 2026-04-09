@@ -22,7 +22,7 @@ exports[`FormLabel scss has to match style dependencies css 1`] = `
   white-space: pre-wrap;
   word-break: normal;
   font-size: var(--font-size-basis);
-  color: inherit;
+  color: var(--token-color-text-neutral);
 }
 .dnb-form-label--vertical {
   display: block;
