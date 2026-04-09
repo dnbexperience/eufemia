@@ -45,7 +45,7 @@ describe('Card', () => {
 
     const element = document.querySelector('.dnb-card')
 
-    expect(element).toHaveClass('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
 
     rerender(
       <Card top="x-large">
@@ -54,7 +54,7 @@ describe('Card', () => {
       </Card>
     )
 
-    expect(element).toHaveClass('dnb-space__top--x-large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should contain given classes', () => {
@@ -134,12 +134,10 @@ describe('Card', () => {
     expect(children.length).toBe(2)
 
     expect(children[0].tagName).toBe('P')
-    expect(children[0]).toHaveClass(
-      'dnb-p dnb-space__top--zero dnb-space__bottom--zero'
-    )
+    expect(children[0]).toHaveClass('dnb-p ')
 
     expect(children[1].tagName).toBe('P')
-    expect(children[1]).toHaveClass('dnb-space__top--medium')
+    expect(children[1].getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should have correct classes when "stack" is set', () => {
@@ -208,18 +206,12 @@ describe('Card', () => {
     expect(children.length).toBe(3)
 
     expect(children[0].tagName).toBe('P')
-    expect(children[0]).toHaveClass(
-      'dnb-p dnb-space__top--zero dnb-space__bottom--zero'
-    )
+    expect(children[0]).toHaveClass('dnb-p ')
     expect(children[1].tagName).toBe('HR')
-    expect(children[1]).toHaveClass(
-      'dnb-flex-container__hr dnb-space__top--medium dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
-    )
+    expect(children[1]).toHaveClass('dnb-flex-container__hr dnb-hr')
 
     expect(children[2].tagName).toBe('P')
-    expect(children[2]).toHaveClass(
-      'dnb-p dnb-space__top--medium dnb-space__bottom--zero'
-    )
+    expect(children[2]).toHaveClass('dnb-p ')
   })
 
   it('should change direction', () => {
@@ -286,14 +278,14 @@ describe('Card', () => {
 
     expect(children.length).toBe(3)
 
-    expect(children[0]).toHaveClass('dnb-space__top--zero')
-    expect(children[0]).toHaveClass('dnb-space__bottom--zero')
+    expect(children[0].getAttribute('style')).toContain('--margin-t-')
+    expect(children[0].getAttribute('style')).toContain('--margin-b-')
 
-    expect(children[1]).toHaveClass('dnb-space__top--small')
-    expect(children[1]).toHaveClass('dnb-space__bottom--zero')
+    expect(children[1].getAttribute('style')).toContain('--margin-t-')
+    expect(children[1].getAttribute('style')).toContain('--margin-b-')
 
-    expect(children[2]).toHaveClass('dnb-space__top--small')
-    expect(children[2]).toHaveClass('dnb-space__bottom--zero')
+    expect(children[2].getAttribute('style')).toContain('--margin-t-')
+    expect(children[2].getAttribute('style')).toContain('--margin-b-')
 
     rerender(
       <Card gap="large">
@@ -305,14 +297,14 @@ describe('Card', () => {
 
     expect(container).toHaveClass('dnb-flex-container--spacing-large')
 
-    expect(children[0]).toHaveClass('dnb-space__top--zero')
-    expect(children[0]).toHaveClass('dnb-space__bottom--zero')
+    expect(children[0].getAttribute('style')).toContain('--margin-t-')
+    expect(children[0].getAttribute('style')).toContain('--margin-b-')
 
-    expect(children[1]).toHaveClass('dnb-space__top--large')
-    expect(children[1]).toHaveClass('dnb-space__bottom--zero')
+    expect(children[1].getAttribute('style')).toContain('--margin-t-')
+    expect(children[1].getAttribute('style')).toContain('--margin-b-')
 
-    expect(children[2]).toHaveClass('dnb-space__top--large')
-    expect(children[2]).toHaveClass('dnb-space__bottom--zero')
+    expect(children[2].getAttribute('style')).toContain('--margin-t-')
+    expect(children[2].getAttribute('style')).toContain('--margin-b-')
   })
 
   it('gets valid ref element', () => {

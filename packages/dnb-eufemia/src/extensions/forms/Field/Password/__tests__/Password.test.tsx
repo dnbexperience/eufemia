@@ -203,12 +203,12 @@ describe('Password component', () => {
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
-      'dnb-space__top--large',
       'dnb-forms-field-block',
       'dnb-forms-field-string',
       'dnb-forms-field-password',
       'dnb-forms-field-block--content-width-large',
     ])
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 2rem')
   })
 
   it('should inherit formElement vertical label', () => {

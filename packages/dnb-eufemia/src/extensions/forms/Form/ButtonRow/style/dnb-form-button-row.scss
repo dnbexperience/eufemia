@@ -8,10 +8,10 @@
 .dnb-card {
   & + .dnb-forms-button-row,
   & + .dnb-button--primary {
-    &:not([class*='space__top']) {
+    &:not([style*='--margin-t-']) {
       margin-top: var(--spacing-small);
 
-      .dnb-button[class*='space__top'] {
+      .dnb-button[style*='--margin-t-'] {
         margin-top: 0;
       }
     }

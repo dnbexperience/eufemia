@@ -116,8 +116,8 @@ describe('ItemContent', () => {
 
     const element = document.querySelector('.dnb-list__item')
 
-    expect(element.classList).toContain('dnb-space__top--large')
-    expect(element.classList).toContain('dnb-space__bottom--small')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
+    expect(element.getAttribute('style')).toContain('--margin-b-')
   })
 
   it('applies pending modifier and pending indicator when pending is true', () => {

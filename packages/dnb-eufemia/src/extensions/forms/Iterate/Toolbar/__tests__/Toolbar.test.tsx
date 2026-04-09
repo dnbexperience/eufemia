@@ -17,8 +17,10 @@ describe('Toolbar', () => {
     )
 
     expect(
-      document.querySelector('.dnb-forms-iterate-toolbar')
-    ).toHaveClass('dnb-space__top--large')
+      document
+        .querySelector('.dnb-forms-iterate-toolbar')
+        .getAttribute('style')
+    ).toContain('--margin-t-')
   })
 
   it('should render Hr by default', () => {

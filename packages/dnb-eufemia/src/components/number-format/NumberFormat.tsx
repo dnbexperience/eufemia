@@ -20,7 +20,7 @@ import {
   removeUndefinedProps,
 } from '../../shared/component-helper'
 import { hasSelectedText, IS_IOS } from '../../shared/helpers'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -499,7 +499,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
     rest = injectTooltipSemantic(rest)
   }
 
-  const attributes = {
+  const attributes = applySpacing(ownProps, {
     lang,
     ref: elRef,
     className: clsx(
@@ -510,16 +510,14 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
       selectAllProp && 'dnb-number-format--select-all',
       selected && 'dnb-number-format--selected',
       link && 'dnb-anchor',
-      monospace && 'dnb-number-format--monospace',
-      createSpacingClasses(ownProps)
+      monospace && 'dnb-number-format--monospace'
     ),
-
     // Makes it possible for NVDA to read on mouse over
     onMouseEnter,
     onMouseLeave,
 
     ...rest,
-  }
+  })
 
   const displayParams: Record<string, unknown> = {}
   if (selectAllProp || copySelection) {

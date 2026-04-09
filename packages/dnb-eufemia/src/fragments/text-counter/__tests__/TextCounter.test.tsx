@@ -178,7 +178,7 @@ describe('TextCounter', () => {
     render(<TextCounter text="test" max={10} top="large" />)
 
     const element = document.querySelector('.dnb-text-counter')
-    expect(element).toHaveClass('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('supports accept custom class', () => {

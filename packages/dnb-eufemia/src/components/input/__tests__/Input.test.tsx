@@ -678,10 +678,10 @@ describe('Input with clear button', () => {
       'dnb-input',
       'dnb-input__border--tokens',
       'dnb-form-component',
-      'dnb-space__top--large',
       'dnb-input--text',
       'dnb-input--vertical',
     ])
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 2rem')
   })
 
   it('should inherit formElement vertical label', () => {

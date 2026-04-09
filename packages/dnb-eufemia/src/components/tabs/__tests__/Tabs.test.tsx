@@ -207,10 +207,7 @@ describe('Tabs component', () => {
 
     const element = document.querySelector('.dnb-tabs')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-tabs',
-      'dnb-space__top--large',
-    ])
+    expect(Array.from(element.classList)).toEqual(['dnb-tabs'])
   })
 
   it('should use section component when "tabsStyle" is set', () => {

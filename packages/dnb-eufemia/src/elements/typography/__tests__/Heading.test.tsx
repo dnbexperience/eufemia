@@ -71,9 +71,7 @@ describe('Heading', () => {
 
       const element = document.querySelector(selector)
 
-      expect(Array.from(element.classList)).toContain(
-        'dnb-space__top--large'
-      )
+      expect(element.getAttribute('style')).toContain('--margin-t-')
     }
   )
 

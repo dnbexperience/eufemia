@@ -4021,11 +4021,11 @@ describe('DatePicker component', () => {
     expect(Array.from(element.classList)).toEqual([
       'dnb-date-picker',
       'dnb-form-component',
-      'dnb-space__top--large',
       'dnb-date-picker--vertical',
       'dnb-date-picker--hidden',
       'dnb-date-picker--show-input',
     ])
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 2rem')
   })
 
   it('should align popover to right when stretch prop is true', async () => {

@@ -51,10 +51,10 @@ describe('Form.SubmitIndicator', () => {
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
-      'dnb-space__top--large',
       'dnb-forms-submit-indicator',
       'dnb-forms-submit-indicator--state-pending',
     ])
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 2rem')
   })
 
   it('should forward HTML attributes', () => {

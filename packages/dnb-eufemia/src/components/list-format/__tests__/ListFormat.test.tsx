@@ -528,7 +528,7 @@ describe('ListFormat', () => {
 
     const element = document.querySelector('.dnb-list-format')
 
-    expect(element.classList).toContain('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
   })
 })
 

@@ -22,11 +22,11 @@ describe('Flex.Stack', () => {
 
     const element = document.querySelector('.dnb-flex-stack')
 
-    expect(element.classList).toContain('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
 
     rerender(<Flex.Stack space={{ top: 'x-large' }}>content</Flex.Stack>)
 
-    expect(element.classList).toContain('dnb-space__top--x-large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should contain given classes', () => {
@@ -119,19 +119,13 @@ describe('Flex.Stack', () => {
     expect(element).toHaveClass('dnb-flex-container--divider-line')
 
     expect(children[0].tagName).toContain('DIV')
-    expect(children[0]).toHaveClass(
-      'dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-item'
-    )
+    expect(children[0]).toHaveClass('dnb-space dnb-flex-item')
 
     expect(children[1].tagName).toContain('HR')
-    expect(children[1]).toHaveClass(
-      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
-    )
+    expect(children[1]).toHaveClass('dnb-flex-container__hr dnb-hr')
 
     expect(children[2].tagName).toContain('DIV')
-    expect(children[2]).toHaveClass(
-      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item'
-    )
+    expect(children[2]).toHaveClass('dnb-space dnb-flex-item')
   })
 
   it('has correct classes when divider is line-framed', () => {
@@ -149,28 +143,18 @@ describe('Flex.Stack', () => {
     expect(element).toHaveClass('dnb-flex-container--divider-line-framed')
 
     expect(children[0].tagName).toContain('HR')
-    expect(children[0]).toHaveClass(
-      'dnb-flex-container__hr dnb-space__top--zero dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
-    )
+    expect(children[0]).toHaveClass('dnb-flex-container__hr dnb-hr')
 
     expect(children[1].tagName).toContain('DIV')
-    expect(children[1]).toHaveClass(
-      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item'
-    )
+    expect(children[1]).toHaveClass('dnb-space dnb-flex-item')
 
     expect(children[2].tagName).toContain('HR')
-    expect(children[2]).toHaveClass(
-      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
-    )
+    expect(children[2]).toHaveClass('dnb-flex-container__hr dnb-hr')
 
     expect(children[3].tagName).toContain('DIV')
-    expect(children[3]).toHaveClass(
-      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item'
-    )
+    expect(children[3]).toHaveClass('dnb-space dnb-flex-item')
 
     expect(children[4].tagName).toContain('HR')
-    expect(children[4]).toHaveClass(
-      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
-    )
+    expect(children[4]).toHaveClass('dnb-flex-container__hr dnb-hr')
   })
 })

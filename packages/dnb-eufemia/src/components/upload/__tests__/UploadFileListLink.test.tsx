@@ -62,7 +62,7 @@ describe('UploadFileListLink', () => {
       render(<UploadFileLink {...defaultProps} top="large" />)
 
       const element = document.querySelector('.dnb-a')
-      expect(element).toHaveClass('dnb-space__top--large')
+      expect(element.getAttribute('style')).toContain('--margin-t-')
     })
   })
 
@@ -107,7 +107,7 @@ describe('UploadFileListLink', () => {
       )
 
       const element = document.querySelector('.dnb-button')
-      expect(element).toHaveClass('dnb-space__top--large')
+      expect(element.getAttribute('style')).toContain('--margin-t-')
     })
   })
 

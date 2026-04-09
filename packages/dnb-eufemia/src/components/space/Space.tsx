@@ -11,11 +11,7 @@ import {
 } from '../../shared/component-helper'
 import type { ContextProps } from '../../shared/Context'
 import Context from '../../shared/Context'
-import {
-  createSpacingClasses,
-  createSpacingProperties,
-  isInline,
-} from './SpacingUtils'
+import { createSpacingProperties, isInline } from './SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -113,7 +109,6 @@ function SpaceInstance(localProps: SpaceAllProps) {
       stretch && 'dnb-space--stretch',
       inline && 'dnb-space--inline',
       createSkeletonClass(null, skeleton), // do not send along context
-      createSpacingClasses({ top, right, bottom, left, space }),
       className
     ),
     ...attributes,

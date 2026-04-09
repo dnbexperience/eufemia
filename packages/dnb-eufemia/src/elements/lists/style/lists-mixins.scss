@@ -48,7 +48,7 @@
   @include utilities.spaceReset();
 
   padding: 0;
-  &:not([class*='dnb-space__left']) {
+  &:not([style*='--margin-l-']) {
     padding-left: 2rem;
   }
 
@@ -113,10 +113,10 @@
   --column-gap: 1rem;
   --row-gap: 0.5rem;
 
-  &:not([class*='dnb-space__top']) {
+  &:not([style*='--margin-t-']) {
     margin-top: 0;
   }
-  &:not([class*='dnb-space__bottom']) {
+  &:not([style*='--margin-b-']) {
     margin-bottom: 0;
   }
   padding: 0;
@@ -142,7 +142,7 @@
     // margin-left: 2rem;
   }
   & > dd > dl,
-  &:not([class*='dnb-space']) > dd > dl {
+  &:not([style*='--margin-']) > dd > dl {
     margin-top: calc(var(--row-gap) + 0.5rem);
     margin-left: 2rem;
   }
@@ -234,9 +234,9 @@
     }
   }
   & li > ul,
-  &:not([class*='dnb-space']) li > ul,
+  &:not([style*='--margin-']) li > ul,
   & li > ol,
-  &:not([class*='dnb-space']) li > ol {
+  &:not([style*='--margin-']) li > ol {
     margin-top: -0.5rem;
   }
 }
@@ -250,7 +250,7 @@
   list-style-type: none;
 
   @include utilities.spaceReset();
-  &:not([class*='dnb-space__left']) {
+  &:not([style*='--margin-l-']) {
     padding-left: 0;
   }
 

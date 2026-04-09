@@ -16,6 +16,7 @@ import {
   isValidSpaceProp,
   createSpacingClasses,
   createSpacingProperties,
+  applySpacing,
 } from '../SpacingUtils'
 import type { SpaceType } from '../types'
 
@@ -206,100 +207,65 @@ describe('findType', () => {
 })
 
 describe('createSpacingClasses', () => {
-  it('should return correct spacing classes', () => {
-    expect(createSpacingClasses({ right: 'large x-small' })).toEqual([
-      'dnb-space__right--large',
-      'dnb-space__right--x-small',
-    ])
+  it('should return empty array for margin direction props', () => {
+    // Margin direction classes are no longer generated;
+    // margins are now handled via CSS custom properties by createSpacingProperties
+    expect(createSpacingClasses({ right: 'large x-small' })).toEqual([])
+    expect(createSpacingClasses({ space: true })).toEqual([])
+    expect(createSpacingClasses({ top: 'large' })).toEqual([])
   })
 
-  it('should return a class with zero classes', () => {
-    expect(createSpacingClasses({ right: false })).toEqual([
-      'dnb-space__right--zero',
+  it('should return noCollapse class', () => {
+    expect(createSpacingClasses({ noCollapse: true })).toEqual([
+      'dnb-space--no-collapse',
     ])
-    expect(createSpacingClasses({ right: 0 })).toEqual([
-      'dnb-space__right--zero',
-    ])
-    expect(createSpacingClasses({ right: null })).toEqual([])
-  })
-
-  it('should handle frozen props', () => {
-    const props = Object.freeze({ space: true })
-    expect(createSpacingClasses(props)).toEqual([
-      'dnb-space__left--small',
-      'dnb-space__bottom--small',
-      'dnb-space__right--small',
-      'dnb-space__top--small',
-    ])
-  })
-
-  it('should handle the space prop for in all directions', () => {
-    expect(createSpacingClasses({ space: false })).toEqual([]) // we may extend that with all four "--zero" in future
-    expect(createSpacingClasses({ space: 0 })).toEqual([
-      'dnb-space__left--zero',
-      'dnb-space__bottom--zero',
-      'dnb-space__right--zero',
-      'dnb-space__top--zero',
-    ])
-    expect(createSpacingClasses({ space: true })).toEqual([
-      'dnb-space__left--small',
-      'dnb-space__bottom--small',
-      'dnb-space__right--small',
-      'dnb-space__top--small',
-    ])
-    expect(createSpacingClasses({ space: '1rem' })).toEqual([
-      'dnb-space__left--small',
-      'dnb-space__bottom--small',
-      'dnb-space__right--small',
-      'dnb-space__top--small',
-    ])
-    expect(createSpacingClasses({ space: null })).toEqual([])
-  })
-
-  it('should handle gracefully the space and top, right, bottom and left prop', () => {
-    expect(createSpacingClasses({ space: 0, left: 'small' })).toEqual([
-      'dnb-space__left--small',
-      'dnb-space__bottom--zero',
-      'dnb-space__right--zero',
-      'dnb-space__top--zero',
-    ])
-    expect(
-      createSpacingClasses({ space: 0, right: 'small small' })
-    ).toEqual([
-      'dnb-space__right--large',
-      'dnb-space__left--zero',
-      'dnb-space__bottom--zero',
-      'dnb-space__top--zero',
-    ])
-    expect(
-      createSpacingClasses({ space: 0, bottom: 'small small small' })
-    ).toEqual([
-      'dnb-space__bottom--x-large',
-      'dnb-space__left--zero',
-      'dnb-space__right--zero',
-      'dnb-space__top--zero',
-    ])
-    expect(createSpacingClasses({ space: 0, top: 'small small' })).toEqual(
-      [
-        'dnb-space__top--large',
-        'dnb-space__left--zero',
-        'dnb-space__bottom--zero',
-        'dnb-space__right--zero',
-      ]
-    )
-    expect(
-      createSpacingClasses({ space: { top: 'small' }, top: 'large' })
-    ).toEqual(['dnb-space__top--large'])
-    expect(
-      createSpacingClasses({
-        space: { right: 'small', left: 0 },
-        right: 'large',
-      })
-    ).toEqual(['dnb-space__right--large', 'dnb-space__left--zero'])
   })
 
   it('should ignore innerSpace', () => {
     expect(createSpacingClasses({ innerSpace: 'large' })).toEqual([])
+  })
+})
+
+describe('createSpacingProperties for margins', () => {
+  it('should return correct margin CSS variables for direction props', () => {
+    const result = createSpacingProperties({ right: 'large x-small' })
+    expect(result).toHaveProperty('--margin-r-s')
+  })
+
+  it('should handle the space prop for all directions', () => {
+    const result = createSpacingProperties({ space: true })
+    expect(result).toHaveProperty('--margin-t-s')
+    expect(result).toHaveProperty('--margin-r-s')
+    expect(result).toHaveProperty('--margin-b-s')
+    expect(result).toHaveProperty('--margin-l-s')
+  })
+
+  it('should handle frozen props', () => {
+    const props = Object.freeze({ space: true })
+    const result = createSpacingProperties(props)
+    expect(result).toHaveProperty('--margin-t-s')
+    expect(result).toHaveProperty('--margin-r-s')
+    expect(result).toHaveProperty('--margin-b-s')
+    expect(result).toHaveProperty('--margin-l-s')
+  })
+
+  it('should handle zero values', () => {
+    const result = createSpacingProperties({ right: 0 })
+    expect(result).toHaveProperty('--margin-r-s', '0')
+  })
+
+  it('should handle space prop with individual overrides', () => {
+    const result = createSpacingProperties({ space: 0, left: 'small' })
+    expect(result['--margin-l-s']).toBe('1rem')
+    expect(result['--margin-t-s']).toBe('0')
+    expect(result['--margin-r-s']).toBe('0')
+    expect(result['--margin-b-s']).toBe('0')
+  })
+
+  it('should not return margin properties for null/undefined', () => {
+    expect(createSpacingProperties({ right: null })).toEqual({})
+    expect(createSpacingProperties({ space: null })).toEqual({})
+    expect(createSpacingProperties({ space: false })).toEqual({})
   })
 })
 
@@ -501,5 +467,239 @@ describe('createSpacingProperties', () => {
       '--space-t-s': '1rem',
     })
     expect(createSpacingProperties({ innerSpace: null })).toEqual({})
+  })
+
+  it('should generate margin properties from top/right/bottom/left', () => {
+    expect(createSpacingProperties({ top: 'large' })).toEqual({
+      '--margin-t-l': '2rem',
+      '--margin-t-m': '2rem',
+      '--margin-t-s': '2rem',
+    })
+    expect(createSpacingProperties({ right: 'large x-small' })).toEqual({
+      '--margin-r-l': '2.5rem',
+      '--margin-r-m': '2.5rem',
+      '--margin-r-s': '2.5rem',
+    })
+  })
+
+  it('should generate margin properties from space shorthand', () => {
+    expect(createSpacingProperties({ space: 'small' })).toEqual({
+      '--margin-b-l': '1rem',
+      '--margin-b-m': '1rem',
+      '--margin-b-s': '1rem',
+      '--margin-l-l': '1rem',
+      '--margin-l-m': '1rem',
+      '--margin-l-s': '1rem',
+      '--margin-r-l': '1rem',
+      '--margin-r-m': '1rem',
+      '--margin-r-s': '1rem',
+      '--margin-t-l': '1rem',
+      '--margin-t-m': '1rem',
+      '--margin-t-s': '1rem',
+    })
+  })
+
+  it('should let explicit directions override space shorthand for margin', () => {
+    expect(
+      createSpacingProperties({ space: 'small', top: 'large' })
+    ).toEqual({
+      '--margin-b-l': '1rem',
+      '--margin-b-m': '1rem',
+      '--margin-b-s': '1rem',
+      '--margin-l-l': '1rem',
+      '--margin-l-m': '1rem',
+      '--margin-l-s': '1rem',
+      '--margin-r-l': '1rem',
+      '--margin-r-m': '1rem',
+      '--margin-r-s': '1rem',
+      '--margin-t-l': '2rem',
+      '--margin-t-m': '2rem',
+      '--margin-t-s': '2rem',
+    })
+  })
+
+  it('should handle space object with direction overrides for margin', () => {
+    expect(
+      createSpacingProperties({
+        space: { top: 'small' },
+        top: 'large',
+      })
+    ).toEqual({
+      '--margin-t-l': '2rem',
+      '--margin-t-m': '2rem',
+      '--margin-t-s': '2rem',
+    })
+  })
+
+  it('should handle margin zero and false values', () => {
+    expect(createSpacingProperties({ top: 0 })).toEqual({
+      '--margin-t-l': '0',
+      '--margin-t-m': '0',
+      '--margin-t-s': '0',
+    })
+    expect(createSpacingProperties({ top: false })).toEqual({
+      '--margin-t-l': '0',
+      '--margin-t-m': '0',
+      '--margin-t-s': '0',
+    })
+    expect(createSpacingProperties({ top: null })).toEqual({})
+  })
+
+  it('should handle space: false and space: 0 for margin', () => {
+    expect(createSpacingProperties({ space: false })).toEqual({})
+    expect(createSpacingProperties({ space: 0 })).toEqual({
+      '--margin-b-l': '0',
+      '--margin-b-m': '0',
+      '--margin-b-s': '0',
+      '--margin-l-l': '0',
+      '--margin-l-m': '0',
+      '--margin-l-s': '0',
+      '--margin-r-l': '0',
+      '--margin-r-m': '0',
+      '--margin-r-s': '0',
+      '--margin-t-l': '0',
+      '--margin-t-m': '0',
+      '--margin-t-s': '0',
+    })
+    expect(createSpacingProperties({ space: true })).toEqual({
+      '--margin-b-l': '1rem',
+      '--margin-b-m': '1rem',
+      '--margin-b-s': '1rem',
+      '--margin-l-l': '1rem',
+      '--margin-l-m': '1rem',
+      '--margin-l-s': '1rem',
+      '--margin-r-l': '1rem',
+      '--margin-r-m': '1rem',
+      '--margin-r-s': '1rem',
+      '--margin-t-l': '1rem',
+      '--margin-t-m': '1rem',
+      '--margin-t-s': '1rem',
+    })
+  })
+
+  it('should generate both innerSpace and margin properties', () => {
+    expect(
+      createSpacingProperties({
+        innerSpace: 'small',
+        top: 'large',
+      })
+    ).toEqual({
+      '--space-b-l': '1rem',
+      '--space-b-m': '1rem',
+      '--space-b-s': '1rem',
+      '--space-l-l': '1rem',
+      '--space-l-m': '1rem',
+      '--space-l-s': '1rem',
+      '--space-r-l': '1rem',
+      '--space-r-m': '1rem',
+      '--space-r-s': '1rem',
+      '--space-t-l': '1rem',
+      '--space-t-m': '1rem',
+      '--space-t-s': '1rem',
+      '--margin-t-l': '2rem',
+      '--margin-t-m': '2rem',
+      '--margin-t-s': '2rem',
+    })
+  })
+})
+
+describe('applySpacing', () => {
+  it('should return target unchanged when there are no spacing props', () => {
+    const target = { className: 'dnb-foo', id: 'x' }
+    const result = applySpacing({}, target)
+    expect(result).toBe(target)
+  })
+
+  it('should merge spacing classes into existing className', () => {
+    const result = applySpacing(
+      { noCollapse: true },
+      { className: 'dnb-foo' }
+    )
+    expect(result.className).toBe('dnb-foo dnb-space--no-collapse')
+  })
+
+  it('should set className when target has none', () => {
+    const result = applySpacing(
+      { noCollapse: true },
+      {} as { className?: string }
+    )
+    expect(result.className).toBe('dnb-space--no-collapse')
+  })
+
+  it('should merge spacing style on top of target style', () => {
+    const result = applySpacing(
+      { top: 'large' },
+      { style: { color: 'red' } }
+    )
+    expect(result.style).toEqual({
+      color: 'red',
+      '--margin-t-l': '2rem',
+      '--margin-t-m': '2rem',
+      '--margin-t-s': '2rem',
+    })
+  })
+
+  it('should set style when target has none', () => {
+    const result = applySpacing(
+      { top: 'large' },
+      {} as { style?: React.CSSProperties }
+    )
+    expect(result.style).toEqual({
+      '--margin-t-l': '2rem',
+      '--margin-t-m': '2rem',
+      '--margin-t-s': '2rem',
+    })
+  })
+
+  it('should not clobber other properties in target', () => {
+    const result = applySpacing(
+      { top: 'large', noCollapse: true },
+      {
+        className: 'dnb-foo',
+        id: 'x',
+        'data-test': 'y',
+        style: { color: 'red' },
+      }
+    )
+    expect(result.id).toBe('x')
+    expect(result['data-test']).toBe('y')
+    expect(result.className).toBe('dnb-foo dnb-space--no-collapse')
+    expect(result.style).toMatchObject({
+      color: 'red',
+      '--margin-t-l': '2rem',
+    })
+  })
+
+  it('should let spacing win when user style sets the same CSS custom property', () => {
+    const result = applySpacing(
+      { top: 'large' },
+      { style: { '--margin-t-l': '5rem' } as React.CSSProperties }
+    )
+    expect(result.style['--margin-t-l']).toBe('2rem')
+  })
+
+  it('should accept clsx-compatible className values', () => {
+    const result = applySpacing(
+      { noCollapse: true },
+      { className: ['dnb-foo', 'dnb-bar'] }
+    )
+    expect(result.className).toBe('dnb-foo dnb-bar dnb-space--no-collapse')
+  })
+
+  it('should return a new object (non-mutating)', () => {
+    const target = { className: 'dnb-foo' }
+    const result = applySpacing({ top: 'large' }, target)
+    expect(result).not.toBe(target)
+    expect(target).toEqual({ className: 'dnb-foo' })
+  })
+
+  it('should forward elementName for inline detection', () => {
+    const result = applySpacing(
+      { noCollapse: true },
+      { className: 'dnb-foo' },
+      'h1'
+    )
+    expect(result.className).toContain('dnb-space--no-collapse')
+    expect(result.className).toContain('dnb-space--inline')
   })
 })

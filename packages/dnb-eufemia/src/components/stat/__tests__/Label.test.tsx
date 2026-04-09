@@ -154,7 +154,7 @@ describe('Stat.Label', () => {
 
     const label = document.querySelector('.dnb-stat__label')
 
-    expect(label.classList).toContain('dnb-space__top--large')
+    expect(label.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should validate with ARIA rules', async () => {

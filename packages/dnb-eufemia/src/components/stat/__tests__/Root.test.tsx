@@ -13,7 +13,7 @@ describe('Stat.Root', () => {
 
     const root = document.querySelector('.dnb-stat__root')
 
-    expect(root.classList).toContain('dnb-space__top--large')
+    expect(root.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('supports boolean shorthand spacing', () => {
@@ -25,7 +25,7 @@ describe('Stat.Root', () => {
 
     const root = document.querySelector('.dnb-stat__root')
 
-    expect(root.classList).toContain('dnb-space__top--small')
+    expect(root.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('supports id prop', () => {

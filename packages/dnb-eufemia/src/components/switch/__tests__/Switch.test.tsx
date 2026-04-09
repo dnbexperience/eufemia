@@ -127,8 +127,8 @@ describe('Switch component', () => {
       'dnb-switch',
       'dnb-switch--label-position-right',
       'dnb-form-component',
-      'dnb-space__top--large',
     ])
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 2rem')
   })
 
   it('should inherit formElement vertical label', () => {

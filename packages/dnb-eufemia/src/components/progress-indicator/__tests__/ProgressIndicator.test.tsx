@@ -154,11 +154,11 @@ describe('Circular ProgressIndicator component', () => {
     const indicator = document.querySelector('.dnb-progress-indicator')
     expect(Array.from(indicator.classList)).toEqual([
       'dnb-progress-indicator',
-      'dnb-space__top--large',
       'dnb-progress-indicator--show',
       'dnb-progress-indicator--vertical',
       'dnb-progress-indicator--default',
     ])
+    expect(indicator.getAttribute('style')).toContain('--margin-t-s: 2rem')
   })
 
   it('should support inline styling', () => {
@@ -180,7 +180,7 @@ describe('Circular ProgressIndicator component', () => {
     const attributes = Array.from(indicator.attributes).map(
       (attr) => attr.name
     )
-    expect(attributes).toEqual(['class', 'hidden'])
+    expect(attributes).toEqual(['class', 'style', 'hidden'])
   })
 
   it('should use span elements', () => {
@@ -440,7 +440,6 @@ describe('Linear ProgressIndicator component', () => {
     const indicator = document.querySelector('.dnb-progress-indicator')
     expect(Array.from(indicator.classList)).toEqual([
       'dnb-progress-indicator',
-      'dnb-space__top--large',
       'dnb-progress-indicator--show',
       'dnb-progress-indicator--vertical',
       'dnb-progress-indicator--default',
@@ -467,7 +466,7 @@ describe('Linear ProgressIndicator component', () => {
     const attributes = Array.from(indicator.attributes).map(
       (attr) => attr.name
     )
-    expect(attributes).toEqual(['class', 'hidden'])
+    expect(attributes).toEqual(['class', 'style', 'hidden'])
   })
 
   it('should use span elements', () => {

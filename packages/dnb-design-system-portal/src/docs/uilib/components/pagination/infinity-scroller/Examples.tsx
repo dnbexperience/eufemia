@@ -519,10 +519,10 @@ const TableData = styled.td`
     font-size: var(--font-size-large);
 
     /** reset css specificity */
-    .dnb-spacing &.dnb-h--large:not([class*='space__bottom']),
+    .dnb-spacing &.dnb-h--large:not([style*='--margin-b-']),
     .dnb-core-style
       .dnb-spacing
-      &.dnb-h--large:not([class*='space__bottom']) {
+      &.dnb-h--large:not([style*='--margin-b-']) {
       margin: 0;
     }
   }

@@ -210,7 +210,7 @@ describe('Stat.Rating', () => {
 
     const rating = document.querySelector('.dnb-stat__rating')
 
-    expect(rating.classList).toContain('dnb-space__top--large')
+    expect(rating.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('applies style prop to the element', () => {

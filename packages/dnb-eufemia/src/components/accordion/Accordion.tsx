@@ -20,7 +20,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingHelper'
 
 import type { ButtonIconPosition } from '../Button'
 import type { HeadingLevel } from '../Heading'
@@ -378,17 +378,16 @@ function Accordion({
     ...restOfExtendedProps
   } = extendedProps
 
-  const mainParams = {
+  const mainParams = applySpacing(extendedProps, {
     id,
     className: clsx(
       'dnb-accordion',
       expandedState && 'dnb-accordion--expanded',
       extendedVariant && `dnb-accordion__variant--${extendedVariant}`,
       keepInDOM && 'dnb-accordion--prerender',
-      createSpacingClasses(extendedProps),
       className
     ),
-  } as HTMLProps<HTMLDivElement>
+  }) as HTMLProps<HTMLDivElement>
 
   if (disabled) {
     mainParams.onClick = handleDisabledClick

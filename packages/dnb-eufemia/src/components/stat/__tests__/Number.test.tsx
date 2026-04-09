@@ -512,7 +512,7 @@ describe('Stat.Number', () => {
     render(<Stat.Number value={123} top="large" />)
 
     const container = document.querySelector('.dnb-stat')
-    expect(container.classList).toContain('dnb-space__top--large')
+    expect(container.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('supports custom element', () => {

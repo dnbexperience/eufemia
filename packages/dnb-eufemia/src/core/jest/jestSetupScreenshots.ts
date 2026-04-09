@@ -528,7 +528,15 @@ async function handleElement({
     await page.$eval(
       styleSelector || selector,
       (node: Element, style: string) => {
-        node.setAttribute('style', style)
+        // Merge with any existing inline style (e.g. spacing custom
+        // properties set by components through `applySpacing`) instead of
+        // replacing it, so tests that only tweak width/height do not
+        // strip component-level margins/paddings.
+        const existing = node.getAttribute('style') || ''
+        const merged = existing
+          ? `${existing.replace(/;?\s*$/, '')}; ${style}`
+          : style
+        node.setAttribute('style', merged)
         return node
       },
       makeStyles(style)

@@ -37,7 +37,7 @@
 }
 
 .dnb-live-preview p.dnb-p {
-  &:not([class*='dnb-space__bottom']) {
+  &:not([style*='--margin-b-']) {
     margin-bottom: 0;
   }
 }

@@ -18,7 +18,7 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -297,7 +297,7 @@ function Checkbox(localProps: CheckboxProps) {
     suffix,
   ])
 
-  const mainParams = {
+  const mainParams = applySpacing(props, {
     className: clsx(
       'dnb-checkbox',
       status && `dnb-checkbox__status--${statusState}`,
@@ -305,10 +305,9 @@ function Checkbox(localProps: CheckboxProps) {
       label && `dnb-checkbox--label-position-${labelPosition || 'right'}`,
       'dnb-form-component',
       createSkeletonClass(null, skeleton, context),
-      createSpacingClasses(props),
       className
     ),
-  }
+  })
 
   const inputParams = handleInputAttributes()
 

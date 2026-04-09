@@ -106,9 +106,9 @@ describe('List Container', () => {
 
     expect(children).toHaveLength(2)
     expect(children[0].tagName).toBe('LI')
-    expect(children[0]).toHaveClass('dnb-space__top--zero')
+    expect(children[0].getAttribute('style')).toContain('--margin-t-')
     expect(children[1].tagName).toBe('LI')
-    expect(children[1]).toHaveClass('dnb-space__top--small')
+    expect(children[1].getAttribute('style')).toContain('--margin-t-')
     expect(list.querySelector(':scope > div')).toBeNull()
   })
 

@@ -1178,21 +1178,21 @@ describe('EditContainer and ViewContainer', () => {
       expect(editToolbars).toHaveLength(1)
 
       const viewToolbar = viewToolbars[0]
-      expect(viewToolbar).toHaveClass('dnb-space__top--zero')
-      expect(viewToolbar).toHaveClass('dnb-space__right--small')
-      expect(viewToolbar).toHaveClass('dnb-space__left--zero')
+      expect(viewToolbar.getAttribute('style')).toContain('--margin-t-')
+      expect(viewToolbar.getAttribute('style')).toContain('--margin-r-')
+      expect(viewToolbar.getAttribute('style')).toContain('--margin-l-')
 
       const editToolbar = editToolbars[0]
-      expect(editToolbar).toHaveClass('dnb-space__top--zero')
-      expect(editToolbar).toHaveClass('dnb-space__right--small')
-      expect(editToolbar).toHaveClass('dnb-space__left--zero')
+      expect(editToolbar.getAttribute('style')).toContain('--margin-t-')
+      expect(editToolbar.getAttribute('style')).toContain('--margin-r-')
+      expect(editToolbar.getAttribute('style')).toContain('--margin-l-')
 
       const viewSpace = viewToolbars[0].querySelector('.dnb-space')
-      expect(viewSpace).toHaveClass('dnb-space__top--zero')
+      expect(viewSpace.getAttribute('style')).toContain('--margin-t-')
       expect(viewSpace).toHaveClass('dnb-flex-container--row-gap-small')
 
       const editSpace = editToolbars[0].querySelector('.dnb-space')
-      expect(editSpace).toHaveClass('dnb-space__top--zero')
+      expect(editSpace.getAttribute('style')).toContain('--margin-t-')
       expect(editSpace).toHaveClass('dnb-flex-container--row-gap-small')
     })
 

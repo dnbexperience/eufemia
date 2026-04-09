@@ -2,7 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 
 // Components
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingHelper'
 import type { AvatarSizes, AvatarVariants } from './Avatar'
 
 // Shared
@@ -134,7 +134,6 @@ const AvatarGroup = (localProps: AvatarGroupAllProps) => {
       ))
   }
 
-  const spacingClasses = createSpacingClasses(props)
   const { skeleton, ...attributes } = validateDOMAttributes({}, props)
 
   return (
@@ -142,8 +141,10 @@ const AvatarGroup = (localProps: AvatarGroupAllProps) => {
       value={{ ...props, variant, size, color, backgroundColor }}
     >
       <span
-        className={clsx('dnb-avatar__group', spacingClasses, className)}
-        {...attributes}
+        {...applySpacing(props, {
+          ...attributes,
+          className: clsx('dnb-avatar__group', className),
+        })}
       >
         <span className="dnb-sr-only">{label}</span>
 

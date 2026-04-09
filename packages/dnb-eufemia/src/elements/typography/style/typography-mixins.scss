@@ -233,11 +233,11 @@
   }
 
   // if we not reset margin, the browser is using: margin-block-end: 1rem;
-  &:not([class*='space__top']) {
+  &:not([style*='--margin-t-']) {
     margin-top: 0;
   }
 
-  &:not([class*='space__bottom']) {
+  &:not([style*='--margin-b-']) {
     margin-bottom: 0;
   }
   padding: 0;
@@ -263,41 +263,41 @@
 }
 
 @mixin headingSpacingXxLarge() {
-  &:not([class*='space__top']) {
+  &:not([style*='--margin-t-']) {
     margin-top: 3rem;
   }
 
-  &:not([class*='space__bottom']) {
+  &:not([style*='--margin-b-']) {
     margin-bottom: 2.5rem;
   }
 }
 
 @mixin headingSpacingXLarge() {
-  &:not([class*='space__top']) {
+  &:not([style*='--margin-t-']) {
     margin-top: 3rem;
   }
 
-  &:not([class*='space__bottom']) {
+  &:not([style*='--margin-b-']) {
     margin-bottom: 1rem;
   }
 }
 
 @mixin headingSpacingLarge() {
-  &:not([class*='space__top']) {
+  &:not([style*='--margin-t-']) {
     margin-top: 3rem;
   }
 
-  &:not([class*='space__bottom']) {
+  &:not([style*='--margin-b-']) {
     margin-bottom: 1rem;
   }
 }
 
 @mixin headingSpacing() {
-  &:not([class*='space__top']) {
+  &:not([style*='--margin-t-']) {
     margin-top: 2rem;
   }
 
-  &:not([class*='space__bottom']) {
+  &:not([style*='--margin-b-']) {
     margin-bottom: 1rem;
   }
 }

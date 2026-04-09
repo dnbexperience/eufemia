@@ -240,14 +240,14 @@ button .dnb-form-status__text {
 .dnb-form-status__text .dnb-anchor {
   font-size: inherit;
 }
-.dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
+.dnb-form-status__text .dnb-ul:not([style*="--margin-l-"]) {
   padding-left: 1rem;
 }
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
+.dnb-spacing .dnb-form-status__text .dnb-ul:not([style*="--margin-b-"]) .dnb-li {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
+.dnb-spacing .dnb-form-status__text .dnb-ul:not([style*="--margin-b-"]) {
   margin-bottom: 0.5rem;
 }
 .dnb-form-status__text {
@@ -1795,7 +1795,7 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
   align-self: center;
 }
 .dnb-spacing .dnb-progress-indicator .dnb-p,
-.dnb-spacing .dnb-progress-indicator .dnb-p:not([class*=dnb-space]) {
+.dnb-spacing .dnb-progress-indicator .dnb-p:not([style*="--margin-"]) {
   margin: 0;
 }
 

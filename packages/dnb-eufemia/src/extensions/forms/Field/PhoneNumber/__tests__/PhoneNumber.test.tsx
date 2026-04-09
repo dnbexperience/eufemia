@@ -1193,10 +1193,10 @@ describe('Field.PhoneNumber', () => {
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['class', 'aria-labelledby', 'id'])
+    expect(attributes).toEqual(['style', 'class', 'aria-labelledby', 'id'])
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 2rem')
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
-      'dnb-space__top--large',
       'dnb-forms-field-block',
       'dnb-forms-field-phone-number',
       'dnb-forms-field-block__composition',

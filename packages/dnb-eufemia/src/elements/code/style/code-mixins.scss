@@ -10,7 +10,7 @@
     text-decoration: line-through;
   }
 
-  &:not([class*='dnb-space']) {
+  &:not([style*='--margin-']) {
     margin: calc(-0.25em / #{$code-scale}) 0;
   }
   padding: calc(0.25em / #{$code-scale});

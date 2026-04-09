@@ -150,8 +150,8 @@ describe('Logo component', () => {
     expect(Array.from(element.classList)).toEqual([
       'dnb-logo',
       'dnb-logo--ui',
-      'dnb-space__top--large',
     ])
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 2rem')
   })
 
   it('should have a certain set of HTML classes', () => {
@@ -182,8 +182,9 @@ describe('Logo component', () => {
       'role',
       'aria-hidden',
       'class',
-      'alt',
       'title',
+      'style',
+      'alt',
     ])
   })
 

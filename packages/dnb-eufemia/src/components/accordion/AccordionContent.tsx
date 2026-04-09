@@ -15,7 +15,7 @@ import {
 import { useMediaQuery } from '../../shared'
 import type { AccordionContextValue } from './AccordionContext'
 import AccordionContext from './AccordionContext'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingHelper'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import type { SpacingProps } from '../../shared/types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
@@ -148,14 +148,11 @@ export default function AccordionContent(props: AccordionContentProps) {
 
   const keepInDOMContent = keepInDOM || preventRerender
 
-  const innerParams = {
+  const innerParams = applySpacing(rest, {
     id: `${id}-content`,
     'aria-labelledby': `${id}-header`,
-    className: clsx(
-      'dnb-accordion__content__inner',
-      createSpacingClasses(rest)
-    ),
-  } as HTMLProps<HTMLElement>
+    className: clsx('dnb-accordion__content__inner'),
+  }) as HTMLProps<HTMLElement>
 
   if (expanded) {
     innerParams['aria-expanded'] = true

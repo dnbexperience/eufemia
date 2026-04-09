@@ -10,7 +10,10 @@ import {
   validateDOMAttributes,
   extendPropsWithContext,
 } from '../shared/component-helper'
-import { createSpacingClasses } from '../components/space/SpacingHelper'
+import {
+  createSpacingClasses,
+  createSpacingProperties,
+} from '../components/space/SpacingHelper'
 import type { SkeletonMethods } from '../components/skeleton/SkeletonHelper'
 import {
   createSkeletonClass,
@@ -87,6 +90,8 @@ function Element(localProps: ElementAllProps) {
     )
   )
 
+  const spacingStyle = createSpacingProperties(attributes)
+
   validateDOMAttributes(null, attributes)
 
   skeletonDOMAttributes(attributes, skeleton, context)
@@ -101,7 +106,16 @@ function Element(localProps: ElementAllProps) {
     return <>{attributes.children as React.ReactNode}</>
   }
 
-  return <Tag className={internalClassName} {...attributes} />
+  return (
+    <Tag
+      className={internalClassName}
+      {...attributes}
+      style={{
+        ...(attributes.style as React.CSSProperties),
+        ...spacingStyle,
+      }}
+    />
+  )
 }
 
 export default Element

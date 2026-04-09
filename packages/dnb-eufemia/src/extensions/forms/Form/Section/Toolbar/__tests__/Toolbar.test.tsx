@@ -16,8 +16,10 @@ describe('Toolbar', () => {
     )
 
     expect(
-      document.querySelector('.dnb-forms-section-toolbar')
-    ).toHaveClass('dnb-space__top--large')
+      document
+        .querySelector('.dnb-forms-section-toolbar')
+        .getAttribute('style')
+    ).toContain('--margin-t-')
   })
 
   it('has buttons/tools by default', () => {

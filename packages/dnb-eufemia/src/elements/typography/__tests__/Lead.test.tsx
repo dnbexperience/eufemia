@@ -32,11 +32,11 @@ describe('Lead', () => {
       '.dnb-p--lead'
     ) as HTMLParagraphElement
 
-    expect(element.classList).toContain('dnb-space__top--x-large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
 
     rerender(<Lead top="x-small">Space Paragraph</Lead>)
 
-    expect(element.classList).toContain('dnb-space__top--x-small')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should contain given classes', () => {

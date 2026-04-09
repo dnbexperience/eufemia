@@ -86,7 +86,7 @@
   }
 
   // Show only one border (combined) when stacked
-  & + .dnb-card--responsive:not([class*='space__top']) {
+  & + .dnb-card--responsive:not([style*='--margin-t-']) {
     @include utilities.allBelow(small) {
       &::before {
         top: var(--outline-width);

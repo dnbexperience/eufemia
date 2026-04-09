@@ -141,7 +141,7 @@ describe('Stat.Percent', () => {
 
     const root = document.querySelector('.dnb-stat')
 
-    expect(root.classList).toContain('dnb-space__top--large')
+    expect(root.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should validate with ARIA rules', async () => {

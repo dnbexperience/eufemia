@@ -35,9 +35,9 @@ describe('Table.ScrollView', () => {
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-scroll-view',
-      'dnb-space__top--large',
       'dnb-table__scroll-view',
     ])
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 2rem')
   })
 
   it('should have tabindex="0"', () => {

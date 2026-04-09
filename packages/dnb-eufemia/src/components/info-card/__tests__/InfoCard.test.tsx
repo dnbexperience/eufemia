@@ -299,10 +299,10 @@ describe('InfoCard', () => {
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['class'])
+    expect(attributes).toEqual(['class', 'style'])
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 2rem')
     expect(Array.from(element.classList)).toEqual([
       'dnb-info-card',
-      'dnb-space__top--large',
       'dnb-info-card--shadow',
     ])
   })

@@ -147,7 +147,7 @@ describe('Stat.Content', () => {
 
     const content = document.querySelector('.dnb-stat__content-item')
 
-    expect(content.classList).toContain('dnb-space__top--large')
+    expect(content.getAttribute('style')).toContain('--margin-t-')
 
     spy.mockRestore()
   })

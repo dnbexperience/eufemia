@@ -3,7 +3,8 @@
  *
  */
 
-import { warn } from '../../shared/component-helper'
+import clsx from 'clsx'
+import type { ClassValue } from 'clsx'
 
 import type {
   SpaceType,
@@ -75,16 +76,72 @@ export const calc = (...types: Array<SpaceType>) => {
  * Creates a valid space CSS style out from given space types
  *
  * @param props
- * @returns { '--space-b-l': '2rem', '--space-t-l': '1rem' }
+ * @returns { '--space-b-l': '2rem', '--margin-t-l': '2rem' }
  */
 export const createSpacingProperties = (
   props: InnerSpacingProps
 ): React.CSSProperties => {
+  const result: Record<string, string> = {}
+
   if (props?.innerSpace) {
-    return computeProperties(props.innerSpace)
+    Object.assign(result, computeProperties(props.innerSpace, '--space'))
   }
 
-  return {}
+  const marginSpace = resolveMarginSpace(props)
+  if (marginSpace) {
+    Object.assign(result, computeProperties(marginSpace, '--margin'))
+  }
+
+  return result as React.CSSProperties
+}
+
+/**
+ * Resolves space/top/right/bottom/left props into a directions object
+ * suitable for computeProperties.
+ */
+function resolveMarginSpace(
+  props: InnerSpacingProps
+): InnerSpacingElementProps | null {
+  const p = { ...props } as Record<string, unknown>
+
+  if (typeof p.space !== 'undefined') {
+    if (
+      typeof p.space === 'string' ||
+      typeof p.space === 'number' ||
+      (typeof p.space === 'boolean' && p.space)
+    ) {
+      p.left = p.left ?? p.space
+      p.bottom = p.bottom ?? p.space
+      p.right = p.right ?? p.space
+      p.top = p.top ?? p.space
+    }
+    if (typeof p.space === 'object') {
+      for (const key in p.space as Record<string, unknown>) {
+        if (
+          isValidMarginProp(key) &&
+          (p[key] === undefined || p[key] === null)
+        ) {
+          p[key] = (p.space as Record<string, unknown>)[key]
+        }
+      }
+    }
+  }
+
+  const result: Record<string, SpaceType> = {}
+  let hasValues = false
+
+  for (const dir of ['top', 'right', 'bottom', 'left'] as const) {
+    if (p[dir] !== undefined && p[dir] !== null) {
+      result[dir] = p[dir] as SpaceType
+      hasValues = true
+    }
+  }
+
+  return hasValues ? (result as InnerSpacingElementProps) : null
+}
+
+function isValidMarginProp(propName: string) {
+  return ['top', 'right', 'bottom', 'left'].includes(propName)
 }
 
 function hasMediaSize(media: InnerSpaceTypeMedia) {
@@ -108,7 +165,7 @@ function hasSize(space: InnerSpacingElementProps) {
   )
 }
 
-function computeProperties(space: InnerSpaceType) {
+function computeProperties(space: InnerSpaceType, prefix = '--space') {
   if (!hasMediaSize(space as InnerSpaceTypeMedia)) {
     space = {
       small: space,
@@ -126,7 +183,7 @@ function computeProperties(space: InnerSpaceType) {
     for (const key in props as InnerSpaceTypeMedia) {
       if (isValidInnerSpaceProp(key)) {
         const cur = props[key]
-        const name = `--space-${key[0]}-${size[0]}`
+        const name = `${prefix}-${key[0]}-${size[0]}`
 
         if (String(cur) === '0' || String(cur) === 'false') {
           result[name] = '0'
@@ -178,11 +235,13 @@ function isValidInnerSpaceProp(propName: string) {
 }
 
 /**
- * Creates a valid space CSS class out from given space types
+ * Creates non-margin space CSS classes (noCollapse, inline, etc.).
+ * Margin spacing is now handled entirely by CSS custom properties
+ * via createSpacingProperties.
  *
  * @param props
- * @param Element to check if it should be handled as inline
- * @returns "dnb-space__large dnb-space__small"
+ * @param elementName - Element to check if it should be handled as inline
+ * @returns string[]
  */
 export const createSpacingClasses = (
   props:
@@ -195,55 +254,8 @@ export const createSpacingClasses = (
 ): string[] => {
   const p = Object.isFrozen(props) ? { ...props } : props
 
-  if (typeof p.space !== 'undefined') {
-    if (
-      typeof p.space === 'string' ||
-      typeof p.space === 'number' ||
-      (typeof p.space === 'boolean' && p.space)
-    ) {
-      p.left = p.left ?? p.space
-      p.bottom = p.bottom ?? p.space
-      p.right = p.right ?? p.space
-      p.top = p.top ?? p.space
-    }
-    if (typeof p.space === 'object') {
-      for (const i in p.space) {
-        if (!p[i] && isValidSpaceProp(i)) {
-          p[i] = p.space[i]
-        }
-      }
-    }
-    delete p.space
-  }
-
-  return Object.entries(p).reduce<string[]>((acc, [direction, cur]) => {
-    if (isValidSpaceProp(direction) && direction !== 'innerSpace') {
-      if (String(cur) === '0' || String(cur) === 'false') {
-        acc.push(`dnb-space__${direction}--zero`)
-      } else if (cur) {
-        const typeModifiers = createTypeModifiers(cur as SpaceType)
-
-        // get the total sum
-        const sum = sumTypes(typeModifiers)
-        if (sum > 10) {
-          warn(
-            `Spacing of more than 10rem is not supported! You used ${sum} / (${typeModifiers.join(
-              ','
-            )})`
-          )
-        } else {
-          // auto combine classes
-          const nearestTypes = findNearestTypes(sum, true)
-
-          acc = [
-            ...acc,
-            ...nearestTypes.map(
-              (type) => `dnb-space__${direction}--${type}`
-            ),
-          ]
-        }
-      }
-    } else if (direction === 'noCollapse') {
+  return Object.entries(p).reduce<string[]>((acc, [direction]) => {
+    if (direction === 'noCollapse') {
       acc.push('dnb-space--no-collapse')
       if (elementName && isInline(elementName)) {
         acc.push('dnb-space--inline')
@@ -252,6 +264,82 @@ export const createSpacingClasses = (
 
     return acc
   }, [])
+}
+
+export type SpacingReturn = {
+  className: string[]
+  style: React.CSSProperties | undefined
+}
+
+/**
+ * Combined helper that returns both CSS classes and margin/padding
+ * CSS custom properties for spacing. Components should spread
+ * both into their root element.
+ *
+ * @param props - component props containing spacing properties
+ * @param elementName - optional element name for inline detection
+ * @returns { className: string[], style: React.CSSProperties | undefined }
+ */
+export const createSpacing = (
+  props: SpacingProps | SpacingUnknownProps | InnerSpacingProps,
+  elementName: string | null = null
+): SpacingReturn => {
+  const style = createSpacingProperties(props as InnerSpacingProps)
+  return {
+    className: createSpacingClasses(props, elementName),
+    style: Object.keys(style).length > 0 ? style : undefined,
+  }
+}
+
+export type ApplySpacingTarget = {
+  className?: ClassValue
+  style?: React.CSSProperties
+} & Record<string, unknown>
+
+/**
+ * Applies spacing to an existing props object by appending spacing CSS
+ * classes to `className` and merging spacing CSS custom properties into
+ * `style`. Returns a new object; the input is not mutated.
+ *
+ * Prefer this over calling `createSpacingClasses` / `createSpacingProperties`
+ * manually — this helper gets the merge order right (spacing does not
+ * clobber user-supplied style, and user-supplied style does not clobber
+ * spacing custom properties).
+ *
+ * @example
+ *   const mainParams = applySpacing(props, {
+ *     ...attributes,
+ *     className: clsx('dnb-button', className),
+ *   })
+ *
+ * @param props - component props containing spacing properties
+ *                (top, right, bottom, left, space, innerSpace, noCollapse)
+ * @param target - props object to merge spacing into
+ * @param elementName - optional element name for inline detection
+ * @returns a new object of the same shape as `target`, with spacing merged in
+ */
+export const applySpacing = <T extends ApplySpacingTarget>(
+  props: SpacingProps | SpacingUnknownProps | InnerSpacingProps,
+  target: T,
+  elementName: string | null = null
+): T => {
+  const style = createSpacingProperties(props as InnerSpacingProps)
+  const classes = createSpacingClasses(props, elementName)
+
+  const hasStyle = Object.keys(style).length > 0
+  const hasClasses = classes.length > 0
+
+  if (!hasStyle && !hasClasses) {
+    return target
+  }
+
+  return {
+    ...target,
+    className: hasClasses
+      ? clsx(target.className, ...classes)
+      : target.className,
+    style: hasStyle ? { ...target.style, ...style } : target.style,
+  }
 }
 
 // @internal splits types by given string

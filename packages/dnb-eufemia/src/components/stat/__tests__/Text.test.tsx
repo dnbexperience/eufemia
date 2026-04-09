@@ -107,7 +107,7 @@ describe('Stat.Text', () => {
 
     const text = document.querySelector('.dnb-stat__text')
 
-    expect(text.classList).toContain('dnb-space__top--large')
+    expect(text.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('supports id, style and className props', () => {

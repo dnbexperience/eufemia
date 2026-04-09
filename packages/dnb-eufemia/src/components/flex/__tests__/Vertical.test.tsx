@@ -26,11 +26,11 @@ describe('Flex.Vertical', () => {
       '.dnb-flex-container--direction-vertical'
     )
 
-    expect(element.classList).toContain('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
 
     rerender(<Flex.Vertical top="x-large">content</Flex.Vertical>)
 
-    expect(element.classList).toContain('dnb-space__top--x-large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should contain given classes', () => {
@@ -92,16 +92,16 @@ describe('Flex.Vertical', () => {
     )
     const children = element.children
 
-    expect(children[0].className).toContain('dnb-space__top--zero')
-    expect(children[0].className).toContain('dnb-space__bottom--zero')
+    expect(children[0].getAttribute('style')).toContain('--margin-t-')
+    expect(children[0].getAttribute('style')).toContain('--margin-b-')
     expect(children[0].className).toContain('dnb-flex-item')
 
-    expect(children[1].className).toContain('dnb-space__top--small')
-    expect(children[1].className).toContain('dnb-space__bottom--zero')
+    expect(children[1].getAttribute('style')).toContain('--margin-t-')
+    expect(children[1].getAttribute('style')).toContain('--margin-b-')
     expect(children[1].className).toContain('dnb-flex-item')
 
-    expect(children[2].className).toContain('dnb-space__top--small')
-    expect(children[2].className).toContain('dnb-space__bottom--zero')
+    expect(children[2].getAttribute('style')).toContain('--margin-t-')
+    expect(children[2].getAttribute('style')).toContain('--margin-b-')
     expect(children[2].className).toContain('dnb-flex-item')
   })
 })

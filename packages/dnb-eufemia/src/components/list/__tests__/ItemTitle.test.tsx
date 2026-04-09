@@ -112,8 +112,8 @@ describe('ItemTitle', () => {
 
     const element = document.querySelector('.dnb-list__item__title')
 
-    expect(element.classList).toContain('dnb-space__top--small')
-    expect(element.classList).toContain('dnb-space__bottom--medium')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
+    expect(element.getAttribute('style')).toContain('--margin-b-')
   })
 
   it('declares _supportsSpacingProps for flex layout', () => {

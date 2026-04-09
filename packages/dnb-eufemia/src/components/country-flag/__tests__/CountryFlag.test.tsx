@@ -69,7 +69,7 @@ describe('CountryFlag', () => {
 
     const element = document.querySelector('.dnb-country-flag')
 
-    expect(element).toHaveClass('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should forward ref', () => {

@@ -635,10 +635,10 @@ describe('DateFormat', () => {
 
         const element = document.querySelector('.dnb-date-format')
 
-        expect(Array.from(element.classList)).toEqual([
-          'dnb-date-format',
-          'dnb-space__top--large',
-        ])
+        expect(Array.from(element.classList)).toEqual(['dnb-date-format'])
+        expect(element.getAttribute('style')).toContain(
+          '--margin-t-s: 2rem'
+        )
       })
     })
 
@@ -671,7 +671,6 @@ describe('DateFormat', () => {
         const element = document.querySelector('.dnb-date-format')
         expect(Array.from(element.classList)).toEqual([
           'dnb-date-format',
-          'dnb-space__top--large',
           'dnb-skeleton',
           'dnb-skeleton--font',
         ])
@@ -1224,10 +1223,7 @@ describe('DateFormat', () => {
         render(<DateFormat value={pastDate} relativeTime top="2rem" />)
 
         const element = document.querySelector('.dnb-date-format')
-        expect(Array.from(element.classList)).toEqual([
-          'dnb-date-format',
-          'dnb-space__top--large',
-        ])
+        expect(Array.from(element.classList)).toEqual(['dnb-date-format'])
       })
 
       it('should support multiple spacing props', () => {
@@ -1243,12 +1239,7 @@ describe('DateFormat', () => {
         )
 
         const element = document.querySelector('.dnb-date-format')
-        expect(Array.from(element.classList)).toEqual([
-          'dnb-date-format',
-          'dnb-space__top--large',
-          'dnb-space__bottom--small',
-          'dnb-space__left--small',
-        ])
+        expect(Array.from(element.classList)).toEqual(['dnb-date-format'])
       })
     })
 
@@ -1281,7 +1272,6 @@ describe('DateFormat', () => {
         const element = document.querySelector('.dnb-date-format')
         expect(Array.from(element.classList)).toEqual([
           'dnb-date-format',
-          'dnb-space__top--large',
           'dnb-skeleton',
           'dnb-skeleton--font',
         ])
@@ -1584,10 +1574,7 @@ describe('DateFormat', () => {
       render(<DateFormat value="PT2H30M" top="2rem" />)
 
       const element = document.querySelector('.dnb-date-format')
-      expect(Array.from(element.classList)).toEqual([
-        'dnb-date-format',
-        'dnb-space__top--large',
-      ])
+      expect(Array.from(element.classList)).toEqual(['dnb-date-format'])
     })
 
     it('should support skeleton with duration', () => {

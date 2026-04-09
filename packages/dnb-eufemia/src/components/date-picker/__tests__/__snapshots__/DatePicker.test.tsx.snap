@@ -364,14 +364,14 @@ button .dnb-form-status__text {
 .dnb-form-status__text .dnb-anchor {
   font-size: inherit;
 }
-.dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
+.dnb-form-status__text .dnb-ul:not([style*="--margin-l-"]) {
   padding-left: 1rem;
 }
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
+.dnb-spacing .dnb-form-status__text .dnb-ul:not([style*="--margin-b-"]) .dnb-li {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
+.dnb-spacing .dnb-form-status__text .dnb-ul:not([style*="--margin-b-"]) {
   margin-bottom: 0.5rem;
 }
 .dnb-form-status__text {
@@ -2177,16 +2177,16 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 .dnb-radio-group, .dnb-radio-group__fieldset, .dnb-radio-group__shell {
   flex-grow: 1;
 }
-.dnb-radio-group fieldset:not([class*=space__top]) {
+.dnb-radio-group fieldset:not([style*="--margin-t-"]) {
   margin-top: 0;
 }
-.dnb-radio-group fieldset:not([class*=space__bottom]) {
+.dnb-radio-group fieldset:not([style*="--margin-b-"]) {
   margin-bottom: 0;
 }
-.dnb-radio-group fieldset:not([class*=space__left]) {
+.dnb-radio-group fieldset:not([style*="--margin-l-"]) {
   margin-left: 0;
 }
-.dnb-radio-group fieldset:not([class*=space__right]) {
+.dnb-radio-group fieldset:not([style*="--margin-r-"]) {
   margin-right: 0;
 }
 .dnb-radio-group fieldset {
@@ -2409,16 +2409,16 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not
 .dnb-toggle-button-group, .dnb-toggle-button-group__fieldset, .dnb-toggle-button-group__shell {
   flex-grow: 1;
 }
-.dnb-toggle-button-group fieldset:not([class*=space__top]) {
+.dnb-toggle-button-group fieldset:not([style*="--margin-t-"]) {
   margin-top: 0;
 }
-.dnb-toggle-button-group fieldset:not([class*=space__bottom]) {
+.dnb-toggle-button-group fieldset:not([style*="--margin-b-"]) {
   margin-bottom: 0;
 }
-.dnb-toggle-button-group fieldset:not([class*=space__left]) {
+.dnb-toggle-button-group fieldset:not([style*="--margin-l-"]) {
   margin-left: 0;
 }
-.dnb-toggle-button-group fieldset:not([class*=space__right]) {
+.dnb-toggle-button-group fieldset:not([style*="--margin-r-"]) {
   margin-right: 0;
 }
 .dnb-toggle-button-group fieldset {
@@ -2786,16 +2786,16 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
 .dnb-date-picker .dnb-input__submit-button .dnb-button.dnb-skeleton {
   visibility: hidden;
 }
-.dnb-date-picker__fieldset:not([class*=space__top]), .dnb-core-style .dnb-date-picker__fieldset:not([class*=space__top]) {
+.dnb-date-picker__fieldset:not([style*="--margin-t-"]), .dnb-core-style .dnb-date-picker__fieldset:not([style*="--margin-t-"]) {
   margin-top: 0;
 }
-.dnb-date-picker__fieldset:not([class*=space__bottom]), .dnb-core-style .dnb-date-picker__fieldset:not([class*=space__bottom]) {
+.dnb-date-picker__fieldset:not([style*="--margin-b-"]), .dnb-core-style .dnb-date-picker__fieldset:not([style*="--margin-b-"]) {
   margin-bottom: 0;
 }
-.dnb-date-picker__fieldset:not([class*=space__left]), .dnb-core-style .dnb-date-picker__fieldset:not([class*=space__left]) {
+.dnb-date-picker__fieldset:not([style*="--margin-l-"]), .dnb-core-style .dnb-date-picker__fieldset:not([style*="--margin-l-"]) {
   margin-left: 0;
 }
-.dnb-date-picker__fieldset:not([class*=space__right]), .dnb-core-style .dnb-date-picker__fieldset:not([class*=space__right]) {
+.dnb-date-picker__fieldset:not([style*="--margin-r-"]), .dnb-core-style .dnb-date-picker__fieldset:not([style*="--margin-r-"]) {
   margin-right: 0;
 }
 .dnb-date-picker__fieldset, .dnb-core-style .dnb-date-picker__fieldset {

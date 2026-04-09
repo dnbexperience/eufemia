@@ -429,27 +429,26 @@ describe('Visibility', () => {
     expect(document.querySelectorAll('p')).toHaveLength(2)
 
     const [first, second] = Array.from(document.querySelectorAll('p'))
-    expect(first).toHaveClass(
-      'dnb-p dnb-space__top--zero dnb-space__bottom--zero'
-    )
-    expect(second).toHaveClass(
-      'dnb-p dnb-space__top--medium dnb-space__bottom--zero'
-    )
+    expect(first).toHaveClass('dnb-p ')
+    expect(second).toHaveClass('dnb-p ')
 
     const container = document.querySelector(
       '.dnb-flex-container > .dnb-flex-container'
     )
     expect(container).toMatchInlineSnapshot(`
       <section
-        class="dnb-space dnb-space__top--medium dnb-space__bottom--zero dnb-flex-container dnb-flex-stack dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-stretch dnb-flex-container--align-self-stretch dnb-flex-container--spacing-medium dnb-flex-container--wrap dnb-flex-container--divider-space"
+        class="dnb-space dnb-flex-container dnb-flex-stack dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-stretch dnb-flex-container--align-self-stretch dnb-flex-container--spacing-medium dnb-flex-container--wrap dnb-flex-container--divider-space"
+        style="--margin-t-s: 1.5rem; --margin-b-s: 0; --margin-t-m: 1.5rem; --margin-b-m: 0; --margin-t-l: 1.5rem; --margin-b-l: 0;"
       >
         <p
-          class="dnb-p dnb-space__top--zero dnb-space__bottom--zero"
+          class="dnb-p"
+          style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
         >
           This is visible 1
         </p>
         <p
-          class="dnb-p dnb-space__top--medium dnb-space__bottom--zero"
+          class="dnb-p"
+          style="--margin-t-s: 1.5rem; --margin-b-s: 0; --margin-t-m: 1.5rem; --margin-b-m: 0; --margin-t-l: 1.5rem; --margin-b-l: 0;"
         >
           This is visible 2
         </p>

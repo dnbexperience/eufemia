@@ -2903,4 +2903,52 @@ For example, update:
 
 An ESLint rule (`naming-conventions/no-bare-props-export`) is now enforced to prevent re-introducing bare `Props` exports.
 
+## Space margin CSS variables
+
+The `space`, `top`, `right`, `bottom`, and `left` spacing props now additionally apply margins via CSS custom properties (the same approach used by `innerSpace` for padding). The existing class-based margins (`dnb-space__top--large`, etc.) are still generated for backward compatibility, but the CSS variable approach (`--margin-t-s`, `--margin-t-m`, `--margin-t-l`) is now also applied.
+
+This change does **not** affect the visual outcome for default usage. However, it can break UI in specific scenarios:
+
+### Custom CSS targeting spacing class names
+
+If you have custom CSS that overrides margins by targeting spacing class names, the CSS custom property rule may take precedence depending on specificity and source order:
+
+**Before (v10) — custom override works:**
+
+```css
+/* Your app-level override to remove top spacing from a card */
+.my-card .dnb-space__top--large {
+  margin-top: 0;
+}
+```
+
+**After (v11) — may no longer work:**
+
+The `[style*='--margin-t-']` attribute selector applies `margin-top` from the CSS variable, which can override your class-based rule depending on CSS specificity. To fix, use higher specificity or override the CSS variable:
+
+```css
+.my-card[style*='--margin-t-'] {
+  --margin-top: 0;
+}
+```
+
+### Overridden spacing tokens in themes
+
+Spacing values like `large`, `small`, etc. are now pre-computed to `rem` values (e.g., `2rem` for `large`) in the CSS variables. Previously, the class-based approach used `var(--spacing-large)`, which respected runtime overrides of spacing tokens. If you customize `--spacing-large` in your theme, margins applied via the CSS variable approach use the pre-computed value instead.
+
+**Example:**
+
+```css
+/* Your custom theme override */
+:root {
+  --spacing-large: 3rem;
+}
+```
+
+```tsx
+<Space top="large">Content</Space>
+```
+
+In v10, `margin-top` would be `3rem` (from `var(--spacing-large)`). In v11, the CSS variable approach sets `--margin-t-l: 2rem` (pre-computed), which may take priority over the class-based `var(--spacing-large)` rule. The effective margin depends on CSS specificity and context.
+
 _January 23, 2026_

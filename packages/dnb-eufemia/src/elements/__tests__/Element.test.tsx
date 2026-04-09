@@ -40,16 +40,14 @@ describe('Element', () => {
 
     const element = document.querySelector('.dnb-p')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-space__top--medium',
-      'dnb-p',
-    ])
+    expect(Array.from(element.classList)).toEqual(['dnb-p'])
 
     const attributes = Array.from(element.attributes).map(
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['class'])
+    expect(attributes).toEqual(['class', 'style'])
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 1.5rem')
   })
 
   it('should render children', () => {

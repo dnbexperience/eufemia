@@ -287,9 +287,9 @@ describe('Textarea component', () => {
       'dnb-textarea',
       'dnb-textarea--virgin',
       'dnb-form-component',
-      'dnb-space__top--large',
       'dnb-textarea--vertical',
     ])
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 2rem')
   })
 
   it('should inherit formElement vertical label', () => {

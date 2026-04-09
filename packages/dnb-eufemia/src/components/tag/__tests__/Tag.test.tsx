@@ -97,11 +97,9 @@ describe('Tag Group', () => {
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-tag__group',
-      'dnb-space__top--large',
-    ])
+    expect(attributes).toEqual(['class', 'style'])
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 2rem')
+    expect(Array.from(element.classList)).toEqual(['dnb-tag__group'])
   })
 })
 
@@ -240,12 +238,11 @@ describe('Tag', () => {
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['class'])
+    expect(attributes).toEqual(['class', 'style'])
     expect(Array.from(element.classList)).toEqual([
       'dnb-button',
       'dnb-button--unstyled',
       'dnb-button--has-text',
-      'dnb-space__left--large',
       'dnb-tag',
       'dnb-tag--default',
       'dnb-button--size-small',

@@ -69,9 +69,7 @@ describe('StepIndicator in general', () => {
 
     const element = document.querySelector('.dnb-step-indicator')
 
-    expect(Array.from(element.classList)).toContain(
-      'dnb-space__top--large'
-    )
+    expect(element.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should support spacing props in static mode', () => {
@@ -86,9 +84,7 @@ describe('StepIndicator in general', () => {
 
     const element = document.querySelector('.dnb-step-indicator')
 
-    expect(Array.from(element.classList)).toContain(
-      'dnb-space__top--large'
-    )
+    expect(element.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should support aria-labelledby', () => {

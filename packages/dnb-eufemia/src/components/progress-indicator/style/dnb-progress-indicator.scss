@@ -44,7 +44,7 @@
 
   @at-root .dnb-spacing & {
     .dnb-p,
-    .dnb-p:not([class*='dnb-space']) {
+    .dnb-p:not([style*='--margin-']) {
       margin: 0;
     }
   }

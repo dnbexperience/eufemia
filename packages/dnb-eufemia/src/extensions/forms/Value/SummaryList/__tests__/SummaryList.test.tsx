@@ -91,11 +91,11 @@ describe('Value.SummaryList', () => {
     )
     const element = document.querySelector('.dnb-forms-summary-list')
 
-    expect(element.classList).toContain('dnb-space__top--x-large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
 
     rerender(<SummaryList top="x-small">Space Summary</SummaryList>)
 
-    expect(element.classList).toContain('dnb-space__top--x-small')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should contain given classes', () => {

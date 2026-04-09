@@ -694,7 +694,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   flex-direction: column;
 }
 
-.dnb-table__container__body .dnb-table:not([class*=space__bottom]) {
+.dnb-table__container__body .dnb-table:not([style*="--margin-b-"]) {
   margin-bottom: 0;
 }
 
@@ -741,7 +741,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   min-height: 1.5rem;
 }
 
-.dnb-spacing .dnb-table__container__head .dnb-h--large:not([class*=space__top]) {
+.dnb-spacing .dnb-table__container__head .dnb-h--large:not([style*="--margin-t-"]) {
   margin: 0;
 }
 

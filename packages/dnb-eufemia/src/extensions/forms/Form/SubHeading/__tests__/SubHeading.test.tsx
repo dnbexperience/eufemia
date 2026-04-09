@@ -25,11 +25,11 @@ describe('Form.SubHeading', () => {
     )
     const element = document.querySelector('.dnb-forms-sub-heading')
 
-    expect(element.classList).toContain('dnb-space__top--x-large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
 
     rerender(<SubHeading top="x-small">Space Heading</SubHeading>)
 
-    expect(element.classList).toContain('dnb-space__top--x-small')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should contain given classes', () => {

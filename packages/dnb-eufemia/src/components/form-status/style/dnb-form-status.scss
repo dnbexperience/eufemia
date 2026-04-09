@@ -90,10 +90,10 @@
     .dnb-anchor {
       font-size: inherit;
     }
-    .dnb-ul:not([class*='dnb-space__left']) {
+    .dnb-ul:not([style*='--margin-l-']) {
       padding-left: 1rem;
     }
-    .dnb-spacing & .dnb-ul:not([class*='dnb-space__bottom']) {
+    .dnb-spacing & .dnb-ul:not([style*='--margin-b-']) {
       .dnb-li {
         margin-top: 0.5rem;
         margin-bottom: 0.5rem;

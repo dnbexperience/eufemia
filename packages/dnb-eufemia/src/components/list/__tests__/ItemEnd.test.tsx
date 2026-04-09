@@ -87,8 +87,8 @@ describe('ItemEnd', () => {
     )
 
     const element = document.querySelector('.dnb-flex-item')
-    expect(element.classList).toContain('dnb-space__top--small')
-    expect(element.classList).toContain('dnb-space__right--large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
+    expect(element.getAttribute('style')).toContain('--margin-r-')
   })
 
   it('declares _supportsSpacingProps for flex layout', () => {

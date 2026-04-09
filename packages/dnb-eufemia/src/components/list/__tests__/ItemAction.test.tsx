@@ -165,8 +165,8 @@ describe('ItemAction', () => {
 
     const element = document.querySelector('.dnb-list__item__action')
 
-    expect(element.classList).toContain('dnb-space__top--large')
-    expect(element.classList).toContain('dnb-space__bottom--small')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
+    expect(element.getAttribute('style')).toContain('--margin-b-')
   })
 
   it('applies skeleton font class when skeleton is true', () => {

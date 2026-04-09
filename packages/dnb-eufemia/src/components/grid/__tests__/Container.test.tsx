@@ -29,7 +29,7 @@ describe('Grid.Container', () => {
     )
     const element = document.querySelector('.dnb-grid-container ')
 
-    expect(element.classList).toContain('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
 
     rerender(
       <Grid.Container top="x-large">
@@ -37,7 +37,7 @@ describe('Grid.Container', () => {
       </Grid.Container>
     )
 
-    expect(element.classList).toContain('dnb-space__top--x-large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should set columnGap and rowGap', () => {

@@ -3,7 +3,7 @@
 .dnb-forms-main-heading {
   // Reset inherited spacing
   .dnb-spacing & {
-    &.dnb-h--large:not([class*='space__']) {
+    &.dnb-h--large:not([style*='--margin-']) {
       margin: 0;
     }
   }

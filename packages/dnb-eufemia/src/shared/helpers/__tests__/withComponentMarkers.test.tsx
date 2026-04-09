@@ -8,7 +8,7 @@ import {
 } from '../../../components/flex/utils'
 import FieldBlock from '../../../extensions/forms/FieldBlock/FieldBlock'
 import Flex from '../../../components/flex/Flex'
-import { createSpacingClasses } from '../../../components/space/SpacingHelper'
+import { createSpacing } from '../../../components/space/SpacingHelper'
 import type { SpacingProps } from '../../../components/space/types'
 
 describe('withComponentMarkers', () => {
@@ -197,11 +197,17 @@ describe('withComponentMarkers', () => {
   })
 
   describe('_supportsSpacingProps behavior', () => {
-    it('should apply spacing classes directly when _supportsSpacingProps is true', () => {
+    it('should apply spacing style directly when _supportsSpacingProps is true', () => {
       function TestItem(props: SpacingProps) {
-        const cn = createSpacingClasses(props)
-        cn.push('test-item')
-        return <div className={cn.join(' ')}>content</div>
+        const { className, style } = createSpacing(props)
+        return (
+          <div
+            className={[...className, 'test-item'].join(' ')}
+            style={style}
+          >
+            content
+          </div>
+        )
       }
       withComponentMarkers(TestItem, { _supportsSpacingProps: true })
 
@@ -213,13 +219,13 @@ describe('withComponentMarkers', () => {
       )
 
       // When _supportsSpacingProps is true, no wrapping Space element is added
-      const items = document.querySelectorAll('.test-item')
+      const items = document.querySelectorAll<HTMLElement>('.test-item')
       expect(items).toHaveLength(2)
 
-      // Spacing classes are applied directly to the component's root
+      // Spacing is applied directly to the component's root via CSS custom properties
       items.forEach((item) => {
-        expect(item.className).toMatch(/dnb-space__top/)
-        expect(item.className).toMatch(/dnb-space__bottom/)
+        expect(item.getAttribute('style')).toMatch(/--margin-t-/)
+        expect(item.getAttribute('style')).toMatch(/--margin-b-/)
       })
 
       // No extra wrapping Space elements
@@ -268,9 +274,15 @@ describe('withComponentMarkers', () => {
 
     it('should pass spacing to children when _supportsSpacingProps is "children"', () => {
       function ChildItem(props: SpacingProps) {
-        const cn = createSpacingClasses(props)
-        cn.push('child-item')
-        return <div className={cn.join(' ')}>child</div>
+        const { className, style } = createSpacing(props)
+        return (
+          <div
+            className={[...className, 'child-item'].join(' ')}
+            style={style}
+          >
+            child
+          </div>
+        )
       }
       withComponentMarkers(ChildItem, { _supportsSpacingProps: true })
 

@@ -147,8 +147,8 @@ describe('Button component', () => {
     expect(Array.from(element.classList)).toEqual([
       'dnb-button',
       'dnb-button--primary',
-      'dnb-space__top--large',
     ])
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 2rem')
   })
 
   it('should inherit disabled from formElement', () => {

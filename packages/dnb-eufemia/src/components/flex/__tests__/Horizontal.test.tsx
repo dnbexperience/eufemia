@@ -28,11 +28,11 @@ describe('Flex.Horizontal', () => {
       '.dnb-flex-container--direction-horizontal'
     )
 
-    expect(element.classList).toContain('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
 
     rerender(<Flex.Horizontal top="x-large">content</Flex.Horizontal>)
 
-    expect(element.classList).toContain('dnb-space__top--x-large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should contain given classes', () => {

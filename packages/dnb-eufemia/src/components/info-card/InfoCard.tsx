@@ -15,7 +15,7 @@ import P from '../../elements/P'
 import { lightbulb_medium as LightbulbIcon } from '../../icons'
 
 // Shared
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingHelper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
@@ -160,12 +160,21 @@ const InfoCard = (localProps: InfoCardAllProps) => {
     ...props
   } = allProps
 
-  const spacingClasses = createSpacingClasses(props)
-
   const closeButtonIsHidden = !onClose && !closeButtonText
   const acceptButtonIsHidden = !onAccept && !acceptButtonText
 
   validateDOMAttributes(allProps, props)
+
+  const rootProps = applySpacing(allProps, {
+    ...props,
+    className: clsx(
+      'dnb-info-card',
+      centered && 'dnb-info-card--centered',
+      stretch && 'dnb-info-card--stretch',
+      dropShadow && 'dnb-info-card--shadow',
+      className
+    ),
+  })
 
   const getButtons = useCallback(() => {
     if (closeButtonIsHidden && acceptButtonIsHidden) return null
@@ -226,17 +235,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
   }, [alt, icon, imgProps, src])
 
   return (
-    <div
-      className={clsx(
-        'dnb-info-card',
-        centered && 'dnb-info-card--centered',
-        stretch && 'dnb-info-card--stretch',
-        dropShadow && 'dnb-info-card--shadow',
-        spacingClasses,
-        className
-      )}
-      {...props}
-    >
+    <div {...rootProps}>
       <Provider skeleton={skeleton}>
         <Space
           right={!centered ? 'small' : false}

@@ -4,7 +4,7 @@ import { axeComponent } from '../../../core/jest/jestSetup'
 import 'mock-match-media/jest-setup'
 import { setMedia, matchMedia } from 'mock-match-media'
 import Flex from '../Flex'
-import { createSpacingClasses } from '../../space/SpacingUtils'
+import { createSpacing } from '../../space/SpacingUtils'
 import type { SpaceProps } from '../../Space'
 import { Form } from '../../../extensions/forms'
 import H1 from '../../../elements/H1'
@@ -35,7 +35,7 @@ describe('Flex.Container', () => {
     )
     const element = document.querySelector('.dnb-flex-container ')
 
-    expect(element.classList).toContain('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 2rem')
 
     rerender(
       <Flex.Container top="x-large">
@@ -43,7 +43,7 @@ describe('Flex.Container', () => {
       </Flex.Container>
     )
 
-    expect(element.classList).toContain('dnb-space__top--x-large')
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 3rem')
   })
 
   it('should have wrap enabled by default', () => {
@@ -168,14 +168,14 @@ describe('Flex.Container', () => {
     expect(children.length).toBe(3)
     expect(element).toHaveClass('dnb-flex-container--divider-space')
 
-    expect(children[0]).toHaveClass('dnb-space__top--zero')
-    expect(children[0]).toHaveClass('dnb-space__bottom--zero')
+    expect(children[0].getAttribute('style')).toContain('--margin-t-')
+    expect(children[0].getAttribute('style')).toContain('--margin-b-')
 
-    expect(children[1]).toHaveClass('dnb-space__top--small')
-    expect(children[1]).toHaveClass('dnb-space__bottom--zero')
+    expect(children[1].getAttribute('style')).toContain('--margin-t-')
+    expect(children[1].getAttribute('style')).toContain('--margin-b-')
 
-    expect(children[2]).toHaveClass('dnb-space__top--small')
-    expect(children[2]).toHaveClass('dnb-space__bottom--zero')
+    expect(children[2].getAttribute('style')).toContain('--margin-t-')
+    expect(children[2].getAttribute('style')).toContain('--margin-b-')
 
     rerender(
       <Flex.Container direction="vertical" divider="line">
@@ -188,27 +188,21 @@ describe('Flex.Container', () => {
     expect(children.length).toBe(5)
     expect(element).toHaveClass('dnb-flex-container--divider-line')
 
-    expect(children[0]).toHaveClass('dnb-space__top--zero')
-    expect(children[0]).toHaveClass('dnb-space__bottom--zero')
+    expect(children[0].getAttribute('style')).toContain('--margin-t-')
+    expect(children[0].getAttribute('style')).toContain('--margin-b-')
     expect(children[0]).toHaveClass('dnb-flex-item')
 
     expect(children[1].tagName).toContain('HR')
-    expect(children[1]).toHaveClass(
-      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
-    )
+    expect(children[1]).toHaveClass('dnb-flex-container__hr dnb-hr')
 
     expect(children[2].tagName).toContain('DIV')
-    expect(children[2]).toHaveClass(
-      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item'
-    )
+    expect(children[2]).toHaveClass('dnb-space dnb-flex-item')
 
     expect(children[3].tagName).toContain('HR')
-    expect(children[3]).toHaveClass(
-      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
-    )
+    expect(children[3]).toHaveClass('dnb-flex-container__hr dnb-hr')
 
-    expect(children[4]).toHaveClass('dnb-space__top--small')
-    expect(children[4]).toHaveClass('dnb-space__bottom--zero')
+    expect(children[4].getAttribute('style')).toContain('--margin-t-')
+    expect(children[4].getAttribute('style')).toContain('--margin-b-')
     expect(children[4]).toHaveClass('dnb-flex-item')
   })
 
@@ -225,11 +219,11 @@ describe('Flex.Container', () => {
 
     expect(children).toHaveLength(2)
     expect(children[0].tagName).toBe('P')
-    expect(children[0]).toHaveClass('dnb-space__top--zero')
-    expect(children[0]).toHaveClass('dnb-space__bottom--zero')
+    expect(children[0].getAttribute('style')).toContain('--margin-t-')
+    expect(children[0].getAttribute('style')).toContain('--margin-b-')
     expect(children[1].tagName).toBe('P')
-    expect(children[1]).toHaveClass('dnb-space__top--small')
-    expect(children[1]).toHaveClass('dnb-space__bottom--zero')
+    expect(children[1].getAttribute('style')).toContain('--margin-t-')
+    expect(children[1].getAttribute('style')).toContain('--margin-b-')
     expect(
       document.querySelectorAll('.dnb-flex-container > .dnb-space')
     ).toHaveLength(0)
@@ -251,12 +245,12 @@ describe('Flex.Container', () => {
     expect(children).toHaveLength(2)
     expect(children[0].tagName).toBe('DIV')
     expect(children[0]).toHaveClass('dnb-space')
-    expect(children[0]).toHaveClass('dnb-space__top--zero')
+    expect(children[0].getAttribute('style')).toContain('--margin-t-')
     expect(children[0]).not.toHaveClass('test-item')
     expect(children[0].querySelector('.test-item')).toBeInTheDocument()
     expect(children[1].tagName).toBe('DIV')
     expect(children[1]).toHaveClass('dnb-space')
-    expect(children[1]).toHaveClass('dnb-space__top--small')
+    expect(children[1].getAttribute('style')).toContain('--margin-t-')
     expect(children[1]).not.toHaveClass('test-item')
     expect(children[1].querySelector('.test-item')).toBeInTheDocument()
   })
@@ -276,20 +270,24 @@ describe('Flex.Container', () => {
         class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-line"
       >
         <h1
-          class="dnb-space__top--zero dnb-space__bottom--zero dnb-h--xx-large"
+          class="dnb-h--xx-large"
+          style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
         >
           Heading
         </h1>
         <div
-          class="dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item"
+          class="dnb-space dnb-flex-item"
+          style="--margin-t-s: 1rem; --margin-b-s: 0; --margin-t-m: 1rem; --margin-b-m: 0; --margin-t-l: 1rem; --margin-b-l: 0;"
         >
           Flex
         </div>
         <hr
-          class="dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr"
+          class="dnb-flex-container__hr dnb-hr"
+          style="--margin-t-s: 1rem; --margin-r-s: 0; --margin-b-s: 0; --margin-l-s: 0; --margin-t-m: 1rem; --margin-r-m: 0; --margin-b-m: 0; --margin-l-m: 0; --margin-t-l: 1rem; --margin-r-l: 0; --margin-b-l: 0; --margin-l-l: 0;"
         />
         <div
-          class="dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item"
+          class="dnb-space dnb-flex-item"
+          style="--margin-t-s: 1rem; --margin-b-s: 0; --margin-t-m: 1rem; --margin-b-m: 0; --margin-t-l: 1rem; --margin-b-l: 0;"
         >
           Flex
         </div>
@@ -303,22 +301,16 @@ describe('Flex.Container', () => {
     expect(children.length).toBe(4)
 
     expect(children[0].tagName).toContain('H1')
-    expect(children[0]).toHaveClass(
-      'dnb-space__top--zero dnb-space__bottom--zero dnb-h--xx-large'
-    )
+    expect(children[0].getAttribute('style')).toContain('--margin-t-')
 
     expect(children[1].tagName).toContain('DIV')
-    expect(children[1]).toHaveClass('dnb-space__top--small')
+    expect(children[1].getAttribute('style')).toContain('--margin-t-')
 
     expect(children[2].tagName).toContain('HR')
-    expect(children[2]).toHaveClass(
-      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
-    )
+    expect(children[2]).toHaveClass('dnb-flex-container__hr dnb-hr')
 
     expect(children[3].tagName).toContain('DIV')
-    expect(children[3]).toHaveClass(
-      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item'
-    )
+    expect(children[3]).toHaveClass('dnb-space dnb-flex-item')
   })
 
   it('has correct classes when divider is line', () => {
@@ -336,19 +328,13 @@ describe('Flex.Container', () => {
     expect(element).toHaveClass('dnb-flex-container--divider-line')
 
     expect(children[0].tagName).toContain('DIV')
-    expect(children[0]).toHaveClass(
-      'dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-item'
-    )
+    expect(children[0]).toHaveClass('dnb-space dnb-flex-item')
 
     expect(children[1].tagName).toContain('HR')
-    expect(children[1]).toHaveClass(
-      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
-    )
+    expect(children[1]).toHaveClass('dnb-flex-container__hr dnb-hr')
 
     expect(children[2].tagName).toContain('DIV')
-    expect(children[2]).toHaveClass(
-      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item'
-    )
+    expect(children[2]).toHaveClass('dnb-space dnb-flex-item')
   })
 
   it('has correct classes when divider is line-framed', () => {
@@ -366,29 +352,19 @@ describe('Flex.Container', () => {
     expect(element).toHaveClass('dnb-flex-container--divider-line-framed')
 
     expect(children[0].tagName).toContain('HR')
-    expect(children[0]).toHaveClass(
-      'dnb-flex-container__hr dnb-space__top--zero dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
-    )
+    expect(children[0]).toHaveClass('dnb-flex-container__hr dnb-hr')
 
     expect(children[1].tagName).toContain('DIV')
-    expect(children[1]).toHaveClass(
-      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item'
-    )
+    expect(children[1]).toHaveClass('dnb-space dnb-flex-item')
 
     expect(children[2].tagName).toContain('HR')
-    expect(children[2]).toHaveClass(
-      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
-    )
+    expect(children[2]).toHaveClass('dnb-flex-container__hr dnb-hr')
 
     expect(children[3].tagName).toContain('DIV')
-    expect(children[3]).toHaveClass(
-      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item'
-    )
+    expect(children[3]).toHaveClass('dnb-space dnb-flex-item')
 
     expect(children[4].tagName).toContain('HR')
-    expect(children[4]).toHaveClass(
-      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
-    )
+    expect(children[4]).toHaveClass('dnb-flex-container__hr dnb-hr')
   })
 
   it('should set spacing between children', () => {
@@ -406,14 +382,14 @@ describe('Flex.Container', () => {
     expect(children.length).toBe(3)
     expect(element).toHaveClass('dnb-flex-container--divider-space')
 
-    expect(children[0]).toHaveClass('dnb-space__left--zero')
-    expect(children[0]).toHaveClass('dnb-space__right--small')
+    expect(children[0].getAttribute('style')).toContain('--margin-l-')
+    expect(children[0].getAttribute('style')).toContain('--margin-r-')
 
-    expect(children[1]).toHaveClass('dnb-space__left--zero')
-    expect(children[1]).toHaveClass('dnb-space__right--small')
+    expect(children[1].getAttribute('style')).toContain('--margin-l-')
+    expect(children[1].getAttribute('style')).toContain('--margin-r-')
 
-    expect(children[2]).toHaveClass('dnb-space__left--zero')
-    expect(children[2]).toHaveClass('dnb-space__right--small')
+    expect(children[2].getAttribute('style')).toContain('--margin-l-')
+    expect(children[2].getAttribute('style')).toContain('--margin-r-')
 
     rerender(
       <Flex.Container gap="large">
@@ -423,14 +399,14 @@ describe('Flex.Container', () => {
       </Flex.Container>
     )
 
-    expect(children[0]).toHaveClass('dnb-space__left--zero')
-    expect(children[0]).toHaveClass('dnb-space__right--large')
+    expect(children[0].getAttribute('style')).toContain('--margin-l-')
+    expect(children[0].getAttribute('style')).toContain('--margin-r-')
 
-    expect(children[1]).toHaveClass('dnb-space__left--zero')
-    expect(children[1]).toHaveClass('dnb-space__right--large')
+    expect(children[1].getAttribute('style')).toContain('--margin-l-')
+    expect(children[1].getAttribute('style')).toContain('--margin-r-')
 
-    expect(children[2]).toHaveClass('dnb-space__left--zero')
-    expect(children[2]).toHaveClass('dnb-space__right--large')
+    expect(children[2].getAttribute('style')).toContain('--margin-l-')
+    expect(children[2].getAttribute('style')).toContain('--margin-r-')
 
     rerender(
       <Flex.Container gap="xx-small">
@@ -440,14 +416,14 @@ describe('Flex.Container', () => {
       </Flex.Container>
     )
 
-    expect(children[0]).toHaveClass('dnb-space__left--zero')
-    expect(children[0]).toHaveClass('dnb-space__right--xx-small')
+    expect(children[0].getAttribute('style')).toContain('--margin-l-')
+    expect(children[0].getAttribute('style')).toContain('--margin-r-')
 
-    expect(children[1]).toHaveClass('dnb-space__left--zero')
-    expect(children[1]).toHaveClass('dnb-space__right--xx-small')
+    expect(children[1].getAttribute('style')).toContain('--margin-l-')
+    expect(children[1].getAttribute('style')).toContain('--margin-r-')
 
-    expect(children[2]).toHaveClass('dnb-space__left--zero')
-    expect(children[2]).toHaveClass('dnb-space__right--xx-small')
+    expect(children[2].getAttribute('style')).toContain('--margin-l-')
+    expect(children[2].getAttribute('style')).toContain('--margin-r-')
   })
 
   it('should not apply spacing if set to false', () => {
@@ -465,16 +441,16 @@ describe('Flex.Container', () => {
     expect(children.length).toBe(3)
     expect(element).toHaveClass('dnb-flex-container--divider-space')
 
-    expect(children[0]).toHaveClass('dnb-space__left--zero')
-    expect(children[0]).toHaveClass('dnb-space__right--zero')
+    expect(children[0].getAttribute('style')).toContain('--margin-l-')
+    expect(children[0].getAttribute('style')).toContain('--margin-r-')
 
-    expect(children[1].className).not.toContain('dnb-space__left--small')
-    expect(children[1]).toHaveClass('dnb-space__left--zero')
-    expect(children[1]).toHaveClass('dnb-space__right--zero')
+    expect(children[1].getAttribute('style')).not.toContain('--margin-t-')
+    expect(children[1].getAttribute('style')).toContain('--margin-l-')
+    expect(children[1].getAttribute('style')).toContain('--margin-r-')
 
-    expect(children[2].className).not.toContain('dnb-space__left--small')
-    expect(children[2]).toHaveClass('dnb-space__left--zero')
-    expect(children[2]).toHaveClass('dnb-space__right--zero')
+    expect(children[2].getAttribute('style')).not.toContain('--margin-t-')
+    expect(children[2].getAttribute('style')).toContain('--margin-l-')
+    expect(children[2].getAttribute('style')).toContain('--margin-r-')
   })
 
   describe('_supportsSpacingProps', () => {
@@ -489,9 +465,14 @@ describe('Flex.Container', () => {
       Wrapper._supportsSpacingProps = undefined
 
       const TestComponent = (props: SpaceProps) => {
-        const cn = createSpacingClasses(props)
-        cn.push('test-item')
-        return <div className={cn.join(' ')}>content</div>
+        const { className: spacingClasses, style: spacingStyle } =
+          createSpacing(props)
+        spacingClasses.push('test-item')
+        return (
+          <div className={spacingClasses.join(' ')} style={spacingStyle}>
+            content
+          </div>
+        )
       }
       TestComponent._supportsSpacingProps = undefined
 
@@ -517,7 +498,8 @@ describe('Flex.Container', () => {
           class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
         >
           <div
-            class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
+            class="dnb-space"
+            style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
           >
             <div
               class="test-item"
@@ -526,7 +508,8 @@ describe('Flex.Container', () => {
             </div>
           </div>
           <div
-            class="dnb-space dnb-space__top--small dnb-space__bottom--zero"
+            class="dnb-space"
+            style="--margin-t-s: 1rem; --margin-b-s: 0; --margin-t-m: 1rem; --margin-b-m: 0; --margin-t-l: 1rem; --margin-b-l: 0;"
           >
             <div
               class="test-item"
@@ -535,7 +518,8 @@ describe('Flex.Container', () => {
             </div>
           </div>
           <div
-            class="dnb-space__top--large dnb-space__bottom--zero test-item"
+            class="test-item"
+            style="--margin-t-s: 2rem; --margin-b-s: 0; --margin-t-m: 2rem; --margin-b-m: 0; --margin-t-l: 2rem; --margin-b-l: 0;"
           >
             content
           </div>
@@ -546,17 +530,8 @@ describe('Flex.Container', () => {
         document.querySelectorAll('.dnb-flex-container')
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('[class*="dnb-space__top"]')
+        document.querySelectorAll('[style*="--margin-t-"]')
       ).toHaveLength(3)
-      expect(
-        document.querySelectorAll('.dnb-space__top--zero')
-      ).toHaveLength(1)
-      expect(
-        document.querySelectorAll('.dnb-space__top--small')
-      ).toHaveLength(1)
-      expect(
-        document.querySelectorAll('.dnb-space__top--large')
-      ).toHaveLength(1)
     })
 
     it('should with _supportsSpacingProps=true not wrap with extra Space', () => {
@@ -578,17 +553,20 @@ describe('Flex.Container', () => {
           class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
         >
           <div
-            class="dnb-space__top--zero dnb-space__bottom--zero test-item"
+            class="test-item"
+            style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
           >
             content
           </div>
           <div
-            class="dnb-space__top--small dnb-space__bottom--zero test-item"
+            class="test-item"
+            style="--margin-t-s: 1rem; --margin-b-s: 0; --margin-t-m: 1rem; --margin-b-m: 0; --margin-t-l: 1rem; --margin-b-l: 0;"
           >
             content
           </div>
           <div
-            class="dnb-space__top--large dnb-space__bottom--zero test-item"
+            class="test-item"
+            style="--margin-t-s: 2rem; --margin-b-s: 0; --margin-t-m: 2rem; --margin-b-m: 0; --margin-t-l: 2rem; --margin-b-l: 0;"
           >
             content
           </div>
@@ -599,17 +577,8 @@ describe('Flex.Container', () => {
         document.querySelectorAll('.dnb-flex-container')
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('[class*="dnb-space__top"]')
+        document.querySelectorAll('[style*="--margin-t-"]')
       ).toHaveLength(3)
-      expect(
-        document.querySelectorAll('.dnb-space__top--zero')
-      ).toHaveLength(1)
-      expect(
-        document.querySelectorAll('.dnb-space__top--small')
-      ).toHaveLength(1)
-      expect(
-        document.querySelectorAll('.dnb-space__top--large')
-      ).toHaveLength(1)
     })
 
     it('should with _supportsSpacingProps=children wrap the children of Wrapper with a new Flex.Container and use the same props', () => {
@@ -637,20 +606,24 @@ describe('Flex.Container', () => {
             class="wrapper"
           >
             <div
-              class="dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+              class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+              style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
             >
               <div
-                class="dnb-space__top--zero dnb-space__bottom--zero test-item"
+                class="test-item"
+                style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
               >
                 content
               </div>
               <div
-                class="dnb-space__top--small dnb-space__bottom--zero test-item"
+                class="test-item"
+                style="--margin-t-s: 1rem; --margin-b-s: 0; --margin-t-m: 1rem; --margin-b-m: 0; --margin-t-l: 1rem; --margin-b-l: 0;"
               >
                 content
               </div>
               <div
-                class="dnb-space__top--large dnb-space__bottom--zero test-item"
+                class="test-item"
+                style="--margin-t-s: 2rem; --margin-b-s: 0; --margin-t-m: 2rem; --margin-b-m: 0; --margin-t-l: 2rem; --margin-b-l: 0;"
               >
                 content
               </div>
@@ -664,17 +637,8 @@ describe('Flex.Container', () => {
       ).toHaveLength(2)
       expect(document.querySelectorAll('.wrapper')).toHaveLength(1)
       expect(
-        document.querySelectorAll('[class*="dnb-space__top"]')
+        document.querySelectorAll('[style*="--margin-t-"]')
       ).toHaveLength(4)
-      expect(
-        document.querySelectorAll('.dnb-space__top--zero')
-      ).toHaveLength(2)
-      expect(
-        document.querySelectorAll('.dnb-space__top--small')
-      ).toHaveLength(1)
-      expect(
-        document.querySelectorAll('.dnb-space__top--large')
-      ).toHaveLength(1)
     })
 
     it('should with _supportsSpacingProps=children wrap the children inside the Wrapper', () => {
@@ -699,15 +663,18 @@ describe('Flex.Container', () => {
             class="wrapper"
           >
             <div
-              class="dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+              class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+              style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
             >
               <div
-                class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
+                class="dnb-space"
+                style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
               >
                 Content A 
               </div>
               <div
-                class="dnb-space dnb-space__top--small dnb-space__bottom--zero"
+                class="dnb-space"
+                style="--margin-t-s: 1rem; --margin-b-s: 0; --margin-t-m: 1rem; --margin-b-m: 0; --margin-t-l: 1rem; --margin-b-l: 0;"
               >
                 <p>
                   Content B
@@ -723,7 +690,7 @@ describe('Flex.Container', () => {
       ).toHaveLength(2)
       expect(document.querySelectorAll('.wrapper')).toHaveLength(1)
       expect(
-        document.querySelectorAll('[class*="dnb-space__"]')
+        document.querySelectorAll('[style*="--margin-"]')
       ).toHaveLength(3)
     })
 
@@ -747,19 +714,22 @@ describe('Flex.Container', () => {
           class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
         >
           <div
-            class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
+            class="dnb-space"
+            style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
           >
             Content A 
           </div>
           <div
-            class="dnb-space dnb-space__top--small dnb-space__bottom--zero"
+            class="dnb-space"
+            style="--margin-t-s: 1rem; --margin-b-s: 0; --margin-t-m: 1rem; --margin-b-m: 0; --margin-t-l: 1rem; --margin-b-l: 0;"
           >
             <p>
               Content B
             </p>
           </div>
           <div
-            class="dnb-space__top--large dnb-space__bottom--zero test-item"
+            class="test-item"
+            style="--margin-t-s: 2rem; --margin-b-s: 0; --margin-t-m: 2rem; --margin-b-m: 0; --margin-t-l: 2rem; --margin-b-l: 0;"
           >
             content
           </div>
@@ -770,7 +740,7 @@ describe('Flex.Container', () => {
         document.querySelectorAll('.dnb-flex-container')
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('[class*="dnb-space__"]')
+        document.querySelectorAll('[style*="--margin-"]')
       ).toHaveLength(3)
     })
 
@@ -798,19 +768,22 @@ describe('Flex.Container', () => {
           class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
         >
           <div
-            class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
+            class="dnb-space"
+            style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
           >
             Content A
           </div>
           <div
-            class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
+            class="dnb-space"
+            style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
           >
             <p>
               Content B
             </p>
           </div>
           <div
-            class="dnb-space__top--large dnb-space__bottom--zero test-item"
+            class="test-item"
+            style="--margin-t-s: 2rem; --margin-b-s: 0; --margin-t-m: 2rem; --margin-b-m: 0; --margin-t-l: 2rem; --margin-b-l: 0;"
           >
             content
           </div>
@@ -821,7 +794,7 @@ describe('Flex.Container', () => {
         document.querySelectorAll('.dnb-flex-container')
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('[class*="dnb-space__"]')
+        document.querySelectorAll('[style*="--margin-"]')
       ).toHaveLength(3)
     })
 
@@ -869,7 +842,8 @@ describe('Flex.Container', () => {
           class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
         >
           <h3
-            class="dnb-heading dnb-h--medium dnb-forms-sub-heading dnb-space__top--zero dnb-space__bottom--zero"
+            class="dnb-heading dnb-h--medium dnb-forms-sub-heading"
+            style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
           >
             Heading
           </h3>
@@ -880,7 +854,7 @@ describe('Flex.Container', () => {
         document.querySelectorAll('.dnb-flex-container')
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('[class*="dnb-space__"]')
+        document.querySelectorAll('[style*="--margin-"]')
       ).toHaveLength(1)
     })
 
@@ -936,7 +910,8 @@ describe('Flex.Container', () => {
           class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
         >
           <h3
-            class="dnb-heading dnb-h--medium dnb-forms-sub-heading dnb-space__top--zero dnb-space__bottom--zero"
+            class="dnb-heading dnb-h--medium dnb-forms-sub-heading"
+            style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
           >
             Heading
           </h3>
@@ -947,7 +922,7 @@ describe('Flex.Container', () => {
         document.querySelectorAll('.dnb-flex-container')
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('[class*="dnb-space__"]')
+        document.querySelectorAll('[style*="--margin-"]')
       ).toHaveLength(1)
     })
   })

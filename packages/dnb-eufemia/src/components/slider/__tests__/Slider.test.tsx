@@ -43,9 +43,7 @@ describe('Slider component', () => {
 
     const element = document.querySelector('.dnb-slider')
 
-    expect(Array.from(element.classList)).toEqual(
-      expect.arrayContaining(['dnb-space__top--large'])
-    )
+    expect(element.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should include className', () => {

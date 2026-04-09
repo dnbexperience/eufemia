@@ -131,8 +131,6 @@ describe('TableContainer', () => {
     render(<MockElement top="large" />)
 
     const element = document.querySelector('.dnb-table__container')
-    expect(Array.from(element.classList)).toContain(
-      'dnb-space__top--large'
-    )
+    expect(element.getAttribute('style')).toContain('--margin-t-')
   })
 })

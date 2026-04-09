@@ -23,7 +23,7 @@
     }
 
     .dnb-hr,
-    .dnb-spacing & .dnb-hr:not([class*='dnb-space__bottom']) {
+    .dnb-spacing & .dnb-hr:not([style*='--margin-b-']) {
       margin: 0 0 0 1rem;
 
       &::after {
@@ -46,7 +46,7 @@
 
     .dnb-p,
     .dnb-spacing & .dnb-p,
-    .dnb-spacing & .dnb-p:not([class*='dnb-space']) {
+    .dnb-spacing & .dnb-p:not([style*='--margin-']) {
       margin: 0;
     }
   }
@@ -66,7 +66,7 @@
       // stylelint-disable-next-line no-descending-specificity
       .dnb-p,
       .dnb-spacing & .dnb-p,
-      .dnb-spacing & .dnb-p:not([class*='dnb-space']) {
+      .dnb-spacing & .dnb-p:not([style*='--margin-']) {
         display: inline-block;
         margin: 0;
         padding: 0;
@@ -95,7 +95,7 @@
 
     .dnb-ul,
     .dnb-spacing & .dnb-ul,
-    .dnb-spacing & .dnb-ul:not([class*='dnb-space']) {
+    .dnb-spacing & .dnb-ul:not([style*='--margin-']) {
       margin: 0;
       padding-left: 1rem;
 

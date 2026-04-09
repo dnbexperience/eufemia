@@ -28,7 +28,7 @@
 
   &__body {
     .dnb-table {
-      &:not([class*='space__bottom']) {
+      &:not([style*='--margin-b-']) {
         margin-bottom: 0;
       }
 
@@ -61,7 +61,7 @@
       min-height: 1.5rem;
     }
 
-    .dnb-spacing & .dnb-h--large:not([class*='space__top']) {
+    .dnb-spacing & .dnb-h--large:not([style*='--margin-t-']) {
       margin: 0;
     }
   }

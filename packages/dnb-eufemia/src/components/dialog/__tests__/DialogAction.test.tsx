@@ -39,7 +39,6 @@ describe('Dialog.Action', () => {
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
-      'dnb-space__top--large',
       'dnb-dialog__actions',
     ])
   })

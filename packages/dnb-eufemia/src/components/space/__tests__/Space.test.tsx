@@ -18,11 +18,10 @@ describe('Space component', () => {
     expect(document.querySelector('.dnb-space')).toBeInTheDocument()
   })
 
-  it('should have correct CSS classes', () => {
+  it('should have correct CSS classes and margin CSS variables', () => {
     render(<Space element="span" top="large" />)
-    expect(document.querySelector('span.dnb-space').classList).toContain(
-      'dnb-space__top--large'
-    )
+    const element = document.querySelector('span.dnb-space')
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 2rem')
   })
 
   it('gets valid ref element', () => {
@@ -46,15 +45,12 @@ describe('Space component', () => {
 
   it('should accept space only prop', () => {
     render(<Space element="span" space="large" />)
-    expect(
-      Object.values(document.querySelector('span.dnb-space').classList)
-    ).toEqual([
-      'dnb-space',
-      'dnb-space__top--large',
-      'dnb-space__right--large',
-      'dnb-space__bottom--large',
-      'dnb-space__left--large',
-    ])
+    const element = document.querySelector('span.dnb-space')
+    expect(Object.values(element.classList)).toEqual(['dnb-space'])
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 2rem')
+    expect(element.getAttribute('style')).toContain('--margin-r-s: 2rem')
+    expect(element.getAttribute('style')).toContain('--margin-b-s: 2rem')
+    expect(element.getAttribute('style')).toContain('--margin-l-s: 2rem')
   })
 
   it('should accept space prop as an object with spacing properties', () => {
@@ -69,15 +65,12 @@ describe('Space component', () => {
         }}
       />
     )
-    expect(
-      Object.values(document.querySelector('span.dnb-space').classList)
-    ).toEqual([
-      'dnb-space',
-      'dnb-space__top--x-large',
-      'dnb-space__right--large',
-      'dnb-space__bottom--large',
-      'dnb-space__left--large',
-    ])
+    const element = document.querySelector('span.dnb-space')
+    expect(Object.values(element.classList)).toEqual(['dnb-space'])
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 3rem')
+    expect(element.getAttribute('style')).toContain('--margin-r-s: 2rem')
+    expect(element.getAttribute('style')).toContain('--margin-b-s: 2rem')
+    expect(element.getAttribute('style')).toContain('--margin-l-s: 2rem')
   })
 
   it('should accept id attribute', () => {

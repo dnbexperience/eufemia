@@ -121,7 +121,7 @@ describe('Stat.Trend', () => {
 
     const trend = document.querySelector('.dnb-stat__trend')
 
-    expect(trend.classList).toContain('dnb-space__top--large')
+    expect(trend.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should validate with ARIA rules', async () => {

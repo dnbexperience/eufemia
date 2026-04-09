@@ -454,9 +454,9 @@ describe('ToggleButton group component', () => {
       'dnb-toggle-button-group',
       'dnb-toggle-button-group--row',
       'dnb-form-component',
-      'dnb-space__top--large',
       'dnb-toggle-button-group--no-label',
     ])
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 2rem')
   })
 
   it('should inherit formElement vertical label', () => {

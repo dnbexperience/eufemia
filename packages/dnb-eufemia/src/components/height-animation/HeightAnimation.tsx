@@ -70,6 +70,7 @@ function HeightAnimation({
   onAnimationEnd = null,
   ...rest
 }: HeightAnimationAllProps) {
+  const { style: restStyle, ...restWithoutStyle } = rest
   const elementRef = useRef<HTMLElement>(undefined)
   const targetRef = ref || elementRef
 
@@ -118,9 +119,9 @@ function HeightAnimation({
         showOverflow && 'dnb-height-animation--show-overflow',
         className
       )}
-      style={{ ...firstPaintStyle, ...rest?.style }}
+      style={{ ...firstPaintStyle, ...restStyle }}
       aria-hidden={keepInDOM ? !open : undefined}
-      {...rest}
+      {...restWithoutStyle}
     >
       {compensateForGap ? (
         <div className="compensateForGap">{children}</div>

@@ -64,7 +64,7 @@ describe('Stat.Info', () => {
 
     const info = document.querySelector('.dnb-stat__info')
 
-    expect(info.classList).toContain('dnb-space__top--large')
+    expect(info.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should validate with ARIA rules', async () => {

@@ -80,8 +80,8 @@ describe('ItemFooter', () => {
       '.dnb-list__item__footer'
     )
 
-    expect(contentWrapper.classList).toContain('dnb-space__top--medium')
-    expect(contentWrapper.classList).toContain('dnb-space__left--x-small')
+    expect(contentWrapper.getAttribute('style')).toContain('--margin-t-')
+    expect(contentWrapper.getAttribute('style')).toContain('--margin-l-')
   })
 
   it('declares _supportsSpacingProps for flex layout', () => {

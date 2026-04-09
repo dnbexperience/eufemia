@@ -151,10 +151,10 @@ describe('GlobalError', () => {
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
       'dnb-skeleton__root',
-      'dnb-space__top--large',
       'dnb-global-error',
       'dnb-global-error--404',
     ])
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 2rem')
   })
 
   it('should add additional html props to main element', () => {

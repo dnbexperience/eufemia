@@ -5,7 +5,7 @@
     + * + * + .dnb-card, /* e.g. two paragraphs */
     + .dnb-help-button__content + .dnb-section + .dnb-card
   ) {
-    &:not([class*='space__bottom']) {
+    &:not([style*='--margin-b-']) {
       margin-bottom: var(--spacing-small);
     }
   }

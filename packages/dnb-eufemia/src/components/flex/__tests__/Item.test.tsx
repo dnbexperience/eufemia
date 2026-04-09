@@ -23,11 +23,11 @@ describe('Flex.Item', () => {
     const { rerender } = render(<Flex.Item top="large">Flex</Flex.Item>)
     const element = document.querySelector('.dnb-flex-item')
 
-    expect(element.classList).toContain('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
 
     rerender(<Flex.Item top="x-large">Flex</Flex.Item>)
 
-    expect(element.classList).toContain('dnb-space__top--x-large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should contain given classes', () => {
@@ -204,12 +204,12 @@ describe('Flex.Item', () => {
         getFlexItem(0)
           .querySelector('.dnb-flex-item__spacer')
           .getAttribute('style')
-      ).toBe('background: blue;')
+      ).toContain('background: blue;')
       expect(
         getFlexItem(1)
           .querySelector('.dnb-flex-item__spacer')
           .getAttribute('style')
-      ).toBe('background: red;')
+      ).toContain('background: red;')
     })
 
     it('should set correct spacing', () => {
@@ -220,9 +220,9 @@ describe('Flex.Item', () => {
         </Flex.Container>
       )
 
-      expect(getSpacingClasses()).toEqual([
-        ['dnb-space__left--zero', 'dnb-space__right--small'],
-        ['dnb-space__left--zero', 'dnb-space__right--small'],
+      expect(getSpacingStyles()).toEqual([
+        ['--margin-l-', '--margin-r-'],
+        ['--margin-l-', '--margin-r-'],
       ])
 
       rerender(
@@ -232,9 +232,9 @@ describe('Flex.Item', () => {
         </Flex.Container>
       )
 
-      expect(getSpacingClasses()).toEqual([
-        ['dnb-space__left--zero', 'dnb-space__right--small'],
-        ['dnb-space__left--zero', 'dnb-space__right--small'],
+      expect(getSpacingStyles()).toEqual([
+        ['--margin-l-', '--margin-r-'],
+        ['--margin-l-', '--margin-r-'],
       ])
     })
 
@@ -252,9 +252,9 @@ describe('Flex.Item', () => {
       expect(element.className).not.toContain(
         'dnb-flex-container--has-size'
       )
-      expect(getSpacingClasses()).toEqual([
-        ['dnb-space__left--zero', 'dnb-space__right--small'],
-        ['dnb-space__left--zero', 'dnb-space__right--small'],
+      expect(getSpacingStyles()).toEqual([
+        ['--margin-l-', '--margin-r-'],
+        ['--margin-l-', '--margin-r-'],
       ])
 
       rerender(
@@ -272,9 +272,9 @@ describe('Flex.Item', () => {
       expect(element.className).not.toContain(
         'dnb-flex-container--has-size'
       )
-      expect(getSpacingClasses()).toEqual([
-        ['dnb-space__left--small', 'dnb-space__right--small'],
-        ['dnb-space__left--large', 'dnb-space__right--medium'],
+      expect(getSpacingStyles()).toEqual([
+        ['--margin-l-', '--margin-r-'],
+        ['--margin-l-', '--margin-r-'],
       ])
     })
 
@@ -286,9 +286,9 @@ describe('Flex.Item', () => {
         </Flex.Container>
       )
 
-      expect(getSpacingClasses()).toEqual([
-        ['dnb-space__bottom--zero', 'dnb-space__top--zero'],
-        ['dnb-space__bottom--zero', 'dnb-space__top--small'],
+      expect(getSpacingStyles()).toEqual([
+        ['--margin-t-', '--margin-b-'],
+        ['--margin-t-', '--margin-b-'],
       ])
 
       rerender(
@@ -298,9 +298,9 @@ describe('Flex.Item', () => {
         </Flex.Container>
       )
 
-      expect(getSpacingClasses()).toEqual([
-        ['dnb-space__bottom--zero', 'dnb-space__top--zero'],
-        ['dnb-space__bottom--zero', 'dnb-space__top--small'],
+      expect(getSpacingStyles()).toEqual([
+        ['--margin-t-', '--margin-b-'],
+        ['--margin-t-', '--margin-b-'],
       ])
     })
 
@@ -317,10 +317,10 @@ describe('Flex.Item', () => {
         </Flex.Container>
       )
 
-      expect(getSpacingClasses()).toEqual([
-        ['dnb-space__left--zero', 'dnb-space__right--large'],
-        ['dnb-space__left--x-large', 'dnb-space__right--large'],
-        ['dnb-space__left--zero', 'dnb-space__right--large'],
+      expect(getSpacingStyles()).toEqual([
+        ['--margin-l-', '--margin-r-'],
+        ['--margin-l-', '--margin-r-'],
+        ['--margin-l-', '--margin-r-'],
       ])
 
       rerender(
@@ -337,10 +337,10 @@ describe('Flex.Item', () => {
         </Flex.Container>
       )
 
-      expect(getSpacingClasses()).toEqual([
-        ['dnb-space__left--zero', 'dnb-space__right--large'],
-        ['dnb-space__left--medium', 'dnb-space__right--large'],
-        ['dnb-space__left--zero', 'dnb-space__right--x-large'],
+      expect(getSpacingStyles()).toEqual([
+        ['--margin-l-', '--margin-r-'],
+        ['--margin-l-', '--margin-r-'],
+        ['--margin-l-', '--margin-r-'],
       ])
     })
 
@@ -357,10 +357,10 @@ describe('Flex.Item', () => {
         </Flex.Container>
       )
 
-      expect(getSpacingClasses()).toEqual([
-        ['dnb-space__left--zero', 'dnb-space__right--large'],
-        ['dnb-space__left--x-large', 'dnb-space__right--large'],
-        ['dnb-space__left--small', 'dnb-space__right--zero'],
+      expect(getSpacingStyles()).toEqual([
+        ['--margin-l-', '--margin-r-'],
+        ['--margin-l-', '--margin-r-'],
+        ['--margin-l-', '--margin-r-'],
       ])
 
       rerender(
@@ -377,10 +377,10 @@ describe('Flex.Item', () => {
         </Flex.Container>
       )
 
-      expect(getSpacingClasses()).toEqual([
-        ['dnb-space__left--zero', 'dnb-space__right--large'],
-        ['dnb-space__left--medium', 'dnb-space__right--large'],
-        ['dnb-space__left--zero', 'dnb-space__right--x-large'],
+      expect(getSpacingStyles()).toEqual([
+        ['--margin-l-', '--margin-r-'],
+        ['--margin-l-', '--margin-r-'],
+        ['--margin-l-', '--margin-r-'],
       ])
     })
 
@@ -392,9 +392,9 @@ describe('Flex.Item', () => {
         </Flex.Container>
       )
 
-      expect(getSpacingClasses()).toEqual([
-        ['dnb-space__left--zero', 'dnb-space__right--large'],
-        ['dnb-space__left--zero', 'dnb-space__right--large'],
+      expect(getSpacingStyles()).toEqual([
+        ['--margin-l-', '--margin-r-'],
+        ['--margin-l-', '--margin-r-'],
       ])
 
       rerender(
@@ -404,9 +404,9 @@ describe('Flex.Item', () => {
         </Flex.Container>
       )
 
-      expect(getSpacingClasses()).toEqual([
-        ['dnb-space__left--zero', 'dnb-space__right--small'],
-        ['dnb-space__left--zero', 'dnb-space__right--small'],
+      expect(getSpacingStyles()).toEqual([
+        ['--margin-l-', '--margin-r-'],
+        ['--margin-l-', '--margin-r-'],
       ])
     })
 
@@ -421,20 +421,20 @@ describe('Flex.Item', () => {
         </Flex.Container>
       )
 
-      expect(getSpacingClasses()).toEqual([
-        ['dnb-space__left--zero', 'dnb-space__right--small'],
-        ['dnb-space__left--zero', 'dnb-space__right--small'],
-        ['dnb-space__left--zero', 'dnb-space__right--small'],
+      expect(getSpacingStyles()).toEqual([
+        ['--margin-l-', '--margin-r-'],
+        ['--margin-l-', '--margin-r-'],
+        ['--margin-l-', '--margin-r-'],
       ])
 
       act(() => {
         setMedia({ width: LARGE })
       })
 
-      expect(getSpacingClasses()).toEqual([
-        ['dnb-space__left--zero', 'dnb-space__right--small'],
-        ['dnb-space__left--zero', 'dnb-space__right--small'],
-        ['dnb-space__left--zero', 'dnb-space__right--small'],
+      expect(getSpacingStyles()).toEqual([
+        ['--margin-l-', '--margin-r-'],
+        ['--margin-l-', '--margin-r-'],
+        ['--margin-l-', '--margin-r-'],
       ])
     })
 
@@ -449,26 +449,26 @@ describe('Flex.Item', () => {
         </Flex.Container>
       )
 
-      expect(getSpacingClasses()).toEqual([
-        ['dnb-space__left--zero', 'dnb-space__right--small'],
-        ['dnb-space__left--zero', 'dnb-space__right--small'],
-        ['dnb-space__left--zero', 'dnb-space__right--small'],
+      expect(getSpacingStyles()).toEqual([
+        ['--margin-l-', '--margin-r-'],
+        ['--margin-l-', '--margin-r-'],
+        ['--margin-l-', '--margin-r-'],
       ])
 
       act(() => {
         setMedia({ width: MEDIUM })
       })
 
-      expect(getSpacingClasses()).toEqual([
-        ['dnb-space__left--zero', 'dnb-space__right--small'],
-        ['dnb-space__left--zero', 'dnb-space__right--small'],
-        ['dnb-space__left--zero', 'dnb-space__right--small'],
+      expect(getSpacingStyles()).toEqual([
+        ['--margin-l-', '--margin-r-'],
+        ['--margin-l-', '--margin-r-'],
+        ['--margin-l-', '--margin-r-'],
       ])
     })
   })
 })
 
-function getSpacingClasses() {
+function getSpacingStyles() {
   const collection = []
   const elements = document.querySelectorAll('.dnb-flex-item')
 
@@ -476,14 +476,20 @@ function getSpacingClasses() {
     const element = node.querySelector('.dnb-flex-item__spacer')
 
     const item = []
+    const style = element?.getAttribute('style') || ''
 
-    Object.values(element.classList)
-      .reverse()
-      .forEach((className) => {
-        if (className.includes('dnb-space__')) {
-          item.push(className)
-        }
-      })
+    if (style.includes('--margin-l-')) {
+      item.push('--margin-l-')
+    }
+    if (style.includes('--margin-r-')) {
+      item.push('--margin-r-')
+    }
+    if (style.includes('--margin-t-')) {
+      item.push('--margin-t-')
+    }
+    if (style.includes('--margin-b-')) {
+      item.push('--margin-b-')
+    }
 
     collection.push(item)
   })

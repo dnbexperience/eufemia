@@ -236,14 +236,14 @@ button .dnb-form-status__text {
 .dnb-form-status__text .dnb-anchor {
   font-size: inherit;
 }
-.dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
+.dnb-form-status__text .dnb-ul:not([style*="--margin-l-"]) {
   padding-left: 1rem;
 }
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
+.dnb-spacing .dnb-form-status__text .dnb-ul:not([style*="--margin-b-"]) .dnb-li {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
+.dnb-spacing .dnb-form-status__text .dnb-ul:not([style*="--margin-b-"]) {
   margin-bottom: 0.5rem;
 }
 .dnb-form-status__text {
@@ -1161,10 +1161,10 @@ button.dnb-button::-moz-focus-inner {
 .dnb-global-status__shell .dnb-hr {
   --hr-color: var(--global-status-underline-color);
 }
-.dnb-global-status__shell .dnb-hr, .dnb-spacing .dnb-global-status__shell .dnb-hr:not([class*=dnb-space__bottom]) {
+.dnb-global-status__shell .dnb-hr, .dnb-spacing .dnb-global-status__shell .dnb-hr:not([style*="--margin-b-"]) {
   margin: 0 0 0 1rem;
 }
-.dnb-global-status__shell .dnb-hr::after, .dnb-spacing .dnb-global-status__shell .dnb-hr:not([class*=dnb-space__bottom])::after {
+.dnb-global-status__shell .dnb-hr::after, .dnb-spacing .dnb-global-status__shell .dnb-hr:not([style*="--margin-b-"])::after {
   top: calc(var(--thickness) * -1);
 }
 .dnb-global-status__title {
@@ -1176,7 +1176,7 @@ button.dnb-button::-moz-focus-inner {
   padding: 1.5rem 5rem 1.5rem 2.5rem;
   font-size: var(--font-size-basis);
 }
-.dnb-global-status__title .dnb-p, .dnb-spacing .dnb-global-status__title .dnb-p, .dnb-spacing .dnb-global-status__title .dnb-p:not([class*=dnb-space]) {
+.dnb-global-status__title .dnb-p, .dnb-spacing .dnb-global-status__title .dnb-p, .dnb-spacing .dnb-global-status__title .dnb-p:not([style*="--margin-"]) {
   margin: 0;
 }
 .dnb-global-status__message {
@@ -1191,7 +1191,7 @@ button.dnb-button::-moz-focus-inner {
 .dnb-global-status__message__content > .dnb-ul:first-child > li:first-child {
   margin-top: 0;
 }
-.dnb-global-status__message__content .dnb-p, .dnb-spacing .dnb-global-status__message__content .dnb-p, .dnb-spacing .dnb-global-status__message__content .dnb-p:not([class*=dnb-space]) {
+.dnb-global-status__message__content .dnb-p, .dnb-spacing .dnb-global-status__message__content .dnb-p, .dnb-spacing .dnb-global-status__message__content .dnb-p:not([style*="--margin-"]) {
   display: inline-block;
   margin: 0;
   padding: 0;
@@ -1211,11 +1211,11 @@ button.dnb-button::-moz-focus-inner {
 .dnb-global-status__content {
   width: 100%;
 }
-.dnb-global-status__content .dnb-ul, .dnb-spacing .dnb-global-status__content .dnb-ul, .dnb-spacing .dnb-global-status__content .dnb-ul:not([class*=dnb-space]) {
+.dnb-global-status__content .dnb-ul, .dnb-spacing .dnb-global-status__content .dnb-ul, .dnb-spacing .dnb-global-status__content .dnb-ul:not([style*="--margin-"]) {
   margin: 0;
   padding-left: 1rem;
 }
-.dnb-global-status__content .dnb-ul .dnb-anchor:last-of-type, .dnb-spacing .dnb-global-status__content .dnb-ul .dnb-anchor:last-of-type, .dnb-spacing .dnb-global-status__content .dnb-ul:not([class*=dnb-space]) .dnb-anchor:last-of-type {
+.dnb-global-status__content .dnb-ul .dnb-anchor:last-of-type, .dnb-spacing .dnb-global-status__content .dnb-ul .dnb-anchor:last-of-type, .dnb-spacing .dnb-global-status__content .dnb-ul:not([style*="--margin-"]) .dnb-anchor:last-of-type {
   margin-left: 0.5rem;
 }
 .dnb-global-status--information .dnb-global-status__shell, .dnb-global-status--success .dnb-global-status__shell {

@@ -69,7 +69,7 @@ describe('Radio group component', () => {
       document
         .querySelector('.dnb-radio-group__shell')
         .getAttribute('style')
-    ).toBe('color: red;')
+    ).toContain('color: red;')
   })
 
   it('will overwrite "disable" state, defined in the group', () => {
@@ -102,8 +102,8 @@ describe('Radio group component', () => {
       'dnb-radio-group',
       'dnb-radio-group--row',
       'dnb-form-component',
-      'dnb-space__top--large',
     ])
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 2rem')
   })
 
   it('should inherit formElement vertical label', () => {

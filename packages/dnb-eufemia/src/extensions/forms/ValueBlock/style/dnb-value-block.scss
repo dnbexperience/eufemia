@@ -5,7 +5,7 @@
   &:not(.dnb-dl__layout--horizontal) {
     & .dnb-dt,
     & > .dnb-dd > .dnb-dl,
-    &:not([class*='dnb-space']) > .dnb-dd > .dnb-dl {
+    &:not([style*='--margin-']) > .dnb-dd > .dnb-dl {
       margin: 0;
     }
 
@@ -147,7 +147,7 @@
 
     /* stylelint-disable */
     & > .dnb-dl,
-    &:not([class*='dnb-space']) > .dnb-dl {
+    &:not([style*='--margin-']) > .dnb-dl {
       margin: 0;
 
       & > .dnb-dd {
@@ -188,7 +188,7 @@
   .dnb-forms-summary-list &__composition--horizontal &__content {
     /* stylelint-disable */
     & > .dnb-dl,
-    &:not([class*='dnb-space']) > .dnb-dl {
+    &:not([style*='--margin-']) > .dnb-dl {
       .dnb-forms-value-block__help .dnb-section {
         margin-top: 0.5rem;
       }

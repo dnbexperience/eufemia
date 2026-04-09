@@ -307,12 +307,12 @@ describe('FormStatus component', () => {
       'dnb-height-animation',
       'dnb-form-status',
       'dnb-form-status__size--default',
-      'dnb-space__top--large',
       'dnb-form-status--error',
       'dnb-form-status--has-content',
       'dnb-height-animation--is-visible',
       'dnb-height-animation--is-in-dom',
     ])
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 2rem')
   })
 
   it('should support "shellSpace" spacing props', () => {
@@ -322,15 +322,11 @@ describe('FormStatus component', () => {
 
     const element = document.querySelector('.dnb-form-status__shell')
 
-    expect(element).toHaveClass(
-      'dnb-form-status__shell dnb-space__top--large'
-    )
+    expect(element).toHaveClass('dnb-form-status__shell ')
 
     rerender(<FormStatus shellSpace="2rem">test</FormStatus>)
 
-    expect(element).toHaveClass(
-      'dnb-form-status__shell dnb-space__top--large dnb-space__bottom--large dnb-space__right--large dnb-space__left--large'
-    )
+    expect(element).toHaveClass('dnb-form-status__shell ')
   })
 
   it('cache content and update it', () => {

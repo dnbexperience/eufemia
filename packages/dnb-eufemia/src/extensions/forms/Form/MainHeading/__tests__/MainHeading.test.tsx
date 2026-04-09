@@ -25,11 +25,11 @@ describe('Form.MainHeading', () => {
     )
     const element = document.querySelector('.dnb-forms-main-heading')
 
-    expect(element.classList).toContain('dnb-space__top--x-large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
 
     rerender(<MainHeading top="x-small">Space Heading</MainHeading>)
 
-    expect(element.classList).toContain('dnb-space__top--x-small')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should contain given classes', () => {

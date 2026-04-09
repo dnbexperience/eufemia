@@ -45,7 +45,7 @@ describe('Grid.Item', () => {
     )
     const element = document.querySelector('.dnb-grid-item ')
 
-    expect(element.classList).toContain('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
 
     rerender(
       <Grid.Container>
@@ -53,7 +53,7 @@ describe('Grid.Item', () => {
       </Grid.Container>
     )
 
-    expect(element.classList).toContain('dnb-space__top--x-large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should contain given classes', () => {

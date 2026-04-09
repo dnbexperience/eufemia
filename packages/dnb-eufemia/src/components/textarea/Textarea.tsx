@@ -30,7 +30,7 @@ import {
 } from '../../shared/component-helper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -521,7 +521,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     textareaParams['aria-readonly'] = textareaParams.readOnly = true
   }
 
-  const mainParams = {
+  const mainParams = applySpacing(props, {
     className: clsx(
       'dnb-textarea',
       `dnb-textarea--${textareaState}`,
@@ -539,10 +539,9 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       keepPlaceholder && `dnb-textarea--keep-placeholder`,
       'dnb-form-component',
       createSkeletonClass(null, skeleton),
-      createSpacingClasses(props),
       className
     ),
-  }
+  })
 
   const innerParams = {
     className: clsx(

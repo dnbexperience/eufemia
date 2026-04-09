@@ -581,8 +581,8 @@ describe('HelpButtonInlineContent Component', () => {
       />
     )
 
-    expect(document.querySelector('.dnb-section')).toHaveClass(
-      'dnb-space__top--large'
-    )
+    expect(
+      document.querySelector('.dnb-section').getAttribute('style')
+    ).toContain('--margin-t-')
   })
 })

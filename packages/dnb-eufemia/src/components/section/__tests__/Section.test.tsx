@@ -77,10 +77,10 @@ describe('Section component', () => {
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
-      'dnb-space__top--medium',
       'dnb-section',
       'dnb-section--default',
     ])
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 1.5rem')
   })
 
   it('will use props from Provider', () => {

@@ -21,7 +21,7 @@ import IconPrimary from '../icon-primary/IconPrimary'
 import styleProperties from '../../style/themes/ui/properties'
 import type { LocaleProps, SpaceTypeAll } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
-import { createSpacingClasses } from '../space/SpacingUtils'
+import { applySpacing } from '../space/SpacingUtils'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type PaginationBarProps = {
@@ -99,8 +99,6 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     skeleton,
     space,
   } = props
-
-  const spacingClasses = createSpacingClasses({ space })
 
   // because of accessibility
   const focusPage = () => {
@@ -195,10 +193,14 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
   return (
     <div
       ref={paginationBarRef}
-      className={clsx(
-        'dnb-pagination__bar',
-        pageCountInternal >= 8 && 'dnb-pagination--many-pages',
-        spacingClasses
+      {...applySpacing(
+        { space },
+        {
+          className: clsx(
+            'dnb-pagination__bar',
+            pageCountInternal >= 8 && 'dnb-pagination--many-pages'
+          ),
+        }
       )}
     >
       <div className="dnb-pagination__bar__wrapper">

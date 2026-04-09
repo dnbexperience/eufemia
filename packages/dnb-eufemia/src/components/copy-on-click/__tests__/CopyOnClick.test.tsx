@@ -100,7 +100,7 @@ describe('CopyOnClick', () => {
   it('should support spacing props', () => {
     render(<CopyOnClick top="large">CopyOnClick text</CopyOnClick>)
     const element = document.querySelector('.dnb-copy-on-click')
-    expect(element).toHaveClass('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should copy children to clipboard', async () => {

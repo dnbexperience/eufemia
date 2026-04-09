@@ -38,11 +38,11 @@ describe('FieldBlock', () => {
 
     const element = document.querySelector('.dnb-forms-field-block')
 
-    expect(element.classList).toContain('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
 
     rerender(<FieldBlock space={{ top: 'x-large' }}>content</FieldBlock>)
 
-    expect(element.classList).toContain('dnb-space__top--x-large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should support disabled prop', () => {
@@ -149,9 +149,7 @@ describe('FieldBlock', () => {
       const labelElement = document.querySelector('label')
 
       expect(labelElement).toBeInTheDocument()
-      expect(labelElement).toHaveClass(
-        'dnb-form-label dnb-space__right--small'
-      )
+      expect(labelElement).toHaveClass('dnb-form-label ')
       expect(labelElement).toHaveTextContent('A Label Description')
     })
 
@@ -211,9 +209,7 @@ describe('FieldBlock', () => {
       const labelElement = document.querySelector('label')
 
       expect(labelElement).toBeInTheDocument()
-      expect(labelElement).toHaveClass(
-        'dnb-form-label dnb-space__right--small'
-      )
+      expect(labelElement).toHaveClass('dnb-form-label ')
       expect(labelElement).toHaveTextContent('A Label Description')
     })
 
@@ -229,9 +225,7 @@ describe('FieldBlock', () => {
       const labelElement = document.querySelector('label')
 
       expect(labelElement).toBeInTheDocument()
-      expect(labelElement).toHaveClass(
-        'dnb-form-label dnb-space__right--small'
-      )
+      expect(labelElement).toHaveClass('dnb-form-label ')
       expect(labelElement).toHaveTextContent('A Label Description')
     })
 
@@ -247,9 +241,7 @@ describe('FieldBlock', () => {
       const labelElement = document.querySelector('label')
 
       expect(labelElement).toBeInTheDocument()
-      expect(labelElement).toHaveClass(
-        'dnb-form-label dnb-space__right--small'
-      )
+      expect(labelElement).toHaveClass('dnb-form-label ')
       expect(labelElement).toHaveTextContent('')
     })
   })

@@ -156,10 +156,10 @@ describe('Badge', () => {
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['role', 'class', 'aria-label'])
+    expect(attributes).toEqual(['role', 'class', 'aria-label', 'style'])
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 2rem')
     expect(Array.from(element.classList)).toEqual([
       'dnb-badge',
-      'dnb-space__top--large',
       'dnb-badge--variant-information',
       'dnb-badge--inline',
       'dnb-badge--status-default',
@@ -175,14 +175,11 @@ describe('Badge', () => {
 
     const element = document.querySelector('.dnb-badge__root')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-badge__root',
-      'dnb-space__top--large',
-    ])
+    expect(Array.from(element.classList)).toEqual(['dnb-badge__root'])
 
     expect(
       Array.from(document.querySelector('.dnb-badge').classList)
-    ).not.toContain('dnb-space__top--large')
+    ).not.toContain('')
   })
 
   it('should have role="status"', () => {

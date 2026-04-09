@@ -29,7 +29,7 @@ describe('Form.ButtonRow', () => {
 
     const element = document.querySelector('.dnb-forms-button-row')
 
-    expect(element.classList).toContain('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
 
     rerender(
       <ButtonRow space={{ top: 'x-large' }}>
@@ -37,7 +37,7 @@ describe('Form.ButtonRow', () => {
       </ButtonRow>
     )
 
-    expect(element.classList).toContain('dnb-space__top--x-large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should contain given classes', () => {

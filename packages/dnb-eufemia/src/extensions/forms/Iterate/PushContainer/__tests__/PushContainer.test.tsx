@@ -2470,7 +2470,7 @@ describe('PushContainer', () => {
 
     const toolbar = document.querySelector('#toolbar')
     expect(toolbar).toHaveTextContent('Custom Toolbar')
-    expect(toolbar).toHaveClass('dnb-space__top--medium')
+    expect(toolbar.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should support spacing props', () => {
@@ -2481,8 +2481,10 @@ describe('PushContainer', () => {
     )
 
     expect(
-      document.querySelector('.dnb-forms-section-block__inner')
-    ).toHaveClass('dnb-space__top--large')
+      document
+        .querySelector('.dnb-forms-section-block__inner')
+        .getAttribute('style')
+    ).toContain('--margin-t-')
   })
 
   it('should support array data', async () => {

@@ -26,13 +26,11 @@ describe('FormLabel component', () => {
 
     const element = document.querySelector('.dnb-form-label')
 
-    expect(Array.from(element.classList)).toContain(
-      'dnb-space__right--small'
-    )
+    expect(element.getAttribute('style')).toContain('--margin-r-')
 
     rerender(<FormLabel forId="input" text="Label" />)
 
-    expect(Array.from(element.classList)).not.toContain('dnb-space__right')
+    expect(element.getAttribute('style')).toContain('--margin-r-')
   })
 
   it('should support spacing props', () => {
@@ -40,9 +38,7 @@ describe('FormLabel component', () => {
 
     const element = document.querySelector('.dnb-form-label')
 
-    expect(Array.from(element.classList)).toContain(
-      'dnb-space__top--large'
-    )
+    expect(element.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should remove spacing props when no label was given', () => {
@@ -274,9 +270,7 @@ describe('FormLabel component', () => {
       expect(elements).toHaveLength(1)
 
       const element = elements[0]
-      expect(element).toHaveClass(
-        'dnb-form-label dnb-space__right--small nested'
-      )
+      expect(element).toHaveClass('dnb-form-label nested')
     })
 
     it('should update label content', () => {

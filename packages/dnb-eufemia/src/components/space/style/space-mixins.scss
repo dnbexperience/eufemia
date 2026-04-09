@@ -1,16 +1,16 @@
 @mixin spaceVerticalReset() {
-  &:not([class*='space__top']) {
+  &:not([style*='--margin-t-']) {
     margin-top: 0;
   }
-  &:not([class*='space__bottom']) {
+  &:not([style*='--margin-b-']) {
     margin-bottom: 0;
   }
 }
 @mixin spaceHorizontalReset() {
-  &:not([class*='space__left']) {
+  &:not([style*='--margin-l-']) {
     margin-left: 0;
   }
-  &:not([class*='space__right']) {
+  &:not([style*='--margin-r-']) {
     margin-right: 0;
   }
 }

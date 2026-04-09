@@ -306,9 +306,9 @@ describe('ToggleButton component', () => {
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-toggle-button',
-      'dnb-space__top--large',
       'dnb-toggle-button--vertical',
     ])
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 2rem')
   })
 
   it('should inherit formElement vertical label', () => {

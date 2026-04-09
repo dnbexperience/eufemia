@@ -127,7 +127,7 @@ describe('TermDefinition', () => {
       </TermDefinition>
     )
     const trigger = document.querySelector('.dnb-term-definition__trigger')
-    expect(trigger.classList.contains('dnb-space__top--large')).toBe(true)
+    expect(trigger.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('toggles open and closed state by pressing the trigger', async () => {

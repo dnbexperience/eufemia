@@ -3360,7 +3360,7 @@ describe('Autocomplete component', () => {
 
     const element = document.querySelector('.dnb-autocomplete')
 
-    expect(element.classList).toContain('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should inherit formElement vertical label', () => {

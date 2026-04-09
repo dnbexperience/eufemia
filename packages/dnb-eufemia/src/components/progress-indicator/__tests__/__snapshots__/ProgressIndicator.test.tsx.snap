@@ -56,7 +56,7 @@ exports[`ProgressIndicator scss should match style dependencies css 1`] = `
   align-self: center;
 }
 .dnb-spacing .dnb-progress-indicator .dnb-p,
-.dnb-spacing .dnb-progress-indicator .dnb-p:not([class*=dnb-space]) {
+.dnb-spacing .dnb-progress-indicator .dnb-p:not([style*="--margin-"]) {
   margin: 0;
 }
 

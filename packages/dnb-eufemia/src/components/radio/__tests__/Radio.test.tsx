@@ -119,10 +119,8 @@ describe('Radio component', () => {
 
     const element = document.querySelector('.dnb-radio')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-radio',
-      'dnb-space__top--large',
-    ])
+    expect(Array.from(element.classList)).toEqual(['dnb-radio'])
+    expect(element.getAttribute('style')).toContain('--margin-t-s: 2rem')
   })
 
   it('should support inline styling', () => {

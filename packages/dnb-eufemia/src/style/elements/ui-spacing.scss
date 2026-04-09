@@ -5,11 +5,11 @@
  */
 
 @mixin defaultSpacing() {
-  &:not([class*='dnb-space__top']) {
+  &:not([style*='--margin-t-']) {
     margin-top: 0;
   }
 
-  &:not([class*='dnb-space__bottom']) {
+  &:not([style*='--margin-b-']) {
     margin-bottom: 1.5rem;
   }
 }

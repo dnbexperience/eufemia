@@ -162,7 +162,7 @@ describe('Form.Element', () => {
 
     const formElement = document.querySelector('form')
 
-    expect(formElement.classList).toContain('dnb-space__top--large')
+    expect(formElement.getAttribute('style')).toContain('--margin-t-')
   })
 
   it('should forward custom HTML props', () => {

@@ -126,10 +126,7 @@ describe('ScrollView', () => {
     render(<ScrollView top="large">overflow content</ScrollView>)
 
     const element = document.querySelector('.dnb-scroll-view')
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-scroll-view',
-      'dnb-space__top--large',
-    ])
+    expect(Array.from(element.classList)).toEqual(['dnb-scroll-view'])
   })
 
   it('should have constant of _supportsSpacingProps', () => {
