@@ -236,7 +236,7 @@
       align-self: center;
       margin-right: 1rem;
       &:hover {
-        background-color: white;
+        background-color: var(--color-white);
         outline: 1px solid currentcolor;
       }
     }
