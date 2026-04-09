@@ -596,7 +596,7 @@ export const RadioWithListComposition = () => (
                       <Field.Option value={value} title={title} />
                     </List.Cell.Start>
                     <List.Cell.End>
-                      <Value.Currency value={amount} />
+                      <Value.Currency value={amount as number} />
                     </List.Cell.End>
                   </List.Item.Basic>
                 )

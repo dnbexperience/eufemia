@@ -158,7 +158,6 @@ export default function PortalLayout(props: PortalLayoutProps) {
                   (i === a.length - 1 && 'current') ||
                   null
                 }
-                // @ts-expect-error -- strictFunctionTypes
                 element={Link}
                 text={item.text}
                 href={item.href}

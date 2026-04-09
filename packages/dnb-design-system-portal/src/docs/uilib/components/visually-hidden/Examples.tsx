@@ -49,7 +49,6 @@ export const VisuallyHiddenSection = () => (
       return (
         <>
           <BoxBefore />
-          {/* @ts-expect-error -- strictFunctionTypes */}
           <VisuallyHidden aria-label="I'm a region" element={Section}>
             <P>but, not visible to you!</P>
           </VisuallyHidden>

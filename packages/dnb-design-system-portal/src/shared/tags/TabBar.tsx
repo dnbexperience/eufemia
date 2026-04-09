@@ -126,7 +126,6 @@ export default function TabBar({
                   <Button
                     onClick={quitFullscreen}
                     href={quitFullscreenPath}
-                    // @ts-expect-error -- strictFunctionTypes
                     element={Link}
                     variant="secondary"
                     title="Quit Fullscreen"
@@ -137,7 +136,6 @@ export default function TabBar({
                   <Button
                     onClick={openFullscreen}
                     href={fullscreenPath}
-                    // @ts-expect-error -- strictFunctionTypes
                     element={Link}
                     variant="secondary"
                     title="Fullscreen"

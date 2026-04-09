@@ -127,7 +127,7 @@ export const RenderPropsPrimitiveItems = () => {
         defaultValue={['foo', 'bar']}
         onChange={(value) => console.log('onChange', value)}
       >
-        {(elementValue) => <Field.String value={elementValue} />}
+        {(elementValue) => <Field.String value={elementValue as string} />}
       </Iterate.Array>
     </ComponentBox>
   )
@@ -143,12 +143,15 @@ export const RenderPropsObjectItems = () => {
         ]}
         onChange={(value) => console.log('onChange', value)}
       >
-        {({ num, txt }) => (
-          <Field.Composition width="large">
-            <Field.Number value={num} width="small" />
-            <Field.String value={txt} width={false} />
-          </Field.Composition>
-        )}
+        {(value) => {
+          const { num, txt } = value as { num: number; txt: string }
+          return (
+            <Field.Composition width="large">
+              <Field.Number value={num} width="small" />
+              <Field.String value={txt} width={false} />
+            </Field.Composition>
+          )
+        }}
       </Iterate.Array>
     </ComponentBox>
   )
@@ -328,7 +331,7 @@ export const DynamicPathValue = () => {
             path="/items"
             countPath="/count"
             countPathTransform={({ value, index }) => {
-              return 'myObject' in (value || {})
+              return 'myObject' in ((value as object) || {})
                 ? value
                 : { myObject: index }
             }}

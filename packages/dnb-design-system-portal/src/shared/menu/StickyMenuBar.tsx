@@ -137,7 +137,6 @@ function HomeButton(props: ButtonProps) {
       href="/"
       icon="chevron_left"
       iconPosition="left"
-      // @ts-expect-error -- strictFunctionTypes
       element={Link}
       {...props}
     />
