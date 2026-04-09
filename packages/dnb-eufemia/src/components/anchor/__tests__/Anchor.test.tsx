@@ -660,9 +660,9 @@ describe('Anchor element', () => {
       const { default: Theme } = require('../../../shared/Theme')
 
       render(
-        <Theme surface="dark">
+        <Theme.Context surface="dark">
           <Anchor href="/url">text</Anchor>
-        </Theme>
+        </Theme.Context>
       )
 
       const anchor = document.querySelector('.dnb-anchor')
@@ -673,11 +673,11 @@ describe('Anchor element', () => {
       const { default: Theme } = require('../../../shared/Theme')
 
       render(
-        <Theme surface="dark">
+        <Theme.Context surface="dark">
           <Anchor href="/url" surface="default">
             text
           </Anchor>
-        </Theme>
+        </Theme.Context>
       )
 
       const anchor = document.querySelector('.dnb-anchor')

@@ -195,9 +195,9 @@ describe('Theme', () => {
     }
 
     render(
-      <Theme surface="dark">
+      <Theme.Context surface="dark">
         <ThemeConsumer />
-      </Theme>
+      </Theme.Context>
     )
 
     expect(receivedTheme).toEqual(
@@ -217,11 +217,11 @@ describe('Theme', () => {
     }
 
     render(
-      <Theme surface="dark">
-        <Theme surface="default">
+      <Theme.Context surface="dark">
+        <Theme.Context surface="default">
           <ThemeConsumer />
-        </Theme>
-      </Theme>
+        </Theme.Context>
+      </Theme.Context>
     )
 
     expect(receivedTheme).toEqual(
@@ -231,7 +231,7 @@ describe('Theme', () => {
     )
   })
 
-  it('provides surface nest nest through the theme context', () => {
+  it('inherits surface when not set', () => {
     let receivedTheme = null
 
     const ThemeConsumer = () => {
@@ -241,11 +241,11 @@ describe('Theme', () => {
     }
 
     render(
-      <Theme surface="dark">
-        <Theme>
+      <Theme.Context surface="dark">
+        <Theme.Context>
           <ThemeConsumer />
-        </Theme>
-      </Theme>
+        </Theme.Context>
+      </Theme.Context>
     )
 
     expect(receivedTheme).toEqual(
@@ -263,6 +263,13 @@ describe('Theme', () => {
       'eufemia-theme',
       'eufemia-theme__surface--dark',
     ])
+  })
+
+  it('does not set surface as HTML classes when "default"', () => {
+    render(<Theme surface="default">content</Theme>)
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(Array.from(element.classList)).toEqual(['eufemia-theme'])
   })
 
   it('sets additional attributes', () => {
