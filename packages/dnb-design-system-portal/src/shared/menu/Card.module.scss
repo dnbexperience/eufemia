@@ -5,6 +5,7 @@
   --card-selected-bg: var(--color-mint-green);
   --card-hover-bg: var(--color-mint-green-50);
 
+  /* stylelint-disable no-descending-specificity */
   :global(.eufemia-theme__sbanken) & {
     --card-selected-bg: var(--sb-color-violet-light-2);
     --card-hover-bg: var(--sb-color-violet-light-3);
@@ -36,6 +37,7 @@
   a:hover {
     background-color: var(--card-hover-bg);
   }
+  /* stylelint-enable no-descending-specificity */
 
   /* mobile view */
   @include utilities.allBelow(small) {
