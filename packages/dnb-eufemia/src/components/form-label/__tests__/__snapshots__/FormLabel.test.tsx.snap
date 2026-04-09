@@ -40,13 +40,3 @@ legend.dnb-form-label {
   display: inline-block;
 }"
 `;
-
-exports[`FormLabel scss have to match default theme snapshot 1`] = `
-"/*
- * FormLabel theme
- *
- */
-.dnb-form-label {
-  color: var(--color-black-80);
-}"
-`;
