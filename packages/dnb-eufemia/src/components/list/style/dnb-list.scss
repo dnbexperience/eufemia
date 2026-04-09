@@ -6,7 +6,7 @@
     --item-height: 4rem;
     --item-rounded-corner: 1.5rem;
     --item-row-gap: var(--spacing-x-small);
-    --item-chevron-margin: 1rem;
+    --item-chevron-margin: var(--spacing-small);
     --item-chevron-height: 1.5rem;
     --item-outline-width: 0.0625rem;
     --item-outline-color: var(--color-black-8);
@@ -245,7 +245,9 @@
     &:has(.dnb-form-label) &__end {
       @include utilities.allBelow(small) {
         display: flex;
-        margin-left: calc(var(--item-padding) * 2 + 0.5rem);
+        margin-left: calc(
+          var(--item-padding) * 2 + var(--spacing-x-small)
+        );
       }
     }
 

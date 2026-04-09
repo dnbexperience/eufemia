@@ -57,7 +57,7 @@
     display: flex;
     user-select: none;
 
-    padding: 0 0.25rem 0 0;
+    padding: 0 var(--spacing-xx-small) 0 0;
     @include utilities.isFirefox() {
       padding: 0 0.0625rem;
     }
@@ -79,7 +79,7 @@
     padding: 0 0.125rem;
     .dnb-input--medium &,
     .dnb-input--large & {
-      padding: 0 0.25rem;
+      padding: 0 var(--spacing-xx-small);
     }
 
     overflow: hidden;

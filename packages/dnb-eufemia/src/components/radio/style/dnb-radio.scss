@@ -174,8 +174,8 @@
 
     // to be aligned to the label on the left side
     .dnb-modal__trigger {
-      margin-top: -0.25rem;
-      margin-bottom: -0.25rem;
+      margin-top: calc(var(--spacing-xx-small) * -1);
+      margin-bottom: calc(var(--spacing-xx-small) * -1);
     }
   }
 

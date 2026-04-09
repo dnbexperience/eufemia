@@ -5,6 +5,6 @@
   }
 
   &:not([class*='--label-height-']) {
-    --label-margin: 0.5rem;
+    --label-margin: var(--spacing-x-small);
   }
 }

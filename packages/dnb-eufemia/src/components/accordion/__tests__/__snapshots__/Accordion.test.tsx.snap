@@ -105,14 +105,14 @@ p > .dnb-icon {
   --accordion-easing: var(--easing-default);
   --accordion-header-margin-vertical: 1.25rem;
   --accordion-header-margin-vertical--description: 0.75rem;
-  --accordion-header-wrapper-margin: 1rem;
-  --accordion-header-wrapper-margin--icon-right: 1rem;
+  --accordion-header-wrapper-margin: var(--spacing-small);
+  --accordion-header-wrapper-margin--icon-right: var(--spacing-small);
   --accordion-header-icon-gutter: 1rem;
-  --accordion-header-icon-margin: 1rem;
+  --accordion-header-icon-margin: var(--spacing-small);
   --accordion-header-icon-alignment: flex-start;
   --accordion-title-font-weight: var(--font-weight-basis);
   --accordion-title-font-weight--expanded: var(--font-weight-medium);
-  --accordion-content-margin: 1rem 0 0 0;
+  --accordion-content-margin: var(--spacing-small) 0 0 0;
   --accordion-content-padding: 0;
   position: relative;
   display: flex;
@@ -145,7 +145,7 @@ p > .dnb-icon {
   margin-bottom: var(--accordion-header-margin-vertical--description);
 }
 .dnb-accordion__header__container {
-  margin: 0 1rem;
+  margin: 0 var(--spacing-small);
 }
 .dnb-accordion__header__icon {
   align-self: var(--accordion-header-icon-alignment);
@@ -200,10 +200,10 @@ p > .dnb-icon {
   font-weight: var(--font-weight-basis);
 }
 .dnb-accordion__header__title + .dnb-accordion__header__description {
-  margin-top: 0.25rem;
+  margin-top: var(--spacing-xx-small);
 }
 .dnb-accordion__header__description + .dnb-accordion__header__title {
-  margin-top: 0.25rem;
+  margin-top: var(--spacing-xx-small);
 }
 .dnb-accordion--expanded > .dnb-accordion__header .dnb-accordion__header__icon {
   transform: rotate(-180deg);
@@ -241,7 +241,7 @@ p > .dnb-icon {
     width: 40%;
   }
   .dnb-accordion-group--single-container .dnb-accordion__content {
-    margin-left: 1rem;
+    margin-left: var(--spacing-small);
     transition: opacity 1s var(--accordion-easing);
   }
 }

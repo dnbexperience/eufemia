@@ -24,9 +24,9 @@ exports[`Elements scss has to match style dependencies css 1`] = `
  *
  */
 .dnb-blockquote {
-  --blockquote-padding-top: 2rem;
-  --blockquote-padding-left: 1.5rem;
-  --blockquote-padding-bottom: 3rem;
+  --blockquote-padding-top: var(--spacing-large);
+  --blockquote-padding-left: var(--spacing-medium);
+  --blockquote-padding-bottom: var(--spacing-x-large);
   --blockquote-quote-size: 3rem;
   --blockquote-quote-padding: 6rem;
   --blockquote-cite-style: italic;
@@ -372,7 +372,7 @@ del .dnb-code {
   padding: 0;
 }
 .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 2rem;
+  padding-left: var(--spacing-large);
 }
 .dnb-ul {
   font-size: var(--font-size-basis);
@@ -381,7 +381,7 @@ del .dnb-code {
 .dnb-ul ul, .dnb-ul ol {
   margin-top: 0;
   margin-bottom: var(--spacing-medium);
-  padding-left: 2rem;
+  padding-left: var(--spacing-large);
 }
 .dnb-ul li, .dnb-ul--outside li {
   position: relative;
@@ -390,7 +390,7 @@ del .dnb-code {
   position: absolute;
   left: -10rem;
   width: 10rem;
-  padding-right: 0.25rem;
+  padding-right: var(--spacing-xx-small);
   text-align: right;
 }
 .dnb-ul--inside li::before {
@@ -425,7 +425,7 @@ del .dnb-code {
   padding: 0;
 }
 .dnb-ol:not([class*=dnb-space__left]) {
-  padding-left: 2rem;
+  padding-left: var(--spacing-large);
 }
 .dnb-ol {
   font-size: var(--font-size-basis);
@@ -434,7 +434,7 @@ del .dnb-code {
 .dnb-ol ul, .dnb-ol ol {
   margin-top: 0;
   margin-bottom: var(--spacing-medium);
-  padding-left: 2rem;
+  padding-left: var(--spacing-large);
 }
 .dnb-ol li, .dnb-ol--outside li {
   position: relative;
@@ -443,7 +443,7 @@ del .dnb-code {
   position: absolute;
   left: -10rem;
   width: 10rem;
-  padding-right: 0.25rem;
+  padding-right: var(--spacing-xx-small);
   text-align: right;
 }
 .dnb-ol--inside li::before {
@@ -464,7 +464,7 @@ del .dnb-code {
 .dnb-ol ul, .dnb-ol ol {
   margin-top: 0;
   margin-bottom: var(--spacing-medium);
-  padding-left: 2rem;
+  padding-left: var(--spacing-large);
 }
 .dnb-ol li, .dnb-ol--outside li {
   position: relative;
@@ -473,7 +473,7 @@ del .dnb-code {
   position: absolute;
   left: -10rem;
   width: 10rem;
-  padding-right: 0.25rem;
+  padding-right: var(--spacing-xx-small);
   text-align: right;
 }
 .dnb-ol--inside li::before {
@@ -534,15 +534,15 @@ del .dnb-code {
   margin-top: var(--row-gap);
 }
 .dnb-dl dt:not(:first-of-type) {
-  margin-top: calc(var(--row-gap) + 1rem);
+  margin-top: calc(var(--row-gap) + var(--spacing-small));
 }
 .dnb-dl dd {
   padding: 0;
-  margin: 0.5rem 0 1rem;
+  margin: var(--spacing-x-small) 0 var(--spacing-small);
 }
 .dnb-dl > dd > dl, .dnb-dl:not([class*=dnb-space]) > dd > dl {
-  margin-top: calc(var(--row-gap) + 0.5rem);
-  margin-left: 2rem;
+  margin-top: calc(var(--row-gap) + var(--spacing-x-small));
+  margin-left: var(--spacing-large);
 }
 @media screen and (min-width: 40.00625em) {
   .dnb-dl__layout--horizontal {
@@ -555,7 +555,7 @@ del .dnb-code {
   }
   .dnb-dl__layout--horizontal dt {
     margin-top: 0;
-    margin-right: calc(var(--column-gap) - 0.5rem);
+    margin-right: calc(var(--column-gap) - var(--spacing-x-small));
     max-width: var(--dt-max-width);
   }
   .dnb-dl__layout--horizontal dd {
@@ -629,7 +629,7 @@ del .dnb-code {
 .dnb-spacing .dnb-ol:not([class*=dnb-space]) li > ul,
 .dnb-spacing .dnb-ol li > ol,
 .dnb-spacing .dnb-ol:not([class*=dnb-space]) li > ol {
-  margin-top: -0.5rem;
+  margin-top: calc(var(--spacing-x-small) * -1);
 }
 .dnb-spacing .dnb-dl:not([class*=dnb-space__top]) {
   margin-top: 0;
@@ -1151,19 +1151,19 @@ sub {
 }
 
 .dnb-spacing .dnb-h--xx-large:not([class*=space__top]), .dnb-core-style .dnb-spacing .dnb-h--xx-large:not([class*=space__top]) {
-  margin-top: 3rem;
+  margin-top: var(--spacing-x-large);
 }
 .dnb-spacing .dnb-h--xx-large:not([class*=space__bottom]), .dnb-core-style .dnb-spacing .dnb-h--xx-large:not([class*=space__bottom]) {
   margin-bottom: 2.5rem;
 }
 .dnb-spacing .dnb-h--x-large:not([class*=space__top]), .dnb-core-style .dnb-spacing .dnb-h--x-large:not([class*=space__top]) {
-  margin-top: 3rem;
+  margin-top: var(--spacing-x-large);
 }
 .dnb-spacing .dnb-h--x-large:not([class*=space__bottom]), .dnb-core-style .dnb-spacing .dnb-h--x-large:not([class*=space__bottom]) {
   margin-bottom: var(--spacing-small);
 }
 .dnb-spacing .dnb-h--large:not([class*=space__top]), .dnb-core-style .dnb-spacing .dnb-h--large:not([class*=space__top]) {
-  margin-top: 3rem;
+  margin-top: var(--spacing-x-large);
 }
 .dnb-spacing .dnb-h--large:not([class*=space__bottom]), .dnb-core-style .dnb-spacing .dnb-h--large:not([class*=space__bottom]) {
   margin-bottom: var(--spacing-small);
@@ -1173,7 +1173,7 @@ sub {
 .dnb-spacing .dnb-h--basis:not([class*=space__top]),
 .dnb-spacing .dnb-h--small:not([class*=space__top]),
 .dnb-spacing .dnb-h--x-small:not([class*=space__top]), .dnb-core-style .dnb-spacing .dnb-lead:not([class*=space__top]), .dnb-core-style .dnb-spacing .dnb-h--medium:not([class*=space__top]), .dnb-core-style .dnb-spacing .dnb-h--basis:not([class*=space__top]), .dnb-core-style .dnb-spacing .dnb-h--small:not([class*=space__top]), .dnb-core-style .dnb-spacing .dnb-h--x-small:not([class*=space__top]) {
-  margin-top: 2rem;
+  margin-top: var(--spacing-large);
 }
 .dnb-spacing .dnb-lead:not([class*=space__bottom]),
 .dnb-spacing .dnb-h--medium:not([class*=space__bottom]),

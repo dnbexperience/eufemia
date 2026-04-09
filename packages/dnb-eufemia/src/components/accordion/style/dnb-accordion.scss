@@ -15,12 +15,12 @@
   --accordion-header-margin-vertical--description: 0.75rem;
 
   // wrapper
-  --accordion-header-wrapper-margin: 1rem;
-  --accordion-header-wrapper-margin--icon-right: 1rem;
+  --accordion-header-wrapper-margin: var(--spacing-small);
+  --accordion-header-wrapper-margin--icon-right: var(--spacing-small);
 
   // icon
   --accordion-header-icon-gutter: 1rem;
-  --accordion-header-icon-margin: 1rem;
+  --accordion-header-icon-margin: var(--spacing-small);
   --accordion-header-icon-alignment: flex-start;
 
   // Title
@@ -28,7 +28,7 @@
   --accordion-title-font-weight--expanded: var(--font-weight-medium);
 
   // Content
-  --accordion-content-margin: 1rem 0 0 0;
+  --accordion-content-margin: var(--spacing-small) 0 0 0;
   --accordion-content-padding: 0;
 
   position: relative;
@@ -73,7 +73,7 @@
     }
 
     &__container {
-      margin: 0 1rem;
+      margin: 0 var(--spacing-small);
     }
     &__icon {
       align-self: var(--accordion-header-icon-alignment);
@@ -137,10 +137,10 @@
       font-weight: var(--font-weight-basis);
     }
     &__title + &__description {
-      margin-top: 0.25rem;
+      margin-top: var(--spacing-xx-small);
     }
     &__description + &__title {
-      margin-top: 0.25rem;
+      margin-top: var(--spacing-xx-small);
     }
   }
 
@@ -187,7 +187,7 @@
 
       // Only to make sure we have a spacing. But would be typically project specific
       &__content {
-        margin-left: 1rem;
+        margin-left: var(--spacing-small);
 
         // Slower down the animation if single container is used
         transition: opacity 1s var(--accordion-easing);

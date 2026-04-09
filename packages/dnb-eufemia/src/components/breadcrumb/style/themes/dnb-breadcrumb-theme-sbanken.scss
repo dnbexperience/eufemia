@@ -13,7 +13,7 @@
   &__item {
     padding: 0;
     &__span {
-      padding: 0.5rem 0;
+      padding: var(--spacing-x-small) 0;
       &__icon {
         color: var(--sb-color-violet);
       }

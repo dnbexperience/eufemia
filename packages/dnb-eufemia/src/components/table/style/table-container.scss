@@ -54,7 +54,7 @@
   }
 
   &__head {
-    padding: 2rem 1rem 0;
+    padding: var(--spacing-large) var(--spacing-small) 0;
 
     &--empty {
       padding: 0;

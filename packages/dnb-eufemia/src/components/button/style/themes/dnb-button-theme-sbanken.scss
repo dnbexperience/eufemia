@@ -13,7 +13,7 @@
   // global
   --button-background--focus: var(--sb-color-blue-light-3);
   --button-border-radius--control-button: 3rem;
-  --button-padding--large: 1.5rem;
+  --button-padding--large: var(--spacing-medium);
 
   // primary
   --button-primary-shadow: var(--sb-shadow-medium);

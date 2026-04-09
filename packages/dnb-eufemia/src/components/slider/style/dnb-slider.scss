@@ -283,7 +283,7 @@
 
   > .dnb-form-label {
     align-self: flex-start;
-    margin-right: 1rem;
+    margin-right: var(--spacing-small);
     line-height: var(--slider-thumb-size);
   }
 

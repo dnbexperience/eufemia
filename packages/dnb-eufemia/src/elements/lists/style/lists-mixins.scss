@@ -12,7 +12,9 @@
   & ol {
     margin-top: 0;
     margin-bottom: var(--spacing-medium);
-    padding-left: 2rem; // to adjust the left spacing of child lists
+    padding-left: var(
+      --spacing-large
+    ); // to adjust the left spacing of child lists
   }
 
   & li,
@@ -23,7 +25,7 @@
       position: absolute;
       left: -10rem;
       width: 10rem;
-      padding-right: 0.25rem;
+      padding-right: var(--spacing-xx-small);
       text-align: right;
     }
   }
@@ -47,7 +49,7 @@
 
   padding: 0;
   &:not([class*='dnb-space__left']) {
-    padding-left: 2rem;
+    padding-left: var(--spacing-large);
   }
 
   font-size: var(--font-size-basis);
@@ -130,19 +132,19 @@
     margin-top: var(--row-gap);
   }
   & dt:not(:first-of-type) {
-    margin-top: calc(var(--row-gap) + 1rem);
+    margin-top: calc(var(--row-gap) + var(--spacing-small));
   }
   & dd {
     padding: 0;
-    margin: 0.5rem 0 1rem;
+    margin: var(--spacing-x-small) 0 var(--spacing-small);
 
     // In case we really want / need to have a indented definition content
     // margin-left: 2rem;
   }
   & > dd > dl,
   &:not([class*='dnb-space']) > dd > dl {
-    margin-top: calc(var(--row-gap) + 0.5rem);
-    margin-left: 2rem;
+    margin-top: calc(var(--row-gap) + var(--spacing-x-small));
+    margin-left: var(--spacing-large);
   }
 
   // Inline
@@ -159,7 +161,7 @@
 
       & dt {
         margin-top: 0;
-        margin-right: calc(var(--column-gap) - 0.5rem);
+        margin-right: calc(var(--column-gap) - var(--spacing-x-small));
         max-width: var(--dt-max-width);
       }
 
@@ -235,7 +237,7 @@
   &:not([class*='dnb-space']) li > ul,
   & li > ol,
   &:not([class*='dnb-space']) li > ol {
-    margin-top: -0.5rem;
+    margin-top: calc(var(--spacing-x-small) * -1);
   }
 }
 

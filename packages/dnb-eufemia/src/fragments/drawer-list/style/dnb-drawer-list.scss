@@ -184,7 +184,7 @@
 
     &-title {
       display: block;
-      padding: 0.5rem 1rem;
+      padding: var(--spacing-x-small) var(--spacing-small);
       color: var(--drawer-list-group-title-color);
       background-color: var(--drawer-list-group-title-bg);
       font-weight: var(--font-weight-medium);
@@ -247,7 +247,7 @@
 
       .dnb-anchor {
         display: inline-block;
-        margin-right: 0.5rem;
+        margin-right: var(--spacing-x-small);
         word-break: break-word;
 
         font-size: inherit;

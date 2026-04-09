@@ -10,8 +10,8 @@
   --accordion-border-radius: 0;
 
   // vertical spacing
-  --accordion-header-margin-vertical: 1rem;
-  --accordion-header-margin-vertical--description: 0.5rem;
+  --accordion-header-margin-vertical: var(--spacing-small);
+  --accordion-header-margin-vertical--description: var(--spacing-x-small);
 
   // header
   --accordion-header-wrapper-margin--icon-right: calc(
@@ -39,7 +39,7 @@
   );
   --sb-accordion-content-border-radius: 0 0 0.125rem 0.125rem;
   --accordion-content-margin: 0;
-  --accordion-content-padding: 0 1rem 1rem
+  --accordion-content-padding: 0 var(--spacing-small) var(--spacing-small)
     var(--sb-accordion-content-padding-left);
 
   color: var(--sb-color-text);
@@ -87,13 +87,13 @@
     }
 
     &--icon-right {
-      --accordion-header-icon-margin: 1.5rem;
+      --accordion-header-icon-margin: var(--spacing-medium);
       + .dnb-accordion__content {
         --sb-accordion-content-padding-left: calc(
           1.5rem - var(--sb-accordion-frame-width)
         );
-        --accordion-content-padding: 0 1rem 1rem
-          var(--sb-accordion-content-padding-left);
+        --accordion-content-padding: 0 var(--spacing-small)
+          var(--spacing-small) var(--sb-accordion-content-padding-left);
       }
     }
 

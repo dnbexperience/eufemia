@@ -43,7 +43,8 @@
   & > caption {
     position: relative;
     caption-side: bottom;
-    padding: 0.5rem 0 0.5rem 1rem;
+    padding: var(--spacing-x-small) 0 var(--spacing-x-small)
+      var(--spacing-small);
 
     font-size: var(--font-size-basis);
     background-color: var(--color-white);

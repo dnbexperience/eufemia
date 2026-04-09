@@ -151,7 +151,7 @@
 
     &--product &--circle + div {
       width: 50%;
-      margin-left: 1rem;
+      margin-left: var(--spacing-small);
     }
   }
 

@@ -93,7 +93,7 @@
 
       .dnb-button__text {
         margin-top: 0;
-        margin-bottom: 0.25rem;
+        margin-bottom: var(--spacing-xx-small);
         font-size: var(--font-size-x-small);
       }
       &.dnb-button--size-large {

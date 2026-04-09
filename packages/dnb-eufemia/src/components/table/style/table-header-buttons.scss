@@ -65,7 +65,7 @@
       .dnb-button__icon {
         align-self: flex-end;
         margin-top: auto;
-        margin-bottom: 0.25rem;
+        margin-bottom: var(--spacing-xx-small);
       }
 
       .dnb-button__alignment {
@@ -146,7 +146,7 @@
           padding-right: var(--spacing-x-small);
 
           .dnb-button__icon {
-            margin-left: -0.5rem;
+            margin-left: calc(var(--spacing-x-small) * -1);
           }
           .dnb-button__text {
             padding-right: 0;
@@ -213,7 +213,7 @@
   & &__th,
   & > thead > tr > th {
     .dnb-table__help-button {
-      margin-left: 0.5rem;
+      margin-left: var(--spacing-x-small);
     }
   }
 

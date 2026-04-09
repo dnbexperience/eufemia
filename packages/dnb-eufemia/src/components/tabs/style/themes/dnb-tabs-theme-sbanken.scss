@@ -19,7 +19,7 @@
 
   &__button,
   .dnb-core-style & &__button {
-    padding: 0 0.5rem;
+    padding: 0 var(--spacing-x-small);
 
     &:focus::before {
       z-index: -1;

@@ -34,7 +34,7 @@
   &__item {
     display: flex;
     align-items: center;
-    padding: 0.5rem 0;
+    padding: var(--spacing-x-small) 0;
 
     &__span {
       display: flex;
@@ -43,7 +43,7 @@
 
       // To match the other tertiary buttons
       &__icon {
-        margin-right: 0.5rem;
+        margin-right: var(--spacing-x-small);
       }
     }
 
@@ -66,7 +66,7 @@
     &:first-child .dnb-anchor {
       border-left: none;
       .dnb-icon svg {
-        margin-right: 0.5rem;
+        margin-right: var(--spacing-x-small);
       }
     }
   }
@@ -126,8 +126,8 @@
     align-items: flex-start;
     row-gap: 0;
 
-    margin: 0.5rem 0;
-    margin-left: 1.5rem;
+    margin: var(--spacing-x-small) 0;
+    margin-left: var(--spacing-medium);
     padding: 0;
   }
 }

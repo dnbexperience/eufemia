@@ -24,7 +24,7 @@ exports[`Table scss should match default theme snapshot 1`] = `
   padding-bottom: var(--spacing-x-small);
 }
 .dnb-table__th, .dnb-table thead th {
-  padding: 2rem 1rem 1rem;
+  padding: var(--spacing-large) var(--spacing-small) var(--spacing-small);
   font-weight: var(--table-th-font-weight);
   color: var(--table-th-text-color);
   font-size: var(--table-th-font-size);
@@ -32,7 +32,7 @@ exports[`Table scss should match default theme snapshot 1`] = `
   vertical-align: bottom;
 }
 .dnb-table__size--medium .dnb-table__th, .dnb-table__size--medium .dnb-table thead th {
-  padding: 1.375rem 1rem 0.875rem;
+  padding: 1.375rem var(--spacing-small) 0.875rem;
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
 }
@@ -40,7 +40,7 @@ exports[`Table scss should match default theme snapshot 1`] = `
   line-height: inherit;
 }
 .dnb-table__size--small .dnb-table__th, .dnb-table__size--small .dnb-table thead th {
-  padding: 1.25rem 1rem 0.5rem;
+  padding: 1.25rem var(--spacing-small) var(--spacing-x-small);
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
 }
@@ -61,14 +61,14 @@ exports[`Table scss should match default theme snapshot 1`] = `
 .dnb-table__size--medium tbody .dnb-table__th, .dnb-table__size--medium tbody .dnb-table__td,
 .dnb-table__size--medium .dnb-table tbody th,
 .dnb-table__size--medium .dnb-table tbody td {
-  padding: 0.875rem 1rem;
+  padding: 0.875rem var(--spacing-small);
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
 }
 .dnb-table__size--small tbody .dnb-table__th, .dnb-table__size--small tbody .dnb-table__td,
 .dnb-table__size--small .dnb-table tbody th,
 .dnb-table__size--small .dnb-table tbody td {
-  padding: 0.625rem 1rem;
+  padding: 0.625rem var(--spacing-small);
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
 }
@@ -155,7 +155,7 @@ exports[`Table scss should match style dependencies css 1`] = `
 .dnb-table > caption {
   position: relative;
   caption-side: bottom;
-  padding: 0.5rem 0 0.5rem 1rem;
+  padding: var(--spacing-x-small) 0 var(--spacing-x-small) var(--spacing-small);
   font-size: var(--font-size-basis);
   background-color: var(--color-white);
   text-align: left;
@@ -265,7 +265,7 @@ html[data-visual-test] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-tab
 .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button .dnb-button__icon, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button .dnb-button__icon {
   align-self: flex-end;
   margin-top: auto;
-  margin-bottom: 0.25rem;
+  margin-bottom: var(--spacing-xx-small);
 }
 .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button .dnb-button__alignment, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button .dnb-button__alignment {
   vertical-align: top;
@@ -370,7 +370,7 @@ html[data-whatinput=touch] .dnb-table > thead > tr > th.dnb-table--sortable .dnb
   padding-right: var(--spacing-x-small);
 }
 .dnb-table > thead > tr > th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right .dnb-button__icon, .dnb-table .dnb-table__th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right .dnb-button__icon {
-  margin-left: -0.5rem;
+  margin-left: calc(var(--spacing-x-small) * -1);
 }
 .dnb-table > thead > tr > th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right .dnb-button__text, .dnb-table .dnb-table__th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right .dnb-button__text {
   padding-right: 0;
@@ -408,7 +408,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   transform-origin: 50% 50%;
 }
 .dnb-table .dnb-table__th .dnb-table__help-button, .dnb-table > thead > tr > th .dnb-table__help-button {
-  margin-left: 0.5rem;
+  margin-left: var(--spacing-x-small);
 }
 .dnb-table > thead > .dnb-table--no-wrap .dnb-table__sort-button {
   white-space: nowrap;
@@ -733,7 +733,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 }
 
 .dnb-table__container__head {
-  padding: 2rem 1rem 0;
+  padding: var(--spacing-large) var(--spacing-small) 0;
 }
 
 .dnb-table__container__head--empty {

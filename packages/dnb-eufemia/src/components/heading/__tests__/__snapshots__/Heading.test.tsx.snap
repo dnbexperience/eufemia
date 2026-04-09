@@ -19,6 +19,6 @@ exports[`Heading component has to match style dependencies css 1`] = `
 }
 .dnb-heading__context {
   display: block;
-  padding: 1rem 0 2rem;
+  padding: var(--spacing-small) 0 var(--spacing-large);
 }"
 `;

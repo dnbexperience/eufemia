@@ -173,7 +173,7 @@ html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
   z-index: 1;
 }
 .dnb-tabs__button:has(.dnb-badge), .dnb-core-style .dnb-tabs__button:has(.dnb-badge) {
-  margin-right: 1.5rem;
+  margin-right: var(--spacing-medium);
 }
 .dnb-tabs__button, .dnb-core-style .dnb-tabs__button {
   user-select: none;
@@ -198,7 +198,7 @@ html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
   text-align: center;
   display: block;
   color: var(--tab-title-font-color);
-  padding: 0.5rem 0 0.25rem;
+  padding: var(--spacing-x-small) 0 var(--spacing-xx-small);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button__title:hover[disabled], html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button__title:hover[disabled] {
   cursor: not-allowed;
@@ -229,7 +229,7 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after
   overflow: hidden;
 }
 .dnb-tabs__button .dnb-dummy, .dnb-core-style .dnb-tabs__button .dnb-dummy {
-  margin-top: 0.25rem;
+  margin-top: var(--spacing-xx-small);
 }
 .dnb-tabs__button::after, .dnb-core-style .dnb-tabs__button::after {
   content: "";
@@ -298,11 +298,11 @@ html[data-whatinput=keyboard] .dnb-tabs__button:focus::before, html[data-whatinp
 }
 .dnb-tabs__button__snap {
   display: flex;
-  padding: 0 1rem 0 1.5rem;
+  padding: 0 var(--spacing-small) 0 var(--spacing-medium);
 }
 @media screen and (max-width: 40em) {
   .dnb-tabs__button__snap {
-    padding: 0 1rem;
+    padding: 0 var(--spacing-small);
   }
 }
 .dnb-tabs__button__snap:first-of-type {
@@ -316,16 +316,16 @@ html[data-whatinput=keyboard] .dnb-tabs__button:focus::before, html[data-whatinp
   transition: padding 1s var(--easing-default);
 }
 .dnb-tabs__button__snap:has(.dnb-badge) {
-  margin-right: -0.5rem;
+  margin-right: calc(var(--spacing-x-small) * -1);
 }
 html[data-whatinput=keyboard] .dnb-tabs__button__snap:first-of-type.focus .dnb-tabs__button:focus {
-  margin-left: 0.5rem;
+  margin-left: var(--spacing-x-small);
 }
 html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus {
   /* stylelint-disable */
 }
 html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-tabs__button:focus {
-  margin-right: 0.5rem;
+  margin-right: var(--spacing-x-small);
 }
 html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus {
   /* stylelint-enable */
@@ -377,7 +377,7 @@ html[data-whatinput=keyboard] .dnb-tabs__content:focus::before {
 .dnb-tabs__button__title > .dnb-badge {
   position: absolute;
   top: auto;
-  margin-left: 0.25rem;
+  margin-left: var(--spacing-xx-small);
 }"
 `;
 
@@ -415,7 +415,7 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
   text-align: center;
   display: block;
   color: var(--color-sea-green);
-  padding: 0.5rem 0 0.25rem;
+  padding: var(--spacing-x-small) 0 var(--spacing-xx-small);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:hover[disabled] {
   cursor: not-allowed;

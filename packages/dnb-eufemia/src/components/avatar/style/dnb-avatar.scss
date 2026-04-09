@@ -128,7 +128,7 @@
       @include utilities.fakeBorder(var(--color-black-3), 0.125rem);
 
       &--size-small {
-        margin-left: -0.5rem;
+        margin-left: calc(var(--spacing-x-small) * -1);
       }
 
       &--size-medium {
@@ -136,11 +136,11 @@
       }
 
       &--size-large {
-        margin-left: -1rem;
+        margin-left: calc(var(--spacing-small) * -1);
       }
 
       &--size-x-large {
-        margin-left: -1.5rem;
+        margin-left: calc(var(--spacing-medium) * -1);
       }
 
       &:nth-of-type(2) {

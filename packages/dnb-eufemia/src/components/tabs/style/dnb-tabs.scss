@@ -132,7 +132,7 @@
     z-index: 1;
 
     &:has(.dnb-badge) {
-      margin-right: 1.5rem;
+      margin-right: var(--spacing-medium);
     }
 
     user-select: none;
@@ -168,7 +168,7 @@
 
       display: block;
       color: var(--tab-title-font-color);
-      padding: 0.5rem 0 0.25rem;
+      padding: var(--spacing-x-small) 0 var(--spacing-xx-small);
 
       @include utilities.hover() {
         color: var(--tab-title-color--hover);
@@ -196,7 +196,7 @@
     @include utilities.dummySpacing();
 
     & .dnb-dummy {
-      margin-top: 0.25rem;
+      margin-top: var(--spacing-xx-small);
     }
 
     &::after {
@@ -264,10 +264,10 @@
   &__button__snap {
     display: flex;
 
-    padding: 0 1rem 0 1.5rem;
+    padding: 0 var(--spacing-small) 0 var(--spacing-medium);
 
     @include utilities.allBelow(small) {
-      padding: 0 1rem;
+      padding: 0 var(--spacing-small);
     }
 
     &:first-of-type {
@@ -282,14 +282,14 @@
   }
 
   &__button__snap:has(.dnb-badge) {
-    margin-right: -0.5rem;
+    margin-right: calc(var(--spacing-x-small) * -1);
   }
 
   html[data-whatinput='keyboard'] &__button__snap {
     &:first-of-type.focus {
       // add space so the focus ring is visible within our overflow
       .dnb-tabs__button:focus {
-        margin-left: 0.5rem;
+        margin-left: var(--spacing-x-small);
       }
     }
 
@@ -297,7 +297,7 @@
       // add space so the focus ring is visible within our overflow
       /* stylelint-disable */
       .dnb-tabs__button:focus {
-        margin-right: 0.5rem;
+        margin-right: var(--spacing-x-small);
       }
       /* stylelint-enable */
     }
@@ -358,6 +358,6 @@
   &__button__title > .dnb-badge {
     position: absolute;
     top: auto;
-    margin-left: 0.25rem;
+    margin-left: var(--spacing-xx-small);
   }
 }

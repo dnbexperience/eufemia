@@ -254,7 +254,7 @@
 
 @mixin headingSpacingXxLarge() {
   &:not([class*='space__top']) {
-    margin-top: 3rem;
+    margin-top: var(--spacing-x-large);
   }
 
   &:not([class*='space__bottom']) {
@@ -264,7 +264,7 @@
 
 @mixin headingSpacingXLarge() {
   &:not([class*='space__top']) {
-    margin-top: 3rem;
+    margin-top: var(--spacing-x-large);
   }
 
   &:not([class*='space__bottom']) {
@@ -274,7 +274,7 @@
 
 @mixin headingSpacingLarge() {
   &:not([class*='space__top']) {
-    margin-top: 3rem;
+    margin-top: var(--spacing-x-large);
   }
 
   &:not([class*='space__bottom']) {
@@ -284,7 +284,7 @@
 
 @mixin headingSpacing() {
   &:not([class*='space__top']) {
-    margin-top: 2rem;
+    margin-top: var(--spacing-large);
   }
 
   &:not([class*='space__bottom']) {

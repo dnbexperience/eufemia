@@ -243,7 +243,7 @@
 
     > .dnb-form-label {
       // vertical align the current font
-      margin-top: 0.25rem;
+      margin-top: var(--spacing-xx-small);
     }
   }
 

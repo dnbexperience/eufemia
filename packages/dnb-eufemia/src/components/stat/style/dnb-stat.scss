@@ -120,7 +120,7 @@
 
   &__trend {
     display: inline-flex;
-    padding: 0.25rem 0.5rem;
+    padding: var(--spacing-xx-small) var(--spacing-x-small);
     font-size: var(--font-size-small);
     line-height: var(--line-height-basis);
     font-weight: var(--font-weight-medium);

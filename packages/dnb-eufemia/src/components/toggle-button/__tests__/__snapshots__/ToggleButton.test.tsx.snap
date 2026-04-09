@@ -324,12 +324,12 @@ p > .dnb-icon {
   box-shadow: var(--shadow-default);
 }
 .dnb-tooltip--large {
-  padding: 0.25rem 0;
+  padding: var(--spacing-xx-small) 0;
 }
 .dnb-tooltip .dnb-popover__content {
   min-width: 2rem;
   min-height: 1.5rem;
-  padding: 0 1rem;
+  padding: 0 var(--spacing-small);
 }
 .dnb-tooltip .dnb-popover__arrow__placement--right {
   left: -13px;
@@ -411,7 +411,7 @@ p > .dnb-icon {
 }
 .dnb-form-status__text {
   max-width: var(--prose-max-width);
-  padding: 0.625rem 1rem;
+  padding: 0.625rem var(--spacing-small);
   cursor: text;
 }
 button .dnb-form-status__text {
@@ -531,10 +531,10 @@ button .dnb-form-status__text {
   --button-padding-left: 0;
   --button-padding-right: 0;
   --button-padding-icon: var(--spacing-small);
-  --button-padding--default: 1.5rem;
+  --button-padding--default: var(--spacing-medium);
   --button-padding--small: var(--spacing-small);
   --button-padding--medium: var(--spacing-small);
-  --button-padding--large: 2rem;
+  --button-padding--large: var(--spacing-large);
   --button-icon-margin-top: 0;
   --button-icon-margin-left: 0;
   --button-icon-margin-right: 0;
@@ -1008,7 +1008,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   line-height: var(--button-height);
 }
 .dnb-button__text {
-  margin: 0.5rem 0;
+  margin: var(--spacing-x-small) 0;
   font-size: var(--button-font-size);
   line-height: var(--line-height-basis);
   color: inherit;
@@ -1062,7 +1062,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
 }
 .dnb-button--size-large {
   --button-height: var(--button-height--large);
-  --button-padding-icon: 1.5rem;
+  --button-padding-icon: var(--spacing-medium);
   width: var(--button-width--large);
 }
 .dnb-button--has-text.dnb-button--size-large {
@@ -1676,8 +1676,8 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
   order: 3;
 }
 .dnb-radio__suffix .dnb-modal__trigger {
-  margin-top: -0.25rem;
-  margin-bottom: -0.25rem;
+  margin-top: calc(var(--spacing-xx-small) * -1);
+  margin-bottom: calc(var(--spacing-xx-small) * -1);
 }
 .dnb-radio-group__suffix {
   font-size: var(--font-size-basis);
@@ -1926,11 +1926,11 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:checked):no
   align-items: center;
 }
 .dnb-toggle-button__button.dnb-button--has-text {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: var(--spacing-medium);
+  padding-right: var(--spacing-medium);
 }
 .dnb-toggle-button__button .dnb-checkbox {
-  margin-left: -0.5rem;
+  margin-left: calc(var(--spacing-x-small) * -1);
 }
 .dnb-toggle-button__button .dnb-checkbox__input {
   pointer-events: none;
@@ -1952,7 +1952,7 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:checked):no
   height: calc(var(--checkbox-height--medium) - 0.75rem);
 }
 .dnb-toggle-button__button .dnb-radio {
-  margin-left: -0.5rem;
+  margin-left: calc(var(--spacing-x-small) * -1);
 }
 .dnb-toggle-button__button .dnb-radio__input {
   pointer-events: none;
@@ -1974,7 +1974,7 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:checked):no
   margin-top: var(--spacing-x-small);
 }
 .dnb-toggle-button .dnb-form-label {
-  margin-right: 1rem;
+  margin-right: var(--spacing-small);
 }
 .dnb-toggle-button-group {
   --toggle-button-group-column-gap: var(--spacing-small);

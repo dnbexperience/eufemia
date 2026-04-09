@@ -18,6 +18,6 @@
 
   &__context {
     display: block;
-    padding: 1rem 0 2rem;
+    padding: var(--spacing-small) 0 var(--spacing-large);
   }
 }

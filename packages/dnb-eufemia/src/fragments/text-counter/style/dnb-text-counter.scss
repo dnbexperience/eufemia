@@ -8,7 +8,7 @@
       font-size 400ms var(--easing-default);
   }
   &--exceeded .dnb-icon {
-    margin-right: 0.5rem;
+    margin-right: var(--spacing-x-small);
 
     font-size: var(--font-size-basis--em);
   }

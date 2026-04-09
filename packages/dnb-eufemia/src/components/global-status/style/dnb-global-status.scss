@@ -24,7 +24,7 @@
 
     .dnb-hr,
     .dnb-spacing & .dnb-hr:not([class*='dnb-space__bottom']) {
-      margin: 0 0 0 1rem;
+      margin: 0 0 0 var(--spacing-small);
 
       &::after {
         top: calc(var(--thickness) * -1);
@@ -41,7 +41,7 @@
     display: flex;
     align-items: center;
 
-    padding: 1.5rem 5rem 1.5rem 2.5rem;
+    padding: var(--spacing-medium) 5rem var(--spacing-medium) 2.5rem;
     font-size: var(--font-size-basis);
 
     .dnb-p,
@@ -59,7 +59,7 @@
       display: flex;
       flex-direction: column;
 
-      padding: 0 0 0.5rem 2.5rem;
+      padding: 0 0 var(--spacing-x-small) 2.5rem;
       > .dnb-ul:first-child > li:first-child {
         margin-top: 0;
       }
@@ -104,7 +104,7 @@
       padding-left: var(--spacing-small);
 
       .dnb-anchor:last-of-type {
-        margin-left: 0.5rem;
+        margin-left: var(--spacing-x-small);
       }
     }
   }

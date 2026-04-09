@@ -75,7 +75,7 @@
   &__text {
     max-width: var(--prose-max-width); // to enhance readability
 
-    padding: 0.625rem 1rem;
+    padding: 0.625rem var(--spacing-small);
 
     cursor: text;
 

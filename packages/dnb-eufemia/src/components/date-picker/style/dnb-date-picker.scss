@@ -8,7 +8,7 @@
 .dnb-date-picker {
   --date-picker-input-height: 2rem;
   --date-picker-day-width: 2rem;
-  --date-picker-day-horizontal-spacing: 0.25rem;
+  --date-picker-day-horizontal-spacing: var(--spacing-xx-small);
 
   display: inline-flex;
   align-items: center;
@@ -116,16 +116,16 @@
     margin-left: 0.2rem;
   }
   .dnb-segmented-field__fieldset:last-of-type &__input:last-of-type {
-    --input-padding--small: 0.25rem;
+    --input-padding--small: var(--spacing-xx-small);
     --input-padding--medium: 0.333rem;
     --input-padding--large: var(--spacing-x-small);
 
-    margin-right: 2rem; // space for the button
+    margin-right: var(--spacing-large); // space for the button
   }
   &--small
     .dnb-segmented-field__fieldset:last-of-type
     &__input:last-of-type {
-    margin-right: 1.5rem; // space for the button
+    margin-right: var(--spacing-medium); // space for the button
   }
   &--medium
     .dnb-segmented-field__fieldset:last-of-type
@@ -135,7 +135,7 @@
   &--large
     .dnb-segmented-field__fieldset:last-of-type
     &__input:last-of-type {
-    margin-right: 3rem; // space for the button
+    margin-right: var(--spacing-x-large); // space for the button
   }
   &--medium
     .dnb-segmented-field__fieldset:first-of-type
@@ -143,7 +143,7 @@
   &--large
     .dnb-segmented-field__fieldset:first-of-type
     .dnb-input__input#{&}__input:first-of-type {
-    margin-left: 0.5rem;
+    margin-left: var(--spacing-x-small);
   }
 
   .dnb-input__shell {
@@ -364,7 +364,7 @@
     align-items: flex-start;
     > .dnb-form-label {
       // vertical align the current font
-      margin-top: 0.25rem;
+      margin-top: var(--spacing-xx-small);
     }
   }
 
@@ -404,7 +404,7 @@
     // make variables available inside the portal
     --date-picker-input-height: 2rem;
     --date-picker-day-width: 2rem;
-    --date-picker-day-horizontal-spacing: 0.25rem;
+    --date-picker-day-horizontal-spacing: var(--spacing-xx-small);
 
     // Over modal, but below tooltip
     --popover-z-index: calc(var(--modal-z-index) + 10);

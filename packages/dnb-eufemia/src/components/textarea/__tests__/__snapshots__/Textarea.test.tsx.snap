@@ -117,7 +117,7 @@ legend.dnb-form-label {
 }
 .dnb-form-status__text {
   max-width: var(--prose-max-width);
-  padding: 0.625rem 1rem;
+  padding: 0.625rem var(--spacing-small);
   cursor: text;
 }
 button .dnb-form-status__text {
@@ -408,7 +408,7 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
   align-items: flex-start;
 }
 .dnb-textarea:not(.dnb-textarea--vertical)[class*=__status] > .dnb-form-label {
-  margin-top: 0.25rem;
+  margin-top: var(--spacing-xx-small);
 }
 @media screen and (max-width: 40em) {
   .dnb-textarea {

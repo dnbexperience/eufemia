@@ -35,7 +35,7 @@
       transform: none;
     }
     .dnb-button__icon {
-      --button-icon-margin-top: 0.25rem;
+      --button-icon-margin-top: var(--spacing-xx-small);
       transition: transform 400ms var(--easing-default);
 
       @include utilities.reducedMotion() {
@@ -115,7 +115,7 @@
       &__number {
         font-size: var(--font-size-basis);
         white-space: nowrap;
-        margin-right: 0.5rem;
+        margin-right: var(--spacing-x-small);
       }
 
       &__wrapper {

@@ -134,12 +134,12 @@ p > .dnb-icon {
   box-shadow: var(--shadow-default);
 }
 .dnb-tooltip--large {
-  padding: 0.25rem 0;
+  padding: var(--spacing-xx-small) 0;
 }
 .dnb-tooltip .dnb-popover__content {
   min-width: 2rem;
   min-height: 1.5rem;
-  padding: 0 1rem;
+  padding: 0 var(--spacing-small);
 }
 .dnb-tooltip .dnb-popover__arrow__placement--right {
   left: -13px;
@@ -221,7 +221,7 @@ p > .dnb-icon {
 }
 .dnb-form-status__text {
   max-width: var(--prose-max-width);
-  padding: 0.625rem 1rem;
+  padding: 0.625rem var(--spacing-small);
   cursor: text;
 }
 button .dnb-form-status__text {
@@ -341,10 +341,10 @@ button .dnb-form-status__text {
   --button-padding-left: 0;
   --button-padding-right: 0;
   --button-padding-icon: var(--spacing-small);
-  --button-padding--default: 1.5rem;
+  --button-padding--default: var(--spacing-medium);
   --button-padding--small: var(--spacing-small);
   --button-padding--medium: var(--spacing-small);
-  --button-padding--large: 2rem;
+  --button-padding--large: var(--spacing-large);
   --button-icon-margin-top: 0;
   --button-icon-margin-left: 0;
   --button-icon-margin-right: 0;
@@ -818,7 +818,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   line-height: var(--button-height);
 }
 .dnb-button__text {
-  margin: 0.5rem 0;
+  margin: var(--spacing-x-small) 0;
   font-size: var(--button-font-size);
   line-height: var(--line-height-basis);
   color: inherit;
@@ -872,7 +872,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
 }
 .dnb-button--size-large {
   --button-height: var(--button-height--large);
-  --button-padding-icon: 1.5rem;
+  --button-padding-icon: var(--spacing-medium);
   width: var(--button-width--large);
 }
 .dnb-button--has-text.dnb-button--size-large {
@@ -1020,7 +1020,7 @@ legend.dnb-form-label {
   --dropdown-focus-border-width: 0.125rem;
   --dropdown-error-border-width: 0.125rem;
   --dropdown-text-padding: var(--spacing-x-small);
-  --dropdown-button-padding: 0 1rem;
+  --dropdown-button-padding: 0 var(--spacing-small);
   --dropdown-border-radius: 0.25rem;
   --dropdown-foreground-color-primary: var(--color-black-55);
   --dropdown-foreground-color-error: var(--color-fire-red);
@@ -1117,7 +1117,7 @@ legend.dnb-form-label {
 }
 @media screen and (min-width: 40.00625em) {
   .dnb-dropdown--action-menu .dnb-dropdown__shell .dnb-dropdown__text {
-    padding: 0 0.5rem;
+    padding: 0 var(--spacing-x-small);
   }
 }
 @media screen and (max-width: 40em) {
@@ -1136,7 +1136,7 @@ legend.dnb-form-label {
   box-shadow: none;
 }
 .dnb-dropdown .dnb-button--tertiary .dnb-button__text {
-  margin: 0 0.5rem;
+  margin: 0 var(--spacing-x-small);
 }
 .dnb-dropdown .dnb-button--tertiary .dnb-button__text::after {
   bottom: 0;
@@ -1237,7 +1237,7 @@ legend.dnb-form-label {
   line-height: var(--line-height-basis);
 }
 .dnb-dropdown > .dnb-form-label {
-  margin-right: 1rem;
+  margin-right: var(--spacing-small);
   line-height: var(--line-height-basis);
 }
 @media screen and (max-width: 40em) {
@@ -1284,7 +1284,7 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
   align-items: flex-start;
 }
 .dnb-dropdown:not(.dnb-dropdown--vertical)[class*=__status] > .dnb-form-label {
-  margin-top: 0.25rem;
+  margin-top: var(--spacing-xx-small);
 }
 @media screen and (max-width: 40em) {
   .dnb-responsive-component .dnb-dropdown {
@@ -1302,10 +1302,10 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
 }
 
 .dnb-drawer-list--arrow-position-left .dnb-dropdown__list--tertiary .dnb-drawer-list__arrow {
-  margin-left: 0.5rem;
+  margin-left: var(--spacing-x-small);
 }
 .dnb-drawer-list--arrow-position-right .dnb-dropdown__list--tertiary .dnb-drawer-list__arrow {
-  margin-right: 0.5rem;
+  margin-right: var(--spacing-x-small);
 }"
 `;
 
@@ -1319,7 +1319,7 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
  */
 .dnb-dropdown {
   --dropdown-error-border-width: 0.125rem;
-  --dropdown-button-padding: 0 1rem;
+  --dropdown-button-padding: 0 var(--spacing-small);
   --dropdown-foreground-color-primary: var(--color-black-55);
   --dropdown-foreground-color-error: var(--color-fire-red);
   --dropdown-background-color-disabled: var(--color-black-3);

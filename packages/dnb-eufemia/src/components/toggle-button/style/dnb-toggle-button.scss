@@ -37,13 +37,13 @@
 
   &__button {
     &.dnb-button--has-text {
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
+      padding-left: var(--spacing-medium);
+      padding-right: var(--spacing-medium);
     }
 
     // checkbox
     .dnb-checkbox {
-      margin-left: -0.5rem;
+      margin-left: calc(var(--spacing-x-small) * -1);
 
       &__input {
         pointer-events: none;
@@ -75,7 +75,7 @@
 
     // radio button
     .dnb-radio {
-      margin-left: -0.5rem;
+      margin-left: calc(var(--spacing-x-small) * -1);
 
       &__input {
         pointer-events: none;
@@ -111,7 +111,7 @@
 
   // label
   .dnb-form-label {
-    margin-right: 1rem;
+    margin-right: var(--spacing-small);
   }
 
   &-group {

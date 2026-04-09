@@ -322,7 +322,7 @@
 
     & > .dnb-form-label {
       // vertical align the current font
-      margin-top: 0.25rem;
+      margin-top: var(--spacing-xx-small);
     }
   }
 
@@ -423,7 +423,9 @@
   }
   &--large#{&}--has-clear-button:not(#{&}--has-submit-element)
     .dnb-input__submit-element {
-    margin-left: calc(var(--input-height--large) + 0.5rem * -1);
+    margin-left: calc(
+      var(--input-height--large) + var(--spacing-x-small) * -1
+    );
   }
 
   &__align--center &__placeholder,
@@ -486,13 +488,13 @@
     margin-right: 2.5rem;
   }
   &--small#{&}--has-submit-element &--clear.dnb-input__submit-element {
-    margin-right: 2rem;
+    margin-right: var(--spacing-large);
   }
   &--medium#{&}--has-submit-element &--clear.dnb-input__submit-element {
-    margin-right: 3rem;
+    margin-right: var(--spacing-x-large);
   }
   &--large#{&}--has-submit-element &--clear.dnb-input__submit-element {
-    margin-right: 3.5rem;
+    margin-right: var(--spacing-xx-large);
   }
 
   &__inner > .dnb-form-status {
@@ -575,12 +577,12 @@
   &--icon-size-medium#{&}--icon-position-left#{&}--has-icon &__input,
   &--icon-size-medium#{&}--icon-position-left#{&}--has-icon
     &__placeholder {
-    padding-left: 3rem;
+    padding-left: var(--spacing-x-large);
   }
   &--icon-size-medium#{&}--icon-position-right#{&}--has-icon &__input,
   &--icon-size-medium#{&}--icon-position-right#{&}--has-icon
     &__placeholder {
-    padding-right: 3rem;
+    padding-right: var(--spacing-x-large);
   }
 
   html[data-visual-test] &__input {

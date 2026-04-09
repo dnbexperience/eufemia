@@ -10,7 +10,7 @@
   --dropdown-border-radius: 0.5rem;
   --dropdown-height: 2.5rem;
   --dropdown-error-border-width: 0.125rem;
-  --dropdown-button-padding: 0 0.75rem 0 0.5rem;
+  --dropdown-button-padding: 0 0.75rem 0 var(--spacing-x-small);
   --dropdown-foreground-color-primary: var(--sb-color-gray-dark-2);
   --dropdown-foreground-color-error: var(--sb-color-red);
   --dropdown-background-color-disabled: var(--sb-color-gray-light);

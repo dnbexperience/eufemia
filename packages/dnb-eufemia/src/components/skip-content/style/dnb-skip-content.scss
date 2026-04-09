@@ -11,7 +11,7 @@
   }
 
   .dnb-button {
-    margin: 1rem 0;
+    margin: var(--spacing-small) 0;
   }
 
   &__focus:focus {

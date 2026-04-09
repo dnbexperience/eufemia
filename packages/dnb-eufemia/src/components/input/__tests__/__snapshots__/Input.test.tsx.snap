@@ -130,12 +130,12 @@ p > .dnb-icon {
   box-shadow: var(--shadow-default);
 }
 .dnb-tooltip--large {
-  padding: 0.25rem 0;
+  padding: var(--spacing-xx-small) 0;
 }
 .dnb-tooltip .dnb-popover__content {
   min-width: 2rem;
   min-height: 1.5rem;
-  padding: 0 1rem;
+  padding: 0 var(--spacing-small);
 }
 .dnb-tooltip .dnb-popover__arrow__placement--right {
   left: -13px;
@@ -217,7 +217,7 @@ p > .dnb-icon {
 }
 .dnb-form-status__text {
   max-width: var(--prose-max-width);
-  padding: 0.625rem 1rem;
+  padding: 0.625rem var(--spacing-small);
   cursor: text;
 }
 button .dnb-form-status__text {
@@ -337,10 +337,10 @@ button .dnb-form-status__text {
   --button-padding-left: 0;
   --button-padding-right: 0;
   --button-padding-icon: var(--spacing-small);
-  --button-padding--default: 1.5rem;
+  --button-padding--default: var(--spacing-medium);
   --button-padding--small: var(--spacing-small);
   --button-padding--medium: var(--spacing-small);
-  --button-padding--large: 2rem;
+  --button-padding--large: var(--spacing-large);
   --button-icon-margin-top: 0;
   --button-icon-margin-left: 0;
   --button-icon-margin-right: 0;
@@ -814,7 +814,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   line-height: var(--button-height);
 }
 .dnb-button__text {
-  margin: 0.5rem 0;
+  margin: var(--spacing-x-small) 0;
   font-size: var(--button-font-size);
   line-height: var(--line-height-basis);
   color: inherit;
@@ -868,7 +868,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
 }
 .dnb-button--size-large {
   --button-height: var(--button-height--large);
-  --button-padding-icon: 1.5rem;
+  --button-padding-icon: var(--spacing-medium);
   width: var(--button-width--large);
 }
 .dnb-button--has-text.dnb-button--size-large {
@@ -1242,7 +1242,7 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
   align-items: flex-start;
 }
 .dnb-input:not(.dnb-input--vertical)[class*=__status] > .dnb-form-label {
-  margin-top: 0.25rem;
+  margin-top: var(--spacing-xx-small);
 }
 .dnb-input--small {
   line-height: var(--input-height--small);
@@ -1317,7 +1317,7 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
   padding-right: calc(var(--input-padding--large) * 3.5);
 }
 .dnb-input--large.dnb-input--has-clear-button:not(.dnb-input--has-submit-element) .dnb-input__submit-element {
-  margin-left: calc(var(--input-height--large) - 0.5rem);
+  margin-left: calc(var(--input-height--large) + var(--spacing-x-small) * -1);
 }
 .dnb-input__align--center .dnb-input__placeholder, .dnb-input__align--center .dnb-input__input {
   text-align: center;
@@ -1359,13 +1359,13 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
   margin-right: 2.5rem;
 }
 .dnb-input--small.dnb-input--has-submit-element .dnb-input--clear.dnb-input__submit-element {
-  margin-right: 2rem;
+  margin-right: var(--spacing-large);
 }
 .dnb-input--medium.dnb-input--has-submit-element .dnb-input--clear.dnb-input__submit-element {
-  margin-right: 3rem;
+  margin-right: var(--spacing-x-large);
 }
 .dnb-input--large.dnb-input--has-submit-element .dnb-input--clear.dnb-input__submit-element {
-  margin-right: 3.5rem;
+  margin-right: var(--spacing-xx-large);
 }
 .dnb-input__inner > .dnb-form-status {
   order: 2;
@@ -1426,10 +1426,10 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
   padding-right: 2.5rem;
 }
 .dnb-input--icon-size-medium.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__input, .dnb-input--icon-size-medium.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__placeholder {
-  padding-left: 3rem;
+  padding-left: var(--spacing-x-large);
 }
 .dnb-input--icon-size-medium.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__input, .dnb-input--icon-size-medium.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__placeholder {
-  padding-right: 3rem;
+  padding-right: var(--spacing-x-large);
 }
 html[data-visual-test] .dnb-input__input {
   caret-color: var(--color-white);

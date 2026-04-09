@@ -71,7 +71,7 @@ exports[`FormStatus scss has to match style dependencies css 1`] = `
 }
 .dnb-form-status__text {
   max-width: var(--prose-max-width);
-  padding: 0.625rem 1rem;
+  padding: 0.625rem var(--spacing-small);
   cursor: text;
 }
 button .dnb-form-status__text {

@@ -33,7 +33,7 @@
 
   &__option__inner {
     overflow: visible;
-    padding: 1rem 0.75rem;
+    padding: var(--spacing-small) 0.75rem;
     margin: 0 var(--drawer-list-option-border-width);
 
     &::before {

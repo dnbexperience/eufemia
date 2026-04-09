@@ -23,12 +23,12 @@ fieldset.dnb-forms-field-block {
   }
 
   // Align label vertically with the content (input etc.)
-  --label-margin: 0.25rem;
+  --label-margin: var(--spacing-xx-small);
   &--label-height-small {
     --label-margin: 0;
   }
   &--label-height-medium {
-    --label-margin: 0.5rem;
+    --label-margin: var(--spacing-x-small);
   }
   &--label-height-large {
     --label-margin: 0.7rem;
@@ -76,7 +76,7 @@ fieldset.dnb-forms-field-block {
 
     &__content:has(+ .dnb-help-button),
     &__description:has(+ .dnb-help-button) {
-      margin-right: 0.5rem;
+      margin-right: var(--spacing-x-small);
     }
 
     &:has(&__description) .dnb-help-button,
@@ -103,7 +103,7 @@ fieldset.dnb-forms-field-block {
 
   // Horizontal layout
   &__grid#{&}--layout-horizontal &__label {
-    margin-right: 1rem;
+    margin-right: var(--spacing-small);
   }
   &__grid#{&}--layout-horizontal {
     & > .dnb-form-label {
@@ -113,7 +113,7 @@ fieldset.dnb-forms-field-block {
 
     @include utilities.allBelow(small) {
       & > .dnb-form-label {
-        margin-bottom: calc(var(--label-margin) + 0.5rem);
+        margin-bottom: calc(var(--label-margin) + var(--spacing-x-small));
       }
     }
     @include utilities.allAbove(small) {

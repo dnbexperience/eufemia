@@ -126,12 +126,12 @@ p > .dnb-icon {
   box-shadow: var(--shadow-default);
 }
 .dnb-tooltip--large {
-  padding: 0.25rem 0;
+  padding: var(--spacing-xx-small) 0;
 }
 .dnb-tooltip .dnb-popover__content {
   min-width: 2rem;
   min-height: 1.5rem;
-  padding: 0 1rem;
+  padding: 0 var(--spacing-small);
 }
 .dnb-tooltip .dnb-popover__arrow__placement--right {
   left: -13px;

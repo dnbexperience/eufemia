@@ -114,7 +114,7 @@ html[data-visual-test] .dnb-skeleton--font, html[data-visual-test] .dnb-skeleton
 }
 .dnb-skeleton__figure--product .dnb-skeleton__figure--circle + div {
   width: 50%;
-  margin-left: 1rem;
+  margin-left: var(--spacing-small);
 }
 .dnb-skeleton--no-animation .dnb-skeleton, .dnb-skeleton--no-animation .dnb-skeleton::after, .dnb-skeleton--no-animation * .dnb-skeleton::after {
   animation: none !important;

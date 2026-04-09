@@ -7,7 +7,7 @@
 
 .dnb-dropdown {
   --dropdown-error-border-width: 0.125rem;
-  --dropdown-button-padding: 0 1rem;
+  --dropdown-button-padding: 0 var(--spacing-small);
   --dropdown-foreground-color-primary: var(--color-black-55);
   --dropdown-foreground-color-error: var(--color-fire-red);
   --dropdown-background-color-disabled: var(--color-black-3);

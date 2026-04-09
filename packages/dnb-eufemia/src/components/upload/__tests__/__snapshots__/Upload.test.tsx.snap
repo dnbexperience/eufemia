@@ -153,12 +153,12 @@ p > .dnb-icon {
   box-shadow: var(--shadow-default);
 }
 .dnb-tooltip--large {
-  padding: 0.25rem 0;
+  padding: var(--spacing-xx-small) 0;
 }
 .dnb-tooltip .dnb-popover__content {
   min-width: 2rem;
   min-height: 1.5rem;
-  padding: 0 1rem;
+  padding: 0 var(--spacing-small);
 }
 .dnb-tooltip .dnb-popover__arrow__placement--right {
   left: -13px;
@@ -240,7 +240,7 @@ p > .dnb-icon {
 }
 .dnb-form-status__text {
   max-width: var(--prose-max-width);
-  padding: 0.625rem 1rem;
+  padding: 0.625rem var(--spacing-small);
   cursor: text;
 }
 button .dnb-form-status__text {
@@ -360,10 +360,10 @@ button .dnb-form-status__text {
   --button-padding-left: 0;
   --button-padding-right: 0;
   --button-padding-icon: var(--spacing-small);
-  --button-padding--default: 1.5rem;
+  --button-padding--default: var(--spacing-medium);
   --button-padding--small: var(--spacing-small);
   --button-padding--medium: var(--spacing-small);
-  --button-padding--large: 2rem;
+  --button-padding--large: var(--spacing-large);
   --button-icon-margin-top: 0;
   --button-icon-margin-left: 0;
   --button-icon-margin-right: 0;
@@ -837,7 +837,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   line-height: var(--button-height);
 }
 .dnb-button__text {
-  margin: 0.5rem 0;
+  margin: var(--spacing-x-small) 0;
   font-size: var(--button-font-size);
   line-height: var(--line-height-basis);
   color: inherit;
@@ -891,7 +891,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
 }
 .dnb-button--size-large {
   --button-height: var(--button-height--large);
-  --button-padding-icon: 1.5rem;
+  --button-padding-icon: var(--spacing-medium);
   width: var(--button-width--large);
 }
 .dnb-button--has-text.dnb-button--size-large {

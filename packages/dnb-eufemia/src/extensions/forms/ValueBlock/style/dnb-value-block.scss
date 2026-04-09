@@ -169,7 +169,7 @@
 
     &__label {
       &:not(&__content) {
-        margin-right: 0.5rem;
+        margin-right: var(--spacing-x-small);
       }
     }
 
@@ -181,7 +181,7 @@
       flex-direction: row-reverse;
 
       > .dnb-forms-value-block__label {
-        margin-left: 0.5rem;
+        margin-left: var(--spacing-x-small);
       }
     }
   }

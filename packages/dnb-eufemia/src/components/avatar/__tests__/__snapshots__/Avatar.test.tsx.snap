@@ -132,16 +132,16 @@ exports[`Avatar scss should match style dependencies css 1`] = `
   border-color: transparent;
 }
 .dnb-avatar__group .dnb-avatar--size-small {
-  margin-left: -0.5rem;
+  margin-left: calc(var(--spacing-x-small) * -1);
 }
 .dnb-avatar__group .dnb-avatar--size-medium {
   margin-left: -0.75rem;
 }
 .dnb-avatar__group .dnb-avatar--size-large {
-  margin-left: -1rem;
+  margin-left: calc(var(--spacing-small) * -1);
 }
 .dnb-avatar__group .dnb-avatar--size-x-large {
-  margin-left: -1.5rem;
+  margin-left: calc(var(--spacing-medium) * -1);
 }
 .dnb-avatar__group .dnb-avatar:nth-of-type(2) {
   margin-left: 0;

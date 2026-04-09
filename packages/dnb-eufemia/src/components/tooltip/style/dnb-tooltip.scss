@@ -30,7 +30,7 @@
   @include utilities.defaultDropShadow();
 
   &--large {
-    padding: 0.25rem 0;
+    padding: var(--spacing-xx-small) 0;
   }
 
   .dnb-popover {
@@ -38,7 +38,7 @@
       min-width: 2rem;
       min-height: 1.5rem;
 
-      padding: 0 1rem;
+      padding: 0 var(--spacing-small);
     }
 
     &__arrow__placement {

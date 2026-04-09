@@ -104,7 +104,7 @@
 
   &__title {
     display: flex;
-    padding-right: 2rem; // space for close button
+    padding-right: var(--spacing-large); // space for close button
 
     strong,
     .dnb-core-style & strong {
