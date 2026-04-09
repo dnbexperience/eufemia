@@ -16,6 +16,14 @@
 .home-background {
   min-height: 100dvh;
   background-color: var(--color-emerald-green);
+
+  :global(.eufemia-theme__sbanken) & {
+    background-color: var(--sb-color-purple);
+  }
+
+  :global(.eufemia-theme__carnegie) & {
+    background-color: var(--ca-color-ocean-green);
+  }
 }
 
 [skip-isolation] #gatsby-noscript {
@@ -28,8 +36,8 @@
   padding: 1.25rem;
   text-align: center;
 
-  color: black;
-  background-color: white;
+  color: var(--color-black);
+  background-color: var(--color-white);
 }
 
 .dnb-live-preview {

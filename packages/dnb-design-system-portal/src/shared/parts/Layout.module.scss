@@ -58,7 +58,7 @@
 
         font-style: italic;
 
-        border-top: solid 1px #c4c4c4;
+        border-top: solid 1px var(--color-black-border);
       }
 
       img:not([width]) {
@@ -185,7 +185,7 @@
       font-style: italic;
       text-align: center;
 
-      border-top: solid 1px #c4c4c4;
+      border-top: solid 1px var(--color-black-border);
 
       p {
         margin: 0;
