@@ -11,6 +11,7 @@ import React, {
   useRef,
 } from 'react'
 import clsx from 'clsx'
+import useMountEffect from '../../shared/helpers/useMountEffect'
 
 // date-fns
 import {
@@ -178,10 +179,9 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   })
 
   // Store the initial selected date on calendar render, to be used for `onCancel` in DatePickerFooter
-  useEffect(() => {
+  useMountEffect(() => {
     setSubmittedDates({ startDate, endDate })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 
   useEffect(() => {
     currentDatesRef.current = {
