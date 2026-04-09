@@ -30,7 +30,8 @@ export type DataAttributes = {
 export type DynamicElement<
   E = HTMLElement,
   P = React.DetailedHTMLProps<React.HTMLAttributes<E>, E>,
-> = React.ElementType<P> | string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+> = React.ElementType<P> | React.ComponentType<any> | string
 
 export type DynamicElementParams<T = Record<string, unknown>> = T
 
