@@ -13,12 +13,13 @@ export default {
 export const Default = {
   render: () => (
     <Popover
-      trigger={({ ref, ...triggerProps }) => (
-        <Button text="Details" ref={ref} {...triggerProps} />
+      trigger={({ active, ...triggerProps }) => (
+        <Button icon="question" {...triggerProps} selected={active} />
       )}
-      title="Popover title"
+      title="Need help?"
     >
-      Popover content
+      Popover content that appears when the custom trigger button is
+      toggled.
     </Popover>
   ),
 }
@@ -29,13 +30,8 @@ export const WithoutCloseButton = {
       <button>A</button>
       <Popover
         hideCloseButton
-        trigger={({ ref, ...triggerProps }) => (
-          <Button
-            text="More info"
-            variant="secondary"
-            ref={ref}
-            {...triggerProps}
-          />
+        trigger={(triggerProps) => (
+          <Button text="More info" variant="secondary" {...triggerProps} />
         )}
         title="Confirmation needed"
         content={({ close }) => (
@@ -78,11 +74,10 @@ export const InDialog = {
         <button>A</button>
         <Popover
           // openInitially
-          trigger={({ ref, ...triggerProps }) => (
+          trigger={(triggerProps) => (
             <Button
               text="More info"
               variant="secondary"
-              ref={ref}
               {...triggerProps}
             />
           )}
@@ -98,11 +93,10 @@ export const InDialog = {
         commodo et excepteur nostrud. Qui veniam aliquip enim aute dolor.{' '}
         <Popover
           // openInitially
-          trigger={({ ref, ...triggerProps }) => (
+          trigger={(triggerProps) => (
             <Button
               text="More info"
               variant="secondary"
-              ref={ref}
               {...triggerProps}
             />
           )}
