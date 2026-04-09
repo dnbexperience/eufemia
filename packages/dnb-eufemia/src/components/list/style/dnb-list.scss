@@ -31,9 +31,10 @@
     &::after {
       content: '';
       position: absolute;
-      inset: calc(var(--item-outline-width) * -1);
-      left: 0;
-      right: 0;
+      inset: var(
+        --item-outline-inset,
+        calc(var(--item-outline-width) * -1)
+      );
       z-index: 10;
 
       border-radius: inherit;
@@ -303,6 +304,7 @@
       &:not(.dnb-list__item--disabled):focus-visible {
         --item-outline-color: var(--item-navigation-color);
         --item-outline-width: 0.125rem;
+        --item-outline-inset: 0;
         z-index: 2;
       }
       &:not(.dnb-list__item--disabled):active {
@@ -320,6 +322,7 @@
       ) {
       --item-outline-color: var(--item-navigation-color);
       --item-outline-width: 0.125rem;
+      --item-outline-inset: 0;
       z-index: 2;
     }
     &:not(.dnb-list__item--disabled):has(#{&}__accordion__header:active) {
@@ -453,6 +456,18 @@
       padding-right: calc(
         var(--padding-right) - (var(--scrollbar-track-width) * 2)
       );
+    }
+
+    // First/last items inherit the card's border radius if not inside a scroll view
+    .dnb-card:not(:has(.dnb-scroll-view)) & {
+      .dnb-list__item:first-of-type {
+        border-top-left-radius: var(--rounded-corner, 0);
+        border-top-right-radius: var(--rounded-corner, 0);
+      }
+      .dnb-list__item:last-of-type {
+        border-bottom-left-radius: var(--rounded-corner, 0);
+        border-bottom-right-radius: var(--rounded-corner, 0);
+      }
     }
   }
 }

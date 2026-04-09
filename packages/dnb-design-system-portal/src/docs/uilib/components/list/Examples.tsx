@@ -768,7 +768,7 @@ export const InsideCardWithoutScrollView = () => {
       data-visual-test="list-card-no-scroll-view"
       scope={{ fish_medium }}
     >
-      <List.Card>
+      <List.Card innerSpace="x-small">
         <List.Container>
           <List.Item.Action
             icon={fish_medium}
