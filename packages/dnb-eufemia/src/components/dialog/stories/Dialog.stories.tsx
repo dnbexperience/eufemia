@@ -19,7 +19,7 @@ import {
 } from '../..'
 import { ScrollView } from '../../../fragments'
 import Dialog from '../Dialog'
-import type { ButtonOnClick } from '../../button/Button'
+import type { ButtonClick } from '../../button/Button'
 import { H2, P, Hr, Flex, ToggleButton } from '../../..'
 import Provider from '../../../shared/Provider'
 import {
@@ -83,7 +83,7 @@ export const DialogConfirm = () => (
             onClick={
               (({ close }) => {
                 close()
-              }) as ButtonOnClick
+              }) as ButtonClick
             }
           />
           <Button
@@ -91,7 +91,7 @@ export const DialogConfirm = () => (
             onClick={
               (({ close }) => {
                 close()
-              }) as ButtonOnClick
+              }) as ButtonClick
             }
           />
         </Dialog.Action>

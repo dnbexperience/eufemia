@@ -17,7 +17,7 @@ import {
 
 import type {
   SliderValue,
-  SliderOnChangeParams,
+  SliderChangeEvent,
   SliderAllProps,
   SliderContextValue,
   SliderThumbState,
@@ -174,7 +174,7 @@ export function SliderProvider(localProps: SliderAllProps) {
       }
 
       if (typeof onChange === 'function') {
-        const obj: SliderOnChangeParams = {
+        const obj: SliderChangeEvent = {
           value: multiValues,
           rawValue,
           event,

@@ -1,5 +1,5 @@
 import React from 'react'
-import type { AutocompleteOnTypeParams } from '../../../../components/autocomplete/Autocomplete'
+import type { AutocompleteTypeEvent } from '../../../../components/autocomplete/Autocomplete'
 import type { FieldSelectionProps as SelectionProps } from '../../Field/Selection'
 import Selection from '../../Field/Selection'
 import type {
@@ -197,7 +197,7 @@ export function suggestionsElement(
           openOnFocus: true,
           placeholder: suggestionPlaceholder,
           onType: onType as unknown as (
-            event: AutocompleteOnTypeParams
+            event: AutocompleteTypeEvent
           ) => void,
           ...props?.autocompleteProps,
         }}

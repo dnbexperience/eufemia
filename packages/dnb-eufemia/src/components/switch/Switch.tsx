@@ -35,15 +35,15 @@ import type { SpacingProps } from '../../shared/types'
 export type SwitchLabelPosition = 'left' | 'right'
 export type SwitchSize = 'default' | 'medium' | 'large'
 export type SwitchAttributes = string | Record<string, unknown>
-export type SwitchOnChangeParams = {
+export type SwitchChangeEvent = {
   checked: boolean
   event: MouseEvent | TouchEvent | KeyboardEvent
 }
-export type SwitchOnClickParams = React.MouseEvent<HTMLInputElement> & {
+export type SwitchClickEvent = React.MouseEvent<HTMLInputElement> & {
   checked: boolean
   event: React.MouseEvent<HTMLInputElement>
 }
-export type SwitchOnChange = (args: SwitchOnChangeParams) => void
+export type SwitchChange = (args: SwitchChangeEvent) => void
 
 export type SwitchProps = {
   /**
@@ -88,15 +88,15 @@ export type SwitchProps = {
   /**
    * Will be called on state changes made by the user. Returns a boolean `{ checked, event }`.
    */
-  onChange?: SwitchOnChange
+  onChange?: SwitchChange
   /**
    * Will be called on state changes made by the user, but with a delay. This way the user sees the animation before e.g. an error will be removed. Returns a boolean `{ checked, event }`.
    */
   /**
    * Will be called on click made by the user. Returns the ClickEvent.
    */
-  onClick?: (args: SwitchOnClickParams) => void
-  onChangeEnd?: SwitchOnChange
+  onClick?: (args: SwitchClickEvent) => void
+  onChangeEnd?: SwitchChange
   /**
    * By providing a React.ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.
    */

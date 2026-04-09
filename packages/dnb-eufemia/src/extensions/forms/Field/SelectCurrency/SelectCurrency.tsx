@@ -18,7 +18,7 @@ import FieldBlock from '../../FieldBlock'
 import useTranslation from '../../hooks/useTranslation'
 import type {
   AutocompleteAllProps,
-  AutocompleteOnChangeParams,
+  AutocompleteChangeEvent,
 } from '../../../../components/autocomplete/Autocomplete'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
@@ -183,7 +183,7 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
   }, [lang, filter, ccFilter, updateValue, value])
 
   const handleCurrencyChange = useCallback(
-    (event: AutocompleteOnChangeParams) => {
+    (event: AutocompleteChangeEvent) => {
       const data = event.data
       const newValue =
         data && typeof data === 'object' && 'selectedKey' in data

@@ -87,7 +87,7 @@ export type ButtonElement =
 export type ButtonClickEvent = {
   event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
 }
-export type ButtonOnClick =
+export type ButtonClick =
   | ((args: ButtonClickEvent) => void)
   | React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>
   | ((...args: unknown[]) => void)
@@ -183,7 +183,7 @@ export type ButtonProps = {
    * Only meant to be used for special use cases. Defaults to `button` or `a` depending if href is set or not.
    */
   element?: ButtonElement
-  onClick?: ButtonOnClick
+  onClick?: ButtonClick
 } & FormStatusBaseProps &
   Partial<
     DataAttributes &

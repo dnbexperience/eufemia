@@ -17,14 +17,14 @@ import useTranslation from '../../hooks/useTranslation'
 import { useIterateItemNo } from '../../Iterate/ItemNo/useIterateItemNo'
 import type {
   CheckboxProps,
-  CheckboxOnChangeParams,
-  CheckboxOnClickParams,
+  CheckboxChangeEvent,
+  CheckboxClickEvent,
 } from '../../../../components/Checkbox'
 import type {
   ToggleButtonProps,
   ToggleButtonChangeEvent,
 } from '../../../../components/ToggleButton'
-import type { SwitchOnChangeParams } from '../../../../components/Switch'
+import type { SwitchChangeEvent } from '../../../../components/Switch'
 import HelpButtonInline from '../../../../components/help-button/HelpButtonInline'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
@@ -93,7 +93,7 @@ function Toggle(props: FieldToggleProps) {
 
   const onClick = preparedProps?.onClick
   const handleClick = useCallback(
-    (args: CheckboxOnClickParams) => {
+    (args: CheckboxClickEvent) => {
       const preventDefault = () => {
         preventChangeRef.current = true
         args.preventDefault?.()
@@ -113,7 +113,7 @@ function Toggle(props: FieldToggleProps) {
     [onClick, valueOff, valueOn]
   )
   const handleCheckboxChange = useCallback(
-    (args: CheckboxOnChangeParams | ToggleButtonChangeEvent) => {
+    (args: CheckboxChangeEvent | ToggleButtonChangeEvent) => {
       handleChange?.(args.checked ? valueOn : valueOff, args)
     },
     [handleChange, valueOn, valueOff]
@@ -125,7 +125,7 @@ function Toggle(props: FieldToggleProps) {
     [handleChange, valueOn, valueOff]
   )
   const handleSwitchChange = useCallback(
-    (args: SwitchOnChangeParams) => {
+    (args: SwitchChangeEvent) => {
       handleChange?.(args.checked ? valueOn : valueOff, args)
     },
     [handleChange, valueOn, valueOff]

@@ -29,6 +29,7 @@ v11 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 13. Remove `spacing` on Section. Use `innerSpace={{ block: 'large' }}` instead (see [Section](#section)).
 14. Replace `contentSpacing` with `contentInnerSpace` and `tabsSpacing` with `tabsInnerSpace` on the Tabs component.
 15. If you use the `extendFocusRing` or `componentReset` SCSS mixins, remove them — they have been deleted (see [Removed SCSS mixins](#removed-scss-mixins)).
+16. If you import event callback parameter types, rename `On{Action}Params` to `{Action}Event` (e.g., `CheckboxOnChangeParams` → `CheckboxChangeEvent`). Also rename `ButtonOnClick` → `ButtonClick` and `SwitchOnChange` → `SwitchChange`. See each component section below for specific renames.
 
 ### innerRef → ref
 
@@ -253,12 +254,13 @@ You can also use `top` and `bottom` individually if you need different values, e
 
 #### TypeScript types
 
-- Replace `AutocompleteClearEvent` with `AutocompleteOnClearParams`.
-- Replace `AutocompleteTypeEvent` with `AutocompleteOnTypeParams`.
-- Replace `AutocompleteFocusEvent` with `AutocompleteOnFocusParams`.
-- Replace `AutocompleteBlurEvent` with `AutocompleteOnBlurParams`.
-- Replace `AutocompleteChangeEvent` with `AutocompleteOnChangeParams`.
-- Replace `AutocompleteSelectEvent` with `AutocompleteOnSelectParams`.
+- Replace `AutocompleteOnClearParams` with `AutocompleteClearEvent`.
+- Replace `AutocompleteOnTypeParams` with `AutocompleteTypeEvent`.
+- Replace `AutocompleteOnFocusParams` with `AutocompleteFocusEvent`.
+- Replace `AutocompleteOnBlurParams` with `AutocompleteBlurEvent`.
+- Replace `AutocompleteOnChangeParams` with `AutocompleteChangeEvent`.
+- Replace `AutocompleteOnSelectParams` with `AutocompleteSelectEvent`.
+- Replace `AutocompleteOnSubmitParams` with `AutocompleteSubmitEvent`.
 
 #### DrawerListDataArrayObject
 
@@ -783,8 +785,8 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 
 #### TypeScript types
 
-- Replace `OnChangeParams` with `CheckboxOnChangeParams`.
-- Replace `OnClickParams` with `CheckboxOnClickParams`.
+- Replace `CheckboxOnChangeParams` with `CheckboxChangeEvent`.
+- Replace `CheckboxOnClickParams` with `CheckboxClickEvent`.
 
 ### [Switch](/uilib/components/switch/)
 
@@ -800,6 +802,12 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 - Replace `on_change_end` with `onChangeEnd`.
 - Replace `on_state_update` with `onStateUpdate`.
 - Replace `status_no_animation` with `statusNoAnimation`.
+
+#### TypeScript types
+
+- Replace `SwitchOnChangeParams` with `SwitchChangeEvent`.
+- Replace `SwitchOnClickParams` with `SwitchClickEvent`.
+- Replace `SwitchOnChange` with `SwitchChange`.
 
 ### [Logo](/uilib/components/logo/)
 
@@ -855,6 +863,10 @@ render(<Logo svg={SbankenCompact} />)
 #### Events
 
 - Replace `on_click` with `onClick`.
+
+#### TypeScript types
+
+- Replace `ButtonOnClick` with `ButtonClick`.
 
 ### [Modal](/uilib/components/modal/), [Dialog](/uilib/components/dialog/) and [Drawer](/uilib/components/drawer/)
 
@@ -1091,7 +1103,8 @@ render(<Logo svg={SbankenCompact} />)
 
 #### TypeScript types
 
-- Replace `OnChangeEventProps` with `SliderOnChangeParams`.
+- Replace `OnChangeEventProps` with `SliderChangeEvent`.
+- Replace `SliderOnChangeParams` with `SliderChangeEvent`.
 - Replace `ThumbStateEnums` with `ThumbState`.
 
 ### [Timeline](/uilib/components/timeline/)
