@@ -35,7 +35,7 @@ const NUMBER_MINUS = '-|−|‐|‒|–|—|―'
  * @returns Boolean
  */
 export const isRequestingLocaleSupport = (
-  props: Record<string, any>
+  props: Record<string, unknown>
 ): boolean => {
   return Object.entries(props).some(
     ([k, v]) =>
@@ -50,7 +50,7 @@ export const isRequestingLocaleSupport = (
  * @returns Boolean
  */
 export const isRequestingNumberMask = (
-  props: Record<string, any>
+  props: Record<string, unknown>
 ): boolean => {
   return Object.entries(props).some(
     ([k, v]) =>
@@ -89,6 +89,7 @@ export const correctNumberValue = ({
   maskParams,
 }: {
   localValue?: string | null
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   props: Record<string, any>
   locale: string
   maskParams: InputMaskParams
@@ -320,11 +321,11 @@ export const handlePercentMask = ({
   locale,
   maskParams,
 }: {
-  props: Record<string, any>
+  props: Record<string, unknown>
   locale: string
   maskParams: InputMaskParams
 }) => {
-  const value = format(props.value as any, { locale, percent: true })
+  const value = format(props.value, { locale, percent: true })
   const m = String(value).match(/((\s|)%)$/g)
   maskParams.suffix = m?.[0] || ' %'
 
@@ -344,13 +345,16 @@ export const handleCurrencyMask = ({
   maskOptions,
   currencyMask,
 }: {
-  maskOptions: Record<string, any>
-  currencyMask: string | Record<string, any>
+  maskOptions: Record<string, unknown>
+  currencyMask: string | Record<string, unknown>
 }): InputMaskParams => {
   const givenParams =
     typeof currencyMask === 'string'
-      ? { ...maskOptions, ...({ 0: String(currencyMask) } as any) }
-      : { ...maskOptions, ...(currencyMask as Record<string, any>) }
+      ? {
+          ...maskOptions,
+          ...({ '0': String(currencyMask) } as Record<string, unknown>),
+        }
+      : { ...maskOptions, ...currencyMask }
   const paramsWithDefaults: InputMaskParams = {
     showMask: true,
     allowDecimal: true,
@@ -405,8 +409,8 @@ export const handleNumberMask = ({
   maskOptions,
   numberMask,
 }: {
-  maskOptions: Record<string, any>
-  numberMask: Record<string, any>
+  maskOptions: Record<string, unknown>
+  numberMask: Record<string, unknown>
 }): InputMaskParams => {
   const maskParams: InputMaskParams = {
     decimalSymbol: ',',

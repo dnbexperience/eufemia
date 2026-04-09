@@ -26,6 +26,11 @@ type DurationFormatConstructor = {
   new (locale?: string, options?: DurationFormatOptions): DurationFormat
 }
 
+// Extend Intl with DurationFormat (newer API, not yet in all TS libs)
+type IntlWithDurationFormat = Omit<typeof Intl, never> & {
+  DurationFormat?: DurationFormatConstructor
+}
+
 export type DateFormatOptions = {
   locale?: AnyLocale
   options?: Intl.DateTimeFormatOptions
@@ -495,8 +500,10 @@ function createDurationFormatter(
   dateStyle?: Intl.DateTimeFormatOptions['dateStyle']
 ): DurationFormat | null {
   try {
-    const DurationFormat = (Intl as any)
-      .DurationFormat as DurationFormatConstructor
+    const DurationFormat = (Intl as IntlWithDurationFormat).DurationFormat
+    if (!DurationFormat) {
+      return null
+    }
     return new DurationFormat(locale, {
       style:
         dateStyle === 'short'

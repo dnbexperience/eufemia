@@ -4,6 +4,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../../shared/types'
 import ContentWrapper, {
   type TabsContentWrapperProps,
+  type TabsChildrenRenderProps,
 } from './TabsContentWrapper'
 
 export type TabsCustomContentTitle =
@@ -13,8 +14,7 @@ export type TabsCustomContentTitle =
 
 export type TabsCustomContentChildren =
   | React.ReactNode
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  | ((props: any) => React.ReactNode)
+  | ((props: TabsChildrenRenderProps) => React.ReactNode)
 
 export type TabsCustomContentProps = {
   displayName?: string

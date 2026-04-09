@@ -65,7 +65,11 @@ export type PaginationIndicatorElement =
   | string
 export type PaginationChildrenArgs = {
   pageNumber: number
-  setContent: (...args: unknown[]) => void
+  setContent: (
+    newContent: unknown,
+    content?: React.ReactNode,
+    position?: string | null
+  ) => void
   endInfinity: () => void
   [key: string]: unknown
 }

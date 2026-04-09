@@ -12,6 +12,7 @@ import type {
   FieldPropsGeneric,
   ReceiveAdditionalEventArgs,
   Validator,
+  ValidatorReturnSync,
   Identifier,
 } from '../types'
 import pointer from '../utils/json-pointer'
@@ -52,7 +53,7 @@ export type UseFieldValidationParams<Value> = {
   ) => void
   getValueByPath: (path: string) => unknown
   getSourceValue: (path: string) => unknown
-  exportValidators: unknown
+  exportValidators: Record<string, Validator<Value>> | undefined
   props: unknown
   dataContext: unknown
   combinedErrorMessages: Record<string, string>
@@ -242,7 +243,7 @@ export default function useFieldValidation<Value>({
     getSourceValue,
     setFieldEventListener,
   } as Partial<ReceiveAdditionalEventArgs<Value>>)
-  additionalArgsRef.current.validators = exportValidators as any
+  additionalArgsRef.current.validators = exportValidators
   additionalArgsRef.current.props = props
 
   const additionalArgs = useMemo(() => {
@@ -384,8 +385,7 @@ export default function useFieldValidation<Value>({
       result,
       unchangedValue,
     }: {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      result: any
+      result: ValidatorReturnSync<Value>
       unchangedValue?: boolean
     }) => {
       const runAsync = isAsync(onChangeValidatorRef.current)
@@ -394,7 +394,7 @@ export default function useFieldValidation<Value>({
         persistErrorState(
           runAsync ? 'gracefully' : 'weak',
           'onChangeValidator',
-          result
+          result as Error | FormError | Array<Error | FormError>
         )
 
         if (
@@ -543,13 +543,12 @@ export default function useFieldValidation<Value>({
   )
 
   const revealOnBlurValidatorResult = useCallback(
-    ({
-      result,
-    }: {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      result: any
-    }) => {
-      persistErrorState('gracefully', 'onBlurValidator', result)
+    ({ result }: { result: ValidatorReturnSync<Value> }) => {
+      persistErrorState(
+        'gracefully',
+        'onBlurValidator',
+        result as Error | FormError | Array<Error | FormError>
+      )
 
       if (isAsync(onBlurValidatorRef.current)) {
         defineAsyncProcess(undefined)

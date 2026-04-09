@@ -16,6 +16,16 @@ import HeightAnimation from '../height-animation/HeightAnimation'
 
 type ContentWrapperState = {
   key: string | number | null
+  [key: string]: unknown
+}
+
+export type TabsChildrenRenderProps = {
+  key: string | number | null
+  selectedKey?: string | number
+  focusKey?: string | number
+  title?: string | React.ReactNode
+  event?: React.SyntheticEvent
+  [key: string]: unknown
 }
 
 type SharedState = SharedStateReturn<ContentWrapperState> & {
@@ -162,8 +172,7 @@ import type { SectionVariants } from '../Section'
 export type TabsContentWrapperSelectedKey = string | number
 export type TabsContentWrapperChildren =
   | React.ReactNode
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  | ((props: any) => React.ReactNode)
+  | ((props: TabsChildrenRenderProps) => React.ReactNode)
 
 export type TabsContentWrapperProps = {
   id: string

@@ -20,15 +20,14 @@ import {
 } from './PaginationHelpers'
 
 import PaginationContext from './PaginationContext'
-import type { PaginationProps } from './Pagination'
+import type { PaginationProps, PaginationChildren } from './Pagination'
 
 type PaginationProviderProps = Omit<
   PaginationProps,
   'resetContentHandler' | 'resetPaginationHandler' | 'items'
 > & {
   tagName?: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  internalContent?: any
+  internalContent?: PaginationChildren
   useMarkerOnly?: boolean
   resetContentHandler?: PaginationProps['resetContentHandler'] | boolean
   resetPaginationHandler?:
@@ -360,7 +359,7 @@ const PaginationProvider = (props: PaginationProviderProps) => {
           ? pageNumber
           : currentPageInternalRef.current
 
-      let potentialElement = propsRef.current.internalContent
+      let potentialElement: unknown = propsRef.current.internalContent
 
       if (typeof propsRef.current.internalContent === 'function') {
         potentialElement = propsRef.current.internalContent({

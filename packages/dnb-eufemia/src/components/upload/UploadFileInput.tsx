@@ -1,7 +1,7 @@
 import React, { useCallback, useRef } from 'react'
 
 // Components
-import Button from '../button/Button'
+import Button, { type ButtonClickEvent } from '../button/Button'
 
 // Icons
 import { folder as FolderIcon } from '../../icons'
@@ -85,8 +85,7 @@ const UploadFileInput = ({
           disabled={disabled}
           text={buttonText}
           {...buttonProps}
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          onClick={(e: any) => {
+          onClick={(e: ButtonClickEvent) => {
             openFileDialog()
             buttonProps?.onClick?.(e)
           }}

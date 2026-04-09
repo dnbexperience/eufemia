@@ -749,8 +749,10 @@ function Dropdown({ ref, buttonRef, ...props }: DropdownAllProps) {
 
   return (
     <DrawerListProvider
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       {...(props as any)}
       id={id}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       data={(data || children) as any}
       open={false}
       tagName="dnb-dropdown"

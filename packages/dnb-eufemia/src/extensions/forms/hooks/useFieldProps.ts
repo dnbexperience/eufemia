@@ -1177,7 +1177,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
     const status = sharedAttachments?.fieldStatusRef?.current?.[identifier]
     if (status) {
-      void setEventResult(status as any)
+      void setEventResult(status as EventReturnWithStateObjectAndSuccess)
     }
   }, [
     dataContext?.id,
