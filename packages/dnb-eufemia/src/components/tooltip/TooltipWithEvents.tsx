@@ -312,7 +312,6 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
           'dnb-tooltip',
           size && size !== 'default' && `dnb-tooltip--${size}`
         )}
-        theme="dark"
         id={internalId}
         open={overlayOpen}
         targetElement={cloneRef}
