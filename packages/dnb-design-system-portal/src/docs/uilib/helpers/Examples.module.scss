@@ -9,12 +9,12 @@
 .showWhenLarge,
 .showWhenMedium,
 .showWhenSmall {
-  color: grey;
+  color: var(--color-black-55);
 }
 .showWhenLargeOffset,
 .showWhenMediumOffset,
 .showWhenSmallOffset {
-  color: white;
+  color: var(--color-white);
 }
 
 // 1. Show green when NO offset is given
