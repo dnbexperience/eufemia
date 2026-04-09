@@ -2,6 +2,19 @@
 @use './../parts/PortalStyle.mixins.scss';
 
 .liItemStyle {
+  --card-selected-bg: var(--color-mint-green);
+  --card-hover-bg: var(--color-mint-green-50);
+
+  :global(.eufemia-theme__sbanken) & {
+    --card-selected-bg: var(--sb-color-violet-light-2);
+    --card-hover-bg: var(--sb-color-violet-light-3);
+  }
+
+  :global(.eufemia-theme__carnegie) & {
+    --card-selected-bg: var(--ca-color-pale-green);
+    --card-hover-bg: var(--ca-color-pale-green);
+  }
+
   list-style-type: none;
   width: calc(33.333333% - 1rem);
 
@@ -16,12 +29,12 @@
   }
 
   &.is-selected a {
-    background-color: var(--color-mint-green);
+    background-color: var(--card-selected-bg);
   }
 
   a:focus,
   a:hover {
-    background-color: var(--color-mint-green-50);
+    background-color: var(--card-hover-bg);
   }
 
   /* mobile view */
@@ -72,7 +85,7 @@
 
   height: 100%;
 
-  color: rgb(0 0 0 / 75%);
+  color: var(--color-black-80);
   text-decoration: none;
   text-align: center;
   font-weight: var(--font-weight-basis);
