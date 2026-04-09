@@ -389,7 +389,7 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
   iconPosition: 'left',
   arrowPosition: null,
   label: null,
-  labelDirection: null,
+  labelDirection: 'vertical',
   labelSrOnly: null,
   keepValue: null,
   keepSelection: null,

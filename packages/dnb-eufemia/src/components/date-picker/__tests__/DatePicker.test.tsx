@@ -4022,6 +4022,7 @@ describe('DatePicker component', () => {
       'dnb-date-picker',
       'dnb-form-component',
       'dnb-space__top--large',
+      'dnb-date-picker--vertical',
       'dnb-date-picker--hidden',
       'dnb-date-picker--show-input',
     ])

@@ -82,7 +82,7 @@ export type DropdownProps = {
    */
   label?: React.ReactNode
   /**
-   * Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.
+   * Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.
    */
   labelDirection?: 'vertical' | 'horizontal'
   /**
@@ -168,7 +168,7 @@ const dropdownDefaultProps = {
   iconPosition: null,
   arrowPosition: null,
   label: null,
-  labelDirection: null,
+  labelDirection: 'vertical',
   labelSrOnly: null,
   status: null,
   statusState: 'error',

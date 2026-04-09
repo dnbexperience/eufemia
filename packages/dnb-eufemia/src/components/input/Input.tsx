@@ -134,7 +134,7 @@ export type InputProps = Omit<
      */
     label?: React.ReactNode
     /**
-     * Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.
+     * Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.
      */
     labelDirection?: 'vertical' | 'horizontal'
     /**
@@ -283,7 +283,7 @@ export const inputDefaultProps = {
   value: 'initval',
   id: null,
   label: null,
-  labelDirection: null,
+  labelDirection: 'vertical',
   labelSrOnly: null,
   status: null,
   globalStatus: null,

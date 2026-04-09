@@ -288,6 +288,7 @@ describe('Textarea component', () => {
       'dnb-textarea--virgin',
       'dnb-form-component',
       'dnb-space__top--large',
+      'dnb-textarea--vertical',
     ])
   })
 

@@ -31,24 +31,13 @@ type VisibleWhenVisualTestReturn = Pick<
 >
 
 const Wrapper = styled.div`
-  .dnb-form-label {
-    margin-right: 1rem;
-  }
-  [data-visual-test] {
-    > :not(.dnb-dropdown--is-popup):not(
-        .dnb-dropdown--independent-width
-      ):not(.dnb-dropdown--stretch)
-      .dnb-dropdown__shell {
-      width: var(--dropdown-width);
-    }
-  }
   [data-visual-test-wrapper='dropdown-action_menu-custom'],
   [data-visual-test-wrapper='dropdown-more_menu'] {
     width: 20rem;
     height: 15rem !important;
   }
   [data-visual-test='dropdown-action_menu-custom'] .dnb-dropdown__list {
-    width: 15rem;
+    min-width: 10rem;
   }
   [data-visual-test='dropdown-list'] .dnb-drawer-list__list {
     display: block;
@@ -364,71 +353,73 @@ export const DropdownMoreMenu = () => {
         scope={{ visualTestProps }}
         data-visual-test="dropdown-more_menu"
       >
-        <Dropdown
-          moreMenu={true}
-          size="small"
-          title="Choose an item"
-          data={() => [
-            <Link href="/" key="item-1">
-              Go to this Link
-            </Link>,
-            'Or press on me',
-            <>Custom component</>,
-          ]}
-          right="small"
-          {...visualTestProps(globalThis.IS_TEST)}
-        />
-        <Dropdown
-          preventSelection={true}
-          align="right"
-          size="small"
-          title={null}
-          aria-label="Choose an item"
-          data={() => ({
-            first: (
+        <Flex.Horizontal align="center">
+          <Dropdown
+            moreMenu={true}
+            size="small"
+            title="Choose an item"
+            data={() => [
               <Link href="/" key="item-1">
                 Go to this Link
-              </Link>
-            ),
-            second: 'Or press on me',
-            third: <>Custom component</>,
-          })}
-          right="small"
-          {...visualTestProps(globalThis.IS_TEST)}
-        />
-        <Dropdown
-          moreMenu={true}
-          title="Choose an item"
-          data={[
-            <Link href="/" key="item-1">
-              Go to this Link
-            </Link>,
-            'Or press on me',
-            <>Custom component</>,
-          ]}
-          right="small"
-        />
-        <Dropdown
-          preventSelection={true}
-          align="right"
-          title={null}
-          aria-label="Choose an item"
-          data={() => ({
-            first: (
+              </Link>,
+              'Or press on me',
+              <>Custom component</>,
+            ]}
+            right="small"
+            {...visualTestProps(globalThis.IS_TEST)}
+          />
+          <Dropdown
+            preventSelection={true}
+            align="right"
+            size="small"
+            title={null}
+            aria-label="Choose an item"
+            data={() => ({
+              first: (
+                <Link href="/" key="item-1">
+                  Go to this Link
+                </Link>
+              ),
+              second: 'Or press on me',
+              third: <>Custom component</>,
+            })}
+            right="small"
+            {...visualTestProps(globalThis.IS_TEST)}
+          />
+          <Dropdown
+            moreMenu={true}
+            title="Choose an item"
+            data={[
               <Link href="/" key="item-1">
                 Go to this Link
-              </Link>
-            ),
-            second: 'Or press on me',
-            third: <>Custom component</>,
-          })}
-          onChange={({ value }) => {
-            console.log('onChange', value)
-          }}
-          onSelect={({ activeItem }) => {
-            console.log('onSelect', activeItem)
-          }}
-        />
+              </Link>,
+              'Or press on me',
+              <>Custom component</>,
+            ]}
+            right="small"
+          />
+          <Dropdown
+            preventSelection={true}
+            align="right"
+            title={null}
+            aria-label="Choose an item"
+            data={() => ({
+              first: (
+                <Link href="/" key="item-1">
+                  Go to this Link
+                </Link>
+              ),
+              second: 'Or press on me',
+              third: <>Custom component</>,
+            })}
+            onChange={({ value }) => {
+              console.log('onChange', value)
+            }}
+            onSelect={({ activeItem }) => {
+              console.log('onSelect', activeItem)
+            }}
+          />
+        </Flex.Horizontal>
       </ComponentBox>
     </Wrapper>
   )
@@ -680,12 +671,7 @@ export const DropdownStatusVertical = () => (
       data-visual-test="dropdown-status-error"
       scope={{ data }}
     >
-      <Dropdown
-        data={data}
-        label="Label"
-        labelDirection="vertical"
-        status="Message to the user"
-      />
+      <Dropdown data={data} label="Label" status="Message to the user" />
     </ComponentBox>
   </Wrapper>
 )

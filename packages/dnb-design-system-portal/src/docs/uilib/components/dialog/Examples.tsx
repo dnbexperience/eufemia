@@ -169,12 +169,7 @@ export const DialogExampleProgressIndicator = () => (
       preventClose={false}
       maxWidth="12rem"
     >
-      <ProgressIndicator
-        showDefaultLabel
-        labelDirection="vertical"
-        top="large"
-        bottom="large"
-      />
+      <ProgressIndicator showDefaultLabel top="large" bottom="large" />
     </Dialog>
   </ComponentBox>
 )

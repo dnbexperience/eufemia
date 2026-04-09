@@ -21,7 +21,7 @@ const props: SliderAllProps = {
   value: 70,
   step: 10,
   numberFormat: null,
-  labelDirection: 'horizontal',
+  labelDirection: 'vertical',
 }
 
 describe('Slider component', () => {

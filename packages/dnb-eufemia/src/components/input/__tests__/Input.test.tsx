@@ -680,6 +680,7 @@ describe('Input with clear button', () => {
       'dnb-form-component',
       'dnb-space__top--large',
       'dnb-input--text',
+      'dnb-input--vertical',
     ])
   })
 
