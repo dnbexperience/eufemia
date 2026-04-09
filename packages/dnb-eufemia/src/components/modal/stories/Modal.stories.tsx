@@ -611,7 +611,7 @@ function CloseByCallback() {
     <Modal triggerAttributes={{ text: 'CloseByCallback' }} hideCloseButton>
       {
         (({ close }) => (
-          <Button text="Close by callback" onClick={close} />
+          <Button text="Close by callback" onClick={() => close()} />
         )) as (props: ModalContentProps) => React.ReactNode
       }
     </Modal>

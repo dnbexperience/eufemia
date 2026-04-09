@@ -16,6 +16,7 @@ import type {
 } from '../section/Section'
 import Section from '../section/Section'
 import Button from '../button/Button'
+import type { ButtonOnClick } from '../button/Button'
 
 // Shared
 import Context from '../../shared/Context'
@@ -75,7 +76,7 @@ export type BreadcrumbProps = {
    * Handle the click event on 'single'/'collapse'
    * Default: `null`
    */
-  onClick?: React.MouseEventHandler<HTMLButtonElement>
+  onClick?: ButtonOnClick
 
   /**
    * For variant 'single', use href (or onClick) to set href when clicking "Back"

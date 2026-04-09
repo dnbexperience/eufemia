@@ -15,7 +15,7 @@ import {
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import Button from '../button/Button'
-import type { ButtonOnClick } from '../button/Button'
+import type { ButtonClickEvent } from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 
@@ -161,8 +161,11 @@ function SubtractButton() {
     numberFormat,
   } = allProps
 
-  const onSubtractClickHandler = (event: MouseEvent | TouchEvent) => {
-    emitChange(event, clamp((value as number) - (step || 1), min, max))
+  const onSubtractClickHandler = ({ event }: ButtonClickEvent) => {
+    emitChange(
+      event.nativeEvent,
+      clamp((value as number) - (step || 1), min, max)
+    )
   }
 
   const subtractParams = {}
@@ -183,7 +186,7 @@ function SubtractButton() {
         '%s',
         humanNumber.aria || String(value)
       )}
-      onClick={onSubtractClickHandler as ButtonOnClick}
+      onClick={onSubtractClickHandler}
       disabled={disabled}
       skeleton={skeleton}
       {...subtractParams}
@@ -196,8 +199,11 @@ function AddButton() {
   const { step, min, max, disabled, skeleton, addTitle, numberFormat } =
     allProps
 
-  const onAddClickHandler = (event: MouseEvent | TouchEvent) => {
-    emitChange(event, clamp((value as number) + (step || 1), min, max))
+  const onAddClickHandler = ({ event }: ButtonClickEvent) => {
+    emitChange(
+      event.nativeEvent,
+      clamp((value as number) + (step || 1), min, max)
+    )
   }
 
   const addParams = {}
@@ -218,7 +224,7 @@ function AddButton() {
         '%s',
         humanNumber.aria || String(value)
       )}
-      onClick={onAddClickHandler as ButtonOnClick}
+      onClick={onAddClickHandler}
       disabled={disabled}
       skeleton={skeleton}
       {...addParams}

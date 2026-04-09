@@ -254,9 +254,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
               aria-current={
                 pageNumber === currentPageInternal ? 'page' : null
               }
-              onClick={(event: React.MouseEvent) =>
-                clickHandler({ pageNumber, event })
-              }
+              onClick={({ event }) => clickHandler({ pageNumber, event })}
             />
           ))}
 
@@ -301,7 +299,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
                     aria-current={
                       pageNumber === currentPageInternal ? 'page' : null
                     }
-                    onClick={(event: React.MouseEvent) =>
+                    onClick={({ event }) =>
                       clickHandler({ pageNumber, event })
                     }
                   />

@@ -18,6 +18,7 @@ import { combineDescribedBy, warn } from '../../shared/component-helper'
 import getRefElement from '../../shared/internal/getRefElement'
 import PopoverPortal from './PopoverPortal'
 import PopoverContainer from './PopoverContainer'
+import type { ButtonClickEvent } from '../button/Button'
 import type {
   PopoverProps,
   PopoverTriggerRenderProps,
@@ -590,9 +591,7 @@ export default function Popover(props: PopoverProps) {
       className={clsx('dnb-popover__close', closeButtonProps?.className)}
       title={closeButtonProps?.title || tr.closeButtonTitle}
       onClick={(event) => {
-        ;(closeButtonProps?.onClick as (...args: unknown[]) => void)?.(
-          event
-        )
+        closeButtonProps?.onClick?.({ event } as ButtonClickEvent)
         if (event?.defaultPrevented) {
           return undefined
         }

@@ -5,7 +5,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 // Components
 import IconPrimary from '../icon-primary/IconPrimary'
 import type { IconIcon } from '../icon/Icon'
-import type { ButtonProps, ButtonOnClick } from '../button/Button'
+import type { ButtonProps, ButtonClickEvent } from '../button/Button'
 import Button from '../button/Button'
 
 // Shared
@@ -69,9 +69,7 @@ export type TagProps = {
    * Default: `null`
    */
   onClick?: (args: {
-    event:
-      | React.MouseEvent<HTMLButtonElement>
-      | React.KeyboardEvent<HTMLElement>
+    event: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>
   }) => void
 
   /**
@@ -182,7 +180,11 @@ const Tag = (
       }
       iconPosition={addIcon ? 'right' : 'left'}
       className={tagClassNames}
-      onClick={onClick as ButtonOnClick}
+      onClick={
+        onClick
+          ? ({ event }: ButtonClickEvent) => onClick({ event })
+          : undefined
+      }
       text={content}
       skeleton={skeleton}
       onKeyUp={

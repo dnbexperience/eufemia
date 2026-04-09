@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import clsx from 'clsx'
 
 // Components
-import type { ButtonProps } from '../button/Button'
+import type { ButtonProps, ButtonOnClick } from '../button/Button'
 import Button from '../button/Button'
 import IconPrimary from '../icon-primary/IconPrimary'
 import type { IconIcon } from '../icon/Icon'
@@ -85,7 +85,7 @@ export type InfoCardProps = {
    * Is called when the close button is clicked
    * Default: `null`
    */
-  onClose?: React.MouseEventHandler<HTMLButtonElement>
+  onClose?: ButtonOnClick
   /**
    * The text of the close button.
    * Default: `null`
@@ -95,7 +95,7 @@ export type InfoCardProps = {
    * Is called when the accept button is clicked
    * Default: `null`
    */
-  onAccept?: React.MouseEventHandler<HTMLButtonElement>
+  onAccept?: ButtonOnClick
   /**
    * The text of the accept button.
    * Default: `null`

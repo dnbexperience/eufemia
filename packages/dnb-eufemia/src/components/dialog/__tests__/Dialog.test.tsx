@@ -95,7 +95,7 @@ describe('Dialog', () => {
       >
         {
           (({ close }) => (
-            <Button id="close-me" text="close" onClick={close} />
+            <Button id="close-me" text="close" onClick={() => close()} />
           )) as (props: ModalContentProps) => React.ReactNode
         }
       </Dialog>
@@ -534,7 +534,11 @@ describe('Dialog', () => {
       >
         {
           (({ close }) => (
-            <Button id="close-button" text="close" onClick={close} />
+            <Button
+              id="close-button"
+              text="close"
+              onClick={() => close()}
+            />
           )) as (props: ModalContentProps) => React.ReactNode
         }
       </Dialog>

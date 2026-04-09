@@ -86,10 +86,7 @@ export type ButtonElement =
 export type ButtonClickEvent = {
   event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
 }
-export type ButtonOnClick =
-  | ((args: ButtonClickEvent) => void)
-  | React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>
-  | ((...args: unknown[]) => void)
+export type ButtonOnClick = (args: ButtonClickEvent) => void
 
 export type ButtonProps = {
   /**

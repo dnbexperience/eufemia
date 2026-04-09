@@ -6,7 +6,10 @@ import IterateItemContext from '../IterateItemContext'
 import ToolbarContext from '../Toolbar/ToolbarContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import { reset } from '../../../../icons'
-import type { ButtonProps } from '../../../../components/Button'
+import type {
+  ButtonProps,
+  ButtonClickEvent,
+} from '../../../../components/Button'
 import useHasContentChanged from '../../Form/Isolation/useHasContentChanged'
 import { omitDataValueReadWriteProps } from '../../types'
 
@@ -44,7 +47,7 @@ export default function ResetButton(props: Props) {
       event?: React.SyntheticEvent
     }) => {
       close?.()
-      ;(onClick as (...args: unknown[]) => void)?.(event)
+      onClick?.({ event } as ButtonClickEvent)
       restoreOriginalValue?.()
       setShowError(false)
       setShowBoundaryErrors?.(false)

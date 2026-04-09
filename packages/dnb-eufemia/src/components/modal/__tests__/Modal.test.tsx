@@ -1723,7 +1723,11 @@ describe('Modal component', () => {
           {
             (({ close }) => {
               return (
-                <Button id="close-button" text="close" onClick={close} />
+                <Button
+                  id="close-button"
+                  text="close"
+                  onClick={() => close()}
+                />
               )
             }) as (props: ModalContentProps) => React.ReactNode
           }

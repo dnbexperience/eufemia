@@ -4,7 +4,10 @@ import { Button, Dialog } from '../../../../components'
 import useTranslation from '../../hooks/useTranslation'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import { reset } from '../../../../icons'
-import type { ButtonProps } from '../../../../components/Button'
+import type {
+  ButtonProps,
+  ButtonClickEvent,
+} from '../../../../components/Button'
 import useHasContentChanged from './useHasContentChanged'
 import { omitDataValueReadWriteProps } from '../../types'
 import useDataContextSnapshot from './useDataContextSnapshot'
@@ -57,7 +60,7 @@ export default function IsolationResetButton(props: Props) {
       event?: React.SyntheticEvent
     }) => {
       close?.()
-      ;(onClick as (...args: unknown[]) => void)?.(event)
+      onClick?.({ event } as ButtonClickEvent)
       handleReset()
       setShowBoundaryErrors?.(false)
       buttonWrapperRef.current?.focus()

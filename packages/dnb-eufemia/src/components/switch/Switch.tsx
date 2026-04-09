@@ -37,7 +37,7 @@ export type SwitchSize = 'default' | 'medium' | 'large'
 export type SwitchAttributes = string | Record<string, unknown>
 export type SwitchOnChangeParams = {
   checked: boolean
-  event: MouseEvent | TouchEvent | KeyboardEvent
+  event: React.SyntheticEvent | Event
 }
 export type SwitchOnClickParams = React.MouseEvent<HTMLInputElement> & {
   checked: boolean
@@ -177,7 +177,7 @@ function Switch(props: SwitchProps) {
       checked: boolean
       event: React.SyntheticEvent | Event
     }) => {
-      onChange?.({ checked, event } as SwitchOnChangeParams)
+      onChange?.({ checked, event })
     },
     [onChange]
   )
@@ -200,7 +200,7 @@ function Switch(props: SwitchProps) {
             onChangeEnd({
               checked: updatedChecked,
               event,
-            } as SwitchOnChangeParams),
+            }),
           500
         )
       }

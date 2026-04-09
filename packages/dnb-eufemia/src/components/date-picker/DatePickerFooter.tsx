@@ -5,6 +5,7 @@
 
 import React, { useContext, useCallback } from 'react'
 import Button from '../button/Button'
+import type { ButtonClickEvent } from '../button/Button'
 import DatePickerContext from './DatePickerContext'
 import { convertStringToDate } from './DatePickerCalc'
 import { useTranslation } from '../../shared'
@@ -58,24 +59,24 @@ function DatePickerFooter({
   } = useTranslation().DatePicker
 
   const onSubmitHandler = useCallback(
-    (args: DatePickerFooterEvent) => {
-      onSubmit?.(args)
+    ({ event }: ButtonClickEvent) => {
+      onSubmit?.({ event } as DatePickerFooterEvent)
       setSubmittedDates({ startDate, endDate })
     },
     [onSubmit, startDate, endDate, setSubmittedDates]
   )
 
   const onCancelHandler = useCallback(
-    (args: DatePickerFooterEvent) => {
+    ({ event }: ButtonClickEvent) => {
       updateDates(submittedDates, (dates) => {
-        onCancel?.({ ...args, ...dates })
+        onCancel?.({ event, ...dates } as DatePickerFooterEvent)
       })
     },
     [updateDates, onCancel, submittedDates]
   )
 
   const onResetHandler = useCallback(
-    (args: DatePickerFooterEvent) => {
+    ({ event }: ButtonClickEvent) => {
       const startDate = previousDateProps.startDate
         ? convertStringToDate(previousDateProps.startDate, {
             dateFormat,
@@ -97,7 +98,7 @@ function DatePickerFooter({
           endDate,
         },
         (dates) => {
-          onReset?.({ ...args, ...dates })
+          onReset?.({ event, ...dates } as DatePickerFooterEvent)
         }
       )
     },

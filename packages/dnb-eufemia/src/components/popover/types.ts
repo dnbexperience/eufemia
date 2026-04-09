@@ -25,14 +25,16 @@ export type PopoverResolvedTargetElement =
   | null
   | PopoverTargetElementObject
 
-export type PopoverTriggerRenderProps =
-  React.HTMLAttributes<HTMLElement> & {
-    ref: React.RefCallback<HTMLElement>
-    active: boolean
-    open: () => void
-    close: () => void
-    toggle: (next?: boolean) => void
-  }
+export type PopoverTriggerRenderProps = Omit<
+  React.HTMLAttributes<HTMLElement>,
+  'onClick'
+> & {
+  ref: React.RefCallback<HTMLElement>
+  active: boolean
+  open: () => void
+  close: () => void
+  toggle: (next?: boolean) => void
+}
 
 export type PopoverContentRenderProps = {
   active: boolean

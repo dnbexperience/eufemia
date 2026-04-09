@@ -7,7 +7,10 @@ import ToolbarContext from '../Toolbar/ToolbarContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import PushContainerContext from '../PushContainer/PushContainerContext'
 import { close } from '../../../../icons'
-import type { ButtonProps } from '../../../../components/Button'
+import type {
+  ButtonProps,
+  ButtonClickEvent,
+} from '../../../../components/Button'
 import type { IterateRemoveButtonProps as RemoveButtonProps } from '../RemoveButton'
 import RemoveButton from '../RemoveButton'
 import type { ContainerMode } from '../Array'
@@ -70,7 +73,7 @@ export default function CancelButton(props: Props) {
           switchContainerMode?.('view')
         }
 
-        ;(onClick as (...args: unknown[]) => void)?.(event)
+        onClick?.({ event } as ButtonClickEvent)
       }) // because of the re-render of "restoreOriginalData"
     },
     [

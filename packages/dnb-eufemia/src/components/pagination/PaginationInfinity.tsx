@@ -11,6 +11,7 @@ import {
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import Context from '../../shared/Context'
 import Button from '../button/Button'
+import type { ButtonClickEvent } from '../button/Button'
 import {
   preparePageElement,
   isTrElement,
@@ -406,7 +407,7 @@ export default function InfinityScroller({
                 icon="arrow_up"
                 text={loadButton?.text}
                 iconPosition={loadButton?.iconPosition}
-                onClick={(event) =>
+                onClick={({ event }) =>
                   getNewContent(pageNumber - 1, {
                     position: 'before',
                     skipObserver: true,
@@ -440,7 +441,7 @@ export default function InfinityScroller({
                 text={loadButton?.text}
                 iconPosition={loadButton?.iconPosition}
                 icon="arrow_down"
-                onClick={(event) =>
+                onClick={({ event }) =>
                   getNewContent(pageNumber + 1, {
                     position: 'after',
                     skipObserver: true,
@@ -563,12 +564,12 @@ export function InfinityLoadButton({
   icon?: string
   text?: string | null
   iconPosition?: 'left' | 'right'
-  onClick?: (e: React.MouseEvent) => void
+  onClick?: (e: ButtonClickEvent) => void
 }) {
   const context = React.useContext(Context)
   const [isPressed, setIsPressed] = React.useState(false)
 
-  const handleClick = (e: React.MouseEvent) => {
+  const handleClick = (e: ButtonClickEvent) => {
     setIsPressed(true)
     if (typeof onClick === 'function') {
       onClick(e)

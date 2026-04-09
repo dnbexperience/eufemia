@@ -1,6 +1,7 @@
 import React, { useCallback, useContext } from 'react'
 import clsx from 'clsx'
 import Button from '../../button/Button'
+import type { ButtonClickEvent } from '../../button/Button'
 import Space from '../../space/Space'
 import { Context } from '../../../shared'
 import ModalContext from '../../modal/ModalContext'
@@ -73,7 +74,7 @@ const DialogAction = ({
   let childrenWithCloseFunc: React.ReactNode
 
   const onConfirmHandler = useCallback(
-    (event: React.SyntheticEvent) => {
+    ({ event }: ButtonClickEvent) => {
       dispatchCustomElementEvent({ onConfirm }, 'onConfirm', {
         event,
         close,
@@ -82,7 +83,7 @@ const DialogAction = ({
     [close, onConfirm]
   )
   const onDeclineHandler = useCallback(
-    (event: React.SyntheticEvent) => {
+    ({ event }: ButtonClickEvent) => {
       dispatchCustomElementEvent({ onDecline }, 'onDecline', {
         event,
         close,

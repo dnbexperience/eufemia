@@ -35,7 +35,7 @@ import CloseButton from './parts/CloseButton'
 import ModalRoot from './ModalRoot'
 import { ParagraphContext } from '../../elements/typography/P'
 import type { SpacingProps } from '../../shared/types'
-import type { ButtonProps } from '../button/Button'
+import type { ButtonProps, ButtonClickEvent } from '../button/Button'
 
 export const ANIMATION_DURATION = 300
 
@@ -490,7 +490,7 @@ function ModalComponent(ownProps: ModalAllProps) {
           {...usedTriggerAttributes}
           id={_id.current}
           title={title}
-          onClick={(event: React.MouseEvent) =>
+          onClick={({ event }: ButtonClickEvent) =>
             toggleOpenClose(event.nativeEvent)
           }
           ref={triggerRef}

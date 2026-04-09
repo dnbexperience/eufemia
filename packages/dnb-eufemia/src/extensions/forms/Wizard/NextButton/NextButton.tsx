@@ -36,11 +36,7 @@ function NextButton(props: WizardNextButtonProps) {
       <SubmitButton
         type="button"
         className={clsx('dnb-forms-next-button', className)}
-        onClick={() =>
-          onClickProp
-            ? (onClickProp as (...args: unknown[]) => void)()
-            : handleNext?.()
-        }
+        onClick={onClickProp ?? (() => handleNext?.())}
         iconPosition={iconPosition}
         icon={icon}
         {...restProps}

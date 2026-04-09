@@ -35,6 +35,7 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 import Button from '../button/Button'
+import type { ButtonClickEvent } from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import IconPrimary from '../icon-primary/IconPrimary'
@@ -926,7 +927,7 @@ function InputSubmitButton({
   )
 
   const onSubmitHandler = useCallback(
-    (event: React.MouseEvent) => {
+    ({ event }: ButtonClickEvent) => {
       const submitValue = props.value
       dispatchCustomElementEvent(props, 'onSubmit', {
         value: submitValue,
