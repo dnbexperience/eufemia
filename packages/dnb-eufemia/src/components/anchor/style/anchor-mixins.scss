@@ -188,8 +188,8 @@
     svg {
       vertical-align: baseline;
       transform: scale($icon-scale) var(--anchor-icon-position);
-      font-size: #{math.div(1, $icon-scale)}em;
-      width: #{$icon-scale}em;
+      font-size: math.div(1, $icon-scale) * 1em;
+      width: $icon-scale * 1em;
       height: 1em;
       pointer-events: none;
     }

@@ -15,7 +15,7 @@
   }
   padding: calc(0.25em / #{$code-scale});
 
-  font-size: #{$code-scale}em;
+  font-size: $code-scale * 1em;
   text-decoration: inherit;
   line-height: calc(var(--line-height-xx-small--em) / #{$code-scale});
 

@@ -31,6 +31,7 @@
     "selector-id-pattern": null,
     "number-max-precision": null,
     "at-rule-disallowed-list": ["import"],
+    "scss/dimension-no-non-numeric-values": true,
     "eufemia/token-name-policy": [
       true,
       {
