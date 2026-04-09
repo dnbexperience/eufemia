@@ -25,9 +25,8 @@
 
     flex-flow: row wrap;
     align-items: center;
-    row-gap: var(
-      --spacing-small
-    ); // For when breaking into new lines (Anchor variant)
+    // For when breaking into new lines (Anchor variant)
+    row-gap: var(--spacing-small);
     column-gap: var(--spacing-x-small);
   }
 

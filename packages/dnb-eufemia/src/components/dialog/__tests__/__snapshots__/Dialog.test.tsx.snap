@@ -1275,9 +1275,7 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
   --dialog-max-width: 49rem;
   --dialog-confirm-max-width: 40rem;
   --dialog-spacing: var(--spacing-large);
-  --dialog-spacing-minus: calc(
-    var(--spacing-large) * -1
-  );
+  --dialog-spacing-minus: calc(var(--spacing-large) * -1);
   --dialog-radius: 0.5rem;
   --dialog-padding: calc(var(--dialog-spacing) * 1.75);
   position: relative;

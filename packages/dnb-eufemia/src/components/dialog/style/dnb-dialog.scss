@@ -12,10 +12,8 @@
   --dialog-avg-width: 60vw; // content defines the size
   --dialog-max-width: 49rem; // because of our default width --layout-large
   --dialog-confirm-max-width: 40rem;
-  --dialog-spacing: var(--spacing-large); // should reflect --spacing-large
-  --dialog-spacing-minus: calc(
-    var(--spacing-large) * -1
-  ); // should reflect --spacing-large
+  --dialog-spacing: var(--spacing-large);
+  --dialog-spacing-minus: calc(var(--spacing-large) * -1);
   --dialog-radius: 0.5rem;
   --dialog-padding: calc(var(--dialog-spacing) * 1.75);
 

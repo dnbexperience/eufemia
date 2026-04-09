@@ -12,9 +12,8 @@
   & ol {
     margin-top: 0;
     margin-bottom: var(--spacing-medium);
-    padding-left: var(
-      --spacing-large
-    ); // to adjust the left spacing of child lists
+    // to adjust the left spacing of child lists
+    padding-left: var(--spacing-large);
   }
 
   & li,
