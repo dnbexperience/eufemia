@@ -19,7 +19,7 @@
   word-break: normal;
 
   font-size: var(--font-size-basis);
-  color: inherit;
+  color: var(--token-color-text-neutral);
 
   &--vertical {
     display: block;

@@ -1100,7 +1100,7 @@ button.dnb-button::-moz-focus-inner {
   white-space: pre-wrap;
   word-break: normal;
   font-size: var(--font-size-basis);
-  color: inherit;
+  color: var(--token-color-text-neutral);
 }
 .dnb-form-label--vertical {
   display: block;
