@@ -10,7 +10,7 @@ import type { IconIcon } from '../icon/Icon'
 
 export type ItemActionIconPosition = 'left' | 'right'
 
-export type ItemActionProps = {
+export type ItemActionProps<E extends React.ElementType = 'a'> = {
   id?: string
   variant?: ListVariant
   selected?: boolean
@@ -19,11 +19,25 @@ export type ItemActionProps = {
   icon?: IconIcon
   title?: React.ReactNode
   href?: string
+  to?: string
+  element?: E
+  elementProps?: Omit<
+    React.ComponentPropsWithoutRef<E>,
+    | 'href'
+    | 'to'
+    | 'target'
+    | 'rel'
+    | 'children'
+    | 'tabIndex'
+    | 'aria-disabled'
+  >
   target?: string
   rel?: string
-} & Omit<ItemContentProps, 'title'>
+} & Omit<ItemContentProps, 'title' | 'element'>
 
-function ItemAction(props: ItemActionProps) {
+function ItemAction<E extends React.ElementType = 'a'>(
+  props: ItemActionProps<E>
+) {
   const {
     className,
     onClick,
@@ -37,6 +51,9 @@ function ItemAction(props: ItemActionProps) {
     icon,
     title,
     href,
+    to,
+    element,
+    elementProps,
     target,
     rel,
     ...rest
@@ -102,7 +119,7 @@ function ItemAction(props: ItemActionProps) {
   const actionClassName = classnames(
     'dnb-list__item__action',
     chevronPosition === 'left' && 'dnb-list__item--chevron-left',
-    href && 'dnb-list__item__action--href',
+    (href || to) && 'dnb-list__item__action--href',
     className
   )
 
@@ -116,7 +133,7 @@ function ItemAction(props: ItemActionProps) {
     </>
   )
 
-  if (href) {
+  if (href || to) {
     return (
       <ItemContent
         className={actionClassName}
@@ -135,11 +152,16 @@ function ItemAction(props: ItemActionProps) {
         <Anchor
           noStyle
           ref={anchorRef}
-          href={isInactive ? undefined : href}
+          {...(href != null
+            ? { href: isInactive ? undefined : href }
+            : {})}
+          to={isInactive ? undefined : to}
+          element={element}
           target={target}
           rel={rel}
           tabIndex={-1}
           aria-disabled={isInactive ? true : undefined}
+          {...elementProps}
         >
           {content}
         </Anchor>

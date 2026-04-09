@@ -579,4 +579,141 @@ describe('ItemAction', () => {
       expect(handleClick).not.toHaveBeenCalled()
     })
   })
+
+  describe('element and to', () => {
+    const MockLink = React.forwardRef<
+      HTMLAnchorElement,
+      {
+        to: string
+        children: React.ReactNode
+        preventScrollReset?: boolean
+      }
+    >(({ to, children, ...rest }, ref) => (
+      <a href={to} ref={ref} {...rest}>
+        {children}
+      </a>
+    ))
+    MockLink.displayName = 'MockLink'
+
+    it('renders with a custom router Link component via element and to', () => {
+      render(
+        <ItemAction element={MockLink} to="/route">
+          Router link
+        </ItemAction>
+      )
+
+      const anchor = document.querySelector('a')
+
+      expect(anchor).toBeInTheDocument()
+      expect(anchor?.getAttribute('href')).toBe('/route')
+      expect(anchor?.textContent).toContain('Router link')
+    })
+
+    it('applies --href modifier class when to is provided', () => {
+      render(
+        <ItemAction element={MockLink} to="/route">
+          Content
+        </ItemAction>
+      )
+
+      const element = document.querySelector(
+        '.dnb-list__item__action--href'
+      )
+
+      expect(element).toBeInTheDocument()
+    })
+
+    it('has role="link" when to is provided', () => {
+      render(
+        <ItemAction element={MockLink} to="/route">
+          Content
+        </ItemAction>
+      )
+
+      const element = document.querySelector('.dnb-list__item__action')
+
+      expect(element?.getAttribute('role')).toBe('link')
+    })
+
+    it('does not forward to when disabled', () => {
+      render(
+        <ItemAction element={MockLink} to="/route" disabled>
+          Content
+        </ItemAction>
+      )
+
+      const anchor = document.querySelector('a')
+
+      expect(anchor).not.toHaveAttribute('href')
+      expect(anchor?.getAttribute('aria-disabled')).toBe('true')
+    })
+
+    it('does not forward to when pending', () => {
+      render(
+        <ItemAction element={MockLink} to="/route" pending>
+          Content
+        </ItemAction>
+      )
+
+      const anchor = document.querySelector('a')
+
+      expect(anchor).not.toHaveAttribute('href')
+    })
+
+    it('triggers anchor click on Enter key when using to', () => {
+      render(
+        <ItemAction element={MockLink} to="/route">
+          Content
+        </ItemAction>
+      )
+
+      const listItem = document.querySelector(
+        '.dnb-list__item__action--href'
+      )
+      const anchor = listItem?.querySelector('a')
+      const clickSpy = jest.spyOn(anchor as HTMLAnchorElement, 'click')
+
+      fireEvent.keyDown(listItem as Element, { key: 'Enter' })
+
+      expect(clickSpy).toHaveBeenCalled()
+      clickSpy.mockRestore()
+    })
+
+    it('triggers anchor click on Space key when using to', () => {
+      render(
+        <ItemAction element={MockLink} to="/route">
+          Content
+        </ItemAction>
+      )
+
+      const listItem = document.querySelector(
+        '.dnb-list__item__action--href'
+      )
+      const anchor = listItem?.querySelector('a')
+      const clickSpy = jest.spyOn(anchor as HTMLAnchorElement, 'click')
+
+      fireEvent.keyDown(listItem as Element, { key: ' ' })
+
+      expect(clickSpy).toHaveBeenCalled()
+      clickSpy.mockRestore()
+    })
+
+    it('forwards elementProps to the anchor element', () => {
+      render(
+        <ItemAction
+          element={MockLink}
+          to="/route"
+          elementProps={
+            { 'data-replace': 'true' } as Record<string, unknown>
+          }
+        >
+          Content
+        </ItemAction>
+      )
+
+      const anchor = document.querySelector('a')
+
+      expect(anchor?.getAttribute('data-replace')).toBe('true')
+    })
+  })
 })
