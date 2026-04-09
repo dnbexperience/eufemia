@@ -1677,8 +1677,8 @@ describe('Popover', () => {
     ).toHaveLength(0)
   })
 
-  it('applies the theme class when theme is provided', async () => {
-    renderWithTrigger({ theme: 'dark' })
+  it('applies the surface class when surface is provided', async () => {
+    renderWithTrigger({ surface: 'dark' })
 
     const trigger = (await waitFor(() =>
       document.querySelector('button[aria-controls]')
@@ -1688,7 +1688,7 @@ describe('Popover', () => {
     const popover = await waitFor(() =>
       document.querySelector('.dnb-popover')
     )
-    expect(popover).toHaveClass('dnb-popover--theme-dark')
+    expect(popover).toHaveClass('dnb-popover--surface-dark')
   })
 
   it('merges custom className on the popover root', async () => {

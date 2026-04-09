@@ -7,9 +7,18 @@
 .dnb-popover {
   --inner-space: 0.75rem;
   --popover-border-radius: 0.5rem;
+  --popover-text-color: var(--token-color-text-neutral);
+  --popover-background-color: var(--token-color-background-neutral);
+  --popover-outline-color: var(--token-color-stroke-neutral-subtle);
   --popover-color-icon: var(--token-color-icon-neutral);
 
-  &--theme-dark {
+  &--surface-dark {
+    --popover-text-color: var(--token-color-text-neutral-inverse);
+    // In lack of a better token, we use the tooltip background color for popovers in dark mode.
+    --popover-background-color: var(
+      --token-color-component-tooltip-background-neutral
+    );
+    --popover-outline-color: var(--token-color-stroke-neutral-ondark);
     --popover-color-icon: var(--token-color-icon-neutral-ondark);
   }
 

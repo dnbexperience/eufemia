@@ -72,18 +72,18 @@ export function PopoverExampleBasic() {
   )
 }
 
-export function PopoverExampleDark() {
+export function PopoverExampleSurfaceDark() {
   return (
     <Box>
       <section data-visual-test="popover-dark">
         <Popover
-          theme="dark"
+          surface="dark"
           trigger={(triggerProps) => (
             <Button text="Dark surface" {...triggerProps} />
           )}
           title="Dark popover"
         >
-          Use `theme="dark"` whenever the popover should visually blend
+          Use `surface="dark"` whenever the popover should visually blend
           with Tooltip surfaces or sit on dark backdrops.
         </Popover>
       </section>

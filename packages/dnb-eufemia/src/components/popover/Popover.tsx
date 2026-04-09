@@ -51,7 +51,7 @@ export default function Popover(props: PopoverProps) {
     contentClassName,
     className,
     baseClassName,
-    theme = 'light',
+    surface,
     disableFocusTrap = false,
     hideOutline = false,
     noInnerSpace = false,
@@ -600,7 +600,7 @@ export default function Popover(props: PopoverProps) {
 
   const popoverClassName = clsx(
     baseClassNames,
-    theme && baseClassNames.map((name) => `${name}--theme-${theme}`),
+    surface && baseClassNames.map((name) => `${name}--surface-${surface}`),
     !hideOutline && baseClassNames.map((name) => `${name}--show-outline`),
     noInnerSpace &&
       baseClassNames.map((name) => `${name}--no-inner-space`),

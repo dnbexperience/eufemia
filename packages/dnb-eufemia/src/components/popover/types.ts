@@ -245,10 +245,10 @@ export type PopoverProps = PopoverOverlayProps & {
    */
   baseClassName?: string
   /**
-   * Visual theme for the popover surface.
+   * Visual surface style of the popover.
    * @private For internal use only.
    */
-  theme?: 'light' | 'dark'
+  surface?: 'dark'
   /**
    * Disable rendering of the focus-trap button used to return focus to the trigger.
    * @private For internal use only.
