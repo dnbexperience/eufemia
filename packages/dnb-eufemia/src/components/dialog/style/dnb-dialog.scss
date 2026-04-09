@@ -16,15 +16,19 @@
   --dialog-spacing-minus: -2rem; // should reflect --spacing-large
   --dialog-radius: 0.5rem;
   --dialog-padding: calc(var(--dialog-spacing) * 1.75);
+  --dialog-icon-positioning: -50%;
 
   position: relative;
   border-radius: var(--dialog-radius);
 
-  @include utilities.defaultDropShadow();
+  @include utilities.fakeBorder(
+    $color: var(--token-color-stroke-neutral-subtle),
+    $extendShadow: var(--shadow-default)
+  );
   user-select: text; // Safari / Touch fix
   border: none;
   -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
-  background: var(--dialog-background);
+  background: var(--token-color-background-neutral);
 
   max-height: 100vh;
   overflow: hidden;
@@ -273,12 +277,12 @@
     }
 
     &__primary#{&}--warning {
-      --dialog-icon-color: var(--dialog-icon-color--warning);
-      --dialog-icon-background: var(--dialog-icon-background--warning);
+      --dialog-icon-color: var(--token-color-icon-destructive);
+      --dialog-icon-background: var(--token-color-background-error-subtle);
     }
     &__primary#{&}--information {
-      --dialog-icon-color: var(--dialog-icon-color--information);
-      --dialog-icon-background: var(--dialog-icon-background--information);
+      --dialog-icon-color: var(--token-color-decorative-first-bold);
+      --dialog-icon-background: var(--token-color-decorative-first-muted);
     }
   }
 
