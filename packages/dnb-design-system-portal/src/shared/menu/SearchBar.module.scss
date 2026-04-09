@@ -20,7 +20,7 @@
     }
 
     .dnb-form-label {
-      color: white; /* only for axe-core */
+      color: var(--color-white); /* visually hidden label - needs contrast for axe-core */
     }
   }
 }
