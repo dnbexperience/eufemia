@@ -5,7 +5,8 @@
   ],
   "plugins": [
     "stylelint-scss",
-    "./scripts/stylelint/plugins/token-name-policy"
+    "./scripts/stylelint/plugins/token-name-policy",
+    "./scripts/stylelint/plugins/no-unused-use"
   ],
   "rules": {
     "scss/at-mixin-argumentless-call-parentheses": "always",
@@ -40,6 +41,7 @@
           "carnegie": "carnegie"
         }
       }
-    ]
+    ],
+    "eufemia/no-unused-use": true
   }
 }

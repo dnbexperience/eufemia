@@ -4,7 +4,6 @@
 */
 
 @use '../../../../style/core/utilities.scss' as utilities;
-@use './button-mixins.scss' as button-mixins;
 
 // Because the tertiary button has so much code,
 // we slice the shareable parts out in a separate file

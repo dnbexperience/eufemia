@@ -8,14 +8,6 @@ exports[`DatePicker scss should match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-/*
-* DatePicker theme
-*
-*/
-/*
-* Button mixins
-*
-*/
 .dnb-date-picker__container {
   box-shadow: var(--shadow-sharp);
   border-radius: 0.25rem;
