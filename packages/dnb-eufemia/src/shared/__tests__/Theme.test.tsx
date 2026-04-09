@@ -207,7 +207,7 @@ describe('Theme', () => {
     )
   })
 
-  it('provides surface nest through the theme context', () => {
+  it('resets surface to default when nested inside a dark surface theme', () => {
     let receivedTheme = null
 
     const ThemeConsumer = () => {
