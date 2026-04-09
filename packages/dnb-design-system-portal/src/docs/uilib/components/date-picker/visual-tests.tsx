@@ -31,29 +31,29 @@ const DatePickerScreenshotTestSizes = () => {
   return (
     <Space data-visual-test="date-picker-sizes">
       <Flex.Vertical>
-          <DatePicker
-            label="DatePicker"
-            date={new Date('2022/06/10')}
-            showInput
-          />
-          <DatePicker
-            size="small"
-            label="DatePicker"
-            date={new Date('2022/06/10')}
-            showInput
-          />
-          <DatePicker
-            size="medium"
-            label="DatePicker"
-            date={new Date('2022/06/10')}
-            showInput
-          />
-          <DatePicker
-            size="large"
-            label="DatePicker"
-            date={new Date('2022/06/10')}
-            showInput
-          />
+        <DatePicker
+          label="DatePicker"
+          date={new Date('2022/06/10')}
+          showInput
+        />
+        <DatePicker
+          size="small"
+          label="DatePicker"
+          date={new Date('2022/06/10')}
+          showInput
+        />
+        <DatePicker
+          size="medium"
+          label="DatePicker"
+          date={new Date('2022/06/10')}
+          showInput
+        />
+        <DatePicker
+          size="large"
+          label="DatePicker"
+          date={new Date('2022/06/10')}
+          showInput
+        />
       </Flex.Vertical>
     </Space>
   )
@@ -63,8 +63,8 @@ const DatePickerScreenshotTestDisabled = () => {
   return (
     <Space data-visual-test="date-picker-disabled">
       <Flex.Vertical>
-          <DatePicker disabled />
-          <DatePicker showInput disabled />
+        <DatePicker disabled />
+        <DatePicker showInput disabled />
       </Flex.Vertical>
     </Space>
   )
