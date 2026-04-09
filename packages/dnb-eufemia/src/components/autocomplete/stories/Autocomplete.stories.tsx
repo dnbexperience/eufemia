@@ -21,7 +21,7 @@ import {
   Input,
 } from '../..'
 import { Anchor, Flex, Li, Ol, P, Section, Space } from '../../../'
-import { Context, Provider } from '../../../shared'
+import { Context } from '../../../shared'
 import { SubmitButton } from '../../input/Input'
 import { format } from '../../number-format/NumberUtils'
 import type {
@@ -812,8 +812,7 @@ export function DataSuffix() {
 
   return (
     <WideStyle>
-      <Provider formElement={{ labelDirection: 'vertical' }}>
-        <Autocomplete
+      <Autocomplete
           lang="nb"
           value={0}
           data={numbers}
@@ -821,9 +820,7 @@ export function DataSuffix() {
           icon={null}
           showSubmitButton
           label="From account"
-          labelDirection="vertical"
         />
-      </Provider>
     </WideStyle>
   )
 }
@@ -983,7 +980,6 @@ export const Memo = () => {
     return (
       <Autocomplete
         label={label}
-        labelDirection="vertical"
         value={value}
         data={['Up', 'Right', 'Down', 'Left']}
         onChange={(e) => {

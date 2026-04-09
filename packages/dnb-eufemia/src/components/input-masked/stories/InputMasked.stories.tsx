@@ -35,9 +35,6 @@ export function Sandbox() {
     <Wrapper>
       <Provider
         locale={locale}
-        formElement={{
-          labelDirection: 'vertical',
-        }}
       >
         <Form.Handler>
           <ToggleButton.Group

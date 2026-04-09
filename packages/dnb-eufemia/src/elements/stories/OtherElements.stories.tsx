@@ -16,7 +16,6 @@ import {
   Flex,
 } from '../../components'
 import { H1, H2, P, Hr, Link, Span, Div, Img } from '..'
-import { Provider } from '../../shared'
 
 export default {
   title: 'Eufemia/Elements/Other',
@@ -152,8 +151,7 @@ export const Textarea = () => (
   <Wrapper className="dnb-spacing">
     <CustomStyles>
       <Box>
-        <Provider formElement={{ labelDirection: 'vertical' }}>
-          <Flex.Vertical>
+        <Flex.Vertical>
             <label className="dnb-form-label" htmlFor="hendrerit">
               Label for the textarea:
             </label>
@@ -166,8 +164,7 @@ export const Textarea = () => (
             nostra lacinia bibendum hendrerit porttitor volutpat nam duis
             nisl scelerisque sapien erat"
             />
-          </Flex.Vertical>
-        </Provider>
+        </Flex.Vertical>
         <p className="dnb-p">I have to be on the grid!</p>
       </Box>
       <Box>
@@ -201,8 +198,7 @@ export const Textarea = () => (
         <p className="dnb-p">I have to be on the grid!</p>
       </Box>
       <Box>
-        <Provider formElement={{ labelDirection: 'vertical' }}>
-          <Flex.Vertical>
+        <Flex.Vertical>
             <label className="dnb-form-label" htmlFor="vestibulum">
               Label:
             </label>
@@ -214,9 +210,8 @@ export const Textarea = () => (
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
             />
-          </Flex.Vertical>
-          <FormStatus text="Message to the user" />
-        </Provider>
+        </Flex.Vertical>
+        <FormStatus text="Message to the user" />
         <p className="dnb-p">I have to be on the grid!</p>
       </Box>
       <Box>

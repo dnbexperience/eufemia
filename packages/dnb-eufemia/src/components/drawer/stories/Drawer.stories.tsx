@@ -170,7 +170,6 @@ function FillContent() {
       consectetur massa lobortis diam netus congue a nibh dolor faucibus
       vivamus taciti neque accumsan urna varius dis egestas
       <Dropdown
-        labelDirection="vertical"
         label="Dropdown"
         data={dropdownData}
         right
@@ -218,7 +217,6 @@ function FillContent() {
       nostra leo cum consequat sit ridiculus ad inceptos cras facilisis
       pretium natoque libero nulla interdum pellentesque viverra turpis
       <Dropdown
-        labelDirection="vertical"
         label="Dropdown"
         data={dropdownData}
         right
@@ -289,7 +287,6 @@ function FillContent() {
       inceptos volutpat phasellus ornare nisi tortor lobortis ligula
       ultricies ante proin
       <Dropdown
-        labelDirection="vertical"
         label="Dropdown"
         data={dropdownData}
         right

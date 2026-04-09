@@ -19,7 +19,6 @@ import {
 
 import { format } from '../../number-format/NumberUtils'
 import { FieldBlock, Form } from '../../../extensions/forms'
-import { Provider } from '../../../shared'
 
 export default {
   title: 'Eufemia/Components/Input',
@@ -38,8 +37,7 @@ export const InputSandbox = () => {
     <CustomStyle>
       <Wrapper>
         <Box>
-          <Provider formElement={{ labelDirection: 'vertical' }}>
-            <Flex.Vertical>
+          <Flex.Vertical>
               <Input value="Plain" />
               <Input value="Search" type="search" />
               <Input value="Search" size="medium" type="search" />
@@ -82,7 +80,6 @@ export const InputSandbox = () => {
                 align="right"
               />
             </Flex.Vertical>
-          </Provider>
         </Box>
         <Box>
           <Input
@@ -96,8 +93,7 @@ export const InputSandbox = () => {
         </Box>
         <Box>
           🚀
-          <Provider formElement={{ labelDirection: 'vertical' }}>
-            <Form.Handler>
+          <Form.Handler>
               <FieldBlock label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna:">
                 <Flex.Vertical>
                   <Input
@@ -110,22 +106,15 @@ export const InputSandbox = () => {
                   <Input label="Input C:" />
                 </Flex.Vertical>
               </FieldBlock>
-            </Form.Handler>
-          </Provider>
+          </Form.Handler>
         </Box>
         <Box>
-          <Provider
-            formElement={{
-              labelDirection: 'vertical',
-            }}
-          >
-            <FieldBlock label="Vertical label:">
+          <FieldBlock label="Vertical label:">
               <Flex.Horizontal>
                 <Input label="Input label A:" right="small" />
                 <Input label="Input label B:" />
               </Flex.Horizontal>
-            </FieldBlock>
-          </Provider>
+          </FieldBlock>
         </Box>
         <Box>
           <FieldBlock label="Legend:">
@@ -136,21 +125,18 @@ export const InputSandbox = () => {
           </FieldBlock>
         </Box>
         <Box>
-          <Provider formElement={{ labelDirection: 'vertical' }}>
-            <FieldBlock label="Legend:">
+          <FieldBlock label="Legend:">
               <Flex.Vertical>
                 <Input label="Vertical 1:" />
                 <Input label="Vertical 2:" stretch top="small" />
               </Flex.Vertical>
-            </FieldBlock>
-          </Provider>
+          </FieldBlock>
         </Box>
         <Box>
           <Input
             label="Vertical label:"
             value="Stretch me ..."
             stretch
-            labelDirection="vertical"
           />
         </Box>
         <Box>

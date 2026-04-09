@@ -57,8 +57,7 @@ const ChangeLocale = () => {
 export const DatePickerSandbox = () => (
   <Wrapper>
     <Box>
-      <Provider formElement={{ labelDirection: 'vertical' }}>
-        <DatePicker
+      <DatePicker
           label="Linked Range DatePicker:"
           startDate="2019-01-15"
           endDate="2020-11-02"
@@ -98,7 +97,6 @@ export const DatePickerSandbox = () => (
           showResetButton
           showSubmitButton
         />
-      </Provider>
     </Box>
     <Box>
       <DatePicker
@@ -161,12 +159,7 @@ export const DatePickerSandbox = () => (
       />
     </Box>
     <Box>
-      <Provider
-        formElement={{
-          labelDirection: 'vertical',
-        }}
-      >
-        <FieldBlock label="Legend:">
+      <FieldBlock label="Legend:">
           <Flex.Vertical>
             <DatePicker
               label="Date Picker 1"
@@ -225,8 +218,7 @@ export const DatePickerSandbox = () => (
               ]}
             />
           </Flex.Vertical>
-        </FieldBlock>
-      </Provider>
+      </FieldBlock>
     </Box>
     <Box>
       <FieldBlock label="Legend:">
@@ -288,8 +280,7 @@ export const DatePickerSandbox = () => (
       />
     </Box>
     <Box>
-      <Provider formElement={{ labelDirection: 'vertical' }}>
-        <Flex.Vertical>
+      <Flex.Vertical>
           <Input label="Input Default" />
           <DatePicker
             label="DatePicker Default"
@@ -297,12 +288,10 @@ export const DatePickerSandbox = () => (
             showInput={true}
           />
           <Input label="Input Default" />
-        </Flex.Vertical>
-      </Provider>
+      </Flex.Vertical>
     </Box>
     <Box>
-      <Provider formElement={{ labelDirection: 'vertical' }}>
-        <Flex.Vertical>
+      <Flex.Vertical>
           <Input size="small" label="Input Small" />
           <DatePicker
             size="small"
@@ -311,12 +300,10 @@ export const DatePickerSandbox = () => (
             showInput={true}
           />
           <Input size="small" label="Input Small" />
-        </Flex.Vertical>
-      </Provider>
+      </Flex.Vertical>
     </Box>
     <Box>
-      <Provider formElement={{ labelDirection: 'vertical' }}>
-        <Flex.Vertical>
+      <Flex.Vertical>
           <Input size="medium" label="Input Medium" />
           <DatePicker
             size="medium"
@@ -325,12 +312,10 @@ export const DatePickerSandbox = () => (
             showInput={true}
           />
           <Input size="medium" label="Input Medium" />
-        </Flex.Vertical>
-      </Provider>
+      </Flex.Vertical>
     </Box>
     <Box>
-      <Provider formElement={{ labelDirection: 'vertical' }}>
-        <Flex.Vertical>
+      <Flex.Vertical>
           <Input size="large" label="Input Large" />
           <DatePicker
             size="large"
@@ -339,8 +324,7 @@ export const DatePickerSandbox = () => (
             showInput={true}
           />
           <Input size="large" label="Input Large" />
-        </Flex.Vertical>
-      </Provider>
+      </Flex.Vertical>
     </Box>
   </Wrapper>
 )

@@ -153,7 +153,6 @@ export const RadioButtonSandbox = () => (
       <Radio.Group
         label="Vertical group with error:"
         layoutDirection="column"
-        labelDirection="vertical"
         status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
       >
         <Radio label="First" value="first" />
@@ -162,16 +161,14 @@ export const RadioButtonSandbox = () => (
       </Radio.Group>
     </Box>
     <Box>
-      <Provider formElement={{ labelDirection: 'vertical' }}>
-        <Radio.Group label="Vertical with Provider:">
+      <Radio.Group label="Vertical with Provider:">
           <Radio label="First" value="first" />
           <Radio label="Second" value="second" />
           <Radio label="Third" value="third" checked />
-        </Radio.Group>
-      </Provider>
+      </Radio.Group>
     </Box>
     <Box>
-      <Radio.Group label="Vertical label:" labelDirection="vertical">
+      <Radio.Group label="Vertical label:">
         <Radio label="First" value="first" />
         <Radio label="Second" value="second" />
         <Radio label="Third" value="third" checked />
@@ -180,7 +177,6 @@ export const RadioButtonSandbox = () => (
     <Box>
       <Radio.Group
         label="Group with error:"
-        labelDirection="vertical"
         labelPosition="left" // for every radio button
         status="Error message left position Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
       >
@@ -219,8 +215,7 @@ const RadioGroupsWithStatus = () => {
 
   return (
     <Form.Handler>
-      <Provider formElement={{ labelDirection: 'vertical' }}>
-        <Radio.Group
+      <Radio.Group
           label="Group A label:"
           value={currentValueForGroupA}
           onChange={({ value }) => {
@@ -251,7 +246,6 @@ const RadioGroupsWithStatus = () => {
           }}
           text="Set New State"
         />
-      </Provider>
     </Form.Handler>
   )
 }

@@ -246,7 +246,6 @@ export const DialogSandbox = () => (
       >
         <ProgressIndicator
           showDefaultLabel
-          labelDirection="vertical"
           top="large"
           bottom="large"
           size="large"
@@ -262,7 +261,6 @@ export const DialogSandbox = () => (
       >
         <ProgressIndicator
           showDefaultLabel
-          labelDirection="vertical"
           top="large"
           bottom="large"
           size="large"

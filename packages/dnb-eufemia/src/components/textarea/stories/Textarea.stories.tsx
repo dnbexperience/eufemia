@@ -6,7 +6,6 @@
 import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
-import Provider from '../../../shared/Provider'
 import { Textarea, GlobalStatus, Flex } from '../..'
 import { FieldBlock } from '../../../extensions/forms'
 import Input from '../../input/Input'
@@ -67,9 +66,7 @@ export const TextareaSandbox = () => (
       </Flex.Stack>
     </Box>
     <Box>
-      <Provider formElement={{ labelDirection: 'vertical' }}>
-        <Textarea value="Text" label="Label:" suffix="123" />
-      </Provider>
+      <Textarea value="Text" label="Label:" suffix="123" />
     </Box>
     <Box>
       <Textarea
@@ -87,8 +84,7 @@ export const TextareaSandbox = () => (
       />
     </Box>
     <Box>
-      <Provider formElement={{ labelDirection: 'vertical' }}>
-        <FieldBlock label="Legend:">
+      <FieldBlock label="Legend:">
           <Flex.Vertical>
             <Textarea
               label="Vertical label:"
@@ -104,12 +100,10 @@ export const TextareaSandbox = () => (
             scelerisque sapien erat"
             />
           </Flex.Vertical>
-        </FieldBlock>
-      </Provider>
+      </FieldBlock>
     </Box>
     <Box>
-      <Provider formElement={{ labelDirection: 'vertical' }}>
-        <FieldBlock label="Legend:">
+      <FieldBlock label="Legend:">
           <Flex.Vertical>
             <Textarea
               label="Vertical:"
@@ -125,8 +119,7 @@ export const TextareaSandbox = () => (
             scelerisque sapien erat"
             />
           </Flex.Vertical>
-        </FieldBlock>
-      </Provider>
+      </FieldBlock>
     </Box>
     <Box>
       <Textarea
@@ -188,7 +181,6 @@ export const TextareaSandbox = () => (
       <Textarea
         stretch
         label="Stretched label:"
-        labelDirection="vertical"
         value="Nec litora inceptos vestibulum id interdum donec gravida nostra
               lacinia bibendum hendrerit porttitor volutpat nam duis nisl
               scelerisque sapien erat"

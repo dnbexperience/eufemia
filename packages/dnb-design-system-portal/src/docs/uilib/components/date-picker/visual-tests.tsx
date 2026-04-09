@@ -1,4 +1,3 @@
-import { Provider } from '@dnb/eufemia/shared'
 import { DatePicker, Flex, Space } from '@dnb/eufemia/src'
 import { isSameDay } from 'date-fns'
 import {
@@ -31,8 +30,7 @@ export default function Page() {
 const DatePickerScreenshotTestSizes = () => {
   return (
     <Space data-visual-test="date-picker-sizes">
-      <Provider formElement={{ labelDirection: 'vertical' }}>
-        <Flex.Vertical>
+      <Flex.Vertical>
           <DatePicker
             label="DatePicker"
             date={new Date('2022/06/10')}
@@ -56,8 +54,7 @@ const DatePickerScreenshotTestSizes = () => {
             date={new Date('2022/06/10')}
             showInput
           />
-        </Flex.Vertical>
-      </Provider>
+      </Flex.Vertical>
     </Space>
   )
 }
@@ -65,12 +62,10 @@ const DatePickerScreenshotTestSizes = () => {
 const DatePickerScreenshotTestDisabled = () => {
   return (
     <Space data-visual-test="date-picker-disabled">
-      <Provider formElement={{ labelDirection: 'vertical' }}>
-        <Flex.Vertical>
+      <Flex.Vertical>
           <DatePicker disabled />
           <DatePicker showInput disabled />
-        </Flex.Vertical>
-      </Provider>
+      </Flex.Vertical>
     </Space>
   )
 }
