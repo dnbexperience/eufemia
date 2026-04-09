@@ -39,6 +39,10 @@ const props: GlobalStatusProps = {
 // To be able to test the height animation / cached content
 initializeTestSetup()
 
+beforeEach(() => {
+  window.scrollTo = jest.fn()
+})
+
 describe('GlobalStatus component', () => {
   it('should have a text value as defined in the prop', () => {
     render(<GlobalStatus {...props} />)

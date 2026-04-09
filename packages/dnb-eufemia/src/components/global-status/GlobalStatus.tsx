@@ -30,7 +30,9 @@ import GlobalStatusController, {
   GlobalStatusInterceptor,
   GlobalStatusRemove,
 } from './GlobalStatusController'
-import GlobalStatusProvider from './GlobalStatusProvider'
+import GlobalStatusProvider, {
+  type GlobalStatusResult,
+} from './GlobalStatusProvider'
 import Icon from '../icon/Icon'
 import { InfoIcon, ErrorIcon, WarnIcon } from '../form-status/FormStatus'
 import Section from '../section/Section'
@@ -270,12 +272,12 @@ function getIcon({
   iconSize,
 }: {
   state?: string
-  icon?: any
+  icon?: IconIcon
   iconSize?: IconSize
   theme?: string
-}) {
+}): React.ReactNode {
   if (typeof icon === 'string') {
-    let IconToLoad: React.ComponentType<any> = ErrorIcon
+    let IconToLoad: React.ComponentType<{ state?: string }> = ErrorIcon
 
     switch (state) {
       case 'information':
@@ -299,10 +301,10 @@ function getIcon({
     )
   }
 
-  return icon
+  return icon as React.ReactNode
 }
 
-function hasContent(globalStatus: Record<string, any>) {
+function hasContent(globalStatus: GlobalStatusResult | null | undefined) {
   return Boolean(globalStatus?.items?.length > 0 || globalStatus?.text)
 }
 
@@ -311,7 +313,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
 
   // Refs
   const wrapperRef = useRef<HTMLDivElement>(null)
-  const globalStatusRef = useRef<any>(null)
+  const globalStatusRef = useRef<GlobalStatusResult | null>(null)
   const hadContentRef = useRef(false)
   const initialActiveElementRef = useRef<Element | null>(null)
   const scrollToStatusTimeoutRef = useRef<ReturnType<
@@ -330,15 +332,14 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
   > | null>(null)
 
   // State
-  const [providerGlobalStatus, setProviderGlobalStatus] = useState<any>(
-    () => {
+  const [providerGlobalStatus, setProviderGlobalStatus] =
+    useState<GlobalStatusResult>(() => {
       const provider = GlobalStatusProvider.create(ownProps.id)
       providerRef.current = provider
       const status = provider.init(ownProps)
       globalStatusRef.current = status
       return status
-    }
-  )
+    })
   const [isActive, setIsActive] = useState(ownProps.show === true)
 
   // getDerivedStateFromProps equivalent
@@ -488,7 +489,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
   const gotoItem = useCallback(
     (
       event: React.MouseEvent | React.KeyboardEvent,
-      item: Record<string, any>
+      item: { itemId?: string; [key: string]: unknown }
     ) => {
       const key = (event as React.KeyboardEvent).key
       if (
@@ -658,7 +659,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
     onHide: _onHide,
 
     ...attributes
-  } = props as Record<string, any>
+  } = props as GlobalStatusProps & Record<string, unknown>
 
   const wrapperParams = {
     id,
@@ -689,8 +690,8 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
   const titleToRender =
     title || fallbackProps.title || fallbackProps.defaultTitle
   const noAnimationUsed = noAnimation
-  const itemsToRender = props.items || []
-  const contentToRender = props.text || props.children
+  const itemsToRender = items || []
+  const contentToRender = text || children
 
   const params = {
     className: clsx('dnb-global-status', `dnb-global-status--${state}`),
@@ -702,12 +703,10 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
   // also used for code markup simulation
   validateDOMAttributes(ownProps, params)
 
-  const itemsRenderHandler = (item, i) => {
-    const text = item?.text
-      ? item.text
-      : typeof item === 'string'
-      ? item
-      : null
+  const itemsRenderHandler = (rawItem: GlobalStatusItem, i: number) => {
+    const item = typeof rawItem === 'string' ? { text: rawItem } : rawItem
+
+    const text = item.text
 
     if (!text) {
       return null // skip this item if no content is given
@@ -729,7 +728,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
       )
     } else {
       anchorText = String(item.statusAnchorText || statusAnchorText)
-        .replace('%s', item.statusAnchorLabel || '')
+        .replace('%s', String(item.statusAnchorLabel || ''))
         .replace(/[: ]$/g, '')
     }
 
@@ -746,7 +745,11 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
             className="dnb-anchor"
             aria-describedby={id}
             lang={lang}
-            href={useAutolink ? `#${item.itemId}` : item.statusAnchorUrl}
+            href={
+              useAutolink
+                ? `#${item.itemId}`
+                : String(item.statusAnchorUrl)
+            }
             onClick={(e) => gotoItem(e, item)}
             onKeyDown={(e) => gotoItem(e, item)}
           >
@@ -769,7 +772,9 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
         <>
           <div
             className="dnb-global-status__title"
-            role={titleToRender?.type ? undefined : 'paragraph'}
+            role={
+              React.isValidElement(titleToRender) ? undefined : 'paragraph'
+            }
             lang={lang}
           >
             <span className="dnb-global-status__icon">{iconToRender}</span>
@@ -777,7 +782,9 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
             {!hideCloseButton && (
               <Button
                 text={closeText}
-                title={closeText}
+                title={
+                  typeof closeText === 'string' ? closeText : undefined
+                }
                 variant={state === 'success' ? 'secondary' : 'tertiary'}
                 className="dnb-global-status__close-button"
                 icon="close"
@@ -816,11 +823,11 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
         <HeightAnimation
           className="dnb-global-status__shell"
           duration={800}
-          delay={delay}
+          delay={delay as number}
           open={isActive}
           animate={!noAnimationUsed}
           onAnimationEnd={onAnimationEnd}
-          onAnimationStart={onAnimationStart as any}
+          onAnimationStart={onAnimationStart}
           onOpen={onOpen}
         >
           <Section
@@ -840,6 +847,8 @@ GlobalStatusComponent.displayName = 'GlobalStatus'
 
 type GlobalStatusWithStatics = React.FC<GlobalStatusProps> & {
   create: (props: GlobalStatusInterceptorProps) => GlobalStatusInterceptor
+  // Typed loosely because Update is used both imperatively and as JSX
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Update: (props: GlobalStatusInterceptorProps) => any
   Add: typeof GlobalStatusController
   Remove: typeof GlobalStatusRemove
@@ -851,11 +860,11 @@ const GlobalStatus: GlobalStatusWithStatics = Object.assign(
     create: (
       props: GlobalStatusInterceptorProps
     ): GlobalStatusInterceptor => new GlobalStatusInterceptor(props),
-    Update: null as any,
+    Update: null as unknown as GlobalStatusWithStatics['Update'],
     Add: GlobalStatusController,
     Remove: GlobalStatusRemove,
   }
-) as any
+) as unknown as GlobalStatusWithStatics
 GlobalStatus.Update = GlobalStatus.create
 
 withComponentMarkers(GlobalStatus, { _supportsSpacingProps: true })
