@@ -568,7 +568,9 @@ FormStatusComponent.displayName = 'FormStatus'
 const FormStatus = React.memo(
   FormStatusComponent
 ) as React.MemoExoticComponent<
-  React.FC<FormStatusProps & { ref?: React.Ref<HTMLElement> }>
+  (
+    props: FormStatusProps & { ref?: React.Ref<HTMLElement> }
+  ) => React.ReactNode
 >
 
 withComponentMarkers(FormStatus, { _supportsSpacingProps: true })
