@@ -813,14 +813,14 @@ export function DataSuffix() {
   return (
     <WideStyle>
       <Autocomplete
-          lang="nb"
-          value={0}
-          data={numbers}
-          size="medium"
-          icon={null}
-          showSubmitButton
-          label="From account"
-        />
+        lang="nb"
+        value={0}
+        data={numbers}
+        size="medium"
+        icon={null}
+        showSubmitButton
+        label="From account"
+      />
     </WideStyle>
   )
 }

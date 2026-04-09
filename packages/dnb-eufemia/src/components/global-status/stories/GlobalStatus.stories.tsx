@@ -228,19 +228,19 @@ const InputWithError = () => {
             right="small"
           />
           <Flex.Vertical>
-              <Switch
-                status={haveAnErrorMessage3 ? 'Error Message #3' : null}
-                onChange={({ checked }) => {
-                  setErrorMessage3(checked)
-                }}
-                bottom="small"
-              />
-              <Switch
-                status={haveAnErrorMessage4 ? 'Error Message #4' : null}
-                onChange={({ checked }) => {
-                  setErrorMessage4(checked)
-                }}
-              />
+            <Switch
+              status={haveAnErrorMessage3 ? 'Error Message #3' : null}
+              onChange={({ checked }) => {
+                setErrorMessage3(checked)
+              }}
+              bottom="small"
+            />
+            <Switch
+              status={haveAnErrorMessage4 ? 'Error Message #4' : null}
+              onChange={({ checked }) => {
+                setErrorMessage4(checked)
+              }}
+            />
           </Flex.Vertical>
         </FieldBlock>
       </Form.Handler>

@@ -169,12 +169,7 @@ function FillContent() {
       This is the drawer text. Triggered by a tertiary button. Hac eleifend
       consectetur massa lobortis diam netus congue a nibh dolor faucibus
       vivamus taciti neque accumsan urna varius dis egestas
-      <Dropdown
-        label="Dropdown"
-        data={dropdownData}
-        right
-        skipPortal
-      />
+      <Dropdown label="Dropdown" data={dropdownData} right skipPortal />
       montes tempus tortor mi aptent enim cursus venenatis cras ornare nisl
       pretium tincidunt et imperdiet sapien luctus vel volutpat risus dui
       himenaeos nec est turpis ridiculus posuere sollicitudin nostra
@@ -216,11 +211,7 @@ function FillContent() {
       quisque tellus consectetur fringilla curae praesent nullam vulputate
       nostra leo cum consequat sit ridiculus ad inceptos cras facilisis
       pretium natoque libero nulla interdum pellentesque viverra turpis
-      <Dropdown
-        label="Dropdown"
-        data={dropdownData}
-        right
-      />
+      <Dropdown label="Dropdown" data={dropdownData} right />
       vestibulum maecenas molestie dolor morbi vehicula ultrices diam quis
       velit etiam dictum feugiat sed lacinia placerat euismod magna sapien
       luctus eget tempus rutrum faucibus et suspendisse aliquam felis
@@ -286,11 +277,7 @@ function FillContent() {
       dolor fusce nostra orci turpis velit fames a porttitor quis mi rutrum
       inceptos volutpat phasellus ornare nisi tortor lobortis ligula
       ultricies ante proin
-      <Dropdown
-        label="Dropdown"
-        data={dropdownData}
-        right
-      />
+      <Dropdown label="Dropdown" data={dropdownData} right />
     </P>
   )
 }

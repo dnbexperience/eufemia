@@ -96,9 +96,7 @@ export const ToggleButtonSandbox = () => (
     </Box>
 
     <Box>
-      <Provider
-        formElement={{ disabled: true }}
-      >
+      <Provider formElement={{ disabled: true }}>
         <ToggleButton.Group>
           <ToggleButton
             text="First"

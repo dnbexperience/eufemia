@@ -33,9 +33,7 @@ export function Sandbox() {
   const [locale, setLocale] = React.useState<InternalLocale>('nb-NO')
   return (
     <Wrapper>
-      <Provider
-        locale={locale}
-      >
+      <Provider locale={locale}>
         <Form.Handler>
           <ToggleButton.Group
             value={locale}

@@ -36,14 +36,14 @@ export const ExperimentsSandbox = () => (
     <Wrapper>
       <Box>
         <PhoneRow label="Phone number">
-            <Flex.Horizontal>
-              <Dropdown
-                title="Country code"
-                value={0}
-                data={['+47', '+48', '+49']}
-              />
-              <Input placeholder="Your phone number" />
-            </Flex.Horizontal>
+          <Flex.Horizontal>
+            <Dropdown
+              title="Country code"
+              value={0}
+              data={['+47', '+48', '+49']}
+            />
+            <Input placeholder="Your phone number" />
+          </Flex.Horizontal>
         </PhoneRow>
       </Box>
       <Box>

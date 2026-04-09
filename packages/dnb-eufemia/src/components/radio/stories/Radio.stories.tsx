@@ -8,7 +8,6 @@ import { Wrapper, Box } from 'storybook-utils/helpers'
 import { Radio, FormLabel, Button, HelpButton, GlobalStatus } from '../..'
 
 import { Flex } from '../../..'
-import { Provider } from '../../../shared'
 import { Form } from '../../../extensions/forms'
 
 export default {
@@ -162,9 +161,9 @@ export const RadioButtonSandbox = () => (
     </Box>
     <Box>
       <Radio.Group label="Vertical with Provider:">
-          <Radio label="First" value="first" />
-          <Radio label="Second" value="second" />
-          <Radio label="Third" value="third" checked />
+        <Radio label="First" value="first" />
+        <Radio label="Second" value="second" />
+        <Radio label="Third" value="third" checked />
       </Radio.Group>
     </Box>
     <Box>
@@ -216,36 +215,34 @@ const RadioGroupsWithStatus = () => {
   return (
     <Form.Handler>
       <Radio.Group
-          label="Group A label:"
-          value={currentValueForGroupA}
-          onChange={({ value }) => {
-            console.log('onChange A', value)
-            setValueForGroupA(value)
-          }}
-        >
-          <Radio label="First" value="first" />
-          <Radio label="Second" value="second" />
-          <Radio label="Third" value="third" />
-        </Radio.Group>
-        <Radio.Group
-          label="Group B label:"
-          value={currentValueForGroupB}
-          onChange={({ value }) => {
-            console.log('onChange B', value)
-          }}
-        >
-          <Radio label="First" value="first" />
-          <Radio label="Second" value="second" />
-          <Radio label="Third" value="third" />
-        </Radio.Group>
-        <Button
-          onClick={() => {
-            setValueForGroupB(
-              shuffleArray(['first', 'second', 'third'])[0]
-            )
-          }}
-          text="Set New State"
-        />
+        label="Group A label:"
+        value={currentValueForGroupA}
+        onChange={({ value }) => {
+          console.log('onChange A', value)
+          setValueForGroupA(value)
+        }}
+      >
+        <Radio label="First" value="first" />
+        <Radio label="Second" value="second" />
+        <Radio label="Third" value="third" />
+      </Radio.Group>
+      <Radio.Group
+        label="Group B label:"
+        value={currentValueForGroupB}
+        onChange={({ value }) => {
+          console.log('onChange B', value)
+        }}
+      >
+        <Radio label="First" value="first" />
+        <Radio label="Second" value="second" />
+        <Radio label="Third" value="third" />
+      </Radio.Group>
+      <Button
+        onClick={() => {
+          setValueForGroupB(shuffleArray(['first', 'second', 'third'])[0])
+        }}
+        text="Set New State"
+      />
     </Form.Handler>
   )
 }

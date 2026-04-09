@@ -374,29 +374,29 @@ const DropdownStory = () => {
       </Box>
       <Box>
         <Dropdown
-            label="Vertical A (function):"
-            title="Default option"
-            data={() => {
-              return dropdownData
-            }}
-            right
-            status="Status message"
-            onChange={({ attributes }) => {
-              console.log('onChange', attributes)
-            }}
-            data-attr={123}
-            iconPosition="left"
-          />
-          <Dropdown
-            title="Default option"
-            label="Vertical B:"
-            iconPosition="left"
-            data={dropdownData}
-          />
+          label="Vertical A (function):"
+          title="Default option"
+          data={() => {
+            return dropdownData
+          }}
+          right
+          status="Status message"
+          onChange={({ attributes }) => {
+            console.log('onChange', attributes)
+          }}
+          data-attr={123}
+          iconPosition="left"
+        />
+        <Dropdown
+          title="Default option"
+          label="Vertical B:"
+          iconPosition="left"
+          data={dropdownData}
+        />
       </Box>
       <Box>
         <Dropdown label="Vertical A:" data={dropdownData} />
-          <Dropdown label="Vertical B:" data={dropdownData} top="small" />
+        <Dropdown label="Vertical B:" data={dropdownData} top="small" />
       </Box>
       <Box>
         <Form.Handler
@@ -723,14 +723,14 @@ function DropdownStatesSync() {
 
   return (
     <Flex.Vertical>
-        <>{JSON.stringify(state)}</>
-        <Dropdown
-          data={dropdownDataScrollable}
-          defaultValue={0}
-          title="Dropdown 1"
-          onChange={handleOnChange}
-        />
-        {/* <Dropdown
+      <>{JSON.stringify(state)}</>
+      <Dropdown
+        data={dropdownDataScrollable}
+        defaultValue={0}
+        title="Dropdown 1"
+        onChange={handleOnChange}
+      />
+      {/* <Dropdown
         top
         data={dropdownDataScrollable}
         defaultValue={1}

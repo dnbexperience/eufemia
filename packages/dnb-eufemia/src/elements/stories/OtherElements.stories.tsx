@@ -152,18 +152,18 @@ export const Textarea = () => (
     <CustomStyles>
       <Box>
         <Flex.Vertical>
-            <label className="dnb-form-label" htmlFor="hendrerit">
-              Label for the textarea:
-            </label>
-            <textarea
-              className="dnb-textarea"
-              id="hendrerit"
-              rows={5}
-              cols={33}
-              defaultValue="Nec litora inceptos vestibulum id interdum donec gravida
+          <label className="dnb-form-label" htmlFor="hendrerit">
+            Label for the textarea:
+          </label>
+          <textarea
+            className="dnb-textarea"
+            id="hendrerit"
+            rows={5}
+            cols={33}
+            defaultValue="Nec litora inceptos vestibulum id interdum donec gravida
             nostra lacinia bibendum hendrerit porttitor volutpat nam duis
             nisl scelerisque sapien erat"
-            />
+          />
         </Flex.Vertical>
         <p className="dnb-p">I have to be on the grid!</p>
       </Box>
@@ -199,17 +199,17 @@ export const Textarea = () => (
       </Box>
       <Box>
         <Flex.Vertical>
-            <label className="dnb-form-label" htmlFor="vestibulum">
-              Label:
-            </label>
-            <textarea
-              id="vestibulum"
-              className="dnb-textarea status--error"
-              cols={33}
-              defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra
+          <label className="dnb-form-label" htmlFor="vestibulum">
+            Label:
+          </label>
+          <textarea
+            id="vestibulum"
+            className="dnb-textarea status--error"
+            cols={33}
+            defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
-            />
+          />
         </Flex.Vertical>
         <FormStatus text="Message to the user" />
         <p className="dnb-p">I have to be on the grid!</p>

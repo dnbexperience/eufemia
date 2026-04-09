@@ -85,40 +85,40 @@ export const TextareaSandbox = () => (
     </Box>
     <Box>
       <FieldBlock label="Legend:">
-          <Flex.Vertical>
-            <Textarea
-              label="Vertical label:"
-              value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+        <Flex.Vertical>
+          <Textarea
+            label="Vertical label:"
+            value="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
-              right="small"
-            />
-            <Textarea
-              label="Vertical label:"
-              value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+            right="small"
+          />
+          <Textarea
+            label="Vertical label:"
+            value="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
-            />
-          </Flex.Vertical>
+          />
+        </Flex.Vertical>
       </FieldBlock>
     </Box>
     <Box>
       <FieldBlock label="Legend:">
-          <Flex.Vertical>
-            <Textarea
-              label="Vertical:"
-              value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+        <Flex.Vertical>
+          <Textarea
+            label="Vertical:"
+            value="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
-            />
-            <Textarea
-              top="small"
-              label="Vertical:"
-              value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+          />
+          <Textarea
+            top="small"
+            label="Vertical:"
+            value="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
-            />
-          </Flex.Vertical>
+          />
+        </Flex.Vertical>
       </FieldBlock>
     </Box>
     <Box>

@@ -38,48 +38,48 @@ export const InputSandbox = () => {
       <Wrapper>
         <Box>
           <Flex.Vertical>
-              <Input value="Plain" />
-              <Input value="Search" type="search" />
-              <Input value="Search" size="medium" type="search" />
-              <Input value="Search" size="large" type="search" />
-              <Input
-                value="Value Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
-                icon="calendar"
-                align="right"
-              />
-              <Input
-                placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
-                iconPosition="right"
-                icon="calendar"
-                align="right"
-              />
-              <Input
-                size="medium"
-                value="Value"
-                icon="calendar"
-                align="right"
-              />
-              <Input
-                size="medium"
-                placeholder="Placeholder"
-                iconPosition="right"
-                icon="calendar"
-                align="right"
-              />
-              <Input
-                size="large"
-                value="Value"
-                icon="calendar"
-                align="right"
-              />
-              <Input
-                size="large"
-                placeholder="Placeholder"
-                iconPosition="right"
-                icon="calendar"
-                align="right"
-              />
-            </Flex.Vertical>
+            <Input value="Plain" />
+            <Input value="Search" type="search" />
+            <Input value="Search" size="medium" type="search" />
+            <Input value="Search" size="large" type="search" />
+            <Input
+              value="Value Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
+              icon="calendar"
+              align="right"
+            />
+            <Input
+              placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
+              iconPosition="right"
+              icon="calendar"
+              align="right"
+            />
+            <Input
+              size="medium"
+              value="Value"
+              icon="calendar"
+              align="right"
+            />
+            <Input
+              size="medium"
+              placeholder="Placeholder"
+              iconPosition="right"
+              icon="calendar"
+              align="right"
+            />
+            <Input
+              size="large"
+              value="Value"
+              icon="calendar"
+              align="right"
+            />
+            <Input
+              size="large"
+              placeholder="Placeholder"
+              iconPosition="right"
+              icon="calendar"
+              align="right"
+            />
+          </Flex.Vertical>
         </Box>
         <Box>
           <Input
@@ -94,26 +94,26 @@ export const InputSandbox = () => {
         <Box>
           🚀
           <Form.Handler>
-              <FieldBlock label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna:">
-                <Flex.Vertical>
-                  <Input
-                    ref={myRef}
-                    label="Input A:"
-                    placeholder="Placeholder text"
-                  />
+            <FieldBlock label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna:">
+              <Flex.Vertical>
+                <Input
+                  ref={myRef}
+                  label="Input A:"
+                  placeholder="Placeholder text"
+                />
 
-                  <Input label="Input B:" placeholder="Placeholder text" />
-                  <Input label="Input C:" />
-                </Flex.Vertical>
-              </FieldBlock>
+                <Input label="Input B:" placeholder="Placeholder text" />
+                <Input label="Input C:" />
+              </Flex.Vertical>
+            </FieldBlock>
           </Form.Handler>
         </Box>
         <Box>
           <FieldBlock label="Vertical label:">
-              <Flex.Horizontal>
-                <Input label="Input label A:" right="small" />
-                <Input label="Input label B:" />
-              </Flex.Horizontal>
+            <Flex.Horizontal>
+              <Input label="Input label A:" right="small" />
+              <Input label="Input label B:" />
+            </Flex.Horizontal>
           </FieldBlock>
         </Box>
         <Box>
@@ -126,18 +126,14 @@ export const InputSandbox = () => {
         </Box>
         <Box>
           <FieldBlock label="Legend:">
-              <Flex.Vertical>
-                <Input label="Vertical 1:" />
-                <Input label="Vertical 2:" stretch top="small" />
-              </Flex.Vertical>
+            <Flex.Vertical>
+              <Input label="Vertical 1:" />
+              <Input label="Vertical 2:" stretch top="small" />
+            </Flex.Vertical>
           </FieldBlock>
         </Box>
         <Box>
-          <Input
-            label="Vertical label:"
-            value="Stretch me ..."
-            stretch
-          />
+          <Input label="Vertical label:" value="Stretch me ..." stretch />
         </Box>
         <Box>
           Text
