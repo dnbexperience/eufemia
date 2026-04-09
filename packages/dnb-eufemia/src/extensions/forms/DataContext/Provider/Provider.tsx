@@ -429,7 +429,7 @@ export default function Provider<Data extends JsonObject>(
     }
 
     return data ?? defaultData
-    // eslint-disable-next-line react-hooks/exhaustive-deps  -- Avoid triggering code that should only run initially
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Avoid triggering code that should only run initially
   }, [])
   const internalDataRef = useRef<Data>(initialData)
   const isEmptyDataRef = useRef(false)
