@@ -476,7 +476,7 @@ function InteractionMarker({
   const isMountedRef = useRef(false)
   const readyTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null)
 
-  useEffect(() => {
+  useMountEffect(() => {
     if (typeof markerElement === 'function') {
       warn(
         'Pagination: Please use a string or React element e.g. markerElement="tr"'
@@ -505,7 +505,7 @@ function InteractionMarker({
       clearTimeout(readyTimeoutRef.current)
       observerRef.current?.disconnect()
     }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  })
 
   const callReady = () => {
     observerRef.current?.disconnect()
