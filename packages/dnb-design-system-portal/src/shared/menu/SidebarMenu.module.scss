@@ -25,12 +25,12 @@
     }
 
     :global(.eufemia-theme__carnegie) & {
-      --is-inside-bg: var(--ca-color-pale-green);
+      --is-inside-bg: var(--ca-color-classic-beige);
       --is-inside-active-path-color: var(--ca-color-ocean-green);
-      --is-inside-active-path-bg: var(--ca-color-pale-green);
-      --is-inside-active-path-bg-l-3: var(--ca-color-pale-green);
+      --is-inside-active-path-bg: var(--ca-color-pale-red);
+      --is-inside-active-path-bg-l-3: var(--ca-color-pale-red);
       --dnb-sidebar-menu-text-color: var(--ca-color-ocean-green);
-      --dnb-sidebar-menu-hover-bg: var(--ca-color-pale-green);
+      --dnb-sidebar-menu-hover-bg: var(--ca-color-classic-beige);
       --dnb-sidebar-menu-focus-bg: var(--ca-color-ocean-green);
     }
 
