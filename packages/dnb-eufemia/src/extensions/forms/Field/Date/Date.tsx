@@ -122,7 +122,7 @@ function DateComponent(props: DateProps): React.ReactElement {
     }
   }, [props.errorMessages, errorRequired])
 
-  const schema = useMemo<Schema<string>>(
+  const schema = useMemo<Schema>(
     () => {
       if (props.schema) {
         return props.schema

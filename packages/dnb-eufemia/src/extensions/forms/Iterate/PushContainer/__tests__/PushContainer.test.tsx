@@ -3,14 +3,7 @@ import { wait } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { JSONSchema } from '../../..'
-import {
-  Field,
-  Form,
-  Iterate,
-  Value,
-  Wizard,
-  z,
-} from '../../..'
+import { Field, Form, Iterate, Value, Wizard, z } from '../../..'
 import { makeAjvInstance } from '../../../utils/ajv'
 import { Div } from '../../../../../elements'
 import DataContext from '../../../DataContext/Context'

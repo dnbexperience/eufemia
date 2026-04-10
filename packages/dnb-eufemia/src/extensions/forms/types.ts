@@ -59,9 +59,7 @@ export type AllJSONSchemaVersions =
     })
 
 // Union type for both AJV and Zod schemas
-export type Schema<Value = unknown> =
-  | AllJSONSchemaVersions
-  | ZodSchema
+export type Schema = AllJSONSchemaVersions | ZodSchema
 
 export type ValidatorReturnSync<Value> =
   | Error
@@ -413,7 +411,7 @@ interface UseFieldPropsInterface<
 
   // - Validation
   required?: boolean
-  schema?: Schema<Value> | ((props: UseFieldProps<Value>) => Schema<Value>)
+  schema?: Schema | ((props: UseFieldProps<Value>) => Schema)
   onChangeValidator?: Validator<Value>
   onBlurValidator?: Validator<Value>
   exportValidators?: Record<string, Validator<Value>>

@@ -421,8 +421,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   // Shared schema validator ref — used by both useFieldError (clearErrorState) and useFieldValidation
   const schemaValidatorRef = useRef<
-    | AjvValidateFunction
-    | ((value: unknown) => true | z.ZodError<unknown>)
+    AjvValidateFunction | ((value: unknown) => true | z.ZodError<unknown>)
   >(undefined)
 
   // ─── useFieldError ───────────────────────────────────────────────────

@@ -2,13 +2,7 @@ import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import {
-  Field,
-  FieldBlock,
-  Form,
-  Iterate,
-  DataContext,
-} from '../../..'
+import { Field, FieldBlock, Form, Iterate, DataContext } from '../../..'
 import { makeAjvInstance } from '../../../utils/ajv'
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']

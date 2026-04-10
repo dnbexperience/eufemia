@@ -21,13 +21,7 @@ import type {
   OnSubmit,
   OnSubmitRequest,
 } from '../../../'
-import {
-  Form,
-  DataContext,
-  Field,
-  Iterate,
-  Wizard,
-} from '../../../'
+import { Form, DataContext, Field, Iterate, Wizard } from '../../../'
 import { Ajv, makeAjvInstance } from '../../../utils/ajv'
 import { isCI } from 'repo-utils'
 import type { FieldStringProps as StringFieldProps } from '../../../Field/String'

@@ -73,8 +73,7 @@ export type UseFieldValidationParams<Value> = {
   changedRef: React.RefObject<boolean>
   transformers: React.RefObject<TransformerFns<Value>>
   schemaValidatorRef: React.RefObject<
-    | AjvValidateFunction
-    | ((value: unknown) => true | z.ZodError<unknown>)
+    AjvValidateFunction | ((value: unknown) => true | z.ZodError<unknown>)
   >
   asyncProcessRef: React.RefObject<AsyncProcesses | null>
   validatedValueRef: React.RefObject<Value>

@@ -111,7 +111,7 @@ export type DataContextProviderProps<Data extends JsonObject> =
     /**
      * JSON Schema to validate the data against.
      */
-    schema?: Schema<Data>
+    schema?: Schema
     /**
      * Custom Ajv instance for JSON Schema validation.
      * Install `ajv` and `ajv-errors` as dependencies, then use `makeAjvInstance()` from `@dnb/eufemia/extensions/forms/utils/ajv`.

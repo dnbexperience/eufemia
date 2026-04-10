@@ -1,5 +1,5 @@
 /**
- * Local type definitions for AJV-compatible interfaces.
+ * Local type definitions for AJV-compatible types.
  *
  * These types decouple our internal code from the `ajv` package,
  * so that ajv is only loaded at runtime when consumers explicitly
@@ -10,7 +10,7 @@
  * Minimal representation of an AJV error object.
  * Compatible with `ErrorObject` from `ajv/dist/2020.js`.
  */
-export interface AjvErrorObject {
+export type AjvErrorObject = {
   keyword: string
   instancePath: string
   schemaPath?: string
@@ -22,7 +22,7 @@ export interface AjvErrorObject {
  * Minimal representation of an AJV validate function.
  * Compatible with `ValidateFunction` from `ajv/dist/2020.js`.
  */
-export interface AjvValidateFunction {
+export type AjvValidateFunction = {
   (data: unknown): boolean
   errors?: AjvErrorObject[] | null
 }
@@ -31,6 +31,6 @@ export interface AjvValidateFunction {
  * Minimal representation of an AJV instance.
  * Compatible with `Ajv2020` from `ajv/dist/2020.js`.
  */
-export interface AjvInstance {
+export type AjvInstance = {
   compile(schema: unknown): AjvValidateFunction
 }

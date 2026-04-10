@@ -9,14 +9,7 @@ import {
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { JSONSchema } from '../../..'
-import {
-  DataContext,
-  Field,
-  FieldBlock,
-  Form,
-  Iterate,
-  z,
-} from '../../..'
+import { DataContext, Field, FieldBlock, Form, Iterate, z } from '../../..'
 import { makeAjvInstance } from '../../../utils/ajv'
 import { format } from '../../../../../components/number-format/NumberUtils'
 import { Provider as SharedProvider } from '../../../../../shared'

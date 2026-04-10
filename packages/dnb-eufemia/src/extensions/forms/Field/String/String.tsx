@@ -72,7 +72,7 @@ function StringComponent(props: FieldStringProps) {
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
 
-  const schema = useMemo<Schema<string>>(() => {
+  const schema = useMemo<Schema>(() => {
     return (
       // Use a factory so the schema is created using the current props
       // at validation time (min/max/pattern). This keeps rules in sync

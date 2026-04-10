@@ -207,7 +207,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
     [props.omitCountryCodeField]
   )
 
-  const schema = useMemo<Schema<string> | undefined>(() => {
+  const schema = useMemo<Schema | undefined>(() => {
     if (props.schema) {
       return props.schema
     }

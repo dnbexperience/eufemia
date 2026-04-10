@@ -115,7 +115,10 @@ export type UseFieldErrorParams<Value> = {
 
   // Translation
   translationRef: React.RefObject<FormsTranslation>
-  formatMessage: (key: string, values?: Record<string, string | number>) => string
+  formatMessage: (
+    key: string,
+    values?: Record<string, string | number>
+  ) => string
 
   // Helpers
   getFieldByPath: MessagePropParams<Value, unknown>['getFieldByPath']
@@ -635,7 +638,8 @@ export default function useFieldError<Value>({
   const clearErrorState = useCallback(() => {
     persistErrorState('wipe', undefined)
     localErrorInitiatorRef.current = undefined
-    const schemaValidator = schemaValidatorRef.current as AjvValidateFunction
+    const schemaValidator =
+      schemaValidatorRef.current as AjvValidateFunction
 
     // Clear AJV errors if it's an AJV validator
     if (

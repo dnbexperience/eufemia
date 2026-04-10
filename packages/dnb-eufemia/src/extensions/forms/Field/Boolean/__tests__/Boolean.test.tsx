@@ -2,13 +2,7 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { screen, render, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import {
-  DataContext,
-  Field,
-  Form,
-  Iterate,
-  z,
-} from '../../..'
+import { DataContext, Field, Form, Iterate, z } from '../../..'
 import { makeAjvInstance } from '../../../utils/ajv'
 import nbNO from '../../../constants/locales/nb-NO'
 
