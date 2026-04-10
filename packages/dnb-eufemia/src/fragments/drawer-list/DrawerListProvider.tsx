@@ -603,7 +603,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 
   const findItemByValue = useCallback((value) => {
     if (propsRef.current.skipKeysearch) {
-      return
+      return undefined
     }
 
     let index = -1
@@ -1097,7 +1097,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   const setDataHandler = useCallback(
     (data, cb = null, { overwriteOriginalData = false } = {}) => {
       if (!data) {
-        return
+        return undefined
       }
 
       if (typeof data === 'function') {
