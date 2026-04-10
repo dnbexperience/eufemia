@@ -64,11 +64,17 @@ export type NumberFormatChildren =
   | (() => React.ReactNode)
 export type NumberFormatProps = {
   id?: string
+  /** The numeric or string value to format. */
   value?: NumberFormatValue
+  /** BCP 47 locale string for formatting, e.g. `nb-NO`, `en-US`. Defaults to context locale. */
   locale?: string
+  /** Content placed before the formatted value. Can be a string or React element. */
   prefix?: NumberFormatPrefix
+  /** Content placed after the formatted value. Can be a string or React element. */
   suffix?: NumberFormatSuffix
+  /** Formats the value as a currency. Pass `true` for locale default or a currency code string (e.g. `NOK`, `USD`). */
   currency?: NumberFormatCurrency
+  /** How to display the currency: `code` (NOK), `name` (Norwegian krone), `symbol` (kr), or `narrowSymbol`. */
   currencyDisplay?:
     | 'code'
     | 'name'
@@ -76,31 +82,52 @@ export type NumberFormatProps = {
     | 'narrowSymbol'
     | ''
     | false
+  /** Position of the currency symbol relative to the value: `auto`, `before`, or `after`. */
   currencyPosition?: NumberFormatCurrencyPosition
+  /** Compact number display. `short` (e.g., 1.2K), `long` (e.g., 1.2 thousand), or `true` for short. */
   compact?: NumberFormatCompact
+  /** Formats the value as a Norwegian bank account number (11 digits with spaces). */
   ban?: boolean
+  /** Formats the value as a Norwegian national identity number (11 digits with space). */
   nin?: boolean
+  /** Formats the value as a phone number with spaces. */
   phone?: boolean
+  /** Formats the value as a Norwegian organization number (9 digits with spaces). */
   org?: boolean
+  /** Formats the value as a percentage. */
   percent?: boolean
+  /** Wraps the formatted value in a clickable link: `tel` for phone or `sms` for SMS. */
   link?: NumberFormatLink
+  /** If `true`, renders the value in monospace font for tabular alignment. */
   monospace?: boolean
+  /** Additional `Intl.NumberFormat` options for custom formatting. */
   options?: NumberFormatOptions
+  /** Fixed number of decimal digits to display. */
   decimals?: NumberFormatDecimals
+  /** If `true`, selects the entire value text on click. */
   selectAll?: boolean
+  /** If `true`, keeps the value text selected at all times after click. */
   alwaysSelectAll?: boolean
+  /** If `true`, copies the selected value to clipboard on selection. */
   copySelection?: boolean
+  /** If `true`, strips formatting characters (spaces, currency symbols) from the copied value. */
   cleanCopyValue?: boolean
+  /** Rounding strategy: `omit` (truncate), `half-even` (banker's rounding), or `half-up`. */
   rounding?: 'omit' | 'half-even' | 'half-up'
+  /** Controls display of positive/negative signs: `auto`, `always`, `exceptZero`, `negative`, `never`. */
   signDisplay?: NumberFormatSignDisplay
+  /** If `true`, strips trailing zeroes from decimal values. */
   clean?: boolean
+  /** Screen-reader-only label for the formatted value for accessibility. */
   srLabel?: React.ReactNode
+  /** HTML element to render as. Defaults to `span`. */
   element?: NumberFormatElement
+  /** Tooltip content shown on hover over the formatted value. */
   tooltip?: NumberFormatTooltip
+  /** If `true`, renders a skeleton loading placeholder instead of the value. */
   skeleton?: SkeletonShow
   className?: string
   children?: NumberFormatChildren
-  // Additional props used in stories
   style?: React.CSSProperties
   lang?: string
 }

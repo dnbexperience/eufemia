@@ -28,30 +28,49 @@ import * as z from 'zod'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type FieldNumberProps = FieldProps<number, undefined | number> & {
+  /** Ref to the underlying input element. */
   ref?: React.RefObject<HTMLInputElement>
+  /** Additional CSS class applied to the inner input element. */
   inputClassName?: string
+  /** Formats the value as a currency. Pass `true` for locale default or a currency code string. */
   currency?: InputMaskedProps['asCurrency']
+  /** How to display the currency symbol: `code` (e.g., USD), `symbol` (e.g., $), `narrowSymbol`, or `name`. */
   currencyDisplay?: 'code' | 'symbol' | 'narrowSymbol' | 'name' | false
+  /** Formats the value as a percentage. */
   percent?: InputMaskedProps['asPercent']
+  /** Input mask configuration for the underlying masked input. */
   mask?: InputMaskedProps['mask']
+  /** Step increment/decrement value for the step controls. Defaults to `1`. */
   step?: number
+  /** Initial value when the field is empty and the user clicks a step control. */
   startWith?: number
-  // Formatting
+  /** Maximum number of decimal digits allowed. Defaults to `12`. */
   decimalLimit?: number
+  /** If `true`, allows negative numbers. Defaults to `true`. */
   allowNegative?: boolean
+  /** If `true`, disallows leading zeroes (e.g. `007`). */
   disallowLeadingZeroes?: boolean
+  /** Text or function returning text to display before the number value. */
   prefix?: string | ((value: number) => string)
+  /** Text or function returning text to display after the number value. */
   suffix?: string | ((value: number) => string)
-  // Validation
-  minimum?: number // aka greater than or equal to
-  maximum?: number // aka less than or equal to
-  exclusiveMinimum?: number // aka greater than
-  exclusiveMaximum?: number // aka less than
+  /** Minimum allowed value (inclusive, i.e. greater than or equal to). */
+  minimum?: number
+  /** Maximum allowed value (inclusive, i.e. less than or equal to). */
+  maximum?: number
+  /** Exclusive minimum (value must be strictly greater than this). */
+  exclusiveMinimum?: number
+  /** Exclusive maximum (value must be strictly less than this). */
+  exclusiveMaximum?: number
+  /** Value must be a multiple of this number. */
   multipleOf?: number
-  // Styling
+  /** The size of the input. Available sizes: `small`, `medium` (default), `large`. */
   size?: InputSize
+  /** Defines the width of the field block container. */
   width?: FieldBlockWidth
+  /** Text alignment inside the input: `left`, `center`, or `right`. */
   align?: InputAlign
+  /** If `true`, shows increment/decrement step control buttons. */
   showStepControls?: boolean
 }
 
