@@ -13,6 +13,7 @@ import type {
   MessagePropParams,
   Identifier,
   DefaultErrorMessages,
+  GlobalErrorMessagesWithPaths,
 } from '../types'
 import type { GetValueByPath } from './useDataValue'
 import type { FormsTranslation } from './useTranslation'
@@ -103,7 +104,7 @@ export type UseFieldErrorParams<Value> = {
 
   // Data
   dataContextErrors: Record<string, Error | FormError>
-  contextErrorMessages: Record<string, unknown>
+  contextErrorMessages: GlobalErrorMessagesWithPaths
 
   // Shared refs
   valueRef: React.RefObject<Value>

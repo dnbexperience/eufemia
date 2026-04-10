@@ -47,7 +47,9 @@ export function debounce<T extends unknown[], R>(
 ): DebouncedFunction<T, R> & ReturnHelpers {
   let timeout: ReturnType<typeof setTimeout> | null
   let recall: R | undefined
-  let resolvePromise: ((value: R | PromiseLike<R>) => void) | undefined
+  let resolvePromise:
+    | ((value: R | PromiseLike<R> | undefined) => void)
+    | undefined
   let rejectPromise: ((reason?: unknown) => void) | undefined
   let canceled = false
   const customCancels: Array<() => void> = []
@@ -56,7 +58,7 @@ export function debounce<T extends unknown[], R>(
     canceled = true
 
     clearTimeout(timeout)
-    resolvePromise?.(undefined as unknown as R)
+    resolvePromise?.(undefined)
 
     customCancels.forEach((fn) => {
       fn()

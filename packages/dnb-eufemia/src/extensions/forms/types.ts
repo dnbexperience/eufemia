@@ -589,7 +589,7 @@ interface ValuePropsInterface<
    */
   transformLabel?: (
     label: React.ReactNode,
-    convertJsxToString: (label: React.ReactNode) => string
+    helpers: { convertJsxToString: (label: React.ReactNode) => string }
   ) => React.ReactNode
 
   /**

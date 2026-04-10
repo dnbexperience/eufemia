@@ -180,7 +180,7 @@ export type SharedStateReturn<Data = undefined> = {
   subscribersRef?: { current: Subscriber[] }
 }
 
-type SharedStateInstance<Data> = {
+export type SharedStateInstance<Data> = {
   subscribe: (subscriber: Subscriber) => void
   unsubscribe: (subscriber: Subscriber) => void
   hadInitialData: boolean

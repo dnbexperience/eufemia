@@ -476,7 +476,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     revealErrorBoundary,
     wizardIndex,
     dataContextErrors,
-    contextErrorMessages: contextErrorMessages as Record<string, unknown>,
+    contextErrorMessages: contextErrorMessages,
     valueRef,
     hasFocusRef,
     isInternalRerenderRef,

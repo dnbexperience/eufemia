@@ -438,7 +438,7 @@ function normalizeMask(maskProp: TextMaskMask): MaskitoMask | null {
     'mask' in maskProp &&
     !Array.isArray(maskProp)
   ) {
-    return normalizeMask((maskProp as { mask?: TextMaskMask }).mask)
+    return normalizeMask(maskProp.mask as TextMaskMask)
   }
 
   // Support disabling mask with false
@@ -448,7 +448,7 @@ function normalizeMask(maskProp: TextMaskMask): MaskitoMask | null {
 
   // Array form: filter out caret traps from text-mask '[]'
   if (Array.isArray(maskProp)) {
-    return (maskProp as Array<string | RegExp>).filter((t) => t !== '[]')
+    return maskProp.filter((t) => t !== '[]')
   }
 
   // RegExp passthrough

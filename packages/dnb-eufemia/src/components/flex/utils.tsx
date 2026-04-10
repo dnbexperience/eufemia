@@ -211,31 +211,27 @@ function cloneIntrinsicElementWithSpacing(
     wrapInSpace?: boolean
   }
 ) {
-  if (!React.isValidElement<Record<string, unknown>>(element)) {
+  if (
+    !React.isValidElement<{
+      className?: string
+      style?: React.CSSProperties
+    }>(element)
+  ) {
     return element
   }
 
-  const elementProps = ((
-    element as React.ReactElement<Record<string, unknown>>
-  ).props || {}) as Record<string, unknown>
-
   return React.createElement(
-    (element as React.ReactElement).type as React.ComponentType<
-      Record<string, unknown>
-    >,
+    element.type as React.ComponentType<Record<string, unknown>>,
     {
-      ...((element as React.ReactElement).props as Record<
-        string,
-        unknown
-      >),
+      ...element.props,
       key: spaceProps.key,
       className: clsx(
-        elementProps?.className as string,
+        element.props?.className,
         ...createSpacingClasses(spaceProps),
         className
       ),
       style: {
-        ...(elementProps?.style as React.CSSProperties),
+        ...element.props?.style,
         ...createSpacingProperties(spaceProps),
         ...style,
       },

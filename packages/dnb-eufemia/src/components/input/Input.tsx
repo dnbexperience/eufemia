@@ -1020,9 +1020,13 @@ const InputIcon = React.memo(
         return false // stop here
       }
 
-      const type = icon.type as { displayName?: string; name?: string }
+      const type = icon.type
 
-      return type?.displayName === 'ProgressIndicator'
+      return (
+        typeof type !== 'string' &&
+        'displayName' in type &&
+        type.displayName === 'ProgressIndicator'
+      )
     }
 
     // Only memoize if both are ProgressIndicators and types match

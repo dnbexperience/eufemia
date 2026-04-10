@@ -698,20 +698,22 @@ function useEnableFieldset({
     if (label && !result && !nestedFieldBlockContext) {
       let count = 0
 
-      findElementInChildren(children, (child: React.ReactElement) => {
-        const props = child?.props as Record<string, unknown>
-        if (
-          props?.label ||
-          (child?.type as ComponentMarkers)?._formElement === true
-        ) {
-          count++
-        }
-        if (count > 1) {
-          return (result = true)
-        }
+      findElementInChildren(
+        children,
+        (child: React.ReactElement<{ label?: unknown }>) => {
+          if (
+            child.props?.label ||
+            (child?.type as ComponentMarkers)?._formElement === true
+          ) {
+            count++
+          }
+          if (count > 1) {
+            return (result = true)
+          }
 
-        return undefined
-      })
+          return undefined
+        }
+      )
     }
 
     return Boolean(result)

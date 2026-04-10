@@ -305,13 +305,12 @@ export const getEventData = (
   itemIndex: string | number,
   data: DrawerListInternalData
 ) => {
-  let item = getCurrentData(itemIndex, data)
+  const item = getCurrentData(itemIndex, data)
 
   // cleanup
   if (item && typeof item === 'object' && '__id' in item) {
-    item = { ...item }
-    delete (item as Record<string, unknown>).__id
-    delete (item as Record<string, unknown>).__isTransformed
+    const { __id, __isTransformed, ...rest } = item
+    return rest
   }
 
   return item

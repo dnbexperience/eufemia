@@ -29,7 +29,10 @@ import Tooltip, { injectTooltipSemantic } from '../tooltip/Tooltip'
 import type { NumberFormatCurrencyPosition as NumberFormatCurrencyPositionBase } from './NumberUtils'
 import { format, runIOSSelectionFix } from './NumberUtils'
 import type { SpacingProps } from '../../shared/types'
-import type { NumberFormatOptions } from './NumberUtils'
+import type {
+  NumberFormatOptions,
+  NumberFormatOptionParams,
+} from './NumberUtils'
 import type { SkeletonShow } from '../Skeleton'
 
 // Export the Hooks
@@ -180,11 +183,10 @@ function runFix(comp: unknown, className: string): React.ReactNode {
   if (typeof comp === 'function') {
     comp = comp()
   }
-  if (React.isValidElement(comp)) {
-    const elemProps = comp.props as Record<string, unknown>
+  if (React.isValidElement<{ className?: string }>(comp)) {
     return React.createElement(comp.type as React.ElementType, {
-      ...elemProps,
-      className: clsx(elemProps.className as string, className),
+      ...comp.props,
+      className: clsx(comp.props.className, className),
     })
   }
   return <span className={className}>{comp as React.ReactNode}</span>
@@ -412,7 +414,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
   if (currencyDisplay === 'code' && !usedCurrencyPosition) {
     usedCurrencyPosition = 'before'
   }
-  const formatOptions: Record<string, unknown> = {
+  const formatOptions: NumberFormatOptionParams = {
     locale,
     currency,
     currencyDisplay,
@@ -451,11 +453,14 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
 
     // only replace if the prop is "true" and not actually a currency
     if (useCtx.currency && currency === true) {
-      formatOptions.options = formatOptions.options
-        ? { ...(formatOptions.options as object) }
-        : {}
-      ;(formatOptions.options as Record<string, unknown>).currency =
-        useCtx.currency
+      const currentOptions =
+        typeof formatOptions.options === 'object' && formatOptions.options
+          ? formatOptions.options
+          : {}
+      formatOptions.options = {
+        ...currentOptions,
+        currency: useCtx.currency,
+      }
     }
   }
 

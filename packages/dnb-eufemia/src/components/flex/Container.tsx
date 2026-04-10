@@ -125,8 +125,8 @@ function FlexContainer(props: FlexContainerAllProps) {
     direction === 'horizontal' &&
     childrenArray.some(
       (child: React.ReactNode) =>
-        React.isValidElement(child) &&
-        (child.props as Record<string, unknown>)?.span
+        React.isValidElement<{ span?: unknown }>(child) &&
+        child.props?.span
     )
 
   const { key: mediaKey } = useMedia({

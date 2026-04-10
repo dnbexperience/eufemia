@@ -81,9 +81,9 @@ function resolveProps(
   context: ContextProps
 ): TooltipAllProps {
   const inherited = getPropsFromTooltipProp(localProps)
-  const translation = (context.getTranslation?.(
-    localProps as Record<string, unknown>
-  ) || {}) as Record<string, unknown>
+  const translation = (context.getTranslation?.({
+    lang: localProps.lang,
+  }) || {}) as Record<string, unknown>
   const tooltipTranslation = (translation['Tooltip'] || {}) as Record<
     string,
     unknown

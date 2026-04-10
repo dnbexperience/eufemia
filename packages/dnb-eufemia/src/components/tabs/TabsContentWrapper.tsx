@@ -10,7 +10,7 @@ import { createSpacingProperties } from '../space/SpacingUtils'
 import Section from '../section/Section'
 import {
   createSharedState,
-  type SharedStateReturn,
+  type SharedStateInstance,
 } from '../../shared/helpers/useSharedState'
 import HeightAnimation from '../height-animation/HeightAnimation'
 
@@ -28,11 +28,6 @@ export type TabsChildrenRenderProps = {
   [key: string]: unknown
 }
 
-type SharedState = SharedStateReturn<ContentWrapperState> & {
-  subscribe: (subscriber: () => void) => void
-  unsubscribe: (subscriber: () => void) => void
-}
-
 export default function ContentWrapper({
   id,
   children = null,
@@ -42,11 +37,12 @@ export default function ContentWrapper({
   contentInnerSpace = { top: 'large' } as InnerSpaceType | boolean,
   ...rest
 }: TabsContentWrapperProps) {
-  const sharedStateRef = useRef<SharedState | null>(null)
+  const sharedStateRef =
+    useRef<SharedStateInstance<ContentWrapperState> | null>(null)
 
   const [state, setState] = useState<ContentWrapperState>(() => {
     if (id) {
-      const shared = createSharedState(id) as unknown as SharedState
+      const shared = createSharedState<ContentWrapperState>(id)
       sharedStateRef.current = shared
       return shared.get() || { key: null }
     }

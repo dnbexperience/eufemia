@@ -334,9 +334,11 @@ withComponentMarkers(ValueBlock, {
 
 export default ValueBlock
 
-const transformLabelParameters = {
+const transformLabelParameters: Parameters<
+  ValueBlockProps['transformLabel']
+>[1] = {
   convertJsxToString,
-} as unknown as Parameters<ValueBlockProps['transformLabel']>[1]
+}
 
 function VisibilityWrapper({ children }: { children: React.ReactNode }) {
   const visibilityContext = useContext(VisibilityContext)
