@@ -33,7 +33,7 @@ describe.each(['ui'])('Popover alignment for %s', (themeName) => {
   it('have to match align center and arrow center', async () => {
     const screenshot = await makeScreenshot({
       style: {
-        'padding-bottom': '3rem',
+        'padding-top': '3rem',
       },
       simulate: 'click',
       simulateSelector:
