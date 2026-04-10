@@ -18,7 +18,7 @@ export function TableNavigationHead(allProps: TableNavigationHeadProps) {
   const { children, onClick, ...props } = allProps
   const tableContext = React.useContext(TableContext)
 
-  const content = Array.isArray(children) ? children : [children]
+  const content = Array.isArray(children) ? [...children] : [children]
 
   const hasOnClick = typeof onClick === 'function'
 
