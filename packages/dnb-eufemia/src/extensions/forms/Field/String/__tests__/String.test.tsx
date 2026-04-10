@@ -21,8 +21,8 @@ import {
   Iterate,
   Value,
   z,
-  makeAjvInstance,
 } from '../../..'
+import { makeAjvInstance } from '../../../utils/ajv'
 import sharedGB from '../../../../../shared/locales/en-GB'
 import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'

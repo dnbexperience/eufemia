@@ -1,4 +1,5 @@
-import { Field, Form, Iterate, Tools, z, makeAjvInstance } from '../../..'
+import { Field, Form, Iterate, Tools, z } from '../../..'
+import { makeAjvInstance } from '../../../utils/ajv'
 import { Flex, Section } from '../../../../../components'
 
 export default {

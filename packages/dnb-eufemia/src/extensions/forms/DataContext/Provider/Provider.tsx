@@ -8,7 +8,12 @@ import React, {
 } from 'react'
 import type { JsonObject } from '../../utils/json-pointer'
 import pointer from '../../utils/json-pointer'
-import type { z, Ajv, FormError } from '../../utils'
+import type { z, FormError } from '../../utils'
+import type {
+  AjvInstance,
+  AjvValidateFunction,
+  AjvErrorObject,
+} from '../../utils/ajvTypes'
 import {
   isZodSchema,
   createZodValidator,
@@ -31,7 +36,6 @@ import type {
   Schema,
 } from '../../types'
 import type { IsolationProviderProps } from '../../Form/Isolation/Isolation'
-import type { ValidateFunction, ErrorObject } from 'ajv/dist/2020.js'
 import { debounce, warn } from '../../../../shared/helpers'
 import FieldPropsProvider from '../../Field/Provider'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
@@ -109,9 +113,10 @@ export type DataContextProviderProps<Data extends JsonObject> =
      */
     schema?: Schema<Data>
     /**
-     * Custom Ajv instance, if you want to use your own
+     * Custom Ajv instance for JSON Schema validation.
+     * Install `ajv` and `ajv-errors` as dependencies, then use `makeAjvInstance()` from `@dnb/eufemia/extensions/forms/utils/ajv`.
      */
-    ajvInstance?: Ajv
+    ajvInstance?: AjvInstance
     /**
      * Custom error messages for the whole data set
      */
@@ -265,7 +270,7 @@ export default function Provider<Data extends JsonObject>(
   const translation = useTranslation().Field
 
   // - Ajv (lazy initialization)
-  const ajvRef = useRef<Ajv>(undefined)
+  const ajvRef = useRef<AjvInstance>(undefined)
   const getAjvInstance = useCallback(() => {
     if (!ajvRef.current) {
       ajvRef.current = ajvInstance
@@ -342,7 +347,7 @@ export default function Provider<Data extends JsonObject>(
             errors = zodErrorsToFormErrors(issues)
           }
         } else {
-          const ajvValidator = validator as ValidateFunction
+          const ajvValidator = validator as AjvValidateFunction
           const ajvErrors = ajvValidator.errors
           if (ajvErrors && ajvErrors.length) {
             errors = ajvErrorsToFormErrors(ajvErrors, sectionData)
@@ -437,10 +442,7 @@ export default function Provider<Data extends JsonObject>(
   // - Validator
   type UnifiedValidator = {
     (value: unknown): boolean
-    errors?: (
-      | z.core.$ZodIssue
-      | ErrorObject<string, Record<string, unknown>>
-    )[]
+    errors?: (z.core.$ZodIssue | AjvErrorObject)[]
   }
 
   type SectionSchemaEntry = {
@@ -517,7 +519,7 @@ export default function Provider<Data extends JsonObject>(
         } else {
           // These are AJV errors, use the existing conversion
           errorsRef.current = ajvErrorsToFormErrors(
-            errors as ErrorObject<string, Record<string, unknown>>[],
+            errors as AjvErrorObject[],
             internalDataRef.current
           )
         }

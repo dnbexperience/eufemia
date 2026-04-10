@@ -109,8 +109,6 @@
     "@modelcontextprotocol/sdk": "1.26.0",
     "@navikt/fnrvalidator": "2.1.5",
     "@ungap/structured-clone": "1.2.0",
-    "ajv": "8.18.0",
-    "ajv-errors": "3.0.0",
     "clsx": "2.1.1",
     "core-js-pure": "3.47.0",
     "date-fns": "4.1.0",
@@ -120,6 +118,8 @@
   "peerDependencies": {
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "ajv": "^8",
+    "ajv-errors": "^3",
     "react": "^19",
     "react-dom": "^19"
   },
@@ -128,6 +128,12 @@
       "optional": true
     },
     "@types/react-dom": {
+      "optional": true
+    },
+    "ajv": {
+      "optional": true
+    },
+    "ajv-errors": {
       "optional": true
     }
   },

@@ -4,8 +4,10 @@ import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
-import type { JSONSchema, JSONSchemaType, OnSubmit } from '../../..'
-import { Form, Field, makeAjvInstance } from '../../..'
+import type { JSONSchema, OnSubmit } from '../../..'
+import type { JSONSchemaType } from 'ajv/dist/2020.js'
+import { Form, Field } from '../../..'
+import { makeAjvInstance } from '../../../utils/ajv'
 import type { FieldStringProps as StringFieldProps } from '../../../Field/String'
 import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
@@ -1259,7 +1261,11 @@ describe('Form.Handler', () => {
       }
 
       render(
-        <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
+        <Form.Handler
+          // @ts-expect-error JSONSchemaType from ajv is no longer part of the Schema union type
+          schema={schema}
+          ajvInstance={makeAjvInstance()}
+        >
           content
         </Form.Handler>
       )

@@ -4,7 +4,7 @@
  * NB: Do not include these functions in the main ajv file.
  * Else ajv will be included in the main bundle even if it is not used.
  */
-import type { ErrorObject } from 'ajv/dist/2020.js'
+import type { AjvErrorObject } from './ajvTypes'
 import type { JsonObject } from './json-pointer'
 import pointer from './json-pointer'
 import type { Path } from '../types'
@@ -18,7 +18,7 @@ import { getTranslationKeyFromValidationRule } from './errors'
  * @param ajvError - The Ajv error object.
  * @returns The instance path of the error.
  */
-export function getInstancePath(ajvError: ErrorObject): Path {
+export function getInstancePath(ajvError: AjvErrorObject): Path {
   switch (ajvError.keyword) {
     case 'required': {
       // Required-errors are considered object errors by ajv, so they don't have instancePaths. We want to
@@ -43,7 +43,7 @@ export function getInstancePath(ajvError: ErrorObject): Path {
  * @param ajvError - The AJV error object.
  * @returns The validation rule.
  */
-export function getValidationRule(ajvError: ErrorObject): string {
+export function getValidationRule(ajvError: AjvErrorObject): string {
   if (ajvError.keyword === 'errorMessage' && ajvError.params.errors[0]) {
     // errorMessage structures (from ajv-errors) wrap the original error. Find keyword from original
     // to avoid issues like required-errors pointing at parent object.
@@ -58,7 +58,7 @@ export function getValidationRule(ajvError: ErrorObject): string {
  * @returns The message values extracted from the error object.
  */
 export function getMessageValues(
-  ajvError: ErrorObject
+  ajvError: AjvErrorObject
 ): FormError['messageValues'] {
   const validationRule = getValidationRule(ajvError)
 
@@ -72,15 +72,15 @@ export function getMessageValues(
     case 'exclusiveMinimum':
     case 'exclusiveMaximum':
       return {
-        [validationRule]: ajvError.params?.limit,
+        [validationRule]: ajvError.params?.limit as string | number,
       }
     case 'multipleOf':
       return {
-        [validationRule]: ajvError.params?.multipleOf,
+        [validationRule]: ajvError.params?.multipleOf as string | number,
       }
     case 'pattern':
       return {
-        [validationRule]: ajvError.params?.pattern,
+        [validationRule]: ajvError.params?.pattern as string,
       }
   }
   return undefined
@@ -92,7 +92,7 @@ export function getMessageValues(
  * @param ajvError - The AJV error object to convert.
  * @returns The converted FormError object.
  */
-export function ajvErrorToFormError(ajvError: ErrorObject): FormError {
+export function ajvErrorToFormError(ajvError: AjvErrorObject): FormError {
   if (ajvError.keyword === 'errorMessage') {
     return new Error(ajvError.message ?? 'Unknown error')
   }
@@ -116,7 +116,7 @@ export function ajvErrorToFormError(ajvError: ErrorObject): FormError {
  * @returns A single FormError or undefined if there are no errors.
  */
 export function ajvErrorsToOneFormError(
-  errors?: ErrorObject[] | null,
+  errors?: AjvErrorObject[] | null,
   value?: unknown
 ): FormError | undefined {
   if (!errors || errors.length === 0) {
@@ -144,7 +144,7 @@ export function ajvErrorsToOneFormError(
  * @returns The converted form errors as a record of path and form error pairs.
  */
 export const ajvErrorsToFormErrors = (
-  errors?: ErrorObject[] | null,
+  errors?: AjvErrorObject[] | null,
   data?: JsonObject
 ): Record<string, FormError> => {
   return (errors ?? []).reduce((errors, ajvError) => {
@@ -168,7 +168,7 @@ export const ajvErrorsToFormErrors = (
  * @returns The transformed AJV error object or undefined if the error should be removed.
  */
 function ajvErrorsTransformation(
-  ajvError: ErrorObject,
+  ajvError: AjvErrorObject,
   data?: Record<Path, unknown> | unknown,
   path?: Path
 ) {

@@ -29,8 +29,8 @@ import Field, {
   FormError,
   Iterate,
   Wizard,
-  makeAjvInstance,
 } from '../../Forms'
+import { makeAjvInstance } from '../../utils/ajv'
 import type { SectionContextState } from '../../Form/Section/SectionContext'
 import SectionContext from '../../Form/Section/SectionContext'
 import { spyOnEufemiaWarn, wait } from '../../../../core/jest/jestSetup'

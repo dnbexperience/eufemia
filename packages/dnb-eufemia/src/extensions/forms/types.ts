@@ -11,7 +11,6 @@ import type {
 } from './DataContext'
 import type { SharedFieldBlockProps } from './FieldBlock'
 import type { JSONSchema4, JSONSchema6, JSONSchema7 } from 'json-schema'
-import type { JSONSchemaType } from 'ajv/dist/2020.js'
 import type { ZodSchema, JsonObject, FormError } from './utils'
 import type {
   FormsTranslationFlat,
@@ -24,31 +23,44 @@ export type * from 'json-schema'
 export type JSONSchema = JSONSchema7
 
 /**
- * Base types for JSON Schema validation (AJV-based).
- * IMPORTANT: When using these types, you MUST provide ajvInstance to Form.Handler
+ * Base types for JSON Schema validation.
+ * IMPORTANT: When using JSON Schema validation, you MUST install `ajv`
+ * and provide `ajvInstance` to Form.Handler.
  */
-export type AllJSONSchemaVersionsBasis<DataType> =
+export type AllJSONSchemaVersionsBasis =
   | JSONSchema4
   | JSONSchema6
   | JSONSchema7
-  | JSONSchemaType<DataType>
 
 /**
- * Union type supporting all JSON Schema (AJV).
- * IMPORTANT: When using these types, you MUST provide ajvInstance to Form.Handler
+ * Permissive JSON Schema type that accepts plain objects without strict
+ * literal typing requirements. This replaces the removed AJV-specific
+ * `JSONSchemaType` and allows schemas declared without `as const`.
  */
-export type AllJSONSchemaVersions<DataType = unknown> =
-  | AllJSONSchemaVersionsBasis<DataType>
+type PermissiveJSONSchema = {
+  type?: string
+  properties?: Record<string, unknown>
+  required?: string[] | readonly string[]
+  [key: string]: unknown
+}
+
+/**
+ * Union type supporting all JSON Schema versions.
+ * IMPORTANT: When using JSON Schema validation, you MUST install `ajv`
+ * and provide `ajvInstance` to Form.Handler.
+ */
+export type AllJSONSchemaVersions =
+  | AllJSONSchemaVersionsBasis
+  | PermissiveJSONSchema
 
   // In order to support "schema = { ... } as const"
-  | (Omit<AllJSONSchemaVersionsBasis<DataType>, 'required'> & {
+  | (Omit<AllJSONSchemaVersionsBasis, 'required'> & {
       required?: readonly string[]
     })
-export { JSONSchemaType }
 
 // Union type for both AJV and Zod schemas
 export type Schema<Value = unknown> =
-  | AllJSONSchemaVersions<Value>
+  | AllJSONSchemaVersions
   | ZodSchema
 
 export type ValidatorReturnSync<Value> =

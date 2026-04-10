@@ -1,5 +1,5 @@
 import React, { useRef, useCallback, useMemo } from 'react'
-import type { ValidateFunction } from 'ajv/dist/2020.js'
+import type { AjvValidateFunction } from '../utils/ajvTypes'
 import { errorChanged, FormError } from '../utils'
 import { extendErrorMessagesWithTranslationMessages } from '../utils/errors'
 import type {
@@ -110,12 +110,12 @@ export type UseFieldErrorParams<Value> = {
   hasFocusRef: React.RefObject<boolean>
   isInternalRerenderRef: React.RefObject<unknown>
   schemaValidatorRef: React.RefObject<
-    ValidateFunction | ((value: unknown) => unknown)
+    AjvValidateFunction | ((value: unknown) => unknown)
   >
 
   // Translation
   translationRef: React.RefObject<FormsTranslation>
-  formatMessage: (key: string, values?: Record<string, string>) => string
+  formatMessage: (key: string, values?: Record<string, string | number>) => string
 
   // Helpers
   getFieldByPath: MessagePropParams<Value, unknown>['getFieldByPath']
@@ -379,7 +379,7 @@ export default function useFieldError<Value>({
             if (error.messageValues) {
               message = Object.entries(error.messageValues || {}).reduce(
                 (msg, [key, value]) => {
-                  return msg.replace(`{${key}}`, value)
+                  return msg.replace(`{${key}}`, String(value))
                 },
                 message
               )
@@ -635,13 +635,13 @@ export default function useFieldError<Value>({
   const clearErrorState = useCallback(() => {
     persistErrorState('wipe', undefined)
     localErrorInitiatorRef.current = undefined
-    const schemaValidator = schemaValidatorRef.current as ValidateFunction
+    const schemaValidator = schemaValidatorRef.current as AjvValidateFunction
 
     // Clear AJV errors if it's an AJV validator
     if (
       schemaValidator &&
       !hasZodSchema &&
-      Array.isArray((schemaValidator as ValidateFunction)?.errors)
+      Array.isArray((schemaValidator as AjvValidateFunction)?.errors)
     ) {
       schemaValidator.errors = []
     }

@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
 import type { JSONSchema, SectionProps } from '../../..'
-import { Field, Form, Tools, Value, makeAjvInstance, z } from '../../..'
+import { Field, Form, Tools, Value, z } from '../../..'
+import { makeAjvInstance } from '../../../utils/ajv'
 import { Flex, Table } from '../../../../../components'
 import { Tr, Td, Th, P } from '../../../../../elements'
 import type { FieldNameProps as FieldNameProps } from '../../../Field/Name'

@@ -7,11 +7,11 @@ import {
   Field,
   Form,
   Iterate,
-  makeAjvInstance,
   Value,
   Wizard,
   z,
 } from '../../..'
+import { makeAjvInstance } from '../../../utils/ajv'
 import { Div } from '../../../../../elements'
 import DataContext from '../../../DataContext/Context'
 

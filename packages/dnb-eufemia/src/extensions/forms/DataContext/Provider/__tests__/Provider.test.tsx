@@ -25,11 +25,10 @@ import {
   Form,
   DataContext,
   Field,
-  Ajv,
   Iterate,
   Wizard,
-  makeAjvInstance,
 } from '../../../'
+import { Ajv, makeAjvInstance } from '../../../utils/ajv'
 import { isCI } from 'repo-utils'
 import type { FieldStringProps as StringFieldProps } from '../../../Field/String'
 import type {

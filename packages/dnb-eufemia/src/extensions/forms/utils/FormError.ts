@@ -1,4 +1,3 @@
-import type { ErrorObject } from 'ajv/dist/2020.js'
 import type { FormsTranslationFlat } from '../hooks/useTranslation'
 
 type FormErrorOptions = {
@@ -6,12 +5,12 @@ type FormErrorOptions = {
    * Replacement values relevant for this error.
    * @example { minLength: 3 } to be able to replace values in a message like "Minimum {minLength} characters"
    */
-  messageValues?: Record<string, string>
+  messageValues?: Record<string, string | number>
 
   /**
    * The AJV keyword that caused the error.
    */
-  ajvKeyword?: ErrorObject['keyword']
+  ajvKeyword?: string
 
   /**
    * An array of errors that should be rendered in the same error message.

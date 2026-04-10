@@ -7,9 +7,9 @@ import {
   FieldBlock,
   Form,
   Iterate,
-  makeAjvInstance,
   DataContext,
 } from '../../..'
+import { makeAjvInstance } from '../../../utils/ajv'
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 

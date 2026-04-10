@@ -9,7 +9,7 @@ import {
   useReducer,
 } from 'react'
 import pointer from '../utils/json-pointer'
-import type { ValidateFunction } from 'ajv/dist/2020.js'
+import type { AjvValidateFunction } from '../utils/ajvTypes'
 import { isZodSchema } from '../utils'
 import type * as z from 'zod'
 import type {
@@ -421,7 +421,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   // Shared schema validator ref — used by both useFieldError (clearErrorState) and useFieldValidation
   const schemaValidatorRef = useRef<
-    ValidateFunction | ((value: unknown) => true | z.ZodError<unknown>)
+    | AjvValidateFunction
+    | ((value: unknown) => true | z.ZodError<unknown>)
   >(undefined)
 
   // ─── useFieldError ───────────────────────────────────────────────────

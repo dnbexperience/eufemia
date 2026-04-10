@@ -15,9 +15,9 @@ import {
   FieldBlock,
   Form,
   Iterate,
-  makeAjvInstance,
   z,
 } from '../../..'
+import { makeAjvInstance } from '../../../utils/ajv'
 import { format } from '../../../../../components/number-format/NumberUtils'
 import { Provider as SharedProvider } from '../../../../../shared'
 import nbNO from '../../../constants/locales/nb-NO'

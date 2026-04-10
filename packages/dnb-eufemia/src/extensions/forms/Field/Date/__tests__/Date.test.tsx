@@ -7,9 +7,9 @@ import {
   Field,
   FieldBlock,
   Form,
-  makeAjvInstance,
   Wizard,
 } from '../../..'
+import { makeAjvInstance } from '../../../utils/ajv'
 import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
 import type { DateFormatOptions } from '../../../../../components/date-format/DateFormatUtils'

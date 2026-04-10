@@ -2,7 +2,8 @@ import React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { JSONSchema } from '../../'
-import { Field, Form, Tools, makeAjvInstance } from '../../'
+import { Field, Form, Tools } from '../../'
+import { makeAjvInstance } from '../../utils/ajv'
 
 describe('Tools.Errors', () => {
   it('should render empty log when no errors are present', () => {

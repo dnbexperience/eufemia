@@ -9,11 +9,11 @@ import {
   Field,
   FieldBlock,
   Form,
-  makeAjvInstance,
   Value,
   ValueBlock,
   Wizard,
 } from '../../..'
+import { makeAjvInstance } from '../../../utils/ajv'
 import * as z from 'zod'
 import type { ContextState } from '../../../DataContext'
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { Field, Form, Value, Tools, makeAjvInstance } from '../../'
+import { Field, Form, Value, Tools } from '../../'
+import { makeAjvInstance } from '../../utils/ajv'
 import type { GenerateRef } from '../GenerateSchema'
 
 describe('Tools.GenerateSchema', () => {

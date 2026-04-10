@@ -1,5 +1,5 @@
 import { useRef, useCallback, useMemo } from 'react'
-import type { ValidateFunction } from 'ajv/dist/2020.js'
+import type { AjvValidateFunction } from '../utils/ajvTypes'
 import {
   FormError,
   isZodSchema,
@@ -45,7 +45,7 @@ export type UseFieldValidationParams<Value> = {
   required: boolean
   hasDataContext: boolean
   getAjvInstanceDataContext: () => {
-    compile: (schema: unknown) => ValidateFunction
+    compile: (schema: unknown) => AjvValidateFunction
   }
   setFieldEventListener: (
     identifier: Identifier,
@@ -73,7 +73,8 @@ export type UseFieldValidationParams<Value> = {
   changedRef: React.RefObject<boolean>
   transformers: React.RefObject<TransformerFns<Value>>
   schemaValidatorRef: React.RefObject<
-    ValidateFunction | ((value: unknown) => true | z.ZodError<unknown>)
+    | AjvValidateFunction
+    | ((value: unknown) => true | z.ZodError<unknown>)
   >
   asyncProcessRef: React.RefObject<AsyncProcesses | null>
   validatedValueRef: React.RefObject<Value>
@@ -713,7 +714,7 @@ export default function useFieldValidation<Value>({
             error = zodErrorsToOneFormError(zodError.issues)
           } else {
             error = ajvErrorsToOneFormError(
-              (schemaValidatorRef.current as ValidateFunction).errors,
+              (schemaValidatorRef.current as AjvValidateFunction).errors,
               value
             )
           }
