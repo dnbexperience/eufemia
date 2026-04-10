@@ -293,7 +293,7 @@ export const BackgroundColor = () => {
 
 export const SkeletonState = () => {
   return (
-    <ComponentBox scope={{ fish_medium }} background="white">
+    <ComponentBox scope={{ fish_medium }} background="plain">
       <List.Container>
         <List.Item.Action
           icon={fish_medium}
@@ -655,7 +655,7 @@ export const WithFormElements = () => {
 
 export const GridColumns = () => {
   return (
-    <ComponentBox scope={{ fish_medium }} background="white">
+    <ComponentBox scope={{ fish_medium }} background="plain">
       <Grid.Container
         rowGap
         columnGap

@@ -15,7 +15,7 @@ import {
   liveCodeEditorStyle,
   toolbarStyle,
   codeBlockStyle,
-  whiteBackgroundStyle,
+  plainBackgroundStyle,
 } from './CodeBlock.module.scss'
 import {
   LiveProvider,
@@ -36,7 +36,7 @@ export type CodeSectionProps = {
   reactLive?: boolean
   language?: string
   className?: string
-  background?: 'grid' | 'white'
+  background?: 'grid' | 'plain'
   omitWrapper?: boolean
   children: string | React.ReactNode | (() => React.ReactNode)
   tabMode?: 'focus' | 'indentation'
@@ -187,7 +187,7 @@ function LiveCode(props: LiveCodeProps) {
     <div
       className={clsx(
         liveCodeEditorStyle,
-        background && whiteBackgroundStyle
+        background === 'plain' && plainBackgroundStyle
       )}
     >
       <LiveProvider
