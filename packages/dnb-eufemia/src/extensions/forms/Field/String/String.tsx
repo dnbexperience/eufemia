@@ -24,47 +24,77 @@ import type { FieldProps, Schema } from '../../types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type FieldStringProps = FieldProps<string, undefined | string> & {
-  // - Shared props
+  /** Renders a multiline textarea instead of a single-line input. */
   multiline?: boolean
+  /** Additional CSS class applied to the inner input element. */
   inputClassName?: string
+  /** Ref to the underlying input or textarea element. */
   ref?: React.RefObject<HTMLInputElement | HTMLTextAreaElement>
+  /** Defines the width of the field block container. */
   width?: FieldBlockWidth
+  /** The size of the input. Available sizes: `small`, `medium` (default), `large`. */
   size?: InputProps['size'] | TextareaProps['size']
+  /** If set to `true` the placeholder will remain visible when the field has focus. */
   keepPlaceholder?: InputProps['keepPlaceholder']
 
   // - Validation
+  /** Minimum number of characters required. Triggers a validation error if the value is shorter. */
   minLength?: number
+  /** Maximum number of characters allowed. Triggers a validation error if the value is longer. */
   maxLength?: number
+  /** Regex pattern string the value must match. Triggers a validation error on mismatch. */
   pattern?: string
 
   // - Input props
+  /** HTML input type attribute, e.g. `text`, `password`, `search`. Defaults to `text`. */
   type?: InputProps['type']
+  /** Text alignment inside the input: `left`, `center`, or `right`. */
   align?: InputProps['align']
+  /** If `true`, all text in the input is selected on focus. */
   selectAll?: InputProps['selectAll']
+  /** If `true`, shows a clear button inside the input. */
   clear?: boolean
+  /** Input mask configuration for masked input patterns. */
   mask?: InputMaskedProps['mask']
+  /** If `true`, allows typing beyond the defined mask boundaries. */
   allowOverflow?: InputMaskedProps['allowOverflow']
+  /** Icon displayed on the left side of the input. Accepts icon name strings. */
   leftIcon?: string
+  /** Icon displayed on the right side of the input. Accepts icon name strings. */
   rightIcon?: string
+  /** Custom React element rendered as a submit button inside the input. */
   submitElement?: InputProps['submitElement']
+  /** If `true`, capitalizes the first letter of the input value. */
   capitalize?: boolean
+  /** If `true`, trims leading and trailing whitespace from the value on blur. */
   trim?: boolean
 
   // - Textarea props
+  /** Number of visible text rows for the textarea (when `multiline` is true). */
   rows?: TextareaProps['rows']
+  /** Maximum number of rows the textarea can grow to when `autoResize` is enabled. */
   autoResizeMaxRows?: TextareaProps['autoResizeMaxRows']
+  /** If `true`, the textarea height adjusts automatically to its content. */
   autoResize?: TextareaProps['autoResize']
+  /** Displays a character counter. Pass a number to set the max count, or a config object. */
   characterCounter?: Omit<TextCounterProps, 'text'> | number
 
   // - Html props
+  /** HTML `autocomplete` attribute for browser autofill hints. */
   autoComplete?: HTMLInputElement['autocomplete']
+  /** Hint for the virtual keyboard type on touch devices, e.g. `numeric`, `email`, `tel`. */
   inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode']
+  /** Controls browser autocorrect behavior. */
   autoCorrect?: React.HTMLAttributes<HTMLInputElement>['autoCorrect']
+  /** Controls browser spell-checking behavior. */
   spellCheck?: React.HTMLAttributes<HTMLInputElement>['spellCheck']
+  /** If `true`, the input receives focus when the component mounts. */
   autoFocus?: React.HTMLAttributes<HTMLInputElement>['autoFocus']
+  /** Controls text auto-capitalization on touch devices. */
   autoCapitalize?: React.HTMLAttributes<HTMLInputElement>['autoCapitalize']
 
   // - Events
+  /** Callback fired when a key is pressed while the input has focus. */
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
 }
 

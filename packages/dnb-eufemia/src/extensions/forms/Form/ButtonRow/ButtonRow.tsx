@@ -4,6 +4,7 @@ import { Space } from '../../../../components'
 import type { ComponentProps } from '../../types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
+/** Props for the Form.ButtonRow component which provides consistent spacing for form action buttons. */
 export type FormButtonRowProps = ComponentProps & {
   children?: React.ReactNode
 }
