@@ -96,9 +96,7 @@ export const ToggleButtonSandbox = () => (
     </Box>
 
     <Box>
-      <Provider
-        formElement={{ labelDirection: 'vertical', disabled: true }}
-      >
+      <Provider formElement={{ disabled: true }}>
         <ToggleButton.Group>
           <ToggleButton
             text="First"
@@ -275,7 +273,6 @@ export const ToggleButtonSandbox = () => (
       <ToggleButton.Group
         label="Vertical group with error:"
         layoutDirection="column"
-        labelDirection="vertical"
         status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
       >
         <ToggleButton text="First" value="first" />

@@ -8,7 +8,6 @@ import { Wrapper, Box } from 'storybook-utils/helpers'
 import { Radio, FormLabel, Button, HelpButton, GlobalStatus } from '../..'
 
 import { Flex } from '../../..'
-import { Provider } from '../../../shared'
 import { Form } from '../../../extensions/forms'
 
 export default {
@@ -153,7 +152,6 @@ export const RadioButtonSandbox = () => (
       <Radio.Group
         label="Vertical group with error:"
         layoutDirection="column"
-        labelDirection="vertical"
         status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
       >
         <Radio label="First" value="first" />
@@ -162,16 +160,14 @@ export const RadioButtonSandbox = () => (
       </Radio.Group>
     </Box>
     <Box>
-      <Provider formElement={{ labelDirection: 'vertical' }}>
-        <Radio.Group label="Vertical with Provider:">
-          <Radio label="First" value="first" />
-          <Radio label="Second" value="second" />
-          <Radio label="Third" value="third" checked />
-        </Radio.Group>
-      </Provider>
+      <Radio.Group label="Vertical with Provider:">
+        <Radio label="First" value="first" />
+        <Radio label="Second" value="second" />
+        <Radio label="Third" value="third" checked />
+      </Radio.Group>
     </Box>
     <Box>
-      <Radio.Group label="Vertical label:" labelDirection="vertical">
+      <Radio.Group label="Vertical label:">
         <Radio label="First" value="first" />
         <Radio label="Second" value="second" />
         <Radio label="Third" value="third" checked />
@@ -180,7 +176,6 @@ export const RadioButtonSandbox = () => (
     <Box>
       <Radio.Group
         label="Group with error:"
-        labelDirection="vertical"
         labelPosition="left" // for every radio button
         status="Error message left position Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
       >
@@ -219,39 +214,35 @@ const RadioGroupsWithStatus = () => {
 
   return (
     <Form.Handler>
-      <Provider formElement={{ labelDirection: 'vertical' }}>
-        <Radio.Group
-          label="Group A label:"
-          value={currentValueForGroupA}
-          onChange={({ value }) => {
-            console.log('onChange A', value)
-            setValueForGroupA(value)
-          }}
-        >
-          <Radio label="First" value="first" />
-          <Radio label="Second" value="second" />
-          <Radio label="Third" value="third" />
-        </Radio.Group>
-        <Radio.Group
-          label="Group B label:"
-          value={currentValueForGroupB}
-          onChange={({ value }) => {
-            console.log('onChange B', value)
-          }}
-        >
-          <Radio label="First" value="first" />
-          <Radio label="Second" value="second" />
-          <Radio label="Third" value="third" />
-        </Radio.Group>
-        <Button
-          onClick={() => {
-            setValueForGroupB(
-              shuffleArray(['first', 'second', 'third'])[0]
-            )
-          }}
-          text="Set New State"
-        />
-      </Provider>
+      <Radio.Group
+        label="Group A label:"
+        value={currentValueForGroupA}
+        onChange={({ value }) => {
+          console.log('onChange A', value)
+          setValueForGroupA(value)
+        }}
+      >
+        <Radio label="First" value="first" />
+        <Radio label="Second" value="second" />
+        <Radio label="Third" value="third" />
+      </Radio.Group>
+      <Radio.Group
+        label="Group B label:"
+        value={currentValueForGroupB}
+        onChange={({ value }) => {
+          console.log('onChange B', value)
+        }}
+      >
+        <Radio label="First" value="first" />
+        <Radio label="Second" value="second" />
+        <Radio label="Third" value="third" />
+      </Radio.Group>
+      <Button
+        onClick={() => {
+          setValueForGroupB(shuffleArray(['first', 'second', 'third'])[0])
+        }}
+        text="Set New State"
+      />
     </Form.Handler>
   )
 }

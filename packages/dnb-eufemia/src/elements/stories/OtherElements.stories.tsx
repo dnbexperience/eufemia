@@ -16,7 +16,6 @@ import {
   Flex,
 } from '../../components'
 import { H1, H2, P, Hr, Link, Span, Div, Img } from '..'
-import { Provider } from '../../shared'
 
 export default {
   title: 'Eufemia/Elements/Other',
@@ -152,22 +151,20 @@ export const Textarea = () => (
   <Wrapper className="dnb-spacing">
     <CustomStyles>
       <Box>
-        <Provider formElement={{ labelDirection: 'vertical' }}>
-          <Flex.Vertical>
-            <label className="dnb-form-label" htmlFor="hendrerit">
-              Label for the textarea:
-            </label>
-            <textarea
-              className="dnb-textarea"
-              id="hendrerit"
-              rows={5}
-              cols={33}
-              defaultValue="Nec litora inceptos vestibulum id interdum donec gravida
+        <Flex.Vertical>
+          <label className="dnb-form-label" htmlFor="hendrerit">
+            Label for the textarea:
+          </label>
+          <textarea
+            className="dnb-textarea"
+            id="hendrerit"
+            rows={5}
+            cols={33}
+            defaultValue="Nec litora inceptos vestibulum id interdum donec gravida
             nostra lacinia bibendum hendrerit porttitor volutpat nam duis
             nisl scelerisque sapien erat"
-            />
-          </Flex.Vertical>
-        </Provider>
+          />
+        </Flex.Vertical>
         <p className="dnb-p">I have to be on the grid!</p>
       </Box>
       <Box>
@@ -201,22 +198,20 @@ export const Textarea = () => (
         <p className="dnb-p">I have to be on the grid!</p>
       </Box>
       <Box>
-        <Provider formElement={{ labelDirection: 'vertical' }}>
-          <Flex.Vertical>
-            <label className="dnb-form-label" htmlFor="vestibulum">
-              Label:
-            </label>
-            <textarea
-              id="vestibulum"
-              className="dnb-textarea status--error"
-              cols={33}
-              defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra
+        <Flex.Vertical>
+          <label className="dnb-form-label" htmlFor="vestibulum">
+            Label:
+          </label>
+          <textarea
+            id="vestibulum"
+            className="dnb-textarea status--error"
+            cols={33}
+            defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
-            />
-          </Flex.Vertical>
-          <FormStatus text="Message to the user" />
-        </Provider>
+          />
+        </Flex.Vertical>
+        <FormStatus text="Message to the user" />
         <p className="dnb-p">I have to be on the grid!</p>
       </Box>
       <Box>
