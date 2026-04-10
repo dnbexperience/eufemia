@@ -1,0 +1,43 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { Menu } from '@dnb/eufemia'
+```
+
+## Description
+
+Menu provides an accessible dropdown menu for actions and navigation with a composable, tree-shakeable API.
+
+Use `Menu.Root` as the wrapper, `Menu.Button` for the trigger, `Menu.List` for the list container, `Menu.Action` for individual items, and `Menu.Divider` for visual separators.
+
+`Menu.Button` supports all [Button](/uilib/components/button/properties) props (e.g. `text`, `icon`, `variant`, `size`, `disabled`), so you can customise the trigger the same way you would with a regular Button.
+
+Nested menus are supported by nesting another `Menu.Root` inside `Menu.List` — use a `Menu.Action` as the direct child of the nested `Menu.Root` to serve as the sub-menu trigger.
+
+For inline expandable groups, use `Menu.Accordion` instead of a nested `Menu.Root`. It reveals child items with a height animation inside the current menu, rather than opening a separate popover.
+
+## Relevant links
+
+- Source code: https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/menu
+- Docs code: https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/menu
+
+## Accessibility
+
+- The menu uses ARIA `role="menu"` and `role="menuitem"` semantics.
+- The trigger receives `aria-haspopup="menu"` and `aria-expanded` attributes automatically.
+- Keyboard navigation follows the [WAI-ARIA Menu Pattern](https://www.w3.org/WAI/ARIA/apd/patterns/menu/):
+  - **Arrow Up/Down**: Move focus between items (wraps around).
+  - **Home/End**: Jump to first/last item.
+  - **Enter/Space**: Activate the focused item.
+  - **Escape**: Close the menu.
+  - **Tab**: Close the menu and move focus naturally.
+  - **Arrow Right**: Open a sub-menu (when the item has one).
+  - **Arrow Left**: Close a sub-menu and return to the parent.
+- Type-ahead: pressing a letter key jumps to the first matching item.
+- Focus is moved to the menu container when it opens. Arrow keys then move focus to individual items. Focus returns to the trigger when the menu closes.
+- Disabled items receive `aria-disabled` and are skipped during keyboard navigation.
+- Dividers use `role="separator"`.

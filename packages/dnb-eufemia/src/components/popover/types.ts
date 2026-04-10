@@ -186,6 +186,10 @@ export type PopoverProps = PopoverOverlayProps & {
    */
   focusOnOpenElement?: HTMLElement | null | (() => HTMLElement | null)
   /**
+   * Called after the popover has completed its initial focus sequence.
+   */
+  onFocusComplete?: () => void
+  /**
    * Moves focus back to the trigger element once the popover closes.
    * @default true
    */

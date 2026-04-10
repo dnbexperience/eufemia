@@ -44,6 +44,7 @@ import InputMasked from './input-masked/InputMasked'
 import List from './list/List'
 import ListFormat from './list-format/ListFormat'
 import Logo from './logo/Logo'
+import Menu from './menu/Menu'
 import Modal from './modal/Modal'
 import NumberFormat from './number-format/NumberFormat'
 import Pagination from './pagination/Pagination'
@@ -106,6 +107,7 @@ export {
   List,
   ListFormat,
   Logo,
+  Menu,
   Modal,
   NumberFormat,
   Pagination,
@@ -169,6 +171,7 @@ export const getComponents = () => {
     List,
     ListFormat,
     Logo,
+    Menu,
     Modal,
     NumberFormat,
     Pagination,

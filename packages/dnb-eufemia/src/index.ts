@@ -71,6 +71,7 @@ import InputMasked from './components/input-masked/InputMasked'
 import List from './components/list/List'
 import ListFormat from './components/list-format/ListFormat'
 import Logo from './components/logo/Logo'
+import Menu from './components/menu/Menu'
 import Modal from './components/modal/Modal'
 import NumberFormat from './components/number-format/NumberFormat'
 import Pagination from './components/pagination/Pagination'
@@ -160,6 +161,7 @@ export {
   List,
   ListFormat,
   Logo,
+  Menu,
   Modal,
   NumberFormat,
   Pagination,
