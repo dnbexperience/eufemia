@@ -8,6 +8,7 @@ import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
 import Button from '../Button'
+import type { ButtonClickEvent } from '../Button'
 import { GlobalStatus } from '../..'
 
 const WrappedButton = styled(Button)`
@@ -216,7 +217,7 @@ export const ButtonSandbox = () => (
         text="Secondary button with href"
         href="?no-cache=1"
         icon="add"
-        onClick={(e: any) => e.preventDefault()}
+        onClick={({ event }: ButtonClickEvent) => event.preventDefault()}
       />
     </Box>
     <Box>
@@ -301,7 +302,7 @@ export const ButtonSandbox = () => (
   </Wrapper>
 )
 
-const Template: any = (props: any) => {
+const Template = (props: Record<string, unknown>) => {
   return (
     <>
       <Button icon="chevron_right" size="small" {...props} />
@@ -312,25 +313,33 @@ const Template: any = (props: any) => {
   )
 }
 
-export const Primary = Template.bind({})
+export const Primary = Template.bind({}) as typeof Template & {
+  args: Record<string, unknown>
+}
 Primary.args = {
   text: 'Button',
   variant: 'primary',
 }
 
-export const Secondary = Template.bind({})
+export const Secondary = Template.bind({}) as typeof Template & {
+  args: Record<string, unknown>
+}
 Secondary.args = {
   text: 'Button',
   variant: 'secondary',
 }
 
-export const Tertiary = Template.bind({})
+export const Tertiary = Template.bind({}) as typeof Template & {
+  args: Record<string, unknown>
+}
 Tertiary.args = {
   text: 'Button',
   variant: 'tertiary',
 }
 
-export const IconButton = Template.bind({})
+export const IconButton = Template.bind({}) as typeof Template & {
+  args: Record<string, unknown>
+}
 IconButton.args = {
   icon: 'bell',
 }
@@ -354,7 +363,7 @@ export const TypeScriptElement = () => {
       ref?: React.Ref<HTMLAnchorElement>
     }
   > = null // This is "simulating" { Link } from 'react-router-dom'
-  return <Button element={ReactRouterDomLink as any} />
+  return <Button element={ReactRouterDomLink as React.ComponentType} />
 }
 
 export const TertiaryError = () => {

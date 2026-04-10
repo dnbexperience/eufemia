@@ -81,17 +81,17 @@ export const DialogConfirm = () => (
             icon={edit}
             iconPosition="left"
             onClick={
-              (({ close }: any) => {
+              (({ close }: { close: () => void }) => {
                 close()
-              }) as ButtonOnClick
+              }) as unknown as ButtonOnClick
             }
           />
           <Button
             text="Jeg godtar"
             onClick={
-              (({ close }: any) => {
+              (({ close }: { close: () => void }) => {
                 close()
-              }) as ButtonOnClick
+              }) as unknown as ButtonOnClick
             }
           />
         </Dialog.Action>
@@ -478,7 +478,7 @@ const ModalCloseExample = () => {
   const [count, setCount] = React.useState(0)
 
   React.useEffect(() => {
-    let timeout: any
+    let timeout: ReturnType<typeof setTimeout>
 
     if (openState === true) {
       timeout = setTimeout(() => {
@@ -504,7 +504,7 @@ const ModalCloseExample = () => {
           return () => clearTimeout(timeout)
         }}
         closeModal={(close) => {
-          let timeout: any
+          let timeout: ReturnType<typeof setTimeout>
 
           if (openState !== true) {
             console.log('Modal was opened')
@@ -551,22 +551,29 @@ const ModalTriggerExample = () => {
         <Button
           id="custom-triggerer"
           text="Custom trigger Button"
-          onClick={(e: any) => {
-            return (
-              <Dialog
-                title="Modal Title"
-                triggerAttributes={{
-                  hidden: true,
-                }}
-                open={true}
-                labelledBy="custom-triggerer"
-              >
-                <Section innerSpace={{ block: 'large' }} variant="divider">
-                  <P>This Modal was opened by a custom trigger button.</P>
-                </Section>
-              </Dialog>
-            )
-          }}
+          onClick={
+            ((e: React.MouseEvent<HTMLButtonElement>) => {
+              return (
+                <Dialog
+                  title="Modal Title"
+                  triggerAttributes={{
+                    hidden: true,
+                  }}
+                  open={true}
+                  labelledBy="custom-triggerer"
+                >
+                  <Section
+                    innerSpace={{ block: 'large' }}
+                    variant="divider"
+                  >
+                    <P>
+                      This Modal was opened by a custom trigger button.
+                    </P>
+                  </Section>
+                </Dialog>
+              )
+            }) as unknown as ButtonOnClick
+          }
         />
         {count}
       </Flex.Horizontal>

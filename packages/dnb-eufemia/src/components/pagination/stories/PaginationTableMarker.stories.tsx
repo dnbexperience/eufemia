@@ -16,6 +16,8 @@ export default {
   title: 'Eufemia/Components/Pagination-TableMarker',
 }
 
+type TableItem = { ssn: number; text: string; expanded: boolean }
+
 export const PaginationTableMarker = () => (
   <Wrapper className="dnb-core-style" innerSpace={{ block: 'large' }}>
     <Space left>
@@ -35,12 +37,15 @@ export const PaginationTableMarker = () => (
     <InfinityPaginationTable tableItems={tableItems} />
   </Wrapper>
 )
-const tableItems: any[] = []
+const tableItems: TableItem[] = []
 for (let i = 1; i <= 60; i++) {
   tableItems.push({ ssn: i, text: String(i), expanded: false })
 }
 
-const InfinityPaginationTable = ({ tableItems, ...props }: any) => {
+const InfinityPaginationTable = ({
+  tableItems,
+  ...props
+}: { tableItems: TableItem[] } & Record<string, unknown>) => {
   const startupPage = 1 // what we start with
   const perPageCount = 10 // how many items per page
   const [{ InfinityMarker, endInfinity, resetInfinity }] =
@@ -48,15 +53,15 @@ const InfinityPaginationTable = ({ tableItems, ...props }: any) => {
   const [orderDirection, setOrderDirection] = React.useState('asc')
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
   const [currentPage, setCurrentPage] = React.useState(startupPage)
-  const localStack = React.useRef({})
+  const localStack = React.useRef<Record<number, TableItem>>({})
   tableItems = reorderDirection(tableItems, orderDirection)
   tableItems
-    .filter((cur: any, idx: any) => {
+    .filter((_cur: TableItem, idx: number) => {
       const floor = (currentPage - 1) * perPageCount
       const ceil = floor + perPageCount
       return idx >= floor && idx < ceil
     })
-    .forEach((item: any) => {
+    .forEach((item: TableItem) => {
       localStack.current[item.ssn] = item
     })
 
@@ -64,11 +69,11 @@ const InfinityPaginationTable = ({ tableItems, ...props }: any) => {
   items = reorderDirection(items, orderDirection)
 
   const onToggleExpanded = (
-    { ssn: _ssn }: any,
-    pageNumber: any,
-    element: any = null
+    { ssn: _ssn }: { ssn: number },
+    pageNumber: number,
+    element: HTMLElement | null = null
   ) => {
-    const index = tableItems.findIndex(({ ssn }: any) => ssn === _ssn)
+    const index = tableItems.findIndex(({ ssn }) => ssn === _ssn)
     if (index > -1) {
       const item = tableItems[index]
       tableItems[index] = {
@@ -80,13 +85,18 @@ const InfinityPaginationTable = ({ tableItems, ...props }: any) => {
       setHeight({ element, expanded: !item.expanded })
     }
   }
-  const onMounted = (items: any) => {
-    items.forEach(({ element: { current: element }, expanded }: any) =>
+  const onMounted = (
+    items: Array<{
+      element: { current: HTMLElement | null }
+      expanded: boolean
+    }>
+  ) => {
+    items.forEach(({ element: { current: element }, expanded }) =>
       setHeight({ element, expanded, animation: false })
     )
   }
 
-  let serverDelayTimeout: any
+  let serverDelayTimeout: ReturnType<typeof setTimeout>
   React.useEffect(() => () => clearTimeout(serverDelayTimeout))
   const resetHandler = () => {
     clearTimeout(serverDelayTimeout)
@@ -137,7 +147,10 @@ const InfinityPaginationTable = ({ tableItems, ...props }: any) => {
       <tbody>
         <InfinityMarker
           markerElement="tr"
-          fallbackElement={({ className, ...props }: any) => (
+          fallbackElement={({
+            className,
+            ...props
+          }: { className?: string } & Record<string, unknown>) => (
             <TableRow className={className}>
               <TableData colSpan={2} {...props} />
             </TableRow>
@@ -147,7 +160,7 @@ const InfinityPaginationTable = ({ tableItems, ...props }: any) => {
           startupPage={startupPage}
           startupCount={2}
           currentPage={currentPage} // Mandatory
-          onLoad={({ pageNumber }: any) => {
+          onLoad={({ pageNumber }: { pageNumber: number }) => {
             console.log('onLoad: with page', pageNumber)
 
             if (pageNumber > tableItems.length / perPageCount) {
@@ -162,13 +175,13 @@ const InfinityPaginationTable = ({ tableItems, ...props }: any) => {
               ) // simulate random delay
             }
           }}
-          onStartup={({ pageNumber }: any) => {
+          onStartup={({ pageNumber }: { pageNumber: number }) => {
             console.log('onStartup: with page', pageNumber)
           }}
-          onChange={({ pageNumber }: any) => {
+          onChange={({ pageNumber }: { pageNumber: number }) => {
             console.log('onChange: with page', pageNumber)
           }}
-          onEnd={({ pageNumber }: any) => {
+          onEnd={({ pageNumber }: { pageNumber: number }) => {
             console.log('onEnd: with page', pageNumber)
           }}
         >
@@ -190,7 +203,21 @@ const InfinityPagination = ({
   onToggleExpanded,
   onMounted,
   ...props
-}: any) => {
+}: {
+  items: TableItem[]
+  currentPage: number
+  onToggleExpanded: (
+    item: TableItem,
+    pageNumber: number,
+    element: HTMLElement | null
+  ) => void
+  onMounted: (
+    items: Array<{
+      element: { current: HTMLElement | null }
+      expanded: boolean
+    }>
+  ) => void
+} & Record<string, unknown>) => {
   const mountedItems = React.useMemo(() => [], [items])
 
   React.useEffect(() => {
@@ -199,9 +226,9 @@ const InfinityPagination = ({
     }
   }, [onMounted, mountedItems])
 
-  return items.map((item: any) => {
+  return items.map((item: TableItem) => {
     const params = {
-      onClick: (e: any) => {
+      onClick: (e: React.MouseEvent<HTMLTableCellElement>) => {
         if (!hasSelectedText()) {
           onToggleExpanded(item, currentPage, e.currentTarget)
         }
@@ -318,8 +345,8 @@ const setHeight = ({
   }
 }
 
-const reorderDirection = (items: any, dir: any) =>
-  items.sort(({ text: A }, { text: B }: any) => {
+const reorderDirection = (items: TableItem[], dir: string) =>
+  items.sort(({ text: A }, { text: B }) => {
     const a = parseFloat(A)
     const b = parseFloat(B)
     return (dir === 'asc' ? a > b : a < b) ? 1 : -1

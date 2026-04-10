@@ -16,7 +16,9 @@ export default {
   title: 'Eufemia/Components/Pagination-Table',
 }
 
-const tableItems: any[] = []
+type TableItem = { ssn: number; text: string; expanded: boolean }
+
+const tableItems: TableItem[] = []
 for (let i = 1; i <= 300; i++) {
   tableItems.push({ ssn: i, text: String(i), expanded: false })
 }
@@ -41,7 +43,10 @@ export const PaginationTable = () => (
   </Wrapper>
 )
 
-const InfinityPaginationTable = ({ tableItems, ...props }: any) => {
+const InfinityPaginationTable = ({
+  tableItems,
+  ...props
+}: { tableItems: TableItem[] } & Record<string, unknown>) => {
   const startupPage = 3 // what we start with
   const perPageCount = 10 // how many items per page
   const maxPagesCount = Math.floor(tableItems?.length / perPageCount)
@@ -58,10 +63,14 @@ const InfinityPaginationTable = ({ tableItems, ...props }: any) => {
   tableItems = reorderDirection(tableItems, orderDirection)
 
   const onToggleExpanded = (
-    { ssn: _ssn }: any,
-    { pageNumber = 0, element = null, onExpanded = null } = {}
+    { ssn: _ssn }: { ssn: number },
+    {
+      pageNumber = 0,
+      element = null as HTMLElement | null,
+      onExpanded = null as (() => void) | null,
+    } = {}
   ) => {
-    const index = tableItems.findIndex(({ ssn }: any) => ssn === _ssn)
+    const index = tableItems.findIndex(({ ssn }) => ssn === _ssn)
     if (index > -1) {
       const item = tableItems[index]
       tableItems[index] = {
@@ -77,8 +86,13 @@ const InfinityPaginationTable = ({ tableItems, ...props }: any) => {
       setTimeout(onExpanded, 10)
     }
   }
-  const onMounted = (items: any) => {
-    items.forEach(({ element: { current: element }, expanded }: any) =>
+  const onMounted = (
+    items: Array<{
+      element: { current: HTMLElement | null }
+      expanded: boolean
+    }>
+  ) => {
+    items.forEach(({ element: { current: element }, expanded }) =>
       setHeight({ element, expanded, animation: false })
     )
   }
@@ -94,10 +108,10 @@ const InfinityPaginationTable = ({ tableItems, ...props }: any) => {
   )
 
   setContent(currentPage, content)
-  let serverDelayTimeout: any
+  let serverDelayTimeout: ReturnType<typeof setTimeout>
   React.useEffect(() => () => clearTimeout(serverDelayTimeout))
 
-  const action = ({ pageNumber }: any) => {
+  const action = ({ pageNumber }: { pageNumber: number }) => {
     console.log('onChange: with page', pageNumber)
     clearTimeout(serverDelayTimeout)
     serverDelayTimeout = setTimeout(
@@ -158,7 +172,10 @@ const InfinityPaginationTable = ({ tableItems, ...props }: any) => {
         <Pagination
           mode="infinity"
           markerElement="tr"
-          fallbackElement={({ className, ...props }: any) => (
+          fallbackElement={({
+            className,
+            ...props
+          }: { className?: string } & Record<string, unknown>) => (
             <TableRow className={className}>
               <TableData colSpan={2} {...props} />
             </TableRow>
@@ -182,8 +199,25 @@ const InfinityPagination = ({
   onMounted,
   endInfinity,
   ...props
-}: any) => {
-  const mountedItems = React.useMemo(() => [], [items.length])
+}: {
+  items: TableItem[]
+  currentPage: number
+  perPageCount: number
+  onToggleExpanded: (
+    item: TableItem,
+    opts?: { pageNumber?: number; onExpanded?: () => void }
+  ) => void
+  onMounted: (
+    items: Array<{
+      element: { current: HTMLElement | null }
+      expanded: boolean
+    }>
+  ) => void
+  endInfinity: () => void
+}) => {
+  const mountedItems = React.useMemo<
+    Array<TableItem & { element: { current: HTMLElement | null } }>
+  >(() => [], [items.length])
 
   React.useEffect(() => {
     if (onMounted && mountedItems.length > 0) {
@@ -191,7 +225,7 @@ const InfinityPagination = ({
     }
   }, [onMounted, mountedItems])
 
-  items = items.filter((cur: any, idx: any) => {
+  items = items.filter((_cur: TableItem, idx: number) => {
     const floor = (currentPage - 1) * perPageCount
     const ceil = floor + perPageCount
     return idx >= floor && idx < ceil
@@ -202,21 +236,24 @@ const InfinityPagination = ({
     return null
   }
 
-  return items.map((item: any, i: any) => {
+  return items.map((item: TableItem, i: number) => {
     const params = {
-      onClick: (e: any) => {
+      onClick: (e: React.MouseEvent<HTMLTableRowElement>) => {
         if (
           !hasSelectedText() ||
           /button/.test(document.activeElement.tagName)
         ) {
-          let element = e.currentTarget
+          let element: Element = e.currentTarget
           onToggleExpanded(item, {
             pageNumber: currentPage,
             onExpanded: () => {
               try {
                 element = element.nextElementSibling
-                setHeight({ element, expanded: !item.expanded })
-                element.focus() // for better ally we set the focus to the new content
+                setHeight({
+                  element: element as HTMLElement,
+                  expanded: !item.expanded,
+                })
+                ;(element as HTMLElement).focus() // for better ally we set the focus to the new content
               } catch (e) {
                 console.log(e)
               }
@@ -389,8 +426,8 @@ const setHeight = ({
   }
 }
 
-const reorderDirection = (items: any, dir: any) =>
-  items.sort(({ text: A }, { text: B }: any) => {
+const reorderDirection = (items: TableItem[], dir: string) =>
+  items.sort(({ text: A }, { text: B }) => {
     const a = parseFloat(A)
     const b = parseFloat(B)
     return (dir === 'asc' ? a > b : a < b) ? 1 : -1

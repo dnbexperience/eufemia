@@ -125,6 +125,6 @@ export const IconSandbox = () => (
   </Wrapper>
 )
 
-const showMe = (e: any) => {
-  console.log('showMe', e)
+const showMe = ({ event }: { event: React.SyntheticEvent }) => {
+  console.log('showMe', event)
 }

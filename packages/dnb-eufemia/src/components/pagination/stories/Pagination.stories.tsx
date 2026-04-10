@@ -45,7 +45,13 @@ export const InfinitySandbox = () => {
     currentPage: 3,
   }
 
-  const action = ({ pageNumber, setContent }: any) => {
+  const action = ({
+    pageNumber,
+    setContent,
+  }: {
+    pageNumber: number
+    setContent: (page: number, content: React.ReactNode) => void
+  }) => {
     console.log('pageNumber', pageNumber)
     setTimeout(() => {
       setContent(
@@ -158,11 +164,11 @@ export const PaginationSandbox = () => (
     <Box>
       <PaginationWithState
         align="center"
-        onChange={(pageNumber: any) => {
+        onChange={(pageNumber: number) => {
           console.log('onChange:', pageNumber)
         }}
       >
-        {(pageNumber: any) => (
+        {(pageNumber: number) => (
           <LargePage color="HotPink">{pageNumber}</LargePage>
         )}
       </PaginationWithState>
@@ -171,7 +177,7 @@ export const PaginationSandbox = () => (
     <Box>
       <HeightLimit>
         <InfinityPagination useLoadButton startupPage={5}>
-          {(pageNumber: any, ref: any) => (
+          {(pageNumber: number, ref: React.Ref<HTMLDivElement>) => (
             <LargePage ref={ref} color="LightCoral">
               {pageNumber}
             </LargePage>
@@ -190,7 +196,7 @@ export const PaginationSandbox = () => (
           pageCount={10}
           minWaitTime={0}
         >
-          {(pageNumber: any, ref: any) => (
+          {(pageNumber: number, ref: React.Ref<HTMLDivElement>) => (
             <LargePage ref={ref} color="Indigo">
               {pageNumber}
             </LargePage>
@@ -232,7 +238,13 @@ const HeightLimit = styled.div`
   background-color: var(--color-white);
   border: 4px solid blue;
 `
-const PaginationWithState = ({ children, ...props }: any) => {
+const PaginationWithState = ({
+  children,
+  ...props
+}: { children: (pageNumber: number) => React.ReactNode } & Record<
+  string,
+  unknown
+>) => {
   const [currentPage, setCurrentPage] = React.useState(1)
   const [{ Pagination: PaginationInstance, setContent, resetContent }] =
     React.useState(createPagination)
@@ -249,7 +261,7 @@ const PaginationWithState = ({ children, ...props }: any) => {
       {...props}
       pageCount={30}
       currentPage={currentPage}
-      onChange={({ pageNumber }: any) => {
+      onChange={({ pageNumber }: { pageNumber: number }) => {
         console.log('PaginationWithState onChange:', pageNumber)
         setCurrentPage(pageNumber)
       }}
@@ -262,7 +274,15 @@ const PaginationWithState = ({ children, ...props }: any) => {
     </PaginationInstance>
   )
 }
-const InfinityPagination = ({ children, ...props }: any) => {
+const InfinityPagination = ({
+  children,
+  ...props
+}: {
+  children: (
+    pageNumber: number,
+    ref?: React.Ref<HTMLDivElement>
+  ) => React.ReactNode
+} & Record<string, unknown>) => {
   return (
     <Pagination
       mode="infinity"

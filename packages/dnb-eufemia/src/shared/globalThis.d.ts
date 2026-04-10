@@ -3,6 +3,8 @@
  * can be accessed without `as any` casts.
  */
 
+import type { Page } from '@playwright/test';
+
 export {};
 
 declare global {
@@ -14,4 +16,13 @@ declare global {
 
   // Spacing calc cache – SpacingUtils.ts
   var CALC_CACHE: Record<string, string>;
+
+  // Screenshot test infrastructure – jestSetupScreenshots.ts
+  var page: Page | undefined;
+  var themeName: string | undefined;
+  var pageUrl: string | undefined;
+  var pageViewport: { width: number; height: number } | undefined;
+  var rootClassName: string | string[] | null | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  var __VISUAL_TEST_RETRY__: any;
 }

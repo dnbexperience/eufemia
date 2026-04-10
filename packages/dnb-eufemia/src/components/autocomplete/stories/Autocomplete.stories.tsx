@@ -20,6 +20,7 @@ import {
   GlobalStatus,
   Input,
 } from '../..'
+import type { AutocompleteOnTypeParams } from '../Autocomplete'
 import { Anchor, Flex, Li, Ol, P, Section, Space } from '../../../'
 import { Context } from '../../../shared'
 import { SubmitButton } from '../../input/Input'
@@ -861,10 +862,11 @@ export const AsyncSearchExample = () => {
     hideIndicator,
     updateData,
     debounce,
-  }: any) => {
+  }: AutocompleteOnTypeParams) => {
     showIndicator()
     debounce(
-      ({ value }: any) => {
+      ((props: Record<string, unknown>) => {
+        const { value } = props as { value: string }
         let newData = []
         if (value.toLowerCase() === 'a') {
           newData = dataA
@@ -878,7 +880,7 @@ export const AsyncSearchExample = () => {
           hideIndicator()
         }, 600)
         return () => clearTimeout(timeout)
-      },
+      }) as (...args: unknown[]) => void,
       { value },
       150
     )

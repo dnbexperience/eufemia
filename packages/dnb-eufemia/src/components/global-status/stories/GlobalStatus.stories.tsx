@@ -23,6 +23,7 @@ import { Flex, H2, Link } from '../../..'
 import { Provider } from '../../../shared'
 import { FieldBlock, Form } from '../../../extensions/forms'
 import type { GlobalStatusState } from '../GlobalStatus'
+import type { RadioChangeEvent } from '../../radio/Radio'
 
 export default {
   title: 'Eufemia/Components/GlobalStatus',
@@ -47,7 +48,7 @@ export const ComponentAsLabel = () => {
         <ToggleButton
           bottom
           onChange={() =>
-            setStatus((s: any) => (!s ? 'min status' : null))
+            setStatus((s: string | null) => (!s ? 'min status' : null))
           }
         >
           set status
@@ -317,7 +318,7 @@ export const SimulateSteps = () => {
             title="New title"
             text="First long info text ..."
             item="Item from status #1"
-            onClose={({ statusId }: any) => {
+            onClose={({ statusId }: { statusId: string }) => {
               console.log('onClose 1', statusId)
             }}
           />
@@ -326,7 +327,7 @@ export const SimulateSteps = () => {
             statusId="custom-id-2"
             text="Second long info text ..."
             item="Item from status #2"
-            onClose={({ statusId }: any) => {
+            onClose={({ statusId }: { statusId: string }) => {
               console.log('onClose 2', statusId)
             }}
           />
@@ -649,11 +650,8 @@ export function GlobalStatusSelector() {
     </Section>
   )
 
-  function setGlobalStatus(event: any) {
-    const input = event.target as HTMLInputElement
-    const value = input.value as GlobalStatusState
-
-    setPickerState(value)
+  function setGlobalStatus({ value }: RadioChangeEvent) {
+    setPickerState(value as GlobalStatusState)
   }
 }
 

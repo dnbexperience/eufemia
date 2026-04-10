@@ -105,10 +105,11 @@ async function mockAsyncFileUploadWithoutPromises(
         ...file,
         id: data.serverGeneratedId,
       })
-    } catch (error: any) {
+    } catch (error: unknown) {
       updatedFiles.push({
         ...file,
-        errorMessage: error.message,
+        errorMessage:
+          error instanceof Error ? error.message : String(error),
       })
     }
   }
@@ -134,7 +135,11 @@ export const WithAsyncFileHandler = () => {
   )
 }
 
-async function mockAsyncFileRemoval({ fileItem }: any) {
+async function mockAsyncFileRemoval({
+  fileItem,
+}: {
+  fileItem: UploadFileNative
+}) {
   const request = createRequest()
   console.log('Making API request to remove: ' + fileItem.file.name)
   await request(3000) // Simulate a request
@@ -175,7 +180,11 @@ async function mockAsyncFileUpload(
 }
 
 export const AsyncEverything = () => {
-  async function mockAsyncOnFileClick({ fileItem }: any) {
+  async function mockAsyncOnFileClick({
+    fileItem,
+  }: {
+    fileItem: UploadFileNative
+  }) {
     const request = createRequest()
     console.log(
       'making API request to fetch the url of the file: ' +
@@ -358,7 +367,11 @@ export const WithSyncFileHandler = () => {
 export const AsyncEverythingWithTransform = () => {
   const acceptedFileTypes = ['jpg', 'pdf', 'png']
 
-  async function mockAsyncOnFileClick({ fileItem }: any) {
+  async function mockAsyncOnFileClick({
+    fileItem,
+  }: {
+    fileItem: UploadFileNative
+  }) {
     const request = createRequest()
     console.log(
       'making API request to fetch the url of the file: ' +
@@ -718,7 +731,11 @@ export const WithOnValidationError = () => {
     return updatedFiles
   }
 
-  async function mockAsyncFileDelete({ fileItem }: any) {
+  async function mockAsyncFileDelete({
+    fileItem,
+  }: {
+    fileItem: UploadFileNative
+  }) {
     const request = createRequest()
     console.log('Deleting file: ' + fileItem.file.name)
     await request(2000) // Simulate delete request
@@ -777,7 +794,11 @@ export const WithOnValidationErrorAndAlwaysFailingUpload = () => {
     return updatedFiles
   }
 
-  async function mockAsyncFileDelete({ fileItem }: any) {
+  async function mockAsyncFileDelete({
+    fileItem,
+  }: {
+    fileItem: UploadFileNative
+  }) {
     const request = createRequest()
     console.log('Deleting file: ' + fileItem.file.name)
     await request(1500) // Simulate delete request

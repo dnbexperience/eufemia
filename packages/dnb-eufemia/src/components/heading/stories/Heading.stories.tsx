@@ -20,7 +20,7 @@ const CustomStyle = styled.div`
   } */
 `
 
-const ChangeLevel = ({ level }: any) => {
+const ChangeLevel = ({ level }: { level: number }) => {
   React.useEffect(() => {
     setNextLevel(level)
   }, [])
@@ -169,7 +169,7 @@ export const HeadingSandbox = () => {
             </Heading>
             ---
             <Heading.Level debug>
-              <ChangeLevel level="2" />
+              <ChangeLevel level={2} />
               <Heading>Heading #1</Heading>
               <Heading increase>Heading #2</Heading>
               <Heading level={4}>Heading #3</Heading>
@@ -265,7 +265,7 @@ export const HeadingSandbox = () => {
               </Heading>
               ---
               <Heading.Level debug>
-                <ChangeLevel level="2" />
+                <ChangeLevel level={2} />
                 <Heading>Heading #1</Heading>
                 <Heading increase>Heading #2</Heading>
                 <Heading level={4}>Heading #3</Heading>

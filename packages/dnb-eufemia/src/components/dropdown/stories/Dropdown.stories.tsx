@@ -16,7 +16,11 @@ import {
   GlobalStatus,
 } from '../..'
 import { Dialog, Flex, Icon, Link, P } from '../../..'
-import type { DrawerListDataArray } from '../../../fragments/DrawerList'
+import type {
+  DrawerListDataArray,
+  DrawerListChangeEvent,
+} from '../../../fragments/DrawerList'
+import { Provider } from '../../../shared'
 import { Field, Form } from '../../../extensions/forms'
 import { bank } from '../../../icons'
 
@@ -304,7 +308,7 @@ const DropdownStory = () => {
             text="Randomize"
             variant="tertiary"
             onClick={() => {
-              const random = (min: any, max: any) =>
+              const random = (min: number, max: number) =>
                 Math.floor(Math.random() * (max - min + 1)) + min
               setSelectedItem(random(0, dropdownData.length - 1))
             }}
@@ -551,7 +555,11 @@ function CurrencySelector({
   onChange,
   value = null,
   ...props
-}: any) {
+}: {
+  currencies: string[]
+  onChange: (value: string) => void
+  value?: string | null
+} & Record<string, unknown>) {
   let itemIndex = currencies.indexOf(value)
   itemIndex = itemIndex > -1 ? itemIndex : null
   return (
@@ -561,9 +569,9 @@ function CurrencySelector({
       title={strings.currencyBlankLabel}
       onChange={({ data: { selectedValue }, event }) => {
         console.log('event', event)
-        onChange(selectedValue)
+        onChange(selectedValue as string)
       }}
-      data={currencies.map((currency: any) => ({
+      data={currencies.map((currency: string) => ({
         selectedValue: currency,
         content: (
           <>
@@ -578,7 +586,7 @@ function CurrencySelector({
 function DropdownStatesSync() {
   const [state, setState] = React.useState({})
 
-  const handleOnChange = (props: any) => {
+  const handleOnChange = (props: Record<string, unknown>) => {
     console.log('DropdownStates', props)
     setState({ state: Math.random() })
   }
@@ -612,9 +620,9 @@ function CurrencyDropdown() {
   React.useEffect(() => {
     console.log('ccyPair:', ccyPair)
   }, [ccyPair])
-  const handleBaseCurrencyChange = (base: any) =>
+  const handleBaseCurrencyChange = (base: string) =>
     setCcyPair((prev) => ({ ...prev, base, terms: undefined }))
-  const handleTermsCurrencyChange = (terms: any) =>
+  const handleTermsCurrencyChange = (terms: string) =>
     setCcyPair((prev) => ({ ...prev, terms }))
 
   return (
@@ -740,13 +748,16 @@ const filter2ToShow = [
 ]
 
 export function UpdateData() {
-  const [value, setValue] = React.useState(null)
+  const [value, setValue] = React.useState<string | number | null>(null)
   const [filtersToShow, setFiltersToShow] = React.useState(filter1ToShow)
   const [preventClose, setPreventClose] = React.useState(true)
 
-  const onFilterChange = ({ value, data }: any) => {
+  const onFilterChange = ({ value, data }: DrawerListChangeEvent) => {
     setValue(value)
-    if (data?.selectedKey === 'key_1' || data?.selectedKey === 'key_2') {
+    const selectedKey = (data as Record<string, unknown>)?.selectedKey as
+      | string
+      | undefined
+    if (selectedKey === 'key_1' || selectedKey === 'key_2') {
       setFiltersToShow(filter2ToShow)
       setValue(null)
       setTimeout(() => {

@@ -615,7 +615,7 @@ const VisualSpace = ({
   )
 }
 
-const Collapsing = styled<any>(Space)`
+const Collapsing = styled(Space)`
   border: 1px solid;
 `
 

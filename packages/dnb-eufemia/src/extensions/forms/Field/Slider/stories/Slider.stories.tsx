@@ -1,4 +1,5 @@
 import { Field, Form, Tools, Value } from '../../..'
+import type { SliderValue } from '../Slider'
 import { Flex, HelpButton } from '../../../../../components'
 import { P } from '../../../../../elements'
 
@@ -55,15 +56,16 @@ export function Slider() {
   )
 }
 
-const transformOut = (internal: any) => {
+const transformOut = (internal: SliderValue | Record<string, unknown>) => {
   return { someValue: internal }
 }
 
-const transformIn = (external: any) => {
+const transformIn = (external: unknown): SliderValue => {
   if (external) {
-    const { someValue } = external
+    const { someValue } = external as { someValue: number }
     return someValue
   }
+  return 0
 }
 
 export const SlidersTransformers = () => {

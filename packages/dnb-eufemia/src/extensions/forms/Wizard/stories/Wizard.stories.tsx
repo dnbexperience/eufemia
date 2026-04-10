@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import { P } from '../../../../elements'
 import { Button } from '../../../../components'
 import Field, { Form, Wizard } from '../../Forms'
+import type { StepIndex, OnStepsChangeMode } from '../Context/types'
 import { debounceAsync } from '../../../../shared/helpers'
 
 export default {
@@ -35,10 +36,13 @@ const createRequest = () => {
 }
 
 export const Basic = () => {
-  const onStepChange = useCallback(async (index: any, mode: any) => {
-    console.log('onStepChange', index, mode)
-  }, [])
-  const onSubmit = useCallback((data: any) => {
+  const onStepChange = useCallback(
+    async (index: StepIndex, mode: OnStepsChangeMode) => {
+      console.log('onStepChange', index, mode)
+    },
+    []
+  )
+  const onSubmit = useCallback((data: Record<string, unknown>) => {
     console.log('onSubmit', data)
   }, [])
 
@@ -177,18 +181,21 @@ const validator2 = debounceAsync(async (value) => {
 })
 
 export function AsyncStepChange() {
-  const onStepChange = useCallback(async (index: any, mode: any) => {
-    console.log('onStepChange', index)
+  const onStepChange = useCallback(
+    async (index: StepIndex, mode: OnStepsChangeMode) => {
+      console.log('onStepChange', index)
 
-    if (mode === 'next') {
-      const request = createRequest()
-      await request(300) // Simulate a request
-    }
+      if (mode === 'next') {
+        const request = createRequest()
+        await request(300) // Simulate a request
+      }
 
-    return { info: 'Info message: ' + index }
-  }, [])
+      return { info: 'Info message: ' + index }
+    },
+    []
+  )
 
-  const onSubmit = useCallback(async (data: any) => {
+  const onSubmit = useCallback(async (data: Record<string, unknown>) => {
     console.log('onSubmit', data)
 
     const request = createRequest()
@@ -372,7 +379,10 @@ export const AsyncWizard = () => {
     )
   }
 
-  const onStepChange = async (step: any, mode: any) => {
+  const onStepChange = async (
+    step: StepIndex,
+    mode: OnStepsChangeMode
+  ) => {
     if (mode === 'next') {
       await new Promise((resolve) => setTimeout(resolve, 1000))
     }

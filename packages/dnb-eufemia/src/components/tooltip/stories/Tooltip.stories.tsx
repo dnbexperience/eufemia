@@ -8,6 +8,7 @@ import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
 import { NumberFormat, Button, Tooltip, P } from '../../../'
+import type { ButtonClickEvent } from '../../button/Button'
 
 const StyledTooltip = styled(Tooltip)`
   margin-bottom: 4rem;
@@ -73,16 +74,16 @@ export const TooltipSandbox = () => {
       </Box>
       <Box>
         <Button
-          onClick={(e: any) => {
-            console.log(e)
+          onClick={({ event }: ButtonClickEvent) => {
+            console.log(event)
           }}
           tooltip={<Tooltip>Tooltip for this Button 1b</Tooltip>}
         >
           Button with Tooltip 1
         </Button>
         <Button
-          onClick={(e: any) => {
-            console.log(e)
+          onClick={({ event }: ButtonClickEvent) => {
+            console.log(event)
           }}
           tooltip={
             <Tooltip placement="bottom">

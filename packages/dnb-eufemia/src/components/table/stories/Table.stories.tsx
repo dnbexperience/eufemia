@@ -403,7 +403,7 @@ export const TableOddEven = () => {
     </React.StrictMode>
   )
 
-  function sortByName(a: any, b: any) {
+  function sortByName(a: string, b: string) {
     return a.localeCompare(b)
   }
 
@@ -515,16 +515,16 @@ const ContentTr = ({
     </Tr>
   )
 
-  function trClickHandler(event: any) {
+  function trClickHandler(event: React.SyntheticEvent) {
     console.log('trClickHandler', event)
   }
-  function trOpenHandler(event: any) {
+  function trOpenHandler(event: { target: HTMLTableRowElement }) {
     console.log('trOpenHandler', event)
   }
-  function trCloseHandler(event: any) {
+  function trCloseHandler(event: { target: HTMLTableRowElement }) {
     console.log('trCloseHandler', event)
   }
-  function buttonClickHandler({ event }: any) {
+  function buttonClickHandler({ event }: { event: React.SyntheticEvent }) {
     event.preventDefault()
   }
 }
@@ -569,7 +569,11 @@ const TableContent = () => {
   )
 }
 
-const HeaderSortButton = ({ children }: any) => {
+const HeaderSortButton = ({
+  children,
+}: {
+  children?: React.ReactNode
+}) => {
   return (
     <Th.SortButton
       wrap={false}
@@ -1347,14 +1351,18 @@ export function Overflow() {
 }
 
 export function Accodion() {
-  const AccordionTable = ({ id, showCheckbox = false, ...props }: any) => {
+  const AccordionTable = ({
+    id,
+    showCheckbox = false,
+    ...props
+  }: { id: string; showCheckbox?: boolean } & Record<string, unknown>) => {
     const TdCheckbox = () => {
       return <Checkbox label="Select row" labelSrOnly />
     }
     const TdInput = () => {
       return <Input label="Label" labelSrOnly size={4} />
     }
-    const Content = ({ shareId }: any) => {
+    const Content = ({ shareId }: { shareId: string }) => {
       const ref = React.useRef<HTMLButtonElement | null>(null)
       const shareHandler = () => {
         const url = new URL(location.href)
@@ -1378,7 +1386,7 @@ export function Accodion() {
         </>
       )
     }
-    const Row = ({ nr }: any) => {
+    const Row = ({ nr }: { nr: number }) => {
       const shareId = id + '-' + nr
       return (
         <Tr id={shareId}>
@@ -1409,9 +1417,9 @@ export function Accodion() {
         </thead>
 
         <tbody>
-          <Row nr="1" />
-          <Row nr="2" />
-          <Row nr="3" />
+          <Row nr={1} />
+          <Row nr={2} />
+          <Row nr={3} />
         </tbody>
       </Table>
     )
