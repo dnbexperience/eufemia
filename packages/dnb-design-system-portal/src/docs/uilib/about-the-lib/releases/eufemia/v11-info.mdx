@@ -1629,9 +1629,9 @@ The following TypeScript types have also been removed:
 
 These were previously used to support dual snake_case/camelCase prop naming. Since v11 uses camelCase exclusively, they are no longer needed.
 
-#### Updated SCSS mixin: `IS_FF`
+#### Updated SCSS mixin: `isFirefox` (formerly `IS_FF`)
 
-The `IS_FF()` SCSS mixin now uses `@supports (-moz-appearance: none)` instead of the deprecated `@-moz-document url-prefix()` hack. No changes needed if you use the mixin — it works the same way.
+The `IS_FF` SCSS mixin has been renamed to `isFirefox` (see [SCSS mixin renames](#scss-mixin-renames)). Its implementation now uses `@supports (-moz-appearance: none)` instead of the deprecated `@-moz-document url-prefix()` hack. The behavior is unchanged.
 
 #### Removed SCSS mixins
 
