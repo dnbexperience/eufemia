@@ -828,7 +828,7 @@ function TabsComponent(ownProps: TabsProps) {
         window.removeEventListener('load', init)
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Update shared state when selectedKey or data changes
