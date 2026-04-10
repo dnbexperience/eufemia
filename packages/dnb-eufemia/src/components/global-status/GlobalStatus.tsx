@@ -342,7 +342,6 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
     })
   const [isActive, setIsActive] = useState(ownProps.show === true)
 
-  // getDerivedStateFromProps equivalent
   const [prevItems, setPrevItems] = useState(ownProps.items)
 
   let derivedGlobalStatus = providerGlobalStatus
