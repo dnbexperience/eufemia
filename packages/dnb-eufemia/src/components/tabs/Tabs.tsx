@@ -392,9 +392,10 @@ function TabsComponent(ownProps: TabsProps) {
   const sharedStateRef = useRef<SharedState | null>(null)
 
   // Initialize data and keys
-  const [data, setData] = useState<TabDataItem[]>(() => getData(ownProps))
+  const initialData = useRef(getData(ownProps))
+  const [data, setData] = useState<TabDataItem[]>(initialData.current)
   const [selectedKey, setSelectedKey] = useState<string | number>(() =>
-    getSelectedKeyOrFallback(ownProps.selectedKey, getData(ownProps))
+    getSelectedKeyOrFallback(ownProps.selectedKey, initialData.current)
   )
   const [focusKey, setFocusKey] = useState<string | number>(selectedKey)
   const [hasScrollbar, setHasScrollbar] = useState(false)
@@ -445,7 +446,7 @@ function TabsComponent(ownProps: TabsProps) {
   contextRef.current = context
 
   // Last position from localStorage
-  const getLastPosition = useCallback(() => {
+  const getLastPosition = () => {
     if (typeof window !== 'undefined') {
       try {
         const pos = parseFloat(
@@ -458,15 +459,15 @@ function TabsComponent(ownProps: TabsProps) {
       }
     }
     return -1
-  }, [_id])
+  }
 
-  const hasLastPosition = useCallback(() => {
+  const hasLastPosition = () => {
     return lastPositionRef.current > -1
-  }, [])
+  }
 
   const lastPositionRef = useRef(getLastPosition())
 
-  const hasLastUsedTab = useCallback(() => {
+  const hasLastUsedTab = () => {
     if (typeof window !== 'undefined') {
       try {
         const key = window.localStorage.getItem(`tabs-last-${_id}`) || null
@@ -477,9 +478,9 @@ function TabsComponent(ownProps: TabsProps) {
       }
     }
     return -1
-  }, [_id])
+  }
 
-  const saveLastUsedTab = useCallback(() => {
+  const saveLastUsedTab = () => {
     if (typeof window !== 'undefined') {
       try {
         window.localStorage.setItem(
@@ -490,28 +491,28 @@ function TabsComponent(ownProps: TabsProps) {
         warn(e)
       }
     }
-  }, [_id])
+  }
 
-  const saveLastPosition = useCallback(
-    (position = tablistRef.current?.scrollLeft) => {
-      if (typeof window !== 'undefined') {
-        try {
-          window.localStorage.setItem(`tabs-pos-${_id}`, String(position))
-        } catch (e) {
-          warn(e)
-        }
+  const saveLastPosition = (position = tablistRef.current?.scrollLeft) => {
+    if (typeof window !== 'undefined') {
+      try {
+        window.localStorage.setItem(`tabs-pos-${_id}`, String(position))
+      } catch (e) {
+        warn(e)
       }
-    },
-    [_id]
-  )
+    }
+  }
 
-  const checkHasScrollbar = useCallback(() => {
+  const checkHasScrollbar = () => {
+    if (!tablistRef.current) {
+      return false
+    }
     return (
       tablistRef.current.scrollWidth - 1 > tablistRef.current.offsetWidth
     )
-  }, [])
+  }
 
-  const setLeftPosition = useCallback((scrollLeft) => {
+  const setLeftPosition = (scrollLeft: number) => {
     try {
       tablistRef.current.style.scrollBehavior = 'auto'
       tablistRef.current.scrollLeft = scrollLeft
@@ -519,7 +520,7 @@ function TabsComponent(ownProps: TabsProps) {
     } catch (e) {
       //
     }
-  }, [])
+  }
 
   const scrollToTab = useCallback(
     ({
@@ -606,7 +607,7 @@ function TabsComponent(ownProps: TabsProps) {
     []
   )
 
-  const handleVerticalScroll = useCallback(() => {
+  const handleVerticalScroll = () => {
     if (
       propsRef.current.scroll &&
       tablistRef.current &&
@@ -617,7 +618,7 @@ function TabsComponent(ownProps: TabsProps) {
         behavior: 'smooth',
       })
     }
-  }, [])
+  }
 
   const setFocusOnTabButton = useCallback(() => {
     try {
@@ -640,19 +641,23 @@ function TabsComponent(ownProps: TabsProps) {
     }
   }, [_id])
 
-  const getCurrentTitle = useCallback((key?: string | number) => {
+  const getCurrentTitle = (key?: string | number) => {
     const useKey = key ?? selectedKeyRef.current
     const current = dataRef.current.filter(({ key: k }) => k == useKey)[0]
     return (current && current.title) || null
-  }, [])
+  }
 
-  const getStepKey = useCallback((useKey, stateKey) => {
+  const getStepKey = (
+    useKey: string | number,
+    stateKey: string | number
+  ) => {
     const currentData = dataRef.current.filter(({ disabled }) => !disabled)
     const currentIndex = currentData.reduce(
-      (acc, { key }, i) => (key == stateKey ? i : acc),
+      (acc: number, { key }: TabDataItem, i: number) =>
+        key == stateKey ? i : acc,
       -1
     )
-    let nextIndex = currentIndex + useKey
+    let nextIndex = currentIndex + Number(useKey)
     if (nextIndex < 0) {
       nextIndex = currentData.length - 1
     }
@@ -660,100 +665,100 @@ function TabsComponent(ownProps: TabsProps) {
       nextIndex = 0
     }
     return currentData.reduce<string | number | null>(
-      (acc, { key }, i) => (i === nextIndex ? key : acc),
+      (acc, { key }: TabDataItem, i: number) =>
+        i === nextIndex ? key : acc,
       null
     )
-  }, [])
+  }
 
-  const getEventArgs = useCallback(
-    (args) => {
-      const key =
-        typeof args.selectedKey !== 'undefined'
-          ? args.selectedKey
-          : selectedKeyRef.current
+  const getEventArgs = (args: Record<string, unknown>) => {
+    const key =
+      typeof args.selectedKey !== 'undefined'
+        ? args.selectedKey
+        : selectedKeyRef.current
 
-      return {
-        key,
-        selectedKey: selectedKeyRef.current,
-        focusKey: focusKeyRef.current,
-        title: getCurrentTitle(key),
-        ...args,
-      }
-    },
-    [getCurrentTitle]
-  )
+    return {
+      key,
+      selectedKey: selectedKeyRef.current,
+      focusKey: focusKeyRef.current,
+      title: getCurrentTitle(key as string | number | undefined),
+      ...args,
+    }
+  }
 
-  const focusTab = useCallback(
-    (newFocusKey, event = null, mode = null) => {
-      // for handling openPrevTab and openNextTab
-      if (mode === 'step' && parseFloat(newFocusKey)) {
-        newFocusKey = getStepKey(newFocusKey, focusKeyRef.current)
-      }
+  const focusTab = (
+    newFocusKey: string | number,
+    event: React.SyntheticEvent | null = null,
+    mode: string | null = null
+  ) => {
+    // for handling openPrevTab and openNextTab
+    if (mode === 'step' && parseFloat(String(newFocusKey))) {
+      newFocusKey = getStepKey(newFocusKey, focusKeyRef.current)
+    }
 
-      listenForPropChangesRef.current = false
-      setFocusKey(newFocusKey)
+    listenForPropChangesRef.current = false
+    setFocusKey(newFocusKey)
 
-      // setFocusOnTabButton will be called via useEffect below
+    // setFocusOnTabButton will be called via useEffect below
 
-      dispatchCustomElementEvent(
-        { props: propsRef.current },
-        'onFocus',
-        getEventArgs({ event, focusKey: newFocusKey })
-      )
+    dispatchCustomElementEvent(
+      { props: propsRef.current },
+      'onFocus',
+      getEventArgs({ event, focusKey: newFocusKey })
+    )
 
-      whatInput.specificKeys([9, 37, 39, 33, 34, 35, 36])
-    },
-    [getStepKey, getEventArgs]
-  )
+    whatInput.specificKeys([9, 37, 39, 33, 34, 35, 36])
+  }
 
   // Focus tab button when focusKey changes
   useUpdateEffect(() => {
     setFocusOnTabButton()
   }, [focusKey])
 
-  const openTab = useCallback(
-    (newSelectedKey, event = null, mode = null) => {
-      // saving the position will avoid flickering if the new tab will be done by a new page load
-      saveLastPosition()
-      saveLastUsedTab()
-      whatInput.specificKeys([9])
+  const openTab = (
+    newSelectedKey: string | number,
+    event: React.SyntheticEvent | null = null,
+    mode: string | null = null
+  ) => {
+    // saving the position will avoid flickering if the new tab will be done by a new page load
+    saveLastPosition()
+    saveLastUsedTab()
+    whatInput.specificKeys([9])
 
-      // for handling openPrevTab and openNextTab
-      if (mode === 'step' && parseFloat(newSelectedKey)) {
-        newSelectedKey = getStepKey(newSelectedKey, selectedKeyRef.current)
+    // for handling openPrevTab and openNextTab
+    if (mode === 'step' && parseFloat(String(newSelectedKey))) {
+      newSelectedKey = getStepKey(newSelectedKey, selectedKeyRef.current)
+    }
+
+    if (typeof newSelectedKey !== 'undefined') {
+      listenForPropChangesRef.current = false
+      setSelectedKey(newSelectedKey)
+      setFocusKey(newSelectedKey)
+    }
+
+    dispatchCustomElementEvent(
+      { props: propsRef.current },
+      'onChange',
+      getEventArgs({ event, selectedKey: newSelectedKey })
+    )
+
+    if (
+      propsRef.current.onOpenTabNavigationFn &&
+      typeof window !== 'undefined'
+    ) {
+      try {
+        propsRef.current.onOpenTabNavigationFn(newSelectedKey)
+      } catch (e) {
+        warn('Tabs Error:', e)
       }
+    }
 
-      if (typeof newSelectedKey !== 'undefined') {
-        listenForPropChangesRef.current = false
-        setSelectedKey(newSelectedKey)
-        setFocusKey(newSelectedKey)
-      }
-
-      dispatchCustomElementEvent(
-        { props: propsRef.current },
-        'onChange',
+    if (sharedStateRef.current) {
+      sharedStateRef.current.update(
         getEventArgs({ event, selectedKey: newSelectedKey })
       )
-
-      if (
-        propsRef.current.onOpenTabNavigationFn &&
-        typeof window !== 'undefined'
-      ) {
-        try {
-          propsRef.current.onOpenTabNavigationFn(newSelectedKey)
-        } catch (e) {
-          warn('Tabs Error:', e)
-        }
-      }
-
-      if (sharedStateRef.current) {
-        sharedStateRef.current.update(
-          getEventArgs({ event, selectedKey: newSelectedKey })
-        )
-      }
-    },
-    [getStepKey, getEventArgs, saveLastPosition, saveLastUsedTab]
-  )
+    }
+  }
 
   // Scroll on open tab (handleVerticalScroll)
   useUpdateEffect(() => {
@@ -767,7 +772,7 @@ function TabsComponent(ownProps: TabsProps) {
     if (scrollbarVisible) {
       scrollToTab({ type: 'selected' })
     }
-  }, [checkHasScrollbar, scrollToTab])
+  }, [scrollToTab])
 
   // Synchronous shared state initialization (must happen during render, not in useEffect)
   if (ownProps.id && !sharedStateRef.current) {
@@ -828,6 +833,8 @@ function TabsComponent(ownProps: TabsProps) {
         window.removeEventListener('load', init)
       }
     }
+    // Mount-only effect — all referenced functions either use refs for latest state
+    // or are stable (useCallback with [] deps). Intentionally not re-run on updates.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -838,89 +845,68 @@ function TabsComponent(ownProps: TabsProps) {
       onResizeHandler()
       sharedStateRef.current.update(getEventArgs({ selectedKey }))
     }
-  }, [selectedKey, data]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [selectedKey, data])
 
   // Navigation handlers
-  const focusFirstTab = useCallback(
-    (e) => {
-      const key = dataRef.current[0].key
-      focusTab(key, e, 'step')
-      scrollToTab({ type: 'focus' })
-    },
-    [focusTab, scrollToTab]
-  )
+  const focusFirstTab = (e: React.KeyboardEvent) => {
+    const key = dataRef.current[0].key
+    focusTab(key, e, 'step')
+    scrollToTab({ type: 'focus' })
+  }
 
-  const focusLastTab = useCallback(
-    (e) => {
-      const d = dataRef.current
-      const key = d[d.length - 1].key
-      focusTab(key, e, 'step')
-      scrollToTab({ type: 'focus' })
-    },
-    [focusTab, scrollToTab]
-  )
+  const focusLastTab = (e: React.KeyboardEvent) => {
+    const d = dataRef.current
+    const key = d[d.length - 1].key
+    focusTab(key, e, 'step')
+    scrollToTab({ type: 'focus' })
+  }
 
-  const focusPrevTab = useCallback(
-    (e) => {
-      focusTab(-1, e, 'step')
-      scrollToTab({ type: 'focus' })
-    },
-    [focusTab, scrollToTab]
-  )
+  const focusPrevTab = (e: React.KeyboardEvent) => {
+    focusTab(-1, e, 'step')
+    scrollToTab({ type: 'focus' })
+  }
 
-  const focusNextTab = useCallback(
-    (e) => {
-      focusTab(+1, e, 'step')
-      scrollToTab({ type: 'focus' })
-    },
-    [focusTab, scrollToTab]
-  )
+  const focusNextTab = (e: React.KeyboardEvent) => {
+    focusTab(+1, e, 'step')
+    scrollToTab({ type: 'focus' })
+  }
 
-  const openPrevTab = useCallback(
-    (e) => {
-      openTab(-1, e, 'step')
-      scrollToTab({ type: 'selected' })
-    },
-    [openTab, scrollToTab]
-  )
+  const openPrevTab = (e: React.MouseEvent) => {
+    openTab(-1, e, 'step')
+    scrollToTab({ type: 'selected' })
+  }
 
-  const openNextTab = useCallback(
-    (e) => {
-      openTab(+1, e, 'step')
-      scrollToTab({ type: 'selected' })
-    },
-    [openTab, scrollToTab]
-  )
+  const openNextTab = (e: React.MouseEvent) => {
+    openTab(+1, e, 'step')
+    scrollToTab({ type: 'selected' })
+  }
 
-  const onTablistKeyDownHandler = useCallback(
-    (e) => {
-      switch (e.key) {
-        case 'ArrowUp':
-        case 'PageUp':
-        case 'ArrowLeft':
-          e.preventDefault()
-          focusPrevTab(e)
-          break
-        case 'ArrowDown':
-        case 'PageDown':
-        case 'ArrowRight':
-          e.preventDefault()
-          focusNextTab(e)
-          break
-        case 'Home':
-          e.preventDefault()
-          focusFirstTab(e)
-          break
-        case 'End':
-          e.preventDefault()
-          focusLastTab(e)
-          break
-      }
-    },
-    [focusPrevTab, focusNextTab, focusFirstTab, focusLastTab]
-  )
+  const onTablistKeyDownHandler = (e: React.KeyboardEvent) => {
+    switch (e.key) {
+      case 'ArrowUp':
+      case 'PageUp':
+      case 'ArrowLeft':
+        e.preventDefault()
+        focusPrevTab(e)
+        break
+      case 'ArrowDown':
+      case 'PageDown':
+      case 'ArrowRight':
+        e.preventDefault()
+        focusNextTab(e)
+        break
+      case 'Home':
+        e.preventDefault()
+        focusFirstTab(e)
+        break
+      case 'End':
+        e.preventDefault()
+        focusLastTab(e)
+        break
+    }
+  }
 
-  const getCurrentKey = useCallback((event: React.SyntheticEvent) => {
+  const getCurrentKey = (event: React.SyntheticEvent) => {
     let currentKey: string | undefined
     try {
       const elem = getClosestParent(
@@ -932,63 +918,54 @@ function TabsComponent(ownProps: TabsProps) {
       warn('Tabs Error:', e)
     }
     return currentKey
-  }, [])
+  }
 
-  const onMouseEnterHandler = useCallback(
-    (event) => {
-      const key = getCurrentKey(event)
-      if (key) {
-        dispatchCustomElementEvent(
-          { props: propsRef.current },
-          'onMouseEnter',
-          getEventArgs({ event, selectedKey: key })
-        )
+  const onMouseEnterHandler = (event: React.SyntheticEvent) => {
+    const key = getCurrentKey(event)
+    if (key) {
+      dispatchCustomElementEvent(
+        { props: propsRef.current },
+        'onMouseEnter',
+        getEventArgs({ event, selectedKey: key })
+      )
+    }
+  }
+
+  const onClickHandler = (event: React.SyntheticEvent) => {
+    const key = getCurrentKey(event)
+    if (key) {
+      const ret = dispatchCustomElementEvent(
+        { props: propsRef.current },
+        'onClick',
+        getEventArgs({ event, selectedKey: key })
+      )
+
+      if (ret !== false) {
+        openTab(key, event)
+        scrollToTab({ type: 'selected' })
       }
-    },
-    [getCurrentKey, getEventArgs]
-  )
+    }
+  }
 
-  const onClickHandler = useCallback(
-    (event) => {
-      const key = getCurrentKey(event)
-      if (key) {
-        const ret = dispatchCustomElementEvent(
-          { props: propsRef.current },
-          'onClick',
-          getEventArgs({ event, selectedKey: key })
-        )
-
-        if (ret !== false) {
-          openTab(key, event)
-          scrollToTab({ type: 'selected' })
-        }
-      }
-    },
-    [getCurrentKey, getEventArgs, openTab, scrollToTab]
-  )
-
-  const onMouseDown = useCallback((event) => {
+  const onMouseDown = (event: React.MouseEvent) => {
     event.preventDefault()
-  }, [])
+  }
 
-  const onKeyDownHandler = useCallback(
-    (event) => {
-      if (event.key === 'Enter') {
-        try {
-          const elem = document.getElementById(`${_id}-content`)
-          elem.focus({ preventScroll: true })
-        } catch (e) {
-          warn(
-            `Could not find the required <Tabs.Content id="${_id}-content" ... /> that provides role="tabpanel"`
-          )
-        }
+  const onKeyDownHandler = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      try {
+        const elem = document.getElementById(`${_id}-content`)
+        elem.focus({ preventScroll: true })
+      } catch (e) {
+        warn(
+          `Could not find the required <Tabs.Content id="${_id}-content" ... /> that provides role="tabpanel"`
+        )
       }
-    },
-    [_id]
-  )
+    }
+  }
 
   // Content rendering helper
-  const getContent = useCallback((key) => {
+  const getContent = (key: string | number) => {
     const { children, content: _content } = propsRef.current
 
     const contentToRender = children || _content
@@ -1026,7 +1003,7 @@ function TabsComponent(ownProps: TabsProps) {
     }
 
     return content
-  }, [])
+  }
 
   // Store render functions in refs for stable sub-component wrappers
   const renderWrapperRef =
@@ -1372,10 +1349,10 @@ type TabsWithStatics = React.FC<TabsProps> & {
   ContentWrapper: typeof ContentWrapper
 }
 
-const Tabs: TabsWithStatics = Object.assign(React.memo(TabsComponent), {
+const Tabs = Object.assign(React.memo(TabsComponent), {
   Content: CustomContent,
   ContentWrapper: ContentWrapper,
-}) as any
+}) as TabsWithStatics
 
 withComponentMarkers(Tabs, { _supportsSpacingProps: true })
 
