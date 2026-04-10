@@ -133,6 +133,10 @@ export type MenuAccordionProps = {
    * @default false
    */
   disabled?: boolean
+  /**
+   * Callback fired when the open state changes.
+   */
+  onOpenChange?: (open: boolean) => void
 } & Omit<React.HTMLAttributes<HTMLDivElement>, 'title' | 'onClick'>
 
 export type MenuDividerProps = {

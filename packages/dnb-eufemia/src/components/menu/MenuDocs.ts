@@ -160,6 +160,14 @@ export const MenuAccordionProperties: PropertiesTableProps = {
   },
 }
 
+export const MenuAccordionEvents: PropertiesTableProps = {
+  onOpenChange: {
+    doc: 'Called whenever the accordion open state changes. Receives the new open state as a boolean.',
+    type: '(open: boolean) => void',
+    status: 'optional',
+  },
+}
+
 export const MenuHeaderProperties: PropertiesTableProps = {
   text: {
     doc: 'Header text displayed in the menu.',

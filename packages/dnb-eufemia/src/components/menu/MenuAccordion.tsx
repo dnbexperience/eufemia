@@ -22,13 +22,27 @@ export default function MenuAccordion(props: MenuAccordionProps) {
     icon,
     text,
     disabled = false,
+    onOpenChange,
     ...rest
   } = props
 
   const parentContext = useMenuContext()
   const level = parentContext ? parentContext.level + 1 : 1
 
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpenState] = useState(false)
+
+  const setIsOpen = useCallback(
+    (next: boolean | ((prev: boolean) => boolean)) => {
+      setIsOpenState((prev) => {
+        const value = typeof next === 'function' ? next(prev) : next
+        if (value !== prev) {
+          onOpenChange?.(value)
+        }
+        return value
+      })
+    },
+    [onOpenChange]
+  )
 
   // Reset when parent menu closes
   const parentIsOpen = parentContext?.isOpen
@@ -36,7 +50,7 @@ export default function MenuAccordion(props: MenuAccordionProps) {
     if (!parentIsOpen) {
       setIsOpen(false)
     }
-  }, [parentIsOpen])
+  }, [parentIsOpen, setIsOpen])
 
   // Register trigger in parent context as a menu item
   const triggerRef = useRef<HTMLDivElement>(null)
@@ -72,13 +86,13 @@ export default function MenuAccordion(props: MenuAccordionProps) {
   const closeAll = useCallback(() => {
     setIsOpen(false)
     parentContext?.closeAll()
-  }, [parentContext])
+  }, [parentContext, setIsOpen])
 
   // Close only this accordion and restore focus to trigger
   const closeSelf = useCallback(() => {
     setIsOpen(false)
     triggerRef.current?.focus({ preventScroll: true })
-  }, [])
+  }, [setIsOpen])
 
   const childContextValue: MenuContextValue = useMemo(
     () => ({
@@ -119,7 +133,7 @@ export default function MenuAccordion(props: MenuAccordionProps) {
       return // stop here
     }
     setIsOpen((prev) => !prev)
-  }, [disabled])
+  }, [disabled, setIsOpen])
 
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -162,7 +176,7 @@ export default function MenuAccordion(props: MenuAccordionProps) {
         setIsOpen(false)
       }
     },
-    [disabled, isOpen, setActiveIndex]
+    [disabled, isOpen, setActiveIndex, setIsOpen]
   )
 
   return (

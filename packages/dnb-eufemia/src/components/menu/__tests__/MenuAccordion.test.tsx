@@ -327,4 +327,91 @@ describe('MenuAccordion', () => {
       document.querySelector('.dnb-menu__accordion__indicator')
     ).toBeTruthy()
   })
+
+  it('calls onOpenChange when opened via click', () => {
+    const onOpenChange = jest.fn()
+    const ctx = createMockContext()
+
+    render(
+      <MenuContext.Provider value={ctx}>
+        <ul role="menu">
+          <Menu.Accordion text="Export as" onOpenChange={onOpenChange}>
+            <Menu.Action text="PDF" />
+          </Menu.Accordion>
+        </ul>
+      </MenuContext.Provider>
+    )
+
+    const trigger = document.querySelector('.dnb-menu__accordion__trigger')
+    fireEvent.click(trigger)
+    expect(onOpenChange).toHaveBeenCalledWith(true)
+
+    fireEvent.click(trigger)
+    expect(onOpenChange).toHaveBeenCalledWith(false)
+    expect(onOpenChange).toHaveBeenCalledTimes(2)
+  })
+
+  it('calls onOpenChange when opened via keyboard', () => {
+    const onOpenChange = jest.fn()
+    const ctx = createMockContext()
+
+    render(
+      <MenuContext.Provider value={ctx}>
+        <ul role="menu">
+          <Menu.Accordion text="Export as" onOpenChange={onOpenChange}>
+            <Menu.Action text="PDF" />
+          </Menu.Accordion>
+        </ul>
+      </MenuContext.Provider>
+    )
+
+    const trigger = document.querySelector('.dnb-menu__accordion__trigger')
+    fireEvent.keyDown(trigger, { key: 'Enter' })
+    expect(onOpenChange).toHaveBeenCalledWith(true)
+  })
+
+  it('calls onOpenChange with false when closed via ArrowLeft', () => {
+    const onOpenChange = jest.fn()
+    const ctx = createMockContext()
+
+    render(
+      <MenuContext.Provider value={ctx}>
+        <ul role="menu">
+          <Menu.Accordion text="Export as" onOpenChange={onOpenChange}>
+            <Menu.Action text="PDF" />
+          </Menu.Accordion>
+        </ul>
+      </MenuContext.Provider>
+    )
+
+    const trigger = document.querySelector('.dnb-menu__accordion__trigger')
+    fireEvent.click(trigger)
+    onOpenChange.mockClear()
+
+    fireEvent.keyDown(trigger, { key: 'ArrowLeft' })
+    expect(onOpenChange).toHaveBeenCalledWith(false)
+  })
+
+  it('does not call onOpenChange when disabled', () => {
+    const onOpenChange = jest.fn()
+    const ctx = createMockContext()
+
+    render(
+      <MenuContext.Provider value={ctx}>
+        <ul role="menu">
+          <Menu.Accordion
+            text="Export as"
+            disabled
+            onOpenChange={onOpenChange}
+          >
+            <Menu.Action text="PDF" />
+          </Menu.Accordion>
+        </ul>
+      </MenuContext.Provider>
+    )
+
+    const trigger = document.querySelector('.dnb-menu__accordion__trigger')
+    fireEvent.click(trigger)
+    expect(onOpenChange).not.toHaveBeenCalled()
+  })
 })
