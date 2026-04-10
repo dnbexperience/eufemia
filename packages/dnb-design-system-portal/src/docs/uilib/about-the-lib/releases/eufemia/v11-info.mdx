@@ -247,7 +247,9 @@ If you used `<Provider formElement={{ labelDirection: 'vertical' }}>` or `labelD
 
 You can also use `top` and `bottom` individually if you need different values, e.g. `innerSpace={{ top: 'small', bottom: 'large' }}`. Note that `innerSpace="large"` (a plain string) applies padding on **all four sides**, not just top/bottom.
 
-3. Replace `inner_ref` with `ref`.
+3. Replace `variant`'s value `info` with `information`.
+
+4. Replace `inner_ref` with `ref`.
 
 #### Types
 
@@ -373,10 +375,7 @@ The following properties have been renamed from snake_case to camelCase:
 
 #### DrawerListDataArrayObject
 
-- Replace `selected_value` with `selectedValue`.
-- Replace `suffix_value` with `suffixValue`.
-- Replace `search_content` with `searchContent`.
-- Replace `class_name` with `className`.
+See [DrawerList > DrawerListDataArrayObject](#drawerlistdataarrayobject-2) for the property renames.
 
 ### [Dropdown](/uilib/components/dropdown/)
 
@@ -445,10 +444,7 @@ The following properties have been renamed from snake_case to camelCase:
 
 #### DrawerListDataArrayObject
 
-- Replace `selected_value` with `selectedValue`.
-- Replace `suffix_value` with `suffixValue`.
-- Replace `search_content` with `searchContent`.
-- Replace `class_name` with `className`.
+See [DrawerList > DrawerListDataArrayObject](#drawerlistdataarrayobject-2) for the property renames.
 
 ### [DrawerList](/uilib/components/fragments/drawer-list/)
 
@@ -836,9 +832,12 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 - Replace `indicator_label` with `indicatorLabel`.
 - Replace `label_direction` with `labelDirection`.
 - Replace `show_label` with `showDefaultLabel`.
-- Replace `on_complete` with `onComplete`.
 - Replace `class` with `className`.
 - Replace `children` with `label`.
+
+#### Events
+
+- Replace `on_complete` with `onComplete`.
 
 #### Styling
 
@@ -1032,9 +1031,6 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `open_state` with `openState`.
 - Replace `direct_dom_return` with `directDomReturn`.
 - Replace `omit_trigger_button` with `omitTriggerButton`.
-- Replace `on_open` with `onOpen`.
-- Replace `on_close` with `onClose`.
-- Replace `on_close_prevent` with `onClosePrevent`.
 - Replace `open_modal` with `openModal`.
 - Replace `close_modal` with `closeModal`.
 - Replace `trigger_attributes` with `triggerAttributes`.
@@ -1048,6 +1044,13 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `content_ref` with `contentRef`.
 - Replace `scroll_ref` with `scrollRef`.
 - Replace `prevent_overlay_close` with `preventOverlayClose`.
+- Replace `confirmType`'s value `info` with `information` on Dialog.
+
+#### Events
+
+- Replace `on_open` with `onOpen`.
+- Replace `on_close` with `onClose`.
+- Replace `on_close_prevent` with `onClosePrevent`.
 
 #### TypeScript types
 
@@ -1141,6 +1144,7 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `text_id` with `textId`.
 - Replace `width_selector` with `widthSelector`.
 - Replace `width_element` with `widthElement`.
+- Replace `state`'s value `info` with `information`.
 - Replace `state`'s value `warn` with `warning`.
 - Replace `variant`'s value `flat` with `plain`.
 
@@ -1169,13 +1173,16 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `tabs_spacing` or `tabsSpacing` with `tabsInnerSpace`. The `tabsSpacing` prop has been removed – use `tabsInnerSpace` instead.
 - Replace `nav_button_edge` with `navButtonEdge`.
 - Replace `prevent_rerender` with `preventRerender`.
+- Replace `focus_key` with `focusKey`.
+- Replace `no_border` with `noBorder`.
+- Replace `prerender` with `keepInDOM`.
+
+#### Events
+
 - Replace `on_change` with `onChange`.
 - Replace `on_click` with `onClick`.
 - Replace `on_mouse_enter` with `onMouseEnter`.
 - Replace `on_focus` with `onFocus`.
-- Replace `focus_key` with `focusKey`.
-- Replace `no_border` with `noBorder`.
-- Replace `prerender` with `keepInDOM`.
 
 #### Styling
 
@@ -1230,6 +1237,10 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `on_click` with `onClick`.
 
 ### [Slider](/uilib/components/slider/)
+
+#### Properties
+
+- Replace `statusState`'s value `info` with `information`.
 
 #### TypeScript types
 
@@ -1296,6 +1307,10 @@ In addition to the behavioral changes above, the following properties have been 
 - Replace `prevent_close` with `preventClose`.
 - Replace `no_animation` with `noAnimation`.
 - Replace `align_picker` with `alignPicker`.
+- Replace the `shortcuts` property `close_on_select` with `closeOnSelect`.
+
+#### Events
+
 - Replace `on_days_render` with `onDaysRender`.
 - Replace `on_change` with `onChange`.
 - Replace `on_type` with `onType`.
@@ -1304,11 +1319,15 @@ In addition to the behavioral changes above, the following properties have been 
 - Replace `on_submit` with `onSubmit`.
 - Replace `on_cancel` with `onCancel`.
 - Replace `on_reset` with `onReset`.
+
+#### Event return object
+
+The following properties on the event callback return object have been renamed:
+
 - Replace `days_between` with `daysBetween`.
 - Replace `is_valid` with `isValid`.
 - Replace `is_valid_start_date` with `isValidStartDate`.
 - Replace `is_valid_end_date` with `isValidEndDate`.
-- Replace the `shortcuts` property `close_on_select` with `closeOnSelect`.
 
 #### Styling
 
@@ -1361,6 +1380,7 @@ In addition to the behavioral changes above, the following properties have been 
 - Remove `step_title_extended`. Only `stepTitle` is needed.
 - Replace `is_current` with `isCurrent`.
 - Replace `status_state` with `statusState`.
+- Replace `statusState`'s value `info` with `information`.
 - Replace `statusState`'s value `warn` with `warning`.
 - Replace `current_step` with `currentStep`.
 - Replace `overview_title` with `overviewTitle`.
@@ -1461,6 +1481,7 @@ In addition to the behavioral changes above, the following properties have been 
 - Replace `status_anchor_url` with `statusAnchorUrl`.
 - Replace `status_anchor_label` with `statusAnchorLabel`.
 - Replace `buffer_delay` with `bufferDelay`.
+- Replace `state`'s value `info` with `information`.
 - Replace `autoclose` with `autoClose`.
 - Replace `autoscroll` with `autoScroll`.
 
@@ -1550,7 +1571,7 @@ In addition to the behavioral changes above, the following properties have been 
 #### Properties
 
 - Replace `spacing` with `gap` on all Flex components.
-- `rowGap` no longer accepts value `true`. Replace `true` with `undefined` or remove the property to get the same behavior.
+- `rowGap` no longer accepts value `true`. Remove the property to get the same behavior.
 
 ### Removal of FormRow and FormSet
 
