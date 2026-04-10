@@ -599,11 +599,27 @@ function formatCountryCode(value: string) {
 }
 
 function splitValue(value: string) {
-  return (
-    typeof value === 'string'
-      ? value.match(/^(\+[^ ]+)? ?(.*)$/)
-      : [undefined, '', '']
-  ).slice(1)
+  if (typeof value !== 'string') {
+    return ['', '']
+  }
+
+  // When a space separates the country code and the phone number, split on it
+  const spaceIndex = value.indexOf(' ')
+  if (spaceIndex !== -1) {
+    return [value.slice(0, spaceIndex), value.slice(spaceIndex + 1)]
+  }
+
+  // Auto-detect Norwegian country code (+47) from spaceless strings like "+4712345678"
+  if (value.startsWith('+47') && value.length > 3) {
+    return ['+47', value.slice(3)]
+  }
+
+  // No space found — treat the whole value as the country code (or plain text)
+  if (value.startsWith('+')) {
+    return [value, '']
+  }
+
+  return ['', value]
 }
 
 function joinValue(array: Array<string>) {
