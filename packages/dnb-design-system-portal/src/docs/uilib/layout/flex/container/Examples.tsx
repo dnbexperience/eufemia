@@ -211,7 +211,7 @@ export const FramedLineDividers = () => {
     <ComponentBox
       scope={{ TestElement }}
       data-visual-test="flex-container-line-framed"
-      background="white" // will be enabled in related PR
+      background="plain" // will be enabled in related PR
     >
       {() => {
         const Item = () => (
