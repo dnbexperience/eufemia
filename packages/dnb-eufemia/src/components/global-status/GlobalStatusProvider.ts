@@ -30,10 +30,10 @@ type StatusItem = {
   [key: string]: any
 }
 
-type GlobalStatusResult = {
+export type GlobalStatusResult = {
   statusId?: string
   items?: StatusItem[]
-  [key: string]: any
+  [key: string]: unknown
 }
 
 type OnUpdateCallback = (
