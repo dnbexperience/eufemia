@@ -119,14 +119,8 @@ The largest category of changes in v11 is the rename of **all snake_case propert
 - Properties: `selected_key` → `selectedKey`, `label_direction` → `labelDirection`
 - Events: `on_change` → `onChange`, `on_click` → `onClick`
 - Translations: `Autocomplete.no_options` → `Autocomplete.noOptions`
-- CSS classes: `dnb-date-picker--opened` → `dnb-date-picker--open`
 
-You can use your editor's find-and-replace or a codemod to handle these. For a regex-based approach:
-
-```
-Find:    (on_|\_)([a-z])
-Replace: (match based on camelCase conversion)
-```
+You can use your editor's find-and-replace or a codemod to handle most of these. Since each snake_case property maps to a specific camelCase name, we recommend using the per-component find-and-replace lists below rather than a generic regex.
 
 > **Note:** Some renames are not just snake_case conversions — they also change the name itself (e.g. `triangle_position` → `arrowPosition`, `opened` → `open`, `on_show` → `onOpen`). These are listed individually per component below and require manual attention.
 
@@ -526,6 +520,10 @@ The following properties have been renamed from snake_case to camelCase:
 - Find and remove `scrollToHashHandler`. Smooth hash scrolling is now supported by all major browsers.
 - Replace `inner_ref` with `ref`.
 
+#### Styling
+
+- Replace CSS class `dnb-anchor--contrast` with `dnb-anchor--surface-dark`.
+
 ### [Input](/uilib/components/input/)
 
 **Removals:**
@@ -644,6 +642,7 @@ New props added:
 
 #### Deprecations and removals
 
+- `MultiInputMask` has been removed as a public component. If you were importing it directly, use `InputMasked` instead.
 - `show_guide` has been removed. If you need to communicate an expected format, pass an example using the regular `placeholder` prop (e.g. `placeholder="00 00 00"`) or provide helper text next to the field.
 - `keep_char_positions` has been removed.
 - `placeholder_char` has been removed.
@@ -813,6 +812,7 @@ New props added:
 
 #### Properties
 
+- Replace `isCollapsed` with `collapsed`.
 - Replace `styleType` (or `style_type`) with `backgroundColor`.
 - The `spacing` prop type has changed from `SectionSpacing` to `SpaceTypeAll | SpaceTypeMedia`. All previously valid string values still work, but if you imported `SectionSpacing` to type your Breadcrumb spacing, update to use the new types.
 
@@ -987,6 +987,7 @@ render(<Logo svg={SbankenCompact} />)
 - Replace `status_props` with `statusProps`.
 - Replace `status_no_animation` with `statusNoAnimation`.
 - Replace `custom_content` with `customContent`.
+- Replace `class` with `className`.
 - Replace `inner_ref` with `ref`.
 
 #### Events
@@ -1163,7 +1164,7 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `tabs_style` with `tabsStyle`.
 - Replace `tabs_spacing` or `tabsSpacing` with `tabsInnerSpace`. The `tabsSpacing` prop has been removed – use `tabsInnerSpace` instead.
 - Replace `nav_button_edge` with `navButtonEdge`.
-- Replace `preventRerender` with `preventRerender`.
+- Replace `prevent_rerender` with `preventRerender`.
 - Replace `on_change` with `onChange`.
 - Replace `on_click` with `onClick`.
 - Replace `on_mouse_enter` with `onMouseEnter`.
@@ -1627,6 +1628,7 @@ The following SCSS mixins have been removed:
 ### General
 
 - `Form.Card` no longer enables `outset` by default.
+- `Form.ButtonRow` no longer has automatic horizontal alignment styles when placed next to a `Card`. If you relied on this spacing, add explicit spacing (e.g. via `left` or `Space`).
 - `Card.Provider` / `Form.Card.Provider` has been removed (including `disableCardBreakout`).
 - Replace `Form.useErrorMessage` with your error messages as an object in the `errorMessages` property (e.g., with a `useMemo` hook).
 - Replace `Form.useError` with `Form.useValidation`.
