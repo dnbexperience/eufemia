@@ -7,11 +7,10 @@
 .dnb-popover {
   --inner-space: 0.75rem;
   --popover-border-radius: 0.5rem;
+  --popover-text-color: var(--token-color-text-neutral);
+  --popover-background-color: var(--token-color-background-neutral);
+  --popover-outline-color: var(--token-color-stroke-neutral-subtle);
   --popover-color-icon: var(--token-color-icon-neutral);
-
-  &--theme-dark {
-    --popover-color-icon: var(--token-color-icon-neutral-ondark);
-  }
 
   position: absolute;
   z-index: var(--popover-z-index);

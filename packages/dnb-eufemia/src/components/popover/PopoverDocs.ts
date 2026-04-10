@@ -114,11 +114,6 @@ export const PopoverProperties: PropertiesTableProps = {
     defaultValue: 'false',
     status: 'optional',
   },
-  theme: {
-    doc: 'Sets the surface style.',
-    type: ['"light"', '"dark"'],
-    status: 'optional',
-  },
   contentClassName: {
     doc: 'Additional class name(s) merged into the popover content wrapper.',
     type: 'string',
