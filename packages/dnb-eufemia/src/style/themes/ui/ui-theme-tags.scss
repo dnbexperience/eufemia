@@ -6,6 +6,7 @@
 
 @use '../../../components/anchor/style/anchor-mixins.scss';
 @use '../../../elements/blockquote/style/blockquote-mixins.scss';
+@use '../../../elements/typography/style/typography-mixins.scss';
 @use '../../../elements/label/style/label-mixins.scss';
 @use '../../../elements/lists/style/lists-mixins.scss';
 @use '../../../elements/code/style/code-mixins.scss';
@@ -17,7 +18,8 @@
   with (
   $useClasses: false
 );
-@use '../../../elements/typography/style/typography-mixins.scss' with (
+@use '../../../elements/typography/style/themes/dnb-typography-theme-ui.scss'
+  with (
   $useClasses: false
 );
 @use '../../../elements/img/style/themes/dnb-img-theme-ui.scss' with (
@@ -48,6 +50,6 @@
 
   // handle themes
   @include dnb-anchor-theme-ui.anchorThemeTag();
-  @include typography-mixins.typographyThemeTag();
+  @include dnb-typography-theme-ui.typographyThemeTag();
   @include dnb-img-theme-ui.imgThemeTag();
 }
