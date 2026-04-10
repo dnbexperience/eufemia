@@ -10,8 +10,9 @@ import IconPrimary from '../IconPrimary'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import { MenuContext, useMenuContext } from './MenuContext'
 import MenuList from './MenuList'
+import MenuItemContent from './MenuItemContent'
+import useMenuItemRegistration from './useMenuItemRegistration'
 import type { MenuAccordionProps, MenuContextValue } from './types'
-import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
 
 export default function MenuAccordion(props: MenuAccordionProps) {
   const {
@@ -39,26 +40,7 @@ export default function MenuAccordion(props: MenuAccordionProps) {
 
   // Register trigger in parent context as a menu item
   const triggerRef = useRef<HTMLDivElement>(null)
-  const indexRef = useRef(-1)
-
-  const registerItem = parentContext?.registerItem
-  const unregisterItem = parentContext?.unregisterItem
-
-  useIsomorphicLayoutEffect(() => {
-    if (!registerItem || !unregisterItem || !parentIsOpen) {
-      return undefined // stop here
-    }
-
-    indexRef.current = registerItem(
-      triggerRef as React.RefObject<HTMLElement>
-    )
-
-    return () => {
-      unregisterItem(indexRef.current)
-    }
-  }, [registerItem, unregisterItem, parentIsOpen])
-
-  const isActive = parentContext?.activeIndex === indexRef.current
+  const { isActive } = useMenuItemRegistration(triggerRef)
 
   // Child context management
   const activeIndexRef = useRef(-1)
@@ -206,13 +188,7 @@ export default function MenuAccordion(props: MenuAccordionProps) {
         onKeyDown={handleKeyDown}
         {...rest}
       >
-        {icon && (
-          <span className="dnb-menu__action__icon">
-            <IconPrimary icon={icon} />
-          </span>
-        )}
-
-        {text && <span className="dnb-menu__action__text">{text}</span>}
+        <MenuItemContent icon={icon} text={text} />
 
         <span className="dnb-menu__accordion__indicator">
           <IconPrimary icon="chevron_right" />

@@ -1,8 +1,10 @@
-import React, { useCallback, useLayoutEffect, useRef } from 'react'
+import React, { useCallback, useRef } from 'react'
 import clsx from 'clsx'
 import IconPrimary from '../IconPrimary'
 import Anchor from '../Anchor'
-import { useMenuContext, useMenuTriggerContext } from './MenuContext'
+import { useMenuTriggerContext } from './MenuContext'
+import useMenuItemRegistration from './useMenuItemRegistration'
+import MenuItemContent from './MenuItemContent'
 import type { MenuActionProps } from './types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
@@ -27,7 +29,6 @@ function MenuAction(props: MenuActionProps) {
     ...rest
   } = props as MenuActionProps & { ref?: React.Ref<HTMLLIElement> }
 
-  const context = useMenuContext()
   const triggerContext = useMenuTriggerContext()
 
   // Auto-detect sub-menu trigger from context
@@ -59,31 +60,9 @@ function MenuAction(props: MenuActionProps) {
 
   const itemRef = useRef<HTMLLIElement>(null)
   const combinedRef = useCombinedRef(itemRef, externalRef, triggerRef)
-  const indexRef = useRef(-1)
   const anchorRef = useRef<HTMLAnchorElement>(null)
 
-  // Extract stable refs for the registration effect.
-  // registerItem/unregisterItem are stable (useCallback with []).
-  // isOpen only changes when the menu opens/closes, NOT on every activeIndex update.
-  const registerItem = context?.registerItem
-  const unregisterItem = context?.unregisterItem
-  const isOpen = context?.isOpen
-
-  useLayoutEffect(() => {
-    if (!registerItem || !unregisterItem || !isOpen) {
-      return undefined // stop here
-    }
-
-    indexRef.current = registerItem(
-      itemRef as React.RefObject<HTMLElement>
-    )
-
-    return () => {
-      unregisterItem(indexRef.current)
-    }
-  }, [registerItem, unregisterItem, isOpen])
-
-  const isActive = context?.activeIndex === indexRef.current
+  const { isActive, context } = useMenuItemRegistration(itemRef)
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLLIElement>) => {
@@ -162,13 +141,9 @@ function MenuAction(props: MenuActionProps) {
 
   const content = (
     <>
-      {icon && (
-        <span className="dnb-menu__action__icon">
-          <IconPrimary icon={icon} />
-        </span>
-      )}
-      {text && <span className="dnb-menu__action__text">{text}</span>}
-      {children}
+      <MenuItemContent icon={icon} text={text}>
+        {children}
+      </MenuItemContent>
       {hasSubMenu && (
         <span className="dnb-menu__action__submenu-indicator">
           <IconPrimary icon="chevron_right" />
