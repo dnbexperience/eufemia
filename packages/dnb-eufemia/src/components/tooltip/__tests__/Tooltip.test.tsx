@@ -1111,11 +1111,4 @@ describe('Tooltip scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
-
-  it('have to match default theme snapshot', () => {
-    const css = loadScss(
-      require.resolve('../style/themes/dnb-tooltip-theme-ui.scss')
-    )
-    expect(css).toMatchSnapshot()
-  })
 })

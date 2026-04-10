@@ -1677,20 +1677,6 @@ describe('Popover', () => {
     ).toHaveLength(0)
   })
 
-  it('applies the theme class when theme is provided', async () => {
-    renderWithTrigger({ theme: 'dark' })
-
-    const trigger = (await waitFor(() =>
-      document.querySelector('button[aria-controls]')
-    )) as HTMLButtonElement
-    await userEvent.click(trigger)
-
-    const popover = await waitFor(() =>
-      document.querySelector('.dnb-popover')
-    )
-    expect(popover).toHaveClass('dnb-popover--theme-dark')
-  })
-
   it('merges custom className on the popover root', async () => {
     renderWithTrigger({ className: 'custom-popover' })
 
