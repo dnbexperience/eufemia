@@ -199,9 +199,9 @@ type FigmaExport = {
 }
 
 const foundationPrefixMap = {
-  ui: { css: 'dnb', figma: 'dnb' },
-  sbanken: { css: 'sbanken', figma: 'sbanken' },
-  carnegie: { css: 'carnegie', figma: 'dnbcarnegie' },
+  ui: { css: 'eufemia', figma: 'dnb' },
+  sbanken: { css: 'eufemia', figma: 'sbanken' },
+  carnegie: { css: 'eufemia', figma: 'dnbcarnegie' },
 }
 
 export const transformFigmaAlias = (alias: FigmaAlias) => {

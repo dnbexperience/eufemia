@@ -120,7 +120,7 @@ describe('makePropertiesFile', () => {
       })
 
       it('should preserve var() references to foundation variables', () => {
-        expect(global.uiTokensTailwind).toContain('var(--dnb-')
+        expect(global.uiTokensTailwind).toContain('var(--eufemia-')
       })
     })
 
@@ -149,15 +149,15 @@ describe('makePropertiesFile', () => {
     describe('extractReferencedCssVariables', () => {
       it('extracts css variables from var() usage', () => {
         const result = extractReferencedCssVariables(`
-          --token-color-primary: var(--dnb-coldgreen-600);
-          --token-color-secondary: var(--dnb-greyscale-100);
-          --token-color-tertiary: var( --dnb-green-700 );
+          --token-color-primary: var(--eufemia-coldgreen-600);
+          --token-color-secondary: var(--eufemia-greyscale-100);
+          --token-color-tertiary: var( --eufemia-green-700 );
         `)
 
         expect(Array.from(result)).toEqual([
-          '--dnb-coldgreen-600',
-          '--dnb-greyscale-100',
-          '--dnb-green-700',
+          '--eufemia-coldgreen-600',
+          '--eufemia-greyscale-100',
+          '--eufemia-green-700',
         ])
       })
     })
@@ -172,7 +172,7 @@ describe('makePropertiesFile', () => {
         }
 
         const result = transformFigmaAlias(val)
-        expect(result).toEqual('var(--dnb-coldgreen-600)')
+        expect(result).toEqual('var(--eufemia-coldgreen-600)')
       })
 
       it('transforms prefix', () => {
@@ -184,7 +184,7 @@ describe('makePropertiesFile', () => {
         }
 
         const result = transformFigmaAlias(val)
-        expect(result).toEqual('var(--carnegie-coldgreen-600)')
+        expect(result).toEqual('var(--eufemia-coldgreen-600)')
       })
 
       it('error on unsupported variable set', () => {
@@ -228,7 +228,7 @@ describe('makePropertiesFile', () => {
         }
 
         const result = transformFigmaValue(val)
-        expect(result).toEqual('var(--dnb-coldgreen-600)')
+        expect(result).toEqual('var(--eufemia-coldgreen-600)')
       })
 
       it('generates color hex', () => {
