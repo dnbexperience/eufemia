@@ -1,7 +1,8 @@
-import React, { useCallback, useRef, useLayoutEffect } from 'react'
+import React, { useCallback, useRef } from 'react'
 import clsx from 'clsx'
 import { useMenuContext } from './MenuContext'
 import type { MenuListProps } from './types'
+import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
 
 export default function MenuList(props: MenuListProps) {
   const {
@@ -16,7 +17,7 @@ export default function MenuList(props: MenuListProps) {
   const ulRef = useRef<HTMLUListElement>(null)
 
   // Share the <ul> ref with the context so MenuRoot can use it for focusOnOpenElement
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (context?.menuRef) {
       context.menuRef.current = ulRef.current
     }
