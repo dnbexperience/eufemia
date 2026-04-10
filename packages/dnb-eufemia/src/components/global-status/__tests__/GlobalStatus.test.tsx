@@ -39,6 +39,10 @@ const props: GlobalStatusProps = {
 // To be able to test the height animation / cached content
 initializeTestSetup()
 
+beforeEach(() => {
+  window.scrollTo = jest.fn()
+})
+
 describe('GlobalStatus component', () => {
   it('should have a text value as defined in the prop', () => {
     render(<GlobalStatus {...props} />)
@@ -305,8 +309,7 @@ describe('GlobalStatus component', () => {
     ).not.toBeInTheDocument()
   })
 
-  // TODO: Enable this test before releasing v11
-  it.skip('should handle delayed interactions', async () => {
+  it('should handle delayed interactions', async () => {
     const FormField1 = () => {
       const [status, setStatus] = React.useState(null)
       return (
