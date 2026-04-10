@@ -854,10 +854,6 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 - Replace `card_status` with `cardStatus`.
 - Replace `raw_data` with `rawData`.
 
-#### Translations
-
-- Remove translation `PaymentCard.text_card_number` as it's not supported anymore.
-
 #### `cardStatus` property
 
 - Replace value `not_active` with `notActive`.
@@ -866,6 +862,7 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 
 #### Translations
 
+- Remove translation `PaymentCard.text_card_number` as it's not supported anymore.
 - Replace `PaymentCard.text_blocked` with `PaymentCard.textBlocked`.
 - Replace `PaymentCard.text_expired` with `PaymentCard.textExpired`.
 - Replace `PaymentCard.text_not_active` with `PaymentCard.textNotActive`.
@@ -1352,7 +1349,7 @@ In addition to the behavioral changes above, the following properties have been 
 - Remove `on_item_render`. No longer has any other function than each step's `title` property.
 - Remove step item `on_render`. No longer has any other function than the `title` property.
 - Remove `sidebarId`. No longer has any sidebar. If an id is needed, use the `id` property.
-- Remove `step_title_extended`. Only `step_title` is needed.
+- Remove `step_title_extended`. Only `stepTitle` is needed.
 - Replace `is_current` with `isCurrent`.
 - Replace `status_state` with `statusState`.
 - Replace `statusState`'s value `warn` with `warning`.
@@ -1454,7 +1451,6 @@ In addition to the behavioral changes above, the following properties have been 
 - Replace `status_id` with `statusId`.
 - Replace `status_anchor_url` with `statusAnchorUrl`.
 - Replace `status_anchor_label` with `statusAnchorLabel`.
-- Replace `status_id` with `statusId`.
 - Replace `buffer_delay` with `bufferDelay`.
 - Replace `on_close`'s `status_id` with `statusId`.
 - Replace `autoclose` with `autoClose`.
@@ -1584,9 +1580,6 @@ The following functions have been removed from `@dnb/eufemia/shared/helpers`:
 
 - `insertElementBeforeSelection` – Unused helper for inserting DOM elements before a text selection.
 - `convertStatusToStateOnly` – Trivial helper. Replace `convertStatusToStateOnly(status, state)` with `status ? state : null`.
-
-The following functions have been removed from `@dnb/eufemia/shared/helpers`:
-
 - `isEdge` / `IS_EDGE` – Edge is now Chromium-based, making these detections obsolete.
 
 #### Removed HOCs and conversion utilities
@@ -1892,7 +1885,7 @@ The JSX usage (`<Wizard.Provider value={...}>`) remains the same — no changes 
 
 #### Properties
 
-- Replace `filterSubmitData` with rather using the `filterData` in the second event parameter in the `onSubmit` or `onChange` events.
+- Replace `filterSubmitData` by using the `filterData` function in the second event parameter of the `onSubmit` or `onChange` events.
 
 ## SCSS mixin renames
 
