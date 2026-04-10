@@ -1,7 +1,6 @@
 export { default as Root } from './MenuRoot'
 export { default as Button } from './MenuButton'
 export { default as List } from './MenuList'
-export { default as Content } from './MenuList'
 export { default as Action } from './MenuAction'
 export { default as Accordion } from './MenuAccordion'
 export { default as Header } from './MenuHeader'
