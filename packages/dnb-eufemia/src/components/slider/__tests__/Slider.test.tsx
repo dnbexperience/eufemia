@@ -218,12 +218,12 @@ describe('Slider component', () => {
   })
 
   describe('Tooltip', () => {
-    const IS_TEST = (globalThis as any).IS_TEST
+    const IS_TEST = globalThis.IS_TEST
     beforeEach(() => {
-      ;(globalThis as any).IS_TEST = false
+      globalThis.IS_TEST = false
     })
     afterEach(() => {
-      ;(globalThis as any).IS_TEST = IS_TEST
+      globalThis.IS_TEST = IS_TEST
     })
 
     it('shows always a Tooltip when alwaysShowTooltip is true', () => {

@@ -33,7 +33,7 @@ const defaultProps: TooltipAllProps = {
 }
 
 beforeEach(() => {
-  ;(globalThis as any).IS_TEST = false
+  globalThis.IS_TEST = false
 })
 
 describe('Tooltip', () => {

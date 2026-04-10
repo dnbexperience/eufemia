@@ -200,7 +200,7 @@ describe('runCssVersionMismatchWarning', () => {
     const originalEufemia = window.Eufemia
 
     // Remove Eufemia from window
-    delete (window as any).Eufemia
+    delete window.Eufemia
 
     runCssVersionMismatchWarning()
 
@@ -215,6 +215,6 @@ describe('runCssVersionMismatchWarning', () => {
     )
 
     // Restore Eufemia
-    ;(window as any).Eufemia = originalEufemia
+    window.Eufemia = originalEufemia
   })
 })

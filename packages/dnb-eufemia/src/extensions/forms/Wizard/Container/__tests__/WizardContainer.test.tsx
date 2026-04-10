@@ -16,7 +16,7 @@ const matchMedia = new MatchMediaMock()
 
 beforeEach(() => {
   matchMedia.useMediaQuery('(min-width: 60em)')
-  ;(globalThis as any).IS_TEST = true
+  globalThis.IS_TEST = true
 })
 
 function simulateSmallScreen() {

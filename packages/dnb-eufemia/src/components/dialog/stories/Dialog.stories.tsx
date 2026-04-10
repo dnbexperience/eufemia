@@ -20,6 +20,7 @@ import {
 import { ScrollView } from '../../../fragments'
 import Dialog from '../Dialog'
 import type { ButtonOnClick } from '../../button/Button'
+import type { ExtendedMouseEvent } from '../parts/DialogAction'
 import { H2, P, Hr, Flex, ToggleButton } from '../../..'
 import Provider from '../../../shared/Provider'
 import {
@@ -81,7 +82,8 @@ export const DialogConfirm = () => (
             icon={edit}
             iconPosition="left"
             onClick={
-              (({ close }: { close: () => void }) => {
+              // Dialog.Action extends ButtonClickEvent with a close function
+              (({ close }: ExtendedMouseEvent) => {
                 close()
               }) as unknown as ButtonOnClick
             }
@@ -89,7 +91,7 @@ export const DialogConfirm = () => (
           <Button
             text="Jeg godtar"
             onClick={
-              (({ close }: { close: () => void }) => {
+              (({ close }: ExtendedMouseEvent) => {
                 close()
               }) as unknown as ButtonOnClick
             }
@@ -572,6 +574,7 @@ const ModalTriggerExample = () => {
                   </Section>
                 </Dialog>
               )
+              // Dialog.Action extends onClick with a close function
             }) as unknown as ButtonOnClick
           }
         />

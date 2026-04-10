@@ -424,7 +424,7 @@ describe('HeightAnimationInstance', () => {
 
   describe('open', () => {
     beforeEach(() => {
-      ;(globalThis as any).bypassTime = 1
+      globalThis.bypassTime = 1
     })
 
     it('should call getUnknownHeight', () => {
@@ -563,7 +563,7 @@ describe('HeightAnimationInstance', () => {
 
   describe('close', () => {
     beforeEach(() => {
-      ;(globalThis as any).bypassTime = 1
+      globalThis.bypassTime = 1
     })
 
     it('should call setAsClosed when criteria are met', () => {
@@ -818,7 +818,7 @@ describe('HeightAnimationInstance', () => {
 
   describe('canFinish', () => {
     beforeEach(() => {
-      ;(globalThis as any).animationDuration = undefined
+      globalThis.animationDuration = undefined
     })
 
     it('should return true if enough time has passed', () => {
@@ -859,17 +859,17 @@ describe('HeightAnimationInstance', () => {
       inst.setElement(element)
 
       expect(inst.shouldBypassAnimation()).toBe(false)
-      ;(globalThis as any).IS_TEST = true
+      globalThis.IS_TEST = true
 
       expect(inst.shouldBypassAnimation()).toBe(false)
-      ;(globalThis as any).IS_TEST = false
-      ;(globalThis as any).bypassTime = -1
+      globalThis.IS_TEST = false
+      globalThis.bypassTime = -1
 
       expect(inst.shouldBypassAnimation()).toBe(false)
     })
 
     it('should return true when firstTime is not set or bypassTime has not elapsed', () => {
-      ;(globalThis as any).bypassTime = 10
+      globalThis.bypassTime = 10
 
       const inst = new HeightAnimationInstance()
       inst.setElement(element)
@@ -879,7 +879,7 @@ describe('HeightAnimationInstance', () => {
       inst.callAnimationStart() // to set firstTime" with a timestamp
 
       expect(inst.shouldBypassAnimation()).toBe(true)
-      ;(globalThis as any).bypassTime = 0
+      globalThis.bypassTime = 0
 
       inst.callAnimationStart() // to set firstTime" with a timestamp
 

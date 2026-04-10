@@ -243,17 +243,19 @@ const InfinityPagination = ({
           !hasSelectedText() ||
           /button/.test(document.activeElement.tagName)
         ) {
-          let element: Element = e.currentTarget
+          const nextElement = e.currentTarget
+            .nextElementSibling as HTMLElement | null
           onToggleExpanded(item, {
             pageNumber: currentPage,
             onExpanded: () => {
               try {
-                element = element.nextElementSibling
-                setHeight({
-                  element: element as HTMLElement,
-                  expanded: !item.expanded,
-                })
-                ;(element as HTMLElement).focus() // for better ally we set the focus to the new content
+                if (nextElement) {
+                  setHeight({
+                    element: nextElement,
+                    expanded: !item.expanded,
+                  })
+                  nextElement.focus() // for better ally we set the focus to the new content
+                }
               } catch (e) {
                 console.log(e)
               }

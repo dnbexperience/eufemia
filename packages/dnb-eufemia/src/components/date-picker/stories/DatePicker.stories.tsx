@@ -109,10 +109,9 @@ export const DatePickerSandbox = () => (
           { title: 'Set date', date: '2019-11-15' },
           {
             title: 'Relative +3 days',
-            date: ((...args: unknown[]) => {
-              const { date } = args[0] as { date: Date }
+            date: ({ date }) => {
               return date && addDays(date, 3)
-            }) as (...args: unknown[]) => Date,
+            },
           },
         ]}
         right

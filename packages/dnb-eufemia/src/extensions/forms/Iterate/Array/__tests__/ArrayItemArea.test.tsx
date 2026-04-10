@@ -10,13 +10,13 @@ import { simulateAnimationEnd } from '../../../../../components/height-animation
 
 describe('ArrayItemArea', () => {
   beforeEach(() => {
-    ;(globalThis as any).bypassTime = -1
-    ;(globalThis as any).animationDuration = -1
+    globalThis.bypassTime = -1
+    globalThis.animationDuration = -1
   })
 
   afterEach(() => {
-    ;(globalThis as any).bypassTime = undefined
-    ;(globalThis as any).animationDuration = undefined
+    globalThis.bypassTime = undefined
+    globalThis.animationDuration = undefined
   })
 
   it('should call "onAnimationEnd"', () => {

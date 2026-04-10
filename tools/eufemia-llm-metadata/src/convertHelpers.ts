@@ -9,6 +9,23 @@ import type { File } from '@babel/types'
 
 const fm = frontMatter as unknown as typeof import('front-matter').default
 
+/** Shape of parsed MDX frontmatter attributes */
+interface MdxAttributes {
+  title?: string
+  description?: string
+  draft?: boolean | string
+  [key: string]: unknown
+}
+
+/** Shape of a parsed docs entry (e.g. from a Docs object) */
+interface DocsEntry {
+  doc?: string
+  description?: string
+  type?: string | null
+  status?: string | null
+  defaultValue?: unknown
+}
+
 const DEFAULT_PUBLIC_URL =
   process.env.CF_PAGES_URL || 'https://eufemia.dnb.no'
 const REPO_URL = 'https://github.com/dnbexperience/eufemia'
@@ -385,7 +402,7 @@ async function isDraftMdx(file: string) {
   try {
     const src = await fs.readFile(file, 'utf-8')
     const { attributes } = fm(src)
-    const raw = attributes && (attributes as any).draft
+    const raw = attributes && (attributes as MdxAttributes).draft
 
     if (raw === true) {
       return true
@@ -541,8 +558,9 @@ export async function extractTitleFromMdx(mdxFile: string | null) {
     const src = await fs.readFile(mdxFile, 'utf-8')
     const { attributes, body } = fm(src)
 
-    if (attributes && typeof (attributes as any).title === 'string') {
-      return String((attributes as any).title).trim()
+    const attrs = attributes as MdxAttributes
+    if (attrs && typeof attrs.title === 'string') {
+      return String(attrs.title).trim()
     }
     const m = /\n\s*#\s+([^\n]+)\n/.exec(body || src)
 
@@ -662,11 +680,9 @@ export async function extractDescriptionFromMdx(mdxFile: string | null) {
     const src = await fs.readFile(mdxFile, 'utf-8')
     const { attributes } = fm(src)
 
-    if (
-      attributes &&
-      typeof (attributes as any).description === 'string'
-    ) {
-      return String((attributes as any).description).trim()
+    const attrs = attributes as MdxAttributes
+    if (attrs && typeof attrs.description === 'string') {
+      return String(attrs.description).trim()
     }
   } catch {
     // ignore
@@ -878,8 +894,8 @@ async function evaluateTsModule(file: string) {
     '@babel/plugin-transform-modules-commonjs'
   )
   const vm = await import('node:vm')
-  const moduleApi = await import('node:module')
-  const localRequire = (moduleApi as any).createRequire(file)
+  const { default: Module } = await import('node:module')
+  const localRequire = Module.createRequire(file)
 
   let code = await fs.readFile(file, 'utf-8')
   const injection = await buildDocsInjectionPrelude(file, code)
@@ -1048,14 +1064,15 @@ function addDocsFromExport(
     if (!entry || typeof entry !== 'object') {
       continue
     }
-    const normalized: Record<string, any> = {
-      doc: String((entry as any).doc ?? (entry as any).description ?? ''),
-      type: (entry as any).type ?? null,
-      status: (entry as any).status ?? null,
+    const e = entry as DocsEntry
+    const normalized: Record<string, unknown> = {
+      doc: String(e.doc ?? e.description ?? ''),
+      type: e.type ?? null,
+      status: e.status ?? null,
     }
 
     if (Object.hasOwn(entry, 'defaultValue')) {
-      normalized.defaultValue = (entry as any).defaultValue ?? null
+      normalized.defaultValue = e.defaultValue ?? null
     }
 
     if (exportName.includes('Events')) {
@@ -1235,8 +1252,9 @@ export async function convertMdxToMd({
     try {
       const { attributes } = fm(frontmatter)
 
-      if (attributes && typeof (attributes as any).title === 'string') {
-        const title = String((attributes as any).title).trim()
+      const attrs = attributes as MdxAttributes
+      if (attrs && typeof attrs.title === 'string') {
+        const title = String(attrs.title).trim()
         // Check if body already starts with an H1 heading
         const trimmedBody = outputBody.trim()
         const startsWithHeading = /^#\s+/.test(trimmedBody)

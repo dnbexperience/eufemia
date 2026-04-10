@@ -754,9 +754,7 @@ export function UpdateData() {
 
   const onFilterChange = ({ value, data }: DrawerListChangeEvent) => {
     setValue(value)
-    const selectedKey = (data as Record<string, unknown>)?.selectedKey as
-      | string
-      | undefined
+    const selectedKey = data?.selectedKey
     if (selectedKey === 'key_1' || selectedKey === 'key_2') {
       setFiltersToShow(filter2ToShow)
       setValue(null)

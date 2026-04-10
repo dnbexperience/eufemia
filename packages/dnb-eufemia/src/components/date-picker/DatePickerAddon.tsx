@@ -8,11 +8,17 @@ import { convertStringToDate } from './DatePickerCalc'
 import Button from '../button/Button'
 import DatePickerContext from './DatePickerContext'
 
+export type DatePickerShortcutDates = {
+  date: Date
+  startDate: Date
+  endDate: Date
+}
+
 export type DatePickerShortcut = {
   title?: string
-  date?: string | Date | ((...args: unknown[]) => Date)
-  startDate?: string | Date | ((...args: unknown[]) => Date)
-  endDate?: string | Date | ((...args: unknown[]) => Date)
+  date?: string | Date | ((dates: DatePickerShortcutDates) => Date)
+  startDate?: string | Date | ((dates: DatePickerShortcutDates) => Date)
+  endDate?: string | Date | ((dates: DatePickerShortcutDates) => Date)
   closeOnSelect?: boolean
 }
 

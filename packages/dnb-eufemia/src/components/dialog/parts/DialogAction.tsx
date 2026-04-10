@@ -10,7 +10,7 @@ import { dispatchCustomElementEvent } from '../../../shared/component-helper'
 import type { SpacingProps } from '../../../shared/types'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 
-type ExtendedMouseEvent = {
+export type ExtendedMouseEvent = {
   event: React.MouseEvent<HTMLElement>
   close: () => void
 }

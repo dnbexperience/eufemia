@@ -14,8 +14,9 @@ import DialogContent from '../../dialog/DialogContent'
 import * as helpers from '../../../shared/helpers'
 import userEvent from '@testing-library/user-event'
 import ModalHeaderBar from '../parts/ModalHeaderBar'
-;(global as any).userAgent = jest.spyOn(navigator, 'userAgent', 'get')
-;(global as any).appVersion = jest.spyOn(navigator, 'appVersion', 'get')
+
+const userAgentMock = jest.spyOn(navigator, 'userAgent', 'get')
+const appVersionMock = jest.spyOn(navigator, 'appVersion', 'get')
 
 const props: ModalProps = {
   title: 'modal_title',
@@ -1210,8 +1211,8 @@ describe('Modal component', () => {
     )
     const elem = document.querySelector('button')
 
-    ;(global as any).userAgent.mockReturnValue('iPhone OS 12')
-    ;(global as any).appVersion.mockReturnValue('OS 12_0_0')
+    userAgentMock.mockReturnValue('iPhone OS 12')
+    appVersionMock.mockReturnValue('OS 12_0_0')
 
     const addEventListener = jest
       .spyOn(document, 'addEventListener')
@@ -1273,7 +1274,7 @@ describe('Modal component', () => {
     )
     const elem = document.querySelector('button')
 
-    ;(global as any).userAgent.mockReturnValue('Android; 7.')
+    userAgentMock.mockReturnValue('Android; 7.')
 
     expect(document.body).not.toHaveAttribute('style')
 

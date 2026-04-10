@@ -865,9 +865,9 @@ export const AsyncSearchExample = () => {
   }: AutocompleteOnTypeParams) => {
     showIndicator()
     debounce(
-      ((props: Record<string, unknown>) => {
-        const { value } = props as { value: string }
-        let newData = []
+      (...args: unknown[]) => {
+        const { value } = (args[0] || {}) as { value: string }
+        let newData: Array<{ content: string }> = []
         if (value.toLowerCase() === 'a') {
           newData = dataA
         } else if (value.toLowerCase() === 'b') {
@@ -880,7 +880,7 @@ export const AsyncSearchExample = () => {
           hideIndicator()
         }, 600)
         return () => clearTimeout(timeout)
-      }) as (...args: unknown[]) => void,
+      },
       { value },
       150
     )

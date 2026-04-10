@@ -68,9 +68,7 @@ export const DatePickerRange = () => (
         },
         {
           title: 'Relative +3 days',
-          // @ts-expect-error -- strictFunctionTypes
           startDate: ({ startDate }) => startDate || new Date(),
-          // @ts-expect-error -- strictFunctionTypes
           endDate: ({ endDate }) => addDays(endDate || new Date(), 3),
         },
       ]}
@@ -233,7 +231,6 @@ export const DatePickerDateFns = () => (
         { title: 'Set date', date: '1969-07-15' },
         {
           title: 'Relative +3 days',
-          // @ts-expect-error -- strictFunctionTypes
           date: ({ date }) => date && addDays(date, 3),
         },
       ]}

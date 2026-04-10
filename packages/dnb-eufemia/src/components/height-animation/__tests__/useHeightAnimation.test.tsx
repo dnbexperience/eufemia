@@ -179,7 +179,7 @@ describe('useHeightAnimation', () => {
   })
 
   it('should not animate when globalThis.IS_TEST is true', () => {
-    ;(globalThis as any).IS_TEST = true
+    globalThis.IS_TEST = true
 
     const { rerender } = render(<MockComponent />)
 
@@ -228,7 +228,7 @@ describe('useHeightAnimation', () => {
   })
 
   it('should call onAnimationEnd on open', () => {
-    ;(globalThis as any).IS_TEST = undefined
+    globalThis.IS_TEST = undefined
 
     const onAnimationEnd = jest.fn()
     const current: HTMLDivElement = document.createElement('div')
@@ -250,7 +250,7 @@ describe('useHeightAnimation', () => {
   })
 
   it('should call onAnimationEnd on close', () => {
-    ;(globalThis as any).IS_TEST = undefined
+    globalThis.IS_TEST = undefined
 
     const onAnimationEnd = jest.fn()
     const current: HTMLDivElement = document.createElement('div')

@@ -403,7 +403,7 @@ describe('Anchor element', () => {
   })
 
   it('should show tooltip on mouseover', () => {
-    ;(globalThis as any).IS_TEST = true
+    globalThis.IS_TEST = true
 
     render(
       <Anchor href="/url" id="unique-id" tooltip="Tooltip">
@@ -418,7 +418,7 @@ describe('Anchor element', () => {
       document.querySelector('#unique-id-tooltip.dnb-tooltip__content')
         .parentElement.classList
     ).toContain('dnb-tooltip--active')
-    ;(globalThis as any).IS_TEST = false
+    globalThis.IS_TEST = false
   })
 
   it('has "--was-node" class when child was not a string', () => {

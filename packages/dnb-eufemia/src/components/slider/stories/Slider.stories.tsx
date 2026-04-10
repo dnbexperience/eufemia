@@ -93,7 +93,9 @@ export function NegativeValues() {
         tooltip
         onChange={({ value, number }) => {
           console.log('onChange:', value, number)
-          setValue(value as Array<number>)
+          if (Array.isArray(value)) {
+            setValue(value)
+          }
         }}
       />
       <code>{value.join(' | ')}</code>
@@ -120,7 +122,9 @@ export function MultiButtons() {
           numberFormat={(value) => format(value, { currency: 'USD' })}
           tooltip
           onChange={({ value, number }) => {
-            setValue(value as Array<number>)
+            if (Array.isArray(value)) {
+              setValue(value)
+            }
           }}
         />
         <code>{value.join(' | ')}</code>

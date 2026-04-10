@@ -1350,7 +1350,7 @@ describe('FieldBlock', () => {
       })
 
       it('should disable animation when globalThis.IS_TEST is true', () => {
-        ;(globalThis as any).IS_TEST = true
+        globalThis.IS_TEST = true
 
         const { rerender } = render(<FieldBlock>content</FieldBlock>)
 
