@@ -5,15 +5,8 @@ import type { MenuListProps } from './types'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
 
 export default function MenuList(props: MenuListProps) {
-  const {
-    children,
-    className,
-    maxVisibleListItems,
-    style,
-    'aria-label': ariaLabel,
-    'aria-labelledby': ariaLabelledBy,
-    ...rest
-  } = props
+  const { children, className, maxVisibleListItems, style, ...rest } =
+    props
 
   const context = useMenuContext()
   const ulRef = useRef<HTMLUListElement>(null)
@@ -207,8 +200,6 @@ export default function MenuList(props: MenuListProps) {
       tabIndex={-1}
       className={clsx('dnb-menu__list', 'dnb-no-focus', className)}
       style={Object.keys(listStyle).length > 0 ? listStyle : undefined}
-      aria-label={ariaLabel}
-      aria-labelledby={ariaLabelledBy}
       onKeyDown={handleKeyDown}
       {...rest}
     >
