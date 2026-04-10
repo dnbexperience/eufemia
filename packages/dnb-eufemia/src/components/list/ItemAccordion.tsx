@@ -84,7 +84,7 @@ function ItemAccordion(props: ItemAccordionProps) {
   const accordionId = useId(idProp)
   const inheritedDisabled = useContext(ListContext)?.disabled
   const appliedDisabled = disabled ?? inheritedDisabled
-  const childArray = React.Children.toArray(children)
+  const childArray = Array.isArray(children) ? children : [children]
   const hasExplicitHeader = childArray.some(
     (child) =>
       React.isValidElement(child) && child.type === AccordionHeader
