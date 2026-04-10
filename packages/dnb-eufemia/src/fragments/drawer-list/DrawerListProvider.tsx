@@ -994,7 +994,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       }
 
       if (propsRef.current.noAnimation) {
-        if (process?.env.NODE_ENV === 'test') {
+        if (process.env.NODE_ENV === 'test') {
           animationDelayHandler()
         } else {
           clearTimeout(showTimeoutRef.current)
