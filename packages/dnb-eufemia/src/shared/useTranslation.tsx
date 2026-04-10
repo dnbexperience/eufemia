@@ -178,15 +178,15 @@ function mergeMissingKeys<T extends Record<string, unknown>>(
   target: TranslationFlatToObject<T>,
   source: T
 ): { result: TranslationFlatToObject<T>; hasMissing: boolean } {
-  const resultLocal = {
+  const resultLocal: Record<string, unknown> = {
     ...(target as Record<string, unknown>),
   }
   let hasMissing = false
 
-  const keys = Object.keys(source as Record<string, unknown>)
+  const keys = Object.keys(source)
   for (const key of keys) {
-    const sourceValue = (source as Record<string, unknown>)[key]
-    const targetValue = (resultLocal as Record<string, unknown>)[key]
+    const sourceValue = source[key]
+    const targetValue = resultLocal[key]
 
     if (isObject(sourceValue)) {
       if (!targetValue) {
@@ -200,8 +200,7 @@ function mergeMissingKeys<T extends Record<string, unknown>>(
           targetValue as TranslationFlatToObject<Record<string, unknown>>,
           sourceValue as Record<string, unknown>
         )
-        ;(resultLocal as Record<string, unknown>)[key] =
-          nested.result as Record<string, unknown>
+        resultLocal[key] = nested.result
         if (nested.hasMissing) {
           hasMissing = true
         }

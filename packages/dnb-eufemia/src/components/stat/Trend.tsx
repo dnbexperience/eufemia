@@ -104,11 +104,13 @@ function getValueFromChildren(children: React.ReactNode): number | string {
     return children
   }
 
-  if (React.isValidElement(children)) {
-    const childProps = children.props as {
+  if (
+    React.isValidElement<{
       value?: number | string
       children?: React.ReactNode
-    }
+    }>(children)
+  ) {
+    const childProps = children.props
 
     if (
       typeof childProps?.value === 'number' ||

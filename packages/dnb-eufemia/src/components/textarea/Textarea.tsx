@@ -240,9 +240,9 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     textareaDefaultProps,
     { skeleton: context?.skeleton },
     (context.getTranslation(ownProps) as Record<string, unknown>)
-      ?.Textarea as Record<string, unknown>,
+      ?.Textarea,
     pickFormElementProps(context?.formElement),
-    context?.Textarea as Record<string, unknown>
+    context?.Textarea
   )
 
   const {

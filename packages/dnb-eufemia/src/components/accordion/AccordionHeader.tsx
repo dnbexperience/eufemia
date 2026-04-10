@@ -233,7 +233,7 @@ export const AccordionHeader = ({
   const extendedProps = extendPropsWithContext(
     props,
     accordionHeaderDefaultProps,
-    context as Record<string, unknown>
+    context
   )
 
   const {

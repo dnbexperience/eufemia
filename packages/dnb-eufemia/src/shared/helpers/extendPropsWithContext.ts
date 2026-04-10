@@ -1,5 +1,12 @@
 export type DefaultsProps = Record<string, unknown>
-export type Contexts = Array<Record<string, unknown>>
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export type ContextValue =
+  | Record<string, unknown>
+  | {}
+  | undefined
+  | null
+  | false
+export type Contexts = Array<ContextValue>
 
 /**
  * Overrides default props with values from context.

@@ -191,7 +191,7 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
       const data = event.data
       const newValue =
         data && typeof data === 'object' && 'selectedKey' in data
-          ? (data as { selectedKey: string }).selectedKey
+          ? String(data.selectedKey)
           : undefined
       const currency = getCurrencyObjectByIso(newValue)
       if (currency?.iso) {

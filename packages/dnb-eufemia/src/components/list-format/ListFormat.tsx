@@ -185,21 +185,20 @@ export function listFormat(
 function replaceRootFragment(
   children: React.ReactNode
 ): React.ReactNode[] | React.ReactNode {
-  if (React.isValidElement(children) && children.type === Fragment) {
-    return React.Children.toArray(
-      (children.props as { children?: React.ReactNode }).children
-    )
+  if (
+    React.isValidElement<{ children?: React.ReactNode }>(children) &&
+    children.type === Fragment
+  ) {
+    return React.Children.toArray(children.props.children)
   }
   if (Array.isArray(children)) {
     const firstChild = children[0]
     if (
       React.Children.count(children) === 1 &&
-      React.isValidElement(firstChild) &&
+      React.isValidElement<{ children?: React.ReactNode }>(firstChild) &&
       firstChild.type === Fragment
     ) {
-      return React.Children.toArray(
-        (firstChild.props as { children?: React.ReactNode }).children
-      )
+      return React.Children.toArray(firstChild.props.children)
     }
     return children
   }

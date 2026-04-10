@@ -287,12 +287,10 @@ function replaceRootFragment(children: React.ReactNode[]) {
   const firstChild = children[0]
   if (
     React.Children.count(children) === 1 &&
-    React.isValidElement(firstChild) &&
+    React.isValidElement<{ children?: React.ReactNode }>(firstChild) &&
     firstChild?.type === Fragment
   ) {
-    return React.Children.toArray(
-      (firstChild.props as { children?: React.ReactNode }).children
-    )
+    return React.Children.toArray(firstChild.props.children)
   }
   return children
 }

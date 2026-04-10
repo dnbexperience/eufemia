@@ -361,6 +361,7 @@ function NumberComponent(props: FieldNumberProps) {
   const { handleSubmit } = dataContext ?? {}
   const onKeyDownHandler = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
+      // InputMasked wraps onKeyDown to pass { event, value } instead of raw event
       const { event } = e as unknown as {
         event: React.KeyboardEvent<HTMLInputElement>
       }

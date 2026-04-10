@@ -49,8 +49,7 @@ export default function useTranslation<T = FormsTranslation>(
     const arg = messagesOrArgs as UseTranslationArgs<T>
     if (
       isObject(messagesOrArgs) &&
-      ('messages' in (messagesOrArgs as Record<string, unknown>) ||
-        'fallbackLocale' in (messagesOrArgs as Record<string, unknown>))
+      ('messages' in messagesOrArgs || 'fallbackLocale' in messagesOrArgs)
     ) {
       return {
         messages: arg?.messages as

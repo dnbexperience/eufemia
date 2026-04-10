@@ -307,7 +307,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   const contextProps = extendExistingPropsWithContext(
     resolvedProps,
     radioDefaultProps,
-    groupContext as Record<string, unknown>
+    groupContext
   )
 
   // use only the props from context, who are available here anyway

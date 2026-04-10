@@ -370,15 +370,14 @@ function combineAriaBy(type: string, params: unknown[]) {
       if (Array.isArray(cur)) {
         return cur.join(' ')
       }
-      if (
-        cur &&
-        typeof cur === 'object' &&
-        (cur as Record<string, unknown>)[type] !== undefined
-      ) {
-        if (params.includes((cur as Record<string, unknown>)[type])) {
-          return null
+      if (cur && typeof cur === 'object') {
+        const obj = cur as Record<string, unknown>
+        if (obj[type] !== undefined) {
+          if (params.includes(obj[type])) {
+            return null
+          }
+          return obj[type] as string
         }
-        return (cur as Record<string, unknown>)[type] as string
       }
       if (typeof cur !== 'string') {
         return null

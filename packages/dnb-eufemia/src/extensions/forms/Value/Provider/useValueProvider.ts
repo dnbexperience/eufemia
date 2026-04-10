@@ -28,10 +28,7 @@ function useValueProvider(props?: Omit<ValueProviderProps, 'children'>) {
 
       const value =
         Object.keys(nestedValueProps).length > 0
-          ? assignPropsWithContext(
-              props,
-              nestedValueProps as Record<string, unknown>
-            )
+          ? assignPropsWithContext(props, nestedValueProps)
           : props
 
       return value as T

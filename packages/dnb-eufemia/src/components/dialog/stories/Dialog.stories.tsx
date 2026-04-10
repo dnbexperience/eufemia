@@ -19,8 +19,8 @@ import {
 } from '../..'
 import { ScrollView } from '../../../fragments'
 import Dialog from '../Dialog'
-import type { ButtonOnClick } from '../../button/Button'
 import type { ExtendedMouseEvent } from '../parts/DialogAction'
+import type { ButtonOnClick, ButtonClickEvent } from '../../button/Button'
 import { H2, P, Hr, Flex, ToggleButton } from '../../..'
 import Provider from '../../../shared/Provider'
 import {
@@ -553,30 +553,23 @@ const ModalTriggerExample = () => {
         <Button
           id="custom-triggerer"
           text="Custom trigger Button"
-          onClick={
-            ((e: React.MouseEvent<HTMLButtonElement>) => {
-              return (
-                <Dialog
-                  title="Modal Title"
-                  triggerAttributes={{
-                    hidden: true,
-                  }}
-                  open={true}
-                  labelledBy="custom-triggerer"
-                >
-                  <Section
-                    innerSpace={{ block: 'large' }}
-                    variant="divider"
-                  >
-                    <P>
-                      This Modal was opened by a custom trigger button.
-                    </P>
-                  </Section>
-                </Dialog>
-              )
-              // Dialog.Action extends onClick with a close function
-            }) as unknown as ButtonOnClick
-          }
+          onClick={(_e: ButtonClickEvent) => {
+            return (
+              <Dialog
+                title="Modal Title"
+                triggerAttributes={{
+                  hidden: true,
+                }}
+                open={true}
+                labelledBy="custom-triggerer"
+              >
+                <Section innerSpace={{ block: 'large' }} variant="divider">
+                  <P>This Modal was opened by a custom trigger button.</P>
+                </Section>
+              </Dialog>
+            )
+            // Dialog.Action extends onClick with a close function
+          }}
         />
         {count}
       </Flex.Horizontal>

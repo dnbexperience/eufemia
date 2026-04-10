@@ -360,8 +360,8 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
   const props = extendExistingPropsWithContext(
     propsWithDefaults,
     numberFormatDefaultProps,
-    translations as Record<string, unknown>,
-    context?.NumberFormat as Record<string, unknown>
+    translations,
+    context?.NumberFormat
   )
 
   const {

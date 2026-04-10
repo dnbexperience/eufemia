@@ -479,15 +479,11 @@ export function countOptions(children: React.ReactNode): number {
   let count = 0
 
   React.Children.forEach(children, (child) => {
-    if (React.isValidElement(child)) {
+    if (React.isValidElement<{ children?: React.ReactNode }>(child)) {
       if (child.type === OptionField) {
         count++
-      } else if (
-        (child.props as { children?: React.ReactNode }).children
-      ) {
-        count += countOptions(
-          (child.props as { children?: React.ReactNode }).children
-        )
+      } else if (child.props.children) {
+        count += countOptions(child.props.children)
       }
     }
   })

@@ -216,7 +216,5 @@ export function isSupportedCountryCode(
   if (!countryCode) {
     return false
   }
-  return (supportedCountryCodes as unknown as Array<string>).includes(
-    String(countryCode).toUpperCase()
-  )
+  return supportedCountryCodes.includes(String(countryCode).toUpperCase())
 }

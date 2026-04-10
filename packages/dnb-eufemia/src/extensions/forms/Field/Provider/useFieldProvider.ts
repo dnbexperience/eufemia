@@ -96,11 +96,7 @@ function useFieldProvider(props?: Omit<FieldProviderProps, 'children'>) {
       const value =
         typeof required !== 'undefined' ||
         Object.keys(nestedFieldProps).length > 0
-          ? assignPropsWithContext(
-              props,
-              { required },
-              nestedFieldProps as Record<string, unknown>
-            )
+          ? assignPropsWithContext(props, { required }, nestedFieldProps)
           : props
 
       return value as T

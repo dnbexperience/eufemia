@@ -6,6 +6,18 @@ import { warn } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatRootContext from './StatRootContext'
 
+type StatSubComponent = { _statRole?: 'label' | 'content' }
+
+function getStatRole(
+  child: React.ReactElement
+): 'label' | 'content' | undefined {
+  return (child.type as StatSubComponent)?._statRole
+}
+
+function getFragmentChildren(child: React.ReactElement): React.ReactNode {
+  return (child.props as { children?: React.ReactNode }).children
+}
+
 type RootOwnProps = {
   visualOrder?: 'label-content' | 'content-label'
   skeleton?: SkeletonShow
@@ -73,7 +85,7 @@ function hasOnlySupportedChildren(children: React.ReactNode): boolean {
 }
 
 function isSupportedChild(child: React.ReactNode): boolean {
-  if (!React.isValidElement<Record<string, unknown>>(child)) {
+  if (!React.isValidElement(child)) {
     // allow null/boolean and whitespace-only text nodes
     if (typeof child === 'string') {
       return child.trim().length === 0
@@ -82,13 +94,10 @@ function isSupportedChild(child: React.ReactNode): boolean {
   }
 
   if (child.type === React.Fragment) {
-    return hasOnlySupportedChildren(
-      (child as React.ReactElement<Record<string, unknown>>).props
-        .children as React.ReactNode
-    )
+    return hasOnlySupportedChildren(getFragmentChildren(child))
   }
 
-  const role = (child.type as { _statRole?: string })?._statRole
+  const role = getStatRole(child)
   return role === 'label' || role === 'content'
 }
 
@@ -99,18 +108,15 @@ function hasRequiredLabel(children: React.ReactNode): boolean {
 }
 
 function hasLabelChild(child: React.ReactNode): boolean {
-  if (!React.isValidElement<Record<string, unknown>>(child)) {
+  if (!React.isValidElement(child)) {
     return false
   }
 
   if (child.type === React.Fragment) {
-    return hasRequiredLabel(
-      (child as React.ReactElement<Record<string, unknown>>).props
-        .children as React.ReactNode
-    )
+    return hasRequiredLabel(getFragmentChildren(child))
   }
 
-  const role = (child.type as { _statRole?: string })?._statRole
+  const role = getStatRole(child)
   return role === 'label'
 }
 
@@ -120,21 +126,16 @@ function flattenRoles(
   const roles: Array<'label' | 'content'> = []
 
   for (const child of React.Children.toArray(children)) {
-    if (!React.isValidElement<Record<string, unknown>>(child)) {
+    if (!React.isValidElement(child)) {
       continue
     }
 
     if (child.type === React.Fragment) {
-      roles.push(
-        ...flattenRoles(
-          (child as React.ReactElement<Record<string, unknown>>).props
-            .children as React.ReactNode
-        )
-      )
+      roles.push(...flattenRoles(getFragmentChildren(child)))
       continue
     }
 
-    const role = (child.type as { _statRole?: string })?._statRole
+    const role = getStatRole(child)
     if (role === 'label' || role === 'content') {
       roles.push(role)
     }

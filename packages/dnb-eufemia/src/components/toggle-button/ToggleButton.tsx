@@ -237,7 +237,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
   const contextProps = extendExistingPropsWithContext(
     resolvedProps,
     toggleButtonDefaultProps,
-    groupContext as Record<string, unknown>
+    groupContext
   )
 
   // use only the props from context, who are available here anyway
@@ -247,8 +247,8 @@ function ToggleButton(ownProps: ToggleButtonProps) {
     contextProps,
     (context.translation as Record<string, unknown>)
       ?.ToggleButton as Record<string, unknown>,
-    pickFormElementProps(context.formElement as Record<string, unknown>),
-    (context as Record<string, unknown>).ToggleButton as Record<
+    pickFormElementProps(context.formElement),
+    (context as Record<string, unknown>)?.ToggleButton as Record<
       string,
       unknown
     >

@@ -1,8 +1,9 @@
 import { reduceContext } from './extendPropsWithContext'
+import type { Contexts } from './extendPropsWithContext'
 
 export function assignPropsWithContext<Props>(
   props: Props,
-  ...contexts: Array<Record<string, unknown>>
+  ...contexts: Contexts
 ) {
   props = Object.isFrozen(props) ? { ...props } : props
   const context = reduceContext(contexts)

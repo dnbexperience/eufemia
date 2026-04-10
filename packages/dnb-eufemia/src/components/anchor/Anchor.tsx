@@ -299,22 +299,19 @@ function getIcon(icon: IconIcon) {
 }
 
 export function pickIcon(icon: IconIcon, className?: string) {
-  if (React.isValidElement(icon)) {
-    const element = icon as unknown as React.ReactElement<
-      Record<string, unknown>
-    >
+  if (React.isValidElement<Record<string, unknown>>(icon)) {
     if (
-      element.props?.icon ||
-      (typeof element.props?.className === 'string' &&
-        element.props.className.includes('dnb-icon'))
+      icon.props?.icon ||
+      (typeof icon.props?.className === 'string' &&
+        icon.props.className.includes('dnb-icon'))
     ) {
       return React.createElement(
-        element.type as React.ComponentType<Record<string, unknown>>,
+        icon.type as React.ComponentType<Record<string, unknown>>,
         {
-          ...element.props,
+          ...icon.props,
           key: 'button-icon-clone',
           className: clsx(
-            element.props?.className as string | undefined,
+            icon.props?.className as string | undefined,
             className
           ),
         }
