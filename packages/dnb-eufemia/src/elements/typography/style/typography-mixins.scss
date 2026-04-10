@@ -377,3 +377,24 @@
     }
   }
 }
+
+@mixin typographyStyle() {
+  color: var(--token-color-text-neutral, currentColor);
+}
+
+$useClasses: true !default;
+@if $useClasses {
+  .dnb-p {
+    @include typographyStyle();
+  }
+}
+
+@mixin typographyThemeTag() {
+  @include typography.headingTags() {
+    @include typographyStyle();
+  }
+
+  p {
+    @include typographyStyle();
+  }
+}

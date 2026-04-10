@@ -92,6 +92,8 @@ sub {
 // Paragraphs
 .dnb-p {
   @include typography-mixins.paragraphStyle();
+
+  color: var(--token-color-text-neutral, currentColor);
 }
 
 @include meta.load-css('dnb-t');
