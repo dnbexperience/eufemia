@@ -481,6 +481,34 @@ describe('Field.PhoneNumber', () => {
     )
   })
 
+  it('should handle value of "+47" without phone number', () => {
+    render(<Field.PhoneNumber value="+47" />)
+
+    const codeElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    ) as HTMLInputElement
+    const numberElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    ) as HTMLInputElement
+
+    expect(codeElement.value).toBe('NO (+47)')
+    expect(numberElement.value).toBe('')
+  })
+
+  it('should auto-detect +47 from value "+470"', () => {
+    render(<Field.PhoneNumber value="+470" />)
+
+    const codeElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    ) as HTMLInputElement
+    const numberElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    ) as HTMLInputElement
+
+    expect(codeElement.value).toBe('NO (+47)')
+    expect(numberElement.value).toContain('0')
+  })
+
   it('should only have a placeholder when +47 is given', async () => {
     const { rerender } = render(<Field.PhoneNumber />)
 

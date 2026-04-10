@@ -600,12 +600,12 @@ function formatCountryCode(value: string) {
 
 function splitValue(value: string) {
   if (typeof value !== 'string') {
-    return ['', '']
+    return [undefined, '']
   }
 
   // When a space separates the country code and the phone number, split on it
-  const spaceIndex = value.indexOf(' ')
-  if (spaceIndex !== -1) {
+  if (value.startsWith('+') && value.includes(' ')) {
+    const spaceIndex = value.indexOf(' ')
     return [value.slice(0, spaceIndex), value.slice(spaceIndex + 1)]
   }
 
@@ -619,7 +619,7 @@ function splitValue(value: string) {
     return [value, '']
   }
 
-  return ['', value]
+  return [undefined, value]
 }
 
 function joinValue(array: Array<string>) {
