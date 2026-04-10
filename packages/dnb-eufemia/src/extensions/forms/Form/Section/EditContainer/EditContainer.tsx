@@ -60,9 +60,10 @@ function EditContainer(props: FormSectionEditContainerAllProps) {
     ]
   )
 
-  const hasToolbar = React.Children.toArray(children).some((child) => {
-    return child?.['type'] === Toolbar
-  })
+  const childArray = Array.isArray(children) ? children : [children]
+  const hasToolbar = childArray.some(
+    (child) => React.isValidElement(child) && child.type === Toolbar
+  )
 
   return (
     <FieldBoundaryProvider
