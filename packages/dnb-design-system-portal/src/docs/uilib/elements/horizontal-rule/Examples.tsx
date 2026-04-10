@@ -8,7 +8,7 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Hr } from '@dnb/eufemia/src'
 
 export const HorizontalRuleDefaultExample = () => (
-  <ComponentBox background="white" hideCode data-visual-test="hr-default">
+  <ComponentBox background="plain" hideCode data-visual-test="hr-default">
     Something
     <Hr space={{ top: '0.5rem', bottom: '0.5rem' }} />
     Something
@@ -16,7 +16,7 @@ export const HorizontalRuleDefaultExample = () => (
 )
 
 export const HorizontalRuleBreakoutExample = () => (
-  <ComponentBox background="white" hideCode data-visual-test="hr-breakout">
+  <ComponentBox background="plain" hideCode data-visual-test="hr-breakout">
     Something
     <Hr breakout space={{ top: '0.5rem', bottom: '0.5rem' }} />
     Something
@@ -24,7 +24,7 @@ export const HorizontalRuleBreakoutExample = () => (
 )
 
 export const HorizontalRuleDashedExample = () => (
-  <ComponentBox background="white" hideCode data-visual-test="hr-dashed">
+  <ComponentBox background="plain" hideCode data-visual-test="hr-dashed">
     Something
     <Hr dashed space={{ top: '0.5rem', bottom: '0.5rem' }} />
     Something

@@ -10,7 +10,7 @@ jest.mock('../CodeBlock.module.scss', () => ({
   liveCodeEditorStyle: 'liveCodeEditorStyle',
   toolbarStyle: 'toolbarStyle',
   codeBlockStyle: 'codeBlockStyle',
-  whiteBackgroundStyle: 'whiteBackgroundStyle',
+  plainBackgroundStyle: 'plainBackgroundStyle',
 }))
 
 // Mock prism theme

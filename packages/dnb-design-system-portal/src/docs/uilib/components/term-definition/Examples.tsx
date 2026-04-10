@@ -7,7 +7,7 @@ export function TermDefinitionBasic() {
   return (
     <ComponentBox
       data-visual-test="term-definition-basic"
-      background="white"
+      background="plain"
       hideCode
     >
       <P>
@@ -25,7 +25,7 @@ export function TermDefinitionLead() {
   return (
     <ComponentBox
       data-visual-test="term-definition-typography"
-      background="white"
+      background="plain"
     >
       <Lead>
         As a lead with{' '}
