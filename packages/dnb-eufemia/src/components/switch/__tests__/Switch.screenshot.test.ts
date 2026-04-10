@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe.each(['ui', 'sbanken'])(
+describe.each(['ui', 'sbanken', 'carnegie'])(
   'Unchecked Switch for %s',
   (themeName) => {
     setupPageScreenshot({
