@@ -735,20 +735,23 @@ New props added:
 - The deprecated `onStateUpdate` prop has been removed. Use `onChange` instead.
 - The deprecated `attributes` prop has been removed. Use spread props instead.
 - Replace `expandBehaviour` with `expandBehavior`.
-- Replace `on_state_update` with `onStateUpdate`.
 - Replace `expanded_ssr` with `expandedSsr`.
 - Replace `heading_level` with `headingLevel`.
 - Replace `icon_size` with `iconSize`.
 - Replace `single_container` with `singleContainer`.
 - Replace `left_component` with `leftComponent`.
 - Replace `flush_remembered_state` with `flushRememberedState`.
-- Replace `on_change` with `onChange`.
 - Replace `icon_position` with `iconPosition`.
 - Replace `prevent_rerender_conditional` with `preventRerenderConditional`.
 - Replace `remember_state` with `rememberState`.
 - Replace `prevent_rerender` with `preventRerender`.
 - Replace `no_animation` with `noAnimation`.
 - Replace `prerender` with `keepInDOM`.
+
+#### Events
+
+- Replace `on_change` with `onChange`.
+- Replace `on_state_update` with `onStateUpdate`.
 
 ### [Accordion.Group](/uilib/components/accordion/)
 
@@ -784,15 +787,15 @@ New props added:
 
 ### [P](/uilib/elements/paragraph/)
 
-- Replace class `.dnb-p--medium` with `.dnb-t__weight--medium`
-- Replace class `.dnb-p--bold` with `.dnb-t__weight--bold`
-- Replace class `.dnb-p__size--xx-large` with `.dnb-t__size--xx-large` and `.dnb-t__line-height--xx-large`
-- Replace class `.dnb-p__size--x-large` with `.dnb-t__size--x-large` and `.dnb-t__line-height--x-large`
-- Replace class `.dnb-p__size--large` with `.dnb-t__size--large` and `.dnb-t__line-height--large`
-- Replace class `.dnb-p__size--basis` with `.dnb-t__size--basis` and `.dnb-t__line-height--basis`
-- Replace class `.dnb-p__size--medium` with `.dnb-t__size--medium` and `.dnb-t__line-height--medium`
-- Replace class `.dnb-p--small` or `.dnb-p__size--small` with `.dnb-t__size--small` and `.dnb-t__line-height--small`
-- Replace class `.dnb-p--x-small` or `.dnb-p__size--x-small` with `.dnb-t__size--x-small` and `.dnb-t__line-height--x-small`
+- Replace class `.dnb-p--medium` with `.dnb-t__weight--medium`.
+- Replace class `.dnb-p--bold` with `.dnb-t__weight--bold`.
+- Replace class `.dnb-p__size--xx-large` with `.dnb-t__size--xx-large` and `.dnb-t__line-height--xx-large`.
+- Replace class `.dnb-p__size--x-large` with `.dnb-t__size--x-large` and `.dnb-t__line-height--x-large`.
+- Replace class `.dnb-p__size--large` with `.dnb-t__size--large` and `.dnb-t__line-height--large`.
+- Replace class `.dnb-p__size--basis` with `.dnb-t__size--basis` and `.dnb-t__line-height--basis`.
+- Replace class `.dnb-p__size--medium` with `.dnb-t__size--medium` and `.dnb-t__line-height--medium`.
+- Replace class `.dnb-p--small` or `.dnb-p__size--small` with `.dnb-t__size--small` and `.dnb-t__line-height--small`.
+- Replace class `.dnb-p--x-small` or `.dnb-p__size--x-small` with `.dnb-t__size--x-small` and `.dnb-t__line-height--x-small`.
 
 #### Properties
 
@@ -905,8 +908,11 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 - Replace `statusState`'s value `warn` with `warning`.
 - Replace `status_props` with `statusProps`.
 - Replace `status_no_animation` with `statusNoAnimation`.
-- Replace `on_change` with `onChange`.
 - Replace `children` with `label`.
+
+#### Events
+
+- Replace `on_change` with `onChange`.
 
 #### TypeScript types
 
@@ -923,10 +929,13 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 - Replace `status_state` with `statusState`.
 - Replace `statusState`'s value `warn` with `warning`.
 - Replace `status_props` with `statusProps`.
+- Replace `status_no_animation` with `statusNoAnimation`.
+
+#### Events
+
 - Replace `on_change` with `onChange`.
 - Replace `on_change_end` with `onChangeEnd`.
 - Replace `on_state_update` with `onStateUpdate`.
-- Replace `status_no_animation` with `statusNoAnimation`.
 
 ### [Logo](/uilib/components/logo/)
 
@@ -1328,12 +1337,12 @@ In addition to the behavioral changes above, the following properties have been 
 
 #### TypeScript types
 
-- Replace `formatReturnValue` with `FormatReturnValue`.
-- Replace `formatValue` with `FormatValue`.
-- Replace `formatOptionParams` with `FormatOptionParams`.
-- Replace `formatReturnType` with `FormatReturnType`.
-- Replace `formatTypes` with `FormatTypes`.
-- Replace `formatCurrencyPosition` with `FormatCurrencyPosition`.
+- Replace `formatReturnValue` with `NumberFormatReturnValue`.
+- Replace `formatValue` with `NumberFormatValue`.
+- Replace `formatOptionParams` with `NumberFormatOptionParams`.
+- Replace `formatReturnType` with `NumberFormatReturnType`.
+- Replace `formatTypes` with `NumberFormatType`.
+- Replace `formatCurrencyPosition` with `NumberFormatCurrencyPosition`.
 
 ### [StepIndicator](/uilib/components/step-indicator/)
 
@@ -1452,7 +1461,6 @@ In addition to the behavioral changes above, the following properties have been 
 - Replace `status_anchor_url` with `statusAnchorUrl`.
 - Replace `status_anchor_label` with `statusAnchorLabel`.
 - Replace `buffer_delay` with `bufferDelay`.
-- Replace `on_close`'s `status_id` with `statusId`.
 - Replace `autoclose` with `autoClose`.
 - Replace `autoscroll` with `autoScroll`.
 
@@ -1462,7 +1470,7 @@ In addition to the behavioral changes above, the following properties have been 
 - Replace `on_open` with `onOpen`.
 - Replace `on_show` with `onShow`.
 - Replace `on_hide` with `onHide`.
-- Replace `on_close` with `onClose`.
+- Replace `on_close` with `onClose`. The `status_id` callback parameter has been renamed to `statusId`.
 
 #### Translations
 
