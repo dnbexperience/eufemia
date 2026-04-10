@@ -5,8 +5,8 @@ import {
   Field,
   Value,
   type JSONSchema,
-  makeAjvInstance,
 } from '@dnb/eufemia/src/extensions/forms'
+import { makeAjvInstance } from '@dnb/eufemia/src/extensions/forms/utils/ajv'
 import { Flex } from '@dnb/eufemia/src'
 
 export const TestDataSchema: JSONSchema = {

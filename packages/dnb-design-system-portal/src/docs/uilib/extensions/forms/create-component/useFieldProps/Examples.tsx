@@ -6,8 +6,8 @@ import {
   Form,
   useFieldProps,
   z,
-  makeAjvInstance,
 } from '@dnb/eufemia/src/extensions/forms'
+import { makeAjvInstance } from '@dnb/eufemia/src/extensions/forms/utils/ajv'
 import { Flex, Slider } from '@dnb/eufemia/src'
 
 export const CustomComponentWithAjvSchemaExample = () => {

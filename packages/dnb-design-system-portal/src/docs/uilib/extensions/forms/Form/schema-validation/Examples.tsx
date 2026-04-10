@@ -6,8 +6,8 @@ import {
   Field,
   Iterate,
   Tools,
-  makeAjvInstance,
 } from '@dnb/eufemia/src/extensions/forms'
+import { makeAjvInstance } from '@dnb/eufemia/src/extensions/forms/utils/ajv'
 
 export const SingleFieldSchema = () => {
   return (

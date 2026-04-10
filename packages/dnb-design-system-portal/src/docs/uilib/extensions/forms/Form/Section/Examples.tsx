@@ -7,9 +7,9 @@ import {
   type SectionProps,
   Tools,
   Value,
-  makeAjvInstance,
   z,
 } from '@dnb/eufemia/src/extensions/forms'
+import { makeAjvInstance } from '@dnb/eufemia/src/extensions/forms/utils/ajv'
 
 export const WithoutDataContext = () => {
   return (

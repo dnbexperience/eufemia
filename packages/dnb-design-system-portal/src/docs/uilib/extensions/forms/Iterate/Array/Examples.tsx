@@ -9,8 +9,8 @@ import {
   Wizard,
   ValueBlock,
   FieldBlock,
-  makeAjvInstance,
 } from '@dnb/eufemia/src/extensions/forms'
+import { makeAjvInstance } from '@dnb/eufemia/src/extensions/forms/utils/ajv'
 export { Default as AnimatedContainer } from '../AnimatedContainer/Examples'
 
 export const PrimitiveItemsFields = () => {
