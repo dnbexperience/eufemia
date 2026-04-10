@@ -4,15 +4,137 @@ description: 'January 23, 2026'
 order: -11
 ---
 
+import { Accordion } from '@dnb/eufemia/src'
+
 # v11
 
-This page lists the changes introduced in v11. It focuses on breaking changes, removals, and required migrations, grouped by area for clarity.
+This is the migration guide for @dnb/eufemia v11. It covers all breaking changes, removals, and required code updates.
+
+**Most changes fall into these categories:**
+
+1. **snake_case → camelCase renames** — The majority of changes are mechanical property, event, and translation key renames. These can be [automated](#automated-migration-snake_case-to-camelcase).
+2. **React 19 alignment** — `innerRef` → `ref`, `Context.Provider` → `Context`, and related updates.
+3. **Behavioral changes and removals** — API redesigns, removed features, and changed defaults. These require manual review.
+
+<Accordion title="Table of contents">
+
+- [Summary of changes](#summary-of-changes)
+- [Install](#install)
+- [Migration](#migration)
+  - [Automated migration: snake_case to camelCase](#automated-migration-snake_case-to-camelcase)
+  - [innerRef → ref](#innerref--ref)
+  - [Context.Provider → Context](#contextprovider--context)
+  - [Theme.Provider → Theme.Context](#themeprovider--themecontext)
+- [Components](#components)
+  - [labelDirection default changed to vertical](#labeldirection-default-changed-to-vertical)
+  - [Section](#section)
+  - [HelpButton](#helpbutton)
+  - [Autocomplete](#autocomplete)
+  - [Dropdown](#dropdown)
+  - [DrawerList](#drawerlist)
+  - [Anchor](#anchor)
+  - [Input](#input)
+  - [InputMasked](#inputmasked)
+  - [FormLabel](#formlabel)
+  - [Radio](#radio)
+  - [Textarea](#textarea)
+  - [Accordion](#accordion)
+  - [Tag](#tag)
+  - [Upload](#upload)
+  - [Stat](#stat)
+  - [P (paragraph)](#p)
+  - [Definition lists](#definition-lists)
+  - [Breadcrumb](#breadcrumb)
+  - [ProgressIndicator](#progressindicator)
+  - [PaymentCard](#paymentcard)
+  - [Divider (Horizontal Rule)](#divider-horizontal-rule)
+  - [Flex.Item](#flexitem)
+  - [Card](#card)
+  - [Checkbox](#checkbox)
+  - [Switch](#switch)
+  - [Logo](#logo)
+  - [Icon](#icon)
+  - [Button](#button)
+  - [Modal, Dialog and Drawer](#modal-dialog-and-drawer)
+  - [Heading](#heading)
+  - [H (heading elements)](#h-heading-elements)
+  - [Table](#table)
+  - [FormStatus](#formstatus)
+  - [Skeleton](#skeleton)
+  - [Tabs](#tabs)
+  - [Pagination](#pagination)
+  - [Slider](#slider)
+  - [Timeline](#timeline)
+  - [DatePicker](#datepicker)
+  - [NumberFormat](#numberformat)
+  - [StepIndicator](#stepindicator)
+  - [GlobalError](#globalerror)
+  - [ToggleButton](#togglebutton)
+  - [Tooltip](#tooltip)
+  - [GlobalStatus](#globalstatus)
+  - [CopyOnClick](#copyonclick)
+- [Layout](#layout)
+- [Helpers](#helpers)
+- [Eufemia Forms](#eufemia-forms)
+- [SCSS mixin renames](#scss-mixin-renames)
+- [SCSS: @import → @use](#scss-import--use)
+- [TypeScript](#typescript)
+- [Theming](#theming)
+- [Props Type Exports](#props-type-exports)
+
+</Accordion>
+
+## Summary of changes
+
+- All **snake_case** (`on_click`) events and properties have been converted to **camelCase** (`onClick`). The reason for previously using snake_case was to support Web Components – but the support was discontinued in [v10](/uilib/about-the-lib/releases/eufemia/v10-info/).
+- Replaced deprecated `<Context.Provider>` with direct `<Context>` rendering across all internal context providers (React 19).
+- Several exported TypeScript `interface` declarations have been converted to `type`. This prevents declaration merging but has no impact on standard usage.
+- All React context value types have been renamed to use a consistent `...ContextValue` suffix (e.g. `AccordionContextProps` → `AccordionContextValue`). See [TypeScript](#typescript) for the full list.
+- Event handler and render function prop types have been replaced with properly typed signatures (e.g. `(...args: any[]) => any` → `(event: AccordionChangeEvent) => void`). See [Typed event handlers](#typed-event-handlers) for the full list.
+
+## Install
+
+To upgrade to @dnb/eufemia v11 with NPM, use:
+
+```bash
+$ npm i @dnb/eufemia@11
+# or
+$ yarn add @dnb/eufemia@11
+# or
+$ pnpm add @dnb/eufemia@11
+```
 
 ## Migration
 
-v11 of @dnb/eufemia contains _breaking changes_. As a migration process, you can simply search and replace:
+v11 of @dnb/eufemia contains _breaking changes_.
 
 > Important: Upgrading to v11 requires React and React DOM v19 ([React 19 Upgrade Guide](https://react.dev/blog/2024/04/25/react-19-upgrade-guide)).
+
+### Automated migration: snake_case to camelCase
+
+The largest category of changes in v11 is the rename of **all snake_case properties, events, and translation keys to camelCase**. This affects every component and can be automated.
+
+**The pattern:**
+
+- Properties: `selected_key` → `selectedKey`, `label_direction` → `labelDirection`
+- Events: `on_change` → `onChange`, `on_click` → `onClick`
+- Translations: `Autocomplete.no_options` → `Autocomplete.noOptions`
+- CSS classes: `dnb-date-picker--opened` → `dnb-date-picker--open`
+
+You can use your editor's find-and-replace or a codemod to handle these. For a regex-based approach:
+
+```
+Find:    (on_|\_)([a-z])
+Replace: (match based on camelCase conversion)
+```
+
+> **Note:** Some renames are not just snake_case conversions — they also change the name itself (e.g. `triangle_position` → `arrowPosition`, `opened` → `open`, `on_show` → `onOpen`). These are listed individually per component below and require manual attention.
+
+The rest of this section covers changes that **cannot** be automated with a simple find-and-replace and need manual review.
+
+### Step-by-step checklist
+
+As a migration process, you can search and replace:
 
 1. Replace `innerRef` with `ref` on all Eufemia components.
 2. Replace `<Context.Provider>` with `<Context>` when using Eufemia contexts directly (React 19 deprecation).
@@ -92,27 +214,9 @@ If you use any Eufemia context objects directly (e.g. `Wizard.Provider`), update
 
 `Theme.Provider` has been removed.
 
-## Install
-
-To upgrade to @dnb/eufemia v11 with NPM, use:
-
-```bash
-$ npm i @dnb/eufemia@11
-# or
-$ yarn add @dnb/eufemia@11
-# or
-$ pnpm add @dnb/eufemia@11
-```
-
-## Summary of changes:
-
-- All **snake case** (`on_click`) events and properties has been converted to use **camel case** (`onClick`). The reason for previously using **snake case** was to support Web Components – but the support was discontinued in [v10](/uilib/about-the-lib/releases/eufemia/v10-info/).
-- Replaced deprecated `<Context.Provider>` with direct `<Context>` rendering across all internal context providers (React 19).
-- Several exported TypeScript `interface` declarations have been converted to `type`. This prevents declaration merging but has no impact on standard usage.
-- All React context value types have been renamed to use a consistent `...ContextValue` suffix (e.g. `AccordionContextProps` → `AccordionContextValue`). See [TypeScript](#typescript) for the full list.
-- Event handler and render function prop types have been replaced with properly typed signatures (e.g. `(...args: any[]) => any` → `(event: AccordionChangeEvent) => void`). See [Typed event handlers](#typed-event-handlers) for the full list.
-
 ## Components
+
+> Each component section below lists its changes. Behavioral changes and removals are called out separately where applicable. The bulk of per-component changes are snake_case → camelCase renames covered by the [automated migration](#automated-migration-snake_case-to-camelcase) section above.
 
 ### labelDirection default changed to `vertical`
 
@@ -167,9 +271,17 @@ You can also use `top` and `bottom` individually if you need different values, e
 
 ### [Autocomplete](/uilib/components/autocomplete/)
 
+**Removals and behavioral changes:**
+
 - The deprecated `onStateUpdate` prop has been removed. Use `onChange` instead.
+- Replace `input_icon` with `icon`. The `inputIcon` prop has been removed — use the `icon` prop instead (defaults to `'loupe'`).
+- Replace `opened` with `open`.
+- Replace `align_autocomplete` with `align`.
+- Replace `on_show` with `onOpen` and `on_hide` with `onClose` (not just a casing change — the event names changed).
 
 #### Properties
+
+The following properties have been renamed from snake_case to camelCase:
 
 - Replace `selected_key` with `selectedKey`.
 - Replace `default_value` with `defaultValue`.
@@ -207,7 +319,6 @@ You can also use `top` and `bottom` individually if you need different values, e
 - Replace `input_ref` with `inputRef`.
 - Replace `icon_size` with `iconSize`.
 - Replace `icon_position` with `iconPosition`.
-- Replace `input_icon` with `icon`. The `inputIcon` prop has been removed — use the `icon` prop instead (defaults to `'loupe'`).
 - Replace `label_sr_only` with `labelSrOnly`.
 - Replace `keep_value` with `keepValue`.
 - Replace `keep_selection` with `keepSelection`.
@@ -222,7 +333,6 @@ You can also use `top` and `bottom` individually if you need different values, e
 - Replace `disable_highlighting` with `disableHighlighting`.
 - Replace `show_submit_button` with `showSubmitButton`.
 - Replace `submit_element` with `submitElement`.
-- Replace `align_autocomplete` with `align`.
 - Replace `input_element` with `inputElement`.
 - Replace `search_in_word_index` with `searchInWordIndex`.
 - Replace `search_numbers` with `searchNumbers`.
@@ -232,7 +342,6 @@ You can also use `top` and `bottom` individually if you need different values, e
 - Replace `prevent_focus` with `preventFocus`.
 - Replace `action_menu` with `actionMenu`.
 - Replace `is_popup` with `isPopup`.
-- Replace `opened` with `open`.
 - Replace `selectall` with `selectAll`.
 
 #### Events
@@ -277,9 +386,17 @@ You can also use `top` and `bottom` individually if you need different values, e
 
 ### [Dropdown](/uilib/components/dropdown/)
 
-#### Properties
+**Removals and behavioral changes:**
 
 - The deprecated `onStateUpdate` prop has been removed. Use `onChange` instead.
+- Replace `opened` with `open`.
+- Replace `align_dropdown` with `align`.
+- Replace `on_show` with `onOpen` and `on_hide` with `onClose` (not just a casing change — the event names changed).
+
+#### Properties
+
+The following properties have been renamed from snake_case to camelCase:
+
 - Replace `selected_key` with `selectedKey`.
 - Replace `default_value` with `defaultValue`.
 - Replace `prevent_selection` with `preventSelection`.
@@ -313,13 +430,11 @@ You can also use `top` and `bottom` individually if you need different values, e
 - Replace `status_props` with `statusProps`.
 - Replace `status_no_animation` with `statusNoAnimation`.
 - Replace `more_menu` with `moreMenu`.
-- Replace `align_dropdown` with `align`.
 - Replace `trigger_element` with `triggerElement`.
 - Replace `open_on_focus` with `openOnFocus`.
 - Replace `action_menu` with `actionMenu`.
 - Replace `is_popup` with `isPopup`.
 - Replace `prevent_focus` with `preventFocus`.
-- Replace `opened` with `open`.
 
 #### Events
 
@@ -413,10 +528,17 @@ You can also use `top` and `bottom` individually if you need different values, e
 
 ### [Input](/uilib/components/input/)
 
-#### Properties
+**Removals:**
 
 - The `inputPropTypes` export has been removed as part of the PropTypes removal. If you were importing it via `import { inputPropTypes } from '@dnb/eufemia/components/input'`, remove the import — runtime prop validation is no longer provided.
 - The deprecated `onStateUpdate` prop has been removed. Use `onChange` instead.
+- Replace `clear` with `showClearButton`.
+- Replace `input_class` with `inputClassName` (note the name change, not just casing).
+
+#### Properties
+
+The following properties have been renamed from snake_case to camelCase:
+
 - Replace `label_direction` with `labelDirection`.
 - Replace `label_sr_only` with `labelSrOnly`.
 - Replace `status_state` with `statusState`.
@@ -458,7 +580,7 @@ You can also use `top` and `bottom` individually if you need different values, e
 - Replace `Input.submit_button_title` with `Input.submitButtonTitle`.
 - Replace `Input.clear_button_title` with `Input.clearButtonTitle`.
 
-#### SubmitButton (do we need to document this, I don't see any docs of this, but it's exposed/exported)
+#### SubmitButton
 
 - Replace `icon_size` with `iconSize`.
 - Replace `status_state` with `statusState`.
@@ -466,6 +588,8 @@ You can also use `top` and `bottom` individually if you need different values, e
 - Replace `status_props` with `statusProps`.
 
 ### [InputMasked](/uilib/components/input-masked/)
+
+> **Major change:** The masking engine has been replaced. Read this section carefully.
 
 In v11, the InputMasked component has been rewritten to use [Maskito](https://maskito.dev/) instead of the unmaintained [text-mask](https://github.com/text-mask/text-mask) library. This brings better input handling, improved mobile keyboard support, and more reliable cursor/caret behavior. The public API (`mask`, `numberMask`, `currencyMask`, `asNumber`, `asCurrency`, `asPercent`, etc.) remains the same — the masking engine underneath has changed.
 
@@ -811,6 +935,8 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 
 ### [Logo](/uilib/components/logo/)
 
+> **Major change:** The Logo component API has been redesigned. Instead of `brand` and `variant` props, import the specific SVG component directly.
+
 #### Properties
 
 - Remove `brand` prop. Import and use the desired SVG component directly (e.g., `DnbDefault`, `SbankenDefault`, `SbankenCompact`, `SbankenHorizontal`, `CarnegieDefault`, `EiendomDefault`).
@@ -847,10 +973,13 @@ render(<Logo svg={SbankenCompact} />)
 
 ### [Button](/uilib/components/button/)
 
-#### Properties
+**Removals:**
 
 - The `variant="signal"` has been removed. Use `variant="primary"` or `variant="secondary"` instead.
 - The `buttonVariantPropType` export has been removed as part of the PropTypes removal. If you were importing it via `import { buttonVariantPropType } from '@dnb/eufemia/components/button'`, remove the import — runtime prop validation is no longer provided.
+
+#### Properties
+
 - Replace `icon_position` with `iconPosition`.
 - Replace `icon_size` with `iconSize`.
 - Replace `status_state` with `statusState`.
@@ -866,7 +995,15 @@ render(<Logo svg={SbankenCompact} />)
 
 ### [Modal](/uilib/components/modal/), [Dialog](/uilib/components/dialog/) and [Drawer](/uilib/components/drawer/)
 
+**Removals and behavioral changes:**
+
+- **Removed:** `rootId` property has been removed. Modal root elements no longer support custom IDs.
+- Replace `openState` with `open`. Replace `openState="opened"` with `open={true}` and `openState="closed"` with `open={false}`.
+- If you rely on opening and closing a modal by mounting and unmounting the component (legacy behavior), you should change to using the `open` property instead.
+
 #### Properties
+
+The following properties have been renamed from snake_case to camelCase:
 
 - Replace `class` with `className`.
 - Replace `focus_selector` with `focusSelector`.
@@ -906,10 +1043,6 @@ render(<Logo svg={SbankenCompact} />)
 - Replace `content_ref` with `contentRef`.
 - Replace `scroll_ref` with `scrollRef`.
 - Replace `prevent_overlay_close` with `preventOverlayClose`.
-- Replace `openState` with `open`.
-- Replace `openState="opened"` with `open={true}`.
-- Replace `openState="closed"` with `open={false}`.
-- **Removed:** `rootId` property has been removed. Modal root elements no longer support custom IDs.
 
 #### TypeScript types
 
@@ -919,10 +1052,6 @@ render(<Logo svg={SbankenCompact} />)
 
 - Replace `Modal.dialog_title` with `Modal.dialogTitle`.
 - Replace `Modal.close_title` with `Modal.closeTitle`.
-
-#### Opening and closing a modal
-
-- If you rely on opening and closing a modal by mounting and unmounting the component (legacy behavior), you should change to using the `open` property instead.
 
 ### [Modal.Header](/uilib/components/modal/), [Dialog.Header](/uilib/components/dialog/) and [Drawer.Header](/uilib/components/drawer/)
 
@@ -954,8 +1083,8 @@ render(<Logo svg={SbankenCompact} />)
 
 #### Properties
 
-- Replace `debug_counter` with debugCounter`.
-- Replace `skip_correction` with skipCorrection`.
+- Replace `debug_counter` with `debugCounter`.
+- Replace `skip_correction` with `skipCorrection`.
 
 ### [H (heading elements)](/uilib/elements/heading/)
 
@@ -1112,12 +1241,20 @@ render(<Logo svg={SbankenCompact} />)
 
 ### [DatePicker](/uilib/components/date-picker/)
 
-#### Properties
+**Removals and behavioral changes:**
 
 - The `onBlur` and `onFocus` events fire now only once per user interaction, not on every internal input blur.
 - The visible date segments are no longer native `input` elements. They are now exposed as section elements with `role="spinbutton"`. If you have Jest or DOM tests that query `input` or assert old input-specific ARIA attributes, update them to target the visible date picker field/segments instead.
 - Find `partialDate`, `partialStartDate` and `partialEndDate` and remove it.
 - Find `correctInvalidDate` / `correct_invalid_date` and remove it. You may rather use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) from Eufemia Forms when using `minDate` and `maxDate`, as this has built in validation. Reason for removing this is because we believe it's not good UX, or best practice to automatically change the user input. This often leads to confusion, as what they typed in, magically changes for seemingly no reason. We believe it's better to inform them about the error and let them correct it themselves.
+- Replace `on_show` with `onOpen` and `on_hide` with `onClose` (not just a casing change — the event names changed).
+- Replace `opened` with `open`.
+- `dateFormat` and `returnFormat` does no longer support the format `YYYY-MM-DD`, use `yyyy-MM-dd` instead.
+
+#### Properties
+
+In addition to the behavioral changes above, the following properties have been renamed from snake_case to camelCase:
+
 - Replace `start_date` with `startDate`.
 - Replace `end_date` with `endDate`.
 - Replace `start_month` with `startMonth`.
@@ -1167,8 +1304,6 @@ render(<Logo svg={SbankenCompact} />)
 - Replace `is_valid_start_date` with `isValidStartDate`.
 - Replace `is_valid_end_date` with `isValidEndDate`.
 - Replace the `shortcuts` property `close_on_select` with `closeOnSelect`.
-- Replace `opened` with `open`.
-- `dateFormat` and `returnFormat` does no longer support the format `YYYY-MM-DD`, use `yyyy-MM-dd` instead.
 
 #### Styling
 
@@ -1206,7 +1341,9 @@ render(<Logo svg={SbankenCompact} />)
 
 ### [StepIndicator](/uilib/components/step-indicator/)
 
-#### Properties
+> **Major change:** This component has been redesigned. The sidebar variant has been removed entirely.
+
+#### Removals
 
 - Major redesign of component. There is now only one variant (instead of two).
 - Remove `StepIndicatorRenderCallback` type. Not needed anymore.
@@ -1484,6 +1621,8 @@ The following SCSS mixins have been removed:
 - **`componentReset`** (`style/core/scopes.scss`) — applied core CSS reset rules to a single component. Use the global Eufemia CSS reset instead.
 
 ## Eufemia Forms
+
+> This section covers changes specific to `@dnb/eufemia/extensions/forms`. Many of these are **behavioral changes and removals** that require manual review.
 
 ### General
 
