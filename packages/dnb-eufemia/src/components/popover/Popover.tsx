@@ -44,6 +44,7 @@ export default function Popover(props: PopoverProps) {
     onOpenChange,
     focusOnOpen = true,
     focusOnOpenElement,
+    onFocusComplete,
     restoreFocus = true,
     preventClose = false,
     hideCloseButton = false,
@@ -284,6 +285,7 @@ export default function Popover(props: PopoverProps) {
 
       setTimeout(() => {
         focusTarget?.focus({ preventScroll: true })
+        onFocusComplete?.()
       }, 10) // Ensure focus happens after any potential rendering
 
       return true
@@ -304,7 +306,7 @@ export default function Popover(props: PopoverProps) {
     }
 
     return () => timers.forEach(clearTimeout)
-  }, [focusOnOpen, isOpen, resolveFocusTarget])
+  }, [focusOnOpen, isOpen, resolveFocusTarget, onFocusComplete])
 
   const handleDocumentInteraction = useCallback(
     (
