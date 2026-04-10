@@ -18,7 +18,6 @@ import {
 } from '../..'
 import { Dialog, Flex, Icon, Link, P } from '../../..'
 import type { DrawerListDataArray } from '../../../fragments/DrawerList'
-import { Provider } from '../../../shared'
 import { Field, Form } from '../../../extensions/forms'
 import { bank } from '../../../icons'
 
@@ -374,42 +373,30 @@ const DropdownStory = () => {
         <DropdownStatesSync />
       </Box>
       <Box>
-        <Provider
-          formElement={{
-            labelDirection: 'vertical',
+        <Dropdown
+          label="Vertical A (function):"
+          title="Default option"
+          data={() => {
+            return dropdownData
           }}
-        >
-          <Dropdown
-            label="Vertical A (function):"
-            title="Default option"
-            data={() => {
-              return dropdownData
-            }}
-            right
-            status="Status message"
-            onChange={({ attributes }) => {
-              console.log('onChange', attributes)
-            }}
-            data-attr={123}
-            iconPosition="left"
-          />
-          <Dropdown
-            title="Default option"
-            label="Vertical B:"
-            iconPosition="left"
-            data={dropdownData}
-          />
-        </Provider>
+          right
+          status="Status message"
+          onChange={({ attributes }) => {
+            console.log('onChange', attributes)
+          }}
+          data-attr={123}
+          iconPosition="left"
+        />
+        <Dropdown
+          title="Default option"
+          label="Vertical B:"
+          iconPosition="left"
+          data={dropdownData}
+        />
       </Box>
       <Box>
-        <Provider
-          formElement={{
-            labelDirection: 'vertical',
-          }}
-        >
-          <Dropdown label="Vertical A:" data={dropdownData} />
-          <Dropdown label="Vertical B:" data={dropdownData} top="small" />
-        </Provider>
+        <Dropdown label="Vertical A:" data={dropdownData} />
+        <Dropdown label="Vertical B:" data={dropdownData} top="small" />
       </Box>
       <Box>
         <Form.Handler
@@ -465,7 +452,6 @@ const DropdownStory = () => {
       <Box>
         <Dropdown
           label="Label vertical:"
-          labelDirection="vertical"
           title={<>Custom title {'🔥'}</>}
           data={dropdownData}
           onChange={({ data }) => {
@@ -482,9 +468,7 @@ const DropdownStory = () => {
         </p>
       </Box>
       <Box>
-        <Provider formElement={{ labelDirection: 'vertical' }}>
-          <Dropdown label="Vertical:" data={dropdownData} />
-        </Provider>
+        <Dropdown label="Vertical:" data={dropdownData} />
       </Box>
       <Box>
         <span className="dnb-p">Eros semper</span>
@@ -738,24 +722,22 @@ function DropdownStatesSync() {
   }
 
   return (
-    <Provider formElement={{ labelDirection: 'vertical' }}>
-      <Flex.Vertical>
-        <>{JSON.stringify(state)}</>
-        <Dropdown
-          data={dropdownDataScrollable}
-          defaultValue={0}
-          title="Dropdown 1"
-          onChange={handleOnChange}
-        />
-        {/* <Dropdown
+    <Flex.Vertical>
+      <>{JSON.stringify(state)}</>
+      <Dropdown
+        data={dropdownDataScrollable}
+        defaultValue={0}
+        title="Dropdown 1"
+        onChange={handleOnChange}
+      />
+      {/* <Dropdown
         top
         data={dropdownDataScrollable}
         defaultValue={1}
         title="Dropdown 2"
         onChange={handleOnChange}
       /> */}
-      </Flex.Vertical>
-    </Provider>
+    </Flex.Vertical>
   )
 }
 

@@ -91,7 +91,6 @@ export const ModalSandbox = () => (
       >
         <ProgressIndicator
           showDefaultLabel
-          labelDirection="vertical"
           top="large"
           bottom="large"
           size="large"
@@ -107,7 +106,6 @@ export const ModalSandbox = () => (
       >
         <ProgressIndicator
           showDefaultLabel
-          labelDirection="vertical"
           top="large"
           bottom="large"
           size="large"

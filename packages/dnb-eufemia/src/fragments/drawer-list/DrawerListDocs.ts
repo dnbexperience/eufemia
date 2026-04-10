@@ -32,7 +32,7 @@ export const DrawerListProperties: PropertiesTableProps = {
     status: 'optional',
   },
   labelDirection: {
-    doc: "The direction of the label. If set to 'horizontal', the label will be positioned horizontally next to the input element. If set to 'vertical', the label will be positioned vertically above the input element.",
+    doc: 'Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.',
     type: 'string',
     status: 'optional',
   },

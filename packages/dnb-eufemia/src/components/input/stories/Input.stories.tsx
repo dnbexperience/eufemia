@@ -19,7 +19,6 @@ import {
 
 import { format } from '../../number-format/NumberUtils'
 import { FieldBlock, Form } from '../../../extensions/forms'
-import { Provider } from '../../../shared'
 
 export default {
   title: 'Eufemia/Components/Input',
@@ -38,51 +37,49 @@ export const InputSandbox = () => {
     <CustomStyle>
       <Wrapper>
         <Box>
-          <Provider formElement={{ labelDirection: 'vertical' }}>
-            <Flex.Vertical>
-              <Input value="Plain" />
-              <Input value="Search" type="search" />
-              <Input value="Search" size="medium" type="search" />
-              <Input value="Search" size="large" type="search" />
-              <Input
-                value="Value Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
-                icon="calendar"
-                align="right"
-              />
-              <Input
-                placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
-                iconPosition="right"
-                icon="calendar"
-                align="right"
-              />
-              <Input
-                size="medium"
-                value="Value"
-                icon="calendar"
-                align="right"
-              />
-              <Input
-                size="medium"
-                placeholder="Placeholder"
-                iconPosition="right"
-                icon="calendar"
-                align="right"
-              />
-              <Input
-                size="large"
-                value="Value"
-                icon="calendar"
-                align="right"
-              />
-              <Input
-                size="large"
-                placeholder="Placeholder"
-                iconPosition="right"
-                icon="calendar"
-                align="right"
-              />
-            </Flex.Vertical>
-          </Provider>
+          <Flex.Vertical>
+            <Input value="Plain" />
+            <Input value="Search" type="search" />
+            <Input value="Search" size="medium" type="search" />
+            <Input value="Search" size="large" type="search" />
+            <Input
+              value="Value Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
+              icon="calendar"
+              align="right"
+            />
+            <Input
+              placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
+              iconPosition="right"
+              icon="calendar"
+              align="right"
+            />
+            <Input
+              size="medium"
+              value="Value"
+              icon="calendar"
+              align="right"
+            />
+            <Input
+              size="medium"
+              placeholder="Placeholder"
+              iconPosition="right"
+              icon="calendar"
+              align="right"
+            />
+            <Input
+              size="large"
+              value="Value"
+              icon="calendar"
+              align="right"
+            />
+            <Input
+              size="large"
+              placeholder="Placeholder"
+              iconPosition="right"
+              icon="calendar"
+              align="right"
+            />
+          </Flex.Vertical>
         </Box>
         <Box>
           <Input
@@ -96,36 +93,28 @@ export const InputSandbox = () => {
         </Box>
         <Box>
           🚀
-          <Provider formElement={{ labelDirection: 'vertical' }}>
-            <Form.Handler>
-              <FieldBlock label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna:">
-                <Flex.Vertical>
-                  <Input
-                    ref={myRef}
-                    label="Input A:"
-                    placeholder="Placeholder text"
-                  />
+          <Form.Handler>
+            <FieldBlock label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna:">
+              <Flex.Vertical>
+                <Input
+                  ref={myRef}
+                  label="Input A:"
+                  placeholder="Placeholder text"
+                />
 
-                  <Input label="Input B:" placeholder="Placeholder text" />
-                  <Input label="Input C:" />
-                </Flex.Vertical>
-              </FieldBlock>
-            </Form.Handler>
-          </Provider>
+                <Input label="Input B:" placeholder="Placeholder text" />
+                <Input label="Input C:" />
+              </Flex.Vertical>
+            </FieldBlock>
+          </Form.Handler>
         </Box>
         <Box>
-          <Provider
-            formElement={{
-              labelDirection: 'vertical',
-            }}
-          >
-            <FieldBlock label="Vertical label:">
-              <Flex.Horizontal>
-                <Input label="Input label A:" right="small" />
-                <Input label="Input label B:" />
-              </Flex.Horizontal>
-            </FieldBlock>
-          </Provider>
+          <FieldBlock label="Vertical label:">
+            <Flex.Horizontal>
+              <Input label="Input label A:" right="small" />
+              <Input label="Input label B:" />
+            </Flex.Horizontal>
+          </FieldBlock>
         </Box>
         <Box>
           <FieldBlock label="Legend:">
@@ -136,22 +125,15 @@ export const InputSandbox = () => {
           </FieldBlock>
         </Box>
         <Box>
-          <Provider formElement={{ labelDirection: 'vertical' }}>
-            <FieldBlock label="Legend:">
-              <Flex.Vertical>
-                <Input label="Vertical 1:" />
-                <Input label="Vertical 2:" stretch top="small" />
-              </Flex.Vertical>
-            </FieldBlock>
-          </Provider>
+          <FieldBlock label="Legend:">
+            <Flex.Vertical>
+              <Input label="Vertical 1:" />
+              <Input label="Vertical 2:" stretch top="small" />
+            </Flex.Vertical>
+          </FieldBlock>
         </Box>
         <Box>
-          <Input
-            label="Vertical label:"
-            value="Stretch me ..."
-            stretch
-            labelDirection="vertical"
-          />
+          <Input label="Vertical label:" value="Stretch me ..." stretch />
         </Box>
         <Box>
           Text

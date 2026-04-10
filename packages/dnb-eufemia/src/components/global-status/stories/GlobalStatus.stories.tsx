@@ -41,7 +41,6 @@ export const ComponentAsLabel = () => {
 
       <Provider
         formElement={{
-          labelDirection: 'vertical',
           globalStatus: { id: 'test' },
         }}
       >
@@ -85,7 +84,6 @@ export const CustomGlobalStatusMessage = () => {
 
       <Provider
         formElement={{
-          labelDirection: 'vertical',
           globalStatus: { id: 'test-test', message: 'Hva skjer nå' },
         }}
       >
@@ -229,23 +227,21 @@ const InputWithError = () => {
             }}
             right="small"
           />
-          <Provider formElement={{ labelDirection: 'vertical' }}>
-            <Flex.Vertical>
-              <Switch
-                status={haveAnErrorMessage3 ? 'Error Message #3' : null}
-                onChange={({ checked }) => {
-                  setErrorMessage3(checked)
-                }}
-                bottom="small"
-              />
-              <Switch
-                status={haveAnErrorMessage4 ? 'Error Message #4' : null}
-                onChange={({ checked }) => {
-                  setErrorMessage4(checked)
-                }}
-              />
-            </Flex.Vertical>
-          </Provider>
+          <Flex.Vertical>
+            <Switch
+              status={haveAnErrorMessage3 ? 'Error Message #3' : null}
+              onChange={({ checked }) => {
+                setErrorMessage3(checked)
+              }}
+              bottom="small"
+            />
+            <Switch
+              status={haveAnErrorMessage4 ? 'Error Message #4' : null}
+              onChange={({ checked }) => {
+                setErrorMessage4(checked)
+              }}
+            />
+          </Flex.Vertical>
         </FieldBlock>
       </Form.Handler>
       <GlobalStatus id="form-status" autoScroll={false} top="small" />

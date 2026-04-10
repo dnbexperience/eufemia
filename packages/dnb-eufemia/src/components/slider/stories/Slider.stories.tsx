@@ -65,7 +65,6 @@ export function Marker() {
             },
           }}
           label="Label with some text"
-          labelDirection="vertical"
           min={-40}
           max={100}
           stretch
