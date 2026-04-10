@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import clsx from 'clsx'
 import Popover from '../popover/Popover'
 import {
@@ -48,12 +54,12 @@ export default function MenuRoot(props: MenuRootProps) {
   const level = parentContext ? parentContext.level + 1 : 0
 
   const activeIndexRef = useRef(-1)
-  const [activeIndex, setActiveIndexState] = React.useState(-1)
+  const [activeIndex, setActiveIndexState] = useState(-1)
   const itemRefsRef = useRef<Array<React.RefObject<HTMLElement>>>([])
   const nextIndexRef = useRef(0)
   const menuRef = useRef<HTMLUListElement>(null)
 
-  const [isOpenInternal, setIsOpenInternal] = React.useState(false)
+  const [isOpenInternal, setIsOpenInternal] = useState(false)
   const isControlled = typeof open === 'boolean'
   const isOpen = isControlled ? open : isOpenInternal
 
