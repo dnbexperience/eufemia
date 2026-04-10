@@ -182,3 +182,23 @@ export function MenuExampleWithHeader() {
     </ComponentBox>
   )
 }
+
+export function MenuExampleMaxVisibleListItems() {
+  return (
+    <ComponentBox>
+      <Menu.Root>
+        <Menu.Button text="Long list" icon="chevron_down" />
+        <Menu.List maxVisibleListItems={4}>
+          <Menu.Action text="Item 1" />
+          <Menu.Action text="Item 2" />
+          <Menu.Action text="Item 3" />
+          <Menu.Action text="Item 4" />
+          <Menu.Action text="Item 5" />
+          <Menu.Action text="Item 6" />
+          <Menu.Action text="Item 7" />
+          <Menu.Action text="Item 8" />
+        </Menu.List>
+      </Menu.Root>
+    </ComponentBox>
+  )
+}

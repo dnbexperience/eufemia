@@ -334,4 +334,169 @@ describe('MenuList', () => {
       expect(await axeComponent(container)).toHaveNoViolations()
     })
   })
+
+  describe('maxVisibleListItems', () => {
+    it('sets fallback maxHeight based on maxVisibleListItems', () => {
+      renderWithContext(
+        <MenuList maxVisibleListItems={3}>
+          <MenuAction text="Item 1" />
+          <MenuAction text="Item 2" />
+          <MenuAction text="Item 3" />
+          <MenuAction text="Item 4" />
+          <MenuAction text="Item 5" />
+        </MenuList>
+      )
+
+      const element = document.querySelector(
+        '.dnb-menu__list'
+      ) as HTMLElement
+      expect(element.style.maxHeight).toBe(
+        'calc(var(--menu-action-min-height, 2.5rem) * 3 + var(--menu-content-padding, 0.25rem) * 2)'
+      )
+      expect(element.style.overflowY).toBe('auto')
+    })
+
+    it('does not set maxHeight when maxVisibleListItems is not provided', () => {
+      renderWithContext(
+        <MenuList>
+          <MenuAction text="Item 1" />
+          <MenuAction text="Item 2" />
+        </MenuList>
+      )
+
+      const element = document.querySelector(
+        '.dnb-menu__list'
+      ) as HTMLElement
+      expect(element.style.maxHeight).toBe('')
+    })
+
+    it('does not set maxHeight when maxVisibleListItems is 0', () => {
+      renderWithContext(
+        <MenuList maxVisibleListItems={0}>
+          <MenuAction text="Item 1" />
+          <MenuAction text="Item 2" />
+        </MenuList>
+      )
+
+      const element = document.querySelector(
+        '.dnb-menu__list'
+      ) as HTMLElement
+      expect(element.style.maxHeight).toBe('')
+    })
+
+    it('uses measured height when items are rendered', () => {
+      const itemHeight = 40
+      const paddingBlock = 4
+
+      const originalGetComputedStyle = window.getComputedStyle
+      jest.spyOn(window, 'getComputedStyle').mockImplementation(() => {
+        return {
+          paddingTop: `${paddingBlock}px`,
+          paddingBottom: `${paddingBlock}px`,
+        } as unknown as CSSStyleDeclaration
+      })
+
+      // Mock offsetTop/offsetHeight on HTMLLIElement before render
+      const originalOffsetTop = Object.getOwnPropertyDescriptor(
+        HTMLElement.prototype,
+        'offsetTop'
+      )
+      const originalOffsetHeight = Object.getOwnPropertyDescriptor(
+        HTMLElement.prototype,
+        'offsetHeight'
+      )
+
+      Object.defineProperty(HTMLElement.prototype, 'offsetTop', {
+        configurable: true,
+        get() {
+          if (this.getAttribute('role') === 'menuitem') {
+            const index = Array.from(
+              this.parentElement?.children ?? []
+            ).indexOf(this)
+            return index * itemHeight
+          }
+          return 0
+        },
+      })
+      Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
+        configurable: true,
+        get() {
+          if (this.getAttribute('role') === 'menuitem') {
+            return itemHeight
+          }
+          return 0
+        },
+      })
+
+      renderWithContext(
+        <MenuList maxVisibleListItems={2}>
+          <MenuAction text="Item 1" />
+          <MenuAction text="Item 2" />
+          <MenuAction text="Item 3" />
+        </MenuList>
+      )
+
+      const element = document.querySelector(
+        '.dnb-menu__list'
+      ) as HTMLElement
+      const expectedHeight = itemHeight * 2 + paddingBlock * 2
+      expect(element.style.maxHeight).toBe(`${expectedHeight}px`)
+
+      // Restore
+      if (originalOffsetTop) {
+        Object.defineProperty(
+          HTMLElement.prototype,
+          'offsetTop',
+          originalOffsetTop
+        )
+      }
+      if (originalOffsetHeight) {
+        Object.defineProperty(
+          HTMLElement.prototype,
+          'offsetHeight',
+          originalOffsetHeight
+        )
+      }
+      window.getComputedStyle = originalGetComputedStyle
+    })
+
+    it('allows style.maxHeight to override maxVisibleListItems', () => {
+      renderWithContext(
+        <MenuList maxVisibleListItems={3} style={{ maxHeight: '100px' }}>
+          <MenuAction text="Item 1" />
+          <MenuAction text="Item 2" />
+          <MenuAction text="Item 3" />
+          <MenuAction text="Item 4" />
+        </MenuList>
+      )
+
+      const element = document.querySelector(
+        '.dnb-menu__list'
+      ) as HTMLElement
+      expect(element.style.maxHeight).toBe('100px')
+    })
+
+    it('cleans up resize listener on unmount', () => {
+      const addSpy = jest.spyOn(window, 'addEventListener')
+      const removeSpy = jest.spyOn(window, 'removeEventListener')
+
+      const { unmount } = renderWithContext(
+        <MenuList maxVisibleListItems={3}>
+          <MenuAction text="Item 1" />
+        </MenuList>
+      )
+
+      expect(addSpy).toHaveBeenCalledWith('resize', expect.any(Function))
+
+      unmount()
+
+      expect(removeSpy).toHaveBeenCalledWith(
+        'resize',
+        expect.any(Function)
+      )
+
+      addSpy.mockRestore()
+      removeSpy.mockRestore()
+    })
+  })
 })

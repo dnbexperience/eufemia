@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import clsx from 'clsx'
 import { useMenuContext } from './MenuContext'
 import type { MenuListProps } from './types'
@@ -8,6 +8,8 @@ export default function MenuList(props: MenuListProps) {
   const {
     children,
     className,
+    maxVisibleListItems,
+    style,
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledBy,
     ...rest
@@ -16,6 +18,49 @@ export default function MenuList(props: MenuListProps) {
   const context = useMenuContext()
   const ulRef = useRef<HTMLUListElement>(null)
 
+  const hasValidMaxVisibleListItems =
+    typeof maxVisibleListItems === 'number' &&
+    Number.isFinite(maxVisibleListItems) &&
+    maxVisibleListItems > 0
+
+  const fallbackMaxHeight = hasValidMaxVisibleListItems
+    ? `calc(var(--menu-action-min-height, 2.5rem) * ${maxVisibleListItems} + var(--menu-content-padding, 0.25rem) * 2)`
+    : undefined
+
+  const [measuredMaxHeight, setMeasuredMaxHeight] = useState<
+    string | undefined
+  >(undefined)
+
+  const measureMaxHeight = useCallback(() => {
+    if (!hasValidMaxVisibleListItems || style?.maxHeight) {
+      setMeasuredMaxHeight(undefined)
+      return
+    }
+
+    const height = getVisibleMenuItemsHeight(
+      ulRef.current,
+      maxVisibleListItems
+    )
+
+    setMeasuredMaxHeight(height ? `${height}px` : undefined)
+  }, [hasValidMaxVisibleListItems, maxVisibleListItems, style?.maxHeight])
+
+  useIsomorphicLayoutEffect(() => {
+    measureMaxHeight()
+  }, [children, measureMaxHeight])
+
+  useIsomorphicLayoutEffect(() => {
+    if (!hasValidMaxVisibleListItems || style?.maxHeight) {
+      return undefined
+    }
+
+    window.addEventListener('resize', measureMaxHeight)
+
+    return () => {
+      window.removeEventListener('resize', measureMaxHeight)
+    }
+  }, [hasValidMaxVisibleListItems, measureMaxHeight, style?.maxHeight])
+
   // Share the <ul> ref with the context so MenuRoot can use it for focusOnOpenElement
   useIsomorphicLayoutEffect(() => {
     if (context?.menuRef) {
@@ -23,37 +68,29 @@ export default function MenuList(props: MenuListProps) {
     }
   })
 
-  const getValidItemCount = useCallback(() => {
-    if (!context) {
-      return 0
+  const getNavigableItems = useCallback(() => {
+    const menuEl = ulRef.current
+    if (!menuEl) {
+      return []
     }
-    return context.itemRefs.current.filter((ref) => ref?.current != null)
-      .length
-  }, [context])
+    return Array.from(
+      menuEl.querySelectorAll<HTMLElement>(
+        '[role="menuitem"]:not([aria-disabled="true"])'
+      )
+    )
+  }, [])
 
-  const focusItem = useCallback(
-    (index: number, direction: 1 | -1 = 1) => {
+  const focusByDomOrder = useCallback(
+    (element: HTMLElement) => {
       if (!context) {
         return
       }
-      const refs = context.itemRefs.current
-      const slots = refs.length
-      if (slots === 0) {
-        return
-      }
-
-      // Find next valid index
-      let target = ((index % slots) + slots) % slots
-      let attempts = 0
-      while (attempts < slots) {
-        const ref = refs[target]
-        if (ref?.current && !ref.current.getAttribute('aria-disabled')) {
-          ref.current.focus({ preventScroll: true })
-          context.setActiveIndex(target)
-          return
-        }
-        target = (target + direction + slots) % slots
-        attempts++
+      element.focus({ preventScroll: true })
+      const refIndex = context.itemRefs.current.findIndex(
+        (r) => r?.current === element
+      )
+      if (refIndex !== -1) {
+        context.setActiveIndex(refIndex)
       }
     },
     [context]
@@ -65,27 +102,35 @@ export default function MenuList(props: MenuListProps) {
         return
       }
 
-      const count = getValidItemCount()
-      if (count === 0) {
+      const items = getNavigableItems()
+      if (items.length === 0) {
         return
       }
 
-      const { activeIndex } = context
+      const currentIdx = items.indexOf(
+        document.activeElement as HTMLElement
+      )
 
       switch (event.key) {
         case 'ArrowDown': {
           event.preventDefault()
           event.stopPropagation()
-          const nextDown = activeIndex === -1 ? 0 : activeIndex + 1
-          focusItem(nextDown, 1)
+          if (currentIdx === -1) {
+            focusByDomOrder(items[0])
+          } else if (currentIdx + 1 < items.length) {
+            focusByDomOrder(items[currentIdx + 1])
+          }
           break
         }
 
         case 'ArrowUp': {
           event.preventDefault()
           event.stopPropagation()
-          const nextUp = activeIndex === -1 ? count - 1 : activeIndex - 1
-          focusItem(nextUp, -1)
+          if (currentIdx === -1) {
+            focusByDomOrder(items[items.length - 1])
+          } else if (currentIdx - 1 >= 0) {
+            focusByDomOrder(items[currentIdx - 1])
+          }
           break
         }
 
@@ -93,7 +138,7 @@ export default function MenuList(props: MenuListProps) {
         case 'PageUp': {
           event.preventDefault()
           event.stopPropagation()
-          focusItem(0, 1)
+          focusByDomOrder(items[0])
           break
         }
 
@@ -101,7 +146,7 @@ export default function MenuList(props: MenuListProps) {
         case 'PageDown': {
           event.preventDefault()
           event.stopPropagation()
-          focusItem(count - 1, -1)
+          focusByDomOrder(items[items.length - 1])
           break
         }
 
@@ -115,15 +160,14 @@ export default function MenuList(props: MenuListProps) {
           // Type-ahead: jump to first item starting with pressed character
           if (event.key.length === 1 && !event.ctrlKey && !event.metaKey) {
             const char = event.key.toLowerCase()
-            const refs = context.itemRefs.current
-            const startIndex = (activeIndex + 1) % count
+            const startIdx =
+              currentIdx === -1 ? 0 : (currentIdx + 1) % items.length
 
-            for (let i = 0; i < count; i++) {
-              const index = (startIndex + i) % count
-              const ref = refs[index]
-              const text = ref?.current?.textContent?.trim().toLowerCase()
+            for (let i = 0; i < items.length; i++) {
+              const idx = (startIdx + i) % items.length
+              const text = items[idx].textContent?.trim().toLowerCase()
               if (text?.startsWith(char)) {
-                focusItem(index)
+                focusByDomOrder(items[idx])
                 break
               }
             }
@@ -131,8 +175,22 @@ export default function MenuList(props: MenuListProps) {
         }
       }
     },
-    [context, focusItem, getValidItemCount]
+    [context, getNavigableItems, focusByDomOrder]
   )
+
+  const resolvedMaxHeight = style?.maxHeight
+    ? undefined
+    : measuredMaxHeight || fallbackMaxHeight
+
+  const listStyle: React.CSSProperties = {
+    ...(resolvedMaxHeight
+      ? {
+          maxHeight: resolvedMaxHeight,
+          overflowY: 'auto',
+        }
+      : null),
+    ...style,
+  }
 
   return (
     <ul
@@ -140,6 +198,7 @@ export default function MenuList(props: MenuListProps) {
       role="menu"
       tabIndex={-1}
       className={clsx('dnb-menu__list', 'dnb-no-focus', className)}
+      style={Object.keys(listStyle).length > 0 ? listStyle : undefined}
       aria-label={ariaLabel}
       aria-labelledby={ariaLabelledBy}
       onKeyDown={handleKeyDown}
@@ -148,4 +207,36 @@ export default function MenuList(props: MenuListProps) {
       {children}
     </ul>
   )
+}
+
+function getVisibleMenuItemsHeight(
+  ulElement: HTMLUListElement | null,
+  maxVisibleListItems: number
+) {
+  if (!ulElement) {
+    return null
+  }
+
+  const items = Array.from(ulElement.children).filter(
+    (element): element is HTMLElement => element instanceof HTMLElement
+  )
+
+  const firstVisibleItem = items[0]
+  const lastVisibleItem = items[maxVisibleListItems - 1]
+
+  if (!firstVisibleItem || !lastVisibleItem) {
+    return null
+  }
+
+  const contentHeight = Math.ceil(
+    lastVisibleItem.offsetTop +
+      lastVisibleItem.offsetHeight -
+      firstVisibleItem.offsetTop
+  )
+
+  const computedStyle = getComputedStyle(ulElement)
+  const paddingTop = parseFloat(computedStyle.paddingTop) || 0
+  const paddingBottom = parseFloat(computedStyle.paddingBottom) || 0
+
+  return contentHeight + paddingTop + paddingBottom
 }

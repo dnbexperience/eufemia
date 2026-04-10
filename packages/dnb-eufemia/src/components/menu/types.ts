@@ -68,7 +68,11 @@ export type MenuButtonProps = Omit<ButtonProps, 'children'> & {
 export type MenuListProps = {
   children?: React.ReactNode
   className?: string
-}
+  /**
+   * Maximum number of visible items before the list scrolls.
+   */
+  maxVisibleListItems?: number
+} & Omit<React.HTMLAttributes<HTMLUListElement>, 'children'>
 
 export type MenuActionProps = {
   id?: string
