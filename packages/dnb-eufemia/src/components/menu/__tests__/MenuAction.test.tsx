@@ -3,47 +3,7 @@ import { render, fireEvent } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import MenuAction from '../MenuAction'
 import { MenuContext, MenuTriggerContext } from '../MenuContext'
-import type { MenuContextValue } from '../types'
-
-function createMockContext(
-  overrides?: Partial<MenuContextValue>
-): MenuContextValue {
-  const itemRefs: React.RefObject<Array<React.RefObject<HTMLElement>>> = {
-    current: [],
-  }
-
-  return {
-    level: 0,
-    closeAll: jest.fn(),
-    activeIndex: 0,
-    setActiveIndex: jest.fn(),
-    registerItem: jest.fn((ref) => {
-      const index = itemRefs.current.length
-      itemRefs.current.push(ref)
-      return index
-    }),
-    unregisterItem: jest.fn(),
-    itemRefs,
-    menuRef: { current: null },
-    isOpen: true,
-    ...overrides,
-  }
-}
-
-function renderWithContext(
-  ui: React.ReactElement,
-  contextOverrides?: Partial<MenuContextValue>
-) {
-  const context = createMockContext(contextOverrides)
-  return {
-    ...render(
-      <MenuContext.Provider value={context}>
-        <ul role="menu">{ui}</ul>
-      </MenuContext.Provider>
-    ),
-    context,
-  }
-}
+import { createMockContext, renderWithContext } from './testHelpers'
 
 describe('MenuAction', () => {
   it('renders as li element', () => {

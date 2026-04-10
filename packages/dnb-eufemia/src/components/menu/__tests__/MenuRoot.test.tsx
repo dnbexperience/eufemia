@@ -6,74 +6,8 @@ import MenuButton from '../MenuButton'
 import MenuList from '../MenuList'
 import MenuAction from '../MenuAction'
 
-// Mock Popover to avoid portal complexity in unit tests
 jest.mock('../../popover/Popover', () => {
-  return function MockPopover(props: {
-    open?: boolean
-    onOpenChange?: (state: boolean) => void
-    trigger?: unknown
-    children?:
-      | React.ReactNode
-      | ((ctx: Record<string, unknown>) => React.ReactNode)
-    className?: string
-    hideCloseButton?: boolean
-    hideArrow?: boolean
-    noInnerSpace?: boolean
-    focusOnOpen?: boolean
-    focusOnOpenElement?: () => HTMLElement | null
-    contentClassName?: string
-    triggerAttributes?: Record<string, unknown>
-  }) {
-    const closeFn = () => props.onOpenChange?.(false)
-
-    const triggerElement =
-      typeof props.trigger === 'function'
-        ? (() => {
-            const triggerRenderProps = {
-              ref: () => {},
-              'aria-controls': 'mock-popover',
-              'aria-expanded': props.open || false,
-              ...props.triggerAttributes,
-            }
-            Object.defineProperties(triggerRenderProps, {
-              active: {
-                value: props.open || false,
-                enumerable: false,
-              },
-              open: {
-                value: () => props.onOpenChange?.(true),
-                enumerable: false,
-              },
-              close: { value: closeFn, enumerable: false },
-              toggle: {
-                value: () => props.onOpenChange?.(!props.open),
-                enumerable: false,
-              },
-            })
-            return props.trigger(triggerRenderProps)
-          })()
-        : props.trigger
-
-    const content =
-      typeof props.children === 'function'
-        ? props.children({
-            active: props.open || false,
-            open: () => props.onOpenChange?.(true),
-            close: closeFn,
-            toggle: () => props.onOpenChange?.(!props.open),
-            id: 'mock-popover',
-          })
-        : props.children
-
-    return (
-      <div className={props.className} data-testid="mock-popover">
-        {triggerElement}
-        {props.open && (
-          <div data-testid="mock-popover-content">{content}</div>
-        )}
-      </div>
-    )
-  }
+  return jest.requireActual('./testHelpers').MockPopover
 })
 
 describe('MenuRoot', () => {
@@ -142,9 +76,7 @@ describe('MenuRoot', () => {
       </MenuRoot>
     )
 
-    expect(
-      document.querySelector('[data-testid="mock-popover-content"]')
-    ).not.toBeInTheDocument()
+    expect(document.querySelector('[role="menu"]')).not.toBeInTheDocument()
 
     rerender(
       <MenuRoot open={true}>
@@ -157,9 +89,7 @@ describe('MenuRoot', () => {
       </MenuRoot>
     )
 
-    expect(
-      document.querySelector('[data-testid="mock-popover-content"]')
-    ).toBeInTheDocument()
+    expect(document.querySelector('[role="menu"]')).toBeInTheDocument()
   })
 
   it('calls onOpenChange when toggled', () => {

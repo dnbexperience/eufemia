@@ -2,76 +2,11 @@ import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import Menu from '../Menu'
 import { MenuContext } from '../MenuContext'
-import type { MenuContextValue } from '../types'
+import { createMockContext } from './testHelpers'
 
-// Mock Popover for tests that use Menu.Root
 jest.mock('../../popover/Popover', () => {
-  const triggerRefCallback = jest.fn()
-
-  return function MockPopover(props) {
-    const closeFn = () => props.onOpenChange?.(false)
-
-    const triggerElement =
-      typeof props.trigger === 'function'
-        ? (() => {
-            const triggerRenderProps = {
-              ref: triggerRefCallback,
-              'aria-controls': 'mock-popover-content',
-              'aria-expanded': props.open || false,
-              ...props.triggerAttributes,
-            }
-            Object.defineProperties(triggerRenderProps, {
-              active: { value: props.open || false, enumerable: false },
-              open: {
-                value: () => props.onOpenChange?.(true),
-                enumerable: false,
-              },
-              close: { value: closeFn, enumerable: false },
-              toggle: {
-                value: () => props.onOpenChange?.(!props.open),
-                enumerable: false,
-              },
-            })
-            return props.trigger(triggerRenderProps)
-          })()
-        : props.trigger
-
-    const content =
-      typeof props.children === 'function'
-        ? props.children({
-            active: props.open || false,
-            open: () => props.onOpenChange?.(true),
-            close: closeFn,
-            toggle: () => props.onOpenChange?.(!props.open),
-            id: 'mock-popover-content',
-          })
-        : props.children
-
-    return (
-      <div className={props.className} id={props.id}>
-        {triggerElement}
-        {props.open && <div>{content}</div>}
-      </div>
-    )
-  }
+  return jest.requireActual('./testHelpers').MockPopover
 })
-
-function createMockContext(
-  overrides: Partial<MenuContextValue> = {}
-): MenuContextValue {
-  return {
-    level: 0,
-    closeAll: jest.fn(),
-    activeIndex: 0,
-    setActiveIndex: jest.fn(),
-    registerItem: jest.fn().mockReturnValue(0),
-    unregisterItem: jest.fn(),
-    itemRefs: { current: [] },
-    menuRef: { current: null },
-    isOpen: true,
-    ...overrides,
-  }
-}
 
 describe('MenuAccordion', () => {
   it('renders with text and icon', () => {

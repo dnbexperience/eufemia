@@ -3,56 +3,8 @@ import { render, fireEvent } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import Menu from '../Menu'
 
-// Mock Popover to test integration without portal complexity
 jest.mock('../../popover/Popover', () => {
-  const triggerRefCallback = jest.fn()
-
-  return function MockPopover(props) {
-    const closeFn = () => props.onOpenChange?.(false)
-
-    const triggerElement =
-      typeof props.trigger === 'function'
-        ? (() => {
-            const triggerRenderProps = {
-              ref: triggerRefCallback,
-              'aria-controls': 'mock-popover-content',
-              'aria-expanded': props.open || false,
-              ...props.triggerAttributes,
-            }
-            Object.defineProperties(triggerRenderProps, {
-              active: { value: props.open || false, enumerable: false },
-              open: {
-                value: () => props.onOpenChange?.(true),
-                enumerable: false,
-              },
-              close: { value: closeFn, enumerable: false },
-              toggle: {
-                value: () => props.onOpenChange?.(!props.open),
-                enumerable: false,
-              },
-            })
-            return props.trigger(triggerRenderProps)
-          })()
-        : props.trigger
-
-    const content =
-      typeof props.children === 'function'
-        ? props.children({
-            active: props.open || false,
-            open: () => props.onOpenChange?.(true),
-            close: closeFn,
-            toggle: () => props.onOpenChange?.(!props.open),
-            id: 'mock-popover-content',
-          })
-        : props.children
-
-    return (
-      <div className={props.className} id={props.id}>
-        {triggerElement}
-        {props.open && <div>{content}</div>}
-      </div>
-    )
-  }
+  return jest.requireActual('./testHelpers').MockPopover
 })
 
 describe('Menu integration', () => {

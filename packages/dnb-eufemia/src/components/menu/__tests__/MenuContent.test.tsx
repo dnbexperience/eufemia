@@ -6,31 +6,7 @@ import MenuAction from '../MenuAction'
 import MenuDivider from '../MenuDivider'
 import { MenuContext } from '../MenuContext'
 import type { MenuContextValue } from '../types'
-
-function createMockContext(
-  overrides?: Partial<MenuContextValue>
-): MenuContextValue {
-  const itemRefs: React.RefObject<Array<React.RefObject<HTMLElement>>> = {
-    current: [],
-  }
-
-  return {
-    level: 0,
-    closeAll: jest.fn(),
-    activeIndex: 0,
-    setActiveIndex: jest.fn(),
-    registerItem: jest.fn((ref) => {
-      const index = itemRefs.current.length
-      itemRefs.current.push(ref)
-      return index
-    }),
-    unregisterItem: jest.fn(),
-    itemRefs,
-    menuRef: { current: null },
-    isOpen: true,
-    ...overrides,
-  }
-}
+import { createMockContext } from './testHelpers'
 
 function renderWithContext(
   ui: React.ReactElement,
