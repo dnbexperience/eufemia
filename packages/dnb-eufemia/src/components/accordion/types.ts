@@ -1,6 +1,7 @@
 import type { AccordionProps } from './Accordion'
 
 export type AccordionGroupProps = AccordionProps & {
+  /** If `true`, all accordions can be collapsed at once (none expanded). Defaults to `false`. */
   allowCloseAll?: boolean
   /**
    * Determines how many accordions can be expanded at once.
@@ -13,6 +14,7 @@ export type AccordionGroupProps = AccordionProps & {
    * Default: `undefined`
    */
   expandedId?: string
+  /** Ref that exposes a function to programmatically collapse all expanded accordions. Call `.current()` to trigger. */
   collapseAllHandleRef?: React.RefObject<() => void>
 }
 

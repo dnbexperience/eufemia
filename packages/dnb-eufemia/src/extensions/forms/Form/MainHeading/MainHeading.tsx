@@ -11,7 +11,9 @@ import type { ComponentProps } from '../../types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type FormMainHeadingProps = ComponentProps & {
+  /** The heading level to render (h2–h6). Defaults to `2`. */
   level?: HeadingLevel
+  /** Configuration for an inline help button shown next to the heading. */
   help?: HelpProps
   children?: React.ReactNode
 } & Omit<React.HTMLProps<HTMLElement>, 'size'>
