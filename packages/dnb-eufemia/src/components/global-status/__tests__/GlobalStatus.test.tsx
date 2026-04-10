@@ -309,7 +309,6 @@ describe('GlobalStatus component', () => {
     ).not.toBeInTheDocument()
   })
 
-  // TODO: Enable this test before releasing v11
   it('should handle delayed interactions', async () => {
     const FormField1 = () => {
       const [status, setStatus] = React.useState(null)
