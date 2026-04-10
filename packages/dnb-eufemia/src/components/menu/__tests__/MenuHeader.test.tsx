@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import Menu from '../Menu'
 
 describe('MenuHeader', () => {
@@ -96,5 +97,15 @@ describe('MenuHeader', () => {
     // Headers should not be registered as menu items
     const menuItems = document.querySelectorAll('[role="menuitem"]')
     expect(menuItems).toHaveLength(2) // Cut + Select All only
+  })
+
+  it('should have no accessibility violations', async () => {
+    const { container } = render(
+      <ul role="menu">
+        <Menu.Header text="Section" />
+      </ul>
+    )
+
+    expect(await axeComponent(container)).toHaveNoViolations()
   })
 })
