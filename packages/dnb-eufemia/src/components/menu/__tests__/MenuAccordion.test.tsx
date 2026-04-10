@@ -81,6 +81,48 @@ describe('MenuAccordion', () => {
     expect(trigger.getAttribute('aria-expanded')).toBe('true')
   })
 
+  it('closes on Enter key when already open', () => {
+    const ctx = createMockContext()
+
+    render(
+      <MenuContext.Provider value={ctx}>
+        <ul role="menu">
+          <Menu.Accordion text="Export as">
+            <Menu.Action text="PDF" />
+          </Menu.Accordion>
+        </ul>
+      </MenuContext.Provider>
+    )
+
+    const trigger = document.querySelector('.dnb-menu__accordion__trigger')
+    fireEvent.keyDown(trigger, { key: 'Enter' })
+    expect(trigger.getAttribute('aria-expanded')).toBe('true')
+
+    fireEvent.keyDown(trigger, { key: 'Enter' })
+    expect(trigger.getAttribute('aria-expanded')).toBe('false')
+  })
+
+  it('closes on Space key when already open', () => {
+    const ctx = createMockContext()
+
+    render(
+      <MenuContext.Provider value={ctx}>
+        <ul role="menu">
+          <Menu.Accordion text="Export as">
+            <Menu.Action text="PDF" />
+          </Menu.Accordion>
+        </ul>
+      </MenuContext.Provider>
+    )
+
+    const trigger = document.querySelector('.dnb-menu__accordion__trigger')
+    fireEvent.keyDown(trigger, { key: ' ' })
+    expect(trigger.getAttribute('aria-expanded')).toBe('true')
+
+    fireEvent.keyDown(trigger, { key: ' ' })
+    expect(trigger.getAttribute('aria-expanded')).toBe('false')
+  })
+
   it('opens on Space key', () => {
     const ctx = createMockContext()
 
@@ -122,6 +164,40 @@ describe('MenuAccordion', () => {
     // ArrowLeft on trigger closes
     fireEvent.keyDown(trigger, { key: 'ArrowLeft' })
     expect(trigger.getAttribute('aria-expanded')).toBe('false')
+  })
+
+  it('closes accordion and restores focus to trigger on ArrowLeft from child item', () => {
+    const ctx = createMockContext()
+
+    render(
+      <MenuContext.Provider value={ctx}>
+        <ul role="menu">
+          <Menu.Accordion text="Export as">
+            <Menu.Action text="PDF" />
+            <Menu.Action text="PNG" />
+          </Menu.Accordion>
+        </ul>
+      </MenuContext.Provider>
+    )
+
+    const trigger = document.querySelector(
+      '.dnb-menu__accordion__trigger'
+    ) as HTMLElement
+
+    // Open accordion
+    fireEvent.click(trigger)
+    expect(trigger.getAttribute('aria-expanded')).toBe('true')
+
+    // Focus a child item
+    const childItem = Array.from(
+      document.querySelectorAll('[role="menuitem"]')
+    ).find((el) => el.textContent?.includes('PDF')) as HTMLElement
+    childItem.focus()
+
+    // ArrowLeft on child closes accordion and restores focus to trigger
+    fireEvent.keyDown(childItem, { key: 'ArrowLeft' })
+    expect(trigger.getAttribute('aria-expanded')).toBe('false')
+    expect(document.activeElement).toBe(trigger)
   })
 
   it('does not toggle when disabled', () => {
@@ -212,9 +288,9 @@ describe('MenuAccordion', () => {
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
     fireEvent.click(trigger)
 
-    // Nested menu list should have role="menu"
-    const menus = document.querySelectorAll('[role="menu"]')
-    expect(menus.length).toBeGreaterThanOrEqual(2) // parent + child
+    // Nested list should have role="group"
+    const groups = document.querySelectorAll('[role="group"]')
+    expect(groups.length).toBeGreaterThanOrEqual(1)
 
     // Child items rendered
     const items = document.querySelectorAll('[role="menuitem"]')
@@ -413,5 +489,143 @@ describe('MenuAccordion', () => {
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
     fireEvent.click(trigger)
     expect(onOpenChange).not.toHaveBeenCalled()
+  })
+
+  describe('cross-boundary keyboard navigation', () => {
+    it('moves focus to next parent item on ArrowDown from last child', () => {
+      render(
+        <Menu.Root open>
+          <Menu.Button text="File" />
+          <Menu.List>
+            <Menu.Action text="New" />
+            <Menu.Accordion text="Export as">
+              <Menu.Action text="PDF" />
+              <Menu.Action text="PNG" />
+            </Menu.Accordion>
+            <Menu.Action text="Close" />
+          </Menu.List>
+        </Menu.Root>
+      )
+
+      // Open accordion
+      const exportTrigger = Array.from(
+        document.querySelectorAll('[role="menuitem"]')
+      ).find((el) => el.textContent?.includes('Export as')) as HTMLElement
+      fireEvent.click(exportTrigger)
+
+      // Focus the last child item (PNG)
+      const pngItem = Array.from(
+        document.querySelectorAll('[role="menuitem"]')
+      ).find((el) => el.textContent?.includes('PNG')) as HTMLElement
+      pngItem.focus()
+
+      // ArrowDown from last child should move focus to "Close" (next parent item)
+      const menu = document.querySelector('[role="menu"]') as HTMLElement
+      fireEvent.keyDown(menu, { key: 'ArrowDown' })
+
+      const closeItem = Array.from(
+        document.querySelectorAll('[role="menuitem"]')
+      ).find((el) => el.textContent?.includes('Close')) as HTMLElement
+      expect(document.activeElement).toBe(closeItem)
+    })
+
+    it('moves focus to accordion trigger on ArrowUp from first child', () => {
+      render(
+        <Menu.Root open>
+          <Menu.Button text="File" />
+          <Menu.List>
+            <Menu.Action text="New" />
+            <Menu.Accordion text="Export as">
+              <Menu.Action text="PDF" />
+              <Menu.Action text="PNG" />
+            </Menu.Accordion>
+            <Menu.Action text="Close" />
+          </Menu.List>
+        </Menu.Root>
+      )
+
+      // Open accordion
+      const exportTrigger = Array.from(
+        document.querySelectorAll('[role="menuitem"]')
+      ).find((el) => el.textContent?.includes('Export as')) as HTMLElement
+      fireEvent.click(exportTrigger)
+
+      // Focus the first child item (PDF)
+      const pdfItem = Array.from(
+        document.querySelectorAll('[role="menuitem"]')
+      ).find((el) => el.textContent?.includes('PDF')) as HTMLElement
+      pdfItem.focus()
+
+      // ArrowUp from first child should move focus to accordion trigger
+      const menu = document.querySelector('[role="menu"]') as HTMLElement
+      fireEvent.keyDown(menu, { key: 'ArrowUp' })
+
+      expect(document.activeElement).toBe(exportTrigger)
+    })
+
+    it('keeps accordion open after cross-boundary navigation', () => {
+      render(
+        <Menu.Root open>
+          <Menu.Button text="File" />
+          <Menu.List>
+            <Menu.Action text="New" />
+            <Menu.Accordion text="Export as">
+              <Menu.Action text="PDF" />
+            </Menu.Accordion>
+            <Menu.Action text="Close" />
+          </Menu.List>
+        </Menu.Root>
+      )
+
+      const exportTrigger = Array.from(
+        document.querySelectorAll('[role="menuitem"]')
+      ).find((el) => el.textContent?.includes('Export as')) as HTMLElement
+      fireEvent.click(exportTrigger)
+
+      const pdfItem = Array.from(
+        document.querySelectorAll('[role="menuitem"]')
+      ).find((el) => el.textContent?.includes('PDF')) as HTMLElement
+      pdfItem.focus()
+
+      const menu = document.querySelector('[role="menu"]') as HTMLElement
+      fireEvent.keyDown(menu, { key: 'ArrowDown' })
+
+      // Accordion should remain open
+      expect(exportTrigger.getAttribute('aria-expanded')).toBe('true')
+    })
+
+    it('navigates into accordion children from trigger on ArrowDown', () => {
+      render(
+        <Menu.Root open>
+          <Menu.Button text="File" />
+          <Menu.List>
+            <Menu.Action text="New" />
+            <Menu.Accordion text="Export as">
+              <Menu.Action text="PDF" />
+              <Menu.Action text="PNG" />
+            </Menu.Accordion>
+            <Menu.Action text="Close" />
+          </Menu.List>
+        </Menu.Root>
+      )
+
+      // Open accordion
+      const exportTrigger = Array.from(
+        document.querySelectorAll('[role="menuitem"]')
+      ).find((el) => el.textContent?.includes('Export as')) as HTMLElement
+      fireEvent.click(exportTrigger)
+
+      // Focus the trigger
+      exportTrigger.focus()
+
+      // ArrowDown from trigger should go to first child (PDF)
+      const menu = document.querySelector('[role="menu"]') as HTMLElement
+      fireEvent.keyDown(menu, { key: 'ArrowDown' })
+
+      const pdfItem = Array.from(
+        document.querySelectorAll('[role="menuitem"]')
+      ).find((el) => el.textContent?.includes('PDF')) as HTMLElement
+      expect(document.activeElement).toBe(pdfItem)
+    })
   })
 })

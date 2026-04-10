@@ -107,9 +107,15 @@ export default function MenuList(props: MenuListProps) {
         return
       }
 
-      const currentIdx = items.indexOf(
-        document.activeElement as HTMLElement
-      )
+      let currentIdx = items.indexOf(document.activeElement as HTMLElement)
+
+      // Fallback: use activeIndex to locate the current item in DOM order
+      if (currentIdx === -1 && context.activeIndex >= 0) {
+        const activeRef = context.itemRefs.current[context.activeIndex]
+        if (activeRef?.current) {
+          currentIdx = items.indexOf(activeRef.current)
+        }
+      }
 
       switch (event.key) {
         case 'ArrowDown': {
@@ -117,8 +123,8 @@ export default function MenuList(props: MenuListProps) {
           event.stopPropagation()
           if (currentIdx === -1) {
             focusByDomOrder(items[0])
-          } else if (currentIdx + 1 < items.length) {
-            focusByDomOrder(items[currentIdx + 1])
+          } else {
+            focusByDomOrder(items[(currentIdx + 1) % items.length])
           }
           break
         }
@@ -128,8 +134,10 @@ export default function MenuList(props: MenuListProps) {
           event.stopPropagation()
           if (currentIdx === -1) {
             focusByDomOrder(items[items.length - 1])
-          } else if (currentIdx - 1 >= 0) {
-            focusByDomOrder(items[currentIdx - 1])
+          } else {
+            focusByDomOrder(
+              items[(currentIdx - 1 + items.length) % items.length]
+            )
           }
           break
         }

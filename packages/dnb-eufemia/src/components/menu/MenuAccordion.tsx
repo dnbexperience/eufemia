@@ -9,7 +9,6 @@ import clsx from 'clsx'
 import IconPrimary from '../IconPrimary'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import { MenuContext, useMenuContext } from './MenuContext'
-import MenuList from './MenuList'
 import MenuItemContent from './MenuItemContent'
 import useMenuItemRegistration from './useMenuItemRegistration'
 import type { MenuAccordionProps, MenuContextValue } from './types'
@@ -56,32 +55,7 @@ export default function MenuAccordion(props: MenuAccordionProps) {
   const triggerRef = useRef<HTMLDivElement>(null)
   const { isActive } = useMenuItemRegistration(triggerRef)
 
-  // Child context management
-  const activeIndexRef = useRef(-1)
-  const [activeIndex, setActiveIndexState] = useState(-1)
-  const itemRefsRef = useRef<Array<React.RefObject<HTMLElement>>>([])
-  const nextIndexRef = useRef(0)
-  const menuRef = useRef<HTMLUListElement>(null)
-
-  const setActiveIndex = useCallback((index: number) => {
-    activeIndexRef.current = index
-    setActiveIndexState(index)
-  }, [])
-
-  const registerChildItem = useCallback(
-    (ref: React.RefObject<HTMLElement>) => {
-      const index = nextIndexRef.current
-      nextIndexRef.current += 1
-      itemRefsRef.current[index] = ref
-      return index
-    },
-    []
-  )
-
-  const unregisterChildItem = useCallback((index: number) => {
-    itemRefsRef.current[index] =
-      undefined as unknown as React.RefObject<HTMLElement>
-  }, [])
+  const contentRef = useRef<HTMLUListElement>(null)
 
   const closeAll = useCallback(() => {
     setIsOpen(false)
@@ -94,39 +68,19 @@ export default function MenuAccordion(props: MenuAccordionProps) {
     triggerRef.current?.focus({ preventScroll: true })
   }, [setIsOpen])
 
-  const childContextValue: MenuContextValue = useMemo(
-    () => ({
-      level,
-      closeAll,
-      closeSelf,
-      activeIndex,
-      setActiveIndex,
-      registerItem: registerChildItem,
-      unregisterItem: unregisterChildItem,
-      itemRefs: itemRefsRef,
-      menuRef,
-      isOpen,
-    }),
-    [
-      level,
-      closeAll,
-      closeSelf,
-      activeIndex,
-      setActiveIndex,
-      registerChildItem,
-      unregisterChildItem,
-      isOpen,
-    ]
-  )
-
-  // Reset child registration when accordion closes
-  useEffect(() => {
-    if (!isOpen) {
-      nextIndexRef.current = 0
-      itemRefsRef.current = []
-      setActiveIndex(-1)
+  // Inherit parent navigation (registerItem, itemRefs, activeIndex, etc.)
+  // and only override level, closeSelf, and closeAll for this accordion
+  const childContextValue: MenuContextValue | null = useMemo(() => {
+    if (!parentContext) {
+      return null
     }
-  }, [isOpen, setActiveIndex])
+    return {
+      ...parentContext,
+      level,
+      closeAll,
+      closeSelf,
+    }
+  }, [parentContext, level, closeAll, closeSelf])
 
   const handleClick = useCallback(() => {
     if (disabled) {
@@ -134,6 +88,21 @@ export default function MenuAccordion(props: MenuAccordionProps) {
     }
     setIsOpen((prev) => !prev)
   }, [disabled, setIsOpen])
+
+  const focusFirstChild = useCallback(() => {
+    const firstChild = contentRef.current?.querySelector<HTMLElement>(
+      '[role="menuitem"]:not([aria-disabled="true"])'
+    )
+    if (firstChild && parentContext) {
+      firstChild.focus({ preventScroll: true })
+      const refIndex = parentContext.itemRefs.current.findIndex(
+        (r) => r?.current === firstChild
+      )
+      if (refIndex !== -1) {
+        parentContext.setActiveIndex(refIndex)
+      }
+    }
+  }, [parentContext])
 
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -149,24 +118,19 @@ export default function MenuAccordion(props: MenuAccordionProps) {
         event.preventDefault()
         event.stopPropagation()
 
-        const setFocus = () => {
-          const firstRef = itemRefsRef.current[0]
-          if (firstRef?.current) {
-            firstRef.current.focus({ preventScroll: true })
-            setActiveIndex(0)
-          }
-        }
-
         if (!isOpen) {
           setIsOpen(true)
 
           // Focus the first child item after render
           requestAnimationFrame(() => {
-            setFocus()
+            focusFirstChild()
           })
         } else if (event.key === 'ArrowRight') {
           // Already open — focus first child
-          setFocus()
+          focusFirstChild()
+        } else {
+          // Already open — Enter/Space toggles closed
+          setIsOpen(false)
         }
       }
 
@@ -176,7 +140,7 @@ export default function MenuAccordion(props: MenuAccordionProps) {
         setIsOpen(false)
       }
     },
-    [disabled, isOpen, setActiveIndex, setIsOpen]
+    [disabled, isOpen, setIsOpen, focusFirstChild]
   )
 
   return (
@@ -210,13 +174,18 @@ export default function MenuAccordion(props: MenuAccordionProps) {
       </div>
 
       <HeightAnimation open={isOpen}>
-        <MenuContext.Provider value={childContextValue}>
-          <MenuList
-            aria-label={typeof text === 'string' ? text : undefined}
-          >
-            {children}
-          </MenuList>
-        </MenuContext.Provider>
+        {childContextValue && (
+          <MenuContext.Provider value={childContextValue}>
+            <ul
+              ref={contentRef}
+              role="group"
+              aria-label={typeof text === 'string' ? text : undefined}
+              className="dnb-menu__list"
+            >
+              {children}
+            </ul>
+          </MenuContext.Provider>
+        )}
       </HeightAnimation>
     </li>
   )
