@@ -1249,8 +1249,7 @@ describe('Form.Handler', () => {
         foo: string
       }
 
-      // strictNullChecks must be true in tsconfig to use JSONSchemaType
-      // @ts-expect-error
+      // @ts-expect-error strictNullChecks must be true in tsconfig to use JSONSchemaType
       const schema: JSONSchemaType<DataType> = {
         type: 'object',
         properties: {
@@ -1262,7 +1261,7 @@ describe('Form.Handler', () => {
 
       render(
         <Form.Handler
-          // @ts-expect-error JSONSchemaType from ajv is no longer part of the Schema union type
+          // @ts-expect-error JSONSchemaType from ajv is not part of the Schema union type
           schema={schema}
           ajvInstance={makeAjvInstance()}
         >
