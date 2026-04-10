@@ -7,6 +7,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -37,8 +38,6 @@ import {
 } from '../skeleton/SkeletonHelper'
 import Button from '../button/Button'
 import useId from '../../shared/helpers/useId'
-import useMounted from '../../shared/helpers/useMounted'
-import useMountEffect from '../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../shared/helpers/useUpdateEffect'
 import whatInput from '../../shared/helpers/whatInput'
 import CustomContent from './TabsCustomContent'
@@ -381,7 +380,6 @@ function TabsComponent(ownProps: TabsProps) {
   // Refs
   const tabsRef = useRef<HTMLDivElement>(null)
   const tablistRef = useRef<HTMLDivElement>(null)
-  const isMountedRef = useMounted()
   const cacheRef = useRef<
     Record<string, { content: React.ReactNode; [key: string]: unknown }>
   >({})
@@ -783,9 +781,12 @@ function TabsComponent(ownProps: TabsProps) {
   }
 
   // Init on mount / window load
-  useMountEffect(() => {
+  // useLayoutEffect matches componentDidMount timing (before paint)
+  useLayoutEffect(() => {
+    let isMounted = true
+
     const init = () => {
-      if (isMountedRef.current && tablistRef.current) {
+      if (isMounted && tablistRef.current) {
         const scrollbarVisible = checkHasScrollbar()
         const hasLP = lastPositionRef.current > -1
 
@@ -819,6 +820,7 @@ function TabsComponent(ownProps: TabsProps) {
     }
 
     return () => {
+      isMounted = false
       whatInput.specificKeys([9])
       sharedStateRef.current = null
       if (typeof window !== 'undefined') {
@@ -826,10 +828,12 @@ function TabsComponent(ownProps: TabsProps) {
         window.removeEventListener('load', init)
       }
     }
-  })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Update shared state when selectedKey or data changes
-  useEffect(() => {
+  // useUpdateEffect skips mount, matching componentDidUpdate behavior
+  useUpdateEffect(() => {
     if (sharedStateRef.current) {
       onResizeHandler()
       sharedStateRef.current.update(getEventArgs({ selectedKey }))
