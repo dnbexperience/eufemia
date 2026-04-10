@@ -110,6 +110,10 @@ p > .dnb-icon {
 .dnb-tooltip {
   --inner-space: 0;
   --tooltip-border-radius: 1rem;
+  --popover-text-color: var(--token-color-text-neutral-inverse);
+  --popover-background-color: var(
+    --token-color-component-tooltip-background-neutral
+  );
   z-index: var(--tooltip-z-index);
 }
 .dnb-popover--inside-modal .dnb-tooltip {
