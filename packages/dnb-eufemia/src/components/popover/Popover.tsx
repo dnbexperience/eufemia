@@ -11,7 +11,7 @@ import React, {
   useState,
 } from 'react'
 import clsx from 'clsx'
-import PopoverCloseButton from './internal/PopoverCloseButton'
+import PopoverCloseButton from './PopoverCloseButton'
 import useId from '../../shared/helpers/useId'
 import useTranslation from '../../shared/useTranslation'
 import { combineDescribedBy, warn } from '../../shared/component-helper'

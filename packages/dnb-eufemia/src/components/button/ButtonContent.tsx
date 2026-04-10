@@ -1,7 +1,7 @@
 import React from 'react'
-import AlignmentHelper from '../../../shared/AlignmentHelper'
-import IconPrimary from '../../icon-primary/IconPrimary'
-import type { IconIcon, IconSize } from '../../icon/Icon'
+import AlignmentHelper from '../../shared/AlignmentHelper'
+import IconPrimary from '../icon-primary/IconPrimary'
+import type { IconIcon, IconSize } from '../icon/Icon'
 
 type ButtonContentProps = {
   title?: React.ReactNode

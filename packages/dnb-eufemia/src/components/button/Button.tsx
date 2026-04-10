@@ -27,7 +27,7 @@ import FormStatus from '../form-status/FormStatus'
 import Anchor, { pickIcon, opensNewTab } from '../anchor/Anchor'
 import { launch } from '../../icons'
 import Tooltip from '../tooltip/Tooltip'
-import ButtonContent from './internal/ButtonContent'
+import ButtonContent from './ButtonContent'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { IconIcon, IconSize } from '../icon/Icon'
 import type {

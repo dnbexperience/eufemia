@@ -1,12 +1,12 @@
 import React from 'react'
 import clsx from 'clsx'
-import Context from '../../../shared/Context'
-import { createSpacingClasses } from '../../space/SpacingHelper'
-import { createSkeletonClass } from '../../skeleton/SkeletonHelper'
-import type { IconIcon, IconSize } from '../../icon/Icon'
-import type { SkeletonShow } from '../../skeleton/Skeleton'
-import type { SpacingProps } from '../../../shared/types'
-import ButtonContent from '../../button/internal/ButtonContent'
+import Context from '../../shared/Context'
+import { createSpacingClasses } from '../space/SpacingHelper'
+import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import type { IconIcon, IconSize } from '../icon/Icon'
+import type { SkeletonShow } from '../skeleton/Skeleton'
+import type { SpacingProps } from '../../shared/types'
+import ButtonContent from '../button/ButtonContent'
 
 type CloseButtonProps = Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
