@@ -1515,7 +1515,13 @@ Docs: [Eufemia Forms](/uilib/extensions/forms/)
 
 **Migration Required**: If you use JSON Schema validation with Ajv, you must:
 
-**Update your imports and usage**:
+1. Install `ajv` and `ajv-errors` as dependencies in your project:
+
+```bash
+npm install ajv ajv-errors
+```
+
+2. Import `makeAjvInstance` from the dedicated path instead of the barrel export:
 
 Before (v10):
 
@@ -1545,9 +1551,9 @@ After (v11):
 import {
   Form,
   Field,
-  JSONSchema,
-  makeAjvInstance,
+  type JSONSchema,
 } from '@dnb/eufemia/extensions/forms'
+import { makeAjvInstance } from '@dnb/eufemia/extensions/forms/utils/ajv'
 
 const ajvInstance = makeAjvInstance()
 const schema: JSONSchema = {
@@ -1584,6 +1590,22 @@ function MyApp() {
   )
 }
 ```
+
+### JSONSchemaType removed from public API
+
+**Breaking Change**: The `JSONSchemaType` type from ajv is no longer re-exported from `@dnb/eufemia/extensions/forms`. Use the `JSONSchema` type instead, which accepts any valid JSON Schema object.
+
+If you need the strict `JSONSchemaType` from ajv, import it directly:
+
+```tsx
+import type { JSONSchemaType } from 'ajv/dist/2020.js'
+```
+
+### FormError messageValues type widened
+
+**Breaking Change**: `FormError`'s `messageValues` type changed from `Record<string, string>` to `Record<string, string | number>` to correctly reflect that validation rules like `minLength`, `maximum`, etc. produce numeric values.
+
+This is only a breaking change if you have code that strictly types `messageValues` as `Record<string, string>`.
 
 ### InputPassword moved to Field.Password
 
