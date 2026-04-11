@@ -14,6 +14,7 @@ import type {
   SpacingProps,
 } from '../../shared/types'
 import Space from '../space/Space'
+import Theme, { type ThemeSurface } from '../../shared/Theme'
 import { getColor } from '../../shared/helpers'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
@@ -84,6 +85,11 @@ export type SectionProps = {
   dropShadow?: SectionDropShadow | ResponsiveProp<SectionDropShadow>
 
   /**
+   * Define the surface color context. When set to `dark`, ondark design tokens will be used for text and outline colors.
+   */
+  surface?: ThemeSurface
+
+  /**
    * Define what HTML element should be used. Defaults to `<section>`.
    */
   element?: DynamicElement
@@ -130,7 +136,8 @@ export function SectionParams(
   const props = extendPropsWithContext(
     localProps,
     defaultProps,
-    context.Section
+    context.Section,
+    { surface: localProps?.surface ?? context?.theme?.surface }
   )
 
   const {
@@ -146,6 +153,7 @@ export function SectionParams(
     typeof props.outlineWidth === 'undefined'
       ? 'none'
       : props.outlineWidth,
+    surface,
     ref: refProp,
 
     className,
@@ -162,6 +170,7 @@ export function SectionParams(
     className: clsx(
       'dnb-section',
       `dnb-section--${variant ? variant : 'default'}`,
+      surface === 'dark' && 'dnb-section--surface-dark',
       className
     ),
     style: {
@@ -198,7 +207,11 @@ export function SectionParams(
       ...attributes?.style,
     } as React.CSSProperties,
     ref: elementRef,
-    children,
+    children: surface ? (
+      <Theme.Context surface={surface}>{children}</Theme.Context>
+    ) : (
+      children
+    ),
   })
 }
 
