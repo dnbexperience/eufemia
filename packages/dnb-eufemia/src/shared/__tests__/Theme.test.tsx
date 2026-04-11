@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { act, render } from '@testing-library/react'
 import Context from '../Context'
 import type { ThemeAllProps } from '../Theme'
 import Theme from '../Theme'
@@ -86,14 +86,154 @@ describe('Theme', () => {
     ])
   })
 
-  it('sets dark-mode as HTML classes', () => {
-    render(<Theme darkMode>content</Theme>)
+  it('sets colorScheme="dark" as HTML class', () => {
+    render(<Theme colorScheme="dark">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
     expect(Array.from(element.classList)).toEqual([
       'eufemia-theme',
-      'eufemia-theme__dark-mode',
+      'eufemia-theme__color-scheme--dark',
     ])
+  })
+
+  it('sets colorScheme="light" as HTML class', () => {
+    render(<Theme colorScheme="light">content</Theme>)
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(Array.from(element.classList)).toEqual([
+      'eufemia-theme',
+      'eufemia-theme__color-scheme--light',
+    ])
+  })
+
+  it('sets colorScheme="auto" as HTML class', () => {
+    const matchMediaOriginal = window.matchMedia
+    window.matchMedia = jest.fn().mockImplementation((query) => ({
+      media: query,
+      matches: false,
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+    }))
+
+    render(<Theme colorScheme="auto">content</Theme>)
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(Array.from(element.classList)).toEqual([
+      'eufemia-theme',
+      'eufemia-theme__color-scheme--light',
+    ])
+
+    window.matchMedia = matchMediaOriginal
+  })
+
+  it('sets colorScheme="auto" and resolves dark mode via matchMedia', () => {
+    const matchMediaOriginal = window.matchMedia
+    window.matchMedia = jest.fn().mockImplementation((query) => ({
+      media: query,
+      matches: true,
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+    }))
+
+    render(<Theme colorScheme="auto">content</Theme>)
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(Array.from(element.classList)).toEqual([
+      'eufemia-theme',
+      'eufemia-theme__color-scheme--dark',
+    ])
+
+    window.matchMedia = matchMediaOriginal
+  })
+
+  it('updates colorScheme="auto" when system preference changes', () => {
+    const matchMediaOriginal = window.matchMedia
+    let listener: (event: { matches: boolean }) => void = null
+    let matches = false
+
+    window.matchMedia = jest.fn().mockImplementation((query) => ({
+      media: query,
+      get matches() {
+        return matches
+      },
+      addEventListener: jest.fn((eventName, callback) => {
+        if (eventName === 'change') {
+          listener = callback
+        }
+      }),
+      removeEventListener: jest.fn(),
+    }))
+
+    render(<Theme colorScheme="auto">content</Theme>)
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(Array.from(element.classList)).toEqual([
+      'eufemia-theme',
+      'eufemia-theme__color-scheme--light',
+    ])
+
+    matches = true
+    act(() => {
+      listener?.({ matches: true })
+    })
+
+    expect(Array.from(element.classList)).toEqual([
+      'eufemia-theme',
+      'eufemia-theme__color-scheme--dark',
+    ])
+
+    window.matchMedia = matchMediaOriginal
+  })
+
+  it('sets colorScheme="inherit" as HTML class', () => {
+    render(<Theme colorScheme="inherit">content</Theme>)
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(Array.from(element.classList)).toEqual([
+      'eufemia-theme',
+      'eufemia-theme__color-scheme--inherit',
+    ])
+  })
+
+  it('resolves colorScheme="inherit" from parent theme', () => {
+    render(
+      <Theme id="parent" colorScheme="dark">
+        <Theme id="child" colorScheme="inherit">
+          content
+        </Theme>
+      </Theme>
+    )
+
+    const parent = document.querySelector('#parent')
+    const child = document.querySelector('#child')
+    expect(Array.from(parent.classList)).toContain(
+      'eufemia-theme__color-scheme--dark'
+    )
+    expect(Array.from(child.classList)).toContain(
+      'eufemia-theme__color-scheme--dark'
+    )
+  })
+
+  it('resolves nested colorScheme="inherit" through theme context chain', () => {
+    render(
+      <Theme id="grandparent" colorScheme="dark">
+        <Theme id="parent" colorScheme="inherit">
+          <Theme id="child" colorScheme="inherit">
+            content
+          </Theme>
+        </Theme>
+      </Theme>
+    )
+
+    const parent = document.querySelector('#parent')
+    const child = document.querySelector('#child')
+
+    expect(Array.from(parent.classList)).toContain(
+      'eufemia-theme__color-scheme--dark'
+    )
+    expect(Array.from(child.classList)).toContain(
+      'eufemia-theme__color-scheme--dark'
+    )
   })
 
   it('provides surface through the theme context', () => {

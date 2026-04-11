@@ -26,9 +26,9 @@ export const ThemeProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  darkMode: {
-    doc: 'When a component supports a dark mode style, it will be used instead for the dedicated area.',
-    type: 'boolean',
+  colorScheme: {
+    doc: 'Controls the color scheme. Use `auto` to follow system preference and switch automatically between light and dark, `light` for light mode, `dark` for dark mode, or `inherit` to inherit from a parent Theme. Default is `undefined`.',
+    type: ['"auto"', '"light"', '"dark"', '"inherit"'],
     status: 'optional',
   },
   surface: {
