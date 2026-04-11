@@ -23,7 +23,7 @@
   --typography-h-medium-line-height: var(--line-height-lead);
   --typography-h-small-small-line-height: var(--line-height-small);
 }
-//The following variables and mixins are used in ui-theme-tags.scss
+// The following variables and mixins are used in ui-theme-tags.scss
 @mixin typographyStyle() {
   color: var(--token-color-text-neutral, currentColor);
 }
