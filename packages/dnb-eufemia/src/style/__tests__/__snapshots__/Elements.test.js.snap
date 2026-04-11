@@ -948,6 +948,9 @@ sub {
   line-height: var(--line-height-basis);
   font-style: italic;
 }
+.dnb-p {
+  color: var(--token-color-text-neutral, currentColor);
+}
 
 /*
  * Typography
