@@ -598,6 +598,9 @@ function formatCountryCode(value: string) {
   return `+${value}`
 }
 
+// Country codes that can be auto-detected from spaceless strings (e.g. "+4712345678")
+const autoDetectCountryCodes = ['+47']
+
 function splitValue(value: string) {
   if (typeof value !== 'string') {
     return [undefined, '']
@@ -609,9 +612,12 @@ function splitValue(value: string) {
     return [value.slice(0, spaceIndex), value.slice(spaceIndex + 1)]
   }
 
-  // Auto-detect Norwegian country code (+47) from spaceless strings like "+4712345678"
-  if (value.startsWith('+47') && value.length > 3) {
-    return ['+47', value.slice(3)]
+  // Auto-detect known country codes from spaceless strings like "+4712345678"
+  const detectedCode = autoDetectCountryCodes.find(
+    (code) => value.startsWith(code) && value.length > code.length
+  )
+  if (detectedCode) {
+    return [detectedCode, value.slice(detectedCode.length)]
   }
 
   // No space found — treat the whole value as the country code (or plain text)
