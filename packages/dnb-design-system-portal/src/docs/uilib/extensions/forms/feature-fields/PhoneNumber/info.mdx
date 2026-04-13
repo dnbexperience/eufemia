@@ -52,6 +52,24 @@ By default, the component emits values with a space between the country code and
 
 This ensures the value round-trips correctly: spaceless input from the backend is auto-detected on the way in, and is emitted without a space on the way out.
 
+### Handling `00` prefix format
+
+Some backends may store phone numbers with a `00` prefix instead of `+` (e.g. `004712345678`). Since the component uses E.164 format (`+` prefix) internally, you can use `transformIn` and `transformOut` to convert between formats:
+
+```tsx
+<Field.PhoneNumber
+  value="+4712345678"
+  omitSpaceSeparator
+  transformOut={(value) =>
+    typeof value === 'string' ? value.replace(/^\+/, '00') : value
+  }
+  onChange={(value) => console.log('onChange', value)}
+/>
+// onChange "004712345678"
+```
+
+Note that the `value` prop should use E.164 format (`+` prefix). Normalize the value before passing it to the component if your backend stores it with a `00` prefix.
+
 ## Structure and format of phone numbers
 
 Creating a list of all possible phone numbers would be impractical due to the vast number of combinations, especially considering the various country codes, area codes, and local numbers. Additionally, new numbers are constantly being allocated, and existing numbers may be reassigned over time.
