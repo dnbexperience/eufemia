@@ -277,7 +277,8 @@ function getIcon({
   theme?: string
 }): React.ReactNode {
   if (typeof icon === 'string') {
-    let IconToLoad: React.ComponentType<{ state?: FormStatusState }> = ErrorIcon
+    let IconToLoad: React.ComponentType<{ state?: FormStatusState }> =
+      ErrorIcon
 
     switch (state) {
       case 'information':
