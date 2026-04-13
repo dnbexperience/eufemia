@@ -244,7 +244,7 @@ export default function ModalContent(props: ModalContentProps) {
 
   const closeModalContent = useCallback(
     (
-      event: React.SyntheticEvent,
+      event: React.SyntheticEvent | Event,
       {
         triggeredBy,
         ...params
@@ -299,7 +299,7 @@ export default function ModalContent(props: ModalContentProps) {
 
       if (mostCurrent === selfRef.current) {
         event.preventDefault()
-        closeModalContent(event as unknown as React.SyntheticEvent, {
+        closeModalContent(event, {
           triggeredBy: 'keyboard',
         })
       }

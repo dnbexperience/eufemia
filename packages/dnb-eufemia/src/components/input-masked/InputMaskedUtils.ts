@@ -348,11 +348,11 @@ export const handleCurrencyMask = ({
   maskOptions: Record<string, unknown>
   currencyMask: string | Record<string, unknown>
 }): InputMaskParams => {
-  const givenParams =
+  const givenParams: Record<string, unknown> =
     typeof currencyMask === 'string'
       ? {
           ...maskOptions,
-          ...({ '0': String(currencyMask) } as Record<string, unknown>),
+          '0': String(currencyMask),
         }
       : { ...maskOptions, ...currencyMask }
   const paramsWithDefaults: InputMaskParams = {
@@ -491,13 +491,13 @@ export function handleDecimalSeparator(locale: string): string {
  * @param {*} fallback optional fallback
  * @returns Parsed JSON
  */
-export function fromJSON<T = unknown>(
+export function fromJSON<T = Record<string, unknown>>(
   str: unknown,
   fallback: T | null = null
-): T | unknown {
+): T {
   if (typeof str === 'string' && str[0] === '{') {
     return JSON.parse(str)
   }
 
-  return str || fallback
+  return (str || fallback) as T
 }

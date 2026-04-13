@@ -318,7 +318,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
                   <Suffix
                     className="dnb-toggle-button-group__suffix"
                     id={id + '-suffix'} // used for "aria-describedby"
-                    context={props as Record<string, unknown>}
+                    context={props}
                   >
                     {suffix as React.ReactNode}
                   </Suffix>

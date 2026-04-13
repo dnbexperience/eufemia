@@ -23,9 +23,7 @@ export default function useStatSkeleton(
     hasSkeleton,
     context,
     skeletonClass: createSkeletonClass(method, hasSkeleton, context),
-    applySkeletonAttributes: (
-      attributes: React.HTMLProps<HTMLElement>
-    ) => {
+    applySkeletonAttributes: (attributes: Record<string, unknown>) => {
       skeletonDOMAttributes(attributes, hasSkeleton, context)
     },
   }

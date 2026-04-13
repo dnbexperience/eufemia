@@ -51,13 +51,12 @@ function ItemAction(props: ItemActionProps) {
 
   const handleClick = useCallback(
     (
-      event: React.MouseEvent<
-        HTMLDivElement | HTMLAnchorElement,
-        MouseEvent
-      >
+      event:
+        | React.MouseEvent<HTMLDivElement | HTMLAnchorElement, MouseEvent>
+        | React.KeyboardEvent<HTMLDivElement | HTMLAnchorElement>
     ) => {
       if (!isInactive) {
-        onClick && onClick(event as React.MouseEvent<HTMLDivElement>)
+        onClick?.(event as React.MouseEvent<HTMLDivElement>)
       }
     },
     [onClick, isInactive]
@@ -67,12 +66,7 @@ function ItemAction(props: ItemActionProps) {
     (event: React.KeyboardEvent<HTMLDivElement | HTMLAnchorElement>) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault()
-        handleClick(
-          event as unknown as React.MouseEvent<
-            HTMLDivElement | HTMLAnchorElement,
-            MouseEvent
-          >
-        )
+        handleClick(event)
       }
     },
     [handleClick]

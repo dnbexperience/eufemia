@@ -351,11 +351,11 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   // part of radioDefaultProps (e.g. role: undefined, type: undefined from
   // ToggleButton). removeUndefinedProps strips these from resolvedProps,
   // but they must flow through to inputParams to override computed values.
+  const restRecord = rest as Record<string, unknown>
+  const ownPropsRecord = ownProps as Record<string, unknown>
   for (const key of Object.keys(ownProps)) {
     if (!(key in radioDefaultProps)) {
-      ;(rest as Record<string, unknown>)[key] = (
-        ownProps as Record<string, unknown>
-      )[key]
+      restRecord[key] = ownPropsRecord[key]
     }
   }
 

@@ -57,7 +57,9 @@ const ItemAccordionContext = createContext<{
   icon?: IconIcon
   title?: React.ReactNode
   handleToggle: (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+    event:
+      | React.MouseEvent<HTMLDivElement, MouseEvent>
+      | React.KeyboardEvent<HTMLDivElement>
   ) => void
 }>(undefined)
 
@@ -95,14 +97,18 @@ function ItemAccordion(props: ItemAccordionProps) {
   }, [open])
 
   const handleToggle = useCallback(
-    (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    (
+      event:
+        | React.MouseEvent<HTMLDivElement, MouseEvent>
+        | React.KeyboardEvent<HTMLDivElement>
+    ) => {
       if (!pending) {
         setOpen((prev) => {
           const next = !prev
           onChange?.({ expanded: next })
           return next
         })
-        onClick?.(event)
+        onClick?.(event as React.MouseEvent<HTMLDivElement, MouseEvent>)
       }
     },
     [onClick, onChange, pending]
@@ -157,7 +163,11 @@ function AccordionHeader(props: AccordionHeaderProps) {
     accordionContext?.pending || accordionContext?.disabled
 
   const handleClick = useCallback(
-    (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    (
+      event:
+        | React.MouseEvent<HTMLDivElement, MouseEvent>
+        | React.KeyboardEvent<HTMLDivElement>
+    ) => {
       if (!isInactive && accordionContext) {
         accordionContext.handleToggle(event)
       }
@@ -169,9 +179,7 @@ function AccordionHeader(props: AccordionHeaderProps) {
     (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault()
-        handleClick(
-          event as unknown as React.MouseEvent<HTMLDivElement, MouseEvent>
-        )
+        handleClick(event)
       }
     },
     [handleClick]

@@ -28,7 +28,7 @@ export type SkeletonDOMAttributesContext = {
 }
 
 export const skeletonDOMAttributes = (
-  params: React.HTMLProps<HTMLElement>,
+  params: Record<string, unknown>,
   skeleton: SkeletonShow,
   context?: SkeletonContextValue
 ) => {

@@ -30,7 +30,7 @@ function Inline({
   }
 
   const attributes: Record<string, unknown> = {}
-  applySkeletonAttributes(attributes as React.HTMLProps<HTMLElement>)
+  applySkeletonAttributes(attributes)
 
   return (
     <StatRootContext value={{ inRoot, skeleton: hasSkeleton }}>

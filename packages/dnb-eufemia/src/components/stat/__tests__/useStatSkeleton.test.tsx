@@ -87,7 +87,7 @@ describe('useStatSkeleton', () => {
   it('applySkeletonAttributes sets aria-disabled when skeleton is active', () => {
     const { result } = renderHook(() => useStatSkeleton(true))
 
-    const attributes: React.HTMLProps<HTMLElement> = {}
+    const attributes: Record<string, unknown> = {}
     result.current.applySkeletonAttributes(attributes)
 
     expect(attributes['aria-disabled']).toBe(true)
@@ -97,7 +97,7 @@ describe('useStatSkeleton', () => {
   it('applySkeletonAttributes does not set aria-disabled when skeleton is inactive', () => {
     const { result } = renderHook(() => useStatSkeleton(false))
 
-    const attributes: React.HTMLProps<HTMLElement> = {}
+    const attributes: Record<string, unknown> = {}
     result.current.applySkeletonAttributes(attributes)
 
     expect(attributes['aria-disabled']).toBeUndefined()

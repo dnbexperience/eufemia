@@ -27,23 +27,20 @@ export const useNumberMaskParams = () => {
   const locale = useTranslation()
 
   if (!isRequestingNumberMask(props)) {
-    return { ...(fromJSON(props.maskOptions) as Record<string, unknown>) }
+    return { ...fromJSON(props.maskOptions) }
   }
 
   let { numberMask, currencyMask, maskOptions } = props
   const { asNumber, asPercent, asCurrency, value } = props
 
-  maskOptions = fromJSON(maskOptions) as Record<string, unknown>
-  numberMask =
-    numberMask === true
-      ? {}
-      : (fromJSON(numberMask) as Record<string, unknown>)
+  maskOptions = fromJSON(maskOptions)
+  numberMask = numberMask === true ? {} : fromJSON(numberMask)
   currencyMask =
     currencyMask === true
       ? {}
-      : (fromJSON(currencyMask, {
+      : fromJSON(currencyMask, {
           currency: currencyMask,
-        }) as Record<string, unknown>)
+        })
   if (!currencyMask?.currency) {
     delete currencyMask.currency
   }

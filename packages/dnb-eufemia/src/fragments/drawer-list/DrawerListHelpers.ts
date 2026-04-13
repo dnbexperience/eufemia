@@ -156,7 +156,10 @@ export function parseContentTitle(
 }
 
 export const hasObjectKeyAsValue = (data: unknown) => {
-  const d = (data as Record<string, unknown>)?.rawData || data
+  const d =
+    (data && typeof data === 'object' && 'rawData' in data
+      ? data.rawData
+      : null) || data
   return d && typeof d === 'object' && !Array.isArray(d)
 }
 

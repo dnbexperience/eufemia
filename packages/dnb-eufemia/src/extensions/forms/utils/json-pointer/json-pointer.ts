@@ -153,6 +153,10 @@ function next(
     }, {})
   }
 
+  if (!cur || typeof cur !== 'object') {
+    return undefined
+  }
+
   const obj = cur as Record<string, unknown>
   let res
   for (const key in obj) {

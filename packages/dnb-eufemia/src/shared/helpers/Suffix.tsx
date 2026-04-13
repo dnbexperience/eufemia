@@ -15,7 +15,7 @@ export type SuffixChildren = React.ReactNode
 export type SuffixProps = {
   className: string
   children: SuffixChildren
-  context: Record<string, unknown>
+  context: object
   skeleton?: SkeletonShow
 }
 

@@ -82,12 +82,7 @@ export function debounce<T extends unknown[], R>(
 
     canceled = false
 
-    const inst: Record<string, unknown> = ((instance as Record<
-      string,
-      unknown
-    >) ||
-      this ||
-      {}) as Record<string, unknown>
+    const inst = (instance || this || {}) as Record<string, unknown>
     inst.cancel = cancel
     inst.addCancelEvent = addCancelEvent
 
