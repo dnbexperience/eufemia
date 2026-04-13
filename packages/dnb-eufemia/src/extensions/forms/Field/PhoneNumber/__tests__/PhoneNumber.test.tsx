@@ -525,6 +525,34 @@ describe('Field.PhoneNumber', () => {
       expect(codeElement.value).toBe('NO (+47)')
       expect(numberElement.value).toContain('0')
     })
+
+    it('should auto-detect +1684 (American Samoa) from spaceless value', () => {
+      render(<Field.PhoneNumber value="+16841234567" />)
+
+      const codeElement = document.querySelector(
+        '.dnb-forms-field-phone-number__country-code input'
+      ) as HTMLInputElement
+      const numberElement = document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      ) as HTMLInputElement
+
+      expect(codeElement.value).toBe('AS (+1-684)')
+      expect(numberElement.value).toContain('1234567')
+    })
+
+    it('should auto-detect +441481 (Guernsey) from spaceless value', () => {
+      render(<Field.PhoneNumber value="+4414811234567" />)
+
+      const codeElement = document.querySelector(
+        '.dnb-forms-field-phone-number__country-code input'
+      ) as HTMLInputElement
+      const numberElement = document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      ) as HTMLInputElement
+
+      expect(codeElement.value).toBe('GG (+44-1481)')
+      expect(numberElement.value).toContain('1234567')
+    })
   })
 
   describe('omitSpaceSeparator', () => {
@@ -652,6 +680,32 @@ describe('Field.PhoneNumber', () => {
         expect.objectContaining({
           countryCode: '+47',
           phoneNumber: '12345679',
+        })
+      )
+    })
+
+    it('should emit pure E.164 value for dashed CDC codes like +1-684', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Field.PhoneNumber
+          value="+1-684 1234567"
+          onChange={onChange}
+          omitSpaceSeparator
+        />
+      )
+
+      const numberElement = document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      ) as HTMLInputElement
+
+      fireEvent.change(numberElement, { target: { value: '7654321' } })
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        '+16847654321',
+        expect.objectContaining({
+          countryCode: '+1-684',
+          phoneNumber: '7654321',
         })
       )
     })

@@ -8,9 +8,18 @@ import countries from '../constants/countries'
  * specific code is matched first — this is safe because ITU E.164
  * country codes are prefix-free at each allocation length.
  */
-const sortedCodes: Array<string> = Array.from(
+const strippedCodes: Array<string> = Array.from(
   new Set(countries.map((c) => c.cdc.replace(/-/g, '')))
 ).sort((a, b) => b.length - a.length || a.localeCompare(b))
+
+/**
+ * Maps stripped digit strings back to the original dashed CDC format
+ * used in `countries.ts` (e.g. "1684" → "1-684", "441481" → "44-1481").
+ * Codes without dashes map to themselves (e.g. "47" → "47").
+ */
+const cdcFormatMap: Record<string, string> = Object.fromEntries(
+  countries.map((c) => [c.cdc.replace(/-/g, ''), c.cdc])
+)
 
 /**
  * Detect the country dialing code from a phone number string that has
@@ -20,16 +29,16 @@ const sortedCodes: Array<string> = Array.from(
  * in the Eufemia countries list.
  *
  * @param value  A phone number string beginning with "+" (e.g. "+4712345678").
- * @returns      An object with `countryCode` (e.g. "+47") and
- *               `phoneNumber` (e.g. "12345678"), or `undefined` when
- *               no known code could be detected.
+ * @returns      An object with `countryCode` (e.g. "+47" or "+1-684" for
+ *               dashed codes) and `phoneNumber` (e.g. "12345678"), or
+ *               `undefined` when no known code could be detected.
  *
  * @example
  * detectCountryCode('+4712345678')
  * // => { countryCode: '+47', phoneNumber: '12345678' }
  *
- * detectCountryCode('+4612345678')
- * // => { countryCode: '+46', phoneNumber: '12345678' }
+ * detectCountryCode('+16841234567')
+ * // => { countryCode: '+1-684', phoneNumber: '1234567' }
  *
  * detectCountryCode('+hello')
  * // => undefined
@@ -46,10 +55,10 @@ export default function detectCountryCode(value: string):
 
   const digits = value.slice(1) // strip leading "+"
 
-  for (const code of sortedCodes) {
+  for (const code of strippedCodes) {
     if (digits.startsWith(code) && digits.length > code.length) {
       return {
-        countryCode: `+${code}`,
+        countryCode: `+${cdcFormatMap[code] || code}`,
         phoneNumber: digits.slice(code.length),
       }
     }

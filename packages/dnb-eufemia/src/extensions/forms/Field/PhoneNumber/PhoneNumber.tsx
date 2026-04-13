@@ -168,7 +168,10 @@ function PhoneNumber(props: Props = {}) {
         return props.emptyValue
       }
       if (props.omitSpaceSeparator) {
-        return [countryCode, phoneNumber].filter(Boolean).join('')
+        // Strip dashes from dashed CDC codes (e.g. "+1-684" → "+1684")
+        // so the value is a pure E.164 string like "+16841234567"
+        const cleanCode = countryCode?.replace(/-/g, '')
+        return [cleanCode, phoneNumber].filter(Boolean).join('')
       }
       return value
     },

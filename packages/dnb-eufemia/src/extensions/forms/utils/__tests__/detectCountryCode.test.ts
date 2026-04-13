@@ -85,16 +85,16 @@ describe('detectCountryCode', () => {
     })
   })
 
-  it('should prefer NANP sub-code +1684 (American Samoa) over +1', () => {
+  it('should prefer NANP sub-code +1-684 (American Samoa) over +1', () => {
     expect(detectCountryCode('+16841234567')).toEqual({
-      countryCode: '+1684',
+      countryCode: '+1-684',
       phoneNumber: '1234567',
     })
   })
 
-  it('should prefer UK Crown Dependency +441481 (Guernsey) over +44', () => {
+  it('should prefer UK Crown Dependency +44-1481 (Guernsey) over +44', () => {
     expect(detectCountryCode('+441481123456')).toEqual({
-      countryCode: '+441481',
+      countryCode: '+44-1481',
       phoneNumber: '123456',
     })
   })
