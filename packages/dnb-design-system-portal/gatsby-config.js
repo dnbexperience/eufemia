@@ -153,13 +153,11 @@ const plugins = [
         enableBuildStyleScope() || enablePortalStyleScope()
           ? shouldUsePrebuild()
             ? [
-                // Use the isolated core package (because basis does have issues with "ui-theme-tags")
                 '**/build/style/dnb-ui-core--isolated.min.css',
                 '**/build/style/themes/**/*-theme-{basis,components}--isolated.min.css',
                 '**/build/extensions/payment-card/**/dnb-*--isolated.min.css',
               ]
             : [
-                // Use the isolated core package (because basis does have issues with "ui-theme-tags")
                 '**/src/style/dnb-ui-core.scss',
                 '**/src/style/themes/**/*-theme-{basis,components}.scss',
                 '**/src/extensions/payment-card/**/dnb-*.scss',

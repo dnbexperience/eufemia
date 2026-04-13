@@ -243,35 +243,6 @@
   @include ui-spacing.defaultSpacing();
 }
 
-@mixin ulTag() {
-  ul {
-    @include ulStyle();
-  }
-  .dnb-spacing ul {
-    @include listSpacing();
-  }
-}
-
-@mixin olTag() {
-  ol {
-    @include olStyle();
-  }
-  .dnb-spacing ol {
-    @include listSpacing();
-  }
-}
-
-@mixin dlTag() {
-  dl {
-    @include dlStyle();
-  }
-  .dnb-spacing {
-    dl {
-      @include dlSpacing();
-    }
-  }
-}
-
 // Un-styled list helper
 @mixin unstyledList() {
   list-style-type: none;

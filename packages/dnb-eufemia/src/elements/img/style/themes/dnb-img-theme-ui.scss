@@ -5,20 +5,11 @@
   }
 }
 
-$useClasses: true !default;
-@if $useClasses {
-  .dnb-img {
-    @include imgStyle();
+.dnb-img {
+  @include imgStyle();
 
-    &__img--error {
-      color: var(--color-black-80);
-      background-color: var(--color-black-8);
-    }
-  }
-}
-
-@mixin imgThemeTag() {
-  img {
-    @include imgStyle();
+  &__img--error {
+    color: var(--color-black-80);
+    background-color: var(--color-black-8);
   }
 }

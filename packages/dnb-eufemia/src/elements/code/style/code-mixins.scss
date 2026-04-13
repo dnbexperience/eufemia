@@ -60,15 +60,3 @@
     @include ui-spacing.defaultSpacing();
   }
 }
-
-@mixin codeTag() {
-  code {
-    @include codeStyle();
-  }
-}
-
-@mixin preTag() {
-  pre {
-    @include preStyle();
-  }
-}
