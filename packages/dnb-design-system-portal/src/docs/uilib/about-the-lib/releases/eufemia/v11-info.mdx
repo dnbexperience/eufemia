@@ -30,6 +30,7 @@ This is the migration guide for @dnb/eufemia v11. It covers all breaking changes
   - [Step-by-step migration procedure](#step-by-step-migration-procedure)
   - [Find-and-replace safety guide](#find-and-replace-safety-guide)
   - [Verifying your migration](#verifying-your-migration)
+  - [Silent failures TypeScript won't catch](#silent-failures-typescript-wont-catch)
   - [Complete migration example](#complete-migration-example)
   - [innerRef → ref](#innerref--ref)
   - [Context.Provider → Context](#contextprovider--context)
@@ -450,6 +451,94 @@ grep -rn 'on_\|status_\|label_\|icon_\|_class\b\|inner_ref\|_state\|_position\|_
 | `Cannot find name 'FormRow'`                                      | Component removed                    | Replace with `Flex.Horizontal` or `Flex.Vertical`         |
 | `Property 'opened' does not exist`                                | Prop renamed                         | Replace with `open`                                       |
 
+### Silent failures TypeScript won't catch
+
+TypeScript catches most v10 → v11 errors, but these three categories **compile without errors and fail silently at runtime**. You must search for them manually after migration.
+
+#### 1. Data object property renames
+
+Dropdown, Autocomplete, DrawerList, and Field.Selection accept `data` arrays with objects. The `DrawerListDataArrayObject` type allows arbitrary keys (`[key: string]: any`), so TypeScript **will not flag** old snake_case property names. The component simply won't find the values it expects.
+
+**Compiles but broken:**
+
+```tsx
+<Dropdown
+  data={[
+    { selected_key: 'no', content: 'Norway' }, // silent failure
+    { selected_key: 'se', content: 'Sweden' }, // silent failure
+  ]}
+/>
+```
+
+**Correct:**
+
+```tsx
+<Dropdown
+  data={[
+    { selectedKey: 'no', content: 'Norway' },
+    { selectedKey: 'se', content: 'Sweden' },
+  ]}
+/>
+```
+
+Search for old data property names:
+
+```bash
+grep -rn 'selected_key\|selected_value\|suffix_value\|search_content\|class_name' \
+  --include='*.tsx' --include='*.ts' src/
+```
+
+#### 2. Event callback return object renames
+
+Several components renamed properties on the objects passed to event callbacks. If you destructure the old property names, the values will be `undefined` at runtime with no TypeScript error (because callback parameter types are often inferred loosely).
+
+**DatePicker `onChange` return object:**
+
+| Old property          | New property       |
+| --------------------- | ------------------ |
+| `days_between`        | `daysBetween`      |
+| `is_valid`            | `isValid`          |
+| `is_valid_start_date` | `isValidStartDate` |
+| `is_valid_end_date`   | `isValidEndDate`   |
+
+**Field.Date `onType` return object:**
+
+| Old property | New property |
+| ------------ | ------------ |
+| `start_date` | `startDate`  |
+| `end_date`   | `endDate`    |
+| `is_valid`   | `isValid`    |
+
+Search for old callback property access:
+
+```bash
+grep -rn 'days_between\|is_valid\|is_valid_start_date\|is_valid_end_date\|start_date\|end_date' \
+  --include='*.tsx' --include='*.ts' src/
+```
+
+#### 3. CSS class selectors in strings and tests
+
+CSS class names used in `querySelector`, test assertions, or CSS/SCSS files are plain strings that TypeScript cannot validate.
+
+Search for all renamed CSS classes:
+
+```bash
+grep -rn 'dnb-autocomplete--opened\|dnb-dropdown--opened\|dnb-drawer-list--opened\|dnb-date-picker--opened\|dnb-progress-indicator--visible\|dnb-anchor--contrast\|dnb-number-format--selectall\|dnb-section--spacing' \
+  --include='*.tsx' --include='*.ts' --include='*.scss' --include='*.css' src/
+```
+
+Also check DatePicker/Expiry test selectors — the visible date segments changed from native `input` elements to `role="spinbutton"` sections:
+
+```tsx
+// Before (v10) — queried native input elements
+document.querySelector('.dnb-date-picker input')
+
+// After (v11) — use role-based selectors
+document.querySelector('[role="spinbutton"]')
+// or
+document.querySelector('.dnb-segmented-field__section')
+```
+
 ### Complete migration example
 
 This example shows a realistic v10 component migrated to v11, combining multiple change categories:
@@ -457,7 +546,14 @@ This example shows a realistic v10 component migrated to v11, combining multiple
 **Before (v10):**
 
 ```tsx
-import { Input, Dropdown, DatePicker, Section, Button } from '@dnb/eufemia'
+import {
+  Input,
+  Dropdown,
+  Flex,
+  DatePicker,
+  Section,
+  Button,
+} from '@dnb/eufemia'
 import { FormRow, Provider } from '@dnb/eufemia/shared'
 
 function MyForm({ formRef }) {
@@ -506,7 +602,14 @@ function MyForm({ formRef }) {
 **After (v11):**
 
 ```tsx
-import { Input, Dropdown, DatePicker, Section, Button } from '@dnb/eufemia'
+import {
+  Input,
+  Dropdown,
+  Flex,
+  DatePicker,
+  Section,
+  Button,
+} from '@dnb/eufemia'
 import { Provider } from '@dnb/eufemia/shared'
 
 function MyForm({ formRef }) {
