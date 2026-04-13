@@ -80,15 +80,15 @@ function DatePickerAddon(props: DatePickerAddonProps) {
         typeof usedStartDate === 'function'
           ? usedStartDate(currentDates)
           : usedStartDate
-          ? convertStringToDate(usedStartDate)
-          : null
+            ? convertStringToDate(usedStartDate)
+            : null
 
       const endDate =
         typeof usedEndDate === 'function'
           ? usedEndDate(currentDates)
           : usedEndDate
-          ? convertStringToDate(usedEndDate)
-          : null
+            ? convertStringToDate(usedEndDate)
+            : null
 
       callOnChange({
         startDate,

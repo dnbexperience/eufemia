@@ -169,8 +169,8 @@ function Toggle(props: FieldToggleProps) {
             label={
               labelWithItemNo ??
               (isOn
-                ? textOn ?? translations.yes
-                : textOff ?? translations.no)
+                ? (textOn ?? translations.yes)
+                : (textOff ?? translations.no))
             }
             labelSrOnly={labelSrOnly}
             checked={isOn}
@@ -193,8 +193,8 @@ function Toggle(props: FieldToggleProps) {
             label={
               labelWithItemNo ??
               (isOn
-                ? textOn ?? translations.yes
-                : textOff ?? translations.no)
+                ? (textOn ?? translations.yes)
+                : (textOff ?? translations.no))
             }
             labelSrOnly={labelSrOnly}
             checked={isOn}
@@ -215,8 +215,8 @@ function Toggle(props: FieldToggleProps) {
             id={id}
             text={
               isOn
-                ? textOn ?? translations.yes
-                : textOff ?? translations.no
+                ? (textOn ?? translations.yes)
+                : (textOff ?? translations.no)
             }
             checked={isOn}
             disabled={disabled}
@@ -301,8 +301,8 @@ function Toggle(props: FieldToggleProps) {
             variant="checkbox"
             text={
               isOn
-                ? textOn ?? translations.yes
-                : textOff ?? translations.no
+                ? (textOn ?? translations.yes)
+                : (textOff ?? translations.no)
             }
             checked={isOn}
             disabled={disabled}

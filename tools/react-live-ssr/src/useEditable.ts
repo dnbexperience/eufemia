@@ -56,7 +56,9 @@ const setCurrentRange = (range: Range): void => {
 }
 
 const isUndoRedoKey = (event: KeyboardEvent): boolean =>
-  (event.metaKey || event.ctrlKey) && !event.altKey && event.code === 'KeyZ'
+  (event.metaKey || event.ctrlKey) &&
+  !event.altKey &&
+  event.code === 'KeyZ'
 
 /** Walk the DOM tree of an element and extract its text content. */
 const toString = (element: HTMLElement): string => {
@@ -321,8 +323,9 @@ export const useEditable = (
     }
 
     if (opts!.indentation) {
-      element.style.tabSize = (element.style as Record<string, string>)
-        .MozTabSize = '' + opts!.indentation
+      element.style.tabSize = (
+        element.style as Record<string, string>
+      ).MozTabSize = '' + opts!.indentation
     }
 
     const indentPattern = ' '.repeat(opts!.indentation || 0)
@@ -472,9 +475,7 @@ export const useEditable = (
             position.content.replace(indentRe, '') +
             content.slice(start + position.content.length)
           : content.slice(0, start) +
-            (opts!.indentation
-              ? ' '.repeat(opts!.indentation)
-              : '\t') +
+            (opts!.indentation ? ' '.repeat(opts!.indentation) : '\t') +
             content.slice(start)
         editUpdate(element, newContent)
       }

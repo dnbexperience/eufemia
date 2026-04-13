@@ -53,8 +53,8 @@ export const FormattedCode = ({
         style.color = isString(children)
           ? colors.type.string
           : isPrimitive(children)
-          ? colors.type.primitive
-          : colors.type.default
+            ? colors.type.primitive
+            : colors.type.default
         style.background = 'none'
         style.boxShadow = 'none'
         break
@@ -63,8 +63,8 @@ export const FormattedCode = ({
         style.color = isString(children)
           ? colors.value.string
           : children === 'undefined' || children === 'null'
-          ? colors.value.undefined
-          : colors.value.default
+            ? colors.value.undefined
+            : colors.value.default
         style.background = 'none'
         style.boxShadow = 'none'
         break

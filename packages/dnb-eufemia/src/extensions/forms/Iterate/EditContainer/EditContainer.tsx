@@ -66,13 +66,13 @@ export default function EditContainer(
       toolbar={
         hasToolbar
           ? null
-          : toolbarElement ??
+          : (toolbarElement ??
             (toolbarVariant !== 'custom' && (
               <Toolbar>
                 <DoneButton />
                 <CancelButton />
               </Toolbar>
-            ))
+            )))
       }
       toolbarVariant={toolbarVariant}
       {...rest}

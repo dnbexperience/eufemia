@@ -358,8 +358,8 @@ function Button({ ref, ...restProps }: ButtonProps) {
   const Element = element
     ? element
     : props.href || props.to
-    ? Anchor
-    : 'button'
+      ? Anchor
+      : 'button'
   if (Element === Anchor) {
     if (opensNewTab(props.target, props.href) && !usedIcon) {
       usedIcon = launch

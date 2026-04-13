@@ -23,8 +23,8 @@ function BooleanComponent(props: ValueBooleanProps) {
     >
       {value === true || value === false
         ? value === true
-          ? trueText ?? translations.yes
-          : falseText ?? translations.no
+          ? (trueText ?? translations.yes)
+          : (falseText ?? translations.no)
         : null}
     </ValueBlock>
   )

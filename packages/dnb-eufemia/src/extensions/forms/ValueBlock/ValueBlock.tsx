@@ -177,8 +177,8 @@ function ValueBlock(localProps: ValueBlockProps) {
     const Item = summaryListContext.isNested
       ? Dl
       : summaryListContext.layout === 'horizontal'
-      ? Dl.Item
-      : Fragment
+        ? Dl.Item
+        : Fragment
 
     if (!label && !hasHelp && isCompositionInContext) {
       content = children ? (

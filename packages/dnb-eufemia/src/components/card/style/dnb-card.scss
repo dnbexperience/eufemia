@@ -64,7 +64,8 @@
       &.dnb-section::before {
         left: var(--left);
 
-        --outline: 99vw 0 0 0 var(--background-color),
+        --outline:
+          99vw 0 0 0 var(--background-color),
           198vw 0 0 0 var(--background-color),
           297vw 0 0 0 var(--background-color),
           396vw 0 0 0 var(--background-color),

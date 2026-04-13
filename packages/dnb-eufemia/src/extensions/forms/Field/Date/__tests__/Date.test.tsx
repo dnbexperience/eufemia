@@ -3695,9 +3695,8 @@ describe('Field.Date', () => {
     it('should align popover to right when width is large and showInput is true', async () => {
       let capturedAlignPicker: string | undefined
 
-      const DatePickerModule = await import(
-        '../../../../../components/date-picker/DatePicker'
-      )
+      const DatePickerModule =
+        await import('../../../../../components/date-picker/DatePicker')
 
       jest
         .spyOn(DatePickerModule, 'default')
@@ -3729,9 +3728,8 @@ describe('Field.Date', () => {
     it('should align popover to right when width is stretch and showInput is true', async () => {
       let capturedAlignPicker: string | undefined
 
-      const DatePickerModule = await import(
-        '../../../../../components/date-picker/DatePicker'
-      )
+      const DatePickerModule =
+        await import('../../../../../components/date-picker/DatePicker')
 
       jest
         .spyOn(DatePickerModule, 'default')
@@ -3763,9 +3761,8 @@ describe('Field.Date', () => {
     it('should not align popover to right when width is large but showInput is false', async () => {
       let capturedAlignPicker: string | undefined
 
-      const DatePickerModule = await import(
-        '../../../../../components/date-picker/DatePicker'
-      )
+      const DatePickerModule =
+        await import('../../../../../components/date-picker/DatePicker')
 
       jest
         .spyOn(DatePickerModule, 'default')
@@ -3795,9 +3792,8 @@ describe('Field.Date', () => {
     it('should not align popover to right when width is small and showInput is true', async () => {
       let capturedAlignPicker: string | undefined
 
-      const DatePickerModule = await import(
-        '../../../../../components/date-picker/DatePicker'
-      )
+      const DatePickerModule =
+        await import('../../../../../components/date-picker/DatePicker')
 
       jest
         .spyOn(DatePickerModule, 'default')

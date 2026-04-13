@@ -23,8 +23,8 @@ function SectionContainerProvider(props: SectionContainerProviderProps) {
     disableEditing === true
       ? 'view'
       : containerMode === 'auto'
-      ? 'view'
-      : containerMode
+        ? 'view'
+        : containerMode
   )
 
   const switchContainerMode = useCallback(

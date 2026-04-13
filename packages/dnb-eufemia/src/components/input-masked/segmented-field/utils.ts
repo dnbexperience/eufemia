@@ -155,7 +155,7 @@ export function insertCharIntoSection({
   const isAllSelected = sectionSelectionModeRef.current[inputId] === 'all'
   const currentPosition = isAllSelected
     ? 0
-    : caretPositionsRef.current[inputId] ?? 0
+    : (caretPositionsRef.current[inputId] ?? 0)
 
   if (!mask[Math.min(currentPosition, mask.length - 1)]?.test(char)) {
     return false

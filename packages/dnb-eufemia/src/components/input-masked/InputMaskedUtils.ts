@@ -97,8 +97,8 @@ export const correctNumberValue = ({
     props.value === null
       ? null
       : props.value === undefined
-      ? undefined
-      : String(props.value)
+        ? undefined
+        : String(props.value)
 
   if (isNaN(parseFloat(value))) {
     return value
@@ -363,8 +363,8 @@ export const handleCurrencyMask = ({
     typeof currencyMask === 'string'
       ? currencyMask
       : typeof givenParams.currency === 'string'
-      ? givenParams.currency
-      : 'kr'
+        ? givenParams.currency
+        : 'kr'
   const hasCurrencyLabel =
     typeof currencyLabel === 'string' && currencyLabel
   const shouldShowCurrencyLabel =

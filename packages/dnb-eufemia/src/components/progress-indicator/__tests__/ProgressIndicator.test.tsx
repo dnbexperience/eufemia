@@ -566,9 +566,7 @@ describe('ProgressIndicator scss', () => {
 
   it('should match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve(
-        '../style/themes/dnb-progress-indicator-theme-ui.scss'
-      )
+      require.resolve('../style/themes/dnb-progress-indicator-theme-ui.scss')
     )
     expect(css).toMatchSnapshot()
   })

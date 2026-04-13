@@ -394,8 +394,8 @@ function NewContainer({
       ? false
       : Boolean(
           !showOpenButton ||
-            containerMode === 'edit' ||
-            ((required || hasContentChanged) && showStatus)
+          containerMode === 'edit' ||
+          ((required || hasContentChanged) && showStatus)
         )
 
   const { preventUncommittedChangesText } = useTranslation().Isolation

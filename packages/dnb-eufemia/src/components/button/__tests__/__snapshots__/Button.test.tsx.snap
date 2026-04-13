@@ -1161,11 +1161,7 @@ html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-te
   --button-tertiary-focus-overflow--icon-top: 0;
   --button-tertiary-underline-overflow: -0.5rem;
   --button-tertiary-underline-overflow--icon: calc(
-    (
-        var(--button-icon-gutter) + var(--button-icon-size) - var(
-            --button-tertiary-underline-overflow
-          )
-      ) * -1
+    (var(--button-icon-gutter) + var(--button-icon-size) - var(--button-tertiary-underline-overflow)) * -1
   );
   --button-tertiary-underline-bottom: -0.5rem;
   --button-tertiary-text-bottom--icon: 0.5rem;

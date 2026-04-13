@@ -133,10 +133,10 @@ function UploadInfoAcceptedFileTypesTable() {
       const groupName = itemFileMaxSize
         ? itemFileMaxSize
         : fileMaxSizeIsFalseOrZero(itemFileMaxSize)
-        ? 0
-        : fileMaxSizeIsFalseOrZero(fallBackFileMaxSize)
-        ? 0
-        : fallBackFileMaxSize
+          ? 0
+          : fileMaxSizeIsFalseOrZero(fallBackFileMaxSize)
+            ? 0
+            : fallBackFileMaxSize
 
       group[groupName] = group[groupName] || []
       group[groupName].push(item)

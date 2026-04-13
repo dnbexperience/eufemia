@@ -98,7 +98,7 @@ export default function IsolatedStyleScope(
           <div
             data-scope-hash={
               scopeHash === 'auto'
-                ? styleScopeContext?.scopeHash ?? scopeHash
+                ? (styleScopeContext?.scopeHash ?? scopeHash)
                 : scopeHash
             }
             data-scope-hash-id={uniqueKey || undefined}

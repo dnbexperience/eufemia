@@ -1012,7 +1012,8 @@ button.dnb-button::-moz-focus-inner {
   height: var(--height);
   color: var(--background-color, currentcolor);
   background-color: currentcolor;
-  --box-shadow: 99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor,
+  --box-shadow:
+    99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor,
     297vw 0 0 0 currentcolor, 396vw 0 0 0 currentcolor;
   box-shadow: var(--box-shadow);
   border-radius: var(--rounded-corner, 0);
@@ -1105,7 +1106,8 @@ button.dnb-button::-moz-focus-inner {
   z-index: 0;
 }
 .dnb-section--divider::after {
-  --box-shadow: 99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor,
+  --box-shadow:
+    99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor,
     297vw 0 0 0 currentcolor, 396vw 0 0 0 currentcolor,
     0 0.0625rem 0 0 var(--separator-color),
     99vw 0.0625rem 0 0 var(--separator-color),

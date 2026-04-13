@@ -88,8 +88,8 @@ function FormLabel(localProps: FormLabelAllProps) {
 
   const isInteractive = Boolean(
     !props.disabled &&
-      !srOnly &&
-      (typeof props.onClick === 'function' || forId)
+    !srOnly &&
+    (typeof props.onClick === 'function' || forId)
   )
 
   const params = {

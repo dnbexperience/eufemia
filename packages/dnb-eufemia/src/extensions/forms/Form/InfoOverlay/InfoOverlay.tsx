@@ -130,7 +130,7 @@ function InfoOverlay(props: FormInfoOverlayProps) {
           <MainHeading>{title ?? tr.title}</MainHeading>
           <P>{description ?? tr.description}</P>
           <Button
-            href={buttonClickHandler ? undefined : buttonHref ?? '/'}
+            href={buttonClickHandler ? undefined : (buttonHref ?? '/')}
             onClick={buttonClickHandler}
           >
             {buttonText ?? tr.buttonText}
@@ -154,7 +154,7 @@ function InfoOverlay(props: FormInfoOverlayProps) {
             <P>
               {formState === 'pending'
                 ? tr.retryingText
-                : description ?? tr.description}
+                : (description ?? tr.description)}
             </P>
           </HeightAnimation>
           <Flex.Horizontal>
