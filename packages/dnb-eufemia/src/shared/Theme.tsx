@@ -17,7 +17,7 @@ export type ThemeVariants = string
 export type ThemeSizes = 'basis'
 export type PropMapping = string
 export type ContrastMode = boolean
-export type ThemeColorScheme = 'auto' | 'light' | 'dark' | 'inherit'
+export type ThemeColorScheme = 'auto' | 'light' | 'dark'
 export type ThemeSurface = 'dark'
 
 export type ThemeProps = {
@@ -54,16 +54,12 @@ export default function Theme(themeProps: ThemeAllProps) {
     disabled: colorScheme !== 'auto',
   })
 
-  const inheritedColorScheme = context?.theme?.colorScheme
-
   const activeColorScheme =
     colorScheme === 'auto'
       ? prefersDarkColorScheme
         ? 'dark'
         : 'light'
-      : colorScheme === 'inherit'
-        ? inheritedColorScheme || 'inherit'
-        : colorScheme
+      : colorScheme
 
   const theme = extendPropsWithContext(
     {
