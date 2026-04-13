@@ -101,10 +101,6 @@ const cssBundles = [
     maxSize: '10kB',
   },
   {
-    path: 'build/style/themes/ui/ui-theme-fonts.min.css',
-    maxSize: '5kB',
-  },
-  {
     path: 'build/style/themes/ui/ui-theme-forms.min.css',
     maxSize: '10kB',
   },
