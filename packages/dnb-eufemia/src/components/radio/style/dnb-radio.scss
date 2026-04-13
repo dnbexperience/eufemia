@@ -65,8 +65,14 @@
   --radio-color-border-off--hover: var(--token-color-stroke-action-hover);
   // Focus state
   --radio-border-width--focus: 0.125rem;
-  --radio-color-background-on--focus: var(--color-white);
-  --radio-color-background-off--focus: lightgrey;
+  --radio-color-background-on--focus: var(
+    --token-color-background-action-focus-subtle
+  );
+  --radio-color-background-off--focus: var(
+    --token-color-background-action-focus-subtle
+  );
+  --radio-color-dot-on--focus: var(--token-color-background-action-focus);
+  --radio-color-border--focus: var(--token-color-stroke-action-focus);
   // Error state
   --radio-color-dot-on--error: red;
   --radio-color-border-on--error: red;
@@ -118,7 +124,7 @@
   &__focus {
     display: none;
 
-    @include utilities.focusRing();
+    @include utilities.focusRing(null, var(--radio-color-border--focus));
   }
 
   &__focus,
@@ -455,10 +461,7 @@
     )[data-checked='true']:focus
     ~ &__dot {
     html[data-whatinput='keyboard'] & {
-      background-color: var(
-        --radio-color-dot-on--focus,
-        var(--focus-ring-color)
-      );
+      background-color: var(--radio-color-dot-on--focus);
     }
   }
 

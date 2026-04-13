@@ -4,10 +4,6 @@
 */
 
 .dnb-radio {
-  // Focus state
-  --radio-color-dot-on--focus: var(--color-sea-green);
-  --radio-color-background-on--focus: var(--color-white);
-  --radio-color-background-off--focus: var(--color-mint-green-50);
   // Error state
   --radio-color-dot-on--error: var(--color-fire-red);
   --radio-color-border-on--error: var(--color-fire-red);
