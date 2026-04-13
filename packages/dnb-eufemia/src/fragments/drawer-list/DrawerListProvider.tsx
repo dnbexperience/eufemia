@@ -167,8 +167,6 @@ const allDefaultProps = {
   ...drawerListProviderDefaultProps,
 }
 
-let blurDelay = 201 // some ms more than "DrawerListSlideDown 200ms"
-
 let isOpen = false
 
 function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
@@ -1004,7 +1002,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         clearTimeout(showTimeoutRef.current)
         showTimeoutRef.current = setTimeout(
           animationDelayHandler,
-          blurDelay
+          DrawerListProvider.blurDelay
         )
       }
 
@@ -1028,7 +1026,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       clearTimeout(hideTimeoutRef.current)
       hideTimeoutRef.current = setTimeout(
         handleSingleComponentCheck,
-        blurDelay
+        DrawerListProvider.blurDelay
       )
     } else {
       handleSingleComponentCheck()
@@ -1080,7 +1078,10 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         delayHandler()
       } else {
         clearTimeout(hideTimeoutRef.current)
-        hideTimeoutRef.current = setTimeout(delayHandler, blurDelay)
+        hideTimeoutRef.current = setTimeout(
+          delayHandler,
+          DrawerListProvider.blurDelay
+        )
       }
     }
   }
@@ -1578,15 +1579,6 @@ const DrawerListProvider = React.memo(
   blurDelay: number
 }
 
-Object.defineProperty(DrawerListProvider, 'blurDelay', {
-  get() {
-    return blurDelay
-  },
-  set(value: number) {
-    blurDelay = value
-  },
-  enumerable: true,
-  configurable: true,
-})
+DrawerListProvider.blurDelay = 201 // some ms more than "DrawerListSlideDown 200ms"
 
 export default DrawerListProvider
