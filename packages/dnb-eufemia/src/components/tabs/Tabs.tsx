@@ -7,7 +7,6 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -38,6 +37,7 @@ import {
 } from '../skeleton/SkeletonHelper'
 import Button from '../button/Button'
 import useId from '../../shared/helpers/useId'
+import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
 import useUpdateEffect from '../../shared/helpers/useUpdateEffect'
 import whatInput from '../../shared/helpers/whatInput'
 import CustomContent from './TabsCustomContent'
@@ -390,6 +390,7 @@ function TabsComponent(ownProps: TabsProps) {
 
   // Shared state
   const sharedStateRef = useRef<SharedState | null>(null)
+  const propChangeRef = useRef(false)
 
   // Initialize data and keys
   const initialData = useRef(getData(ownProps))
@@ -413,14 +414,20 @@ function TabsComponent(ownProps: TabsProps) {
   // getDerivedStateFromProps equivalent
   if (listenForPropChangesRef.current) {
     const dataSource = ownProps.data || ownProps.children
+    let currentData = data
     if (prevDataSource !== dataSource) {
       setPrevDataSource(dataSource)
       const newData = getData(ownProps)
       setData(newData)
+      currentData = newData
+      propChangeRef.current = true
     }
     if (ownProps.selectedKey && prevSelectedKey !== ownProps.selectedKey) {
       setPrevSelectedKey(ownProps.selectedKey)
-      setSelectedKey(getSelectedKeyOrFallback(ownProps.selectedKey, data))
+      setSelectedKey(
+        getSelectedKeyOrFallback(ownProps.selectedKey, currentData)
+      )
+      propChangeRef.current = true
     }
   }
 
@@ -786,8 +793,7 @@ function TabsComponent(ownProps: TabsProps) {
   }
 
   // Init on mount / window load
-  // useLayoutEffect matches componentDidMount timing (before paint)
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     let isMounted = true
 
     const init = () => {
@@ -838,10 +844,11 @@ function TabsComponent(ownProps: TabsProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // Update shared state when selectedKey or data changes
-  // useUpdateEffect skips mount, matching componentDidUpdate behavior
+  // Update shared state when props change selectedKey or data
+  // Only fires for prop-driven changes, matching original componentDidUpdate behavior
   useUpdateEffect(() => {
-    if (sharedStateRef.current) {
+    if (sharedStateRef.current && propChangeRef.current) {
+      propChangeRef.current = false
       onResizeHandler()
       sharedStateRef.current.update(getEventArgs({ selectedKey }))
     }
