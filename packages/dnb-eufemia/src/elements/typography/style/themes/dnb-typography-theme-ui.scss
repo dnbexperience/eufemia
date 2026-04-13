@@ -28,19 +28,6 @@
   --typography-h-small-small-line-height: var(--line-height-small);
 }
 
-$useClasses: true !default;
-@if $useClasses {
-  .dnb-p {
-    @include typographyStyle();
-  }
-}
-
-@mixin typographyThemeTag() {
-  @include typography.headingTags() {
-    @include typographyStyle();
-  }
-
-  p {
-    @include typographyStyle();
-  }
+.dnb-p {
+  @include typographyStyle();
 }

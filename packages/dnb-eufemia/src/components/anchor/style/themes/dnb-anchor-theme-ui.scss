@@ -15,18 +15,8 @@
   }
 }
 
-$useClasses: true !default;
-@if $useClasses {
-  @include anchor-mixins.notNoStyle() {
-    &.dnb-anchor {
-      @include anchorStyleUi();
-    }
-  }
-}
-
-@mixin anchorThemeTag() {
-  a {
-    --theme-color-black-80: var(--token-color-text-action);
+@include anchor-mixins.notNoStyle() {
+  &.dnb-anchor {
     @include anchorStyleUi();
   }
 }

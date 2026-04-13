@@ -222,12 +222,6 @@
   }
 }
 
-@mixin anchorTag() {
-  a {
-    @include anchorStyle();
-  }
-}
-
 @mixin notNoStyle() {
   :where(:not(.dnb-anchor--no-style)) {
     @content;

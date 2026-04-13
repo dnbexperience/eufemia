@@ -25,13 +25,3 @@
     border-radius: calc(var(--thickness) / 2);
   }
 }
-
-@mixin hrTag() {
-  hr {
-    @include hrStyle();
-  }
-
-  .dnb-spacing hr {
-    @include ui-spacing.defaultSpacing();
-  }
-}

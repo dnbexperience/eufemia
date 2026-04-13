@@ -33,9 +33,6 @@ There are several packages you can use and combine.
   - There is also a [JavaScript file containing](/uilib/usage/customisation/styling#a-list-of-all-css-properties-variables) the same properties.
 - **ui-theme-extensions**: includes all the styles (and themes) for [extensions](/uilib/extensions) (not shown in the [Diagram](#css-structure-diagram)).
 - **ui-theme-fonts**: includes only the `@font-face` and properties. You can find this package inside `/style/themes/ui/`.
-- **ui-theme-tags**: this package will force styles on all HTML tags like `<h1>` instead of CSS classes like `.dnb-h--xx-large`.
-  - **NB:** requires a `.dnb-core-style` [wrapper class](/uilib/usage/customisation/styling#core-style).
-  - Use it carefully because this will affect existing styles as well.
 
 All the CSS packages are ready to use, **minified CSS files**. You will find the main style here: `@dnb/eufemia/style/dnb-ui-core.min.css`
 
@@ -123,30 +120,6 @@ HTML elements inside this container will then have default spacing. This is espe
 
 The styles for `.dnb-spacing` are included in the package: **ui-theme-basis**.
 For more details, check out the source file: `spacing.scss`.
-
-## Styling of HTML Elements (tags)
-
-To work with HTML elements without declaring them with individual CSS classes (like `<h1 class="dnb-h--xx-large">`), you can import the sub-package **ui-theme-tags**.
-
-**NB:** Use it carefully because this will affect existing styles as well!
-
-```diff
-import '@dnb/eufemia/style/dnb-ui-core.min.css'
-import '@dnb/eufemia/style/themes/ui/ui-theme-basis.min.css'
-
-- import '@dnb/eufemia/style/themes/ui/ui-theme-components.min.css'
-+ import '@dnb/eufemia/style/themes/ui/ui-theme-tags.min.css'
-```
-
-```html
-<!-- HTML Elements in the wild -->
-<div class="dnb-core-style">
-  <h1>I'm now Eufemia styled</h1>
-  <ul>
-    <li>Me as well</li>
-  </ul>
-</div>
-```
 
 ## A list of all CSS properties (variables)
 

@@ -112,10 +112,6 @@ const cssBundles = [
     path: 'build/style/themes/ui/ui-theme-properties.min.css',
     maxSize: '5kB',
   },
-  {
-    path: 'build/style/themes/ui/ui-theme-tags.min.css',
-    maxSize: '10kB',
-  },
 ]
 
 module.exports = {
