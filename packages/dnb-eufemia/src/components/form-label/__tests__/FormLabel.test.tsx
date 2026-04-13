@@ -98,6 +98,40 @@ describe('FormLabel component', () => {
     expect(element.getAttribute('for')).toBe('unique-id')
   })
 
+  it('should default to vertical', () => {
+    render(<FormLabel />)
+
+    const element = document.querySelector('.dnb-form-label')
+
+    expect(Array.from(element.classList)).toContain(
+      'dnb-form-label--vertical'
+    )
+  })
+
+  it('should support horizontal via vertical={false}', () => {
+    render(<FormLabel vertical={false} />)
+
+    const element = document.querySelector('.dnb-form-label')
+
+    expect(Array.from(element.classList)).not.toContain(
+      'dnb-form-label--vertical'
+    )
+  })
+
+  it('should support horizontal via labelDirection', () => {
+    render(
+      <Provider formElement={{ labelDirection: 'horizontal' }}>
+        <FormLabel />
+      </Provider>
+    )
+
+    const element = document.querySelector('.dnb-form-label')
+
+    expect(Array.from(element.classList)).not.toContain(
+      'dnb-form-label--vertical'
+    )
+  })
+
   it('should inherit formElement labelDirection', () => {
     render(
       <Provider formElement={{ labelDirection: 'vertical' }}>

@@ -41,16 +41,16 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match vertical form-label', async () => {
+    it('have to match horizontal form-label', async () => {
       const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="form-label-vertical"]',
+        selector: '[data-visual-test="form-label-horizontal"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
     it('have to match fix-content width', async () => {
       const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="form-label-vertical"] label',
+        selector: '[data-visual-test="form-label-default"] label',
         style: {
           'background-color': 'yellow',
         },

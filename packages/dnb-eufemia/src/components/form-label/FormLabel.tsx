@@ -95,7 +95,8 @@ function FormLabel(localProps: FormLabelAllProps) {
   const params = {
     className: clsx(
       'dnb-form-label',
-      (vertical || labelDirection === 'vertical') &&
+      (vertical ||
+        (vertical !== false && labelDirection !== 'horizontal')) &&
         `dnb-form-label--vertical`,
       srOnly && 'dnb-sr-only',
       size && `dnb-h--${size}`,
