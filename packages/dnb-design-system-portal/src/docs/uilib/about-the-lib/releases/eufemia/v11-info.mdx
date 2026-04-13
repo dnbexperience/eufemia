@@ -27,7 +27,10 @@ This is the migration guide for @dnb/eufemia v11. It covers all breaking changes
   - [Import path changes](#import-path-changes)
   - [Common migration mistakes](#common-migration-mistakes)
   - [Cross-component prop patterns](#cross-component-prop-patterns)
-  - [Step-by-step checklist](#step-by-step-checklist)
+  - [Step-by-step migration procedure](#step-by-step-migration-procedure)
+  - [Find-and-replace safety guide](#find-and-replace-safety-guide)
+  - [Verifying your migration](#verifying-your-migration)
+  - [Complete migration example](#complete-migration-example)
   - [innerRef → ref](#innerref--ref)
   - [Context.Provider → Context](#contextprovider--context)
   - [Theme.Provider → Theme.Context](#themeprovider--themecontext)
@@ -310,25 +313,264 @@ These snake_case props appear on many components and follow the same rename patt
 | `dnb-anchor--contrast` | `dnb-anchor--surface-dark` |
 | `dnb-number-format--selectall` | `dnb-number-format--select-all` |
 
-### Step-by-step checklist
+### Step-by-step migration procedure
 
-As a migration process, you can search and replace:
+Follow these steps **in order**. Steps in Phase 1 are safe to apply as global find-and-replace across your entire codebase. Steps in later phases require scoping or manual review.
 
-1. Replace `innerRef` with `ref` on all Eufemia components.
-2. Replace `<Context.Provider>` with `<Context>` when using Eufemia contexts directly (React 19 deprecation).
-3. Replace `inputClass` with `inputClassName` on Input and InputMasked components.
-4. Replace `textareaClass` with `textareaClassName` on Textarea component.
-5. Replace `isCollapsed` with `collapsed` on the Breadcrumb component.
-6. Replace the state/variant value `'info'` with `'information'` in all components (e.g., `state="info"` → `state="information"`, `variant="info"` → `variant="information"`).
-7. If you import Eufemia SCSS source files with `@import`, replace with `@use` and namespace your mixin/variable calls (see [SCSS: @import → @use](#scss-import--use)).
-8. Replace the `size` prop with `span` on `Flex.Item` and `Card` components.
-9. If you `@use` Eufemia SCSS source files and reference internal mixins, rename them to camelCase (see [SCSS mixin renames](#scss-mixin-renames)).
-10. Replace the `as` prop with `element` on the `H` heading element.
-11. Replace `prerender` with `keepInDOM` on Tabs and Accordion components.
-12. Replace `styleType` (or `style_type`) with `backgroundColor` on Breadcrumb, Dialog.Body, and Drawer.Body components.
-13. Remove `spacing` on Section. Use `innerSpace={{ block: 'large' }}` instead (see [Section](#section)).
-14. Replace `contentSpacing` with `contentInnerSpace` and `tabsSpacing` with `tabsInnerSpace` on the Tabs component.
-15. If you use the `extendFocusRing` or `componentReset` SCSS mixins, remove them — they have been deleted (see [Removed SCSS mixins](#removed-scss-mixins)).
+#### Phase 1: Global find-and-replace (safe across entire codebase)
+
+These renames only exist as Eufemia prop/event names and won't collide with other libraries:
+
+1. Replace all **snake_case props and events** with their camelCase equivalents. Use the per-component lists in the [Components](#components) section below. The most common ones: `on_change` → `onChange`, `on_click` → `onClick`, `status_state` → `statusState`, `label_direction` → `labelDirection`, `label_sr_only` → `labelSrOnly`, `no_animation` → `noAnimation`, `icon_size` → `iconSize`, `icon_position` → `iconPosition`.
+2. Replace `innerRef` with `ref` on all Eufemia components.
+3. Replace `<Context.Provider>` with `<Context>` when using Eufemia contexts directly.
+4. Replace the status value `'info'` with `'information'` (applies to `state`, `statusState`, `variant`, `confirmType`).
+5. Replace the status value `'warn'` with `'warning'` (applies to `statusState`).
+6. Replace `inputClass` with `inputClassName` on Input and InputMasked.
+7. Replace `textareaClass` with `textareaClassName` on Textarea.
+
+#### Phase 2: Targeted find-and-replace (scope to specific components)
+
+These renames use generic names that exist in non-Eufemia code. Scope your find-and-replace to JSX using the affected component:
+
+8. Replace `opened` with `open` — **only on** Autocomplete, Dropdown, DrawerList, DatePicker, Tooltip, Field.Date.
+9. Replace `on_show` with `onOpen` and `on_hide` with `onClose` — **only on** Autocomplete, Dropdown, DrawerList, DatePicker. _(Not just a casing change — the name changed semantically. GlobalStatus still uses `onShow`/`onHide`.)_
+10. Replace `triangle_position` with `arrowPosition` — **only on** Autocomplete, Dropdown, DrawerList.
+11. Replace `clear` with `showClearButton` — **only on** Input, InputMasked.
+12. Replace `isCollapsed` with `collapsed` — **only on** Breadcrumb.
+13. Replace `visible` with `show` — **only on** ProgressIndicator.
+14. Replace `position` with `placement` — **only on** Tooltip.
+15. Replace `children` with `label` — **only on** Checkbox, ProgressIndicator.
+16. Replace `active` or `forceOpen` with `open` — **only on** Tooltip.
+17. Replace `as` with `element` — **only on** H (heading element).
+18. Replace `size` with `span` — **only on** Flex.Item, Card.
+19. Replace `input_icon` with `icon` — **only on** Autocomplete.
+20. Replace `accordion` with `mode="accordion"` — **only on** Table.
+21. Replace `prerender` with `keepInDOM` — **only on** Tabs, Accordion.
+22. Replace `styleType` (or `style_type`) with `backgroundColor` — **only on** Breadcrumb, Dialog.Body, Drawer.Body.
+23. Replace `input_class` / `textarea_class` with `inputClassName` / `textareaClassName` (name change, not just casing).
+24. Replace `contentSpacing` with `contentInnerSpace` and `tabsSpacing` with `tabsInnerSpace` — **only on** Tabs.
+
+#### Phase 3: Structural changes (require code modification, not just rename)
+
+25. Replace `spacing` with `innerSpace={{ block: 'value' }}` on Section, Dialog.Body, Drawer.Body. Do NOT use `innerSpace="large"` — it must be an object. See [Section](#section).
+26. Replace `Theme.Provider` with `Theme.Context` and `darkBackground` with `surface="dark"`. See [Theme.Provider → Theme.Context](#themeprovider--themecontext).
+27. Replace `<FormRow>` with `<Flex.Horizontal align="baseline">` and `<FormRow vertical>` with `<Flex.Vertical>`. Replace `FormRow=` with `formElement=` in Provider config. See [Removal of FormRow and FormSet](#removal-of-formrow-and-formset).
+28. Replace `openState="opened"` with `open={true}` and `openState="closed"` with `open={false}` on Modal/Dialog/Drawer.
+29. Update `dateFormat` and `returnFormat` strings: `YYYY` → `yyyy`, `DD` → `dd` on DatePicker.
+30. Replace `Stat.Amount` with `Stat.Number`, `Stat.Info variant="default"` with `variant="plain"`.
+31. Replace Logo `brand`/`variant` props with `svg` prop import pattern. See [Logo](#logo).
+
+#### Phase 4: Import path and module changes
+
+32. Update all changed import paths. See [Import path changes](#import-path-changes).
+33. If using Ajv with JSON Schema validation, add `ajvInstance={makeAjvInstance()}` to `Form.Handler`. See [Ajv no longer shipped by default](#ajv-no-longer-shipped-by-default).
+34. Replace `InputPassword` import with `Field.Password` from Eufemia Forms. See [InputPassword moved to Field.Password](#inputpassword-moved-to-field-password).
+35. Replace `StepsLayout` with `Wizard.Container`, `StepsLayout.Step` with `Wizard.Step`, etc.
+
+#### Phase 5: SCSS changes
+
+36. If you import Eufemia SCSS source files with `@import`, replace with `@use` and namespace your calls. See [SCSS: @import → @use](#scss-import--use).
+37. Rename all SCSS mixin references to camelCase. See [SCSS mixin renames](#scss-mixin-renames).
+38. Remove `extendFocusRing` and `componentReset` SCSS mixin calls — they have been deleted.
+
+#### Phase 6: TypeScript type updates
+
+39. Update any imported context value types (`AccordionContextProps` → `AccordionContextValue`, etc.). See [TypeScript](#typescript).
+40. Update any Props type imports (`Props` → component-prefixed name). See [Props Type Exports](#props-type-exports).
+41. Update event handler types to match new typed signatures. See [Typed event handlers](#typed-event-handlers).
+
+#### Phase 7: Eufemia Forms behavioral changes
+
+42. Replace `validator` with `onChangeValidator` on all Field components.
+43. Replace `continuousValidation` with `validateContinuously` on all Field components.
+44. Update `errorMessages` object keys: `required` → `Field.errorRequired`, `pattern` → `Field.errorPattern`, etc. See [Error handling](#error-handling).
+45. Replace `Form.useError` with `Form.useValidation`, `Form.useLocale` with `Form.useTranslation`.
+46. Replace `Form.Visibility` props: `withValue` → `hasValue`, `pathValue`/`whenValue` → `visibleWhen`.
+
+#### Phase 8: Verify
+
+47. Run `npx tsc --noEmit` to catch remaining type errors.
+48. Run your tests. Update any test selectors that query DatePicker/Expiry `input` elements (now `role="spinbutton"` sections).
+49. Search for remaining snake_case patterns: `grep -rn 'on_\|status_\|label_\|icon_\|_class\|_ref\|_state\|_position\|_button\|_text\|_sr_' --include='*.tsx' --include='*.ts' src/`
+
+### Find-and-replace safety guide
+
+**Safe for global find-and-replace** — these prop names are Eufemia-specific and won't collide with other code:
+
+`on_change`, `on_click`, `on_focus`, `on_blur`, `on_submit`, `on_key_down`, `on_type`, `on_select`, `on_clear`, `on_state_update`, `on_open`, `on_close`, `on_cancel`, `on_reset`, `on_complete`, `on_resize`, `on_end`, `on_load`, `on_startup`, `on_adjust`, `on_days_render`, `on_submit_focus`, `on_submit_blur`, `status_state`, `status_props`, `status_no_animation`, `label_direction`, `label_sr_only`, `label_position`, `icon_size`, `icon_position`, `no_animation`, `inner_ref`, `selected_key`, `default_value`, `prevent_selection`, `prevent_close`, `keep_open`, `independent_width`, `fixed_position`, `enable_body_lock`, `skip_portal`, `cache_hash`, `no_scroll_animation`, `min_height`, `max_height`, `input_element`, `submit_element`, `submit_button_title`, `submit_button_icon`, `submit_button_variant`, `clear_button_title`, `keep_placeholder`, `input_attributes`, `inner_element`.
+
+**Must be scoped to specific components** — these names exist outside Eufemia or overlap across components with different meanings:
+
+| Rename | Scope to | Risk if applied globally |
+| --- | --- | --- |
+| `opened` → `open` | Autocomplete, Dropdown, DrawerList, DatePicker, Tooltip, Field.Date | Collides with HTML `open` attribute on `<details>` |
+| `clear` → `showClearButton` | Input, InputMasked | Collides with generic `clear` functions |
+| `visible` → `show` | ProgressIndicator | Collides with generic `visible` props |
+| `position` → `placement` | Tooltip | Collides with CSS `position` prop/style |
+| `children` → `label` | Checkbox, ProgressIndicator | `children` is a React universal prop |
+| `as` → `element` | H (heading element) | `as` is used by styled-components and other libs |
+| `size` → `span` | Flex.Item, Card | `size` is used by many non-Eufemia components |
+| `active` → `open` | Tooltip | `active` is a common generic prop |
+| `accordion` → `mode="accordion"` | Table | Prop-to-prop+value change, not a simple rename |
+| `input_icon` → `icon` | Autocomplete | Other components already have different `icon` props |
+| `spacing` → `innerSpace` | Section, Dialog.Body, Drawer.Body | Requires object form `{ block: '...' }`, not string |
+| `on_show` → `onOpen` | Autocomplete, Dropdown, DrawerList, DatePicker | Semantic change; GlobalStatus keeps `onShow` |
+| `on_hide` → `onClose` | Autocomplete, Dropdown, DrawerList, DatePicker | Semantic change; GlobalStatus keeps `onHide` |
+
+### Verifying your migration
+
+After applying changes, use these commands to validate:
+
+**TypeScript check** — catches missed renames, wrong prop types, and removed APIs:
+
+```bash
+npx tsc --noEmit
+```
+
+**Search for remaining snake_case** — catches props you missed:
+
+```bash
+grep -rn 'on_\|status_\|label_\|icon_\|_class\b\|inner_ref\|_state\|_position\|_button\|_text\|_sr_' \
+  --include='*.tsx' --include='*.ts' src/
+```
+
+**Common TypeScript errors and what they mean:**
+
+| Error | Cause | Fix |
+| --- | --- | --- |
+| `Property 'on_change' does not exist` | Missed snake_case → camelCase rename | Replace with `onChange` |
+| `Property 'innerRef' does not exist` | Missed innerRef → ref | Replace with `ref` |
+| `Type '"info"' is not assignable` | Missed status value rename | Replace `'info'` with `'information'` |
+| `Type '"warn"' is not assignable` | Missed status value rename | Replace `'warn'` with `'warning'` |
+| `Module not found: '@dnb/eufemia/components/input/InputPassword'` | Import path moved | Use `Field.Password` from `@dnb/eufemia/extensions/forms` |
+| `Property 'spacing' does not exist` | Removed prop | Replace with `innerSpace={{ block: 'value' }}` |
+| `Property 'brand' does not exist` on Logo | Logo API redesigned | Import SVG component and use `svg` prop |
+| `Type '"signal"' is not assignable` on Button | Variant removed | Use `variant="primary"` or `variant="secondary"` |
+| `Cannot find name 'FormRow'` | Component removed | Replace with `Flex.Horizontal` or `Flex.Vertical` |
+| `Property 'opened' does not exist` | Prop renamed | Replace with `open` |
+
+### Complete migration example
+
+This example shows a realistic v10 component migrated to v11, combining multiple change categories:
+
+**Before (v10):**
+
+```tsx
+import { Input, Dropdown, DatePicker, Section, Button } from '@dnb/eufemia'
+import { FormRow, Provider } from '@dnb/eufemia/shared'
+
+function MyForm({ formRef }) {
+  return (
+    <Provider
+      FormRow={{ label_direction: 'vertical' }}
+    >
+      <Section spacing="large" style_type="white">
+        <FormRow>
+          <Input
+            label="Name"
+            on_change={({ value }) => console.log(value)}
+            status="Error message"
+            status_state="error"
+            innerRef={formRef}
+          />
+          <Dropdown
+            label="Country"
+            selected_key="no"
+            on_change={({ data }) => console.log(data)}
+            opened={false}
+            on_show={() => console.log('opened')}
+            on_hide={() => console.log('closed')}
+            triangle_position="left"
+            data={[
+              { selected_key: 'no', content: 'Norway' },
+              { selected_key: 'se', content: 'Sweden' },
+            ]}
+          />
+          <DatePicker
+            label="Start date"
+            date_format="YYYY/MM/DD"
+            return_format="YYYY-MM-DD"
+            on_change={({ date }) => console.log(date)}
+            on_show={() => console.log('shown')}
+            on_hide={() => console.log('hidden')}
+          />
+        </FormRow>
+        <Button variant="signal" on_click={() => console.log('submit')}>
+          Submit
+        </Button>
+      </Section>
+    </Provider>
+  )
+}
+```
+
+**After (v11):**
+
+```tsx
+import { Input, Dropdown, DatePicker, Section, Button } from '@dnb/eufemia'
+import { Provider } from '@dnb/eufemia/shared'
+
+function MyForm({ formRef }) {
+  return (
+    <Provider
+      formElement={{ labelDirection: 'vertical' }}
+    >
+      <Section innerSpace={{ block: 'large' }} backgroundColor="white">
+        <Flex.Horizontal align="baseline">
+          <Input
+            label="Name"
+            onChange={({ value }) => console.log(value)}
+            status="Error message"
+            statusState="error"
+            ref={formRef}
+          />
+          <Dropdown
+            label="Country"
+            selectedKey="no"
+            onChange={({ data }) => console.log(data)}
+            open={false}
+            onOpen={() => console.log('opened')}
+            onClose={() => console.log('closed')}
+            arrowPosition="left"
+            data={[
+              { selectedKey: 'no', content: 'Norway' },
+              { selectedKey: 'se', content: 'Sweden' },
+            ]}
+          />
+          <DatePicker
+            label="Start date"
+            dateFormat="yyyy/MM/dd"
+            returnFormat="yyyy-MM-dd"
+            onChange={({ date }) => console.log(date)}
+            onOpen={() => console.log('shown')}
+            onClose={() => console.log('hidden')}
+          />
+        </Flex.Horizontal>
+        <Button variant="primary" onClick={() => console.log('submit')}>
+          Submit
+        </Button>
+      </Section>
+    </Provider>
+  )
+}
+```
+
+**What changed (13 categories in one component):**
+
+1. `FormRow` → `Flex.Horizontal align="baseline"` (removed component)
+2. `FormRow={{ label_direction: 'vertical' }}` → `formElement={{ labelDirection: 'vertical' }}` (Provider config)
+3. `spacing="large"` → `innerSpace={{ block: 'large' }}` (structural change — object required)
+4. `style_type="white"` → `backgroundColor="white"` (semantic rename)
+5. `on_change` / `on_click` → `onChange` / `onClick` (snake_case → camelCase)
+6. `status_state` → `statusState` (snake_case → camelCase)
+7. `innerRef` → `ref` (React 19)
+8. `selected_key` → `selectedKey` (snake_case → camelCase, in both props and data objects)
+9. `opened` → `open` (semantic rename)
+10. `on_show` / `on_hide` → `onOpen` / `onClose` (semantic rename — NOT `onShow`/`onHide`)
+11. `triangle_position` → `arrowPosition` (semantic rename)
+12. `date_format="YYYY/MM/DD"` → `dateFormat="yyyy/MM/dd"` (casing + format string change)
+13. `variant="signal"` → `variant="primary"` (removed variant)
 
 ### innerRef → ref
 
@@ -395,6 +637,8 @@ If you use any Eufemia context objects directly (e.g. `Wizard.Provider`), update
 ## Components
 
 > Each component section below lists its changes. Behavioral changes and removals are called out separately where applicable. The bulk of per-component changes are snake_case → camelCase renames covered by the [automated migration](#automated-migration-snake_case-to-camelcase) section above.
+>
+> **Reading the per-component lists:** Entries like `on_change` → `onChange` are **JSX prop renames** (apply in your component markup). Entries prefixed with the component name and a dot, like `Autocomplete.no_options` → `Autocomplete.noOptions`, are **translation key renames** — these appear in locale/Provider configuration objects, not as JSX attributes. Do not add them as JSX props.
 
 ### labelDirection default changed to `vertical`
 
