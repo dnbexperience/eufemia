@@ -1148,6 +1148,10 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `state`'s value `warn` with `warning`.
 - Replace `variant`'s value `flat` with `plain`.
 
+#### TypeScript types
+
+- The `FormStatusState` type no longer includes `| string | boolean`. It now only accepts the literal values `'error'`, `'warning'`, `'information'`, `'success'`, and `'marketing'`. If you were passing arbitrary strings or booleans as `state` or `statusState`, update them to one of the valid literals.
+
 ### [Skeleton](/uilib/components/skeleton/)
 
 #### Properties
