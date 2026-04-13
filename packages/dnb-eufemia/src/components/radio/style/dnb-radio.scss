@@ -54,9 +54,15 @@
   // Hover state
   --radio-border-width--hover: 0.125rem;
   --radio-border-width-on--hover: 0.125rem;
-  --radio-color-dot-on--hover: lightgrey;
-  --radio-color-background-on--hover: lightgrey;
-  --radio-color-background-off--hover: lightgrey;
+  --radio-color-dot-on--hover: var(--token-color-background-action-hover);
+  --radio-color-background-on--hover: var(
+    --token-color-background-action-hover-subtle
+  );
+  --radio-color-background-off--hover: var(
+    --token-color-background-action-hover-subtle
+  );
+  --radio-color-border-on--hover: var(--token-color-stroke-action-hover);
+  --radio-color-border-off--hover: var(--token-color-stroke-action-hover);
   // Focus state
   --radio-border-width--focus: 0.125rem;
   --radio-color-background-on--focus: var(--color-white);
@@ -405,6 +411,7 @@
     ~ &__button {
     background-color: var(--radio-color-background-on--hover);
     border-width: var(--radio-border-width-on--hover);
+    border-color: var(--radio-color-border-on--hover);
   }
 
   // Off
@@ -414,6 +421,7 @@
     ~ &__button {
     background-color: var(--radio-color-background-off--hover);
     border-width: var(--radio-border-width--hover);
+    border-color: var(--radio-color-border-off--hover);
   }
 
   /** Focus state **/
