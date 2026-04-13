@@ -163,27 +163,27 @@ To help plan your migration, changes are grouped by effort:
 
 These renames change the property or event name itself, not just the casing. They affect multiple components and require targeted find-and-replace:
 
-| Old | New | Affected components |
-| --- | --- | --- |
-| `innerRef` | `ref` | 20+ components (see [innerRef → ref](#innerref--ref)) |
-| `opened` | `open` | Autocomplete, Dropdown, DrawerList, DatePicker, Tooltip, Field.Date |
-| `on_show` / `on_hide` | `onOpen` / `onClose` | Autocomplete, Dropdown, DrawerList, DatePicker |
-| `triangle_position` | `arrowPosition` | Autocomplete, Dropdown, DrawerList |
-| `styleType` / `style_type` | `backgroundColor` | Breadcrumb, Dialog.Body, Drawer.Body |
-| `spacing` | `innerSpace` (object form) | Section, Dialog.Body, Drawer.Body |
-| `input_class` / `textarea_class` | `inputClassName` / `textareaClassName` | Input, InputMasked, Textarea |
-| `prerender` | `keepInDOM` | Tabs, Accordion |
-| `as` | `element` | H (heading element) |
-| `size` | `span` | Flex.Item, Card |
-| `align_autocomplete` / `align_dropdown` | `align` | Autocomplete, Dropdown |
-| `input_icon` | `icon` | Autocomplete |
-| `clear` | `showClearButton` | Input |
-| `visible` | `show` | ProgressIndicator |
-| `active` / `forceOpen` | `open` | Tooltip |
-| `position` | `placement` | Tooltip |
-| `accordion` | `mode="accordion"` | Table |
-| `isCollapsed` | `collapsed` | Breadcrumb |
-| `contentSpacing` / `tabsSpacing` | `contentInnerSpace` / `tabsInnerSpace` | Tabs |
+| Old                                     | New                                    | Affected components                                                 |
+| --------------------------------------- | -------------------------------------- | ------------------------------------------------------------------- |
+| `innerRef`                              | `ref`                                  | 20+ components (see [innerRef → ref](#innerref--ref))               |
+| `opened`                                | `open`                                 | Autocomplete, Dropdown, DrawerList, DatePicker, Tooltip, Field.Date |
+| `on_show` / `on_hide`                   | `onOpen` / `onClose`                   | Autocomplete, Dropdown, DrawerList, DatePicker                      |
+| `triangle_position`                     | `arrowPosition`                        | Autocomplete, Dropdown, DrawerList                                  |
+| `styleType` / `style_type`              | `backgroundColor`                      | Breadcrumb, Dialog.Body, Drawer.Body                                |
+| `spacing`                               | `innerSpace` (object form)             | Section, Dialog.Body, Drawer.Body                                   |
+| `input_class` / `textarea_class`        | `inputClassName` / `textareaClassName` | Input, InputMasked, Textarea                                        |
+| `prerender`                             | `keepInDOM`                            | Tabs, Accordion                                                     |
+| `as`                                    | `element`                              | H (heading element)                                                 |
+| `size`                                  | `span`                                 | Flex.Item, Card                                                     |
+| `align_autocomplete` / `align_dropdown` | `align`                                | Autocomplete, Dropdown                                              |
+| `input_icon`                            | `icon`                                 | Autocomplete                                                        |
+| `clear`                                 | `showClearButton`                      | Input                                                               |
+| `visible`                               | `show`                                 | ProgressIndicator                                                   |
+| `active` / `forceOpen`                  | `open`                                 | Tooltip                                                             |
+| `position`                              | `placement`                            | Tooltip                                                             |
+| `accordion`                             | `mode="accordion"`                     | Table                                                               |
+| `isCollapsed`                           | `collapsed`                            | Breadcrumb                                                          |
+| `contentSpacing` / `tabsSpacing`        | `contentInnerSpace` / `tabsInnerSpace` | Tabs                                                                |
 
 ### Step-by-step checklist
 
