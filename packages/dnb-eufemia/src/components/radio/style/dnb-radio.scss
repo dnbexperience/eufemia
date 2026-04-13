@@ -39,10 +39,18 @@
     --token-color-icon-action-disabled
   );
   // Active state
-  --radio-color-dot-on--active: lightgrey;
-  --radio-color-border-on--active: lightgrey;
-  --radio-color-background-off--active: lightgrey;
-  --radio-color-border-off--active: transparent;
+  --radio-color-dot-on--active: var(
+    --token-color-background-action-pressed
+  );
+  --radio-color-background-off--active: var(
+    --token-color-background-action-pressed-subtle
+  );
+  --radio-color-border-on--active: var(
+    --token-color-stroke-action-pressed
+  );
+  --radio-color-border-off--active: var(
+    --token-color-stroke-action-pressed
+  );
   // Hover state
   --radio-border-width--hover: 0.125rem;
   --radio-border-width-on--hover: 0.125rem;

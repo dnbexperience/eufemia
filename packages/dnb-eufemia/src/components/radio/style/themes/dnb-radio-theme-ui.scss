@@ -4,11 +4,6 @@
 */
 
 .dnb-radio {
-  // Active state
-  --radio-color-dot-on--active: var(--color-mint-green-50);
-  --radio-color-border-on--active: var(--color-mint-green-50);
-  --radio-color-background-off--active: var(--color-mint-green-50);
-  --radio-color-border-off--active: transparent;
   // Hover state
   --radio-color-dot-on--hover: var(--color-mint-green-50);
   --radio-color-background-on--hover: var(--color-white);
