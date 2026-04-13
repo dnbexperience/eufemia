@@ -1,4 +1,8 @@
 .dnb-text-counter {
+  &.dnb-p {
+    color: var(--token-color-text-neutral-alternative);
+  }
+
   .dnb-icon {
     margin-right: 0;
 
@@ -7,9 +11,16 @@
       margin 200ms var(--easing-default),
       font-size 400ms var(--easing-default);
   }
-  &--exceeded .dnb-icon {
-    margin-right: 0.5rem;
 
-    font-size: var(--font-size-basis--em);
+  &--exceeded {
+    &.dnb-p {
+      color: var(--token-color-text-destructive);
+    }
+
+    .dnb-icon {
+      margin-right: 0.5rem;
+
+      font-size: var(--font-size-basis--em);
+    }
   }
 }
