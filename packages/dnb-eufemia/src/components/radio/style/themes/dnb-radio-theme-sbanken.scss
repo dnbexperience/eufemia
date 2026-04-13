@@ -14,4 +14,6 @@
   --radio-border-width-on--hover: 0.0625rem;
   // Focus state
   --radio-border-width--focus: 0.1875rem;
+  // Error state
+  --radio-focus-ring-width--error: var(--radio-border-width);
 }
