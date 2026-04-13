@@ -56,12 +56,3 @@
     margin-top: 0.5rem;
   }
 }
-
-@mixin imageTag() {
-  img {
-    @include imageStyle();
-  }
-  figure {
-    @include figureStyle();
-  }
-}
