@@ -52,6 +52,8 @@ By default, the component emits values with a space between the country code and
 
 This ensures the value round-trips correctly: spaceless input from the backend is auto-detected on the way in, and is emitted without a space on the way out.
 
+When combining `omitSpaceSeparator` with `transformOut`, note that the value passed to `transformOut` is already in E.164 format (e.g. `"+4712345678"`), so your transformer receives the spaceless string directly.
+
 ### Handling `00` prefix format
 
 Some backends may store phone numbers with a `00` prefix instead of `+` (e.g. `004712345678`). Since the component uses E.164 format (`+` prefix) internally, normalize the value before passing it to the component and use `transformOut` to convert back on output:

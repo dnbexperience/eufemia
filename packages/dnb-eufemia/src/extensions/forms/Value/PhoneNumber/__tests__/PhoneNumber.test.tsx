@@ -73,6 +73,13 @@ describe('Value.PhoneNumber', () => {
     expect(element).toHaveTextContent('+1 20 25 55 12 34')
   })
 
+  it('should format a spaceless dashed CDC value like +1-684 correctly', () => {
+    render(<Value.PhoneNumber value="+16841234567" />)
+
+    const element = document.querySelector('.dnb-forms-value-block')
+    expect(element).toHaveTextContent('+1 (684) 12 34 56 7')
+  })
+
   it('does not render when value is null', () => {
     render(<Value.PhoneNumber value={null} />)
     const element = document.querySelector('.dnb-forms-value-block')
