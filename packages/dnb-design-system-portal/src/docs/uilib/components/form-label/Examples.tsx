@@ -9,15 +9,15 @@ import { FormLabel, Checkbox, Switch } from '@dnb/eufemia/src'
 
 export const Default = () => (
   <ComponentBox data-visual-test="form-label-default">
-    <FormLabel forId="alone-1">Default horizontal FormLabel</FormLabel>
+    <FormLabel forId="alone-1">Default vertical FormLabel</FormLabel>
     <Checkbox id="alone-1" label="Checkbox" />
   </ComponentBox>
 )
 
-export const Vertical = () => (
-  <ComponentBox data-visual-test="form-label-vertical">
-    <FormLabel forId="alone-2" vertical>
-      Vertical FormLabel
+export const Horizontal = () => (
+  <ComponentBox data-visual-test="form-label-horizontal">
+    <FormLabel forId="alone-2" vertical={false}>
+      Horizontal FormLabel
     </FormLabel>
     <Checkbox id="alone-2" label="Checkbox" />
   </ComponentBox>
@@ -25,7 +25,7 @@ export const Vertical = () => (
 
 export const NoForId = () => (
   <ComponentBox>
-    <FormLabel vertical={true}>Without forId (select me)</FormLabel>
+    <FormLabel>Without forId (select me)</FormLabel>
     <Checkbox label="Checkbox" />
   </ComponentBox>
 )

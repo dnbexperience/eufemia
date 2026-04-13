@@ -287,6 +287,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
                 element="legend"
                 id={id + '-label'}
                 srOnly={labelSrOnly}
+                vertical={false}
               >
                 {label}
               </FormLabel>

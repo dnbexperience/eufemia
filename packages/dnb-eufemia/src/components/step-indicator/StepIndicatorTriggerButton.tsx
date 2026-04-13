@@ -111,6 +111,7 @@ function StepIndicatorTriggerButton({
             aria-describedby={id}
             aria-hidden // In order to not duplicate information for screen readers
             className="dnb-step-indicator__label"
+            vertical={false}
             right="x-small"
           >
             {label}

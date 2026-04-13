@@ -260,6 +260,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
                 element="legend"
                 id={legendId}
                 srOnly={labelSrOnly}
+                vertical={false}
               >
                 {label}
               </FormLabel>
