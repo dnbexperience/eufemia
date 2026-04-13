@@ -49,10 +49,7 @@ import AriaLive from '../aria-live/AriaLive'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import IconPrimary from '../icon-primary/IconPrimary'
-import Input, {
-  SubmitButton,
-  type InputSubmitButtonProps,
-} from '../input/Input'
+import Input, { SubmitButton } from '../input/Input'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 import DrawerList from '../../fragments/drawer-list/DrawerList'
 import { ItemContent } from '../../fragments/drawer-list/DrawerListItem'
@@ -1610,6 +1607,10 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     })
   }, [focusDrawerList])
 
+  const handleToggleVisible = useCallback(() => {
+    toggleVisible()
+  }, [toggleVisible])
+
   const hasDatasetChanged = useCallback(
     (rawData: DrawerListInternalData) => {
       const { selectedItem } = drawerListRef.current
@@ -2390,7 +2391,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     disabled,
     status: status ? statusState : null,
     onKeyDown: onTriggerKeyDownHandler,
-    onSubmit: toggleVisible as any as InputSubmitButtonProps['onSubmit'],
+    onSubmit: handleToggleVisible,
     onMouseDown: reserveActivityHandler,
     'aria-haspopup': 'listbox' as const,
     'aria-expanded': isExpanded,
@@ -2488,7 +2489,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           srOnly={labelSrOnly}
           disabled={disabled}
           skeleton={skeleton}
-          onClick={toggleVisible as unknown as React.MouseEventHandler}
+          onClick={handleToggleVisible}
         />
       )}
 

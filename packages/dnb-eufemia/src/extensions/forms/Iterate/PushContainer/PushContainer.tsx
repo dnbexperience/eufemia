@@ -258,10 +258,7 @@ function PushContainer(props: IteratePushContainerAllProps) {
 
     if (isZodSchema(parentSchema)) {
       // Extract array element subschema: e.g. "/entries/0" → item schema
-      const element = extractZodSubSchema(
-        parentSchema as unknown as z.ZodTypeAny,
-        `${targetPath}/0`
-      ) as z.ZodTypeAny
+      const element = extractZodSubSchema(parentSchema, `${targetPath}/0`)
       return z.object({ pushContainerItems: z.array(element) })
     } else {
       // JSON Schema: find items schema at the target path

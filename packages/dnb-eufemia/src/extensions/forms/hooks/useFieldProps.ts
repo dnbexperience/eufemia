@@ -527,7 +527,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     hasPath,
     identifier,
     executeOnChangeRegardlessOfError,
-    handlePathChangeDataContext: handlePathChangeDataContext as any,
+    handlePathChangeDataContext,
   })
 
   // ─── useFieldValidation ──────────────────────────────────────────────

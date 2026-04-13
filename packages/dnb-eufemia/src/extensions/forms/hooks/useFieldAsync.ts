@@ -12,6 +12,7 @@ import type {
   PersistErrorStateMethod,
   ErrorInitiator,
 } from './useFieldError'
+import type { ContextState } from '../DataContext/Context'
 
 export type AsyncProcesses =
   | 'onChangeValidator'
@@ -50,11 +51,7 @@ export type UseFieldAsyncParams<Value> = {
   hasPath: boolean
   identifier: Identifier
   executeOnChangeRegardlessOfError: boolean
-  handlePathChangeDataContext: (
-    identifier: Identifier
-  ) =>
-    | EventReturnWithStateObjectAndSuccess
-    | Promise<EventReturnWithStateObjectAndSuccess>
+  handlePathChangeDataContext: ContextState['handlePathChange']
 }
 
 export default function useFieldAsync<Value>({

@@ -24,7 +24,12 @@ export type ItemActionProps = {
   href?: string
   target?: string
   rel?: string
-} & Omit<ItemContentProps, 'title'>
+  onClick?: (
+    event:
+      | React.MouseEvent<HTMLDivElement>
+      | React.KeyboardEvent<HTMLDivElement>
+  ) => void
+} & Omit<ItemContentProps, 'title' | 'onClick'>
 
 function ItemAction(props: ItemActionProps) {
   const {
@@ -56,7 +61,11 @@ function ItemAction(props: ItemActionProps) {
         | React.KeyboardEvent<HTMLDivElement | HTMLAnchorElement>
     ) => {
       if (!isInactive) {
-        onClick?.(event as React.MouseEvent<HTMLDivElement>)
+        onClick?.(
+          event as
+            | React.MouseEvent<HTMLDivElement>
+            | React.KeyboardEvent<HTMLDivElement>
+        )
       }
     },
     [onClick, isInactive]
@@ -89,7 +98,7 @@ function ItemAction(props: ItemActionProps) {
         event.preventDefault()
         if (!isInactive) {
           anchorRef.current?.click()
-          onClick?.(event as unknown as React.MouseEvent<HTMLDivElement>)
+          onClick?.(event)
         }
       }
     },
