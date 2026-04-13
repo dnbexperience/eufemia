@@ -4,11 +4,12 @@
  */
 
 import React from 'react'
+import type { ToggleButtonValue } from './ToggleButton'
 
 export type ToggleButtonGroupContextValue = {
   name?: string
-  value?: string | number | Record<string, unknown> | any[] | null
-  values?: any[]
+  value?: ToggleButtonValue | null
+  values?: ToggleButtonValue[]
   size?: string
   multiselect?: boolean | null
   variant?: string | null
@@ -24,7 +25,7 @@ export type ToggleButtonGroupContextValue = {
         ) => Record<string, unknown>)
   ) => void
   onChange?: (args: {
-    value: string | number | Record<string, unknown> | any[]
+    value: ToggleButtonValue | ToggleButtonValue[]
     event: React.SyntheticEvent
   }) => void
 }
