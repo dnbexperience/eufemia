@@ -10,6 +10,8 @@ import { Accordion } from '@dnb/eufemia/src'
 
 This is the migration guide for @dnb/eufemia v11. It covers all breaking changes, removals, and required code updates.
 
+**How to use this guide:** Start with the [Step-by-step migration procedure](#step-by-step-migration-procedure) for the ordered workflow. Reference the [per-component sections](#components) to find individual property renames for a specific component. Check [Silent failures TypeScript won't catch](#silent-failures-typescript-wont-catch) after applying changes.
+
 **Most changes fall into these categories:**
 
 1. **snake_case → camelCase renames** — The majority of changes are mechanical property, event, and translation key renames. These can be [automated](#automated-migration-snake_case-to-camelcase).
@@ -393,7 +395,7 @@ These renames use generic names that exist in non-Eufemia code. Scope your find-
 
 47. Run `npx tsc --noEmit` to catch remaining type errors.
 48. Run your tests. Update any test selectors that query DatePicker/Expiry `input` elements (now `role="spinbutton"` sections).
-49. Search for remaining snake*case patterns: `grep -rn 'on*\|status*\|label*\|icon*\|\_class\|\_ref\|\_state\|\_position\|\_button\|\_text\|\_sr*' --include='_.tsx' --include='_.ts' src/`
+49. Search for remaining snake_case patterns using the grep command in [Verifying your migration](#verifying-your-migration).
 
 ### Find-and-replace safety guide
 
@@ -546,14 +548,7 @@ This example shows a realistic v10 component migrated to v11, combining multiple
 **Before (v10):**
 
 ```tsx
-import {
-  Input,
-  Dropdown,
-  Flex,
-  DatePicker,
-  Section,
-  Button,
-} from '@dnb/eufemia'
+import { Input, Dropdown, DatePicker, Section, Button } from '@dnb/eufemia'
 import { FormRow, Provider } from '@dnb/eufemia/shared'
 
 function MyForm({ formRef }) {
