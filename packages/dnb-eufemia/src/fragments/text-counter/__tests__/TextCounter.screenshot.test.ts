@@ -8,30 +8,33 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe.each(['ui', 'sbanken'])('TextCounter for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/uilib/components/fragments/text-counter/demos/',
-  })
-
-  it('have to character counter downwards', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="text-counter-down"]',
+describe.each(['ui', 'sbanken', 'carnegie'])(
+  'TextCounter for %s',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/fragments/text-counter/demos/',
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to character counter upwards', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="text-counter-up"]',
+    it('have to character counter downwards', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="text-counter-down"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to character counter exceeded', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="text-counter-exceeded"]',
+    it('have to character counter upwards', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="text-counter-up"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
+
+    it('have to character counter exceeded', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="text-counter-exceeded"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  }
+)
