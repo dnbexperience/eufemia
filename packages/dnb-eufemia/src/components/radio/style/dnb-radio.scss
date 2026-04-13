@@ -17,11 +17,13 @@
   --radio-height--large: 2rem;
   // Normal state
   --radio-border-width: 0.09375rem;
-  --radio-color-dot-on: black;
-  --radio-color-background-on: white;
-  --radio-color-border-on: black;
-  --radio-color-background-off: white;
-  --radio-color-border-off: black;
+  --radio-color-dot-on: var(--token-color-background-selected);
+  --radio-color-background-on: var(
+    --token-color-background-selected-subtle
+  );
+  --radio-color-border-on: var(--token-color-stroke-selected);
+  --radio-color-background-off: var(--token-color-background-neutral);
+  --radio-color-border-off: var(--token-color-stroke-action-alternative);
   // Disabled state
   --radio-border-width--disabled: 0.125rem;
   --radio-color-dot-on--disabled: lightgrey;
