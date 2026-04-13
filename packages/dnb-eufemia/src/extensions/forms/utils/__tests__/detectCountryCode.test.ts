@@ -104,7 +104,9 @@ describe('detectCountryCode', () => {
   })
 
   it('should return undefined for non-string value', () => {
-    expect(detectCountryCode(undefined as unknown as string)).toBeUndefined()
+    expect(
+      detectCountryCode(undefined as unknown as string)
+    ).toBeUndefined()
     expect(detectCountryCode(null as unknown as string)).toBeUndefined()
     expect(detectCountryCode(12345 as unknown as string)).toBeUndefined()
   })

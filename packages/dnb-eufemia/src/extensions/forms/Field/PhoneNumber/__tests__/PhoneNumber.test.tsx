@@ -411,10 +411,7 @@ describe('Field.PhoneNumber', () => {
 
     it('should auto-detect +46 (Sweden) from spaceless value', () => {
       render(
-        <Field.PhoneNumber
-          value="+46701234567"
-          countries="Scandinavia"
-        />
+        <Field.PhoneNumber value="+46701234567" countries="Scandinavia" />
       )
 
       const codeElement = document.querySelector(
@@ -430,10 +427,7 @@ describe('Field.PhoneNumber', () => {
 
     it('should auto-detect +45 (Denmark) from spaceless value', () => {
       render(
-        <Field.PhoneNumber
-          value="+4512345678"
-          countries="Scandinavia"
-        />
+        <Field.PhoneNumber value="+4512345678" countries="Scandinavia" />
       )
 
       const codeElement = document.querySelector(
@@ -615,12 +609,7 @@ describe('Field.PhoneNumber', () => {
     })
 
     it('should return emptyValue when phone number is cleared', () => {
-      render(
-        <Field.PhoneNumber
-          value="+47"
-          omitSpaceSeparator
-        />
-      )
+      render(<Field.PhoneNumber value="+47" omitSpaceSeparator />)
 
       const numberElement = document.querySelector(
         '.dnb-forms-field-phone-number__number input'

@@ -43,7 +43,11 @@ When a phone number value is provided without a space separator between the coun
 By default, the component emits values with a space between the country code and the phone number (e.g. `+47 12345678`). If your backend requires values without the space (e.g. `+4712345678`), use the `omitSpaceSeparator` prop:
 
 ```tsx
-<Field.PhoneNumber omitSpaceSeparator />
+<Field.PhoneNumber
+  omitSpaceSeparator
+  onChange={(value) => console.log('onChange', value)}
+/>
+// onChange "+4712345678"
 ```
 
 This ensures the value round-trips correctly: spaceless input from the backend is auto-detected on the way in, and is emitted without a space on the way out.
