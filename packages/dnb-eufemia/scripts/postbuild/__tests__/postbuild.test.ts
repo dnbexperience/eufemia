@@ -603,7 +603,7 @@ describe('style build', () => {
         normalizeCss(`
 .dnb-p {
   font-size: var(--font-size-basis);
-  color: var(--token-color-text-neutral)
+  color: var(--token-color-text-neutral);
 }`)
       )
       expect(normalizeCss(content)).toContain(
