@@ -8,9 +8,9 @@ import countries from '../constants/countries'
  * specific code is matched first — this is safe because ITU E.164
  * country codes are prefix-free at each allocation length.
  */
-const sortedCodes: Array<string> = [
-  ...new Set(countries.map((c) => c.cdc.replace(/-/g, ''))),
-].sort((a, b) => b.length - a.length || a.localeCompare(b))
+const sortedCodes: Array<string> = Array.from(
+  new Set(countries.map((c) => c.cdc.replace(/-/g, '')))
+).sort((a, b) => b.length - a.length || a.localeCompare(b))
 
 /**
  * Detect the country dialing code from a phone number string that has
