@@ -349,9 +349,10 @@ export function toCapitalized(str) {
 export const makeUniqueId = (prefix = 'id-', length = 8) =>
   prefix +
   String(
-    Math.random()
-      .toString(36)
-      .substring(2, 2 + length) + idIncrement++
+    Array.from(
+      crypto.getRandomValues(new Uint8Array(length)),
+      (byte) => (byte % 36).toString(36)
+    ).join('') + idIncrement++
   ).slice(-length)
 let idIncrement = 0
 
