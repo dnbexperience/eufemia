@@ -51,7 +51,7 @@ const VisuallyHidden = (localProps: VisuallyHiddenAllProps) => {
   return (
     <Element
       className={visuallyHiddenClassNames}
-      {...(props as Record<string, unknown>)}
+      {...(props as React.HTMLAttributes<HTMLElement>)}
     >
       {children}
     </Element>

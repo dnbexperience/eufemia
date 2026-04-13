@@ -179,7 +179,7 @@ function mergeMissingKeys<T extends Record<string, unknown>>(
   source: T
 ): { result: TranslationFlatToObject<T>; hasMissing: boolean } {
   const resultLocal: Record<string, unknown> = {
-    ...(target as Record<string, unknown>),
+    ...target,
   }
   let hasMissing = false
 

@@ -1,7 +1,8 @@
 export type DefaultsProps = Record<string, unknown>
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export type ContextValue =
   | Record<string, unknown>
+  | object
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   | {}
   | undefined
   | null

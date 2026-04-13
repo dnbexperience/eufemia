@@ -13,7 +13,7 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Anchor from '../anchor/Anchor'
-import type { SkeletonShow } from '../skeleton/Skeleton'
+import type { SkeletonShow, SkeletonProps } from '../skeleton/Skeleton'
 import Skeleton from '../skeleton/Skeleton'
 import { H1, P } from '../../elements'
 import type { SpacingProps } from '../../shared/types'
@@ -140,7 +140,7 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
       className
     ),
     ...attributes,
-  } as Record<string, unknown>
+  } as Partial<SkeletonProps>
 
   const additionalContent = processChildren(allProps)
 

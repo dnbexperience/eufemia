@@ -248,10 +248,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
     (context.translation as Record<string, unknown>)
       ?.ToggleButton as Record<string, unknown>,
     pickFormElementProps(context.formElement),
-    (context as Record<string, unknown>)?.ToggleButton as Record<
-      string,
-      unknown
-    >
+    context?.ToggleButton
   )
 
   const {

@@ -154,10 +154,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
       >
     ).ToggleButton,
     pickFormElementProps(context?.formElement),
-    (context as Record<string, unknown>)?.ToggleButtonGroup as Record<
-      string,
-      unknown
-    >
+    context?.ToggleButtonGroup
   )
 
   const {

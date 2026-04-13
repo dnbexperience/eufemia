@@ -56,6 +56,15 @@ import type { ListFormatProps } from '../components/list-format/ListFormat'
 import type { IconPrimaryProps } from '../components/IconPrimary'
 import type { SwitchProps } from '../components/Switch'
 import type { TermDefinitionProps } from '../components/term-definition/TermDefinition'
+import type { RadioProps } from '../components/Radio'
+import type { RadioGroupProps } from '../components/radio/RadioGroup'
+import type { ToggleButtonProps } from '../components/ToggleButton'
+import type { ToggleButtonGroupProps } from '../components/toggle-button/ToggleButtonGroup'
+import type {
+  GlobalStatusProps,
+  GlobalStatusConfigObject,
+} from '../components/GlobalStatus'
+import type { DropdownProps } from '../components/dropdown/Dropdown'
 
 import type { FormElementProps } from './helpers/filterValidProps'
 import type { ThemeProps } from './Theme'
@@ -108,6 +117,12 @@ export type ContextComponents = {
   NumberFormat?: Partial<NumberFormatAllProps>
   Pagination?: Partial<AccordionProps>
   TermDefinition?: Partial<TermDefinitionProps>
+  Radio?: Partial<RadioProps>
+  RadioGroup?: Partial<RadioGroupProps>
+  ToggleButton?: Partial<ToggleButtonProps>
+  ToggleButtonGroup?: Partial<ToggleButtonGroupProps>
+  GlobalStatus?: Partial<GlobalStatusProps>
+  Dropdown?: Partial<DropdownProps>
 
   // Common props
   formElement?: FormElementProps
@@ -127,6 +142,16 @@ export type ContextProps = ContextComponents & {
    * Will enable all skeletons inside this provider/context scope
    */
   skeleton?: SkeletonShow
+
+  /**
+   * Set to `true` to disable the skeleton animation
+   */
+  skeletonNoAnimation?: boolean
+
+  /**
+   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
+   */
+  globalStatus?: GlobalStatusConfigObject
 
   /**
    * Define what breakpoints should be used by the MediaQuery component and hook

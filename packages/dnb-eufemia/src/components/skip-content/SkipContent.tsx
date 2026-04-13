@@ -140,7 +140,7 @@ const SkipContent = (localProps: SkipContentAllProps) => {
             variant="secondary"
             onClick={handleClick}
             onBlur={handleBlur}
-            {...(props as Record<string, unknown>)}
+            {...(props as Partial<ButtonProps>)}
           >
             {text || children}
           </Button>

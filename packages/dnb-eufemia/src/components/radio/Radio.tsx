@@ -317,9 +317,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
     contextProps,
     { skeleton: context?.skeleton },
     pickFormElementProps(context.formElement),
-    (context as Record<string, unknown>)?.Radio as
-      | Record<string, unknown>
-      | undefined
+    context?.Radio
   )
 
   const {

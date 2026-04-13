@@ -68,6 +68,7 @@ export type GlobalStatusConfigObject = {
    */
   id?: string
   message?: FormStatusText
+  show?: boolean
 }
 export type GlobalStatusChildren = string | React.ReactNode
 
@@ -617,9 +618,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
 
   const props = extendPropsWithContext(
     GlobalStatusProvider.combineMessages([
-      (context as Record<string, unknown>)?.globalStatus as
-        | Record<string, unknown>
-        | undefined,
+      context?.globalStatus,
       derivedGlobalStatus,
     ]),
     globalStatusDefaultProps,

@@ -426,8 +426,7 @@ function FormStatusComponent(
       prevProps.text !== text ||
       prevProps.children !== children ||
       prevProps.show !== show ||
-      (prevProps.globalStatus as Record<string, unknown>)?.show !==
-        (globalStatus as Record<string, unknown>)?.show ||
+      prevProps.globalStatus?.show !== globalStatus?.show ||
       prevProps.state !== state
     ) {
       fillCache()
