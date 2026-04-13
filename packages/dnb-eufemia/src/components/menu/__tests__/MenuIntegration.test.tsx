@@ -91,8 +91,8 @@ describe('Menu integration with real Popover', () => {
     expect(items.length).toBeGreaterThanOrEqual(2)
 
     // Focus the "Export as" sub-menu trigger
-    const exportTrigger = Array.from(items).find(
-      (item) => item.textContent?.includes('Export as')
+    const exportTrigger = Array.from(items).find((item) =>
+      item.textContent?.includes('Export as')
     ) as HTMLElement
     expect(exportTrigger).toBeTruthy()
     exportTrigger.focus()

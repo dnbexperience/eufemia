@@ -357,9 +357,11 @@ interface UseFieldPropsInterface<
   Value = unknown,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
-  ExtraValue extends
-    ProvideAdditionalEventArgs = ProvideAdditionalEventArgs,
-> extends DataValueReadWriteComponentProps<Value, EmptyValue>,
+  ExtraValue extends ProvideAdditionalEventArgs =
+    ProvideAdditionalEventArgs,
+>
+  extends
+    DataValueReadWriteComponentProps<Value, EmptyValue>,
     AriaAttributes {
   // - HTML Element Attributes
   /**
@@ -502,8 +504,8 @@ export type UseFieldProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
-  ExtraValue extends
-    ProvideAdditionalEventArgs = ProvideAdditionalEventArgs,
+  ExtraValue extends ProvideAdditionalEventArgs =
+    ProvideAdditionalEventArgs,
 > = UseFieldPropsInterface<Value, EmptyValue, ErrorMessages, ExtraValue>
 
 export type FieldProps<
@@ -538,8 +540,9 @@ export type FieldPropsWithExtraValue<
   DataValueWriteProps<Value, EmptyValue, ExtraValue>
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-interface ValuePropsInterface<Value = unknown>
-  extends DataValueReadComponentProps<Value> {
+interface ValuePropsInterface<
+  Value = unknown,
+> extends DataValueReadComponentProps<Value> {
   /**
    * Field label to show above the data value.
    */
