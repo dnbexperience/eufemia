@@ -11,13 +11,17 @@ describe('makePropertiesFile', () => {
     ui: null,
     sbanken: null,
     uiTokens: null,
+    uiTokensDark: null,
     sbankenTokens: null,
+    sbankenTokensDark: null,
     carnegieTokens: null,
     uiFoundation: null,
     sbankenFoundation: null,
     carnegieFoundation: null,
     uiTokensTailwind: null,
+    uiTokensDarkTailwind: null,
     sbankenTokensTailwind: null,
+    sbankenTokensDarkTailwind: null,
     carnegieTokensTailwind: null,
   }
 
@@ -40,12 +44,20 @@ describe('makePropertiesFile', () => {
       path.resolve('src/style/themes/ui/tokens.scss'),
       'utf-8'
     )
+    global.uiTokensDark = fs.readFileSync(
+      path.resolve('src/style/themes/ui/tokens-dark.scss'),
+      'utf-8'
+    )
     global.uiFoundation = fs.readFileSync(
       path.resolve('src/style/themes/ui/foundation.scss'),
       'utf-8'
     )
     global.sbankenTokens = fs.readFileSync(
       path.resolve('src/style/themes/sbanken/tokens.scss'),
+      'utf-8'
+    )
+    global.sbankenTokensDark = fs.readFileSync(
+      path.resolve('src/style/themes/sbanken/tokens-dark.scss'),
       'utf-8'
     )
     global.sbankenFoundation = fs.readFileSync(
@@ -65,8 +77,16 @@ describe('makePropertiesFile', () => {
       path.resolve('src/style/themes/ui/tokens-tailwind.css'),
       'utf-8'
     )
+    global.uiTokensDarkTailwind = fs.readFileSync(
+      path.resolve('src/style/themes/ui/tokens-dark-tailwind.css'),
+      'utf-8'
+    )
     global.sbankenTokensTailwind = fs.readFileSync(
       path.resolve('src/style/themes/sbanken/tokens-tailwind.css'),
+      'utf-8'
+    )
+    global.sbankenTokensDarkTailwind = fs.readFileSync(
+      path.resolve('src/style/themes/sbanken/tokens-dark-tailwind.css'),
       'utf-8'
     )
     global.carnegieTokensTailwind = fs.readFileSync(
@@ -77,11 +97,13 @@ describe('makePropertiesFile', () => {
   describe('Tokens snapshots for', () => {
     it('ui', () => {
       expect(global.uiTokens).toMatchSnapshot()
+      expect(global.uiTokensDark).toMatchSnapshot()
       expect(global.uiFoundation).toMatchSnapshot()
     })
 
     it('sbanken', () => {
       expect(global.sbankenTokens).toMatchSnapshot()
+      expect(global.sbankenTokensDark).toMatchSnapshot()
       expect(global.sbankenFoundation).toMatchSnapshot()
     })
 
@@ -254,10 +276,10 @@ describe('makePropertiesFile', () => {
         }
 
         const result = transformFigmaValue(val)
-        expect(result).toEqual('rgba(0 114 114 / 0.48)')
+        expect(result).toEqual('rgba(0 114 114 / 48%)')
       })
 
-      it('rounds alpha to 6 decimals', () => {
+      it('rounds alpha to 2 decimals', () => {
         const val = {
           $type: 'color' as const,
           $value: {
@@ -267,7 +289,7 @@ describe('makePropertiesFile', () => {
         }
 
         const result = transformFigmaValue(val)
-        expect(result).toEqual('rgba(0 114 114 / 0.012346)')
+        expect(result).toEqual('rgba(0 114 114 / 1.23%)')
       })
 
       it('removes trailing zeroes in alpha', () => {
@@ -280,7 +302,7 @@ describe('makePropertiesFile', () => {
         }
 
         const result = transformFigmaValue(val)
-        expect(result).toEqual('rgba(0 114 114 / 0.0625)')
+        expect(result).toEqual('rgba(0 114 114 / 6.25%)')
       })
 
       it('throw error on bad hex string', () => {
@@ -476,7 +498,9 @@ describe('makePropertiesFile', () => {
 
   describe('Foundation only contains referenced variables', () => {
     it('includes only variables used by tokens for ui', () => {
-      const tokenVariables = extractReferencedCssVariables(global.uiTokens)
+      const tokenVariables = extractReferencedCssVariables(
+        global.uiTokens + global.uiTokensDark
+      )
       const foundationVariables = new Set(
         [...global.uiFoundation.matchAll(/^\s*(--[a-z0-9-]+)\s*:/gim)].map(
           (match) => match[1]
@@ -490,7 +514,7 @@ describe('makePropertiesFile', () => {
 
     it('includes only variables used by tokens for sbanken', () => {
       const tokenVariables = extractReferencedCssVariables(
-        global.sbankenTokens
+        global.sbankenTokens + global.sbankenTokensDark
       )
       const foundationVariables = new Set(
         [

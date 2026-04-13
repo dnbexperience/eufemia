@@ -1,5 +1,5 @@
 import stylelint from 'stylelint'
-const noUnusedUsePlugin = require('../no-unused-use')
+const noUnusedUsePlugin = require('../no-unused-use.cjs')
 
 const lintWithRule = async (code: string) => {
   const result = await stylelint.lint({
