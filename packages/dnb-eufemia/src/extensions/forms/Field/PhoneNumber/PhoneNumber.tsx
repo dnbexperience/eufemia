@@ -28,6 +28,7 @@ import {
   CountryFilterSet,
   getCountryData,
 } from '../SelectCountry'
+import detectCountryCode from '../../utils/detectCountryCode'
 import useTranslation from '../../hooks/useTranslation'
 import { DrawerListDataArrayItem } from '../../../../fragments/DrawerList'
 
@@ -64,6 +65,11 @@ export type Props = Omit<
    * Use this prop to filter out certain countries. The function receives the country object and should return a boolean. Returning `false` will omit the country.
    */
   filterCountries?: (country: CountryType) => boolean
+
+  /**
+   * When `true`, the value emitted by `onChange` and stored in the data context will not contain a space between the country code and the phone number (e.g. `"+4712345678"` instead of `"+47 12345678"`). Useful when the backend only accepts E.164 format without spaces.
+   */
+  omitSpaceSeparator?: boolean
 
   /**
    * For internal testing purposes
@@ -157,13 +163,16 @@ function PhoneNumber(props: Props = {}) {
 
   const toEvent = useCallback(
     (value: string) => {
-      const [, phoneNumber] = splitValue(value)
+      const [countryCode, phoneNumber] = splitValue(value)
       if (!phoneNumber) {
         return props.emptyValue
       }
+      if (props.omitSpaceSeparator) {
+        return [countryCode, phoneNumber].filter(Boolean).join('')
+      }
       return value
     },
-    [props.emptyValue]
+    [props.emptyValue, props.omitSpaceSeparator]
   )
 
   const customTransformIn = props.transformIn
@@ -598,9 +607,6 @@ function formatCountryCode(value: string) {
   return `+${value}`
 }
 
-// Country codes that can be auto-detected from spaceless strings (e.g. "+4712345678")
-const autoDetectCountryCodes = ['+47']
-
 function splitValue(value: string) {
   if (typeof value !== 'string') {
     return [undefined, '']
@@ -612,12 +618,10 @@ function splitValue(value: string) {
     return [value.slice(0, spaceIndex), value.slice(spaceIndex + 1)]
   }
 
-  // Auto-detect known country codes from spaceless strings like "+4712345678"
-  const detectedCode = autoDetectCountryCodes.find(
-    (code) => value.startsWith(code) && value.length > code.length
-  )
-  if (detectedCode) {
-    return [detectedCode, value.slice(detectedCode.length)]
+  // Auto-detect country code from spaceless strings like "+4712345678"
+  const detected = detectCountryCode(value)
+  if (detected) {
+    return [detected.countryCode, detected.phoneNumber]
   }
 
   // No space found — treat the whole value as the country code (or plain text)

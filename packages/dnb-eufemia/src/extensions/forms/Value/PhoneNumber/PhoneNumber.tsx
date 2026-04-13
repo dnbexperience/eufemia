@@ -3,6 +3,7 @@ import StringValue, { Props as StringValueProps } from '../String'
 import { format } from '../../../../components/number-format/NumberUtils'
 import useTranslation from '../../hooks/useTranslation'
 import { isValueEmpty } from '../../ValueBlock'
+import detectCountryCode from '../../utils/detectCountryCode'
 
 export type Props = StringValueProps
 
@@ -16,6 +17,16 @@ function PhoneNumber(props: Props) {
     if (isValueEmpty(value)) {
       return undefined
     }
+
+    // When the value has no space between the country code and the number,
+    // detect and insert one so the phone formatter can split them correctly.
+    if (typeof value === 'string' && !value.includes(' ')) {
+      const detected = detectCountryCode(value)
+      if (detected) {
+        value = `${detected.countryCode} ${detected.phoneNumber}`
+      }
+    }
+
     // We can't use the "cleanNumber" function here, because we need to keep the country code separate from the number
     return format(value, {
       phone: true,

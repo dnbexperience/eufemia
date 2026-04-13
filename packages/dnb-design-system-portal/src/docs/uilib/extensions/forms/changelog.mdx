@@ -17,7 +17,9 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 
 ## v10.104.0
 
-- Added auto-detection of the `+47` country code from values without a space separator in [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/).
+- Added auto-detection of all E.164 country codes from values without a space separator in [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/) and [Value.PhoneNumber](/uilib/extensions/forms/Value/PhoneNumber/).
+- Added `omitSpaceSeparator` prop to [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/) to emit values without a space between the country code and the phone number.
+- Added `detectCountryCode` utility, exported from `@dnb/eufemia/extensions/forms`, for detecting E.164 country codes from phone number strings.
 
 ## v10.100.0
 

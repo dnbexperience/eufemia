@@ -24,6 +24,11 @@ export const PhoneNumberProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  omitSpaceSeparator: {
+    doc: 'When `true`, the value emitted by `onChange` and stored in the data context will not contain a space between the country code and the phone number (e.g. `+4712345678` instead of `+47 12345678`). Useful when the backend only accepts E.164 format without spaces.',
+    type: 'boolean',
+    status: 'optional',
+  },
   countryCodeFieldClassName: {
     doc: 'Class name for the country code component.',
     type: 'string',

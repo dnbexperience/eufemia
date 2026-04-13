@@ -52,6 +52,27 @@ describe('Value.PhoneNumber', () => {
     expect(element).toHaveTextContent('+47 11 22 33 44')
   })
 
+  it('should format a spaceless +47 value correctly', () => {
+    render(<Value.PhoneNumber value="+4711223344" />)
+
+    const element = document.querySelector('.dnb-forms-value-block')
+    expect(element).toHaveTextContent('+47 11 22 33 44')
+  })
+
+  it('should format a spaceless +46 value correctly', () => {
+    render(<Value.PhoneNumber value="+46701234567" />)
+
+    const element = document.querySelector('.dnb-forms-value-block')
+    expect(element).toHaveTextContent('+46 70 12 34 56 7')
+  })
+
+  it('should format a spaceless +1 value correctly', () => {
+    render(<Value.PhoneNumber value="+12025551234" />)
+
+    const element = document.querySelector('.dnb-forms-value-block')
+    expect(element).toHaveTextContent('+1 20 25 55 12 34')
+  })
+
   it('does not render when value is null', () => {
     render(<Value.PhoneNumber value={null} />)
     const element = document.querySelector('.dnb-forms-value-block')

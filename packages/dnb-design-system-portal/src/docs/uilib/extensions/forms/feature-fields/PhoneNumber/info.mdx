@@ -36,7 +36,17 @@ The default country code is set to `+47`.
 
 ### Auto-detection of country code
 
-When a phone number value is provided without a space separator between the country code and the number (e.g. `+4712345678`), the component will auto-detect the Norwegian `+47` country code and split the value correctly. This is useful when receiving phone numbers from a backend system that does not include a space separator.
+When a phone number value is provided without a space separator between the country code and the number (e.g. `+4712345678` or `+46701234567`), the component will auto-detect the country code and split the value correctly. It supports all known E.164 country codes using a longest-prefix-match approach. This is useful when receiving phone numbers from a backend system that does not include a space separator.
+
+### Storing values without space separator
+
+By default, the component emits values with a space between the country code and the phone number (e.g. `+47 12345678`). If your backend requires values without the space (e.g. `+4712345678`), use the `omitSpaceSeparator` prop:
+
+```tsx
+<Field.PhoneNumber omitSpaceSeparator />
+```
+
+This ensures the value round-trips correctly: spaceless input from the backend is auto-detected on the way in, and is emitted without a space on the way out.
 
 ## Structure and format of phone numbers
 

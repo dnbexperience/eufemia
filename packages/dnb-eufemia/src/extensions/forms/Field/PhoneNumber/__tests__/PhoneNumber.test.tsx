@@ -366,7 +366,7 @@ describe('Field.PhoneNumber', () => {
     expect(numberElement.value).toBe('999999991234')
   })
 
-  describe('auto-detect +47 country code', () => {
+  describe('auto-detect country code from spaceless value', () => {
     it('should auto-detect +47 country code from spaceless value', () => {
       render(<Field.PhoneNumber value="+4712345678" />)
 
@@ -409,8 +409,13 @@ describe('Field.PhoneNumber', () => {
       expect(numberElement.value).toBe('12 34 56 78')
     })
 
-    it('should not auto-detect for non-Norwegian spaceless values', () => {
-      render(<Field.PhoneNumber value="+4112345678" />)
+    it('should auto-detect +46 (Sweden) from spaceless value', () => {
+      render(
+        <Field.PhoneNumber
+          value="+46701234567"
+          countries="Scandinavia"
+        />
+      )
 
       const codeElement = document.querySelector(
         '.dnb-forms-field-phone-number__country-code input'
@@ -419,10 +424,27 @@ describe('Field.PhoneNumber', () => {
         '.dnb-forms-field-phone-number__number input'
       ) as HTMLInputElement
 
-      // Without space, +4112345678 is not auto-detected (only +47 is supported)
-      // The country code field shows empty since the Autocomplete cannot match "+4112345678"
-      expect(codeElement.value).toBe('')
-      expect(numberElement.value).toBe('')
+      expect(codeElement.value).toBe('SE (+46)')
+      expect(numberElement.value).toContain('701234567')
+    })
+
+    it('should auto-detect +45 (Denmark) from spaceless value', () => {
+      render(
+        <Field.PhoneNumber
+          value="+4512345678"
+          countries="Scandinavia"
+        />
+      )
+
+      const codeElement = document.querySelector(
+        '.dnb-forms-field-phone-number__country-code input'
+      ) as HTMLInputElement
+      const numberElement = document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      ) as HTMLInputElement
+
+      expect(codeElement.value).toBe('DK (+45)')
+      expect(numberElement.value).toContain('12345678')
     })
 
     it('should auto-detect +47 from spaceless value provided via path', () => {
@@ -508,6 +530,103 @@ describe('Field.PhoneNumber', () => {
 
       expect(codeElement.value).toBe('NO (+47)')
       expect(numberElement.value).toContain('0')
+    })
+  })
+
+  describe('omitSpaceSeparator', () => {
+    it('should emit value without space between country code and number', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Field.PhoneNumber
+          value="+47 12345678"
+          onChange={onChange}
+          omitSpaceSeparator
+        />
+      )
+
+      const numberElement = document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      ) as HTMLInputElement
+
+      await userEvent.type(numberElement, '{Backspace}9')
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        '+4712345679',
+        expect.objectContaining({
+          countryCode: '+47',
+          phoneNumber: '12345679',
+        })
+      )
+    })
+
+    it('should store value without space in data context on change', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Form.Handler data={{ phone: '+47 12345678' }}>
+          <Field.PhoneNumber
+            path="/phone"
+            omitSpaceSeparator
+            onChange={onChange}
+          />
+        </Form.Handler>
+      )
+
+      const numberElement = document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      ) as HTMLInputElement
+
+      await userEvent.type(numberElement, '{Backspace}9')
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        '+4712345679',
+        expect.objectContaining({
+          countryCode: '+47',
+          phoneNumber: '12345679',
+        })
+      )
+    })
+
+    it('should round-trip a spaceless value correctly', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Field.PhoneNumber
+          value="+4712345678"
+          onChange={onChange}
+          omitSpaceSeparator
+        />
+      )
+
+      const numberElement = document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      ) as HTMLInputElement
+
+      await userEvent.type(numberElement, '{Backspace}9')
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        '+4712345679',
+        expect.objectContaining({
+          countryCode: '+47',
+          phoneNumber: '12345679',
+        })
+      )
+    })
+
+    it('should return emptyValue when phone number is cleared', () => {
+      render(
+        <Field.PhoneNumber
+          value="+47"
+          omitSpaceSeparator
+        />
+      )
+
+      const numberElement = document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      ) as HTMLInputElement
+
+      expect(numberElement.value).toBe('')
     })
   })
 
