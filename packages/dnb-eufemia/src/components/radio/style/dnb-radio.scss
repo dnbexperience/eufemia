@@ -74,12 +74,24 @@
   --radio-color-dot-on--focus: var(--token-color-background-action-focus);
   --radio-color-border--focus: var(--token-color-stroke-action-focus);
   // Error state
-  --radio-color-dot-on--error: red;
-  --radio-color-border-on--error: red;
-  --radio-color-border--error-hover: red;
-  --radio-color-background-off--error-hover: lavenderblush;
-  --radio-color-background-on--error-hover: lavenderblush;
-  --radio-color-dot-on--error-hover: lavenderblush;
+  --radio-color-dot-on--error: var(--token-color-background-error);
+  --radio-color-border-on--error: var(--token-color-stroke-error);
+  --radio-color-border--error-hover: var(--token-color-stroke-error);
+  --radio-color-background-off--error: var(
+    --token-color-background-error-subtle
+  );
+  --radio-color-background-on--error: var(
+    --token-color-background-error-subtle
+  );
+  --radio-color-background-off--error-hover: var(
+    --token-color-background-error-subtle
+  );
+  --radio-color-background-on--error-hover: var(
+    --token-color-background-error-subtle
+  );
+  --radio-color-dot-on--error-hover: var(
+    --token-color-background-error-subtle
+  );
   --radio-focus-ring-width--error: var(--focus-ring-width);
   // Bounding box
   --radio-bounding--medium: 1.75, 1.5;
@@ -124,7 +136,10 @@
   &__focus {
     display: none;
 
-    @include utilities.focusRing(null, var(--radio-color-border--focus));
+    @include utilities.focusRing(
+      'keyboard',
+      var(--radio-color-border--focus)
+    );
   }
 
   &__focus,
@@ -494,7 +509,7 @@
     &__input:not([disabled]):not(:focus):not(:active):hover
     ~ &__focus {
     @include utilities.fakeBorder(
-      var(--radio-color-border--error-hover),
+      var(--radio-color-border-on--hover),
       var(--radio-focus-ring-width--error)
     );
   }
@@ -511,33 +526,23 @@
     background-color: var(--radio-color-dot-on--error);
   }
   &__status--error
-    &__input:not([disabled]):not(:focus):not(:active):checked:hover
-    ~ &__dot,
-  &__status--error
-    &__input:not([disabled]):not(:focus):not(
-      :active
-    )[data-checked='true']:hover
-    ~ &__dot {
-    background-color: var(--radio-color-dot-on--error-hover);
-  }
-  &__status--error
-    &__input:not([disabled]):not(:focus):not(:active):checked:hover
+    &__input:not([disabled]):not(:focus):not(:active):not(:hover):checked
     ~ &__button,
   &__status--error
-    &__input:not([disabled]):not(:focus):not(
-      :active
-    )[data-checked='true']:hover
+    &__input:not([disabled]):not(:focus):not(:active):not(
+      :hover
+    )[data-checked='true']
     ~ &__button {
-    background-color: var(--radio-color-background-on--error-hover);
+    background-color: var(--radio-color-background-on--error);
   }
 
   // Off
   &__status--error
-    &__input:not([disabled]):not(:focus):not(:checked):not(
-      [data-checked='true']
-    ):hover
+    &__input:not([disabled]):not(:focus):not(:active):not(:hover):not(
+      :checked
+    ):not([data-checked='true'])
     ~ &__button {
-    background-color: var(--radio-color-background-off--error-hover);
+    background-color: var(--radio-color-background-off--error);
   }
 
   // stylelint-enable no-descending-specificity
