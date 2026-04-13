@@ -43,12 +43,14 @@ const cdcFormatMap: Record<string, string> = Object.fromEntries(
  * detectCountryCode('+hello')
  * // => undefined
  */
-export default function detectCountryCode(value: string):
-  | {
-      countryCode: string
-      phoneNumber: string
-    }
-  | undefined {
+export type DetectedCountryCode = {
+  countryCode: string
+  phoneNumber: string
+}
+
+export default function detectCountryCode(
+  value: string
+): DetectedCountryCode | undefined {
   if (typeof value !== 'string' || !value.startsWith('+')) {
     return undefined
   }

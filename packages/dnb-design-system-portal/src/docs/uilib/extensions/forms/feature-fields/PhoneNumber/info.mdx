@@ -54,11 +54,13 @@ This ensures the value round-trips correctly: spaceless input from the backend i
 
 ### Handling `00` prefix format
 
-Some backends may store phone numbers with a `00` prefix instead of `+` (e.g. `004712345678`). Since the component uses E.164 format (`+` prefix) internally, you can use `transformIn` and `transformOut` to convert between formats:
+Some backends may store phone numbers with a `00` prefix instead of `+` (e.g. `004712345678`). Since the component uses E.164 format (`+` prefix) internally, normalize the value before passing it to the component and use `transformOut` to convert back on output:
 
 ```tsx
+const backendValue = '004712345678'
+
 <Field.PhoneNumber
-  value="+4712345678"
+  value={backendValue.replace(/^00/, '+')}
   omitSpaceSeparator
   transformOut={(value) =>
     typeof value === 'string' ? value.replace(/^\+/, '00') : value
@@ -67,8 +69,6 @@ Some backends may store phone numbers with a `00` prefix instead of `+` (e.g. `0
 />
 // onChange "004712345678"
 ```
-
-Note that the `value` prop should use E.164 format (`+` prefix). Normalize the value before passing it to the component if your backend stores it with a `00` prefix.
 
 ## Structure and format of phone numbers
 
