@@ -1,8 +1,5 @@
 /**
  * Web DrawerList Provider
- *
- * This is a legacy component.
- * For referencing while developing new features, please use a Functional component.
  */
 
 import React, {
@@ -15,6 +12,7 @@ import React, {
 } from 'react'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import useMountEffect from '../../shared/helpers/useMountEffect'
+import useUpdateEffect from '../../shared/helpers/useUpdateEffect'
 import Context from '../../shared/Context'
 import type { DetectOutsideClickClass } from '../../shared/component-helper'
 import {
@@ -284,6 +282,13 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     itemSpotsCountRef.current = Object.keys(itemSpotsRef.current).length
   }, [])
 
+  const removeScrollObserverFn = useCallback(() => {
+    if (typeof window !== 'undefined' && setOnScrollRef.current) {
+      window.removeEventListener('resize', setOnScrollRef.current)
+      setOnScrollRef.current = null
+    }
+  }, [])
+
   const setScrollObserver = useCallback(() => {
     if (typeof window === 'undefined' || !_refUl.current) {
       return
@@ -338,14 +343,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     } catch (e) {
       warn('List could not set onScroll:', e)
     }
-  }, [refreshScrollObserver, mergeState])
-
-  const removeScrollObserverFn = useCallback(() => {
-    if (typeof window !== 'undefined' && setOnScrollRef.current) {
-      window.removeEventListener('resize', setOnScrollRef.current)
-      setOnScrollRef.current = null
-    }
-  }, [])
+  }, [removeScrollObserverFn, refreshScrollObserver, mergeState])
 
   const enableBodyLock = useCallback(() => {
     if (_refUl.current) {
@@ -1481,16 +1479,14 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   })
 
   // componentDidUpdate: open prop changes
-  const prevOpenRef = useRef(props.open)
-  useEffect(() => {
-    if (props.open !== null && props.open !== prevOpenRef.current) {
+  useUpdateEffect(() => {
+    if (props.open !== null) {
       if (props.open) {
         setVisible()
       } else if (props.open === false) {
         setHidden()
       }
     }
-    prevOpenRef.current = props.open
   }, [props.open, setVisible, setHidden])
 
   // componentDidUpdate: focus on data change and recalculate scroll observer
