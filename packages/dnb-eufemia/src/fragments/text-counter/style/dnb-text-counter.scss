@@ -13,7 +13,7 @@
   }
 
   &--exceeded {
-    .dnb-p {
+    &.dnb-p {
       color: var(--token-color-text-destructive);
     }
 
