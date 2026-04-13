@@ -26,10 +26,18 @@
   --radio-color-border-off: var(--token-color-stroke-action-alternative);
   // Disabled state
   --radio-border-width--disabled: 0.125rem;
-  --radio-color-dot-on--disabled: lightgrey;
-  --radio-color-background--disabled: white;
-  --radio-color-border-on--disabled: lightgrey;
-  --radio-color-border-off--disabled: lightgrey;
+  --radio-color-dot-on--disabled: var(
+    --token-color-background-action-disabled
+  );
+  --radio-color-background--disabled: var(
+    --token-color-background-neutral
+  );
+  --radio-color-border-on--disabled: var(
+    --token-color-icon-action-disabled
+  );
+  --radio-color-border-off--disabled: var(
+    --token-color-icon-action-disabled
+  );
   // Active state
   --radio-color-dot-on--active: lightgrey;
   --radio-color-border-on--active: lightgrey;

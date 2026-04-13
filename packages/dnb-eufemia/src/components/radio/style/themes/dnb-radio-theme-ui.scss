@@ -4,11 +4,6 @@
 */
 
 .dnb-radio {
-  // Disabled state
-  --radio-color-dot-on--disabled: var(--color-sea-green-30);
-  --radio-color-background--disabled: var(--color-white);
-  --radio-color-border-on--disabled: var(--color-sea-green-30);
-  --radio-color-border-off--disabled: var(--color-mint-green-50);
   // Active state
   --radio-color-dot-on--active: var(--color-mint-green-50);
   --radio-color-border-on--active: var(--color-mint-green-50);
