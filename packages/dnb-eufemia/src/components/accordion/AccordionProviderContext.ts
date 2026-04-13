@@ -5,6 +5,7 @@
 
 import React from 'react'
 import type { AccordionGroupProps } from './AccordionGroup'
+import type { AccordionInstance } from './types'
 
 type AccordionGroupContextProps = {
   expanded?: boolean
@@ -14,7 +15,7 @@ type AccordionGroupContextProps = {
   flushRememberedState?: boolean
   expandedId?: string
   onChange?: (...params: unknown[]) => void
-  onInit?: (accordion: Record<string, unknown>) => void
+  onInit?: (accordion: AccordionInstance) => void
   collapseAccordionCallbacks?: React.RefObject<(() => void)[]>
   collapseAllHandleRef?: React.RefObject<() => void>
   expandBehavior?: AccordionGroupProps['expandBehavior']
