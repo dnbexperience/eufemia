@@ -109,8 +109,8 @@ function Password({
               ? IconViewMedium
               : IconViewOffMedium
             : hidden
-            ? IconView
-            : IconViewOff
+              ? IconView
+              : IconViewOff
         }
         disabled={disabled}
         skeleton={sharedContext.skeleton}

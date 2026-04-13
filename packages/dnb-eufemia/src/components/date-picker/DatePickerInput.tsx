@@ -219,8 +219,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         p.toLowerCase().startsWith('d')
           ? 'day'
           : p.toLowerCase().startsWith('m')
-          ? 'month'
-          : 'year'
+            ? 'month'
+            : 'year'
       ) as Array<'day' | 'month' | 'year'>
   }, [resolvedMaskOrder, separatorRegExp])
 
@@ -366,16 +366,16 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                 getInitialValue: () => new Date().getDate(),
               }
             : part === 'month'
-            ? {
-                min: 1,
-                max: 12,
-                getInitialValue: () => new Date().getMonth() + 1,
-              }
-            : {
-                min: 0,
-                max: 9999,
-                getInitialValue: () => new Date().getFullYear(),
-              }
+              ? {
+                  min: 1,
+                  max: 12,
+                  getInitialValue: () => new Date().getMonth() + 1,
+                }
+              : {
+                  min: 0,
+                  max: 9999,
+                  getInitialValue: () => new Date().getFullYear(),
+                }
         return {
           id: part,
           label,

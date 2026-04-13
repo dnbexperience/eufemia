@@ -2,7 +2,8 @@
 
 export default {
   '--sb-font-family-default': "'Roboto', 'Helvetica', 'Arial', sans-serif",
-  '--sb-font-family-heading': "'MaisonNeueHeadings', 'Roboto', 'Helvetica',",
+  '--sb-font-family-heading':
+    "'MaisonNeueHeadings', 'Roboto', 'Helvetica', 'Arial', sans-serif",
   '--sb-font-weight-default': 'normal',
   '--sb-font-weight-basis': 'normal',
   '--sb-font-weight-regular': 'normal',
@@ -106,7 +107,8 @@ export default {
   '--ca-color-pale-red': '#ffdedb',
   '--font-family-default': "'DNB', sans-serif",
   '--font-family-heading': 'var(--ca-font-family-heading)',
-  '--font-family-monospace': "'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono',",
+  '--font-family-monospace':
+    "'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono', 'Ubuntu Monospace', 'Noto Mono', 'Oxygen Mono', 'Liberation Mono', monospace",
   '--font-weight-default': 'normal',
   '--font-weight-basis': 'normal',
   '--font-weight-regular': 'normal',

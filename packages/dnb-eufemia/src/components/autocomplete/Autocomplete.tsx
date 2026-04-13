@@ -1945,13 +1945,13 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     (event: React.KeyboardEvent | React.MouseEvent) => {
       preventFiringBlurEvent.current = Boolean(
         ('key' in event && event.key === 'Enter') ||
-          (event?.currentTarget
-            ? getClosestParent('dnb-drawer-list', event.currentTarget) ||
-              getClosestParent(
-                'dnb-input__submit-button__button',
-                event.currentTarget
-              )
-            : false)
+        (event?.currentTarget
+          ? getClosestParent('dnb-drawer-list', event.currentTarget) ||
+            getClosestParent(
+              'dnb-input__submit-button__button',
+              event.currentTarget
+            )
+          : false)
       )
 
       if (preventFiringBlurEvent.current) {

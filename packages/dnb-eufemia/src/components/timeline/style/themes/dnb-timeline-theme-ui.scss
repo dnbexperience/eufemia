@@ -30,7 +30,8 @@
         var(--timeline-icon-width--medium) - var(
             --timeline-icon-width--small
           )
-      ) / 2
+      ) /
+      2
   );
   --timeline-border-spacing: var(--spacing-small);
   --timeline-border-spacing--icon-adjusted: calc(

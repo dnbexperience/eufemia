@@ -68,8 +68,8 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
     typeof progress === 'string'
       ? parseFloat(progress)
       : typeof progress === 'number'
-      ? progress
-      : undefined
+        ? progress
+        : undefined
 
   const usedIndicatorLabel = label || (showDefaultLabel && indicatorLabel)
   const progressTitle = title || formatProgress(progressNumber)

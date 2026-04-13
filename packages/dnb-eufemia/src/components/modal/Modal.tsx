@@ -138,11 +138,11 @@ function ModalComponent(ownProps: ModalAllProps) {
   const animationDuration =
     typeof window !== 'undefined' && window['IS_TEST']
       ? 0
-      : props.animationDuration ?? ANIMATION_DURATION
+      : (props.animationDuration ?? ANIMATION_DURATION)
   const noAnimation =
     typeof window !== 'undefined' && window['IS_TEST']
       ? true
-      : props.noAnimation ?? false
+      : (props.noAnimation ?? false)
 
   // Refs for latest state values used in callbacks
   const stateRef = useRef({ hide, modalActive, preventAutoFocus })

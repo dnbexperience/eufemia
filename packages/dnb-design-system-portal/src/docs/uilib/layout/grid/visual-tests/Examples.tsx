@@ -46,10 +46,10 @@ export function PageLayoutExample() {
             const pageColumns = isSmall
               ? 4
               : isMedium
-              ? 6
-              : isLarge
-              ? 12
-              : 0
+                ? 6
+                : isLarge
+                  ? 12
+                  : 0
 
             return (
               <PageContainerWithStyles>

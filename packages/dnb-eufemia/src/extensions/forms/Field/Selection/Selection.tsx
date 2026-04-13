@@ -315,8 +315,9 @@ function Selection(props: FieldSelectionProps) {
       )
         .concat(makeOptions(renderedChildren, transformSelection))
         .filter(Boolean)
-      const displayValue = data.find((item) => item.selectedKey === value)
-        ?.content
+      const displayValue = data.find(
+        (item) => item.selectedKey === value
+      )?.content
       setDisplayValue(displayValue)
 
       const sharedProps: Omit<

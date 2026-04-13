@@ -81,10 +81,10 @@ function DatePickerFooter({
             dateFormat,
           })
         : previousDateProps.date
-        ? convertStringToDate(previousDateProps.date, {
-            dateFormat,
-          })
-        : undefined
+          ? convertStringToDate(previousDateProps.date, {
+              dateFormat,
+            })
+          : undefined
 
       const endDate = previousDateProps.endDate
         ? convertStringToDate(previousDateProps.endDate, {

@@ -94,8 +94,8 @@ export function unwrap(t: z.ZodTypeAny | unknown): z.ZodTypeAny {
     t instanceof z.ZodPromise
     ? unwrap(t.unwrap())
     : t instanceof z.ZodPipe
-    ? unwrap(t.out)
-    : (t as z.ZodTypeAny)
+      ? unwrap(t.out)
+      : (t as z.ZodTypeAny)
 }
 
 export function decodePointerSegment(seg: string): string {

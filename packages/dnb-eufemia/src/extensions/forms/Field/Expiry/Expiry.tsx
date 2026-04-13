@@ -239,10 +239,10 @@ function Expiry(props: ExpiryProps = {}) {
   const status = hasError
     ? 'error'
     : warning
-    ? 'warning'
-    : info
-    ? 'information'
-    : null
+      ? 'warning'
+      : info
+        ? 'information'
+        : null
 
   const fieldBlockProps: FieldBlockProps = {
     id,

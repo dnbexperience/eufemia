@@ -162,8 +162,8 @@ function DateFormat(props: DateFormatProps) {
         value !== undefined
           ? value
           : children !== undefined
-          ? convertJsxToString(children)
-          : date
+            ? convertJsxToString(children)
+            : date
 
       // When timeStyle is provided, format date and time separately and join with separator
       // Uses custom dateTimeSeparator if provided, otherwise uses locale-aware separator

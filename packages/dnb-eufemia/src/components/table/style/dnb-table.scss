@@ -65,9 +65,8 @@
     // because firefox clip-path ignores caption
     // Use "clip-path" instead of "overflow" because display=table-row does not give the expected/same result like display=block would.
     clip-path: inset(
-      0 0 -10rem 0 round var(--table-outline-radius) var(
-          --table-outline-radius
-        ) 0 0
+      0 0 -10rem 0 round var(--table-outline-radius)
+        var(--table-outline-radius) 0 0
     );
     z-index: 1; // firefox places caption in from of table without z-index
 

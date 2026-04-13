@@ -202,8 +202,8 @@ export function calcSize(props: IconProps) {
         typeof icon === 'function'
           ? icon
           : React.isValidElement(icon) && typeof icon.type === 'function'
-          ? (icon.type as (props?: unknown) => React.JSX.Element)
-          : null
+            ? (icon.type as (props?: unknown) => React.JSX.Element)
+            : null
 
       // Skip direct execution for hook-based components to avoid invalid hook call order.
       const hasHooks = iconFn

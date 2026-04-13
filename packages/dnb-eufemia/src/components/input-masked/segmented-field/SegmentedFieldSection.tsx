@@ -175,8 +175,8 @@ export default function SegmentedFieldSection({
           typeof initialValue === 'number' && !Number.isNaN(initialValue)
             ? initialValue
             : direction === 'up'
-            ? min
-            : max
+              ? min
+              : max
       } else {
         nextValue = parsedValue + (direction === 'up' ? step : step * -1)
 
@@ -292,8 +292,9 @@ export default function SegmentedFieldSection({
         })
 
         if (nextSectionId) {
-          const nextMask = inputs.find(({ id }) => id === nextSectionId)
-            ?.mask
+          const nextMask = inputs.find(
+            ({ id }) => id === nextSectionId
+          )?.mask
           if (!nextMask?.[0]?.test(char)) {
             return false
           }
@@ -522,7 +523,7 @@ export default function SegmentedFieldSection({
         aria-valuemax={spinButton ? spinButton.max : undefined}
         aria-valuenow={
           spinButton && hasTypedValue
-            ? spinButton?.parseValue?.(value) ?? Number(value)
+            ? (spinButton?.parseValue?.(value) ?? Number(value))
             : undefined
         }
         aria-valuetext={

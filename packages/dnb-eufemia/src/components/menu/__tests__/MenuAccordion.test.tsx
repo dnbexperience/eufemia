@@ -349,8 +349,8 @@ describe('MenuAccordion', () => {
     expect(items).toHaveLength(3)
 
     // Open accordion
-    const exportTrigger = Array.from(items).find(
-      (el) => el.textContent?.includes('Export as')
+    const exportTrigger = Array.from(items).find((el) =>
+      el.textContent?.includes('Export as')
     )
     fireEvent.click(exportTrigger)
 

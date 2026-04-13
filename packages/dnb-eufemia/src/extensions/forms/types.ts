@@ -223,8 +223,8 @@ type EventArgs<Value, ExtraValue extends ProvideAdditionalEventArgs> = [
 export type DataValueWriteProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
-  ExtraValue extends
-    ProvideAdditionalEventArgs = ProvideAdditionalEventArgs,
+  ExtraValue extends ProvideAdditionalEventArgs =
+    ProvideAdditionalEventArgs,
 > = {
   emptyValue?: EmptyValue
   onFocus?: (...args: EventArgs<Value | EmptyValue, ExtraValue>) => void
@@ -357,9 +357,11 @@ interface UseFieldPropsInterface<
   Value = unknown,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
-  ExtraValue extends
-    ProvideAdditionalEventArgs = ProvideAdditionalEventArgs,
-> extends DataValueReadWriteComponentProps<Value, EmptyValue>,
+  ExtraValue extends ProvideAdditionalEventArgs =
+    ProvideAdditionalEventArgs,
+>
+  extends
+    DataValueReadWriteComponentProps<Value, EmptyValue>,
     AriaAttributes {
   // - HTML Element Attributes
   /**
@@ -502,16 +504,16 @@ export type UseFieldProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
-  ExtraValue extends
-    ProvideAdditionalEventArgs = ProvideAdditionalEventArgs,
+  ExtraValue extends ProvideAdditionalEventArgs =
+    ProvideAdditionalEventArgs,
 > = UseFieldPropsInterface<Value, EmptyValue, ErrorMessages, ExtraValue>
 
 export type FieldProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
-  ExtraValue extends
-    ProvideAdditionalEventArgs = ProvideAdditionalEventArgs,
+  ExtraValue extends ProvideAdditionalEventArgs =
+    ProvideAdditionalEventArgs,
 > = UseFieldProps<Value, EmptyValue, ErrorMessages, ExtraValue> &
   SharedFieldBlockProps
 
@@ -527,8 +529,8 @@ export type FieldPropsGeneric<
 
 export type FieldPropsWithExtraValue<
   Value = unknown,
-  ExtraValue extends
-    ProvideAdditionalEventArgs = ProvideAdditionalEventArgs,
+  ExtraValue extends ProvideAdditionalEventArgs =
+    ProvideAdditionalEventArgs,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
 > = Omit<
@@ -538,8 +540,9 @@ export type FieldPropsWithExtraValue<
   DataValueWriteProps<Value, EmptyValue, ExtraValue>
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-interface ValuePropsInterface<Value = unknown>
-  extends DataValueReadComponentProps<Value> {
+interface ValuePropsInterface<
+  Value = unknown,
+> extends DataValueReadComponentProps<Value> {
   /**
    * Field label to show above the data value.
    */

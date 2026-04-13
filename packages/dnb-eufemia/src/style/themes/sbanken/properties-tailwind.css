@@ -3,7 +3,8 @@
 /* stylelint-disable-next-line scss/at-rule-no-unknown */
 @theme {
   --font-sb-default: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-  --font-sb-heading: 'MaisonNeueHeadings', 'Roboto', 'Helvetica';
+  --font-sb-heading:
+    'MaisonNeueHeadings', 'Roboto', 'Helvetica', 'Arial', sans-serif;
   --font-weight-sb-default: normal;
   --font-weight-sb-basis: normal;
   --font-weight-sb-regular: normal;
@@ -107,7 +108,9 @@
   --color-ca-pale-red: #ffdedb;
   --font-default: var(--font-sb-default);
   --font-heading: var(--font-sb-heading);
-  --font-monospace: 'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono';
+  --font-monospace:
+    'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono', 'Ubuntu Monospace',
+    'Noto Mono', 'Oxygen Mono', 'Liberation Mono', monospace;
   --font-weight-default: normal;
   --font-weight-basis: normal;
   --font-weight-regular: normal;

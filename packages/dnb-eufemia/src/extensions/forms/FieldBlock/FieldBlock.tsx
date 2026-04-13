@@ -393,8 +393,8 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
           process.env.NODE_ENV === 'test'
             ? true
             : typeof globalThis !== 'undefined'
-            ? globalThis.IS_TEST === true
-            : false,
+              ? globalThis.IS_TEST === true
+              : false,
       }
 
       const found = statesWithMessages.find((item) => {
