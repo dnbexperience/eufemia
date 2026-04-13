@@ -195,23 +195,23 @@ These renames change the property or event name itself, not just the casing. The
 
 All import paths that changed or were removed in v11. Update these before changing component APIs — your app won't compile until these are fixed.
 
-| Old import | New import | Notes |
-| --- | --- | --- |
-| `@dnb/eufemia/components/input/InputPassword` | `import { Field } from '@dnb/eufemia/extensions/forms'` then use `<Field.Password>` | Component moved to Eufemia Forms |
-| `@dnb/eufemia/fragments/drawer-list/DrawerList` (`ItemContent`) | `@dnb/eufemia/fragments/drawer-list/DrawerListItem` (`ItemContent`) | Named export moved |
-| `@dnb/eufemia/components/form-row/FormRowHelpers` (`includeValidProps`) | `@dnb/eufemia/shared/helpers/filterValidProps` (`pickFormElementProps`) | Function moved and renamed |
-| `@dnb/eufemia/components/form-row/FormRowHelpers` (`prepareFormRowContext`) | `@dnb/eufemia/shared/helpers/filterValidProps` (`prepareFormElementContext`) | Function moved and renamed |
-| `@dnb/eufemia/components/input-masked/InputMaskedHooks` | `@dnb/eufemia/components/input-masked/hooks` | Path changed |
-| `@dnb/eufemia/components/input-masked/addons/createNumberMask` | **Removed** — use built-in `numberMask` prop | Addon deleted |
-| `@dnb/eufemia/components/input-masked/addons/emailMask` | **Removed** — use `mask` prop directly | Addon deleted |
-| `@dnb/eufemia/components/input` (`inputPropTypes`) | **Removed** | PropTypes no longer provided |
-| `@dnb/eufemia/components/button` (`buttonVariantPropType`) | **Removed** | PropTypes no longer provided |
-| `style/themes/theme-ui/` | `style/themes/ui/` | Path shortened |
-| `style/themes/theme-sbanken/` | `style/themes/sbanken/` | Path shortened |
-| `style/themes/theme-eiendom/` | `style/themes/eiendom/` | Path shortened |
-| `style/themes/theme-carnegie/` | `style/themes/carnegie/` | Path shortened |
-| `@dnb/eufemia/components/space/types` (`SectionSpacing`) | `@dnb/eufemia/components/space/types` (`InnerSpaceType`) | Type renamed |
-| `export type { Props }` from any Field/Value/Form module | Use component-prefixed name (e.g. `FieldStringProps`) | See [Props Type Exports](#props-type-exports) |
+| Old import                                                                  | New import                                                                          | Notes                                         |
+| --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | --------------------------------------------- |
+| `@dnb/eufemia/components/input/InputPassword`                               | `import { Field } from '@dnb/eufemia/extensions/forms'` then use `<Field.Password>` | Component moved to Eufemia Forms              |
+| `@dnb/eufemia/fragments/drawer-list/DrawerList` (`ItemContent`)             | `@dnb/eufemia/fragments/drawer-list/DrawerListItem` (`ItemContent`)                 | Named export moved                            |
+| `@dnb/eufemia/components/form-row/FormRowHelpers` (`includeValidProps`)     | `@dnb/eufemia/shared/helpers/filterValidProps` (`pickFormElementProps`)             | Function moved and renamed                    |
+| `@dnb/eufemia/components/form-row/FormRowHelpers` (`prepareFormRowContext`) | `@dnb/eufemia/shared/helpers/filterValidProps` (`prepareFormElementContext`)        | Function moved and renamed                    |
+| `@dnb/eufemia/components/input-masked/InputMaskedHooks`                     | `@dnb/eufemia/components/input-masked/hooks`                                        | Path changed                                  |
+| `@dnb/eufemia/components/input-masked/addons/createNumberMask`              | **Removed** — use built-in `numberMask` prop                                        | Addon deleted                                 |
+| `@dnb/eufemia/components/input-masked/addons/emailMask`                     | **Removed** — use `mask` prop directly                                              | Addon deleted                                 |
+| `@dnb/eufemia/components/input` (`inputPropTypes`)                          | **Removed**                                                                         | PropTypes no longer provided                  |
+| `@dnb/eufemia/components/button` (`buttonVariantPropType`)                  | **Removed**                                                                         | PropTypes no longer provided                  |
+| `style/themes/theme-ui/`                                                    | `style/themes/ui/`                                                                  | Path shortened                                |
+| `style/themes/theme-sbanken/`                                               | `style/themes/sbanken/`                                                             | Path shortened                                |
+| `style/themes/theme-eiendom/`                                               | `style/themes/eiendom/`                                                             | Path shortened                                |
+| `style/themes/theme-carnegie/`                                              | `style/themes/carnegie/`                                                            | Path shortened                                |
+| `@dnb/eufemia/components/space/types` (`SectionSpacing`)                    | `@dnb/eufemia/components/space/types` (`InnerSpaceType`)                            | Type renamed                                  |
+| `export type { Props }` from any Field/Value/Form module                    | Use component-prefixed name (e.g. `FieldStringProps`)                               | See [Props Type Exports](#props-type-exports) |
 
 ### Common migration mistakes
 
@@ -239,10 +239,10 @@ This applies to Section, Dialog.Body, and Drawer.Body.
 
 The event names changed semantically. A naive snake_case→camelCase conversion would produce `onShow` / `onHide`, which are **wrong**.
 
-| Old | Wrong (naive conversion) | Correct |
-| --- | --- | --- |
-| `on_show` | ~~`onShow`~~ | `onOpen` |
-| `on_hide` | ~~`onHide`~~ | `onClose` |
+| Old       | Wrong (naive conversion) | Correct   |
+| --------- | ------------------------ | --------- |
+| `on_show` | ~~`onShow`~~             | `onOpen`  |
+| `on_hide` | ~~`onHide`~~             | `onClose` |
 
 Affected components: Autocomplete, Dropdown, DrawerList, DatePicker.
 
@@ -252,24 +252,24 @@ Note: GlobalStatus still uses `onShow` / `onHide` — those are correct for that
 
 These renames only apply to specific components. Do not find-and-replace them across the entire codebase:
 
-| Rename | Only applies to | Do NOT apply to |
-| --- | --- | --- |
-| `clear` → `showClearButton` | Input, InputMasked | — |
-| `isCollapsed` → `collapsed` | Breadcrumb | — |
-| `input_icon` → `icon` | Autocomplete | Other components that already have `icon` |
-| `visible` → `show` | ProgressIndicator | Other components with `visible` prop |
-| `position` → `placement` | Tooltip | Other components with `position` prop |
-| `children` → `label` | Checkbox, ProgressIndicator | — |
-| `as` → `element` | H (heading element) | — |
-| `accordion` → `mode="accordion"` | Table | Accordion component itself |
-| `size` → `span` | Flex.Item, Card | Other components where `size` is still valid |
+| Rename                           | Only applies to             | Do NOT apply to                              |
+| -------------------------------- | --------------------------- | -------------------------------------------- |
+| `clear` → `showClearButton`      | Input, InputMasked          | —                                            |
+| `isCollapsed` → `collapsed`      | Breadcrumb                  | —                                            |
+| `input_icon` → `icon`            | Autocomplete                | Other components that already have `icon`    |
+| `visible` → `show`               | ProgressIndicator           | Other components with `visible` prop         |
+| `position` → `placement`         | Tooltip                     | Other components with `position` prop        |
+| `children` → `label`             | Checkbox, ProgressIndicator | —                                            |
+| `as` → `element`                 | H (heading element)         | —                                            |
+| `accordion` → `mode="accordion"` | Table                       | Accordion component itself                   |
+| `size` → `span`                  | Flex.Item, Card             | Other components where `size` is still valid |
 
 #### `FormRow` / `FormSet` references in context providers
 
 When replacing `FormRow`, be careful not to just rename the JSX tag. The context provider pattern also changed:
 
-| Old | New |
-| --- | --- |
+| Old                             | New            |
+| ------------------------------- | -------------- |
 | `FormRow=` (in Provider config) | `formElement=` |
 | `FormRow:` (in context objects) | `formElement:` |
 
@@ -277,41 +277,41 @@ When replacing `FormRow`, be careful not to just rename the JSX tag. The context
 
 These snake_case props appear on many components and follow the same rename pattern everywhere. Apply these as global find-and-replace within Eufemia component JSX:
 
-| Old prop | New prop | Components that use it |
-| --- | --- | --- |
-| `status_state` | `statusState` | Autocomplete, Checkbox, DatePicker, Dropdown, Input, InputMasked, Radio, Radio.Group, Slider, StepIndicator, Switch, Textarea, ToggleButton, ToggleButton.Group |
-| `status_props` | `statusProps` | Autocomplete, Checkbox, DatePicker, Dropdown, Input, InputMasked, Radio, Radio.Group, Switch, Textarea, ToggleButton, ToggleButton.Group |
-| `status_no_animation` | `statusNoAnimation` | Autocomplete, Checkbox, DatePicker, Dropdown, Input, InputMasked, Radio, Radio.Group, Switch, Textarea, ToggleButton, ToggleButton.Group |
-| `label_direction` | `labelDirection` | Autocomplete, DatePicker, Dropdown, FormLabel, Input, InputMasked, Radio.Group, Textarea, ToggleButton.Group |
-| `label_sr_only` | `labelSrOnly` | Autocomplete, Checkbox, DatePicker, Dropdown, Input, InputMasked, Radio.Group, Switch, Textarea, ToggleButton.Group |
-| `label_position` | `labelPosition` | Checkbox, Radio, Switch |
-| `icon_size` | `iconSize` | Autocomplete, Button, GlobalStatus, ProgressIndicator, ToggleButton |
-| `icon_position` | `iconPosition` | Autocomplete, Button, Dropdown, ToggleButton |
-| `no_animation` | `noAnimation` | Autocomplete, DatePicker, Dropdown, DrawerList, FormStatus, GlobalStatus, Modal/Dialog/Drawer, Skeleton, StepIndicator |
-| `on_change` | `onChange` | Nearly all interactive components |
-| `on_focus` | `onFocus` | Autocomplete, Input, Textarea |
-| `on_blur` | `onBlur` | Autocomplete, Input, Textarea |
-| `on_click` | `onClick` | Button, StepIndicator, Tabs, Table.ClickableHead |
-| `inner_ref` | `ref` | Anchor, Button, Input, InputMasked, Section, Textarea (see [innerRef → ref](#innerref--ref)) |
+| Old prop              | New prop            | Components that use it                                                                                                                                          |
+| --------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `status_state`        | `statusState`       | Autocomplete, Checkbox, DatePicker, Dropdown, Input, InputMasked, Radio, Radio.Group, Slider, StepIndicator, Switch, Textarea, ToggleButton, ToggleButton.Group |
+| `status_props`        | `statusProps`       | Autocomplete, Checkbox, DatePicker, Dropdown, Input, InputMasked, Radio, Radio.Group, Switch, Textarea, ToggleButton, ToggleButton.Group                        |
+| `status_no_animation` | `statusNoAnimation` | Autocomplete, Checkbox, DatePicker, Dropdown, Input, InputMasked, Radio, Radio.Group, Switch, Textarea, ToggleButton, ToggleButton.Group                        |
+| `label_direction`     | `labelDirection`    | Autocomplete, DatePicker, Dropdown, FormLabel, Input, InputMasked, Radio.Group, Textarea, ToggleButton.Group                                                    |
+| `label_sr_only`       | `labelSrOnly`       | Autocomplete, Checkbox, DatePicker, Dropdown, Input, InputMasked, Radio.Group, Switch, Textarea, ToggleButton.Group                                             |
+| `label_position`      | `labelPosition`     | Checkbox, Radio, Switch                                                                                                                                         |
+| `icon_size`           | `iconSize`          | Autocomplete, Button, GlobalStatus, ProgressIndicator, ToggleButton                                                                                             |
+| `icon_position`       | `iconPosition`      | Autocomplete, Button, Dropdown, ToggleButton                                                                                                                    |
+| `no_animation`        | `noAnimation`       | Autocomplete, DatePicker, Dropdown, DrawerList, FormStatus, GlobalStatus, Modal/Dialog/Drawer, Skeleton, StepIndicator                                          |
+| `on_change`           | `onChange`          | Nearly all interactive components                                                                                                                               |
+| `on_focus`            | `onFocus`           | Autocomplete, Input, Textarea                                                                                                                                   |
+| `on_blur`             | `onBlur`            | Autocomplete, Input, Textarea                                                                                                                                   |
+| `on_click`            | `onClick`           | Button, StepIndicator, Tabs, Table.ClickableHead                                                                                                                |
+| `inner_ref`           | `ref`               | Anchor, Button, Input, InputMasked, Section, Textarea (see [innerRef → ref](#innerref--ref))                                                                    |
 
 **Status value renames** — apply to all components that accept `statusState` or `state`:
 
-| Old value | New value |
-| --- | --- |
-| `'warn'` | `'warning'` |
-| `'info'` | `'information'` |
+| Old value | New value       |
+| --------- | --------------- |
+| `'warn'`  | `'warning'`     |
+| `'info'`  | `'information'` |
 
 **CSS class renames** — apply wherever these CSS classes are referenced:
 
-| Old CSS class | New CSS class |
-| --- | --- |
-| `dnb-autocomplete--opened` | `dnb-autocomplete--open` |
-| `dnb-dropdown--opened` | `dnb-dropdown--open` |
-| `dnb-drawer-list--opened` | `dnb-drawer-list--open` |
-| `dnb-date-picker--opened` | `dnb-date-picker--open` |
-| `dnb-progress-indicator--visible` | `dnb-progress-indicator--show` |
-| `dnb-anchor--contrast` | `dnb-anchor--surface-dark` |
-| `dnb-number-format--selectall` | `dnb-number-format--select-all` |
+| Old CSS class                     | New CSS class                   |
+| --------------------------------- | ------------------------------- |
+| `dnb-autocomplete--opened`        | `dnb-autocomplete--open`        |
+| `dnb-dropdown--opened`            | `dnb-dropdown--open`            |
+| `dnb-drawer-list--opened`         | `dnb-drawer-list--open`         |
+| `dnb-date-picker--opened`         | `dnb-date-picker--open`         |
+| `dnb-progress-indicator--visible` | `dnb-progress-indicator--show`  |
+| `dnb-anchor--contrast`            | `dnb-anchor--surface-dark`      |
+| `dnb-number-format--selectall`    | `dnb-number-format--select-all` |
 
 ### Step-by-step migration procedure
 
@@ -392,7 +392,7 @@ These renames use generic names that exist in non-Eufemia code. Scope your find-
 
 47. Run `npx tsc --noEmit` to catch remaining type errors.
 48. Run your tests. Update any test selectors that query DatePicker/Expiry `input` elements (now `role="spinbutton"` sections).
-49. Search for remaining snake_case patterns: `grep -rn 'on_\|status_\|label_\|icon_\|_class\|_ref\|_state\|_position\|_button\|_text\|_sr_' --include='*.tsx' --include='*.ts' src/`
+49. Search for remaining snake*case patterns: `grep -rn 'on*\|status*\|label*\|icon*\|\_class\|\_ref\|\_state\|\_position\|\_button\|\_text\|\_sr*' --include='_.tsx' --include='_.ts' src/`
 
 ### Find-and-replace safety guide
 
@@ -402,21 +402,21 @@ These renames use generic names that exist in non-Eufemia code. Scope your find-
 
 **Must be scoped to specific components** — these names exist outside Eufemia or overlap across components with different meanings:
 
-| Rename | Scope to | Risk if applied globally |
-| --- | --- | --- |
-| `opened` → `open` | Autocomplete, Dropdown, DrawerList, DatePicker, Tooltip, Field.Date | Collides with HTML `open` attribute on `<details>` |
-| `clear` → `showClearButton` | Input, InputMasked | Collides with generic `clear` functions |
-| `visible` → `show` | ProgressIndicator | Collides with generic `visible` props |
-| `position` → `placement` | Tooltip | Collides with CSS `position` prop/style |
-| `children` → `label` | Checkbox, ProgressIndicator | `children` is a React universal prop |
-| `as` → `element` | H (heading element) | `as` is used by styled-components and other libs |
-| `size` → `span` | Flex.Item, Card | `size` is used by many non-Eufemia components |
-| `active` → `open` | Tooltip | `active` is a common generic prop |
-| `accordion` → `mode="accordion"` | Table | Prop-to-prop+value change, not a simple rename |
-| `input_icon` → `icon` | Autocomplete | Other components already have different `icon` props |
-| `spacing` → `innerSpace` | Section, Dialog.Body, Drawer.Body | Requires object form `{ block: '...' }`, not string |
-| `on_show` → `onOpen` | Autocomplete, Dropdown, DrawerList, DatePicker | Semantic change; GlobalStatus keeps `onShow` |
-| `on_hide` → `onClose` | Autocomplete, Dropdown, DrawerList, DatePicker | Semantic change; GlobalStatus keeps `onHide` |
+| Rename                           | Scope to                                                            | Risk if applied globally                             |
+| -------------------------------- | ------------------------------------------------------------------- | ---------------------------------------------------- |
+| `opened` → `open`                | Autocomplete, Dropdown, DrawerList, DatePicker, Tooltip, Field.Date | Collides with HTML `open` attribute on `<details>`   |
+| `clear` → `showClearButton`      | Input, InputMasked                                                  | Collides with generic `clear` functions              |
+| `visible` → `show`               | ProgressIndicator                                                   | Collides with generic `visible` props                |
+| `position` → `placement`         | Tooltip                                                             | Collides with CSS `position` prop/style              |
+| `children` → `label`             | Checkbox, ProgressIndicator                                         | `children` is a React universal prop                 |
+| `as` → `element`                 | H (heading element)                                                 | `as` is used by styled-components and other libs     |
+| `size` → `span`                  | Flex.Item, Card                                                     | `size` is used by many non-Eufemia components        |
+| `active` → `open`                | Tooltip                                                             | `active` is a common generic prop                    |
+| `accordion` → `mode="accordion"` | Table                                                               | Prop-to-prop+value change, not a simple rename       |
+| `input_icon` → `icon`            | Autocomplete                                                        | Other components already have different `icon` props |
+| `spacing` → `innerSpace`         | Section, Dialog.Body, Drawer.Body                                   | Requires object form `{ block: '...' }`, not string  |
+| `on_show` → `onOpen`             | Autocomplete, Dropdown, DrawerList, DatePicker                      | Semantic change; GlobalStatus keeps `onShow`         |
+| `on_hide` → `onClose`            | Autocomplete, Dropdown, DrawerList, DatePicker                      | Semantic change; GlobalStatus keeps `onHide`         |
 
 ### Verifying your migration
 
@@ -437,18 +437,18 @@ grep -rn 'on_\|status_\|label_\|icon_\|_class\b\|inner_ref\|_state\|_position\|_
 
 **Common TypeScript errors and what they mean:**
 
-| Error | Cause | Fix |
-| --- | --- | --- |
-| `Property 'on_change' does not exist` | Missed snake_case → camelCase rename | Replace with `onChange` |
-| `Property 'innerRef' does not exist` | Missed innerRef → ref | Replace with `ref` |
-| `Type '"info"' is not assignable` | Missed status value rename | Replace `'info'` with `'information'` |
-| `Type '"warn"' is not assignable` | Missed status value rename | Replace `'warn'` with `'warning'` |
-| `Module not found: '@dnb/eufemia/components/input/InputPassword'` | Import path moved | Use `Field.Password` from `@dnb/eufemia/extensions/forms` |
-| `Property 'spacing' does not exist` | Removed prop | Replace with `innerSpace={{ block: 'value' }}` |
-| `Property 'brand' does not exist` on Logo | Logo API redesigned | Import SVG component and use `svg` prop |
-| `Type '"signal"' is not assignable` on Button | Variant removed | Use `variant="primary"` or `variant="secondary"` |
-| `Cannot find name 'FormRow'` | Component removed | Replace with `Flex.Horizontal` or `Flex.Vertical` |
-| `Property 'opened' does not exist` | Prop renamed | Replace with `open` |
+| Error                                                             | Cause                                | Fix                                                       |
+| ----------------------------------------------------------------- | ------------------------------------ | --------------------------------------------------------- |
+| `Property 'on_change' does not exist`                             | Missed snake_case → camelCase rename | Replace with `onChange`                                   |
+| `Property 'innerRef' does not exist`                              | Missed innerRef → ref                | Replace with `ref`                                        |
+| `Type '"info"' is not assignable`                                 | Missed status value rename           | Replace `'info'` with `'information'`                     |
+| `Type '"warn"' is not assignable`                                 | Missed status value rename           | Replace `'warn'` with `'warning'`                         |
+| `Module not found: '@dnb/eufemia/components/input/InputPassword'` | Import path moved                    | Use `Field.Password` from `@dnb/eufemia/extensions/forms` |
+| `Property 'spacing' does not exist`                               | Removed prop                         | Replace with `innerSpace={{ block: 'value' }}`            |
+| `Property 'brand' does not exist` on Logo                         | Logo API redesigned                  | Import SVG component and use `svg` prop                   |
+| `Type '"signal"' is not assignable` on Button                     | Variant removed                      | Use `variant="primary"` or `variant="secondary"`          |
+| `Cannot find name 'FormRow'`                                      | Component removed                    | Replace with `Flex.Horizontal` or `Flex.Vertical`         |
+| `Property 'opened' does not exist`                                | Prop renamed                         | Replace with `open`                                       |
 
 ### Complete migration example
 
@@ -462,9 +462,7 @@ import { FormRow, Provider } from '@dnb/eufemia/shared'
 
 function MyForm({ formRef }) {
   return (
-    <Provider
-      FormRow={{ label_direction: 'vertical' }}
-    >
+    <Provider FormRow={{ label_direction: 'vertical' }}>
       <Section spacing="large" style_type="white">
         <FormRow>
           <Input
@@ -513,9 +511,7 @@ import { Provider } from '@dnb/eufemia/shared'
 
 function MyForm({ formRef }) {
   return (
-    <Provider
-      formElement={{ labelDirection: 'vertical' }}
-    >
+    <Provider formElement={{ labelDirection: 'vertical' }}>
       <Section innerSpace={{ block: 'large' }} backgroundColor="white">
         <Flex.Horizontal align="baseline">
           <Input
