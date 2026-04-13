@@ -433,6 +433,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
       disabled={disabled}
       skeleton={skeleton}
       srOnly={labelSrOnly}
+      vertical={false}
     />
   )
 

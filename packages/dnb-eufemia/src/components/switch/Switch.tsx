@@ -294,6 +294,7 @@ function Switch(props: SwitchProps) {
           disabled={disabled}
           skeleton={skeleton}
           srOnly={labelSrOnly}
+          vertical={false}
         />
       ),
     [disabled, id, label, labelSrOnly, skeleton]

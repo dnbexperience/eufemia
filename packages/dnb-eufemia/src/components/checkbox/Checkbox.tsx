@@ -341,6 +341,7 @@ function Checkbox(localProps: CheckboxProps) {
             disabled={disabled}
             skeleton={skeleton}
             srOnly={labelSrOnly}
+            vertical={false}
           />
         )}
 
