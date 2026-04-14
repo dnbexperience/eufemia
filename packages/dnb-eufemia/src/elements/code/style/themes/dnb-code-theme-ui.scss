@@ -1,5 +1,3 @@
-@use '../../../../style/core/utilities.scss' as utilities;
-
 .dnb-code {
   background-color: var(--color-mint-green-25);
   box-shadow: inset 0 0 0 0.0625rem var(--color-mint-green-50);
@@ -9,8 +7,4 @@
   // Pre is using syntax highlighting to determine the text color, this property works as a fallback color in case of no highlighting
   color: var(--color-mint-green-12);
   background-color: #222;
-
-  &.dnb-pre--focus {
-    @include utilities.fakeBorder(var(--color-sea-green), 0.25rem);
-  }
 }

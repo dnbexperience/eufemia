@@ -1,3 +1,5 @@
+@use './../parts/PortalStyle.mixins.scss' as PortalMixins;
+
 .codeBlockStyle {
   margin-bottom: 2rem;
 
@@ -8,77 +10,115 @@
   }
 }
 
-.plainBackgroundStyle {
-  :global {
-    .example-box {
-      background-color: var(--color-white);
+.exampleBoxStyle {
+  position: relative;
+  flex: 1;
+  height: 100%;
+
+  padding: 2rem;
+
+  border-start-start-radius: var(--border-radius);
+  border-start-end-radius: var(--border-radius);
+
+  &::after {
+    border-start-start-radius: var(--border-radius);
+    border-start-end-radius: var(--border-radius);
+  }
+
+  &.center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  // Deal with grid
+  @include PortalMixins.gridStyle();
+
+  --grid-rgb: 236 236 236;
+  --grid-opacity: 0.5;
+  --grid-opacity-bold: 0.85;
+  --grid-background: var(--token-color-background-page-background);
+
+  :global(.surface--dark) & {
+    --grid-opacity: 0.12;
+    --grid-opacity-bold: 0.06;
+    --grid-background: var(--token-color-decorative-first-bold-static);
+  }
+
+  :global(.eufemia-theme__color-scheme--dark) & {
+    --grid-opacity: 0.12;
+    --grid-opacity-bold: 0.06;
+  }
+
+  :global(.background--plain) & {
+    &::after {
+      background-image: none;
     }
+  }
+
+  // For backwards compatibility with visual tests, we need to keep the grid in visual tests, but we want to remove the background color to avoid snapshot differences due to different background colors
+  // In future we may rather remove the grid from visual tests and then we can remove this rule as well so we get a "local" background color in visual tests as well.
+  :global(html[data-visual-test]) & {
+    --grid-background: transparent;
   }
 }
 
 .toolbarStyle {
-  position: absolute;
-  z-index: 100; // over generally used z-indexes, like table rows
-  bottom: 0;
-  left: 0;
-  width: 100%;
-
   display: flex;
-  flex-direction: row;
-  align-items: space-between;
   justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
 
-  padding: 0 1rem 1rem;
+  margin: 0 0.0625rem; // So the border of the example box is not covered by the toolbar
+  padding: 0.5rem 1rem;
 
-  pointer-events: none;
+  &:empty {
+    display: none;
+  }
 
-  :global {
-    button {
-      pointer-events: all;
-    }
+  background-color: var(--token-color-background-neutral);
+
+  :global(.background--plain) & {
+    border-top: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+  }
+
+  :global(.hide-code) & {
+    border-end-start-radius: var(--border-radius);
+    border-end-end-radius: var(--border-radius);
   }
 }
 
 .liveCodeEditorStyle {
-  position: relative;
+  --border-radius: 1rem;
+  border-radius: var(--border-radius);
+
+  // Outline
+  box-shadow: inset 0 0 0 0.0625rem
+    var(--token-color-stroke-neutral-subtle);
+
+  // Remove the outline and border-radius in visual tests
+  :global(html[data-visual-test]) & {
+    --border-radius: 0;
+    box-shadow: none;
+  }
 
   :global {
-    .example-box {
-      margin-bottom: 0;
-    }
     .example-caption {
       margin-bottom: 1.5rem;
     }
+
     .dnb-live-editor {
       position: relative;
       cursor: text;
 
-      transition: box-shadow 0.2s ease-out;
-
-      &::after {
-        content: '';
-        position: absolute;
-        top: calc(-0.75rem + 1px);
-        left: 1rem;
-
-        width: 0;
-        height: 0;
-
-        border-style: solid;
-        border-width: 0 0.75rem 0.75rem;
-        border-color: transparent transparent var(--color-black-80);
-
-        opacity: 1;
-        transition:
-          opacity 0.2s ease-out,
-          border-width 0.2s ease-out;
+      &__editable {
+        border-start-start-radius: 0; // Reset .dnb-pre border-radius
+        border-start-end-radius: 0; // Reset .dnb-pre border-radius
+        border-end-start-radius: var(--border-radius);
+        border-end-end-radius: var(--border-radius);
       }
-
-      &.dnb-pre--focus {
-        &::after {
-          opacity: 0;
-          border-top-width: 0.5rem;
-        }
+      &__editable.dnb-pre:not([class*='dnb-space__bottom']) {
+        margin-bottom: 0;
       }
     }
 
@@ -93,8 +133,8 @@
     }
 
     .prism-code {
-      padding: 0 !important; /* use important because of inline styles */
-      white-space: pre-wrap !important; /* use important because of inline styles */
+      padding: 0 !important; // Use important because of inline styles
+      white-space: pre-wrap !important; // Use important because of inline styles
     }
   }
 }
