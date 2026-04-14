@@ -58,12 +58,12 @@ export const DialogProperties: PropertiesTableProps = {
   },
   verticalAlignment: {
     doc: 'Define the vertical alignment of the container. Can be set to `top` or `center`. Defaults to `center`.',
-    type: 'string',
+    type: ['"top"', '"center"'],
     status: 'optional',
   },
   alignContent: {
     doc: 'Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.',
-    type: 'string',
+    type: ['"left"', '"center"', '"centered"', '"right"'],
     status: 'optional',
   },
   fullscreen: {
