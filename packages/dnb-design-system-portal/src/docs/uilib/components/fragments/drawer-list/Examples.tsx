@@ -252,7 +252,6 @@ export const DrawerListExampleSingleItem = () => (
             skipPortal
             open
             preventClose
-            // moreMenu
             right
             title="Choose an item"
             data={() => [
