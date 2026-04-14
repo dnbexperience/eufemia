@@ -28,7 +28,7 @@ export const DrawerListProperties: PropertiesTableProps = {
   },
   direction: {
     doc: "Defines the direction of how the drawer-list shows the options list. Can be 'bottom' or 'top'. Defaults to 'auto'.",
-    type: 'string',
+    type: ['"auto"', '"top"', '"bottom"'],
     status: 'optional',
   },
   labelDirection: {
