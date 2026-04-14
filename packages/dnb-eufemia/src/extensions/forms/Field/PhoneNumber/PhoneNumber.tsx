@@ -25,6 +25,7 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import SharedContext from '../../../../shared/Context'
 import type { CountryFilterSet } from '../SelectCountry'
 import { countryFilter, getCountryData } from '../SelectCountry'
+import detectCountryCode from '../../utils/detectCountryCode'
 import useTranslation from '../../hooks/useTranslation'
 import type { DrawerListDataArrayItem } from '../../../../fragments/DrawerList'
 import type { AutocompleteOnChangeParams } from '../../../../components/Autocomplete'
@@ -152,6 +153,12 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
         if (!countryCode && !phoneNumber && !props.omitCountryCodeField) {
           return countryCodeRef.current
         }
+
+        // Normalize to E.164 format so the stored value is always spaceless
+        if (countryCode && phoneNumber) {
+          const cleanCode = countryCode.replace(/-/g, '')
+          return `${cleanCode}${phoneNumber}`
+        }
       }
       return external
     },
@@ -160,11 +167,14 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
 
   const toEvent = useCallback(
     (value: string) => {
-      const [, phoneNumber] = splitValue(value)
+      const [countryCode, phoneNumber] = splitValue(value)
       if (!phoneNumber) {
         return props.emptyValue
       }
-      return value
+      // E.164 output: strip dashes from dashed CDC codes (e.g. "+1-684" → "+1684")
+      // and join without space
+      const cleanCode = countryCode?.replace(/-/g, '')
+      return [cleanCode, phoneNumber].filter(Boolean).join('')
     },
     [props.emptyValue]
   )
@@ -608,11 +618,36 @@ function formatCountryCode(value: string) {
 }
 
 function splitValue(value: string) {
-  return (
-    typeof value === 'string'
-      ? value.match(/^(\+[^ ]+)? ?(.*)$/)
-      : [undefined, '', '']
-  ).slice(1)
+  if (typeof value !== 'string') {
+    return [undefined, '']
+  }
+
+  // Normalize "00" international dialing prefix to "+" when followed by a space
+  if (value.startsWith('00') && value.includes(' ')) {
+    value = `+${value.slice(2)}`
+  }
+
+  // When a space separates the country code and the phone number, split on it
+  if (value.startsWith('+') && value.includes(' ')) {
+    const spaceIndex = value.indexOf(' ')
+    return [value.slice(0, spaceIndex), value.slice(spaceIndex + 1)]
+  }
+
+  // Auto-detect country code from spaceless strings like "+4712345678" or "004712345678"
+  // detectCountryCode handles 00→+ normalization internally and only succeeds
+  // when there are enough digits for both a country code and subscriber number,
+  // so short values like "007" are left unchanged.
+  const detected = detectCountryCode(value)
+  if (detected) {
+    return [detected.countryCode, detected.phoneNumber]
+  }
+
+  // No space found — treat the whole value as the country code (or plain text)
+  if (value.startsWith('+')) {
+    return [value, '']
+  }
+
+  return [undefined, value]
 }
 
 function joinValue(array: Array<string>) {

@@ -34,6 +34,37 @@ It uses the HTML [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTM
 
 The default country code is set to `+47`.
 
+### E.164 value format
+
+The component emits values in E.164 format without spaces (e.g. `+4712345678`). This applies to `onChange`, `transformOut`, and the data context. The `additionalArgs` second argument provides the structured `countryCode` and `phoneNumber` separately if needed.
+
+### Auto-detection of country code
+
+When a phone number value is provided without a space separator between the country code and the number (e.g. `+4712345678` or `+46701234567`), the component will auto-detect the country code and split the value correctly. It supports all known E.164 country codes using a longest-prefix-match approach. This is useful when receiving phone numbers from a backend system.
+
+Values with a `00` international dialing prefix (e.g. `004712345678`) are also recognized — the `00` is interpreted as `+` automatically.
+
+### Handling `00` prefix format
+
+Values with a `00` prefix (e.g. `004712345678`) are automatically interpreted the same as `+` (e.g. `+4712345678`). No manual normalization is needed on the way in.
+
+The `00` prefix is the [ITU-T recommended international call prefix](https://en.wikipedia.org/wiki/List_of_international_call_prefixes) and is used across Europe (including all Scandinavian countries), most of Asia, Africa, and Oceania.
+
+Other international dialing prefixes such as `011` (US/Canada), `0011` (Australia), or `001` (Thailand, Singapore) are **not** supported, because they create ambiguous interpretations. For systems that use other prefixes, use `transformIn` to normalize the value before it reaches the component.
+
+If your backend also expects `00` prefix on output, use `transformOut` to convert back:
+
+```tsx
+<Field.PhoneNumber
+  value="004712345678"
+  transformOut={(value) =>
+    typeof value === 'string' ? value.replace(/^\+/, '00') : value
+  }
+  onChange={(value) => console.log('onChange', value)}
+/>
+// onChange "004712345678"
+```
+
 ## Structure and format of phone numbers
 
 Creating a list of all possible phone numbers would be impractical due to the vast number of combinations, especially considering the various country codes, area codes, and local numbers. Additionally, new numbers are constantly being allocated, and existing numbers may be reassigned over time.
@@ -66,5 +97,5 @@ By default, it has no validation. However, you can enable it by providing a `req
 E.g. the following pattern will strictly match Norwegian mobile numbers, which are defined as having a "+47" country code, followed by a number starting with 4 or 9, and exactly 7 more digits. If the country code is set to any other two-digit code, the pattern will match any 6 digits after the country code.
 
 ```jsx
-<Field.PhoneNumber pattern="((?=\+47)^\+47 [49]\d{7}$)|((?!\+47)^\+\d{2} \d{6})" />
+<Field.PhoneNumber pattern="((?=\+47)^\+47[49]\d{7}$)|((?!\+47)^\+\d{2}\d{6})" />
 ```
