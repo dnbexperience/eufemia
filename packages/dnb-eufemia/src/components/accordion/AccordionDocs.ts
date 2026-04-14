@@ -53,7 +53,7 @@ export const AccordionProperties: PropertiesTableProps = {
   },
   iconPosition: {
     doc: 'Will set the placement of the icon. Defaults to `left`.',
-    type: 'string',
+    type: ['"left"', '"right"'],
     status: 'optional',
   },
   iconSize: {
