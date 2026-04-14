@@ -779,13 +779,13 @@ export default class Tabs extends React.PureComponent<
     window.requestAnimationFrame(delay)
   }
 
-  onMouseDown = (event) => {
+  onMouseDown = (event: React.MouseEvent<HTMLButtonElement>) => {
     // once we press with mouse, the focus makes the scroll view move
     // in order to enhance UX, we prevent that and only allow a real click
     event.preventDefault()
   }
 
-  onKeyDownHandler = (event) => {
+  onKeyDownHandler = (event: React.KeyboardEvent<HTMLButtonElement>) => {
     if (event.key === 'Enter') {
       try {
         const elem = document.getElementById(`${this._id}-content`)
@@ -796,7 +796,7 @@ export default class Tabs extends React.PureComponent<
     }
   }
 
-  onMouseEnterHandler = (event) => {
+  onMouseEnterHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     const selectedKey = this.getCurrentKey(event)
     if (selectedKey) {
       dispatchCustomElementEvent(
@@ -807,7 +807,7 @@ export default class Tabs extends React.PureComponent<
     }
   }
 
-  onClickHandler = (event) => {
+  onClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     const selectedKey = this.getCurrentKey(event)
     if (selectedKey) {
       const ret = dispatchCustomElementEvent(
