@@ -5,7 +5,7 @@ import { AutocompleteProperties } from '../../../../components/autocomplete/Auto
 export const SelectCurrencyProperties: PropertiesTableProps = {
   currencies: {
     doc: 'List only a certain set of currencies: `Scandinavia`, `Nordic`, `Europe` or `Prioritized`(all currencies [sorted by priority](/uilib/extensions/forms/feature-fields/SelectCurrency/#filter-or-prioritize-currency-listing)). Defaults to `Prioritized`.',
-    type: 'string',
+    type: ['"Scandinavia"', '"Nordic"', '"Europe"', '"Prioritized"'],
     status: 'optional',
   },
   filterCurrencies: {
