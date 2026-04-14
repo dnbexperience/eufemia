@@ -30,10 +30,10 @@ export const ListFormatProperties: PropertiesTableProps = {
     doc: 'Defines the type of list styling used for list variants. Used together with variant `ol` and `ul`. Variant `ol`: `a`, `A`, `i`, `I` and `1`. Variant `ul`: `circle`, `disc` and `square`. Defaults to `undefined`.',
     type: [
       '"a"',
-      'A',
+      '"A"',
       '"i"',
-      'I',
-      '1',
+      '"I"',
+      '"1"',
       '"circle"',
       '"disc"',
       '"square"',
