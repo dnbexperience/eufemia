@@ -570,7 +570,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
           placeholder ?? (isDefault ? defaultPlaceholder : undefined)
         }
         mask={
-          numberMask ?? (isDefault ? defaultMask : Array(12).fill(/\d/))
+          numberMask ?? (isDefault ? defaultMask : Array(15).fill(/\d/))
         }
         onFocus={handleOnFocus}
         onBlur={handleOnBlur}

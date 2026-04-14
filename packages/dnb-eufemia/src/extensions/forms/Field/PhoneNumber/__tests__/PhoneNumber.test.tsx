@@ -358,14 +358,14 @@ describe('Field.PhoneNumber', () => {
 
     expect(numberElement.value).toBe('99 99 99 99')
 
-    rerender(<Field.PhoneNumber value="+4199999999123456" />)
+    rerender(<Field.PhoneNumber value="+41999999991234567890" />)
 
     expect(codeElement.value).toBe('CH (+41)')
-    expect(numberElement.value).toBe('999999991234')
+    expect(numberElement.value).toBe('999999991234567')
 
     await userEvent.type(numberElement, '123')
 
-    expect(numberElement.value).toBe('999999991234')
+    expect(numberElement.value).toBe('999999991234567')
   })
 
   it('should only have a placeholder when +47 is given', async () => {
