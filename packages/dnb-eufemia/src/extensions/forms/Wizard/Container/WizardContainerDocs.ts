@@ -33,7 +33,7 @@ export const WizardContainerProperties: PropertiesTableProps = {
   },
   validationMode: {
     doc: 'Determines if and how the validation will be bypassed.',
-    type: ['bypassOnNavigation'],
+    type: ['"bypassOnNavigation"'],
     status: 'optional',
   },
   expandedInitially: {
