@@ -3,6 +3,11 @@ import type { CloseButtonProps } from './parts/CloseButton'
 import type { ButtonProps } from '../button/Button'
 import type { ModalRootProps } from './ModalRoot'
 
+export type ModalCallbackInstance = {
+  _id: string
+  props: ModalProps
+}
+
 export type ModalFullscreen = 'auto' | boolean
 export type ModalAlignContent = 'left' | 'center' | 'centered' | 'right'
 export type ModalContainerPlacement = 'left' | 'right' | 'top' | 'bottom'
@@ -107,7 +112,7 @@ export type ModalProps = ModalRootProps & {
    */
   openModal?: (
     open?: (e: Event) => void,
-    instance?: any
+    instance?: ModalCallbackInstance
   ) => () => void | void
 
   /**
@@ -115,7 +120,7 @@ export type ModalProps = ModalRootProps & {
    */
   closeModal?: (
     close?: ModalCloseHandler,
-    instance?: any
+    instance?: ModalCallbackInstance
   ) => () => void | void
 
   /**

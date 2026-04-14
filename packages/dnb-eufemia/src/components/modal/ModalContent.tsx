@@ -38,13 +38,14 @@ import {
   addToIndex,
   removeFromIndex,
 } from './helpers'
+import type { ModalStackEntry } from './helpers'
 import { getThemeClasses } from '../../shared/Theme'
 import { Context } from '../../shared'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface Window {
-    __modalStack: any[]
+    __modalStack: ModalStackEntry[]
   }
 }
 
@@ -102,7 +103,7 @@ export default function ModalContent(props: ModalContentProps) {
   const triggeredByEventRef = useRef<React.SyntheticEvent>(undefined)
 
   // Stable identity for the modal stack
-  const selfRef = useRef<any>(null)
+  const selfRef = useRef<ModalStackEntry>(null)
   if (!selfRef.current) {
     selfRef.current = {
       _id: idProp,
