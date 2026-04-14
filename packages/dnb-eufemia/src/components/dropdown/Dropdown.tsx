@@ -520,12 +520,6 @@ const DropdownInstance = React.memo(function DropdownInstance({
 
   let { icon, iconPosition, align } = props
 
-  // TODO: Decouple preventSelection from role="menu" semantics.
-  // Currently, preventSelection triggers role="menu" and aria-haspopup="true",
-  // but preventSelection is also used in non-menu contexts (e.g. Autocomplete)
-  // where role="listbox" would be more appropriate. Now that actionMenu/moreMenu
-  // have been removed in favor of the new Menu component, consider whether
-  // preventSelection should only prevent selection without changing the ARIA role.
   const handleAsMenu = preventSelection
 
   const title = getTitle(_title)
