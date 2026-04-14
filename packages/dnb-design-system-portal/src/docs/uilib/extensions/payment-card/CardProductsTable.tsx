@@ -27,11 +27,17 @@ export default function CardProductsTable() {
                 <td>{card.displayName}</td>
                 <td>{card.cardDesign.name}</td>
                 <td>{getProductLogo(card.cardDesign.bankLogo)}</td>
-                <td>{prettiePrint(card.productType.toString())}</td>
+                <td>
+                  {card.productType.tag === 'None'
+                    ? '-'
+                    : card.productType.tag}
+                </td>
                 <td>
                   {getProductVariant(card.productType, card.cardDesign)}
                 </td>
-                <td>{prettiePrint(card.cardType.toString())}</td>
+                <td>
+                  {card.cardType.tag === 'None' ? '-' : card.cardType.tag}
+                </td>
                 <td>{getTypeVariant(card.cardType, card.cardDesign)}</td>
               </tr>
             )
@@ -42,37 +48,35 @@ export default function CardProductsTable() {
   )
 }
 
-const prettiePrint = (text) => {
-  const textArr = text.split('.')
-  let newText = textArr[1]
-  if (newText === 'None') {
-    newText = '-'
+const getTypeVariant = (type, design) => {
+  switch (type.tag) {
+    case 'Visa':
+      return design.visa.tag === 'None' ? '-' : design.visa.tag
+    case 'Mastercard':
+      return design.mastercard.tag === 'None' ? '-' : design.mastercard.tag
+    case 'None':
+      return '-'
   }
-  return newText
 }
 
-const getTypeVariant = (type, design) =>
-  type.cata({
-    Visa: () => prettiePrint(design.visa.toString()),
-    Mastercard: () => prettiePrint(design.mastercard.toString()),
-    None: () => '-',
-  })
+const getProductVariant = (type, design) => {
+  switch (type.tag) {
+    case 'Saga':
+      return design.saga.tag === 'None' ? '-' : design.saga.tag
+    case 'PrivateBanking':
+      return design.privateBanking.tag === 'None'
+        ? '-'
+        : design.privateBanking.tag
+    default:
+      return '-'
+  }
+}
 
-const getProductVariant = (type, design) =>
-  type.cata({
-    Saga: () => prettiePrint(design.saga.toString()),
-    Pluss: () => '-',
-    Intro: () => '-',
-    Bedrift: () => '-',
-    Business: () => '-',
-    PrivateBanking: () => prettiePrint(design.privateBanking.toString()),
-    Corporate: () => '-',
-    WorldElite: () => '-',
-    None: () => '-',
-  })
-
-const getProductLogo = (bankLogo) =>
-  bankLogo.cata({
-    Colored: (color) => color,
-    Sbanken: (color) => color,
-  })
+const getProductLogo = (bankLogo) => {
+  switch (bankLogo.tag) {
+    case 'Colored':
+      return bankLogo.color
+    case 'Sbanken':
+      return bankLogo.color
+  }
+}

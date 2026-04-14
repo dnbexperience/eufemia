@@ -6,7 +6,6 @@ import type { Translations } from './StatusOverlay'
 import StatusOverlay, { isCardBlocked } from './StatusOverlay'
 import CardNumberText from './CardNumber'
 import CardTypeText from './CardType'
-import { BankAxeptType, CardType } from '../utils/Types'
 import type { PaymentCardRawData } from '../PaymentCard'
 
 export type CardData = PaymentCardRawData
@@ -38,8 +37,7 @@ function CardFigure({
 
   const ProviderIcons = () => {
     const multipleProviders =
-      data.bankAxept === BankAxeptType.BankAxept &&
-      data.cardType !== CardType.None
+      data.bankAxept.tag === 'BankAxept' && data.cardType.tag !== 'None'
     return (
       <div
         className={clsx(
@@ -88,7 +86,7 @@ function CardFigure({
                 <ProviderIcons />
               ) : (
                 <CardTypeText
-                  isCredit={data.bankAxept === BankAxeptType.Credit}
+                  isCredit={data.bankAxept.tag === 'Credit'}
                   skeleton={skeleton}
                 />
               )}
