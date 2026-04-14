@@ -17,6 +17,10 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 
 ## v11.0.0
 
+- [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/) now emits values in pure E.164 format without spaces (e.g. `+4712345678` instead of `+47 12345678`). Patterns and schemas must be updated to match.
+- Added auto-detection of all E.164 country codes from values without a space separator in [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/) and [Value.PhoneNumber](/uilib/extensions/forms/Value/PhoneNumber/).
+- Added support for `00` international dialing prefix (e.g. `004712345678`) — automatically interpreted as `+` in [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/), [Value.PhoneNumber](/uilib/extensions/forms/Value/PhoneNumber/), and the `detectCountryCode` utility.
+- Added `detectCountryCode` utility, exported from `@dnb/eufemia/extensions/forms`, for detecting E.164 country codes from phone number strings.
 - Added `preventDefaultOnSubmit` to [Form.Handler](/uilib/extensions/forms/Form/Handler/), allowing native browser form submission such as `POST` to a form `action`.
 - Removed automatic horizontal card-coupled outset alignment for [Form.MainHeading](/uilib/extensions/forms/Form/MainHeading/), [Form.SubHeading](/uilib/extensions/forms/Form/SubHeading/), [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton/) and [Form.ButtonRow](/uilib/extensions/forms/Form/ButtonRow/).
 - [Form.Card](/uilib/extensions/forms/Form/Card/) no longer enables `outset` by default.

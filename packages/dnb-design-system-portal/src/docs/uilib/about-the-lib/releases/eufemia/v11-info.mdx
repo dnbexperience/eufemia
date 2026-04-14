@@ -2433,10 +2433,6 @@ If you used a `pattern` or `schema` that matched the space-separated format (e.g
 
 The component now auto-detects country codes from spaceless E.164 values like `"+4712345678"` and `00`-prefixed values like `"004712345678"`. No `transformIn` is needed for standard formats.
 
-#### `omitSpaceSeparator` prop removed
-
-The `omitSpaceSeparator` prop has been removed since E.164 (without spaces) is now the default output format.
-
 #### `detectCountryCode` utility
 
 A new `detectCountryCode` utility is exported from `@dnb/eufemia/extensions/forms` for detecting E.164 country codes from phone number strings.
