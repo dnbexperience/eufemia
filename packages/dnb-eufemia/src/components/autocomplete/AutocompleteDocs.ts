@@ -3,7 +3,7 @@ import type { PropertiesTableProps } from '../../shared/types'
 export const AutocompleteProperties: PropertiesTableProps = {
   mode: {
     doc: 'If set to `async`, it prevents showing the "no options" message during typing / filtering. Defaults to `sync`.',
-    type: 'string',
+    type: ['"sync"', '"async"'],
     status: 'optional',
   },
   inputValue: {
@@ -48,7 +48,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
   },
   searchMatch: {
     doc: 'Defines how search matching is performed. Use `starts-with` to only match items that begin with the first typed word. Defaults to `word`.',
-    type: 'string',
+    type: ['"word"', '"starts-with"'],
     status: 'optional',
   },
   keepValue: {
@@ -88,18 +88,18 @@ export const AutocompleteProperties: PropertiesTableProps = {
   },
   iconPosition: {
     doc: 'Position of the icon inside the autocomplete. Set to `left` or `right`. Defaults to `left`.',
-    type: 'string',
+    type: ['"left"', '"right"'],
     status: 'optional',
   },
 
   arrowPosition: {
     doc: 'Position of arrow on the popup drawer. Set to `left` or `right`. Defaults to `left`.',
-    type: 'string',
+    type: ['"left"', '"right"'],
     status: 'optional',
   },
   size: {
     doc: 'Define the height of the Autocomplete. Can be set to `small`, `default`, `medium` and `large`. Defaults to `default`.',
-    type: 'string',
+    type: ['"small"', '"default"', '"medium"', '"large"'],
     status: 'optional',
   },
   drawerClass: {
@@ -114,7 +114,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
   },
   align: {
     doc: 'Use `right` to change the options alignment direction. Defaults to `left`.',
-    type: 'string',
+    type: ['"left"', '"right"'],
     status: 'optional',
   },
   noOptions: {
