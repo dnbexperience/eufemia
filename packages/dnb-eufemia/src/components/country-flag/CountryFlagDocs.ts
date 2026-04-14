@@ -8,7 +8,15 @@ export const CountryFlagProperties: PropertiesTableProps = {
   },
   size: {
     doc: 'The size of the component. Can be `auto`, `xx-small`, `x-small`, `small`, `medium`, `large` or `x-large`. Defaults to `auto` (1em).',
-    type: 'string',
+    type: [
+      '"auto"',
+      '"xx-small"',
+      '"x-small"',
+      '"small"',
+      '"medium"',
+      '"large"',
+      '"x-large"',
+    ],
     status: 'optional',
   },
   shape: {
