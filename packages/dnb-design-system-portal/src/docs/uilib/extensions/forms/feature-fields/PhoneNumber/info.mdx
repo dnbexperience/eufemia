@@ -24,7 +24,7 @@ There is a corresponding [Value.PhoneNumber](/uilib/extensions/forms/Value/Phone
 
 This component behaves as "one single component". It combines the country code and the number into a single string during an event callback.
 
-The `value` property should be a string with the country code separated by a space from the main number.
+The `value` property should be a string in E.164 format (e.g. `+4712345678`).
 
 The component returns the `emptyValue` when no number is set, which defaults to `undefined`.
 
@@ -36,23 +36,9 @@ The default country code is set to `+47`.
 
 ### E.164 value format
 
-The component emits values in E.164 format without spaces (e.g. `+4712345678`). This applies to `onChange`, `transformOut`, and the data context. The `additionalArgs` second argument provides the structured `countryCode` and `phoneNumber` separately if needed.
+The component accepts and emits values in E.164 format (e.g. `+4712345678`). The country code is auto-detected using a longest-prefix-match against all known E.164 codes. The `additionalArgs` second argument of `onChange` provides the structured `countryCode` and `phoneNumber` separately if needed.
 
-Values that are not in E.164 format (e.g. with spaces like `+47 12345678`) are not accepted and will not be displayed.
-
-### Auto-detection of country code
-
-When a phone number value is provided in E.164 format (e.g. `+4712345678` or `+46701234567`), the component will auto-detect the country code and split the value correctly. It supports all known E.164 country codes using a longest-prefix-match approach. This is useful when receiving phone numbers from a backend system.
-
-### Handling `00` prefix format
-
-Values with a `00` prefix (e.g. `004712345678`) are automatically interpreted the same as `+` (e.g. `+4712345678`). No manual normalization is needed on the way in.
-
-The `00` prefix is the [ITU-T recommended international call prefix](https://en.wikipedia.org/wiki/List_of_international_call_prefixes) and is used across Europe (including all Scandinavian countries), most of Asia, Africa, and Oceania.
-
-Other international dialing prefixes such as `011` (US/Canada), `0011` (Australia), or `001` (Thailand, Singapore) are **not** supported, because they create ambiguous interpretations. For systems that use other prefixes, use `transformIn` to normalize the value before it reaches the component.
-
-If your backend also expects `00` prefix on output, use `transformOut` to convert back:
+Values with a `00` prefix (e.g. `004712345678`) are also accepted — the `00` is interpreted as `+`. If your backend expects `00` prefix on output, use `transformOut` to convert back:
 
 ```tsx
 <Field.PhoneNumber

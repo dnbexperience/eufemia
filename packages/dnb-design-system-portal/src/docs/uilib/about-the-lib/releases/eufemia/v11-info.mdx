@@ -2423,7 +2423,7 @@ Docs: [All Fields](/uilib/extensions/forms/all-fields/)
 
 #### E.164 value format (breaking)
 
-The component now emits values in pure E.164 format without spaces: `"+4712345678"` instead of `"+47 12345678"`. This applies to `onChange`, `transformOut`, the data context, and pattern/schema validation.
+The component now emits values in E.164 format: `"+4712345678"` instead of `"+47 12345678"`. This applies to `onChange`, `transformOut`, the data context, and pattern/schema validation.
 
 **Migration:** If you relied on the space between the country code and the phone number, update your code to handle the spaceless format. The `additionalArgs` second argument of `onChange` still provides `countryCode` and `phoneNumber` separately. Values with spaces (e.g. `"+47 12345678"`) are no longer accepted and will not be displayed.
 
