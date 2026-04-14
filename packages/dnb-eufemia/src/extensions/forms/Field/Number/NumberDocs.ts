@@ -63,7 +63,7 @@ export const NumberProperties: PropertiesTableProps = {
   },
   align: {
     doc: 'Lateral alignment of contents of input field, one of `left` (default), `center`, or `right`.',
-    type: 'string',
+    type: ['"left"', '"center"', '"right"'],
     status: 'optional',
   },
   autoComplete: {
