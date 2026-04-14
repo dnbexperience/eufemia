@@ -3,7 +3,14 @@ import type { PropertiesTableProps } from '../../shared/types'
 export const SectionProperties: PropertiesTableProps = {
   variant: {
     doc: 'Defines the semantic purpose and subsequently the style of the visual helper.',
-    type: 'string',
+    type: [
+      '"error"',
+      '"information"',
+      '"warning"',
+      '"success"',
+      '"divider"',
+      'string',
+    ],
     status: 'optional',
   },
   breakout: {
