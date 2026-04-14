@@ -27,7 +27,7 @@ export const ButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   surface: {
-    doc: 'Used to override the `surface` value from `Theme.Context`. Changes component style based on background. Defaults to `"default"` if there is no `Theme.Context`.',
+    doc: 'Used to override the `surface` value from `Theme.Context`. Changes component style based on background. Defaults to `undefined` if there is no `Theme.Context`.',
     type: ['"default"', '"dark"'],
     status: 'optional',
   },
