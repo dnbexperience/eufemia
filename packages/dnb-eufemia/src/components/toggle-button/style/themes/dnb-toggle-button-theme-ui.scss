@@ -134,7 +134,6 @@
       }
     }
   }
-  /* stylelint-enable */
 
   /*
     * On error state
@@ -142,7 +141,6 @@
     */
   // change button color
   // fake border outside
-  /* stylelint-disable */
   &__status--error &__button:not([disabled]) {
     &:not(:hover):not(:focus):not(:active) {
       background-color: var(--color-white);
