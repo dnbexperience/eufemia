@@ -12,7 +12,7 @@ This is the migration guide for @dnb/eufemia v11. It covers all breaking changes
 
 **How to use this guide:** Start with the [Step-by-step migration procedure](#step-by-step-migration-procedure) for the ordered workflow. Reference the [per-component sections](#components) to find individual property renames for a specific component. Check [Silent failures TypeScript won't catch](#silent-failures-typescript-wont-catch) after applying changes.
 
-> **Using AI to migrate?** Load [v11-migration-reference.md](./v11-migration-reference.md) for the complete rename reference, and set up the [Eufemia MCP server](/uilib/usage/first-steps/tools/#ai-assistance-and-mcp-server-beta) for live API docs. See [AI agent migration workflow](#ai-agent-migration-workflow) for the optimal approach.
+> **Using AI to migrate?** Load [v11-migration-reference.mdx](./v11-migration-reference.mdx) for the complete rename reference, and set up the [Eufemia MCP server](/uilib/usage/first-steps/tools/#ai-assistance-and-mcp-server-beta) for live API docs. See [AI agent migration workflow](#ai-agent-migration-workflow) for the optimal approach.
 
 **Most changes fall into these categories:**
 
@@ -24,7 +24,7 @@ This is the migration guide for @dnb/eufemia v11. It covers all breaking changes
 
 If you are an AI agent performing this migration (or a developer using an AI agent), follow this workflow for the most efficient migration:
 
-1. Load **[v11-migration-reference.md](./v11-migration-reference.md)** — it contains every rename in a single, dense file optimized for AI consumption. Use it instead of reading all per-component sections.
+1. Load **[v11-migration-reference.mdx](./v11-migration-reference.mdx)** — it contains every rename in a single, dense file optimized for AI consumption. Use it instead of reading all per-component sections.
 2. Follow the [Step-by-step migration procedure](#step-by-step-migration-procedure) (Phases 1–8) in order.
 3. Use the [Find-and-replace safety guide](#find-and-replace-safety-guide) to determine which renames are safe to apply globally vs. which must be scoped to specific components.
 4. After each phase, run the verification commands in [Verifying your migration](#verifying-your-migration).
@@ -117,7 +117,7 @@ For per-component details (behavioral changes, removals, code examples), refer t
 
 > **This section has been moved to a dedicated file for better separation between human-readable docs and AI-consumable reference data.**
 
-See **[v11-migration-reference.md](./v11-migration-reference.md)** for the complete compact rename reference — it contains every v10 → v11 rename in dense table format, optimized for AI agents and automated migration tools.
+See **[v11-migration-reference.mdx](./v11-migration-reference.mdx)** for the complete compact rename reference — it contains every v10 → v11 rename in dense table format, optimized for AI agents and automated migration tools.
 
 The reference file covers: common property renames, event renames, semantic renames, status value renames, CSS class renames, component-specific property renames, translation key renames, SCSS mixin renames, Eufemia Forms renames, import path changes, theming path changes, and TypeScript type renames.
 
