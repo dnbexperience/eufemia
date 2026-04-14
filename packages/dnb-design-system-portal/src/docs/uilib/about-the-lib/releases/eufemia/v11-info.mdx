@@ -166,18 +166,23 @@ These renames follow the same pattern everywhere they appear. Apply them as glob
 
 ### Common event renames
 
-| Old               | New             | Scope  | Components                                                                                                                                                                      |
-| ----------------- | --------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `on_change`       | `onChange`      | Global | Accordion, Autocomplete, Checkbox, DatePicker, Dropdown, DrawerList, Input, InputMasked, Pagination, Radio, Radio.Group, Slider, Switch, Tabs, ToggleButton, ToggleButton.Group |
-| `on_click`        | `onClick`       | Global | Button, Pagination.InfinityLoadButton, StepIndicator, Tabs, Table.ClickableHead                                                                                                 |
-| `on_focus`        | `onFocus`       | Global | Autocomplete, Input, InputMasked, Tabs, Textarea                                                                                                                                |
-| `on_blur`         | `onBlur`        | Global | Autocomplete, Input, InputMasked, Textarea                                                                                                                                      |
-| `on_submit`       | `onSubmit`      | Global | DatePicker, Input, InputMasked                                                                                                                                                  |
-| `on_key_down`     | `onKeyDown`     | Global | Input, Textarea                                                                                                                                                                 |
-| `on_state_update` | `onStateUpdate` | Global | DrawerList, Input, InputMasked, Radio, Radio.Group, Switch, ToggleButton                                                                                                        |
-| `on_select`       | `onSelect`      | Global | Autocomplete, Dropdown, DrawerList                                                                                                                                              |
-| `on_pre_change`   | `onPreChange`   | Global | DrawerList                                                                                                                                                                      |
-| `on_resize`       | `onResize`      | Global | DrawerList                                                                                                                                                                      |
+| Old                | New              | Scope  | Components                                                                                                                                                                      |
+| ------------------ | ---------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `on_change`        | `onChange`       | Global | Accordion, Autocomplete, Checkbox, DatePicker, Dropdown, DrawerList, Input, InputMasked, Pagination, Radio, Radio.Group, Slider, Switch, Tabs, ToggleButton, ToggleButton.Group |
+| `on_click`         | `onClick`        | Global | Button, Pagination.InfinityLoadButton, StepIndicator, Tabs, Table.ClickableHead                                                                                                 |
+| `on_focus`         | `onFocus`        | Global | Autocomplete, Input, InputMasked, Tabs, Textarea                                                                                                                                |
+| `on_blur`          | `onBlur`         | Global | Autocomplete, Input, InputMasked, Textarea                                                                                                                                      |
+| `on_submit`        | `onSubmit`       | Global | DatePicker, Input, InputMasked                                                                                                                                                  |
+| `on_key_down`      | `onKeyDown`      | Global | Input, Textarea                                                                                                                                                                 |
+| `on_state_update`  | `onStateUpdate`  | Global | DrawerList, Input, InputMasked, Radio, Radio.Group, Switch, ToggleButton                                                                                                        |
+| `on_select`        | `onSelect`       | Global | Autocomplete, Dropdown, DrawerList                                                                                                                                              |
+| `on_pre_change`    | `onPreChange`    | Global | DrawerList                                                                                                                                                                      |
+| `on_resize`        | `onResize`       | Global | DrawerList                                                                                                                                                                      |
+| `on_type`          | `onType`         | Global | Autocomplete, DatePicker                                                                                                                                                        |
+| `on_complete`      | `onComplete`     | Global | ProgressIndicator                                                                                                                                                               |
+| `on_change_end`    | `onChangeEnd`    | Global | Switch                                                                                                                                                                          |
+| `on_show_password` | `onShowPassword` | Global | Field.Password                                                                                                                                                                  |
+| `on_hide_password` | `onHidePassword` | Global | Field.Password                                                                                                                                                                  |
 
 ### Semantic renames (not just casing — must use correct new name)
 
@@ -248,6 +253,13 @@ Apply to all components that accept `statusState`, `state`, `variant`, or `confi
 ### Component-specific property renames
 
 These properties are unique to a single component and only listed once here.
+
+#### Anchor
+
+| Old                   | New     |
+| --------------------- | ------- |
+| `scrollToHashHandler` | Removed |
+| `inner_ref`           | `ref`   |
 
 #### Section
 
@@ -405,6 +417,33 @@ These properties are unique to a single component and only listed once here.
 | `Stat.Amount`                  | Removed — use `Stat.Number` |
 | `Stat.Info variant="default"`  | Use `variant="plain"`       |
 | `Stat.Label variant="default"` | Use `variant="plain"`       |
+
+#### Tag
+
+| Old        | New                                             |
+| ---------- | ----------------------------------------------- |
+| `onDelete` | Removed — use `onClick` + `variant="removable"` |
+
+#### Upload
+
+| Old                 | New                 |
+| ------------------- | ------------------- |
+| `variant="normal"`  | `variant="default"` |
+| `fileListAriaLabel` | `listAriaLabel`     |
+
+#### P (paragraph)
+
+| Old             | New                                  |
+| --------------- | ------------------------------------ |
+| `medium={true}` | `weight='medium'`                    |
+| `bold={true}`   | `weight='bold'`                      |
+| `modifier`      | Removed — use `weight` and/or `size` |
+
+#### Definition lists (Dl)
+
+| Old         | New      |
+| ----------- | -------- |
+| `direction` | `layout` |
 
 #### PaymentCard
 
@@ -779,32 +818,39 @@ These properties are unique to a single component and only listed once here.
 
 ### Eufemia Forms renames
 
-| Old                                         | New                                             | Scope                   |
-| ------------------------------------------- | ----------------------------------------------- | ----------------------- |
-| `validator`                                 | `onChangeValidator`                             | All Field.\* components |
-| `continuousValidation`                      | `validateContinuously`                          | All Field.\* components |
-| `focusWhenOpen`                             | `focusOnOpen`                                   | All Field.\* components |
-| `Form.useError`                             | `Form.useValidation`                            | Hook rename             |
-| `Form.useLocale`                            | `Form.useTranslation`                           | Hook rename             |
-| `Form.useErrorMessage`                      | Removed — use `errorMessages` prop              | Hook removal            |
-| `internal.error`                            | `error`                                         | Error handling          |
-| `{itemNr}` (Iterate label)                  | `{itemNo}`                                      | Form.Iterate            |
-| `Form.FieldProps`                           | `Field.Provider`                                | Component rename        |
-| `StepsLayout`                               | `Wizard.Container`                              | Component rename        |
-| `StepsLayout.Step`                          | `Wizard.Step`                                   | Component rename        |
-| `StepsLayout.NextButton`                    | `Wizard.Buttons`                                | Component rename        |
-| `StepsLayout.PreviousButton`                | `Wizard.Buttons`                                | Component rename        |
-| `StepsLayout.Buttons`                       | `Wizard.Buttons`                                | Component rename        |
-| `StepsLayout.useStep`                       | `Wizard.useStep`                                | Hook rename             |
-| `Iterate.ArrayPushButton`                   | `Iterate.PushButton`                            | Component rename        |
-| `Iterate.ArrayRemoveElementButton`          | `Iterate.RemoveButton`                          | Component rename        |
-| `withValue` (Form.Visibility)               | `hasValue`                                      | Form.Visibility         |
-| `pathValue` / `whenValue` (Form.Visibility) | `visibleWhen`                                   | Form.Visibility         |
-| `filterSubmitData` (DataContext.Provider)   | Use `filterData` in `onSubmit`/`onChange` event | DataContext.Provider    |
-| `active` (Wizard.Step)                      | `include`                                       | Wizard.Step             |
-| `activeWhen` (Wizard.Step)                  | `includeWhen`                                   | Wizard.Step             |
-| `requireCommit` (Iterate.PushContainer)     | `preventUncommittedChanges`                     | Iterate.PushContainer   |
-| `country` (Field.PostalCodeAndCity)         | `countryCode`                                   | Field.PostalCodeAndCity |
+| Old                                         | New                                                          | Scope                   |
+| ------------------------------------------- | ------------------------------------------------------------ | ----------------------- |
+| `validator`                                 | `onChangeValidator`                                          | All Field.\* components |
+| `continuousValidation`                      | `validateContinuously`                                       | All Field.\* components |
+| `focusWhenOpen`                             | `focusOnOpen`                                                | All Field.\* components |
+| `Form.useError`                             | `Form.useValidation`                                         | Hook rename             |
+| `Form.useLocale`                            | `Form.useTranslation`                                        | Hook rename             |
+| `Form.useErrorMessage`                      | Removed — use `errorMessages` prop                           | Hook removal            |
+| `internal.error`                            | `error`                                                      | Error handling          |
+| `{itemNr}` (Iterate label)                  | `{itemNo}`                                                   | Form.Iterate            |
+| `Form.FieldProps`                           | `Field.Provider`                                             | Component rename        |
+| `StepsLayout`                               | `Wizard.Container`                                           | Component rename        |
+| `StepsLayout.Step`                          | `Wizard.Step`                                                | Component rename        |
+| `StepsLayout.NextButton`                    | `Wizard.Buttons`                                             | Component rename        |
+| `StepsLayout.PreviousButton`                | `Wizard.Buttons`                                             | Component rename        |
+| `StepsLayout.Buttons`                       | `Wizard.Buttons`                                             | Component rename        |
+| `StepsLayout.useStep`                       | `Wizard.useStep`                                             | Hook rename             |
+| `Iterate.ArrayPushButton`                   | `Iterate.PushButton`                                         | Component rename        |
+| `Iterate.ArrayRemoveElementButton`          | `Iterate.RemoveButton`                                       | Component rename        |
+| `withValue` (Form.Visibility)               | `hasValue`                                                   | Form.Visibility         |
+| `pathValue` / `whenValue` (Form.Visibility) | `visibleWhen`                                                | Form.Visibility         |
+| `filterSubmitData` (DataContext.Provider)   | Use `filterData` in `onSubmit`/`onChange` event              | DataContext.Provider    |
+| `active` (Wizard.Step)                      | `include`                                                    | Wizard.Step             |
+| `activeWhen` (Wizard.Step)                  | `includeWhen`                                                | Wizard.Step             |
+| `requireCommit` (Iterate.PushContainer)     | `preventUncommittedChanges`                                  | Iterate.PushContainer   |
+| `country` (Field.PostalCodeAndCity)         | `countryCode`                                                | Field.PostalCodeAndCity |
+| `Card.Provider` / `Form.Card.Provider`      | Removed (including `disableCardBreakout`)                    | Forms                   |
+| `radio-list` variant (Field.Selection)      | Removed — use List with `variant="radio"`                    | Field.Selection         |
+| `show_password` (Field.Password)            | Use translation `Password.ariaLabelShow`                     | Field.Password          |
+| `hide_password` (Field.Password)            | Use translation `Password.ariaLabelHide`                     | Field.Password          |
+| `variant` (Wizard.Container)                | Removed                                                      | Wizard.Container        |
+| `scrollTopOnStepChange` (Wizard.Container)  | Removed — now default. Use `omitScrollManagement` to disable | Wizard.Container        |
+| `sidebarId` (Wizard.Container)              | Removed — use `id`                                           | Wizard.Container        |
 
 #### errorMessages key renames
 
