@@ -39,6 +39,11 @@ type AutofillHandlerConfig = HandlerConfig & {
 export const unsupportedCountryCodeMessage =
   'Postal code verification is not supported for {countryCode}.'
 
+/**
+ * Mirrors the Bring Postal Code API response format.
+ * Property names use snake_case to match the external API contract.
+ * @see https://developer.bring.com/api/postal-code/
+ */
 export type PostalCodeResolverData = {
   postal_codes: { postal_code: string; city: string }[]
 }
