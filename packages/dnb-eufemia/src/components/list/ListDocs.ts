@@ -74,13 +74,13 @@ export const ItemContentProperties: PropertiesTableProps = {
 export const ItemCenterProperties: PropertiesTableProps = {
   fontSize: {
     doc: 'Font size of the center content. Defaults to `basis`. Use `small` for smaller text.',
-    type: ["'small'", "'basis'"],
+    type: ['"small"', '"basis"'],
     defaultValue: "'basis'",
     status: 'optional',
   },
   fontWeight: {
     doc: 'Font weight of the center content. Defaults to `regular`.',
-    type: ["'regular'", "'medium'"],
+    type: ['"regular"', '"medium"'],
     defaultValue: "'regular'",
     status: 'optional',
   },
@@ -99,7 +99,7 @@ export const ItemCenterProperties: PropertiesTableProps = {
 export const ItemTitleProperties: PropertiesTableProps = {
   fontSize: {
     doc: 'Font size of the title content. Defaults to `basis`. Use `small` for smaller text.',
-    type: ["'small'", "'basis'"],
+    type: ['"small"', '"basis"'],
     defaultValue: "'basis'",
     status: 'optional',
   },
@@ -117,13 +117,13 @@ export const ItemTitleProperties: PropertiesTableProps = {
 export const ItemOverlineProperties: PropertiesTableProps = {
   fontSize: {
     doc: 'Font size of the overline content. Defaults to `x-small`.',
-    type: ["'basis'", "'small'", "'x-small'"],
+    type: ['"basis"', '"small"', '"x-small"'],
     defaultValue: "'x-small'",
     status: 'optional',
   },
   fontWeight: {
     doc: 'Font weight of the overline content. Defaults to `medium`.',
-    type: ["'regular'", "'medium'"],
+    type: ['"regular"', '"medium"'],
     defaultValue: "'medium'",
     status: 'optional',
   },
@@ -142,18 +142,18 @@ export const ItemOverlineProperties: PropertiesTableProps = {
 export const ItemSublineProperties: PropertiesTableProps = {
   variant: {
     doc: 'Visual variant. Use `description` for smaller, muted text style.',
-    type: ["'description'"],
+    type: ['"description"'],
     status: 'optional',
   },
   fontSize: {
     doc: 'Font size of the subline content. Defaults to `small`. When `variant="description"`, defaults to `x-small`.',
-    type: ["'basis'", "'small'", "'x-small'"],
+    type: ['"basis"', '"small"', '"x-small"'],
     defaultValue: "'small'",
     status: 'optional',
   },
   fontWeight: {
     doc: 'Font weight of the subline content. Defaults to `regular`.',
-    type: ["'regular'", "'medium'"],
+    type: ['"regular"', '"medium"'],
     defaultValue: "'regular'",
     status: 'optional',
   },
@@ -185,13 +185,13 @@ export const ItemFooterProperties: PropertiesTableProps = {
 export const ItemEndProperties: PropertiesTableProps = {
   fontWeight: {
     doc: 'Font weight of the end content. Defaults to `medium`.',
-    type: ["'regular'", "'medium'"],
+    type: ['"regular"', '"medium"'],
     defaultValue: "'medium'",
     status: 'optional',
   },
   fontSize: {
     doc: 'Font size of the end content. Defaults to `basis`. Use `small` for smaller text.',
-    type: ["'small'", "'basis'"],
+    type: ['"small"', '"basis"'],
     defaultValue: "'basis'",
     status: 'optional',
   },
@@ -210,13 +210,13 @@ export const ItemEndProperties: PropertiesTableProps = {
 export const ItemStartProperties: PropertiesTableProps = {
   fontSize: {
     doc: 'Font size of the start content. Defaults to `basis`. Use `small` for smaller text.',
-    type: ["'small'", "'basis'"],
+    type: ['"small"', '"basis"'],
     defaultValue: "'basis'",
     status: 'optional',
   },
   fontWeight: {
     doc: 'Font weight of the start content. Defaults to `regular`.',
-    type: ["'regular'", "'medium'"],
+    type: ['"regular"', '"medium"'],
     defaultValue: "'regular'",
     status: 'optional',
   },
@@ -245,7 +245,7 @@ export const ItemAccordionProperties: PropertiesTableProps = {
   },
   chevronPosition: {
     doc: 'Placement of the chevron icon. Defaults to `right`. Use `left` to show the chevron on the left side.',
-    type: ["'left'", "'right'"],
+    type: ['"left"', '"right"'],
     defaultValue: "'right'",
     status: 'optional',
   },
@@ -363,7 +363,7 @@ export const ItemActionProperties: PropertiesTableProps = {
   },
   chevronPosition: {
     doc: 'Placement of the chevron icon. Defaults to `right`. Use `left` to show the chevron on the left side.',
-    type: ["'left'", "'right'"],
+    type: ['"left"', '"right"'],
     defaultValue: "'right'",
     status: 'optional',
   },
