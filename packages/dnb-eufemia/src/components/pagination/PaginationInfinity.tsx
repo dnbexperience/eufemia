@@ -22,9 +22,15 @@ export type InfinityScrollerProps = {
   children?: React.ReactNode
 }
 
+type CallbackBufferParams = {
+  pageNumber: number
+  callStartupEvent: boolean
+  preventWaitForDelay: boolean
+}
+
 type CallbackBufferEntry = {
-  fn: (params: Record<string, unknown>) => void
-  params: Record<string, unknown>
+  fn: (params: CallbackBufferParams) => void
+  params: CallbackBufferParams
 }
 
 type EventHandlerOptions = {
@@ -98,8 +104,8 @@ export default function InfinityScroller({
   }
 
   const waitForReachedTime = (
-    fn: (params: Record<string, unknown>) => void,
-    params: Record<string, unknown>
+    fn: (params: CallbackBufferParams) => void,
+    params: CallbackBufferParams
   ) => {
     callbackBufferRef.current.push({ fn, params })
     callBuffer(
@@ -120,9 +126,9 @@ export default function InfinityScroller({
       ({
         pageNumber: pn,
         callStartupEvent: isStartup,
-      }: Record<string, unknown>) => {
+      }: CallbackBufferParams) => {
         const ctx = paginationRef.current
-        let resolvedPageNumber = pn as number
+        let resolvedPageNumber = pn
 
         const createEvent = (eventName: string) => {
           if (isNaN(resolvedPageNumber)) {
