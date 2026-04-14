@@ -688,18 +688,15 @@ describe('Field.PhoneNumber', () => {
       expect(numberElement.value).toBe('')
     })
 
-    it('should round-trip a 0047 value using transformIn and transformOut', async () => {
+    it('should round-trip a 0047 value with native 00 support and transformOut', async () => {
       const onChange = jest.fn()
-      const transformIn = (value: string) =>
-        typeof value === 'string' ? value.replace(/^00/, '+') : value
       const transformOut = (value: string) =>
         typeof value === 'string' ? value.replace(/^\+/, '00') : value
 
       render(
         <Field.PhoneNumber
-          value="+4712345678"
+          value="004712345678"
           onChange={onChange}
-          transformIn={transformIn}
           transformOut={transformOut}
           omitSpaceSeparator
         />
