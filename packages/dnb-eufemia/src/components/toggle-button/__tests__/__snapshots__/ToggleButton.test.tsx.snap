@@ -91,12 +91,10 @@ html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__bu
   color: var(--color-sea-green);
 }
 .dnb-toggle-button {
-  /* stylelint-enable */
   /*
     * On error state
     *
     */
-  /* stylelint-disable */
 }
 .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
   background-color: var(--color-white);
