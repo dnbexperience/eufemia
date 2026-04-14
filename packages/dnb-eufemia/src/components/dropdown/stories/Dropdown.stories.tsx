@@ -8,7 +8,6 @@ import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
 import {
-  IconPrimary,
   Dropdown,
   Button,
   FormLabel,
