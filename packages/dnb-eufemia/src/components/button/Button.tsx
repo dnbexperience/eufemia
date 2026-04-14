@@ -110,7 +110,7 @@ export type ButtonProps = {
    */
   variant?: ButtonVariant
   /**
-   * Used to override the `surface` value from `Theme.Context`. Changes component style based on background. Defaults to `"light"` if there is no `Theme.Context`.
+   * Used to override the `surface` value from `Theme.Context`. Changes component style based on background. Defaults to `undefined` if there is no `Theme.Context`.
    */
   surface?: ThemeSurface
   /**
