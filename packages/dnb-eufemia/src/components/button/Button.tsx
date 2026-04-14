@@ -110,9 +110,9 @@ export type ButtonProps = {
    */
   variant?: ButtonVariant
   /**
-   * Changes component style based on background. Defaults to `"default"`.
+   * Used to override the `surface` value from `Theme.Context`. Changes component style based on background. Defaults to `"default"` if there is no `Theme.Context`.
    */
-  surface?: ThemeSurface | 'default'
+  surface?: ThemeSurface
   /**
    * The size of the button. For now there is `small`, `medium`, `default` and `large`.
    */
