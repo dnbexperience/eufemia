@@ -358,7 +358,7 @@ describe('Field.PhoneNumber', () => {
 
     expect(numberElement.value).toBe('99 99 99 99')
 
-    rerender(<Field.PhoneNumber value="+41 99999999123456" />)
+    rerender(<Field.PhoneNumber value="+4199999999123456" />)
 
     expect(codeElement.value).toBe('CH (+41)')
     expect(numberElement.value).toBe('999999991234')
@@ -440,7 +440,7 @@ describe('Field.PhoneNumber', () => {
 
     render(
       <Field.PhoneNumber
-        value="+46 987654321231"
+        value="+46987654321231"
         onNumberChange={onNumberChange}
       />
     )
@@ -1048,7 +1048,7 @@ describe('Field.PhoneNumber', () => {
       <Field.PhoneNumber
         onChange={onChange}
         onCountryCodeChange={onCountryCodeChange}
-        value="+47 12"
+        value="+4712"
       />
     )
 
@@ -1408,24 +1408,24 @@ describe('Field.PhoneNumber', () => {
       pattern: '((?=\\+47)^\\+47[49]\\d{7}$)|((?!\\+47)^\\+\\d{2}\\d{6})',
     }
     const { rerender } = render(
-      <Field.PhoneNumber value="+47 99999999" {...props} />
+      <Field.PhoneNumber value="+4799999999" {...props} />
     )
 
     expect(
       document.querySelector('[role="alert"]')
     ).not.toBeInTheDocument()
 
-    rerender(<Field.PhoneNumber value="+47 9999" {...props} />)
+    rerender(<Field.PhoneNumber value="+479999" {...props} />)
 
     expect(document.querySelector('[role="alert"]')).toBeInTheDocument()
 
-    rerender(<Field.PhoneNumber value="+41 999999" {...props} />)
+    rerender(<Field.PhoneNumber value="+41999999" {...props} />)
 
     expect(
       document.querySelector('[role="alert"]')
     ).not.toBeInTheDocument()
 
-    rerender(<Field.PhoneNumber value="+41 9999" {...props} />)
+    rerender(<Field.PhoneNumber value="+419999" {...props} />)
 
     expect(document.querySelector('[role="alert"]')).toBeInTheDocument()
   })
@@ -1440,7 +1440,7 @@ describe('Field.PhoneNumber', () => {
         <Field.PhoneNumber
           onChangeValidator={onChangeValidator}
           validateInitially
-          value="+41 9999"
+          value="+419999"
         />
       </SharedProvider>
     )
@@ -1631,7 +1631,7 @@ describe('Field.PhoneNumber', () => {
     rerender(
       <Field.PhoneNumber
         omitCountryCodeField
-        value="+47 99999999"
+        value="+4799999999"
         onChange={onChange}
       />
     )

@@ -46,7 +46,7 @@ describe('Value.PhoneNumber', () => {
   })
 
   it('should format the value as a phone number', () => {
-    render(<Value.PhoneNumber value="+47 11223344" />)
+    render(<Value.PhoneNumber value="+4711223344" />)
 
     const element = document.querySelector('.dnb-forms-value-block')
     expect(element).toHaveTextContent('+47 11 22 33 44')
