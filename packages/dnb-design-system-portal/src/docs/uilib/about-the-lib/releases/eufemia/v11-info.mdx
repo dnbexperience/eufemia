@@ -124,7 +124,7 @@ Renames are marked with a **Scope** column:
 
 ### Common property renames (apply to multiple components)
 
-These renames follow the same pattern everywhere they appear. Apply them as global find-and-replace within Eufemia component JSX.
+These renames follow the same pattern everywhere they appear. Apply them as global find-and-replace within Eufemia component JSX. All entries marked **Global** are safe for codebase-wide replacement.
 
 | Old                      | New                 | Scope  | Components                                                                                                                                                                                                                                                                       |
 | ------------------------ | ------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -166,6 +166,8 @@ These renames follow the same pattern everywhere they appear. Apply them as glob
 
 ### Common event renames
 
+All entries below are safe for global find-and-replace — these snake_case event names are Eufemia-specific and won't collide with other code.
+
 | Old                | New              | Scope  | Components                                                                                                                                                                      |
 | ------------------ | ---------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `on_change`        | `onChange`       | Global | Accordion, Autocomplete, Checkbox, DatePicker, Dropdown, DrawerList, Input, InputMasked, Pagination, Radio, Radio.Group, Slider, Switch, Tabs, ToggleButton, ToggleButton.Group |
@@ -186,7 +188,7 @@ These renames follow the same pattern everywhere they appear. Apply them as glob
 
 ### Semantic renames (not just casing — must use correct new name)
 
-These renames change the name itself, not just the casing. A naive snake_case → camelCase conversion will produce the **wrong** name.
+⚠️ These renames change the name itself, not just the casing. A naive snake_case → camelCase conversion will produce the **wrong** name. Each must be scoped to the listed components — see the [find-and-replace safety guide](#find-and-replace-safety-guide) for collision risks.
 
 | Old                                  | New                               | ⚠️ Wrong naive conversion | Scope                                                               |
 | ------------------------------------ | --------------------------------- | ------------------------- | ------------------------------------------------------------------- |
@@ -252,9 +254,9 @@ Apply to all components that accept `statusState`, `state`, `variant`, or `confi
 
 ### Component-specific property renames
 
-These properties are unique to a single component and only listed once here.
+These properties are unique to a single component and only listed once here. Apply each rename only within JSX of the listed component.
 
-#### Accordion (unique props)
+#### Accordion
 
 | Old                            | New                          |
 | ------------------------------ | ---------------------------- |
@@ -276,7 +278,7 @@ These properties are unique to a single component and only listed once here.
 | --------------------- | ------- |
 | `scrollToHashHandler` | Removed |
 
-#### Autocomplete (unique props)
+#### Autocomplete
 
 | Old                        | New                     |
 | -------------------------- | ----------------------- |
@@ -306,7 +308,7 @@ These properties are unique to a single component and only listed once here.
 | `drawer_class`             | `drawerClass`           |
 | `selectall`                | `selectAll`             |
 
-#### Button (unique props)
+#### Button
 
 | Old                | New                                                        |
 | ------------------ | ---------------------------------------------------------- |
@@ -321,7 +323,7 @@ These properties are unique to a single component and only listed once here.
 | `spacing` | Removed |
 | `size`    | `span`  |
 
-#### DatePicker (unique props)
+#### DatePicker
 
 | Old                                 | New                 |
 | ----------------------------------- | ------------------- |
@@ -360,7 +362,7 @@ These properties are unique to a single component and only listed once here.
 | `YYYY` (in dateFormat/returnFormat) | `yyyy`              |
 | `DD` (in dateFormat/returnFormat)   | `dd`                |
 
-#### DatePicker onChange return object
+#### DatePicker onChange return object (event object properties)
 
 | Old                   | New                |
 | --------------------- | ------------------ |
@@ -383,7 +385,7 @@ These properties are unique to a single component and only listed once here.
 | `medium`     | Removed    |
 | `fullscreen` | `breakout` |
 
-#### DrawerList (unique props)
+#### DrawerList
 
 | Old                    | New                  |
 | ---------------------- | -------------------- |
@@ -400,7 +402,7 @@ These properties are unique to a single component and only listed once here.
 | `search_content` | `searchContent` | Dropdown, Autocomplete, DrawerList, Field.Selection |
 | `class_name`     | `className`     | Dropdown, Autocomplete, DrawerList, Field.Selection |
 
-#### Dropdown (unique props)
+#### Dropdown
 
 | Old               | New              |
 | ----------------- | ---------------- |
@@ -424,7 +426,7 @@ These properties are unique to a single component and only listed once here.
 | `for_id`  | `forId`  |
 | `sr_only` | `srOnly` |
 
-#### FormStatus (unique props)
+#### FormStatus
 
 | Old                      | New             |
 | ------------------------ | --------------- |
@@ -440,7 +442,7 @@ These properties are unique to a single component and only listed once here.
 | `status` | `statusCode`       |
 | `code`   | `errorMessageCode` |
 
-#### GlobalStatus (unique props)
+#### GlobalStatus
 
 | Old                              | New                    |
 | -------------------------------- | ---------------------- |
@@ -472,7 +474,7 @@ These properties are unique to a single component and only listed once here.
 | --------------- | -------------- |
 | `inherit_color` | `inheritColor` |
 
-#### Input (unique props)
+#### Input
 
 | Old                     | New                   |
 | ----------------------- | --------------------- |
@@ -492,7 +494,7 @@ These properties are unique to a single component and only listed once here.
 | `on_submit_blur`        | `onSubmitBlur`        |
 | `on_clear`              | `onClear`             |
 
-#### InputMasked (unique props)
+#### InputMasked
 
 | Old                                   | New                                |
 | ------------------------------------- | ---------------------------------- |
@@ -511,7 +513,7 @@ These properties are unique to a single component and only listed once here.
 | Function-based masks (`MaskFunction`) | Removed — use array masks directly |
 | `{ mask: ... }` object form           | Removed — use array masks directly |
 
-#### Logo
+#### Logo (API redesign)
 
 | Old             | New                                                        |
 | --------------- | ---------------------------------------------------------- |
@@ -522,7 +524,7 @@ These properties are unique to a single component and only listed once here.
 | `alt`           | Removed                                                    |
 | `ratio`         | Removed                                                    |
 
-#### Modal / Dialog / Drawer (unique props)
+#### Modal / Dialog / Drawer
 
 | Old                             | New                           |
 | ------------------------------- | ----------------------------- |
@@ -565,7 +567,7 @@ These properties are unique to a single component and only listed once here.
 | `on_close`                      | `onClose`                     |
 | `on_close_prevent`              | `onClosePrevent`              |
 
-#### NumberFormat (unique props)
+#### NumberFormat
 
 | Old                 | New                |
 | ------------------- | ------------------ |
@@ -585,7 +587,7 @@ These properties are unique to a single component and only listed once here.
 | `bold={true}`   | `weight='bold'`                      |
 | `modifier`      | Removed — use `weight` and/or `size` |
 
-#### Pagination (unique props)
+#### Pagination
 
 | Old                          | New                        |
 | ---------------------------- | -------------------------- |
@@ -628,7 +630,7 @@ These properties are unique to a single component and only listed once here.
 | `order_in_process` (cardStatus value) | `orderInProcess` |
 | `new_order` (cardStatus value)        | `newOrder`       |
 
-#### ProgressIndicator (unique props)
+#### ProgressIndicator
 
 | Old               | New                |
 | ----------------- | ------------------ |
@@ -636,17 +638,11 @@ These properties are unique to a single component and only listed once here.
 | `show_label`      | `showDefaultLabel` |
 | `class`           | `className`        |
 
-#### Radio / Radio.Group (unique props)
+#### Radio / Radio.Group
 
 | Old                              | New               |
 | -------------------------------- | ----------------- |
 | `layout_direction` (Radio.Group) | `layoutDirection` |
-
-#### Section
-
-| Old                      | New             |
-| ------------------------ | --------------- |
-| `variant` value `'info'` | `'information'` |
 
 #### Skeleton
 
@@ -669,7 +665,7 @@ These properties are unique to a single component and only listed once here.
 | `Stat.Info variant="default"`  | Use `variant="plain"`       |
 | `Stat.Label variant="default"` | Use `variant="plain"`       |
 
-#### StepIndicator (unique props)
+#### StepIndicator
 
 | Old                   | New                       |
 | --------------------- | ------------------------- |
@@ -692,7 +688,7 @@ These properties are unique to a single component and only listed once here.
 | `onClosed`                          | `onClose`          |
 | `onOpened`                          | `onOpen`           |
 
-#### Tabs (unique props)
+#### Tabs
 
 | Old                | New               |
 | ------------------ | ----------------- |
@@ -711,7 +707,7 @@ These properties are unique to a single component and only listed once here.
 | ---------- | ----------------------------------------------- |
 | `onDelete` | Removed — use `onClick` + `variant="removable"` |
 
-#### Textarea (unique props)
+#### Textarea
 
 | Old                   | New                  |
 | --------------------- | -------------------- |
@@ -721,7 +717,7 @@ These properties are unique to a single component and only listed once here.
 | `textarea_attributes` | `textareaAttributes` |
 | `textarea_element`    | `textareaElement`    |
 
-#### ToggleButton (unique props)
+#### ToggleButton
 
 | Old                        | New               |
 | -------------------------- | ----------------- |
