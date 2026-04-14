@@ -12,6 +12,7 @@ import { Provider } from '../../../shared'
 
 const props: RadioProps = {
   label: 'label',
+  value: 'test-value',
 }
 
 describe('Radio component', () => {

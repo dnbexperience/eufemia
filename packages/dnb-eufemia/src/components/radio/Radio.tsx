@@ -84,7 +84,7 @@ export type RadioProps = {
   /**
    * Defines the `value` as a string. Use it to get the value during the `onChange` event listener callback in the **RadioGroup**.
    */
-  value?: string
+  value: string
   skeleton?: SkeletonShow
   readOnly?: boolean
   className?: string
