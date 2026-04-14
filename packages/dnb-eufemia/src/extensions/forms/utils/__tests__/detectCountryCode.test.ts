@@ -103,6 +103,44 @@ describe('detectCountryCode', () => {
     expect(detectCountryCode('4712345678')).toBeUndefined()
   })
 
+  describe('00 prefix normalization', () => {
+    it('should detect 0047 as +47 (Norway)', () => {
+      expect(detectCountryCode('004712345678')).toEqual({
+        countryCode: '+47',
+        phoneNumber: '12345678',
+      })
+    })
+
+    it('should detect 0046 as +46 (Sweden)', () => {
+      expect(detectCountryCode('0046701234567')).toEqual({
+        countryCode: '+46',
+        phoneNumber: '701234567',
+      })
+    })
+
+    it('should detect 001 as +1 (USA)', () => {
+      expect(detectCountryCode('0012025551234')).toEqual({
+        countryCode: '+1',
+        phoneNumber: '2025551234',
+      })
+    })
+
+    it('should detect 00358 as +358 (Finland)', () => {
+      expect(detectCountryCode('00358501234567')).toEqual({
+        countryCode: '+358',
+        phoneNumber: '501234567',
+      })
+    })
+
+    it('should return undefined for just "00"', () => {
+      expect(detectCountryCode('00')).toBeUndefined()
+    })
+
+    it('should return undefined for 00 followed by unknown code', () => {
+      expect(detectCountryCode('0099912345')).toBeUndefined()
+    })
+  })
+
   it('should return undefined for non-string value', () => {
     expect(
       detectCountryCode(undefined as unknown as string)

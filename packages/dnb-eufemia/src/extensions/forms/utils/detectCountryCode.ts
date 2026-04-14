@@ -28,13 +28,16 @@ const cdcFormatMap: Record<string, string> = Object.fromEntries(
  * Uses a longest-prefix-match against every known E.164 country code
  * in the Eufemia countries list.
  *
- * @param value  A phone number string beginning with "+" (e.g. "+4712345678").
+ * @param value  A phone number string beginning with "+" or "00" (e.g. "+4712345678" or "004712345678").
  * @returns      An object with `countryCode` (e.g. "+47" or "+1-684" for
  *               dashed codes) and `phoneNumber` (e.g. "12345678"), or
  *               `undefined` when no known code could be detected.
  *
  * @example
  * detectCountryCode('+4712345678')
+ * // => { countryCode: '+47', phoneNumber: '12345678' }
+ *
+ * detectCountryCode('004712345678')
  * // => { countryCode: '+47', phoneNumber: '12345678' }
  *
  * detectCountryCode('+16841234567')
@@ -51,7 +54,16 @@ export type DetectedCountryCode = {
 export default function detectCountryCode(
   value: string
 ): DetectedCountryCode | undefined {
-  if (typeof value !== 'string' || !value.startsWith('+')) {
+  if (typeof value !== 'string') {
+    return undefined
+  }
+
+  // Normalize "00" international dialing prefix to "+"
+  if (value.startsWith('00')) {
+    value = `+${value.slice(2)}`
+  }
+
+  if (!value.startsWith('+')) {
     return undefined
   }
 

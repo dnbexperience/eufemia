@@ -18,6 +18,11 @@ function PhoneNumber(props: Props) {
       return undefined
     }
 
+    // Normalize "00" international dialing prefix to "+"
+    if (typeof value === 'string' && value.startsWith('00')) {
+      value = `+${value.slice(2)}`
+    }
+
     // When the value has no space between the country code and the number,
     // detect and insert one so the phone formatter can split them correctly.
     if (typeof value === 'string' && !value.includes(' ')) {

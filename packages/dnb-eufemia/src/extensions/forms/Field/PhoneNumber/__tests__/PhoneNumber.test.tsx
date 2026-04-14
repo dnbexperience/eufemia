@@ -553,6 +553,48 @@ describe('Field.PhoneNumber', () => {
       expect(codeElement.value).toBe('GG (+44-1481)')
       expect(numberElement.value).toContain('1234567')
     })
+
+    it('should auto-detect 0047 as +47 (Norway)', () => {
+      render(<Field.PhoneNumber value="004712345678" />)
+
+      const codeElement = document.querySelector(
+        '.dnb-forms-field-phone-number__country-code input'
+      ) as HTMLInputElement
+      const numberElement = document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      ) as HTMLInputElement
+
+      expect(codeElement.value).toBe('NO (+47)')
+      expect(numberElement.value).toBe('12 34 56 78')
+    })
+
+    it('should auto-detect 0046 as +46 (Sweden) from spaceless value', () => {
+      render(<Field.PhoneNumber value="0046701234567" />)
+
+      const codeElement = document.querySelector(
+        '.dnb-forms-field-phone-number__country-code input'
+      ) as HTMLInputElement
+      const numberElement = document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      ) as HTMLInputElement
+
+      expect(codeElement.value).toBe('SE (+46)')
+      expect(numberElement.value).toContain('701234567')
+    })
+
+    it('should handle 0047 with space separator', () => {
+      render(<Field.PhoneNumber value="0047 12345678" />)
+
+      const codeElement = document.querySelector(
+        '.dnb-forms-field-phone-number__country-code input'
+      ) as HTMLInputElement
+      const numberElement = document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      ) as HTMLInputElement
+
+      expect(codeElement.value).toBe('NO (+47)')
+      expect(numberElement.value).toBe('12 34 56 78')
+    })
   })
 
   describe('omitSpaceSeparator', () => {

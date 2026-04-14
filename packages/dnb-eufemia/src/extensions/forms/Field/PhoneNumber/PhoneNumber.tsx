@@ -615,6 +615,11 @@ function splitValue(value: string) {
     return [undefined, '']
   }
 
+  // Normalize "00" international dialing prefix to "+"
+  if (value.startsWith('00')) {
+    value = `+${value.slice(2)}`
+  }
+
   // When a space separates the country code and the phone number, split on it
   if (value.startsWith('+') && value.includes(' ')) {
     const spaceIndex = value.indexOf(' ')

@@ -80,6 +80,20 @@ describe('Value.PhoneNumber', () => {
     expect(element).toHaveTextContent('+1 (684) 12 34 56 7')
   })
 
+  it('should format a 00-prefixed value correctly', () => {
+    render(<Value.PhoneNumber value="004712345678" />)
+
+    const element = document.querySelector('.dnb-forms-value-block')
+    expect(element).toHaveTextContent('+47 12 34 56 78')
+  })
+
+  it('should format a 00-prefixed Swedish value correctly', () => {
+    render(<Value.PhoneNumber value="0046701234567" />)
+
+    const element = document.querySelector('.dnb-forms-value-block')
+    expect(element).toHaveTextContent('+46 70 12 34 56 7')
+  })
+
   it('does not render when value is null', () => {
     render(<Value.PhoneNumber value={null} />)
     const element = document.querySelector('.dnb-forms-value-block')

@@ -38,6 +38,8 @@ The default country code is set to `+47`.
 
 When a phone number value is provided without a space separator between the country code and the number (e.g. `+4712345678` or `+46701234567`), the component will auto-detect the country code and split the value correctly. It supports all known E.164 country codes using a longest-prefix-match approach. This is useful when receiving phone numbers from a backend system that does not include a space separator.
 
+Values with a `00` international dialing prefix (e.g. `004712345678`) are also recognized — the `00` is interpreted as `+` automatically.
+
 ### Storing values without space separator
 
 By default, the component emits values with a space between the country code and the phone number (e.g. `+47 12345678`). If your backend requires values without the space (e.g. `+4712345678`), use the `omitSpaceSeparator` prop:
@@ -56,13 +58,13 @@ When combining `omitSpaceSeparator` with `transformOut`, note that the value pas
 
 ### Handling `00` prefix format
 
-Some backends may store phone numbers with a `00` prefix instead of `+` (e.g. `004712345678`). Since the component uses E.164 format (`+` prefix) internally, normalize the value before passing it to the component and use `transformOut` to convert back on output:
+Values with a `00` prefix (e.g. `004712345678`) are automatically interpreted the same as `+` (e.g. `+4712345678`). No manual normalization is needed on the way in.
+
+If your backend also expects `00` prefix on output, use `transformOut` to convert back:
 
 ```tsx
-const backendValue = '004712345678'
-
 <Field.PhoneNumber
-  value={backendValue.replace(/^00/, '+')}
+  value="004712345678"
   omitSpaceSeparator
   transformOut={(value) =>
     typeof value === 'string' ? value.replace(/^\+/, '00') : value
