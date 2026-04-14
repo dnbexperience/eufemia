@@ -254,18 +254,27 @@ Apply to all components that accept `statusState`, `state`, `variant`, or `confi
 
 These properties are unique to a single component and only listed once here.
 
+#### Accordion (unique props)
+
+| Old                            | New                          |
+| ------------------------------ | ---------------------------- |
+| `expandBehaviour`              | `expandBehavior`             |
+| `expanded_ssr`                 | `expandedSsr`                |
+| `heading_level`                | `headingLevel`               |
+| `single_container`             | `singleContainer`            |
+| `left_component`               | `leftComponent`              |
+| `flush_remembered_state`       | `flushRememberedState`       |
+| `prevent_rerender_conditional` | `preventRerenderConditional` |
+| `remember_state`               | `rememberState`              |
+| `prevent_rerender`             | `preventRerender`            |
+| `allow_close_all` (Group)      | `allowCloseAll`              |
+| `expanded_id` (Group/Provider) | `expandedId`                 |
+
 #### Anchor
 
 | Old                   | New     |
 | --------------------- | ------- |
 | `scrollToHashHandler` | Removed |
-| `inner_ref`           | `ref`   |
-
-#### Section
-
-| Old                      | New             |
-| ------------------------ | --------------- |
-| `variant` value `'info'` | `'information'` |
 
 #### Autocomplete (unique props)
 
@@ -297,166 +306,6 @@ These properties are unique to a single component and only listed once here.
 | `drawer_class`             | `drawerClass`           |
 | `selectall`                | `selectAll`             |
 
-#### Dropdown (unique props)
-
-| Old               | New              |
-| ----------------- | ---------------- |
-| `more_menu`       | `moreMenu`       |
-| `trigger_element` | `triggerElement` |
-| `open_on_focus`   | `openOnFocus`    |
-| `on_show_focus`   | `onOpenFocus`    |
-| `on_hide_focus`   | `onCloseFocus`   |
-
-#### DrawerList (unique props)
-
-| Old                    | New                  |
-| ---------------------- | -------------------- |
-| `handle_dismiss_focus` | `handleDismissFocus` |
-| `prepared_data`        | Removed              |
-
-#### DrawerListDataArrayObject (data array items)
-
-| Old              | New             | Scope                                               |
-| ---------------- | --------------- | --------------------------------------------------- |
-| `selected_key`   | `selectedKey`   | Dropdown, Autocomplete, DrawerList, Field.Selection |
-| `selected_value` | `selectedValue` | Dropdown, Autocomplete, DrawerList, Field.Selection |
-| `suffix_value`   | `suffixValue`   | Dropdown, Autocomplete, DrawerList, Field.Selection |
-| `search_content` | `searchContent` | Dropdown, Autocomplete, DrawerList, Field.Selection |
-| `class_name`     | `className`     | Dropdown, Autocomplete, DrawerList, Field.Selection |
-
-#### Input (unique props)
-
-| Old                     | New                   |
-| ----------------------- | --------------------- |
-| `input_state`           | `inputState`          |
-| `submit_button_title`   | `submitButtonTitle`   |
-| `clear_button_title`    | `clearButtonTitle`    |
-| `keep_placeholder`      | `keepPlaceholder`     |
-| `input_attributes`      | `inputAttributes`     |
-| `input_element`         | `inputElement`        |
-| `inner_element`         | `innerElement`        |
-| `submit_element`        | `submitElement`       |
-| `submit_button_variant` | `submitButtonVariant` |
-| `submit_button_icon`    | `submitButtonIcon`    |
-| `submit_button_status`  | `submitButtonStatus`  |
-| `selectall`             | `selectAll`           |
-| `on_submit_focus`       | `onSubmitFocus`       |
-| `on_submit_blur`        | `onSubmitBlur`        |
-| `on_clear`              | `onClear`             |
-
-#### InputMasked (unique props)
-
-| Old                                   | New                                |
-| ------------------------------------- | ---------------------------------- |
-| `number_mask`                         | `numberMask`                       |
-| `currency_mask`                       | `currencyMask`                     |
-| `mask_options`                        | `maskOptions`                      |
-| `number_format`                       | `numberFormat`                     |
-| `as_currency`                         | `asCurrency`                       |
-| `as_number`                           | `asNumber`                         |
-| `as_percent`                          | `asPercent`                        |
-| `show_mask`                           | `showMask`                         |
-| `show_guide`                          | Removed                            |
-| `keep_char_positions`                 | Removed                            |
-| `placeholder_char`                    | Removed                            |
-| `pipe`                                | Removed                            |
-| Function-based masks (`MaskFunction`) | Removed — use array masks directly |
-| `{ mask: ... }` object form           | Removed — use array masks directly |
-
-#### FormLabel
-
-| Old       | New      |
-| --------- | -------- |
-| `for_id`  | `forId`  |
-| `sr_only` | `srOnly` |
-
-#### Radio / Radio.Group (unique props)
-
-| Old                              | New               |
-| -------------------------------- | ----------------- |
-| `layout_direction` (Radio.Group) | `layoutDirection` |
-
-#### Textarea (unique props)
-
-| Old                   | New                  |
-| --------------------- | -------------------- |
-| `textarea_state`      | `textareaState`      |
-| `autoresize_max_rows` | `autoResizeMaxRows`  |
-| `autoresize`          | `autoResize`         |
-| `textarea_attributes` | `textareaAttributes` |
-| `textarea_element`    | `textareaElement`    |
-
-#### Accordion (unique props)
-
-| Old                            | New                          |
-| ------------------------------ | ---------------------------- |
-| `expandBehaviour`              | `expandBehavior`             |
-| `expanded_ssr`                 | `expandedSsr`                |
-| `heading_level`                | `headingLevel`               |
-| `single_container`             | `singleContainer`            |
-| `left_component`               | `leftComponent`              |
-| `flush_remembered_state`       | `flushRememberedState`       |
-| `prevent_rerender_conditional` | `preventRerenderConditional` |
-| `remember_state`               | `rememberState`              |
-| `prevent_rerender`             | `preventRerender`            |
-| `allow_close_all` (Group)      | `allowCloseAll`              |
-| `expanded_id` (Group/Provider) | `expandedId`                 |
-
-#### ProgressIndicator (unique props)
-
-| Old               | New                |
-| ----------------- | ------------------ |
-| `indicator_label` | `indicatorLabel`   |
-| `show_label`      | `showDefaultLabel` |
-| `class`           | `className`        |
-
-#### Stat
-
-| Old                            | New                         |
-| ------------------------------ | --------------------------- |
-| `Stat.Amount`                  | Removed — use `Stat.Number` |
-| `Stat.Info variant="default"`  | Use `variant="plain"`       |
-| `Stat.Label variant="default"` | Use `variant="plain"`       |
-
-#### Tag
-
-| Old        | New                                             |
-| ---------- | ----------------------------------------------- |
-| `onDelete` | Removed — use `onClick` + `variant="removable"` |
-
-#### Upload
-
-| Old                 | New                 |
-| ------------------- | ------------------- |
-| `variant="normal"`  | `variant="default"` |
-| `fileListAriaLabel` | `listAriaLabel`     |
-
-#### P (paragraph)
-
-| Old             | New                                  |
-| --------------- | ------------------------------------ |
-| `medium={true}` | `weight='medium'`                    |
-| `bold={true}`   | `weight='bold'`                      |
-| `modifier`      | Removed — use `weight` and/or `size` |
-
-#### Definition lists (Dl)
-
-| Old         | New      |
-| ----------- | -------- |
-| `direction` | `layout` |
-
-#### PaymentCard
-
-| Old                                   | New              |
-| ------------------------------------- | ---------------- |
-| `product_code`                        | `productCode`    |
-| `card_number`                         | `cardNumber`     |
-| `card_status`                         | `cardStatus`     |
-| `raw_data`                            | `rawData`        |
-| `not_active` (cardStatus value)       | `notActive`      |
-| `order_in_process` (cardStatus value) | `orderInProcess` |
-| `new_order` (cardStatus value)        | `newOrder`       |
-
 #### Button (unique props)
 
 | Old                | New                                                        |
@@ -465,125 +314,12 @@ These properties are unique to a single component and only listed once here.
 | `class`            | `className`                                                |
 | `variant="signal"` | Removed — use `variant="primary"` or `variant="secondary"` |
 
-#### Modal / Dialog / Drawer (unique props)
+#### Card
 
-| Old                             | New                           |
-| ------------------------------- | ----------------------------- |
-| `class`                         | `className`                   |
-| `focus_selector`                | `focusSelector`               |
-| `labelled_by`                   | `labelledBy`                  |
-| `open_delay`                    | `openDelay`                   |
-| `content_id`                    | `contentId`                   |
-| `dialog_title`                  | `dialogTitle`                 |
-| `close_title`                   | `closeTitle`                  |
-| `hide_close_button`             | `hideCloseButton`             |
-| `close_button_attributes`       | `closeButtonAttributes`       |
-| `prevent_core_style`            | `preventCoreStyle`            |
-| `animation_duration`            | `animationDuration`           |
-| `no_animation_on_mobile`        | `noAnimationOnMobile`         |
-| `min_width`                     | `minWidth`                    |
-| `max_width`                     | `maxWidth`                    |
-| `align_content`                 | `alignContent`                |
-| `container_placement`           | `containerPlacement`          |
-| `vertical_alignment`            | `verticalAlignment`           |
-| `open_state`                    | `openState`                   |
-| `direct_dom_return`             | `directDomReturn`             |
-| `omit_trigger_button`           | `omitTriggerButton`           |
-| `open_modal`                    | `openModal`                   |
-| `close_modal`                   | `closeModal`                  |
-| `trigger_attributes`            | `triggerAttributes`           |
-| `overlay_class`                 | `overlayClass`                |
-| `content_class`                 | `contentClass`                |
-| `modal_content`                 | `modalContent`                |
-| `header_content`                | `headerContent`               |
-| `bar_content`                   | `barContent`                  |
-| `dialog_role`                   | `dialogRole`                  |
-| `bypass_invalidation_selectors` | `bypassInvalidationSelectors` |
-| `content_ref`                   | `contentRef`                  |
-| `scroll_ref`                    | `scrollRef`                   |
-| `prevent_overlay_close`         | `preventOverlayClose`         |
-| `title_class` (Header)          | `titleClass`                  |
-| `shadow_class` (Navigation)     | `shadowClass`                 |
-| `on_open`                       | `onOpen`                      |
-| `on_close`                      | `onClose`                     |
-| `on_close_prevent`              | `onClosePrevent`              |
-
-#### Heading
-
-| Old               | New              |
-| ----------------- | ---------------- |
-| `debug_counter`   | `debugCounter`   |
-| `skip_correction` | `skipCorrection` |
-
-#### Table
-
-| Old                                 | New                |
-| ----------------------------------- | ------------------ |
-| `accordion`                         | `mode="accordion"` |
-| `accordionChevronPlacement="start"` | `"left"`           |
-| `accordionChevronPlacement="end"`   | `"right"`          |
-| `onClosed`                          | `onClose`          |
-| `onOpened`                          | `onOpen`           |
-
-#### FormStatus (unique props)
-
-| Old                      | New             |
-| ------------------------ | --------------- |
-| `text_id`                | `textId`        |
-| `width_selector`         | `widthSelector` |
-| `width_element`          | `widthElement`  |
-| `variant` value `'flat'` | `'plain'`       |
-
-#### Skeleton
-
-| Old          | New         |
-| ------------ | ----------- |
-| `aria_busy`  | `ariaBusy`  |
-| `aria_ready` | `ariaReady` |
-
-#### Tabs (unique props)
-
-| Old                | New               |
-| ------------------ | ----------------- |
-| `content_style`    | `contentStyle`    |
-| `tab_element`      | `tabElement`      |
-| `tabs_style`       | `tabsStyle`       |
-| `nav_button_edge`  | `navButtonEdge`   |
-| `prevent_rerender` | `preventRerender` |
-| `focus_key`        | `focusKey`        |
-| `no_border`        | `noBorder`        |
-| `on_mouse_enter`   | `onMouseEnter`    |
-
-#### Pagination (unique props)
-
-| Old                          | New                        |
-| ---------------------------- | -------------------------- |
-| `place_maker_before_content` | `placeMarkerBeforeContent` |
-| `startup_page`               | `startupPage`              |
-| `current_page`               | `currentPage`              |
-| `page_count`                 | `pageCount`                |
-| `startup_count`              | `startupCount`             |
-| `parallel_load_count`        | `parallelLoadCount`        |
-| `min_wait_time`              | `minWaitTime`              |
-| `use_load_button`            | `useLoadButton`            |
-| `hide_progress_indicator`    | `hideProgressIndicator`    |
-| `set_content_handler`        | `setContentHandler`        |
-| `reset_content_handler`      | `resetContentHandler`      |
-| `reset_pagination_handler`   | `resetPaginationHandler`   |
-| `end_infinity_handler`       | `endInfinityHandler`       |
-| `page_element`               | `pageElement`              |
-| `fallback_element`           | `fallbackElement`          |
-| `marker_element`             | `markerElement`            |
-| `indicator_element`          | `indicatorElement`         |
-| `button_title`               | `buttonTitle`              |
-| `prev_title`                 | `prevTitle`                |
-| `next_title`                 | `nextTitle`                |
-| `more_pages`                 | `morePages`                |
-| `is_loading_text`            | `isLoadingText`            |
-| `load_button_text`           | `loadButton.text`          |
-| `on_startup`                 | `onStartup`                |
-| `on_load`                    | `onLoad`                   |
-| `on_end`                     | `onEnd`                    |
+| Old       | New     |
+| --------- | ------- |
+| `spacing` | Removed |
+| `size`    | `span`  |
 
 #### DatePicker (unique props)
 
@@ -633,30 +369,69 @@ These properties are unique to a single component and only listed once here.
 | `is_valid_start_date` | `isValidStartDate` |
 | `is_valid_end_date`   | `isValidEndDate`   |
 
-#### NumberFormat (unique props)
+#### Definition lists (Dl)
 
-| Old                 | New                |
-| ------------------- | ------------------ |
-| `omit_rounding`     | `rounding="omit"`  |
-| `currency_display`  | `currencyDisplay`  |
-| `currency_position` | `currencyPosition` |
-| `always_selectall`  | `alwaysSelectAll`  |
-| `selectall`         | `selectAll`        |
-| `copy_selection`    | `copySelection`    |
-| `clean_copy_value`  | `cleanCopyValue`   |
+| Old         | New      |
+| ----------- | -------- |
+| `direction` | `layout` |
 
-#### StepIndicator (unique props)
+#### Divider (Horizontal Rule)
 
-| Old                   | New                       |
-| --------------------- | ------------------------- |
-| `is_current`          | `isCurrent`               |
-| `current_step`        | `currentStep`             |
-| `overview_title`      | `overviewTitle`           |
-| `step_title`          | `stepTitle`               |
-| `hide_numbers`        | `hideNumbers`             |
-| `on_item_render`      | Removed                   |
-| `sidebarId`           | Removed — use `id`        |
-| `step_title_extended` | Removed — use `stepTitle` |
+| Old          | New        |
+| ------------ | ---------- |
+| `light`      | Removed    |
+| `medium`     | Removed    |
+| `fullscreen` | `breakout` |
+
+#### DrawerList (unique props)
+
+| Old                    | New                  |
+| ---------------------- | -------------------- |
+| `handle_dismiss_focus` | `handleDismissFocus` |
+| `prepared_data`        | Removed              |
+
+#### DrawerListDataArrayObject (data array items)
+
+| Old              | New             | Scope                                               |
+| ---------------- | --------------- | --------------------------------------------------- |
+| `selected_key`   | `selectedKey`   | Dropdown, Autocomplete, DrawerList, Field.Selection |
+| `selected_value` | `selectedValue` | Dropdown, Autocomplete, DrawerList, Field.Selection |
+| `suffix_value`   | `suffixValue`   | Dropdown, Autocomplete, DrawerList, Field.Selection |
+| `search_content` | `searchContent` | Dropdown, Autocomplete, DrawerList, Field.Selection |
+| `class_name`     | `className`     | Dropdown, Autocomplete, DrawerList, Field.Selection |
+
+#### Dropdown (unique props)
+
+| Old               | New              |
+| ----------------- | ---------------- |
+| `more_menu`       | `moreMenu`       |
+| `trigger_element` | `triggerElement` |
+| `open_on_focus`   | `openOnFocus`    |
+| `on_show_focus`   | `onOpenFocus`    |
+| `on_hide_focus`   | `onCloseFocus`   |
+
+#### Flex
+
+| Old             | New                         |
+| --------------- | --------------------------- |
+| `spacing`       | `gap`                       |
+| `rowGap={true}` | Remove prop (same behavior) |
+
+#### FormLabel
+
+| Old       | New      |
+| --------- | -------- |
+| `for_id`  | `forId`  |
+| `sr_only` | `srOnly` |
+
+#### FormStatus (unique props)
+
+| Old                      | New             |
+| ------------------------ | --------------- |
+| `text_id`                | `textId`        |
+| `width_selector`         | `widthSelector` |
+| `width_element`          | `widthElement`  |
+| `variant` value `'flat'` | `'plain'`       |
 
 #### GlobalError
 
@@ -664,21 +439,6 @@ These properties are unique to a single component and only listed once here.
 | -------- | ------------------ |
 | `status` | `statusCode`       |
 | `code`   | `errorMessageCode` |
-
-#### ToggleButton (unique props)
-
-| Old                        | New               |
-| -------------------------- | ----------------- |
-| `left_component`           | `leftComponent`   |
-| `layout_direction` (Group) | `layoutDirection` |
-
-#### Tooltip
-
-| Old                    | New              |
-| ---------------------- | ---------------- |
-| `position`             | `placement`      |
-| `active` / `forceOpen` | `open`           |
-| `size="basis"`         | `size="default"` |
 
 #### GlobalStatus (unique props)
 
@@ -699,33 +459,57 @@ These properties are unique to a single component and only listed once here.
 | `on_adjust`                      | `onAdjust`             |
 | `remove_on_unmount` (Controller) | `removeOnUnmount`      |
 
-#### Divider (Horizontal Rule)
+#### Heading
 
-| Old          | New        |
-| ------------ | ---------- |
-| `light`      | Removed    |
-| `medium`     | Removed    |
-| `fullscreen` | `breakout` |
+| Old               | New              |
+| ----------------- | ---------------- |
+| `debug_counter`   | `debugCounter`   |
+| `skip_correction` | `skipCorrection` |
 
-#### Card
+#### Icon
 
-| Old       | New     |
-| --------- | ------- |
-| `spacing` | Removed |
-| `size`    | `span`  |
+| Old             | New            |
+| --------------- | -------------- |
+| `inherit_color` | `inheritColor` |
 
-#### Space
+#### Input (unique props)
 
-| Old           | New          |
-| ------------- | ------------ |
-| `no_collapse` | `noCollapse` |
+| Old                     | New                   |
+| ----------------------- | --------------------- |
+| `input_state`           | `inputState`          |
+| `submit_button_title`   | `submitButtonTitle`   |
+| `clear_button_title`    | `clearButtonTitle`    |
+| `keep_placeholder`      | `keepPlaceholder`     |
+| `input_attributes`      | `inputAttributes`     |
+| `input_element`         | `inputElement`        |
+| `inner_element`         | `innerElement`        |
+| `submit_element`        | `submitElement`       |
+| `submit_button_variant` | `submitButtonVariant` |
+| `submit_button_icon`    | `submitButtonIcon`    |
+| `submit_button_status`  | `submitButtonStatus`  |
+| `selectall`             | `selectAll`           |
+| `on_submit_focus`       | `onSubmitFocus`       |
+| `on_submit_blur`        | `onSubmitBlur`        |
+| `on_clear`              | `onClear`             |
 
-#### Flex
+#### InputMasked (unique props)
 
-| Old             | New                         |
-| --------------- | --------------------------- |
-| `spacing`       | `gap`                       |
-| `rowGap={true}` | Remove prop (same behavior) |
+| Old                                   | New                                |
+| ------------------------------------- | ---------------------------------- |
+| `number_mask`                         | `numberMask`                       |
+| `currency_mask`                       | `currencyMask`                     |
+| `mask_options`                        | `maskOptions`                      |
+| `number_format`                       | `numberFormat`                     |
+| `as_currency`                         | `asCurrency`                       |
+| `as_number`                           | `asNumber`                         |
+| `as_percent`                          | `asPercent`                        |
+| `show_mask`                           | `showMask`                         |
+| `show_guide`                          | Removed                            |
+| `keep_char_positions`                 | Removed                            |
+| `placeholder_char`                    | Removed                            |
+| `pipe`                                | Removed                            |
+| Function-based masks (`MaskFunction`) | Removed — use array masks directly |
+| `{ mask: ... }` object form           | Removed — use array masks directly |
 
 #### Logo
 
@@ -738,11 +522,226 @@ These properties are unique to a single component and only listed once here.
 | `alt`           | Removed                                                    |
 | `ratio`         | Removed                                                    |
 
-#### Icon
+#### Modal / Dialog / Drawer (unique props)
 
-| Old             | New            |
-| --------------- | -------------- |
-| `inherit_color` | `inheritColor` |
+| Old                             | New                           |
+| ------------------------------- | ----------------------------- |
+| `class`                         | `className`                   |
+| `focus_selector`                | `focusSelector`               |
+| `labelled_by`                   | `labelledBy`                  |
+| `open_delay`                    | `openDelay`                   |
+| `content_id`                    | `contentId`                   |
+| `dialog_title`                  | `dialogTitle`                 |
+| `close_title`                   | `closeTitle`                  |
+| `hide_close_button`             | `hideCloseButton`             |
+| `close_button_attributes`       | `closeButtonAttributes`       |
+| `prevent_core_style`            | `preventCoreStyle`            |
+| `animation_duration`            | `animationDuration`           |
+| `no_animation_on_mobile`        | `noAnimationOnMobile`         |
+| `min_width`                     | `minWidth`                    |
+| `max_width`                     | `maxWidth`                    |
+| `align_content`                 | `alignContent`                |
+| `container_placement`           | `containerPlacement`          |
+| `vertical_alignment`            | `verticalAlignment`           |
+| `open_state`                    | `openState`                   |
+| `direct_dom_return`             | `directDomReturn`             |
+| `omit_trigger_button`           | `omitTriggerButton`           |
+| `open_modal`                    | `openModal`                   |
+| `close_modal`                   | `closeModal`                  |
+| `trigger_attributes`            | `triggerAttributes`           |
+| `overlay_class`                 | `overlayClass`                |
+| `content_class`                 | `contentClass`                |
+| `modal_content`                 | `modalContent`                |
+| `header_content`                | `headerContent`               |
+| `bar_content`                   | `barContent`                  |
+| `dialog_role`                   | `dialogRole`                  |
+| `bypass_invalidation_selectors` | `bypassInvalidationSelectors` |
+| `content_ref`                   | `contentRef`                  |
+| `scroll_ref`                    | `scrollRef`                   |
+| `prevent_overlay_close`         | `preventOverlayClose`         |
+| `title_class` (Header)          | `titleClass`                  |
+| `shadow_class` (Navigation)     | `shadowClass`                 |
+| `on_open`                       | `onOpen`                      |
+| `on_close`                      | `onClose`                     |
+| `on_close_prevent`              | `onClosePrevent`              |
+
+#### NumberFormat (unique props)
+
+| Old                 | New                |
+| ------------------- | ------------------ |
+| `omit_rounding`     | `rounding="omit"`  |
+| `currency_display`  | `currencyDisplay`  |
+| `currency_position` | `currencyPosition` |
+| `always_selectall`  | `alwaysSelectAll`  |
+| `selectall`         | `selectAll`        |
+| `copy_selection`    | `copySelection`    |
+| `clean_copy_value`  | `cleanCopyValue`   |
+
+#### P (paragraph)
+
+| Old             | New                                  |
+| --------------- | ------------------------------------ |
+| `medium={true}` | `weight='medium'`                    |
+| `bold={true}`   | `weight='bold'`                      |
+| `modifier`      | Removed — use `weight` and/or `size` |
+
+#### Pagination (unique props)
+
+| Old                          | New                        |
+| ---------------------------- | -------------------------- |
+| `place_maker_before_content` | `placeMarkerBeforeContent` |
+| `startup_page`               | `startupPage`              |
+| `current_page`               | `currentPage`              |
+| `page_count`                 | `pageCount`                |
+| `startup_count`              | `startupCount`             |
+| `parallel_load_count`        | `parallelLoadCount`        |
+| `min_wait_time`              | `minWaitTime`              |
+| `use_load_button`            | `useLoadButton`            |
+| `hide_progress_indicator`    | `hideProgressIndicator`    |
+| `set_content_handler`        | `setContentHandler`        |
+| `reset_content_handler`      | `resetContentHandler`      |
+| `reset_pagination_handler`   | `resetPaginationHandler`   |
+| `end_infinity_handler`       | `endInfinityHandler`       |
+| `page_element`               | `pageElement`              |
+| `fallback_element`           | `fallbackElement`          |
+| `marker_element`             | `markerElement`            |
+| `indicator_element`          | `indicatorElement`         |
+| `button_title`               | `buttonTitle`              |
+| `prev_title`                 | `prevTitle`                |
+| `next_title`                 | `nextTitle`                |
+| `more_pages`                 | `morePages`                |
+| `is_loading_text`            | `isLoadingText`            |
+| `load_button_text`           | `loadButton.text`          |
+| `on_startup`                 | `onStartup`                |
+| `on_load`                    | `onLoad`                   |
+| `on_end`                     | `onEnd`                    |
+
+#### PaymentCard
+
+| Old                                   | New              |
+| ------------------------------------- | ---------------- |
+| `product_code`                        | `productCode`    |
+| `card_number`                         | `cardNumber`     |
+| `card_status`                         | `cardStatus`     |
+| `raw_data`                            | `rawData`        |
+| `not_active` (cardStatus value)       | `notActive`      |
+| `order_in_process` (cardStatus value) | `orderInProcess` |
+| `new_order` (cardStatus value)        | `newOrder`       |
+
+#### ProgressIndicator (unique props)
+
+| Old               | New                |
+| ----------------- | ------------------ |
+| `indicator_label` | `indicatorLabel`   |
+| `show_label`      | `showDefaultLabel` |
+| `class`           | `className`        |
+
+#### Radio / Radio.Group (unique props)
+
+| Old                              | New               |
+| -------------------------------- | ----------------- |
+| `layout_direction` (Radio.Group) | `layoutDirection` |
+
+#### Section
+
+| Old                      | New             |
+| ------------------------ | --------------- |
+| `variant` value `'info'` | `'information'` |
+
+#### Skeleton
+
+| Old          | New         |
+| ------------ | ----------- |
+| `aria_busy`  | `ariaBusy`  |
+| `aria_ready` | `ariaReady` |
+
+#### Space
+
+| Old           | New          |
+| ------------- | ------------ |
+| `no_collapse` | `noCollapse` |
+
+#### Stat
+
+| Old                            | New                         |
+| ------------------------------ | --------------------------- |
+| `Stat.Amount`                  | Removed — use `Stat.Number` |
+| `Stat.Info variant="default"`  | Use `variant="plain"`       |
+| `Stat.Label variant="default"` | Use `variant="plain"`       |
+
+#### StepIndicator (unique props)
+
+| Old                   | New                       |
+| --------------------- | ------------------------- |
+| `is_current`          | `isCurrent`               |
+| `current_step`        | `currentStep`             |
+| `overview_title`      | `overviewTitle`           |
+| `step_title`          | `stepTitle`               |
+| `hide_numbers`        | `hideNumbers`             |
+| `on_item_render`      | Removed                   |
+| `sidebarId`           | Removed — use `id`        |
+| `step_title_extended` | Removed — use `stepTitle` |
+
+#### Table
+
+| Old                                 | New                |
+| ----------------------------------- | ------------------ |
+| `accordion`                         | `mode="accordion"` |
+| `accordionChevronPlacement="start"` | `"left"`           |
+| `accordionChevronPlacement="end"`   | `"right"`          |
+| `onClosed`                          | `onClose`          |
+| `onOpened`                          | `onOpen`           |
+
+#### Tabs (unique props)
+
+| Old                | New               |
+| ------------------ | ----------------- |
+| `content_style`    | `contentStyle`    |
+| `tab_element`      | `tabElement`      |
+| `tabs_style`       | `tabsStyle`       |
+| `nav_button_edge`  | `navButtonEdge`   |
+| `prevent_rerender` | `preventRerender` |
+| `focus_key`        | `focusKey`        |
+| `no_border`        | `noBorder`        |
+| `on_mouse_enter`   | `onMouseEnter`    |
+
+#### Tag
+
+| Old        | New                                             |
+| ---------- | ----------------------------------------------- |
+| `onDelete` | Removed — use `onClick` + `variant="removable"` |
+
+#### Textarea (unique props)
+
+| Old                   | New                  |
+| --------------------- | -------------------- |
+| `textarea_state`      | `textareaState`      |
+| `autoresize_max_rows` | `autoResizeMaxRows`  |
+| `autoresize`          | `autoResize`         |
+| `textarea_attributes` | `textareaAttributes` |
+| `textarea_element`    | `textareaElement`    |
+
+#### ToggleButton (unique props)
+
+| Old                        | New               |
+| -------------------------- | ----------------- |
+| `left_component`           | `leftComponent`   |
+| `layout_direction` (Group) | `layoutDirection` |
+
+#### Tooltip
+
+| Old                    | New              |
+| ---------------------- | ---------------- |
+| `position`             | `placement`      |
+| `active` / `forceOpen` | `open`           |
+| `size="basis"`         | `size="default"` |
+
+#### Upload
+
+| Old                 | New                 |
+| ------------------- | ------------------- |
+| `variant="normal"`  | `variant="default"` |
+| `fileListAriaLabel` | `listAriaLabel`     |
 
 ### Translation key renames
 
