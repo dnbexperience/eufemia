@@ -24,16 +24,6 @@ const Example = styled.div`
     margin: 0 !important;
   }
 `
-const DarkSurface = styled(Example)`
-  display: inline-block;
-  padding: 0.5rem;
-
-  html[data-visual-test] & {
-    padding: 1.5rem;
-  }
-
-  background-color: var(--token-color-decorative-first-bold-static);
-`
 
 export const AnchorBasicUse = () => (
   <Wrapper>
@@ -64,12 +54,14 @@ export const AnchorExampleInSection = () => (
 
 export const AnchorDarkSurfaceExample = () => (
   <Wrapper>
-    <ComponentBox hideCode scope={{ Example, DarkSurface }}>
-      <DarkSurface data-visual-test="anchor-surface-dark">
-        <Anchor href="/uilib/components/anchor" surface="dark">
-          Dark surface style
-        </Anchor>
-      </DarkSurface>
+    <ComponentBox hideCode scope={{ Example }}>
+      <Section
+        surface="dark"
+        innerSpace
+        data-visual-test="anchor-surface-dark"
+      >
+        <Anchor href="/uilib/components/anchor">Dark surface style</Anchor>
+      </Section>
     </ComponentBox>
   </Wrapper>
 )
@@ -114,7 +106,7 @@ export const AnchorExampleStates = () => (
 
 export const AnchorExampleHelperClasses = () => (
   <Wrapper>
-    <ComponentBox hideCode scope={{ Example, DarkSurface }}>
+    <ComponentBox hideCode scope={{ Example }}>
       <Example>
         <Anchor
           href="/uilib/components/anchor"
@@ -198,56 +190,76 @@ export const AnchorExampleDisabled = () => (
 
 export const AnchorExampleHelperContrastVariations = () => (
   <Wrapper>
-    <ComponentBox hideCode scope={{ Example, DarkSurface }}>
+    <ComponentBox hideCode scope={{ Example }}>
       <Example>
-        <DarkSurface data-visual-test="anchor-contrast-no-hover">
+        <Section
+          surface="dark"
+          innerSpace
+          data-visual-test="anchor-contrast-no-hover"
+        >
           <Anchor
             href="/uilib/components/anchor"
             className="dnb-anchor--surface-dark dnb-anchor--no-hover"
           >
             Dark surface - no hover
           </Anchor>
-        </DarkSurface>
+        </Section>
       </Example>
       <Example>
-        <DarkSurface data-visual-test="anchor-contrast-no-radius">
+        <Section
+          surface="dark"
+          innerSpace
+          data-visual-test="anchor-contrast-no-radius"
+        >
           <Anchor
             href="/uilib/components/anchor"
             className="dnb-anchor--surface-dark dnb-anchor--no-radius"
           >
             Dark surface - no radius
           </Anchor>
-        </DarkSurface>
+        </Section>
       </Example>
       <Example>
-        <DarkSurface data-visual-test="anchor-contrast-no-underline">
+        <Section
+          surface="dark"
+          innerSpace
+          data-visual-test="anchor-contrast-no-underline"
+        >
           <Anchor
             href="/uilib/components/anchor"
             className="dnb-anchor--surface-dark dnb-anchor--no-underline"
           >
             Dark surface - no underline
           </Anchor>
-        </DarkSurface>
+        </Section>
       </Example>
       <Example>
-        <DarkSurface data-visual-test="anchor-contrast-no-underline-no-hover">
+        <Section
+          surface="dark"
+          innerSpace
+          data-visual-test="anchor-contrast-no-underline-no-hover"
+        >
           <Anchor
             href="/uilib/components/anchor"
             className="dnb-anchor--surface-dark dnb-anchor--no-underline dnb-anchor--no-hover"
           >
             Dark surface - no underline - no hover
           </Anchor>
-        </DarkSurface>
+        </Section>
       </Example>
       <Example>
-        <DarkSurface data-visual-test="anchor-contrast-no-underline-no-radius">
+        <Section
+          surface="dark"
+          innerSpace
+          data-visual-test="anchor-contrast-no-underline-no-radius"
+        >
           <Anchor
             href="/uilib/components/anchor"
             className="dnb-anchor--surface-dark dnb-anchor--no-underline dnb-anchor--no-radius"
           >
             Dark surface - no underline - no radius
           </Anchor>
-        </DarkSurface>
+        </Section>
       </Example>
     </ComponentBox>
   </Wrapper>

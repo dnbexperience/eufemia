@@ -17,8 +17,14 @@ export type ThemeVariants = string
 export type ThemeSizes = 'basis'
 export type PropMapping = string
 export type ContrastMode = boolean
+/**
+ * Controls the color scheme. Use `'dark'` or `'light'` to set explicitly, or `'auto'` to follow the user's system preference. Defaults to `undefined`.
+ */
 export type ThemeColorScheme = 'auto' | 'light' | 'dark'
-export type ThemeSurface = 'dark' | 'default'
+/**
+ * Adjusts component appearance for use on dark backgrounds. Defaults to `undefined`.
+ */
+export type ThemeSurface = 'default' | 'dark'
 
 export type ThemeProps = {
   name?: ThemeNames
@@ -128,22 +134,14 @@ export function getThemeClasses(theme: ThemeProps, className = null) {
     return className
   }
 
-  const {
-    name,
-    variant,
-    size,
-    propMapping,
-    contrastMode,
-    colorScheme,
-    surface,
-  } = theme
+  const { name, variant, size, propMapping, contrastMode, colorScheme } =
+    theme
 
   return clsx(
     className,
     'eufemia-theme',
     name && `eufemia-theme__${name}`,
     name && variant && `eufemia-theme__${name}--${variant}`,
-    surface && `eufemia-theme__surface--${surface}`,
     propMapping && `eufemia-theme__prop-mapping--${propMapping}`,
     contrastMode && 'eufemia-theme__contrast-mode',
     colorScheme && `eufemia-theme__color-scheme--${colorScheme}`,

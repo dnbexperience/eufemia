@@ -195,9 +195,9 @@ describe('Theme', () => {
     }
 
     render(
-      <Theme surface="dark">
+      <Theme.Context surface="dark">
         <ThemeConsumer />
-      </Theme>
+      </Theme.Context>
     )
 
     expect(receivedTheme).toEqual(
@@ -207,14 +207,66 @@ describe('Theme', () => {
     )
   })
 
-  it('sets surface as HTML classes', () => {
+  it('resets surface to default when nested inside a dark surface theme', () => {
+    let receivedTheme = null
+
+    const ThemeConsumer = () => {
+      receivedTheme = React.useContext(Context)?.theme
+
+      return null
+    }
+
+    render(
+      <Theme.Context surface="dark">
+        <Theme.Context surface="default">
+          <ThemeConsumer />
+        </Theme.Context>
+      </Theme.Context>
+    )
+
+    expect(receivedTheme).toEqual(
+      expect.objectContaining({
+        surface: 'default',
+      })
+    )
+  })
+
+  it('inherits surface when not set', () => {
+    let receivedTheme = null
+
+    const ThemeConsumer = () => {
+      receivedTheme = React.useContext(Context)?.theme
+
+      return null
+    }
+
+    render(
+      <Theme.Context surface="dark">
+        <Theme.Context>
+          <ThemeConsumer />
+        </Theme.Context>
+      </Theme.Context>
+    )
+
+    expect(receivedTheme).toEqual(
+      expect.objectContaining({
+        surface: 'dark',
+      })
+    )
+  })
+
+  it('does not set surface as HTML class', () => {
     render(<Theme surface="dark">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual([
-      'eufemia-theme',
-      'eufemia-theme__surface--dark',
-    ])
+    expect(Array.from(element.classList)).toEqual(['eufemia-theme'])
+  })
+
+  it('does not set surface as HTML classes when "default"', () => {
+    render(<Theme surface="default">content</Theme>)
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(Array.from(element.classList)).toEqual(['eufemia-theme'])
   })
 
   it('sets additional attributes', () => {
