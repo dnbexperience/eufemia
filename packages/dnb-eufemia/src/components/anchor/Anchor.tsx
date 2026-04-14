@@ -139,7 +139,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     noIcon,
     noLaunchIcon,
     disabled,
-    surface = 'default',
+    surface,
     ...rest
   } = allProps
 
