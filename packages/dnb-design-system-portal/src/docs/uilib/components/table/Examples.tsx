@@ -1691,8 +1691,8 @@ export const ResponsiveInCard = () => (
         const align = isLarge
           ? 'flex-end'
           : isSmall
-          ? 'center'
-          : 'flex-start'
+            ? 'center'
+            : 'flex-start'
 
         const tableRow = (
           <>
