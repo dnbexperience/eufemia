@@ -137,7 +137,6 @@ function ItemAction<E extends React.ElementType = 'a'>(
     return (
       <ItemContent
         className={actionClassName}
-        role="link"
         tabIndex={isInactive ? -1 : 0}
         aria-disabled={isInactive ? true : undefined}
         onClick={handleLinkClick}
@@ -172,7 +171,6 @@ function ItemAction<E extends React.ElementType = 'a'>(
   return (
     <ItemContent
       className={actionClassName}
-      role="button"
       tabIndex={isInactive ? -1 : 0}
       aria-disabled={isInactive ? true : undefined}
       onClick={handleClick}
