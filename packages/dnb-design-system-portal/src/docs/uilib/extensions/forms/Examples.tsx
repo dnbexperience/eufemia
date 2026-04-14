@@ -261,7 +261,7 @@ export const FeatureFields = () => {
         <Field.String label="Etternavn" value="Smith" />
         <Field.NationalIdentityNumber value="20058512345" />
         <Field.Email value="john@smith.email" />
-        <Field.PhoneNumber value="+47 98765432" />
+        <Field.PhoneNumber value="+4798765432" />
       </Form.Card>
     </ComponentBox>
   )
@@ -289,7 +289,7 @@ export const LayoutComponents = () => {
 
           <Field.NationalIdentityNumber value="20058512345" />
           <Field.Email value="john@smith.email" />
-          <Field.PhoneNumber value="+47 98765432" />
+          <Field.PhoneNumber value="+4798765432" />
         </Form.Card>
       </Flex.Stack>
     </ComponentBox>
@@ -310,7 +310,7 @@ export const VisibilityBasedOnData = () => {
           advanced: false,
           ssn: '123',
           email: '@smith.email',
-          phone: '+47 98765432',
+          phone: '+4798765432',
         }}
         onChange={(data) => console.log('onChange', data)}
         onPathChange={(path, value) =>
@@ -340,7 +340,7 @@ export const VisibilityBasedOnData = () => {
 
                 <Field.NationalIdentityNumber value="20058512345" />
                 <Field.Email value="john@smith.email" />
-                <Field.PhoneNumber value="+47 98765432" />
+                <Field.PhoneNumber value="+4798765432" />
               </Form.Card>
             </Flex.Stack>
           </Form.Visibility>
@@ -363,7 +363,7 @@ export const UsingFormHandler = () => {
           lastName: 'Smith',
           ssn: '20058512345',
           email: 'john@smith.email',
-          phone: '+47 98765432',
+          phone: '+4798765432',
         }}
         onChange={(data) => console.log('onChange', data)}
         onPathChange={(path, value) =>
@@ -402,7 +402,7 @@ export const Validation = () => {
           lastName: 'Smith',
           ssn: '123',
           email: '@smith.email',
-          phone: '+47 98765432',
+          phone: '+4798765432',
         }}
         onChange={(data) => console.log('onChange', data)}
         onPathChange={(path, value) =>
@@ -441,7 +441,7 @@ export const UsingWizard = () => {
                 advanced: false,
                 ssn: '123',
                 email: '@smith.email',
-                phone: '+47 98765432',
+                phone: '+4798765432',
               }}
               onChange={(data) => console.log('onChange', data)}
               onPathChange={(path, value) =>

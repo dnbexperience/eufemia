@@ -36,7 +36,7 @@ export const LayoutComponents = () => {
 
           <Field.NationalIdentityNumber value="20058512345" />
           <Field.Email value="john@smith.email" />
-          <Field.PhoneNumber value="+47 98765432" />
+          <Field.PhoneNumber value="+4798765432" />
         </Form.Card>
       </Flex.Stack>
     </ComponentBox>
