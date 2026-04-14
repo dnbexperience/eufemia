@@ -151,11 +151,11 @@ export type GlobalStatusProps = {
    * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
    */
   children?: GlobalStatusChildren
-  onAdjust?: (globalStatus: Record<string, unknown>) => void
-  onOpen?: (globalStatus: Record<string, unknown>) => void
-  onShow?: (globalStatus: Record<string, unknown>) => void
-  onClose?: (globalStatus: Record<string, unknown>) => void
-  onHide?: (globalStatus: Record<string, unknown>) => void
+  onAdjust?: (globalStatus: GlobalStatusResult) => void
+  onOpen?: (globalStatus: GlobalStatusResult) => void
+  onShow?: (globalStatus: GlobalStatusResult) => void
+  onClose?: (globalStatus: GlobalStatusResult) => void
+  onHide?: (globalStatus: GlobalStatusResult) => void
 } & Omit<
   React.HTMLProps<HTMLElement>,
   'ref' | 'children' | 'onClose' | 'onAdjust' | 'onShow' | 'title'
@@ -223,9 +223,9 @@ export type GlobalStatusInterceptorProps = {
   item?: GlobalStatusItem
 }
 export type GlobalStatusInterceptorUpdateEvents = {
-  onShow?: (globalStatus: Record<string, unknown>) => void
-  onHide?: (globalStatus: Record<string, unknown>) => void
-  onClose?: (globalStatus: Record<string, unknown>) => void
+  onShow?: (globalStatus: GlobalStatusResult) => void
+  onHide?: (globalStatus: GlobalStatusResult) => void
+  onClose?: (globalStatus: GlobalStatusResult) => void
   /**
    * Set to `true` or `false` to manually make the global status visible. Defaults to `true`.
    */
