@@ -8,7 +8,7 @@ export const WizardContainerProperties: PropertiesTableProps = {
   },
   mode: {
     doc: 'How to show the wizard. Inherited from StepIndicator. Defaults to `strict`.',
-    type: 'string',
+    type: ['"static"', '"strict"', '"loose"'],
     status: 'optional',
   },
   omitScrollManagement: {
