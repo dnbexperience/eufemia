@@ -615,8 +615,8 @@ function splitValue(value: string) {
     return [undefined, '']
   }
 
-  // Normalize "00" international dialing prefix to "+"
-  if (value.startsWith('00')) {
+  // Normalize "00" international dialing prefix to "+" when followed by a space
+  if (value.startsWith('00') && value.includes(' ')) {
     value = `+${value.slice(2)}`
   }
 
@@ -626,7 +626,10 @@ function splitValue(value: string) {
     return [value.slice(0, spaceIndex), value.slice(spaceIndex + 1)]
   }
 
-  // Auto-detect country code from spaceless strings like "+4712345678"
+  // Auto-detect country code from spaceless strings like "+4712345678" or "004712345678"
+  // detectCountryCode handles 00→+ normalization internally and only succeeds
+  // when there are enough digits for both a country code and subscriber number,
+  // so short values like "007" are left unchanged.
   const detected = detectCountryCode(value)
   if (detected) {
     return [detected.countryCode, detected.phoneNumber]

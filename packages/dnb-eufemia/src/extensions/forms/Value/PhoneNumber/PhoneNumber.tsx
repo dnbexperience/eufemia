@@ -18,13 +18,9 @@ function PhoneNumber(props: Props) {
       return undefined
     }
 
-    // Normalize "00" international dialing prefix to "+"
-    if (typeof value === 'string' && value.startsWith('00')) {
-      value = `+${value.slice(2)}`
-    }
-
     // When the value has no space between the country code and the number,
     // detect and insert one so the phone formatter can split them correctly.
+    // detectCountryCode handles both "+" and "00" prefixed values.
     if (typeof value === 'string' && !value.includes(' ')) {
       const detected = detectCountryCode(value)
       if (detected) {

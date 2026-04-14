@@ -595,6 +595,22 @@ describe('Field.PhoneNumber', () => {
       expect(codeElement.value).toBe('NO (+47)')
       expect(numberElement.value).toBe('12 34 56 78')
     })
+
+    it('should not interpret short 00 values like "007" as a country code', () => {
+      render(<Field.PhoneNumber value="007" />)
+
+      const codeElement = document.querySelector(
+        '.dnb-forms-field-phone-number__country-code input'
+      ) as HTMLInputElement
+      const numberElement = document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      ) as HTMLInputElement
+
+      // "007" should be treated as a plain phone number, not as 00+7 (Russia)
+      expect(codeElement.value).toBe('NO (+47)')
+      expect(numberElement.value).toContain('00')
+      expect(numberElement.value).toContain('7')
+    })
   })
 
   describe('omitSpaceSeparator', () => {
