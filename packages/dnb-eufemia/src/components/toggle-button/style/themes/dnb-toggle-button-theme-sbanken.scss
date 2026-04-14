@@ -38,7 +38,7 @@
     }
   }
 
-  /* stylelint-disable */
+  /* stylelint-disable no-descending-specificity */
   &__status--error &__button:not([disabled]) {
     .dnb-radio {
       --radio-color-dot-on: transparent;
