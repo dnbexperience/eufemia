@@ -13,12 +13,18 @@ export const CardProperties: PropertiesTableProps = {
   },
   direction: {
     doc: 'Defaults to `vertical`.',
-    type: 'string',
+    type: ['"horizontal"', '"vertical"'],
     status: 'optional',
   },
   alignSelf: {
     doc: 'Defaults to `stretch`.',
-    type: 'string',
+    type: [
+      '"flex-start"',
+      '"flex-end"',
+      '"center"',
+      '"baseline"',
+      '"stretch"',
+    ],
     status: 'optional',
   },
   title: {
