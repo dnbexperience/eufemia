@@ -15,7 +15,6 @@ import SagaPlatinum from './loyaltyLogos/SagaPlatinum'
 import WorldElite from './loyaltyLogos/WorldElite'
 // provider icons
 import BankAxept from './providers/BankAxept'
-import ClickToPay from './providers/ClickToPay'
 import MastercardDefault from './providers/MastercardDefault'
 import MastercardDark from './providers/MastercardDark'
 import VisaDefault from './providers/VisaDefault'
