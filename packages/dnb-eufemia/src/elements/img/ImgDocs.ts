@@ -23,7 +23,7 @@ export const ImgProperties: PropertiesTableProps = {
   },
   loading: {
     doc: 'Can either be `eager` or `lazy`. Defaults to `eager`.',
-    type: 'string',
+    type: ['"eager"', '"lazy"'],
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {
