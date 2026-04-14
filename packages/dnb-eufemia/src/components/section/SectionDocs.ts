@@ -56,6 +56,11 @@ export const SectionProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  element: {
+    doc: 'Define what HTML element should be used. Defaults to `<section>`.',
+    type: ['string', 'React.Element'],
+    status: 'optional',
+  },
   ref: {
     doc: 'By providing a React Ref we can get the internally used element (DOM). E.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
     type: 'React.RefObject',
