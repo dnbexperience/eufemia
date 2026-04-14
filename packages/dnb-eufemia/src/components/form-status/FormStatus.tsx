@@ -155,37 +155,33 @@ export type FormStatusProps = {
 > &
   SpacingProps
 
-export type ErrorIconProps = {
+export type ErrorIconProps = React.SVGProps<SVGSVGElement> & {
   /**
    * The `title` attribute in the status.
    */
   title?: string
   state?: FormStatusState
-  [key: string]: any
 }
-export type WarnIconProps = {
+export type WarnIconProps = React.SVGProps<SVGSVGElement> & {
   /**
    * The `title` attribute in the status.
    */
   title?: string
   state?: FormStatusState
-  [key: string]: any
 }
-export type InfoIconProps = {
+export type InfoIconProps = React.SVGProps<SVGSVGElement> & {
   /**
    * The `title` attribute in the status.
    */
   title?: string
   state?: FormStatusState
-  [key: string]: any
 }
-export type MarketingIconProps = {
+export type MarketingIconProps = React.SVGProps<SVGSVGElement> & {
   /**
    * The `title` attribute in the status.
    */
   title?: string
   state?: FormStatusState
-  [key: string]: any
 }
 
 export type FormStatusIcon =
