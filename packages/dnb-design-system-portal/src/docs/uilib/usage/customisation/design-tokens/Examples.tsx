@@ -14,6 +14,8 @@ import {
   type TokenSectionId,
 } from '../../../../../uilib/utils/designTokens'
 
+const isDev = process.env.NODE_ENV === 'development'
+
 const MDXCode = basicComponents.code
 const MDXParagraph = basicComponents.p
 const defaultVisibleAudiences: TokenAudience[] = [
@@ -609,6 +611,7 @@ export function TokenSectionTable({
               {section === 'decorative' ? (
                 <>
                   <Th
+                    noWrap
                     sortable
                     active={sortState.group.active}
                     reversed={sortState.group.reversed}
@@ -620,6 +623,7 @@ export function TokenSectionTable({
                     />
                   </Th>
                   <Th
+                    noWrap
                     sortable
                     active={sortState.name.active}
                     reversed={sortState.name.reversed}
@@ -634,6 +638,7 @@ export function TokenSectionTable({
               ) : isGroupFirstSection(section) ? (
                 <>
                   <Th
+                    noWrap
                     sortable
                     active={sortState.group.active}
                     reversed={sortState.group.reversed}
@@ -645,6 +650,7 @@ export function TokenSectionTable({
                     />
                   </Th>
                   <Th
+                    noWrap
                     sortable
                     active={sortState.usage.active}
                     reversed={sortState.usage.reversed}
@@ -659,6 +665,7 @@ export function TokenSectionTable({
               ) : (
                 <>
                   <Th
+                    noWrap
                     sortable
                     active={sortState.usage.active}
                     reversed={sortState.usage.reversed}
@@ -670,6 +677,7 @@ export function TokenSectionTable({
                     />
                   </Th>
                   <Th
+                    noWrap
                     sortable
                     active={sortState.group.active}
                     reversed={sortState.group.reversed}
@@ -682,10 +690,12 @@ export function TokenSectionTable({
                   </Th>
                 </>
               )}
-              <Th>Token</Th>
-              <Th>DNB</Th>
-              <Th>Sbanken</Th>
-              <Th>Carnegie</Th>
+              <Th noWrap>Token</Th>
+              <Th noWrap>DNB Light</Th>
+              {isDev && <Th noWrap>DNB Dark</Th>}
+              <Th noWrap>Sbanken Light</Th>
+              {isDev && <Th noWrap>Sbanken Dark</Th>}
+              <Th noWrap>Carnegie</Th>
             </Tr>
           </thead>
           <tbody>
@@ -712,16 +722,32 @@ export function TokenSectionTable({
                 </Td>
                 <Td>
                   {renderColorValueWithTooltip(
-                    token.references.ui,
-                    token.foundationReferences.ui
+                    token.references.uiLight,
+                    token.foundationReferences.uiLight
                   )}
                 </Td>
+                {isDev && (
+                  <Td>
+                    {renderColorValueWithTooltip(
+                      token.references.uiDark,
+                      token.foundationReferences.uiDark
+                    )}
+                  </Td>
+                )}
                 <Td>
                   {renderColorValueWithTooltip(
-                    token.references.sbanken,
-                    token.foundationReferences.sbanken
+                    token.references.sbankenLight,
+                    token.foundationReferences.sbankenLight
                   )}
                 </Td>
+                {isDev && (
+                  <Td>
+                    {renderColorValueWithTooltip(
+                      token.references.sbankenDark,
+                      token.foundationReferences.sbankenDark
+                    )}
+                  </Td>
+                )}
                 <Td>
                   {renderColorValueWithTooltip(
                     token.references.carnegie,

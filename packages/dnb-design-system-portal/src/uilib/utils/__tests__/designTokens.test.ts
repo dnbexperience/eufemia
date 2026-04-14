@@ -100,7 +100,7 @@ describe('design token docs data', () => {
 
   it('merges the same token across themes into one row', () => {
     const sections = buildTokenSections({
-      ui: {
+      uiLight: {
         color: {
           text: {
             neutral: {
@@ -113,7 +113,20 @@ describe('design token docs data', () => {
           },
         },
       },
-      sbanken: {
+      uiDark: {
+        color: {
+          text: {
+            neutral: {
+              $type: 'color',
+              $value: {
+                alpha: 1,
+                hex: '#fafafa',
+              },
+            },
+          },
+        },
+      },
+      sbankenLight: {
         color: {
           text: {
             neutral: {
@@ -121,6 +134,19 @@ describe('design token docs data', () => {
               $value: {
                 alpha: 1,
                 hex: '#2c1649',
+              },
+            },
+          },
+        },
+      },
+      sbankenDark: {
+        color: {
+          text: {
+            neutral: {
+              $type: 'color',
+              $value: {
+                alpha: 1,
+                hex: '#d1c9e3',
               },
             },
           },
@@ -151,13 +177,17 @@ describe('design token docs data', () => {
         group: 'neutral',
         audience: 'base',
         references: {
-          ui: '#121212',
-          sbanken: '#2c1649',
+          uiLight: '#121212',
+          uiDark: '#fafafa',
+          sbankenLight: '#2c1649',
+          sbankenDark: '#d1c9e3',
           carnegie: '#111111',
         },
         foundationReferences: {
-          ui: null,
-          sbanken: null,
+          uiLight: null,
+          uiDark: null,
+          sbankenLight: null,
+          sbankenDark: null,
           carnegie: null,
         },
       },

@@ -16,7 +16,7 @@ The design tokens are exported manually from Figma and converted to CSS variable
 
 - Design tokens are not automatically exported from Figma.
 - We only export colors. Sizes and strings (typography) are skipped for now.
-- We only export the Foundation colors and light themes (DNB, Sbanken, Carnegie)
+- We export Foundation colors, plus light and dark brand token modes for DNB and Sbanken (Carnegie is light-only for now)
 
 ## How to update
 
@@ -27,7 +27,9 @@ We currently export the Figma variable collections for:
 - "Foundation" collection "colors" (`Mode 1.tokens 5.json`)
 - "💻 Eufemia - Web" collection "brand" with modes:
   - "dnb-light" (`DNB Light.tokens.json`)
+  - "dnb-dark" (`DNB Dark.tokens.json`)
   - "sbanken-light" (`Sbanken Light.tokens.json`)
+  - "sbanken-dark" (`Sbanken Dark.tokens.json`)
   - "dnbcarnegie-light" (`DNB Carnegie Light.tokens.json`)
 
 These files are manually exported from Figma and placed in the `packages/dnb-eufemia/src/style/themes/figma` folder.
@@ -68,6 +70,26 @@ import '@dnb/eufemia/style/'
 import '@dnb/eufemia/style/themes/ui'
 import '@dnb/eufemia/style/themes/ui/basis'
 
+```
+
+Dark mode tokens are generated into a separate `tokens-dark.scss` file per theme. They are **not** included in the theme basis import and must be imported separately to opt in:
+
+```
+// DNB theme
+import '@dnb/eufemia/style/themes/ui/ui-theme-dark-mode.scss'
+
+// Sbanken theme
+import '@dnb/eufemia/style/themes/sbanken/sbanken-theme-dark-mode.scss'
+```
+
+For Tailwind, dark tokens are in a separate file per theme:
+
+```css
+/* DNB theme */
+@import '@dnb/eufemia/style/themes/ui/tokens-dark-tailwind.css';
+
+/* Sbanken theme */
+@import '@dnb/eufemia/style/themes/sbanken/tokens-dark-tailwind.css';
 ```
 
 ### Transforms

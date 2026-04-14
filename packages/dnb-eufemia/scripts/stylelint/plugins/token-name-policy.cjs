@@ -146,7 +146,10 @@ const isFoundationFile = (filePath) => {
 
 const isTokensFile = (filePath) => {
   const normalizedPath = normalizePath(filePath)
-  return normalizedPath.endsWith('/tokens.scss')
+  return (
+    normalizedPath.endsWith('/tokens.scss') ||
+    normalizedPath.endsWith('/tokens-dark.scss')
+  )
 }
 
 const resolveTokenFilePaths = ({
