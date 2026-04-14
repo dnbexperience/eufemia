@@ -1,5 +1,13 @@
 import type { AccordionProps } from './Accordion'
 
+export type AccordionInstance = {
+  _id: string
+  close: () => void
+  setExpandedState: (expanded: boolean) => void
+  state: { expanded: boolean; group?: string }
+  props: AccordionProps
+}
+
 export type AccordionGroupProps = AccordionProps & {
   /** If `true`, all accordions can be collapsed at once (none expanded). Defaults to `false`. */
   allowCloseAll?: boolean
