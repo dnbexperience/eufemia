@@ -30,6 +30,11 @@ export type SupportedCountries = (typeof supportedCountryCodes)[number]
 export const unsupportedCountryMessage =
   'Postal code verification is not supported for {countryCode}.'
 
+/**
+ * Mirrors the Bring Address API response format.
+ * Property names use snake_case to match the external API contract.
+ * @see https://developer.bring.com/api/address/
+ */
 export type AddressResolverData = {
   addresses: {
     street_name: string
