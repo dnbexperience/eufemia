@@ -831,6 +831,7 @@ del .dnb-code {
 .dnb-core-style .dnb-h--small,
 .dnb-core-style .dnb-h--x-small {
   font-family: var(--font-family-heading);
+  color: var(--token-color-text-neutral);
 }
 .dnb-lead .dnb-icon--default,
 .dnb-h--xx-large .dnb-icon--default,
@@ -916,6 +917,7 @@ sub {
 
 .dnb-p {
   font-size: var(--font-size-basis);
+  color: var(--token-color-text-neutral);
 }
 .dnb-p:not([class*=space__top]) {
   margin-top: 0;

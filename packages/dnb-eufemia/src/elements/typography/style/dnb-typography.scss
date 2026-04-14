@@ -91,7 +91,7 @@ sub {
 
 // Paragraphs
 .dnb-p {
-  @include typography-mixins.paragraphStyle();
+  @include typography-mixins.paragraphDefaults();
 }
 
 @include meta.load-css('dnb-t');
