@@ -1264,6 +1264,45 @@ describe('Field.PhoneNumber', () => {
     })
   })
 
+  it('should support autofill with spaceless E.164 country code', async () => {
+    const onChange = jest.fn()
+
+    render(<Field.PhoneNumber onChange={onChange} />)
+
+    const codeElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    )
+    const phoneElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    )
+
+    // Simulate browser autofilling the phone number field first
+    fireEvent.change(phoneElement, {
+      target: { value: '999', nativeEvent: undefined },
+    })
+
+    // Then simulate autofilling the country code field with a spaceless
+    // E.164 value — some browsers may provide the full number here
+    fireEvent.change(codeElement, {
+      target: { value: '+4199999999', nativeEvent: undefined },
+    })
+
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenNthCalledWith(
+      2,
+      '+41999',
+      expect.objectContaining({
+        countryCode: '+41',
+        phoneNumber: '999',
+      })
+    )
+
+    // Because of requestAnimationFrame
+    await waitFor(() => {
+      expect(codeElement.value).toBe('CH (+41)')
+    })
+  })
+
   it('should require one number', async () => {
     render(<Field.PhoneNumber required />)
 

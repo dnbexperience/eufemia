@@ -476,10 +476,12 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
     ({ value, updateData, revalidateInputValue, event }) => {
       // Handle browser autofill/autocomplete
       if (typeof event?.nativeEvent?.data === 'undefined') {
-        const hasCodeAndNumber =
-          value?.startsWith('+') && value.includes(' ')
-        const cdcVal = hasCodeAndNumber
-          ? splitValue(value)[0]?.replace(/^\+/, '')
+        // Try to detect the country code from the autofilled value.
+        // Browsers may autofill either space-separated ("+47 12345678")
+        // or spaceless E.164 ("+4712345678") values.
+        const detected = detectCountryCode(value)
+        const cdcVal = detected
+          ? detected.countryCode.replace(/^\+/, '').replace(/-/g, '')
           : value
         const country = countries.find(
           ({ cdc }) => cdc.replace(/-/g, '') === cdcVal?.replace(/-/g, '')
