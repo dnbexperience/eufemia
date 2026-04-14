@@ -10,13 +10,14 @@ import Provider from './Provider'
 import type { DynamicElement } from './types'
 import { extendPropsWithContext } from './component-helper'
 import withComponentMarkers from './helpers/withComponentMarkers'
+import useMediaQuery from './useMediaQuery'
 
 export type ThemeNames = 'ui' | 'eiendom' | 'sbanken' | 'carnegie'
 export type ThemeVariants = string
 export type ThemeSizes = 'basis'
 export type PropMapping = string
 export type ContrastMode = boolean
-export type DarkMode = boolean
+export type ThemeColorScheme = 'auto' | 'light' | 'dark'
 export type ThemeSurface = 'dark'
 
 export type ThemeProps = {
@@ -25,7 +26,7 @@ export type ThemeProps = {
   size?: ThemeSizes
   propMapping?: PropMapping
   contrastMode?: ContrastMode
-  darkMode?: DarkMode
+  colorScheme?: ThemeColorScheme
   surface?: ThemeSurface
   element?: DynamicElement | false
 }
@@ -43,10 +44,22 @@ export default function Theme(themeProps: ThemeAllProps) {
     size,
     propMapping,
     contrastMode,
-    darkMode,
+    colorScheme,
     surface,
     ...restProps
   } = themeProps
+
+  const prefersDarkColorScheme = useMediaQuery({
+    query: '(prefers-color-scheme: dark)',
+    disabled: colorScheme !== 'auto',
+  })
+
+  const activeColorScheme =
+    colorScheme === 'auto'
+      ? prefersDarkColorScheme
+        ? 'dark'
+        : 'light'
+      : colorScheme
 
   const theme = extendPropsWithContext(
     {
@@ -55,7 +68,7 @@ export default function Theme(themeProps: ThemeAllProps) {
       size,
       propMapping,
       contrastMode,
-      darkMode,
+      colorScheme: activeColorScheme,
       surface,
     },
     null,
@@ -121,7 +134,7 @@ export function getThemeClasses(theme: ThemeProps, className = null) {
     size,
     propMapping,
     contrastMode,
-    darkMode,
+    colorScheme,
     surface,
   } = theme
 
@@ -133,7 +146,7 @@ export function getThemeClasses(theme: ThemeProps, className = null) {
     surface && `eufemia-theme__surface--${surface}`,
     propMapping && `eufemia-theme__prop-mapping--${propMapping}`,
     contrastMode && 'eufemia-theme__contrast-mode',
-    darkMode && 'eufemia-theme__dark-mode',
+    colorScheme && `eufemia-theme__color-scheme--${colorScheme}`,
     size && `eufemia-theme__size--${size}`
   )
 }

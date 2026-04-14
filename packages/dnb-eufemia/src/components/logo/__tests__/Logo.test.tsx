@@ -263,7 +263,7 @@ describe('Logo component', () => {
     const CustomSvg = (
       props: React.SVGProps<SVGSVGElement> & {
         propMapping?: unknown
-        darkMode?: boolean
+        colorScheme?: string
       }
     ) => {
       return (
@@ -274,13 +274,13 @@ describe('Logo component', () => {
     }
 
     // Provide a pre-constructed element with forbidden props present
-    const element = <CustomSvg propMapping={{ a: 1 }} darkMode />
+    const element = <CustomSvg propMapping={{ a: 1 }} colorScheme="dark" />
     render(<Logo svg={element} />)
 
     const svg = document.querySelector('svg')
     expect(svg).toBeInTheDocument()
     expect(svg.hasAttribute('propMapping')).toBe(false)
-    expect(svg.hasAttribute('darkMode')).toBe(false)
+    expect(svg.hasAttribute('colorScheme')).toBe(false)
   })
 
   it('should not forward non-DOM props when svg is a theme factory', () => {
