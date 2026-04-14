@@ -105,11 +105,7 @@ export type DropdownProps = {
    */
   buttonRef?: React.Ref<HTMLElement>
   /**
-   * Same as `preventSelection`, but the "selection area" (given title) will not be visible and the icon `more` (three dots) is used. Defaults to `false`.
-   */
-  moreMenu?: boolean
-  /**
-   * Use `right` to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `moreMenu`. Defaults to `left`.
+   * Use `right` to change the options alignment direction. Makes only sense to use in combination with `preventSelection`. Defaults to `left`.
    */
   align?: DropdownAlign
   /**
@@ -194,8 +190,6 @@ const dropdownDefaultProps = {
   noAnimation: false,
   noScrollAnimation: false,
   preventSelection: false,
-  moreMenu: false,
-  actionMenu: false,
   independentWidth: false,
   size: 'default',
   align: null,
@@ -482,8 +476,6 @@ const DropdownInstance = React.memo(function DropdownInstance({
     skipPortal,
     portalClass,
     triggerElement: CustomTrigger,
-    moreMenu,
-    actionMenu,
     independentWidth,
     preventSelection,
     maxHeight,
@@ -528,15 +520,15 @@ const DropdownInstance = React.memo(function DropdownInstance({
 
   let { icon, iconPosition, align } = props
 
-  const handleAsMenu = actionMenu || moreMenu || preventSelection
+  const handleAsMenu = preventSelection
 
   const title = getTitle(_title)
-  const isPopupMenu = moreMenu || !title
+  const isPopupMenu = !title
 
   if (isPopupMenu) {
-    icon = icon || (moreMenu ? 'more' : 'chevron_down')
+    icon = icon || 'chevron_down'
   }
-  if (isPopupMenu || actionMenu) {
+  if (isPopupMenu) {
     if (iconPosition !== 'right' && align !== 'right') {
       iconPosition = 'left'
       align = 'left'
@@ -564,9 +556,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
       labelDirection && `dnb-dropdown--${labelDirection}`,
       `dnb-dropdown--icon-position-${iconPosition || 'right'}`,
       isPopupMenu && 'dnb-dropdown--is-popup',
-      actionMenu && `dnb-dropdown--action-menu`,
-      (independentWidth || actionMenu) &&
-        'dnb-dropdown--independent-width',
+      independentWidth && 'dnb-dropdown--independent-width',
       size && `dnb-dropdown--${size}`,
       stretch && `dnb-dropdown--stretch`,
       `dnb-dropdown--${align || 'right'}`,
@@ -715,14 +705,11 @@ const DropdownInstance = React.memo(function DropdownInstance({
               noScrollAnimation={noScrollAnimation}
               skipPortal={skipPortal}
               preventSelection={handleAsMenu}
-              actionMenu={actionMenu}
               arrowPosition={arrowPosition || iconPosition || 'right'}
               keepOpen={keepOpen}
               preventClose={preventClose}
-              independentWidth={
-                independentWidth || isPopupMenu || actionMenu
-              }
-              isPopup={isPopupMenu || actionMenu}
+              independentWidth={independentWidth || isPopupMenu}
+              isPopup={isPopupMenu}
               alignDrawer={align || 'left'}
               fixedPosition={fixedPosition}
               enableBodyLock={enableBodyLock}
@@ -758,7 +745,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
  */
 function Dropdown({ ref, buttonRef, ...props }: DropdownAllProps) {
   const id = useId(props.id)
-  const { moreMenu, actionMenu, preventSelection, children, data } = props
+  const { preventSelection, children, data } = props
 
   return (
     <DrawerListProvider
@@ -768,7 +755,7 @@ function Dropdown({ ref, buttonRef, ...props }: DropdownAllProps) {
       open={false}
       tagName="dnb-dropdown"
       ignoreEvents={false}
-      preventSelection={moreMenu || actionMenu || preventSelection}
+      preventSelection={preventSelection}
     >
       <DropdownInstance
         {...props}

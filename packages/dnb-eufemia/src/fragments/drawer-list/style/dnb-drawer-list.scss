@@ -433,23 +433,6 @@
   &:not(.dnb-drawer-list--open) &__list {
     @include closDrawerList();
   }
-
-  // action-menu
-  &--action-menu &__option {
-    &__inner {
-      flex-direction: row;
-      justify-content: flex-start;
-      align-items: center;
-    }
-  }
-  @include utilities.allAbove(small) {
-    &--action-menu#{&}--is-popup#{&}--left &__list {
-      left: 0;
-    }
-    &--action-menu#{&}--is-popup#{&}--right &__list {
-      right: 0;
-    }
-  }
 }
 
 @keyframes drawer-list-scale-in {

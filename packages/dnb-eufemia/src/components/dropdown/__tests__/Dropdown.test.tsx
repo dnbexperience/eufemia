@@ -462,33 +462,7 @@ describe('Dropdown component', () => {
         data={mockData}
         title={title}
         onChange={onChange}
-        preventSelection={false}
-        actionMenu={true}
-      />
-    )
-
-    // open again
-    open()
-    keydown('ArrowDown')
-    keydown('ArrowDown')
-    keydown(' ')
-
-    // open again, to be able to evaluate
-    open()
-
-    expect(
-      document.querySelector('.dnb-drawer-list__option--selected')
-    ).not.toBeInTheDocument()
-
-    rerender(
-      <Dropdown
-        {...props}
-        value={null}
-        data={mockData}
-        title={title}
-        onChange={onChange}
         preventSelection={true}
-        actionMenu={false}
       />
     )
 
@@ -521,7 +495,6 @@ describe('Dropdown component', () => {
         title={null}
         onChange={onChange}
         preventSelection={true}
-        actionMenu={false}
       />
     )
 
@@ -655,48 +628,6 @@ describe('Dropdown component', () => {
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
       'Valgmeny'
     )
-  })
-
-  it('has no selected items on using moreMenu', () => {
-    const title = 'custom title'
-    render(
-      <Dropdown
-        {...props}
-        value={null}
-        data={mockData}
-        title={title}
-        moreMenu
-      />
-    )
-
-    // open first
-    open()
-
-    // then simulate changes
-    keydown('ArrowDown')
-    keydown('ArrowDown')
-    keydown(' ')
-
-    // open first
-    open()
-
-    expect(
-      document.querySelector('.dnb-drawer-list__option--selected')
-    ).not.toBeInTheDocument()
-
-    expect(
-      document
-        .querySelector('.dnb-icon')
-
-        .getAttribute('data-testid')
-    ).toBe('more icon')
-
-    expect(
-      document.querySelector('.dnb-dropdown__text')
-    ).not.toBeInTheDocument()
-    expect(
-      document.querySelector('.dnb-dropdown--is-popup')
-    ).toBeInTheDocument()
   })
 
   it('has valid onChange callback', () => {
@@ -847,28 +778,6 @@ describe('Dropdown component', () => {
     ).toBe('listbox')
   })
 
-  it('has correct "aria-haspopup" when actionMenu', () => {
-    render(<Dropdown {...props} data={mockData} actionMenu />)
-
-    expect(
-      document
-        .querySelector('span.dnb-dropdown')
-        .querySelector('button.dnb-dropdown__trigger')
-        .getAttribute('aria-haspopup')
-    ).toBe('true')
-  })
-
-  it('has correct "aria-haspopup" when moreMenu', () => {
-    render(<Dropdown {...props} data={mockData} moreMenu />)
-
-    expect(
-      document
-        .querySelector('span.dnb-dropdown')
-        .querySelector('button.dnb-dropdown__trigger')
-        .getAttribute('aria-haspopup')
-    ).toBe('true')
-  })
-
   it('has correct "aria-haspopup" when preventSelection', () => {
     render(<Dropdown {...props} data={mockData} preventSelection />)
 
@@ -890,42 +799,6 @@ describe('Dropdown component', () => {
         .querySelector('.dnb-drawer-list__options')
         .getAttribute('role')
     ).toBe('listbox')
-  })
-
-  it('has correct "role" in options when actionMenu', () => {
-    render(
-      <Dropdown
-        skipPortal
-        noAnimation
-        open={true}
-        data={mockData}
-        actionMenu
-      />
-    )
-
-    expect(
-      document
-        .querySelector('.dnb-drawer-list__options')
-        .getAttribute('role')
-    ).toBe('menu')
-  })
-
-  it('has correct "role" in options when moreMenu', () => {
-    render(
-      <Dropdown
-        skipPortal
-        noAnimation
-        open={true}
-        data={mockData}
-        moreMenu
-      />
-    )
-
-    expect(
-      document
-        .querySelector('.dnb-drawer-list__options')
-        .getAttribute('role')
-    ).toBe('menu')
   })
 
   it('has correct "role" in options when preventSelection', () => {
