@@ -109,17 +109,3 @@ export const BankAxeptType = {
   Credit: { tag: 'Credit' } as BankAxeptType,
   None: { tag: 'None' } as BankAxeptType,
 }
-
-const Types = {
-  DNB,
-  Saga,
-  PB,
-  Mastercard,
-  ProductType,
-  CardType,
-  BankAxept,
-  BankAxeptType,
-  Visa,
-}
-
-export default Types
