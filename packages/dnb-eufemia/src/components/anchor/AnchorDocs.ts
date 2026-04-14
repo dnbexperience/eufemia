@@ -76,11 +76,6 @@ export const AnchorProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  surface: {
-    doc: 'Changes component style based on background. Defaults to `undefined`.',
-    type: `"dark"`,
-    status: 'optional',
-  },
   skeleton: {
     doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
     type: 'boolean',
