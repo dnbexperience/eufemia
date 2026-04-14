@@ -369,7 +369,12 @@ describe('FormStatus component', () => {
     expect(element).toHaveClass('dnb-form-status--error')
 
     rerender(
-      <FormStatus {...props} noAnimation={false} text="" state="" />
+      <FormStatus
+        {...props}
+        noAnimation={false}
+        text=""
+        state={undefined}
+      />
     )
 
     expect(element).toHaveClass('dnb-form-status--error')

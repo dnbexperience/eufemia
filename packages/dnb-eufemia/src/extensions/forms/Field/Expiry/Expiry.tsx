@@ -259,7 +259,6 @@ function Expiry(props: ExpiryProps = {}) {
         id={`${id}-input`}
         values={expiry}
         status={status === 'error'}
-        statusState={disabled ? 'disabled' : undefined}
         disabled={disabled}
         size={size}
         onChange={handleChange}

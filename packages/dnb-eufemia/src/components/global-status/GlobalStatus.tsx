@@ -37,7 +37,7 @@ import Icon from '../icon/Icon'
 import { InfoIcon, ErrorIcon, WarnIcon } from '../form-status/FormStatus'
 import Section from '../section/Section'
 import Button from '../button/Button'
-import type { FormStatusText } from '../FormStatus'
+import type { FormStatusText, FormStatusState } from '../FormStatus'
 import type { IconIcon, IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../../shared/types'
@@ -271,13 +271,14 @@ function getIcon({
   icon,
   iconSize,
 }: {
-  state?: string
+  state?: FormStatusState
   icon?: IconIcon
   iconSize?: IconSize
   theme?: string
 }): React.ReactNode {
   if (typeof icon === 'string') {
-    let IconToLoad: React.ComponentType<{ state?: string }> = ErrorIcon
+    let IconToLoad: React.ComponentType<{ state?: FormStatusState }> =
+      ErrorIcon
 
     switch (state) {
       case 'information':
