@@ -6,7 +6,7 @@ import {
   createZodValidator,
   zodErrorsToOneFormError,
 } from '../utils'
-import { ajvErrorsToOneFormError } from '../utils/ajvErrors'
+import type { AjvInstance } from '../utils/ajv'
 import type * as z from 'zod'
 import type {
   FieldPropsGeneric,
@@ -44,9 +44,7 @@ export type UseFieldValidationParams<Value> = {
   emptyValue: unknown
   required: boolean
   hasDataContext: boolean
-  getAjvInstanceDataContext: () => {
-    compile: (schema: unknown) => ValidateFunction
-  }
+  getAjvInstanceDataContext: () => AjvInstance
   setFieldEventListener: (
     identifier: Identifier,
     event: string,
@@ -712,7 +710,7 @@ export default function useFieldValidation<Value>({
             const zodError = validationResult as z.ZodError<unknown>
             error = zodErrorsToOneFormError(zodError.issues)
           } else {
-            error = ajvErrorsToOneFormError(
+            error = getAjvInstance()?.ajvErrorsToOneFormError(
               (schemaValidatorRef.current as ValidateFunction).errors,
               value
             )
