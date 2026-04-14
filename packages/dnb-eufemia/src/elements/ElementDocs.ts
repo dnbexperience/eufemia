@@ -26,8 +26,8 @@ export const ElementProperties: PropertiesTableProps = {
     status: 'optional',
   },
   skeletonMethod: {
-    doc: 'Can be `shape`, `font` or `form`. Defaults to `font`.',
-    type: 'string',
+    doc: 'Can be `shape`, `font` or `code`. Defaults to `font`.',
+    type: ['"shape"', '"font"', '"code"'],
     status: 'optional',
   },
 }
