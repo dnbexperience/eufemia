@@ -3,7 +3,7 @@ import type { PropertiesTableProps } from '../../shared/types'
 export const StepIndicatorProperties: PropertiesTableProps = {
   mode: {
     doc: 'Defines how the StepIndicator should work. Use `static` for non-interactive steps. Use `strict` for a chronological step order, also, the user can navigate between visited steps. Use `loose` if the user should be able to navigate freely.',
-    type: [`'static'`, `'strict'`, `'loose'`],
+    type: ['"static"', '"strict"', '"loose"'],
     status: 'required',
   },
   data: {
@@ -53,7 +53,7 @@ export const StepIndicatorProperties: PropertiesTableProps = {
   },
   statusState: {
     doc: 'The type of status shown when the `status` property is set. Defaults to `warning`.',
-    type: `['warning', 'information', 'error']`,
+    type: ['"warning"', '"information"', '"error"'],
     status: 'optional',
   },
   skeleton: {
