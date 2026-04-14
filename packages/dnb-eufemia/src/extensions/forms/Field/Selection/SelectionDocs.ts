@@ -3,7 +3,7 @@ import type { PropertiesTableProps } from '../../../../shared/types'
 export const SelectionProperties: PropertiesTableProps = {
   variant: {
     doc: 'Choice of UI feature. Can be: `dropdown`, `autocomplete`, `button`, `radio`.',
-    type: 'string',
+    type: ['"dropdown"', '"autocomplete"', '"button"', '"radio"'],
     status: 'optional',
   },
   value: {
@@ -18,7 +18,7 @@ export const SelectionProperties: PropertiesTableProps = {
   },
   optionsLayout: {
     doc: 'Layout for the list of options. Can be `horizontal` or `vertical`.',
-    type: 'string',
+    type: ['"horizontal"', '"vertical"'],
     status: 'optional',
   },
   width: {
@@ -53,7 +53,7 @@ export const SelectionProperties: PropertiesTableProps = {
   },
   size: {
     doc: 'The sizes you can choose is small (1.5rem), default (2rem), medium (2.5rem) and large (3rem) are supported component sizes. Defaults to default / null. Also, if you define a number like size="2" then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).',
-    type: 'string',
+    type: ['"small"', '"default"', '"medium"', '"large"'],
     status: 'optional',
   },
   children: {
