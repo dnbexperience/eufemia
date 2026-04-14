@@ -42,8 +42,6 @@ export type FormStatusText =
   | (() => React.ReactNode)
   | React.ReactNode
 export type FormStatusState =
-  | boolean
-  | string
   | 'error'
   | 'warning'
   | 'information'
@@ -66,7 +64,7 @@ export type FormStatusBaseProps = {
    */
   status?: FormStatusText
   /**
-   * Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.
+   * Defines the state of the status. Valid states are `error`, `warning`, `information`, `success` and `marketing`. Defaults to `error`.
    */
   statusState?: FormStatusState
   /**
@@ -293,7 +291,7 @@ function FormStatusComponent(
   const elementRef = useRef<HTMLElement | null>(null)
   const isMountedRef = useRef(false)
   const contentCacheRef = useRef<React.ReactNode | null>(null)
-  const stateCacheRef = useRef<string | null>(null)
+  const stateCacheRef = useRef<FormStatusState | undefined>(undefined)
 
   const ownPropsRef = useRef(restOwnProps)
   ownPropsRef.current = restOwnProps
@@ -317,7 +315,7 @@ function FormStatusComponent(
 
     const stateVal = shouldAnimate && correctStatus(rawStateProp)
     if (stateVal) {
-      stateCacheRef.current = stateVal as string
+      stateCacheRef.current = stateVal
     }
   }, [shouldAnimate, rawStateProp])
 
@@ -468,8 +466,7 @@ function FormStatusComponent(
     }
   })
 
-  const state =
-    (correctStatus(rawStateProp) as string) || stateCacheRef.current
+  const state = correctStatus(rawStateProp) || stateCacheRef.current
   const iconToRender = getIcon({
     state,
     icon: restOfProps.icon,
