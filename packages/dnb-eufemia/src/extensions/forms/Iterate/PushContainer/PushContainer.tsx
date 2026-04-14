@@ -372,8 +372,8 @@ function NewContainer({
   children,
   ...rest
 }) {
-  const { containerMode, switchContainerMode } =
-    useContext(IterateItemContext) || {}
+  const iterateItemContext = useContext(IterateItemContext)
+  const { containerMode, switchContainerMode } = iterateItemContext || {}
   containerModeRef.current = containerMode
 
   const { hasContentChanged, showStatus } = useHandleStatus({
@@ -405,38 +405,31 @@ function NewContainer({
     clearData?.()
   }, [clearData])
 
+  const newItemContextProps = {
+    ...iterateItemContext,
+    restoreOriginalValue,
+  }
+
   const toolbar = (
     <Toolbar>
-      <IterateItemContext.Consumer>
-        {(context) => {
-          const newItemContextProps = {
-            ...context,
-            restoreOriginalValue,
-          }
-          return (
-            <IterateItemContext value={newItemContextProps}>
-              <Flex.Horizontal gap="large">
-                <DoneButton text={createButton} />
-                {showOpenButton && (
-                  <CancelButton onClick={cancelHandler} />
-                )}
-                {(preventUncommittedChanges || showResetButton) && (
-                  <ResetButton
-                    // Use hidden in order to render the useHasContentChanged hook
-                    hidden={!(showResetButton || showStatus)}
-                  />
-                )}
-              </Flex.Horizontal>
+      <IterateItemContext value={newItemContextProps}>
+        <Flex.Horizontal gap="large">
+          <DoneButton text={createButton} />
+          {showOpenButton && <CancelButton onClick={cancelHandler} />}
+          {(preventUncommittedChanges || showResetButton) && (
+            <ResetButton
+              // Use hidden in order to render the useHasContentChanged hook
+              hidden={!(showResetButton || showStatus)}
+            />
+          )}
+        </Flex.Horizontal>
 
-              {preventUncommittedChanges && showStatus && (
-                <FormStatus noAnimation={false} show={hasContentChanged}>
-                  {preventUncommittedChangesText}
-                </FormStatus>
-              )}
-            </IterateItemContext>
-          )
-        }}
-      </IterateItemContext.Consumer>
+        {preventUncommittedChanges && showStatus && (
+          <FormStatus noAnimation={false} show={hasContentChanged}>
+            {preventUncommittedChangesText}
+          </FormStatus>
+        )}
+      </IterateItemContext>
     </Toolbar>
   )
 

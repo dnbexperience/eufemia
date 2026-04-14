@@ -325,126 +325,119 @@ function Accordion({
     })
   }
 
+  const globalContext = useContext(Context)
+  const nestedContext = useContext(AccordionContext)
+
+  // use only the props from context, who are available here anyway
+  let expandedState = expanded
+
+  const extendedProps = extendPropsWithContext(
+    props,
+    accordionDefaultProps,
+    context, // group context
+    nestedContext as Record<string, unknown>, // internal context
+    { skeleton: globalContext?.skeleton },
+    globalContext.Accordion, // global context
+    globalContext.translation['Accordion']
+  )
+
+  if (expandedState === undefined && globalContext.Accordion) {
+    if (globalContext.Accordion.expanded) {
+      expandedState = extendedProps.expanded
+    }
+  }
+
+  const {
+    variant: extendedVariant,
+    className,
+    keepInDOM,
+    preventRerender,
+    preventRerenderConditional,
+    singleContainer,
+    rememberState,
+    disabled,
+    skeleton,
+    noAnimation,
+    expandedSsr: _expandedSsr,
+    children,
+
+    id: _id,
+    group: _group,
+    // expanded: _expanded,
+
+    title,
+    description,
+    leftComponent,
+    icon,
+    iconPosition,
+    iconSize: _iconSize,
+    onChange,
+
+    contentRef,
+
+    ...restOfExtendedProps
+  } = extendedProps
+
+  const mainParams = {
+    id,
+    className: clsx(
+      'dnb-accordion',
+      expandedState && 'dnb-accordion--expanded',
+      extendedVariant && `dnb-accordion__variant--${extendedVariant}`,
+      keepInDOM && 'dnb-accordion--prerender',
+      createSpacingClasses(extendedProps),
+      className
+    ),
+  } as HTMLProps<HTMLDivElement>
+
+  if (disabled) {
+    mainParams.onClick = handleDisabledClick
+  }
+
+  // to remove spacing props
+  validateDOMAttributes(props, restOfExtendedProps)
+
+  const extendedPropsForContext = extendPropsWithContext(
+    props,
+    accordionDefaultProps,
+    { expanded, group },
+    context
+  )
+
+  const accordionContext = {
+    ...extendedPropsForContext,
+    id,
+    expanded: expandedState,
+    keepInDOM: keepInDOM,
+    preventRerender: preventRerender,
+    preventRerenderConditional: preventRerenderConditional,
+    singleContainer: singleContainer,
+    rememberState: rememberState,
+    disabled: disabled,
+    skeleton: skeleton,
+    noAnimation: noAnimation,
+    callOnChange: callOnChangeHandler,
+  }
+
   return (
-    <Context.Consumer>
-      {(globalContext) => (
-        <AccordionContext.Consumer>
-          {(nestedContext) => {
-            // use only the props from context, who are available here anyway
-            let expandedState = expanded
-
-            const extendedProps = extendPropsWithContext(
-              props,
-              accordionDefaultProps,
-              context, // group context
-              nestedContext as Record<string, unknown>, // internal context
-              { skeleton: globalContext?.skeleton },
-              globalContext.Accordion, // global context
-              globalContext.translation['Accordion']
-            )
-
-            if (expandedState === undefined && globalContext.Accordion) {
-              if (globalContext.Accordion.expanded) {
-                expandedState = extendedProps.expanded
-              }
-            }
-
-            const {
-              variant,
-              className,
-              keepInDOM,
-              preventRerender,
-              preventRerenderConditional,
-              singleContainer,
-              rememberState,
-              disabled,
-              skeleton,
-              noAnimation,
-              expandedSsr: _expandedSsr,
-              children,
-
-              id: _id,
-              group: _group,
-              // expanded: _expanded,
-
-              title,
-              description,
-              leftComponent,
-              icon,
-              iconPosition,
-              iconSize,
-              onChange,
-
-              contentRef,
-
-              ...restOfExtendedProps
-            } = extendedProps
-
-            const mainParams = {
-              id,
-              className: clsx(
-                'dnb-accordion',
-                expandedState && 'dnb-accordion--expanded',
-                variant && `dnb-accordion__variant--${variant}`,
-                keepInDOM && 'dnb-accordion--prerender',
-                createSpacingClasses(extendedProps),
-                className
-              ),
-            } as HTMLProps<HTMLDivElement>
-
-            if (disabled) {
-              mainParams.onClick = handleDisabledClick
-            }
-
-            // to remove spacing props
-            validateDOMAttributes(props, restOfExtendedProps)
-
-            const extendedPropsForContext = extendPropsWithContext(
-              props,
-              accordionDefaultProps,
-              { expanded, group },
-              context
-            )
-
-            const accordionContext = {
-              ...extendedPropsForContext,
-              id,
-              expanded: expandedState,
-              keepInDOM: keepInDOM,
-              preventRerender: preventRerender,
-              preventRerenderConditional: preventRerenderConditional,
-              singleContainer: singleContainer,
-              rememberState: rememberState,
-              disabled: disabled,
-              skeleton: skeleton,
-              noAnimation: noAnimation,
-              callOnChange: callOnChangeHandler,
-            }
-
-            return (
-              <AccordionContext value={accordionContext}>
-                <div {...mainParams}>
-                  {findElementInChildren(
-                    children,
-                    (cur) => cur.type === AccordionHeader
-                  ) ? null : (
-                    <AccordionHeader />
-                  )}
-                  {findElementInChildren(
-                    children,
-                    (cur) => cur.type === AccordionContent
-                  ) ? (
-                    children
-                  ) : (
-                    <AccordionContent>{children}</AccordionContent>
-                  )}
-                </div>
-              </AccordionContext>
-            )
-          }}
-        </AccordionContext.Consumer>
-      )}
-    </Context.Consumer>
+    <AccordionContext value={accordionContext}>
+      <div {...mainParams}>
+        {findElementInChildren(
+          children,
+          (cur) => cur.type === AccordionHeader
+        ) ? null : (
+          <AccordionHeader />
+        )}
+        {findElementInChildren(
+          children,
+          (cur) => cur.type === AccordionContent
+        ) ? (
+          children
+        ) : (
+          <AccordionContent>{children}</AccordionContent>
+        )}
+      </div>
+    </AccordionContext>
   )
 }
 
