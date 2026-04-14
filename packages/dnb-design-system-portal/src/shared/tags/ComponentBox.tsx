@@ -9,7 +9,7 @@ import styled from '@emotion/styled'
 import { getComponents } from '@dnb/eufemia/src/components/lib'
 import { getFragments } from '@dnb/eufemia/src/fragments/lib'
 import { getElements } from '@dnb/eufemia/src/elements/lib'
-import { Provider } from '@dnb/eufemia/src/shared'
+import { Provider, Theme } from '@dnb/eufemia/src/shared'
 import {
   Field,
   Value,
@@ -40,6 +40,7 @@ function ComponentBox(props: CodeSectionProps) {
         ...getFragments(),
         ...getElements(),
         Provider,
+        Theme,
         FieldBlock,
         Field,
         Value,
