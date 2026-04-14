@@ -8,13 +8,13 @@ import React, {
 } from 'react'
 import type { JsonObject } from '../../utils/json-pointer'
 import pointer from '../../utils/json-pointer'
-import type { z, Ajv, FormError } from '../../utils'
+import type { z, FormError } from '../../utils'
+import type { AjvInstance } from '../../utils/ajv'
 import {
   isZodSchema,
   createZodValidator,
   zodErrorsToFormErrors,
 } from '../../utils'
-import { ajvErrorsToFormErrors } from '../../utils/ajvErrors'
 import type {
   GlobalErrorMessagesWithPaths,
   SubmitState,
@@ -111,7 +111,7 @@ export type DataContextProviderProps<Data extends JsonObject> =
     /**
      * Custom Ajv instance, if you want to use your own
      */
-    ajvInstance?: Ajv
+    ajvInstance?: AjvInstance
     /**
      * Custom error messages for the whole data set
      */
@@ -265,7 +265,7 @@ export default function Provider<Data extends JsonObject>(
   const translation = useTranslation().Field
 
   // - Ajv (lazy initialization)
-  const ajvRef = useRef<Ajv>(undefined)
+  const ajvRef = useRef<AjvInstance>(undefined)
   const getAjvInstance = useCallback(() => {
     if (!ajvRef.current) {
       ajvRef.current = ajvInstance
@@ -345,7 +345,10 @@ export default function Provider<Data extends JsonObject>(
           const ajvValidator = validator as ValidateFunction
           const ajvErrors = ajvValidator.errors
           if (ajvErrors && ajvErrors.length) {
-            errors = ajvErrorsToFormErrors(ajvErrors, sectionData)
+            errors = getAjvInstance()?.ajvErrorsToFormErrors(
+              ajvErrors,
+              sectionData
+            )
           }
         }
 
@@ -516,7 +519,7 @@ export default function Provider<Data extends JsonObject>(
           )
         } else {
           // These are AJV errors, use the existing conversion
-          errorsRef.current = ajvErrorsToFormErrors(
+          errorsRef.current = getAjvInstance()?.ajvErrorsToFormErrors(
             errors as ErrorObject<string, Record<string, unknown>>[],
             internalDataRef.current
           )

@@ -1,6 +1,6 @@
 import React from 'react'
 import type { FormError, JsonObject } from '../utils'
-import type { Ajv } from '../utils/ajv'
+import type { AjvInstance } from '../utils/ajv'
 import type {
   GlobalErrorMessagesWithPaths,
   SubmitState,
@@ -213,7 +213,7 @@ export type ContextState = {
   hasVisibleError: boolean
   formState: SubmitState
   activeSubmitButtonId?: string
-  getAjvInstance?: () => Ajv
+  getAjvInstance?: () => AjvInstance
   contextErrorMessages: GlobalErrorMessagesWithPaths
   schema: Schema
   path?: Path
