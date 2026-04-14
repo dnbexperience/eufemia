@@ -123,7 +123,7 @@ export const useCallEvent = ({
               ? selStart - (value.length - newValue.length)
               : isNegative
               ? 1
-              : 0
+                : 0
         }
 
         if (newValue !== value) {
