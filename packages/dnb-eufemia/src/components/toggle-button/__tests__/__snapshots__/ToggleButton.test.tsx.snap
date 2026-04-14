@@ -28,22 +28,22 @@ exports[`ToggleButton scss should match default theme snapshot 1`] = `
 .dnb-toggle-button--checked .dnb-toggle-button__button .dnb-icon, .dnb-toggle-button--checked .dnb-toggle-button__button:focus .dnb-icon, .dnb-toggle-button--checked .dnb-toggle-button__button:hover .dnb-icon {
   color: inherit;
 }
+.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-radio, .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-radio, .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-radio {
+  --radio-color-background-on: transparent;
+  --radio-color-border-on: var(--color-mint-green);
+  --radio-color-dot-on: var(--color-mint-green);
+}
 .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-radio__button, .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-radio__button, .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-radio__button {
-  background-color: transparent;
-  border-color: var(--color-mint-green);
   box-shadow: 0 0 0 0.0318rem var(--color-mint-green);
 }
-.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-radio__dot, .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-radio__dot, .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-radio__dot {
-  background-color: var(--color-mint-green);
+html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-radio, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-radio, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-radio {
+  --radio-color-dot-on--focus: var(--color-emerald-green);
 }
 html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-radio__button {
   --border-color: var(--color-emerald-green);
   --border-width: 0.09375rem;
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
-}
-html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-radio__input:not([disabled]):not(:hover):not(:active):not(:hover) ~ .dnb-radio__dot, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-radio__input:not([disabled]):not(:hover):not(:active):not(:hover) ~ .dnb-radio__dot, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-radio__input:not([disabled]):not(:hover):not(:active):not(:hover) ~ .dnb-radio__dot {
-  background-color: var(--color-emerald-green);
 }
 .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__button, .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-checkbox__button, .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-checkbox__button {
   background-color: var(--color-mint-green);
@@ -70,13 +70,13 @@ html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__bu
   background-color: var(--color-mint-green);
   --button-color-border: var(--color-emerald-green);
 }
-.dnb-toggle-button__button:not([disabled]):active .dnb-radio__button, .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-radio__button {
-  background-color: transparent;
-  border-color: var(--color-sea-green);
-  box-shadow: 0 0 0 0.0318rem var(--color-sea-green);
+.dnb-toggle-button__button:not([disabled]):active .dnb-radio, .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-radio {
+  --radio-color-background--active: transparent;
+  --radio-color-border--active: var(--color-sea-green);
+  --radio-color-dot-on--active: var(--color-sea-green);
 }
-.dnb-toggle-button__button:not([disabled]):active .dnb-radio__dot, .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-radio__dot {
-  background-color: var(--color-sea-green);
+.dnb-toggle-button__button:not([disabled]):active .dnb-radio__button, .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-radio__button {
+  box-shadow: 0 0 0 0.0318rem var(--color-sea-green);
 }
 .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__button, .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__button {
   background-color: transparent;
@@ -102,6 +102,10 @@ html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__bu
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
+.dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-radio {
+  --radio-color-dot-on: transparent;
+  --radio-color-background--error: transparent;
+}
 .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
   --border-color: var(--color-fire-red);
   --border-width: 0.09375rem;
@@ -110,9 +114,6 @@ html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__bu
 }
 .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-radio__input:not([disabled]) ~ .dnb-radio__focus {
   box-shadow: none;
-}
-.dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-radio__input:not([disabled]) ~ .dnb-radio__dot {
-  background-color: transparent;
 }
 .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__input ~ .dnb-checkbox__button {
   border: none;
@@ -132,14 +133,15 @@ html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__bu
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
+.dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:focus) .dnb-radio {
+  --radio-color-dot-on--error: var(--color-white);
+  --radio-color-background--error: transparent;
+}
 .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:focus) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
   --border-color: var(--color-white);
   --border-width: 0.09375rem;
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
-}
-.dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:focus) .dnb-radio__input:not([disabled]):not(:hover) ~ .dnb-radio__dot {
-  background-color: var(--color-white);
 }
 .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__input:not([disabled]):not(:hover):not(:active) ~ .dnb-checkbox__button .dnb-checkbox__focus {
   background-color: var(--color-white);

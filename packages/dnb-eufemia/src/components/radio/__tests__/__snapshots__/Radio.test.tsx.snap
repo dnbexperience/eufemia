@@ -549,5 +549,3 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not
   background-color: var(--radio-color-dot-on--error);
 }"
 `;
-
-exports[`Radio scss have to match default theme snapshot 1`] = `""`;
