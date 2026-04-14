@@ -11,16 +11,13 @@ import {
   NumberFormat,
   Icon,
   Link,
-  HelpButton,
   P,
   Flex,
 } from '@dnb/eufemia/src'
 import {
   chevron_down,
   chevron_right,
-  download,
   newspaper,
-  trash,
 } from '@dnb/eufemia/src/icons'
 
 import type { DropdownAllProps } from '@dnb/eufemia/src/components/dropdown/Dropdown'
@@ -31,14 +28,6 @@ type VisibleWhenVisualTestReturn = Pick<
 >
 
 const Wrapper = styled.div`
-  [data-visual-test-wrapper='dropdown-action_menu-custom'],
-  [data-visual-test-wrapper='dropdown-more_menu'] {
-    width: 20rem;
-    height: 15rem !important;
-  }
-  [data-visual-test='dropdown-action_menu-custom'] .dnb-dropdown__list {
-    min-width: 10rem;
-  }
   [data-visual-test='dropdown-list'] .dnb-drawer-list__list {
     display: block;
     visibility: visible;
@@ -272,36 +261,6 @@ export const DropdownIconLeft = () => (
   </Wrapper>
 )
 
-export const DropdownActionMenu = () => (
-  <Wrapper>
-    <ComponentBox
-      scope={{ trash, download }}
-      data-visual-test="dropdown-action_menu"
-    >
-      <Dropdown
-        title="ActionMenu"
-        actionMenu={true}
-        align="left"
-        data={() => ({
-          trash: (
-            <>
-              <Icon icon={trash} right />
-              Move to trash
-            </>
-          ),
-          download: (
-            <>
-              <Icon icon={download} right />
-              Download
-            </>
-          ),
-        })}
-        onChange={({ value }) => console.log('action:', value)}
-      />
-    </ComponentBox>
-  </Wrapper>
-)
-
 export const DropdownTertiary = () => (
   <Wrapper>
     <ComponentBox scope={{ data }} data-visual-test="dropdown-tertiary">
@@ -334,96 +293,6 @@ export const DropdownTertiaryRight = () => (
     </ComponentBox>
   </Wrapper>
 )
-
-export const DropdownMoreMenu = () => {
-  const visualTestProps = (
-    enabled: boolean
-  ): VisibleWhenVisualTestReturn => {
-    if (!enabled) {
-      return {}
-    }
-    return {
-      independentWidth: true,
-      direction: 'bottom',
-    }
-  }
-  return (
-    <Wrapper>
-      <ComponentBox
-        scope={{ visualTestProps }}
-        data-visual-test="dropdown-more_menu"
-      >
-        <Flex.Horizontal align="center">
-          <Dropdown
-            moreMenu={true}
-            size="small"
-            title="Choose an item"
-            data={() => [
-              <Link href="/" key="item-1">
-                Go to this Link
-              </Link>,
-              'Or press on me',
-              <>Custom component</>,
-            ]}
-            right="small"
-            {...visualTestProps(globalThis.IS_TEST)}
-          />
-          <Dropdown
-            preventSelection={true}
-            align="right"
-            size="small"
-            title={null}
-            aria-label="Choose an item"
-            data={() => ({
-              first: (
-                <Link href="/" key="item-1">
-                  Go to this Link
-                </Link>
-              ),
-              second: 'Or press on me',
-              third: <>Custom component</>,
-            })}
-            right="small"
-            {...visualTestProps(globalThis.IS_TEST)}
-          />
-          <Dropdown
-            moreMenu={true}
-            title="Choose an item"
-            data={[
-              <Link href="/" key="item-1">
-                Go to this Link
-              </Link>,
-              'Or press on me',
-              <>Custom component</>,
-            ]}
-            right="small"
-          />
-          <Dropdown
-            preventSelection={true}
-            align="right"
-            title={null}
-            aria-label="Choose an item"
-            data={() => ({
-              first: (
-                <Link href="/" key="item-1">
-                  Go to this Link
-                </Link>
-              ),
-              second: 'Or press on me',
-              third: <>Custom component</>,
-            })}
-            onChange={({ value }) => {
-              console.log('onChange', value)
-            }}
-            onSelect={({ activeItem }) => {
-              console.log('onSelect', activeItem)
-            }}
-          />
-        </Flex.Horizontal>
-      </ComponentBox>
-    </Wrapper>
-  )
-}
 
 export const DropdownIndependentWidthLeft = () => {
   return (
@@ -512,79 +381,6 @@ export const DropdownDisabledTertiary = () => (
   </Wrapper>
 )
 
-export const DropdownCustomEvent = () => {
-  const visualTestProps = (
-    enabled: boolean
-  ): VisibleWhenVisualTestReturn => {
-    if (!enabled) {
-      return {}
-    }
-    return {
-      preventClose: true,
-      independentWidth: true,
-      skipPortal: true,
-      direction: 'bottom',
-    }
-  }
-  return (
-    <Wrapper>
-      <ComponentBox
-        scope={{ data, visualTestProps }}
-        data-visual-test="dropdown-action_menu-custom"
-      >
-        {() => {
-          const CustomComponent = () => (
-            <CustomComponentInner
-              onTouchStart={preventDefault}
-              onClick={(e) => {
-                console.log('Do something different')
-                preventDefault(e)
-              }}
-            >
-              Custom event handler
-            </CustomComponentInner>
-          )
-          const CustomComponentInner = styled.span`
-            display: block;
-            width: 100%;
-            margin: -1rem -2rem -1rem -1rem;
-            padding: 1rem 2rem 1rem 1rem;
-          `
-          const preventDefault = (e) => {
-            e.stopPropagation()
-            e.preventDefault()
-          }
-
-          return (
-            <Dropdown
-              actionMenu
-              right
-              label="Label"
-              title="Choose an item"
-              data={() => ({
-                first: (
-                  <Link href="/" key="item-1">
-                    Go to this Link
-                  </Link>
-                ),
-                second: 'Or press on me',
-                third: <CustomComponent key="item-2" />,
-              })}
-              onChange={({ value }) => {
-                console.log('More menu:', value)
-              }}
-              suffix={
-                <HelpButton title="Modal Title">Modal content</HelpButton>
-              }
-              {...visualTestProps(globalThis.IS_TEST)}
-            />
-          )
-        }}
-      </ComponentBox>
-    </Wrapper>
-  )
-}
-
 export const DropdownSizes = () => (
   <Wrapper>
     <ComponentBox data-visual-test="dropdown-sizes" scope={{ data }}>
@@ -644,7 +440,8 @@ export const DropdownCustomWidth = () => (
             <CustomWidthTwo
               label="Label"
               size="small"
-              moreMenu
+              preventSelection
+              title={null}
               data={data}
             />
             <CustomWidthThree
@@ -804,7 +601,7 @@ export const DropdownCustomizedLook = () => {
           return (
             <Dropdown
               data={data}
-              actionMenu
+              preventSelection
               triggerElement={(props) => (
                 <button {...props} style={styles.customTrigger}>
                   <Icon icon={newspaper} /> Custom trigger{' '}

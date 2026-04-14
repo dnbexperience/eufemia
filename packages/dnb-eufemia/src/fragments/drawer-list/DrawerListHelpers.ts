@@ -37,7 +37,6 @@ export const drawerListDefaultProps = {
   noAnimation: false,
   noScrollAnimation: false,
   preventSelection: false,
-  actionMenu: false,
   isPopup: false,
   alignDrawer: 'left',
   wrapperElement: null,

@@ -1112,24 +1112,6 @@ legend.dnb-form-label {
 .dnb-dropdown--independent-width .dnb-dropdown__shell {
   width: auto;
 }
-@media screen and (max-width: 40em) {
-  .dnb-dropdown--action-menu .dnb-dropdown__trigger.dnb-button {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    border-radius: 50%;
-  }
-}
-@media screen and (min-width: 40.00625em) {
-  .dnb-dropdown--action-menu .dnb-dropdown__shell .dnb-dropdown__text {
-    padding: 0 0.5rem;
-  }
-}
-@media screen and (max-width: 40em) {
-  .dnb-dropdown--action-menu .dnb-dropdown__shell .dnb-dropdown__text {
-    width: 0;
-    padding: 0;
-  }
-}
 .dnb-dropdown--icon-position-left .dnb-button--tertiary ~ .dnb-drawer-list__root--portal {
   left: -0.5rem;
 }
