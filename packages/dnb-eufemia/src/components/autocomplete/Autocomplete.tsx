@@ -15,6 +15,7 @@ import type {
   DrawerListProps,
   DrawerListData,
   DrawerListOptionsRender,
+  DrawerListSelectEvent,
   DrawerListSuffix,
   DrawerListDataArrayObject,
   DrawerListInternalData,
@@ -2081,17 +2082,14 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     [setFocusOnInput]
   )
 
-  const onSelectHandler = useCallback(
-    (args: { activeItem: string | number; [key: string]: unknown }) => {
-      if (parseFloat(String(args.activeItem)) > -1) {
-        dispatchCustomElementEvent(propsRef.current, 'onSelect', {
-          ...args,
-          ...getEventObjects('onSelect'),
-        })
-      }
-    },
-    []
-  )
+  const onSelectHandler = useCallback((args: DrawerListSelectEvent) => {
+    if (parseFloat(String(args.activeItem)) > -1) {
+      dispatchCustomElementEvent(propsRef.current, 'onSelect', {
+        ...args,
+        ...getEventObjects('onSelect'),
+      })
+    }
+  }, [])
 
   const onPreChangeHandler = useCallback(
     ({
