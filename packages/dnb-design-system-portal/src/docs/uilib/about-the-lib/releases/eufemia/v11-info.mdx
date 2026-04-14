@@ -860,7 +860,7 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `open_on_focus` with `openOnFocus`.
 - Replace `drawer_class` with `drawerClass`.
 - Replace `prevent_focus` with `preventFocus`.
-- Replace `action_menu` with `actionMenu`.
+- ~~Replace `action_menu` with `actionMenu`.~~ The `actionMenu` (and `action_menu`) prop has been removed from DrawerList. Use the new [Menu](/uilib/components/menu/) component instead.
 - Replace `is_popup` with `isPopup`.
 - Replace `selectall` with `selectAll`.
 
@@ -906,6 +906,8 @@ See [DrawerList > DrawerListDataArrayObject](#drawerlistdataarrayobject-2) for t
 **Removals and behavioral changes:**
 
 - The deprecated `onStateUpdate` prop has been removed. Use `onChange` instead.
+- The `actionMenu` prop has been removed. Use the new [Menu](/uilib/components/menu/) component instead.
+- The `moreMenu` prop has been removed. Use the new [Menu](/uilib/components/menu/) component instead, or use `preventSelection` with `title={null}` for popup-style behavior.
 - Replace `opened` with `open`.
 - Replace `align_dropdown` with `align`.
 - Replace `on_show` with `onOpen` and `on_hide` with `onClose` (not just a casing change — the event names changed).
@@ -946,10 +948,10 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `statusState`'s value `warn` with `warning`.
 - Replace `status_props` with `statusProps`.
 - Replace `status_no_animation` with `statusNoAnimation`.
-- Replace `more_menu` with `moreMenu`.
+- ~~Replace `more_menu` with `moreMenu`.~~ The `moreMenu` (and `more_menu`) prop has been removed. Use the new [Menu](/uilib/components/menu/) component instead.
 - Replace `trigger_element` with `triggerElement`.
 - Replace `open_on_focus` with `openOnFocus`.
-- Replace `action_menu` with `actionMenu`.
+- ~~Replace `action_menu` with `actionMenu`.~~ The `actionMenu` (and `action_menu`) prop has been removed. Use the new [Menu](/uilib/components/menu/) component instead.
 - Replace `is_popup` with `isPopup`.
 - Replace `prevent_focus` with `preventFocus`.
 
@@ -1003,7 +1005,7 @@ See [DrawerList > DrawerListDataArrayObject](#drawerlistdataarrayobject-2) for t
 - Replace `ignore_events` with `ignoreEvents`.
 - Replace `no_animation` with `noAnimation`.
 - Replace `label_direction` with `labelDirection`.
-- Replace `action_menu` with `actionMenu`.
+- ~~Replace `action_menu` with `actionMenu`.~~ The `actionMenu` (and `action_menu`) prop has been removed. Use the new [Menu](/uilib/components/menu/) component instead.
 - Replace `is_popup` with `isPopup`.
 - Replace `prevent_focus` with `preventFocus`.
 - Replace `opened` with `open`.
