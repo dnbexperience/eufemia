@@ -60,6 +60,10 @@ When combining `omitSpaceSeparator` with `transformOut`, note that the value pas
 
 Values with a `00` prefix (e.g. `004712345678`) are automatically interpreted the same as `+` (e.g. `+4712345678`). No manual normalization is needed on the way in.
 
+The `00` prefix is the [ITU-T recommended international call prefix](https://en.wikipedia.org/wiki/List_of_international_call_prefixes) and is used across Europe (including all Scandinavian countries), most of Asia, Africa, and Oceania.
+
+Other international dialing prefixes such as `011` (US/Canada), `0011` (Australia), or `001` (Thailand, Singapore) are **not** supported, because they create ambiguous interpretations. For example, `0014712345678` could be parsed as either `00` + `1` (US) + `4712345678` or `001` (Thai IDD) + `47` (Norway) + `12345678` — two entirely different phone numbers. The `00` prefix does not have this problem, since no E.164 country code starts with `0`. For systems that use other prefixes, use `transformIn` to normalize the value before it reaches the component.
+
 If your backend also expects `00` prefix on output, use `transformOut` to convert back:
 
 ```tsx

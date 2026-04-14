@@ -58,7 +58,22 @@ export default function detectCountryCode(
     return undefined
   }
 
-  // Normalize "00" international dialing prefix to "+"
+  // Normalize "00" international dialing prefix to "+".
+  //
+  // The "00" prefix is the ITU-T recommended international call prefix
+  // and is used across Europe (including Scandinavia), most of Asia,
+  // Africa, and Oceania. This covers the vast majority of DNB's user base.
+  //
+  // Other countries use different prefixes (e.g. "011" in the US/Canada,
+  // "0011" in Australia, "001" in Thailand/Singapore, "010" in Japan).
+  // We intentionally do NOT support these because they create ambiguous
+  // interpretations — for example, "0014712345678" could be either:
+  //   - "00" + "1" (US country code) + "4712345678" (a US number)
+  //   - "001" (Thai IDD prefix) + "47" (Norway) + "12345678" (a Norwegian number)
+  // Resolving this ambiguity requires knowing the caller's country, which
+  // is not available. The "00" prefix is safe because no E.164 country
+  // code starts with "0", so "00" followed by digits is always
+  // unambiguously an international dialing prefix.
   if (value.startsWith('00')) {
     value = `+${value.slice(2)}`
   }
