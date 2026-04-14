@@ -4,7 +4,7 @@
  * This is a legacy component.
  * For referencing while developing new features, please use a Functional component.
  */
-import React from 'react'
+import React, { useContext } from 'react'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
@@ -21,6 +21,7 @@ import {
 
 import { formatCardNumber } from './components/CardNumber'
 import CardFigure from './components/CardFigure'
+import type { CardData } from './components/CardFigure'
 
 import { ProductType, CardType, BankAxeptType } from './utils/Types'
 import Designs, { defaultDesign } from './utils/CardDesigns'
@@ -135,7 +136,7 @@ const paymentCardDefaultProps = {
 }
 
 function PaymentCard(props: PaymentCardProps) {
-  const context = React.useContext(Context)
+  const context = useContext(Context)
 
   // use only the props from context, who are available here anyway
   const extendedProps = extendPropsWithContextInClassComponent(
@@ -187,40 +188,72 @@ function PaymentCard(props: PaymentCardProps) {
 
   return (
     <Provider locale={locale}>
-      <Context.Consumer>
-        {({ translation }) => {
-          const translations = extendPropsWithContextInClassComponent(
-            {
-              ...translationDefaultPropsProps,
-              // Strip undefined values so they fall through to defaults,
-              // preserving the legacy React defaultProps behavior.
-              ...removeUndefinedProps({ ...props }),
-            },
-            translationDefaultPropsProps,
-            translation.PaymentCard
-          )
-          return (
-            <figure {...params}>
-              <figcaption className="dnb-sr-only dnb-payment-card__figcaption">
-                {cardData.productName}
-              </figcaption>
-              <CardFigure
-                id={id}
-                skeleton={skeleton}
-                compact={variant === 'compact'}
-                data={cardData}
-                cardStatus={cardStatus}
-                cardNumber={formatCardNumber(
-                  cardNumber,
-                  parseFloat(String(digits))
-                )}
-                translations={translations}
-              />
-            </figure>
-          )
-        }}
-      </Context.Consumer>
+      <PaymentCardContent
+        props={props}
+        params={params}
+        cardData={cardData}
+        cardStatus={cardStatus}
+        cardNumber={cardNumber}
+        digits={digits}
+        id={id}
+        skeleton={skeleton}
+        variant={variant}
+      />
     </Provider>
+  )
+}
+
+function PaymentCardContent({
+  props,
+  params,
+  cardData,
+  cardStatus,
+  cardNumber,
+  digits,
+  id,
+  skeleton,
+  variant,
+}: {
+  props: PaymentCardProps
+  params: Record<string, unknown>
+  cardData: CardData
+  cardStatus: PaymentCardCardStatus
+  cardNumber: string
+  digits: string | number
+  id: string
+  skeleton: SkeletonShow
+  variant: PaymentCardVariant
+}) {
+  const { translation } = useContext(Context)
+  const translations = extendPropsWithContextInClassComponent(
+    {
+      ...translationDefaultPropsProps,
+      // Strip undefined values so they fall through to defaults,
+      // preserving the legacy React defaultProps behavior.
+      ...removeUndefinedProps({ ...props }),
+    },
+    translationDefaultPropsProps,
+    translation.PaymentCard
+  )
+
+  return (
+    <figure {...params}>
+      <figcaption className="dnb-sr-only dnb-payment-card__figcaption">
+        {cardData.productName}
+      </figcaption>
+      <CardFigure
+        id={id}
+        skeleton={skeleton}
+        compact={variant === 'compact'}
+        data={cardData}
+        cardStatus={cardStatus}
+        cardNumber={formatCardNumber(
+          cardNumber,
+          parseFloat(String(digits))
+        )}
+        translations={translations}
+      />
+    </figure>
   )
 }
 
