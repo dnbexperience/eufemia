@@ -1691,8 +1691,8 @@ export const ResponsiveInCard = () => (
         const align = isLarge
           ? 'flex-end'
           : isSmall
-            ? 'center'
-            : 'flex-start'
+          ? 'center'
+          : 'flex-start'
 
         const tableRow = (
           <>
@@ -1884,7 +1884,11 @@ export const InCard = () => (
               </Heading>
             </Flex.Horizontal>
 
-            <Dropdown data={['My list', 'All']} preventSelection title={null} />
+            <Dropdown
+              data={['My list', 'All']}
+              preventSelection
+              title={null}
+            />
           </Flex.Horizontal>
           <MyTable />
         </Card>
