@@ -531,7 +531,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
           label={
             countryCodeLabel === false
               ? defaultCountryCodeLabel
-              : countryCodeLabel ?? defaultCountryCodeLabel
+              : (countryCodeLabel ?? defaultCountryCodeLabel)
           }
           labelSrOnly={countryCodeLabel === false ? true : undefined}
           data={dataRef.current}
@@ -563,7 +563,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
         label={
           numberLabel === false
             ? defaultLabel
-            : numberLabel ?? defaultLabel
+            : (numberLabel ?? defaultLabel)
         }
         labelSrOnly={numberLabel === false ? true : undefined}
         placeholder={
@@ -588,8 +588,8 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
           width === 'stretch'
             ? 'stretch'
             : props.omitCountryCodeField && width === 'large'
-            ? 'large'
-            : 'medium'
+              ? 'large'
+              : 'medium'
         }
         help={{ ...help, breakout: false, outset: false }}
         required={required}
