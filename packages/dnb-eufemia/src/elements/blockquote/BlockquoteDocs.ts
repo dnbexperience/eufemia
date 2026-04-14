@@ -8,7 +8,7 @@ export const BlockquoteProperties: PropertiesTableProps = {
   },
   direction: {
     doc: 'Determines the flow direction of the content inside of blockquote. Can be either `horizontal` or `vertical`. Defaults to `horizontal`.',
-    type: 'string',
+    type: ['"horizontal"', '"vertical"'],
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {
