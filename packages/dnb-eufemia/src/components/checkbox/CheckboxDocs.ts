@@ -18,7 +18,7 @@ export const CheckboxProperties: PropertiesTableProps = {
   },
   labelPosition: {
     doc: 'Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.',
-    type: 'string',
+    type: ['"left"', '"right"'],
     status: 'optional',
   },
   labelSrOnly: {
