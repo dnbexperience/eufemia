@@ -287,12 +287,13 @@ These properties are unique to a single component and only listed once here.
 
 #### Dropdown (unique props)
 
-| Old                             | New                              |
-| ------------------------------- | -------------------------------- |
-| `more_menu`                     | `moreMenu`                       |
-| `trigger_element`               | `triggerElement`                 |
-| `open_on_focus`                 | `openOnFocus`                    |
-| `on_show_focus` → `onOpenFocus` | `on_hide_focus` → `onCloseFocus` |
+| Old               | New              |
+| ----------------- | ---------------- |
+| `more_menu`       | `moreMenu`       |
+| `trigger_element` | `triggerElement` |
+| `open_on_focus`   | `openOnFocus`    |
+| `on_show_focus`   | `onOpenFocus`    |
+| `on_hide_focus`   | `onCloseFocus`   |
 
 #### DrawerList (unique props)
 
@@ -801,6 +802,102 @@ These properties are unique to a single component and only listed once here.
 | `exclusiveMinimum` | `NumberField.errorExclusiveMinimum` |
 | `exclusiveMaximum` | `NumberField.errorExclusiveMaximum` |
 | `multipleOf`       | `NumberField.errorMultipleOf`       |
+
+### Import path changes
+
+| Old import                                                                  | New import                                                                          | Notes              |
+| --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------ |
+| `@dnb/eufemia/components/input/InputPassword`                               | `import { Field } from '@dnb/eufemia/extensions/forms'` then use `<Field.Password>` | Component moved    |
+| `@dnb/eufemia/fragments/drawer-list/DrawerList` (`ItemContent`)             | `@dnb/eufemia/fragments/drawer-list/DrawerListItem` (`ItemContent`)                 | Named export moved |
+| `@dnb/eufemia/components/form-row/FormRowHelpers` (`includeValidProps`)     | `@dnb/eufemia/shared/helpers/filterValidProps` (`pickFormElementProps`)             | Renamed            |
+| `@dnb/eufemia/components/form-row/FormRowHelpers` (`prepareFormRowContext`) | `@dnb/eufemia/shared/helpers/filterValidProps` (`prepareFormElementContext`)        | Renamed            |
+| `@dnb/eufemia/components/input-masked/InputMaskedHooks`                     | `@dnb/eufemia/components/input-masked/hooks`                                        | Path changed       |
+| `@dnb/eufemia/components/input-masked/addons/createNumberMask`              | Removed — use built-in `numberMask` prop                                            | Deleted            |
+| `@dnb/eufemia/components/input-masked/addons/emailMask`                     | Removed — use `mask` prop directly                                                  | Deleted            |
+| `@dnb/eufemia/components/input` (`inputPropTypes`)                          | Removed                                                                             | PropTypes removed  |
+| `@dnb/eufemia/components/button` (`buttonVariantPropType`)                  | Removed                                                                             | PropTypes removed  |
+| `@dnb/eufemia/components/space/types` (`SectionSpacing`)                    | `InnerSpaceType` from same path                                                     | Type renamed       |
+
+### Theming path changes
+
+| Old path                       | New path                               |
+| ------------------------------ | -------------------------------------- |
+| `style/themes/theme-ui/`       | `style/themes/ui/`                     |
+| `style/themes/theme-sbanken/`  | `style/themes/sbanken/`                |
+| `style/themes/theme-eiendom/`  | `style/themes/eiendom/`                |
+| `style/themes/theme-carnegie/` | `style/themes/carnegie/`               |
+| `ui-theme-tags` CSS package    | Removed — use class-based selectors    |
+| `ui-theme-fonts` CSS package   | Removed — included in `ui-theme-basis` |
+
+### TypeScript type renames
+
+For the full list of 60+ type renames across context types, stuttering names, plural-to-singular, and non-prefixed types, see the [TypeScript](#typescript) section. The most commonly encountered ones:
+
+#### Context value types
+
+| Before                    | After                    |
+| ------------------------- | ------------------------ |
+| `AccordionContextProps`   | `AccordionContextValue`  |
+| `TooltipContextProps`     | `TooltipContextValue`    |
+| `HeadingContextProps`     | `HeadingContextValue`    |
+| `DrawerListContextProps`  | `DrawerListContextValue` |
+| `UploadContextProps`      | `UploadContextValue`     |
+| `DatePickerContextValues` | `DatePickerContextValue` |
+| `CardContextState`        | `CardContextValue`       |
+| `SliderContextTypes`      | `SliderContextValue`     |
+| `SkeletonContextProps`    | `SkeletonContextValue`   |
+| `ListContext` (type)      | `ListContextValue`       |
+
+#### Component event types
+
+| Before                        | After                                                                                                                 |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `AutocompleteClearEvent`      | `AutocompleteOnClearParams`                                                                                           |
+| `AutocompleteTypeEvent`       | `AutocompleteOnTypeParams`                                                                                            |
+| `AutocompleteFocusEvent`      | `AutocompleteOnFocusParams`                                                                                           |
+| `AutocompleteBlurEvent`       | `AutocompleteOnBlurParams`                                                                                            |
+| `AutocompleteChangeEvent`     | `AutocompleteOnChangeParams`                                                                                          |
+| `AutocompleteSelectEvent`     | `AutocompleteOnSelectParams`                                                                                          |
+| `OnChangeParams` (Checkbox)   | `CheckboxOnChangeParams`                                                                                              |
+| `OnClickParams` (Checkbox)    | `CheckboxOnClickParams`                                                                                               |
+| `OnChangeEventProps` (Slider) | `SliderOnChangeParams`                                                                                                |
+| `ThumbStateEnums` (Slider)    | `SliderThumbState`                                                                                                    |
+| `ModalPropTypes`              | `ModalAllProps`                                                                                                       |
+| `FormStatusState`             | Now only accepts `'error'` \| `'warning'` \| `'information'` \| `'success'` \| `'marketing'` (no `string \| boolean`) |
+
+#### Props Type Exports (`Props` → prefixed names)
+
+| Module path                             | Before  | After                      |
+| --------------------------------------- | ------- | -------------------------- |
+| `components/card`                       | `Props` | `CardProps`                |
+| `components/flex/Horizontal`            | `Props` | `HorizontalProps`          |
+| `components/flex/Stack`                 | `Props` | `StackProps`               |
+| `components/flex/Vertical`              | `Props` | `VerticalProps`            |
+| `extensions/forms/Field/String`         | `Props` | `FieldStringProps`         |
+| `extensions/forms/Field/Number`         | `Props` | `FieldNumberProps`         |
+| `extensions/forms/Field/Boolean`        | `Props` | `FieldBooleanProps`        |
+| `extensions/forms/Field/Selection`      | `Props` | `FieldSelectionProps`      |
+| `extensions/forms/Value/String`         | `Props` | `ValueStringProps`         |
+| `extensions/forms/Value/Number`         | `Props` | `ValueNumberProps`         |
+| `extensions/forms/Form/Handler`         | `Props` | `FormHandlerProps`         |
+| `extensions/forms/Iterate/Array`        | `Props` | `IterateArrayProps`        |
+| `extensions/forms/Wizard/Step`          | `Props` | `WizardStepProps`          |
+| `extensions/forms/FieldBlock`           | `Props` | `FieldBlockProps`          |
+| `extensions/forms/ValueBlock`           | `Props` | `ValueBlockProps`          |
+| `extensions/forms/DataContext/Provider` | `Props` | `DataContextProviderProps` |
+
+The same pattern applies to all Field, Value, Form, Iterate, and Wizard sub-components (91 types total).
+
+#### NumberFormat type renames
+
+| Before                   | After                          |
+| ------------------------ | ------------------------------ |
+| `formatReturnValue`      | `NumberFormatReturnValue`      |
+| `formatValue`            | `NumberFormatValue`            |
+| `formatOptionParams`     | `NumberFormatOptionParams`     |
+| `formatReturnType`       | `NumberFormatReturnType`       |
+| `formatTypes`            | `NumberFormatType`             |
+| `formatCurrencyPosition` | `NumberFormatCurrencyPosition` |
 
 ## Summary of changes
 
