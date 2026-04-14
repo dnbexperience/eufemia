@@ -134,24 +134,14 @@ export function getThemeClasses(theme: ThemeProps, className = null) {
     return className
   }
 
-  const {
-    name,
-    variant,
-    size,
-    propMapping,
-    contrastMode,
-    colorScheme,
-    surface,
-  } = theme
+  const { name, variant, size, propMapping, contrastMode, colorScheme } =
+    theme
 
   return clsx(
     className,
     'eufemia-theme',
     name && `eufemia-theme__${name}`,
     name && variant && `eufemia-theme__${name}--${variant}`,
-    surface &&
-      surface !== 'default' &&
-      `eufemia-theme__surface--${surface}`,
     propMapping && `eufemia-theme__prop-mapping--${propMapping}`,
     contrastMode && 'eufemia-theme__contrast-mode',
     colorScheme && `eufemia-theme__color-scheme--${colorScheme}`,

@@ -255,14 +255,11 @@ describe('Theme', () => {
     )
   })
 
-  it('sets surface as HTML classes', () => {
+  it('does not set surface as HTML class', () => {
     render(<Theme surface="dark">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual([
-      'eufemia-theme',
-      'eufemia-theme__surface--dark',
-    ])
+    expect(Array.from(element.classList)).toEqual(['eufemia-theme'])
   })
 
   it('does not set surface as HTML classes when "default"', () => {
