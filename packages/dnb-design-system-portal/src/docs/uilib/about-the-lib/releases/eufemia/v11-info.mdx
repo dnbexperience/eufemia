@@ -2425,13 +2425,13 @@ Docs: [All Fields](/uilib/extensions/forms/all-fields/)
 
 The component now emits values in E.164 format: `"+4712345678"` instead of `"+47 12345678"`. This applies to `onChange`, `transformOut`, the data context, and pattern/schema validation.
 
-**Migration:** If you relied on the space between the country code and the phone number, update your code to handle the spaceless format. The `additionalArgs` second argument of `onChange` still provides `countryCode` and `phoneNumber` separately. Values with spaces (e.g. `"+47 12345678"`) are no longer accepted and will not be displayed.
+**Migration:** If you relied on the space between the country code and the phone number, update your code to handle E.164 format. The `additionalArgs` second argument of `onChange` still provides `countryCode` and `phoneNumber` separately. Values with spaces (e.g. `"+47 12345678"`) are no longer accepted and will not be displayed.
 
 If you used a `pattern` or `schema` that matched the space-separated format (e.g. `^\+47 [49]+`), remove the space from your pattern (e.g. `^\+47[49]+`).
 
 #### Auto-detection of country codes
 
-The component now auto-detects country codes from spaceless E.164 values like `"+4712345678"` and `00`-prefixed values like `"004712345678"`. No `transformIn` is needed for standard formats.
+The component now auto-detects country codes from E.164 values like `"+4712345678"` and `00`-prefixed values like `"004712345678"`. No `transformIn` is needed for standard formats.
 
 #### `detectCountryCode` utility
 
