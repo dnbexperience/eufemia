@@ -15,20 +15,24 @@ export type IsolatedStyleScopeProps = {
   }
 }
 
-export const IsolatedStyleScopeContext = React.createContext<
-  {
-    generatedScopeHash: string
-    scopeElementRef: React.RefObject<HTMLDivElement>
-    internalKeys: Set<string>
-    parentContextMap?: Map<string, any>
-  } & Pick<
-    IsolatedStyleScopeProps,
-    'scopeHash' | 'disableCoreStyleWrapper' | 'style'
-  >
->(undefined)
+type IsolatedStyleScopeContextValue = {
+  generatedScopeHash: string
+  scopeElementRef: React.RefObject<HTMLDivElement>
+  internalKeys: Set<string>
+  parentContextMap?: Map<string, IsolatedStyleScopeContextValue>
+} & Pick<
+  IsolatedStyleScopeProps,
+  'scopeHash' | 'disableCoreStyleWrapper' | 'style'
+>
+
+export const IsolatedStyleScopeContext =
+  React.createContext<IsolatedStyleScopeContextValue>(undefined)
 
 // Map to keep track of parent contexts by generatedScopeHash
-const parentScopeContextMap = new Map<string, any>()
+const parentScopeContextMap = new Map<
+  string,
+  IsolatedStyleScopeContextValue
+>()
 
 export default function IsolatedStyleScope(
   props: IsolatedStyleScopeProps
