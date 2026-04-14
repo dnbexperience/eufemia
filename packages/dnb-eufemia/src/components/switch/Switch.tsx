@@ -59,7 +59,7 @@ export type SwitchProps = {
    */
   labelSrOnly?: boolean
   /**
-   * <em>(required)</em> the `title` of the input - describing it a bit further for accessibility reasons.
+   * The `title` of the input - describing it a bit further for accessibility reasons.
    */
   title?: string
   /**
