@@ -26,6 +26,10 @@ export type ModalCloseHandlerParams = {
   triggeredBy: ModalTriggeredBy
   triggeredByEvent?: Event
 }
+export type ModalContentCloseHandler = (
+  event: React.SyntheticEvent | Event,
+  options: { triggeredBy?: string }
+) => void
 export type ModalCloseHandler = (params?: ModalCloseHandlerParams) => void
 
 export type ModalProps = ModalRootProps & {
@@ -317,7 +321,7 @@ export type ModalContentProps = {
   contentRef?: React.RefObject<HTMLElement>
   scrollRef?: React.RefObject<HTMLElement>
   open?: boolean
-  modalContentCloseRef?: React.RefObject<any>
+  modalContentCloseRef?: React.RefObject<ModalContentCloseHandler | null>
 }
 
 export type ModalTriggerAttributes = ButtonProps
