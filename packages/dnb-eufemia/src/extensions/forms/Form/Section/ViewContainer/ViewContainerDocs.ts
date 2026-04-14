@@ -8,7 +8,7 @@ export const ViewContainerProperties: PropertiesTableProps = {
   },
   variant: {
     doc: 'Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.',
-    type: 'string',
+    type: ['"outline"', '"filled"', '"basic"'],
     status: 'optional',
   },
   '[FlexVertical](/uilib/layout/flex/container/properties)': {
