@@ -501,9 +501,9 @@ describe('Field.PhoneNumber', () => {
     const onCountryCodeChange = jest.fn()
 
     const MockPhoneNumber = () => {
-      const [state, update] = React.useState('+47 1')
+      const [state, update] = React.useState('+471')
       React.useEffect(() => {
-        update('+41 2')
+        update('+412')
       }, [])
 
       return (
@@ -2015,6 +2015,20 @@ describe('Field.PhoneNumber', () => {
   })
 
   describe('auto-detection of country code', () => {
+    it('should not display space-separated values', () => {
+      render(<Field.PhoneNumber value="+47 12345678" />)
+
+      const codeElement = document.querySelector(
+        '.dnb-forms-field-phone-number__country-code input'
+      ) as HTMLInputElement
+      const numberElement = document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      ) as HTMLInputElement
+
+      expect(codeElement.value).toBe('NO (+47)')
+      expect(numberElement.value).toBe('')
+    })
+
     it('should auto-detect country code from spaceless +47 value', () => {
       render(<Field.PhoneNumber value="+4712345678" />)
 
@@ -2116,7 +2130,7 @@ describe('Field.PhoneNumber', () => {
     })
 
     it('should handle dashed CDC codes like +1-684', () => {
-      render(<Field.PhoneNumber value="+1-684 1234567" />)
+      render(<Field.PhoneNumber value="+16841234567" />)
 
       const codeElement = document.querySelector(
         '.dnb-forms-field-phone-number__country-code input'

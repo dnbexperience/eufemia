@@ -622,15 +622,9 @@ function splitValue(value: string) {
     return [undefined, '']
   }
 
-  // Normalize "00" international dialing prefix to "+" when followed by a space
-  if (value.startsWith('00') && value.includes(' ')) {
-    value = `+${value.slice(2)}`
-  }
-
-  // When a space separates the country code and the phone number, split on it
-  if (value.startsWith('+') && value.includes(' ')) {
-    const spaceIndex = value.indexOf(' ')
-    return [value.slice(0, spaceIndex), value.slice(spaceIndex + 1)]
+  // Values with spaces are not valid E.164 — reject them
+  if (value.includes(' ')) {
+    return [undefined, '']
   }
 
   // Auto-detect country code from spaceless strings like "+4712345678" or "004712345678"

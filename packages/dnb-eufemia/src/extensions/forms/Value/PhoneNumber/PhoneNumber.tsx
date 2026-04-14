@@ -20,10 +20,15 @@ function PhoneNumber(props: ValuePhoneNumberProps) {
       return undefined
     }
 
-    // When the value has no space between the country code and the number,
-    // detect and insert one so the phone formatter can split them correctly.
+    // Values with spaces are not valid E.164 — reject them
+    if (typeof value === 'string' && value.includes(' ')) {
+      return undefined
+    }
+
+    // Detect country code and insert a space so the phone formatter
+    // can split them correctly for display.
     // detectCountryCode handles both "+" and "00" prefixed values.
-    if (typeof value === 'string' && !value.includes(' ')) {
+    if (typeof value === 'string') {
       const detected = detectCountryCode(value)
       if (detected) {
         value = `${detected.countryCode} ${detected.phoneNumber}`
