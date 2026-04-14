@@ -9,6 +9,8 @@ import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import type { SectionAllProps } from '../Section'
 import Section from '../Section'
 import Provider from '../../../shared/Provider'
+import Theme from '../../../shared/Theme'
+import Context from '../../../shared/Context'
 
 const props: SectionAllProps = {
   backgroundColor: 'mint-green-12',
@@ -315,6 +317,55 @@ describe('Section component', () => {
     expect(ref.current instanceof HTMLElement).toBe(true)
     expect(ref.current.tagName).toBe('SECTION')
     expect(ref.current.classList).toContain('dnb-section')
+  })
+})
+
+describe('surface', () => {
+  it('adds surface-dark class when surface is "dark"', () => {
+    render(<Section surface="dark">content</Section>)
+
+    const element = document.querySelector('section.dnb-section')
+    expect(element.classList).toContain('dnb-section--surface-dark')
+  })
+
+  it('wraps children in Theme.Context when surface is set', () => {
+    let receivedSurface: string | undefined
+
+    function Consumer() {
+      const context = React.useContext(Context)
+      receivedSurface = context?.theme?.surface
+      return null
+    }
+
+    render(
+      <Section surface="dark">
+        <Consumer />
+      </Section>
+    )
+
+    expect(receivedSurface).toBe('dark')
+  })
+
+  it('inherits surface from Theme context', () => {
+    render(
+      <Theme surface="dark">
+        <Section>content</Section>
+      </Theme>
+    )
+
+    const element = document.querySelector('section.dnb-section')
+    expect(element.classList).toContain('dnb-section--surface-dark')
+  })
+
+  it('does not inherit surface from Theme context when surface is set by props', () => {
+    render(
+      <Theme surface="dark">
+        <Section surface="default">content</Section>
+      </Theme>
+    )
+
+    const element = document.querySelector('section.dnb-section')
+    expect(element.classList).not.toContain('dnb-section--surface-dark')
   })
 })
 
