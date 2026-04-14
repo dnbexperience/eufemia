@@ -14,6 +14,9 @@
     }
   }
   .dnb-radio {
+    --radio-color-border-on: var(--color-sea-green);
+    --radio-color-border-off: var(--color-sea-green);
+
     &__input:not([disabled]) {
       & ~ .dnb-radio__button {
         box-shadow: 0 0 0 0.0318rem var(--color-sea-green);
