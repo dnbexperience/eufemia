@@ -156,8 +156,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
 
         // Normalize to E.164 format so the stored value is always spaceless
         if (countryCode && phoneNumber) {
-          const cleanCode = countryCode.replace(/-/g, '')
-          return `${cleanCode}${phoneNumber}`
+          return joinValue([countryCode, phoneNumber])
         }
       }
       return external
@@ -167,14 +166,11 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
 
   const toEvent = useCallback(
     (value: string) => {
-      const [countryCode, phoneNumber] = splitValue(value)
+      const [, phoneNumber] = splitValue(value)
       if (!phoneNumber) {
         return props.emptyValue
       }
-      // E.164 output: strip dashes from dashed CDC codes (e.g. "+1-684" → "+1684")
-      // and join without space
-      const cleanCode = countryCode?.replace(/-/g, '')
-      return [cleanCode, phoneNumber].filter(Boolean).join('')
+      return value
     },
     [props.emptyValue]
   )
@@ -301,7 +297,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
       const number = inputRef.current?.value
       setDisplayValue(
         number?.length > 0
-          ? joinValue([countryCodeRef.current, number])
+          ? `${countryCodeRef.current} ${number}`
           : undefined
       )
     }
@@ -651,7 +647,10 @@ function splitValue(value: string) {
 }
 
 function joinValue(array: Array<string>) {
-  return array.filter(Boolean).join(' ')
+  return array
+    .filter(Boolean)
+    .map((part) => part.replace(/-/g, ''))
+    .join('')
 }
 
 withComponentMarkers(PhoneNumber, {

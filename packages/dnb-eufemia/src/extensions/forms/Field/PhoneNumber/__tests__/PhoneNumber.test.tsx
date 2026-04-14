@@ -897,7 +897,7 @@ describe('Field.PhoneNumber', () => {
         phoneNumber: '9999',
         iso: 'NO',
       })
-      expect(transformIn).toHaveBeenCalledTimes(12)
+      expect(transformIn).toHaveBeenCalledTimes(8)
       expect(transformIn).toHaveBeenLastCalledWith({
         countryCode: 'NO',
         countryCodePrefix: '+47',
@@ -923,7 +923,7 @@ describe('Field.PhoneNumber', () => {
         phoneNumber: undefined,
         iso: 'NO',
       })
-      expect(transformIn).toHaveBeenCalledTimes(14)
+      expect(transformIn).toHaveBeenCalledTimes(10)
       expect(transformIn).toHaveBeenLastCalledWith({
         countryCode: 'NO',
         countryCodePrefix: '+47',
