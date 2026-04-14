@@ -70,12 +70,12 @@ export type HeadingProps = {
   group?: string
 
   /**
-   * <em>(required)</em> a heading, can be text or React.ReactNode.
+   * A heading, can be text or React.ReactNode.
    */
   text?: React.ReactNode
 
   /**
-   * Define the typography <a href="/uilib/typography/font-size">font-size</a> by a size <em>type</em>, e.g. `x-large`. Defaults to the predefined heading sizes.
+   * Define the typography font-size by a size type, e.g. `x-large`. Defaults to the predefined heading sizes.
    */
   size?: HeadingSize
   level?: HeadingLevel
