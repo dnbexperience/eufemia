@@ -5,8 +5,8 @@
   ],
   "plugins": [
     "stylelint-scss",
-    "./scripts/stylelint/plugins/token-name-policy",
-    "./scripts/stylelint/plugins/no-unused-use"
+    "./scripts/stylelint/plugins/token-name-policy.cjs",
+    "./scripts/stylelint/plugins/no-unused-use.cjs"
   ],
   "rules": {
     "scss/at-mixin-argumentless-call-parentheses": "always",

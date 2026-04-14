@@ -1,6 +1,8 @@
 import carnegieTokens from '@dnb/eufemia/src/style/themes/figma/dnbcarnegie-light.tokens.json'
-import sbankenTokens from '@dnb/eufemia/src/style/themes/figma/sbanken-light.tokens.json'
-import uiTokens from '@dnb/eufemia/src/style/themes/figma/dnb-light.tokens.json'
+import uiDarkTokens from '@dnb/eufemia/src/style/themes/figma/dnb-dark.tokens.json'
+import sbankenLightTokens from '@dnb/eufemia/src/style/themes/figma/sbanken-light.tokens.json'
+import sbankenDarkTokens from '@dnb/eufemia/src/style/themes/figma/sbanken-dark.tokens.json'
+import uiLightTokens from '@dnb/eufemia/src/style/themes/figma/dnb-light.tokens.json'
 
 export const tokenNamingPolicy = {
   prefix: '--token-',
@@ -32,7 +34,12 @@ export const tokenSectionOrder = [
 ] as const
 
 export type TokenSectionId = (typeof tokenSectionOrder)[number]
-export type ThemeName = 'ui' | 'sbanken' | 'carnegie'
+export type ThemeName =
+  | 'uiLight'
+  | 'uiDark'
+  | 'sbankenLight'
+  | 'sbankenDark'
+  | 'carnegie'
 export type TokenAudience = 'base' | 'state' | 'advanced'
 
 type FigmaValue = {
@@ -95,8 +102,10 @@ type TokenEntry = {
 }
 
 const themeSources: Record<ThemeName, FigmaTokenGroup> = {
-  ui: uiTokens as unknown as FigmaTokenGroup,
-  sbanken: sbankenTokens as unknown as FigmaTokenGroup,
+  uiLight: uiLightTokens as unknown as FigmaTokenGroup,
+  uiDark: uiDarkTokens as unknown as FigmaTokenGroup,
+  sbankenLight: sbankenLightTokens as unknown as FigmaTokenGroup,
+  sbankenDark: sbankenDarkTokens as unknown as FigmaTokenGroup,
   carnegie: carnegieTokens as unknown as FigmaTokenGroup,
 }
 
@@ -223,7 +232,15 @@ export const buildTokenSections = (
 
   const tokenMap = new Map<string, TokenRow>()
 
-  ;(['ui', 'sbanken', 'carnegie'] as ThemeName[]).forEach((theme) => {
+  ;(
+    [
+      'uiLight',
+      'uiDark',
+      'sbankenLight',
+      'sbankenDark',
+      'carnegie',
+    ] as ThemeName[]
+  ).forEach((theme) => {
     entriesByTheme[theme].forEach((entry) => {
       const existing = tokenMap.get(entry.name)
 
@@ -240,13 +257,19 @@ export const buildTokenSections = (
         group: entry.group,
         audience: entry.audience,
         references: {
-          ui: theme === 'ui' ? entry.reference : 'n/a',
-          sbanken: theme === 'sbanken' ? entry.reference : 'n/a',
+          uiLight: theme === 'uiLight' ? entry.reference : 'n/a',
+          uiDark: theme === 'uiDark' ? entry.reference : 'n/a',
+          sbankenLight: theme === 'sbankenLight' ? entry.reference : 'n/a',
+          sbankenDark: theme === 'sbankenDark' ? entry.reference : 'n/a',
           carnegie: theme === 'carnegie' ? entry.reference : 'n/a',
         },
         foundationReferences: {
-          ui: theme === 'ui' ? entry.foundationReference : null,
-          sbanken: theme === 'sbanken' ? entry.foundationReference : null,
+          uiLight: theme === 'uiLight' ? entry.foundationReference : null,
+          uiDark: theme === 'uiDark' ? entry.foundationReference : null,
+          sbankenLight:
+            theme === 'sbankenLight' ? entry.foundationReference : null,
+          sbankenDark:
+            theme === 'sbankenDark' ? entry.foundationReference : null,
           carnegie:
             theme === 'carnegie' ? entry.foundationReference : null,
         },

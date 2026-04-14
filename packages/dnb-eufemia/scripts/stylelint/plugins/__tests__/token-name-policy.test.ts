@@ -2,7 +2,7 @@ import stylelint from 'stylelint'
 import fs from 'fs'
 import os from 'os'
 import path from 'path'
-const tokenNamePolicyPlugin = require('../token-name-policy')
+const tokenNamePolicyPlugin = require('../token-name-policy.cjs')
 
 const lintWithRule = async ({
   code,
@@ -206,6 +206,15 @@ describe('token-name-policy stylelint rule', () => {
     const errors = await lintWithRule({
       code: ':root { --token-color-text-neutral: var(--carnegie-greyscale-25); }',
       codeFilename: '/repo/src/style/themes/carnegie/tokens.scss',
+    })
+
+    expect(errors).toHaveLength(0)
+  })
+
+  it('allows foundation variable usage inside tokens-dark.scss', async () => {
+    const errors = await lintWithRule({
+      code: ':root { --token-color-background-page-background: var(--dnb-greyscale-1000); }',
+      codeFilename: '/repo/src/style/themes/ui/tokens-dark.scss',
     })
 
     expect(errors).toHaveLength(0)

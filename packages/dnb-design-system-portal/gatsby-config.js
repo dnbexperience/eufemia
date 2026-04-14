@@ -154,25 +154,25 @@ const plugins = [
           ? shouldUsePrebuild()
             ? [
                 '**/build/style/dnb-ui-core--isolated.min.css',
-                '**/build/style/themes/**/*-theme-{basis,components}--isolated.min.css',
+                '**/build/style/themes/**/*-theme-{basis,components,dark-mode}--isolated.min.css',
                 '**/build/extensions/payment-card/**/dnb-*--isolated.min.css',
               ]
             : [
                 '**/src/style/dnb-ui-core.scss',
-                '**/src/style/themes/**/*-theme-{basis,components}.scss',
+                '**/src/style/themes/**/*-theme-{basis,components,dark-mode}.scss',
                 '**/src/extensions/payment-card/**/dnb-*.scss',
               ]
           : shouldUsePrebuild()
             ? [
                 // Use the core package
                 '**/build/style/dnb-ui-core.min.css',
-                '**/build/style/themes/**/*-theme-{basis,components}.min.css',
+                '**/build/style/themes/**/*-theme-{basis,components,dark-mode}.min.css',
                 '**/build/extensions/payment-card/**/dnb-*.min.css',
               ]
             : [
                 // Use the core package
                 '**/src/style/dnb-ui-core.scss',
-                '**/src/style/themes/**/*-theme-{basis,components}.scss',
+                '**/src/style/themes/**/*-theme-{basis,components,dark-mode}.scss',
                 '**/src/extensions/payment-card/**/dnb-*.scss',
               ],
       includeFiles: [
@@ -180,6 +180,7 @@ const plugins = [
         '**/dnb-ui-basis*',
         '**/*-theme-components*',
         '**/*-theme-basis*',
+        '**/*-theme-dark-mode*',
         '**/payment-card/**/*',
       ],
       // also load the extensions CSS package
