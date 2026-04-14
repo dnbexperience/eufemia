@@ -136,6 +136,18 @@ describe('detectCountryCode', () => {
       expect(detectCountryCode('00')).toBeUndefined()
     })
 
+    it('should return undefined for short 00 values like "007"', () => {
+      expect(detectCountryCode('007')).toBeUndefined()
+      expect(detectCountryCode('008')).toBeUndefined()
+      expect(detectCountryCode('0044')).toBeUndefined()
+    })
+
+    it('should return undefined for 00 + country code with no subscriber number', () => {
+      expect(detectCountryCode('0047')).toBeUndefined()
+      expect(detectCountryCode('001')).toBeUndefined()
+      expect(detectCountryCode('00354')).toBeUndefined()
+    })
+
     it('should return undefined for 00 followed by unknown code', () => {
       expect(detectCountryCode('0099912345')).toBeUndefined()
     })

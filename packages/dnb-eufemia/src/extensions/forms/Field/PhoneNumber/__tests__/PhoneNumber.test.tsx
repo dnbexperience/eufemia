@@ -704,6 +704,38 @@ describe('Field.PhoneNumber', () => {
       expect(numberElement.value).toBe('')
     })
 
+    it('should round-trip a 00-prefixed value with omitSpaceSeparator', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Field.PhoneNumber
+          value="004712345678"
+          onChange={onChange}
+          omitSpaceSeparator
+        />
+      )
+
+      const codeElement = document.querySelector(
+        '.dnb-forms-field-phone-number__country-code input'
+      ) as HTMLInputElement
+      const numberElement = document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      ) as HTMLInputElement
+
+      expect(codeElement.value).toBe('NO (+47)')
+      expect(numberElement.value).toBe('12 34 56 78')
+
+      await userEvent.type(numberElement, '{Backspace}9')
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        '+4712345679',
+        expect.objectContaining({
+          countryCode: '+47',
+          phoneNumber: '12345679',
+        })
+      )
+    })
+
     it('should round-trip a 0047 value with native 00 support and transformOut', async () => {
       const onChange = jest.fn()
       const transformOut = (value: string) =>
