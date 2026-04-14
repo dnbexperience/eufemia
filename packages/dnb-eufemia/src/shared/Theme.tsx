@@ -18,11 +18,11 @@ export type ThemeSizes = 'basis'
 export type PropMapping = string
 export type ContrastMode = boolean
 /**
- * Changes component style based on dark token values. Defaults to `undefined`.
+ * Controls the color scheme. Use `'dark'` or `'light'` to set explicitly, or `'auto'` to follow the user's system preference. Defaults to `undefined`.
  */
 export type ThemeColorScheme = 'auto' | 'light' | 'dark'
 /**
- * Changes component style based on background. Defaults to `undefined`.
+ * Adjusts component appearance for use on dark backgrounds. Defaults to `undefined`.
  */
 export type ThemeSurface = 'default' | 'dark'
 
