@@ -4469,8 +4469,8 @@ __metadata:
     postcss-selector-parser: "npm:7.1.0"
     prettier: "npm:3.8.1"
     prettier-package-json: "npm:2.8.0"
-    react: "npm:19.2.3"
-    react-dom: "npm:19.2.3"
+    react: "npm:19.2.5"
+    react-dom: "npm:19.2.5"
     repo-utils: "workspace:*"
     sass: "npm:1.97.2"
     sass-loader: "npm:16.0.7"
@@ -14933,8 +14933,8 @@ __metadata:
     prism-react-renderer: "npm:2.0.5"
     process: "npm:0.11.10"
     raw-loader: "npm:4.0.2"
-    react: "npm:19.2.3"
-    react-dom: "npm:19.2.3"
+    react: "npm:19.2.5"
+    react-dom: "npm:19.2.5"
     react-live-ssr: "workspace:*"
     react-markdown: "npm:9.1.0"
     remark-gfm: "npm:1.0.0"
@@ -16729,8 +16729,8 @@ __metadata:
     eslint-plugin-react-hooks: "npm:7.0.1"
     eslint-plugin-react-refresh: "npm:0.4.26"
     globals: "npm:16.4.0"
-    react: "npm:19.2.3"
-    react-dom: "npm:19.2.3"
+    react: "npm:19.2.5"
+    react-dom: "npm:19.2.5"
     sass: "npm:1.97.2"
     typescript: "npm:5.9.3"
     typescript-eslint: "npm:8.52.0"
@@ -29708,14 +29708,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:19.2.3":
-  version: 19.2.3
-  resolution: "react-dom@npm:19.2.3"
+"react-dom@npm:19.2.5":
+  version: 19.2.5
+  resolution: "react-dom@npm:19.2.5"
   dependencies:
     scheduler: "npm:^0.27.0"
   peerDependencies:
-    react: ^19.2.3
-  checksum: 10/5780f6d4c8e8ece09f82c5500ba2d55e01c30b5273f9281734d7d3b65013cd1fa52ec4e4436e5248c0a9e5bc340836044051168bbad8d7eac4d33ee6c2a867a1
+    react: ^19.2.5
+  checksum: 10/ba14b022c7191d27b723314b964a1a4d839832e6edd231294097e323973808f97ac647bcf182ab0104e20ae6532dbc36733aec3e8333a1446a7183099c96b255
   languageName: node
   linkType: hard
 
@@ -29806,10 +29806,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:19.2.3":
-  version: 19.2.3
-  resolution: "react@npm:19.2.3"
-  checksum: 10/d16b7f35c0d35a56f63d9d1693819762e4abc479c57dd6310298920bed3820fcec7e17a99d44983416d8f5049143ea45b8005d3ab8324bae8973224400502b08
+"react@npm:19.2.5":
+  version: 19.2.5
+  resolution: "react@npm:19.2.5"
+  checksum: 10/1c3c7ffecb90b7f89a5c3ef635e6811f3a84600097f203b918150cb7e6b0a52915e858e5b4c82317a520dffccfa46ee4819ccf92c59c5b2d6c25cffe258dd20c
   languageName: node
   linkType: hard
 
