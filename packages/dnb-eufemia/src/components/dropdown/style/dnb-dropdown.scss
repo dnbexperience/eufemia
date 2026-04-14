@@ -134,28 +134,6 @@
     width: auto;
   }
 
-  @include utilities.allBelow(small) {
-    &--action-menu &__trigger.dnb-button {
-      padding-left: 0.5rem;
-      padding-right: 0.5rem;
-
-      border-radius: 50%;
-    }
-  }
-
-  @include utilities.allAbove(small) {
-    &--action-menu &__shell &__text {
-      padding: 0 0.5rem;
-    }
-  }
-
-  @include utilities.allBelow(small) {
-    &--action-menu &__shell &__text {
-      width: 0;
-      padding: 0;
-    }
-  }
-
   &--icon-position-left
     .dnb-button--tertiary
     ~ .dnb-drawer-list__root--portal {

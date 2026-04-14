@@ -89,18 +89,8 @@ export const DropdownProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  actionMenu: {
-    doc: 'Same as `preventSelection`, but the DrawerList will be opened from the bottom of the page for mobile devices. Defaults to `false`.',
-    type: 'boolean',
-    status: 'optional',
-  },
-  moreMenu: {
-    doc: 'Same as `preventSelection`, but the "selection area" (given title) will not be visible and the icon `more` (three dots) is used. Defaults to `false`.',
-    type: 'boolean',
-    status: 'optional',
-  },
   align: {
-    doc: 'Use `right` to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `moreMenu`. Defaults to `left`.',
+    doc: 'Use `right` to change the options alignment direction. Makes only sense to use in combination with `preventSelection`. Defaults to `left`.',
     type: ['"left"', '"right"'],
     status: 'optional',
   },

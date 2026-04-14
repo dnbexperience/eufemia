@@ -21,7 +21,7 @@ import {
   Tooltip,
   Heading,
   Icon,
-  Dropdown,
+  Menu,
 } from '@dnb/eufemia/src'
 import {
   stop as stopIcon,
@@ -1884,7 +1884,13 @@ export const InCard = () => (
               </Heading>
             </Flex.Horizontal>
 
-            <Dropdown data={['My list', 'All']} moreMenu />
+            <Menu.Root>
+              <Menu.Button />
+              <Menu.List>
+                <Menu.Action text="My list" />
+                <Menu.Action text="All" />
+              </Menu.List>
+            </Menu.Root>
           </Flex.Horizontal>
           <MyTable />
         </Card>

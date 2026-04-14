@@ -180,10 +180,9 @@ export type DrawerListProps = {
    * If set to `true`, the DrawerList will then not make any permanent selection.
    */
   preventSelection?: boolean
-  actionMenu?: boolean
   isPopup?: boolean
   /**
-   * Use 'right' to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `moreMenu` - or if an independent width is used.
+   * Use 'right' to change the options alignment direction. Makes only sense to use in combination with `preventSelection` - or if an independent width is used.
    */
   alignDrawer?: 'left' | 'right'
   /**
@@ -407,7 +406,6 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
     noAnimation,
     noScrollAnimation,
     preventSelection,
-    actionMenu,
     isPopup,
     portalClass,
     listClass,
@@ -504,10 +502,8 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
       arrowPosition && `dnb-drawer-list--arrow-position-${arrowPosition}`,
       alignDrawer && `dnb-drawer-list--${alignDrawer}`,
       size && `dnb-drawer-list--${size}`,
-      actionMenu && `dnb-drawer-list--action-menu`,
       isPopup && 'dnb-drawer-list--is-popup',
-      (independentWidth || actionMenu) &&
-        'dnb-drawer-list--independent-width',
+      independentWidth && 'dnb-drawer-list--independent-width',
       scrollable && 'dnb-drawer-list--scroll',
       noScrollAnimation && 'dnb-drawer-list--no-scroll-animation',
       createSpacingClasses(propsWithDefaults),
