@@ -88,9 +88,7 @@ type AutocompleteSubmitButtonIcon =
 type AutocompleteInputRef =
   | ((element: HTMLInputElement | null) => void)
   | React.RefObject<HTMLInputElement | undefined>
-type AutocompleteInputElement =
-  | ((...args: any[]) => React.ReactNode)
-  | React.ReactNode
+type AutocompleteInputElement = React.ElementType | React.ReactNode
 type AutocompleteSearchInWordIndex = string | number
 type AutocompleteSearchMatch = 'word' | 'starts-with'
 
