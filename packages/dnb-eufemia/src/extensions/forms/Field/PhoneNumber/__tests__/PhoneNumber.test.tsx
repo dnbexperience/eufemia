@@ -2128,5 +2128,55 @@ describe('Field.PhoneNumber', () => {
       expect(codeElement.value).toBe('AS (+1-684)')
       expect(numberElement.value).toBe('1234567')
     })
+
+    it('should provide correct iso in additionalArgs for dashed CDC codes', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Field.PhoneNumber value="+16841234567" onChange={onChange} />
+      )
+
+      const codeElement = document.querySelector(
+        '.dnb-forms-field-phone-number__country-code input'
+      ) as HTMLInputElement
+
+      expect(codeElement.value).toBe('AS (+1-684)')
+
+      const numberElement = document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      ) as HTMLInputElement
+
+      await userEvent.type(numberElement, '{Backspace}9')
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        '+16841234569',
+        expect.objectContaining({
+          countryCode: '+1-684',
+          phoneNumber: '1234569',
+          iso: 'AS',
+        })
+      )
+    })
+
+    it('should provide correct iso in additionalArgs for spaceless dashed CDC on initial render', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Field.PhoneNumber value="+16841234567" onChange={onChange} />
+      )
+
+      const numberElement = document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      ) as HTMLInputElement
+
+      await userEvent.type(numberElement, '8')
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          iso: 'AS',
+        })
+      )
+    })
   })
 })

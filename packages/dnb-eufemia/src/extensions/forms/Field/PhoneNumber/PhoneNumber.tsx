@@ -336,10 +336,10 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
       if (!currentCountryRef.current) {
         type Item = DrawerListDataArrayItem & { country: CountryType }
 
-        const cdcVal = countryCode?.replace(/^\+/, '')
+        const cdcVal = countryCode?.replace(/^\+/, '').replace(/-/g, '')
         // @ts-expect-error - strictFunctionTypes
         const item = dataRef.current.find((item: Item) => {
-          const cdc = item?.country?.cdc
+          const cdc = item?.country?.cdc?.replace(/-/g, '')
           return cdc === cdcVal
         }) as Item
 
@@ -476,10 +476,14 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
     ({ value, updateData, revalidateInputValue, event }) => {
       // Handle browser autofill/autocomplete
       if (typeof event?.nativeEvent?.data === 'undefined') {
-        const cdcVal = /\+\d{1,3}\s{1}\d+/.test(value)
-          ? splitValue(value)[0]
+        const hasCodeAndNumber =
+          value?.startsWith('+') && value.includes(' ')
+        const cdcVal = hasCodeAndNumber
+          ? splitValue(value)[0]?.replace(/^\+/, '')
           : value
-        const country = countries.find(({ cdc }) => cdc === cdcVal)
+        const country = countries.find(
+          ({ cdc }) => cdc.replace(/-/g, '') === cdcVal?.replace(/-/g, '')
+        )
         if (country?.cdc) {
           const countryCode = (countryCodeRef.current = formatCountryCode(
             country.cdc
@@ -527,7 +531,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
           label={
             countryCodeLabel === false
               ? defaultCountryCodeLabel
-              : (countryCodeLabel ?? defaultCountryCodeLabel)
+              : countryCodeLabel ?? defaultCountryCodeLabel
           }
           labelSrOnly={countryCodeLabel === false ? true : undefined}
           data={dataRef.current}
@@ -559,7 +563,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
         label={
           numberLabel === false
             ? defaultLabel
-            : (numberLabel ?? defaultLabel)
+            : numberLabel ?? defaultLabel
         }
         labelSrOnly={numberLabel === false ? true : undefined}
         placeholder={
@@ -581,8 +585,8 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
           width === 'stretch'
             ? 'stretch'
             : props.omitCountryCodeField && width === 'large'
-              ? 'large'
-              : 'medium'
+            ? 'large'
+            : 'medium'
         }
         help={{ ...help, breakout: false, outset: false }}
         required={required}
