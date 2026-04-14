@@ -7,20 +7,9 @@ import StatusOverlay, { isCardBlocked } from './StatusOverlay'
 import CardNumberText from './CardNumber'
 import CardTypeText from './CardType'
 import { BankAxeptType, CardType } from '../utils/Types'
+import type { PaymentCardRawData } from '../PaymentCard'
 
-export type CardData = {
-  productCode: string
-  productName: string
-  displayName: string
-  cardDesign: {
-    cardStyle: string
-    bankLogo: string
-    backgroundImage?: string
-  }
-  cardType: CardType
-  productType: any
-  bankAxept: BankAxeptType
-}
+export type CardData = PaymentCardRawData
 
 type CardFigureProps = {
   id?: string | null
