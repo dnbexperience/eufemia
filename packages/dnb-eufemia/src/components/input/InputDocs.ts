@@ -8,7 +8,7 @@ export const InputProperties: PropertiesTableProps = {
   },
   align: {
     doc: 'Defines the text alignment of the input. Can be `left`, `right` or `center`. Defaults to `left`.',
-    type: 'string',
+    type: ['"left"', '"center"', '"right"'],
     status: 'optional',
   },
   label: {
