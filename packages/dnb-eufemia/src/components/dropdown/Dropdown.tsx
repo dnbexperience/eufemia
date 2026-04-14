@@ -46,10 +46,17 @@ import type { SpacingProps } from '../../shared/types'
 import type {
   DrawerListProps,
   DrawerListData,
+  DrawerListEvent,
   DrawerListSuffix,
 } from '../../fragments/DrawerList'
 
 export type DropdownData = DrawerListData
+
+export type DropdownOpenEvent = DrawerListEvent
+
+export type DropdownCloseEvent = Omit<DrawerListEvent, 'ulElement'> & {
+  event?: React.SyntheticEvent
+}
 type DropdownTitle = string | React.ReactNode
 type DropdownAlign = 'left' | 'right'
 type DropdownTriggerElement =
@@ -129,11 +136,11 @@ export type DropdownProps = {
   /**
    * Will be called once the Dropdown shows up.
    */
-  onOpen?: (args: Record<string, unknown>) => void
+  onOpen?: (event: DropdownOpenEvent) => void
   /**
    * Will be called once the Dropdown gets closed.
    */
-  onClose?: (args: Record<string, unknown>) => void
+  onClose?: (event: DropdownCloseEvent) => void
   onOpenFocus?: (args: { element: HTMLElement }) => void
   onCloseFocus?: (args: { element: HTMLElement }) => void
 }
