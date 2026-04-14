@@ -4,7 +4,7 @@
  * This is a legacy component.
  * For referencing while developing new features, please use a Functional component.
  */
-import React from 'react'
+import React, { useContext } from 'react'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
@@ -136,7 +136,7 @@ const paymentCardDefaultProps = {
 }
 
 function PaymentCard(props: PaymentCardProps) {
-  const context = React.useContext(Context)
+  const context = useContext(Context)
 
   // use only the props from context, who are available here anyway
   const extendedProps = extendPropsWithContextInClassComponent(
@@ -224,7 +224,7 @@ function PaymentCardContent({
   skeleton: SkeletonShow
   variant: PaymentCardVariant
 }) {
-  const { translation } = React.useContext(Context)
+  const { translation } = useContext(Context)
   const translations = extendPropsWithContextInClassComponent(
     {
       ...translationDefaultPropsProps,
