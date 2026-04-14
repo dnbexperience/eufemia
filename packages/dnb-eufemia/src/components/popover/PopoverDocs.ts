@@ -207,7 +207,7 @@ export const PopoverProperties: PropertiesTableProps = {
   },
   autoAlignMode: {
     doc: "Control when the popover automatically flips its placement to fit within the viewport. `initial` (default): Flip placement only on initial open when there's limited space. `scroll`: Flip placement on initial open and during scroll events. `never`: Never automatically flip placement, always use the specified `placement` property.",
-    type: ['"initial"', '"scroll"', 'never'],
+    type: ['"initial"', '"scroll"', '"never"'],
     defaultValue: 'initial',
     status: 'optional',
   },
