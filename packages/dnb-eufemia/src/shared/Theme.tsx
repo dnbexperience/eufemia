@@ -18,7 +18,7 @@ export type ThemeSizes = 'basis'
 export type PropMapping = string
 export type ContrastMode = boolean
 export type ThemeColorScheme = 'auto' | 'light' | 'dark'
-export type ThemeSurface = 'dark'
+export type ThemeSurface = 'dark' | 'default'
 
 export type ThemeProps = {
   name?: ThemeNames

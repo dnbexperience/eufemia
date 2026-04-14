@@ -1141,6 +1141,10 @@ button.dnb-button::-moz-focus-inner {
   --text-color: var(--token-color-text-neutral);
   --background-color: var(--token-color-background-warning-subtle);
 }
+.dnb-section--surface-dark {
+  --text-color: var(--token-color-text-neutral-ondark);
+  --background-color: var(--token-color-decorative-first-bold-static);
+}
 
 /*
 * SkipContent component

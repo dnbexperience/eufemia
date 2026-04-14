@@ -51,6 +51,11 @@ export const SectionProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  surface: {
+    doc: 'Define the surface color context. When set to `dark`, ondark design tokens will be used for text and outline colors. Uses `--token-color-decorative-first-bold-static` as the default background color and `--token-color-text-neutral-ondark` as the text color.',
+    type: 'string',
+    status: 'optional',
+  },
   ref: {
     doc: 'By providing a React Ref we can get the internally used element (DOM). E.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
     type: 'React.RefObject',

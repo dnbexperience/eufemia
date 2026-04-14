@@ -19,7 +19,10 @@ export const Default = () => (
 
 export const NoBreakout = () => (
   <ComponentBox hideCode data-visual-test="section-no-breakout">
-    <Section breakout={false} backgroundColor="pistachio">
+    <Section
+      breakout={false}
+      backgroundColor="var(--token-color-background-neutral-subtle)"
+    >
       <P space={0}>No breakout</P>
     </Section>
   </ComponentBox>
@@ -39,9 +42,9 @@ export const ResponsiveAppearance = () => (
       }}
       roundedCorner={{ large: true }}
       backgroundColor={{
-        small: 'white',
-        medium: 'pistachio',
-        large: 'pistachio',
+        small: 'var(--token-color-background-neutral)',
+        medium: 'var(--token-color-background-neutral-subtle)',
+        large: 'var(--token-color-background-neutral-subtle)',
       }}
       dropShadow={{
         small: false,
@@ -63,7 +66,7 @@ export const ResponsiveInnerSpace = () => (
         medium: { block: 'medium', inline: 'small' },
         large: false,
       }}
-      backgroundColor="pistachio"
+      backgroundColor="var(--token-color-background-neutral-subtle)"
       breakout={false}
     >
       <P space={0}>Responsive innerSpace</P>
@@ -98,63 +101,60 @@ export const SectionZIndex = () => (
   <ComponentBox hideCode data-visual-test="section-z-index">
     <Section
       innerSpace={{ top: 'large', bottom: 'large' }}
-      backgroundColor="mint-green-12"
+      backgroundColor="var(--token-color-background-neutral-subtle)"
     >
-      mint-green-12
+      token-color-background-neutral-subtle
       <div>
         <Section
           innerSpace={{ top: 'large', bottom: 'large' }}
-          backgroundColor="mint-green"
+          backgroundColor="var(--token-color-background-positive-subtle)"
         >
-          mint-green
+          token-color-background-positive-subtle
           <div>
             <Section
               innerSpace={{ top: 'large', bottom: 'large' }}
-              textColor="white"
-              backgroundColor="sea-green"
+              textColor="var(--token-color-text-neutral-ondark)"
+              backgroundColor="var(--token-color-background-info)"
             >
-              sea-green
+              token-color-background-info
               <div>
                 <Section
                   innerSpace={{ top: 'large', bottom: 'large' }}
-                  textColor="mint-green"
-                  backgroundColor="emerald-green"
+                  textColor="var(--token-color-text-neutral-ondark)"
+                  backgroundColor="var(--token-color-background-marketing)"
                 >
-                  emerald-green
+                  token-color-background-marketing
                   <div>
                     <Section
                       innerSpace={{ top: 'large', bottom: 'large' }}
-                      textColor="white"
-                      backgroundColor="fire-red"
+                      textColor="var(--token-color-text-neutral-ondark)"
+                      backgroundColor="var(--token-color-background-error)"
                     >
-                      fire-red
+                      token-color-background-error
                       <div>
                         <Section
                           innerSpace={{ top: 'large', bottom: 'large' }}
-                          textColor="black-80"
-                          backgroundColor="sand-yellow"
+                          backgroundColor="var(--token-color-background-warning-subtle)"
                         >
-                          sand-yellow
+                          token-color-background-warning-subtle
                           <div>
                             <Section
                               innerSpace={{
                                 top: 'large',
                                 bottom: 'large',
                               }}
-                              textColor="black-80"
-                              backgroundColor="pistachio"
+                              backgroundColor="var(--token-color-background-neutral-subtle)"
                             >
-                              pistachio
+                              token-color-background-neutral-subtle
                               <div>
                                 <Section
                                   innerSpace={{
                                     top: 'large',
                                     bottom: 'large',
                                   }}
-                                  textColor="black-80"
-                                  backgroundColor="lavender"
+                                  backgroundColor="var(--token-color-background-marketing-subtle)"
                                 >
-                                  lavender
+                                  token-color-background-marketing-subtle
                                   <div>
                                     <Section
                                       innerSpace={{
