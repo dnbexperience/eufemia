@@ -21,13 +21,10 @@ import MastercardDark from './providers/MastercardDark'
 import VisaDefault from './providers/VisaDefault'
 import VisaPlatinum from './providers/VisaPlatinum'
 import { StatusIcon } from './status'
+import type { DNB as DNBType, ProductType, BankAxeptType, CardType } from '../utils/Types'
+import type { CardDesign } from '../utils/CardDesigns'
 
-// Daggy tagged sum type - these values have a .cata() method at runtime
-// but Types.d.ts doesn't declare .cata() on the types, so we use any here
-type DaggyType = any
-type DaggyDesign = Record<string, any>
-
-const BankLogo = ({ logoType }: { logoType: DaggyType }) =>
+const BankLogo = ({ logoType }: { logoType: DNBType }) =>
   logoType.cata({
     Colored: (color) => (
       <DNB fill={color} className="dnb-payment-card__card__bank-logo" />
@@ -44,8 +41,8 @@ const ProductLogo = ({
   productType,
   cardDesign,
 }: {
-  productType: DaggyType
-  cardDesign: DaggyDesign
+  productType: ProductType
+  cardDesign: CardDesign
 }) => {
   const id = 'dnb-payment-card__card__product-type'
   return productType.cata({
@@ -74,8 +71,8 @@ const BankAxeptLogo = ({
   bankAxept,
   cardDesign,
 }: {
-  bankAxept: DaggyType
-  cardDesign: DaggyDesign
+  bankAxept: BankAxeptType
+  cardDesign: CardDesign
 }) => {
   const id = 'dnb-payment-card__card__bank-axept'
   return bankAxept.cata({
@@ -97,8 +94,8 @@ const TypeLogo = ({
   cardType,
   cardDesign,
 }: {
-  cardType: DaggyType
-  cardDesign: DaggyDesign
+  cardType: CardType
+  cardDesign: CardDesign
 }) => {
   const id = 'dnb-payment-card__card__credit-type'
   return cardType.cata({
