@@ -43,7 +43,7 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
   },
   layout: {
     doc: 'Layout for the label and input. Can be `horizontal` or `vertical`.',
-    type: 'string',
+    type: ['"horizontal"', '"vertical"'],
     status: 'optional',
   },
   layoutOptions: {
