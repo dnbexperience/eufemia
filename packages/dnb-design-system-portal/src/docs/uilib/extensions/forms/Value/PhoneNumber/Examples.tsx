@@ -48,7 +48,7 @@ export const InternationalSuffix = () => {
       <Flex.Stack>
         <Value.PhoneNumber label="Label text" value="+4798712345" />
         <Value.PhoneNumber label="Label text" value="+8860998472751" />
-        <Value.PhoneNumber label="Label text" value="+1-868 6758288" />
+        <Value.PhoneNumber label="Label text" value="+18686758288" />
       </Flex.Stack>
     </ComponentBox>
   )

@@ -38,6 +38,8 @@ The default country code is set to `+47`.
 
 The component emits values in E.164 format without spaces (e.g. `+4712345678`). This applies to `onChange`, `transformOut`, and the data context. The `additionalArgs` second argument provides the structured `countryCode` and `phoneNumber` separately if needed.
 
+For backwards compatibility, space-separated values like `+47 12345678` are also accepted as input and silently normalized to E.164 format.
+
 ### Auto-detection of country code
 
 When a phone number value is provided without a space separator between the country code and the number (e.g. `+4712345678` or `+46701234567`), the component will auto-detect the country code and split the value correctly. It supports all known E.164 country codes using a longest-prefix-match approach. This is useful when receiving phone numbers from a backend system.
