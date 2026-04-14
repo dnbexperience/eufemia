@@ -297,18 +297,25 @@ function Accordion({
     return false
   }
 
-  function callOnChangeHandler(...params: any[]) {
-    callOnChange(...params)
+  type AccordionInternalChangeParams = {
+    id: string
+    group: string
+    expanded: boolean
+    event: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>
+  }
+
+  function callOnChangeHandler(params: AccordionInternalChangeParams) {
+    callOnChange(params)
     if (context?.onChange) {
-      context?.onChange(...params)
+      context?.onChange(params)
     }
     if (group && typeof window !== 'undefined') {
-      window?.['__dnbAccordion'][group]?.onChange(...params)
+      window?.['__dnbAccordion'][group]?.onChange(params)
     }
   }
 
-  function callOnChange(...params: any[]) {
-    const { expanded, event } = params[0]
+  function callOnChange(params: AccordionInternalChangeParams) {
+    const { expanded, event } = params
 
     changeOpened(expanded)
 
