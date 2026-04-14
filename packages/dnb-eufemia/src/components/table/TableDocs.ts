@@ -3,14 +3,14 @@ import type { PropertiesTableProps } from '../../shared/types'
 export const TableProperties: PropertiesTableProps = {
   mode: {
     doc: 'Defines how the Table should look. Use `accordion` for an accordion-like table. Use `navigation` for a navigation table.',
-    type: [`'accordion'`, `'navigation'`],
+    type: ['"accordion"', '"navigation"'],
     defaultValue: 'null',
     status: 'optional',
   },
   accordionChevronPlacement: {
     doc: 'Defines where the chevron will be placed, should only be used together with mode="accordion".',
-    type: [`'left'`, `'right'`],
-    defaultValue: `'left'`,
+    type: ['"left"', '"right"'],
+    defaultValue: '"left"',
     status: 'optional',
   },
   border: {
@@ -27,7 +27,7 @@ export const TableProperties: PropertiesTableProps = {
   },
   sticky: {
     doc: "Use `true` to enable a sticky Table header. Or use `'css-position'` to enable the CSS based scroll behavior.",
-    type: ['boolean', `'css-position'`],
+    type: ['boolean', '"css-position"'],
     defaultValue: 'false',
     status: 'optional',
   },
@@ -39,8 +39,8 @@ export const TableProperties: PropertiesTableProps = {
   },
   size: {
     doc: 'Spacing size inside the table header and data.',
-    type: [`'large'`, `'small'`, `'medium'`],
-    defaultValue: `'large'`,
+    type: ['"large"', '"small"', '"medium"'],
+    defaultValue: '"large"',
     status: 'optional',
   },
   fixed: {
