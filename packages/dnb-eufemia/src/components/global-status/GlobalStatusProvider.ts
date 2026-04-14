@@ -21,13 +21,13 @@ type StatusProps = {
   items?: (StatusItem | string)[] | string
   item?: StatusItem | string
   bufferDelay?: number
-  [key: string]: any
+  [key: string]: unknown
 }
 
 type StatusItem = {
   itemId?: string
-  text?: any
-  [key: string]: any
+  text?: ReactNode
+  [key: string]: unknown
 }
 
 export type GlobalStatusResult = {
