@@ -334,16 +334,22 @@ These properties are unique to a single component and only listed once here.
 
 #### InputMasked (unique props)
 
-| Old             | New            |
-| --------------- | -------------- |
-| `number_mask`   | `numberMask`   |
-| `currency_mask` | `currencyMask` |
-| `mask_options`  | `maskOptions`  |
-| `number_format` | `numberFormat` |
-| `as_currency`   | `asCurrency`   |
-| `as_number`     | `asNumber`     |
-| `as_percent`    | `asPercent`    |
-| `show_mask`     | `showMask`     |
+| Old                                   | New                                |
+| ------------------------------------- | ---------------------------------- |
+| `number_mask`                         | `numberMask`                       |
+| `currency_mask`                       | `currencyMask`                     |
+| `mask_options`                        | `maskOptions`                      |
+| `number_format`                       | `numberFormat`                     |
+| `as_currency`                         | `asCurrency`                       |
+| `as_number`                           | `asNumber`                         |
+| `as_percent`                          | `asPercent`                        |
+| `show_mask`                           | `showMask`                         |
+| `show_guide`                          | Removed                            |
+| `keep_char_positions`                 | Removed                            |
+| `placeholder_char`                    | Removed                            |
+| `pipe`                                | Removed                            |
+| Function-based masks (`MaskFunction`) | Removed — use array masks directly |
+| `{ mask: ... }` object form           | Removed — use array masks directly |
 
 #### FormLabel
 
@@ -391,6 +397,14 @@ These properties are unique to a single component and only listed once here.
 | `indicator_label` | `indicatorLabel`   |
 | `show_label`      | `showDefaultLabel` |
 | `class`           | `className`        |
+
+#### Stat
+
+| Old                            | New                         |
+| ------------------------------ | --------------------------- |
+| `Stat.Amount`                  | Removed — use `Stat.Number` |
+| `Stat.Info variant="default"`  | Use `variant="plain"`       |
+| `Stat.Label variant="default"` | Use `variant="plain"`       |
 
 #### PaymentCard
 
