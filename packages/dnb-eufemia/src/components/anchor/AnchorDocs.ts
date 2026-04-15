@@ -38,7 +38,7 @@ export const AnchorProperties: PropertiesTableProps = {
   },
   iconPosition: {
     doc: '`left` (default) or `right`. Places icon to the left or to the right of the text.',
-    type: 'string',
+    type: ['"left"', '"right"'],
     status: 'optional',
   },
   noAnimation: {
