@@ -8,7 +8,7 @@ import clsx from 'clsx'
 import useId from '../../shared/helpers/useId'
 import {
   warn,
-  extendPropsWithContextInClassComponent,
+  extendExistingPropsWithContext,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
@@ -234,17 +234,14 @@ function ToggleButton(ownProps: ToggleButtonProps) {
     ...removeUndefinedProps({ ...ownProps }),
   }
 
-  // Uses extendPropsWithContextInClassComponent (onlyMergeExistingProps: true)
-  // to prevent context props not defined in toggleButtonDefaultProps from
-  // leaking into the component and potentially reaching DOM attributes.
-  const contextProps = extendPropsWithContextInClassComponent(
+  const contextProps = extendExistingPropsWithContext(
     resolvedProps,
     toggleButtonDefaultProps,
     groupContext as Record<string, unknown>
   )
 
   // use only the props from context, who are available here anyway
-  const props = extendPropsWithContextInClassComponent(
+  const props = extendExistingPropsWithContext(
     resolvedProps,
     toggleButtonDefaultProps,
     contextProps,
