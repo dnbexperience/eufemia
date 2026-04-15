@@ -156,7 +156,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
 
         // Normalize to E.164 format so the stored value is always spaceless
         if (countryCode && phoneNumber) {
-          return joinValue([countryCode, phoneNumber])
+          return toE164([countryCode, phoneNumber])
         }
       }
       return external
@@ -186,7 +186,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
         }
 
         if (external?.phoneNumber) {
-          return joinValue([external.countryCode, external.phoneNumber])
+          return toE164([external.countryCode, external.phoneNumber])
         }
       }
 
@@ -361,7 +361,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
 
       handleChange(
         toEvent(
-          joinValue([eventValues.countryCode, eventValues.phoneNumber])
+          toE164([eventValues.countryCode, eventValues.phoneNumber])
         ),
         eventValues
       )
@@ -649,7 +649,7 @@ function splitValue(value: string) {
   return [undefined, value]
 }
 
-function joinValue(array: Array<string>) {
+function toE164(array: Array<string>) {
   return array
     .filter(Boolean)
     .map((part) => part.replace(/-/g, ''))
