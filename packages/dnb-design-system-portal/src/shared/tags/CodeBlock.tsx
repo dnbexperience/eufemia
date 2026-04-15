@@ -3,19 +3,30 @@
  *
  */
 
-import React from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import clsx from 'clsx'
 import { Highlight, Prism } from 'prism-react-renderer'
 import Tag from './Tag'
-import { Button, Space } from '@dnb/eufemia/src/components'
+import { Checkbox, Space, ToggleButton } from '@dnb/eufemia/src/components'
+import Theme from '@dnb/eufemia/src/shared/Theme'
+import type {
+  ThemeColorScheme,
+  ThemeSurface,
+} from '@dnb/eufemia/src/shared/Theme'
 import { makeUniqueId } from '@dnb/eufemia/src/shared/component-helper'
 import { Context } from '@dnb/eufemia/src/shared'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
 import {
   liveCodeEditorStyle,
-  toolbarStyle,
+  exampleBoxStyle,
   codeBlockStyle,
-  plainBackgroundStyle,
+  toolbarStyle,
 } from './CodeBlock.module.scss'
 import {
   LiveProvider,
@@ -33,6 +44,10 @@ export type CodeSectionProps = {
   hideToolbar?: boolean
   hideCode?: boolean
   hidePreview?: boolean
+  /**
+   * use surface="default" to just show the button to toggle surface, without forcing it to be dark by default
+   */
+  surface?: ThemeSurface
   reactLive?: boolean
   language?: string
   className?: string
@@ -49,7 +64,7 @@ const CodeBlock = ({
   reactLive: isReactLive,
   ...props
 }: CodeSectionProps) => {
-  const context = React.useContext(Context)
+  const context = useContext(Context)
 
   if (!language) {
     language = ((String(props && props.className).match(
@@ -130,49 +145,41 @@ function prepareCode(code: string) {
 }
 
 function LiveCode(props: LiveCodeProps) {
-  const context = React.useContext(Context)
-  const editorElementRef = React.useRef<HTMLDivElement>(null)
-  const idRef = React.useRef(makeUniqueId())
+  const context = useContext(Context)
+  const editorElementRef = useRef<HTMLDivElement>(null)
+  const idRef = useRef(makeUniqueId())
 
-  const [state, setState] = React.useState(() => {
-    const { hideToolbar, hideCode, hidePreview } = props
-    return {
-      hideToolbar,
-      hideCode,
-      hidePreview,
-      tabMode: 'focus' as const,
-    }
-  })
-
-  const toggleCode = () => {
-    setState((prev) => ({ ...prev, hideCode: !prev.hideCode }))
-  }
-
-  const togglePreview = () => {
-    setState((prev) => ({ ...prev, hidePreview: !prev.hidePreview }))
-  }
+  const [hideCode, setHideCode] = useState(props.hideCode)
+  const [hidePreview, setHidePreview] = useState(props.hidePreview)
+  const [tabMode] = useState<'focus' | 'indentation'>('focus')
+  const [colorScheme, setColorScheme] = useState<
+    ThemeColorScheme | undefined
+  >(undefined)
+  const [surface, setSurface] = useState<ThemeSurface | undefined>(
+    props.surface
+  )
 
   const {
-    scope = {},
+    scope: scopeProp,
     noInline,
     noFragments = true,
     language = 'jsx',
     background,
     omitWrapper,
 
-    code: _code, // eslint-disable-line
-    hideToolbar: _hideToolbar, // eslint-disable-line
-    hideCode: _hideCode, // eslint-disable-line
-    hidePreview: _hidePreview, // eslint-disable-line
-    omitWrapper: _omitWrapper, // eslint-disable-line
-    'data-visual-test': visualTest, // eslint-disable-line
+    code: codeProp,
+    hideToolbar: hideToolbarProp,
+    hideCode: hideCodeProp,
+    hidePreview: hidePreviewProp,
+    surface: surfaceProp,
+    'data-visual-test': visualTest,
 
     ...restProps
   } = props
 
-  const { hideToolbar, hideCode, hidePreview } = state
+  const scope = useMemo(() => scopeProp || {}, [scopeProp])
 
-  const codeToUse = React.useMemo(() => {
+  const codeToUse = useMemo(() => {
     const code =
       typeof props.code === 'string' ? prepareCode(props.code) : ''
 
@@ -187,7 +194,10 @@ function LiveCode(props: LiveCodeProps) {
     <div
       className={clsx(
         liveCodeEditorStyle,
-        background === 'plain' && plainBackgroundStyle
+        hideCode && 'hide-code',
+        hidePreview && 'hide-preview',
+        background && `background--${background}`,
+        surface && `surface--${surface}`
       )}
     >
       <LiveProvider
@@ -195,90 +205,104 @@ function LiveCode(props: LiveCodeProps) {
         code={codeToUse}
         scope={scope}
         language={language}
-        transformCode={(code: string) =>
-          !noInline && noFragments ? `<>${code}</>` : code
-        }
+        transformCode={useCallback(
+          (code: string) =>
+            !noInline && noFragments ? `<>${code}</>` : code,
+          [noInline, noFragments]
+        )}
         noInline={noInline}
         {...restProps}
       >
         {!hidePreview &&
           (omitWrapper ? (
-            <LivePreview
-              className="dnb-live-preview"
-              data-visual-test={visualTest}
-            />
-          ) : (
-            <div className="example-box">
+            <Theme colorScheme={colorScheme} surface={surface}>
               <LivePreview
-                className="dnb-live-preview"
+                className={clsx('dnb-live-preview')}
                 data-visual-test={visualTest}
               />
-            </div>
+            </Theme>
+          ) : (
+            <Theme colorScheme={colorScheme} surface={surface}>
+              <div className={clsx('example-box', exampleBoxStyle)}>
+                <LivePreview
+                  className={clsx('dnb-live-preview')}
+                  data-visual-test={visualTest}
+                />
+              </div>
+            </Theme>
           ))}
+
+        {!global.IS_TEST && !omitWrapper && !hideToolbarProp && (
+          <Space
+            element="section"
+            aria-label="Customize appearance"
+            className={clsx('dnb-live-toolbar', toolbarStyle)}
+          >
+            {hideCodeProp && (
+              <ToggleButton
+                checked={!hideCode}
+                onChange={({ checked }) => setHideCode(!checked)}
+                size="medium"
+              >
+                {hideCode ? 'Show Code' : 'Hide Code'}
+              </ToggleButton>
+            )}
+
+            {hidePreviewProp && (
+              <ToggleButton
+                checked={!hidePreview}
+                onChange={({ checked }) => setHidePreview(!checked)}
+                size="medium"
+              >
+                Preview
+              </ToggleButton>
+            )}
+
+            {(process.env.NODE_ENV === 'development' ||
+              process.env.GATSBY_IS_PREVIEW === 'true') && (
+              <Checkbox
+                checked={colorScheme === 'dark'}
+                onChange={({ checked }) =>
+                  setColorScheme(checked ? 'dark' : undefined)
+                }
+                size="medium"
+                label="Dark mode"
+              />
+            )}
+
+            {surfaceProp === 'dark' && (
+              <Checkbox
+                checked={colorScheme !== 'dark' && surface === 'dark'}
+                onChange={({ checked }) =>
+                  setSurface(checked ? 'dark' : undefined)
+                }
+                size="medium"
+                label="Dark surface"
+              />
+            )}
+          </Space>
+        )}
+
         {!global.IS_TEST && !hideCode && (
           <Space
+            title="Code Editor"
+            element="section"
             className={clsx(
               'dnb-live-editor',
               createSkeletonClass('code', context.skeleton)
             )}
-            top={omitWrapper}
             ref={editorElementRef}
           >
-            <span className="dnb-sr-only">Code Editor</span>
             <LiveEditor
               prism={Prism}
               id={idRef.current}
-              tabMode={state.tabMode}
+              tabMode={tabMode}
               className="dnb-live-editor__editable dnb-pre"
-              onFocus={() => {
-                if (editorElementRef.current) {
-                  editorElementRef.current.classList.add('dnb-pre--focus')
-                }
-              }}
-              onBlur={() => {
-                if (editorElementRef.current) {
-                  editorElementRef.current.classList.remove(
-                    'dnb-pre--focus'
-                  )
-                }
-              }}
             />
           </Space>
         )}
 
         <LiveError className="dnb-form-status dnb-form-status__text dnb-form-status--error" />
-
-        {!global.IS_TEST && !hideToolbar && (
-          <Space
-            className={clsx(toolbarStyle, 'dnb-live-toolbar')}
-            style={{
-              bottom: omitWrapper ? '-3.5rem' : 0,
-            }}
-          >
-            {props.hideCode && (
-              <Button
-                className="toggle-button"
-                onClick={toggleCode}
-                variant="secondary"
-                text="Code"
-                title="Toggle Code Snippet"
-                icon={`arrow-${hideCode ? 'down' : 'up'}`}
-                size="medium"
-              />
-            )}
-            {props.hidePreview && (
-              <Button
-                className="toggle-button"
-                onClick={togglePreview}
-                variant="secondary"
-                text="Preview"
-                title="Toggle Preview"
-                icon={`arrow-${!hidePreview ? 'down' : 'up'}`}
-                size="medium"
-              />
-            )}
-          </Space>
-        )}
       </LiveProvider>
     </div>
   )

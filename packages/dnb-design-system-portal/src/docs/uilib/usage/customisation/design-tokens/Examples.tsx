@@ -14,7 +14,9 @@ import {
   type TokenSectionId,
 } from '../../../../../uilib/utils/designTokens'
 
-const isDev = process.env.NODE_ENV === 'development'
+const isDev =
+  process.env.NODE_ENV === 'development' ||
+  process.env.GATSBY_IS_PREVIEW === 'true'
 
 const MDXCode = basicComponents.code
 const MDXParagraph = basicComponents.p
