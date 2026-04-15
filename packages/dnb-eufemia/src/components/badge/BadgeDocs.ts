@@ -37,7 +37,7 @@ export const BadgeProperties: PropertiesTableProps = {
     status: 'optional',
   },
   status: {
-    doc: 'Defines the status color of the `"information"` variant. Has no effect on other variants. Default is `"default"`.',
+    doc: 'Defines the status color of the `"information"` variant. Has no effect on other variants. Defaults to `"default"`.',
     type: [
       '"default"',
       '"positive"',
@@ -48,12 +48,12 @@ export const BadgeProperties: PropertiesTableProps = {
     status: 'optional',
   },
   subtle: {
-    doc: 'Applies subtle style to `"information"` variant. Has no effect on other variants. Default is `false`.',
+    doc: 'Applies subtle style to `"information"` variant. Has no effect on other variants. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
   hideBadge: {
-    doc: 'Removes the badge without removing children. Useful when Badge wraps content. Default is `false`.',
+    doc: 'Removes the badge without removing children. Useful when Badge wraps content. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

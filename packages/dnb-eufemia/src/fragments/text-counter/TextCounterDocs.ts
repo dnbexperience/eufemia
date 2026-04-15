@@ -12,7 +12,7 @@ export const TextCounterProperties: PropertiesTableProps = {
     status: 'required',
   },
   variant: {
-    doc: 'The counting variant. Can be either `up` (counts up from zero) or `down` (counts down from max). Default is `down`.',
+    doc: 'The counting variant. Can be either `up` (counts up from zero) or `down` (counts down from max). Defaults to `down`.',
     type: ['"down"', '"up"'],
     status: 'optional',
   },

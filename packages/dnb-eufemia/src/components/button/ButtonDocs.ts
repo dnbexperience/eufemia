@@ -52,7 +52,7 @@ export const ButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   selected: {
-    doc: 'Only for icon buttons. If true, use the style for a selected icon button. Default is `false`.',
+    doc: 'Only for icon buttons. If true, use the style for a selected icon button. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

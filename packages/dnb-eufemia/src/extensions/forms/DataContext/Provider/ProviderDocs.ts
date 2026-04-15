@@ -27,12 +27,12 @@ export const ProviderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   minimumAsyncBehaviorTime: {
-    doc: 'Minimum time to display the submit indicator. Default is 1s.',
+    doc: 'Minimum time to display the submit indicator. Defaults to 1s.',
     type: 'number',
     status: 'optional',
   },
   asyncSubmitTimeout: {
-    doc: 'The maximum time to display the submit indicator before it changes back to normal. In case something went wrong during submission. Default is 30s.',
+    doc: 'The maximum time to display the submit indicator before it changes back to normal. In case something went wrong during submission. Defaults to 30s.',
     type: 'number',
     status: 'optional',
   },

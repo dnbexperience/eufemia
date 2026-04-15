@@ -2,7 +2,7 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const DrawerListProperties: PropertiesTableProps = {
   '[data](#the-data-property)': {
-    doc: `The data we want to fill the list with. [Details on the type of {DATA} can be found below](#the-data-property). The data can be provided as an array or object. Or as a function that returns the data (called when user opens the list).`,
+    doc: 'The data we want to fill the list with. [Details on the type of {DATA} can be found below](#the-data-property). The data can be provided as an array or object. Or as a function that returns the data (called when user opens the list).',
     type: ['{DATA}', '() => {DATA}'],
     status: 'required',
   },
