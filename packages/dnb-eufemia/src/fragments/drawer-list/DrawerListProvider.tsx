@@ -191,7 +191,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   }
 
   // Re-render trigger
-  const [, forceRender] = useReducer((x: number) => x + 1, 0)
+  const [, forceUpdate] = useReducer(() => ({}), {})
 
   // Callback queue for setState(..., callback) pattern
   const callbacksRef = useRef<(() => void)[]>([])
@@ -206,7 +206,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       if (cb) {
         callbacksRef.current.push(cb)
       }
-      forceRender()
+      forceUpdate()
     },
     []
   )
