@@ -280,6 +280,19 @@
   }
 
   /*
+    * On active state
+    *
+    */
+  &__input:not([disabled]):active ~ &__background {
+    border-color: var(--token-color-stroke-action-pressed);
+    background-color: var(--token-color-background-action-pressed-subtle);
+  }
+
+  &__input:not([disabled]):active ~ &__button {
+    background-color: var(--token-color-background-action-pressed);
+  }
+
+  /*
     * On disabled state
     *
     */

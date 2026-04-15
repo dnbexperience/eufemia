@@ -62,13 +62,4 @@
   &__input:not([disabled]):checked ~ &__button &__focus {
     transform: rotate(180deg);
   }
-
-  /*
-    * On active state
-    *
-    */
-  &__input:not([disabled]):active ~ &__button {
-    background-color: var(--color-mint-green-50);
-    border-color: transparent;
-  }
 }
