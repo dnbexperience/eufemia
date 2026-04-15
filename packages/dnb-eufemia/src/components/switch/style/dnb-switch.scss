@@ -279,18 +279,17 @@
     background-color: var(--token-color-background-action-disabled);
   }
 
-  &__status--error
-    &__input:not([disabled]):not(:focus):not(:active)
-    ~ &__button
-    &__focus {
-    display: block;
-    @include utilities.fakeBorder(red, var(--focus-ring-width, 0.125rem));
+  /*
+    * On error state
+    *
+    */
+
+  &__status--error &__input:not([disabled]) ~ &__button {
+    background-color: var(--token-color-background-error);
   }
 
-  &__status--error
-    &__input:not([disabled]):not(:focus):not(:active)
-    ~ &__background {
-    background-color: tomato;
-    @include utilities.fakeBorder(red, var(--focus-ring-width, 0.125rem));
+  &__status--error &__input:not([disabled]) ~ &__background {
+    background-color: var(--token-color-background-error-subtle);
+    border-color: var(--token-color-stroke-error);
   }
 }
