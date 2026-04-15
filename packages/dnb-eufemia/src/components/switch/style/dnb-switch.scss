@@ -80,17 +80,6 @@
     }
   }
 
-  &__focus {
-    display: none;
-    position: absolute;
-    z-index: 2;
-
-    width: 100%;
-    height: 100%;
-
-    @include utilities.focusRing();
-  }
-
   /*
     * When switched OFF
     * aka when the switch is not :checked
@@ -191,7 +180,10 @@
 
   &__input:not([disabled]):focus ~ &__background,
   &__input:not([disabled]):active ~ &__background {
-    @include utilities.focusRing();
+    @include utilities.focusRing(
+      'keyboard',
+      var(--token-color-stroke-action-focus)
+    );
   }
 
   &__input:not([disabled]):focus ~ &__button &__focus,
@@ -290,6 +282,22 @@
 
   &__input:not([disabled]):active ~ &__button {
     background-color: var(--token-color-background-action-pressed);
+  }
+
+  /*
+   * On focus state
+   *
+   */
+
+  &__input:not([disabled]):focus ~ &__button {
+    html[data-whatinput='keyboard'] & {
+      background-color: var(--token-color-background-action-focus);
+    }
+  }
+  &__input:not([disabled]):focus ~ &__background {
+    html[data-whatinput='keyboard'] & {
+      background-color: var(--token-color-background-action-focus-subtle);
+    }
   }
 
   /*

@@ -6,24 +6,6 @@
 @use '../../../../style/core/utilities.scss' as utilities;
 
 .dnb-switch {
-  &__focus {
-    transition: transform 150ms ease-out;
-    transform: rotate(0deg);
-
-    // 15% is the top value
-    // 85% is the bottom value
-    clip-path: polygon(
-      50% 15%,
-      110% 15%,
-      110% -10%,
-      -10% -10%,
-      -10% 110%,
-      110% 110%,
-      110% 85%,
-      50% 85%
-    );
-  }
-
   /* stylelint-disable no-descending-specificity */
   &__input:checked ~ &__background::after {
     left: 0;
@@ -43,23 +25,5 @@
   &--large &__input:checked ~ &__background::after {
     height: 0.625rem;
     transform: translateX(calc(var(--switch-width--large) - 2.5rem));
-  }
-
-  /*
-    * On focus state
-    *
-    */
-  &__input:not([disabled]):focus ~ &__button {
-    html[data-whatinput='keyboard'] & {
-      border: none;
-    }
-  }
-  &__input:not([disabled]):not(:checked):focus ~ &__button {
-    html[data-whatinput='keyboard'] & {
-      background-color: var(--color-mint-green-50);
-    }
-  }
-  &__input:not([disabled]):checked ~ &__button &__focus {
-    transform: rotate(180deg);
   }
 }
