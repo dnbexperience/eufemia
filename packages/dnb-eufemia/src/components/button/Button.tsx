@@ -114,11 +114,11 @@ export type ButtonProps = {
    */
   surface?: ThemeSurface
   /**
-   * The size of the button. For now there is `small`, `medium`, `default` and `large`.
+   * The size of the button. There is `default`, `small`, `medium` and `large`. The `tertiary` button officially supports only default and large.
    */
   size?: ButtonSize
   /**
-   * To be included in the button. [Primary Icons](/icons/primary) can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements.
+   * To be included in the button. [Primary Icons](/icons/primary) can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements. For the `tertiary` button an icon is basically required for accessibility reasons (unless you explicitly turn it off with `icon={false}`).
    */
   icon?: ButtonIcon
   /**
@@ -126,7 +126,7 @@ export type ButtonProps = {
    */
   iconPosition?: ButtonIconPositionAll
   /**
-   * Define icon width and height. Defaults to 16px.
+   * Define icon width and height. Defaults to `16px`.
    */
   iconSize?: IconSize
   /**
@@ -167,7 +167,7 @@ export type ButtonProps = {
    */
   bounding?: boolean
   /**
-   * Set it to `true` in order to stretch the button to the available space. Defaults to false.
+   * Set it to `true` in order to stretch the button to the available space. Defaults to `false`.
    */
   stretch?: boolean
   /**

@@ -30,8 +30,7 @@ export type TagProps = {
   text?: string | React.ReactNode
 
   /**
-   * Icon displaying on the left side
-   * Default: `null`
+   * To be included in the tag. [Primary Icons](/icons/primary) can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements. Note, we recommend not to use icons with clickable tags.
    */
   icon?: IconIcon
 

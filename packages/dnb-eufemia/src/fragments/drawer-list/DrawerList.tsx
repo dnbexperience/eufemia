@@ -144,7 +144,7 @@ export type DrawerListProps = {
    */
   cacheHash?: string
   /**
-   * Position of the arrow on the popup drawer. Set to 'left' or 'right'. Defaults to 'left' if not set.
+   * Position of the arrow on the popup drawer. Set to `left` or `right`. Defaults to `left` if not set.
    */
   arrowPosition?: string
   /**
@@ -156,7 +156,7 @@ export type DrawerListProps = {
    */
   focusable?: boolean
   /**
-   * Defines the direction of how the drawer-list shows the options list. Can be 'bottom' or 'top'. Defaults to 'auto'.
+   * Defines the direction of how the drawer-list shows the options list. Can be `bottom` or `top`. Defaults to `auto`.
    */
   direction?: 'auto' | 'top' | 'bottom'
   size?: DrawerListSize

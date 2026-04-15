@@ -50,12 +50,12 @@ export type ModalProps = ModalRootProps & {
   preventClose?: boolean
 
   /**
-   * Duration of animation open/close in ms. Defaults to 300ms.
+   * Duration of animation open/close in ms. Defaults to `300ms`.
    */
   animationDuration?: string | number
 
   /**
-   * If set to `true`, no open/close animation will be shown. Defaults to false.
+   * If set to `true`, no open/close animation will be shown. Defaults to `false`.
    */
   noAnimation?: boolean
 
@@ -230,17 +230,17 @@ export type ModalContentProps = {
   preventOverlayClose?: boolean
 
   /**
-   * If set to `true`, no open/close animation will be shown. Defaults to false.
+   * If set to `true`, no open/close animation will be shown. Defaults to `false`.
    */
   noAnimation?: boolean
 
   /**
-   * Same as `noAnimation`, but gets triggered only if the viewport width is less than `40em`. Defaults to false.
+   * Same as `noAnimation`, but gets triggered only if the viewport width is less than `40em`. Defaults to `false`.
    */
   noAnimationOnMobile?: boolean
 
   /**
-   * The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don&#39;t break responsiveness. Defaults to `30rem` (average width is set to `60vw`).
+   * The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem` (average width is set to `60vw`).
    */
   minWidth?: ModalContentMinWidth
 

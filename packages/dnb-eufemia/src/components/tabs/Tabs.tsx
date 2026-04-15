@@ -107,7 +107,7 @@ export type TabsProps = Omit<
     contentInnerSpace?: InnerSpaceType | boolean
     label?: string
     /**
-     * Define what HTML element should be used. You can provide e.g. `tabElement={GatsbyLink}` – you may then provide the `to` property inside every entry (`data={[{ to: ';url';, ... }]}`). Defaults to `<button>`.
+     * Define what HTML element should be used. You can provide e.g. `tabElement={GatsbyLink}` – you may then provide the `to` property inside every entry (`data={[{ to: '/url', ... }]}`). Defaults to `<button>`.
      */
     tabElement?: TabsTabElement
     /**

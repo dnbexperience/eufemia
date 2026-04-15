@@ -30,7 +30,7 @@ export type ItemAccordionProps = {
   variant?: ListVariant
   open?: boolean
   /**
-   * When true, keeps the accordion content in the DOM when closed. Defaults to false.
+   * When true, keeps the accordion content in the DOM when closed. Defaults to `false`.
    */
   keepInDOM?: boolean
   /**

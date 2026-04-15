@@ -42,7 +42,7 @@ export type StepIndicatorItemProps = Omit<
   inactive?: boolean
   /**
    * If set to true, this item step will not be clickable. Same as `inactive`, but will also add the `aria-disabled="true"` .
-   * Defaults to false.
+   * Defaults to `false`.
    */
   disabled?: boolean
   /**

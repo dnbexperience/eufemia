@@ -72,6 +72,11 @@ export const BreadcrumbProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  noAnimation: {
+    doc: 'Disables the height animation. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],

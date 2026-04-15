@@ -82,7 +82,7 @@ export const ButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   stretch: {
-    doc: 'Set it to `true` in order to stretch the button to the available space. Defaults to false.',
+    doc: 'Set it to `true` in order to stretch the button to the available space. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
