@@ -111,7 +111,7 @@ export const StringProperties: PropertiesTableProps = {
     status: 'optional',
   },
   submitElement: {
-    doc: 'Accepts a React element which will show up like the "submit button" would do on type="search".',
+    doc: 'Accepts a React element which will show up like the "submit button" would do on `type="search"`.',
     type: 'React.Element',
     status: 'optional',
   },

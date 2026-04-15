@@ -133,7 +133,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
     status: 'optional',
   },
   indicatorLabel: {
-    doc: 'Text show on indicator "options" item. Defaults to `Henter data ...`.',
+    doc: 'Text shown on indicator "options" item. Defaults to `Henter data ...`.',
     type: 'React.ReactNode',
     status: 'optional',
   },

@@ -112,7 +112,7 @@ export const AccordionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   contentRef: {
-    doc: 'Send along a custom React Ref for `.dnb-accordion__content`.',
+    doc: 'Send along a custom `React.Ref` for `.dnb-accordion__content`.',
     type: 'React.RefObject',
     status: 'optional',
   },

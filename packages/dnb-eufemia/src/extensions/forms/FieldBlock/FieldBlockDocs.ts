@@ -47,7 +47,7 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
     status: 'optional',
   },
   layoutOptions: {
-    doc: 'Use this to set additional options for the `horizontal` layout. E.g. `{ width: "medium" }`. You can also use a custom width `{number}rem`. Instead of a width, you can use a min/max width. E.g. `{ minWidth: "6rem", maxWidth: "12rem" }`.',
+    doc: 'Use this to set additional options for the `horizontal` layout, e.g. `{ width: "medium" }`. You can also use a custom width `{number}rem`. Instead of a width, you can use a min/max width, e.g. `{ minWidth: "6rem", maxWidth: "12rem" }`.',
     type: 'object',
     status: 'optional',
   },

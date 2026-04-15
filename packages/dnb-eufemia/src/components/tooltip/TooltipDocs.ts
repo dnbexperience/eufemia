@@ -62,7 +62,7 @@ export const TooltipProperties: PropertiesTableProps = {
     status: 'optional',
   },
   targetElement: {
-    doc: 'Provide an element directly as a React Node or a React Ref that will be wrapped and rendered.',
+    doc: 'Provide an element directly as a `React.ReactNode` or a `React.Ref` that will be wrapped and rendered.',
     type: ['React.ReactNode', 'React.RefObject'],
     status: 'optional',
   },

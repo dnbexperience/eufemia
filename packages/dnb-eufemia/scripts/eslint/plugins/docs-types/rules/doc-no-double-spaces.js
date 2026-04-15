@@ -54,7 +54,7 @@ module.exports = {
           return // stop here
         }
 
-        if (!/  /.test(value)) {
+        if (!/ {2}/.test(value)) {
           return // stop here
         }
 

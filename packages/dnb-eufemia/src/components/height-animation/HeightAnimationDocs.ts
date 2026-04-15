@@ -42,7 +42,7 @@ export const HeightAnimationProperties: PropertiesTableProps = {
     status: 'optional',
   },
   ref: {
-    doc: 'Send along a custom React Ref.',
+    doc: 'Send along a custom `React.Ref`.',
     type: 'React.RefObject',
     status: 'optional',
   },

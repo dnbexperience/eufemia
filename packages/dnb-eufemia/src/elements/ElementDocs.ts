@@ -2,7 +2,7 @@ import type { PropertiesTableProps } from '../shared/types'
 
 export const ElementPropertiesWithoutSkeleton: PropertiesTableProps = {
   ref: {
-    doc: 'Send along a custom React Ref.',
+    doc: 'Send along a custom `React.Ref`.',
     type: 'React.RefObject',
     status: 'optional',
   },

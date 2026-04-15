@@ -87,22 +87,22 @@ export const PaginationProperties: PropertiesTableProps = {
     status: 'optional',
   },
   setContentHandler: {
-    doc: 'Callback function to get the `setContent` handler from the current pagination instance. E.g. `setContentHandler={fn => (...)}`. Use this handler to insert content during infinity mode.',
+    doc: 'Callback function to get the `setContent` handler from the current pagination instance, e.g. `setContentHandler={fn => (...)}`. Use this handler to insert content during infinity mode.',
     type: 'function',
     status: 'optional',
   },
   resetContentHandler: {
-    doc: 'Callback function to get the `resetContent` handler from the current pagination instance. E.g. `resetContentHandler={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.',
+    doc: 'Callback function to get the `resetContent` handler from the current pagination instance, e.g. `resetContentHandler={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.',
     type: 'function',
     status: 'optional',
   },
   resetPaginationHandler: {
-    doc: 'Callback function to get the `resetInfinity` handler from the current pagination instance. E.g. `resetPaginationHandler={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.',
+    doc: 'Callback function to get the `resetInfinity` handler from the current pagination instance, e.g. `resetPaginationHandler={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.',
     type: 'function',
     status: 'optional',
   },
   endInfinityHandler: {
-    doc: 'Callback function to get the `endInfinity` handler from the current pagination instance. E.g. `endInfinityHandler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `pageCount` is unknown.',
+    doc: 'Callback function to get the `endInfinity` handler from the current pagination instance, e.g. `endInfinityHandler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `pageCount` is unknown.',
     type: 'function',
     status: 'optional',
   },
