@@ -11,6 +11,7 @@ import Anchor from '../Anchor'
 import { bell } from '../../../icons'
 import IconPrimary from '../../IconPrimary'
 import locales from '../../../shared/locales'
+import Theme from '../../../shared/Theme'
 
 const nb = locales['nb-NO'].Anchor
 const en = locales['en-GB'].Anchor
@@ -657,8 +658,6 @@ describe('Anchor element', () => {
 
   describe('surface', () => {
     it('should inherit surface from Theme context', () => {
-      const { default: Theme } = require('../../../shared/Theme')
-
       render(
         <Theme.Context surface="dark">
           <Anchor href="/url">text</Anchor>
@@ -670,8 +669,6 @@ describe('Anchor element', () => {
     })
 
     it('should override surface from Theme context', () => {
-      const { default: Theme } = require('../../../shared/Theme')
-
       render(
         <Theme.Context surface="dark">
           <Anchor href="/url" surface="light">
@@ -711,6 +708,19 @@ describe('Anchor element', () => {
 
       expect(hasSurfaceClass(anchors[0])).toBe(false)
       expect(hasSurfaceClass(anchors[1])).toBe(false)
+    })
+
+    it('should reset surface when "initial" even inside dark Theme context', () => {
+      render(
+        <Theme.Context surface="dark">
+          <Anchor href="/url" surface="initial">
+            text
+          </Anchor>
+        </Theme.Context>
+      )
+
+      const anchor = document.querySelector('.dnb-anchor')
+      expect(anchor).not.toHaveClass('dnb-anchor--surface-dark')
     })
   })
 

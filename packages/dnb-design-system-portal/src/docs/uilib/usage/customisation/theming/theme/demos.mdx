@@ -5,12 +5,12 @@ showTabs: true
 import {
   ThemeBasis,
   ThemeMapping,
+  ThemeSurfaceDark,
+  ThemeSurfaceInitial,
 } from 'Docs/uilib/usage/customisation/theming/theme/Examples'
 import ChangeStyleTheme from '../../../../../../core/ChangeStyleTheme'
 
 ## Demos
-
-<ChangeStyleTheme label="Change the brand:" />
 
 ### Basis example
 
@@ -19,3 +19,15 @@ import ChangeStyleTheme from '../../../../../../core/ChangeStyleTheme'
 ### Basis example `propMapping`
 
 <ThemeMapping />
+
+### Surface dark
+
+Use `surface="dark"` to adjust component styles for dark backgrounds.
+
+<ThemeSurfaceDark />
+
+### Surface initial
+
+Use `surface="initial"` to reset components back to their default surface behavior inside a dark surface context.
+
+<ThemeSurfaceInitial />

@@ -59,8 +59,8 @@ export const SectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   surface: {
-    doc: 'Define the surface color context. When set to `dark`, ondark design tokens will be used for text and outline colors. Uses `--token-color-decorative-first-bold-static` as the default background color and `--token-color-text-neutral-ondark` as the text color.',
-    type: 'string',
+    doc: "Define the surface color context. When set to `dark`, ondark design tokens will be used for text and outline colors. Use `initial` to reset to the component's default behavior, ignoring any parent surface context. Uses `--token-color-decorative-first-bold-static` as the default background color and `--token-color-text-neutral-ondark` as the text color.",
+    type: ['"dark"', '"light"', '"initial"'],
     status: 'optional',
   },
   element: {

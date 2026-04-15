@@ -145,6 +145,18 @@ describe('Button component', () => {
     )
   })
 
+  it('resets surface when "initial" even inside dark Theme context', () => {
+    render(
+      <Theme.Context surface="dark">
+        <Button surface="initial">Button</Button>
+      </Theme.Context>
+    )
+
+    expect(document.querySelector('.dnb-button')).not.toHaveClass(
+      'dnb-button--surface-dark'
+    )
+  })
+
   it('should be able to omit button type', () => {
     render(<Button type="" />)
 

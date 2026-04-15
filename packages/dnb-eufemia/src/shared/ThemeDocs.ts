@@ -32,8 +32,8 @@ export const ThemeProperties: PropertiesTableProps = {
     status: 'optional',
   },
   surface: {
-    doc: 'Adjusts component appearance for use on dark backgrounds. Use `dark` when content is placed on a dark surface. Default is `undefined`.',
-    type: ['"dark"', '"light"'],
+    doc: "Adjusts component appearance based on background. Use `dark` when content is placed on a dark surface, `light` for light, or `initial` to reset to the component's default behavior, ignoring any parent surface context. Default is `undefined`.",
+    type: ['"dark"', '"light"', '"initial"'],
     status: 'optional',
   },
 }
