@@ -353,11 +353,7 @@ function Switch(props: SwitchProps) {
                   createSkeletonClass('shape', skeleton, context)
                 )}
                 aria-hidden
-              >
-                <span className="dnb-switch__focus">
-                  <span className="dnb-switch__focus__inner" />
-                </span>
-              </span>
+              />
             </span>
 
             {suffix && (

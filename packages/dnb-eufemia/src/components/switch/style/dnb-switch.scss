@@ -263,14 +263,14 @@
     * On hover state
     *
     */
+
   &__input:not([disabled]):not(:focus):not(:active):hover ~ &__background {
     border-color: var(--token-color-stroke-action-hover);
     background-color: var(--token-color-background-action-hover-subtle);
   }
   &__input:not([disabled]):not(:focus):not(:active):hover ~ &__button {
     background-color: var(--token-color-background-action-hover);
-  }
-  &__input:not([disabled]):hover ~ &__button &__focus {
+
     @include utilities.fakeBorder(
       var(--token-color-stroke-action-hover),
       0.0625rem
@@ -303,10 +303,6 @@
   &__input:not([disabled]):focus ~ &__button {
     html[data-whatinput='keyboard'] & {
       background-color: var(--token-color-background-action-focus);
-    }
-  }
-  &__input:not([disabled]):focus ~ &__button &__focus {
-    html[data-whatinput='keyboard'] & {
       @include utilities.fakeBorder(
         var(--token-color-stroke-action-focus),
         0.0625rem
