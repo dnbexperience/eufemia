@@ -1435,6 +1435,35 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 - Replace `PaymentCard.text_new` with `PaymentCard.textNew`.
 - Replace `PaymentCard.text_unknown` with `PaymentCard.textUnknown`.
 
+#### Removed daggy (tagged sum) types
+
+The `PaymentCard` types (`DNB`, `Visa`, `Mastercard`, `CardType`, `BankAxept`, `Saga`, `PB`, `ProductType`, `BankAxeptType`) have been refactored from daggy tagged sums to plain TypeScript discriminated unions. The constructor API (`DNB.Colored('...')`, `Mastercard.Default`, etc.) is unchanged, but how you consume them has changed:
+
+- **`.cata()` removed** — Replace `.cata({ Variant: () => ... })` with a `switch` on the `.tag` property:
+
+  ```diff
+  - cardType.cata({
+  -   Visa: () => renderVisa(),
+  -   Mastercard: () => renderMastercard(),
+  -   None: () => null,
+  - })
+  + switch (cardType.tag) {
+  +   case 'Visa': return renderVisa()
+  +   case 'Mastercard': return renderMastercard()
+  +   case 'None': return null
+  + }
+  ```
+
+- **`@@tag` replaced with `tag`** — If you accessed the `'@@tag'` property, use `.tag` instead.
+- **`.is()` removed** — Use `.tag` comparison instead: `val.tag === 'Visa'`.
+- **`.toString()` removed** — Use `.tag` for the variant name.
+- **Reference equality changed** — Unit variants are now plain objects, so `===` comparison no longer works. Use `.tag` comparison instead:
+
+  ```diff
+  - data.bankAxept === BankAxeptType.BankAxept
+  + data.bankAxept.tag === 'BankAxept'
+  ```
+
 ### Divider ([Horizontal Rule](/uilib/elements/horizontal-rule/))
 
 #### Properties

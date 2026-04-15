@@ -82,17 +82,17 @@ export const PaymentCardData: PropertiesTableProps = {
   },
   cardType: {
     doc: "`import { CardType } from '@dnb/eufemia/extensions/payment-card'` to use. Can be `CardType.Visa`, `CardType.Mastercard` or `CardType.None`.",
-    type: 'Union Type',
+    type: 'CardType',
     status: 'required',
   },
   productType: {
     doc: "`import { ProductType } from '@dnb/eufemia/extensions/payment-card'` to use. Can be `ProductType.Saga`, `ProductType.Pluss`, `ProductType.Intro`, `ProductType.Business`, `ProductType.Bedrift`, `ProductType.PrivateBanking`, `ProductType.Corporate`, `ProductType.WorldElite` or `ProductType.None`.",
-    type: 'Union Type',
+    type: 'ProductType',
     status: 'required',
   },
   bankAxept: {
     doc: "`import { BankAxeptType } from '@dnb/eufemia/extensions/payment-card'` to use. Can be `BankAxeptType.BankAxept`, `BankAxeptType.Credit` or `BankAxeptType.None`.",
-    type: 'Union Type',
+    type: 'BankAxeptType',
     status: 'required',
   },
 }
@@ -109,33 +109,33 @@ export const PaymentCardDesign: PropertiesTableProps = {
     status: 'required',
   },
   bankLogo: {
-    doc: "Union Type. import DNB from ./card/utils/Types to use. Can be `DNB.Colored('HexValue')`.",
-    type: 'Union Type',
+    doc: "Discriminated union with `tag` property. `import { DNB } from '@dnb/eufemia/extensions/payment-card/utils/Types'`. Can be `DNB.Colored('HexValue')` or `DNB.Sbanken('HexValue')`.",
+    type: 'DNB',
     status: 'required',
   },
   visa: {
-    doc: "Union Type. import Visa from ./card/utils/Types to use. Can be `Visa.Colored('HexValue')` or `Visa.Platinum`.",
-    type: 'Union Type',
+    doc: "Discriminated union with `tag` property. `import { Visa } from '@dnb/eufemia/extensions/payment-card/utils/Types'`. Can be `Visa.Colored('HexValue')` or `Visa.Platinum`.",
+    type: 'Visa',
     status: 'required',
   },
   mastercard: {
-    doc: 'Union Type. import Mastercard from ./card/utils/Types to use. Can be `Mastercard.Default` or `Mastercard.Dark`.',
-    type: 'Union Type',
+    doc: "Discriminated union with `tag` property. `import { Mastercard } from '@dnb/eufemia/extensions/payment-card/utils/Types'`. Can be `Mastercard.Default` or `Mastercard.Dark`.",
+    type: 'Mastercard',
     status: 'required',
   },
   bankAxept: {
-    doc: 'Union Type. import BankAxept from ./card/utils/Types to use. Can be `BankAxept.White`, `BankAxept.Black`, `BankAxept.Gold`, `BankAxept.Black20` or `BankAxept.Gray`.',
-    type: 'Union Type',
+    doc: "Discriminated union with `tag` property. `import { BankAxept } from '@dnb/eufemia/extensions/payment-card/utils/Types'`. Can be `BankAxept.White`, `BankAxept.Black`, `BankAxept.Gold`, `BankAxept.Black20` or `BankAxept.Gray`.",
+    type: 'BankAxept',
     status: 'required',
   },
   saga: {
-    doc: 'Union Type. import Saga from ./card/utils/Types to use. Can be `Saga.Gold`, `Saga.Platinum` or `Saga.None`.',
-    type: 'Union Type',
+    doc: "Discriminated union with `tag` property. `import { Saga } from '@dnb/eufemia/extensions/payment-card/utils/Types'`. Can be `Saga.Gold`, `Saga.Platinum` or `Saga.None`.",
+    type: 'Saga',
     status: 'required',
   },
   privateBanking: {
-    doc: 'Union Type. import PB from ./card/utils/Types to use. Can be `PB.Default` or `PB.None`.',
-    type: 'Union Type',
+    doc: "Discriminated union with `tag` property. `import { PB } from '@dnb/eufemia/extensions/payment-card/utils/Types'`. Can be `PB.Default` or `PB.None`.",
+    type: 'PB',
     status: 'required',
   },
 }
