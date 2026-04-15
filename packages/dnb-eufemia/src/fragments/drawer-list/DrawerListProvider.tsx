@@ -229,7 +229,6 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     }
   })
 
-  // getDerivedStateFromProps equivalent
   prepareDerivedState(props, stateRef.current)
 
   // DOM refs
