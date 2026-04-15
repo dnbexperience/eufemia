@@ -1265,6 +1265,38 @@ describe('isolated-style-scope-plugin', () => {
           { runAsCssModule: true, scopeHash: 'test-scope' }
         )
       })
+
+      it('should scope class after :global(html[data-attr])', async () => {
+        return await run(
+          ':global(html[data-visual-test]) .someClass { color: red; }',
+          'html[data-visual-test] :global(.test-scope) .someClass { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should scope class with pseudo-element after :global(html[data-attr])', async () => {
+        return await run(
+          ':global(html[data-visual-test]) .someClass::after { color: red; }',
+          'html[data-visual-test] :global(.test-scope) .someClass::after { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should not scope :global(html) alone', async () => {
+        return await run(
+          ':global(html) { color: red; }',
+          ':global(html) { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should scope class after :global(body[data-attr])', async () => {
+        return await run(
+          ':global(body[data-theme]) .someClass { color: red; }',
+          'body[data-theme] :global(.test-scope) .someClass { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
     })
   })
 
