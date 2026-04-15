@@ -7,23 +7,4 @@
 
 .dnb-switch {
   /* stylelint-disable no-descending-specificity */
-  &__input:checked ~ &__background::after {
-    left: 0;
-    transform: translateX(calc(var(--switch-width--medium) - 1.87rem));
-
-    width: 0.0625rem;
-    height: 0.5rem;
-    border-radius: 0.0625rem;
-    background-color: var(--color-sea-green);
-  }
-
-  &--large &__input:not(:checked) ~ &__background::after {
-    width: 0.625rem;
-    height: 0.625rem;
-    transform: translateX(calc(var(--switch-width--large) - 3.7rem));
-  }
-  &--large &__input:checked ~ &__background::after {
-    height: 0.625rem;
-    transform: translateX(calc(var(--switch-width--large) - 2.5rem));
-  }
 }
