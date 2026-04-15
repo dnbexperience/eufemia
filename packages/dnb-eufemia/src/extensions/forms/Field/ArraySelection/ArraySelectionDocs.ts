@@ -3,14 +3,14 @@ import type { PropertiesTableProps } from '../../../../shared/types'
 export const ArraySelectionProperties: PropertiesTableProps = {
   variant: {
     doc: 'Choice of UI feature.',
-    type: [`'checkbox'`, `'button'`, `'checkbox-button'`],
-    defaultValue: `'checkbox'`,
+    type: ['"checkbox"', '"button"', '"checkbox-button"'],
+    defaultValue: '"checkbox"',
     status: 'optional',
   },
   optionsLayout: {
     doc: 'Layout for the list of options.',
-    type: [`'horizontal'`, `'vertical'`],
-    defaultValue: `'vertical'`,
+    type: ['"horizontal"', '"vertical"'],
+    defaultValue: '"vertical"',
     status: 'optional',
   },
   children: {
