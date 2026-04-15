@@ -337,7 +337,10 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
     useState<GlobalStatusResult>(() => {
       const provider = GlobalStatusProvider.create(ownProps.id)
       providerRef.current = provider
-      const status = provider.init(ownProps)
+      const status = provider.init({
+        ...ownProps,
+        show: ownProps.show ?? 'auto',
+      })
       globalStatusRef.current = status
       return status
     })
@@ -383,12 +386,12 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
           hadContentRef.current &&
           !hasContent(status) &&
           props.show !== true) ||
-        (typeof status.show !== 'undefined' && !status.show)
+        (typeof status.show !== 'undefined' && status.show !== true)
       ) {
         setIsActive(false)
       } else if (
         props.show === true ||
-        (typeof status.show !== 'undefined' && status.show)
+        (typeof status.show !== 'undefined' && status.show === true)
       ) {
         hadContentRef.current = hasContent(status)
 
