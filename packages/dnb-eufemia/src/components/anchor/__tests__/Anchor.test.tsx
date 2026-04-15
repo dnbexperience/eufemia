@@ -674,7 +674,7 @@ describe('Anchor element', () => {
 
       render(
         <Theme.Context surface="dark">
-          <Anchor href="/url" surface="default">
+          <Anchor href="/url" surface="light">
             text
           </Anchor>
         </Theme.Context>

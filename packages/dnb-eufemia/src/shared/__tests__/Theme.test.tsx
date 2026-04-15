@@ -218,7 +218,7 @@ describe('Theme', () => {
 
     render(
       <Theme.Context surface="dark">
-        <Theme.Context surface="default">
+        <Theme.Context surface="light">
           <ThemeConsumer />
         </Theme.Context>
       </Theme.Context>
@@ -226,7 +226,7 @@ describe('Theme', () => {
 
     expect(receivedTheme).toEqual(
       expect.objectContaining({
-        surface: 'default',
+        surface: 'light',
       })
     )
   })
@@ -262,8 +262,8 @@ describe('Theme', () => {
     expect(Array.from(element.classList)).toEqual(['eufemia-theme'])
   })
 
-  it('does not set surface as HTML classes when "default"', () => {
-    render(<Theme surface="default">content</Theme>)
+  it('does not set surface as HTML classes when "light"', () => {
+    render(<Theme surface="light">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
     expect(Array.from(element.classList)).toEqual(['eufemia-theme'])
