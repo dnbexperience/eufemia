@@ -99,9 +99,8 @@
 
     transform: translateX(
       calc(
-        var(--switch-width--medium) - var(--switch-button-size-on--medium) +
-          var(--switch-border-width--medium) -
-          (var(--switch-border-width--medium) + 0.1875rem)
+        var(--switch-width--medium) - var(--switch-button-size-on--medium) -
+          0.1875rem
       )
     );
   }
@@ -116,9 +115,8 @@
 
     transform: translateX(
       calc(
-        var(--switch-width--large) - var(--switch-button-size-on--large) +
-          var(--switch-border-width--large) -
-          (var(--switch-border-width--large) + 0.1875rem)
+        var(--switch-width--large) - var(--switch-button-size-on--large) -
+          0.1875rem
       )
     );
   }
