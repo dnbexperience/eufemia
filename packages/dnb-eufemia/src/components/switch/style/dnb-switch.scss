@@ -279,11 +279,18 @@
     background-color: var(--token-color-background-action-disabled);
   }
 
+  &__input[disabled]:checked ~ &__background {
+    background-color: var(--token-color-background-action-disabled);
+    border-color: var(--token-color-background-action-disabled);
+  }
+  &__input[disabled]:checked ~ &__button {
+    background-color: var(--token-color-background-neutral);
+  }
+
   /*
     * On error state
     *
     */
-
   &__status--error &__input:not([disabled]) ~ &__button {
     background-color: var(--token-color-background-error);
   }
