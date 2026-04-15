@@ -6,22 +6,6 @@
 @use '../../../../style/core/utilities.scss' as utilities;
 
 .dnb-switch {
-  &__background {
-    height: 100%;
-
-    border-radius: 1.5rem;
-
-    .dnb-switch--large & {
-      height: 100%;
-
-      border-radius: 1.5rem;
-
-      &::after {
-        font-size: var(--sb-font-size-basis);
-      }
-    }
-  }
-
   /* stylelint-disable no-descending-specificity */
 
   /*
