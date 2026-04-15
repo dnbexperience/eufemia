@@ -7,7 +7,7 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
     status: 'optional',
   },
   labelDescription: {
-    doc: 'A more discreet text displayed beside the label (i.e for "(optional)").',
+    doc: 'A more discreet text displayed beside the label (i.e. for "(optional)").',
     type: 'string',
     status: 'optional',
   },

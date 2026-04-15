@@ -27,7 +27,7 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   error: {
-    doc: "Error message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
+    doc: "Error message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
     type: ['Error', 'FormError', 'Array<Error | FormError>', 'function'],
     status: 'optional',
   },

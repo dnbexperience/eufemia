@@ -32,7 +32,7 @@ export const BreadcrumbProperties: PropertiesTableProps = {
     status: 'optional',
   },
   homeText: {
-    doc: "Override with a custom 'Home' text (Not recommended)",
+    doc: "Override with a custom 'Home' text (Not recommended).",
     type: 'React.ReactNode',
     status: 'optional',
   },

@@ -18,7 +18,7 @@ export const ArrayProperties: PropertiesTableProps = {
     status: 'optional',
   },
   required: {
-    doc: "If the array is required. It does not automatically inherit the `required` property in the same way that `Field.*` components do. You may provide a custom error message to give the user a more useful message than the default one: `errorMessages={{ 'Field.errorRequired': 'Custom message' }}`",
+    doc: "If the array is required. It does not automatically inherit the `required` property in the same way that `Field.*` components do. You may provide a custom error message to give the user a more useful message than the default one: `errorMessages={{ 'Field.errorRequired': 'Custom message' }}`.",
     type: 'boolean',
     status: 'optional',
   },
