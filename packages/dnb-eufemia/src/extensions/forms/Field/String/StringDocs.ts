@@ -29,7 +29,16 @@ export const StringProperties: PropertiesTableProps = {
   },
   inputMode: {
     doc: 'Define an [inputmode](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode).',
-    type: 'string',
+    type: [
+      '"none"',
+      '"text"',
+      '"tel"',
+      '"url"',
+      '"email"',
+      '"numeric"',
+      '"decimal"',
+      '"search"',
+    ],
     status: 'optional',
   },
   autoComplete: {
