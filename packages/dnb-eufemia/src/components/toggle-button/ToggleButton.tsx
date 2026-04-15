@@ -377,9 +377,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
   let usedLeftComponent = null
   switch (variant) {
     case 'radio':
-      usedLeftComponent = (
-        <Radio id={`${id}-radio`} value="" {...componentParams} />
-      )
+      usedLeftComponent = <Radio id={`${id}-radio`} {...componentParams} />
       break
 
     case 'checkbox':

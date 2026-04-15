@@ -102,7 +102,7 @@ export const SkeletonSandbox = () => {
               <Modal top>123</Modal>
               <Checkbox label="Checkbox:" left />
               <Switch label="Switch:" left />
-              <Radio label="Radio:" left value="" />
+              <Radio label="Radio:" left />
               <Input top label="Input" />
               <Textarea top label="Textarea" />
             </Box>

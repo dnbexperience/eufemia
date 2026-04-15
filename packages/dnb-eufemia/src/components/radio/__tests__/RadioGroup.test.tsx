@@ -41,7 +41,7 @@ describe('Radio group component', () => {
   it('will disable a single button within a group', () => {
     render(
       <Radio.Group>
-        <Radio disabled value="" />
+        <Radio disabled />
       </Radio.Group>
     )
 
@@ -51,7 +51,7 @@ describe('Radio group component', () => {
   it('will disable a single button, defined in the group', () => {
     render(
       <Radio.Group disabled>
-        <Radio value="" />
+        <Radio />
       </Radio.Group>
     )
 
@@ -61,7 +61,7 @@ describe('Radio group component', () => {
   it('should support inline styling', () => {
     render(
       <Radio.Group style={{ color: 'red' }}>
-        <Radio value="" />
+        <Radio />
       </Radio.Group>
     )
 
@@ -75,8 +75,8 @@ describe('Radio group component', () => {
   it('will overwrite "disable" state, defined in the group', () => {
     render(
       <Radio.Group disabled>
-        <Radio disabled={false} value="first" />
-        <Radio disabled value="second" />
+        <Radio disabled={false} />
+        <Radio disabled />
       </Radio.Group>
     )
 
@@ -159,7 +159,7 @@ describe('Radio group component', () => {
   it('should support vertical label', () => {
     const { rerender } = render(
       <Radio.Group label="Label" vertical>
-        <Radio value="" />
+        <Radio />
       </Radio.Group>
     )
 
@@ -179,7 +179,7 @@ describe('Radio group component', () => {
 
     rerender(
       <Radio.Group label="Label" labelDirection="vertical">
-        <Radio value="" />
+        <Radio />
       </Radio.Group>
     )
 

@@ -4,7 +4,7 @@ export const RadioProperties: PropertiesTableProps = {
   value: {
     doc: 'Defines the `value` as a string. Use it to get the value during the `onChange` event listener callback in the **RadioGroup**.',
     type: 'string',
-    status: 'required',
+    status: 'optional',
   },
   checked: {
     doc: 'Determine whether the radio is checked or not. Default will be `false`.',

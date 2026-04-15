@@ -38,9 +38,7 @@ describe('Radio component', () => {
 
   it('has "onChange" event which will trigger on a input change', () => {
     const myEvent = jest.fn()
-    render(
-      <Radio onChange={myEvent} checked={false} group={null} value="" />
-    )
+    render(<Radio onChange={myEvent} checked={false} group={null} />)
     fireEvent.click(document.querySelector('input'))
     expect(myEvent.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls[0][0].checked).toBe(true)
@@ -56,7 +54,6 @@ describe('Radio component', () => {
           <Radio
             checked={checked}
             onChange={({ checked }) => setChecked(checked)}
-            value=""
           />
           <button id="set-state" onClick={() => setChecked(true)} />
           <button
@@ -107,11 +104,11 @@ describe('Radio component', () => {
   })
 
   it('will disable a single button', () => {
-    const { rerender } = render(<Radio disabled value="" />)
+    const { rerender } = render(<Radio disabled />)
 
     expect(document.querySelector('input[disabled]')).toBeInTheDocument()
 
-    rerender(<Radio disabled={false} value="" />)
+    rerender(<Radio disabled={false} />)
 
     expect(
       document.querySelector('input[disabled]')
@@ -119,7 +116,7 @@ describe('Radio component', () => {
   })
 
   it('should support spacing props', () => {
-    render(<Radio top="2rem" value="" />)
+    render(<Radio top="2rem" />)
 
     const element = document.querySelector('.dnb-radio')
 
@@ -130,7 +127,7 @@ describe('Radio component', () => {
   })
 
   it('should support inline styling', () => {
-    render(<Radio style={{ color: 'red' }} value="" />)
+    render(<Radio style={{ color: 'red' }} />)
 
     expect(document.querySelector('input').getAttribute('style')).toBe(
       'color: red;'
@@ -140,7 +137,7 @@ describe('Radio component', () => {
   it('should inherit formElement vertical label', () => {
     render(
       <Provider formElement={{ vertical: true, disabled: true }}>
-        <Radio label="Label" aria-label="Aria Label" value="" />
+        <Radio label="Label" aria-label="Aria Label" />
       </Provider>
     )
 
@@ -204,7 +201,7 @@ describe('Radio ARIA', () => {
   it('gets valid element when ref is function', () => {
     const refFn = jest.fn()
 
-    render(<Radio id="unique" ref={refFn} value="" />)
+    render(<Radio id="unique" ref={refFn} />)
 
     // ref callback receives the DOM element
     expect(refFn).toHaveBeenCalledTimes(1)

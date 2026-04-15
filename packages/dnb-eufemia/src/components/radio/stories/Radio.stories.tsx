@@ -185,16 +185,15 @@ export const RadioButtonSandbox = () => (
       </Radio.Group>
     </Box>
     <Box>
-      <Radio label="Unchecked disabled" disabled value="" />
+      <Radio label="Unchecked disabled" disabled />
     </Box>
     <Box>
-      <Radio label="Checked disabled" checked disabled value="" />
+      <Radio label="Checked disabled" checked disabled />
     </Box>
     <Box>
       <Radio
         label="Unchecked status error Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
-        value=""
       />
     </Box>
     <Box>
@@ -202,7 +201,6 @@ export const RadioButtonSandbox = () => (
         label="Checked status message"
         checked
         status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
-        value=""
       />
     </Box>
   </Wrapper>
