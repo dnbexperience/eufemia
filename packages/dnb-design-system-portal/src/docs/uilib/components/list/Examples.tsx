@@ -800,3 +800,54 @@ export const InsideCardWithoutScrollView = () => {
     </ComponentBox>
   )
 }
+
+export const WithShowMoreButton = () => {
+  return (
+    <ComponentBox scope={{ fish_medium }} background="plain">
+      <Flex.Horizontal justify="space-between" align="center" bottom>
+        <Heading size="medium" top={false} bottom={false}>
+          Transactions
+        </Heading>
+        <List.ShowMoreButton id="my-limited-list" />
+      </Flex.Horizontal>
+
+      <List.Container id="my-limited-list" visibleCount={3}>
+        <List.Item.Action icon={fish_medium} title="Payment received">
+          <List.Cell.End>
+            <Value.Currency value={1234} />
+          </List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Action icon={fish_medium} title="Transfer sent">
+          <List.Cell.End>
+            <Value.Currency value={-500} />
+          </List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Action icon={fish_medium} title="Subscription">
+          <List.Cell.End>
+            <Value.Currency value={-99} />
+          </List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Action icon={fish_medium} title="Refund">
+          <List.Cell.End>
+            <Value.Currency value={250} />
+          </List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Action icon={fish_medium} title="Salary">
+          <List.Cell.End>
+            <Value.Currency value={45000} />
+          </List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Action icon={fish_medium} title="Groceries">
+          <List.Cell.End>
+            <Value.Currency value={-320} />
+          </List.Cell.End>
+        </List.Item.Action>
+      </List.Container>
+    </ComponentBox>
+  )
+}

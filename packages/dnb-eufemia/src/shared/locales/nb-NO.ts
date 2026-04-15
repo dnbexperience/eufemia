@@ -182,6 +182,10 @@ export default {
       closeTriggerTitle: 'Klikk for å lukke',
       focusTrapTitle: 'Klikk for å gå tilbake',
     },
+    List: {
+      showMore: 'Vis mer',
+      showLess: 'Vis mindre',
+    },
     TermDefinition: {
       closeButtonTitle: 'Lukk ordforklaring',
       openTriggerTitle: 'Klikk for å åpne ordforklaring',

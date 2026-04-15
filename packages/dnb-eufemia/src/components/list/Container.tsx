@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import clsx from 'clsx'
 import type { ListVariant } from './ListContext'
 import { ListContext } from './ListContext'
@@ -6,21 +6,23 @@ import type { StackProps as FlexProps } from '../flex/Stack'
 import FlexContainer from '../flex/Stack'
 import type { SkeletonShow } from '../Skeleton'
 import SharedContext from '../../shared/Context'
+import { useSharedState } from '../../shared/helpers/useSharedState'
+import type { ListShowMoreButtonSharedState } from './ListShowMoreButton'
 
 export type ListContainerProps = {
   id?: string
+  visibleCount?: number
   variant?: ListVariant
   separated?: boolean
   skeleton?: SkeletonShow
   disabled?: boolean
-  'aria-label'?: string
-  'aria-labelledby'?: string
 } & FlexProps
 
 function ListContainer(props: ListContainerProps) {
   const {
     className,
     children,
+    visibleCount,
     variant = 'basic',
     separated = false,
     skeleton,
@@ -34,6 +36,40 @@ function ListContainer(props: ListContainerProps) {
   const appliedSkeleton =
     skeleton ?? parentContext?.skeleton ?? globalContext?.skeleton
   const appliedDisabled = disabled ?? parentContext?.disabled
+
+  const hasVisibleCount =
+    typeof visibleCount === 'number' &&
+    Number.isFinite(visibleCount) &&
+    visibleCount > 0
+
+  const hasToggle = hasVisibleCount && props.id !== undefined
+
+  const { data: toggleData } =
+    useSharedState<ListShowMoreButtonSharedState>(
+      hasToggle ? props.id : undefined,
+      { expanded: false }
+    )
+
+  const visibleChildren = useMemo(() => {
+    if (!hasVisibleCount) {
+      return children
+    }
+
+    const expanded = hasToggle ? (toggleData?.expanded ?? false) : false
+
+    if (expanded) {
+      return children
+    }
+
+    const childArray = React.Children.toArray(children)
+    return childArray.slice(0, visibleCount)
+  }, [
+    children,
+    hasVisibleCount,
+    hasToggle,
+    toggleData?.expanded,
+    visibleCount,
+  ])
 
   return (
     <ListContext
@@ -57,7 +93,7 @@ function ListContainer(props: ListContainerProps) {
         )}
         {...rest}
       >
-        {children}
+        {visibleChildren}
       </FlexContainer>
     </ListContext>
   )
