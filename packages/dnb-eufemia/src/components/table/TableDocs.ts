@@ -88,7 +88,7 @@ export const TrProperties: PropertiesTableProps = {
    */
   variant: {
     doc: 'Override the automatic variant of the current row. The next row one will continue with the opposite.',
-    type: [`'even'`, `'odd'`],
+    type: ['"even"', '"odd"'],
     defaultValue: 'undefined',
     status: 'optional',
   },
@@ -153,8 +153,8 @@ export const TrEventProperties: PropertiesTableProps = {
 export const ThProperties: PropertiesTableProps = {
   variant: {
     doc: 'Defines the visual style of the table header. Use `subtle` for a lighter appearance with reduced font-weight, smaller font-size, and muted text color.',
-    type: [`'emphasis'`, `'subtle'`],
-    defaultValue: `'emphasis'`,
+    type: ['"emphasis"', '"subtle"'],
+    defaultValue: '"emphasis"',
     status: 'optional',
   },
   sortable: {
@@ -198,7 +198,7 @@ export const TdProperties: PropertiesTableProps = {
   },
   spacing: {
     doc: 'Set to `horizontal` for padding on left and right side.',
-    type: `'horizontal'`,
+    type: '"horizontal"',
     defaultValue: 'undefined',
     status: 'optional',
   },
