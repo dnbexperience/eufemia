@@ -22,9 +22,10 @@ export type ContrastMode = boolean
  */
 export type ThemeColorScheme = 'auto' | 'light' | 'dark'
 /**
- * Adjusts component appearance for use on dark backgrounds. Defaults to `undefined`.
+ * Adjusts component appearance based on background. Defaults to `undefined`.
+ * Use `'initial'` to reset to the component's default behavior, ignoring any parent surface context.
  */
-export type ThemeSurface = 'light' | 'dark'
+export type ThemeSurface = 'light' | 'dark' | 'initial'
 
 export type ThemeProps = {
   name?: ThemeNames
@@ -80,6 +81,11 @@ export default function Theme(themeProps: ThemeAllProps) {
     null,
     context?.theme
   )
+
+  // When surface is "initial", reset it to break context inheritance
+  if (surface === 'initial') {
+    theme.surface = undefined
+  }
 
   return (
     <Provider theme={theme}>

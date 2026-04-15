@@ -367,6 +367,37 @@ describe('surface', () => {
     const element = document.querySelector('section.dnb-section')
     expect(element.classList).not.toContain('dnb-section--surface-dark')
   })
+
+  it('resets surface when "initial" even inside dark Theme context', () => {
+    render(
+      <Theme surface="dark">
+        <Section surface="initial">content</Section>
+      </Theme>
+    )
+
+    const element = document.querySelector('section.dnb-section')
+    expect(element.classList).not.toContain('dnb-section--surface-dark')
+  })
+
+  it('resets surface context to undefined when "initial"', () => {
+    let receivedSurface: string | undefined
+
+    function Consumer() {
+      const context = React.useContext(Context)
+      receivedSurface = context?.theme?.surface
+      return null
+    }
+
+    render(
+      <Theme surface="dark">
+        <Section surface="initial">
+          <Consumer />
+        </Section>
+      </Theme>
+    )
+
+    expect(receivedSurface).toBeUndefined()
+  })
 })
 
 describe('Section scss', () => {

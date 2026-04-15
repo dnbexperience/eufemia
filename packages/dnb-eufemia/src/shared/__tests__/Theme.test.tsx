@@ -269,6 +269,26 @@ describe('Theme', () => {
     expect(Array.from(element.classList)).toEqual(['eufemia-theme'])
   })
 
+  it('resets surface to undefined when "initial" inside a dark surface context', () => {
+    let receivedTheme = null
+
+    const ThemeConsumer = () => {
+      receivedTheme = React.useContext(Context)?.theme
+
+      return null
+    }
+
+    render(
+      <Theme.Context surface="dark">
+        <Theme.Context surface="initial">
+          <ThemeConsumer />
+        </Theme.Context>
+      </Theme.Context>
+    )
+
+    expect(receivedTheme.surface).toBeUndefined()
+  })
+
   it('sets additional attributes', () => {
     render(
       <Theme aria-label="custom label" element="section">
