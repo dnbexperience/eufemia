@@ -15,8 +15,8 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
   },
   type: {
     doc: 'Defines the type.',
-    type: [`'circular'`, `'linear'`, `'countdown'`],
-    defaultValue: `'circular'`,
+    type: ['"circular"', '"linear"', '"countdown"'],
+    defaultValue: '"circular"',
     status: 'optional',
   },
   noAnimation: {
@@ -28,14 +28,14 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
   size: {
     doc: 'Defines the size.',
     type: [
-      `'default'`,
-      `'small'`,
-      `'medium'`,
-      `'large'`,
-      `'huge'`,
+      '"default"',
+      '"small"',
+      '"medium"',
+      '"large"',
+      '"huge"',
       'string',
     ],
-    defaultValue: `'default'`,
+    defaultValue: '"default"',
     status: 'optional',
   },
   label: {
@@ -52,8 +52,8 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
   },
   labelDirection: {
     doc: "Sets the position of the label. `'inside'` only works with `type='circular'.",
-    type: [`'horizontal'`, `'vertical'`, `'inside'`],
-    defaultValue: `'vertical'`,
+    type: ['"horizontal"', '"vertical"', '"inside"'],
+    defaultValue: '"vertical"',
     status: 'optional',
   },
   showDefaultLabel: {
