@@ -45,7 +45,7 @@ export type CodeSectionProps = {
   hideCode?: boolean
   hidePreview?: boolean
   /**
-   * use surface="default" to just show the button to toggle surface, without forcing it to be dark by default
+   * Use surface="dark" to show the button to toggle surface, forcing it to be dark by default.
    */
   surface?: ThemeSurface
   reactLive?: boolean

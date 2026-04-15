@@ -84,7 +84,7 @@ export type AnchorProps = {
   disabled?: boolean
   /**
    * Used to override the `surface` value from `Theme.Context`. Changes component style based on background.
-   * Default: `"default"` if there is no `Theme.Context`.
+   * Use `'initial'` to reset to the component's default behavior. Defaults to `undefined` if there is no `Theme.Context`.
    */
   surface?: ThemeSurface
 }

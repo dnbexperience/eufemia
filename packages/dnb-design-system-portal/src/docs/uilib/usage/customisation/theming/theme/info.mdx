@@ -25,8 +25,6 @@ render(
 )
 ```
 
-**NB:** If no context is given, the hook will return `null`.
-
 From CSS you can use it as so:
 
 - `.eufemia-theme__sbanken`
@@ -106,19 +104,38 @@ render(
 }
 ```
 
-### Theme.Context (no wrapper element)
+### Theme.Context
 
-Use `Theme.Context` when you need to provide theme to children without adding a wrapper element. This aligns with React 19's context-as-provider pattern.
+You can use `Theme.Context` to provide theme properties to children without adding a wrapper element. This is useful in cases where you don't want to add an extra DOM element, but still want to provide theme context to the children.
 
 ```tsx
 import { Theme } from '@dnb/eufemia/shared'
 
 render(
-  <section className="dark-section">
-    <Theme.Context surface="dark">
-      <Button>Primary</Button>
+  <Theme.Context>
+    Children that receive theme context without an extra wrapper element.
+  </Theme.Context>
+)
+```
+
+#### `surface` property
+
+The `surface` property can be used to adjust the component's appearance based on the background. It accepts three values: `dark`, `light`, and `initial`.
+
+- Use `dark` when the content is placed on a dark surface.
+- Use `light` for light surfaces.
+- Use `initial` to tell the components to use its default behavior.
+
+```tsx
+import { Theme } from '@dnb/eufemia/shared'
+
+render(
+  <Section surface="dark">
+    Children will use the dark surface behavior (ondark).
+    <Theme.Context surface="initial">
+      Children will use their default surface behavior
     </Theme.Context>
-  </section>
+  </Section>
 )
 ```
 
@@ -166,6 +183,8 @@ render(
   </Theme>
 )
 ```
+
+**NB:** If no context is given, the hook will return `null`.
 
 ### Integrations
 
