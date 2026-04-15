@@ -2,6 +2,31 @@ const fs = require('fs')
 const path = require('path')
 const ansiHTML = require('ansi-html-community')
 
+function extractDataVisualTestId(testFilePath, title) {
+  try {
+    const content = fs.readFileSync(testFilePath, 'utf-8')
+
+    const escapedTitle = title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    const titleIndex = content.search(new RegExp(escapedTitle))
+
+    if (titleIndex === -1) {
+      return null
+    }
+
+    // Search forward from the it() title to find data-visual-test in the same block
+    const searchContent = content.substring(titleIndex, titleIndex + 2000)
+    const match = searchContent.match(/data-visual-test="([^"]+)"/)
+
+    if (match) {
+      return match[1]
+    }
+
+    return null
+  } catch (e) {
+    return null
+  }
+}
+
 class JestReporter {
   onRunComplete(contexts, { testResults, numFailedTests }) {
     if (numFailedTests === 0) {
@@ -20,7 +45,7 @@ class JestReporter {
           .filter(({ status }) => {
             return status === 'failed'
           })
-          .forEach(({ failureDetails, fullName }) => {
+          .forEach(({ failureDetails, fullName, title }) => {
             const failureMessage = failureDetails[0].matcherResult?.message
 
             if (failureMessage) {
@@ -37,12 +62,18 @@ class JestReporter {
                 failureMessage.replace(cwd, '').replace(/\n/g, '<br />')
               )
 
+              const dataVisualTestId = extractDataVisualTestId(
+                testFilePath,
+                title
+              )
+
               reports.push({
                 relativeTestFilePath,
                 message,
                 relativeImgPath,
                 absoluteImgPath,
                 fullName,
+                dataVisualTestId,
               })
             }
           })
@@ -78,6 +109,7 @@ class JestReporter {
             absoluteImgPath,
             relativeImgPath,
             relativeTestFilePath,
+            dataVisualTestId,
           },
           i
         ) => {
@@ -105,12 +137,17 @@ class JestReporter {
             `
             : ''
 
+          const visualTestIdHtml = dataVisualTestId
+            ? /* jsx */ `<p><b><code class="copy-id" onclick="navigator.clipboard.writeText('${dataVisualTestId}').then(() => { this.classList.add('copied'); setTimeout(() => this.classList.remove('copied'), 1000) })">data-visual-test="${dataVisualTestId}"</code></b></p>`
+            : ''
+
           return /* jsx */ `
             <li>
               <dl class="dnb-dl">
                 <dt class="dnb-lead">${fullName}</dt>
                 <dd>
                   <p class="dnb-lead"><code>${relativeTestFilePath}</code></p>
+                  ${visualTestIdHtml}
                   <p>${message}</p>
                   ${image}
                 </dd>
@@ -161,6 +198,23 @@ class JestReporter {
           transform: scale(2) translate3d(25%, 25%, 0);
           position: relative;
           z-index: 1;
+        }
+
+        .copy-id {
+          cursor: pointer;
+          user-select: all;
+          position: relative;
+        }
+
+        .copy-id:hover {
+          background-color: var(--color-mint-green-25);
+        }
+
+        .copy-id.copied::after {
+          content: 'Copied!';
+          margin-left: 0.5rem;
+          color: var(--color-sea-green);
+          white-space: nowrap;
         }
       </style>
     </head>
