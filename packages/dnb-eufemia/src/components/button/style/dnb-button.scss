@@ -185,7 +185,6 @@
       --token-color-component-button-text-action-disabled
     );
 
-    &.dnb-button--on-dark-background,
     &.dnb-button--surface-dark {
       // Background
       --button-color-bg--default: var(
@@ -308,7 +307,6 @@
       --button-color-icon--hover: var(--token-color-icon-action-hover);
     }
 
-    &.dnb-button--on-dark-background,
     &.dnb-button--surface-dark {
       // Background
       --button-color-bg--default: transparent; // TODO: might have some a11y issues, will discuss with UX
@@ -456,7 +454,6 @@
       );
     }
 
-    &.dnb-button--on-dark-background,
     &.dnb-button--surface-dark {
       // Icon
       --button-color-icon--default: var(--token-color-icon-action-ondark);

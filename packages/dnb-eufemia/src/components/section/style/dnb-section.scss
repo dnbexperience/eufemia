@@ -41,10 +41,7 @@
 
   color: var(--text-color, black);
   border-radius: var(--rounded-corner, 0);
-
-  &[style*='--background-color'] {
-    background-color: var(--background-color, white);
-  }
+  background-color: var(--background-color, white);
 
   // The outline border
   &::before {
