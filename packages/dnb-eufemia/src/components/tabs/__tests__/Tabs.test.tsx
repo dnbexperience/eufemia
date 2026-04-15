@@ -717,6 +717,46 @@ describe('A single Tab component', () => {
     expect(second).toHaveAttribute('data-tab-key', 'second_key')
     expect(third).toHaveAttribute('data-tab-key', 'third_key')
   })
+
+  it('should not show scroll nav buttons when last tab margin accounts for overflow', () => {
+    const getComputedStyleOrig = window.getComputedStyle
+
+    jest
+      .spyOn(window, 'getComputedStyle')
+      .mockImplementation((element) => {
+        const style = getComputedStyleOrig(element)
+        if ((element as Element).classList.contains('dnb-tabs__button')) {
+          return { ...style, marginRight: '16' } as CSSStyleDeclaration
+        }
+        return style
+      })
+
+    render(
+      <Tabs {...props} data={tablistData}>
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    const tablist = document.querySelector('.dnb-tabs__tabs__tablist')
+
+    // scrollWidth slightly exceeds offsetWidth, but within the margin tolerance
+    Object.defineProperty(tablist, 'scrollWidth', {
+      value: 117,
+      configurable: true,
+    })
+    Object.defineProperty(tablist, 'offsetWidth', {
+      value: 100,
+      configurable: true,
+    })
+
+    fireEvent(window, new Event('resize'))
+
+    expect(document.querySelector('.dnb-tabs__tabs')).not.toHaveClass(
+      'dnb-tabs--has-scrollbar'
+    )
+
+    jest.restoreAllMocks()
+  })
 })
 
 describe('Tabs scss', () => {
