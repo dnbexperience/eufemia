@@ -100,7 +100,8 @@
     transform: translateX(
       calc(
         var(--switch-width--medium) - var(--switch-button-size-on--medium) +
-          var(--switch-border-width--medium) - 0.375rem
+          var(--switch-border-width--medium) -
+          (var(--switch-border-width--medium) + 0.1875rem)
       )
     );
   }
@@ -116,7 +117,8 @@
     transform: translateX(
       calc(
         var(--switch-width--large) - var(--switch-button-size-on--large) +
-          var(--switch-border-width--large) - 0.5rem
+          var(--switch-border-width--large) -
+          (var(--switch-border-width--large) + 0.1875rem)
       )
     );
   }
@@ -257,7 +259,6 @@
     * On hover state
     *
     */
-
   &__input:not([disabled]):not(:focus):not(:active):hover ~ &__background {
     border-color: var(--token-color-stroke-action-hover);
     background-color: var(--token-color-background-action-hover-subtle);
@@ -269,6 +270,11 @@
       var(--token-color-stroke-action-hover),
       0.0625rem
     );
+  }
+
+  &__input:checked:not([disabled]):not(:focus):not(:active):hover
+    ~ &__button {
+    box-shadow: none;
   }
 
   /*
@@ -288,7 +294,6 @@
    * On focus state
    *
    */
-
   &__input:not([disabled]):focus ~ &__background {
     html[data-whatinput='keyboard'] & {
       background-color: var(--token-color-background-action-focus-subtle);
@@ -301,6 +306,12 @@
         var(--token-color-stroke-action-focus),
         0.0625rem
       );
+    }
+  }
+
+  &__input:checked:not([disabled]):focus ~ &__button {
+    html[data-whatinput='keyboard'] & {
+      box-shadow: none;
     }
   }
 
