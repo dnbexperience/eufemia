@@ -55,7 +55,7 @@ export const TableProperties: PropertiesTableProps = {
     status: 'required',
   },
   className: {
-    doc: 'Custom className on the component root.',
+    doc: 'Custom `className` on the component root.',
     type: 'string',
     defaultValue: 'undefined',
     status: 'optional',

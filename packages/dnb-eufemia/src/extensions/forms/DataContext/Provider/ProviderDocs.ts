@@ -22,7 +22,7 @@ export const ProviderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   errorMessages: {
-    doc: 'Object containing error messages by either type of JSON Pointer path and type. The messages can be a React.ReactNode or a string.',
+    doc: 'Object containing error messages by either type of JSON Pointer path and type. The messages can be a `React.ReactNode` or a string.',
     type: 'object',
     status: 'optional',
   },
@@ -57,7 +57,7 @@ export const ProviderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   transformOut: {
-    doc: "Mutate the data before it enters onSubmit or onChange based on your criteria: `({ path, value, data, properties, internal }) => 'new value'`. It will iterate on each data entry (/path).",
+    doc: "Mutate the data before it enters `onSubmit` or `onChange` based on your criteria: `({ path, value, data, properties, internal }) => 'new value'`. It will iterate on each data entry (/path).",
     type: 'function',
     status: 'optional',
   },

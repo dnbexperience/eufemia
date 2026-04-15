@@ -22,7 +22,7 @@ export const BreadcrumbProperties: PropertiesTableProps = {
     status: 'optional',
   },
   navText: {
-    doc: 'Every `<nav>` on a page needs an unique aria-label text.',
+    doc: 'Every `<nav>` on a page needs a unique `aria-label` text.',
     type: 'React.ReactNode',
     status: 'optional',
   },
@@ -52,7 +52,7 @@ export const BreadcrumbProperties: PropertiesTableProps = {
     status: 'optional',
   },
   className: {
-    doc: 'Custom className for the component root.',
+    doc: 'Custom `className` for the component root.',
     type: 'string',
     status: 'optional',
   },

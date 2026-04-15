@@ -47,7 +47,7 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   labelSuffix: {
-    doc: 'Will append an additional text to the label, like "(optional)". When using `inheritLabel`, the suffix will not be inherited. NB: The visual appearance of the `labelSuffix` may change in the future.',
+    doc: 'Will append an additional text to the label, like "(optional)". When using `inheritLabel`, the suffix will not be inherited. **NB:** The visual appearance of the `labelSuffix` may change in the future.',
     type: 'React.ReactNode',
     status: 'optional',
   },
@@ -72,7 +72,7 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   errorMessages: {
-    doc: 'Custom error messages for each type of error, overriding default messages. The messages can be a React.ReactNode or a string.',
+    doc: 'Custom error messages for each type of error, overriding default messages. The messages can be a `React.ReactNode` or a string.',
     type: 'object',
     status: 'optional',
   },

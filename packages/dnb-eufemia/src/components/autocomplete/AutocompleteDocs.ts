@@ -233,7 +233,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
     status: 'optional',
   },
   inputRef: {
-    doc: 'Use a React.Ref to get access to the `input` DOM element.',
+    doc: 'Use a `React.Ref` to get access to the `input` DOM element.',
     type: 'React.RefObject',
     status: 'optional',
   },

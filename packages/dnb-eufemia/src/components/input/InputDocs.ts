@@ -93,7 +93,7 @@ export const InputProperties: PropertiesTableProps = {
     status: 'optional',
   },
   suffix: {
-    doc: 'Text describing the content of the input more than the label. you can also send in a React component, so it gets wrapped inside the Input component.',
+    doc: 'Text describing the content of the input more than the label. You can also send in a React component, so it gets wrapped inside the Input component.',
     type: ['string', 'React.ReactNode'],
     status: 'optional',
   },

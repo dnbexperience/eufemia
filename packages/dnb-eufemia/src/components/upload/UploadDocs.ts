@@ -122,7 +122,7 @@ export const UploadProperties: PropertiesTableProps = {
     status: 'optional',
   },
   listAriaLabel: {
-    doc: 'Custom aria-label for the file list. Overrides the default translation.',
+    doc: 'Custom `aria-label` for the file list. Overrides the default translation.',
     type: 'string',
     status: 'optional',
   },

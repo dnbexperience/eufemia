@@ -12,12 +12,12 @@ export const ButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   'aria-label': {
-    doc: 'Required if there is no text in the button. If `text` and `children` are undefined, setting the `title` property will automatically set `aria-label` with the same value.',
+    doc: 'Required if there is no text in the button. If `text` and `children` are `undefined`, setting the `title` property will automatically set `aria-label` with the same value.',
     type: 'string',
     status: 'optional',
   },
   title: {
-    doc: 'Required if there is no text in the button. If `text` and `children` are undefined, setting the `title` property will automatically set `aria-label` with the same value.',
+    doc: 'Required if there is no text in the button. If `text` and `children` are `undefined`, setting the `title` property will automatically set `aria-label` with the same value.',
     type: 'string',
     status: 'optional',
   },

@@ -18,7 +18,7 @@ export const VisibilityProperties: PropertiesTableProps = {
     status: 'optional',
   },
   pathUndefined: {
-    doc: 'Given data context path must be undefined to show children.',
+    doc: 'Given data context path must be `undefined` to show children.',
     type: 'string',
     status: 'optional',
   },
@@ -33,12 +33,12 @@ export const VisibilityProperties: PropertiesTableProps = {
     status: 'optional',
   },
   pathTrue: {
-    doc: 'Given data context path must be true to show children.',
+    doc: 'Given data context path must be `true` to show children.',
     type: 'string',
     status: 'optional',
   },
   pathFalse: {
-    doc: 'Given data context path must be false to show children.',
+    doc: 'Given data context path must be `false` to show children.',
     type: 'string',
     status: 'optional',
   },
@@ -73,12 +73,12 @@ export const VisibilityProperties: PropertiesTableProps = {
     status: 'optional',
   },
   fieldPropsWhenHidden: {
-    doc: 'When visibility is hidden, and `keepInDOM` is true, pass these properties to the children.',
+    doc: 'When visibility is hidden, and `keepInDOM` is `true`, pass these properties to the children.',
     type: '"various"',
     status: 'optional',
   },
   element: {
-    doc: 'Define the type of element. Defaults to `div`. Only for when `animate` is true.',
+    doc: 'Define the type of element. Defaults to `div`. Only for when `animate` is `true`.',
     type: 'string or React.Element',
     status: 'optional',
   },

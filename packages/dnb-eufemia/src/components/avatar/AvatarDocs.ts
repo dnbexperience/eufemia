@@ -37,7 +37,7 @@ export const AvatarProperties: PropertiesTableProps = {
     status: 'optional',
   },
   hasLabel: {
-    doc: 'If aria-hidden is set to `true` or if a label is given, typical inside a table or dl (definition list), then you can disable Avatar.Group as a dependent of Avatar. Use `true` to omit the `Avatar group required:` warning.',
+    doc: 'If `aria-hidden` is set to `true` or if a label is given, typically inside a table or dl (definition list), then you can disable Avatar.Group as a dependent of Avatar. Use `true` to omit the `Avatar group required:` warning.',
     type: 'boolean',
     status: 'optional',
   },

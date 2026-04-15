@@ -2,12 +2,12 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const HeadingProperties: PropertiesTableProps = {
   text: {
-    doc: 'A heading, can be text or React.ReactNode.',
+    doc: 'A heading, can be text or `React.ReactNode`.',
     type: 'React.ReactNode',
     status: 'optional',
   },
   children: {
-    doc: 'A heading, can be text or React.ReactNode.',
+    doc: 'A heading, can be text or `React.ReactNode`.',
     type: 'React.ReactNode',
     status: 'optional',
   },

@@ -22,7 +22,7 @@ export const BadgeProperties: PropertiesTableProps = {
     status: 'optional',
   },
   className: {
-    doc: 'Custom className for the component.',
+    doc: 'Custom `className` for the component.',
     type: 'string',
     status: 'optional',
   },

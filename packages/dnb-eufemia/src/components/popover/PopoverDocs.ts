@@ -140,7 +140,7 @@ export const PopoverProperties: PropertiesTableProps = {
     status: 'optional',
   },
   focusOnOpen: {
-    doc: 'If true, focus is moved into the popover content when it opens.',
+    doc: 'If `true`, focus is moved into the popover content when it opens.',
     type: 'boolean',
     status: 'optional',
   },
@@ -150,7 +150,7 @@ export const PopoverProperties: PropertiesTableProps = {
     status: 'optional',
   },
   restoreFocus: {
-    doc: 'Moves focus back to the trigger element once the popover closes (defaults to true).',
+    doc: 'Moves focus back to the trigger element once the popover closes (defaults to `true`).',
     type: 'boolean',
     status: 'optional',
   },
@@ -185,7 +185,7 @@ export const PopoverProperties: PropertiesTableProps = {
     status: 'optional',
   },
   portalRootClass: {
-    doc: 'Extra className applied to the portal wrapper (only when not using `skipPortal`).',
+    doc: 'Extra `className` applied to the portal wrapper (only when not using `skipPortal`).',
     type: 'string',
     status: 'optional',
   },
@@ -222,7 +222,7 @@ export const PopoverProperties: PropertiesTableProps = {
     status: 'optional',
   },
   omitDescribedBy: {
-    doc: 'Skips adding aria-describedBy on the trigger when you handle accessibility yourself.',
+    doc: 'Skips adding `aria-describedby` on the trigger when you handle accessibility yourself.',
     type: 'boolean',
     status: 'optional',
   },

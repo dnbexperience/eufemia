@@ -23,7 +23,7 @@ export const StringProperties: PropertiesTableProps = {
     status: 'optional',
   },
   trim: {
-    doc: 'When true, it will trim leading and trailing whitespaces on blur, triggering `onChange` if the value changes.',
+    doc: 'When `true`, it will trim leading and trailing whitespaces on blur, triggering `onChange` if the value changes.',
     type: 'boolean',
     status: 'optional',
   },
@@ -101,12 +101,12 @@ export const StringProperties: PropertiesTableProps = {
 
   // - Additional props
   inputClassName: {
-    doc: 'Class name set on the <input> DOM element.',
+    doc: 'Class name set on the `<input>` DOM element.',
     type: 'string',
     status: 'optional',
   },
   ref: {
-    doc: 'By providing a React.Ref we can get the internally used input element (DOM).',
+    doc: 'By providing a `React.Ref` we can get the internally used input element (DOM).',
     type: 'React.RefObject',
     status: 'optional',
   },
