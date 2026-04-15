@@ -25,6 +25,7 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import SharedContext from '../../../../shared/Context'
 import type { CountryFilterSet } from '../SelectCountry'
 import { countryFilter, getCountryData } from '../SelectCountry'
+import detectCountryCode from '../../utils/detectCountryCode'
 import useTranslation from '../../hooks/useTranslation'
 import type { DrawerListDataArrayItem } from '../../../../fragments/DrawerList'
 import type { AutocompleteOnChangeParams } from '../../../../components/Autocomplete'
@@ -152,6 +153,11 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
         if (!countryCode && !phoneNumber && !props.omitCountryCodeField) {
           return countryCodeRef.current
         }
+
+        // Normalize to E.164 format so the stored value is always spaceless
+        if (countryCode && phoneNumber) {
+          return toE164([countryCode, phoneNumber])
+        }
       }
       return external
     },
@@ -180,7 +186,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
         }
 
         if (external?.phoneNumber) {
-          return joinValue([external.countryCode, external.phoneNumber])
+          return toE164([external.countryCode, external.phoneNumber])
         }
       }
 
@@ -291,7 +297,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
       const number = inputRef.current?.value
       setDisplayValue(
         number?.length > 0
-          ? joinValue([countryCodeRef.current, number])
+          ? `${countryCodeRef.current} ${number}`
           : undefined
       )
     }
@@ -330,10 +336,10 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
       if (!currentCountryRef.current) {
         type Item = DrawerListDataArrayItem & { country: CountryType }
 
-        const cdcVal = countryCode?.replace(/^\+/, '')
+        const cdcVal = countryCode?.replace(/^\+/, '').replace(/-/g, '')
         // @ts-expect-error - strictFunctionTypes
         const item = dataRef.current.find((item: Item) => {
-          const cdc = item?.country?.cdc
+          const cdc = item?.country?.cdc?.replace(/-/g, '')
           return cdc === cdcVal
         }) as Item
 
@@ -355,7 +361,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
 
       handleChange(
         toEvent(
-          joinValue([eventValues.countryCode, eventValues.phoneNumber])
+          toE164([eventValues.countryCode, eventValues.phoneNumber])
         ),
         eventValues
       )
@@ -470,10 +476,16 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
     ({ value, updateData, revalidateInputValue, event }) => {
       // Handle browser autofill/autocomplete
       if (typeof event?.nativeEvent?.data === 'undefined') {
-        const cdcVal = /\+\d{1,3}\s{1}\d+/.test(value)
-          ? splitValue(value)[0]
+        // Try to detect the country code from the autofilled value.
+        // Browsers may autofill either space-separated ("+47 12345678")
+        // or spaceless E.164 ("+4712345678") values.
+        const detected = detectCountryCode(value)
+        const cdcVal = detected
+          ? detected.countryCode.replace(/^\+/, '').replace(/-/g, '')
           : value
-        const country = countries.find(({ cdc }) => cdc === cdcVal)
+        const country = countries.find(
+          ({ cdc }) => cdc.replace(/-/g, '') === cdcVal?.replace(/-/g, '')
+        )
         if (country?.cdc) {
           const countryCode = (countryCodeRef.current = formatCountryCode(
             country.cdc
@@ -560,7 +572,10 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
           placeholder ?? (isDefault ? defaultPlaceholder : undefined)
         }
         mask={
-          numberMask ?? (isDefault ? defaultMask : Array(12).fill(/\d/))
+          // E.164 allows up to 15 digits total (country code + subscriber number).
+          // The country code (1–3 digits) is in a separate field, so the subscriber
+          // number can be up to 14 digits. We use 15 as a safe upper bound.
+          numberMask ?? (isDefault ? defaultMask : Array(15).fill(/\d/))
         }
         onFocus={handleOnFocus}
         onBlur={handleOnBlur}
@@ -608,15 +623,37 @@ function formatCountryCode(value: string) {
 }
 
 function splitValue(value: string) {
-  return (
-    typeof value === 'string'
-      ? value.match(/^(\+[^ ]+)? ?(.*)$/)
-      : [undefined, '', '']
-  ).slice(1)
+  if (typeof value !== 'string') {
+    return [undefined, '']
+  }
+
+  // Values with spaces are not valid E.164 — reject them
+  if (value.includes(' ')) {
+    return [undefined, '']
+  }
+
+  // Auto-detect country code from spaceless strings like "+4712345678" or "004712345678"
+  // detectCountryCode handles 00→+ normalization internally and only succeeds
+  // when there are enough digits for both a country code and subscriber number,
+  // so short values like "007" are left unchanged.
+  const detected = detectCountryCode(value)
+  if (detected) {
+    return [detected.countryCode, detected.phoneNumber]
+  }
+
+  // No space found — treat the whole value as the country code (or plain text)
+  if (value.startsWith('+')) {
+    return [value, '']
+  }
+
+  return [undefined, value]
 }
 
-function joinValue(array: Array<string>) {
-  return array.filter(Boolean).join(' ')
+function toE164(array: Array<string>) {
+  return array
+    .filter(Boolean)
+    .map((part) => part.replace(/-/g, ''))
+    .join('')
 }
 
 withComponentMarkers(PhoneNumber, {
