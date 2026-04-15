@@ -267,6 +267,18 @@
     border-color: var(--skeleton-color--contrast);
   }
 
+  /*
+    * On disabled state
+    *
+    */
+  &__input[disabled] ~ &__background {
+    background-color: var(--token-color-background-neutral);
+    border-color: var(--token-color-stroke-action-disabled);
+  }
+  &__input[disabled] ~ &__button {
+    background-color: var(--token-color-background-action-disabled);
+  }
+
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active)
     ~ &__button

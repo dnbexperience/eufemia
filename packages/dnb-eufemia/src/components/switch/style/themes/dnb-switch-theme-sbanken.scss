@@ -25,33 +25,6 @@
   /* stylelint-disable no-descending-specificity */
 
   /*
-   * On disabled state
-   *
-   */
-  &__input[disabled] ~ &__background {
-    background-color: var(--sb-color-gray);
-    &::after {
-      color: var(--sb-color-gray-dark);
-    }
-  }
-
-  &__input[disabled] ~ &__button {
-    background-color: var(--sb-color-gray-light);
-  }
-
-  &__input[disabled]:checked ~ &__background {
-    background-color: var(--sb-color-violet);
-    opacity: 0.3;
-    &::after {
-      color: var(--sb-color-white);
-    }
-  }
-
-  &__input[disabled]:checked ~ &__button {
-    background-color: var(--sb-color-white);
-  }
-
-  /*
    * On focus state
    *
    */
