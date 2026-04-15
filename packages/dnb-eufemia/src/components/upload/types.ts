@@ -92,7 +92,7 @@ export type UploadProps = {
   disableDragAndDrop?: boolean
 
   /**
-   * Custom icon used for the upload button. [Primary Icons](/icons/primary) can be set as a string (e.g. `icon="information"`), other icons should be set as React elements. Defaults to the `folder` icon.
+   * Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object, to customize the upload button behavior and appearance.
    */
   buttonProps?: ButtonProps
 

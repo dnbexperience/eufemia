@@ -72,7 +72,7 @@ export type InputMaskedProps = Omit<
   SpacingProps &
   FormStatusBaseProps & {
     /**
-     * A mask defined as an array of RegExp and string tokens (e.g. `[/\d/, /\d/, " ", /\d/, /\d/]`) or a single RegExp. Defaults to number mask.
+     * A mask defined as an array of RegExp and string tokens (e.g. `[/\d/, /\d/, " ", /\d/, /\d/]`) or a single RegExp. Defaults to `number mask`.
      */
     mask?: InputMaskedMask
     /**

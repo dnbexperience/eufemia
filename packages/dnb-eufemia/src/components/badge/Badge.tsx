@@ -20,8 +20,7 @@ import useNumberFormat from '../number-format/useNumberFormat'
 
 export type BadgeProps = {
   /**
-   * Aria label to describe the badge
-   * Default: `null`
+   * The label description of the badge. Only required when passing a number as the badge content.
    */
   label?: React.ReactNode
 
@@ -32,8 +31,8 @@ export type BadgeProps = {
   className?: string
 
   /**
-   * Skeleton should be applied when loading content
-   * Default: `null`
+   * Applies loading skeleton.
+   * Default: `false`
    */
   skeleton?: SkeletonShow
 

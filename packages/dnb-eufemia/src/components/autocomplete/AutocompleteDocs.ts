@@ -163,7 +163,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
     status: 'optional',
   },
   submitElement: {
-    doc: 'Replace the dropdown / submit button with a custom React element. Defaults to the input SubmitButton `import { SubmitButton } from &#39;@dnb/eufemia/components/input/Input&#39;`.',
+    doc: "Replace the dropdown / submit button with a custom React element. Defaults to the input SubmitButton `import { SubmitButton } from '@dnb/eufemia/components/input/Input'`.",
     type: 'React.ReactNode',
     status: 'optional',
   },

@@ -12,7 +12,7 @@ export type AriaLiveProps = {
   priority?: 'low' | 'high'
 
   /**
-   * Delay in milliseconds before the announcement is made. Defaults to 1000.
+   * Delay in milliseconds before the announcement is made. Defaults to `1000`.
    * Default: `1000`
    */
   delay?: number

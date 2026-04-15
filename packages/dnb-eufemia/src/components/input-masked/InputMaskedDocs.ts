@@ -42,7 +42,7 @@ export const InputMaskedProperties: PropertiesTableProps = {
     status: 'optional',
   },
   mask: {
-    doc: 'A mask defined as an array of RegExp and string tokens (e.g. `[/\\d/, /\\d/, " ", /\\d/, /\\d/]`) or a single RegExp. Defaults to number mask.',
+    doc: 'A mask defined as an array of RegExp and string tokens (e.g. `[/\\d/, /\\d/, " ", /\\d/, /\\d/]`) or a single RegExp. Defaults to `number mask`.',
     type: ['RegExp', 'Array<RegExp | string>'],
     status: 'optional',
   },

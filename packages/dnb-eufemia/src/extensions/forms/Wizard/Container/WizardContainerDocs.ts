@@ -2,7 +2,7 @@ import type { PropertiesTableProps } from '../../../../shared/types'
 
 export const WizardContainerProperties: PropertiesTableProps = {
   initialActiveIndex: {
-    doc: 'What step should show initially (defaults to 0 for the first one).',
+    doc: 'What step should show initially (defaults to `0` for the first one).',
     type: 'number',
     status: 'optional',
   },

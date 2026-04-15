@@ -53,8 +53,8 @@ export type InfoCardProps = {
    */
   imgProps?: ImgProps
   /**
-   * Skeleton should be applied when loading content
-   * Default: `null`
+   * If set to `true`, an overlaying skeleton with animation will be shown.
+   * Default: `false`
    */
   skeleton?: SkeletonShow
   /**

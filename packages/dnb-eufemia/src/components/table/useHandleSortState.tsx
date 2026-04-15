@@ -3,19 +3,19 @@ import React from 'react'
 export type UseHandleSortStateOptions = {
   /**
    * Defines if the current column should be active or not.
-   * Defaults to false.
+   * Defaults to `false`.
    */
   active?: boolean
 
   /**
-   * Define the sorting direction. Can be "asc", "desc" or "off".
-   * Defaults to "off".
+   * Define the sorting direction. Can be `asc`, `desc` or `off`.
+   * Defaults to `off`.
    */
   direction?: UseHandleSortStateDirection
 
   /**
    * Define the possible modes.
-   * Defaults to ["asc", "desc", "off"].
+   * Defaults to `["asc", "desc", "off"]`.
    */
   modes?: Array<UseHandleSortStateMode>
 }
