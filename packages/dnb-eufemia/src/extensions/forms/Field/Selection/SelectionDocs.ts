@@ -32,7 +32,7 @@ export const SelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   groups: {
-    doc: 'An array of group titles for the list items. Only the first group can be `undefined`',
+    doc: 'An array of group titles for the list items. Only the first group can be `undefined`.',
     type: 'Array<React.ReactNode>',
     status: 'optional',
   },

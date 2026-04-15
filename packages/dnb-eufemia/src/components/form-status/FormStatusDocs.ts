@@ -43,7 +43,7 @@ export const FormStatusProperties: PropertiesTableProps = {
     status: 'optional',
   },
   iconSize: {
-    doc: 'the icon size of the icon shows. Defaults to `medium`.',
+    doc: 'The icon size of the icon shows. Defaults to `medium`.',
     type: 'string',
     status: 'optional',
   },
@@ -63,7 +63,7 @@ export const FormStatusProperties: PropertiesTableProps = {
     status: 'optional',
   },
   noAnimation: {
-    doc: 'NB: Animation is disabled as of now. ~~use `true` to omit the animation on content visibility. Defaults to `false`.~~',
+    doc: 'NB: Animation is disabled as of now. ~~use `true` to omit the animation on content visibility. Defaults to `false`.~~.',
     type: 'boolean',
     status: 'optional',
   },

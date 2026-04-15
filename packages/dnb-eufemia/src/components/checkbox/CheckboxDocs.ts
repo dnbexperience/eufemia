@@ -47,12 +47,12 @@ export const CheckboxProperties: PropertiesTableProps = {
     status: 'optional',
   },
   statusProps: {
-    doc: 'Use an object to define additional FormStatus properties. See [FormStatus](/uilib/components/form-status/properties/)',
+    doc: 'Use an object to define additional FormStatus properties. See [FormStatus](/uilib/components/form-status/properties/).',
     type: 'FormStatusProps',
     status: 'optional',
   },
   globalStatus: {
-    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status)',
+    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
     type: 'object',
     status: 'optional',
   },

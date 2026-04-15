@@ -18,7 +18,7 @@ export const RatingProperties: PropertiesTableProps = {
   variant: {
     doc: 'Visual variant.',
     type: ['"stars"', '"progressive"'],
-    defaultValue: 'stars',
+    defaultValue: '"stars"',
     status: 'optional',
   },
   srLabel: NumberFormatProperties.srLabel,

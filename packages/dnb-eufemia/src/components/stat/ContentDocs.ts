@@ -10,7 +10,7 @@ export const ContentProperties: PropertiesTableProps = {
   direction: {
     doc: 'Layout direction for the content items.',
     type: ['"horizontal"', '"vertical"'],
-    defaultValue: 'horizontal',
+    defaultValue: '"horizontal"',
     status: 'optional',
   },
   skeleton: skeletonProperty,

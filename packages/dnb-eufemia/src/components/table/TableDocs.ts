@@ -20,7 +20,7 @@ export const TableProperties: PropertiesTableProps = {
     status: 'optional',
   },
   outline: {
-    doc: 'Use `true` to show an outline border around the table',
+    doc: 'Use `true` to show an outline border around the table.',
     type: 'boolean',
     defaultValue: 'false',
     status: 'optional',
@@ -55,7 +55,7 @@ export const TableProperties: PropertiesTableProps = {
     status: 'required',
   },
   className: {
-    doc: 'Custom className on the component root',
+    doc: 'Custom className on the component root.',
     type: 'string',
     defaultValue: 'undefined',
     status: 'optional',

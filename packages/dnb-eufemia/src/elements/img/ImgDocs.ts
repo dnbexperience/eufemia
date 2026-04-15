@@ -7,7 +7,7 @@ export const ImgProperties: PropertiesTableProps = {
     status: 'optional',
   },
   imgClass: {
-    doc: 'Custom className on the `<img>`-element',
+    doc: 'Custom className on the `<img>`-element.',
     type: 'string',
     status: 'optional',
   },
