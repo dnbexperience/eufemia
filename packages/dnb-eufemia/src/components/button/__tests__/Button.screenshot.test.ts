@@ -331,7 +331,7 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
   }
 )
 
-describe.each(['sbanken'])('Button for %s', (themeName) => {
+describe.each(['dnb', 'sbanken'])('Button for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
     url: '/uilib/components/button/demos/',
