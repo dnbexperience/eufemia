@@ -32,25 +32,25 @@ const makeLayoutEffect = () => {
 export type UseMediaProps = {
   /**
    * Give a initial value, that is used during SSR as well.
-   * Default: null
+   * Default: `null`
    */
   initialValue?: Partial<UseMediaResult>
 
   /**
    * If set to true, no MediaQuery will be used.
-   * Default: false
+   * Default: `false`
    */
   disabled?: MediaQueryOptions['disabled']
 
   /**
    * Provide a custom breakpoint
-   * Default: defaultBreakpoints
+   * Default: `defaultBreakpoints`
    */
   breakpoints?: MediaQueryBreakpoints
 
   /**
    * Provide a custom query
-   * Default: defaultQueries
+   * Default: `defaultQueries`
    */
   queries?: Record<string, MediaQueryCondition>
 
@@ -61,7 +61,7 @@ export type UseMediaProps = {
 
   /**
    * Not documented as of now. For internal use only.
-   * Default: true
+   * Default: `true`
    */
   correctRange?: MediaQueryOptions['correctRange']
 }

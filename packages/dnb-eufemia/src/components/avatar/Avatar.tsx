@@ -38,43 +38,43 @@ export type AvatarImgProps = ImgProps
 export type AvatarProps = Omit<React.HTMLProps<HTMLElement>, 'size'> & {
   /**
    * Used in combination with `src` to provide an alt attribute for the `img` element.
-   * Default: null
+   * Default: `null`
    */
   alt?: string
 
   /**
    * Custom className on the component root
-   * Default: null
+   * Default: `null`
    */
   className?: string
 
   /**
    * Skeleton should be applied when loading content
-   * Default: null
+   * Default: `null`
    */
   skeleton?: SkeletonShow
 
   /**
    * The content of the component. Can be used instead of prop "data".
-   * Default: null
+   * Default: `null`
    */
   children?: React.ReactNode
 
   /**
    * The size of the component.
-   * Default: medium.
+   * Default: `medium`
    */
   size?: AvatarSizes
 
   /**
    * Specifies the path to the image
-   * Default: null
+   * Default: `null`
    */
   src?: string
 
   /**
    * Props applied to the `img` element if the component is used to display an image.
-   * Default: null
+   * Default: `null`
    */
   imgProps?: ImgProps
 
@@ -86,26 +86,26 @@ export type AvatarProps = Omit<React.HTMLProps<HTMLElement>, 'size'> & {
 
   /**
    * The variant of the component.
-   * Default: primary.
+   * Default: `primary`
    */
   variant?: AvatarVariants
 
   /**
    * If an avatar is hidden from the screen reader (by setting aria-hidden={true}) or if label is given, typical inside a table or dl (definition list), then you can disable Avatar.Group as a dependent of Avatar.
    * Use `true` to omit the `Avatar group required:` warning.
-   * Default: null
+   * Default: `null`
    */
   hasLabel?: boolean
 
   /**
    * Define a custom background color, instead of a variant. Use a Eufemia color.
-   * Default: undefined
+   * Default: `undefined`
    */
   backgroundColor?: string
 
   /**
    * Define a custom color to compliment the backgroundColor. Use a Eufemia color.
-   * Default: undefined
+   * Default: `undefined`
    */
   color?: string
 }

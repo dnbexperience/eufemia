@@ -23,7 +23,7 @@ type HProps = SpacingProps &
   React.HTMLAttributes<HTMLHeadingElement> & {
     /**
      * Defines the Element Type, like "h1".
-     * Default: h1
+     * Default: `h1`
      */
     element?: string
     /**
@@ -33,7 +33,7 @@ type HProps = SpacingProps &
     /**
      * Sets the font size based on headingSize_#{HEADING_SIZE} mixins found in typography-mixins.scss. For more detailed information go here: https://eufemia.dnb.no/uilib/typography/font-size/.
      * Use value 'auto' to base size on heading level
-     * Default: xx-large
+     * Default: `xx-large`
      */
     size?: HSize | 'auto'
     /**

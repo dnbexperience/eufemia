@@ -5,13 +5,13 @@ import { getOffsetTop } from '../../shared/helpers'
 export type TableStickyHeaderProps = {
   /**
    * Makes the Table header sticky
-   * Default: false
+   * Default: `false`
    */
   sticky?: boolean | 'css-position'
 
   /**
    * The offset from top in rem or em unit
-   * Default: false
+   * Default: `false`
    */
   stickyOffset?: string | number
 }

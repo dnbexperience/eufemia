@@ -48,7 +48,7 @@ function Log({
 /**
  * Replaces undefined values in an object with a specified replacement value.
  * @param value - The value to check for undefined values.
- * @param replaceWith - The value to replace undefined values with. Default is null.
+ * @param replaceWith - The value to replace undefined values with. Default: `null`
  * @returns The object with undefined values replaced.
  */
 function replaceUndefinedValues(

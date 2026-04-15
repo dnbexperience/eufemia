@@ -18,55 +18,55 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 export type AvatarGroupProps = {
   /**
    * Label to describe the avatar group
-   * Default: null
+   * Default: `null`
    */
   label: React.ReactNode
 
   /**
    * Custom className on the component root
-   * Default: null
+   * Default: `null`
    */
   className?: string
 
   /**
    * Number of max displayed elements, including the "elements hidden text (+x)".
-   * Default: 4
+   * Default: `4`
    */
   maxElements?: number
 
   /**
    * The avatars to group.
-   * Default: null
+   * Default: `null`
    */
   children?: React.ReactNode
 
   /**
    * The size of the Avatars, and "elements hidden text (+x)".
-   * Default: medium.
+   * Default: `medium`
    */
   size?: AvatarSizes
 
   /**
    * The variant of the Avatars.
-   * Default: primary.
+   * Default: `primary`
    */
   variant?: AvatarVariants
 
   /**
    * Skeleton should be applied when loading content
-   * Default: false
+   * Default: `false`
    */
   skeleton?: SkeletonShow
 
   /**
    * Define a custom background color for the Avatars, instead of a variant. Use a Eufemia color.
-   * Default: undefined
+   * Default: `undefined`
    */
   backgroundColor?: string
 
   /**
    * Define a custom color to compliment the backgroundColor for the Avatars. Use a Eufemia color.
-   * Default: undefined
+   * Default: `undefined`
    */
   color?: string
 } & Omit<React.HTMLProps<HTMLElement>, 'size' | 'label'>
@@ -162,13 +162,13 @@ const AvatarGroup = (localProps: AvatarGroupAllProps) => {
 export type AvatarElementsHiddenProps = {
   /**
    * The avatars to group.
-   * Default: null
+   * Default: `null`
    */
   children?: React.ReactNode
 
   /**
    * The size of the "elements hidden text (+x)".
-   * Default: medium.
+   * Default: `medium`
    */
   size?: AvatarSizes
 }

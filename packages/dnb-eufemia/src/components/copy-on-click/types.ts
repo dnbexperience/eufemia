@@ -3,13 +3,13 @@ import type { SpacingProps } from '../../shared/types'
 export type CopyOnClickProps = {
   /**
    * Whether to show the copy cursor or not.
-   * @default true
+   * Default: `true`
    */
   showCursor?: boolean
 
   /**
    * Whether the CopyOnClick component is on or off.
-   * @default false
+   * Default: `false`
    */
   disabled?: boolean
 

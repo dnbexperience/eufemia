@@ -7,13 +7,13 @@ import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpe
 export type UseHeightAnimationOptions = {
   /**
    * Set to `true`, when initially `false` was given, to animate from 0px to auto.
-   * Default: true
+   * Default: `true`
    */
   open?: boolean
 
   /**
    * Set to `false` to omit the animation.
-   * Default: true
+   * Default: `true`
    */
   animate?: boolean
 

@@ -101,11 +101,11 @@ export type FormStatusProps = {
    */
   globalStatus?: GlobalStatusConfigObject
   /**
-   * The `icon` show before the status text. Defaults to `exclamation`.
+   * The `icon` show before the status text. Default: `error`
    */
   icon?: IconIcon
   /**
-   * The icon size of the icon shows. Defaults to `medium`.
+   * The icon size of the icon shows. Default: `medium`
    */
   iconSize?: IconSize
   /**

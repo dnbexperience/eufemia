@@ -5,19 +5,19 @@ import { TableAccordionContentSingle } from './table-accordion/TableAccordionCon
 export type TableTdProps = {
   /**
    * if set to `true`, no padding will be added
-   * Default: false
+   * Default: `false`
    */
   noSpacing?: boolean
 
   /**
    * Set to `horizontal` for padding on left and right side
-   * Default: undefined
+   * Default: `undefined`
    */
   spacing?: 'horizontal'
 
   /**
    * The content of the component.
-   * Default: null
+   * Default: `null`
    */
   children?: React.ReactNode
 }

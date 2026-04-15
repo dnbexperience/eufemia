@@ -30,7 +30,7 @@ export type TimelineItemProps = {
 
   /**
    * Text displaying the title of the item's corresponding page.
-   * Default: translations based on the icon.
+   * Defaults to a translation based on the icon.
    */
   iconAlt?: string
 
@@ -51,13 +51,13 @@ export type TimelineItemProps = {
 
   /**
    * The component state. State 'completed', 'current' or 'upcoming'.
-   * Default: null
+   * Default: `null`
    */
   state: TimelineItemState
 
   /**
    * Skeleton should be applied when loading content
-   * Default: null
+   * Default: `null`
    */
   skeleton?: SkeletonShow
 }

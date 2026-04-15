@@ -28,37 +28,37 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 export type BreadcrumbItemProps = {
   /**
    * Text displaying the title of the item's corresponding page
-   * Default: If variant='home', default is "Home". Otherwise it is required.
+   * Defaults to `Home` when variant is `home`, otherwise required.
    */
   text?: React.ReactNode
 
   /**
    * Icon displaying on the left side
-   * Default: HomeIcon / chevron_right
+   * Default: `HomeIcon / chevron_right`
    */
   icon?: IconIcon
 
   /**
    * Href should be the link to the item's corresponding page.
-   * Default: null
+   * Default: `null`
    */
   href?: string
 
   /**
    * Set a custom click event. In this case, you should not define the prop href.
-   * Default: null
+   * Default: `null`
    */
   onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>
 
   /**
    * The component variant. Variant 'current' should correspond to the current page and 'home' to the root page.
-   * Default: null
+   * Default: `null`
    */
   variant?: 'home' | 'previous' | 'current'
 
   /**
    * Skeleton should be applied when loading content
-   * Default: null
+   * Default: `null`
    */
   skeleton?: SkeletonShow
 

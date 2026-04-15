@@ -22,19 +22,19 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 export type TimelineProps = {
   /**
    * Skeleton should be applied when loading content
-   * Default: null
+   * Default: `null`
    */
   skeleton?: SkeletonShow
 
   /**
    * Pass in a list of your events as objects of timelineitem, to render them as timelineitems.
-   * Default: null
+   * Default: `null`
    */
   data?: TimelineItemProps[]
 
   /**
    * The content of the component. Can be used instead of prop "data".
-   * Default: null
+   * Default: `null`
    */
   children?:
     | React.ReactElement<TimelineItemProps>[]

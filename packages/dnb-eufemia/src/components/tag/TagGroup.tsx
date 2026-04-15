@@ -18,25 +18,25 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 export type TagGroupProps = {
   /**
    * Aria label to describe the tag group
-   * Default: null
+   * Default: `null`
    */
   label: React.ReactNode
 
   /**
    * Custom className on the component root
-   * Default: null
+   * Default: `null`
    */
   className?: string
 
   /**
    * The tags to group.
-   * Default: null
+   * Default: `null`
    */
   children?: React.ReactNode
 
   /**
    * Skeleton should be applied when loading content
-   * Default: false
+   * Default: `false`
    */
   skeleton?: SkeletonShow
 }

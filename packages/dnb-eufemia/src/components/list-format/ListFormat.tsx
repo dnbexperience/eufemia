@@ -40,13 +40,13 @@ export type ListFormatProps = {
 
   /**
    * The value to format as list.
-   * Default: null
+   * Default: `null`
    */
   value?: Array<React.ReactNode>
 
   /**
    * The children to format as list.
-   * Default: null
+   * Default: `null`
    */
   children?: React.ReactNode
 }

@@ -29,32 +29,32 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 export type InfoCardProps = {
   /**
    * Used in combination with `src` to provide an alt attribute for the `img` element.
-   * Default: null
+   * Default: `null`
    */
   alt?: React.ReactNode
   /**
    * Aligns the content to center, rather than left
-   * Default: false
+   * Default: `false`
    */
   centered?: boolean
   /**
    * Determines whether to display a drop shadow around the card.
-   * Default: true
+   * Default: `true`
    */
   dropShadow?: boolean
   /**
    * Replace the default icon with custom icon.
-   * Default: Lightbulb (icon)
+   * Default: `Lightbulb (icon)`
    */
   icon?: IconIcon
   /**
    * Props applied to the `img` element if the component is used to display an image. Replace the 'icon'
-   * Default: null
+   * Default: `null`
    */
   imgProps?: ImgProps
   /**
    * Skeleton should be applied when loading content
-   * Default: null
+   * Default: `null`
    */
   skeleton?: SkeletonShow
   /**
@@ -63,52 +63,52 @@ export type InfoCardProps = {
   stretch?: boolean
   /**
    * Specifies the path to the image
-   * Default: null
+   * Default: `null`
    */
   src?: string
   /**
    * The text content of the InfoCard
-   * Default: null
+   * Default: `null`
    */
   text?: React.ReactNode
   /**
    * Can be used to add custom content, which is displayed/rendered between the `text` property and buttons.
-   * Default: null
+   * Default: `null`
    */
   children?: React.ReactNode
   /**
    * Component title
-   * Default: null
+   * Default: `null`
    */
   title?: React.ReactNode
   /**
    * Is called when the close button is clicked
-   * Default: null
+   * Default: `null`
    */
   onClose?: React.MouseEventHandler<HTMLButtonElement>
   /**
    * The text of the close button.
-   * Default: null
+   * Default: `null`
    */
   closeButtonText?: React.ReactNode
   /**
    * Is called when the accept button is clicked
-   * Default: null
+   * Default: `null`
    */
   onAccept?: React.MouseEventHandler<HTMLButtonElement>
   /**
    * The text of the accept button.
-   * Default: null
+   * Default: `null`
    */
   acceptButtonText?: React.ReactNode
   /**
    * Additional attributes for the close button.
-   * Default: null
+   * Default: `null`
    */
   closeButtonAttributes?: ButtonProps
   /**
    * Additional attributes for the accept button
-   * Default: null
+   * Default: `null`
    */
   acceptButtonAttributes?: ButtonProps
 }

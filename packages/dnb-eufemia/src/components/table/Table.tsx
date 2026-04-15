@@ -41,25 +41,25 @@ export type TableProps = {
 
   /**
    * The size of the component.
-   * Default: large.
+   * Default: `large`
    */
   size?: TableSizes
 
   /**
    * The style variant of the component. Currently not implemented.
-   * Default: generic.
+   * Default: `generic`
    */
   variant?: TableVariants
 
   /**
    * Use `true` to show borders between table data cell
-   * Default: false
+   * Default: `false`
    */
   border?: boolean
 
   /**
    * Use `true` to show a outline border around the table
-   * Default: false
+   * Default: `false`
    */
   outline?: boolean
 
@@ -70,13 +70,13 @@ export type TableProps = {
 
   /**
    * Defines where the chevron will be placed, should only be used together with mode="accordion".
-   * Default: 'left'
+   * Default: `'left'`
    */
   accordionChevronPlacement?: 'left' | 'right'
 
   /**
    * Defines if the table should behave with a fixed table layout, using: "table-layout: fixed;"
-   * Default: null.
+   * Default: `null`
    */
   fixed?: boolean
 
