@@ -8,6 +8,10 @@
 .dnb-switch {
   --switch-width--medium: 2.5rem;
   --switch-height--medium: 1.5rem;
+  --switch-dot-size-off--medium: 0.75rem;
+  --switch-dot-size-on--medium: 1.125rem;
+  --switch-dot-size-off--large: 1rem;
+  --switch-dot-size-on--large: 1.625rem;
   --switch-width--large: 3.25rem;
   --switch-height--large: 2rem;
   --switch-border-width--medium: 0.0625rem;
@@ -61,8 +65,8 @@
   &__button {
     left: 0;
 
-    width: var(--switch-height--medium);
-    height: var(--switch-height--medium);
+    width: var(--switch-dot-size-off--medium);
+    height: var(--switch-dot-size-off--medium);
 
     background-color: lightgrey;
     border: var(--switch-border-width--medium) solid transparent;
@@ -70,8 +74,8 @@
     transition: transform 160ms ease-out 125ms;
 
     .dnb-switch--large & {
-      width: var(--switch-height--large);
-      height: var(--switch-height--large);
+      width: var(--switch-dot-size-off--large);
+      height: var(--switch-dot-size-off--large);
 
       border-width: var(--switch-border-width--large);
     }
@@ -93,10 +97,7 @@
     * aka when the switch is not :checked
     */
   &__input:not(:checked) ~ &__button {
-    transform: translateX(0);
-    transform: translateX(
-      calc(1px - 1px - var(--switch-border-width--medium))
-    );
+    transform: translateX(0.375rem);
   }
 
   /*
@@ -104,26 +105,27 @@
   * aka when the switch is :checked
   */
   &__input:checked ~ &__button {
-    transform: translateX(1rem);
+    width: var(--switch-dot-size-on--medium);
+    height: var(--switch-dot-size-on--medium);
     transform: translateX(
       calc(
-        var(--switch-width--medium) - 1.5rem +
-          var(--switch-border-width--medium)
+        var(--switch-width--medium) - var(--switch-dot-size-on--medium) +
+          var(--switch-border-width--medium) - 0.375rem
       )
     );
   }
 
   &--large &__input:not(:checked) ~ &__button {
-    transform: translateX(
-      calc(1px - 1px - var(--switch-border-width--large))
-    );
+    transform: translateX(0.5rem);
   }
 
   &--large &__input:checked ~ &__button {
+    width: var(--switch-dot-size-on--large);
+    height: var(--switch-dot-size-on--large);
     transform: translateX(
       calc(
-        var(--switch-width--large) - 2rem +
-          var(--switch-border-width--large)
+        var(--switch-width--large) - var(--switch-dot-size-on--large) +
+          var(--switch-border-width--large) - 0.5rem
       )
     );
   }
@@ -137,22 +139,14 @@
     overflow: hidden;
 
     width: var(--switch-width--medium);
-    height: calc(var(--switch-height--medium) - 0.5rem);
+    height: var(--switch-height--medium);
 
     background-color: grey;
     border-radius: calc(var(--switch-height--medium) - 0.5rem / 2);
 
-    &::after {
-      content: '';
-      position: absolute;
-      transition:
-        transform 0.3s ease-out,
-        position 0.3s ease-out;
-    }
-
     .dnb-switch--large & {
       width: var(--switch-width--large);
-      height: calc(var(--switch-height--large) - 0.75rem);
+      height: var(--switch-height--large);
 
       border-radius: calc(var(--switch-height--large) - 0.75rem / 2);
     }
