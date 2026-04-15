@@ -268,6 +268,18 @@
   }
 
   /*
+    * On hover state
+    *
+    */
+  &__input:not([disabled]):not(:focus):not(:active):hover ~ &__background {
+    border-color: var(--token-color-stroke-action-hover);
+    background-color: var(--token-color-background-action-hover-subtle);
+  }
+  &__input:not([disabled]):not(:focus):not(:active):hover ~ &__button {
+    background-color: var(--token-color-background-action-hover);
+  }
+
+  /*
     * On disabled state
     *
     */
@@ -291,12 +303,11 @@
     * On error state
     *
     */
-  &__status--error &__input:not([disabled]) ~ &__button {
-    background-color: var(--token-color-background-error);
-  }
-
   &__status--error &__input:not([disabled]) ~ &__background {
     background-color: var(--token-color-background-error-subtle);
     border-color: var(--token-color-stroke-error);
+  }
+  &__status--error &__input:not([disabled]) ~ &__button {
+    background-color: var(--token-color-background-error);
   }
 }

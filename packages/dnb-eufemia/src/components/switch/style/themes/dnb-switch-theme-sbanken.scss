@@ -45,26 +45,4 @@
       @include utilities.fakeBorder(var(--focus-ring-color), 0.0625rem);
     }
   }
-
-  /*
-   * On hover state
-   *
-   */
-  &__background:hover,
-  &__input:not([disabled]):not(:focus):not(:active):not(:checked):hover
-    ~ &__background {
-    color: var(--sb-color-violet);
-
-    background-color: var(--sb-color-violet-light-3);
-    @include utilities.fakeBorder(var(--sb-color-violet), 0.0625rem);
-
-    &::after {
-      color: var(--sb-color-violet);
-    }
-  }
-
-  &__input:not([disabled]):not(:focus):not(:active):checked:hover
-    ~ &__background {
-    background-color: var(--sb-color-violet);
-  }
 }
