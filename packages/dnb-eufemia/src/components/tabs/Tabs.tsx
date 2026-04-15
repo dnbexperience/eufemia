@@ -514,9 +514,38 @@ function TabsComponent(ownProps: TabsProps) {
     if (!tablistRef.current) {
       return false
     }
-    return (
-      tablistRef.current.scrollWidth - 1 > tablistRef.current.offsetWidth
+
+    const tablistElem = tablistRef.current
+
+    /**
+     * Safari Desktop adds one pixel "on zoom" level 1
+     * therefore we just remove it here
+     */
+    let tolerance = 1
+
+    /**
+     * Components placed in a tab title (e.g. Badge) may add
+     * margin-right to the button for absolute positioning.
+     * On the last tab, this trailing margin inflates
+     * scrollWidth beyond the actual visible content.
+     * Subtract the net trailing margin from the last snap
+     * and its button to avoid false overflow detection.
+     */
+    const lastSnap = tablistElem.querySelector(
+      '.dnb-tabs__button__snap:last-of-type'
     )
+    if (lastSnap) {
+      const lastButton = lastSnap.querySelector('.dnb-tabs__button')
+      if (lastButton) {
+        const buttonMargin =
+          parseFloat(window.getComputedStyle(lastButton).marginRight) || 0
+        const snapMargin =
+          parseFloat(window.getComputedStyle(lastSnap).marginRight) || 0
+        tolerance += Math.max(0, buttonMargin + snapMargin)
+      }
+    }
+
+    return tablistElem.scrollWidth - tolerance > tablistElem.offsetWidth
   }
 
   const setLeftPosition = (scrollLeft: number) => {
