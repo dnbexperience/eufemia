@@ -6,10 +6,6 @@
 @use '../../../../style/core/utilities.scss' as utilities;
 
 .dnb-switch {
-  &__background {
-    background-color: var(--color-sea-green-30);
-  }
-
   &__focus {
     transition: transform 150ms ease-out;
     transform: rotate(0deg);
@@ -29,39 +25,6 @@
   }
 
   /* stylelint-disable no-descending-specificity */
-
-  /*
-    * When switched OFF
-    * aka when the checkbox is not :checked
-    */
-  &__input:not(:checked) ~ &__button {
-    background-color: var(--color-white);
-    border-color: var(--color-sea-green);
-  }
-
-  /*
-    * When switched ON
-    * aka when the checkbox is :checked
-    */
-  &__input:checked ~ &__button {
-    background-color: var(--color-sea-green);
-  }
-
-  /*
-    * Draw the circle / line
-    *
-    */
-  &__input:not(:checked) ~ &__background::after {
-    right: 0;
-    transform: translateX(calc(var(--switch-width--medium) - 2.8rem));
-
-    width: 0.5rem;
-    height: 0.5rem;
-
-    border-radius: 50%;
-    border: 0.0625rem solid var(--color-sea-green);
-  }
-
   &__input:checked ~ &__background::after {
     left: 0;
     transform: translateX(calc(var(--switch-width--medium) - 1.87rem));

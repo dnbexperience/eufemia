@@ -68,8 +68,7 @@
     width: var(--switch-dot-size-off--medium);
     height: var(--switch-dot-size-off--medium);
 
-    background-color: lightgrey;
-    border: var(--switch-border-width--medium) solid transparent;
+    background-color: var(--token-color-background-action-alternative);
 
     transition: transform 160ms ease-out 125ms;
 
@@ -107,6 +106,9 @@
   &__input:checked ~ &__button {
     width: var(--switch-dot-size-on--medium);
     height: var(--switch-dot-size-on--medium);
+
+    background-color: var(--token-color-background-selected-subtle);
+
     transform: translateX(
       calc(
         var(--switch-width--medium) - var(--switch-dot-size-on--medium) +
@@ -141,7 +143,8 @@
     width: var(--switch-width--medium);
     height: var(--switch-height--medium);
 
-    background-color: grey;
+    background-color: var(--token-color-background-neutral);
+    border: 1px solid var(--token-color-stroke-action-alternative);
     border-radius: calc(var(--switch-height--medium) - 0.5rem / 2);
 
     .dnb-switch--large & {
@@ -150,6 +153,11 @@
 
       border-radius: calc(var(--switch-height--large) - 0.75rem / 2);
     }
+  }
+
+  &__input:checked ~ &__background {
+    background-color: var(--token-color-background-selected);
+    border-color: var(--token-color-background-selected);
   }
 
   &__input {
