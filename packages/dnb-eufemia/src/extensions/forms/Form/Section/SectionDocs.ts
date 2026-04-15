@@ -38,7 +38,7 @@ export const SectionProperties: PropertiesTableProps = {
   },
   containerMode: {
     doc: 'Defines the container mode. Can be `view`, `edit` or `auto`. When set to `auto`, the mode will initially be "edit" if fields contain errors. Defaults to `auto`.',
-    type: 'string',
+    type: ['"view"', '"edit"', '"auto"'],
     status: 'optional',
   },
   disableEditing: {
