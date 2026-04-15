@@ -27,7 +27,7 @@ export const CheckboxProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    doc: 'The size of the checkbox. For now there is "medium" (default) and "large".',
+    doc: 'The size of the checkbox. For now there is `medium` (default) and `large`.',
     type: ['"default"', '"medium"', '"large"'],
     status: 'optional',
   },

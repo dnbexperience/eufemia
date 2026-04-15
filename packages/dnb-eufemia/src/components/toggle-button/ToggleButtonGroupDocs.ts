@@ -62,7 +62,7 @@ export const ToggleButtonGroupProperties: PropertiesTableProps = {
     status: 'optional',
   },
   vertical: {
-    doc: 'Will force both `direction` and `labelDirection` to be **vertical** if set to `true`.',
+    doc: 'Will force both `direction` and `labelDirection` to be `vertical` if set to `true`.',
     type: 'boolean',
     status: 'optional',
   },

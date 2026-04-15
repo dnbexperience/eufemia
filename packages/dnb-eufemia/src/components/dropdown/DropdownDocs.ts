@@ -7,7 +7,7 @@ export const DropdownEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onSelect: {
-    doc: 'Will be called once the user focuses or selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, activeItem }`. The **activeItem** property is the currently selected item by keyboard navigation.',
+    doc: 'Will be called once the user focuses or selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, activeItem }`. The `activeItem` property is the currently selected item by keyboard navigation.',
     type: 'function',
     status: 'optional',
   },

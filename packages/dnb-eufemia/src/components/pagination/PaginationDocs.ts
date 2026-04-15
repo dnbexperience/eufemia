@@ -132,7 +132,7 @@ export const PaginationProperties: PropertiesTableProps = {
     status: 'optional',
   },
   barSpace: {
-    doc: 'Used to set spacing for the pagination bar. Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`. See property [space](/uilib/layout/space/properties).',
+    doc: 'Used to set spacing for the pagination bar. Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or `16px`. See property [space](/uilib/layout/space/properties).',
     type: 'Various',
     status: 'optional',
   },

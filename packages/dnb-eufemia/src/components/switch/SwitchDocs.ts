@@ -27,7 +27,7 @@ export const SwitchProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    doc: 'The size of the switch. For now there is **medium** (default) and **large**.',
+    doc: 'The size of the switch. For now there is `medium` (default) and `large`.',
     type: ['"default"', '"medium"', '"large"'],
     status: 'optional',
   },
