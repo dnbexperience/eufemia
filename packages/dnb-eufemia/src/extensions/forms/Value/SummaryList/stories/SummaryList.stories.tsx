@@ -13,7 +13,7 @@ export function SummaryList() {
         contactInformation: {
           firstName: 'FirstName',
           lastName: 'LastName',
-          phoneNumber: '+47 12345678',
+          phoneNumber: '+4712345678',
           emailAddress: 'ikke@dnb.no',
         },
       }}

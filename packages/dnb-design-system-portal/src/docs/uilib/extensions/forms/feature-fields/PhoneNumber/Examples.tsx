@@ -56,7 +56,7 @@ export const LabelAndValue = () => {
     <ComponentBox data-visual-test="phone-number-label">
       <Field.PhoneNumber
         numberLabel="Label text"
-        value="+47 98765432"
+        value="+4798765432"
         onChange={(value, { countryCode, phoneNumber, iso }) =>
           console.log('onChange', value, { countryCode, phoneNumber, iso })
         }
@@ -86,7 +86,7 @@ export const Disabled = () => {
   return (
     <ComponentBox>
       <Field.PhoneNumber
-        value="+47 12345678"
+        value="+4712345678"
         numberLabel="Label text"
         onChange={(value, { countryCode, phoneNumber, iso }) =>
           console.log('onChange', value, { countryCode, phoneNumber, iso })
@@ -116,7 +116,7 @@ export const ValidationRequired = () => {
   return (
     <ComponentBox>
       <Field.PhoneNumber
-        value="+47 888"
+        value="+47888"
         numberLabel="Label text"
         onChange={(value, { countryCode, phoneNumber, iso }) =>
           console.log('onChange', value, { countryCode, phoneNumber, iso })
@@ -131,12 +131,12 @@ export const ValidationPattern = () => {
   return (
     <ComponentBox>
       <Field.PhoneNumber
-        value="+41 123"
+        value="+41123"
         numberLabel="Label text"
         onChange={(value, { countryCode, phoneNumber, iso }) =>
           console.log('onChange', value, { countryCode, phoneNumber, iso })
         }
-        pattern="^\\+41 [1]\\d{2}$"
+        pattern="^\\+41[1]\\d{2}$"
       />
     </ComponentBox>
   )

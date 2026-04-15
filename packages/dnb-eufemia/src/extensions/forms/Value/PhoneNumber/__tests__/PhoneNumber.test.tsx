@@ -46,7 +46,7 @@ describe('Value.PhoneNumber', () => {
   })
 
   it('should format the value as a phone number', () => {
-    render(<Value.PhoneNumber value="+47 11223344" />)
+    render(<Value.PhoneNumber value="+4711223344" />)
 
     const element = document.querySelector('.dnb-forms-value-block')
     expect(element).toHaveTextContent('+47 11 22 33 44')
@@ -62,5 +62,49 @@ describe('Value.PhoneNumber', () => {
     render(<Value.PhoneNumber value={undefined} />)
     const element = document.querySelector('.dnb-forms-value-block')
     expect(element).not.toBeInTheDocument()
+  })
+
+  describe('auto-detection of country code', () => {
+    it('should format spaceless +47 value correctly', () => {
+      render(<Value.PhoneNumber value="+4712345678" />)
+
+      const element = document.querySelector('.dnb-forms-value-block')
+      expect(element).toHaveTextContent('+47 12 34 56 78')
+    })
+
+    it('should format spaceless +46 value correctly', () => {
+      render(<Value.PhoneNumber value="+46701234567" />)
+
+      const element = document.querySelector('.dnb-forms-value-block')
+      expect(element).toHaveTextContent('+46 70 12 34 56 7')
+    })
+
+    it('should format spaceless +1 value correctly', () => {
+      render(<Value.PhoneNumber value="+12025551234" />)
+
+      const element = document.querySelector('.dnb-forms-value-block')
+      expect(element).toHaveTextContent('+1 20 25 55 12 34')
+    })
+
+    it('should format 00-prefixed value correctly', () => {
+      render(<Value.PhoneNumber value="004712345678" />)
+
+      const element = document.querySelector('.dnb-forms-value-block')
+      expect(element).toHaveTextContent('+47 12 34 56 78')
+    })
+
+    it('should not display space-separated values', () => {
+      render(<Value.PhoneNumber value="+47 12345678" />)
+
+      const element = document.querySelector('.dnb-forms-value-block')
+      expect(element).not.toBeInTheDocument()
+    })
+
+    it('should format dashed CDC value correctly', () => {
+      render(<Value.PhoneNumber value="+16841234567" />)
+
+      const element = document.querySelector('.dnb-forms-value-block')
+      expect(element).toHaveTextContent('+1 (684) 12 34 56 7')
+    })
   })
 })

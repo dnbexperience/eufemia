@@ -15,7 +15,7 @@ export const PhoneNumberProperties: PropertiesTableProps = {
     status: 'optional',
   },
   pattern: {
-    doc: 'Validation based on regex pattern for the number field e.g. `pattern="^[49]+"`.',
+    doc: 'Validation based on regex pattern for the combined E.164 value e.g. `pattern="^\\+47[49]\\d{7}$"`.',
     type: 'string',
     status: 'optional',
   },
