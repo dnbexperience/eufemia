@@ -17,12 +17,12 @@ export type MenuRootProps = {
   children?: React.ReactNode
   /**
    * Placement of the menu relative to the trigger.
-   * @default 'bottom'
+   * Default: `bottom`
    */
   placement?: PopoverPlacement
   /**
    * Position of the popover arrow relative to the popover.
-   * @default 'left'
+   * Default: `left`
    */
   arrowPosition?: PopoverArrow
   /**
@@ -35,17 +35,17 @@ export type MenuRootProps = {
   onOpenChange?: (open: boolean) => void
   /**
    * Skip rendering in a React Portal.
-   * @default false
+   * Default: `false`
    */
   skipPortal?: boolean
   /**
    * Disable the open/close animation.
-   * @default false
+   * Default: `false`
    */
   noAnimation?: boolean
   /**
    * Control auto-flip behavior.
-   * @default 'initial'
+   * Default: `initial`
    */
   autoAlignMode?: PopoverAutoAlignMode
 }
@@ -109,13 +109,13 @@ export type MenuActionProps = {
   rel?: string
   /**
    * Whether the action is disabled.
-   * @default false
+   * Default: `false`
    */
   disabled?: boolean
   /**
    * Indicates this action has a sub-menu.
    * Automatically set when used as a trigger for a nested Menu.Root.
-   * @default false
+   * Default: `false`
    */
   hasSubMenu?: boolean
 } & Omit<React.HTMLAttributes<HTMLLIElement>, 'title' | 'onClick'>
@@ -134,7 +134,7 @@ export type MenuAccordionProps = {
   text?: React.ReactNode
   /**
    * Whether the accordion is disabled.
-   * @default false
+   * Default: `false`
    */
   disabled?: boolean
   /**

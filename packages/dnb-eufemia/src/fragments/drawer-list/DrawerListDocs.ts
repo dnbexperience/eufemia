@@ -22,12 +22,12 @@ export const DrawerListProperties: PropertiesTableProps = {
     status: 'optional',
   },
   arrowPosition: {
-    doc: "Position of the arrow on the popup drawer. Set to 'left' or 'right'. Defaults to 'left' if not set.",
+    doc: 'Position of the arrow on the popup drawer. Set to `left` or `right`. Defaults to `left` if not set.',
     type: 'string',
     status: 'optional',
   },
   direction: {
-    doc: "Defines the direction of how the drawer-list shows the options list. Can be 'bottom' or 'top'. Defaults to 'auto'.",
+    doc: 'Defines the direction of how the drawer-list shows the options list. Can be `bottom` or `top`. Defaults to `auto`.',
     type: ['"auto"', '"top"', '"bottom"'],
     status: 'optional',
   },

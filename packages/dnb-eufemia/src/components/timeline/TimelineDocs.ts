@@ -45,7 +45,7 @@ export const TimelineItemProperties: PropertiesTableProps = {
     status: 'optional',
   },
   icon: {
-    doc: 'Override icon displaying on the left side (Not recommended). Default: `check` for state `completed`, `pin` for state `current`, and `calendar` for state `upcoming`.',
+    doc: 'Override icon displaying on the left side (Not recommended). Defaults to `check` for state `completed`, `pin` for state `current`, and `calendar` for state `upcoming`.',
     type: 'React.ReactNode',
     status: 'optional',
   },

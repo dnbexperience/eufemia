@@ -19,7 +19,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 export type ScrollViewProps = {
   /**
    * To make the content accessible to keyboard navigation. Use `true` or `auto`. Auto will detect if a scrollbar is visible and make the ScrollView accessible for keyboard navigation.
-   * Default: false
+   * Default: `false`
    */
   interactive?: boolean | 'auto'
 }

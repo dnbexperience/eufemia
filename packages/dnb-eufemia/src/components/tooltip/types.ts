@@ -29,7 +29,7 @@ export type TooltipProps = {
    * Skip rendering the tooltip in a React Portal.
    * When `true`, the tooltip renders inline in the DOM tree instead of being portaled to document.body.
    * Useful for cases where you need the tooltip to be part of the same DOM hierarchy for styling or event handling.
-   * @default false
+   * Default: `false`
    */
   skipPortal?: boolean
   noAnimation?: boolean
@@ -53,13 +53,13 @@ export type TooltipProps = {
   /**
    * Keep the tooltip portal mounted in the DOM even when closed.
    * Useful if you want the tooltip markup to stay mounted to avoid layout shifts.
-   * @default false
+   * Default: `false`
    */
   keepInDOM?: boolean
   /**
    * Additional spacing in pixels between the tooltip and its trigger.
    * Maps directly to the Popover `triggerOffset`.
-   * @default 16
+   * Default: `16`
    */
   triggerOffset?: number
   /**

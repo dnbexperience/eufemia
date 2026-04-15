@@ -130,7 +130,7 @@ export type ButtonProps = {
    */
   iconSize?: IconSize
   /**
-   * Only for icon buttons. If true, use the style for a selected icon button. Default is `false`.
+   * Only for icon buttons. If true, use the style for a selected icon button. Default: `false`.
    */
   selected?: boolean
   /**

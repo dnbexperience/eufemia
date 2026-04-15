@@ -13,13 +13,13 @@ export type AriaLiveProps = {
 
   /**
    * Delay in milliseconds before the announcement is made. Defaults to 1000.
-   * @default 1000
+   * Default: `1000`
    */
   delay?: number
 
   /**
    * Whether the AriaLive component is on or off.
-   * @default false
+   * Default: `false`
    */
   disabled?: boolean
 
@@ -40,7 +40,7 @@ export type AriaLiveProps = {
 
   /**
    * Whether to show the children or not.
-   * @default false
+   * Default: `false`
    */
   showAnnouncement?: boolean
 

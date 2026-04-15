@@ -10,37 +10,37 @@ import type { DynamicElement, SpacingProps } from '../../shared/types'
 export type HeightAnimationProps = {
   /**
    * Whether the nested children content should be kept in the DOM or not.
-   * Default: false
+   * Default: `false`
    */
   keepInDOM?: boolean
 
   /**
    * Set to `true` to omit the usage of "overflow: hidden;"
-   * Default: false
+   * Default: `false`
    */
   showOverflow?: boolean
 
   /**
    * Defines the duration of the animation in milliseconds.
-   * Default: 400
+   * Default: `400`
    */
   duration?: number
 
   /**
    * Defines the delay of the animation in milliseconds.
-   * Default: 0
+   * Default: `0`
    */
   delay?: number
 
   /**
    * Define a custom HTML Element.
-   * Default: div
+   * Default: `div`
    */
   element?: DynamicElement
 
   /**
    * Send along a custom React Ref.
-   * Default: null
+   * Default: `null`
    */
   ref?: React.RefObject<HTMLElement>
 } & UseHeightAnimationOptions

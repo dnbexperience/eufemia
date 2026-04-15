@@ -12,7 +12,7 @@ export const BreadcrumbProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: "Defaults to 'responsive' or 'single' depending on content. Options: `responsive` | `single` | `multiple` | `collapse` .",
+    doc: 'Defaults to `responsive` or `single` depending on content. Options: `responsive` | `single` | `multiple` | `collapse`.',
     type: ['"responsive"', '"single"', '"multiple"', '"collapse"'],
     status: 'optional',
   },
@@ -104,7 +104,7 @@ export const BreadcrumbItemProperties: PropertiesTableProps = {
     status: 'optional',
   },
   icon: {
-    doc: 'Override icon displaying on the left side (Not recommended). Default: `chevron_left`.',
+    doc: 'Override icon displaying on the left side (Not recommended). Defaults to `chevron_left`.',
     type: 'React.ReactNode',
     status: 'optional',
   },

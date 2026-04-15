@@ -117,7 +117,7 @@ export const AccordionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   collapseAllHandleRef: {
-    doc: 'Ref handle to collapse all expanded accordions. Send in a ref and use `.current()` to collapse all accordions. Default: `undefined`.',
+    doc: 'Ref handle to collapse all expanded accordions. Send in a ref and use `.current()` to collapse all accordions. Defaults to `undefined`.',
     type: 'React.RefObject<() => void>',
     status: 'optional',
   },

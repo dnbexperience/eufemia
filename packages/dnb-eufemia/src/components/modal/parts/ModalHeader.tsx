@@ -34,7 +34,7 @@ export type ModalHeaderProps = {
 
   /**
    * Font size of the title (maps to `dnb-h--<size>`)
-   * Default is `large`
+   * Default: `large`
    */
   size?: 'medium' | 'large' | 'x-large' | 'xx-large'
 } & Omit<SectionProps, 'children'>

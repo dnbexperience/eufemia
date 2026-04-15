@@ -13,35 +13,35 @@ export type TableTrProps = {
 
   /**
    * If set to true, the inherited header text will not wrap to new lines.
-   * Default: false
+   * Default: `false`
    */
   noWrap?: boolean
 
   /**
    * Set true to render the tr initially as expanded.
    * Is part of the accordion feature and needs to be enabled with `mode="accordion"` prop in main Table.
-   * Default: false
+   * Default: `false`
    */
   expanded?: boolean
 
   /**
    * Set true to disable the tr to be accessible as an interactive element.
    * Is part of the accordion feature and needs to be enabled with `mode="accordion"`prop in main Table.
-   * Default: false
+   * Default: `false`
    */
   disabled?: boolean
 
   /**
    * Set to true to skip animation.
    * Is part of the accordion feature and needs to be enabled with `mode="accordion"` prop in main Table.
-   * Default: false
+   * Default: `false`
    */
   noAnimation?: boolean
 
   /**
    * Set to `true` to keep the accordion content in the DOM when closed.
    * Is part of the accordion feature and needs to be enabled with `mode="accordion"` prop in main Table.
-   * Default: false
+   * Default: `false`
    */
   keepInDOM?: boolean
 

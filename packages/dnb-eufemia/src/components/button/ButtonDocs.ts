@@ -47,7 +47,7 @@ export const ButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   iconSize: {
-    doc: 'Define icon width and height. Defaults to 16px.',
+    doc: 'Define icon width and height. Defaults to `16px`.',
     type: 'string',
     status: 'optional',
   },

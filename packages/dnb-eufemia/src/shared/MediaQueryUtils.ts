@@ -59,7 +59,7 @@ export type MediaQueryOptions = {
 
   /**
    * Will correct the size of the media query ranges (e.g. medium will be from 40.0625em to 60em)
-   * Default: true
+   * Default: `true`
    */
   correctRange?: boolean
 

@@ -34,19 +34,19 @@ export type UploadProps = {
 
   /**
    * Skeleton should be applied when loading content
-   * Default: null
+   * Default: `null`
    */
   skeleton?: SkeletonShow
 
   /**
    * Defines the amount of files the user can select and upload
-   * Default: 100
+   * Default: `100`
    */
   filesAmountLimit?: number
 
   /**
    * Defines the max file size of each file in MB. Use either `0` or `false` to disable.
-   * Default: 5 MB
+   * Default: `5 MB`
    */
   fileMaxSize?: number | false
 
@@ -75,19 +75,19 @@ export type UploadProps = {
 
   /**
    * Causes the browser to treat all listed files as downloadable instead of opening them in a new browser tab or window.
-   * Default: false
+   * Default: `false`
    */
   download?: boolean
 
   /**
    * Allows uploading of duplicate files.
-   * Default: false
+   * Default: `false`
    */
   allowDuplicates?: boolean
 
   /**
    * Disables file drag and drop, by removing the drop zone.
-   * Default: false
+   * Default: `false`
    */
   disableDragAndDrop?: boolean
 

@@ -69,13 +69,13 @@ type DrawerListVisibilityParams = {
 export type FieldSelectionProps = FieldProps<IOption['value']> & {
   /**
    * Defines the variant of the component.
-   * Default: dropdown
+   * Default: `dropdown`
    */
   variant?: 'dropdown' | 'autocomplete' | 'radio' | 'button'
 
   /**
    * The width of the component.
-   * Default: large
+   * Default: `large`
    */
   width?: FieldBlockWidth
 

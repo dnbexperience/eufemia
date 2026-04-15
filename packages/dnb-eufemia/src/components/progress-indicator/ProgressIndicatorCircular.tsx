@@ -231,7 +231,7 @@ function Circle({
 /**
  *
  * @param progress number between 0-100
- * @param counterClockwise decides direction of movement. Default is `false`
+ * @param counterClockwise decides direction of movement. Default: `false`
  * @returns
  */
 

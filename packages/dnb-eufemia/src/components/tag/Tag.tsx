@@ -25,55 +25,55 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 export type TagProps = {
   /**
    * The content of the tag element, can be a string or a React Element.
-   * Default: null
+   * Default: `null`
    */
   text?: string | React.ReactNode
 
   /**
    * Icon displaying on the left side
-   * Default: null
+   * Default: `null`
    */
   icon?: IconIcon
 
   /**
    * If a label is given, typical inside a table or dl (definition list), then you can disable Tag.Group as a dependent of Tag. Use `true` to omit the `Tag group required:` warning.
-   * Default: null
+   * Default: `null`
    */
   hasLabel?: boolean
 
   /**
    * Defines the variant
-   * Default: 'default'
+   * Default: `'default'`
    */
   variant?: 'default' | 'clickable' | 'addable' | 'removable'
 
   /**
    * Custom className on the component root
-   * Default: null
+   * Default: `null`
    */
   className?: string
 
   /**
    * Skeleton should be applied when loading content
-   * Default: null
+   * Default: `null`
    */
   skeleton?: SkeletonShow
 
   /**
    * The content of the tag element, can be a string or a React Element. Will be overwritten by text prop
-   * Default: null
+   * Default: `null`
    */
   children?: string | React.ReactNode // ReactNode allows multiple elements, strings, numbers, fragments, portals...
 
   /**
    * Handle the click event on 'tag' element
-   * Default: null
+   * Default: `null`
    */
   onClick?: (args: { event: React.MouseEvent<HTMLButtonElement> }) => void
 
   /**
    * Handle the delete event on 'tag' element
-   * Default: null
+   * Default: `null`
    */
   omitOnKeyUpDeleteEvent?: boolean
 

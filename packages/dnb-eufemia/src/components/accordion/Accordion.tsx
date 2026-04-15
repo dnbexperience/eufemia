@@ -106,7 +106,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
      */
     singleContainer?: boolean
     /**
-     * Defines the used styling. As of now, only `outlined` is available. Use `plain` for no styles. It defaults to `outlined`.
+     * Defines the visual style variant. Available variants: `default`, `outlined`, `filled`, `plain`. Default: `outlined`
      */
     variant?: AccordionVariant
     /**
