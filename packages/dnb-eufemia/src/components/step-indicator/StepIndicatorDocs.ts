@@ -109,7 +109,7 @@ export const StepIndicatorStepProperties: PropertiesTableProps = {
   },
   statusState: {
     doc: 'In case the status state should be `information` or `error`. Defaults to `warning`.',
-    type: [`'warning'`, `'information'`, `'error'`],
+    type: ['"warning"', '"information"', '"error"'],
     status: 'optional',
   },
 }
