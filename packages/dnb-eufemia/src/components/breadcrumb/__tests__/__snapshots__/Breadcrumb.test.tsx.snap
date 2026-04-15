@@ -456,7 +456,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
     --token-color-component-button-text-action-disabled
   );
 }
-.dnb-button--primary.dnb-button--on-dark-background, .dnb-button--primary.dnb-button--surface-dark {
+.dnb-button--primary.dnb-button--surface-dark {
   --button-color-bg--default: var(
     --token-color-background-action-ondark
   );
@@ -550,7 +550,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   --button-color-icon--default: var(--token-color-icon-action);
   --button-color-icon--hover: var(--token-color-icon-action-hover);
 }
-.dnb-button--secondary.dnb-button--on-dark-background, .dnb-button--secondary.dnb-button--surface-dark {
+.dnb-button--secondary.dnb-button--surface-dark {
   --button-color-bg--default: transparent;
   --button-color-bg--hover: var(
     --token-color-background-action-hover-subtle-ondark
@@ -668,7 +668,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
     --token-color-background-action-pressed-subtle
   );
 }
-.dnb-button--tertiary.dnb-button--on-dark-background, .dnb-button--tertiary.dnb-button--surface-dark {
+.dnb-button--tertiary.dnb-button--surface-dark {
   --button-color-icon--default: var(--token-color-icon-action-ondark);
   --button-color-icon--hover: var(
     --token-color-icon-action-hover-ondark
@@ -989,8 +989,6 @@ button.dnb-button::-moz-focus-inner {
   --rounded-corner--large: 0;
   color: var(--text-color, black);
   border-radius: var(--rounded-corner, 0);
-}
-.dnb-section[style*="--background-color"] {
   background-color: var(--background-color, white);
 }
 .dnb-section::before {

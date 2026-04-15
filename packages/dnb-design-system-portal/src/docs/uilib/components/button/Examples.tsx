@@ -8,7 +8,7 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { bell_medium as Bell, question } from '@dnb/eufemia/src/icons'
 import { Button, IconPrimary, Section } from '@dnb/eufemia/src'
 import { VippsLogo } from '@dnb/eufemia/src/extensions/vipps-wallet-button/VippsWalletButton'
-import { VisibilityByTheme, Theme } from '@dnb/eufemia/src/shared'
+import { VisibilityByTheme } from '@dnb/eufemia/src/shared'
 
 export const ButtonPrimary = () => (
   <ComponentBox>
@@ -474,28 +474,26 @@ export const TertiaryButtonAlignment = () => {
 }
 
 export const ButtonOnDarkSurface = () => (
-  <ComponentBox hideCode scope={{ Theme }}>
-    <Section innerSpace="1rem" backgroundColor="var(--sb-color-purple)">
-      <Theme.Context surface="dark">
-        <Button data-visual-test="button-primary-on-dark" right>
-          Primary button
-        </Button>
-        <Button
-          data-visual-test="button-secondary-on-dark"
-          right
-          variant="secondary"
-        >
-          Secondary button
-        </Button>
-        <Button
-          data-visual-test="button-tertiary-on-dark"
-          variant="tertiary"
-          iconPosition="left"
-          icon="chevron_left"
-        >
-          Tertiary button
-        </Button>
-      </Theme.Context>
+  <ComponentBox>
+    <Section innerSpace={{ block: true }} surface="dark">
+      <Button data-visual-test="button-primary-on-dark" right>
+        Primary button
+      </Button>
+      <Button
+        data-visual-test="button-secondary-on-dark"
+        right
+        variant="secondary"
+      >
+        Secondary button
+      </Button>
+      <Button
+        data-visual-test="button-tertiary-on-dark"
+        variant="tertiary"
+        iconPosition="left"
+        icon="chevron_left"
+      >
+        Tertiary button
+      </Button>
     </Section>
   </ComponentBox>
 )

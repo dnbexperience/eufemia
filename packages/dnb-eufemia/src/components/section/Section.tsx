@@ -169,8 +169,8 @@ export function SectionParams(
     ...attributes,
     className: clsx(
       'dnb-section',
-      `dnb-section--${variant ? variant : 'default'}`,
-      surface === 'dark' && 'dnb-section--surface-dark',
+      `dnb-section--${variant ?? surface ?? 'default'}`,
+      surface && `dnb-section--surface-${surface}`,
       className
     ),
     style: {
