@@ -24,7 +24,7 @@ export type ThemeColorScheme = 'auto' | 'light' | 'dark'
 /**
  * Adjusts component appearance for use on dark backgrounds. Defaults to `undefined`.
  */
-export type ThemeSurface = 'default' | 'dark'
+export type ThemeSurface = 'light' | 'dark'
 
 export type ThemeProps = {
   name?: ThemeNames

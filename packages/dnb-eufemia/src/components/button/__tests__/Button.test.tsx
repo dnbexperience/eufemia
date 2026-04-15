@@ -136,7 +136,7 @@ describe('Button component', () => {
   it('overrides dark surface styling from Theme context', () => {
     render(
       <Theme.Context surface="dark">
-        <Button surface="default">Button</Button>
+        <Button surface="light">Button</Button>
       </Theme.Context>
     )
 

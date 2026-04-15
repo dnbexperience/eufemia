@@ -360,7 +360,7 @@ describe('surface', () => {
   it('does not inherit surface from Theme context when surface is set by props', () => {
     render(
       <Theme surface="dark">
-        <Section surface="default">content</Section>
+        <Section surface="light">content</Section>
       </Theme>
     )
 
