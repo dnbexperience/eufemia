@@ -21,65 +21,65 @@ import useNumberFormat from '../number-format/useNumberFormat'
 export type BadgeProps = {
   /**
    * Aria label to describe the badge
-   * Default: null
+   * Default: `null`
    */
   label?: React.ReactNode
 
   /**
    * Custom className on the component root
-   * Default: null
+   * Default: `null`
    */
   className?: string
 
   /**
    * Skeleton should be applied when loading content
-   * Default: null
+   * Default: `null`
    */
   skeleton?: SkeletonShow
 
   /**
    * The content to display the badge on top of.
-   * Default: null
+   * Default: `null`
    */
   children?: React.ReactNode
 
   /**
    * The content of the component.
-   * Default: null
+   * Default: `null`
    */
   content?: string | number | React.ReactNode
 
   /**
    * The vertical positioning of the component.
-   * Default: null
+   * Default: `null`
    */
   vertical?: 'bottom' | 'top'
 
   /**
    * The horizontal positioning of the component.
-   * Default: null
+   * Default: `null`
    */
   horizontal?: 'left' | 'right'
 
   /**
    * The variant of the component.
-   * Default: "information".
+   * Default: `information`
    */
   variant?: 'information' | 'notification' | 'content'
 
   /**
    * Defines the status color of the `"information"` variant. Has no effect on other variants.
-   * Default: "default".
+   * Default: `default`
    */
   status?: 'default' | 'neutral' | 'positive' | 'warning' | 'negative'
   /**
    * Applies subtle style to `"information"` variant. Has no effect on other variants.
-   * Default: false.
+   * Default: `false`
    */
   subtle?: boolean
   /**
    * Removes the badge without removing children. Useful when Badge wraps content.
-   * Default: false
+   * Default: `false`
    */
   hideBadge?: boolean
 }

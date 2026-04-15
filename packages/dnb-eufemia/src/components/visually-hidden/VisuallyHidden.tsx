@@ -10,13 +10,13 @@ import type { DynamicElement } from '../../shared/types'
 export type VisuallyHiddenProps = {
   /**
    * Hide an element by default, but to display it when it’s focused (e.g. by a keyboard-only user)
-   * Default: false
+   * Default: `false`
    */
   focusable?: boolean
 
   /**
    * Root element of the component
-   * Default: span
+   * Default: `span`
    */
   element?: DynamicElement
 }

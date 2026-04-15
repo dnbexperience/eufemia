@@ -165,7 +165,7 @@ export const PopoverProperties: PropertiesTableProps = {
     status: 'optional',
   },
   hideDelay: {
-    doc: 'Delay (ms) before the popover starts hiding. Defaults to 0.',
+    doc: 'Delay (ms) before the popover starts hiding. Defaults to `0`.',
     type: 'number',
     status: 'optional',
   },

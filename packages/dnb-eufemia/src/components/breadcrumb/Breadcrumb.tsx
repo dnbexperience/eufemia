@@ -41,25 +41,25 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 export type BreadcrumbProps = {
   /**
    * Custom className on the component root
-   * Default: null
+   * Default: `null`
    */
   className?: string
 
   /**
    * Skeleton should be applied when loading content
-   * Default: null
+   * Default: `null`
    */
   skeleton?: SkeletonShow
 
   /**
    * Pass in a list of your pages as objects of breadcrumbitem to render them as breadcrumbitems.
-   * Default: null
+   * Default: `null`
    */
   data?: Array<BreadcrumbItemProps>
 
   /**
    * The content of the component. Can be used instead of prop "data".
-   * Default: null
+   * Default: `null`
    */
   children?:
     | React.ReactElement<BreadcrumbItemProps>
@@ -67,37 +67,37 @@ export type BreadcrumbProps = {
 
   /**
    * The variant of the component.
-   * Default: When children and data is not defined, it defaults to "single". "responsive" if they are defined.
+   * Defaults to `single` when children and data are not defined, `responsive` if they are.
    */
   variant?: 'responsive' | 'single' | 'multiple' | 'collapse'
 
   /**
    * Handle the click event on 'single'/'collapse'
-   * Default: null
+   * Default: `null`
    */
   onClick?: React.MouseEventHandler<HTMLButtonElement>
 
   /**
    * For variant 'single', use href (or onClick) to set href when clicking "Back"
-   * Default: null
+   * Default: `null`
    */
   href?: string
 
   /**
    * Every <nav> on a page needs an unique aria-label text
-   * Default: Page hierarchy
+   * Default: `Page hierarchy`
    */
   navText?: React.ReactNode
 
   /**
    * Add custom 'Back' text for variant 'single'
-   * Default: 'Back' or defined by Context translation
+   * Default: `'Back' or defined by Context translation`
    */
   goBackText?: React.ReactNode
 
   /**
    * Add custom 'Home' text
-   * Default: 'Home' or defined by Context translation
+   * Default: `'Home' or defined by Context translation`
    */
   homeText?: React.ReactNode
 
@@ -109,31 +109,31 @@ export type BreadcrumbProps = {
 
   /**
    * If variant='collapse', you can override collapsed state for the collapsed content by updating this value.
-   * Default: null
+   * Default: `null`
    */
   collapsed?: boolean
 
   /**
    * Use one of the Section background colors.
-   * Default: transparent
+   * Default: `transparent`
    */
   backgroundColor?: SectionBackgroundColor
 
   /**
    * Use one of the Section component variants
-   * Default: information
+   * Default: `information`
    */
   collapsedStyleType?: SectionVariants
 
   /**
    * Include spacing properties in breadcrumb. If only `true` is given, the spacing will be `small`.
-   * Default: false
+   * Default: `false`
    */
   spacing?: SpaceTypeAll | SpaceTypeMedia
 
   /**
    * Will disable the height animation
-   * Default: false
+   * Default: `false`
    */
   noAnimation?: boolean
   /**
@@ -143,7 +143,7 @@ export type BreadcrumbProps = {
 
   /**
    * Send along a custom React Ref.
-   * Default: null
+   * Default: `null`
    */
   ref?: React.Ref<HTMLElement>
 }

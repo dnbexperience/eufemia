@@ -52,7 +52,7 @@ export const ModalProperties: PropertiesTableProps = {
     status: 'optional',
   },
   animationDuration: {
-    doc: 'Duration of animation open/close in ms. Defaults to 300ms.',
+    doc: 'Duration of animation open/close in ms. Defaults to `300ms`.',
     type: ['number', 'string'],
     status: 'optional',
   },

@@ -63,7 +63,7 @@ export type GlobalErrorProps = {
 
   /**
    * Skeleton should be applied when loading content
-   * Default: null
+   * Default: `null`
    */
   skeleton?: SkeletonShow
 }

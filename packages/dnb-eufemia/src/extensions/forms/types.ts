@@ -424,7 +424,7 @@ interface UseFieldPropsInterface<
   /**
    * Should error messages based on validation be shown initially (from given value-prop or source data)
    * before the user interacts with the field?
-   * @default false
+   * Default: `false`
    */
   validateInitially?: boolean
   /**

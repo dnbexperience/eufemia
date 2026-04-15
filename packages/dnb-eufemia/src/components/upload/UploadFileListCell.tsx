@@ -69,13 +69,13 @@ export type UploadFileListCellProps = {
 
   /**
    * Causes the browser to treat all listed files as downloadable instead of opening them in a new browser tab or window.
-   * Default: false
+   * Default: `false`
    */
   download?: boolean
 
   /**
    * Allows uploading of duplicate files.
-   * Default: false
+   * Default: `false`
    */
   allowDuplicates?: boolean
 
