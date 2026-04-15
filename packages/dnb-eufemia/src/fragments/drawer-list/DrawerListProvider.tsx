@@ -220,7 +220,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     }
   }
 
-  // Process setState callbacks after render (useIsomorphicLayoutEffect to match class setState callback timing)
+  // Process state callbacks after render
   useIsomorphicLayoutEffect(() => {
     const cbs = callbacksRef.current
     if (cbs.length > 0) {
