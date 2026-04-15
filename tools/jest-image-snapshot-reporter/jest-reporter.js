@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const ansiHTML = require('ansi-html-community')
 
-function extractDataVisualTestId(testFilePath, title) {
+function extractTestMetadata(testFilePath, title) {
   try {
     const content = fs.readFileSync(testFilePath, 'utf-8')
 
@@ -10,20 +10,22 @@ function extractDataVisualTestId(testFilePath, title) {
     const titleIndex = content.search(new RegExp(escapedTitle))
 
     if (titleIndex === -1) {
-      return null
+      return { dataVisualTestId: null, lineNumber: null }
     }
+
+    // Count lines up to the match to get the line number
+    const lineNumber = content.substring(0, titleIndex).split('\n').length
 
     // Search forward from the it() title to find data-visual-test in the same block
     const searchContent = content.substring(titleIndex, titleIndex + 2000)
     const match = searchContent.match(/data-visual-test="([^"]+)"/)
 
-    if (match) {
-      return match[1]
+    return {
+      dataVisualTestId: match ? match[1] : null,
+      lineNumber,
     }
-
-    return null
   } catch (e) {
-    return null
+    return { dataVisualTestId: null, lineNumber: null }
   }
 }
 
@@ -62,18 +64,20 @@ class JestReporter {
                 failureMessage.replace(cwd, '').replace(/\n/g, '<br />')
               )
 
-              const dataVisualTestId = extractDataVisualTestId(
+              const { dataVisualTestId, lineNumber } = extractTestMetadata(
                 testFilePath,
                 title
               )
 
               reports.push({
+                testFilePath,
                 relativeTestFilePath,
                 message,
                 relativeImgPath,
                 absoluteImgPath,
                 fullName,
                 dataVisualTestId,
+                lineNumber,
               })
             }
           })
@@ -108,8 +112,10 @@ class JestReporter {
             message,
             absoluteImgPath,
             relativeImgPath,
+            testFilePath,
             relativeTestFilePath,
             dataVisualTestId,
+            lineNumber,
           },
           i
         ) => {
@@ -146,7 +152,7 @@ class JestReporter {
               <dl class="dnb-dl">
                 <dt class="dnb-lead">${fullName}</dt>
                 <dd>
-                  <p class="dnb-lead"><code>${relativeTestFilePath}</code></p>
+                  <p class="dnb-lead"><a href="vscode://file${testFilePath}${lineNumber ? ':' + lineNumber : ''}"><code>${relativeTestFilePath}${lineNumber ? ':' + lineNumber : ''}</code></a></p>
                   ${visualTestIdHtml}
                   <p>${message}</p>
                   ${image}
