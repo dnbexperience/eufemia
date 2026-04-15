@@ -88,27 +88,3 @@ export const ThemeSurfaceInitial = () => (
     </Section>
   </ComponentBox>
 )
-
-export const ThemeMapping = () => (
-  <ComponentBox>
-    {() => {
-      const MyMapping = styled.div`
-        .eufemia-theme__sbanken.eufemia-theme__prop-mapping--my-mapping {
-          --color-sea-green: var(--sb-color-purple-alternative);
-        }
-      `
-      const CustomComponent = styled(P)`
-        color: var(--color-sea-green);
-      `
-      return (
-        <MyMapping>
-          <Theme name="sbanken">
-            <Theme propMapping="my-mapping">
-              <CustomComponent>Text with custom color</CustomComponent>
-            </Theme>
-          </Theme>
-        </MyMapping>
-      )
-    }}
-  </ComponentBox>
-)

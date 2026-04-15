@@ -16,11 +16,6 @@ export const ThemeProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  propMapping: {
-    doc: 'Defines a specific CSS class so you get a declarative way of mapping CSS properties. A set of predefined maps will be available (WIP).',
-    type: 'string',
-    status: 'optional',
-  },
   contrastMode: {
     doc: 'When a component supports a contrast style, it will be used instead for the dedicated area.',
     type: 'boolean',
