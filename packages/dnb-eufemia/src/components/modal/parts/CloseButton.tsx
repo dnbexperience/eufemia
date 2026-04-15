@@ -5,7 +5,7 @@
 
 import React from 'react'
 import clsx from 'clsx'
-import { extendPropsWithContextInClassComponent } from '../../../shared/component-helper'
+import { extendExistingPropsWithContext } from '../../../shared/component-helper'
 import Button from '../../button/Button'
 import Context from '../../../shared/Context'
 import type { ButtonProps } from '../../button/Button'
@@ -27,7 +27,7 @@ function CloseButton(props: CloseButtonProps) {
     iconPosition = 'left',
     className = null,
     ...buttonProps
-  } = extendPropsWithContextInClassComponent(
+  } = extendExistingPropsWithContext(
     props,
     {
       closeTitle: null,

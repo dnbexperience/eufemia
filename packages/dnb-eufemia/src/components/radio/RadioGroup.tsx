@@ -6,7 +6,7 @@ import React, { useContext, useRef, useState, useCallback } from 'react'
 import clsx from 'clsx'
 import useId from '../../shared/helpers/useId'
 import {
-  extendPropsWithContextInClassComponent,
+  extendExistingPropsWithContext,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
@@ -159,10 +159,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
     ...removeUndefinedProps({ ...ownProps }),
   }
 
-  // Uses extendPropsWithContextInClassComponent (onlyMergeExistingProps: true)
-  // to prevent context props not defined in radioGroupDefaultProps from
-  // leaking into the component and potentially reaching DOM attributes.
-  const props = extendPropsWithContextInClassComponent(
+  const props = extendExistingPropsWithContext(
     resolvedProps,
     radioGroupDefaultProps,
     pickFormElementProps(context?.formElement),

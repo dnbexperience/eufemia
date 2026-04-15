@@ -1,14 +1,11 @@
 /**
  * Web Skeleton Component
- *
- * This is a legacy component.
- * For referencing while developing new features, please use a Functional component.
  */
 
 import React from 'react'
 import clsx from 'clsx'
 import {
-  extendPropsWithContextInClassComponent,
+  extendExistingPropsWithContext,
   removeUndefinedProps,
   validateDOMAttributes,
 } from '../../shared/component-helper'
@@ -68,7 +65,7 @@ export type SkeletonProps = {
 
 const skeletonDefaultProps = {
   show: null,
-  skeleton: null, // only to make sure we process extendPropsWithContextInClassComponent
+  skeleton: null,
   noAnimation: null,
   figure: null,
   ariaBusy: null,
@@ -86,11 +83,9 @@ function Skeleton(props: SkeletonProps) {
 
   const getProps = React.useCallback(
     (propsToExtend = props, ctx = context) => {
-      return extendPropsWithContextInClassComponent(
+      return extendExistingPropsWithContext(
         {
           ...skeletonDefaultProps,
-          // Strip undefined values so they fall through to defaults,
-          // preserving the legacy React defaultProps behavior.
           ...removeUndefinedProps({ ...propsToExtend }),
         },
         skeletonDefaultProps,

@@ -24,7 +24,13 @@ export function extendPropsWithContext<Props>(
   }
 }
 
-export function extendPropsWithContextInClassComponent<Props>(
+/**
+ * Like extendPropsWithContext, but only merges context values
+ * for props that already exist on the props object.
+ * This prevents unknown context keys from leaking into
+ * the component and potentially reaching DOM attributes.
+ */
+export function extendExistingPropsWithContext<Props>(
   props: Props,
   defaults: DefaultsProps = {},
   ...contexts: Contexts
