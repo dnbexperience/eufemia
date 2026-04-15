@@ -15,7 +15,6 @@ import SagaPlatinum from './loyaltyLogos/SagaPlatinum'
 import WorldElite from './loyaltyLogos/WorldElite'
 // provider icons
 import BankAxept from './providers/BankAxept'
-import ClickToPay from './providers/ClickToPay'
 import MastercardDefault from './providers/MastercardDefault'
 import MastercardDark from './providers/MastercardDark'
 import VisaDefault from './providers/VisaDefault'
@@ -67,7 +66,7 @@ const ProductLogo = ({
         case 'None':
           return null
       }
-      break
+      return null
     case 'Pluss':
       return <Pluss className={id} />
     case 'Intro':
@@ -87,7 +86,7 @@ const ProductLogo = ({
         case 'None':
           return null
       }
-      break
+      return null
     case 'None':
       return null
   }
@@ -118,7 +117,7 @@ const BankAxeptLogo = ({
         case 'Gold':
           return <BankAxept className={id} fill="#CAAB51" />
       }
-      break
+      return null
     case 'Credit':
       return null
     case 'None':
@@ -145,7 +144,7 @@ const TypeLogo = ({
         case 'Platinum':
           return <VisaPlatinum className={id} />
       }
-      break
+      return null
     case 'Mastercard':
       switch (cardDesign.mastercard.tag) {
         case 'Default':
@@ -153,7 +152,7 @@ const TypeLogo = ({
         case 'Dark':
           return <MastercardDark className={id} />
       }
-      break
+      return null
     case 'None':
       return null
   }
