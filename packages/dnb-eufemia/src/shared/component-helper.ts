@@ -15,7 +15,7 @@ export * from './legacy/component-helper-legacy'
 export { InteractionInvalidation } from './helpers/InteractionInvalidation'
 export {
   extendPropsWithContext,
-  extendPropsWithContextInClassComponent,
+  extendExistingPropsWithContext,
 } from './helpers/extendPropsWithContext'
 export { assignPropsWithContext } from './helpers/assignPropsWithContext'
 export { filterProps } from './helpers/filterProps'

@@ -1,8 +1,5 @@
 /**
  * Web PaymentCard Component
- *
- * This is a legacy component.
- * For referencing while developing new features, please use a Functional component.
  */
 import React, { useContext } from 'react'
 import clsx from 'clsx'
@@ -10,7 +7,7 @@ import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 import {
   validateDOMAttributes,
-  extendPropsWithContextInClassComponent,
+  extendExistingPropsWithContext,
   removeUndefinedProps,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../../components/space/SpacingHelper'
@@ -138,12 +135,9 @@ const paymentCardDefaultProps = {
 function PaymentCard(props: PaymentCardProps) {
   const context = useContext(Context)
 
-  // use only the props from context, who are available here anyway
-  const extendedProps = extendPropsWithContextInClassComponent(
+  const extendedProps = extendExistingPropsWithContext(
     {
       ...paymentCardDefaultProps,
-      // Strip undefined values so they fall through to defaults,
-      // preserving the legacy React defaultProps behavior.
       ...removeUndefinedProps({ ...props }),
     },
     paymentCardDefaultProps,
@@ -225,11 +219,9 @@ function PaymentCardContent({
   variant: PaymentCardVariant
 }) {
   const { translation } = useContext(Context)
-  const translations = extendPropsWithContextInClassComponent(
+  const translations = extendExistingPropsWithContext(
     {
       ...translationDefaultPropsProps,
-      // Strip undefined values so they fall through to defaults,
-      // preserving the legacy React defaultProps behavior.
       ...removeUndefinedProps({ ...props }),
     },
     translationDefaultPropsProps,
