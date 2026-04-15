@@ -15,7 +15,6 @@ import useMediaQuery from './useMediaQuery'
 export type ThemeNames = 'ui' | 'eiendom' | 'sbanken' | 'carnegie'
 export type ThemeVariants = string
 export type ThemeSizes = 'basis'
-export type PropMapping = string
 export type ContrastMode = boolean
 /**
  * Controls the color scheme. Use `'dark'` or `'light'` to set explicitly, or `'auto'` to follow the user's system preference. Defaults to `undefined`.
@@ -31,7 +30,6 @@ export type ThemeProps = {
   name?: ThemeNames
   variant?: ThemeVariants
   size?: ThemeSizes
-  propMapping?: PropMapping
   contrastMode?: ContrastMode
   colorScheme?: ThemeColorScheme
   surface?: ThemeSurface
@@ -49,7 +47,6 @@ export default function Theme(themeProps: ThemeAllProps) {
     name,
     variant,
     size,
-    propMapping,
     contrastMode,
     colorScheme,
     surface,
@@ -73,7 +70,6 @@ export default function Theme(themeProps: ThemeAllProps) {
       name,
       variant,
       size,
-      propMapping,
       contrastMode,
       colorScheme: activeColorScheme,
       surface,
@@ -140,15 +136,13 @@ export function getThemeClasses(theme: ThemeProps, className = null) {
     return className
   }
 
-  const { name, variant, size, propMapping, contrastMode, colorScheme } =
-    theme
+  const { name, variant, size, contrastMode, colorScheme } = theme
 
   return clsx(
     className,
     'eufemia-theme',
     name && `eufemia-theme__${name}`,
     name && variant && `eufemia-theme__${name}--${variant}`,
-    propMapping && `eufemia-theme__prop-mapping--${propMapping}`,
     contrastMode && 'eufemia-theme__contrast-mode',
     colorScheme && `eufemia-theme__color-scheme--${colorScheme}`,
     size && `eufemia-theme__size--${size}`

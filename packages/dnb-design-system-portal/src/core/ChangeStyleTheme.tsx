@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dropdown, Switch } from '@dnb/eufemia/src'
+import { Dropdown } from '@dnb/eufemia/src'
 import { Context } from '@dnb/eufemia/src/shared'
 import {
   getThemes,
@@ -32,23 +32,6 @@ export default function ChangeStyleTheme({ label = null, ...rest } = {}) {
         })
       }}
       {...rest}
-    />
-  )
-}
-
-ChangeStyleTheme.PropMapping = PropMapping
-
-function PropMapping({ enabled, ...props }) {
-  const { propMapping } = getTheme()
-  return (
-    <Switch
-      top
-      label="Toggle Color Mapping"
-      checked={propMapping === 'basis' || enabled}
-      onChange={({ checked }) => {
-        setTheme({ propMapping: checked ? 'basis' : null })
-      }}
-      {...props}
     />
   )
 }
