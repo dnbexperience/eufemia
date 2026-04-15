@@ -252,6 +252,52 @@ const postcssIsolateStyle = (opts = {}) => {
                 }
               }
 
+              // 5b. handle `:global(html[...])` or `:global(body[...])` —
+              // extract the html/body (with attrs/pseudos) out of :global()
+              // so the scope is inserted after html/body, not before it.
+              if (
+                group.nodes[i]?.type === 'pseudo' &&
+                group.nodes[i].value === ':global' &&
+                group.nodes[i].nodes?.length === 1
+              ) {
+                const innerSelector = group.nodes[i].nodes[0]
+                const firstInner = innerSelector.nodes?.[0]
+                if (
+                  firstInner?.type === 'tag' &&
+                  ['html', 'body'].includes(firstInner.value)
+                ) {
+                  // Extract all nodes from :global(...) and place them
+                  // directly into the group at position i
+                  const extractedNodes = [...innerSelector.nodes]
+                  group.nodes.splice(i, 1, ...extractedNodes)
+
+                  // Now skip past the html/body tag and its attrs/pseudos
+                  i++ // skip html/body tag
+                  while (
+                    group.nodes[i] &&
+                    (group.nodes[i].type === 'pseudo' ||
+                      group.nodes[i].type === 'attribute')
+                  ) {
+                    i++
+                  }
+                  // skip body after html if present
+                  if (
+                    group.nodes[i]?.type === 'combinator' &&
+                    group.nodes[i + 1]?.type === 'tag' &&
+                    group.nodes[i + 1].value === 'body'
+                  ) {
+                    i += 2
+                    while (
+                      group.nodes[i] &&
+                      (group.nodes[i].type === 'pseudo' ||
+                        group.nodes[i].type === 'attribute')
+                    ) {
+                      i++
+                    }
+                  }
+                }
+              }
+
               // now skip an initial html (and optional body) just like before
               if (
                 group.nodes[i]?.type === 'tag' &&
