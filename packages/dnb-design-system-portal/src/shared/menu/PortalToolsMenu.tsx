@@ -25,7 +25,7 @@ export default function PortalToolsMenu({
   hideWhenMediaLarge = false,
   ...props
 }: Props) {
-  const { skeleton, theme } = React.useContext(Context)
+  const { skeleton } = React.useContext(Context)
 
   return (
     <Drawer
@@ -91,13 +91,6 @@ export default function PortalToolsMenu({
             </Anchor>
           </P>
         </Space>
-
-        {theme.name === 'sbanken' && (
-          <Space top="large">
-            <H2 size="small">Map colors</H2>
-            <ChangeStyleTheme.PropMapping enabled={theme.propMapping} />
-          </Space>
-        )}
 
         <Space top="large">
           <H2 size="small">Helper grid lines</H2>
