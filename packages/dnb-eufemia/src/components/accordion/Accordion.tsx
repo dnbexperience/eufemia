@@ -74,7 +74,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
      */
     noAnimation?: boolean
     /**
-     * If set to `true` the accordion will be expanded during SSR. Can be potentially useful for SEO, although it will disturb client hydration, where React expects the same state. But that&#39;s mainly a technical aspect to consider.
+     * If set to `true` the accordion will be expanded during SSR. Can be potentially useful for SEO, although it will disturb client hydration, where React expects the same state. But that's mainly a technical aspect to consider.
      */
     expandedSsr?: boolean
     /**
@@ -82,7 +82,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
      */
     keepInDOM?: boolean
     /**
-     * If set to `true` the accordion component will not re-render its content – can be useful for components you don&#39;t have control of storing the temporary state during an interaction.
+     * If set to `true` the accordion component will not re-render its content – can be useful for components you don't have control of storing the temporary state during an interaction.
      */
     preventRerender?: boolean
     /**
@@ -98,7 +98,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
      */
     contentRef?: React.RefObject<HTMLElement | null>
     /**
-     * If set to `true`, the saved (remembered) will be removed and the initial component state will be used and set.
+     * If set to `true`, the saved (remembered) state will be removed and the initial component state will be used and set.
      */
     flushRememberedState?: boolean
     /**

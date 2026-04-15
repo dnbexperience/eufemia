@@ -80,7 +80,7 @@ export type StepIndicatorProps = Omit<
      */
     hideNumbers?: boolean
     /**
-     * Will be called once the user clicks on the current or another step. Will be emitted on every click. Returns an object `{ event, item, currentStep, currentStep }`.
+     * Will be called once the user clicks on the current or another step. Will be emitted on every click. Returns an object `{ event, item, currentStep }`.
      */
     onClick?: ({
       event,
@@ -88,7 +88,7 @@ export type StepIndicatorProps = Omit<
       currentStep,
     }: StepIndicatorMouseEvent) => void
     /**
-     * Will be called once the user visits actively a new step. Will be emitted only once. Returns an object `{ event, item, currentStep, currentStep }`.
+     * Will be called once the user visits actively a new step. Will be emitted only once. Returns an object `{ event, item, currentStep }`.
      */
     onChange?: ({
       event,

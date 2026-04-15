@@ -70,17 +70,17 @@ export type DialogContentProps = Omit<DialogActionProps, 'children'> & {
   fullscreen?: ModalFullscreen
 
   /**
-   * If set to `true`, no open/close animation will be shown. Defaults to false.
+   * If set to `true`, no open/close animation will be shown. Defaults to `false`.
    */
   noAnimation?: boolean
 
   /**
-   * Same as `noAnimation`, but gets triggered only if the viewport width is less than `40em`. Defaults to false.
+   * Same as `noAnimation`, but gets triggered only if the viewport width is less than `40em`. Defaults to `false`.
    */
   noAnimationOnMobile?: boolean
 
   /**
-   * Variant of Dialog. Defaults to 'information'.
+   * Variant of Dialog. Defaults to `information`.
    */
   variant?: 'information' | 'confirmation'
 
@@ -90,7 +90,7 @@ export type DialogContentProps = Omit<DialogActionProps, 'children'> & {
   icon?: IconIcon
 
   /**
-   * For variant confirmation, the dialog is either an informational or a warning message. Defaults to 'information'.
+   * For variant confirmation, the dialog is either an informational or a warning message. Defaults to `information`.
    */
   confirmType?: 'information' | 'warning'
 

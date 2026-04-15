@@ -32,7 +32,7 @@ export const TabsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   tabElement: {
-    doc: "Define what HTML element should be used. You can provide e.g. `tabElement={GatsbyLink}` – you may then provide the `to` property inside every entry (`data={[{ to: ';url';, ... }]}`). Defaults to `<button>`.",
+    doc: "Define what HTML element should be used. You can provide e.g. `tabElement={GatsbyLink}` – you may then provide the `to` property inside every entry (`data={[{ to: '/url', ... }]}`). Defaults to `<button>`.",
     type: 'React.ReactNode',
     status: 'optional',
   },
