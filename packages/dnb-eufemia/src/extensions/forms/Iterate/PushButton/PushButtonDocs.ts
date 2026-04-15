@@ -4,7 +4,7 @@ export const PushButtonProperties: PropertiesTableProps = {
   path: {
     doc: 'The path to the array to add the new item to.',
     type: 'string',
-    status: 'required',
+    status: 'optional',
   },
   itemPath: {
     doc: 'The path to the item in a nested array, to add the new item to.',
