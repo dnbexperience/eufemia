@@ -1095,6 +1095,62 @@ describe('GlobalStatus component', () => {
     expect(element).not.toHaveClass('dnb-global-status--error')
     expect(closeButton.textContent).toContain('Lukk')
   })
+
+  it('should not become visible when rendered without show prop', () => {
+    render(<GlobalStatus id="auto-show-test" autoScroll={false} />)
+
+    const wrapper = document.getElementById('auto-show-test')
+    expect(wrapper).toHaveAttribute('aria-live', 'off')
+    expect(
+      wrapper.querySelector('.dnb-global-status__content')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should not become visible after a provider update when show is auto', async () => {
+    render(
+      <>
+        <GlobalStatus id="provider-update-test" autoScroll={false} />
+        <GlobalStatus.Add
+          id="provider-update-test"
+          statusId="temp-status"
+          text="temporary"
+        />
+      </>
+    )
+
+    simulateAnimationEnd()
+
+    render(
+      <GlobalStatus.Remove
+        id="provider-update-test"
+        statusId="temp-status"
+      />
+    )
+
+    await waitFor(() => {
+      const wrapper = document.getElementById('provider-update-test')
+      expect(wrapper).toHaveAttribute('aria-live', 'off')
+    })
+  })
+
+  it('should render with error state when show is true but state prop is not explicitly set', () => {
+    render(
+      <GlobalStatus
+        show={true}
+        autoScroll={false}
+        noAnimation={true}
+        id="state-default-test"
+        text="Failure text"
+        title="Custom Title"
+      />
+    )
+
+    const wrapper = document.getElementById('state-default-test')
+    expect(wrapper).toHaveAttribute('aria-live', 'assertive')
+
+    const status = wrapper.querySelector('.dnb-global-status')
+    expect(status).toHaveClass('dnb-global-status--error')
+  })
 })
 
 describe('GlobalStatus scss', () => {
