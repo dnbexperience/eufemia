@@ -133,13 +133,11 @@
 
     background-color: var(--token-color-background-neutral);
     border: 1px solid var(--token-color-stroke-action-alternative);
-    border-radius: calc(var(--switch-height--medium) - 0.5rem / 2);
+    border-radius: 1.5rem;
 
     .dnb-switch--large & {
       width: var(--switch-width--large);
       height: var(--switch-height--large);
-
-      border-radius: calc(var(--switch-height--large) - 0.75rem / 2);
     }
   }
 
