@@ -3,12 +3,12 @@ import type { PropertiesTableProps } from '../../shared/types'
 export const AriaLiveProperties: PropertiesTableProps = {
   variant: {
     doc: 'Can be `text` for text messages or `content` for whole application content. Defaults to `text`.',
-    type: 'string',
+    type: ['"text"', '"content"'],
     status: 'optional',
   },
   priority: {
     doc: 'Priority of the announcement. Can be `low` or `high`. Defaults to `low`.',
-    type: 'string',
+    type: ['"low"', '"high"'],
     status: 'optional',
   },
   delay: {
