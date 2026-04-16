@@ -4,19 +4,6 @@
 */
 
 .dnb-checkbox {
-  // Error state
-  --checkbox-color-gfx--error: var(--color-fire-red-8);
-  --checkbox-color-gfx--error-contrast: var(--color-fire-red);
-  --checkbox-color-background-on--error: var(--color-fire-red);
-  --checkbox-color-background--error-contrast: var(--color-fire-red-8);
-  --checkbox-color-border--error: var(--color-fire-red);
-  // Error Hover state
-  --checkbox-color-gfx--error--hover: var(--color-fire-red);
-  --checkbox-color-background--error--hover: var(--color-fire-red-8);
-  --checkbox-color-border--error--hover: var(--color-fire-red);
-  --checkbox-color-gfx-indeterminate--active: var(--color-mint-green-50);
-  // Indeterminate Error state
-  --checkbox-color-gfx-indeterminate--error: var(--color-fire-red);
   // Indeterminate shape
   --checkbox-gfx-height__indeterminate: 0.625rem;
   --checkbox-gfx-width__indeterminate: 0.625rem;

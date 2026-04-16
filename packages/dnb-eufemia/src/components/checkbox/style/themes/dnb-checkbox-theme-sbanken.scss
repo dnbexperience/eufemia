@@ -12,22 +12,6 @@
   --checkbox-border-width--hover: 0.125rem;
   // Error state
   --checkbox-border-width--error: 0.0625rem;
-  --checkbox-color-gfx--error: var(--sb-color-magenta);
-  --checkbox-color-gfx--error-contrast: var(--sb-color-magenta);
-  --checkbox-color-background-on--error: var(--sb-color-white);
-  --checkbox-color-background--error-contrast: var(
-    --sb-color-magenta-light-2
-  );
-  --checkbox-color-border--error: var(--sb-color-magenta);
-  // Error Hover state
-  --checkbox-color-gfx--error--hover: var(--sb-color-magenta);
-  --checkbox-color-background--error--hover: var(
-    --sb-color-magenta-light-3
-  );
-  --checkbox-color-border--error--hover: transparent;
-
-  // Indeterminate Error state
-  --checkbox-color-gfx-indeterminate--error: var(--sb-color-magenta);
   // Indeterminate shape
   --checkbox-gfx-width__indeterminate: 0.875rem;
   --checkbox-gfx-height__indeterminate: 0.125rem;
