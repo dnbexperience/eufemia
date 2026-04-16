@@ -179,6 +179,7 @@ These renames change the property or event name itself, not just the casing. The
 | `innerRef`                              | `ref`                                  | 20+ components (see [innerRef → ref](#innerref--ref))               |
 | `opened`                                | `open`                                 | Autocomplete, Dropdown, DrawerList, DatePicker, Tooltip, Field.Date |
 | `on_show` / `on_hide`                   | `onOpen` / `onClose`                   | Autocomplete, Dropdown, DrawerList, DatePicker                      |
+| `on_show_focus` / `on_hide_focus`       | `onOpenFocus` / `onCloseFocus`         | Dropdown                                                            |
 | `triangle_position`                     | `arrowPosition`                        | Autocomplete, Dropdown, DrawerList                                  |
 | `styleType` / `style_type`              | `backgroundColor`                      | Breadcrumb, Dialog.Body, Drawer.Body                                |
 | `spacing`                               | `innerSpace` (object form)             | Section, Dialog.Body, Drawer.Body                                   |
@@ -188,8 +189,9 @@ These renames change the property or event name itself, not just the casing. The
 | `size`                                  | `span`                                 | Flex.Item, Card                                                     |
 | `align_autocomplete` / `align_dropdown` | `align`                                | Autocomplete, Dropdown                                              |
 | `input_icon`                            | `icon`                                 | Autocomplete                                                        |
-| `clear`                                 | `showClearButton`                      | Input                                                               |
+| `clear`                                 | `showClearButton`                      | Input, InputMasked                                                  |
 | `visible`                               | `show`                                 | ProgressIndicator                                                   |
+| `show_label`                            | `showDefaultLabel`                     | ProgressIndicator                                                   |
 | `active` / `forceOpen`                  | `open`                                 | Tooltip                                                             |
 | `position`                              | `placement`                            | Tooltip                                                             |
 | `accordion`                             | `mode="accordion"`                     | Table                                                               |
@@ -244,12 +246,14 @@ This applies to Section, Dialog.Body, and Drawer.Body.
 
 The event names changed semantically. A naive snake_case→camelCase conversion would produce `onShow` / `onHide`, which are **wrong**.
 
-| Old       | Wrong (naive conversion) | Correct   |
-| --------- | ------------------------ | --------- |
-| `on_show` | ~~`onShow`~~             | `onOpen`  |
-| `on_hide` | ~~`onHide`~~             | `onClose` |
+| Old              | Wrong (naive conversion) | Correct        |
+| ---------------- | ------------------------ | -------------- |
+| `on_show`        | ~~`onShow`~~             | `onOpen`       |
+| `on_hide`        | ~~`onHide`~~             | `onClose`      |
+| `on_show_focus`  | ~~`onShowFocus`~~        | `onOpenFocus`  |
+| `on_hide_focus`  | ~~`onHideFocus`~~        | `onCloseFocus` |
 
-Affected components: Autocomplete, Dropdown, DrawerList, DatePicker.
+Affected components: Autocomplete, Dropdown, DrawerList, DatePicker. The `_focus` variants only apply to Dropdown.
 
 Note: GlobalStatus still uses `onShow` / `onHide` — those are correct for that component and did not change semantically.
 
