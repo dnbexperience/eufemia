@@ -18,13 +18,14 @@ import type {
   DrawerListDataArray,
   DrawerListInternalData,
   DrawerListInternalItem,
+  DrawerListProps,
 } from './DrawerList'
 import type { DrawerListProviderProps } from './DrawerListProvider'
 import type { DrawerListContextState } from './DrawerListContext'
 import Icon from '../../components/icon/Icon'
 import CountryFlag from '../../components/country-flag/CountryFlag'
 
-export const drawerListDefaultProps = {
+export const drawerListDefaultProps: Partial<DrawerListProps> = {
   id: null,
   role: 'listbox',
   cacheHash: null,
@@ -53,7 +54,6 @@ export const drawerListDefaultProps = {
   skipKeysearch: false,
   open: null,
   data: null,
-  rawData: null,
   ignoreEvents: null,
 
   className: null,
@@ -69,12 +69,13 @@ export const drawerListDefaultProps = {
   optionsRender: null,
 }
 
-export const drawerListProviderDefaultProps = {
-  enableBodyLock: false,
-  pageOffset: null,
-  observerElement: null,
-  minHeight: 10, // 10rem = 10x16=160,
-}
+export const drawerListProviderDefaultProps: Partial<DrawerListProviderProps> =
+  {
+    enableBodyLock: false,
+    pageOffset: null,
+    observerElement: null,
+    minHeight: 10, // 10rem = 10x16=160,
+  }
 
 export function parseContentTitle(
   dataItem: DrawerListDataArrayItem,

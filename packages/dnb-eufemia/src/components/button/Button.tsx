@@ -196,7 +196,7 @@ export type ButtonProps = {
   > &
   SpacingProps
 
-const buttonDefaultProps = {
+const buttonDefaultProps: Partial<ButtonProps> = {
   type: null, // defaults to 'button' to prevent accidental form submissions (except when used as Anchor)
   text: null,
   variant: null,

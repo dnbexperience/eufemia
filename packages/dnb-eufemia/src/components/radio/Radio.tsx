@@ -101,7 +101,7 @@ export type RadioProps = {
   SpacingProps &
   FormStatusBaseProps
 
-const radioDefaultProps = {
+const radioDefaultProps: Partial<RadioProps> = {
   label: null,
   labelSrOnly: null,
   labelPosition: null,

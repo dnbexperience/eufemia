@@ -71,11 +71,12 @@ type GlobalStatusControllerProps = {
   [key: string]: unknown
 }
 
-const globalStatusControllerDefaultProps = {
-  id: 'main',
-  statusId: null,
-  removeOnUnmount: false,
-}
+const globalStatusControllerDefaultProps: Partial<GlobalStatusControllerProps> =
+  {
+    id: 'main',
+    statusId: null,
+    removeOnUnmount: false,
+  }
 
 // This is the Update controller
 function GlobalStatusController(ownProps: GlobalStatusControllerProps) {
@@ -138,9 +139,10 @@ type GlobalStatusRemovePropsLocal = {
   [key: string]: unknown
 }
 
-const globalStatusRemoveDefaultProps = {
-  id: 'main',
-}
+const globalStatusRemoveDefaultProps: Partial<GlobalStatusRemovePropsLocal> =
+  {
+    id: 'main',
+  }
 
 function GlobalStatusRemove(ownProps: GlobalStatusRemovePropsLocal) {
   const props = {

@@ -31,7 +31,7 @@ import ToggleButtonGroupContext, {
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 
-const toggleButtonDefaultProps = {
+const toggleButtonDefaultProps: Partial<ToggleButtonProps> = {
   text: null,
   label: null,
   labelDirection: 'vertical',

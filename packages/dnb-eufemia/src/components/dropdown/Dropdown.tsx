@@ -162,7 +162,7 @@ export type DropdownAllProps = DropdownProps &
     | 'onResize'
   >
 
-const dropdownDefaultProps = {
+const dropdownDefaultProps: Partial<DropdownAllProps> = {
   id: null,
   title: 'Option Menu',
   variant: 'secondary',

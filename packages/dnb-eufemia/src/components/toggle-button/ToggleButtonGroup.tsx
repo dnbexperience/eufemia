@@ -26,7 +26,7 @@ import Suffix from '../../shared/helpers/Suffix'
 import ToggleButtonGroupContext from './ToggleButtonGroupContext'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
-const toggleButtonGroupDefaultProps = {
+const toggleButtonGroupDefaultProps: Partial<ToggleButtonGroupProps> = {
   label: null,
   labelDirection: 'vertical',
   labelSrOnly: null,
