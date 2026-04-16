@@ -118,6 +118,9 @@
       --accordion-color-text: var(--accordion-color-text--disabled);
       --accordion-color-bg: var(--accordion-color-bg--disabled);
       --accordion-color-border: var(--accordion-color-border--disabled);
+      --accordion-color-description: var(
+        --accordion-color-description--disabled
+      );
     }
     // ensure that onMouseOutHandler works properly
     * {
