@@ -57,12 +57,9 @@
   &__button {
     position: absolute;
     z-index: 4;
+    left: 0;
 
     border-radius: 50%;
-  }
-
-  &__button {
-    left: 0;
 
     width: var(--switch-button-size-off--medium);
     height: var(--switch-button-size-off--medium);
@@ -78,6 +75,8 @@
       border-width: var(--switch-border-width--large);
     }
   }
+
+  /* stylelint-disable no-descending-specificity */
 
   /*
     * When switched OFF
