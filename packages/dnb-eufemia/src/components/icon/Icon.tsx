@@ -40,18 +40,21 @@ export type DefaultIconSizes = typeof DefaultIconSizes
 export type ValidIconType = (typeof ValidIconType)[number]
 export type ValidIconNumericSize = DefaultIconSizes[keyof DefaultIconSizes]
 
+export type IconSVGProps = React.SVGProps<SVGSVGElement> & {
+  title?: string
+}
+
+export type IconFunction = (props?: IconSVGProps) => React.JSX.Element
+
 /** For internal usage */
 type IconType =
   | string
   | React.ReactElement<SVGElement>
-  | ((props?: unknown) => React.JSX.Element)
+  | IconFunction
   | false
 
 /** For external usage */
-export type IconIcon =
-  | IconType
-  | FormStatusIcon
-  | ((props?: unknown) => React.JSX.Element)
+export type IconIcon = IconType | FormStatusIcon | IconFunction
 
 export type IconSize =
   | ValidIconNumericSize
@@ -202,7 +205,7 @@ export function calcSize(props: IconProps) {
         typeof icon === 'function'
           ? icon
           : React.isValidElement(icon) && typeof icon.type === 'function'
-            ? (icon.type as (props?: unknown) => React.JSX.Element)
+            ? (icon.type as IconFunction)
             : null
 
       // Skip direct execution for hook-based components to avoid invalid hook call order.
@@ -477,9 +480,9 @@ export function prerenderIcon(
   }
 
   if (typeof icon === 'function') {
-    return (props?: unknown) => {
-      const IconComponent = icon as React.ComponentType<unknown>
-      return <IconComponent {...(props as Record<string, unknown>)} />
+    return (props?: IconSVGProps) => {
+      const IconComponent = icon as React.ComponentType<IconSVGProps>
+      return <IconComponent {...props} />
     }
   }
 
