@@ -19,31 +19,38 @@
   --checkbox-gfx-width__indeterminate: 0.625rem;
   --checkbox-gfx-height__indeterminate--large: 0.875rem;
   --checkbox-gfx-width__indeterminate--large: 0.875rem;
+
   // Normal state
   --checkbox-border-width: 0.09375rem;
+
   --checkbox-color-gfx-on: var(--token-color-icon-neutral-inverse);
+
   --checkbox-color-background-off: var(--token-color-background-neutral);
   --checkbox-color-background-on: var(--token-color-background-selected);
-  --checkbox-color-background-off: var(--token-color-background-neutral);
-  --checkbox-color-border-on: var(--token-color-background-selected);
+
   --checkbox-color-border-off: var(
     --token-color-stroke-action-alternative
   );
+  --checkbox-color-border-on: var(--token-color-background-selected);
+
   // Disabled state
   --checkbox-border-width--disabled: 0.125rem;
   --checkbox-color-gfx--disabled: var(--token-color-icon-neutral-inverse);
+
   --checkbox-color-background-on--disabled: var(
     --token-color-background-action-disabled
   );
   --checkbox-color-background-off--disabled: var(
     --token-color-background-neutral
   );
+
   --checkbox-color-border-on--disabled: var(
     --token-color-background-action-disabled
   );
   --checkbox-color-border-off--disabled: var(
     --token-color-stroke-action-disabled
   );
+
   --checkbox-color-gfx__indeterminate--disabled: var(
     --token-color-background-action-disabled
   );
@@ -55,10 +62,22 @@
   --checkbox-color-border--active: transparent;
   // Hover state
   --checkbox-border-width--hover: 0.125rem;
-  --checkbox-color-gfx--hover: grey;
-  --checkbox-color-background--hover: white;
-  --checkbox-color-border-on--hover: grey;
-  --checkbox-color-border-off--hover: grey;
+  --checkbox-color-gfx--hover: var(--token-color-icon-neutral-inverse);
+
+  --checkbox-color-background-on--hover: var(
+    --token-color-background-action-hover
+  );
+  --checkbox-color-background-off--hover: var(
+    --token-color-background-action-hover-subtle
+  );
+
+  --checkbox-color-border-on--hover: var(
+    --token-color-stroke-action-hover
+  );
+  --checkbox-color-border-off--hover: var(
+    --token-color-stroke-action-hover
+  );
+
   // Focus state
   --checkbox-color-gfx--focus: grey;
   --checkbox-color-background--focus: lightgrey;
@@ -400,7 +419,7 @@
   // General
   &__input:not([disabled]):not(:active):hover ~ &__button {
     border-color: var(--checkbox-color-border-off--hover);
-    background-color: var(--checkbox-color-background--hover);
+    background-color: var(--checkbox-color-background-off--hover);
     border-width: var(--checkbox-border-width--hover);
   }
 
@@ -411,6 +430,7 @@
   // On
   &__input:not([disabled]):checked:hover ~ &__button,
   &__input:not([disabled])[data-checked='true']:hover ~ &__button {
+    background-color: var(--checkbox-color-background-on--hover);
     border: var(--checkbox-border-width--hover) solid
       var(--checkbox-color-border-on--hover);
   }
