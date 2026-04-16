@@ -37,7 +37,7 @@ export const IconProperties: PropertiesTableProps = {
     status: 'optional',
   },
   color: {
-    doc: 'The color can be any valid color property, such as Hex, RGB or preferable – any CSS variable from the [colors table](/uilib/usage/customisation/colors), e.g. `var(--color-ocean-green)`. Default is no color, which means `--color-black-80`.',
+    doc: 'The color can be any valid color property, such as Hex, RGB or preferable – any CSS variable from the [colors table](/uilib/usage/customisation/colors), e.g. `var(--color-ocean-green)`. Defaults to no color, which means `--color-black-80`.',
     type: 'Various',
     status: 'optional',
   },

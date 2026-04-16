@@ -18,12 +18,12 @@ export const StringProperties: PropertiesTableProps = {
     status: 'optional',
   },
   capitalize: {
-    doc: 'When set to true, it will capitalize the first letter of every word, transforming the rest to lower case.',
+    doc: 'When set to `true`, it will capitalize the first letter of every word, transforming the rest to lower case.',
     type: 'boolean',
     status: 'optional',
   },
   trim: {
-    doc: 'When true, it will trim leading and trailing whitespaces on blur, triggering `onChange` if the value changes.',
+    doc: 'When `true`, it will trim leading and trailing whitespaces on blur, triggering `onChange` if the value changes.',
     type: 'boolean',
     status: 'optional',
   },
@@ -101,17 +101,17 @@ export const StringProperties: PropertiesTableProps = {
 
   // - Additional props
   inputClassName: {
-    doc: 'Class name set on the <input> DOM element.',
+    doc: 'Class name set on the `<input>` DOM element.',
     type: 'string',
     status: 'optional',
   },
   ref: {
-    doc: 'By providing a React.Ref we can get the internally used input element (DOM).',
+    doc: 'By providing a `React.Ref` we can get the internally used input element (DOM).',
     type: 'React.RefObject',
     status: 'optional',
   },
   submitElement: {
-    doc: 'Accepts a React element which will show up like the "submit button" would do on type="search".',
+    doc: 'Accepts a React element which will show up like the "submit button" would do on `type="search"`.',
     type: 'React.Element',
     status: 'optional',
   },

@@ -42,7 +42,7 @@ export const FormLabelProperties: PropertiesTableProps = {
     status: 'optional',
   },
   ref: {
-    doc: 'Attach a React Ref to the inner label `element`.',
+    doc: 'Attach a `React.Ref` to the inner label `element`.',
     type: 'React.Ref',
     status: 'optional',
   },

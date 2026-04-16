@@ -104,7 +104,7 @@ export const PaymentCardDesign: PropertiesTableProps = {
     status: 'required',
   },
   cardStyle: {
-    doc: 'Css class. mainly to set background and color.',
+    doc: 'CSS class. Mainly to set background and color.',
     type: 'string',
     status: 'required',
   },

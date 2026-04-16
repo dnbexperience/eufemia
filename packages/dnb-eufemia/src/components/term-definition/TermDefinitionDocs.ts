@@ -14,7 +14,7 @@ export const TermDefinitionProperties: PropertiesTableProps = {
   placement: {
     doc: 'Defines the preferred popover placement relative to the trigger.',
     type: ['"top"', '"right"', '"bottom"', '"left"'],
-    defaultValue: 'bottom',
+    defaultValue: '"bottom"',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {

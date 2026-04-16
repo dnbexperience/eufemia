@@ -27,7 +27,7 @@ export const SwitchProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    doc: 'The size of the switch. For now there is **medium** (default) and **large**.',
+    doc: 'The size of the switch. For now there is `medium` (default) and `large`.',
     type: ['"default"', '"medium"', '"large"'],
     status: 'optional',
   },
@@ -68,7 +68,7 @@ export const SwitchProperties: PropertiesTableProps = {
     status: 'optional',
   },
   ref: {
-    doc: 'By providing a React.ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
+    doc: 'By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
     type: 'React.RefObject',
     status: 'optional',
   },

@@ -88,19 +88,19 @@ export const PopoverProperties: PropertiesTableProps = {
   placement: {
     doc: 'Preferred placement of the popover relative to the trigger.',
     type: ['"top"', '"right"', '"bottom"', '"left"'],
-    defaultValue: 'bottom',
+    defaultValue: '"bottom"',
     status: 'optional',
   },
   alignOnTarget: {
     doc: 'Adjust horizontal alignment of the popover body when `placement` is `top`/`bottom`; ignored for other placements.',
     type: ['"left"', '"center"', '"right"', 'null'],
-    defaultValue: 'center',
+    defaultValue: '"center"',
     status: 'optional',
   },
   arrowPosition: {
     doc: 'Align the arrow along the axis of the selected `placement` (e.g., left/right for `placement="right"`).',
     type: ['"center"', '"top"', '"right"', '"bottom"', '"left"'],
-    defaultValue: 'center',
+    defaultValue: '"center"',
     status: 'optional',
   },
   arrowPositionSelector: {
@@ -140,7 +140,7 @@ export const PopoverProperties: PropertiesTableProps = {
     status: 'optional',
   },
   focusOnOpen: {
-    doc: 'If true, focus is moved into the popover content when it opens.',
+    doc: 'If `true`, focus is moved into the popover content when it opens.',
     type: 'boolean',
     status: 'optional',
   },
@@ -150,7 +150,7 @@ export const PopoverProperties: PropertiesTableProps = {
     status: 'optional',
   },
   restoreFocus: {
-    doc: 'Moves focus back to the trigger element once the popover closes (defaults to true).',
+    doc: 'Moves focus back to the trigger element once the popover closes (defaults to `true`).',
     type: 'boolean',
     status: 'optional',
   },
@@ -185,7 +185,7 @@ export const PopoverProperties: PropertiesTableProps = {
     status: 'optional',
   },
   portalRootClass: {
-    doc: 'Extra className applied to the portal wrapper (only when not using `skipPortal`).',
+    doc: 'Extra `className` applied to the portal wrapper (only when not using `skipPortal`).',
     type: 'string',
     status: 'optional',
   },
@@ -208,7 +208,7 @@ export const PopoverProperties: PropertiesTableProps = {
   autoAlignMode: {
     doc: "Control when the popover automatically flips its placement to fit within the viewport. `initial` (default): Flip placement only on initial open when there's limited space. `scroll`: Flip placement on initial open and during scroll events. `never`: Never automatically flip placement, always use the specified `placement` property.",
     type: ['"initial"', '"scroll"', '"never"'],
-    defaultValue: 'initial',
+    defaultValue: '"initial"',
     status: 'optional',
   },
   contentRef: {
@@ -222,7 +222,7 @@ export const PopoverProperties: PropertiesTableProps = {
     status: 'optional',
   },
   omitDescribedBy: {
-    doc: 'Skips adding aria-describedBy on the trigger when you handle accessibility yourself.',
+    doc: 'Skips adding `aria-describedby` on the trigger when you handle accessibility yourself.',
     type: 'boolean',
     status: 'optional',
   },

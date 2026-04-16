@@ -12,12 +12,12 @@ export const ButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   'aria-label': {
-    doc: 'Required if there is no text in the button. If `text` and `children` are undefined, setting the `title` property will automatically set `aria-label` with the same value.',
+    doc: 'Required if there is no text in the button. If `text` and `children` are `undefined`, setting the `title` property will automatically set `aria-label` with the same value.',
     type: 'string',
     status: 'optional',
   },
   title: {
-    doc: 'Required if there is no text in the button. If `text` and `children` are undefined, setting the `title` property will automatically set `aria-label` with the same value.',
+    doc: 'Required if there is no text in the button. If `text` and `children` are `undefined`, setting the `title` property will automatically set `aria-label` with the same value.',
     type: 'string',
     status: 'optional',
   },
@@ -32,7 +32,7 @@ export const ButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    doc: 'The size of the button. There is `default`, `small`, `medium`  and `large`. The `tertiary` button officially supports only default and large. Changing the size mainly affects spacing, but the large tertiary button also has a larger font size.',
+    doc: 'The size of the button. There is `default`, `small`, `medium` and `large`. The `tertiary` button officially supports only default and large. Changing the size mainly affects spacing, but the large tertiary button also has a larger font size.',
     type: ['"default"', '"small"', '"medium"', '"large"'],
     status: 'optional',
   },
@@ -52,7 +52,7 @@ export const ButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   selected: {
-    doc: 'Only for icon buttons. If true, use the style for a selected icon button. Default is `false`',
+    doc: 'Only for icon buttons. If true, use the style for a selected icon button. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

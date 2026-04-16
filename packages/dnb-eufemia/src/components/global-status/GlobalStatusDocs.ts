@@ -22,7 +22,7 @@ export const GlobalStatusProperties: PropertiesTableProps = {
     status: 'optional',
   },
   items: {
-    doc: 'The items (list items) appear as a part of the status content. you can both use an JSON array, or a vanilla array with a string or an object content. See **Item Object** example below.',
+    doc: 'The items (list items) appear as a part of the status content. You can both use a JSON array, or a vanilla array with a string or an object content. See **Item Object** example below.',
     type: 'Array<GlobalStatusItem>',
     status: 'optional',
   },
@@ -110,7 +110,7 @@ export const GlobalStatusAdvancedItemProperties: PropertiesTableProps = {
     status: 'required',
   },
   statusId: {
-    doc: 'Defines an unique ID so the message can be either updated or removed individual.',
+    doc: 'Defines a unique ID so the message can be either updated or removed individually.',
     type: 'string',
     status: 'required',
   },

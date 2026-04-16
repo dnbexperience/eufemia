@@ -20,12 +20,12 @@ export const TagProperties: PropertiesTableProps = {
     status: 'optional',
   },
   icon: {
-    doc: 'To be included in the tag. Primary Icons can be set as a string (e.g. icon="chevron_right"), other icons should be set as React elements. Note, we recommend not to use icons with clickable tags.',
+    doc: 'To be included in the tag. Primary Icons can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements. Note, we recommend not to use icons with clickable tags.',
     type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
   hasLabel: {
-    doc: 'If a label is given, typical inside a table or dl (definition list), then you can disable Tag.Group as a dependent of Tag. Use `true` to omit the `Tag group required:` warning.',
+    doc: 'If a label is given, typically inside a table or dl (definition list), then you can disable Tag.Group as a dependent of Tag. Use `true` to omit the `Tag group required:` warning.',
     type: 'boolean',
     status: 'optional',
   },
@@ -40,7 +40,7 @@ export const TagProperties: PropertiesTableProps = {
     status: 'optional',
   },
   className: {
-    doc: 'Custom className for the component root.',
+    doc: 'Custom `className` for the component root.',
     type: 'string',
     status: 'optional',
   },
@@ -68,7 +68,7 @@ export const TagGroupProperties: PropertiesTableProps = {
     status: 'optional',
   },
   className: {
-    doc: 'Custom className for the component root.',
+    doc: 'Custom `className` for the component root.',
     type: 'string',
     status: 'optional',
   },

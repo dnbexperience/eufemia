@@ -2,12 +2,12 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const DrawerListProperties: PropertiesTableProps = {
   '[data](#the-data-property)': {
-    doc: `The data we want to fill the list with. [Details on the type of {DATA} can be found below](#the-data-property). The data can be provided as an array or object. Or as a function that returns the data (called when user opens the list).`,
+    doc: 'The data we want to fill the list with. [Details on the type of {DATA} can be found below](#the-data-property). The data can be provided as an array or object. Or as a function that returns the data (called when user opens the list).',
     type: ['{DATA}', '() => {DATA}'],
     status: 'required',
   },
   groups: {
-    doc: 'An array of group titles for the list items. Only the first group can be `undefined`',
+    doc: 'An array of group titles for the list items. Only the first group can be `undefined`.',
     type: 'Array<React.ReactNode>',
     status: 'optional',
   },
@@ -188,7 +188,7 @@ export const DrawerListEvents: PropertiesTableProps = {
 
 export const DrawerListItem: PropertiesTableProps = {
   content: {
-    doc: 'Visual content in the list item',
+    doc: 'Visual content in the list item.',
     type: [
       'string',
       'React.ReactNode',
@@ -197,7 +197,7 @@ export const DrawerListItem: PropertiesTableProps = {
     status: 'optional',
   },
   disabled: {
-    doc: 'Disables the list item from selection',
+    doc: 'Disables the list item from selection.',
     type: 'boolean',
     status: 'optional',
   },
@@ -207,7 +207,7 @@ export const DrawerListItem: PropertiesTableProps = {
     status: 'optional',
   },
   selectedKey: {
-    doc: 'If set, can be used instead of array index by the `value` prop',
+    doc: 'If set, can be used instead of array index by the `value` prop.',
     type: ['string', 'number'],
     status: 'optional',
   },

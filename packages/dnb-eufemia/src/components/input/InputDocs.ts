@@ -93,7 +93,7 @@ export const InputProperties: PropertiesTableProps = {
     status: 'optional',
   },
   suffix: {
-    doc: 'Text describing the content of the input more than the label. you can also send in a React component, so it gets wrapped inside the Input component.',
+    doc: 'Text describing the content of the input more than the label. You can also send in a React component, so it gets wrapped inside the Input component.',
     type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
@@ -128,7 +128,7 @@ export const InputProperties: PropertiesTableProps = {
     status: 'optional',
   },
   inputState: {
-    doc: 'Defines a custom visual state of the input. Use it only if you have to simulate a custom state. Currently are three statuses `virgin` , `focus` and `dirty`. Defaults to `null`.',
+    doc: 'Defines a custom visual state of the input. Use it only if you have to simulate a custom state. Currently are three statuses `virgin`, `focus` and `dirty`. Defaults to `null`.',
     type: 'string',
     status: 'optional',
   },
@@ -138,7 +138,7 @@ export const InputProperties: PropertiesTableProps = {
     status: 'optional',
   },
   ref: {
-    doc: 'By providing a React.ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
+    doc: 'By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
     type: 'React.RefObject',
     status: 'optional',
   },

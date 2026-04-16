@@ -7,7 +7,7 @@ export const DropdownEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onSelect: {
-    doc: 'Will be called once the user focuses or selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, activeItem }`. The **activeItem** property is the currently selected item by keyboard navigation.',
+    doc: 'Will be called once the user focuses or selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, activeItem }`. The `activeItem` property is the currently selected item by keyboard navigation.',
     type: 'function',
     status: 'optional',
   },
@@ -155,12 +155,12 @@ export const DropdownProperties: PropertiesTableProps = {
     status: 'optional',
   },
   ref: {
-    doc: 'By providing a React.ref you can get the internally used main element (DOM). E.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
+    doc: 'By providing a `React.Ref` you can get the internally used main element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
     type: 'React.RefObject',
     status: 'optional',
   },
   buttonRef: {
-    doc: 'By providing a React.ref you can get the internally used button element (DOM). E.g. `buttonRef={myRef}` by using `React.createRef()` or `React.useRef()`.',
+    doc: 'By providing a `React.Ref` you can get the internally used button element (DOM), e.g. `buttonRef={myRef}` by using `React.createRef()` or `React.useRef()`.',
     type: 'React.RefObject',
     status: 'optional',
   },

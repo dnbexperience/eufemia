@@ -12,7 +12,7 @@ export const SegmentedFieldProperties: PropertiesTableProps = {
     status: 'optional',
   },
   inputs: {
-    doc: 'Array of SegmentedField input definitions. E.g. for a month/year expiry field, you would define two inputs with ids "month" and "year".',
+    doc: 'Array of SegmentedField input definitions, e.g. for a month/year expiry field, you would define two inputs with ids "month" and "year".',
     type: 'array',
     status: 'required',
   },

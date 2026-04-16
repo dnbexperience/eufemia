@@ -8,7 +8,7 @@ export const TableProperties: PropertiesTableProps = {
     status: 'optional',
   },
   accordionChevronPlacement: {
-    doc: 'Defines where the chevron will be placed, should only be used together with mode="accordion".',
+    doc: 'Defines where the chevron will be placed, should only be used together with `mode="accordion"`.',
     type: ['"left"', '"right"'],
     defaultValue: '"left"',
     status: 'optional',
@@ -20,7 +20,7 @@ export const TableProperties: PropertiesTableProps = {
     status: 'optional',
   },
   outline: {
-    doc: 'Use `true` to show an outline border around the table',
+    doc: 'Use `true` to show an outline border around the table.',
     type: 'boolean',
     defaultValue: 'false',
     status: 'optional',
@@ -55,7 +55,7 @@ export const TableProperties: PropertiesTableProps = {
     status: 'required',
   },
   className: {
-    doc: 'Custom className on the component root',
+    doc: 'Custom `className` on the component root.',
     type: 'string',
     defaultValue: 'undefined',
     status: 'optional',
@@ -131,7 +131,7 @@ export const TrProperties: PropertiesTableProps = {
 
 export const TrEventProperties: PropertiesTableProps = {
   onClick: {
-    doc: 'Will emit when user clicks/expands or on keydown space/enter(in mode="accordion" and mode="navigation") in the table row. Returns a native click.',
+    doc: 'Will emit when user clicks/expands or on keydown space/enter (in `mode="accordion"` and `mode="navigation"`) in the table row. Returns a native click.',
     type: '(event) => void',
     defaultValue: 'undefined',
     status: 'optional',
