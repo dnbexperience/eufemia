@@ -818,17 +818,25 @@ export const WithShowMoreButton = () => {
           </List.Cell.End>
         </List.Item.Action>
 
-        <List.Item.Action icon={fish_medium} title="Transfer sent">
-          <List.Cell.End>
-            <Value.Currency value={-500} />
-          </List.Cell.End>
-        </List.Item.Action>
+        <List.Item.Accordion
+          icon={fish_medium}
+          title="Transfer sent (Accordion)"
+        >
+          <List.Item.Accordion.Header>
+            <List.Cell.End>
+              <Value.Currency value={-500} />
+            </List.Cell.End>
+          </List.Item.Accordion.Header>
+          <List.Item.Accordion.Content innerSpace>
+            <P>Details about the transfer go here.</P>
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
 
-        <List.Item.Action icon={fish_medium} title="Subscription">
+        <List.Item.Basic icon={fish_medium} title="Subscription">
           <List.Cell.End>
             <Value.Currency value={-99} />
           </List.Cell.End>
-        </List.Item.Action>
+        </List.Item.Basic>
 
         <List.Item.Action icon={fish_medium} title="Refund">
           <List.Cell.End>
@@ -842,11 +850,19 @@ export const WithShowMoreButton = () => {
           </List.Cell.End>
         </List.Item.Action>
 
-        <List.Item.Action icon={fish_medium} title="Groceries">
-          <List.Cell.End>
-            <Value.Currency value={-320} />
-          </List.Cell.End>
-        </List.Item.Action>
+        <List.Item.Accordion
+          icon={fish_medium}
+          title="Groceries (Accordion)"
+        >
+          <List.Item.Accordion.Header>
+            <List.Cell.End>
+              <Value.Currency value={-320} />
+            </List.Cell.End>
+          </List.Item.Accordion.Header>
+          <List.Item.Accordion.Content innerSpace>
+            <P>Details about the transfer go here.</P>
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
       </List.Container>
     </ComponentBox>
   )

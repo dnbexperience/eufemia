@@ -17,7 +17,7 @@ export const ContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   visibleCount: {
-    doc: 'Limits the number of visible child items. When used without an `id`, the list is always capped at this count. When paired with `List.ShowMoreButton` via a shared `id`, the list starts collapsed and expands to show all items on toggle.',
+    doc: 'Limits the number of visible child items. When used without an `id`, the list is always capped at this count. When paired with `List.ShowMoreButton` via a shared `id`, the list starts collapsed and expands to show all items on toggle. Hidden items stay mounted in the DOM to preserve internal state (e.g. open accordions). The list is wrapped in a `HeightAnimation` so expand/collapse transitions are animated.',
     type: 'number',
     status: 'optional',
   },

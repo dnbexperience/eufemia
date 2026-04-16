@@ -4,6 +4,7 @@ import { axeComponent } from '../../../core/jest/jestSetup'
 import ListShowMoreButton from '../ListShowMoreButton'
 import Container from '../Container'
 import ItemContent from '../ItemContent'
+import ItemAccordion from '../ItemAccordion'
 
 function getButton() {
   return document.querySelector('.dnb-button--tertiary')
@@ -92,11 +93,15 @@ describe('List.ShowMoreButton', () => {
       </>
     )
 
-    expect(document.querySelectorAll('.dnb-list__item')).toHaveLength(2)
+    expect(
+      document.querySelectorAll('.dnb-list__item:not([hidden])')
+    ).toHaveLength(2)
 
     fireEvent.click(getButton())
 
-    expect(document.querySelectorAll('.dnb-list__item')).toHaveLength(4)
+    expect(
+      document.querySelectorAll('.dnb-list__item:not([hidden])')
+    ).toHaveLength(4)
   })
 
   it('collapses back when toggled again', () => {
@@ -113,11 +118,15 @@ describe('List.ShowMoreButton', () => {
 
     fireEvent.click(getButton())
 
-    expect(document.querySelectorAll('.dnb-list__item')).toHaveLength(3)
+    expect(
+      document.querySelectorAll('.dnb-list__item:not([hidden])')
+    ).toHaveLength(3)
 
     fireEvent.click(getButton())
 
-    expect(document.querySelectorAll('.dnb-list__item')).toHaveLength(1)
+    expect(
+      document.querySelectorAll('.dnb-list__item:not([hidden])')
+    ).toHaveLength(1)
   })
 
   it('shows all items when Container has no visibleCount', () => {
@@ -145,7 +154,102 @@ describe('List.ShowMoreButton', () => {
       </Container>
     )
 
-    expect(document.querySelectorAll('.dnb-list__item')).toHaveLength(2)
+    expect(
+      document.querySelectorAll('.dnb-list__item:not([hidden])')
+    ).toHaveLength(2)
+  })
+
+  it('preserves accordion open state after collapsing and re-expanding', () => {
+    render(
+      <>
+        <ListShowMoreButton id="accordion-state" />
+        <Container id="accordion-state" visibleCount={2}>
+          <ItemAccordion title="First">
+            <ItemAccordion.Content>Content 1</ItemAccordion.Content>
+          </ItemAccordion>
+          <ItemAccordion title="Second">
+            <ItemAccordion.Content>Content 2</ItemAccordion.Content>
+          </ItemAccordion>
+          <ItemAccordion title="Third">
+            <ItemAccordion.Content>Content 3</ItemAccordion.Content>
+          </ItemAccordion>
+          <ItemAccordion title="Fourth">
+            <ItemAccordion.Content>Content 4</ItemAccordion.Content>
+          </ItemAccordion>
+        </Container>
+      </>
+    )
+
+    const accordionHeaders = document.querySelectorAll(
+      '.dnb-list__item__accordion__header'
+    )
+
+    fireEvent.click(accordionHeaders[1])
+    expect(accordionHeaders[1]).toHaveAttribute('aria-expanded', 'true')
+
+    fireEvent.click(getButton())
+    expect(
+      document.querySelectorAll('.dnb-list__item:not([hidden])')
+    ).toHaveLength(4)
+
+    fireEvent.click(getButton())
+    const updatedHeaders = document.querySelectorAll(
+      '.dnb-list__item__accordion__header'
+    )
+    expect(updatedHeaders[1]).toHaveAttribute('aria-expanded', 'true')
+  })
+
+  it('wraps list in HeightAnimation only when toggle is active', () => {
+    const { container, rerender } = render(
+      <Container>
+        <ItemContent>Item 1</ItemContent>
+        <ItemContent>Item 2</ItemContent>
+      </Container>
+    )
+
+    expect(
+      container.querySelector('.dnb-height-animation')
+    ).not.toBeInTheDocument()
+
+    rerender(
+      <>
+        <ListShowMoreButton id="anim-toggle" />
+        <Container id="anim-toggle" visibleCount={1}>
+          <ItemContent>Item 1</ItemContent>
+          <ItemContent>Item 2</ItemContent>
+        </Container>
+      </>
+    )
+
+    expect(
+      container.querySelector('.dnb-height-animation')
+    ).toBeInTheDocument()
+  })
+
+  it('sets hidden attribute on overflow items when collapsed', () => {
+    render(
+      <>
+        <ListShowMoreButton id="hidden-attr" />
+        <Container id="hidden-attr" visibleCount={2}>
+          <ItemContent>Item 1</ItemContent>
+          <ItemContent>Item 2</ItemContent>
+          <ItemContent>Item 3</ItemContent>
+          <ItemContent>Item 4</ItemContent>
+        </Container>
+      </>
+    )
+
+    const items = document.querySelectorAll('.dnb-list__item')
+
+    expect(items[0]).not.toHaveAttribute('hidden')
+    expect(items[1]).not.toHaveAttribute('hidden')
+    expect(items[2]).toHaveAttribute('hidden')
+    expect(items[3]).toHaveAttribute('hidden')
+
+    fireEvent.click(getButton())
+
+    expect(items[2]).not.toHaveAttribute('hidden')
+    expect(items[3]).not.toHaveAttribute('hidden')
   })
 
   it('has no axe violations', async () => {
