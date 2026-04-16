@@ -8,9 +8,6 @@
   --checkbox-border-width: 0.0625rem;
   // Disabled state
   --checkbox-border-width--disabled: 0.0625rem;
-  // Active state
-  --checkbox-color-background--active: var(--sb-color-white);
-  --checkbox-color-border--active: var(--sb-color-gray);
   // Hover state
   --checkbox-border-width--hover: 0.125rem;
   // Focus state
@@ -31,10 +28,6 @@
     --sb-color-magenta-light-3
   );
   --checkbox-color-border--error--hover: transparent;
-  // Indeterminate Active state
-  --checkbox-color-background-indeterminate--active: var(--color-white);
-  --checkbox-color-border-indeterminate--active: var(--sb-color-gray);
-  --checkbox-color-gfx-indeterminate--active: var(--sb-color-violet);
 
   // Indeterminate Error state
   --checkbox-color-gfx-indeterminate--error: var(--sb-color-magenta);

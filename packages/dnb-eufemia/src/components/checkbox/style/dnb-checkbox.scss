@@ -69,8 +69,23 @@
   );
 
   // Active state
-  --checkbox-color-background--active: lightgrey;
-  --checkbox-color-border--active: transparent;
+  --checkbox-color-background-off--active: var(
+    --token-color-background-action-pressed-subtle
+  );
+  --checkbox-color-border-off--active: var(
+    --token-color-stroke-action-pressed
+  );
+
+  --checkbox-color-background-on--active: var(
+    --token-color-background-action-pressed
+  );
+  --checkbox-color-border-on--active: var(
+    --token-color-stroke-action-pressed
+  );
+
+  --checkbox-color-gfx__indeterminate--active: var(
+    --token-color-background-action-pressed
+  );
 
   // Hover state
   --checkbox-border-width--hover: 0.125rem;
@@ -114,13 +129,6 @@
   --checkbox-color-gfx--error--hover: red;
   --checkbox-color-background--error--hover: lavenderblush;
   --checkbox-color-border--error--hover: red;
-  // Indeterminate state
-  --checkbox-color-background-indeterminate: grey;
-  --checkbox-color-gfx-indeterminate: darkgray;
-  // Indeterminate Active state
-  --checkbox-color-background-indeterminate--active: grey;
-  --checkbox-color-border-indeterminate--active: white;
-  --checkbox-color-gfx-indeterminate--active: white;
 
   // Bounding box
   --checkbox-bounding--medium: 1.75, 1.75;
@@ -324,7 +332,9 @@
     color: var(--checkbox-color-gfx-off);
   }
 
-  &__input:not(:checked):not([data-checked='true']):not(:indeterminate)
+  &__input:not(:checked):not([data-checked='true']):not(
+      :indeterminate
+    ):not(:active):not(:hover)
     ~ &__button {
     background-color: var(--checkbox-color-background-off);
     border-color: var(--checkbox-color-border-off);
@@ -416,26 +426,25 @@
 
   // General
   &__input:not([disabled]):active ~ &__button {
-    background-color: var(--checkbox-color-background--active);
-    border-color: var(--checkbox-color-border--active);
+    background-color: var(--checkbox-color-background-off--active);
+    border-color: var(--checkbox-color-border-off--active);
   }
 
   // On
+  &__input:not([disabled]):checked:active ~ &__button,
+  &__input:not([disabled])[data-checked='true']:active ~ &__button {
+    background-color: var(--checkbox-color-background-on--active);
+    border-color: var(--checkbox-color-border-on--active);
+  }
+
   &__input:not([disabled]):checked:active ~ &__gfx,
   &__input:not([disabled])[data-checked='true']:active ~ &__gfx {
     color: var(--checkbox-color-gfx-on);
   }
 
   // Indeterminate
-  &__input:not([disabled]):indeterminate:active ~ &__button {
-    background-color: var(
-      --checkbox-color-background-indeterminate--active
-    );
-    border-color: var(--checkbox-color-border-indeterminate--active);
-  }
-
   &__input:not([disabled]):indeterminate:active ~ &__indeterminate {
-    background-color: var(--checkbox-color-gfx-indeterminate--active);
+    background-color: var(--checkbox-color-gfx__indeterminate--active);
   }
 
   /** Hover state **/
@@ -452,22 +461,24 @@
   }
 
   // On
-  &__input:not([disabled]):checked:hover ~ &__button,
-  &__input:not([disabled])[data-checked='true']:hover ~ &__button {
+  &__input:not([disabled]):not(:active):checked:hover ~ &__button,
+  &__input:not([disabled]):not(:active)[data-checked='true']:hover
+    ~ &__button {
     background-color: var(--checkbox-color-background-on--hover);
     border: var(--checkbox-border-width--hover) solid
       var(--checkbox-color-border-on--hover);
   }
 
   // Indeterminate
-  &__input:not([disabled]):indeterminate:hover ~ &__button {
+  &__input:not([disabled]):not(:active):indeterminate:hover ~ &__button {
     background-color: var(
       --checkbox-color-background__indeterminate--hover
     );
     border-color: var(--checkbox-color-border__indeterminate--hover);
   }
 
-  &__input:not([disabled]):indeterminate:hover ~ &__indeterminate {
+  &__input:not([disabled]):not(:active):indeterminate:hover
+    ~ &__indeterminate {
     background-color: var(--checkbox-color-gfx__indeterminate--hover);
   }
 
