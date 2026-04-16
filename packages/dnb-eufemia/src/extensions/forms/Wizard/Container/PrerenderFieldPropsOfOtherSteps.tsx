@@ -151,7 +151,11 @@ function usePreventSubmit() {
   }, [handleSubmit, setFieldEventListener])
 }
 
-function PrerenderPortal({ children }) {
+function PrerenderPortal({
+  children,
+}: {
+  children: React.ReactNode
+}): React.ReactNode {
   if (typeof document !== 'undefined') {
     return createPortal(children, document.body)
   }

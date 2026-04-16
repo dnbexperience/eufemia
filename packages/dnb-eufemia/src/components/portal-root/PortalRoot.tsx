@@ -52,9 +52,7 @@ export function PortalRootProvider(
   return <PortalRootContext value={value}>{children}</PortalRootContext>
 }
 
-function PortalRootInstance(
-  props: PortalRootProps = {}
-): React.JSX.Element {
+function PortalRootInstance(props: PortalRootProps = {}): React.ReactNode {
   const {
     id: idProp,
     insideSelector: insideSelectorProp,
