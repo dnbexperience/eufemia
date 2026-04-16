@@ -29,7 +29,10 @@ import Tooltip, { injectTooltipSemantic } from '../tooltip/Tooltip'
 import type { NumberFormatCurrencyPosition as NumberFormatCurrencyPositionBase } from './NumberUtils'
 import { format, runIOSSelectionFix } from './NumberUtils'
 import type { SpacingProps } from '../../shared/types'
-import type { NumberFormatOptions } from './NumberUtils'
+import type {
+  NumberFormatOptions,
+  NumberFormatOptionParams,
+} from './NumberUtils'
 import type { SkeletonShow } from '../Skeleton'
 
 // Export the Hooks
@@ -412,7 +415,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
   if (currencyDisplay === 'code' && !usedCurrencyPosition) {
     usedCurrencyPosition = 'before'
   }
-  const formatOptions: Record<string, unknown> = {
+  const formatOptions: NumberFormatOptionParams & { returnAria: true } = {
     locale,
     currency,
     currencyDisplay,
@@ -461,7 +464,8 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
 
   const result = format(value as string | number, formatOptions)
   const { cleanedValue, locale: lang } = result
-  let { aria, number: display } = result
+  let { aria } = result
+  let display: React.ReactNode = result.number
   cleanedValueRef.current = cleanedValue
 
   if (prefix) {
