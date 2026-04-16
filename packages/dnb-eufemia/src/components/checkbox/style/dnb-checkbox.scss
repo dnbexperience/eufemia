@@ -33,6 +33,16 @@
   );
   --checkbox-color-border-on: var(--token-color-background-selected);
 
+  --checkbox-color-gfx__indeterminate: var(
+    --token-color-background-selected
+  );
+  --checkbox-color-background__indeterminate: var(
+    --token-color-background-selected-subtle
+  );
+  --checkbox-color-border__indeterminate: var(
+    --token-color-stroke-selected
+  );
+
   // Disabled state
   --checkbox-border-width--disabled: 0.125rem;
   --checkbox-color-gfx--disabled: var(--token-color-icon-neutral-inverse);
@@ -306,14 +316,16 @@
   }
 
   // Off
-  &__input:not(:checked):not([data-checked='true']) ~ &__gfx {
+  &__input:not(:checked):not([data-checked='true']):not(:indeterminate)
+    ~ &__gfx {
     opacity: 0;
     transform: scale(0.8);
     // Needed during transition
     color: var(--checkbox-color-gfx-off);
   }
 
-  &__input:not(:checked):not([data-checked='true']) ~ &__button {
+  &__input:not(:checked):not([data-checked='true']):not(:indeterminate)
+    ~ &__button {
     background-color: var(--checkbox-color-background-off);
     border-color: var(--checkbox-color-border-off);
 
@@ -331,7 +343,7 @@
     transform: scale(0.85);
     opacity: 0;
 
-    background-color: var(--checkbox-color-gfx-indeterminate);
+    background-color: var(--checkbox-color-gfx__indeterminate);
     border-radius: var(--checkbox-gfx-border-radius__indeterminate);
 
     transition:
@@ -344,13 +356,13 @@
     opacity: 1;
   }
 
-  &__input:indeterminate:checked ~ &__button {
-    background-color: transparent;
-    border-color: var(--checkbox-color-border-off);
+  &__input:indeterminate ~ &__button {
+    background-color: var(--checkbox-color-background__indeterminate);
+    border-color: var(--checkbox-color-border__indeterminate);
   }
+
   &__input:indeterminate:hover ~ &__gfx,
-  &__input:indeterminate:checked ~ &__gfx,
-  &__input:indeterminate:checked:hover ~ &__gfx {
+  &__input:indeterminate ~ &__gfx {
     color: transparent;
   }
 
