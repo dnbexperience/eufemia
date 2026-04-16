@@ -4,7 +4,13 @@ showTabs: true
 
 import { TokenExample, TokenNamingRules } from './Examples'
 
-# Design Tokens
+---
+
+**NB:** Do not use the `--token-*` CSS custom properties in your code until this page is marked as ready for consumption. The token API is still being finalized and may change without warning until then.
+
+---
+
+## What are design tokens?
 
 Design tokens are semantic CSS custom properties that represent design decisions — such as "background for an action element" or "text color for an error state" — rather than raw color values.
 
@@ -107,7 +113,7 @@ function MyComponent() {
   const isDark = theme?.surface === 'dark'
 
   return (
-    <div className={isDark ? 'my-component--dark' : 'my-component'}>
+    <div className={clsx('my-component', isDark && 'my-component--dark')}>
       ...
     </div>
   )
@@ -136,9 +142,9 @@ See the [Tokens](/uilib/usage/customisation/theming/design-tokens/tokens) tab fo
 
 Not all tokens are intended for the same use cases:
 
-- **Base** — Part of the intended external semantic surface, such as `action` or `action-inverse`.
-- **State** — Semantic interaction states, such as `action-hover` or `action-focus`.
-- **Advanced** — Contextual or decorative tokens, such as `action-ondark`, `action-onlight` or `action-subtle`.
+- **Base** – Part of the intended external semantic surface, such as `action` or `action-inverse`.
+- **State** – Semantic interaction states, such as `action-hover` or `action-focus`.
+- **Advanced** – Contextual or decorative tokens, such as `action-ondark`, `action-onlight` or `action-subtle`.
 
 ## Naming contract
 
