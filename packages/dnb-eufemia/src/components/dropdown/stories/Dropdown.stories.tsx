@@ -20,7 +20,6 @@ import type {
   DrawerListDataArray,
   DrawerListChangeEvent,
 } from '../../../fragments/DrawerList'
-import { Provider } from '../../../shared'
 import { Field, Form } from '../../../extensions/forms'
 import { bank } from '../../../icons'
 

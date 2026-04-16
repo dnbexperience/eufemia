@@ -178,7 +178,7 @@ function StepIndicatorStatus({
     <FormStatus
       show={show}
       noAnimation={noAnimation}
-      state={status && statusState}
+      state={status ? statusState : undefined}
     >
       {status}
     </FormStatus>
