@@ -390,18 +390,16 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
       // If the value is a number, find the corresponding month
       const nr = parseFloat(event.value ?? '')
       if (!isNaN(nr)) {
-        const monthValue = months.find(
-          (m) => parseFloat(m.value) === nr
-        )?.value
+        const monthValue = months.find((m) => parseFloat(m.value) === nr)
+          ?.value
         const month = monthValue || emptyValue
         monthRef.current = month
         forceUpdate()
         callOnChange({ month })
       } else {
         // If the value is a month name, find the corresponding value
-        const monthValue = months.find(
-          (m) => m.title === event.value
-        )?.value
+        const monthValue = months.find((m) => m.title === event.value)
+          ?.value
         if (monthValue) {
           monthRef.current = monthValue
           forceUpdate()
@@ -443,7 +441,7 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
           placeholder: monthPlaceholder,
           autoComplete: 'bday-month',
           independentWidth: true,
-          disableReorder: true,
+          search: { reorder: false },
           onBlur: onBlurAutocomplete,
         }}
         data={months}

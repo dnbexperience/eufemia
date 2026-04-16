@@ -321,7 +321,7 @@ export const AutocompleteSandbox = () => {
           mode="async" // prevents showing no options message og typing
           label="No selection / no filter"
           preventSelection
-          disableFilter
+          search={{ filter: false }}
           data={topMovies}
           onType={({
             dataList,

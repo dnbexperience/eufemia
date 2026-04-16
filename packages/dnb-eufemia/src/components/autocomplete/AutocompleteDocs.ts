@@ -21,19 +21,9 @@ export const AutocompleteProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  disableFilter: {
-    doc: 'If set to `true`, word highlighting will still be active, but no options will be filtered out. Defaults to `false`.',
-    type: 'boolean',
-    status: 'optional',
-  },
-  disableHighlighting: {
-    doc: 'If set to `true`, word highlighting will be disabled, but the options will still get filtered. Defaults to `false`.',
-    type: 'boolean',
-    status: 'optional',
-  },
-  disableReorder: {
-    doc: 'If set to `true`, reordering of search results will be disabled. Defaults to `false`.',
-    type: 'boolean',
+  search: {
+    doc: 'Configure search behavior. An object with optional boolean keys: `filter` (enable result filtering, default `true`), `reorder` (enable relevance reordering, default `true`), and `highlight` (enable text highlighting, default `true`). Example: `search={{ filter: false }}` to disable filtering while keeping highlighting.',
+    type: 'object',
     status: 'optional',
   },
   searchNumbers: {

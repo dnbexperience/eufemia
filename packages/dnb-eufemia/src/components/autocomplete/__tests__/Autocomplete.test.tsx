@@ -1332,11 +1332,11 @@ describe('Autocomplete component', () => {
     expect(elem.getAttribute('aria-current')).toBe('true')
   })
 
-  describe('disableFilter', () => {
+  describe('search config', () => {
     it('has correct options after filter if filter is disabled', () => {
       render(
         <Autocomplete
-          disableFilter
+          search={{ filter: false }}
           data={mockData}
           showSubmitButton
           {...mockProps}
@@ -1355,10 +1355,10 @@ describe('Autocomplete component', () => {
       ).toBe(3)
     })
 
-    it('should still highlight when disabled', () => {
+    it('should still highlight when filter is disabled', () => {
       render(
         <Autocomplete
-          disableFilter
+          search={{ filter: false }}
           data={mockData}
           showSubmitButton
           {...mockProps}
@@ -2762,11 +2762,11 @@ describe('Autocomplete component', () => {
     ).toContain('dnb-autocomplete--open')
   })
 
-  it('has no highlighted value by using "disableHighlighting"', () => {
+  it('has no highlighted value when search.highlight is false', () => {
     render(
       <Autocomplete
         mode="async"
-        disableHighlighting
+        search={{ highlight: false }}
         data={mockData}
         showSubmitButton
         {...mockProps}
@@ -2830,7 +2830,7 @@ describe('Autocomplete component', () => {
     render(
       <Autocomplete
         mode="async"
-        disableFilter
+        search={{ filter: false }}
         onType={onType}
         data={mockData}
         {...mockProps}

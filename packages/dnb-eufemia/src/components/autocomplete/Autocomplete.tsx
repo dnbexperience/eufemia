@@ -250,17 +250,16 @@ export type AutocompleteProps = {
    */
   showClearButton?: boolean
   /**
-   * Keep highlighting but disable filtering.
+   * Configure search behavior. All options default to `true`.
    */
-  disableFilter?: boolean
-  /**
-   * Disable reordering of search results.
-   */
-  disableReorder?: boolean
-  /**
-   * Disable highlighting but keep filtering.
-   */
-  disableHighlighting?: boolean
+  search?: {
+    /** Enable filtering of options based on typed input. Defaults to `true`. */
+    filter?: boolean
+    /** Enable reordering of search results by relevance. Defaults to `true`. */
+    reorder?: boolean
+    /** Enable highlighting of matching text in options. Defaults to `true`. */
+    highlight?: boolean
+  }
   /**
    * Show autocomplete submit/toggle button.
    */
@@ -400,11 +399,9 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
   statusNoAnimation: null,
   globalStatus: null,
   suffix: null,
-  disableFilter: false,
-  disableReorder: false,
+  search: undefined,
   scrollable: true,
   focusable: false,
-  disableHighlighting: false,
   maxHeight: null,
   direction: 'auto',
   skipPortal: null,
@@ -593,8 +590,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     independentWidth,
     autoComplete,
     openOnFocus,
-    disableFilter,
-    disableReorder,
+    search,
     onClear,
     selectAll,
 
@@ -614,7 +610,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     noOptions: _noOptions,
     showAll: _showAll,
     ariaLiveOptions: _ariaLiveOptions,
-    disableHighlighting: _disableHighlighting,
 
     onOpen: _onOpen,
     onType: _onType,
@@ -628,6 +623,10 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
     ...attributes
   } = props
+
+  // Derive search booleans from search config
+  const disableFilter = search?.filter === false
+  const disableReorder = search?.reorder === false
 
   // State
   const [inputValue, setInputValueState] = useState<string | null>(() => {
@@ -651,7 +650,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   const [showAllNextTime, setShowAllNextTime] = useState(false)
   const [skipFocusDuringChange, setSkipFocusDuringChange] = useState(false)
   const [disableHighlightingState, setDisableHighlighting] = useState(
-    props.disableHighlighting
+    props.search?.highlight === false
   )
   const [visibleIndicator, setVisibleIndicator] = useState(false)
   const [searchIndex, setSearchIndexState] = useState<
@@ -684,7 +683,9 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   const lastUpdateDataRef = useRef<DrawerListInternalData | null>(null)
   const prevValueRef = useRef(props.value)
   const prevInputValuePropRef = useRef(props.inputValue)
-  const prevDisableHighlightingRef = useRef(props.disableHighlighting)
+  const prevDisableHighlightingRef = useRef(
+    props.search?.highlight === false
+  )
   const inputValueRef = useRef(inputValue)
   const typedInputValueRef = useRef(typedInputValue)
   const modeRef = useRef(mode)
@@ -1944,13 +1945,13 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     (event: React.KeyboardEvent | React.MouseEvent) => {
       preventFiringBlurEvent.current = Boolean(
         ('key' in event && event.key === 'Enter') ||
-        (event?.currentTarget
-          ? getClosestParent('dnb-drawer-list', event.currentTarget) ||
-            getClosestParent(
-              'dnb-input__submit-button__button',
-              event.currentTarget
-            )
-          : false)
+          (event?.currentTarget
+            ? getClosestParent('dnb-drawer-list', event.currentTarget) ||
+              getClosestParent(
+                'dnb-input__submit-button__button',
+                event.currentTarget
+              )
+            : false)
       )
 
       if (preventFiringBlurEvent.current) {
@@ -2177,9 +2178,10 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   )
 
   // Handle prop-driven state updates (replaces getDerivedStateFromProps)
-  if (props.disableHighlighting !== prevDisableHighlightingRef.current) {
-    prevDisableHighlightingRef.current = props.disableHighlighting
-    setDisableHighlighting(props.disableHighlighting)
+  const disableHighlightingFromProp = props.search?.highlight === false
+  if (disableHighlightingFromProp !== prevDisableHighlightingRef.current) {
+    prevDisableHighlightingRef.current = disableHighlightingFromProp
+    setDisableHighlighting(disableHighlightingFromProp)
   }
 
   if (
