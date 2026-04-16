@@ -100,7 +100,14 @@ This is the migration guide for @dnb/eufemia v11. It covers all breaking changes
 
 ## Summary of changes
 
+- **React 19 required** — v11 requires React and React DOM v19.
 - All **snake_case** (`on_click`) events and properties have been converted to **camelCase** (`onClick`). The reason for previously using snake_case was to support Web Components – but the support was discontinued in [v10](/uilib/about-the-lib/releases/eufemia/v10-info/).
+- **`labelDirection` default changed to `vertical`** — Labels render above the input by default. If you relied on horizontal labels, set `labelDirection="horizontal"` explicitly. See [labelDirection](#labeldirection-default-changed-to-vertical).
+- **FormRow and FormSet removed** — Replace with Flex layout components. See [Removal of FormRow and FormSet](#removal-of-formrow-and-formset).
+- **InputMasked engine replaced** — Switched from text-mask to Maskito. Custom masks using `createNumberMask` or `emailMask` must be updated. See [InputMasked](#inputmasked).
+- **Logo API redesigned** — The `brand`/`variant` props are replaced with an `svg` prop import pattern. See [Logo](#logo).
+- **StepIndicator redesigned** — The sidebar mode has been removed. See [StepIndicator](#stepindicator).
+- **Ajv no longer shipped by default** — If you use JSON Schema validation, you must explicitly provide an Ajv instance. See [Ajv no longer shipped by default](#ajv-no-longer-shipped-by-default).
 - Replaced deprecated `<Context.Provider>` with direct `<Context>` rendering across all internal context providers (React 19).
 - Several exported TypeScript `interface` declarations have been converted to `type`. This prevents declaration merging but has no impact on standard usage.
 - All React context value types have been renamed to use a consistent `...ContextValue` suffix (e.g. `AccordionContextProps` → `AccordionContextValue`). See [TypeScript](#typescript) for the full list.
@@ -195,8 +202,10 @@ These renames change the property or event name itself, not just the casing. The
 | `active` / `forceOpen`                  | `open`                                 | Tooltip                                                             |
 | `position`                              | `placement`                            | Tooltip                                                             |
 | `accordion`                             | `mode="accordion"`                     | Table                                                               |
+| `onClosed` / `onOpened`                 | `onClose` / `onOpen`                   | Table                                                               |
 | `isCollapsed`                           | `collapsed`                            | Breadcrumb                                                          |
 | `expandBehaviour`                       | `expandBehavior`                       | Accordion                                                           |
+| `class`                                 | `className`                            | ProgressIndicator, Button                                           |
 | `contentSpacing` / `tabsSpacing`        | `contentInnerSpace` / `tabsInnerSpace` | Tabs                                                                |
 
 ### Import path changes
@@ -302,7 +311,7 @@ These snake_case props appear on many components and follow the same rename patt
 | `on_focus`            | `onFocus`           | Autocomplete, Input, Textarea                                                                                                                                   |
 | `on_blur`             | `onBlur`            | Autocomplete, Input, Textarea                                                                                                                                   |
 | `on_click`            | `onClick`           | Button, StepIndicator, Tabs, Table.ClickableHead                                                                                                                |
-| `inner_ref`           | `ref`               | Anchor, Button, Input, InputMasked, Section, Textarea (see [innerRef → ref](#innerref--ref))                                                                    |
+| `inner_ref`           | `ref`               | All components that accepted `innerRef` (see [innerRef → ref](#innerref--ref) for the full list)                                                                |
 
 **Status value renames** — apply to all components that accept `statusState` or `state`:
 
@@ -336,8 +345,8 @@ These renames only exist as Eufemia prop/event names and won't collide with othe
 3. Replace `<Context.Provider>` with `<Context>` when using Eufemia contexts directly.
 4. Replace the status value `'info'` with `'information'` (applies to `state`, `statusState`, `variant`, `confirmType`).
 5. Replace the status value `'warn'` with `'warning'` (applies to `statusState`).
-6. Replace `inputClass` with `inputClassName` on Input and InputMasked.
-7. Replace `textareaClass` with `textareaClassName` on Textarea.
+6. Replace `input_class` (or `inputClass`) with `inputClassName` on Input and InputMasked.
+7. Replace `textarea_class` (or `textareaClass`) with `textareaClassName` on Textarea.
 
 #### Phase 2: Targeted find-and-replace (scope to specific components)
 
@@ -360,54 +369,65 @@ These renames use generic names that exist in non-Eufemia code. Scope your find-
 22. Replace `styleType` (or `style_type`) with `backgroundColor` — **only on** Breadcrumb, Dialog.Body, Drawer.Body.
 23. Replace `contentSpacing` with `contentInnerSpace` and `tabsSpacing` with `tabsInnerSpace` — **only on** Tabs.
 
-#### Phase 3: Structural changes (require code modification, not just rename)
+#### Phase 3: Structural and visual changes (require code modification or review)
 
-24. Replace `spacing` with `innerSpace={{ block: 'value' }}` on Section, Dialog.Body, Drawer.Body. Do NOT use `innerSpace="large"` — it must be an object. See [Section](#section).
-25. Replace `Theme.Provider` with `Theme.Context` and `darkBackground` with `surface="dark"`. See [Theme.Provider → Theme.Context](#themeprovider--themecontext).
-26. Replace `<FormRow>` with `<Flex.Horizontal align="baseline">` and `<FormRow vertical>` with `<Flex.Vertical>`. Replace `FormRow=` with `formElement=` in Provider config. See [Removal of FormRow and FormSet](#removal-of-formrow-and-formset).
-27. Replace `openState="opened"` with `open={true}` and `openState="closed"` with `open={false}` on Modal/Dialog/Drawer.
-28. Update `dateFormat` and `returnFormat` strings: `YYYY` → `yyyy`, `DD` → `dd` on DatePicker.
-29. Replace `Stat.Amount` with `Stat.Number`, `Stat.Info variant="default"` with `variant="plain"`.
-30. Replace Logo `brand`/`variant` props with `svg` prop import pattern. See [Logo](#logo).
+24. **Visual review:** The `labelDirection` default has changed to `vertical`. If your layouts relied on horizontal labels, add `labelDirection="horizontal"` explicitly. See [labelDirection default changed to vertical](#labeldirection-default-changed-to-vertical).
+25. **Visual review:** Card outline, border-radius, and default `innerSpace` have changed. Review your Card layouts. See [Card](#card).
+26. Replace `spacing` with `innerSpace={{ block: 'value' }}` on Section, Dialog.Body, Drawer.Body. Do NOT use `innerSpace="large"` — it must be an object. See [Section](#section).
+27. Replace `Theme.Provider` with `Theme.Context` and `darkBackground` with `surface="dark"`. See [Theme.Provider → Theme.Context](#themeprovider--themecontext).
+28. Replace `<FormRow>` with `<Flex.Horizontal align="baseline">` and `<FormRow vertical>` with `<Flex.Vertical>`. Replace `FormRow=` with `formElement=` in Provider config. See [Removal of FormRow and FormSet](#removal-of-formrow-and-formset).
+29. Replace `openState="opened"` with `open={true}` and `openState="closed"` with `open={false}` on Modal/Dialog/Drawer.
+30. Update `dateFormat` and `returnFormat` strings: `YYYY` → `yyyy`, `DD` → `dd` on DatePicker.
+31. Replace `Stat.Amount` with `Stat.Number`, `Stat.Info variant="default"` with `variant="plain"`.
+32. Replace Logo `brand`/`variant` props with `svg` prop import pattern. See [Logo](#logo).
 
 #### Phase 4: Import path and module changes
 
-31. Update all changed import paths. See [Import path changes](#import-path-changes).
-32. If using Ajv with JSON Schema validation, add `ajvInstance={makeAjvInstance()}` to `Form.Handler`. See [Ajv no longer shipped by default](#ajv-no-longer-shipped-by-default).
-33. Replace `InputPassword` import with `Field.Password` from Eufemia Forms. See [InputPassword moved to Field.Password](#inputpassword-moved-to-field-password).
-34. Replace `StepsLayout` with `Wizard.Container`, `StepsLayout.Step` with `Wizard.Step`, etc.
+33. Update all changed import paths. See [Import path changes](#import-path-changes).
+34. If using Ajv with JSON Schema validation, add `ajvInstance={makeAjvInstance()}` to `Form.Handler`. See [Ajv no longer shipped by default](#ajv-no-longer-shipped-by-default).
+35. Replace `InputPassword` import with `Field.Password` from Eufemia Forms. See [InputPassword moved to Field.Password](#inputpassword-moved-to-field-password).
+36. Replace `StepsLayout` with `Wizard.Container`, `StepsLayout.Step` with `Wizard.Step`, etc.
 
 #### Phase 5: SCSS changes
 
-35. If you import Eufemia SCSS source files with `@import`, replace with `@use` and namespace your calls. See [SCSS: @import → @use](#scss-import--use).
-36. Rename all SCSS mixin references to camelCase. See [SCSS mixin renames](#scss-mixin-renames).
-37. Remove `extendFocusRing` and `componentReset` SCSS mixin calls — they have been deleted.
+37. If you import Eufemia SCSS source files with `@import`, replace with `@use` and namespace your calls. See [SCSS: @import → @use](#scss-import--use).
+38. Rename all SCSS mixin references to camelCase. See [SCSS mixin renames](#scss-mixin-renames).
+39. Remove `extendFocusRing` and `componentReset` SCSS mixin calls — they have been deleted.
 
 #### Phase 6: TypeScript type updates
 
-38. Update any imported context value types (`AccordionContextProps` → `AccordionContextValue`, etc.). See [TypeScript](#typescript).
-39. Update any Props type imports (`Props` → component-prefixed name). See [Props Type Exports](#props-type-exports).
-40. Update event handler types to match new typed signatures. See [Typed event handlers](#typed-event-handlers).
+40. Update any imported context value types (`AccordionContextProps` → `AccordionContextValue`, etc.). See [TypeScript](#typescript).
+41. Update any Props type imports (`Props` → component-prefixed name). See [Props Type Exports](#props-type-exports).
+42. Update event handler types to match new typed signatures. See [Typed event handlers](#typed-event-handlers).
 
 #### Phase 7: Eufemia Forms behavioral changes
 
-41. Replace `validator` with `onChangeValidator` on all Field components.
-42. Replace `continuousValidation` with `validateContinuously` on all Field components.
-43. Update `errorMessages` object keys: `required` → `Field.errorRequired`, `pattern` → `Field.errorPattern`, etc. See [Error handling](#error-handling).
-44. Replace `Form.useError` with `Form.useValidation`, `Form.useLocale` with `Form.useTranslation`.
-45. Replace `Form.Visibility` props: `withValue` → `hasValue`, `pathValue`/`whenValue` → `visibleWhen`.
+43. Replace `validator` with `onChangeValidator` on all Field components.
+44. Replace `continuousValidation` with `validateContinuously` on all Field components.
+45. Update `errorMessages` object keys: `required` → `Field.errorRequired`, `pattern` → `Field.errorPattern`, etc. See [Error handling](#error-handling).
+46. Replace `Form.useError` with `Form.useValidation`, `Form.useLocale` with `Form.useTranslation`.
+47. Replace `Form.Visibility` props: `withValue` → `hasValue`, `pathValue`/`whenValue` → `visibleWhen`.
+48. Replace `Form.FieldProps` with `Field.Provider`.
+49. Replace `<Card stack>` with `<Form.Card>` and `<Card>` (inside forms) with `<Form.Card>`.
+50. Replace `Iterate.ArrayPushButton` with `Iterate.PushButton` and `Iterate.ArrayRemoveElementButton` with `Iterate.RemoveButton`.
+51. Replace `requireCommit` with `preventUncommittedChanges` on `Iterate.PushContainer`.
+52. Replace `active` with `include` and `activeWhen` with `includeWhen` on `Wizard.Step`.
+53. Replace Form.Iterate label variable `{itemNr}` with `{itemNo}`.
+54. Review all remaining changes in the [Eufemia Forms](#eufemia-forms) section.
 
 #### Phase 8: Verify
 
-46. Run `npx tsc --noEmit` to catch remaining type errors.
-47. Run your tests. Update any test selectors that query DatePicker/Expiry `input` elements (now `role="spinbutton"` sections).
-48. Search for remaining snake_case patterns using the grep command in [Verifying your migration](#verifying-your-migration).
+55. Run `npx tsc --noEmit` to catch remaining type errors.
+56. Run your tests. Update any test selectors that query DatePicker/Expiry `input` elements (now `role="spinbutton"` sections).
+57. Search for remaining snake_case patterns using the grep command in [Verifying your migration](#verifying-your-migration).
 
 ### Find-and-replace safety guide
 
 **Safe for global find-and-replace** — these prop names are Eufemia-specific and won't collide with other code:
 
-`on_change`, `on_click`, `on_focus`, `on_blur`, `on_submit`, `on_key_down`, `on_type`, `on_select`, `on_clear`, `on_state_update`, `on_open`, `on_close`, `on_cancel`, `on_reset`, `on_complete`, `on_resize`, `on_end`, `on_load`, `on_startup`, `on_adjust`, `on_days_render`, `on_submit_focus`, `on_submit_blur`, `status_state`, `status_props`, `status_no_animation`, `label_direction`, `label_sr_only`, `label_position`, `icon_size`, `icon_position`, `no_animation`, `inner_ref`, `selected_key`, `default_value`, `prevent_selection`, `prevent_close`, `keep_open`, `independent_width`, `fixed_position`, `enable_body_lock`, `skip_portal`, `cache_hash`, `no_scroll_animation`, `min_height`, `max_height`, `input_element`, `submit_element`, `submit_button_title`, `submit_button_icon`, `submit_button_variant`, `clear_button_title`, `keep_placeholder`, `input_attributes`, `inner_element`.
+`on_change`, `on_click`, `on_focus`, `on_blur`, `on_submit`, `on_key_down`, `on_type`, `on_select`, `on_clear`, `on_open`, `on_close`, `on_cancel`, `on_reset`, `on_complete`, `on_resize`, `on_end`, `on_load`, `on_startup`, `on_adjust`, `on_days_render`, `on_submit_focus`, `on_submit_blur`, `status_state`, `status_props`, `status_no_animation`, `label_direction`, `label_sr_only`, `label_position`, `icon_size`, `icon_position`, `no_animation`, `inner_ref`, `selected_key`, `default_value`, `prevent_selection`, `prevent_close`, `keep_open`, `independent_width`, `fixed_position`, `enable_body_lock`, `skip_portal`, `cache_hash`, `no_scroll_animation`, `min_height`, `max_height`, `input_element`, `submit_element`, `submit_button_title`, `submit_button_icon`, `submit_button_variant`, `clear_button_title`, `keep_placeholder`, `input_attributes`, `inner_element`.
+
+> **Note:** `on_state_update` is **not** in this list because it has been removed, not renamed. If you used `on_state_update`, replace it with `onChange` instead.
 
 **Must be scoped to specific components** — these names exist outside Eufemia or overlap across components with different meanings:
 
@@ -1360,7 +1380,10 @@ New props added:
 
 - Replace `medium={true}` with `weight='medium'`.
 - Replace `bold={true}` with `weight='bold'`.
-- Replace `modifier` with appropriate `weight` and/or `size`.
+- Replace `modifier` — common mappings:
+  - `modifier="medium"` → `weight="medium"`
+  - `modifier="small"` → `size="small"`
+  - `modifier="x-small"` → `size="x-small"`
 
 ### [Definition lists](/uilib/elements/lists/#definition-lists)
 
@@ -1471,7 +1494,7 @@ The `PaymentCard` types (`DNB`, `Visa`, `Mastercard`, `CardType`, `BankAxept`, `
 
 #### Properties
 
-- Remove `light` and `medium` as they are not supported anymore.
+- Remove the `light` and `medium` props — they are no longer supported. The Divider now renders with a single default style. If you need to customize the line appearance, use CSS custom properties or a wrapper with custom styling.
 - Replace `fullscreen` with `breakout`.
 
 ### [Flex.Item](/uilib/layout/flex/item/)
