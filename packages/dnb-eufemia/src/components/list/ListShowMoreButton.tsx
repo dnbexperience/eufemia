@@ -2,10 +2,7 @@ import React, { useCallback } from 'react'
 import Button from '../button/Button'
 import type { ButtonProps } from '../button/Button'
 import { chevron_down, chevron_up } from '../../icons'
-import {
-  useSharedState,
-  type SharedStateId,
-} from '../../shared/helpers/useSharedState'
+import { useSharedState } from '../../shared/helpers/useSharedState'
 import useTranslation from '../../shared/useTranslation'
 
 export type ListShowMoreButtonSharedState = {
@@ -13,7 +10,7 @@ export type ListShowMoreButtonSharedState = {
 }
 
 export type ListShowMoreButtonProps = {
-  id: SharedStateId
+  id: string
   showMore?: string
   showLess?: string
 } & Omit<ButtonProps, 'id' | 'text' | 'icon' | 'onClick' | 'variant'>
