@@ -179,6 +179,7 @@ These renames change the property or event name itself, not just the casing. The
 | `innerRef`                              | `ref`                                  | 20+ components (see [innerRef → ref](#innerref--ref))               |
 | `opened`                                | `open`                                 | Autocomplete, Dropdown, DrawerList, DatePicker, Tooltip, Field.Date |
 | `on_show` / `on_hide`                   | `onOpen` / `onClose`                   | Autocomplete, Dropdown, DrawerList, DatePicker                      |
+| `on_show_focus` / `on_hide_focus`       | `onOpenFocus` / `onCloseFocus`         | Dropdown                                                            |
 | `triangle_position`                     | `arrowPosition`                        | Autocomplete, Dropdown, DrawerList                                  |
 | `styleType` / `style_type`              | `backgroundColor`                      | Breadcrumb, Dialog.Body, Drawer.Body                                |
 | `spacing`                               | `innerSpace` (object form)             | Section, Dialog.Body, Drawer.Body                                   |
@@ -188,12 +189,14 @@ These renames change the property or event name itself, not just the casing. The
 | `size`                                  | `span`                                 | Flex.Item, Card                                                     |
 | `align_autocomplete` / `align_dropdown` | `align`                                | Autocomplete, Dropdown                                              |
 | `input_icon`                            | `icon`                                 | Autocomplete                                                        |
-| `clear`                                 | `showClearButton`                      | Input                                                               |
+| `clear`                                 | `showClearButton`                      | Input, InputMasked                                                  |
 | `visible`                               | `show`                                 | ProgressIndicator                                                   |
+| `show_label`                            | `showDefaultLabel`                     | ProgressIndicator                                                   |
 | `active` / `forceOpen`                  | `open`                                 | Tooltip                                                             |
 | `position`                              | `placement`                            | Tooltip                                                             |
 | `accordion`                             | `mode="accordion"`                     | Table                                                               |
 | `isCollapsed`                           | `collapsed`                            | Breadcrumb                                                          |
+| `expandBehaviour`                       | `expandBehavior`                       | Accordion                                                           |
 | `contentSpacing` / `tabsSpacing`        | `contentInnerSpace` / `tabsInnerSpace` | Tabs                                                                |
 
 ### Import path changes
@@ -244,12 +247,14 @@ This applies to Section, Dialog.Body, and Drawer.Body.
 
 The event names changed semantically. A naive snake_case→camelCase conversion would produce `onShow` / `onHide`, which are **wrong**.
 
-| Old       | Wrong (naive conversion) | Correct   |
-| --------- | ------------------------ | --------- |
-| `on_show` | ~~`onShow`~~             | `onOpen`  |
-| `on_hide` | ~~`onHide`~~             | `onClose` |
+| Old             | Wrong (naive conversion) | Correct        |
+| --------------- | ------------------------ | -------------- |
+| `on_show`       | ~~`onShow`~~             | `onOpen`       |
+| `on_hide`       | ~~`onHide`~~             | `onClose`      |
+| `on_show_focus` | ~~`onShowFocus`~~        | `onOpenFocus`  |
+| `on_hide_focus` | ~~`onHideFocus`~~        | `onCloseFocus` |
 
-Affected components: Autocomplete, Dropdown, DrawerList, DatePicker.
+Affected components: Autocomplete, Dropdown, DrawerList, DatePicker. The `_focus` variants only apply to Dropdown.
 
 Note: GlobalStatus still uses `onShow` / `onHide` — those are correct for that component and did not change semantically.
 
@@ -353,51 +358,50 @@ These renames use generic names that exist in non-Eufemia code. Scope your find-
 20. Replace `accordion` with `mode="accordion"` — **only on** Table.
 21. Replace `prerender` with `keepInDOM` — **only on** Tabs, Accordion.
 22. Replace `styleType` (or `style_type`) with `backgroundColor` — **only on** Breadcrumb, Dialog.Body, Drawer.Body.
-23. Replace `input_class` / `textarea_class` with `inputClassName` / `textareaClassName` (name change, not just casing).
-24. Replace `contentSpacing` with `contentInnerSpace` and `tabsSpacing` with `tabsInnerSpace` — **only on** Tabs.
+23. Replace `contentSpacing` with `contentInnerSpace` and `tabsSpacing` with `tabsInnerSpace` — **only on** Tabs.
 
 #### Phase 3: Structural changes (require code modification, not just rename)
 
-25. Replace `spacing` with `innerSpace={{ block: 'value' }}` on Section, Dialog.Body, Drawer.Body. Do NOT use `innerSpace="large"` — it must be an object. See [Section](#section).
-26. Replace `Theme.Provider` with `Theme.Context` and `darkBackground` with `surface="dark"`. See [Theme.Provider → Theme.Context](#themeprovider--themecontext).
-27. Replace `<FormRow>` with `<Flex.Horizontal align="baseline">` and `<FormRow vertical>` with `<Flex.Vertical>`. Replace `FormRow=` with `formElement=` in Provider config. See [Removal of FormRow and FormSet](#removal-of-formrow-and-formset).
-28. Replace `openState="opened"` with `open={true}` and `openState="closed"` with `open={false}` on Modal/Dialog/Drawer.
-29. Update `dateFormat` and `returnFormat` strings: `YYYY` → `yyyy`, `DD` → `dd` on DatePicker.
-30. Replace `Stat.Amount` with `Stat.Number`, `Stat.Info variant="default"` with `variant="plain"`.
-31. Replace Logo `brand`/`variant` props with `svg` prop import pattern. See [Logo](#logo).
+24. Replace `spacing` with `innerSpace={{ block: 'value' }}` on Section, Dialog.Body, Drawer.Body. Do NOT use `innerSpace="large"` — it must be an object. See [Section](#section).
+25. Replace `Theme.Provider` with `Theme.Context` and `darkBackground` with `surface="dark"`. See [Theme.Provider → Theme.Context](#themeprovider--themecontext).
+26. Replace `<FormRow>` with `<Flex.Horizontal align="baseline">` and `<FormRow vertical>` with `<Flex.Vertical>`. Replace `FormRow=` with `formElement=` in Provider config. See [Removal of FormRow and FormSet](#removal-of-formrow-and-formset).
+27. Replace `openState="opened"` with `open={true}` and `openState="closed"` with `open={false}` on Modal/Dialog/Drawer.
+28. Update `dateFormat` and `returnFormat` strings: `YYYY` → `yyyy`, `DD` → `dd` on DatePicker.
+29. Replace `Stat.Amount` with `Stat.Number`, `Stat.Info variant="default"` with `variant="plain"`.
+30. Replace Logo `brand`/`variant` props with `svg` prop import pattern. See [Logo](#logo).
 
 #### Phase 4: Import path and module changes
 
-32. Update all changed import paths. See [Import path changes](#import-path-changes).
-33. If using Ajv with JSON Schema validation, add `ajvInstance={makeAjvInstance()}` to `Form.Handler`. See [Ajv no longer shipped by default](#ajv-no-longer-shipped-by-default).
-34. Replace `InputPassword` import with `Field.Password` from Eufemia Forms. See [InputPassword moved to Field.Password](#inputpassword-moved-to-field-password).
-35. Replace `StepsLayout` with `Wizard.Container`, `StepsLayout.Step` with `Wizard.Step`, etc.
+31. Update all changed import paths. See [Import path changes](#import-path-changes).
+32. If using Ajv with JSON Schema validation, add `ajvInstance={makeAjvInstance()}` to `Form.Handler`. See [Ajv no longer shipped by default](#ajv-no-longer-shipped-by-default).
+33. Replace `InputPassword` import with `Field.Password` from Eufemia Forms. See [InputPassword moved to Field.Password](#inputpassword-moved-to-field-password).
+34. Replace `StepsLayout` with `Wizard.Container`, `StepsLayout.Step` with `Wizard.Step`, etc.
 
 #### Phase 5: SCSS changes
 
-36. If you import Eufemia SCSS source files with `@import`, replace with `@use` and namespace your calls. See [SCSS: @import → @use](#scss-import--use).
-37. Rename all SCSS mixin references to camelCase. See [SCSS mixin renames](#scss-mixin-renames).
-38. Remove `extendFocusRing` and `componentReset` SCSS mixin calls — they have been deleted.
+35. If you import Eufemia SCSS source files with `@import`, replace with `@use` and namespace your calls. See [SCSS: @import → @use](#scss-import--use).
+36. Rename all SCSS mixin references to camelCase. See [SCSS mixin renames](#scss-mixin-renames).
+37. Remove `extendFocusRing` and `componentReset` SCSS mixin calls — they have been deleted.
 
 #### Phase 6: TypeScript type updates
 
-39. Update any imported context value types (`AccordionContextProps` → `AccordionContextValue`, etc.). See [TypeScript](#typescript).
-40. Update any Props type imports (`Props` → component-prefixed name). See [Props Type Exports](#props-type-exports).
-41. Update event handler types to match new typed signatures. See [Typed event handlers](#typed-event-handlers).
+38. Update any imported context value types (`AccordionContextProps` → `AccordionContextValue`, etc.). See [TypeScript](#typescript).
+39. Update any Props type imports (`Props` → component-prefixed name). See [Props Type Exports](#props-type-exports).
+40. Update event handler types to match new typed signatures. See [Typed event handlers](#typed-event-handlers).
 
 #### Phase 7: Eufemia Forms behavioral changes
 
-42. Replace `validator` with `onChangeValidator` on all Field components.
-43. Replace `continuousValidation` with `validateContinuously` on all Field components.
-44. Update `errorMessages` object keys: `required` → `Field.errorRequired`, `pattern` → `Field.errorPattern`, etc. See [Error handling](#error-handling).
-45. Replace `Form.useError` with `Form.useValidation`, `Form.useLocale` with `Form.useTranslation`.
-46. Replace `Form.Visibility` props: `withValue` → `hasValue`, `pathValue`/`whenValue` → `visibleWhen`.
+41. Replace `validator` with `onChangeValidator` on all Field components.
+42. Replace `continuousValidation` with `validateContinuously` on all Field components.
+43. Update `errorMessages` object keys: `required` → `Field.errorRequired`, `pattern` → `Field.errorPattern`, etc. See [Error handling](#error-handling).
+44. Replace `Form.useError` with `Form.useValidation`, `Form.useLocale` with `Form.useTranslation`.
+45. Replace `Form.Visibility` props: `withValue` → `hasValue`, `pathValue`/`whenValue` → `visibleWhen`.
 
 #### Phase 8: Verify
 
-47. Run `npx tsc --noEmit` to catch remaining type errors.
-48. Run your tests. Update any test selectors that query DatePicker/Expiry `input` elements (now `role="spinbutton"` sections).
-49. Search for remaining snake_case patterns using the grep command in [Verifying your migration](#verifying-your-migration).
+46. Run `npx tsc --noEmit` to catch remaining type errors.
+47. Run your tests. Update any test selectors that query DatePicker/Expiry `input` elements (now `role="spinbutton"` sections).
+48. Search for remaining snake_case patterns using the grep command in [Verifying your migration](#verifying-your-migration).
 
 ### Find-and-replace safety guide
 
@@ -1024,7 +1028,6 @@ See [DrawerList > DrawerListDataArrayObject](#drawerlistdataarrayobject-2) for t
 - Replace `on_pre_change` with `onPreChange`.
 - Replace `on_resize` with `onResize`.
 - Replace `on_select` with `onSelect`.
-- Replace `on_state_update` with `onStateUpdate`.
 
 #### Styling
 
@@ -1095,7 +1098,6 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `on_submit_focus` with `onSubmitFocus`.
 - Replace `on_submit_blur` with `onSubmitBlur`.
 - Replace `on_clear` with `onClear`.
-- Replace `on_state_update` with `onStateUpdate`.
 
 #### Translations
 
@@ -1123,6 +1125,7 @@ New props added:
 #### Properties
 
 - The deprecated `onStateUpdate` prop has been removed. Use `onChange` instead.
+- Replace `clear` with `showClearButton`.
 - Replace `label_direction` with `labelDirection`.
 - Replace `number_mask` with `numberMask`.
 - Replace `currency_mask` with `currencyMask`.
@@ -1162,7 +1165,6 @@ New props added:
 - Replace `on_blur` with `onBlur`.
 - Replace `on_submit_focus` with `onSubmitFocus`.
 - Replace `on_submit_blur` with `onSubmitBlur`.
-- Replace `on_state_update` with `onStateUpdate`.
 
 #### Deprecations and removals
 
@@ -1224,7 +1226,6 @@ New props added:
 #### Events
 
 - Replace `on_change` with `onChange`.
-- Replace `on_state_update` with `onStateUpdate`.
 
 ### [Radio.Group](/uilib/components/radio/)
 
@@ -1243,7 +1244,6 @@ New props added:
 #### Events
 
 - Replace `on_change` with `onChange`.
-- Replace `on_state_update` with `onStateUpdate`.
 
 ### [Textarea](/uilib/components/textarea/)
 
@@ -1295,7 +1295,6 @@ New props added:
 #### Events
 
 - Replace `on_change` with `onChange`.
-- Replace `on_state_update` with `onStateUpdate`.
 
 ### [Accordion.Group](/uilib/components/accordion/)
 
@@ -1532,7 +1531,6 @@ The `PaymentCard` types (`DNB`, `Visa`, `Mastercard`, `CardType`, `BankAxept`, `
 
 - Replace `on_change` with `onChange`.
 - Replace `on_change_end` with `onChangeEnd`.
-- Replace `on_state_update` with `onStateUpdate`.
 
 ### [Logo](/uilib/components/logo/)
 
@@ -2051,7 +2049,6 @@ The following properties on the event callback return object have been renamed:
 #### Events
 
 - Replace `on_change` with `onChange`.
-- Replace `on_state_update` with `onStateUpdate`.
 
 ### [ToggleButton.Group](/uilib/components/toggle-button/)
 

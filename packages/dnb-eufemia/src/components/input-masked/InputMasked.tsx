@@ -138,7 +138,7 @@ export type InputMaskedProps = Omit<
     submitButtonTitle?: string
     clearButtonTitle?: string
     placeholder?: React.ReactNode
-    clear?: boolean
+    showClearButton?: boolean
     keepPlaceholder?: boolean
     suffix?: InputMaskedSuffix
     align?: InputMaskedAlign
