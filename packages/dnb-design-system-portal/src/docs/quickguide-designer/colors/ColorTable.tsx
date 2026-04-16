@@ -216,7 +216,7 @@ const dataSbanken = [
     name: '--sb-color-orange-light-3',
     type: 'Tertiary',
     brandName: 'Orange light 3',
-    figmaName: 'Tertiary/Orange 3',
+    figmaName: 'Tertiary/Orange light 3',
   },
   {
     name: '--sb-color-magenta-light',
@@ -294,7 +294,7 @@ const dataSbanken = [
     name: '--sb-color-blue-light',
     type: 'Tertiary',
     brandName: 'Blue light',
-    figmaName: 'Tertiary/Blue',
+    figmaName: 'Tertiary/Blue light',
   },
   {
     name: '--sb-color-blue-light-2',
@@ -353,7 +353,7 @@ const dataSbanken = [
   {
     name: '--sb-color-gray-light-2',
     type: 'UX',
-    brandName: 'Gray light',
+    brandName: 'Gray light 2',
     figmaName: 'UX/Gray light 2',
   },
   {
@@ -378,7 +378,7 @@ const dataSbanken = [
     name: '--sb-color-gray-dark-neutral',
     type: 'UX',
     brandName: 'Gray dark neutral',
-    figmaName: 'UX/Dark gray neutral',
+    figmaName: 'UX/Gray dark neutral',
   },
   {
     name: '--sb-color-gray-neutral',
@@ -477,7 +477,7 @@ const dataUi = [
     name: '--color-mint-green-25',
     type: 'UX',
     brandName: 'Mintgreen 25%',
-    figmaName: 'UX/Mintgrønn 25%',
+    figmaName: 'UX/Mintgreen 25%',
   },
   {
     name: '--color-mint-green-12',
