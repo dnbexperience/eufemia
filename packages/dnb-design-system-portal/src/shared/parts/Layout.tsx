@@ -17,7 +17,7 @@ import {
   setPageFocusElement,
   scrollToLocationHashId,
 } from '@dnb/eufemia/src/shared/helpers'
-import { P, Logo, GlobalStatus } from '@dnb/eufemia/src'
+import { P, Logo, GlobalStatus, Section } from '@dnb/eufemia/src'
 import './PortalStyle.scss'
 import {
   portalStyle,
@@ -170,20 +170,21 @@ const MainContent = ({ mainRef, ...props }) => (
 
 const Footer = () => {
   return (
-    <footer className={footerStyle}>
-      <P>
-        <small>
-          Package release: {packageJson.releaseVersion} <br />
-          Portal update: {packageJson.buildVersion}
-        </small>
+    <Section
+      element="footer"
+      surface="dark"
+      innerSpace
+      className={footerStyle}
+    >
+      <P size="small">
+        Package release: {packageJson.releaseVersion} <br />
+        Portal update: {packageJson.buildVersion}
       </P>
 
       <Logo height="40" color="white" />
 
-      <Anchor to="/license" surface="dark">
-        Copyright (c) 2018-present DNB.no
-      </Anchor>
-    </footer>
+      <Anchor to="/license">Copyright (c) 2018-present DNB.no</Anchor>
+    </Section>
   )
 }
 

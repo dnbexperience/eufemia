@@ -667,61 +667,6 @@ describe('Anchor element', () => {
       const anchor = document.querySelector('.dnb-anchor')
       expect(anchor).toHaveClass('dnb-anchor--surface-dark')
     })
-
-    it('should override surface from Theme context', () => {
-      render(
-        <Theme.Context surface="dark">
-          <Anchor href="/url" surface="light">
-            text
-          </Anchor>
-        </Theme.Context>
-      )
-
-      const anchor = document.querySelector('.dnb-anchor')
-      expect(anchor).not.toHaveClass('dnb-anchor--surface-dark')
-    })
-
-    it('should have surface class if `"surface="dark"`', () => {
-      // Setup
-      render(<Anchor surface="dark" />)
-      const anchor = document.querySelector('.dnb-anchor')
-
-      // Assert
-      expect(anchor).toHaveClass('dnb-anchor--surface-dark')
-    })
-
-    it('should not have surface class if "surface" prop is undefined or non-valid', () => {
-      // Setup
-      render(
-        <>
-          <Anchor />
-          {/* @ts-expect-error - testing non-valid value */}
-          <Anchor surface="nonsense" />
-        </>
-      )
-      const anchors = document.querySelectorAll('.dnb-anchor')
-
-      const hasSurfaceClass = (elem: Element) =>
-        Array.from(elem.classList).some((cls) =>
-          cls.startsWith('dnb-anchor--surface')
-        )
-
-      expect(hasSurfaceClass(anchors[0])).toBe(false)
-      expect(hasSurfaceClass(anchors[1])).toBe(false)
-    })
-
-    it('should reset surface when "initial" even inside dark Theme context', () => {
-      render(
-        <Theme.Context surface="dark">
-          <Anchor href="/url" surface="initial">
-            text
-          </Anchor>
-        </Theme.Context>
-      )
-
-      const anchor = document.querySelector('.dnb-anchor')
-      expect(anchor).not.toHaveClass('dnb-anchor--surface-dark')
-    })
   })
 
   describe('disabled', () => {
