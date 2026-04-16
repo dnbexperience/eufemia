@@ -6,7 +6,7 @@ showTabs: true
 
 The Theme component is a helper component that lets you create nested theming solutions.
 
-`<Theme>` will by default create a `div` wrapper, when no custom element is defined (e.g. `element="span"`).
+**NB:** `<Theme>` wraps its children in a `div` by default. Use e.g. `element="span"` to change the wrapper element, or use `Theme.Context` to skip the wrapper entirely (see below).
 
 ```tsx
 import { Theme, useTheme } from '@dnb/eufemia/shared'
@@ -47,6 +47,31 @@ From CSS you can use it as so:
   }
 }
 ```
+
+### React Hook `useTheme`
+
+For accessing the theme context, you can use the `useTheme` Hook. It returns the theme context, with an addition of boolean constants like `isSbanken`.
+
+```tsx
+import { Theme, useTheme } from '@dnb/eufemia/shared'
+
+const Component = () => {
+  // Result: { name: 'sbanken', isUi: false, isSbanken: true, isEiendom: false }
+  const theme = useTheme()
+  const { name, isUi, isSbanken, isEiendom } = theme || {}
+  return null
+}
+
+render(
+  <Theme name="sbanken">
+    <App>
+      <MyComponent />
+    </App>
+  </Theme>
+)
+```
+
+**NB:** If no context is given, the hook will return `null`.
 
 ### Theme.Context
 
@@ -105,35 +130,6 @@ render(
 )
 ```
 
-### React Hook useTheme
-
-For accessing the theme context, you can use the `useTheme` Hook. It returns the theme context, with an addition of boolean constants like `isSbanken`.
-
-```tsx
-import { Theme, useTheme } from '@dnb/eufemia/shared'
-
-const Component = () => {
-  // Result: { name: 'sbanken', isUi: false, isSbanken: true, isEiendom: false }
-  const theme = useTheme()
-  const { name, isUi, isSbanken, isEiendom } = theme || {}
-  return null
-}
-
-render(
-  <Theme name="sbanken">
-    <App>
-      <MyComponent />
-    </App>
-  </Theme>
-)
-```
-
-**NB:** If no context is given, the hook will return `null`.
-
-### Integrations
-
-By using the [gatsby-plugin-eufemia-theme-handler](https://github.com/dnbexperience/gatsby-plugin-eufemia-theme-handler) plugin, your app will get wrapped with this theme component.
-
 ### Hide or show parts of your component (filter)
 
 With this helper function you show or hide content based on inherited theme properties.
@@ -170,3 +166,7 @@ render(
   </Theme>
 )
 ```
+
+### Integrations
+
+By using the [gatsby-plugin-eufemia-theme-handler](https://github.com/dnbexperience/gatsby-plugin-eufemia-theme-handler) plugin, your app will get wrapped with this theme component.
