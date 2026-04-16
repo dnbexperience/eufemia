@@ -234,7 +234,7 @@ export function ParagraphProseMaxWidth() {
 
 export function ParagraphProseMaxWidthProvider() {
   return (
-    <ComponentBox hideCode>
+    <ComponentBox hideCode scope={{ Typography }}>
       <Flex.Stack>
         <Typography.Provider proseMaxWidth={60}>
           <P>
