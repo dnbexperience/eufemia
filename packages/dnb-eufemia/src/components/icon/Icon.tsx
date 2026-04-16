@@ -52,10 +52,7 @@ type IconType =
   | false
 
 /** For external usage */
-export type IconIcon =
-  | IconType
-  | FormStatusIcon
-  | IconFunction
+export type IconIcon = IconType | FormStatusIcon | IconFunction
 
 export type IconSize =
   | ValidIconNumericSize
@@ -206,8 +203,8 @@ export function calcSize(props: IconProps) {
         typeof icon === 'function'
           ? icon
           : React.isValidElement(icon) && typeof icon.type === 'function'
-            ? (icon.type as IconFunction)
-            : null
+          ? (icon.type as IconFunction)
+          : null
 
       // Skip direct execution for hook-based components to avoid invalid hook call order.
       const hasHooks = iconFn
