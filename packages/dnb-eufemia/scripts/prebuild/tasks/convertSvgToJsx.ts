@@ -215,7 +215,7 @@ const transformToJsx = (content, file): PromiseLike<string> => {
                 // Add type annotation to the props parameter
                 .replace(
                   /\(props\) =>/,
-                  `(props: React.SVGProps<SVGSVGElement>) =>`
+                  `(props: React.SVGProps<SVGSVGElement> & { title?: string }) =>`
                 )
           )
         })
