@@ -113,14 +113,6 @@ describe('Button component', () => {
     expect(document.querySelector('button')).toHaveAttribute('disabled')
   })
 
-  it('uses dark surface styling', () => {
-    render(<Button surface="dark">Button</Button>)
-
-    expect(document.querySelector('.dnb-button')).toHaveClass(
-      'dnb-button--surface-dark'
-    )
-  })
-
   it('uses dark surface styling from Theme context', () => {
     render(
       <Theme.Context surface="dark">
@@ -129,30 +121,6 @@ describe('Button component', () => {
     )
 
     expect(document.querySelector('.dnb-button')).toHaveClass(
-      'dnb-button--surface-dark'
-    )
-  })
-
-  it('overrides dark surface styling from Theme context', () => {
-    render(
-      <Theme.Context surface="dark">
-        <Button surface="light">Button</Button>
-      </Theme.Context>
-    )
-
-    expect(document.querySelector('.dnb-button')).not.toHaveClass(
-      'dnb-button--surface-dark'
-    )
-  })
-
-  it('resets surface when "initial" even inside dark Theme context', () => {
-    render(
-      <Theme.Context surface="dark">
-        <Button surface="initial">Button</Button>
-      </Theme.Context>
-    )
-
-    expect(document.querySelector('.dnb-button')).not.toHaveClass(
       'dnb-button--surface-dark'
     )
   })
