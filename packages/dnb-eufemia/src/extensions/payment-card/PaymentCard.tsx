@@ -104,7 +104,7 @@ export type PaymentCardProps = {
 } & Omit<React.HTMLProps<HTMLElement>, 'ref' | 'children'> &
   SpacingProps
 
-const translationDefaultPropsProps = {
+const translationDefaultPropsProps: Record<string, null> = {
   textBlocked: null,
   textExpired: null,
   textNotActive: null,
@@ -116,7 +116,8 @@ const translationDefaultPropsProps = {
   textUnknown: null,
 }
 
-const paymentCardDefaultProps = {
+const paymentCardDefaultProps: Partial<PaymentCardProps> &
+  Record<string, unknown> = {
   digits: 8,
   locale: null,
   cardStatus: 'active',

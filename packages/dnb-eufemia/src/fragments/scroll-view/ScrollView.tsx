@@ -30,7 +30,7 @@ export type ScrollViewAllProps = ScrollViewProps &
     ref?: React.Ref<unknown>
   }
 
-const defaultProps = {
+const defaultProps: Partial<ScrollViewAllProps> = {
   children: null,
 }
 

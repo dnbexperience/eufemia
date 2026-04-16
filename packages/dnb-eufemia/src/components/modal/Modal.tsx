@@ -43,7 +43,7 @@ export type ModalAllProps = ModalProps &
   SpacingProps &
   Omit<ScrollViewAllProps, 'children'>
 
-const modalDefaultProps = {
+const modalDefaultProps: Partial<ModalAllProps> = {
   spacing: true,
   dialogTitle: 'Vindu',
   closeTitle: 'Lukk',

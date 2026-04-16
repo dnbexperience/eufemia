@@ -277,7 +277,7 @@ export type InputSubmitButtonProps = Omit<
     onSubmitBlur?: (event: InputEvent<React.FocusEvent>) => void
   }
 
-export const inputDefaultProps = {
+export const inputDefaultProps: Partial<InputProps> = {
   type: 'text',
   size: null,
   value: 'initval',
@@ -860,7 +860,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   )
 }
 
-const inputSubmitButtonDefaultProps = {
+const inputSubmitButtonDefaultProps: Partial<InputSubmitButtonProps> = {
   id: null,
   value: null,
   title: null,

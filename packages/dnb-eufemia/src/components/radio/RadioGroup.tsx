@@ -72,7 +72,7 @@ export type RadioGroupProps = {
   onChange?: (event: RadioGroupChangeEvent) => void
 } & SpacingProps
 
-const radioGroupDefaultProps = {
+const radioGroupDefaultProps: Partial<RadioGroupProps> = {
   label: null,
   labelDirection: 'vertical',
   labelSrOnly: null,
