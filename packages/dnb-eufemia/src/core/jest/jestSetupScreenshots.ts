@@ -9,8 +9,25 @@ import { isCI } from 'repo-utils'
 import { slugify, makeUniqueId } from '../../shared/component-helper'
 import { configureToMatchImageSnapshot } from 'jest-image-snapshot'
 import screenshotConfig from '../../../jest.config.screenshots'
-import type { Page } from '@playwright/test'
+import type { Page, ElementHandle } from '@playwright/test'
 export { onMain, runOnMain, selectThemes } from './themeSelection'
+
+declare global {
+  // eslint-disable-next-line no-var
+  var IS_TEST: boolean
+  // eslint-disable-next-line no-var
+  var page: Page
+  // eslint-disable-next-line no-var
+  var themeName: string | null
+  // eslint-disable-next-line no-var
+  var pageUrl: string
+  // eslint-disable-next-line no-var
+  var pageViewport: { width?: number; height?: number } | null
+  // eslint-disable-next-line no-var
+  var rootClassName: string | string[] | null
+  // eslint-disable-next-line no-var
+  var __VISUAL_TEST_RETRY__: boolean | undefined
+}
 
 const playwrightSettings =
   screenshotConfig.testEnvironmentOptions['jest-playwright']
@@ -31,9 +48,13 @@ export const config = {
   },
   matchConfig: {
     failureThreshold: isCI ? 0.001 : 0, // Chromium needs 0.03, while webkit needs 0.04 or even more
-    failureThresholdType: 'percent',
-    comparisonMethod: 'pixelmatch',
-    customSnapshotIdentifier: ({ currentTestName }) => {
+    failureThresholdType: 'percent' as const,
+    comparisonMethod: 'pixelmatch' as const,
+    customSnapshotIdentifier: ({
+      currentTestName,
+    }: {
+      currentTestName: string
+    }) => {
       return slugify(currentTestName) + '.snap'
     },
   },
@@ -49,6 +70,14 @@ export { isCI }
 type ActionName = 'click' | 'hover' | 'focus' | 'focusclick' | 'active'
 type Action = { action?: ActionName; selector?: string; keypress?: string }
 type Simulate = Action | ActionName | (Action | ActionName)[]
+type MatchConfig = {
+  failureThreshold?: number
+  failureThresholdType?: 'pixel' | 'percent'
+  comparisonMethod?: 'pixelmatch' | 'ssim'
+  customSnapshotIdentifier?: (params: {
+    currentTestName: string
+  }) => string
+}
 
 // Helper function to apply test configuration to the page
 async function applyTestConfiguration(page: Page) {
@@ -263,11 +292,7 @@ export const makeScreenshot = async (
     /** Custom style to apply to the element wrapping the selected element */
     wrapperStyle?: Record<string, string>
     measureElement?: string
-    matchConfig?: {
-      failureThreshold?: number
-      failureThresholdType?: 'pixel' | 'percent'
-      comparisonMethod?: 'pixelmatch' | 'ssim' | 'ssim-fast'
-    }
+    matchConfig?: MatchConfig
     /**
      * Used if your simulation changes the height of the component
      *
@@ -403,11 +428,11 @@ export const makeScreenshot = async (
   return screenshot
 }
 
-export const setMatchConfig = (matchConfig) => {
+export const setMatchConfig = (matchConfig: MatchConfig) => {
   const cfg = {
     ...config.matchConfig,
     ...matchConfig,
-  }
+  } as const
   const toMatchImageSnapshot = configureToMatchImageSnapshot(cfg)
   expect.extend({ toMatchImageSnapshot })
 }
@@ -422,6 +447,15 @@ export const setupPageScreenshot = (
     fullscreen = false,
     timeout = 60e3,
     matchConfig = null,
+  }: {
+    page?: Page
+    url?: string
+    themeName?: string
+    pageViewport?: { width?: number; height?: number }
+    headers?: Record<string, string>
+    fullscreen?: boolean
+    timeout?: number
+    matchConfig?: MatchConfig
   } = { url: undefined }
 ) => {
   if (matchConfig) {
@@ -450,6 +484,12 @@ async function handleElement({
   style = null,
   rootClassName = null,
   styleSelector = null,
+}: {
+  page: Page
+  selector?: string
+  style?: Record<string, string>
+  rootClassName?: string | string[]
+  styleSelector?: string
 }) {
   const countSelectorElements = await page.evaluate(
     ({ selector }) => {
@@ -476,7 +516,7 @@ async function handleElement({
     throw new Error(
       `Ensure the selector '${selector}' exists only once! Found ${countSelectorElements}.`
     )
-  } else if (isNaN(parseFloat(countSelectorElements))) {
+  } else if (isNaN(parseFloat(String(countSelectorElements)))) {
     log.warn(`Count not extract main selector from '${selector}'!`)
   }
 
@@ -487,7 +527,7 @@ async function handleElement({
   if (style) {
     await page.$eval(
       styleSelector || selector,
-      (node, style) => {
+      (node: Element, style: string) => {
         node.setAttribute('style', style)
         return node
       },
@@ -517,11 +557,7 @@ async function makePageReady({
   pageViewport?: { width?: number; height?: number }
   headers?: Record<string, string>
   fullscreen?: boolean
-  matchConfig?: {
-    failureThreshold?: number
-    failureThresholdType?: 'pixel' | 'percent'
-    comparisonMethod?: 'pixelmatch' | 'ssim' | 'ssim-fast'
-  }
+  matchConfig?: MatchConfig
 }) {
   if (matchConfig) {
     setMatchConfig(matchConfig)
@@ -547,16 +583,22 @@ async function makePageReady({
   await page.waitForTimeout(50)
 }
 
-async function handleRootClassName({ page, rootClassName }) {
+async function handleRootClassName({
+  page,
+  rootClassName,
+}: {
+  page: Page
+  rootClassName?: string | string[]
+}) {
   // This removes a previous added global css class to HTML
   if (global.rootClassName) {
     await page.evaluate(
-      ({ rootClassName }) => {
+      ({ rootClassName }: { rootClassName: string | string[] }) => {
         const elem = document.documentElement
-        if (!Array.isArray(rootClassName)) {
-          rootClassName = [rootClassName]
-        }
-        rootClassName.forEach((className) => {
+        const classes = Array.isArray(rootClassName)
+          ? rootClassName
+          : [rootClassName]
+        classes.forEach((className) => {
           if (elem.classList.contains(className)) {
             elem.classList.remove(className)
           }
@@ -572,12 +614,12 @@ async function handleRootClassName({ page, rootClassName }) {
   // This adds a global css class to HTML
   if (rootClassName) {
     await page.evaluate(
-      ({ rootClassName }) => {
+      ({ rootClassName }: { rootClassName: string | string[] }) => {
         const elem = document.documentElement
-        if (!Array.isArray(rootClassName)) {
-          rootClassName = [rootClassName]
-        }
-        rootClassName.forEach((className) => {
+        const classes = Array.isArray(rootClassName)
+          ? rootClassName
+          : [rootClassName]
+        classes.forEach((className) => {
           if (!elem.classList.contains(className)) {
             elem.classList.add(className)
           }
@@ -589,7 +631,15 @@ async function handleRootClassName({ page, rootClassName }) {
   }
 }
 
-async function handleMeasureOfElement({ page, measureElement, selector }) {
+async function handleMeasureOfElement({
+  page,
+  measureElement,
+  selector,
+}: {
+  page: Page
+  measureElement?: string
+  selector: string
+}) {
   if (measureElement) {
     const pixelGrid = config.pixelGrid
     if (selector !== measureElement) {
@@ -605,8 +655,8 @@ async function handleMeasureOfElement({ page, measureElement, selector }) {
       }
     )
     const heightInPixelsFloat = parseFloat(heightInPixels)
-    const isInEightSeries = (num) => num % pixelGrid
-    const howManyPixelsToNextEight = (num) => {
+    const isInEightSeries = (num: number) => num % pixelGrid
+    const howManyPixelsToNextEight = (num: number) => {
       const v = isInEightSeries(num)
       return v === 0 ? v : pixelGrid - v
     }
@@ -626,9 +676,13 @@ async function takeScreenshot({
   page,
   screenshotElement,
   screenshotSelector,
+}: {
+  page: Page
+  screenshotElement: ElementHandle<Element>
+  screenshotSelector?: string
 }) {
   if (screenshotSelector) {
-    await page.waitForSelector(screenshotSelector, { visible: true })
+    await page.waitForSelector(screenshotSelector, { state: 'visible' })
     screenshotElement = await page.$(screenshotSelector)
   }
 
@@ -644,8 +698,8 @@ async function handleSimulation({
   waitAfterSimulate = undefined,
   waitBeforeSimulate = undefined,
 }: {
-  page
-  element
+  page: Page
+  element: ElementHandle<Element>
   simulate: Simulate
   simulateSelector?: string
   waitAfterSimulateSelector?: string
@@ -716,7 +770,7 @@ async function handleSimulation({
 
           case 'focus': {
             await page.keyboard.press('Tab') // to simulate pressing tab key before focus
-            await elementToSimulate.focus({ force: true })
+            await elementToSimulate.focus()
             break
           }
         }
@@ -733,7 +787,7 @@ async function handleSimulation({
   // wait before taking screenshot
   if (waitAfterSimulateSelector) {
     await page.waitForSelector(waitAfterSimulateSelector, {
-      visible: true,
+      state: 'visible',
     })
   }
   if (waitAfterSimulate) {
@@ -747,7 +801,15 @@ async function handleSimulation({
   }
 }
 
-async function wrapperCleanup({ page, selector, addWrapper }) {
+async function wrapperCleanup({
+  page,
+  selector,
+  addWrapper,
+}: {
+  page: Page
+  selector: string
+  addWrapper: boolean
+}) {
   if (addWrapper) {
     await page.evaluate(
       ({ selector }) => {
@@ -757,7 +819,9 @@ async function wrapperCleanup({ page, selector, addWrapper }) {
         )
 
         if (wrapperElement) {
-          wrapperElement.replaceWith(...wrapperElement.childNodes)
+          wrapperElement.replaceWith(
+            ...Array.from(wrapperElement.childNodes)
+          )
         }
 
         return wrapperElement
@@ -775,6 +839,12 @@ async function handleWrapper({
   wrapperStyle,
   addWrapper,
   element,
+}: {
+  page: Page
+  selector: string
+  wrapperStyle?: Record<string, string>
+  addWrapper: boolean
+  element: ElementHandle<Element>
 }) {
   // now we wrap the element and apply a padding to it
   // the reason is because on some styles we have a shadow around,
@@ -792,7 +862,7 @@ async function handleWrapper({
         const element = document.querySelector(selector)?.parentNode
 
         const backgroundColor = window
-          .getComputedStyle(element)
+          .getComputedStyle(element as Element)
           ?.getPropertyValue('background-color')
 
         // if transparent, do nothing
@@ -824,7 +894,14 @@ async function handleWrapper({
     // wrap the element/selector and give the wrapper also a style
     await page.$eval(
       selector,
-      (element, { id, style, isHeadless }) => {
+      (
+        element: Element,
+        {
+          id,
+          style,
+          isHeadless,
+        }: { id: string; style: string; isHeadless: boolean }
+      ) => {
         const attrValue = element.getAttribute('data-visual-test')
 
         const wrapperElement = document.createElement('div')
@@ -871,7 +948,15 @@ async function handleWrapper({
   return element
 }
 
-async function handleWrapperHeightChange({ page, selector, element }) {
+async function handleWrapperHeightChange({
+  page,
+  selector,
+  element,
+}: {
+  page: Page
+  selector: string
+  element: ElementHandle<Element>
+}) {
   const { height } = await element.boundingBox()
 
   await page.evaluate(
@@ -880,7 +965,7 @@ async function handleWrapperHeightChange({ page, selector, element }) {
       const wrapperElement = element.closest('[data-visual-test-wrapper]')
 
       if (wrapperElement) {
-        wrapperElement.style.height = `${height + 32}px`
+        ;(wrapperElement as HTMLElement).style.height = `${height + 32}px`
       }
       return wrapperElement
     },
@@ -891,11 +976,15 @@ async function handleWrapperHeightChange({ page, selector, element }) {
   )
 }
 
-export const loadImage = async (imagePath) =>
+export const loadImage = async (imagePath: string) =>
   await fs.readFile(path.resolve(imagePath))
 
 // make sure "${url}/" has actually a slash on the end
-const createUrl = (url, fullscreen = true, themeName = null) => {
+const createUrl = (
+  url: string,
+  fullscreen = true,
+  themeName: string | null = null
+) => {
   const newURL = new URL(
     url,
     `http://${config.testScreenshotOnHost}:${config.testScreenshotOnPort}`
@@ -914,7 +1003,7 @@ const createUrl = (url, fullscreen = true, themeName = null) => {
   return newURL.toString()
 }
 
-const makeStyles = (style) =>
+const makeStyles = (style: Record<string, string>) =>
   Object.entries(style)
     .filter(([k, v]) => k && v)
     .map(([k, v]) => `${k}: ${v}`)
