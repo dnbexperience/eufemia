@@ -16,11 +16,6 @@ export type ModalHeaderBarProps = {
    */
   children?: React.ReactNode
 
-  /**
-   * Give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).
-   */
-  className?: string
-
   shadowClass?: string
 } & Omit<SectionProps, 'children'>
 
@@ -86,7 +81,6 @@ export default function ModalHeaderBar({
 
   return (
     <Section
-      backgroundColor="white"
       className={clsx(
         'dnb-modal__header__bar',
         showShadow && shadowClass,

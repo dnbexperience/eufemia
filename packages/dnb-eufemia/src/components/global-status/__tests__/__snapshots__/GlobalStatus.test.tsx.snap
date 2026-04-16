@@ -1208,9 +1208,6 @@ button.dnb-button::-moz-focus-inner {
   right: 1rem;
   left: auto;
 }
-.dnb-modal__content__inner .dnb-global-status__close-button {
-  right: 0;
-}
 .dnb-global-status__content {
   width: 100%;
 }

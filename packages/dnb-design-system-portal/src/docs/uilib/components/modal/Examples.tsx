@@ -8,27 +8,23 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 
 import { Modal, P, Button, Input, HelpButton } from '@dnb/eufemia/src'
 
-export const ExampleCard = ({ children }) => (
-  <div
-    id="example-card"
-    style={{ padding: '2rem', backgroundColor: 'white' }}
-  >
-    {children}
-  </div>
-)
-
 export const ModalExampleStandard = () => (
-  <ComponentBox data-visual-test="modal-standard" scope={{ ExampleCard }}>
+  <ComponentBox data-visual-test="modal-standard">
     <Modal>
-      <ExampleCard>
+      <div
+        style={{
+          padding: '2rem',
+          backgroundColor: 'var(--token-color-background-neutral)',
+        }}
+      >
         <P>This is a Modal that you can use to make custom variations</P>
-      </ExampleCard>
+      </div>
     </Modal>
   </ComponentBox>
 )
 
 export const ModalExampleStateOnly = () => (
-  <ComponentBox scope={{ ExampleCard }}>
+  <ComponentBox>
     {() => {
       const Component = () => {
         const [modalIsActive, setModalState] = React.useState(false)
@@ -46,9 +42,14 @@ export const ModalExampleStateOnly = () => (
               labelledBy="custom-triggerer"
               onClose={() => setModalState(false)}
             >
-              <ExampleCard>
+              <div
+                style={{
+                  padding: '2rem',
+                  backgroundColor: 'var(--token-color-background-neutral)',
+                }}
+              >
                 <P>This Modal was opened by a custom trigger button.</P>
-              </ExampleCard>
+              </div>
             </Modal>
           </>
         )
@@ -60,7 +61,7 @@ export const ModalExampleStateOnly = () => (
 )
 
 export const ModalExampleCloseByHandler = () => (
-  <ComponentBox scope={{ ExampleCard }}>
+  <ComponentBox>
     <Modal
       title="Auto close"
       triggerAttributes={{ text: 'Click me' }}
@@ -71,9 +72,14 @@ export const ModalExampleCloseByHandler = () => (
         return () => clearTimeout(timeout)
       }}
     >
-      <ExampleCard>
+      <div
+        style={{
+          padding: '2rem',
+          backgroundColor: 'var(--token-color-background-neutral)',
+        }}
+      >
         <P>This Modal will close in 3 seconds.</P>
-      </ExampleCard>
+      </div>
     </Modal>
   </ComponentBox>
 )

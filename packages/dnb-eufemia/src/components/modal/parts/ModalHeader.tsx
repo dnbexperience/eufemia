@@ -23,11 +23,6 @@ export type ModalHeaderProps = {
   title?: React.ReactNode
 
   /**
-   * Give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).
-   */
-  className?: string
-
-  /**
    * Give the h1 component a classname (maps to `dnb-modal__title`)
    */
   titleClass?: string
@@ -41,7 +36,6 @@ export type ModalHeaderProps = {
 
 export default function ModalHeader({
   title = null,
-  className = null,
   children = null,
   titleClass = null,
   size = null,
@@ -61,8 +55,6 @@ export default function ModalHeader({
 
   return (
     <Section
-      backgroundColor="white"
-      className={clsx(className)}
       id={showTitle ? 'dnb-modal-' + context.id + '-title' : undefined}
       {...sectionProps}
     >

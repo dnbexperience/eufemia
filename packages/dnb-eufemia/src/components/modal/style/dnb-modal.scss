@@ -76,6 +76,12 @@ html[data-dnb-modal-active] {
 
     width: 100%;
     height: 100%;
+
+    --modal-overlay-bg: rgb(0 0 0 / 32%);
+    background-color: var(--modal-overlay-bg);
+  }
+  &__color-scheme--dark#{&}__overlay {
+    --modal-overlay-bg: rgb(0 0 0 / 48%);
   }
 
   &-root__inner &__overlay {

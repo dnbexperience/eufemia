@@ -3,13 +3,7 @@
  *
  */
 
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import clsx from 'clsx'
 import {
@@ -49,10 +43,6 @@ declare global {
   }
 }
 
-type CSSPropertiesWithVars = {
-  '--modal-background-color': string
-} & React.CSSProperties
-
 export default function ModalContent(props: ModalContentProps) {
   const {
     hide,
@@ -86,7 +76,6 @@ export default function ModalContent(props: ModalContentProps) {
   } = props
 
   const context = useContext(Context)
-  const [color, setColor] = useState<string | null>(null)
 
   const internalContentRef = useRef<HTMLElement>(null)
   const contentRef = contentRefProp || internalContentRef
@@ -510,6 +499,8 @@ export default function ModalContent(props: ModalContentProps) {
       ? children({ ...rest, close })
       : children
 
+  const { colorScheme } = context?.theme || {}
+
   return (
     <ModalContext
       value={{
@@ -519,7 +510,6 @@ export default function ModalContent(props: ModalContentProps) {
         closeButtonAttributes,
         closeTitle,
         hide,
-        setBackgroundColor: setColor,
         onCloseClickHandler,
         preventClick,
         onKeyDownHandler: stableOnKeyDownHandler,
@@ -529,21 +519,14 @@ export default function ModalContent(props: ModalContentProps) {
         close,
       }}
     >
-      <div
-        id={usedContentId}
-        style={
-          (color
-            ? { '--modal-background-color': `var(--color-${color})` }
-            : null) as CSSPropertiesWithVars
-        }
-        {...contentParams}
-      >
+      <div id={usedContentId} {...contentParams}>
         {content}
       </div>
 
       <span
         className={clsx(
           'dnb-modal__overlay',
+          colorScheme && `dnb-modal__color-scheme--${colorScheme}`,
           hide && 'dnb-modal__overlay--hide',
           noAnimation && 'dnb-modal__overlay--no-animation',
           noAnimationOnMobile &&

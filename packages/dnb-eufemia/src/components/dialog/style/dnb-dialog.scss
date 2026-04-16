@@ -17,21 +17,25 @@
   --dialog-radius: 0.5rem;
   --dialog-padding: calc(var(--dialog-spacing) * 1.75);
   --dialog-icon-positioning: -50%;
+  --dialog-background-color: var(--token-color-background-neutral, white);
+  --dialog-stroke-color: var(--token-color-stroke-neutral-subtle);
 
   position: relative;
-  border-radius: var(--dialog-radius);
-
-  @include utilities.fakeBorder(
-    $color: var(--token-color-stroke-neutral-subtle),
-    $extendShadow: var(--shadow-default)
-  );
-  user-select: text; // Safari / Touch fix
-  border: none;
-  -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
-  background: var(--token-color-background-neutral);
 
   max-height: 100vh;
   overflow: hidden;
+
+  user-select: text; // Safari / Touch fix
+  border: none;
+  -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
+
+  border-radius: var(--dialog-radius);
+  background-color: var(--dialog-background-color);
+
+  @include utilities.fakeBorder(
+    $color: var(--dialog-stroke-color),
+    $extendShadow: var(--shadow-default)
+  );
 
   & > .dnb-scroll-view {
     height: 100%; // ensure a Dropdown opens with the full height
@@ -168,6 +172,8 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
+    --background-color: var(--dialog-background-color);
   }
 
   @include modal-mixins.modalStickyNav();

@@ -28,6 +28,17 @@
   --drawer-max-width: 40rem;
   --drawer-spacing: 2rem; // should reflect --spacing-large
   --drawer-spacing-minus: -2rem; // should reflect --spacing-large
+  --drawer-background-color: var(--token-color-background-neutral, white);
+  --drawer-body-background-color: var(
+    --token-color-background-neutral-subtle,
+    white
+  );
+
+  @include utilities.allBelow(small) {
+    --drawer-width: 100vw;
+    --drawer-min-width: none;
+    --drawer-max-width: none;
+  }
 
   position: relative;
   max-height: 100vh;
@@ -37,16 +48,12 @@
   min-width: var(--drawer-min-width);
   max-width: var(--drawer-max-width);
 
-  @include utilities.allBelow(small) {
-    --drawer-width: 100vw;
-    --drawer-min-width: none;
-    --drawer-max-width: none;
-  }
-
   @include utilities.defaultDropShadow();
   user-select: text; // Safari / Touch fix
   border: none;
   -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
+
+  background-color: var(--drawer-background-color);
 
   &--auto-fullscreen {
     @include utilities.allBelow(small) {
@@ -70,7 +77,10 @@
     min-height: calc(100% - var(--header-height, 0));
 
     /** Sets the color on scroll overflow (at the bottom) */
-    background-color: var(--modal-background-color, transparent);
+    background-color: var(--drawer-background-color);
+    &:has(.dnb-drawer__body) {
+      background-color: var(--drawer-body-background-color);
+    }
   }
 
   &__align--centered &__inner {
@@ -221,12 +231,18 @@
     @include utilities.isSafariMobile() {
       padding-bottom: calc(var(--drawer-spacing-minus) * 8);
     }
+
+    &.dnb-section {
+      --background-color: var(--drawer-body-background-color);
+    }
   }
 
   &__navigation.dnb-section {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
+    --background-color: var(--drawer-background-color);
   }
 
   @include modal-mixins.modalStickyNav();
