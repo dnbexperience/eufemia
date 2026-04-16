@@ -204,13 +204,18 @@ const transformToJsx = (content, file): PromiseLike<string> => {
               (
                 await prettier.format(res, {
                   ...prettierrc,
-                  parser: 'babel',
+                  parser: 'typescript',
                 })
               )
                 // This is a fix, so the Rollup ESM export does export React.createElement, and not only createElement with a named import
                 .replace(
                   new RegExp(`import \\* as React from 'react'`, 'g'),
                   `import React from 'react'`
+                )
+                // Add type annotation to the props parameter
+                .replace(
+                  /\(props\) =>/,
+                  `(props: React.SVGProps<SVGSVGElement>) =>`
                 )
           )
         })
