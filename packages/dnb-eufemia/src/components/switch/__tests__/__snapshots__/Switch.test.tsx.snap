@@ -242,10 +242,8 @@ button .dnb-form-status__text {
 .dnb-switch__button {
   position: absolute;
   z-index: 4;
-  border-radius: 50%;
-}
-.dnb-switch__button {
   left: 0;
+  border-radius: 50%;
   width: var(--switch-button-size-off--medium);
   height: var(--switch-button-size-off--medium);
   background-color: var(--token-color-background-action-alternative);
@@ -257,6 +255,7 @@ button .dnb-form-status__text {
   border-width: var(--switch-border-width--large);
 }
 .dnb-switch {
+  /* stylelint-disable no-descending-specificity */
   /*
     * When switched OFF
     * aka when the switch is not :checked
@@ -373,15 +372,9 @@ html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-sw
   order: 3;
   margin-top: 0.5rem;
 }
-.dnb-switch.dnb-skeleton .dnb-switch__input[disabled] ~ .dnb-switch__button, .dnb-switch.dnb-skeleton .dnb-switch__input[disabled] ~ .dnb-switch__background::after {
-  border-color: var(--skeleton-color);
-}
 .dnb-switch.dnb-skeleton .dnb-switch__input[disabled] ~ .dnb-switch__background {
   background-color: var(--skeleton-color);
-}
-.dnb-switch.dnb-skeleton .dnb-switch__input[disabled]:not(:checked) ~ .dnb-switch__background::after {
-  content: "";
-  border-color: var(--skeleton-color--contrast);
+  border-color: var(--skeleton-color);
 }
 .dnb-switch {
   /*
@@ -441,18 +434,18 @@ html[data-whatinput=keyboard] .dnb-switch__input:checked:not([disabled]):focus ~
     *
     */
 }
-.dnb-switch__input[disabled] ~ .dnb-switch__background {
+.dnb-switch:not(.dnb-skeleton) .dnb-switch__input[disabled] ~ .dnb-switch__background {
   background-color: var(--token-color-background-neutral);
   border-color: var(--token-color-stroke-action-disabled);
 }
-.dnb-switch__input[disabled] ~ .dnb-switch__button {
+.dnb-switch:not(.dnb-skeleton) .dnb-switch__input[disabled] ~ .dnb-switch__button {
   background-color: var(--token-color-background-action-disabled);
 }
-.dnb-switch__input[disabled]:checked ~ .dnb-switch__background {
+.dnb-switch:not(.dnb-skeleton) .dnb-switch__input[disabled]:checked ~ .dnb-switch__background {
   background-color: var(--token-color-background-action-disabled);
   border-color: var(--token-color-background-action-disabled);
 }
-.dnb-switch__input[disabled]:checked ~ .dnb-switch__button {
+.dnb-switch:not(.dnb-skeleton) .dnb-switch__input[disabled]:checked ~ .dnb-switch__button {
   background-color: var(--token-color-background-neutral);
 }
 .dnb-switch {
