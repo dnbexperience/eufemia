@@ -21,12 +21,14 @@
   --checkbox-gfx-width__indeterminate--large: 0.875rem;
   // Normal state
   --checkbox-border-width: 0.09375rem;
-  --checkbox-color-gfx-on: black;
-  --checkbox-color-gfx-off: white;
-  --checkbox-color-background-on: white;
-  --checkbox-color-background-off: white;
-  --checkbox-color-border-on: black;
-  --checkbox-color-border-off: black;
+  --checkbox-color-gfx-on: var(--token-color-icon-neutral-inverse);
+  --checkbox-color-background-off: var(--token-color-background-neutral);
+  --checkbox-color-background-on: var(--token-color-background-selected);
+  --checkbox-color-background-off: var(--token-color-background-neutral);
+  --checkbox-color-border-on: var(--token-color-background-selected);
+  --checkbox-color-border-off: var(
+    --token-color-stroke-action-alternative
+  );
   // Disabled state
   --checkbox-border-width--disabled: 0.125rem;
   --checkbox-color-gfx--disabled: grey;

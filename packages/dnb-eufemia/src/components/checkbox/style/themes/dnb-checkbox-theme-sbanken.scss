@@ -6,12 +6,6 @@
 .dnb-checkbox {
   // Normal state
   --checkbox-border-width: 0.0625rem;
-  --checkbox-color-gfx-on: var(--sb-color-violet-light);
-  --checkbox-color-gfx-off: var(--sb-color-white);
-  --checkbox-color-background-on: var(--sb-color-white);
-  --checkbox-color-background-off: var(--sb-color-white);
-  --checkbox-color-border-on: var(--sb-color-violet);
-  --checkbox-color-border-off: var(--sb-color-violet);
   // Disabled state
   --checkbox-border-width--disabled: 0.0625rem;
   --checkbox-color-gfx--disabled: var(--sb-color-gray-dark);
