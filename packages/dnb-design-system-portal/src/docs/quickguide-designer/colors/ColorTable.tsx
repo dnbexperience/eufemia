@@ -353,7 +353,7 @@ const dataSbanken = [
   {
     name: '--sb-color-gray-light-2',
     type: 'UX',
-    brandName: 'Gray light',
+    brandName: 'Gray light 2',
     figmaName: 'UX/Gray light 2',
   },
   {
@@ -477,7 +477,7 @@ const dataUi = [
     name: '--color-mint-green-25',
     type: 'UX',
     brandName: 'Mintgreen 25%',
-    figmaName: 'UX/Mintgrønn 25%',
+    figmaName: 'UX/Mintgreen 25%',
   },
   {
     name: '--color-mint-green-12',
@@ -600,7 +600,7 @@ const getRow = (
 
   if (!color) {
     return (
-      <tr>
+      <tr key={name}>
         <td colSpan={7}>
           Color <MDXCode>{name}</MDXCode> could not be found
         </td>
@@ -609,7 +609,7 @@ const getRow = (
   }
 
   return (
-    <tr key={color}>
+    <tr key={name}>
       <td>{color}</td>
       <td>{type || 'N/A'}</td>
       <td>{brandName || 'N/A'}</td>
