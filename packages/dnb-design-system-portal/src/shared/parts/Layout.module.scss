@@ -204,21 +204,12 @@
   position: relative;
   z-index: 2; /* 1 higher than aside */
 
-  display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 2rem;
 
-  padding: 1rem;
-
-  border-top: 1px solid var(--color-black-border);
-  background-color: var(--footer-bg);
-  color: var(--color-white);
-
-  :global {
-    .dnb-p {
-      color: var(--color-white);
-    }
+  &:global(.dnb-section) {
+    display: flex;
   }
 }
 

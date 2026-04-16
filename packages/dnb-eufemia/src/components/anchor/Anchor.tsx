@@ -20,7 +20,6 @@ import { launch as launchIcon } from '../../icons'
 import type { IconIcon } from '../icon/Icon'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { DynamicElement, SpacingProps } from '../../shared/types'
-import type { ThemeSurface } from '../../shared/Theme'
 
 // Local type for react-router-dom link with only the necessary props. Done this way to prevent react-router-dom dependency.
 type ReactRouterLink = Omit<
@@ -82,11 +81,6 @@ export type AnchorProps = {
    * Default: `false`
    */
   disabled?: boolean
-  /**
-   * Used to override the `surface` value from `Theme.Context`. Changes component style based on background.
-   * Use `'initial'` to reset to the component's default behavior. Defaults to `undefined` if there is no `Theme.Context`.
-   */
-  surface?: ThemeSurface
 }
 
 export type AnchorAllProps = AnchorProps &
@@ -108,7 +102,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
   const allProps = extendPropsWithContext(
     localProps,
     defaultProps,
-    { skeleton: context?.skeleton, surface: context?.theme?.surface },
+    { skeleton: context?.skeleton },
     context?.getTranslation(localProps as AnchorAllProps).Anchor,
     context?.Anchor
   )
@@ -139,7 +133,6 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     noIcon,
     noLaunchIcon,
     disabled,
-    surface,
     ...rest
   } = allProps
 
@@ -237,7 +230,8 @@ export function AnchorInstance(localProps: AnchorAllProps) {
               noLaunchIcon &&
                 !className?.includes('dnb-anchor--no-launch-icon') &&
                 'dnb-anchor--no-launch-icon',
-              surface === 'dark' && 'dnb-anchor--surface-dark'
+              context?.theme?.surface === 'dark' &&
+                'dnb-anchor--surface-dark'
             ),
           className
         )}

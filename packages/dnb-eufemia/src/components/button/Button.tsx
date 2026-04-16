@@ -37,7 +37,6 @@ import type {
 } from '../../shared/types'
 import type { FormStatusBaseProps } from '../FormStatus'
 import type { AnchorProps } from '../Anchor'
-import type { ThemeSurface } from '../../shared/Theme'
 
 export type ButtonText = string | React.ReactNode
 export type ButtonVariant =
@@ -109,10 +108,6 @@ export type ButtonProps = {
    * Defines the kind of button. Possible values are `primary`, `secondary` and `tertiary`. Defaults to `primary` (or `secondary` if icon only).
    */
   variant?: ButtonVariant
-  /**
-   * Used to override the `surface` value from `Theme.Context`. Changes component style based on background. Defaults to `undefined` if there is no `Theme.Context`.
-   */
-  surface?: ThemeSurface
   /**
    * The size of the button. There is `default`, `small`, `medium` and `large`. The `tertiary` button officially supports only default and large.
    */
@@ -289,7 +284,6 @@ function Button({ ref, ...restProps }: ButtonProps) {
     skeleton,
     element,
     selected,
-    surface = context?.theme?.surface,
     ...attributes
   } = props
 
@@ -367,7 +361,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
     'dnb-button',
     `dnb-button--${usedVariant || 'primary'}`,
     usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
-    surface === 'dark' && `dnb-button--surface-dark`,
+    context?.theme?.surface === 'dark' && `dnb-button--surface-dark`,
     usedIcon && `dnb-button--icon-position-${iconPosition}`,
     stretch && 'dnb-button--stretch',
     usedIcon && usedIconSize && `dnb-button--icon-size-${usedIconSize}`,
