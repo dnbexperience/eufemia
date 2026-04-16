@@ -105,7 +105,7 @@ p > .dnb-icon {
     --accordion-color-description--default
   );
   --accordion-color-bg: var(--accordion-color-bg--default);
-  --accordion-color-border: var(--accordion-color-boder--default);
+  --accordion-color-border: var(--accordion-color-border--default);
   --accordion-border-width: var(
     --accordion-border-width--default,
     0.0625rem
