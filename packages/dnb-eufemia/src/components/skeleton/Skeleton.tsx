@@ -63,7 +63,7 @@ export type SkeletonProps = {
 } & Omit<React.HTMLProps<HTMLElement>, 'ref' | 'children'> &
   SpacingProps
 
-const skeletonDefaultProps = {
+const skeletonDefaultProps: Partial<SkeletonProps> = {
   show: null,
   skeleton: null,
   noAnimation: null,

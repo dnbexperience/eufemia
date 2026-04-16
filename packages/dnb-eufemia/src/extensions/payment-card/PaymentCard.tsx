@@ -3,7 +3,7 @@
  */
 import React, { useContext } from 'react'
 import clsx from 'clsx'
-import Context from '../../shared/Context'
+import Context, { type Translation } from '../../shared/Context'
 import Provider from '../../shared/Provider'
 import {
   validateDOMAttributes,
@@ -104,7 +104,12 @@ export type PaymentCardProps = {
 } & Omit<React.HTMLProps<HTMLElement>, 'ref' | 'children'> &
   SpacingProps
 
-const translationDefaultPropsProps = {
+type PaymentCardTranslation = NonNullable<Translation['PaymentCard']>
+
+const translationDefaultPropsProps: Record<
+  keyof PaymentCardTranslation,
+  null
+> = {
   textBlocked: null,
   textExpired: null,
   textNotActive: null,
@@ -116,7 +121,7 @@ const translationDefaultPropsProps = {
   textUnknown: null,
 }
 
-const paymentCardDefaultProps = {
+const paymentCardDefaultProps: Partial<PaymentCardProps> = {
   digits: 8,
   locale: null,
   cardStatus: 'active',
@@ -128,8 +133,6 @@ const paymentCardDefaultProps = {
   skeleton: false,
   className: null,
   children: null,
-
-  ...translationDefaultPropsProps,
 }
 
 function PaymentCard(props: PaymentCardProps) {

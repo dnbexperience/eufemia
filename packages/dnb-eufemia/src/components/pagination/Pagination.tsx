@@ -235,7 +235,7 @@ export type PaginationCreateReturn = {
   endInfinity: () => void
 }
 
-const paginationDefaultProps = {
+const paginationDefaultProps: Partial<PaginationProps> = {
   startupPage: null,
   currentPage: null,
   pageCount: null,

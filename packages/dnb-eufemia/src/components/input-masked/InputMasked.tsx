@@ -201,8 +201,9 @@ function InputMasked({ ref, ...restProps }: InputMaskedProps) {
   )
 }
 
-const defaultProps = {
-  ...inputDefaultProps,
+const { onKeyDown: _, ...inputBaseDefaults } = inputDefaultProps
+const defaultProps: Partial<InputMaskedProps> = {
+  ...inputBaseDefaults,
   mask: null,
   numberMask: null,
   currencyMask: null,

@@ -140,7 +140,7 @@ export type NumberFormatAllProps = NumberFormatProps &
 
 export const COPY_TOOLTIP_TIMEOUT = 3000
 
-const numberFormatDefaultProps = {
+const numberFormatDefaultProps: Partial<NumberFormatAllProps> = {
   id: null,
   value: null,
   locale: null,
