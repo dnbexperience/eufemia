@@ -39,6 +39,7 @@ This is the migration guide for @dnb/eufemia v11. It covers all breaking changes
   - [innerRef → ref](#innerref--ref)
   - [Context.Provider → Context](#contextprovider--context)
   - [Theme.Provider → Theme.Context](#themeprovider--themecontext)
+  - [Theme propMapping removed](#theme-propmapping-removed)
 - [Components](#components)
   - [labelDirection default changed to vertical](#labeldirection-default-changed-to-vertical)
   - [Section](#section)
@@ -385,7 +386,7 @@ These renames use generic names that exist in non-Eufemia code. Scope your find-
 
 33. Update all changed import paths. See [Import path changes](#import-path-changes).
 34. If using Ajv with JSON Schema validation, add `ajvInstance={makeAjvInstance()}` to `Form.Handler`. See [Ajv no longer shipped by default](#ajv-no-longer-shipped-by-default).
-35. Replace `InputPassword` import with `Field.Password` from Eufemia Forms. See [InputPassword moved to Field.Password](#inputpassword-moved-to-field-password).
+35. Replace `InputPassword` import with `Field.Password` from Eufemia Forms. See [InputPassword moved to Field.Password](#inputpassword-moved-to-fieldpassword).
 36. Replace `StepsLayout` with `Wizard.Container`, `StepsLayout.Step` with `Wizard.Step`, etc.
 
 #### Phase 5: SCSS changes
@@ -463,6 +464,8 @@ npx tsc --noEmit
 grep -rn 'on_\|status_\|label_\|icon_\|_class\b\|inner_ref\|_state\|_position\|_button\|_text\|_sr_' \
   --include='*.tsx' --include='*.ts' src/
 ```
+
+> **Note:** This grep only catches snake_case patterns. Semantic renames like `opened` → `open`, `prerender` → `keepInDOM`, `clear` → `showClearButton`, and `expandBehaviour` → `expandBehavior` require manual review using the [Semantic renames](#semantic-renames-not-just-casing) table.
 
 **Common TypeScript errors and what they mean:**
 
@@ -888,7 +891,7 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `open_on_focus` with `openOnFocus`.
 - Replace `drawer_class` with `drawerClass`.
 - Replace `prevent_focus` with `preventFocus`.
-- ~~Replace `action_menu` with `actionMenu`.~~ The `actionMenu` (and `action_menu`) prop has been removed from DrawerList. Use the new [Menu](/uilib/components/menu/) component instead.
+- ~~Replace `action_menu` with `actionMenu`.~~ The `actionMenu` (and `action_menu`) prop has been removed. Use the new [Menu](/uilib/components/menu/) component instead.
 - Replace `is_popup` with `isPopup`.
 - Replace `selectall` with `selectAll`.
 
@@ -927,7 +930,7 @@ The following properties have been renamed from snake_case to camelCase:
 
 #### DrawerListDataArrayObject
 
-See [DrawerList > DrawerListDataArrayObject](#drawerlistdataarrayobject-2) for the property renames.
+Data object property renames: `selected_value` → `selectedValue`, `suffix_value` → `suffixValue`, `search_content` → `searchContent`, `class_name` → `className`. See [DrawerList](#drawerlist) for details.
 
 ### [Dropdown](/uilib/components/dropdown/)
 
@@ -998,7 +1001,7 @@ The following properties have been renamed from snake_case to camelCase:
 
 #### DrawerListDataArrayObject
 
-See [DrawerList > DrawerListDataArrayObject](#drawerlistdataarrayobject-2) for the property renames.
+Data object property renames: `selected_value` → `selectedValue`, `suffix_value` → `suffixValue`, `search_content` → `searchContent`, `class_name` → `className`. See [DrawerList](#drawerlist) for details.
 
 ### [DrawerList](/uilib/components/fragments/drawer-list/)
 
@@ -1837,7 +1840,15 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `next_title` with `nextTitle`.
 - Replace `more_pages` with `morePages`.
 - Replace `is_loading_text` with `isLoadingText`.
-- Replace `load_button_text` with `loadButton.text`.
+- Replace `load_button_text` with `loadButton.text`. Note: `loadButton` is now an **object prop** (not a flat string). Migrate as follows:
+
+```tsx
+// Before:
+<Pagination load_button_text="Load more" />
+
+// After:
+<Pagination loadButton={{ text: "Load more" }} />
+```
 
 #### Events
 
