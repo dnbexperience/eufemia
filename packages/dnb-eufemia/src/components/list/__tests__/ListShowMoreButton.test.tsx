@@ -252,6 +252,21 @@ describe('List.ShowMoreButton', () => {
     expect(items[3]).not.toHaveAttribute('hidden')
   })
 
+  it('sets aria-controls pointing to the container id', () => {
+    render(
+      <>
+        <ListShowMoreButton id="controls-test" />
+        <Container id="controls-test" visibleCount={2}>
+          <ItemContent>Item 1</ItemContent>
+          <ItemContent>Item 2</ItemContent>
+          <ItemContent>Item 3</ItemContent>
+        </Container>
+      </>
+    )
+
+    expect(getButton()).toHaveAttribute('aria-controls', 'controls-test')
+  })
+
   it('has no axe violations', async () => {
     const { container } = render(<ListShowMoreButton id="a11y-toggle" />)
 

@@ -52,6 +52,7 @@ function ListShowMoreButton(props: ListShowMoreButtonProps) {
       iconPosition="right"
       onClick={handleClick}
       aria-expanded={expanded}
+      aria-controls={typeof id === 'string' ? id : undefined}
       {...rest}
     />
   )
