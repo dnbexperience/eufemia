@@ -196,6 +196,7 @@ These renames change the property or event name itself, not just the casing. The
 | `position`                              | `placement`                            | Tooltip                                                             |
 | `accordion`                             | `mode="accordion"`                     | Table                                                               |
 | `isCollapsed`                           | `collapsed`                            | Breadcrumb                                                          |
+| `expandBehaviour`                       | `expandBehavior`                       | Accordion                                                           |
 | `contentSpacing` / `tabsSpacing`        | `contentInnerSpace` / `tabsInnerSpace` | Tabs                                                                |
 
 ### Import path changes
@@ -246,12 +247,12 @@ This applies to Section, Dialog.Body, and Drawer.Body.
 
 The event names changed semantically. A naive snake_case→camelCase conversion would produce `onShow` / `onHide`, which are **wrong**.
 
-| Old              | Wrong (naive conversion) | Correct        |
-| ---------------- | ------------------------ | -------------- |
-| `on_show`        | ~~`onShow`~~             | `onOpen`       |
-| `on_hide`        | ~~`onHide`~~             | `onClose`      |
-| `on_show_focus`  | ~~`onShowFocus`~~        | `onOpenFocus`  |
-| `on_hide_focus`  | ~~`onHideFocus`~~        | `onCloseFocus` |
+| Old             | Wrong (naive conversion) | Correct        |
+| --------------- | ------------------------ | -------------- |
+| `on_show`       | ~~`onShow`~~             | `onOpen`       |
+| `on_hide`       | ~~`onHide`~~             | `onClose`      |
+| `on_show_focus` | ~~`onShowFocus`~~        | `onOpenFocus`  |
+| `on_hide_focus` | ~~`onHideFocus`~~        | `onCloseFocus` |
 
 Affected components: Autocomplete, Dropdown, DrawerList, DatePicker. The `_focus` variants only apply to Dropdown.
 
@@ -1027,7 +1028,6 @@ See [DrawerList > DrawerListDataArrayObject](#drawerlistdataarrayobject-2) for t
 - Replace `on_pre_change` with `onPreChange`.
 - Replace `on_resize` with `onResize`.
 - Replace `on_select` with `onSelect`.
-- Replace `on_state_update` with `onStateUpdate`.
 
 #### Styling
 
@@ -1098,7 +1098,6 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `on_submit_focus` with `onSubmitFocus`.
 - Replace `on_submit_blur` with `onSubmitBlur`.
 - Replace `on_clear` with `onClear`.
-- Replace `on_state_update` with `onStateUpdate`.
 
 #### Translations
 
@@ -1126,6 +1125,7 @@ New props added:
 #### Properties
 
 - The deprecated `onStateUpdate` prop has been removed. Use `onChange` instead.
+- Replace `clear` with `showClearButton`.
 - Replace `label_direction` with `labelDirection`.
 - Replace `number_mask` with `numberMask`.
 - Replace `currency_mask` with `currencyMask`.
@@ -1165,7 +1165,6 @@ New props added:
 - Replace `on_blur` with `onBlur`.
 - Replace `on_submit_focus` with `onSubmitFocus`.
 - Replace `on_submit_blur` with `onSubmitBlur`.
-- Replace `on_state_update` with `onStateUpdate`.
 
 #### Deprecations and removals
 
@@ -1227,7 +1226,6 @@ New props added:
 #### Events
 
 - Replace `on_change` with `onChange`.
-- Replace `on_state_update` with `onStateUpdate`.
 
 ### [Radio.Group](/uilib/components/radio/)
 
@@ -1246,7 +1244,6 @@ New props added:
 #### Events
 
 - Replace `on_change` with `onChange`.
-- Replace `on_state_update` with `onStateUpdate`.
 
 ### [Textarea](/uilib/components/textarea/)
 
@@ -1298,7 +1295,6 @@ New props added:
 #### Events
 
 - Replace `on_change` with `onChange`.
-- Replace `on_state_update` with `onStateUpdate`.
 
 ### [Accordion.Group](/uilib/components/accordion/)
 
@@ -1535,7 +1531,6 @@ The `PaymentCard` types (`DNB`, `Visa`, `Mastercard`, `CardType`, `BankAxept`, `
 
 - Replace `on_change` with `onChange`.
 - Replace `on_change_end` with `onChangeEnd`.
-- Replace `on_state_update` with `onStateUpdate`.
 
 ### [Logo](/uilib/components/logo/)
 
@@ -2054,7 +2049,6 @@ The following properties on the event callback return object have been renamed:
 #### Events
 
 - Replace `on_change` with `onChange`.
-- Replace `on_state_update` with `onStateUpdate`.
 
 ### [ToggleButton.Group](/uilib/components/toggle-button/)
 
