@@ -236,20 +236,9 @@
     }
   }
 
-  &.dnb-skeleton &__input[disabled] ~ &__button,
-  &.dnb-skeleton &__input[disabled] ~ &__background::after {
-    border-color: var(--skeleton-color);
-  }
-
   &.dnb-skeleton &__input[disabled] ~ &__background {
     background-color: var(--skeleton-color);
-  }
-
-  &.dnb-skeleton
-    &__input[disabled]:not(:checked)
-    ~ .dnb-switch__background::after {
-    content: '';
-    border-color: var(--skeleton-color--contrast);
+    border-color: var(--skeleton-color);
   }
 
   /*
@@ -316,19 +305,19 @@
     * On disabled state
     *
     */
-  &__input[disabled] ~ &__background {
+  &:not(.dnb-skeleton) &__input[disabled] ~ &__background {
     background-color: var(--token-color-background-neutral);
     border-color: var(--token-color-stroke-action-disabled);
   }
-  &__input[disabled] ~ &__button {
+  &:not(.dnb-skeleton) &__input[disabled] ~ &__button {
     background-color: var(--token-color-background-action-disabled);
   }
 
-  &__input[disabled]:checked ~ &__background {
+  &:not(.dnb-skeleton) &__input[disabled]:checked ~ &__background {
     background-color: var(--token-color-background-action-disabled);
     border-color: var(--token-color-background-action-disabled);
   }
-  &__input[disabled]:checked ~ &__button {
+  &:not(.dnb-skeleton) &__input[disabled]:checked ~ &__button {
     background-color: var(--token-color-background-neutral);
   }
 
