@@ -203,7 +203,7 @@ const transformToJsx = (content, file): PromiseLike<string> => {
           // Add type annotation to the props parameter before formatting
           const typed = res.replace(
             /\(props\) =>/,
-            `(props?: React.SVGProps<SVGSVGElement> & { title?: string }) =>`
+            `(props?: IconSVGProps) =>`
           )
 
           resolve(
@@ -218,6 +218,11 @@ const transformToJsx = (content, file): PromiseLike<string> => {
                 .replace(
                   new RegExp(`import \\* as React from 'react'`, 'g'),
                   `import React from 'react'`
+                )
+                // Add import of IconSVGProps type after the React import
+                .replace(
+                  `import React from 'react'`,
+                  `import React from 'react'\nimport type { IconSVGProps } from '../../components/icon/Icon'`
                 )
           )
         })
