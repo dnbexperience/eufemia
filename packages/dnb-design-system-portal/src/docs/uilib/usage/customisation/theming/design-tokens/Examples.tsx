@@ -1,7 +1,7 @@
 import React from 'react'
-import { basicComponents } from '../../../../../shared/tags'
-import Table from '../../../../../shared/tags/Table'
-import Anchor from '../../../../../shared/tags/Anchor'
+import { basicComponents } from '../../../../../../shared/tags'
+import Table from '../../../../../../shared/tags/Table'
+import Anchor from '../../../../../../shared/tags/Anchor'
 import { Td, Th, Tooltip, Tr } from '@dnb/eufemia/src'
 import useHandleSortState from '@dnb/eufemia/src/components/table/useHandleSortState'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
@@ -12,7 +12,7 @@ import {
   type TokenRow,
   type TokenAudience,
   type TokenSectionId,
-} from '../../../../../uilib/utils/designTokens'
+} from '../../../../../../uilib/utils/designTokens'
 
 const isDev =
   process.env.NODE_ENV === 'development' ||
@@ -359,7 +359,7 @@ export function TokenSectionOverview() {
             <Tr key={section.id}>
               <Td>
                 <Anchor
-                  href={`/uilib/usage/customisation/design-tokens/tokens/#${section.id}`}
+                  href={`/uilib/usage/customisation/theming/design-tokens/tokens/#${section.id}`}
                 >
                   {section.title}
                 </Anchor>

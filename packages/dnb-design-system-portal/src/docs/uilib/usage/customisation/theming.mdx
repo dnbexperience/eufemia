@@ -5,45 +5,17 @@ order: 7
 
 # Theming
 
-**Table of Contents**
+Eufemia supports theming through design tokens and theme packages. Together, these let you adapt the look and feel of your application to match different brands or visual modes.
 
-- [Theming](#theming)
-  - [Integrated theming](#integrated-theming)
-    - [Theme Component and useTheme Hook](#theme-component-and-usetheme-hook)
-    - [Brand theming](#brand-theming)
-  - [Run your application with a different theme](#run-your-application-with-a-different-theme)
-  - [WIP: Ready to use themes](#wip-ready-to-use-themes)
-    - [Using `postcss-replace`](#using-postcss-replace)
-
----
-
-Theming is an umbrella term for a wide range of different approaches and needs for customization.
-
-This section covers some of the needs we've seen in DNB productions so far.
-
-You may also check out the section in the contribution docs on [how to maintain and create a theme](/contribute/style-guides/theming/) or [how to deal with the brand as a developer](/brand/development/).
-
-## Integrated theming
-
-Eufemia supports theming right where all the style sources live. Having the ability to control different styles as close to the source as possible will make it easier to carefully handle continuous improvements over time.
-
-Themes are independent style packages that should not be imported in parallel, but rather one or the other.
-
-### Theme Component and useTheme Hook
+## Theme component and `useTheme` hook
 
 Eufemia has [theming helpers](/uilib/usage/customisation/theming/theme), that lets you create nested theming solutions.
 
-### Brand theming
-
-Eufemia is a design system that aims to help DNB brands unleash their power.
-
-Eufemia is built on top of brand assets. This means it should be possible to swap out or extend these brand assets.
-
-Therefore, instead of overwriting Eufemia (DNB main brand) styles inside projects, it is beneficial to create additional brand themes directly where the source of the original brand lives.
-
-The default DNB brand theme is called: `ui` which stands for _universal identity_.
+It provides a React context for theme information, and a helper component to set the active theme and surface.
 
 ## Run your application with a different theme
+
+Themes are independent style packages that should not be imported in parallel, but rather one or the other.
 
 You can easily switch the static import of styles to a different theme:
 
@@ -55,32 +27,77 @@ import '@dnb/eufemia/style/core' // or /basis when "dnb-core-style" is used
 
 Read more about [how to import styles](/uilib/usage/customisation/styling/consume-styles/#select-a-theme).
 
-However, giving the user the ability to switch a theme during runtime is a very different challenge.
+However, giving the user the ability to switch a theme during runtime is a different challenge.
 
 The Eufemia Portal (documentation) uses [gatsby-plugin-eufemia-theme-handler](https://github.com/dnbexperience/gatsby-plugin-eufemia-theme-handler) to handle it both in development and production mode.
 
-## WIP: Ready to use themes
+In future we may provide a built-in solution for runtime theme switching.
 
-Right now, there's work going on to create Eufemia Themes that utilize both color and spacing along with the [Spatial system](/quickguide-designer/spatial-system).
+## Design tokens
 
-The plan is to extend the documentation here later with how to select and use a theme inside an application.
+Design tokens are CSS custom properties that store colors and other values used by Eufemia components.
 
-### Using `postcss-replace`
+Unlike plain CSS variables such as `--color-sea-green` that map directly to a fixed color, tokens like `--token-color-text-warning` describe a **role**. The actual color behind the token depends on the active theme and surface, making your styles portable across visual contexts.
 
-If your application only needs new colors or other CSS properties, you could simply replace all the properties with [postcss-replace](https://www.npmjs.com/package/postcss-replace) using this config scheme:
+## Basic usage
 
-```js
-{
-  resolve: 'gatsby-plugin-postcss',
-  options: {
-    postCssPlugins: [
-      require('postcss-replace')({
-        pattern: /#([A-Fa-f0-9]+)/,
-        data: {
-          '007272': '#YOUR_COLOR' // sea-green
-        }
-      })
-    ]
-  }
+Use the `var()` function to reference a token in your CSS:
+
+```css
+.my-component {
+  background-color: var(--token-color-background-neutral-subtle);
+  color: var(--token-color-text-neutral);
+  border: 1px solid var(--token-color-stroke-neutral);
 }
+
+.my-component__title {
+  color: var(--token-color-text-neutral);
+}
+
+.my-component__action {
+  background-color: var(--token-color-background-action);
+  color: var(--token-color-text-action-inverse);
+}
+```
+
+### Using tokens in your own styles
+
+When writing custom component styles, you can use design tokens with the `var(--token-*)` syntax. For example:
+
+```scss
+.my-component {
+  color: var(--token-color-text-warning);
+}
+```
+
+### Dark surfaces
+
+Use `surface="dark"` to tell Eufemia that an area has a dark background. Components inside that area will automatically pick the right colors. The `ondark` tokens are the color values they switch to.
+
+For example, a button that normally uses `--token-color-background-action-hover` will switch to `--token-color-background-action-hover-ondark` when `surface="dark"` is active.
+
+Read more about `ondark` tokens and how to use them in custom components in the [Design Tokens](/uilib/usage/customisation/theming/design-tokens/info/#ondark-tokens) section.
+
+#### How `surface` works
+
+The `surface` prop is passed through **React context**, not through a global CSS class. When you set `surface="dark"` on a `<Theme>`, `<Theme.Context>`, or on a supporting component like [Section](/uilib/components/section/), the value is stored in the Eufemia theme context. Individual components that support dark surfaces — such as [Button](/uilib/components/button/) or [Anchor](/uilib/components/anchor/) — read the surface value from context and apply their own component-level CSS class (e.g. `dnb-button--surface-dark`, `dnb-anchor--surface-dark`).
+
+Wrap an area with `<Theme.Context>` or `<Section>` to propagate the surface context to all supporting components inside:
+
+```jsx
+<Theme.Context surface="dark">
+  <Button>I adapt automatically</Button>
+  <Anchor href="/path">So do I</Anchor>
+</Theme.Context>
+```
+
+Use `surface="initial"` to reset components back to their default behavior inside a dark surface context:
+
+```jsx
+<Section surface="dark">
+  <Button>Dark surface button</Button>
+  <Theme.Context surface="initial">
+    <Button>Default surface button</Button>
+  </Theme.Context>
+</Section>
 ```
