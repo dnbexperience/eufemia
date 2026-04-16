@@ -5,8 +5,6 @@
 
 import React from 'react'
 import Section from '../../section/Section'
-import ModalContext from '../ModalContext'
-import clsx from 'clsx'
 import type { SectionAllProps } from '../../Section'
 
 export type ModalInnerProps = SectionAllProps
@@ -14,28 +12,9 @@ export type ModalInnerProps = SectionAllProps
 function ModalInner(
   props: ModalInnerProps & React.HTMLProps<HTMLElement>
 ) {
-  const context = React.useContext(ModalContext)
+  const { className = null, ref, ...restProps } = props
 
-  const {
-    className = null,
-    backgroundColor = 'black-3',
-    ref,
-    ...restProps
-  } = props
-
-  React.useEffect(() => {
-    if (backgroundColor) {
-      context.setBackgroundColor(backgroundColor)
-    }
-  }, [backgroundColor, context])
-
-  return (
-    <Section
-      backgroundColor={backgroundColor}
-      className={clsx(className)}
-      {...restProps}
-    />
-  )
+  return <Section className={className} {...restProps} />
 }
 
 export default ModalInner

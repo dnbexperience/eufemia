@@ -15,7 +15,6 @@ const defaultContext = {
   hideCloseButton: null,
   closeButtonAttributes: null,
   closeTitle: 'Close',
-  setBackgroundColor: null,
   onCloseClickHandler: jest.fn(),
   contentRef: null,
   scrollRef: null,
