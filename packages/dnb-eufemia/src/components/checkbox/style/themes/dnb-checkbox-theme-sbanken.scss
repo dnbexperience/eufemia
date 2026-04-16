@@ -8,12 +8,6 @@
   --checkbox-border-width: 0.0625rem;
   // Disabled state
   --checkbox-border-width--disabled: 0.0625rem;
-  --checkbox-color-gfx--disabled: var(--sb-color-gray-dark);
-  --checkbox-color-background-off--disabled: var(--sb-color-gray-light);
-  --checkbox-color-background-on--disabled: var(--sb-color-gray-light);
-  --checkbox-color-border-on--disabled: var(--sb-color-gray-dark);
-  --checkbox-color-border-off--disabled: var(--sb-color-gray-dark);
-  --checkbox-color-gfx__indeterminate--disabled: var(--sb-color-gray-dark);
   // Active state
   --checkbox-color-background--active: var(--sb-color-white);
   --checkbox-color-border--active: var(--sb-color-gray);

@@ -31,12 +31,25 @@
   );
   // Disabled state
   --checkbox-border-width--disabled: 0.125rem;
-  --checkbox-color-gfx--disabled: grey;
-  --checkbox-color-background-on--disabled: lightgrey;
-  --checkbox-color-background-off--disabled: lightgrey;
-  --checkbox-color-border-on--disabled: grey;
-  --checkbox-color-border-off--disabled: grey;
-  --checkbox-color-gfx__indeterminate--disabled: grey;
+  --checkbox-color-gfx--disabled: var(--token-color-icon-neutral-inverse);
+  --checkbox-color-background-on--disabled: var(
+    --token-color-background-action-disabled
+  );
+  --checkbox-color-background-off--disabled: var(
+    --token-color-background-neutral
+  );
+  --checkbox-color-border-on--disabled: var(
+    --token-color-background-action-disabled
+  );
+  --checkbox-color-border-off--disabled: var(
+    --token-color-stroke-action-disabled
+  );
+  --checkbox-color-gfx__indeterminate--disabled: var(
+    --token-color-background-action-disabled
+  );
+  --checkbox-color-background__indeterminate--disabled: var(
+    --token-color-background-neutral
+  );
   // Active state
   --checkbox-color-background--active: lightgrey;
   --checkbox-color-border--active: transparent;
@@ -343,6 +356,12 @@
   // indeterminate
   &__input[disabled]:indeterminate ~ &__indeterminate {
     background-color: var(--checkbox-color-gfx__indeterminate--disabled);
+  }
+
+  &__input[disabled]:indeterminate ~ &__button {
+    background-color: var(
+      --checkbox-color-background__indeterminate--disabled
+    );
   }
 
   &__input[disabled]:indeterminate ~ &__gfx {

@@ -4,15 +4,6 @@
 */
 
 .dnb-checkbox {
-  // Disabled state
-  --checkbox-color-gfx--disabled: var(--checkbox-color-gfx-on);
-  --checkbox-color-background-on--disabled: var(--color-sea-green-30);
-  --checkbox-color-background-off--disabled: var(--color-white);
-  --checkbox-color-border-on--disabled: transparent;
-  --checkbox-color-border-off--disabled: var(--color-mint-green-50);
-  --checkbox-color-gfx__indeterminate--disabled: var(
-    --color-mint-green-50
-  );
   // Active state
   --checkbox-color-background--active: var(--color-mint-green-50);
   --checkbox-color-border--active: transparent;
