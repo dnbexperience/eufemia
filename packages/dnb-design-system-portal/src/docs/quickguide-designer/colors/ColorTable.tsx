@@ -600,7 +600,7 @@ const getRow = (
 
   if (!color) {
     return (
-      <tr>
+      <tr key={name}>
         <td colSpan={7}>
           Color <MDXCode>{name}</MDXCode> could not be found
         </td>
@@ -609,7 +609,7 @@ const getRow = (
   }
 
   return (
-    <tr key={color}>
+    <tr key={name}>
       <td>{color}</td>
       <td>{type || 'N/A'}</td>
       <td>{brandName || 'N/A'}</td>
