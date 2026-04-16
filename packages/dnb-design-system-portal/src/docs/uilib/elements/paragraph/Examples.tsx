@@ -9,7 +9,7 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import Anchor from '@dnb/eufemia/src/components/Anchor'
 import P from '@dnb/eufemia/src/elements/P'
 import Typography from '@dnb/eufemia/src/elements/typography/Typography'
-import { Flex } from '@dnb/eufemia/src'
+import { Flex, Section } from '@dnb/eufemia/src'
 
 const Case = styled.span`
   display: block;
@@ -320,6 +320,16 @@ export function ParagraphRegressionTests() {
       <PWrap size="basis" />
       <PWrap size="small" />
       <PWrap size="x-small" />
+    </ComponentBox>
+  )
+}
+
+export function ParagraphDarkSurface() {
+  return (
+    <ComponentBox>
+      <Section innerSpace={{ block: true }} surface="dark">
+        <P>This is a paragraph on a dark surface.</P>
+      </Section>
     </ComponentBox>
   )
 }

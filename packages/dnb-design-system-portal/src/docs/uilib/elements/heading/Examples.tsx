@@ -5,7 +5,7 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { H, H1, H2, H3, H4, H5, H6, P } from '@dnb/eufemia/src'
+import { H, H1, H2, H3, H4, H5, H6, P, Section } from '@dnb/eufemia/src'
 import styled from '@emotion/styled'
 
 export const HeadingBasicsExample = () => (
@@ -151,3 +151,13 @@ export const HeadingRegressionTest = () => {
     </>
   )
 }
+
+export const HeadingDarkSurfaceExample = () => (
+  <ComponentBox>
+    <Section innerSpace={{ block: true }} surface="dark">
+      <H1 size="large" top={false} bottom={false}>
+        Heading on dark surface
+      </H1>
+    </Section>
+  </ComponentBox>
+)
