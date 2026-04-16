@@ -5,7 +5,7 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Badge, Avatar, Grid, Flex } from '@dnb/eufemia/src'
+import { Badge, Avatar, Grid, Flex, P } from '@dnb/eufemia/src'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const BadgeNotification = () => (
@@ -19,11 +19,11 @@ export const BadgeNotificationInline = () => (
     hideCode
     data-visual-test="badge-variant-notification-inline"
   >
-    <div>
+    <P>
       Text{' '}
       <Badge content={1234} label="Notifications" variant="notification" />{' '}
       Text
-    </div>
+    </P>
   </ComponentBox>
 )
 
@@ -51,9 +51,9 @@ export const BadgeInformationInline = () => (
     hideCode
     data-visual-test="badge-variant-information-inline"
   >
-    <div>
+    <P>
       Text <Badge content="Info" variant="information" /> Text
-    </div>
+    </P>
   </ComponentBox>
 )
 
