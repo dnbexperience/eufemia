@@ -1,6 +1,6 @@
 import type { PropertiesTableProps } from '../../shared/types'
-import { UlProperties } from './../../elements/lists/UlDocs'
-import { OlProperties } from './../../elements/lists/OlDocs'
+import { UlProperties } from '../../elements/lists/UlDocs'
+import { OlProperties } from '../../elements/lists/OlDocs'
 
 const ListProperties = { ...UlProperties, ...OlProperties }
 const { children, ...ListPropertiesWithoutChildren } = ListProperties

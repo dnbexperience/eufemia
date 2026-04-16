@@ -12,7 +12,7 @@ export const SelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   transformSelection: {
-    doc: 'Transform the displayed selection for Dropdown and Autocomplete variant. Use it to display a different value than the one in the data set. The first parameter is the properties of the Option component or data item. You can return a React.ReactNode that will be displayed in the selection.',
+    doc: 'Transform the displayed selection for Dropdown and Autocomplete variant. Use it to display a different value than the one in the data set. The first parameter is the properties of the Option component or data item. You can return a `React.ReactNode` that will be displayed in the selection.',
     type: 'function',
     status: 'optional',
   },
@@ -32,7 +32,7 @@ export const SelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   groups: {
-    doc: 'An array of group titles for the list items. Only the first group can be `undefined`',
+    doc: 'An array of group titles for the list items. Only the first group can be `undefined`.',
     type: 'Array<React.ReactNode>',
     status: 'optional',
   },

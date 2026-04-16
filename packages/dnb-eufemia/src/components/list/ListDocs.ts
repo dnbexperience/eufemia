@@ -75,13 +75,13 @@ export const ItemCenterProperties: PropertiesTableProps = {
   fontSize: {
     doc: 'Font size of the center content. Defaults to `basis`. Use `small` for smaller text.',
     type: ['"small"', '"basis"'],
-    defaultValue: "'basis'",
+    defaultValue: '"basis"',
     status: 'optional',
   },
   fontWeight: {
     doc: 'Font weight of the center content. Defaults to `regular`.',
     type: ['"regular"', '"medium"'],
-    defaultValue: "'regular'",
+    defaultValue: '"regular"',
     status: 'optional',
   },
   children: {
@@ -100,7 +100,7 @@ export const ItemTitleProperties: PropertiesTableProps = {
   fontSize: {
     doc: 'Font size of the title content. Defaults to `basis`. Use `small` for smaller text.',
     type: ['"small"', '"basis"'],
-    defaultValue: "'basis'",
+    defaultValue: '"basis"',
     status: 'optional',
   },
   children: {
@@ -118,13 +118,13 @@ export const ItemOverlineProperties: PropertiesTableProps = {
   fontSize: {
     doc: 'Font size of the overline content. Defaults to `x-small`.',
     type: ['"basis"', '"small"', '"x-small"'],
-    defaultValue: "'x-small'",
+    defaultValue: '"x-small"',
     status: 'optional',
   },
   fontWeight: {
     doc: 'Font weight of the overline content. Defaults to `medium`.',
     type: ['"regular"', '"medium"'],
-    defaultValue: "'medium'",
+    defaultValue: '"medium"',
     status: 'optional',
   },
   children: {
@@ -148,13 +148,13 @@ export const ItemSublineProperties: PropertiesTableProps = {
   fontSize: {
     doc: 'Font size of the subline content. Defaults to `small`. When `variant="description"`, defaults to `x-small`.',
     type: ['"basis"', '"small"', '"x-small"'],
-    defaultValue: "'small'",
+    defaultValue: '"small"',
     status: 'optional',
   },
   fontWeight: {
     doc: 'Font weight of the subline content. Defaults to `regular`.',
     type: ['"regular"', '"medium"'],
-    defaultValue: "'regular'",
+    defaultValue: '"regular"',
     status: 'optional',
   },
   children: {
@@ -186,13 +186,13 @@ export const ItemEndProperties: PropertiesTableProps = {
   fontWeight: {
     doc: 'Font weight of the end content. Defaults to `medium`.',
     type: ['"regular"', '"medium"'],
-    defaultValue: "'medium'",
+    defaultValue: '"medium"',
     status: 'optional',
   },
   fontSize: {
     doc: 'Font size of the end content. Defaults to `basis`. Use `small` for smaller text.',
     type: ['"small"', '"basis"'],
-    defaultValue: "'basis'",
+    defaultValue: '"basis"',
     status: 'optional',
   },
   children: {
@@ -211,13 +211,13 @@ export const ItemStartProperties: PropertiesTableProps = {
   fontSize: {
     doc: 'Font size of the start content. Defaults to `basis`. Use `small` for smaller text.',
     type: ['"small"', '"basis"'],
-    defaultValue: "'basis'",
+    defaultValue: '"basis"',
     status: 'optional',
   },
   fontWeight: {
     doc: 'Font weight of the start content. Defaults to `regular`.',
     type: ['"regular"', '"medium"'],
-    defaultValue: "'regular'",
+    defaultValue: '"regular"',
     status: 'optional',
   },
   children: {
@@ -246,7 +246,7 @@ export const ItemAccordionProperties: PropertiesTableProps = {
   chevronPosition: {
     doc: 'Placement of the chevron icon. Defaults to `right`. Use `left` to show the chevron on the left side.',
     type: ['"left"', '"right"'],
-    defaultValue: "'right'",
+    defaultValue: '"right"',
     status: 'optional',
   },
   open: {
@@ -364,7 +364,7 @@ export const ItemActionProperties: PropertiesTableProps = {
   chevronPosition: {
     doc: 'Placement of the chevron icon. Defaults to `right`. Use `left` to show the chevron on the left side.',
     type: ['"left"', '"right"'],
-    defaultValue: "'right'",
+    defaultValue: '"right"',
     status: 'optional',
   },
   pending: {

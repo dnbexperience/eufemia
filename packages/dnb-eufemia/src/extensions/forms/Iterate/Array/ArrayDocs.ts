@@ -18,7 +18,7 @@ export const ArrayProperties: PropertiesTableProps = {
     status: 'optional',
   },
   required: {
-    doc: "If the array is required. It does not automatically inherit the `required` property in the same way that `Field.*` components do. You may provide a custom error message to give the user a more useful message than the default one: `errorMessages={{ 'Field.errorRequired': 'Custom message' }}`",
+    doc: "If the array is required. It does not automatically inherit the `required` property in the same way that `Field.*` components do. You may provide a custom error message to give the user a more useful message than the default one: `errorMessages={{ 'Field.errorRequired': 'Custom message' }}`.",
     type: 'boolean',
     status: 'optional',
   },
@@ -86,7 +86,7 @@ export const ArrayProperties: PropertiesTableProps = {
   validateInitially: DataValueWritePropsProperties.validateInitially,
   validateContinuously: DataValueWritePropsProperties.validateContinuously,
   children: {
-    doc: 'React.ReactNode or a function so you can get the current value as the first function parameter, and the index as the second parameter as well as the array of internal items as the third parameter.',
+    doc: '`React.ReactNode` or a function so you can get the current value as the first function parameter, and the index as the second parameter as well as the array of internal items as the third parameter.',
     type: ['React.ReactNode', 'function'],
     status: 'optional',
   },

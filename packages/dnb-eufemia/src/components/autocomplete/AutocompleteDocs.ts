@@ -133,7 +133,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
     status: 'optional',
   },
   indicatorLabel: {
-    doc: 'Text show on indicator "options" item. Defaults to `Henter data ...`.',
+    doc: 'Text shown on indicator "options" item. Defaults to `Henter data ...`.',
     type: 'React.ReactNode',
     status: 'optional',
   },
@@ -233,7 +233,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
     status: 'optional',
   },
   inputRef: {
-    doc: 'Use a React.Ref to get access to the `input` DOM element.',
+    doc: 'Use a `React.Ref` to get access to the `input` DOM element.',
     type: 'React.RefObject',
     status: 'optional',
   },
@@ -256,7 +256,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
 
 export const AutocompleteEvents: PropertiesTableProps = {
   onType: {
-    doc: 'Will be called for every key change the users makes. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data)',
+    doc: 'Will be called for every key change the users makes. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data).',
     type: 'function',
     status: 'optional',
   },
@@ -276,7 +276,7 @@ export const AutocompleteEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onSelect: {
-    doc: 'Will be called once the users focuses or selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, activeItem, selectedItem }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data). The "activeItem" property is the currently selected item by keyboard navigation',
+    doc: 'Will be called once the users focuses or selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, activeItem, selectedItem }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data). The "activeItem" property is the currently selected item by keyboard navigation.',
     type: 'function',
     status: 'optional',
   },

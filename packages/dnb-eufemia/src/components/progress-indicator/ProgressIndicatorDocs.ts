@@ -39,13 +39,13 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   label: {
-    doc: 'Content of a custom label. (Overrides `indicatorLabel` and `showDefaultLabel`)',
+    doc: 'Content of a custom label. (Overrides `indicatorLabel` and `showDefaultLabel`.)',
     type: 'React.ReactNode',
     defaultValue: 'undefined',
     status: 'optional',
   },
   children: {
-    doc: 'Same as `label` prop (`label` prop has priority)',
+    doc: 'Same as `label` prop (`label` prop has priority).',
     type: 'React.ReactNode',
     defaultValue: 'undefined',
     status: 'optional',
@@ -69,7 +69,7 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   title: {
-    doc: 'Used to set title and aria-label. Defaults to the value of progress property, formatted as a percent.',
+    doc: 'Used to set title and `aria-label`. Defaults to the value of progress property, formatted as a percent.',
     type: 'string',
     defaultValue: 'undefined',
     status: 'optional',
@@ -117,7 +117,7 @@ export const CustomColorsData: PropertiesTableProps = {
 
 export const ProgressIndicatorEvents: PropertiesTableProps = {
   onComplete: {
-    doc: "Will be called once it's no longer visible (show=false).",
+    doc: "Will be called once it's no longer visible (`show=false`).",
     type: 'function',
     defaultValue: 'undefined',
     status: 'optional',

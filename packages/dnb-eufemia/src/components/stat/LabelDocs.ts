@@ -16,7 +16,7 @@ export const LabelProperties: PropertiesTableProps = {
   fontWeight: {
     doc: 'Typography weight for the label.',
     type: ['"regular"', '"medium"'],
-    defaultValue: 'regular',
+    defaultValue: '"regular"',
     status: 'optional',
   },
   fontSize: {
@@ -30,13 +30,13 @@ export const LabelProperties: PropertiesTableProps = {
       '"x-large"',
       '"xx-large"',
     ],
-    defaultValue: 'basis',
+    defaultValue: '"basis"',
     status: 'optional',
   },
   variant: {
     doc: 'Label color style variant.',
     type: ['"plain"', '"subtle"'],
-    defaultValue: 'plain',
+    defaultValue: '"plain"',
     status: 'optional',
   },
   skeleton: skeletonProperty,

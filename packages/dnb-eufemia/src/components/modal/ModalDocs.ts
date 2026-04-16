@@ -7,7 +7,7 @@ export const ModalProperties: PropertiesTableProps = {
     status: 'optional',
   },
   contentId: {
-    doc: 'Defines an unique identifier to a modal. Use it in case you have to refer in some way to the modal content.',
+    doc: 'Defines a unique identifier to a modal. Use it in case you have to refer in some way to the modal content.',
     type: 'string',
     status: 'optional',
   },
@@ -192,7 +192,7 @@ export const ModalProperties: PropertiesTableProps = {
     status: 'optional',
   },
   hideCloseButton: {
-    doc: 'If true, the close button will not be shown.',
+    doc: 'If `true`, the close button will not be shown.',
     type: 'boolean',
     status: 'optional',
   },

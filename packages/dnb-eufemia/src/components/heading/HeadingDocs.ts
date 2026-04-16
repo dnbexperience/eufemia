@@ -2,12 +2,12 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const HeadingProperties: PropertiesTableProps = {
   text: {
-    doc: 'A heading, can be text or React.ReactNode.',
+    doc: 'A heading, can be text or `React.ReactNode`.',
     type: 'React.ReactNode',
     status: 'optional',
   },
   children: {
-    doc: 'A heading, can be text or React.ReactNode.',
+    doc: 'A heading, can be text or `React.ReactNode`.',
     type: 'React.ReactNode',
     status: 'optional',
   },
@@ -50,7 +50,7 @@ export const HeadingProperties: PropertiesTableProps = {
     status: 'optional',
   },
   skipCorrection: {
-    doc: 'If set to `true`, the heading will not be corrected and warnings will not be shown. Warnings do not show up in **production builds** else either',
+    doc: 'If set to `true`, the heading will not be corrected and warnings will not be shown. Warnings do not show up in **production builds** else either.',
     type: 'boolean',
     status: 'optional',
   },

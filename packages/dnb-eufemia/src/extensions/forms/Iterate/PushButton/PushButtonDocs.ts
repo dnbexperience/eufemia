@@ -12,7 +12,7 @@ export const PushButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   pushValue: {
-    doc: 'The element to add to the array when the button is clicked. Can be a function to returns the push value.',
+    doc: 'The element to add to the array when the button is clicked. Can be a function that returns the push value.',
     type: 'unknown',
     status: 'optional',
   },

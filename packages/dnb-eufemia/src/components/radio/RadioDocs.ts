@@ -17,7 +17,7 @@ export const RadioProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    doc: 'The size of the Radio button. For now there is **medium** (default) and **large**.',
+    doc: 'The size of the Radio button. For now there is `medium` (default) and `large`.',
     type: ['"default"', '"medium"', '"large"'],
     status: 'optional',
   },
@@ -57,7 +57,7 @@ export const RadioProperties: PropertiesTableProps = {
     status: 'optional',
   },
   ref: {
-    doc: 'By providing a React.ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
+    doc: 'By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
     type: 'React.RefObject',
     status: 'optional',
   },
@@ -80,7 +80,7 @@ export const RadioGroupProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    doc: 'The size of the Radio button. For now there is **medium** (default) and **large**.',
+    doc: 'The size of the Radio button. For now there is `medium` (default) and `large`.',
     type: ['"default"', '"medium"', '"large"'],
     status: 'optional',
   },
@@ -120,7 +120,7 @@ export const RadioGroupProperties: PropertiesTableProps = {
     status: 'optional',
   },
   vertical: {
-    doc: 'Will force both `direction` and `labelDirection` to be **vertical** if set to `true`.',
+    doc: 'Will force both `direction` and `labelDirection` to be `vertical` if set to `true`.',
     type: 'boolean',
     status: 'optional',
   },

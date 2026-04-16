@@ -27,7 +27,7 @@ export const CheckboxProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    doc: 'The size of the checkbox. For now there is "medium" (default) and "large".',
+    doc: 'The size of the checkbox. For now there is `medium` (default) and `large`.',
     type: ['"default"', '"medium"', '"large"'],
     status: 'optional',
   },
@@ -47,12 +47,12 @@ export const CheckboxProperties: PropertiesTableProps = {
     status: 'optional',
   },
   statusProps: {
-    doc: 'Use an object to define additional FormStatus properties. See [FormStatus](/uilib/components/form-status/properties/)',
+    doc: 'Use an object to define additional FormStatus properties. See [FormStatus](/uilib/components/form-status/properties/).',
     type: 'FormStatusProps',
     status: 'optional',
   },
   globalStatus: {
-    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status)',
+    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
     type: 'object',
     status: 'optional',
   },
@@ -67,7 +67,7 @@ export const CheckboxProperties: PropertiesTableProps = {
     status: 'optional',
   },
   ref: {
-    doc: 'By providing a React.ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
+    doc: 'By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
     type: 'React.RefObject',
     status: 'optional',
   },

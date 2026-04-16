@@ -32,7 +32,7 @@ export const GlobalErrorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   center: {
-    doc: 'If true, it will use `80vh` as the height and center its content.',
+    doc: 'If `true`, it will use `80vh` as the height and center its content.',
     type: 'boolean',
     status: 'optional',
   },

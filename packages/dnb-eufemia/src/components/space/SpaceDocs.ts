@@ -2,27 +2,27 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const SpaceGlobalProperties: PropertiesTableProps = {
   space: {
-    doc: 'Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.',
+    doc: 'Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or `16px`.',
     type: ['object'],
     status: 'optional',
   },
   top: {
-    doc: 'Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.',
+    doc: 'Use spacing values like: `small`, `1rem`, `1` or `16px`. Will use `margin-top`.',
     type: ['string', 'number', 'boolean'],
     status: 'optional',
   },
   right: {
-    doc: 'Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.',
+    doc: 'Use spacing values like: `small`, `1rem`, `1` or `16px`. Will use `margin-right`.',
     type: ['string', 'number', 'boolean'],
     status: 'optional',
   },
   bottom: {
-    doc: 'Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.',
+    doc: 'Use spacing values like: `small`, `1rem`, `1` or `16px`. Will use `margin-bottom`.',
     type: ['string', 'number', 'boolean'],
     status: 'optional',
   },
   left: {
-    doc: 'Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.',
+    doc: 'Use spacing values like: `small`, `1rem`, `1` or `16px`. Will use `margin-left`.',
     type: ['string', 'number', 'boolean'],
     status: 'optional',
   },

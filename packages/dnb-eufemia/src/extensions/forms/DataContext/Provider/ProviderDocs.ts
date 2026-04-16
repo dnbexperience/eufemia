@@ -22,17 +22,17 @@ export const ProviderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   errorMessages: {
-    doc: 'Object containing error messages by either type of JSON Pointer path and type. The messages can be a React.ReactNode or a string.',
+    doc: 'Object containing error messages by either type of JSON Pointer path and type. The messages can be a `React.ReactNode` or a string.',
     type: 'object',
     status: 'optional',
   },
   minimumAsyncBehaviorTime: {
-    doc: 'Minimum time to display the submit indicator. Default is 1s.',
+    doc: 'Minimum time to display the submit indicator. Defaults to 1s.',
     type: 'number',
     status: 'optional',
   },
   asyncSubmitTimeout: {
-    doc: 'The maximum time to display the submit indicator before it changes back to normal. In case something went wrong during submission. Default is 30s.',
+    doc: 'The maximum time to display the submit indicator before it changes back to normal. In case something went wrong during submission. Defaults to 30s.',
     type: 'number',
     status: 'optional',
   },
@@ -47,7 +47,7 @@ export const ProviderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   ajvInstance: {
-    doc: 'REQUIRED when using JSON Schema validation. Provide your own custom Ajv instance: import Ajv from "@dnb/eufemia/extensions/forms" and pass ajvInstance={makeAjvInstance()}. This ensures your bundle only includes AJV when you actually need it. More info in the [Schema validation](/uilib/extensions/forms/Form/schema-validation/#custom-ajv-instance-and-keywords) section.',
+    doc: 'REQUIRED when using JSON Schema validation. Provide your own custom Ajv instance: `import Ajv from "@dnb/eufemia/extensions/forms"` and pass `ajvInstance={makeAjvInstance()}`. This ensures your bundle only includes AJV when you actually need it. More info in the [Schema validation](/uilib/extensions/forms/Form/schema-validation/#custom-ajv-instance-and-keywords) section.',
     type: '"ajv"',
     status: 'optional',
   },
@@ -57,7 +57,7 @@ export const ProviderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   transformOut: {
-    doc: "Mutate the data before it enters onSubmit or onChange based on your criteria: `({ path, value, data, properties, internal }) => 'new value'`. It will iterate on each data entry (/path).",
+    doc: "Mutate the data before it enters `onSubmit` or `onChange` based on your criteria: `({ path, value, data, properties, internal }) => 'new value'`. It will iterate on each data entry (/path).",
     type: 'function',
     status: 'optional',
   },
@@ -105,7 +105,7 @@ export const ProviderEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onSubmit: {
-    doc: "Will be called (on validation success) when the user submit the form (i.e by clicking a [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton) component inside), with the data set as argument. When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for minimum 1 second. Related properties: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ status: 'pending', info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/uilib/components/form-status). Will only emit when every validation has passed. The second parameter is an object containing the `filterData`, `reduceToVisibleFields`, `transformData`, `resetForm` and `clearData` functions.",
+    doc: "Will be called (on validation success) when the user submit the form (i.e. by clicking a [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton) component inside), with the data set as argument. When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for minimum 1 second. Related properties: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ status: 'pending', info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/uilib/components/form-status). Will only emit when every validation has passed. The second parameter is an object containing the `filterData`, `reduceToVisibleFields`, `transformData`, `resetForm` and `clearData` functions.",
     type: 'function',
     status: 'optional',
   },
