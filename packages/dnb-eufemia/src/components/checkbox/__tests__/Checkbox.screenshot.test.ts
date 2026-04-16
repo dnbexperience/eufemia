@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe.each(['ui', 'sbanken'])('Checkbox for %s', (themeName) => {
+describe.each(['ui', 'sbanken', 'carnegie'])('Checkbox for %s', (themeName) => {
   describe('unchecked', () => {
     setupPageScreenshot({
       themeName,
