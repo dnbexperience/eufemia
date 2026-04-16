@@ -20,7 +20,7 @@ export const CreateBasicValueComponent = () => {
         const MyValue = ({ value, ...props }) => {
           return (
             <ValueBlock {...props}>
-              <NumberFormat currency>{value}</NumberFormat>
+              <NumberFormat.Currency>{value}</NumberFormat.Currency>
             </ValueBlock>
           )
         }

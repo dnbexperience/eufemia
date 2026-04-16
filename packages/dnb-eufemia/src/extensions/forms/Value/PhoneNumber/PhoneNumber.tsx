@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import type { ValueStringProps as StringValueProps } from '../String'
 import StringValue from '../String'
-import { format } from '../../../../components/number-format/NumberUtils'
+import { formatPhoneNumber } from '../../../../components/number-format/NumberUtils'
 import useTranslation from '../../hooks/useTranslation'
 import { isValueEmpty } from '../../ValueBlock'
 import detectCountryCode from '../../utils/detectCountryCode'
@@ -36,9 +36,7 @@ function PhoneNumber(props: ValuePhoneNumberProps) {
     }
 
     // We can't use the "cleanNumber" function here, because we need to keep the country code separate from the number
-    return format(value, {
-      phone: true,
-    }).toString()
+    return formatPhoneNumber(value).toString()
   }, [])
 
   const stringValueProps: ValuePhoneNumberProps = {

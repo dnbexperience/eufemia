@@ -31,15 +31,15 @@ Good reasons for why we have this:
 
 ### Supported formats
 
-- Numbers in general e.g. <code className="dnb-code"><NumberFormat value="12345678.90" /></code>
-- Currency e.g. <code className="dnb-code"><NumberFormat currency value="12345678.90" /></code>
-- Percentage e.g. <code className="dnb-code"><NumberFormat percent value="12.34" /></code>
-- Phone numbers e.g. <code className="dnb-code"><NumberFormat phone value="004799999999" /></code>
-- Bank account number e.g. <code className="dnb-code"><NumberFormat ban value="20001234567" /></code>
-- National identification number e.g. <code className="dnb-code"><NumberFormat nin value="18089212345" /></code>
-- Organization number e.g. <code className="dnb-code"><NumberFormat org value="123456789" /></code>
-- Compact (short) numbers e.g. <code className="dnb-code"><NumberFormat compact value="12345678" decimals={1} /></code>
-- Compact (long) currency e.g. <code className="dnb-code"><NumberFormat compact="long" currency currencyDisplay="name" value="12345678" decimals={1} /></code>
+- Numbers in general e.g. <code className="dnb-code"><NumberFormat.Number value="12345678.90" /></code>
+- Currency e.g. <code className="dnb-code"><NumberFormat.Currency value="12345678.90" /></code>
+- Percentage e.g. <code className="dnb-code"><NumberFormat.Percent value="12.34" /></code>
+- Phone numbers e.g. <code className="dnb-code"><NumberFormat.PhoneNumber value="004799999999" /></code>
+- Bank account number e.g. <code className="dnb-code"><NumberFormat.BankAccountNumber value="20001234567" /></code>
+- National identification number e.g. <code className="dnb-code"><NumberFormat.NationalIdentityNumber value="18089212345" /></code>
+- Organization number e.g. <code className="dnb-code"><NumberFormat.OrganizationNumber value="123456789" /></code>
+- Compact (short) numbers e.g. <code className="dnb-code"><NumberFormat.Compact value="12345678" decimals={1} /></code>
+- Compact (long) currency e.g. <code className="dnb-code"><NumberFormat.Compact compact="long" currency currencyDisplay="name" value="12345678" decimals={1} /></code>
 
 ### Defaults
 
@@ -52,14 +52,14 @@ It uses the browser APIs `number.toLocaleString` or `Intl.NumberFormat.format` u
 
 When the currency format is set to `currencyDisplay="name"`, the currency will be displayed as "kroner" instead of "Norwegian kroner".
 
-- Norwegian currency: <code className="dnb-code"><NumberFormat currency currencyDisplay="name" value="1234.90" /></code>
-- Swedish currency: <code className="dnb-code"><NumberFormat currency="SEK" currencyDisplay="name" value="1234.90" /></code>
+- Norwegian currency: <code className="dnb-code"><NumberFormat.Currency currencyDisplay="name" value="1234.90" /></code>
+- Swedish currency: <code className="dnb-code"><NumberFormat.Currency currency="SEK" currencyDisplay="name" value="1234.90" /></code>
 
 #### Not available
 
 When a number should be displayed but is not available to the frontend application, the NumberFormat component will display a single **em dash** (–), and a screen reader will receive the text "Ikke tilgjengelig" / "Not available".
 
-Example: <NumberFormat value="invalid" currency />
+Example: <NumberFormat.Currency value="invalid" />
 
 ## Decimals
 
@@ -94,7 +94,7 @@ import Provider from '@dnb/eufemia/shared/Provider'
 render(
   <Provider locale="en-GB" NumberFormat={{ currencyDisplay: 'code' }}>
     <MyApp>
-      text <NumberFormat>123</NumberFormat> table etc.
+      text <NumberFormat.Number>123</NumberFormat.Number> table etc.
     </MyApp>
   </Provider>
 )

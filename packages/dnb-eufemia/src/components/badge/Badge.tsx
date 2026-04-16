@@ -189,7 +189,7 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
 
   const skeletonClasses = createSkeletonClass('shape', skeleton, context)
   const contentIsNum = typeof contentProp === 'number'
-  const num = useNumberFormat(contentIsNum ? contentProp : 0)
+  const num = useNumberFormat(contentIsNum ? contentProp : 0) as string
   const variantIsNotification = variant === 'notification'
   const content = variantIsNotification && contentIsNum ? num : contentProp
 

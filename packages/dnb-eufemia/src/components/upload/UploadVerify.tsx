@@ -1,4 +1,4 @@
-import { format } from '../number-format/NumberUtils'
+import { formatPlainNumber } from '../number-format/NumberUtils'
 import type {
   UploadFile,
   UploadContextValue,
@@ -47,7 +47,7 @@ export function verifyFiles(
       ) {
         return String(errorLargeFile).replace(
           '%size',
-          format(maxFileSize).toString()
+          formatPlainNumber(maxFileSize).toString()
         )
       }
       return null

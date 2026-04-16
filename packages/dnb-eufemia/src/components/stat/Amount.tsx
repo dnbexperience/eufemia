@@ -1,6 +1,6 @@
 import React from 'react'
 import clsx from 'clsx'
-import type { NumberFormatProps } from '../number-format/NumberFormat'
+import type { NumberFormatProps } from '../number-format/NumberFormatBase'
 import useNumberFormatWithParts from '../number-format/useNumberFormatWithParts'
 import type { NumberFormatParts } from '../number-format/useNumberFormatWithParts'
 import type {
@@ -53,6 +53,8 @@ type AmountOwnProps = Omit<
    * Opt-in sign-based text color (`+` => green, `-` => red).
    */
   colorizeBySign?: boolean
+  /** Formats the value as a percentage. */
+  percent?: boolean
 }
 
 export type AmountProps = Omit<

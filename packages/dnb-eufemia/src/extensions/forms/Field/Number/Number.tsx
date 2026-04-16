@@ -8,7 +8,11 @@ import React, {
 import { InputMasked, Button } from '../../../../components'
 import type { InputMaskedProps } from '../../../../components/InputMasked'
 import type { NumberFormatOptionParams } from '../../../../components/number-format/NumberUtils'
-import { format } from '../../../../components/number-format/NumberUtils'
+import {
+  formatCurrency,
+  formatPercent,
+  formatPlainNumber,
+} from '../../../../components/number-format/NumberUtils'
 import type { InputAlign, InputSize } from '../../../../components/Input'
 import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
@@ -112,17 +116,22 @@ function NumberComponent(props: FieldNumberProps) {
             locale,
           }
 
-          if (p.currency) {
-            formatOptions.currency = p.currency
-          }
-          if (p.percent) {
-            formatOptions.percent = true
-          }
           if (p.decimalLimit !== undefined) {
             formatOptions.decimals = p.decimalLimit
           }
 
-          return format(value, formatOptions)
+          if (p.percent) {
+            return formatPercent(value, formatOptions)
+          }
+
+          if (p.currency) {
+            return formatCurrency(value, {
+              ...formatOptions,
+              currency: p.currency,
+            })
+          }
+
+          return formatPlainNumber(value, formatOptions)
         }
 
         return z

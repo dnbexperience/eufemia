@@ -23,7 +23,11 @@ import {
 import { Anchor, Flex, Li, Ol, P, Section, Space } from '../../../'
 import { Context } from '../../../shared'
 import { SubmitButton } from '../../input/Input'
-import { format } from '../../number-format/NumberUtils'
+import {
+  formatBankAccountNumber,
+  formatCurrency,
+  formatPhoneNumber,
+} from '../../number-format/NumberUtils'
 import type {
   DrawerListData,
   DrawerListDataArray,
@@ -34,10 +38,10 @@ export default {
 }
 
 const numbers = [
-  format(20001234567, { ban: true }),
-  format(22233344425, { ban: true }),
-  format(1234.5, { currency: true }),
-  format('+47116000', { phone: true }),
+  formatBankAccountNumber(20001234567),
+  formatBankAccountNumber(22233344425),
+  formatCurrency(1234.5),
+  formatPhoneNumber('+47116000'),
   '100.222.333,40',
   '123456',
   '100 222 444,50',
@@ -443,18 +447,14 @@ const testData = [
   {
     selectedValue: 99999999,
     content: [
-      <NumberFormat phone key={99999999}>
-        99999999
-      </NumberFormat>,
+      <NumberFormat.PhoneNumber key={99999999}>99999999</NumberFormat.PhoneNumber>,
       'C',
     ],
   },
   {
     selectedValue: 99999999,
     content: [
-      <NumberFormat phone key={99999999}>
-        99999999
-      </NumberFormat>,
+      <NumberFormat.PhoneNumber key={99999999}>99999999</NumberFormat.PhoneNumber>,
       'D',
     ],
   },
@@ -480,9 +480,7 @@ const autocompleteData = [
   },
   {
     content: [
-      <NumberFormat key={99999999} phone>
-        99999999
-      </NumberFormat>,
+      <NumberFormat.PhoneNumber key={99999999}>99999999</NumberFormat.PhoneNumber>,
       'Sparekonto - Ole Nordmann',
     ],
   },
@@ -490,18 +488,14 @@ const autocompleteData = [
     selectedValue:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     content: [
-      <NumberFormat key={99999999} phone>
-        99999999
-      </NumberFormat>,
+      <NumberFormat.PhoneNumber key={99999999}>99999999</NumberFormat.PhoneNumber>,
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     ],
   },
   {
     selectedValue: <>Custom selected {'🔥'}</>,
     content: [
-      <NumberFormat key={99999999} phone>
-        99999999
-      </NumberFormat>,
+      <NumberFormat.PhoneNumber key={99999999}>99999999</NumberFormat.PhoneNumber>,
       <>Custom content {'🔥'}</>,
     ],
   },
@@ -513,27 +507,21 @@ const autocompleteDataScrollable = [
   },
   {
     content: [
-      <NumberFormat key={99999999} phone>
-        99999999zwzz
-      </NumberFormat>,
+      <NumberFormat.PhoneNumber key={99999999}>99999999zwzz</NumberFormat.PhoneNumber>,
       'BB',
     ],
   },
   {
     selectedValue: 'CCC',
     content: [
-      <NumberFormat key={99999999} phone>
-        99999999
-      </NumberFormat>,
+      <NumberFormat.PhoneNumber key={99999999}>99999999</NumberFormat.PhoneNumber>,
       'CC',
     ],
   },
   {
     selectedValue: 'DDD',
     content: [
-      <NumberFormat key={99999999} phone>
-        99999999
-      </NumberFormat>,
+      <NumberFormat.PhoneNumber key={99999999}>99999999</NumberFormat.PhoneNumber>,
       'DD',
     ],
   },
@@ -570,12 +558,11 @@ const topMovies = [
 
         <span className="custom-selector-b">xx</span>
 
-        <NumberFormat
-          currency
+        <NumberFormat.Currency
           value={1234}
           style={{ color: 'var(--color-black-55)' }}
         />
-        <NumberFormat currency value={1234} />
+        <NumberFormat.Currency value={1234} />
       </>
     ),
     year: 1994,
@@ -770,41 +757,41 @@ const WideStyle = styled.div`
 
 export function DataSuffix() {
   const { locale } = React.useContext(Context)
-  const ban = format(21001234567, { ban: true, locale }) as string
+  const ban = formatBankAccountNumber(21001234567, { locale }) as string
   const numbers: DrawerListDataArray = [
     {
       selectedValue: `Brukskonto (${ban})`,
       suffixValue: (
-        <NumberFormat lang="nb" currency srLabel="Total:">
+        <NumberFormat.Currency lang="nb" srLabel="Total:">
           {12345678}
-        </NumberFormat>
+        </NumberFormat.Currency>
       ),
       content: ['Brukskonto', ban],
     },
     {
       selectedValue: `BSU (${ban})`,
       suffixValue: (
-        <NumberFormat currency srLabel="Total:">
+        <NumberFormat.Currency srLabel="Total:">
           {2223}
-        </NumberFormat>
+        </NumberFormat.Currency>
       ),
       content: ['BSU', ban],
     },
     {
       selectedValue: `Sparekonto (${ban})`,
       suffixValue: (
-        <NumberFormat currency srLabel="Total:">
+        <NumberFormat.Currency srLabel="Total:">
           {876555.5}
-        </NumberFormat>
+        </NumberFormat.Currency>
       ),
       content: ['Sparekonto', ban],
     },
     {
       selectedValue: `Brukskonto (${ban})`,
       suffixValue: (
-        <NumberFormat currency srLabel="Total:">
+        <NumberFormat.Currency srLabel="Total:">
           {34999.2}
-        </NumberFormat>
+        </NumberFormat.Currency>
       ),
       content: ['Brukskonto', ban],
     },

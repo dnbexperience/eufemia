@@ -414,41 +414,31 @@ const dropdownData = [
   },
   {
     content: [
-      <NumberFormat key={15349648901} ban>
-        44445678902
-      </NumberFormat>,
+      <NumberFormat.BankAccountNumber key={15349648901}>44445678902</NumberFormat.BankAccountNumber>,
       'Sparekonto - Ole Nordmann A',
     ],
   },
   {
     content: [
-      <NumberFormat key={15349648901} ban>
-        12345623902
-      </NumberFormat>,
+      <NumberFormat.BankAccountNumber key={15349648901}>12345623902</NumberFormat.BankAccountNumber>,
       'Sparekonto - Ole Nordmann B',
     ],
   },
   {
     content: [
-      <NumberFormat key={15349648901} ban>
-        55555672302
-      </NumberFormat>,
+      <NumberFormat.BankAccountNumber key={15349648901}>55555672302</NumberFormat.BankAccountNumber>,
       'Sparekonto - Ole Nordmann C',
     ],
   },
   {
     content: [
-      <NumberFormat key={15349648901} ban>
-        77775672302
-      </NumberFormat>,
+      <NumberFormat.BankAccountNumber key={15349648901}>77775672302</NumberFormat.BankAccountNumber>,
       'Sparekonto - Ole Nordmann D',
     ],
   },
   {
     content: [
-      <NumberFormat key={15349648901} ban>
-        99995672302
-      </NumberFormat>,
+      <NumberFormat.BankAccountNumber key={15349648901}>99995672302</NumberFormat.BankAccountNumber>,
       'Sparekonto - Ole Nordmann E',
     ],
   },
@@ -456,18 +446,14 @@ const dropdownData = [
     selectedValue:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     content: [
-      <NumberFormat key={15349648901} ban>
-        11345678962
-      </NumberFormat>,
+      <NumberFormat.BankAccountNumber key={15349648901}>11345678962</NumberFormat.BankAccountNumber>,
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     ],
   },
   {
     selectedValue: <>Custom selected {'🔥'}</>,
     content: [
-      <NumberFormat key={15349648901} ban>
-        15349648901
-      </NumberFormat>,
+      <NumberFormat.BankAccountNumber key={15349648901}>15349648901</NumberFormat.BankAccountNumber>,
       <>Custom content {'🔥'}</>,
     ],
   },

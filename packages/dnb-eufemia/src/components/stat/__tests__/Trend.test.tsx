@@ -56,7 +56,7 @@ describe('Stat.Trend', () => {
   it('supports NumberFormat as children without duplicating sign', () => {
     render(
       <Stat.Trend>
-        <NumberFormat value={46692} currency signDisplay="always" />
+        <NumberFormat.Currency value={46692} signDisplay="always" />
       </Stat.Trend>
     )
 

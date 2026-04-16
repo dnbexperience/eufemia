@@ -1988,7 +1988,82 @@ The following properties on the event callback return object have been renamed:
 
 ### [NumberFormat](/uilib/components/number-format/)
 
-#### Properties
+#### Split into variants (no more `<NumberFormat />`)
+
+> **Major change:** `NumberFormat` is now exposed as a namespace of variant sub-components. This enables code splitting and tree shaking: apps only pay for the variants they actually use. There is **no backwards compatibility** – the generic `<NumberFormat />` component has been removed.
+
+Replace each usage with the matching variant:
+
+| Before                                          | After                                                   |
+| ----------------------------------------------- | ------------------------------------------------------- |
+| `<NumberFormat value={1234} />`                 | `<NumberFormat.Number value={1234} />`                  |
+| `<NumberFormat>1234</NumberFormat>`             | `<NumberFormat.Number>1234</NumberFormat.Number>`       |
+| `<NumberFormat currency value={1234} />`        | `<NumberFormat.Currency value={1234} />`                |
+| `<NumberFormat currency="USD" value={1234} />`  | `<NumberFormat.Currency currency="USD" value={1234} />` |
+| `<NumberFormat percent value={12.34} />`        | `<NumberFormat.Percent value={12.34} />`                |
+| `<NumberFormat compact value={12345} />`        | `<NumberFormat.Compact value={12345} />`                |
+| `<NumberFormat compact="long" value={12345} />` | `<NumberFormat.Compact compact="long" value={12345} />` |
+| `<NumberFormat phone value="99999999" />`       | `<NumberFormat.PhoneNumber value="99999999" />`               |
+| `<NumberFormat ban value="20001234567" />`      | `<NumberFormat.BankAccountNumber value="20001234567" />`              |
+| `<NumberFormat nin value="18089212345" />`      | `<NumberFormat.NationalIdentityNumber value="18089212345" />`              |
+| `<NumberFormat org value="123456789" />`        | `<NumberFormat.OrganizationNumber value="123456789" />`       |
+
+Notes:
+
+- The `currency`, `percent`, `compact`, `phone`, `ban`, `nin` and `org` boolean props have been removed from the shared props surface. They are now implied by the chosen variant.
+- `NumberFormat.Currency` defaults `currency` to `true` (i.e. `NOK`). Pass a string like `currency="USD"` to override.
+- `NumberFormat.Compact` defaults `compact` to `true`. Pass `compact="long"` or `compact="short"` to pick the style explicitly.
+- `NumberFormat.PhoneNumber` still supports `link="tel" | "sms"` for clickable links.
+- The `Provider` context key `NumberFormat` (e.g. `<Provider NumberFormat={{ currency: true, decimals: 0 }}>`) and the `NumberFormatProps` TypeScript type are still available for shared configuration.
+
+#### Utility formatter API (`format` removed)
+
+> **Major change:** The generic `format(value, options)` utility is gone. Import the variant formatter you need directly.
+
+| Before                               | After                                        |
+| ------------------------------------ | -------------------------------------------- |
+| `format(value, { phone: true })`     | `formatPhoneNumber(value)`                   |
+| `format(value, { ban: true })`       | `formatBankAccountNumber(value)`             |
+| `format(value, { nin: true })`       | `formatNationalIdentityNumber(value)`        |
+| `format(value, { org: true })`       | `formatOrganizationNumber(value)`            |
+| `format(value, { percent: true })`   | `formatPercent(value)`                       |
+| `format(value, { currency: true })`  | `formatCurrency(value)`                      |
+| `format(value, { currency: 'USD' })` | `formatCurrency(value, { currency: 'USD' })` |
+| `format(value)`                      | `formatPlainNumber(value)`                   |
+
+```tsx
+// Before
+import { format } from '@dnb/eufemia/components/NumberFormat'
+format(value, { phone: true })
+
+// After
+import { formatPhoneNumber } from '@dnb/eufemia/components/NumberFormat'
+formatPhoneNumber(value)
+```
+
+All variant formatters are re-exported from `@dnb/eufemia/components/NumberFormat`: `formatPlainNumber`, `formatCurrency`, `formatPercent`, `formatPhoneNumber`, `formatBankAccountNumber`, `formatNationalIdentityNumber`, `formatOrganizationNumber`.
+
+`NumberFormatOptionParams` no longer accepts the `phone`, `ban`, `nin`, `org` or `percent` booleans; they were only used by the removed dispatcher.
+
+#### `useNumberFormat(value, formatter, options?)`
+
+> **Major change:** `useNumberFormat` now takes the formatter explicitly instead of the variant flag.
+
+```tsx
+// Before
+const result = useNumberFormat(value, { currency: true, decimals: 2 })
+
+// After
+import {
+  useNumberFormat,
+  formatCurrency,
+} from '@dnb/eufemia/components/NumberFormat'
+const result = useNumberFormat(value, formatCurrency, { decimals: 2 })
+```
+
+`useNumberFormatWithParts` is unchanged at the call site – it still accepts an options object – but internally delegates to `formatCurrency` / `formatPercent` / `formatPlainNumber` based on the passed options.
+
+#### Properties (per variant)
 
 - Replace `omit_rounding` with `rounding="omit"`.
 - Replace `currency_display` with `currencyDisplay`.

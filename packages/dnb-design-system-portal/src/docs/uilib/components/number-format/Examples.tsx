@@ -27,16 +27,16 @@ export const NumberDefault = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-default">
       <P>
-        <NumberFormat value="12345" srLabel="Total:" />
-        <NumberFormat>-12345678.9</NumberFormat>
-        <NumberFormat prefix={<b>prefix</b>} suffix="suffix">
+        <NumberFormat.Number value="12345" srLabel="Total:" />
+        <NumberFormat.Number>-12345678.9</NumberFormat.Number>
+        <NumberFormat.Number prefix={<b>prefix</b>} suffix="suffix">
           -12345678.9
-        </NumberFormat>
-        <NumberFormat decimals={1}>-1234.54321</NumberFormat>
-        <NumberFormat decimals={2} copySelection={false}>
+        </NumberFormat.Number>
+        <NumberFormat.Number decimals={1}>-1234.54321</NumberFormat.Number>
+        <NumberFormat.Number decimals={2} copySelection={false}>
           -1234
-        </NumberFormat>
-        <NumberFormat decimals={2}>invalid</NumberFormat>
+        </NumberFormat.Number>
+        <NumberFormat.Number decimals={2}>invalid</NumberFormat.Number>
       </P>
     </ComponentBox>
   </Style>
@@ -46,11 +46,9 @@ export const NumberPercent = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-percent">
       <P>
-        <NumberFormat percent value="12.34" />
-        <NumberFormat percent>-12.34</NumberFormat>
-        <NumberFormat percent decimals={1}>
-          -12.34
-        </NumberFormat>
+        <NumberFormat.Percent value="12.34" />
+        <NumberFormat.Percent>-12.34</NumberFormat.Percent>
+        <NumberFormat.Percent decimals={1}>-12.34</NumberFormat.Percent>
       </P>
     </ComponentBox>
   </Style>
@@ -60,26 +58,21 @@ export const NumberCurrency = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-currency">
       <P>
-        <NumberFormat currency>12345</NumberFormat>
-        <NumberFormat
-          currency
+        <NumberFormat.Currency>12345</NumberFormat.Currency>
+        <NumberFormat.Currency
           currencyPosition="before"
           value={-12345678.9}
         />
-        <NumberFormat currency value={-12345678.95} decimals={0} />
-        <NumberFormat
-          currency
+        <NumberFormat.Currency value={-12345678.95} decimals={0} />
+        <NumberFormat.Currency
           value={-12345678.9}
           currencyDisplay="code"
         />
-        <NumberFormat
-          currency
+        <NumberFormat.Currency
           value={-12345678.9}
           currencyDisplay={false}
         />
-        <NumberFormat currency decimals={2}>
-          invalid
-        </NumberFormat>
+        <NumberFormat.Currency decimals={2}>invalid</NumberFormat.Currency>
       </P>
     </ComponentBox>
   </Style>
@@ -113,9 +106,12 @@ export const NumberProvider = () => (
         }}
       >
         <P>
-          <NumberFormat>12345</NumberFormat>
-          <NumberFormat value={-12345.123} decimals={0} />
-          <NumberFormat value={-12345678.955} currencyPosition="before" />
+          <NumberFormat.Currency>12345</NumberFormat.Currency>
+          <NumberFormat.Currency value={-12345.123} decimals={0} />
+          <NumberFormat.Currency
+            value={-12345678.955}
+            currencyPosition="before"
+          />
         </P>
       </Provider>
     </ComponentBox>
@@ -126,20 +122,26 @@ export const NumberCompact = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-compact">
       <P>
-        <NumberFormat compact decimals={1}>
-          1234
-        </NumberFormat>
-        <NumberFormat compact decimals={1} value={123456} />
-        <NumberFormat compact="short" decimals={2} value={-1723967.38} />
-        <NumberFormat compact="long" decimals={3} value={-1234567.9876} />
-        <NumberFormat
+        <NumberFormat.Compact decimals={1}>1234</NumberFormat.Compact>
+        <NumberFormat.Compact decimals={1} value={123456} />
+        <NumberFormat.Compact
+          compact="short"
+          decimals={2}
+          value={-1723967.38}
+        />
+        <NumberFormat.Compact
+          compact="long"
+          decimals={3}
+          value={-1234567.9876}
+        />
+        <NumberFormat.Compact
           compact="long"
           currency
           value={12345}
           decimals={1}
           currencyDisplay="name"
         />
-        <NumberFormat compact value={123455678912} decimals={3} />
+        <NumberFormat.Compact value={123455678912} decimals={3} />
       </P>
     </ComponentBox>
   </Style>
@@ -149,12 +151,12 @@ export const NumberPhone = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-phone">
       <P>
-        <NumberFormat value="99999999" phone />
-        <NumberFormat value="4799999999" phone />
-        <NumberFormat value="004799999999" phone />
-        <NumberFormat value="+4780022222" phone link="sms" />
-        <NumberFormat value="+47116000" phone selectAll={false} />
-        <NumberFormat value="+4702000" phone />
+        <NumberFormat.PhoneNumber value="99999999" />
+        <NumberFormat.PhoneNumber value="4799999999" />
+        <NumberFormat.PhoneNumber value="004799999999" />
+        <NumberFormat.PhoneNumber value="+4780022222" link="sms" />
+        <NumberFormat.PhoneNumber value="+47116000" selectAll={false} />
+        <NumberFormat.PhoneNumber value="+4702000" />
       </P>
     </ComponentBox>
   </Style>
@@ -164,7 +166,7 @@ export const NumberBankAccount = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-ban">
       <P>
-        <NumberFormat value="20001234567" ban />
+        <NumberFormat.BankAccountNumber value="20001234567" />
       </P>
     </ComponentBox>
   </Style>
@@ -174,7 +176,7 @@ export const NumberNationalIdentification = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-nin">
       <P>
-        <NumberFormat value="18089212345" nin />
+        <NumberFormat.NationalIdentityNumber value="18089212345" />
       </P>
     </ComponentBox>
   </Style>
@@ -184,7 +186,7 @@ export const NumberOrganization = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-org">
       <P>
-        <NumberFormat value="123456789" org suffix="MVA" />
+        <NumberFormat.OrganizationNumber value="123456789" suffix="MVA" />
       </P>
     </ComponentBox>
   </Style>
@@ -195,20 +197,20 @@ export const NumberLocales = () => (
     <ComponentBox data-visual-test="number-format-locales">
       <H3>Numbers</H3>
       <P>
-        <NumberFormat locale="nb-NO" value="-12345678.9" />
-        <NumberFormat locale="en-GB" value="-12345678.9" />
-        <NumberFormat locale="de-DE" value="-12345678.9" />
-        <NumberFormat locale="de-CH" value="-12345678.9" />
-        <NumberFormat locale="fr-CH" value="-12345678.9" />
+        <NumberFormat.Number locale="nb-NO" value="-12345678.9" />
+        <NumberFormat.Number locale="en-GB" value="-12345678.9" />
+        <NumberFormat.Number locale="de-DE" value="-12345678.9" />
+        <NumberFormat.Number locale="de-CH" value="-12345678.9" />
+        <NumberFormat.Number locale="fr-CH" value="-12345678.9" />
       </P>
 
       <H3>Currencies</H3>
       <P>
-        <NumberFormat locale="nb-NO" value="-12345.6" currency />
-        <NumberFormat locale="en-GB" value="-12345.6" currency />
-        <NumberFormat locale="de-DE" value="-12345.6" currency />
-        <NumberFormat locale="de-CH" value="-12345.6" currency />
-        <NumberFormat locale="fr-CH" value="-12345.6" currency />
+        <NumberFormat.Currency locale="nb-NO" value="-12345.6" />
+        <NumberFormat.Currency locale="en-GB" value="-12345.6" />
+        <NumberFormat.Currency locale="de-DE" value="-12345.6" />
+        <NumberFormat.Currency locale="de-CH" value="-12345.6" />
+        <NumberFormat.Currency locale="fr-CH" value="-12345.6" />
       </P>
     </ComponentBox>
   </Style>
@@ -217,8 +219,8 @@ export const NumberLocales = () => (
 export const NumberSpacing = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-spacing">
-      <span>text</span> <NumberFormat value="1234" currency left right />
-      <span>text</span> <NumberFormat value="5678" currency left right />
+      <span>text</span> <NumberFormat.Currency value="1234" left right />
+      <span>text</span> <NumberFormat.Currency value="5678" left right />
       <span>text</span>
     </ComponentBox>
   </Style>
@@ -229,33 +231,33 @@ export const NumberSignDisplay = () => (
     <ComponentBox data-visual-test="number-format-sign-display">
       <H3>signDisplay="auto"</H3>
       <P>
-        <NumberFormat signDisplay="auto" value={1234} />
-        <NumberFormat signDisplay="auto" value={-1234} />
-        <NumberFormat signDisplay="auto" value={0} />
+        <NumberFormat.Number signDisplay="auto" value={1234} />
+        <NumberFormat.Number signDisplay="auto" value={-1234} />
+        <NumberFormat.Number signDisplay="auto" value={0} />
       </P>
       <H3>signDisplay="always"</H3>
       <P>
-        <NumberFormat signDisplay="always" value={1234} />
-        <NumberFormat signDisplay="always" value={-1234} />
-        <NumberFormat signDisplay="always" value={0} />
+        <NumberFormat.Number signDisplay="always" value={1234} />
+        <NumberFormat.Number signDisplay="always" value={-1234} />
+        <NumberFormat.Number signDisplay="always" value={0} />
       </P>
       <H3>signDisplay="never"</H3>
       <P>
-        <NumberFormat signDisplay="never" value={1234} />
-        <NumberFormat signDisplay="never" value={-1234} />
-        <NumberFormat signDisplay="never" value={0} />
+        <NumberFormat.Number signDisplay="never" value={1234} />
+        <NumberFormat.Number signDisplay="never" value={-1234} />
+        <NumberFormat.Number signDisplay="never" value={0} />
       </P>
       <H3>signDisplay="negative"</H3>
       <P>
-        <NumberFormat signDisplay="negative" value={1234} />
-        <NumberFormat signDisplay="negative" value={-1234} />
-        <NumberFormat signDisplay="negative" value={0} />
+        <NumberFormat.Number signDisplay="negative" value={1234} />
+        <NumberFormat.Number signDisplay="negative" value={-1234} />
+        <NumberFormat.Number signDisplay="negative" value={0} />
       </P>
       <H3>signDisplay="exceptZero"</H3>
       <P>
-        <NumberFormat signDisplay="exceptZero" value={1234} />
-        <NumberFormat signDisplay="exceptZero" value={-1234} />
-        <NumberFormat signDisplay="exceptZero" value={0} />
+        <NumberFormat.Number signDisplay="exceptZero" value={1234} />
+        <NumberFormat.Number signDisplay="exceptZero" value={-1234} />
+        <NumberFormat.Number signDisplay="exceptZero" value={0} />
       </P>
     </ComponentBox>
   </Style>
@@ -264,7 +266,7 @@ export const NumberSignDisplay = () => (
 export const NumberMonospace = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-monospace">
-      <NumberFormat
+      <NumberFormat.Currency
         value="123456"
         locale="en-GB"
         currency="NOK"

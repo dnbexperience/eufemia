@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import type { ValueStringProps as StringValueProps } from '../String'
 import StringValue from '../String'
 import {
-  format,
+  formatBankAccountNumber,
   cleanNumber,
 } from '../../../../components/number-format/NumberUtils'
 import useTranslation from '../../hooks/useTranslation'
@@ -18,9 +18,7 @@ function BankAccountNumber(props: ValueBankAccountNumberProps) {
     if (isValueEmpty(value)) {
       return undefined
     }
-    return format(cleanNumber(value), {
-      ban: true,
-    }).toString()
+    return formatBankAccountNumber(cleanNumber(value)).toString()
   }, [])
 
   const stringValueProps: ValueBankAccountNumberProps = {

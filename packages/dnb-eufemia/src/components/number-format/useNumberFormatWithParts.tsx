@@ -1,9 +1,16 @@
-import useNumberFormat from './useNumberFormat'
+import { useContext } from 'react'
+import Context from '../../shared/Context'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import type {
   NumberFormatOptionParams,
   NumberFormatValue,
   NumberFormatReturnValue,
 } from './NumberUtils'
+import {
+  formatCurrency,
+  formatPercent,
+  formatPlainNumber,
+} from './utils'
 
 type UseNumberFormatWithPartsOptions = Omit<
   NumberFormatOptionParams,
@@ -19,6 +26,8 @@ type UseNumberFormatWithPartsOptions = Omit<
   cleanCopyValue?: NumberFormatOptionParams['cleanCopyValue']
   options?: NumberFormatOptionParams['options']
   forceCurrencyAfterAmount?: boolean
+  /** Format the value as a percentage. */
+  percent?: boolean
 }
 
 export type NumberFormatParts = {
@@ -57,13 +66,29 @@ function useNumberFormatWithParts(
     cleanCopyValue: normalizedOptions.cleanCopyValue,
   }
 
-  const amountOnly = useNumberFormat(value, {
-    ...formatOptions,
+  const context = useContext(Context)
+  const contextualOptions = extendPropsWithContext(
+    formatOptions,
+    { locale: context.locale },
+    context.NumberFormat
+  ) as NumberFormatOptionParams
+
+  const isCurrency =
+    contextualOptions.currency === true ||
+    typeof contextualOptions.currency === 'string'
+  const formatter = normalizedOptions.percent
+    ? formatPercent
+    : isCurrency
+      ? formatCurrency
+      : formatPlainNumber
+
+  const amountOnly = formatter(value, {
+    ...contextualOptions,
     omitCurrencySign: true,
     returnAria: true,
   })
 
-  const result = useNumberFormat(value, formatOptions)
+  const result = formatter(value, contextualOptions)
 
   if (
     !normalizedOptions.returnAria ||

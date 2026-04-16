@@ -68,17 +68,16 @@ export const NumberFormatSandbox = () => {
               locale="nb-NO"
               // locale="en-GB"
             >
-              <NumberFormat
+              <NumberFormat.Currency
                 prefix={() => <i>S</i>}
                 suffix={<b>E</b>}
                 value={'-12 345,99'}
-                currency
                 clean
                 decimals={2}
                 currencyPosition="after"
               />
               <br />
-              <NumberFormat
+              <NumberFormat.Number
                 prefix={<Prefix className="custom">S</Prefix>}
                 suffix="E"
                 value={'-12,623.988'}
@@ -90,8 +89,12 @@ export const NumberFormatSandbox = () => {
           <Box>
             <Provider locale="nb-NO">
               <P>
-                <NumberFormat>12345.987654321</NumberFormat> text{' '}
-                <NumberFormat>-12345678.9834523</NumberFormat> text{' '}
+                <NumberFormat.Number>12345.987654321</NumberFormat.Number>{' '}
+                text{' '}
+                <NumberFormat.Number>
+                  -12345678.9834523
+                </NumberFormat.Number>{' '}
+                text{' '}
               </P>
             </Provider>
           </Box>
@@ -99,52 +102,54 @@ export const NumberFormatSandbox = () => {
             <Provider>
               <ChangeLocale />
               <br />
-              <NumberFormat value="-1234" decimals={2} />
+              <NumberFormat.Number value="-1234" decimals={2} />
               <br />
-              <NumberFormat value="-1234.05" decimals={2} />
+              <NumberFormat.Number value="-1234.05" decimals={2} />
               <br />
               <P>
                 text{' '}
-                <NumberFormat currency clean>
-                  12 345
-                </NumberFormat>{' '}
-                text <NumberFormat currency="USD" value="12345" /> text{' '}
-                <NumberFormat currency clean>
+                <NumberFormat.Currency clean>12 345</NumberFormat.Currency>{' '}
+                text <NumberFormat.Currency currency="USD" value="12345" />{' '}
+                text{' '}
+                <NumberFormat.Currency clean>
                   12 345 678
-                </NumberFormat>{' '}
-                text <NumberFormat currency>12345.0</NumberFormat> text{' '}
-                <NumberFormat currency="EUR">-12345,68</NumberFormat>{' '}
+                </NumberFormat.Currency>{' '}
+                text <NumberFormat.Currency>12345.0</NumberFormat.Currency>{' '}
+                text{' '}
+                <NumberFormat.Currency currency="EUR">
+                  -12345,68
+                </NumberFormat.Currency>{' '}
                 text{' '}
               </P>
             </Provider>
           </Box>
           <Box>
             <P>
-              text <NumberFormat value="12345" /> text{' '}
-              <NumberFormat value={-12345678.9} />{' '}
+              text <NumberFormat.Number value="12345" /> text{' '}
+              <NumberFormat.Number value={-12345678.9} />{' '}
             </P>
           </Box>
           <Box>
             <P>
-              random phone number <NumberFormat value="99999999" phone />{' '}
-              random phone number <NumberFormat value="4799999999" phone />{' '}
+              random phone number <NumberFormat.PhoneNumber value="99999999" />{' '}
+              random phone number <NumberFormat.PhoneNumber value="4799999999" />{' '}
               random phone number{' '}
-              <NumberFormat value="++4799999999" phone /> random phone
-              number <NumberFormat value="004780022222" phone link="sms" />{' '}
-              random phone number <NumberFormat value="+47116000" phone />{' '}
-              random text <NumberFormat value="+4702000" phone />
+              <NumberFormat.PhoneNumber value="++4799999999" /> random phone
+              number <NumberFormat.PhoneNumber value="004780022222" link="sms" />{' '}
+              random phone number <NumberFormat.PhoneNumber value="+47116000" />{' '}
+              random text <NumberFormat.PhoneNumber value="+4702000" />
             </P>
           </Box>
           <Box>
             <P>
-              bank account number <NumberFormat value="20001234567" ban />{' '}
+              bank account number <NumberFormat.BankAccountNumber value="20001234567" />{' '}
               random account number
             </P>
           </Box>
           <Box>
             <P>
               national identification number{' '}
-              <NumberFormat value="18089212345" nin /> random
+              <NumberFormat.NationalIdentityNumber value="18089212345" /> random
               identification number
             </P>
           </Box>
@@ -152,29 +157,45 @@ export const NumberFormatSandbox = () => {
           <Box>
             <H3>Not Monospace</H3>
             <div>
-              <NumberFormat value="1111111.11" currency="NOK" />
+              <NumberFormat.Currency value="1111111.11" currency="NOK" />
             </div>
             <div>
-              <NumberFormat value="2222222.22" currency="AAA" />
+              <NumberFormat.Currency value="2222222.22" currency="AAA" />
             </div>
             <div>
-              <NumberFormat value="1212121.12" currency="III" />
+              <NumberFormat.Currency value="1212121.12" currency="III" />
             </div>
             <div>
-              <NumberFormat value="1010101.01" currency="LLL" />
+              <NumberFormat.Currency value="1010101.01" currency="LLL" />
             </div>
             <H3>Monospace</H3>
             <div>
-              <NumberFormat monospace value="1111111.11" currency="NOK" />
+              <NumberFormat.Currency
+                monospace
+                value="1111111.11"
+                currency="NOK"
+              />
             </div>
             <div>
-              <NumberFormat monospace value="2222222.22" currency="AAA" />
+              <NumberFormat.Currency
+                monospace
+                value="2222222.22"
+                currency="AAA"
+              />
             </div>
             <div>
-              <NumberFormat monospace value="1212121.12" currency="III" />
+              <NumberFormat.Currency
+                monospace
+                value="1212121.12"
+                currency="III"
+              />
             </div>
             <div>
-              <NumberFormat monospace value="1010101.01" currency="LLL" />
+              <NumberFormat.Currency
+                monospace
+                value="1010101.01"
+                currency="LLL"
+              />
             </div>
           </Box>
         </Wrapper>
@@ -193,7 +214,7 @@ export function Hover() {
       <button>my button</button>
       <p>text A</p>
 
-      <NumberFormat nin>18089212345</NumberFormat>
+      <NumberFormat.NationalIdentityNumber>18089212345</NumberFormat.NationalIdentityNumber>
 
       <p>text B</p>
     </>

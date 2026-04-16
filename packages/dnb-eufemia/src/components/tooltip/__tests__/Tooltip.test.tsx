@@ -757,7 +757,7 @@ describe('Tooltip', () => {
   describe('NumberFormat with tooltip', () => {
     it('will get wrapped with dnb-tooltip__wrapper', async () => {
       render(
-        <NumberFormat
+        <NumberFormat.Number
           tooltip={
             <OriginalTooltip {...defaultProps} className="custom-class">
               Tooltip for this NumberFormat
@@ -765,7 +765,7 @@ describe('Tooltip', () => {
           }
         >
           5678
-        </NumberFormat>
+        </NumberFormat.Number>
       )
 
       const wrapperElement = document.querySelector(
@@ -798,7 +798,7 @@ describe('Tooltip', () => {
 
     it('has to have open class on focus', async () => {
       render(
-        <NumberFormat
+        <NumberFormat.Number
           tooltip={
             <Tooltip {...defaultProps}>
               Tooltip for this NumberFormat
@@ -806,7 +806,7 @@ describe('Tooltip', () => {
           }
         >
           1234
-        </NumberFormat>
+        </NumberFormat.Number>
       )
 
       fireEvent.focus(document.querySelector('.dnb-tooltip__wrapper'))
