@@ -184,6 +184,10 @@ export default {
       closeTriggerTitle: 'Click to close',
       focusTrapTitle: 'Click to return',
     },
+    List: {
+      showMore: 'Show more',
+      showLess: 'Show less',
+    },
     TermDefinition: {
       closeButtonTitle: 'Close definition',
       openTriggerTitle: 'Click to open definition',

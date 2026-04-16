@@ -16,6 +16,11 @@ export const ContainerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  visibleCount: {
+    doc: 'Limits the number of visible child items. When used without an `id`, the list is always capped at this count. When paired with `List.ShowMoreButton` via a shared `id`, the list starts collapsed and expands to show all items on toggle. Hidden items stay mounted in the DOM to preserve internal state (e.g. open accordions). The list is wrapped in a `HeightAnimation` so expand/collapse transitions are animated.',
+    type: 'number',
+    status: 'optional',
+  },
   children: {
     doc: 'List items. Use `List.Item.Basic`, `List.Item.Action`, or `List.Item.Accordion` as direct children.',
     type: 'React.ReactNode',
@@ -458,6 +463,34 @@ export const ScrollViewProperties: PropertiesTableProps = {
   disabled: {
     doc: 'When `true`, dims all child items and prevents interaction. Propagated via context so nested `List.Container` and items inherit it.',
     type: 'boolean',
+    status: 'optional',
+  },
+  '[Space](/uilib/layout/space/properties)': {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
+    status: 'optional',
+  },
+}
+
+export const ShowMoreButtonProperties: PropertiesTableProps = {
+  id: {
+    doc: 'Shared identifier that links this button to a `List.Container` with the same `id`. Controls the expanded/collapsed state via `useSharedState`.',
+    type: 'string',
+    status: 'required',
+  },
+  showMore: {
+    doc: 'Button label shown when the list is collapsed. Defaults to the localized `List.showMore` translation.',
+    type: 'string',
+    status: 'optional',
+  },
+  showLess: {
+    doc: 'Button label shown when the list is expanded. Defaults to the localized `List.showLess` translation.',
+    type: 'string',
+    status: 'optional',
+  },
+  '[Button](/uilib/components/button/properties)': {
+    doc: 'All [Button](/uilib/components/button) properties are supported except `variant`, `text`, `icon`, and `onClick` which are managed internally.',
+    type: 'Various',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {

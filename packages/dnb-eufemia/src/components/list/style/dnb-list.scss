@@ -137,16 +137,17 @@
 
     // Handle border radius
     border-radius: 0;
-    &:first-of-type {
+    .dnb-list--separated & {
+      border-radius: var(--item-rounded-corner);
+    }
+    &:first-of-type:not([hidden]) {
       border-top-left-radius: var(--item-rounded-corner);
       border-top-right-radius: var(--item-rounded-corner);
     }
-    &:last-of-type {
+    &:not([hidden]):has(+ [hidden]),
+    &:last-of-type:not([hidden]) {
       border-bottom-left-radius: var(--item-rounded-corner);
       border-bottom-right-radius: var(--item-rounded-corner);
-    }
-    .dnb-list--separated & {
-      border-radius: var(--item-rounded-corner);
     }
 
     background-color: var(--item-background-color);
@@ -214,7 +215,8 @@
       margin-top: var(--item-padding);
       padding: var(--item-padding);
     }
-    &:last-of-type:not(#{&}__accordion--open) &__footer {
+    &:not([hidden]):has(+ [hidden]):not(#{&}__accordion--open) &__footer,
+    &:last-of-type:not([hidden]):not(#{&}__accordion--open) &__footer {
       border-bottom-left-radius: var(--item-rounded-corner);
       border-bottom-right-radius: var(--item-rounded-corner);
     }
@@ -415,15 +417,17 @@
         inset: 0;
         bottom: calc(var(--item-outline-width) * -1);
       }
-      &:last-of-type::after {
+      &:not([hidden]):has(+ [hidden])::after,
+      &:last-of-type:not([hidden])::after {
         bottom: 0;
       }
     }
 
     .dnb-card & {
       .dnb-list__item {
-        &:first-of-type,
-        &:last-of-type {
+        &:first-of-type:not([hidden]),
+        &:not([hidden]):has(+ [hidden]),
+        &:last-of-type:not([hidden]) {
           border-radius: 0;
         }
 
@@ -437,11 +441,12 @@
             border-left: none;
           }
 
-          &:first-of-type::after {
+          &:first-of-type:not([hidden])::after {
             border-top: none;
           }
 
-          &:last-of-type::after {
+          &:not([hidden]):has(+ [hidden])::after,
+          &:last-of-type:not([hidden])::after {
             border-bottom: none;
           }
         }
@@ -460,11 +465,12 @@
 
     // First/last items inherit the card's border radius if not inside a scroll view
     .dnb-card:not(:has(.dnb-scroll-view)) & {
-      .dnb-list__item:first-of-type {
+      .dnb-list__item:first-of-type:not([hidden]) {
         border-top-left-radius: var(--rounded-corner, 0);
         border-top-right-radius: var(--rounded-corner, 0);
       }
-      .dnb-list__item:last-of-type {
+      .dnb-list__item:not([hidden]):has(+ [hidden]),
+      .dnb-list__item:last-of-type:not([hidden]) {
         border-bottom-left-radius: var(--rounded-corner, 0);
         border-bottom-right-radius: var(--rounded-corner, 0);
       }
