@@ -219,9 +219,7 @@ describe('Icon component', () => {
   it('should detect medium size from a direct function icon with minified name', () => {
     // Direct function (not wrapped in JSX) with short name — tests the
     // typeof icon === 'function' branch in calcSize
-    const e = (
-      props?: React.SVGProps<SVGSVGElement> & { title?: string }
-    ) => (
+    const e = (props?: React.SVGProps<SVGSVGElement>) => (
       <svg
         width={24}
         height={24}

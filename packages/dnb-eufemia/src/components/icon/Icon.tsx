@@ -41,7 +41,7 @@ export type ValidIconType = (typeof ValidIconType)[number]
 export type ValidIconNumericSize = DefaultIconSizes[keyof DefaultIconSizes]
 
 export type IconFunction = (
-  props?: React.SVGProps<SVGSVGElement> & { title?: string }
+  props?: React.SVGProps<SVGSVGElement>
 ) => React.JSX.Element
 
 /** For internal usage */
@@ -478,11 +478,9 @@ export function prerenderIcon(
   }
 
   if (typeof icon === 'function') {
-    return (
-      props?: React.SVGProps<SVGSVGElement> & { title?: string }
-    ) => {
+    return (props?: React.SVGProps<SVGSVGElement>) => {
       const IconComponent = icon as React.ComponentType<
-        React.SVGProps<SVGSVGElement> & { title?: string }
+        React.SVGProps<SVGSVGElement>
       >
       return <IconComponent {...props} />
     }
