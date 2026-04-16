@@ -23,6 +23,5 @@ declare global {
   var pageUrl: string | undefined;
   var pageViewport: { width: number; height: number } | undefined;
   var rootClassName: string | string[] | null | undefined;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  var __VISUAL_TEST_RETRY__: any;
+  var __VISUAL_TEST_RETRY__: boolean | undefined;
 }

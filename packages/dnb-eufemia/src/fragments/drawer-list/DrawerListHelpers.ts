@@ -11,6 +11,7 @@ import {
   convertJsxToString,
 } from '../../shared/component-helper'
 import type {
+  DrawerListContent,
   DrawerListDataArrayItem,
   DrawerListDataArrayObject,
   DrawerListData,
@@ -308,12 +309,18 @@ export const getEventData = (
   itemIndex: string | number,
   data: DrawerListInternalData
 ) => {
-  const item = getCurrentData(itemIndex, data)
+  let item = getCurrentData(itemIndex, data)
 
   // cleanup
-  if (item && typeof item === 'object' && '__id' in item) {
-    const { __id, __isTransformed, ...rest } = item
-    return rest
+  if (
+    item &&
+    typeof item === 'object' &&
+    !Array.isArray(item) &&
+    (item as DrawerListInternalItem).__id
+  ) {
+    item = { ...(item as DrawerListInternalItem) }
+    delete (item as DrawerListInternalItem).__id
+    delete (item as DrawerListInternalItem).__isTransformed
   }
 
   return item
@@ -322,7 +329,7 @@ export const getEventData = (
 export const getCurrentData = (
   itemIndex: string | number,
   data: DrawerListInternalData | (() => DrawerListInternalData)
-): DrawerListInternalItem | null => {
+): DrawerListInternalItem | DrawerListContent | null => {
   if (typeof data === 'function') {
     data = normalizeData(data)
   }
@@ -331,7 +338,7 @@ export const getCurrentData = (
     (data && data.find(({ __id }) => __id === itemIndex)) || null
 
   if (item && item.__isTransformed) {
-    return { content: item.content } as DrawerListInternalItem
+    return item.content
   }
 
   return item

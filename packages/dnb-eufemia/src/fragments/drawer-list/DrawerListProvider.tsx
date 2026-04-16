@@ -1155,7 +1155,12 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         attributes,
       }
 
-      if (data?.disabled) {
+      if (
+        data &&
+        typeof data === 'object' &&
+        'disabled' in data &&
+        data.disabled
+      ) {
         return false
       }
 

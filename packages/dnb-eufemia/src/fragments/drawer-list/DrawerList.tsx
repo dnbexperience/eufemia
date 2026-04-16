@@ -389,7 +389,10 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
   const onItemMouseEnterHandler = useCallback(
     (itemId: number, event: React.MouseEvent<HTMLLIElement>) => {
       if (onItemMouseEnterCallback) {
-        const data = getEventData(itemId, context.drawerList.data)
+        const data = getEventData(itemId, context.drawerList.data) as
+          | DrawerListDataArrayObject
+          | string
+          | null
         onItemMouseEnterCallback({ item: itemId, data, event })
       }
     },

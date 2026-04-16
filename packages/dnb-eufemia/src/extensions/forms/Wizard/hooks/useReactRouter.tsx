@@ -21,7 +21,7 @@ export default function useReactRouter(
   const onStepChange = useCallback(
     (index: number) => {
       try {
-        searchParams.set(name, String(index))
+        searchParams.set(name, index as unknown as string)
         setSearchParams(searchParams)
       } catch (error) {
         setFormError(error as Error)

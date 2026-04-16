@@ -2429,7 +2429,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   const currentDataItem = getCurrentData(
     selectedItem,
     drawerList.originalData
-  )
+  ) as DrawerListInternalItem | null
 
   const innerId =
     showStatus || suffix || currentDataItem?.suffixValue

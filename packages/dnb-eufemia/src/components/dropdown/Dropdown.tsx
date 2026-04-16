@@ -28,6 +28,7 @@ import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import Button from '../button/Button'
 import DrawerList from '../../fragments/drawer-list/DrawerList'
+import type { DrawerListInternalItem } from '../../fragments/drawer-list/DrawerList'
 import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
 import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
 import {
@@ -431,7 +432,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
       const currentOptionData = getCurrentData(
         context.drawerList.selectedItem,
         data
-      )
+      ) as DrawerListInternalItem | null
       if (currentOptionData) {
         title =
           currentOptionData.selectedValue ||

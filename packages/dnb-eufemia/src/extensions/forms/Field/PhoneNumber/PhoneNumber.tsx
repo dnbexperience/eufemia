@@ -7,6 +7,10 @@ import React, {
 } from 'react'
 import * as z from 'zod'
 import { Autocomplete } from '../../../../components'
+import type {
+  AutocompleteOnFocusParams,
+  AutocompleteOnTypeParams,
+} from '../../../../components/Autocomplete'
 import type { InputMaskedProps } from '../../../../components/InputMasked'
 import clsx from 'clsx'
 import type {
@@ -468,8 +472,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
   }, [callOnBlurOrFocus])
 
   const handleCountryCodeFocus = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ({ updateData }: any) => {
+    ({ updateData }: AutocompleteOnFocusParams) => {
       if (!wasFilled.current) {
         wasFilled.current = true
         updateCurrentDataSet()
@@ -481,10 +484,17 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
   )
 
   const onTypeHandler = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ({ value, updateData, revalidateInputValue, event }: any) => {
-      // Handle browser autofill/autocomplete
-      if (typeof event?.nativeEvent?.data === 'undefined') {
+    ({
+      value,
+      updateData,
+      revalidateInputValue,
+      event,
+    }: AutocompleteOnTypeParams) => {
+      // Handle browser autofill/autocomplete – autofill events have no InputEvent.data
+      const isAutofill =
+        !(event?.nativeEvent instanceof InputEvent) ||
+        typeof event.nativeEvent.data === 'undefined'
+      if (isAutofill) {
         // Try to detect the country code from the autofilled value.
         // Browsers may autofill either space-separated ("+47 12345678")
         // or spaceless E.164 ("+4712345678") values.
