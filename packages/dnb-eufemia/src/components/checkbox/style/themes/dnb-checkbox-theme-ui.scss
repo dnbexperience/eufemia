@@ -4,9 +4,6 @@
 */
 
 .dnb-checkbox {
-  // Focus state
-  --checkbox-color-gfx--focus: var(--color-emerald-green);
-  --checkbox-color-background--focus: var(--color-mint-green-50);
   // Error state
   --checkbox-color-gfx--error: var(--color-fire-red-8);
   --checkbox-color-gfx--error-contrast: var(--color-fire-red);

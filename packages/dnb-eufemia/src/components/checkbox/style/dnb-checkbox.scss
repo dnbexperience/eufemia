@@ -116,8 +116,16 @@
   );
 
   // Focus state
-  --checkbox-color-gfx--focus: grey;
-  --checkbox-color-background--focus: lightgrey;
+  --checkbox-color-gfx--focus: var(--token-color-icon-action-focus);
+
+  --checkbox-color-background--focus: var(
+    --token-color-background-action-focus-subtle
+  );
+
+  --checkbox-color-gfx__indeterminate--focus: var(
+    --token-color-background-action-focus
+  );
+
   // Error state
   --checkbox-border-width--error: 0.125rem;
   --checkbox-color-gfx--error: lavenderblush;
@@ -171,7 +179,10 @@
   &__focus {
     display: none;
 
-    @include utilities.focusRing();
+    @include utilities.focusRing(
+      'keyboard',
+      var(--token-color-stroke-action-focus)
+    );
   }
 
   &__focus,
@@ -334,7 +345,7 @@
 
   &__input:not(:checked):not([data-checked='true']):not(
       :indeterminate
-    ):not(:active):not(:hover)
+    ):not(:active):not(:hover):not(:focus-visible)
     ~ &__button {
     background-color: var(--checkbox-color-background-off);
     border-color: var(--checkbox-color-border-off);
@@ -498,13 +509,19 @@
     }
   }
 
+  &__input:not([disabled]):indeterminate:focus-visible ~ &__gfx {
+    html[data-whatinput='keyboard'] & {
+      color: transparent;
+    }
+  }
+
   &__input:not([disabled]):focus-visible ~ &__button &__focus,
   &__input:not([disabled]):active ~ &__button &__focus {
     display: block;
   }
 
   &__input:not([disabled]):focus-visible ~ &__indeterminate {
-    background-color: var(--checkbox-color-gfx--focus);
+    background-color: var(--checkbox-color-gfx__indeterminate--focus);
   }
 
   /** Error state **/
