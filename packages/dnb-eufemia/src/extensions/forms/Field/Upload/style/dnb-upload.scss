@@ -4,7 +4,9 @@
       --outset-left: calc(var(--spacing-medium));
       --outset-right: calc(var(--spacing-medium));
 
+      /* stylelint-disable-next-line eufemia/no-unresolved-component-vars -- declared in components/upload */
       margin-left: var(--upload-border-width);
+      /* stylelint-disable-next-line eufemia/no-unresolved-component-vars -- declared in components/upload */
       margin-right: var(--upload-border-width);
       &::before {
         z-index: 0;

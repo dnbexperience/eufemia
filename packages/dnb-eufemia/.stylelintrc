@@ -6,7 +6,8 @@
   "plugins": [
     "stylelint-scss",
     "./scripts/stylelint/plugins/token-name-policy.cjs",
-    "./scripts/stylelint/plugins/no-unused-use.cjs"
+    "./scripts/stylelint/plugins/no-unused-use.cjs",
+    "./scripts/stylelint/plugins/no-unresolved-component-vars.cjs"
   ],
   "rules": {
     "scss/at-mixin-argumentless-call-parentheses": "always",
@@ -42,6 +43,7 @@
         }
       }
     ],
-    "eufemia/no-unused-use": true
+    "eufemia/no-unused-use": true,
+    "eufemia/no-unresolved-component-vars": true
   }
 }
