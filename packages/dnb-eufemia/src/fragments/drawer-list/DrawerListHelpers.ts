@@ -25,8 +25,7 @@ import type { DrawerListContextState } from './DrawerListContext'
 import Icon from '../../components/icon/Icon'
 import CountryFlag from '../../components/country-flag/CountryFlag'
 
-export const drawerListDefaultProps: Partial<DrawerListProps> &
-  Record<string, unknown> = {
+export const drawerListDefaultProps: Partial<DrawerListProps> = {
   id: null,
   role: 'listbox',
   cacheHash: null,
@@ -55,7 +54,6 @@ export const drawerListDefaultProps: Partial<DrawerListProps> &
   skipKeysearch: false,
   open: null,
   data: null,
-  rawData: null,
   ignoreEvents: null,
 
   className: null,
