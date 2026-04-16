@@ -2,6 +2,7 @@
 showTabs: true
 ---
 
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import {
   ContainerProperties,
@@ -19,6 +20,7 @@ import {
   ItemActionProperties,
   CardProperties,
   ScrollViewProperties,
+  ShowMoreButtonProperties,
 } from '@dnb/eufemia/src/components/list/ListDocs'
 
 ## List.Container
@@ -80,3 +82,11 @@ import {
 ## List.ScrollView
 
 <PropertiesTable props={ScrollViewProperties} />
+
+## List.ShowMoreButton
+
+<PropertiesTable props={ShowMoreButtonProperties} />
+
+## Translations
+
+<TranslationsTable localeKey="List" />

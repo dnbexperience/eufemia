@@ -183,6 +183,10 @@ export default {
       closeTriggerTitle: 'Klicka för att stänga',
       focusTrapTitle: 'Klicka för att återgå',
     },
+    List: {
+      showMore: 'Visa mer',
+      showLess: 'Visa mindre',
+    },
     TermDefinition: {
       closeButtonTitle: 'Stäng ordförklaring',
       openTriggerTitle: 'Klicka för att öppna ordförklaring',
