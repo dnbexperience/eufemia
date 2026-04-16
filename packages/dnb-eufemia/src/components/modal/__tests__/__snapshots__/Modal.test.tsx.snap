@@ -1221,6 +1221,11 @@ html[data-dnb-modal-active] .eufemia-portal-root {
   top: 0;
   width: 100%;
   height: 100%;
+  --modal-overlay-bg: rgb(0 0 0 / 32%);
+  background-color: var(--modal-overlay-bg);
+}
+.dnb-modal__color-scheme--dark.dnb-modal__overlay {
+  --modal-overlay-bg: rgb(0 0 0 / 48%);
 }
 .dnb-modal-root__inner .dnb-modal__overlay {
   animation: hide-modal-overlay var(--modal-animation-duration) ease-out forwards;

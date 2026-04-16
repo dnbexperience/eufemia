@@ -196,11 +196,6 @@ export const ModalProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  className: {
-    doc: 'Give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).',
-    type: 'string',
-    status: 'optional',
-  },
 }
 
 export const ModalEvents: PropertiesTableProps = {

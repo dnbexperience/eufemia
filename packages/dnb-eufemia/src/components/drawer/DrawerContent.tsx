@@ -49,9 +49,8 @@ export default function DrawerContent({
 
   const innerParams = {
     className: clsx(
-      !preventCoreStyle && 'dnb-core-style',
-
       'dnb-drawer',
+      !preventCoreStyle && 'dnb-core-style',
       spacing && 'dnb-drawer--spacing',
       alignContent && `dnb-drawer__align--${alignContent}`,
       fullscreen === true
