@@ -1,9 +1,7 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 import type {
-  NumberFormatFunction,
   NumberFormatOptionParams,
+  NumberFormatReturnValue,
+  NumberFormatValue,
 } from './types'
 /**
  * Formatter for percent numbers.
@@ -27,8 +25,16 @@ import {
 } from './formatCore'
 import { countDecimals } from './decimals'
 
-export const formatPercent: NumberFormatFunction = (
-  value,
+export function formatPercent(
+  value: NumberFormatValue | null | undefined,
+  options: NumberFormatOptionParams & { returnAria: true }
+): NumberFormatReturnValue
+export function formatPercent(
+  value: NumberFormatValue | null | undefined,
+  options?: NumberFormatOptionParams
+): string
+export function formatPercent(
+  value: NumberFormatValue | null | undefined,
   {
     locale: inputLocale = null,
     clean = false,
@@ -40,7 +46,7 @@ export const formatPercent: NumberFormatFunction = (
     invalidAriaText = null,
     cleanCopyValue = null,
   }: NumberFormatOptionParams = {}
-) => {
+): string | NumberFormatReturnValue {
   value = isAbsent(value) ? ABSENT_VALUE_FORMAT : value
 
   const locale = resolveLocale(inputLocale)
@@ -50,7 +56,7 @@ export const formatPercent: NumberFormatFunction = (
     value = cleanNumber(value)
   }
 
-  if (parseFloat(decimals) >= 0) {
+  if (parseFloat(String(decimals)) >= 0) {
     value = formatDecimals(value, decimals, rounding, opts)
   }
 
@@ -65,7 +71,7 @@ export const formatPercent: NumberFormatFunction = (
     opts.style = 'percent'
   }
 
-  const display = formatNumber(value / 100, locale, opts)
+  const display = formatNumber(Number(value) / 100, locale, opts)
   const aria = display
 
   if (!returnAria) {

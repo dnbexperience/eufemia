@@ -1,9 +1,9 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 import type {
-  NumberFormatFunction,
   NumberFormatOptionParams,
+  NumberFormatReturnValue,
+  NumberFormatValue,
+  FormatPartItem,
+  PartFormatter,
 } from './types'
 /**
  * Formatter for currency numbers.
@@ -27,8 +27,16 @@ import { currencyPositionFormatter } from './currencyPosition'
 import { getFallbackCurrencyDisplay, CURRENCY } from './currencyDisplay'
 import { alignCurrencySymbol } from './formatNumber'
 
-export const formatCurrency: NumberFormatFunction = (
-  value,
+export function formatCurrency(
+  value: NumberFormatValue | null | undefined,
+  options: NumberFormatOptionParams & { returnAria: true }
+): NumberFormatReturnValue
+export function formatCurrency(
+  value: NumberFormatValue | null | undefined,
+  options?: NumberFormatOptionParams
+): string
+export function formatCurrency(
+  value: NumberFormatValue | null | undefined,
   {
     locale: inputLocale = null,
     clean = false,
@@ -45,7 +53,7 @@ export const formatCurrency: NumberFormatFunction = (
     invalidAriaText = null,
     cleanCopyValue = null,
   }: NumberFormatOptionParams = {}
-) => {
+): string | NumberFormatReturnValue {
   value = isAbsent(value) ? ABSENT_VALUE_FORMAT : value
 
   const locale = resolveLocale(inputLocale)
@@ -56,11 +64,11 @@ export const formatCurrency: NumberFormatFunction = (
   }
 
   opts.currency =
-    opts.currency || (currency === true ? CURRENCY : currency)
+    opts.currency || (currency === true ? CURRENCY : currency || undefined)
 
   handleCompactBeforeDisplay({ value, locale, compact, decimals, opts })
 
-  if (parseFloat(decimals) >= 0) {
+  if (parseFloat(String(decimals)) >= 0) {
     value = formatDecimals(value, decimals, rounding, opts)
   } else if (decimals === null) {
     decimals = 2
@@ -69,7 +77,11 @@ export const formatCurrency: NumberFormatFunction = (
 
   // cleanup, but only if it did not got cleaned up already
   const cleanedNumber =
-    decimals >= 0 ? value : clean ? cleanNumber(value) : value
+    parseFloat(String(decimals)) >= 0
+      ? value
+      : clean
+        ? cleanNumber(value)
+        : value
 
   if (currencyDisplay === false || currencyDisplay === '') {
     omitCurrencySign = true
@@ -85,15 +97,15 @@ export const formatCurrency: NumberFormatFunction = (
   if (
     typeof opts.minimumFractionDigits === 'undefined' &&
     String(value).indexOf('.') === -1 &&
-    cleanedNumber % 1 === 0
+    Number(cleanedNumber) % 1 === 0
   ) {
     opts.minimumFractionDigits = 0 // to enforce Norwegian style
   }
 
-  let formatter
+  let formatter: PartFormatter | null = null
 
   if (omitCurrencySign) {
-    formatter = (item) => {
+    formatter = (item: FormatPartItem) => {
       switch (item.type) {
         case 'literal':
           item.value = item.value === ' ' ? '' : item.value
@@ -117,11 +129,11 @@ export const formatCurrency: NumberFormatFunction = (
     resolvedPosition = 'after'
   }
 
-  let currencySuffix = null
+  let currencySuffix: string | null = null
   if (resolvedPosition) {
     formatter = currencyPositionFormatter(
       formatter,
-      ({ value: currencyValue }) => {
+      ({ value: currencyValue }: FormatPartItem) => {
         return (currencySuffix = alignCurrencySymbol(
           currencyValue.trim(),
           currencyDisplay

@@ -1,9 +1,7 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 import type {
-  NumberFormatFunction,
   NumberFormatOptionParams,
+  NumberFormatReturnValue,
+  NumberFormatValue,
 } from './types'
 /**
  * Formatter for plain (non-currency / non-percent) numbers. Supports `compact`.
@@ -24,8 +22,16 @@ import {
   enhanceSR,
 } from './formatCore'
 
-export const formatPlainNumber: NumberFormatFunction = (
-  value,
+export function formatPlainNumber(
+  value: NumberFormatValue | null | undefined,
+  options: NumberFormatOptionParams & { returnAria: true }
+): NumberFormatReturnValue
+export function formatPlainNumber(
+  value: NumberFormatValue | null | undefined,
+  options?: NumberFormatOptionParams
+): string
+export function formatPlainNumber(
+  value: NumberFormatValue | null | undefined,
   {
     locale: inputLocale = null,
     clean = false,
@@ -38,7 +44,7 @@ export const formatPlainNumber: NumberFormatFunction = (
     invalidAriaText = null,
     cleanCopyValue = null,
   }: NumberFormatOptionParams = {}
-) => {
+): string | NumberFormatReturnValue {
   value = isAbsent(value) ? ABSENT_VALUE_FORMAT : value
 
   const locale = resolveLocale(inputLocale)

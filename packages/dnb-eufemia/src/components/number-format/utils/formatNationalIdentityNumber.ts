@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 /**
  * Norwegian National Identity Number formatter.
  */
@@ -8,21 +5,25 @@
 import { IS_WIN } from '../../../shared/helpers'
 import { ABSENT_VALUE_FORMAT, isAbsent } from './constants'
 import { formatWith } from './formatCore'
+import type { NumberFormatValue, FormattedParts } from './types'
 
-const formatNationalIdentityNumberParts = (number, locale = null) => {
+const formatNationalIdentityNumberParts = (
+  number: NumberFormatValue,
+  locale: string | null = null
+): FormattedParts => {
   if (isAbsent(number)) {
     return { number: ABSENT_VALUE_FORMAT, aria: ABSENT_VALUE_FORMAT }
   }
   // cleanup
-  number = String(number).replace(/[^0-9]/g, '')
+  const num = String(number).replace(/[^0-9]/g, '')
 
-  let display = number
-  let aria = null
+  let display = num
+  let aria: string | null = null
 
   switch (locale) {
     default: {
       // Get 180892 12345
-      display = number
+      display = num
         .split(/([0-9]{6})/)
         .filter((s) => s)
         .join(' ')

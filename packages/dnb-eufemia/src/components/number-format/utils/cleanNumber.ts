@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 /**
  * Clean numbers for separators.
  * https://en.wikipedia.org/wiki/Decimal_separator
@@ -8,16 +5,22 @@
 
 import { escapeRegexChars } from '../../../shared/component-helper'
 import { NUMBER_CHARS } from './constants'
+import type { NumberFormatValue } from './types'
 
 export function cleanNumber(
-  num,
+  num: NumberFormatValue | null | undefined,
   {
     decimalSeparator = null,
     thousandsSeparator = null,
     prefix = null,
     suffix = null,
+  }: {
+    decimalSeparator?: string | null
+    thousandsSeparator?: string | null
+    prefix?: string | null
+    suffix?: string | null
   } = {}
-) {
+): NumberFormatValue | null | undefined {
   if (
     typeof num === 'number' ||
     typeof num === 'undefined' ||

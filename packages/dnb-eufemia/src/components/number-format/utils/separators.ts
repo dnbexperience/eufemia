@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 /**
  * Locale-aware separator lookups and currency symbol resolution.
  */
@@ -11,7 +8,7 @@ import { getFallbackCurrencyDisplay, CURRENCY } from './currencyDisplay'
 /**
  * Returns a decimal separator symbol based on the given locale.
  */
-export function getDecimalSeparator(locale = null) {
+export function getDecimalSeparator(locale: string | null = null): string {
   const separator =
     formatToParts({
       number: 1.1,
@@ -24,7 +21,9 @@ export function getDecimalSeparator(locale = null) {
 /**
  * Returns a thousands separator symbol based on the given locale.
  */
-export function getThousandsSeparator(locale = null) {
+export function getThousandsSeparator(
+  locale: string | null = null
+): string {
   return (
     formatToParts({
       number: 1000,
@@ -41,8 +40,8 @@ export function getCurrencySymbol(
   currency: string | boolean | null = null,
   display: string | boolean | null = null,
   number: string | number = 2
-) {
-  if (!currency) {
+): string {
+  if (!currency || currency === true) {
     currency = CURRENCY
   }
 

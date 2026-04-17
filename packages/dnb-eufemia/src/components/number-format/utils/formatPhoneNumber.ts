@@ -1,55 +1,57 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 /**
  * Phone-number specific formatter.
  */
 
 import { ABSENT_VALUE_FORMAT, isAbsent } from './constants'
 import { formatWith } from './formatCore'
+import type { NumberFormatValue, FormattedParts } from './types'
 
-const formatPhoneNumberParts = (number, locale = null) => {
+const formatPhoneNumberParts = (
+  number: NumberFormatValue,
+  locale: string | null = null
+): FormattedParts => {
   if (isAbsent(number)) {
     return { number: ABSENT_VALUE_FORMAT, aria: ABSENT_VALUE_FORMAT }
   }
 
-  let display = number
-  let aria = null
+  let display = String(number)
+  let aria: string | null = null
+  let num: string
 
   switch (locale) {
     default: {
       let code = ''
-      number = String(number)
+      num = String(number)
         // Edge case for when a Norwegian number is given without a space after the country code
         .replace(/^(00|\+|)47([^\s])/, '+47 $2')
         .replace(/^00/, '+')
 
-      if (number.substring(0, 1) === '+') {
-        const codeAndNumber = number.match(
+      if (num.substring(0, 1) === '+') {
+        const codeAndNumber = num.match(
           // Split the number into the country code and the rest of the number
           /^\+([\d-]{1,8})\s{0,2}([\d\s-]{1,20})$/
         )
         if (codeAndNumber) {
           code = `+${codeAndNumber[1]} `
-          number = codeAndNumber[2]
+          num = codeAndNumber[2]
         }
       }
 
-      number = number.replace(/[^+\d]/g, '')
-      const length = number.length
+      num = num.replace(/[^+\d]/g, '')
+      const length = num.length
 
       // Get 800 22 222
-      if (length === 8 && number.substring(0, 1) === '8') {
+      if (length === 8 && num.substring(0, 1) === '8') {
         display =
           code +
-          number
+          num
             .split(/([\d]{3})([\d]{2})/)
             .filter((s) => s)
             .join(' ')
       } else {
         // Get 02000
         if (length < 6) {
-          display = code + number
+          display = code + num
         } else {
           if (code.includes('-')) {
             // Convert +12-3456 to +12 (3456)
@@ -59,7 +61,7 @@ const formatPhoneNumberParts = (number, locale = null) => {
           // Get 6 or 8 formatting
           display =
             code +
-            number
+            num
               .split(
                 length === 6
                   ? /^(\+[\d]{2})|([\d]{3})/
@@ -72,7 +74,7 @@ const formatPhoneNumberParts = (number, locale = null) => {
 
       aria =
         code +
-        number
+        num
           .split(/([\d]{2})/)
           .filter((s) => s)
           .join(' ')
