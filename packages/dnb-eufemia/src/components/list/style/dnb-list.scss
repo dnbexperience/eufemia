@@ -83,10 +83,7 @@
     }
 
     // Deal with the item layout
-    // Exclude accordion items — they use display: flex, and the grid
-    // shorthand place-content: center leaks justify-content/align-content
-    // into the flex context, causing vertical gaps in modern browsers.
-    &:not(#{&}__accordion),
+    &,
     &__accordion__header {
       display: grid;
       grid-template:
@@ -94,10 +91,7 @@
         var(--item-grid-template-columns);
       place-content: center; // Center vertically
       align-items: center; // Center vertically
-    }
 
-    &,
-    &__accordion__header {
       min-height: var(--item-height);
       padding: calc(var(--item-padding)) 0;
     }

@@ -45,6 +45,7 @@ function ListContainer(props: ListContainerProps) {
       <FlexContainer
         element="ul"
         rowGap={separated ? 'small' : false}
+        wrap={false}
         wrapChildrenInSpace={wrapChildrenInSpace}
         className={classnames(
           'dnb-list',

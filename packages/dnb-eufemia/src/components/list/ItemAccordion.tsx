@@ -127,7 +127,6 @@ function ItemAccordion(props: ItemAccordionProps) {
           className
         )}
         direction="vertical"
-        justify="flex-start"
         pending={pending}
         disabled={appliedDisabled}
         skeleton={skeleton}
