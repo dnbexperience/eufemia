@@ -2061,7 +2061,35 @@ import {
 const result = useNumberFormat(value, formatCurrency, { decimals: 2 })
 ```
 
-`useNumberFormatWithParts` is unchanged at the call site – it still accepts an options object – but internally delegates to `formatCurrency` / `formatPercent` / `formatPlainNumber` based on the passed options.
+#### `useNumberFormatWithParts(value, formatter, options?)`
+
+> **Major change:** `useNumberFormatWithParts` now mirrors `useNumberFormat` and takes the formatter explicitly instead of picking one from `percent` / `currency` options. The internal `forceCurrencyAfterAmount` option has been removed; pass `currencyPosition: 'after'` directly on the formatter options if you need it.
+
+```tsx
+// Before
+const formatted = useNumberFormatWithParts(value, {
+  currency: true,
+  decimals: 2,
+})
+
+// After
+import {
+  useNumberFormatWithParts,
+  formatCurrency,
+} from '@dnb/eufemia/components/NumberFormat'
+const formatted = useNumberFormatWithParts(value, formatCurrency, {
+  decimals: 2,
+})
+```
+
+| Before                                                                | After                                                                            |
+| --------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `useNumberFormatWithParts(value)`                                     | `useNumberFormatWithParts(value, formatPlainNumber)`                             |
+| `useNumberFormatWithParts(value, { currency: true })`                 | `useNumberFormatWithParts(value, formatCurrency)`                                |
+| `useNumberFormatWithParts(value, { percent: true })`                  | `useNumberFormatWithParts(value, formatPercent)`                                 |
+| `useNumberFormatWithParts(value, { forceCurrencyAfterAmount: true })` | `useNumberFormatWithParts(value, formatCurrency, { currencyPosition: 'after' })` |
+
+The returned `parts` shape is unchanged. `parts` are now derived from the formatter's display string, so any formatter returning a `NumberFormatReturnValue` (including custom ones) can be passed in.
 
 #### Properties (per variant)
 

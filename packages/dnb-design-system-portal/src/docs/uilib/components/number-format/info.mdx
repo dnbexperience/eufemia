@@ -106,11 +106,14 @@ render(
 
 ```jsx
 import Provider from '@dnb/eufemia/shared/Provider'
-import { useNumberFormat } from '@dnb/eufemia/components/useNumberFormat'
+import {
+  useNumberFormat,
+  formatCurrency,
+} from '@dnb/eufemia/components/NumberFormat'
 
 function Component() {
   // By using returnAria you get an object
-  const { number, aria } = useNumberFormat(12345678.9, {
+  const { number, aria } = useNumberFormat(12345678.9, formatCurrency, {
     // Props are inherited from the Eufemia Provider and the NumberFormat object
     returnAria: true,
   })
@@ -136,13 +139,17 @@ You can also use `useNumberFormatWithParts` when you need split output for custo
 
 ```jsx
 import Provider from '@dnb/eufemia/shared/Provider'
-import { useNumberFormatWithParts } from '@dnb/eufemia/components/NumberFormat'
+import {
+  useNumberFormatWithParts,
+  formatCurrency,
+} from '@dnb/eufemia/components/NumberFormat'
 
 function Component() {
   // useNumberFormatWithParts defaults to returnAria=true
-  const { number, aria, parts } = useNumberFormatWithParts(12345678.9, {
-    currency: true,
-  })
+  const { number, aria, parts } = useNumberFormatWithParts(
+    12345678.9,
+    formatCurrency
+  )
 
   return (
     <span>
