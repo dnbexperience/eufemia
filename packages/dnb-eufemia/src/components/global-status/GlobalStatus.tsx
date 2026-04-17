@@ -517,8 +517,11 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
             try {
               // remove the blink animation again
               elem.addEventListener('blur', (e) => {
-                if ((e.target as HTMLElement).classList) {
-                  ;(e.target as HTMLElement).removeAttribute('tabindex')
+                if (
+                  e.target instanceof HTMLElement &&
+                  e.target.classList
+                ) {
+                  e.target.removeAttribute('tabindex')
                 }
               })
 

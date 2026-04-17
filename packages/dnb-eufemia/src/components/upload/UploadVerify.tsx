@@ -162,7 +162,7 @@ function getAcceptedFileTypesAsListOfStrings(
       )
 }
 
-export function isArrayOfStrings(arr: unknown) {
+export function isArrayOfStrings(arr: unknown): arr is string[] {
   return (
     Array.isArray(arr) &&
     arr.length > 0 &&

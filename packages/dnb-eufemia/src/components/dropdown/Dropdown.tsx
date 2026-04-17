@@ -401,7 +401,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
   )
 
   const onSelectHandler = useCallback((args: Record<string, unknown>) => {
-    if (parseFloat(args.activeItem as string) > -1) {
+    if (parseFloat(String(args.activeItem)) > -1) {
       const attributes = attributesRef.current || {}
       dispatchCustomElementEvent(
         { props: propsWithDefaultsRef.current },

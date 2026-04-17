@@ -270,7 +270,8 @@ export const isChildOfElement = (
     }
 
     while (
-      (element = element && (element as HTMLElement).parentElement) &&
+      element instanceof HTMLElement &&
+      (element = element.parentElement) &&
       !contains(element)
     );
   } catch (e) {
@@ -375,7 +376,10 @@ function combineAriaBy(type: string, params: unknown[]) {
         if (params.includes(value)) {
           return null
         }
-        return value as string
+        if (typeof value === 'string') {
+          return value
+        }
+        return null
       }
       if (typeof cur !== 'string') {
         return null

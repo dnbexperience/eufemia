@@ -89,9 +89,10 @@ export function isTrElement(Element: React.ElementType) {
     isTr = true
   } else if (
     Element &&
-    (typeof Element === 'object' || React.isValidElement(Element))
+    typeof Element === 'object' &&
+    !React.isValidElement(Element)
   ) {
-    const el = Element as unknown as Record<string, unknown>
+    const el = Element as Record<PropertyKey, unknown>
     if ((el.__emotion_base || el.target) === 'tr') {
       isTr = true
     }

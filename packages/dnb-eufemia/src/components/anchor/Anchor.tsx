@@ -310,10 +310,7 @@ export function pickIcon(icon: IconIcon, className?: string) {
         {
           ...icon.props,
           key: 'button-icon-clone',
-          className: clsx(
-            icon.props?.className as string | undefined,
-            className
-          ),
+          className: clsx(icon.props?.className, className),
         }
       )
     }

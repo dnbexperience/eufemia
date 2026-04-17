@@ -145,34 +145,38 @@ export function applyPageFocus(
 
 export function getOffsetTop(elem: HTMLElement | null) {
   let offsetTop = 0
-  let current: Element | null = elem
+  let current: HTMLElement | null = elem
   if (current) {
     do {
-      if (!isNaN((current as HTMLElement).offsetTop)) {
-        offsetTop += (current as HTMLElement).offsetTop
+      if (!isNaN(current.offsetTop)) {
+        offsetTop += current.offsetTop
       }
-    } while ((current = (current as HTMLElement).offsetParent))
+    } while ((current = current.offsetParent as HTMLElement | null))
   }
   return offsetTop
 }
 
 export function getOffsetLeft(elem: HTMLElement | null) {
   let offsetLeft = 0
-  let current: Element | null = elem
+  let current: HTMLElement | null = elem
   if (current) {
     do {
-      if (!isNaN((current as HTMLElement).offsetLeft)) {
-        offsetLeft += (current as HTMLElement).offsetLeft
+      if (!isNaN(current.offsetLeft)) {
+        offsetLeft += current.offsetLeft
       }
-    } while ((current = (current as HTMLElement).offsetParent))
+    } while ((current = current.offsetParent as HTMLElement | null))
   }
   return offsetLeft
 }
 
 export function scrollToLocationHashId({
   offset = 0,
-  delay = null as number | null,
-  onCompletion = null as ((elem: HTMLElement) => void) | null,
+  delay = null,
+  onCompletion = null,
+}: {
+  offset?: number
+  delay?: number | null
+  onCompletion?: ((elem: HTMLElement) => void) | null
 } = {}) {
   if (
     typeof document !== 'undefined' &&

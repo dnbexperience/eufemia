@@ -305,22 +305,27 @@ export const parseCurrentValue = (
   return current
 }
 
+function isInternalItem(
+  item: DrawerListInternalItem | DrawerListContent | null
+): item is DrawerListInternalItem {
+  return (
+    item !== null &&
+    typeof item === 'object' &&
+    !Array.isArray(item) &&
+    '__id' in item
+  )
+}
+
 export const getEventData = (
   itemIndex: string | number,
   data: DrawerListInternalData
 ) => {
-  let item = getCurrentData(itemIndex, data)
+  const item = getCurrentData(itemIndex, data)
 
   // cleanup
-  if (
-    item &&
-    typeof item === 'object' &&
-    !Array.isArray(item) &&
-    (item as DrawerListInternalItem).__id
-  ) {
-    item = { ...(item as DrawerListInternalItem) }
-    delete (item as DrawerListInternalItem).__id
-    delete (item as DrawerListInternalItem).__isTransformed
+  if (isInternalItem(item) && item.__id) {
+    const { __id: _, __isTransformed: __, ...rest } = item
+    return rest
   }
 
   return item

@@ -150,7 +150,7 @@ function SliderSuffix() {
 }
 
 function SubtractButton() {
-  const { emitChange, value, attributes, allProps } = useSliderProps()
+  const { emitChange, values, attributes, allProps } = useSliderProps()
   const {
     step,
     min,
@@ -161,10 +161,12 @@ function SubtractButton() {
     numberFormat,
   } = allProps
 
+  const currentValue = values[0]
+
   const onSubtractClickHandler = ({ event }: ButtonClickEvent) => {
     emitChange(
       event.nativeEvent,
-      clamp((value as number) - (step || 1), min, max)
+      clamp(currentValue - (step || 1), min, max)
     )
   }
 
@@ -174,7 +176,7 @@ function SubtractButton() {
     subtractParams['aria-hidden'] = attributes['aria-hidden']
   }
 
-  const humanNumber = getFormattedNumber(value as number, numberFormat)
+  const humanNumber = getFormattedNumber(currentValue, numberFormat)
 
   return (
     <Button
@@ -184,7 +186,7 @@ function SubtractButton() {
       size="small"
       aria-label={subtractTitle?.replace(
         '%s',
-        humanNumber.aria || String(value)
+        humanNumber.aria || String(currentValue)
       )}
       onClick={onSubtractClickHandler}
       disabled={disabled}
@@ -195,14 +197,16 @@ function SubtractButton() {
 }
 
 function AddButton() {
-  const { emitChange, value, attributes, allProps } = useSliderProps()
+  const { emitChange, values, attributes, allProps } = useSliderProps()
   const { step, min, max, disabled, skeleton, addTitle, numberFormat } =
     allProps
+
+  const currentValue = values[0]
 
   const onAddClickHandler = ({ event }: ButtonClickEvent) => {
     emitChange(
       event.nativeEvent,
-      clamp((value as number) + (step || 1), min, max)
+      clamp(currentValue + (step || 1), min, max)
     )
   }
 
@@ -212,7 +216,7 @@ function AddButton() {
     addParams['aria-hidden'] = attributes['aria-hidden']
   }
 
-  const humanNumber = getFormattedNumber(value as number, numberFormat)
+  const humanNumber = getFormattedNumber(currentValue, numberFormat)
 
   return (
     <Button
@@ -222,7 +226,7 @@ function AddButton() {
       size="small"
       aria-label={addTitle?.replace(
         '%s',
-        humanNumber.aria || String(value)
+        humanNumber.aria || String(currentValue)
       )}
       onClick={onAddClickHandler}
       disabled={disabled}

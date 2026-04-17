@@ -130,11 +130,11 @@ export const getFormattedNumber = (
 ) => {
   if (numberFormat) {
     if (typeof numberFormat === 'function') {
-      const number = numberFormat(value as number) as string
+      const number = numberFormat(value) as string
       return { number, aria: number }
     }
 
-    return format(value as number, {
+    return format(value, {
       ...(numberFormat || {}),
       returnAria: true,
     }) as NumberFormatReturnValue

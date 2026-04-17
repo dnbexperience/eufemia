@@ -14,9 +14,8 @@ import Td from '../table/TableTd'
 import type { UploadAcceptedFileTypeObject, UploadProps } from './types'
 import Flex from '../../components/Flex'
 
-const prettifyAcceptedFileFormats = (
-  acceptedFileTypes: UploadProps['acceptedFileTypes']
-) => (acceptedFileTypes as string[]).sort().join(', ').toUpperCase()
+const prettifyAcceptedFileFormats = (acceptedFileTypes: string[]) =>
+  acceptedFileTypes.sort().join(', ').toUpperCase()
 
 const UploadInfo = () => {
   const context = React.useContext(UploadContext)
@@ -34,11 +33,12 @@ const UploadInfo = () => {
     children,
   } = context
 
-  const prettifiedAcceptedFileFormats =
-    prettifyAcceptedFileFormats(acceptedFileTypes)
-
   const isAcceptedFileTypeListOfStrings =
     isArrayOfStrings(acceptedFileTypes)
+
+  const prettifiedAcceptedFileFormats = isAcceptedFileTypeListOfStrings
+    ? prettifyAcceptedFileFormats(acceptedFileTypes)
+    : null
 
   const displayAcceptedFileFormatsListItem =
     isAcceptedFileTypeListOfStrings && prettifiedAcceptedFileFormats

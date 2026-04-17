@@ -100,7 +100,10 @@ export default function MenuList(props: MenuListProps) {
         return
       }
 
-      let currentIdx = items.indexOf(document.activeElement as HTMLElement)
+      let currentIdx =
+        document.activeElement instanceof HTMLElement
+          ? items.indexOf(document.activeElement)
+          : -1
 
       // Fallback: use activeIndex to locate the current item in DOM order
       if (currentIdx === -1 && context.activeIndex >= 0) {

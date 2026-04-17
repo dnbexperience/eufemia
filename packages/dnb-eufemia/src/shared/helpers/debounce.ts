@@ -118,22 +118,20 @@ export function debounce<T extends unknown[], R>(
   }
 
   // Sync
-  function syncFunction(...args: T) {
-    return executedFunction(...args)
-  }
-  syncFunction.cancel = cancel
-  syncFunction.addCancelEvent = addCancelEvent
+  const syncFunction = Object.assign(
+    (...args: T) => executedFunction(...args),
+    { cancel, addCancelEvent }
+  )
 
   // Async return
-  async function asyncFunction(...args: T) {
-    return executedFunction(...args)
-  }
-  asyncFunction.cancel = cancel
-  asyncFunction.addCancelEvent = addCancelEvent
+  const asyncFunction = Object.assign(
+    async (...args: T) => executedFunction(...args),
+    { cancel, addCancelEvent }
+  )
 
   if (isAsync(debouncedFunction)) {
     return asyncFunction as DebouncedFunction<T, R> & ReturnHelpers
   }
 
-  return syncFunction as unknown as DebouncedFunction<T, R> & ReturnHelpers
+  return syncFunction as DebouncedFunction<T, R> & ReturnHelpers
 }

@@ -1311,10 +1311,11 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       case 'Enter':
       case ' ':
         {
-          if ((e.target as HTMLElement).tagName === 'A') {
-            ;(e.target as HTMLElement).dispatchEvent(
-              new MouseEvent('click')
-            )
+          if (
+            e.target instanceof HTMLElement &&
+            e.target.tagName === 'A'
+          ) {
+            e.target.dispatchEvent(new MouseEvent('click'))
             setHidden()
             return // stop here
           }

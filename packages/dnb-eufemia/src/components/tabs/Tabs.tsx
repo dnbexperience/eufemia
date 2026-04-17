@@ -611,7 +611,8 @@ function TabsComponent(ownProps: TabsProps) {
               (margin < 0 ? Math.abs(margin) : 0) +
               padding +
               parseFloat(window.getComputedStyle(first).paddingLeft)
-            const offsetLeft = (elem as HTMLElement).offsetLeft
+            const offsetLeft =
+              elem instanceof HTMLElement ? elem.offsetLeft : 0
 
             const left =
               elem && !isFirstItem ? offsetLeft - leftPadding : 0
@@ -660,8 +661,10 @@ function TabsComponent(ownProps: TabsProps) {
     try {
       const elem = tablistRef.current.querySelector(
         '.dnb-tabs__button.focus'
-      ) as HTMLElement
-      elem.focus({ preventScroll: true })
+      )
+      if (elem instanceof HTMLElement) {
+        elem.focus({ preventScroll: true })
+      }
 
       if (
         !document.getElementById(`${_id}-content`) &&
@@ -945,11 +948,13 @@ function TabsComponent(ownProps: TabsProps) {
   const getCurrentKey = (event: React.SyntheticEvent) => {
     let currentKey: string | undefined
     try {
-      const elem = getClosestParent(
-        'dnb-tabs__button',
-        event.target as HTMLElement
-      ) as HTMLElement | null
-      currentKey = elem?.dataset?.tabKey
+      if (event.target instanceof HTMLElement) {
+        const elem = getClosestParent(
+          'dnb-tabs__button',
+          event.target
+        ) as HTMLElement | null
+        currentKey = elem?.dataset?.tabKey
+      }
     } catch (e) {
       warn('Tabs Error:', e)
     }

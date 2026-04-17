@@ -355,7 +355,9 @@ function NumberComponent(props: FieldNumberProps) {
   useEffect(() => {
     // Use getElementById to read the current DOM input value
     const input = id ? document.getElementById(id) : null
-    setDisplayValue((input as HTMLInputElement)?.value)
+    if (input instanceof HTMLInputElement) {
+      setDisplayValue(input.value)
+    }
   }, [id, setDisplayValue, value])
 
   const { handleSubmit } = dataContext ?? {}

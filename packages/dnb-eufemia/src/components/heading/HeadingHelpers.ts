@@ -175,7 +175,9 @@ function report(
 ) {
   if (source) {
     const props =
-      (source as Record<string, Record<string, unknown>>)?.props || {}
+      typeof source === 'object' && source !== null && 'props' in source
+        ? (source as { props: Record<string, unknown> }).props
+        : ({} as Record<string, unknown>)
     const identifiers = [props.id, props['class'], props.className].filter(
       Boolean
     )
