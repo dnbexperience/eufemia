@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import { Theme } from '../../../shared'
 import type { SharedHProps } from '../H'
 import H from '../H'
 import H1 from '../H1'
@@ -119,4 +120,36 @@ describe('Heading', () => {
       expect(attributes).toEqual(['class', 'aria-label'])
     }
   )
+
+  describe('surface', () => {
+    it.each(headings)(
+      '%s does not apply dark surface class by default',
+      ({ component: Component, selector }) => {
+        render(<Component>Heading</Component>)
+
+        const element = document.querySelector(selector)
+
+        expect(element.classList.contains('dnb-t--surface-dark')).toBe(
+          false
+        )
+      }
+    )
+
+    it.each(headings)(
+      '%s applies dark surface class from Theme.Context',
+      ({ component: Component, selector }) => {
+        render(
+          <Theme.Context surface="dark">
+            <Component>Heading</Component>
+          </Theme.Context>
+        )
+
+        const element = document.querySelector(selector)
+
+        expect(element.classList.contains('dnb-t--surface-dark')).toBe(
+          true
+        )
+      }
+    )
+  })
 })

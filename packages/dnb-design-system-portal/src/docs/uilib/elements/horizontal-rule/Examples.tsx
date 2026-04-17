@@ -5,28 +5,34 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Hr } from '@dnb/eufemia/src'
+import { Hr, P } from '@dnb/eufemia/src'
 
 export const HorizontalRuleDefaultExample = () => (
   <ComponentBox background="plain" hideCode data-visual-test="hr-default">
-    Something
-    <Hr space={{ top: '0.5rem', bottom: '0.5rem' }} />
-    Something
+    <P>
+      Before
+      <Hr space={{ top: '0.5rem', bottom: '0.5rem' }} />
+      After
+    </P>
   </ComponentBox>
 )
 
 export const HorizontalRuleBreakoutExample = () => (
   <ComponentBox background="plain" hideCode data-visual-test="hr-breakout">
-    Something
-    <Hr breakout space={{ top: '0.5rem', bottom: '0.5rem' }} />
-    Something
+    <P>
+      Before
+      <Hr breakout space={{ top: '0.5rem', bottom: '0.5rem' }} />
+      After
+    </P>
   </ComponentBox>
 )
 
 export const HorizontalRuleDashedExample = () => (
   <ComponentBox background="plain" hideCode data-visual-test="hr-dashed">
-    Something
-    <Hr dashed space={{ top: '0.5rem', bottom: '0.5rem' }} />
-    Something
+    <P>
+      Before
+      <Hr dashed space={{ top: '0.5rem', bottom: '0.5rem' }} />
+      After
+    </P>
   </ComponentBox>
 )

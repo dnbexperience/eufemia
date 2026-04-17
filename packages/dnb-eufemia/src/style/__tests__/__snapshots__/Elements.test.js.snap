@@ -833,6 +833,24 @@ del .dnb-code {
   font-family: var(--font-family-heading);
   color: var(--token-color-text-neutral);
 }
+.dnb-lead.dnb-t--surface-dark,
+.dnb-h--xx-large.dnb-t--surface-dark,
+.dnb-h--x-large.dnb-t--surface-dark,
+.dnb-h--large.dnb-t--surface-dark,
+.dnb-h--medium.dnb-t--surface-dark,
+.dnb-h--basis.dnb-t--surface-dark,
+.dnb-h--small.dnb-t--surface-dark,
+.dnb-h--x-small.dnb-t--surface-dark,
+.dnb-core-style .dnb-lead.dnb-t--surface-dark,
+.dnb-core-style .dnb-h--xx-large.dnb-t--surface-dark,
+.dnb-core-style .dnb-h--x-large.dnb-t--surface-dark,
+.dnb-core-style .dnb-h--large.dnb-t--surface-dark,
+.dnb-core-style .dnb-h--medium.dnb-t--surface-dark,
+.dnb-core-style .dnb-h--basis.dnb-t--surface-dark,
+.dnb-core-style .dnb-h--small.dnb-t--surface-dark,
+.dnb-core-style .dnb-h--x-small.dnb-t--surface-dark {
+  color: var(--token-color-text-neutral-ondark);
+}
 .dnb-lead .dnb-icon--default,
 .dnb-h--xx-large .dnb-icon--default,
 .dnb-h--x-large .dnb-icon--default,
@@ -918,6 +936,9 @@ sub {
 .dnb-p {
   font-size: var(--font-size-basis);
   color: var(--token-color-text-neutral);
+}
+.dnb-p.dnb-t--surface-dark {
+  color: var(--token-color-text-neutral-ondark);
 }
 .dnb-p:not([class*=space__top]) {
   margin-top: 0;

@@ -9,6 +9,7 @@ import type { TypographyProps } from '../Typography'
 import Typography from '../Typography'
 import P from '../P'
 import { render } from '@testing-library/react'
+import { Theme } from '../../../shared'
 
 const props: TypographyProps = {
   size: 'medium',
@@ -322,5 +323,27 @@ describe('Typography element', () => {
     expect(refElement instanceof HTMLParagraphElement).toBe(true)
     expect(refElement.tagName).toBe('P')
     expect(refElement.classList).toContain('dnb-p')
+  })
+
+  describe('surface', () => {
+    it('does not apply dark surface class by default', () => {
+      render(<Typography>Default text</Typography>)
+
+      const element = document.querySelector('.dnb-p')
+
+      expect(element.classList.contains('dnb-t--surface-dark')).toBe(false)
+    })
+
+    it('applies dark surface class from Theme.Context', () => {
+      render(
+        <Theme.Context surface="dark">
+          <Typography>Context dark text</Typography>
+        </Theme.Context>
+      )
+
+      const element = document.querySelector('.dnb-p')
+
+      expect(element.classList.contains('dnb-t--surface-dark')).toBe(true)
+    })
   })
 })

@@ -15,6 +15,7 @@ import {
   getHeadingSize,
 } from '../../components/heading/HeadingHelpers'
 import { useTheme } from '../../shared'
+import Context from '../../shared/Context'
 import { TypographyContext } from './Typography'
 
 export type HSize = HeadingSize
@@ -66,6 +67,7 @@ const H = ({
     size ||
     'xx-large'
 
+  const context = useContext(Context)
   const { proseMaxWidth: proseMaxWidthContext } =
     useContext(TypographyContext)
 
@@ -79,7 +81,11 @@ const H = ({
   return (
     <E
       as={resolvedElement}
-      internalClass={clsx(targetSize && `dnb-h--${targetSize}`, className)}
+      internalClass={clsx(
+        targetSize && `dnb-h--${targetSize}`,
+        context?.theme?.surface === 'dark' && 'dnb-t--surface-dark',
+        className
+      )}
       {...props}
       style={{ ...style, ...props.style }}
     />

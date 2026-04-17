@@ -1,6 +1,7 @@
 .dnb-code {
-  background-color: var(--color-mint-green-25);
-  box-shadow: inset 0 0 0 0.0625rem var(--color-mint-green-50);
+  background-color: var(--token-color-background-positive-subtle);
+  box-shadow: inset 0 0 0 0.0625rem
+    var(--token-color-stroke-neutral-subtle);
 }
 
 .dnb-pre {
