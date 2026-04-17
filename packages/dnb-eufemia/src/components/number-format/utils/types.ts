@@ -70,3 +70,20 @@ export type NumberFormatOptionParams = {
   /** ARIA Text to be displayed when value is invalid. */
   invalidAriaText?: string
 }
+
+/**
+ * Overloaded signature used by every public `format*` helper.
+ *
+ * - With `returnAria: true` → `NumberFormatReturnValue` (the full object).
+ * - Otherwise → `string` (the formatted display value).
+ */
+export type NumberFormatFunction = {
+  (
+    value: NumberFormatValue | null | undefined,
+    options: NumberFormatOptionParams & { returnAria: true }
+  ): NumberFormatReturnValue
+  (
+    value: NumberFormatValue | null | undefined,
+    options?: NumberFormatOptionParams
+  ): string
+}

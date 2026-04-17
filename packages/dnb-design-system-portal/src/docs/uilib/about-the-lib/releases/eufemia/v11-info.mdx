@@ -1994,18 +1994,18 @@ The following properties on the event callback return object have been renamed:
 
 Replace each usage with the matching variant:
 
-| Before                                          | After                                                   |
-| ----------------------------------------------- | ------------------------------------------------------- |
-| `<NumberFormat value={1234} />`                 | `<NumberFormat.Number value={1234} />`                  |
-| `<NumberFormat>1234</NumberFormat>`             | `<NumberFormat.Number>1234</NumberFormat.Number>`       |
-| `<NumberFormat currency value={1234} />`        | `<NumberFormat.Currency value={1234} />`                |
-| `<NumberFormat currency="USD" value={1234} />`  | `<NumberFormat.Currency currency="USD" value={1234} />` |
-| `<NumberFormat percent value={12.34} />`        | `<NumberFormat.Percent value={12.34} />`                |
-| `<NumberFormat compact value={12345} />`        | `<NumberFormat.Compact value={12345} />`                |
-| `<NumberFormat compact="long" value={12345} />` | `<NumberFormat.Compact compact="long" value={12345} />` |
+| Before                                          | After                                                         |
+| ----------------------------------------------- | ------------------------------------------------------------- |
+| `<NumberFormat value={1234} />`                 | `<NumberFormat.Number value={1234} />`                        |
+| `<NumberFormat>1234</NumberFormat>`             | `<NumberFormat.Number>1234</NumberFormat.Number>`             |
+| `<NumberFormat currency value={1234} />`        | `<NumberFormat.Currency value={1234} />`                      |
+| `<NumberFormat currency="USD" value={1234} />`  | `<NumberFormat.Currency currency="USD" value={1234} />`       |
+| `<NumberFormat percent value={12.34} />`        | `<NumberFormat.Percent value={12.34} />`                      |
+| `<NumberFormat compact value={12345} />`        | `<NumberFormat.Compact value={12345} />`                      |
+| `<NumberFormat compact="long" value={12345} />` | `<NumberFormat.Compact compact="long" value={12345} />`       |
 | `<NumberFormat phone value="99999999" />`       | `<NumberFormat.PhoneNumber value="99999999" />`               |
-| `<NumberFormat ban value="20001234567" />`      | `<NumberFormat.BankAccountNumber value="20001234567" />`              |
-| `<NumberFormat nin value="18089212345" />`      | `<NumberFormat.NationalIdentityNumber value="18089212345" />`              |
+| `<NumberFormat ban value="20001234567" />`      | `<NumberFormat.BankAccountNumber value="20001234567" />`      |
+| `<NumberFormat nin value="18089212345" />`      | `<NumberFormat.NationalIdentityNumber value="18089212345" />` |
 | `<NumberFormat org value="123456789" />`        | `<NumberFormat.OrganizationNumber value="123456789" />`       |
 
 Notes:

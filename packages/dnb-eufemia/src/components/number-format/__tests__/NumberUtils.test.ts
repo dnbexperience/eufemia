@@ -1095,13 +1095,17 @@ describe('formatPhoneNumber', () => {
   })
 
   it('should format a phone number with slash in country code', () => {
-    const result = formatPhoneNumber('+44-1534 12345678', { returnAria: true })
+    const result = formatPhoneNumber('+44-1534 12345678', {
+      returnAria: true,
+    })
     expect(result.number).toBe('+44 (1534) 12 34 56 78')
     expect(result.aria).toBe('+44 (1534) 12 34 56 78')
   })
 
   it('should format a long number with', () => {
-    const result = formatPhoneNumber('+123456 123456789123456789', { returnAria: true })
+    const result = formatPhoneNumber('+123456 123456789123456789', {
+      returnAria: true,
+    })
     expect(result.number).toBe('+123456 12 34 56 78 91 23 45 67 89')
     expect(result.aria).toBe('+123456 12 34 56 78 91 23 45 67 89')
   })
@@ -1125,7 +1129,9 @@ describe('formatPhoneNumber', () => {
   })
 
   it('should handle invalid characters in phone number', () => {
-    const result = formatPhoneNumber('+123 123-456-78', { returnAria: true })
+    const result = formatPhoneNumber('+123 123-456-78', {
+      returnAria: true,
+    })
     expect(result.number).toBe('+123 12 34 56 78')
     expect(result.aria).toBe('+123 12 34 56 78')
   })
@@ -1151,7 +1157,9 @@ describe('formatPhoneNumber', () => {
   it.each(countries.map(({ cdc, i18n }) => [`${i18n.en}`, cdc]))(
     'should handle %s country code',
     (_, cdc) => {
-      const result = formatPhoneNumber(`+${cdc} 12345678`, { returnAria: true })
+      const result = formatPhoneNumber(`+${cdc} 12345678`, {
+        returnAria: true,
+      })
 
       if (cdc.includes('-')) {
         cdc = cdc.replace(
@@ -1179,13 +1187,17 @@ describe('formatPhoneNumber', () => {
     })
 
     it('should format the country code with 00', () => {
-      const result = formatPhoneNumber('004712345678', { returnAria: true })
+      const result = formatPhoneNumber('004712345678', {
+        returnAria: true,
+      })
       expect(result.number).toBe('+47 12 34 56 78')
       expect(result.aria).toBe('+47 12 34 56 78')
     })
 
     it('should format the country code with +', () => {
-      const result = formatPhoneNumber('+47 12345678', { returnAria: true })
+      const result = formatPhoneNumber('+47 12345678', {
+        returnAria: true,
+      })
       expect(result.number).toBe('+47 12 34 56 78')
       expect(result.aria).toBe('+47 12 34 56 78')
     })

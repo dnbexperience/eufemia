@@ -13,6 +13,7 @@ export type {
   NumberFormatReturnType,
   NumberFormatOptions,
   NumberFormatOptionParams,
+  NumberFormatFunction,
 } from './utils'
 
 export {

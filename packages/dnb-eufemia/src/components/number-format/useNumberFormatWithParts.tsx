@@ -6,11 +6,7 @@ import type {
   NumberFormatValue,
   NumberFormatReturnValue,
 } from './NumberUtils'
-import {
-  formatCurrency,
-  formatPercent,
-  formatPlainNumber,
-} from './utils'
+import { formatCurrency, formatPercent, formatPlainNumber } from './utils'
 
 type UseNumberFormatWithPartsOptions = Omit<
   NumberFormatOptionParams,

@@ -1,7 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
-import type { NumberFormatOptionParams } from './types'
+import type {
+  NumberFormatFunction,
+  NumberFormatOptionParams,
+} from './types'
 /**
  * Formatter for percent numbers.
  *
@@ -24,7 +27,7 @@ import {
 } from './formatCore'
 import { countDecimals } from './decimals'
 
-export const formatPercent = (
+export const formatPercent: NumberFormatFunction = (
   value,
   {
     locale: inputLocale = null,

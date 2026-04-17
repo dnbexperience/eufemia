@@ -131,26 +131,30 @@ export const NumberFormatSandbox = () => {
           </Box>
           <Box>
             <P>
-              random phone number <NumberFormat.PhoneNumber value="99999999" />{' '}
-              random phone number <NumberFormat.PhoneNumber value="4799999999" />{' '}
               random phone number{' '}
-              <NumberFormat.PhoneNumber value="++4799999999" /> random phone
-              number <NumberFormat.PhoneNumber value="004780022222" link="sms" />{' '}
-              random phone number <NumberFormat.PhoneNumber value="+47116000" />{' '}
-              random text <NumberFormat.PhoneNumber value="+4702000" />
+              <NumberFormat.PhoneNumber value="99999999" /> random phone
+              number <NumberFormat.PhoneNumber value="4799999999" /> random
+              phone number{' '}
+              <NumberFormat.PhoneNumber value="++4799999999" /> random
+              phone number{' '}
+              <NumberFormat.PhoneNumber value="004780022222" link="sms" />{' '}
+              random phone number{' '}
+              <NumberFormat.PhoneNumber value="+47116000" /> random text{' '}
+              <NumberFormat.PhoneNumber value="+4702000" />
             </P>
           </Box>
           <Box>
             <P>
-              bank account number <NumberFormat.BankAccountNumber value="20001234567" />{' '}
-              random account number
+              bank account number{' '}
+              <NumberFormat.BankAccountNumber value="20001234567" /> random
+              account number
             </P>
           </Box>
           <Box>
             <P>
               national identification number{' '}
-              <NumberFormat.NationalIdentityNumber value="18089212345" /> random
-              identification number
+              <NumberFormat.NationalIdentityNumber value="18089212345" />{' '}
+              random identification number
             </P>
           </Box>
 
@@ -214,7 +218,9 @@ export function Hover() {
       <button>my button</button>
       <p>text A</p>
 
-      <NumberFormat.NationalIdentityNumber>18089212345</NumberFormat.NationalIdentityNumber>
+      <NumberFormat.NationalIdentityNumber>
+        18089212345
+      </NumberFormat.NationalIdentityNumber>
 
       <p>text B</p>
     </>

@@ -455,7 +455,9 @@ describe('NumberFormat component', () => {
   })
 
   it('have to match phone number', () => {
-    render(<NumberFormat.PhoneNumber>+47 99999999</NumberFormat.PhoneNumber>)
+    render(
+      <NumberFormat.PhoneNumber>+47 99999999</NumberFormat.PhoneNumber>
+    )
     expect(document.querySelector(displaySelector).textContent).toBe(
       '+47 99 99 99 99'
     )
@@ -477,7 +479,9 @@ describe('NumberFormat component', () => {
 
   it('have to match bank account number', () => {
     const { rerender } = render(
-      <NumberFormat.BankAccountNumber>20001234567</NumberFormat.BankAccountNumber>
+      <NumberFormat.BankAccountNumber>
+        20001234567
+      </NumberFormat.BankAccountNumber>
     )
     expect(document.querySelector(displaySelector).textContent).toBe(
       '2000 12 34567'
@@ -492,7 +496,11 @@ describe('NumberFormat component', () => {
   })
 
   it('have to match national identification number', () => {
-    render(<NumberFormat.NationalIdentityNumber>18089212345</NumberFormat.NationalIdentityNumber>)
+    render(
+      <NumberFormat.NationalIdentityNumber>
+        18089212345
+      </NumberFormat.NationalIdentityNumber>
+    )
     expect(document.querySelector(displaySelector).textContent).toBe(
       '180892 12345'
     )
@@ -1466,7 +1474,9 @@ describe('NumberFormat component', () => {
     })
 
     it('when ban', () => {
-      const { rerender } = render(<NumberFormat.BankAccountNumber value={''} />)
+      const { rerender } = render(
+        <NumberFormat.BankAccountNumber value={''} />
+      )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
       rerender(<NumberFormat.BankAccountNumber value={null} />)
@@ -1475,18 +1485,32 @@ describe('NumberFormat component', () => {
       rerender(<NumberFormat.BankAccountNumber value={undefined} />)
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<NumberFormat.BankAccountNumber>{''}</NumberFormat.BankAccountNumber>)
+      rerender(
+        <NumberFormat.BankAccountNumber>
+          {''}
+        </NumberFormat.BankAccountNumber>
+      )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<NumberFormat.BankAccountNumber>{null}</NumberFormat.BankAccountNumber>)
+      rerender(
+        <NumberFormat.BankAccountNumber>
+          {null}
+        </NumberFormat.BankAccountNumber>
+      )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<NumberFormat.BankAccountNumber>{undefined}</NumberFormat.BankAccountNumber>)
+      rerender(
+        <NumberFormat.BankAccountNumber>
+          {undefined}
+        </NumberFormat.BankAccountNumber>
+      )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
     })
 
     it('when nin', () => {
-      const { rerender } = render(<NumberFormat.NationalIdentityNumber value={''} />)
+      const { rerender } = render(
+        <NumberFormat.NationalIdentityNumber value={''} />
+      )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
       rerender(<NumberFormat.NationalIdentityNumber value={null} />)
@@ -1495,18 +1519,32 @@ describe('NumberFormat component', () => {
       rerender(<NumberFormat.NationalIdentityNumber value={undefined} />)
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<NumberFormat.NationalIdentityNumber>{''}</NumberFormat.NationalIdentityNumber>)
+      rerender(
+        <NumberFormat.NationalIdentityNumber>
+          {''}
+        </NumberFormat.NationalIdentityNumber>
+      )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<NumberFormat.NationalIdentityNumber>{null}</NumberFormat.NationalIdentityNumber>)
+      rerender(
+        <NumberFormat.NationalIdentityNumber>
+          {null}
+        </NumberFormat.NationalIdentityNumber>
+      )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<NumberFormat.NationalIdentityNumber>{undefined}</NumberFormat.NationalIdentityNumber>)
+      rerender(
+        <NumberFormat.NationalIdentityNumber>
+          {undefined}
+        </NumberFormat.NationalIdentityNumber>
+      )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
     })
 
     it('when org', () => {
-      const { rerender } = render(<NumberFormat.OrganizationNumber value={''} />)
+      const { rerender } = render(
+        <NumberFormat.OrganizationNumber value={''} />
+      )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
       rerender(<NumberFormat.OrganizationNumber value={null} />)
@@ -1515,16 +1553,24 @@ describe('NumberFormat component', () => {
       rerender(<NumberFormat.OrganizationNumber value={undefined} />)
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<NumberFormat.OrganizationNumber>{''}</NumberFormat.OrganizationNumber>)
-      expect(document.querySelector(displaySelector).textContent).toBe('–')
-
       rerender(
-        <NumberFormat.OrganizationNumber>{null}</NumberFormat.OrganizationNumber>
+        <NumberFormat.OrganizationNumber>
+          {''}
+        </NumberFormat.OrganizationNumber>
       )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
       rerender(
-        <NumberFormat.OrganizationNumber>{undefined}</NumberFormat.OrganizationNumber>
+        <NumberFormat.OrganizationNumber>
+          {null}
+        </NumberFormat.OrganizationNumber>
+      )
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(
+        <NumberFormat.OrganizationNumber>
+          {undefined}
+        </NumberFormat.OrganizationNumber>
       )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
     })
@@ -1545,7 +1591,9 @@ describe('NumberFormat component', () => {
       rerender(<NumberFormat.PhoneNumber>{null}</NumberFormat.PhoneNumber>)
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<NumberFormat.PhoneNumber>{undefined}</NumberFormat.PhoneNumber>)
+      rerender(
+        <NumberFormat.PhoneNumber>{undefined}</NumberFormat.PhoneNumber>
+      )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
     })
 

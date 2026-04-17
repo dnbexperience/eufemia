@@ -1,7 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
-import type { NumberFormatOptionParams } from './types'
+import type {
+  NumberFormatFunction,
+  NumberFormatOptionParams,
+} from './types'
 /**
  * Formatter for plain (non-currency / non-percent) numbers. Supports `compact`.
  */
@@ -21,7 +24,7 @@ import {
   enhanceSR,
 } from './formatCore'
 
-export const formatPlainNumber = (
+export const formatPlainNumber: NumberFormatFunction = (
   value,
   {
     locale: inputLocale = null,

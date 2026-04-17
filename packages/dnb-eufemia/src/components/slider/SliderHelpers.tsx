@@ -131,12 +131,15 @@ export const getFormattedNumber = (
       return { number, aria: number }
     }
 
-    const options = { ...(numberFormat || {}), returnAria: true }
+    const options = {
+      ...(numberFormat || {}),
+      returnAria: true as const,
+    }
     const formatter =
       options.currency === true || typeof options.currency === 'string'
         ? formatCurrency
         : formatPlainNumber
-    return formatter(value as number, options) as NumberFormatReturnValue
+    return formatter(value as number, options)
   }
 
   return { aria: null, number: null } as NumberFormatReturnValue

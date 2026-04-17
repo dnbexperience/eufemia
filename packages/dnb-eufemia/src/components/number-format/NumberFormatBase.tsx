@@ -130,10 +130,16 @@ export type NumberFormatProps = {
  * Not part of the public API – variants set it via the
  * `NumberFormat.withFormatter(Component, formatter)` helper below.
  */
+/**
+ * Contract used by `__format` – the formatter is always invoked with
+ * `returnAria: true`, so it always returns the full `NumberFormatReturnValue`.
+ * This is a strict sub-type of the public `NumberFormatFunction` (which also
+ * supports the non-aria, string-returning overload).
+ */
 export type NumberFormatInternalFormatter = (
-  value: NumberFormatValue | NumberFormatChildren | null,
-  options: NumberFormatOptionParams
-) => NumberFormatReturnValue | string
+  value: NumberFormatValue | null,
+  options: NumberFormatOptionParams & { returnAria: true }
+) => NumberFormatReturnValue
 
 export type NumberFormatInternalProps = {
   /** @internal */
@@ -401,7 +407,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
   } = props
   let rest: Record<string, unknown> = _rest
 
-  let value: NumberFormatValue | NumberFormatChildren | null = _value
+  let value: NumberFormatValue | null = _value ?? null
 
   if (value === null && children !== null) {
     value = children as NumberFormatValue
@@ -458,7 +464,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
     (currency === true || typeof currency === 'string'
       ? formatCurrency
       : formatPlainNumber)
-  const result = formatter(value, formatOptions) as NumberFormatReturnValue
+  const result = formatter(value, formatOptions)
   const { cleanedValue, locale: lang } = result
   let { aria } = result
   let display: React.ReactNode = result.number

@@ -86,4 +86,7 @@ const formatPhoneNumberParts = (number, locale = null) => {
   return { number: display, aria }
 }
 
-export const formatPhoneNumber = formatWith('phone', formatPhoneNumberParts)
+export const formatPhoneNumber = formatWith(
+  'phone',
+  formatPhoneNumberParts
+)

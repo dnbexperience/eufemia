@@ -408,7 +408,9 @@ const DropdownStory = () => {
             <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
               <span className="dnb-drawer-list__option__inner">
                 <span className="dnb-drawer-list__option__item">
-                  <NumberFormat.BankAccountNumber>12345678902</NumberFormat.BankAccountNumber>
+                  <NumberFormat.BankAccountNumber>
+                    12345678902
+                  </NumberFormat.BankAccountNumber>
                 </span>
                 <span className="dnb-drawer-list__option__item">
                   Sparekonto - Ole Nordmann
@@ -418,7 +420,9 @@ const DropdownStory = () => {
             <li className="dnb-drawer-list__option">
               <span className="dnb-drawer-list__option__inner">
                 <span className="dnb-drawer-list__option__item">
-                  <NumberFormat.BankAccountNumber>11345678962</NumberFormat.BankAccountNumber>
+                  <NumberFormat.BankAccountNumber>
+                    11345678962
+                  </NumberFormat.BankAccountNumber>
                 </span>
                 <span className="dnb-drawer-list__option__item">
                   Feriekonto - Kari Nordmann med et kjempelangt
@@ -429,7 +433,9 @@ const DropdownStory = () => {
             <li className="dnb-drawer-list__option last-of-type">
               <span className="dnb-drawer-list__option__inner">
                 <span className="dnb-drawer-list__option__item">
-                  <NumberFormat.BankAccountNumber>15349648901</NumberFormat.BankAccountNumber>
+                  <NumberFormat.BankAccountNumber>
+                    15349648901
+                  </NumberFormat.BankAccountNumber>
                 </span>
                 <span className="dnb-drawer-list__option__item">
                   Oppussing - Ole Nordmann
@@ -462,7 +468,9 @@ let dropdownData: DrawerListDataArray = [
   },
   {
     content: [
-      <NumberFormat.BankAccountNumber key={12345678902}>12345678902</NumberFormat.BankAccountNumber>,
+      <NumberFormat.BankAccountNumber key={12345678902}>
+        12345678902
+      </NumberFormat.BankAccountNumber>,
       'Sparekonto - Ole Nordmann',
       'Line 2',
       'Line 3',
@@ -472,7 +480,9 @@ let dropdownData: DrawerListDataArray = [
     selectedValue:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     content: [
-      <NumberFormat.BankAccountNumber key={11345678962}>11345678962</NumberFormat.BankAccountNumber>,
+      <NumberFormat.BankAccountNumber key={11345678962}>
+        11345678962
+      </NumberFormat.BankAccountNumber>,
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     ],
   },
@@ -481,7 +491,9 @@ let dropdownData: DrawerListDataArray = [
       <React.Fragment key="cs-1">Custom selected {'🔥'}</React.Fragment>
     ),
     content: [
-      <NumberFormat.BankAccountNumber key={15349648901}>15349648901</NumberFormat.BankAccountNumber>,
+      <NumberFormat.BankAccountNumber key={15349648901}>
+        15349648901
+      </NumberFormat.BankAccountNumber>,
       <React.Fragment key="cs-2">Custom content {'🔥'}</React.Fragment>,
     ],
   },
@@ -493,21 +505,27 @@ const dropdownDataScrollable = [
   },
   {
     content: [
-      <NumberFormat.BankAccountNumber key={12345678902}>12345678902</NumberFormat.BankAccountNumber>,
+      <NumberFormat.BankAccountNumber key={12345678902}>
+        12345678902
+      </NumberFormat.BankAccountNumber>,
       'B',
     ],
   },
   {
     selectedValue: 'CC',
     content: [
-      <NumberFormat.BankAccountNumber key={11345678962}>11345678962</NumberFormat.BankAccountNumber>,
+      <NumberFormat.BankAccountNumber key={11345678962}>
+        11345678962
+      </NumberFormat.BankAccountNumber>,
       'C',
     ],
   },
   {
     selectedValue: 'DD',
     content: [
-      <NumberFormat.BankAccountNumber key={15349648901}>15349648901</NumberFormat.BankAccountNumber>,
+      <NumberFormat.BankAccountNumber key={15349648901}>
+        15349648901
+      </NumberFormat.BankAccountNumber>,
       'D',
     ],
   },

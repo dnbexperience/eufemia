@@ -342,8 +342,8 @@ export const AutocompleteCustomWidth = () => (
 
 export const AutocompleteSuffix = () => {
   const { locale } = React.useContext(Context)
-  const ban = formatBankAccountNumber(20001234567, { locale }) as string
-  const suffixValue = formatCurrency(12345678, { locale }) as string
+  const ban = formatBankAccountNumber(20001234567, { locale })
+  const suffixValue = formatCurrency(12345678, { locale })
   const numbers = [
     {
       selectedValue: 'Brukskonto',

@@ -447,14 +447,18 @@ const testData = [
   {
     selectedValue: 99999999,
     content: [
-      <NumberFormat.PhoneNumber key={99999999}>99999999</NumberFormat.PhoneNumber>,
+      <NumberFormat.PhoneNumber key={99999999}>
+        99999999
+      </NumberFormat.PhoneNumber>,
       'C',
     ],
   },
   {
     selectedValue: 99999999,
     content: [
-      <NumberFormat.PhoneNumber key={99999999}>99999999</NumberFormat.PhoneNumber>,
+      <NumberFormat.PhoneNumber key={99999999}>
+        99999999
+      </NumberFormat.PhoneNumber>,
       'D',
     ],
   },
@@ -480,7 +484,9 @@ const autocompleteData = [
   },
   {
     content: [
-      <NumberFormat.PhoneNumber key={99999999}>99999999</NumberFormat.PhoneNumber>,
+      <NumberFormat.PhoneNumber key={99999999}>
+        99999999
+      </NumberFormat.PhoneNumber>,
       'Sparekonto - Ole Nordmann',
     ],
   },
@@ -488,14 +494,18 @@ const autocompleteData = [
     selectedValue:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     content: [
-      <NumberFormat.PhoneNumber key={99999999}>99999999</NumberFormat.PhoneNumber>,
+      <NumberFormat.PhoneNumber key={99999999}>
+        99999999
+      </NumberFormat.PhoneNumber>,
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     ],
   },
   {
     selectedValue: <>Custom selected {'🔥'}</>,
     content: [
-      <NumberFormat.PhoneNumber key={99999999}>99999999</NumberFormat.PhoneNumber>,
+      <NumberFormat.PhoneNumber key={99999999}>
+        99999999
+      </NumberFormat.PhoneNumber>,
       <>Custom content {'🔥'}</>,
     ],
   },
@@ -507,21 +517,27 @@ const autocompleteDataScrollable = [
   },
   {
     content: [
-      <NumberFormat.PhoneNumber key={99999999}>99999999zwzz</NumberFormat.PhoneNumber>,
+      <NumberFormat.PhoneNumber key={99999999}>
+        99999999zwzz
+      </NumberFormat.PhoneNumber>,
       'BB',
     ],
   },
   {
     selectedValue: 'CCC',
     content: [
-      <NumberFormat.PhoneNumber key={99999999}>99999999</NumberFormat.PhoneNumber>,
+      <NumberFormat.PhoneNumber key={99999999}>
+        99999999
+      </NumberFormat.PhoneNumber>,
       'CC',
     ],
   },
   {
     selectedValue: 'DDD',
     content: [
-      <NumberFormat.PhoneNumber key={99999999}>99999999</NumberFormat.PhoneNumber>,
+      <NumberFormat.PhoneNumber key={99999999}>
+        99999999
+      </NumberFormat.PhoneNumber>,
       'DD',
     ],
   },
@@ -757,7 +773,7 @@ const WideStyle = styled.div`
 
 export function DataSuffix() {
   const { locale } = React.useContext(Context)
-  const ban = formatBankAccountNumber(21001234567, { locale }) as string
+  const ban = formatBankAccountNumber(21001234567, { locale })
   const numbers: DrawerListDataArray = [
     {
       selectedValue: `Brukskonto (${ban})`,

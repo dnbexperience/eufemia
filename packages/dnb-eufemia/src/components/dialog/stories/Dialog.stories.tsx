@@ -414,31 +414,41 @@ const dropdownData = [
   },
   {
     content: [
-      <NumberFormat.BankAccountNumber key={15349648901}>44445678902</NumberFormat.BankAccountNumber>,
+      <NumberFormat.BankAccountNumber key={15349648901}>
+        44445678902
+      </NumberFormat.BankAccountNumber>,
       'Sparekonto - Ole Nordmann A',
     ],
   },
   {
     content: [
-      <NumberFormat.BankAccountNumber key={15349648901}>12345623902</NumberFormat.BankAccountNumber>,
+      <NumberFormat.BankAccountNumber key={15349648901}>
+        12345623902
+      </NumberFormat.BankAccountNumber>,
       'Sparekonto - Ole Nordmann B',
     ],
   },
   {
     content: [
-      <NumberFormat.BankAccountNumber key={15349648901}>55555672302</NumberFormat.BankAccountNumber>,
+      <NumberFormat.BankAccountNumber key={15349648901}>
+        55555672302
+      </NumberFormat.BankAccountNumber>,
       'Sparekonto - Ole Nordmann C',
     ],
   },
   {
     content: [
-      <NumberFormat.BankAccountNumber key={15349648901}>77775672302</NumberFormat.BankAccountNumber>,
+      <NumberFormat.BankAccountNumber key={15349648901}>
+        77775672302
+      </NumberFormat.BankAccountNumber>,
       'Sparekonto - Ole Nordmann D',
     ],
   },
   {
     content: [
-      <NumberFormat.BankAccountNumber key={15349648901}>99995672302</NumberFormat.BankAccountNumber>,
+      <NumberFormat.BankAccountNumber key={15349648901}>
+        99995672302
+      </NumberFormat.BankAccountNumber>,
       'Sparekonto - Ole Nordmann E',
     ],
   },
@@ -446,14 +456,18 @@ const dropdownData = [
     selectedValue:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     content: [
-      <NumberFormat.BankAccountNumber key={15349648901}>11345678962</NumberFormat.BankAccountNumber>,
+      <NumberFormat.BankAccountNumber key={15349648901}>
+        11345678962
+      </NumberFormat.BankAccountNumber>,
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     ],
   },
   {
     selectedValue: <>Custom selected {'🔥'}</>,
     content: [
-      <NumberFormat.BankAccountNumber key={15349648901}>15349648901</NumberFormat.BankAccountNumber>,
+      <NumberFormat.BankAccountNumber key={15349648901}>
+        15349648901
+      </NumberFormat.BankAccountNumber>,
       <>Custom content {'🔥'}</>,
     ],
   },

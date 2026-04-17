@@ -1,7 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
-import type { NumberFormatOptionParams } from './types'
+import type {
+  NumberFormatFunction,
+  NumberFormatOptionParams,
+} from './types'
 /**
  * Formatter for currency numbers.
  */
@@ -24,7 +27,7 @@ import { currencyPositionFormatter } from './currencyPosition'
 import { getFallbackCurrencyDisplay, CURRENCY } from './currencyDisplay'
 import { alignCurrencySymbol } from './formatNumber'
 
-export const formatCurrency = (
+export const formatCurrency: NumberFormatFunction = (
   value,
   {
     locale: inputLocale = null,

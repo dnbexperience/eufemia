@@ -138,13 +138,15 @@ export {
   handleCompactBeforeAria,
 }
 
+import type { NumberFormatFunction } from './types'
+
 /**
  * Creates a public variant formatter given a type tag and a raw
  * `(number, locale) => { number, aria }` function. The returned function
  * accepts `(value, options)` and returns either a formatted string or –
  * when `returnAria: true` – the full `NumberFormatReturnValue` object.
  */
-export function formatWith(type, formatterFn) {
+export function formatWith(type, formatterFn): NumberFormatFunction {
   return (
     value,
     {
@@ -166,7 +168,10 @@ export function formatWith(type, formatterFn) {
       value = cleanNumber(value)
     }
 
-    const { number: display, aria: initialAria } = formatterFn(value, locale)
+    const { number: display, aria: initialAria } = formatterFn(
+      value,
+      locale
+    )
 
     if (type === 'phone' && clean === null) {
       // clean, because of +47 and ++47

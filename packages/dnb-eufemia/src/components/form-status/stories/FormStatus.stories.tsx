@@ -129,7 +129,7 @@ export const GlobalStatusExample = () => {
 }
 
 export const SuffixAndStretchedStatus = () => {
-  const ban = formatBankAccountNumber(21001234567) as string
+  const ban = formatBankAccountNumber(21001234567)
 
   const numbers: DrawerListDataArray = [
     {

@@ -14,6 +14,7 @@ export type {
   NumberFormatReturnType,
   NumberFormatOptions,
   NumberFormatOptionParams,
+  NumberFormatFunction,
 } from './types'
 
 export { NUMBER_CHARS, NUMBER_MINUS } from './constants'
