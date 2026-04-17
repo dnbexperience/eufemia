@@ -1976,6 +1976,7 @@ The following properties on the event callback return object have been renamed:
 - Replace `formatReturnType` with `NumberFormatReturnType`.
 - Replace `formatTypes` with `NumberFormatType`.
 - Replace `formatCurrencyPosition` with `NumberFormatCurrencyPosition`.
+- The `value` property in `NumberFormatReturnValue` changed from `number` to `NumberFormatValue` (`string | number`). If your code assumes `value` is always a `number`, add an explicit conversion with `Number(result.value)`.
 
 ### [StepIndicator](/uilib/components/step-indicator/)
 
