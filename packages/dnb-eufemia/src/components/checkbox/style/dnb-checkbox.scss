@@ -445,10 +445,6 @@
     background-color: var(--checkbox-color-background-off--error);
   }
 
-  &__status--error &__input:not([disabled]) ~ &__button &__focus {
-    display: block;
-  }
-
   &__status--error &__input:not([disabled]):not(:indeterminate) ~ &__gfx {
     color: var(--checkbox-color-gfx--error);
   }

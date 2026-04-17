@@ -526,9 +526,6 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   border-width: var(--checkbox-border-width--error);
   background-color: var(--checkbox-color-background-off--error);
 }
-.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]) ~ .dnb-checkbox__button .dnb-checkbox__focus {
-  display: block;
-}
 .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:indeterminate) ~ .dnb-checkbox__gfx {
   color: var(--checkbox-color-gfx--error);
 }
