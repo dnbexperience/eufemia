@@ -477,6 +477,12 @@ describe('NumberFormat component', () => {
     expect(anchor.getAttribute('href')).toMatch(/^sms:/)
   })
 
+  it('should sanitize href to only contain digits and +', () => {
+    render(<NumberFormat.PhoneNumber link value="+47 12345;ext=1234" />)
+    const anchor = document.querySelector('a.dnb-anchor')
+    expect(anchor.getAttribute('href')).toBe('tel:+47123451234')
+  })
+
   it('have to match bank account number', () => {
     const { rerender } = render(
       <NumberFormat.BankAccountNumber>

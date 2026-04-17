@@ -30,7 +30,8 @@ function NumberFormatPhoneNumber({
   }
 
   const scheme = link === true ? 'tel' : link
-  const href = `${scheme}:${rest.value ?? ''}`
+  const sanitizedValue = String(rest.value ?? '').replace(/[^\d+]/g, '')
+  const href = `${scheme}:${sanitizedValue}`
   const anchorClassName = ['dnb-anchor', className]
     .filter(Boolean)
     .join(' ')
