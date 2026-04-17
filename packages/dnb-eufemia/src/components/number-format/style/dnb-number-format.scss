@@ -33,8 +33,8 @@
   }
 
   &--selected &__visible {
-    color: var(--color-black);
-    background-color: var(--color-mint-green);
+    color: var(--token-color-text-neutral);
+    background-color: var(--token-color-background-action-pressed-subtle);
   }
 
   &__selection {
