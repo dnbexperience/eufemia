@@ -1,8 +1,8 @@
 ---
 title: 'Value.Boolean'
 description: '`Value.Boolean` is a base component for displaying values of the type `boolean`.'
-version: 10.103.0
-generatedAt: 2026-03-31T09:00:24.152Z
+version: 10.104.0
+generatedAt: 2026-04-17T18:42:09.668Z
 checksum: ac4682e58e3c1cc2aa3bde60f5c4226fddcdd1b758b90754a7a9ae0a6bfe0f74
 ---
 

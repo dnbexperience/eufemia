@@ -1,9 +1,9 @@
 ---
 title: 'List'
 description: 'List is a layout component for displaying rows of content, with optional start/center/end slots and a navigable item variant.'
-version: 10.103.0
-generatedAt: 2026-03-31T09:00:23.378Z
-checksum: 91e341c4db7b6708cf372f579a80b82f061daff553203001d8a1548b29dd80f8
+version: 10.104.0
+generatedAt: 2026-04-17T18:42:08.388Z
+checksum: cfe6a69b0b4d9a72429c007a43b5d8d0c88ee4f5e42f12ac3a9240b1625ac876
 ---
 
 # List
@@ -1000,6 +1000,21 @@ render(
     "href": {
       "doc": "When set, renders as a native link (`<a>`) so the item navigates to the URL. Use for external or internal navigation. When not set, the item behaves as a button (use `onClick` for custom handling).",
       "type": "string",
+      "status": "optional"
+    },
+    "to": {
+      "doc": "Use this prop only if you are using a router Link component as the `element` that uses the `to` property to declare the navigation url.",
+      "type": "string",
+      "status": "optional"
+    },
+    "element": {
+      "doc": "Define what HTML or React element should be used for the link (e.g. `element={Link}` for React Router). Only applicable when `href` or `to` is set.",
+      "type": "React.Element",
+      "status": "optional"
+    },
+    "elementProps": {
+      "doc": "Additional props forwarded to the `element` component (e.g. `{ replace: true, state: { from: \"list\" } }` for React Router Link).",
+      "type": "object",
       "status": "optional"
     },
     "target": {

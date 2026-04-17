@@ -1,8 +1,8 @@
 ---
 title: 'Flex Stack'
 description: '`Flex.Stack` is an outer block element that wraps content to ensure proper layout and spacing between form elements, larger regions and headings. It stretches its content horizontally (100%).'
-version: 10.103.0
-generatedAt: 2026-03-31T09:00:24.950Z
+version: 10.104.0
+generatedAt: 2026-04-17T18:42:09.939Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
