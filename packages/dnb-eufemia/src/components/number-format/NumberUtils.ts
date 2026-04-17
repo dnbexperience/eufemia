@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 /**
  * Web NumberFormat Helpers
  *
@@ -15,6 +13,14 @@ import { warn, escapeRegexChars } from '../../shared/component-helper'
 import { IS_MAC, IS_WIN } from '../../shared/helpers'
 import locales from '../../shared/locales'
 
+type FormatPartItem = { type: string; value: string }
+type PartFormatter = (item: FormatPartItem) => FormatPartItem
+type CurrencyDisplayValue = Intl.NumberFormatOptions['currencyDisplay']
+
+type InternalNumberFormatOptions = Intl.NumberFormatOptions & {
+  decimals?: number
+}
+
 // TypeScript types
 export type NumberFormatType =
   | 'phone'
@@ -26,7 +32,7 @@ export type NumberFormatType =
 export type NumberFormatCurrencyPosition = 'before' | 'after'
 export type NumberFormatReturnValue = {
   /** The given number */
-  value: number
+  value: NumberFormatValue
   /** Cleans a number from unnecessary parts */
   cleanedValue: string
   /** The formatted display number */
@@ -138,8 +144,16 @@ const ABSENT_VALUE_FORMAT = '–'
  * @property {string} invalidAriaText - aria text to be displayed when value is invalid.
  * @returns a formatted number as a string or as an object if "returnAria" is true
  */
-export const format = (
-  value,
+export function format(
+  value: NumberFormatValue | null | undefined,
+  options: NumberFormatOptionParams & { returnAria: true }
+): NumberFormatReturnValue
+export function format(
+  value: NumberFormatValue | null | undefined,
+  options?: NumberFormatOptionParams
+): string
+export function format(
+  value: NumberFormatValue | null | undefined,
   {
     locale = null, // can be "auto"
     clean = false,
@@ -161,7 +175,7 @@ export const format = (
     returnAria = false,
     invalidAriaText = null,
   }: NumberFormatOptionParams = {}
-) => {
+): string | NumberFormatReturnValue {
   value = isAbsent(value) ? ABSENT_VALUE_FORMAT : value
 
   let display = value
@@ -192,7 +206,7 @@ export const format = (
     opts.signDisplay = signDisplay
   }
 
-  if (parseFloat(decimals) >= 0) {
+  if (decimals !== null && decimals >= 0) {
     value = formatDecimals(value, decimals, rounding, opts)
   } else if (
     typeof opts.maximumFractionDigits === 'undefined' &&
@@ -244,7 +258,7 @@ export const format = (
       opts.style = 'percent'
     }
 
-    display = formatNumber(value / 100, locale, opts)
+    display = formatNumber(Number(value) / 100, locale, opts)
   } else if (currency === true || typeof currency === 'string') {
     type = 'currency'
 
@@ -276,15 +290,15 @@ export const format = (
     if (
       typeof opts.minimumFractionDigits === 'undefined' &&
       String(value).indexOf('.') === -1 &&
-      cleanedNumber % 1 === 0
+      Number(cleanedNumber) % 1 === 0
     ) {
       opts.minimumFractionDigits = 0 // to enforce Norwegian style
     }
 
-    let formatter = undefined
+    let formatter: PartFormatter | undefined = undefined
 
     if (omitCurrencySign) {
-      formatter = (item) => {
+      formatter = (item: FormatPartItem) => {
         switch (item.type) {
           case 'literal':
             item.value = item.value === ' ' ? '' : item.value
@@ -307,11 +321,11 @@ export const format = (
       currencyPosition = 'after'
     }
 
-    let currencySuffix = null
+    let currencySuffix: string | null = null
     if (currencyPosition) {
       formatter = currencyPositionFormatter(
         formatter,
-        ({ value }) => {
+        ({ value }): string => {
           return (currencySuffix = alignCurrencySymbol(
             value.trim(),
             currencyDisplay
@@ -365,10 +379,10 @@ export const format = (
 
     if (cleanCopyValue) {
       cleanedValue = formatNumber(
-        opts.style === 'percent' ? value / 100 : value,
+        opts.style === 'percent' ? Number(value) / 100 : value,
         locale,
         opts,
-        (item) => {
+        (item: FormatPartItem) => {
           switch (item.type) {
             case 'group':
             case 'literal':
@@ -413,24 +427,29 @@ export const format = (
  * @param {object} opts immutable object
  * @returns A decimal prepared number
  */
-export const formatDecimals = (value, decimals, rounding, opts = {}) => {
-  decimals = parseFloat(decimals)
+export const formatDecimals = (
+  value: NumberFormatValue,
+  decimals: number | null,
+  rounding: NumberFormatOptionParams['rounding'] | boolean | null,
+  opts: InternalNumberFormatOptions = {}
+) => {
+  const parsedDecimals = decimals ?? NaN
 
   // Mutate the given options
-  if (decimals >= 0) {
-    opts.minimumFractionDigits = decimals
-    opts.maximumFractionDigits = decimals
+  if (parsedDecimals >= 0) {
+    opts.minimumFractionDigits = parsedDecimals
+    opts.maximumFractionDigits = parsedDecimals
   }
 
   if (String(value).includes('.')) {
-    const decimalPlaces = decimals || opts.maximumFractionDigits
+    const decimalPlaces = parsedDecimals || opts.maximumFractionDigits || 0
     if (rounding === 'omit' || rounding === true) {
       const factor = Math.pow(10, decimalPlaces)
-      value = Math.trunc(value * factor) / factor
+      value = Math.trunc(Number(value) * factor) / factor
     } else {
       switch (rounding) {
         case 'half-even': {
-          value = roundHalfEven(value, decimalPlaces)
+          value = roundHalfEven(Number(value), decimalPlaces)
 
           break
         }
@@ -448,7 +467,10 @@ export const formatDecimals = (value, decimals, rounding, opts = {}) => {
  * @param {string} decimalSeparator a dot or comma
  * @returns Amount of decimals
  */
-export const countDecimals = (value, decimalSeparator = '.') => {
+export const countDecimals = (
+  value: NumberFormatValue,
+  decimalSeparator = '.'
+) => {
   if (
     typeof value === 'number' &&
     Math.floor(value.valueOf()) === value.valueOf()
@@ -469,14 +491,14 @@ export const countDecimals = (value, decimalSeparator = '.') => {
  * @returns {function} number formatter
  */
 const currencyPositionFormatter = (
-  existingFormatter,
-  callback,
-  position = null
+  existingFormatter: PartFormatter | undefined,
+  callback: (item: FormatPartItem) => string,
+  position: NumberFormatCurrencyPosition | null = null
 ) => {
   let count = 0
   let countCurrency = -1
 
-  return (item) => {
+  return (item: FormatPartItem) => {
     // Ensure we do not overwrite a given formatter, but run it as well
     if (typeof existingFormatter === 'function') {
       item = existingFormatter(item)
@@ -521,7 +543,7 @@ const currencyPositionFormatter = (
  * @param {string} locale locale as a string
  * @returns {string} number
  */
-const prepareMinus = (display, locale) => {
+const prepareMinus = (display: string, locale: string | null) => {
   /**
    * Make exception – if locale is NOT Norwegian,
    * we skip the cleanup
@@ -563,11 +585,15 @@ const prepareMinus = (display, locale) => {
  * @param {string} currencyDisplay - The currency display option ('name' or 'symbol').
  * @returns {string} The aligned output string.
  */
-function alignCurrencySymbol(output, currencyDisplay) {
-  if (typeof output === 'string' && currencyDisplay === 'name') {
-    output = output.replace(/(nor[^\s]+?)\s(\w+)/i, '$2')
+function alignCurrencySymbol(
+  output: string | number,
+  currencyDisplay: string | boolean | null | undefined
+): string {
+  const str = String(output)
+  if (currencyDisplay === 'name') {
+    return str.replace(/(nor[^\s]+?)\s(\w+)/i, '$2')
   }
-  return output
+  return str
 }
 
 /**
@@ -581,8 +607,12 @@ function alignCurrencySymbol(output, currencyDisplay) {
  * @param {string} locale locale as a string
  * @returns Aria number
  */
-const enhanceSR = (value, aria, locale) => {
-  if (IS_MAC && Math.abs(parseFloat(value)) <= 99999) {
+const enhanceSR = (
+  value: NumberFormatValue,
+  aria: string,
+  locale: string | null
+) => {
+  if (IS_MAC && Math.abs(parseFloat(String(value))) <= 99999) {
     aria = String(aria).replace(/\s([0-9])/g, '$1')
   }
 
@@ -602,11 +632,12 @@ const enhanceSR = (value, aria, locale) => {
  * @returns Formatted number
  */
 export const formatNumber = (
-  number,
-  locale,
-  options = {},
-  formatter = null
-) => {
+  number: NumberFormatValue,
+  locale: string | null,
+  options: InternalNumberFormatOptions = {},
+  formatter: PartFormatter | null = null
+): string => {
+  let result = String(number)
   try {
     if (options.currencyDisplay) {
       options.currencyDisplay = getFallbackCurrencyDisplay(
@@ -619,17 +650,17 @@ export const formatNumber = (
     delete options.decimals
 
     if (formatter) {
-      number = formatToParts({ number, locale, options })
+      result = formatToParts({ number, locale, options })
         .map(formatter)
-        .reduce((acc, { value }) => acc + value, '')
+        .reduce((acc: string, { value }) => acc + value, '')
     } else if (
       typeof Number !== 'undefined' &&
       typeof Number.toLocaleString === 'function'
     ) {
-      number = parseFloat(number).toLocaleString(locale, options)
+      result = parseFloat(String(number)).toLocaleString(locale, options)
     }
-    if (new RegExp(`^(${NUMBER_MINUS})(0|0[^\\d]|0\\s.*)$`).test(number)) {
-      number = number.replace(new RegExp(`(${NUMBER_MINUS})0`), '0')
+    if (new RegExp(`^(${NUMBER_MINUS})(0|0[^\\d]|0\\s.*)$`).test(result)) {
+      result = result.replace(new RegExp(`(${NUMBER_MINUS})0`), '0')
     }
   } catch (e) {
     warn(
@@ -643,11 +674,11 @@ export const formatNumber = (
   }
 
   return replaceNaNWithDash(
-    alignCurrencySymbol(number, options.currencyDisplay)
+    alignCurrencySymbol(result, options.currencyDisplay)
   )
 }
 
-function replaceNaNWithDash(number) {
+function replaceNaNWithDash(number: string | number) {
   const string = String(number)
   const replaced = string.replace(/NaN/, ABSENT_VALUE_FORMAT)
 
@@ -662,7 +693,7 @@ function replaceNaNWithDash(number) {
   )
 }
 
-function isAbsent(value) {
+function isAbsent(value: unknown) {
   return (
     value === null ||
     value === undefined ||
@@ -678,48 +709,51 @@ function isAbsent(value) {
  * @param {string} locale locale as a string
  * @returns A formatted phone number
  */
-export const formatPhone = (number, locale = null) => {
+export const formatPhone = (
+  number: NumberFormatValue,
+  locale: string | null = null
+) => {
   if (isAbsent(number)) {
     return { number: ABSENT_VALUE_FORMAT, aria: ABSENT_VALUE_FORMAT }
   }
 
-  let display = number
-  let aria = null
+  let display = String(number)
+  let aria: string | null = null
 
   switch (locale) {
     default: {
       let code = ''
-      number = String(number)
+      let num = String(number)
         // Edge case for when a Norwegian number is given without a space after the country code
         .replace(/^(00|\+|)47([^\s])/, '+47 $2')
         .replace(/^00/, '+')
 
-      if (number.substring(0, 1) === '+') {
-        const codeAndNumber = number.match(
+      if (num.substring(0, 1) === '+') {
+        const codeAndNumber = num.match(
           // Split the number into the country code and the rest of the number
           /^\+([\d-]{1,8})\s{0,2}([\d\s-]{1,20})$/
         )
         if (codeAndNumber) {
           code = `+${codeAndNumber[1]} `
-          number = codeAndNumber[2]
+          num = codeAndNumber[2]
         }
       }
 
-      number = number.replace(/[^+\d]/g, '')
-      const length = number.length
+      num = num.replace(/[^+\d]/g, '')
+      const length = num.length
 
       // Get 800 22 222
-      if (length === 8 && number.substring(0, 1) === '8') {
+      if (length === 8 && num.substring(0, 1) === '8') {
         display =
           code +
-          number
+          num
             .split(/([\d]{3})([\d]{2})/)
             .filter((s) => s)
             .join(' ')
       } else {
         // Get 02000
         if (length < 6) {
-          display = code + number
+          display = code + num
         } else {
           if (code.includes('-')) {
             // Convert +12-3456 to +12 (3456)
@@ -729,7 +763,7 @@ export const formatPhone = (number, locale = null) => {
           // Get 6 or 8 formatting
           display =
             code +
-            number
+            num
               .split(
                 length === 6
                   ? /^(\+[\d]{2})|([\d]{3})/
@@ -742,7 +776,7 @@ export const formatPhone = (number, locale = null) => {
 
       aria =
         code +
-        number
+        num
           .split(/([\d]{2})/)
           .filter((s) => s)
           .join(' ')
@@ -763,7 +797,10 @@ export const formatPhone = (number, locale = null) => {
  * @param {string} locale locale as a string
  * @returns A formatted Bank Account Number
  */
-export const formatBAN = (number, locale = null) => {
+export const formatBAN = (
+  number: NumberFormatValue,
+  locale: string | null = null
+) => {
   if (isAbsent(number)) {
     return { number: ABSENT_VALUE_FORMAT, aria: ABSENT_VALUE_FORMAT }
   }
@@ -802,7 +839,10 @@ export const formatBAN = (number, locale = null) => {
  * @param {string} locale locale as a string
  * @returns A formatted Organization Number
  */
-export const formatORG = (number, locale = null) => {
+export const formatORG = (
+  number: NumberFormatValue,
+  locale: string | null = null
+) => {
   if (isAbsent(number)) {
     return { number: ABSENT_VALUE_FORMAT, aria: ABSENT_VALUE_FORMAT }
   }
@@ -841,7 +881,10 @@ export const formatORG = (number, locale = null) => {
  * @param {string} locale locale as a string
  * @returns A formatted National Identification Number
  */
-export const formatNIN = (number, locale = null) => {
+export const formatNIN = (
+  number: NumberFormatValue,
+  locale: string | null = null
+) => {
   if (isAbsent(number)) {
     return { number: ABSENT_VALUE_FORMAT, aria: ABSENT_VALUE_FORMAT }
   }
@@ -884,12 +927,17 @@ export const formatNIN = (number, locale = null) => {
  * @returns A number that contains valid number separators
  */
 export function cleanNumber(
-  num,
+  num: NumberFormatValue | null | undefined,
   {
     decimalSeparator = null,
     thousandsSeparator = null,
     prefix = null,
     suffix = null,
+  }: {
+    decimalSeparator?: string | null
+    thousandsSeparator?: string | null
+    prefix?: string | null
+    suffix?: string | null
   } = {}
 ) {
   if (
@@ -1005,15 +1053,19 @@ export function runIOSSelectionFix() {
  * @returns {string} a separator symbol
  */
 export function getFallbackCurrencyDisplay(
-  locale = null,
-  currencyDisplay = null
-) {
+  locale: string | null = null,
+  currencyDisplay: CurrencyDisplayValue | boolean | '' | null = null
+): CurrencyDisplayValue {
   // If currencyDisplay is not defined and locale is "no", use narrowSymbol
   if (!currencyDisplay && (!locale || /(no|nb|nn)$/i.test(locale))) {
-    currencyDisplay = CURRENCY_DISPLAY
+    return CURRENCY_DISPLAY
   }
 
-  return currencyDisplay || CURRENCY_FALLBACK_DISPLAY // code, name, symbol
+  if (typeof currencyDisplay === 'string' && currencyDisplay !== '') {
+    return currencyDisplay
+  }
+
+  return CURRENCY_FALLBACK_DISPLAY
 }
 
 /**
@@ -1022,7 +1074,7 @@ export function getFallbackCurrencyDisplay(
  * @property {string} locale (optional) the locale to use, defaults to nb-NO
  * @returns {string} a separator symbol
  */
-export function getDecimalSeparator(locale = null) {
+export function getDecimalSeparator(locale: string | null = null) {
   const separator =
     formatToParts({
       number: 1.1,
@@ -1038,7 +1090,7 @@ export function getDecimalSeparator(locale = null) {
  * @property {string} locale (optional) the locale to use, defaults to nb-NO
  * @returns {string} a separator symbol
  */
-export function getThousandsSeparator(locale = null) {
+export function getThousandsSeparator(locale: string | null = null) {
   return (
     formatToParts({
       number: 1000,
@@ -1059,7 +1111,7 @@ export function getThousandsSeparator(locale = null) {
 export function getCurrencySymbol(
   locale: string | null = null,
   currency: string | boolean | null = null,
-  display: string | boolean | null = null,
+  display: CurrencyDisplayValue | boolean | '' | null = null,
   number: string | number = 2
 ) {
   if (!currency) {
@@ -1074,10 +1126,10 @@ export function getCurrencySymbol(
       locale,
       options: {
         style: 'currency',
-        currency,
+        currency: typeof currency === 'string' ? currency : CURRENCY,
         currencyDisplay,
       },
-    }).find(({ type }) => type === 'currency')?.value || currency,
+    }).find(({ type }) => type === 'currency')?.value || String(currency),
     currencyDisplay
   )
 }
@@ -1091,7 +1143,15 @@ export function getCurrencySymbol(
  * @property {object} options - NumberFormat options
  * @returns {array} that contains all the parts of the given number [{ value: x, type: 'type' }]
  */
-function formatToParts({ number, locale = null, options = null }) {
+function formatToParts({
+  number,
+  locale = null,
+  options = null,
+}: {
+  number: NumberFormatValue
+  locale?: string | null
+  options?: Intl.NumberFormatOptions | null
+}): FormatPartItem[] {
   if (
     typeof Intl !== 'undefined' &&
     typeof Intl.NumberFormat === 'function'
@@ -1099,16 +1159,16 @@ function formatToParts({ number, locale = null, options = null }) {
     try {
       const inst = Intl.NumberFormat(locale || LOCALE, options || {})
       if (typeof inst.formatToParts === 'function') {
-        return inst.formatToParts(number)
+        return inst.formatToParts(Number(number))
       } else {
-        return [{ value: inst.format(number) }]
+        return [{ type: 'unknown', value: inst.format(Number(number)) }]
       }
     } catch (e) {
       warn(e)
     }
   }
 
-  return [{ value: number }]
+  return [{ type: 'unknown', value: String(number) }]
 }
 
 /**
@@ -1128,26 +1188,36 @@ function handleCompactBeforeDisplay({
   compact,
   decimals = 0,
   opts,
-} = {}) {
+}: {
+  value: NumberFormatValue
+  locale: string | null
+  compact: boolean | 'short' | 'long' | null
+  decimals: number | null
+  opts: InternalNumberFormatOptions
+}) {
   if (!canHandleCompact({ value, compact })) {
     return // stop here
   }
 
-  value = parseInt(Math.abs(value), 10)
+  const absValue = Math.abs(Number(value))
+  value = Math.trunc(absValue)
   opts.notation = 'compact'
 
   // For numbers under 1M we do
   if (compact === true && locale && /(no|nb|nn)$/i.test(locale)) {
-    opts.compactDisplay = Math.abs(value) < 1000000 ? 'long' : 'short'
+    opts.compactDisplay = absValue < 1000000 ? 'long' : 'short'
   } else {
-    opts.compactDisplay = compact !== true ? compact : 'short'
+    opts.compactDisplay =
+      compact === true || compact === false || compact === null
+        ? 'short'
+        : compact
   }
 
   if (typeof opts.maximumSignificantDigits === 'undefined') {
-    if (isNaN(parseFloat(decimals))) {
+    if (decimals === null || isNaN(Number(decimals))) {
       decimals = 0
     } else {
-      decimals = parseFloat(decimals)
+      decimals = Number(decimals)
     }
 
     // This formula ensures we always get the same amount decimals
@@ -1197,7 +1267,15 @@ function handleCompactBeforeDisplay({
  * @property {string|boolean} compact "short" or "long" if true is given, "short" is used
  * @property {object} opts the options object – it gets mutated
  */
-function handleCompactBeforeAria({ value, compact, opts }) {
+function handleCompactBeforeAria({
+  value,
+  compact,
+  opts,
+}: {
+  value: NumberFormatValue
+  compact: boolean | 'short' | 'long' | null
+  opts: InternalNumberFormatOptions
+}) {
   if (!canHandleCompact({ value, compact })) {
     return // stop here
   }
@@ -1212,8 +1290,14 @@ function handleCompactBeforeAria({ value, compact, opts }) {
  * @property {string|number} value any number
  * @property {string|boolean} compact "short" or "long" if true is given, "short" is used
  */
-function canHandleCompact({ value, compact }) {
-  if (compact && Math.abs(value) >= 1000) {
+function canHandleCompact({
+  value,
+  compact,
+}: {
+  value: NumberFormatValue
+  compact: boolean | 'short' | 'long' | null
+}) {
+  if (compact && Math.abs(Number(value)) >= 1000) {
     return true
   }
 
@@ -1227,7 +1311,7 @@ function canHandleCompact({ value, compact }) {
  * @param {number} decimalPlaces the number of decimal places to round to
  * @returns {number} the rounded number
  */
-export function roundHalfEven(num, decimalPlaces = 2) {
+export function roundHalfEven(num: number, decimalPlaces = 2) {
   const multiplier = Math.pow(10, decimalPlaces)
   const adjustedNum = num * multiplier
   const floored = Math.floor(adjustedNum)
