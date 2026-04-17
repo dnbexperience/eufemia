@@ -13,7 +13,12 @@ import React, {
 import clsx from 'clsx'
 import { Highlight, Prism } from 'prism-react-renderer'
 import Tag from './Tag'
-import { Checkbox, Space, ToggleButton } from '@dnb/eufemia/src/components'
+import {
+  Button,
+  Checkbox,
+  Space,
+  ToggleButton,
+} from '@dnb/eufemia/src/components'
 import Theme from '@dnb/eufemia/src/shared/Theme'
 import type {
   ThemeColorScheme,
@@ -166,9 +171,9 @@ function LiveCode(props: LiveCodeProps) {
     language = 'jsx',
     background,
     omitWrapper,
+    hideToolbar,
 
     code: codeProp,
-    hideToolbar: hideToolbarProp,
     hideCode: hideCodeProp,
     hidePreview: hidePreviewProp,
     surface: surfaceProp,
@@ -196,6 +201,7 @@ function LiveCode(props: LiveCodeProps) {
         liveCodeEditorStyle,
         hideCode && 'hide-code',
         hidePreview && 'hide-preview',
+        omitWrapper && 'omit-wrapper',
         background && `background--${background}`,
         surface && `surface--${surface}`
       )}
@@ -213,72 +219,85 @@ function LiveCode(props: LiveCodeProps) {
         noInline={noInline}
         {...restProps}
       >
-        {!hidePreview &&
-          (omitWrapper ? (
-            <Theme colorScheme={colorScheme} surface={surface}>
+        {!hidePreview && (
+          <Theme colorScheme={colorScheme} surface={surface}>
+            {omitWrapper ? (
               <LivePreview
                 className={clsx('dnb-live-preview')}
                 data-visual-test={visualTest}
               />
-            </Theme>
-          ) : (
-            <Theme colorScheme={colorScheme} surface={surface}>
+            ) : (
               <div className={clsx('example-box', exampleBoxStyle)}>
                 <LivePreview
                   className={clsx('dnb-live-preview')}
                   data-visual-test={visualTest}
                 />
               </div>
-            </Theme>
-          ))}
+            )}
+          </Theme>
+        )}
 
-        {!global.IS_TEST && !omitWrapper && !hideToolbarProp && (
+        {!global.IS_TEST && !hideToolbar && (
           <Space
             element="section"
             aria-label="Customize appearance"
             className={clsx('dnb-live-toolbar', toolbarStyle)}
           >
-            {hideCodeProp && (
-              <ToggleButton
-                checked={!hideCode}
-                onChange={({ checked }) => setHideCode(!checked)}
+            {(omitWrapper && (
+              <Button
+                variant="tertiary"
+                icon={hideCode ? 'chevron_down' : 'chevron_up'}
+                onClick={() => setHideCode((checked) => !checked)}
                 size="medium"
+                left
               >
                 {hideCode ? 'Show Code' : 'Hide Code'}
-              </ToggleButton>
-            )}
+              </Button>
+            )) || (
+              <>
+                {hideCodeProp && (
+                  <ToggleButton
+                    checked={!hideCode}
+                    onChange={({ checked }) => setHideCode(!checked)}
+                    size="medium"
+                  >
+                    {hideCode ? 'Show Code' : 'Hide Code'}
+                  </ToggleButton>
+                )}
 
-            {hidePreviewProp && (
-              <ToggleButton
-                checked={!hidePreview}
-                onChange={({ checked }) => setHidePreview(!checked)}
-                size="medium"
-              >
-                Preview
-              </ToggleButton>
-            )}
+                {hidePreviewProp && (
+                  <ToggleButton
+                    checked={!hidePreview}
+                    onChange={({ checked }) => setHidePreview(!checked)}
+                    size="medium"
+                  >
+                    Preview
+                  </ToggleButton>
+                )}
 
-            {(process.env.NODE_ENV === 'development' ||
-              process.env.GATSBY_IS_PREVIEW === 'true') && (
-              <Checkbox
-                checked={colorScheme === 'dark'}
-                onChange={({ checked }) =>
-                  setColorScheme(checked ? 'dark' : undefined)
-                }
-                size="medium"
-                label="Dark mode"
-              />
-            )}
+                {(process.env.NODE_ENV === 'development' ||
+                  process.env.GATSBY_IS_PREVIEW === 'true') && (
+                  <Checkbox
+                    checked={colorScheme === 'dark'}
+                    onChange={({ checked }) =>
+                      setColorScheme(checked ? 'dark' : undefined)
+                    }
+                    size="medium"
+                    label="Dark mode"
+                  />
+                )}
 
-            {surfaceProp === 'dark' && (
-              <Checkbox
-                checked={colorScheme !== 'dark' && surface === 'dark'}
-                onChange={({ checked }) =>
-                  setSurface(checked ? 'dark' : undefined)
-                }
-                size="medium"
-                label="Dark surface"
-              />
+                {surfaceProp === 'dark' && (
+                  <Checkbox
+                    checked={colorScheme !== 'dark' && surface === 'dark'}
+                    onChange={({ checked }) =>
+                      setSurface(checked ? 'dark' : undefined)
+                    }
+                    size="medium"
+                    label="Dark surface"
+                  />
+                )}
+              </>
             )}
           </Space>
         )}
