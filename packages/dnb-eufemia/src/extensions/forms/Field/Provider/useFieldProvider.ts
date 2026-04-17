@@ -48,7 +48,8 @@ function useFieldProvider(props?: Omit<FieldProviderProps, 'children'>) {
   if (locale) {
     sharedProviderParams.locale = locale
   }
-  sharedProviderParams.translations = useMemo(() => {
+
+  const mergedTranslations = useMemo(() => {
     if (restProps.translations === undefined) {
       return restProps.translations
     }
@@ -62,6 +63,10 @@ function useFieldProvider(props?: Omit<FieldProviderProps, 'children'>) {
 
     return translations
   }, [restProps?.translations, sharedContext.translations])
+
+  if (mergedTranslations !== undefined) {
+    sharedProviderParams.translations = mergedTranslations
+  }
 
   const extend = useCallback(
     <T extends FieldProps>(fieldProps: T) => {
