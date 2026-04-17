@@ -297,4 +297,16 @@ describe('List Container', () => {
     expect(element.getAttribute('separated')).toBeNull()
     expect(element.getAttribute('skeleton')).toBeNull()
   })
+
+  it('does not use flex-wrap to prevent accordion gap issues', () => {
+    render(
+      <Container>
+        <ItemContent>Item one</ItemContent>
+      </Container>
+    )
+
+    const element = document.querySelector('.dnb-list__container')
+
+    expect(element.classList).not.toContain('dnb-flex-container--wrap')
+  })
 })
