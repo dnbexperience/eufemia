@@ -8,6 +8,8 @@
 @use '../../../components/space/style/space-mixins.scss';
 
 @mixin listDefaults() {
+  color: var(--token-color-text-neutral, currentColor);
+
   & ul,
   & ol {
     margin-top: 0;

@@ -377,6 +377,7 @@ del .dnb-code {
 .dnb-ul {
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
+  color: var(--token-color-text-neutral, currentColor);
 }
 .dnb-ul ul, .dnb-ul ol {
   margin-top: 0;
@@ -430,6 +431,7 @@ del .dnb-code {
 .dnb-ol {
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
+  color: var(--token-color-text-neutral, currentColor);
 }
 .dnb-ol ul, .dnb-ol ol {
   margin-top: 0;
@@ -460,6 +462,9 @@ del .dnb-code {
   display: list-item;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+}
+.dnb-ol {
+  color: var(--token-color-text-neutral, currentColor);
 }
 .dnb-ol ul, .dnb-ol ol {
   margin-top: 0;
