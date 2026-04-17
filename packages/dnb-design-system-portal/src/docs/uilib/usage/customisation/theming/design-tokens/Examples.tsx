@@ -6,11 +6,11 @@ import { Td, Th, Tooltip, Tr } from '@dnb/eufemia/src'
 import useHandleSortState from '@dnb/eufemia/src/components/table/useHandleSortState'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 import {
-  countTokensByAudience,
+  tokenModifierOrder,
   tokenNamingPolicy,
   tokenSections,
+  type TokenModifier,
   type TokenRow,
-  type TokenAudience,
   type TokenSectionId,
 } from '../../../../../../uilib/utils/designTokens'
 
@@ -20,11 +20,6 @@ const isDev =
 
 const MDXCode = basicComponents.code
 const MDXParagraph = basicComponents.p
-const defaultVisibleAudiences: TokenAudience[] = [
-  'base',
-  'state',
-  'advanced',
-]
 type TokenType = 'color' | 'spacing'
 type DecorativeVariant = 'non-static' | 'static'
 const defaultVisibleTypes: TokenType[] = ['color']
@@ -41,10 +36,23 @@ const renderInlineCodeList = (values: readonly string[]) => {
   ))
 }
 
-const audienceLabels: Record<TokenAudience, string> = {
+const modifierLabels: Record<TokenModifier, string> = {
+  hover: 'Hover',
+  pressed: 'Pressed',
+  focus: 'Focus',
+  disabled: 'Disabled',
+  inverse: 'Inverse',
+  ondark: 'On dark',
+  onlight: 'On light',
+  onsubtle: 'On subtle',
+  subtle: 'Subtle',
+  bold: 'Bold',
   base: 'Base',
-  state: 'State',
-  advanced: 'Advanced',
+  muted: 'Muted',
+  intense: 'Intense',
+  alternative: 'Alternative',
+  destructive: 'Destructive',
+  static: 'Static',
 }
 
 const decorativeGroupLabels: Record<string, string> = {
@@ -56,12 +64,6 @@ const decorativeGroupLabels: Record<string, string> = {
 const decorativeVariantLabels: Record<DecorativeVariant, string> = {
   'non-static': 'Non-static',
   static: 'Static',
-}
-
-const audienceSortOrder: Record<TokenAudience, number> = {
-  base: 0,
-  state: 1,
-  advanced: 2,
 }
 
 const decorativeGroupSortOrder: Record<string, number> = {
@@ -181,32 +183,6 @@ const sortTokensByDefault = (
   })
 }
 
-const sortTokensByUsageThenGroup = (tokens: TokenRow[]) => {
-  return [...tokens].sort((a, b) => {
-    const usageCompare =
-      audienceSortOrder[a.audience] - audienceSortOrder[b.audience]
-
-    if (usageCompare !== 0) {
-      return usageCompare
-    }
-
-    const groupCompare = collator.compare(
-      getGroupLabel(a),
-      getGroupLabel(b)
-    )
-
-    if (groupCompare !== 0) {
-      return groupCompare
-    }
-
-    return collator.compare(a.name, b.name)
-  })
-}
-
-const isGroupFirstSection = (section: TokenSectionId) => {
-  return section === 'decorative' || section === 'component'
-}
-
 const sortTokensByGroup = (
   tokens: TokenRow[],
   section: TokenSectionId,
@@ -223,26 +199,6 @@ const sortTokensByGroup = (
 
       result = groupOrderA - groupOrderB
     }
-
-    if (result === 0) {
-      result = collator.compare(getGroupLabel(a), getGroupLabel(b))
-    }
-
-    if (result === 0) {
-      result = collator.compare(a.name, b.name)
-    }
-
-    return direction === 'desc' ? result * -1 : result
-  })
-}
-
-const sortTokensByAudience = (
-  tokens: TokenRow[],
-  direction: 'asc' | 'desc'
-) => {
-  return [...tokens].sort((a, b) => {
-    let result =
-      audienceSortOrder[a.audience] - audienceSortOrder[b.audience]
 
     if (result === 0) {
       result = collator.compare(getGroupLabel(a), getGroupLabel(b))
@@ -275,24 +231,16 @@ const sortTokensByName = (
   })
 }
 
-const getAudienceFilterConfig = (
-  section: TokenSectionId
-): {
-  options: TokenAudience[]
-  defaultValue: TokenAudience[]
-} => {
-  switch (section) {
-    case 'decorative':
-      return {
-        options: ['advanced'],
-        defaultValue: [],
-      }
-    default:
-      return {
-        options: ['base', 'state', 'advanced'],
-        defaultValue: defaultVisibleAudiences,
-      }
-  }
+const getAvailableModifiers = (tokens: TokenRow[]): TokenModifier[] => {
+  const available = new Set<TokenModifier>()
+
+  tokens.forEach((token) => {
+    token.modifiers.forEach((modifier) => {
+      available.add(modifier)
+    })
+  })
+
+  return tokenModifierOrder.filter((modifier) => available.has(modifier))
 }
 
 export function TokenTypeFilter({
@@ -314,6 +262,7 @@ export function TokenTypeFilter({
         }}
         optionsLayout="horizontal"
         variant="button"
+        size="medium"
         emptyValue={[]}
         bottom="medium"
       >
@@ -345,16 +294,12 @@ export function TokenSectionOverview() {
       <thead>
         <Tr>
           <Th>Section</Th>
-          <Th>Base</Th>
-          <Th>State</Th>
-          <Th>Advanced</Th>
+          <Th>Tokens</Th>
           <Th>Usage</Th>
         </Tr>
       </thead>
       <tbody>
         {tokenSections.map((section) => {
-          const counts = countTokensByAudience(section.tokens)
-
           return (
             <Tr key={section.id}>
               <Td>
@@ -364,15 +309,13 @@ export function TokenSectionOverview() {
                   {section.title}
                 </Anchor>
               </Td>
-              <Td>{counts.base}</Td>
-              <Td>{counts.state}</Td>
-              <Td>{counts.advanced}</Td>
+              <Td>{section.tokens.length}</Td>
               <Td>
                 {section.id === 'component'
                   ? 'For internal use only.'
                   : section.id === 'decorative'
                     ? 'For advanced custom decorative needs.'
-                    : 'For external use. Prefer base tokens; advanced tokens carry semantic intent and may change across themes.'}
+                    : 'For external use. Use the filters in each section to narrow tokens to the variants you need.'}
               </Td>
             </Tr>
           )
@@ -439,10 +382,13 @@ export function TokenSectionTable({
   const sectionTokens = sectionData?.tokens || []
   const sectionTitle = sectionData?.title || section
 
-  const audienceFilterConfig = getAudienceFilterConfig(section)
-  const [visibleAudiences, setVisibleAudiences] = React.useState<
-    TokenAudience[]
-  >(audienceFilterConfig.defaultValue)
+  const availableModifiers = React.useMemo(
+    () => getAvailableModifiers(sectionTokens),
+    [sectionTokens]
+  )
+  const [activeModifiers, setActiveModifiers] = React.useState<
+    TokenModifier[]
+  >([])
   const decorativeGroups = React.useMemo(() => {
     if (section !== 'decorative') {
       return []
@@ -457,15 +403,11 @@ export function TokenSectionTable({
   const { sortState, sortHandler, activeSortName } = useHandleSortState(
     {
       group: {
-        active: isGroupFirstSection(section),
-        direction: isGroupFirstSection(section) ? 'asc' : 'off',
+        active: true,
+        direction: 'asc',
       },
       name: {
         direction: 'off',
-      },
-      usage: {
-        active: !isGroupFirstSection(section),
-        direction: isGroupFirstSection(section) ? 'off' : 'asc',
       },
     },
     {
@@ -487,15 +429,14 @@ export function TokenSectionTable({
         )
       }
 
-      return visibleAudiences.includes(token.audience)
-    })
+      if (activeModifiers.length === 0) {
+        return true
+      }
 
-    if (activeSortName === 'usage') {
-      return sortTokensByAudience(
-        filteredTokens,
-        sortState.usage.reversed ? 'desc' : 'asc'
+      return activeModifiers.every((modifier) =>
+        token.modifiers.includes(modifier)
       )
-    }
+    })
 
     if (activeSortName === 'group') {
       return sortTokensByGroup(
@@ -512,10 +453,6 @@ export function TokenSectionTable({
       )
     }
 
-    if (!isGroupFirstSection(section)) {
-      return sortTokensByUsageThenGroup(filteredTokens)
-    }
-
     return sortTokensByDefault(filteredTokens, section)
   }, [
     activeSortName,
@@ -523,8 +460,7 @@ export function TokenSectionTable({
     sectionTokens,
     sortState.group.reversed,
     sortState.name.reversed,
-    sortState.usage.reversed,
-    visibleAudiences,
+    activeModifiers,
     visibleDecorativeGroups,
     visibleDecorativeVariants,
   ])
@@ -545,6 +481,7 @@ export function TokenSectionTable({
             }}
             optionsLayout="horizontal"
             variant="button"
+            size="medium"
             emptyValue={[]}
             bottom="medium"
           >
@@ -567,6 +504,7 @@ export function TokenSectionTable({
             }}
             optionsLayout="horizontal"
             variant="button"
+            size="medium"
             emptyValue={[]}
             bottom="medium"
           >
@@ -580,27 +518,33 @@ export function TokenSectionTable({
             />
           </Field.ArraySelection>
         </>
-      ) : (
+      ) : availableModifiers.length > 0 ? (
         <Field.ArraySelection
-          label={`Show ${sectionTitle.toLowerCase()} token types`}
-          value={visibleAudiences}
+          label={`Filter ${sectionTitle.toLowerCase()} tokens`}
+          help={{
+            title: 'Filters',
+            content:
+              'Select one or more modifiers to narrow the list. Tokens must include all selected modifiers to appear.',
+          }}
+          value={activeModifiers}
           onChange={(value) => {
-            setVisibleAudiences((value as TokenAudience[]) || [])
+            setActiveModifiers((value as TokenModifier[]) || [])
           }}
           optionsLayout="horizontal"
           variant="button"
+          size="medium"
           emptyValue={[]}
           bottom="medium"
         >
-          {audienceFilterConfig.options.map((audience) => (
+          {availableModifiers.map((modifier) => (
             <Field.Option
-              key={audience}
-              value={audience}
-              title={audienceLabels[audience]}
+              key={modifier}
+              value={modifier}
+              title={modifierLabels[modifier]}
             />
           ))}
         </Field.ArraySelection>
-      )}
+      ) : null}
 
       {visibleTokens.length === 0 ? (
         <MDXParagraph>
@@ -637,47 +581,8 @@ export function TokenSectionTable({
                     />
                   </Th>
                 </>
-              ) : isGroupFirstSection(section) ? (
-                <>
-                  <Th
-                    noWrap
-                    sortable
-                    active={sortState.group.active}
-                    reversed={sortState.group.reversed}
-                  >
-                    <Th.SortButton
-                      text="Group"
-                      title="Sort by group"
-                      onClick={sortHandler.group}
-                    />
-                  </Th>
-                  <Th
-                    noWrap
-                    sortable
-                    active={sortState.usage.active}
-                    reversed={sortState.usage.reversed}
-                  >
-                    <Th.SortButton
-                      text="Usage"
-                      title="Sort by usage"
-                      onClick={sortHandler.usage}
-                    />
-                  </Th>
-                </>
               ) : (
                 <>
-                  <Th
-                    noWrap
-                    sortable
-                    active={sortState.usage.active}
-                    reversed={sortState.usage.reversed}
-                  >
-                    <Th.SortButton
-                      text="Usage"
-                      title="Sort by usage"
-                      onClick={sortHandler.usage}
-                    />
-                  </Th>
                   <Th
                     noWrap
                     sortable
@@ -708,14 +613,8 @@ export function TokenSectionTable({
                     <Td>{getGroupLabel(token)}</Td>
                     <Td>{getTokenLabel(token)}</Td>
                   </>
-                ) : isGroupFirstSection(section) ? (
-                  <>
-                    <Td>{getGroupLabel(token)}</Td>
-                    <Td>{audienceLabels[token.audience]}</Td>
-                  </>
                 ) : (
                   <>
-                    <Td>{audienceLabels[token.audience]}</Td>
                     <Td>{getGroupLabel(token)}</Td>
                   </>
                 )}

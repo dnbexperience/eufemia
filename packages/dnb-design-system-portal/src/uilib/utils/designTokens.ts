@@ -40,7 +40,44 @@ export type ThemeName =
   | 'sbankenLight'
   | 'sbankenDark'
   | 'carnegie'
-export type TokenAudience = 'base' | 'state' | 'advanced'
+export type TokenModifier =
+  | 'hover'
+  | 'pressed'
+  | 'focus'
+  | 'disabled'
+  | 'inverse'
+  | 'ondark'
+  | 'onlight'
+  | 'onsubtle'
+  | 'subtle'
+  | 'bold'
+  | 'base'
+  | 'muted'
+  | 'intense'
+  | 'alternative'
+  | 'destructive'
+  | 'static'
+
+export const tokenModifierOrder: readonly TokenModifier[] = [
+  'hover',
+  'pressed',
+  'focus',
+  'disabled',
+  'inverse',
+  'ondark',
+  'onlight',
+  'onsubtle',
+  'subtle',
+  'bold',
+  'base',
+  'muted',
+  'intense',
+  'alternative',
+  'destructive',
+  'static',
+]
+
+const tokenModifierSet = new Set<string>(tokenModifierOrder)
 
 type FigmaValue = {
   alpha?: number
@@ -73,7 +110,7 @@ export type TokenRow = {
   path: string[]
   section: TokenSectionId
   group: string
-  audience: TokenAudience
+  modifiers: TokenModifier[]
   references: Record<ThemeName, string>
   foundationReferences: Record<ThemeName, string | null>
 }
@@ -96,7 +133,7 @@ type TokenEntry = {
   path: string[]
   section: TokenSectionId
   group: string
-  audience: TokenAudience
+  modifiers: TokenModifier[]
   reference: string
   foundationReference: string | null
 }
@@ -158,35 +195,31 @@ export const humanizeTokenSegment = (value: string) => {
     .join(' ')
 }
 
-const stateSegments = new Set(['hover', 'pressed', 'focus', 'disabled'])
+export const extractTokenModifiers = (
+  path: readonly string[]
+): TokenModifier[] => {
+  const seen = new Set<TokenModifier>()
+  const ordered: TokenModifier[] = []
 
-const advancedSegments = new Set([
-  'ondark',
-  'onlight',
-  'onsubtle',
-  'subtle',
-  'static',
-])
+  path.forEach((segment) => {
+    segment
+      .split('-')
+      .filter(Boolean)
+      .forEach((part) => {
+        if (!tokenModifierSet.has(part)) {
+          return
+        }
 
-export const classifyTokenAudience = (
-  tokenName: string,
-  section: TokenSectionId
-): TokenAudience => {
-  if (section === 'decorative') {
-    return 'advanced'
-  }
+        const modifier = part as TokenModifier
 
-  const segments = tokenName.split('-').filter(Boolean)
+        if (!seen.has(modifier)) {
+          seen.add(modifier)
+          ordered.push(modifier)
+        }
+      })
+  })
 
-  if (segments.some((segment) => stateSegments.has(segment))) {
-    return 'state'
-  }
-
-  if (segments.some((segment) => advancedSegments.has(segment))) {
-    return 'advanced'
-  }
-
-  return 'base'
+  return ordered
 }
 
 export const buildThemeTokenEntries = (
@@ -210,7 +243,7 @@ export const buildThemeTokenEntries = (
           path: nextPath,
           section,
           group: nextPath[2] || 'general',
-          audience: classifyTokenAudience(name, section),
+          modifiers: extractTokenModifiers(nextPath),
           reference: readTokenReference(value),
           foundationReference: readFoundationReference(value),
         },
@@ -255,7 +288,7 @@ export const buildTokenSections = (
         path: entry.path,
         section: entry.section,
         group: entry.group,
-        audience: entry.audience,
+        modifiers: entry.modifiers,
         references: {
           uiLight: theme === 'uiLight' ? entry.reference : 'n/a',
           uiDark: theme === 'uiDark' ? entry.reference : 'n/a',
@@ -309,19 +342,3 @@ export const buildTokenSections = (
 }
 
 export const tokenSections = buildTokenSections()
-
-export const countTokensByAudience = (
-  tokens: TokenRow[]
-): Record<TokenAudience, number> => {
-  return tokens.reduce(
-    (acc, token) => {
-      acc[token.audience] += 1
-      return acc
-    },
-    {
-      base: 0,
-      state: 0,
-      advanced: 0,
-    } as Record<TokenAudience, number>
-  )
-}

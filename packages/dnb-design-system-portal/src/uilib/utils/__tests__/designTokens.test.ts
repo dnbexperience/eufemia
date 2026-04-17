@@ -1,7 +1,7 @@
 import {
   buildThemeTokenEntries,
   buildTokenSections,
-  classifyTokenAudience,
+  extractTokenModifiers,
 } from '../designTokens'
 
 describe('design token docs data', () => {
@@ -26,76 +26,54 @@ describe('design token docs data', () => {
         path: ['color', 'background', 'action'],
         section: 'background',
         group: 'action',
-        audience: 'base',
+        modifiers: [],
         reference: '#007272',
         foundationReference: null,
       },
     ])
   })
 
-  it('classifies base, state and advanced tokens for usage', () => {
+  it('extracts known modifiers from a token path', () => {
     expect(
-      classifyTokenAudience(
-        '--token-color-background-action',
-        'background'
-      )
-    ).toBe('base')
+      extractTokenModifiers(['color', 'background', 'action'])
+    ).toEqual([])
 
     expect(
-      classifyTokenAudience(
-        '--token-color-background-action-inverse',
-        'background'
-      )
-    ).toBe('base')
+      extractTokenModifiers(['color', 'background', 'action', 'hover'])
+    ).toEqual(['hover'])
 
     expect(
-      classifyTokenAudience(
-        '--token-color-background-action-hover',
-        'background'
-      )
-    ).toBe('state')
+      extractTokenModifiers([
+        'color',
+        'background',
+        'action',
+        'hover',
+        'subtle',
+        'ondark',
+      ])
+    ).toEqual(['hover', 'subtle', 'ondark'])
 
     expect(
-      classifyTokenAudience(
-        '--token-color-background-action-focus',
-        'background'
-      )
-    ).toBe('state')
+      extractTokenModifiers([
+        'color',
+        'decorative',
+        'first',
+        'subtle',
+        'static',
+      ])
+    ).toEqual(['subtle', 'static'])
 
     expect(
-      classifyTokenAudience(
-        '--token-color-background-action-ondark',
-        'background'
-      )
-    ).toBe('advanced')
+      extractTokenModifiers(['color', 'text', 'neutral', 'bold'])
+    ).toEqual(['bold'])
 
     expect(
-      classifyTokenAudience(
-        '--token-color-decorative-first-subtle',
-        'decorative'
-      )
-    ).toBe('advanced')
-
-    expect(
-      classifyTokenAudience(
-        '--token-color-component-button-background-action',
-        'component'
-      )
-    ).toBe('base')
-
-    expect(
-      classifyTokenAudience(
-        '--token-color-component-button-background-action-hover',
-        'component'
-      )
-    ).toBe('state')
-
-    expect(
-      classifyTokenAudience(
-        '--token-color-component-button-background-action-ondark',
-        'component'
-      )
-    ).toBe('advanced')
+      extractTokenModifiers([
+        'color',
+        'background',
+        'action-hover-subtle-ondark',
+      ])
+    ).toEqual(['hover', 'subtle', 'ondark'])
   })
 
   it('merges the same token across themes into one row', () => {
@@ -175,7 +153,7 @@ describe('design token docs data', () => {
         path: ['color', 'text', 'neutral'],
         section: 'text',
         group: 'neutral',
-        audience: 'base',
+        modifiers: [],
         references: {
           uiLight: '#121212',
           uiDark: '#fafafa',
