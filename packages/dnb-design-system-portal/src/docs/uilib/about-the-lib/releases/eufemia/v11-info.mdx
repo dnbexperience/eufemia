@@ -2001,8 +2001,8 @@ Replace each usage with the matching variant:
 | `<NumberFormat currency value={1234} />`        | `<NumberFormat.Currency value={1234} />`                      |
 | `<NumberFormat currency="USD" value={1234} />`  | `<NumberFormat.Currency currency="USD" value={1234} />`       |
 | `<NumberFormat percent value={12.34} />`        | `<NumberFormat.Percent value={12.34} />`                      |
-| `<NumberFormat compact value={12345} />`        | `<NumberFormat.Compact value={12345} />`                      |
-| `<NumberFormat compact="long" value={12345} />` | `<NumberFormat.Compact compact="long" value={12345} />`       |
+| `<NumberFormat compact value={12345} />`        | `<NumberFormat.Number compact value={12345} />`               |
+| `<NumberFormat compact="long" value={12345} />` | `<NumberFormat.Number compact="long" value={12345} />`        |
 | `<NumberFormat phone value="99999999" />`       | `<NumberFormat.PhoneNumber value="99999999" />`               |
 | `<NumberFormat ban value="20001234567" />`      | `<NumberFormat.BankAccountNumber value="20001234567" />`      |
 | `<NumberFormat nin value="18089212345" />`      | `<NumberFormat.NationalIdentityNumber value="18089212345" />` |
@@ -2010,9 +2010,9 @@ Replace each usage with the matching variant:
 
 Notes:
 
-- The `currency`, `percent`, `compact`, `phone`, `ban`, `nin` and `org` boolean props have been removed from the shared props surface. They are now implied by the chosen variant.
+- The `currency`, `percent`, `phone`, `ban`, `nin` and `org` boolean props have been removed from the shared props surface. They are now implied by the chosen variant.
 - `NumberFormat.Currency` defaults `currency` to `true` (i.e. `NOK`). Pass a string like `currency="USD"` to override.
-- `NumberFormat.Compact` defaults `compact` to `true`. Pass `compact="long"` or `compact="short"` to pick the style explicitly.
+- `compact` is still supported on `NumberFormat.Number` and `NumberFormat.Currency`. Pass `compact` (short), `compact="long"` or `compact="short"` to pick the style.
 - `NumberFormat.PhoneNumber` still supports `link="tel" | "sms"` for clickable links.
 - The `Provider` context key `NumberFormat` (e.g. `<Provider NumberFormat={{ currency: true, decimals: 0 }}>`) and the `NumberFormatProps` TypeScript type are still available for shared configuration.
 

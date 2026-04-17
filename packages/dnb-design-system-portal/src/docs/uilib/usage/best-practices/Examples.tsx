@@ -242,28 +242,32 @@ export const NumbersCompact = () => (
           <Tr noWrap>
             <Td>Short</Td>
             <Td>
-              <NumberFormat.Compact
+              <NumberFormat.Number
+                compact
                 locale="nb-NO"
                 decimals={1}
                 value={123456}
               />
             </Td>
             <Td>
-              <NumberFormat.Compact
+              <NumberFormat.Number
+                compact
                 locale="en-GB"
                 decimals={1}
                 value={123456}
               />
             </Td>
             <Td>
-              <NumberFormat.Compact
+              <NumberFormat.Number
+                compact
                 locale="sv-SE"
                 decimals={1}
                 value={123456}
               />
             </Td>
             <Td>
-              <NumberFormat.Compact
+              <NumberFormat.Number
+                compact
                 locale="da-DK"
                 decimals={1}
                 value={123456}
@@ -273,7 +277,7 @@ export const NumbersCompact = () => (
           <Tr noWrap>
             <Td>Long</Td>
             <Td>
-              <NumberFormat.Compact
+              <NumberFormat.Number
                 locale="nb-NO"
                 compact="long"
                 decimals={2}
@@ -281,7 +285,7 @@ export const NumbersCompact = () => (
               />
             </Td>
             <Td>
-              <NumberFormat.Compact
+              <NumberFormat.Number
                 locale="en-GB"
                 compact="long"
                 decimals={2}
@@ -289,7 +293,7 @@ export const NumbersCompact = () => (
               />
             </Td>
             <Td>
-              <NumberFormat.Compact
+              <NumberFormat.Number
                 locale="sv-SE"
                 compact="long"
                 decimals={2}
@@ -297,7 +301,7 @@ export const NumbersCompact = () => (
               />
             </Td>
             <Td>
-              <NumberFormat.Compact
+              <NumberFormat.Number
                 locale="da-DK"
                 compact="long"
                 decimals={2}

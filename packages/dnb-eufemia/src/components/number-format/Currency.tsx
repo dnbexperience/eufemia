@@ -11,6 +11,8 @@ export type NumberFormatCurrencyProps = Omit<
 > & {
   /** Currency code (ISO 4217) or `true` to use the default `NOK`. Defaults to `true`. */
   currency?: NumberFormatProps['currency']
+  /** Compact display: `short` (e.g., 1.2K kr), `long` (e.g., 1.2 thousand kroner) or `true` for short. */
+  compact?: NumberFormatProps['compact']
 }
 
 const NumberFormatCurrency = withFormatter<NumberFormatCurrencyProps>(

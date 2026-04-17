@@ -122,26 +122,27 @@ export const NumberCompact = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-compact">
       <P>
-        <NumberFormat.Compact decimals={1}>1234</NumberFormat.Compact>
-        <NumberFormat.Compact decimals={1} value={123456} />
-        <NumberFormat.Compact
+        <NumberFormat.Number compact decimals={1}>
+          1234
+        </NumberFormat.Number>
+        <NumberFormat.Number compact decimals={1} value={123456} />
+        <NumberFormat.Number
           compact="short"
           decimals={2}
           value={-1723967.38}
         />
-        <NumberFormat.Compact
+        <NumberFormat.Number
           compact="long"
           decimals={3}
           value={-1234567.9876}
         />
-        <NumberFormat.Compact
+        <NumberFormat.Currency
           compact="long"
-          currency
           value={12345}
           decimals={1}
           currencyDisplay="name"
         />
-        <NumberFormat.Compact value={123455678912} decimals={3} />
+        <NumberFormat.Number compact value={123455678912} decimals={3} />
       </P>
     </ComponentBox>
   </Style>

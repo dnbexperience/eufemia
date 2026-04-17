@@ -136,7 +136,7 @@ const currencyOnlyProps: PropertiesTableProps = {
 
 const compactProp: PropertiesTableProps = {
   compact: {
-    doc: 'Shortens any number or currency including an abbreviation. You can combine `compact` with `currency` via `NumberFormat.Compact`. It gives you zero decimal by default `decimals={0}`. Use either `short` or `long`. Defaults to `short` if `true` is given.',
+    doc: 'Shortens any number or currency including an abbreviation. Available on both `NumberFormat.Number` and `NumberFormat.Currency`. It gives you zero decimal by default `decimals={0}`. Use either `short` or `long`. Defaults to `short` if `true` is given.',
     type: ['boolean', 'string'],
     status: 'optional',
   },
@@ -179,18 +179,6 @@ export const NumberFormatCurrencyProperties: PropertiesTableProps = {
 
 export const NumberFormatPercentProperties: PropertiesTableProps = {
   ...commonProps,
-  ...spacingProps,
-}
-
-export const NumberFormatCompactProperties: PropertiesTableProps = {
-  ...valueProp,
-  ...localeProp,
-  ...compactProp,
-  ...currencyOnlyProps,
-  ...decimalsAndFormattingProps,
-  ...affixProps,
-  ...interactionProps,
-  ...presentationProps,
   ...spacingProps,
 }
 

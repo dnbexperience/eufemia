@@ -5,7 +5,7 @@
  * code splitting and tree shaking. Rendering `<NumberFormat />` directly is
  * no longer supported – use one of the variants instead, e.g.
  * `<NumberFormat.Number />`, `<NumberFormat.Currency />`,
- * `<NumberFormat.Percent />`, `<NumberFormat.Compact />`,
+ * `<NumberFormat.Percent />`,
  * `<NumberFormat.PhoneNumber />`, `<NumberFormat.BankAccountNumber />`,
  * `<NumberFormat.NationalIdentityNumber />` or
  * `<NumberFormat.OrganizationNumber />`.
