@@ -8,6 +8,7 @@ import clsx from 'clsx'
 import type { DynamicElement, SpacingProps } from '../../shared/types'
 import E from '../Element'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import Context from '../../shared/Context'
 
 export type TypographySize =
   | 'x-small'
@@ -99,6 +100,8 @@ const Typography = ({
   proseMaxWidth: proseMaxWidthProp,
   ...props
 }: TypographyProps & TypographyInternalProps) => {
+  const context = useContext(Context)
+
   const { proseMaxWidth: proseMaxWidthContext } =
     useContext(TypographyContext)
 
@@ -122,6 +125,7 @@ const Typography = ({
         weight && `dnb-t__weight--${weight}`,
         decoration && `dnb-t__decoration--${decoration}`,
         slant && `dnb-t__slant--${slant}`,
+        context?.theme?.surface === 'dark' && 'dnb-t--surface-dark',
         (lineHeight || size) && `dnb-t__line-height--${lineHeight || size}`
       )}
     />
