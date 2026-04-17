@@ -1184,43 +1184,99 @@ button.dnb-button::-moz-focus-inner {
   --checkbox-gfx-height__indeterminate--large: 0.875rem;
   --checkbox-gfx-width__indeterminate--large: 0.875rem;
   --checkbox-border-width: 0.09375rem;
-  --checkbox-color-gfx-on: black;
-  --checkbox-color-gfx-off: white;
-  --checkbox-color-background-on: white;
-  --checkbox-color-background-off: white;
-  --checkbox-color-border-on: black;
-  --checkbox-color-border-off: black;
+  --checkbox-color-gfx-on: var(--token-color-icon-neutral-inverse);
+  --checkbox-color-background-off: var(--token-color-background-neutral);
+  --checkbox-color-background-on: var(--token-color-background-selected);
+  --checkbox-color-border-off: var(
+    --token-color-stroke-action-alternative
+  );
+  --checkbox-color-border-on: var(--token-color-background-selected);
+  --checkbox-color-gfx__indeterminate: var(
+    --token-color-background-selected
+  );
+  --checkbox-color-background__indeterminate: var(
+    --token-color-background-selected-subtle
+  );
+  --checkbox-color-border__indeterminate: var(
+    --token-color-stroke-selected
+  );
   --checkbox-border-width--disabled: 0.125rem;
-  --checkbox-color-gfx--disabled: grey;
-  --checkbox-color-background-on--disabled: lightgrey;
-  --checkbox-color-background-off--disabled: lightgrey;
-  --checkbox-color-border-on--disabled: grey;
-  --checkbox-color-border-off--disabled: grey;
-  --checkbox-color-gfx__indeterminate--disabled: grey;
-  --checkbox-color-background--active: lightgrey;
-  --checkbox-color-border--active: transparent;
+  --checkbox-color-gfx--disabled: var(--token-color-icon-neutral-inverse);
+  --checkbox-color-background-on--disabled: var(
+    --token-color-background-action-disabled
+  );
+  --checkbox-color-background-off--disabled: var(
+    --token-color-background-neutral
+  );
+  --checkbox-color-border-on--disabled: var(
+    --token-color-background-action-disabled
+  );
+  --checkbox-color-border-off--disabled: var(
+    --token-color-stroke-action-disabled
+  );
+  --checkbox-color-gfx__indeterminate--disabled: var(
+    --token-color-background-action-disabled
+  );
+  --checkbox-color-background__indeterminate--disabled: var(
+    --token-color-background-neutral
+  );
+  --checkbox-color-background-off--active: var(
+    --token-color-background-action-pressed-subtle
+  );
+  --checkbox-color-border-off--active: var(
+    --token-color-stroke-action-pressed
+  );
+  --checkbox-color-background-on--active: var(
+    --token-color-background-action-pressed
+  );
+  --checkbox-color-border-on--active: var(
+    --token-color-stroke-action-pressed
+  );
+  --checkbox-color-gfx__indeterminate--active: var(
+    --token-color-background-action-pressed
+  );
   --checkbox-border-width--hover: 0.125rem;
-  --checkbox-color-gfx--hover: grey;
-  --checkbox-color-background--hover: white;
-  --checkbox-color-border-on--hover: grey;
-  --checkbox-color-border-off--hover: grey;
-  --checkbox-color-gfx--focus: grey;
-  --checkbox-color-background--focus: lightgrey;
+  --checkbox-color-gfx--hover: var(--token-color-icon-neutral-inverse);
+  --checkbox-color-background-on--hover: var(
+    --token-color-background-action-hover
+  );
+  --checkbox-color-background-off--hover: var(
+    --token-color-background-action-hover-subtle
+  );
+  --checkbox-color-border-on--hover: var(
+    --token-color-stroke-action-hover
+  );
+  --checkbox-color-border-off--hover: var(
+    --token-color-stroke-action-hover
+  );
+  --checkbox-color-gfx__indeterminate--hover: var(
+    --token-color-background-action-hover
+  );
+  --checkbox-color-background__indeterminate--hover: var(
+    --token-color-background-action-hover-subtle
+  );
+  --checkbox-color-border__indeterminate--hover: var(
+    --token-color-stroke-action-hover
+  );
+  --checkbox-color-gfx--focus: var(--token-color-icon-action-focus);
+  --checkbox-color-background--focus: var(
+    --token-color-background-action-focus-subtle
+  );
+  --checkbox-color-gfx__indeterminate--focus: var(
+    --token-color-background-action-focus
+  );
   --checkbox-border-width--error: 0.125rem;
-  --checkbox-color-gfx--error: lavenderblush;
-  --checkbox-color-gfx--error-contrast: red;
-  --checkbox-color-background-on--error: red;
-  --checkbox-color-background--error-contrast: lavenderblush;
-  --checkbox-color-border--error: red;
-  --checkbox-color-gfx-indeterminate--error: red;
-  --checkbox-color-gfx--error--hover: red;
-  --checkbox-color-background--error--hover: lavenderblush;
-  --checkbox-color-border--error--hover: red;
-  --checkbox-color-background-indeterminate: grey;
-  --checkbox-color-gfx-indeterminate: darkgray;
-  --checkbox-color-background-indeterminate--active: grey;
-  --checkbox-color-border-indeterminate--active: white;
-  --checkbox-color-gfx-indeterminate--active: white;
+  --checkbox-color-gfx--error: var(--token-color-icon-neutral-inverse);
+  --checkbox-color-background-on--error: var(
+    --token-color-background-error
+  );
+  --checkbox-color-background-off--error: var(
+    --token-color-background-error-subtle
+  );
+  --checkbox-color-border--error: var(--token-color-stroke-error);
+  --checkbox-color-gfx__indeterminate--error: var(
+    --token-color-background-error
+  );
   --checkbox-bounding--medium: 1.75, 1.75;
   display: inline-flex;
   flex-direction: column;
@@ -1247,14 +1303,16 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-checkbox__button {
   display: inline-block;
-  border: var(--checkbox-border-width) solid transparent;
+  border: var(--checkbox-border-width) solid var(--checkbox-color-border-off);
+  background-color: var(--checkbox-color-background-off);
+  transition: background-color 100ms ease-out, border-color 100ms ease-out, border-width 100ms ease-out;
 }
 .dnb-checkbox__focus {
   display: none;
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-checkbox__focus {
-  --border-color: var(--focus-ring-color);
+  --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
@@ -1359,15 +1417,10 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   background-color: var(--checkbox-color-background-on);
   border-color: var(--checkbox-color-border-on);
 }
-.dnb-checkbox__input:not(:checked):not([data-checked=true]) ~ .dnb-checkbox__gfx {
+.dnb-checkbox__input:not(:checked):not([data-checked=true]):not(:indeterminate) ~ .dnb-checkbox__gfx {
   opacity: 0;
   transform: scale(0.8);
   color: var(--checkbox-color-gfx-off);
-}
-.dnb-checkbox__input:not(:checked):not([data-checked=true]) ~ .dnb-checkbox__button {
-  background-color: var(--checkbox-color-background-off);
-  border-color: var(--checkbox-color-border-off);
-  transition: background-color 100ms ease-out;
 }
 .dnb-checkbox__input ~ .dnb-checkbox__indeterminate {
   position: absolute;
@@ -1376,7 +1429,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   height: var(--checkbox-gfx-height__indeterminate);
   transform: scale(0.85);
   opacity: 0;
-  background-color: var(--checkbox-color-gfx-indeterminate);
+  background-color: var(--checkbox-color-gfx__indeterminate);
   border-radius: var(--checkbox-gfx-border-radius__indeterminate);
   transition: opacity 200ms ease-out, transform 200ms ease-out;
 }
@@ -1384,11 +1437,11 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   transform: scale(1);
   opacity: 1;
 }
-.dnb-checkbox__input:indeterminate:checked ~ .dnb-checkbox__button {
-  background-color: transparent;
-  border-color: var(--checkbox-color-border-off);
+.dnb-checkbox__input:indeterminate ~ .dnb-checkbox__button {
+  background-color: var(--checkbox-color-background__indeterminate);
+  border-color: var(--checkbox-color-border__indeterminate);
 }
-.dnb-checkbox__input:indeterminate:hover ~ .dnb-checkbox__gfx, .dnb-checkbox__input:indeterminate:checked ~ .dnb-checkbox__gfx, .dnb-checkbox__input:indeterminate:checked:hover ~ .dnb-checkbox__gfx {
+.dnb-checkbox__input:indeterminate:hover ~ .dnb-checkbox__gfx, .dnb-checkbox__input:indeterminate ~ .dnb-checkbox__gfx {
   color: transparent;
 }
 .dnb-checkbox--large .dnb-checkbox__input:indeterminate ~ .dnb-checkbox__indeterminate {
@@ -1415,111 +1468,89 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
 .dnb-checkbox__input[disabled]:indeterminate ~ .dnb-checkbox__indeterminate {
   background-color: var(--checkbox-color-gfx__indeterminate--disabled);
 }
+.dnb-checkbox__input[disabled]:indeterminate ~ .dnb-checkbox__button {
+  background-color: var(--checkbox-color-background__indeterminate--disabled);
+}
 .dnb-checkbox__input[disabled]:indeterminate ~ .dnb-checkbox__gfx {
   color: transparent;
 }
 .dnb-checkbox {
-  /** Active state **/
+  /** Error state **/
 }
-.dnb-checkbox__input:not([disabled]):active ~ .dnb-checkbox__button {
-  background-color: var(--checkbox-color-background--active);
-  border-color: var(--checkbox-color-border--active);
+.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]) ~ .dnb-checkbox__button {
+  border-color: var(--checkbox-color-border--error);
+  border-width: var(--checkbox-border-width--error);
+  background-color: var(--checkbox-color-background-off--error);
 }
-.dnb-checkbox__input:not([disabled]):checked:active ~ .dnb-checkbox__gfx, .dnb-checkbox__input:not([disabled])[data-checked=true]:active ~ .dnb-checkbox__gfx {
-  color: var(--checkbox-color-gfx-on);
+.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:indeterminate) ~ .dnb-checkbox__gfx {
+  color: var(--checkbox-color-gfx--error);
 }
-.dnb-checkbox__input:not([disabled]):indeterminate:active ~ .dnb-checkbox__button {
-  background-color: var(--checkbox-color-background-indeterminate--active);
-  border-color: var(--checkbox-color-border-indeterminate--active);
+.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):checked ~ .dnb-checkbox__button, .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled])[data-checked=true] ~ .dnb-checkbox__button {
+  background-color: var(--checkbox-color-background-on--error);
 }
-.dnb-checkbox__input:not([disabled]):indeterminate:active ~ .dnb-checkbox__indeterminate {
-  background-color: var(--checkbox-color-gfx-indeterminate--active);
+.dnb-checkbox__status--error .dnb-checkbox__input:indeterminate ~ .dnb-checkbox__indeterminate {
+  background-color: var(--checkbox-color-gfx__indeterminate--error);
 }
 .dnb-checkbox {
   /** Hover state **/
 }
-.dnb-checkbox__input:not([disabled]):not(:active):hover ~ .dnb-checkbox__button {
+.dnb-checkbox__input:not([disabled]):hover ~ .dnb-checkbox__button {
   border-color: var(--checkbox-color-border-off--hover);
-  background-color: var(--checkbox-color-background--hover);
+  background-color: var(--checkbox-color-background-off--hover);
   border-width: var(--checkbox-border-width--hover);
 }
 .dnb-checkbox__input:hover ~ .dnb-checkbox__gfx {
   color: var(--checkbox-color-gfx--hover);
 }
 .dnb-checkbox__input:not([disabled]):checked:hover ~ .dnb-checkbox__button, .dnb-checkbox__input:not([disabled])[data-checked=true]:hover ~ .dnb-checkbox__button {
+  background-color: var(--checkbox-color-background-on--hover);
   border: var(--checkbox-border-width--hover) solid var(--checkbox-color-border-on--hover);
+}
+.dnb-checkbox__input:not([disabled]):indeterminate:hover ~ .dnb-checkbox__button {
+  background-color: var(--checkbox-color-background__indeterminate--hover);
+  border-color: var(--checkbox-color-border__indeterminate--hover);
+}
+.dnb-checkbox__input:not([disabled]):indeterminate:hover ~ .dnb-checkbox__indeterminate {
+  background-color: var(--checkbox-color-gfx__indeterminate--hover);
+}
+.dnb-checkbox {
+  /** Active state **/
+}
+.dnb-checkbox__input:not([disabled]):active ~ .dnb-checkbox__button {
+  background-color: var(--checkbox-color-background-off--active);
+  border-color: var(--checkbox-color-border-off--active);
+}
+.dnb-checkbox__input:not([disabled]):checked:active ~ .dnb-checkbox__button, .dnb-checkbox__input:not([disabled])[data-checked=true]:active ~ .dnb-checkbox__button {
+  background-color: var(--checkbox-color-background-on--active);
+  border-color: var(--checkbox-color-border-on--active);
+}
+.dnb-checkbox__input:not([disabled]):checked:active ~ .dnb-checkbox__gfx, .dnb-checkbox__input:not([disabled])[data-checked=true]:active ~ .dnb-checkbox__gfx {
+  color: var(--checkbox-color-gfx-on);
+}
+.dnb-checkbox__input:not([disabled]):indeterminate:active ~ .dnb-checkbox__indeterminate {
+  background-color: var(--checkbox-color-gfx__indeterminate--active);
 }
 .dnb-checkbox {
   /** Focus state **/
 }
-html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus-visible ~ .dnb-checkbox__button {
+html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__button {
   border: none;
   background-color: var(--checkbox-color-background--focus);
 }
-html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus-visible ~ .dnb-checkbox__gfx {
+html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__gfx {
   color: var(--checkbox-color-gfx--focus);
 }
-.dnb-checkbox__input:not([disabled]):focus-visible ~ .dnb-checkbox__button .dnb-checkbox__focus, .dnb-checkbox__input:not([disabled]):active ~ .dnb-checkbox__button .dnb-checkbox__focus {
+html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):indeterminate:focus ~ .dnb-checkbox__gfx {
+  color: transparent;
+}
+.dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__button .dnb-checkbox__focus {
   display: block;
 }
-.dnb-checkbox__input:not([disabled]):focus-visible ~ .dnb-checkbox__indeterminate {
-  background-color: var(--checkbox-color-gfx--focus);
+.dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__indeterminate {
+  background-color: var(--checkbox-color-gfx__indeterminate--focus);
 }
 .dnb-checkbox {
-  /** Error state **/
-}
-.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active) ~ .dnb-checkbox__button {
-  border: none;
-}
-.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active) ~ .dnb-checkbox__button .dnb-checkbox__focus {
-  display: block;
-  --border-color: var(--checkbox-color-border--error);
-  --border-width: var(--checkbox-border-width--error);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):hover ~ .dnb-checkbox__button[data-checked=true] {
-  border-color: var(--checkbox-color-border--error--hover);
-}
-.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):hover ~ .dnb-checkbox__button {
-  background-color: var(--checkbox-color-background--error--hover);
-}
-.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):hover ~ .dnb-checkbox__gfx {
-  color: var(--checkbox-color-gfx--error--hover);
-}
-.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active):not(:hover) ~ .dnb-checkbox__gfx {
-  color: var(--checkbox-color-gfx--error);
-}
-html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__button, html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):focus:hover ~ .dnb-checkbox__button {
-  border: none;
-  background-color: var(--checkbox-color-background--error-contrast);
-  --border-color: var(--checkbox-color-border--error);
-  --border-width: calc(var(--checkbox-border-width--hover));
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):focus:hover ~ .dnb-checkbox__gfx {
-  color: var(--checkbox-color-gfx--error-contrast);
-}
-.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active):not(:hover):checked ~ .dnb-checkbox__button, .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active):not(:hover)[data-checked=true] ~ .dnb-checkbox__button {
-  background-color: var(--checkbox-color-background-on--error);
-}
-.dnb-checkbox__status--error .dnb-checkbox__input:indeterminate:not([disabled]):not(:active):not(:hover) ~ .dnb-checkbox__gfx {
-  color: var(--checkbox-color-gfx--error-contrast);
-  background-color: var(--checkbox-color-gfx--error-contrast);
-  border-radius: var(--checkbox-border-radius);
-}
-.dnb-checkbox__status--error .dnb-checkbox__input:indeterminate:not(:active):not(:hover) ~ .dnb-checkbox__indeterminate {
-  background-color: var(--checkbox-color-gfx-indeterminate--error);
-}
-.dnb-checkbox__status--error .dnb-checkbox__input:not(:indeterminate) ~ .dnb-checkbox__indeterminate {
-  background-color: var(--checkbox-color-gfx-indeterminate--error);
-}
-.dnb-checkbox__status--error .dnb-checkbox__input:indeterminate:hover:not(:active) ~ .dnb-checkbox__indeterminate {
-  background-color: var(--checkbox-color-gfx--error--hover);
-}
-.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active):hover ~ .dnb-checkbox__gfx {
-  color: var(--checkbox-color-gfx--error--hover);
+  /** Skeleton **/
 }
 .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button::before {
   border-radius: 0;
