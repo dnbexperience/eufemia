@@ -6,21 +6,22 @@
 import React from 'react'
 import { renderHook } from '@testing-library/react'
 import useNumberFormatWithParts from '../useNumberFormatWithParts'
+import { formatCurrency, formatPercent, formatPlainNumber } from '../utils'
 import Provider from '../../../shared/Provider'
 
 describe('useNumberFormatWithParts', () => {
   it('will return object with parts by default', () => {
     const { result } = renderHook(() =>
-      useNumberFormatWithParts(1234, { currency: true })
+      useNumberFormatWithParts(1234, formatCurrency)
     )
 
     expect(result.current).toEqual(
       expect.objectContaining({
-        number: '1 234,00 kr',
-        aria: '1 234,00 kroner',
+        number: '1 234,00 kr',
+        aria: '1 234,00 kroner',
         parts: expect.objectContaining({
           sign: null,
-          number: '1 234,00',
+          number: '1 234,00',
           currency: 'kr',
           currencyPosition: 'after',
         }),
@@ -30,9 +31,7 @@ describe('useNumberFormatWithParts', () => {
 
   it('will include split parts for currency when currency is enabled', () => {
     const { result } = renderHook(() =>
-      useNumberFormatWithParts(-1234, {
-        currency: true,
-      })
+      useNumberFormatWithParts(-1234, formatCurrency)
     )
 
     expect(result.current).toEqual(
@@ -50,7 +49,7 @@ describe('useNumberFormatWithParts', () => {
 
   it('will derive before-position and after-currency space for en-GB currency', () => {
     const { result } = renderHook(() =>
-      useNumberFormatWithParts(1234, {
+      useNumberFormatWithParts(1234, formatCurrency, {
         currency: 'NOK',
         locale: 'en-GB',
       })
@@ -70,8 +69,7 @@ describe('useNumberFormatWithParts', () => {
 
   it('will derive after-position and before-currency space for nb-NO currency', () => {
     const { result } = renderHook(() =>
-      useNumberFormatWithParts(1234, {
-        currency: true,
+      useNumberFormatWithParts(1234, formatCurrency, {
         locale: 'nb-NO',
       })
     )
@@ -90,7 +88,7 @@ describe('useNumberFormatWithParts', () => {
 
   it('will include split parts for plain numbers by default', () => {
     const { result } = renderHook(() =>
-      useNumberFormatWithParts(1234, {
+      useNumberFormatWithParts(1234, formatPlainNumber, {
         signDisplay: 'always',
       })
     )
@@ -108,57 +106,14 @@ describe('useNumberFormatWithParts', () => {
     )
   })
 
-  it('will force currency after and omit currency spacing when signDisplay is always and auto position', () => {
-    const { result } = renderHook(() =>
-      useNumberFormatWithParts(1234, {
-        currency: 'NOK',
-        locale: 'en-GB',
-        signDisplay: 'always',
-      })
-    )
-
-    expect(result.current).toEqual(
-      expect.objectContaining({
-        parts: expect.objectContaining({
-          sign: '+',
-          currencyPosition: 'after',
-          spaceAfterCurrency: false,
-          spaceBeforeCurrency: false,
-        }),
-      })
-    )
-  })
-
-  it('will force currency after amount when forceCurrencyAfterAmount is true', () => {
-    const { result } = renderHook(() =>
-      useNumberFormatWithParts(1234, {
-        currency: 'NOK',
-        locale: 'en-GB',
-        forceCurrencyAfterAmount: true,
-      })
-    )
-
-    expect(result.current).toEqual(
-      expect.objectContaining({
-        parts: expect.objectContaining({
-          currencyPosition: 'after',
-          spaceAfterCurrency: false,
-          spaceBeforeCurrency: true,
-        }),
-      })
-    )
-  })
-
   it('will include split parts for percent values', () => {
     const { result } = renderHook(() =>
-      useNumberFormatWithParts(-12.34, {
-        percent: true,
-      })
+      useNumberFormatWithParts(-12.34, formatPercent)
     )
 
     expect(result.current).toEqual(
       expect.objectContaining({
-        number: '−12,34 %',
+        number: '−12,34 %',
         parts: expect.objectContaining({
           sign: '−',
           signedNumber: '−12,34',
@@ -167,6 +122,25 @@ describe('useNumberFormatWithParts', () => {
           currencyPosition: null,
           percent: '%',
           percentSpacing: '\u00A0',
+        }),
+      })
+    )
+  })
+
+  it('will follow explicit currencyPosition="after" for en-GB', () => {
+    const { result } = renderHook(() =>
+      useNumberFormatWithParts(1234, formatCurrency, {
+        currency: 'NOK',
+        locale: 'en-GB',
+        currencyPosition: 'after',
+      })
+    )
+
+    expect(result.current).toEqual(
+      expect.objectContaining({
+        parts: expect.objectContaining({
+          currencyPosition: 'after',
+          currency: 'NOK',
         }),
       })
     )
@@ -186,7 +160,7 @@ describe('useNumberFormatWithParts', () => {
     )
     const { result } = renderHook(
       () =>
-        useNumberFormatWithParts(1234, {
+        useNumberFormatWithParts(1234, formatPlainNumber, {
           locale: 'en-GB',
         }),
       { wrapper }
@@ -201,12 +175,26 @@ describe('useNumberFormatWithParts', () => {
 
   it('will return plain formatting when returnAria is false', () => {
     const { result } = renderHook(() =>
-      useNumberFormatWithParts(1234, {
-        currency: true,
+      useNumberFormatWithParts(1234, formatCurrency, {
         returnAria: false,
       })
     )
 
-    expect(result.current).toBe('1 234,00 kr')
+    expect(result.current).toBe('1 234,00 kr')
+  })
+
+  it('defaults to formatPlainNumber when no formatter is supplied', () => {
+    const { result } = renderHook(() => useNumberFormatWithParts(1234))
+
+    expect(result.current).toEqual(
+      expect.objectContaining({
+        number: '1\u00A0234',
+        parts: expect.objectContaining({
+          number: '1\u00A0234',
+          currency: null,
+          currencyPosition: null,
+        }),
+      })
+    )
   })
 })

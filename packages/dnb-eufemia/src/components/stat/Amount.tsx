@@ -2,14 +2,17 @@ import React from 'react'
 import clsx from 'clsx'
 import type { NumberFormatProps } from '../number-format/NumberFormatBase'
 import useNumberFormatWithParts from '../number-format/useNumberFormatWithParts'
-import type { NumberFormatParts } from '../number-format/useNumberFormatWithParts'
+import {
+  formatCurrency,
+  formatPercent,
+  formatPlainNumber,
+} from '../number-format/utils'
 import type {
   TypographySize,
   TypographyWeight,
 } from '../../elements/typography/Typography'
 import { getHeadingLineHeightSize } from '../../elements/typography/Typography'
 import type { SpacingProps } from '../../shared/types'
-import type { NumberFormatReturnValue } from '../number-format/NumberUtils'
 import { convertJsxToString } from '../../shared/component-helper'
 import StatValueContext from './StatValueContext'
 import useStatSkeleton from './useStatSkeleton'
@@ -119,28 +122,39 @@ function AmountBase(props: AmountProps) {
         ? children
         : null
 
+  const isCurrency = currency === true || typeof currency === 'string'
   const suffixStartsWithSlash =
     typeof suffix === 'string' && suffix.startsWith('/')
   const forceCurrencyAfterAmount =
-    suffixStartsWithSlash && currencyPosition === 'auto'
+    isCurrency &&
+    currencyPosition === 'auto' &&
+    (suffixStartsWithSlash || signDisplay === 'always')
+  const resolvedCurrencyPosition = forceCurrencyAfterAmount
+    ? 'after'
+    : currencyPosition === 'auto'
+      ? null
+      : currencyPosition
+  const formatter = percent
+    ? formatPercent
+    : isCurrency
+      ? formatCurrency
+      : formatPlainNumber
 
-  const formatted = useNumberFormatWithParts(rawValue, {
+  const formatted = useNumberFormatWithParts(rawValue, formatter, {
     locale: resolvedLocale,
-    currency,
+    currency: isCurrency ? currency : false,
     currencyDisplay,
-    currencyPosition,
+    currencyPosition: resolvedCurrencyPosition,
     compact,
-    percent,
     decimals,
     rounding,
     signDisplay,
-    forceCurrencyAfterAmount,
     options,
-  }) as NumberFormatReturnValue & {
-    parts?: NumberFormatParts
-  }
+  })
 
-  const parts = formatted.parts as NumberFormatParts
+  const parts = formatted.parts
+  const omitCurrencySpacing =
+    isCurrency && currencyPosition === 'auto' && signDisplay === 'always'
   const isNegativeZero = Object.is(Number(rawValue), -0)
   const renderSign =
     signDisplay === 'always' && parts.sign
@@ -212,7 +226,7 @@ function AmountBase(props: AmountProps) {
       {hasCurrency && renderCurrencyBefore && (
         <>
           <span className={currencyClass}>{parts.currency}</span>
-          {parts.spaceAfterCurrency ? ' ' : null}
+          {parts.spaceAfterCurrency && !omitCurrencySpacing ? ' ' : null}
         </>
       )}
       <span className={amountClass}>{renderedAmount}</span>
@@ -224,7 +238,7 @@ function AmountBase(props: AmountProps) {
       )}
       {hasCurrency && !renderCurrencyBefore && (
         <>
-          {parts.spaceBeforeCurrency ? ' ' : null}
+          {parts.spaceBeforeCurrency && !omitCurrencySpacing ? ' ' : null}
           <span className={currencyClass}>{parts.currency}</span>
         </>
       )}
