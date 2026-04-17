@@ -9,7 +9,6 @@ export const languageDisplayNames = {
   'nb-NO': { label: 'Norsk' },
   'sv-SE': { label: 'Svenska' },
   'da-DK': { label: 'Dansk' },
-  'en-NO': { label: 'English (NO)' },
   'en-GB': { label: 'English (GB)' },
   'en-US': { label: 'English (US)' },
 }

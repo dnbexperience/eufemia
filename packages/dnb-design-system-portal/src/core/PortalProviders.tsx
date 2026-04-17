@@ -38,16 +38,10 @@ export const translations = mergeTranslations(
   translationsWithoutEnUS,
   enUS
 )
-const allSupportedTranslationsKey: InternalLocale[] = [
-  ...(Object.keys(coreTranslations) as InternalLocale[]),
-  ...(Object.keys(translations) as InternalLocale[]),
-  'en-NO',
+export const supportedTranslationsKey = [
+  ...Object.keys(coreTranslations),
+  ...Object.keys(translations),
 ]
-
-export const supportedTranslationsKey: InternalLocale[] =
-  allSupportedTranslationsKey.filter((locale, index, list) => {
-    return list.indexOf(locale) === index
-  })
 
 // This ensures we processes also the css prop during build
 // More into in the docs: https://emotion.sh/docs/ssr#gatsby

@@ -67,7 +67,6 @@ export const Numbers = () => (
           <Tr noWrap>
             <Th>Variation</Th>
             <Th>nb-NO</Th>
-            <Th>en-NO</Th>
             <Th>en-GB</Th>
             <Th>sv-SE</Th>
             <Th>da-DK</Th>
@@ -78,9 +77,6 @@ export const Numbers = () => (
             <Td>Default</Td>
             <Td>
               <NumberFormat locale="nb-NO" value={1234567.89} />
-            </Td>
-            <Td>
-              <NumberFormat locale="en-NO" value={1234567.89} />
             </Td>
             <Td>
               <NumberFormat locale="en-GB" value={1234567.89} />
@@ -97,13 +93,6 @@ export const Numbers = () => (
             <Td>
               <NumberFormat
                 locale="nb-NO"
-                value={1234567.89}
-                decimals={0}
-              />
-            </Td>
-            <Td>
-              <NumberFormat
-                locale="en-NO"
                 value={1234567.89}
                 decimals={0}
               />
@@ -141,13 +130,6 @@ export const Numbers = () => (
             </Td>
             <Td>
               <NumberFormat
-                locale="en-NO"
-                value={1234567.89}
-                decimals={3}
-              />
-            </Td>
-            <Td>
-              <NumberFormat
                 locale="en-GB"
                 value={1234567.89}
                 decimals={3}
@@ -174,9 +156,6 @@ export const Numbers = () => (
               <NumberFormat locale="nb-NO" value={-1234567.89} />
             </Td>
             <Td>
-              <NumberFormat locale="en-NO" value={-1234567.89} />
-            </Td>
-            <Td>
               <NumberFormat locale="en-GB" value={-1234567.89} />
             </Td>
             <Td>
@@ -191,13 +170,6 @@ export const Numbers = () => (
             <Td>
               <NumberFormat
                 locale="nb-NO"
-                signDisplay="exceptZero"
-                value={1234567.89}
-              />
-            </Td>
-            <Td>
-              <NumberFormat
-                locale="en-NO"
                 signDisplay="exceptZero"
                 value={1234567.89}
               />
@@ -230,9 +202,6 @@ export const Numbers = () => (
               <NumberFormat locale="nb-NO">invalid</NumberFormat>
             </Td>
             <Td>
-              <NumberFormat locale="en-NO">invalid</NumberFormat>
-            </Td>
-            <Td>
               <NumberFormat locale="en-GB">invalid</NumberFormat>
             </Td>
             <Td>
@@ -256,7 +225,6 @@ export const NumbersCompact = () => (
           <Tr noWrap>
             <Th>Style</Th>
             <Th>nb-NO</Th>
-            <Th>en-NO</Th>
             <Th>en-GB</Th>
             <Th>sv-SE</Th>
             <Th>da-DK</Th>
@@ -268,14 +236,6 @@ export const NumbersCompact = () => (
             <Td>
               <NumberFormat
                 locale="nb-NO"
-                compact
-                decimals={1}
-                value={123456}
-              />
-            </Td>
-            <Td>
-              <NumberFormat
-                locale="en-NO"
                 compact
                 decimals={1}
                 value={123456}
@@ -311,14 +271,6 @@ export const NumbersCompact = () => (
             <Td>
               <NumberFormat
                 locale="nb-NO"
-                compact="long"
-                decimals={2}
-                value={1234567.89}
-              />
-            </Td>
-            <Td>
-              <NumberFormat
-                locale="en-NO"
                 compact="long"
                 decimals={2}
                 value={1234567.89}
@@ -363,7 +315,6 @@ export const Percentage = () => (
           <Tr noWrap>
             <Th>Style</Th>
             <Th>nb-NO</Th>
-            <Th>en-NO</Th>
             <Th>en-GB</Th>
             <Th>sv-SE</Th>
             <Th>da-DK</Th>
@@ -374,9 +325,6 @@ export const Percentage = () => (
             <Td>Default</Td>
             <Td>
               <NumberFormat locale="nb-NO" percent value={12.34} />
-            </Td>
-            <Td>
-              <NumberFormat locale="en-NO" percent value={12.34} />
             </Td>
             <Td>
               <NumberFormat locale="en-GB" percent value={12.34} />
@@ -393,14 +341,6 @@ export const Percentage = () => (
             <Td>
               <NumberFormat
                 locale="nb-NO"
-                percent
-                decimals={3}
-                value={3}
-              />
-            </Td>
-            <Td>
-              <NumberFormat
-                locale="en-NO"
                 percent
                 decimals={3}
                 value={3}
@@ -445,7 +385,6 @@ export const AmountAndCurrency = () => (
           <Tr noWrap>
             <Th>Variation</Th>
             <Th>nb-NO</Th>
-            <Th>en-NO</Th>
             <Th>en-GB</Th>
             <Th>sv-SE</Th>
             <Th>da-DK</Th>
@@ -456,9 +395,6 @@ export const AmountAndCurrency = () => (
             <Td>Default</Td>
             <Td>
               <NumberFormat currency locale="nb-NO" value={-1358} />
-            </Td>
-            <Td>
-              <NumberFormat currency locale="en-NO" value={-1358} />
             </Td>
             <Td>
               <NumberFormat currency locale="en-GB" value={-1358} />
@@ -476,14 +412,6 @@ export const AmountAndCurrency = () => (
               <NumberFormat
                 currency
                 locale="nb-NO"
-                value={-1358}
-                currencyDisplay="symbol"
-              />
-            </Td>
-            <Td>
-              <NumberFormat
-                currency
-                locale="en-NO"
                 value={-1358}
                 currencyDisplay="symbol"
               />
@@ -526,14 +454,6 @@ export const AmountAndCurrency = () => (
             <Td>
               <NumberFormat
                 currency="EUR"
-                locale="en-NO"
-                value={-1358}
-                currencyDisplay="narrowSymbol"
-              />
-            </Td>
-            <Td>
-              <NumberFormat
-                currency="EUR"
                 locale="en-GB"
                 value={-1358}
                 currencyDisplay="narrowSymbol"
@@ -562,14 +482,6 @@ export const AmountAndCurrency = () => (
               <NumberFormat
                 currency
                 locale="nb-NO"
-                value={-1358}
-                currencyDisplay="name"
-              />
-            </Td>
-            <Td>
-              <NumberFormat
-                currency
-                locale="en-NO"
                 value={-1358}
                 currencyDisplay="name"
               />
@@ -612,14 +524,6 @@ export const AmountAndCurrency = () => (
             <Td>
               <NumberFormat
                 currency
-                locale="en-NO"
-                value={-1358}
-                currencyDisplay="code"
-              />
-            </Td>
-            <Td>
-              <NumberFormat
-                currency
                 locale="en-GB"
                 value={-1358}
                 currencyDisplay="code"
@@ -655,14 +559,6 @@ export const AmountAndCurrency = () => (
             <Td>
               <NumberFormat
                 currency
-                locale="en-NO"
-                value={-1358}
-                decimals={0}
-              />
-            </Td>
-            <Td>
-              <NumberFormat
-                currency
                 locale="en-GB"
                 value={-1358}
                 decimals={0}
@@ -691,14 +587,6 @@ export const AmountAndCurrency = () => (
               <NumberFormat
                 currency
                 locale="nb-NO"
-                value={-1358}
-                decimals={3}
-              />
-            </Td>
-            <Td>
-              <NumberFormat
-                currency
-                locale="en-NO"
                 value={-1358}
                 decimals={3}
               />
@@ -742,7 +630,6 @@ export const DateStyles = () => (
           <Tr noWrap>
             <Th>Style</Th>
             <Th>nb-NO</Th>
-            <Th>en-NO</Th>
             <Th>en-GB</Th>
             <Th>sv-SE</Th>
             <Th>da-DK</Th>
@@ -754,13 +641,6 @@ export const DateStyles = () => (
             <Td>
               <DateFormat
                 locale="nb-NO"
-                value="2026-01-30"
-                dateStyle="full"
-              />
-            </Td>
-            <Td>
-              <DateFormat
-                locale="en-NO"
                 value="2026-01-30"
                 dateStyle="full"
               />
@@ -798,13 +678,6 @@ export const DateStyles = () => (
             </Td>
             <Td>
               <DateFormat
-                locale="en-NO"
-                value="2026-01-30"
-                dateStyle="long"
-              />
-            </Td>
-            <Td>
-              <DateFormat
                 locale="en-GB"
                 value="2026-01-30"
                 dateStyle="long"
@@ -836,13 +709,6 @@ export const DateStyles = () => (
             </Td>
             <Td>
               <DateFormat
-                locale="en-NO"
-                value="2026-01-30"
-                dateStyle="medium"
-              />
-            </Td>
-            <Td>
-              <DateFormat
                 locale="en-GB"
                 value="2026-01-30"
                 dateStyle="medium"
@@ -868,13 +734,6 @@ export const DateStyles = () => (
             <Td>
               <DateFormat
                 locale="nb-NO"
-                value="2026-01-30"
-                dateStyle="short"
-              />
-            </Td>
-            <Td>
-              <DateFormat
-                locale="en-NO"
                 value="2026-01-30"
                 dateStyle="short"
               />
@@ -915,7 +774,6 @@ export const DateAndTime = () => (
           <Tr noWrap>
             <Th>Style</Th>
             <Th>nb-NO</Th>
-            <Th>en-NO</Th>
             <Th>en-GB</Th>
             <Th>sv-SE</Th>
             <Th>da-DK</Th>
@@ -927,14 +785,6 @@ export const DateAndTime = () => (
             <Td>
               <DateFormat
                 locale="nb-NO"
-                value="2026-01-30T09:12"
-                dateStyle="full"
-                timeStyle="short"
-              />
-            </Td>
-            <Td>
-              <DateFormat
-                locale="en-NO"
                 value="2026-01-30T09:12"
                 dateStyle="full"
                 timeStyle="short"
@@ -977,14 +827,6 @@ export const DateAndTime = () => (
             </Td>
             <Td>
               <DateFormat
-                locale="en-NO"
-                value="2026-01-30T09:12"
-                dateStyle="long"
-                timeStyle="short"
-              />
-            </Td>
-            <Td>
-              <DateFormat
                 locale="en-GB"
                 value="2026-01-30T09:12"
                 dateStyle="long"
@@ -1020,14 +862,6 @@ export const DateAndTime = () => (
             </Td>
             <Td>
               <DateFormat
-                locale="en-NO"
-                value="2026-01-30T09:12"
-                dateStyle="medium"
-                timeStyle="short"
-              />
-            </Td>
-            <Td>
-              <DateFormat
                 locale="en-GB"
                 value="2026-01-30T09:12"
                 dateStyle="medium"
@@ -1056,14 +890,6 @@ export const DateAndTime = () => (
             <Td>
               <DateFormat
                 locale="nb-NO"
-                value="2026-01-30T09:12"
-                dateStyle="short"
-                timeStyle="short"
-              />
-            </Td>
-            <Td>
-              <DateFormat
-                locale="en-NO"
                 value="2026-01-30T09:12"
                 dateStyle="short"
                 timeStyle="short"
@@ -1108,7 +934,6 @@ export const DateWithoutYear = () => (
           <Tr noWrap>
             <Th>Style</Th>
             <Th>nb-NO</Th>
-            <Th>en-NO</Th>
             <Th>en-GB</Th>
             <Th>sv-SE</Th>
             <Th>da-DK</Th>
@@ -1120,14 +945,6 @@ export const DateWithoutYear = () => (
             <Td>
               <DateFormat
                 locale="nb-NO"
-                value="2026-01-30"
-                dateStyle="full"
-                hideYear
-              />
-            </Td>
-            <Td>
-              <DateFormat
-                locale="en-NO"
                 value="2026-01-30"
                 dateStyle="full"
                 hideYear
@@ -1170,14 +987,6 @@ export const DateWithoutYear = () => (
             </Td>
             <Td>
               <DateFormat
-                locale="en-NO"
-                value="2026-01-30"
-                dateStyle="long"
-                hideYear
-              />
-            </Td>
-            <Td>
-              <DateFormat
                 locale="en-GB"
                 value="2026-01-30"
                 dateStyle="long"
@@ -1213,14 +1022,6 @@ export const DateWithoutYear = () => (
             </Td>
             <Td>
               <DateFormat
-                locale="en-NO"
-                value="2026-01-30"
-                dateStyle="medium"
-                hideYear
-              />
-            </Td>
-            <Td>
-              <DateFormat
                 locale="en-GB"
                 value="2026-01-30"
                 dateStyle="medium"
@@ -1249,14 +1050,6 @@ export const DateWithoutYear = () => (
             <Td>
               <DateFormat
                 locale="nb-NO"
-                value="2026-01-30"
-                dateStyle="short"
-                hideYear
-              />
-            </Td>
-            <Td>
-              <DateFormat
-                locale="en-NO"
                 value="2026-01-30"
                 dateStyle="short"
                 hideYear
@@ -1301,7 +1094,6 @@ export const DateWithoutYearAndTime = () => (
           <Tr noWrap>
             <Th>Style</Th>
             <Th>nb-NO</Th>
-            <Th>en-NO</Th>
             <Th>en-GB</Th>
             <Th>sv-SE</Th>
             <Th>da-DK</Th>
@@ -1313,15 +1105,6 @@ export const DateWithoutYearAndTime = () => (
             <Td>
               <DateFormat
                 locale="nb-NO"
-                value="2026-01-30T09:12"
-                dateStyle="full"
-                timeStyle="short"
-                hideYear
-              />
-            </Td>
-            <Td>
-              <DateFormat
-                locale="en-NO"
                 value="2026-01-30T09:12"
                 dateStyle="full"
                 timeStyle="short"
@@ -1369,15 +1152,6 @@ export const DateWithoutYearAndTime = () => (
             </Td>
             <Td>
               <DateFormat
-                locale="en-NO"
-                value="2026-01-30T09:12"
-                dateStyle="long"
-                timeStyle="short"
-                hideYear
-              />
-            </Td>
-            <Td>
-              <DateFormat
                 locale="en-GB"
                 value="2026-01-30T09:12"
                 dateStyle="long"
@@ -1417,15 +1191,6 @@ export const DateWithoutYearAndTime = () => (
             </Td>
             <Td>
               <DateFormat
-                locale="en-NO"
-                value="2026-01-30T09:12"
-                dateStyle="medium"
-                timeStyle="short"
-                hideYear
-              />
-            </Td>
-            <Td>
-              <DateFormat
                 locale="en-GB"
                 value="2026-01-30T09:12"
                 dateStyle="medium"
@@ -1457,15 +1222,6 @@ export const DateWithoutYearAndTime = () => (
             <Td>
               <DateFormat
                 locale="nb-NO"
-                value="2026-01-30T09:12"
-                dateStyle="short"
-                timeStyle="short"
-                hideYear
-              />
-            </Td>
-            <Td>
-              <DateFormat
-                locale="en-NO"
                 value="2026-01-30T09:12"
                 dateStyle="short"
                 timeStyle="short"
@@ -1514,7 +1270,6 @@ export const RelativeTime = () => (
           <Tr noWrap>
             <Th>Description</Th>
             <Th>nb-NO</Th>
-            <Th>en-NO</Th>
             <Th>en-GB</Th>
             <Th>sv-SE</Th>
             <Th>da-DK</Th>
@@ -1526,16 +1281,6 @@ export const RelativeTime = () => (
             <Td>
               <DateFormat
                 locale="nb-NO"
-                relativeTime
-                relativeTimeReference={() =>
-                  new Date('2026-02-06T12:00:00Z')
-                }
-                value="2026-02-06T11:59:30Z"
-              />
-            </Td>
-            <Td>
-              <DateFormat
-                locale="en-NO"
                 relativeTime
                 relativeTimeReference={() =>
                   new Date('2026-02-06T12:00:00Z')
@@ -1588,16 +1333,6 @@ export const RelativeTime = () => (
             </Td>
             <Td>
               <DateFormat
-                locale="en-NO"
-                relativeTime
-                relativeTimeReference={() =>
-                  new Date('2026-02-06T12:00:00Z')
-                }
-                value="2026-02-06T11:00:00Z"
-              />
-            </Td>
-            <Td>
-              <DateFormat
                 locale="en-GB"
                 relativeTime
                 relativeTimeReference={() =>
@@ -1632,16 +1367,6 @@ export const RelativeTime = () => (
             <Td>
               <DateFormat
                 locale="nb-NO"
-                relativeTime
-                relativeTimeReference={() =>
-                  new Date('2026-02-06T12:00:00Z')
-                }
-                value="2026-02-06T15:00:00Z"
-              />
-            </Td>
-            <Td>
-              <DateFormat
-                locale="en-NO"
                 relativeTime
                 relativeTimeReference={() =>
                   new Date('2026-02-06T12:00:00Z')
@@ -1694,7 +1419,6 @@ export const DurationStrings = () => (
           <Tr noWrap>
             <Th>Duration</Th>
             <Th>nb-NO</Th>
-            <Th>en-NO</Th>
             <Th>en-GB</Th>
             <Th>sv-SE</Th>
             <Th>da-DK</Th>
@@ -1705,9 +1429,6 @@ export const DurationStrings = () => (
             <Td>PT2H30M</Td>
             <Td>
               <DateFormat locale="nb-NO" value="PT2H30M" />
-            </Td>
-            <Td>
-              <DateFormat locale="en-NO" value="PT2H30M" />
             </Td>
             <Td>
               <DateFormat locale="en-GB" value="PT2H30M" />
@@ -1723,9 +1444,6 @@ export const DurationStrings = () => (
             <Td>P1DT2H30M</Td>
             <Td>
               <DateFormat locale="nb-NO" value="P1DT2H30M" />
-            </Td>
-            <Td>
-              <DateFormat locale="en-NO" value="P1DT2H30M" />
             </Td>
             <Td>
               <DateFormat locale="en-GB" value="P1DT2H30M" />
