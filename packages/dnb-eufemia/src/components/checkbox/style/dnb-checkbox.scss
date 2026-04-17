@@ -433,29 +433,36 @@
     color: transparent;
   }
 
-  /** Active state **/
+  /** Error state **/
 
   // General
-  &__input:not([disabled]):active ~ &__button {
-    background-color: var(--checkbox-color-background-off--active);
-    border-color: var(--checkbox-color-border-off--active);
+  &__status--error &__input:not([disabled]) ~ &__button {
+    border: none;
+    background-color: var(--checkbox-color-background-off--error);
+  }
+
+  &__status--error &__input:not([disabled]) ~ &__button &__focus {
+    display: block;
+    @include utilities.fakeBorder(
+      var(--checkbox-color-border--error),
+      var(--checkbox-border-width--error)
+    );
+  }
+
+  &__status--error &__input:not([disabled]):not(:indeterminate) ~ &__gfx {
+    color: var(--checkbox-color-gfx--error);
   }
 
   // On
-  &__input:not([disabled]):checked:active ~ &__button,
-  &__input:not([disabled])[data-checked='true']:active ~ &__button {
-    background-color: var(--checkbox-color-background-on--active);
-    border-color: var(--checkbox-color-border-on--active);
+  &__status--error &__input:not([disabled]):checked ~ &__button,
+  &__status--error
+    &__input:not([disabled])[data-checked='true']
+    ~ &__button {
+    background-color: var(--checkbox-color-background-on--error);
   }
 
-  &__input:not([disabled]):checked:active ~ &__gfx,
-  &__input:not([disabled])[data-checked='true']:active ~ &__gfx {
-    color: var(--checkbox-color-gfx-on);
-  }
-
-  // Indeterminate
-  &__input:not([disabled]):indeterminate:active ~ &__indeterminate {
-    background-color: var(--checkbox-color-gfx__indeterminate--active);
+  &__status--error &__input:indeterminate ~ &__indeterminate {
+    background-color: var(--checkbox-color-gfx__indeterminate--error);
   }
 
   /** Hover state **/
@@ -493,6 +500,31 @@
     background-color: var(--checkbox-color-gfx__indeterminate--hover);
   }
 
+  /** Active state **/
+
+  // General
+  &__input:not([disabled]):active ~ &__button {
+    background-color: var(--checkbox-color-background-off--active);
+    border-color: var(--checkbox-color-border-off--active);
+  }
+
+  // On
+  &__input:not([disabled]):checked:active ~ &__button,
+  &__input:not([disabled])[data-checked='true']:active ~ &__button {
+    background-color: var(--checkbox-color-background-on--active);
+    border-color: var(--checkbox-color-border-on--active);
+  }
+
+  &__input:not([disabled]):checked:active ~ &__gfx,
+  &__input:not([disabled])[data-checked='true']:active ~ &__gfx {
+    color: var(--checkbox-color-gfx-on);
+  }
+
+  // Indeterminate
+  &__input:not([disabled]):indeterminate:active ~ &__indeterminate {
+    background-color: var(--checkbox-color-gfx__indeterminate--active);
+  }
+
   /** Focus state **/
 
   // General
@@ -522,47 +554,6 @@
 
   &__input:not([disabled]):focus-visible ~ &__indeterminate {
     background-color: var(--checkbox-color-gfx__indeterminate--focus);
-  }
-
-  /** Error state **/
-
-  // General
-  &__status--error &__input:not([disabled]):not(:active) ~ &__button {
-    border: none;
-    background-color: var(--checkbox-color-background-off--error);
-  }
-
-  &__status--error
-    &__input:not([disabled]):not(:active)
-    ~ &__button
-    &__focus {
-    display: block;
-    @include utilities.fakeBorder(
-      var(--checkbox-color-border--error),
-      var(--checkbox-border-width--error)
-    );
-  }
-
-  &__status--error
-    &__input:not([disabled]):not(:active):not(:hover):not(:indeterminate)
-    ~ &__gfx {
-    color: var(--checkbox-color-gfx--error);
-  }
-
-  // On
-  &__status--error
-    &__input:not([disabled]):not(:active):not(:hover):checked
-    ~ &__button,
-  &__status--error
-    &__input:not([disabled]):not(:active):not(:hover)[data-checked='true']
-    ~ &__button {
-    background-color: var(--checkbox-color-background-on--error);
-  }
-
-  &__status--error
-    &__input:indeterminate:not(:active):not(:hover)
-    ~ &__indeterminate {
-    background-color: var(--checkbox-color-gfx__indeterminate--error);
   }
 
   /** Skeleton **/
