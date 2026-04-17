@@ -1,14 +1,14 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 /**
  * Decimal helpers (rounding, formatting fraction digits).
  */
 
+import type { NumberFormatValue } from './types'
+import type { InternalNumberFormatOptions } from './types'
+
 /**
  * Rounds the number to the nearest even number.
  */
-export function roundHalfEven(num, decimalPlaces = 2) {
+export function roundHalfEven(num: number, decimalPlaces = 2): number {
   const multiplier = Math.pow(10, decimalPlaces)
   const adjustedNum = num * multiplier
   const floored = Math.floor(adjustedNum)
@@ -29,8 +29,13 @@ export function roundHalfEven(num, decimalPlaces = 2) {
 /**
  * Fill format decimals.
  */
-export const formatDecimals = (value, decimals, rounding, opts = {}) => {
-  decimals = parseFloat(decimals)
+export const formatDecimals = (
+  value: NumberFormatValue,
+  decimals: number | string | null,
+  rounding: string | boolean | null | undefined,
+  opts: InternalNumberFormatOptions = {}
+): NumberFormatValue => {
+  decimals = parseFloat(String(decimals))
 
   // Mutate the given options
   if (decimals >= 0) {
@@ -42,11 +47,11 @@ export const formatDecimals = (value, decimals, rounding, opts = {}) => {
     const decimalPlaces = decimals || opts.maximumFractionDigits
     if (rounding === 'omit' || rounding === true) {
       const factor = Math.pow(10, decimalPlaces)
-      value = Math.trunc(value * factor) / factor
+      value = Math.trunc(Number(value) * factor) / factor
     } else {
       switch (rounding) {
         case 'half-even': {
-          value = roundHalfEven(value, decimalPlaces)
+          value = roundHalfEven(Number(value), decimalPlaces)
 
           break
         }
@@ -60,7 +65,10 @@ export const formatDecimals = (value, decimals, rounding, opts = {}) => {
 /**
  * Find the amount of decimals.
  */
-export const countDecimals = (value, decimalSeparator = '.') => {
+export const countDecimals = (
+  value: NumberFormatValue,
+  decimalSeparator = '.'
+): number => {
   if (
     typeof value === 'number' &&
     Math.floor(value.valueOf()) === value.valueOf()

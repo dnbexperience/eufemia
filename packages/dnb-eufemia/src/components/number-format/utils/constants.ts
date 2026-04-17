@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+import type { NumberFormatValue } from './types'
 
 export const NUMBER_CHARS = '\\-0-9,.'
 
@@ -12,7 +11,9 @@ export const NUMBER_MINUS = '-|−|‐|‒|–|—|―'
 // this is used to format a number that is not absent
 export const ABSENT_VALUE_FORMAT = '–'
 
-export function isAbsent(value) {
+export function isAbsent(
+  value: NumberFormatValue | null | undefined
+): boolean {
   return (
     value === null ||
     value === undefined ||

@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 /**
  * Shared format plumbing used by the variant formatters
  * (`formatPlainNumber`, `formatPercent`, `formatCurrency`, etc.).
@@ -18,11 +15,20 @@ import {
   handleCompactBeforeAria,
 } from './compact'
 import locales from '../../../shared/locales'
+import type {
+  NumberFormatValue,
+  NumberFormatReturnValue,
+  NumberFormatFunction,
+  NumberFormatOptionParams,
+  InternalNumberFormatOptions,
+  FormatPartItem,
+  FormattedParts,
+} from './types'
 
 /**
  * Normalises locale (handles `null` + `auto`).
  */
-export function resolveLocale(locale) {
+export function resolveLocale(locale: string | null): string {
   if (!locale) {
     return LOCALE
   }
@@ -40,8 +46,14 @@ export function resolveLocale(locale) {
  * Parses the `options` argument (may be a JSON string) and mixes in
  * `signDisplay` when provided.
  */
-export function prepareFormatOptions({ options, signDisplay }) {
-  const opts =
+export function prepareFormatOptions({
+  options,
+  signDisplay,
+}: {
+  options: string | InternalNumberFormatOptions | null
+  signDisplay: NumberFormatOptionParams['signDisplay'] | null
+}): InternalNumberFormatOptions {
+  const opts: InternalNumberFormatOptions =
     (typeof options === 'string' && options[0] === '{'
       ? JSON.parse(options)
       : options) || {}
@@ -70,15 +82,24 @@ export function buildReturn({
   opts,
   cleanCopyValue,
   invalidAriaText,
-}) {
+}: {
+  value: NumberFormatValue
+  locale: string
+  display: string
+  aria: string
+  type: string
+  opts: InternalNumberFormatOptions
+  cleanCopyValue: boolean | null
+  invalidAriaText: string | null
+}): NumberFormatReturnValue {
   let cleanedValue
 
   if (cleanCopyValue) {
     cleanedValue = formatNumber(
-      opts.style === 'percent' ? value / 100 : value,
+      opts.style === 'percent' ? Number(value) / 100 : value,
       locale,
       opts,
-      (item) => {
+      (item: FormatPartItem) => {
         switch (item.type) {
           case 'group':
           case 'literal':
@@ -117,8 +138,13 @@ export function applyDecimalsForPlain({
   decimals,
   rounding,
   opts,
-}) {
-  if (parseFloat(decimals) >= 0) {
+}: {
+  value: NumberFormatValue
+  decimals: number | string | null
+  rounding: string | boolean | null | undefined
+  opts: InternalNumberFormatOptions
+}): NumberFormatValue {
+  if (parseFloat(String(decimals)) >= 0) {
     return formatDecimals(value, decimals, rounding, opts)
   } else if (typeof opts.maximumFractionDigits === 'undefined') {
     // if no decimals are set, opts.maximumFractionDigits is set
@@ -138,17 +164,26 @@ export {
   handleCompactBeforeAria,
 }
 
-import type { NumberFormatFunction } from './types'
-
 /**
  * Creates a public variant formatter given a type tag and a raw
  * `(number, locale) => { number, aria }` function. The returned function
  * accepts `(value, options)` and returns either a formatted string or –
  * when `returnAria: true` – the full `NumberFormatReturnValue` object.
  */
-export function formatWith(type, formatterFn): NumberFormatFunction {
-  return (
-    value,
+export function formatWith(
+  type: string,
+  formatterFn: (value: NumberFormatValue, locale: string) => FormattedParts
+): NumberFormatFunction {
+  function formatter(
+    value: NumberFormatValue | null | undefined,
+    options: NumberFormatOptionParams & { returnAria: true }
+  ): NumberFormatReturnValue
+  function formatter(
+    value: NumberFormatValue | null | undefined,
+    options?: NumberFormatOptionParams
+  ): string
+  function formatter(
+    value: NumberFormatValue | null | undefined,
     {
       locale: inputLocale = null,
       clean = null,
@@ -157,8 +192,8 @@ export function formatWith(type, formatterFn): NumberFormatFunction {
       returnAria = false,
       invalidAriaText = null,
       cleanCopyValue = null,
-    } = {}
-  ) => {
+    }: NumberFormatOptionParams = {}
+  ): string | NumberFormatReturnValue {
     value = isAbsent(value) ? ABSENT_VALUE_FORMAT : value
 
     const locale = resolveLocale(inputLocale)
@@ -193,4 +228,6 @@ export function formatWith(type, formatterFn): NumberFormatFunction {
       invalidAriaText,
     })
   }
+
+  return formatter
 }

@@ -1,19 +1,19 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+import type { FormatPartItem, PartFormatter } from './types'
+import type { NumberFormatCurrencyPosition } from './types'
 
 /**
  * Changes the currency sign position.
  * For Norway, the position defaults to "after".
  */
 export const currencyPositionFormatter = (
-  existingFormatter,
-  callback,
-  position = null
-) => {
+  existingFormatter: PartFormatter | null | undefined,
+  callback: (item: FormatPartItem) => string,
+  position: NumberFormatCurrencyPosition | null = null
+): PartFormatter => {
   let count = 0
   let countCurrency = -1
 
-  return (item) => {
+  return (item: FormatPartItem): FormatPartItem => {
     // Ensure we do not overwrite a given formatter, but run it as well
     if (typeof existingFormatter === 'function') {
       item = existingFormatter(item)

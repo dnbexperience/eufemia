@@ -1,10 +1,55 @@
 // TypeScript types shared across the NumberFormat utilities.
 
+// The TS es2022 lib does not include 'negative' in the signDisplay
+// registry (it was added in es2023). Augment it so we can use the
+// native Intl types without widening signDisplay to `string`.
+// TODO: Remove this augmentation when tsconfig lib includes es2023.
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Intl {
+    // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+    interface NumberFormatOptionsSignDisplayRegistry {
+      negative: never
+    }
+  }
+}
+
+/** A single part returned by `Intl.NumberFormat.formatToParts()`. */
+export type FormatPartItem = {
+  type: string
+  value: string
+}
+
+/** Formatter callback that transforms individual format parts. */
+export type PartFormatter = (item: FormatPartItem) => FormatPartItem
+
+/** Valid values for the Intl currencyDisplay option. */
+export type CurrencyDisplayValue =
+  | 'code'
+  | 'name'
+  | 'symbol'
+  | 'narrowSymbol'
+
+/** Internal format options passed to `Intl.NumberFormat`. */
+export type InternalNumberFormatOptions = Omit<
+  Intl.NumberFormatOptions,
+  'currencyDisplay'
+> & {
+  decimals?: number
+  currencyDisplay?: CurrencyDisplayValue
+}
+
+/** Return value of inline part-formatters (phone, BAN, NIN, etc.). */
+export type FormattedParts = {
+  number: string
+  aria: string
+}
+
 export type NumberFormatType = 'number' | 'currency'
 export type NumberFormatCurrencyPosition = 'before' | 'after'
 export type NumberFormatReturnValue = {
   /** The given number */
-  value: number
+  value: NumberFormatValue
   /** Cleans a number from unnecessary parts */
   cleanedValue: string
   /** The formatted display number */
