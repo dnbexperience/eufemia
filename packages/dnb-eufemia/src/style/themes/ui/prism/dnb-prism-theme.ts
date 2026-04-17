@@ -7,7 +7,7 @@ const italic = 'italic' as const
 const prismTheme = {
   plain: {
     color: 'var(--color-mint-green-12)',
-    backgroundColor: '#222',
+    backgroundColor: 'var(--color-black-80)',
   },
   styles: [
     {
