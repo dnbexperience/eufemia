@@ -3,6 +3,19 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.104.0](https://github.com/dnbexperience/eufemia/compare/v10.103.0...v10.104.0) (2026-04-17)
+
+
+### :sparkles: Features
+
+* **List:** add `to`, `element`and `elementProps` to List.Item.Action ([#7337](https://github.com/dnbexperience/eufemia/issues/7337)) ([f904f56](https://github.com/dnbexperience/eufemia/commit/f904f563fa1321d57183060e2a978024875bb806))
+
+
+### :bug: Bug Fixes
+
+* **Field.Provider:** avoid overwriting parent translations with undefined ([#7303](https://github.com/dnbexperience/eufemia/issues/7303)) ([593890c](https://github.com/dnbexperience/eufemia/commit/593890c2a8f58d1ee5884343c2415f052cd6b6ba)), closes [#7220](https://github.com/dnbexperience/eufemia/issues/7220)
+* **List:** prevent space-between gaps in accordion items ([#7525](https://github.com/dnbexperience/eufemia/issues/7525)) ([f701c4b](https://github.com/dnbexperience/eufemia/commit/f701c4b4b197ba63b8d13f58e533c1f5230073ca))
+
 ## [10.103.0](https://github.com/dnbexperience/eufemia/compare/v10.102.0...v10.103.0) (2026-03-31)
 
 
