@@ -326,8 +326,9 @@ export function format(
       formatter = currencyPositionFormatter(
         formatter,
         ({ value }): string => {
-          return (currencySuffix = String(
-            alignCurrencySymbol(value.trim(), currencyDisplay)
+          return (currencySuffix = alignCurrencySymbol(
+            value.trim(),
+            currencyDisplay
           ))
         },
         currencyPosition
@@ -587,11 +588,12 @@ const prepareMinus = (display: string, locale: string | null) => {
 function alignCurrencySymbol(
   output: string | number,
   currencyDisplay: string | boolean | null | undefined
-) {
-  if (typeof output === 'string' && currencyDisplay === 'name') {
-    output = output.replace(/(nor[^\s]+?)\s(\w+)/i, '$2')
+): string {
+  const str = String(output)
+  if (currencyDisplay === 'name') {
+    return str.replace(/(nor[^\s]+?)\s(\w+)/i, '$2')
   }
-  return output
+  return str
 }
 
 /**
@@ -1118,20 +1120,17 @@ export function getCurrencySymbol(
 
   const currencyDisplay = getFallbackCurrencyDisplay(locale, display)
 
-  return String(
-    alignCurrencySymbol(
-      formatToParts({
-        number,
-        locale,
-        options: {
-          style: 'currency',
-          currency: typeof currency === 'string' ? currency : CURRENCY,
-          currencyDisplay,
-        },
-      }).find(({ type }) => type === 'currency')?.value ||
-        String(currency),
-      currencyDisplay
-    )
+  return alignCurrencySymbol(
+    formatToParts({
+      number,
+      locale,
+      options: {
+        style: 'currency',
+        currency: typeof currency === 'string' ? currency : CURRENCY,
+        currencyDisplay,
+      },
+    }).find(({ type }) => type === 'currency')?.value || String(currency),
+    currencyDisplay
   )
 }
 
