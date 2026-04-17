@@ -5,6 +5,7 @@ import type {
 } from './NumberFormatBase'
 import NumberFormatBase from './NumberFormatBase'
 import { formatPhoneNumber } from './utils'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type NumberFormatPhoneNumberProps = Omit<
   NumberFormatAllProps,
@@ -44,8 +45,8 @@ function NumberFormatPhoneNumber({
 }
 
 NumberFormatPhoneNumber.displayName = 'NumberFormat.PhoneNumber'
-;(
-  NumberFormatPhoneNumber as unknown as { _supportsSpacingProps?: boolean }
-)._supportsSpacingProps = true
+withComponentMarkers(NumberFormatPhoneNumber, {
+  _supportsSpacingProps: true,
+})
 
 export default NumberFormatPhoneNumber

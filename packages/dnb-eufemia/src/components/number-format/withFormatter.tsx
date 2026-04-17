@@ -3,8 +3,7 @@ import NumberFormatBase, {
   type NumberFormatInternalFormatter,
   type NumberFormatProps,
 } from './NumberFormatBase'
-
-type SpacingMarker = { _supportsSpacingProps?: boolean }
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 /**
  * Create a `NumberFormat.*` variant component.
@@ -32,7 +31,9 @@ export function withFormatter<
   }
 
   NumberFormatVariant.displayName = displayName
-  ;(NumberFormatVariant as SpacingMarker)._supportsSpacingProps = true
+  withComponentMarkers(NumberFormatVariant, {
+    _supportsSpacingProps: true,
+  })
 
   return NumberFormatVariant
 }
