@@ -506,7 +506,8 @@ describe('Upload', () => {
         (attr) => attr.name
       )
 
-      expect(attributes).toEqual(['class'])
+      expect(attributes).toEqual(['style', 'class'])
+      expect(element.getAttribute('style')).toBe('--margin-top: 2rem;')
       expect(Array.from(element.classList)).toEqual(
         expect.arrayContaining(['dnb-space', 'dnb-space__top--large'])
       )

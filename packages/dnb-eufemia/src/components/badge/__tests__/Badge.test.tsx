@@ -156,7 +156,8 @@ describe('Badge', () => {
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['role', 'class', 'aria-label'])
+    expect(attributes).toEqual(['role', 'class', 'aria-label', 'style'])
+    expect(element.getAttribute('style')).toBe('--margin-top: 2rem;')
     expect(Array.from(element.classList)).toEqual([
       'dnb-badge',
       'dnb-space__top--large',

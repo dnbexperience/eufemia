@@ -156,7 +156,8 @@ describe('Table', () => {
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['class'])
+    expect(attributes).toEqual(['class', 'style'])
+    expect(element.getAttribute('style')).toBe('--margin-top: 2rem;')
     expect(Array.from(element.classList)).toEqual(
       expect.arrayContaining([
         'dnb-table',

@@ -16,6 +16,7 @@ import {
   isValidSpaceProp,
   createSpacing,
   createSpacingProperties,
+  createMarginProperties,
   applySpacing,
 } from '../SpacingUtils'
 import type { SpaceType } from '../types'
@@ -512,7 +513,9 @@ describe('createSpacing - return shape', () => {
       'dnb-space__right--large',
       'dnb-space__right--x-small',
     ])
-    expect(result.style).toBeUndefined()
+    expect(result.style).toEqual({
+      '--margin-right': '2.5rem',
+    })
   })
 
   it('should return style for innerSpace and not class', () => {
@@ -525,8 +528,106 @@ describe('createSpacing - return shape', () => {
     })
   })
 
-  it('should return undefined style when no innerSpace', () => {
+  it('should return undefined style when no spacing props are present', () => {
     expect(createSpacing({}).style).toBeUndefined()
+  })
+
+  it('should merge outer margin and inner space custom properties', () => {
+    const result = createSpacing({
+      top: 'small',
+      innerSpace: { right: 'large' },
+    })
+    expect(result.style).toEqual({
+      '--margin-top': '1rem',
+      '--space-r-l': '2rem',
+      '--space-r-m': '2rem',
+      '--space-r-s': '2rem',
+    })
+  })
+})
+
+describe('createMarginProperties', () => {
+  it('should return a --margin-{direction} property per direction', () => {
+    expect(
+      createMarginProperties({
+        top: 'small',
+        right: 'large x-small',
+        bottom: 'medium',
+        left: 'x-small',
+      })
+    ).toEqual({
+      '--margin-top': '1rem',
+      '--margin-right': '2.5rem',
+      '--margin-bottom': '1.5rem',
+      '--margin-left': '0.5rem',
+    })
+  })
+
+  it('should expand the space shorthand to all four directions', () => {
+    expect(createMarginProperties({ space: 'small' })).toEqual({
+      '--margin-top': '1rem',
+      '--margin-right': '1rem',
+      '--margin-bottom': '1rem',
+      '--margin-left': '1rem',
+    })
+  })
+
+  it('should let explicit directions override the space shorthand', () => {
+    expect(
+      createMarginProperties({ space: 'small', right: 'large' })
+    ).toEqual({
+      '--margin-top': '1rem',
+      '--margin-right': '2rem',
+      '--margin-bottom': '1rem',
+      '--margin-left': '1rem',
+    })
+  })
+
+  it('should support the space object shorthand', () => {
+    expect(
+      createMarginProperties({ space: { top: 'small', right: 'large' } })
+    ).toEqual({
+      '--margin-top': '1rem',
+      '--margin-right': '2rem',
+    })
+  })
+
+  it('should set 0 for false and 0 values', () => {
+    expect(
+      createMarginProperties({ top: false, right: 0 } as Parameters<
+        typeof createMarginProperties
+      >[0])
+    ).toEqual({
+      '--margin-top': '0',
+      '--margin-right': '0',
+    })
+  })
+
+  it('should return an empty object when no spacing props are present', () => {
+    expect(createMarginProperties({})).toEqual({})
+  })
+
+  it('should ignore innerSpace', () => {
+    expect(createMarginProperties({ innerSpace: 'large' })).toEqual({})
+  })
+
+  it('should handle rem and px values', () => {
+    expect(
+      createMarginProperties({ top: '1.5rem', right: '16px' })
+    ).toEqual({
+      '--margin-top': '1.5rem',
+      '--margin-right': '1rem',
+    })
+  })
+
+  it('should handle frozen props', () => {
+    const props = Object.freeze({ space: 'small', right: 'large' })
+    expect(createMarginProperties(props)).toEqual({
+      '--margin-top': '1rem',
+      '--margin-right': '2rem',
+      '--margin-bottom': '1rem',
+      '--margin-left': '1rem',
+    })
   })
 })
 
@@ -553,6 +654,21 @@ describe('applySpacing', () => {
       '--space-r-l': '2rem',
       '--space-r-m': '2rem',
       '--space-r-s': '2rem',
+    })
+  })
+
+  it('should merge --margin custom properties into target style', () => {
+    const result = applySpacing(
+      { top: 'small', right: 'large' },
+      {
+        className: 'dnb-my-component',
+        style: { color: 'red' } as React.CSSProperties,
+      }
+    )
+    expect(result.style).toEqual({
+      color: 'red',
+      '--margin-top': '1rem',
+      '--margin-right': '2rem',
     })
   })
 
