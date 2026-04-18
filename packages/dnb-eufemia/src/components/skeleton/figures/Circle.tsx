@@ -5,6 +5,7 @@
 
 import React, { useMemo } from 'react'
 import clsx from 'clsx'
+import Space from '../../space/Space'
 
 export type SkeletonCircleRows = string | number
 export type SkeletonCircleChildren =
@@ -43,12 +44,13 @@ function SkeletonCircle({
       aria-busy
       {...rest}
     >
-      <div
+      <Space
+        element="div"
+        bottom="large"
         className={clsx(
           'dnb-h--xx-large',
           'dnb-skeleton',
-          'dnb-skeleton--shape',
-          'dnb-space__bottom--large'
+          'dnb-skeleton--shape'
         )}
         aria-hidden
         style={{
@@ -56,23 +58,20 @@ function SkeletonCircle({
         }}
       >
         &zwnj;
-      </div>
+      </Space>
 
       {rowsLength.map((p, i) => (
-        <div
+        <Space
           key={i}
-          className={clsx(
-            'dnb-p',
-            'dnb-skeleton',
-            'dnb-skeleton--shape',
-            'dnb-space__top--x-small'
-          )}
+          element="div"
+          top="x-small"
+          className={clsx('dnb-p', 'dnb-skeleton', 'dnb-skeleton--shape')}
           style={{
             width: `${p}%`,
           }}
         >
           &zwnj;
-        </div>
+        </Space>
       ))}
 
       {typeof children === 'function' ? children() : children}
