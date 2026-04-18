@@ -106,7 +106,7 @@ Each variant has a matching formatter function you can use outside of React (e.g
 
 ```tsx
 import {
-  formatPlainNumber,
+  formatNumber,
   formatCurrency,
   formatPercent,
   formatPhoneNumber,
@@ -118,7 +118,7 @@ import {
 
 | Formatter                      | Component variant                     |
 | ------------------------------ | ------------------------------------- |
-| `formatPlainNumber`            | `NumberFormat.Number`                 |
+| `formatNumber`                 | `NumberFormat.Number`                 |
 | `formatCurrency`               | `NumberFormat.Currency`               |
 | `formatPercent`                | `NumberFormat.Percent`                |
 | `formatPhoneNumber`            | `NumberFormat.PhoneNumber`            |
@@ -211,7 +211,7 @@ You can use the variant formatter functions without using a React Component or R
 ```ts
 import {
   formatCurrency,
-  formatPlainNumber,
+  formatNumber,
 } from '@dnb/eufemia/components/number-format/NumberUtils'
 
 // By using returnAria you get an object
@@ -221,7 +221,7 @@ const { number, aria } = formatCurrency(12345678.9, {
 })
 
 // Basic formatting
-const number = formatPlainNumber(1234)
+const number = formatNumber(1234)
 ```
 
 Each variant formatter accepts the same options as the corresponding component variant.
