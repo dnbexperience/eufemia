@@ -268,9 +268,16 @@ export const SpaceVisibleWhenVisualTestReset = () => (
       `
       return (
         <BlueBox>
-          <ul className="dnb-space__reset dnb-space__top--small dnb-space__right--small dnb-space__bottom--small dnb-space__left--small">
+          <Space
+            element="ul"
+            top="small"
+            right="small"
+            bottom="small"
+            left="small"
+            className="dnb-space__reset"
+          >
             <li> </li>
-          </ul>
+          </Space>
         </BlueBox>
       )
     }}

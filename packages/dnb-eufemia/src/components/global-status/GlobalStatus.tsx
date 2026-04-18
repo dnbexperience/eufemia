@@ -37,6 +37,7 @@ import Icon from '../icon/Icon'
 import { InfoIcon, ErrorIcon, WarnIcon } from '../form-status/FormStatus'
 import Section from '../section/Section'
 import Button from '../button/Button'
+import Space from '../space/Space'
 import type { FormStatusText, FormStatusState } from '../FormStatus'
 import type { IconIcon, IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'
@@ -799,11 +800,10 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
           </div>
           {hasContentToRender && (
             <div className="dnb-global-status__message">
-              <div
-                className={clsx(
-                  'dnb-global-status__message__content',
-                  !renderedItems && 'dnb-space__bottom--small'
-                )}
+              <Space
+                element="div"
+                bottom={!renderedItems ? 'small' : undefined}
+                className="dnb-global-status__message__content"
               >
                 {typeof contentToRender === 'string' ? (
                   <p className="dnb-p">{contentToRender}</p>
@@ -811,7 +811,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
                   contentToRender
                 )}
                 {renderedItems}
-              </div>
+              </Space>
             </div>
           )}
           <Hr breakout />
