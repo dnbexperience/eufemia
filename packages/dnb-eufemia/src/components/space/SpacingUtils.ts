@@ -93,15 +93,15 @@ export const createSpacingProperties = (
 /**
  * Creates CSS custom properties for outer spacing (margin).
  *
- * Computes the resolved rem value for each direction based on the
+ * Computes the resolved rem value for each direction and media size based on the
  * `top`, `right`, `bottom`, `left` and `space` props and returns them
- * as `--margin-{top|right|bottom|left}` custom properties. These
- * properties are meant to later drive the margin via `var(--margin-*)`
- * in CSS, while the existing `dnb-space__{direction}--{size}` classes
- * still apply the actual margin for now.
+ * as `--margin-{t|r|b|l}-{s|m|l}` custom properties, following the same
+ * pattern as innerSpace but with margin prefix. These properties are meant to later
+ * drive the margin via `var(--margin-*)` in CSS, while the existing
+ * `dnb-space__{direction}--{size}` classes still apply the actual margin for now.
  *
  * @param props
- * @returns { '--margin-top': '1rem', '--margin-right': '0' }
+ * @returns { '--margin-t-s': '1rem', '--margin-r-s': '0' }
  */
 export const createMarginProperties = (
   props: SpacingProps | SpacingUnknownProps
@@ -125,27 +125,41 @@ function computeMarginProperties(
     ...(typeof left !== 'undefined' ? { left } : null),
   }
 
+  // Return early if no spacing properties are defined
+  if (Object.keys(merged).length === 0) {
+    return {}
+  }
+
+  // Convert to media sizes like innerSpace does
+  const mediaSpace = !hasMediaSize(merged as InnerSpaceTypeMedia)
+    ? {
+        small: merged,
+        medium: merged,
+        large: merged,
+      }
+    : (merged as InnerSpaceTypeMedia)
+
   const result = {}
 
-  for (const key of ['top', 'right', 'bottom', 'left'] as const) {
-    if (!(key in merged)) {
-      continue
-    }
+  for (const size in mediaSpace) {
+    const value = mediaSpace[size] as SpaceType | InnerSpacingElementProps
+    const props = transformToAll(value)
 
-    const cur = merged[key]
-    const name = `--margin-${key}`
+    for (const key in props as InnerSpacingElementProps) {
+      if (isValidInnerSpaceProp(key)) {
+        const cur = props[key]
+        const name = `--margin-${key[0]}-${size[0]}`
 
-    if (String(cur) === '0' || String(cur) === 'false') {
-      result[name] = '0'
-    } else if (cur) {
-      const typeModifiers = createTypeModifiers(cur as SpaceType)
-      const sum = sumTypes(typeModifiers)
-
-      if (sum > 10) {
-        continue
+        if (String(cur) === '0' || String(cur) === 'false') {
+          result[name] = '0'
+        } else if (cur) {
+          const typeModifiers = createTypeModifiers(cur as SpaceType)
+          const sum = sumTypes(typeModifiers)
+          if (sum > 0) {
+            result[name] = `${sum}rem`
+          }
+        }
       }
-
-      result[name] = `${sum}rem`
     }
   }
 

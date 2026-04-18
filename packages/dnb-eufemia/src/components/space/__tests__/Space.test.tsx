@@ -99,21 +99,21 @@ describe('Space component', () => {
     ).toBeInTheDocument()
   })
 
-  it('should expose outer margin as --margin-{direction} custom properties', () => {
+  it('should expose outer margin as --margin-{t|r|b|l}-{s|m|l} custom properties', () => {
     const { rerender } = render(
       <Space top="large" right="small" bottom="0" left={false} />
     )
     expect(
       document.querySelector('.dnb-space').getAttribute('style')
     ).toBe(
-      '--margin-top: 2rem; --margin-right: 1rem; --margin-bottom: 0; --margin-left: 0;'
+      '--margin-t-s: 2rem; --margin-r-s: 1rem; --margin-b-s: 0; --margin-l-s: 0; --margin-t-m: 2rem; --margin-r-m: 1rem; --margin-b-m: 0; --margin-l-m: 0; --margin-t-l: 2rem; --margin-r-l: 1rem; --margin-b-l: 0; --margin-l-l: 0;'
     )
 
     rerender(<Space space="small" />)
     expect(
       document.querySelector('.dnb-space').getAttribute('style')
     ).toBe(
-      '--margin-top: 1rem; --margin-right: 1rem; --margin-bottom: 1rem; --margin-left: 1rem;'
+      '--margin-t-s: 1rem; --margin-r-s: 1rem; --margin-b-s: 1rem; --margin-l-s: 1rem; --margin-t-m: 1rem; --margin-r-m: 1rem; --margin-b-m: 1rem; --margin-l-m: 1rem; --margin-t-l: 1rem; --margin-r-l: 1rem; --margin-b-l: 1rem; --margin-l-l: 1rem;'
     )
   })
 

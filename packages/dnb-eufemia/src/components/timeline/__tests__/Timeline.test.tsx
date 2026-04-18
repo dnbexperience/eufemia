@@ -141,7 +141,9 @@ describe('Timeline', () => {
     )
 
     expect(attributes).toEqual(['class', 'style'])
-    expect(element.getAttribute('style')).toBe('--margin-top: 2rem;')
+    expect(element.getAttribute('style')).toBe(
+      '--margin-t-s: 2rem; --margin-t-m: 2rem; --margin-t-l: 2rem;'
+    )
     expect(Array.from(element.classList)).toEqual([
       'dnb-timeline',
       'dnb-space__reset',

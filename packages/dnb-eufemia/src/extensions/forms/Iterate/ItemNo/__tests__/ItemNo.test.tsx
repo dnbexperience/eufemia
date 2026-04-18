@@ -41,7 +41,7 @@ describe('Iterate.ItemNo', () => {
       >
         <div
           class="dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-item dnb-forms-iterate__element"
-          style="--margin-top: 0; --margin-bottom: 0;"
+          style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
           tabindex="-1"
         >
           <b>
@@ -70,7 +70,7 @@ describe('Iterate.ItemNo', () => {
       >
         <div
           class="dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-item dnb-forms-iterate__element"
-          style="--margin-top: 0; --margin-bottom: 0;"
+          style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
           tabindex="-1"
         >
           Item no. 
