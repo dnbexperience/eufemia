@@ -100,6 +100,34 @@ render(
 )
 ```
 
+## Formatter utilities
+
+Each variant has a matching formatter function you can use outside of React (e.g. in utilities, tests or server code). They are all available from the main import:
+
+```tsx
+import {
+  formatPlainNumber,
+  formatCurrency,
+  formatPercent,
+  formatPhoneNumber,
+  formatBankAccountNumber,
+  formatNationalIdentityNumber,
+  formatOrganizationNumber,
+} from '@dnb/eufemia/components/NumberFormat'
+```
+
+| Formatter                        | Component variant                          |
+| -------------------------------- | ------------------------------------------ |
+| `formatPlainNumber`              | `NumberFormat.Number`                      |
+| `formatCurrency`                 | `NumberFormat.Currency`                    |
+| `formatPercent`                  | `NumberFormat.Percent`                     |
+| `formatPhoneNumber`              | `NumberFormat.PhoneNumber`                 |
+| `formatBankAccountNumber`        | `NumberFormat.BankAccountNumber`           |
+| `formatNationalIdentityNumber`   | `NumberFormat.NationalIdentityNumber`      |
+| `formatOrganizationNumber`       | `NumberFormat.OrganizationNumber`          |
+
+Each formatter accepts `(value, options?)` and returns a formatted string. Pass `{ returnAria: true }` to get the full object with `number`, `aria`, `cleanedValue` and `locale`.
+
 ## NumberFormat Hook
 
 **Heads up:** If you do so, keep in mind that you will have to ensure all the accessibility enhancements the component offers. For that, you can use the `aria` field:
