@@ -3,8 +3,7 @@ import clsx from 'clsx'
 import type { SpaceType, SpacingProps } from '../../shared/types'
 import Space from '../space/Space'
 import {
-  createSpacingClasses,
-  createSpacingProperties,
+  createSpacing,
   isValidSpaceProp,
   removeSpaceProps,
 } from '../space/SpacingUtils'
@@ -207,6 +206,8 @@ function cloneIntrinsicElementWithSpacing(
 
   const elementProps = (element as React.ReactElement<any>).props || {}
 
+  const spacing = createSpacing(spaceProps)
+
   return React.createElement(
     (element as React.ReactElement).type as React.ComponentType<any>,
     {
@@ -217,12 +218,12 @@ function cloneIntrinsicElementWithSpacing(
       key: spaceProps.key,
       className: clsx(
         elementProps?.className,
-        ...createSpacingClasses(spaceProps),
+        ...spacing.className,
         className
       ),
       style: {
         ...elementProps?.style,
-        ...createSpacingProperties(spaceProps),
+        ...spacing.style,
         ...style,
       },
     }

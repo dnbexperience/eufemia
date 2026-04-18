@@ -22,7 +22,7 @@ import {
   processChildren,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingHelper'
 import HelpButtonInstance from '../help-button/HelpButtonInstance'
 import { getListOfModalRoots, getModalRoot } from './helpers'
 import ModalInner from './parts/ModalInner'
@@ -488,15 +488,17 @@ function ModalComponent(ownProps: ModalAllProps) {
       {TriggerButton && !omitTriggerButton && (
         <TriggerButton
           {...usedTriggerAttributes}
-          id={_id.current}
-          title={title}
-          onClick={(event) => toggleOpenClose(event.nativeEvent)}
-          ref={triggerRef}
-          className={clsx(
-            'dnb-modal__trigger',
-            createSpacingClasses(rest as SpacingProps),
-            usedTriggerAttributes.className
-          )}
+          {...applySpacing(rest as SpacingProps, {
+            id: _id.current,
+            title,
+            onClick: (event: React.MouseEvent) =>
+              toggleOpenClose(event.nativeEvent),
+            ref: triggerRef,
+            className: clsx(
+              'dnb-modal__trigger',
+              usedTriggerAttributes.className
+            ),
+          })}
         />
       )}
 

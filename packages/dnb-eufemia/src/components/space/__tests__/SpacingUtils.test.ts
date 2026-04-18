@@ -14,8 +14,9 @@ import {
   findType,
   findNearestTypes,
   isValidSpaceProp,
-  createSpacingClasses,
+  createSpacing,
   createSpacingProperties,
+  applySpacing,
 } from '../SpacingUtils'
 import type { SpaceType } from '../types'
 
@@ -205,27 +206,27 @@ describe('findType', () => {
   })
 })
 
-describe('createSpacingClasses', () => {
+describe('createSpacing', () => {
   it('should return correct spacing classes', () => {
-    expect(createSpacingClasses({ right: 'large x-small' })).toEqual([
+    expect(createSpacing({ right: 'large x-small' }).className).toEqual([
       'dnb-space__right--large',
       'dnb-space__right--x-small',
     ])
   })
 
   it('should return a class with zero classes', () => {
-    expect(createSpacingClasses({ right: false })).toEqual([
+    expect(createSpacing({ right: false }).className).toEqual([
       'dnb-space__right--zero',
     ])
-    expect(createSpacingClasses({ right: 0 })).toEqual([
+    expect(createSpacing({ right: 0 }).className).toEqual([
       'dnb-space__right--zero',
     ])
-    expect(createSpacingClasses({ right: null })).toEqual([])
+    expect(createSpacing({ right: null }).className).toEqual([])
   })
 
   it('should handle frozen props', () => {
     const props = Object.freeze({ space: true })
-    expect(createSpacingClasses(props)).toEqual([
+    expect(createSpacing(props).className).toEqual([
       'dnb-space__left--small',
       'dnb-space__bottom--small',
       'dnb-space__right--small',
@@ -234,37 +235,37 @@ describe('createSpacingClasses', () => {
   })
 
   it('should handle the space prop for in all directions', () => {
-    expect(createSpacingClasses({ space: false })).toEqual([]) // we may extend that with all four "--zero" in future
-    expect(createSpacingClasses({ space: 0 })).toEqual([
+    expect(createSpacing({ space: false }).className).toEqual([]) // we may extend that with all four "--zero" in future
+    expect(createSpacing({ space: 0 }).className).toEqual([
       'dnb-space__left--zero',
       'dnb-space__bottom--zero',
       'dnb-space__right--zero',
       'dnb-space__top--zero',
     ])
-    expect(createSpacingClasses({ space: true })).toEqual([
+    expect(createSpacing({ space: true }).className).toEqual([
       'dnb-space__left--small',
       'dnb-space__bottom--small',
       'dnb-space__right--small',
       'dnb-space__top--small',
     ])
-    expect(createSpacingClasses({ space: '1rem' })).toEqual([
+    expect(createSpacing({ space: '1rem' }).className).toEqual([
       'dnb-space__left--small',
       'dnb-space__bottom--small',
       'dnb-space__right--small',
       'dnb-space__top--small',
     ])
-    expect(createSpacingClasses({ space: null })).toEqual([])
+    expect(createSpacing({ space: null }).className).toEqual([])
   })
 
   it('should handle gracefully the space and top, right, bottom and left prop', () => {
-    expect(createSpacingClasses({ space: 0, left: 'small' })).toEqual([
+    expect(createSpacing({ space: 0, left: 'small' }).className).toEqual([
       'dnb-space__left--small',
       'dnb-space__bottom--zero',
       'dnb-space__right--zero',
       'dnb-space__top--zero',
     ])
     expect(
-      createSpacingClasses({ space: 0, right: 'small small' })
+      createSpacing({ space: 0, right: 'small small' }).className
     ).toEqual([
       'dnb-space__right--large',
       'dnb-space__left--zero',
@@ -272,34 +273,34 @@ describe('createSpacingClasses', () => {
       'dnb-space__top--zero',
     ])
     expect(
-      createSpacingClasses({ space: 0, bottom: 'small small small' })
+      createSpacing({ space: 0, bottom: 'small small small' }).className
     ).toEqual([
       'dnb-space__bottom--x-large',
       'dnb-space__left--zero',
       'dnb-space__right--zero',
       'dnb-space__top--zero',
     ])
-    expect(createSpacingClasses({ space: 0, top: 'small small' })).toEqual(
-      [
-        'dnb-space__top--large',
-        'dnb-space__left--zero',
-        'dnb-space__bottom--zero',
-        'dnb-space__right--zero',
-      ]
-    )
     expect(
-      createSpacingClasses({ space: { top: 'small' }, top: 'large' })
+      createSpacing({ space: 0, top: 'small small' }).className
+    ).toEqual([
+      'dnb-space__top--large',
+      'dnb-space__left--zero',
+      'dnb-space__bottom--zero',
+      'dnb-space__right--zero',
+    ])
+    expect(
+      createSpacing({ space: { top: 'small' }, top: 'large' }).className
     ).toEqual(['dnb-space__top--large'])
     expect(
-      createSpacingClasses({
+      createSpacing({
         space: { right: 'small', left: 0 },
         right: 'large',
-      })
+      }).className
     ).toEqual(['dnb-space__right--large', 'dnb-space__left--zero'])
   })
 
   it('should ignore innerSpace', () => {
-    expect(createSpacingClasses({ innerSpace: 'large' })).toEqual([])
+    expect(createSpacing({ innerSpace: 'large' }).className).toEqual([])
   })
 })
 
@@ -501,5 +502,92 @@ describe('createSpacingProperties', () => {
       '--space-t-s': '1rem',
     })
     expect(createSpacingProperties({ innerSpace: null })).toEqual({})
+  })
+})
+
+describe('createSpacing - return shape', () => {
+  it('should return an object with className and style', () => {
+    const result = createSpacing({ right: 'large x-small' })
+    expect(result.className).toEqual([
+      'dnb-space__right--large',
+      'dnb-space__right--x-small',
+    ])
+    expect(result.style).toBeUndefined()
+  })
+
+  it('should return style for innerSpace and not class', () => {
+    const result = createSpacing({ innerSpace: { right: 'large' } })
+    expect(result.className).toEqual([])
+    expect(result.style).toEqual({
+      '--space-r-l': '2rem',
+      '--space-r-m': '2rem',
+      '--space-r-s': '2rem',
+    })
+  })
+
+  it('should return undefined style when no innerSpace', () => {
+    expect(createSpacing({}).style).toBeUndefined()
+  })
+})
+
+describe('applySpacing', () => {
+  it('should add spacing classes to an existing target className', () => {
+    const result = applySpacing(
+      { right: 'large' },
+      { className: 'dnb-my-component' }
+    )
+    expect(result.className).toContain('dnb-my-component')
+    expect(result.className).toContain('dnb-space__right--large')
+  })
+
+  it('should merge spacing CSS custom properties into target style', () => {
+    const result = applySpacing(
+      { innerSpace: { right: 'large' } },
+      {
+        className: 'dnb-my-component',
+        style: { color: 'red' } as React.CSSProperties,
+      }
+    )
+    expect(result.style).toEqual({
+      color: 'red',
+      '--space-r-l': '2rem',
+      '--space-r-m': '2rem',
+      '--space-r-s': '2rem',
+    })
+  })
+
+  it('should return the target unchanged when no spacing props are present', () => {
+    const target = { className: 'dnb-my-component', foo: 'bar' }
+    const result = applySpacing({}, target)
+    expect(result).toBe(target)
+  })
+
+  it('should preserve additional target properties', () => {
+    const result = applySpacing(
+      { top: 'small' },
+      {
+        className: 'dnb-my-component',
+        id: 'my-id',
+        title: 'my-title',
+      }
+    )
+    expect(result.id).toBe('my-id')
+    expect(result.title).toBe('my-title')
+  })
+
+  it('should handle noCollapse with elementName', () => {
+    const result = applySpacing(
+      { noCollapse: true } as Parameters<typeof applySpacing>[0],
+      { className: 'dnb-heading' },
+      'h1'
+    )
+    expect(result.className).toContain('dnb-space--no-collapse')
+    expect(result.className).toContain('dnb-space--inline')
+  })
+
+  it('should not mutate the input target', () => {
+    const target = { className: 'dnb-my-component' }
+    applySpacing({ top: 'small' }, target)
+    expect(target).toEqual({ className: 'dnb-my-component' })
   })
 })

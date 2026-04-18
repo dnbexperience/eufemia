@@ -24,7 +24,7 @@ import {
   combineLabelledBy,
 } from '../../shared/component-helper'
 import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingHelper'
 import type {
   DynamicElement,
   InnerSpaceType,
@@ -1070,15 +1070,10 @@ function TabsComponent(ownProps: TabsProps) {
     }
     const { ...attributes } = filterProps(ownProps, tabsDefaultProps)
 
-    const params: Record<string, unknown> = {
+    const params: Record<string, unknown> = applySpacing(ownProps, {
       ...attributes,
-      className: clsx(
-        'dnb-tabs',
-        createSpacingClasses(ownProps),
-        className,
-        _className
-      ),
-    }
+      className: clsx('dnb-tabs', className, _className),
+    })
 
     validateDOMAttributes(ownProps, params)
 

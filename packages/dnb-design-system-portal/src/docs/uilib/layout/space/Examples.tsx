@@ -10,8 +10,7 @@ import { Space, Input, Button, P, Code } from '@dnb/eufemia/src'
 import { Provider } from '@dnb/eufemia/src/shared'
 import clsx from 'clsx'
 import {
-  createSpacingClasses,
-  createSpacingProperties,
+  createSpacing,
   removeSpaceProps,
 } from '@dnb/eufemia/src/components/space/SpacingHelper'
 import type { Theme } from '@emotion/react'
@@ -45,8 +44,7 @@ export const Method3 = () => (
     <ComponentBox
       scope={{
         RedBox,
-        createSpacingClasses,
-        createSpacingProperties,
+        createSpacing,
         removeSpaceProps,
         clsx,
       }}
@@ -58,8 +56,8 @@ export const Method3 = () => (
           style = null,
           ...props
         }) => {
-          const spacingClasses = createSpacingClasses(props)
-          const spacingProperties = createSpacingProperties(props)
+          const { className: spacingClasses, style: spacingProperties } =
+            createSpacing(props)
 
           const cn = clsx(
             'my-component',

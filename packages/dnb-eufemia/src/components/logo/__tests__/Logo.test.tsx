@@ -182,8 +182,8 @@ describe('Logo component', () => {
       'role',
       'aria-hidden',
       'class',
-      'alt',
       'title',
+      'alt',
     ])
   })
 

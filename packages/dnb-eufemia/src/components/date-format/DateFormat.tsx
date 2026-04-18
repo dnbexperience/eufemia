@@ -21,7 +21,7 @@ import {
 import { format } from 'date-fns'
 import type { SpacingProps } from '../../shared/types'
 import clsx from 'clsx'
-import { createSpacingClasses } from '../space/SpacingUtils'
+import { applySpacing } from '../space/SpacingUtils'
 import type { SkeletonShow } from '../Skeleton'
 import Tooltip from '../Tooltip'
 import {
@@ -115,14 +115,13 @@ function DateFormat(props: DateFormatProps) {
   }, [getDuration])
 
   const attributes = useMemo(() => {
-    const attrs = {
+    const attrs = applySpacing(props, {
       className: clsx(
         'dnb-date-format',
-        createSpacingClasses(props),
         createSkeletonClass('font', skeleton, context)
       ),
       lang: locale, // Makes sure that screen readers are reading the date correctly in the system language.
-    }
+    })
     skeletonDOMAttributes(attrs, skeleton, context)
 
     return attrs

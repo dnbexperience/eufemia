@@ -245,9 +245,9 @@ describe('Tag', () => {
       'dnb-button',
       'dnb-button--unstyled',
       'dnb-button--has-text',
-      'dnb-space__left--large',
       'dnb-tag',
       'dnb-tag--default',
+      'dnb-space__left--large',
       'dnb-button--size-small',
     ])
   })

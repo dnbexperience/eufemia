@@ -9,7 +9,7 @@ import Context from '../../shared/Context'
 import type { ContextProps } from '../../shared/Context'
 import { validateDOMAttributes } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingHelper'
 import TooltipWithEvents from './TooltipWithEvents'
 import {
   defaultProps,
@@ -57,12 +57,17 @@ function Tooltip(localProps: TooltipAllProps) {
     return null
   }
 
-  const classes = buildClassNames(size, className, props)
-  const attributes = createAttributes(classes, attributeProps)
+  const attributes = applySpacing(props, {
+    ...attributeProps,
+    className: clsx(
+      'dnb-tooltip',
+      size === 'large' && 'dnb-tooltip--large',
+      className
+    ),
+  }) as React.HTMLAttributes<HTMLElement>
 
   // also used for code markup simulation
   validateDOMAttributes(localProps, attributes)
-
   return (
     <TooltipContext value={{ isControlled, internalId, props }}>
       <TooltipWithEvents
@@ -124,29 +129,6 @@ function useTooltipTarget(
   }, [source])
 
   return target
-}
-
-function buildClassNames(
-  size: TooltipAllProps['size'],
-  className: TooltipAllProps['className'],
-  props: TooltipAllProps
-) {
-  return clsx(
-    'dnb-tooltip',
-    size === 'large' && 'dnb-tooltip--large',
-    createSpacingClasses(props),
-    className
-  )
-}
-
-function createAttributes(
-  className: string,
-  attributeProps: Record<string, unknown>
-): React.HTMLAttributes<HTMLElement> {
-  return {
-    className,
-    ...attributeProps,
-  }
 }
 
 Tooltip.isTooltipComponent = true

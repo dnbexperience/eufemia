@@ -17,7 +17,7 @@ import {
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingHelper'
 
 import Radio from '../radio/Radio'
 import Checkbox from '../checkbox/Checkbox'
@@ -308,16 +308,15 @@ function ToggleButton(ownProps: ToggleButtonProps) {
 
   const showStatus = getStatusState(status)
 
-  const mainParams = {
+  const mainParams = applySpacing(props, {
     className: clsx(
       'dnb-toggle-button',
       status && `dnb-toggle-button__status--${statusState}`,
       resolvedChecked && `dnb-toggle-button--checked`,
       labelDirection && `dnb-toggle-button--${labelDirection}`,
-      createSpacingClasses(props),
       className
     ),
-  }
+  })
 
   // to remove spacing props
   validateDOMAttributes(ownProps, rest)

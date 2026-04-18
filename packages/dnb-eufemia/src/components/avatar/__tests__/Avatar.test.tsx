@@ -265,6 +265,41 @@ describe('Avatar', () => {
     ).toBe('color: red;')
   })
 
+  it('should apply spacing classes on Avatar root', () => {
+    render(
+      <Avatar.Group label="label">
+        <Avatar top="large" bottom="small">
+          A
+        </Avatar>
+      </Avatar.Group>
+    )
+
+    const element = document.querySelector('.dnb-avatar')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-avatar',
+      'dnb-avatar--primary',
+      'dnb-avatar--size-medium',
+      'dnb-space__top--large',
+      'dnb-space__bottom--small',
+    ])
+  })
+
+  it('should apply innerSpace CSS custom properties on Avatar root', () => {
+    render(
+      <Avatar.Group label="label">
+        <Avatar innerSpace="small">A</Avatar>
+      </Avatar.Group>
+    )
+
+    const element = document.querySelector('.dnb-avatar')
+
+    expect(element.getAttribute('style')).toContain('--space-t-s: 1rem')
+    expect(element.getAttribute('style')).toContain('--space-r-s: 1rem')
+    expect(element.getAttribute('style')).toContain('--space-b-s: 1rem')
+    expect(element.getAttribute('style')).toContain('--space-l-s: 1rem')
+  })
+
   it('should support variant tertiary', () => {
     render(
       <Avatar.Group label="tags">

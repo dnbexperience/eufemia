@@ -11,7 +11,7 @@ import {
 } from '../../shared/component-helper'
 import { LOCALE } from '../../shared/defaults'
 import Space from '../space/Space'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingHelper'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 import type { SpacingProps } from '../../shared/types'
@@ -155,12 +155,11 @@ function Skeleton(props: SkeletonProps) {
   const showSkeleton =
     typeof show === 'boolean' || typeof show === 'string' ? show : skeleton
 
-  const params = {
+  const params = applySpacing(extendedProps, {
     className: clsx(
       figure ? 'dnb-skeleton__figure' : 'dnb-skeleton__root',
       showSkeleton && 'dnb-skeleton',
       noAnimation && 'dnb-skeleton--no-animation',
-      createSpacingClasses(extendedProps),
       className
     ),
     // role: 'status',// is not needed as for now
@@ -168,7 +167,7 @@ function Skeleton(props: SkeletonProps) {
     'aria-label': showSkeleton ? ariaBusy : undefined,
     lang: context.locale || LOCALE,
     ...attributes,
-  }
+  })
 
   validateDOMAttributes(props, params)
 

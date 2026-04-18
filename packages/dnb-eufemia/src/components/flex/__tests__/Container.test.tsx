@@ -4,7 +4,7 @@ import { axeComponent } from '../../../core/jest/jestSetup'
 import 'mock-match-media/jest-setup'
 import { setMedia, matchMedia } from 'mock-match-media'
 import Flex from '../Flex'
-import { createSpacingClasses } from '../../space/SpacingUtils'
+import { createSpacing } from '../../space/SpacingUtils'
 import type { SpaceProps } from '../../Space'
 import { Form } from '../../../extensions/forms'
 import H1 from '../../../elements/H1'
@@ -489,7 +489,7 @@ describe('Flex.Container', () => {
       Wrapper._supportsSpacingProps = undefined
 
       const TestComponent = (props: SpaceProps) => {
-        const cn = createSpacingClasses(props)
+        const cn = createSpacing(props).className
         cn.push('test-item')
         return <div className={cn.join(' ')}>content</div>
       }

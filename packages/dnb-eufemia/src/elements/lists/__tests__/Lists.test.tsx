@@ -35,20 +35,20 @@ describe('Dl', () => {
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-dl__layout--horizontal',
-      'dnb-space__top--medium',
       'dnb-dl',
+      'dnb-space__top--medium',
     ])
     expect(Array.from(element.querySelector('dt').classList)).toEqual([
-      'dnb-space__top--medium',
       'dnb-dt',
+      'dnb-space__top--medium',
     ])
     expect(Array.from(element.querySelector('dd').classList)).toEqual([
-      'dnb-space__top--medium',
       'dnb-dd',
+      'dnb-space__top--medium',
     ])
     expect(
       Array.from(element.querySelector('.dnb-dl__item').classList)
-    ).toEqual(['dnb-dl__item', 'dnb-space__top--medium', 'dnb-dd'])
+    ).toEqual(['dnb-dl__item', 'dnb-dd', 'dnb-space__top--medium'])
   })
 
   describe('in horizontal direction', () => {

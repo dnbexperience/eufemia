@@ -18,7 +18,7 @@ import {
   dispatchCustomElementEvent,
   extendPropsWithContext,
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingHelper'
 import ProgressIndicatorCircular from './ProgressIndicatorCircular'
 import ProgressIndicatorLinear from './ProgressIndicatorLinear'
 import { formatPercent } from '../number-format/NumberUtils'
@@ -100,26 +100,25 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
 
   return (
     <span
-      className={clsx(
-        'dnb-progress-indicator',
-        show && 'dnb-progress-indicator--show',
-        complete && 'dnb-progress-indicator--complete',
-        type === 'linear' && 'dnb-progress-indicator--full-width',
-        labelDirection && `dnb-progress-indicator--${labelDirection}`,
-        sizeVariant && `dnb-progress-indicator--${sizeVariant}`,
-        noAnimation && 'dnb-progress-indicator--no-animation',
-        createSpacingClasses(allProps),
-        className
-      )}
-      style={{
-        ...style,
-        ...{
+      {...applySpacing(allProps, {
+        className: clsx(
+          'dnb-progress-indicator',
+          show && 'dnb-progress-indicator--show',
+          complete && 'dnb-progress-indicator--complete',
+          type === 'linear' && 'dnb-progress-indicator--full-width',
+          labelDirection && `dnb-progress-indicator--${labelDirection}`,
+          sizeVariant && `dnb-progress-indicator--${sizeVariant}`,
+          noAnimation && 'dnb-progress-indicator--no-animation',
+          className
+        ),
+        style: {
+          ...style,
           '--progress-indicator-circular-size': customSize,
           '--progress-indicator-circular-stroke-width': customCircleWidth,
           '--progress-indicator-linear-size': customSize,
-        },
-      }}
-      {...remainingDOMProps}
+        } as React.CSSProperties,
+        ...remainingDOMProps,
+      })}
     >
       {(type === 'circular' || type === 'countdown') && (
         <ProgressIndicatorCircular

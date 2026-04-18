@@ -6,7 +6,7 @@
 import React from 'react'
 import E from '../Element'
 import {
-  createSpacingClasses,
+  applySpacing,
   removeSpaceProps,
 } from '../../components/space/SpacingHelper'
 import type { DynamicElement, SpacingProps } from '../../shared/types'
@@ -41,7 +41,7 @@ const Img = ({
     <E
       as={element}
       internalClass="dnb-img"
-      className={clsx(className, createSpacingClasses(p, p.is))}
+      {...applySpacing(p, { className }, p.is)}
       skeleton={skeleton}
       skeletonMethod="shape"
     >
