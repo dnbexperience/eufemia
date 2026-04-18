@@ -16,6 +16,7 @@ import {
 } from './compact'
 import locales from '../../../shared/locales'
 import type {
+  NumberFormatType,
   NumberFormatValue,
   NumberFormatReturnValue,
   NumberFormatFunction,
@@ -87,7 +88,7 @@ export function buildReturn({
   locale: string
   display: string
   aria: string
-  type: string
+  type: NumberFormatType
   opts: InternalNumberFormatOptions
   cleanCopyValue: boolean | null
   invalidAriaText: string | null
@@ -171,7 +172,7 @@ export {
  * when `returnAria: true` – the full `NumberFormatReturnValue` object.
  */
 export function formatWith(
-  type: string,
+  type: NumberFormatType,
   formatterFn: (value: NumberFormatValue, locale: string) => FormattedParts
 ): NumberFormatFunction {
   function formatter(
