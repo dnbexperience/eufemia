@@ -37,11 +37,23 @@ export type {
   NumberFormatChildren,
 } from './NumberFormatBase'
 export type { NumberFormatOptions } from './NumberUtils'
+export type {
+  NumberFormatReturnValue,
+  NumberFormatOptionParams,
+  NumberFormatReturnType,
+  NumberFormatType,
+} from './utils'
+export type { NumberFormatter } from './useNumberFormat'
+export type {
+  NumberFormatParts,
+  NumberFormatReturnWithParts,
+} from './useNumberFormatWithParts'
 
 export { COPY_TOOLTIP_TIMEOUT } from './NumberFormatBase'
 
-// Re-export the variant formatters
+// Re-export the variant formatters and helpers
 export {
+  cleanNumber,
   formatNumber,
   formatCurrency,
   formatPercent,
