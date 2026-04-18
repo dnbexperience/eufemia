@@ -182,18 +182,18 @@ export const NumberFormatPercentProperties: PropertiesTableProps = {
   ...spacingProps,
 }
 
-export const NumberFormatPhoneProperties: PropertiesTableProps = {
+export const NumberFormatPhoneNumberProperties: PropertiesTableProps = {
   ...commonProps,
   ...linkProp,
   ...spacingProps,
 }
 
-export const NumberFormatBANProperties: PropertiesTableProps = {
+export const NumberFormatBankAccountNumberProperties: PropertiesTableProps = {
   ...commonProps,
   ...spacingProps,
 }
 
-export const NumberFormatNINProperties: PropertiesTableProps = {
+export const NumberFormatNationalIdentityNumberProperties: PropertiesTableProps = {
   ...commonProps,
   ...spacingProps,
 }
