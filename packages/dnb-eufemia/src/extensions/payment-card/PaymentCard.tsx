@@ -10,7 +10,7 @@ import {
   extendExistingPropsWithContext,
   removeUndefinedProps,
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../../components/space/SpacingHelper'
+import { applySpacing } from '../../components/space/SpacingHelper'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -166,17 +166,16 @@ function PaymentCard(props: PaymentCardProps) {
 
   const cardData = rawData || getCardData(productCode)
 
-  const params = {
+  const params = applySpacing(extendedProps, {
     className: clsx(
       'dnb-payment-card',
       `dnb-payment-card--${variant}`,
       createSkeletonClass(null, skeleton, context),
-      createSpacingClasses(extendedProps),
       className,
       _className
     ),
     ...attributes,
-  }
+  })
 
   skeletonDOMAttributes(params, skeleton, context)
 

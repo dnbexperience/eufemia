@@ -3,6 +3,9 @@
  *
  */
 
+import clsx from 'clsx'
+import type { ClassValue } from 'clsx'
+
 import { warn } from '../../shared/component-helper'
 
 import type {
@@ -184,7 +187,7 @@ function isValidInnerSpaceProp(propName: string) {
  * @param Element to check if it should be handled as inline
  * @returns "dnb-space__large dnb-space__small"
  */
-export const createSpacingClasses = (
+const collectSpacingClasses = (
   props:
     | SpacingProps
     /**
@@ -252,6 +255,86 @@ export const createSpacingClasses = (
 
     return acc
   }, [])
+}
+
+export type SpacingReturn = {
+  className: string[]
+  style: React.CSSProperties | undefined
+}
+
+/**
+ * Combined helper that returns both CSS classes and CSS custom properties
+ * for spacing. Components should spread both into their root element.
+ *
+ * @example
+ *   const spacing = createSpacing(props)
+ *   className = clsx('dnb-my-component', ...spacing.className, className)
+ *   style = { ...style, ...spacing.style }
+ *
+ * @param props - component props containing spacing properties
+ *                (top, right, bottom, left, space, innerSpace, noCollapse)
+ * @param elementName - optional element name for inline detection
+ * @returns { className: string[], style: React.CSSProperties | undefined }
+ */
+export const createSpacing = (
+  props: SpacingProps | SpacingUnknownProps,
+  elementName: string | null = null
+): SpacingReturn => {
+  const className = collectSpacingClasses(props, elementName)
+  const style = createSpacingProperties(props)
+  const hasStyle = Object.keys(style).length > 0
+
+  return {
+    className,
+    style: hasStyle ? style : undefined,
+  }
+}
+
+export type ApplySpacingTarget = {
+  className?: ClassValue
+  style?: React.CSSProperties
+} & Record<string, unknown>
+
+/**
+ * Applies spacing to an existing props object by appending spacing CSS
+ * classes to `className` and merging spacing CSS custom properties
+ * (from `innerSpace`) into `style`. Returns a new object; the input is
+ * not mutated.
+ *
+ * @example
+ *   const mainParams = applySpacing(props, {
+ *     ...attributes,
+ *     className: clsx('dnb-button', className),
+ *   })
+ *
+ * @param props - component props containing spacing properties
+ *                (top, right, bottom, left, space, innerSpace, noCollapse)
+ * @param target - props object to merge spacing into
+ * @param elementName - optional element name for inline detection
+ * @returns a new object of the same shape as `target`, with spacing merged in
+ */
+export const applySpacing = <T extends ApplySpacingTarget>(
+  props: SpacingProps | SpacingUnknownProps,
+  target: T,
+  elementName: string | null = null
+): T => {
+  const classes = collectSpacingClasses(props, elementName)
+  const style = createSpacingProperties(props)
+
+  const hasClasses = classes.length > 0
+  const hasStyle = Object.keys(style).length > 0
+
+  if (!hasClasses && !hasStyle) {
+    return target
+  }
+
+  return {
+    ...target,
+    className: hasClasses
+      ? clsx(target.className, ...classes)
+      : target.className,
+    style: hasStyle ? { ...target.style, ...style } : target.style,
+  }
 }
 
 // @internal splits types by given string

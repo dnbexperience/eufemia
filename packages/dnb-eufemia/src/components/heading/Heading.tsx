@@ -7,7 +7,7 @@ import React from 'react'
 import clsx from 'clsx'
 import { validateDOMAttributes } from '../../shared/component-helper'
 import '../../shared/helpers'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingHelper'
 import type { HeadingContextValue } from './HeadingContext'
 import HeadingContext from './HeadingContext'
 import HeadingProvider from './HeadingProvider'
@@ -279,18 +279,19 @@ export default function Heading(props: HeadingAllProps) {
     | string
     | ((props: React.HTMLProps<HTMLElement>) => React.JSX.Element) // typecasting to avoid typescript parser error ts(2590)
 
+  const elementProps = applySpacing(props, {
+    ...attributes,
+    ref: _ref,
+    className: clsx(
+      'dnb-heading',
+      `dnb-h--${size}`,
+      createSkeletonClass('font', skeleton, headingContext),
+      className
+    ),
+  })
+
   return (
-    <Element
-      {...attributes}
-      ref={_ref}
-      className={clsx(
-        'dnb-heading',
-        `dnb-h--${size}`,
-        createSkeletonClass('font', skeleton, headingContext),
-        className,
-        createSpacingClasses(props)
-      )}
-    >
+    <Element {...elementProps}>
       {debug && (
         <span className="dnb-heading__debug">
           {`[h${level || '6'}] `}

@@ -117,7 +117,7 @@ describe('Heading', () => {
         (attr) => attr.name
       )
 
-      expect(attributes).toEqual(['class', 'aria-label'])
+      expect(attributes).toEqual(['aria-label', 'class'])
     }
   )
 

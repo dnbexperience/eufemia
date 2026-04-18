@@ -17,7 +17,7 @@ import {
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -357,39 +357,36 @@ function Button({ ref, ...restProps }: ButtonProps) {
     }
   }
 
-  const classes = clsx(
-    'dnb-button',
-    `dnb-button--${usedVariant || 'primary'}`,
-    usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
-    context?.theme?.surface === 'dark' && `dnb-button--surface-dark`,
-    usedIcon && `dnb-button--icon-position-${iconPosition}`,
-    stretch && 'dnb-button--stretch',
-    usedIcon && usedIconSize && `dnb-button--icon-size-${usedIconSize}`,
-    (text || content || customContent) && 'dnb-button--has-text',
-    usedIcon && 'dnb-button--has-icon',
-    isIconOnly && 'dnb-button--icon-only',
-    selected && 'dnb-button--selected',
-    wrap && 'dnb-button--wrap',
-    status && `dnb-button__status--${statusState}`,
-    createSkeletonClass(
-      variant === 'tertiary' ? 'font' : 'shape',
-      skeleton,
-      context
+  const params = applySpacing(props, {
+    className: clsx(
+      'dnb-button',
+      `dnb-button--${usedVariant || 'primary'}`,
+      usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
+      context?.theme?.surface === 'dark' && `dnb-button--surface-dark`,
+      usedIcon && `dnb-button--icon-position-${iconPosition}`,
+      stretch && 'dnb-button--stretch',
+      usedIcon && usedIconSize && `dnb-button--icon-size-${usedIconSize}`,
+      (text || content || customContent) && 'dnb-button--has-text',
+      usedIcon && 'dnb-button--has-icon',
+      isIconOnly && 'dnb-button--icon-only',
+      selected && 'dnb-button--selected',
+      wrap && 'dnb-button--wrap',
+      status && `dnb-button__status--${statusState}`,
+      createSkeletonClass(
+        variant === 'tertiary' ? 'font' : 'shape',
+        skeleton,
+        context
+      ),
+      className,
+      props.href || props.to ? '' : null,
+      Element === Anchor && 'dnb-anchor--no-style'
     ),
-    createSpacingClasses(props),
-    className,
-    props.href || props.to ? '' : null,
-    Element === Anchor && 'dnb-anchor--no-style'
-  )
-
-  const params = {
-    className: classes,
     title,
     id: resolvedId,
     disabled,
     ...attributes,
     ...(Element === Anchor && { omitClass: true }),
-  }
+  })
 
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>

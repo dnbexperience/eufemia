@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import clsx from 'clsx'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingHelper'
 import type { SpacingProps } from '../../shared/types'
 import type {
   TypographySize,
@@ -62,22 +62,24 @@ function Label(props: LabelProps) {
     warn('Stat.Label should be used inside Stat.Root')
   }
 
-  const attributes = validateDOMAttributes(props, {
-    ...rest,
-    style,
-    className: clsx(
-      'dnb-stat',
-      'dnb-stat__label',
-      `dnb-stat__label--${variant}`,
-      srOnly && 'dnb-sr-only',
-      `dnb-t__size--${fontSize}`,
-      `dnb-t__line-height--${resolvedLineHeight}`,
-      `dnb-t__weight--${fontWeight}`,
-      createSpacingClasses(props),
-      skeletonClass,
-      className
-    ),
-  })
+  const attributes = validateDOMAttributes(
+    props,
+    applySpacing(props, {
+      ...rest,
+      style,
+      className: clsx(
+        'dnb-stat',
+        'dnb-stat__label',
+        `dnb-stat__label--${variant}`,
+        srOnly && 'dnb-sr-only',
+        `dnb-t__size--${fontSize}`,
+        `dnb-t__line-height--${resolvedLineHeight}`,
+        `dnb-t__weight--${fontWeight}`,
+        skeletonClass,
+        className
+      ),
+    })
+  )
 
   applySkeletonAttributes(attributes)
 

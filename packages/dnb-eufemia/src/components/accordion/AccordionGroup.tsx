@@ -12,7 +12,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingHelper'
 
 import Context from '../../shared/Context'
 import AccordionGroupContext from './AccordionProviderContext'
@@ -96,12 +96,13 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     }
   }, [collapseAllHandleRef])
 
-  const classes = clsx(
-    'dnb-accordion-group',
-    singleContainer && 'dnb-accordion-group--single-container',
-    createSpacingClasses(extendedProps),
-    className
-  )
+  const rootProps = applySpacing(extendedProps, {
+    className: clsx(
+      'dnb-accordion-group',
+      singleContainer && 'dnb-accordion-group--single-container',
+      className
+    ),
+  })
 
   const params = {
     ...restOfExtendedProps,
@@ -125,7 +126,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
 
   return (
     <AccordionGroupContext value={contextForProvider}>
-      <div className={classes}>
+      <div {...rootProps}>
         <span
           id={id}
           className="dnb-accordion-group__shell"

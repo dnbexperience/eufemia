@@ -151,9 +151,9 @@ describe('GlobalError', () => {
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
       'dnb-skeleton__root',
-      'dnb-space__top--large',
       'dnb-global-error',
       'dnb-global-error--404',
+      'dnb-space__top--large',
     ])
   })
 

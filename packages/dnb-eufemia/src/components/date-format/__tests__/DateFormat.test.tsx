@@ -671,9 +671,9 @@ describe('DateFormat', () => {
         const element = document.querySelector('.dnb-date-format')
         expect(Array.from(element.classList)).toEqual([
           'dnb-date-format',
-          'dnb-space__top--large',
           'dnb-skeleton',
           'dnb-skeleton--font',
+          'dnb-space__top--large',
         ])
       })
     })
@@ -1281,9 +1281,9 @@ describe('DateFormat', () => {
         const element = document.querySelector('.dnb-date-format')
         expect(Array.from(element.classList)).toEqual([
           'dnb-date-format',
-          'dnb-space__top--large',
           'dnb-skeleton',
           'dnb-skeleton--font',
+          'dnb-space__top--large',
         ])
       })
     })

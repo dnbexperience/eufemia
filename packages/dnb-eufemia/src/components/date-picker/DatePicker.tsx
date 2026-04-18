@@ -23,7 +23,7 @@ import {
   validateDOMAttributes,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingHelper'
 import { skeletonDOMAttributes } from '../skeleton/SkeletonHelper'
 
 import Context from '../../shared/Context'
@@ -637,7 +637,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
       : selectedDate.replace(/%s/, formatDate(startDate, options))
   }, [range, translation, dates, context.locale])
 
-  const mainParams = {
+  const mainParams = applySpacing(props, {
     className: clsx(
       'dnb-date-picker',
       status && `dnb-date-picker__status--${statusState}`,
@@ -652,11 +652,10 @@ function DatePicker(externalProps: DatePickerAllProps) {
       stretch && `dnb-date-picker--stretch`,
       'dnb-form-component',
       size && `dnb-date-picker--${size}`,
-      createSpacingClasses(props),
       className
     ),
     lang: context.locale,
-  } as HTMLProps<HTMLSpanElement>
+  }) as HTMLProps<HTMLSpanElement>
 
   const containerClassNames = clsx(
     'dnb-date-picker__container',

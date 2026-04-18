@@ -24,7 +24,7 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingHelper'
 import Hr from '../../elements/hr/Hr'
 import GlobalStatusController, {
   GlobalStatusInterceptor,
@@ -665,13 +665,12 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
     ...attributes
   } = props as GlobalStatusProps & Record<string, unknown>
 
-  const wrapperParams = {
+  const wrapperParams = applySpacing(props, {
     id,
     className: clsx(
       'dnb-global-status__wrapper',
       'dnb-no-focus',
       createSkeletonClass('font', skeleton, context),
-      createSpacingClasses(props),
       className
     ),
     'aria-live': (isActive ? 'assertive' : 'off') as 'assertive' | 'off',
@@ -682,7 +681,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
       }
     },
     tabIndex: -1,
-  }
+  })
 
   const state = rawState
   const iconToRender = getIcon({

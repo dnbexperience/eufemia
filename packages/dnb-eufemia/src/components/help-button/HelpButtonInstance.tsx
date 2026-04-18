@@ -10,7 +10,7 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingHelper'
 import type { ButtonProps } from '../button/Button'
 import Button from '../button/Button'
 
@@ -31,16 +31,12 @@ export default function HelpButtonInstance(localProps: ButtonProps) {
 
   const { size, icon, onClick, className, ...rest } = props
 
-  const params = {
-    className: clsx(
-      'dnb-help-button',
-      createSpacingClasses(props),
-      className
-    ),
+  const params = applySpacing(props, {
+    className: clsx('dnb-help-button', className),
     size,
     icon,
     ...rest,
-  }
+  })
 
   const isPotentialHelpButton =
     !params.text || params.variant === 'tertiary'

@@ -7,7 +7,7 @@ import { P } from '../../../elements'
 import { Field, Form, TestElement } from '../../../extensions/forms'
 import type { SpaceProps } from '../../Space'
 import { Section } from '../../lib'
-import { createSpacingClasses } from '../../space/SpacingUtils'
+import { createSpacing } from '../../space/SpacingUtils'
 import Flex from '../Flex'
 
 export default {
@@ -22,7 +22,7 @@ const Wrapper = Flex.withChildren(
 
 export function FlexWithVisibility() {
   const TestComponent = (props: SpaceProps) => {
-    const cn = createSpacingClasses(props)
+    const cn = createSpacing(props).className
     cn.push('test-item')
     return <div className={cn.join(' ')}>content</div>
   }

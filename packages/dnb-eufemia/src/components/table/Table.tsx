@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingHelper'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import {
   extendPropsWithContext,
@@ -142,9 +142,26 @@ const Table = (componentProps: TableAllProps) => {
   }, [collapseAllHandleRef])
 
   const skeletonClasses = createSkeletonClass('font', skeleton, context)
-  const spacingClasses = createSpacingClasses(props)
 
   validateDOMAttributes(allProps, props)
+
+  const tableProps = applySpacing(allProps, {
+    ...props,
+    ref: elementRef,
+    className: clsx(
+      'dnb-table',
+      variant && `dnb-table__variant--${variant}`,
+      size && `dnb-table__size--${size}`,
+      sticky && 'dnb-table--sticky',
+      fixed && 'dnb-table--fixed',
+      border && 'dnb-table--border',
+      outline && 'dnb-table--outline',
+      mode === 'accordion' && 'dnb-table--accordion',
+      mode === 'navigation' && 'dnb-table--navigation',
+      skeletonClasses,
+      className
+    ),
+  })
 
   return (
     <Provider skeleton={Boolean(skeleton)}>
@@ -159,26 +176,7 @@ const Table = (componentProps: TableAllProps) => {
           },
         }}
       >
-        <table
-          className={clsx(
-            'dnb-table',
-            variant && `dnb-table__variant--${variant}`,
-            size && `dnb-table__size--${size}`,
-            sticky && 'dnb-table--sticky',
-            fixed && 'dnb-table--fixed',
-            border && 'dnb-table--border',
-            outline && 'dnb-table--outline',
-            mode === 'accordion' && 'dnb-table--accordion',
-            mode === 'navigation' && 'dnb-table--navigation',
-            spacingClasses,
-            skeletonClasses,
-            className
-          )}
-          ref={elementRef}
-          {...props}
-        >
-          {children}
-        </table>
+        <table {...tableProps}>{children}</table>
       </TableContext>
     </Provider>
   )

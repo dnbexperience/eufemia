@@ -9,7 +9,7 @@ import clsx from 'clsx'
 
 // Components
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingHelper'
 import type {
   SectionBackgroundColor,
   SectionVariants,
@@ -198,7 +198,6 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
     ...props
   } = allProps
   const skeletonClasses = createSkeletonClass('font', skeleton, context)
-  const spacingClasses = createSpacingClasses(props)
 
   const [, forceUpdate] = useReducer(() => ({}), {})
 
@@ -257,18 +256,19 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
   const overrideSbankenSectionColor =
     useTheme()?.isSbanken && collapsedStyleType === 'information'
 
+  const navProps = applySpacing(allProps, {
+    ...props,
+    'aria-label': convertJsxToString(navText),
+    className: clsx(
+      'dnb-breadcrumb',
+      `dnb-breadcrumb--variant-${currentVariant}`,
+      skeletonClasses,
+      className
+    ),
+  })
+
   return (
-    <nav
-      aria-label={convertJsxToString(navText)}
-      className={clsx(
-        'dnb-breadcrumb',
-        `dnb-breadcrumb--variant-${currentVariant}`,
-        skeletonClasses,
-        spacingClasses,
-        className
-      )}
-      {...props}
-    >
+    <nav {...(navProps as React.HTMLAttributes<HTMLElement>)}>
       <Section
         className="dnb-breadcrumb__bar"
         backgroundColor={backgroundColor || 'transparent'}

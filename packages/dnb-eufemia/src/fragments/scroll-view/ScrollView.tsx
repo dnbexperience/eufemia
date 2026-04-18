@@ -10,7 +10,7 @@ import {
   validateDOMAttributes,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
-import { createSpacingClasses } from '../../components/space/SpacingHelper'
+import { applySpacing } from '../../components/space/SpacingHelper'
 import type { SpacingProps } from '../../shared/types'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
@@ -55,14 +55,10 @@ function ScrollView(localProps: ScrollViewAllProps) {
   const mainParams: React.DetailedHTMLProps<
     React.HTMLAttributes<HTMLDivElement>,
     HTMLDivElement
-  > = {
-    className: clsx(
-      'dnb-scroll-view',
-      createSpacingClasses(props),
-      className
-    ),
+  > = applySpacing(props, {
     ...(attributes as React.HTMLAttributes<unknown>),
-  }
+    className: clsx('dnb-scroll-view', className),
+  })
 
   const localRef = React.useRef<HTMLDivElement>(undefined)
   mainParams.ref = refProp

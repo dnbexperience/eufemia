@@ -11,7 +11,7 @@ import {
   processChildren,
   extendPropsWithContext,
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingHelper'
 import Anchor from '../anchor/Anchor'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import Skeleton from '../skeleton/Skeleton'
@@ -131,16 +131,15 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
     children: text,
   }
 
-  const params = {
+  const params = applySpacing(attributes, {
+    ...attributes,
     className: clsx(
       'dnb-global-error',
       `dnb-global-error--${statusCode}`,
       center && 'dnb-global-error--center',
-      createSpacingClasses(attributes),
       className
     ),
-    ...attributes,
-  } as Record<string, unknown>
+  }) as Record<string, unknown>
 
   const additionalContent = processChildren(allProps)
 

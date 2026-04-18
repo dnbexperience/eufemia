@@ -4021,10 +4021,10 @@ describe('DatePicker component', () => {
     expect(Array.from(element.classList)).toEqual([
       'dnb-date-picker',
       'dnb-form-component',
-      'dnb-space__top--large',
       'dnb-date-picker--vertical',
       'dnb-date-picker--hidden',
       'dnb-date-picker--show-input',
+      'dnb-space__top--large',
     ])
   })
 
