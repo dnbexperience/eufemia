@@ -33,3 +33,14 @@ export type {
 export type { NumberFormatOptions } from './NumberUtils'
 
 export { COPY_TOOLTIP_TIMEOUT } from './NumberFormatBase'
+
+// Re-export the variant formatters
+export {
+  formatPlainNumber,
+  formatCurrency,
+  formatPercent,
+  formatPhoneNumber,
+  formatBankAccountNumber,
+  formatNationalIdentityNumber,
+  formatOrganizationNumber,
+} from './utils'

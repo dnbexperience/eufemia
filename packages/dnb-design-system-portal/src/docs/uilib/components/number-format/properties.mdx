@@ -10,9 +10,9 @@ import {
   NumberFormatNumberProperties,
   NumberFormatCurrencyProperties,
   NumberFormatPercentProperties,
-  NumberFormatPhoneProperties,
-  NumberFormatBANProperties,
-  NumberFormatNINProperties,
+  NumberFormatPhoneNumberProperties,
+  NumberFormatBankAccountNumberProperties,
+  NumberFormatNationalIdentityNumberProperties,
   NumberFormatOrganizationProperties,
 } from '@dnb/eufemia/src/components/number-format/NumberFormatDocs'
 
@@ -34,19 +34,19 @@ import {
 
 ### `NumberFormat.PhoneNumber`
 
-<PropertiesTable props={NumberFormatPhoneProperties} />
+<PropertiesTable props={NumberFormatPhoneNumberProperties} />
 
 ### `NumberFormat.BankAccountNumber`
 
 Norwegian bank account number (e.g. `2000 12 34567`).
 
-<PropertiesTable props={NumberFormatBANProperties} />
+<PropertiesTable props={NumberFormatBankAccountNumberProperties} />
 
 ### `NumberFormat.NationalIdentityNumber`
 
 Norwegian national identification number (e.g. `180892 12345`).
 
-<PropertiesTable props={NumberFormatNINProperties} />
+<PropertiesTable props={NumberFormatNationalIdentityNumberProperties} />
 
 ### `NumberFormat.OrganizationNumber`
 
