@@ -176,25 +176,27 @@ For prominent values with dedicated typography controls, use [Stat](/uilib/compo
 
 ## Formatting only (interceptor)
 
-You can use the `format` method without using a React Component or React Hook.
+You can use the variant formatter functions without using a React Component or React Hook.
 
 **Heads up:** If you do so, keep in mind that you will have to ensure all the accessibility enhancements the component offers. For that, you can use the `aria` field:
 
 ```ts
-import { format } from '@dnb/eufemia/components/number-format/NumberUtils'
+import {
+  formatCurrency,
+  formatPlainNumber,
+} from '@dnb/eufemia/components/number-format/NumberUtils'
 
 // By using returnAria you get an object
-const { number, aria } = format(12345678.9, {
+const { number, aria } = formatCurrency(12345678.9, {
   locale: 'nb-NO', // not inherited
-  currency: true,
   returnAria: true,
 })
 
 // Basic formatting
-const number = format(1234)
+const number = formatPlainNumber(1234)
 ```
 
-The `format` method will accept the same [properties](/uilib/components/number-format/properties) as the component.
+Each variant formatter accepts the same options as the corresponding component variant.
 
 ### Interceptor helpers
 
