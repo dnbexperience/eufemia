@@ -135,4 +135,13 @@ describe('TableContainer', () => {
       'dnb-space__top--large'
     )
   })
+
+  it('should apply spacing classes and innerSpace style on the root', () => {
+    render(<MockElement top="large" innerSpace="small" />)
+
+    const element = document.querySelector('.dnb-table__container')
+
+    expect(element.className).toContain('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--space-t-s')
+  })
 })

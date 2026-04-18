@@ -520,6 +520,15 @@ describe('Breadcrumb', () => {
     const element = document.querySelector('.dnb-breadcrumb')
     expect(refElement).toBe(element)
   })
+
+  it('should apply spacing classes and innerSpace style on the root', () => {
+    render(<Breadcrumb top="large" innerSpace="small" />)
+
+    const element = document.querySelector('.dnb-breadcrumb')
+
+    expect(element.className).toContain('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--space-t-s')
+  })
 })
 
 describe('Breadcrumb aria', () => {

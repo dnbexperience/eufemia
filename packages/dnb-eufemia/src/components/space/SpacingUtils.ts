@@ -298,8 +298,10 @@ export type ApplySpacingTarget = {
 /**
  * Applies spacing to an existing props object by appending spacing CSS
  * classes to `className` and merging spacing CSS custom properties
- * (from `innerSpace`) into `style`. Returns a new object; the input is
- * not mutated.
+ * (from `innerSpace`) into `style`. Spacing props (`space`, `innerSpace`,
+ * `top`, `right`, `bottom`, `left`, `noCollapse`) are removed from the
+ * returned object so it can be spread directly onto a DOM element.
+ * Returns a new object; the input is not mutated.
  *
  * @example
  *   const mainParams = applySpacing(props, {
@@ -324,18 +326,40 @@ export const applySpacing = <T extends ApplySpacingTarget>(
   const hasClasses = classes.length > 0
   const hasStyle = Object.keys(style).length > 0
 
-  if (!hasClasses && !hasStyle) {
+  const hasSpacingKeyOnTarget = spacingKeys.some((key) => key in target)
+
+  if (!hasClasses && !hasStyle && !hasSpacingKeyOnTarget) {
     return target
   }
 
-  return {
-    ...target,
-    className: hasClasses
-      ? clsx(target.className, ...classes)
-      : target.className,
-    style: hasStyle ? { ...target.style, ...style } : target.style,
+  const result: T = { ...target }
+
+  for (const key of spacingKeys) {
+    if (key in result) {
+      delete (result as Record<string, unknown>)[key]
+    }
   }
+
+  if (hasClasses) {
+    result.className = clsx(target.className, ...classes)
+  }
+
+  if (hasStyle) {
+    result.style = { ...target.style, ...style }
+  }
+
+  return result
 }
+
+const spacingKeys = [
+  'space',
+  'innerSpace',
+  'top',
+  'right',
+  'bottom',
+  'left',
+  'noCollapse',
+] as const
 
 // @internal splits types by given string
 export const translateSpace = (type: SpaceType) => {

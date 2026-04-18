@@ -590,4 +590,43 @@ describe('applySpacing', () => {
     applySpacing({ top: 'small' }, target)
     expect(target).toEqual({ className: 'dnb-my-component' })
   })
+
+  it('should strip spacing props from the returned target', () => {
+    const result = applySpacing({ top: 'small', innerSpace: 'small' }, {
+      className: 'dnb-my-component',
+      space: 'large',
+      top: 'small',
+      right: 'small',
+      bottom: 'small',
+      left: 'small',
+      innerSpace: 'small',
+      noCollapse: true,
+      id: 'my-id',
+    } as Parameters<typeof applySpacing>[1])
+    expect(result).not.toHaveProperty('space')
+    expect(result).not.toHaveProperty('top')
+    expect(result).not.toHaveProperty('right')
+    expect(result).not.toHaveProperty('bottom')
+    expect(result).not.toHaveProperty('left')
+    expect(result).not.toHaveProperty('innerSpace')
+    expect(result).not.toHaveProperty('noCollapse')
+    expect(result.id).toBe('my-id')
+  })
+
+  it('should strip spacing props even when no spacing is applied', () => {
+    const result = applySpacing({}, {
+      className: 'dnb-my-component',
+      top: 'small',
+      id: 'my-id',
+    } as Parameters<typeof applySpacing>[1])
+    expect(result).not.toHaveProperty('top')
+    expect(result.id).toBe('my-id')
+    expect(result.className).toBe('dnb-my-component')
+  })
+
+  it('should return the same reference when nothing needs to change', () => {
+    const target = { className: 'dnb-my-component', id: 'my-id' }
+    const result = applySpacing({}, target)
+    expect(result).toBe(target)
+  })
 })
