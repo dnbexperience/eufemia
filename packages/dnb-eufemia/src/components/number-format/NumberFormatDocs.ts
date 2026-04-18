@@ -188,15 +188,17 @@ export const NumberFormatPhoneNumberProperties: PropertiesTableProps = {
   ...spacingProps,
 }
 
-export const NumberFormatBankAccountNumberProperties: PropertiesTableProps = {
-  ...commonProps,
-  ...spacingProps,
-}
+export const NumberFormatBankAccountNumberProperties: PropertiesTableProps =
+  {
+    ...commonProps,
+    ...spacingProps,
+  }
 
-export const NumberFormatNationalIdentityNumberProperties: PropertiesTableProps = {
-  ...commonProps,
-  ...spacingProps,
-}
+export const NumberFormatNationalIdentityNumberProperties: PropertiesTableProps =
+  {
+    ...commonProps,
+    ...spacingProps,
+  }
 
 export const NumberFormatOrganizationProperties: PropertiesTableProps = {
   ...commonProps,
