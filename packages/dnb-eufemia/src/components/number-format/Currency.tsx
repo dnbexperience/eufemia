@@ -7,7 +7,7 @@ import { withFormatter } from './withFormatter'
 
 export type NumberFormatCurrencyProps = Omit<
   NumberFormatAllProps,
-  'ban' | 'nin' | 'phone' | 'org' | 'percent' | 'link'
+  'compact'
 > & {
   /** Currency code (ISO 4217) or `true` to use the default `NOK`. Defaults to `true`. */
   currency?: NumberFormatProps['currency']
