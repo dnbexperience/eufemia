@@ -36,13 +36,14 @@ import type {
   NumberFormatOptions,
   NumberFormatOptionParams,
   NumberFormatReturnValue,
+  NumberFormatValue,
 } from './utils'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 
 // TypeScript types
 export type { NumberFormatOptions } from './utils'
-export type NumberFormatValue = number | string
+export type { NumberFormatValue } from './utils'
 export type NumberFormatPrefix = React.ReactNode | (() => React.ReactNode)
 export type NumberFormatSuffix = React.ReactNode | (() => React.ReactNode)
 export type NumberFormatCurrency = string | boolean
