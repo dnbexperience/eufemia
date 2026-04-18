@@ -169,7 +169,9 @@ describe('Circular ProgressIndicator component', () => {
       (attr) => attr.name
     )
     expect(attributes).toEqual(['class', 'style', 'hidden'])
-    expect(indicator.getAttribute('style')).toBe('--margin-top: 2rem;')
+    expect(indicator.getAttribute('style')).toBe(
+      '--margin-t-s: 2rem; --margin-t-m: 2rem; --margin-t-l: 2rem;'
+    )
   })
 
   it('should use span elements', () => {
@@ -442,7 +444,9 @@ describe('Linear ProgressIndicator component', () => {
       (attr) => attr.name
     )
     expect(attributes).toEqual(['class', 'style', 'hidden'])
-    expect(indicator.getAttribute('style')).toBe('--margin-top: 2rem;')
+    expect(indicator.getAttribute('style')).toBe(
+      '--margin-t-s: 2rem; --margin-t-m: 2rem; --margin-t-l: 2rem;'
+    )
   })
 
   it('should use span elements', () => {

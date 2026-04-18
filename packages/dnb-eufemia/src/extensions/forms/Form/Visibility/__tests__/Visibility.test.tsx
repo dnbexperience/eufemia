@@ -442,17 +442,17 @@ describe('Visibility', () => {
     expect(container).toMatchInlineSnapshot(`
       <section
         class="dnb-space dnb-space__top--medium dnb-space__bottom--zero dnb-flex-container dnb-flex-stack dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-stretch dnb-flex-container--align-self-stretch dnb-flex-container--spacing-medium dnb-flex-container--wrap dnb-flex-container--divider-space"
-        style="--margin-top: 1.5rem; --margin-bottom: 0;"
+        style="--margin-t-s: 1.5rem; --margin-b-s: 0; --margin-t-m: 1.5rem; --margin-b-m: 0; --margin-t-l: 1.5rem; --margin-b-l: 0;"
       >
         <p
           class="dnb-p dnb-space__top--zero dnb-space__bottom--zero"
-          style="--margin-top: 0; --margin-bottom: 0;"
+          style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
         >
           This is visible 1
         </p>
         <p
           class="dnb-p dnb-space__top--medium dnb-space__bottom--zero"
-          style="--margin-top: 1.5rem; --margin-bottom: 0;"
+          style="--margin-t-s: 1.5rem; --margin-b-s: 0; --margin-t-m: 1.5rem; --margin-b-m: 0; --margin-t-l: 1.5rem; --margin-b-l: 0;"
         >
           This is visible 2
         </p>

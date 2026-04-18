@@ -4,7 +4,7 @@ import { axeComponent } from '../../../core/jest/jestSetup'
 import 'mock-match-media/jest-setup'
 import { setMedia, matchMedia } from 'mock-match-media'
 import Flex from '../Flex'
-import { createSpacing } from '../../space/SpacingUtils'
+import { applySpacing } from '../../space/SpacingUtils'
 import type { SpaceProps } from '../../Space'
 import { Form } from '../../../extensions/forms'
 import H1 from '../../../elements/H1'
@@ -276,24 +276,24 @@ describe('Flex.Container', () => {
         class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-line"
       >
         <h1
-          class="dnb-space__top--zero dnb-space__bottom--zero dnb-h--xx-large"
-          style="--margin-top: 0; --margin-bottom: 0;"
+          class="dnb-h--xx-large dnb-space__top--zero dnb-space__bottom--zero"
+          style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
         >
           Heading
         </h1>
         <div
           class="dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item"
-          style="--margin-top: 1rem; --margin-bottom: 0;"
+          style="--margin-t-s: 1rem; --margin-b-s: 0; --margin-t-m: 1rem; --margin-b-m: 0; --margin-t-l: 1rem; --margin-b-l: 0;"
         >
           Flex
         </div>
         <hr
-          class="dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr"
-          style="--margin-top: 1rem; --margin-right: 0; --margin-bottom: 0; --margin-left: 0;"
+          class="dnb-flex-container__hr dnb-hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero"
+          style="--margin-t-s: 1rem; --margin-r-s: 0; --margin-b-s: 0; --margin-l-s: 0; --margin-t-m: 1rem; --margin-r-m: 0; --margin-b-m: 0; --margin-l-m: 0; --margin-t-l: 1rem; --margin-r-l: 0; --margin-b-l: 0; --margin-l-l: 0;"
         />
         <div
           class="dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item"
-          style="--margin-top: 1rem; --margin-bottom: 0;"
+          style="--margin-t-s: 1rem; --margin-b-s: 0; --margin-t-m: 1rem; --margin-b-m: 0; --margin-t-l: 1rem; --margin-b-l: 0;"
         >
           Flex
         </div>
@@ -493,9 +493,8 @@ describe('Flex.Container', () => {
       Wrapper._supportsSpacingProps = undefined
 
       const TestComponent = (props: SpaceProps) => {
-        const cn = createSpacing(props).className
-        cn.push('test-item')
-        return <div className={cn.join(' ')}>content</div>
+        const params = applySpacing(props, { className: 'test-item' })
+        return <div {...params}>content</div>
       }
       TestComponent._supportsSpacingProps = undefined
 
@@ -522,7 +521,7 @@ describe('Flex.Container', () => {
         >
           <div
             class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
-            style="--margin-top: 0; --margin-bottom: 0;"
+            style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
           >
             <div
               class="test-item"
@@ -532,7 +531,7 @@ describe('Flex.Container', () => {
           </div>
           <div
             class="dnb-space dnb-space__top--small dnb-space__bottom--zero"
-            style="--margin-top: 1rem; --margin-bottom: 0;"
+            style="--margin-t-s: 1rem; --margin-b-s: 0; --margin-t-m: 1rem; --margin-b-m: 0; --margin-t-l: 1rem; --margin-b-l: 0;"
           >
             <div
               class="test-item"
@@ -541,7 +540,8 @@ describe('Flex.Container', () => {
             </div>
           </div>
           <div
-            class="dnb-space__top--large dnb-space__bottom--zero test-item"
+            class="test-item dnb-space__top--large dnb-space__bottom--zero"
+            style="--margin-t-s: 2rem; --margin-b-s: 0; --margin-t-m: 2rem; --margin-b-m: 0; --margin-t-l: 2rem; --margin-b-l: 0;"
           >
             content
           </div>
@@ -584,17 +584,20 @@ describe('Flex.Container', () => {
           class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
         >
           <div
-            class="dnb-space__top--zero dnb-space__bottom--zero test-item"
+            class="test-item dnb-space__top--zero dnb-space__bottom--zero"
+            style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
           >
             content
           </div>
           <div
-            class="dnb-space__top--small dnb-space__bottom--zero test-item"
+            class="test-item dnb-space__top--small dnb-space__bottom--zero"
+            style="--margin-t-s: 1rem; --margin-b-s: 0; --margin-t-m: 1rem; --margin-b-m: 0; --margin-t-l: 1rem; --margin-b-l: 0;"
           >
             content
           </div>
           <div
-            class="dnb-space__top--large dnb-space__bottom--zero test-item"
+            class="test-item dnb-space__top--large dnb-space__bottom--zero"
+            style="--margin-t-s: 2rem; --margin-b-s: 0; --margin-t-m: 2rem; --margin-b-m: 0; --margin-t-l: 2rem; --margin-b-l: 0;"
           >
             content
           </div>
@@ -644,20 +647,23 @@ describe('Flex.Container', () => {
           >
             <div
               class="dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
-              style="--margin-top: 0; --margin-bottom: 0;"
+              style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
             >
               <div
-                class="dnb-space__top--zero dnb-space__bottom--zero test-item"
+                class="test-item dnb-space__top--zero dnb-space__bottom--zero"
+                style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
               >
                 content
               </div>
               <div
-                class="dnb-space__top--small dnb-space__bottom--zero test-item"
+                class="test-item dnb-space__top--small dnb-space__bottom--zero"
+                style="--margin-t-s: 1rem; --margin-b-s: 0; --margin-t-m: 1rem; --margin-b-m: 0; --margin-t-l: 1rem; --margin-b-l: 0;"
               >
                 content
               </div>
               <div
-                class="dnb-space__top--large dnb-space__bottom--zero test-item"
+                class="test-item dnb-space__top--large dnb-space__bottom--zero"
+                style="--margin-t-s: 2rem; --margin-b-s: 0; --margin-t-m: 2rem; --margin-b-m: 0; --margin-t-l: 2rem; --margin-b-l: 0;"
               >
                 content
               </div>
@@ -707,17 +713,17 @@ describe('Flex.Container', () => {
           >
             <div
               class="dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
-              style="--margin-top: 0; --margin-bottom: 0;"
+              style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
             >
               <div
                 class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
-                style="--margin-top: 0; --margin-bottom: 0;"
+                style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
               >
                 Content A 
               </div>
               <div
                 class="dnb-space dnb-space__top--small dnb-space__bottom--zero"
-                style="--margin-top: 1rem; --margin-bottom: 0;"
+                style="--margin-t-s: 1rem; --margin-b-s: 0; --margin-t-m: 1rem; --margin-b-m: 0; --margin-t-l: 1rem; --margin-b-l: 0;"
               >
                 <p>
                   Content B
@@ -758,20 +764,21 @@ describe('Flex.Container', () => {
         >
           <div
             class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
-            style="--margin-top: 0; --margin-bottom: 0;"
+            style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
           >
             Content A 
           </div>
           <div
             class="dnb-space dnb-space__top--small dnb-space__bottom--zero"
-            style="--margin-top: 1rem; --margin-bottom: 0;"
+            style="--margin-t-s: 1rem; --margin-b-s: 0; --margin-t-m: 1rem; --margin-b-m: 0; --margin-t-l: 1rem; --margin-b-l: 0;"
           >
             <p>
               Content B
             </p>
           </div>
           <div
-            class="dnb-space__top--large dnb-space__bottom--zero test-item"
+            class="test-item dnb-space__top--large dnb-space__bottom--zero"
+            style="--margin-t-s: 2rem; --margin-b-s: 0; --margin-t-m: 2rem; --margin-b-m: 0; --margin-t-l: 2rem; --margin-b-l: 0;"
           >
             content
           </div>
@@ -811,20 +818,21 @@ describe('Flex.Container', () => {
         >
           <div
             class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
-            style="--margin-top: 0; --margin-bottom: 0;"
+            style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
           >
             Content A
           </div>
           <div
             class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
-            style="--margin-top: 0; --margin-bottom: 0;"
+            style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
           >
             <p>
               Content B
             </p>
           </div>
           <div
-            class="dnb-space__top--large dnb-space__bottom--zero test-item"
+            class="test-item dnb-space__top--large dnb-space__bottom--zero"
+            style="--margin-t-s: 2rem; --margin-b-s: 0; --margin-t-m: 2rem; --margin-b-m: 0; --margin-t-l: 2rem; --margin-b-l: 0;"
           >
             content
           </div>
@@ -884,7 +892,7 @@ describe('Flex.Container', () => {
         >
           <h3
             class="dnb-heading dnb-h--medium dnb-forms-sub-heading dnb-space__top--zero dnb-space__bottom--zero"
-            style="--margin-top: 0; --margin-bottom: 0;"
+            style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
           >
             Heading
           </h3>
@@ -952,7 +960,7 @@ describe('Flex.Container', () => {
         >
           <h3
             class="dnb-heading dnb-h--medium dnb-forms-sub-heading dnb-space__top--zero dnb-space__bottom--zero"
-            style="--margin-top: 0; --margin-bottom: 0;"
+            style="--margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;"
           >
             Heading
           </h3>

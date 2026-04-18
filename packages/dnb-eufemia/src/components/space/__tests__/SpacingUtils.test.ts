@@ -514,7 +514,9 @@ describe('createSpacing - return shape', () => {
       'dnb-space__right--x-small',
     ])
     expect(result.style).toEqual({
-      '--margin-right': '2.5rem',
+      '--margin-r-s': '2.5rem',
+      '--margin-r-m': '2.5rem',
+      '--margin-r-l': '2.5rem',
     })
   })
 
@@ -538,7 +540,9 @@ describe('createSpacing - return shape', () => {
       innerSpace: { right: 'large' },
     })
     expect(result.style).toEqual({
-      '--margin-top': '1rem',
+      '--margin-t-s': '1rem',
+      '--margin-t-m': '1rem',
+      '--margin-t-l': '1rem',
       '--space-r-l': '2rem',
       '--space-r-m': '2rem',
       '--space-r-s': '2rem',
@@ -547,7 +551,7 @@ describe('createSpacing - return shape', () => {
 })
 
 describe('createMarginProperties', () => {
-  it('should return a --margin-{direction} property per direction', () => {
+  it('should return a --margin-{t|r|b|l}-{s|m|l} property per direction and media size', () => {
     expect(
       createMarginProperties({
         top: 'small',
@@ -556,19 +560,35 @@ describe('createMarginProperties', () => {
         left: 'x-small',
       })
     ).toEqual({
-      '--margin-top': '1rem',
-      '--margin-right': '2.5rem',
-      '--margin-bottom': '1.5rem',
-      '--margin-left': '0.5rem',
+      '--margin-t-s': '1rem',
+      '--margin-t-m': '1rem',
+      '--margin-t-l': '1rem',
+      '--margin-r-s': '2.5rem',
+      '--margin-r-m': '2.5rem',
+      '--margin-r-l': '2.5rem',
+      '--margin-b-s': '1.5rem',
+      '--margin-b-m': '1.5rem',
+      '--margin-b-l': '1.5rem',
+      '--margin-l-s': '0.5rem',
+      '--margin-l-m': '0.5rem',
+      '--margin-l-l': '0.5rem',
     })
   })
 
-  it('should expand the space shorthand to all four directions', () => {
+  it('should expand the space shorthand to all four directions and media sizes', () => {
     expect(createMarginProperties({ space: 'small' })).toEqual({
-      '--margin-top': '1rem',
-      '--margin-right': '1rem',
-      '--margin-bottom': '1rem',
-      '--margin-left': '1rem',
+      '--margin-t-s': '1rem',
+      '--margin-t-m': '1rem',
+      '--margin-t-l': '1rem',
+      '--margin-r-s': '1rem',
+      '--margin-r-m': '1rem',
+      '--margin-r-l': '1rem',
+      '--margin-b-s': '1rem',
+      '--margin-b-m': '1rem',
+      '--margin-b-l': '1rem',
+      '--margin-l-s': '1rem',
+      '--margin-l-m': '1rem',
+      '--margin-l-l': '1rem',
     })
   })
 
@@ -576,10 +596,18 @@ describe('createMarginProperties', () => {
     expect(
       createMarginProperties({ space: 'small', right: 'large' })
     ).toEqual({
-      '--margin-top': '1rem',
-      '--margin-right': '2rem',
-      '--margin-bottom': '1rem',
-      '--margin-left': '1rem',
+      '--margin-t-s': '1rem',
+      '--margin-t-m': '1rem',
+      '--margin-t-l': '1rem',
+      '--margin-r-s': '2rem',
+      '--margin-r-m': '2rem',
+      '--margin-r-l': '2rem',
+      '--margin-b-s': '1rem',
+      '--margin-b-m': '1rem',
+      '--margin-b-l': '1rem',
+      '--margin-l-s': '1rem',
+      '--margin-l-m': '1rem',
+      '--margin-l-l': '1rem',
     })
   })
 
@@ -587,8 +615,12 @@ describe('createMarginProperties', () => {
     expect(
       createMarginProperties({ space: { top: 'small', right: 'large' } })
     ).toEqual({
-      '--margin-top': '1rem',
-      '--margin-right': '2rem',
+      '--margin-t-s': '1rem',
+      '--margin-t-m': '1rem',
+      '--margin-t-l': '1rem',
+      '--margin-r-s': '2rem',
+      '--margin-r-m': '2rem',
+      '--margin-r-l': '2rem',
     })
   })
 
@@ -598,8 +630,12 @@ describe('createMarginProperties', () => {
         typeof createMarginProperties
       >[0])
     ).toEqual({
-      '--margin-top': '0',
-      '--margin-right': '0',
+      '--margin-t-s': '0',
+      '--margin-t-m': '0',
+      '--margin-t-l': '0',
+      '--margin-r-s': '0',
+      '--margin-r-m': '0',
+      '--margin-r-l': '0',
     })
   })
 
@@ -615,18 +651,30 @@ describe('createMarginProperties', () => {
     expect(
       createMarginProperties({ top: '1.5rem', right: '16px' })
     ).toEqual({
-      '--margin-top': '1.5rem',
-      '--margin-right': '1rem',
+      '--margin-t-s': '1.5rem',
+      '--margin-t-m': '1.5rem',
+      '--margin-t-l': '1.5rem',
+      '--margin-r-s': '1rem',
+      '--margin-r-m': '1rem',
+      '--margin-r-l': '1rem',
     })
   })
 
   it('should handle frozen props', () => {
     const props = Object.freeze({ space: 'small', right: 'large' })
     expect(createMarginProperties(props)).toEqual({
-      '--margin-top': '1rem',
-      '--margin-right': '2rem',
-      '--margin-bottom': '1rem',
-      '--margin-left': '1rem',
+      '--margin-t-s': '1rem',
+      '--margin-t-m': '1rem',
+      '--margin-t-l': '1rem',
+      '--margin-r-s': '2rem',
+      '--margin-r-m': '2rem',
+      '--margin-r-l': '2rem',
+      '--margin-b-s': '1rem',
+      '--margin-b-m': '1rem',
+      '--margin-b-l': '1rem',
+      '--margin-l-s': '1rem',
+      '--margin-l-m': '1rem',
+      '--margin-l-l': '1rem',
     })
   })
 })
@@ -667,8 +715,12 @@ describe('applySpacing', () => {
     )
     expect(result.style).toEqual({
       color: 'red',
-      '--margin-top': '1rem',
-      '--margin-right': '2rem',
+      '--margin-t-s': '1rem',
+      '--margin-t-m': '1rem',
+      '--margin-t-l': '1rem',
+      '--margin-r-s': '2rem',
+      '--margin-r-m': '2rem',
+      '--margin-r-l': '2rem',
     })
   })
 

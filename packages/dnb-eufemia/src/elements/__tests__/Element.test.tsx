@@ -50,7 +50,9 @@ describe('Element', () => {
     )
 
     expect(attributes).toEqual(['class', 'style'])
-    expect(element.getAttribute('style')).toBe('--margin-top: 1.5rem;')
+    expect(element.getAttribute('style')).toBe(
+      '--margin-t-s: 1.5rem; --margin-t-m: 1.5rem; --margin-t-l: 1.5rem;'
+    )
   })
 
   it('should render children', () => {

@@ -654,7 +654,9 @@ describe('Infinity scroller', () => {
     )
 
     expect(attributes).toEqual(['class', 'style'])
-    expect(element.getAttribute('style')).toBe('--margin-top: 2rem;')
+    expect(element.getAttribute('style')).toBe(
+      '--margin-t-s: 2rem; --margin-t-m: 2rem; --margin-t-l: 2rem;'
+    )
     expect(Array.from(element.classList)).toEqual(
       expect.arrayContaining([
         'dnb-pagination',
@@ -674,7 +676,7 @@ describe('Infinity scroller', () => {
 
     expect(attributes).toEqual(['class', 'style'])
     expect(element.getAttribute('style')).toBe(
-      '--margin-top: 2rem; --margin-right: 2rem; --margin-bottom: 2rem; --margin-left: 2rem;'
+      '--margin-t-s: 2rem; --margin-r-s: 2rem; --margin-b-s: 2rem; --margin-l-s: 2rem; --margin-t-m: 2rem; --margin-r-m: 2rem; --margin-b-m: 2rem; --margin-l-m: 2rem; --margin-t-l: 2rem; --margin-r-l: 2rem; --margin-b-l: 2rem; --margin-l-l: 2rem;'
     )
     expect(Array.from(element.classList)).toEqual(
       expect.arrayContaining([

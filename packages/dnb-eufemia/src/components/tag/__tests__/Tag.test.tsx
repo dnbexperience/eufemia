@@ -102,7 +102,9 @@ describe('Tag Group', () => {
       'dnb-tag__group',
       'dnb-space__top--large',
     ])
-    expect(element.getAttribute('style')).toBe('--margin-top: 2rem;')
+    expect(element.getAttribute('style')).toBe(
+      '--margin-t-s: 2rem; --margin-t-m: 2rem; --margin-t-l: 2rem;'
+    )
   })
 })
 
@@ -251,7 +253,9 @@ describe('Tag', () => {
       'dnb-space__left--large',
       'dnb-button--size-small',
     ])
-    expect(element.getAttribute('style')).toBe('--margin-left: 2rem;')
+    expect(element.getAttribute('style')).toBe(
+      '--margin-l-s: 2rem; --margin-l-m: 2rem; --margin-l-l: 2rem;'
+    )
   })
 
   describe('variant clickable', () => {
