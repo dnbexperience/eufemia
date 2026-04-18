@@ -45,7 +45,13 @@ export type FormattedParts = {
   aria: string
 }
 
-export type NumberFormatType = 'number' | 'currency'
+export type NumberFormatType =
+  | 'number'
+  | 'currency'
+  | 'phone'
+  | 'ban'
+  | 'nin'
+  | 'org'
 export type NumberFormatCurrencyPosition = 'before' | 'after'
 export type NumberFormatReturnValue = {
   /** The given number */
@@ -59,7 +65,7 @@ export type NumberFormatReturnValue = {
   /** Language code, like en-US */
   locale: string
   /** The given type */
-  type: NumberFormatType | string
+  type: NumberFormatType
 }
 export type NumberFormatValue = string | number
 export type NumberFormatReturnType =
