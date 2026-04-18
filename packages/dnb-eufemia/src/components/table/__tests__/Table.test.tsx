@@ -202,6 +202,19 @@ describe('Table', () => {
       document.querySelector('.dnb-table').getAttribute('style')
     ).toBe('color: red;')
   })
+
+  it('should apply spacing classes and innerSpace style on the root', () => {
+    render(
+      <Table top="large" innerSpace="small">
+        <BasicTable />
+      </Table>
+    )
+
+    const element = document.querySelector('.dnb-table')
+
+    expect(element.className).toContain('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--space-t-s')
+  })
 })
 
 describe('Table aria', () => {

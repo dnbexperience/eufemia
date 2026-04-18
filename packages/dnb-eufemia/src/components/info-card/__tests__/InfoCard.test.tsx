@@ -307,6 +307,15 @@ describe('InfoCard', () => {
     ])
   })
 
+  it('should apply spacing classes and innerSpace style on the root', () => {
+    render(<InfoCard text="text" top="large" innerSpace="small" />)
+
+    const element = document.querySelector('.dnb-info-card')
+
+    expect(element.className).toContain('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--space-t-s')
+  })
+
   it('renders the drop shadow if dropShadow is true', () => {
     const shadowClassName = 'dnb-info-card--shadow'
 
