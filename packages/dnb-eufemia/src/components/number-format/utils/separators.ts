@@ -2,7 +2,7 @@
  * Locale-aware separator lookups and currency symbol resolution.
  */
 
-import { formatToParts, alignCurrencySymbol } from './formatNumber'
+import { formatToParts, alignCurrencySymbol } from './formatNumberCore'
 import { getFallbackCurrencyDisplay, CURRENCY } from './currencyDisplay'
 
 /**

@@ -6,7 +6,7 @@
 import React from 'react'
 import { renderHook } from '@testing-library/react'
 import useNumberFormatWithParts from '../useNumberFormatWithParts'
-import { formatCurrency, formatPercent, formatPlainNumber } from '../utils'
+import { formatCurrency, formatPercent, formatNumber } from '../utils'
 import Provider from '../../../shared/Provider'
 
 describe('useNumberFormatWithParts', () => {
@@ -88,7 +88,7 @@ describe('useNumberFormatWithParts', () => {
 
   it('will include split parts for plain numbers by default', () => {
     const { result } = renderHook(() =>
-      useNumberFormatWithParts(1234, formatPlainNumber, {
+      useNumberFormatWithParts(1234, formatNumber, {
         signDisplay: 'always',
       })
     )
@@ -160,7 +160,7 @@ describe('useNumberFormatWithParts', () => {
     )
     const { result } = renderHook(
       () =>
-        useNumberFormatWithParts(1234, formatPlainNumber, {
+        useNumberFormatWithParts(1234, formatNumber, {
           locale: 'en-GB',
         }),
       { wrapper }
@@ -183,7 +183,7 @@ describe('useNumberFormatWithParts', () => {
     expect(result.current).toBe('1 234,00 kr')
   })
 
-  it('defaults to formatPlainNumber when no formatter is supplied', () => {
+  it('defaults to formatNumber when no formatter is supplied', () => {
     const { result } = renderHook(() => useNumberFormatWithParts(1234))
 
     expect(result.current).toEqual(

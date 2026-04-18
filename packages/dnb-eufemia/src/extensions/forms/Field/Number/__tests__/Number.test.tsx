@@ -21,7 +21,7 @@ import {
 import {
   formatCurrency,
   formatPercent,
-  formatPlainNumber,
+  formatNumber,
 } from '../../../../../components/number-format/NumberUtils'
 import { Provider as SharedProvider } from '../../../../../shared'
 import nbNO from '../../../constants/locales/nb-NO'
@@ -123,9 +123,7 @@ describe('Field.Number', () => {
       const alertText = statusElement.textContent
       const expectedText = nb.NumberField.errorMinimum.replace(
         '{minimum}',
-        String(
-          formatPlainNumber(Number.MIN_SAFE_INTEGER, { locale: 'nb-NO' })
-        )
+        String(formatNumber(Number.MIN_SAFE_INTEGER, { locale: 'nb-NO' }))
       )
       // Use regex to handle both regular and non-breaking spaces
       const expectedRegex = expectedText.replace(/\s/g, '\\s')
@@ -156,9 +154,7 @@ describe('Field.Number', () => {
       const alertText = statusElement.textContent
       const expectedText = nb.NumberField.errorMaximum.replace(
         '{maximum}',
-        String(
-          formatPlainNumber(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' })
-        )
+        String(formatNumber(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' }))
       )
       // Use regex to handle both regular and non-breaking spaces
       const expectedRegex = expectedText.replace(/\s/g, '\\s')
@@ -940,7 +936,7 @@ describe('Field.Number', () => {
 
       const expected = nb.NumberField.errorMinimum.replace(
         '{minimum}',
-        String(formatPlainNumber(1.5, { locale: 'nb-NO', decimals: 1 }))
+        String(formatNumber(1.5, { locale: 'nb-NO', decimals: 1 }))
       )
 
       await waitFor(() => {
@@ -960,7 +956,7 @@ describe('Field.Number', () => {
 
       const expected = nb.NumberField.errorExclusiveMinimum.replace(
         '{exclusiveMinimum}',
-        String(formatPlainNumber(1.5, { locale: 'nb-NO', decimals: 1 }))
+        String(formatNumber(1.5, { locale: 'nb-NO', decimals: 1 }))
       )
 
       await waitFor(() => {
@@ -980,7 +976,7 @@ describe('Field.Number', () => {
 
       const expected = nb.NumberField.errorExclusiveMaximum.replace(
         '{exclusiveMaximum}',
-        String(formatPlainNumber(2.75, { locale: 'nb-NO', decimals: 2 }))
+        String(formatNumber(2.75, { locale: 'nb-NO', decimals: 2 }))
       )
 
       await waitFor(() => {
@@ -1000,7 +996,7 @@ describe('Field.Number', () => {
 
       const expected = nb.NumberField.errorMultipleOf.replace(
         '{multipleOf}',
-        String(formatPlainNumber(3000, { locale: 'nb-NO' }))
+        String(formatNumber(3000, { locale: 'nb-NO' }))
       )
       // Use regex to handle both regular and non-breaking spaces
       const expectedRegex = expected.replace(/\s/g, '\\s')
@@ -1024,9 +1020,7 @@ describe('Field.Number', () => {
         target: { value: '1001' },
       })
 
-      const enFormatted = String(
-        formatPlainNumber(1000, { locale: 'en-GB' })
-      )
+      const enFormatted = String(formatNumber(1000, { locale: 'en-GB' }))
       const expected = en.NumberField.errorMaximum.replace(
         '{maximum}',
         enFormatted
@@ -2234,7 +2228,7 @@ describe('Field.Number', () => {
         const expectedText = nb.NumberField.errorMaximum.replace(
           '{maximum}',
           String(
-            formatPlainNumber(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' })
+            formatNumber(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' })
           )
         )
         // Use regex to handle both regular and non-breaking spaces
@@ -2274,7 +2268,7 @@ describe('Field.Number', () => {
         const expectedText = nb.NumberField.errorMaximum.replace(
           '{maximum}',
           String(
-            formatPlainNumber(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' })
+            formatNumber(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' })
           )
         )
         // Use regex to handle both regular and non-breaking spaces
@@ -2298,7 +2292,7 @@ describe('Field.Number', () => {
         const expectedText = nb.NumberField.errorMinimum.replace(
           '{minimum}',
           String(
-            formatPlainNumber(Number.MIN_SAFE_INTEGER, { locale: 'nb-NO' })
+            formatNumber(Number.MIN_SAFE_INTEGER, { locale: 'nb-NO' })
           )
         )
         // Use regex to handle both regular and non-breaking spaces
@@ -2322,7 +2316,7 @@ describe('Field.Number', () => {
         const alertText = statusElement.textContent
         const expectedText = nb.NumberField.errorMinimum.replace(
           '{minimum}',
-          String(formatPlainNumber(minimum, { locale: 'nb-NO' }))
+          String(formatNumber(minimum, { locale: 'nb-NO' }))
         )
         // Use regex to handle both regular and non-breaking spaces
         const expectedRegex = expectedText.replace(/\s/g, '\\s')
@@ -2347,7 +2341,7 @@ describe('Field.Number', () => {
         const expectedText = nb.NumberField.errorMinimum.replace(
           '{minimum}',
           String(
-            formatPlainNumber(Number.MIN_SAFE_INTEGER, { locale: 'nb-NO' })
+            formatNumber(Number.MIN_SAFE_INTEGER, { locale: 'nb-NO' })
           )
         )
         // Use regex to handle both regular and non-breaking spaces
@@ -2414,7 +2408,7 @@ describe('Field.Number', () => {
         ).toBeInTheDocument()
         const expected = nb.NumberField.errorMaximum.replace(
           '{maximum}',
-          String(formatPlainNumber(1000, { locale: 'nb-NO' }))
+          String(formatNumber(1000, { locale: 'nb-NO' }))
         )
         // Use regex to handle both regular and non-breaking spaces
         const expectedRegex = expected.replace(/\s/g, '\\s')
@@ -2473,7 +2467,7 @@ describe('Field.Number', () => {
         ).toBeInTheDocument()
         const expected = nb.NumberField.errorMaximum.replace(
           '{maximum}',
-          String(formatPlainNumber(1000, { locale: 'nb-NO' }))
+          String(formatNumber(1000, { locale: 'nb-NO' }))
         )
         // Use regex to handle both regular and non-breaking spaces
         const expectedRegex = expected.replace(/\s/g, '\\s')
@@ -2504,7 +2498,7 @@ describe('Field.Number', () => {
         ).toBeInTheDocument()
         const expected = nb.NumberField.errorExclusiveMaximum.replace(
           '{exclusiveMaximum}',
-          String(formatPlainNumber(1000, { locale: 'nb-NO' }))
+          String(formatNumber(1000, { locale: 'nb-NO' }))
         )
         // Use regex to handle both regular and non-breaking spaces
         const expectedRegex = expected.replace(/\s/g, '\\s')
@@ -2531,7 +2525,7 @@ describe('Field.Number', () => {
         const expectedText = nb.NumberField.errorMaximum.replace(
           '{maximum}',
           String(
-            formatPlainNumber(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' })
+            formatNumber(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' })
           )
         )
         // Use regex to handle both regular and non-breaking spaces
@@ -2557,7 +2551,7 @@ describe('Field.Number', () => {
         const expectedText = nb.NumberField.errorMaximum.replace(
           '{maximum}',
           String(
-            formatPlainNumber(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' })
+            formatNumber(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' })
           )
         )
         // Use regex to handle both regular and non-breaking spaces
@@ -2583,7 +2577,7 @@ describe('Field.Number', () => {
         const alertText = statusElement.textContent
         const expectedText = nb.NumberField.errorMaximum.replace(
           '{maximum}',
-          String(formatPlainNumber(maximum, { locale: 'nb-NO' }))
+          String(formatNumber(maximum, { locale: 'nb-NO' }))
         )
         // Use regex to handle both regular and non-breaking spaces
         const expectedRegex = expectedText.replace(/\s/g, '\\s')
@@ -2611,7 +2605,7 @@ describe('Field.Number', () => {
         ).toHaveTextContent(
           nb.NumberField.errorMinimum.replace(
             '{minimum}',
-            String(formatPlainNumber(5, { locale: 'nb-NO' }))
+            String(formatNumber(5, { locale: 'nb-NO' }))
           )
         )
       })
@@ -2639,7 +2633,7 @@ describe('Field.Number', () => {
         ).toHaveTextContent(
           nb.NumberField.errorMaximum.replace(
             '{maximum}',
-            String(formatPlainNumber(10, { locale: 'nb-NO' }))
+            String(formatNumber(10, { locale: 'nb-NO' }))
           )
         )
       })
@@ -2664,7 +2658,7 @@ describe('Field.Number', () => {
         ).toHaveTextContent(
           nb.NumberField.errorMinimum.replace(
             '{minimum}',
-            String(formatPlainNumber(5, { locale: 'nb-NO' }))
+            String(formatNumber(5, { locale: 'nb-NO' }))
           )
         )
       })
@@ -2696,7 +2690,7 @@ describe('Field.Number', () => {
         ).toHaveTextContent(
           nb.NumberField.errorMinimum.replace(
             '{minimum}',
-            String(formatPlainNumber(10, { locale: 'nb-NO' }))
+            String(formatNumber(10, { locale: 'nb-NO' }))
           )
         )
       })
@@ -2721,7 +2715,7 @@ describe('Field.Number', () => {
         ).toHaveTextContent(
           nb.NumberField.errorMultipleOf.replace(
             '{multipleOf}',
-            String(formatPlainNumber(3, { locale: 'nb-NO' }))
+            String(formatNumber(3, { locale: 'nb-NO' }))
           )
         )
       })
@@ -2744,7 +2738,7 @@ describe('Field.Number', () => {
         ).toHaveTextContent(
           nb.NumberField.errorMinimum.replace(
             '{minimum}',
-            String(formatPlainNumber(5, { locale: 'nb-NO' }))
+            String(formatNumber(5, { locale: 'nb-NO' }))
           )
         )
       })
@@ -2767,7 +2761,7 @@ describe('Field.Number', () => {
         ).toHaveTextContent(
           nb.NumberField.errorMaximum.replace(
             '{maximum}',
-            String(formatPlainNumber(10, { locale: 'nb-NO' }))
+            String(formatNumber(10, { locale: 'nb-NO' }))
           )
         )
       })
@@ -2790,7 +2784,7 @@ describe('Field.Number', () => {
         ).toHaveTextContent(
           nb.NumberField.errorExclusiveMinimum.replace(
             '{exclusiveMinimum}',
-            String(formatPlainNumber(5, { locale: 'nb-NO' }))
+            String(formatNumber(5, { locale: 'nb-NO' }))
           )
         )
       })
@@ -2813,7 +2807,7 @@ describe('Field.Number', () => {
         ).toHaveTextContent(
           nb.NumberField.errorExclusiveMaximum.replace(
             '{exclusiveMaximum}',
-            String(formatPlainNumber(10, { locale: 'nb-NO' }))
+            String(formatNumber(10, { locale: 'nb-NO' }))
           )
         )
       })
@@ -2836,7 +2830,7 @@ describe('Field.Number', () => {
         ).toHaveTextContent(
           nb.NumberField.errorMultipleOf.replace(
             '{multipleOf}',
-            String(formatPlainNumber(3, { locale: 'nb-NO' }))
+            String(formatNumber(3, { locale: 'nb-NO' }))
           )
         )
       })

@@ -5,7 +5,7 @@ import useNumberFormatWithParts from '../number-format/useNumberFormatWithParts'
 import {
   formatCurrency,
   formatPercent,
-  formatPlainNumber,
+  formatNumber,
 } from '../number-format/utils'
 import type {
   TypographySize,
@@ -138,7 +138,7 @@ function AmountBase(props: AmountProps) {
     ? formatPercent
     : isCurrency
       ? formatCurrency
-      : formatPlainNumber
+      : formatNumber
 
   const formatted = useNumberFormatWithParts(rawValue, formatter, {
     locale: resolvedLocale,

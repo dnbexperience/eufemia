@@ -9,7 +9,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
  * Create a `NumberFormat.*` variant component.
  *
  * Each variant imports only the formatter it cares about
- * (`formatCurrency`, `formatPlainNumber`, …) and passes it here.
+ * (`formatCurrency`, `formatNumber`, …) and passes it here.
  *
  * - `ThisVariantProps` narrows the public prop surface of the variant.
  * - `formatter` is injected as `__format` so `NumberFormatBase` can pick

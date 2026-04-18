@@ -20,18 +20,18 @@ export type {
 export { NUMBER_CHARS, NUMBER_MINUS } from './constants'
 
 export {
-  formatNumber,
+  formatNumberCore,
   alignCurrencySymbol,
   prepareMinus,
   enhanceSR,
   formatToParts,
-} from './formatNumber'
+} from './formatNumberCore'
 
 export { formatDecimals, countDecimals, roundHalfEven } from './decimals'
 
 export { cleanNumber } from './cleanNumber'
 
-export { formatPlainNumber } from './formatPlainNumber'
+export { formatNumber } from './formatNumber'
 export { formatPercent } from './formatPercent'
 export { formatCurrency } from './formatCurrency'
 export { formatPhoneNumber } from './formatPhoneNumber'

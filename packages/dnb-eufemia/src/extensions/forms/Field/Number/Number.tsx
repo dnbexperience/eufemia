@@ -11,7 +11,7 @@ import type { NumberFormatOptionParams } from '../../../../components/number-for
 import {
   formatCurrency,
   formatPercent,
-  formatPlainNumber,
+  formatNumber,
 } from '../../../../components/number-format/NumberUtils'
 import type { InputAlign, InputSize } from '../../../../components/Input'
 import SharedContext from '../../../../shared/Context'
@@ -131,7 +131,7 @@ function NumberComponent(props: FieldNumberProps) {
             })
           }
 
-          return formatPlainNumber(value, formatOptions)
+          return formatNumber(value, formatOptions)
         }
 
         return z

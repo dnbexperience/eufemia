@@ -1,8 +1,5 @@
 import type { NumberFormatReturnValue } from '../number-format/NumberUtils'
-import {
-  formatCurrency,
-  formatPlainNumber,
-} from '../number-format/NumberUtils'
+import { formatCurrency, formatNumber } from '../number-format/NumberUtils'
 import { clamp } from '../../shared/helpers/clamp'
 
 import type { SliderNumberFormat, SliderValue } from './types'
@@ -138,7 +135,7 @@ export const getFormattedNumber = (
     const formatter =
       options.currency === true || typeof options.currency === 'string'
         ? formatCurrency
-        : formatPlainNumber
+        : formatNumber
     return formatter(value as number, options)
   }
 

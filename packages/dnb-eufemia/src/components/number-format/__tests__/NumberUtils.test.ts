@@ -11,7 +11,7 @@ import { LOCALE } from '../../../shared/defaults'
 import * as helpers from '../../../shared/helpers'
 import {
   cleanNumber,
-  formatPlainNumber,
+  formatNumber,
   getFallbackCurrencyDisplay,
   getDecimalSeparator,
   getThousandsSeparator,
@@ -63,8 +63,8 @@ describe('Decimals format', () => {
   const num = -12345.6789
 
   it('should return default formatted number', () => {
-    expect(formatPlainNumber(num)).toBe('-12 345,6789')
-    expect(formatPlainNumber(num, { returnAria: true })).toMatchObject({
+    expect(formatNumber(num)).toBe('-12 345,6789')
+    expect(formatNumber(num, { returnAria: true })).toMatchObject({
       aria: '-12345,6789',
       cleanedValue: '-12345,6789',
       locale: 'nb-NO',
@@ -72,9 +72,7 @@ describe('Decimals format', () => {
       type: 'number',
       value: num,
     })
-    expect(
-      formatPlainNumber(String(num), { returnAria: true })
-    ).toMatchObject({
+    expect(formatNumber(String(num), { returnAria: true })).toMatchObject({
       aria: '-12345,6789',
       cleanedValue: '-12345,6789',
       locale: 'nb-NO',
@@ -83,7 +81,7 @@ describe('Decimals format', () => {
       value: String(num),
     })
     expect(
-      formatPlainNumber('', {
+      formatNumber('', {
         returnAria: true,
       })
     ).toMatchObject({
@@ -95,7 +93,7 @@ describe('Decimals format', () => {
       value: '–',
     })
     expect(
-      formatPlainNumber(null, {
+      formatNumber(null, {
         returnAria: true,
       })
     ).toMatchObject({
@@ -107,7 +105,7 @@ describe('Decimals format', () => {
       value: '–',
     })
     expect(
-      formatPlainNumber(undefined, {
+      formatNumber(undefined, {
         returnAria: true,
       })
     ).toMatchObject({
@@ -123,13 +121,13 @@ describe('Decimals format', () => {
   it('should handle unusual cases', () => {
     global.console.log = jest.fn()
 
-    expect(formatPlainNumber(num, { decimals: 0 })).toBe('-12 346')
-    expect(formatPlainNumber(num, { decimals: 1 })).toBe('-12 345,7')
-    expect(formatPlainNumber(num, { decimals: 2 })).toBe('-12 345,68')
-    expect(formatPlainNumber(num, { decimals: 3 })).toBe('-12 345,679')
-    expect(formatPlainNumber(num, { decimals: 4 })).toBe('-12 345,6789')
-    expect(formatPlainNumber(num, { decimals: 5 })).toBe('-12 345,67890')
-    expect(formatPlainNumber(num, { decimals: 6 })).toBe('-12 345,678900')
+    expect(formatNumber(num, { decimals: 0 })).toBe('-12 346')
+    expect(formatNumber(num, { decimals: 1 })).toBe('-12 345,7')
+    expect(formatNumber(num, { decimals: 2 })).toBe('-12 345,68')
+    expect(formatNumber(num, { decimals: 3 })).toBe('-12 345,679')
+    expect(formatNumber(num, { decimals: 4 })).toBe('-12 345,6789')
+    expect(formatNumber(num, { decimals: 5 })).toBe('-12 345,67890')
+    expect(formatNumber(num, { decimals: 6 })).toBe('-12 345,678900')
 
     expect(formatCurrency(num, { decimals: 0 })).toBe('-12 346 kr')
     expect(formatCurrency(num, { decimals: 1 })).toBe('-12 345,7 kr')
@@ -141,7 +139,7 @@ describe('Decimals format', () => {
     )
     expect(
       // more than 20 numbers
-      formatPlainNumber('-1.123456789123456789', {
+      formatNumber('-1.123456789123456789', {
         decimals: undefined,
       })
     ).toBe('-1,1234567891234568')
@@ -154,7 +152,7 @@ describe('Decimals format', () => {
 
   it('should render N/A when unsupported locale is given', () => {
     expect(
-      formatPlainNumber('invalid', {
+      formatNumber('invalid', {
         locale: 'something',
         returnAria: true,
       })
@@ -171,7 +169,7 @@ describe('Decimals format', () => {
   it('should render custom invalid ARIA text when given', () => {
     const customInvalidAriaText = 'my text'
     expect(
-      formatPlainNumber('invalid', {
+      formatNumber('invalid', {
         locale: 'something',
         returnAria: true,
         invalidAriaText: customInvalidAriaText,
@@ -213,21 +211,21 @@ describe('Decimals format', () => {
 
     it('half-even', () => {
       expect(
-        formatPlainNumber(2.5, {
+        formatNumber(2.5, {
           decimals: 0,
           rounding: 'half-even',
         })
       ).toBe('2')
 
       expect(
-        formatPlainNumber(3.5, {
+        formatNumber(3.5, {
           decimals: 0,
           rounding: 'half-even',
         })
       ).toBe('4')
 
       expect(
-        formatPlainNumber(-1000.415, {
+        formatNumber(-1000.415, {
           decimals: 2,
           rounding: 'half-even',
         })
@@ -244,31 +242,31 @@ describe('Decimals format', () => {
 
     it('half-up (default)', () => {
       expect(
-        formatPlainNumber(2.5, {
+        formatNumber(2.5, {
           decimals: 0,
           rounding: 'half-up',
         })
       ).toBe('3')
       expect(
-        formatPlainNumber(-2.5, {
+        formatNumber(-2.5, {
           decimals: 0,
           rounding: 'half-up',
         })
       ).toBe('-3')
       expect(
-        formatPlainNumber(2.434, {
+        formatNumber(2.434, {
           decimals: 2,
           rounding: 'half-up',
         })
       ).toBe('2,43')
       expect(
-        formatPlainNumber(2.476, {
+        formatNumber(2.476, {
           decimals: 2,
           rounding: 'half-up',
         })
       ).toBe('2,48')
       expect(
-        formatPlainNumber(2.476, {
+        formatNumber(2.476, {
           decimals: 2,
           rounding: undefined,
         })
@@ -278,39 +276,39 @@ describe('Decimals format', () => {
 
   describe('signDisplay', () => {
     it('auto (default)', () => {
-      expect(formatPlainNumber(1234)).toBe('1\u00A0234')
-      expect(formatPlainNumber(-1234)).toBe('-1\u00A0234')
-      expect(formatPlainNumber(0)).toBe('0')
+      expect(formatNumber(1234)).toBe('1\u00A0234')
+      expect(formatNumber(-1234)).toBe('-1\u00A0234')
+      expect(formatNumber(0)).toBe('0')
     })
 
     it('always', () => {
-      expect(formatPlainNumber(1234, { signDisplay: 'always' })).toBe(
+      expect(formatNumber(1234, { signDisplay: 'always' })).toBe(
         '+1\u00A0234'
       )
-      expect(formatPlainNumber(-1234, { signDisplay: 'always' })).toBe(
+      expect(formatNumber(-1234, { signDisplay: 'always' })).toBe(
         '-1\u00A0234'
       )
-      expect(formatPlainNumber(0, { signDisplay: 'always' })).toBe('+0')
+      expect(formatNumber(0, { signDisplay: 'always' })).toBe('+0')
     })
 
     it('exceptZero', () => {
-      expect(formatPlainNumber(1234, { signDisplay: 'exceptZero' })).toBe(
+      expect(formatNumber(1234, { signDisplay: 'exceptZero' })).toBe(
         '+1\u00A0234'
       )
-      expect(formatPlainNumber(-1234, { signDisplay: 'exceptZero' })).toBe(
+      expect(formatNumber(-1234, { signDisplay: 'exceptZero' })).toBe(
         '-1\u00A0234'
       )
-      expect(formatPlainNumber(0, { signDisplay: 'exceptZero' })).toBe('0')
+      expect(formatNumber(0, { signDisplay: 'exceptZero' })).toBe('0')
     })
 
     it('never', () => {
-      expect(formatPlainNumber(1234, { signDisplay: 'never' })).toBe(
+      expect(formatNumber(1234, { signDisplay: 'never' })).toBe(
         '1\u00A0234'
       )
-      expect(formatPlainNumber(-1234, { signDisplay: 'never' })).toBe(
+      expect(formatNumber(-1234, { signDisplay: 'never' })).toBe(
         '1\u00A0234'
       )
-      expect(formatPlainNumber(0, { signDisplay: 'never' })).toBe('0')
+      expect(formatNumber(0, { signDisplay: 'never' })).toBe('0')
     })
 
     it('should work with currency', () => {
@@ -333,10 +331,10 @@ describe('Decimals format', () => {
 
     it('should work with decimals', () => {
       expect(
-        formatPlainNumber(1234.56, { decimals: 2, signDisplay: 'always' })
+        formatNumber(1234.56, { decimals: 2, signDisplay: 'always' })
       ).toBe('+1\u00A0234,56')
       expect(
-        formatPlainNumber(-1234.56, { decimals: 2, signDisplay: 'always' })
+        formatNumber(-1234.56, { decimals: 2, signDisplay: 'always' })
       ).toBe('-1\u00A0234,56')
     })
   })

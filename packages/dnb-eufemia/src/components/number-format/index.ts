@@ -36,7 +36,7 @@ export { COPY_TOOLTIP_TIMEOUT } from './NumberFormatBase'
 
 // Re-export the variant formatters
 export {
-  formatPlainNumber,
+  formatNumber,
   formatCurrency,
   formatPercent,
   formatPhoneNumber,

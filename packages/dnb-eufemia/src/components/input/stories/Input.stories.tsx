@@ -17,7 +17,7 @@ import {
   Flex,
 } from '../..'
 
-import { formatPlainNumber } from '../../number-format/NumberUtils'
+import { formatNumber } from '../../number-format/NumberUtils'
 import { FieldBlock, Form } from '../../../extensions/forms'
 
 export default {
@@ -462,7 +462,7 @@ export function ControlledInput() {
     event.preventDefault()
   }
 
-  console.log(formatPlainNumber(value))
+  console.log(formatNumber(value))
 
   return (
     <>
@@ -473,12 +473,12 @@ export function ControlledInput() {
         right
         onChange={onChangeHandler}
         onKeyDown={onKeyDownHandler}
-        value={formatPlainNumber(value).toString()}
+        value={formatNumber(value).toString()}
         selectAll
       />
       <input
         onChange={onChangeHandlerHtml}
-        value={formatPlainNumber(value).toString()}
+        value={formatNumber(value).toString()}
       />
     </>
   )
