@@ -168,7 +168,8 @@ describe('Circular ProgressIndicator component', () => {
     const attributes = Array.from(indicator.attributes).map(
       (attr) => attr.name
     )
-    expect(attributes).toEqual(['class', 'hidden'])
+    expect(attributes).toEqual(['class', 'style', 'hidden'])
+    expect(indicator.getAttribute('style')).toBe('--margin-top: 2rem;')
   })
 
   it('should use span elements', () => {
@@ -440,7 +441,8 @@ describe('Linear ProgressIndicator component', () => {
     const attributes = Array.from(indicator.attributes).map(
       (attr) => attr.name
     )
-    expect(attributes).toEqual(['class', 'hidden'])
+    expect(attributes).toEqual(['class', 'style', 'hidden'])
+    expect(indicator.getAttribute('style')).toBe('--margin-top: 2rem;')
   })
 
   it('should use span elements', () => {

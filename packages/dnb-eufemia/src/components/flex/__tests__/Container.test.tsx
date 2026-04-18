@@ -277,19 +277,23 @@ describe('Flex.Container', () => {
       >
         <h1
           class="dnb-space__top--zero dnb-space__bottom--zero dnb-h--xx-large"
+          style="--margin-top: 0; --margin-bottom: 0;"
         >
           Heading
         </h1>
         <div
           class="dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item"
+          style="--margin-top: 1rem; --margin-bottom: 0;"
         >
           Flex
         </div>
         <hr
           class="dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr"
+          style="--margin-top: 1rem; --margin-right: 0; --margin-bottom: 0; --margin-left: 0;"
         />
         <div
           class="dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item"
+          style="--margin-top: 1rem; --margin-bottom: 0;"
         >
           Flex
         </div>
@@ -518,6 +522,7 @@ describe('Flex.Container', () => {
         >
           <div
             class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
+            style="--margin-top: 0; --margin-bottom: 0;"
           >
             <div
               class="test-item"
@@ -527,6 +532,7 @@ describe('Flex.Container', () => {
           </div>
           <div
             class="dnb-space dnb-space__top--small dnb-space__bottom--zero"
+            style="--margin-top: 1rem; --margin-bottom: 0;"
           >
             <div
               class="test-item"
@@ -638,6 +644,7 @@ describe('Flex.Container', () => {
           >
             <div
               class="dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+              style="--margin-top: 0; --margin-bottom: 0;"
             >
               <div
                 class="dnb-space__top--zero dnb-space__bottom--zero test-item"
@@ -700,14 +707,17 @@ describe('Flex.Container', () => {
           >
             <div
               class="dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+              style="--margin-top: 0; --margin-bottom: 0;"
             >
               <div
                 class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
+                style="--margin-top: 0; --margin-bottom: 0;"
               >
                 Content A 
               </div>
               <div
                 class="dnb-space dnb-space__top--small dnb-space__bottom--zero"
+                style="--margin-top: 1rem; --margin-bottom: 0;"
               >
                 <p>
                   Content B
@@ -748,11 +758,13 @@ describe('Flex.Container', () => {
         >
           <div
             class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
+            style="--margin-top: 0; --margin-bottom: 0;"
           >
             Content A 
           </div>
           <div
             class="dnb-space dnb-space__top--small dnb-space__bottom--zero"
+            style="--margin-top: 1rem; --margin-bottom: 0;"
           >
             <p>
               Content B
@@ -799,11 +811,13 @@ describe('Flex.Container', () => {
         >
           <div
             class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
+            style="--margin-top: 0; --margin-bottom: 0;"
           >
             Content A
           </div>
           <div
             class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
+            style="--margin-top: 0; --margin-bottom: 0;"
           >
             <p>
               Content B
@@ -870,6 +884,7 @@ describe('Flex.Container', () => {
         >
           <h3
             class="dnb-heading dnb-h--medium dnb-forms-sub-heading dnb-space__top--zero dnb-space__bottom--zero"
+            style="--margin-top: 0; --margin-bottom: 0;"
           >
             Heading
           </h3>
@@ -937,6 +952,7 @@ describe('Flex.Container', () => {
         >
           <h3
             class="dnb-heading dnb-h--medium dnb-forms-sub-heading dnb-space__top--zero dnb-space__bottom--zero"
+            style="--margin-top: 0; --margin-bottom: 0;"
           >
             Heading
           </h3>

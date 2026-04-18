@@ -99,6 +99,24 @@ describe('Space component', () => {
     ).toBeInTheDocument()
   })
 
+  it('should expose outer margin as --margin-{direction} custom properties', () => {
+    const { rerender } = render(
+      <Space top="large" right="small" bottom="0" left={false} />
+    )
+    expect(
+      document.querySelector('.dnb-space').getAttribute('style')
+    ).toBe(
+      '--margin-top: 2rem; --margin-right: 1rem; --margin-bottom: 0; --margin-left: 0;'
+    )
+
+    rerender(<Space space="small" />)
+    expect(
+      document.querySelector('.dnb-space').getAttribute('style')
+    ).toBe(
+      '--margin-top: 1rem; --margin-right: 1rem; --margin-bottom: 1rem; --margin-left: 1rem;'
+    )
+  })
+
   it('should support "innerSpace"', () => {
     const { rerender } = render(<Space innerSpace={true} />)
     expect(

@@ -90,6 +90,68 @@ export const createSpacingProperties = (
   return {}
 }
 
+/**
+ * Creates CSS custom properties for outer spacing (margin).
+ *
+ * Computes the resolved rem value for each direction based on the
+ * `top`, `right`, `bottom`, `left` and `space` props and returns them
+ * as `--margin-{top|right|bottom|left}` custom properties. These
+ * properties are meant to later drive the margin via `var(--margin-*)`
+ * in CSS, while the existing `dnb-space__{direction}--{size}` classes
+ * still apply the actual margin for now.
+ *
+ * @param props
+ * @returns { '--margin-top': '1rem', '--margin-right': '0' }
+ */
+export const createMarginProperties = (
+  props: SpacingProps | SpacingUnknownProps
+): React.CSSProperties => {
+  return computeMarginProperties(props)
+}
+
+function computeMarginProperties(
+  props: SpacingProps | SpacingUnknownProps
+): React.CSSProperties {
+  const { space, top, right, bottom, left } = props as SpacingProps
+  const base =
+    typeof space !== 'undefined' && space !== null
+      ? transformToAll(space as SpaceType | InnerSpacingElementProps)
+      : {}
+  const merged: InnerSpacingElementProps = {
+    ...base,
+    ...(typeof top !== 'undefined' ? { top } : null),
+    ...(typeof right !== 'undefined' ? { right } : null),
+    ...(typeof bottom !== 'undefined' ? { bottom } : null),
+    ...(typeof left !== 'undefined' ? { left } : null),
+  }
+
+  const result = {}
+
+  for (const key of ['top', 'right', 'bottom', 'left'] as const) {
+    if (!(key in merged)) {
+      continue
+    }
+
+    const cur = merged[key]
+    const name = `--margin-${key}`
+
+    if (String(cur) === '0' || String(cur) === 'false') {
+      result[name] = '0'
+    } else if (cur) {
+      const typeModifiers = createTypeModifiers(cur as SpaceType)
+      const sum = sumTypes(typeModifiers)
+
+      if (sum > 10) {
+        continue
+      }
+
+      result[name] = `${sum}rem`
+    }
+  }
+
+  return result as React.CSSProperties
+}
+
 function hasMediaSize(media: InnerSpaceTypeMedia) {
   const keys = Object.keys(media)
   return (
@@ -281,7 +343,9 @@ export const createSpacing = (
   elementName: string | null = null
 ): SpacingReturn => {
   const className = collectSpacingClasses(props, elementName)
-  const style = createSpacingProperties(props)
+  const innerStyle = createSpacingProperties(props)
+  const marginStyle = createMarginProperties(props)
+  const style = { ...marginStyle, ...innerStyle }
   const hasStyle = Object.keys(style).length > 0
 
   return {
@@ -321,7 +385,9 @@ export const applySpacing = <T extends ApplySpacingTarget>(
   elementName: string | null = null
 ): T => {
   const classes = collectSpacingClasses(props, elementName)
-  const style = createSpacingProperties(props)
+  const innerStyle = createSpacingProperties(props)
+  const marginStyle = createMarginProperties(props)
+  const style = { ...marginStyle, ...innerStyle }
 
   const hasClasses = classes.length > 0
   const hasStyle = Object.keys(style).length > 0
