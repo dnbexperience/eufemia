@@ -19,7 +19,7 @@ export type {
 export {
   NUMBER_CHARS,
   NUMBER_MINUS,
-  formatNumber,
+  formatNumberIntl,
   alignCurrencySymbol,
   prepareMinus,
   enhanceSR,
@@ -29,6 +29,7 @@ export {
   roundHalfEven,
   cleanNumber,
   formatPlainNumber,
+  formatNumber,
   formatPercent,
   formatCurrency,
   formatPhoneNumber,

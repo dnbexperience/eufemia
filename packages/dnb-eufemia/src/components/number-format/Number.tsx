@@ -2,7 +2,7 @@ import type {
   NumberFormatAllProps,
   NumberFormatProps,
 } from './NumberFormatBase'
-import { formatPlainNumber } from './utils'
+import { formatNumber } from './utils'
 import { withFormatter } from './withFormatter'
 
 export type NumberFormatNumberProps = Omit<
@@ -15,7 +15,7 @@ export type NumberFormatNumberProps = Omit<
 
 const NumberFormatNumber = withFormatter<NumberFormatNumberProps>(
   'NumberFormat.Number',
-  formatPlainNumber
+  formatNumber
 )
 
 export default NumberFormatNumber

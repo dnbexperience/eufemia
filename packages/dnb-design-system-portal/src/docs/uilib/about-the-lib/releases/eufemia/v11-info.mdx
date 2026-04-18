@@ -2029,7 +2029,7 @@ Notes:
 | `format(value, { percent: true })`   | `formatPercent(value)`                       |
 | `format(value, { currency: true })`  | `formatCurrency(value)`                      |
 | `format(value, { currency: 'USD' })` | `formatCurrency(value, { currency: 'USD' })` |
-| `format(value)`                      | `formatPlainNumber(value)`                   |
+| `format(value)`                      | `formatNumber(value)`                        |
 
 ```tsx
 // Before
@@ -2041,7 +2041,7 @@ import { formatPhoneNumber } from '@dnb/eufemia/components/NumberFormat'
 formatPhoneNumber(value)
 ```
 
-All variant formatters are re-exported from `@dnb/eufemia/components/NumberFormat`: `formatPlainNumber`, `formatCurrency`, `formatPercent`, `formatPhoneNumber`, `formatBankAccountNumber`, `formatNationalIdentityNumber`, `formatOrganizationNumber`.
+All variant formatters are re-exported from `@dnb/eufemia/components/NumberFormat`: `formatNumber`, `formatCurrency`, `formatPercent`, `formatPhoneNumber`, `formatBankAccountNumber`, `formatNationalIdentityNumber`, `formatOrganizationNumber`.
 
 `NumberFormatOptionParams` no longer accepts the `phone`, `ban`, `nin`, `org` or `percent` booleans; they were only used by the removed dispatcher.
 
@@ -2084,7 +2084,7 @@ const formatted = useNumberFormatWithParts(value, formatCurrency, {
 
 | Before                                                                | After                                                                            |
 | --------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `useNumberFormatWithParts(value)`                                     | `useNumberFormatWithParts(value, formatPlainNumber)`                             |
+| `useNumberFormatWithParts(value)`                                     | `useNumberFormatWithParts(value, formatNumber)`                                  |
 | `useNumberFormatWithParts(value, { currency: true })`                 | `useNumberFormatWithParts(value, formatCurrency)`                                |
 | `useNumberFormatWithParts(value, { percent: true })`                  | `useNumberFormatWithParts(value, formatPercent)`                                 |
 | `useNumberFormatWithParts(value, { forceCurrencyAfterAmount: true })` | `useNumberFormatWithParts(value, formatCurrency, { currencyPosition: 'after' })` |

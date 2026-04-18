@@ -20,7 +20,7 @@ export type {
 export { NUMBER_CHARS, NUMBER_MINUS } from './constants'
 
 export {
-  formatNumber,
+  formatNumberIntl,
   alignCurrencySymbol,
   prepareMinus,
   enhanceSR,
@@ -31,7 +31,7 @@ export { formatDecimals, countDecimals, roundHalfEven } from './decimals'
 
 export { cleanNumber } from './cleanNumber'
 
-export { formatPlainNumber } from './formatPlainNumber'
+export { formatNumber, formatPlainNumber } from './formatPlainNumber'
 export { formatPercent } from './formatPercent'
 export { formatCurrency } from './formatCurrency'
 export { formatPhoneNumber } from './formatPhoneNumber'

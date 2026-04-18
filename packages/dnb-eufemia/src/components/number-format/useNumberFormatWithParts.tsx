@@ -6,7 +6,7 @@ import type {
   NumberFormatReturnValue,
   NumberFormatValue,
 } from './NumberUtils'
-import { formatPlainNumber } from './utils'
+import { formatNumber } from './utils'
 import type { NumberFormatter } from './useNumberFormat'
 
 export type NumberFormatParts = {
@@ -30,7 +30,7 @@ export type NumberFormatReturnWithParts = NumberFormatReturnValue & {
  * formatted display string into structured `parts` (sign, number, currency,
  * percent) so consumers can style each piece independently.
  *
- * `formatter` defaults to `formatPlainNumber`. Pass `formatCurrency` or
+ * `formatter` defaults to `formatNumber`. Pass `formatCurrency` or
  * `formatPercent` for currency/percent output. The returned `parts` are
  * derived from the formatter's display string, so any formatter that
  * returns a `NumberFormatReturnValue` works.
@@ -47,7 +47,7 @@ function useNumberFormatWithParts(
 ): NumberFormatReturnWithParts
 function useNumberFormatWithParts(
   value: NumberFormatValue,
-  formatter: NumberFormatter = formatPlainNumber,
+  formatter: NumberFormatter = formatNumber,
   options: NumberFormatOptionParams = {}
 ): NumberFormatReturnWithParts | string {
   const context = useContext(Context)

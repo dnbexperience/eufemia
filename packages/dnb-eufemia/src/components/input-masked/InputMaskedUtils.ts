@@ -5,7 +5,7 @@
 import {
   formatCurrency,
   formatPercent,
-  formatPlainNumber,
+  formatNumber,
   getDecimalSeparator,
   getThousandsSeparator,
 } from '../number-format/NumberUtils'
@@ -146,7 +146,7 @@ export const correctNumberValue = ({
     value = String(
       options.currency
         ? formatCurrency(value, options)
-        : formatPlainNumber(value, options)
+        : formatNumber(value, options)
     )
   }
 

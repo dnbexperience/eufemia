@@ -154,7 +154,7 @@ function replaceNaNWithDash(number: string | number): string {
  * The main number formatter function.
  * Calls the browser/Node.js `Intl.NumberFormat` or `Number.toLocaleString` APIs.
  */
-export const formatNumber = (
+export const formatNumberIntl = (
   number: NumberFormatValue,
   locale: string | null,
   options: InternalNumberFormatOptions = {},

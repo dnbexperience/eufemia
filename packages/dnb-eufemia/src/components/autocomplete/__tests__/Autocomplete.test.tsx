@@ -13,7 +13,7 @@ import {
   formatBankAccountNumber,
   formatCurrency,
   formatPhoneNumber,
-  formatPlainNumber,
+  formatNumber,
 } from '../../number-format/NumberUtils'
 import userEvent from '@testing-library/user-event'
 import {
@@ -1222,8 +1222,8 @@ describe('Autocomplete component', () => {
 
   it('has correct options when using searchNumbers, and searching with æøå', () => {
     const mockData = [
-      ['Åge Ørn Ærlig', formatPlainNumber('12345678901')],
-      ["Andrè Ørjåsæter O'Neill", formatPlainNumber('12345678901')],
+      ['Åge Ørn Ærlig', formatNumber('12345678901')],
+      ["Andrè Ørjåsæter O'Neill", formatNumber('12345678901')],
     ] as DrawerListData
 
     render(

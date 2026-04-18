@@ -14,11 +14,11 @@ import { InputEvents } from '@dnb/eufemia/src/components/input/InputDocs'
 You have two possibilities to manipulate the value while a user is typing. Either you handle the value with your own state, or you return a modified value in the `onChange` event listener:
 
 ```jsx
-import { formatPlainNumber } from '@dnb/eufemia/components/number-format/NumberUtils'
+import { formatNumber } from '@dnb/eufemia/components/number-format/NumberUtils'
 
 function Component() {
   const onChangeHandler = ({ value }) => {
-    return formatPlainNumber(value)
+    return formatNumber(value)
   }
 
   return <Input onChange={onChangeHandler} />

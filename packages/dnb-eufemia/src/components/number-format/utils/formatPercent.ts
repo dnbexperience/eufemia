@@ -19,7 +19,7 @@ import {
   buildReturn,
   cleanNumber,
   formatDecimals,
-  formatNumber,
+  formatNumberIntl,
   prepareFormatOptions,
   resolveLocale,
 } from './formatCore'
@@ -71,7 +71,7 @@ export function formatPercent(
     opts.style = 'percent'
   }
 
-  const display = formatNumber(Number(value) / 100, locale, opts)
+  const display = formatNumberIntl(Number(value) / 100, locale, opts)
   const aria = display
 
   if (!returnAria) {

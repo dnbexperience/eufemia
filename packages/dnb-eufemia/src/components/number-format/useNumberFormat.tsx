@@ -6,11 +6,11 @@ import type {
   NumberFormatReturnValue,
   NumberFormatValue,
 } from './NumberUtils'
-import { formatPlainNumber } from './utils'
+import { formatNumber } from './utils'
 
 /**
  * Shape of a variant formatter (`formatPhoneNumber`, `formatCurrency`,
- * `formatPercent`, `formatPlainNumber`, …).
+ * `formatPercent`, `formatNumber`, …).
  */
 export type NumberFormatter = {
   (
@@ -27,7 +27,7 @@ export type NumberFormatter = {
  * Format a value with an explicit formatter, picking up `locale` and
  * `NumberFormat` defaults from the Eufemia `Provider`.
  *
- * `formatter` is optional and defaults to `formatPlainNumber` for
+ * `formatter` is optional and defaults to `formatNumber` for
  * backwards compatibility with plain numeric values.
  *
  * Pass the variant formatter you need, e.g.
@@ -45,7 +45,7 @@ function useNumberFormat(
 ): string
 function useNumberFormat(
   value: NumberFormatValue,
-  formatter: NumberFormatter = formatPlainNumber,
+  formatter: NumberFormatter = formatNumber,
   options: NumberFormatOptionParams = {}
 ): NumberFormatReturnValue | string {
   const context = useContext(Context)

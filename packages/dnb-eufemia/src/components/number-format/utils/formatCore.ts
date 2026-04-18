@@ -1,6 +1,6 @@
 /**
  * Shared format plumbing used by the variant formatters
- * (`formatPlainNumber`, `formatPercent`, `formatCurrency`, etc.).
+ * (`formatNumber`, `formatPercent`, `formatCurrency`, etc.).
  */
 
 import { LOCALE } from '../../../shared/defaults'
@@ -8,7 +8,7 @@ import { warn } from '../../../shared/component-helper'
 import { ABSENT_VALUE_FORMAT, isAbsent } from './constants'
 import { cleanNumber } from './cleanNumber'
 import { formatDecimals } from './decimals'
-import { formatNumber, prepareMinus, enhanceSR } from './formatNumber'
+import { formatNumberIntl, prepareMinus, enhanceSR } from './formatNumber'
 import { getThousandsSeparator } from './separators'
 import {
   handleCompactBeforeDisplay,
@@ -96,7 +96,7 @@ export function buildReturn({
   let cleanedValue
 
   if (cleanCopyValue) {
-    cleanedValue = formatNumber(
+    cleanedValue = formatNumberIntl(
       opts.style === 'percent' ? Number(value) / 100 : value,
       locale,
       opts,
@@ -158,7 +158,7 @@ export function applyDecimalsForPlain({
 export {
   cleanNumber,
   formatDecimals,
-  formatNumber,
+  formatNumberIntl,
   prepareMinus,
   enhanceSR,
   handleCompactBeforeDisplay,

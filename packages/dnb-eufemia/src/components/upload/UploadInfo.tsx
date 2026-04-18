@@ -5,7 +5,7 @@ import P from '../../elements/P'
 import Dl from '../../elements/Dl'
 import Dt from '../../elements/Dt'
 import Dd from '../../elements/Dd'
-import { formatPlainNumber } from '../number-format/NumberUtils'
+import { formatNumber } from '../number-format/NumberUtils'
 import { isArrayOfObjects, isArrayOfStrings } from './UploadVerify'
 import Table from '../Table'
 import Tr from '../table/TableTr'
@@ -83,7 +83,7 @@ const UploadInfo = () => {
               <Dd>
                 {String(fileSizeContent).replace(
                   '%size',
-                  formatPlainNumber(fileMaxSize).toString()
+                  formatNumber(fileMaxSize).toString()
                 )}
               </Dd>
             </Dl.Item>
@@ -182,7 +182,7 @@ function UploadInfoAcceptedFileTypesTable() {
                   {key !== '0' &&
                     String(fileSizeContent).replace(
                       '%size',
-                      formatPlainNumber(key).toString()
+                      formatNumber(key).toString()
                     )}
                 </Td>
               </Tr>

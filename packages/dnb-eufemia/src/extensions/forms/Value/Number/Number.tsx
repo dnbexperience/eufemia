@@ -10,7 +10,7 @@ import NumberFormatBase, {
 } from '../../../../components/number-format/NumberFormatBase'
 import { formatCurrency } from '../../../../components/number-format/utils/formatCurrency'
 import { formatPercent } from '../../../../components/number-format/utils/formatPercent'
-import { formatPlainNumber } from '../../../../components/number-format/utils/formatPlainNumber'
+import { formatNumber } from '../../../../components/number-format/utils/formatPlainNumber'
 
 import type { SpacingProps } from '../../../../shared/types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
@@ -62,7 +62,7 @@ function NumberValue(props: ValueNumberProps) {
     : numberFormatRest.currency === true ||
         typeof numberFormatRest.currency === 'string'
       ? formatCurrency
-      : formatPlainNumber
+      : formatNumber
 
   return (
     <ValueBlock

@@ -15,7 +15,7 @@ import {
   buildReturn,
   cleanNumber,
   formatDecimals,
-  formatNumber,
+  formatNumberIntl,
   handleCompactBeforeAria,
   handleCompactBeforeDisplay,
   prepareFormatOptions,
@@ -143,7 +143,7 @@ export function formatCurrency(
     )
   }
 
-  let display = formatNumber(cleanedNumber, locale, opts, formatter)
+  let display = formatNumberIntl(cleanedNumber, locale, opts, formatter)
   display = prepareMinus(display, locale)
 
   if (resolvedPosition && currencySuffix) {
@@ -157,7 +157,7 @@ export function formatCurrency(
   handleCompactBeforeAria({ value, compact, opts })
 
   // aria options
-  let aria = formatNumber(cleanedNumber, locale, {
+  let aria = formatNumberIntl(cleanedNumber, locale, {
     minimumFractionDigits: 0,
     maximumFractionDigits: 2,
     ...opts,

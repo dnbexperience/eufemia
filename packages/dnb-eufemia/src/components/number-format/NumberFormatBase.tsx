@@ -26,11 +26,7 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 import Tooltip, { injectTooltipSemantic } from '../tooltip/Tooltip'
-import {
-  runIOSSelectionFix,
-  formatPlainNumber,
-  formatCurrency,
-} from './utils'
+import { runIOSSelectionFix, formatNumber, formatCurrency } from './utils'
 import type {
   NumberFormatCurrencyPosition as NumberFormatCurrencyPositionBase,
   NumberFormatOptions,
@@ -462,7 +458,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
     __format ??
     (currency === true || typeof currency === 'string'
       ? formatCurrency
-      : formatPlainNumber)
+      : formatNumber)
   const result = formatter(value, formatOptions)
   const { cleanedValue, locale: lang } = result
   let { aria } = result

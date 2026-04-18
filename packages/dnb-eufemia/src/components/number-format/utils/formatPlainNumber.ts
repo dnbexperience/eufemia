@@ -13,7 +13,7 @@ import {
   applyDecimalsForPlain,
   buildReturn,
   cleanNumber,
-  formatNumber,
+  formatNumberIntl,
   handleCompactBeforeAria,
   handleCompactBeforeDisplay,
   prepareFormatOptions,
@@ -22,15 +22,15 @@ import {
   enhanceSR,
 } from './formatCore'
 
-export function formatPlainNumber(
+export function formatNumber(
   value: NumberFormatValue | null | undefined,
   options: NumberFormatOptionParams & { returnAria: true }
 ): NumberFormatReturnValue
-export function formatPlainNumber(
+export function formatNumber(
   value: NumberFormatValue | null | undefined,
   options?: NumberFormatOptionParams
 ): string
-export function formatPlainNumber(
+export function formatNumber(
   value: NumberFormatValue | null | undefined,
   {
     locale: inputLocale = null,
@@ -58,13 +58,13 @@ export function formatPlainNumber(
 
   handleCompactBeforeDisplay({ value, locale, compact, decimals, opts })
 
-  let display = formatNumber(value, locale, opts)
+  let display = formatNumberIntl(value, locale, opts)
   display = prepareMinus(display, locale)
 
   handleCompactBeforeAria({ value, compact, opts })
 
   // NVDA fix
-  let aria = formatNumber(value, locale, opts)
+  let aria = formatNumberIntl(value, locale, opts)
   aria = enhanceSR(value, aria, locale)
 
   if (!returnAria) {
@@ -82,3 +82,8 @@ export function formatPlainNumber(
     invalidAriaText,
   })
 }
+
+/**
+ * @deprecated Use `formatNumber` instead.
+ */
+export const formatPlainNumber = formatNumber
