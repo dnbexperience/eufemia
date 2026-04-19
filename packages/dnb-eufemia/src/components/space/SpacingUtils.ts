@@ -3,8 +3,7 @@
  *
  */
 
-import clsx from 'clsx'
-import type { ClassValue } from 'clsx'
+import clsx, { type ClassValue } from 'clsx'
 
 import { warn } from '../../shared/component-helper'
 
@@ -109,40 +108,106 @@ export const createMarginProperties = (
   return computeMarginProperties(props)
 }
 
+function mergeSpacing(
+  spaceValue: SpaceType | InnerSpacingElementProps | undefined,
+  individualProps: {
+    top?: SpaceType
+    right?: SpaceType
+    bottom?: SpaceType
+    left?: SpaceType
+  }
+): InnerSpacingElementProps {
+  const { top, right, bottom, left } = individualProps
+
+  // Scalar 0/false/null/undefined are handled as "expand to all four directions"
+  // when they are explicitly set (0 or false), and as "nothing" when not set.
+  if (spaceValue === undefined || spaceValue === null) {
+    const result: InnerSpacingElementProps = {}
+    if (typeof top !== 'undefined') {
+      result.top = top
+    }
+    if (typeof right !== 'undefined') {
+      result.right = right
+    }
+    if (typeof bottom !== 'undefined') {
+      result.bottom = bottom
+    }
+    if (typeof left !== 'undefined') {
+      result.left = left
+    }
+    return result
+  }
+
+  const base = transformToAll(
+    spaceValue as SpaceType | InnerSpacingElementProps
+  )
+  const result = { ...base }
+  if (typeof top !== 'undefined') {
+    result.top = top
+  }
+  if (typeof right !== 'undefined') {
+    result.right = right
+  }
+  if (typeof bottom !== 'undefined') {
+    result.bottom = bottom
+  }
+  if (typeof left !== 'undefined') {
+    result.left = left
+  }
+  return result
+}
+
 function computeMarginProperties(
   props: SpacingProps | SpacingUnknownProps
 ): React.CSSProperties {
   const { space, top, right, bottom, left } = props as SpacingProps
-  const base =
-    typeof space !== 'undefined' && space !== null
-      ? transformToAll(space as SpaceType | InnerSpacingElementProps)
-      : {}
-  const merged: InnerSpacingElementProps = {
-    ...base,
-    ...(typeof top !== 'undefined' ? { top } : null),
-    ...(typeof right !== 'undefined' ? { right } : null),
-    ...(typeof bottom !== 'undefined' ? { bottom } : null),
-    ...(typeof left !== 'undefined' ? { left } : null),
-  }
-
-  // Return early if no spacing properties are defined
-  if (Object.keys(merged).length === 0) {
-    return {}
-  }
+  const individualProps = { top, right, bottom, left }
+  const hasMedia = hasMediaSize(space as InnerSpaceTypeMedia)
 
   // Convert to media sizes like innerSpace does
-  const mediaSpace = !hasMediaSize(merged as InnerSpaceTypeMedia)
-    ? {
-        small: merged,
-        medium: merged,
-        large: merged,
-      }
-    : (merged as InnerSpaceTypeMedia)
+  let mediaSpace: InnerSpaceTypeMedia
+
+  if (hasMedia) {
+    // space is a media object, merge each breakpoint with individual props
+    const spaceMedia = space as InnerSpaceTypeMedia
+    mediaSpace = {
+      small: mergeSpacing(spaceMedia.small, individualProps),
+      medium: mergeSpacing(spaceMedia.medium, individualProps),
+      large: mergeSpacing(spaceMedia.large, individualProps),
+    }
+  } else {
+    // space is scalar/object/undefined – merge it with individual props and
+    // apply the same value to every breakpoint
+    const merged = mergeSpacing(
+      space as SpaceType | InnerSpacingElementProps | undefined,
+      individualProps
+    )
+
+    // Nothing resolvable – skip work and return an empty style
+    if (Object.keys(merged).length === 0) {
+      return {}
+    }
+
+    mediaSpace = {
+      small: merged,
+      medium: merged,
+      large: merged,
+    }
+  }
 
   const result = {}
 
   for (const size in mediaSpace) {
-    const value = mediaSpace[size] as SpaceType | InnerSpacingElementProps
+    const value = mediaSpace[size] as
+      | SpaceType
+      | InnerSpacingElementProps
+      | undefined
+
+    // Skip breakpoints that were not provided in a partial media object
+    if (!value || (typeof value === 'object' && !hasSize(value))) {
+      continue
+    }
+
     const props = transformToAll(value)
 
     for (const key in props as InnerSpacingElementProps) {
@@ -166,8 +231,8 @@ function computeMarginProperties(
   return result as React.CSSProperties
 }
 
-function hasMediaSize(media: InnerSpaceTypeMedia) {
-  const keys = Object.keys(media)
+function hasMediaSize(media: InnerSpaceTypeMedia | null | undefined) {
+  const keys = media ? Object.keys(media) : []
   return (
     keys.includes('small') ||
     keys.includes('medium') ||
@@ -272,7 +337,12 @@ const collectSpacingClasses = (
     | SpacingUnknownProps,
   elementName: string | null = null
 ): string[] => {
-  const p = Object.isFrozen(props) ? { ...props } : props
+  // Always work on a shallow clone so we never mutate the caller's props.
+  // `createSpacing` / `applySpacing` call this helper and then pass the same
+  // `props` reference on to `createMarginProperties`, which must still see
+  // the original `space` media object – not one that has been expanded into
+  // top/right/bottom/left from the `small` breakpoint.
+  const p = { ...props }
 
   if (typeof p.space !== 'undefined') {
     if (
@@ -286,9 +356,40 @@ const collectSpacingClasses = (
       p.top = p.top ?? p.space
     }
     if (typeof p.space === 'object') {
-      for (const i in p.space) {
-        if (!p[i] && isValidSpaceProp(i)) {
-          p[i] = p.space[i]
+      // Check if it's a media query object (has small, medium, large)
+      if (hasMediaSize(p.space as InnerSpaceTypeMedia)) {
+        // For media queries in space, we currently only apply the 'small' size
+        // to maintain CSS class compatibility. The media custom properties
+        // will be handled by computeMarginProperties
+        const smallValue = p.space['small']
+        if (smallValue) {
+          if (
+            typeof smallValue === 'string' ||
+            typeof smallValue === 'number' ||
+            (typeof smallValue === 'boolean' && smallValue)
+          ) {
+            p.left = p.left ?? smallValue
+            p.bottom = p.bottom ?? smallValue
+            p.right = p.right ?? smallValue
+            p.top = p.top ?? smallValue
+          } else if (typeof smallValue === 'object') {
+            // Handle inline/block shortcuts by expanding them first
+            const expandedSmallValue =
+              expandInnerSpaceShorthand(smallValue)
+            for (const i in expandedSmallValue) {
+              if (!p[i] && isValidSpaceProp(i)) {
+                p[i] = expandedSmallValue[i]
+              }
+            }
+          }
+        }
+      } else {
+        // Handle as spacing properties object, expanding inline/block shortcuts
+        const expandedSpace = expandInnerSpaceShorthand(p.space)
+        for (const i in expandedSpace) {
+          if (!p[i] && isValidSpaceProp(i)) {
+            p[i] = expandedSpace[i]
+          }
         }
       }
     }

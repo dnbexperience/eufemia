@@ -381,78 +381,6 @@ describe('createSpacingProperties', () => {
     ).toEqual({})
   })
 
-  it('should include media query sizes', () => {
-    expect(
-      createSpacingProperties({
-        innerSpace: {
-          small: {
-            right: 'large small',
-            top: 'large',
-            left: '1.5rem',
-            bottom: '16px',
-          },
-          medium: {
-            right: 'large small',
-            top: 'large',
-            left: '1.5rem',
-            bottom: '16px',
-          },
-          large: {
-            right: 'large small',
-            top: 'large',
-            left: '1.5rem',
-            bottom: '16px',
-          },
-        },
-      })
-    ).toEqual({
-      '--space-b-l': '1rem',
-      '--space-l-l': '1.5rem',
-      '--space-r-l': '3rem',
-      '--space-t-l': '2rem',
-      '--space-b-m': '1rem',
-      '--space-l-m': '1.5rem',
-      '--space-r-m': '3rem',
-      '--space-t-m': '2rem',
-      '--space-b-s': '1rem',
-      '--space-l-s': '1.5rem',
-      '--space-r-s': '3rem',
-      '--space-t-s': '2rem',
-    })
-    expect(
-      createSpacingProperties({ innerSpace: { small: { right: 0 } } })
-    ).toEqual({ '--space-r-s': '0' })
-    expect(
-      createSpacingProperties({
-        innerSpace: { small: { block: 'large' } },
-      })
-    ).toEqual({
-      '--space-b-s': '2rem',
-      '--space-t-s': '2rem',
-    })
-    expect(
-      createSpacingProperties({
-        innerSpace: { small: { inline: 'x-small' } },
-      })
-    ).toEqual({
-      '--space-l-s': '0.5rem',
-      '--space-r-s': '0.5rem',
-    })
-    expect(
-      createSpacingProperties({ innerSpace: { small: { right: null } } })
-    ).toEqual({})
-    expect(
-      createSpacingProperties({
-        innerSpace: { small: true },
-      })
-    ).toEqual({
-      '--space-b-s': '1rem',
-      '--space-l-s': '1rem',
-      '--space-r-s': '1rem',
-      '--space-t-s': '1rem',
-    })
-  })
-
   it('should handle frozen props', () => {
     const props = Object.freeze({ innerSpace: true })
     expect(createSpacingProperties(props)).toEqual({
@@ -471,7 +399,7 @@ describe('createSpacingProperties', () => {
     })
   })
 
-  it('should handle the space prop for in all directions', () => {
+  it('should handle the innerSpace prop for in all directions', () => {
     expect(createSpacingProperties({ innerSpace: false })).toEqual({}) // we may extend that with all four "--zero" in future
     expect(createSpacingProperties({ innerSpace: 0 })).toEqual({})
     expect(createSpacingProperties({ innerSpace: true })).toEqual({
@@ -503,6 +431,97 @@ describe('createSpacingProperties', () => {
       '--space-t-s': '1rem',
     })
     expect(createSpacingProperties({ innerSpace: null })).toEqual({})
+  })
+
+  describe('responsive innerSpace', () => {
+    it('should expand per media size to --space-{t|r|b|l}-{s|m|l} properties', () => {
+      expect(
+        createSpacingProperties({
+          innerSpace: {
+            small: {
+              right: 'large small',
+              top: 'large',
+              left: '1.5rem',
+              bottom: '16px',
+            },
+            medium: {
+              right: 'large small',
+              top: 'large',
+              left: '1.5rem',
+              bottom: '16px',
+            },
+            large: {
+              right: 'large small',
+              top: 'large',
+              left: '1.5rem',
+              bottom: '16px',
+            },
+          },
+        })
+      ).toEqual({
+        '--space-b-l': '1rem',
+        '--space-l-l': '1.5rem',
+        '--space-r-l': '3rem',
+        '--space-t-l': '2rem',
+        '--space-b-m': '1rem',
+        '--space-l-m': '1.5rem',
+        '--space-r-m': '3rem',
+        '--space-t-m': '2rem',
+        '--space-b-s': '1rem',
+        '--space-l-s': '1.5rem',
+        '--space-r-s': '3rem',
+        '--space-t-s': '2rem',
+      })
+    })
+
+    it('should set 0 per media size', () => {
+      expect(
+        createSpacingProperties({ innerSpace: { small: { right: 0 } } })
+      ).toEqual({ '--space-r-s': '0' })
+    })
+
+    it('should support block shorthand per media size', () => {
+      expect(
+        createSpacingProperties({
+          innerSpace: { small: { block: 'large' } },
+        })
+      ).toEqual({
+        '--space-b-s': '2rem',
+        '--space-t-s': '2rem',
+      })
+    })
+
+    it('should support inline shorthand per media size', () => {
+      expect(
+        createSpacingProperties({
+          innerSpace: { small: { inline: 'x-small' } },
+        })
+      ).toEqual({
+        '--space-l-s': '0.5rem',
+        '--space-r-s': '0.5rem',
+      })
+    })
+
+    it('should ignore null per media size', () => {
+      expect(
+        createSpacingProperties({
+          innerSpace: { small: { right: null } },
+        })
+      ).toEqual({})
+    })
+
+    it('should expand a boolean media size to all four directions', () => {
+      expect(
+        createSpacingProperties({
+          innerSpace: { small: true },
+        })
+      ).toEqual({
+        '--space-b-s': '1rem',
+        '--space-l-s': '1rem',
+        '--space-r-s': '1rem',
+        '--space-t-s': '1rem',
+      })
+    })
   })
 })
 
@@ -677,6 +696,117 @@ describe('createMarginProperties', () => {
       '--margin-l-l': '1rem',
     })
   })
+
+  describe('responsive space', () => {
+    it('should emit different values per media size for a mixed media object', () => {
+      expect(
+        createMarginProperties({
+          space: {
+            small: 'large x-small',
+            medium: {
+              top: '5rem',
+              left: '16px',
+              bottom: 'large',
+              right: '5rem',
+            },
+            large: {
+              top: '1rem',
+              left: '16px',
+              bottom: 'large',
+              right: '5rem',
+            },
+          },
+        })
+      ).toEqual({
+        '--margin-t-s': '2.5rem',
+        '--margin-r-s': '2.5rem',
+        '--margin-b-s': '2.5rem',
+        '--margin-l-s': '2.5rem',
+        '--margin-t-m': '5rem',
+        '--margin-r-m': '5rem',
+        '--margin-b-m': '2rem',
+        '--margin-l-m': '1rem',
+        '--margin-t-l': '1rem',
+        '--margin-r-l': '5rem',
+        '--margin-b-l': '2rem',
+        '--margin-l-l': '1rem',
+      })
+    })
+
+    it('should expand a string media size to all four directions', () => {
+      expect(
+        createMarginProperties({
+          space: {
+            small: 'small',
+            medium: 'large',
+            large: 'x-large',
+          },
+        })
+      ).toEqual({
+        '--margin-t-s': '1rem',
+        '--margin-r-s': '1rem',
+        '--margin-b-s': '1rem',
+        '--margin-l-s': '1rem',
+        '--margin-t-m': '2rem',
+        '--margin-r-m': '2rem',
+        '--margin-b-m': '2rem',
+        '--margin-l-m': '2rem',
+        '--margin-t-l': '3rem',
+        '--margin-r-l': '3rem',
+        '--margin-b-l': '3rem',
+        '--margin-l-l': '3rem',
+      })
+    })
+
+    it('should let individual direction props override the media space in every breakpoint', () => {
+      expect(
+        createMarginProperties({
+          space: {
+            small: 'small',
+            medium: 'large',
+          },
+          right: 'x-large',
+        })
+      ).toEqual({
+        '--margin-t-s': '1rem',
+        '--margin-r-s': '3rem',
+        '--margin-b-s': '1rem',
+        '--margin-l-s': '1rem',
+        '--margin-t-m': '2rem',
+        '--margin-r-m': '3rem',
+        '--margin-b-m': '2rem',
+        '--margin-l-m': '2rem',
+        '--margin-r-l': '3rem',
+      })
+    })
+
+    it('should handle a partial media object by omitting missing breakpoints', () => {
+      expect(
+        createMarginProperties({
+          space: {
+            medium: { top: 'large' },
+          },
+        })
+      ).toEqual({
+        '--margin-t-m': '2rem',
+      })
+    })
+
+    it('should not mutate the input props', () => {
+      const space = {
+        small: 'small',
+        medium: { top: 'large' },
+      }
+      const props = { space }
+      createMarginProperties(props)
+      expect(props).toEqual({
+        space: {
+          small: 'small',
+          medium: { top: 'large' },
+        },
+      })
+    })
+  })
 })
 
 describe('applySpacing', () => {
@@ -796,5 +926,123 @@ describe('applySpacing', () => {
     const target = { className: 'dnb-my-component', id: 'my-id' }
     const result = applySpacing({}, target)
     expect(result).toBe(target)
+  })
+})
+
+describe('space with inline/block support', () => {
+  it('should support inline and block shorthand for space', () => {
+    expect(
+      createMarginProperties({
+        space: { inline: 'small', block: 'large' },
+      })
+    ).toEqual({
+      '--margin-b-s': '2rem',
+      '--margin-b-m': '2rem',
+      '--margin-b-l': '2rem',
+      '--margin-l-s': '1rem',
+      '--margin-l-m': '1rem',
+      '--margin-l-l': '1rem',
+      '--margin-r-s': '1rem',
+      '--margin-r-m': '1rem',
+      '--margin-r-l': '1rem',
+      '--margin-t-s': '2rem',
+      '--margin-t-m': '2rem',
+      '--margin-t-l': '2rem',
+    })
+  })
+
+  it('should support block shorthand for space', () => {
+    expect(
+      createMarginProperties({
+        space: { block: 'medium' },
+      })
+    ).toEqual({
+      '--margin-b-s': '1.5rem',
+      '--margin-b-m': '1.5rem',
+      '--margin-b-l': '1.5rem',
+      '--margin-t-s': '1.5rem',
+      '--margin-t-m': '1.5rem',
+      '--margin-t-l': '1.5rem',
+    })
+  })
+
+  it('should support inline shorthand for space', () => {
+    expect(
+      createMarginProperties({
+        space: { inline: 'x-large' },
+      })
+    ).toEqual({
+      '--margin-l-s': '3rem',
+      '--margin-l-m': '3rem',
+      '--margin-l-l': '3rem',
+      '--margin-r-s': '3rem',
+      '--margin-r-m': '3rem',
+      '--margin-r-l': '3rem',
+    })
+  })
+
+  it('should handle inline/block with media queries in space', () => {
+    expect(
+      createMarginProperties({
+        space: {
+          small: { inline: 'small', block: 'medium' },
+          medium: { inline: 'large', block: 'x-large' },
+          large: { block: 'xx-large' },
+        },
+      })
+    ).toEqual({
+      '--margin-l-s': '1rem',
+      '--margin-r-s': '1rem',
+      '--margin-b-s': '1.5rem',
+      '--margin-t-s': '1.5rem',
+      '--margin-l-m': '2rem',
+      '--margin-r-m': '2rem',
+      '--margin-b-m': '3rem',
+      '--margin-t-m': '3rem',
+      '--margin-b-l': '3.5rem',
+      '--margin-t-l': '3.5rem',
+    })
+  })
+
+  it('should handle mixing inline/block with individual props in space', () => {
+    expect(
+      createMarginProperties({
+        space: { inline: 'small' },
+        top: 'large',
+        bottom: 'medium',
+      })
+    ).toEqual({
+      '--margin-l-s': '1rem',
+      '--margin-l-m': '1rem',
+      '--margin-l-l': '1rem',
+      '--margin-r-s': '1rem',
+      '--margin-r-m': '1rem',
+      '--margin-r-l': '1rem',
+      '--margin-t-s': '2rem',
+      '--margin-t-m': '2rem',
+      '--margin-t-l': '2rem',
+      '--margin-b-s': '1.5rem',
+      '--margin-b-m': '1.5rem',
+      '--margin-b-l': '1.5rem',
+    })
+  })
+
+  it('should handle inline/block with individual props overriding in space media queries', () => {
+    expect(
+      createMarginProperties({
+        space: {
+          small: { inline: 'small' },
+          medium: { block: 'large' },
+        },
+        right: 'x-large', // Should override inline in all breakpoints
+      })
+    ).toEqual({
+      '--margin-l-s': '1rem',
+      '--margin-r-s': '3rem', // Overridden by individual prop
+      '--margin-r-m': '3rem', // Overridden by individual prop
+      '--margin-r-l': '3rem', // Overridden by individual prop
+      '--margin-b-m': '2rem',
+      '--margin-t-m': '2rem',
+    })
   })
 })

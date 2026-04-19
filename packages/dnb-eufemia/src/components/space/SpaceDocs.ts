@@ -2,7 +2,7 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const SpaceGlobalProperties: PropertiesTableProps = {
   space: {
-    doc: 'Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or `16px`.',
+    doc: 'Has to be an object with either: `top`, `right`, `bottom`, `left`, `inline`, or `block`. Also supports media query breakpoints like `{small: "medium", medium: "large", large: "x-large"}` and shorthand directions `inline`/`block`. Use spacing values like: `small`, `1rem`, `1` or `16px`.',
     type: ['object'],
     status: 'optional',
   },

@@ -8,11 +8,7 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { Space, Input, Button, P, Code } from '@dnb/eufemia/src'
 import { Provider } from '@dnb/eufemia/src/shared'
-import clsx from 'clsx'
-import {
-  createSpacing,
-  removeSpaceProps,
-} from '@dnb/eufemia/src/components/space/SpacingHelper'
+import { applySpacing } from '@dnb/eufemia/src/components/space/SpacingHelper'
 import type { Theme } from '@emotion/react'
 
 export const Method1 = () => (
@@ -33,7 +29,7 @@ export const Method1 = () => (
 export const Method2 = () => (
   <TestStyles>
     <ComponentBox data-visual-test="spacing-method-component">
-      <Input label="Input A" right="small" />
+      <Input label="Input A" bottom="small" />
       <Input label="Input B" />
     </ComponentBox>
   </TestStyles>
@@ -44,9 +40,7 @@ export const Method3 = () => (
     <ComponentBox
       scope={{
         RedBox,
-        createSpacing,
-        removeSpaceProps,
-        clsx,
+        applySpacing,
       }}
       data-visual-test="spacing-method-form-row"
     >
@@ -56,20 +50,13 @@ export const Method3 = () => (
           style = null,
           ...props
         }) => {
-          const { className: spacingClasses, style: spacingProperties } =
-            createSpacing(props)
+          const params = applySpacing(props, {
+            ...props,
+            className: `my-component dnb-space ${className || ''}`.trim(),
+            style,
+          })
 
-          const cn = clsx(
-            'my-component',
-            'dnb-space',
-            spacingClasses,
-            className
-          )
-          const st = { ...style, ...spacingProperties }
-
-          return (
-            <div className={cn} style={st} {...removeSpaceProps(props)} />
-          )
+          return <div {...params} />
         }
 
         return (
@@ -591,4 +578,175 @@ export const ProviderExample = () => (
       <Space>I do not collapse</Space>
     </Provider>
   </ComponentBox>
+)
+
+export const SpaceMediaQueries = () => (
+  <TestStyles>
+    <ComponentBox
+      data-visual-test="space-media-queries"
+      scope={{ RedBox }}
+    >
+      {/* Different spacing for different breakpoints */}
+      <Space
+        space={{
+          small: 'small',
+          medium: 'large',
+          large: 'x-large',
+        }}
+      >
+        <RedBox>
+          Responsive spacing: small on mobile, large on tablet, x-large on
+          desktop
+        </RedBox>
+      </Space>
+
+      {/* Media queries with individual direction objects */}
+      <Space
+        space={{
+          small: { top: 'small', bottom: 'medium' },
+          medium: { top: 'large', bottom: 'x-large' },
+          large: { top: 'x-large', bottom: 'xx-large' },
+        }}
+      >
+        <RedBox>Responsive directional spacing</RedBox>
+      </Space>
+
+      {/* Mixing with individual props */}
+      <Space
+        space={{
+          small: 'medium',
+          medium: 'large',
+          large: 'x-large',
+        }}
+        right="small" // Individual props override space
+      >
+        <RedBox>Media space with right override</RedBox>
+      </Space>
+    </ComponentBox>
+  </TestStyles>
+)
+
+export const InnerSpaceMediaQueries = () => (
+  <TestStyles>
+    <ComponentBox
+      data-visual-test="innerspace-media-queries"
+      scope={{ RedBox }}
+    >
+      {/* Different inner spacing for different breakpoints */}
+      <Space
+        innerSpace={{
+          small: 'small',
+          medium: 'large',
+          large: 'x-large',
+        }}
+      >
+        <RedBox>
+          <div>Responsive inner spacing</div>
+          <div>Content inside has different spacing per breakpoint</div>
+        </RedBox>
+      </Space>
+
+      {/* Media queries with directional inner spacing */}
+      <Space
+        innerSpace={{
+          small: { block: 'small', inline: 'medium' },
+          medium: { block: 'large', inline: 'x-large' },
+          large: { block: 'x-large', inline: 'xx-large' },
+        }}
+      >
+        <RedBox>
+          <div>Responsive directional inner spacing</div>
+          <div>Block and inline spacing changes per breakpoint</div>
+        </RedBox>
+      </Space>
+    </ComponentBox>
+  </TestStyles>
+)
+
+export const SpaceInlineBlock = () => (
+  <TestStyles>
+    <ComponentBox data-visual-test="space-inline-block" scope={{ RedBox }}>
+      {/* Basic inline/block usage for space (margin) */}
+      <Space space={{ inline: 'small', block: 'large' }}>
+        <RedBox>
+          space: inline=small (left/right), block=large (top/bottom)
+        </RedBox>
+      </Space>
+
+      {/* Basic inline/block usage for innerSpace (padding) */}
+      <Space innerSpace={{ inline: 'medium', block: 'x-small' }}>
+        <RedBox>
+          innerSpace: inline=medium (left/right), block=x-small
+          (top/bottom)
+        </RedBox>
+      </Space>
+
+      {/* Combining both space and innerSpace with inline/block */}
+      <Space
+        space={{ block: 'large' }}
+        innerSpace={{ inline: 'medium', block: 'small' }}
+      >
+        <RedBox>
+          Combined: space block=large + innerSpace inline=medium,
+          block=small
+        </RedBox>
+      </Space>
+
+      {/* Media queries with inline/block for both properties */}
+      <Space
+        space={{
+          small: { inline: 'x-small' },
+          medium: { block: 'medium' },
+          large: { inline: 'large', block: 'small' },
+        }}
+        innerSpace={{
+          small: { block: 'x-small' },
+          medium: { inline: 'small' },
+          large: { inline: 'medium', block: 'large' },
+        }}
+      >
+        <RedBox>
+          <div>Responsive inline/block for both space and innerSpace</div>
+          <div>Different combinations per breakpoint</div>
+        </RedBox>
+      </Space>
+
+      {/* Mixing inline/block with traditional directional props */}
+      <Space
+        space={{ inline: 'small' }}
+        top="x-large"
+        innerSpace={{ block: 'medium' }}
+      >
+        <RedBox>
+          Mixed: space inline + top override, innerSpace block
+        </RedBox>
+      </Space>
+    </ComponentBox>
+  </TestStyles>
+)
+
+export const ResponsiveOuterSpace = () => (
+  <TestStyles>
+    <ComponentBox
+      data-visual-test="responsive-outer-spacing"
+      scope={{ RedBox }}
+    >
+      <RedBox>
+        <Space
+          space={{
+            small: 'large x-small',
+            medium: {
+              top: '2rem',
+              left: '16px',
+              bottom: 'large',
+              right: '5rem',
+            },
+            large: true,
+          }}
+        >
+          <P>Content</P>
+        </Space>
+      </RedBox>
+    </ComponentBox>
+  </TestStyles>
 )
