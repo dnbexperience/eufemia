@@ -73,14 +73,13 @@ const TagGroup = (
     })
   }
 
-  const rootProps = applySpacing(props, {
-    ...props,
+  const spacingProps = applySpacing(props, {
     className: clsx('dnb-tag__group', className),
   })
-  const { skeleton, ...attributes } = validateDOMAttributes(
-    {},
-    rootProps as Record<string, unknown>
-  )
+  const { skeleton, ...attributes } = validateDOMAttributes({}, {
+    ...props,
+    ...spacingProps,
+  } as Record<string, unknown>)
 
   return (
     <TagGroupContext value={props}>

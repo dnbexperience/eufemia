@@ -132,7 +132,6 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
   }
 
   const params = applySpacing(attributes, {
-    ...attributes,
     className: clsx(
       'dnb-global-error',
       `dnb-global-error--${statusCode}`,
@@ -144,7 +143,12 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
   const additionalContent = processChildren(allProps)
 
   return (
-    <Skeleton {...params} show={skeleton} element="section">
+    <Skeleton
+      {...attributes}
+      {...params}
+      show={skeleton}
+      element="section"
+    >
       <div className="dnb-global-error__inner">
         <div className="dnb-global-error__inner__content">
           <H1 size="x-large" top bottom>

@@ -128,7 +128,8 @@ function Badge(localProps: BadgeAllProps) {
   return (
     <BadgeElem
       context={context}
-      {...applySpacing(allProps, { ...allProps, className })}
+      {...allProps}
+      {...applySpacing(allProps, { className })}
     />
   )
 }
