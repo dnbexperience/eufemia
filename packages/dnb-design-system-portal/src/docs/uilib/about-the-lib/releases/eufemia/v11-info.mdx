@@ -40,6 +40,7 @@ This is the migration guide for @dnb/eufemia v11. It covers all breaking changes
   - [Context.Provider → Context](#contextprovider--context)
   - [Theme.Provider → Theme.Context](#themeprovider--themecontext)
   - [Theme propMapping removed](#theme-propmapping-removed)
+  - [Theme darkMode → colorScheme](#theme-darkmode--colorscheme)
 - [Components](#components)
   - [labelDirection default changed to vertical](#labeldirection-default-changed-to-vertical)
   - [Section](#section)
@@ -208,6 +209,7 @@ These renames change the property or event name itself, not just the casing. The
 | `expandBehaviour`                       | `expandBehavior`                       | Accordion                                                           |
 | `class`                                 | `className`                            | ProgressIndicator, Button                                           |
 | `contentSpacing` / `tabsSpacing`        | `contentInnerSpace` / `tabsInnerSpace` | Tabs                                                                |
+| `darkMode`                              | `colorScheme`                          | Theme                                                               |
 
 ### Import path changes
 
@@ -570,6 +572,17 @@ document.querySelector('[role="spinbutton"]')
 document.querySelector('.dnb-segmented-field__section')
 ```
 
+#### 4. Theme `darkMode` prop silently ignored
+
+The `darkMode` prop on `Theme` was replaced with `colorScheme`. Passing `darkMode` compiles without error but is silently ignored. The CSS class also changed from `eufemia-theme__dark-mode` to `eufemia-theme__color-scheme--dark`.
+
+Search for old usage:
+
+```bash
+grep -rn 'darkMode\|eufemia-theme__dark-mode' \
+  --include='*.tsx' --include='*.ts' --include='*.scss' --include='*.css' src/
+```
+
 ### Complete migration example
 
 This example shows a realistic v10 component migrated to v11, combining multiple change categories:
@@ -767,6 +780,28 @@ If you use any Eufemia context objects directly (e.g. `Wizard.Provider`), update
 ### Theme `propMapping` removed
 
 The `propMapping` prop has been removed from the `Theme` component. If you relied on it, use CSS custom properties directly on your theme wrapper instead.
+
+### Theme `darkMode` → `colorScheme`
+
+The `darkMode` prop on the `Theme` component has been replaced with `colorScheme`, which accepts `'auto'`, `'light'`, or `'dark'`. The CSS class `eufemia-theme__dark-mode` has been renamed to `eufemia-theme__color-scheme--dark` (or `--light`).
+
+**Before:**
+
+```tsx
+<Theme darkMode>
+  <MyApp />
+</Theme>
+```
+
+**After:**
+
+```tsx
+<Theme colorScheme="dark">
+  <MyApp />
+</Theme>
+```
+
+> **Note:** This is a silent failure — passing `darkMode` will not cause a TypeScript error but the prop will be ignored.
 
 ## Components
 
