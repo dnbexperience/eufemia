@@ -17,6 +17,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 
 ## v11.0.0
 
+- Added `bankAccountType` prop to [Field.BankAccountNumber](/uilib/extensions/forms/feature-fields/BankAccountNumber/) and [Value.BankAccountNumber](/uilib/extensions/forms/Value/BankAccountNumber/) with support for Swedish BBAN, Swedish Bankgiro, Swedish Plusgiro, and IBAN.
 - [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/) now emits values in E.164 format (e.g. `+4712345678` instead of `+47 12345678`). Auto-detects country codes from E.164 and `00`-prefixed values. Patterns and schemas must be updated to match.
 - Added `detectCountryCode` utility, exported from `@dnb/eufemia/extensions/forms`, for detecting E.164 country codes from phone number strings.
 - Added `preventDefaultOnSubmit` to [Form.Handler](/uilib/extensions/forms/Form/Handler/), allowing native browser form submission such as `POST` to a form `action`.

@@ -14,6 +14,7 @@ export type {
   NumberFormatOptions,
   NumberFormatOptionParams,
   NumberFormatFunction,
+  BankAccountType,
 } from './utils'
 
 export {
@@ -31,6 +32,7 @@ export {
   formatCurrency,
   formatPhoneNumber,
   formatBankAccountNumber,
+  formatBankAccountNumberByType,
   formatNationalIdentityNumber,
   formatOrganizationNumber,
   getFallbackCurrencyDisplay,

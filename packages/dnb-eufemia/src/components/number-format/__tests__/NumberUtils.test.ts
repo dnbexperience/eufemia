@@ -21,6 +21,7 @@ import {
   formatPhoneNumber,
   formatCurrency,
   formatPercent,
+  formatBankAccountNumberByType,
 } from '../NumberUtils'
 
 const locale = LOCALE
@@ -1198,6 +1199,187 @@ describe('formatPhoneNumber', () => {
       })
       expect(result.number).toBe('+47 12 34 56 78')
       expect(result.aria).toBe('+47 12 34 56 78')
+    })
+  })
+
+  describe('formatBankAccountNumberByType', () => {
+    describe('norwegianBban (default)', () => {
+      it('should format 11-digit Norwegian BBAN', () => {
+        const result = formatBankAccountNumberByType('20001234567')
+        expect(result.number).toBe('2000 12 34567')
+        expect(result.aria).toBe('20 00 12 34 56 7')
+      })
+
+      it('should default to norwegianBban when no type is given', () => {
+        const result = formatBankAccountNumberByType('20001234567')
+        expect(result.number).toBe('2000 12 34567')
+      })
+
+      it('should strip non-digit characters', () => {
+        const result = formatBankAccountNumberByType('2000 12 34567')
+        expect(result.number).toBe('2000 12 34567')
+      })
+    })
+
+    describe('swedishBban', () => {
+      it('should format Swedish BBAN with clearing number and account', () => {
+        const result = formatBankAccountNumberByType(
+          '50001234567',
+          'swedishBban'
+        )
+        expect(result.number).toBe('5000-1234567')
+      })
+
+      it('should format short Swedish BBAN (4 or fewer digits)', () => {
+        const result = formatBankAccountNumberByType('5000', 'swedishBban')
+        expect(result.number).toBe('5000')
+      })
+
+      it('should strip non-digit characters', () => {
+        const result = formatBankAccountNumberByType(
+          '5000-1234567',
+          'swedishBban'
+        )
+        expect(result.number).toBe('5000-1234567')
+      })
+    })
+
+    describe('swedishBankgiro', () => {
+      it('should format 8-digit Bankgiro as XXXX-XXXX', () => {
+        const result = formatBankAccountNumberByType(
+          '59140129',
+          'swedishBankgiro'
+        )
+        expect(result.number).toBe('5914-0129')
+        expect(result.aria).toBe('59 14 01 29')
+      })
+
+      it('should format 7-digit Bankgiro as XXX-XXXX', () => {
+        const result = formatBankAccountNumberByType(
+          '5914012',
+          'swedishBankgiro'
+        )
+        expect(result.number).toBe('591-4012')
+        expect(result.aria).toBe('59 14 01 2')
+      })
+
+      it('should return unformatted for other lengths', () => {
+        const result = formatBankAccountNumberByType(
+          '123456',
+          'swedishBankgiro'
+        )
+        expect(result.number).toBe('123456')
+      })
+
+      it('should strip non-digit characters', () => {
+        const result = formatBankAccountNumberByType(
+          '5914-0129',
+          'swedishBankgiro'
+        )
+        expect(result.number).toBe('5914-0129')
+      })
+    })
+
+    describe('swedishPlusgiro', () => {
+      it('should format 7-digit Plusgiro with dash before check digit', () => {
+        const result = formatBankAccountNumberByType(
+          '1263664',
+          'swedishPlusgiro'
+        )
+        expect(result.number).toBe('126366-4')
+        expect(result.aria).toBe('12 63 66 4')
+      })
+
+      it('should format 8-digit Plusgiro with dash before check digit', () => {
+        const result = formatBankAccountNumberByType(
+          '12636641',
+          'swedishPlusgiro'
+        )
+        expect(result.number).toBe('1263664-1')
+        expect(result.aria).toBe('12 63 66 41')
+      })
+
+      it('should format 3-digit Plusgiro with dash before check digit', () => {
+        const result = formatBankAccountNumberByType(
+          '123',
+          'swedishPlusgiro'
+        )
+        expect(result.number).toBe('12-3')
+        expect(result.aria).toBe('12 3')
+      })
+
+      it('should format 2-digit Plusgiro', () => {
+        const result = formatBankAccountNumberByType(
+          '12',
+          'swedishPlusgiro'
+        )
+        expect(result.number).toBe('1-2')
+        expect(result.aria).toBe('12')
+      })
+
+      it('should return single digit unformatted', () => {
+        const result = formatBankAccountNumberByType(
+          '5',
+          'swedishPlusgiro'
+        )
+        expect(result.number).toBe('5')
+      })
+
+      it('should strip non-digit characters', () => {
+        const result = formatBankAccountNumberByType(
+          '126366-4',
+          'swedishPlusgiro'
+        )
+        expect(result.number).toBe('126366-4')
+      })
+    })
+
+    describe('iban', () => {
+      it('should format IBAN in groups of 4', () => {
+        const result = formatBankAccountNumberByType(
+          'NO9386011117947',
+          'iban'
+        )
+        expect(result.number).toBe('NO93 8601 1117 947')
+      })
+
+      it('should format full-length IBAN', () => {
+        const result = formatBankAccountNumberByType(
+          'DE89370400440532013000',
+          'iban'
+        )
+        expect(result.number).toBe('DE89 3704 0044 0532 0130 00')
+      })
+
+      it('should generate aria with block-of-4 grouping', () => {
+        const result = formatBankAccountNumberByType(
+          'NO9386011117947',
+          'iban'
+        )
+        expect(result.aria).toBe('NO93 8601 1117 947')
+      })
+
+      it('should strip non-alphanumeric characters', () => {
+        const result = formatBankAccountNumberByType(
+          'NO93 8601 1117 947',
+          'iban'
+        )
+        expect(result.number).toBe('NO93 8601 1117 947')
+      })
+    })
+
+    describe('absent values', () => {
+      it('should handle undefined', () => {
+        const result = formatBankAccountNumberByType(undefined)
+        expect(result.number).toBe('–')
+        expect(result.aria).toBe('–')
+      })
+
+      it('should handle empty string', () => {
+        const result = formatBankAccountNumberByType('')
+        expect(result.number).toBe('–')
+        expect(result.aria).toBe('–')
+      })
     })
   })
 })

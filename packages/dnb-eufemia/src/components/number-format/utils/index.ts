@@ -35,7 +35,11 @@ export { formatNumber } from './formatNumber'
 export { formatPercent } from './formatPercent'
 export { formatCurrency } from './formatCurrency'
 export { formatPhoneNumber } from './formatPhoneNumber'
-export { formatBankAccountNumber } from './formatBankAccountNumber'
+export {
+  formatBankAccountNumber,
+  formatBankAccountNumberByType,
+} from './formatBankAccountNumber'
+export type { BankAccountType } from './formatBankAccountNumber'
 export { formatNationalIdentityNumber } from './formatNationalIdentityNumber'
 export { formatOrganizationNumber } from './formatOrganizationNumber'
 

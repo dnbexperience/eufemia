@@ -3,6 +3,11 @@ import { StringProperties } from '../String/StringDocs'
 
 export const BankAccountNumberProperties: PropertiesTableProps = {
   ...StringProperties,
+  bankAccountType: {
+    doc: 'The type of bank account number, used for input mask, label, and formatting. Can be `norwegianBban`, `swedishBban`, `swedishBankgiro`, `swedishPlusgiro`, or `iban`. Validation is currently only supported for `norwegianBban`. Defaults to `norwegianBban`.',
+    type: 'string',
+    status: 'optional',
+  },
   validate: {
     doc: 'Using this prop you can disable the default validation.',
     type: 'boolean',
