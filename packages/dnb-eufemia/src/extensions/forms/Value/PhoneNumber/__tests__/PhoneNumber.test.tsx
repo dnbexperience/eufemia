@@ -93,11 +93,25 @@ describe('Value.PhoneNumber', () => {
       expect(element).toHaveTextContent('+47 12 34 56 78')
     })
 
-    it('should not display space-separated values', () => {
+    it('should format space-separated values', () => {
       render(<Value.PhoneNumber value="+47 12345678" />)
 
       const element = document.querySelector('.dnb-forms-value-block')
-      expect(element).not.toBeInTheDocument()
+      expect(element).toHaveTextContent('+47 12 34 56 78')
+    })
+
+    it('should format space-separated value with multiple spaces', () => {
+      render(<Value.PhoneNumber value="+47 12 34 56 78" />)
+
+      const element = document.querySelector('.dnb-forms-value-block')
+      expect(element).toHaveTextContent('+47 12 34 56 78')
+    })
+
+    it('should display bare number without country code', () => {
+      render(<Value.PhoneNumber value="12345678" />)
+
+      const element = document.querySelector('.dnb-forms-value-block')
+      expect(element).toHaveTextContent('12 34 56 78')
     })
 
     it('should format dashed CDC value correctly', () => {

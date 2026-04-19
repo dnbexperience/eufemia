@@ -1101,12 +1101,12 @@ describe('formatPhoneNumber', () => {
     expect(result.aria).toBe('+44 (1534) 12 34 56 78')
   })
 
-  it('should format a long number with', () => {
-    const result = formatPhoneNumber('+123456 123456789123456789', {
+  it('should format a long number', () => {
+    const result = formatPhoneNumber('+358 123456789123456789', {
       returnAria: true,
     })
-    expect(result.number).toBe('+123456 12 34 56 78 91 23 45 67 89')
-    expect(result.aria).toBe('+123456 12 34 56 78 91 23 45 67 89')
+    expect(result.number).toBe('+358 12 34 56 78 91 23 45 67 89')
+    expect(result.aria).toBe('+358 12 34 56 78 91 23 45 67 89')
   })
 
   it('should format a phone number without country code', () => {
@@ -1128,11 +1128,11 @@ describe('formatPhoneNumber', () => {
   })
 
   it('should handle invalid characters in phone number', () => {
-    const result = formatPhoneNumber('+123 123-456-78', {
+    const result = formatPhoneNumber('+47 123-456-78', {
       returnAria: true,
     })
-    expect(result.number).toBe('+123 12 34 56 78')
-    expect(result.aria).toBe('+123 12 34 56 78')
+    expect(result.number).toBe('+47 12 34 56 78')
+    expect(result.aria).toBe('+47 12 34 56 78')
   })
 
   it('should handle empty input', () => {
@@ -1179,10 +1179,16 @@ describe('formatPhoneNumber', () => {
       expect(result.aria).toBe('+47 12 34 56 78')
     })
 
-    it('should format the country code without + or 00', () => {
+    it('should not treat bare 47 as country code', () => {
       const result = formatPhoneNumber('4712345678', { returnAria: true })
-      expect(result.number).toBe('+47 12 34 56 78')
-      expect(result.aria).toBe('+47 12 34 56 78')
+      expect(result.number).toBe('47 12 34 56 78')
+      expect(result.aria).toBe('47 12 34 56 78')
+    })
+
+    it('should not treat 47 as country code for 8-digit numbers starting with 47', () => {
+      const result = formatPhoneNumber('47123456', { returnAria: true })
+      expect(result.number).toBe('47 12 34 56')
+      expect(result.aria).toBe('47 12 34 56')
     })
 
     it('should format the country code with 00', () => {
@@ -1380,6 +1386,81 @@ describe('formatPhoneNumber', () => {
         expect(result.number).toBe('–')
         expect(result.aria).toBe('–')
       })
+    })
+  })
+
+  describe('E.164 spaceless numbers', () => {
+    it('should detect Swedish country code from spaceless E.164', () => {
+      const result = formatPhoneNumber('+46701234567', {
+        returnAria: true,
+      })
+      expect(result.number).toBe('+46 70 12 34 56 7')
+      expect(result.aria).toBe('+46 70 12 34 56 7')
+    })
+
+    it('should detect Finnish country code from spaceless E.164', () => {
+      const result = formatPhoneNumber('+35823456789', {
+        returnAria: true,
+      })
+      expect(result.number).toBe('+358 23 45 67 89')
+      expect(result.aria).toBe('+358 23 45 67 89')
+    })
+
+    it('should detect US country code from spaceless E.164', () => {
+      const result = formatPhoneNumber('+12025551234', {
+        returnAria: true,
+      })
+      expect(result.number).toBe('+1 20 25 55 12 34')
+      expect(result.aria).toBe('+1 20 25 55 12 34')
+    })
+
+    it('should detect country code from 00-prefixed spaceless number', () => {
+      const result = formatPhoneNumber('004612345678', {
+        returnAria: true,
+      })
+      expect(result.number).toBe('+46 12 34 56 78')
+      expect(result.aria).toBe('+46 12 34 56 78')
+    })
+
+    it('should detect dashed CDC from spaceless E.164', () => {
+      const result = formatPhoneNumber('+16841234567', {
+        returnAria: true,
+      })
+      expect(result.number).toBe('+1 (684) 12 34 56 7')
+      expect(result.aria).toBe('+1 (684) 12 34 56 7')
+    })
+
+    it('should format dashed CDC with 800-number correctly', () => {
+      const result = formatPhoneNumber('+168480022222', {
+        returnAria: true,
+      })
+      expect(result.number).toBe('+1 (684) 800 22 222')
+      expect(result.aria).toBe('+1 (684) 80 02 22 22')
+    })
+
+    it('should not detect country code from non-00 international prefixes', () => {
+      // "011" (US/Canada IDD prefix) is ambiguous and should not be parsed
+      const result = formatPhoneNumber('0114712345678', {
+        returnAria: true,
+      })
+      expect(result.number).toBe('01 14 71 23 45 67 8')
+      expect(result.aria).toBe('01 14 71 23 45 67 8')
+    })
+  })
+
+  describe('unrecognized values', () => {
+    it('should still display a plain text value', () => {
+      const result = formatPhoneNumber('hello', { returnAria: true })
+      expect(result.number).toBe('hello')
+      expect(result.aria).toBe('hello')
+    })
+
+    it('should format a bare number without country code', () => {
+      const result = formatPhoneNumber('4712345678', {
+        returnAria: true,
+      })
+      expect(result.number).toBe('47 12 34 56 78')
+      expect(result.aria).toBe('47 12 34 56 78')
     })
   })
 })

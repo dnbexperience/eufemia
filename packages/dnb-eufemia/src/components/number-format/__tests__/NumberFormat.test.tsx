@@ -467,14 +467,22 @@ describe('NumberFormat component', () => {
     render(<NumberFormat.PhoneNumber link value="99999999" />)
     const anchor = document.querySelector('a.dnb-anchor')
     expect(anchor).toBeInTheDocument()
-    expect(anchor.getAttribute('href')).toMatch(/^tel:/)
+    expect(anchor.getAttribute('href')).toBe('tel:99999999')
   })
 
   it('have to render link with sms: href when link="sms"', () => {
     render(<NumberFormat.PhoneNumber link="sms" value="99999999" />)
     const anchor = document.querySelector('a.dnb-anchor')
     expect(anchor).toBeInTheDocument()
-    expect(anchor.getAttribute('href')).toMatch(/^sms:/)
+    expect(anchor.getAttribute('href')).toBe('sms:99999999')
+  })
+
+  it('should render phone link with clean digits in href', () => {
+    render(<NumberFormat.PhoneNumber link value="+47 99 99 99 99" />)
+    const anchor = document.querySelector('a.dnb-anchor')
+    expect(anchor).toBeInTheDocument()
+    expect(anchor.getAttribute('href')).toBe('tel:+4799999999')
+    expect(anchor.textContent).toBe('+47 99 99 99 99')
   })
 
   it('should sanitize href to only contain digits and +', () => {
