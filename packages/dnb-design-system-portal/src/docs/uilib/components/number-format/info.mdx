@@ -237,6 +237,20 @@ const string = cleanNumber('prefix -12 345,678 suffix') // returns -12345.678
 const string = cleanNumber('prefix -12.345,678 suffix') // returns -12345.678
 ```
 
+### Format bank account numbers
+
+Use `formatBankAccountNumberByType` to format bank account numbers with a specific type. It supports Norwegian BBAN, Swedish BBAN, Swedish Bankgiro, Swedish Plusgiro, and IBAN.
+
+```ts
+import { formatBankAccountNumberByType } from '@dnb/eufemia/components/NumberFormat'
+
+formatBankAccountNumberByType('20001234567') // { number: '2000 12 34567', aria: '20 00 12 34 56 7' }
+formatBankAccountNumberByType('50001234567', 'swedishBban') // { number: '5000-1234567', aria: '50 00 12 34 56 7' }
+formatBankAccountNumberByType('59140129', 'swedishBankgiro') // { number: '5914-0129', aria: '59 14 01 29' }
+formatBankAccountNumberByType('1263664', 'swedishPlusgiro') // { number: '126366-4', aria: '12 63 66 4' }
+formatBankAccountNumberByType('NO9386011117947', 'iban') // { number: 'NO93 8601 1117 947', aria: 'NO93 8601 1117 947' }
+```
+
 ### Element and style
 
 The number component is style-independent, so it has no visual styles. By default, a `<span>` is used (with [speak-as: numbers](https://developer.mozilla.org/en-US/docs/Web/CSS/@counter-style/speak-as), even though the support is very low). However, you can easily change the element type by providing a different value to the `element="div"` property.

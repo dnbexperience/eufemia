@@ -13,8 +13,17 @@ render(<Field.BankAccountNumber />)
 
 `Field.BankAccountNumber` is a wrapper component for [string input](/uilib/extensions/forms/base-fields/String), with user experience tailored for bank account values.
 
-This field is meant for Norwegian bank account numbers and therefore takes an 11-digit string as a value. A Norwegian bank account number can have a leading zero, which is why this value is a string and not a number. In addition, we validate `0000 00 00000` as invalid.
-More information can be found at [Wikipedia](https://no.wikipedia.org/wiki/Kontonummer).
+Use the `bankAccountType` prop to switch between formats:
+
+- `norwegianBban` (default): 11-digit Norwegian account number with mod-11 checksum validation.
+- `swedishBban`: 4-digit clearing number + account number (up to 14 digits).
+- `swedishBankgiro`: 7–8 digits.
+- `swedishPlusgiro`: 2–8 digits.
+- `iban`: Up to 34 alphanumeric characters, grouped in blocks of four.
+
+Only `norwegianBban` includes built-in validation. Use `onBlurValidator` for custom validation of other types.
+
+The value is always a string since account numbers can have leading zeros.
 
 There is a corresponding [Value.BankAccountNumber](/uilib/extensions/forms/Value/BankAccountNumber) component.
 
