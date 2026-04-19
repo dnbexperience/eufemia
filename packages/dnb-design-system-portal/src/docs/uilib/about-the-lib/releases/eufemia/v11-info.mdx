@@ -3006,20 +3006,70 @@ For example, update:
 
 An ESLint rule (`naming-conventions/no-bare-props-export`) is now enforced to prevent re-introducing bare `Props` exports.
 
-## `createSpacingClasses` replaced with `applySpacing`
+## Space: margins now use CSS custom properties
 
-The internal spacing helper `createSpacingClasses` has been removed and replaced by `applySpacing` that returns both the spacing CSS classes and any CSS custom properties in one call:
+Outer spacing (margins) on all components is no longer driven by hardcoded CSS rules per size class. Instead, the resolved margin value is set as a CSS custom property (`--margin-{t|r|b|l}-{s|m|l}`) on the element's `style` attribute, and the CSS reads from those properties at each breakpoint.
 
-- `applySpacing(props, target)` – merges spacing into an existing props object (append to `className`, merge into `style`). Recommended for most component root elements.
+The CSS class names (`dnb-space__top--large`, etc.) are still applied, but they no longer carry the margin value themselves — they only trigger the `var(--margin-*)` rules.
 
-It is re-exported from `@dnb/eufemia/components/space/SpacingHelper`.
+### What this means if you use spacing CSS classes directly
 
-Migrate usages as shown below.
+If you rely on spacing CSS classes like `dnb-space__top--large` in your own markup (without using the `space` prop or the JS helpers), those classes will no longer apply margins on their own. You must either:
+
+- Switch to the `space` prop on a Eufemia component, or
+- Use the `Space` component to wrap your element, or
+- Manually set the corresponding CSS custom properties (e.g. `--margin-t-s`, `--margin-t-m`, `--margin-t-l`) on the element's `style` attribute.
+
+### Responsive `space` prop
+
+The `space` prop now supports responsive breakpoints, matching what `innerSpace` already supported:
+
+```tsx
+<Space
+  space={{
+    small: 'small',
+    medium: 'large',
+    large: 'x-large',
+  }}
+>
+  Content with responsive margins
+</Space>
+```
+
+Each breakpoint value can also be a directional object:
+
+```tsx
+<Space
+  space={{
+    small: { top: 'small', bottom: 'medium' },
+    medium: { top: 'large', bottom: 'x-large' },
+    large: { top: 'x-large', bottom: 'xx-large' },
+  }}
+>
+  Content
+</Space>
+```
+
+The `space` prop also now supports `inline` and `block` shorthands, just like `innerSpace`:
+
+```tsx
+<Space space={{ inline: 'small', block: 'large' }}>Content</Space>
+```
+
+### `createSpacingClasses` replaced with `createSpacing` / `applySpacing`
+
+The internal spacing helper `createSpacingClasses` has been removed. Two new helpers are available, both re-exported from `@dnb/eufemia/components/space/SpacingHelper`:
+
+- **`applySpacing(props, target)`** – merges spacing CSS classes and custom properties into an existing props object (`className` and `style`). Also strips spacing props (`space`, `top`, `right`, `bottom`, `left`, `innerSpace`, `noCollapse`) from the returned object so it can be spread directly onto a DOM element. Recommended for most component root elements.
+- **`createSpacing(props)`** – returns `{ className: string[], style: React.CSSProperties | undefined }` for cases where you need more control.
 
 **Before (v10):**
 
 ```tsx
-import { createSpacingClasses } from '@dnb/eufemia/components/space/SpacingHelper'
+import {
+  createSpacingClasses,
+  createSpacingProperties,
+} from '@dnb/eufemia/components/space/SpacingHelper'
 
 const mainParams = {
   className: clsx(
@@ -3027,19 +3077,35 @@ const mainParams = {
     createSpacingClasses(props),
     className
   ),
+  style: {
+    ...style,
+    ...createSpacingProperties(props),
+  },
 }
 ```
 
-**After (v11):**
+**After (v11) – using `applySpacing`:**
 
 ```tsx
 import { applySpacing } from '@dnb/eufemia/components/space/SpacingHelper'
 
 const mainParams = applySpacing(props, {
   className: clsx('dnb-my-component', className),
+  style,
 })
 ```
 
-The output CSS classes (`dnb-space__top--large`, etc.) are unchanged, so no styling needs to be updated.
+**After (v11) – using `createSpacing`:**
+
+```tsx
+import { createSpacing } from '@dnb/eufemia/components/space/SpacingHelper'
+
+const spacing = createSpacing(props)
+
+const mainParams = {
+  className: clsx('dnb-my-component', ...spacing.className, className),
+  style: { ...style, ...spacing.style },
+}
+```
 
 _January 23, 2026_
