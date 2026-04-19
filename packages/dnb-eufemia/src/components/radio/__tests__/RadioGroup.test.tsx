@@ -69,9 +69,7 @@ describe('Radio group component', () => {
       document
         .querySelector('.dnb-radio-group__shell')
         .getAttribute('style')
-    ).toBe(
-      'color: red; --margin-t-s: 0; --margin-b-s: 0; --margin-t-m: 0; --margin-b-m: 0; --margin-t-l: 0; --margin-b-l: 0;'
-    )
+    ).toBe('color: red;')
   })
 
   it('will overwrite "disable" state, defined in the group', () => {

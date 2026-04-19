@@ -325,32 +325,14 @@ describe('FormStatus component', () => {
     expect(element).toHaveClass(
       'dnb-form-status__shell dnb-space__top--large'
     )
-    expect(element).toHaveAttribute(
-      'style',
-      expect.stringContaining('--margin-t-s: 2rem')
-    )
+    expect(element).not.toHaveAttribute('style')
 
     rerender(<FormStatus shellSpace="2rem">test</FormStatus>)
 
     expect(element).toHaveClass(
       'dnb-form-status__shell dnb-space__top--large dnb-space__bottom--large dnb-space__right--large dnb-space__left--large'
     )
-    expect(element).toHaveAttribute(
-      'style',
-      expect.stringContaining('--margin-t-s: 2rem')
-    )
-    expect(element).toHaveAttribute(
-      'style',
-      expect.stringContaining('--margin-r-s: 2rem')
-    )
-    expect(element).toHaveAttribute(
-      'style',
-      expect.stringContaining('--margin-b-s: 2rem')
-    )
-    expect(element).toHaveAttribute(
-      'style',
-      expect.stringContaining('--margin-l-s: 2rem')
-    )
+    expect(element).not.toHaveAttribute('style')
   })
 
   it('cache content and update it', () => {

@@ -176,23 +176,13 @@ function computeMarginProperties(
       large: mergeSpacing(spaceMedia.large, individualProps),
     }
   } else {
-    // space is scalar/object/undefined – merge it with individual props and
-    // apply the same value to every breakpoint
-    const merged = mergeSpacing(
-      space as SpaceType | InnerSpacingElementProps | undefined,
-      individualProps
-    )
-
-    // Nothing resolvable – skip work and return an empty style
-    if (Object.keys(merged).length === 0) {
-      return {}
-    }
-
-    mediaSpace = {
-      small: merged,
-      medium: merged,
-      large: merged,
-    }
+    // Non-responsive spacing is handled purely by static CSS classes
+    // (e.g. dnb-space__top--medium), so no custom properties are needed.
+    //
+    // TODO: Consider emitting a --margin-{t|r|b|l} custom property for
+    // values that exceed the static class range (e.g. above 10rem) or
+    // for arbitrary rem/px values that have no matching class.
+    return {}
   }
 
   const result = {}

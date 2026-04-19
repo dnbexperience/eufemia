@@ -99,22 +99,18 @@ describe('Space component', () => {
     ).toBeInTheDocument()
   })
 
-  it('should expose outer margin as --margin-{t|r|b|l}-{s|m|l} custom properties', () => {
+  it('should not emit style for non-responsive spacing (handled by CSS classes)', () => {
     const { rerender } = render(
       <Space top="large" right="small" bottom="0" left={false} />
     )
     expect(
       document.querySelector('.dnb-space').getAttribute('style')
-    ).toBe(
-      '--margin-t-s: 2rem; --margin-r-s: 1rem; --margin-b-s: 0; --margin-l-s: 0; --margin-t-m: 2rem; --margin-r-m: 1rem; --margin-b-m: 0; --margin-l-m: 0; --margin-t-l: 2rem; --margin-r-l: 1rem; --margin-b-l: 0; --margin-l-l: 0;'
-    )
+    ).toBeNull()
 
     rerender(<Space space="small" />)
     expect(
       document.querySelector('.dnb-space').getAttribute('style')
-    ).toBe(
-      '--margin-t-s: 1rem; --margin-r-s: 1rem; --margin-b-s: 1rem; --margin-l-s: 1rem; --margin-t-m: 1rem; --margin-r-m: 1rem; --margin-b-m: 1rem; --margin-l-m: 1rem; --margin-t-l: 1rem; --margin-r-l: 1rem; --margin-b-l: 1rem; --margin-l-l: 1rem;'
-    )
+    ).toBeNull()
   })
 
   it('should support "innerSpace"', () => {
@@ -246,9 +242,7 @@ describe('responsive space', () => {
     )
     expect(
       document.querySelector('.dnb-space').getAttribute('style')
-    ).toBe(
-      '--margin-l-s: 1rem; --margin-r-s: 1rem; --margin-t-s: 2rem; --margin-b-s: 2rem; --margin-l-m: 1rem; --margin-r-m: 1rem; --margin-t-m: 2rem; --margin-b-m: 2rem; --margin-l-l: 1rem; --margin-r-l: 1rem; --margin-t-l: 2rem; --margin-b-l: 2rem;'
-    )
+    ).toBeNull()
 
     // CSS classes should be based on expanded values
     expect(
@@ -294,9 +288,7 @@ describe('responsive space', () => {
     )
     expect(
       document.querySelector('.dnb-space').getAttribute('style')
-    ).toBe(
-      '--margin-l-s: 1rem; --margin-r-s: 1rem; --margin-t-s: 2rem; --margin-b-s: 1.5rem; --margin-l-m: 1rem; --margin-r-m: 1rem; --margin-t-m: 2rem; --margin-b-m: 1.5rem; --margin-l-l: 1rem; --margin-r-l: 1rem; --margin-t-l: 2rem; --margin-b-l: 1.5rem;'
-    )
+    ).toBeNull()
 
     // CSS classes should reflect the overrides
     expect(

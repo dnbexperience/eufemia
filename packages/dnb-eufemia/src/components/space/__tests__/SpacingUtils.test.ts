@@ -532,11 +532,7 @@ describe('createSpacing - return shape', () => {
       'dnb-space__right--large',
       'dnb-space__right--x-small',
     ])
-    expect(result.style).toEqual({
-      '--margin-r-s': '2.5rem',
-      '--margin-r-m': '2.5rem',
-      '--margin-r-l': '2.5rem',
-    })
+    expect(result.style).toBeUndefined()
   })
 
   it('should return style for innerSpace and not class', () => {
@@ -559,9 +555,6 @@ describe('createSpacing - return shape', () => {
       innerSpace: { right: 'large' },
     })
     expect(result.style).toEqual({
-      '--margin-t-s': '1rem',
-      '--margin-t-m': '1rem',
-      '--margin-t-l': '1rem',
       '--space-r-l': '2rem',
       '--space-r-m': '2rem',
       '--space-r-s': '2rem',
@@ -570,7 +563,7 @@ describe('createSpacing - return shape', () => {
 })
 
 describe('createMarginProperties', () => {
-  it('should return a --margin-{t|r|b|l}-{s|m|l} property per direction and media size', () => {
+  it('should return empty object for non-responsive spacing (handled by CSS classes)', () => {
     expect(
       createMarginProperties({
         top: 'small',
@@ -578,69 +571,23 @@ describe('createMarginProperties', () => {
         bottom: 'medium',
         left: 'x-small',
       })
-    ).toEqual({
-      '--margin-t-s': '1rem',
-      '--margin-t-m': '1rem',
-      '--margin-t-l': '1rem',
-      '--margin-r-s': '2.5rem',
-      '--margin-r-m': '2.5rem',
-      '--margin-r-l': '2.5rem',
-      '--margin-b-s': '1.5rem',
-      '--margin-b-m': '1.5rem',
-      '--margin-b-l': '1.5rem',
-      '--margin-l-s': '0.5rem',
-      '--margin-l-m': '0.5rem',
-      '--margin-l-l': '0.5rem',
-    })
+    ).toEqual({})
   })
 
   it('should expand the space shorthand to all four directions and media sizes', () => {
-    expect(createMarginProperties({ space: 'small' })).toEqual({
-      '--margin-t-s': '1rem',
-      '--margin-t-m': '1rem',
-      '--margin-t-l': '1rem',
-      '--margin-r-s': '1rem',
-      '--margin-r-m': '1rem',
-      '--margin-r-l': '1rem',
-      '--margin-b-s': '1rem',
-      '--margin-b-m': '1rem',
-      '--margin-b-l': '1rem',
-      '--margin-l-s': '1rem',
-      '--margin-l-m': '1rem',
-      '--margin-l-l': '1rem',
-    })
+    expect(createMarginProperties({ space: 'small' })).toEqual({})
   })
 
   it('should let explicit directions override the space shorthand', () => {
     expect(
       createMarginProperties({ space: 'small', right: 'large' })
-    ).toEqual({
-      '--margin-t-s': '1rem',
-      '--margin-t-m': '1rem',
-      '--margin-t-l': '1rem',
-      '--margin-r-s': '2rem',
-      '--margin-r-m': '2rem',
-      '--margin-r-l': '2rem',
-      '--margin-b-s': '1rem',
-      '--margin-b-m': '1rem',
-      '--margin-b-l': '1rem',
-      '--margin-l-s': '1rem',
-      '--margin-l-m': '1rem',
-      '--margin-l-l': '1rem',
-    })
+    ).toEqual({})
   })
 
   it('should support the space object shorthand', () => {
     expect(
       createMarginProperties({ space: { top: 'small', right: 'large' } })
-    ).toEqual({
-      '--margin-t-s': '1rem',
-      '--margin-t-m': '1rem',
-      '--margin-t-l': '1rem',
-      '--margin-r-s': '2rem',
-      '--margin-r-m': '2rem',
-      '--margin-r-l': '2rem',
-    })
+    ).toEqual({})
   })
 
   it('should set 0 for false and 0 values', () => {
@@ -648,14 +595,7 @@ describe('createMarginProperties', () => {
       createMarginProperties({ top: false, right: 0 } as Parameters<
         typeof createMarginProperties
       >[0])
-    ).toEqual({
-      '--margin-t-s': '0',
-      '--margin-t-m': '0',
-      '--margin-t-l': '0',
-      '--margin-r-s': '0',
-      '--margin-r-m': '0',
-      '--margin-r-l': '0',
-    })
+    ).toEqual({})
   })
 
   it('should return an empty object when no spacing props are present', () => {
@@ -669,32 +609,12 @@ describe('createMarginProperties', () => {
   it('should handle rem and px values', () => {
     expect(
       createMarginProperties({ top: '1.5rem', right: '16px' })
-    ).toEqual({
-      '--margin-t-s': '1.5rem',
-      '--margin-t-m': '1.5rem',
-      '--margin-t-l': '1.5rem',
-      '--margin-r-s': '1rem',
-      '--margin-r-m': '1rem',
-      '--margin-r-l': '1rem',
-    })
+    ).toEqual({})
   })
 
   it('should handle frozen props', () => {
     const props = Object.freeze({ space: 'small', right: 'large' })
-    expect(createMarginProperties(props)).toEqual({
-      '--margin-t-s': '1rem',
-      '--margin-t-m': '1rem',
-      '--margin-t-l': '1rem',
-      '--margin-r-s': '2rem',
-      '--margin-r-m': '2rem',
-      '--margin-r-l': '2rem',
-      '--margin-b-s': '1rem',
-      '--margin-b-m': '1rem',
-      '--margin-b-l': '1rem',
-      '--margin-l-s': '1rem',
-      '--margin-l-m': '1rem',
-      '--margin-l-l': '1rem',
-    })
+    expect(createMarginProperties(props)).toEqual({})
   })
 
   describe('responsive space', () => {
@@ -835,7 +755,7 @@ describe('applySpacing', () => {
     })
   })
 
-  it('should merge --margin custom properties into target style', () => {
+  it('should not add --margin custom properties for non-responsive spacing', () => {
     const result = applySpacing(
       { top: 'small', right: 'large' },
       {
@@ -845,12 +765,6 @@ describe('applySpacing', () => {
     )
     expect(result.style).toEqual({
       color: 'red',
-      '--margin-t-s': '1rem',
-      '--margin-t-m': '1rem',
-      '--margin-t-l': '1rem',
-      '--margin-r-s': '2rem',
-      '--margin-r-m': '2rem',
-      '--margin-r-l': '2rem',
     })
   })
 
@@ -935,20 +849,7 @@ describe('space with inline/block support', () => {
       createMarginProperties({
         space: { inline: 'small', block: 'large' },
       })
-    ).toEqual({
-      '--margin-b-s': '2rem',
-      '--margin-b-m': '2rem',
-      '--margin-b-l': '2rem',
-      '--margin-l-s': '1rem',
-      '--margin-l-m': '1rem',
-      '--margin-l-l': '1rem',
-      '--margin-r-s': '1rem',
-      '--margin-r-m': '1rem',
-      '--margin-r-l': '1rem',
-      '--margin-t-s': '2rem',
-      '--margin-t-m': '2rem',
-      '--margin-t-l': '2rem',
-    })
+    ).toEqual({})
   })
 
   it('should support block shorthand for space', () => {
@@ -956,14 +857,7 @@ describe('space with inline/block support', () => {
       createMarginProperties({
         space: { block: 'medium' },
       })
-    ).toEqual({
-      '--margin-b-s': '1.5rem',
-      '--margin-b-m': '1.5rem',
-      '--margin-b-l': '1.5rem',
-      '--margin-t-s': '1.5rem',
-      '--margin-t-m': '1.5rem',
-      '--margin-t-l': '1.5rem',
-    })
+    ).toEqual({})
   })
 
   it('should support inline shorthand for space', () => {
@@ -971,14 +865,7 @@ describe('space with inline/block support', () => {
       createMarginProperties({
         space: { inline: 'x-large' },
       })
-    ).toEqual({
-      '--margin-l-s': '3rem',
-      '--margin-l-m': '3rem',
-      '--margin-l-l': '3rem',
-      '--margin-r-s': '3rem',
-      '--margin-r-m': '3rem',
-      '--margin-r-l': '3rem',
-    })
+    ).toEqual({})
   })
 
   it('should handle inline/block with media queries in space', () => {
@@ -1011,20 +898,7 @@ describe('space with inline/block support', () => {
         top: 'large',
         bottom: 'medium',
       })
-    ).toEqual({
-      '--margin-l-s': '1rem',
-      '--margin-l-m': '1rem',
-      '--margin-l-l': '1rem',
-      '--margin-r-s': '1rem',
-      '--margin-r-m': '1rem',
-      '--margin-r-l': '1rem',
-      '--margin-t-s': '2rem',
-      '--margin-t-m': '2rem',
-      '--margin-t-l': '2rem',
-      '--margin-b-s': '1.5rem',
-      '--margin-b-m': '1.5rem',
-      '--margin-b-l': '1.5rem',
-    })
+    ).toEqual({})
   })
 
   it('should handle inline/block with individual props overriding in space media queries', () => {

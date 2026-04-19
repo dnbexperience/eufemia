@@ -183,12 +183,8 @@ describe('Logo component', () => {
       'aria-hidden',
       'class',
       'title',
-      'style',
       'alt',
     ])
-    expect(element.getAttribute('style')).toBe(
-      '--margin-t-s: 2rem; --margin-t-m: 2rem; --margin-t-l: 2rem;'
-    )
   })
 
   it('should render a custom SVG and support height and color', () => {

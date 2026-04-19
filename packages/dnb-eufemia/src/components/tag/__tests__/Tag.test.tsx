@@ -97,14 +97,11 @@ describe('Tag Group', () => {
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['class', 'style'])
+    expect(attributes).toEqual(['class'])
     expect(Array.from(element.classList)).toEqual([
       'dnb-tag__group',
       'dnb-space__top--large',
     ])
-    expect(element.getAttribute('style')).toBe(
-      '--margin-t-s: 2rem; --margin-t-m: 2rem; --margin-t-l: 2rem;'
-    )
   })
 })
 
@@ -243,7 +240,7 @@ describe('Tag', () => {
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['class', 'style'])
+    expect(attributes).toEqual(['class'])
     expect(Array.from(element.classList)).toEqual([
       'dnb-button',
       'dnb-button--unstyled',
@@ -253,9 +250,6 @@ describe('Tag', () => {
       'dnb-space__left--large',
       'dnb-button--size-small',
     ])
-    expect(element.getAttribute('style')).toBe(
-      '--margin-l-s: 2rem; --margin-l-m: 2rem; --margin-l-l: 2rem;'
-    )
   })
 
   describe('variant clickable', () => {

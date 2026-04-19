@@ -244,16 +244,13 @@ describe('Avatar', () => {
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['class', 'style'])
+    expect(attributes).toEqual(['class'])
     expect(Array.from(element.classList)).toEqual([
       'dnb-avatar',
       'dnb-avatar--primary',
       'dnb-avatar--size-medium',
       'dnb-space__top--large',
     ])
-    expect(element.getAttribute('style')).toBe(
-      '--margin-t-s: 2rem; --margin-t-m: 2rem; --margin-t-l: 2rem;'
-    )
   })
 
   it('supports inline styling', () => {

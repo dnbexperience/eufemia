@@ -249,10 +249,7 @@ describe('Breadcrumb', () => {
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['aria-label', 'class', 'style'])
-    expect(element.getAttribute('style')).toBe(
-      '--margin-t-s: 2rem; --margin-t-m: 2rem; --margin-t-l: 2rem;'
-    )
+    expect(attributes).toEqual(['aria-label', 'class'])
     expect(Array.from(element.classList)).toEqual([
       'dnb-breadcrumb',
       'dnb-breadcrumb--variant-responsive',

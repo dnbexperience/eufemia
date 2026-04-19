@@ -204,16 +204,12 @@ describe('Flex.Item', () => {
         getFlexItem(0)
           .querySelector('.dnb-flex-item__spacer')
           .getAttribute('style')
-      ).toBe(
-        '--margin-l-s: 0; --margin-r-s: 1rem; --margin-l-m: 0; --margin-r-m: 1rem; --margin-l-l: 0; --margin-r-l: 1rem; background: blue;'
-      )
+      ).toBe('background: blue;')
       expect(
         getFlexItem(1)
           .querySelector('.dnb-flex-item__spacer')
           .getAttribute('style')
-      ).toBe(
-        '--margin-l-s: 0; --margin-r-s: 1rem; --margin-l-m: 0; --margin-r-m: 1rem; --margin-l-l: 0; --margin-r-l: 1rem; background: red;'
-      )
+      ).toBe('background: red;')
     })
 
     it('should set correct spacing', () => {
