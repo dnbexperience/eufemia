@@ -39,6 +39,7 @@ import type { TableProps } from '../components/Table'
 import type { GlobalErrorProps } from '../components/GlobalError'
 import type { ModalProps } from '../components/modal/types'
 import type { AccordionProps } from '../components/Accordion'
+import type { PaginationProps } from '../components/pagination/Pagination'
 import type { StepIndicatorProps } from '../components/StepIndicator'
 import type { FormLabelProps } from '../components/FormLabel'
 import type { InputProps } from '../components/Input'
@@ -106,7 +107,7 @@ export type ContextComponents = {
 
   Switch?: Partial<SwitchProps>
   NumberFormat?: Partial<NumberFormatAllProps>
-  Pagination?: Partial<AccordionProps>
+  Pagination?: Partial<PaginationProps>
   TermDefinition?: Partial<TermDefinitionProps>
 
   // Common props
