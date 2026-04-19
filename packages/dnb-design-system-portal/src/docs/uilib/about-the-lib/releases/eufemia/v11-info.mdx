@@ -2361,6 +2361,7 @@ If you migrate a `FormSet` that relied on a native browser submit, such as `meth
 
 The following functions have been removed from `@dnb/eufemia/shared/component-helper`:
 
+- `keycode` – Utility for converting keyboard event codes to key names and vice versa (ported from the `keycode` npm package). Use the native `event.key` property instead.
 - `isTrue` – Checked if a value was truthy by comparing `String(value) === 'true' || String(value) === '1'`. Replace with direct boolean checks (e.g. `value === true` or simply `value`).
 - `toCamelCase` – Converted snake_case strings to camelCase.
 - `toSnakeCase` – Converted PascalCase strings to snake_case.
