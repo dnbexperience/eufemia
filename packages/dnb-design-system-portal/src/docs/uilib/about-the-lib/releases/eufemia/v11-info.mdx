@@ -2360,6 +2360,9 @@ The following functions have been removed from `@dnb/eufemia/shared/component-he
 - `toSnakeCase` – Converted PascalCase strings to snake_case.
 - `matchAll` – Polyfill for `String.matchAll()`. Use the native `String.matchAll()` instead.
 - `combineDetails` – Unused aria-details combiner helper. Use `combineDescribedBy` or `combineLabelledBy` instead.
+- `keycode` – Key-to-keycode converter. Use `KeyboardEvent.key` instead.
+- `EventEmitter` – Internal event emitter utility. No replacement needed.
+- `ErrorHandler` – Broken error handler utility. No replacement needed.
 
 The following functions have been removed from `@dnb/eufemia/shared/helpers`:
 
@@ -2384,6 +2387,10 @@ The following TypeScript types have also been removed:
 - `AssertNoMissing`, `KeysWithUnderscore`
 
 These were previously used to support dual snake_case/camelCase prop naming. Since v11 uses camelCase exclusively, they are no longer needed.
+
+#### Renamed helper functions
+
+- `extendPropsWithContextInClassComponent` has been renamed to `extendExistingPropsWithContext`.
 
 #### Updated SCSS mixin: `isFirefox` (formerly `IS_FF`)
 
