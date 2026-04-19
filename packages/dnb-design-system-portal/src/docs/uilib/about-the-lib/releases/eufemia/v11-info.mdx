@@ -39,6 +39,7 @@ This is the migration guide for @dnb/eufemia v11. It covers all breaking changes
   - [innerRef → ref](#innerref--ref)
   - [Context.Provider → Context](#contextprovider--context)
   - [Theme.Provider → Theme.Context](#themeprovider--themecontext)
+  - [Theme darkMode → colorScheme](#theme-darkmode--colorscheme)
   - [Theme propMapping removed](#theme-propmapping-removed)
 - [Components](#components)
   - [labelDirection default changed to vertical](#labeldirection-default-changed-to-vertical)
@@ -376,51 +377,52 @@ These renames use generic names that exist in non-Eufemia code. Scope your find-
 25. **Visual review:** Card outline, border-radius, and default `innerSpace` have changed. Review your Card layouts. See [Card](#card).
 26. Replace `spacing` with `innerSpace={{ block: 'value' }}` on Section, Dialog.Body, Drawer.Body. Do NOT use `innerSpace="large"` — it must be an object. See [Section](#section).
 27. Replace `Theme.Provider` with `Theme.Context` and `darkBackground` with `surface="dark"`. See [Theme.Provider → Theme.Context](#themeprovider--themecontext).
-28. Replace `<FormRow>` with `<Flex.Horizontal align="baseline">` and `<FormRow vertical>` with `<Flex.Vertical>`. Replace `FormRow=` with `formElement=` in Provider config. See [Removal of FormRow and FormSet](#removal-of-formrow-and-formset).
-29. Replace `openState="opened"` with `open={true}` and `openState="closed"` with `open={false}` on Modal/Dialog/Drawer.
-30. Update `dateFormat` and `returnFormat` strings: `YYYY` → `yyyy`, `DD` → `dd` on DatePicker.
-31. Replace `Stat.Amount` with `Stat.Number`, `Stat.Info variant="default"` with `variant="plain"`.
-32. Replace Logo `brand`/`variant` props with `svg` prop import pattern. See [Logo](#logo).
+28. Replace `darkMode` with `colorScheme="dark"` on Theme. See [Theme darkMode → colorScheme](#theme-darkmode--colorscheme).
+29. Replace `<FormRow>` with `<Flex.Horizontal align="baseline">` and `<FormRow vertical>` with `<Flex.Vertical>`. Replace `FormRow=` with `formElement=` in Provider config. See [Removal of FormRow and FormSet](#removal-of-formrow-and-formset).
+30. Replace `openState="opened"` with `open={true}` and `openState="closed"` with `open={false}` on Modal/Dialog/Drawer.
+31. Update `dateFormat` and `returnFormat` strings: `YYYY` → `yyyy`, `DD` → `dd` on DatePicker.
+32. Replace `Stat.Amount` with `Stat.Number`, `Stat.Info variant="default"` with `variant="plain"`.
+33. Replace Logo `brand`/`variant` props with `svg` prop import pattern. See [Logo](#logo).
 
 #### Phase 4: Import path and module changes
 
-33. Update all changed import paths. See [Import path changes](#import-path-changes).
-34. If using Ajv with JSON Schema validation, add `ajvInstance={makeAjvInstance()}` to `Form.Handler`. See [Ajv no longer shipped by default](#ajv-no-longer-shipped-by-default).
-35. Replace `InputPassword` import with `Field.Password` from Eufemia Forms. See [InputPassword moved to Field.Password](#inputpassword-moved-to-fieldpassword).
-36. Replace `StepsLayout` with `Wizard.Container`, `StepsLayout.Step` with `Wizard.Step`, etc.
+34. Update all changed import paths. See [Import path changes](#import-path-changes).
+35. If using Ajv with JSON Schema validation, add `ajvInstance={makeAjvInstance()}` to `Form.Handler`. See [Ajv no longer shipped by default](#ajv-no-longer-shipped-by-default).
+36. Replace `InputPassword` import with `Field.Password` from Eufemia Forms. See [InputPassword moved to Field.Password](#inputpassword-moved-to-fieldpassword).
+37. Replace `StepsLayout` with `Wizard.Container`, `StepsLayout.Step` with `Wizard.Step`, etc.
 
 #### Phase 5: SCSS changes
 
-37. If you import Eufemia SCSS source files with `@import`, replace with `@use` and namespace your calls. See [SCSS: @import → @use](#scss-import--use).
-38. Rename all SCSS mixin references to camelCase. See [SCSS mixin renames](#scss-mixin-renames).
-39. Remove `extendFocusRing` and `componentReset` SCSS mixin calls — they have been deleted.
+38. If you import Eufemia SCSS source files with `@import`, replace with `@use` and namespace your calls. See [SCSS: @import → @use](#scss-import--use).
+39. Rename all SCSS mixin references to camelCase. See [SCSS mixin renames](#scss-mixin-renames).
+40. Remove `extendFocusRing` and `componentReset` SCSS mixin calls — they have been deleted.
 
 #### Phase 6: TypeScript type updates
 
-40. Update any imported context value types (`AccordionContextProps` → `AccordionContextValue`, etc.). See [TypeScript](#typescript).
-41. Update any Props type imports (`Props` → component-prefixed name). See [Props Type Exports](#props-type-exports).
-42. Update event handler types to match new typed signatures. See [Typed event handlers](#typed-event-handlers).
+41. Update any imported context value types (`AccordionContextProps` → `AccordionContextValue`, etc.). See [TypeScript](#typescript).
+42. Update any Props type imports (`Props` → component-prefixed name). See [Props Type Exports](#props-type-exports).
+43. Update event handler types to match new typed signatures. See [Typed event handlers](#typed-event-handlers).
 
 #### Phase 7: Eufemia Forms behavioral changes
 
-43. Replace `validator` with `onChangeValidator` on all Field components.
-44. Replace `continuousValidation` with `validateContinuously` on all Field components.
-45. Update `errorMessages` object keys: `required` → `Field.errorRequired`, `pattern` → `Field.errorPattern`, etc. See [Error handling](#error-handling).
-46. Replace `Form.useError` with `Form.useValidation`, `Form.useLocale` with `Form.useTranslation`.
-47. Replace `Form.Visibility` props: `withValue` → `hasValue`, `pathValue`/`whenValue` → `visibleWhen`.
-48. Replace `Form.FieldProps` with `Field.Provider`.
-49. Replace `<Card stack>` with `<Form.Card>` and `<Card>` (inside forms) with `<Form.Card>`.
-50. Replace `Iterate.ArrayPushButton` with `Iterate.PushButton` and `Iterate.ArrayRemoveElementButton` with `Iterate.RemoveButton`.
-51. Replace `requireCommit` with `preventUncommittedChanges` on `Iterate.PushContainer`.
-52. Replace `active` with `include` and `activeWhen` with `includeWhen` on `Wizard.Step`.
-53. Replace Form.Iterate label variable `{itemNr}` with `{itemNo}`.
-54. Review all remaining changes in the [Eufemia Forms](#eufemia-forms) section.
+44. Replace `validator` with `onChangeValidator` on all Field components.
+45. Replace `continuousValidation` with `validateContinuously` on all Field components.
+46. Update `errorMessages` object keys: `required` → `Field.errorRequired`, `pattern` → `Field.errorPattern`, etc. See [Error handling](#error-handling).
+47. Replace `Form.useError` with `Form.useValidation`, `Form.useLocale` with `Form.useTranslation`.
+48. Replace `Form.Visibility` props: `withValue` → `hasValue`, `pathValue`/`whenValue` → `visibleWhen`.
+49. Replace `Form.FieldProps` with `Field.Provider`.
+50. Replace `<Card stack>` with `<Form.Card>` and `<Card>` (inside forms) with `<Form.Card>`.
+51. Replace `Iterate.ArrayPushButton` with `Iterate.PushButton` and `Iterate.ArrayRemoveElementButton` with `Iterate.RemoveButton`.
+52. Replace `requireCommit` with `preventUncommittedChanges` on `Iterate.PushContainer`.
+53. Replace `active` with `include` and `activeWhen` with `includeWhen` on `Wizard.Step`.
+54. Replace Form.Iterate label variable `{itemNr}` with `{itemNo}`.
+55. Review all remaining changes in the [Eufemia Forms](#eufemia-forms) section.
 
 #### Phase 8: Verify
 
-55. Run `npx tsc --noEmit` to catch remaining type errors.
-56. Run your tests. Update any test selectors that query DatePicker/Expiry `input` elements (now `role="spinbutton"` sections).
-57. Search for remaining snake_case patterns using the grep command in [Verifying your migration](#verifying-your-migration).
+56. Run `npx tsc --noEmit` to catch remaining type errors.
+57. Run your tests. Update any test selectors that query DatePicker/Expiry `input` elements (now `role="spinbutton"` sections).
+58. Search for remaining snake_case patterns using the grep command in [Verifying your migration](#verifying-your-migration).
 
 ### Find-and-replace safety guide
 
@@ -763,6 +765,28 @@ If you use any Eufemia context objects directly (e.g. `Wizard.Provider`), update
 ```
 
 `Theme.Provider` has been removed.
+
+### Theme `darkMode` → `colorScheme`
+
+The `darkMode` boolean prop has been replaced with `colorScheme`, which accepts `'auto'`, `'light'`, or `'dark'`. The `'auto'` value follows the user's system preference via `prefers-color-scheme`.
+
+The exported `DarkMode` type has been removed. Use `ThemeColorScheme` instead.
+
+**Before:**
+
+```tsx
+<Theme darkMode>
+  <MyApp />
+</Theme>
+```
+
+**After:**
+
+```tsx
+<Theme colorScheme="dark">
+  <MyApp />
+</Theme>
+```
 
 ### Theme `propMapping` removed
 
