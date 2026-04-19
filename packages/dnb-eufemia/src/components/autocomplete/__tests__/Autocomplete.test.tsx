@@ -9,7 +9,12 @@ import * as helpers from '../../../shared/helpers'
 import type { AutocompleteAllProps } from '../Autocomplete'
 import Autocomplete from '../Autocomplete'
 import { SubmitButton } from '../../input/Input'
-import { format } from '../../number-format/NumberUtils'
+import {
+  formatBankAccountNumber,
+  formatCurrency,
+  formatPhoneNumber,
+  formatNumber,
+} from '../../number-format/NumberUtils'
 import userEvent from '@testing-library/user-event'
 import {
   mockImplementationForDirectionObserver,
@@ -1080,10 +1085,10 @@ describe('Autocomplete component', () => {
 
   it('has correct options when using searchNumbers', () => {
     const mockData = [
-      format(20001234567, { ban: true }),
-      format(22233344425, { ban: true }),
-      format(1234.5, { currency: true }),
-      format('+47116000', { phone: true }),
+      formatBankAccountNumber(20001234567),
+      formatBankAccountNumber(22233344425),
+      formatCurrency(1234.5),
+      formatPhoneNumber('+47116000'),
     ] as DrawerListData
 
     render(
@@ -1217,8 +1222,8 @@ describe('Autocomplete component', () => {
 
   it('has correct options when using searchNumbers, and searching with æøå', () => {
     const mockData = [
-      ['Åge Ørn Ærlig', format('12345678901')],
-      ["Andrè Ørjåsæter O'Neill", format('12345678901')],
+      ['Åge Ørn Ærlig', formatNumber('12345678901')],
+      ["Andrè Ørjåsæter O'Neill", formatNumber('12345678901')],
     ] as DrawerListData
 
     render(

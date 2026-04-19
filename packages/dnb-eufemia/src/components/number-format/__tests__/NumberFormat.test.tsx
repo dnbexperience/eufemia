@@ -15,16 +15,18 @@ import { LOCALE } from '../../../shared/defaults'
 import { isMac } from '../../../shared/helpers'
 import Provider from '../../../shared/Provider'
 import type { NumberFormatProps } from '../NumberFormat'
-import NumberFormat, { COPY_TOOLTIP_TIMEOUT } from '../NumberFormat'
+import { COPY_TOOLTIP_TIMEOUT } from '../NumberFormat'
+import NumberFormatBase from '../NumberFormatBase'
+import NumberFormat from '../NumberFormat'
 import * as TooltipModule from '../../tooltip/Tooltip'
 import type { NumberFormatReturnValue } from '../NumberUtils'
-import { format } from '../NumberUtils'
+import { formatCurrency } from '../NumberUtils'
 import enGB from '../../../shared/locales/en-GB'
 
 const en = enGB['en-GB'].NumberFormat
 
 const Component = (props) => {
-  return <NumberFormat id="unique" {...props} />
+  return <NumberFormatBase id="unique" {...props} />
 }
 
 const element = 'span'
@@ -126,9 +128,9 @@ describe('NumberFormat component', () => {
     const log = jest.spyOn(console, 'log').mockImplementation()
 
     render(
-      <NumberFormat locale="en-GB" decimals={2}>
+      <NumberFormatBase locale="en-GB" decimals={2}>
         invalid
-      </NumberFormat>
+      </NumberFormatBase>
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe('–')
@@ -144,9 +146,9 @@ describe('NumberFormat component', () => {
     const log = jest.spyOn(console, 'log').mockImplementation()
 
     render(
-      <NumberFormat locale="else" decimals={2}>
+      <NumberFormatBase locale="else" decimals={2}>
         invalid
-      </NumberFormat>
+      </NumberFormatBase>
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
@@ -228,8 +230,7 @@ describe('NumberFormat component', () => {
       'dnb-number-format--selected'
     )
 
-    const { cleanedValue: noVal } = format(-value, {
-      currency: true,
+    const { cleanedValue: noVal } = formatCurrency(-value, {
       returnAria: true,
     }) as NumberFormatReturnValue
     expect(
@@ -240,9 +241,8 @@ describe('NumberFormat component', () => {
 
     rerender(<Component value={-value} currency locale="en-GB" />)
 
-    const { cleanedValue: enVal } = format(-value, {
+    const { cleanedValue: enVal } = formatCurrency(-value, {
       locale: 'en-GB',
-      currency: true,
       returnAria: true,
     }) as NumberFormatReturnValue
 
@@ -399,14 +399,14 @@ describe('NumberFormat component', () => {
   })
 
   it('should yield strict zero when value gets rounded to zero because of decimals=0', () => {
-    render(<NumberFormat value={-0.2} decimals={0} />)
+    render(<NumberFormatBase value={-0.2} decimals={0} />)
     expect(document.querySelector('.dnb-number-format').textContent).toBe(
       '0'
     )
   })
 
   it('should yield strict zero (no minus) currency when value gets rounded to zero because of decimals=0', () => {
-    render(<NumberFormat value={-0.2} currency decimals={0} />)
+    render(<NumberFormatBase value={-0.2} currency decimals={0} />)
     expect(document.querySelector('.dnb-number-format').textContent).toBe(
       '0 kr'
     )
@@ -414,7 +414,7 @@ describe('NumberFormat component', () => {
 
   it('should yield strict zero (no minus) currency when value gets rounded to zero because of decimals=0 and locale is en-GB', () => {
     render(
-      <NumberFormat
+      <NumberFormatBase
         value={-0.2}
         currency="SEK"
         locale="en-GB"
@@ -428,14 +428,14 @@ describe('NumberFormat component', () => {
 
   it('should yield strict (no minus) zero percent when value gets rounded to zero because of decimals=0', () => {
     const { rerender } = render(
-      <NumberFormat value={-0.2} percent decimals={0} />
+      <NumberFormat.Percent value={-0.2} decimals={0} />
     )
     expect(document.querySelector('.dnb-number-format').textContent).toBe(
       '0 %'
     )
 
     rerender(
-      <NumberFormat value={-0.2} percent decimals={0} locale="en-GB" />
+      <NumberFormat.Percent value={-0.2} decimals={0} locale="en-GB" />
     )
     expect(document.querySelector('.dnb-number-format').textContent).toBe(
       '0%'
@@ -455,34 +455,46 @@ describe('NumberFormat component', () => {
   })
 
   it('have to match phone number', () => {
-    render(<Component phone>+47 99999999</Component>)
+    render(
+      <NumberFormat.PhoneNumber>+47 99999999</NumberFormat.PhoneNumber>
+    )
     expect(document.querySelector(displaySelector).textContent).toBe(
       '+47 99 99 99 99'
     )
   })
 
   it('have to render link with tel: href by default', () => {
-    render(<Component link value="99999999" />)
+    render(<NumberFormat.PhoneNumber link value="99999999" />)
     const anchor = document.querySelector('a.dnb-anchor')
     expect(anchor).toBeInTheDocument()
     expect(anchor.getAttribute('href')).toMatch(/^tel:/)
   })
 
   it('have to render link with sms: href when link="sms"', () => {
-    render(<Component link="sms" value="99999999" />)
+    render(<NumberFormat.PhoneNumber link="sms" value="99999999" />)
     const anchor = document.querySelector('a.dnb-anchor')
     expect(anchor).toBeInTheDocument()
     expect(anchor.getAttribute('href')).toMatch(/^sms:/)
   })
 
+  it('should sanitize href to only contain digits and +', () => {
+    render(<NumberFormat.PhoneNumber link value="+47 12345;ext=1234" />)
+    const anchor = document.querySelector('a.dnb-anchor')
+    expect(anchor.getAttribute('href')).toBe('tel:+47123451234')
+  })
+
   it('have to match bank account number', () => {
-    const { rerender } = render(<Component ban>20001234567</Component>)
+    const { rerender } = render(
+      <NumberFormat.BankAccountNumber>
+        20001234567
+      </NumberFormat.BankAccountNumber>
+    )
     expect(document.querySelector(displaySelector).textContent).toBe(
       '2000 12 34567'
     )
 
     // also check the formatting with one digit less
-    rerender(<Component ban value="2000123456" />)
+    rerender(<NumberFormat.BankAccountNumber value="2000123456" />)
 
     expect(document.querySelector(displaySelector).textContent).toBe(
       '2000 12 3456'
@@ -490,7 +502,11 @@ describe('NumberFormat component', () => {
   })
 
   it('have to match national identification number', () => {
-    render(<Component nin>18089212345</Component>)
+    render(
+      <NumberFormat.NationalIdentityNumber>
+        18089212345
+      </NumberFormat.NationalIdentityNumber>
+    )
     expect(document.querySelector(displaySelector).textContent).toBe(
       '180892 12345'
     )
@@ -501,9 +517,9 @@ describe('NumberFormat component', () => {
 
   it('have to match organization number', () => {
     render(
-      <Component org suffix="MVA">
+      <NumberFormat.OrganizationNumber suffix="MVA">
         123456789
-      </Component>
+      </NumberFormat.OrganizationNumber>
     )
     expect(document.querySelector(displaySelector).textContent).toBe(
       '123 456 789 MVA'
@@ -630,9 +646,9 @@ describe('NumberFormat component', () => {
 
   it('percent should respect options like maximumFractionDigits', () => {
     const { rerender } = render(
-      <Component percent options={{ maximumFractionDigits: 2 }}>
+      <NumberFormat.Percent options={{ maximumFractionDigits: 2 }}>
         12.3456
-      </Component>
+      </NumberFormat.Percent>
     )
 
     expect(
@@ -640,13 +656,12 @@ describe('NumberFormat component', () => {
     ).toBe('12,35 %')
 
     rerender(
-      <Component
-        percent
+      <NumberFormat.Percent
         rounding="omit"
         options={{ maximumFractionDigits: 2 }}
       >
         12.3456
-      </Component>
+      </NumberFormat.Percent>
     )
 
     expect(
@@ -654,9 +669,9 @@ describe('NumberFormat component', () => {
     ).toBe('12,34 %')
 
     rerender(
-      <Component percent options={{ maximumFractionDigits: 2 }}>
+      <NumberFormat.Percent options={{ maximumFractionDigits: 2 }}>
         12
-      </Component>
+      </NumberFormat.Percent>
     )
 
     expect(
@@ -664,19 +679,18 @@ describe('NumberFormat component', () => {
     ).toBe('12 %')
 
     rerender(
-      <Component
-        percent
+      <NumberFormat.Percent
         options={{ minimumFractionDigits: 1, maximumFractionDigits: 2 }}
       >
         12
-      </Component>
+      </NumberFormat.Percent>
     )
 
     expect(
       document.querySelector('.dnb-number-format__visible').textContent
     ).toBe('12,0 %')
 
-    rerender(<Component percent>12</Component>)
+    rerender(<NumberFormat.Percent>12</NumberFormat.Percent>)
 
     expect(
       document.querySelector('.dnb-number-format__visible').textContent
@@ -686,20 +700,14 @@ describe('NumberFormat component', () => {
       document.querySelector('.dnb-number-format__visible').textContent
     ).toBe('12 %')
 
-    rerender(
-      <Component percent decimals={2}>
-        12
-      </Component>
-    )
+    rerender(<NumberFormat.Percent decimals={2}>12</NumberFormat.Percent>)
 
     expect(
       document.querySelector('.dnb-number-format__visible').textContent
     ).toBe('12,00 %')
 
     rerender(
-      <Component percent decimals={2}>
-        12.3456
-      </Component>
+      <NumberFormat.Percent decimals={2}>12.3456</NumberFormat.Percent>
     )
 
     expect(
@@ -707,9 +715,9 @@ describe('NumberFormat component', () => {
     ).toBe('12,35 %')
 
     rerender(
-      <Component percent rounding="omit" decimals={2}>
+      <NumberFormat.Percent rounding="omit" decimals={2}>
         12.3456
-      </Component>
+      </NumberFormat.Percent>
     )
 
     expect(
@@ -803,7 +811,7 @@ describe('NumberFormat component', () => {
       document.querySelector(ariaSelector).getAttribute('data-text')
     ).toBe('Ikke tilgjengelig')
 
-    rerender(<Component percent>invalid</Component>)
+    rerender(<NumberFormat.Percent>invalid</NumberFormat.Percent>)
 
     expect(document.querySelector(displaySelector).textContent).toBe('– %')
     expect(
@@ -826,7 +834,7 @@ describe('NumberFormat component', () => {
   })
 
   it('should not select all if selectAll is false', async () => {
-    render(<NumberFormat selectAll={false} value={1234568} />)
+    render(<NumberFormatBase selectAll={false} value={1234568} />)
 
     const comp = document.querySelector('.dnb-number-format')
     const number = document.querySelector('.dnb-number-format__visible')
@@ -843,7 +851,7 @@ describe('NumberFormat component', () => {
   })
 
   it('calls focus with preventScroll when selecting', async () => {
-    render(<NumberFormat selectAll value={1234568} />)
+    render(<NumberFormatBase selectAll value={1234568} />)
 
     const number = document.querySelector('.dnb-number-format__visible')
     const selection = document.querySelector(
@@ -867,7 +875,7 @@ describe('NumberFormat component', () => {
     // Simulate touch device
     document.documentElement.setAttribute('data-whatintent', 'touch')
 
-    render(<NumberFormat selectAll value={1234568} />)
+    render(<NumberFormatBase selectAll value={1234568} />)
 
     const comp = document.querySelector('.dnb-number-format')
     const number = document.querySelector('.dnb-number-format__visible')
@@ -898,7 +906,7 @@ describe('NumberFormat component', () => {
   })
 
   it('should not call setFocus when text is already selected', async () => {
-    render(<NumberFormat selectAll value={1234568} />)
+    render(<NumberFormatBase selectAll value={1234568} />)
 
     const comp = document.querySelector('.dnb-number-format')
     const number = document.querySelector('.dnb-number-format__visible')
@@ -957,7 +965,7 @@ describe('NumberFormat component', () => {
     })
 
     it('should call setFocus on context menu when no text is selected', async () => {
-      render(<NumberFormat value={1234568} />)
+      render(<NumberFormatBase value={1234568} />)
 
       const comp = document.querySelector('.dnb-number-format')
       const number = document.querySelector('.dnb-number-format__visible')
@@ -989,7 +997,7 @@ describe('NumberFormat component', () => {
     })
 
     it('should not call setFocus on context menu when text is already selected', async () => {
-      render(<NumberFormat value={1234568} />)
+      render(<NumberFormatBase value={1234568} />)
 
       const comp = document.querySelector('.dnb-number-format')
       const number = document.querySelector('.dnb-number-format__visible')
@@ -1037,7 +1045,7 @@ describe('NumberFormat component', () => {
     })
 
     it('should clear existing timeout when context menu is triggered multiple times', async () => {
-      render(<NumberFormat selectAll value={1234568} />)
+      render(<NumberFormatBase selectAll value={1234568} />)
 
       const comp = document.querySelector('.dnb-number-format')
       const number = document.querySelector('.dnb-number-format__visible')
@@ -1081,7 +1089,11 @@ describe('NumberFormat component', () => {
   describe('rounding', () => {
     it('should support "omit"', () => {
       render(
-        <NumberFormat rounding="omit" value={123456.789} decimals={2} />
+        <NumberFormatBase
+          rounding="omit"
+          value={123456.789}
+          decimals={2}
+        />
       )
       expect(
         document.querySelector('.dnb-number-format')
@@ -1089,7 +1101,7 @@ describe('NumberFormat component', () => {
     })
 
     it('should support "half-even"', () => {
-      render(<NumberFormat rounding="half-even" value={2.5} />)
+      render(<NumberFormatBase rounding="half-even" value={2.5} />)
       expect(
         document.querySelector('.dnb-number-format')
       ).toHaveTextContent('2')
@@ -1098,12 +1110,12 @@ describe('NumberFormat component', () => {
 
   describe('signDisplay', () => {
     it('should support "auto" (default)', () => {
-      const { rerender } = render(<NumberFormat value={1234} />)
+      const { rerender } = render(<NumberFormatBase value={1234} />)
       expect(
         document.querySelector('.dnb-number-format').textContent
       ).toBe('1\u00A0234')
 
-      rerender(<NumberFormat value={-1234} />)
+      rerender(<NumberFormatBase value={-1234} />)
       expect(
         document.querySelector('.dnb-number-format').textContent
       ).toBe('-1\u00A0234')
@@ -1111,18 +1123,18 @@ describe('NumberFormat component', () => {
 
     it('should support "always"', () => {
       const { rerender } = render(
-        <NumberFormat signDisplay="always" value={1234} />
+        <NumberFormatBase signDisplay="always" value={1234} />
       )
       expect(
         document.querySelector('.dnb-number-format').textContent
       ).toBe('+1\u00A0234')
 
-      rerender(<NumberFormat signDisplay="always" value={-1234} />)
+      rerender(<NumberFormatBase signDisplay="always" value={-1234} />)
       expect(
         document.querySelector('.dnb-number-format').textContent
       ).toBe('-1\u00A0234')
 
-      rerender(<NumberFormat signDisplay="always" value={0} />)
+      rerender(<NumberFormatBase signDisplay="always" value={0} />)
       expect(
         document.querySelector('.dnb-number-format').textContent
       ).toBe('+0')
@@ -1130,18 +1142,18 @@ describe('NumberFormat component', () => {
 
     it('should support "exceptZero"', () => {
       const { rerender } = render(
-        <NumberFormat signDisplay="exceptZero" value={1234} />
+        <NumberFormatBase signDisplay="exceptZero" value={1234} />
       )
       expect(
         document.querySelector('.dnb-number-format').textContent
       ).toBe('+1\u00A0234')
 
-      rerender(<NumberFormat signDisplay="exceptZero" value={-1234} />)
+      rerender(<NumberFormatBase signDisplay="exceptZero" value={-1234} />)
       expect(
         document.querySelector('.dnb-number-format').textContent
       ).toBe('-1\u00A0234')
 
-      rerender(<NumberFormat signDisplay="exceptZero" value={0} />)
+      rerender(<NumberFormatBase signDisplay="exceptZero" value={0} />)
       expect(
         document.querySelector('.dnb-number-format')
       ).toHaveTextContent('0')
@@ -1149,27 +1161,29 @@ describe('NumberFormat component', () => {
 
     it('should support "never"', () => {
       const { rerender } = render(
-        <NumberFormat signDisplay="never" value={1234} />
+        <NumberFormatBase signDisplay="never" value={1234} />
       )
       expect(
         document.querySelector('.dnb-number-format').textContent
       ).toBe('1\u00A0234')
 
-      rerender(<NumberFormat signDisplay="never" value={-1234} />)
+      rerender(<NumberFormatBase signDisplay="never" value={-1234} />)
       expect(
         document.querySelector('.dnb-number-format').textContent
       ).toBe('1\u00A0234')
     })
 
     it('should work with currency', () => {
-      render(<NumberFormat signDisplay="always" currency value={1234} />)
+      render(
+        <NumberFormatBase signDisplay="always" currency value={1234} />
+      )
       expect(
         document.querySelector('.dnb-number-format').textContent
       ).toBe('+1\u00A0234,00 kr')
     })
 
     it('should work with percent', () => {
-      render(<NumberFormat signDisplay="always" percent value={12.34} />)
+      render(<NumberFormat.Percent signDisplay="always" value={12.34} />)
       expect(
         document.querySelector('.dnb-number-format').textContent
       ).toBe('+12,34\u00A0%')
@@ -1434,114 +1448,158 @@ describe('NumberFormat component', () => {
     })
 
     it('when percent', () => {
-      const { rerender } = render(<Component value={''} percent />)
+      const { rerender } = render(<NumberFormat.Percent value={''} />)
       expect(document.querySelector(displaySelector).textContent).toBe(
         '– %'
       )
 
-      rerender(<Component value={null} percent />)
+      rerender(<NumberFormat.Percent value={null} />)
       expect(document.querySelector(displaySelector).textContent).toBe(
         '– %'
       )
 
-      rerender(<Component value={undefined} percent />)
+      rerender(<NumberFormat.Percent value={undefined} />)
       expect(document.querySelector(displaySelector).textContent).toBe(
         '– %'
       )
 
-      rerender(<Component percent>{''}</Component>)
+      rerender(<NumberFormat.Percent>{''}</NumberFormat.Percent>)
       expect(document.querySelector(displaySelector).textContent).toBe(
         '– %'
       )
 
-      rerender(<Component percent>{null}</Component>)
+      rerender(<NumberFormat.Percent>{null}</NumberFormat.Percent>)
       expect(document.querySelector(displaySelector).textContent).toBe(
         '– %'
       )
 
-      rerender(<Component percent>{undefined}</Component>)
+      rerender(<NumberFormat.Percent>{undefined}</NumberFormat.Percent>)
       expect(document.querySelector(displaySelector).textContent).toBe(
         '– %'
       )
     })
 
     it('when ban', () => {
-      const { rerender } = render(<Component value={''} ban />)
+      const { rerender } = render(
+        <NumberFormat.BankAccountNumber value={''} />
+      )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<Component value={null} ban />)
+      rerender(<NumberFormat.BankAccountNumber value={null} />)
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<Component value={undefined} ban />)
+      rerender(<NumberFormat.BankAccountNumber value={undefined} />)
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<Component ban>{''}</Component>)
+      rerender(
+        <NumberFormat.BankAccountNumber>
+          {''}
+        </NumberFormat.BankAccountNumber>
+      )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<Component ban>{null}</Component>)
+      rerender(
+        <NumberFormat.BankAccountNumber>
+          {null}
+        </NumberFormat.BankAccountNumber>
+      )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<Component ban>{undefined}</Component>)
+      rerender(
+        <NumberFormat.BankAccountNumber>
+          {undefined}
+        </NumberFormat.BankAccountNumber>
+      )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
     })
 
     it('when nin', () => {
-      const { rerender } = render(<Component value={''} nin />)
+      const { rerender } = render(
+        <NumberFormat.NationalIdentityNumber value={''} />
+      )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<Component value={null} nin />)
+      rerender(<NumberFormat.NationalIdentityNumber value={null} />)
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<Component value={undefined} nin />)
+      rerender(<NumberFormat.NationalIdentityNumber value={undefined} />)
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<Component nin>{''}</Component>)
+      rerender(
+        <NumberFormat.NationalIdentityNumber>
+          {''}
+        </NumberFormat.NationalIdentityNumber>
+      )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<Component nin>{null}</Component>)
+      rerender(
+        <NumberFormat.NationalIdentityNumber>
+          {null}
+        </NumberFormat.NationalIdentityNumber>
+      )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<Component nin>{undefined}</Component>)
+      rerender(
+        <NumberFormat.NationalIdentityNumber>
+          {undefined}
+        </NumberFormat.NationalIdentityNumber>
+      )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
     })
 
     it('when org', () => {
-      const { rerender } = render(<Component value={''} org />)
+      const { rerender } = render(
+        <NumberFormat.OrganizationNumber value={''} />
+      )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<Component value={null} org />)
+      rerender(<NumberFormat.OrganizationNumber value={null} />)
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<Component value={undefined} org />)
+      rerender(<NumberFormat.OrganizationNumber value={undefined} />)
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<Component org>{''}</Component>)
+      rerender(
+        <NumberFormat.OrganizationNumber>
+          {''}
+        </NumberFormat.OrganizationNumber>
+      )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<Component org>{null}</Component>)
+      rerender(
+        <NumberFormat.OrganizationNumber>
+          {null}
+        </NumberFormat.OrganizationNumber>
+      )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<Component org>{undefined}</Component>)
+      rerender(
+        <NumberFormat.OrganizationNumber>
+          {undefined}
+        </NumberFormat.OrganizationNumber>
+      )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
     })
 
     it('when phone', () => {
-      const { rerender } = render(<Component value={''} phone />)
+      const { rerender } = render(<NumberFormat.PhoneNumber value={''} />)
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<Component value={null} phone />)
+      rerender(<NumberFormat.PhoneNumber value={null} />)
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<Component value={undefined} phone />)
+      rerender(<NumberFormat.PhoneNumber value={undefined} />)
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<Component phone>{''}</Component>)
+      rerender(<NumberFormat.PhoneNumber>{''}</NumberFormat.PhoneNumber>)
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<Component phone>{null}</Component>)
+      rerender(<NumberFormat.PhoneNumber>{null}</NumberFormat.PhoneNumber>)
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
-      rerender(<Component phone>{undefined}</Component>)
+      rerender(
+        <NumberFormat.PhoneNumber>{undefined}</NumberFormat.PhoneNumber>
+      )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
     })
 

@@ -6,12 +6,13 @@
 import React from 'react'
 import { renderHook } from '@testing-library/react'
 import useNumberFormat from '../useNumberFormat'
+import { formatCurrency } from '../NumberUtils'
 import Provider from '../../../shared/Provider'
 
 describe('useNumberFormat', () => {
   it('will render without provider', () => {
     const { result } = renderHook(() =>
-      useNumberFormat(1234, { currency: true })
+      useNumberFormat(1234, formatCurrency)
     )
 
     expect(result.current).toBe('1 234,00 kr')
@@ -19,7 +20,7 @@ describe('useNumberFormat', () => {
 
   it('will return object when returnAria is true', () => {
     const { result } = renderHook(() =>
-      useNumberFormat(1234, { currency: true, returnAria: true })
+      useNumberFormat(1234, formatCurrency, { returnAria: true })
     )
 
     expect(result.current).toEqual(
@@ -46,7 +47,10 @@ describe('useNumberFormat', () => {
         {children}
       </Provider>
     )
-    const { result } = renderHook(() => useNumberFormat(1234), { wrapper })
+    const { result } = renderHook(
+      () => useNumberFormat(1234, formatCurrency),
+      { wrapper }
+    )
 
     expect(result.current).toBe('NOK\u00A01,234.00')
   })
@@ -62,7 +66,10 @@ describe('useNumberFormat', () => {
         {children}
       </Provider>
     )
-    const { result } = renderHook(() => useNumberFormat(1234), { wrapper })
+    const { result } = renderHook(
+      () => useNumberFormat(1234, formatCurrency),
+      { wrapper }
+    )
 
     expect(result.current).toBe('NOK\u00A01,234.00')
   })
@@ -78,9 +85,10 @@ describe('useNumberFormat', () => {
         {children}
       </Provider>
     )
-    const { result } = renderHook(() => useNumberFormat('invalid'), {
-      wrapper,
-    })
+    const { result } = renderHook(
+      () => useNumberFormat('invalid', formatCurrency),
+      { wrapper }
+    )
 
     expect(result.current).toBe('NOK –')
   })

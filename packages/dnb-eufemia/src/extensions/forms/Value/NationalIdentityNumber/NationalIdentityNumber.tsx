@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import type { ValueStringProps as StringValueProps } from '../String'
 import StringValue from '../String'
 import {
-  format,
+  formatNationalIdentityNumber,
   cleanNumber,
 } from '../../../../components/number-format/NumberUtils'
 import useTranslation from '../../hooks/useTranslation'
@@ -18,9 +18,7 @@ function NationalIdentityNumber(props: ValueNationalIdentityNumberProps) {
     if (isValueEmpty(value)) {
       return undefined
     }
-    return format(cleanNumber(value), {
-      nin: true,
-    }).toString()
+    return formatNationalIdentityNumber(cleanNumber(value)).toString()
   }, [])
 
   const stringValueProps: ValueNationalIdentityNumberProps = {

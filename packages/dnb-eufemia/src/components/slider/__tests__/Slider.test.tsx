@@ -10,7 +10,7 @@ import Slider, { SliderMarker } from '../Slider'
 import * as PopoverModule from '../../popover/Popover'
 
 import type { SliderAllProps, SliderOnChangeParams } from '../Slider'
-import { format } from '../../number-format/NumberUtils'
+import { formatPercent } from '../../number-format/NumberUtils'
 import { Provider } from '../../../shared'
 
 const props: SliderAllProps = {
@@ -315,7 +315,7 @@ describe('Slider component', () => {
         <Slider
           {...props}
           id="unique-tooltip"
-          numberFormat={(value) => format(value, { percent: true })}
+          numberFormat={(value) => formatPercent(value)}
           tooltip
           step={null}
         />

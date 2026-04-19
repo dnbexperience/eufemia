@@ -90,7 +90,7 @@ render(
   <Provider>
     <MyApp>
       <ChangeLocale />
-      text <NumberFormat>123</NumberFormat> table etc.
+      text <NumberFormat.Number>123</NumberFormat.Number> table etc.
     </MyApp>
   </Provider>
 )
@@ -134,10 +134,10 @@ render(
   <Provider locale="en-GB">
     <MyApp>
       <Provider locale="nb-NO">
-        Norsk <NumberFormat>1234</NumberFormat>
+        Norsk <NumberFormat.Number>1234</NumberFormat.Number>
         <ChangeLocale />
       </Provider>
-      English <NumberFormat>1234</NumberFormat>
+      English <NumberFormat.Number>1234</NumberFormat.Number>
     </MyApp>
   </Provider>
 )

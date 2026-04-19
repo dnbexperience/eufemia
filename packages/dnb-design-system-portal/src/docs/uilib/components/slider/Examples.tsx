@@ -6,7 +6,10 @@
 import styled from '@emotion/styled'
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { format } from '@dnb/eufemia/src/components/number-format/NumberUtils'
+import {
+  formatCurrency,
+  formatPercent,
+} from '@dnb/eufemia/src/components/number-format/NumberUtils'
 import { Slider, HelpButton, Input, Flex } from '@dnb/eufemia/src'
 import { SliderMarker } from '@dnb/eufemia/src/components/slider/Slider'
 
@@ -24,7 +27,7 @@ export const SliderExampleDefault = () => (
 )
 
 export const SliderExampleMultiButtons = () => (
-  <ComponentBox data-visual-test="slider-multi" scope={{ format }}>
+  <ComponentBox data-visual-test="slider-multi" scope={{ formatPercent }}>
     <Flex.Vertical align="stretch">
       <Slider
         min={0}
@@ -41,9 +44,7 @@ export const SliderExampleMultiButtons = () => (
         max={100}
         value={[10, 30, 50, 70]}
         label="Multi thumbs"
-        numberFormat={(value) =>
-          format(value, { percent: true, decimals: 0 })
-        }
+        numberFormat={(value) => formatPercent(value, { decimals: 0 })}
         tooltip
         onChange={({ value, number }) =>
           console.log('onChange:', value, number)
@@ -81,7 +82,7 @@ export const SliderExampleMultiButtonsThumbBehavior = () => (
 )
 
 export const SliderExampleHorizontalSync = () => (
-  <ComponentBox scope={{ format }}>
+  <ComponentBox scope={{ formatCurrency }}>
     {() => {
       const Component = () => {
         const [value, setValue] = React.useState(70)
@@ -104,7 +105,7 @@ export const SliderExampleHorizontalSync = () => (
                 step={10}
                 label="Slider B"
                 numberFormat={(value) =>
-                  format(value, { currency: 'NOK' })
+                  formatCurrency(value, { currency: 'NOK' })
                 }
                 tooltip
                 alwaysShowTooltip

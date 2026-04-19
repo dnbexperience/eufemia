@@ -16,7 +16,7 @@ import {
   NumberFormat,
 } from '../..'
 import { Link } from '../../..'
-import { format } from '../../number-format/NumberUtils'
+import { formatBankAccountNumber } from '../../number-format/NumberUtils'
 import type { DrawerListDataArray } from '../../../fragments/DrawerList'
 
 export default {
@@ -129,42 +129,42 @@ export const GlobalStatusExample = () => {
 }
 
 export const SuffixAndStretchedStatus = () => {
-  const ban = format(21001234567, { ban: true }) as string
+  const ban = formatBankAccountNumber(21001234567)
 
   const numbers: DrawerListDataArray = [
     {
       selectedValue: `Brukskonto (${ban})`,
       suffixValue: (
-        <NumberFormat lang="nb" currency srLabel="Total:">
+        <NumberFormat.Currency lang="nb" srLabel="Total:">
           {12345678}
-        </NumberFormat>
+        </NumberFormat.Currency>
       ),
       content: ['Brukskonto', ban],
     },
     {
       selectedValue: `BSU (${ban})`,
       suffixValue: (
-        <NumberFormat currency srLabel="Total:">
+        <NumberFormat.Currency srLabel="Total:">
           {2223}
-        </NumberFormat>
+        </NumberFormat.Currency>
       ),
       content: ['BSU', ban],
     },
     {
       selectedValue: `Sparekonto (${ban})`,
       suffixValue: (
-        <NumberFormat currency srLabel="Total:">
+        <NumberFormat.Currency srLabel="Total:">
           {876555.5}
-        </NumberFormat>
+        </NumberFormat.Currency>
       ),
       content: ['Sparekonto', ban],
     },
     {
       selectedValue: `Brukskonto (${ban})`,
       suffixValue: (
-        <NumberFormat currency srLabel="Total:">
+        <NumberFormat.Currency srLabel="Total:">
           {34999.2}
-        </NumberFormat>
+        </NumberFormat.Currency>
       ),
       content: ['Brukskonto', ban],
     },

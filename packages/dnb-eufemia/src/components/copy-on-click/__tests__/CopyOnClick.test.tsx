@@ -134,7 +134,7 @@ describe('CopyOnClick', () => {
 
     render(
       <CopyOnClick>
-        <NumberFormat value={1234567.89} currency="NOK" />
+        <NumberFormat.Currency value={1234567.89} currency="NOK" />
       </CopyOnClick>
     )
 

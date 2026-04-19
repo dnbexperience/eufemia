@@ -68,12 +68,9 @@ describe('Wizard.Context', () => {
       expect(output()).toHaveTextContent('Step 1')
       expect(onStepChange).toHaveBeenCalledTimes(0)
 
+      await wait(10) // wait for the isInteractionRef to be set
+
       await userEvent.click(nextButton())
-
-      expect(output()).toHaveTextContent('Step 2')
-      expect(onStepChange).toHaveBeenCalledTimes(1)
-
-      await wait(100) // wait for the isInteractionRef to be set
 
       expect(output()).toHaveTextContent('Step 2')
       expect(onStepChange).toHaveBeenCalledTimes(1)

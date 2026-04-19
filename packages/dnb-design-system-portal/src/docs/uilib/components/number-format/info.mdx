@@ -31,15 +31,15 @@ Good reasons for why we have this:
 
 ### Supported formats
 
-- Numbers in general e.g. <code className="dnb-code"><NumberFormat value="12345678.90" /></code>
-- Currency e.g. <code className="dnb-code"><NumberFormat currency value="12345678.90" /></code>
-- Percentage e.g. <code className="dnb-code"><NumberFormat percent value="12.34" /></code>
-- Phone numbers e.g. <code className="dnb-code"><NumberFormat phone value="004799999999" /></code>
-- Bank account number e.g. <code className="dnb-code"><NumberFormat ban value="20001234567" /></code>
-- National identification number e.g. <code className="dnb-code"><NumberFormat nin value="18089212345" /></code>
-- Organization number e.g. <code className="dnb-code"><NumberFormat org value="123456789" /></code>
-- Compact (short) numbers e.g. <code className="dnb-code"><NumberFormat compact value="12345678" decimals={1} /></code>
-- Compact (long) currency e.g. <code className="dnb-code"><NumberFormat compact="long" currency currencyDisplay="name" value="12345678" decimals={1} /></code>
+- Numbers in general e.g. <code className="dnb-code"><NumberFormat.Number value="12345678.90" /></code>
+- Currency e.g. <code className="dnb-code"><NumberFormat.Currency value="12345678.90" /></code>
+- Percentage e.g. <code className="dnb-code"><NumberFormat.Percent value="12.34" /></code>
+- Phone numbers e.g. <code className="dnb-code"><NumberFormat.PhoneNumber value="004799999999" /></code>
+- Bank account number e.g. <code className="dnb-code"><NumberFormat.BankAccountNumber value="20001234567" /></code>
+- National identification number e.g. <code className="dnb-code"><NumberFormat.NationalIdentityNumber value="18089212345" /></code>
+- Organization number e.g. <code className="dnb-code"><NumberFormat.OrganizationNumber value="123456789" /></code>
+- Compact (short) numbers e.g. <code className="dnb-code"><NumberFormat.Number compact value="12345678" decimals={1} /></code>
+- Compact (long) currency e.g. <code className="dnb-code"><NumberFormat.Currency compact="long" currencyDisplay="name" value="12345678" decimals={1} /></code>
 
 ### Defaults
 
@@ -52,14 +52,14 @@ It uses the browser APIs `number.toLocaleString` or `Intl.NumberFormat.format` u
 
 When the currency format is set to `currencyDisplay="name"`, the currency will be displayed as "kroner" instead of "Norwegian kroner".
 
-- Norwegian currency: <code className="dnb-code"><NumberFormat currency currencyDisplay="name" value="1234.90" /></code>
-- Swedish currency: <code className="dnb-code"><NumberFormat currency="SEK" currencyDisplay="name" value="1234.90" /></code>
+- Norwegian currency: <code className="dnb-code"><NumberFormat.Currency currencyDisplay="name" value="1234.90" /></code>
+- Swedish currency: <code className="dnb-code"><NumberFormat.Currency currency="SEK" currencyDisplay="name" value="1234.90" /></code>
 
 #### Not available
 
 When a number should be displayed but is not available to the frontend application, the NumberFormat component will display a single **em dash** (–), and a screen reader will receive the text "Ikke tilgjengelig" / "Not available".
 
-Example: <NumberFormat value="invalid" currency />
+Example: <NumberFormat.Currency value="invalid" />
 
 ## Decimals
 
@@ -94,11 +94,39 @@ import Provider from '@dnb/eufemia/shared/Provider'
 render(
   <Provider locale="en-GB" NumberFormat={{ currencyDisplay: 'code' }}>
     <MyApp>
-      text <NumberFormat>123</NumberFormat> table etc.
+      text <NumberFormat.Number>123</NumberFormat.Number> table etc.
     </MyApp>
   </Provider>
 )
 ```
+
+## Formatter utilities
+
+Each variant has a matching formatter function you can use outside of React (e.g. in utilities, tests or server code). They are all available from the main import:
+
+```tsx
+import {
+  formatNumber,
+  formatCurrency,
+  formatPercent,
+  formatPhoneNumber,
+  formatBankAccountNumber,
+  formatNationalIdentityNumber,
+  formatOrganizationNumber,
+} from '@dnb/eufemia/components/NumberFormat'
+```
+
+| Formatter                      | Component variant                     |
+| ------------------------------ | ------------------------------------- |
+| `formatNumber`                 | `NumberFormat.Number`                 |
+| `formatCurrency`               | `NumberFormat.Currency`               |
+| `formatPercent`                | `NumberFormat.Percent`                |
+| `formatPhoneNumber`            | `NumberFormat.PhoneNumber`            |
+| `formatBankAccountNumber`      | `NumberFormat.BankAccountNumber`      |
+| `formatNationalIdentityNumber` | `NumberFormat.NationalIdentityNumber` |
+| `formatOrganizationNumber`     | `NumberFormat.OrganizationNumber`     |
+
+Each formatter accepts `(value, options?)` and returns a formatted string. Pass `{ returnAria: true }` to get the full object with `number`, `aria`, `cleanedValue` and `locale`.
 
 ## NumberFormat Hook
 
@@ -106,11 +134,14 @@ render(
 
 ```jsx
 import Provider from '@dnb/eufemia/shared/Provider'
-import { useNumberFormat } from '@dnb/eufemia/components/useNumberFormat'
+import {
+  useNumberFormat,
+  formatCurrency,
+} from '@dnb/eufemia/components/NumberFormat'
 
 function Component() {
   // By using returnAria you get an object
-  const { number, aria } = useNumberFormat(12345678.9, {
+  const { number, aria } = useNumberFormat(12345678.9, formatCurrency, {
     // Props are inherited from the Eufemia Provider and the NumberFormat object
     returnAria: true,
   })
@@ -136,13 +167,17 @@ You can also use `useNumberFormatWithParts` when you need split output for custo
 
 ```jsx
 import Provider from '@dnb/eufemia/shared/Provider'
-import { useNumberFormatWithParts } from '@dnb/eufemia/components/NumberFormat'
+import {
+  useNumberFormatWithParts,
+  formatCurrency,
+} from '@dnb/eufemia/components/NumberFormat'
 
 function Component() {
   // useNumberFormatWithParts defaults to returnAria=true
-  const { number, aria, parts } = useNumberFormatWithParts(12345678.9, {
-    currency: true,
-  })
+  const { number, aria, parts } = useNumberFormatWithParts(
+    12345678.9,
+    formatCurrency
+  )
 
   return (
     <span>
@@ -169,25 +204,27 @@ For prominent values with dedicated typography controls, use [Stat](/uilib/compo
 
 ## Formatting only (interceptor)
 
-You can use the `format` method without using a React Component or React Hook.
+You can use the variant formatter functions without using a React Component or React Hook.
 
 **Heads up:** If you do so, keep in mind that you will have to ensure all the accessibility enhancements the component offers. For that, you can use the `aria` field:
 
 ```ts
-import { format } from '@dnb/eufemia/components/number-format/NumberUtils'
+import {
+  formatCurrency,
+  formatNumber,
+} from '@dnb/eufemia/components/number-format/NumberUtils'
 
 // By using returnAria you get an object
-const { number, aria } = format(12345678.9, {
+const { number, aria } = formatCurrency(12345678.9, {
   locale: 'nb-NO', // not inherited
-  currency: true,
   returnAria: true,
 })
 
 // Basic formatting
-const number = format(1234)
+const number = formatNumber(1234)
 ```
 
-The `format` method will accept the same [properties](/uilib/components/number-format/properties) as the component.
+Each variant formatter accepts the same options as the corresponding component variant.
 
 ### Interceptor helpers
 

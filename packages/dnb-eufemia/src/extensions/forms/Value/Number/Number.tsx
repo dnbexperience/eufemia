@@ -5,7 +5,12 @@ import useValueProps from '../../hooks/useValueProps'
 import type { ValueProps } from '../../types'
 import { omitSpacingProps } from '../../../../components/flex/utils'
 import type { NumberFormatProps } from '../../../../components/NumberFormat'
-import NumberFormat from '../../../../components/NumberFormat'
+import NumberFormatBase, {
+  type NumberFormatInternalFormatter,
+} from '../../../../components/number-format/NumberFormatBase'
+import { formatCurrency } from '../../../../components/number-format/utils/formatCurrency'
+import { formatPercent } from '../../../../components/number-format/utils/formatPercent'
+import { formatNumber } from '../../../../components/number-format/utils/formatNumber'
 
 import type { SpacingProps } from '../../../../shared/types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
@@ -20,6 +25,8 @@ export type ValueNumberProps = Omit<ValueProps<number>, 'defaultValue'> &
     defaultValue?: number | string
     minimum?: number
     maximum?: number
+    /** Formats the value as a percentage. */
+    percent?: boolean
   }>
 
 function NumberValue(props: ValueNumberProps) {
@@ -36,7 +43,11 @@ function NumberValue(props: ValueNumberProps) {
     ...rest
     // @ts-expect-error - strictFunctionTypes
   } = useValueProps(props)
-  const numberFormatProps = omitSpacingProps(rest)
+  const { percent, ...numberFormatRest } = omitSpacingProps(
+    rest
+  ) as ValueNumberProps & {
+    percent?: boolean
+  }
 
   let value = valueProp
   if (value < minimum) {
@@ -46,6 +57,13 @@ function NumberValue(props: ValueNumberProps) {
     value = maximum
   }
 
+  const formatter: NumberFormatInternalFormatter = percent
+    ? formatPercent
+    : numberFormatRest.currency === true ||
+        typeof numberFormatRest.currency === 'string'
+      ? formatCurrency
+      : formatNumber
+
   return (
     <ValueBlock
       className={clsx('dnb-forms-value-number', className)}
@@ -54,7 +72,11 @@ function NumberValue(props: ValueNumberProps) {
       {...rest}
     >
       {typeof value !== 'undefined' || showEmpty ? (
-        <NumberFormat value={value} {...numberFormatProps} />
+        <NumberFormatBase
+          value={value}
+          {...numberFormatRest}
+          __format={formatter}
+        />
       ) : null}
     </ValueBlock>
   )

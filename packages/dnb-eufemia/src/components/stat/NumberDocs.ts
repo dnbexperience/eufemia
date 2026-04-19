@@ -27,6 +27,11 @@ export const NumberProperties: PropertiesTableProps = {
     'skeleton',
     'options',
   ]),
+  percent: {
+    doc: 'Formats the value as a percentage.',
+    type: 'boolean',
+    status: 'optional',
+  },
   fontSize: fontSizeProperty,
   mainSize: mainSizeProperty,
   mainWeight: mainWeightProperty,

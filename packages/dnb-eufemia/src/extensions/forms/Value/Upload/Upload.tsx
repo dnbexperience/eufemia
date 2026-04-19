@@ -10,7 +10,7 @@ import { getFileIcon } from '../../../../components/upload/UploadFileListCell'
 import { BYTES_IN_A_MEGA_BYTE } from '../../../../components/upload/UploadVerify'
 import type { FieldUploadProps as FieldUploadProps } from '../../Field/Upload/Upload'
 import { transformFiles } from '../../Field/Upload/Upload'
-import { format } from '../../../../components/number-format/NumberUtils'
+import { formatNumber } from '../../../../components/number-format/NumberUtils'
 import { UploadFileLink } from '../../../../components/upload/UploadFileListLink'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
@@ -96,7 +96,7 @@ function getSize(size: number) {
   }
   // Converts from b (binary) to MB (decimal)
   const sizeInMb = size / BYTES_IN_A_MEGA_BYTE
-  return ` (${format(sizeInMb, {
+  return ` (${formatNumber(sizeInMb, {
     decimals: 0,
   })} MB)`
 }

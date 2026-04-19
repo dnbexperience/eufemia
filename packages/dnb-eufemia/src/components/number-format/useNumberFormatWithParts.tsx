@@ -1,25 +1,13 @@
-import useNumberFormat from './useNumberFormat'
+import { useContext } from 'react'
+import Context from '../../shared/Context'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import type {
   NumberFormatOptionParams,
-  NumberFormatValue,
   NumberFormatReturnValue,
+  NumberFormatValue,
 } from './NumberUtils'
-
-type UseNumberFormatWithPartsOptions = Omit<
-  NumberFormatOptionParams,
-  | 'currencyDisplay'
-  | 'currencyPosition'
-  | 'omitCurrencySign'
-  | 'cleanCopyValue'
-  | 'options'
-> & {
-  currencyDisplay?: NumberFormatOptionParams['currencyDisplay']
-  currencyPosition?: NumberFormatOptionParams['currencyPosition'] | 'auto'
-  omitCurrencySign?: NumberFormatOptionParams['omitCurrencySign']
-  cleanCopyValue?: NumberFormatOptionParams['cleanCopyValue']
-  options?: NumberFormatOptionParams['options']
-  forceCurrencyAfterAmount?: boolean
-}
+import { formatNumber } from './utils'
+import type { NumberFormatter } from './useNumberFormat'
 
 export type NumberFormatParts = {
   sign: string | null
@@ -33,198 +21,103 @@ export type NumberFormatParts = {
   percentSpacing: string
 }
 
-function useNumberFormatWithParts(
-  value: NumberFormatValue,
-  options: UseNumberFormatWithPartsOptions = {}
-) {
-  const normalizedOptions: UseNumberFormatWithPartsOptions = {
-    returnAria: true,
-    ...options,
-  }
-
-  if (!Object.hasOwn(options, 'currency')) {
-    normalizedOptions.currency = false
-  }
-
-  const formatOptions: NumberFormatOptionParams = {
-    ...normalizedOptions,
-    currencyDisplay: normalizedOptions.currencyDisplay,
-    currencyPosition:
-      normalizedOptions.currencyPosition === 'auto'
-        ? null
-        : normalizedOptions.currencyPosition,
-    omitCurrencySign: normalizedOptions.omitCurrencySign,
-    cleanCopyValue: normalizedOptions.cleanCopyValue,
-  }
-
-  const amountOnly = useNumberFormat(value, {
-    ...formatOptions,
-    omitCurrencySign: true,
-    returnAria: true,
-  })
-
-  const result = useNumberFormat(value, formatOptions)
-
-  if (
-    !normalizedOptions.returnAria ||
-    typeof result !== 'object' ||
-    result === null
-  ) {
-    return result
-  }
-
-  const formatted = result as NumberFormatReturnValue
-
-  if (formatted.type !== 'currency') {
-    return {
-      ...formatted,
-      parts: getFallbackParts(formatted.number),
-    } as NumberFormatReturnWithParts
-  }
-
-  if (typeof amountOnly !== 'object' || amountOnly === null) {
-    return {
-      ...formatted,
-      parts: getFallbackParts(formatted.number),
-    } as NumberFormatReturnWithParts
-  }
-
-  const unsignedAmount = amountOnly as NumberFormatReturnValue
-  const splitAmount = splitLeadingSign(unsignedAmount.number)
-  const splitFull = splitLeadingSign(formatted.number)
-  const amountWithoutSign = splitAmount.value
-  const fullWithoutSign = splitFull.value
-  const amountPosition = fullWithoutSign.indexOf(amountWithoutSign)
-
-  if (amountPosition < 0) {
-    return {
-      ...formatted,
-      parts: {
-        sign: splitAmount.sign,
-        signedNumber: unsignedAmount.number,
-        number: splitAmount.value,
-        currency: null,
-        currencyPosition: null,
-        spaceAfterCurrency: false,
-        spaceBeforeCurrency: false,
-        percent: null,
-        percentSpacing: '',
-      },
-    } as NumberFormatReturnWithParts
-  }
-
-  const beforeAmount = fullWithoutSign.slice(0, amountPosition).trim()
-  const afterAmount = fullWithoutSign
-    .slice(amountPosition + amountWithoutSign.length)
-    .trim()
-  const hasCurrencyBefore = beforeAmount.length > 0
-  const currency = hasCurrencyBefore ? beforeAmount : afterAmount
-  const hasCurrency = Boolean(currency)
-  const usedCurrencyPosition = normalizedOptions.currencyPosition ?? 'auto'
-  let renderCurrencyBefore = hasCurrencyBefore
-
-  if (
-    normalizedOptions.signDisplay === 'always' &&
-    usedCurrencyPosition === 'auto'
-  ) {
-    renderCurrencyBefore = false
-  }
-
-  if (
-    normalizedOptions.forceCurrencyAfterAmount &&
-    usedCurrencyPosition === 'auto'
-  ) {
-    renderCurrencyBefore = false
-  }
-
-  const shouldOmitCurrencySpace =
-    normalizedOptions.signDisplay === 'always' &&
-    usedCurrencyPosition === 'auto'
-  const spaceAfterCurrency =
-    renderCurrencyBefore && hasCurrency && !shouldOmitCurrencySpace
-  const spaceBeforeCurrency =
-    !renderCurrencyBefore && hasCurrency && !shouldOmitCurrencySpace
-
-  return {
-    ...formatted,
-    parts: {
-      sign: splitAmount.sign,
-      signedNumber: unsignedAmount.number,
-      number: splitAmount.value,
-      currency: currency || null,
-      currencyPosition: hasCurrency
-        ? renderCurrencyBefore
-          ? 'before'
-          : 'after'
-        : null,
-      spaceAfterCurrency,
-      spaceBeforeCurrency,
-      percent: null,
-      percentSpacing: '',
-    },
-  } as NumberFormatReturnWithParts
-}
-
-type NumberFormatReturnWithParts = NumberFormatReturnValue & {
+export type NumberFormatReturnWithParts = NumberFormatReturnValue & {
   parts: NumberFormatParts
 }
 
-function getFallbackParts(number: string): NumberFormatParts {
-  const splitNumber = splitLeadingSign(number)
-  const splitPercent = splitTrailingPercent(splitNumber.value)
-  const hasPercent = Boolean(splitPercent)
-  const valueWithoutPercent = hasPercent
-    ? splitPercent.number
-    : splitNumber.value
+/**
+ * Same contract as `useNumberFormat`, but additionally splits the
+ * formatted display string into structured `parts` (sign, number, currency,
+ * percent) so consumers can style each piece independently.
+ *
+ * `formatter` defaults to `formatNumber`. Pass `formatCurrency` or
+ * `formatPercent` for currency/percent output. The returned `parts` are
+ * derived from the formatter's display string, so any formatter that
+ * returns a `NumberFormatReturnValue` works.
+ */
+function useNumberFormatWithParts(
+  value: NumberFormatValue,
+  formatter: NumberFormatter,
+  options: NumberFormatOptionParams & { returnAria: false }
+): string
+function useNumberFormatWithParts(
+  value: NumberFormatValue,
+  formatter?: NumberFormatter,
+  options?: NumberFormatOptionParams
+): NumberFormatReturnWithParts
+function useNumberFormatWithParts(
+  value: NumberFormatValue,
+  formatter: NumberFormatter = formatNumber,
+  options: NumberFormatOptionParams = {}
+): NumberFormatReturnWithParts | string {
+  const context = useContext(Context)
+  const params = extendPropsWithContext(
+    { returnAria: true, ...options },
+    { locale: context.locale },
+    context.NumberFormat
+  ) as NumberFormatOptionParams
+
+  const result = formatter(value, params) as
+    | NumberFormatReturnValue
+    | string
+
+  if (typeof result === 'string') {
+    return result
+  }
 
   return {
-    sign: splitNumber.sign,
-    signedNumber: `${splitNumber.sign ?? ''}${valueWithoutPercent}`,
-    number: valueWithoutPercent,
-    currency: null,
-    currencyPosition: null,
-    spaceAfterCurrency: false,
-    spaceBeforeCurrency: false,
-    percent: hasPercent ? splitPercent.percent : null,
-    percentSpacing: hasPercent ? splitPercent.spacing : '',
+    ...result,
+    parts: parseParts(result.number),
   }
 }
 
-function splitTrailingPercent(value: string) {
-  const match = String(value || '').match(/^(.*?)([\u00a0\s]*[%٪])$/)
+const SIGN_RE = /^[\u200e\u200f\u061c\s]*([+\-\u2212])?\s*/
+const NUMBER_RE = /[0-9](?:[0-9.,]|[\s\u00A0\u202F](?=[0-9]))*/
+const PERCENT_RE = /^([\u00A0\u202F\s]*)([%٪])\s*$/
 
-  if (!match) {
-    return null
-  }
+function parseParts(input: string): NumberFormatParts {
+  const source = String(input ?? '')
+  const signMatch = source.match(SIGN_RE) as RegExpMatchArray
+  const sign = signMatch[1] ?? null
+  const afterSign = source.slice(signMatch[0].length)
+  const numberMatch = afterSign.match(NUMBER_RE)
 
-  const before = match[1]
-  const suffix = match[2]
-  const percent = suffix.trim()
-
-  return {
-    number: before,
-    percent,
-    spacing: suffix.slice(0, -percent.length),
-  }
-}
-
-function splitLeadingSign(value: string) {
-  const normalizedValue = String(value || '').replace(
-    /^[\u200e\u200f\u061c\s]+/,
-    ''
-  )
-  const match = normalizedValue.match(/^([+\-−])\s?(.*)$/)
-
-  if (!match) {
+  if (!numberMatch) {
     return {
-      sign: null,
-      value: normalizedValue,
+      sign,
+      signedNumber: source.trim(),
+      number: afterSign.trim(),
+      currency: null,
+      currencyPosition: null,
+      spaceAfterCurrency: false,
+      spaceBeforeCurrency: false,
+      percent: null,
+      percentSpacing: '',
     }
   }
 
+  const number = numberMatch[0].trim()
+  const signedNumber = sign ? `${sign}${number}` : number
+  const before = afterSign.slice(0, numberMatch.index).trim()
+  const after = afterSign.slice(numberMatch.index! + numberMatch[0].length)
+  const percentMatch = after.match(PERCENT_RE)
+  const percent = percentMatch ? percentMatch[2] : null
+  const percentSpacing = percentMatch ? percentMatch[1] : ''
+  const trailing = percentMatch ? '' : after.trim()
+  const hasBefore = before.length > 0
+  const hasAfter = trailing.length > 0
+  const currency = hasBefore ? before : hasAfter ? trailing : null
+
   return {
-    sign: match[1],
-    value: match[2],
+    sign,
+    signedNumber,
+    number,
+    currency,
+    currencyPosition: hasBefore ? 'before' : hasAfter ? 'after' : null,
+    spaceAfterCurrency: hasBefore,
+    spaceBeforeCurrency: hasAfter,
+    percent,
+    percentSpacing,
   }
 }
 

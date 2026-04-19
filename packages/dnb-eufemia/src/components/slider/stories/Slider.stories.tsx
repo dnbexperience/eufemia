@@ -8,7 +8,7 @@ import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
 import { Slider, ToggleButton, Input, FormLabel, Flex } from '../../'
-import { format } from '../../number-format/NumberUtils'
+import { formatCurrency } from '../../number-format/NumberUtils'
 import { Provider } from '../../../shared'
 import SliderMarker from '../SliderMarker'
 
@@ -52,7 +52,9 @@ export function Marker() {
         min={-40}
         max={100}
         stretch
-        numberFormat={(value) => format(value, { currency: 'USD' })}
+        numberFormat={(value) =>
+          formatCurrency(value, { currency: 'USD' })
+        }
         tooltip
       />
       <div style={{ height: '20rem' }}>
@@ -89,7 +91,9 @@ export function NegativeValues() {
         min={-40}
         max={100}
         stretch
-        numberFormat={(value) => format(value, { currency: 'USD' })}
+        numberFormat={(value) =>
+          formatCurrency(value, { currency: 'USD' })
+        }
         tooltip
         onChange={({ value, number }) => {
           console.log('onChange:', value, number)
@@ -117,7 +121,9 @@ export function MultiButtons() {
           max={1000}
           step={10}
           stretch
-          numberFormat={(value) => format(value, { currency: 'USD' })}
+          numberFormat={(value) =>
+            formatCurrency(value, { currency: 'USD' })
+          }
           tooltip
           onChange={({ value, number }) => {
             setValue(value as Array<number>)

@@ -9,7 +9,7 @@ import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { InputProps } from '../Input'
 import Input from '../Input'
-import { format } from '../../number-format/NumberUtils'
+import { formatNumber } from '../../number-format/NumberUtils'
 import { Provider } from '../../../shared'
 import {
   add_medium as AddIcon,
@@ -111,7 +111,7 @@ describe('Input component', () => {
       const [value, setValue] = React.useState(initialValue)
       return (
         <Input
-          value={String(format(value))}
+          value={String(formatNumber(value))}
           onChange={({ value }) => {
             setValue(value)
           }}
@@ -122,7 +122,7 @@ describe('Input component', () => {
     render(<Controlled />)
 
     expect(document.querySelector('input').value).toBe(
-      format(initialValue)
+      formatNumber(initialValue)
     )
 
     const newValue = '12345678'
@@ -130,7 +130,9 @@ describe('Input component', () => {
       target: { value: newValue },
     })
 
-    expect(document.querySelector('input').value).toBe(format(newValue))
+    expect(document.querySelector('input').value).toBe(
+      formatNumber(newValue)
+    )
   })
 
   it('value can be manipulated during onChange', () => {

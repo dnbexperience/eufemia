@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import type { ValueStringProps as StringValueProps } from '../String'
 import StringValue from '../String'
 import {
-  format,
+  formatOrganizationNumber,
   cleanNumber,
 } from '../../../../components/number-format/NumberUtils'
 import useTranslation from '../../hooks/useTranslation'
@@ -18,9 +18,7 @@ function OrganizationNumber(props: ValueOrganizationNumberProps) {
     if (isValueEmpty(value)) {
       return undefined
     }
-    return format(cleanNumber(value), {
-      org: true,
-    }).toString()
+    return formatOrganizationNumber(cleanNumber(value)).toString()
   }, [])
 
   const stringValueProps: ValueOrganizationNumberProps = {
