@@ -53,6 +53,8 @@ export {
   formatPercent,
   formatPhoneNumber,
   formatBankAccountNumber,
+  formatBankAccountNumberByType,
   formatNationalIdentityNumber,
   formatOrganizationNumber,
 } from './utils'
+export type { BankAccountType } from './utils'

@@ -5,11 +5,18 @@ showTabs: true
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { ValueProperties } from '@dnb/eufemia/src/extensions/forms/Value/ValueDocs'
+import { BankAccountNumberValueProperties } from '@dnb/eufemia/src/extensions/forms/Value/BankAccountNumber/BankAccountNumberDocs'
 
 ## Properties
+
+### BankAccountNumber-specific properties
+
+<PropertiesTable props={BankAccountNumberValueProperties} />
+
+### General properties
 
 <PropertiesTable props={ValueProperties} />
 
 ## Translations
 
-<TranslationsTable localeKey={['BankAccountNumber.label']} />
+<TranslationsTable localeKey={['BankAccountNumber']} />

@@ -185,6 +185,10 @@ export default {
     },
     BankAccountNumber: {
       label: 'Bankkonto',
+      labelSwedishBban: 'Svenskt kontonummer',
+      labelSwedishBankgiro: 'Bankgiro',
+      labelSwedishPlusgiro: 'Plusgiro',
+      labelIban: 'IBAN',
       errorRequired: 'Du måste fylla i ett kontonummer.',
       errorBankAccountNumber: 'Ogiltigt kontonummer.',
       errorBankAccountNumberLength:

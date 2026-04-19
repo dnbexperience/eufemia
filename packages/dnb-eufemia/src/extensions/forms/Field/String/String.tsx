@@ -199,7 +199,7 @@ function StringComponent(props: FieldStringProps) {
     ...props,
     schema,
     // @ts-expect-error - strictFunctionTypes
-    fromInput,
+    fromInput: props.fromInput ?? fromInput,
     toEvent,
     transformValue,
     width:
