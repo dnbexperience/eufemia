@@ -1,4 +1,17 @@
-import { detectCountryCode } from '../..'
+import detectCountryCode from '../detectCountryCode'
+import countryCodes from '../constants/countryCodes'
+import countries from '../../extensions/forms/constants/countries'
+
+describe('countryCodes', () => {
+  it('should contain the same CDC values as countries', () => {
+    const fromCountries = Array.from(
+      new Set(countries.map((c) => c.cdc))
+    ).sort()
+    const fromCountryCodes = Array.from(new Set([...countryCodes])).sort()
+
+    expect(fromCountryCodes).toEqual(fromCountries)
+  })
+})
 
 describe('detectCountryCode', () => {
   it('should detect +47 (Norway)', () => {

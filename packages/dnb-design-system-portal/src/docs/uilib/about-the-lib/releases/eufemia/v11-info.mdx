@@ -2091,6 +2091,12 @@ const formatted = useNumberFormatWithParts(value, formatCurrency, {
 
 The returned `parts` shape is unchanged. `parts` are now derived from the formatter's display string, so any formatter returning a `NumberFormatReturnValue` (including custom ones) can be passed in.
 
+#### Behavioral changes
+
+- Phone formatting no longer treats bare numbers starting with `47` as having a Norwegian country code. Use E.164 format with an explicit `+` prefix (e.g. `+4712345678`) or the `00` prefix (e.g. `004712345678`) to indicate a country code. For example, `4712345678` now formats as `47 12 34 56 78` instead of `+47 12 34 56 78`.
+- Phone formatting now auto-detects country codes for all countries from spaceless E.164 numbers (e.g. `+35812345678` → `+358 23 45 67 89`). Previously, only Norwegian (`+47`) spaceless numbers were detected.
+- Phone formatting now also accepts space-separated values (e.g. `+47 12345678`) and values with dashes. Unrecognized values (no digits) are returned as-is.
+
 #### Properties (per variant)
 
 - Replace `omit_rounding` with `rounding="omit"`.
@@ -2600,7 +2606,7 @@ Docs: [All Fields](/uilib/extensions/forms/all-fields/)
 
 The component now emits values in E.164 format: `"+4712345678"` instead of `"+47 12345678"`. This applies to `onChange`, `transformOut`, the data context, and pattern/schema validation.
 
-**Migration:** If you relied on the space between the country code and the phone number, update your code to handle E.164 format. The `additionalArgs` second argument of `onChange` still provides `countryCode` and `phoneNumber` separately. Values with spaces (e.g. `"+47 12345678"`) are no longer accepted and will not be displayed.
+**Migration:** If you relied on the space between the country code and the phone number, update your code to handle E.164 format. The `additionalArgs` second argument of `onChange` still provides `countryCode` and `phoneNumber` separately. Spaced values (e.g. `"+47 12345678"`) are not accepted as input to `Field.PhoneNumber` — use E.164 format without spaces. However, `Value.PhoneNumber` and `NumberFormat` do accept and format spaced values.
 
 If you used a `pattern` or `schema` that matched the space-separated format (e.g. `^\+47 [49]+`), remove the space from your pattern (e.g. `^\+47[49]+`).
 
@@ -2610,7 +2616,11 @@ The component now auto-detects country codes from E.164 values like `"+471234567
 
 #### `detectCountryCode` utility
 
-A new `detectCountryCode` utility is exported from `@dnb/eufemia/extensions/forms` for detecting E.164 country codes from phone number strings.
+A new `detectCountryCode` utility is available for detecting E.164 country codes from phone number strings.
+
+```ts
+import detectCountryCode from '@dnb/eufemia/shared/detectCountryCode'
+```
 
 #### Translations
 

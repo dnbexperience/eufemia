@@ -153,7 +153,7 @@ export const NumberPhone = () => (
     <ComponentBox data-visual-test="number-format-phone">
       <P>
         <NumberFormat.PhoneNumber value="99999999" />
-        <NumberFormat.PhoneNumber value="4799999999" />
+        <NumberFormat.PhoneNumber value="+4799999999" />
         <NumberFormat.PhoneNumber value="004799999999" />
         <NumberFormat.PhoneNumber value="+4780022222" link="sms" />
         <NumberFormat.PhoneNumber value="+47116000" selectAll={false} />
