@@ -8,7 +8,7 @@ import E from '../Element'
 import {
   applySpacing,
   removeSpaceProps,
-} from '../../components/space/SpacingHelper'
+} from '../../components/space/SpacingUtils'
 import type { DynamicElement, SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../../components/skeleton/Skeleton'
 import clsx from 'clsx'

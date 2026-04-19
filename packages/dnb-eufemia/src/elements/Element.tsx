@@ -10,7 +10,7 @@ import {
   validateDOMAttributes,
   extendPropsWithContext,
 } from '../shared/component-helper'
-import { applySpacing } from '../components/space/SpacingHelper'
+import { applySpacing } from '../components/space/SpacingUtils'
 import type { SkeletonMethods } from '../components/skeleton/SkeletonHelper'
 import {
   createSkeletonClass,

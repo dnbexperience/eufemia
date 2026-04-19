@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import clsx from 'clsx'
 
 // Shared
-import { applySpacing } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import Provider from '../../shared/Provider'
 import Context from '../../shared/Context'
 import {

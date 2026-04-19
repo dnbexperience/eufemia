@@ -15,7 +15,7 @@ import {
   removeUndefinedProps,
 } from '../../shared/component-helper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-import { applySpacing } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import Space from '../Space'
 import FormLabel from '../FormLabel'

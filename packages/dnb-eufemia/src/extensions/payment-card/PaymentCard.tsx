@@ -10,7 +10,7 @@ import {
   extendExistingPropsWithContext,
   removeUndefinedProps,
 } from '../../shared/component-helper'
-import { applySpacing } from '../../components/space/SpacingHelper'
+import { applySpacing } from '../../components/space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,

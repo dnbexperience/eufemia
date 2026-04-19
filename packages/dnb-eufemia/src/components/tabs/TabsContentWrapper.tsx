@@ -5,7 +5,7 @@ import {
   validateDOMAttributes,
   combineLabelledBy,
 } from '../../shared/component-helper'
-import { applySpacing } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import Section from '../section/Section'
 import {
   createSharedState,

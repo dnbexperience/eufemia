@@ -11,7 +11,7 @@ import {
 } from '../../shared/component-helper'
 import { LOCALE } from '../../shared/defaults'
 import Space from '../space/Space'
-import { applySpacing } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 import type { SpacingProps } from '../../shared/types'

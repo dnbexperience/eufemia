@@ -20,7 +20,7 @@ import {
 // Internal
 import TagGroup from './TagGroup'
 import { TagGroupContext } from './TagContext'
-import { applySpacing } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 
 export type TagProps = {
   /**

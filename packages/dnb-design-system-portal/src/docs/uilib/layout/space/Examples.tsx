@@ -8,7 +8,7 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { Space, Input, Button, P, Code } from '@dnb/eufemia/src'
 import { Provider } from '@dnb/eufemia/src/shared'
-import { applySpacing } from '@dnb/eufemia/src/components/space/SpacingHelper'
+import { applySpacing } from '@dnb/eufemia/src/components/space/SpacingUtils'
 import type { Theme } from '@emotion/react'
 
 export const Method1 = () => (

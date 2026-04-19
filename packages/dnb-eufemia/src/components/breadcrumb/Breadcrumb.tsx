@@ -9,7 +9,7 @@ import clsx from 'clsx'
 
 // Components
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
-import { applySpacing } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import type {
   SectionBackgroundColor,
   SectionVariants,

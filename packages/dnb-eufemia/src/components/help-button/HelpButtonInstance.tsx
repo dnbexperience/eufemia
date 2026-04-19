@@ -10,7 +10,7 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
-import { applySpacing } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import type { ButtonProps } from '../button/Button'
 import Button from '../button/Button'
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import Context from '../../../shared/Context'
-import { applySpacing } from '../../space/SpacingHelper'
+import { applySpacing } from '../../space/SpacingUtils'
 import { createSkeletonClass } from '../../skeleton/SkeletonHelper'
 import type { IconIcon, IconSize } from '../../icon/Icon'
 import type { SkeletonShow } from '../../skeleton/Skeleton'

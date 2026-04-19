@@ -14,7 +14,7 @@ import {
 import IconPrimary from '../icon-primary/IconPrimary'
 import clsx from 'clsx'
 import AccordionContext from './AccordionContext'
-import { applySpacing } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,

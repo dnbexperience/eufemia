@@ -3090,14 +3090,14 @@ The internal spacing helper `createSpacingClasses` has been removed and replaced
 
 - `applySpacing(props, target)` – merges spacing into an existing props object (append to `className`, merge into `style`). Recommended for most component root elements.
 
-It is re-exported from `@dnb/eufemia/components/space/SpacingHelper`.
+It is re-exported from `@dnb/eufemia/components/space/SpacingUtils`.
 
 Migrate usages as shown below.
 
 **Before (v10):**
 
 ```tsx
-import { createSpacingClasses } from '@dnb/eufemia/components/space/SpacingHelper'
+import { createSpacingClasses } from '@dnb/eufemia/components/space/SpacingUtils'
 
 const mainParams = {
   className: clsx(
@@ -3111,7 +3111,7 @@ const mainParams = {
 **After (v11):**
 
 ```tsx
-import { applySpacing } from '@dnb/eufemia/components/space/SpacingHelper'
+import { applySpacing } from '@dnb/eufemia/components/space/SpacingUtils'
 
 const mainParams = applySpacing(props, {
   className: clsx('dnb-my-component', className),

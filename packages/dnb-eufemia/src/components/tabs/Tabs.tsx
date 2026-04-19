@@ -24,7 +24,7 @@ import {
   combineLabelledBy,
 } from '../../shared/component-helper'
 import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
-import { applySpacing } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import type {
   DynamicElement,
   InnerSpaceType,

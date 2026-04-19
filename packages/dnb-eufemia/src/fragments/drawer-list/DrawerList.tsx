@@ -14,7 +14,7 @@ import type { SpacingProps } from '../../shared/types'
 import type { Translation } from '../../shared/Context'
 
 import { getThemeClasses } from '../../shared/Theme'
-import { applySpacing } from '../../components/space/SpacingHelper'
+import { applySpacing } from '../../components/space/SpacingUtils'
 
 import E from '../../elements/Element'
 import type { DrawerListContextValue } from './DrawerListContext'

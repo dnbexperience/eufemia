@@ -9,7 +9,7 @@ import Context from '../../shared/Context'
 import type { ContextProps } from '../../shared/Context'
 import { validateDOMAttributes } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
-import { applySpacing } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import TooltipWithEvents from './TooltipWithEvents'
 import {
   defaultProps,

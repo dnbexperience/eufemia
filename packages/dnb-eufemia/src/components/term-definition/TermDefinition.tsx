@@ -8,7 +8,7 @@ import Popover from '../popover/Popover'
 import useId from '../../shared/helpers/useId'
 import useTranslation from '../../shared/useTranslation'
 import type { SpacingProps } from '../../shared/types'
-import { applySpacing, removeSpaceProps } from '../space/SpacingHelper'
+import { applySpacing, removeSpaceProps } from '../space/SpacingUtils'
 import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/component-helper'
 

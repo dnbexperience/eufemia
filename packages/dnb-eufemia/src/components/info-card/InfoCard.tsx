@@ -15,7 +15,7 @@ import P from '../../elements/P'
 import { lightbulb_medium as LightbulbIcon } from '../../icons'
 
 // Shared
-import { applySpacing } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'

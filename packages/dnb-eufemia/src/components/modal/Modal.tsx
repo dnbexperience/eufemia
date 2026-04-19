@@ -22,7 +22,7 @@ import {
   processChildren,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import { applySpacing } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import HelpButtonInstance from '../help-button/HelpButtonInstance'
 import { getListOfModalRoots, getModalRoot } from './helpers'
 import ModalInner from './parts/ModalInner'

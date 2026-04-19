@@ -10,7 +10,7 @@ import {
   validateDOMAttributes,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
-import { applySpacing } from '../../components/space/SpacingHelper'
+import { applySpacing } from '../../components/space/SpacingUtils'
 import type { SpacingProps } from '../../shared/types'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'

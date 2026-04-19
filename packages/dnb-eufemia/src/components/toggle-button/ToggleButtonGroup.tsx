@@ -15,7 +15,7 @@ import {
   dispatchCustomElementEvent,
   removeUndefinedProps,
 } from '../../shared/component-helper'
-import { applySpacing } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import FormLabel from '../FormLabel'
 import FormStatus from '../FormStatus'

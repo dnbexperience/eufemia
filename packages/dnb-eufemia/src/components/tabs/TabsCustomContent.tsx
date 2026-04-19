@@ -1,6 +1,6 @@
 import React from 'react'
 import clsx from 'clsx'
-import { applySpacing } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import type { SpacingProps } from '../../shared/types'
 import ContentWrapper, {
   type TabsContentWrapperProps,

@@ -15,7 +15,7 @@ import {
 import { useMediaQuery } from '../../shared'
 import type { AccordionContextValue } from './AccordionContext'
 import AccordionContext from './AccordionContext'
-import { applySpacing } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import type { SpacingProps } from '../../shared/types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'

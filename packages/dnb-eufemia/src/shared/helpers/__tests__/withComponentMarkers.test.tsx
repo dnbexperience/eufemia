@@ -8,7 +8,7 @@ import {
 } from '../../../components/flex/utils'
 import FieldBlock from '../../../extensions/forms/FieldBlock/FieldBlock'
 import Flex from '../../../components/flex/Flex'
-import { applySpacing } from '../../../components/space/SpacingHelper'
+import { applySpacing } from '../../../components/space/SpacingUtils'
 import type { SpacingProps } from '../../../components/space/types'
 
 describe('withComponentMarkers', () => {

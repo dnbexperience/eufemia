@@ -16,7 +16,7 @@ import {
   removeUndefinedProps,
 } from '../../shared/component-helper'
 import HeightAnimation from '../height-animation/HeightAnimation'
-import { applySpacing } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import Icon from '../icon/Icon'
 import GlobalStatusProvider from '../global-status/GlobalStatusProvider'
 import {
