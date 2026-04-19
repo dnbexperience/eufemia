@@ -21,7 +21,7 @@
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-medium);
   }
-  &:not([style*='--space-']) &__title {
+  &:not([style*='--padding-']) &__title {
     padding: 1rem;
   }
 

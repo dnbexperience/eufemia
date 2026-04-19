@@ -350,11 +350,11 @@ describe('Card', () => {
 
     const element = document.querySelector('.dnb-card')
 
-    expect(element.getAttribute('style')).toContain('--space-')
+    expect(element.getAttribute('style')).toContain('--padding-')
 
     rerender(<Card innerSpace={0} />)
 
-    expect(element.getAttribute('style')).not.toContain('--space-')
+    expect(element.getAttribute('style')).not.toContain('--padding-')
   })
 
   it('should support "outset"', () => {
@@ -460,7 +460,7 @@ describe('Card', () => {
     const element = document.querySelector('.dnb-card')
 
     expect(
-      window.getComputedStyle(element).getPropertyValue('--space-l-s')
+      window.getComputedStyle(element).getPropertyValue('--padding-l-s')
     ).toBe('0')
 
     rerender(
@@ -470,7 +470,7 @@ describe('Card', () => {
     )
 
     expect(
-      window.getComputedStyle(element).getPropertyValue('--space-l-s')
+      window.getComputedStyle(element).getPropertyValue('--padding-l-s')
     ).toBe('1rem')
   })
 
