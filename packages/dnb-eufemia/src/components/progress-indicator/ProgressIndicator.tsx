@@ -21,7 +21,7 @@ import {
 import { createSpacingClasses } from '../space/SpacingHelper'
 import ProgressIndicatorCircular from './ProgressIndicatorCircular'
 import ProgressIndicatorLinear from './ProgressIndicatorLinear'
-import { format } from '../number-format/NumberUtils'
+import { formatPercent } from '../number-format/NumberUtils'
 
 import type {
   ProgressIndicatorAllProps,
@@ -171,9 +171,8 @@ function updatePropsWithContext(
 
 function formatProgress(progress) {
   if (parseFloat(progress) > -1) {
-    return format(progress, {
+    return formatPercent(progress, {
       decimals: 2,
-      percent: true,
     })
   }
   return null

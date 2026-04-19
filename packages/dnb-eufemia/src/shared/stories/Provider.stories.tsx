@@ -28,7 +28,7 @@ export const ProviderSandbox = () => {
             <ChangeLocale />
           </Section>
           <Section innerSpace={{ block: 'large' }} top>
-            <NumberFormat>12345678</NumberFormat>
+            <NumberFormat.Number>12345678</NumberFormat.Number>
             <DatePicker
               left
               open

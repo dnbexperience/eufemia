@@ -88,7 +88,7 @@ export const FooterWithButtons = () => {
       <List.Container>
         <List.Item.Basic title="Item with actions" icon={fish_medium}>
           <List.Cell.End>
-            <NumberFormat currency value={1234} />
+            <NumberFormat.Currency value={1234} />
           </List.Cell.End>
           <List.Cell.Footer>
             <Flex.Horizontal>
@@ -116,7 +116,7 @@ export const FooterWithButtons = () => {
         >
           <List.Item.Accordion.Header>
             <List.Cell.End>
-              <NumberFormat currency value={1234} />
+              <NumberFormat.Currency value={1234} />
             </List.Cell.End>
           </List.Item.Accordion.Header>
           <List.Cell.Footer
@@ -146,7 +146,7 @@ export const NavigableItem = () => {
           onClick={() => console.log('Clicked')}
         >
           <List.Cell.End>
-            <NumberFormat currency value={1234} />
+            <NumberFormat.Currency value={1234} />
           </List.Cell.End>
         </List.Item.Action>
 
@@ -156,7 +156,7 @@ export const NavigableItem = () => {
           onClick={() => console.log('Clicked')}
         >
           <List.Cell.End>
-            <NumberFormat currency value={1234} />
+            <NumberFormat.Currency value={1234} />
           </List.Cell.End>
         </List.Item.Action>
       </List.Container>
@@ -177,7 +177,7 @@ export const NavigableItemWithHref = () => {
           href="#details"
         >
           <List.Cell.End>
-            <NumberFormat currency value={1234} />
+            <NumberFormat.Currency value={1234} />
           </List.Cell.End>
         </List.Item.Action>
 
@@ -189,7 +189,7 @@ export const NavigableItemWithHref = () => {
           rel="noopener noreferrer"
         >
           <List.Cell.End>
-            <NumberFormat currency value={5678} />
+            <NumberFormat.Currency value={5678} />
           </List.Cell.End>
         </List.Item.Action>
       </List.Container>
@@ -210,7 +210,7 @@ export const WithAnchor = () => {
           title={<Anchor href="#">Link with icon and end value</Anchor>}
         >
           <List.Cell.End>
-            <NumberFormat currency value={1234} />
+            <NumberFormat.Currency value={1234} />
           </List.Cell.End>
         </List.Item.Basic>
       </List.Container>
@@ -227,7 +227,7 @@ export const WithAvatar = () => {
             <Avatar size="medium">A</Avatar>
           </List.Cell.Start>
           <List.Cell.End>
-            <NumberFormat currency value={1234} />
+            <NumberFormat.Currency value={1234} />
           </List.Cell.End>
         </List.Item.Basic>
 
@@ -301,7 +301,7 @@ export const SkeletonState = () => {
           skeleton
         >
           <List.Cell.End>
-            <NumberFormat currency value={1234} />
+            <NumberFormat.Currency value={1234} />
           </List.Cell.End>
         </List.Item.Action>
       </List.Container>
@@ -319,7 +319,7 @@ export const PendingState = () => {
           pending
         >
           <List.Cell.End>
-            <NumberFormat currency value={1234} />
+            <NumberFormat.Currency value={1234} />
           </List.Cell.End>
         </List.Item.Action>
       </List.Container>
@@ -378,7 +378,7 @@ export const Accordion = () => {
         <List.Item.Accordion icon={fish_medium} title="Accordion title">
           <List.Item.Accordion.Header>
             <List.Cell.End>
-              <NumberFormat currency value={1234} />
+              <NumberFormat.Currency value={1234} />
             </List.Cell.End>
           </List.Item.Accordion.Header>
 
@@ -399,7 +399,7 @@ export const Accordion = () => {
         >
           <List.Item.Accordion.Header>
             <List.Cell.End>
-              <NumberFormat currency value={1234} />
+              <NumberFormat.Currency value={1234} />
             </List.Cell.End>
           </List.Item.Accordion.Header>
           <List.Item.Accordion.Content innerSpace>
@@ -677,7 +677,7 @@ export const GridColumns = () => {
               title="Navigate to details"
             >
               <List.Cell.End>
-                <NumberFormat currency value={1234} />
+                <NumberFormat.Currency value={1234} />
               </List.Cell.End>
             </List.Item.Action>
 
@@ -686,7 +686,7 @@ export const GridColumns = () => {
               title="Navigate to details"
             >
               <List.Cell.End>
-                <NumberFormat currency value={1234} />
+                <NumberFormat.Currency value={1234} />
               </List.Cell.End>
             </List.Item.Action>
           </List.Container>

@@ -13,5 +13,10 @@ export const NumberProperties: PropertiesTableProps = {
     type: 'number',
     status: 'optional',
   },
+  percent: {
+    doc: 'Formats the value as a percentage.',
+    type: 'boolean',
+    status: 'optional',
+  },
   ...NumberFormatProperties,
 }

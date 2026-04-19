@@ -1389,7 +1389,9 @@ describe('Dropdown component', () => {
         data={[
           {
             selectedKey: 'test',
-            selectedValue: <NumberFormat>11345678962</NumberFormat>,
+            selectedValue: (
+              <NumberFormat.Number>11345678962</NumberFormat.Number>
+            ),
             content: 'test',
           },
         ]}

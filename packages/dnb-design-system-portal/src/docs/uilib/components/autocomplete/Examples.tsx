@@ -5,7 +5,11 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { format } from '@dnb/eufemia/src/components/number-format/NumberUtils'
+import {
+  formatPhoneNumber,
+  formatBankAccountNumber,
+  formatCurrency,
+} from '@dnb/eufemia/src/components/number-format/NumberUtils'
 import styled from '@emotion/styled'
 import Context from '@dnb/eufemia/src/shared/Context'
 import {
@@ -74,10 +78,10 @@ export const AutocompleteStatusErrorExample = () => (
 )
 
 const numbersData = [
-  format(20001234567, { ban: true }),
-  format(22233344425, { ban: true }),
-  format(1234.5, { currency: true }),
-  format('+47116000', { phone: true }),
+  formatBankAccountNumber(20001234567),
+  formatBankAccountNumber(22233344425),
+  formatCurrency(1234.5),
+  formatPhoneNumber('+47116000'),
 ] as string[]
 
 export const AutocompleteNumbersExample = () => (
@@ -338,11 +342,8 @@ export const AutocompleteCustomWidth = () => (
 
 export const AutocompleteSuffix = () => {
   const { locale } = React.useContext(Context)
-  const ban = format(20001234567, { ban: true, locale }) as string
-  const suffixValue = format(12345678, {
-    currency: true,
-    locale,
-  }) as string
+  const ban = formatBankAccountNumber(20001234567, { locale })
+  const suffixValue = formatCurrency(12345678, { locale })
   const numbers = [
     {
       selectedValue: 'Brukskonto',
@@ -650,7 +651,7 @@ export const AutocompleteContentAsArrayExample = () => (
                 The Dark Knight
               </span>,
               // etc.
-              <NumberFormat value={1234} key="item-4" />, // <-- Not searchable nor highlightable
+              <NumberFormat.Number value={1234} key="item-4" />, // <-- Not searchable nor highlightable
             ],
           },
         ]}

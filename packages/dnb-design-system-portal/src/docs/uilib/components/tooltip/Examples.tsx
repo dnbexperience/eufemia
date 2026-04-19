@@ -48,13 +48,15 @@ export const TooltipExampleDelay = () => (
 
 export const TooltipExampleNumberFormat = () => (
   <ComponentBox>
-    <NumberFormat tooltip="Tooltip">1234</NumberFormat>
+    <NumberFormat.Number tooltip="Tooltip">1234</NumberFormat.Number>
   </ComponentBox>
 )
 
 export const TooltipExampleNumberFormatWrapped = () => (
   <ComponentBox>
-    <Tooltip targetElement={<NumberFormat>1234</NumberFormat>}>
+    <Tooltip
+      targetElement={<NumberFormat.Number>1234</NumberFormat.Number>}
+    >
       Tooltip NumberFormat
     </Tooltip>
   </ComponentBox>

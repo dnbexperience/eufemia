@@ -78,27 +78,27 @@ export const DropdownFind = () => (
           },
           {
             selectedValue: (
-              <NumberFormat alwaysSelectAll ban>
+              <NumberFormat.BankAccountNumber alwaysSelectAll>
                 11345678962
-              </NumberFormat>
+              </NumberFormat.BankAccountNumber>
             ),
             content: [
-              <NumberFormat key="ban-1" alwaysSelectAll ban>
+              <NumberFormat.BankAccountNumber key="ban-1" alwaysSelectAll>
                 11345678962
-              </NumberFormat>,
+              </NumberFormat.BankAccountNumber>,
               'C',
             ],
           },
           {
             selectedValue: (
-              <NumberFormat alwaysSelectAll ban>
+              <NumberFormat.BankAccountNumber alwaysSelectAll>
                 15349648901
-              </NumberFormat>
+              </NumberFormat.BankAccountNumber>
             ),
             content: [
-              <NumberFormat key="ban-2" alwaysSelectAll ban>
+              <NumberFormat.BankAccountNumber key="ban-2" alwaysSelectAll>
                 15349648901
-              </NumberFormat>,
+              </NumberFormat.BankAccountNumber>,
               'D',
             ],
           },
@@ -152,14 +152,14 @@ export const DropdownNoValue = () => (
           },
           {
             selectedValue: (
-              <NumberFormat alwaysSelectAll ban>
+              <NumberFormat.BankAccountNumber alwaysSelectAll>
                 11345678962
-              </NumberFormat>
+              </NumberFormat.BankAccountNumber>
             ),
             content: [
-              <NumberFormat key="ban" alwaysSelectAll ban>
+              <NumberFormat.BankAccountNumber key="ban" alwaysSelectAll>
                 11345678962
-              </NumberFormat>,
+              </NumberFormat.BankAccountNumber>,
               'Bank account number',
             ],
           },
@@ -490,9 +490,9 @@ export const DropdownListOpened = () => (
           <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
             <span className="dnb-drawer-list__option__inner">
               <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat alwaysSelectAll key="n-1" ban>
+                <NumberFormat.BankAccountNumber alwaysSelectAll key="n-1">
                   12345678902
-                </NumberFormat>
+                </NumberFormat.BankAccountNumber>
               </span>
               <span className="dnb-drawer-list__option__item">
                 Sparekonto - Ole Nordmann
@@ -502,9 +502,9 @@ export const DropdownListOpened = () => (
           <li className="dnb-drawer-list__option">
             <span className="dnb-drawer-list__option__inner">
               <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat alwaysSelectAll key="n-2" ban>
+                <NumberFormat.BankAccountNumber alwaysSelectAll key="n-2">
                   11345678962
-                </NumberFormat>
+                </NumberFormat.BankAccountNumber>
               </span>
               <span className="dnb-drawer-list__option__item">
                 Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
@@ -514,9 +514,9 @@ export const DropdownListOpened = () => (
           <li className="dnb-drawer-list__option last-of-type">
             <span className="dnb-drawer-list__option__inner">
               <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat alwaysSelectAll key="n-3" ban>
+                <NumberFormat.BankAccountNumber alwaysSelectAll key="n-3">
                   15349648901
-                </NumberFormat>
+                </NumberFormat.BankAccountNumber>
               </span>
               <span className="dnb-drawer-list__option__item">
                 Oppussing - Ole Nordmann

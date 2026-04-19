@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import type { NumberFormatReturnValue } from '../number-format/NumberUtils'
-import { format } from '../number-format/NumberUtils'
+import { formatCurrency, formatNumber } from '../number-format/NumberUtils'
 import { clamp } from '../../shared/helpers/clamp'
 
 import type { SliderNumberFormat, SliderValue } from './types'
@@ -129,10 +128,15 @@ export const getFormattedNumber = (
       return { number, aria: number }
     }
 
-    return format(value as number, {
+    const options = {
       ...(numberFormat || {}),
-      returnAria: true,
-    }) as NumberFormatReturnValue
+      returnAria: true as const,
+    }
+    const formatter =
+      options.currency === true || typeof options.currency === 'string'
+        ? formatCurrency
+        : formatNumber
+    return formatter(value as number, options)
   }
 
   return { aria: null, number: null } as NumberFormatReturnValue

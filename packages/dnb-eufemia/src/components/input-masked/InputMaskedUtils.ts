@@ -3,7 +3,9 @@
  *
  */
 import {
-  format,
+  formatCurrency,
+  formatPercent,
+  formatNumber,
   getDecimalSeparator,
   getThousandsSeparator,
 } from '../number-format/NumberUtils'
@@ -141,7 +143,11 @@ export const correctNumberValue = ({
     if (shouldHaveDecimals) {
       options.decimals = maskParams.decimalLimit
     }
-    value = String(format(value, options))
+    value = String(
+      options.currency
+        ? formatCurrency(value, options)
+        : formatNumber(value, options)
+    )
   }
 
   const decimalSymbol = maskParams.decimalSymbol
@@ -324,7 +330,7 @@ export const handlePercentMask = ({
   locale: string
   maskParams: InputMaskParams
 }) => {
-  const value = format(props.value as any, { locale, percent: true })
+  const value = formatPercent(props.value as any, { locale })
   const m = String(value).match(/((\s|)%)$/g)
   maskParams.suffix = m?.[0] || ' %'
 

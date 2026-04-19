@@ -62,7 +62,9 @@ export const DrawerListExampleOnlyToVisualize = () => (
           <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
             <span className="dnb-drawer-list__option__inner">
               <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat ban>12345678902</NumberFormat>
+                <NumberFormat.BankAccountNumber>
+                  12345678902
+                </NumberFormat.BankAccountNumber>
               </span>
               <span className="dnb-drawer-list__option__item">
                 Sparekonto - Ole Nordmann
@@ -72,7 +74,9 @@ export const DrawerListExampleOnlyToVisualize = () => (
           <li className="dnb-drawer-list__option">
             <span className="dnb-drawer-list__option__inner">
               <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat ban>11345678962</NumberFormat>
+                <NumberFormat.BankAccountNumber>
+                  11345678962
+                </NumberFormat.BankAccountNumber>
               </span>
               <span className="dnb-drawer-list__option__item item-nr-2">
                 <a
@@ -90,7 +94,9 @@ export const DrawerListExampleOnlyToVisualize = () => (
           <li className="dnb-drawer-list__option last-of-type">
             <span className="dnb-drawer-list__option__inner">
               <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat ban>15349648901</NumberFormat>
+                <NumberFormat.BankAccountNumber>
+                  15349648901
+                </NumberFormat.BankAccountNumber>
               </span>
               <span className="dnb-drawer-list__option__item">
                 Oppussing - Ole Nordmann

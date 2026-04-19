@@ -479,7 +479,7 @@ export const ProgressIndicatorCustomHorizontal = () => (
               }}
               label={
                 <StyledText>
-                  <NumberFormat percent value={75} /> done
+                  <NumberFormat.Percent value={75} /> done
                 </StyledText>
               }
             />

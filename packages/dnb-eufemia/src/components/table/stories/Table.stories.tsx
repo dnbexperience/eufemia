@@ -473,19 +473,19 @@ const ContentTr = ({
 
       <Td>
         <SuccessGreen size="x-small">
-          +<NumberFormat percent>17.24</NumberFormat>
+          +<NumberFormat.Percent>17.24</NumberFormat.Percent>
         </SuccessGreen>
       </Td>
 
       <Td>
         <P size="x-small">
-          <NumberFormat percent>0.5</NumberFormat>
+          <NumberFormat.Percent>0.5</NumberFormat.Percent>
         </P>
       </Td>
 
       <Td>
         <P size="x-small">
-          <NumberFormat percent>0.8</NumberFormat>
+          <NumberFormat.Percent>0.8</NumberFormat.Percent>
         </P>
       </Td>
 

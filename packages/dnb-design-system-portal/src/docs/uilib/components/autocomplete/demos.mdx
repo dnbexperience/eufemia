@@ -72,9 +72,9 @@ const { locale } = React.useContext(Context)
 const data = [
   {
     suffixValue: (
-      <NumberFormat currency srLabel="Total:" locale={locale}>
+      <NumberFormat.Currency srLabel="Total:" locale={locale}>
         {12345678}
-      </NumberFormat>
+      </NumberFormat.Currency>
     ),
     selectedValue: `Brukskonto (${ban})`,
     content: ['Brukskonto', ban],
