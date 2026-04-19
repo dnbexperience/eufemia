@@ -22,7 +22,7 @@
   &--x-large,
   &--xx-large,
   &--xx-large-x2 {
-    &:not([style*='--margin-#{$short}-']) {
+    html[data-visual-test] &:not([style*='--margin-#{$short}-']) {
       &::before {
         content: 'Missing --margin-#{$short}-* custom property!';
         display: block;

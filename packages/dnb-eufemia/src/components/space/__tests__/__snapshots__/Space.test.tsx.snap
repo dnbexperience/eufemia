@@ -17,7 +17,7 @@ exports[`Space scss should match style dependencies css 1`] = `
 /** NB: Because CSS specificity ".dnb-core-style .dnb-space"
     has to come before the next ".dnb-space"
   */
-.dnb-core-style .dnb-space__top--xx-small:not([style*="--margin-t-"])::before, .dnb-core-style .dnb-space__top--x-small:not([style*="--margin-t-"])::before, .dnb-core-style .dnb-space__top--small:not([style*="--margin-t-"])::before, .dnb-core-style .dnb-space__top--medium:not([style*="--margin-t-"])::before, .dnb-core-style .dnb-space__top--large:not([style*="--margin-t-"])::before, .dnb-core-style .dnb-space__top--x-large:not([style*="--margin-t-"])::before, .dnb-core-style .dnb-space__top--xx-large:not([style*="--margin-t-"])::before, .dnb-core-style .dnb-space__top--xx-large-x2:not([style*="--margin-t-"])::before {
+html[data-visual-test] .dnb-core-style .dnb-space__top--xx-small:not([style*="--margin-t-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__top--x-small:not([style*="--margin-t-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__top--small:not([style*="--margin-t-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__top--medium:not([style*="--margin-t-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__top--large:not([style*="--margin-t-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__top--x-large:not([style*="--margin-t-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__top--xx-large:not([style*="--margin-t-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__top--xx-large-x2:not([style*="--margin-t-"])::before {
   content: "Missing --margin-t-* custom property!";
   display: block;
   color: red;
@@ -42,7 +42,7 @@ exports[`Space scss should match style dependencies css 1`] = `
 .dnb-core-style .dnb-space__top--zero {
   margin-top: 0;
 }
-.dnb-core-style .dnb-space__right--xx-small:not([style*="--margin-r-"])::before, .dnb-core-style .dnb-space__right--x-small:not([style*="--margin-r-"])::before, .dnb-core-style .dnb-space__right--small:not([style*="--margin-r-"])::before, .dnb-core-style .dnb-space__right--medium:not([style*="--margin-r-"])::before, .dnb-core-style .dnb-space__right--large:not([style*="--margin-r-"])::before, .dnb-core-style .dnb-space__right--x-large:not([style*="--margin-r-"])::before, .dnb-core-style .dnb-space__right--xx-large:not([style*="--margin-r-"])::before, .dnb-core-style .dnb-space__right--xx-large-x2:not([style*="--margin-r-"])::before {
+html[data-visual-test] .dnb-core-style .dnb-space__right--xx-small:not([style*="--margin-r-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__right--x-small:not([style*="--margin-r-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__right--small:not([style*="--margin-r-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__right--medium:not([style*="--margin-r-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__right--large:not([style*="--margin-r-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__right--x-large:not([style*="--margin-r-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__right--xx-large:not([style*="--margin-r-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__right--xx-large-x2:not([style*="--margin-r-"])::before {
   content: "Missing --margin-r-* custom property!";
   display: block;
   color: red;
@@ -67,7 +67,7 @@ exports[`Space scss should match style dependencies css 1`] = `
 .dnb-core-style .dnb-space__right--zero {
   margin-right: 0;
 }
-.dnb-core-style .dnb-space__bottom--xx-small:not([style*="--margin-b-"])::before, .dnb-core-style .dnb-space__bottom--x-small:not([style*="--margin-b-"])::before, .dnb-core-style .dnb-space__bottom--small:not([style*="--margin-b-"])::before, .dnb-core-style .dnb-space__bottom--medium:not([style*="--margin-b-"])::before, .dnb-core-style .dnb-space__bottom--large:not([style*="--margin-b-"])::before, .dnb-core-style .dnb-space__bottom--x-large:not([style*="--margin-b-"])::before, .dnb-core-style .dnb-space__bottom--xx-large:not([style*="--margin-b-"])::before, .dnb-core-style .dnb-space__bottom--xx-large-x2:not([style*="--margin-b-"])::before {
+html[data-visual-test] .dnb-core-style .dnb-space__bottom--xx-small:not([style*="--margin-b-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__bottom--x-small:not([style*="--margin-b-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__bottom--small:not([style*="--margin-b-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__bottom--medium:not([style*="--margin-b-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__bottom--large:not([style*="--margin-b-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__bottom--x-large:not([style*="--margin-b-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__bottom--xx-large:not([style*="--margin-b-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__bottom--xx-large-x2:not([style*="--margin-b-"])::before {
   content: "Missing --margin-b-* custom property!";
   display: block;
   color: red;
@@ -92,7 +92,7 @@ exports[`Space scss should match style dependencies css 1`] = `
 .dnb-core-style .dnb-space__bottom--zero {
   margin-bottom: 0;
 }
-.dnb-core-style .dnb-space__left--xx-small:not([style*="--margin-l-"])::before, .dnb-core-style .dnb-space__left--x-small:not([style*="--margin-l-"])::before, .dnb-core-style .dnb-space__left--small:not([style*="--margin-l-"])::before, .dnb-core-style .dnb-space__left--medium:not([style*="--margin-l-"])::before, .dnb-core-style .dnb-space__left--large:not([style*="--margin-l-"])::before, .dnb-core-style .dnb-space__left--x-large:not([style*="--margin-l-"])::before, .dnb-core-style .dnb-space__left--xx-large:not([style*="--margin-l-"])::before, .dnb-core-style .dnb-space__left--xx-large-x2:not([style*="--margin-l-"])::before {
+html[data-visual-test] .dnb-core-style .dnb-space__left--xx-small:not([style*="--margin-l-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__left--x-small:not([style*="--margin-l-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__left--small:not([style*="--margin-l-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__left--medium:not([style*="--margin-l-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__left--large:not([style*="--margin-l-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__left--x-large:not([style*="--margin-l-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__left--xx-large:not([style*="--margin-l-"])::before, html[data-visual-test] .dnb-core-style .dnb-space__left--xx-large-x2:not([style*="--margin-l-"])::before {
   content: "Missing --margin-l-* custom property!";
   display: block;
   color: red;
@@ -128,7 +128,7 @@ exports[`Space scss should match style dependencies css 1`] = `
 .dnb-space--inline {
   display: inline-block;
 }
-.dnb-space__top--xx-small:not([style*="--margin-t-"])::before, .dnb-space__top--x-small:not([style*="--margin-t-"])::before, .dnb-space__top--small:not([style*="--margin-t-"])::before, .dnb-space__top--medium:not([style*="--margin-t-"])::before, .dnb-space__top--large:not([style*="--margin-t-"])::before, .dnb-space__top--x-large:not([style*="--margin-t-"])::before, .dnb-space__top--xx-large:not([style*="--margin-t-"])::before, .dnb-space__top--xx-large-x2:not([style*="--margin-t-"])::before {
+html[data-visual-test] .dnb-space__top--xx-small:not([style*="--margin-t-"])::before, html[data-visual-test] .dnb-space__top--x-small:not([style*="--margin-t-"])::before, html[data-visual-test] .dnb-space__top--small:not([style*="--margin-t-"])::before, html[data-visual-test] .dnb-space__top--medium:not([style*="--margin-t-"])::before, html[data-visual-test] .dnb-space__top--large:not([style*="--margin-t-"])::before, html[data-visual-test] .dnb-space__top--x-large:not([style*="--margin-t-"])::before, html[data-visual-test] .dnb-space__top--xx-large:not([style*="--margin-t-"])::before, html[data-visual-test] .dnb-space__top--xx-large-x2:not([style*="--margin-t-"])::before {
   content: "Missing --margin-t-* custom property!";
   display: block;
   color: red;
@@ -153,7 +153,7 @@ exports[`Space scss should match style dependencies css 1`] = `
 .dnb-space__top--zero {
   margin-top: 0;
 }
-.dnb-space__right--xx-small:not([style*="--margin-r-"])::before, .dnb-space__right--x-small:not([style*="--margin-r-"])::before, .dnb-space__right--small:not([style*="--margin-r-"])::before, .dnb-space__right--medium:not([style*="--margin-r-"])::before, .dnb-space__right--large:not([style*="--margin-r-"])::before, .dnb-space__right--x-large:not([style*="--margin-r-"])::before, .dnb-space__right--xx-large:not([style*="--margin-r-"])::before, .dnb-space__right--xx-large-x2:not([style*="--margin-r-"])::before {
+html[data-visual-test] .dnb-space__right--xx-small:not([style*="--margin-r-"])::before, html[data-visual-test] .dnb-space__right--x-small:not([style*="--margin-r-"])::before, html[data-visual-test] .dnb-space__right--small:not([style*="--margin-r-"])::before, html[data-visual-test] .dnb-space__right--medium:not([style*="--margin-r-"])::before, html[data-visual-test] .dnb-space__right--large:not([style*="--margin-r-"])::before, html[data-visual-test] .dnb-space__right--x-large:not([style*="--margin-r-"])::before, html[data-visual-test] .dnb-space__right--xx-large:not([style*="--margin-r-"])::before, html[data-visual-test] .dnb-space__right--xx-large-x2:not([style*="--margin-r-"])::before {
   content: "Missing --margin-r-* custom property!";
   display: block;
   color: red;
@@ -178,7 +178,7 @@ exports[`Space scss should match style dependencies css 1`] = `
 .dnb-space__right--zero {
   margin-right: 0;
 }
-.dnb-space__bottom--xx-small:not([style*="--margin-b-"])::before, .dnb-space__bottom--x-small:not([style*="--margin-b-"])::before, .dnb-space__bottom--small:not([style*="--margin-b-"])::before, .dnb-space__bottom--medium:not([style*="--margin-b-"])::before, .dnb-space__bottom--large:not([style*="--margin-b-"])::before, .dnb-space__bottom--x-large:not([style*="--margin-b-"])::before, .dnb-space__bottom--xx-large:not([style*="--margin-b-"])::before, .dnb-space__bottom--xx-large-x2:not([style*="--margin-b-"])::before {
+html[data-visual-test] .dnb-space__bottom--xx-small:not([style*="--margin-b-"])::before, html[data-visual-test] .dnb-space__bottom--x-small:not([style*="--margin-b-"])::before, html[data-visual-test] .dnb-space__bottom--small:not([style*="--margin-b-"])::before, html[data-visual-test] .dnb-space__bottom--medium:not([style*="--margin-b-"])::before, html[data-visual-test] .dnb-space__bottom--large:not([style*="--margin-b-"])::before, html[data-visual-test] .dnb-space__bottom--x-large:not([style*="--margin-b-"])::before, html[data-visual-test] .dnb-space__bottom--xx-large:not([style*="--margin-b-"])::before, html[data-visual-test] .dnb-space__bottom--xx-large-x2:not([style*="--margin-b-"])::before {
   content: "Missing --margin-b-* custom property!";
   display: block;
   color: red;
@@ -203,7 +203,7 @@ exports[`Space scss should match style dependencies css 1`] = `
 .dnb-space__bottom--zero {
   margin-bottom: 0;
 }
-.dnb-space__left--xx-small:not([style*="--margin-l-"])::before, .dnb-space__left--x-small:not([style*="--margin-l-"])::before, .dnb-space__left--small:not([style*="--margin-l-"])::before, .dnb-space__left--medium:not([style*="--margin-l-"])::before, .dnb-space__left--large:not([style*="--margin-l-"])::before, .dnb-space__left--x-large:not([style*="--margin-l-"])::before, .dnb-space__left--xx-large:not([style*="--margin-l-"])::before, .dnb-space__left--xx-large-x2:not([style*="--margin-l-"])::before {
+html[data-visual-test] .dnb-space__left--xx-small:not([style*="--margin-l-"])::before, html[data-visual-test] .dnb-space__left--x-small:not([style*="--margin-l-"])::before, html[data-visual-test] .dnb-space__left--small:not([style*="--margin-l-"])::before, html[data-visual-test] .dnb-space__left--medium:not([style*="--margin-l-"])::before, html[data-visual-test] .dnb-space__left--large:not([style*="--margin-l-"])::before, html[data-visual-test] .dnb-space__left--x-large:not([style*="--margin-l-"])::before, html[data-visual-test] .dnb-space__left--xx-large:not([style*="--margin-l-"])::before, html[data-visual-test] .dnb-space__left--xx-large-x2:not([style*="--margin-l-"])::before {
   content: "Missing --margin-l-* custom property!";
   display: block;
   color: red;
