@@ -17,324 +17,100 @@ exports[`Space scss should match style dependencies css 1`] = `
 /** NB: Because CSS specificity ".dnb-core-style .dnb-space"
     has to come before the next ".dnb-space"
   */
-.dnb-core-style .dnb-space__top--xx-small {
-  margin-top: var(--spacing-xx-small);
-}
-.dnb-core-style .dnb-space__top--x-small {
-  margin-top: var(--spacing-x-small);
-}
-.dnb-core-style .dnb-space__top--small {
-  margin-top: var(--spacing-small);
-}
-.dnb-core-style .dnb-space__top--medium {
-  margin-top: var(--spacing-medium);
-}
-.dnb-core-style .dnb-space__top--large {
-  margin-top: var(--spacing-large);
-}
-.dnb-core-style .dnb-space__top--large.dnb-core-style .dnb-space__top--x-small {
-  margin-top: calc(var(--spacing-large) + var(--spacing-x-small));
-}
-.dnb-core-style .dnb-space__top--x-large {
-  margin-top: var(--spacing-x-large);
-}
-.dnb-core-style .dnb-space__top--xx-large {
-  margin-top: var(--spacing-xx-large);
-}
-.dnb-core-style .dnb-space__top--xx-large.dnb-core-style .dnb-space__top--x-small {
-  margin-top: calc(var(--spacing-large) + var(--spacing-large));
-}
-.dnb-core-style .dnb-space__top--xx-large.dnb-core-style .dnb-space__top--small {
-  margin-top: calc(var(--spacing-x-large) + var(--spacing-medium));
-}
-.dnb-core-style .dnb-space__top--xx-large.dnb-core-style .dnb-space__top--medium {
-  margin-top: calc(var(--spacing-x-large) + var(--spacing-large));
-}
-.dnb-core-style .dnb-space__top--xx-large.dnb-core-style .dnb-space__top--large {
-  margin-top: calc(var(--spacing-x-large) + var(--spacing-large) + var(--spacing-x-small));
-}
-.dnb-core-style .dnb-space__top--xx-large.dnb-core-style .dnb-space__top--large.dnb-core-style .dnb-space__top--x-small {
-  margin-top: calc(var(--spacing-x-large) + var(--spacing-large) + var(--spacing-small));
-}
-.dnb-core-style .dnb-space__top--xx-large.dnb-core-style .dnb-space__top--x-large {
-  margin-top: calc(var(--spacing-xx-large) + var(--spacing-x-large));
-}
-.dnb-core-style .dnb-space__top--xx-large-x2 {
-  margin-top: calc(var(--spacing-x-large) + var(--spacing-large) + var(--spacing-large));
-}
-.dnb-core-style .dnb-space__top--xx-large-x2.dnb-core-style .dnb-space__top--x-small {
-  margin-top: calc(var(--spacing-xx-large) + var(--spacing-large) + var(--spacing-large));
-}
-.dnb-core-style .dnb-space__top--xx-large-x2.dnb-core-style .dnb-space__top--small {
-  margin-top: calc(var(--spacing-x-large) + var(--spacing-x-large) + var(--spacing-large));
-}
-.dnb-core-style .dnb-space__top--xx-large-x2.dnb-core-style .dnb-space__top--medium {
-  margin-top: calc(var(--spacing-xx-large) + var(--spacing-x-large) + var(--spacing-large));
-}
-.dnb-core-style .dnb-space__top--xx-large-x2.dnb-core-style .dnb-space__top--large {
-  margin-top: calc(var(--spacing-x-large) + var(--spacing-x-large) + var(--spacing-x-large));
-}
-.dnb-core-style .dnb-space__top--xx-large-x2.dnb-core-style .dnb-space__top--large.dnb-core-style .dnb-space__top--x-small {
-  margin-top: calc(var(--spacing-xx-large) + var(--spacing-x-large) + var(--spacing-x-large));
-}
-.dnb-core-style .dnb-space__top--xx-large-x2.dnb-core-style .dnb-space__top--x-large {
-  margin-top: calc(var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-x-large));
+.dnb-core-style .dnb-space__top--xx-small:not([style*="--margin-t-"])::before, .dnb-core-style .dnb-space__top--x-small:not([style*="--margin-t-"])::before, .dnb-core-style .dnb-space__top--small:not([style*="--margin-t-"])::before, .dnb-core-style .dnb-space__top--medium:not([style*="--margin-t-"])::before, .dnb-core-style .dnb-space__top--large:not([style*="--margin-t-"])::before, .dnb-core-style .dnb-space__top--x-large:not([style*="--margin-t-"])::before, .dnb-core-style .dnb-space__top--xx-large:not([style*="--margin-t-"])::before, .dnb-core-style .dnb-space__top--xx-large-x2:not([style*="--margin-t-"])::before {
+  content: "Missing --margin-t-* custom property!";
+  display: block;
+  color: red;
+  font-size: 1rem;
+  padding: 1rem;
 }
 @media screen and (max-width: 60em) {
-  .dnb-core-style .dnb-space__top--xx-small[style*="--margin-t-s"], .dnb-core-style .dnb-space__top--x-small[style*="--margin-t-s"], .dnb-core-style .dnb-space__top--small[style*="--margin-t-s"], .dnb-core-style .dnb-space__top--medium[style*="--margin-t-s"], .dnb-core-style .dnb-space__top--large[style*="--margin-t-s"], .dnb-core-style .dnb-space__top--x-large[style*="--margin-t-s"], .dnb-core-style .dnb-space__top--xx-large[style*="--margin-t-s"], .dnb-core-style .dnb-space__top--xx-large-x2[style*="--margin-t-s"] {
+  .dnb-core-style .dnb-space__top--xx-small, .dnb-core-style .dnb-space__top--x-small, .dnb-core-style .dnb-space__top--small, .dnb-core-style .dnb-space__top--medium, .dnb-core-style .dnb-space__top--large, .dnb-core-style .dnb-space__top--x-large, .dnb-core-style .dnb-space__top--xx-large, .dnb-core-style .dnb-space__top--xx-large-x2 {
     margin-top: var(--margin-t-s);
   }
 }
 @media screen and (max-width: 60em) and (min-width: 40.00625em) {
-  .dnb-core-style .dnb-space__top--xx-small[style*="--margin-t-m"], .dnb-core-style .dnb-space__top--x-small[style*="--margin-t-m"], .dnb-core-style .dnb-space__top--small[style*="--margin-t-m"], .dnb-core-style .dnb-space__top--medium[style*="--margin-t-m"], .dnb-core-style .dnb-space__top--large[style*="--margin-t-m"], .dnb-core-style .dnb-space__top--x-large[style*="--margin-t-m"], .dnb-core-style .dnb-space__top--xx-large[style*="--margin-t-m"], .dnb-core-style .dnb-space__top--xx-large-x2[style*="--margin-t-m"] {
+  .dnb-core-style .dnb-space__top--xx-small, .dnb-core-style .dnb-space__top--x-small, .dnb-core-style .dnb-space__top--small, .dnb-core-style .dnb-space__top--medium, .dnb-core-style .dnb-space__top--large, .dnb-core-style .dnb-space__top--x-large, .dnb-core-style .dnb-space__top--xx-large, .dnb-core-style .dnb-space__top--xx-large-x2 {
     margin-top: var(--margin-t-m);
   }
 }
 @media screen and (min-width: 60.00625em) {
-  .dnb-core-style .dnb-space__top--xx-small[style*="--margin-t-l"], .dnb-core-style .dnb-space__top--x-small[style*="--margin-t-l"], .dnb-core-style .dnb-space__top--small[style*="--margin-t-l"], .dnb-core-style .dnb-space__top--medium[style*="--margin-t-l"], .dnb-core-style .dnb-space__top--large[style*="--margin-t-l"], .dnb-core-style .dnb-space__top--x-large[style*="--margin-t-l"], .dnb-core-style .dnb-space__top--xx-large[style*="--margin-t-l"], .dnb-core-style .dnb-space__top--xx-large-x2[style*="--margin-t-l"] {
+  .dnb-core-style .dnb-space__top--xx-small, .dnb-core-style .dnb-space__top--x-small, .dnb-core-style .dnb-space__top--small, .dnb-core-style .dnb-space__top--medium, .dnb-core-style .dnb-space__top--large, .dnb-core-style .dnb-space__top--x-large, .dnb-core-style .dnb-space__top--xx-large, .dnb-core-style .dnb-space__top--xx-large-x2 {
     margin-top: var(--margin-t-l);
   }
 }
 .dnb-core-style .dnb-space__top--zero {
   margin-top: 0;
 }
-.dnb-core-style .dnb-space__right--xx-small {
-  margin-right: var(--spacing-xx-small);
-}
-.dnb-core-style .dnb-space__right--x-small {
-  margin-right: var(--spacing-x-small);
-}
-.dnb-core-style .dnb-space__right--small {
-  margin-right: var(--spacing-small);
-}
-.dnb-core-style .dnb-space__right--medium {
-  margin-right: var(--spacing-medium);
-}
-.dnb-core-style .dnb-space__right--large {
-  margin-right: var(--spacing-large);
-}
-.dnb-core-style .dnb-space__right--large.dnb-core-style .dnb-space__right--x-small {
-  margin-right: calc(var(--spacing-large) + var(--spacing-x-small));
-}
-.dnb-core-style .dnb-space__right--x-large {
-  margin-right: var(--spacing-x-large);
-}
-.dnb-core-style .dnb-space__right--xx-large {
-  margin-right: var(--spacing-xx-large);
-}
-.dnb-core-style .dnb-space__right--xx-large.dnb-core-style .dnb-space__right--x-small {
-  margin-right: calc(var(--spacing-large) + var(--spacing-large));
-}
-.dnb-core-style .dnb-space__right--xx-large.dnb-core-style .dnb-space__right--small {
-  margin-right: calc(var(--spacing-x-large) + var(--spacing-medium));
-}
-.dnb-core-style .dnb-space__right--xx-large.dnb-core-style .dnb-space__right--medium {
-  margin-right: calc(var(--spacing-x-large) + var(--spacing-large));
-}
-.dnb-core-style .dnb-space__right--xx-large.dnb-core-style .dnb-space__right--large {
-  margin-right: calc(var(--spacing-x-large) + var(--spacing-large) + var(--spacing-x-small));
-}
-.dnb-core-style .dnb-space__right--xx-large.dnb-core-style .dnb-space__right--large.dnb-core-style .dnb-space__right--x-small {
-  margin-right: calc(var(--spacing-x-large) + var(--spacing-large) + var(--spacing-small));
-}
-.dnb-core-style .dnb-space__right--xx-large.dnb-core-style .dnb-space__right--x-large {
-  margin-right: calc(var(--spacing-xx-large) + var(--spacing-x-large));
-}
-.dnb-core-style .dnb-space__right--xx-large-x2 {
-  margin-right: calc(var(--spacing-x-large) + var(--spacing-large) + var(--spacing-large));
-}
-.dnb-core-style .dnb-space__right--xx-large-x2.dnb-core-style .dnb-space__right--x-small {
-  margin-right: calc(var(--spacing-xx-large) + var(--spacing-large) + var(--spacing-large));
-}
-.dnb-core-style .dnb-space__right--xx-large-x2.dnb-core-style .dnb-space__right--small {
-  margin-right: calc(var(--spacing-x-large) + var(--spacing-x-large) + var(--spacing-large));
-}
-.dnb-core-style .dnb-space__right--xx-large-x2.dnb-core-style .dnb-space__right--medium {
-  margin-right: calc(var(--spacing-xx-large) + var(--spacing-x-large) + var(--spacing-large));
-}
-.dnb-core-style .dnb-space__right--xx-large-x2.dnb-core-style .dnb-space__right--large {
-  margin-right: calc(var(--spacing-x-large) + var(--spacing-x-large) + var(--spacing-x-large));
-}
-.dnb-core-style .dnb-space__right--xx-large-x2.dnb-core-style .dnb-space__right--large.dnb-core-style .dnb-space__right--x-small {
-  margin-right: calc(var(--spacing-xx-large) + var(--spacing-x-large) + var(--spacing-x-large));
-}
-.dnb-core-style .dnb-space__right--xx-large-x2.dnb-core-style .dnb-space__right--x-large {
-  margin-right: calc(var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-x-large));
+.dnb-core-style .dnb-space__right--xx-small:not([style*="--margin-r-"])::before, .dnb-core-style .dnb-space__right--x-small:not([style*="--margin-r-"])::before, .dnb-core-style .dnb-space__right--small:not([style*="--margin-r-"])::before, .dnb-core-style .dnb-space__right--medium:not([style*="--margin-r-"])::before, .dnb-core-style .dnb-space__right--large:not([style*="--margin-r-"])::before, .dnb-core-style .dnb-space__right--x-large:not([style*="--margin-r-"])::before, .dnb-core-style .dnb-space__right--xx-large:not([style*="--margin-r-"])::before, .dnb-core-style .dnb-space__right--xx-large-x2:not([style*="--margin-r-"])::before {
+  content: "Missing --margin-r-* custom property!";
+  display: block;
+  color: red;
+  font-size: 1rem;
+  padding: 1rem;
 }
 @media screen and (max-width: 60em) {
-  .dnb-core-style .dnb-space__right--xx-small[style*="--margin-r-s"], .dnb-core-style .dnb-space__right--x-small[style*="--margin-r-s"], .dnb-core-style .dnb-space__right--small[style*="--margin-r-s"], .dnb-core-style .dnb-space__right--medium[style*="--margin-r-s"], .dnb-core-style .dnb-space__right--large[style*="--margin-r-s"], .dnb-core-style .dnb-space__right--x-large[style*="--margin-r-s"], .dnb-core-style .dnb-space__right--xx-large[style*="--margin-r-s"], .dnb-core-style .dnb-space__right--xx-large-x2[style*="--margin-r-s"] {
+  .dnb-core-style .dnb-space__right--xx-small, .dnb-core-style .dnb-space__right--x-small, .dnb-core-style .dnb-space__right--small, .dnb-core-style .dnb-space__right--medium, .dnb-core-style .dnb-space__right--large, .dnb-core-style .dnb-space__right--x-large, .dnb-core-style .dnb-space__right--xx-large, .dnb-core-style .dnb-space__right--xx-large-x2 {
     margin-right: var(--margin-r-s);
   }
 }
 @media screen and (max-width: 60em) and (min-width: 40.00625em) {
-  .dnb-core-style .dnb-space__right--xx-small[style*="--margin-r-m"], .dnb-core-style .dnb-space__right--x-small[style*="--margin-r-m"], .dnb-core-style .dnb-space__right--small[style*="--margin-r-m"], .dnb-core-style .dnb-space__right--medium[style*="--margin-r-m"], .dnb-core-style .dnb-space__right--large[style*="--margin-r-m"], .dnb-core-style .dnb-space__right--x-large[style*="--margin-r-m"], .dnb-core-style .dnb-space__right--xx-large[style*="--margin-r-m"], .dnb-core-style .dnb-space__right--xx-large-x2[style*="--margin-r-m"] {
+  .dnb-core-style .dnb-space__right--xx-small, .dnb-core-style .dnb-space__right--x-small, .dnb-core-style .dnb-space__right--small, .dnb-core-style .dnb-space__right--medium, .dnb-core-style .dnb-space__right--large, .dnb-core-style .dnb-space__right--x-large, .dnb-core-style .dnb-space__right--xx-large, .dnb-core-style .dnb-space__right--xx-large-x2 {
     margin-right: var(--margin-r-m);
   }
 }
 @media screen and (min-width: 60.00625em) {
-  .dnb-core-style .dnb-space__right--xx-small[style*="--margin-r-l"], .dnb-core-style .dnb-space__right--x-small[style*="--margin-r-l"], .dnb-core-style .dnb-space__right--small[style*="--margin-r-l"], .dnb-core-style .dnb-space__right--medium[style*="--margin-r-l"], .dnb-core-style .dnb-space__right--large[style*="--margin-r-l"], .dnb-core-style .dnb-space__right--x-large[style*="--margin-r-l"], .dnb-core-style .dnb-space__right--xx-large[style*="--margin-r-l"], .dnb-core-style .dnb-space__right--xx-large-x2[style*="--margin-r-l"] {
+  .dnb-core-style .dnb-space__right--xx-small, .dnb-core-style .dnb-space__right--x-small, .dnb-core-style .dnb-space__right--small, .dnb-core-style .dnb-space__right--medium, .dnb-core-style .dnb-space__right--large, .dnb-core-style .dnb-space__right--x-large, .dnb-core-style .dnb-space__right--xx-large, .dnb-core-style .dnb-space__right--xx-large-x2 {
     margin-right: var(--margin-r-l);
   }
 }
 .dnb-core-style .dnb-space__right--zero {
   margin-right: 0;
 }
-.dnb-core-style .dnb-space__bottom--xx-small {
-  margin-bottom: var(--spacing-xx-small);
-}
-.dnb-core-style .dnb-space__bottom--x-small {
-  margin-bottom: var(--spacing-x-small);
-}
-.dnb-core-style .dnb-space__bottom--small {
-  margin-bottom: var(--spacing-small);
-}
-.dnb-core-style .dnb-space__bottom--medium {
-  margin-bottom: var(--spacing-medium);
-}
-.dnb-core-style .dnb-space__bottom--large {
-  margin-bottom: var(--spacing-large);
-}
-.dnb-core-style .dnb-space__bottom--large.dnb-core-style .dnb-space__bottom--x-small {
-  margin-bottom: calc(var(--spacing-large) + var(--spacing-x-small));
-}
-.dnb-core-style .dnb-space__bottom--x-large {
-  margin-bottom: var(--spacing-x-large);
-}
-.dnb-core-style .dnb-space__bottom--xx-large {
-  margin-bottom: var(--spacing-xx-large);
-}
-.dnb-core-style .dnb-space__bottom--xx-large.dnb-core-style .dnb-space__bottom--x-small {
-  margin-bottom: calc(var(--spacing-large) + var(--spacing-large));
-}
-.dnb-core-style .dnb-space__bottom--xx-large.dnb-core-style .dnb-space__bottom--small {
-  margin-bottom: calc(var(--spacing-x-large) + var(--spacing-medium));
-}
-.dnb-core-style .dnb-space__bottom--xx-large.dnb-core-style .dnb-space__bottom--medium {
-  margin-bottom: calc(var(--spacing-x-large) + var(--spacing-large));
-}
-.dnb-core-style .dnb-space__bottom--xx-large.dnb-core-style .dnb-space__bottom--large {
-  margin-bottom: calc(var(--spacing-x-large) + var(--spacing-large) + var(--spacing-x-small));
-}
-.dnb-core-style .dnb-space__bottom--xx-large.dnb-core-style .dnb-space__bottom--large.dnb-core-style .dnb-space__bottom--x-small {
-  margin-bottom: calc(var(--spacing-x-large) + var(--spacing-large) + var(--spacing-small));
-}
-.dnb-core-style .dnb-space__bottom--xx-large.dnb-core-style .dnb-space__bottom--x-large {
-  margin-bottom: calc(var(--spacing-xx-large) + var(--spacing-x-large));
-}
-.dnb-core-style .dnb-space__bottom--xx-large-x2 {
-  margin-bottom: calc(var(--spacing-x-large) + var(--spacing-large) + var(--spacing-large));
-}
-.dnb-core-style .dnb-space__bottom--xx-large-x2.dnb-core-style .dnb-space__bottom--x-small {
-  margin-bottom: calc(var(--spacing-xx-large) + var(--spacing-large) + var(--spacing-large));
-}
-.dnb-core-style .dnb-space__bottom--xx-large-x2.dnb-core-style .dnb-space__bottom--small {
-  margin-bottom: calc(var(--spacing-x-large) + var(--spacing-x-large) + var(--spacing-large));
-}
-.dnb-core-style .dnb-space__bottom--xx-large-x2.dnb-core-style .dnb-space__bottom--medium {
-  margin-bottom: calc(var(--spacing-xx-large) + var(--spacing-x-large) + var(--spacing-large));
-}
-.dnb-core-style .dnb-space__bottom--xx-large-x2.dnb-core-style .dnb-space__bottom--large {
-  margin-bottom: calc(var(--spacing-x-large) + var(--spacing-x-large) + var(--spacing-x-large));
-}
-.dnb-core-style .dnb-space__bottom--xx-large-x2.dnb-core-style .dnb-space__bottom--large.dnb-core-style .dnb-space__bottom--x-small {
-  margin-bottom: calc(var(--spacing-xx-large) + var(--spacing-x-large) + var(--spacing-x-large));
-}
-.dnb-core-style .dnb-space__bottom--xx-large-x2.dnb-core-style .dnb-space__bottom--x-large {
-  margin-bottom: calc(var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-x-large));
+.dnb-core-style .dnb-space__bottom--xx-small:not([style*="--margin-b-"])::before, .dnb-core-style .dnb-space__bottom--x-small:not([style*="--margin-b-"])::before, .dnb-core-style .dnb-space__bottom--small:not([style*="--margin-b-"])::before, .dnb-core-style .dnb-space__bottom--medium:not([style*="--margin-b-"])::before, .dnb-core-style .dnb-space__bottom--large:not([style*="--margin-b-"])::before, .dnb-core-style .dnb-space__bottom--x-large:not([style*="--margin-b-"])::before, .dnb-core-style .dnb-space__bottom--xx-large:not([style*="--margin-b-"])::before, .dnb-core-style .dnb-space__bottom--xx-large-x2:not([style*="--margin-b-"])::before {
+  content: "Missing --margin-b-* custom property!";
+  display: block;
+  color: red;
+  font-size: 1rem;
+  padding: 1rem;
 }
 @media screen and (max-width: 60em) {
-  .dnb-core-style .dnb-space__bottom--xx-small[style*="--margin-b-s"], .dnb-core-style .dnb-space__bottom--x-small[style*="--margin-b-s"], .dnb-core-style .dnb-space__bottom--small[style*="--margin-b-s"], .dnb-core-style .dnb-space__bottom--medium[style*="--margin-b-s"], .dnb-core-style .dnb-space__bottom--large[style*="--margin-b-s"], .dnb-core-style .dnb-space__bottom--x-large[style*="--margin-b-s"], .dnb-core-style .dnb-space__bottom--xx-large[style*="--margin-b-s"], .dnb-core-style .dnb-space__bottom--xx-large-x2[style*="--margin-b-s"] {
+  .dnb-core-style .dnb-space__bottom--xx-small, .dnb-core-style .dnb-space__bottom--x-small, .dnb-core-style .dnb-space__bottom--small, .dnb-core-style .dnb-space__bottom--medium, .dnb-core-style .dnb-space__bottom--large, .dnb-core-style .dnb-space__bottom--x-large, .dnb-core-style .dnb-space__bottom--xx-large, .dnb-core-style .dnb-space__bottom--xx-large-x2 {
     margin-bottom: var(--margin-b-s);
   }
 }
 @media screen and (max-width: 60em) and (min-width: 40.00625em) {
-  .dnb-core-style .dnb-space__bottom--xx-small[style*="--margin-b-m"], .dnb-core-style .dnb-space__bottom--x-small[style*="--margin-b-m"], .dnb-core-style .dnb-space__bottom--small[style*="--margin-b-m"], .dnb-core-style .dnb-space__bottom--medium[style*="--margin-b-m"], .dnb-core-style .dnb-space__bottom--large[style*="--margin-b-m"], .dnb-core-style .dnb-space__bottom--x-large[style*="--margin-b-m"], .dnb-core-style .dnb-space__bottom--xx-large[style*="--margin-b-m"], .dnb-core-style .dnb-space__bottom--xx-large-x2[style*="--margin-b-m"] {
+  .dnb-core-style .dnb-space__bottom--xx-small, .dnb-core-style .dnb-space__bottom--x-small, .dnb-core-style .dnb-space__bottom--small, .dnb-core-style .dnb-space__bottom--medium, .dnb-core-style .dnb-space__bottom--large, .dnb-core-style .dnb-space__bottom--x-large, .dnb-core-style .dnb-space__bottom--xx-large, .dnb-core-style .dnb-space__bottom--xx-large-x2 {
     margin-bottom: var(--margin-b-m);
   }
 }
 @media screen and (min-width: 60.00625em) {
-  .dnb-core-style .dnb-space__bottom--xx-small[style*="--margin-b-l"], .dnb-core-style .dnb-space__bottom--x-small[style*="--margin-b-l"], .dnb-core-style .dnb-space__bottom--small[style*="--margin-b-l"], .dnb-core-style .dnb-space__bottom--medium[style*="--margin-b-l"], .dnb-core-style .dnb-space__bottom--large[style*="--margin-b-l"], .dnb-core-style .dnb-space__bottom--x-large[style*="--margin-b-l"], .dnb-core-style .dnb-space__bottom--xx-large[style*="--margin-b-l"], .dnb-core-style .dnb-space__bottom--xx-large-x2[style*="--margin-b-l"] {
+  .dnb-core-style .dnb-space__bottom--xx-small, .dnb-core-style .dnb-space__bottom--x-small, .dnb-core-style .dnb-space__bottom--small, .dnb-core-style .dnb-space__bottom--medium, .dnb-core-style .dnb-space__bottom--large, .dnb-core-style .dnb-space__bottom--x-large, .dnb-core-style .dnb-space__bottom--xx-large, .dnb-core-style .dnb-space__bottom--xx-large-x2 {
     margin-bottom: var(--margin-b-l);
   }
 }
 .dnb-core-style .dnb-space__bottom--zero {
   margin-bottom: 0;
 }
-.dnb-core-style .dnb-space__left--xx-small {
-  margin-left: var(--spacing-xx-small);
-}
-.dnb-core-style .dnb-space__left--x-small {
-  margin-left: var(--spacing-x-small);
-}
-.dnb-core-style .dnb-space__left--small {
-  margin-left: var(--spacing-small);
-}
-.dnb-core-style .dnb-space__left--medium {
-  margin-left: var(--spacing-medium);
-}
-.dnb-core-style .dnb-space__left--large {
-  margin-left: var(--spacing-large);
-}
-.dnb-core-style .dnb-space__left--large.dnb-core-style .dnb-space__left--x-small {
-  margin-left: calc(var(--spacing-large) + var(--spacing-x-small));
-}
-.dnb-core-style .dnb-space__left--x-large {
-  margin-left: var(--spacing-x-large);
-}
-.dnb-core-style .dnb-space__left--xx-large {
-  margin-left: var(--spacing-xx-large);
-}
-.dnb-core-style .dnb-space__left--xx-large.dnb-core-style .dnb-space__left--x-small {
-  margin-left: calc(var(--spacing-large) + var(--spacing-large));
-}
-.dnb-core-style .dnb-space__left--xx-large.dnb-core-style .dnb-space__left--small {
-  margin-left: calc(var(--spacing-x-large) + var(--spacing-medium));
-}
-.dnb-core-style .dnb-space__left--xx-large.dnb-core-style .dnb-space__left--medium {
-  margin-left: calc(var(--spacing-x-large) + var(--spacing-large));
-}
-.dnb-core-style .dnb-space__left--xx-large.dnb-core-style .dnb-space__left--large {
-  margin-left: calc(var(--spacing-x-large) + var(--spacing-large) + var(--spacing-x-small));
-}
-.dnb-core-style .dnb-space__left--xx-large.dnb-core-style .dnb-space__left--large.dnb-core-style .dnb-space__left--x-small {
-  margin-left: calc(var(--spacing-x-large) + var(--spacing-large) + var(--spacing-small));
-}
-.dnb-core-style .dnb-space__left--xx-large.dnb-core-style .dnb-space__left--x-large {
-  margin-left: calc(var(--spacing-xx-large) + var(--spacing-x-large));
-}
-.dnb-core-style .dnb-space__left--xx-large-x2 {
-  margin-left: calc(var(--spacing-x-large) + var(--spacing-large) + var(--spacing-large));
-}
-.dnb-core-style .dnb-space__left--xx-large-x2.dnb-core-style .dnb-space__left--x-small {
-  margin-left: calc(var(--spacing-xx-large) + var(--spacing-large) + var(--spacing-large));
-}
-.dnb-core-style .dnb-space__left--xx-large-x2.dnb-core-style .dnb-space__left--small {
-  margin-left: calc(var(--spacing-x-large) + var(--spacing-x-large) + var(--spacing-large));
-}
-.dnb-core-style .dnb-space__left--xx-large-x2.dnb-core-style .dnb-space__left--medium {
-  margin-left: calc(var(--spacing-xx-large) + var(--spacing-x-large) + var(--spacing-large));
-}
-.dnb-core-style .dnb-space__left--xx-large-x2.dnb-core-style .dnb-space__left--large {
-  margin-left: calc(var(--spacing-x-large) + var(--spacing-x-large) + var(--spacing-x-large));
-}
-.dnb-core-style .dnb-space__left--xx-large-x2.dnb-core-style .dnb-space__left--large.dnb-core-style .dnb-space__left--x-small {
-  margin-left: calc(var(--spacing-xx-large) + var(--spacing-x-large) + var(--spacing-x-large));
-}
-.dnb-core-style .dnb-space__left--xx-large-x2.dnb-core-style .dnb-space__left--x-large {
-  margin-left: calc(var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-x-large));
+.dnb-core-style .dnb-space__left--xx-small:not([style*="--margin-l-"])::before, .dnb-core-style .dnb-space__left--x-small:not([style*="--margin-l-"])::before, .dnb-core-style .dnb-space__left--small:not([style*="--margin-l-"])::before, .dnb-core-style .dnb-space__left--medium:not([style*="--margin-l-"])::before, .dnb-core-style .dnb-space__left--large:not([style*="--margin-l-"])::before, .dnb-core-style .dnb-space__left--x-large:not([style*="--margin-l-"])::before, .dnb-core-style .dnb-space__left--xx-large:not([style*="--margin-l-"])::before, .dnb-core-style .dnb-space__left--xx-large-x2:not([style*="--margin-l-"])::before {
+  content: "Missing --margin-l-* custom property!";
+  display: block;
+  color: red;
+  font-size: 1rem;
+  padding: 1rem;
 }
 @media screen and (max-width: 60em) {
-  .dnb-core-style .dnb-space__left--xx-small[style*="--margin-l-s"], .dnb-core-style .dnb-space__left--x-small[style*="--margin-l-s"], .dnb-core-style .dnb-space__left--small[style*="--margin-l-s"], .dnb-core-style .dnb-space__left--medium[style*="--margin-l-s"], .dnb-core-style .dnb-space__left--large[style*="--margin-l-s"], .dnb-core-style .dnb-space__left--x-large[style*="--margin-l-s"], .dnb-core-style .dnb-space__left--xx-large[style*="--margin-l-s"], .dnb-core-style .dnb-space__left--xx-large-x2[style*="--margin-l-s"] {
+  .dnb-core-style .dnb-space__left--xx-small, .dnb-core-style .dnb-space__left--x-small, .dnb-core-style .dnb-space__left--small, .dnb-core-style .dnb-space__left--medium, .dnb-core-style .dnb-space__left--large, .dnb-core-style .dnb-space__left--x-large, .dnb-core-style .dnb-space__left--xx-large, .dnb-core-style .dnb-space__left--xx-large-x2 {
     margin-left: var(--margin-l-s);
   }
 }
 @media screen and (max-width: 60em) and (min-width: 40.00625em) {
-  .dnb-core-style .dnb-space__left--xx-small[style*="--margin-l-m"], .dnb-core-style .dnb-space__left--x-small[style*="--margin-l-m"], .dnb-core-style .dnb-space__left--small[style*="--margin-l-m"], .dnb-core-style .dnb-space__left--medium[style*="--margin-l-m"], .dnb-core-style .dnb-space__left--large[style*="--margin-l-m"], .dnb-core-style .dnb-space__left--x-large[style*="--margin-l-m"], .dnb-core-style .dnb-space__left--xx-large[style*="--margin-l-m"], .dnb-core-style .dnb-space__left--xx-large-x2[style*="--margin-l-m"] {
+  .dnb-core-style .dnb-space__left--xx-small, .dnb-core-style .dnb-space__left--x-small, .dnb-core-style .dnb-space__left--small, .dnb-core-style .dnb-space__left--medium, .dnb-core-style .dnb-space__left--large, .dnb-core-style .dnb-space__left--x-large, .dnb-core-style .dnb-space__left--xx-large, .dnb-core-style .dnb-space__left--xx-large-x2 {
     margin-left: var(--margin-l-m);
   }
 }
 @media screen and (min-width: 60.00625em) {
-  .dnb-core-style .dnb-space__left--xx-small[style*="--margin-l-l"], .dnb-core-style .dnb-space__left--x-small[style*="--margin-l-l"], .dnb-core-style .dnb-space__left--small[style*="--margin-l-l"], .dnb-core-style .dnb-space__left--medium[style*="--margin-l-l"], .dnb-core-style .dnb-space__left--large[style*="--margin-l-l"], .dnb-core-style .dnb-space__left--x-large[style*="--margin-l-l"], .dnb-core-style .dnb-space__left--xx-large[style*="--margin-l-l"], .dnb-core-style .dnb-space__left--xx-large-x2[style*="--margin-l-l"] {
+  .dnb-core-style .dnb-space__left--xx-small, .dnb-core-style .dnb-space__left--x-small, .dnb-core-style .dnb-space__left--small, .dnb-core-style .dnb-space__left--medium, .dnb-core-style .dnb-space__left--large, .dnb-core-style .dnb-space__left--x-large, .dnb-core-style .dnb-space__left--xx-large, .dnb-core-style .dnb-space__left--xx-large-x2 {
     margin-left: var(--margin-l-l);
   }
 }
@@ -352,324 +128,100 @@ exports[`Space scss should match style dependencies css 1`] = `
 .dnb-space--inline {
   display: inline-block;
 }
-.dnb-space__top--xx-small {
-  margin-top: var(--spacing-xx-small);
-}
-.dnb-space__top--x-small {
-  margin-top: var(--spacing-x-small);
-}
-.dnb-space__top--small {
-  margin-top: var(--spacing-small);
-}
-.dnb-space__top--medium {
-  margin-top: var(--spacing-medium);
-}
-.dnb-space__top--large {
-  margin-top: var(--spacing-large);
-}
-.dnb-space__top--large.dnb-space__top--x-small {
-  margin-top: calc(var(--spacing-large) + var(--spacing-x-small));
-}
-.dnb-space__top--x-large {
-  margin-top: var(--spacing-x-large);
-}
-.dnb-space__top--xx-large {
-  margin-top: var(--spacing-xx-large);
-}
-.dnb-space__top--xx-large.dnb-space__top--x-small {
-  margin-top: calc(var(--spacing-large) + var(--spacing-large));
-}
-.dnb-space__top--xx-large.dnb-space__top--small {
-  margin-top: calc(var(--spacing-x-large) + var(--spacing-medium));
-}
-.dnb-space__top--xx-large.dnb-space__top--medium {
-  margin-top: calc(var(--spacing-x-large) + var(--spacing-large));
-}
-.dnb-space__top--xx-large.dnb-space__top--large {
-  margin-top: calc(var(--spacing-x-large) + var(--spacing-large) + var(--spacing-x-small));
-}
-.dnb-space__top--xx-large.dnb-space__top--large.dnb-space__top--x-small {
-  margin-top: calc(var(--spacing-x-large) + var(--spacing-large) + var(--spacing-small));
-}
-.dnb-space__top--xx-large.dnb-space__top--x-large {
-  margin-top: calc(var(--spacing-xx-large) + var(--spacing-x-large));
-}
-.dnb-space__top--xx-large-x2 {
-  margin-top: calc(var(--spacing-x-large) + var(--spacing-large) + var(--spacing-large));
-}
-.dnb-space__top--xx-large-x2.dnb-space__top--x-small {
-  margin-top: calc(var(--spacing-xx-large) + var(--spacing-large) + var(--spacing-large));
-}
-.dnb-space__top--xx-large-x2.dnb-space__top--small {
-  margin-top: calc(var(--spacing-x-large) + var(--spacing-x-large) + var(--spacing-large));
-}
-.dnb-space__top--xx-large-x2.dnb-space__top--medium {
-  margin-top: calc(var(--spacing-xx-large) + var(--spacing-x-large) + var(--spacing-large));
-}
-.dnb-space__top--xx-large-x2.dnb-space__top--large {
-  margin-top: calc(var(--spacing-x-large) + var(--spacing-x-large) + var(--spacing-x-large));
-}
-.dnb-space__top--xx-large-x2.dnb-space__top--large.dnb-space__top--x-small {
-  margin-top: calc(var(--spacing-xx-large) + var(--spacing-x-large) + var(--spacing-x-large));
-}
-.dnb-space__top--xx-large-x2.dnb-space__top--x-large {
-  margin-top: calc(var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-x-large));
+.dnb-space__top--xx-small:not([style*="--margin-t-"])::before, .dnb-space__top--x-small:not([style*="--margin-t-"])::before, .dnb-space__top--small:not([style*="--margin-t-"])::before, .dnb-space__top--medium:not([style*="--margin-t-"])::before, .dnb-space__top--large:not([style*="--margin-t-"])::before, .dnb-space__top--x-large:not([style*="--margin-t-"])::before, .dnb-space__top--xx-large:not([style*="--margin-t-"])::before, .dnb-space__top--xx-large-x2:not([style*="--margin-t-"])::before {
+  content: "Missing --margin-t-* custom property!";
+  display: block;
+  color: red;
+  font-size: 1rem;
+  padding: 1rem;
 }
 @media screen and (max-width: 60em) {
-  .dnb-space__top--xx-small[style*="--margin-t-s"], .dnb-space__top--x-small[style*="--margin-t-s"], .dnb-space__top--small[style*="--margin-t-s"], .dnb-space__top--medium[style*="--margin-t-s"], .dnb-space__top--large[style*="--margin-t-s"], .dnb-space__top--x-large[style*="--margin-t-s"], .dnb-space__top--xx-large[style*="--margin-t-s"], .dnb-space__top--xx-large-x2[style*="--margin-t-s"] {
+  .dnb-space__top--xx-small, .dnb-space__top--x-small, .dnb-space__top--small, .dnb-space__top--medium, .dnb-space__top--large, .dnb-space__top--x-large, .dnb-space__top--xx-large, .dnb-space__top--xx-large-x2 {
     margin-top: var(--margin-t-s);
   }
 }
 @media screen and (max-width: 60em) and (min-width: 40.00625em) {
-  .dnb-space__top--xx-small[style*="--margin-t-m"], .dnb-space__top--x-small[style*="--margin-t-m"], .dnb-space__top--small[style*="--margin-t-m"], .dnb-space__top--medium[style*="--margin-t-m"], .dnb-space__top--large[style*="--margin-t-m"], .dnb-space__top--x-large[style*="--margin-t-m"], .dnb-space__top--xx-large[style*="--margin-t-m"], .dnb-space__top--xx-large-x2[style*="--margin-t-m"] {
+  .dnb-space__top--xx-small, .dnb-space__top--x-small, .dnb-space__top--small, .dnb-space__top--medium, .dnb-space__top--large, .dnb-space__top--x-large, .dnb-space__top--xx-large, .dnb-space__top--xx-large-x2 {
     margin-top: var(--margin-t-m);
   }
 }
 @media screen and (min-width: 60.00625em) {
-  .dnb-space__top--xx-small[style*="--margin-t-l"], .dnb-space__top--x-small[style*="--margin-t-l"], .dnb-space__top--small[style*="--margin-t-l"], .dnb-space__top--medium[style*="--margin-t-l"], .dnb-space__top--large[style*="--margin-t-l"], .dnb-space__top--x-large[style*="--margin-t-l"], .dnb-space__top--xx-large[style*="--margin-t-l"], .dnb-space__top--xx-large-x2[style*="--margin-t-l"] {
+  .dnb-space__top--xx-small, .dnb-space__top--x-small, .dnb-space__top--small, .dnb-space__top--medium, .dnb-space__top--large, .dnb-space__top--x-large, .dnb-space__top--xx-large, .dnb-space__top--xx-large-x2 {
     margin-top: var(--margin-t-l);
   }
 }
 .dnb-space__top--zero {
   margin-top: 0;
 }
-.dnb-space__right--xx-small {
-  margin-right: var(--spacing-xx-small);
-}
-.dnb-space__right--x-small {
-  margin-right: var(--spacing-x-small);
-}
-.dnb-space__right--small {
-  margin-right: var(--spacing-small);
-}
-.dnb-space__right--medium {
-  margin-right: var(--spacing-medium);
-}
-.dnb-space__right--large {
-  margin-right: var(--spacing-large);
-}
-.dnb-space__right--large.dnb-space__right--x-small {
-  margin-right: calc(var(--spacing-large) + var(--spacing-x-small));
-}
-.dnb-space__right--x-large {
-  margin-right: var(--spacing-x-large);
-}
-.dnb-space__right--xx-large {
-  margin-right: var(--spacing-xx-large);
-}
-.dnb-space__right--xx-large.dnb-space__right--x-small {
-  margin-right: calc(var(--spacing-large) + var(--spacing-large));
-}
-.dnb-space__right--xx-large.dnb-space__right--small {
-  margin-right: calc(var(--spacing-x-large) + var(--spacing-medium));
-}
-.dnb-space__right--xx-large.dnb-space__right--medium {
-  margin-right: calc(var(--spacing-x-large) + var(--spacing-large));
-}
-.dnb-space__right--xx-large.dnb-space__right--large {
-  margin-right: calc(var(--spacing-x-large) + var(--spacing-large) + var(--spacing-x-small));
-}
-.dnb-space__right--xx-large.dnb-space__right--large.dnb-space__right--x-small {
-  margin-right: calc(var(--spacing-x-large) + var(--spacing-large) + var(--spacing-small));
-}
-.dnb-space__right--xx-large.dnb-space__right--x-large {
-  margin-right: calc(var(--spacing-xx-large) + var(--spacing-x-large));
-}
-.dnb-space__right--xx-large-x2 {
-  margin-right: calc(var(--spacing-x-large) + var(--spacing-large) + var(--spacing-large));
-}
-.dnb-space__right--xx-large-x2.dnb-space__right--x-small {
-  margin-right: calc(var(--spacing-xx-large) + var(--spacing-large) + var(--spacing-large));
-}
-.dnb-space__right--xx-large-x2.dnb-space__right--small {
-  margin-right: calc(var(--spacing-x-large) + var(--spacing-x-large) + var(--spacing-large));
-}
-.dnb-space__right--xx-large-x2.dnb-space__right--medium {
-  margin-right: calc(var(--spacing-xx-large) + var(--spacing-x-large) + var(--spacing-large));
-}
-.dnb-space__right--xx-large-x2.dnb-space__right--large {
-  margin-right: calc(var(--spacing-x-large) + var(--spacing-x-large) + var(--spacing-x-large));
-}
-.dnb-space__right--xx-large-x2.dnb-space__right--large.dnb-space__right--x-small {
-  margin-right: calc(var(--spacing-xx-large) + var(--spacing-x-large) + var(--spacing-x-large));
-}
-.dnb-space__right--xx-large-x2.dnb-space__right--x-large {
-  margin-right: calc(var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-x-large));
+.dnb-space__right--xx-small:not([style*="--margin-r-"])::before, .dnb-space__right--x-small:not([style*="--margin-r-"])::before, .dnb-space__right--small:not([style*="--margin-r-"])::before, .dnb-space__right--medium:not([style*="--margin-r-"])::before, .dnb-space__right--large:not([style*="--margin-r-"])::before, .dnb-space__right--x-large:not([style*="--margin-r-"])::before, .dnb-space__right--xx-large:not([style*="--margin-r-"])::before, .dnb-space__right--xx-large-x2:not([style*="--margin-r-"])::before {
+  content: "Missing --margin-r-* custom property!";
+  display: block;
+  color: red;
+  font-size: 1rem;
+  padding: 1rem;
 }
 @media screen and (max-width: 60em) {
-  .dnb-space__right--xx-small[style*="--margin-r-s"], .dnb-space__right--x-small[style*="--margin-r-s"], .dnb-space__right--small[style*="--margin-r-s"], .dnb-space__right--medium[style*="--margin-r-s"], .dnb-space__right--large[style*="--margin-r-s"], .dnb-space__right--x-large[style*="--margin-r-s"], .dnb-space__right--xx-large[style*="--margin-r-s"], .dnb-space__right--xx-large-x2[style*="--margin-r-s"] {
+  .dnb-space__right--xx-small, .dnb-space__right--x-small, .dnb-space__right--small, .dnb-space__right--medium, .dnb-space__right--large, .dnb-space__right--x-large, .dnb-space__right--xx-large, .dnb-space__right--xx-large-x2 {
     margin-right: var(--margin-r-s);
   }
 }
 @media screen and (max-width: 60em) and (min-width: 40.00625em) {
-  .dnb-space__right--xx-small[style*="--margin-r-m"], .dnb-space__right--x-small[style*="--margin-r-m"], .dnb-space__right--small[style*="--margin-r-m"], .dnb-space__right--medium[style*="--margin-r-m"], .dnb-space__right--large[style*="--margin-r-m"], .dnb-space__right--x-large[style*="--margin-r-m"], .dnb-space__right--xx-large[style*="--margin-r-m"], .dnb-space__right--xx-large-x2[style*="--margin-r-m"] {
+  .dnb-space__right--xx-small, .dnb-space__right--x-small, .dnb-space__right--small, .dnb-space__right--medium, .dnb-space__right--large, .dnb-space__right--x-large, .dnb-space__right--xx-large, .dnb-space__right--xx-large-x2 {
     margin-right: var(--margin-r-m);
   }
 }
 @media screen and (min-width: 60.00625em) {
-  .dnb-space__right--xx-small[style*="--margin-r-l"], .dnb-space__right--x-small[style*="--margin-r-l"], .dnb-space__right--small[style*="--margin-r-l"], .dnb-space__right--medium[style*="--margin-r-l"], .dnb-space__right--large[style*="--margin-r-l"], .dnb-space__right--x-large[style*="--margin-r-l"], .dnb-space__right--xx-large[style*="--margin-r-l"], .dnb-space__right--xx-large-x2[style*="--margin-r-l"] {
+  .dnb-space__right--xx-small, .dnb-space__right--x-small, .dnb-space__right--small, .dnb-space__right--medium, .dnb-space__right--large, .dnb-space__right--x-large, .dnb-space__right--xx-large, .dnb-space__right--xx-large-x2 {
     margin-right: var(--margin-r-l);
   }
 }
 .dnb-space__right--zero {
   margin-right: 0;
 }
-.dnb-space__bottom--xx-small {
-  margin-bottom: var(--spacing-xx-small);
-}
-.dnb-space__bottom--x-small {
-  margin-bottom: var(--spacing-x-small);
-}
-.dnb-space__bottom--small {
-  margin-bottom: var(--spacing-small);
-}
-.dnb-space__bottom--medium {
-  margin-bottom: var(--spacing-medium);
-}
-.dnb-space__bottom--large {
-  margin-bottom: var(--spacing-large);
-}
-.dnb-space__bottom--large.dnb-space__bottom--x-small {
-  margin-bottom: calc(var(--spacing-large) + var(--spacing-x-small));
-}
-.dnb-space__bottom--x-large {
-  margin-bottom: var(--spacing-x-large);
-}
-.dnb-space__bottom--xx-large {
-  margin-bottom: var(--spacing-xx-large);
-}
-.dnb-space__bottom--xx-large.dnb-space__bottom--x-small {
-  margin-bottom: calc(var(--spacing-large) + var(--spacing-large));
-}
-.dnb-space__bottom--xx-large.dnb-space__bottom--small {
-  margin-bottom: calc(var(--spacing-x-large) + var(--spacing-medium));
-}
-.dnb-space__bottom--xx-large.dnb-space__bottom--medium {
-  margin-bottom: calc(var(--spacing-x-large) + var(--spacing-large));
-}
-.dnb-space__bottom--xx-large.dnb-space__bottom--large {
-  margin-bottom: calc(var(--spacing-x-large) + var(--spacing-large) + var(--spacing-x-small));
-}
-.dnb-space__bottom--xx-large.dnb-space__bottom--large.dnb-space__bottom--x-small {
-  margin-bottom: calc(var(--spacing-x-large) + var(--spacing-large) + var(--spacing-small));
-}
-.dnb-space__bottom--xx-large.dnb-space__bottom--x-large {
-  margin-bottom: calc(var(--spacing-xx-large) + var(--spacing-x-large));
-}
-.dnb-space__bottom--xx-large-x2 {
-  margin-bottom: calc(var(--spacing-x-large) + var(--spacing-large) + var(--spacing-large));
-}
-.dnb-space__bottom--xx-large-x2.dnb-space__bottom--x-small {
-  margin-bottom: calc(var(--spacing-xx-large) + var(--spacing-large) + var(--spacing-large));
-}
-.dnb-space__bottom--xx-large-x2.dnb-space__bottom--small {
-  margin-bottom: calc(var(--spacing-x-large) + var(--spacing-x-large) + var(--spacing-large));
-}
-.dnb-space__bottom--xx-large-x2.dnb-space__bottom--medium {
-  margin-bottom: calc(var(--spacing-xx-large) + var(--spacing-x-large) + var(--spacing-large));
-}
-.dnb-space__bottom--xx-large-x2.dnb-space__bottom--large {
-  margin-bottom: calc(var(--spacing-x-large) + var(--spacing-x-large) + var(--spacing-x-large));
-}
-.dnb-space__bottom--xx-large-x2.dnb-space__bottom--large.dnb-space__bottom--x-small {
-  margin-bottom: calc(var(--spacing-xx-large) + var(--spacing-x-large) + var(--spacing-x-large));
-}
-.dnb-space__bottom--xx-large-x2.dnb-space__bottom--x-large {
-  margin-bottom: calc(var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-x-large));
+.dnb-space__bottom--xx-small:not([style*="--margin-b-"])::before, .dnb-space__bottom--x-small:not([style*="--margin-b-"])::before, .dnb-space__bottom--small:not([style*="--margin-b-"])::before, .dnb-space__bottom--medium:not([style*="--margin-b-"])::before, .dnb-space__bottom--large:not([style*="--margin-b-"])::before, .dnb-space__bottom--x-large:not([style*="--margin-b-"])::before, .dnb-space__bottom--xx-large:not([style*="--margin-b-"])::before, .dnb-space__bottom--xx-large-x2:not([style*="--margin-b-"])::before {
+  content: "Missing --margin-b-* custom property!";
+  display: block;
+  color: red;
+  font-size: 1rem;
+  padding: 1rem;
 }
 @media screen and (max-width: 60em) {
-  .dnb-space__bottom--xx-small[style*="--margin-b-s"], .dnb-space__bottom--x-small[style*="--margin-b-s"], .dnb-space__bottom--small[style*="--margin-b-s"], .dnb-space__bottom--medium[style*="--margin-b-s"], .dnb-space__bottom--large[style*="--margin-b-s"], .dnb-space__bottom--x-large[style*="--margin-b-s"], .dnb-space__bottom--xx-large[style*="--margin-b-s"], .dnb-space__bottom--xx-large-x2[style*="--margin-b-s"] {
+  .dnb-space__bottom--xx-small, .dnb-space__bottom--x-small, .dnb-space__bottom--small, .dnb-space__bottom--medium, .dnb-space__bottom--large, .dnb-space__bottom--x-large, .dnb-space__bottom--xx-large, .dnb-space__bottom--xx-large-x2 {
     margin-bottom: var(--margin-b-s);
   }
 }
 @media screen and (max-width: 60em) and (min-width: 40.00625em) {
-  .dnb-space__bottom--xx-small[style*="--margin-b-m"], .dnb-space__bottom--x-small[style*="--margin-b-m"], .dnb-space__bottom--small[style*="--margin-b-m"], .dnb-space__bottom--medium[style*="--margin-b-m"], .dnb-space__bottom--large[style*="--margin-b-m"], .dnb-space__bottom--x-large[style*="--margin-b-m"], .dnb-space__bottom--xx-large[style*="--margin-b-m"], .dnb-space__bottom--xx-large-x2[style*="--margin-b-m"] {
+  .dnb-space__bottom--xx-small, .dnb-space__bottom--x-small, .dnb-space__bottom--small, .dnb-space__bottom--medium, .dnb-space__bottom--large, .dnb-space__bottom--x-large, .dnb-space__bottom--xx-large, .dnb-space__bottom--xx-large-x2 {
     margin-bottom: var(--margin-b-m);
   }
 }
 @media screen and (min-width: 60.00625em) {
-  .dnb-space__bottom--xx-small[style*="--margin-b-l"], .dnb-space__bottom--x-small[style*="--margin-b-l"], .dnb-space__bottom--small[style*="--margin-b-l"], .dnb-space__bottom--medium[style*="--margin-b-l"], .dnb-space__bottom--large[style*="--margin-b-l"], .dnb-space__bottom--x-large[style*="--margin-b-l"], .dnb-space__bottom--xx-large[style*="--margin-b-l"], .dnb-space__bottom--xx-large-x2[style*="--margin-b-l"] {
+  .dnb-space__bottom--xx-small, .dnb-space__bottom--x-small, .dnb-space__bottom--small, .dnb-space__bottom--medium, .dnb-space__bottom--large, .dnb-space__bottom--x-large, .dnb-space__bottom--xx-large, .dnb-space__bottom--xx-large-x2 {
     margin-bottom: var(--margin-b-l);
   }
 }
 .dnb-space__bottom--zero {
   margin-bottom: 0;
 }
-.dnb-space__left--xx-small {
-  margin-left: var(--spacing-xx-small);
-}
-.dnb-space__left--x-small {
-  margin-left: var(--spacing-x-small);
-}
-.dnb-space__left--small {
-  margin-left: var(--spacing-small);
-}
-.dnb-space__left--medium {
-  margin-left: var(--spacing-medium);
-}
-.dnb-space__left--large {
-  margin-left: var(--spacing-large);
-}
-.dnb-space__left--large.dnb-space__left--x-small {
-  margin-left: calc(var(--spacing-large) + var(--spacing-x-small));
-}
-.dnb-space__left--x-large {
-  margin-left: var(--spacing-x-large);
-}
-.dnb-space__left--xx-large {
-  margin-left: var(--spacing-xx-large);
-}
-.dnb-space__left--xx-large.dnb-space__left--x-small {
-  margin-left: calc(var(--spacing-large) + var(--spacing-large));
-}
-.dnb-space__left--xx-large.dnb-space__left--small {
-  margin-left: calc(var(--spacing-x-large) + var(--spacing-medium));
-}
-.dnb-space__left--xx-large.dnb-space__left--medium {
-  margin-left: calc(var(--spacing-x-large) + var(--spacing-large));
-}
-.dnb-space__left--xx-large.dnb-space__left--large {
-  margin-left: calc(var(--spacing-x-large) + var(--spacing-large) + var(--spacing-x-small));
-}
-.dnb-space__left--xx-large.dnb-space__left--large.dnb-space__left--x-small {
-  margin-left: calc(var(--spacing-x-large) + var(--spacing-large) + var(--spacing-small));
-}
-.dnb-space__left--xx-large.dnb-space__left--x-large {
-  margin-left: calc(var(--spacing-xx-large) + var(--spacing-x-large));
-}
-.dnb-space__left--xx-large-x2 {
-  margin-left: calc(var(--spacing-x-large) + var(--spacing-large) + var(--spacing-large));
-}
-.dnb-space__left--xx-large-x2.dnb-space__left--x-small {
-  margin-left: calc(var(--spacing-xx-large) + var(--spacing-large) + var(--spacing-large));
-}
-.dnb-space__left--xx-large-x2.dnb-space__left--small {
-  margin-left: calc(var(--spacing-x-large) + var(--spacing-x-large) + var(--spacing-large));
-}
-.dnb-space__left--xx-large-x2.dnb-space__left--medium {
-  margin-left: calc(var(--spacing-xx-large) + var(--spacing-x-large) + var(--spacing-large));
-}
-.dnb-space__left--xx-large-x2.dnb-space__left--large {
-  margin-left: calc(var(--spacing-x-large) + var(--spacing-x-large) + var(--spacing-x-large));
-}
-.dnb-space__left--xx-large-x2.dnb-space__left--large.dnb-space__left--x-small {
-  margin-left: calc(var(--spacing-xx-large) + var(--spacing-x-large) + var(--spacing-x-large));
-}
-.dnb-space__left--xx-large-x2.dnb-space__left--x-large {
-  margin-left: calc(var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-x-large));
+.dnb-space__left--xx-small:not([style*="--margin-l-"])::before, .dnb-space__left--x-small:not([style*="--margin-l-"])::before, .dnb-space__left--small:not([style*="--margin-l-"])::before, .dnb-space__left--medium:not([style*="--margin-l-"])::before, .dnb-space__left--large:not([style*="--margin-l-"])::before, .dnb-space__left--x-large:not([style*="--margin-l-"])::before, .dnb-space__left--xx-large:not([style*="--margin-l-"])::before, .dnb-space__left--xx-large-x2:not([style*="--margin-l-"])::before {
+  content: "Missing --margin-l-* custom property!";
+  display: block;
+  color: red;
+  font-size: 1rem;
+  padding: 1rem;
 }
 @media screen and (max-width: 60em) {
-  .dnb-space__left--xx-small[style*="--margin-l-s"], .dnb-space__left--x-small[style*="--margin-l-s"], .dnb-space__left--small[style*="--margin-l-s"], .dnb-space__left--medium[style*="--margin-l-s"], .dnb-space__left--large[style*="--margin-l-s"], .dnb-space__left--x-large[style*="--margin-l-s"], .dnb-space__left--xx-large[style*="--margin-l-s"], .dnb-space__left--xx-large-x2[style*="--margin-l-s"] {
+  .dnb-space__left--xx-small, .dnb-space__left--x-small, .dnb-space__left--small, .dnb-space__left--medium, .dnb-space__left--large, .dnb-space__left--x-large, .dnb-space__left--xx-large, .dnb-space__left--xx-large-x2 {
     margin-left: var(--margin-l-s);
   }
 }
 @media screen and (max-width: 60em) and (min-width: 40.00625em) {
-  .dnb-space__left--xx-small[style*="--margin-l-m"], .dnb-space__left--x-small[style*="--margin-l-m"], .dnb-space__left--small[style*="--margin-l-m"], .dnb-space__left--medium[style*="--margin-l-m"], .dnb-space__left--large[style*="--margin-l-m"], .dnb-space__left--x-large[style*="--margin-l-m"], .dnb-space__left--xx-large[style*="--margin-l-m"], .dnb-space__left--xx-large-x2[style*="--margin-l-m"] {
+  .dnb-space__left--xx-small, .dnb-space__left--x-small, .dnb-space__left--small, .dnb-space__left--medium, .dnb-space__left--large, .dnb-space__left--x-large, .dnb-space__left--xx-large, .dnb-space__left--xx-large-x2 {
     margin-left: var(--margin-l-m);
   }
 }
 @media screen and (min-width: 60.00625em) {
-  .dnb-space__left--xx-small[style*="--margin-l-l"], .dnb-space__left--x-small[style*="--margin-l-l"], .dnb-space__left--small[style*="--margin-l-l"], .dnb-space__left--medium[style*="--margin-l-l"], .dnb-space__left--large[style*="--margin-l-l"], .dnb-space__left--x-large[style*="--margin-l-l"], .dnb-space__left--xx-large[style*="--margin-l-l"], .dnb-space__left--xx-large-x2[style*="--margin-l-l"] {
+  .dnb-space__left--xx-small, .dnb-space__left--x-small, .dnb-space__left--small, .dnb-space__left--medium, .dnb-space__left--large, .dnb-space__left--x-large, .dnb-space__left--xx-large, .dnb-space__left--xx-large-x2 {
     margin-left: var(--margin-l-l);
   }
 }
