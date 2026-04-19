@@ -51,7 +51,12 @@ describe.each(['ui', 'sbanken'])('Skeleton for %s', (themeName) => {
   it('have to match all components - horizontal', async () => {
     const screenshot = await makeScreenshot({
       addWrapper: false,
-      style: { width: '60rem', overflow: 'visible' },
+      style: {
+        width: '60rem',
+        overflow: 'visible',
+        padding: '0', // Reset existing styles
+        'white-space': 'initial', // Reset existing styles
+      },
       selector:
         '[data-visual-test="skeleton-all-horizontal"] .dnb-flex-container',
     })

@@ -34,7 +34,12 @@ describe.each(['ui', 'sbanken'])(
     it('have to match horizontal direction', async () => {
       const screenshot = await makeScreenshot({
         addWrapper: false,
-        style: { width: '60rem', overflow: 'visible' },
+        style: {
+          width: '60rem',
+          overflow: 'visible',
+          padding: '0', // Reset existing styles
+          'white-space': 'initial', // Reset existing styles
+        },
         selector:
           '[data-visual-test="form-components-alignment-horizontal"] .dnb-flex-container',
       })

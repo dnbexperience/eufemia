@@ -528,7 +528,11 @@ async function handleElement({
     await page.$eval(
       styleSelector || selector,
       (node: Element, style: string) => {
-        node.setAttribute('style', style)
+        const existing = node.getAttribute('style')
+        const merged = existing
+          ? `${existing.replace(/;?\s*$/, '')}; ${style}`
+          : style
+        node.setAttribute('style', merged)
         return node
       },
       makeStyles(style)
