@@ -5,14 +5,14 @@
  *
  */
 
+@use 'sass:string';
 @use '../../../style/core/utilities.scss' as utilities;
 @use './space-mixins.scss';
 
 @mixin direction($direction) {
-  // 0rem
-  &--zero {
-    margin-#{$direction}: 0;
-  }
+  // Get the first letter for the custom property name (top -> t, left -> l, etc.)
+  $short: string.slice($direction, 1, 1);
+
   // 0.25rem
   &--xx-small {
     margin-#{$direction}: var(--spacing-xx-small);
@@ -130,6 +130,40 @@
       var(--spacing-xx-large) + var(--spacing-xx-large) +
         var(--spacing-x-large)
     );
+  }
+
+  // Apply responsive custom property overrides for all modifiers above
+  &--xx-small,
+  &--x-small,
+  &--small,
+  &--medium,
+  &--large,
+  &--x-large,
+  &--xx-large,
+  &--xx-large-x2 {
+    @include utilities.allBelow(medium) {
+      &[style*='--margin-#{$short}-s'] {
+        // Check if the style attribute contains the specific custom property for small breakpoint
+        margin-#{$direction}: var(--margin-#{$short}-s);
+      }
+    }
+    @include utilities.allBetween(small, medium) {
+      &[style*='--margin-#{$short}-m'] {
+        // Check if the style attribute contains the specific custom property for medium breakpoint
+        margin-#{$direction}: var(--margin-#{$short}-m);
+      }
+    }
+    @include utilities.allAbove(medium) {
+      &[style*='--margin-#{$short}-l'] {
+        // Check if the style attribute contains the specific custom property for large breakpoint
+        margin-#{$direction}: var(--margin-#{$short}-l);
+      }
+    }
+  }
+
+  // 0rem
+  &--zero {
+    margin-#{$direction}: 0;
   }
 }
 
