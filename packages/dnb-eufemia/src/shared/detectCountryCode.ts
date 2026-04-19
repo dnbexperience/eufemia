@@ -1,4 +1,4 @@
-import countries from '../constants/countries'
+import countryCodes from './constants/countryCodes'
 
 /**
  * Sorted list of unique numeric country dialing codes (longest first).
@@ -9,16 +9,16 @@ import countries from '../constants/countries'
  * country codes are prefix-free at each allocation length.
  */
 const strippedCodes: Array<string> = Array.from(
-  new Set(countries.map((c) => c.cdc.replace(/-/g, '')))
+  new Set(countryCodes.map((c) => c.replace(/-/g, '')))
 ).sort((a, b) => b.length - a.length || a.localeCompare(b))
 
 /**
  * Maps stripped digit strings back to the original dashed CDC format
- * used in `countries.ts` (e.g. "1684" → "1-684", "441481" → "44-1481").
+ * used in `countryCodes.ts` (e.g. "1684" → "1-684", "441481" → "44-1481").
  * Codes without dashes map to themselves (e.g. "47" → "47").
  */
 const cdcFormatMap: Record<string, string> = Object.fromEntries(
-  countries.map((c) => [c.cdc.replace(/-/g, ''), c.cdc])
+  countryCodes.map((c) => [c.replace(/-/g, ''), c])
 )
 
 /**
