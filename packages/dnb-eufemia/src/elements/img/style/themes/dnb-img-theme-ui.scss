@@ -1,7 +1,7 @@
 @mixin imgStyle() {
   &[alt]::after {
-    color: var(--color-black-80);
-    background-color: var(--color-black-8);
+    color: var(--token-color-text-neutral);
+    background-color: var(--token-color-background-neutral-base);
   }
 }
 
@@ -9,7 +9,7 @@
   @include imgStyle();
 
   &__img--error {
-    color: var(--color-black-80);
-    background-color: var(--color-black-8);
+    color: var(--token-color-text-neutral);
+    background-color: var(--token-color-background-neutral-base);
   }
 }
