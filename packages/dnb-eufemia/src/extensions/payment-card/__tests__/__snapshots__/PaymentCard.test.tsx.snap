@@ -114,9 +114,9 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
    * These variables allow for reusable colors, border-radius, and overlay background transitions.
    */
   --color-dark-cyan: #003b47;
-  --dnb-payment-bg-default: var(--color-sea-green);
-  --dnb-payment-bg-pluss: var(--color-ocean-green);
-  --dnb-payment-bg-white: var(--color-white);
+  --dnb-payment-bg-default: var(--token-color-background-action);
+  --dnb-payment-bg-pluss: var(--token-color-decorative-first-intense-static);
+  --dnb-payment-bg-white: var(--token-color-background-neutral-static);
   --dnb-payment-bg-gold: #d8c583;
   --dnb-payment-bg-black-gold: #1f1b10;
   --dnb-payment-bg-black-grey: #1c1c1e;
@@ -135,7 +135,7 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
   height: 100%;
   padding: 16px;
   border-radius: inherit;
-  color: var(--color-white);
+  color: var(--token-color-text-neutral-inverse);
   box-shadow: var(--shadow-default);
   transition: box-shadow 225ms cubic-bezier(0, 0, 0.2, 1) 0ms, opacity 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
   user-select: none;
@@ -145,7 +145,7 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
   width: 343px;
   height: 216px;
   border-radius: inherit;
-  border: 1px solid var(--color-black-8);
+  border: 1px solid var(--token-color-stroke-neutral-subtle);
 }
 .dnb-payment-card__card__wrapper::after {
   content: "";
@@ -167,50 +167,50 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
 }
 .dnb-payment-card__card--design-default {
   background-color: var(--dnb-payment-bg-default);
-  color: var(--color-white);
+  color: var(--token-color-text-neutral-inverse);
 }
 .dnb-payment-card__card--design-pluss {
   background-color: var(--dnb-payment-bg-pluss);
-  color: var(--color-white);
+  color: var(--token-color-text-neutral-inverse);
 }
 .dnb-payment-card__card--design-ung, .dnb-payment-card__card--design-youth, .dnb-payment-card__card--design-my-first {
   background-color: var(--dnb-payment-bg-white);
-  color: var(--color-black);
+  color: var(--token-color-text-neutral);
 }
 .dnb-payment-card__card--design-gold {
   background-color: var(--dnb-payment-bg-gold);
-  color: var(--color-black);
+  color: var(--token-color-text-neutral);
 }
 .dnb-payment-card__card--design-saga {
   background-color: var(--dnb-payment-bg-black-gold);
-  color: var(--color-white);
+  color: var(--token-color-text-neutral-inverse);
 }
 .dnb-payment-card__card--design-saga .provider--separator {
   color: var(--dnb-payment-bg-gold);
 }
 .dnb-payment-card__card--design-saga-platinum, .dnb-payment-card__card--design-private {
   background-color: var(--dnb-payment-bg-black-grey);
-  color: var(--color-white);
+  color: var(--token-color-text-neutral-inverse);
 }
 .dnb-payment-card__card--design-black {
   background-color: var(--color-black);
-  color: var(--color-white);
+  color: var(--token-color-text-neutral-inverse);
 }
 .dnb-payment-card__card--design-business-no-visa {
   background-color: var(--dnb-payment-bg-business-no-visa);
-  color: var(--color-white);
+  color: var(--token-color-text-neutral-inverse);
 }
 .dnb-payment-card__card--design-business-with-visa {
   background-color: var(--dnb-payment-bg-business-with-visa);
-  color: var(--color-white);
+  color: var(--token-color-text-neutral-inverse);
 }
 .dnb-payment-card__card--design-sbanken-mastercard {
-  background-color: var(--sb-color-purple);
-  color: var(--color-white);
+  background-color: var(--token-color-decorative-first-intense-static);
+  color: var(--token-color-text-neutral-inverse);
 }
 .dnb-payment-card__card--design-sbanken-visa {
-  background-color: var(--color-white);
-  color: var(--sb-color-text);
+  background-color: var(--token-color-background-neutral-static);
+  color: var(--token-color-text-neutral);
 }
 .dnb-payment-card__card {
   /*
@@ -335,11 +335,11 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
 }
 .dnb-payment-card__overlay__content--light {
   background-color: var(--dnb-payment-overlay-bg-dark);
-  color: var(--color-white);
+  color: var(--token-color-text-neutral-inverse);
 }
 .dnb-payment-card__overlay__content--dark {
   background-color: var(--dnb-payment-overlay-bg-light);
-  color: var(--color-black);
+  color: var(--token-color-text-neutral);
 }
 .dnb-payment-card {
   /* Compact mode styling for PaymentCard component
