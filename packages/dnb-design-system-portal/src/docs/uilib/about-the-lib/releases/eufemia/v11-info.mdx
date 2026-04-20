@@ -1620,7 +1620,7 @@ The `PaymentCard` types (`DNB`, `Visa`, `Mastercard`, `CardType`, `BankAxept`, `
 - Remove `brand` prop. Import and use the desired SVG component directly (e.g., `DnbDefault`, `SbankenDefault`, `SbankenCompact`, `SbankenHorizontal`, `CarnegieDefault`, `EiendomDefault`).
 - Remove `variant` prop. Instead, import the specific variant directly (e.g., `SbankenCompact` instead of `brand="sbanken" variant="compact"`).
 - Remove `size`. Replace it with `height` if it contains a numeric value, and with `inheritSize` where `size='inherit'`.
-- Remove the following properties: `alt` and `ratio`.
+- Remove the following properties: `alt` and `ratio`. Alt text is now built into each SVG component (e.g. `DnbDefault.alt` is `'DNB Logo'`). The Logo component reads `svg.alt` automatically. To customize the alt text, pass `aria-label` to the Logo component.
 - Replace `inherit_color` with `inheritColor`.
 - Change `width` from number to string.
 - Change `height` from number to string.
