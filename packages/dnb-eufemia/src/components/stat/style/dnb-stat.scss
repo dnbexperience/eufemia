@@ -7,11 +7,11 @@
 
 .dnb-stat {
   &--tone-positive {
-    color: var(--color-success-green);
+    color: var(--token-color-text-positive);
   }
 
   &--tone-negative {
-    color: var(--color-fire-red);
+    color: var(--token-color-text-destructive);
   }
 
   &__content {
@@ -43,11 +43,11 @@
     }
 
     &--plain {
-      color: var(--color-black-80);
+      color: var(--token-color-text-neutral-onlight);
     }
 
     &--subtle {
-      color: var(--color-black-55);
+      color: var(--token-color-text-neutral-alternative);
     }
 
     [class*='dnb-h--'],
@@ -80,15 +80,15 @@
     line-height: var(--line-height-basis);
 
     &--plain {
-      color: var(--color-black-80);
+      color: var(--token-color-text-neutral-onlight);
     }
 
     &--subtle {
-      color: var(--color-black-55);
+      color: var(--token-color-text-neutral-alternative);
     }
 
     &--prominent {
-      color: var(--color-black-80);
+      color: var(--token-color-text-neutral-onlight);
       font-weight: var(--font-weight-medium);
     }
   }
@@ -134,18 +134,18 @@
     }
 
     &--positive {
-      color: var(--color-success-green);
-      background-color: var(--color-mint-green-25);
+      color: var(--token-color-text-positive);
+      background-color: var(--token-color-background-positive-subtle);
     }
 
     &--negative {
-      color: var(--color-fire-red);
-      background-color: var(--color-fire-red-8);
+      color: var(--token-color-text-destructive);
+      background-color: var(--token-color-background-error-subtle);
     }
 
     &--neutral {
-      color: var(--color-black-80);
-      background-color: var(--color-mint-green-25);
+      color: var(--token-color-text-neutral-onlight);
+      background-color: var(--token-color-background-positive-subtle);
     }
   }
 
@@ -195,11 +195,11 @@
       }
 
       &--base {
-        color: var(--color-black-20);
+        color: var(--token-color-text-neutral-subtle);
       }
 
       &--active {
-        color: var(--color-black-80);
+        color: var(--token-color-text-neutral-onlight);
       }
     }
 
@@ -216,8 +216,8 @@
       border-radius: 0.0625rem;
       background: linear-gradient(
         to right,
-        var(--color-black-80) var(--dnb-stat-rating-step-fill, 0%),
-        var(--color-black-20) var(--dnb-stat-rating-step-fill, 0%)
+        var(--token-color-text-neutral-onlight) var(--dnb-stat-rating-step-fill, 0%),
+        var(--token-color-text-neutral-subtle) var(--dnb-stat-rating-step-fill, 0%)
       );
     }
   }
