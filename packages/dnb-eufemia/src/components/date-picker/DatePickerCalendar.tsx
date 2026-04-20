@@ -366,8 +366,8 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         newDate = !isRange
           ? currentMonth
           : nr === 0
-          ? setDate(currentMonth, 1)
-          : lastDayOfMonth(currentMonth)
+            ? setDate(currentMonth, 1)
+            : lastDayOfMonth(currentMonth)
 
         // only to make sure we navigate the calendar to the new date
       } else if (currentMonth && !isSameMonth(currentDate, currentMonth)) {
@@ -600,8 +600,8 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                   const dateType = day.isStartDate
                     ? 'start'
                     : day.isEndDate
-                    ? 'end'
-                    : undefined
+                      ? 'end'
+                      : undefined
                   const isSelectedDate =
                     nr === 0 ? day.isStartDate : day.isEndDate
 
