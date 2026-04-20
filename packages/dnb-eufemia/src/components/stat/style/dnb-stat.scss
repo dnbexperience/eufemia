@@ -43,7 +43,7 @@
     }
 
     &--plain {
-      color: var(--token-color-text-neutral-onlight);
+      color: var(--token-color-text-neutral);
     }
 
     &--subtle {
@@ -80,7 +80,7 @@
     line-height: var(--line-height-basis);
 
     &--plain {
-      color: var(--token-color-text-neutral-onlight);
+      color: var(--token-color-text-neutral);
     }
 
     &--subtle {
@@ -88,7 +88,7 @@
     }
 
     &--prominent {
-      color: var(--token-color-text-neutral-onlight);
+      color: var(--token-color-text-neutral);
       font-weight: var(--font-weight-medium);
     }
   }
@@ -144,7 +144,7 @@
     }
 
     &--neutral {
-      color: var(--token-color-text-neutral-onlight);
+      color: var(--token-color-text-neutral);
       background-color: var(--token-color-background-positive-subtle);
     }
   }
@@ -195,11 +195,11 @@
       }
 
       &--base {
-        color: var(--token-color-text-neutral-subtle);
+        color: var(--token-color-stroke-neutral-bold);
       }
 
       &--active {
-        color: var(--token-color-text-neutral-onlight);
+        color: var(--token-color-text-neutral);
       }
     }
 
@@ -216,8 +216,8 @@
       border-radius: 0.0625rem;
       background: linear-gradient(
         to right,
-        var(--token-color-text-neutral-onlight) var(--dnb-stat-rating-step-fill, 0%),
-        var(--token-color-text-neutral-subtle) var(--dnb-stat-rating-step-fill, 0%)
+        var(--token-color-text-neutral) var(--dnb-stat-rating-step-fill, 0%),
+        var(--token-color-stroke-neutral-bold) var(--dnb-stat-rating-step-fill, 0%)
       );
     }
   }
