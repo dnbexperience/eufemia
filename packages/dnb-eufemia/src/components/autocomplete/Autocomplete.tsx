@@ -1841,6 +1841,13 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           break
 
         case 'Enter':
+          // If the DrawerList's capture-phase keydown handler already
+          // handled this Enter event (selecting an item and closing),
+          // it will have called preventDefault. Skip to avoid reopening.
+          if (e.defaultPrevented) {
+            break
+          }
+
           e.preventDefault()
 
           if (!drawerList.open && hasFilterActive()) {
@@ -1858,7 +1865,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
               ...getEventObjects('onSubmit'),
             })
             toggleVisible()
-          } else {
+          } else if (!drawerList.open) {
             setVisible()
           }
 
