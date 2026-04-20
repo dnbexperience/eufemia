@@ -1944,13 +1944,13 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     (event: React.KeyboardEvent | React.MouseEvent) => {
       preventFiringBlurEvent.current = Boolean(
         ('key' in event && event.key === 'Enter') ||
-        (event?.currentTarget
-          ? getClosestParent('dnb-drawer-list', event.currentTarget) ||
-            getClosestParent(
-              'dnb-input__submit-button__button',
-              event.currentTarget
-            )
-          : false)
+          (event?.currentTarget
+            ? getClosestParent('dnb-drawer-list', event.currentTarget) ||
+              getClosestParent(
+                'dnb-input__submit-button__button',
+                event.currentTarget
+              )
+            : false)
       )
 
       if (preventFiringBlurEvent.current) {
@@ -2131,11 +2131,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           setSkipFocusDuringChange(true)
           setDisableHighlighting(true)
 
-          // Note: closingFromChangeRef is set/reset synchronously here, before
-          // onCloseHandler fires asynchronously after React re-renders.
-          // This means onCloseHandler always sees `false` and calls setFocusOnInput.
-          // This matches the class component behavior where onCloseHandler always
-          // refocused the input, so the guard is intentionally ineffective.
           closingFromChangeRef.current = true
           setHidden()
 
@@ -2283,6 +2278,11 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       clearTimeout(_blurTimeout.current)
       clearTimeout(_focusTimeout.current)
       clearTimeout(showAllTimeoutRef.current)
+
+      // Cancel any pending debounced event callbacks
+      for (const fn of Object.values(debouncedEventFnsRef.current)) {
+        ;(fn as unknown as { cancel: () => void }).cancel?.()
+      }
     }
   })
 
