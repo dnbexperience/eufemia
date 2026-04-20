@@ -3045,6 +3045,26 @@ Several component types that accepted `(...args: any[]) => any` for render funct
 
 ## Theming
 
+### Z-index CSS custom properties
+
+All hardcoded `z-index` values across Eufemia components have been replaced with centralized CSS custom properties. If you have custom CSS that sets `z-index` to interact with Eufemia component layering, use these tokens instead of hardcoded values:
+
+| CSS custom property  | Value  | Used for                               |
+| -------------------- | ------ | -------------------------------------- |
+| `--z-index-section`  | `1`    | Content sections                       |
+| `--z-index-dropdown` | `100`  | Inline dropdowns, drawer lists         |
+| `--z-index-popover`  | `1000` | Popovers, floating elements            |
+| `--z-index-tooltip`  | `1100` | Tooltips (always above popovers)       |
+| `--z-index-modal`    | `3000` | Dialogs, drawers, full-screen overlays |
+
+You can override these on `:root` or any wrapper element to adjust Eufemia's layering within your application:
+
+```css
+:root {
+  --z-index-modal: 5000; /* raise modals above a third-party widget */
+}
+```
+
 - Replace import from path `style/themes/theme-ui/` with `style/themes/ui/`.
 - Replace import from path `style/themes/theme-sbanken/` with `style/themes/sbanken/`.
 - Replace import from path `style/themes/theme-eiendom/` with `style/themes/eiendom/`.
