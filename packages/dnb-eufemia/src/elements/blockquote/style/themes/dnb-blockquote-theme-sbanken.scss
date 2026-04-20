@@ -11,6 +11,12 @@
 
   border-radius: 1.125rem;
 
+  // Quote icon color
+  --blockquote-icon-color: var(--token-color-decorative-first-bold-static);
+  &.dnb-blockquote--no-background {
+    --blockquote-icon-color: var(--token-color-icon-neutral);
+  }
+
   @include utilities.allBelow('small') {
     --blockquote-padding-bottom: 1.5rem;
     --blockquote-quote-size: 2rem;
@@ -22,20 +28,6 @@
 
     &:not(.dnb-blockquote--top) {
       --blockquote-padding-left: 1rem;
-    }
-  }
-
-  &::before {
-    // simulate --sbanken-purple-700 (#4e08bc)
-    filter: brightness(0) saturate(100%) invert(20%) sepia(99%)
-      saturate(6711%) hue-rotate(265deg) brightness(71%) contrast(115%);
-  }
-
-  &.dnb-blockquote--no-background {
-    &::before {
-      // simulate --sbanken-purple-1000 (#18172a)
-      filter: brightness(0) saturate(100%) invert(12%) sepia(4%)
-        saturate(6079%) hue-rotate(204deg) brightness(78%) contrast(99%);
     }
   }
 }
