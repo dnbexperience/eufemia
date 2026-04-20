@@ -1,7 +1,21 @@
 name: Deploy Preview
 
 on:
-  pull_request_target:
+  workflow_dispatch:
+  push:
+    branches:
+      - '**'
+      - '!main'
+      - '!portal'
+      - '!release'
+      - '!beta'
+      - '!alpha'
+      - '!next'
+      - '!**--skip-ci'
+      - '!**--visual-reports'
+      - '!wip/**'
+      - '!experiments/**'
+  pull_request:
     types: [opened, synchronize, reopened]
     branches:
       - '**'
@@ -20,8 +34,58 @@ env:
   CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
 jobs:
+  resolve-pr:
+    name: Resolve preview PR context
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: read
+
+    outputs:
+      issue_number: ${{ steps.resolve.outputs.issue_number }}
+      should_run: ${{ steps.resolve.outputs.should_run }}
+
+    steps:
+      - name: Resolve PR number
+        id: resolve
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
+        with:
+          script: |
+            let issueNumber = context.issue.number || '';
+
+            if (!issueNumber && context.eventName === 'push') {
+              const { data: pullRequests } = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                commit_sha: context.sha,
+              });
+
+              issueNumber = String(
+                pullRequests.find((pullRequest) => pullRequest.state === 'open')?.number || ''
+              );
+            }
+
+            if (!issueNumber && context.ref.startsWith('refs/heads/')) {
+              const branch = context.ref.replace('refs/heads/', '');
+
+              const { data: pullRequests } = await github.rest.pulls.list({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                head: `${context.repo.owner}:${branch}`,
+              });
+
+              issueNumber = String(pullRequests[0]?.number || '');
+            }
+
+            core.setOutput('issue_number', issueNumber);
+            core.setOutput('should_run', issueNumber ? 'true' : 'false');
+
   deploy-preview:
     name: Build and deploy (branch preview)
+    needs: resolve-pr
+    if: ${{ needs.resolve-pr.outputs.should_run == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
@@ -33,8 +97,8 @@ jobs:
       - name: Git checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
           persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Use Node.js
         uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
@@ -72,7 +136,7 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
       - name: Post or update preview comment
-        if: success() && github.event.pull_request
+        if: success()
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         env:
           ALIAS_URL: ${{ steps.pages_deploy.outputs.alias_url }}
@@ -82,6 +146,13 @@ jobs:
             const aliasUrl = process.env.ALIAS_URL;
             const deploymentUrl = process.env.DEPLOYMENT_URL;
             const marker = "<!-- pages-preview-comment -->";
+
+            const issueNumber = Number('${{ needs.resolve-pr.outputs.issue_number }}' || context.issue.number || 0);
+
+            if (!issueNumber) {
+              core.info('No open pull request found for this preview deployment comment.');
+              return;
+            }
 
             const body = [
               marker,
@@ -104,7 +175,7 @@ jobs:
             const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: context.issue.number,
+              issue_number: issueNumber,
             });
 
             const existing = comments.find(c => c.body?.includes(marker));
@@ -120,7 +191,7 @@ jobs:
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                issue_number: context.issue.number,
+                issue_number: issueNumber,
                 body,
               });
             }
