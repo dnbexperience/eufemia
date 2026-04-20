@@ -773,4 +773,43 @@ describe('Field.SelectCountry', () => {
       expect(input).toHaveAttribute('aria-invalid', 'true')
     })
   })
+
+  it('should not change value on blur when initial value is SE', async () => {
+    const onChange = jest.fn()
+    const onSubmit = jest.fn()
+
+    render(
+      <Form.Handler onChange={onChange} onSubmit={onSubmit}>
+        <Field.SelectCountry path="/country" value="SE" noAnimation />
+      </Form.Handler>
+    )
+
+    const inputElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-select-country input'
+    )
+
+    // Initial state: should show Sverige
+    expect(inputElement).toHaveValue('Sverige')
+
+    // Click on the input to focus (simulates real user interaction)
+    await userEvent.click(inputElement)
+
+    // Verify it's focused and value is still correct
+    expect(inputElement).toHaveValue('Sverige')
+
+    // Click outside to blur (simulates clicking somewhere else)
+    await userEvent.click(document.body)
+
+    // Value should still be Sverige, not Norge
+    expect(inputElement).toHaveValue('Sverige')
+
+    // onChange should NOT have been called since we didn't change anything
+    expect(onChange).not.toHaveBeenCalled()
+
+    // Focus and blur again to verify consistent behavior
+    await userEvent.click(inputElement)
+    await userEvent.click(document.body)
+    expect(inputElement).toHaveValue('Sverige')
+    expect(onChange).not.toHaveBeenCalled()
+  })
 })

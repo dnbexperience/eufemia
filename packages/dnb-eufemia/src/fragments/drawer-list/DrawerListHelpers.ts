@@ -372,7 +372,9 @@ export const prepareDerivedState = (
     state.data = getData(props)
   }
 
+  let dataHasChanged = false
   if (props.data && props.data !== state._data) {
+    dataHasChanged = true
     if (state._data) {
       state.cacheHash = state.cacheHash + Date.now()
     }
@@ -397,7 +399,11 @@ export const prepareDerivedState = (
 
   if (
     state.selectedItem !== props.value &&
-    (state._value !== props.value || props.preventSelection)
+    ((dataHasChanged &&
+      props.value != null &&
+      props.value !== 'initval') ||
+      state._value !== props.value ||
+      props.preventSelection)
   ) {
     if (props.value === 'initval') {
       state.selectedItem = null

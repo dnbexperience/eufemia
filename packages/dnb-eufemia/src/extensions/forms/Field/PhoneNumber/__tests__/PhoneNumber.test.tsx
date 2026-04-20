@@ -2232,4 +2232,33 @@ describe('Field.PhoneNumber', () => {
       )
     })
   })
+
+  it('should not change country code on blur when value has non-default country code', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <Form.Handler onChange={onChange}>
+        <Field.PhoneNumber path="/phone" value="+4612345678" noAnimation />
+      </Form.Handler>
+    )
+
+    const ccInput: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    )
+
+    // Initial state: should show Sweden's country code (+46)
+    expect(ccInput.value).toContain('+46')
+
+    // Click on the country code input to focus
+    await userEvent.click(ccInput)
+
+    // Click outside to blur
+    await userEvent.click(document.body)
+
+    // Country code should still contain +46 (Sweden), not +47 (Norway)
+    expect(ccInput.value).toContain('+46')
+
+    // onChange should NOT have been called since we didn't change anything
+    expect(onChange).not.toHaveBeenCalled()
+  })
 })
