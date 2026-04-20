@@ -2470,6 +2470,16 @@ The following SCSS mixins have been removed:
 - **`extendFocusRing`** (`style/core/utilities.scss`) — added an outer ring on top of `focusRing`. Replace with a custom `box-shadow` if needed.
 - **`componentReset`** (`style/core/scopes.scss`) — applied core CSS reset rules to a single component. Use the global Eufemia CSS reset instead.
 
+#### Removed deprecated CSS vendor prefixes
+
+The following deprecated vendor prefixes and CSS properties have been removed from Eufemia's core styles:
+
+- `-moz-tab-size` — the unprefixed `tab-size` is supported in all modern browsers.
+- `-webkit-overflow-scrolling: touch` — momentum scrolling is the default since iOS 13.
+- `clip: rect(0,0,0,0)` — replaced with `clip-path: inset(100%)`, as `clip` has been removed from the CSS spec.
+
+If you have custom CSS that relied on Eufemia providing these vendor-prefixed rules, add them to your own styles.
+
 ## Eufemia Forms
 
 > This section covers changes specific to `@dnb/eufemia/extensions/forms`. Many of these are **behavioral changes and removals** that require manual review.
