@@ -12,8 +12,13 @@
     }
   }
 
+  // Override text color token so child typography elements (paragraphs, headings)
+  // that explicitly set color: var(--token-color-text-neutral) remain readable
+  // on the dark background
   // make contrast
   &:not(.dnb-blockquote--no-background) {
+    --token-color-text-neutral: var(--color-mint-green);
+
     .dnb-anchor,
     a {
       @include anchor-mixins.useAnchorDarkSurfaceStyle();
