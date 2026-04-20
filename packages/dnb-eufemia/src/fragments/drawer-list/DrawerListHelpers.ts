@@ -378,6 +378,12 @@ export const prepareDerivedState = (
     }
     state.data = getData(props)
     state.originalData = getData(props)
+
+    // When data changes, selectedItem indices may shift.
+    // Recalculate to keep the correct item selected.
+    if (props.value != null && props.value !== 'initval') {
+      state.selectedItem = getCurrentIndex(props.value, state.originalData)
+    }
   }
 
   state.skipPortal = props.skipPortal
