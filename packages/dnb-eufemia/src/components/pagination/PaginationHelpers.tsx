@@ -1,8 +1,5 @@
 /**
  * Web Pagination Helpers
- *
- * This is a legacy component.
- * For referencing while developing new features, please use a Functional component.
  */
 import React from 'react'
 import clsx from 'clsx'
