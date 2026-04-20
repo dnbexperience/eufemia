@@ -14,14 +14,14 @@
 
   overflow: hidden;
 
-  background: var(--color-white);
+  background: var(--token-color-background-neutral);
 
   &::after {
     content: '';
     position: absolute;
     inset: 0;
     pointer-events: none;
-    border: 1px solid var(--color-black-8);
+    border: 1px solid var(--token-color-stroke-neutral-subtle);
   }
 
   &,
@@ -57,7 +57,7 @@
   }
 
   &__icon {
-    color: var(--color-emerald-green);
+    color: var(--token-color-icon-info);
   }
 
   &__image {
