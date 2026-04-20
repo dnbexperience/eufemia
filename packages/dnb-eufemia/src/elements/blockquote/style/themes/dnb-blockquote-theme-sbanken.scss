@@ -6,7 +6,7 @@
   --blockquote-quote-padding: 5.5rem;
   --blockquote-cite-style: normal;
 
-  background-color: var(--sb-color-violet-light-4);
+  background-color: var(--token-color-decorative-first-muted-static);
 
   border-radius: 1.125rem;
 
@@ -25,13 +25,14 @@
   }
 
   &::before {
+    // simulate --sbanken-purple-700 (#4e08bc)
     filter: brightness(0) saturate(100%) invert(20%) sepia(99%)
-      saturate(6711%) hue-rotate(265deg) brightness(71%) contrast(115%); // simulate the color #4e08bc - --sb-color-violet
+      saturate(6711%) hue-rotate(265deg) brightness(71%) contrast(115%);
   }
 
   &.dnb-blockquote--no-background {
     &::before {
-      // simulate the color #18172a - --sb-color-text
+      // simulate --sbanken-purple-1000 (#18172a)
       filter: brightness(0) saturate(100%) invert(12%) sepia(4%)
         saturate(6079%) hue-rotate(204deg) brightness(78%) contrast(99%);
     }
