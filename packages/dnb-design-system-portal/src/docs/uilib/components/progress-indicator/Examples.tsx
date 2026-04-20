@@ -94,6 +94,7 @@ export const ProgressIndicatorCircularRandomExample = () => (
               type="circular"
               progress={value}
               showDefaultLabel
+              labelDirection="horizontal"
               noAnimation
             />
             <Button
