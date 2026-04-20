@@ -48,7 +48,7 @@ export const AutocompleteStatusInfoExample = () => (
       <Autocomplete
         data={topMovies}
         label="Label"
-        status="Please select a valid date"
+        status="You need to select a movie"
         statusState="information"
         showSubmitButton
       />
