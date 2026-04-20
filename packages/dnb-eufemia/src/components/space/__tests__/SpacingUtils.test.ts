@@ -310,9 +310,9 @@ describe('createSpacingProperties', () => {
     expect(
       createSpacingProperties({ innerSpace: { right: 'large x-small' } })
     ).toEqual({
-      '--space-r-l': '2.5rem',
-      '--space-r-m': '2.5rem',
-      '--space-r-s': '2.5rem',
+      '--padding-r-l': '2.5rem',
+      '--padding-r-m': '2.5rem',
+      '--padding-r-s': '2.5rem',
     })
   })
 
@@ -322,18 +322,18 @@ describe('createSpacingProperties', () => {
         innerSpace: { inline: 'small', block: 'large' },
       })
     ).toEqual({
-      '--space-b-l': '2rem',
-      '--space-l-l': '1rem',
-      '--space-r-l': '1rem',
-      '--space-t-l': '2rem',
-      '--space-b-m': '2rem',
-      '--space-l-m': '1rem',
-      '--space-r-m': '1rem',
-      '--space-t-m': '2rem',
-      '--space-b-s': '2rem',
-      '--space-l-s': '1rem',
-      '--space-r-s': '1rem',
-      '--space-t-s': '2rem',
+      '--padding-b-l': '2rem',
+      '--padding-l-l': '1rem',
+      '--padding-r-l': '1rem',
+      '--padding-t-l': '2rem',
+      '--padding-b-m': '2rem',
+      '--padding-l-m': '1rem',
+      '--padding-r-m': '1rem',
+      '--padding-t-m': '2rem',
+      '--padding-b-s': '2rem',
+      '--padding-l-s': '1rem',
+      '--padding-r-s': '1rem',
+      '--padding-t-s': '2rem',
     })
   })
 
@@ -348,18 +348,18 @@ describe('createSpacingProperties', () => {
         },
       })
     ).toEqual({
-      '--space-b-l': '2rem',
-      '--space-l-l': '1.5rem',
-      '--space-r-l': '1rem',
-      '--space-t-l': '0',
-      '--space-b-m': '2rem',
-      '--space-l-m': '1.5rem',
-      '--space-r-m': '1rem',
-      '--space-t-m': '0',
-      '--space-b-s': '2rem',
-      '--space-l-s': '1.5rem',
-      '--space-r-s': '1rem',
-      '--space-t-s': '0',
+      '--padding-b-l': '2rem',
+      '--padding-l-l': '1.5rem',
+      '--padding-r-l': '1rem',
+      '--padding-t-l': '0',
+      '--padding-b-m': '2rem',
+      '--padding-l-m': '1.5rem',
+      '--padding-r-m': '1rem',
+      '--padding-t-m': '0',
+      '--padding-b-s': '2rem',
+      '--padding-l-s': '1.5rem',
+      '--padding-r-s': '1rem',
+      '--padding-t-s': '0',
     })
   })
 
@@ -367,14 +367,14 @@ describe('createSpacingProperties', () => {
     expect(
       createSpacingProperties({ innerSpace: { right: false } })
     ).toEqual({
-      '--space-r-l': '0',
-      '--space-r-m': '0',
-      '--space-r-s': '0',
+      '--padding-r-l': '0',
+      '--padding-r-m': '0',
+      '--padding-r-s': '0',
     })
     expect(createSpacingProperties({ innerSpace: { right: 0 } })).toEqual({
-      '--space-r-l': '0',
-      '--space-r-m': '0',
-      '--space-r-s': '0',
+      '--padding-r-l': '0',
+      '--padding-r-m': '0',
+      '--padding-r-s': '0',
     })
     expect(
       createSpacingProperties({ innerSpace: { right: null } })
@@ -384,18 +384,18 @@ describe('createSpacingProperties', () => {
   it('should handle frozen props', () => {
     const props = Object.freeze({ innerSpace: true })
     expect(createSpacingProperties(props)).toEqual({
-      '--space-b-l': '1rem',
-      '--space-l-l': '1rem',
-      '--space-r-l': '1rem',
-      '--space-t-l': '1rem',
-      '--space-b-m': '1rem',
-      '--space-l-m': '1rem',
-      '--space-r-m': '1rem',
-      '--space-t-m': '1rem',
-      '--space-b-s': '1rem',
-      '--space-l-s': '1rem',
-      '--space-r-s': '1rem',
-      '--space-t-s': '1rem',
+      '--padding-b-l': '1rem',
+      '--padding-l-l': '1rem',
+      '--padding-r-l': '1rem',
+      '--padding-t-l': '1rem',
+      '--padding-b-m': '1rem',
+      '--padding-l-m': '1rem',
+      '--padding-r-m': '1rem',
+      '--padding-t-m': '1rem',
+      '--padding-b-s': '1rem',
+      '--padding-l-s': '1rem',
+      '--padding-r-s': '1rem',
+      '--padding-t-s': '1rem',
     })
   })
 
@@ -403,38 +403,38 @@ describe('createSpacingProperties', () => {
     expect(createSpacingProperties({ innerSpace: false })).toEqual({}) // we may extend that with all four "--zero" in future
     expect(createSpacingProperties({ innerSpace: 0 })).toEqual({})
     expect(createSpacingProperties({ innerSpace: true })).toEqual({
-      '--space-b-l': '1rem',
-      '--space-l-l': '1rem',
-      '--space-r-l': '1rem',
-      '--space-t-l': '1rem',
-      '--space-b-m': '1rem',
-      '--space-l-m': '1rem',
-      '--space-r-m': '1rem',
-      '--space-t-m': '1rem',
-      '--space-b-s': '1rem',
-      '--space-l-s': '1rem',
-      '--space-r-s': '1rem',
-      '--space-t-s': '1rem',
+      '--padding-b-l': '1rem',
+      '--padding-l-l': '1rem',
+      '--padding-r-l': '1rem',
+      '--padding-t-l': '1rem',
+      '--padding-b-m': '1rem',
+      '--padding-l-m': '1rem',
+      '--padding-r-m': '1rem',
+      '--padding-t-m': '1rem',
+      '--padding-b-s': '1rem',
+      '--padding-l-s': '1rem',
+      '--padding-r-s': '1rem',
+      '--padding-t-s': '1rem',
     })
     expect(createSpacingProperties({ innerSpace: '1rem' })).toEqual({
-      '--space-b-l': '1rem',
-      '--space-l-l': '1rem',
-      '--space-r-l': '1rem',
-      '--space-t-l': '1rem',
-      '--space-b-m': '1rem',
-      '--space-l-m': '1rem',
-      '--space-r-m': '1rem',
-      '--space-t-m': '1rem',
-      '--space-b-s': '1rem',
-      '--space-l-s': '1rem',
-      '--space-r-s': '1rem',
-      '--space-t-s': '1rem',
+      '--padding-b-l': '1rem',
+      '--padding-l-l': '1rem',
+      '--padding-r-l': '1rem',
+      '--padding-t-l': '1rem',
+      '--padding-b-m': '1rem',
+      '--padding-l-m': '1rem',
+      '--padding-r-m': '1rem',
+      '--padding-t-m': '1rem',
+      '--padding-b-s': '1rem',
+      '--padding-l-s': '1rem',
+      '--padding-r-s': '1rem',
+      '--padding-t-s': '1rem',
     })
     expect(createSpacingProperties({ innerSpace: null })).toEqual({})
   })
 
   describe('responsive innerSpace', () => {
-    it('should expand per media size to --space-{t|r|b|l}-{s|m|l} properties', () => {
+    it('should expand per media size to --padding-{t|r|b|l}-{s|m|l} properties', () => {
       expect(
         createSpacingProperties({
           innerSpace: {
@@ -459,25 +459,25 @@ describe('createSpacingProperties', () => {
           },
         })
       ).toEqual({
-        '--space-b-l': '1rem',
-        '--space-l-l': '1.5rem',
-        '--space-r-l': '3rem',
-        '--space-t-l': '2rem',
-        '--space-b-m': '1rem',
-        '--space-l-m': '1.5rem',
-        '--space-r-m': '3rem',
-        '--space-t-m': '2rem',
-        '--space-b-s': '1rem',
-        '--space-l-s': '1.5rem',
-        '--space-r-s': '3rem',
-        '--space-t-s': '2rem',
+        '--padding-b-l': '1rem',
+        '--padding-l-l': '1.5rem',
+        '--padding-r-l': '3rem',
+        '--padding-t-l': '2rem',
+        '--padding-b-m': '1rem',
+        '--padding-l-m': '1.5rem',
+        '--padding-r-m': '3rem',
+        '--padding-t-m': '2rem',
+        '--padding-b-s': '1rem',
+        '--padding-l-s': '1.5rem',
+        '--padding-r-s': '3rem',
+        '--padding-t-s': '2rem',
       })
     })
 
     it('should set 0 per media size', () => {
       expect(
         createSpacingProperties({ innerSpace: { small: { right: 0 } } })
-      ).toEqual({ '--space-r-s': '0' })
+      ).toEqual({ '--padding-r-s': '0' })
     })
 
     it('should support block shorthand per media size', () => {
@@ -486,8 +486,8 @@ describe('createSpacingProperties', () => {
           innerSpace: { small: { block: 'large' } },
         })
       ).toEqual({
-        '--space-b-s': '2rem',
-        '--space-t-s': '2rem',
+        '--padding-b-s': '2rem',
+        '--padding-t-s': '2rem',
       })
     })
 
@@ -497,8 +497,8 @@ describe('createSpacingProperties', () => {
           innerSpace: { small: { inline: 'x-small' } },
         })
       ).toEqual({
-        '--space-l-s': '0.5rem',
-        '--space-r-s': '0.5rem',
+        '--padding-l-s': '0.5rem',
+        '--padding-r-s': '0.5rem',
       })
     })
 
@@ -516,10 +516,10 @@ describe('createSpacingProperties', () => {
           innerSpace: { small: true },
         })
       ).toEqual({
-        '--space-b-s': '1rem',
-        '--space-l-s': '1rem',
-        '--space-r-s': '1rem',
-        '--space-t-s': '1rem',
+        '--padding-b-s': '1rem',
+        '--padding-l-s': '1rem',
+        '--padding-r-s': '1rem',
+        '--padding-t-s': '1rem',
       })
     })
   })
@@ -539,9 +539,9 @@ describe('createSpacing - return shape', () => {
     const result = createSpacing({ innerSpace: { right: 'large' } })
     expect(result.className).toEqual([])
     expect(result.style).toEqual({
-      '--space-r-l': '2rem',
-      '--space-r-m': '2rem',
-      '--space-r-s': '2rem',
+      '--padding-r-l': '2rem',
+      '--padding-r-m': '2rem',
+      '--padding-r-s': '2rem',
     })
   })
 
@@ -555,9 +555,9 @@ describe('createSpacing - return shape', () => {
       innerSpace: { right: 'large' },
     })
     expect(result.style).toEqual({
-      '--space-r-l': '2rem',
-      '--space-r-m': '2rem',
-      '--space-r-s': '2rem',
+      '--padding-r-l': '2rem',
+      '--padding-r-m': '2rem',
+      '--padding-r-s': '2rem',
     })
   })
 })
@@ -749,9 +749,9 @@ describe('applySpacing', () => {
     )
     expect(result.style).toEqual({
       color: 'red',
-      '--space-r-l': '2rem',
-      '--space-r-m': '2rem',
-      '--space-r-s': '2rem',
+      '--padding-r-l': '2rem',
+      '--padding-r-m': '2rem',
+      '--padding-r-s': '2rem',
     })
   })
 
