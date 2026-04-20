@@ -6,7 +6,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import {
   createSkeletonClass,
   skeletonDOMAttributes,
@@ -57,7 +57,7 @@ export function SliderInstance() {
     extensions,
   } = allProps
 
-  const mainParams = {
+  const mainParams = applySpacing(allProps, {
     className: clsx(
       'dnb-slider',
       isVertical && 'dnb-slider--vertical',
@@ -70,10 +70,9 @@ export function SliderInstance() {
       status && `dnb-slider__status--${statusState}`,
       'dnb-form-component',
       createSkeletonClass(null, skeleton),
-      createSpacingClasses(allProps),
       className
     ),
-  }
+  })
 
   const subtractButton = showButtons ? <SubtractButton /> : null
   const addButton = showButtons ? <AddButton /> : null

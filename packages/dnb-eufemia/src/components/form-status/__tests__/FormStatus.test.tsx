@@ -307,9 +307,9 @@ describe('FormStatus component', () => {
       'dnb-height-animation',
       'dnb-form-status',
       'dnb-form-status__size--default',
-      'dnb-space__top--large',
       'dnb-form-status--error',
       'dnb-form-status--has-content',
+      'dnb-space__top--large',
       'dnb-height-animation--is-visible',
       'dnb-height-animation--is-in-dom',
     ])
@@ -325,12 +325,14 @@ describe('FormStatus component', () => {
     expect(element).toHaveClass(
       'dnb-form-status__shell dnb-space__top--large'
     )
+    expect(element).not.toHaveAttribute('style')
 
     rerender(<FormStatus shellSpace="2rem">test</FormStatus>)
 
     expect(element).toHaveClass(
       'dnb-form-status__shell dnb-space__top--large dnb-space__bottom--large dnb-space__right--large dnb-space__left--large'
     )
+    expect(element).not.toHaveAttribute('style')
   })
 
   it('cache content and update it', () => {

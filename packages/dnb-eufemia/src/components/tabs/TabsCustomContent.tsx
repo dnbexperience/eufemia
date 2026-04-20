@@ -1,6 +1,6 @@
 import React from 'react'
 import clsx from 'clsx'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import type { SpacingProps } from '../../shared/types'
 import ContentWrapper, {
   type TabsContentWrapperProps,
@@ -66,11 +66,9 @@ function CustomContent(props: TabsCustomContentProps) {
 
   return (
     <div
-      className={clsx(
-        'dnb-tabs__content__inner',
-        createSpacingClasses(rest),
-        className
-      )}
+      {...applySpacing(rest, {
+        className: clsx('dnb-tabs__content__inner', className),
+      })}
     >
       {children as React.ReactNode}
     </div>

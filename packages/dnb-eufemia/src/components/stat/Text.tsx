@@ -1,6 +1,6 @@
 import React from 'react'
 import clsx from 'clsx'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import type {
   TypographySize,
   TypographyWeight,
@@ -66,23 +66,25 @@ function TextInternal(props: TextInternalProps) {
     : textValue
   const ariaLabel = srLabel ? srText : rest['aria-label']
 
-  const attributes = validateDOMAttributes(props, {
-    ...rest,
-    'aria-label': ariaLabel,
-    style,
-    className: clsx(
-      textClassName,
-      textClassName && fontSize && `dnb-t__size--${fontSize}`,
-      textClassName &&
-        fontSize &&
-        `dnb-t__line-height--${getHeadingLineHeightSize(fontSize)}`,
-      textClassName && fontWeight && `dnb-t__weight--${fontWeight}`,
-      resolvedSignTone && `dnb-stat--tone-${resolvedSignTone}`,
-      createSpacingClasses(props),
-      skeletonClass,
-      className
-    ),
-  })
+  const attributes = validateDOMAttributes(
+    props,
+    applySpacing(props, {
+      ...rest,
+      'aria-label': ariaLabel,
+      style,
+      className: clsx(
+        textClassName,
+        textClassName && fontSize && `dnb-t__size--${fontSize}`,
+        textClassName &&
+          fontSize &&
+          `dnb-t__line-height--${getHeadingLineHeightSize(fontSize)}`,
+        textClassName && fontWeight && `dnb-t__weight--${fontWeight}`,
+        resolvedSignTone && `dnb-stat--tone-${resolvedSignTone}`,
+        skeletonClass,
+        className
+      ),
+    })
+  )
 
   applySkeletonAttributes(attributes)
 

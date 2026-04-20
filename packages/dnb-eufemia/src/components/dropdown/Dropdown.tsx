@@ -19,7 +19,7 @@ import useMountEffect from '../../shared/helpers/useMountEffect'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import useId from '../../shared/helpers/useId'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 import Suffix from '../../shared/helpers/Suffix'
@@ -548,7 +548,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
     validateDOMAttributes(null, attributes)
   )
 
-  const mainParams = {
+  const mainParams = applySpacing(props, {
     className: clsx(
       'dnb-dropdown',
       `dnb-dropdown--${direction}`,
@@ -563,10 +563,9 @@ const DropdownInstance = React.memo(function DropdownInstance({
       status && `dnb-dropdown__status--${statusState}`,
       showStatus && 'dnb-dropdown__form-status',
       'dnb-form-component',
-      createSpacingClasses(props),
       className
     ),
-  }
+  })
 
   const triggerParams = {
     className: clsx('dnb-dropdown__trigger', open && 'dnb-button--active'),

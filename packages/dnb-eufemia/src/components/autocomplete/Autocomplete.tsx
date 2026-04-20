@@ -41,7 +41,7 @@ import { IS_MAC, debounce, hasSelectedText } from '../../shared/helpers'
 import useId from '../../shared/helpers/useId'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import Suffix from '../../shared/helpers/Suffix'
@@ -2310,7 +2310,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   attributesRef.current = validateDOMAttributes(null, attributes)
   Object.assign(drawerList.attributes, attributesRef.current)
 
-  const mainParams = {
+  const mainParams = applySpacing(props, {
     className: clsx(
       'dnb-autocomplete',
       direction && `dnb-autocomplete--${direction}`,
@@ -2325,10 +2325,9 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       status && `dnb-autocomplete__status--${statusState}`,
       showStatus && 'dnb-autocomplete__form-status',
       'dnb-form-component',
-      createSpacingClasses(props),
       className
     ),
-  }
+  })
 
   const shellParams = {
     className: 'dnb-autocomplete__shell dnb-no-focus',

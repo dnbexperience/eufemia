@@ -14,7 +14,7 @@ import {
 import IconPrimary from '../icon-primary/IconPrimary'
 import clsx from 'clsx'
 import AccordionContext from './AccordionContext'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -40,10 +40,9 @@ function AccordionHeaderTitle({
 }: AccordionHeaderTitleProps) {
   return (
     <span
-      className={clsx(
-        'dnb-accordion__header__title',
-        createSpacingClasses(rest)
-      )}
+      {...applySpacing(rest, {
+        className: 'dnb-accordion__header__title',
+      })}
     >
       {children}
     </span>
@@ -60,10 +59,9 @@ function AccordionHeaderDescription({
 }: AccordionHeaderDescriptionProps) {
   return children ? (
     <span
-      className={clsx(
-        'dnb-accordion__header__description',
-        createSpacingClasses(rest)
-      )}
+      {...applySpacing(rest, {
+        className: 'dnb-accordion__header__description',
+      })}
     >
       {children}
     </span>
@@ -80,10 +78,9 @@ function AccordionHeaderContainer({
 }: AccordionHeaderContainerProps) {
   return children ? (
     <span
-      className={clsx(
-        'dnb-accordion__header__container',
-        createSpacingClasses(rest)
-      )}
+      {...applySpacing(rest, {
+        className: 'dnb-accordion__header__container',
+      })}
     >
       {children}
     </span>
@@ -359,7 +356,7 @@ export const AccordionHeader = ({
     }
   }
 
-  const headerParams = {
+  const headerParams = applySpacing(rest, {
     id: `${id}-header`,
     'aria-controls': `${id}-content`,
     'aria-expanded': context.expanded,
@@ -378,12 +375,11 @@ export const AccordionHeader = ({
       description && 'dnb-accordion__header--description',
       noAnimation && 'dnb-accordion__header--no-animation',
       createSkeletonClass('font', skeleton, context),
-      createSpacingClasses(rest),
       className
     ),
     disabled,
     ...rest,
-  } satisfies HTMLProps<HTMLElement>
+  }) satisfies HTMLProps<HTMLElement>
 
   if (disabled || skeleton) {
     headerParams.tabIndex = -1

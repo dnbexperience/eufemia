@@ -4,7 +4,7 @@ import { axeComponent } from '../../../core/jest/jestSetup'
 import 'mock-match-media/jest-setup'
 import { setMedia, matchMedia } from 'mock-match-media'
 import Flex from '../Flex'
-import { createSpacingClasses } from '../../space/SpacingUtils'
+import { applySpacing } from '../../space/SpacingUtils'
 import type { SpaceProps } from '../../Space'
 import { Form } from '../../../extensions/forms'
 import H1 from '../../../elements/H1'
@@ -276,7 +276,7 @@ describe('Flex.Container', () => {
         class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-line"
       >
         <h1
-          class="dnb-space__top--zero dnb-space__bottom--zero dnb-h--xx-large"
+          class="dnb-h--xx-large dnb-space__top--zero dnb-space__bottom--zero"
         >
           Heading
         </h1>
@@ -286,7 +286,7 @@ describe('Flex.Container', () => {
           Flex
         </div>
         <hr
-          class="dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr"
+          class="dnb-flex-container__hr dnb-hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero"
         />
         <div
           class="dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item"
@@ -489,9 +489,8 @@ describe('Flex.Container', () => {
       Wrapper._supportsSpacingProps = undefined
 
       const TestComponent = (props: SpaceProps) => {
-        const cn = createSpacingClasses(props)
-        cn.push('test-item')
-        return <div className={cn.join(' ')}>content</div>
+        const params = applySpacing(props, { className: 'test-item' })
+        return <div {...params}>content</div>
       }
       TestComponent._supportsSpacingProps = undefined
 
@@ -535,7 +534,7 @@ describe('Flex.Container', () => {
             </div>
           </div>
           <div
-            class="dnb-space__top--large dnb-space__bottom--zero test-item"
+            class="test-item dnb-space__top--large dnb-space__bottom--zero"
           >
             content
           </div>
@@ -578,17 +577,17 @@ describe('Flex.Container', () => {
           class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
         >
           <div
-            class="dnb-space__top--zero dnb-space__bottom--zero test-item"
+            class="test-item dnb-space__top--zero dnb-space__bottom--zero"
           >
             content
           </div>
           <div
-            class="dnb-space__top--small dnb-space__bottom--zero test-item"
+            class="test-item dnb-space__top--small dnb-space__bottom--zero"
           >
             content
           </div>
           <div
-            class="dnb-space__top--large dnb-space__bottom--zero test-item"
+            class="test-item dnb-space__top--large dnb-space__bottom--zero"
           >
             content
           </div>
@@ -640,17 +639,17 @@ describe('Flex.Container', () => {
               class="dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
             >
               <div
-                class="dnb-space__top--zero dnb-space__bottom--zero test-item"
+                class="test-item dnb-space__top--zero dnb-space__bottom--zero"
               >
                 content
               </div>
               <div
-                class="dnb-space__top--small dnb-space__bottom--zero test-item"
+                class="test-item dnb-space__top--small dnb-space__bottom--zero"
               >
                 content
               </div>
               <div
-                class="dnb-space__top--large dnb-space__bottom--zero test-item"
+                class="test-item dnb-space__top--large dnb-space__bottom--zero"
               >
                 content
               </div>
@@ -759,7 +758,7 @@ describe('Flex.Container', () => {
             </p>
           </div>
           <div
-            class="dnb-space__top--large dnb-space__bottom--zero test-item"
+            class="test-item dnb-space__top--large dnb-space__bottom--zero"
           >
             content
           </div>
@@ -810,7 +809,7 @@ describe('Flex.Container', () => {
             </p>
           </div>
           <div
-            class="dnb-space__top--large dnb-space__bottom--zero test-item"
+            class="test-item dnb-space__top--large dnb-space__bottom--zero"
           >
             content
           </div>

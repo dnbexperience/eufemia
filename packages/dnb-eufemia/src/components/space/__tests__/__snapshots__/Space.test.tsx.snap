@@ -17,9 +17,6 @@ exports[`Space scss should match style dependencies css 1`] = `
 /** NB: Because CSS specificity ".dnb-core-style .dnb-space"
     has to come before the next ".dnb-space"
   */
-.dnb-core-style .dnb-space__top--zero {
-  margin-top: 0;
-}
 .dnb-core-style .dnb-space__top--xx-small {
   margin-top: var(--spacing-xx-small);
 }
@@ -83,8 +80,23 @@ exports[`Space scss should match style dependencies css 1`] = `
 .dnb-core-style .dnb-space__top--xx-large-x2.dnb-core-style .dnb-space__top--x-large {
   margin-top: calc(var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-x-large));
 }
-.dnb-core-style .dnb-space__right--zero {
-  margin-right: 0;
+@media screen and (max-width: 60em) {
+  .dnb-core-style .dnb-space__top--xx-small[style*="--margin-t-"], .dnb-core-style .dnb-space__top--x-small[style*="--margin-t-"], .dnb-core-style .dnb-space__top--small[style*="--margin-t-"], .dnb-core-style .dnb-space__top--medium[style*="--margin-t-"], .dnb-core-style .dnb-space__top--large[style*="--margin-t-"], .dnb-core-style .dnb-space__top--x-large[style*="--margin-t-"], .dnb-core-style .dnb-space__top--xx-large[style*="--margin-t-"], .dnb-core-style .dnb-space__top--xx-large-x2[style*="--margin-t-"] {
+    margin-top: var(--margin-t-s);
+  }
+}
+@media screen and (max-width: 60em) and (min-width: 40.00625em) {
+  .dnb-core-style .dnb-space__top--xx-small[style*="--margin-t-"], .dnb-core-style .dnb-space__top--x-small[style*="--margin-t-"], .dnb-core-style .dnb-space__top--small[style*="--margin-t-"], .dnb-core-style .dnb-space__top--medium[style*="--margin-t-"], .dnb-core-style .dnb-space__top--large[style*="--margin-t-"], .dnb-core-style .dnb-space__top--x-large[style*="--margin-t-"], .dnb-core-style .dnb-space__top--xx-large[style*="--margin-t-"], .dnb-core-style .dnb-space__top--xx-large-x2[style*="--margin-t-"] {
+    margin-top: var(--margin-t-m);
+  }
+}
+@media screen and (min-width: 60.00625em) {
+  .dnb-core-style .dnb-space__top--xx-small[style*="--margin-t-"], .dnb-core-style .dnb-space__top--x-small[style*="--margin-t-"], .dnb-core-style .dnb-space__top--small[style*="--margin-t-"], .dnb-core-style .dnb-space__top--medium[style*="--margin-t-"], .dnb-core-style .dnb-space__top--large[style*="--margin-t-"], .dnb-core-style .dnb-space__top--x-large[style*="--margin-t-"], .dnb-core-style .dnb-space__top--xx-large[style*="--margin-t-"], .dnb-core-style .dnb-space__top--xx-large-x2[style*="--margin-t-"] {
+    margin-top: var(--margin-t-l);
+  }
+}
+.dnb-core-style .dnb-space__top--zero {
+  margin-top: 0;
 }
 .dnb-core-style .dnb-space__right--xx-small {
   margin-right: var(--spacing-xx-small);
@@ -149,8 +161,23 @@ exports[`Space scss should match style dependencies css 1`] = `
 .dnb-core-style .dnb-space__right--xx-large-x2.dnb-core-style .dnb-space__right--x-large {
   margin-right: calc(var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-x-large));
 }
-.dnb-core-style .dnb-space__bottom--zero {
-  margin-bottom: 0;
+@media screen and (max-width: 60em) {
+  .dnb-core-style .dnb-space__right--xx-small[style*="--margin-r-"], .dnb-core-style .dnb-space__right--x-small[style*="--margin-r-"], .dnb-core-style .dnb-space__right--small[style*="--margin-r-"], .dnb-core-style .dnb-space__right--medium[style*="--margin-r-"], .dnb-core-style .dnb-space__right--large[style*="--margin-r-"], .dnb-core-style .dnb-space__right--x-large[style*="--margin-r-"], .dnb-core-style .dnb-space__right--xx-large[style*="--margin-r-"], .dnb-core-style .dnb-space__right--xx-large-x2[style*="--margin-r-"] {
+    margin-right: var(--margin-r-s);
+  }
+}
+@media screen and (max-width: 60em) and (min-width: 40.00625em) {
+  .dnb-core-style .dnb-space__right--xx-small[style*="--margin-r-"], .dnb-core-style .dnb-space__right--x-small[style*="--margin-r-"], .dnb-core-style .dnb-space__right--small[style*="--margin-r-"], .dnb-core-style .dnb-space__right--medium[style*="--margin-r-"], .dnb-core-style .dnb-space__right--large[style*="--margin-r-"], .dnb-core-style .dnb-space__right--x-large[style*="--margin-r-"], .dnb-core-style .dnb-space__right--xx-large[style*="--margin-r-"], .dnb-core-style .dnb-space__right--xx-large-x2[style*="--margin-r-"] {
+    margin-right: var(--margin-r-m);
+  }
+}
+@media screen and (min-width: 60.00625em) {
+  .dnb-core-style .dnb-space__right--xx-small[style*="--margin-r-"], .dnb-core-style .dnb-space__right--x-small[style*="--margin-r-"], .dnb-core-style .dnb-space__right--small[style*="--margin-r-"], .dnb-core-style .dnb-space__right--medium[style*="--margin-r-"], .dnb-core-style .dnb-space__right--large[style*="--margin-r-"], .dnb-core-style .dnb-space__right--x-large[style*="--margin-r-"], .dnb-core-style .dnb-space__right--xx-large[style*="--margin-r-"], .dnb-core-style .dnb-space__right--xx-large-x2[style*="--margin-r-"] {
+    margin-right: var(--margin-r-l);
+  }
+}
+.dnb-core-style .dnb-space__right--zero {
+  margin-right: 0;
 }
 .dnb-core-style .dnb-space__bottom--xx-small {
   margin-bottom: var(--spacing-xx-small);
@@ -215,8 +242,23 @@ exports[`Space scss should match style dependencies css 1`] = `
 .dnb-core-style .dnb-space__bottom--xx-large-x2.dnb-core-style .dnb-space__bottom--x-large {
   margin-bottom: calc(var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-x-large));
 }
-.dnb-core-style .dnb-space__left--zero {
-  margin-left: 0;
+@media screen and (max-width: 60em) {
+  .dnb-core-style .dnb-space__bottom--xx-small[style*="--margin-b-"], .dnb-core-style .dnb-space__bottom--x-small[style*="--margin-b-"], .dnb-core-style .dnb-space__bottom--small[style*="--margin-b-"], .dnb-core-style .dnb-space__bottom--medium[style*="--margin-b-"], .dnb-core-style .dnb-space__bottom--large[style*="--margin-b-"], .dnb-core-style .dnb-space__bottom--x-large[style*="--margin-b-"], .dnb-core-style .dnb-space__bottom--xx-large[style*="--margin-b-"], .dnb-core-style .dnb-space__bottom--xx-large-x2[style*="--margin-b-"] {
+    margin-bottom: var(--margin-b-s);
+  }
+}
+@media screen and (max-width: 60em) and (min-width: 40.00625em) {
+  .dnb-core-style .dnb-space__bottom--xx-small[style*="--margin-b-"], .dnb-core-style .dnb-space__bottom--x-small[style*="--margin-b-"], .dnb-core-style .dnb-space__bottom--small[style*="--margin-b-"], .dnb-core-style .dnb-space__bottom--medium[style*="--margin-b-"], .dnb-core-style .dnb-space__bottom--large[style*="--margin-b-"], .dnb-core-style .dnb-space__bottom--x-large[style*="--margin-b-"], .dnb-core-style .dnb-space__bottom--xx-large[style*="--margin-b-"], .dnb-core-style .dnb-space__bottom--xx-large-x2[style*="--margin-b-"] {
+    margin-bottom: var(--margin-b-m);
+  }
+}
+@media screen and (min-width: 60.00625em) {
+  .dnb-core-style .dnb-space__bottom--xx-small[style*="--margin-b-"], .dnb-core-style .dnb-space__bottom--x-small[style*="--margin-b-"], .dnb-core-style .dnb-space__bottom--small[style*="--margin-b-"], .dnb-core-style .dnb-space__bottom--medium[style*="--margin-b-"], .dnb-core-style .dnb-space__bottom--large[style*="--margin-b-"], .dnb-core-style .dnb-space__bottom--x-large[style*="--margin-b-"], .dnb-core-style .dnb-space__bottom--xx-large[style*="--margin-b-"], .dnb-core-style .dnb-space__bottom--xx-large-x2[style*="--margin-b-"] {
+    margin-bottom: var(--margin-b-l);
+  }
+}
+.dnb-core-style .dnb-space__bottom--zero {
+  margin-bottom: 0;
 }
 .dnb-core-style .dnb-space__left--xx-small {
   margin-left: var(--spacing-xx-small);
@@ -281,6 +323,24 @@ exports[`Space scss should match style dependencies css 1`] = `
 .dnb-core-style .dnb-space__left--xx-large-x2.dnb-core-style .dnb-space__left--x-large {
   margin-left: calc(var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-x-large));
 }
+@media screen and (max-width: 60em) {
+  .dnb-core-style .dnb-space__left--xx-small[style*="--margin-l-"], .dnb-core-style .dnb-space__left--x-small[style*="--margin-l-"], .dnb-core-style .dnb-space__left--small[style*="--margin-l-"], .dnb-core-style .dnb-space__left--medium[style*="--margin-l-"], .dnb-core-style .dnb-space__left--large[style*="--margin-l-"], .dnb-core-style .dnb-space__left--x-large[style*="--margin-l-"], .dnb-core-style .dnb-space__left--xx-large[style*="--margin-l-"], .dnb-core-style .dnb-space__left--xx-large-x2[style*="--margin-l-"] {
+    margin-left: var(--margin-l-s);
+  }
+}
+@media screen and (max-width: 60em) and (min-width: 40.00625em) {
+  .dnb-core-style .dnb-space__left--xx-small[style*="--margin-l-"], .dnb-core-style .dnb-space__left--x-small[style*="--margin-l-"], .dnb-core-style .dnb-space__left--small[style*="--margin-l-"], .dnb-core-style .dnb-space__left--medium[style*="--margin-l-"], .dnb-core-style .dnb-space__left--large[style*="--margin-l-"], .dnb-core-style .dnb-space__left--x-large[style*="--margin-l-"], .dnb-core-style .dnb-space__left--xx-large[style*="--margin-l-"], .dnb-core-style .dnb-space__left--xx-large-x2[style*="--margin-l-"] {
+    margin-left: var(--margin-l-m);
+  }
+}
+@media screen and (min-width: 60.00625em) {
+  .dnb-core-style .dnb-space__left--xx-small[style*="--margin-l-"], .dnb-core-style .dnb-space__left--x-small[style*="--margin-l-"], .dnb-core-style .dnb-space__left--small[style*="--margin-l-"], .dnb-core-style .dnb-space__left--medium[style*="--margin-l-"], .dnb-core-style .dnb-space__left--large[style*="--margin-l-"], .dnb-core-style .dnb-space__left--x-large[style*="--margin-l-"], .dnb-core-style .dnb-space__left--xx-large[style*="--margin-l-"], .dnb-core-style .dnb-space__left--xx-large-x2[style*="--margin-l-"] {
+    margin-left: var(--margin-l-l);
+  }
+}
+.dnb-core-style .dnb-space__left--zero {
+  margin-left: 0;
+}
 
 /* stylelint-disable */
 .dnb-space--no-collapse {
@@ -291,9 +351,6 @@ exports[`Space scss should match style dependencies css 1`] = `
 }
 .dnb-space--inline {
   display: inline-block;
-}
-.dnb-space__top--zero {
-  margin-top: 0;
 }
 .dnb-space__top--xx-small {
   margin-top: var(--spacing-xx-small);
@@ -358,8 +415,23 @@ exports[`Space scss should match style dependencies css 1`] = `
 .dnb-space__top--xx-large-x2.dnb-space__top--x-large {
   margin-top: calc(var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-x-large));
 }
-.dnb-space__right--zero {
-  margin-right: 0;
+@media screen and (max-width: 60em) {
+  .dnb-space__top--xx-small[style*="--margin-t-"], .dnb-space__top--x-small[style*="--margin-t-"], .dnb-space__top--small[style*="--margin-t-"], .dnb-space__top--medium[style*="--margin-t-"], .dnb-space__top--large[style*="--margin-t-"], .dnb-space__top--x-large[style*="--margin-t-"], .dnb-space__top--xx-large[style*="--margin-t-"], .dnb-space__top--xx-large-x2[style*="--margin-t-"] {
+    margin-top: var(--margin-t-s);
+  }
+}
+@media screen and (max-width: 60em) and (min-width: 40.00625em) {
+  .dnb-space__top--xx-small[style*="--margin-t-"], .dnb-space__top--x-small[style*="--margin-t-"], .dnb-space__top--small[style*="--margin-t-"], .dnb-space__top--medium[style*="--margin-t-"], .dnb-space__top--large[style*="--margin-t-"], .dnb-space__top--x-large[style*="--margin-t-"], .dnb-space__top--xx-large[style*="--margin-t-"], .dnb-space__top--xx-large-x2[style*="--margin-t-"] {
+    margin-top: var(--margin-t-m);
+  }
+}
+@media screen and (min-width: 60.00625em) {
+  .dnb-space__top--xx-small[style*="--margin-t-"], .dnb-space__top--x-small[style*="--margin-t-"], .dnb-space__top--small[style*="--margin-t-"], .dnb-space__top--medium[style*="--margin-t-"], .dnb-space__top--large[style*="--margin-t-"], .dnb-space__top--x-large[style*="--margin-t-"], .dnb-space__top--xx-large[style*="--margin-t-"], .dnb-space__top--xx-large-x2[style*="--margin-t-"] {
+    margin-top: var(--margin-t-l);
+  }
+}
+.dnb-space__top--zero {
+  margin-top: 0;
 }
 .dnb-space__right--xx-small {
   margin-right: var(--spacing-xx-small);
@@ -424,8 +496,23 @@ exports[`Space scss should match style dependencies css 1`] = `
 .dnb-space__right--xx-large-x2.dnb-space__right--x-large {
   margin-right: calc(var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-x-large));
 }
-.dnb-space__bottom--zero {
-  margin-bottom: 0;
+@media screen and (max-width: 60em) {
+  .dnb-space__right--xx-small[style*="--margin-r-"], .dnb-space__right--x-small[style*="--margin-r-"], .dnb-space__right--small[style*="--margin-r-"], .dnb-space__right--medium[style*="--margin-r-"], .dnb-space__right--large[style*="--margin-r-"], .dnb-space__right--x-large[style*="--margin-r-"], .dnb-space__right--xx-large[style*="--margin-r-"], .dnb-space__right--xx-large-x2[style*="--margin-r-"] {
+    margin-right: var(--margin-r-s);
+  }
+}
+@media screen and (max-width: 60em) and (min-width: 40.00625em) {
+  .dnb-space__right--xx-small[style*="--margin-r-"], .dnb-space__right--x-small[style*="--margin-r-"], .dnb-space__right--small[style*="--margin-r-"], .dnb-space__right--medium[style*="--margin-r-"], .dnb-space__right--large[style*="--margin-r-"], .dnb-space__right--x-large[style*="--margin-r-"], .dnb-space__right--xx-large[style*="--margin-r-"], .dnb-space__right--xx-large-x2[style*="--margin-r-"] {
+    margin-right: var(--margin-r-m);
+  }
+}
+@media screen and (min-width: 60.00625em) {
+  .dnb-space__right--xx-small[style*="--margin-r-"], .dnb-space__right--x-small[style*="--margin-r-"], .dnb-space__right--small[style*="--margin-r-"], .dnb-space__right--medium[style*="--margin-r-"], .dnb-space__right--large[style*="--margin-r-"], .dnb-space__right--x-large[style*="--margin-r-"], .dnb-space__right--xx-large[style*="--margin-r-"], .dnb-space__right--xx-large-x2[style*="--margin-r-"] {
+    margin-right: var(--margin-r-l);
+  }
+}
+.dnb-space__right--zero {
+  margin-right: 0;
 }
 .dnb-space__bottom--xx-small {
   margin-bottom: var(--spacing-xx-small);
@@ -490,8 +577,23 @@ exports[`Space scss should match style dependencies css 1`] = `
 .dnb-space__bottom--xx-large-x2.dnb-space__bottom--x-large {
   margin-bottom: calc(var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-x-large));
 }
-.dnb-space__left--zero {
-  margin-left: 0;
+@media screen and (max-width: 60em) {
+  .dnb-space__bottom--xx-small[style*="--margin-b-"], .dnb-space__bottom--x-small[style*="--margin-b-"], .dnb-space__bottom--small[style*="--margin-b-"], .dnb-space__bottom--medium[style*="--margin-b-"], .dnb-space__bottom--large[style*="--margin-b-"], .dnb-space__bottom--x-large[style*="--margin-b-"], .dnb-space__bottom--xx-large[style*="--margin-b-"], .dnb-space__bottom--xx-large-x2[style*="--margin-b-"] {
+    margin-bottom: var(--margin-b-s);
+  }
+}
+@media screen and (max-width: 60em) and (min-width: 40.00625em) {
+  .dnb-space__bottom--xx-small[style*="--margin-b-"], .dnb-space__bottom--x-small[style*="--margin-b-"], .dnb-space__bottom--small[style*="--margin-b-"], .dnb-space__bottom--medium[style*="--margin-b-"], .dnb-space__bottom--large[style*="--margin-b-"], .dnb-space__bottom--x-large[style*="--margin-b-"], .dnb-space__bottom--xx-large[style*="--margin-b-"], .dnb-space__bottom--xx-large-x2[style*="--margin-b-"] {
+    margin-bottom: var(--margin-b-m);
+  }
+}
+@media screen and (min-width: 60.00625em) {
+  .dnb-space__bottom--xx-small[style*="--margin-b-"], .dnb-space__bottom--x-small[style*="--margin-b-"], .dnb-space__bottom--small[style*="--margin-b-"], .dnb-space__bottom--medium[style*="--margin-b-"], .dnb-space__bottom--large[style*="--margin-b-"], .dnb-space__bottom--x-large[style*="--margin-b-"], .dnb-space__bottom--xx-large[style*="--margin-b-"], .dnb-space__bottom--xx-large-x2[style*="--margin-b-"] {
+    margin-bottom: var(--margin-b-l);
+  }
+}
+.dnb-space__bottom--zero {
+  margin-bottom: 0;
 }
 .dnb-space__left--xx-small {
   margin-left: var(--spacing-xx-small);
@@ -555,6 +657,24 @@ exports[`Space scss should match style dependencies css 1`] = `
 }
 .dnb-space__left--xx-large-x2.dnb-space__left--x-large {
   margin-left: calc(var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-x-large));
+}
+@media screen and (max-width: 60em) {
+  .dnb-space__left--xx-small[style*="--margin-l-"], .dnb-space__left--x-small[style*="--margin-l-"], .dnb-space__left--small[style*="--margin-l-"], .dnb-space__left--medium[style*="--margin-l-"], .dnb-space__left--large[style*="--margin-l-"], .dnb-space__left--x-large[style*="--margin-l-"], .dnb-space__left--xx-large[style*="--margin-l-"], .dnb-space__left--xx-large-x2[style*="--margin-l-"] {
+    margin-left: var(--margin-l-s);
+  }
+}
+@media screen and (max-width: 60em) and (min-width: 40.00625em) {
+  .dnb-space__left--xx-small[style*="--margin-l-"], .dnb-space__left--x-small[style*="--margin-l-"], .dnb-space__left--small[style*="--margin-l-"], .dnb-space__left--medium[style*="--margin-l-"], .dnb-space__left--large[style*="--margin-l-"], .dnb-space__left--x-large[style*="--margin-l-"], .dnb-space__left--xx-large[style*="--margin-l-"], .dnb-space__left--xx-large-x2[style*="--margin-l-"] {
+    margin-left: var(--margin-l-m);
+  }
+}
+@media screen and (min-width: 60.00625em) {
+  .dnb-space__left--xx-small[style*="--margin-l-"], .dnb-space__left--x-small[style*="--margin-l-"], .dnb-space__left--small[style*="--margin-l-"], .dnb-space__left--medium[style*="--margin-l-"], .dnb-space__left--large[style*="--margin-l-"], .dnb-space__left--x-large[style*="--margin-l-"], .dnb-space__left--xx-large[style*="--margin-l-"], .dnb-space__left--xx-large-x2[style*="--margin-l-"] {
+    margin-left: var(--margin-l-l);
+  }
+}
+.dnb-space__left--zero {
+  margin-left: 0;
 }
 .dnb-space__reset:not([class*=space__top]) {
   margin-top: 0;

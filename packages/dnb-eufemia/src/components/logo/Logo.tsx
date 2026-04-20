@@ -9,7 +9,7 @@ import {
   validateDOMAttributes,
   extendPropsWithContext,
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import { DnbDefault } from './LogoSvg'
 import type { UseThemeReturn } from '../../shared/useTheme'
 
@@ -120,7 +120,7 @@ function Logo(localProps: LogoProps) {
     return 'logo'
   }, [svg])
 
-  const sharedClasses = clsx(classNameProp, createSpacingClasses(props))
+  const sharedClasses = classNameProp
 
   const detectedBrand = useMemo(() => {
     if (Object.hasOwn(svg, 'brand')) {
@@ -150,13 +150,14 @@ function Logo(localProps: LogoProps) {
     inheritColor,
   ])
 
-  const rootParams = {
+  const rootParams = applySpacing(props, {
     role: 'img',
     'aria-hidden': true,
     className,
-    alt: altText,
     ...rest,
-  }
+    style: rest.style,
+    alt: altText,
+  })
 
   const svgParams = useMemo(() => {
     return {

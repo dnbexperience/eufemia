@@ -17,7 +17,7 @@ import {
 } from '../../shared/component-helper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -243,7 +243,7 @@ function Switch(props: SwitchProps) {
 
   const showStatus = useMemo(() => getStatusState(status), [status])
 
-  const mainParams = {
+  const mainParams = applySpacing(props, {
     className: clsx(
       'dnb-switch',
       size && `dnb-switch--${size}`,
@@ -251,10 +251,9 @@ function Switch(props: SwitchProps) {
       `dnb-switch--label-position-${labelPosition || 'right'}`,
       'dnb-form-component',
       createSkeletonClass(null, skeleton),
-      createSpacingClasses(props),
       className
     ),
-  }
+  })
 
   const inputParams = {
     disabled,

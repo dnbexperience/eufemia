@@ -15,7 +15,7 @@ import {
   removeUndefinedProps,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -381,16 +381,15 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
 
   const showStatus = getStatusState(status)
 
-  const mainParams = {
+  const mainParams = applySpacing(props, {
     className: clsx(
       'dnb-radio',
       status && `dnb-radio__status--${statusState}`,
       size && `dnb-radio--${size}`,
       label && `dnb-radio--label-position-${labelPosition || 'right'}`,
-      createSpacingClasses(props),
       className
     ),
-  }
+  })
 
   let inputParams: Record<string, unknown> = {
     role: hasContext || group ? 'radio' : null,

@@ -24,7 +24,7 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import Hr from '../../elements/hr/Hr'
 import GlobalStatusController, {
   GlobalStatusInterceptor,
@@ -37,6 +37,7 @@ import Icon from '../icon/Icon'
 import { InfoIcon, ErrorIcon, WarnIcon } from '../form-status/FormStatus'
 import Section from '../section/Section'
 import Button from '../button/Button'
+import Space from '../space/Space'
 import type { FormStatusText, FormStatusState } from '../FormStatus'
 import type { IconIcon, IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'
@@ -664,13 +665,12 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
     ...attributes
   } = props as GlobalStatusProps & Record<string, unknown>
 
-  const wrapperParams = {
+  const wrapperParams = applySpacing(props, {
     id,
     className: clsx(
       'dnb-global-status__wrapper',
       'dnb-no-focus',
       createSkeletonClass('font', skeleton, context),
-      createSpacingClasses(props),
       className
     ),
     'aria-live': (isActive ? 'assertive' : 'off') as 'assertive' | 'off',
@@ -681,7 +681,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
       }
     },
     tabIndex: -1,
-  }
+  })
 
   const state = rawState
   const iconToRender = getIcon({
@@ -799,11 +799,10 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
           </div>
           {hasContentToRender && (
             <div className="dnb-global-status__message">
-              <div
-                className={clsx(
-                  'dnb-global-status__message__content',
-                  !renderedItems && 'dnb-space__bottom--small'
-                )}
+              <Space
+                element="div"
+                bottom={!renderedItems ? 'small' : undefined}
+                className="dnb-global-status__message__content"
               >
                 {typeof contentToRender === 'string' ? (
                   <p className="dnb-p">{contentToRender}</p>
@@ -811,7 +810,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
                   contentToRender
                 )}
                 {renderedItems}
-              </div>
+              </Space>
             </div>
           )}
           <Hr breakout />

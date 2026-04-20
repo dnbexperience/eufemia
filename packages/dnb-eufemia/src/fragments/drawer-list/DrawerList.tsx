@@ -14,7 +14,7 @@ import type { SpacingProps } from '../../shared/types'
 import type { Translation } from '../../shared/Context'
 
 import { getThemeClasses } from '../../shared/Theme'
-import { createSpacingClasses } from '../../components/space/SpacingHelper'
+import { applySpacing } from '../../components/space/SpacingUtils'
 
 import E from '../../elements/Element'
 import type { DrawerListContextValue } from './DrawerListContext'
@@ -492,7 +492,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
   const hasGroups =
     renderData.length > 1 || renderData[0]?.groupTitle !== undefined
 
-  const mainParams = {
+  const mainParams = applySpacing(propsWithDefaults, {
     id: `${id}-drawer-list`,
     className: clsx(
       'dnb-drawer-list',
@@ -506,11 +506,10 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
       independentWidth && 'dnb-drawer-list--independent-width',
       scrollable && 'dnb-drawer-list--scroll',
       noScrollAnimation && 'dnb-drawer-list--no-scroll-animation',
-      createSpacingClasses(propsWithDefaults),
       className
     ),
     ...attributes,
-  }
+  })
 
   const listParams = {
     id: `${id}-listbox`,

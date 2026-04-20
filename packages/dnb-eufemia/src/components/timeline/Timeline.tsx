@@ -2,7 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 
 // Components
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 
 // Shared
 import Context from '../../shared/Context'
@@ -75,21 +75,16 @@ const Timeline = (localProps: TimelineAllProps) => {
     ...props
   } = allProps
 
-  const spacingClasses = createSpacingClasses(props)
-
   validateDOMAttributes(allProps, props)
+
+  const olProps = applySpacing(allProps, {
+    ...props,
+    className: clsx('dnb-timeline', 'dnb-space__reset', className),
+  })
 
   return (
     <TimelineContext value={{ skeleton }}>
-      <ol
-        className={clsx(
-          'dnb-timeline',
-          'dnb-space__reset',
-          spacingClasses,
-          className
-        )}
-        {...props}
-      >
+      <ol {...olProps}>
         {data?.map((timelineItem, i) => (
           <TimelineItem key={i} skeleton={skeleton} {...timelineItem} />
         ))}

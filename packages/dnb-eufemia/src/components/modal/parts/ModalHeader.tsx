@@ -8,6 +8,7 @@ import clsx from 'clsx'
 import { findElementInChildren } from '../../../shared/component-helper'
 import type { SectionProps } from '../../section/Section'
 import Section from '../../section/Section'
+import Space from '../../space/Space'
 import ModalContext from '../ModalContext'
 import H1 from '../../../elements/H1'
 
@@ -59,17 +60,18 @@ export default function ModalHeader({
       {...sectionProps}
     >
       {showTitle ? (
-        <h1
+        <Space
+          element="h1"
+          top="zero"
+          bottom="small"
           className={clsx(
             'dnb-modal__title', // for tests
-            'dnb-space__top--zero',
-            'dnb-space__bottom--small',
             `dnb-h--${fontSize}`,
             titleClass
           )}
         >
           {usedTitle}
-        </h1>
+        </Space>
       ) : (
         <div
           aria-hidden

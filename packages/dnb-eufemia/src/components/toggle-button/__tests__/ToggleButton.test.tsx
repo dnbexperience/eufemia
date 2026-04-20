@@ -306,8 +306,8 @@ describe('ToggleButton component', () => {
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-toggle-button',
-      'dnb-space__top--large',
       'dnb-toggle-button--vertical',
+      'dnb-space__top--large',
     ])
   })
 

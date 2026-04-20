@@ -2080,10 +2080,10 @@ describe('InputMasked component asCurrency', () => {
       'dnb-input',
       'dnb-input__border--tokens',
       'dnb-form-component',
-      'dnb-space__top--large',
       'dnb-input-masked',
       'dnb-input--text',
       'dnb-input--vertical',
+      'dnb-space__top--large',
     ])
   })
 

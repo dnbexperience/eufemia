@@ -2,7 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 
 // Components
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 
 // Shared
 import {
@@ -73,15 +73,17 @@ const TagGroup = (
     })
   }
 
-  const spacingClasses = createSpacingClasses(props)
-  const { skeleton, ...attributes } = validateDOMAttributes({}, props)
+  const spacingProps = applySpacing(props, {
+    className: clsx('dnb-tag__group', className),
+  })
+  const { skeleton, ...attributes } = validateDOMAttributes({}, {
+    ...props,
+    ...spacingProps,
+  } as Record<string, unknown>)
 
   return (
     <TagGroupContext value={props}>
-      <span
-        className={clsx('dnb-tag__group', spacingClasses, className)}
-        {...attributes}
-      >
+      <span {...(attributes as React.HTMLAttributes<HTMLSpanElement>)}>
         <span className="dnb-sr-only">{label}</span>
         {children}
       </span>

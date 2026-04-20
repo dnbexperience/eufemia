@@ -1,10 +1,9 @@
 import React from 'react'
-import clsx from 'clsx'
 import Anchor from '../../components/Anchor'
 import Button from '../button/Button'
 import Span from '../../elements/Span'
 import type { SpacingProps } from '../../shared/types'
-import { createSpacingClasses } from '../space/SpacingUtils'
+import { applySpacing } from '../space/SpacingUtils'
 
 export type UploadFileLinkProps = UploadFileAnchorProps &
   UploadFileButtonProps
@@ -44,14 +43,13 @@ type UploadFileButtonProps = {
 const UploadFileButton = (props: UploadFileButtonProps) => {
   const { text, onClick } = props
 
-  const spacingClasses = createSpacingClasses(props)
   return (
     <Button
       size="small"
       icon={false}
       variant="tertiary"
       onClick={onClick}
-      className={clsx(spacingClasses)}
+      {...applySpacing(props, {})}
     >
       {text}
     </Button>
@@ -67,14 +65,14 @@ type UploadFileAnchorProps = {
 const UploadFileAnchor = (props: UploadFileAnchorProps) => {
   const { text, href, download } = props
 
-  const spacingClasses = createSpacingClasses(props)
-
   return (
     <Anchor
       target="_blank"
       href={href}
       download={download ? text : null}
-      className={clsx('dnb-anchor--no-launch-icon', spacingClasses)}
+      {...applySpacing(props, {
+        className: 'dnb-anchor--no-launch-icon',
+      })}
       rel="noopener noreferrer"
     >
       {text}

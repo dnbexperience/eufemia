@@ -8,7 +8,7 @@ import {
 } from '../../shared/component-helper'
 import type { ContextProps } from '../../shared/Context'
 import Context from '../../shared/Context'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { iconCase } from './IconHelpers'
 import type { SpacingProps } from '../../shared/types'
@@ -400,15 +400,20 @@ function prepareIconCore(
     delete wrapperParams['aria-label']
   }
 
-  wrapperParams.className = clsx(
-    'dnb-icon',
-    modifier && `dnb-icon--${modifier}`,
-    border && 'dnb-icon--border',
-    inheritColor !== false && 'dnb-icon--inherit-color',
-    sizeAsString ? `dnb-icon--${sizeAsString}` : 'dnb-icon--default',
-    createSkeletonClass(null, skeleton, context),
-    createSpacingClasses(props),
-    className
+  Object.assign(
+    wrapperParams,
+    applySpacing(props, {
+      className: clsx(
+        'dnb-icon',
+        modifier && `dnb-icon--${modifier}`,
+        border && 'dnb-icon--border',
+        inheritColor !== false && 'dnb-icon--inherit-color',
+        sizeAsString ? `dnb-icon--${sizeAsString}` : 'dnb-icon--default',
+        createSkeletonClass(null, skeleton, context),
+        className
+      ),
+      style: wrapperParams.style,
+    })
   )
 
   let iconToRender = getIcon(props)

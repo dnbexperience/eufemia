@@ -5,15 +5,14 @@
  *
  */
 
+@use 'sass:string';
 @use '../../../style/core/utilities.scss' as utilities;
 @use './space-mixins.scss';
 
-@mixin direction($direction) {
-  // 0rem
-  &--zero {
-    margin-#{$direction}: 0;
-  }
-  // 0.25rem
+@mixin marginDirection($direction) {
+  // Get the first letter for the custom property name (top -> t, left -> l, etc.)
+  $short: string.slice($direction, 1, 1);
+
   &--xx-small {
     margin-#{$direction}: var(--spacing-xx-small);
   }
@@ -131,6 +130,33 @@
         var(--spacing-x-large)
     );
   }
+
+  // Apply responsive custom property overrides for all modifiers above
+  &--xx-small,
+  &--x-small,
+  &--small,
+  &--medium,
+  &--large,
+  &--x-large,
+  &--xx-large,
+  &--xx-large-x2 {
+    &[style*='--margin-#{$short}-'] {
+      @include utilities.allBelow(medium) {
+        margin-#{$direction}: var(--margin-#{$short}-s);
+      }
+      @include utilities.allBetween(small, medium) {
+        margin-#{$direction}: var(--margin-#{$short}-m);
+      }
+      @include utilities.allAbove(medium) {
+        margin-#{$direction}: var(--margin-#{$short}-l);
+      }
+    }
+  }
+
+  // 0rem
+  &--zero {
+    margin-#{$direction}: 0;
+  }
 }
 
 /** NB: Because CSS specificity ".dnb-core-style .dnb-space"
@@ -138,16 +164,16 @@
   */
 .dnb-core-style .dnb-space {
   &__top {
-    @include direction(top);
+    @include marginDirection(top);
   }
   &__right {
-    @include direction(right);
+    @include marginDirection(right);
   }
   &__bottom {
-    @include direction(bottom);
+    @include marginDirection(bottom);
   }
   &__left {
-    @include direction(left);
+    @include marginDirection(left);
   }
 }
 
@@ -163,16 +189,16 @@
     display: inline-block;
   }
   &__top {
-    @include direction(top);
+    @include marginDirection(top);
   }
   &__right {
-    @include direction(right);
+    @include marginDirection(right);
   }
   &__bottom {
-    @include direction(bottom);
+    @include marginDirection(bottom);
   }
   &__left {
-    @include direction(left);
+    @include marginDirection(left);
   }
   &__reset {
     @include utilities.spaceReset();
