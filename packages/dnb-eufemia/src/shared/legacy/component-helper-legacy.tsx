@@ -79,34 +79,6 @@ export function defineNavigator() {
   }
 }
 
-export const processChildren = (props: Record<string, any>) => {
-  if (!props) {
-    return null
-  }
-
-  const res =
-    typeof props.children === 'function'
-      ? props.children(props)
-      : props.children
-
-  // if we get several react children which represents only a text
-  if (Array.isArray(res)) {
-    const onlyTexts = res.reduce((pV, cV) => {
-      if (typeof cV === 'string' || typeof cV === 'number') {
-        pV.push(cV)
-      }
-      return pV
-    }, [])
-
-    // if there was one or more text elements
-    if (onlyTexts.length === res.length && onlyTexts.length > 0) {
-      return onlyTexts.join('')
-    }
-  }
-
-  return res
-}
-
 /**
  * [detectOutsideClick Detects a click outside a given DOM element]
  * @param  {HTMLElement} ignoreElement [The element we want to protect from a click]

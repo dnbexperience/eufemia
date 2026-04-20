@@ -12,7 +12,6 @@ import {
   extendExistingPropsWithContext,
   removeUndefinedProps,
   validateDOMAttributes,
-  processChildren,
   getStatusState,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
@@ -227,7 +226,7 @@ const buttonDefaultProps: Partial<ButtonProps> = {
 }
 
 function getContent(props: ButtonProps) {
-  return processChildren(props)
+  return props.children
 }
 
 /**

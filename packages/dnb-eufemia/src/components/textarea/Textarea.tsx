@@ -21,7 +21,6 @@ import {
   extendPropsWithContext,
   removeUndefinedProps,
   validateDOMAttributes,
-  processChildren,
   getStatusState,
   combineDescribedBy,
   warn,
@@ -194,7 +193,16 @@ function hasValue(value: string | number | null | undefined) {
 }
 
 function getValue(props: TextareaProps) {
-  const value = processChildren(props)
+  const value = (() => {
+    const { children } = props
+    if (
+      Array.isArray(children) &&
+      children.every((c) => typeof c === 'string' || typeof c === 'number')
+    ) {
+      return children.join('')
+    }
+    return children
+  })()
   if (value === '' || hasValue(value)) {
     return value
   }

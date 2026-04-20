@@ -11,7 +11,6 @@ import { useTheme, Context } from '../../shared'
 import useId from '../../shared/helpers/useId'
 import {
   validateDOMAttributes,
-  processChildren,
   extendPropsWithContext,
   removeUndefinedProps,
 } from '../../shared/component-helper'
@@ -205,7 +204,7 @@ function getContent(props: FormStatusProps) {
     }
     return props.text
   }
-  return processChildren(props)
+  return props.children
 }
 
 function correctStatus(state: FormStatusState | undefined) {

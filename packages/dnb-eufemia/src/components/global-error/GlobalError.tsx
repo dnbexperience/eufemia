@@ -7,10 +7,7 @@ import React from 'react'
 import clsx from 'clsx'
 import type { GetTranslationProps } from '../../shared/Context'
 import Context from '../../shared/Context'
-import {
-  processChildren,
-  extendPropsWithContext,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Anchor from '../anchor/Anchor'
 import type { SkeletonShow } from '../skeleton/Skeleton'
@@ -142,7 +139,7 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
     ...attributes,
   } as Record<string, unknown>
 
-  const additionalContent = processChildren(allProps)
+  const additionalContent = allProps.children
 
   return (
     <Skeleton {...params} show={skeleton} element="section">

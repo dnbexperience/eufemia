@@ -3,7 +3,6 @@ import clsx from 'clsx'
 import {
   warn,
   validateDOMAttributes,
-  processChildren,
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import type { ContextProps } from '../../shared/Context'
@@ -517,7 +516,7 @@ function getIcon(props) {
   if (props.icon) {
     return props.icon
   }
-  return processChildren(props)
+  return props.children
 }
 
 withComponentMarkers(Icon, { _supportsSpacingProps: true })

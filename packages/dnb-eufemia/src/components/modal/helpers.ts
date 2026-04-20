@@ -1,5 +1,5 @@
 import type React from 'react'
-import { warn, processChildren } from '../../shared/component-helper'
+import { warn } from '../../shared/component-helper'
 
 export type ModalStackEntry = {
   _id: string
@@ -79,5 +79,5 @@ export function getContent(props) {
   } else if (typeof props.modalContent === 'function') {
     return props.modalContent(props)
   }
-  return processChildren(props)
+  return props.children
 }

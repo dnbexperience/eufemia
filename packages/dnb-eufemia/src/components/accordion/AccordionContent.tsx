@@ -9,7 +9,6 @@ import clsx from 'clsx'
 import {
   warn,
   validateDOMAttributes,
-  processChildren,
   getClosestParent,
 } from '../../shared/component-helper'
 import { useMediaQuery } from '../../shared'
@@ -82,7 +81,7 @@ export default function AccordionContent(props: AccordionContentProps) {
   }
 
   const renderContent = () => {
-    const children = processChildren(props)
+    const children = props.children
 
     const {
       expanded,

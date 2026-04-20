@@ -1,5 +1,3 @@
-import { processChildren } from '../../shared/component-helper'
-
 export const checkMinMaxWidth = (
   min: number | string,
   max: number | string
@@ -21,5 +19,5 @@ export const getContent = (props) => {
   } else if (typeof props.modalContent === 'function') {
     return props.modalContent(props)
   }
-  return processChildren(props)
+  return props.children
 }

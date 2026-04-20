@@ -19,7 +19,6 @@ import {
   warn,
   extendPropsWithContext,
   removeUndefinedProps,
-  processChildren,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -66,7 +65,7 @@ function getContent(props) {
   } else if (typeof props.modalContent === 'function') {
     return props.modalContent(props)
   }
-  return processChildren(props)
+  return props.children
 }
 
 function ModalComponent(ownProps: ModalAllProps) {
