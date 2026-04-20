@@ -93,7 +93,15 @@ function Password({
     [props]
   )
 
-  const ToggleVisibilityButton = useCallback(() => {
+  const preventFocusChange = useCallback((event: React.MouseEvent) => {
+    // Prevent the button from stealing focus from the input on click.
+    // Without this, the input blurs and triggers a re-render that
+    // replaces the icon SVG between mousedown and mouseup, causing
+    // the browser to swallow the click event.
+    event.preventDefault()
+  }, [])
+
+  const toggleVisibilityButton = useMemo(() => {
     return (
       <SubmitButton
         id={idToUse + '-submit-button'}
@@ -114,6 +122,7 @@ function Password({
         }
         disabled={disabled}
         skeleton={sharedContext.skeleton}
+        onMouseDown={preventFocusChange}
         onClick={toggleVisibility}
       />
     )
@@ -125,6 +134,7 @@ function Password({
     size,
     disabled,
     sharedContext.skeleton,
+    preventFocusChange,
     toggleVisibility,
   ])
 
@@ -137,7 +147,7 @@ function Password({
       value={value}
       ref={ref}
       aria-describedby={idToUse + '-submit-button'}
-      submitElement={<ToggleVisibilityButton />}
+      submitElement={toggleVisibilityButton}
       disabled={disabled}
       size={size}
       autoComplete="current-password"
