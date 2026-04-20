@@ -2009,9 +2009,7 @@ describe('Dropdown scss', () => {
   })
 
   it('have to match default theme snapshot', () => {
-    const css = loadScss(
-      require.resolve('../style/themes/dnb-dropdown-theme-ui.scss')
-    )
+    const css = loadScss(require.resolve('../style/dnb-dropdown.scss'))
     expect(css).toMatchSnapshot()
   })
 })

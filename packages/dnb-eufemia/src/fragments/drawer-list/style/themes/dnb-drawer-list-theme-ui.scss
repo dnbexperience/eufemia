@@ -8,10 +8,6 @@
 .dnb-drawer-list {
   --drawer-list-options-border-radius: 0.25rem;
   --drawer-list-option-border-width: 0.0625rem;
-  --drawer-list-option-inner-background: var(--color-white);
-  --drawer-list-list-background: var(--color-white);
-
-  color: var(--color-emerald-green);
 
   &__list {
     @include utilities.sharpDropShadow();
@@ -23,7 +19,6 @@
   // ul element
   &__options {
     border: none;
-    background-color: var(--color-white);
     border-radius: calc(
       var(--drawer-list-options-border-radius) + 0.15rem
     );
@@ -40,8 +35,6 @@
   // li element inner
   &__option {
     position: relative;
-    color: var(--color-black-80);
-    background-color: var(--color-white);
 
     &.ignore-events {
       pointer-events: none;
@@ -61,8 +54,7 @@
 
       // width: 100%; // 100% width would result in no margin right
       height: var(--drawer-list-option-border-width);
-
-      background-color: var(--color-mint-green-25);
+      background-color: var(--token-color-decorative-first-muted);
     }
 
     &__item.item-nr-1 {
@@ -70,17 +62,19 @@
     }
 
     @include utilities.hover() {
-      background-color: var(--color-mint-green-12);
+      background-color: var(--token-color-background-action-hover-subtle);
 
       .dnb-drawer-list__option__inner {
-        color: var(--color-sea-green);
-        background-color: var(--color-mint-green-12);
+        color: var(--token-color-text-action-hover);
+        background-color: var(
+          --token-color-background-action-hover-subtle
+        );
       }
     }
 
     @include utilities.active() {
       .dnb-drawer-list__option__inner {
-        color: var(--color-black);
+        color: var(--token-color-text-neutral);
       }
     }
 
@@ -99,20 +93,20 @@
         background-color: transparent;
 
         @include utilities.fakeBorder(
-          var(--color-emerald-green),
+          var(--token-color-stroke-selected),
           var(--drawer-list-focus-border-width)
         );
       }
     }
 
     &--ignore &__inner {
-      color: var(--color-black-80);
-      background-color: var(--color-white);
+      color: var(--token-color-text-neutral);
+      background-color: var(--drawer-list-option-inner-background);
     }
 
     &--selected &__inner {
-      color: var(--color-white);
-      background-color: var(--color-emerald-green);
+      color: var(--token-color-text-neutral-inverse);
+      background-color: var(--token-color-background-selected);
 
       .dnb-drawer-list__option__inner {
         color: inherit;
@@ -120,8 +114,8 @@
       }
 
       @include utilities.hover() {
-        color: var(--color-white);
-        background-color: var(--color-emerald-green);
+        color: var(--token-color-text-neutral-inverse);
+        background-color: var(--token-color-background-action-hover);
 
         .dnb-drawer-list__option__inner {
           color: inherit;
@@ -161,7 +155,7 @@
         background-color: inherit; // to "hide" the check icon
       }
       &:not(#{&}--selected) &__suffix#{&}__item:nth-of-type(n + 2) {
-        color: var(--color-black-80);
+        color: var(--token-color-text-neutral);
       }
     }
 
@@ -172,26 +166,20 @@
       visibility: visible;
 
       @include utilities.fakeBorder(
-        var(--color-mint-green),
+        var(--token-color-stroke-action-hover-inverse),
         var(--drawer-list-focus-border-width)
       );
     }
 
     // Focus ring around item. Only for keyboard usage
     &--focus:not(#{&}--selected) &__inner {
-      color: var(--color-sea-green);
-      background-color: var(--color-mint-green-12);
+      color: var(--token-color-text-action-hover);
+      background-color: var(--token-color-background-action-hover-subtle);
     }
 
     // remove last bottom border
     &.last-of-type:not(#{&}--focus) &__inner::before {
       content: none;
-    }
-
-    &--selected &__item {
-      .dnb-anchor:focus {
-        @include utilities.focusRing(null, var(--color-white));
-      }
     }
   }
 
@@ -215,13 +203,10 @@
 
   // error status
   &__status--error:not(#{&}--open) &__icon {
-    color: var(--color-fire-red);
+    color: var(--token-color-text-destructive);
   }
 
   &__arrow::before {
-    border: none;
-    background-color: var(--color-white);
-
     @include utilities.sharpDropShadow();
   }
 
@@ -246,7 +231,7 @@
   &--top
     &__option.closest-to-bottom#{&}__option--focus
     ~ &__arrow::before {
-    background-color: var(--color-mint-green-12);
+    background-color: var(--token-color-background-action-hover-subtle);
   }
 
   // selected arrow
@@ -260,7 +245,7 @@
   &--top
     &__option.closest-to-bottom#{&}__option--selected
     ~ &__arrow::before {
-    background-color: var(--color-emerald-green);
+    background-color: var(--token-color-background-selected);
   }
 
   // adjust the form-status to the inner border for 2px
