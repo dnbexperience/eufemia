@@ -159,6 +159,26 @@ describe('Password component', () => {
     ).not.toBe('focus')
   })
 
+  it('can toggle visibility while input has focus', async () => {
+    render(<Field.Password />)
+
+    const input = () => document.querySelector('input')
+    const button = () => document.querySelector('button')
+
+    await userEvent.click(input())
+    await userEvent.type(input(), 'password123')
+
+    // Toggle while input still has focus
+    await userEvent.click(button())
+
+    expect(input().getAttribute('type')).toBe('text')
+
+    // Toggle back while input has focus again
+    await userEvent.click(button())
+
+    expect(input().getAttribute('type')).toBe('password')
+  })
+
   it('events gets triggered on interaction', async () => {
     const onShowPassword = jest.fn()
     const onHidePassword = jest.fn()
