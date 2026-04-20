@@ -1,8 +1,8 @@
 ---
 title: 'Tooltip'
 description: 'The Tooltip component is primarily meant to enhance the UX for various and additional information.'
-version: 10.104.0
-generatedAt: 2026-04-17T18:42:08.664Z
+version: 10.104.1
+generatedAt: 2026-04-20T09:04:33.815Z
 checksum: d7368284604259dbc1ca9c882698149730cdd6ce65244dfba59efc96890b5fa3
 ---
 

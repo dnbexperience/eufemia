@@ -1,8 +1,8 @@
 ---
 title: 'Span'
 description: 'Spans are inline-elements, used to define parts of text content.'
-version: 10.104.0
-generatedAt: 2026-04-17T18:42:08.846Z
+version: 10.104.1
+generatedAt: 2026-04-20T09:04:34.224Z
 checksum: 701d133ddb6c7ccf403a7d6763884e6c8b736ae9a3563f9fa68dd0ead96b28f5
 ---
 

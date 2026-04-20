@@ -643,5 +643,5 @@ For any page (component, field, value, etc.):
 
 - [Span](https://eufemia.dnb.no/uilib/elements/span.md): Spans are inline-elements, used to define parts of text content.
 
-Version: 10.104.0
-GeneratedAt: 2026-04-17T18:42:28.600Z
+Version: 10.104.1
+GeneratedAt: 2026-04-20T09:04:53.871Z

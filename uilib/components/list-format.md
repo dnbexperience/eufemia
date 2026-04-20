@@ -1,8 +1,8 @@
 ---
 title: 'ListFormat'
 description: 'A ready to use DNB list formatter.'
-version: 10.104.0
-generatedAt: 2026-04-17T18:42:08.372Z
+version: 10.104.1
+generatedAt: 2026-04-20T09:04:33.523Z
 checksum: f12df0403993f342663e615901d7bfd301426d2474518338f5240f45e61f8d41
 ---
 

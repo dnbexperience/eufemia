@@ -1,8 +1,8 @@
 ---
 title: 'InfoCard'
 description: 'The InfoCard is used to give the user more information than a message box. It can also be used to give useful tips.'
-version: 10.104.0
-generatedAt: 2026-04-17T18:42:08.332Z
+version: 10.104.1
+generatedAt: 2026-04-20T09:04:33.482Z
 checksum: f6295c152a47dd0bea9fa6ad3b8f342db592822c333edb25d08c39ed5acf57a5
 ---
 
