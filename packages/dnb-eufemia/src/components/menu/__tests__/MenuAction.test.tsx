@@ -154,13 +154,13 @@ describe('MenuAction', () => {
 
       const context = createMockContext()
       render(
-        <MenuContext.Provider value={context}>
+        <MenuContext value={context}>
           <ul role="menu">
-            <MenuTriggerContext.Provider value={triggerValue}>
+            <MenuTriggerContext value={triggerValue}>
               <MenuAction text="Sub menu" />
-            </MenuTriggerContext.Provider>
+            </MenuTriggerContext>
           </ul>
-        </MenuContext.Provider>
+        </MenuContext>
       )
 
       const item = document.querySelector(
