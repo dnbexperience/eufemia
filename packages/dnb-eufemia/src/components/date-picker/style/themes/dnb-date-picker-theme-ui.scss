@@ -6,10 +6,20 @@
 @use '../../../../style/core/utilities.scss' as utilities;
 
 .dnb-date-picker {
-  &__container {
+  &__portal .dnb-popover {
+    --popover-background-color: var(--color-white);
+    --popover-border-radius: 0.25rem;
+
     @include utilities.sharpDropShadow();
+  }
+
+  &__container {
     border-radius: 0.25rem;
     background-color: var(--color-white);
+
+    .dnb-date-picker--inline & {
+      @include utilities.sharpDropShadow();
+    }
   }
 
   &__addon,
