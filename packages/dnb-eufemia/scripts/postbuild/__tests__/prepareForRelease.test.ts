@@ -122,7 +122,7 @@ describe('package.json', () => {
   })
 
   // Skipped as we do not use this currently
-  describe.skip('exports', () => {
+  describe('exports', () => {
     const resolveTarget = (target) =>
       path.resolve(buildDir, target.replace(/^\.\//, ''))
 
