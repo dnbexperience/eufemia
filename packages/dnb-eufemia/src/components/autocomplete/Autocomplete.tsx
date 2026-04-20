@@ -988,7 +988,12 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     drawerListRef.current.setData([
       {
         className: 'dnb-autocomplete__indicator',
-        content: <ProgressIndicator label={props.indicatorLabel} />,
+        content: (
+          <ProgressIndicator
+            label={props.indicatorLabel}
+            labelDirection="horizontal"
+          />
+        ),
         ignoreEvents: true,
         __id: 'indicator',
       },
