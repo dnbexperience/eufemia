@@ -2,21 +2,3 @@
 * Checkbox theme for Sbanken
 *
 */
-
-.dnb-checkbox {
-  // Normal state
-  --checkbox-border-width: 0.0625rem;
-  // Disabled state
-  --checkbox-border-width--disabled: 0.0625rem;
-  // Hover state
-  --checkbox-border-width--hover: 0.125rem;
-  // Error state
-  --checkbox-border-width--error: 0.0625rem;
-  // Indeterminate shape
-  --checkbox-gfx-width__indeterminate: 0.875rem;
-  --checkbox-gfx-height__indeterminate: 0.125rem;
-  --checkbox-gfx-height__indeterminate--large: 0.25rem;
-  --checkbox-gfx-width__indeterminate--large: 1.5rem;
-  --checkbox-border-radius: 0;
-  --checkbox-gfx-border-radius__indeterminate: 0rem;
-}
