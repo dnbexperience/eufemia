@@ -12,9 +12,9 @@
    * These variables allow for reusable colors, border-radius, and overlay background transitions.
    */
   --color-dark-cyan: #003b47;
-  --dnb-payment-bg-default: var(--color-sea-green);
-  --dnb-payment-bg-pluss: var(--color-ocean-green);
-  --dnb-payment-bg-white: var(--color-white);
+  --dnb-payment-bg-default: var(--token-color-background-action);
+  --dnb-payment-bg-pluss: var(--token-color-decorative-first-intense-static);
+  --dnb-payment-bg-white: var(--token-color-background-neutral-static);
   --dnb-payment-bg-gold: #d8c583;
   --dnb-payment-bg-black-gold: #1f1b10;
   --dnb-payment-bg-black-grey: #1c1c1e;
@@ -36,7 +36,7 @@
     padding: 16px;
     border-radius: inherit;
 
-    color: var(--color-white);
+    color: var(--token-color-text-neutral-inverse);
     box-shadow: var(--shadow-default);
 
     transition:
@@ -52,7 +52,7 @@
       width: 343px;
       height: 216px;
       border-radius: inherit;
-      border: 1px solid var(--color-black-8);
+      border: 1px solid var(--token-color-stroke-neutral-subtle);
 
       // Creates a transparent overlay to prevent user selection
       &::after {
@@ -79,13 +79,13 @@
       // Card styles for DNB default card designs
       &-default {
         background-color: var(--dnb-payment-bg-default);
-        color: var(--color-white);
+        color: var(--token-color-text-neutral-inverse);
       }
 
       // Card styles for DNB Pluss card designs
       &-pluss {
         background-color: var(--dnb-payment-bg-pluss);
-        color: var(--color-white);
+        color: var(--token-color-text-neutral-inverse);
       }
 
       // Card styles for youth-oriented card designs
@@ -93,19 +93,19 @@
       &-youth,
       &-my-first {
         background-color: var(--dnb-payment-bg-white);
-        color: var(--color-black);
+        color: var(--token-color-text-neutral);
       }
 
       // Gold card design
       &-gold {
         background-color: var(--dnb-payment-bg-gold);
-        color: var(--color-black);
+        color: var(--token-color-text-neutral);
       }
 
       // Saga (Gold) card design with black-gold theme
       &-saga {
         background-color: var(--dnb-payment-bg-black-gold);
-        color: var(--color-white);
+        color: var(--token-color-text-neutral-inverse);
         // Specific styles for separators within the Saga card.
         .provider--separator {
           color: var(--dnb-payment-bg-gold);
@@ -116,37 +116,37 @@
       &-saga-platinum,
       &-private {
         background-color: var(--dnb-payment-bg-black-grey);
-        color: var(--color-white);
+        color: var(--token-color-text-neutral-inverse);
       }
 
       // Black (Elite) card design
       &-black {
         background-color: var(--color-black);
-        color: var(--color-white);
+        color: var(--token-color-text-neutral-inverse);
       }
 
       // Design for a business card without Visa support
       &-business-no-visa {
         background-color: var(--dnb-payment-bg-business-no-visa);
-        color: var(--color-white);
+        color: var(--token-color-text-neutral-inverse);
       }
 
       // Design for a business card with Visa support
       &-business-with-visa {
         background-color: var(--dnb-payment-bg-business-with-visa);
-        color: var(--color-white);
+        color: var(--token-color-text-neutral-inverse);
       }
 
       // Sbanken-themed Mastercard with purple background
       &-sbanken-mastercard {
-        background-color: var(--sb-color-purple);
-        color: var(--color-white);
+        background-color: var(--token-color-decorative-first-intense-static);
+        color: var(--token-color-text-neutral-inverse);
       }
 
       // Sbanken-themed Visa card with a white background and custom text color.
       &-sbanken-visa {
-        background-color: var(--color-white);
-        color: var(--sb-color-text);
+        background-color: var(--token-color-background-neutral-static);
+        color: var(--token-color-text-neutral);
       }
     }
 
@@ -286,13 +286,13 @@
       // cards with a light background use this overlay status
       &--light {
         background-color: var(--dnb-payment-overlay-bg-dark);
-        color: var(--color-white);
+        color: var(--token-color-text-neutral-inverse);
       }
 
       // cards with a dark background use this overlay status
       &--dark {
         background-color: var(--dnb-payment-overlay-bg-light);
-        color: var(--color-black);
+        color: var(--token-color-text-neutral);
       }
     }
   }
