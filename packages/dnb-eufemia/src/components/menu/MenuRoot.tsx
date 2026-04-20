@@ -228,7 +228,7 @@ export default function MenuRoot(props: MenuRootProps) {
         } = renderProps
 
         return (
-          <MenuTriggerContext.Provider
+          <MenuTriggerContext
             value={{
               active,
               triggerProps: domProps,
@@ -238,7 +238,7 @@ export default function MenuRoot(props: MenuRootProps) {
             }}
           >
             {triggerChild}
-          </MenuTriggerContext.Provider>
+          </MenuTriggerContext>
         )
       }
     : undefined
@@ -268,9 +268,7 @@ export default function MenuRoot(props: MenuRootProps) {
       {({ close }) => {
         popoverCloseRef.current = close
         return (
-          <MenuContext.Provider value={contextValue}>
-            {contentChildren}
-          </MenuContext.Provider>
+          <MenuContext value={contextValue}>{contentChildren}</MenuContext>
         )
       }}
     </Popover>

@@ -13,13 +13,13 @@ describe('MenuAccordion', () => {
     const ctx = createMockContext()
 
     render(
-      <MenuContext.Provider value={ctx}>
+      <MenuContext value={ctx}>
         <ul role="menu">
           <Menu.Accordion text="Export as" icon="download">
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext.Provider>
+      </MenuContext>
     )
 
     const trigger = document.querySelector('[role="menuitem"]')
@@ -33,14 +33,14 @@ describe('MenuAccordion', () => {
     const ctx = createMockContext()
 
     render(
-      <MenuContext.Provider value={ctx}>
+      <MenuContext value={ctx}>
         <ul role="menu">
           <Menu.Accordion text="Export as">
             <Menu.Action text="PDF" />
             <Menu.Action text="PNG" />
           </Menu.Accordion>
         </ul>
-      </MenuContext.Provider>
+      </MenuContext>
     )
 
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
@@ -66,13 +66,13 @@ describe('MenuAccordion', () => {
     const ctx = createMockContext()
 
     render(
-      <MenuContext.Provider value={ctx}>
+      <MenuContext value={ctx}>
         <ul role="menu">
           <Menu.Accordion text="Export as">
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext.Provider>
+      </MenuContext>
     )
 
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
@@ -85,13 +85,13 @@ describe('MenuAccordion', () => {
     const ctx = createMockContext()
 
     render(
-      <MenuContext.Provider value={ctx}>
+      <MenuContext value={ctx}>
         <ul role="menu">
           <Menu.Accordion text="Export as">
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext.Provider>
+      </MenuContext>
     )
 
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
@@ -106,13 +106,13 @@ describe('MenuAccordion', () => {
     const ctx = createMockContext()
 
     render(
-      <MenuContext.Provider value={ctx}>
+      <MenuContext value={ctx}>
         <ul role="menu">
           <Menu.Accordion text="Export as">
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext.Provider>
+      </MenuContext>
     )
 
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
@@ -127,13 +127,13 @@ describe('MenuAccordion', () => {
     const ctx = createMockContext()
 
     render(
-      <MenuContext.Provider value={ctx}>
+      <MenuContext value={ctx}>
         <ul role="menu">
           <Menu.Accordion text="Export as">
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext.Provider>
+      </MenuContext>
     )
 
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
@@ -146,13 +146,13 @@ describe('MenuAccordion', () => {
     const ctx = createMockContext()
 
     render(
-      <MenuContext.Provider value={ctx}>
+      <MenuContext value={ctx}>
         <ul role="menu">
           <Menu.Accordion text="Export as">
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext.Provider>
+      </MenuContext>
     )
 
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
@@ -170,14 +170,14 @@ describe('MenuAccordion', () => {
     const ctx = createMockContext()
 
     render(
-      <MenuContext.Provider value={ctx}>
+      <MenuContext value={ctx}>
         <ul role="menu">
           <Menu.Accordion text="Export as">
             <Menu.Action text="PDF" />
             <Menu.Action text="PNG" />
           </Menu.Accordion>
         </ul>
-      </MenuContext.Provider>
+      </MenuContext>
     )
 
     const trigger = document.querySelector(
@@ -204,13 +204,13 @@ describe('MenuAccordion', () => {
     const ctx = createMockContext()
 
     render(
-      <MenuContext.Provider value={ctx}>
+      <MenuContext value={ctx}>
         <ul role="menu">
           <Menu.Accordion text="Export as" disabled>
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext.Provider>
+      </MenuContext>
     )
 
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
@@ -227,13 +227,13 @@ describe('MenuAccordion', () => {
     const ctx = createMockContext()
 
     render(
-      <MenuContext.Provider value={ctx}>
+      <MenuContext value={ctx}>
         <ul role="menu">
           <Menu.Accordion text="Export as" className="custom">
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext.Provider>
+      </MenuContext>
     )
 
     const wrapper = document.querySelector('.dnb-menu__accordion')
@@ -255,13 +255,13 @@ describe('MenuAccordion', () => {
     const ctx = createMockContext()
 
     render(
-      <MenuContext.Provider value={ctx}>
+      <MenuContext value={ctx}>
         <ul role="menu">
           <Menu.Accordion text="Export as" disabled>
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext.Provider>
+      </MenuContext>
     )
 
     const wrapper = document.querySelector('.dnb-menu__accordion')
@@ -274,7 +274,7 @@ describe('MenuAccordion', () => {
     const ctx = createMockContext()
 
     render(
-      <MenuContext.Provider value={ctx}>
+      <MenuContext value={ctx}>
         <ul role="menu">
           <Menu.Accordion text="Export as">
             <Menu.Action text="PDF" />
@@ -282,7 +282,7 @@ describe('MenuAccordion', () => {
             <Menu.Action text="PNG" />
           </Menu.Accordion>
         </ul>
-      </MenuContext.Provider>
+      </MenuContext>
     )
 
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
@@ -306,13 +306,13 @@ describe('MenuAccordion', () => {
     const ctx = createMockContext({ closeAll })
 
     render(
-      <MenuContext.Provider value={ctx}>
+      <MenuContext value={ctx}>
         <ul role="menu">
           <Menu.Accordion text="Export as">
             <Menu.Action text="PDF" onClick={() => null} />
           </Menu.Accordion>
         </ul>
-      </MenuContext.Provider>
+      </MenuContext>
     )
 
     // Open accordion
@@ -364,13 +364,13 @@ describe('MenuAccordion', () => {
     const ctx = createMockContext({ registerItem })
 
     render(
-      <MenuContext.Provider value={ctx}>
+      <MenuContext value={ctx}>
         <ul role="menu">
           <Menu.Accordion text="Export as">
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext.Provider>
+      </MenuContext>
     )
 
     expect(registerItem).toHaveBeenCalled()
@@ -380,13 +380,13 @@ describe('MenuAccordion', () => {
     const ctx = createMockContext()
 
     render(
-      <MenuContext.Provider value={ctx}>
+      <MenuContext value={ctx}>
         <ul role="menu">
           <Menu.Accordion text="Export as">
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext.Provider>
+      </MenuContext>
     )
 
     const indicator = document.querySelector(
@@ -409,13 +409,13 @@ describe('MenuAccordion', () => {
     const ctx = createMockContext()
 
     render(
-      <MenuContext.Provider value={ctx}>
+      <MenuContext value={ctx}>
         <ul role="menu">
           <Menu.Accordion text="Export as" onOpenChange={onOpenChange}>
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext.Provider>
+      </MenuContext>
     )
 
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
@@ -432,13 +432,13 @@ describe('MenuAccordion', () => {
     const ctx = createMockContext()
 
     render(
-      <MenuContext.Provider value={ctx}>
+      <MenuContext value={ctx}>
         <ul role="menu">
           <Menu.Accordion text="Export as" onOpenChange={onOpenChange}>
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext.Provider>
+      </MenuContext>
     )
 
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
@@ -451,13 +451,13 @@ describe('MenuAccordion', () => {
     const ctx = createMockContext()
 
     render(
-      <MenuContext.Provider value={ctx}>
+      <MenuContext value={ctx}>
         <ul role="menu">
           <Menu.Accordion text="Export as" onOpenChange={onOpenChange}>
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext.Provider>
+      </MenuContext>
     )
 
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
@@ -473,7 +473,7 @@ describe('MenuAccordion', () => {
     const ctx = createMockContext()
 
     render(
-      <MenuContext.Provider value={ctx}>
+      <MenuContext value={ctx}>
         <ul role="menu">
           <Menu.Accordion
             text="Export as"
@@ -483,7 +483,7 @@ describe('MenuAccordion', () => {
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext.Provider>
+      </MenuContext>
     )
 
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')

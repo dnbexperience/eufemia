@@ -14,9 +14,7 @@ function renderWithContext(
 ) {
   const context = createMockContext(contextOverrides)
   return {
-    ...render(
-      <MenuContext.Provider value={context}>{ui}</MenuContext.Provider>
-    ),
+    ...render(<MenuContext value={context}>{ui}</MenuContext>),
     context,
   }
 }
