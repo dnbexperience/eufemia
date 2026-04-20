@@ -77,7 +77,7 @@ export const calc = (...types: Array<SpaceType>) => {
  * Creates a valid space CSS style out from given space types
  *
  * @param props
- * @returns { '--space-b-l': '2rem', '--space-t-l': '1rem' }
+ * @returns { '--padding-b-l': '2rem', '--padding-t-l': '1rem' }
  */
 export const createSpacingProperties = (
   props: InnerSpacingProps
@@ -260,7 +260,7 @@ function computeProperties(space: InnerSpaceType) {
     for (const key in props as InnerSpaceTypeMedia) {
       if (isValidInnerSpaceProp(key)) {
         const cur = props[key]
-        const name = `--space-${key[0]}-${size[0]}`
+        const name = `--padding-${key[0]}-${size[0]}`
 
         if (String(cur) === '0' || String(cur) === 'false') {
           result[name] = '0'
