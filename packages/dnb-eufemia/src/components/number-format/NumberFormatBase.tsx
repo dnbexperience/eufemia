@@ -16,7 +16,6 @@ import {
   extendExistingPropsWithContext,
   extendDeep,
   detectOutsideClick,
-  isTouchDevice,
   removeUndefinedProps,
 } from '../../shared/component-helper'
 import { hasSelectedText, IS_IOS } from '../../shared/helpers'
@@ -269,7 +268,10 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
   }, [])
 
   const setFocus = useCallback(() => {
-    if (isTouchDevice()) {
+    if (
+      typeof window !== 'undefined' &&
+      window.matchMedia?.('(hover: none)')?.matches
+    ) {
       return // stop here
     }
     needsFocusRef.current = true

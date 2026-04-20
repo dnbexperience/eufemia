@@ -12,22 +12,6 @@ import {
   PLATFORM_LINUX,
 } from '../helpers'
 
-/**
- * Check if device is touch device or not
- */
-export function isTouchDevice() {
-  if (typeof document !== 'undefined') {
-    let intent: string | null = null
-    try {
-      intent = document.documentElement.getAttribute('data-whatintent')
-    } catch (e) {
-      //
-    }
-    return intent === 'touch'
-  }
-  return false
-}
-
 export function defineNavigator() {
   const handleNavigator = () => {
     if (
