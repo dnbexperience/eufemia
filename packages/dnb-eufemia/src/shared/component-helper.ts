@@ -8,7 +8,6 @@ import React from 'react'
 import whatInput from './helpers/whatInput'
 import { warn } from './helpers'
 import { getClosestParent } from './helpers/getClosest'
-import { init } from './Eufemia'
 import { defineNavigator } from './legacy/component-helper-legacy'
 
 export * from './legacy/component-helper-legacy'
@@ -21,12 +20,6 @@ export { assignPropsWithContext } from './helpers/assignPropsWithContext'
 export { filterProps } from './helpers/filterProps'
 
 export { getClosestParent, warn }
-
-init()
-
-// run component helper functions
-whatInput.specificKeys([9])
-defineNavigator()
 
 /** @private */
 const startsWithCamelCaseRegex = /(^[a-z]{1,}[A-Z]{1})/

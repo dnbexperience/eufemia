@@ -8,6 +8,14 @@ import type { ContextProps, InternalLocale } from './Context'
 import Context, { prepareContext } from './Context'
 import { prepareFormElementContext } from './helpers/filterValidProps'
 import { mergeTranslations } from './Translation'
+import { init } from './Eufemia'
+import whatInput from './helpers/whatInput'
+import { defineNavigator } from './legacy/component-helper-legacy'
+
+// Run initialization side effects once
+init()
+whatInput.specificKeys([9])
+defineNavigator()
 
 export type ProviderProps = {
   /**
