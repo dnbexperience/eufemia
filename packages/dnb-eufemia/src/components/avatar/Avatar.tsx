@@ -17,7 +17,6 @@ import Context from '../../shared/Context'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import {
-  validateDOMAttributes,
   extendPropsWithContext,
   warn,
 } from '../../shared/component-helper'
@@ -187,8 +186,6 @@ const Avatar = (localProps: AvatarAllProps) => {
       `Avatar group required: An Avatar requires an Avatar.Group with label description as a parent component. This is to ensure correct semantic and accessibility.`
     )
   }
-
-  validateDOMAttributes(allProps, props)
 
   const style = {
     '--background-color': getColor(backgroundColor),

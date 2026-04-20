@@ -22,7 +22,7 @@ import SegmentedField, {
 import Button from '../button/Button'
 import Input, { SubmitButton } from '../input/Input'
 import type { InputElement, InputSize } from '../Input'
-import { warn, validateDOMAttributes } from '../../shared/component-helper'
+import { warn } from '../../shared/component-helper'
 import { convertStringToDate } from './DatePickerCalc'
 import DatePickerContext from './DatePickerContext'
 
@@ -872,9 +872,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         : translation.openPickerText,
     [selectedDateTitle, translation]
   )
-
-  validateDOMAttributes(props, attributes)
-  validateDOMAttributes(null, submitAttributes)
 
   const SubmitElement: React.ElementType = useMemo(
     () => (showInput ? SubmitButton : Button),

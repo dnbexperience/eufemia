@@ -7,7 +7,6 @@ import clsx from 'clsx'
 import PaginationContext from './PaginationContext'
 import PaginationProvider from './PaginationProvider'
 import {
-  validateDOMAttributes,
   extendExistingPropsWithContext,
   removeUndefinedProps,
 } from '../../shared/component-helper'
@@ -374,8 +373,6 @@ const PaginationInstance = React.memo(function PaginationInstance(
       ),
       ...attributes,
     }
-
-    validateDOMAttributes(props, mainParams)
 
     const content = items.find(
       ({ pageNumber }) => pageNumber === currentPageInternal

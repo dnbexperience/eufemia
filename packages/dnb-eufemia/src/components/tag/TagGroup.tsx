@@ -5,10 +5,7 @@ import clsx from 'clsx'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 // Shared
-import {
-  validateDOMAttributes,
-  extendPropsWithContext,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import type { SpacingProps } from '../../shared/types'
 import { TagGroupContext } from './TagContext'
@@ -74,7 +71,7 @@ const TagGroup = (
   }
 
   const spacingClasses = createSpacingClasses(props)
-  const { skeleton, ...attributes } = validateDOMAttributes({}, props)
+  const { skeleton, ...attributes } = props
 
   return (
     <TagGroupContext value={props}>

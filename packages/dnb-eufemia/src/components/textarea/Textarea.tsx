@@ -20,7 +20,6 @@ import useId from '../../shared/helpers/useId'
 import {
   extendPropsWithContext,
   removeUndefinedProps,
-  validateDOMAttributes,
   processChildren,
   getStatusState,
   combineDescribedBy,
@@ -567,10 +566,6 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       : null
 
   skeletonDOMAttributes(innerParams, skeleton, context)
-
-  validateDOMAttributes(ownProps, textareaParams)
-  validateDOMAttributes(null, innerParams)
-  validateDOMAttributes(null, shellParams)
 
   if (TextareaElement && typeof TextareaElement === 'function') {
     TextareaElement = TextareaElement(textareaParams, textareaRef)

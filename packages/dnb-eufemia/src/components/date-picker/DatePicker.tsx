@@ -20,7 +20,6 @@ import {
   extendPropsWithContext,
   getStatusState,
   combineDescribedBy,
-  validateDOMAttributes,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -672,11 +671,12 @@ function DatePicker(externalProps: DatePickerAllProps) {
       'dnb-date-picker__container--show-footer'
   )
 
-  const remainingDOMProps = validateDOMAttributes(props, attributes)
-  const remainingSubmitProps = validateDOMAttributes(null, submitParams)
-  const remainingPickerProps = validateDOMAttributes(
-    null,
-    skeletonDOMAttributes(pickerParams, skeleton, context)
+  const remainingDOMProps = attributes
+  const remainingSubmitProps = submitParams
+  const remainingPickerProps = skeletonDOMAttributes(
+    pickerParams,
+    skeleton,
+    context
   )
 
   return (

@@ -9,7 +9,6 @@ import clsx from 'clsx'
 import {
   makeUniqueId,
   extendPropsWithContext,
-  validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -106,9 +105,6 @@ const AccordionGroup = (props: AccordionGroupProps) => {
   const params = {
     ...restOfExtendedProps,
   }
-
-  // also used for code markup simulation
-  validateDOMAttributes(props, params)
 
   if (!extendedProps?.group && props.singleContainer) {
     extendedProps.group = makeUniqueId()

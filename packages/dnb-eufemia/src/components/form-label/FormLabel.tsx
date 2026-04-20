@@ -6,10 +6,7 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, { useCallback, useEffect, useRef } from 'react'
 import clsx from 'clsx'
-import {
-  extendPropsWithContext,
-  validateDOMAttributes,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import {
   createSkeletonClass,
@@ -221,8 +218,6 @@ function FormLabel(localProps: FormLabelAllProps) {
   }, [forId, labelRef])
 
   skeletonDOMAttributes(params, skeleton, context)
-  validateDOMAttributes(localProps, params)
-
   return <Element {...params}>{content}</Element>
 }
 

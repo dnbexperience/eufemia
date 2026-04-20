@@ -6,7 +6,6 @@ import clsx from 'clsx'
 import Context, { type Translation } from '../../shared/Context'
 import Provider from '../../shared/Provider'
 import {
-  validateDOMAttributes,
   extendExistingPropsWithContext,
   removeUndefinedProps,
 } from '../../shared/component-helper'
@@ -179,9 +178,6 @@ function PaymentCard(props: PaymentCardProps) {
   }
 
   skeletonDOMAttributes(params, skeleton, context)
-
-  // also used for code markup simulation
-  validateDOMAttributes(props, params)
 
   return (
     <Provider locale={locale}>

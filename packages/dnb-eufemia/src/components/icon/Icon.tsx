@@ -2,7 +2,6 @@ import React, { useContext, useMemo } from 'react'
 import clsx from 'clsx'
 import {
   warn,
-  validateDOMAttributes,
   processChildren,
   extendPropsWithContext,
 } from '../../shared/component-helper'
@@ -328,8 +327,6 @@ function prepareIconParams({
     params.height = parseFloat(String(height))
   }
 
-  validateDOMAttributes({}, params)
-
   return { params, sizeAsString }
 }
 
@@ -376,7 +373,7 @@ function prepareIconCore(
 
   // some wrapper params
   // also used for code markup simulation
-  const wrapperParams = validateDOMAttributes(props, {
+  const wrapperParams = {
     role: alt ? 'img' : 'presentation',
     alt, // in case the image don't shows up (because we define the role to be img)
     'aria-label':
@@ -385,7 +382,7 @@ function prepareIconCore(
         : null, // for screen readers only
     title, // to show on hover, if defined
     ...attributes,
-  })
+  }
   if (!alt && typeof wrapperParams['aria-hidden'] === 'undefined') {
     wrapperParams['aria-hidden'] = true
   }
@@ -414,19 +411,13 @@ function prepareIconCore(
   let iconToRender = getIcon(props)
 
   if (iconToRender && typeof iconToRender.defaultProps !== 'undefined') {
-    iconToRender = React.createElement(
-      iconToRender,
-      validateDOMAttributes(
-        {},
-        {
-          color,
-          icon,
-          size,
-          width,
-          height,
-        }
-      )
-    )
+    iconToRender = React.createElement(iconToRender, {
+      color,
+      icon,
+      size,
+      width,
+      height,
+    })
   }
 
   return {

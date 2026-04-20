@@ -29,7 +29,6 @@ import type { SpacingProps } from '../../shared/types'
 import {
   warn,
   extendPropsWithContext,
-  validateDOMAttributes,
   dispatchCustomElementEvent,
   getStatusState,
   combineDescribedBy,
@@ -2307,7 +2306,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
   const isExpanded = Boolean(open) && hasValidData()
 
-  attributesRef.current = validateDOMAttributes(null, attributes)
+  attributesRef.current = attributes
   Object.assign(drawerList.attributes, attributesRef.current)
 
   const mainParams = {
@@ -2432,9 +2431,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     showStatus || suffix || currentDataItem?.suffixValue
       ? `${id}-inner`
       : null
-
-  validateDOMAttributes(null, mainParams)
-  validateDOMAttributes(null, shellParams)
 
   // VoiceOver support helper
   const voiceOverActiveItem = (() => {

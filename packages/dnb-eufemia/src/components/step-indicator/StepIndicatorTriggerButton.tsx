@@ -10,10 +10,7 @@ import Button from '../button/Button'
 import Section from '../section/Section'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import chevron_down from '../../icons/chevron_down'
-import {
-  validateDOMAttributes,
-  combineDescribedBy,
-} from '../../shared/component-helper'
+import { combineDescribedBy } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
 import FormLabel from '../form-label/FormLabel'
 import StepIndicatorContext from './StepIndicatorContext'
@@ -85,9 +82,6 @@ function StepIndicatorTriggerButton({
   })
 
   skeletonDOMAttributes(triggerParams, skeleton)
-
-  // also used for code markup simulation
-  validateDOMAttributes(contextWithoutDataRest, triggerParams)
 
   return (
     <Section

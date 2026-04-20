@@ -8,7 +8,6 @@ import clsx from 'clsx'
 import useId from '../../shared/helpers/useId'
 import {
   extendExistingPropsWithContext,
-  validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
   dispatchCustomElementEvent,
@@ -416,9 +415,6 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   inputParams = Object.assign(inputParams, rest)
 
   skeletonDOMAttributes(inputParams, skeleton, context)
-
-  // also used for code markup simulation
-  validateDOMAttributes(ownProps, inputParams)
 
   const labelComp = label && (
     <FormLabel

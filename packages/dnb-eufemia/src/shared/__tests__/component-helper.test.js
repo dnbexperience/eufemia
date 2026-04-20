@@ -9,7 +9,6 @@ import { render } from '@testing-library/react'
 import {
   extendDeep,
   defineNavigator,
-  validateDOMAttributes,
   processChildren,
   dispatchCustomElementEvent,
   toPascalCase,
@@ -235,113 +234,6 @@ describe('"checkIfHasScrollbar" should', () => {
     changeProperty('scrollHeight', 100)
     changeProperty('offsetHeight', 200)
     expect(checkIfHasScrollbar(wrapperWithScrollbar)).toBe(false)
-  })
-})
-
-describe('"validateDOMAttributes" should', () => {
-  it('work fine', () => {
-    const props = {}
-    const params = {}
-    const res = validateDOMAttributes(props, params)
-    expect(params).toEqual(res)
-  })
-
-  it('has equal object after sending an object as prop.attributes', () => {
-    const attr = { foo: 'bar' }
-    const props = { attributes: attr }
-    const params = {}
-    const res = validateDOMAttributes(props, params)
-    expect(res).toEqual(attr)
-  })
-
-  it('"disabled" property should be removed once its value is null', () => {
-    const props = {}
-    const res1 = validateDOMAttributes(
-      props,
-      Object.assign({}, { disabled: null })
-    )
-    expect(res1).not.toHaveProperty('disabled')
-    const res2 = validateDOMAttributes(
-      props,
-      Object.assign({}, { disabled: 'disabled' })
-    )
-    expect(res2).toHaveProperty('disabled')
-  })
-
-  it('pass thru rest attributes', () => {
-    const props = {}
-    const params = { 'aria-hidden': true }
-    const res = validateDOMAttributes(props, params)
-    expect(res).toHaveProperty('aria-hidden')
-  })
-
-  it('remove values with null', () => {
-    const props = {}
-    const params = { 'aria-hidden': null }
-    const res = validateDOMAttributes(props, params)
-    expect(res).not.toHaveProperty('aria-hidden')
-  })
-
-  it('remove attributes with invalid names', () => {
-    const props = {}
-    const params = { aria_hidden: 'true' }
-    const res = validateDOMAttributes(props, params)
-    expect(res).not.toHaveProperty('aria_hidden')
-  })
-
-  it('function props should not be returned as long as they don\'t are "onClick"', () => {
-    const props = {
-      onClick: () => {},
-    }
-    const params = {
-      onChange: () => {},
-      something: () => {},
-    }
-    const res = validateDOMAttributes(props, params)
-    expect(res).toHaveProperty('onChange')
-    expect(res).not.toHaveProperty('something')
-  })
-
-  it('should preserve function ref props', () => {
-    const props = {}
-    const refFn = () => {}
-    const params = { ref: refFn }
-    const res = validateDOMAttributes(props, params)
-    expect(res).toHaveProperty('ref')
-    expect(res.ref).toBe(refFn)
-  })
-
-  it('should prevent prototype pollution via attributes', () => {
-    const props = {
-      attributes: {
-        __proto__: { polluted: 'value' },
-        constructor: { polluted: 'value' },
-        prototype: { polluted: 'value' },
-        safeKey: 'safeValue',
-      },
-    }
-    const params = {}
-    const res = validateDOMAttributes(props, params)
-
-    // Should include safe attributes
-    expect(res).toHaveProperty('safeKey', 'safeValue')
-
-    // Should not include dangerous prototype-polluting keys as own properties
-    expect(Object.prototype.hasOwnProperty.call(res, '__proto__')).toBe(
-      false
-    )
-    expect(Object.prototype.hasOwnProperty.call(res, 'constructor')).toBe(
-      false
-    )
-    expect(Object.prototype.hasOwnProperty.call(res, 'prototype')).toBe(
-      false
-    )
-
-    // Verify that Object.prototype was not polluted
-    expect({}.polluted).toBeUndefined()
-
-    // Verify that the result object itself was not polluted
-    expect(res.polluted).toBeUndefined()
   })
 })
 

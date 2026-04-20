@@ -6,10 +6,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import Context from '../shared/Context'
-import {
-  validateDOMAttributes,
-  extendPropsWithContext,
-} from '../shared/component-helper'
+import { extendPropsWithContext } from '../shared/component-helper'
 import { createSpacingClasses } from '../components/space/SpacingHelper'
 import type { SkeletonMethods } from '../components/skeleton/SkeletonHelper'
 import {
@@ -86,8 +83,6 @@ function Element(localProps: ElementAllProps) {
       typeof Tag === 'string' ? `dnb-${Tag}` : null
     )
   )
-
-  validateDOMAttributes(null, attributes)
 
   skeletonDOMAttributes(attributes, skeleton, context)
 

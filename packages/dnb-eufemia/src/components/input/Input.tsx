@@ -21,7 +21,6 @@ import Suffix from '../../shared/helpers/Suffix'
 import {
   warn,
   removeUndefinedProps,
-  validateDOMAttributes,
   processChildren,
   getStatusState,
   combineDescribedBy,
@@ -716,10 +715,6 @@ function InputComponent({ ref, ...restProps }: InputProps) {
 
   skeletonDOMAttributes(inputParams, skeleton, context)
 
-  // also used for code markup simulation
-  validateDOMAttributes(restProps, inputParams)
-  validateDOMAttributes(null, shellParams)
-
   if (InputElement && typeof InputElement === 'function') {
     InputElement = (
       InputElement as (
@@ -969,9 +964,6 @@ function InputSubmitButton({
     skeleton,
     context
   )
-
-  // also used for code markup simulation
-  validateDOMAttributes(ownProps, params)
 
   return (
     <span

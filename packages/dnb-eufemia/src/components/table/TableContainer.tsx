@@ -6,7 +6,6 @@ import { createSpacingClasses } from '../space/SpacingUtils'
 
 import type { TableProps } from './Table'
 import type { SpacingProps } from '../../shared/types'
-import { validateDOMAttributes } from '../../shared/component-helper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type TableContainerProps = {
@@ -36,8 +35,6 @@ type InternalTableContainerTableScrollView = Omit<
 export default function TableContainer(props: TableContainerAllProps) {
   const { children, className, ...rest } = props
   const spacingClasses = createSpacingClasses(props)
-
-  validateDOMAttributes(props, rest)
 
   const ScrollView = TableScrollView as (
     props: InternalTableContainerTableScrollView

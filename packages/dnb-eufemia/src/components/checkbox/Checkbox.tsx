@@ -12,7 +12,6 @@ import React, {
 } from 'react'
 import clsx from 'clsx'
 import {
-  validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
   extendPropsWithContext,
@@ -259,7 +258,7 @@ function Checkbox(localProps: CheckboxProps) {
   const showStatus = getStatusState(status)
 
   /**
-   * Adds aria attributes, calls validateDOMAttributes and skeletonDOMAttributes and returns the result
+   * Adds aria attributes, calls skeletonDOMAttributes and returns the result
    */
   const handleInputAttributes = useCallback(() => {
     const inputParams = {
@@ -281,10 +280,7 @@ function Checkbox(localProps: CheckboxProps) {
     }
 
     // also used for code markup simulation
-    return validateDOMAttributes(
-      props,
-      skeletonDOMAttributes(inputParams, skeleton, context)
-    )
+    return skeletonDOMAttributes(inputParams, skeleton, context)
   }, [
     context,
     disabled,

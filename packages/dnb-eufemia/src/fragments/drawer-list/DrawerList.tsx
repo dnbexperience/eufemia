@@ -5,11 +5,7 @@
 import React, { useContext, useCallback } from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import clsx from 'clsx'
-import {
-  validateDOMAttributes,
-  removeUndefinedProps,
-  warn,
-} from '../../shared/component-helper'
+import { removeUndefinedProps, warn } from '../../shared/component-helper'
 import type { SpacingProps } from '../../shared/types'
 import type { Translation } from '../../shared/Context'
 
@@ -544,14 +540,8 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
   }
 
   // also used for code markup simulation
-  validateDOMAttributes(ownProps, mainParams)
-  validateDOMAttributes(null, listParams)
-  validateDOMAttributes(null, ulParams)
 
-  Object.assign(
-    context.drawerList.attributes,
-    validateDOMAttributes(null, attributes)
-  )
+  Object.assign(context.drawerList.attributes, attributes)
 
   const ignoreEventsBoolean = ignoreEvents
 

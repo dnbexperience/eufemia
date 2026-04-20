@@ -2,7 +2,6 @@ import React from 'react'
 import {
   combineDescribedBy,
   combineLabelledBy,
-  validateDOMAttributes,
 } from '../../shared/component-helper'
 import Button from '../button/Button'
 import Tooltip from '../tooltip/Tooltip'
@@ -93,8 +92,6 @@ function Thumb({ value, currentIndex }: ThumbProps) {
   const thumbParams = attributes as Record<string, unknown>
   const elemRef = React.useRef<HTMLElement>(undefined)
   const [forceActive, setForceActive] = React.useState(false)
-  validateDOMAttributes(allProps, thumbParams) // because we send along rest attributes
-
   return (
     <span className="dnb-slider__thumb" style={style}>
       <input

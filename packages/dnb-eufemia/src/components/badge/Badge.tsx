@@ -14,7 +14,6 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import {
   warn,
   extendPropsWithContext,
-  validateDOMAttributes,
 } from '../../shared/component-helper'
 import useNumberFormat from '../number-format/useNumberFormat'
 
@@ -183,9 +182,6 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
   if (hideBadge) {
     return null
   }
-
-  // to remove spacing props, etc.
-  validateDOMAttributes(props, restProps)
 
   const skeletonClasses = createSkeletonClass('shape', skeleton, context)
   const contentIsNum = typeof contentProp === 'number'

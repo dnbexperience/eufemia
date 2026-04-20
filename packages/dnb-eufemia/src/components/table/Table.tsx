@@ -4,10 +4,7 @@ import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
-import {
-  extendPropsWithContext,
-  validateDOMAttributes,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import ScrollView from './TableScrollView'
 import { TableContext } from './TableContext'
 import { useStickyHeader } from './TableStickyHeader'
@@ -143,8 +140,6 @@ const Table = (componentProps: TableAllProps) => {
 
   const skeletonClasses = createSkeletonClass('font', skeleton, context)
   const spacingClasses = createSpacingClasses(props)
-
-  validateDOMAttributes(allProps, props)
 
   return (
     <Provider skeleton={Boolean(skeleton)}>

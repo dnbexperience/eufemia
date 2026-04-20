@@ -6,10 +6,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import type { AvatarSizes, AvatarVariants } from './Avatar'
 
 // Shared
-import {
-  validateDOMAttributes,
-  extendPropsWithContext,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../skeleton/Skeleton'
@@ -135,7 +132,7 @@ const AvatarGroup = (localProps: AvatarGroupAllProps) => {
   }
 
   const spacingClasses = createSpacingClasses(props)
-  const { skeleton, ...attributes } = validateDOMAttributes({}, props)
+  const { skeleton, ...attributes } = props
 
   return (
     <AvatarGroupContext

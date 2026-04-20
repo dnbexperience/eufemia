@@ -6,7 +6,6 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, { useContext, useRef, useCallback } from 'react'
 import clsx from 'clsx'
 import {
-  validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
   combineLabelledBy,
@@ -543,10 +542,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
   const { id, selectedItem, direction, open } = context.drawerList
   const showStatus = getStatusState(status)
 
-  Object.assign(
-    context.drawerList.attributes,
-    validateDOMAttributes(null, attributes)
-  )
+  Object.assign(context.drawerList.attributes, attributes)
 
   const mainParams = {
     className: clsx(
@@ -601,12 +597,8 @@ const DropdownInstance = React.memo(function DropdownInstance({
     )
   }
 
-  // also used for code markup simulation
-  validateDOMAttributes(null, mainParams)
-  validateDOMAttributes(ownProps, triggerParams)
-
   // make it possible to grab the rest attributes and return it with all events
-  attributesRef.current = validateDOMAttributes(null, attributes)
+  attributesRef.current = attributes
 
   return (
     <span ref={setRootRef} {...mainParams}>

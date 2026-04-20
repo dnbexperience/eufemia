@@ -5,7 +5,6 @@
 
 import React from 'react'
 import clsx from 'clsx'
-import { validateDOMAttributes } from '../../shared/component-helper'
 import '../../shared/helpers'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type { HeadingContextValue } from './HeadingContext'
@@ -268,8 +267,6 @@ export default function Heading(props: HeadingAllProps) {
       attributes['aria-level'] = String(level)
     }
   }
-
-  validateDOMAttributes(props, attributes)
 
   if (typeof context?.skeleton !== 'undefined') {
     skeleton = context.skeleton

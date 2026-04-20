@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import clsx from 'clsx'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../../shared/types'
-import { validateDOMAttributes, warn } from '../../shared/component-helper'
+import { warn } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatRootContext from './StatRootContext'
 import useStatSkeleton from './useStatSkeleton'
@@ -43,7 +43,7 @@ function Content(props: ContentProps) {
     warn('Stat.Content should be used inside Stat.Root')
   }
 
-  const attributes = validateDOMAttributes(props, {
+  const attributes = {
     ...rest,
     style,
     className: clsx(
@@ -54,7 +54,7 @@ function Content(props: ContentProps) {
       skeletonClass,
       className
     ),
-  })
+  }
 
   applySkeletonAttributes(attributes)
 

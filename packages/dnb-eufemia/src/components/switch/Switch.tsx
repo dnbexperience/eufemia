@@ -10,7 +10,6 @@ import React, {
 } from 'react'
 import clsx from 'clsx'
 import {
-  validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
   extendPropsWithContext,
@@ -274,8 +273,6 @@ function Switch(props: SwitchProps) {
   }
 
   skeletonDOMAttributes(inputParams, skeleton, context)
-  validateDOMAttributes(props, inputParams)
-
   const helperParams = useMemo(
     () => ({
       onMouseDown: (e: React.MouseEvent<HTMLSpanElement>) =>

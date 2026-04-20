@@ -7,7 +7,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import type { ContextProps } from '../../shared/Context'
-import { validateDOMAttributes } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import TooltipWithEvents from './TooltipWithEvents'
@@ -59,9 +58,6 @@ function Tooltip(localProps: TooltipAllProps) {
 
   const classes = buildClassNames(size, className, props)
   const attributes = createAttributes(classes, attributeProps)
-
-  // also used for code markup simulation
-  validateDOMAttributes(localProps, attributes)
 
   return (
     <TooltipContext value={{ isControlled, internalId, props }}>

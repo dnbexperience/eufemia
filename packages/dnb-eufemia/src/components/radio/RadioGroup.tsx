@@ -7,7 +7,6 @@ import clsx from 'clsx'
 import useId from '../../shared/helpers/useId'
 import {
   extendExistingPropsWithContext,
-  validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
   combineLabelledBy,
@@ -219,9 +218,6 @@ function RadioGroup(ownProps: RadioGroupProps) {
   if (label) {
     params['aria-labelledby'] = combineLabelledBy(params, legendId)
   }
-
-  // also used for code markup simulation
-  validateDOMAttributes(ownProps, params)
 
   const groupContext = {
     name: nameRef.current,

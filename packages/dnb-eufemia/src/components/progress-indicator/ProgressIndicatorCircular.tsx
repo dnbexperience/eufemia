@@ -6,7 +6,6 @@
 import React, { useEffect, useRef } from 'react'
 import type * as CSS from 'csstype'
 import clsx from 'clsx'
-import { validateDOMAttributes } from '../../shared/component-helper'
 import type { ProgressIndicatorCircularAllProps } from './types'
 
 function ProgressIndicatorCircular(
@@ -136,7 +135,7 @@ function ProgressIndicatorCircular(
     rest['aria-busy'] = true
   }
 
-  const remainingDOMAttributes = validateDOMAttributes(props, { ...rest })
+  const remainingDOMAttributes = { ...rest }
 
   return (
     <span

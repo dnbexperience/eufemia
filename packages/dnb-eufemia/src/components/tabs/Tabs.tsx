@@ -17,7 +17,6 @@ import Context from '../../shared/Context'
 import {
   warn,
   slugify,
-  validateDOMAttributes,
   dispatchCustomElementEvent,
   getClosestParent,
   filterProps,
@@ -1079,8 +1078,6 @@ function TabsComponent(ownProps: TabsProps) {
         _className
       ),
     }
-
-    validateDOMAttributes(ownProps, params)
 
     delete params.contentInnerSpace
     delete params.tabsInnerSpace

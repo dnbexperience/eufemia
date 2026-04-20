@@ -7,10 +7,7 @@ import type { HTMLProps } from 'react'
 import React, { useContext, useState } from 'react'
 import type { SpacingProps } from '../../shared/types'
 
-import {
-  validateDOMAttributes,
-  extendPropsWithContext,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import IconPrimary from '../icon-primary/IconPrimary'
 import clsx from 'clsx'
 import AccordionContext from './AccordionContext'
@@ -397,8 +394,6 @@ export const AccordionHeader = ({
   }
 
   skeletonDOMAttributes(headerParams, skeleton, context)
-
-  validateDOMAttributes(props, headerParams)
 
   let Element = 'div'
 

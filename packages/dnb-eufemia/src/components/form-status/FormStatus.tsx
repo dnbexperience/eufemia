@@ -10,7 +10,6 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useTheme, Context } from '../../shared'
 import useId from '../../shared/helpers/useId'
 import {
-  validateDOMAttributes,
   processChildren,
   extendPropsWithContext,
   removeUndefinedProps,
@@ -532,10 +531,6 @@ function FormStatusComponent(
   }
 
   skeletonDOMAttributes(params, skeleton, context)
-
-  // also used for code markup simulation
-  validateDOMAttributes(restOwnProps, params)
-  validateDOMAttributes(null, textParams)
 
   return (
     <HeightAnimation

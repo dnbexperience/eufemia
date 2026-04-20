@@ -17,7 +17,6 @@ import {
   makeUniqueId,
   findElementInChildren,
   extendPropsWithContext,
-  validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -393,9 +392,6 @@ function Accordion({
   if (disabled) {
     mainParams.onClick = handleDisabledClick
   }
-
-  // to remove spacing props
-  validateDOMAttributes(props, restOfExtendedProps)
 
   const extendedPropsForContext = extendPropsWithContext(
     props,

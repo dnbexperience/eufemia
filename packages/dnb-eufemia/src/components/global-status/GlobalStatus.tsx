@@ -11,7 +11,6 @@ import Context from '../../shared/Context'
 import {
   warn,
   makeUniqueId,
-  validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
@@ -702,9 +701,6 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
   }
 
   skeletonDOMAttributes(params, skeleton, context)
-
-  // also used for code markup simulation
-  validateDOMAttributes(ownProps, params)
 
   const itemsRenderHandler = (rawItem: GlobalStatusItem, i: number) => {
     const item = typeof rawItem === 'string' ? { text: rawItem } : rawItem

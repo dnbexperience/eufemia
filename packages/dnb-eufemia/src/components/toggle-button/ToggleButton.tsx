@@ -9,7 +9,6 @@ import useId from '../../shared/helpers/useId'
 import {
   warn,
   extendExistingPropsWithContext,
-  validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
   dispatchCustomElementEvent,
@@ -318,9 +317,6 @@ function ToggleButton(ownProps: ToggleButtonProps) {
       className
     ),
   }
-
-  // to remove spacing props
-  validateDOMAttributes(ownProps, rest)
 
   const buttonParams: Record<string, unknown> = {
     id,

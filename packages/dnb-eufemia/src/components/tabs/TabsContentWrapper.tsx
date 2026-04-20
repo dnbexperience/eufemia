@@ -1,10 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
 import type { DynamicElement, InnerSpaceType } from '../../shared/types'
-import {
-  validateDOMAttributes,
-  combineLabelledBy,
-} from '../../shared/component-helper'
+import { combineLabelledBy } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { createSpacingProperties } from '../space/SpacingUtils'
 import Section from '../section/Section'
@@ -86,19 +83,6 @@ export default function ContentWrapper({
       `${id}-tab-${activeKey}`
     )
   }
-
-  validateDOMAttributes(
-    {
-      id,
-      children,
-      selectedKey,
-      contentStyle,
-      animate,
-      contentInnerSpace,
-      ...rest,
-    },
-    params
-  )
 
   let content: React.ReactNode = children as React.ReactNode
   if (typeof children === 'function') {

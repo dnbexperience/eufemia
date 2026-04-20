@@ -8,7 +8,6 @@ import clsx from 'clsx'
 import useId from '../../shared/helpers/useId'
 import {
   extendExistingPropsWithContext,
-  validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
   combineLabelledBy,
@@ -216,9 +215,6 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
   if (label) {
     params['aria-labelledby'] = combineLabelledBy(params, id + '-label')
   }
-
-  // also used for code markup simulation
-  validateDOMAttributes(ownProps, params)
 
   const setContext = useCallback(
     (

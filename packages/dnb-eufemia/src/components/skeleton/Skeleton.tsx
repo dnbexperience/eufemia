@@ -7,7 +7,6 @@ import clsx from 'clsx'
 import {
   extendExistingPropsWithContext,
   removeUndefinedProps,
-  validateDOMAttributes,
 } from '../../shared/component-helper'
 import { LOCALE } from '../../shared/defaults'
 import Space from '../space/Space'
@@ -169,8 +168,6 @@ function Skeleton(props: SkeletonProps) {
     lang: context.locale || LOCALE,
     ...attributes,
   }
-
-  validateDOMAttributes(props, params)
 
   return (
     <Space {...params}>

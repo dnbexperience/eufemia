@@ -11,7 +11,6 @@ import {
   warn,
   extendExistingPropsWithContext,
   removeUndefinedProps,
-  validateDOMAttributes,
   processChildren,
   getStatusState,
   dispatchCustomElementEvent,
@@ -433,9 +432,6 @@ function Button({ ref, ...restProps }: ButtonProps) {
   }
 
   skeletonDOMAttributes(params, skeleton, context)
-
-  // also used for code markup simulation
-  validateDOMAttributes(restProps, params)
 
   return (
     <>

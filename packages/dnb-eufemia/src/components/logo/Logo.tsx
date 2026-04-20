@@ -5,10 +5,7 @@
 import React, { useContext, useMemo } from 'react'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
-import {
-  validateDOMAttributes,
-  extendPropsWithContext,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { DnbDefault } from './LogoSvg'
 import type { UseThemeReturn } from '../../shared/useTheme'
@@ -167,7 +164,7 @@ function Logo(localProps: LogoProps) {
     }
   }, [altText, color, height, width])
 
-  const remainingDOMProps = validateDOMAttributes(props, rootParams)
+  const remainingDOMProps = rootParams
 
   return (
     <span {...remainingDOMProps}>
