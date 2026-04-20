@@ -110,6 +110,8 @@ This is the migration guide for @dnb/eufemia v11. It covers all breaking changes
 - **Logo API redesigned** — The `brand`/`variant` props are replaced with an `svg` prop import pattern. See [Logo](#logo).
 - **StepIndicator redesigned** — The sidebar mode has been removed. See [StepIndicator](#stepindicator).
 - **Ajv no longer shipped by default** — If you use JSON Schema validation, you must explicitly provide an Ajv instance. See [Ajv no longer shipped by default](#ajv-no-longer-shipped-by-default).
+- **Dropdown `actionMenu`/`moreMenu` removed** — The `actionMenu` and `moreMenu` props on Dropdown have been removed. Use the new [Menu](/uilib/components/menu/) component instead.
+- **NumberFormat split into variants** — The generic `<NumberFormat />` component and `format()` utility have been removed. Use variant sub-components like `<NumberFormat.Number />`, `<NumberFormat.Currency />`, etc. See [NumberFormat](#numberformat).
 - Replaced deprecated `<Context.Provider>` with direct `<Context>` rendering across all internal context providers (React 19).
 - Several exported TypeScript `interface` declarations have been converted to `type`. This prevents declaration merging but has no impact on standard usage.
 - All React context value types have been renamed to use a consistent `...ContextValue` suffix (e.g. `AccordionContextProps` → `AccordionContextValue`). See [TypeScript](#typescript) for the full list.
