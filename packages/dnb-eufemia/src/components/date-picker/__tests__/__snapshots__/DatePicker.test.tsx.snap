@@ -8,10 +8,17 @@ exports[`DatePicker scss should match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-.dnb-date-picker__container {
+.dnb-date-picker__portal .dnb-popover {
+  --popover-background-color: var(--color-white);
+  --popover-border-radius: 0.25rem;
   box-shadow: var(--shadow-sharp);
+}
+.dnb-date-picker__container {
   border-radius: 0.25rem;
   background-color: var(--color-white);
+}
+.dnb-date-picker--inline .dnb-date-picker__container {
+  box-shadow: var(--shadow-sharp);
 }
 .dnb-date-picker__addon::after, .dnb-date-picker__calendar::after {
   background-color: var(--color-black-8);
