@@ -29,7 +29,7 @@
           &,
           &:hover,
           &:focus-within,
-          html[data-whatinput='keyboard'] &:focus-within {
+          &:has(:focus-visible) {
             box-shadow: none;
           }
         }

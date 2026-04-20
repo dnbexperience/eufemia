@@ -16,22 +16,20 @@
   box-shadow: var(--shadow-sharp);
 }
 
-// Uses html:not([data-whatintent='touch'] )
-// classes on <html> element
-// based on js touch device test
 @mixin hover() {
-  html:not([data-whatintent='touch']) &:hover {
-    &[disabled] {
-      cursor: not-allowed;
-    }
-    &:not([disabled]) {
-      @content;
+  @media (hover: hover) {
+    &:hover {
+      &[disabled] {
+        cursor: not-allowed;
+      }
+      &:not([disabled]) {
+        @content;
+      }
     }
   }
 }
 @mixin active() {
-  &:active,
-  html:not([data-whatintent='touch']) &:active {
+  &:active {
     &[disabled] {
       cursor: not-allowed;
     }
@@ -44,14 +42,12 @@
 
 @mixin focusVisible() {
   &:focus-visible {
-    @include whatInputNot('touch') {
-      &[disabled] {
-        cursor: not-allowed;
-      }
-      // stylelint-disable-next-line
-      &:not([disabled]) {
-        @content;
-      }
+    &[disabled] {
+      cursor: not-allowed;
+    }
+    // stylelint-disable-next-line
+    &:not([disabled]) {
+      @content;
     }
   }
 }
@@ -74,13 +70,23 @@
   }
 }
 
+/// @deprecated Use :focus-visible or @media (hover: hover) instead
 @mixin whatInput($whatinput: null) {
-  html[data-whatinput='#{$whatinput}'] & {
+  @if $whatinput == 'keyboard' {
+    &:focus-visible {
+      @content;
+    }
+  } @else {
     @content;
   }
 }
+/// @deprecated Use :focus-visible or @media (hover: hover) instead
 @mixin whatInputNot($whatinput: null) {
-  html:not([data-whatinput='#{$whatinput}']) & {
+  @if $whatinput == 'touch' {
+    @media (hover: hover) {
+      @content;
+    }
+  } @else {
     @content;
   }
 }
@@ -117,9 +123,6 @@
 ) {
   outline: none;
 
-  @if $whatinput == null {
-    $whatinput: 'keyboard';
-  }
   @if $color == null {
     $color: var(--focus-ring-color);
   }
@@ -135,7 +138,7 @@
       $outline: null
     );
   } @else {
-    @include whatInput($whatinput) {
+    &:focus-visible {
       @include focusStyle(
         $bgColor: null,
         $textColor: null,
@@ -151,14 +154,7 @@
 
 @mixin removeFocusRing($whatinput: null, $replace: none) {
   outline: initial;
-
-  @if $whatinput == null {
-    box-shadow: $replace;
-  }
-
-  html[data-whatinput='#{$whatinput}'] & {
-    box-shadow: $replace;
-  }
+  box-shadow: $replace;
 }
 
 @mixin fakeBorder(

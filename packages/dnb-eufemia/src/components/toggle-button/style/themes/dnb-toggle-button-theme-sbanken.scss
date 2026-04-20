@@ -23,8 +23,7 @@
     --button-color-border--focus: var(--focus-ring-color);
     --button-color-border--disabled: var(--sb-color-gray-light);
 
-    html[data-whatinput='keyboard']
-      &:not([disabled]):not(:active):not(:hover):focus {
+    &:not([disabled]):not(:active):not(:hover):focus-visible {
       .dnb-radio {
         &__dot {
           background-color: var(--focus-ring-color);

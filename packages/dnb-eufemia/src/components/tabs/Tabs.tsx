@@ -39,7 +39,6 @@ import Button from '../button/Button'
 import useId from '../../shared/helpers/useId'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
 import useUpdateEffect from '../../shared/helpers/useUpdateEffect'
-import whatInput from '../../shared/helpers/whatInput'
 import CustomContent from './TabsCustomContent'
 import ContentWrapper from './TabsContentWrapper'
 import {
@@ -742,8 +741,6 @@ function TabsComponent(ownProps: TabsProps) {
       'onFocus',
       getEventArgs({ event, focusKey: newFocusKey })
     )
-
-    whatInput.specificKeys([9, 37, 39, 33, 34, 35, 36])
   }
 
   // Focus tab button when focusKey changes
@@ -759,7 +756,6 @@ function TabsComponent(ownProps: TabsProps) {
     // saving the position will avoid flickering if the new tab will be done by a new page load
     saveLastPosition()
     saveLastUsedTab()
-    whatInput.specificKeys([9])
 
     // for handling openPrevTab and openNextTab
     if (mode === 'step' && parseFloat(String(newSelectedKey))) {
@@ -861,7 +857,6 @@ function TabsComponent(ownProps: TabsProps) {
 
     return () => {
       isMounted = false
-      whatInput.specificKeys([9])
       sharedStateRef.current = null
       if (typeof window !== 'undefined') {
         window.removeEventListener('resize', onResizeHandler)

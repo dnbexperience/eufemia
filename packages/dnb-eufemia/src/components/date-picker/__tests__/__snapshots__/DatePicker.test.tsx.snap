@@ -87,9 +87,11 @@ exports[`DatePicker scss should match default theme snapshot 1`] = `
 .dnb-date-picker__day--start-date:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--preview) .dnb-button:hover, .dnb-date-picker__day--end-date:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--preview) .dnb-button:hover {
   box-shadow: none;
 }
-html:not([data-whatintent=touch]) .dnb-date-picker__day--start-date.dnb-date-picker__day--within-selection .dnb-button:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-date-picker__day--end-date.dnb-date-picker__day--within-selection .dnb-button:hover:not([disabled]) {
-  color: var(--color-mint-green-25);
-  background-color: var(--color-emerald-green);
+@media (hover: hover) {
+  .dnb-date-picker__day--start-date.dnb-date-picker__day--within-selection .dnb-button:hover:not([disabled]), .dnb-date-picker__day--end-date.dnb-date-picker__day--within-selection .dnb-button:hover:not([disabled]) {
+    color: var(--color-mint-green-25);
+    background-color: var(--color-emerald-green);
+  }
 }
 .dnb-date-picker__day--disabled .dnb-button {
   text-decoration: line-through;
@@ -100,8 +102,10 @@ html:not([data-whatintent=touch]) .dnb-date-picker__day--start-date.dnb-date-pic
 .dnb-date-picker__day--inactive .dnb-button[disabled], .dnb-date-picker__day--disabled .dnb-button[disabled] {
   box-shadow: none;
 }
-html:not([data-whatintent=touch]) .dnb-date-picker__day--inactive .dnb-button[disabled] {
-  cursor: default;
+@media (hover: hover) {
+  .dnb-date-picker__day--inactive .dnb-button[disabled] {
+    cursor: default;
+  }
 }
 .dnb-date-picker--open .dnb-input .dnb-input__shell, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
   --border-color: var(--color-sea-green);
@@ -494,25 +498,27 @@ button .dnb-form-status__text {
 .dnb-button--primary .dnb-button__icon, .dnb-button--secondary .dnb-button__icon, .dnb-button--tertiary .dnb-button__icon {
   color: var(--button-color-icon, var(--button-color-icon--default));
 }
-html:not([data-whatintent=touch]) .dnb-button--primary:hover[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:hover[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:hover[disabled] {
+@media (hover: hover) {
+  .dnb-button--primary:hover[disabled], .dnb-button--secondary:hover[disabled], .dnb-button--tertiary:hover[disabled] {
+    cursor: not-allowed;
+  }
+  .dnb-button--primary:hover:not([disabled]), .dnb-button--secondary:hover:not([disabled]), .dnb-button--tertiary:hover:not([disabled]) {
+    --button-color-bg: var(--button-color-bg--hover);
+    --button-color-border: var(--button-color-border--hover);
+    --button-color-icon: var(--button-color-icon--hover);
+    --button-color-text: var(--button-color-text--hover);
+    --button-color-underline: var(--button-color-underline--hover);
+    --button-border-inset: var(--button-border-inset--hover);
+    --button-border-width: var(--button-border-width--hover);
+    --button-input-separator-color: var(
+      --button-input-separator-color--hover
+    );
+  }
+}
+.dnb-button--primary:active[disabled], .dnb-button--secondary:active[disabled], .dnb-button--tertiary:active[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-button--primary:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]) {
-  --button-color-bg: var(--button-color-bg--hover);
-  --button-color-border: var(--button-color-border--hover);
-  --button-color-icon: var(--button-color-icon--hover);
-  --button-color-text: var(--button-color-text--hover);
-  --button-color-underline: var(--button-color-underline--hover);
-  --button-border-inset: var(--button-border-inset--hover);
-  --button-border-width: var(--button-border-width--hover);
-  --button-input-separator-color: var(
-    --button-input-separator-color--hover
-  );
-}
-.dnb-button--primary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--primary:active[disabled], .dnb-button--secondary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:active[disabled], .dnb-button--tertiary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:active[disabled] {
-  cursor: not-allowed;
-}
-.dnb-button--primary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--primary:active:not([disabled]), .dnb-button--secondary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:active:not([disabled]), .dnb-button--tertiary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) {
+.dnb-button--primary:active:not([disabled]), .dnb-button--secondary:active:not([disabled]), .dnb-button--tertiary:active:not([disabled]) {
   --button-color-bg: var(--button-color-bg--active);
   --button-color-border: var(--button-color-border--active);
   --button-color-icon: var(--button-color-icon--active);
@@ -524,10 +530,10 @@ html:not([data-whatintent=touch]) .dnb-button--primary:hover:not([disabled]), ht
     --button-input-separator-color--active
   );
 }
-html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible[disabled], html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible[disabled], html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
+.dnb-button--primary:focus-visible[disabled], .dnb-button--secondary:focus-visible[disabled], .dnb-button--tertiary:focus-visible[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+.dnb-button--primary:focus-visible:not([disabled]), .dnb-button--secondary:focus-visible:not([disabled]), .dnb-button--tertiary:focus-visible:not([disabled]) {
   --button-color-bg: var(--token-color-background-action-focus-subtle);
   --button-color-border: var(--token-color-stroke-action-focus);
   --button-color-icon: var(--token-color-icon-action-focus);
@@ -921,10 +927,10 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   width: var(--input-border-width);
   background-color: var(--button-input-separator-color, var(--button-input-separator-color--default));
 }
-.dnb-button--icon-only.dnb-button--input-button:active[disabled], html:not([data-whatintent=touch]) .dnb-button--icon-only.dnb-button--input-button:active[disabled] {
+.dnb-button--icon-only.dnb-button--input-button:active[disabled] {
   cursor: not-allowed;
 }
-.dnb-button--icon-only.dnb-button--input-button:active:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-button--icon-only.dnb-button--input-button:active:not([disabled])::after {
+.dnb-button--icon-only.dnb-button--input-button:active:not([disabled])::after {
   top: var(--input-border-width);
   bottom: var(--input-border-width);
 }
@@ -1311,13 +1317,13 @@ legend.dnb-form-label {
   --b-width: var(--input-border-width__error--hover);
   --b-inset: var(--input-border-inset--hover);
 }
-html[data-whatinput=keyboard] .dnb-input__border:focus-within {
+.dnb-input__border:has(:focus-visible) {
   --b-color: var(--input-border-color--focus);
   --b-width: var(--input-border-width--focus);
   --b-inset: var(--input-border-inset--focus);
   --b-radius: var(--input-border-radius--focus);
 }
-html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus-within {
+.dnb-input__status--error .dnb-input__border:has(:focus-visible) {
   --b-color: var(--input-border-color__error--focus);
   --b-width: var(--input-border-width--focus);
   --b-inset: var(--input-border-inset--focus);
@@ -1469,8 +1475,10 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input--clear.dnb-input__submit-element .dnb-button .dnb-button__icon {
   margin: auto;
 }
-html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .dnb-button:not(.dnb-button--has-text):hover[disabled] {
-  cursor: default;
+@media (hover: hover) {
+  .dnb-input--clear.dnb-input__submit-element .dnb-button:not(.dnb-button--has-text):hover[disabled] {
+    cursor: default;
+  }
 }
 .dnb-input--small .dnb-input--clear.dnb-input__submit-element .dnb-button {
   width: 1rem;
@@ -1684,7 +1692,7 @@ html[data-visual-test] .dnb-input__input {
   display: none;
   outline: none;
 }
-html[data-whatinput=keyboard] .dnb-checkbox__focus {
+.dnb-checkbox__focus:focus-visible {
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
@@ -1883,11 +1891,11 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
 .dnb-checkbox {
   /** Focus state **/
 }
-html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus-visible ~ .dnb-checkbox__button {
+.dnb-checkbox__input:not([disabled]):focus-visible ~ .dnb-checkbox__button {
   border: none;
   background-color: var(--checkbox-color-background--focus);
 }
-html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus-visible ~ .dnb-checkbox__gfx {
+.dnb-checkbox__input:not([disabled]):focus-visible ~ .dnb-checkbox__gfx {
   color: var(--checkbox-color-gfx--focus);
 }
 .dnb-checkbox__input:not([disabled]):focus-visible ~ .dnb-checkbox__button .dnb-checkbox__focus, .dnb-checkbox__input:not([disabled]):active ~ .dnb-checkbox__button .dnb-checkbox__focus {
@@ -1921,7 +1929,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus-visible
 .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active):not(:hover) ~ .dnb-checkbox__gfx {
   color: var(--checkbox-color-gfx--error);
 }
-html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__button, html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):focus:hover ~ .dnb-checkbox__button {
+.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):focus-visible ~ .dnb-checkbox__button, .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):focus-visible:hover ~ .dnb-checkbox__button {
   border: none;
   background-color: var(--checkbox-color-background--error-contrast);
   --border-color: var(--checkbox-color-border--error);
@@ -1929,7 +1937,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):focus:hover ~ .dnb-checkbox__gfx {
+.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):focus-visible:hover ~ .dnb-checkbox__gfx {
   color: var(--checkbox-color-gfx--error-contrast);
 }
 .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active):not(:hover):checked ~ .dnb-checkbox__button, .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active):not(:hover)[data-checked=true] ~ .dnb-checkbox__button {
@@ -2058,7 +2066,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:
   display: none;
   outline: none;
 }
-html[data-whatinput=keyboard] .dnb-radio__focus {
+.dnb-radio__focus:focus-visible {
   --border-color: var(--radio-color-border--focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
@@ -2283,17 +2291,17 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 .dnb-radio {
   /** Focus state **/
 }
-html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):focus ~ .dnb-radio__button {
+.dnb-radio__input:not([disabled]):focus-visible ~ .dnb-radio__button {
   border-width: var(--radio-border-width--focus);
   border: none;
 }
 .dnb-radio__input:not([disabled]):focus ~ .dnb-radio__focus, .dnb-radio__input:not([disabled]):active ~ .dnb-radio__focus {
   display: block;
 }
-html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not(:hover):focus ~ .dnb-radio__button {
+.dnb-radio__input:not([disabled]):not(:active):not(:hover):focus-visible ~ .dnb-radio__button {
   background-color: var(--radio-color-background--focus);
 }
-html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not(:hover):checked:focus ~ .dnb-radio__dot, html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not(:hover)[data-checked=true]:focus ~ .dnb-radio__dot {
+.dnb-radio__input:not([disabled]):not(:active):not(:hover):checked:focus-visible ~ .dnb-radio__dot, .dnb-radio__input:not([disabled]):not(:active):not(:hover)[data-checked=true]:focus-visible ~ .dnb-radio__dot {
   background-color: var(--radio-color-dot-on--focus);
 }
 .dnb-radio {
@@ -2517,7 +2525,7 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not
 .dnb-date-picker__container table.dnb-no-focus:focus {
   outline: none;
 }
-html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:focus {
+.dnb-date-picker__container table.dnb-no-focus:focus:focus-visible {
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);

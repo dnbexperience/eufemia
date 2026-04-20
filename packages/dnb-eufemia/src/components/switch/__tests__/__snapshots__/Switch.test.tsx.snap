@@ -329,7 +329,7 @@ button .dnb-form-status__text {
 .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
   outline: none;
 }
-html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
+.dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background:focus-visible, .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background:focus-visible {
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
@@ -415,17 +415,17 @@ html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-sw
    *
    */
 }
-html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background {
+.dnb-switch__input:not([disabled]):focus-visible ~ .dnb-switch__background {
   background-color: var(--token-color-background-action-focus-subtle);
 }
-html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button {
+.dnb-switch__input:not([disabled]):focus-visible ~ .dnb-switch__button {
   background-color: var(--token-color-background-action-focus);
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: 0.0625rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-html[data-whatinput=keyboard] .dnb-switch__input:checked:not([disabled]):focus ~ .dnb-switch__button {
+.dnb-switch__input:checked:not([disabled]):focus-visible ~ .dnb-switch__button {
   box-shadow: none;
 }
 .dnb-switch {

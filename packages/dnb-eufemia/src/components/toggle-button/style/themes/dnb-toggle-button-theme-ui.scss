@@ -54,7 +54,7 @@
         }
       }
     }
-    html[data-whatinput='keyboard'] &:not([disabled]):not(:hover):focus {
+    &:not([disabled]):not(:hover):focus-visible {
       .dnb-radio {
         --radio-color-dot-on--focus: var(--color-emerald-green);
 
@@ -81,7 +81,7 @@
         }
       }
     }
-    html[data-whatinput='keyboard'] &:not([disabled]):not(:hover):focus {
+    &:not([disabled]):not(:hover):focus-visible {
       .dnb-checkbox {
         &__button {
           background-color: var(--color-emerald-green);
@@ -99,8 +99,7 @@
       }
     }
 
-    html[data-whatinput='keyboard']
-      &:not([disabled]):not(:active):not(:hover):focus {
+    &:not([disabled]):not(:active):not(:hover):focus-visible {
       color: var(--color-emerald-green);
       background-color: var(--color-mint-green);
       --button-color-border: var(--color-emerald-green);

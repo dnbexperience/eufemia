@@ -285,10 +285,10 @@
     margin-right: -0.5rem;
   }
 
-  html[data-whatinput='keyboard'] &__button__snap {
+  &__button__snap {
     &:first-of-type.focus {
       // add space so the focus ring is visible within our overflow
-      .dnb-tabs__button:focus {
+      .dnb-tabs__button:focus-visible {
         margin-left: 0.5rem;
       }
     }
@@ -296,7 +296,7 @@
     &:last-of-type.focus {
       // add space so the focus ring is visible within our overflow
       /* stylelint-disable */
-      .dnb-tabs__button:focus {
+      .dnb-tabs__button:focus-visible {
         margin-right: 0.5rem;
       }
       /* stylelint-enable */

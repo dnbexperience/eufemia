@@ -282,25 +282,19 @@
    * On focus state
    *
    */
-  &__input:not([disabled]):focus ~ &__background {
-    html[data-whatinput='keyboard'] & {
-      background-color: var(--token-color-background-action-focus-subtle);
-    }
+  &__input:not([disabled]):focus-visible ~ &__background {
+    background-color: var(--token-color-background-action-focus-subtle);
   }
-  &__input:not([disabled]):focus ~ &__button {
-    html[data-whatinput='keyboard'] & {
-      background-color: var(--token-color-background-action-focus);
-      @include utilities.fakeBorder(
-        var(--token-color-stroke-action-focus),
-        0.0625rem
-      );
-    }
+  &__input:not([disabled]):focus-visible ~ &__button {
+    background-color: var(--token-color-background-action-focus);
+    @include utilities.fakeBorder(
+      var(--token-color-stroke-action-focus),
+      0.0625rem
+    );
   }
 
-  &__input:checked:not([disabled]):focus ~ &__button {
-    html[data-whatinput='keyboard'] & {
-      box-shadow: none;
-    }
+  &__input:checked:not([disabled]):focus-visible ~ &__button {
+    box-shadow: none;
   }
 
   /*

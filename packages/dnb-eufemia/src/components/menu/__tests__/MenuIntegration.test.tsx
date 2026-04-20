@@ -99,9 +99,6 @@ describe('Menu integration with real Popover', () => {
 
     // Press ArrowRight to open sub-menu
     fireEvent.keyDown(exportTrigger, { key: 'ArrowRight' })
-    expect(document.documentElement.getAttribute('data-whatinput')).toBe(
-      'keyboard'
-    )
 
     act(() => {
       jest.advanceTimersByTime(100)

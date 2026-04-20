@@ -24,7 +24,7 @@
   }
 
   @if $enable-touch == 'touch' {
-    html[data-whatintent='touch'] & {
+    @media (hover: none) {
       @include utilities.active() {
         @include buttonHoverStyle(
           $color,
@@ -55,7 +55,7 @@
   $extendShadow: null
 ) {
   @include utilities.focus() {
-    html[data-whatinput='keyboard'] & {
+    &:focus-visible {
       color: $color;
       background-color: $background-color;
     }

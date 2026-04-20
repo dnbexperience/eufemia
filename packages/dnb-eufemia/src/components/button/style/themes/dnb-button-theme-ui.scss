@@ -39,7 +39,7 @@
     @include utilities.active() {
       // underline
       .dnb-button__text::after {
-        html[data-whatintent='touch'] & {
+        @media (hover: none) {
           --button-color-underline: var(--button-color-underline--hover);
         }
       }
