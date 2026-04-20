@@ -113,6 +113,7 @@ This is the migration guide for @dnb/eufemia v11. It covers all breaking changes
 - **Ajv no longer shipped by default** — If you use JSON Schema validation, you must explicitly provide an Ajv instance. See [Ajv no longer shipped by default](#ajv-no-longer-shipped-by-default).
 - **Dropdown `actionMenu`/`moreMenu` removed** — The `actionMenu` and `moreMenu` props on Dropdown have been removed. Use the new [Menu](/uilib/components/menu/) component instead.
 - **NumberFormat split into variants** — The generic `<NumberFormat />` component and `format()` utility have been removed. Use variant sub-components like `<NumberFormat.Number />`, `<NumberFormat.Currency />`, etc. See [NumberFormat](#numberformat).
+- **`date-fns` upgraded from v2 to v4** — If you import `date-fns` functions directly (e.g. for DatePicker's `locale` prop), update your imports to use named exports. See [DatePicker](#datepicker).
 - Replaced deprecated `<Context.Provider>` with direct `<Context>` rendering across all internal context providers (React 19).
 - Several exported TypeScript `interface` declarations have been converted to `type`. This prevents declaration merging but has no impact on standard usage.
 - All React context value types have been renamed to use a consistent `...ContextValue` suffix (e.g. `AccordionContextProps` → `AccordionContextValue`). See [TypeScript](#typescript) for the full list.
@@ -1966,6 +1967,24 @@ The following properties have been renamed from snake_case to camelCase:
 
   ```tsx
   <DatePicker dateFormat="yyyy/MM/dd" returnFormat="yyyy-MM-dd" />
+  ```
+
+- The internal `date-fns` dependency has been upgraded from **v2** to **v4**. This does not affect the DatePicker API itself, but if you import `date-fns` directly in your project (e.g. to pass a `locale` to DatePicker), you need to update your imports from default exports to named exports:
+
+  **Before (date-fns v2):**
+
+  ```tsx
+  import nbLocale from 'date-fns/locale/nb'
+  import enLocale from 'date-fns/locale/en-GB'
+  ;<DatePicker locale={nbLocale} />
+  ```
+
+  **After (date-fns v4):**
+
+  ```tsx
+  import { nb } from 'date-fns/locale/nb'
+  import { enGB } from 'date-fns/locale/en-GB'
+  ;<DatePicker locale={nb} />
   ```
 
 #### Properties
