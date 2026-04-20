@@ -84,12 +84,7 @@
   --checkbox-color-background-off--hover: var(
     --token-color-background-action-hover-subtle
   );
-  --checkbox-color-border-on--hover: var(
-    --token-color-stroke-action-hover
-  );
-  --checkbox-color-border-off--hover: var(
-    --token-color-stroke-action-hover
-  );
+  --checkbox-color-border--hover: var(--token-color-stroke-action-hover);
   --checkbox-color-gfx__indeterminate--hover: var(
     --token-color-background-action-hover
   );
@@ -191,8 +186,6 @@
     .dnb-checkbox--large & {
       width: var(--checkbox-width--large);
       height: var(--checkbox-height--large);
-
-      border-radius: var(--checkbox-border-radius);
     }
   }
 
@@ -439,7 +432,7 @@
 
   // General
   &__input:not([disabled]):hover ~ &__button {
-    border-color: var(--checkbox-color-border-off--hover);
+    border-color: var(--checkbox-color-border--hover);
     background-color: var(--checkbox-color-background-off--hover);
     border-width: var(--checkbox-border-width--hover);
   }
@@ -453,7 +446,7 @@
   &__input:not([disabled])[data-checked='true']:hover ~ &__button {
     background-color: var(--checkbox-color-background-on--hover);
     border: var(--checkbox-border-width--hover) solid
-      var(--checkbox-color-border-on--hover);
+      var(--checkbox-color-border--hover);
   }
 
   // Indeterminate
@@ -516,11 +509,15 @@
   }
 
   &__input:not([disabled]):focus ~ &__button &__focus {
-    display: block;
+    html[data-whatinput='keyboard'] & {
+      display: block;
+    }
   }
 
   &__input:not([disabled]):focus ~ &__indeterminate {
-    background-color: var(--checkbox-color-gfx__indeterminate--focus);
+    html[data-whatinput='keyboard'] & {
+      background-color: var(--checkbox-color-gfx__indeterminate--focus);
+    }
   }
 
   /** Skeleton **/
