@@ -38,7 +38,6 @@
   );
 
   // Disabled state
-  --checkbox-border-width--disabled: 0.125rem;
   --checkbox-color-gfx--disabled: var(--token-color-icon-neutral-inverse);
   --checkbox-color-background-on--disabled: var(
     --token-color-background-action-disabled
@@ -377,11 +376,6 @@
   }
 
   /** Disabled state **/
-
-  // General
-  &__input[disabled]:checked ~ &__button {
-    border-width: var(--checkbox-border-width--disabled);
-  }
 
   // On
   &__input[disabled]:checked ~ &__button,
