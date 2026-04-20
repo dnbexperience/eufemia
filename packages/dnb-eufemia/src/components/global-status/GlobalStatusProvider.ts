@@ -1,8 +1,5 @@
 /**
  * Web GlobalStatus Provider
- *
- * This is a legacy component.
- * For referencing while developing new features, please use a Functional component.
  */
 
 import type { ReactNode } from 'react'

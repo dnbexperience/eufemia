@@ -1,8 +1,5 @@
 /**
- * Web DrawerList Component
- *
- * This is a legacy component.
- * For referencing while developing new features, please use a Functional component.
+ * Web DrawerList Portal Component
  */
 
 import React, { useCallback, useEffect, useRef, useState } from 'react'
