@@ -10,6 +10,8 @@ import { Accordion } from '@dnb/eufemia/src'
 
 This is the migration guide for @dnb/eufemia v11. It covers all breaking changes, removals, and required code updates.
 
+> **Start here →** Follow the [Step-by-step migration procedure](#step-by-step-migration-procedure) for a structured, phase-by-phase migration workflow covering all 8 phases. The reference sections below provide details for each step.
+
 **How to use this guide:** Start with the [Step-by-step migration procedure](#step-by-step-migration-procedure) for the ordered workflow. Reference the [per-component sections](#components) to find individual property renames for a specific component. Check [Silent failures TypeScript won't catch](#silent-failures-typescript-wont-catch) after applying changes.
 
 > **Using AI to migrate?** Set up the [Eufemia MCP server](/uilib/usage/first-steps/tools/#ai-assistance-and-mcp-server-beta) to give your AI agent access to the full v11 API documentation alongside this migration guide.
@@ -97,6 +99,7 @@ This is the migration guide for @dnb/eufemia v11. It covers all breaking changes
 - [TypeScript](#typescript)
 - [Theming](#theming)
 - [Props Type Exports](#props-type-exports)
+- [New in v11](#new-in-v11)
 
 </Accordion>
 
@@ -110,7 +113,7 @@ This is the migration guide for @dnb/eufemia v11. It covers all breaking changes
 - **InputMasked engine replaced** — Switched from text-mask to Maskito. Custom masks using `createNumberMask` or `emailMask` must be updated. See [InputMasked](#inputmasked).
 - **Logo API redesigned** — The `brand`/`variant` props are replaced with an `svg` prop import pattern. See [Logo](#logo).
 - **StepIndicator redesigned** — The sidebar mode has been removed. See [StepIndicator](#stepindicator).
-- **Ajv no longer shipped by default** — If you use JSON Schema validation, you must explicitly provide an Ajv instance. See [Ajv no longer shipped by default](#ajv-no-longer-shipped-by-default).
+- **Ajv no longer auto-instantiated** — Ajv is still a dependency, but is no longer automatically instantiated. If you use JSON Schema validation, you must explicitly create and provide an Ajv instance. See [Ajv no longer auto-instantiated](#ajv-no-longer-auto-instantiated).
 - **Dropdown `actionMenu`/`moreMenu` removed** — The `actionMenu` and `moreMenu` props on Dropdown have been removed. Use the new [Menu](/uilib/components/menu/) component instead.
 - **NumberFormat split into variants** — The generic `<NumberFormat />` component and `format()` utility have been removed. Use variant sub-components like `<NumberFormat.Number />`, `<NumberFormat.Currency />`, etc. See [NumberFormat](#numberformat).
 - **`date-fns` upgraded from v2 to v4** — If you import `date-fns` functions directly (e.g. for DatePicker's `locale` prop), update your imports to use named exports. See [DatePicker](#datepicker).
@@ -118,6 +121,13 @@ This is the migration guide for @dnb/eufemia v11. It covers all breaking changes
 - Several exported TypeScript `interface` declarations have been converted to `type`. This prevents declaration merging but has no impact on standard usage.
 - All React context value types have been renamed to use a consistent `...ContextValue` suffix (e.g. `AccordionContextProps` → `AccordionContextValue`). See [TypeScript](#typescript) for the full list.
 - Event handler and render function prop types have been replaced with properly typed signatures (e.g. `(...args: any[]) => any` → `(event: AccordionChangeEvent) => void`). See [Typed event handlers](#typed-event-handlers) for the full list.
+
+## New in v11
+
+These components are new in v11:
+
+- **[Menu](/uilib/components/menu/)** — A context menu component that replaces Dropdown's `actionMenu` and `moreMenu` props. Supports `Menu.Button`, `Menu.List`, `Menu.Action`, `Menu.Accordion`, `Menu.Header`, and `Menu.Divider` sub-components.
+- **[List](/uilib/components/list/)** — A layout component for displaying structured lists with support for icons, titles, content, and accordion behavior.
 
 ## Install
 
@@ -178,7 +188,7 @@ To help plan your migration, changes are grouped by effort:
 - StepIndicator redesign (sidebar variant removed)
 - DatePicker behavioral changes (segment elements, format strings, focus events)
 - Logo API redesign (`brand`/`variant` → `svg` prop)
-- Ajv no longer shipped by default
+- Ajv no longer auto-instantiated
 - FormRow and FormSet removal
 - Card visual changes (outline, border-radius, default innerSpace)
 - Button `variant="signal"` removal
@@ -391,7 +401,7 @@ These renames use generic names that exist in non-Eufemia code. Scope your find-
 #### Phase 4: Import path and module changes
 
 33. Update all changed import paths. See [Import path changes](#import-path-changes).
-34. If using Ajv with JSON Schema validation, add `ajvInstance={makeAjvInstance()}` to `Form.Handler`. See [Ajv no longer shipped by default](#ajv-no-longer-shipped-by-default).
+34. If using Ajv with JSON Schema validation, add `ajvInstance={makeAjvInstance()}` to `Form.Handler`. See [Ajv no longer auto-instantiated](#ajv-no-longer-auto-instantiated).
 35. Replace `InputPassword` import with `Field.Password` from Eufemia Forms. See [InputPassword moved to Field.Password](#inputpassword-moved-to-fieldpassword).
 36. Replace `StepsLayout` with `Wizard.Container`, `StepsLayout.Step` with `Wizard.Step`, etc.
 
@@ -886,6 +896,8 @@ You can also use `top` and `bottom` individually if you need different values, e
 - Replace `align_autocomplete` with `align`.
 - Replace `on_show` with `onOpen` and `on_hide` with `onClose` (not just a casing change — the event names changed).
 
+<Accordion title="Property, event, and translation renames">
+
 #### Properties
 
 The following properties have been renamed from snake_case to camelCase:
@@ -971,6 +983,8 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `Autocomplete.selected_sr` with `Autocomplete.selectedSr`.
 - Replace `Autocomplete.submit_button_title` with `Autocomplete.submitButtonTitle`.
 
+</Accordion>
+
 #### Styling
 
 - Replace CSS class `dnb-autocomplete--opened` with `dnb-autocomplete--open`.
@@ -998,6 +1012,8 @@ Data object property renames: `selected_value` → `selectedValue`, `suffix_valu
 - Replace `opened` with `open`.
 - Replace `align_dropdown` with `align`.
 - Replace `on_show` with `onOpen` and `on_hide` with `onClose` (not just a casing change — the event names changed).
+
+<Accordion title="Property and event renames">
 
 #### Properties
 
@@ -1051,6 +1067,8 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `on_show_focus` with `onOpenFocus`.
 - Replace `on_hide_focus` with `onCloseFocus`.
 
+</Accordion>
+
 #### Styling
 
 - Replace CSS class `dnb-dropdown--opened` with `dnb-dropdown--open`.
@@ -1060,6 +1078,8 @@ The following properties have been renamed from snake_case to camelCase:
 Data object property renames: `selected_value` → `selectedValue`, `suffix_value` → `suffixValue`, `search_content` → `searchContent`, `class_name` → `className`. See [DrawerList](#drawerlist) for details.
 
 ### [DrawerList](/uilib/components/fragments/drawer-list/)
+
+<Accordion title="Property and event renames">
 
 #### Properties
 
@@ -1108,6 +1128,8 @@ Data object property renames: `selected_value` → `selectedValue`, `suffix_valu
 - Replace `on_resize` with `onResize`.
 - Replace `on_select` with `onSelect`.
 
+</Accordion>
+
 #### Styling
 
 - Replace CSS class `dnb-drawer-list--opened` with `dnb-drawer-list--open`.
@@ -1140,6 +1162,8 @@ Data object property renames: `selected_value` → `selectedValue`, `suffix_valu
 - The deprecated `onStateUpdate` prop has been removed. Use `onChange` instead.
 - Replace `clear` with `showClearButton`.
 - Replace `input_class` with `inputClassName` (note the name change, not just casing).
+
+<Accordion title="Property, event, and translation renames">
 
 #### Properties
 
@@ -1183,6 +1207,8 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `Input.submit_button_title` with `Input.submitButtonTitle`.
 - Replace `Input.clear_button_title` with `Input.clearButtonTitle`.
 
+</Accordion>
+
 #### SubmitButton
 
 - Replace `icon_size` with `iconSize`.
@@ -1200,6 +1226,8 @@ New props added:
 
 - `allowOverflow` – allow typing beyond the defined mask length.
 - `overwriteMode` – control how overwriting characters is handled (`shift` or `replace`).
+
+<Accordion title="Property and event renames">
 
 #### Properties
 
@@ -1244,6 +1272,8 @@ New props added:
 - Replace `on_blur` with `onBlur`.
 - Replace `on_submit_focus` with `onSubmitFocus`.
 - Replace `on_submit_blur` with `onSubmitBlur`.
+
+</Accordion>
 
 #### Deprecations and removals
 
@@ -1683,6 +1713,8 @@ render(<Logo svg={SbankenCompact} />)
 - Replace `openState` with `open`. Replace `openState="opened"` with `open={true}` and `openState="closed"` with `open={false}`.
 - If you rely on opening and closing a modal by mounting and unmounting the component (legacy behavior), you should change to using the `open` property instead.
 
+<Accordion title="Property, event, and translation renames">
+
 #### Properties
 
 The following properties have been renamed from snake_case to camelCase:
@@ -1738,6 +1770,8 @@ The following properties have been renamed from snake_case to camelCase:
 
 - Replace `Modal.dialog_title` with `Modal.dialogTitle`.
 - Replace `Modal.close_title` with `Modal.closeTitle`.
+
+</Accordion>
 
 ### [Modal.Header](/uilib/components/modal/), [Dialog.Header](/uilib/components/dialog/) and [Drawer.Header](/uilib/components/drawer/)
 
@@ -1872,6 +1906,8 @@ The following properties have been renamed from snake_case to camelCase:
 
 ### [Pagination](/uilib/components/pagination/)
 
+<Accordion title="Property, event, and translation renames">
+
 #### Properties
 
 - Replace `place_maker_before_content` with `placeMarkerBeforeContent`.
@@ -1921,6 +1957,8 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `Pagination.more_pages` with `Pagination.morePages`.
 - Replace `Pagination.is_loading_text` with `Pagination.isLoadingText`.
 - Replace `Pagination.load_button_text` with `Pagination.loadButtonText`.
+
+</Accordion>
 
 #### InfinityLoadButton & InfinityLoadButtonProps
 
@@ -1987,6 +2025,8 @@ The following properties have been renamed from snake_case to camelCase:
   ;<DatePicker locale={nb} />
   ```
 
+<Accordion title="Property, event, and event return object renames">
+
 #### Properties
 
 In addition to the behavioral changes above, the following properties have been renamed from snake_case to camelCase:
@@ -2049,6 +2089,8 @@ The following properties on the event callback return object have been renamed:
 - Replace `is_valid` with `isValid`.
 - Replace `is_valid_start_date` with `isValidStartDate`.
 - Replace `is_valid_end_date` with `isValidEndDate`.
+
+</Accordion>
 
 #### Styling
 
@@ -2297,6 +2339,8 @@ The returned `parts` shape is unchanged. `parts` are now derived from the format
 
 ### [GlobalStatus](/uilib/components/global-status/)
 
+<Accordion title="Property, event, translation, and sub-component renames">
+
 #### Properties
 
 - Replace `icon_size` with `iconSize`.
@@ -2381,6 +2425,8 @@ The returned `parts` shape is unchanged. `parts` are now derived from the format
 - Replace `on_show` with `onShow`.
 - Replace `on_hide` with `onHide`.
 - Replace `on_close` with `onClose`.
+
+</Accordion>
 
 ### [CopyOnClick](/uilib/components/copy-on-click/)
 
@@ -2526,9 +2572,9 @@ All IE- and legacy-Edge-specific CSS rules have been removed from `reset.scss` a
 
 Docs: [Eufemia Forms](/uilib/extensions/forms/)
 
-### Ajv no longer shipped by default
+### Ajv no longer auto-instantiated
 
-**Breaking Change**: Ajv is no longer included as a dependency in Eufemia Forms v11. This reduces bundle size for applications that don't use JSON Schema validation.
+**Breaking Change**: Ajv is no longer automatically instantiated in Eufemia Forms v11. The `ajv` package is still included as a dependency, but Eufemia Forms no longer creates an Ajv instance for you. You must explicitly create one using `makeAjvInstance()` and pass it to `Form.Handler`. This enables tree-shaking of Ajv for applications that don't use JSON Schema validation.
 
 **Migration Required**: If you use JSON Schema validation with Ajv, you must:
 
