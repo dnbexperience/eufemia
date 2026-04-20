@@ -51,12 +51,16 @@
 
       &__button {
         display: unset;
+
+        // Prevent checkbox state styles from leaking — toggle-button handles its own states
+        border-color: inherit;
+        transition: none;
       }
 
       &__focus,
       &__button {
-        width: calc(var(--checkbox-width--medium) - 0.5rem);
-        height: calc(var(--checkbox-height--medium) - 0.5rem);
+        width: calc(var(--checkbox-width--medium) - 0.25rem);
+        height: calc(var(--checkbox-height--medium) - 0.25rem);
 
         // We used this before for more precise sizing
         border-width: 0.0625rem; // to get 1.5px we use 1px here, and 0.5px with box-shadow
@@ -68,8 +72,8 @@
       }
 
       &__gfx {
-        width: calc(var(--checkbox-width--medium) - 0.75rem);
-        height: calc(var(--checkbox-height--medium) - 0.75rem);
+        width: calc(var(--checkbox-width--medium) - 0.5rem);
+        height: calc(var(--checkbox-height--medium) - 0.5rem);
       }
     }
 
