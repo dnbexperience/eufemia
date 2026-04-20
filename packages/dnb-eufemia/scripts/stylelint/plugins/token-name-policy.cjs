@@ -126,6 +126,8 @@ const messages = stylelint.utils.ruleMessages(RULE_NAME, {
     `Missing token "${prop}" in "${theme}" tokens.scss. All brand tokens.scss files must contain the same tokens.`,
   sassHexRgba: (value) =>
     `Unexpected Sass rgba hex usage "${value}". Use CSS channel notation, e.g. rgba(0 0 0 / 40%).`,
+  tokenInGlobalScope: (ref, selector) =>
+    `Unexpected token reference "${ref}" inside "${selector}". Design tokens must not be used in :root, html, or body selectors, in order to support scoped dark mode.`,
 })
 
 const normalizePath = (filePath) => {
@@ -349,7 +351,45 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
       }
     }
 
+    const GLOBAL_SCOPE_SELECTOR_REGEX = /^(:root|html|body)$/i
+
     root.walkDecls((decl) => {
+      if (!shouldValidateTokenDeclarationPrefix) {
+        const ruleNode = decl.parent
+        if (
+          ruleNode?.type === 'rule' &&
+          GLOBAL_SCOPE_SELECTOR_REGEX.test(ruleNode.selector?.trim())
+        ) {
+          const tokenReferenceRegex =
+            tokenPrefix === DEFAULT_POLICY.tokenPrefix
+              ? TOKEN_REFERENCE_REGEX
+              : createTokenReferenceRegex(tokenPrefix)
+          const singleTokenReferenceRegex =
+            tokenPrefix === DEFAULT_POLICY.tokenPrefix
+              ? SINGLE_TOKEN_REFERENCE_REGEX
+              : createTokenReferenceRegex(tokenPrefix, 'i')
+          const tokenReferences =
+            decl.value?.match(tokenReferenceRegex) || []
+
+          for (const match of tokenReferences) {
+            const referenceMatch = match.match(singleTokenReferenceRegex)
+            const variableReference = referenceMatch?.[1]
+
+            if (variableReference) {
+              stylelint.utils.report({
+                result,
+                ruleName: RULE_NAME,
+                node: decl,
+                message: messages.tokenInGlobalScope(
+                  variableReference,
+                  ruleNode.selector.trim()
+                ),
+              })
+            }
+          }
+        }
+      }
+
       if (disallowSassHexRgba && SASS_HEX_RGBA_REGEX.test(decl.value)) {
         stylelint.utils.report({
           result,
