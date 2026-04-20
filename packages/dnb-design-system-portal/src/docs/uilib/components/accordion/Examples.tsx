@@ -22,18 +22,10 @@ import {
 
 export const AccordionDefaultExample = () => (
   <ComponentBox data-visual-test="accordion-default">
-    <Accordion
-      expanded
-      id="single-accordion"
-      title="Accordion title"
-    >
+    <Accordion expanded id="single-accordion" title="Accordion title">
       <P>Accordion content</P>
     </Accordion>
-    <Accordion.Provider
-      top
-      icon="chevron_down"
-      iconPosition="right"
-    >
+    <Accordion.Provider top icon="chevron_down" iconPosition="right">
       <Accordion id="single-provider-accordion" title="Accordion title">
         <P>Accordion content</P>
       </Accordion>
