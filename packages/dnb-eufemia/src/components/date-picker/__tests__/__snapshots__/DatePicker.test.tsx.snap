@@ -1734,7 +1734,6 @@ html[data-visual-test] .dnb-input__input {
   display: inline-block;
   border: var(--checkbox-border-width) solid var(--checkbox-color-border-off);
   background-color: var(--checkbox-color-background-off);
-  transition: background-color 100ms ease-out, border-color 100ms ease-out;
 }
 .dnb-checkbox__focus {
   display: none;
