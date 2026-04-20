@@ -2060,6 +2060,7 @@ Notes:
 - `compact` is still supported on `NumberFormat.Number` and `NumberFormat.Currency`. Pass `compact` (short), `compact="long"` or `compact="short"` to pick the style.
 - `NumberFormat.PhoneNumber` still supports `link="tel" | "sms"` for clickable links.
 - The `Provider` context key `NumberFormat` (e.g. `<Provider NumberFormat={{ currency: true, decimals: 0 }}>`) and the `NumberFormatProps` TypeScript type are still available for shared configuration.
+- Each variant only accepts the props relevant to it. `NumberFormat.Number` and `NumberFormat.Percent` do **not** accept `currency`, `currencyDisplay`, or `currencyPosition` — use `NumberFormat.Currency` for those. Passing currency-related props to `NumberFormat.Number` will cause a TypeScript error.
 
 #### Utility formatter API (`format` removed)
 
@@ -2075,6 +2076,7 @@ Notes:
 | `format(value, { currency: true })`  | `formatCurrency(value)`                      |
 | `format(value, { currency: 'USD' })` | `formatCurrency(value, { currency: 'USD' })` |
 | `format(value)`                      | `formatNumber(value)`                        |
+| `formatPlainNumber(value)`           | `formatNumber(value)`                        |
 
 ```tsx
 // Before
