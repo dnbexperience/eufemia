@@ -1,6 +1,6 @@
 @mixin imgStyle() {
   &[alt]::after {
-    color: var(--token-color-text-neutral-onlight);
+    color: var(--token-color-text-neutral);
     background-color: var(--token-color-background-neutral-base);
   }
 }
@@ -9,7 +9,7 @@
   @include imgStyle();
 
   &__img--error {
-    color: var(--token-color-text-neutral-onlight);
+    color: var(--token-color-text-neutral);
     background-color: var(--token-color-background-neutral-base);
   }
 }
