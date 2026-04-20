@@ -51,15 +51,23 @@
   --drawer-list-height--small: 1.5rem;
   --drawer-list-height--medium: 2.5rem;
   --drawer-list-height--large: 3rem;
-  --drawer-list-option-inner-background: var(--color-white);
-  --drawer-list-list-background: var(--color-white);
+  --drawer-list-option-inner-background: var(
+    --token-color-background-neutral
+  );
+  --drawer-list-list-background: var(--token-color-background-neutral);
   --drawer-list-list-line-height: var(--line-height-basis);
   // Disabled option
-  --drawer-list-option-disabled-background: var(--color-white);
-  --drawer-list-option-disabled-color: var(--color-black-20);
+  --drawer-list-option-disabled-background: var(
+    --token-color-background-neutral
+  );
+  --drawer-list-option-disabled-color: var(
+    --token-color-text-action-disabled
+  );
   // Group
-  --drawer-list-group-title-color: var(--color-black-80); // TODO: theme
-  --drawer-list-group-title-bg: var(--color-lavender); // TODO: theme
+  --drawer-list-group-title-color: var(--token-color-text-neutral);
+  --drawer-list-group-title-bg: var(
+    --token-color-background-neutral-alternative
+  );
 
   display: block; // has to be block element so we can se the content
   position: relative;
@@ -149,7 +157,6 @@
     padding: 0;
 
     list-style: none;
-    background-color: transparent;
   }
 
   &--scroll &__options {
@@ -198,11 +205,11 @@
 
     margin: 0;
     padding: 0;
-    color: inherit;
+    color: var(--token-color-text-neutral);
 
     outline: none;
 
-    background-color: var(--color-white);
+    background-color: var(--drawer-list-list-background);
 
     &__inner {
       position: relative;
@@ -307,8 +314,7 @@
       height: calc(var(--drawer-list-height) / 2);
       transform: translateY(60%) rotate(45deg);
 
-      border: 1px solid var(--color-black-border);
-      background-color: var(--color-white);
+      background-color: var(--drawer-list-list-background);
     }
   }
   &--arrow-position-left &__arrow {
@@ -318,8 +324,8 @@
   &--top &__arrow {
     top: auto;
     bottom: calc(
-      var(--drawer-list-focus-border-width) - var(--drawer-list-height) /
-        2 - 2px
+      var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2 -
+        2px
     );
     transform: rotate(180deg);
     &::before {
