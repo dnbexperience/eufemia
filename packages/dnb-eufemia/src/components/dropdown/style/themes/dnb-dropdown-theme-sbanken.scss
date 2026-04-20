@@ -4,27 +4,21 @@
 */
 
 @use '../../../../style/core/utilities.scss' as utilities;
-@use '../../../button/style/themes/button-mixins.scss' as button-mixins;
 
 .dnb-dropdown {
   --dropdown-border-radius: 0.5rem;
   --dropdown-height: 2.5rem;
-  --dropdown-error-border-width: 0.125rem;
   --dropdown-button-padding: 0 0.75rem 0 0.5rem;
-  --dropdown-foreground-color-primary: var(--sb-color-gray-dark-2);
-  --dropdown-foreground-color-error: var(--sb-color-red);
-  --dropdown-background-color-disabled: var(--sb-color-gray-light);
-  --dropdown-background-color-error-active: var(--sb-color-white);
-  --dropdown-sb-icon-color--default: var(--sb-color-text);
-  --dropdown-sb-icon-color--hover: var(--sb-color-violet);
-  --dropdown-sb-icon-color--active: inherit;
-  --dropdown-sb-icon-color--focus: inherit;
+  --dropdown-sb-icon-color--default: var(--token-color-icon-action);
+  --dropdown-sb-icon-color--hover: var(--token-color-icon-action-hover);
+  --dropdown-sb-icon-color--active: var(--token-color-icon-action-pressed);
+  --dropdown-sb-icon-color--focus: var(--token-color-icon-action-focus);
   --dropdown-error-border-inset: inset;
 
   &__icon {
     color: var(
       --dropdown-sb-icon-color,
-      --dropdown-sb-icon-color--default
+      var(--dropdown-sb-icon-color--default)
     );
   }
 
@@ -40,9 +34,6 @@
     }
 
     &:not(.dnb-button__status--error) {
-      --button-color-text--disabled: var(--sb-color-gray-dark-2);
-      --button-color-bg--disabled: var(--sb-color-gray-light);
-
       @include utilities.hover() {
         --dropdown-sb-icon-color: var(--dropdown-sb-icon-color--hover);
       }
@@ -54,17 +45,8 @@
       }
 
       &.dnb-button--secondary {
-        --button-color-text--default: var(--sb-color-gray-dark-3);
-        --button-color-bg--hover: var(--sb-color-white);
-        --button-color-border--default: var(
-          --dropdown-foreground-color-primary
-        );
-        --button-color-border--hover: var(--sb-color-violet);
-        --button-color-text--hover: var(--sb-color-gray-dark-3);
-
-        @include button-mixins.buttonFocus(
-          var(--sb-color-blue-dark),
-          var(--sb-color-blue-light-3)
+        --button-color-border--hover: var(
+          --token-color-stroke-action-hover
         );
       }
     }
@@ -72,29 +54,20 @@
 
   &--open &__trigger {
     --button-border-inset--hover: inset;
-  }
-
-  &__trigger.dnb-button--active {
     --button-border-width--default: 0.125rem;
     border-radius: var(--dropdown-border-radius)
       var(--dropdown-border-radius) 0 0;
   }
 
   &__trigger[disabled] {
-    @include utilities.fakeBorder(
-      var(--dropdown-foreground-color-primary)
-    );
-
     .dnb-dropdown__icon {
       color: inherit;
     }
   }
 
   // When it opens upwards
-  &--top {
-    .dnb-dropdown__trigger.dnb-button--active {
-      border-radius: 0 0 var(--dropdown-border-radius)
-        var(--dropdown-border-radius);
-    }
+  &--open#{&}--top &__trigger {
+    border-radius: 0 0 var(--dropdown-border-radius)
+      var(--dropdown-border-radius);
   }
 }

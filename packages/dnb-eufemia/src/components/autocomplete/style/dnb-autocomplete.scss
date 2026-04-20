@@ -71,6 +71,8 @@
   }
 
   &__show-all {
+    color: var(--token-color-text-action);
+
     .dnb-drawer-list__option__inner {
       display: flex;
       justify-content: center;

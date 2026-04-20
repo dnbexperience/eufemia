@@ -18,10 +18,6 @@
   --dropdown-text-padding: 0.5rem;
   --dropdown-button-padding: 0 1rem;
   --dropdown-border-radius: 0.25rem;
-  --dropdown-foreground-color-primary: var(--color-black-55);
-  --dropdown-foreground-color-error: var(--color-fire-red);
-  --dropdown-background-color-disabled: var(--color-black-3);
-  --dropdown-background-color-error-active: var(--color-fire-red-8);
   --dropdown-error-border-inset: ;
 
   display: inline-flex;
@@ -75,6 +71,20 @@
     user-select: none; // Safari / Touch fix
 
     width: 100%;
+
+    --button-color-bg--disabled: var(
+      --token-color-background-neutral-subtle
+    );
+    --button-color-border--disabled: var(
+      --token-color-stroke-action-disabled
+    );
+    --button-color-text--disabled: var(
+      --token-color-text-neutral-alternative
+    );
+
+    &.dnb-button__status--error {
+      --button-color-border--default: var(--token-color-stroke-error);
+    }
 
     &.dnb-button {
       padding: var(--dropdown-button-padding);
@@ -146,10 +156,6 @@
     left: 0.5rem;
   }
 
-  .dnb-button--tertiary.dnb-button--active {
-    box-shadow: none;
-  }
-
   .dnb-button--tertiary .dnb-button__text {
     margin: 0 0.5rem;
 
@@ -167,32 +173,26 @@
     padding: 0;
   }
 
-  &__status--error#{&}--open
-    &__trigger:not(
-      [disabled]
-    ).dnb-button--secondary.dnb-button__status--error {
-    @include utilities.fakeBorder(
-      var(--dropdown-foreground-color-error),
-      var(--dropdown-error-border-width),
-      var(--dropdown-error-border-inset)
-    );
-  }
-  &__status--error#{&}--open &__trigger {
+  &--open &__trigger:not([disabled]).dnb-button--secondary {
+    --button-border-inset--default: var(--dropdown-error-border-inset);
     --border-width: var(--dropdown-error-border-width);
+
+    &:not(.dnb-button__status--error) {
+      --button-color-border--default: var(
+        --token-color-stroke-action-pressed
+      );
+    }
   }
-  &__status--error:not(#{&}--open)
-    &__trigger:not([disabled]):not(:focus, :focus-visible) {
-    color: var(--dropdown-foreground-color-error);
-  }
+
   &__status--error .dnb-button--tertiary {
     @include button-mixins.buttonFocusRing('always');
 
     &::before {
-      --border-color: var(--dropdown-foreground-color-error);
+      --border-color: var(--token-color-stroke-error);
       --border-width: 0.0625rem;
     }
     &:disabled::before {
-      --border-color: var(--color-sea-green-30);
+      --border-color: var(--token-color-stroke-action-disabled);
     }
   }
   .dnb-button--tertiary[disabled] {

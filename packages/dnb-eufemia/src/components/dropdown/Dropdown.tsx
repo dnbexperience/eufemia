@@ -568,7 +568,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
   })
 
   const triggerParams = {
-    className: clsx('dnb-dropdown__trigger', open && 'dnb-button--active'),
+    className: 'dnb-dropdown__trigger',
     id,
     disabled,
     'aria-haspopup': handleAsMenu ? true : 'listbox',
