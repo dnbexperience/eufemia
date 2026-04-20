@@ -485,10 +485,7 @@ export function prerenderIcon(
   }
 
   if (typeof icon === 'function') {
-    return (props?: IconSVGProps) => {
-      const IconComponent = icon as React.ComponentType<IconSVGProps>
-      return <IconComponent {...props} />
-    }
+    return icon as (props?: IconSVGProps) => React.JSX.Element
   }
 
   if (React.isValidElement(icon) || Array.isArray(icon)) {

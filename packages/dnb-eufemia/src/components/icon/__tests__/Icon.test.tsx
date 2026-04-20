@@ -239,6 +239,31 @@ describe('Icon component', () => {
     )
   })
 
+  it('should preserve SVG DOM elements across re-renders when icon is a function', () => {
+    function MyIcon() {
+      return (
+        <>
+          <svg data-testid="icon-a" width={16} height={16}>
+            <path d="M0 0h16v16H0z" />
+          </svg>
+          <svg data-testid="icon-b" width={16} height={16}>
+            <path d="M0 0h16v16H0z" />
+          </svg>
+        </>
+      )
+    }
+
+    const { rerender } = render(<Icon icon={MyIcon} />)
+
+    const svgBefore = document.querySelector('[data-testid="icon-a"]')
+    expect(svgBefore).toBeInTheDocument()
+
+    rerender(<Icon icon={MyIcon} />)
+
+    const svgAfter = document.querySelector('[data-testid="icon-a"]')
+    expect(svgAfter).toBe(svgBefore)
+  })
+
   it('should validate with ARIA rules', async () => {
     const Comp = render(<Icon {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
