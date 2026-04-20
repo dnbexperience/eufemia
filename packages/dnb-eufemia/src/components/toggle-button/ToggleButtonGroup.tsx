@@ -15,7 +15,7 @@ import {
   dispatchCustomElementEvent,
   removeUndefinedProps,
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import FormLabel from '../FormLabel'
 import FormStatus from '../FormStatus'
@@ -192,15 +192,16 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
 
   const showStatus = getStatusState(status)
 
-  const classes = clsx(
-    'dnb-toggle-button-group',
-    status && `dnb-toggle-button-group__status--${statusState}`,
-    !label && 'dnb-toggle-button-group--no-label',
-    `dnb-toggle-button-group--${layoutDirection}`,
-    'dnb-form-component',
-    createSpacingClasses(props),
-    className
-  )
+  const rootProps = applySpacing(props, {
+    className: clsx(
+      'dnb-toggle-button-group',
+      status && `dnb-toggle-button-group__status--${statusState}`,
+      !label && 'dnb-toggle-button-group--no-label',
+      `dnb-toggle-button-group--${layoutDirection}`,
+      'dnb-form-component',
+      className
+    ),
+  })
 
   const params = {
     ...rest,
@@ -264,7 +265,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
 
   return (
     <ToggleButtonGroupContext value={groupContext}>
-      <div className={classes}>
+      <div {...rootProps}>
         <AlignmentHelper />
         <Fieldset
           className="dnb-toggle-button-group__fieldset"

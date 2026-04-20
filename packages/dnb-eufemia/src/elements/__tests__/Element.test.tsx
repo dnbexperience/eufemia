@@ -41,8 +41,8 @@ describe('Element', () => {
     const element = document.querySelector('.dnb-p')
 
     expect(Array.from(element.classList)).toEqual([
-      'dnb-space__top--medium',
       'dnb-p',
+      'dnb-space__top--medium',
     ])
 
     const attributes = Array.from(element.attributes).map(

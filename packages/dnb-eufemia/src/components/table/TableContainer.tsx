@@ -2,7 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import type { TableScrollViewProps } from './TableScrollView'
 import TableScrollView from './TableScrollView'
-import { createSpacingClasses } from '../space/SpacingUtils'
+import { applySpacing } from '../space/SpacingUtils'
 
 import type { TableProps } from './Table'
 import type { SpacingProps } from '../../shared/types'
@@ -35,9 +35,13 @@ type InternalTableContainerTableScrollView = Omit<
 
 export default function TableContainer(props: TableContainerAllProps) {
   const { children, className, ...rest } = props
-  const spacingClasses = createSpacingClasses(props)
 
   validateDOMAttributes(props, rest)
+
+  const sectionProps = applySpacing(props, {
+    className: clsx('dnb-table__container', className),
+    ...rest,
+  })
 
   const ScrollView = TableScrollView as (
     props: InternalTableContainerTableScrollView
@@ -54,10 +58,7 @@ export default function TableContainer(props: TableContainerAllProps) {
   }
 
   return (
-    <section
-      className={clsx('dnb-table__container', className, spacingClasses)}
-      {...rest}
-    >
+    <section {...sectionProps}>
       <ScrollView>{content}</ScrollView>
     </section>
   )

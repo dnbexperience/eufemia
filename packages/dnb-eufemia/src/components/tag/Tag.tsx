@@ -20,7 +20,7 @@ import {
 // Internal
 import TagGroup from './TagGroup'
 import { TagGroupContext } from './TagContext'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 
 export type TagProps = {
   /**
@@ -134,14 +134,14 @@ const Tag = (
 
   const addIcon = usedVariant === 'removable' || variant === 'addable'
   const isInteractive = usedVariant !== 'default'
-  const spacingClasses = createSpacingClasses(props)
-  const tagClassNames = clsx(
-    'dnb-tag',
-    className,
-    spacingClasses,
-    isInteractive && 'dnb-tag--interactive',
-    `dnb-tag--${usedVariant}`
-  )
+  const tagProps = applySpacing(props, {
+    className: clsx(
+      'dnb-tag',
+      className,
+      isInteractive && 'dnb-tag--interactive',
+      `dnb-tag--${usedVariant}`
+    ),
+  })
   const additionalButtonParams: Pick<ButtonProps, 'element' | 'type'> = {}
 
   const isDeleteKeyboardEvent = (keyboardEvent) => {
@@ -177,7 +177,7 @@ const Tag = (
           : icon
       }
       iconPosition={addIcon ? 'right' : 'left'}
-      className={tagClassNames}
+      {...tagProps}
       onClick={onClick as ButtonOnClick}
       text={content}
       skeleton={skeleton}

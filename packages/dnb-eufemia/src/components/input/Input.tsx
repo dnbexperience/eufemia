@@ -29,7 +29,7 @@ import {
   convertJsxToString,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -623,7 +623,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
       ? 'medium'
       : iconSize
 
-  const mainParams = {
+  const mainParams = applySpacing(props, {
     className: clsx(
       'dnb-input',
       'dnb-input__border--tokens',
@@ -642,12 +642,11 @@ function InputComponent({ ref, ...restProps }: InputProps) {
       stretch && `dnb-input--stretch`,
       keepPlaceholder && 'dnb-input--keep-placeholder',
       'dnb-form-component',
-      createSpacingClasses(props),
       className
     ),
     'data-input-state': usedInputState,
     'data-has-content': hasVal ? 'true' : 'false',
-  }
+  })
 
   const innerParams = {
     className: 'dnb-input__inner',

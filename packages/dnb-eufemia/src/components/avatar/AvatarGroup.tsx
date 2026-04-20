@@ -2,7 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 
 // Components
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import type { AvatarSizes, AvatarVariants } from './Avatar'
 
 // Shared
@@ -134,17 +134,18 @@ const AvatarGroup = (localProps: AvatarGroupAllProps) => {
       ))
   }
 
-  const spacingClasses = createSpacingClasses(props)
+  const rootProps = applySpacing(props, {
+    className: clsx('dnb-avatar__group', className),
+  })
+
+  // validateDOMAttributes mutates props, so call it after applySpacing
   const { skeleton, ...attributes } = validateDOMAttributes({}, props)
 
   return (
     <AvatarGroupContext
       value={{ ...props, variant, size, color, backgroundColor }}
     >
-      <span
-        className={clsx('dnb-avatar__group', spacingClasses, className)}
-        {...attributes}
-      >
+      <span {...rootProps} {...attributes}>
         <span className="dnb-sr-only">{label}</span>
 
         {children}

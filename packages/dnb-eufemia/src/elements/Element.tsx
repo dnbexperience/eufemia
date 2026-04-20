@@ -10,7 +10,7 @@ import {
   validateDOMAttributes,
   extendPropsWithContext,
 } from '../shared/component-helper'
-import { createSpacingClasses } from '../components/space/SpacingHelper'
+import { applySpacing } from '../components/space/SpacingUtils'
 import type { SkeletonMethods } from '../components/skeleton/SkeletonHelper'
 import {
   createSkeletonClass,
@@ -80,28 +80,36 @@ function Element(localProps: ElementAllProps) {
   const internalClassName = clsx(
     !new RegExp(`${tagClass}(\\s|$)`).test(String(className)) && tagClass,
     className,
-    createSkeletonClass(skeletonMethod, skeleton, context),
-    createSpacingClasses(
-      attributes,
-      typeof Tag === 'string' ? `dnb-${Tag}` : null
-    )
+    createSkeletonClass(skeletonMethod, skeleton, context)
   )
 
-  validateDOMAttributes(null, attributes)
+  // applySpacing must be called before validateDOMAttributes
+  // because the validator removes non-DOM attributes like spacing props
+  const params = applySpacing(
+    attributes,
+    { ...attributes, className: internalClassName },
+    typeof Tag === 'string' ? `dnb-${Tag}` : null
+  )
 
-  skeletonDOMAttributes(attributes, skeleton, context)
+  validateDOMAttributes(null, params)
+
+  skeletonDOMAttributes(params, skeleton, context)
 
   const isFragment = Tag === React.Fragment
 
   if (!isFragment && typeof Tag !== 'function' && ref) {
-    attributes.ref = ref
+    ;(params as Record<string, unknown>).ref = ref
   }
 
   if (isFragment) {
-    return <>{attributes.children as React.ReactNode}</>
+    return (
+      <>
+        {(params as Record<string, unknown>).children as React.ReactNode}
+      </>
+    )
   }
 
-  return <Tag className={internalClassName} {...attributes} />
+  return <Tag {...params} />
 }
 
 export default Element

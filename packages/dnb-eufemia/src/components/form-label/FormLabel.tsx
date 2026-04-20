@@ -10,7 +10,7 @@ import {
   extendPropsWithContext,
   validateDOMAttributes,
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import {
   createSkeletonClass,
   skeletonDOMAttributes,
@@ -92,24 +92,24 @@ function FormLabel(localProps: FormLabelAllProps) {
     (typeof props.onClick === 'function' || forId)
   )
 
-  const params = {
-    className: clsx(
-      'dnb-form-label',
-      (vertical ||
-        (vertical !== false && labelDirection !== 'horizontal')) &&
-        `dnb-form-label--vertical`,
-      srOnly && 'dnb-sr-only',
-      size && `dnb-h--${size}`,
-      isInteractive && 'dnb-form-label--interactive',
-      createSkeletonClass('font', skeleton, context),
-      createSpacingClasses(
-        content ? { right: 'small', ...props } : omitSpacingProps(props)
+  const params = applySpacing(
+    content ? { right: 'small', ...props } : omitSpacingProps(props),
+    {
+      className: clsx(
+        'dnb-form-label',
+        (vertical ||
+          (vertical !== false && labelDirection !== 'horizontal')) &&
+          `dnb-form-label--vertical`,
+        srOnly && 'dnb-sr-only',
+        size && `dnb-h--${size}`,
+        isInteractive && 'dnb-form-label--interactive',
+        createSkeletonClass('font', skeleton, context),
+        className
       ),
-      className
-    ),
-    htmlFor: forId,
-    ...(attributes as DynamicElementParams),
-  }
+      htmlFor: forId,
+      ...(attributes as DynamicElementParams),
+    }
+  )
 
   const labelRef = useRef<HTMLLabelElement>(null)
 

@@ -5,8 +5,7 @@ import {
   validateDOMAttributes,
   combineLabelledBy,
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
-import { createSpacingProperties } from '../space/SpacingUtils'
+import { applySpacing } from '../space/SpacingUtils'
 import Section from '../section/Section'
 import {
   createSharedState,
@@ -136,17 +135,22 @@ export default function ContentWrapper({
             }
           : 'div') as DynamicElement
       }
-      className={clsx(
-        'dnb-tabs__content',
-        'dnb-no-focus',
-        !contentStyle && resolvedInnerSpace && 'dnb-space',
-        createSpacingClasses(rest)
+      {...applySpacing(
+        {
+          ...rest,
+          innerSpace:
+            !contentStyle && resolvedInnerSpace
+              ? resolvedInnerSpace
+              : undefined,
+        },
+        {
+          className: clsx(
+            'dnb-tabs__content',
+            'dnb-no-focus',
+            !contentStyle && resolvedInnerSpace && 'dnb-space'
+          ),
+        }
       )}
-      style={
-        !contentStyle && resolvedInnerSpace
-          ? createSpacingProperties({ innerSpace: resolvedInnerSpace })
-          : undefined
-      }
       duration={600}
       animate={animate === true}
       {...params}

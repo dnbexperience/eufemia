@@ -4,9 +4,7 @@
  */
 
 import React, { useContext } from 'react'
-import clsx from 'clsx'
-
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import Card from '../Card'
 import CardContext from '../card/CardContext'
 import StepIndicatorTriggerButton from './StepIndicatorTriggerButton'
@@ -147,10 +145,9 @@ function StepIndicator({
       <div className="dnb-step-indicator-wrapper">
         <Card
           align="stretch"
-          className={clsx(
-            'dnb-step-indicator',
-            createSpacingClasses(restOfProps)
-          )}
+          {...applySpacing(restOfProps, {
+            className: 'dnb-step-indicator',
+          })}
           backgroundColor="var(--step-indicator-trigger-content-background)"
           outset={outset}
         >

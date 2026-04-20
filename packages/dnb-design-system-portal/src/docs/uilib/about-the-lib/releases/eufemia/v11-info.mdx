@@ -3131,4 +3131,40 @@ For example, update:
 
 An ESLint rule (`naming-conventions/no-bare-props-export`) is now enforced to prevent re-introducing bare `Props` exports.
 
+## `createSpacingClasses` replaced with `applySpacing`
+
+The internal spacing helper `createSpacingClasses` has been removed and replaced by `applySpacing` that returns both the spacing CSS classes and any CSS custom properties in one call:
+
+- `applySpacing(props, target)` – merges spacing into an existing props object (append to `className`, merge into `style`). Recommended for most component root elements.
+
+It is re-exported from `@dnb/eufemia/components/space/SpacingUtils`.
+
+Migrate usages as shown below.
+
+**Before (v10):**
+
+```tsx
+import { createSpacingClasses } from '@dnb/eufemia/components/space/SpacingUtils'
+
+const mainParams = {
+  className: clsx(
+    'dnb-my-component',
+    createSpacingClasses(props),
+    className
+  ),
+}
+```
+
+**After (v11):**
+
+```tsx
+import { applySpacing } from '@dnb/eufemia/components/space/SpacingUtils'
+
+const mainParams = applySpacing(props, {
+  className: clsx('dnb-my-component', className),
+})
+```
+
+The output CSS classes (`dnb-space__top--large`, etc.) are unchanged, so no styling needs to be updated.
+
 _January 23, 2026_

@@ -454,8 +454,8 @@ describe('ToggleButton group component', () => {
       'dnb-toggle-button-group',
       'dnb-toggle-button-group--row',
       'dnb-form-component',
-      'dnb-space__top--large',
       'dnb-toggle-button-group--no-label',
+      'dnb-space__top--large',
     ])
   })
 

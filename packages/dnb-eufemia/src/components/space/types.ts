@@ -83,12 +83,12 @@ export type SpaceStringValue =
   | SpaceSizeUnionInfinite
 
 export type SpaceType = SpaceStringValue | SpaceRemNumberType | boolean
-export type SpaceTypeAll = SpaceType | SpacingElementProps
+export type SpaceTypeAll = SpaceType | InnerSpacingElementProps
 
 export type SpaceTypeMedia = {
-  small?: SpaceTypeAll
-  medium?: SpaceTypeAll
-  large?: SpaceTypeAll
+  small?: SpaceType | InnerSpacingElementProps
+  medium?: SpaceType | InnerSpacingElementProps
+  large?: SpaceType | InnerSpacingElementProps
 }
 
 export type InnerSpacingElementProps = SpacingElementProps & {
@@ -108,7 +108,7 @@ export type InnerSpaceType =
   | InnerSpaceTypeMedia
 
 export type SpacingProps = SpacingElementProps & {
-  space?: SpaceTypeAll
+  space?: SpaceTypeAll | SpaceTypeMedia
   innerSpace?: SpaceTypeAll | SpaceTypeMedia
 }
 export type SpacingUnknownProps = Record<string, unknown>

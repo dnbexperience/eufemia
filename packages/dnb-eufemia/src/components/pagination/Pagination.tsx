@@ -11,7 +11,7 @@ import {
   extendExistingPropsWithContext,
   removeUndefinedProps,
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 
 import { PaginationIndicator } from './PaginationHelpers'
 import InfinityScroller from './PaginationInfinity'
@@ -363,17 +363,16 @@ const PaginationInstance = React.memo(function PaginationInstance(
 
   // Pagination mode
   if (ctx.pagination.mode === 'pagination') {
-    const mainParams = {
+    const mainParams = applySpacing(props, {
       className: clsx(
         'dnb-pagination',
         align && `dnb-pagination--${align}`,
         paginationBarLayout &&
           `dnb-pagination--layout-${paginationBarLayout}`,
-        createSpacingClasses(props),
         className
       ),
       ...attributes,
-    }
+    })
 
     validateDOMAttributes(props, mainParams)
 

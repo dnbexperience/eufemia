@@ -3,7 +3,7 @@ import React from 'react'
 import clsx from 'clsx'
 
 // Components
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 
 // Shared
@@ -115,11 +115,10 @@ function Badge(localProps: BadgeAllProps) {
     { skeleton: context?.skeleton }
   )
   const { children, className } = allProps
-  const spacingClasses = createSpacingClasses(allProps)
 
   if (children) {
     return (
-      <BadgeRoot className={clsx(spacingClasses)}>
+      <BadgeRoot {...applySpacing(allProps, {})}>
         {children}
         <BadgeElem context={context} {...allProps} className={className} />
       </BadgeRoot>
@@ -130,7 +129,7 @@ function Badge(localProps: BadgeAllProps) {
     <BadgeElem
       context={context}
       {...allProps}
-      className={clsx(spacingClasses, className)}
+      {...applySpacing(allProps, { className })}
     />
   )
 }
@@ -138,12 +137,16 @@ function Badge(localProps: BadgeAllProps) {
 function BadgeRoot({
   children,
   className,
+  style,
 }: {
   children: React.ReactNode
   className?: string
+  style?: React.CSSProperties
 }) {
   return (
-    <span className={clsx('dnb-badge__root', className)}>{children}</span>
+    <span className={clsx('dnb-badge__root', className)} style={style}>
+      {children}
+    </span>
   )
 }
 

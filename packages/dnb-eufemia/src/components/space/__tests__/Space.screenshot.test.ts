@@ -70,11 +70,13 @@ describe('Space', () => {
   })
 })
 
-// eslint-disable-next-line jest/no-identical-title
-describe('Space', () => {
+describe('Space inner spacing breakpoints', () => {
+  setupPageScreenshot({
+    url: '/uilib/layout/space/demos/',
+  })
+
   it('have to match inner spacing on "small" breakpoint', async () => {
     const screenshot = await makeScreenshot({
-      url: '/uilib/layout/space/demos/',
       pageViewport: {
         width: 400,
       },
@@ -85,7 +87,6 @@ describe('Space', () => {
 
   it('have to match inner spacing on "medium" breakpoint', async () => {
     const screenshot = await makeScreenshot({
-      url: '/uilib/layout/space/demos/',
       pageViewport: {
         width: 800,
       },
@@ -96,11 +97,131 @@ describe('Space', () => {
 
   it('have to match inner spacing on "large" breakpoint', async () => {
     const screenshot = await makeScreenshot({
-      url: '/uilib/layout/space/demos/',
       pageViewport: {
         width: 1000,
       },
       selector: '[data-visual-test="inner-spacing"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe('Space responsive outer spacing', () => {
+  setupPageScreenshot({
+    url: '/uilib/layout/space/demos/',
+  })
+
+  it('have to match responsive outer spacing on "small" breakpoint', async () => {
+    const screenshot = await makeScreenshot({
+      pageViewport: {
+        width: 400,
+      },
+      selector: '[data-visual-test="responsive-outer-spacing"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match responsive outer spacing on "medium" breakpoint', async () => {
+    const screenshot = await makeScreenshot({
+      pageViewport: {
+        width: 800,
+      },
+      selector: '[data-visual-test="responsive-outer-spacing"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match responsive outer spacing on "large" breakpoint', async () => {
+    const screenshot = await makeScreenshot({
+      pageViewport: {
+        width: 1000,
+      },
+      selector: '[data-visual-test="responsive-outer-spacing"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe('Space inline/block', () => {
+  setupPageScreenshot({
+    url: '/uilib/layout/space/demos/',
+  })
+
+  it('have to match space inline/block', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="space-inline-block"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe('Space innerspace media queries', () => {
+  setupPageScreenshot({
+    url: '/uilib/layout/space/demos/',
+  })
+
+  it('have to match innerspace media queries on "small" breakpoint', async () => {
+    const screenshot = await makeScreenshot({
+      pageViewport: {
+        width: 400,
+      },
+      selector: '[data-visual-test="innerspace-media-queries"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match innerspace media queries on "medium" breakpoint', async () => {
+    const screenshot = await makeScreenshot({
+      pageViewport: {
+        width: 800,
+      },
+      selector: '[data-visual-test="innerspace-media-queries"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match innerspace media queries on "large" breakpoint', async () => {
+    const screenshot = await makeScreenshot({
+      pageViewport: {
+        width: 1000,
+      },
+      selector: '[data-visual-test="innerspace-media-queries"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe('Space media queries', () => {
+  setupPageScreenshot({
+    url: '/uilib/layout/space/demos/',
+  })
+
+  it('have to match space media queries on "small" breakpoint', async () => {
+    const screenshot = await makeScreenshot({
+      pageViewport: {
+        width: 400,
+      },
+      selector: '[data-visual-test="space-media-queries"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match space media queries on "medium" breakpoint', async () => {
+    const screenshot = await makeScreenshot({
+      pageViewport: {
+        width: 800,
+      },
+      selector: '[data-visual-test="space-media-queries"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match space media queries on "large" breakpoint', async () => {
+    const screenshot = await makeScreenshot({
+      pageViewport: {
+        width: 1000,
+      },
+      selector: '[data-visual-test="space-media-queries"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

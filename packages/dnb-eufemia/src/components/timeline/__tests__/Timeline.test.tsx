@@ -412,6 +412,19 @@ describe('Timeline', () => {
     const element = document.querySelector('.dnb-timeline')
     expect(refElement).toBe(element)
   })
+
+  it('should apply spacing classes and innerSpace style on the root', () => {
+    render(
+      <Timeline top="large" innerSpace="small">
+        <Timeline.Item title="Current" state="current" />
+      </Timeline>
+    )
+
+    const element = document.querySelector('.dnb-timeline')
+
+    expect(element.className).toContain('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--space-t-s')
+  })
 })
 
 describe('Timeline aria', () => {

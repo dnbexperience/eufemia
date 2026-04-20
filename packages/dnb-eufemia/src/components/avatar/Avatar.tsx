@@ -2,7 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 
 // Components
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { IconIcon, IconAllProps } from '../icon/Icon'
 import Icon from '../icon/Icon'
@@ -152,7 +152,6 @@ const Avatar = (localProps: AvatarAllProps) => {
   let children = null
 
   const skeletonClasses = createSkeletonClass('shape', skeleton, context)
-  const spacingClasses = createSpacingClasses(props)
 
   const childrenIsString = typeof childrenProp === 'string'
 
@@ -199,19 +198,20 @@ const Avatar = (localProps: AvatarAllProps) => {
     }),
   } as React.CSSProperties
 
+  const rootProps = applySpacing(allProps, {
+    ...props,
+    className: clsx(
+      'dnb-avatar',
+      `dnb-avatar--${variant || 'primary'}`,
+      `dnb-avatar--size-${size || 'medium'}`,
+      skeletonClasses,
+      className
+    ),
+    style,
+  })
+
   return (
-    <span
-      className={clsx(
-        'dnb-avatar',
-        `dnb-avatar--${variant || 'primary'}`,
-        `dnb-avatar--size-${size || 'medium'}`,
-        skeletonClasses,
-        spacingClasses,
-        className
-      )}
-      {...props}
-      style={style}
-    >
+    <span {...rootProps}>
       {childrenIsString && (
         <span className="dnb-sr-only">{childrenProp}</span>
       )}

@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import clsx from 'clsx'
 
 // Shared
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import Provider from '../../shared/Provider'
 import Context from '../../shared/Context'
 import {
@@ -80,8 +80,6 @@ const Upload = (localProps: UploadAllProps) => {
     disableDragAndDrop,
     ...props
   } = extendedProps
-
-  const spacingClasses = createSpacingClasses(props)
 
   const id = useId(idProp)
 
@@ -163,13 +161,14 @@ const Upload = (localProps: UploadAllProps) => {
     >
       <Provider skeleton={skeleton}>
         <UploadWrapper
-          className={clsx(
-            'dnb-upload',
-            'dnb-form-component',
-            variant && `dnb-upload--${variant}`,
-            spacingClasses,
-            className
-          )}
+          {...applySpacing(props, {
+            className: clsx(
+              'dnb-upload',
+              'dnb-form-component',
+              variant && `dnb-upload--${variant}`,
+              className
+            ),
+          })}
           {...(!wrapperIsHeightAnimation
             ? { hideOutline: variant === 'compact' }
             : {})}

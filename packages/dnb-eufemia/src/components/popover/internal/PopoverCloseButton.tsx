@@ -1,7 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import Context from '../../../shared/Context'
-import { createSpacingClasses } from '../../space/SpacingHelper'
+import { applySpacing } from '../../space/SpacingUtils'
 import { createSkeletonClass } from '../../skeleton/SkeletonHelper'
 import type { IconIcon, IconSize } from '../../icon/Icon'
 import type { SkeletonShow } from '../../skeleton/Skeleton'
@@ -95,41 +95,40 @@ export default function PopoverCloseButton({
     resolvedIconSize = 'medium'
   }
 
-  const classes = clsx(
-    'dnb-button',
-    `dnb-button--${resolvedVariant}`,
-    resolvedSize &&
-      resolvedSize !== 'default' &&
-      `dnb-button--size-${resolvedSize}`,
-    hasIcon && `dnb-button--icon-position-${iconPosition}`,
-    hasIcon &&
-      resolvedIconSize &&
-      `dnb-button--icon-size-${resolvedIconSize}`,
-    hasContent && 'dnb-button--has-text',
-    hasIcon && 'dnb-button--has-icon',
-    isIconOnly && 'dnb-button--icon-only',
-    stretch && 'dnb-button--stretch',
-    wrap && 'dnb-button--wrap',
-    createSkeletonClass(
-      resolvedVariant === 'tertiary' ? 'font' : 'shape',
-      skeleton,
-      context
-    ),
-    createSpacingClasses({
+  const buttonProps = applySpacing(
+    { ...rest, stretch, wrap, skeleton },
+    {
+      title,
+      'aria-label': resolvedAriaLabel,
+      className: clsx(
+        'dnb-button',
+        `dnb-button--${resolvedVariant}`,
+        resolvedSize &&
+          resolvedSize !== 'default' &&
+          `dnb-button--size-${resolvedSize}`,
+        hasIcon && `dnb-button--icon-position-${iconPosition}`,
+        hasIcon &&
+          resolvedIconSize &&
+          `dnb-button--icon-size-${resolvedIconSize}`,
+        hasContent && 'dnb-button--has-text',
+        hasIcon && 'dnb-button--has-icon',
+        isIconOnly && 'dnb-button--icon-only',
+        stretch && 'dnb-button--stretch',
+        wrap && 'dnb-button--wrap',
+        createSkeletonClass(
+          resolvedVariant === 'tertiary' ? 'font' : 'shape',
+          skeleton,
+          context
+        ),
+        className
+      ),
+      type: resolvedType,
       ...rest,
-      ...{ stretch, wrap, skeleton },
-    }),
-    className
-  )
+    }
+  ) as React.ButtonHTMLAttributes<HTMLButtonElement>
 
   return (
-    <button
-      title={title}
-      aria-label={resolvedAriaLabel}
-      className={classes}
-      type={resolvedType}
-      {...rest}
-    >
+    <button {...buttonProps}>
       <ButtonContent
         title={title}
         content={content}

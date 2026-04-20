@@ -35,8 +35,8 @@ describe('Table.ScrollView', () => {
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-scroll-view',
-      'dnb-space__top--large',
       'dnb-table__scroll-view',
+      'dnb-space__top--large',
     ])
   })
 

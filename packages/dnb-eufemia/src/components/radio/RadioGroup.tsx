@@ -15,7 +15,7 @@ import {
   removeUndefinedProps,
 } from '../../shared/component-helper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import Space from '../Space'
 import FormLabel from '../FormLabel'
@@ -197,14 +197,15 @@ function RadioGroup(ownProps: RadioGroupProps) {
 
   const showStatus = getStatusState(status)
 
-  const classes = clsx(
-    'dnb-radio-group',
-    status && `dnb-radio-group__status--${statusState}`,
-    `dnb-radio-group--${layoutDirection}`,
-    'dnb-form-component',
-    createSpacingClasses(props),
-    className
-  )
+  const rootProps = applySpacing(props, {
+    className: clsx(
+      'dnb-radio-group',
+      status && `dnb-radio-group__status--${statusState}`,
+      `dnb-radio-group--${layoutDirection}`,
+      'dnb-form-component',
+      className
+    ),
+  })
 
   const params = { ...rest }
   const legendId = id + '-label'
@@ -236,7 +237,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
 
   return (
     <RadioGroupContext value={groupContext}>
-      <div className={classes}>
+      <div {...rootProps}>
         <AlignmentHelper />
         <Fieldset
           className="dnb-radio-group__fieldset"

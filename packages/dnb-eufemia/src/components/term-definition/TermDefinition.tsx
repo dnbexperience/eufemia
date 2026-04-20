@@ -8,10 +8,7 @@ import Popover from '../popover/Popover'
 import useId from '../../shared/helpers/useId'
 import useTranslation from '../../shared/useTranslation'
 import type { SpacingProps } from '../../shared/types'
-import {
-  createSpacingClasses,
-  removeSpaceProps,
-} from '../space/SpacingHelper'
+import { applySpacing, removeSpaceProps } from '../space/SpacingUtils'
 import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/component-helper'
 
@@ -94,29 +91,29 @@ export default function TermDefinition(
     [toggle]
   )
 
-  const spacingClasses = createSpacingClasses(rest)
   const triggerProps = removeSpaceProps(rest)
 
   return (
     <>
       <span
-        role="button"
-        tabIndex={0}
-        ref={triggerRef}
-        className={clsx(
-          'dnb-term-definition__trigger',
-          'dnb-anchor',
-          active && 'dnb-anchor--hover',
-          className,
-          spacingClasses
-        )}
-        aria-expanded={active}
-        aria-controls={active ? id : undefined}
-        aria-describedby={`${id}-description`}
-        title={title}
-        onClick={onClick}
-        onKeyDown={onKeyDown}
-        {...triggerProps}
+        {...applySpacing(rest, {
+          role: 'button',
+          tabIndex: 0,
+          ref: triggerRef,
+          className: clsx(
+            'dnb-term-definition__trigger',
+            'dnb-anchor',
+            active && 'dnb-anchor--hover',
+            className
+          ),
+          'aria-expanded': active,
+          'aria-controls': active ? id : undefined,
+          'aria-describedby': `${id}-description`,
+          title,
+          onClick,
+          onKeyDown,
+          ...triggerProps,
+        })}
       >
         {children}
       </span>
