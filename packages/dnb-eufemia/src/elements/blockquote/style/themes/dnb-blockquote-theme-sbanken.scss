@@ -6,9 +6,16 @@
   --blockquote-quote-padding: 5.5rem;
   --blockquote-cite-style: normal;
 
-  background-color: var(--sb-color-violet-light-4);
+  color: var(--token-color-text-neutral-onlight);
+  background-color: var(--token-color-decorative-first-muted-static);
 
   border-radius: 1.125rem;
+
+  // Quote icon color
+  --blockquote-icon-color: var(--token-color-decorative-first-bold-static);
+  &.dnb-blockquote--no-background {
+    --blockquote-icon-color: var(--token-color-icon-neutral);
+  }
 
   @include utilities.allBelow('small') {
     --blockquote-padding-bottom: 1.5rem;
@@ -21,19 +28,6 @@
 
     &:not(.dnb-blockquote--top) {
       --blockquote-padding-left: 1rem;
-    }
-  }
-
-  &::before {
-    filter: brightness(0) saturate(100%) invert(20%) sepia(99%)
-      saturate(6711%) hue-rotate(265deg) brightness(71%) contrast(115%); // simulate the color #4e08bc - --sb-color-violet
-  }
-
-  &.dnb-blockquote--no-background {
-    &::before {
-      // simulate the color #18172a - --sb-color-text
-      filter: brightness(0) saturate(100%) invert(12%) sepia(4%)
-        saturate(6079%) hue-rotate(204deg) brightness(78%) contrast(99%);
     }
   }
 }
