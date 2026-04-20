@@ -349,6 +349,7 @@ del .dnb-code {
 .dnb-label {
   cursor: pointer;
   overflow-wrap: break-word;
+  color: var(--token-color-text-neutral);
 }
 .dnb-label[disabled] {
   cursor: not-allowed;
