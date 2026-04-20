@@ -51,8 +51,8 @@ function useCopyWithNotice() {
   const { NumberFormat } = useTranslation()
   const timeoutRef = useRef<NodeJS.Timeout>(undefined)
 
-  const CopyTooltip = useCallback(
-    ({ target }) => {
+  const copyTooltip = useCallback(
+    (target: HTMLElement | null) => {
       return (
         <Tooltip open={active} targetElement={target}>
           {NumberFormat.clipboardCopy}
@@ -71,7 +71,7 @@ function useCopyWithNotice() {
     }, 1500)
   }, [])
 
-  return { copy, CopyTooltip }
+  return { copy, copyTooltip }
 }
 
 export const VariantBasic = () => (
@@ -750,7 +750,7 @@ export const Accordion = () => (
         }
         const Content = ({ shareId }) => {
           const ref = React.useRef(undefined)
-          const { copy, CopyTooltip } = useCopyWithNotice()
+          const { copy, copyTooltip } = useCopyWithNotice()
 
           const shareHandler = () => {
             const url = new URL(location.href)
@@ -784,7 +784,7 @@ export const Accordion = () => (
                 Copy link to this row
               </Button>
 
-              <CopyTooltip target={ref.current} />
+              {copyTooltip(ref.current)}
             </>
           )
         }
@@ -869,7 +869,7 @@ export const AccordionMixed = () => (
         }
         const Content = ({ shareId }) => {
           const ref = React.useRef(undefined)
-          const { copy, CopyTooltip } = useCopyWithNotice()
+          const { copy, copyTooltip } = useCopyWithNotice()
 
           const shareHandler = () => {
             const url = new URL(location.href)
@@ -903,7 +903,7 @@ export const AccordionMixed = () => (
                 Copy link to this row
               </Button>
 
-              <CopyTooltip target={ref.current} />
+              {copyTooltip(ref.current)}
             </>
           )
         }
