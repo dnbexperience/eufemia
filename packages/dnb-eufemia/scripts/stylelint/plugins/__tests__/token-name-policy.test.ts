@@ -330,4 +330,66 @@ describe('token-name-policy stylelint rule', () => {
       temp.cleanup()
     }
   })
+
+  it('flags var(--token-...) references inside :root selector', async () => {
+    const errors = await lintWithRule({
+      code: ':root { --my-var: var(--token-color-background-neutral); }',
+      codeFilename: '/repo/src/components/card/style/dnb-card.scss',
+    })
+
+    expect(errors).toHaveLength(1)
+    expect(errors[0].text).toContain(
+      'must not be used in :root, html, or body selectors'
+    )
+  })
+
+  it('flags var(--token-...) references inside html selector', async () => {
+    const errors = await lintWithRule({
+      code: 'html { --my-var: var(--token-color-text-action); }',
+      codeFilename: '/repo/src/components/card/style/dnb-card.scss',
+    })
+
+    expect(errors).toHaveLength(1)
+    expect(errors[0].text).toContain(
+      'must not be used in :root, html, or body selectors'
+    )
+  })
+
+  it('flags var(--token-...) references inside body selector', async () => {
+    const errors = await lintWithRule({
+      code: 'body { --my-var: var(--token-color-stroke-neutral); }',
+      codeFilename: '/repo/src/components/card/style/dnb-card.scss',
+    })
+
+    expect(errors).toHaveLength(1)
+    expect(errors[0].text).toContain(
+      'must not be used in :root, html, or body selectors'
+    )
+  })
+
+  it('allows var(--token-...) references inside component selectors', async () => {
+    const errors = await lintWithRule({
+      code: '.dnb-card { --card-bg: var(--token-color-background-neutral); }',
+      codeFilename: '/repo/src/components/card/style/dnb-card.scss',
+    })
+
+    expect(
+      errors.some((e) =>
+        e.text.includes('must not be used in :root, html, or body')
+      )
+    ).toBe(false)
+  })
+
+  it('allows var(--token-...) declarations in tokens.scss files', async () => {
+    const errors = await lintWithRule({
+      code: ':root { --token-color-background-neutral: var(--dnb-greyscale-0); }',
+      codeFilename: '/repo/src/style/themes/ui/tokens.scss',
+    })
+
+    expect(
+      errors.some((e) =>
+        e.text.includes('must not be used in :root, html, or body')
+      )
+    ).toBe(false)
+  })
 })
