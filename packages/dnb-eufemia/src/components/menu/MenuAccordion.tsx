@@ -175,7 +175,7 @@ export default function MenuAccordion(props: MenuAccordionProps) {
 
       <HeightAnimation open={isOpen}>
         {childContextValue && (
-          <MenuContext.Provider value={childContextValue}>
+          <MenuContext value={childContextValue}>
             <ul
               ref={contentRef}
               role="group"
@@ -184,7 +184,7 @@ export default function MenuAccordion(props: MenuAccordionProps) {
             >
               {children}
             </ul>
-          </MenuContext.Provider>
+          </MenuContext>
         )}
       </HeightAnimation>
     </li>
