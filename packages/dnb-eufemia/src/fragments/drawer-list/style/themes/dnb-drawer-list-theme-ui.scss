@@ -231,9 +231,7 @@
   &--top
     &__option.closest-to-bottom#{&}__option--focus
     ~ &__arrow::before {
-    background-color: var(
-      var(--token-color-background-action-hover-subtle)
-    );
+    background-color: var(--token-color-background-action-hover-subtle);
   }
 
   // selected arrow

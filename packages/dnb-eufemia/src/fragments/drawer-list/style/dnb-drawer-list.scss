@@ -324,8 +324,8 @@
   &--top &__arrow {
     top: auto;
     bottom: calc(
-      var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2 -
-        2px
+      var(--drawer-list-focus-border-width) - var(--drawer-list-height) /
+        2 - 2px
     );
     transform: rotate(180deg);
     &::before {
