@@ -103,6 +103,7 @@ This is the migration guide for @dnb/eufemia v11. It covers all breaking changes
 ## Summary of changes
 
 - **React 19 required** — v11 requires React and React DOM v19.
+- **IE and Edge (EdgeHTML) no longer supported** — All IE- and legacy-Edge-specific CSS rules have been removed from the CSS reset and component styles. Only modern evergreen browsers (Chrome, Firefox, Safari, Chromium-based Edge) are supported.
 - All **snake_case** (`on_click`) events and properties have been converted to **camelCase** (`onClick`). The reason for previously using snake_case was to support Web Components – but the support was discontinued in [v10](/uilib/about-the-lib/releases/eufemia/v10-info/).
 - **`labelDirection` default changed to `vertical`** — Labels render above the input by default. If you relied on horizontal labels, set `labelDirection="horizontal"` explicitly. See [labelDirection](#labeldirection-default-changed-to-vertical).
 - **FormRow and FormSet removed** — Replace with Flex layout components. See [Removal of FormRow and FormSet](#removal-of-formrow-and-formset).
@@ -2469,6 +2470,10 @@ The following SCSS mixins have been removed:
 
 - **`extendFocusRing`** (`style/core/utilities.scss`) — added an outer ring on top of `focusRing`. Replace with a custom `box-shadow` if needed.
 - **`componentReset`** (`style/core/scopes.scss`) — applied core CSS reset rules to a single component. Use the global Eufemia CSS reset instead.
+
+#### CSS reset: IE and Edge (EdgeHTML) support removed
+
+All IE- and legacy-Edge-specific CSS rules have been removed from `reset.scss` and component styles. This includes vendor-prefixed properties like `-ms-overflow-style`, `-ms-high-contrast`, and legacy Edge (EdgeHTML) hacks. Only modern evergreen browsers are supported. If you still need to support these browsers, you must add your own fallback styles.
 
 ## Eufemia Forms
 
