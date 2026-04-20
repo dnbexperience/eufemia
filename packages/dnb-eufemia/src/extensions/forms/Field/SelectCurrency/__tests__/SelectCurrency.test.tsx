@@ -937,4 +937,42 @@ describe('Field.SelectCurrency', () => {
       expect(input).toHaveAttribute('aria-invalid', 'true')
     })
   })
+
+  it('should not change value on blur when initial value is SEK', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <Form.Handler onChange={onChange}>
+        <Field.SelectCurrency path="/currency" value="SEK" noAnimation />
+      </Form.Handler>
+    )
+
+    const inputElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-select-currency input'
+    )
+
+    // Initial state: should show SEK
+    expect(inputElement).toHaveValue('Svensk krone (SEK)')
+
+    // Click on the input to focus (simulates real user interaction)
+    await userEvent.click(inputElement)
+
+    // Verify value is still correct
+    expect(inputElement).toHaveValue('Svensk krone (SEK)')
+
+    // Click outside to blur (simulates clicking somewhere else)
+    await userEvent.click(document.body)
+
+    // Value should still be SEK, not NOK
+    expect(inputElement).toHaveValue('Svensk krone (SEK)')
+
+    // onChange should NOT have been called since we didn't change anything
+    expect(onChange).not.toHaveBeenCalled()
+
+    // Focus and blur again to verify consistent behavior
+    await userEvent.click(inputElement)
+    await userEvent.click(document.body)
+    expect(inputElement).toHaveValue('Svensk krone (SEK)')
+    expect(onChange).not.toHaveBeenCalled()
+  })
 })
