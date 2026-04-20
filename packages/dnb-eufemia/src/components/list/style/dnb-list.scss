@@ -52,34 +52,36 @@
 
     // On small screens, use 2-row layout so end wraps to a new line
     @include allBelow(small) {
-      --item-grid-template-areas: 'chevron-left start icon title center chevron-right'
-        'chevron-left end end end end chevron-right'
-        'footer footer footer footer footer footer';
+      --item-grid-template-areas: 'chevron-left start icon title center . chevron-right'
+        'chevron-left end end end end end chevron-right'
+        'footer footer footer footer footer footer footer';
       &:has(#{&}__start):has(#{&}__title),
       &:has(#{&}__icon) {
-        --item-grid-template-areas: 'chevron-left start icon title center chevron-right'
-          'chevron-left . . end end .'
-          'footer footer footer footer footer footer';
+        --item-grid-template-areas: 'chevron-left start icon title center . chevron-right'
+          'chevron-left . . end end end .'
+          'footer footer footer footer footer footer footer';
       }
     }
 
     // On x-small screens, use 3-row layout so end wraps to a new line
     @include allBelow(x-small) {
-      --item-grid-template-areas: 'chevron-left start icon title title chevron-right'
-        'chevron-left center center center center chevron-right'
-        'chevron-left end end end end chevron-right'
-        'footer footer footer footer footer footer';
+      --item-grid-template-areas: 'chevron-left start icon title title . chevron-right'
+        'chevron-left center center center center center chevron-right'
+        'chevron-left end end end end end chevron-right'
+        'footer footer footer footer footer footer footer';
       &:has(#{&}__start):has(#{&}__title),
       &:has(#{&}__icon) {
-        --item-grid-template-areas: 'chevron-left start icon title title chevron-right'
-          'chevron-left . . center center .' 'chevron-left . . end end .'
-          'footer footer footer footer footer footer';
+        --item-grid-template-areas: 'chevron-left start icon title title . chevron-right'
+          'chevron-left . . center center center .'
+          'chevron-left . . end end end .'
+          'footer footer footer footer footer footer footer';
       }
     }
 
     // If no center is used, adjust the grid columns
     &:not(:has(#{&}__center)) {
-      --item-grid-template-columns: auto auto auto minmax(0, 1fr) auto auto;
+      --item-grid-template-columns: auto auto auto minmax(0, 1fr) 0 auto
+        auto;
     }
 
     // Deal with the item layout
