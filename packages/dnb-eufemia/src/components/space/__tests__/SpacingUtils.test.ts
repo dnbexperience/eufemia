@@ -310,9 +310,7 @@ describe('createSpacingProperties', () => {
     expect(
       createSpacingProperties({ innerSpace: { right: 'large x-small' } })
     ).toEqual({
-      '--padding-r-l': '2.5rem',
-      '--padding-r-m': '2.5rem',
-      '--padding-r-s': '2.5rem',
+      '--padding-r': '2.5rem',
     })
   })
 
@@ -322,18 +320,10 @@ describe('createSpacingProperties', () => {
         innerSpace: { inline: 'small', block: 'large' },
       })
     ).toEqual({
-      '--padding-b-l': '2rem',
-      '--padding-l-l': '1rem',
-      '--padding-r-l': '1rem',
-      '--padding-t-l': '2rem',
-      '--padding-b-m': '2rem',
-      '--padding-l-m': '1rem',
-      '--padding-r-m': '1rem',
-      '--padding-t-m': '2rem',
-      '--padding-b-s': '2rem',
-      '--padding-l-s': '1rem',
-      '--padding-r-s': '1rem',
-      '--padding-t-s': '2rem',
+      '--padding-b': '2rem',
+      '--padding-l': '1rem',
+      '--padding-r': '1rem',
+      '--padding-t': '2rem',
     })
   })
 
@@ -348,18 +338,10 @@ describe('createSpacingProperties', () => {
         },
       })
     ).toEqual({
-      '--padding-b-l': '2rem',
-      '--padding-l-l': '1.5rem',
-      '--padding-r-l': '1rem',
-      '--padding-t-l': '0',
-      '--padding-b-m': '2rem',
-      '--padding-l-m': '1.5rem',
-      '--padding-r-m': '1rem',
-      '--padding-t-m': '0',
-      '--padding-b-s': '2rem',
-      '--padding-l-s': '1.5rem',
-      '--padding-r-s': '1rem',
-      '--padding-t-s': '0',
+      '--padding-b': '2rem',
+      '--padding-l': '1.5rem',
+      '--padding-r': '1rem',
+      '--padding-t': '0',
     })
   })
 
@@ -367,14 +349,10 @@ describe('createSpacingProperties', () => {
     expect(
       createSpacingProperties({ innerSpace: { right: false } })
     ).toEqual({
-      '--padding-r-l': '0',
-      '--padding-r-m': '0',
-      '--padding-r-s': '0',
+      '--padding-r': '0',
     })
     expect(createSpacingProperties({ innerSpace: { right: 0 } })).toEqual({
-      '--padding-r-l': '0',
-      '--padding-r-m': '0',
-      '--padding-r-s': '0',
+      '--padding-r': '0',
     })
     expect(
       createSpacingProperties({ innerSpace: { right: null } })
@@ -384,18 +362,10 @@ describe('createSpacingProperties', () => {
   it('should handle frozen props', () => {
     const props = Object.freeze({ innerSpace: true })
     expect(createSpacingProperties(props)).toEqual({
-      '--padding-b-l': '1rem',
-      '--padding-l-l': '1rem',
-      '--padding-r-l': '1rem',
-      '--padding-t-l': '1rem',
-      '--padding-b-m': '1rem',
-      '--padding-l-m': '1rem',
-      '--padding-r-m': '1rem',
-      '--padding-t-m': '1rem',
-      '--padding-b-s': '1rem',
-      '--padding-l-s': '1rem',
-      '--padding-r-s': '1rem',
-      '--padding-t-s': '1rem',
+      '--padding-b': '1rem',
+      '--padding-l': '1rem',
+      '--padding-r': '1rem',
+      '--padding-t': '1rem',
     })
   })
 
@@ -403,32 +373,16 @@ describe('createSpacingProperties', () => {
     expect(createSpacingProperties({ innerSpace: false })).toEqual({}) // we may extend that with all four "--zero" in future
     expect(createSpacingProperties({ innerSpace: 0 })).toEqual({})
     expect(createSpacingProperties({ innerSpace: true })).toEqual({
-      '--padding-b-l': '1rem',
-      '--padding-l-l': '1rem',
-      '--padding-r-l': '1rem',
-      '--padding-t-l': '1rem',
-      '--padding-b-m': '1rem',
-      '--padding-l-m': '1rem',
-      '--padding-r-m': '1rem',
-      '--padding-t-m': '1rem',
-      '--padding-b-s': '1rem',
-      '--padding-l-s': '1rem',
-      '--padding-r-s': '1rem',
-      '--padding-t-s': '1rem',
+      '--padding-b': '1rem',
+      '--padding-l': '1rem',
+      '--padding-r': '1rem',
+      '--padding-t': '1rem',
     })
     expect(createSpacingProperties({ innerSpace: '1rem' })).toEqual({
-      '--padding-b-l': '1rem',
-      '--padding-l-l': '1rem',
-      '--padding-r-l': '1rem',
-      '--padding-t-l': '1rem',
-      '--padding-b-m': '1rem',
-      '--padding-l-m': '1rem',
-      '--padding-r-m': '1rem',
-      '--padding-t-m': '1rem',
-      '--padding-b-s': '1rem',
-      '--padding-l-s': '1rem',
-      '--padding-r-s': '1rem',
-      '--padding-t-s': '1rem',
+      '--padding-b': '1rem',
+      '--padding-l': '1rem',
+      '--padding-r': '1rem',
+      '--padding-t': '1rem',
     })
     expect(createSpacingProperties({ innerSpace: null })).toEqual({})
   })
@@ -539,9 +493,7 @@ describe('createSpacing - return shape', () => {
     const result = createSpacing({ innerSpace: { right: 'large' } })
     expect(result.className).toEqual([])
     expect(result.style).toEqual({
-      '--padding-r-l': '2rem',
-      '--padding-r-m': '2rem',
-      '--padding-r-s': '2rem',
+      '--padding-r': '2rem',
     })
   })
 
@@ -555,9 +507,7 @@ describe('createSpacing - return shape', () => {
       innerSpace: { right: 'large' },
     })
     expect(result.style).toEqual({
-      '--padding-r-l': '2rem',
-      '--padding-r-m': '2rem',
-      '--padding-r-s': '2rem',
+      '--padding-r': '2rem',
     })
   })
 })
@@ -749,9 +699,7 @@ describe('applySpacing', () => {
     )
     expect(result.style).toEqual({
       color: 'red',
-      '--padding-r-l': '2rem',
-      '--padding-r-m': '2rem',
-      '--padding-r-s': '2rem',
+      '--padding-r': '2rem',
     })
   })
 

@@ -313,7 +313,7 @@ describe('InfoCard', () => {
     const element = document.querySelector('.dnb-info-card')
 
     expect(element.className).toContain('dnb-space__top--large')
-    expect(element.getAttribute('style')).toContain('--padding-t-s')
+    expect(element.getAttribute('style')).toContain('--padding-t:')
   })
 
   it('renders the drop shadow if dropShadow is true', () => {

@@ -244,11 +244,28 @@ function hasSize(space: InnerSpacingElementProps) {
 
 function computeProperties(space: InnerSpaceType) {
   if (!hasMediaSize(space as InnerSpaceTypeMedia)) {
-    space = {
-      small: space,
-      medium: space,
-      large: space,
-    } as InnerSpaceTypeMedia
+    // Non-responsive: emit a single --padding-{t|r|b|l} per direction
+    const props = transformToAll(
+      space as SpaceType | InnerSpacingElementProps
+    )
+    const result = {}
+
+    for (const key in props as InnerSpacingElementProps) {
+      if (isValidInnerSpaceProp(key)) {
+        const cur = props[key]
+        const name = `--padding-${key[0]}`
+
+        if (String(cur) === '0' || String(cur) === 'false') {
+          result[name] = '0'
+        } else if (cur) {
+          const typeModifiers = createTypeModifiers(cur as SpaceType)
+          const sum = sumTypes(typeModifiers)
+          result[name] = `${sum}rem`
+        }
+      }
+    }
+
+    return result as React.CSSProperties
   }
 
   const result = {}

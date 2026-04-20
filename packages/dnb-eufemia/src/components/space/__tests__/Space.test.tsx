@@ -118,14 +118,14 @@ describe('Space component', () => {
     expect(
       document.querySelector('.dnb-space').getAttribute('style')
     ).toBe(
-      '--padding-t-s: 1rem; --padding-r-s: 1rem; --padding-b-s: 1rem; --padding-l-s: 1rem; --padding-t-m: 1rem; --padding-r-m: 1rem; --padding-b-m: 1rem; --padding-l-m: 1rem; --padding-t-l: 1rem; --padding-r-l: 1rem; --padding-b-l: 1rem; --padding-l-l: 1rem;'
+      '--padding-t: 1rem; --padding-r: 1rem; --padding-b: 1rem; --padding-l: 1rem;'
     )
 
     rerender(<Space innerSpace="large medium small" />)
     expect(
       document.querySelector('.dnb-space').getAttribute('style')
     ).toBe(
-      '--padding-t-s: 4.5rem; --padding-r-s: 4.5rem; --padding-b-s: 4.5rem; --padding-l-s: 4.5rem; --padding-t-m: 4.5rem; --padding-r-m: 4.5rem; --padding-b-m: 4.5rem; --padding-l-m: 4.5rem; --padding-t-l: 4.5rem; --padding-r-l: 4.5rem; --padding-b-l: 4.5rem; --padding-l-l: 4.5rem;'
+      '--padding-t: 4.5rem; --padding-r: 4.5rem; --padding-b: 4.5rem; --padding-l: 4.5rem;'
     )
   })
 

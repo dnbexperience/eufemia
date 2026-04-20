@@ -294,10 +294,10 @@ describe('Avatar', () => {
 
     const element = document.querySelector('.dnb-avatar')
 
-    expect(element.getAttribute('style')).toContain('--padding-t-s: 1rem')
-    expect(element.getAttribute('style')).toContain('--padding-r-s: 1rem')
-    expect(element.getAttribute('style')).toContain('--padding-b-s: 1rem')
-    expect(element.getAttribute('style')).toContain('--padding-l-s: 1rem')
+    expect(element.getAttribute('style')).toContain('--padding-t: 1rem')
+    expect(element.getAttribute('style')).toContain('--padding-r: 1rem')
+    expect(element.getAttribute('style')).toContain('--padding-b: 1rem')
+    expect(element.getAttribute('style')).toContain('--padding-l: 1rem')
   })
 
   it('should support variant tertiary', () => {

@@ -159,6 +159,28 @@
   }
 }
 
+@mixin paddingDirection($direction) {
+  $short: string.slice($direction, 1, 1);
+
+  &[style*='--padding-#{$short}'] {
+    --padding-#{$direction}: var(--padding-#{$short}, 0);
+    padding-#{$direction}: var(--padding-#{$direction});
+  }
+
+  &[style*='--padding-#{$short}-'] {
+    @include utilities.allBelow(medium) {
+      --padding-#{$direction}: var(--padding-#{$short}-s);
+    }
+    @include utilities.allBetween(small, medium) {
+      --padding-#{$direction}: var(--padding-#{$short}-m);
+    }
+    @include utilities.allAbove(medium) {
+      --padding-#{$direction}: var(--padding-#{$short}-l);
+    }
+    padding-#{$direction}: var(--padding-#{$direction}, 0);
+  }
+}
+
 /** NB: Because CSS specificity ".dnb-core-style .dnb-space"
     has to come before the next ".dnb-space"
   */
@@ -205,37 +227,10 @@
   }
 
   // innerSpace
-  &[style*='--padding-t-'] {
-    padding-top: var(--padding-top, 0);
-  }
-  &[style*='--padding-r-'] {
-    padding-right: var(--padding-right, 0);
-  }
-  &[style*='--padding-b-'] {
-    padding-bottom: var(--padding-bottom, 0);
-  }
-  &[style*='--padding-l-'] {
-    padding-left: var(--padding-left, 0);
-  }
-
-  @include utilities.allBelow(medium) {
-    --padding-right: var(--padding-r-s);
-    --padding-left: var(--padding-l-s);
-    --padding-top: var(--padding-t-s);
-    --padding-bottom: var(--padding-b-s);
-  }
-  @include utilities.allBetween(small, medium) {
-    --padding-right: var(--padding-r-m);
-    --padding-left: var(--padding-l-m);
-    --padding-top: var(--padding-t-m);
-    --padding-bottom: var(--padding-b-m);
-  }
-  @include utilities.allAbove(medium) {
-    --padding-right: var(--padding-r-l);
-    --padding-left: var(--padding-l-l);
-    --padding-top: var(--padding-t-l);
-    --padding-bottom: var(--padding-b-l);
-  }
+  @include paddingDirection(top);
+  @include paddingDirection(right);
+  @include paddingDirection(bottom);
+  @include paddingDirection(left);
 }
 span.dnb-space--no-collapse > span {
   display: block;

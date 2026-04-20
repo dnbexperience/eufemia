@@ -213,7 +213,7 @@ describe('Table', () => {
     const element = document.querySelector('.dnb-table')
 
     expect(element.className).toContain('dnb-space__top--large')
-    expect(element.getAttribute('style')).toContain('--padding-t-s')
+    expect(element.getAttribute('style')).toContain('--padding-t:')
   })
 })
 

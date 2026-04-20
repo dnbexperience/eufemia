@@ -254,14 +254,14 @@ describe('Section component', () => {
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
-        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none; --padding-t-s: 1rem; --padding-r-s: 1rem; --padding-b-s: 1rem; --padding-l-s: 1rem; --padding-t-m: 1rem; --padding-r-m: 1rem; --padding-b-m: 1rem; --padding-l-m: 1rem; --padding-t-l: 1rem; --padding-r-l: 1rem; --padding-b-l: 1rem; --padding-l-l: 1rem;'
+        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none; --padding-t: 1rem; --padding-r: 1rem; --padding-b: 1rem; --padding-l: 1rem;'
       )
 
       rerender(<Section innerSpace="large medium small" />)
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
-        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none; --padding-t-s: 4.5rem; --padding-r-s: 4.5rem; --padding-b-s: 4.5rem; --padding-l-s: 4.5rem; --padding-t-m: 4.5rem; --padding-r-m: 4.5rem; --padding-b-m: 4.5rem; --padding-l-m: 4.5rem; --padding-t-l: 4.5rem; --padding-r-l: 4.5rem; --padding-b-l: 4.5rem; --padding-l-l: 4.5rem;'
+        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none; --padding-t: 4.5rem; --padding-r: 4.5rem; --padding-b: 4.5rem; --padding-l: 4.5rem;'
       )
 
       rerender(
@@ -276,7 +276,7 @@ describe('Section component', () => {
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
-        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none; --padding-t-s: 0.5rem; --padding-r-s: 2rem; --padding-t-m: 1rem; --padding-r-m: 1rem; --padding-b-m: 1rem; --padding-l-m: 1rem; --padding-r-l: 0.5rem; --padding-l-l: 1rem;'
+        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none; --padding-t-s: 0.5rem; --padding-r-s: 2rem; --padding-t-m: 1rem; --padding-r-m: 1rem; --padding-b-m: 1rem; --padding-l-m: 1rem; --padding-l-l: 1rem; --padding-r-l: 0.5rem;'
       )
     })
   })
