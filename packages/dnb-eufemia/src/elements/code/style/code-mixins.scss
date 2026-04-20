@@ -56,8 +56,8 @@
   font-family: var(--font-family-monospace);
 
   // Pre is using syntax highlighting to determine the text color, this property works as a fallback color in case of no highlighting
-  color: var(--color-white);
-  background-color: var(--color-black-80);
+  color: var(--token-color-text-neutral-inverse);
+  background-color: var(--token-color-background-marketing);
 
   pre {
     padding: 1rem;
