@@ -1123,6 +1123,7 @@ Data object property renames: `selected_value` → `selectedValue`, `suffix_valu
 
 - Find and remove `scrollToHashHandler`. Smooth hash scrolling is now supported by all major browsers.
 - Replace `inner_ref` with `ref`.
+- The `surface` prop has been removed. Dark surface styling is now inherited automatically from `Theme.Context surface="dark"`. Wrap your anchors in a `<Theme.Context surface="dark">` instead of passing the prop directly.
 
 #### Styling
 
@@ -1653,6 +1654,7 @@ render(<Logo svg={SbankenCompact} />)
 **Removals:**
 
 - The `variant="signal"` has been removed. Use `variant="primary"` or `variant="secondary"` instead.
+- The `surface` prop has been removed. Dark surface styling is now inherited automatically from `Theme.Context surface="dark"`. Wrap your buttons in a `<Theme.Context surface="dark">` instead of passing the prop directly.
 - The `buttonVariantPropType` export has been removed as part of the PropTypes removal. If you were importing it via `import { buttonVariantPropType } from '@dnb/eufemia/components/button'`, remove the import — runtime prop validation is no longer provided.
 
 #### Properties
