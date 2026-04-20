@@ -1604,7 +1604,7 @@ describe('Field.Date', () => {
     expect(endYear.value).toBe('2024')
 
     expect(document.querySelector('.dnb-date-picker')).not.toHaveClass(
-      'dnb-date-picker--opened'
+      'dnb-date-picker--open'
     )
   })
 
