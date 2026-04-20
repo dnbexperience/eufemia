@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.104.1](https://github.com/dnbexperience/eufemia/compare/v10.104.0...v10.104.1) (2026-04-20)
+
+
+### :bug: Bug Fixes
+
+* **List:** align grid-template-areas column count with grid columns ([#7578](https://github.com/dnbexperience/eufemia/issues/7578)) ([0f02685](https://github.com/dnbexperience/eufemia/commit/0f02685427c8a85d3bad33ab0cc3d8e0d15306b7))
+
 ## [10.104.0](https://github.com/dnbexperience/eufemia/compare/v10.103.0...v10.104.0) (2026-04-17)
 
 
