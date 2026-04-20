@@ -94,6 +94,7 @@ export const ProgressIndicatorCircularRandomExample = () => (
               type="circular"
               progress={value}
               showDefaultLabel
+              labelDirection="horizontal"
               noAnimation
             />
             <Button
@@ -244,6 +245,8 @@ export const ProgressIndicatorLinearRandomExample = () => (
             <ProgressIndicator
               type="linear"
               progress={value}
+              showDefaultLabel
+              labelDirection="horizontal"
               noAnimation
             />
             <Button
