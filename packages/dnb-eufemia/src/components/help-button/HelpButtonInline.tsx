@@ -79,6 +79,11 @@ export default function HelpButtonInline(props: HelpButtonInlineProps) {
     wasOpenRef.current = !isOpen
   }, [focusOnOpen, isOpen, update])
 
+  // Reset the "was open" state when the content is closed without user intent
+  if (isUserIntent === undefined && !isOpen) {
+    wasOpenRef.current = undefined
+  }
+
   const onClickHandler = useCallback(
     ({
       event,
@@ -178,7 +183,7 @@ export function HelpButtonInlineContent(
     focusOnOpen: focusOnOpenProp,
     ...rest
   } = props
-  const { data, update } =
+  const { data, update, extend } =
     useSharedState<HelpButtonInlineSharedStateDataProps>(contentId)
   const {
     isOpen,
@@ -236,6 +241,12 @@ export function HelpButtonInlineContent(
     [buttonRef, onClose]
   )
 
+  const onAnimationEnd = useCallback(() => {
+    extend({
+      isUserIntent: undefined,
+    } as HelpButtonInlineSharedStateDataProps)
+  }, [extend])
+
   if (renderAs === 'dialog') {
     return (
       <Dialog
@@ -268,6 +279,7 @@ export function HelpButtonInlineContent(
       element={element}
       className={clsx('dnb-help-button__content', className)}
       open={isOpen ?? open ?? false}
+      onAnimationEnd={onAnimationEnd}
     >
       <Section
         id={`${contentId}-content`}
