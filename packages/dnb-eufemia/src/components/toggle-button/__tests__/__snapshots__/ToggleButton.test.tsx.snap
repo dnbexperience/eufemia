@@ -1169,20 +1169,18 @@ button.dnb-button::-moz-focus-inner {
 * Checkbox component
 *
 */
-:root {
+.dnb-checkbox {
   --checkbox-width--medium: 1.25rem;
   --checkbox-height--medium: 1.25rem;
-}
-
-.dnb-checkbox {
   --checkbox-border-radius: 0.25rem;
   --checkbox-border-width: 0.0625rem;
   --checkbox-width--large: 2rem;
   --checkbox-height--large: 2rem;
-  --checkbox-border-width__indeterminate: 0.0938rem;
   --checkbox-gfx-size__indeterminate: 0.625rem;
   --checkbox-gfx-size__indeterminate--large: 1rem;
+  --checkbox-gfx-border-radius__indeterminate: 0.125rem;
   --checkbox-color-gfx-on: var(--token-color-icon-neutral-inverse);
+  --checkbox-color-gfx-off: var(--token-color-background-neutral);
   --checkbox-color-background-off: var(--token-color-background-neutral);
   --checkbox-color-background-on: var(--token-color-background-selected);
   --checkbox-color-border-off: var(
