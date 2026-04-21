@@ -543,6 +543,40 @@ describe('GlobalStatus component', () => {
     expect(scrollTo).not.toHaveBeenCalled()
   })
 
+  it('should scroll when autoScroll is true (default)', async () => {
+    const scrollTo = jest.fn()
+    jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+
+    const ToggleStatus = () => {
+      const [status, setStatus] = React.useState(null)
+
+      return (
+        <Switch
+          id="switch-scroll"
+          status={status}
+          statusNoAnimation={true}
+          globalStatus={{ id: 'scroll-test' }}
+          onChange={({ checked }) => {
+            setStatus(checked ? 'error-message' : null)
+          }}
+        />
+      )
+    }
+
+    render(
+      <>
+        <GlobalStatus id="scroll-test" />
+        <ToggleStatus />
+      </>
+    )
+
+    fireEvent.click(document.querySelector('input#switch-scroll'))
+
+    await refresh()
+
+    expect(scrollTo).toHaveBeenCalled()
+  })
+
   it('should close when esc key is pressed', async () => {
     const onClose = jest.fn()
     const onHide = jest.fn()
