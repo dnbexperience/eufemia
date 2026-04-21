@@ -27,6 +27,7 @@ This is the migration guide for @dnb/eufemia v11. It covers all breaking changes
 - [Summary of changes](#summary-of-changes)
 - [v10 support timeline](#v10-support-timeline)
 - [Install](#install)
+- [Quick-start checklist](#quick-start-checklist)
 - [Migration](#migration)
   - [Automated migration: snake_case to camelCase](#automated-migration-snake_case-to-camelcase)
   - [Migration effort levels](#migration-effort-levels)
@@ -157,6 +158,19 @@ $ pnpm add @dnb/eufemia@11
 v11 of @dnb/eufemia contains _breaking changes_.
 
 > Important: Upgrading to v11 requires React and React DOM v19 ([React 19 Upgrade Guide](https://react.dev/blog/2024/04/25/react-19-upgrade-guide)).
+
+### Quick-start checklist
+
+For apps with light Eufemia usage, this minimal checklist covers the most common changes. For comprehensive coverage, follow the full [Step-by-step migration procedure](#step-by-step-migration-procedure) instead.
+
+1. Upgrade React and React DOM to v19.
+2. Install `@dnb/eufemia@11`.
+3. Find-and-replace all snake_case props and events (e.g. `on_change` → `onChange`, `status_state` → `statusState`).
+4. Replace `innerRef` with `ref`.
+5. Replace status values: `'info'` → `'information'`, `'warn'` → `'warning'`.
+6. Run `npx tsc --noEmit` and fix any remaining type errors.
+7. Run your test suite — update DatePicker/Expiry test selectors (`input` → `[role="spinbutton"]`).
+8. Review [Silent failures TypeScript won't catch](#silent-failures-typescript-wont-catch).
 
 ### Automated migration: snake_case to camelCase
 
@@ -446,7 +460,10 @@ These renames use generic names that exist in non-Eufemia code. Scope your find-
 #### Phase 8: Verify
 
 55. Run `npx tsc --noEmit` to catch remaining type errors.
-56. Run your tests. Update any test selectors that query DatePicker/Expiry `input` elements (now `role="spinbutton"` sections).
+56. Run your tests. Pay special attention to:
+    - DatePicker/Expiry selectors: `input` elements are now `role="spinbutton"` sections (use `document.querySelector('[role="spinbutton"]')` or `.dnb-segmented-field__section`).
+    - CSS class assertions: renamed classes like `--opened` → `--open`, `--visible` → `--show`, `--contrast` → `--surface-dark` (see [CSS class renames](#cross-component-prop-patterns)).
+    - Event callback destructuring: properties like `days_between`, `is_valid` are now camelCase (see [Silent failures](#silent-failures-typescript-wont-catch)).
 57. Search for remaining snake_case patterns using the grep command in [Verifying your migration](#verifying-your-migration).
 
 ### Find-and-replace safety guide
