@@ -1,7 +1,7 @@
 ---
 title: 'Functions'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.064Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.412Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -10,16 +10,6 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ## Component helpers
 
 All components provide various function helpers that you can also use in your projects.
-
-### isTrue
-
-Checks if a value is Truthy or Falsy.
-
-```js
-import { isTrue } from '@dnb/eufemia/shared/component-helper'
-
-isTrue(String | Boolean | Number) // returns Boolean
-```
 
 ### isTouchDevice
 
@@ -39,26 +29,6 @@ Transforms a string from **snake_case** to [PascalCase](/contribute/style-guides
 import { toPascalCase } from '@dnb/eufemia/shared/component-helper'
 
 toPascalCase(String) // returns String
-```
-
-### toCamelCase
-
-Transforms a string from **snake_case** to [camelCase](/contribute/style-guides/naming).
-
-```js
-import { toCamelCase } from '@dnb/eufemia/shared/component-helper'
-
-toCamelCase(String) // returns String
-```
-
-### toSnakeCase
-
-Transforms a string from **PascalCase** to [snake_case](/contribute/style-guides/naming).
-
-```js
-import { toSnakeCase } from '@dnb/eufemia/shared/component-helper'
-
-toSnakeCase(String) // returns String
 ```
 
 ### toKebabCase
@@ -301,7 +271,6 @@ copyToClipboard(string) // returns success: String|Boolean|Error
 
 | Function   | Description                                        | Parameters | Return    |
 | ---------- | -------------------------------------------------- | ---------- | --------- |
-| `isEdge`   | Returns true or false, depending on the detection. | none       | `Boolean` |
 | `isSafari` | Returns true or false, depending on the detection. | none       | `Boolean` |
 | `isiOS`    | Returns true or false, depending on the detection. | none       | `Boolean` |
 | `isMac`    | Returns true or false, depending on the detection. | none       | `Boolean` |
@@ -312,7 +281,6 @@ copyToClipboard(string) // returns success: String|Boolean|Error
 
 | Constant    | Description                                                         | Value     |
 | ----------- | ------------------------------------------------------------------- | --------- |
-| `IS_EDGE`   | Gives you true or false, depending on the detection during startup. | `Boolean` |
 | `IS_SAFARI` | Gives you true or false, depending on the detection during startup. | `Boolean` |
 | `IS_IOS`    | Gives you true or false, depending on the detection during startup. | `Boolean` |
 | `IS_MAC`    | Gives you true or false, depending on the detection during startup. | `Boolean` |

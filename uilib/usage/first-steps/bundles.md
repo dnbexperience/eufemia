@@ -1,7 +1,7 @@
 ---
 title: 'Bundles: UMD and ESM (mjs)'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.118Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.462Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -44,8 +44,8 @@ Requires React and ReactDOM to be loaded.
     const MyButton = React.createElement(window.dnbLib.Button, {
       text: 'My Button',
       icon: 'chevron_right',
-      on_click: (params) => {
-        console.log('on_click', params)
+      onClick: (params) => {
+        console.log('onClick', params)
       },
     })
     const root = createRoot(document.getElementById('app'))
@@ -98,8 +98,8 @@ Because `importmap` is still not supported by the majority of browsers, we use a
       {
         text: 'My Button',
         icon: 'chevron_right',
-        on_click: (params) => {
-          console.log('on_click', params)
+        onClick: (params) => {
+          console.log('onClick', params)
         }
       }
     )

@@ -1,9 +1,9 @@
 ---
 title: 'Iterate.PushButton'
 description: '`Iterate.PushButton` builds on top of the same data flow logic as field components, but the only thing it changes in the value it receives or retrieves from source data is adding a new item to the array.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.745Z
-checksum: 197d8ae847f788628e541f64a96a84e035ec18e2b7161c0d972b31ccdbcac29f
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.041Z
+checksum: 1eb1708450581371c3fed4049301393bc2aabbd59fa7d6375e685c3160458d55
 ---
 
 # Iterate.PushButton
@@ -18,6 +18,11 @@ render(<Iterate.PushButton />)
 ## Description
 
 `Iterate.PushButton` connects to the array of a surrounding `Iterate.Array` or an array from the source pointed at through `path` and adds a new item to the array when clicked.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Iterate/PushButton)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Iterate/PushButton)
 
 ```tsx
 import { Iterate, Form, Field } from '@dnb/eufemia/extensions/forms'
@@ -122,7 +127,7 @@ render(
     "path": {
       "doc": "The path to the array to add the new item to.",
       "type": "string",
-      "status": "required"
+      "status": "optional"
     },
     "itemPath": {
       "doc": "The path to the item in a nested array, to add the new item to.",
@@ -130,7 +135,7 @@ render(
       "status": "optional"
     },
     "pushValue": {
-      "doc": "The element to add to the array when the button is clicked. Can be a function to returns the push value.",
+      "doc": "The element to add to the array when the button is clicked. Can be a function that returns the push value.",
       "type": "unknown",
       "status": "optional"
     },

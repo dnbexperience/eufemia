@@ -1,9 +1,9 @@
 ---
 title: 'Heading'
 description: 'The Heading component is a helper to create automated semantic headings within a boundary of some rules.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.456Z
-checksum: 400a63665aa7aca0b3826acdfea84d1ee954466136ea1f63030445e5fe2760db
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.084Z
+checksum: 0ce3addcfcfa735263d0f47955de9dc9632600df2345c730edde9e2d95f50e31
 ---
 
 # Heading
@@ -52,7 +52,7 @@ render(
 - A **heading** will inherit the level from its previous sibling.
 - A **level provider** will create an isolated level context (`Heading.Level`).
 - A heading, nested inside a context (`Heading.Level`) will likewise inherit the previous context level.
-- A heading can have a set of different [size](/uilib/elements/heading#headings) properties. More details below.
+- A heading can have a set of different [size](/uilib/elements/heading) properties. More details below.
 
 ### Defining heading styles / sizes
 
@@ -79,7 +79,7 @@ The correction will ensure that:
 
 You get a `console.warn` warning (only in development) about corrections. You can attach a custom warning / handler if you need that: `<Heading.Level debug={(...logs) => console.info(...logs)}>`
 
-You can also disable corrections by using the property `skip_correction={true}`.
+You can also disable corrections by using the property `skipCorrection={true}`.
 
 ### Heading level context provider / asynchronous
 
@@ -106,7 +106,7 @@ render(
 
 ### Skip auto correction and warnings
 
-First, warnings will not show up in production builds. And to skip the auto correction of heading levels, simply use the `skip_correction` property.
+First, warnings will not show up in production builds. And to skip the auto correction of heading levels, simply use the `skipCorrection` property.
 
 ### Heading levels interceptor modification
 
@@ -136,7 +136,7 @@ Heading.setNextLevel(4, { overwriteContext: true })
 #### Heading and routers
 
 In order to reset the leveling during a page transition on using `react-router-dom` v5, you can make use of `withRouter`.
-In v6 or `@reach/router`, you just call it in the correct "page" component.
+In v6 or `@gatsbyjs/reach-router`, you just call it in the correct "page" component.
 You could additionally define "what is a page change" and what not, by using the `location: { pathname }` property you get inside these routing components.
 
 ### Basic heading elements
@@ -171,7 +171,7 @@ render(
         <Heading level="2" size="x-large">
           h2
         </Heading>
-        <Heading skip_correction level={4}>
+        <Heading skipCorrection level={4}>
           h4
         </Heading>
       </Heading.Level>
@@ -275,25 +275,25 @@ render(
 {
   "props": {
     "text": {
-      "doc": "A heading, can be text or React.Node.",
-      "type": "React.Node",
+      "doc": "A heading, can be text or `React.ReactNode`.",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "children": {
-      "doc": "A heading, can be text or React.Node.",
-      "type": "React.Node",
+      "doc": "A heading, can be text or `React.ReactNode`.",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "size": {
       "doc": "Define the typography [font-size](/uilib/typography/font-size) by a size _type_, e.g. `x-large`. Defaults to the predefined heading sizes.",
       "type": [
-        "xx-large",
-        "x-large",
-        "large",
-        "medium",
-        "basis",
-        "small",
-        "x-small"
+        "\"xx-large\"",
+        "\"x-large\"",
+        "\"large\"",
+        "\"medium\"",
+        "\"basis\"",
+        "\"small\"",
+        "\"x-small\""
       ],
       "status": "optional"
     },
@@ -322,8 +322,8 @@ render(
       "type": ["boolean", "number"],
       "status": "optional"
     },
-    "skip_correction": {
-      "doc": "If set to `true`, the heading will not be corrected and warnings will not be shown. Warnings do not show up in **production builds** else either",
+    "skipCorrection": {
+      "doc": "If set to `true`, the heading will not be corrected and warnings will not be shown. Warnings do not show up in **production builds** else either.",
       "type": "boolean",
       "status": "optional"
     },
@@ -332,7 +332,7 @@ render(
       "type": ["boolean", "function"],
       "status": "optional"
     },
-    "debug_counter": {
+    "debugCounter": {
       "doc": "If set to `true`, the content will have both a prefix and a JSON log attached to both headings and level contexts.",
       "type": ["boolean", "function"],
       "status": "optional"
@@ -345,11 +345,6 @@ render(
     "skeleton": {
       "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
       "type": "boolean",
-      "status": "optional"
-    },
-    "proseMaxWidth": {
-      "doc": "Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.",
-      "type": ["number", "boolean"],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
@@ -367,5 +362,5 @@ Properties which do apply to the provider (level context) `Heading.Level` as wel
 - `decrease`
 - `inherit`
 - `reset`
-- `skip_correction`
+- `skipCorrection`
 - `debug`

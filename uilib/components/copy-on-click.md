@@ -1,9 +1,9 @@
 ---
 title: 'CopyOnClick'
 description: 'The CopyOnClick component allows users to copy text to their clipboard simply by clicking on it.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.354Z
-checksum: 8ea60c96f88632fc93f5e54467cbab676571cfcb8665066047ec0c4b27bfda71
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:08.973Z
+checksum: d295fb202d99102f67fd6615cb964c459dc2d8eea69dfec0225775022aaef4b0
 ---
 
 # CopyOnClick
@@ -89,7 +89,7 @@ If `children` is a React element that cannot be directly converted to a string, 
 render(
   <P>
     <CopyOnClick>
-      <NumberFormat value={1234567.89} currency="NOK" />
+      <NumberFormat.Currency value={1234567.89} currency="NOK" />
     </CopyOnClick>
   </P>
 )
@@ -126,17 +126,17 @@ render(
     },
     "copyContent": {
       "doc": "Contents to copy. Used when the copied value should differ from the visually shown value(`children`).",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "tooltipContent": {
-      "doc": "The message shown in the tooltip when the content is copied. Defaults to the translation `CopyOnClick.clipboard_copy`.",
-      "type": "React.Node",
+      "doc": "The message shown in the tooltip when the content is copied. Defaults to the translation `CopyOnClick.clipboardCopy`.",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "children": {
       "doc": "Contents.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "required"
     }
   }
@@ -149,7 +149,7 @@ render(
 {
   "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
   "entries": {
-    "CopyOnClick.clipboard_copy": {
+    "CopyOnClick.clipboardCopy": {
       "nb-NO": "Kopiert",
       "en-GB": "Copied",
       "sv-SE": "Kopierad",

@@ -1,9 +1,9 @@
 ---
 title: 'Tag'
 description: 'The Tag component is a compact element for displaying discrete information.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.756Z
-checksum: 03185114c64e502a2d3b8cefeffb8fac51ce07ce5811667d91f455b6fc2e92d3
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.460Z
+checksum: 1059dd4ae201d0a98d491bb6096bc1cb8a6392d46b7a5bdb50d61d93d7660bcf
 ---
 
 # Tag
@@ -218,18 +218,23 @@ render(
       "status": "optional"
     },
     "icon": {
-      "doc": "To be included in the tag. Primary Icons can be set as a string (e.g. icon=\"chevron_right\"), other icons should be set as React elements. Note, we recommend not to use icons with clickable tags.",
-      "type": ["string", "React.Node"],
+      "doc": "To be included in the tag. Primary Icons can be set as a string (e.g. `icon=\"chevron_right\"`), other icons should be set as React elements. Note, we recommend not to use icons with clickable tags.",
+      "type": ["string", "React.ReactNode"],
       "status": "optional"
     },
     "hasLabel": {
-      "doc": "If a label is given, typical inside a table or dl (definition list), then you can disable Tag.Group as a dependent of Tag. Use `true` to omit the `Tag group required:` warning.",
+      "doc": "If a label is given, typically inside a table or dl (definition list), then you can disable Tag.Group as a dependent of Tag. Use `true` to omit the `Tag group required:` warning.",
       "type": "boolean",
       "status": "optional"
     },
     "variant": {
       "doc": "Possible values are `default`, `clickable`, `addable`, or `removable`. Defaults to `default`.",
-      "type": ["default", "clickable", "addable", "removable"],
+      "type": [
+        "\"default\"",
+        "\"clickable\"",
+        "\"addable\"",
+        "\"removable\""
+      ],
       "status": "optional"
     },
     "omitOnKeyUpDeleteEvent": {
@@ -238,7 +243,7 @@ render(
       "status": "optional"
     },
     "className": {
-      "doc": "Custom className for the component root.",
+      "doc": "Custom `className` for the component root.",
       "type": "string",
       "status": "optional"
     },
@@ -267,12 +272,12 @@ render(
       "status": "required"
     },
     "children": {
-      "doc": "Content of the component. Can be used instead of the `data`-property, by adding Tag elements as children `<Tag {...props} />`.",
+      "doc": "Content of the component. Can be used instead of the `data`-property, by adding Tag elements as children `<Tag {...properties} />`.",
       "type": "React.ReactNode",
       "status": "optional"
     },
     "className": {
-      "doc": "Custom className for the component root.",
+      "doc": "Custom `className` for the component root.",
       "type": "string",
       "status": "optional"
     },
@@ -318,14 +323,9 @@ render(
 {
   "props": {
     "onClick": {
-      "doc": "Will be called on a click event. Returns an object with the native event: `{ event }`.",
-      "type": "function",
+      "doc": "Will be called on a click event. Returns the native event.",
+      "type": "React.MouseEventHandler",
       "status": "optional"
-    },
-    "onDelete": {
-      "doc": "Deprecated: use `onClick` with `variant=\"removable\"` instead. Will be called on a click event. Returns an object with the native event: `{ event }`. This property does not support icon and will be ignored if `onClick`is defined.",
-      "type": "function",
-      "status": "deprecated"
     }
   }
 }

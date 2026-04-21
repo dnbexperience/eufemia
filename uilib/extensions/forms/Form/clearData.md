@@ -1,8 +1,8 @@
 ---
 title: 'Form.clearData'
 description: '`Form.clearData` lets you clear the data of a form.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.698Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.971Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -18,6 +18,11 @@ import { Form } from '@dnb/eufemia/extensions/forms'
 ## Description
 
 The `Form.clearData` lets you clear the data of a form.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Form/clearData.ts)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Form/clearData)
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'

@@ -1,8 +1,8 @@
 ---
 title: 'Form.useTranslation'
 description: '`Form.useTranslation` is a hook that returns the translations for the current locale.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.707Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.980Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -173,11 +173,11 @@ import { Provider, Translation } from '@dnb/eufemia/shared'
 
 const myTranslations = {
   'nb-NO': {
-    'PhoneNumber.label': 'Egendefinert',
+    'PhoneNumber.numberLabel': 'Egendefinert',
     'custom.string': 'Min egendefinerte streng',
   },
   'en-GB': {
-    'PhoneNumber.label': 'Custom',
+    'PhoneNumber.numberLabel': 'Custom',
     'custom.string': 'My custom string',
   },
 }

@@ -1,8 +1,8 @@
 ---
 title: 'Heading'
 description: 'The heading element is used to indicate the quotation of a large section of text from another source.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.836Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.552Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -103,7 +103,7 @@ By using the `<small>` element, we decrease the size one level (default size is 
 
 ### Prose max width
 
-The `proseMaxWidth` prop allows you to limit the width of heading text based on character count, creating optimal reading line lengths:
+The `proseMaxWidth` property allows you to limit the width of heading text based on character count, creating optimal reading line lengths:
 
 ```tsx
 <H2>
@@ -170,6 +170,25 @@ Only the largest margin takes effect.
 </P>
 ```
 
+### Dark surface
+
+Headings automatically adapt their color when rendered on a dark surface:
+
+```tsx
+render(
+  <Section
+    innerSpace={{
+      block: true,
+    }}
+    surface="dark"
+  >
+    <H1 size="large" top={false} bottom={false}>
+      Heading on dark surface
+    </H1>
+  </Section>
+)
+```
+
 ```tsx
 <ComponentBox
   scope={{
@@ -192,9 +211,9 @@ Only the largest margin takes effect.
   data-visual-test="heading-base"
 >
   <H>default (h1 - xx-large)</H>
-  <H as="h2">custom level (h2 - xx-large)</H>
+  <H element="h2">custom level (h2 - xx-large)</H>
   <H size="small">custom size (h1 - small)</H>
-  <H as="h2" size="small">
+  <H element="h2" size="small">
     custom level and size (h2 - small)
   </H>
 </ComponentBox>
@@ -206,25 +225,25 @@ Only the largest margin takes effect.
 {
   "props": {
     "text": {
-      "doc": "A heading, can be text or React.Node.",
-      "type": "React.Node",
+      "doc": "A heading, can be text or `React.ReactNode`.",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "children": {
-      "doc": "A heading, can be text or React.Node.",
-      "type": "React.Node",
+      "doc": "A heading, can be text or `React.ReactNode`.",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "size": {
       "doc": "Define the typography [font-size](/uilib/typography/font-size) by a size _type_, e.g. `x-large`. Defaults to the predefined heading sizes.",
       "type": [
-        "xx-large",
-        "x-large",
-        "large",
-        "medium",
-        "basis",
-        "small",
-        "x-small"
+        "\"xx-large\"",
+        "\"x-large\"",
+        "\"large\"",
+        "\"medium\"",
+        "\"basis\"",
+        "\"small\"",
+        "\"x-small\""
       ],
       "status": "optional"
     },
@@ -253,8 +272,8 @@ Only the largest margin takes effect.
       "type": ["boolean", "number"],
       "status": "optional"
     },
-    "skip_correction": {
-      "doc": "If set to `true`, the heading will not be corrected and warnings will not be shown. Warnings do not show up in **production builds** else either",
+    "skipCorrection": {
+      "doc": "If set to `true`, the heading will not be corrected and warnings will not be shown. Warnings do not show up in **production builds** else either.",
       "type": "boolean",
       "status": "optional"
     },
@@ -263,7 +282,7 @@ Only the largest margin takes effect.
       "type": ["boolean", "function"],
       "status": "optional"
     },
-    "debug_counter": {
+    "debugCounter": {
       "doc": "If set to `true`, the content will have both a prefix and a JSON log attached to both headings and level contexts.",
       "type": ["boolean", "function"],
       "status": "optional"
@@ -276,11 +295,6 @@ Only the largest margin takes effect.
     "skeleton": {
       "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
       "type": "boolean",
-      "status": "optional"
-    },
-    "proseMaxWidth": {
-      "doc": "Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.",
-      "type": ["number", "boolean"],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {

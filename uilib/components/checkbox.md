@@ -1,9 +1,9 @@
 ---
 title: 'Checkbox'
 description: 'The Checkbox component is shown as a square box that is ticked (checked) when activated.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.347Z
-checksum: 4ad409a5c220c1a36b1d66252b123c2e6f01b4a02484117c0f7281f618d4bc5e
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:08.965Z
+checksum: 2ff69f07c0b85adfd7100c6ec6337447041916f59c076582df0e1ca1e8ab823e
 ---
 
 # Checkbox
@@ -23,6 +23,10 @@ The Checkbox component is displayed as a square box that is ticked (checked) whe
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=4243-1493)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/checkbox)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/checkbox)
+
+## Accessibility
+
+Checkbox components use semantic `<input type="checkbox">` elements, ensuring full keyboard accessibility (Space to toggle) and proper state announcement by screen readers. Labels are properly associated using `htmlFor` attributes.
 
 ## Demos
 
@@ -139,27 +143,27 @@ render(
     },
     "title": {
       "doc": "The `title` of the input - describing it a bit further for accessibility reasons.",
-      "type": "ReactNode",
+      "type": "string",
       "status": "optional"
     },
     "label": {
       "doc": "Use either the `label` property or provide a custom one.",
-      "type": "ReactNode",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "labelPosition": {
       "doc": "Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.",
-      "type": "string",
+      "type": ["\"left\"", "\"right\""],
       "status": "optional"
     },
     "labelSrOnly": {
       "doc": "Use `true` to make the label only readable by screen readers.",
-      "type": "string",
+      "type": "boolean",
       "status": "optional"
     },
     "size": {
-      "doc": "The size of the checkbox. For now there is \"medium\" (default) and \"large\".",
-      "type": ["string", "number"],
+      "doc": "The size of the checkbox. For now there is `medium` (default) and `large`.",
+      "type": ["\"default\"", "\"medium\"", "\"large\""],
       "status": "optional"
     },
     "indeterminate": {
@@ -169,21 +173,21 @@ render(
     },
     "status": {
       "doc": "Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.",
-      "type": ["error", "info", "boolean"],
+      "type": ["\"error\"", "\"information\"", "boolean"],
       "status": "optional"
     },
     "statusState": {
-      "doc": "Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.",
-      "type": ["error", "info"],
+      "doc": "Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.",
+      "type": ["\"error\"", "\"information\""],
       "status": "optional"
     },
     "statusProps": {
-      "doc": "Use an object to define additional FormStatus properties. See [FormStatus](/uilib/components/form-status/properties/)",
+      "doc": "Use an object to define additional FormStatus properties. See [FormStatus](/uilib/components/form-status/properties/).",
       "type": "FormStatusProps",
       "status": "optional"
     },
     "globalStatus": {
-      "doc": "The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status)",
+      "doc": "The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).",
       "type": "object",
       "status": "optional"
     },
@@ -194,11 +198,11 @@ render(
     },
     "suffix": {
       "doc": "Text describing the content of the Checkbox more than the label. You can also send in a React component, so it gets wrapped inside the Checkbox component.",
-      "type": "ReactNode",
+      "type": "React.ReactNode",
       "status": "optional"
     },
-    "innerRef": {
-      "doc": "By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.",
+    "ref": {
+      "doc": "By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.",
       "type": "React.RefObject",
       "status": "optional"
     },

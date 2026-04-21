@@ -1,9 +1,9 @@
 ---
 title: 'Value.BankAccountNumber'
 description: '`Value.BankAccountNumber` is a wrapper component for displaying string values, with user experience tailored for bank account number values.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.809Z
-checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.106Z
+checksum: ec13490d1c2f56c9d3d84678ebcd37a4304e0d258fafc5afec118ddeff725cff
 ---
 
 # Value.BankAccountNumber
@@ -19,12 +19,9 @@ render(<Value.BankAccountNumber />)
 
 `Value.BankAccountNumber` is a wrapper component for displaying string values, with user experience tailored for bank account number values.
 
-There is a corresponding [Field.BankAccountNumber](/uilib/extensions/forms/feature-fields/BankAccountNumber) component.
+Use the `bankAccountType` prop to format different account types: `norwegianBban` (default), `swedishBban`, `swedishBankgiro`, `swedishPlusgiro`, or `iban`.
 
-```jsx
-import { Value } from '@dnb/eufemia/extensions/forms'
-render(<Value.BankAccountNumber />)
-```
+There is a corresponding [Field.BankAccountNumber](/uilib/extensions/forms/feature-fields/BankAccountNumber) component.
 
 ## Relevant links
 
@@ -77,7 +74,46 @@ render(
 )
 ```
 
+### Bank account types
+
+Use the `bankAccountType` prop to switch between formats.
+
+```tsx
+<Value.BankAccountNumber
+  bankAccountType="swedishBban"
+  value="50001234567"
+/>
+<Value.BankAccountNumber
+  bankAccountType="swedishBankgiro"
+  value="59140129"
+/>
+<Value.BankAccountNumber
+  bankAccountType="swedishPlusgiro"
+  value="1263664"
+/>
+<Value.BankAccountNumber
+  bankAccountType="iban"
+  value="NO9386011117947"
+/>
+```
+
 ## Properties
+
+### BankAccountNumber-specific properties
+
+```json
+{
+  "props": {
+    "bankAccountType": {
+      "doc": "The type of bank account number, used for label and formatting. Can be `norwegianBban`, `swedishBban`, `swedishBankgiro`, `swedishPlusgiro`, or `iban`. Defaults to `norwegianBban`.",
+      "type": "string",
+      "status": "optional"
+    }
+  }
+}
+```
+
+### General properties
 
 ```json
 {
@@ -103,7 +139,7 @@ render(
       "status": "optional"
     },
     "help": {
-      "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+      "doc": "Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
       "type": "object",
       "status": "optional"
     },
@@ -144,7 +180,7 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": "string",
+      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
       "status": "optional"
     },
     "transformIn": {
@@ -167,11 +203,53 @@ render(
 {
   "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
   "entries": {
+    "BankAccountNumber.errorBankAccountNumber": {
+      "nb-NO": "Ugyldig kontonummer.",
+      "en-GB": "Invalid account number.",
+      "sv-SE": "Ogiltigt kontonummer.",
+      "da-DK": "Ugyldigt kontonummer."
+    },
+    "BankAccountNumber.errorBankAccountNumberLength": {
+      "nb-NO": "Du må skrive inn et gyldig kontonummer med 11 siffer.",
+      "en-GB": "You must enter a valid account number with 11 digits.",
+      "sv-SE": "Du måste ange ett giltigt kontonummer med 11 siffror.",
+      "da-DK": "Du skal indtaste et gyldigt kontonummer med 11 cifre."
+    },
+    "BankAccountNumber.errorRequired": {
+      "nb-NO": "Du må fylle inn et kontonummer.",
+      "en-GB": "You must enter an account number.",
+      "sv-SE": "Du måste fylla i ett kontonummer.",
+      "da-DK": "Du skal udfylde et kontonummer."
+    },
     "BankAccountNumber.label": {
       "nb-NO": "Bankkonto",
       "en-GB": "Bank account",
       "sv-SE": "Bankkonto",
       "da-DK": "Bankkonto"
+    },
+    "BankAccountNumber.labelIban": {
+      "nb-NO": "IBAN",
+      "en-GB": "IBAN",
+      "sv-SE": "IBAN",
+      "da-DK": "IBAN"
+    },
+    "BankAccountNumber.labelSwedishBankgiro": {
+      "nb-NO": "Bankgiro",
+      "en-GB": "Bankgiro",
+      "sv-SE": "Bankgiro",
+      "da-DK": "Bankgiro"
+    },
+    "BankAccountNumber.labelSwedishBban": {
+      "nb-NO": "Svenskt kontonummer",
+      "en-GB": "Swedish account number",
+      "sv-SE": "Svenskt kontonummer",
+      "da-DK": "Svensk kontonummer"
+    },
+    "BankAccountNumber.labelSwedishPlusgiro": {
+      "nb-NO": "Plusgiro",
+      "en-GB": "Plusgiro",
+      "sv-SE": "Plusgiro",
+      "da-DK": "Plusgiro"
     }
   }
 }

@@ -1,9 +1,9 @@
 ---
 title: 'Iterate.ViewContainer'
 description: '`Iterate.ViewContainer` enables users to toggle (with animation) the content of each item between the view and edit container.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.785Z
-checksum: 3740fb2dd2daecacdcd46006f95723a17f40bf3c5b296b58cde948055a7d6676
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.074Z
+checksum: fd927e5e6079ac54f6e5194de24331ff79e64fc4982b0071ecc885c7a6568fde
 ---
 
 # Iterate.ViewContainer
@@ -18,6 +18,11 @@ render(<Iterate.ViewContainer />)
 ## Description
 
 `Iterate.ViewContainer` enables users to toggle (with animation) the content of each item between this view and the [Iterate.EditContainer](/uilib/extensions/forms/Iterate/EditContainer/) container. It can be used instead of the [Iterate.AnimatedContainer](/uilib/extensions/forms/Iterate/AnimatedContainer/).
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Iterate/ViewContainer)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Iterate/ViewContainer)
 
 By default, it features the [Iterate.Toolbar](/uilib/extensions/forms/Iterate/Toolbar/) containing a "Edit" button and a [Iterate.RemoveButton](/uilib/extensions/forms/Iterate/RemoveButton/) button. The "Remove" will delete the current item from the array.
 
@@ -124,22 +129,22 @@ When having two items in the Iterate.Array:
   "props": {
     "title": {
       "doc": "The title of the container.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "variant": {
       "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
-      "type": "string",
+      "type": ["\"outline\"", "\"filled\"", "\"basic\""],
       "status": "optional"
     },
     "toolbar": {
       "doc": "An alternative toolbar to be shown in the container.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "toolbarVariant": {
       "doc": "Use variants to render the toolbar differently. Currently there are the `minimumOneItem` and `custom` variants. See the info section for more info.",
-      "type": "string",
+      "type": ["\"minimumOneItem\"", "\"custom\""],
       "status": "optional"
     },
     "[FlexVertical](/uilib/layout/flex/container/properties)": {

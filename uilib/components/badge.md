@@ -1,9 +1,9 @@
 ---
 title: 'Badge'
 description: 'The Badge component allows the user to focus on new or unread content or notifications.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.316Z
-checksum: f2fdffcad5009ed5d60a6064a09adc13c2a32c7e624a3646ffdaebeeb43face9
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:08.927Z
+checksum: e44c4039c20189a099f5d28fc7d21f0fc5bcbc5f2c5f3677fe8bc23bd807d85f
 ---
 
 # Badge
@@ -50,9 +50,9 @@ render(<Badge content="New" />)
 
 ```tsx
 render(
-  <div>
+  <P>
     Text <Badge content="Info" variant="information" /> Text
-  </div>
+  </P>
 )
 ```
 
@@ -66,11 +66,11 @@ render(<Badge content={1} label="Notifications" variant="notification" />)
 
 ```tsx
 render(
-  <div>
+  <P>
     Text{' '}
     <Badge content={1234} label="Notifications" variant="notification" />{' '}
     Text
-  </div>
+  </P>
 )
 ```
 
@@ -195,7 +195,7 @@ render(
 
 ### Hiding Badge with `hideBadge`
 
-Sometimes you need to hide the badge without hiding the overlayed element. To make this less complicated you can use the `hideBadge` prop.
+Sometimes you need to hide the badge without hiding the overlayed element. To make this less complicated you can use the `hideBadge` property.
 
 The example below hides the badge when there are no notifications. You can add or remove notifications with the "+" and "-" buttons.
 
@@ -262,7 +262,7 @@ render(<Example />)
       "status": "optional"
     },
     "className": {
-      "doc": "Custom className for the component.",
+      "doc": "Custom `className` for the component.",
       "type": "string",
       "status": "optional"
     },
@@ -277,7 +277,7 @@ render(<Example />)
       "status": "optional"
     },
     "status": {
-      "doc": "Defines the status color of the `\"information\"` variant. Has no effect on other variants. Default is `\"default\"`.",
+      "doc": "Defines the status color of the `\"information\"` variant. Has no effect on other variants. Defaults to `\"default\"`.",
       "type": [
         "\"default\"",
         "\"positive\"",
@@ -288,12 +288,12 @@ render(<Example />)
       "status": "optional"
     },
     "subtle": {
-      "doc": "Applies subtle style to `\"information\"` variant. Has no effect on other variants. Default is `false`.",
+      "doc": "Applies subtle style to `\"information\"` variant. Has no effect on other variants. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },
     "hideBadge": {
-      "doc": "Removes the badge without removing children. Useful when Badge wraps content. Default is `false`.",
+      "doc": "Removes the badge without removing children. Useful when Badge wraps content. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },

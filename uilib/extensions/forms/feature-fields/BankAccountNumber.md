@@ -1,8 +1,8 @@
 ---
 title: 'Field.BankAccountNumber'
 description: '`Field.BankAccountNumber` is a wrapper component for the input of strings, with user experience tailored for bank account number values.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.034Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.383Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -19,8 +19,17 @@ render(<Field.BankAccountNumber />)
 
 `Field.BankAccountNumber` is a wrapper component for [string input](/uilib/extensions/forms/base-fields/String), with user experience tailored for bank account values.
 
-This field is meant for Norwegian bank account numbers and therefore takes an 11-digit string as a value. A Norwegian bank account number can have a leading zero, which is why this value is a string and not a number. In addition, we validate `0000 00 00000` as invalid.
-More information can be found at [Wikipedia](https://no.wikipedia.org/wiki/Kontonummer).
+Use the `bankAccountType` prop to switch between formats:
+
+- `norwegianBban` (default): 11-digit Norwegian account number with mod-11 checksum validation.
+- `swedishBban`: 4-digit clearing number + account number (up to 14 digits).
+- `swedishBankgiro`: 7–8 digits.
+- `swedishPlusgiro`: 2–8 digits.
+- `iban`: Up to 34 alphanumeric characters, grouped in blocks of four.
+
+Only `norwegianBban` includes built-in validation. Use `onBlurValidator` for custom validation of other types.
+
+The value is always a string since account numbers can have leading zeros.
 
 There is a corresponding [Value.BankAccountNumber](/uilib/extensions/forms/Value/BankAccountNumber) component.
 
@@ -205,6 +214,33 @@ render(
 )
 ```
 
+### Bank account types
+
+Use the `bankAccountType` prop to switch between formats.
+
+```tsx
+<Field.BankAccountNumber
+  bankAccountType="swedishBban"
+  value="50001234567"
+  onChange={(value) => console.log('onChange', value)}
+/>
+<Field.BankAccountNumber
+  bankAccountType="swedishBankgiro"
+  value="59140129"
+  onChange={(value) => console.log('onChange', value)}
+/>
+<Field.BankAccountNumber
+  bankAccountType="swedishPlusgiro"
+  value="1263664"
+  onChange={(value) => console.log('onChange', value)}
+/>
+<Field.BankAccountNumber
+  bankAccountType="iban"
+  value="NO9386011117947"
+  onChange={(value) => console.log('onChange', value)}
+/>
+```
+
 ## Properties
 
 ### Field-specific properties
@@ -228,23 +264,32 @@ render(
       "status": "optional"
     },
     "capitalize": {
-      "doc": "When set to true, it will capitalize the first letter of every word, transforming the rest to lower case.",
+      "doc": "When set to `true`, it will capitalize the first letter of every word, transforming the rest to lower case.",
       "type": "boolean",
       "status": "optional"
     },
     "trim": {
-      "doc": "When true, it will trim leading and trailing whitespaces on blur, triggering `onChange` if the value changes.",
+      "doc": "When `true`, it will trim leading and trailing whitespaces on blur, triggering `onChange` if the value changes.",
       "type": "boolean",
       "status": "optional"
     },
     "inputMode": {
       "doc": "Define an [inputmode](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode).",
-      "type": "string",
+      "type": [
+        "\"none\"",
+        "\"text\"",
+        "\"tel\"",
+        "\"url\"",
+        "\"email\"",
+        "\"numeric\"",
+        "\"decimal\"",
+        "\"search\""
+      ],
       "status": "optional"
     },
     "autoComplete": {
       "doc": "For HTML [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) attributes.",
-      "type": ["on", "string"],
+      "type": ["\"on\"", "string"],
       "status": "optional"
     },
     "minLength": {
@@ -268,22 +313,17 @@ render(
       "status": "optional"
     },
     "size": {
-      "doc": "The sizes you can choose is `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`. Also, if you define a number like `size={2}` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).",
+      "doc": "The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`. Also, if you define a number like `size={2}` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).",
       "type": ["string", "number"],
       "status": "optional"
     },
     "align": {
       "doc": "Defines the text alignment of the input. Can be `left`, `right` or `center`. Defaults to `left`.",
-      "type": "string",
+      "type": ["\"left\"", "\"center\"", "\"right\""],
       "status": "optional"
     },
-    "selectall": {
+    "selectAll": {
       "doc": "If set to `true`, then the whole input value gets selected on the entry focus. A second click will place the cursor on the wanted position.",
-      "type": "boolean",
-      "status": "optional"
-    },
-    "clear": {
-      "doc": "If set to `true`, then a clear button will be shown which lets the user clear any given input value.",
       "type": "boolean",
       "status": "optional"
     },
@@ -297,7 +337,7 @@ render(
       "type": "number",
       "status": "optional"
     },
-    "autoresizeMaxRows": {
+    "autoResizeMaxRows": {
       "doc": "To be used together with `multiline`. Set how many rows of text can be shown at max. Defaults to `6`.",
       "type": "number",
       "status": "optional"
@@ -307,24 +347,29 @@ render(
       "type": ["number", "object"],
       "status": "optional"
     },
-    "autoresize": {
+    "autoResize": {
       "doc": "To be used together with `multiline`. Set true to expand when writing longer texts. Defaults to `true`.",
       "type": "boolean",
       "status": "optional"
     },
     "inputClassName": {
-      "doc": "Class name set on the <input> DOM element.",
+      "doc": "Class name set on the `<input>` DOM element.",
       "type": "string",
       "status": "optional"
     },
-    "innerRef": {
-      "doc": "By providing a React.Ref we can get the internally used input element (DOM).",
+    "ref": {
+      "doc": "By providing a `React.Ref` we can get the internally used input element (DOM).",
       "type": "React.RefObject",
       "status": "optional"
     },
     "submitElement": {
-      "doc": "Accepts a React element which will show up like the \"submit button\" would do on type=\"search\".",
+      "doc": "Accepts a React element which will show up like the \"submit button\" would do on `type=\"search\"`.",
       "type": "React.Element",
+      "status": "optional"
+    },
+    "bankAccountType": {
+      "doc": "The type of bank account number, used for input mask, label, and formatting. Can be `norwegianBban`, `swedishBban`, `swedishBankgiro`, `swedishPlusgiro`, or `iban`. Validation is currently only supported for `norwegianBban`. Defaults to `norwegianBban`.",
+      "type": "string",
       "status": "optional"
     },
     "validate": {
@@ -362,17 +407,17 @@ render(
       "status": "optional"
     },
     "info": {
-      "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
-      "type": ["React.Node", "Array<React.Node>", "function"],
+      "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
+      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
       "status": "optional"
     },
     "warning": {
-      "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
-      "type": ["React.Node", "Array<React.Node>", "function"],
+      "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
+      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
       "status": "optional"
     },
     "error": {
-      "doc": "Error message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
+      "doc": "Error message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
       "type": [
         "Error",
         "FormError",
@@ -397,8 +442,8 @@ render(
       "status": "optional"
     },
     "labelSuffix": {
-      "doc": "Will append an additional text to the label, like \"(optional)\". When using `inheritLabel`, the suffix will not be inherited. NB: The visual appearance of the `labelSuffix` may change in the future.",
-      "type": "React.Node",
+      "doc": "Will append an additional text to the label, like \"(optional)\". When using `inheritLabel`, the suffix will not be inherited. **NB:** The visual appearance of the `labelSuffix` may change in the future.",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "schema": {
@@ -407,7 +452,7 @@ render(
       "status": "optional"
     },
     "validateInitially": {
-      "doc": "Set to `true` to show validation based errors initially (from given value-prop or source data) before the user interacts with the field.",
+      "doc": "Set to `true` to show validation based errors initially (from given value-property or source data) before the user interacts with the field.",
       "type": "boolean",
       "status": "optional"
     },
@@ -422,7 +467,7 @@ render(
       "status": "optional"
     },
     "errorMessages": {
-      "doc": "Custom error messages for each type of error, overriding default messages. The messages can be a React.ReactNode or a string.",
+      "doc": "Custom error messages for each type of error, overriding default messages. The messages can be a `React.ReactNode` or a string.",
       "type": "object",
       "status": "optional"
     },
@@ -452,12 +497,12 @@ render(
       "status": "optional"
     },
     "labelDescription": {
-      "doc": "A more discreet text displayed beside the label (i.e for \"(optional)\").",
+      "doc": "A more discreet text displayed beside the label (i.e. for \"(optional)\").",
       "type": "string",
       "status": "optional"
     },
     "labelDescriptionInline": {
-      "doc": "If true, the `labelDescription` will be displayed on the same line as the label.",
+      "doc": "If `true`, the `labelDescription` will be displayed on the same line as the label.",
       "type": "boolean",
       "status": "optional"
     },
@@ -468,11 +513,11 @@ render(
     },
     "labelSize": {
       "doc": "Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.",
-      "type": ["medium", "large"],
+      "type": ["\"medium\"", "\"large\""],
       "status": "optional"
     },
     "help": {
-      "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+      "doc": "Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
       "type": "object",
       "status": "optional"
     },
@@ -482,17 +527,17 @@ render(
       "status": "optional"
     },
     "statusPosition": {
-      "doc": "Controls where status messages (`error`, `warning`, `info`) are visually shown. Use `below` (default) or `above`.",
+      "doc": "Controls where status messages (`error`, `warning`, `information`) are visually shown. Use `below` (default) or `above`.",
       "type": ["\"below\"", "\"above\""],
       "status": "optional"
     },
     "layout": {
       "doc": "Layout for the label and input. Can be `horizontal` or `vertical`.",
-      "type": "string",
+      "type": ["\"horizontal\"", "\"vertical\""],
       "status": "optional"
     },
     "layoutOptions": {
-      "doc": "Use this to set additional options for the `horizontal` layout. E.g. `{ width: \"medium\" }`. You can also use a custom width `{number}rem`. Instead of a width, you can use a min/max width. E.g. `{ minWidth: \"6rem\", maxWidth: \"12rem\" }`.",
+      "doc": "Use this to set additional options for the `horizontal` layout, e.g. `{ width: \"medium\" }`. You can also use a custom width `{number}rem`. Instead of a width, you can use a min/max width, e.g. `{ minWidth: \"6rem\", maxWidth: \"12rem\" }`.",
       "type": "object",
       "status": "optional"
     },
@@ -546,6 +591,30 @@ render(
       "sv-SE": "Bankkonto",
       "da-DK": "Bankkonto"
     },
+    "BankAccountNumber.labelIban": {
+      "nb-NO": "IBAN",
+      "en-GB": "IBAN",
+      "sv-SE": "IBAN",
+      "da-DK": "IBAN"
+    },
+    "BankAccountNumber.labelSwedishBankgiro": {
+      "nb-NO": "Bankgiro",
+      "en-GB": "Bankgiro",
+      "sv-SE": "Bankgiro",
+      "da-DK": "Bankgiro"
+    },
+    "BankAccountNumber.labelSwedishBban": {
+      "nb-NO": "Svenskt kontonummer",
+      "en-GB": "Swedish account number",
+      "sv-SE": "Svenskt kontonummer",
+      "da-DK": "Svensk kontonummer"
+    },
+    "BankAccountNumber.labelSwedishPlusgiro": {
+      "nb-NO": "Plusgiro",
+      "en-GB": "Plusgiro",
+      "sv-SE": "Plusgiro",
+      "da-DK": "Plusgiro"
+    },
     "Field.errorPattern": {
       "nb-NO": "Du må skrive inn en gyldig verdi.",
       "en-GB": "You must enter a valid value.",
@@ -592,17 +661,17 @@ render(
 {
   "props": {
     "onChange": {
-      "doc": "Will be called on value changes made by the user, with the new value as argument. When an `async` function is used, the corresponding [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) will show an indicator on the field label. You can return `{ success: 'saved' } as const` to show a success symbol, or an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const`. The second parameter is an object that e.g. contains `props` (all given `Field.*` properties).",
+      "doc": "Will be called on value changes made by the user, with the new value as argument. When an `async` function is used, the corresponding [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) will show an indicator on the field label. You can return `{ success: 'saved' } as const` to show a success symbol, or an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const`. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).",
       "type": "(value) => void",
       "status": "optional"
     },
     "onFocus": {
-      "doc": "Will be called when the component gets into focus. Like clicking inside a text input or opening a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `props` (all given `Field.*` properties).",
+      "doc": "Will be called when the component gets into focus. Like clicking inside a text input or opening a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).",
       "type": "(value) => void",
       "status": "optional"
     },
     "onBlur": {
-      "doc": "Will be called when the component stop being in focus. Like when going to next field, or closing a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `props` (all given `Field.*` properties).",
+      "doc": "Will be called when the component stop being in focus. Like when going to next field, or closing a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).",
       "type": "(value) => void",
       "status": "optional"
     },

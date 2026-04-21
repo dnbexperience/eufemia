@@ -1,12 +1,12 @@
 ---
-title: 'Flex Container'
+title: 'Flex.Container'
 description: '`Flex.Container` is a building block for CSS Grid based layouts.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.081Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.427Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
-# Flex Container
+# Flex.Container
 
 ## Import
 
@@ -18,6 +18,11 @@ render(<Flex.Container />)
 ## Description
 
 `Flex.Container` is a building block for [CSS flexbox](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout) based layout of contents and components.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/flex/Container.tsx)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/layout/flex/container)
 
 **NB:** For form layouts, use [Flex.Stack](/uilib/layout/flex/stack/) instead.
 
@@ -222,13 +227,13 @@ render(
 ```tsx
 render(
   <Flex.Horizontal>
-    <Flex.Item size={3}>
+    <Flex.Item span={3}>
       <Card>Card contents</Card>
     </Flex.Item>
-    <Flex.Item size={4}>
+    <Flex.Item span={4}>
       <Card>Card contents</Card>
     </Flex.Item>
-    <Flex.Item size={5}>
+    <Flex.Item span={5}>
       <Card>Card contents</Card>
     </Flex.Item>
     <Flex.Item grow>
@@ -325,6 +330,7 @@ render(
 ### Flex.withChildren
 
 ```tsx
+// @ts-expect-error -- strictFunctionTypes
 const Wrapper = Flex.withChildren(({ children }) => {
   return <div>{children}</div>
 })
@@ -430,7 +436,7 @@ render(
       "defaultValue": "'div'",
       "status": "optional"
     },
-    "innerRef": {
+    "ref": {
       "doc": "Provide a React.Ref to accessing the inner HTML element.",
       "type": "React.RefObject",
       "defaultValue": "undefined",
@@ -446,21 +452,6 @@ render(
       "doc": "Spacing properties like `top` or `bottom` are supported.",
       "type": "Various",
       "status": "optional"
-    },
-    "spacing": {
-      "doc": "Deprecated, use `gap` instead. ~~How much space between sub components. Can be `false` for no spacing.~~",
-      "type": [
-        "'xx-small'",
-        "'x-small'",
-        "'small'",
-        "'medium'",
-        "'large'",
-        "'x-large'",
-        "'xx-large'",
-        "false"
-      ],
-      "defaultValue": "'small'",
-      "status": "deprecated"
     }
   },
   "showDefaultValue": true

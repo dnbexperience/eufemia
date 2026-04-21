@@ -1,7 +1,7 @@
 ---
 title: 'Importing CSS'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.113Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.455Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -42,16 +42,16 @@ The [gatsby-plugin-eufemia-theme-handler](https://github.com/dnbexperience/gatsb
 
 ```tsx
 import '@dnb/eufemia/style/dnb-ui-core.min.css'
-import '@dnb/eufemia/style/themes/theme-ui/ui-theme-components.min.css'
-import '@dnb/eufemia/style/themes/theme-ui/ui-theme-basis.min.css'
+import '@dnb/eufemia/style/themes/ui/ui-theme-components.min.css'
+import '@dnb/eufemia/style/themes/ui/ui-theme-basis.min.css'
 ```
 
 ## Importing styles from within CSS
 
 ```css
 @import url('@dnb/eufemia/style/dnb-ui-core.min.css');
-@import url('@dnb/eufemia/style/themes/theme-ui/ui-theme-components.min.css');
-@import url('@dnb/eufemia/style/themes/theme-ui/ui-theme-basis.min.css');
+@import url('@dnb/eufemia/style/themes/ui/ui-theme-components.min.css');
+@import url('@dnb/eufemia/style/themes/ui/ui-theme-basis.min.css');
 ```
 
 ## Legacy import
@@ -75,7 +75,7 @@ It is possible to import a single CSS Style of a single component at once:
 ```js
 // Imports the core css for the theme
 import '@dnb/eufemia/style/dnb-ui-core.min.css'
-import '@dnb/eufemia/style/themes/theme-ui/ui-theme-basis.min.css'
+import '@dnb/eufemia/style/themes/ui/ui-theme-basis.min.css'
 
 // Imports only the Button CSS and Main DNB Theme
 import '@dnb/eufemia/components/button/style/dnb-button.min.css'

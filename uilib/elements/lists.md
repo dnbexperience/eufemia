@@ -1,9 +1,9 @@
 ---
 title: 'Lists'
 description: 'Lists are used to specify lists of information.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.934Z
-checksum: 597b732809a09b344dd0a6a017235ff45068cc56d53a2cca843c880151107c4d
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.673Z
+checksum: 0b40c0df9c0324d04a4dc5af29934df83fda4e1758d20cd1df07895093890829
 ---
 
 # Lists
@@ -293,17 +293,17 @@ render(
   "props": {
     "layout": {
       "doc": "Sets the layout of the list. Can be `vertical`, `horizontal` or `grid`. Defaults to `vertical`.",
-      "type": "string",
+      "type": ["\"vertical\"", "\"horizontal\"", "\"grid\""],
       "status": "optional"
     },
-    "innerRef": {
-      "doc": "Send along a custom React Ref.",
+    "ref": {
+      "doc": "Send along a custom `React.Ref`.",
       "type": "React.RefObject",
       "status": "optional"
     },
     "children": {
       "doc": "Contents.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
@@ -335,14 +335,14 @@ render(
       "type": "boolean",
       "status": "optional"
     },
-    "innerRef": {
-      "doc": "Send along a custom React Ref.",
+    "ref": {
+      "doc": "Send along a custom `React.Ref`.",
       "type": "React.RefObject",
       "status": "optional"
     },
     "children": {
       "doc": "Contents.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
@@ -374,14 +374,14 @@ render(
       "type": "boolean",
       "status": "optional"
     },
-    "innerRef": {
-      "doc": "Send along a custom React Ref.",
+    "ref": {
+      "doc": "Send along a custom `React.Ref`.",
       "type": "React.RefObject",
       "status": "optional"
     },
     "children": {
       "doc": "Contents.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {

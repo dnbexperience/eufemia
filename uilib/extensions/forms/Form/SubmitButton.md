@@ -1,9 +1,9 @@
 ---
 title: 'Form.SubmitButton'
 description: '`Form.SubmitButton` connects to the `Form.Handler` to submit the active state of the internal DataContext, triggering `onSubmit`.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.677Z
-checksum: 94297868c7fcb391480f7508ca2e4c349769a80809b5b456b395fddb66bb86b6
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.946Z
+checksum: c1a51bfc002e98a2717b2049284cdd33be5f9604756fe01312ccf827aa300239
 ---
 
 # Form.SubmitButton
@@ -85,7 +85,7 @@ render(
   "props": {
     "variant": {
       "doc": "Use `send` to show the send icon, or `secondary` for secondary button styling.",
-      "type": "string",
+      "type": ["\"send\"", "\"secondary\""],
       "status": "optional"
     },
     "showIndicator": {

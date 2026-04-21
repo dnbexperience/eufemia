@@ -1,8 +1,8 @@
 ---
 title: 'Value.Boolean'
 description: '`Value.Boolean` is a base component for displaying values of the type `boolean`.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.812Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.112Z
 checksum: ac4682e58e3c1cc2aa3bde60f5c4226fddcdd1b758b90754a7a9ae0a6bfe0f74
 ---
 
@@ -142,7 +142,7 @@ render(
       "status": "optional"
     },
     "help": {
-      "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+      "doc": "Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
       "type": "object",
       "status": "optional"
     },
@@ -183,7 +183,7 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": "string",
+      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
       "status": "optional"
     },
     "transformIn": {

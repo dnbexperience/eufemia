@@ -1,12 +1,12 @@
 ---
-title: 'Horizontal Rule'
+title: 'HorizontalRule'
 description: 'The `<hr />` tag in HTML stands for horizontal rule and is used to insert a horizontal rule or a thematic break in an HTML page to divide or separate document sections.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.844Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.556Z
 checksum: 5fd9fdfe6031fc1b45bdcca23d523d244f08aafdbae5b1435dc866e3b0bf7164
 ---
 
-# Horizontal Rule
+# HorizontalRule
 
 ## Import
 
@@ -44,42 +44,54 @@ In order to address different solutions, [here is a test case](https://r8ljo.csb
 ### Horizontal Rule default
 
 ```tsx
-Something
-<Hr
-  space={{
-    top: '0.5rem',
-    bottom: '0.5rem',
-  }}
-/>
-Something
+render(
+  <P>
+    Before
+    <Hr
+      space={{
+        top: '0.5rem',
+        bottom: '0.5rem',
+      }}
+    />
+    After
+  </P>
+)
 ```
 
 ### Horizontal Rule dashed
 
 ```tsx
-Something
-<Hr
-  dashed
-  space={{
-    top: '0.5rem',
-    bottom: '0.5rem',
-  }}
-/>
-Something
+render(
+  <P>
+    Before
+    <Hr
+      dashed
+      space={{
+        top: '0.5rem',
+        bottom: '0.5rem',
+      }}
+    />
+    After
+  </P>
+)
 ```
 
 ### Horizontal Rule in fullscreen
 
 ```tsx
-Something
-<Hr
-  breakout
-  space={{
-    top: '0.5rem',
-    bottom: '0.5rem',
-  }}
-/>
-Something
+render(
+  <P>
+    Before
+    <Hr
+      breakout
+      space={{
+        top: '0.5rem',
+        bottom: '0.5rem',
+      }}
+    />
+    After
+  </P>
+)
 ```
 
 ## Properties

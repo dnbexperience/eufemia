@@ -1,8 +1,8 @@
 ---
 title: 'Form.useData'
 description: '`Form.useData` lets you access or modify your form data outside of the form context within your application.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.705Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.978Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -18,6 +18,11 @@ import { Form } from '@dnb/eufemia/extensions/forms'
 ## Description
 
 With the `Form.useData` hook, you can manage your form data from nested components and outside the form context (`Form.Handler`).
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Form/useData.ts)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Form/useData)
 
 The hook returns an object with the following properties:
 
@@ -176,7 +181,7 @@ function MyForm() {
 
 ## Visible data
 
-You can use the `reduceToVisibleFields` function to get only the data of visible (mounted) fields. Check out the [example](/uilib/extensions/forms/Form/Handler/demos/#visible-data) in the demo section.
+You can use the `reduceToVisibleFields` function to get only the data of visible (mounted) fields. Check out the [example](/uilib/extensions/forms/Form/Handler/demos/#reduce-your-data-to-visible-fields) in the demo section.
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
@@ -359,7 +364,7 @@ const Component = () => {
   }, [update])
   return (
     <Button
-      on_click={increment}
+      onClick={increment}
       text={`Increment ${data.count}`}
       variant="secondary"
     />

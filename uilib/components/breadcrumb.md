@@ -1,9 +1,9 @@
 ---
 title: 'Breadcrumb'
 description: 'The Breadcrumb component is a bar for navigation showing current web path.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.324Z
-checksum: 2d81d07f6c96525a1e6f3d0128462d27621080b2c5411a2e8ef86321138b9f36
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:08.937Z
+checksum: d64f91f44b0713a618053013c3d2b68a096909bdf9d4f815b94eb02f72bd00b3
 ---
 
 # Breadcrumb
@@ -162,13 +162,18 @@ render(<Breadcrumb variant="multiple" data={pages} spacing />)
       "status": "optional"
     },
     "children": {
-      "doc": "Content of the component. Can be used instead of property `data`, by adding Breadcrumbitem children `<Breadcrumb.Item {...props} />`.",
+      "doc": "Content of the component. Can be used instead of property `data`, by adding Breadcrumbitem children `<Breadcrumb.Item {...properties} />`.",
       "type": "React.ReactNode",
       "status": "optional"
     },
     "variant": {
-      "doc": "Defaults to 'responsive' or 'single' depending on content. Options: `responsive` | `single` | `multiple` | `collapse` .",
-      "type": ["responsive", "single", "multiple", "collapse"],
+      "doc": "Defaults to `responsive` or `single` depending on content. Options: `responsive` | `single` | `multiple` | `collapse`.",
+      "type": [
+        "\"responsive\"",
+        "\"single\"",
+        "\"multiple\"",
+        "\"collapse\""
+      ],
       "status": "optional"
     },
     "href": {
@@ -177,7 +182,7 @@ render(<Breadcrumb variant="multiple" data={pages} spacing />)
       "status": "optional"
     },
     "navText": {
-      "doc": "Every `<nav>` on a page needs an unique aria-label text.",
+      "doc": "Every `<nav>` on a page needs a unique `aria-label` text.",
       "type": "React.ReactNode",
       "status": "optional"
     },
@@ -187,7 +192,7 @@ render(<Breadcrumb variant="multiple" data={pages} spacing />)
       "status": "optional"
     },
     "homeText": {
-      "doc": "Override with a custom 'Home' text (Not recommended)",
+      "doc": "Override with a custom 'Home' text (Not recommended).",
       "type": "React.ReactNode",
       "status": "optional"
     },
@@ -196,33 +201,43 @@ render(<Breadcrumb variant="multiple" data={pages} spacing />)
       "type": "React.ReactNode",
       "status": "optional"
     },
-    "styleType": {
-      "doc": "Use one of the Section component style types (style_type). Defaults to `transparent`.",
+    "backgroundColor": {
+      "doc": "Use one of the Section background colors. Defaults to `transparent`.",
       "type": "Various",
       "status": "optional"
     },
     "collapsedStyleType": {
-      "doc": "Use one of the Section component variants. Defaults to `info`.",
-      "type": ["error", "info", "warning", "success"],
+      "doc": "Use one of the Section component variants. Defaults to `information`.",
+      "type": [
+        "\"error\"",
+        "\"information\"",
+        "\"warning\"",
+        "\"success\""
+      ],
       "status": "optional"
     },
     "className": {
-      "doc": "Custom className for the component root.",
+      "doc": "Custom `className` for the component root.",
       "type": "string",
       "status": "optional"
     },
-    "isCollapsed": {
-      "doc": "For variant `collapse`, override isCollapsed for the collapsed content by updating this value using the provided property `onClick`.",
+    "collapsed": {
+      "doc": "For variant `collapse`, override collapsed state for the collapsed content by updating this value using the provided property `onClick`.",
       "type": "boolean",
       "status": "optional"
     },
     "spacing": {
-      "doc": "Include spacing properties from [Section](/uilib/components/section/properties) in breadcrumb. If only `true` is given, the spacing will be `small`. Defaults to `false`.",
+      "doc": "Include spacing properties in breadcrumb. If only `true` is given, the spacing will be `small`. Defaults to `false`.",
       "type": "Various",
       "status": "optional"
     },
     "skeleton": {
       "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "noAnimation": {
+      "doc": "Disables the height animation. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },
@@ -247,11 +262,11 @@ render(<Breadcrumb variant="multiple" data={pages} spacing />)
     },
     "variant": {
       "doc": "The component variant. Options: `home` | `previous` | `current`.",
-      "type": ["home", "previous", "current"],
+      "type": ["\"home\"", "\"previous\"", "\"current\""],
       "status": "optional"
     },
     "icon": {
-      "doc": "Override icon displaying on the left side (Not recommended). Default: `chevron_left`.",
+      "doc": "Override icon displaying on the left side (Not recommended). Defaults to `chevron_left`.",
       "type": "React.ReactNode",
       "status": "optional"
     },

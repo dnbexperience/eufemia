@@ -1,8 +1,8 @@
 ---
 title: 'Typography'
 description: 'DNB Headings and paragraphs, their properties and styling.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.100Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.441Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -153,10 +153,10 @@ CSS example:
 
 ## Font Face
 
-The default DNB font family is `DNB`, loaded via `@font-face` in `@dnb/eufemia/src/style/themes/theme-ui/fonts.scss`.
+The default DNB font family is `DNB`, loaded via `@font-face` in `@dnb/eufemia/src/style/themes/ui/fonts.scss`.
 
-- Sbanken uses its own fonts, declared and loaded in `@dnb/eufemia/src/style/themes/theme-sbanken/fonts.scss` and applied via Sbanken-specific properties.
-- Carnegie uses the `ArizonaFlare` font family, declared and loaded in `@dnb/eufemia/src/style/themes/theme-carnegie/fonts.scss`, and applied through the Carnegie theme’s typography variables.
+- Sbanken uses its own fonts, declared and loaded in `@dnb/eufemia/src/style/themes/sbanken/fonts.scss` and applied via Sbanken-specific properties.
+- Carnegie uses the `ArizonaFlare` font family, declared and loaded in `@dnb/eufemia/src/style/themes/carnegie/fonts.scss`, and applied through the Carnegie theme’s typography variables.
 - Eiendom uses the default DNB font family.
 
 ## Spacing and margin collapsing
@@ -172,10 +172,10 @@ import { H1, H2, ... } from '@dnb/eufemia'
 
 ## Anchor
 
-- `.dnb-anchor` <a href="/" className="dnb-anchor">Anchor with default style</a>
-- `.dnb-anchor--hover` <a href="/" className="dnb-anchor dnb-anchor--hover">Hover style</a>
-- `.dnb-anchor--active` <a href="/" className="dnb-anchor dnb-anchor--active">Active style</a>
-- `.dnb-anchor--focus` <a href="/" className="dnb-anchor dnb-anchor--focus">Focus style</a>
+- `.dnb-anchor` – <a href="/" className="dnb-anchor">Anchor with default style</a>
+- `.dnb-anchor--hover` – <a href="/" className="dnb-anchor dnb-anchor--hover">Hover style</a>
+- `.dnb-anchor--active` – <a href="/" className="dnb-anchor dnb-anchor--active">Active style</a>
+- `.dnb-anchor--focus` –  <a href="/" className="dnb-anchor dnb-anchor--focus">Focus style</a>
 
 Read more about the [Anchor / Text Link](/uilib/components/anchor).
 

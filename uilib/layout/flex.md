@@ -1,8 +1,8 @@
 ---
 title: 'Flex'
 description: 'To make it easier to build application layout and form-views in line with defined design sketches, there are a number of components for layout.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.084Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.430Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -18,8 +18,12 @@ import { Flex } from '@dnb/eufemia'
 
 To make it easier to build application layout and [form](/uilib/extensions/forms)-views in line with defined design sketches, there are a number of components for layout.
 
-- **[Flex.Container](/uilib/layout/flex/container)** is a building block for CSS flexbox based layout of contents and components.
+## Relevant links
 
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/flex)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/layout/flex)
+
+- **[Flex.Container](/uilib/layout/flex/container)** is a building block for CSS flexbox based layout of contents and components.
   - **`Flex.Vertical`** can be used as an alias instead of the property `direction="vertical"`.
   - **`Flex.Horizontal`** can be used as an alias instead of the property `direction="horizontal"`.
 
@@ -66,7 +70,7 @@ render(
 
       <Field.NationalIdentityNumber value="20058512345" />
       <Field.Email value="john@smith.email" />
-      <Field.PhoneNumber value="+47 98765432" />
+      <Field.PhoneNumber value="+4798765432" />
     </Form.Card>
   </Flex.Stack>
 )
@@ -79,14 +83,14 @@ With the default `sizeCount` of 12 parts.
 ```tsx
 render(
   <Flex.Container>
-    <Flex.Item size={8}>
+    <Flex.Item span={8}>
       <TestElement style={colors[0]}>FlexItem (8)</TestElement>
     </Flex.Item>
-    <Flex.Item size={4}>
+    <Flex.Item span={4}>
       <TestElement style={colors[1]}>FlexItem (4)</TestElement>
     </Flex.Item>
     <Flex.Item
-      size={{
+      span={{
         small: 12,
         medium: 4,
       }}
@@ -96,7 +100,7 @@ render(
       </TestElement>
     </Flex.Item>
     <Flex.Item
-      size={{
+      span={{
         small: 12,
         medium: 8,
       }}
@@ -109,7 +113,7 @@ render(
 )
 ```
 
-### Customized Flex.Item sizes
+### Customized Flex.Item spans
 
 With a custom amount of 4 parts (`sizeCount`) as well as custom breakpoints and media queries.
 
@@ -133,7 +137,7 @@ const CustomMediaQuery = styled.div`
   display: flex;
   flex-direction: column;
   .dnb-flex-container[data-media-key='xsmall'] .dnb-flex-item--responsive {
-    --size: var(--xsmall);
+    --span: var(--xsmall);
   }
 `
 render(
@@ -145,7 +149,7 @@ render(
       queries={queries}
     >
       <Flex.Item
-        size={{
+        span={{
           small: 2,
           medium: 3,
           large: 1,
@@ -154,7 +158,7 @@ render(
         <TestElement style={colors[0]}>FlexItem</TestElement>
       </Flex.Item>
       <Flex.Item
-        size={{
+        span={{
           small: 2,
           medium: 1,
           large: 2,
@@ -163,7 +167,7 @@ render(
         <TestElement style={colors[1]}>FlexItem</TestElement>
       </Flex.Item>
       <Flex.Item
-        size={{
+        span={{
           xsmall: 4,
           small: 2,
           medium: 1,
@@ -173,7 +177,7 @@ render(
         <TestElement style={colors[2]}>FlexItem</TestElement>
       </Flex.Item>
       <Flex.Item
-        size={{
+        span={{
           xsmall: 4,
           small: 2,
           medium: 3,

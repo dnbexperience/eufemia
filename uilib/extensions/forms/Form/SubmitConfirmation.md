@@ -1,8 +1,8 @@
 ---
 title: 'Form.SubmitConfirmation'
 description: '`Form.SubmitConfirmation` can be used to prevent the `Form.Handler` from submitting, and makes it possible to show a confirmation dialog in different scenarios.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.682Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.953Z
 checksum: 7bf2130a8c9d87f05ba44fb9f83d48ee659850d6119e13e570398d54a7d4d582
 ---
 
@@ -66,7 +66,7 @@ The `renderWithState` function is called whenever the submit confirmation state 
 
 ## Connect with a Dialog
 
-You can connect the submit confirmation with a [Dialog](/uilib/components/dialog) by using the `connectWithDialog` property. This property is an object that contains the `openState`, `onConfirm`, `onDecline`, and `onClose` properties, which you can spread to the Dialog component.
+You can connect the submit confirmation with a [Dialog](/uilib/components/dialog) by using the `connectWithDialog` property. This property is an object that contains the `open`, `onConfirm`, `onDecline`, and `onClose` properties, which you can spread to the Dialog component.
 
 ```jsx
 import { Dialog } from '@dnb/eufemia'
@@ -181,7 +181,7 @@ render(
             {...connectWithDialog}
           >
             <Section
-              variant="info"
+              variant="information"
               innerSpace={{
                 top: true,
                 bottom: true,

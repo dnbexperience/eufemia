@@ -1,7 +1,7 @@
 ---
 title: 'CSS classes'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.063Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.411Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -60,8 +60,8 @@ render(
         <summary className="dnb-tab-focus">
           Try to focus me with the Tab key
         </summary>
-        My main focus state has been removed and replaced by the helping class{' '}
-        <code className="dnb-code">.dnb-tab-focus</code>
+        My main focus state has been removed and replaced by the helping
+        class <code className="dnb-code">.dnb-tab-focus</code>
       </details>
     </ComponentBox>
   </Wrapper>
@@ -133,7 +133,8 @@ render(
         <span className="dnb-sr-only">
           I am only visible to screen readers, so you probably can't see
           me. Unless you're using a screen reader.
-        </span>!
+        </span>
+        !
       </p>
     </ComponentBox>
   </Wrapper>
@@ -151,7 +152,7 @@ Adds a default drop shadow (`box-shadow: 0 8px 16px rgba(51, 51, 51, 0.08)`) to 
 The DNB Drop shadow is also available as a CSS Custom Property:
 
 ```ts
-import properties from '@dnb/eufemia/style/themes/theme-ui/properties.js'
+import properties from '@dnb/eufemia/style/themes/ui/properties.js'
 
 const cssBoxShadow = properties['--shadow-default']
 ```
@@ -174,7 +175,7 @@ Adds a smaller but sharper drop shadow (`box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1
 The DNB Sharp drop shadow is also available as a CSS Custom Property:
 
 ```ts
-import properties from '@dnb/eufemia/style/themes/theme-ui/properties.js'
+import properties from '@dnb/eufemia/style/themes/ui/properties.js'
 
 const cssBoxShadow = properties['--shadow-sharp']
 ```

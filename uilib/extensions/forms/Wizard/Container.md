@@ -1,9 +1,9 @@
 ---
 title: 'Wizard.Container'
 description: 'The `Wizard.Container` is a container component for multi-page forms including a step indicator.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.984Z
-checksum: 479d6bfa95f2fe6f8e2f77aeea959991c4c52a3719c5a73253720fefa89a4ea8
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.330Z
+checksum: 86b46674b06fab5602f900bc81c6815d4910d531de92397e46f3eb3c0e72e8d2
 ---
 
 # Wizard.Container
@@ -18,6 +18,11 @@ render(<Wizard.Container />)
 ## Description
 
 The `Wizard.Container` is a container component for multi-step forms, including a [StepIndicator](/uilib/components/step-indicator/).
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Wizard/Container)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Wizard/Container)
 
 Use the [Wizard.Step](/uilib/extensions/forms/Wizard/Step/) component to define the wizard steps.
 
@@ -243,7 +248,7 @@ const Step2 = () => (
   </Wizard.Step>
 )
 const Summary = () => {
-  const { summaryTitle } = Form.useLocale().Step
+  const { summaryTitle } = Form.useTranslation().Step
   return (
     <Wizard.Step title={summaryTitle}>
       <Form.MainHeading>Summary</Form.MainHeading>
@@ -499,7 +504,7 @@ render(
       })
     }}
   >
-    <Wizard.Container mode="loose" variant="drawer">
+    <Wizard.Container mode="loose">
       <Wizard.Step title="Step 1">
         <Form.Card>
           <Field.String
@@ -528,64 +533,19 @@ render(
 )
 ```
 
-### Outset and layout (Card.Provider)
-
-The wizard navigation area ([StepIndicator](/uilib/components/step-indicator/)) will "outset" (break out) from the layout using negative margins.
-
-This outset is turned off if the `Wizard.Container` is placed inside a `<Card>`, but if placed in a different wrapper that messes with the layout, you can manually turn it off in two ways:
-
-- Wrap the Wizard.Container in `<Form.Card.Provider disableCardBreakout>` to make all nested cards act like they’re inside a `<Card>`.
-- Or set `outset={false}` on each card.
-
-See the [Form.Card "Outset" example](/uilib/extensions/forms/Form/Card/#outset) for more details.
-
-```tsx
-render(
-  <CustomContainerWithPadding>
-    <Card.Provider disableCardBreakout>
-      <Form.Handler>
-        <Wizard.Container mode="loose">
-          <Wizard.Step title="Step 1">
-            <Form.Card>
-              <Field.String label="Step 1" path="/step1" required />
-              <Wizard.Buttons />
-            </Form.Card>
-          </Wizard.Step>
-
-          <Wizard.Step title="Step 2">
-            <Form.Card>
-              <Field.String label="Step 2" path="/step2" required />
-              <Wizard.Buttons />
-            </Form.Card>
-          </Wizard.Step>
-
-          <Wizard.Step title="Step 3">
-            <Form.Card>
-              <Field.String label="Step 3" path="/step3" />
-              <Wizard.Buttons />
-              <Form.SubmitButton />
-            </Form.Card>
-          </Wizard.Step>
-        </Wizard.Container>
-      </Form.Handler>
-    </Card.Provider>
-  </CustomContainerWithPadding>
-)
-```
-
 ## Properties
 
 ```json
 {
   "props": {
     "initialActiveIndex": {
-      "doc": "What step should show initially (defaults to 0 for the first one).",
+      "doc": "What step should show initially (defaults to `0` for the first one).",
       "type": "number",
       "status": "optional"
     },
     "mode": {
       "doc": "How to show the wizard. Inherited from StepIndicator. Defaults to `strict`.",
-      "type": "string",
+      "type": ["\"static\"", "\"strict\"", "\"loose\""],
       "status": "optional"
     },
     "omitScrollManagement": {
@@ -610,7 +570,7 @@ render(
     },
     "validationMode": {
       "doc": "Determines if and how the validation will be bypassed.",
-      "type": ["bypassOnNavigation"],
+      "type": ["\"bypassOnNavigation\""],
       "status": "optional"
     },
     "expandedInitially": {
@@ -619,29 +579,19 @@ render(
       "status": "optional"
     },
     "outset": {
-      "doc": "Whether or not to break out (using negative margins) on larger screens. Same as `outset` in [Card](/uilib/components/card/properties). But defaults to `true`",
+      "doc": "Whether or not to break out (using negative margins) on larger screens. Same as `outset` in [Card](/uilib/components/card/properties). But defaults to `true`.",
       "type": "boolean",
       "status": "optional"
     },
     "children": {
       "doc": "Contents (Step components).",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "required"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
       "type": ["string", "object"],
       "status": "optional"
-    },
-    "variant": {
-      "doc": "There is no variant in the current version. This prop does nothing. Old docs: Sets the StepIndicator to be either `sidebar` or `drawer`. Defaults to `sidebar`.",
-      "type": "string",
-      "status": "deprecated"
-    },
-    "sidebarId": {
-      "doc": "There is no longer any sidebar. This prop does nothing. Old docs: Sets the id for `<StepIndicator.Sidebar />` Inherited from StepIndicator.",
-      "type": "string",
-      "status": "deprecated"
     }
   }
 }
@@ -653,7 +603,7 @@ render(
 {
   "props": {
     "onStepChange": {
-      "doc": "Will be called when the user navigate to a different step, with step `index` as the first argument and `previous` or `next` (or `stepListModified` when a step gets replaced) as the second argument, and as the third parameter an options object containing `totalSteps`, a `preventNavigation` function, an `id` if given on the `Wizard.Step` and a `previousStep` object containing the previous `index` (and `id` if given on the `Wizard.Step`). When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for minimum 1 second. Related Form.Handler props: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`.",
+      "doc": "Will be called when the user navigate to a different step, with step `index` as the first argument and `previous` or `next` (or `stepListModified` when a step gets replaced) as the second argument, and as the third parameter an options object containing `totalSteps`, a `preventNavigation` function, an `id` if given on the `Wizard.Step` and a `previousStep` object containing the previous `index` (and `id` if given on the `Wizard.Step`). When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for minimum 1 second. Related Form.Handler properties: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`.",
       "type": "function",
       "status": "optional"
     }

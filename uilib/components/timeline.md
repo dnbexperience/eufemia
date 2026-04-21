@@ -1,9 +1,9 @@
 ---
 title: 'Timeline'
 description: 'The Timeline component shows events in chronological order and gives a great overview of the overall process.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.773Z
-checksum: 7b8327863bd09751fb094d8efa78a85dcf8d2f99cefe1dcb7c58b31fe65c37d9
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.481Z
+checksum: 2865ac048fbac54c4de5c574c5b125f61119c348b0b0bdd5ea90b959dcb47092
 ---
 
 # Timeline
@@ -356,7 +356,7 @@ render(
       "status": "optional"
     },
     "children": {
-      "doc": "Content of the component. Can be used instead of property `data`, by adding [Timeline Item](/uilib/components/timeline/properties#timelineitem-properties) as children `<Timeline.Item {...props} />`.",
+      "doc": "Content of the component. Can be used instead of property `data`, by adding [Timeline Item](/uilib/components/timeline/properties#timelineitem-properties) as children `<Timeline.Item {...properties} />`.",
       "type": "React.ReactNode",
       "status": "optional"
     },
@@ -386,21 +386,21 @@ render(
     },
     "state": {
       "doc": "The component state. Options: `completed` | `current` | `upcoming`.",
-      "type": ["completed", "current", "upcoming"],
+      "type": ["\"completed\"", "\"current\"", "\"upcoming\""],
       "status": "required"
     },
     "subtitle": {
       "doc": "Subtitle of the Timeline item, displayed below the `title`. Also supports passing an array of subtitles. The subtitle is usually a date of the timeline item.",
-      "type": ["React.ReactNode", "React.ReactNode[]"],
+      "type": ["React.ReactNode", "Array<React.ReactNode>"],
       "status": "optional"
     },
     "infoMessage": {
-      "doc": "Info message, displayed in a [FormStatus of state info](/uilib/components/form-status#displaying-info-status), below the `subtitle` if it exists.",
+      "doc": "Info message, displayed in a [FormStatus of state information](/uilib/components/form-status#displaying-info-status), below the `subtitle` if it exists.",
       "type": "React.ReactNode",
       "status": "optional"
     },
     "icon": {
-      "doc": "Override icon displaying on the left side (Not recommended). Default: `check` for state `completed`, `pin` for state `current`, and `calendar` for state `upcoming`.",
+      "doc": "Override icon displaying on the left side (Not recommended). Defaults to `check` for state `completed`, `pin` for state `current`, and `calendar` for state `upcoming`.",
       "type": "React.ReactNode",
       "status": "optional"
     },
@@ -424,19 +424,19 @@ render(
 {
   "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
   "entries": {
-    "TimelineItem.alt_label_completed": {
+    "TimelineItem.altLabelCompleted": {
       "nb-NO": "Utført",
       "en-GB": "Completed",
       "sv-SE": "Utförd",
       "da-DK": "Udført"
     },
-    "TimelineItem.alt_label_current": {
+    "TimelineItem.altLabelCurrent": {
       "nb-NO": "Nåværende",
       "en-GB": "Current",
       "sv-SE": "Nuvarande",
       "da-DK": "Nuværende"
     },
-    "TimelineItem.alt_label_upcoming": {
+    "TimelineItem.altLabelUpcoming": {
       "nb-NO": "Kommende",
       "en-GB": "Upcoming",
       "sv-SE": "Kommande",

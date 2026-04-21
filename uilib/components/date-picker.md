@@ -1,9 +1,9 @@
 ---
 title: 'DatePicker'
 description: 'The DatePicker component should be used whenever the user is to enter a single date or a date period.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.378Z
-checksum: 9b141cff69ea8145ce4f36347cf9d84ec342d12db1591f4ed7abe029a17eedfc
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.004Z
+checksum: 82e2c746109fb28a138a47a04a53958fa7e372d614a439d7eacd19d8ea662e4a
 ---
 
 # DatePicker
@@ -54,7 +54,7 @@ The DatePicker component uses [PortalRoot](/uilib/components/portal-root) intern
 
 ### Manipulate the days in the calendar view
 
-The callback event `on_days_render` gives you the possibility to manipulate the "day" object before it gets rendered. This callback will be called many times, both on the first render and on every user interaction, like hover and selection. This means you have to ensure a performant date calculation.
+The callback event `onDaysRender` gives you the possibility to manipulate the "day" object before it gets rendered. This callback will be called many times, both on the first render and on every user interaction, like hover and selection. This means you have to ensure a performant date calculation.
 
 Please use [date-fns](https://date-fns.org) to make the calculations.
 
@@ -104,7 +104,7 @@ The `dayObject` object contains:
 
 By default, the DatePicker highlights the "today" date based on the user's local time zone.
 
-If you need to treat another time zone as "today", mutate the `dayObject.isToday` flag inside the `on_days_render` callback. The example below demonstrates how to compare every day against `getOsloDate()` and keep the highlight in sync with Oslo time.
+If you need to treat another time zone as "today", mutate the `dayObject.isToday` flag inside the `onDaysRender` callback. The example below demonstrates how to compare every day against `getOsloDate()` and keep the highlight in sync with Oslo time.
 
 <VisibleWhenNotVisualTest>
   
@@ -138,27 +138,27 @@ import { getOsloDate } from '@dnb/eufemia/components/date-format/DateFormatUtils
 
 ### Min & Max date
 
-If `min_date` or `max_date` is given, the return object also contains information about whether the `start_date` or `end_date` is within the given limits. The reason is that the user can still enter an invalid date in the input.
+If `minDate` or `maxDate` is given, the return object also contains information about whether the `startDate` or `endDate` is within the given limits. The reason is that the user can still enter an invalid date in the input.
 
 ```js
 {
-  is_valid_start_date: boolean,
-  is_valid_end_date: boolean,
+  isValidStartDate: boolean,
+  isValidEndDate: boolean,
   ...
 }
 ```
 
 ### Validation during input changes
 
-In order to validate dates during typing, you can make use of `is_valid` or `is_valid_start_date` and `is_valid_end_date`. Because the user can change a date in the input field, and the `on_type` event will then return a falsy `is_valid`.
+In order to validate dates during typing, you can make use of `isValid` or `isValidStartDate` and `isValidEndDate`. Because the user can change a date in the input field, and the `onType` event will then return a falsy `isValid`.
 
 Additional event return object properties:
 
 ```js
 {
-  is_valid: boolean, /* Available if `range` is `false` */
-  is_valid_start_date: boolean, /* Available if `range` is `true` */
-  is_valid_end_date: boolean, /* Available if `range` is `true` */
+  isValid: boolean, /* Available if `range` is `false` */
+  isValidStartDate: boolean, /* Available if `range` is `true` */
+  isValidEndDate: boolean, /* Available if `range` is `true` */
 }
 ```
 
@@ -191,49 +191,45 @@ render(
     endDate="2019-05-17"
     range
     showInput
-    onChange={({ start_date, end_date }) => {
-      console.log('onChange', start_date, end_date)
+    onChange={({ startDate, endDate }) => {
+      console.log('onChange', startDate, endDate)
     }}
-    onSubmit={({ start_date, end_date }) => {
-      console.log('onSubmit', start_date, end_date)
+    onSubmit={({ startDate, endDate }) => {
+      console.log('onSubmit', startDate, endDate)
     }}
-    onCancel={({ start_date, end_date }) => {
-      console.log('onCancel', start_date, end_date)
+    onCancel={({ startDate, endDate }) => {
+      console.log('onCancel', startDate, endDate)
     }}
-    onBlur={({
-      start_date,
-      end_date,
-      partialStartDate,
-      partialEndDate,
-    }) => {
-      console.log('onBlurPartial', partialStartDate, partialEndDate)
-      console.log('onBlurComplete', start_date, end_date)
+    onBlur={({ startDate, endDate }) => {
+      console.log('onBlurComplete', startDate, endDate)
     }}
     shortcuts={[
       {
         title: 'Set date period',
-        start_date: '1969-07-15',
-        end_date: '1969-08-15',
+        startDate: '1969-07-15',
+        endDate: '1969-08-15',
       },
       {
         title: 'Today',
-        start_date: new Date(),
+        startDate: new Date(),
       },
       {
         title: 'This week',
-        start_date: startOfWeek(new Date()),
-        end_date: lastDayOfWeek(new Date()),
+        startDate: startOfWeek(new Date()),
+        endDate: lastDayOfWeek(new Date()),
       },
       {
-        close_on_select: true,
+        closeOnSelect: true,
         title: 'This month',
-        start_date: startOfMonth(new Date()),
-        end_date: lastDayOfMonth(new Date()),
+        startDate: startOfMonth(new Date()),
+        endDate: lastDayOfMonth(new Date()),
       },
       {
         title: 'Relative +3 days',
-        start_date: ({ start_date }) => start_date || new Date(),
-        end_date: ({ end_date }) => addDays(end_date || new Date(), 3),
+        // @ts-expect-error -- strictFunctionTypes
+        startDate: ({ startDate }) => startDate || new Date(),
+        // @ts-expect-error -- strictFunctionTypes
+        endDate: ({ endDate }) => addDays(endDate || new Date(), 3),
       },
     ]}
   />
@@ -253,11 +249,11 @@ render(
     onChange={({ date }) => {
       console.log('onChange', date)
     }}
-    onShow={({ date }) => {
-      console.log('onShow', date)
+    onOpen={({ date }) => {
+      console.log('onOpen', date)
     }}
-    onBlur={({ start_date, end_date }) => {
-      console.log('onBlur', start_date, end_date)
+    onBlur={({ startDate, endDate }) => {
+      console.log('onBlur', startDate, endDate)
     }}
   />
 )
@@ -308,8 +304,8 @@ render(
     onChange={({ date }) => {
       console.log('onChange', date)
     }}
-    onHide={({ date }) => {
-      console.log('onHide', date)
+    onClose={({ date }) => {
+      console.log('onClose', date)
     }}
     onBlur={({ date }) => {
       console.log('onBlur', date)
@@ -348,7 +344,7 @@ render(
     date={new Date()}
     showInput
     status="Please select a valid date"
-    statusState="info"
+    statusState="information"
   />
 )
 ```
@@ -511,7 +507,7 @@ render(
       "type": "string",
       "status": "optional"
     },
-    "opened": {
+    "open": {
       "doc": "To open the date-picker by default. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
@@ -546,6 +542,41 @@ render(
       "type": "boolean",
       "status": "optional"
     },
+    "submitButtonText": {
+      "doc": "Custom text for the submit button. Defaults to `Ok`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "cancelButtonText": {
+      "doc": "Custom text for the cancel button. Defaults to `Avbryt`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "resetButtonText": {
+      "doc": "Custom text for the reset button. Defaults to `Tilbakestill`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "resetDate": {
+      "doc": "If set to `true`, the date will be reset when the reset button is clicked. Defaults to `true`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "preventClose": {
+      "doc": "If set to `true`, the date picker will not close after a date is selected. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "noAnimation": {
+      "doc": "If set to `true`, no open/close animation will be shown. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "direction": {
+      "doc": "Defines the direction of the date picker popup. Defaults to `auto`.",
+      "type": ["\"auto\"", "\"top\"", "\"bottom\""],
+      "status": "optional"
+    },
     "link": {
       "doc": "Link both calendars, once to the user is navigating between months. Only meant to use if the range is set to `true`. Defaults to `false`.",
       "type": "boolean",
@@ -559,13 +590,13 @@ render(
     "firstDay": {
       "doc": "To define the first day of the week. Defaults to `monday`.",
       "type": [
-        "monday",
-        "tuesday",
-        "wednesday",
-        "thursday",
-        "friday",
-        "saturday",
-        "sunday"
+        "\"monday\"",
+        "\"tuesday\"",
+        "\"wednesday\"",
+        "\"thursday\"",
+        "\"friday\"",
+        "\"saturday\"",
+        "\"sunday\""
       ],
       "status": "optional"
     },
@@ -586,7 +617,7 @@ render(
     },
     "labelAlignment": {
       "doc": "Sets the alignment of the label. Defaults to `left`.",
-      "type": ["left", "right"],
+      "type": ["\"left\"", "\"center\"", "\"right\""],
       "status": "optional"
     },
     "onlyMonth": {
@@ -610,8 +641,8 @@ render(
       "status": "optional"
     },
     "labelDirection": {
-      "doc": " Use `label_direction=\"vertical\"` to change the label layout direction. Defaults to `horizontal`.",
-      "type": ["vertical", "horizontal"],
+      "doc": " Use `labelDirection=\"horizontal\"` to change the label layout direction. Defaults to `vertical`.",
+      "type": ["\"vertical\"", "\"horizontal\""],
       "status": "optional"
     },
     "suffix": {
@@ -635,18 +666,18 @@ render(
       "status": "optional"
     },
     "inputElement": {
-      "doc": "Gives you the possibility to use a plain/vanilla `<input />` HTML element by defining it as a string `inputElement=\"input\"`, a React element, or a render function `inputElement={(internalProps) => (<Return />)}`. Can also be used in circumstances where the `react-text-mask` should not be used, e.g. in testing environments. Defaults to custom masked input.",
+      "doc": "Gives you the possibility to use a plain/vanilla `<input />` HTML element by defining it as a string `inputElement=\"input\"`, a React element, or a render function `inputElement={(internalProps) => (<Return />)}`. Can also be used in circumstances where the masked input should not be used, e.g. in testing environments. Defaults to custom masked input.",
       "type": "React.ReactNode",
       "status": "optional"
     },
     "status": {
       "doc": "Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.",
-      "type": ["error", "info", "boolean"],
+      "type": ["\"error\"", "\"information\"", "boolean"],
       "status": "optional"
     },
     "statusState": {
-      "doc": "Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.",
-      "type": "string",
+      "doc": "Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.",
+      "type": ["\"error\"", "\"information\""],
       "status": "optional"
     },
     "statusProps": {
@@ -666,7 +697,7 @@ render(
     },
     "tooltip": {
       "doc": "Provide a short Tooltip content that shows up on the picker button.",
-      "type": "string",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "skeleton": {
@@ -864,6 +895,7 @@ render(
       },
       {
         title: 'Relative +3 days',
+        // @ts-expect-error -- strictFunctionTypes
         date: ({ date }) => date && addDays(date, 3),
       },
     ]}
@@ -883,14 +915,14 @@ render(
     shortcuts={[
       {
         title: 'Set date period',
-        start_date: '1969-07-15',
-        end_date: '1969-07-15',
-        close_on_select: true, // will close the picker
+        startDate: '1969-07-15',
+        endDate: '1969-07-15',
+        closeOnSelect: true, // will close the picker
       },
       {
         title: 'This month',
-        start_date: startOfMonth(new Date()),
-        end_date: lastDayOfMonth(new Date()),
+        startDate: startOfMonth(new Date()),
+        endDate: lastDayOfMonth(new Date()),
       },
     ]}
   />
@@ -929,12 +961,12 @@ render(
       "type": "function",
       "status": "optional"
     },
-    "onShow": {
+    "onOpen": {
       "doc": "Will be called once date-picker is visible.",
       "type": "function",
       "status": "optional"
     },
-    "onHide": {
+    "onClose": {
       "doc": "Will be called once date-picker is hidden.",
       "type": "function",
       "status": "optional"
@@ -966,15 +998,12 @@ All additional HTML attributes will be returned as well.
 ```js
 {
   date: null | 'date as `returnFormat` | `yyyy-MM-dd` ', /* Available if `range` is `false` */
-  start_date: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `true` */
-  end_date: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `true` */
+  startDate: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `true` */
+  endDate: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `true` */
   invalidDate: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `false` */
   invalidStartDate: null | 'date as `returnFormat` | ´yyyy-MM-dd`', /* Available if `range` is `true` */
   invalidEndDate: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `true` */
-  partialDate: null | 'date as `returnFormat` | `yyyy-MM-dd`' /* Available if `range` is `false` */
-  partialStartDate: null | 'date as `returnFormat` | `yyyy-MM-dd`' /* Available if `range` is `true` */
-  partialEndDate: null | 'date as `returnFormat` | `yyyy-MM-dd`' /* Available if `range` is `true` */
-  days_between: number,
+  daysBetween: number,
   attributes: { attributes },
   event: null | { native event }
 }

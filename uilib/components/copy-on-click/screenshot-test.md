@@ -1,12 +1,12 @@
 ---
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.349Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:08.967Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
 ```tsx
 render(
-  <Drawer openState="opened">
+  <Drawer open>
     <CopyOnClick>I'm inside the drawer</CopyOnClick>
   </Drawer>
 )
@@ -29,17 +29,17 @@ render(
     },
     "copyContent": {
       "doc": "Contents to copy. Used when the copied value should differ from the visually shown value(`children`).",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "tooltipContent": {
-      "doc": "The message shown in the tooltip when the content is copied. Defaults to the translation `CopyOnClick.clipboard_copy`.",
-      "type": "React.Node",
+      "doc": "The message shown in the tooltip when the content is copied. Defaults to the translation `CopyOnClick.clipboardCopy`.",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "children": {
       "doc": "Contents.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "required"
     }
   }
@@ -52,7 +52,7 @@ render(
 {
   "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
   "entries": {
-    "CopyOnClick.clipboard_copy": {
+    "CopyOnClick.clipboardCopy": {
       "nb-NO": "Kopiert",
       "en-GB": "Copied",
       "sv-SE": "Kopierad",

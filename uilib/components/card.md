@@ -1,9 +1,9 @@
 ---
 title: 'Card'
 description: '`Card` is a block section element showing the white box with rounded gray borders, adding spacing automatically.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.340Z
-checksum: bd2391a3d37df442648d3aad465f3abb1eb38fee518a34594ca5b5321de5d429
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:08.955Z
+checksum: 9a5e6f7bdcbc3ec26452e956e5fd3bd75aee4a284a0656977fecbc1eba8fa020
 ---
 
 # Card
@@ -88,7 +88,7 @@ render(
 )
 ```
 
-### Vertical fields
+### With form fields
 
 When using Eufemia Forms, you may want to use [Form.Card](/uilib/extensions/forms/Form/Card/) instead of the original Card component.
 
@@ -97,21 +97,6 @@ render(
   <Form.Card>
     <Field.String label="Label" value="Value" />
     <Field.String label="Label" value="Value" />
-  </Form.Card>
-)
-```
-
-### Horizontal fields
-
-When using Eufemia Forms, you may want to use [Form.Card](/uilib/extensions/forms/Form/Card/) instead of the original Card component.
-
-```tsx
-render(
-  <Form.Card>
-    <Flex.Horizontal>
-      <Field.String label="Label" value="Value" width="small" />
-      <Field.String label="Label" value="Value" width="stretch" />
-    </Flex.Horizontal>
   </Form.Card>
 )
 ```
@@ -127,7 +112,31 @@ render(
     <Card stack>
       <P>Second Card</P>
       <Card stack>
-        <P>Third Card (for edge cases only)</P>
+        <P>Third Card (edge case)</P>
+      </Card>
+    </Card>
+  </Card>
+)
+```
+
+### With drop shadow
+
+```tsx
+render(
+  <Card stack dropShadow>
+    <Lead>Card 1</Lead>
+    <Card stack top="2.5rem">
+      <Lead size="basis">Card 2</Lead>
+      <Card
+        stack
+        top="1.5rem"
+        innerSpace={{
+          top: true,
+          block: '3rem',
+          inline: true,
+        }}
+      >
+        <Lead size="small">Card 3 (edge case)</Lead>
       </Card>
     </Card>
   </Card>
@@ -174,7 +183,7 @@ render(
     <Card gap="x-small" align="stretch">
       <Form.SubHeading>Card with a nested Section</Form.SubHeading>
       <Section
-        variant="info"
+        variant="information"
         innerSpace={{
           top: 'small',
           bottom: 'medium',
@@ -186,7 +195,7 @@ render(
 
     <Card innerSpace="x-large" stack>
       <Section
-        variant="info"
+        variant="information"
         innerSpace={{
           top: 'small',
           bottom: 'medium',
@@ -288,7 +297,7 @@ While Flex has the horizontal direction, it uses rowGap when wrapping. So it's t
 render(
   <Flex.Container>
     <Card
-      size={{
+      span={{
         small: 'auto',
         medium: 4,
         large: 4,
@@ -299,7 +308,7 @@ render(
       <P>Text</P>
     </Card>
     <Card
-      size={{
+      span={{
         small: 'auto',
         medium: 4,
         large: 4,
@@ -310,7 +319,7 @@ render(
       <P>Pariatur officia sit adipisicing pariatur commodo enim do quis</P>
     </Card>
     <Card
-      size={{
+      span={{
         small: 'auto',
         medium: 4,
         large: 4,
@@ -403,17 +412,23 @@ render(
     },
     "direction": {
       "doc": "Defaults to `vertical`.",
-      "type": "string",
+      "type": ["\"horizontal\"", "\"vertical\""],
       "status": "optional"
     },
     "alignSelf": {
       "doc": "Defaults to `stretch`.",
-      "type": "string",
+      "type": [
+        "\"flex-start\"",
+        "\"flex-end\"",
+        "\"center\"",
+        "\"baseline\"",
+        "\"stretch\""
+      ],
       "status": "optional"
     },
     "title": {
       "doc": "Define a title that appears on top of the Card.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "responsive": {
@@ -431,6 +446,16 @@ render(
       "type": "string",
       "status": "optional"
     },
+    "outlineWidth": {
+      "doc": "Define the outline width. Defaults to `var(--card-outline-width)` (`0.0625rem`).",
+      "type": ["string", "number"],
+      "status": "optional"
+    },
+    "dropShadow": {
+      "doc": "Define if the Card should have drop shadow. Uses Section `dropShadow`.",
+      "type": "boolean",
+      "status": "optional"
+    },
     "backgroundColor": {
       "doc": "Define the background color. Defaults to `var(--card-background-color)`.",
       "type": "string",
@@ -443,7 +468,7 @@ render(
     },
     "children": {
       "doc": "Contents.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "required"
     },
     "[Flex.Container](/uilib/layout/flex/container/properties)": {

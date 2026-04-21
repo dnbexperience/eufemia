@@ -1,14 +1,14 @@
 ---
 title: 'Requirements'
 description: 'Eufemia can be used within a UMD, ESM, CJS, or TypeScript environment. The purpose is to use it on top (or inside) of modern JavaScript frontend frameworks and setups.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.061Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.409Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
 # Requirements
 
-Aside from the peer dependencies, there are no specific technical requirements, except that it is highly recommended to use a compiling process with [tree shaking](/uilib/usage/first-steps/module-formats/#tree-shaking) in place.
+Aside from the peer dependencies, there are no specific technical requirements, except that it is highly recommended to use a compiling process with [tree shaking](/uilib/usage/first-steps/module-formats/) in place.
 
 ## Usage
 

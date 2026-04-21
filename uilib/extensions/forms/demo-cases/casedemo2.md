@@ -1,6 +1,6 @@
 ---
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.032Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.380Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -12,7 +12,7 @@ Below, you can extend the demo code.
 const MyForm = () => {
   // Routers like "react-router" are supported as well
   Wizard.useQueryLocator('my-wizard')
-  const { summaryTitle } = Form.useLocale().Step
+  const { summaryTitle } = Form.useTranslation().Step
   return (
     <Provider locale="en-GB">
       <Form.Handler

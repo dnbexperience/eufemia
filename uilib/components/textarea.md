@@ -1,9 +1,9 @@
 ---
 title: 'Textarea'
 description: 'The Textarea component has to be used as a multi-line text input control with an unlimited number of characters possible.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.767Z
-checksum: 28e0a3177d1224c5d1c079e9220e56f4b7c9e2104a850dd5c2394768613df906
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.474Z
+checksum: 2a37277be9d5fbd57fb4d4a75cd6034ee1e76721b397343373fe7e5f5ead24f5
 ---
 
 # Textarea
@@ -75,14 +75,14 @@ render(
         cols="20"
         value="Textarea value\nNewline"
         spellCheck={false}
-        on_change={({ value }) => {
-          console.log('on_change', value)
+        onChange={({ value }) => {
+          console.log('onChange', value)
         }}
-        on_focus={() => {
-          console.log('on_focus')
+        onFocus={() => {
+          console.log('onFocus')
         }}
-        on_blur={() => {
-          console.log('on_blur')
+        onBlur={() => {
+          console.log('onBlur')
         }}
       />
     </ComponentBox>
@@ -110,7 +110,6 @@ render(
     <ComponentBox>
       <Textarea
         label="Vertical"
-        label_direction="vertical"
         rows="3"
         cols="33"
         value="Textarea value with more than 3 lines\nNewline\nNewline\nNewline\nNewline"
@@ -146,10 +145,10 @@ render(
       <Textarea
         label="Autogrow"
         rows={1}
-        autoresize={true}
-        autoresize_max_rows={4}
+        autoResize={true}
+        autoResizeMaxRows={4}
         placeholder="Placeholder"
-        on_key_down={({ rows, event }) => {
+        onKeyDown={({ rows, event }) => {
           if (rows >= 4 && event.key === 'Enter') {
             event.preventDefault()
           }
@@ -170,8 +169,7 @@ render(
     <ComponentBox data-visual-test="textarea-character-counter">
       <Textarea
         label="Count characters"
-        label_direction="vertical"
-        autoresize
+        autoResize
         value="Textarea value\nNewline"
         status="Message to the user"
         characterCounter={40}
@@ -219,7 +217,7 @@ render(
 ```tsx
 render(
   <Wrapper>
-    <ComponentBox>
+    <ComponentBox data-visual-test="textarea-disabled">
       <Textarea
         label="Disabled"
         disabled
@@ -257,8 +255,8 @@ render(
       "status": "optional"
     },
     "align": {
-      "doc": "Defines the `text-align` of the Textarea. Defaults to `left`.",
-      "type": "string",
+      "doc": "Defines the `text-align` of the Textarea. Can be `left`, `center`, `right`, or `justify`. Defaults to `left`.",
+      "type": ["\"left\"", "\"center\"", "\"right\"", "\"justify\""],
       "status": "optional"
     },
     "stretch": {
@@ -278,30 +276,30 @@ render(
     },
     "label": {
       "doc": "Prepends the Form Label component. If no ID is provided, a random ID is created.",
-      "type": "string",
+      "type": "React.ReactNode",
       "status": "optional"
     },
-    "label_direction": {
-      "doc": "Use `label_direction=\"vertical\"` to change the label layout direction. Defaults to `horizontal`.",
-      "type": "string",
+    "labelDirection": {
+      "doc": "Use `labelDirection=\"horizontal\"` to change the label layout direction. Defaults to `vertical`.",
+      "type": ["\"horizontal\"", "\"vertical\""],
       "status": "optional"
     },
     "suffix": {
       "doc": "Text describing the content of the Textarea more than the label. You can also send in a React component, so it gets wrapped inside the Textarea component.",
-      "type": "string",
+      "type": "React.ReactNode",
       "status": "optional"
     },
-    "label_sr_only": {
+    "labelSrOnly": {
       "doc": "Use `true` to make the label only readable by screen readers.",
       "type": "boolean",
       "status": "optional"
     },
-    "autoresize": {
+    "autoResize": {
       "doc": "Use `true` to make the Textarea grow and shrink depending on how many lines the user has filled.",
       "type": "boolean",
       "status": "optional"
     },
-    "autoresize_max_rows": {
+    "autoResizeMaxRows": {
       "doc": "Set a number to define how many rows the Textarea can auto grow.",
       "type": "number",
       "status": "optional"
@@ -313,20 +311,26 @@ render(
     },
     "size": {
       "doc": "The sizes you can choose for 1 row is `small` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `small`.",
-      "type": "string",
+      "type": ["\"small\"", "\"medium\"", "\"large\""],
       "status": "optional"
     },
     "status": {
       "doc": "Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.",
-      "type": ["error", "info", "boolean"],
+      "type": ["\"error\"", "\"information\"", "boolean"],
       "status": "optional"
     },
-    "status_state": {
-      "doc": "Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.",
-      "type": ["error", "info"],
+    "statusState": {
+      "doc": "Defines the state of the status. Defaults to `error`.",
+      "type": [
+        "\"error\"",
+        "\"warning\"",
+        "\"information\"",
+        "\"success\"",
+        "\"marketing\""
+      ],
       "status": "optional"
     },
-    "status_props": {
+    "statusProps": {
       "doc": "Use an object to define additional FormStatus properties.",
       "type": "object",
       "status": "optional"
@@ -336,13 +340,13 @@ render(
       "type": "object",
       "status": "optional"
     },
-    "textarea_state": {
-      "doc": "To control the visual focus state as a prop, like `focus` or `blur`.",
+    "textareaState": {
+      "doc": "To control the visual focus state as a property, like `focus` or `blur`.",
       "type": "string",
       "status": "optional"
     },
-    "inner_ref": {
-      "doc": "By providing a React.Ref we can get the internally used Textarea element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.",
+    "ref": {
+      "doc": "By providing a `React.Ref` we can get the internally used Textarea element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.",
       "type": "React.RefObject",
       "status": "optional"
     },
@@ -369,22 +373,22 @@ You can set the height of a Textarea by both CSS styles or the `rows` attribute.
 ```json
 {
   "props": {
-    "on_change": {
+    "onChange": {
       "doc": "Will be called on value changes made by the user. Returns an object with a string value and the native event: `{ value, rows, event }`.",
       "type": "function",
       "status": "optional"
     },
-    "on_focus": {
+    "onFocus": {
       "doc": "Will be called on the focus set by the user. Returns `{ value, event }`.",
       "type": "function",
       "status": "optional"
     },
-    "on_blur": {
+    "onBlur": {
       "doc": "Will be called on blur set by the user. Returns `{ value, event }`.",
       "type": "function",
       "status": "optional"
     },
-    "on_key_down": {
+    "onKeyDown": {
       "doc": "Will be called during every keystroke. Returns `{ value, rows, event }`.",
       "type": "function",
       "status": "optional"

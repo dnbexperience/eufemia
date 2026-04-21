@@ -1,9 +1,9 @@
 ---
 title: 'Iterate.Count'
 description: '`Iterate.Count` is a helper component / function that returns the count of a data array or object.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.733Z
-checksum: 24a65aff8e8538a7914ffdfd1242ec2bf1593b2d10c2ebb27f733d47f345b138
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.028Z
+checksum: d307ca909ab5131cc1f6fedb10ee75dffb8f13b27e7215f45b44621ca1d66f5a
 ---
 
 # Iterate.Count
@@ -18,6 +18,11 @@ render(<Iterate.Count />)
 ## Description
 
 `Iterate.Count` is a helper component that returns the count of a data array or object.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Iterate/Count)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Iterate/Count)
 
 ```tsx
 import { Iterate } from '@dnb/eufemia/extensions/forms'
@@ -182,7 +187,7 @@ render(<MyForm />)
     },
     "filter": {
       "doc": "A filter function to filter the data before counting.",
-      "type": "string",
+      "type": "function",
       "status": "optional"
     }
   }

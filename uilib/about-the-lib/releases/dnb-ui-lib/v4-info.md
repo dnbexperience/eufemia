@@ -1,8 +1,8 @@
 ---
 title: 'v4.0'
 description: 'July, 21. 2019'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:32.635Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:08.273Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -64,8 +64,8 @@ Now the [Switch](/uilib/components/switch) component has `right` as the default 
 
 Spacing is an important part of Eufemia, that's why there are now three new helper components to make it easy and fast to build forms and layouts with proper spacing.
 
-- [FormSet](/uilib/layout/form-set) provides by default the `<form>` tag and sends some `FormRow` properties along down.
-- [FormRow](/uilib/layout/form-row) provides by default the `<fieldset>` tag and `<legend>` tag. `FormRow` is meant to help you achieve easily common DNB layout patterns and setups. Also, `FormRow` is supporting the `Spacing` component.
+- FormSet provides by default the `<form>` tag and sends some `FormRow` properties along down.
+- FormRow provides by default the `<fieldset>` tag and `<legend>` tag. `FormRow` is meant to help you achieve easily common DNB layout patterns and setups. Also, `FormRow` is supporting the `Spacing` component.
 - [Space](/uilib/layout/space) is made to achieve the Eufemia [spacing patterns](/uilib/usage/layout/spacing#spacing-helpers). In other words; _margin_ within the provided spacing blocks.
 
 ### Components and Spacing

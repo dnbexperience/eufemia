@@ -1,12 +1,12 @@
 ---
-title: 'Flex Item'
+title: 'Flex.Item'
 description: '`Flex.Item` is a building block for flexbox based layout of contents and components.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.082Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.428Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
-# Flex Item
+# Flex.Item
 
 ## Import
 
@@ -18,6 +18,11 @@ render(<Flex.Item />)
 ## Description
 
 `Flex.Item` is a building block for [CSS flexbox](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout) based layout of contents and components. Should be used in combination with [Flex.Container](/uilib/layout/flex/container/).
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/flex/Item.tsx)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/layout/flex/item)
 
 ```jsx
 import { Flex } from '@dnb/eufemia'
@@ -34,34 +39,34 @@ render(
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/flex/Item.tsx)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/layout/flex/item/)
 
-### Size adjustment
+### Span adjustment
 
-You can provide a `size` property with a number from 1 to 12 (can be changed in [Flex.Container](/uilib/layout/flex/container/) with the `sizeCount` property).
+You can provide a `span` property with a number from 1 to 12 (can be changed in [Flex.Container](/uilib/layout/flex/container/) with the `sizeCount` property).
 
-The number will be used to set the item size (a part of the container). It set a percentage unit and apply it on the item via CSS. When the container is tilled to 100%, the remaining items will wrap to a new row.
+The number will be used to set the item span (a part of the container). It set a percentage unit and apply it on the item via CSS. When the container is tilled to 100%, the remaining items will wrap to a new row.
 
 The number 6 results in 50%, while 12 results in 100%.
 
 ```tsx
 render(
   <Flex.Container>
-    <Flex.Item size={6}>uses 50% in width</Flex.Item>
-    <Flex.Item size={6}>uses 50% in width</Flex.Item>
+    <Flex.Item span={6}>uses 50% in width</Flex.Item>
+    <Flex.Item span={6}>uses 50% in width</Flex.Item>
   </Flex.Container>
 )
 ```
 
-### Responsive size
+### Responsive span
 
-You can also make sizes respond to media queries.
+You can also make spans respond to media queries.
 
-For doing so, provide a `size` property with an object containing [Media Query](/uilib/usage/layout/media-queries/) types. Each media size should contain number, like mentioned above.
+For doing so, provide a `span` property with an object containing [Media Query](/uilib/usage/layout/media-queries/) types. Each media span should contain number, like mentioned above.
 
 ```tsx
 render(
   <Flex.Container>
     <Flex.Item
-      size={{
+      span={{
         small: 12,
         large: 6,
       }}
@@ -69,7 +74,7 @@ render(
       uses 50% or 100% based on the screen size
     </Flex.Item>
     <Flex.Item
-      size={{
+      span={{
         small: 12,
         large: 6,
       }}
@@ -97,13 +102,13 @@ render(
 )
 ```
 
-### Basic `size` usage
+### Basic `span` usage
 
 With the default `sizeCount` of 12 parts.
 
 <Examples.BasicSizeExample />
 
-## Advanced `size` usage
+### Advanced `span` usage
 
 The following example has a customized amount of 4 parts (`sizeCount`) as well as custom breakpoints and media queries.
 
@@ -124,8 +129,8 @@ The following example has a customized amount of 4 parts (`sizeCount`) as well a
       "type": "boolean",
       "status": "optional"
     },
-    "size": {
-      "doc": "To set the size (parts) in percentage with numbers from 1 to 12 (`sizeCount`). You can also provide [Media Query](/uilib/usage/layout/media-queries/) types in an object. You can also use the value `auto` to disable it on a specific screen size. Wrap your Flex.Items inside a [Flex.Container](/uilib/layout/flex/container).",
+    "span": {
+      "doc": "To set the span (parts) in percentage with numbers from 1 to 12 (`sizeCount`). You can also provide [Media Query](/uilib/usage/layout/media-queries/) types in an object. You can also use the value `auto` to disable it on a specific screen size. Wrap your Flex.Items inside a [Flex.Container](/uilib/layout/flex/container).",
       "type": ["number", "object"],
       "status": "optional"
     },
@@ -134,7 +139,7 @@ The following example has a customized amount of 4 parts (`sizeCount`) as well a
       "type": ["string", "React.Element"],
       "status": "optional"
     },
-    "innerRef": {
+    "ref": {
       "doc": "Provide a React.Ref to accessing the inner HTML element.",
       "type": "React.Ref",
       "status": "optional"

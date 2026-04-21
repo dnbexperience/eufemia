@@ -1,9 +1,9 @@
 ---
 title: 'Block.ChildrenWithAge'
 description: '`ChildrenWithAge` is a block for displaying children with age.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.021Z
-checksum: 193f3ea42ea5bdb75b5504c8ab5d79a4fab668b6f038069544d7ab9da5235031
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.369Z
+checksum: d07dfc0e234b77d0f4b45216dc8ec7fb6262a5240e4b585fc1f61dde8ac01e2b
 ---
 
 # Block.ChildrenWithAge
@@ -49,7 +49,7 @@ const MyForm = () => {
       },
     },
   }
-  const { summaryTitle } = Form.useLocale().Step
+  const { summaryTitle } = Form.useTranslation().Step
   return (
     <Form.Handler
       onSubmit={(data, { reduceToVisibleFields }) => {
@@ -189,7 +189,7 @@ render(
   "props": {
     "mode": {
       "doc": "`summary` for a `Value.*` version, `edit` for an editable field version. Defaults to `edit`.",
-      "type": "number",
+      "type": ["\"edit\"", "\"summary\""],
       "status": "optional"
     },
     "enableAdditionalQuestions": {

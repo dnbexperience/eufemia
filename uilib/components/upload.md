@@ -1,9 +1,9 @@
 ---
 title: 'Upload'
 description: 'The Upload component should be used in scenarios where the user has to upload files. Files can be uploaded by clicking a button. You also have the opportunity to add descriptive texts below the title where you could put max file size, allowed file formats etc.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.822Z
-checksum: dec521d56ae56a604f0804b3d6fe98c9cdc68d86c7d9278a973175d4346a8003
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.536Z
+checksum: 9523ce46da27bd54ef5d194eafe700127af4e02410b7ba4cf30aa508a53b826f
 ---
 
 # Upload
@@ -62,7 +62,7 @@ Exposes the following functionality:
 
 ## Variant compact
 
-The `compact` variant displays less information than the `normal` variant and aims to display only what's necessary for the user to upload a file:
+The `compact` variant displays less information than the `default` variant and aims to display only what's necessary for the user to upload a file:
 
 - Upload button
 - List of uploaded files
@@ -232,7 +232,7 @@ const Component = () => {
       <ToggleButton
         top="small"
         disabled={files.length < 1}
-        on_change={({ checked }) =>
+        onChange={({ checked }) =>
           setFiles(
             files.map((fileItem) => {
               return {
@@ -267,7 +267,7 @@ const Component = () => {
       <ToggleButton
         top="small"
         disabled={files.length < 1}
-        on_change={({ checked }) => {
+        onChange={({ checked }) => {
           setFiles(
             files.map((fileItem) => {
               return {
@@ -458,9 +458,9 @@ async function mockAsyncFileRemoval({ fileItem }) {
   console.log('making API request to remove:', fileItem.file.name)
   await request(3000) // Simulate a request
   const mockResponse = {
-    successful_removal: Math.random() < 0.5, // Randomly fails to remove the file
+    successfulRemoval: Math.random() < 0.5, // Randomly fails to remove the file
   }
-  if (!mockResponse.successful_removal) {
+  if (!mockResponse.successfulRemoval) {
     throw new Error('Unable to remove this file')
   }
 }
@@ -848,7 +848,7 @@ render(<Component />)
   "props": {
     "id": {
       "doc": "Unique id used together with the `useUpload` hook to manage the files. Needed when wanting to connect with the `useUpload` hook.",
-      "type": ["string", "Function", "Object", "React.Context"],
+      "type": ["string", "function", "object", "React.Context"],
       "status": "optional"
     },
     "children": {
@@ -857,8 +857,8 @@ render(<Component />)
       "status": "optional"
     },
     "variant": {
-      "doc": "Defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.",
-      "type": ["normal", "compact"],
+      "doc": "Defines the appearance. Use one of these: `default` or `compact`. Defaults to `default`.",
+      "type": ["\"default\"", "\"compact\""],
       "status": "optional"
     },
     "acceptedFileTypes": {
@@ -909,6 +909,66 @@ render(<Component />)
     "skeleton": {
       "doc": "Skeleton should be applied when loading content.",
       "type": "boolean",
+      "status": "optional"
+    },
+    "buttonText": {
+      "doc": "Custom text for the upload button. Overrides the default translation.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "fileTypeTableCaption": {
+      "doc": "Custom caption for the file type table used by screen readers. Overrides the default translation.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "fileTypeDescription": {
+      "doc": "Custom label for the file type description column. Overrides the default translation.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "fileSizeDescription": {
+      "doc": "Custom label for the file size description column. Overrides the default translation.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "fileAmountDescription": {
+      "doc": "Custom text for the file amount description. Overrides the default translation.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "fileSizeContent": {
+      "doc": "Custom text for the file size content. Overrides the default translation.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "errorLargeFile": {
+      "doc": "Custom error message for files exceeding the size limit. Overrides the default translation.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "errorUnsupportedFile": {
+      "doc": "Custom error message for unsupported file types. Overrides the default translation.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "errorAmountLimit": {
+      "doc": "Custom error message when the file amount limit is reached. Overrides the default translation.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "loadingText": {
+      "doc": "Custom text displayed during file loading. Overrides the default translation.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "deleteButton": {
+      "doc": "Custom text for the delete button. Overrides the default translation.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "listAriaLabel": {
+      "doc": "Custom `aria-label` for the file list. Overrides the default translation.",
+      "type": "string",
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
@@ -1063,12 +1123,6 @@ All translation keys listed in the translations table below, can be used as a co
       "sv-SE": "Max antal filer:",
       "da-DK": "Maks antal filer:"
     },
-    "Upload.fileListAriaLabel": {
-      "nb-NO": "opplastede filer",
-      "en-GB": "uploaded files",
-      "sv-SE": "uppladdade filer",
-      "da-DK": "uploadede filer"
-    },
     "Upload.fileSizeContent": {
       "nb-NO": "%size MB",
       "en-GB": "%size MB",
@@ -1092,6 +1146,12 @@ All translation keys listed in the translations table below, can be used as a co
       "en-GB": "Allowed formats and max. file size",
       "sv-SE": "Tillåtna filformat och max filstorlek",
       "da-DK": "Tilladte filformater og maks filstørrelse"
+    },
+    "Upload.listAriaLabel": {
+      "nb-NO": "opplastede filer",
+      "en-GB": "uploaded files",
+      "sv-SE": "uppladdade filer",
+      "da-DK": "uploadede filer"
     },
     "Upload.loadingText": {
       "nb-NO": "Laster",
@@ -1137,7 +1197,7 @@ All translation keys listed in the translations table below, can be used as a co
       "status": "optional"
     },
     "onFileClick": {
-      "doc": "Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this prop, the file will be rendered as a button instead of an anchor or plain text.",
+      "doc": "Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this property, the file will be rendered as a button instead of an anchor or plain text.",
       "type": "function",
       "status": "optional"
     }

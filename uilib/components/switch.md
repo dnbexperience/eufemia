@@ -1,9 +1,9 @@
 ---
 title: 'Switch'
 description: 'The Switch component (toggle) is a digital on/off switch.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.728Z
-checksum: 7c7a0ef0f32b39b4176d94edfe09807bb87fe5466f8d7a90bf1531615a5c1188
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.431Z
+checksum: 7da6a0722dda16b6c09501804b556c96b19a5ad096984265b6d878791e09d219
 ---
 
 # Switch
@@ -28,7 +28,11 @@ You may also check out the [Checkbox](/uilib/components/checkbox) component.
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/switch)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/switch)
 
-## How it should work
+## Accessibility
+
+The Switch component uses a semantic checkbox input with `role="switch"` to properly communicate its toggle functionality. It is keyboard accessible (Space to toggle) and announces its current state to screen readers.
+
+## How it **should** work
 
 "Toggle switches should take immediate effect and should not require the user to click Save or Submit to apply the new state. As always, we should strive to match the system to the real world." – [Source][1]
 
@@ -112,36 +116,42 @@ render(<Switch checked disabled label="Disabled" />)
     "title": {
       "doc": "The `title` of the input - describing it a bit further for accessibility reasons.",
       "type": "string",
-      "status": "required"
+      "status": "optional"
     },
     "label": {
       "doc": "Use either the `label` property or provide a custom one.",
-      "type": "ReactNode",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "labelPosition": {
       "doc": "Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.",
-      "type": ["left", "right"],
+      "type": ["\"left\"", "\"right\""],
       "status": "optional"
     },
     "labelSrOnly": {
       "doc": "Use `true` to make the label only readable by screen readers.",
-      "type": "string",
+      "type": "boolean",
       "status": "optional"
     },
     "size": {
-      "doc": "The size of the switch. For now there is **medium** (default) and **large**.",
-      "type": ["default", "medium", "large"],
+      "doc": "The size of the switch. For now there is `medium` (default) and `large`.",
+      "type": ["\"default\"", "\"medium\"", "\"large\""],
       "status": "optional"
     },
     "status": {
       "doc": "Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.",
-      "type": ["error", "info", "boolean"],
+      "type": ["\"error\"", "\"information\"", "boolean"],
       "status": "optional"
     },
     "statusState": {
       "doc": "Defines the state of the status. Defaults to `error`.",
-      "type": ["error", "warn", "info", "success", "marketing"],
+      "type": [
+        "\"error\"",
+        "\"warning\"",
+        "\"information\"",
+        "\"success\"",
+        "\"marketing\""
+      ],
       "status": "optional"
     },
     "statusProps": {
@@ -156,7 +166,7 @@ render(<Switch checked disabled label="Disabled" />)
     },
     "suffix": {
       "doc": "Text describing the content of the Switch more than the label. You can also send in a React component, so it gets wrapped inside the Switch component.",
-      "type": "ReactNode",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "skeleton": {
@@ -164,8 +174,8 @@ render(<Switch checked disabled label="Disabled" />)
       "type": "boolean",
       "status": "optional"
     },
-    "innerRef": {
-      "doc": "By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.",
+    "ref": {
+      "doc": "By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.",
       "type": "React.RefObject",
       "status": "optional"
     },

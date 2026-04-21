@@ -1,9 +1,9 @@
 ---
 title: 'GlobalError (404)'
 description: 'The GlobalError is a simple component to integrate where a 404 or 500 message has to be shown.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.441Z
-checksum: 4324f46f1ca330649e6d2284e2e49931506e145839e3e8f0c2ea7cc3bee65ee3
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.067Z
+checksum: 13ac256feeabc3e001995d8962f3430577346f443035943756c245a398e694bc
 ---
 
 # GlobalError (404)
@@ -86,13 +86,8 @@ render(
   "props": {
     "statusCode": {
       "doc": "Defines a status code as a string. When `404` or `500` is given, predefined `text` and `title` will be shown. Defaults to `404`.",
-      "type": ["404", "500", "string"],
+      "type": ["\"404\"", "\"500\"", "string"],
       "status": "optional"
-    },
-    "status": {
-      "doc": "Defines a status code as a string. When `404` or `500` is given, predefined `text` and `title` will be shown. Defaults to `404`. This prop is deprecated and will be removed in v11, please use `statusCode` instead.",
-      "type": ["404", "500", "string"],
-      "status": "deprecated"
     },
     "title": {
       "doc": "Overwrites the default title for the provided `statusCode`.",
@@ -103,11 +98,6 @@ render(
       "doc": "Overwrites the default text for the provided `statusCode`.",
       "type": "React.ReactNode",
       "status": "optional"
-    },
-    "code": {
-      "doc": "Overwrites the default error message code text `Feilmeldings-kode:`. . This prop is deprecated and will be removed in v11, please use `errorMessageCode` instead.",
-      "type": "React.ReactNode",
-      "status": "deprecated"
     },
     "errorMessageCode": {
       "doc": "Overwrites the default error message code text `Feilmeldings-kode: %statusCode`.",
@@ -125,7 +115,7 @@ render(
       "status": "optional"
     },
     "center": {
-      "doc": "If true, it will use `80vh` as the height and center its content.",
+      "doc": "If `true`, it will use `80vh` as the height and center its content.",
       "type": "boolean",
       "status": "optional"
     },
@@ -141,7 +131,7 @@ render(
     },
     "children": {
       "doc": "To display additional related content, like useful links etc.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
@@ -182,12 +172,6 @@ render(
       "en-GB": "Sorry, a technical error occurred!",
       "sv-SE": "Tyvärr, något gick fel!",
       "da-DK": "Beklager, der opstod en fejl!"
-    },
-    "GlobalError.code": {
-      "nb-NO": "Feilmeldings-kode:",
-      "en-GB": "Error code:",
-      "sv-SE": "Felmeddelande-kod:",
-      "da-DK": "Fejlkode:"
     },
     "GlobalError.errorMessageCode": {
       "nb-NO": "Feilmeldings-kode: %statusCode",

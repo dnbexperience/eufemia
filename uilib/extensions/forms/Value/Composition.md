@@ -1,9 +1,9 @@
 ---
 title: 'Value.Composition'
 description: '`Value.Composition` combines two or more `Value.*` components into one.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.828Z
-checksum: af2bf29c5ffe27f01dc450b22520080d7fdbecb1580e2ed22b59dc70c7e8062f
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.135Z
+checksum: e3522aee1be54e30e25b95ff91988fbeaba0252bc2dea14d58ec502c1c1d7d10
 ---
 
 # Value.Composition
@@ -273,7 +273,7 @@ render(
       "status": "optional"
     },
     "help": {
-      "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+      "doc": "Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
       "type": "object",
       "status": "optional"
     },
@@ -284,12 +284,19 @@ render(
     },
     "maxWidth": {
       "doc": "Use `small`, `medium` or `large` for predefined standard max widths. Defaults to `auto`.",
-      "type": "string",
+      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
       "status": "optional"
     },
     "gap": {
       "doc": "The gap between the different value blocks. Can be `xx-small`, `x-small`, `small`, `medium`, `large` or `false`. Defaults to `xx-small`.",
-      "type": "string",
+      "type": [
+        "\"xx-small\"",
+        "\"x-small\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\"",
+        "false"
+      ],
       "status": "optional"
     }
   }

@@ -63,7 +63,11 @@ For any page (component, field, value, etc.):
 
 - [dnb-ui-lib](https://eufemia.dnb.no/uilib/about-the-lib/releases/dnb-ui-lib.md): Look into the documentation for more details.
 
+- [Form-Set-Row-Deprecation-V11](https://eufemia.dnb.no/uilib/about-the-lib/releases/eufemia/form-set-row-deprecation-v11.md): Look into the documentation for more details.
+
 - [v10](https://eufemia.dnb.no/uilib/about-the-lib/releases/eufemia/v10-info.md): May, 31. 2023
+
+- [v11](https://eufemia.dnb.no/uilib/about-the-lib/releases/eufemia/v11-info.md): April 21, 2026
 
 - [v9](https://eufemia.dnb.no/uilib/about-the-lib/releases/eufemia/v9-info.md): March, 3. 2021
 
@@ -121,25 +125,17 @@ For any page (component, field, value, etc.):
 
 - [Intro](https://eufemia.dnb.no/uilib/intro.md): Look into the documentation for more details.
 
-- [Flex Container](https://eufemia.dnb.no/uilib/layout/flex/container.md): `Flex.Container` is a building block for CSS Grid based layouts.
+- [Flex.Container](https://eufemia.dnb.no/uilib/layout/flex/container.md): `Flex.Container` is a building block for CSS Grid based layouts.
 
-- [Flex Item](https://eufemia.dnb.no/uilib/layout/flex/item.md): `Flex.Item` is a building block for flexbox based layout of contents and components.
+- [Flex.Item](https://eufemia.dnb.no/uilib/layout/flex/item.md): `Flex.Item` is a building block for flexbox based layout of contents and components.
 
-- [Flex Stack](https://eufemia.dnb.no/uilib/layout/flex/stack.md): `Flex.Stack` is an outer block element that wraps content to ensure proper layout and spacing between form elements, larger regions and headings. It stretches its content horizontally (100%).
+- [Flex.Stack](https://eufemia.dnb.no/uilib/layout/flex/stack.md): `Flex.Stack` is an outer block element that wraps content to ensure proper layout and spacing between form elements, larger regions and headings. It stretches its content horizontally (100%).
 
 - [Flex](https://eufemia.dnb.no/uilib/layout/flex.md): To make it easier to build application layout and form-views in line with defined design sketches, there are a number of components for layout.
 
-- [Provider](https://eufemia.dnb.no/uilib/layout/form-row/provider.md): Look into the documentation for more details.
+- [Grid.Container](https://eufemia.dnb.no/uilib/layout/grid/container.md): `Grid.Container` is a building block for CSS Grid based layout of contents and components.
 
-- [FormRow (deprecated)](https://eufemia.dnb.no/uilib/layout/form-row.md): The FormRow component is a helper to more easily achieve often used DNB form layout setups.
-
-- [Form-Set-Row-Deprecation](https://eufemia.dnb.no/uilib/layout/form-set-row-deprecation.md): Look into the documentation for more details.
-
-- [FormSet (deprecated)](https://eufemia.dnb.no/uilib/layout/form-set.md): The FormSet component is a helper to more easily achieve often used DNB form layout setups.
-
-- [Grid Container](https://eufemia.dnb.no/uilib/layout/grid/container.md): `Grid.Container` is a building block for CSS Grid based layout of contents and components.
-
-- [Grid Item](https://eufemia.dnb.no/uilib/layout/grid/item.md): `Grid.Item` is a building block for CSS Grid based layouts.
+- [Grid.Item](https://eufemia.dnb.no/uilib/layout/grid/item.md): `Grid.Item` is a building block for CSS Grid based layouts.
 
 - [Grid](https://eufemia.dnb.no/uilib/layout/grid.md): To make it easier to build responsive application layouts in line with defined design sketches, there are a number of components for layout.
 
@@ -196,6 +192,10 @@ For any page (component, field, value, etc.):
 - [Style Isolation](https://eufemia.dnb.no/uilib/usage/customisation/styling/style-isolation.md): Look into the documentation for more details.
 
 - [CSS Styles](https://eufemia.dnb.no/uilib/usage/customisation/styling.md): To ensure flexibility and the possibility of theming, the DNB CSS Styles area built as flexible packages you can import and combine.
+
+- [Tokens](https://eufemia.dnb.no/uilib/usage/customisation/theming/design-tokens/tokens.md): Look into the documentation for more details.
+
+- [Design Tokens (WIP)](https://eufemia.dnb.no/uilib/usage/customisation/theming/design-tokens.md): How to use Eufemia semantic design tokens in your application.
 
 - [Theme](https://eufemia.dnb.no/uilib/usage/customisation/theming/theme.md): The Theme component is a helper component that lets you create nested theming solutions.
 
@@ -299,6 +299,8 @@ For any page (component, field, value, etc.):
 
 - [Logo](https://eufemia.dnb.no/uilib/components/logo.md): A ready to use Logo component with the needed SVGs.
 
+- [Menu](https://eufemia.dnb.no/uilib/components/menu.md): Menu is a composable dropdown menu component for actions and navigation, with keyboard navigation, nested menus, and full accessibility support.
+
 - [Event-Table-Camel-Case](https://eufemia.dnb.no/uilib/components/modal/event-table-camel-case.md): Look into the documentation for more details.
 
 - [Event-Table](https://eufemia.dnb.no/uilib/components/modal/event-table.md): Look into the documentation for more details.
@@ -311,7 +313,7 @@ For any page (component, field, value, etc.):
 
 - [NumberFormat](https://eufemia.dnb.no/uilib/components/number-format.md): A ready to use DNB number formatter.
 
-- [Infinity Scroller](https://eufemia.dnb.no/uilib/components/pagination/infinity-scroller.md): The InfinityScroller component is a mode of the Pagination component which loads content continuously as the user scrolls down the page.
+- [InfinityScroller](https://eufemia.dnb.no/uilib/components/pagination/infinity-scroller.md): The InfinityScroller component is a mode of the Pagination component which loads content continuously as the user scrolls down the page.
 
 - [Pagination](https://eufemia.dnb.no/uilib/components/pagination.md): The Pagination component supports both classical pagination and infinity scrolling.
 
@@ -323,8 +325,6 @@ For any page (component, field, value, etc.):
 
 - [Radio](https://eufemia.dnb.no/uilib/components/radio.md): The Radio component is shown as a circle that is filled (checked) when activated.
 
-- [Deprecated](https://eufemia.dnb.no/uilib/components/section/deprecated.md): Look into the documentation for more details.
-
 - [Section](https://eufemia.dnb.no/uilib/components/section.md): The Section component is a visual helper.
 
 - [Skeleton](https://eufemia.dnb.no/uilib/components/skeleton.md): The Skeleton component is a visual building block helper.
@@ -334,8 +334,6 @@ For any page (component, field, value, etc.):
 - [Slider](https://eufemia.dnb.no/uilib/components/slider.md): The Slider component provides a visual indication of adjustable value.
 
 - [Stat](https://eufemia.dnb.no/uilib/components/stat.md): Composable metric components for highlighted values, trends, and labels.
-
-- [Deprecated-Visual-Tests](https://eufemia.dnb.no/uilib/components/step-indicator/deprecated-visual-tests.md): Look into the documentation for more details.
 
 - [StepIndicator](https://eufemia.dnb.no/uilib/components/step-indicator.md): The StepIndicator (progress indicator) is a visual representation of a user's progress through a set of steps or series of actions.
 
@@ -625,11 +623,11 @@ For any page (component, field, value, etc.):
 
 - [Blockquote](https://eufemia.dnb.no/uilib/elements/blockquote.md): The blockquote element is used to indicate the quotation of a large section of text from another source.
 
-- [Code](https://eufemia.dnb.no/uilib/elements/code.md): The code element is used for code and syntax highlighting.
+- [Code](https://eufemia.dnb.no/uilib/elements/code.md): The code and pre element is used for code and syntax highlighting.
 
 - [Heading](https://eufemia.dnb.no/uilib/elements/heading.md): The heading element is used to indicate the quotation of a large section of text from another source.
 
-- [Horizontal Rule](https://eufemia.dnb.no/uilib/elements/horizontal-rule.md): The `<hr />` tag in HTML stands for horizontal rule and is used to insert a horizontal rule or a thematic break in an HTML page to divide or separate document sections.
+- [HorizontalRule](https://eufemia.dnb.no/uilib/elements/horizontal-rule.md): The `<hr />` tag in HTML stands for horizontal rule and is used to insert a horizontal rule or a thematic break in an HTML page to divide or separate document sections.
 
 - [Image](https://eufemia.dnb.no/uilib/elements/image.md): Image element exists to have a future possibility to optimize and add features.
 
@@ -643,5 +641,5 @@ For any page (component, field, value, etc.):
 
 - [Span](https://eufemia.dnb.no/uilib/elements/span.md): Spans are inline-elements, used to define parts of text content.
 
-Version: 10.104.1
-GeneratedAt: 2026-04-20T09:04:53.871Z
+Version: 11.0.0
+GeneratedAt: 2026-04-21T13:54:32.806Z

@@ -1,8 +1,8 @@
 ---
 title: 'useFieldProps'
 description: 'The `useFieldProps` hook standardize handling of the value flow for a single consumer component representing one data point.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.027Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.376Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -18,6 +18,11 @@ import { useFieldProps } from '@dnb/eufemia/extensions/forms'
 ## Description
 
 The `useFieldProps` hook standardizes handling of the value flow for a single consumer component representing one data point. It holds error state, hides it while the field is in focus, connects to surrounding `DataContext` (if present), and handles other things that all field or value components need to do. By implementing custom field or value components and passing the received properties through `useFieldProps`, all these features work the same way as other field or value components, and you only need to implement the specific unique features of that component.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/hooks/useFieldProps.tsx)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/create-component/useFieldProps)
 
 ## How to use
 

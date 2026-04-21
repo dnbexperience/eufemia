@@ -1,9 +1,9 @@
 ---
 title: 'Tabs'
 description: 'Tabs are a set of buttons which allow navigation between content that is related and on the same level of hierarchy.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.750Z
-checksum: 6bb7f0f5a749fc0a6c7931b7d7c511f026564dec3bb855b828f847a100a75ae1
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.453Z
+checksum: 279ae1c75d5d7f8776ede8b9c75e15fd4873dfff3474e45baf461935db6d2bff
 ---
 
 # Tabs
@@ -23,6 +23,10 @@ Tabs are a set of buttons that allow navigation between content that is related 
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=4243-1498)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/tabs)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/tabs)
+
+## Accessibility
+
+The Tabs component follows the [WAI-ARIA Tabs Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/). It uses `role="tablist"`, `role="tab"`, and `role="tabpanel"` with proper ARIA attributes. Keyboard navigation includes arrow keys to move between tabs and Tab key to navigate into the active panel content.
 
 ## Demos
 
@@ -125,13 +129,13 @@ render(
             content: exampleContent.second,
           },
         }}
-        // Only use "on_click" if you really have to
-        on_click={({ selected_key }) => {
-          console.log('on_click', selected_key)
+        // Only use "onClick" if you really have to
+        onClick={({ selectedKey }) => {
+          console.log('onClick', selectedKey)
         }}
         // Preferred way to listen on changes
-        on_change={({ selected_key }) => {
-          console.log('on_change', selected_key)
+        onChange={({ selectedKey }) => {
+          console.log('onChange', selectedKey)
         }}
       />
     </ComponentBox>
@@ -141,22 +145,36 @@ render(
 
 ### Tabs using React Components only
 
-Also, this is an example of how to define a different content background color, by providing `content_style`.
+Also, this is an example of how to define a different content background color, by providing `contentStyle`.
 
 ```tsx
 render(
   <Wrapper>
     <ComponentBox data-visual-test="tabs-section-styles">
-      <Tabs tabs_style="info" content_style="info">
+      <Tabs tabsStyle="information" contentStyle="information">
         <Tabs.Content title="First" key="first">
-          <Section spacing top bottom style_type="white">
+          <Section
+            innerSpace={{
+              block: 'large',
+            }}
+            top
+            bottom
+            backgroundColor="white"
+          >
             <H2 top={0} bottom>
               First
             </H2>
           </Section>
         </Tabs.Content>
         <Tabs.Content title="Second" key="second">
-          <Section spacing top bottom style_type="white">
+          <Section
+            innerSpace={{
+              block: 'large',
+            }}
+            top
+            bottom
+            backgroundColor="white"
+          >
             <H2 top={0} bottom>
               Second
             </H2>
@@ -174,7 +192,7 @@ render(
 render(
   <Wrapper>
     <ComponentBox data-visual-test="tabs-no-border">
-      <Tabs no_border={true}>
+      <Tabs noBorder={true}>
         <Tabs.Content title="First" key="first">
           <H2 top={0} bottom>
             First
@@ -214,9 +232,9 @@ render(
 )
 ```
 
-### Tabs and `prerender`
+### Tabs and `keepInDOM`
 
-By using `prerender={true}` the content is kept inside the DOM.
+By using `keepInDOM={true}` the content is kept inside the DOM.
 
 Also, when switching the tabs, the height is animated.
 
@@ -225,7 +243,7 @@ render(
   <Wrapper>
     <ComponentBox>
       <>
-        <Tabs prerender content_style="info">
+        <Tabs keepInDOM contentStyle="information">
           <Tabs.Content title="Tab 1" key="first">
             <H2>Content 1</H2>
           </Tabs.Content>
@@ -273,7 +291,7 @@ render(
         manyTabsContent,
       }}
     >
-      <Tabs selected_key="second" data={manyTabs}>
+      <Tabs selectedKey="second" data={manyTabs}>
         {manyTabsContent}
       </Tabs>
     </ComponentBox>
@@ -313,8 +331,8 @@ function TabsHorizontalAligned() {
       <RightArea>
         <Tabs
           left
-          no_border
-          selected_key="first"
+          noBorder
+          selectedKey="first"
           id="unique-tabs-row"
           data={manyTabs}
         />
@@ -337,8 +355,8 @@ function TabsMaxWidth() {
     <MaxWidthWrapper>
       <Tabs
         top
-        no_border
-        selected_key="fifth"
+        noBorder
+        selectedKey="fifth"
         id="unique-tabs-max-width"
         data={manyTabs}
       />
@@ -350,7 +368,7 @@ render(<TabsMaxWidth />)
 
 ### Router integration
 
-This demo uses `@reach/router`. More [examples on CodeSandbox](https://codesandbox.io/embed/8z8xov7xyj).
+This demo uses `@gatsbyjs/reach-router` (Gatsby's maintained fork of `@reach/router`).
 
 <TabsExampleReachRouterNavigation />
 
@@ -484,71 +502,63 @@ render(
 ```json
 {
   "props": {
-    "selected_key": {
+    "selectedKey": {
       "doc": "In case one of the tabs should be opened by a `key`.",
       "type": ["string", "number"],
       "status": "optional"
     },
     "align": {
       "doc": "To align the tab list on the right side `align=\"right\"`. Defaults to `left`.",
-      "type": ["left", "center", "right"],
+      "type": ["\"left\"", "\"center\"", "\"right\""],
       "status": "optional"
     },
-    "content_style": {
+    "contentStyle": {
       "doc": "To enable the visual helper `.dnb-section` on to the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.",
-      "type": ["divider", "white", "transparent"],
+      "type": ["\"divider\"", "\"white\"", "\"transparent\""],
       "status": "optional"
     },
-    "content_spacing": {
-      "doc": "To modify the `spacing` onto the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `large`.",
-      "type": [
-        "boolean",
-        "x-small",
-        "small",
-        "medium",
-        "large",
-        "x-large",
-        "xx-large"
-      ],
+    "contentInnerSpace": {
+      "doc": "To modify the inner space of the content wrapper. Defaults to `{ top: 'large' }`.",
+      "type": ["boolean", "string", "InnerSpaceType"],
       "status": "optional"
     },
-    "tabs_style": {
+    "tabsStyle": {
       "doc": "To enable the visual helper `.dnb-section` inside the tabs list. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.",
-      "type": ["divider", "white", "transparent"],
+      "type": ["\"divider\"", "\"white\"", "\"transparent\""],
       "status": "optional"
     },
-    "tabs_spacing": {
-      "doc": "To modify the `spacing` inside the tab list. Defaults to `null`.",
-      "type": "boolean",
+    "tabsInnerSpace": {
+      "doc": "To modify the top padding of the tab list. Only applies `paddingTop`. Defaults to `undefined`.",
+      "type": ["boolean", "string"],
       "status": "optional"
     },
-    "tab_element": {
-      "doc": "Define what HTML element should be used. You can provide e.g. `tab_element={GatsbyLink}` – you may then provide the `to` property inside every entry (`data={[{ to: ';url';, ... }]}`). Defaults to `<button>`.",
+    "tabElement": {
+      "doc": "Define what HTML element should be used. You can provide e.g. `tabElement={GatsbyLink}` – you may then provide the `to` property inside every entry (`data={[{ to: '/url', ... }]}`). Defaults to `<button>`.",
       "type": "React.ReactNode",
       "status": "optional"
     },
     "[data](/uilib/components/tabs/properties/#data-object)": {
       "doc": "Defines the data structure to load as an object.",
       "type": "object",
-      "status": "required"
+      "status": "optional"
     },
     "children": {
       "doc": "The content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.",
       "type": ["React.ReactNode", "object"],
-      "status": "required"
+      "status": "optional"
     },
     "content": {
       "doc": "The content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.",
       "type": ["React.ReactNode", "object"],
-      "status": "required"
+      "status": "optional"
     },
-    "prerender": {
+    "keepInDOM": {
       "doc": "If set to `true`, the Tabs content will pre-render all contents. The visibility will be handled by using the `hidden` and `aria-hidden` HTML attributes. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },
-    "prevent_rerender": {
-      "doc": "If set to `true`, the Tabs content will stay in the DOM. The visibility will be handled by using the `hidden` and `aria-hidden` HTML attributes. Similar to `prerender`, but in contrast, the content will render once the user is activating a tab. Defaults to `false`.",
+    "preventRerender": {
+      "doc": "If set to `true`, the Tabs content will stay in the DOM. The visibility will be handled by using the `hidden` and `aria-hidden` HTML attributes. Similar to `keepInDOM`, but in contrast, the content will render once the user is activating a tab. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },
@@ -557,12 +567,12 @@ render(
       "type": "boolean",
       "status": "optional"
     },
-    "no_border": {
+    "noBorder": {
       "doc": "If set to `true`, the default horizontal border line under the tablist will be removed. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },
-    "nav_button_edge": {
+    "navButtonEdge": {
       "doc": "If set to `true`, the navigation icons will have a straight border at their outside. This feature is meant to be used when the Tabs component goes all the way to the browser window. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
@@ -652,23 +662,23 @@ The current Tab content can be a `string`, a function returning content or a `Re
 ```json
 {
   "props": {
-    "on_change": {
-      "doc": "(preferred) this event gets triggered once the tab changes its selected key. Returns `{ key, selected_key, focus_key, title, event }`.",
+    "onChange": {
+      "doc": "(preferred) this event gets triggered once the tab changes its selected key. Returns `{ key, selectedKey, focusKey, title, event }`.",
       "type": "function",
       "status": "optional"
     },
-    "on_click": {
-      "doc": "This event gets triggered once the tab gets clicked. Returns `{ key, selected_key, focus_key, title, event }`.",
+    "onClick": {
+      "doc": "This event gets triggered once the tab gets clicked. Returns `{ key, selectedKey, focusKey, title, event }`.",
       "type": "function",
       "status": "optional"
     },
-    "on_focus": {
-      "doc": "This event gets triggered once the tab changes its focus key. Returns `{ key, selected_key, focus_key, title, event }`.",
+    "onFocus": {
+      "doc": "This event gets triggered once the tab changes its focus key. Returns `{ key, selectedKey, focusKey, title, event }`.",
       "type": "function",
       "status": "optional"
     },
-    "on_mouse_enter": {
-      "doc": "This event gets triggered once the user's mouse enters a tab (hover). Returns `{ key, selected_key, focus_key, title, event }`.",
+    "onMouseEnter": {
+      "doc": "This event gets triggered once the user's mouse enters a tab (hover). Returns `{ key, selectedKey, focusKey, title, event }`.",
       "type": "function",
       "status": "optional"
     }
@@ -678,16 +688,16 @@ The current Tab content can be a `string`, a function returning content or a `Re
 
 ### Prevent a change
 
-You can prevent a change from happening by returning false on the `on_click` event handler:
+You can prevent a change from happening by returning false on the `onClick` event handler:
 
 ```tsx
 <Tabs
-  on_click={() => {
+  onClick={() => {
     if (condition === true) {
       return false
     }
   }}
-  on_change={() => {
+  onChange={() => {
     // Will not get emitted
   }}
 />

@@ -1,8 +1,8 @@
 ---
 title: 'Field.Option'
 description: '`Field.Option` is a pseudo-component for defining an option to be used in a dropdown or similar user experiences.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.010Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.357Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -53,17 +53,17 @@ There might be more props available depending on the parent component. For examp
     },
     "title": {
       "doc": "Title for the option. Overrides `children`.",
-      "type": ["string", "React.Node"],
+      "type": ["string", "React.ReactNode"],
       "status": "optional"
     },
     "groupIndex": {
-      "doc": "What group index in the `groups` prop ([Field.Selection](/uilib/extensions/forms/base-fields/Selection/)) this item belongs to.",
+      "doc": "What group index in the `groups` property ([Field.Selection](/uilib/extensions/forms/base-fields/Selection/)) this item belongs to.",
       "type": "number",
       "status": "optional"
     },
     "text": {
       "doc": "Secondary text.",
-      "type": ["string", "React.Node"],
+      "type": ["string", "React.ReactNode"],
       "status": "optional"
     },
     "disabled": {
@@ -72,13 +72,13 @@ There might be more props available depending on the parent component. For examp
       "status": "optional"
     },
     "help": {
-      "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+      "doc": "Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
       "type": "object",
       "status": "optional"
     },
     "children": {
       "doc": "Optional way to provide `title`. Will be ignored if `title` is used.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     }
   }

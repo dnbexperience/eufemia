@@ -1,9 +1,9 @@
 ---
 title: 'Avatar'
 description: 'The Avatar component is an identifier that makes people and companies more scannable.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.308Z
-checksum: ff009813a4f1ecae3163225075557e7175e0fd0d77c827e8fc7e043b3f87a0b4
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:08.917Z
+checksum: c59305543e09288b063df9b00145783c12205cd482bccea6c9f2e7ee0774949f
 ---
 
 # Avatar
@@ -146,7 +146,7 @@ The `icon` property can accept either an imported icon, a primary icon string, o
 ```
 import {
   calendar_medium as CalendarMedium,
-} from '@dnb/eufemia/src/icons'
+} from '@dnb/eufemia/icons'
 ```
 
 ```tsx
@@ -166,7 +166,7 @@ render(
 render(
   <Avatar.Group label="Logos">
     <Avatar>
-      <Logo size="auto" inheritColor />
+      <Logo inheritColor svg={getLogoSvg} />
     </Avatar>
   </Avatar.Group>
 )
@@ -394,7 +394,7 @@ render(
   "props": {
     "size": {
       "doc": "Size of the Avatar. Options: `small` | `medium` | `large` | `x-large`. Defaults to `medium`.",
-      "type": ["small", "medium", "large", "x-large"],
+      "type": ["\"small\"", "\"medium\"", "\"large\"", "\"x-large\""],
       "status": "optional"
     },
     "children": {
@@ -424,11 +424,11 @@ render(
     },
     "variant": {
       "doc": "Override the variant of the component. Options: `primary` | `secondary` | `tertiary`. Defaults to `primary`.",
-      "type": ["primary", "secondary", "tertiary"],
+      "type": ["\"primary\"", "\"secondary\"", "\"tertiary\""],
       "status": "optional"
     },
     "hasLabel": {
-      "doc": "If aria-hidden is set to `true` or if a label is given, typical inside a table or dl (definition list), then you can disable Avatar.Group as a dependent of Avatar. Use `true` to omit the `Avatar group required:` warning.",
+      "doc": "If `aria-hidden` is set to `true` or if a label is given, typically inside a table or dl (definition list), then you can disable Avatar.Group as a dependent of Avatar. Use `true` to omit the `Avatar group required:` warning.",
       "type": "boolean",
       "status": "optional"
     },
@@ -468,12 +468,12 @@ render(
     },
     "size": {
       "doc": "Size of the Avatars, and \"elements hidden text (+x)\". Options: `small` | `medium` | `large` | `x-large`. Defaults to `medium`.",
-      "type": ["small", "medium", "large", "x-large"],
+      "type": ["\"small\"", "\"medium\"", "\"large\"", "\"x-large\""],
       "status": "optional"
     },
     "variant": {
       "doc": "Override the variant of the Avatars. Options: `primary` | `secondary` | `tertiary`. Defaults to `primary`.",
-      "type": ["primary", "secondary", "tertiary"],
+      "type": ["\"primary\"", "\"secondary\"", "\"tertiary\""],
       "status": "optional"
     },
     "maxElements": {

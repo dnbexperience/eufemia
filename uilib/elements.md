@@ -1,8 +1,8 @@
 ---
 title: 'HTML Elements'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.349Z
-checksum: 462f79af118c885e70e7d53dbc0a476cb5e6ade9a644f6e0a616bba8e4a624a0
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.758Z
+checksum: 18e00ad06523acfe60001e6744349201af717bf0b58581da85eb2dc34ca5d85b
 ---
 
 # HTML Elements
@@ -103,7 +103,7 @@ const CustomImage = () => {
       <Skeleton.Exclude>
         <ToggleButton
           checked={state}
-          on_change={({ checked }) => setState(checked)}
+          onChange={({ checked }) => setState(checked)}
           top="large"
         >
           Toggle

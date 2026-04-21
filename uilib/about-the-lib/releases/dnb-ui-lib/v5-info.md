@@ -1,8 +1,8 @@
 ---
 title: 'v5.0'
 description: 'October, 30. 2019'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:32.639Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:08.276Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -44,7 +44,7 @@ If you are using only properties to change actively your application typography,
 
 ### Properties as JS
 
-You can now also import all the main properties as a [JavaScript Object](/uilib/usage/customisation/styling/polyfill#properties):
+You can now also import all the main properties as a [JavaScript Object](/uilib/usage/customisation/styling/polyfill#css-in-js):
 
 ```js
 import properties from 'dnb-ui-lib/style/properties
@@ -95,11 +95,11 @@ The `dnb-ui-lib` uses now `ESM` as the default module format. But every componen
 
 **Mostly likely no**. The majority of applications / projects does not to have to make changes.
 
-If you are in **Node.js** (SSR) land, [read more about CJS](/uilib/usage/first-steps/es6#commonjs-cjs).
+If you are in **Node.js** (SSR) land, [read more about CJS](/uilib/usage/first-steps/module-formats#commonjs-cjs).
 
 ### What is ESM good for?
 
-Your project is most likely already using `ESM` (import / export). Now that the `dnb-ui-lib` uses `ESM`, [tree shaking](/uilib/usage/first-steps/es6#tree-shaking) is much easier to handle and most likely be handled out of the box by your application bundler of choice (e.g. [webpack](https://webpack.js.org) ([create-react-app](https://github.com/facebook/create-react-app)), [rollup.js](https://rollupjs.org/guide/en/) and [parcel.js](https://parceljs.org)).
+Your project is most likely already using `ESM` (import / export). Now that the `dnb-ui-lib` uses `ESM`, [tree shaking](/uilib/usage/first-steps/module-formats) is much easier to handle and most likely be handled out of the box by your application bundler of choice (e.g. [webpack](https://webpack.js.org) ([create-react-app](https://github.com/facebook/create-react-app)), [rollup.js](https://rollupjs.org/guide/en/) and [parcel.js](https://parceljs.org)).
 
 ## UMD changes
 

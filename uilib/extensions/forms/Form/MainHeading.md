@@ -1,9 +1,9 @@
 ---
 title: 'Form.MainHeading'
 description: '`Form.MainHeading` is a standardized main heading for sections, ensuring default layout, spacing etc.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.628Z
-checksum: 852178e7769f20736f67a3e4db9a97d5e10326cd12425eeff6aed85ea0fd6c56
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.885Z
+checksum: a49b043d7d31fec7f6ac2697605efdd82f8ebd7752638c7458c014cc87429631
 ---
 
 # Form.MainHeading
@@ -18,6 +18,11 @@ render(<Form.MainHeading />)
 ## Description
 
 `Form.MainHeading` is a standardized main heading for sections, ensuring default layout, spacing etc.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Form/MainHeading)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Form/MainHeading)
 
 The used font-size is set to `large`.
 
@@ -55,10 +60,6 @@ render(<Form.MainHeading>This is a main heading</Form.MainHeading>)
 ```
 
 ### Above Card
-
-When placed above a [Form.Card](/uilib/extensions/forms/Form/Card/) component, the heading will be indented to align with the card content.
-
-On small screens, the indention will be removed.
 
 ```tsx
 <Form.MainHeading>This is a main heading</Form.MainHeading>
@@ -98,13 +99,13 @@ render(
       "status": "optional"
     },
     "help": {
-      "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+      "doc": "Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
       "type": "object",
       "status": "optional"
     },
     "children": {
       "doc": "Heading text / contents.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {

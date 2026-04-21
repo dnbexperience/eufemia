@@ -1,8 +1,8 @@
 ---
 title: 'Value.Selection'
 description: '`Value.Selection` is a component for displaying a string value based on a user selection.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.902Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.253Z
 checksum: 6782e49a32910133869cc6a4d99a98cece9e7563cc006c70ef75edd7155531f6
 ---
 
@@ -175,7 +175,7 @@ render(
       "status": "optional"
     },
     "help": {
-      "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+      "doc": "Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
       "type": "object",
       "status": "optional"
     },
@@ -216,7 +216,7 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": "string",
+      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
       "status": "optional"
     },
     "transformIn": {

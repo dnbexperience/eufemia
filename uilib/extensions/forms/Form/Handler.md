@@ -1,9 +1,9 @@
 ---
 title: 'Form.Handler'
 description: 'The `Form.Handler` is the root component of your form. It provides an HTML form element and handles the form data.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.573Z
-checksum: 46576cb992676575bd937799c9547cd77de1bc2d48997664e6c70df0a6215ac8
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.817Z
+checksum: 1ac98330205a7ae97f4ee743b54856303bbab085122cf014b4b7bde7f9c46aa9
 ---
 
 # Form.Handler
@@ -138,6 +138,20 @@ function MyApp() {
   )
 }
 ```
+
+## Native form submission
+
+By default, `Form.Handler` prevents the browser's native submit behavior so it can run validation and submit handling inside Eufemia Forms.
+
+If you need a native form submit, such as posting to an `action` URL with `method="post"`, you can set `preventDefaultOnSubmit={false}`:
+
+```tsx
+<Form.Handler action="/login" method="post" preventDefaultOnSubmit={false}>
+  ...
+</Form.Handler>
+```
+
+This also works on `Form.Element` when using `decoupleForm`.
 
 ## Data handling
 
@@ -662,12 +676,12 @@ render(
 const myTranslations = {
   'nb-NO': {
     PhoneNumber: {
-      label: 'Egendefinert 🚀',
+      numberLabel: 'Egendefinert 🚀',
     },
   },
   'en-GB': {
     PhoneNumber: {
-      label: 'Custom 🚀',
+      numberLabel: 'Custom 🚀',
     },
   },
 }
@@ -852,7 +866,7 @@ const MyForm = () => {
             text="Stop async operations"
             variant="tertiary"
             icon={stopIcon}
-            icon_position="left"
+            iconPosition="left"
             disabled={false}
             onClick={cancelRequest}
           />
@@ -1002,26 +1016,26 @@ render(<MyForm />)
     },
     "id": {
       "doc": "Unique id for connecting Form.Handler and helper tools such as Form.useData.",
-      "type": ["string", "Function", "Object", "React.Context"],
+      "type": ["string", "function", "object", "React.Context"],
       "status": "optional"
     },
     "schema": {
-      "doc": "JSON Schema for validation of the data set. IMPORTANT: When using JSON Schema validation, you MUST provide an `ajvInstance` prop.",
+      "doc": "JSON Schema for validation of the data set. IMPORTANT: When using JSON Schema validation, you MUST provide an `ajvInstance` property.",
       "type": "object",
       "status": "optional"
     },
     "errorMessages": {
-      "doc": "Object containing error messages by either type of JSON Pointer path and type. The messages can be a React.ReactNode or a string.",
+      "doc": "Object containing error messages by either type of JSON Pointer path and type. The messages can be a `React.ReactNode` or a string.",
       "type": "object",
       "status": "optional"
     },
     "minimumAsyncBehaviorTime": {
-      "doc": "Minimum time to display the submit indicator. Default is 1s.",
+      "doc": "Minimum time to display the submit indicator. Defaults to 1s.",
       "type": "number",
       "status": "optional"
     },
     "asyncSubmitTimeout": {
-      "doc": "The maximum time to display the submit indicator before it changes back to normal. In case something went wrong during submission. Default is 30s.",
+      "doc": "The maximum time to display the submit indicator before it changes back to normal. In case something went wrong during submission. Defaults to 30s.",
       "type": "number",
       "status": "optional"
     },
@@ -1036,17 +1050,17 @@ render(<MyForm />)
       "status": "optional"
     },
     "ajvInstance": {
-      "doc": "REQUIRED when using JSON Schema validation. Provide your own custom Ajv instance: import Ajv from \"@dnb/eufemia/extensions/forms\" and pass ajvInstance={makeAjvInstance()}. This ensures your bundle only includes AJV when you actually need it. More info in the [Schema validation](/uilib/extensions/forms/Form/schema-validation/#custom-ajv-instance-and-keywords) section.",
-      "type": "ajv",
+      "doc": "REQUIRED when using JSON Schema validation. Provide your own custom Ajv instance: `import Ajv from \"@dnb/eufemia/extensions/forms\"` and pass `ajvInstance={makeAjvInstance()}`. This ensures your bundle only includes AJV when you actually need it. More info in the [Schema validation](/uilib/extensions/forms/Form/schema-validation/#custom-ajv-instance-and-keywords) section.",
+      "type": "\"ajv\"",
       "status": "optional"
     },
     "transformIn": {
-      "doc": "Mutate the data context (internally as well) based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).",
+      "doc": "Mutate the data context (internally as well) based on your criteria: `({ path, value, data, properties, internal }) => 'new value'`. It will iterate on each data entry (/path).",
       "type": "function",
       "status": "optional"
     },
     "transformOut": {
-      "doc": "Mutate the data before it enters onSubmit or onChange based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).",
+      "doc": "Mutate the data before it enters `onSubmit` or `onChange` based on your criteria: `({ path, value, data, properties, internal }) => 'new value'`. It will iterate on each data entry (/path).",
       "type": "function",
       "status": "optional"
     },
@@ -1077,11 +1091,16 @@ render(<MyForm />)
     },
     "children": {
       "doc": "Contents.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "required"
     },
     "autoComplete": {
       "doc": "Will set `autoComplete=\"on\"` on all nested [Field.String](/uilib/extensions/forms/base-fields/String/)-fields.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "preventDefaultOnSubmit": {
+      "doc": "Set to `false` to allow the browser's native form submission, such as a native `POST` to the given `action` URL.",
       "type": "boolean",
       "status": "optional"
     },
@@ -1110,7 +1129,7 @@ render(<MyForm />)
 {
   "props": {
     "onChange": {
-      "doc": "Will be called when a value of a field was changed by the user, with the data set (including the changed value) as argument. When an async function is provided, it will show an indicator on the current label during a field change. Related props: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` in addition to { success: 'saved' } indicate the field was saved. Will emit unvalidated by default and validated when an async function is provided (like `onSubmit`). The second parameter is an object containing the `filterData`, `resetForm` and `clearData` functions.",
+      "doc": "Will be called when a value of a field was changed by the user, with the data set (including the changed value) as argument. When an async function is provided, it will show an indicator on the current label during a field change. Related properties: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` in addition to { success: 'saved' } indicate the field was saved. Will emit unvalidated by default and validated when an async function is provided (like `onSubmit`). The second parameter is an object containing the `filterData`, `resetForm` and `clearData` functions.",
       "type": "function",
       "status": "optional"
     },
@@ -1120,12 +1139,12 @@ render(<MyForm />)
       "status": "optional"
     },
     "onSubmit": {
-      "doc": "Will be called (on validation success) when the user submit the form (i.e by clicking a [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton) component inside), with the data set as argument. When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for minimum 1 second. Related props: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ status: 'pending', info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/uilib/components/form-status). Will only emit when every validation has passed. The second parameter is an object containing the `filterData`, `reduceToVisibleFields`, `transformData`, `resetForm` and `clearData` functions.",
+      "doc": "Will be called (on validation success) when the user submit the form (i.e. by clicking a [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton) component inside), with the data set as argument. When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for minimum 1 second. Related properties: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ status: 'pending', info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/uilib/components/form-status). Will only emit when every validation has passed. The second parameter is an object containing the `filterData`, `reduceToVisibleFields`, `transformData`, `resetForm` and `clearData` functions.",
       "type": "function",
       "status": "optional"
     },
     "onSubmitRequest": {
-      "doc": "Will be called when the user tries to submit, but errors stop the data from being submitted. The first parameter is an object containing the `getErrors` method, returning an array with field errors. Each error object contains the `path`, `error` and `props` of the field. You can use this to log the errors before the form is submitted. You can return an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/uilib/components/form-status) at the form level. Supports async functions.",
+      "doc": "Will be called when the user tries to submit, but errors stop the data from being submitted. The first parameter is an object containing the `getErrors` method, returning an array with field errors. Each error object contains the `path`, `error` and `properties` of the field. You can use this to log the errors before the form is submitted. You can return an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/uilib/components/form-status) at the form level. Supports async functions.",
       "type": "function",
       "status": "optional"
     },

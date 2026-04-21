@@ -1,8 +1,8 @@
 ---
 title: 'v10'
 description: 'May, 31. 2023'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:32.648Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:08.285Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -360,9 +360,7 @@ The Anchor was moved from `/elements` to `/components`.
    When you convert from `<Modal mode="custom" />` simply change to `<Modal />`.
 
    When you convert from `<Modal mode="drawer" />` to `<Drawer />` – follow these steps:
-
    1. All `trigger_*` properties are not supported for Drawer, use `triggerAttributes` instead to pass in properties for the trigger button.
-
       - Change property `trigger_hidden` to `omitTriggerButton` to omit the default trigger button from Modal.
 
    2. Only camelCase properties are supported for Drawer, so you will need to update the property names.
@@ -371,9 +369,7 @@ The Anchor was moved from `/elements` to `/components`.
    5. `Modal` was a class component and `Drawer` is a functional component.
 
    When you convert from `<Modal />` or `<Modal mode="dialog" />` to `<Dialog />` – follow these steps:
-
    1. All `trigger_*` properties are not supported for Dialog, use `triggerAttributes` instead to pass in properties for the trigger button.
-
       - Change property `trigger_hidden` to `omitTriggerButton` to omit the default trigger button from Modal.
 
    2. Only camelCase properties are supported for Dialog, so you will need to update the property names.
@@ -389,7 +385,7 @@ The Anchor was moved from `/elements` to `/components`.
 
 1. In v10, InputMasked **allows leading zeros**. To prevent that behavior, the property `allowLeadingZeroes` has changed to `disallowLeadingZeroes`.
 
-### [FormRow](/uilib/layout/form-row)
+### FormRow
 
 1. The FormRow properties `indent` and `indent_offset` were removed.
 

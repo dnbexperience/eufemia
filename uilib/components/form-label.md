@@ -1,9 +1,9 @@
 ---
 title: 'FormLabel'
 description: 'The FormLabel component represents a caption for all sorts of HTML elements in a user interface.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.423Z
-checksum: f32851c79ea64f215b010eaf0b3060fb290b0753dd24c1079ba30335481ae2fc
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.038Z
+checksum: a3e2d63a21c9bff5a2c312d26f4d4ee69485b847669f8c9599a421d01406725f
 ---
 
 # FormLabel
@@ -16,7 +16,7 @@ import { FormLabel } from '@dnb/eufemia'
 
 ## Description
 
-The FormLabel component represents a caption for all sorts of HTML elements in a user interface.
+The FormLabel component represents a caption for all sorts of HTML elements in a user interface. By default, the label is displayed vertically (above the element). Use `vertical={false}` or `labelDirection="horizontal"` for inline labels.
 
 ## Relevant links
 
@@ -33,23 +33,23 @@ DNB UX has chosen to not use colon on the end of form element labels. For consis
 ### Default form-label
 
 ```tsx
-<FormLabel forId="alone-1">Default horizontal FormLabel</FormLabel>
+<FormLabel forId="alone-1">Default vertical FormLabel</FormLabel>
 <Checkbox id="alone-1" label="Checkbox" />
 ```
 
-### Vertical form-label
+### Horizontal form-label
 
 ```tsx
-<FormLabel forId="alone-2" vertical>
-  Vertical FormLabel
+<FormLabel forId="alone-2" vertical={false}>
+  Horizontal FormLabel
 </FormLabel>
 <Checkbox id="alone-2" label="Checkbox" />
 ```
 
-### Vertical form-label without a `forId`
+### Form-label without a `forId`
 
 ```tsx
-<FormLabel vertical={true}>Without forId (select me)</FormLabel>
+<FormLabel>Without forId (select me)</FormLabel>
 <Checkbox label="Checkbox" />
 ```
 
@@ -78,7 +78,7 @@ render(
     "forId": {
       "doc": "The same unique `id` like the linked HTML element has.",
       "type": "string",
-      "status": "required"
+      "status": "optional"
     },
     "text": {
       "doc": "The `text` of the label. You can use `children` as well.",
@@ -91,13 +91,13 @@ render(
       "status": "optional"
     },
     "vertical": {
-      "doc": "If set to `true`, will do the same as `label_direction` when set to **vertical**.",
+      "doc": "Defaults to `true`. If set to `false`, the label will be displayed horizontally (inline).",
       "type": "boolean",
       "status": "optional"
     },
     "size": {
-      "doc": "Define one of the following [heading sizes](/uilib/elements/heading/): `medium` or `large`.",
-      "type": ["medium", "large"],
+      "doc": "Define one of the following [heading sizes](/uilib/elements/heading/): `basis`, `medium` or `large`.",
+      "type": ["\"basis\"", "\"medium\"", "\"large\""],
       "status": "optional"
     },
     "skeleton": {
@@ -115,8 +115,8 @@ render(
       "type": "React.Element",
       "status": "optional"
     },
-    "innerRef": {
-      "doc": "Attach a React Ref to the inner label `element`.",
+    "ref": {
+      "doc": "Attach a `React.Ref` to the inner label `element`.",
       "type": "React.Ref",
       "status": "optional"
     },

@@ -1,8 +1,8 @@
 ---
 title: 'Space'
 description: 'The Space component provides margins within the provided spacing patterns.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.093Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.434Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -17,6 +17,11 @@ import { Space } from '@dnb/eufemia'
 ## Description
 
 The Space component provides `margins` within the [provided spacing patterns](/uilib/usage/layout/spacing#spacing-helpers).
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/space)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/layout/space)
 
 The reason this exists is to make your syntax as clean as possible. This way, you see directly in words what the spacing is for every affected component.
 
@@ -120,18 +125,27 @@ In order to help handle unwanted margin collapsing in typography elements, see [
 
 For resetting spacing (`margin: 0`) only when no spacing is defined, you can make use of `dnb-space__reset`.
 
-The following example will result in `margin: 0.5rem 0 0 0`:
+### Style and Spacing
 
-```html
-<ul class="my-list dnb-space__reset dnb-space__top--small">
-  <!-- some content -->
-</ul>
+Every Eufemia component that supports spacing props uses CSS custom properties (e.g. `--margin-t-s`) on the `style` attribute to drive responsive margins. When you pass a `style` prop to a component, your styles and the spacing styles are merged together — spacing properties take precedence.
+
+This means you can safely combine your own styles with spacing:
+
+```tsx
+<Space style={{ color: 'var(--color-sea-green)' }} top="medium">
+  ...
+</Space>
 ```
 
-More details:
+If you work with raw DOM elements and set styles via `setAttribute('style', ...)`, make sure you preserve any existing style values when adding new ones, so the spacing custom properties are not lost.
 
-1. Because of the browser default styles, our list has some margin.
-1. If we would want to "reset" these styles to a margin of 0 directly on `.my-list`, we would not be able to use `dnb-space__top--small` because of the CSS specificity is lower.
+```js
+const existing = element.getAttribute('style')
+const merged = existing
+  ? `${existing.replace(/;?\s*$/, '')}; ${style}`
+  : style
+element.setAttribute('style', merged)
+```
 
 ## Demos
 
@@ -166,7 +180,7 @@ Define the space directly.
 render(
   <TestStyles>
     <ComponentBox data-visual-test="spacing-method-component">
-      <Input label="Input A" right="small" />
+      <Input label="Input A" bottom="small" />
       <Input label="Input B" />
     </ComponentBox>
   </TestStyles>
@@ -175,7 +189,7 @@ render(
 
 ### Spacing method #3
 
-Using `createSpacingClasses` or `createSpacingProperties`.
+Using `createSpacing` or `applySpacing`.
 
 ```tsx
 render(
@@ -183,10 +197,7 @@ render(
     <ComponentBox
       scope={{
         RedBox,
-        createSpacingClasses,
-        createSpacingProperties,
-        removeSpaceProps,
-        classnames,
+        applySpacing,
       }}
       data-visual-test="spacing-method-form-row"
     >
@@ -196,21 +207,12 @@ render(
           style = null,
           ...props
         }) => {
-          const spacingClasses = createSpacingClasses(props)
-          const spacingProperties = createSpacingProperties(props)
-          const cn = classnames(
-            'my-component',
-            'dnb-space',
-            spacingClasses,
-            className
-          )
-          const st = {
-            ...style,
-            ...spacingProperties,
-          }
-          return (
-            <div className={cn} style={st} {...removeSpaceProps(props)} />
-          )
+          const params = applySpacing(props, {
+            ...props,
+            className: `my-component dnb-space ${className || ''}`.trim(),
+            style,
+          })
+          return <div {...params} />
         }
         return (
           <>
@@ -240,15 +242,43 @@ render(
 )
 ```
 
+## Responsive `space`
+
+The `space` property supports [media query breakpoints](/uilib/usage/layout/media-queries) (`small`, `medium`, `large`) for responsive spacing. Provide an object with breakpoint keys to apply different values at each screen size.
+
+```tsx
+render(
+  <TestStyles>
+    <ComponentBox
+      data-visual-test="responsive-outer-spacing"
+      scope={{
+        RedBox,
+      }}
+    >
+      <RedBox>
+        <Space
+          space={{
+            small: 'large x-small',
+            medium: {
+              top: '2rem',
+              left: '16px',
+              bottom: 'large',
+              right: '5rem',
+            },
+            large: true,
+          }}
+        >
+          <P>Content</P>
+        </Space>
+      </RedBox>
+    </ComponentBox>
+  </TestStyles>
+)
+```
+
 ### Responsive `innerSpace`
 
-For "padding" inside the space component, you can use the property `innerSpace`.
-
-It supports the same API as the `space` property.
-
-But in addition it supports [media query breakpoints](/uilib/usage/layout/media-queries), such as `small`, `medium` and `large`.
-
-For `innerSpace` object values, you can also use `block` and `inline` shorthand.
+The `innerSpace` property controls padding inside the Space component. It shares the same API as `space`.
 
 ```tsx
 render(
@@ -275,6 +305,115 @@ render(
           <P>Content</P>
         </Space>
       </RedBox>
+    </ComponentBox>
+  </TestStyles>
+)
+```
+
+### `inline` and `block` shorthand
+
+Both `space` and `innerSpace` properties support `inline` and `block` shorthand properties for more semantic spacing control.
+
+- `inline` applies spacing to left and right (horizontal)
+- `block` applies spacing to top and bottom (vertical)
+
+```tsx
+render(
+  <TestStyles>
+    <ComponentBox
+      data-visual-test="space-inline-block"
+      scope={{
+        RedBox,
+      }}
+    >
+      {/* Basic inline/block usage for space (margin) */}
+      <Space
+        space={{
+          inline: 'small',
+          block: 'large',
+        }}
+      >
+        <RedBox>
+          space: inline=small (left/right), block=large (top/bottom)
+        </RedBox>
+      </Space>
+
+      {/* Basic inline/block usage for innerSpace (padding) */}
+      <Space
+        innerSpace={{
+          inline: 'medium',
+          block: 'x-small',
+        }}
+      >
+        <RedBox>
+          innerSpace: inline=medium (left/right), block=x-small
+          (top/bottom)
+        </RedBox>
+      </Space>
+
+      {/* Combining both space and innerSpace with inline/block */}
+      <Space
+        space={{
+          block: 'large',
+        }}
+        innerSpace={{
+          inline: 'medium',
+          block: 'small',
+        }}
+      >
+        <RedBox>
+          Combined: space block=large + innerSpace inline=medium,
+          block=small
+        </RedBox>
+      </Space>
+
+      {/* Media queries with inline/block for both properties */}
+      <Space
+        space={{
+          small: {
+            inline: 'x-small',
+          },
+          medium: {
+            block: 'medium',
+          },
+          large: {
+            inline: 'large',
+            block: 'small',
+          },
+        }}
+        innerSpace={{
+          small: {
+            block: 'x-small',
+          },
+          medium: {
+            inline: 'small',
+          },
+          large: {
+            inline: 'medium',
+            block: 'large',
+          },
+        }}
+      >
+        <RedBox>
+          <div>Responsive inline/block for both space and innerSpace</div>
+          <div>Different combinations per breakpoint</div>
+        </RedBox>
+      </Space>
+
+      {/* Mixing inline/block with traditional directional props */}
+      <Space
+        space={{
+          inline: 'small',
+        }}
+        top="x-large"
+        innerSpace={{
+          block: 'medium',
+        }}
+      >
+        <RedBox>
+          Mixed: space inline + top override, innerSpace block
+        </RedBox>
+      </Space>
     </ComponentBox>
   </TestStyles>
 )
@@ -324,7 +463,13 @@ render(
           <summary>
             I have four <code className="dnb-code">2.5rem</code> margins!
           </summary>
-          And this are my CSS classes: <code className="dnb-code">dnb-space dnb-space__top--large dnb-space__top--x-small dnb-space__right--large dnb-space__right--x-small dnb-space__bottom--large dnb-space__bottom--x-small dnb-space__left--large dnb-space__left--x-small</code>
+          And this are my CSS classes:{' '}
+          <code className="dnb-code">
+            dnb-space dnb-space__top--large dnb-space__top--x-small
+            dnb-space__right--large dnb-space__right--x-small
+            dnb-space__bottom--large dnb-space__bottom--x-small
+            dnb-space__left--large dnb-space__left--x-small
+          </code>
         </details>
       </Space>
     </ComponentBox>
@@ -407,7 +552,7 @@ render(
                   left="x-small"
                   top={v}
                   size="small"
-                  custom_content={<MagicBox />}
+                  customContent={<MagicBox />}
                 />
               ))}
             </CustomStyle>
@@ -443,10 +588,126 @@ const BlueBox = styled.div`
 `
 render(
   <BlueBox>
-    <ul className="dnb-space__reset dnb-space__top--small dnb-space__right--small dnb-space__bottom--small dnb-space__left--small">
+    <Space
+      element="ul"
+      top="small"
+      right="small"
+      bottom="small"
+      left="small"
+      className="dnb-space__reset"
+    >
       <li> </li>
-    </ul>
+    </Space>
   </BlueBox>
+)
+```
+
+```tsx
+render(
+  <TestStyles>
+    <ComponentBox
+      data-visual-test="space-media-queries"
+      scope={{
+        RedBox,
+      }}
+    >
+      {/* Different spacing for different breakpoints */}
+      <Space
+        space={{
+          small: 'small',
+          medium: 'large',
+          large: 'x-large',
+        }}
+      >
+        <RedBox>
+          Responsive spacing: small on mobile, large on tablet, x-large on
+          desktop
+        </RedBox>
+      </Space>
+
+      {/* Media queries with individual direction objects */}
+      <Space
+        space={{
+          small: {
+            top: 'small',
+            bottom: 'medium',
+          },
+          medium: {
+            top: 'large',
+            bottom: 'x-large',
+          },
+          large: {
+            top: 'x-large',
+            bottom: 'xx-large',
+          },
+        }}
+      >
+        <RedBox>Responsive directional spacing</RedBox>
+      </Space>
+
+      {/* Mixing with individual props */}
+      <Space
+        space={{
+          small: 'medium',
+          medium: 'large',
+          large: 'x-large',
+        }}
+        right="small" // Individual props override space
+      >
+        <RedBox>Media space with right override</RedBox>
+      </Space>
+    </ComponentBox>
+  </TestStyles>
+)
+```
+
+```tsx
+render(
+  <TestStyles>
+    <ComponentBox
+      data-visual-test="innerspace-media-queries"
+      scope={{
+        RedBox,
+      }}
+    >
+      {/* Different inner spacing for different breakpoints */}
+      <Space
+        innerSpace={{
+          small: 'small',
+          medium: 'large',
+          large: 'x-large',
+        }}
+      >
+        <RedBox>
+          <div>Responsive inner spacing</div>
+          <div>Content inside has different spacing per breakpoint</div>
+        </RedBox>
+      </Space>
+
+      {/* Media queries with directional inner spacing */}
+      <Space
+        innerSpace={{
+          small: {
+            block: 'small',
+            inline: 'medium',
+          },
+          medium: {
+            block: 'large',
+            inline: 'x-large',
+          },
+          large: {
+            block: 'x-large',
+            inline: 'xx-large',
+          },
+        }}
+      >
+        <RedBox>
+          <div>Responsive directional inner spacing</div>
+          <div>Block and inline spacing changes per breakpoint</div>
+        </RedBox>
+      </Space>
+    </ComponentBox>
+  </TestStyles>
 )
 ```
 
@@ -458,27 +719,27 @@ These properties are available in many other components and elements.
 {
   "props": {
     "space": {
-      "doc": "Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.",
+      "doc": "Has to be an object with either: `top`, `right`, `bottom`, `left`, `inline`, or `block`. Also supports media query breakpoints like `{small: \"medium\", medium: \"large\", large: \"x-large\"}` and shorthand directions `inline`/`block`. Use spacing values like: `small`, `1rem`, `1` or `16px`.",
       "type": ["object"],
       "status": "optional"
     },
     "top": {
-      "doc": "Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.",
+      "doc": "Use spacing values like: `small`, `1rem`, `1` or `16px`. Will use `margin-top`.",
       "type": ["string", "number", "boolean"],
       "status": "optional"
     },
     "right": {
-      "doc": "Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.",
+      "doc": "Use spacing values like: `small`, `1rem`, `1` or `16px`. Will use `margin-right`.",
       "type": ["string", "number", "boolean"],
       "status": "optional"
     },
     "bottom": {
-      "doc": "Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.",
+      "doc": "Use spacing values like: `small`, `1rem`, `1` or `16px`. Will use `margin-bottom`.",
       "type": ["string", "number", "boolean"],
       "status": "optional"
     },
     "left": {
-      "doc": "Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.",
+      "doc": "Use spacing values like: `small`, `1rem`, `1` or `16px`. Will use `margin-left`.",
       "type": ["string", "number", "boolean"],
       "status": "optional"
     }
@@ -493,7 +754,7 @@ These properties are available in many other components and elements.
   "props": {
     "element": {
       "doc": "Defines the HTML element used. Defaults to `div`.",
-      "type": "React.Element",
+      "type": ["string", "React.Element"],
       "status": "optional"
     },
     "stretch": {
@@ -511,7 +772,7 @@ These properties are available in many other components and elements.
       "type": ["object", "string", "number", "boolean"],
       "status": "optional"
     },
-    "no_collapse": {
+    "noCollapse": {
       "doc": "If set to `true`, then a wrapper with `display: flow-root;` is used. This way you avoid **Margin Collapsing**. Defaults to `false`. _Note:_ You can't use `inline={true}` in combination.",
       "type": "boolean",
       "status": "optional"
@@ -532,7 +793,7 @@ Also, Provider is supporting the `collapse` property.
 render(
   <Provider
     space={{
-      no_collapse: true,
+      noCollapse: true,
     }}
   >
     <Space>I do not collapse</Space>

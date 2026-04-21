@@ -1,9 +1,9 @@
 ---
 title: 'Form.InfoOverlay'
 description: '`Form.InfoOverlay` is used to display an informational message that fully covers the available space.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.580Z
-checksum: 6e90f6df8fe801afc91d57e5fe885bcd8737cdca36e2ab0124c816c50948376f
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.824Z
+checksum: e66e583890ad28aa30e87c4218c906a8825e5876be51320300e4609a73d39879
 ---
 
 # Form.InfoOverlay
@@ -231,27 +231,27 @@ render(
   "props": {
     "title": {
       "doc": "The title of the component.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "description": {
       "doc": "The description of the component.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "cancelButton": {
       "doc": "The text of the cancel button.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "retryButton": {
       "doc": "The text of the retry button.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "[Section](/uilib/components/section/properties)": {
       "doc": "All Section properties.",
-      "type": "various",
+      "type": "\"various\"",
       "status": "optional"
     }
   }
@@ -265,17 +265,17 @@ render(
   "props": {
     "title": {
       "doc": "The title of the component.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "description": {
       "doc": "The description of the component.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "buttonText": {
       "doc": "The text of the button.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "buttonHref": {
@@ -290,7 +290,7 @@ render(
     },
     "[Section](/uilib/components/section/properties)": {
       "doc": "All Section properties.",
-      "type": "various",
+      "type": "\"various\"",
       "status": "optional"
     }
   }

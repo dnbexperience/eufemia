@@ -1,8 +1,8 @@
 ---
 title: 'Wizard.Buttons'
 description: '`Wizard.Buttons` is a combination of PreviousButton and NextButton for navigating between steps/pages.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.978Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.324Z
 checksum: 4ea56087d0680bf07da056cf40e953588811b3ff8876526853e7bcc84fb35e61
 ---
 
@@ -18,6 +18,11 @@ render(<Wizard.Buttons />)
 ## Description
 
 `Wizard.Buttons` is a combination of [Wizard.PreviousButton](/uilib/extensions/forms/Wizard/PreviousButton/) and [Wizard.NextButton](/uilib/extensions/forms/Wizard/NextButton/) for navigating between steps/pages.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Wizard/Buttons)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Wizard/Buttons)
 
 Only the relevant button is shown, depending on the current step.
 

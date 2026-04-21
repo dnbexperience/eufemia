@@ -1,12 +1,12 @@
 ---
-title: 'Flex Stack'
+title: 'Flex.Stack'
 description: '`Flex.Stack` is an outer block element that wraps content to ensure proper layout and spacing between form elements, larger regions and headings. It stretches its content horizontally (100%).'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.083Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.429Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
-# Flex Stack
+# Flex.Stack
 
 ## Import
 
@@ -18,6 +18,11 @@ render(<Flex.Stack />)
 ## Description
 
 `Flex.Stack` is an outer block element that wraps content to ensure proper layout and spacing between form elements, larger regions and headings.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/flex/Stack.tsx)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/layout/flex/stack)
 
 It stretches its content horizontally (100%).
 

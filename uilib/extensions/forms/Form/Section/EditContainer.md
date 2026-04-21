@@ -1,9 +1,9 @@
 ---
 title: 'Form.Section.EditContainer'
 description: '`Form.Section.EditContainer` enables users to toggle (with animation) the content of each item between the view and edit container.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.634Z
-checksum: 3a3c3d0e49e2c12b2e78849f5784f909f49e8d2aa76cad07a5714074d3a7b48a
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.892Z
+checksum: 32f70c4b6524d47c3512017c15ee7b6dbcbe4a533a5f4b3f97154a1e3dde47e8
 ---
 
 # Form.Section.EditContainer
@@ -116,12 +116,12 @@ render(
   "props": {
     "title": {
       "doc": "The title of the container.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "variant": {
       "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
-      "type": "string",
+      "type": ["\"outline\"", "\"filled\"", "\"basic\""],
       "status": "optional"
     },
     "[FlexVertical](/uilib/layout/flex/container/properties)": {
@@ -174,12 +174,12 @@ render(
   "props": {
     "onDone": {
       "doc": "Callback for the done button.",
-      "type": "Function",
+      "type": "function",
       "status": "optional"
     },
     "onCancel": {
       "doc": "Callback for the cancel button.",
-      "type": "Function",
+      "type": "function",
       "status": "optional"
     }
   }

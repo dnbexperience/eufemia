@@ -1,9 +1,9 @@
 ---
 title: 'Blockquote'
 description: 'The blockquote element is used to indicate the quotation of a large section of text from another source.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.834Z
-checksum: e341aee176a995e059958ae251b9c652f485687ac5e5fac027d3525f26fe4459
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.550Z
+checksum: e276f4e25ce9c62881c14c2b94a0d457be21f54cfa55f6585fcce51fe9ece83b
 ---
 
 # Blockquote
@@ -105,7 +105,7 @@ render(
     },
     "direction": {
       "doc": "Determines the flow direction of the content inside of blockquote. Can be either `horizontal` or `vertical`. Defaults to `horizontal`.",
-      "type": "string",
+      "type": ["\"horizontal\"", "\"vertical\""],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {

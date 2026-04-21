@@ -1,9 +1,9 @@
 ---
 title: 'Section'
 description: 'The Section component is a visual helper.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.639Z
-checksum: 7a5ab1cc1e8ed325f1aed76822a14252e60891ce1dd829d858f12dd11639b923
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.291Z
+checksum: ff487e363e83827b18c01d3bb4b0b0e01cbbeb8b07bdecff46f7994b6a20aeeb
 ---
 
 # Section
@@ -47,10 +47,6 @@ Each of these properties do support either a single value or an object containin
 - `backgroundColor={string}` or e.g. `backgroundColor={{ small: 'white' }}`
 - `textColor={string}` or e.g. `textColor={{ small: 'black-80' }}`
 - `innerSpace={string}` or e.g. `innerSpace={{ small: { top: 'small' } }}`
-
-### Deprecated color styles
-
-These [color styles](/uilib/components/section/deprecated/) are deprecated and will be removed in v11 of Eufemia.
 
 ## Demos
 
@@ -102,7 +98,7 @@ render(
       },
       large: false,
     }}
-    backgroundColor="pistachio"
+    backgroundColor="var(--token-color-background-neutral-subtle)"
     breakout={false}
   >
     <P space={0}>Responsive innerSpace</P>
@@ -130,9 +126,9 @@ render(
       large: true,
     }}
     backgroundColor={{
-      small: 'white',
-      medium: 'pistachio',
-      large: 'pistachio',
+      small: 'var(--token-color-background-neutral)',
+      medium: 'var(--token-color-background-neutral-subtle)',
+      large: 'var(--token-color-background-neutral-subtle)',
     }}
     dropShadow={{
       small: false,
@@ -150,33 +146,16 @@ render(
 
 ```tsx
 render(
-  <Section breakout={false} backgroundColor="pistachio">
+  <Section
+    breakout={false}
+    backgroundColor="var(--token-color-background-neutral-subtle)"
+  >
     <P space={0}>No breakout</P>
   </Section>
 )
 ```
 
-### White Section
-
-Will be default in v11.
-
-```tsx
-render(
-  <Section
-    innerSpace={{
-      top: 'large',
-      bottom: 'large',
-    }}
-    backgroundColor="white"
-  >
-    <P space={0}>
-      Visual Section: <Anchor href="#">white</Anchor>
-    </P>
-  </Section>
-)
-```
-
-### Divider Section
+### Variant: section
 
 ```tsx
 render(
@@ -203,10 +182,10 @@ render(
       top: 'large',
       bottom: 'large',
     }}
-    variant="info"
+    variant="information"
   >
     <P space={0}>
-      Generic info section: <Anchor href="#">info</Anchor>
+      Generic information section: <Anchor href="#">info</Anchor>
     </P>
   </Section>
 )
@@ -273,78 +252,75 @@ render(
       top: 'large',
       bottom: 'large',
     }}
-    backgroundColor="mint-green-12"
+    backgroundColor="var(--token-color-background-neutral-subtle)"
   >
-    mint-green-12
+    token-color-background-neutral-subtle
     <div>
       <Section
         innerSpace={{
           top: 'large',
           bottom: 'large',
         }}
-        backgroundColor="mint-green"
+        backgroundColor="var(--token-color-background-positive-subtle)"
       >
-        mint-green
+        token-color-background-positive-subtle
         <div>
           <Section
             innerSpace={{
               top: 'large',
               bottom: 'large',
             }}
-            textColor="white"
-            backgroundColor="sea-green"
+            textColor="var(--token-color-text-neutral-ondark)"
+            backgroundColor="var(--token-color-background-info)"
           >
-            sea-green
+            token-color-background-info
             <div>
               <Section
                 innerSpace={{
                   top: 'large',
                   bottom: 'large',
                 }}
-                textColor="mint-green"
-                backgroundColor="emerald-green"
+                textColor="var(--token-color-text-neutral-ondark)"
+                backgroundColor="var(--token-color-background-marketing)"
               >
-                emerald-green
+                token-color-background-marketing
                 <div>
                   <Section
                     innerSpace={{
                       top: 'large',
                       bottom: 'large',
                     }}
-                    textColor="white"
-                    backgroundColor="fire-red"
+                    textColor="var(--token-color-text-neutral-ondark)"
+                    backgroundColor="var(--token-color-background-error)"
                   >
-                    fire-red
+                    token-color-background-error
                     <div>
                       <Section
                         innerSpace={{
                           top: 'large',
                           bottom: 'large',
                         }}
-                        textColor="black-80"
-                        backgroundColor="sand-yellow"
+                        backgroundColor="var(--token-color-background-warning-subtle)"
                       >
-                        sand-yellow
+                        token-color-background-warning-subtle
                         <div>
                           <Section
                             innerSpace={{
                               top: 'large',
                               bottom: 'large',
                             }}
-                            textColor="black-80"
-                            backgroundColor="pistachio"
+                            backgroundColor="var(--token-color-background-neutral-subtle)"
                           >
-                            pistachio
+                            token-color-background-neutral-subtle
                             <div>
                               <Section
                                 innerSpace={{
                                   top: 'large',
                                   bottom: 'large',
                                 }}
-                                textColor="black-80"
-                                backgroundColor="lavender"
+                                backgroundColor="var(--token-color-background-marketing-subtle)"
                               >
-                                lavender
+                                token-color-background-marketing-subtle
                                 <div>
                                   <Section
                                     innerSpace={{
@@ -380,8 +356,15 @@ render(
 {
   "props": {
     "variant": {
-      "doc": "Defines the semantic purpose and subsequently the style of the visual helper. Will take precedence over the style_type property.",
-      "type": "string",
+      "doc": "Defines the semantic purpose and subsequently the style of the visual helper.",
+      "type": [
+        "\"error\"",
+        "\"information\"",
+        "\"warning\"",
+        "\"success\"",
+        "\"divider\"",
+        "string"
+      ],
       "status": "optional"
     },
     "breakout": {
@@ -390,7 +373,7 @@ render(
       "status": "optional"
     },
     "outset": {
-      "doc": "Define if the Card should break out negatively on larger screens. You cannot use `breakout` and `outset` together. Defaults to `false`.",
+      "doc": "Define if the Section should break out negatively on larger screens. You cannot use `breakout` and `outset` together. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },
@@ -401,7 +384,7 @@ render(
     },
     "outlineWidth": {
       "doc": "Define a custom border width. Defaults to `var(--card-outline-width)`. Supports also media query breakpoints like `{ small: '2px' }`.",
-      "type": "string | number",
+      "type": ["string", "number"],
       "status": "optional"
     },
     "roundedCorner": {
@@ -420,7 +403,7 @@ render(
       "status": "optional"
     },
     "textColor": {
-      "doc": "Define a custom text color to compliment the backgroundColor. Use a Eufemia color. Supports also media query breakpoints like `{ small: 'black-80' }`.",
+      "doc": "Define a custom text color to compliment the `backgroundColor`. Use a Eufemia color. Supports also media query breakpoints like `{ small: 'black-80' }`.",
       "type": "string",
       "status": "optional"
     },
@@ -429,8 +412,18 @@ render(
       "type": "string",
       "status": "optional"
     },
-    "innerRef": {
-      "doc": "By providing a React Ref we can get the internally used element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.",
+    "surface": {
+      "doc": "Define the surface color context. When set to `dark`, ondark design tokens will be used for text and outline colors. Use `initial` to reset to the component's default behavior, ignoring any parent surface context. Uses `--token-color-decorative-first-bold-static` as the default background color and `--token-color-text-neutral-ondark` as the text color.",
+      "type": ["\"dark\"", "\"light\"", "\"initial\""],
+      "status": "optional"
+    },
+    "element": {
+      "doc": "Define what HTML element should be used. Defaults to `<section>`.",
+      "type": ["string", "React.Element"],
+      "status": "optional"
+    },
+    "ref": {
+      "doc": "By providing a `React.Ref` we can get the internally used element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.",
       "type": "React.RefObject",
       "status": "optional"
     },
@@ -445,16 +438,16 @@ render(
 
 ## Variants
 
-| Variant   | Description                                                                                      |
-| --------- | ------------------------------------------------------------------------------------------------ |
-| `info`    | Neutral, informational.                                                                          |
-| `error`   | Indicates an erroneous state.                                                                    |
-| `warning` | Draws attention to a potential problem that may or may not require an action on the user's part. |
-| `success` | Indicates a successful state.                                                                    |
+| Variant       | Description                                                                                      |
+| ------------- | ------------------------------------------------------------------------------------------------ |
+| `information` | Neutral, informational.                                                                          |
+| `error`       | Indicates an erroneous state.                                                                    |
+| `warning`     | Draws attention to a potential problem that may or may not require an action on the user's part. |
+| `success`     | Indicates a successful state.                                                                    |
 
 ## Styles
 
-You can easily [customize the color](/uilib/components/section#customize-color).
+You can easily [customize the color](/uilib/components/section).
 
 | Style               | Description                                                                                         |
 | ------------------- | --------------------------------------------------------------------------------------------------- |

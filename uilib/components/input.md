@@ -1,9 +1,9 @@
 ---
 title: 'Input'
 description: 'The Input component is an umbrella component for all inputs which share the same style as the classic text input field.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.502Z
-checksum: d4e0105ff52d99ebc19fd8699b68ec6b4c20fa81c4d9cbf5c8049278ad3d11dd
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.133Z
+checksum: 39cb0c1c551994341f670366454953d1e38de0c9471995752375b2bd2fbc4d41
 ---
 
 # Input
@@ -67,34 +67,24 @@ render(
 ### Placeholder text
 
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox data-visual-test="input-placeholder">
-      <Input label="Label" placeholder="Placeholder text" />
-    </ComponentBox>
-  </Wrapper>
-)
+render(<Input label="Label" placeholder="Placeholder text" />)
 ```
 
 ### Search text placeholder
 
 ```tsx
 render(
-  <Wrapper>
-    <ComponentBox data-visual-test="input-search">
-      <Input
-        label="Search"
-        type="search"
-        placeholder="Search text placeholder"
-        on_change={({ value }) => {
-          console.log('on_change', value)
-        }}
-        on_submit={({ value }) => {
-          console.log('Submit:', value)
-        }}
-      />
-    </ComponentBox>
-  </Wrapper>
+  <Input
+    label="Search"
+    type="search"
+    placeholder="Search text placeholder"
+    onChange={({ value }) => {
+      console.log('onChange', value)
+    }}
+    onSubmit={({ value }) => {
+      console.log('Submit:', value)
+    }}
+  />
 )
 ```
 
@@ -102,19 +92,15 @@ render(
 
 ```tsx
 render(
-  <Wrapper>
-    <ComponentBox data-visual-test="input-medium">
-      <Input
-        size="medium"
-        type="search"
-        stretch={true}
-        value="Medium search value"
-        on_change={({ value }) => {
-          console.log('on_change', value)
-        }}
-      />
-    </ComponentBox>
-  </Wrapper>
+  <Input
+    size="medium"
+    type="search"
+    stretch={true}
+    value="Medium search value"
+    onChange={({ value }) => {
+      console.log('onChange', value)
+    }}
+  />
 )
 ```
 
@@ -123,42 +109,26 @@ render(
 With left / right aligned text
 
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox data-visual-test="input-icon">
-      <Input
-        label="Input with icon"
-        placeholder="Input"
-        label_direction="vertical"
-        icon="check"
-        bottom
-      />
-      <Input
-        label="Input with icon"
-        label_sr_only
-        placeholder="Input with a placeholder"
-        icon_position="right"
-        icon="check"
-        align="right"
-      />
-    </ComponentBox>
-  </Wrapper>
-)
+<Input label="Input with icon" placeholder="Input" icon="check" bottom />
+<Input
+  label="Input with icon"
+  labelSrOnly
+  placeholder="Input with a placeholder"
+  iconPosition="right"
+  icon="check"
+  align="right"
+/>
 ```
 
 ### Disabled input
 
 ```tsx
 render(
-  <Wrapper>
-    <ComponentBox data-visual-test="input-disabled">
-      <Input
-        disabled
-        label="Disabled input"
-        placeholder="Disabled Input with a placeholder"
-      />
-    </ComponentBox>
-  </Wrapper>
+  <Input
+    disabled
+    label="Disabled input"
+    placeholder="Disabled Input with a placeholder"
+  />
 )
 ```
 
@@ -166,33 +136,23 @@ render(
 
 ```tsx
 render(
-  <Wrapper>
-    <ComponentBox>
-      <Provider
-        formElement={{
-          label_direction: 'vertical',
-        }}
-      >
-        <Flex.Vertical>
-          <div data-visual-test="input-error">
-            <Input
-              label="With FormStatus"
-              status="You have to fill in this field"
-              value="Input value with error"
-            />
-          </div>
-          <div data-visual-test="input-error-button">
-            <Input
-              label="With button"
-              status="You have to fill in this field"
-              value="Input value with error"
-              type="search"
-            />
-          </div>
-        </Flex.Vertical>
-      </Provider>
-    </ComponentBox>
-  </Wrapper>
+  <Flex.Vertical>
+    <section data-visual-test="input-error">
+      <Input
+        label="With FormStatus"
+        status="You have to fill in this field"
+        value="Input value with error"
+      />
+    </section>
+    <section data-visual-test="input-error-button">
+      <Input
+        label="With button"
+        status="You have to fill in this field"
+        value="Input value with error"
+        type="search"
+      />
+    </section>
+  </Flex.Vertical>
 )
 ```
 
@@ -200,24 +160,19 @@ render(
 
 ```tsx
 render(
-  <Wrapper>
-    <ComponentBox>
-      <Input
-        label={<Span className="dnb-p--lead">Fødselsnummer</Span>}
-        label_direction="vertical"
-        autocomplete="on"
-        placeholder="Placeholder text"
-        suffix={
-          <HelpButton title="Info" size="large">
-            Some content
-          </HelpButton>
-        }
-        on_change={({ value }) => {
-          console.log('on_change', value)
-        }}
-      />
-    </ComponentBox>
-  </Wrapper>
+  <Input
+    label={<Lead>Fødselsnummer</Lead>}
+    autocomplete="on"
+    placeholder="Placeholder text"
+    suffix={
+      <HelpButton title="Info" size="large">
+        Some content
+      </HelpButton>
+    }
+    onChange={({ value }) => {
+      console.log('onChange', value)
+    }}
+  />
 )
 ```
 
@@ -225,28 +180,18 @@ render(
 
 ```tsx
 render(
-  <Wrapper>
-    <ComponentBox data-visual-test="input-stretch">
-      <Provider
-        formElement={{
-          label_direction: 'vertical',
-        }}
-      >
-        <FieldBlock
-          label="Long label labwl Adipiscing mauris dis proin nec"
-          forId="input-id"
-        >
-          <Input
-            id="input-id"
-            value="I stretch ..."
-            stretch
-            status="Status message"
-            status_state="warn"
-          />
-        </FieldBlock>
-      </Provider>
-    </ComponentBox>
-  </Wrapper>
+  <FieldBlock
+    label="Long label labwl Adipiscing mauris dis proin nec"
+    forId="input-id"
+  >
+    <Input
+      id="input-id"
+      value="I stretch ..."
+      stretch
+      status="Status message"
+      statusState="warning"
+    />
+  </FieldBlock>
 )
 ```
 
@@ -256,22 +201,18 @@ Also, this example manipulates the value during typing.
 
 ```tsx
 render(
-  <Wrapper>
-    <ComponentBox>
-      <Input
-        label="Label"
-        autocomplete="on"
-        placeholder="Placeholder text"
-        status="Numbers are using DNB Mono (monospace)"
-        status_state="info"
-        value="1234567890"
-        on_change={({ value }) => {
-          console.log('on_change', value)
-          return String(value).toUpperCase()
-        }}
-      />
-    </ComponentBox>
-  </Wrapper>
+  <Input
+    label="Label"
+    autocomplete="on"
+    placeholder="Placeholder text"
+    status="Numbers are using DNB Mono (monospace)"
+    statusState="information"
+    value="1234567890"
+    onChange={({ value }) => {
+      console.log('onChange', value)
+      return String(value).toUpperCase()
+    }}
+  />
 )
 ```
 
@@ -281,32 +222,28 @@ Pressing the enter key will trigger a submit.
 
 ```tsx
 render(
-  <Wrapper>
-    <ComponentBox>
-      <Form.Handler
+  <Form.Handler
+    onSubmit={(event) => {
+      console.log(event)
+    }}
+  >
+    <FormLabel forId="search">Label</FormLabel>
+    <Flex.Horizontal align="baseline">
+      <Input
+        id="search"
+        type="search"
+        value="Input ..."
+        selectAll={true}
         onSubmit={(event) => {
-          console.log(event)
+          console.log('Input.onSubmit', event)
         }}
-      >
-        <FormLabel forId="search">Label</FormLabel>
-        <Flex.Horizontal align="baseline">
-          <Input
-            id="search"
-            type="search"
-            value="Input ..."
-            selectall={true}
-            on_submit={(event) => {
-              console.log('Input.on_submit', event)
-            }}
-            on_change={({ value }) => {
-              console.log('on_change:', value)
-            }}
-          />
-          <Form.SubmitButton />
-        </Flex.Horizontal>
-      </Form.Handler>
-    </ComponentBox>
-  </Wrapper>
+        onChange={({ value }) => {
+          console.log('onChange:', value)
+        }}
+      />
+      <Form.SubmitButton />
+    </Flex.Horizontal>
+  </Form.Handler>
 )
 ```
 
@@ -316,15 +253,16 @@ Pushing the clear button will clear the input.
 
 ```tsx
 render(
-  <Wrapper>
-    <ComponentBox data-visual-test="input-clear">
-      <Flex.Vertical>
-        <Input clear={true} value="Value ..." size="medium" />
-        <Input clear={true} value="Value ..." type="search" />
-        <Input clear={true} value="Value ..." icon="loupe" type="search" />
-      </Flex.Vertical>
-    </ComponentBox>
-  </Wrapper>
+  <Flex.Vertical>
+    <Input showClearButton={true} value="Value ..." size="medium" />
+    <Input showClearButton={true} value="Value ..." type="search" />
+    <Input
+      showClearButton={true}
+      value="Value ..."
+      icon="loupe"
+      type="search"
+    />
+  </Flex.Vertical>
 )
 ```
 
@@ -336,138 +274,75 @@ You can check out the [Field.String](/uilib/extensions/forms/base-fields/String/
 
 The password component has to ensure that there is still room for password managers to inject the input with their UX functionality.
 
-In order to get the show/hide button, you may have to import the component like so:
-
-```js
-import InputPassword from '@dnb/eufemia/components/input/InputPassword'
-```
+Read more about it in [Field.Password](/uilib/extensions/forms/feature-fields/more-fields/Password/).
 
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      scope={{
-        InputPassword,
-      }}
-      data-visual-test="input-password"
-    >
-      <InputPassword
-        label="Label"
-        placeholder="A placeholder text"
-        onChange={(value: string) => {
-          console.log('onChange:', value)
-        }}
-        onShowPassword={() => {
-          console.log('onShowPassword')
-        }}
-        onHidePassword={() => {
-          console.log('onHidePassword')
-        }}
-      />
-    </ComponentBox>
-  </Wrapper>
-)
-```
-
-```tsx
-render(
-  <Wrapper>
-    <ComponentBox data-visual-test="input-align">
-      <Provider
-        formElement={{
-          label_direction: 'vertical',
-        }}
-      >
-        <FieldBlock label="Left aligned">
-          <Flex.Vertical>
-            <Input value="Plain" />
-            <Input value="Search" type="search" />
-            <Input value="Search" size="medium" type="search" />
-            <Input value="Search" size="large" type="search" />
-            <Input
-              value="Value Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
-              icon="calendar"
-            />
-            <Input
-              placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
-              icon_position="right"
-              icon="calendar"
-            />
-            <Input size="medium" value="Value" icon="calendar" />
-            <Input
-              size="medium"
-              placeholder="Placeholder"
-              icon_position="right"
-              icon="calendar"
-            />
-            <Input size="large" value="Value" icon="calendar" />
-            <Input
-              size="large"
-              placeholder="Placeholder"
-              icon_position="right"
-              icon="calendar"
-            />
-          </Flex.Vertical>
-        </FieldBlock>
-        <FieldBlock top label="Right aligned">
-          <Flex.Vertical>
-            <Input value="Plain" align="right" />
-            <Input value="Search" type="search" align="right" />
-            <Input
-              value="Search"
-              size="medium"
-              type="search"
-              align="right"
-            />
-            <Input
-              value="Search"
-              size="large"
-              type="search"
-              align="right"
-            />
-            <Input
-              value="Value Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
-              icon="calendar"
-              align="right"
-            />
-            <Input
-              placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
-              icon_position="right"
-              icon="calendar"
-              align="right"
-            />
-            <Input
-              size="medium"
-              value="Value"
-              icon="calendar"
-              align="right"
-            />
-            <Input
-              size="medium"
-              placeholder="Placeholder"
-              icon_position="right"
-              icon="calendar"
-              align="right"
-            />
-            <Input
-              size="large"
-              value="Value"
-              icon="calendar"
-              align="right"
-            />
-            <Input
-              size="large"
-              placeholder="Placeholder"
-              icon_position="right"
-              icon="calendar"
-              align="right"
-            />
-          </Flex.Vertical>
-        </FieldBlock>
-      </Provider>
-    </ComponentBox>
-  </Wrapper>
-)
+<FieldBlock label="Left aligned">
+  <Flex.Vertical>
+    <Input value="Plain" />
+    <Input value="Search" type="search" />
+    <Input value="Search" size="medium" type="search" />
+    <Input value="Search" size="large" type="search" />
+    <Input
+      value="Value Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
+      icon="calendar"
+    />
+    <Input
+      placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
+      iconPosition="right"
+      icon="calendar"
+    />
+    <Input size="medium" value="Value" icon="calendar" />
+    <Input
+      size="medium"
+      placeholder="Placeholder"
+      iconPosition="right"
+      icon="calendar"
+    />
+    <Input size="large" value="Value" icon="calendar" />
+    <Input
+      size="large"
+      placeholder="Placeholder"
+      iconPosition="right"
+      icon="calendar"
+    />
+  </Flex.Vertical>
+</FieldBlock>
+<FieldBlock top label="Right aligned">
+  <Flex.Vertical>
+    <Input value="Plain" align="right" />
+    <Input value="Search" type="search" align="right" />
+    <Input value="Search" size="medium" type="search" align="right" />
+    <Input value="Search" size="large" type="search" align="right" />
+    <Input
+      value="Value Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
+      icon="calendar"
+      align="right"
+    />
+    <Input
+      placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
+      iconPosition="right"
+      icon="calendar"
+      align="right"
+    />
+    <Input size="medium" value="Value" icon="calendar" align="right" />
+    <Input
+      size="medium"
+      placeholder="Placeholder"
+      iconPosition="right"
+      icon="calendar"
+      align="right"
+    />
+    <Input size="large" value="Value" icon="calendar" align="right" />
+    <Input
+      size="large"
+      placeholder="Placeholder"
+      iconPosition="right"
+      icon="calendar"
+      align="right"
+    />
+  </Flex.Vertical>
+</FieldBlock>
 ```
 
 ## Properties
@@ -477,40 +352,40 @@ render(
   "props": {
     "value": {
       "doc": "The content value of the input.",
-      "type": "string",
+      "type": ["string", "number"],
       "status": "optional"
     },
     "align": {
       "doc": "Defines the text alignment of the input. Can be `left`, `right` or `center`. Defaults to `left`.",
-      "type": "string",
+      "type": ["\"left\"", "\"center\"", "\"right\""],
       "status": "optional"
     },
     "label": {
       "doc": "Prepends the Form Label component. If no ID is provided, a random ID is created.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
-    "label_sr_only": {
+    "labelSrOnly": {
       "doc": "Use `true` to make the label only readable by screen readers.",
       "type": "boolean",
       "status": "optional"
     },
-    "label_direction": {
-      "doc": "Use `label_direction=\"vertical\"` to change the label layout direction. Defaults to `horizontal`.",
+    "labelDirection": {
+      "doc": "Use `labelDirection=\"horizontal\"` to change the label layout direction. Defaults to `vertical`.",
       "type": "string",
       "status": "optional"
     },
     "status": {
       "doc": "Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.",
-      "type": ["error", "info", "boolean"],
+      "type": ["\"error\"", "\"information\"", "boolean"],
       "status": "optional"
     },
-    "status_state": {
-      "doc": "Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.",
-      "type": ["error", "info"],
+    "statusState": {
+      "doc": "Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.",
+      "type": ["\"error\"", "\"information\""],
       "status": "optional"
     },
-    "status_props": {
+    "statusProps": {
       "doc": "Use an object to define additional FormStatus properties.",
       "type": "object",
       "status": "optional"
@@ -522,31 +397,31 @@ render(
     },
     "placeholder": {
       "doc": "The placeholder which shows up once the input value is empty.",
-      "type": "string",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "icon": {
       "doc": "Icon to show before or after the input / placeholder. Can be either a string defining a primary icon or a Component using an SVG icon of either 16px or 24px.",
-      "type": ["string", "React.Node"],
+      "type": ["string", "React.ReactNode"],
       "status": "optional"
     },
-    "icon_position": {
+    "iconPosition": {
       "doc": "Defines the position of icon inside the input. Set to `left` or `right`. Defaults to `left` if not set.",
       "type": "string",
       "status": "optional"
     },
-    "icon_size": {
+    "iconSize": {
       "doc": "The icon size of the icon shows. Defaults to `medium`.",
       "type": "string",
       "status": "optional"
     },
-    "keep_placeholder": {
+    "keepPlaceholder": {
       "doc": "Set to `true` in case the `placeholder` has to be kept during focus. By default, the placeholder disappears on focus.",
       "type": "boolean",
       "status": "optional"
     },
-    "input_class": {
-      "doc": "In case we have to set a custom input class.",
+    "inputClassName": {
+      "doc": "In case we have to set a custom class on the input element.",
       "type": "string",
       "status": "optional"
     },
@@ -560,27 +435,27 @@ render(
       "type": "string",
       "status": "optional"
     },
-    "submit_button_title": {
+    "submitButtonTitle": {
       "doc": "Title attribute for the search/submit button. Only relevant when `type=\"search\"`.",
       "type": "string",
       "status": "optional"
     },
     "suffix": {
-      "doc": "Text describing the content of the input more than the label. you can also send in a React component, so it gets wrapped inside the Input component.",
-      "type": ["string", "React.Node"],
+      "doc": "Text describing the content of the input more than the label. You can also send in a React component, so it gets wrapped inside the Input component.",
+      "type": ["string", "React.ReactNode"],
       "status": "optional"
     },
     "size": {
-      "doc": "The sizes you can choose is `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`. Also, if you define a number like `size={2}` then it will be forwarded as the input element attribute.",
+      "doc": "The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`. Also, if you define a number like `size={2}` then it will be forwarded as the input element attribute.",
       "type": ["string", "number"],
       "status": "optional"
     },
-    "selectall": {
+    "selectAll": {
       "doc": "If set to `true`, then the whole input value gets selected on the entry focus. A second click will place the cursor on the wanted position.",
       "type": "boolean",
       "status": "optional"
     },
-    "clear": {
+    "showClearButton": {
       "doc": "If set to `true`, then a clear button will be shown which lets the user clear any given input value.",
       "type": "boolean",
       "status": "optional"
@@ -595,32 +470,32 @@ render(
       "type": "boolean",
       "status": "optional"
     },
-    "input_attributes": {
-      "doc": "Provide the Input element with any attributes by using an Object `input_attributes={{size:'2'}}` or a JSON Object `input_attributes='{\"size\":\"2\"}'`. **NB:** Keep in mind, that also every not listed component property will be sent along and set as an Input element attribute.",
+    "inputAttributes": {
+      "doc": "Provide the Input element with any attributes by using an Object `inputAttributes={{size:'2'}}` or a JSON Object `inputAttributes='{\"size\":\"2\"}'`. **NB:** Keep in mind, that also every not listed component property will be sent along and set as an Input element attribute.",
       "type": "object",
       "status": "optional"
     },
-    "input_state": {
-      "doc": "Defines a custom visual state of the input. Use it only if you have to simulate a custom state. Currently are three statuses `virgin` , `focus` and `dirty`. Defaults to `null`.",
+    "inputState": {
+      "doc": "Defines a custom visual state of the input. Use it only if you have to simulate a custom state. Currently are three statuses `virgin`, `focus` and `dirty`. Defaults to `null`.",
       "type": "string",
       "status": "optional"
     },
-    "submit_element": {
+    "submitElement": {
       "doc": "Accepts a React element which will show up like the \"submit button\" would do on `type=\"search\"`.",
       "type": ["string", "React.Element"],
       "status": "optional"
     },
-    "inner_ref": {
-      "doc": "By providing a React.ref we can get the internally used input element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.",
+    "ref": {
+      "doc": "By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.",
       "type": "React.RefObject",
       "status": "optional"
     },
-    "input_element": {
-      "doc": "By providing a new component we can change the internally used element. Also supports a string only, like `input_element=\"input\"`.",
+    "inputElement": {
+      "doc": "By providing a new component we can change the internally used element. Also supports a string only, like `inputElement=\"input\"`.",
       "type": ["string", "React.Element"],
       "status": "internal"
     },
-    "inner_element": {
+    "innerElement": {
       "doc": "By providing a new component to be rendered inside the \"shell\" – we can add a freely customizable internal element. Used by the Autocomplete component.",
       "type": ["string", "React.Element"],
       "status": "internal"
@@ -640,13 +515,13 @@ render(
 {
   "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
   "entries": {
-    "Input.clear_button_title": {
+    "Input.clearButtonTitle": {
       "nb-NO": "Nullstill",
       "en-GB": "Clear value",
       "sv-SE": "Återställ",
       "da-DK": "Nulstil"
     },
-    "Input.submit_button_title": {
+    "Input.submitButtonTitle": {
       "nb-NO": "Send",
       "en-GB": "Submit button",
       "sv-SE": "Skicka",
@@ -661,42 +536,42 @@ render(
 ```json
 {
   "props": {
-    "on_change": {
+    "onChange": {
       "doc": "Will be called on value changes made by the user. Returns an object with the value as a string and the native event: `{ value, event }`.",
       "type": "function",
       "status": "optional"
     },
-    "on_focus": {
+    "onFocus": {
       "doc": "Will be called on focus set by the user. Returns `{ value, event }`.",
       "type": "function",
       "status": "optional"
     },
-    "on_key_down": {
+    "onKeyDown": {
       "doc": "Will be called on key down by the user. Returns `{ value, event }`.",
       "type": "function",
       "status": "optional"
     },
-    "on_blur": {
+    "onBlur": {
       "doc": "Will be called on blur set by the user. Returns `{ value, event }`.",
       "type": "function",
       "status": "optional"
     },
-    "on_submit": {
+    "onSubmit": {
       "doc": "Will be called on enter key press or submit button click. Returns `{ value, event }`.",
       "type": "function",
       "status": "optional"
     },
-    "on_submit_focus": {
+    "onSubmitFocus": {
       "doc": "Will be called on submit button focus. Only relevant when `type=\"search\"`. Returns `{ value, event }`.",
       "type": "function",
       "status": "optional"
     },
-    "on_submit_blur": {
+    "onSubmitBlur": {
       "doc": "Will be called on submit button blur. Only relevant when `type=\"search\"`. Returns `{ value, event }`.",
       "type": "function",
       "status": "optional"
     },
-    "on_clear": {
+    "onClear": {
       "doc": "Will be called on a clear button click. Returns `{ value, previousValue, event }`.",
       "type": "function",
       "status": "optional"
@@ -707,23 +582,23 @@ render(
 
 ### Manipulate the input value during typing
 
-You have two possibilities to manipulate the value while a user is typing. Either you handle the value with your own state, or you return a modified value in the `on_change` event listener:
+You have two possibilities to manipulate the value while a user is typing. Either you handle the value with your own state, or you return a modified value in the `onChange` event listener:
 
 ```jsx
-import { format } from '@dnb/eufemia/components/number-format/NumberUtils'
+import { formatNumber } from '@dnb/eufemia/components/number-format/NumberUtils'
 
 function Component() {
   const onChangeHandler = ({ value }) => {
-    return format(value)
+    return formatNumber(value)
   }
 
-  return <Input on_change={onChangeHandler} />
+  return <Input onChange={onChangeHandler} />
 }
 ```
 
 ### Prevent setting a new value
 
-You can use e.g. `event.preventDefault()` during `on_key_down`, or return false during `on_change`. They are not 100% the same user experience, but can both be useful in different use cases.
+You can use e.g. `event.preventDefault()` during `onKeyDown`, or return false during `onChange`. They are not 100% the same user experience, but can both be useful in different use cases.
 
 ```jsx
 function Component() {
@@ -734,8 +609,6 @@ function Component() {
     return false
   }
 
-  return (
-    <Input on_key_down={onKeyDownHandler} on_change={onChangeHandler} />
-  )
+  return <Input onKeyDown={onKeyDownHandler} onChange={onChangeHandler} />
 }
 ```

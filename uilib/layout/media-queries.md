@@ -1,7 +1,7 @@
 ---
 title: 'Media Queries'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.093Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.433Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -365,22 +365,22 @@ You can re-use the SASS mixins from Eufemia:
 
 ```scss
 // breakpoints.scss
-@import '@dnb/eufemia/style/core/utilities';
-$layout-small: map-get($breakpoints, 'small');
-$layout-medium: map-get($breakpoints, 'medium');
-$layout-large: map-get($breakpoints, 'large');
+@use '@dnb/eufemia/style/core/utilities' as utilities;
+$layout-small: map-get(utilities.$breakpoints, 'small');
+$layout-medium: map-get(utilities.$breakpoints, 'medium');
+$layout-large: map-get(utilities.$breakpoints, 'large');
 ```
 
 or like this:
 
 ```scss
-@import '@dnb/eufemia/style/core/utilities';
+@use '@dnb/eufemia/style/core/utilities' as utilities;
 
-@include allBelow(large) {
+@include utilities.allBelow(large) {
   /* Your CSS */
 }
 
-@include allAbove(small) {
+@include utilities.allAbove(small) {
   /* Your CSS */
 }
 ```
@@ -399,7 +399,7 @@ or like this:
 }
 ```
 
-Based on the findings of [this article](https://zellwk.com/blog/media-query-units/) and [this webkit bug](https://bugs.webkit.org/show_bug.cgi?id=156684), Eufemia recommends using `em` units for media queries to achieve the best overall browser support. Read [more about units](/uilib/usage/best-practices/for-styling#units).
+Based on the findings of [this article](https://zellwk.com/blog/media-query-units/) and [this webkit bug](https://bugs.webkit.org/show_bug.cgi?id=156684), Eufemia recommends using `em` units for media queries to achieve the best overall browser support. Read [more about units](/uilib/usage/best-practices/for-styling#css-units).
 
 ## How to deal with Jest
 

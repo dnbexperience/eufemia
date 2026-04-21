@@ -1,8 +1,8 @@
 ---
 title: 'Getting started'
 description: 'Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.057Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.404Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -422,7 +422,7 @@ User entered data will always be stored internally in the data context, even if 
 
 ##### The `reduceToVisibleFields` method
 
-You can use the `reduceToVisibleFields` function to get only the data of visible (mounted) fields. Check out the [example](/uilib/extensions/forms/Form/Handler/demos/#visible-data) in the demo section.
+You can use the `reduceToVisibleFields` function to get only the data of visible (mounted) fields. Check out the [example](/uilib/extensions/forms/Form/Handler/demos/#reduce-your-data-to-visible-fields) in the demo section.
 
 ##### The `filterData` method
 
@@ -1074,8 +1074,8 @@ You can customize the internal translations in a flat structure (dot-notation):
 
 ```tsx
 {
-  'nb-NO': { 'PhoneNumber.label': 'Egendefinert' },
-  'en-GB': { 'PhoneNumber.label': 'Custom' },
+  'nb-NO': { 'PhoneNumber.numberLabel': 'Egendefinert' },
+  'en-GB': { 'PhoneNumber.numberLabel': 'Custom' },
 }
 ```
 
@@ -1083,8 +1083,8 @@ or an object based structure:
 
 ```tsx
 {
-  'nb-NO': { PhoneNumber: { label: 'Egendefinert' } },
-  'en-GB': { PhoneNumber: { label: 'Custom' } },
+  'nb-NO': { PhoneNumber: { numberLabel: 'Egendefinert' } },
+  'en-GB': { PhoneNumber: { numberLabel: 'Custom' } },
 }
 ```
 
@@ -1100,8 +1100,8 @@ You can find all available strings and keys in the properties tab of each field 
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
 
 const myTranslations = {
-  'nb-NO': { 'PhoneNumber.label': 'Egendefinert' },
-  'en-GB': { 'PhoneNumber.label': 'Custom' },
+  'nb-NO': { 'PhoneNumber.numberLabel': 'Egendefinert' },
+  'en-GB': { 'PhoneNumber.numberLabel': 'Custom' },
 }
 
 render(

@@ -1,8 +1,8 @@
 ---
 title: 'Helpers'
 description: 'A couple of helper functions used inside of components and extensions.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.066Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.413Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -11,6 +11,11 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ## Description
 
 All the [components](/uilib/components) share a couple of commonly used helpers. Your application can also use these helpers, but it's optional.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/shared)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/helpers)
 
 ## CSS properties
 
@@ -34,17 +39,14 @@ You can use the internal Eufemia easing function.
 - [dnb-sr-only](/uilib/helpers/classes#screen-reader-sr-only): An element that is reachable by screen readers, but is visually hidden.
 - [dnb-drop-shadow](/uilib/helpers/classes#drop-shadow): Adds the default drop shadow to the component.
 - [dnb-sharp-drop-shadow](/uilib/helpers/classes#sharp-drop-shadow): Adds the sharp drop shadow to the component.
-- [dnb-responsive-component](/uilib/helpers/classes#drop-shadow): Makes the component react to small sized screens.
+- [dnb-responsive-component](/uilib/helpers/classes#responsive-component): Makes the component react to small sized screens.
 - [dnb-unstyled-list](/uilib/helpers/classes#unstyled-list): Removes default styling for lists.
 - [dnb-selection](/uilib/helpers/classes#selection): Applies DNB selection colors to selected content.
 
 ## Functions
 
-- [isTrue](/uilib/helpers/functions#istrue): Checks if a value is Truthy.
 - [isTouchDevice](/uilib/helpers/functions#istouchdevice): Checks if the target device has touch support.
 - [toPascalCase](/uilib/helpers/functions#topascalcase): Transforms snake_case to PascalCase.
-- [toCamelCase](/uilib/helpers/functions#tocamelcase): Transforms snake_case to camelCase.
-- [toSnakeCase](/uilib/helpers/functions#tosnakecase): Transforms PascalCase to snake_case.
 - [toKebabCase](/uilib/helpers/functions#tokebabcase): Transforms PascalCase to kebab-case.
 - [filterProps](/uilib/helpers/functions#filterprops): Filter out unwanted entries from either an object or an array.
 - [makeUniqueId](/uilib/helpers/functions#makeuniqueid): Creates a unique hash string.

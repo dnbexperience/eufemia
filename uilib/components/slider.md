@@ -1,9 +1,9 @@
 ---
 title: 'Slider'
 description: 'The Slider component provides a visual indication of adjustable value.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.653Z
-checksum: 063d40b44a17f000836c5c7acc2c1da6182dce75618e319ab84fc580426e5848
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.311Z
+checksum: 8f2e2e4e70ce4198f504e9269644b5c67a4cd3a211bc960e08da96547d0050c9
 ---
 
 # Slider
@@ -23,6 +23,10 @@ The Slider component provides a visual indication of an adjustable value. A valu
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=4314-723)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/slider)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/slider)
+
+## Accessibility
+
+The Slider uses a semantic `<input type="range">` element for the thumb control, ensuring keyboard accessibility. Arrow keys adjust the value, and Home/End keys jump to min/max values. The current value, minimum, and maximum are announced to screen readers via `aria-valuemin`, `aria-valuemax`, and `aria-valuenow`.
 
 ### Define a `min` and `max` value
 
@@ -53,42 +57,35 @@ Provide the `value` property as an array with numbers. The `onChange` event will
 
 ```tsx
 render(
-  <Provider
-    formElement={{
-      label_direction: 'vertical',
-    }}
-  >
-    <Flex.Vertical align="stretch">
-      <Slider
-        min={0}
-        max={100}
-        value={[30, 70]}
-        step={5}
-        label="Range with steps"
-        numberFormat={{
-          currency: 'USD',
-        }}
-        tooltip
-        onChange={({ value }) => console.log('onChange:', value)}
-      />
-      <Slider
-        min={0}
-        max={100}
-        value={[10, 30, 50, 70]}
-        label="Multi thumbs"
-        numberFormat={(value) =>
-          format(value, {
-            percent: true,
-            decimals: 0,
-          })
-        }
-        tooltip
-        onChange={({ value, number }) =>
-          console.log('onChange:', value, number)
-        }
-      />
-    </Flex.Vertical>
-  </Provider>
+  <Flex.Vertical align="stretch">
+    <Slider
+      min={0}
+      max={100}
+      value={[30, 70]}
+      step={5}
+      label="Range with steps"
+      numberFormat={{
+        currency: 'USD',
+      }}
+      tooltip
+      onChange={({ value }) => console.log('onChange:', value)}
+    />
+    <Slider
+      min={0}
+      max={100}
+      value={[10, 30, 50, 70]}
+      label="Multi thumbs"
+      numberFormat={(value) =>
+        formatPercent(value, {
+          decimals: 0,
+        })
+      }
+      tooltip
+      onChange={({ value, number }) =>
+        console.log('onChange:', value, number)
+      }
+    />
+  </Flex.Vertical>
 )
 ```
 
@@ -96,38 +93,32 @@ By default, the thumbs can swap positions. You can change that behavior with `mu
 
 ```tsx
 render(
-  <Provider
-    formElement={{
-      label_direction: 'vertical',
-    }}
-  >
-    <Flex.Vertical align="stretch">
-      <Slider
-        multiThumbBehavior="omit"
-        value={[30, 70]}
-        label="Omit behavior"
-        numberFormat={{
-          currency: 'EUR',
-        }}
-        tooltip={true}
-        onChange={({ value }) => console.log('onChange:', value)}
-      />
-      <Slider
-        multiThumbBehavior="push"
-        min={-40}
-        value={[-10, 50, 70]}
-        step={1}
-        label="Push behavior"
-        numberFormat={{
-          currency: true,
-        }}
-        tooltip={true}
-        onChange={({ value, number }) =>
-          console.log('onChange:', value, number)
-        }
-      />
-    </Flex.Vertical>
-  </Provider>
+  <Flex.Vertical align="stretch">
+    <Slider
+      multiThumbBehavior="omit"
+      value={[30, 70]}
+      label="Omit behavior"
+      numberFormat={{
+        currency: 'EUR',
+      }}
+      tooltip={true}
+      onChange={({ value }) => console.log('onChange:', value)}
+    />
+    <Slider
+      multiThumbBehavior="push"
+      min={-40}
+      value={[-10, 50, 70]}
+      step={1}
+      label="Push behavior"
+      numberFormat={{
+        currency: true,
+      }}
+      tooltip={true}
+      onChange={({ value, number }) =>
+        console.log('onChange:', value, number)
+      }
+    />
+  </Flex.Vertical>
 )
 ```
 
@@ -148,7 +139,6 @@ render(
       step={10}
       vertical={true}
       label="Vertical slider"
-      labelDirection="vertical"
       onChange={({ value }) => console.log('onChange:', value)}
     />
   </VerticalWrapper>
@@ -180,21 +170,20 @@ const Component = () => {
           hideButtons={true}
           step={10}
           label="Slider B"
-          labelDirection="vertical"
           numberFormat={(value) =>
-            format(value, {
+            formatCurrency(value, {
               currency: 'NOK',
             })
           }
           tooltip
           alwaysShowTooltip
-          onChange={({ value }) => setValue(parseFloat(String(value)))}
+          onChange={({ value }) => setValue(Number(value))}
         />
         <Input
           align="center"
-          selectall
+          selectAll
           value={String(value)}
-          on_change={({ value }) => setValue(value)}
+          onChange={({ value }) => setValue(Number(value))}
         />
       </VerticalWrapper>
     </>
@@ -267,7 +256,7 @@ render(
     "value": {
       "doc": "The `value` of the slider as a number or an array. If an array with numbers is provided, each number will represent a thumb button (the `+` and `-` button will be hidden on multiple thumbs).",
       "type": ["number", "Array<number>"],
-      "status": "required"
+      "status": "optional"
     },
     "min": {
       "doc": "The minimum value. Can be a negative number as well. Defaults to `0`.",
@@ -306,7 +295,7 @@ render(
     },
     "multiThumbBehavior": {
       "doc": "Use either `omit`, `push` or `swap`. This property only works for two (range) or more thumb buttons, while `omit` will stop the thumb from swapping, `push` will push its nearest thumb along. Defaults to `swap`.",
-      "type": "string",
+      "type": ["\"omit\"", "\"push\"", "\"swap\""],
       "status": "optional"
     },
     "thumbTitle": {
@@ -326,7 +315,7 @@ render(
     },
     "numberFormat": {
       "doc": "Will extend the return object with a `number` property (from `onChange` event). You can use all the options from the [NumberFormat](/uilib/components/number-format/properties) component. It also will use that formatted number in the increase/decrease buttons. If it has to represent a currency, then use e.g. `numberFormat={{ currency: true, decimals: 0 }}`.",
-      "type": "object",
+      "type": ["object", "function"],
       "status": "optional"
     },
     "tooltip": {
@@ -341,12 +330,12 @@ render(
     },
     "label": {
       "doc": "Prepends the Form Label component. If no ID is provided, a random ID is created.",
-      "type": "string",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "labelDirection": {
-      "doc": "Use `labelDirection=\"vertical\"` to change the label layout direction. Defaults to `horizontal`.",
-      "type": "string",
+      "doc": "Use `labelDirection=\"horizontal\"` to change the label layout direction. Defaults to `vertical`.",
+      "type": ["\"horizontal\"", "\"vertical\""],
       "status": "optional"
     },
     "labelSrOnly": {
@@ -356,12 +345,12 @@ render(
     },
     "status": {
       "doc": "Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.",
-      "type": ["error", "info", "boolean"],
+      "type": ["\"error\"", "\"information\"", "boolean"],
       "status": "optional"
     },
     "statusState": {
-      "doc": "Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.",
-      "type": ["error", "info"],
+      "doc": "Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.",
+      "type": ["\"error\"", "\"information\""],
       "status": "optional"
     },
     "statusProps": {
@@ -369,14 +358,14 @@ render(
       "type": "object",
       "status": "optional"
     },
-    "globalStatusId": {
-      "doc": "The `status_id` used for the target [GlobalStatus](/uilib/components/global-status).",
-      "type": "string",
+    "globalStatus": {
+      "doc": "The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).",
+      "type": "object",
       "status": "optional"
     },
     "suffix": {
       "doc": "Text describing the content of the Slider more than the label. You can also send in a React component, so it gets wrapped inside the Slider component.",
-      "type": "string",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "skeleton": {
@@ -445,7 +434,7 @@ render(
 {
   "props": {
     "onChange": {
-      "doc": "Will be called on state changes made by the user. The callback `value` and `rawValue` is a number `{ value, rawValue, event }`. But if the prop `numberFormat` is given, then it will return an additional `number` with the given format `{ value, number, rawValue, event }`.",
+      "doc": "Will be called on state changes made by the user. The callback `value` and `rawValue` is a number `{ value, rawValue, event }`. But if the `numberFormat` property is given, then it will return an additional `number` with the given format `{ value, number, rawValue, event }`.",
       "type": "function",
       "status": "optional"
     },

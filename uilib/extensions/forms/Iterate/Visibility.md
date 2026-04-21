@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.Visibility'
 description: 'The `Iterate.Visibility` component allows you to conditionally display content based on relative paths (`itemPath`) within an `Iterate.Array` component.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.786Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.075Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -18,6 +18,11 @@ render(<Iterate.Visibility />)
 ## Description
 
 The `Iterate.Visibility` component allows you to conditionally display content based on relative paths (`itemPath`) within an [Iterate.Array](/uilib/extensions/forms/Iterate/Array/) component.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Iterate/Visibility)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Iterate/Visibility)
 
 Fore more details, head over to the [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) component documentation.
 
@@ -78,7 +83,7 @@ render(
       "status": "optional"
     },
     "pathUndefined": {
-      "doc": "Given data context path must be undefined to show children.",
+      "doc": "Given data context path must be `undefined` to show children.",
       "type": "string",
       "status": "optional"
     },
@@ -93,12 +98,12 @@ render(
       "status": "optional"
     },
     "pathTrue": {
-      "doc": "Given data context path must be true to show children.",
+      "doc": "Given data context path must be `true` to show children.",
       "type": "string",
       "status": "optional"
     },
     "pathFalse": {
-      "doc": "Given data context path must be false to show children.",
+      "doc": "Given data context path must be `false` to show children.",
       "type": "string",
       "status": "optional"
     },
@@ -108,7 +113,7 @@ render(
       "status": "optional"
     },
     "visible": {
-      "doc": "Control visibility directly using the `visible` prop. When used alongside other conditions, the `visible` prop takes precedence.",
+      "doc": "Control visibility directly using the `visible` property. When used alongside other conditions, the `visible` property takes precedence.",
       "type": "boolean",
       "status": "optional"
     },
@@ -133,18 +138,18 @@ render(
       "status": "optional"
     },
     "fieldPropsWhenHidden": {
-      "doc": "When visibility is hidden, and `keepInDOM` is true, pass these props to the children.",
-      "type": "various",
+      "doc": "When visibility is hidden, and `keepInDOM` is `true`, pass these properties to the children.",
+      "type": "\"various\"",
       "status": "optional"
     },
     "element": {
-      "doc": "Define the type of element. Defaults to `div`. Only for when `animate` is true.",
-      "type": "string or React.Element",
+      "doc": "Define the type of element. Defaults to `div`. Only for when `animate` is `true`.",
+      "type": ["string", "React.Element"],
       "status": "optional"
     },
     "children": {
       "doc": "Contents.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "required"
     }
   }

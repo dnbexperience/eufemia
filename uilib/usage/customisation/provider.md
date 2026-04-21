@@ -1,7 +1,7 @@
 ---
 title: 'Provider / Context'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.112Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.454Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -90,7 +90,6 @@ const ChangeLocale = () => {
   return (
     <Field.Selection value={locale} onChange={(value) => setLocale(value)}>
       <Field.Option value="nb-NO" title="Norsk" />
-      <Field.Option value="en-NO" title="English (NO)" />
       <Field.Option value="sv-SE" title="Svenska" />
       <Field.Option value="da-DK" title="Dansk" />
       <Field.Option value="en-GB" title="English (GB)" />
@@ -102,7 +101,7 @@ render(
   <Provider>
     <MyApp>
       <ChangeLocale />
-      text <NumberFormat>123</NumberFormat> table etc.
+      text <NumberFormat.Number>123</NumberFormat.Number> table etc.
     </MyApp>
   </Provider>
 )
@@ -137,7 +136,6 @@ const ChangeLocale = () => {
       onChange={(value) => setCurrentLocale(value)}
     >
       <Field.Option value="nb-NO" title="Norsk" />
-      <Field.Option value="en-NO" title="English (NO)" />
       <Field.Option value="en-GB" title="English (GB)" />
     </Field.Selection>
   )
@@ -147,10 +145,10 @@ render(
   <Provider locale="en-GB">
     <MyApp>
       <Provider locale="nb-NO">
-        Norsk <NumberFormat>1234</NumberFormat>
+        Norsk <NumberFormat.Number>1234</NumberFormat.Number>
         <ChangeLocale />
       </Provider>
-      English <NumberFormat>1234</NumberFormat>
+      English <NumberFormat.Number>1234</NumberFormat.Number>
     </MyApp>
   </Provider>
 )

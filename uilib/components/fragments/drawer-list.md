@@ -1,8 +1,8 @@
 ---
 title: 'DrawerList'
 description: 'The DrawerList component is a fragment inside other components.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.431Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.058Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -33,7 +33,7 @@ const data = [
   // Every data item can, beside "content" - contain what ever
   {
     // (optional) can be what ever
-    selected_key: 'key_0',
+    selectedKey: 'key_0',
 
     // Item content as a string or array
     content: 'Item 1 Content',
@@ -41,15 +41,15 @@ const data = [
 
   // more items ...
   {
-    selected_key: 'key_1',
+    selectedKey: 'key_1',
     content: ['Item 2 Value', 'Item 2 Content'],
   },
   {
-    selected_key: 'key_2',
+    selectedKey: 'key_2',
     content: ['Item 3 Content A', 'Item 3 Content B'],
   },
   {
-    selected_key: 'key_3',
+    selectedKey: 'key_3',
     content: ['Item 4 Content A', <>Custom Component</>],
   },
 ]
@@ -61,7 +61,7 @@ const data = {
 }
 ```
 
-### Example usage of `options_render`
+### Example usage of `optionsRender`
 
 ```tsx
 render(
@@ -74,7 +74,7 @@ render(
       hideToolbar
     >
       <DrawerList
-        options_render={({ Items, Item, data }) => (
+        optionsRender={({ Items, Item, data }) => (
           <>
             <Items />
             <Item>Addition</Item>
@@ -113,23 +113,23 @@ render(
     >
       {() => {
         const DrawerListWithState = (props) => {
-          const [opened, setOpened] = React.useState(false)
+          const [open, setOpen] = React.useState(false)
           return (
             <>
               <ToggleButton
                 id="state-toggle-button"
                 text="Toggle"
-                checked={opened}
-                icon={`chevron_${opened ? 'up' : 'down'}`}
-                icon_position="left"
-                on_change={({ checked }) => setOpened(checked)}
+                checked={open}
+                icon={`chevron_${open ? 'up' : 'down'}`}
+                iconPosition="left"
+                onChange={({ checked }) => setOpen(checked)}
               />
               <DrawerList
-                wrapper_element="#state-toggle-button"
-                skip_portal
+                wrapperElement="#state-toggle-button"
+                skipPortal
                 data={data}
-                opened={opened}
-                on_hide={() => setOpened(false)}
+                open={open}
+                onClose={() => setOpen(false)}
                 {...props}
               />
             </>
@@ -164,7 +164,9 @@ render(
           <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
             <span className="dnb-drawer-list__option__inner">
               <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat ban>12345678902</NumberFormat>
+                <NumberFormat.BankAccountNumber>
+                  12345678902
+                </NumberFormat.BankAccountNumber>
               </span>
               <span className="dnb-drawer-list__option__item">
                 Sparekonto - Ole Nordmann
@@ -174,7 +176,9 @@ render(
           <li className="dnb-drawer-list__option">
             <span className="dnb-drawer-list__option__inner">
               <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat ban>11345678962</NumberFormat>
+                <NumberFormat.BankAccountNumber>
+                  11345678962
+                </NumberFormat.BankAccountNumber>
               </span>
               <span className="dnb-drawer-list__option__item item-nr-2">
                 <a
@@ -192,14 +196,16 @@ render(
           <li className="dnb-drawer-list__option last-of-type">
             <span className="dnb-drawer-list__option__inner">
               <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat ban>15349648901</NumberFormat>
+                <NumberFormat.BankAccountNumber>
+                  15349648901
+                </NumberFormat.BankAccountNumber>
               </span>
               <span className="dnb-drawer-list__option__item">
                 Oppussing - Ole Nordmann
               </span>
             </span>
           </li>
-          <li className="dnb-drawer-list__triangle" />
+          <li className="dnb-drawer-list__arrow" />
         </ul>
       </span>
     </ComponentBox>
@@ -218,19 +224,19 @@ render(
       }}
     >
       <DrawerList
-        skip_portal
-        opened
-        prevent_close
-        triangle_position="left"
+        skipPortal
+        open
+        preventClose
+        arrowPosition="left"
         data={data}
         value={3}
-        on_change={({ data: selectedDataItem }) => {
-          console.log('on_change', selectedDataItem)
+        onChange={({ data: selectedDataItem }) => {
+          console.log('onChange', selectedDataItem)
         }}
-        on_show={() => {
-          console.log('on_show')
+        onOpen={() => {
+          console.log('onOpen')
         }}
-        observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+        observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
       />
     </ComponentBox>
   </Wrapper>
@@ -244,9 +250,9 @@ render(
   <Wrapper>
     <ComponentBox data-visual-test="drawer-list-disabled">
       <DrawerList
-        skip_portal
-        opened
-        prevent_close
+        skipPortal
+        open
+        preventClose
         data={[
           {
             content: 'Item 1',
@@ -259,7 +265,7 @@ render(
             content: 'Item 3',
           },
         ]}
-        observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+        observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
       />
     </ComponentBox>
   </Wrapper>
@@ -305,10 +311,9 @@ render(
         `
         return (
           <CustomWidth
-            skip_portal
-            opened
-            prevent_close
-            // more_menu
+            skipPortal
+            open
+            preventClose
             right
             title="Choose an item"
             data={() => [
@@ -318,13 +323,13 @@ render(
               'Or press on me',
               <CustomComponent key="custom" />,
             ]}
-            on_change={({ value }) => {
+            onChange={({ value }) => {
               console.log('More menu:', value)
             }}
             suffix={
               <HelpButton title="Modal Title">Modal content</HelpButton>
             }
-            observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+            observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
           />
         )
       }}
@@ -361,14 +366,14 @@ render(
         const DrawerListWithState = () => {
           const [selected, setSelected] = React.useState('C')
           return (
-            <CustomWidth skip_portal opened prevent_close>
+            <CustomWidth skipPortal open preventClose>
               <DrawerList.Options>
                 {list.map(({ value, ...props }, i) => (
                   <DrawerList.Item
                     key={i}
                     selected={value === selected}
                     value={value}
-                    on_click={({ value }) => setSelected(value)}
+                    onClick={({ value }) => setSelected(value)}
                     {...props}
                   >
                     {value}
@@ -392,10 +397,10 @@ render(
   <Wrapper>
     <ComponentBox>
       <DrawerList
-        skip_portal
-        opened
-        prevent_close
-        observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+        skipPortal
+        open
+        preventClose
+        observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
       >
         <DrawerList.Options>
           <DrawerList.Item
@@ -405,8 +410,8 @@ render(
             key="A"
             selected={false}
             value="A"
-            on_click={() => {
-              console.log('on_click')
+            onClick={() => {
+              console.log('onClick')
             }}
           >
             Item 1
@@ -435,9 +440,9 @@ render(
   <Wrapper>
     <ComponentBox data-visual-test="drawer-list-inline-style">
       <DrawerList
-        skip_portal
-        opened
-        prevent_close
+        skipPortal
+        open
+        preventClose
         data={[
           {
             content:
@@ -464,7 +469,7 @@ render(
             },
           },
         ]}
-        observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+        observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
       />
     </ComponentBox>
   </Wrapper>
@@ -480,10 +485,10 @@ render(
   <Wrapper>
     <ComponentBox data-visual-test="drawer-list-groups">
       <DrawerList
-        skip_portal
-        opened
-        prevent_close
-        observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+        skipPortal
+        open
+        preventClose
+        observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
         groups={[undefined, 'Pets', undefined, 'Cars']}
         data={[
           {
@@ -535,36 +540,36 @@ render(
       "status": "required"
     },
     "groups": {
-      "doc": "An array of group titles for the list items. Only the first group can be `undefined`",
-      "type": "React.ReactNode[]",
+      "doc": "An array of group titles for the list items. Only the first group can be `undefined`.",
+      "type": "Array<React.ReactNode>",
       "status": "optional"
     },
     "value": {
-      "doc": "Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` prop (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).",
+      "doc": "Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` property (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).",
       "type": ["string", "number"],
       "status": "optional"
     },
-    "default_value": {
+    "defaultValue": {
       "doc": "Define a startup value or handle a re-render without handling the state during the re-render by yourself. Defaults to `null`.",
       "type": "number",
       "status": "optional"
     },
-    "triangle_position": {
-      "doc": "Position of the arrow icon/triangle inside the drawer-list. Set to 'left' or 'right'. Defaults to 'left' if not set.",
+    "arrowPosition": {
+      "doc": "Position of the arrow on the popup drawer. Set to `left` or `right`. Defaults to `left` if not set.",
       "type": "string",
       "status": "optional"
     },
     "direction": {
-      "doc": "Defines the direction of how the drawer-list shows the options list. Can be 'bottom' or 'top'. Defaults to 'auto'.",
+      "doc": "Defines the direction of how the drawer-list shows the options list. Can be `bottom` or `top`. Defaults to `auto`.",
+      "type": ["\"auto\"", "\"top\"", "\"bottom\""],
+      "status": "optional"
+    },
+    "labelDirection": {
+      "doc": "Use `labelDirection=\"horizontal\"` to change the label layout direction. Defaults to `vertical`.",
       "type": "string",
       "status": "optional"
     },
-    "label_direction": {
-      "doc": "The direction of the label. If set to 'horizontal', the label will be positioned horizontally next to the input element. If set to 'vertical', the label will be positioned vertically above the input element.",
-      "type": "string",
-      "status": "optional"
-    },
-    "prevent_selection": {
+    "preventSelection": {
       "doc": "If set to `true`, the DrawerList will then not make any permanent selection.",
       "type": "boolean",
       "status": "optional"
@@ -574,52 +579,52 @@ render(
       "type": "boolean",
       "status": "optional"
     },
-    "prevent_close": {
+    "preventClose": {
       "doc": "If set to `true`, the DrawerList will not close on any events.",
       "type": "boolean",
       "status": "optional"
     },
-    "keep_open": {
+    "keepOpen": {
       "doc": "If set to `true`, the DrawerList will close on outside clicks, but not on selection.",
       "type": "boolean",
       "status": "optional"
     },
-    "independent_width": {
+    "independentWidth": {
       "doc": "If set to `true`, the DrawerList will handle its width and position independently of the parent/mother element.",
       "type": "boolean",
       "status": "optional"
     },
-    "fixed_position": {
+    "fixedPosition": {
       "doc": "If set to `true`, the DrawerList will be fixed in its scroll position by using CSS `position: fixed;`.",
       "type": "boolean",
       "status": "optional"
     },
-    "enable_body_lock": {
+    "enableBodyLock": {
       "doc": "If set to `true`, the HTML body will get locked from scrolling when the Dropdown is open.",
       "type": "boolean",
       "status": "optional"
     },
-    "skip_keysearch": {
+    "skipKeysearch": {
       "doc": "If set to `true`, search items by the first key will be ignored.",
       "type": "boolean",
       "status": "optional"
     },
-    "ignore_events": {
+    "ignoreEvents": {
       "doc": "If set to `true`, all keyboard and mouse events will be ignored.",
       "type": "boolean",
       "status": "optional"
     },
-    "align_drawer": {
-      "doc": "Use 'right' to change the options alignment direction. Makes only sense to use in combination with `prevent_selection` or `more_menu` - or if an independent width is used.",
+    "alignDrawer": {
+      "doc": "Use 'right' to change the options alignment direction. Makes only sense to use in combination with `preventSelection` - or if an independent width is used.",
       "type": "string",
       "status": "optional"
     },
-    "list_class": {
+    "listClass": {
       "doc": "Define an HTML class that will be set on the list, beside `dnb-drawer-list__list`.",
       "type": "string",
       "status": "optional"
     },
-    "portal_class": {
+    "portalClass": {
       "doc": "Define an HTML class that will be set on the DOM portal beside `dnb-drawer-list__portal__style`. Can be useful to handle e.g. a custom `z-index` in relation to a header.",
       "type": "string",
       "status": "optional"
@@ -629,53 +634,53 @@ render(
       "type": "boolean",
       "status": "optional"
     },
-    "no_scroll_animation": {
+    "noScrollAnimation": {
       "doc": "To disable scrolling animation.",
       "type": "boolean",
       "status": "optional"
     },
-    "no_animation": {
+    "noAnimation": {
       "doc": "To disable appear/disappear (show/hide) animation.",
       "type": "boolean",
       "status": "optional"
     },
-    "skip_portal": {
+    "skipPortal": {
       "doc": "To disable the React Portal behavior.",
       "type": "boolean",
       "status": "optional"
     },
-    "min_height": {
+    "minHeight": {
       "doc": "Defines the minimum height (in `rem`) of the options list.",
       "type": "string",
       "status": "optional"
     },
-    "max_height": {
+    "maxHeight": {
       "doc": "Defines the maximum height (in `rem`) of the options list.",
       "type": "string",
       "status": "optional"
     },
-    "page_offset": {
+    "pageOffset": {
       "doc": "Defines the available scrollable height. If scrolling should not change the height of the drawer-list, then set it to `0` (useful if the DrawerList is used in fixed positions on contrast to a scrollable page content).",
       "type": "string",
       "status": "optional"
     },
-    "observer_element": {
+    "observerElement": {
       "doc": "Set a HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the direction calculation on.",
       "type": "string",
       "status": "optional"
     },
-    "cache_hash": {
-      "doc": "Set a `cache_hash` as a string to enable internal memorizing of the list to enhance rerendering performance. Components like Autocomplete are using this because of the huge data changes due to search and reorder.",
+    "cacheHash": {
+      "doc": "Set a `cacheHash` as a string to enable internal memorizing of the list to enhance rerendering performance. Components like Autocomplete are using this because of the huge data changes due to search and reorder.",
       "type": "string",
       "status": "optional"
     },
-    "wrapper_element": {
-      "doc": "Has to be an HTML Element, or a selector for one, ideally a mother element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapper_element` will not trigger an outside click.",
+    "wrapperElement": {
+      "doc": "Has to be an HTML Element, or a selector for one, ideally a mother element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapperElement` will not trigger an outside click.",
       "type": ["string", "HTMLElement"],
       "status": "optional"
     },
-    "options_render": {
-      "doc": "Has to be a function, returning the items again. See [example](/uilib/components/fragments/drawer-list#example-usage-of-options_render). This can be used to add additional options above the actual rendered list.",
+    "optionsRender": {
+      "doc": "Has to be a function, returning the items again. See [example](/uilib/components/fragments/drawer-list#example-usage-of-optionsRender). This can be used to add additional options above the actual rendered list.",
       "type": "function",
       "status": "optional"
     },
@@ -713,13 +718,13 @@ const data = [
   },
   {
     content: ['Main account', '1234 12 12345'],
-    selected_value: 'Main account (605,22 kr)',
-    suffix_value: '605,22 kr',
+    selectedValue: 'Main account (605,22 kr)',
+    suffixValue: '605,22 kr',
   },
   {
     content: ['Old account', <i>Closed</i>],
     disabled: true,
-    suffix_value: '0,00 kr',
+    suffixValue: '0,00 kr',
   },
 ]
 
@@ -731,13 +736,13 @@ const data = [
   ["Item 3", "Line 2", <span>Line 3</span>],
   {
     content: ['Main account', '1234 12 12345'],
-    selected_value: 'Main account (605,22 kr)',
-    suffix_value: '605,22 kr',
+    selectedValue: 'Main account (605,22 kr)',
+    suffixValue: '605,22 kr',
   },
   {
     content: ['Old account', <i>Closed</i>],
     disabled: true,
-    suffix_value: '0,00 kr',
+    suffixValue: '0,00 kr',
   },
 ]
 
@@ -753,39 +758,38 @@ Each object in the array have the following properties:
 {
   "props": {
     "content": {
-      "doc": "Visual content in the list item",
-      "type": ["string", "React.node", "(string | React.Node)[]"],
+      "doc": "Visual content in the list item.",
+      "type": [
+        "string",
+        "React.ReactNode",
+        "Array<(string | React.ReactNode)>"
+      ],
       "status": "optional"
     },
     "disabled": {
-      "doc": "Disables the list item from selection",
+      "doc": "Disables the list item from selection.",
       "type": "boolean",
       "status": "optional"
     },
     "groupIndex": {
-      "doc": "What group index in the `groups` prop this item belongs to.",
+      "doc": "What group index in the `groups` property this item belongs to.",
       "type": "number",
       "status": "optional"
     },
     "selectedKey": {
-      "doc": "If set, can be used instead of array index by the `value` prop",
+      "doc": "If set, can be used instead of array index by the `value` prop.",
       "type": ["string", "number"],
       "status": "optional"
     },
-    "selected_value": {
+    "selectedValue": {
       "doc": "Replaces the standard value output for selected item. Only used in some implementations (Dropdown, Autocomplete).",
-      "type": ["string", "React.Node"],
+      "type": ["string", "React.ReactNode"],
       "status": "optional"
     },
-    "suffix_value": {
+    "suffixValue": {
       "doc": "Content placed to the right in the list item.",
-      "type": ["string", "React.node"],
+      "type": ["string", "React.ReactNode"],
       "status": "optional"
-    },
-    "selected_key": {
-      "doc": "Use prop `selectedKey` instead",
-      "type": ["string", "number"],
-      "status": "deprecated"
     }
   }
 }
@@ -826,15 +830,15 @@ The following is an overview of all the types that the `data` property accepts. 
 ```ts
 // The visual content that is shown in one DrawerList item.
 // An array can be used to define multiple lines.
-type CONTENT = string | React.Node | (string | React.Node)[]
+type CONTENT = string | React.ReactNode | (string | React.ReactNode)[]
 
 // An array item
 type ARRAY_OBJECT = {
   content: CONTENT
   disabled?: boolean
   selectedKey?: string | number
-  selected_value?: string | React.Node
-  suffix_value?: string | React.Node
+  selectedValue?: string | React.ReactNode
+  suffixValue?: string | React.ReactNode
   style?: React.CSSProperties
 }
 
@@ -890,27 +894,27 @@ There is technically support for sending in a JSON string of the data to the `da
 ```json
 {
   "props": {
-    "on_pre_change": {
-      "doc": "Will be called before `on_change`, this way you can return false to prevent selection and to prevent `on_change` execution.",
+    "onPreChange": {
+      "doc": "Will be called before `onChange`, this way you can return false to prevent selection and to prevent `onChange` execution.",
       "type": "function",
       "status": "optional"
     },
-    "on_change": {
+    "onChange": {
       "doc": "Will be called on state changes made by the user.",
       "type": "function",
       "status": "optional"
     },
-    "on_select": {
+    "onSelect": {
       "doc": "Will be called once the user focuses or selects an item by a click or keyboard navigation.",
       "type": "function",
       "status": "optional"
     },
-    "on_show": {
+    "onOpen": {
       "doc": "Will be called once the user presses the drawer-list.",
       "type": "function",
       "status": "optional"
     },
-    "on_hide": {
+    "onClose": {
       "doc": "Will be called once the user presses the drawer-list again, or clicks somewhere else.",
       "type": "function",
       "status": "optional"
@@ -919,9 +923,9 @@ There is technically support for sending in a JSON string of the data to the `da
 }
 ```
 
-### The `on_change` vs `on_select` difference
+### The `onChange` vs `onSelect` difference
 
-The difference between `on_change` and `on_select` is:
+The difference between `onChange` and `onSelect` is:
 
-- `on_change` will be called when the state changes, either with a **click** or **space/enter** keypress confirmation.
-- `on_select` differs most when the user is navigating by keyboard. Once the user is pressing e.g. the arrow keys, the selection is changing, but not the state.
+- `onChange` will be called when the state changes, either with a **click** or **space/enter** keypress confirmation.
+- `onSelect` differs most when the user is navigating by keyboard. Once the user is pressing e.g. the arrow keys, the selection is changing, but not the state.

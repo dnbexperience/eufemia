@@ -1,9 +1,9 @@
 ---
 title: 'ToggleButton'
 description: 'The ToggleButton component should be used to toggle on or off a limited number of choices.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.809Z
-checksum: bcd67e08de2bac75ce19c24668921bc7f13b3be6f6e353edbe904527ce2b9aa2
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.521Z
+checksum: 353894e3b19029b335e5ff143d3d62ae26b3ffbd961810568cf2141082dc8824
 ---
 
 # ToggleButton
@@ -24,7 +24,11 @@ The ToggleButton component is used to toggle on or off a limited number of choic
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/toggle-button)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/toggle-button)
 
-You can use the React component `<ToggleButton.Group>` to wrap several `ToggleButton` components. This makes it easier to handle the `on_change` event at a higher level, as well as several other [context-related properties](/uilib/components/toggle-button/properties).
+## Accessibility
+
+ToggleButton components use `role="button"` with `aria-pressed` to communicate their state to assistive technologies. When used in a group, navigation between buttons is possible using arrow keys, following standard toolbar interaction patterns.
+
+You can use the React component `<ToggleButton.Group>` to wrap several `ToggleButton` components. This makes it easier to handle the `onChange` event at a higher level, as well as several other [context-related properties](/uilib/components/toggle-button/properties).
 
 By default, the `ToggleButton.Group` is single-select, like a [Radio](/uilib/components/radio) button. However, you can easily enable `multiselect` as well.
 
@@ -36,7 +40,7 @@ You can use the ToggleButton in different modes. Either as a stand-alone compone
 
 If `multiselect` is enabled on the group, several items can be enabled or disabled by the user.
 
-You need to decide if you want to track the state yourself by using the `checked` property, or if you want to listen to the internal state with `on_change(({ values }) => console.log(values))`. In this case, you also need to give every item a `value` property.
+You need to decide if you want to track the state yourself by using the `checked` property, or if you want to listen to the internal state with `onChange(({ values }) => console.log(values))`. In this case, you also need to give every item a `value` property.
 
 ## Demos
 
@@ -54,8 +58,8 @@ render(
     label="Label"
     text="Checked ToggleButton"
     checked
-    on_change={({ checked }) => {
-      console.log('on_change', checked)
+    onChange={({ checked }) => {
+      console.log('onChange', checked)
     }}
   />
 )
@@ -68,8 +72,8 @@ render(
   <ToggleButton.Group
     label="ToggleButton Group"
     value="first"
-    on_change={({ value }) => {
-      console.log('on_change', value)
+    onChange={({ value }) => {
+      console.log('onChange', value)
     }}
   >
     <ToggleButton text="First" value="first" />
@@ -87,8 +91,8 @@ render(
     label="Multi-select"
     multiselect={true}
     values={['first', 'third']}
-    on_change={({ values }) => {
-      console.log('on_change', values)
+    onChange={({ values }) => {
+      console.log('onChange', values)
     }}
   >
     <ToggleButton text="First" value="first" />
@@ -104,11 +108,11 @@ render(
 render(
   <ToggleButton.Group
     label="Vertical Group"
-    layout_direction="column"
+    layoutDirection="column"
     multiselect={true}
     variant="checkbox"
-    on_change={({ values }) => {
-      console.log('on_change', values)
+    onChange={({ values }) => {
+      console.log('onChange', values)
     }}
   >
     <ToggleButton text="First" value="first" />
@@ -126,8 +130,8 @@ render(
     label="ToggleButton Group with status"
     status="Error message"
     multiselect={true}
-    on_change={({ values }) => {
-      console.log('on_change', values)
+    onChange={({ values }) => {
+      console.log('onChange', values)
     }}
   >
     <ToggleButton text="First" value="first" />
@@ -144,8 +148,8 @@ render(
   <ToggleButton.Group
     label="ToggleButtons with status"
     variant="radio"
-    on_change={({ value }) => {
-      console.log('on_change', value)
+    onChange={({ value }) => {
+      console.log('onChange', value)
     }}
   >
     <ToggleButton text="First" value="first" status="error" />
@@ -159,7 +163,7 @@ render(
       text="Third"
       value="third"
       status="Info message"
-      status_state="info"
+      statusState="information"
     />
   </ToggleButton.Group>
 )
@@ -220,14 +224,14 @@ render(
 {
   "props": {
     "value": {
-      "doc": "Defines the `value` as a string. Use it to get the value during the `on_change` event listener callback in the **ToggleButtonGroup**.",
-      "type": "string",
-      "status": "required"
+      "doc": "Defines the `value`. Use it to get the value during the `onChange` event listener callback in the **ToggleButtonGroup**.",
+      "type": ["string", "number", "object", "Array"],
+      "status": "optional"
     },
     "text": {
       "doc": "The text shown in the ToggleButton.",
-      "type": "string",
-      "status": "required"
+      "type": ["string", "React.ReactNode"],
+      "status": "optional"
     },
     "checked": {
       "doc": "Determine whether the ToggleButton is checked or not. The default will be `false`.",
@@ -249,12 +253,12 @@ render(
       "type": ["string", "React.ReactNode"],
       "status": "optional"
     },
-    "icon_position": {
+    "iconPosition": {
       "doc": "Position of the icon inside the toggle button. Set to `left` or `right`. Defaults to `right` if not set.",
-      "type": ["left", "right"],
+      "type": ["\"left\"", "\"right\""],
       "status": "optional"
     },
-    "icon_size": {
+    "iconSize": {
       "doc": "Define icon width and height. Defaults to `16px`.",
       "type": "string",
       "status": "optional"
@@ -265,21 +269,21 @@ render(
       "status": "optional"
     },
     "size": {
-      "doc": "The size of the button. There is `small`, `medium`, `default` and `large`. The `tertiary` button officially supports only default and large. Changing the size mainly affects spacing, but the large tertiary button also has a larger font size.",
-      "type": ["small", "medium", "default", "large"],
+      "doc": "The size of the button. There is `default`, `small`, `medium` and `large`. The `tertiary` button officially supports only default and large. Changing the size mainly affects spacing, but the large tertiary button also has a larger font size.",
+      "type": ["\"default\"", "\"small\"", "\"medium\"", "\"large\""],
       "status": "optional"
     },
     "status": {
       "doc": "Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.",
-      "type": ["error", "info", "boolean"],
+      "type": ["\"error\"", "\"information\"", "boolean"],
       "status": "optional"
     },
-    "status_state": {
-      "doc": "Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.",
-      "type": ["error", "info"],
+    "statusState": {
+      "doc": "Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.",
+      "type": ["\"error\"", "\"information\""],
       "status": "optional"
     },
-    "status_props": {
+    "statusProps": {
       "doc": "Use an object to define additional FormStatus properties.",
       "type": "object",
       "status": "optional"
@@ -328,9 +332,9 @@ render(
       "type": "boolean",
       "status": "optional"
     },
-    "layout_direction": {
-      "doc": "Define the layout direction of the ToggleButton buttons. Can be either `column` or `row`. Defaults to `column`.",
-      "type": ["column", "row"],
+    "layoutDirection": {
+      "doc": "Define the layout direction of the ToggleButton buttons. Can be either `column` or `row`. Defaults to `row`.",
+      "type": ["\"column\"", "\"row\""],
       "status": "optional"
     },
     "title": {
@@ -340,15 +344,15 @@ render(
     },
     "status": {
       "doc": "Uses the `form-status` component to show failure messages.",
-      "type": ["error", "info", "boolean"],
+      "type": ["\"error\"", "\"information\"", "boolean"],
       "status": "optional"
     },
-    "status_state": {
-      "doc": "Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.",
-      "type": ["error", "info"],
+    "statusState": {
+      "doc": "Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.",
+      "type": ["\"error\"", "\"information\""],
       "status": "optional"
     },
-    "status_props": {
+    "statusProps": {
       "doc": "Use an object to define additional FormStatus properties.",
       "type": "object",
       "status": "optional"
@@ -363,18 +367,18 @@ render(
       "type": "string",
       "status": "optional"
     },
-    "label_direction": {
-      "doc": "To define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`.",
-      "type": ["vertical", "horizontal"],
+    "labelDirection": {
+      "doc": "To define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `vertical`.",
+      "type": ["\"vertical\"", "\"horizontal\""],
       "status": "optional"
     },
-    "label_sr_only": {
+    "labelSrOnly": {
       "doc": "Use `true` to make the label only readable by screen readers.",
       "type": "boolean",
       "status": "optional"
     },
     "vertical": {
-      "doc": "Will force both `direction` and `label_direction` to be **vertical** if set to `true`.",
+      "doc": "Will force both `direction` and `labelDirection` to be `vertical` if set to `true`.",
       "type": "boolean",
       "status": "optional"
     },
@@ -402,7 +406,7 @@ render(
 ```json
 {
   "props": {
-    "on_change": {
+    "onChange": {
       "doc": "Will be called on state changes made by the user. Returns a boolean and string `{ checked, value, event }`.",
       "type": "function",
       "status": "optional"
@@ -416,7 +420,7 @@ render(
 ```json
 {
   "props": {
-    "on_change": {
+    "onChange": {
       "doc": "Will be called once a ToggleButton button changes the state. Returns an object `{ value, values, event }`. <br /><br /> **NB**: `values` is only available if `multiselect` is used / true.",
       "type": "function",
       "status": "optional"

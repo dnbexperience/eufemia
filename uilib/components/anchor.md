@@ -1,9 +1,9 @@
 ---
 title: 'Anchor (Text Link)'
 description: 'The Anchor, also known as "Link" is used to navigate from one page to the next HTML page.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.267Z
-checksum: 35bea6c380e4b3529826d030033bf9d64835ad4fd0611e3b0e0ba38aac9bcb4c
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:08.872Z
+checksum: e0c93f5872857a54516c5d10979a9cf859f429d97a14c72576018d152c739499
 ---
 
 # Anchor (Text Link)
@@ -140,6 +140,29 @@ render(
 )
 ```
 
+### On dark surface
+
+```tsx
+render(
+  <Wrapper>
+    <ComponentBox
+      hideCode
+      scope={{
+        Example,
+      }}
+    >
+      <Section
+        surface="dark"
+        innerSpace
+        data-visual-test="anchor-surface-dark"
+      >
+        <Anchor href="/uilib/components/anchor">Dark surface style</Anchor>
+      </Section>
+    </ComponentBox>
+  </Wrapper>
+)
+```
+
 ### Additional Anchor helper classes
 
 To force a specific state of style, use the following classes to do so:
@@ -151,17 +174,8 @@ render(
       hideCode
       scope={{
         Example,
-        ContrastExample,
       }}
     >
-      <ContrastExample data-visual-test="anchor-contrast">
-        <Anchor
-          href="/uilib/components/anchor"
-          className="dnb-anchor--contrast"
-        >
-          Contrast Style
-        </Anchor>
-      </ContrastExample>
       <Example>
         <Anchor
           href="/uilib/components/anchor"
@@ -354,7 +368,11 @@ render(
 render(
   <Wrapper>
     <ComponentBox data-visual-test="anchor-in-section">
-      <Section spacing>
+      <Section
+        innerSpace={{
+          block: 'large',
+        }}
+      >
         <Anchor
           className="dnb-anchor--no-underline"
           href="https://dnb.no/"
@@ -375,6 +393,7 @@ render(
         Example,
       }}
       data-visual-test="anchor-states"
+      hideCode
     >
       <Example>
         <Anchor href="/uilib/components/anchor">Default Style</Anchor>
@@ -417,90 +436,78 @@ render(
         Example,
       }}
     >
-      <Example data-visual-test="anchor-legacy-icon">
-        <Anchor href="/uilib/components/anchor">
-          Anchor with Icon <IconPrimary icon="chevron_right" />
-        </Anchor>
-      </Example>
-      <Example data-visual-test="anchor-legacy-paragraph">
-        <P>
-          text{' '}
-          <Anchor href="/uilib/components/anchor">
-            Inside a Paragraph <IconPrimary icon="bell" />
-          </Anchor>{' '}
-          text
-        </P>
-      </Example>
-      <Example data-visual-test="anchor-legacy-blank-with-icon">
-        <Anchor target="_blank" href="/uilib/components/anchor">
-          <IconPrimary icon="bell" /> Blank target with https
-        </Anchor>
-      </Example>
-    </ComponentBox>
-  </Wrapper>
-)
-```
-
-```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      hideCode
-      scope={{
-        Example,
-        ContrastExample,
-      }}
-    >
-      <Example>
-        <ContrastExample data-visual-test="anchor-contrast-no-hover">
-          <Anchor
-            href="/uilib/components/anchor"
-            className="dnb-anchor--contrast dnb-anchor--no-hover"
+      <Theme.Context surface="dark">
+        <Example>
+          <Section
+            surface="dark"
+            innerSpace
+            data-visual-test="anchor-contrast-no-hover"
           >
-            Contrast - no hover
-          </Anchor>
-        </ContrastExample>
-      </Example>
-      <Example>
-        <ContrastExample data-visual-test="anchor-contrast-no-radius">
-          <Anchor
-            href="/uilib/components/anchor"
-            className="dnb-anchor--contrast dnb-anchor--no-radius"
+            <Anchor
+              href="/uilib/components/anchor"
+              className="dnb-anchor--no-hover"
+            >
+              Dark surface - no hover
+            </Anchor>
+          </Section>
+        </Example>
+        <Example>
+          <Section
+            surface="dark"
+            innerSpace
+            data-visual-test="anchor-contrast-no-radius"
           >
-            Contrast - no radius
-          </Anchor>
-        </ContrastExample>
-      </Example>
-      <Example>
-        <ContrastExample data-visual-test="anchor-contrast-no-underline">
-          <Anchor
-            href="/uilib/components/anchor"
-            className="dnb-anchor--contrast dnb-anchor--no-underline"
+            <Anchor
+              href="/uilib/components/anchor"
+              className="dnb-anchor--no-radius"
+            >
+              Dark surface - no radius
+            </Anchor>
+          </Section>
+        </Example>
+        <Example>
+          <Section
+            surface="dark"
+            innerSpace
+            data-visual-test="anchor-contrast-no-underline"
           >
-            Contrast - no underline
-          </Anchor>
-        </ContrastExample>
-      </Example>
-      <Example>
-        <ContrastExample data-visual-test="anchor-contrast-no-underline-no-hover">
-          <Anchor
-            href="/uilib/components/anchor"
-            className="dnb-anchor--contrast dnb-anchor--no-underline dnb-anchor--no-hover"
+            <Anchor
+              href="/uilib/components/anchor"
+              className="dnb-anchor--no-underline"
+            >
+              Dark surface - no underline
+            </Anchor>
+          </Section>
+        </Example>
+        <Example>
+          <Section
+            surface="dark"
+            innerSpace
+            data-visual-test="anchor-contrast-no-underline-no-hover"
           >
-            Contrast - no underline - no hover
-          </Anchor>
-        </ContrastExample>
-      </Example>
-      <Example>
-        <ContrastExample data-visual-test="anchor-contrast-no-underline-no-radius">
-          <Anchor
-            href="/uilib/components/anchor"
-            className="dnb-anchor--contrast dnb-anchor--no-underline dnb-anchor--no-radius"
+            <Anchor
+              href="/uilib/components/anchor"
+              className="dnb-anchor--no-underline dnb-anchor--no-hover"
+            >
+              Dark surface - no underline - no hover
+            </Anchor>
+          </Section>
+        </Example>
+        <Example>
+          <Section
+            surface="dark"
+            innerSpace
+            data-visual-test="anchor-contrast-no-underline-no-radius"
           >
-            Contrast - no underline - no radius
-          </Anchor>
-        </ContrastExample>
-      </Example>
+            <Anchor
+              href="/uilib/components/anchor"
+              className="dnb-anchor--no-underline dnb-anchor--no-radius"
+            >
+              Dark surface - no underline - no radius
+            </Anchor>
+          </Section>
+        </Example>
+      </Theme.Context>
     </ComponentBox>
   </Wrapper>
 )
@@ -607,7 +614,7 @@ render(
       "status": "optional"
     },
     "to": {
-      "doc": "Use this prop only if you are using a router Link component as the `element` that uses the `to` property to declare the navigation url.",
+      "doc": "Use this property only if you are using a router Link component as the `element` that uses the `to` property to declare the navigation url.",
       "type": "string",
       "status": "optional"
     },
@@ -627,13 +634,13 @@ render(
       "status": "optional"
     },
     "icon": {
-      "doc": "[Primary Icons](/icons/primary) can be set as a string (e.g. icon=\"chevron_right\"), other icons should be set as React elements.",
-      "type": "React.Node",
+      "doc": "[Primary Icons](/icons/primary) can be set as a string (e.g. `icon=\"chevron_right\"`), other icons should be set as React elements.",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "iconPosition": {
       "doc": "`left` (default) or `right`. Places icon to the left or to the right of the text.",
-      "type": "string",
+      "type": ["\"left\"", "\"right\""],
       "status": "optional"
     },
     "noAnimation": {

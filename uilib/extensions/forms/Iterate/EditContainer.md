@@ -1,9 +1,9 @@
 ---
 title: 'Iterate.EditContainer'
 description: '`Iterate.EditContainer` enables users to toggle (with animation) the content of each item between the view and edit container.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.739Z
-checksum: e26a9cd2ef9add46be0be2b3722e39b9885b72d1bce7283500f4f6fc4969a44d
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.034Z
+checksum: aa35ac720365e3ad296f4e4665e72d5667c8d1b317fc96523207e2a2ecdd5aae
 ---
 
 # Iterate.EditContainer
@@ -18,6 +18,11 @@ render(<Iterate.EditContainer />)
 ## Description
 
 `Iterate.EditContainer` enables users to toggle (with animation) the content of each item between the [Iterate.ViewContainer](/uilib/extensions/forms/Iterate/ViewContainer/) and this edit container. It can be used instead of the [Iterate.AnimatedContainer](/uilib/extensions/forms/Iterate/AnimatedContainer/).
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Iterate/EditContainer)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Iterate/EditContainer)
 
 By default, it features the [Iterate.Toolbar](/uilib/extensions/forms/Iterate/Toolbar/) containing a "Done" button and a "Cancel" button. The "Cancel" button resets any changes made to the item content, restoring it to its original state.
 
@@ -243,27 +248,27 @@ render(
   "props": {
     "title": {
       "doc": "The title of the container.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "titleWhenNew": {
       "doc": "The title for a new item.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "variant": {
       "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
-      "type": "string",
+      "type": ["\"outline\"", "\"filled\"", "\"basic\""],
       "status": "optional"
     },
     "toolbar": {
       "doc": "An alternative toolbar to be shown in the container.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "toolbarVariant": {
       "doc": "Use variants to render the toolbar differently. Currently there are the `minimumOneItem` and `custom` variants. See the info section for more info.",
-      "type": "string",
+      "type": ["\"minimumOneItem\"", "\"custom\""],
       "status": "optional"
     },
     "open": {

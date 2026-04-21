@@ -10,38 +10,40 @@
 ```json
 {
   "props": {
-    "product_code": {
+    "productCode": {
       "doc": "If product code matches one of the codes in the list the card will get that design, if no match is found Default design will be used.",
       "type": "string",
       "status": "required"
     },
-    "card_number": {
+    "cardNumber": {
       "doc": "Masked card number.",
       "type": "string",
       "status": "required"
     },
-    "raw_data": {
+    "rawData": {
       "doc": "Useful if you want to create custom cards. See Card data properties.",
       "type": "Various",
       "status": "optional"
     },
-    "card_status": {
-      "doc": "Use one of these: `active`, `not_active`, `new_order`, `new`, `blocked`, `expired`, `renewed`, `replaced`, `order_in_process`, `unknown`. Defaults to `active`.",
+    "cardStatus": {
+      "doc": "Use one of these: `active`, `notActive`, `newOrder`, `new`, `blocked`, `expired`, `renewed`, `replaced`, `orderInProcess`, `unknown`. Defaults to `active`.",
       "type": [
-        "active",
-        "not_active",
-        "blocked",
-        "expired",
-        "renewed",
-        "replaced",
-        "order_in_process",
-        "unknown"
+        "\"active\"",
+        "\"notActive\"",
+        "\"newOrder\"",
+        "\"new\"",
+        "\"blocked\"",
+        "\"expired\"",
+        "\"renewed\"",
+        "\"replaced\"",
+        "\"orderInProcess\"",
+        "\"unknown\""
       ],
       "status": "optional"
     },
     "variant": {
       "doc": "Defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.",
-      "type": ["normal", "compact"],
+      "type": ["\"normal\"", "\"compact\""],
       "status": "optional"
     },
     "digits": {
@@ -95,17 +97,17 @@
     },
     "cardType": {
       "doc": "`import { CardType } from '@dnb/eufemia/extensions/payment-card'` to use. Can be `CardType.Visa`, `CardType.Mastercard` or `CardType.None`.",
-      "type": "Union Type",
+      "type": "CardType",
       "status": "required"
     },
     "productType": {
       "doc": "`import { ProductType } from '@dnb/eufemia/extensions/payment-card'` to use. Can be `ProductType.Saga`, `ProductType.Pluss`, `ProductType.Intro`, `ProductType.Business`, `ProductType.Bedrift`, `ProductType.PrivateBanking`, `ProductType.Corporate`, `ProductType.WorldElite` or `ProductType.None`.",
-      "type": "Union Type",
+      "type": "ProductType",
       "status": "required"
     },
     "bankAxept": {
       "doc": "`import { BankAxeptType } from '@dnb/eufemia/extensions/payment-card'` to use. Can be `BankAxeptType.BankAxept`, `BankAxeptType.Credit` or `BankAxeptType.None`.",
-      "type": "Union Type",
+      "type": "BankAxeptType",
       "status": "required"
     }
   }
@@ -123,38 +125,38 @@
       "status": "required"
     },
     "cardStyle": {
-      "doc": "Css class. mainly to set background and color.",
+      "doc": "CSS class. Mainly to set background and color.",
       "type": "string",
       "status": "required"
     },
     "bankLogo": {
-      "doc": "Union Type. import DNB from ./card/utils/Types to use. Can be `DNB.Colored('HexValue')`.",
-      "type": "Union Type",
+      "doc": "Discriminated union with `tag` property. `import { DNB } from '@dnb/eufemia/extensions/payment-card/utils/Types'`. Can be `DNB.Colored('HexValue')` or `DNB.Sbanken('HexValue')`.",
+      "type": "DNB",
       "status": "required"
     },
     "visa": {
-      "doc": "Union Type. import Visa from ./card/utils/Types to use. Can be `Visa.Colored('HexValue')` or `Visa.Platinum`.",
-      "type": "Union Type",
+      "doc": "Discriminated union with `tag` property. `import { Visa } from '@dnb/eufemia/extensions/payment-card/utils/Types'`. Can be `Visa.Colored('HexValue')` or `Visa.Platinum`.",
+      "type": "Visa",
       "status": "required"
     },
     "mastercard": {
-      "doc": "Union Type. import Mastercard from ./card/utils/Types to use. Can be `Mastercard.Default` or `Mastercard.Dark`.",
-      "type": "Union Type",
+      "doc": "Discriminated union with `tag` property. `import { Mastercard } from '@dnb/eufemia/extensions/payment-card/utils/Types'`. Can be `Mastercard.Default` or `Mastercard.Dark`.",
+      "type": "Mastercard",
       "status": "required"
     },
     "bankAxept": {
-      "doc": "Union Type. import BankAxept from ./card/utils/Types to use. Can be `BankAxept.White`, `BankAxept.Black`, `BankAxept.Gold`, `BankAxept.Black20` or `BankAxept.Gray`.",
-      "type": "Union Type",
+      "doc": "Discriminated union with `tag` property. `import { BankAxept } from '@dnb/eufemia/extensions/payment-card/utils/Types'`. Can be `BankAxept.White`, `BankAxept.Black`, `BankAxept.Gold`, `BankAxept.Black20` or `BankAxept.Gray`.",
+      "type": "BankAxept",
       "status": "required"
     },
     "saga": {
-      "doc": "Union Type. import Saga from ./card/utils/Types to use. Can be `Saga.Gold`, `Saga.Platinum` or `Saga.None`.",
-      "type": "Union Type",
+      "doc": "Discriminated union with `tag` property. `import { Saga } from '@dnb/eufemia/extensions/payment-card/utils/Types'`. Can be `Saga.Gold`, `Saga.Platinum` or `Saga.None`.",
+      "type": "Saga",
       "status": "required"
     },
     "privateBanking": {
-      "doc": "Union Type. import PB from ./card/utils/Types to use. Can be `PB.Default` or `PB.None`.",
-      "type": "Union Type",
+      "doc": "Discriminated union with `tag` property. `import { PB } from '@dnb/eufemia/extensions/payment-card/utils/Types'`. Can be `PB.Default` or `PB.None`.",
+      "type": "PB",
       "status": "required"
     }
   }
@@ -292,61 +294,55 @@
 {
   "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
   "entries": {
-    "PaymentCard.text_blocked": {
+    "PaymentCard.textBlocked": {
       "nb-NO": "Sperret",
       "en-GB": "Blocked",
       "sv-SE": "Spärrat",
       "da-DK": "Spærret"
     },
-    "PaymentCard.text_card_number": {
-      "nb-NO": "Kortnummer",
-      "en-GB": "Card number",
-      "sv-SE": "Kortnummer",
-      "da-DK": "Kortnummer"
-    },
-    "PaymentCard.text_expired": {
+    "PaymentCard.textExpired": {
       "nb-NO": "Utløpt",
       "en-GB": "Expired",
       "sv-SE": "Utgånget",
       "da-DK": "Udløbet"
     },
-    "PaymentCard.text_new": {
+    "PaymentCard.textNew": {
       "nb-NO": "Nytt",
       "en-GB": "New",
       "sv-SE": "Ny",
       "da-DK": "Nyt"
     },
-    "PaymentCard.text_new_order": {
+    "PaymentCard.textNewOrder": {
       "nb-NO": "Bestilt",
       "en-GB": "Ordered",
       "sv-SE": "Beställd",
       "da-DK": "Bestilt"
     },
-    "PaymentCard.text_not_active": {
+    "PaymentCard.textNotActive": {
       "nb-NO": "Inaktivt",
       "en-GB": "Inactive",
       "sv-SE": "Inaktiv",
       "da-DK": "Inaktivt"
     },
-    "PaymentCard.text_order_in_process": {
+    "PaymentCard.textOrderInProcess": {
       "nb-NO": "På vei",
       "en-GB": "On the way",
       "sv-SE": "På väg",
       "da-DK": "På vej"
     },
-    "PaymentCard.text_renewed": {
+    "PaymentCard.textRenewed": {
       "nb-NO": "Fornyes",
       "en-GB": "Renewed",
       "sv-SE": "Förnyat",
       "da-DK": "Fornyet"
     },
-    "PaymentCard.text_replaced": {
+    "PaymentCard.textReplaced": {
       "nb-NO": "Erstattet",
       "en-GB": "Replaced",
       "sv-SE": "Ersatt",
       "da-DK": "Erstattet"
     },
-    "PaymentCard.text_unknown": {
+    "PaymentCard.textUnknown": {
       "nb-NO": "Ukjent",
       "en-GB": "Unknown",
       "sv-SE": "Okänt",

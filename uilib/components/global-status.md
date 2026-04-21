@@ -1,9 +1,9 @@
 ---
 title: 'GlobalStatus'
 description: 'The GlobalStatus is a complex component meant for displaying global Application notifications or a summary of a form.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.450Z
-checksum: 70b3a7985681808c8a626273d279d16fd4df87329bae8bbe924b08aa6f9a3337
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.077Z
+checksum: 152019dafedbaceb5839caa0e41d84e2c818240a5300b96b9df66c20fd439274
 ---
 
 # GlobalStatus
@@ -74,7 +74,7 @@ But you can also make use of the Eufemia [Provider](/uilib/usage/customisation/p
 
 Besides the automated connection between the error states of form components ([FormStatus](/uilib/components/form-status)), you can update messages from anywhere in your application at any time:
 
-**NB:** The GlobalStatus will `autoclose` by default once all messages are removed.
+**NB:** The GlobalStatus will `autoClose` by default once all messages are removed.
 
 ### JavaScript (interceptor situation)
 
@@ -94,7 +94,7 @@ render(<GlobalStatus id="other-global-status" />)
 const statusOne = GlobalStatus.create({
   id: 'other-global-status',
   // or main
-  status_id: 'custom-id-1',
+  statusId: 'custom-id-1',
   text: 'New Text',
   item: 'Item from status #1',
   title: 'New Title',
@@ -126,18 +126,18 @@ render(<GlobalStatus id="other-global-status" />)
 }
 ;<GlobalStatus.Add
   id="custom-id"
-  status_id="custom-id-1"
+  statusId="custom-id-1"
   title="New title"
   text="First long info text ..."
   item="Item from status #1"
-  on_close={({ status_id }) => {
-    console.log('on_close', status_id)
+  onClose={({ statusId }) => {
+    console.log('onClose', statusId)
   }}
 />
 {
   /* 3. and remove it again */
 }
-;<GlobalStatus.Remove id="custom-id" status_id="custom-id-1" />
+;<GlobalStatus.Remove id="custom-id" statusId="custom-id-1" />
 ```
 
 If you need an additional `GlobalStatus`, define a custom ID (custom-status):
@@ -152,18 +152,18 @@ If you need an additional `GlobalStatus`, define a custom ID (custom-status):
 }
 ;<GlobalStatus.Add
   id="custom-status"
-  status_id="custom-id-1"
+  statusId="custom-id-1"
   title="New title"
   text="First long info text ..."
   item="Item from status #1"
-  on_close={({ status_id }) => {
-    console.log('on_close', status_id)
+  onClose={({ statusId }) => {
+    console.log('onClose', statusId)
   }}
 />
 {
   /* 3. and remove it again */
 }
-;<GlobalStatus.Remove id="custom-status" status_id="custom-id-1" />
+;<GlobalStatus.Remove id="custom-status" statusId="custom-id-1" />
 ```
 
 ## Demos
@@ -180,14 +180,14 @@ render(
     items={[
       {
         text: 'List item',
-        status_anchor_url: '/uilib/components/global-status',
-        status_anchor_label: 'eksempel',
+        statusAnchorUrl: '/uilib/components/global-status',
+        statusAnchorLabel: 'eksempel',
       },
     ]}
     show={true}
-    autoscroll={false}
-    no_animation={true}
-    omit_set_focus={true}
+    autoScroll={false}
+    noAnimation={true}
+    omitSetFocus={true}
     id="demo-1"
   />
 )
@@ -198,14 +198,14 @@ render(
 ```tsx
 render(
   <GlobalStatus
-    state="info"
+    state="information"
     title="Custom info title ..."
     text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
     items={['Status text 1', 'Status text 2']}
     show={true}
-    autoscroll={false}
-    no_animation={true}
-    omit_set_focus={true}
+    autoScroll={false}
+    noAnimation={true}
+    omitSetFocus={true}
     id="demo-4"
   />
 )
@@ -220,9 +220,9 @@ render(
     title="Custom warning title ..."
     text="A string of text providing a warning or semi-urgent message of some kind to the user"
     show={true}
-    autoscroll={false}
-    no_animation={true}
-    omit_set_focus={true}
+    autoScroll={false}
+    noAnimation={true}
+    omitSetFocus={true}
     id="demo-5"
   />
 )
@@ -237,9 +237,9 @@ render(
     title="Custom success title ..."
     text="A string of text providing a success message of some kind to the user"
     show={true}
-    autoscroll={false}
-    no_animation={true}
-    omit_set_focus={true}
+    autoScroll={false}
+    noAnimation={true}
+    omitSetFocus={true}
     id="demo-6"
   />
 )
@@ -252,9 +252,9 @@ render(
   <GlobalStatus
     icon={<Icon icon={confetti_medium} />}
     show={true}
-    autoscroll={false}
-    no_animation={true}
-    omit_set_focus={true}
+    autoScroll={false}
+    noAnimation={true}
+    omitSetFocus={true}
     id="demo-icon"
   />
 )
@@ -271,7 +271,7 @@ const InputWithError = () => {
       placeholder="Write less than 5 chars and dismiss the focus to show the GlobalStatus ..."
       stretch
       status={errorMessage}
-      on_blur={({ value }) => {
+      onBlur={({ value }) => {
         setErrorMessage(value.length <= 4 ? 'With a message shown' : null)
       }}
       globalStatus={{
@@ -322,7 +322,7 @@ const UpdateDemoStatus = () => {
         globalStatus={{
           id: 'demo-2',
         }}
-        on_change={({ value }) => {
+        onChange={({ value }) => {
           setErrorA(value)
         }}
       />
@@ -334,7 +334,7 @@ const UpdateDemoStatus = () => {
         globalStatus={{
           id: 'demo-2',
         }}
-        on_change={({ value }) => {
+        onChange={({ value }) => {
           setErrorB(value)
         }}
       />
@@ -359,22 +359,22 @@ const UpdateDemoTools = () => {
         id: 'demo-2',
         title: 'New Title',
         text: 'New Text',
-        status_id: 'custom-item',
+        statusId: 'custom-item',
         show: false,
       })
       inst.current.update({
-        on_show: () => {
-          console.log('on_show')
+        onShow: () => {
+          console.log('onShow')
           if (!isVisible) {
             setVisibility(true)
           }
         },
-        on_hide: () => {
-          console.log('on_hide')
+        onHide: () => {
+          console.log('onHide')
           setVisibility(false)
         },
-        on_close: () => {
-          console.log('on_close')
+        onClose: () => {
+          console.log('onClose')
           setVisibility(false)
         },
       })
@@ -385,13 +385,19 @@ const UpdateDemoTools = () => {
   }, [isVisible])
   React.useEffect(() => () => inst.current.remove(), [])
   return (
-    <Section top spacing style_type="divider">
+    <Section
+      top
+      innerSpace={{
+        block: 'large',
+      }}
+      variant="divider"
+    >
       <ToggleButton
         text="Toggle"
         variant="checkbox"
         right
         checked={isVisible}
-        on_change={({ checked }) => {
+        onChange={({ checked }) => {
           setVisibility(checked)
         }}
       />
@@ -400,7 +406,7 @@ const UpdateDemoTools = () => {
         variant="tertiary"
         icon="reset"
         disabled={!(errorA || errorB)}
-        on_click={() => {
+        onClick={() => {
           setErrorA(null)
           setErrorB(null)
         }}
@@ -420,13 +426,13 @@ function AddRemoveItems() {
     <>
       <GlobalStatus
         id="custom-status"
-        autoscroll={false}
-        on_close={() => toggleUpdateStatus(0)}
-        on_hide={() => toggleUpdateStatus(0)}
+        autoScroll={false}
+        onClose={() => toggleUpdateStatus(0)}
+        onHide={() => toggleUpdateStatus(0)}
       />
       <Button
         text={`Show step #${count}`}
-        on_click={() => {
+        onClick={() => {
           toggleUpdateStatus(count + 1)
           if (count >= 3) {
             toggleUpdateStatus(0)
@@ -438,30 +444,30 @@ function AddRemoveItems() {
         <>
           <GlobalStatus.Add
             id="custom-status"
-            status_id="custom-id-1"
+            statusId="custom-id-1"
             title="New title"
             text="First long info text ..."
             item="Item from status #1"
-            on_close={({ status_id }) => {
-              console.log('on_close 1', status_id)
+            onClose={({ statusId }) => {
+              console.log('onClose 1', statusId)
             }}
           />
           <GlobalStatus.Add
             id="custom-status"
-            status_id="custom-id-2"
+            statusId="custom-id-2"
             text="Second long info text ..."
             item="Item from status #2"
-            on_close={({ status_id }) => {
-              console.log('on_close 2', status_id)
+            onClose={({ statusId }) => {
+              console.log('onClose 2', statusId)
             }}
           />
         </>
       )}
       {count === 2 && (
-        <GlobalStatus.Remove id="custom-status" status_id="custom-id-2" />
+        <GlobalStatus.Remove id="custom-status" statusId="custom-id-2" />
       )}
       {count === 3 && (
-        <GlobalStatus.Remove id="custom-status" status_id="custom-id-1" />
+        <GlobalStatus.Remove id="custom-status" statusId="custom-id-1" />
       )}
     </>
   )
@@ -477,7 +483,7 @@ NB: this demo only works once, so you'll have to refresh the browser to try agai
 render(
   <Button
     text="Scroll to main GlobalStatus"
-    on_click={() => {
+    onClick={() => {
       GlobalStatus.Update({
         id: 'main-status',
         text: 'Dui consectetur viverra aenean vestibulum ac tristique sem ligula condimentum',
@@ -513,7 +519,7 @@ render(
       "status": "optional"
     },
     "items": {
-      "doc": "The items (list items) appear as a part of the status content. you can both use an JSON array, or a vanilla array with a string or an object content. See **Item Object** example below.",
+      "doc": "The items (list items) appear as a part of the status content. You can both use a JSON array, or a vanilla array with a string or an object content. See **Item Object** example below.",
       "type": "Array<GlobalStatusItem>",
       "status": "optional"
     },
@@ -523,31 +529,36 @@ render(
       "status": "optional"
     },
     "state": {
-      "doc": "Defines the visual appearance of the status. There are four main statuses `error`, `warning`, `info` and `success`. The default status is `error`.",
-      "type": ["error", "info", "warning", "success"],
+      "doc": "Defines the visual appearance of the status. There are four main statuses `error`, `warning`, `information` and `success`. The default status is `error`.",
+      "type": [
+        "\"error\"",
+        "\"information\"",
+        "\"warning\"",
+        "\"success\""
+      ],
       "status": "optional"
     },
-    "icon_size": {
+    "iconSize": {
       "doc": "The icon size of the title icon shows. Defaults to `medium`.",
       "type": "string",
       "status": "optional"
     },
     "show": {
       "doc": "Set to `true` or `false` to manually make the global status visible. Defaults to `true`.",
-      "type": "boolean",
+      "type": ["boolean", "\"auto\""],
       "status": "optional"
     },
-    "autoclose": {
+    "autoClose": {
       "doc": "Set to `true` to automatically close the global status if there are no more left items in the provider stack. Defaults to `true`.",
       "type": "boolean",
       "status": "optional"
     },
-    "autoscroll": {
+    "autoScroll": {
       "doc": "Set to `true` to automatically scroll the page to the appeared global status. Defaults to `true`.",
       "type": "boolean",
       "status": "optional"
     },
-    "no_animation": {
+    "noAnimation": {
       "doc": "Set to `true` to disable the show/hide/slide/fade/grow/shrink animation. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
@@ -557,27 +568,27 @@ render(
       "type": ["number", "string"],
       "status": "optional"
     },
-    "hide_close_button": {
+    "hideCloseButton": {
       "doc": "Set to `true` if the close button should be hidden for the user. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },
-    "close_text": {
+    "closeText": {
       "doc": "Text of the close button. Defaults to `Lukk`.",
       "type": "React.ReactNode",
       "status": "optional"
     },
-    "status_anchor_text": {
-      "doc": "Defines the anchor text showing up after every item, in case there is a `status_id` defined. Defaults to `Gå til %s`. The `%s` represents the optional and internal handled label addition.",
+    "statusAnchorText": {
+      "doc": "Defines the anchor text showing up after every item, in case there is a `statusId` defined. Defaults to `Gå til %s`. The `%s` represents the optional and internal handled label addition.",
       "type": "React.ReactNode",
       "status": "optional"
     },
-    "omit_set_focus": {
-      "doc": "Set to `true` to omit setting the focus during visibility. Defaults to `false`. Additionally, there is `omit_set_focus_on_update` which is set to `true` by default.",
+    "omitSetFocus": {
+      "doc": "Set to `true` to omit setting the focus during visibility. Defaults to `false`. Additionally, there is `omitSetFocusOnUpdate` which is set to `true` by default.",
       "type": "boolean",
       "status": "optional"
     },
-    "omit_set_focus_on_update": {
+    "omitSetFocusOnUpdate": {
       "doc": "Set to `true` to omit setting the focus during update. Defaults to `true`.",
       "type": "boolean",
       "status": "optional"
@@ -602,19 +613,19 @@ render(
 {
   "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
   "entries": {
-    "GlobalStatus.close_text": {
+    "GlobalStatus.closeText": {
       "nb-NO": "Lukk",
       "en-GB": "Close",
       "sv-SE": "Stäng",
       "da-DK": "Luk"
     },
-    "GlobalStatus.default_title": {
+    "GlobalStatus.defaultTitle": {
       "nb-NO": "En feil har skjedd",
       "en-GB": "An error has occurred",
       "sv-SE": "Ett fel har inträffat",
       "da-DK": "Der er opstået en fejl"
     },
-    "GlobalStatus.status_anchor_text": {
+    "GlobalStatus.statusAnchorText": {
       "nb-NO": "Gå til %s",
       "en-GB": "Go to %s",
       "sv-SE": "Gå till %s",
@@ -632,8 +643,8 @@ const items = ['Item #1', 'Item #2']
 
 // advanced
 const items = [
-  { text: 'Item #1', status_id: 'id-1' },
-  { text: 'Item #2', status_id: 'id-2', status_anchor_url: 'https://' },
+  { text: 'Item #1', statusId: 'id-1' },
+  { text: 'Item #2', statusId: 'id-2', statusAnchorUrl: 'https://' },
 ]
 ```
 
@@ -647,22 +658,22 @@ const items = [
       "type": "string",
       "status": "required"
     },
-    "status_id": {
-      "doc": "Defines an unique ID so the message can be either updated or removed individual.",
+    "statusId": {
+      "doc": "Defines a unique ID so the message can be either updated or removed individually.",
       "type": "string",
       "status": "required"
     },
-    "status_anchor_url": {
-      "doc": "Use `status_anchor_url={true}` to enable the go-to link, defined as a url hash using the `status_id`. Or provide it with an actual url: `status_anchor_url=\"https://\"`.",
+    "statusAnchorUrl": {
+      "doc": "Use `statusAnchorUrl={true}` to enable the go-to link, defined as a url hash using the `statusId`. Or provide it with an actual url: `statusAnchorUrl=\"https://\"`.",
       "type": "string",
       "status": "optional"
     },
-    "status_anchor_text": {
+    "statusAnchorText": {
       "doc": "Defines the anchor text showing up after every item. Defaults to `Gå til %s`. The `%s` represents the optional and internal handled label addition.",
       "type": "string",
       "status": "optional"
     },
-    "status_anchor_label": {
+    "statusAnchorLabel": {
       "doc": "Adds an additional text to the anchor (replaces `%s`), showing up after every item. Is used by default by other form components, if they have an `label`.",
       "type": "string",
       "status": "optional"
@@ -682,36 +693,36 @@ The goal is to update the content (properties/events) of the target GlobalStatus
 {/* Manipulate the status later on. Every property is optional.*/}
 <GlobalStatus.Add
   id="custom-id"
-  status_id="status-1"
+  statusId="status-1"
   item="Item #1"
   text="New Text"
-  on_close={({ status_id }) => {
-    console.log('on_close', status_id)
+  onClose={({ statusId }) => {
+    console.log('onClose', statusId)
   }}
 />
 <GlobalStatus.Add
   id="custom-id"
-  status_id="status-2"
+  statusId="status-2"
   item="Item #2"
   text="New Text"
   title="New Title"
-  on_close={({ status_id }) => {
-    console.log('on_close', status_id)
+  onClose={({ statusId }) => {
+    console.log('onClose', statusId)
   }}
 />
 <GlobalStatus.Add
   id="custom-id"
-  status_id="status-3"
+  statusId="status-3"
   item="Item #3"
   text="Text #3"
-  on_close={({ status_id }) => {
-    console.log('on_close', status_id)
+  onClose={({ statusId }) => {
+    console.log('onClose', statusId)
   }}
 />
 {/* or update the status.*/}
 <GlobalStatus.Update id="custom-id" text="text" />
 {/* Later you can remove a resolved item.*/}
-<GlobalStatus.Remove id="custom-id" status_id="status-3" />
+<GlobalStatus.Remove id="custom-id" statusId="status-3" />
 ```
 
 ## Controller Properties
@@ -724,13 +735,13 @@ The goal is to update the content (properties/events) of the target GlobalStatus
       "type": "string",
       "status": "optional"
     },
-    "status_id": {
+    "statusId": {
       "doc": "Define a new stack ID so you can remove it with the same ID later on. Defaults to `null`.",
       "type": "string",
       "status": "optional"
     },
-    "remove_on_unmount": {
-      "doc": "Set to `true` if you want that the component `<GlobalStatus.Add remove_on_unmount={true} ... />` should automatically remove the stacked status from the target **GlobalStatus** on component unmount. Defaults to `false`.",
+    "removeOnUnmount": {
+      "doc": "Set to `true` if you want that the component `<GlobalStatus.Add removeOnUnmount={true} ... />` should automatically remove the stacked status from the target **GlobalStatus** on component unmount. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     }
@@ -774,28 +785,28 @@ See [Autocomplete](/uilib/components/autocomplete/properties), [Button](/uilib/c
 ```json
 {
   "props": {
-    "on_open": {
-      "doc": "Gets triggered the first time the GlobalStatus appears on the screen. In other words, it has to have been hidden before. Returns `{ id, status_id, ...properties }`.",
+    "onOpen": {
+      "doc": "Gets triggered the first time the GlobalStatus appears on the screen. In other words, it has to have been hidden before. Returns `{ id, statusId, ...properties }`.",
       "type": "function",
       "status": "optional"
     },
-    "on_show": {
-      "doc": "Gets triggered for the first time and for every new content update the GlobalStatus gets. Returns `{ id, status_id, ...properties }`.",
+    "onShow": {
+      "doc": "Gets triggered for the first time and for every new content update the GlobalStatus gets. Returns `{ id, statusId, ...properties }`.",
       "type": "function",
       "status": "optional"
     },
-    "on_close": {
-      "doc": "Gets triggered once the GlobalStatus disappears from the screen. Works only if `no_animation` is not `true`. Returns `{ id, status_id, ...properties }`.",
+    "onClose": {
+      "doc": "Gets triggered once the GlobalStatus disappears from the screen. Works only if `noAnimation` is not `true`. Returns `{ id, statusId, ...properties }`.",
       "type": "function",
       "status": "optional"
     },
-    "on_hide": {
-      "doc": "Gets triggered once the GlobalStatus is getting closed/hidden by the user. Returns `{ id, status_id, ...properties }`.",
+    "onHide": {
+      "doc": "Gets triggered once the GlobalStatus is getting closed/hidden by the user. Returns `{ id, statusId, ...properties }`.",
       "type": "function",
       "status": "optional"
     },
-    "on_adjust": {
-      "doc": "Gets triggered once the GlobalStatus is getting new content by the user. Returns `{ id, status_id, ...properties }`.",
+    "onAdjust": {
+      "doc": "Gets triggered once the GlobalStatus is getting new content by the user. Returns `{ id, statusId, ...properties }`.",
       "type": "function",
       "status": "optional"
     }

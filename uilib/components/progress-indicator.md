@@ -1,9 +1,9 @@
 ---
 title: 'ProgressIndicator'
 description: 'The ProgressIndicator component is a waiting loader / spinner to show while other content is in progression.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.624Z
-checksum: 93b6f37f7b6c15ec345d58c93a83c4f52596c3df794509054b90a3e9c6a778ca
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.258Z
+checksum: fb55382fa240410045194bad0e3cb50e96ad1800e40b16e4d927c9de2a86b467
 ---
 
 # ProgressIndicator
@@ -63,7 +63,6 @@ render(
     // label="Custom label ..."
     type="circular"
     showDefaultLabel={true}
-    labelDirection="vertical"
   />
 )
 ```
@@ -85,11 +84,12 @@ Inside labels must be carefully sized, and are generally meant for just an icon 
   type="circular"
   labelDirection="inside"
   data-visual-test="progress-indicator-label-inside"
->
-  <span className="dnb-p dnb-t__weight--bold dnb-t__size--small">
-    {72}%
-  </span>
-</ProgressIndicator>
+  label={
+    <span className="dnb-p dnb-t__weight--bold dnb-t__size--small">
+      {72}%
+    </span>
+  }
+/>
 ```
 
 ### Shows a large Circular ProgressIndicator with a static 50% in progress
@@ -116,6 +116,7 @@ const ChangeValue = () => {
         type="circular"
         progress={value}
         showDefaultLabel
+        labelDirection="horizontal"
         noAnimation
       />
       <Button
@@ -153,27 +154,24 @@ const Example = () => {
 render(<Example />)
 ```
 
-### Circular ProgressIndicator with random `on_complete` callback
+### Circular ProgressIndicator with random `onComplete` callback
 
 ```tsx
 const Example = () => {
   const random = (min, max) =>
     Math.floor(Math.random() * (max - min + 1)) + min
-  const [visible, setVisible] = React.useState(true)
+  const [show, setShow] = React.useState(true)
   React.useEffect(() => {
-    const timer = setInterval(
-      () => setVisible(!visible),
-      random(2400, 4200)
-    )
+    const timer = setInterval(() => setShow(!show), random(2400, 4200))
     return () => clearTimeout(timer)
   })
   return (
     <ProgressIndicator
       type="circular"
       size="large"
-      visible={visible}
+      show={show}
       onComplete={() => {
-        console.log('on_complete_circular')
+        console.log('onCompleteCircular')
       }}
     />
   )
@@ -199,7 +197,6 @@ render(
     <ProgressIndicator
       type="circular"
       showDefaultLabel
-      labelDirection="vertical"
       top="large"
       bottom="large"
       size="large"
@@ -236,14 +233,7 @@ render(
 ### Linear ProgressIndicator with a label in a vertical direction
 
 ```tsx
-render(
-  <ProgressIndicator
-    type="linear"
-    // label="Custom label ..."
-    showDefaultLabel={true}
-    labelDirection="vertical"
-  />
-)
+render(<ProgressIndicator type="linear" showDefaultLabel={true} />)
 ```
 
 ### Shows a large Linear ProgressIndicator with a static 50% in progress
@@ -265,7 +255,7 @@ render(
 const ChangeValue = () => {
   const [value, setValue] = React.useState(50)
   return (
-    <FormRow centered>
+    <Flex.Horizontal align="center">
       <ProgressIndicator type="linear" progress={value} noAnimation />
       <Button
         left
@@ -275,7 +265,7 @@ const ChangeValue = () => {
       >
         Change
       </Button>
-    </FormRow>
+    </Flex.Horizontal>
   )
 }
 render(<ChangeValue />)
@@ -300,27 +290,24 @@ const Example = () => {
 render(<Example />)
 ```
 
-### Linear ProgressIndicator with random `on_complete` callback
+### Linear ProgressIndicator with random `onComplete` callback
 
 ```tsx
 const Example = () => {
   const random = (min, max) =>
     Math.floor(Math.random() * (max - min + 1)) + min
-  const [visible, setVisible] = React.useState(true)
+  const [show, setShow] = React.useState(true)
   React.useEffect(() => {
-    const timer = setInterval(
-      () => setVisible(!visible),
-      random(2400, 4200)
-    )
+    const timer = setInterval(() => setShow(!show), random(2400, 4200))
     return () => clearTimeout(timer)
   })
   return (
     <ProgressIndicator
       type="linear"
       size="large"
-      visible={visible}
+      show={show}
       onComplete={() => {
-        console.log('on_complete_linear')
+        console.log('onCompleteLinear')
       }}
     />
   )
@@ -346,7 +333,6 @@ render(
     <ProgressIndicator
       type="linear"
       showDefaultLabel
-      labelDirection="vertical"
       top="large"
       bottom="large"
     />
@@ -373,9 +359,8 @@ const ChangeValue = () => {
       title={`${current} av ${max}`}
       size="large"
       labelDirection="inside"
-    >
-      <MyCustomLabel aria-hidden>{current}</MyCustomLabel>
-    </ProgressIndicator>
+      label={<MyCustomLabel aria-hidden>{current}</MyCustomLabel>}
+    />
   )
 }
 render(<ChangeValue />)
@@ -412,12 +397,13 @@ const MyProgressIndicator = () => {
         }}
         title={daysLeft + 'days left'}
         customCircleWidth="0.5rem"
-      >
-        <StyledText>
-          <StyledTitle>{daysLeft} d</StyledTitle>
-          left
-        </StyledText>
-      </ProgressIndicator>
+        label={
+          <StyledText>
+            <StyledTitle>{daysLeft} d</StyledTitle>
+            left
+          </StyledText>
+        }
+      />
     </DarkBackground>
   )
 }
@@ -436,16 +422,16 @@ const MyProgressIndicator = () => {
         type="linear"
         progress={75}
         size="1rem"
-        labelDirection="vertical"
         customColors={{
           line: 'var(--color-summer-green)',
           shaft: 'var(--color-sea-green)',
         }}
-      >
-        <StyledText>
-          <NumberFormat percent value={75} /> done
-        </StyledText>
-      </ProgressIndicator>
+        label={
+          <StyledText>
+            <NumberFormat.Percent value={75} /> done
+          </StyledText>
+        }
+      />
     </DarkBackground>
   )
 }
@@ -485,16 +471,16 @@ render(<MyProgressIndicator />)
       "defaultValue": "undefined",
       "status": "optional"
     },
-    "visible": {
-      "doc": "Defines the visibility of the progress. Toggling the `visible` property to `false` will force a fade-out animation.",
+    "show": {
+      "doc": "Defines the visibility of the progress. Toggling the `show` property to `false` will force a fade-out animation.",
       "type": "boolean",
       "defaultValue": "true",
       "status": "optional"
     },
     "type": {
       "doc": "Defines the type.",
-      "type": ["'circular'", "'linear'", "'countdown'"],
-      "defaultValue": "'circular'",
+      "type": ["\"circular\"", "\"linear\"", "\"countdown\""],
+      "defaultValue": "\"circular\"",
       "status": "optional"
     },
     "noAnimation": {
@@ -506,32 +492,32 @@ render(<MyProgressIndicator />)
     "size": {
       "doc": "Defines the size.",
       "type": [
-        "'default'",
-        "'small'",
-        "'medium'",
-        "'large'",
-        "'huge'",
+        "\"default\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\"",
+        "\"huge\"",
         "string"
       ],
-      "defaultValue": "'default'",
+      "defaultValue": "\"default\"",
       "status": "optional"
     },
     "label": {
-      "doc": "Content of a custom label. (Overrides `indicator_label` and `showDefaultLabel`)",
+      "doc": "Content of a custom label. (Overrides `indicatorLabel` and `showDefaultLabel`.)",
       "type": "React.ReactNode",
       "defaultValue": "undefined",
       "status": "optional"
     },
     "children": {
-      "doc": "Same as `label` prop (`label` prop has priority)",
+      "doc": "Same as `label` prop (`label` prop has priority).",
       "type": "React.ReactNode",
       "defaultValue": "undefined",
       "status": "optional"
     },
     "labelDirection": {
       "doc": "Sets the position of the label. `'inside'` only works with `type='circular'.",
-      "type": ["'horizontal'", "'vertical'", "'inside'"],
-      "defaultValue": "'horizontal'",
+      "type": ["\"horizontal\"", "\"vertical\"", "\"inside\""],
+      "defaultValue": "\"vertical\"",
       "status": "optional"
     },
     "showDefaultLabel": {
@@ -540,14 +526,14 @@ render(<MyProgressIndicator />)
       "defaultValue": "false",
       "status": "optional"
     },
-    "indicator_label": {
+    "indicatorLabel": {
       "doc": "Use this to override the default label from text locales.",
       "type": "string",
       "defaultValue": "undefined",
       "status": "optional"
     },
     "title": {
-      "doc": "Used to set title and aria-label. Defaults to the value of progress property, formatted as a percent.",
+      "doc": "Used to set title and `aria-label`. Defaults to the value of progress property, formatted as a percent.",
       "type": "string",
       "defaultValue": "undefined",
       "status": "optional"
@@ -580,7 +566,7 @@ render(<MyProgressIndicator />)
 {
   "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
   "entries": {
-    "ProgressIndicator.indicator_label": {
+    "ProgressIndicator.indicatorLabel": {
       "nb-NO": "Vennligst vent ...",
       "en-GB": "Please wait ...",
       "sv-SE": "Vänligen vänta ...",
@@ -618,56 +604,18 @@ render(<MyProgressIndicator />)
 }
 ```
 
-## Deprecated properties
-
-```json
-{
-  "props": {
-    "no_animation": {
-      "doc": "Use `noAnimation`.",
-      "type": " boolean",
-      "status": "deprecated"
-    },
-    "label_direction": {
-      "doc": "Use `labelDirection`.",
-      "type": "string",
-      "status": "deprecated"
-    },
-    "show_label": {
-      "doc": "Use `showDefaultLabel`.",
-      "type": "boolean",
-      "status": "deprecated"
-    }
-  }
-}
-```
-
 ## Events
 
 ```json
 {
   "props": {
     "onComplete": {
-      "doc": "Will be called once it's no longer `visible`.",
+      "doc": "Will be called once it's no longer visible (`show=false`).",
       "type": "function",
       "defaultValue": "undefined",
       "status": "optional"
     }
   },
   "showDefaultValue": true
-}
-```
-
-## Deprecated events
-
-```json
-{
-  "props": {
-    "on_complete": {
-      "doc": "Use `onComplete`.",
-      "type": "function",
-      "status": "deprecated"
-    }
-  }
 }
 ```

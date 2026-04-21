@@ -1,9 +1,9 @@
 ---
 title: 'Value.Upload'
 description: '`Value.Upload` is a value component for displaying a list of files.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.963Z
-checksum: adc00d6c075c1ed111082ea109c2ba4dcd3db8f148e6bc34ed075297e62f7bff
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.306Z
+checksum: 2a7a52120d556efbd19d5c6c8685173ae3f11d714033e0126daa1692311cdf8c
 ---
 
 # Value.Upload
@@ -572,21 +572,21 @@ render(
     },
     "variant": {
       "doc": "Defines if the value should be displayed in list format (`ol`, `ul`) or regular text format in one line. Defaults to `text`.",
-      "type": ["ol", "ul", "text"],
+      "type": ["\"ol\"", "\"ul\"", "\"text\""],
       "status": "optional"
     },
     "listType": {
       "doc": "Defines the type of list styling used for list variants. Used together with variant `ol` and `ul`. Variant `ol`: `a`, `A`, `i`, `I` and `1`. Variant `ul`: `circle`, `disc` and `square`. Defaults to `undefined`.",
       "type": [
-        "a",
-        "A",
-        "i",
-        "I",
-        "1",
-        "circle",
-        "disc",
-        "square",
-        "unstyled",
+        "\"a\"",
+        "\"A\"",
+        "\"i\"",
+        "\"I\"",
+        "\"1\"",
+        "\"circle\"",
+        "\"disc\"",
+        "\"square\"",
+        "\"unstyled\"",
         "undefined"
       ],
       "status": "optional"
@@ -606,8 +606,8 @@ render(
       "type": "boolean",
       "status": "optional"
     },
-    "innerRef": {
-      "doc": "Send along a custom React Ref.",
+    "ref": {
+      "doc": "Send along a custom `React.Ref`.",
       "type": "React.RefObject",
       "status": "optional"
     },
@@ -646,7 +646,7 @@ render(
       "status": "optional"
     },
     "help": {
-      "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+      "doc": "Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
       "type": "object",
       "status": "optional"
     },
@@ -687,7 +687,7 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": "string",
+      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
       "status": "optional"
     },
     "transformIn": {
@@ -711,7 +711,7 @@ render(
 {
   "props": {
     "onFileClick": {
-      "doc": "Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this prop, the file will be rendered as a button instead of an anchor or plain text.",
+      "doc": "Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this property, the file will be rendered as a button instead of an anchor or plain text.",
       "type": "function",
       "status": "optional"
     }

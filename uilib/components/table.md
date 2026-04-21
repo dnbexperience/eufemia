@@ -1,9 +1,9 @@
 ---
 title: 'Table'
 description: 'Enhanced HTML Table element.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.742Z
-checksum: 7c03974d3eba352f7a76c58f3bf75d2ad3a8ed03a1fa6e73f0e015234353ef3b
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.443Z
+checksum: 68f8e02147f98794cf06c70347a55fc29d18ff65cd316683babfce12973ce294
 ---
 
 # Table
@@ -151,7 +151,7 @@ export const YourComponent = () => {
             <Th.SortButton
               text="Column 1"
               title="Sort this column"
-              on_click={sortHandler.column1}
+              onClick={sortHandler.column1}
             />
           </Th>
         </Tr>
@@ -215,7 +215,7 @@ const BasicTable = () => {
               <Th.SortButton
                 text="Sortable Active"
                 title="Sort table column"
-                on_click={sortHandler.column1}
+                onClick={sortHandler.column1}
               />
             </Th>
             <Th
@@ -227,7 +227,7 @@ const BasicTable = () => {
               <Th.SortButton
                 text="Sortable"
                 title="Sort table column"
-                on_click={sortHandler.column2}
+                onClick={sortHandler.column2}
               />
             </Th>
           </Tr>
@@ -541,14 +541,14 @@ The second table uses both a `border` and an `outline`.
 ```tsx
 const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
   const TdCheckbox = () => {
-    return <Checkbox label="Select row" label_sr_only />
+    return <Checkbox label="Select row" labelSrOnly />
   }
   const TdInput = () => {
-    return <Input label="Label" label_sr_only size={4} />
+    return <Input label="Label" labelSrOnly size={4} />
   }
   const Content = ({ shareId }) => {
-    const ref = React.useRef()
-    const { copy, CopyTooltip } = useCopyWithNotice()
+    const ref = React.useRef(undefined)
+    const { copy, copyTooltip } = useCopyWithNotice()
     const shareHandler = () => {
       const url = new URL(location.href)
       url.hash = '#' + shareId
@@ -560,7 +560,12 @@ const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
           Ring the bell
         </Button>
 
-        <Section top spacing>
+        <Section
+          top
+          innerSpace={{
+            block: 'large',
+          }}
+        >
           <Dl>
             <Dt>Favorittfarge</Dt>
             <Dd>Grønn</Dd>
@@ -573,14 +578,14 @@ const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
           top
           variant="tertiary"
           icon={copyIcon}
-          icon_position="left"
-          on_click={shareHandler}
-          inner_ref={ref}
+          iconPosition="left"
+          onClick={shareHandler}
+          ref={ref}
         >
           Copy link to this row
         </Button>
 
-        <CopyTooltip target={ref.current} />
+        {copyTooltip(ref.current)}
       </>
     )
   }
@@ -628,7 +633,7 @@ render(
       <AccordionTable
         id="accordion-table-1"
         showCheckbox
-        accordionChevronPlacement="end"
+        accordionChevronPlacement="right"
       />
     </Table.ScrollView>
 
@@ -659,7 +664,7 @@ const firstRowContent = [
 ]
 render(
   <Table.ScrollView>
-    <Table mode="accordion" accordionChevronPlacement="end">
+    <Table mode="accordion" accordionChevronPlacement="right">
       <thead>
         <Tr>
           <Th
@@ -752,10 +757,10 @@ render(
 You can collapse all expanded rows by sending a ref to the `collapseAllHandleRef` property and calling the `.current()` function on your ref.
 
 ```jsx
-const myTableCollapseAll = React.useRef<() => void>()
+const myTableCollapseAll = React.useRef<(() => void) | undefined>(undefined)
 
 return (
-  <button onClick={() => myTableCollapseAll.current()}>
+  <button onClick={() => myTableCollapseAll.current?.()}>
     Close all rows
   </button>
 
@@ -770,10 +775,10 @@ return (
 ```tsx
 const NavigationTable = ({ id, showCheckbox = false, ...props }) => {
   const TdCheckbox = () => {
-    return <Checkbox label="Select row" label_sr_only />
+    return <Checkbox label="Select row" labelSrOnly />
   }
   const TdInput = () => {
-    return <Input label="Label" label_sr_only size={4} />
+    return <Input label="Label" labelSrOnly size={4} />
   }
   const Row = ({ nr }) => {
     const shareId = id + '-' + nr
@@ -1235,9 +1240,9 @@ const TablePagination = () => {
   const [data] = React.useState(() => getDataFromAPI(0, 100))
   return (
     <Pagination
-      page_count={data.length / amountPerPage}
-      current_page={currentPage}
-      on_change={({ pageNumber }) => {
+      pageCount={data.length / amountPerPage}
+      currentPage={currentPage}
+      onChange={({ pageNumber }) => {
         setCurrentPage(pageNumber)
       }}
     >
@@ -1378,7 +1383,13 @@ render(
         </Heading>
       </Flex.Horizontal>
 
-      <Dropdown data={['My list', 'All']} more_menu />
+      <Menu.Root>
+        <Menu.Button />
+        <Menu.List>
+          <Menu.Action text="My list" />
+          <Menu.Action text="All" />
+        </Menu.List>
+      </Menu.Root>
     </Flex.Horizontal>
     <MyTable />
   </Card>
@@ -1442,11 +1453,7 @@ const Example = () => {
       <Tr variant="odd">
         <Td colSpan={isLarge ? 4 : 2} aria-label={header.title}>
           <Flex.Horizontal justify={align}>
-            <Button
-              variant="tertiary"
-              icon={stopIcon}
-              icon_position="left"
-            >
+            <Button variant="tertiary" icon={stopIcon} iconPosition="left">
               Avvis signering
             </Button>
             <Button variant="secondary" icon={composeIcon}>
@@ -1571,14 +1578,14 @@ render(<ContentVariants />)
 ```tsx
 const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
   const TdCheckbox = () => {
-    return <Checkbox label="Select row" label_sr_only />
+    return <Checkbox label="Select row" labelSrOnly />
   }
   const TdInput = () => {
-    return <Input label="Label" label_sr_only size={4} />
+    return <Input label="Label" labelSrOnly size={4} />
   }
   const Content = ({ shareId }) => {
-    const ref = React.useRef()
-    const { copy, CopyTooltip } = useCopyWithNotice()
+    const ref = React.useRef(undefined)
+    const { copy, copyTooltip } = useCopyWithNotice()
     const shareHandler = () => {
       const url = new URL(location.href)
       url.hash = '#' + shareId
@@ -1590,7 +1597,12 @@ const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
           Ring the bell
         </Button>
 
-        <Section top spacing>
+        <Section
+          top
+          innerSpace={{
+            block: 'large',
+          }}
+        >
           <Dl>
             <Dt>Favorittfarge</Dt>
             <Dd>Grønn</Dd>
@@ -1603,14 +1615,14 @@ const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
           top
           variant="tertiary"
           icon={copyIcon}
-          icon_position="left"
-          on_click={shareHandler}
-          inner_ref={ref}
+          iconPosition="left"
+          onClick={shareHandler}
+          ref={ref}
         >
           Copy link to this row
         </Button>
 
-        <CopyTooltip target={ref.current} />
+        {copyTooltip(ref.current)}
       </>
     )
   }
@@ -1670,7 +1682,7 @@ render(
       <AccordionTable
         id="accordion-table-mixed-1"
         showCheckbox
-        accordionChevronPlacement="end"
+        accordionChevronPlacement="right"
       />
     </Table.ScrollView>
 
@@ -1689,10 +1701,10 @@ render(
 ```tsx
 const NavigationTable = ({ id, showCheckbox = false, ...props }) => {
   const TdCheckbox = () => {
-    return <Checkbox label="Select row" label_sr_only />
+    return <Checkbox label="Select row" labelSrOnly />
   }
   const TdInput = () => {
-    return <Input label="Label" label_sr_only size={4} />
+    return <Input label="Label" labelSrOnly size={4} />
   }
   return (
     <Table mode="navigation" id={id} {...props}>
@@ -1754,7 +1766,7 @@ render(
       <NavigationTable
         id="navigation-table-mixed-1"
         showCheckbox
-        accordionChevronPlacement="end"
+        accordionChevronPlacement="right"
       />
     </Table.ScrollView>
 
@@ -1773,10 +1785,10 @@ render(
 ```tsx
 const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
   const TdCheckbox = () => {
-    return <Checkbox label="Select row" label_sr_only />
+    return <Checkbox label="Select row" labelSrOnly />
   }
   const TdInput = () => {
-    return <Input label="Label" label_sr_only size={4} />
+    return <Input label="Label" labelSrOnly size={4} />
   }
   const Row = ({ nr }) => {
     const shareId = id + '-' + nr
@@ -1833,7 +1845,7 @@ render(
   <Table.ScrollView>
     <AccordionTable
       id="accordion-table-in-table"
-      accordionChevronPlacement="end"
+      accordionChevronPlacement="right"
     />
   </Table.ScrollView>
 )
@@ -1848,14 +1860,14 @@ render(
   "props": {
     "mode": {
       "doc": "Defines how the Table should look. Use `accordion` for an accordion-like table. Use `navigation` for a navigation table.",
-      "type": ["'accordion'", "'navigation'"],
+      "type": ["\"accordion\"", "\"navigation\""],
       "defaultValue": "null",
       "status": "optional"
     },
     "accordionChevronPlacement": {
-      "doc": "Defines where the chevron will be placed, should only be used together with mode=\"accordion\".",
-      "type": ["'start'", "'end'"],
-      "defaultValue": "'start'",
+      "doc": "Defines where the chevron will be placed, should only be used together with `mode=\"accordion\"`.",
+      "type": ["\"left\"", "\"right\""],
+      "defaultValue": "\"left\"",
       "status": "optional"
     },
     "border": {
@@ -1865,27 +1877,27 @@ render(
       "status": "optional"
     },
     "outline": {
-      "doc": "Use `true` to show an outline border around the table",
+      "doc": "Use `true` to show an outline border around the table.",
       "type": "boolean",
       "defaultValue": "false",
       "status": "optional"
     },
     "sticky": {
       "doc": "Use `true` to enable a sticky Table header. Or use `'css-position'` to enable the CSS based scroll behavior.",
-      "type": ["boolean", "'css-position'"],
+      "type": ["boolean", "\"css-position\""],
       "defaultValue": "false",
       "status": "optional"
     },
     "stickyOffset": {
       "doc": "Defines the offset (top) in `rem` from where the header should start to stick. You may define your app header height here, if you have a sticky header on your page.",
       "type": ["string", "number"],
-      "defaultValue": "false",
+      "defaultValue": "0",
       "status": "optional"
     },
     "size": {
       "doc": "Spacing size inside the table header and data.",
-      "type": ["'large'", "'medium'", "'small'"],
-      "defaultValue": "'large'",
+      "type": ["\"large\"", "\"small\"", "\"medium\""],
+      "defaultValue": "\"large\"",
       "status": "optional"
     },
     "fixed": {
@@ -1900,7 +1912,7 @@ render(
       "status": "required"
     },
     "className": {
-      "doc": "Custom className on the component root",
+      "doc": "Custom `className` on the component root.",
       "type": "string",
       "defaultValue": "undefined",
       "status": "optional"
@@ -1928,14 +1940,14 @@ render(
   "props": {
     "variant": {
       "doc": "Override the automatic variant of the current row. The next row one will continue with the opposite.",
-      "type": ["'even'", "'odd'"],
+      "type": ["\"even\"", "\"odd\""],
       "defaultValue": "undefined",
       "status": "optional"
     },
     "noWrap": {
       "doc": "If set to `true`, the inherited header text will not wrap to new lines.",
       "type": "boolean",
-      "defaultValue": "true",
+      "defaultValue": "false",
       "status": "optional"
     },
     "expanded": {
@@ -1979,8 +1991,8 @@ render(
   "props": {
     "variant": {
       "doc": "Defines the visual style of the table header. Use `subtle` for a lighter appearance with reduced font-weight, smaller font-size, and muted text color.",
-      "type": ["'emphasis'", "'subtle'"],
-      "defaultValue": "'emphasis'",
+      "type": ["\"emphasis\"", "\"subtle\""],
+      "defaultValue": "\"emphasis\"",
       "status": "optional"
     },
     "sortable": {
@@ -2031,7 +2043,7 @@ render(
     },
     "spacing": {
       "doc": "Set to `horizontal` for padding on left and right side.",
-      "type": "'horizontal'",
+      "type": "\"horizontal\"",
       "defaultValue": "undefined",
       "status": "optional"
     },
@@ -2081,7 +2093,7 @@ render(
   "props": {
     "collapseAllHandleRef": {
       "doc": "Ref handle to collapse all expanded accordion rows. Send in a ref and use `.current()` to collapse all rows.",
-      "type": "React.MutableRefObject<() => void>",
+      "type": "React.RefObject<() => void>",
       "defaultValue": "undefined",
       "status": "optional"
     }
@@ -2102,18 +2114,18 @@ Table with accordion mode(`mode="accordion"`) supports all the `<Tr>` events lis
 {
   "props": {
     "onClick": {
-      "doc": "Will emit when user clicks/expands or on keydown space/enter(in mode=\"accordion\" and mode=\"navigation\") in the table row. Returns a native click.",
+      "doc": "Will emit when user clicks/expands or on keydown space/enter (in `mode=\"accordion\"` and `mode=\"navigation\"`) in the table row. Returns a native click.",
       "type": "(event) => void",
       "defaultValue": "undefined",
       "status": "optional"
     },
-    "onOpened": {
+    "onOpen": {
       "doc": "Will emit when table row is expanded. Returns an object with the table row as the target: `{ target }`.",
       "type": "({ target }) => void",
       "defaultValue": "undefined",
       "status": "optional"
     },
-    "onClosed": {
+    "onClose": {
       "doc": "Will emit when table row is closed (after it was open). Returns an object with the table row as the target: `{ target }`.",
       "type": "({ target }) => void",
       "defaultValue": "undefined",

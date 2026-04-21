@@ -1,8 +1,8 @@
 ---
 title: 'Wizard.NextButton'
 description: '`Wizard.NextButton` connects to the `Wizard.Context` to move the user to the next step when clicked.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.989Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.336Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -18,6 +18,11 @@ render(<Wizard.NextButton />)
 ## Description
 
 `Wizard.NextButton` connects to `Wizard.Context` to move the user to the next step when clicked.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Wizard/NextButton)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Wizard/NextButton)
 
 **Note:** This button is used in [Wizard.Buttons](/uilib/extensions/forms/Wizard/Buttons/), which is easier to integrate into most wizards.
 

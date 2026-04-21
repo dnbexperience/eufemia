@@ -1,9 +1,9 @@
 ---
 title: 'Value.Currency'
 description: '`Value.Currency` is a wrapper component for displaying number values, with user experience tailored for currency values.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.857Z
-checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.175Z
+checksum: 4792a10bcf35b32951a5d0a293578ebd41a862c37db3203fa7689407f97df07d
 ---
 
 # Value.Currency
@@ -96,7 +96,149 @@ render(
 
 ## Value-specific properties
 
-<PropertiesTable props={CurrencyValueProperties} />
+```json
+{
+  "props": {
+    "value": {
+      "doc": "A number or a string containing a number.",
+      "type": ["number", "string"],
+      "status": "optional"
+    },
+    "currency": {
+      "doc": "Defines what format to show the currency value in, i.e. `NOK` or `USD`. You can also set a path as the value, e.g. `/myCurrencyPath`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "currencyDisplay": {
+      "doc": "Defines the currency display style. When set to `code`, the currency code is rendered before the amount. Defaults to `narrowSymbol`.",
+      "type": [
+        "\"code\"",
+        "\"symbol\"",
+        "\"narrowSymbol\"",
+        "\"name\"",
+        "false"
+      ],
+      "status": "optional"
+    },
+    "currencyPosition": {
+      "doc": "Use either `before` or `after` to change/define the position of the currency. Defaults to `auto` (Browser API defaults, but with an exception, if the locale is `nb-NO` or `no`, use after as the default position).",
+      "type": "string",
+      "status": "optional"
+    },
+    "minimum": {
+      "doc": "Defines the minimum value of the rendered number. Defaults to `Number.MIN_SAFE_INTEGER`.",
+      "type": "number",
+      "status": "optional"
+    },
+    "maximum": {
+      "doc": "Defines the maximum value of the rendered number. Defaults to `Number.MAX_SAFE_INTEGER`.",
+      "type": "number",
+      "status": "optional"
+    },
+    "locale": {
+      "doc": "Use a [2 Letter Language Code](https://www.sitepoint.com/iso-2-letter-language-codes/) or an extended code such as `nb-NO`. Use `auto` to detect the locale from the browser (`navigator.language`). Defaults to the Norwegian locale: `nb-NO`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "compact": {
+      "doc": "Shortens any number or currency including an abbreviation. Available on both `NumberFormat.Number` and `NumberFormat.Currency`. It gives you zero decimal by default `decimals={0}`. Use either `short` or `long`. Defaults to `short` if `true` is given.",
+      "type": ["boolean", "string"],
+      "status": "optional"
+    },
+    "decimals": {
+      "doc": "Set a number to define the number of decimals. Like `decimals=\"0\"` will ensure that decimals are simply not shown. The default decimals for currency usage are `2` (Browser API default).",
+      "type": "number",
+      "status": "optional"
+    },
+    "rounding": {
+      "doc": "If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.",
+      "type": ["\"omit\"", "\"half-even\"", "\"half-up\""],
+      "status": "optional"
+    },
+    "signDisplay": {
+      "doc": "When to display the sign for the number. Use `auto` (default) for negative numbers only, `always` to always display sign, `exceptZero` for positive and negative numbers but not zero, `negative` for negative numbers only including negative zero, or `never` to never display sign.",
+      "type": [
+        "\"auto\"",
+        "\"always\"",
+        "\"exceptZero\"",
+        "\"negative\"",
+        "\"never\""
+      ],
+      "status": "optional"
+    },
+    "clean": {
+      "doc": "If set to `true` a dirty string will be parsed to extract the number (`prefix -123.45 suffix` would result in e.g. `kr -123,45`).",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "prefix": {
+      "doc": "Add a string or React component before the number, including white space.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "suffix": {
+      "doc": "Appends a string or React component after the number, including white space. When the suffix is a string starting with `/`, no space is added (e.g. `suffix=\"/mnd\"` renders \"123/mnd\").",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "selectAll": {
+      "doc": "Use `false` to disable the auto select all on the first click. Defaults to `true`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "alwaysSelectAll": {
+      "doc": "Use `true` to always auto select all on the first click. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "copySelection": {
+      "doc": "Use `false` to disable the auto copy feature. Defaults to `true`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "cleanCopyValue": {
+      "doc": "If set to `true` the copy&paste value will be provided without e.g. a currency sign or a percent sign. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "srLabel": {
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "monospace": {
+      "doc": "Sets the font to [DNB Mono Regular](/quickguide-designer/fonts/#dnbmono-regular).",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "element": {
+      "doc": "Define what HTML element should be used. Defaults to `<span>`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "options": {
+      "doc": "Accepts all [number.toLocaleString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString) or [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
+      "type": "object",
+      "status": "optional"
+    },
+    "skeleton": {
+      "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "tooltip": {
+      "doc": "Provide a string or a React Element to be shown as the tooltip content.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
+  }
+}
+```
 
 ## General properties
 
@@ -124,7 +266,7 @@ render(
       "status": "optional"
     },
     "help": {
-      "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+      "doc": "Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
       "type": "object",
       "status": "optional"
     },
@@ -165,7 +307,7 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": "string",
+      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
       "status": "optional"
     },
     "transformIn": {

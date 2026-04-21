@@ -1,9 +1,9 @@
 ---
 title: 'Value.ArraySelection'
 description: '`Value.ArraySelection` is a wrapper component for displaying string values, with user experience tailored for an array of selected values.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.808Z
-checksum: f12df0403993f342663e615901d7bfd301426d2474518338f5240f45e61f8d41
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.100Z
+checksum: 44c18c65e32f3c3c03b2e733470174561e22f2ad28aa124b7264af569cd9d669
 ---
 
 # Value.ArraySelection
@@ -207,21 +207,21 @@ render(
     },
     "variant": {
       "doc": "Defines if the value should be displayed in list format (`ol`, `ul`) or regular text format in one line. Defaults to `text`.",
-      "type": ["ol", "ul", "text"],
+      "type": ["\"ol\"", "\"ul\"", "\"text\""],
       "status": "optional"
     },
     "listType": {
       "doc": "Defines the type of list styling used for list variants. Used together with variant `ol` and `ul`. Variant `ol`: `a`, `A`, `i`, `I` and `1`. Variant `ul`: `circle`, `disc` and `square`. Defaults to `undefined`.",
       "type": [
-        "a",
-        "A",
-        "i",
-        "I",
-        "1",
-        "circle",
-        "disc",
-        "square",
-        "unstyled",
+        "\"a\"",
+        "\"A\"",
+        "\"i\"",
+        "\"I\"",
+        "\"1\"",
+        "\"circle\"",
+        "\"disc\"",
+        "\"square\"",
+        "\"unstyled\"",
         "undefined"
       ],
       "status": "optional"
@@ -241,8 +241,8 @@ render(
       "type": "boolean",
       "status": "optional"
     },
-    "innerRef": {
-      "doc": "Send along a custom React Ref.",
+    "ref": {
+      "doc": "Send along a custom `React.Ref`.",
       "type": "React.RefObject",
       "status": "optional"
     },
@@ -281,7 +281,7 @@ render(
       "status": "optional"
     },
     "help": {
-      "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+      "doc": "Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
       "type": "object",
       "status": "optional"
     },
@@ -322,7 +322,7 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": "string",
+      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
       "status": "optional"
     },
     "transformIn": {

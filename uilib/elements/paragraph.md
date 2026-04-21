@@ -1,9 +1,9 @@
 ---
 title: 'Paragraph'
 description: 'Paragraphs are block-level elements, used to structure and format text contents.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.968Z
-checksum: 8ca1a8dbfa38ce91ec8dc7ebf113334db61f45a4848fa815125f84df2a476441
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.715Z
+checksum: 845c380cad6e85ab625f75477db6dbace5110a754208c56db0e04a179d35b607
 ---
 
 # Paragraph
@@ -115,7 +115,7 @@ render(
 
 #### Prose max width
 
-The `proseMaxWidth` prop allows you to limit the width of paragraph text based on character count, creating optimal reading line lengths:
+The `proseMaxWidth` property allows you to limit the width of paragraph text based on character count, creating optimal reading line lengths:
 
 ```tsx
 render(
@@ -315,6 +315,23 @@ render(
 )
 ```
 
+### Dark surface
+
+Paragraphs automatically adapt their color when rendered on a dark surface:
+
+```tsx
+render(
+  <Section
+    innerSpace={{
+      block: true,
+    }}
+    surface="dark"
+  >
+    <P>This is a paragraph on a dark surface.</P>
+  </Section>
+)
+```
+
 ```tsx
 <PWrap customSize="default" />
 <PWrap size="xx-large" />
@@ -337,54 +354,54 @@ render(
       "status": "optional"
     },
     "size": {
-      "doc": "Sets the font size, also sets the line-height if `lineHeight` prop is not set.",
+      "doc": "Sets the font size, also sets the line-height if `lineHeight` property is not set.",
       "type": [
-        "'x-small'",
-        "'small'",
-        "'basis'",
-        "'medium'",
-        "'large'",
-        "'x-large'",
-        "'xx-large'"
+        "\"x-small\"",
+        "\"small\"",
+        "\"basis\"",
+        "\"medium\"",
+        "\"large\"",
+        "\"x-large\"",
+        "\"xx-large\""
       ],
       "status": "optional"
     },
     "lineHeight": {
       "doc": "Sets the line height, will use same value as `size` if not set.",
       "type": [
-        "'x-small'",
-        "'small'",
-        "'basis'",
-        "'medium'",
-        "'large'",
-        "'x-large'",
-        "'xx-large'"
+        "\"x-small\"",
+        "\"small\"",
+        "\"basis\"",
+        "\"medium\"",
+        "\"large\"",
+        "\"x-large\"",
+        "\"xx-large\""
       ],
       "status": "optional"
     },
     "align": {
       "doc": "Sets the text alignment.",
-      "type": ["'center'", "'left'", "'right'"],
+      "type": ["\"center\"", "\"left\"", "\"right\""],
       "status": "optional"
     },
     "family": {
       "doc": "Sets the font family.",
-      "type": ["'basis'", "'heading'", "'monospace'"],
+      "type": ["\"basis\"", "\"heading\"", "\"monospace\""],
       "status": "optional"
     },
     "weight": {
       "doc": "Sets the font weight.",
-      "type": ["'regular'", "'medium'"],
+      "type": ["\"regular\"", "\"medium\""],
       "status": "optional"
     },
     "decoration": {
       "doc": "Sets the font decoration.",
-      "type": "'underline'",
+      "type": "\"underline\"",
       "status": "optional"
     },
     "slant": {
       "doc": "Sets the font style.",
-      "type": "'italic'",
+      "type": "\"italic\"",
       "status": "optional"
     },
     "proseMaxWidth": {
@@ -396,21 +413,6 @@ render(
       "doc": "Spacing properties like `top` or `bottom` are supported.",
       "type": ["string", "object"],
       "status": "optional"
-    },
-    "medium": {
-      "doc": "Tells the component to use the medium font-weight styling `dnb-t__weight--medium`. More details [here](/uilib/typography/font-weight).",
-      "type": "boolean",
-      "status": "deprecated"
-    },
-    "bold": {
-      "doc": "Tells the component to use the bold font-weight styling class `dnb-t__weight--bold`. More details [here](/uilib/typography/font-weight).",
-      "type": "boolean",
-      "status": "deprecated"
-    },
-    "modifier": {
-      "doc": "String containing a combination of modifiers, used to set both font-size and weight in one property. e.g. `x-small medium` would make the paragraph extra small and medium.",
-      "type": "string",
-      "status": "deprecated"
     }
   }
 }

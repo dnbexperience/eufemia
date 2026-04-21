@@ -1,8 +1,8 @@
 ---
 title: 'SkipContent'
 description: 'SkipContent gives users – using their keyboard for navigation – the option to skip over content which contains a large amount of interactive elements.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.647Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.304Z
 checksum: 7c98c8e5d60d0db423b6e5ad570d91048ff8cda443f07724825c4ba516792ad0
 ---
 
@@ -115,7 +115,14 @@ In order to let screen readers skip large parts of content, you need to ensure y
    <SkipContent selector="#submit-area" text="Skip table content" top />
    <LargeTableWithInteractiveElements id="table-with-caption" />
 </section>
-<Section id="submit-area" spacing="small" style_type="divider" top>
+<Section
+  id="submit-area"
+  innerSpace={{
+    block: 'small',
+  }}
+  variant="divider"
+  top
+>
   <SkipContent.Return selector="#submit-area" bottom>
     Back to beginning of table
   </SkipContent.Return>

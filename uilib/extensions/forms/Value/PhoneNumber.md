@@ -1,8 +1,8 @@
 ---
 title: 'Value.PhoneNumber'
 description: '`Value.PhoneNumber` is a wrapper component for displaying string values, with user experience tailored for phone number values.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.877Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.205Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -48,7 +48,7 @@ render(<Value.PhoneNumber placeholder="The value was not filled in" />)
 ### Value
 
 ```tsx
-render(<Value.PhoneNumber value="98712345" />)
+render(<Value.PhoneNumber value="+4798712345" />)
 ```
 
 ### Label
@@ -60,7 +60,7 @@ render(<Value.PhoneNumber label="Label text" showEmpty />)
 ### Label and value
 
 ```tsx
-render(<Value.PhoneNumber label="Label text" value="98712345" />)
+render(<Value.PhoneNumber label="Label text" value="+4798712345" />)
 ```
 
 ### Inline
@@ -80,9 +80,9 @@ render(
 ```tsx
 render(
   <Flex.Stack>
-    <Value.PhoneNumber label="Label text" value="+47 98712345" />
-    <Value.PhoneNumber label="Label text" value="+886 0998472751" />
-    <Value.PhoneNumber label="Label text" value="+1-868 6758288" />
+    <Value.PhoneNumber label="Label text" value="+4798712345" />
+    <Value.PhoneNumber label="Label text" value="+8860998472751" />
+    <Value.PhoneNumber label="Label text" value="+18686758288" />
   </Flex.Stack>
 )
 ```
@@ -113,7 +113,7 @@ render(
       "status": "optional"
     },
     "help": {
-      "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+      "doc": "Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
       "type": "object",
       "status": "optional"
     },
@@ -154,7 +154,7 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": "string",
+      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
       "status": "optional"
     },
     "transformIn": {
@@ -177,7 +177,7 @@ render(
 {
   "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
   "entries": {
-    "PhoneNumber.label": {
+    "PhoneNumber.numberLabel": {
       "nb-NO": "Mobilnummer",
       "en-GB": "Mobile number",
       "sv-SE": "Mobilnummer",

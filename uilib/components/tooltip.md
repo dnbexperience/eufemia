@@ -1,9 +1,9 @@
 ---
 title: 'Tooltip'
 description: 'The Tooltip component is primarily meant to enhance the UX for various and additional information.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.815Z
-checksum: d7368284604259dbc1ca9c882698149730cdd6ce65244dfba59efc96890b5fa3
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.527Z
+checksum: a1a83e458430ef1d1db7463d31d70f71e0d6d80606cccba00ca109e75d1b478b
 ---
 
 # Tooltip
@@ -42,14 +42,14 @@ To enhance accessibility for touch devices, we add `tabindex="0"` and a `touchst
 
 The Eufemia [Anchor](/uilib/components/anchor) and [Button](/uilib/components/button) components display a Tooltip when the URL target is set to `_blank` to improve accessibility by informing users that a new window will open (out of context).
 
-## Controlled active
+## Controlled open
 
-When you pass the `active` property, the Tooltip becomes controlled:
+When you pass the `open` property, the Tooltip becomes controlled:
 
-- `active={true}`: The Tooltip stays visible and ignores DOM events (hover, focus, touch). It will not auto-hide on `mouseleave`.
-- `active={false}`: The Tooltip stays hidden and ignores DOM events. It will not auto-show on `mouseenter` or focus.
+- `open={true}`: The Tooltip stays visible and ignores DOM events (hover, focus, touch). It will not auto-hide on `mouseleave`.
+- `open={false}`: The Tooltip stays hidden and ignores DOM events. It will not auto-show on `mouseenter` or focus.
 
-To use the built-in hover/focus/touch behavior, omit the `active` property and let the component manage visibility internally.
+To use the built-in hover/focus/touch behavior, omit the `open` property and let the component manage visibility internally.
 
 ## Demos
 
@@ -59,16 +59,13 @@ To use the built-in hover/focus/touch behavior, omit the `active` property and l
 render(<Button tooltip="Button tooltip" text="Hover" />)
 ```
 
-### Button with active Tooltip
+### Button with open Tooltip
 
 <VisibleWhenNotVisualTest>
   
 ```tsx
 render(
-  <Button
-    tooltip={<Tooltip active>Basic Tooltip</Tooltip>}
-    text="Active"
-  />
+  <Button tooltip={<Tooltip open>Basic Tooltip</Tooltip>} text="Open" />
 )
 ```
 
@@ -77,14 +74,14 @@ render(
 ### NumberFormat with a tooltip
 
 ```tsx
-render(<NumberFormat tooltip="Tooltip">1234</NumberFormat>)
+render(<NumberFormat.Number tooltip="Tooltip">1234</NumberFormat.Number>)
 ```
 
 ... or wrapped around the [NumberFormat](/uilib/components/number-format) component:
 
 ```tsx
 render(
-  <Tooltip targetElement={<NumberFormat>1234</NumberFormat>}>
+  <Tooltip targetElement={<NumberFormat.Number>1234</NumberFormat.Number>}>
     Tooltip NumberFormat
   </Tooltip>
 )
@@ -100,7 +97,7 @@ render(
 >
   Tooltip 1
 </Tooltip>
-<Tooltip position="bottom" targetElement={<Span>Bottom</Span>}>
+<Tooltip placement="bottom" targetElement={<Span>Bottom</Span>}>
   Tooltip 2
 </Tooltip>
 ```
@@ -111,7 +108,7 @@ render(
   
 ```tsx
 <button className="target-1">Show the Tooltip</button>
-<Tooltip id="unique" active targetSelector=".target-1">
+<Tooltip id="unique" open targetSelector=".target-1">
   Tooltip linked
 </Tooltip>
 ```
@@ -155,7 +152,7 @@ render(<Button tooltip={`${longText} ${longText}`} text="Long text" />)
 <Tooltip
   id="unique-position-right"
   targetSelector=".target-position-right"
-  position="right"
+  placement="right"
 >
   Position right
 </Tooltip>
@@ -168,7 +165,7 @@ render(<Button tooltip={`${longText} ${longText}`} text="Long text" />)
 <Tooltip
   id="unique-position-right-long-text"
   targetSelector=".target-position-right-long-text"
-  position="right"
+  placement="right"
 >
   {longText}
 </Tooltip>
@@ -379,7 +376,7 @@ render(<Button tooltip={`${longText} ${longText}`} text="Long text" />)
 <Tooltip
   id="unique-position-left"
   targetSelector=".target-position-left"
-  position="left"
+  placement="left"
 >
   Position left
 </Tooltip>
@@ -390,7 +387,7 @@ render(<Button tooltip={`${longText} ${longText}`} text="Long text" />)
 <Tooltip
   id="unique-position-left-long-text"
   targetSelector=".target-position-left-long-text"
-  position="left"
+  placement="left"
 >
   {longText}
 </Tooltip>
@@ -401,7 +398,7 @@ render(<Button tooltip={`${longText} ${longText}`} text="Long text" />)
 <Tooltip
   id="unique-position-bottom"
   targetSelector=".target-position-bottom"
-  position="bottom"
+  placement="bottom"
 >
   Position bottom
 </Tooltip>
@@ -414,7 +411,7 @@ render(<Button tooltip={`${longText} ${longText}`} text="Long text" />)
 <Tooltip
   id="unique-position-bottom-long-text"
   targetSelector=".target-position-bottom-long-text"
-  position="bottom"
+  placement="bottom"
 >
   {longText}
 </Tooltip>
@@ -427,27 +424,33 @@ render(<Button tooltip={`${longText} ${longText}`} text="Long text" />)
   "props": {
     "children": {
       "doc": "Provide a string or a React Element to be shown as the tooltip content.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
-    "active": {
-      "doc": "Controls visibility. When provided, Tooltip is controlled and ignores DOM events (hover/focus/touch). `true` keeps it visible; `false` keeps it hidden.",
+    "open": {
+      "doc": "Controls visibility. When provided as a boolean, Tooltip is controlled and ignores DOM events (hover/focus/touch). `true` keeps it visible; `false` keeps it hidden. When not provided (undefined), the Tooltip uses default hover/focus behavior.",
       "type": "boolean",
       "status": "optional"
     },
-    "position": {
+    "placement": {
       "doc": "Defines the offset position to the target element the arrow appears. Can be `top`, `right`, `left` and `bottom`. Defaults to `top`.",
-      "type": ["top", "right", "left", "bottom"],
+      "type": ["\"top\"", "\"right\"", "\"left\"", "\"bottom\""],
       "status": "optional"
     },
     "align": {
-      "doc": "Defines the offset alignment to the target element the arrow appears. Can be `center`, `right` and `left`. Defaults to `center`.",
-      "type": ["center", "right", "left"],
+      "doc": "Defines the offset alignment to the target element the arrow appears. Can be `left`, `center` and `right`. Defaults to `center`.",
+      "type": ["\"left\"", "\"center\"", "\"right\"", "null"],
       "status": "optional"
     },
     "arrow": {
       "doc": "Defines the direction where the arrow appears. Can be `center`, `top`, `right`, `bottom` and `left`. Defaults to `center`.",
-      "type": ["center", "top", "right", "bottom", "left"],
+      "type": [
+        "\"center\"",
+        "\"top\"",
+        "\"right\"",
+        "\"bottom\"",
+        "\"left\""
+      ],
       "status": "optional"
     },
     "portalRootClass": {
@@ -471,23 +474,23 @@ render(<Button tooltip={`${longText} ${longText}`} text="Long text" />)
       "status": "optional"
     },
     "showDelay": {
-      "doc": "Define the delay until the tooltip should show up after the initial hover / active state.",
-      "type": "boolean",
+      "doc": "Define the delay (in milliseconds) until the tooltip should show up after the initial hover / active state. Defaults to `300`.",
+      "type": "number",
       "status": "optional"
     },
     "hideDelay": {
-      "doc": "Define the delay until the tooltip should disappear up after initial visibility.",
-      "type": "boolean",
+      "doc": "Define the delay (in milliseconds) until the tooltip should disappear after initial visibility. Defaults to `500`.",
+      "type": "number",
       "status": "optional"
     },
     "size": {
-      "doc": "Defines the spacing size of the tooltip. Can be `large` or `basis`. Defaults to `basis`.",
-      "type": ["large", "basis"],
+      "doc": "Defines the spacing size of the tooltip. Can be `large` or `default`. Defaults to `default`.",
+      "type": ["\"default\"", "\"large\""],
       "status": "optional"
     },
     "targetElement": {
-      "doc": "Provide an element directly as a React Node or a React Ref that will be wrapped and rendered.",
-      "type": ["React.Node", "React.RefObject"],
+      "doc": "Provide an element directly as a `React.ReactNode` or a `React.Ref` that will be wrapped and rendered.",
+      "type": ["React.ReactNode", "React.RefObject"],
       "status": "optional"
     },
     "targetSelector": {

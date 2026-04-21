@@ -1,9 +1,9 @@
 ---
 title: 'Form.Card'
 description: '`Form.Card` is a wrapper for the Card component to make it easier to use inside a form.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.555Z
-checksum: e2c835faa46550f07b7035374eaf42b4ceeedfbc1c00075484f0133cd3d7cb1d
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.803Z
+checksum: 8fc2cd617f94f3189944f8c32ce4537941cf6f9caa21cd1e102b6b443cbe0b2a
 ---
 
 # Form.Card
@@ -19,7 +19,6 @@ render(<Form.Card />)
 
 `Form.Card` is a wrapper for the [Card](/uilib/components/card/) component to make it easier to use inside a form:
 
-- It will set `outset` to `true` by default (instead of `false`). [See example below.](#outset)
 - It will set `stack` to `true` by default (instead of `false`).
 
 But in all other ways, it works just like the [Card](/uilib/components/card/) component.
@@ -38,43 +37,6 @@ render(
       </Form.Card>
     </Form.Card>
     <Form.SubmitButton />
-  </Flex.Stack>
-)
-```
-
-## Outset
-
-`<Form.Card>` will "outsets" (break out) from the layout using negative margins to preserve content alignment in forms.
-
-This outset is turned off if it is placed inside a `<Card>` (or another `<Form.Card>`) to avoid overlapping margins/padding/borders, but if placed in a different wrapper that messes with the layout, you can manually turn it off in two ways:
-
-- Wrap it in `<Form.Card.Provider disableCardBreakout>` to make all nested `<Form.Card>` act like they’re inside a `<Card>` (stay contained in the parent content area on all screen sizes).
-- Or set `outset={false}` on each card (only affects medium and large screen sizes).
-
-```tsx
-render(
-  <Flex.Stack>
-    <P>Regular content position</P>
-
-    <Form.Card>
-      <P>Default outset to preserve content position.</P>
-    </Form.Card>
-
-    <Form.Card outset={false}>
-      <P>
-        Outset turned off, will still breakout (go full width) on small
-        screens
-      </P>
-    </Form.Card>
-
-    <Form.Card.Provider disableCardBreakout>
-      <Form.Card>
-        <P>
-          Told to behave as if inside a parent card. Will stay inside the
-          content area of the parent even on small screens.
-        </P>
-      </Form.Card>
-    </Form.Card.Provider>
   </Flex.Stack>
 )
 ```
@@ -109,13 +71,8 @@ render(
 ```json
 {
   "props": {
-    "outset": {
-      "doc": "Whether or not to break out (using negative margins) on larger screens. Same as `outset` in [Card](/uilib/components/card/properties). But defaults to `true`",
-      "type": "boolean",
-      "status": "optional"
-    },
     "stack": {
-      "doc": "True to stack the sub components with space between. The `spacing` will default to `medium`. Same as `stack` in [Card](/uilib/components/card/properties). But defaults to `true`",
+      "doc": "True to stack the sub components with space between. Same as `stack` in [Card](/uilib/components/card/properties). But defaults to `true`.",
       "type": "boolean",
       "status": "optional"
     }
@@ -128,19 +85,30 @@ render(
 ```json
 {
   "props": {
+    "outset": {
+      "doc": "Whether or not to break out (using negative margins) on larger screens. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
     "direction": {
       "doc": "Defaults to `vertical`.",
-      "type": "string",
+      "type": ["\"horizontal\"", "\"vertical\""],
       "status": "optional"
     },
     "alignSelf": {
       "doc": "Defaults to `stretch`.",
-      "type": "string",
+      "type": [
+        "\"flex-start\"",
+        "\"flex-end\"",
+        "\"center\"",
+        "\"baseline\"",
+        "\"stretch\""
+      ],
       "status": "optional"
     },
     "title": {
       "doc": "Define a title that appears on top of the Card.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "responsive": {
@@ -158,6 +126,16 @@ render(
       "type": "string",
       "status": "optional"
     },
+    "outlineWidth": {
+      "doc": "Define the outline width. Defaults to `var(--card-outline-width)` (`0.0625rem`).",
+      "type": ["string", "number"],
+      "status": "optional"
+    },
+    "dropShadow": {
+      "doc": "Define if the Card should have drop shadow. Uses Section `dropShadow`.",
+      "type": "boolean",
+      "status": "optional"
+    },
     "backgroundColor": {
       "doc": "Define the background color. Defaults to `var(--card-background-color)`.",
       "type": "string",
@@ -170,7 +148,7 @@ render(
     },
     "children": {
       "doc": "Contents.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "required"
     },
     "[Flex.Container](/uilib/layout/flex/container/properties)": {

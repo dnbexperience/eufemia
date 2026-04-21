@@ -1,8 +1,8 @@
 ---
 title: 'Value.PostalCodeAndCity'
 description: '`Value.PostalCodeAndCity` is a wrapper component for displaying string values, with user experience tailored for Norwegian postal code and city values.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.882Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.211Z
 checksum: db7961bd44ab12a64bab31243b3343951db454ed0712fe7eecda3297bc12ae76
 ---
 
@@ -144,7 +144,7 @@ render(
       "status": "optional"
     },
     "help": {
-      "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+      "doc": "Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
       "type": "object",
       "status": "optional"
     },
@@ -185,7 +185,7 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": "string",
+      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
       "status": "optional"
     },
     "transformIn": {

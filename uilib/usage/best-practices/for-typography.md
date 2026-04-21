@@ -1,7 +1,7 @@
 ---
 title: 'Best Practices for typography'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.108Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.449Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -25,7 +25,7 @@ For optimal readability and accessibility, maintain appropriate line lengths for
 
 ### Using proseMaxWidth for optimal line length
 
-Typography components like `H2` and `P` support the `proseMaxWidth` prop to limit text width based on character count, creating optimal reading line lengths:
+Typography components like `H2` and `P` support the `proseMaxWidth` property to limit text width based on character count, creating optimal reading line lengths:
 
 ```tsx
 <H2 proseMaxWidth={80}>

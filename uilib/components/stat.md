@@ -1,8 +1,8 @@
 ---
 title: 'Stat'
 description: 'Composable metric components for highlighted values, trends, and labels.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.711Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.411Z
 checksum: 30fa6d1efae36f3ea3005035dea83acba7d3bb0b6d171a7890b5e00b1da462eb
 ---
 
@@ -21,7 +21,6 @@ import { Stat } from '@dnb/eufemia'
 ## Available components
 
 - `Stat.Root` renders a definition list (`dl`).
-
   - `Stat.Label` renders descriptive text with dedicated typography and color for metric context (`dt`).
 
   - `Stat.Content` renders the main value as a definition description (`dd`).
@@ -29,7 +28,6 @@ import { Stat } from '@dnb/eufemia'
 - `Stat.Number` is the base value formatter built on the [NumberFormat](/uilib/components/number-format/) formatting logic.
 
 - `Stat.Currency` and `Stat.Percent` are convenience wrappers around `Stat.Number`.
-
   - It adds typography-specific properties such as `fontSize`, `fontWeight` and `colorizeBySign`, along with `mainSize` and `auxiliarySize` as well as `mainWeight` and `auxiliaryWeight` that can be used to customize the visual emphasis of the different parts of the value (currency symbol or percent sign).
 
 - `Stat.Trend` renders explicit `+` / `-` indicators with red/green background states and screen-reader text.
@@ -41,10 +39,6 @@ import { Stat } from '@dnb/eufemia'
 - `Stat.Inline` is a horizontal layout container for grouping content elements like `Stat.Trend` and `Stat.Info` side by side with consistent spacing and alignment.
 
 - `Stat.Text` renders custom content and supports properties such as `fontSize`, `fontWeight`, and `colorizeBySign`.
-
-### Deprecated
-
-- `Stat.Amount` is deprecated and will be removed in a future version. Use `Stat.Number` instead.
 
 ## Accessibility
 
@@ -201,7 +195,8 @@ render(
             value={16.79}
             decimals={2}
             srLabel="Relative change"
-          />)
+          />
+          )
         </Stat.Info>
       </Stat.Inline>
     </Stat.Content>
@@ -478,7 +473,7 @@ function Example() {
       <Button
         text="Update value"
         variant="secondary"
-        on_click={() => setValue((prev) => prev + 100)}
+        onClick={() => setValue((prev) => prev + 100)}
       />
     </Flex.Stack>
   )

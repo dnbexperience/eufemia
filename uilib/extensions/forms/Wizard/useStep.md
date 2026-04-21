@@ -1,8 +1,8 @@
 ---
 title: 'Wizard.useStep'
 description: '`Wizard.useStep` returns `Wizard.Context` parameters such as totalSteps, activeIndex or a setActiveIndex handler.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.999Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.347Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -18,6 +18,11 @@ import { Wizard } from '@dnb/eufemia/extensions/forms'
 ## Description
 
 `Wizard.useStep` is a React Hook that returns `Wizard.Context` parameters such as `totalSteps`, `activeIndex` or the `setActiveIndex` handler.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Wizard/useStep.tsx)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Wizard/useStep)
 
 ```jsx
 import { Form, Wizard } from '@dnb/eufemia/extensions/forms'

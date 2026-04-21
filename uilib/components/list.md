@@ -1,9 +1,9 @@
 ---
 title: 'List'
 description: 'List is a layout component for displaying rows of content, with optional start/center/end slots and a navigable item variant.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.539Z
-checksum: cfe6a69b0b4d9a72429c007a43b5d8d0c88ee4f5e42f12ac3a9240b1625ac876
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.178Z
+checksum: 37226afbd1e750d15c52eaf0d641a09a1e6f1d78121deaee0bc9306cf6843090
 ---
 
 # List
@@ -135,7 +135,7 @@ render(
       <List.Cell.End>End</List.Cell.End>
       <List.Cell.Footer
         style={{
-          background: 'var(--color-sand-yellow)',
+          background: 'var(--token-color-background-neutral-subtle)',
         }}
       >
         <P>Footer</P>
@@ -156,7 +156,7 @@ render(
       onClick={() => console.log('Clicked')}
     >
       <List.Cell.End>
-        <NumberFormat currency value={1234} />
+        <NumberFormat.Currency value={1234} />
       </List.Cell.End>
     </List.Item.Action>
 
@@ -166,7 +166,7 @@ render(
       onClick={() => console.log('Clicked')}
     >
       <List.Cell.End>
-        <NumberFormat currency value={1234} />
+        <NumberFormat.Currency value={1234} />
       </List.Cell.End>
     </List.Item.Action>
   </List.Container>
@@ -186,7 +186,7 @@ render(
       href="#details"
     >
       <List.Cell.End>
-        <NumberFormat currency value={1234} />
+        <NumberFormat.Currency value={1234} />
       </List.Cell.End>
     </List.Item.Action>
 
@@ -198,7 +198,7 @@ render(
       rel="noopener noreferrer"
     >
       <List.Cell.End>
-        <NumberFormat currency value={5678} />
+        <NumberFormat.Currency value={5678} />
       </List.Cell.End>
     </List.Item.Action>
   </List.Container>
@@ -219,7 +219,7 @@ render(
       title={<Anchor href="#">Link with icon and end value</Anchor>}
     >
       <List.Cell.End>
-        <NumberFormat currency value={1234} />
+        <NumberFormat.Currency value={1234} />
       </List.Cell.End>
     </List.Item.Basic>
   </List.Container>
@@ -236,7 +236,7 @@ render(
     <List.Item.Accordion icon={fish_medium} title="Accordion title">
       <List.Item.Accordion.Header>
         <List.Cell.End>
-          <NumberFormat currency value={1234} />
+          <NumberFormat.Currency value={1234} />
         </List.Cell.End>
       </List.Item.Accordion.Header>
 
@@ -257,7 +257,7 @@ render(
     >
       <List.Item.Accordion.Header>
         <List.Cell.End>
-          <NumberFormat currency value={1234} />
+          <NumberFormat.Currency value={1234} />
         </List.Cell.End>
       </List.Item.Accordion.Header>
       <List.Item.Accordion.Content innerSpace>
@@ -314,7 +314,7 @@ render(
   <List.Container>
     <List.Item.Basic title="Item with actions" icon={fish_medium}>
       <List.Cell.End>
-        <NumberFormat currency value={1234} />
+        <NumberFormat.Currency value={1234} />
       </List.Cell.End>
       <List.Cell.Footer>
         <Flex.Horizontal>
@@ -336,12 +336,12 @@ render(
     <List.Item.Accordion chevronPosition="left" title="Accordion title">
       <List.Item.Accordion.Header>
         <List.Cell.End>
-          <NumberFormat currency value={1234} />
+          <NumberFormat.Currency value={1234} />
         </List.Cell.End>
       </List.Item.Accordion.Header>
       <List.Cell.Footer
         style={{
-          background: 'var(--color-sand-yellow)',
+          background: 'var(--token-color-background-neutral-subtle)',
         }}
       >
         <Button variant="tertiary" text="Next" icon="chevron_right" />
@@ -379,13 +379,13 @@ render(
       <List.Container>
         <List.Item.Action icon={fish_medium} title="Navigate to details">
           <List.Cell.End>
-            <NumberFormat currency value={1234} />
+            <NumberFormat.Currency value={1234} />
           </List.Cell.End>
         </List.Item.Action>
 
         <List.Item.Action icon={fish_medium} title="Navigate to details">
           <List.Cell.End>
-            <NumberFormat currency value={1234} />
+            <NumberFormat.Currency value={1234} />
           </List.Cell.End>
         </List.Item.Action>
       </List.Container>
@@ -401,7 +401,7 @@ render(
         display: 'gid',
         placeContent: 'center',
         textAlign: 'center',
-        background: 'var(--color-sand-yellow)',
+        background: 'var(--token-color-background-neutral-subtle)',
       }}
     >
       <P>Second Grid Item</P>
@@ -692,7 +692,7 @@ render(
         <Avatar size="medium">A</Avatar>
       </List.Cell.Start>
       <List.Cell.End>
-        <NumberFormat currency value={1234} />
+        <NumberFormat.Currency value={1234} />
       </List.Cell.End>
     </List.Item.Basic>
 
@@ -766,7 +766,7 @@ render(
   <List.Container>
     <List.Item.Action icon={fish_medium} title="Pending item ..." pending>
       <List.Cell.End>
-        <NumberFormat currency value={1234} />
+        <NumberFormat.Currency value={1234} />
       </List.Cell.End>
     </List.Item.Action>
   </List.Container>
@@ -802,7 +802,7 @@ render(
   <List.Container>
     <List.Item.Action icon={fish_medium} title="Loading item…" skeleton>
       <List.Cell.End>
-        <NumberFormat currency value={1234} />
+        <NumberFormat.Currency value={1234} />
       </List.Cell.End>
     </List.Item.Action>
   </List.Container>
@@ -861,13 +861,13 @@ render(
 )
 ```
 
-#### Without ScrollView
+#### Inside a Card without ScrollView
 
 `List.Card` also works without `List.ScrollView`. Side borders and redundant top/bottom borders on the first and last items are automatically removed.
 
 ```tsx
 render(
-  <List.Card>
+  <List.Card innerSpace="x-small">
     <List.Container>
       <List.Item.Action
         icon={fish_medium}
@@ -899,6 +899,64 @@ render(
 )
 ```
 
+#### With ShowMoreButton and visibleCount
+
+Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the list. Link it to `List.Container` by giving both the same `id`. Set `visibleCount` on the container to limit how many items are visible when collapsed.
+
+```tsx
+<Flex.Horizontal justify="space-between" align="center" bottom>
+  <Heading size="medium" top={false} bottom={false}>
+    Transactions
+  </Heading>
+  <List.ShowMoreButton id="my-limited-list" />
+</Flex.Horizontal>
+<List.Container id="my-limited-list" visibleCount={3}>
+  <List.Item.Action icon={fish_medium} title="Payment received">
+    <List.Cell.End>
+      <Value.Currency value={1234} />
+    </List.Cell.End>
+  </List.Item.Action>
+   <List.Item.Accordion
+    icon={fish_medium}
+    title="Transfer sent (Accordion)"
+  >
+    <List.Item.Accordion.Header>
+      <List.Cell.End>
+        <Value.Currency value={-500} />
+      </List.Cell.End>
+    </List.Item.Accordion.Header>
+    <List.Item.Accordion.Content innerSpace>
+      <P>Details about the transfer go here.</P>
+    </List.Item.Accordion.Content>
+  </List.Item.Accordion>
+   <List.Item.Basic icon={fish_medium} title="Subscription">
+    <List.Cell.End>
+      <Value.Currency value={-99} />
+    </List.Cell.End>
+  </List.Item.Basic>
+   <List.Item.Action icon={fish_medium} title="Refund">
+    <List.Cell.End>
+      <Value.Currency value={250} />
+    </List.Cell.End>
+  </List.Item.Action>
+   <List.Item.Action icon={fish_medium} title="Salary">
+    <List.Cell.End>
+      <Value.Currency value={45000} />
+    </List.Cell.End>
+  </List.Item.Action>
+   <List.Item.Accordion icon={fish_medium} title="Groceries (Accordion)">
+    <List.Item.Accordion.Header>
+      <List.Cell.End>
+        <Value.Currency value={-320} />
+      </List.Cell.End>
+    </List.Item.Accordion.Header>
+    <List.Item.Accordion.Content innerSpace>
+      <P>Details about the transfer go here.</P>
+    </List.Item.Accordion.Content>
+  </List.Item.Accordion>
+</List.Container>
+```
+
 ## List.Container
 
 ```json
@@ -917,6 +975,11 @@ render(
     "disabled": {
       "doc": "When `true`, all child items are visually dimmed and interaction is prevented. Individual items can override this with their own `disabled` prop.",
       "type": "boolean",
+      "status": "optional"
+    },
+    "visibleCount": {
+      "doc": "Limits the number of visible child items. When used without an `id`, the list is always capped at this count. When paired with `List.ShowMoreButton` via a shared `id`, the list starts collapsed and expands to show all items on toggle. Hidden items stay mounted in the DOM to preserve internal state (e.g. open accordions). The list is wrapped in a `HeightAnimation` so expand/collapse transitions are animated.",
+      "type": "number",
       "status": "optional"
     },
     "children": {
@@ -1034,8 +1097,8 @@ render(
     },
     "chevronPosition": {
       "doc": "Placement of the chevron icon. Defaults to `right`. Use `left` to show the chevron on the left side.",
-      "type": ["'left'", "'right'"],
-      "defaultValue": "'right'",
+      "type": ["\"left\"", "\"right\""],
+      "defaultValue": "\"right\"",
       "status": "optional"
     },
     "pending": {
@@ -1089,8 +1152,8 @@ render(
     },
     "chevronPosition": {
       "doc": "Placement of the chevron icon. Defaults to `right`. Use `left` to show the chevron on the left side.",
-      "type": ["'left'", "'right'"],
-      "defaultValue": "'right'",
+      "type": ["\"left\"", "\"right\""],
+      "defaultValue": "\"right\"",
       "status": "optional"
     },
     "open": {
@@ -1180,8 +1243,8 @@ render(
   "props": {
     "fontSize": {
       "doc": "Font size of the title content. Defaults to `basis`. Use `small` for smaller text.",
-      "type": ["'small'", "'basis'"],
-      "defaultValue": "'basis'",
+      "type": ["\"small\"", "\"basis\""],
+      "defaultValue": "\"basis\"",
       "status": "optional"
     },
     "children": {
@@ -1205,14 +1268,14 @@ render(
   "props": {
     "fontSize": {
       "doc": "Font size of the overline content. Defaults to `x-small`.",
-      "type": ["'basis'", "'small'", "'x-small'"],
-      "defaultValue": "'x-small'",
+      "type": ["\"basis\"", "\"small\"", "\"x-small\""],
+      "defaultValue": "\"x-small\"",
       "status": "optional"
     },
     "fontWeight": {
       "doc": "Font weight of the overline content. Defaults to `medium`.",
-      "type": ["'regular'", "'medium'"],
-      "defaultValue": "'medium'",
+      "type": ["\"regular\"", "\"medium\""],
+      "defaultValue": "\"medium\"",
       "status": "optional"
     },
     "children": {
@@ -1236,19 +1299,19 @@ render(
   "props": {
     "variant": {
       "doc": "Visual variant. Use `description` for smaller, muted text style.",
-      "type": ["'description'"],
+      "type": ["\"description\""],
       "status": "optional"
     },
     "fontSize": {
       "doc": "Font size of the subline content. Defaults to `small`. When `variant=\"description\"`, defaults to `x-small`.",
-      "type": ["'basis'", "'small'", "'x-small'"],
-      "defaultValue": "'small'",
+      "type": ["\"basis\"", "\"small\"", "\"x-small\""],
+      "defaultValue": "\"small\"",
       "status": "optional"
     },
     "fontWeight": {
       "doc": "Font weight of the subline content. Defaults to `regular`.",
-      "type": ["'regular'", "'medium'"],
-      "defaultValue": "'regular'",
+      "type": ["\"regular\"", "\"medium\""],
+      "defaultValue": "\"regular\"",
       "status": "optional"
     },
     "children": {
@@ -1272,14 +1335,14 @@ render(
   "props": {
     "fontSize": {
       "doc": "Font size of the start content. Defaults to `basis`. Use `small` for smaller text.",
-      "type": ["'small'", "'basis'"],
-      "defaultValue": "'basis'",
+      "type": ["\"small\"", "\"basis\""],
+      "defaultValue": "\"basis\"",
       "status": "optional"
     },
     "fontWeight": {
       "doc": "Font weight of the start content. Defaults to `regular`.",
-      "type": ["'regular'", "'medium'"],
-      "defaultValue": "'regular'",
+      "type": ["\"regular\"", "\"medium\""],
+      "defaultValue": "\"regular\"",
       "status": "optional"
     },
     "children": {
@@ -1303,14 +1366,14 @@ render(
   "props": {
     "fontSize": {
       "doc": "Font size of the center content. Defaults to `basis`. Use `small` for smaller text.",
-      "type": ["'small'", "'basis'"],
-      "defaultValue": "'basis'",
+      "type": ["\"small\"", "\"basis\""],
+      "defaultValue": "\"basis\"",
       "status": "optional"
     },
     "fontWeight": {
       "doc": "Font weight of the center content. Defaults to `regular`.",
-      "type": ["'regular'", "'medium'"],
-      "defaultValue": "'regular'",
+      "type": ["\"regular\"", "\"medium\""],
+      "defaultValue": "\"regular\"",
       "status": "optional"
     },
     "children": {
@@ -1334,14 +1397,14 @@ render(
   "props": {
     "fontWeight": {
       "doc": "Font weight of the end content. Defaults to `medium`.",
-      "type": ["'regular'", "'medium'"],
-      "defaultValue": "'medium'",
+      "type": ["\"regular\"", "\"medium\""],
+      "defaultValue": "\"medium\"",
       "status": "optional"
     },
     "fontSize": {
       "doc": "Font size of the end content. Defaults to `basis`. Use `small` for smaller text.",
-      "type": ["'small'", "'basis'"],
-      "defaultValue": "'basis'",
+      "type": ["\"small\"", "\"basis\""],
+      "defaultValue": "\"basis\"",
       "status": "optional"
     },
     "children": {
@@ -1436,6 +1499,62 @@ render(
       "doc": "Spacing properties like `top` or `bottom` are supported.",
       "type": ["string", "object"],
       "status": "optional"
+    }
+  }
+}
+```
+
+## List.ShowMoreButton
+
+```json
+{
+  "props": {
+    "id": {
+      "doc": "Shared identifier that links this button to a `List.Container` with the same `id`. Controls the expanded/collapsed state via `useSharedState`.",
+      "type": "string",
+      "status": "required"
+    },
+    "showMore": {
+      "doc": "Button label shown when the list is collapsed. Defaults to the localized `List.showMore` translation.",
+      "type": "string",
+      "status": "optional"
+    },
+    "showLess": {
+      "doc": "Button label shown when the list is expanded. Defaults to the localized `List.showLess` translation.",
+      "type": "string",
+      "status": "optional"
+    },
+    "[Button](/uilib/components/button/properties)": {
+      "doc": "All [Button](/uilib/components/button) properties are supported except `variant`, `text`, `icon`, and `onClick` which are managed internally.",
+      "type": "Various",
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
+  }
+}
+```
+
+## Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "List.showLess": {
+      "nb-NO": "Vis mindre",
+      "en-GB": "Show less",
+      "sv-SE": "Visa mindre",
+      "da-DK": "Vis mindre"
+    },
+    "List.showMore": {
+      "nb-NO": "Vis mer",
+      "en-GB": "Show more",
+      "sv-SE": "Visa mer",
+      "da-DK": "Vis mere"
     }
   }
 }

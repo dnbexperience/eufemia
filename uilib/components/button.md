@@ -1,9 +1,9 @@
 ---
 title: 'Button'
 description: 'The Button component should be used as the primary call-to-action in a form, or as a user interaction mechanism.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.334Z
-checksum: 2b2083a3cf22f11c9c41ca0f1ca8a5a0bf0af172c6068190a33d267a0bab194b
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:08.947Z
+checksum: d8f0f51afe07b8fae7fa261acd1a32b428c621f23c5a6b1be8084bb4486da300
 ---
 
 # Button
@@ -24,6 +24,10 @@ The Button component should be used as the **primary call-to-action** in a form,
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/button)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/button)
 
+## Accessibility
+
+Buttons are keyboard accessible and support standard interaction patterns. Use meaningful text or `aria-label` when using icon-only buttons. Avoid using disabled buttons when possible, as they don't communicate why an action is unavailable.
+
 ### Variants and sizes
 
 There should never be more than one `primary` button in a given context. The `secondary` and `tertiary` button variants do not have this constraint. A button should not be used when a link would suffice.
@@ -37,30 +41,30 @@ For the primary variant, the recommended sizes are `default` and `large`.
 ```tsx
 <Button
   text="Default button"
-  on_click={() => {
-    console.log('on_click')
+  onClick={() => {
+    console.log('onClick')
   }}
 />
 <Button
   text="Large button"
-  on_click={() => {
-    console.log('on_click')
+  onClick={() => {
+    console.log('onClick')
   }}
   size="large"
   left
 />
 <Button
   text="Default button icon"
-  on_click={() => {
-    console.log('on_click')
+  onClick={() => {
+    console.log('onClick')
   }}
   icon="chevron_right"
   left
 />
 <Button
   text="Large button icon"
-  on_click={() => {
-    console.log('on_click')
+  onClick={() => {
+    console.log('onClick')
   }}
   size="large"
   icon="chevron_right"
@@ -75,15 +79,15 @@ For the secondary variant, the recommended sizes are `default` and `large`.
 ```tsx
 <Button
   text="Default button"
-  on_click={() => {
-    console.log('on_click')
+  onClick={() => {
+    console.log('onClick')
   }}
   variant="secondary"
 />
 <Button
   text="Large button"
-  on_click={() => {
-    console.log('on_click')
+  onClick={() => {
+    console.log('onClick')
   }}
   size="large"
   variant="secondary"
@@ -91,8 +95,8 @@ For the secondary variant, the recommended sizes are `default` and `large`.
 />
 <Button
   text="Default button icon"
-  on_click={() => {
-    console.log('on_click')
+  onClick={() => {
+    console.log('onClick')
   }}
   icon="chevron_right"
   variant="secondary"
@@ -100,8 +104,8 @@ For the secondary variant, the recommended sizes are `default` and `large`.
 />
 <Button
   text="Large button icon"
-  on_click={() => {
-    console.log('on_click')
+  onClick={() => {
+    console.log('onClick')
   }}
   size="large"
   icon="chevron_right"
@@ -112,23 +116,23 @@ For the secondary variant, the recommended sizes are `default` and `large`.
 
 #### Tertiary button sizes
 
-For the tertiary variant, the recommended size is `default`. A variant with `icon_position="top"` is also available.
+For the tertiary variant, the recommended size is `default`. A variant with `iconPosition="top"` is also available.
 
 It is **not** recommended to use the tertiary button without an icon. Looking for a similar variant without an icon? Check out [Anchor](/uilib/components/anchor) instead.
 
 ```tsx
 <Button
   text="Default button"
-  on_click={() => {
-    console.log('on_click')
+  onClick={() => {
+    console.log('onClick')
   }}
   icon="chevron_right"
   variant="tertiary"
 />
 <Button
   text="Button large"
-  on_click={() => {
-    console.log('on_click')
+  onClick={() => {
+    console.log('onClick')
   }}
   icon="chevron_right"
   variant="tertiary"
@@ -137,54 +141,12 @@ It is **not** recommended to use the tertiary button without an icon. Looking fo
 />
 <Button
   text="Button text"
-  on_click={() => {
-    console.log('on_click')
+  onClick={() => {
+    console.log('onClick')
   }}
   icon="bell"
-  icon_position="top"
+  iconPosition="top"
   variant="tertiary"
-  left
-/>
-```
-
-#### Signal button sizes
-
-For the signal variant, the recommended sizes are `default` and `large`.
-
-```tsx
-<Button
-  text="Default button"
-  on_click={() => {
-    console.log('on_click')
-  }}
-  variant="signal"
-/>
-<Button
-  text="Large button"
-  on_click={() => {
-    console.log('on_click')
-  }}
-  size="large"
-  variant="signal"
-  left
-/>
-<Button
-  text="Default button icon"
-  on_click={() => {
-    console.log('on_click')
-  }}
-  icon="chevron_right"
-  variant="signal"
-  left
-/>
-<Button
-  text="Large button icon"
-  on_click={() => {
-    console.log('on_click')
-  }}
-  size="large"
-  icon="chevron_right"
-  variant="signal"
   left
 />
 ```
@@ -227,8 +189,8 @@ Icon buttons come in all sizes.
 render(
   <Button
     text="Primary button with text only"
-    on_click={() => {
-      console.log('on_click')
+    onClick={() => {
+      console.log('onClick')
     }}
     data-visual-test="button-primary"
   />
@@ -261,7 +223,7 @@ render(<Button text="Primary button with icon" icon="chevron_right" />)
 
 ```tsx
 render(
-  <Button icon_position="left" icon="chevron_left">
+  <Button iconPosition="left" icon="chevron_left">
     Primary button with icon on left
   </Button>
 )
@@ -275,14 +237,14 @@ The tertiary button variant does support newlines while the icon is placed top a
 <Button
   variant="tertiary"
   text="Tertiary button with icon on left"
-  icon_position="left"
+  iconPosition="left"
   icon="chevron_left"
   data-visual-test="button-tertiary"
 />
 <Button
   variant="tertiary"
   text={<span>Text inside additional span</span>}
-  icon_position="left"
+  iconPosition="left"
   icon="chevron_left"
   left
 />
@@ -293,13 +255,13 @@ Tertiary button with **top** placed icon.
 ```tsx
 <Button
   variant="tertiary"
-  icon_position="top"
+  iconPosition="top"
   icon="close"
   text="Button text"
 />
 <Button
   variant="tertiary"
-  icon_position="top"
+  iconPosition="top"
   icon="close"
   text="Large button"
   size="large"
@@ -315,7 +277,7 @@ render(
     variant="tertiary"
     text="A long text where wrap is enabled magnis rutrum netus neque ridiculus euismod sit dictum laoreet libero"
     icon="chevron_left"
-    icon_position="left"
+    iconPosition="left"
   />
 )
 ```
@@ -326,9 +288,9 @@ render(
 <Button
   text="Primary with href"
   href="/uilib/components/button/demos"
-  icon_position="right"
+  iconPosition="right"
   icon="chevron_right"
-  on_click={({ event }) => {
+  onClick={({ event }) => {
     event.preventDefault()
   }}
   right
@@ -374,37 +336,6 @@ render(
 />
 ```
 
-### Signal button
-
-Medium is equivalent to 24, but responsive. To import custom icons, use: `import { bell_medium as Bell } from '@dnb/eufemia/icons'`
-
-```tsx
-render(
-  <Button
-    variant="signal"
-    text="Signal Button"
-    icon={Bell}
-    data-visual-test="button-signal"
-  />
-)
-```
-
-### Large Signal button
-
-Large Signal button with medium sized icon. To import custom icons, use: `import { bell_medium as Bell } from '@dnb/eufemia/icons'`
-
-```tsx
-render(
-  <Button
-    variant="signal"
-    text="Large Signal Button"
-    icon={<Bell />}
-    size="large"
-    icon_size="medium"
-  />
-)
-```
-
 ### Icon button
 
 When the button has no text an `aria-label` attribute is required for accessibility. And a `title` attribute is recommended for mouse hover.
@@ -436,15 +367,13 @@ We automatically add an `aria-label` with the same value as `title` if `text` an
   status="error"
   left
 />
-<VisibilityByTheme visible="sbanken">
-  <Button
-    title="Tertiary icon button"
-    size="large"
-    icon={question}
-    variant="tertiary"
-    data-visual-test="button-icon-tertiary"
-  />
-</VisibilityByTheme>
+<Button
+  title="Tertiary icon button"
+  size="large"
+  icon={question}
+  variant="tertiary"
+  data-visual-test="button-icon-tertiary"
+/>
 ```
 
 ### Custom button content
@@ -455,10 +384,42 @@ This is, as all of the demos, only an example of how to achieve various needs, a
 render(
   <Button
     icon="close"
-    icon_position="right"
+    iconPosition="right"
     text="Button with custom content"
-    custom_content={<IconPrimary icon="check" right="small" />}
+    customContent={<IconPrimary icon="check" right="small" />}
   />
+)
+```
+
+### Button on dark surface
+
+```tsx
+render(
+  <Section
+    innerSpace={{
+      block: true,
+    }}
+    surface="dark"
+  >
+    <Button data-visual-test="button-primary-on-dark" right>
+      Primary button
+    </Button>
+    <Button
+      data-visual-test="button-secondary-on-dark"
+      right
+      variant="secondary"
+    >
+      Secondary button
+    </Button>
+    <Button
+      data-visual-test="button-tertiary-on-dark"
+      variant="tertiary"
+      iconPosition="left"
+      icon="chevron_left"
+    >
+      Tertiary button
+    </Button>
+  </Section>
 )
 ```
 
@@ -512,46 +473,14 @@ render(
 />
 ```
 
-### Button on dark background
-
-When placing the button on a dark background wrap the content of the dark section with `<Theme.Provider darkBackground>`
-to get the correct styles.
-
-```tsx
-render(
-  <Section innerSpace="1rem" backgroundColor="var(--sb-color-purple)">
-    <Theme.Provider darkBackground>
-      <Button data-visual-test="button-primary-on-dark" right>
-        Primary button
-      </Button>
-      <Button
-        data-visual-test="button-secondary-on-dark"
-        right
-        variant="secondary"
-      >
-        Secondary button
-      </Button>
-      <Button
-        data-visual-test="button-tertiary-on-dark"
-        variant="tertiary"
-        icon_position="left"
-        icon="chevron_left"
-      >
-        Tertiary button
-      </Button>
-    </Theme.Provider>
-  </Section>
-)
-```
-
 ## Properties
 
 ```json
 {
   "props": {
     "type": {
-      "doc": "The type HTML attribute. Defaults to `button` for legacy reasons.",
-      "type": ["button", "reset", "submit"],
+      "doc": "The type HTML attribute. Defaults to `button` to prevent accidental form submissions.",
+      "type": ["\"button\"", "\"reset\"", "\"submit\""],
       "status": "optional"
     },
     "text": {
@@ -560,23 +489,28 @@ render(
       "status": "optional"
     },
     "aria-label": {
-      "doc": "Required if there is no text in the button. If `text` and `children` are undefined, setting the `title` property will automatically set `aria-label` with the same value.",
+      "doc": "Required if there is no text in the button. If `text` and `children` are `undefined`, setting the `title` property will automatically set `aria-label` with the same value.",
       "type": "string",
       "status": "optional"
     },
     "title": {
-      "doc": "Required if there is no text in the button. If `text` and `children` are undefined, setting the `title` property will automatically set `aria-label` with the same value.",
+      "doc": "Required if there is no text in the button. If `text` and `children` are `undefined`, setting the `title` property will automatically set `aria-label` with the same value.",
       "type": "string",
       "status": "optional"
     },
     "variant": {
-      "doc": "Defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `primary` (or `secondary` if icon only). The `tertiary` button is normally used together with an icon and officially supports only the default and large sizes.",
-      "type": ["primary", "secondary", "tertiary", "signal"],
+      "doc": "Defines the kind of button. Possible values are `primary`, `secondary` and `tertiary`. Defaults to `primary` (or `secondary` if icon only). The `tertiary` button is normally used together with an icon and officially supports only the default and large sizes.",
+      "type": [
+        "\"primary\"",
+        "\"secondary\"",
+        "\"tertiary\"",
+        "\"unstyled\""
+      ],
       "status": "optional"
     },
     "size": {
-      "doc": "The size of the button. There is `small`, `medium`, `default` and `large`. The `tertiary` button officially supports only default and large. Changing the size mainly affects spacing, but the large tertiary button also has a larger font size.",
-      "type": ["small", "medium", "default", "large"],
+      "doc": "The size of the button. There is `default`, `small`, `medium` and `large`. The `tertiary` button officially supports only default and large. Changing the size mainly affects spacing, but the large tertiary button also has a larger font size.",
+      "type": ["\"default\"", "\"small\"", "\"medium\"", "\"large\""],
       "status": "optional"
     },
     "icon": {
@@ -584,14 +518,19 @@ render(
       "type": ["string", "React.ReactNode"],
       "status": "optional"
     },
-    "icon_position": {
+    "iconPosition": {
       "doc": "Position of icon inside the button. Set to `left` or `right`. Tertiary button variant also supports `top`. Defaults to `right` if not set.",
-      "type": ["left", "right", "top"],
+      "type": ["\"left\"", "\"right\"", "\"top\""],
       "status": "optional"
     },
-    "icon_size": {
-      "doc": "Define icon width and height. Defaults to 16px.",
+    "iconSize": {
+      "doc": "Define icon width and height. Defaults to `16px`.",
       "type": "string",
+      "status": "optional"
+    },
+    "selected": {
+      "doc": "Only for icon buttons. If true, use the style for a selected icon button. Defaults to `false`.",
+      "type": "boolean",
       "status": "optional"
     },
     "href": {
@@ -601,7 +540,7 @@ render(
     },
     "target": {
       "doc": "When button behaves as a link. Used to specify where to open the linked document, specified by `href`. Possible values are `_self`, `_blank`, `_parent` and `_top`.",
-      "type": ["_self", "_blank", "_parent", "_top"],
+      "type": ["\"_self\"", "\"_blank\"", "\"_parent\"", "\"_top\""],
       "status": "optional"
     },
     "rel": {
@@ -620,7 +559,7 @@ render(
       "status": "optional"
     },
     "stretch": {
-      "doc": "Set it to `true` in order to stretch the button to the available space. Defaults to false.",
+      "doc": "Set it to `true` in order to stretch the button to the available space. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },
@@ -634,7 +573,7 @@ render(
       "type": "string",
       "status": "optional"
     },
-    "custom_content": {
+    "customContent": {
       "doc": "If you need to inject completely custom markup (React Element) into the button component. You have then to handle alignment and styling by yourself.",
       "type": "React.ReactNode",
       "status": "optional"
@@ -651,15 +590,15 @@ render(
     },
     "status": {
       "doc": "Set it to either `status=\"error\"` or a text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.",
-      "type": ["error", "info", "boolean"],
+      "type": ["\"error\"", "\"information\"", "boolean"],
       "status": "optional"
     },
-    "status_state": {
-      "doc": "Defines the state of the status. Currently there are two statuses `[error, info]`. Defaults to `error`.",
-      "type": ["error", "info"],
+    "statusState": {
+      "doc": "Defines the state of the status. Currently there are two statuses `[error, information]`. Defaults to `error`.",
+      "type": ["\"error\"", "\"information\""],
       "status": "optional"
     },
-    "status_props": {
+    "statusProps": {
       "doc": "Use an object to define additional FormStatus properties.",
       "type": "object",
       "status": "optional"
@@ -687,7 +626,7 @@ In cases where it makes sense to use the button component, but with very differe
 ```json
 {
   "props": {
-    "on_click": {
+    "onClick": {
       "doc": "Will be called on a click event. Returns an object with the native event: `{ event }`.",
       "type": "function",
       "status": "optional"

@@ -1,9 +1,9 @@
 ---
 title: 'ListFormat'
 description: 'A ready to use DNB list formatter.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.523Z
-checksum: f12df0403993f342663e615901d7bfd301426d2474518338f5240f45e61f8d41
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.157Z
+checksum: 44c18c65e32f3c3c03b2e733470174561e22f2ad28aa124b7264af569cd9d669
 ---
 
 # ListFormat
@@ -269,21 +269,21 @@ render(
     },
     "variant": {
       "doc": "Defines if the value should be displayed in list format (`ol`, `ul`) or regular text format in one line. Defaults to `text`.",
-      "type": ["ol", "ul", "text"],
+      "type": ["\"ol\"", "\"ul\"", "\"text\""],
       "status": "optional"
     },
     "listType": {
       "doc": "Defines the type of list styling used for list variants. Used together with variant `ol` and `ul`. Variant `ol`: `a`, `A`, `i`, `I` and `1`. Variant `ul`: `circle`, `disc` and `square`. Defaults to `undefined`.",
       "type": [
-        "a",
-        "A",
-        "i",
-        "I",
-        "1",
-        "circle",
-        "disc",
-        "square",
-        "unstyled",
+        "\"a\"",
+        "\"A\"",
+        "\"i\"",
+        "\"I\"",
+        "\"1\"",
+        "\"circle\"",
+        "\"disc\"",
+        "\"square\"",
+        "\"unstyled\"",
         "undefined"
       ],
       "status": "optional"
@@ -303,8 +303,8 @@ render(
       "type": "boolean",
       "status": "optional"
     },
-    "innerRef": {
-      "doc": "Send along a custom React Ref.",
+    "ref": {
+      "doc": "Send along a custom `React.Ref`.",
       "type": "React.RefObject",
       "status": "optional"
     },

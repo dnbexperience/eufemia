@@ -1,9 +1,9 @@
 ---
 title: 'Iterate.AnimatedContainer'
 description: '`Iterate.AnimatedContainer` can be used to animate items when they are added or removed.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.718Z
-checksum: e26a9cd2ef9add46be0be2b3722e39b9885b72d1bce7283500f4f6fc4969a44d
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.991Z
+checksum: aa35ac720365e3ad296f4e4665e72d5667c8d1b317fc96523207e2a2ecdd5aae
 ---
 
 # Iterate.AnimatedContainer
@@ -18,6 +18,11 @@ render(<Iterate.AnimatedContainer />)
 ## Description
 
 `Iterate.AnimatedContainer` can be used to animate items when they are added or removed. It provides a smooth transition effect for a better user experience.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Iterate/AnimatedContainer)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Iterate/AnimatedContainer)
 
 ```tsx
 import { Iterate } from '@dnb/eufemia/extensions/forms'
@@ -95,27 +100,27 @@ render(<MyForm />)
   "props": {
     "title": {
       "doc": "The title of the container.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "titleWhenNew": {
       "doc": "The title for a new item.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "variant": {
       "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
-      "type": "string",
+      "type": ["\"outline\"", "\"filled\"", "\"basic\""],
       "status": "optional"
     },
     "toolbar": {
       "doc": "An alternative toolbar to be shown in the container.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "toolbarVariant": {
       "doc": "Use variants to render the toolbar differently. Currently there are the `minimumOneItem` and `custom` variants. See the info section for more info.",
-      "type": "string",
+      "type": ["\"minimumOneItem\"", "\"custom\""],
       "status": "optional"
     },
     "open": {

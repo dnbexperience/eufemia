@@ -1,9 +1,9 @@
 ---
 title: 'CountryFlag'
 description: 'The CountryFlag component lets you display a country flag based on a country ISO code.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.359Z
-checksum: e95e21927630e53209d67e09696c37bbb6bcd26ccaef3599d84b19c26f3202d5
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:08.980Z
+checksum: 96858d9c7269f72350401c3a9b92c476b3cbdcea7f967c9c12932cbbe1d8c391
 ---
 
 # CountryFlag
@@ -99,32 +99,32 @@ render(
     />
     <Button
       icon={<CountryFlag iso="NO" />}
-      icon_position="left"
+      iconPosition="left"
       text="Button"
       variant="secondary"
     />
     <Button
       icon={<CountryFlag iso="NO" />}
-      icon_size="medium"
-      icon_position="left"
+      iconSize="medium"
+      iconPosition="left"
       size="large"
       text="Button"
       variant="secondary"
     />
     <Input
       icon={<CountryFlag iso="NO" />}
-      icon_position="left"
+      iconPosition="left"
       placeholder="Write something"
     />
     <Input
       icon={<CountryFlag iso="NO" />}
-      icon_position="left"
+      iconPosition="left"
       size="large"
       placeholder="Write something"
     />
     <Dropdown
       value="NO"
-      icon_position="left"
+      iconPosition="left"
       data={{
         NO: (
           <Dropdown.HorizontalItem>
@@ -185,12 +185,20 @@ render(
     },
     "size": {
       "doc": "The size of the component. Can be `auto`, `xx-small`, `x-small`, `small`, `medium`, `large` or `x-large`. Defaults to `auto` (1em).",
-      "type": "string",
+      "type": [
+        "\"auto\"",
+        "\"xx-small\"",
+        "\"x-small\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\"",
+        "\"x-large\""
+      ],
       "status": "optional"
     },
     "shape": {
       "doc": "The shape of the component. Can be `round` or `square`. Defaults to `round`.",
-      "type": "string",
+      "type": ["\"round\"", "\"square\""],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {

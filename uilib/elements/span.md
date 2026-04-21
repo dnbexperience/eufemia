@@ -1,9 +1,9 @@
 ---
 title: 'Span'
 description: 'Spans are inline-elements, used to define parts of text content.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.224Z
-checksum: 701d133ddb6c7ccf403a7d6763884e6c8b736ae9a3563f9fa68dd0ead96b28f5
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.752Z
+checksum: 845c380cad6e85ab625f75477db6dbace5110a754208c56db0e04a179d35b607
 ---
 
 # Span
@@ -88,54 +88,54 @@ render(
       "status": "optional"
     },
     "size": {
-      "doc": "Sets the font size, also sets the line-height if `lineHeight` prop is not set.",
+      "doc": "Sets the font size, also sets the line-height if `lineHeight` property is not set.",
       "type": [
-        "'x-small'",
-        "'small'",
-        "'basis'",
-        "'medium'",
-        "'large'",
-        "'x-large'",
-        "'xx-large'"
+        "\"x-small\"",
+        "\"small\"",
+        "\"basis\"",
+        "\"medium\"",
+        "\"large\"",
+        "\"x-large\"",
+        "\"xx-large\""
       ],
       "status": "optional"
     },
     "lineHeight": {
       "doc": "Sets the line height, will use same value as `size` if not set.",
       "type": [
-        "'x-small'",
-        "'small'",
-        "'basis'",
-        "'medium'",
-        "'large'",
-        "'x-large'",
-        "'xx-large'"
+        "\"x-small\"",
+        "\"small\"",
+        "\"basis\"",
+        "\"medium\"",
+        "\"large\"",
+        "\"x-large\"",
+        "\"xx-large\""
       ],
       "status": "optional"
     },
     "align": {
       "doc": "Sets the text alignment.",
-      "type": ["'center'", "'left'", "'right'"],
+      "type": ["\"center\"", "\"left\"", "\"right\""],
       "status": "optional"
     },
     "family": {
       "doc": "Sets the font family.",
-      "type": ["'basis'", "'heading'", "'monospace'"],
+      "type": ["\"basis\"", "\"heading\"", "\"monospace\""],
       "status": "optional"
     },
     "weight": {
       "doc": "Sets the font weight.",
-      "type": ["'regular'", "'medium'"],
+      "type": ["\"regular\"", "\"medium\""],
       "status": "optional"
     },
     "decoration": {
       "doc": "Sets the font decoration.",
-      "type": "'underline'",
+      "type": "\"underline\"",
       "status": "optional"
     },
     "slant": {
       "doc": "Sets the font style.",
-      "type": "'italic'",
+      "type": "\"italic\"",
       "status": "optional"
     },
     "proseMaxWidth": {

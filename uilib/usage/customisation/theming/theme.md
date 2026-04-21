@@ -1,8 +1,8 @@
 ---
 title: 'Theme'
 description: 'The Theme component is a helper component that lets you create nested theming solutions.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.115Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.460Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -12,7 +12,7 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 
 The Theme component is a helper component that lets you create nested theming solutions.
 
-`<Theme>` will by default create a `div` wrapper, when no custom element is defined (e.g. `element="span"`).
+**NB:** `<Theme>` wraps its children in a `div` by default. Use e.g. `element="span"` to change the wrapper element, or use `Theme.Context` to skip the wrapper entirely (see below).
 
 ```tsx
 import { Theme, useTheme } from '@dnb/eufemia/shared'
@@ -30,8 +30,6 @@ render(
   </Theme>
 )
 ```
-
-**NB:** If no context is given, the hook will return `null`.
 
 From CSS you can use it as so:
 
@@ -56,85 +54,7 @@ From CSS you can use it as so:
 }
 ```
 
-### Mapping of properties with `propMapping`
-
-In order to change or map CSS properties, you can make use of the `propMapping` solution.
-
-```tsx
-import { Theme, useTheme } from '@dnb/eufemia/shared'
-
-const Component = () => {
-  const theme = useTheme()
-  const { name, propMapping } = theme || {}
-  return 'My Component'
-}
-
-render(
-  <Theme name="sbanken">
-    <App>
-      <Theme propMapping="my-class">
-        <MyComponent />
-      </Theme>
-    </App>
-  </Theme>
-)
-```
-
-The main motivation of this feature is to provide a set of maps you can use in your app (if possible). But it lets you create your own sets as well. To do so:
-
-1. Define an area in your app – it could be your component – and give it a declarative name:
-
-```tsx
-import { Theme } from '@dnb/eufemia/shared'
-
-render(
-  <Theme propMapping="my-maps">
-    <MyComponent />
-  </Theme>
-)
-```
-
-2. Define the needed properties:
-
-**CSS**
-
-```css
-.eufemia-theme__theme-name.eufemia-theme__prop-mapping--my-maps {
-  --color-sea-green: var(--sb-color-purple-alternative);
-}
-```
-
-**SCSS**
-
-```scss
-.eufemia-theme__theme-name.eufemia-theme__prop-mapping--my-maps {
-  --color-sea-green: var(--sb-color-purple-alternative);
-}
-```
-
-### Use your component as the wrapper element
-
-You can provide your component as the wrapper. This way no additional HTML Element will be created.
-
-```tsx
-import { Theme } from '@dnb/eufemia/shared'
-
-const Component = ({ className ...props }) => {
-  return <div className={className+' more-classes'} {...props} />
-}
-
-render(
-  <Theme name="theme-name">
-    <App>
-      <Theme propMapping="my-maps" element={Component}>
-        ...
-      </Theme>
-    </App>
-  </Theme>
-)
-```
-
-### React Hook useTheme
+### React Hook `useTheme`
 
 For accessing the theme context, you can use the `useTheme` Hook. It returns the theme context, with an addition of boolean constants like `isSbanken`.
 
@@ -157,9 +77,64 @@ render(
 )
 ```
 
-### Integrations
+**NB:** If no context is given, the hook will return `null`.
 
-By using the [gatsby-plugin-eufemia-theme-handler](https://github.com/dnbexperience/gatsby-plugin-eufemia-theme-handler) plugin, your app will get wrapped with this theme component.
+### Theme.Context
+
+You can use `Theme.Context` to provide theme properties to children without adding a wrapper element. This is useful in cases where you don't want to add an extra DOM element, but still want to provide theme context to the children.
+
+```tsx
+import { Theme } from '@dnb/eufemia/shared'
+
+render(
+  <Theme.Context>
+    Children that receive theme context without an extra wrapper element.
+  </Theme.Context>
+)
+```
+
+#### `surface` property
+
+The `surface` property can be used to adjust the component's appearance based on the background. It accepts three values: `dark`, `light`, and `initial`.
+
+- Use `dark` when the content is placed on a dark surface.
+- Use `light` for light surfaces.
+- Use `initial` to tell the components to use its default behavior.
+
+```tsx
+import { Theme } from '@dnb/eufemia/shared'
+
+render(
+  <Section surface="dark">
+    Children will use the dark surface behavior (ondark).
+    <Theme.Context surface="initial">
+      Children will use their default surface behavior
+    </Theme.Context>
+  </Section>
+)
+```
+
+### Use your component as the wrapper element
+
+You can provide your component as the wrapper. This way no additional HTML Element will be created.
+
+```tsx
+import { Theme } from '@dnb/eufemia/shared'
+
+const Component = ({ className ...props }) => {
+  return <div className={className+' more-classes'} {...props} />
+}
+
+render(
+  <Theme name="theme-name">
+    <App>
+      <Theme name="sbanken" element={Component}>
+        ...
+      </Theme>
+    </App>
+  </Theme>
+)
+```
 
 ### Hide or show parts of your component (filter)
 
@@ -178,41 +153,9 @@ render(
 )
 ```
 
-## Demos
+### Integrations
 
-<ChangeStyleTheme label="Change the brand:" />
-
-### Basis example
-
-```tsx
-render(
-  <Theme name="sbanken">
-    <Logo size={40} />
-  </Theme>
-)
-```
-
-### Basis example `propMapping`
-
-```tsx
-const MyMapping = styled.div`
-  .eufemia-theme__sbanken.eufemia-theme__prop-mapping--my-mapping {
-    --color-sea-green: var(--sb-color-purple-alternative);
-  }
-`
-const CustomComponent = styled(P)`
-  color: var(--color-sea-green);
-`
-render(
-  <MyMapping>
-    <Theme name="sbanken">
-      <Theme propMapping="my-mapping">
-        <CustomComponent>Text with custom color</CustomComponent>
-      </Theme>
-    </Theme>
-  </MyMapping>
-)
-```
+By using the [gatsby-plugin-eufemia-theme-handler](https://github.com/dnbexperience/gatsby-plugin-eufemia-theme-handler) plugin, your app will get wrapped with this theme component.
 
 ## Properties
 
@@ -221,21 +164,16 @@ render(
   "props": {
     "name": {
       "doc": "The name of a branding theme. Can be `ui` (universal identity), `eiendom`, `sbanken` or `carnegie`.",
-      "type": ["ui", "eiendom", "sbanken", "carnegie"],
+      "type": ["\"ui\"", "\"eiendom\"", "\"sbanken\"", "\"carnegie\""],
       "status": "optional"
     },
     "size": {
       "doc": "Will define what sizes of components are used (WIP).",
-      "type": "basis",
+      "type": "\"basis\"",
       "status": "optional"
     },
     "variant": {
       "doc": "(WIP).",
-      "type": "string",
-      "status": "optional"
-    },
-    "propMapping": {
-      "doc": "Defines a specific CSS class so you get a declarative way of mapping CSS properties. A set of predefined maps will be available (WIP).",
       "type": "string",
       "status": "optional"
     },
@@ -244,9 +182,14 @@ render(
       "type": "boolean",
       "status": "optional"
     },
-    "darkMode": {
-      "doc": "When a component supports a dark mode style, it will be used instead for the dedicated area.",
-      "type": "boolean",
+    "colorScheme": {
+      "doc": "Controls the color scheme. Use `auto` to follow system preference and switch automatically between light and dark, `light` for light mode, `dark` for dark mode, or `inherit` to inherit from a parent Theme. Defaults to `undefined`.",
+      "type": ["\"auto\"", "\"light\"", "\"dark\"", "\"inherit\""],
+      "status": "optional"
+    },
+    "surface": {
+      "doc": "Adjusts component appearance based on background. Use `dark` when content is placed on a dark surface, `light` for light, or `initial` to reset to the component's default behavior, ignoring any parent surface context. Defaults to `undefined`.",
+      "type": ["\"dark\"", "\"light\"", "\"initial\""],
       "status": "optional"
     }
   }

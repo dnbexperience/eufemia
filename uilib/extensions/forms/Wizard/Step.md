@@ -1,9 +1,9 @@
 ---
 title: 'Wizard.Step'
 description: 'Each step should be wrapped with a `Wizard.Step` component directly inside Wizard.Container.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.995Z
-checksum: 07919774d2afc2cdb67d93072b9824f6c039a0d4a8363a1e2e1fefa6b8430116
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.343Z
+checksum: f2546e685fcc753e946be2623669dca1f578a3bf9bb37b12ba8d7f9ab4f5a460
 ---
 
 # Wizard.Step
@@ -18,6 +18,11 @@ render(<Wizard.Step />)
 ## Description
 
 `Wizard.Step` shows child components when the surrounding [Wizard.Container](/uilib/extensions/forms/Wizard/Container/) has been navigated to this step. `Wizard.Container` keeps track of the active step, and navigating between wizard steps is done through callbacks on the `Wizard.Context`, e.g., using [navigation buttons](/uilib/extensions/forms/Wizard/Buttons/).
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Wizard/Step)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Wizard/Step)
 
 ```tsx
 import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
@@ -215,7 +220,7 @@ render(<Component />)
   "props": {
     "title": {
       "doc": "An unique title of the step.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "required"
     },
     "inactive": {
@@ -245,7 +250,7 @@ render(<Component />)
     },
     "children": {
       "doc": "Contents.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "required"
     },
     "[Flex.Container](/uilib/layout/flex/container/properties)": {
@@ -257,16 +262,6 @@ render(<Component />)
       "doc": "Spacing properties like `top` or `bottom` are supported.",
       "type": ["string", "object"],
       "status": "optional"
-    },
-    "active": {
-      "doc": "Deprecated, use `include`. Old docs: If set to `false`, the step will not be rendered.",
-      "type": "boolean",
-      "status": "deprecated"
-    },
-    "activeWhen": {
-      "doc": "Deprecated, use `includeWhen`. Old docs: Provide a `path` and a `hasValue` property with the expected value in order to enable the step. You can alternatively provide a `hasValue` function that returns a boolean. The first parameter is the value of the path.",
-      "type": "object",
-      "status": "deprecated"
     }
   }
 }

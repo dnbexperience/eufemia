@@ -1,18 +1,18 @@
 ---
 title: 'Checklist'
 description: 'Accessibility checklist to help you remember the most important tasks you have to follow during front end development.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.101Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.442Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
 # Accessibility Checklist
 
-- [ ] Follow **semantics** properly, use **landmarks** ([landmark and semantic example](/uilib/usage/accessibility/checklist#landmark--and-semantics-example)).
+- [ ] Follow **semantics** properly, use **landmarks** ([landmark and semantic example](/uilib/usage/accessibility/checklist/#landmark--and-semantics-example)).
 - [ ] Ensure correct [heading levels](/uilib/usage/best-practices/for-typography#headings-and-styling).
 - [ ] Use different **screen readers** and test [regularly](/uilib/usage/accessibility/screenreader).
-- [ ] Make sure, [everything is responsive](/uilib/usage/layout#web-applications) - use mostly the `rem` [unit](/uilib/usage/best-practices/for-styling#units).
-- [ ] Make everything accessible for [keyboard navigation only](/uilib/usage/accessibility#keyboard-users) and handle [focus management](/uilib/usage/accessibility/focus#managing-the-focus-state) properly.
+- [ ] Make sure, [everything is responsive](/uilib/layout) - use mostly the `rem` [unit](/uilib/usage/best-practices/for-styling#css-units).
+- [ ] Make everything accessible for [keyboard navigation only](/uilib/usage/accessibility#keyboard-users) and handle [focus management](/uilib/usage/accessibility/focus#managing-focus-state) properly.
 - [ ] Group form elements inside `<fieldset />` and `<legend />`. The [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) is doing this by default.
 - [ ] Do never expose a form element as `disabled` to the user. Use good UX instead.
 - [ ] Have a [Skip Link](/uilib/usage/accessibility/focus#skip-link) in place if the user has to tab many times to reach the main content.

@@ -1,9 +1,9 @@
 ---
 title: 'Form.Visibility'
 description: '`Form.Visibility` makes it possible to hide components and elements on the screen based on the dynamic state of data.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.697Z
-checksum: b83c9abcb73fcf248a0f40f68dbecca7fa5983c3d9d6ccbcea536f249aec56d2
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.970Z
+checksum: 4124652588375b94b40a30fcb102910a53970d9a7800b7246035b0da7dd690a9
 ---
 
 # Form.Visibility
@@ -496,7 +496,7 @@ render(
       "status": "optional"
     },
     "pathUndefined": {
-      "doc": "Given data context path must be undefined to show children.",
+      "doc": "Given data context path must be `undefined` to show children.",
       "type": "string",
       "status": "optional"
     },
@@ -511,12 +511,12 @@ render(
       "status": "optional"
     },
     "pathTrue": {
-      "doc": "Given data context path must be true to show children.",
+      "doc": "Given data context path must be `true` to show children.",
       "type": "string",
       "status": "optional"
     },
     "pathFalse": {
-      "doc": "Given data context path must be false to show children.",
+      "doc": "Given data context path must be `false` to show children.",
       "type": "string",
       "status": "optional"
     },
@@ -526,7 +526,7 @@ render(
       "status": "optional"
     },
     "visible": {
-      "doc": "Control visibility directly using the `visible` prop. When used alongside other conditions, the `visible` prop takes precedence.",
+      "doc": "Control visibility directly using the `visible` property. When used alongside other conditions, the `visible` property takes precedence.",
       "type": "boolean",
       "status": "optional"
     },
@@ -551,18 +551,18 @@ render(
       "status": "optional"
     },
     "fieldPropsWhenHidden": {
-      "doc": "When visibility is hidden, and `keepInDOM` is true, pass these props to the children.",
-      "type": "various",
+      "doc": "When visibility is hidden, and `keepInDOM` is `true`, pass these properties to the children.",
+      "type": "\"various\"",
       "status": "optional"
     },
     "element": {
-      "doc": "Define the type of element. Defaults to `div`. Only for when `animate` is true.",
-      "type": "string or React.Element",
+      "doc": "Define the type of element. Defaults to `div`. Only for when `animate` is `true`.",
+      "type": ["string", "React.Element"],
       "status": "optional"
     },
     "children": {
       "doc": "Contents.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "required"
     }
   }

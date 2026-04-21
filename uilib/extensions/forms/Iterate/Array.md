@@ -1,9 +1,9 @@
 ---
 title: 'Iterate.Array'
 description: '`Iterate.Array` works in many ways similar to field-components. It has a value-property that can receive an array or you can give it a path if you want it to retrieve an array from a surrounding DataContext. All children components of Iterate.Array are rendered once per item the array-value consists of.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.729Z
-checksum: 6f082af7a54a82076a4489c446ffb8acad486b7c8dc38119d5665dde0ae043a4
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.022Z
+checksum: 7de0da6b383745c27475497c9f7478a9fc68eeee197f8230e3b44dd10106380b
 ---
 
 # Iterate.Array
@@ -18,6 +18,11 @@ render(<Iterate.Array />)
 ## Description
 
 `Iterate.Array` works in many ways similar to field components. It has a `value` property that can receive an array, or you can give it a `path` if you want it to retrieve an array from a surrounding `DataContext`. All child components of `Iterate.Array` are rendered once per item the array value consists of.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Iterate/Array)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Iterate/Array)
 
 ```tsx
 import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
@@ -837,9 +842,7 @@ const MyForm = () => {
               const index = findFirstDuplication(arrayValue)
               if (index > -1) {
                 return new Error(
-                  `You cannot have duplicate items: ${getCountryNameByIso(
-                    String(arrayValue.at(index))
-                  )}`
+                  `You cannot have duplicate items: ${getCountryNameByIso(String(arrayValue.at(index)))}`
                 )
               }
             }}
@@ -1192,7 +1195,7 @@ render(
 {
   "props": {
     "value": {
-      "doc": "The data to iterate over. Alternative you can use the `path` prop.",
+      "doc": "The data to iterate over. Alternative you can use the `path` property.",
       "type": "array",
       "status": "optional"
     },
@@ -1207,7 +1210,7 @@ render(
       "status": "optional"
     },
     "required": {
-      "doc": "If the array is required. It does not automatically inherit the `required` property in the same way that `Field.*` components do. You may provide a custom error message to give the user a more useful message than the default one: `errorMessages={{ 'Field.errorRequired': 'Custom message' }}`",
+      "doc": "If the array is required. It does not automatically inherit the `required` property in the same way that `Field.*` components do. You may provide a custom error message to give the user a more useful message than the default one: `errorMessages={{ 'Field.errorRequired': 'Custom message' }}`.",
       "type": "boolean",
       "status": "optional"
     },
@@ -1258,7 +1261,7 @@ render(
     },
     "placeholder": {
       "doc": "Will be shown if the value or data context value is empty.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "emptyValue": {
@@ -1268,7 +1271,7 @@ render(
     },
     "containerMode": {
       "doc": "Defines the container mode for all nested containers. Can be `view`, `edit` or `auto`. When using `auto`, it will automatically open if there is an error in the container. When a new item is added, the item before it will change to `view` mode, if it had no validation errors. Defaults to `auto`.",
-      "type": "string",
+      "type": ["\"view\"", "\"edit\"", "\"auto\""],
       "status": "optional"
     },
     "onChangeValidator": {
@@ -1277,7 +1280,7 @@ render(
       "status": "optional"
     },
     "validateInitially": {
-      "doc": "Set to `true` to show validation based errors initially (from given value-prop or source data) before the user interacts with the field.",
+      "doc": "Set to `true` to show validation based errors initially (from given value-property or source data) before the user interacts with the field.",
       "type": "boolean",
       "status": "optional"
     },
@@ -1287,7 +1290,7 @@ render(
       "status": "optional"
     },
     "children": {
-      "doc": "React.Node or a function so you can get the current value as the first function parameter, and the index as the second parameter as well as the array of internal items as the third parameter.",
+      "doc": "`React.ReactNode` or a function so you can get the current value as the first function parameter, and the index as the second parameter as well as the array of internal items as the third parameter.",
       "type": ["React.ReactNode", "function"],
       "status": "optional"
     },

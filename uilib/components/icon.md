@@ -1,9 +1,9 @@
 ---
 title: 'Icon'
 description: 'The main Icon component is basically a wrapper for whatever icon you place within it.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.476Z
-checksum: cdf76b696adc4c044f4d4a6bef2aa550381bf01bebca4c71d28e823e7449d39a
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.107Z
+checksum: 9ab15f87276c87bf659491ebc7970a6033329a90d8cf417f7362df8c8a620fb2
 ---
 
 # Icon
@@ -179,7 +179,7 @@ The official supported sizes are `default` and `medium`.
     "icon": {
       "doc": "A React SVG Component.",
       "type": "React.ReactNode",
-      "status": "required"
+      "status": "optional"
     },
     "title": {
       "doc": "Use a title to provide extra information about the icon used.",
@@ -199,20 +199,20 @@ The official supported sizes are `default` and `medium`.
     "size": {
       "doc": "The dimension of the icon. This will be the `viewBox` and represent `width` and `height`. Defaults to `16`. You can use `small`,`medium`, `large` or `auto`. Auto will enable that the icon size gets inherited by the parent HTML element if it provides a `font-size`.",
       "type": [
-        "small",
-        "medium",
-        "large",
-        "default",
-        "x-large",
-        "xx-large",
-        "auto",
-        "basis",
+        "\"default\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\"",
+        "\"x-large\"",
+        "\"xx-large\"",
+        "\"basis\"",
+        "\"auto\"",
         "number"
       ],
       "status": "optional"
     },
     "color": {
-      "doc": "The color can be any valid color property, such as Hex, RGB or preferable – any CSS variable from the [colors table](/uilib/usage/customisation/colors), e.g. `var(--color-ocean-green)`. Default is no color, which means `--color-black-80`.",
+      "doc": "The color can be any valid color property, such as Hex, RGB or preferable – any CSS variable from the [colors table](/uilib/usage/customisation/colors), e.g. `var(--color-ocean-green)`. Defaults to no color, which means `--color-black-80`.",
       "type": "Various",
       "status": "optional"
     },

@@ -1,8 +1,8 @@
 ---
 title: 'Connector.Bring'
 description: 'Bring is a connector that allows you to fetch data from their REST API and use it in your form.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.373Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.759Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -137,6 +137,7 @@ render(
         postalCode={{
           path: '/postalCode',
           onBlurValidator,
+          // @ts-expect-error -- strictFunctionTypes
           onBlur,
           required: true,
         }}
@@ -297,6 +298,7 @@ render(
     <Form.Card>
       <Field.Address.Street
         path="/streetAddress"
+        // @ts-expect-error -- strictFunctionTypes
         element={addressSuggestionsElement}
       />
       <Field.PostalCodeAndCity

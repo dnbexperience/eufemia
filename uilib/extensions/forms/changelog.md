@@ -1,8 +1,8 @@
 ---
 title: 'Change log'
 description: 'Change log for the Eufemia Forms extension'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.024Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.373Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -12,11 +12,22 @@ Change log for the Eufemia Forms extension.
 
 Get more [details about releases](/uilib/releases) or have a look on all [release notes on GitHub](https://github.com/dnbexperience/eufemia/releases).
 
+## v11.0.0
+
+- Added `bankAccountType` prop to [Field.BankAccountNumber](/uilib/extensions/forms/feature-fields/BankAccountNumber/) and [Value.BankAccountNumber](/uilib/extensions/forms/Value/BankAccountNumber/) with support for Swedish BBAN, Swedish Bankgiro, Swedish Plusgiro, and IBAN.
+- [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/) now emits values in E.164 format (e.g. `+4712345678` instead of `+47 12345678`). Auto-detects country codes from E.164 and `00`-prefixed values. Patterns and schemas must be updated to match.
+- Added `detectCountryCode` utility, exported from `@dnb/eufemia/extensions/forms`, for detecting E.164 country codes from phone number strings.
+- Added `preventDefaultOnSubmit` to [Form.Handler](/uilib/extensions/forms/Form/Handler/), allowing native browser form submission such as `POST` to a form `action`.
+- Removed automatic horizontal card-coupled outset alignment for [Form.MainHeading](/uilib/extensions/forms/Form/MainHeading/), [Form.SubHeading](/uilib/extensions/forms/Form/SubHeading/), [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton/) and [Form.ButtonRow](/uilib/extensions/forms/Form/ButtonRow/).
+- [Form.Card](/uilib/extensions/forms/Form/Card/) no longer enables `outset` by default.
+- [Card.Provider](/uilib/components/card/) / [Form.Card.Provider](/uilib/extensions/forms/Form/Card/) has been removed (including `disableCardBreakout`).
+- All `export type Props` in Field, Value, Form, Iterate, Wizard, and DataContext modules have been renamed to use a component-prefixed name (e.g. `FieldStringProps`, `ValueNumberProps`, `FormHandlerProps`). An ESLint rule now enforces this convention.
+
 ## v10.100.0
 
 - Added `totalSteps` in `onStepChange` options for [Wizard.Container](/uilib/extensions/forms/Wizard/Container/).
 
-## v10.96.0
+## v10.96
 
 - Added [Form.useSubmit](/uilib/extensions/forms/Form/useSubmit/) to trigger form submit from outside [Form.Handler](/uilib/extensions/forms/Form/Handler/).
 
@@ -332,7 +343,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 
 ## v10.54
 
-- Deprecated Ajv `validationRule` in [FormError](/uilib/extensions/forms/Form/error-messages/info/#error-messages) and deprecated `errorMessages` keys like `pattern` in favor of Eufemia translation keys like `Field.errorPattern`. For a migration guide, take a look at [release notes for the future major release, v11](/uilib/about-the-lib/releases/eufemia/v11-info/#forms-error-handling).
+- Deprecated Ajv `validationRule` in [FormError](/uilib/extensions/forms/Form/error-messages/) and deprecated `errorMessages` keys like `pattern` in favor of Eufemia translation keys like `Field.errorPattern`. For a migration guide, take a look at [release notes for the future major release, v11](/uilib/about-the-lib/releases/eufemia/v11-info/#error-handling).
 - Added [docs](/uilib/extensions/forms/about-fields/#empty-value) about `emptyValue`.
 - Added `transformData` to the `onSubmit` event listener of [Form.Handler](/uilib/extensions/forms/Form/Handler/).
 - Added `onDone`, `onCancel` and `onEdit` events to [Form.Section](/uilib/extensions/forms/Form/Section/) containers.
@@ -390,7 +401,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 - Added [Value.Provider](/uilib/extensions/forms/Value/Provider/) to propagate value properties down to [Value components](/uilib/extensions/forms/Value/components/) (e.g. `inheritVisibility`).
 - Deprecated [Form.useError](/uilib/extensions/forms/Form/useError/) and replaced with [Form.useValidation](/uilib/extensions/forms/Form/useValidation/).
 - Deprecated `omit_rounding` in [Value.Number](/uilib/extensions/forms/Value/Number/) and [Value.Currency](/uilib/extensions/forms/Value/Currency/), replaced with `rounding="omit"`.
-- Deprecated [Form.FieldProps](/uilib/extensions/forms/Form/FieldProps/) and replaced with [Field.Provider](/uilib/extensions/forms/feature-fields/Provider/).
+- Deprecated Form.FieldProps and replaced with [Field.Provider](/uilib/extensions/forms/feature-fields/Provider/).
 - Fixed error throwing when using [Iterate.useCount hook](/uilib/extensions/forms/Iterate/Count/) or [useData hook](/uilib/extensions/forms/Form/useData/) in [Wizard](/uilib/extensions/forms/Wizard/) without form id.
 - Fixed so the deprecated `itemNr` still works in the [Iterate.ViewContainer](/uilib/extensions/forms/Iterate/ViewContainer/).
 - Fixed so [Field.Toggle](/uilib/extensions/forms/base-fields/Toggle/) does not render invisible label when not providing any label.
@@ -435,7 +446,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 
 ## v10.38
 
-- Added support for nesting fields inside of [Form.Section](/uilib/extensions/forms/Form/Section/) and [Form.ArraySelection](/uilib/extensions/forms/Form/ArraySelection/).
+- Added support for nesting fields inside of [Form.Section](/uilib/extensions/forms/Form/Section/) and [Form.ArraySelection](/uilib/extensions/forms/base-fields/ArraySelection/).
 
 ## v10.36
 
@@ -456,7 +467,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 
 ## v10.32
 
-- Added [Field.Slider](/uilib/extensions/forms/Field/Slider/) component.
+- Added [Field.Slider](/uilib/extensions/forms/feature-fields/more-fields/Slider/) component.
 
 ## v10.31
 

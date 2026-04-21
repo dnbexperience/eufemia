@@ -1,9 +1,9 @@
 ---
 title: 'FormStatus (Messageboxes)'
 description: 'The FormStatus is a simple component meant for displaying the status of a form (errors, messages, etc.).'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.430Z
-checksum: 6ee2fe12d5d7cd3b742e2324532e3a1ad656101034eb6dcc8ac22fb690030fe1
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.057Z
+checksum: 339756daf11a603393ed11f7e30ae9e070cb321ac008c0c634bd8356fdc424ac
 ---
 
 # FormStatus (Messageboxes)
@@ -70,23 +70,23 @@ The `min-width` is set to be **12rem**. Use CSS `min-width` or `max-width` to se
 render(<FormStatus text="Failure text" />)
 ```
 
-### Displaying info status
+### Displaying information status
 
 ```tsx
 render(
   <FormStatus
     title="Hover title"
     text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
-    state="info"
+    state="information"
   />
 )
 ```
 
-### Displaying warn status
+### Displaying warning status
 
 ```tsx
 render(
-  <FormStatus state="warn" variant="outlined">
+  <FormStatus state="warning" variant="outlined">
     Warningmessage. Take notice!
   </FormStatus>
 )
@@ -111,7 +111,7 @@ render(
   <FormStatus
     stretch={true}
     text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
-    state="warn"
+    state="warning"
   />
 )
 ```
@@ -140,7 +140,7 @@ render(
   <Input
     label="Input with custom status"
     status={<CustomStatus />}
-    status_state="info"
+    statusState="information"
     value="Input value"
   />
 )
@@ -150,7 +150,7 @@ render(
 
 ```tsx
 render(
-  <FormStatus state="info" size="large" variant="outlined">
+  <FormStatus state="information" size="large" variant="outlined">
     My HTML{' '}
     <Anchor href="/" target="_blank">
       with a link
@@ -204,19 +204,19 @@ render(
     rowGap="small"
   >
     <Grid.Container columns={1}>
-      <FormStatus text="Text" state="info" variant="flat" />
-      <FormStatus text="Text" state="info" variant="outlined" />
+      <FormStatus text="Text" state="information" variant="plain" />
+      <FormStatus text="Text" state="information" variant="outlined" />
     </Grid.Container>
     <Grid.Container columns={1}>
       <FormStatus text="Text" state="success" />
       <FormStatus text="Text" state="success" variant="outlined" />
     </Grid.Container>
     <Grid.Container columns={1}>
-      <FormStatus text="Text" state="warn" variant="flat" />
-      <FormStatus text="Text" state="warn" variant="outlined" />
+      <FormStatus text="Text" state="warning" variant="plain" />
+      <FormStatus text="Text" state="warning" variant="outlined" />
     </Grid.Container>
     <Grid.Container columns={1}>
-      <FormStatus text="Text" state="error" variant="flat" />
+      <FormStatus text="Text" state="error" variant="plain" />
       <FormStatus text="Text" state="error" variant="outlined" />
     </Grid.Container>
     <Grid.Container columns={1}>
@@ -253,28 +253,34 @@ render(
       "status": "optional"
     },
     "state": {
-      "doc": "Defines the visual appearance of the status. These are the statuses `error`, `warn`, `info` and `marketing`. The default status is `error`.",
-      "type": ["error", "warn", "info", "success", "marketing"],
+      "doc": "Defines the visual appearance of the status. These are the statuses `error`, `warning`, `information` and `marketing`. The default status is `error`.",
+      "type": [
+        "\"error\"",
+        "\"warning\"",
+        "\"information\"",
+        "\"success\"",
+        "\"marketing\""
+      ],
       "status": "optional"
     },
     "size": {
       "doc": "Defines the appearance size. There are these sizes `default`, `large`. The default status is `default`.",
-      "type": ["default", "large"],
+      "type": ["\"default\"", "\"large\""],
       "status": "optional"
     },
     "icon": {
-      "doc": "The `icon` show before the status text. Defaults to `exclamation`.",
+      "doc": "The `icon` show before the status text. Defaults to `error`.",
       "type": "React.ReactNode",
       "status": "optional"
     },
-    "icon_size": {
+    "iconSize": {
       "doc": "The icon size of the icon shows. Defaults to `medium`.",
       "type": "string",
       "status": "optional"
     },
     "variant": {
-      "doc": "As of now, there is the `flat` and the `outlined` variant. Defaults to `flat`.",
-      "type": ["flat", "outlined"],
+      "doc": "As of now, there is the `plain` and the `outlined` variant. Defaults to `plain`.",
+      "type": ["\"plain\"", "\"outlined\""],
       "status": "optional"
     },
     "stretch": {
@@ -287,8 +293,8 @@ render(
       "type": "boolean",
       "status": "optional"
     },
-    "no_animation": {
-      "doc": "NB: Animation is disabled as of now. ~~use `true` to omit the animation on content visibility. Defaults to `false`.~~",
+    "noAnimation": {
+      "doc": "**NB:** Animation is disabled as of now. ~~Use `true` to omit the animation on content visibility. Defaults to `false`.~~",
       "type": "boolean",
       "status": "optional"
     },

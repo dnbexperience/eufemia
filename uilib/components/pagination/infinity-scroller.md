@@ -1,12 +1,12 @@
 ---
-title: 'Infinity Scroller'
+title: 'InfinityScroller'
 description: 'The InfinityScroller component is a mode of the Pagination component which loads content continuously as the user scrolls down the page.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.579Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.225Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
-# Infinity Scroller
+# InfinityScroller
 
 ## Import
 
@@ -69,7 +69,7 @@ render(<Pagination mode="infinity" />)
 
 #### Infinity scroller method #2
 
-Using the `on_change` event together with `setContent`.
+Using the `onChange` event together with `setContent`.
 
 ```jsx
 import { Pagination } from '@dnb/eufemia/components'
@@ -77,7 +77,7 @@ import { Pagination } from '@dnb/eufemia/components'
 render(
   <Pagination
     mode="infinity"
-    on_change={({ pageNumber, setContent }) => {
+    onChange={({ pageNumber, setContent }) => {
       setContent(pageNumber, ReactComponent)
     }}
   />
@@ -86,7 +86,7 @@ render(
 
 #### Infinity scroller method #3
 
-Using a `set_content_handler` handler.
+Using a `setContentHandler` handler.
 
 ```jsx
 import InfinityScroller from '@dnb/eufemia/components/pagination/InfinityScroller'
@@ -100,8 +100,8 @@ React.useEffect(() => {
 
 render(
   <InfinityScroller
-    set_content_handler={(fn) => (setContent = fn)}
-    on_change={({ pageNumber }) => {
+    setContentHandler={(fn) => (setContent = fn)}
+    onChange={({ pageNumber }) => {
       setLocalPage(pageNumber)
     }}
   />
@@ -112,9 +112,9 @@ render(
 
 Using a `InfinityMarker` only. See [code example on GitHub](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/components/pagination/stories/PaginationTableMarker.stories.tsx).
 
-This method will basically add a load button on top, if `startup_page` or `current_page` is higher than `1` at the first render.
+This method will basically add a load button on top, if `startupPage` or `currentPage` is higher than `1` at the first render.
 
-Also, it adds an indicator at the bottom until next render, and as long as `page_count` has not reached the internal page count. But instead of setting `page_count` (total pages), you can pragmatically call `endInfinity()` instead.
+Also, it adds an indicator at the bottom until next render, and as long as `pageCount` has not reached the internal page count. But instead of setting `pageCount` (total pages), you can pragmatically call `endInfinity()` instead.
 
 ```jsx
 import { createPagination } from '@dnb/eufemia/components/Pagination'
@@ -130,17 +130,17 @@ render(<InfinityMarker>ReactComponent</InfinityMarker>)
 
 ### Infinity scroller with load button
 
-A load button is shown at the bottom by having `use_load_button={true}` - but here we define our `startup_page={5}`, so we also get a load button on top.
+A load button is shown at the bottom by having `useLoadButton={true}` - but here we define our `startupPage={5}`, so we also get a load button on top.
 
 ```tsx
 render(
   <HeightLimit>
     <Pagination
       mode="infinity"
-      use_load_button
-      startup_page={5}
-      min_wait_time={0}
-      on_load={({ pageNumber, setContent }) => {
+      useLoadButton
+      startupPage={5}
+      minWaitTime={0}
+      onLoad={({ pageNumber, setContent }) => {
         // simulate server communication delay
         const timeout = setTimeout(
           () => {
@@ -162,13 +162,13 @@ render(
   <HeightLimit>
     <Pagination
       mode="infinity"
-      indicator_element={() => (
+      indicatorElement={() => (
         <LargePage color="lightgreen">Loading ...</LargePage>
       )}
-      startup_page={3}
-      page_count={10}
-      min_wait_time={0}
-      on_load={({ pageNumber, setContent }) => {
+      startupPage={3}
+      pageCount={10}
+      minWaitTime={0}
+      onLoad={({ pageNumber, setContent }) => {
         // simulate server communication delay
         const timeout = setTimeout(
           () => {
@@ -178,7 +178,7 @@ render(
         )
         return () => clearTimeout(timeout)
       }}
-      on_end={({ pageNumber, setContent }) => {
+      onEnd={({ pageNumber, setContent }) => {
         setContent(
           pageNumber,
           <LargePage color="lightgreen">End</LargePage>
@@ -189,16 +189,16 @@ render(
 )
 ```
 
-### Infinity scroller with unknown `page_count`
+### Infinity scroller with unknown `pageCount`
 
 ```tsx
 render(
   <HeightLimit>
     <Pagination
       mode="infinity"
-      parallel_load_count={2}
-      min_wait_time={0}
-      on_load={({ pageNumber, setContent, endInfinity }) => {
+      parallelLoadCount={2}
+      minWaitTime={0}
+      onLoad={({ pageNumber, setContent, endInfinity }) => {
         // simulate server communication delay
         const timeout = setTimeout(
           () => {
@@ -212,7 +212,7 @@ render(
         )
         return () => clearTimeout(timeout)
       }}
-      on_end={({ pageNumber, setContent }) => {
+      onEnd={({ pageNumber, setContent }) => {
         setContent(
           pageNumber,
           <LargePage color="lightgreen">End</LargePage>
@@ -242,12 +242,12 @@ render(
   "props": {
     "mode": {
       "doc": "If set to `infinity`, then the pagination bar will be now shown and but infinity scrolling will do the content presentation. For more information, check out the [Infinity Scroller](/uilib/components/pagination/infinity-scroller). Defaults to `pagination`.",
-      "type": ["pagination", "infinity"],
+      "type": ["\"pagination\"", "\"infinity\""],
       "status": "optional"
     },
     "paginationBarLayout": {
       "doc": "The layout of the pagination bar. Defaults to `vertical`.",
-      "type": ["vertical", "horizontal"],
+      "type": ["\"vertical\"", "\"horizontal\""],
       "status": "optional"
     },
     "children": {
@@ -257,132 +257,122 @@ render(
     },
     "align": {
       "doc": "Define the alignment of the pagination button bar. Can be `center`, `left` or `right`. Defaults to `left`.",
-      "type": ["left", "center", "right"],
+      "type": ["\"left\"", "\"center\"", "\"right\""],
       "status": "optional"
     },
-    "startup_page": {
-      "doc": "The page shown in the very beginning. If `current_page` is set, then it may not make too much sense to set this as well.",
+    "startupPage": {
+      "doc": "The page shown in the very beginning. If `currentPage` is set, then it may not make too much sense to set this as well.",
       "type": ["number", "string"],
       "status": "optional"
     },
-    "current_page": {
+    "currentPage": {
       "doc": "The page shown at the moment the component renders. Defaults to `1`.",
       "type": ["number", "string"],
       "status": "optional"
     },
-    "page_count": {
+    "pageCount": {
       "doc": "The total pages count. Defaults to `1`.",
       "type": ["number", "string"],
       "status": "optional"
     },
-    "startup_count": {
+    "startupCount": {
       "doc": "Defines how many `infinity` pages should be loaded / shown on the first render. Defaults to `1`.",
       "type": ["number", "string"],
       "status": "optional"
     },
-    "parallel_load_count": {
+    "parallelLoadCount": {
       "doc": "Defines how many `infinity` pages should be loaded / shown once the user scrolls down. Defaults to `1`.",
       "type": ["number", "string"],
       "status": "optional"
     },
-    "min_wait_time": {
+    "minWaitTime": {
       "doc": "The minimum time to wait, if the infinity scroll was invoked under that time threshold. This prevents not intentional infinity scroll loop calls. Defaults to `400` milliseconds.",
       "type": ["number", "string"],
       "status": "optional"
     },
-    "place_maker_before_content": {
-      "doc": "If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`. This prop is deprecated and will be removed in v11, use `place_marker_before_content` instead.",
-      "type": "boolean",
-      "status": "deprecated"
-    },
-    "place_marker_before_content": {
+    "placeMarkerBeforeContent": {
       "doc": "If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },
-    "use_load_button": {
-      "doc": "If set to `true` it will disable the automated infinity scrolling, but shows a load more button at the of the content instead.",
+    "useLoadButton": {
+      "doc": "If set to `true`, it will disable the automated infinity scrolling, but shows a load more button at the of the content instead.",
       "type": "boolean",
       "status": "optional"
     },
-    "hide_progress_indicator": {
-      "doc": "If set to `true` no indicator will be shown.",
+    "hideProgressIndicator": {
+      "doc": "If set to `true`, no indicator will be shown.",
       "type": "boolean",
       "status": "optional"
     },
-    "page_element": {
+    "pageElement": {
       "doc": "By default a `<div>` is used. Set it to any element you have to use. Adds also a class: `dnb-pagination__page` shown.",
       "type": ["string", "object", "React.ReactNode"],
       "status": "optional"
     },
-    "fallback_element": {
+    "fallbackElement": {
       "doc": "(infinity mode) is used by the _indicator_, _load more_ bar as well as by the marker. Defaults to a `div`.",
       "type": ["string", "object", "React.ReactNode"],
       "status": "optional"
     },
-    "indicator_element": {
-      "doc": "(infinity mode) is used by the _indicator_. Falls back to `fallback_element` if not defined.",
+    "indicatorElement": {
+      "doc": "(infinity mode) is used by the _indicator_. Falls back to `fallbackElement` if not defined.",
       "type": ["string", "object", "React.ReactNode"],
       "status": "optional"
     },
-    "marker_element": {
-      "doc": "(infinity mode) is used by the internal marker. Falls back to `fallback_element` if not defined.",
+    "markerElement": {
+      "doc": "(infinity mode) is used by the internal marker. Falls back to `fallbackElement` if not defined.",
       "type": ["string", "object", "React.ReactNode"],
       "status": "optional"
     },
-    "set_content_handler": {
-      "doc": "Callback function to get the `setContent` handler from the current pagination instance. e.g. `set_content_handler={fn => (...)}`. Use this handler to insert content during infinity mode.",
+    "setContentHandler": {
+      "doc": "Callback function to get the `setContent` handler from the current pagination instance, e.g. `setContentHandler={fn => (...)}`. Use this handler to insert content during infinity mode.",
       "type": "function",
       "status": "optional"
     },
-    "reset_content_handler": {
-      "doc": "Callback function to get the `resetContent` handler from the current pagination instance. e.g. `reset_content_handler={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.",
+    "resetContentHandler": {
+      "doc": "Callback function to get the `resetContent` handler from the current pagination instance, e.g. `resetContentHandler={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.",
       "type": "function",
       "status": "optional"
     },
-    "reset_pagination_handler": {
-      "doc": "Callback function to get the `resetInfinity` handler from the current pagination instance. e.g. `reset_pagination_handler={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.",
+    "resetPaginationHandler": {
+      "doc": "Callback function to get the `resetInfinity` handler from the current pagination instance, e.g. `resetPaginationHandler={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.",
       "type": "function",
       "status": "optional"
     },
-    "end_infinity_handler": {
-      "doc": "Callback function to get the `endInfinity` handler from the current pagination instance. e.g. `end_infinity_handler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `page_count` is unknown.",
+    "endInfinityHandler": {
+      "doc": "Callback function to get the `endInfinity` handler from the current pagination instance, e.g. `endInfinityHandler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `pageCount` is unknown.",
       "type": "function",
       "status": "optional"
     },
-    "button_title": {
+    "buttonTitle": {
       "doc": "The title used in every button shown in the bar. Defaults to `Side %s`.",
       "type": "string",
       "status": "optional"
     },
-    "next_title": {
+    "nextTitle": {
       "doc": "The title used in the next page button. Defaults to `Neste side`.",
       "type": "string",
       "status": "optional"
     },
-    "prev_title": {
+    "prevTitle": {
       "doc": "The title used in the previous page button. Defaults to `Forrige side`.",
       "type": "string",
       "status": "optional"
     },
-    "more_pages": {
+    "morePages": {
       "doc": "The title used in the dots. Relevant for screen readers. Defaults to `%s flere sider`.",
       "type": "string",
       "status": "optional"
     },
-    "is_loading_text": {
+    "isLoadingText": {
       "doc": "Shown until new content is inserted in to the page. Defaults to `Laster nytt innhold`.",
       "type": "string",
       "status": "optional"
     },
     "barSpace": {
-      "doc": "Used to set spacing for the pagination bar. Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`. See property [space](/uilib/layout/space/properties).",
+      "doc": "Used to set spacing for the pagination bar. Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or `16px`. See property [space](/uilib/layout/space/properties).",
       "type": "Various",
-      "status": "optional"
-    },
-    "load_button_text": {
-      "doc": "Used during infinity mode. If `use_load_button` is set to `true`, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.",
-      "type": "string",
       "status": "optional"
     },
     "loadButton": {
@@ -415,37 +405,37 @@ render(
 {
   "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
   "entries": {
-    "Pagination.button_title": {
+    "Pagination.buttonTitle": {
       "nb-NO": "Side %s",
       "en-GB": "Page %s",
       "sv-SE": "Sida %s",
       "da-DK": "Side %s"
     },
-    "Pagination.is_loading_text": {
+    "Pagination.isLoadingText": {
       "nb-NO": "Laster nytt innhold",
       "en-GB": "Loading new content",
       "sv-SE": "Laddar nytt innehåll",
       "da-DK": "Indlæser nyt indhold"
     },
-    "Pagination.load_button_text": {
+    "Pagination.loadButtonText": {
       "nb-NO": "Vis mer innhold",
       "en-GB": "Show more content",
       "sv-SE": "Visa mer innehåll",
       "da-DK": "Vis mere indhold"
     },
-    "Pagination.more_pages": {
+    "Pagination.morePages": {
       "nb-NO": "%s flere sider",
       "en-GB": "%s more pages",
       "sv-SE": "%s fler sidor",
       "da-DK": "%s flere sider"
     },
-    "Pagination.next_title": {
+    "Pagination.nextTitle": {
       "nb-NO": "Neste side",
       "en-GB": "Next page",
       "sv-SE": "Nästa sida",
       "da-DK": "Næste side"
     },
-    "Pagination.prev_title": {
+    "Pagination.prevTitle": {
       "nb-NO": "Forrige side",
       "en-GB": "Previous page",
       "sv-SE": "Föregående sida",
@@ -472,23 +462,23 @@ The content can be either a function or a React Node. A function may be more use
 ```json
 {
   "props": {
-    "on_change": {
+    "onChange": {
       "doc": "Will be called for every page change, regardless if the mode is `mode=\"infinity\"` or not. Returns an object with number of useful properties and methods. See below for more details.",
       "type": "function",
       "status": "optional"
     },
-    "on_startup": {
+    "onStartup": {
       "doc": "Only on **infinity** mode. Will be called once the component is ready for interaction. Returns an object with number of useful properties and methods. See below for more details. **NB:** Will be called again as soon as we reset the content by calling `resetContent()`.",
       "type": "function",
       "status": "optional"
     },
-    "on_load": {
+    "onLoad": {
       "doc": "Only on **infinity** mode. Will be called on every page interaction, also on the very first interaction. Returns an object with number of useful properties and methods. See below for more details.",
       "type": "function",
       "status": "optional"
     },
-    "on_end": {
-      "doc": "Only on **infinity** mode. Will be called once `page_count` is reached or `endInfinity` was called.",
+    "onEnd": {
+      "doc": "Only on **infinity** mode. Will be called once `pageCount` is reached or `endInfinity` was called.",
       "type": "function",
       "status": "optional"
     }
@@ -504,7 +494,7 @@ Events have several useful methods to change / manipulate the content.
 
 ```jsx
 <Pagination
-  on_change={({ pageNumber, ...methods }) => {
+  onChange={({ pageNumber, ...methods }) => {
     // ...
   }}
 />
@@ -518,7 +508,7 @@ Events have several useful methods to change / manipulate the content.
 ```jsx
 <Pagination
   mode="infinity"
-  on_change={({ pageNumber, ...methods }) => {
+  onChange={({ pageNumber, ...methods }) => {
     // ...
   }}
 />
@@ -526,7 +516,7 @@ Events have several useful methods to change / manipulate the content.
 
 - `pageNumber` the current page number
 - `setContent` use it to add update a page including content: `setContent(pageNumber, ReactComponent, position = 'after')`
-- `endInfinity` use it to tell the infinity pagination to end the infinity scrolling interaction. Use this handler to end the infinity scrolling procedure, in case the page_count is unknown: `endInfinity(pageNumber)`
+- `endInfinity` use it to tell the infinity pagination to end the infinity scrolling interaction. Use this handler to end the infinity scrolling procedure, in case the pageCount is unknown: `endInfinity(pageNumber)`
 - `resetContent` use it to invalidate all internal pages: `resetContent()`
-- `resetInfinity` use it to reset the internal pagination states: `resetInfinity(pageNumber = startup_page)`
+- `resetInfinity` use it to reset the internal pagination states: `resetInfinity(pageNumber = startupPage)`
 - `items` internal stored pages

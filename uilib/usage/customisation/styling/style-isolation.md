@@ -1,7 +1,7 @@
 ---
 title: 'Style Isolation'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.113Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.456Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -53,8 +53,8 @@ You can also import the isolated CSS files directly:
 
 ```tsx
 import '@dnb/eufemia/style/dnb-ui-basis--isolated.min.css'
-import '@dnb/eufemia/style/themes/theme-ui/ui-theme-components--isolated.min.css'
-import '@dnb/eufemia/style/themes/theme-ui/ui-theme-basis--isolated.min.css'
+import '@dnb/eufemia/style/themes/ui/ui-theme-components--isolated.min.css'
+import '@dnb/eufemia/style/themes/ui/ui-theme-basis--isolated.min.css'
 ```
 
 ### 2. Define the scope
@@ -164,7 +164,7 @@ Every component has its own isolated CSS file. You can import them directly:
 ```tsx
 // Shared basis
 import '@dnb/eufemia/style/dnb-ui-basis--isolated.min.css'
-import '@dnb/eufemia/style/themes/theme-ui/ui-theme-basis--isolated.min.css'
+import '@dnb/eufemia/style/themes/ui/ui-theme-basis--isolated.min.css'
 
 // Components
 import '@dnb/eufemia/components/button/style/dnb-button--isolated.min.css'

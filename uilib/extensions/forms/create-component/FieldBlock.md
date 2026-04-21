@@ -1,8 +1,8 @@
 ---
 title: 'FieldBlock'
 description: '`FieldBlock` is a reusable wrapper for building Field-components. It shows surrounding elements through properties from `FieldProps` like `label` and `error`.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.025Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.374Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -138,7 +138,7 @@ render(
   <FieldBlock label="Label">
     <Flex.Container>
       <Flex.Item
-        size={{
+        span={{
           small: 12,
           large: 'auto',
         }}
@@ -146,7 +146,7 @@ render(
         <Field.Name.First path="/firstName" width="medium" minLength={2} />
       </Flex.Item>
       <Flex.Item
-        size={{
+        span={{
           small: 12,
           large: 'auto',
         }}
@@ -154,7 +154,7 @@ render(
         <Field.Name.Last path="/lastName" width="medium" required />
       </Flex.Item>
       <Flex.Item
-        size={{
+        span={{
           small: 12,
           large: 'auto',
         }}
@@ -166,7 +166,6 @@ render(
             step={1}
             value={2010}
             label="Birth year"
-            label_direction="vertical"
             tooltip
             alwaysShowTooltip
           />
@@ -657,12 +656,12 @@ render(
       "status": "optional"
     },
     "labelDescription": {
-      "doc": "A more discreet text displayed beside the label (i.e for \"(optional)\").",
+      "doc": "A more discreet text displayed beside the label (i.e. for \"(optional)\").",
       "type": "string",
       "status": "optional"
     },
     "labelDescriptionInline": {
-      "doc": "If true, the `labelDescription` will be displayed on the same line as the label.",
+      "doc": "If `true`, the `labelDescription` will be displayed on the same line as the label.",
       "type": "boolean",
       "status": "optional"
     },
@@ -673,11 +672,11 @@ render(
     },
     "labelSize": {
       "doc": "Define one of the following [heading sizes](/uilib/elements/heading/): `medium` or `large`.",
-      "type": ["string", "false"],
+      "type": ["\"medium\"", "\"large\""],
       "status": "optional"
     },
     "help": {
-      "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+      "doc": "Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
       "type": "object",
       "status": "optional"
     },
@@ -687,17 +686,17 @@ render(
       "status": "optional"
     },
     "statusPosition": {
-      "doc": "Controls where status messages (`error`, `warning`, `info`) are visually shown. Use `below` (default) or `above`.",
+      "doc": "Controls where status messages (`error`, `warning`, `information`) are visually shown. Use `below` (default) or `above`.",
       "type": ["\"below\"", "\"above\""],
       "status": "optional"
     },
     "layout": {
       "doc": "Layout for the label and input. Can be `horizontal` or `vertical`.",
-      "type": "string",
+      "type": ["\"horizontal\"", "\"vertical\""],
       "status": "optional"
     },
     "layoutOptions": {
-      "doc": "Use this to set additional options for the `horizontal` layout. E.g. `{ width: \"medium\" }`. You can also use a custom width `{number}rem`. Instead of a width, you can use a min/max width. E.g. `{ minWidth: \"6rem\", maxWidth: \"12rem\" }`.",
+      "doc": "Use this to set additional options for the `horizontal` layout, e.g. `{ width: \"medium\" }`. You can also use a custom width `{number}rem`. Instead of a width, you can use a min/max width, e.g. `{ minWidth: \"6rem\", maxWidth: \"12rem\" }`.",
       "type": "object",
       "status": "optional"
     },
@@ -717,7 +716,7 @@ render(
       "status": "optional"
     },
     "labelHeight": {
-      "doc": "Defines the height of an component (size prop), so the label can be aligned correctly. Can be `default`, `small`, `medium`, `large`.",
+      "doc": "Defines the height of an component (size property), so the label can be aligned correctly. Can be `default`, `small`, `medium`, `large`.",
       "type": "string",
       "status": "optional"
     },

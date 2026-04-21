@@ -1,0 +1,206 @@
+---
+title: 'Design Tokens (WIP)'
+description: 'How to use Eufemia semantic design tokens in your application.'
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.459Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
+---
+
+# Design Tokens (WIP)
+
+---
+
+**NB:** Do not use the `--token-*` CSS custom properties in your code until this page is marked as ready for consumption. The token API is still being finalized and may change without warning until then.
+
+---
+
+## What are design tokens?
+
+Design tokens are semantic CSS custom properties that represent design decisions — such as "background for an action element" or "text color for an error state" — rather than raw color values.
+
+They follow the naming pattern `--token-color-{section}-{role}` and are the recommended way to reference Eufemia colors in your own CSS.
+
+## Why use design tokens?
+
+- **Theme-aware** — Token values automatically adapt when the active theme changes (e.g. DNB, Sbanken, Carnegie).
+- **Semantic** — A name like `--token-color-background-action` communicates _intent_, not just a hex value. This makes code easier to review and maintain.
+- **Scalable theming** — Design tokens make it straightforward to introduce new brands, sub-brands, and color modes (e.g. light/dark) without changing component code.
+
+## Getting started
+
+Design tokens are included when you import a Eufemia theme. No separate import is needed.
+
+Read more about how to use design tokens in your own styles, and how Eufemia components use them internally, in the [Theming](/uilib/usage/customisation/theming#design-tokens) section.
+
+## Common patterns
+
+These examples show how to apply design tokens in typical UI scenarios. Each pattern uses semantic token names so the styles adapt automatically to themes and surfaces.
+
+### Action elements
+
+```css
+.my-button {
+  background-color: var(--token-color-background-action);
+  color: var(--token-color-text-action-inverse);
+  border: 1px solid var(--token-color-stroke-action);
+}
+
+.my-button:hover {
+  background-color: var(--token-color-background-action-hover);
+}
+```
+
+### Error and status states
+
+```css
+.my-field--error {
+  border-color: var(--token-color-stroke-error);
+  color: var(--token-color-text-destructive);
+}
+
+.my-field--success {
+  border-color: var(--token-color-stroke-positive);
+}
+```
+
+### Subtle backgrounds
+
+```css
+.my-notice {
+  background-color: var(--token-color-background-warning-subtle);
+  color: var(--token-color-text-warning);
+}
+```
+
+## Internal usage in Eufemia components
+
+Eufemia components are progressively adopting design tokens internally. Internally a component might look like:
+
+```scss
+// Inside dnb-badge.scss
+.dnb-badge {
+  --badge-information-bg: var(--token-color-background-error);
+  --badge-information-color: var(--token-color-text-neutral-inverse);
+}
+```
+
+This internal adoption should have **no functional downsides** when you use a component - the rendered result and public API remain the same. However, be aware of one potential side-effect:
+
+### CSS specificity changes
+
+When a component switches from a hard-coded color value to a `var(--token-*)` reference, the _selector structure_ of the underlying stylesheet may change. If your application overrides component styles with raw selectors, you may need to verify that your overrides still win the specificity contest.
+
+For example, if you previously overrode a component background with:
+
+```css
+/* Your override */
+.dnb-badge {
+  background-color: hotpink;
+}
+```
+
+And the component internally moves that value to a token-based custom property, the specificity of the internal selector might change. In practice this is rare, but if you notice a visual regression after upgrading it is worth checking.
+
+**Recommendation:** Prefer using the component's own CSS custom properties (e.g. `--badge-information-bg`) for overrides rather than targeting raw CSS properties. This avoids specificity conflicts entirely.
+
+## `ondark` tokens
+
+The `ondark` suffix identifies token variants designed for use on dark backgrounds. Eufemia components use these tokens automatically when `surface="dark"` is active — you do not need to select them yourself.
+
+When building **custom components** that need to respond to dark surfaces, read the surface value from context with the `useTheme` hook and switch tokens accordingly:
+
+```tsx
+import { useTheme } from '@dnb/eufemia/shared'
+
+function MyComponent() {
+  const theme = useTheme()
+  const isDark = theme?.surface === 'dark'
+
+  return (
+    <div className={clsx('my-component', isDark && 'my-component--dark')}>
+      ...
+    </div>
+  )
+}
+```
+
+## Tailwind CSS integration
+
+Design tokens are also available in Tailwind-compatible format. See the [CSS Styles](/uilib/usage/customisation/styling#semantic-design-tokens) page for details on using tokens with Tailwind utility classes.
+
+## Token sections
+
+Tokens are organized into sections. Each section covers a specific surface:
+
+| Section    | Prefix                       | Purpose                                  |
+| ---------- | ---------------------------- | ---------------------------------------- |
+| Background | `--token-color-background-*` | Surfaces, fills, interactive fill states |
+| Text       | `--token-color-text-*`       | Readable content, labels, text states    |
+| Icon       | `--token-color-icon-*`       | Icon colors                              |
+| Stroke     | `--token-color-stroke-*`     | Borders, dividers, outlines, focus rings |
+| Decorative | `--token-color-decorative-*` | Advanced decorative use cases            |
+
+See the [Tokens](/uilib/usage/customisation/theming/design-tokens/tokens) tab for the full catalog.
+
+## Naming contract
+
+```tsx
+render(
+  <Table>
+    <thead>
+      <Tr>
+        <Th>Rule</Th>
+        <Th>Current contract</Th>
+      </Tr>
+    </thead>
+    <tbody>
+      <Tr>
+        <Td>Prefix</Td>
+        <Td>
+          <MDXCode>{tokenNamingPolicy.prefix}</MDXCode>
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>Top-level categories</Td>
+        <Td>{renderInlineCodeList(tokenNamingPolicy.categories)}</Td>
+      </Tr>
+      <Tr>
+        <Td>Component sections (optional)</Td>
+        <Td>
+          {renderInlineCodeList(tokenNamingPolicy.componentSections)}
+        </Td>
+      </Tr>
+      <Tr>
+        <Td>Semantic Color sections</Td>
+        <Td>{renderInlineCodeList(tokenNamingPolicy.colorSections)}</Td>
+      </Tr>
+      <Tr>
+        <Td>Typical Color labels</Td>
+        <Td>{renderInlineCodeList(tokenNamingPolicy.givenLabels)}</Td>
+      </Tr>
+      <Tr>
+        <Td>Brand parity</Td>
+        <Td>
+          Every brand tokens file is expected to declare the same token
+          names.
+        </Td>
+      </Tr>
+    </tbody>
+  </Table>
+)
+```
+
+<br />
+
+Typical examples:
+
+- semantic token: <TokenExample name="--token-color-text-neutral" />
+- semantic state token: <TokenExample name="--token-color-background-action-hover-subtle" />
+- component token: <TokenExample name="--token-color-component-button-background-action" />
+
+## Source of truth
+
+- The token inventory is generated from the same exported theme token files that produce the CSS output.
+- The consumer API is the generated CSS tokens files.
+- The color values behind these tokens come from Eufemia Foundation colors and are mapped into semantic and component token layers per theme.
+- **Eiendom** currently reuses the UI token source, so the three explicit brand references are **DNB**, **Sbanken** and **Carnegie**.

@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.ItemNo'
 description: '`Iterate.ItemNo` is a helper component that can be used to render the current item number (index) in a given string.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.740Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.035Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -18,6 +18,11 @@ render(<Iterate.ItemNo />)
 ## Description
 
 `Iterate.ItemNo` is a helper component that can be used to render the current item number (index) in a given string. It will replace `{itemNo}` with the current item number.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Iterate/ItemNo)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Iterate/ItemNo)
 
 ```tsx
 import { Form, Iterate } from '@dnb/eufemia/extensions/forms'

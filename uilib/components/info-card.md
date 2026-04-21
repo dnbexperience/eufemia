@@ -1,9 +1,9 @@
 ---
 title: 'InfoCard'
 description: 'The InfoCard is used to give the user more information than a message box. It can also be used to give useful tips.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.482Z
-checksum: f6295c152a47dd0bea9fa6ad3b8f342db592822c333edb25d08c39ed5acf57a5
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.115Z
+checksum: 2890cecbe9826f0c50b742334a8426b83066dc06face9160aa86b557a38a803d
 ---
 
 # InfoCard
@@ -239,7 +239,7 @@ render(
       "status": "optional"
     },
     "className": {
-      "doc": "Custom className for the component root.",
+      "doc": "Custom `className` for the component root.",
       "type": "string",
       "status": "optional"
     },

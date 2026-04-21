@@ -1,7 +1,7 @@
 ---
 title: 'Create your own component'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.030Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.378Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -39,7 +39,7 @@ render(<MyValue path="/dataSelector" />)
 const MyValue = ({ value, ...props }) => {
   return (
     <ValueBlock {...props}>
-      <NumberFormat currency>{value}</NumberFormat>
+      <NumberFormat.Currency>{value}</NumberFormat.Currency>
     </ValueBlock>
   )
 }
@@ -113,9 +113,9 @@ const MyField = (props) => {
       <Input
         id={id}
         value={value}
-        on_change={handleChange}
-        on_focus={handleFocus}
-        on_blur={handleBlur}
+        onChange={handleChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
       />
     </FieldBlock>
   )
@@ -198,11 +198,10 @@ const MyComposedField = (props) => {
             max={new Date().getFullYear()}
             step={1}
             label="Birth year"
-            label_direction="vertical"
             value={parseFloat(String(value))}
-            on_change={handleBirthYearChange}
-            on_drag_start={handleFocus}
-            on_drag_end={handleBlur}
+            onChange={handleBirthYearChange}
+            onDragStart={handleFocus}
+            onDragEnd={handleBlur}
             status={hasError}
             tooltip
           />

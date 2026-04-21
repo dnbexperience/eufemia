@@ -1,6 +1,6 @@
 ---
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.080Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.426Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -14,7 +14,7 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 - [**Single source of truth**](https://www.npmjs.com/package/@dnb/eufemia)
 - [Contribution](/contribute) and [collaboration](https://github.com/dnbexperience/eufemia)
 - Independent "visual" layer with semantic versioning
-- Notification of [new releases](/uilib/usage#the-eufemia-repository)
+- Notification of [new releases](/uilib/usage)
 - Ready to use sub-systems, tested and easy to integrate
 
 ## What forms the system?

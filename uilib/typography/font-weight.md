@@ -1,7 +1,7 @@
 ---
 title: 'Font Weights'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.097Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.438Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -9,7 +9,7 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 
 <ChangeStyleTheme label="Change the brand:" bottom="large" />
 
-For details about what values typographic elements use, have a look at the [Fonts & Typography](/quickguide-designer/fonts#typographic-elements) documentation.
+For details about what values Typographic elements use, have a look at the [Fonts & Typography](/quickguide-designer/fonts#typographic-elements) documentation.
 
 ## Eufemia has three (3) font-weights
 
@@ -59,26 +59,26 @@ render(
   <Wrapper>
     {/* Regular */}
     <FontUsageExample
-      font_family="DNB Regular"
-      typo_class="dnb-t__weight--regular"
+      fontFamily="DNB Regular"
+      typoClass="dnb-t__weight--regular"
     />
 
     {/* Medium */}
     <FontUsageExample
-      font_family="DNB Medium"
-      typo_class="dnb-t__weight--medium"
+      fontFamily="DNB Medium"
+      typoClass="dnb-t__weight--medium"
     />
 
     {/* Bold */}
     <FontUsageExample
-      font_family="DNB Bold"
-      typo_class="dnb-t__weight--bold"
+      fontFamily="DNB Bold"
+      typoClass="dnb-t__weight--bold"
     />
 
     {/* Mono Regular */}
     <FontUsageExample
-      font_family="DNB Mono Regular"
-      typo_class="dnb-t__weight--regular dnb-t__family--monospace"
+      fontFamily="DNB Mono Regular"
+      typoClass="dnb-t__weight--regular dnb-t__family--monospace"
     />
   </Wrapper>
 )

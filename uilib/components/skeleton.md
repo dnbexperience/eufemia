@@ -1,9 +1,9 @@
 ---
 title: 'Skeleton'
 description: 'The Skeleton component is a visual building block helper.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.643Z
-checksum: de79945fb9971e14aefdad3f791c581254380e2cfc6bbb7f8e537bb73e30e9b9
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.299Z
+checksum: 38d7202a365da531b3702e62d932ac6c2e55e712321889f177c476f349dee300
 ---
 
 # Skeleton
@@ -181,11 +181,11 @@ const UserData = () => {
       <P top bottom>
         Paragraph Non habitasse ut nisi dictum laoreet ridiculus dui.
       </P>
-      <Input label_direction="vertical" label="Input" />
+      <Input label="Input" />
       <Skeleton.Exclude>
         <ToggleButton
           checked={state}
-          on_change={({ checked }) => setState(checked)}
+          onChange={({ checked }) => setState(checked)}
           top="large"
         >
           Toggle
@@ -248,10 +248,10 @@ render(
 ```
 
 ```tsx
-<Skeleton show no_animation>
+<Skeleton show noAnimation>
   <AllComponentsHorizontalTestCase data-visual-test="skeleton-all-horizontal" />
 </Skeleton>
-<Skeleton show no_animation>
+<Skeleton show noAnimation>
   <AllComponentsVerticalLabelsTestCase data-visual-test="skeleton-all-vertical" />
 </Skeleton>
 ```
@@ -271,17 +271,17 @@ render(
       "type": ["string", "React.Element", "function"],
       "status": "optional"
     },
-    "no_animation": {
+    "noAnimation": {
       "doc": "Use `true` to disable the animation.",
       "type": "boolean",
       "status": "optional"
     },
-    "aria_busy": {
+    "ariaBusy": {
       "doc": "Is used for screen reader text translation, defined in the translation files. You can set a custom text if needed.",
       "type": "string",
       "status": "optional"
     },
-    "aria_ready": {
+    "ariaReady": {
       "doc": "Is used for screen reader text translation, defined in the translation files. You can set a custom text if needed.",
       "type": "string",
       "status": "optional"
@@ -306,13 +306,13 @@ render(
 {
   "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
   "entries": {
-    "Skeleton.aria_busy": {
+    "Skeleton.ariaBusy": {
       "nb-NO": "Behandler data ...",
       "en-GB": "In progress ...",
       "sv-SE": "Bearbetar data ...",
       "da-DK": "Behandler data ..."
     },
-    "Skeleton.aria_ready": {
+    "Skeleton.ariaReady": {
       "nb-NO": "Klar til å samhandle",
       "en-GB": "Ready to interact",
       "sv-SE": "Klar att interagera",

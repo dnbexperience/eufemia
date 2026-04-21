@@ -1,9 +1,9 @@
 ---
 title: 'Image'
 description: 'Image element exists to have a future possibility to optimize and add features.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.848Z
-checksum: 9647918c23f999b9fff1dd2e6ce4ccf9a4006864cf96c10144ab80b1b732ecc5
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.561Z
+checksum: 3f908b8deac0d6ffa1f83a28d3ec7b989d69d662d133fc4fdaf4e7298a66a9df
 ---
 
 # Image
@@ -95,7 +95,7 @@ const CustomImage = () => {
       <Skeleton.Exclude>
         <ToggleButton
           checked={state}
-          on_change={({ checked }) => setState(checked)}
+          onChange={({ checked }) => setState(checked)}
           top="large"
         >
           Toggle
@@ -118,7 +118,7 @@ render(<CustomImage />)
       "status": "optional"
     },
     "imgClass": {
-      "doc": "Custom className on the `<img>`-element",
+      "doc": "Custom `className` on the `<img>`-element.",
       "type": "string",
       "status": "optional"
     },
@@ -134,7 +134,7 @@ render(<CustomImage />)
     },
     "loading": {
       "doc": "Can either be `eager` or `lazy`. Defaults to `eager`.",
-      "type": "string",
+      "type": ["\"eager\"", "\"lazy\""],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {

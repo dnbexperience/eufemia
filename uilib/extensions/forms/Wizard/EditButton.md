@@ -1,8 +1,8 @@
 ---
 title: 'Wizard.EditButton'
 description: '`Wizard.EditButton` is a button to be placed in a summary step.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.988Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.335Z
 checksum: d43acdbd40599e17d5d5ac71404f1b13ab47c7e14fcd42693e31368e140df117
 ---
 
@@ -18,6 +18,11 @@ render(<Wizard.EditButton />)
 ## Description
 
 `Wizard.EditButton` is a button to be placed in a summary step.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Wizard/EditButton)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Wizard/EditButton)
 
 It provides a `toStep` property that lets you navigate to a specific step.
 
@@ -55,7 +60,7 @@ const Step = ({ title }) => {
   )
 }
 const Summary = () => {
-  const { summaryTitle } = Form.useLocale().Step
+  const { summaryTitle } = Form.useTranslation().Step
   return (
     <Wizard.Step title={summaryTitle}>
       <Form.Card>

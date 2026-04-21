@@ -1,9 +1,9 @@
 ---
 title: 'StepIndicator'
 description: "The StepIndicator (progress indicator) is a visual representation of a user's progress through a set of steps or series of actions."
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.722Z
-checksum: 9fa2623cbd7d5b68c1f40f714a820c38556edadd9fa51ed52ad21238c571d658
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.422Z
+checksum: 7094e7f08cf3afc69f190c375d8431006f20b457a07ad2e731e6ad137f4dbe05
 ---
 
 # StepIndicator
@@ -26,9 +26,9 @@ The step indicator (progress indicator) is a visual representation of a user's p
 
 If the user should be able to navigate back and forth, use the `mode="loose"` property. More about the modes further down.
 
-The current active step is set with the `current_step` property or within the data with the `is_current` object property.
+The current active step is set with the `currentStep` property or within the data with the `isCurrent` object property.
 
-**NB:** Whenever possible, ensure you bind the `current_step` to the browser's path location. See the [example below](/uilib/components/step-indicator/#stepindicator-with-a-router) or [the example on CodeSandbox](https://codesandbox.io/s/eufemia-step-indicator-with-reach-router-mhu0bh?file=/src/App.tsx).
+**NB:** Whenever possible, ensure you bind the `currentStep` to the browsers path location. See the [example below](/uilib/components/step-indicator/#stepindicator-with-a-router) or [the example on CodeSandbox](https://codesandbox.io/s/eufemia-step-indicator-with-reach-router-mhu0bh?file=/src/App.tsx).
 
 ## Modes
 
@@ -63,17 +63,7 @@ const steps = [
 ]
 ```
 
-More details about modifying steps in the [properties panel](/uilib/components/step-indicator/properties#steps-parameters).
-
-## Redesign in version 10.72.0
-
-The StepIndicator has been majorly redesigned. In general, it should still work with the same code. However, any customization to the style or selection of elements could cause issues.
-
-- The sidebar has been removed. The component still exists to avoid breaking changes, but it will now only add an invisible div.
-- Removing the sidebar means the list of steps is not visible initially. Since this was always the case on small screens, this should not cause many issues.
-- The new property `expandedInitially` allows you to start with the list of steps visible.
-- Custom rendering of steps using the `on_item_render` and `on_render` properties will no longer do anything of value; it will be the same as using the item's `title` property.
-- The `sidebar_id` property no longer adds anything as we no longer have a sidebar. However, if you need an ID for other purposes, use the `id` property.
+More details about modifying steps in the [properties panel](/uilib/components/step-indicator/properties#step-item-properties).
 
 ## Demos
 
@@ -93,9 +83,9 @@ const InteractiveDemo = () => {
       <Space stretch>
         <StepIndicator
           mode="loose"
-          current_step={step}
-          on_change={({ current_step }) => {
-            setStep(current_step)
+          currentStep={step}
+          onChange={({ currentStep }) => {
+            setStep(currentStep)
           }}
           data={[
             'Cum odio si bolig bla et ta',
@@ -107,7 +97,7 @@ const InteractiveDemo = () => {
 
         <Button
           variant="secondary"
-          on_click={() => {
+          onClick={() => {
             setStep((step) => {
               if (step >= 2) {
                 step = -1
@@ -133,9 +123,9 @@ Every visited step can be clicked, including the current step.
 render(
   <StepIndicator
     mode="strict"
-    current_step={1}
-    on_change={({ current_step }) => {
-      console.log('on_change', current_step)
+    currentStep={1}
+    onChange={({ currentStep }) => {
+      console.log('onChange', currentStep)
     }}
     data={[
       {
@@ -143,8 +133,8 @@ render(
       },
       {
         title: 'Bestill eller erstatt',
-        on_click: ({ current_step }) =>
-          console.log('current_step:', current_step),
+        onClick: ({ currentStep }) =>
+          console.log('currentStep:', currentStep),
         status:
           'Du må velge bestill nytt kort eller erstatt kort for å kunne fullføre bestillingen din.',
       },
@@ -164,9 +154,9 @@ None of the steps are clickable.
 render(
   <StepIndicator
     mode="static"
-    current_step={1}
-    on_change={({ current_step }) => {
-      console.log('on_change', current_step)
+    currentStep={1}
+    onChange={({ currentStep }) => {
+      console.log('onChange', currentStep)
     }}
     data={[
       {
@@ -174,7 +164,7 @@ render(
       },
       {
         title: 'Ditt lån og egenkapital',
-        on_click: ({ current_step }) => console.log(current_step),
+        onClick: ({ currentStep }) => console.log(currentStep),
       },
       {
         title: 'Oppsummering',
@@ -189,23 +179,20 @@ render(
 ```tsx
 const StepIndicatorWithRouter = () => {
   const [currentStep, setCurrentStep] = React.useState(1)
-  const [history, setInstance] = React.useState(null)
   React.useEffect(() => {
-    const history = createBrowserHistory()
     const step =
-      parseFloat(history.location.search?.replace(/[?]/, '')) || 1
+      parseFloat(window.location.search?.replace(/[?]/, '')) || 1
     setCurrentStep(step)
-    setInstance(history)
   }, [])
   return (
     <>
       <StepIndicator
         mode="loose"
-        current_step={currentStep - 1}
-        on_change={({ current_step }) => {
-          const step = current_step + 1
+        currentStep={currentStep - 1}
+        onChange={({ currentStep }) => {
+          const step = currentStep + 1
           setCurrentStep(step)
-          history.push('?' + step)
+          window.history.pushState({}, '', '?' + step)
         }}
         data={[
           {
@@ -237,12 +224,12 @@ function CustomStepIndicator({ children, data, ...props }) {
       <StepIndicator
         mode="loose"
         data={data}
-        current_step={step}
-        on_change={({ current_step }) => setStep(current_step)}
+        currentStep={step}
+        onChange={({ currentStep }) => setStep(currentStep)}
         bottom
         {...props}
       />
-      <Section variant="lavender" innerSpace>
+      <Section backgroundColor="lavender" innerSpace>
         {children(step)}
       </Section>
     </>
@@ -253,7 +240,7 @@ render(
     data={[
       {
         title: 'First',
-        is_current: true,
+        isCurrent: true,
       },
       {
         title: 'Second',
@@ -286,7 +273,7 @@ render(
   <StepIndicator
     expandedInitially
     mode="static"
-    current_step={1}
+    currentStep={1}
     data={['Om din nye bolig', 'Ditt lån og egenkapital', 'Oppsummering']}
   />
 )
@@ -299,7 +286,7 @@ render(
   <StepIndicator
     mode="static"
     skeleton
-    current_step={1}
+    currentStep={1}
     expandedInitially
     data={[
       {
@@ -320,7 +307,7 @@ render(
 render(
   <StepIndicator
     mode="loose"
-    current_step={0}
+    currentStep={0}
     data={[
       {
         title: 'Current',
@@ -328,17 +315,17 @@ render(
       {
         title: 'Warning',
         status: 'Status message',
-        status_state: 'warn',
+        statusState: 'warning',
       },
       {
         title: 'Error',
         status: 'Status message',
-        status_state: 'error',
+        statusState: 'error',
       },
       {
-        title: 'Info',
+        title: 'Information',
         status: 'Status message',
-        status_state: 'info',
+        statusState: 'information',
       },
     ]}
   />
@@ -352,35 +339,38 @@ render(
   "props": {
     "mode": {
       "doc": "Defines how the StepIndicator should work. Use `static` for non-interactive steps. Use `strict` for a chronological step order, also, the user can navigate between visited steps. Use `loose` if the user should be able to navigate freely.",
-      "type": ["'static'", "'strict'", "'loose'"],
+      "type": ["\"static\"", "\"strict\"", "\"loose\""],
       "status": "required"
     },
     "data": {
-      "doc": "Defines the data/steps showing up in a JavaScript Array or JSON format like `[{title,is_current}]`. See below for properties of `STEP_DATA`.",
-      "type": ["[Step Item](#step-item-properties)[]", "string[]"],
+      "doc": "Defines the data/steps showing up in a JavaScript Array or JSON format like `[{title,isCurrent}]`. See below for properties of `STEP_DATA`.",
+      "type": [
+        "Array<[Step Item](#step-item-properties)>",
+        "Array<string>"
+      ],
       "status": "required"
     },
-    "current_step": {
-      "doc": "Defines the initial step starting from 0. Also defines the furthest step visited when `mode=\"strict\"`. Will update to the new step if changed (but will not trigger the `on_change` event). Defaults to `0`.",
+    "currentStep": {
+      "doc": "Defines the initial step starting from 0. Also defines the furthest step visited when `mode=\"strict\"`. Will update to the new step if changed (but will not trigger the `onChange` event). Defaults to `0`.",
       "type": "number",
       "status": "optional"
     },
-    "overview_title": {
+    "overviewTitle": {
       "doc": "The title shown inside the `<StepIndicatorModal />` supplemental screen reader text for the `<StepIndicatorTriggerButton />`. Defaults to `Steps Overview`.",
       "type": "string",
       "status": "optional"
     },
-    "step_title": {
-      "doc": "Label for `<StepIndicatorTriggerButton />` and screen reader text for `<StepIndicatorItem />`. Must contain `%step` and `%count` to interpolate `current_step` and `stepCount` into the text. Defaults to `Step %step of %count`.",
+    "stepTitle": {
+      "doc": "Label for `<StepIndicatorTriggerButton />` and screen reader text for `<StepIndicatorItem />`. Must contain `%step` and `%count` to interpolate `currentStep` and `stepCount` into the text. Defaults to `Step %step of %count`.",
       "type": "string",
       "status": "optional"
     },
-    "hide_numbers": {
+    "hideNumbers": {
       "doc": "Define whether to show automatically counted numbers or not. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },
-    "no_animation": {
+    "noAnimation": {
       "doc": "If set to `true`, the height animation on step change and list expansion will be omitted. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
@@ -400,9 +390,9 @@ render(
       "type": "string",
       "status": "optional"
     },
-    "status_state": {
-      "doc": "The type of status shown when the `status` prop is set. Defaults to `warn`.",
-      "type": "['warn', 'info', 'error']",
+    "statusState": {
+      "doc": "The type of status shown when the `status` property is set. Defaults to `warning`.",
+      "type": ["\"warning\"", "\"information\"", "\"error\""],
       "status": "optional"
     },
     "skeleton": {
@@ -414,21 +404,6 @@ render(
       "doc": "Spacing properties like `top` or `bottom` are supported.",
       "type": ["string", "object"],
       "status": "optional"
-    },
-    "sidebar_id": {
-      "doc": "A unique string-based ID in order to bind together the main component and the sidebar (`<StepIndicator.Sidebar />`). Both have to get the same ID.",
-      "type": "string",
-      "status": "deprecated"
-    },
-    "step_title_extended": {
-      "doc": "Descriptive label for `<StepIndicatorModal />`. Must contain `%step` and `%count` to interpolate `current_step` and `stepCount` into the text. Defaults to `You are on step %step of %count`.",
-      "type": "string",
-      "status": "deprecated"
-    },
-    "on_item_render": {
-      "doc": "Deprecated, just use step item `title`. Callback function whose return is rendered inside each step instead of the default render. Has to return a React Node. Receives parameter `{ StepItem, element, attributes, props, context }`, where `props` also includes all props from the step object (like `title` or `status`) and the `<StepItem>` is a component that can be used to wrap your returned content.",
-      "type": "function",
-      "status": "deprecated"
     }
   }
 }
@@ -444,8 +419,8 @@ render(
       "type": ["string", "React.ReactNode"],
       "status": "required"
     },
-    "is_current": {
-      "doc": "If set to `true`, this item step will be set as the current selected step. This can be used instead of `current_step` on the main component.",
+    "isCurrent": {
+      "doc": "If set to `true`, this item step will be set as the current selected step. This can be used instead of `currentStep` on the main component.",
       "type": "boolean",
       "status": "optional"
     },
@@ -464,15 +439,10 @@ render(
       "type": ["string", "React.ReactNode"],
       "status": "optional"
     },
-    "status_state": {
-      "doc": "In case the status state should be `info` or `error`. Defaults to `warn`.",
-      "type": ["'warn'", "'info'", "'error'"],
+    "statusState": {
+      "doc": "In case the status state should be `information` or `error`. Defaults to `warning`.",
+      "type": ["\"warning\"", "\"information\"", "\"error\""],
       "status": "optional"
-    },
-    "on_render": {
-      "doc": "Deprecated, just use `title`. Callback function whose return is rendered inside the step instead of the default render (or `on_item_render`). Has to return a React Node. <br/> Receives parameter `{ StepItem, element, attributes, props, context }`, where `props` also includes all props in the step object (like `title` or `status`) and the `<StepItem>` is a component that can be used to wrap your returned content.",
-      "type": "function",
-      "status": "deprecated"
     }
   }
 }
@@ -483,13 +453,13 @@ render(
 ```js
 const steps = [
   { title: 'Active' },
-  { title: 'Active and marked as current', is_current: true },
+  { title: 'Active and marked as current', isCurrent: true },
   { title: 'Not active', inactive: true },
   { title: 'Disabled', disabled: true },
   {
     title: 'Active item with status text',
     status: 'Status text',
-    status_state: 'warn', // defaults to warning
+    statusState: 'warning', // defaults to warning
   },
 ]
 ```
@@ -500,13 +470,13 @@ const steps = [
 {
   "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
   "entries": {
-    "StepIndicator.overview_title": {
+    "StepIndicator.overviewTitle": {
       "nb-NO": "Stegoversikt",
       "en-GB": "Steps Overview",
       "sv-SE": "Stegöversikt",
       "da-DK": "Trinoverblik"
     },
-    "StepIndicator.step_title": {
+    "StepIndicator.stepTitle": {
       "nb-NO": "Steg %step av %count:",
       "en-GB": "Step %step of %count:",
       "sv-SE": "Steg %step av %count:",
@@ -521,13 +491,13 @@ const steps = [
 ```json
 {
   "props": {
-    "on_click": {
-      "doc": "Will be called when the user clicks on any clickable step in the list. Is called right before `on_change`. Receives parameter `{ event, item, current_step, currentStep }`.",
+    "onClick": {
+      "doc": "Will be called when the user clicks on any clickable step in the list. Is called right before `onChange`. Receives parameter `{ event, item, currentStep }`.",
       "type": "function",
       "status": "optional"
     },
-    "on_change": {
-      "doc": "Will be called when the user changes step by clicking in the steps list (changing the `current_step` prop does not trigger the event). Receives parameter `{ event, item, current_step, currentStep }`.",
+    "onChange": {
+      "doc": "Will be called when the user changes step by clicking in the steps list (changing the `currentStep` property does not trigger the event). Receives parameter `{ event, item, currentStep }`.",
       "type": "function",
       "status": "optional"
     }
@@ -540,8 +510,8 @@ const steps = [
 ```json
 {
   "props": {
-    "on_click": {
-      "doc": "Called when user clicks the step. Is called right before the main component's `on_click`. Receives parameter `{ event, item, current_step, currentStep }`",
+    "onClick": {
+      "doc": "Called when user clicks the step. Is called right before the main component's `onClick`. Receives parameter `{ event, item, currentStep }`.",
       "type": "function",
       "status": "optional"
     }

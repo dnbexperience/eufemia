@@ -1,9 +1,9 @@
 ---
 title: 'HeightAnimation'
 description: 'HeightAnimation is a helper component to animate from 0 to height:auto powered by CSS.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.462Z
-checksum: 7eedd3f55dcfd1da3e81b23c1d33908818c752407ee60b0bbca9443ab2e9825e
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.091Z
+checksum: 4ef7e2ad7a39efcb26f2e4d72ae9279a96870c6e0a31df743c6266b00fcef963
 ---
 
 # HeightAnimation
@@ -90,13 +90,13 @@ const Example = () => {
   }
   return (
     <>
-      <ToggleButton checked={openState} on_change={onChangeHandler} right>
+      <ToggleButton checked={openState} onChange={onChangeHandler} right>
         Open/close
       </ToggleButton>
       <ToggleButton
         checked={contentState || !openState}
         disabled={!openState}
-        on_change={({ checked }) => {
+        onChange={({ checked }) => {
           setContentState(checked)
         }}
         space={{
@@ -107,9 +107,14 @@ const Example = () => {
         Change height inside
       </ToggleButton>
 
-      <Section style_type="lavender" top>
+      <Section backgroundColor="lavender" top>
         <HeightAnimation open={openState}>
-          <Section spacing style_type="lavender">
+          <Section
+            innerSpace={{
+              block: 'large',
+            }}
+            backgroundColor="lavender"
+          >
             <P space={0}>Your content</P>
           </Section>
           {contentState && <P space={0}>More content</P>}
@@ -136,13 +141,13 @@ const Example = () => {
   }
   return (
     <>
-      <ToggleButton checked={openState} on_change={onChangeHandler} right>
+      <ToggleButton checked={openState} onChange={onChangeHandler} right>
         Open/close
       </ToggleButton>
       <ToggleButton
         checked={contentState || !openState}
         disabled={!openState}
-        on_change={({ checked }) => {
+        onChange={({ checked }) => {
           setContentState(checked)
         }}
         space={{
@@ -153,9 +158,14 @@ const Example = () => {
         Change height inside
       </ToggleButton>
 
-      <StyledSection style_type="lavender" top>
+      <StyledSection backgroundColor="lavender" top>
         <HeightAnimation open={openState} keepInDOM={true} duration={1000}>
-          <Section spacing style_type="lavender">
+          <Section
+            innerSpace={{
+              block: 'large',
+            }}
+            backgroundColor="lavender"
+          >
             <P space={0}>Your content</P>
           </Section>
           {contentState && <P space={0}>More content</P>}
@@ -221,11 +231,11 @@ render(<Example />)
     },
     "element": {
       "doc": "Custom HTML element for the component. Defaults to `div` HTML Element.",
-      "type": "string",
+      "type": ["string", "React.ElementType"],
       "status": "optional"
     },
-    "innerRef": {
-      "doc": "Send along a custom React Ref.",
+    "ref": {
+      "doc": "Send along a custom `React.Ref`.",
       "type": "React.RefObject",
       "status": "optional"
     },

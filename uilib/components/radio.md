@@ -1,9 +1,9 @@
 ---
 title: 'Radio'
 description: 'The Radio component is shown as a circle that is filled (checked) when activated.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.631Z
-checksum: 9c409d8d980ce0b39735a12a8f93b131ac13e45b8f1e01c4f1f8905b12b8abbe
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.284Z
+checksum: a56b7ca587f391cddd2fcce06464c3f99fd2bb72cc857d2cdbe7fba13a99818d
 ---
 
 # Radio
@@ -26,6 +26,10 @@ It is recommended to use radio buttons in a group. You can use either the React 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/radio)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/radio)
 
+## Accessibility
+
+Radio buttons use semantic `<input type="radio">` elements grouped by the `name` attribute. Arrow keys navigate between options within a group, and Space selects an option. Screen readers announce the group label, current selection, and number of options.
+
 ## Demos
 
 ### Radio group
@@ -34,8 +38,8 @@ It is recommended to use radio buttons in a group. You can use either the React 
 render(
   <Radio.Group
     label="Radio Group"
-    on_change={({ value }) => {
-      console.log('on_change', value)
+    onChange={({ value }) => {
+      console.log('onChange', value)
     }}
     value="first"
   >
@@ -52,9 +56,9 @@ render(
 render(
   <Radio.Group
     label="Vertical Group"
-    layout_direction="column"
-    on_change={({ value }) => {
-      console.log('on_change', value)
+    layoutDirection="column"
+    onChange={({ value }) => {
+      console.log('onChange', value)
     }}
   >
     <Radio label="First" value="first" />
@@ -71,9 +75,9 @@ render(
   <Radio.Group
     vertical
     label="Vertical Group"
-    layout_direction="column"
-    on_change={({ value }) => {
-      console.log('on_change', value)
+    layoutDirection="column"
+    onChange={({ value }) => {
+      console.log('onChange', value)
     }}
   >
     <Radio label="First" value="first" />
@@ -89,9 +93,9 @@ render(
 render(
   <Radio.Group
     label="Radio Group with status"
-    layout_direction="column"
-    on_change={({ value }) => {
-      console.log('on_change', value)
+    layoutDirection="column"
+    onChange={({ value }) => {
+      console.log('onChange', value)
     }}
   >
     <Radio label="First" value="first" status="error" />
@@ -101,7 +105,7 @@ render(
       value="third"
       checked
       status="Info message"
-      status_state="info"
+      statusState="information"
     />
   </Radio.Group>
 )
@@ -122,8 +126,8 @@ render(
       value="first"
       label="First"
       group="MyRadioGroup"
-      on_change={({ value, checked }) => {
-        console.log('on_change', value, checked)
+      onChange={({ value, checked }) => {
+        console.log('onChange', value, checked)
       }}
       right
     />
@@ -131,8 +135,8 @@ render(
       value="second"
       label="Second"
       group="MyRadioGroup"
-      on_change={({ value, checked }) => {
-        console.log('on_change', value, checked)
+      onChange={({ value, checked }) => {
+        console.log('onChange', value, checked)
       }}
       right
     />
@@ -141,8 +145,8 @@ render(
       value="third"
       label="Third"
       group="MyRadioGroup"
-      on_change={({ value, checked }) => {
-        console.log('on_change', value, checked)
+      onChange={({ value, checked }) => {
+        console.log('onChange', value, checked)
       }}
       right
     />
@@ -161,14 +165,14 @@ As for now, there are two sizes. `medium` is the default size.
 
 ### Disabled Radio Group
 
-With `label_position` set to left.
+With `labelPosition` set to left.
 
 ```tsx
 render(
   <Radio.Group
     label="Disabled Group"
     disabled
-    label_position="left"
+    labelPosition="left"
     name="MyGroup"
   >
     <Radio label="First" value="first" />
@@ -182,7 +186,7 @@ render(
 
 ```tsx
 render(
-  <Radio.Group label="With suffixes" label_position="left">
+  <Radio.Group label="With suffixes" labelPosition="left">
     <Radio label="First" value="first" />
     <Radio
       label="Second"
@@ -217,7 +221,7 @@ render(
   <Radio
     label="Checked Radio"
     checked
-    on_change={({ checked }) => console.log(checked)}
+    onChange={({ checked }) => console.log(checked)}
   />
 </ComponentBox>
 ```
@@ -238,9 +242,9 @@ render(
 {
   "props": {
     "value": {
-      "doc": "Defines the `value` as a string. Use it to get the value during the `on_change` event listener callback in the **RadioGroup**.",
+      "doc": "Defines the `value` as a string. Use it to get the value during the `onChange` event listener callback in the **RadioGroup**.",
       "type": "string",
-      "status": "required"
+      "status": "optional"
     },
     "checked": {
       "doc": "Determine whether the radio is checked or not. Default will be `false`.",
@@ -253,8 +257,8 @@ render(
       "status": "optional"
     },
     "size": {
-      "doc": "The size of the Radio button. For now there is **medium** (default) and **large**.",
-      "type": ["medium", "large"],
+      "doc": "The size of the Radio button. For now there is `medium` (default) and `large`.",
+      "type": ["\"default\"", "\"medium\"", "\"large\""],
       "status": "optional"
     },
     "label": {
@@ -262,27 +266,27 @@ render(
       "type": "React.ReactNode",
       "status": "optional"
     },
-    "label_position": {
+    "labelPosition": {
       "doc": "Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.",
-      "type": ["left", "right"],
+      "type": ["\"left\"", "\"right\""],
       "status": "optional"
     },
-    "label_sr_only": {
+    "labelSrOnly": {
       "doc": "Use `true` to make the label only readable by screen readers.",
       "type": "boolean",
       "status": "optional"
     },
     "status": {
       "doc": "Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.",
-      "type": ["error", "info", "boolean"],
+      "type": ["\"error\"", "\"information\"", "boolean"],
       "status": "optional"
     },
-    "status_state": {
-      "doc": "Defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.",
-      "type": ["error", "info"],
+    "statusState": {
+      "doc": "Defines the state of the status. It's two statuses `[error, information]`. Defaults to `error`.",
+      "type": ["\"error\"", "\"information\""],
       "status": "optional"
     },
-    "status_props": {
+    "statusProps": {
       "doc": "Use an object to define additional FormStatus properties.",
       "type": "Various",
       "status": "optional"
@@ -292,8 +296,8 @@ render(
       "type": "Various",
       "status": "optional"
     },
-    "innerRef": {
-      "doc": "By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.",
+    "ref": {
+      "doc": "By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.",
       "type": "React.RefObject",
       "status": "optional"
     }
@@ -316,14 +320,14 @@ render(
       "type": "string",
       "status": "optional"
     },
-    "layout_direction": {
-      "doc": "Define the layout direction of the Radio buttons. Can be either `column` or `row`. Defaults to `column`.",
-      "type": ["column", "row"],
+    "layoutDirection": {
+      "doc": "Define the layout direction of the Radio buttons. Can be either `column` or `row`. Defaults to `row`.",
+      "type": ["\"column\"", "\"row\""],
       "status": "optional"
     },
     "size": {
-      "doc": "The size of the Radio button. For now there is **medium** (default) and **large**.",
-      "type": ["medium", "large"],
+      "doc": "The size of the Radio button. For now there is `medium` (default) and `large`.",
+      "type": ["\"default\"", "\"medium\"", "\"large\""],
       "status": "optional"
     },
     "status": {
@@ -331,12 +335,12 @@ render(
       "type": ["string", "boolean"],
       "status": "optional"
     },
-    "status_state": {
-      "doc": "Defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.",
-      "type": ["error", "info"],
+    "statusState": {
+      "doc": "Defines the state of the status. It's two statuses `[error, information]`. Defaults to `error`.",
+      "type": ["\"error\"", "\"information\""],
       "status": "optional"
     },
-    "status_props": {
+    "statusProps": {
       "doc": "Use an object to define additional FormStatus properties.",
       "type": "Various",
       "status": "optional"
@@ -351,18 +355,18 @@ render(
       "type": "React.ReactNode",
       "status": "optional"
     },
-    "label_direction": {
-      "doc": "To define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`.",
-      "type": ["vertical", "horizontal"],
+    "labelDirection": {
+      "doc": "To define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `vertical`.",
+      "type": ["\"vertical\"", "\"horizontal\""],
       "status": "optional"
     },
-    "label_sr_only": {
+    "labelSrOnly": {
       "doc": "Use `true` to make the label only readable by screen readers.",
       "type": "boolean",
       "status": "optional"
     },
     "vertical": {
-      "doc": "Will force both `direction` and `label_direction` to be **vertical** if set to `true`.",
+      "doc": "Will force both `direction` and `labelDirection` to be `vertical` if set to `true`.",
       "type": "boolean",
       "status": "optional"
     }
@@ -372,14 +376,14 @@ render(
 
 ### Radio group Context
 
-You can also pass through `label_position` and some more **Radio button** properties to the Group. This way all nested Radio buttons will get the properties.
+You can also pass through `labelPosition` and some more **Radio button** properties to the Group. This way all nested Radio buttons will get the properties.
 
 ## `Radio` events
 
 ```json
 {
   "props": {
-    "on_change": {
+    "onChange": {
       "doc": "Will be called on state changes made by the user. Returns an object `{ checked, value, event }`.",
       "type": "function",
       "status": "optional"
@@ -393,7 +397,7 @@ You can also pass through `label_position` and some more **Radio button** proper
 ```json
 {
   "props": {
-    "on_change": {
+    "onChange": {
       "doc": "Will be called once a Radio button changes the state. Returns an object `{ value, event }`.",
       "type": "function",
       "status": "optional"

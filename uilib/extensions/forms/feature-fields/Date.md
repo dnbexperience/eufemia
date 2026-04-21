@@ -1,8 +1,8 @@
 ---
 title: 'Field.Date'
 description: '`Field.Date` is a wrapper component for the input of strings, with user experience tailored for date values.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.036Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.385Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -305,7 +305,7 @@ render(
       "type": "string",
       "status": "optional"
     },
-    "opened": {
+    "open": {
       "doc": "To open the date-picker by default. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
@@ -330,6 +330,41 @@ render(
       "type": "boolean",
       "status": "optional"
     },
+    "submitButtonText": {
+      "doc": "Custom text for the submit button. Defaults to `Ok`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "cancelButtonText": {
+      "doc": "Custom text for the cancel button. Defaults to `Avbryt`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "resetButtonText": {
+      "doc": "Custom text for the reset button. Defaults to `Tilbakestill`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "resetDate": {
+      "doc": "If set to `true`, the date will be reset when the reset button is clicked. Defaults to `true`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "preventClose": {
+      "doc": "If set to `true`, the date picker will not close after a date is selected. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "noAnimation": {
+      "doc": "If set to `true`, no open/close animation will be shown. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "direction": {
+      "doc": "Defines the direction of the date picker popup. Defaults to `auto`.",
+      "type": ["\"auto\"", "\"top\"", "\"bottom\""],
+      "status": "optional"
+    },
     "link": {
       "doc": "Link both calendars, once to the user is navigating between months. Only meant to use if the range is set to `true`. Defaults to `false`.",
       "type": "boolean",
@@ -343,13 +378,13 @@ render(
     "firstDay": {
       "doc": "To define the first day of the week. Defaults to `monday`.",
       "type": [
-        "monday",
-        "tuesday",
-        "wednesday",
-        "thursday",
-        "friday",
-        "saturday",
-        "sunday"
+        "\"monday\"",
+        "\"tuesday\"",
+        "\"wednesday\"",
+        "\"thursday\"",
+        "\"friday\"",
+        "\"saturday\"",
+        "\"sunday\""
       ],
       "status": "optional"
     },
@@ -395,11 +430,11 @@ render(
     },
     "tooltip": {
       "doc": "Provide a short Tooltip content that shows up on the picker button.",
-      "type": "string",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "onType": {
-      "doc": "Event handler that is called when the user types in the input field. The first parameter is a string, the second parameter is an object containing { date, start_date, end_date, is_valid, event }.",
+      "doc": "Event handler that is called when the user types in the input field. The first parameter is a string, the second parameter is an object containing { date, startDate, endDate, isValid, event }.",
       "type": "function",
       "status": "optional"
     },
@@ -433,17 +468,17 @@ render(
       "status": "optional"
     },
     "info": {
-      "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
-      "type": ["React.Node", "Array<React.Node>", "function"],
+      "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
+      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
       "status": "optional"
     },
     "warning": {
-      "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
-      "type": ["React.Node", "Array<React.Node>", "function"],
+      "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
+      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
       "status": "optional"
     },
     "error": {
-      "doc": "Error message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
+      "doc": "Error message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
       "type": [
         "Error",
         "FormError",
@@ -468,8 +503,8 @@ render(
       "status": "optional"
     },
     "labelSuffix": {
-      "doc": "Will append an additional text to the label, like \"(optional)\". When using `inheritLabel`, the suffix will not be inherited. NB: The visual appearance of the `labelSuffix` may change in the future.",
-      "type": "React.Node",
+      "doc": "Will append an additional text to the label, like \"(optional)\". When using `inheritLabel`, the suffix will not be inherited. **NB:** The visual appearance of the `labelSuffix` may change in the future.",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "schema": {
@@ -478,7 +513,7 @@ render(
       "status": "optional"
     },
     "validateInitially": {
-      "doc": "Set to `true` to show validation based errors initially (from given value-prop or source data) before the user interacts with the field.",
+      "doc": "Set to `true` to show validation based errors initially (from given value-property or source data) before the user interacts with the field.",
       "type": "boolean",
       "status": "optional"
     },
@@ -493,7 +528,7 @@ render(
       "status": "optional"
     },
     "errorMessages": {
-      "doc": "Custom error messages for each type of error, overriding default messages. The messages can be a React.ReactNode or a string.",
+      "doc": "Custom error messages for each type of error, overriding default messages. The messages can be a `React.ReactNode` or a string.",
       "type": "object",
       "status": "optional"
     },
@@ -523,12 +558,12 @@ render(
       "status": "optional"
     },
     "labelDescription": {
-      "doc": "A more discreet text displayed beside the label (i.e for \"(optional)\").",
+      "doc": "A more discreet text displayed beside the label (i.e. for \"(optional)\").",
       "type": "string",
       "status": "optional"
     },
     "labelDescriptionInline": {
-      "doc": "If true, the `labelDescription` will be displayed on the same line as the label.",
+      "doc": "If `true`, the `labelDescription` will be displayed on the same line as the label.",
       "type": "boolean",
       "status": "optional"
     },
@@ -539,11 +574,11 @@ render(
     },
     "labelSize": {
       "doc": "Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.",
-      "type": ["medium", "large"],
+      "type": ["\"medium\"", "\"large\""],
       "status": "optional"
     },
     "help": {
-      "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+      "doc": "Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
       "type": "object",
       "status": "optional"
     },
@@ -553,17 +588,17 @@ render(
       "status": "optional"
     },
     "statusPosition": {
-      "doc": "Controls where status messages (`error`, `warning`, `info`) are visually shown. Use `below` (default) or `above`.",
+      "doc": "Controls where status messages (`error`, `warning`, `information`) are visually shown. Use `below` (default) or `above`.",
       "type": ["\"below\"", "\"above\""],
       "status": "optional"
     },
     "layout": {
       "doc": "Layout for the label and input. Can be `horizontal` or `vertical`.",
-      "type": "string",
+      "type": ["\"horizontal\"", "\"vertical\""],
       "status": "optional"
     },
     "layoutOptions": {
-      "doc": "Use this to set additional options for the `horizontal` layout. E.g. `{ width: \"medium\" }`. You can also use a custom width `{number}rem`. Instead of a width, you can use a min/max width. E.g. `{ minWidth: \"6rem\", maxWidth: \"12rem\" }`.",
+      "doc": "Use this to set additional options for the `horizontal` layout, e.g. `{ width: \"medium\" }`. You can also use a custom width `{number}rem`. Instead of a width, you can use a min/max width, e.g. `{ minWidth: \"6rem\", maxWidth: \"12rem\" }`.",
       "type": "object",
       "status": "optional"
     },
@@ -730,12 +765,12 @@ render(
       "type": "function",
       "status": "optional"
     },
-    "onShow": {
+    "onOpen": {
       "doc": "Will be called once date-picker is visible.",
       "type": "function",
       "status": "optional"
     },
-    "onHide": {
+    "onClose": {
       "doc": "Will be called once date-picker is hidden.",
       "type": "function",
       "status": "optional"
@@ -755,17 +790,17 @@ render(
 {
   "props": {
     "onChange": {
-      "doc": "Will be called on value changes made by the user, with the new value as argument. When an `async` function is used, the corresponding [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) will show an indicator on the field label. You can return `{ success: 'saved' } as const` to show a success symbol, or an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const`. The second parameter is an object that e.g. contains `props` (all given `Field.*` properties).",
+      "doc": "Will be called on value changes made by the user, with the new value as argument. When an `async` function is used, the corresponding [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) will show an indicator on the field label. You can return `{ success: 'saved' } as const` to show a success symbol, or an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const`. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).",
       "type": "(value) => void",
       "status": "optional"
     },
     "onFocus": {
-      "doc": "Will be called when the component gets into focus. Like clicking inside a text input or opening a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `props` (all given `Field.*` properties).",
+      "doc": "Will be called when the component gets into focus. Like clicking inside a text input or opening a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).",
       "type": "(value) => void",
       "status": "optional"
     },
     "onBlur": {
-      "doc": "Will be called when the component stop being in focus. Like when going to next field, or closing a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `props` (all given `Field.*` properties).",
+      "doc": "Will be called when the component stop being in focus. Like when going to next field, or closing a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).",
       "type": "(value) => void",
       "status": "optional"
     },

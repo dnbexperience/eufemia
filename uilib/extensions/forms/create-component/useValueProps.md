@@ -1,8 +1,8 @@
 ---
 title: 'useValueProps'
 description: 'The `useValueProps` hook standardize handling of the value flow for a single consumer component representing one data point.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.028Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.377Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -18,6 +18,11 @@ import { useValueProps } from '@dnb/eufemia/extensions/forms'
 ## Description
 
 The `useValueProps` hook standardize handling of the value flow for a single consumer component representing one data point.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/hooks/useValueProps.tsx)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/create-component/useValueProps)
 
 It also provides a way to transform the value.
 
@@ -75,14 +80,7 @@ const MyValueComponent = (props) => {
     toInput: (value) => value + 10,
   }
   const { value, ...rest } = useValueProps(preparedProps)
-  return (
-    <ValueBlock {...rest}>
-      {format(value, {
-        currency: true,
-      })}{' '}
-      kroner
-    </ValueBlock>
-  )
+  return <ValueBlock {...rest}>{formatCurrency(value)} kroner</ValueBlock>
 }
 render(
   <Form.Handler

@@ -1,7 +1,7 @@
 ---
 title: 'Accessibility'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.104Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.445Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -61,13 +61,13 @@ Should be able to use the most commonly used screen readers like VoiceOver (Appl
 
 ### Your responsibility
 
-Good keyboard support is crucial to making web applications accessible for assistive technologies. So - [think landmark and semantics first](/uilib/usage/accessibility#landmark--and-semantics-example). This also includes [typography](/uilib/usage/best-practices/for-typography#think-semantics-first) and best practices for [images and illustrations](/uilib/usage/accessibility/screenreader).
+Good keyboard support is crucial to making web applications accessible for assistive technologies. So - [think landmark and semantics first](/uilib/usage/accessibility/checklist/#landmark--and-semantics-example). This also includes [typography](/uilib/usage/best-practices/for-typography#think-semantics-first) and best practices for [images and illustrations](/uilib/usage/accessibility/screenreader).
 
 ## Typography accessibility
 
 Typography plays a crucial role in accessibility. Beyond semantic markup, consider:
 
-- **Line length**: Use the `proseMaxWidth` prop on typography components to maintain optimal reading line lengths
+- **Line length**: Use the `proseMaxWidth` property on typography components to maintain optimal reading line lengths
 - **Font scaling**: Ensure text remains readable at 200% zoom
 - **Contrast**: Maintain sufficient color contrast between text and background
 - **Spacing**: Use consistent spacing that works with assistive technologies
@@ -84,7 +84,7 @@ The [WCAG 2.1](https://www.w3.org/TR/WCAG21/) document is describing it clearly:
 
 This means; every application **has to be made responsive**. Even if the application lives in a static sized container (960px). Use your browser or system settings to change the `font-size` for testing purposes.
 
-Read [more about responsive layouts](/uilib/usage/layout#units).
+Read [more about responsive layouts](/uilib/layout).
 
 The `@dnb/eufemia` and its building blocks are build from ground up to support font-size adaption automatically.
 

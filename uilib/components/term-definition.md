@@ -1,9 +1,9 @@
 ---
 title: 'TermDefinition'
 description: 'TermDefinition renders a compact, inline explanation for a word or phrase with an anchor-style trigger button.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.760Z
-checksum: 9dc75b9f1552ed9694083681def91b6897c9b323bcf260ef4fc1e0197d370d9e
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.466Z
+checksum: 5f27dd5c548c6ada6a44d280141da40e96c76f5c609f7acff36be2811ad6b469
 ---
 
 # TermDefinition
@@ -168,8 +168,8 @@ render(
     },
     "placement": {
       "doc": "Defines the preferred popover placement relative to the trigger.",
-      "type": ["top", "right", "bottom", "left"],
-      "defaultValue": "bottom",
+      "type": ["\"top\"", "\"right\"", "\"bottom\"", "\"left\""],
+      "defaultValue": "\"bottom\"",
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {

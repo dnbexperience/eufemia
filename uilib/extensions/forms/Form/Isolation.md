@@ -1,9 +1,9 @@
 ---
 title: 'Form.Isolation'
 description: '`Form.Isolation` lets you isolate parts of your form so data and validations are not shared between the `Form.Handler` until you want to.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.592Z
-checksum: 1b679c8bfae5176229dd5e4389bc2603423d48f38734ad41264ef70e0043101e
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.837Z
+checksum: 08b47a27a802cced38a3971d50dcbb9035b6226995945a9197e08835876bad97
 ---
 
 # Form.Isolation
@@ -94,7 +94,7 @@ You can either use the `Form.Isolation.CommitButton` or provide a custom ref han
 import { Form, Field, JSONSchema } from '@dnb/eufemia/extensions/forms'
 
 function MyForm() {
-  const commitHandleRef = React.useRef<() => void>()
+  const commitHandleRef = React.useRef<(() => void) | undefined>(undefined)
 
   return (
     <Form.Handler>
@@ -638,31 +638,31 @@ render(
     },
     "id": {
       "doc": "Unique id for connecting Form.Handler and helper tools such as Form.useData.",
-      "type": ["string", "Function", "Object", "React.Context"],
+      "type": ["string", "function", "object", "React.Context"],
       "status": "optional"
     },
     "schema": {
-      "doc": "JSON Schema for validation of the data set. IMPORTANT: When using JSON Schema validation, you MUST provide an `ajvInstance` prop.",
+      "doc": "JSON Schema for validation of the data set. IMPORTANT: When using JSON Schema validation, you MUST provide an `ajvInstance` property.",
       "type": "object",
       "status": "optional"
     },
     "errorMessages": {
-      "doc": "Object containing error messages by either type of JSON Pointer path and type. The messages can be a React.ReactNode or a string.",
+      "doc": "Object containing error messages by either type of JSON Pointer path and type. The messages can be a `React.ReactNode` or a string.",
       "type": "object",
       "status": "optional"
     },
     "ajvInstance": {
-      "doc": "REQUIRED when using JSON Schema validation. Provide your own custom Ajv instance: import Ajv from \"@dnb/eufemia/extensions/forms\" and pass ajvInstance={makeAjvInstance()}. This ensures your bundle only includes AJV when you actually need it. More info in the [Schema validation](/uilib/extensions/forms/Form/schema-validation/#custom-ajv-instance-and-keywords) section.",
-      "type": "ajv",
+      "doc": "REQUIRED when using JSON Schema validation. Provide your own custom Ajv instance: `import Ajv from \"@dnb/eufemia/extensions/forms\"` and pass `ajvInstance={makeAjvInstance()}`. This ensures your bundle only includes AJV when you actually need it. More info in the [Schema validation](/uilib/extensions/forms/Form/schema-validation/#custom-ajv-instance-and-keywords) section.",
+      "type": "\"ajv\"",
       "status": "optional"
     },
     "transformIn": {
-      "doc": "Mutate the data context (internally as well) based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).",
+      "doc": "Mutate the data context (internally as well) based on your criteria: `({ path, value, data, properties, internal }) => 'new value'`. It will iterate on each data entry (/path).",
       "type": "function",
       "status": "optional"
     },
     "transformOut": {
-      "doc": "Mutate the data before it enters onSubmit or onChange based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).",
+      "doc": "Mutate the data before it enters `onSubmit` or `onChange` based on your criteria: `({ path, value, data, properties, internal }) => 'new value'`. It will iterate on each data entry (/path).",
       "type": "function",
       "status": "optional"
     },
@@ -688,7 +688,7 @@ render(
     },
     "children": {
       "doc": "Contents.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "required"
     }
   }
@@ -730,7 +730,7 @@ render(
       "status": "optional"
     },
     "onChange": {
-      "doc": "Will be called when a value of a field was changed by the user, with the data set (including the changed value) as argument. When an async function is provided, it will show an indicator on the current label during a field change. Related props: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` in addition to { success: 'saved' } indicate the field was saved. Will emit unvalidated by default and validated when an async function is provided (like `onSubmit`). The second parameter is an object containing the `filterData`, `resetForm` and `clearData` functions.",
+      "doc": "Will be called when a value of a field was changed by the user, with the data set (including the changed value) as argument. When an async function is provided, it will show an indicator on the current label during a field change. Related properties: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` in addition to { success: 'saved' } indicate the field was saved. Will emit unvalidated by default and validated when an async function is provided (like `onSubmit`). The second parameter is an object containing the `filterData`, `resetForm` and `clearData` functions.",
       "type": "function",
       "status": "optional"
     },

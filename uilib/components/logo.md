@@ -1,9 +1,9 @@
 ---
 title: 'Logo'
 description: 'A ready to use Logo component with the needed SVGs.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.544Z
-checksum: fe25a5898eabf812128ff8ca3e67a7c0258c549542d8de06bdb3577af6a64a10
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.184Z
+checksum: 6b4cf82375feee3f504831b20288d4cf545f554e46820eb16d84d22bcbeddfba
 ---
 
 # Logo
@@ -25,22 +25,51 @@ A ready-to-use Logo component with the needed SVGs.
 
 ## Demos
 
-### Logo that changes based on theme
+### Importing a logo
 
-You can import the SVGs for each brand like this:
+To use a logo, the svg must be imported and handed to the `Logo` components through the `svg` property.
 
 ```jsx
 import {
   DnbDefault,
-  SbankenDefault,
   CarnegieDefault,
   EiendomDefault,
+  SbankenDefault,
+  SbankenHorizontal,
+  SbankenCompact,
 } from '@dnb/eufemia/components/Logo'
 ```
 
 ```tsx
-function getLogoSvg(themeName) {
-  switch (themeName) {
+render(
+  <Flex.Vertical>
+    <Logo height="48" svg={DnbDefault} />
+    <Logo height="48" svg={EiendomDefault} />
+    <Logo height="48" svg={CarnegieDefault} />
+    <Logo height="48" svg={SbankenDefault} />
+    <Logo height="48" svg={SbankenHorizontal} />
+    <Logo height="48" svg={SbankenCompact} />
+  </Flex.Vertical>
+)
+```
+
+If no svg is provided, the `DnbDefault` logo is used by default:
+
+```tsx
+render(<Logo height="96" />)
+```
+
+### Change logo based on theme
+
+The `svg` property can also accept a function that returns a logo svg based on the current [theme](/uilib/usage/customisation/theming/theme/) props.
+
+```tsx
+import type { ThemeProps } from '@dnb/eufemia/shared/Theme'
+```
+
+```tsx
+function myLogoSelector(theme: ThemeProps) {
+  switch (theme?.name) {
     case 'sbanken':
       return SbankenDefault
     case 'carnegie':
@@ -52,22 +81,21 @@ function getLogoSvg(themeName) {
   }
 }
 function MyApp() {
-  const { name } = useTheme()
   return (
-    <Provider>
-      <Card stack>
-        <ChangeStyleTheme />
-        <Logo height="32" svg={getLogoSvg(name)} />
-      </Card>
-    </Provider>
+    <Card stack>
+      <MyThemeSelector />
+      <Logo height="96" svg={myLogoSelector} />
+    </Card>
   )
 }
 render(<MyApp />)
 ```
 
-### Logo with dynamic height
+### Customization
 
-The height will be set based on the inherited `font-size`.
+#### Default inherited height
+
+By default the logo will use the inherited `font-size` to set its height.
 
 ```tsx
 render(
@@ -76,14 +104,14 @@ render(
       fontSize: '6rem',
     }}
   >
-    <Logo />
+    <Logo svg={myLogoSelector} />
   </span>
 )
 ```
 
-### Logo with dynamic height
+#### Alternative inherited height
 
-The height will be set based on the parent, inherited `height`.
+You can chose to let the height be set by the inherited `height` instead by setting the `inheritSize` property.
 
 ```tsx
 render(
@@ -92,52 +120,49 @@ render(
       height: '6rem',
     }}
   >
-    <Logo inheritSize />
+    <Logo inheritSize svg={myLogoSelector} />
   </span>
 )
 ```
 
-### Logo with fixed height
+#### Fixed height and/or width
 
-```tsx
-render(<Logo height="96" />)
-```
-
-### Logo and inherit color
-
-The color will be set based on the parent, inherited `color` by using `currentColor`.
+The logo's `height` and `width` can be fixed depending on your needs.
 
 ```tsx
 render(
-  <span
-    style={{
-      color: 'tomato',
-    }}
-  >
-    <Logo height="96" inheritColor />
-  </span>
+  <Flex.Vertical>
+    <Logo height="96" svg={myLogoSelector} />
+    <Logo width="96" svg={myLogoSelector} />
+  </Flex.Vertical>
 )
 ```
 
-### Logo with compact variant
+#### Color
 
-You can import the SVG like this:
-
-```jsx
-import { SbankenCompact } from '@dnb/eufemia/components/Logo'
-```
+You can choose to override the default colors by either inheriting the `currentcolor`, or set it directly.
 
 ```tsx
-render(<Logo height="96" svg={SbankenCompact} />)
+render(
+  <Flex.Vertical>
+    <span
+      style={{
+        color: 'tomato',
+      }}
+    >
+      <Logo height="96" inheritColor svg={myLogoSelector} />
+    </span>
+
+    <Logo height="96" color="hotpink" svg={myLogoSelector} />
+  </Flex.Vertical>
+)
 ```
 
 ```tsx
 render(
-  <Logo
-    height="96"
-    svg={CarnegieDefault}
-    color="var(--ca-color-burgundy-red)"
-  />
+  <P>
+    This logo is in the middle <Logo svg={myLogoSelector} /> of some text.
+  </P>
 )
 ```
 
@@ -147,19 +172,9 @@ render(
 {
   "props": {
     "svg": {
-      "doc": "Provide a custom SVG to render instead of the built-in logos. Accepts a React SVG component or element. Width, height and color props still apply.",
-      "type": ["React.Component", "React.Element"],
+      "doc": "Provide a custom SVG to render instead of the built-in logos. Accepts a React SVG component, element, or a function that receives the theme and returns a SVG component. Width, height and color properties still apply. If not provided, defaults to DNB logo. Import SVGs from `@dnb/eufemia/components/Logo` (e.g., `DnbDefault`, `SbankenDefault`, `SbankenCompact`, `SbankenHorizontal`, `CarnegieDefault`, `EiendomDefault`). When using a function, it receives the theme context (useTheme return value) allowing theme-aware logo selection.",
+      "type": ["React.Component", "React.Element", "function"],
       "status": "optional"
-    },
-    "brand": {
-      "doc": "Define which brands logo to show. Defaults to `dnb`.",
-      "type": ["dnb", "sbanken"],
-      "status": "optional"
-    },
-    "variant": {
-      "doc": "Define the logo variant, if there is more than one variant of a brands logo. Currently the only option other than default is `compact` and `compactHorizontal` variant of the Sbanken logo. Defaults to `default`.",
-      "type": ["\"default\"", "\"compact\"", "\"compactHorizontal\""],
-      "status": "deprecated"
     },
     "color": {
       "doc": "Define the color of the logo.",
@@ -167,12 +182,12 @@ render(
       "status": "optional"
     },
     "inheritColor": {
-      "doc": "Set to `true` if you do not want to inherit the color by `currentColor`. Defaults to `false`.",
+      "doc": "Set to `true` to inherit the color with `currentColor`. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },
     "inheritSize": {
-      "doc": "Set to `true` if you want to inherit the size of the parent. Defaults to `false`.",
+      "doc": "Set to `true` if you want to inherit the `height` of the parent. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },

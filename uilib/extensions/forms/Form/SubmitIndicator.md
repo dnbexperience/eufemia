@@ -1,9 +1,9 @@
 ---
 title: 'Form.SubmitIndicator'
 description: '`Form.SubmitIndicator` lets you show an indicator while async form operations are performed.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.687Z
-checksum: a39d076f906999737f2849a316a1da061f13658d996f615e37a75d8866950cba
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.959Z
+checksum: 07317f23ae535f0820553501fbef42b267854c7e5f58af7c62c852b5dbe7f1e4
 ---
 
 # Form.SubmitIndicator
@@ -146,7 +146,7 @@ render(
   "props": {
     "state": {
       "doc": "Provide `pending` to make the dots visible and `success` to show the checkmark icon.",
-      "type": "string",
+      "type": ["\"pending\"", "\"success\""],
       "status": "required"
     },
     "showLabel": {
@@ -161,7 +161,7 @@ render(
     },
     "children": {
       "doc": "If content is provided, the component will try to find out if the indicator needs to be put on a new row or not. This way it will animate the height nicely.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {

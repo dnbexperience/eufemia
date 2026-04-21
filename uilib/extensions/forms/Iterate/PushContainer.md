@@ -1,9 +1,9 @@
 ---
 title: 'Iterate.PushContainer'
 description: '`Iterate.PushContainer` enables users to create a new item in the array.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.770Z
-checksum: b226c78d5cb4bb63718571c5862be3893d1a33ae211292f94d0d0772cf40eea0
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.058Z
+checksum: 8cd3382923d837703c0c254f89691158d72c5e342606f2caa400df09037c9260
 ---
 
 # Iterate.PushContainer
@@ -18,6 +18,11 @@ render(<Iterate.PushContainer />)
 ## Description
 
 `Iterate.PushContainer` enables users to create a new item in the array. It can be used instead of the [Iterate.PushButton](/uilib/extensions/forms/Iterate/PushButton/), but with fields in the container.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Iterate/PushContainer)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Iterate/PushContainer)
 
 It allows the user to fill in the fields without storing them in the data context.
 
@@ -478,7 +483,7 @@ render(
     },
     "title": {
       "doc": "The title of the container.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "data": {
@@ -518,7 +523,7 @@ render(
     },
     "openButton": {
       "doc": "The button to open container.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "showOpenButtonWhen": {
@@ -528,12 +533,12 @@ render(
     },
     "variant": {
       "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
-      "type": "string",
+      "type": ["\"outline\"", "\"filled\"", "\"basic\""],
       "status": "optional"
     },
     "toolbar": {
       "doc": "A custom toolbar to be shown below the container.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "dataReference": {
@@ -543,7 +548,7 @@ render(
     },
     "children": {
       "doc": "The container contents.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "required"
     },
     "[Space](/uilib/layout/space/properties)": {

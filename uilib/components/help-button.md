@@ -1,9 +1,9 @@
 ---
 title: 'HelpButton'
 description: 'A help button with custom semantics, helping screen readers determine the meaning of that button.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.468Z
-checksum: 4c38317663e884d46d1687367502de962906c21331a6f78b8de2c78f8d99087f
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.097Z
+checksum: 5241f932b12afce6aefcbc6a511134e8e32f093f2b57d60afa7efad863b9417c
 ---
 
 # HelpButton
@@ -53,8 +53,8 @@ render(
 <HelpButton
   size="small"
   left
-  on_click={() => {
-    console.log('on_click')
+  onClick={() => {
+    console.log('onClick')
   }}
 >
   Text
@@ -94,7 +94,7 @@ render(
   "props": {
     "children": {
       "doc": "The content to show.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "title": {
@@ -132,7 +132,7 @@ render(
 {
   "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
   "entries": {
-    "HelpButton.aria_role": {
+    "HelpButton.ariaRole": {
       "nb-NO": "Hjelp-knapp",
       "en-GB": "Help button",
       "sv-SE": "Hjälp-knapp",

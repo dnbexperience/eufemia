@@ -1,8 +1,8 @@
 ---
 title: 'Field.Upload'
 description: '`Field.Upload` is a wrapper for the Upload component to make it easier to use inside a form.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.053Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.401Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -122,7 +122,7 @@ The `fileHandler` is a handler function that supports both asynchronous and sync
 
 Return an array of [file item objects](/uilib/components/upload/properties/#fileitem) with the same or modified properties:
 
-- **Set a new `id`**: Typically from a server response after uploading (e.g., `id: data.server_generated_id`).
+- **Set a new `id`**: Typically from a server response after uploading (e.g., `id: data.serverGeneratedId`).
 - **Add `errorMessage`**: To indicate upload failure and display an error message next to the file.
 - **Modify other properties**: Such as `description`, `removeDeleteButton`, `removeLink`, etc.
 
@@ -144,7 +144,7 @@ async function virusCheck(newFiles) {
       .then((data) => {
         return {
           ...file,
-          id: data.server_generated_id,
+          id: data.serverGeneratedId,
         }
       })
       .catch((error) => {
@@ -415,7 +415,7 @@ async function mockAsyncFileUpload(
         ok: (parseFloat(index) + 2) % 2 === 0,
         // Every other request will fail
         json: async () => ({
-          server_generated_id: file.file.name + '_' + crypto.randomUUID(),
+          serverGeneratedId: file.file.name + '_' + crypto.randomUUID(),
         }),
       }
       if (!mockResponse.ok) {
@@ -424,7 +424,7 @@ async function mockAsyncFileUpload(
       const data = await mockResponse.json()
       updatedFiles.push({
         ...file,
-        id: data.server_generated_id,
+        id: data.serverGeneratedId,
       })
     } catch (error) {
       updatedFiles.push({
@@ -478,9 +478,9 @@ async function mockAsyncFileRemoval({ fileItem }) {
   console.log(`making API request to remove: ${fileItem.file.name}`)
   await request(3000) // Simulate a request
   const mockResponse = {
-    successful_removal: Math.random() < 0.5, // Randomly fails to remove the file
+    successfulRemoval: Math.random() < 0.5, // Randomly fails to remove the file
   }
-  if (!mockResponse.successful_removal) {
+  if (!mockResponse.successfulRemoval) {
     throw new Error('Unable to remove this file')
   }
 }
@@ -680,13 +680,13 @@ async function mockAsyncFileUpload(
       const mockResponse = {
         ok: true,
         json: async () => ({
-          server_generated_id: file.file.name + '_' + crypto.randomUUID(),
+          serverGeneratedId: file.file.name + '_' + crypto.randomUUID(),
         }),
       }
       const data = await mockResponse.json()
       updatedFiles.push({
         ...file,
-        id: data.server_generated_id,
+        id: data.serverGeneratedId,
       })
     } catch (error) {
       updatedFiles.push({
@@ -736,6 +736,7 @@ render(
         label="Required field with async fileHandler"
         onFileDelete={mockAsyncFileRemoval}
         onFileClick={mockAsyncOnFileClick}
+        // @ts-expect-error -- strictFunctionTypes
         fileHandler={mockAsyncFileUpload}
         required
         onChange={(e) => {
@@ -825,7 +826,7 @@ render(
     },
     "id": {
       "doc": "Unique id used together with the `useUpload` hook to manage the files. Needed when wanting to connect with the `useUpload` hook.",
-      "type": ["string", "Function", "Object", "React.Context"],
+      "type": ["string", "function", "object", "React.Context"],
       "status": "optional"
     },
     "children": {
@@ -834,8 +835,8 @@ render(
       "status": "optional"
     },
     "variant": {
-      "doc": "Defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.",
-      "type": ["normal", "compact"],
+      "doc": "Defines the appearance. Use one of these: `default` or `compact`. Defaults to `default`.",
+      "type": ["\"default\"", "\"compact\""],
       "status": "optional"
     },
     "acceptedFileTypes": {
@@ -878,6 +879,66 @@ render(
       "type": "boolean",
       "status": "optional"
     },
+    "buttonText": {
+      "doc": "Custom text for the upload button. Overrides the default translation.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "fileTypeTableCaption": {
+      "doc": "Custom caption for the file type table used by screen readers. Overrides the default translation.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "fileTypeDescription": {
+      "doc": "Custom label for the file type description column. Overrides the default translation.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "fileSizeDescription": {
+      "doc": "Custom label for the file size description column. Overrides the default translation.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "fileAmountDescription": {
+      "doc": "Custom text for the file amount description. Overrides the default translation.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "fileSizeContent": {
+      "doc": "Custom text for the file size content. Overrides the default translation.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "errorLargeFile": {
+      "doc": "Custom error message for files exceeding the size limit. Overrides the default translation.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "errorUnsupportedFile": {
+      "doc": "Custom error message for unsupported file types. Overrides the default translation.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "errorAmountLimit": {
+      "doc": "Custom error message when the file amount limit is reached. Overrides the default translation.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "loadingText": {
+      "doc": "Custom text displayed during file loading. Overrides the default translation.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "deleteButton": {
+      "doc": "Custom text for the delete button. Overrides the default translation.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "listAriaLabel": {
+      "doc": "Custom `aria-label` for the file list. Overrides the default translation.",
+      "type": "string",
+      "status": "optional"
+    },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
       "type": ["string", "object"],
@@ -908,17 +969,17 @@ render(
       "status": "optional"
     },
     "info": {
-      "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
-      "type": ["React.Node", "Array<React.Node>", "function"],
+      "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
+      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
       "status": "optional"
     },
     "warning": {
-      "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
-      "type": ["React.Node", "Array<React.Node>", "function"],
+      "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
+      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
       "status": "optional"
     },
     "error": {
-      "doc": "Error message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
+      "doc": "Error message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
       "type": [
         "Error",
         "FormError",
@@ -943,8 +1004,8 @@ render(
       "status": "optional"
     },
     "labelSuffix": {
-      "doc": "Will append an additional text to the label, like \"(optional)\". When using `inheritLabel`, the suffix will not be inherited. NB: The visual appearance of the `labelSuffix` may change in the future.",
-      "type": "React.Node",
+      "doc": "Will append an additional text to the label, like \"(optional)\". When using `inheritLabel`, the suffix will not be inherited. **NB:** The visual appearance of the `labelSuffix` may change in the future.",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "schema": {
@@ -953,7 +1014,7 @@ render(
       "status": "optional"
     },
     "validateInitially": {
-      "doc": "Set to `true` to show validation based errors initially (from given value-prop or source data) before the user interacts with the field.",
+      "doc": "Set to `true` to show validation based errors initially (from given value-property or source data) before the user interacts with the field.",
       "type": "boolean",
       "status": "optional"
     },
@@ -968,7 +1029,7 @@ render(
       "status": "optional"
     },
     "errorMessages": {
-      "doc": "Custom error messages for each type of error, overriding default messages. The messages can be a React.ReactNode or a string.",
+      "doc": "Custom error messages for each type of error, overriding default messages. The messages can be a `React.ReactNode` or a string.",
       "type": "object",
       "status": "optional"
     },
@@ -998,12 +1059,12 @@ render(
       "status": "optional"
     },
     "labelDescription": {
-      "doc": "A more discreet text displayed beside the label (i.e for \"(optional)\").",
+      "doc": "A more discreet text displayed beside the label (i.e. for \"(optional)\").",
       "type": "string",
       "status": "optional"
     },
     "labelDescriptionInline": {
-      "doc": "If true, the `labelDescription` will be displayed on the same line as the label.",
+      "doc": "If `true`, the `labelDescription` will be displayed on the same line as the label.",
       "type": "boolean",
       "status": "optional"
     },
@@ -1014,11 +1075,11 @@ render(
     },
     "labelSize": {
       "doc": "Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.",
-      "type": ["medium", "large"],
+      "type": ["\"medium\"", "\"large\""],
       "status": "optional"
     },
     "help": {
-      "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+      "doc": "Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
       "type": "object",
       "status": "optional"
     },
@@ -1028,17 +1089,17 @@ render(
       "status": "optional"
     },
     "statusPosition": {
-      "doc": "Controls where status messages (`error`, `warning`, `info`) are visually shown. Use `below` (default) or `above`.",
+      "doc": "Controls where status messages (`error`, `warning`, `information`) are visually shown. Use `below` (default) or `above`.",
       "type": ["\"below\"", "\"above\""],
       "status": "optional"
     },
     "layout": {
       "doc": "Layout for the label and input. Can be `horizontal` or `vertical`.",
-      "type": "string",
+      "type": ["\"horizontal\"", "\"vertical\""],
       "status": "optional"
     },
     "layoutOptions": {
-      "doc": "Use this to set additional options for the `horizontal` layout. E.g. `{ width: \"medium\" }`. You can also use a custom width `{number}rem`. Instead of a width, you can use a min/max width. E.g. `{ minWidth: \"6rem\", maxWidth: \"12rem\" }`.",
+      "doc": "Use this to set additional options for the `horizontal` layout, e.g. `{ width: \"medium\" }`. You can also use a custom width `{number}rem`. Instead of a width, you can use a min/max width, e.g. `{ minWidth: \"6rem\", maxWidth: \"12rem\" }`.",
       "type": "object",
       "status": "optional"
     },
@@ -1135,12 +1196,6 @@ render(
       "sv-SE": "Max antal filer:",
       "da-DK": "Maks antal filer:"
     },
-    "Upload.fileListAriaLabel": {
-      "nb-NO": "opplastede filer",
-      "en-GB": "uploaded files",
-      "sv-SE": "uppladdade filer",
-      "da-DK": "uploadede filer"
-    },
     "Upload.fileSizeContent": {
       "nb-NO": "%size MB",
       "en-GB": "%size MB",
@@ -1164,6 +1219,12 @@ render(
       "en-GB": "Allowed formats and max. file size",
       "sv-SE": "Tillåtna filformat och max filstorlek",
       "da-DK": "Tilladte filformater og maks filstørrelse"
+    },
+    "Upload.listAriaLabel": {
+      "nb-NO": "opplastede filer",
+      "en-GB": "uploaded files",
+      "sv-SE": "uppladdade filer",
+      "da-DK": "uploadede filer"
     },
     "Upload.loadingText": {
       "nb-NO": "Laster",
@@ -1209,7 +1270,7 @@ render(
       "status": "optional"
     },
     "onFileClick": {
-      "doc": "Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this prop, the file will be rendered as a button instead of an anchor or plain text.",
+      "doc": "Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this property, the file will be rendered as a button instead of an anchor or plain text.",
       "type": "function",
       "status": "optional"
     }

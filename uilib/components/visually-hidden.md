@@ -1,8 +1,8 @@
 ---
 title: 'VisuallyHidden'
 description: 'VisuallyHidden has all the styles necessary to hide it from visual clients, but keep it for screen readers.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.826Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.540Z
 checksum: 28d243b62406799fd86da1f9d89208ecb4b4735e8ed07aff554b859e2b71065c
 ---
 
@@ -77,6 +77,7 @@ const BoxAfter = styled(Box)`
 render(
   <>
     <BoxBefore />
+    {/* @ts-expect-error -- strictFunctionTypes */}
     <VisuallyHidden aria-label="I'm a region" element={Section}>
       <P>but, not visible to you!</P>
     </VisuallyHidden>

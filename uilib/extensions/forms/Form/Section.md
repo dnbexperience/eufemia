@@ -1,9 +1,9 @@
 ---
 title: 'Form.Section'
 description: '`Form.Section` lets you compose blocks of fields and values to be reused in different contexts.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.650Z
-checksum: e125633052ef7908a2f0171cb864e12c3c898f9452212cab006b060b10d68116
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.913Z
+checksum: 331caa573f5cc2c579960751e1ff9f48a542e73740f08295e62068ec0d5f6085
 ---
 
 # Form.Section
@@ -270,7 +270,7 @@ render(
 
 ## Schema support
 
-You can also use a `schema` on the [Form.Handler](/extensions/forms/Form/Handler) to define the validation rules for the fields inside the section.
+You can also use a `schema` on the [Form.Handler](/uilib/extensions/forms/Form/Handler) to define the validation rules for the fields inside the section.
 
 **Using Zod:**
 
@@ -1045,7 +1045,7 @@ render(
       "status": "optional"
     },
     "overwriteProps": {
-      "doc": "Overwrite field props for the section.",
+      "doc": "Overwrite field properties for the section.",
       "type": "object",
       "status": "optional"
     },
@@ -1076,7 +1076,7 @@ render(
     },
     "containerMode": {
       "doc": "Defines the container mode. Can be `view`, `edit` or `auto`. When set to `auto`, the mode will initially be \"edit\" if fields contain errors. Defaults to `auto`.",
-      "type": "string",
+      "type": ["\"view\"", "\"edit\"", "\"auto\""],
       "status": "optional"
     },
     "disableEditing": {
@@ -1086,7 +1086,7 @@ render(
     },
     "children": {
       "doc": "All the fields and values inside the section.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     }
   }

@@ -1,9 +1,9 @@
 ---
 title: 'Accordion'
 description: 'The Accordion component is a combination of an accessible button (header area) and a content container.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.253Z
-checksum: 17d32bff06aa0a1144cac7759f71ff44eb9a84708834186bbb3726838166981c
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:08.856Z
+checksum: 262b7994b69b1d4a959abc50f624520e3197ca13f4f8cb4d55294dd54bf4851d
 ---
 
 # Accordion
@@ -23,6 +23,10 @@ The Accordion component is a combination of an accessible button (header area) a
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=4314-722)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/accordion)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/accordion)
+
+## Accessibility
+
+The Accordion follows the [WAI-ARIA Accordion Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/accordion/). The header uses a semantic button with `aria-expanded` to communicate the expanded/collapsed state. The content panel is associated with its header using `aria-controls` and `aria-labelledby`.
 
 The component is designed to let you compose different parts according to your technical needs.
 
@@ -45,20 +49,10 @@ Both `Accordion.Provider` and `Accordion.Group` are available. They're technical
 ### Single Accordion
 
 ```tsx
-<Accordion
-  expanded
-  remember_state
-  id="single-accordion"
-  title="Accordion title"
->
+<Accordion expanded id="single-accordion" title="Accordion title">
   <P>Accordion content</P>
 </Accordion>
-<Accordion.Provider
-  top
-  remember_state
-  icon="chevron_down"
-  icon_position="right"
->
+<Accordion.Provider top icon="chevron_down" iconPosition="right">
   <Accordion id="single-provider-accordion" title="Accordion title">
     <P>Accordion content</P>
   </Accordion>
@@ -97,7 +91,7 @@ render(
 
 ```tsx
 render(
-  <Accordion.Group expanded allow_close_all>
+  <Accordion.Group expanded allowCloseAll>
     <Accordion expanded={false}>
       <Accordion.Header>Accordion title</Accordion.Header>
       <Accordion.Content top>
@@ -124,7 +118,7 @@ render(
 ### Customized Accordion
 
 ```tsx
-<Accordion group="unique-id" left_component={<Icon icon={bell} />}>
+<Accordion group="unique-id" leftComponent={<Icon icon={bell} />}>
   <Accordion.Header>Accordion title</Accordion.Header>
   <Accordion.Content>
     <P>
@@ -239,7 +233,7 @@ render(
     closed: AddIcon,
     expanded: SubtractIcon,
   }}
-  icon_position="right"
+  iconPosition="right"
 >
   <P>content</P>
 </Accordion>
@@ -250,7 +244,7 @@ render(
     closed: AddIcon,
     expanded: SubtractIcon,
   }}
-  icon_position="right"
+  iconPosition="right"
   expanded
 >
   <P>content</P>
@@ -262,15 +256,14 @@ render(
 Accordion can be disabled, though is not exactly defined what the use case is.
 
 ```tsx
-<Accordion expanded disabled remember_state title="Disabled (expanded)">
+<Accordion expanded disabled title="Disabled (expanded)">
   <P>I am expanded, but disabled, so I can't be closed</P>
 </Accordion>
 <Accordion.Provider
   top
   disabled
-  remember_state
   icon="chevron_down"
-  icon_position="right"
+  iconPosition="right"
 >
   <Accordion title="Disabled (closed)">
     <P>You can't see this text because I am disabled and closed.</P>
@@ -302,7 +295,7 @@ This variant does not have any different styling in the Sbanken theme.
 <Accordion
   top
   icon="chevron_down"
-  icon_position="right"
+  iconPosition="right"
   id="description-provider-accordion"
   title="Accordion title"
   description="Accordion description"
@@ -316,10 +309,10 @@ This variant does not have any different styling in the Sbanken theme.
 You can collapse all expanded accordions by sending a ref to the `collapseAllHandleRef` property and calling the `.current()` function on your ref.
 
 ```tsx
-const myCollapseAllRef = React.useRef<() => void>()
+const myCollapseAllRef = React.useRef<(() => void) | undefined>(undefined)
 
 return (
-  <button onClick={() => myCloseAllRef.current()}>
+  <button onClick={() => myCloseAllRef.current?.()}>
     Close all accordions
   </button>
 
@@ -333,13 +326,13 @@ return (
 <Button
   bottom="large"
   variant="secondary"
-  onClick={() => collapseAll.current()}
+  onClick={() => collapseAll.current?.()}
 >
   Close All
 </Button>
 <Accordion.Group
   expanded
-  allow_close_all
+  allowCloseAll
   collapseAllHandleRef={collapseAll}
 >
   <Accordion>
@@ -381,43 +374,48 @@ These properties can send along with the `Accordion.Provider` or `Accordion.Grou
 {
   "props": {
     "id": {
-      "doc": "A unique `id` that will be used on the button element. If you use `remember_state`, an id is required.",
+      "doc": "A unique `id` that will be used on the button element. If you use `rememberState`, an id is required.",
       "type": "string",
       "status": "optional"
     },
     "title": {
       "doc": "A title as a string or React element. It will be used as the button text.",
-      "type": "string",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "description": {
+      "doc": "A description that appears below the title inside the accordion header.",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "expanded": {
-      "doc": "If set to `true` the accordion will be expanded as its initial state.",
+      "doc": "Use `true` or `false` to control the expanded/collapsed state of the accordion.",
       "type": "boolean",
       "status": "optional"
     },
-    "expanded_ssr": {
+    "expandedSsr": {
       "doc": "If set to `true` the accordion will be expanded during SSR. Can be potentially useful for SEO, although it will disturb client hydration, where React expects the same state. But that's mainly a technical aspect to consider.",
       "type": "boolean",
       "status": "optional"
     },
-    "remember_state": {
+    "rememberState": {
       "doc": "If set to `true`, it will remember a changed state initiated by the user. It requires a unique `id`. It will store the state in the local storage.",
       "type": "boolean",
       "status": "optional"
     },
-    "flush_remembered_state": {
+    "flushRememberedState": {
       "doc": "If set to `true`, the saved (remembered) state will be removed and the initial component state will be used and set.",
       "type": "boolean",
       "status": "optional"
     },
-    "no_animation": {
+    "noAnimation": {
       "doc": "If set to `true`, the open and close animation will be omitted.",
       "type": "boolean",
       "status": "optional"
     },
     "variant": {
-      "doc": "Defines the used styling. `Outlined`, `filled`, or `plain` (no styling). Defaults to `outlined`.",
-      "type": ["outlined", "filled", "plain"],
+      "doc": "Defines the used styling. `Outlined`, `filled`, `plain` (no styling), or `default`. Defaults to `outlined`.",
+      "type": ["\"default\"", "\"outlined\"", "\"filled\"", "\"plain\""],
       "status": "optional"
     },
     "icon": {
@@ -425,37 +423,37 @@ These properties can send along with the `Accordion.Provider` or `Accordion.Grou
       "type": "React.ReactNode",
       "status": "optional"
     },
-    "icon_position": {
+    "iconPosition": {
       "doc": "Will set the placement of the icon. Defaults to `left`.",
-      "type": "string",
+      "type": ["\"left\"", "\"right\""],
       "status": "optional"
     },
-    "icon_size": {
+    "iconSize": {
       "doc": "Define a different icon size. Defaults to `medium` (1.5rem).",
       "type": "string",
       "status": "optional"
     },
-    "left_component": {
+    "leftComponent": {
       "doc": "Will add a React element on the left side of the `title`, inside `AccordionHeaderContainer`.",
       "type": "React.ReactNode",
       "status": "optional"
     },
-    "prerender": {
+    "keepInDOM": {
       "doc": "If set to `true` the content will be present, even the accordion is not expanded. Can be useful for assistive technology or SEO.",
       "type": "boolean",
       "status": "optional"
     },
-    "prevent_rerender": {
+    "preventRerender": {
       "doc": "If set to `true` the accordion component will not re-render its content – can be useful for components you don't have control of storing the temporary state during an interaction.",
       "type": "boolean",
       "status": "optional"
     },
-    "prevent_rerender_conditional": {
-      "doc": "Use this prop together with `prevent_rerender` – and if it is set to `true`, the accordion component will re-render if the children are a new React element and do not match the previous one anymore.",
+    "preventRerenderConditional": {
+      "doc": "Use this property together with `preventRerender` – and if it is set to `true`, the accordion component will re-render if the children are a new React element and do not match the previous one anymore.",
       "type": "boolean",
       "status": "optional"
     },
-    "single_container": {
+    "singleContainer": {
       "doc": "If set to `true`, a group of accordions will be wrapped to a sidebar looking menu for medium and larger screens.",
       "type": "boolean",
       "status": "optional"
@@ -466,13 +464,13 @@ These properties can send along with the `Accordion.Provider` or `Accordion.Grou
       "status": "optional"
     },
     "heading": {
-      "doc": "If set to `true`, level 2 (h2) will be used. You can provide your own HTML heading (`h3`), or provide a `heading_level` property.",
-      "type": "boolean",
+      "doc": "If set to `true`, level 2 (h2) will be used. You can provide your own HTML heading (`h3`), or provide a `headingLevel` property.",
+      "type": ["boolean", "React.ReactNode"],
       "status": "optional"
     },
-    "heading_level": {
+    "headingLevel": {
       "doc": "If `heading` is set to `true`, you can provide a numeric value to define a different heading level. Defaults to `2`.",
-      "type": "boolean",
+      "type": ["1", "2", "3", "4", "5", "6"],
       "status": "optional"
     },
     "disabled": {
@@ -486,13 +484,13 @@ These properties can send along with the `Accordion.Provider` or `Accordion.Grou
       "status": "optional"
     },
     "contentRef": {
-      "doc": "Send along a custom React Ref for `.dnb-accordion__content`.",
-      "type": "function",
+      "doc": "Send along a custom `React.Ref` for `.dnb-accordion__content`.",
+      "type": "React.RefObject",
       "status": "optional"
     },
     "collapseAllHandleRef": {
-      "doc": "Ref handle to collapse all expanded accordions. Send in a ref and use `.current()` to collapse all accordions. Default: `undefined`.",
-      "type": "React.MutableRefObject<() => void>",
+      "doc": "Ref handle to collapse all expanded accordions. Send in a ref and use `.current()` to collapse all accordions. Defaults to `undefined`.",
+      "type": "React.RefObject<() => void>",
       "status": "optional"
     },
     "space": {
@@ -514,22 +512,17 @@ These properties can send along with the `Accordion.Provider` or `Accordion.Grou
       "type": "string",
       "status": "optional"
     },
-    "allow_close_all": {
+    "allowCloseAll": {
       "doc": "If set to `true`, the group of accordions will allow all to close.",
       "type": "boolean",
       "status": "optional"
     },
-    "expandBehaviour": {
-      "doc": "Use `expandBehavior` instead.",
-      "type": ["single", "multiple"],
-      "status": "deprecated"
-    },
     "expandBehavior": {
       "doc": "Determines how many accordions can be expanded at once. Defaults to `single`.",
-      "type": ["single", "multiple"],
+      "type": ["\"single\"", "\"multiple\""],
       "status": "optional"
     },
-    "expanded_id": {
+    "expandedId": {
       "doc": "Define an `id` of a nested accordion that will get expanded.",
       "type": "string",
       "status": "optional"
@@ -548,7 +541,7 @@ These properties can send along with the `Accordion.Provider` or `Accordion.Grou
 ```json
 {
   "props": {
-    "on_change": {
+    "onChange": {
       "doc": "Will be called by user click interaction. Returns an object with a boolean state `expanded` inside `{ expanded, event }`.",
       "type": "function",
       "status": "optional"

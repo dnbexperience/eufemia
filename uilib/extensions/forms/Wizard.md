@@ -1,8 +1,8 @@
 ---
 title: 'Wizard'
 description: '`Wizard` is a set of components for showing forms with a [StepIndicator](/uilib/components/step-indicator/) for navigation between several wizard. It also includes components for navigating between wizard.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:35.000Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.348Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -42,11 +42,7 @@ const MyForm = () => {
   Wizard.useQueryLocator('my-wizard')
   return (
     <Form.Handler>
-      <Wizard.Container
-        id="my-wizard"
-        variant="drawer"
-        omitScrollManagement
-      >
+      <Wizard.Container id="my-wizard" omitScrollManagement>
         <Wizard.Step title="Step 1">
           <Form.MainHeading>Heading</Form.MainHeading>
           <Form.Card>
@@ -80,7 +76,7 @@ A wizard needs a summary step at the end. You can use the `Wizard.Step` componen
 import { Form, Wizard, Value } from '@dnb/eufemia/extensions/forms'
 
 const MyForm = () => {
-  const { summaryTitle } = Form.useLocale().Step
+  const { summaryTitle } = Form.useTranslation().Step
 
   return (
     <Form.Handler>

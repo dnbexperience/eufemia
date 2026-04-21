@@ -1,9 +1,9 @@
 ---
 title: 'DateFormat'
 description: 'A ready to use DNB date formatter.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.365Z
-checksum: bb2fb35cc775a9c00003a92f666a842814da9015d5117bfdcc1637684fd1f961
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:08.987Z
+checksum: 6e6031bcfdbce86542341f134c5a92c713d2f0a1b08acf40d0e671d74c74e01d
 ---
 
 # DateFormat
@@ -30,7 +30,7 @@ Good to know:
 - You can render a date in **different formats**, depending on the locale.
 - The component supports **relative time**, such as "2 hours ago", "in 3 days", etc.
 - The component supports different **date styles**, such as `short`, `medium`, `long`, and `full`.
-- You can include **time** by using the `timeStyle` prop.
+- You can include **time** by using the `timeStyle` property.
 - Use `relativeTimeStyle` to control the style used for relative time.
 - The component will automatically detect and format **ISO 8601 duration** strings.
 
@@ -58,7 +58,7 @@ The following formats are supported as date values for conversion:
 
 ### Relative time reference
 
-When using `relativeTime`, you can provide a `now` prop (as a function) to define the reference point for relative time calculations. This is useful for testing or when you need a specific reference time. If not provided, the current time is used.
+When using `relativeTime`, you can provide a `now` property (as a function) to define the reference point for relative time calculations. This is useful for testing or when you need a specific reference time. If not provided, the current time is used.
 
 ### `formatDate` helper function
 
@@ -400,7 +400,7 @@ render(
     },
     "dateStyle": {
       "doc": "Defines the style used to format the date. Also affects duration formatting when using ISO 8601 duration strings. Defaults to `long`.",
-      "type": ["long", "medium", "short", "full"],
+      "type": ["\"long\"", "\"medium\"", "\"short\"", "\"full\""],
       "status": "optional"
     },
     "hideCurrentYear": {
@@ -415,7 +415,7 @@ render(
     },
     "timeStyle": {
       "doc": "Defines the style used to format the time. If provided, time is included in the output.",
-      "type": ["long", "medium", "short", "full"],
+      "type": ["\"long\"", "\"medium\"", "\"short\"", "\"full\""],
       "status": "optional"
     },
     "dateTimeSeparator": {
@@ -424,13 +424,13 @@ render(
       "status": "optional"
     },
     "relativeTime": {
-      "doc": "If set to `true`, actual dates will be formatted as relative time (e.g., \"2 hours ago\"). ISO 8601 duration strings (e.g., \"PT1H\") are automatically detected and formatted without this prop. Defaults to `false`.",
+      "doc": "If set to `true`, actual dates will be formatted as relative time (e.g., \"2 hours ago\"). ISO 8601 duration strings (e.g., \"PT1H\") are automatically detected and formatted without this property. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },
     "relativeTimeStyle": {
       "doc": "Defines the style used to format relative time. Defaults to `dateStyle` when not provided.",
-      "type": ["long", "medium", "short", "full"],
+      "type": ["\"long\"", "\"medium\"", "\"short\"", "\"full\""],
       "status": "optional"
     },
     "relativeTimeReference": {

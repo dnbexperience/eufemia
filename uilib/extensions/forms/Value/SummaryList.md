@@ -1,9 +1,9 @@
 ---
 title: 'Value.SummaryList'
 description: '`Value.SummaryList` uses definition lists to semantically make content consumable for screen readers.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.917Z
-checksum: 92c6b89f079b833cdcf9297959702e4b70e744cbcd2f1718096b55836b2b7b84
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.269Z
+checksum: dc378287bb8230dc780a8b2b88a9c3c51a9f052d109caa385ab485d7673c694a
 ---
 
 # Value.SummaryList
@@ -607,7 +607,7 @@ render(
   "props": {
     "layout": {
       "doc": "Use `grid`, `horizontal` or `vertical`. Defaults to `vertical`.",
-      "type": "string",
+      "type": ["\"grid\"", "\"horizontal\"", "\"vertical\""],
       "status": "optional"
     },
     "inheritVisibility": {
@@ -627,7 +627,7 @@ render(
     },
     "children": {
       "doc": "Contents.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "required"
     },
     "[Space](/uilib/layout/space/properties)": {

@@ -1,9 +1,9 @@
 ---
 title: 'AriaLive'
 description: 'AriaLive is a React component and hook that helps make your web app more accessible by announcing dynamic changes to screen readers.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.276Z
-checksum: 25171b5c8cc76d65c2002c9b7b707ccdd6cfbdd830e63d183abb5919f8888758
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:08.883Z
+checksum: 37d6f9de1d851f832bada8ac3d611762cc0b7718429f09afd06e1cb9d7c5e34b
 ---
 
 # AriaLive
@@ -163,8 +163,8 @@ function AriaLiveExample() {
               text="Add more content"
               variant="secondary"
               icon="add"
-              icon_position="left"
-              on_click={() => {
+              iconPosition="left"
+              onClick={() => {
                 update('/content', (content) => {
                   const c = content.length + 1
                   content.push(`Line ${c}`)
@@ -176,8 +176,8 @@ function AriaLiveExample() {
               text="Remove content"
               variant="tertiary"
               icon="subtract"
-              icon_position="left"
-              on_click={() => {
+              iconPosition="left"
+              onClick={() => {
                 update('/content', (content) => {
                   content.pop()
                   return [...content]
@@ -210,12 +210,12 @@ render(<AriaLiveExample />)
   "props": {
     "variant": {
       "doc": "Can be `text` for text messages or `content` for whole application content. Defaults to `text`.",
-      "type": "string",
+      "type": ["\"text\"", "\"content\""],
       "status": "optional"
     },
     "priority": {
       "doc": "Priority of the announcement. Can be `low` or `high`. Defaults to `low`.",
-      "type": "string",
+      "type": ["\"low\"", "\"high\""],
       "status": "optional"
     },
     "delay": {
@@ -250,7 +250,7 @@ render(<AriaLiveExample />)
     },
     "children": {
       "doc": "The content that will be announced to the user.",
-      "type": "ReactNode",
+      "type": "React.ReactNode",
       "status": "required"
     }
   }

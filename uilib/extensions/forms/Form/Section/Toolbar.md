@@ -1,9 +1,9 @@
 ---
 title: 'Form.Section.Toolbar'
 description: '`Form.Section.Toolbar` is a helper component to be used within an `Form.Section.ViewContainer` and `Form.Section.EditContainer`.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.639Z
-checksum: c3f04873caf51183e6c06dbd3e430a12d720489dfc5ff74ccae0c9dc1e3934d5
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.899Z
+checksum: 8af6c2d4fe5ded7f43282ba1dcfe31676d145ccaf3fd1d16a15e3a49e2df732e
 ---
 
 # Form.Section.Toolbar
@@ -94,17 +94,17 @@ render(
   "props": {
     "onEdit": {
       "doc": "Callback for the edit button.",
-      "type": "Function",
+      "type": "function",
       "status": "optional"
     },
     "onDone": {
       "doc": "Callback for the done button.",
-      "type": "Function",
+      "type": "function",
       "status": "optional"
     },
     "onCancel": {
       "doc": "Callback for the cancel button.",
-      "type": "Function",
+      "type": "function",
       "status": "optional"
     }
   }

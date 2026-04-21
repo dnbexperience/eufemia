@@ -1,8 +1,8 @@
 ---
 title: 'Wizard.LocationHooks'
 description: 'Is a set of React Hooks that lets you easily hook up your existing router in order to store the current step in the URL query string.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.998Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.346Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -11,6 +11,11 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ## Description
 
 In order to store the current step in the browser location:
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Wizard)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Wizard/location-hooks)
 
 ```bash
 https://www.dnb.no/path/?unique-id-step=1

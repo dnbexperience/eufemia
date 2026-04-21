@@ -1,9 +1,9 @@
 ---
 title: 'Form.Section.ViewContainer'
 description: '`Form.Section.ViewContainer` enables users to toggle (with animation) the content of each item between the view and edit container.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.644Z
-checksum: f2112bfc04972b684d467ba2e5f91f06f6da274cf03b87794c1cf74003da252a
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.906Z
+checksum: 860d80482d33f1099e61af4d0bef4096954adb5a37a6228f2b462ddf83cb7822
 ---
 
 # Form.Section.ViewContainer
@@ -72,12 +72,12 @@ When the item (view and edit) container gets removed, the active element focus w
   "props": {
     "title": {
       "doc": "The title of the container.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "variant": {
       "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
-      "type": "string",
+      "type": ["\"outline\"", "\"filled\"", "\"basic\""],
       "status": "optional"
     },
     "[FlexVertical](/uilib/layout/flex/container/properties)": {
@@ -112,7 +112,7 @@ When the item (view and edit) container gets removed, the active element focus w
   "props": {
     "onEdit": {
       "doc": "Callback for the edit button.",
-      "type": "Function",
+      "type": "function",
       "status": "optional"
     }
   }

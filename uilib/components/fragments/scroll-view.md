@@ -1,8 +1,8 @@
 ---
 title: 'ScrollView'
 description: 'ScrollView is a tiny helper component helping the user controlling overflowing content horizontally or vertically'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:33.432Z
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.059Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -68,7 +68,7 @@ render(
   "props": {
     "interactive": {
       "doc": "To make the content accessible to keyboard navigation. Use `true` or `auto`. Auto will detect if a scrollbar is visible and make the ScrollView accessible for keyboard navigation. Defaults to `false`.",
-      "type": ["boolean", "auto"],
+      "type": ["boolean", "\"auto\""],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {

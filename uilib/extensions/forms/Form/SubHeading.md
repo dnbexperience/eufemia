@@ -1,9 +1,9 @@
 ---
 title: 'Form.SubHeading'
 description: '`Form.SubHeading` is a standardized sub heading for sections, ensuring default layout, spacing etc.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.672Z
-checksum: 2cc1c6355eb5efbe05e0862c6140463aae4b8c4816d6f27d9edfb3ee0c7a4c32
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:09.940Z
+checksum: fc167f457283cabe892e733be94ba69895180957e54d922b2d6aad09cb80fb4b
 ---
 
 # Form.SubHeading
@@ -76,10 +76,6 @@ render(
 
 ### Above Card
 
-When placed above a [Form.Card](/uilib/extensions/forms/Form/Card/) component, the heading will be indented to align with the card content.
-
-On small screens, the indention will be removed.
-
 ```tsx
 <Form.SubHeading>This is a sub heading</Form.SubHeading>
 <Form.Card>
@@ -126,13 +122,13 @@ render(
       "status": "optional"
     },
     "help": {
-      "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+      "doc": "Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
       "type": "object",
       "status": "optional"
     },
     "children": {
       "doc": "Heading text / contents.",
-      "type": "React.Node",
+      "type": "React.ReactNode",
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {

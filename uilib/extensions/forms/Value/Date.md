@@ -1,9 +1,9 @@
 ---
 title: 'Value.Date'
 description: '`Value.Date` is a wrapper component for displaying string values, with user experience tailored for date values.'
-version: 10.104.1
-generatedAt: 2026-04-20T09:04:34.861Z
-checksum: 87a6463a7c2f4c484c99dc36fc95c0965b2ee12f23460d46e9e5c85ea1e8a453
+version: 11.0.0
+generatedAt: 2026-04-21T13:54:10.181Z
+checksum: 36cbdcd4a1ad32b5cbe9a2ab72297192fac95b6aaf44cdd10597a76872fbd8b4
 ---
 
 # Value.Date
@@ -84,7 +84,7 @@ render(
   "props": {
     "variant": {
       "doc": "Defines the variant of the date. Can be `long`, `short` or `numeric`. Defaults to `long`.",
-      "type": "string",
+      "type": ["\"long\"", "\"short\"", "\"numeric\""],
       "status": "optional"
     },
     "dateFormat": {
@@ -127,7 +127,7 @@ render(
       "status": "optional"
     },
     "help": {
-      "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+      "doc": "Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
       "type": "object",
       "status": "optional"
     },
@@ -168,7 +168,7 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": "string",
+      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
       "status": "optional"
     },
     "transformIn": {
