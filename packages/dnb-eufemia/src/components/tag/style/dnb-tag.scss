@@ -62,9 +62,12 @@
       }
 
       @include button-mixins.buttonActive(
-        $background-color: var(--color-mint-green-50)
+        $color: var(--token-color-text-action-pressed),
+        $background-color: var(
+            --token-color-background-action-pressed-subtle
+          )
       ) {
-        --tag-icon-color: var(--color-sea-green);
+        --tag-icon-color: var(--token-color-icon-action-pressed);
       }
 
       &[disabled] {
@@ -106,6 +109,12 @@
         --tag-icon-fill: var(--token-color-background-neutral);
         --tag-icon-stroke: var(--token-color-icon-action-focus);
       }
+
+      @include utilities.active() {
+        --tag-icon-fill: var(--token-color-background-neutral);
+        --tag-icon-stroke: var(--token-color-icon-action-pressed);
+        --tag-icon-border-color: var(--token-color-stroke-action-pressed);
+      }
     }
   }
 
@@ -121,6 +130,12 @@
       @include utilities.focusVisible() {
         --tag-icon-fill: var(--token-color-background-action-focus);
         --tag-icon-stroke: var(--token-color-icon-neutral-inverse);
+      }
+
+      @include utilities.active() {
+        --tag-icon-fill: var(--token-color-background-action-pressed);
+        --tag-icon-stroke: var(--token-color-icon-neutral-inverse);
+        --tag-icon-border-color: var(--token-color-stroke-action-pressed);
       }
     }
   }
