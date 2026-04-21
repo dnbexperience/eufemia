@@ -232,7 +232,7 @@ These renames change the property or event name itself, not just the casing. The
 | `onClosed` / `onOpened`                 | `onClose` / `onOpen`                   | Table                                                               |
 | `isCollapsed`                           | `collapsed`                            | Breadcrumb                                                          |
 | `expandBehaviour`                       | `expandBehavior`                       | Accordion                                                           |
-| `class`                                 | `className`                            | ProgressIndicator, Button                                           |
+| `class`                                 | `className`                            | ProgressIndicator, Button, Tabs, PaymentCard                        |
 | `contentSpacing` / `tabsSpacing`        | `contentInnerSpace` / `tabsInnerSpace` | Tabs                                                                |
 | `darkMode`                              | `colorScheme`                          | Theme                                                               |
 
@@ -1520,6 +1520,7 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 - Replace `card_number` with `cardNumber`.
 - Replace `card_status` with `cardStatus`.
 - Replace `raw_data` with `rawData`.
+- The `class` prop has been removed. Use `className` instead.
 
 #### `cardStatus` property
 
@@ -1688,7 +1689,7 @@ render(<Logo svg={SbankenCompact} />)
 - Replace `status_props` with `statusProps`.
 - Replace `status_no_animation` with `statusNoAnimation`.
 - Replace `custom_content` with `customContent`.
-- Replace `class` with `className`.
+- The `class` prop has been removed. Use `className` instead.
 - Replace `inner_ref` with `ref`.
 
 #### Events
@@ -1878,6 +1879,7 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `focus_key` with `focusKey`.
 - Replace `no_border` with `noBorder`.
 - Replace `prerender` with `keepInDOM`.
+- The `class` prop has been removed. Use `className` instead.
 
 #### Events
 
