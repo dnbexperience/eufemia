@@ -329,7 +329,7 @@ These snake_case props appear on many components and follow the same rename patt
 | `status_state`        | `statusState`       | Autocomplete, Checkbox, DatePicker, Dropdown, Input, InputMasked, Radio, Radio.Group, Slider, StepIndicator, Switch, Textarea, ToggleButton, ToggleButton.Group |
 | `status_props`        | `statusProps`       | Autocomplete, Checkbox, DatePicker, Dropdown, Input, InputMasked, Radio, Radio.Group, Switch, Textarea, ToggleButton, ToggleButton.Group                        |
 | `status_no_animation` | `statusNoAnimation` | Autocomplete, Checkbox, DatePicker, Dropdown, Input, InputMasked, Radio, Radio.Group, Switch, Textarea, ToggleButton, ToggleButton.Group                        |
-| `label_direction`     | `labelDirection`    | Autocomplete, DatePicker, Dropdown, FormLabel, Input, InputMasked, Radio.Group, Textarea, ToggleButton.Group                                                    |
+| `label_direction`     | `labelDirection`    | Autocomplete, DatePicker, Dropdown, FormLabel, Input, InputMasked, ProgressIndicator, Radio.Group, Slider, Textarea, ToggleButton, ToggleButton.Group            |
 | `label_sr_only`       | `labelSrOnly`       | Autocomplete, Checkbox, DatePicker, Dropdown, Input, InputMasked, Radio.Group, Switch, Textarea, ToggleButton.Group                                             |
 | `label_position`      | `labelPosition`     | Checkbox, Radio, Switch                                                                                                                                         |
 | `icon_size`           | `iconSize`          | Autocomplete, Button, GlobalStatus, ProgressIndicator, ToggleButton                                                                                             |
@@ -848,7 +848,7 @@ The `darkMode` prop on the `Theme` component has been replaced with `colorScheme
 
 The `labelDirection` prop now defaults to `vertical` instead of `horizontal` on all basis form components. This means labels are rendered above the input by default. If you relied on the horizontal default, explicitly set `labelDirection="horizontal"`.
 
-Affected components: `Input`, `Textarea`, `Autocomplete`, `Dropdown`, `DatePicker`, `Slider`, `ProgressIndicator`, `ToggleButton`, `ToggleButton.Group`, `Radio.Group`, `FormLabel`.
+Affected components: `Input`, `InputMasked`, `Textarea`, `Autocomplete`, `Dropdown`, `DatePicker`, `Slider`, `ProgressIndicator`, `ToggleButton`, `ToggleButton.Group`, `Radio.Group`, `FormLabel`.
 
 If you used `<Provider formElement={{ labelDirection: 'vertical' }}>` or `labelDirection="vertical"` to achieve vertical labels, you can now remove them.
 
@@ -1341,7 +1341,6 @@ New props added:
 - Replace `statusState`'s value `warn` with `warning`.
 - Replace `status_props` with `statusProps`.
 - Replace `status_no_animation` with `statusNoAnimation`.
-- Replace `label_direction` with `labelDirection`.
 
 #### Events
 
@@ -1980,6 +1979,33 @@ The following properties have been renamed from snake_case to camelCase:
 #### Properties
 
 - Replace `statusState`'s value `info` with `information`.
+
+<Accordion title="Property, event, and translation renames">
+
+#### Properties
+
+The following properties have been renamed from snake_case to camelCase:
+
+- Replace `thumb_title` with `thumbTitle`.
+- Replace `add_title` with `addTitle`.
+- Replace `subtract_title` with `subtractTitle`.
+- Replace `number_format` with `numberFormat`.
+- Replace `label_direction` with `labelDirection`.
+- Replace `label_sr_only` with `labelSrOnly`.
+- Replace `status_state` with `statusState`.
+- Replace `status_props` with `statusProps`.
+- Replace `status_no_animation` with `statusNoAnimation`.
+
+#### Events
+
+- Replace `on_change` with `onChange`.
+
+#### Translations
+
+- Replace `Slider.add_title` with `Slider.addTitle`.
+- Replace `Slider.subtract_title` with `Slider.subtractTitle`.
+
+</Accordion>
 
 #### TypeScript types
 
