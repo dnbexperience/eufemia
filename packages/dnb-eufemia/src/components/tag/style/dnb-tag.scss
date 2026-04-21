@@ -45,9 +45,14 @@
       );
 
       @include button-mixins.buttonFocusVisible(
-        $focus-color: var(--color-emerald-green)
+        $color: var(--token-color-text-action-focus),
+        $background-color: var(
+            --token-color-background-action-focus-subtle
+          ),
+        $focus-color: var(--token-color-icon-action-focus)
       ) {
-        --tag-icon-color: var(--color-emerald-green);
+        --tag-icon-color: var(--token-color-icon-action-focus);
+        --tag-icon-border-color: var(--token-color-icon-action-focus);
       }
 
       @include button-mixins.buttonHover(
@@ -96,6 +101,11 @@
         --tag-icon-fill: var(--token-color-background-neutral);
         --tag-icon-stroke: var(--token-color-icon-action-hover);
       }
+
+      @include utilities.focusVisible() {
+        --tag-icon-fill: var(--token-color-background-neutral);
+        --tag-icon-stroke: var(--token-color-icon-action-focus);
+      }
     }
   }
 
@@ -106,6 +116,11 @@
     &.dnb-button {
       @include utilities.hover() {
         --tag-icon-fill: var(--token-color-background-action-hover);
+      }
+
+      @include utilities.focusVisible() {
+        --tag-icon-fill: var(--token-color-background-action-focus);
+        --tag-icon-stroke: var(--token-color-icon-neutral-inverse);
       }
     }
   }
