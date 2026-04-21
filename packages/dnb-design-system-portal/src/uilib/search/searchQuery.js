@@ -9,7 +9,7 @@ const { getIndexName, runQueriesWhen } = require('./searchHelpers')
 
 require('dotenv').config()
 
-const excludedSlugPartials = ['/uilib/about-the-lib/releases/']
+const excludedSlugPartials = ['uilib/about-the-lib/releases/']
 
 const docsQuery = /* GraphQL */ `
   {

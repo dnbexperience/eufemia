@@ -42,7 +42,7 @@ describe('searchQuery', () => {
       transformer(
         makeNode({
           fields: {
-            slug: '/uilib/about-the-lib/releases/eufemia/v11-info/',
+            slug: 'uilib/about-the-lib/releases/eufemia/v11-info',
           },
           frontmatter: { title: 'v11' },
         })
