@@ -2002,6 +2002,55 @@ describe('Dropdown markup', () => {
   })
 })
 
+describe('Dropdown multiple instances', () => {
+  it('should not delay opening a second Dropdown when a first is already open', () => {
+    jest.useFakeTimers()
+
+    const { container } = render(
+      <>
+        <Dropdown id="dropdown-a" skipPortal data={mockData} />
+        <Dropdown id="dropdown-b" skipPortal data={mockData} />
+      </>
+    )
+
+    const triggerA = container.querySelector(
+      '#dropdown-a'
+    ) as HTMLButtonElement
+    const triggerB = container.querySelector(
+      '#dropdown-b'
+    ) as HTMLButtonElement
+
+    // Open Dropdown A
+    act(() => {
+      fireEvent.click(triggerA)
+    })
+
+    // Advance past blurDelay (201ms) so the animation completes
+    act(() => {
+      jest.advanceTimersByTime(202)
+    })
+
+    // Dropdown A should now be fully open
+    expect(triggerA.getAttribute('aria-expanded')).toBe('true')
+
+    // Open Dropdown B
+    act(() => {
+      fireEvent.click(triggerB)
+    })
+
+    // Dropdown B should start opening immediately (hidden: false, open: true)
+    // without waiting an extra blurDelay caused by the global isOpen flag.
+    // Advance only 1ms — enough for synchronous mergeState, but NOT blurDelay.
+    act(() => {
+      jest.advanceTimersByTime(1)
+    })
+
+    expect(triggerB.getAttribute('aria-expanded')).toBe('true')
+
+    jest.useRealTimers()
+  })
+})
+
 describe('Dropdown scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))

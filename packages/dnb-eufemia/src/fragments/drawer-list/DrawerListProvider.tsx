@@ -165,8 +165,6 @@ const allDefaultProps = {
   ...drawerListProviderDefaultProps,
 }
 
-let isOpen = false
-
 function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   const context = useContext(Context)
 
@@ -262,6 +260,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     alt: false,
   })
   const outsideClickRef = useRef<DetectOutsideClickClass | null>(null)
+  const isOpenRef = useRef(false)
 
   // --- Methods ---
 
@@ -978,7 +977,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       })
 
       const animationDelayHandler = () => {
-        isOpen = true
+        isOpenRef.current = true
         mergeState({ isOpen: true })
 
         if (typeof onStateComplete === 'function') {
@@ -1019,7 +1018,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       )
     }
 
-    if (isOpen && !propsRef.current.noAnimation) {
+    if (isOpenRef.current && !propsRef.current.noAnimation) {
       clearTimeout(hideTimeoutRef.current)
       hideTimeoutRef.current = setTimeout(
         handleSingleComponentCheck,
@@ -1066,7 +1065,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         if (typeof onStateComplete === 'function') {
           onStateComplete(false)
         }
-        isOpen = false
+        isOpenRef.current = false
 
         setActiveState(false)
       }
@@ -1471,7 +1470,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       clearTimeout(scrollTimeoutRef.current)
       clearTimeout(directionTimeoutRef.current)
 
-      isOpen = false
+      isOpenRef.current = false
       removeObservers()
       setActiveState(false)
     }
