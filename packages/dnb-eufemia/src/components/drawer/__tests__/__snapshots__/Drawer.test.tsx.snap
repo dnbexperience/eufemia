@@ -1046,6 +1046,8 @@ button.dnb-button::-moz-focus-inner {
 
 .dnb-help-button__content .dnb-section {
   --background-color: var(--help-button-content-background);
+  --outset-left: calc(var(--spacing-small));
+  --outset-right: calc(var(--spacing-small));
   --rounded-corner--value: calc(var(--card-outline-width) + 0.5rem);
 }
 .dnb-help-button__content .dnb-section .dnb-p {
@@ -1057,17 +1059,6 @@ button.dnb-button::-moz-focus-inner {
   .dnb-help-button__content .dnb-section .dnb-p {
     transition-duration: 0.01ms;
   }
-}
-.dnb-help-button__content {
-  --help-button-indent-width: var(--card-outline-width);
-}
-:not(.dnb-card) .dnb-help-button__content .dnb-section {
-  --outset-left: calc(
-    var(--spacing-medium) + var(--help-button-indent-width)
-  );
-  --outset-right: calc(
-    var(--spacing-medium) + var(--help-button-indent-width)
-  );
 }
 .dnb-help-button__content.dnb-height-animation--parallax .dnb-section .dnb-p {
   transform: translate3d(0, 0, 0);
