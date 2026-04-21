@@ -907,8 +907,6 @@ You can also use `top` and `bottom` individually if you need different values, e
 - Replace `align_autocomplete` with `align`.
 - Replace `on_show` with `onOpen` and `on_hide` with `onClose` (not just a casing change — the event names changed).
 
-<Accordion title="Property, event, and translation renames">
-
 #### Properties
 
 The following properties have been renamed from snake_case to camelCase:
@@ -994,8 +992,6 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `Autocomplete.selected_sr` with `Autocomplete.selectedSr`.
 - Replace `Autocomplete.submit_button_title` with `Autocomplete.submitButtonTitle`.
 
-</Accordion>
-
 #### Styling
 
 - Replace CSS class `dnb-autocomplete--opened` with `dnb-autocomplete--open`.
@@ -1023,8 +1019,6 @@ Data object property renames: `selected_value` → `selectedValue`, `suffix_valu
 - Replace `opened` with `open`.
 - Replace `align_dropdown` with `align`.
 - Replace `on_show` with `onOpen` and `on_hide` with `onClose` (not just a casing change — the event names changed).
-
-<Accordion title="Property and event renames">
 
 #### Properties
 
@@ -1078,8 +1072,6 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `on_show_focus` with `onOpenFocus`.
 - Replace `on_hide_focus` with `onCloseFocus`.
 
-</Accordion>
-
 #### Styling
 
 - Replace CSS class `dnb-dropdown--opened` with `dnb-dropdown--open`.
@@ -1089,8 +1081,6 @@ The following properties have been renamed from snake_case to camelCase:
 Data object property renames: `selected_value` → `selectedValue`, `suffix_value` → `suffixValue`, `search_content` → `searchContent`, `class_name` → `className`. See [DrawerList](#drawerlist) for details.
 
 ### [DrawerList](/uilib/components/fragments/drawer-list/)
-
-<Accordion title="Property and event renames">
 
 #### Properties
 
@@ -1139,8 +1129,6 @@ Data object property renames: `selected_value` → `selectedValue`, `suffix_valu
 - Replace `on_resize` with `onResize`.
 - Replace `on_select` with `onSelect`.
 
-</Accordion>
-
 #### Styling
 
 - Replace CSS class `dnb-drawer-list--opened` with `dnb-drawer-list--open`.
@@ -1173,8 +1161,6 @@ Data object property renames: `selected_value` → `selectedValue`, `suffix_valu
 - The deprecated `onStateUpdate` prop has been removed. Use `onChange` instead.
 - Replace `clear` with `showClearButton`.
 - Replace `input_class` with `inputClassName` (note the name change, not just casing).
-
-<Accordion title="Property, event, and translation renames">
 
 #### Properties
 
@@ -1218,8 +1204,6 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `Input.submit_button_title` with `Input.submitButtonTitle`.
 - Replace `Input.clear_button_title` with `Input.clearButtonTitle`.
 
-</Accordion>
-
 #### SubmitButton
 
 - Replace `icon_size` with `iconSize`.
@@ -1237,8 +1221,6 @@ New props added:
 
 - `allowOverflow` – allow typing beyond the defined mask length.
 - `overwriteMode` – control how overwriting characters is handled (`shift` or `replace`).
-
-<Accordion title="Property and event renames">
 
 #### Properties
 
@@ -1283,8 +1265,6 @@ New props added:
 - Replace `on_blur` with `onBlur`.
 - Replace `on_submit_focus` with `onSubmitFocus`.
 - Replace `on_submit_blur` with `onSubmitBlur`.
-
-</Accordion>
 
 #### Deprecations and removals
 
@@ -1723,8 +1703,6 @@ render(<Logo svg={SbankenCompact} />)
 - Replace `openState` with `open`. Replace `openState="opened"` with `open={true}` and `openState="closed"` with `open={false}`.
 - If you rely on opening and closing a modal by mounting and unmounting the component (legacy behavior), you should change to using the `open` property instead.
 
-<Accordion title="Property, event, and translation renames">
-
 #### Properties
 
 The following properties have been renamed from snake_case to camelCase:
@@ -1780,8 +1758,6 @@ The following properties have been renamed from snake_case to camelCase:
 
 - Replace `Modal.dialog_title` with `Modal.dialogTitle`.
 - Replace `Modal.close_title` with `Modal.closeTitle`.
-
-</Accordion>
 
 ### [Modal.Header](/uilib/components/modal/), [Dialog.Header](/uilib/components/dialog/) and [Drawer.Header](/uilib/components/drawer/)
 
@@ -1916,8 +1892,6 @@ The following properties have been renamed from snake_case to camelCase:
 
 ### [Pagination](/uilib/components/pagination/)
 
-<Accordion title="Property, event, and translation renames">
-
 #### Properties
 
 - Replace `place_maker_before_content` with `placeMarkerBeforeContent`.
@@ -1968,15 +1942,11 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `Pagination.is_loading_text` with `Pagination.isLoadingText`.
 - Replace `Pagination.load_button_text` with `Pagination.loadButtonText`.
 
-</Accordion>
-
 #### InfinityLoadButton & InfinityLoadButtonProps
 
 - Replace `on_click` with `onClick`.
 
 ### [Slider](/uilib/components/slider/)
-
-<Accordion title="Property, event, and translation renames">
 
 #### Properties
 
@@ -2002,8 +1972,6 @@ The following properties have been renamed from snake_case to camelCase:
 
 - Replace `Slider.add_title` with `Slider.addTitle`.
 - Replace `Slider.subtract_title` with `Slider.subtractTitle`.
-
-</Accordion>
 
 #### TypeScript types
 
@@ -2059,8 +2027,6 @@ The following properties have been renamed from snake_case to camelCase:
   import { enGB } from 'date-fns/locale/en-GB'
   ;<DatePicker locale={nb} />
   ```
-
-<Accordion title="Property, event, and event return object renames">
 
 #### Properties
 
@@ -2124,8 +2090,6 @@ The following properties on the event callback return object have been renamed:
 - Replace `is_valid` with `isValid`.
 - Replace `is_valid_start_date` with `isValidStartDate`.
 - Replace `is_valid_end_date` with `isValidEndDate`.
-
-</Accordion>
 
 #### Styling
 
@@ -2374,8 +2338,6 @@ The returned `parts` shape is unchanged. `parts` are now derived from the format
 
 ### [GlobalStatus](/uilib/components/global-status/)
 
-<Accordion title="Property, event, translation, and sub-component renames">
-
 #### Properties
 
 - Replace `icon_size` with `iconSize`.
@@ -2460,8 +2422,6 @@ The returned `parts` shape is unchanged. `parts` are now derived from the format
 - Replace `on_show` with `onShow`.
 - Replace `on_hide` with `onHide`.
 - Replace `on_close` with `onClose`.
-
-</Accordion>
 
 ### [CopyOnClick](/uilib/components/copy-on-click/)
 
