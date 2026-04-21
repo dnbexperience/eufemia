@@ -49,7 +49,7 @@ export type HelpButtonInlineSharedStateDataProps = {
   focusOnOpen?: boolean
 }
 
-export default function HelpButtonInline(props: HelpButtonInlineProps) {
+function HelpButtonInline(props: HelpButtonInlineProps) {
   const {
     contentId,
     size,
@@ -168,7 +168,7 @@ export type HelpButtonInlineContentProps = SpacingProps & {
   focusOnOpen?: boolean
 }
 
-export function HelpButtonInlineContent(
+function HelpButtonInlineContentComponent(
   props: HelpButtonInlineContentProps
 ) {
   const {
@@ -320,7 +320,16 @@ function HelpButtonIcon() {
   )
 }
 
-withComponentMarkers(HelpButtonInline, { _supportsSpacingProps: true })
+const MemoizedHelpButtonInline = React.memo(HelpButtonInline)
+export default MemoizedHelpButtonInline
+
+export const HelpButtonInlineContent = React.memo(
+  HelpButtonInlineContentComponent
+)
+
+withComponentMarkers(MemoizedHelpButtonInline, {
+  _supportsSpacingProps: true,
+})
 withComponentMarkers(HelpButtonInlineContent, {
   _supportsSpacingProps: true,
 })
