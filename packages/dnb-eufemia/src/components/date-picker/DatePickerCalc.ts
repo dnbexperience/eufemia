@@ -41,7 +41,7 @@ export function makeDayObject(
     minDate,
     maxDate,
     month,
-  }: Record<string, Date>
+  }: Record<string, Date>,
 ) {
   const range = getRange(startDate, endDate, hoverDate)
   const isLastMonth = isSameMonth(subMonths(date, 1), month)
@@ -74,7 +74,7 @@ export function getCalendar(
   {
     onlyMonth = false,
     hideNextMonthWeek = false,
-  }: { onlyMonth?: boolean; hideNextMonthWeek?: boolean } = {}
+  }: { onlyMonth?: boolean; hideNextMonthWeek?: boolean } = {},
 ) {
   const cacheKey = month.toISOString()
 
@@ -93,7 +93,7 @@ export function getCalendar(
   const firstDay = (7 + getDay(startOfMonth(month)) - weekStartsOn) % 7
   const lastMonth = getMonth(
     subMonths(month, 1),
-    getDaysInMonth(subMonths(month, 1)) - firstDay
+    getDaysInMonth(subMonths(month, 1)) - firstDay,
   )
   let fillCount = -1
   if (hideNextMonthWeek) {
@@ -106,7 +106,7 @@ export function getCalendar(
   const nextMonth = getMonth(
     addMonths(month, 1),
     0,
-    fillCount > -1 ? fillCount : 0
+    fillCount > -1 ? fillCount : 0,
   )
   return (calendarCache[cacheKey] = [
     ...lastMonth,
@@ -178,7 +178,7 @@ export function getMonth(month: Date, skip = 0, limit?: number) {
 function isWithinSelectionCalc(
   date: Date,
   startDate: Date,
-  endDate: Date
+  endDate: Date,
 ) {
   const { startDate: start, endDate: end } = toRange(startDate, endDate)
   return startDate && endDate
@@ -217,7 +217,7 @@ function isPreviewCalc(
   date: Date,
   startDate: Date,
   endDate: Date,
-  hoverDate: Date
+  hoverDate: Date,
 ) {
   const { startDate: start, endDate: end } = toRange(startDate, hoverDate)
   return (
@@ -237,7 +237,7 @@ function isPreviewCalc(
 
 function parseHumanDate(
   input: string,
-  humanDateFormats = ['dd.MM.yyyy', 'dd/MM/yyyy', 'yyyy-MM-dd']
+  humanDateFormats = ['dd.MM.yyyy', 'dd/MM/yyyy', 'yyyy-MM-dd'],
 ) {
   for (const format of humanDateFormats) {
     const parsed = parse(input, normalizeDateFormat(format), new Date())
@@ -254,7 +254,7 @@ export function convertStringToDate(
   {
     dateFormat = null,
     strictDateFormat = false,
-  }: { dateFormat?: string | null; strictDateFormat?: boolean } = {}
+  }: { dateFormat?: string | null; strictDateFormat?: boolean } = {},
 ): Date {
   if (!date) {
     return null

@@ -35,7 +35,7 @@ export default function PortalToolsMenu({
         className: clsx(
           className,
           buttonStyle,
-          hideWhenMediaLarge && 'hideWhenMediaLarge'
+          hideWhenMediaLarge && 'hideWhenMediaLarge',
         ),
         size: 'default',
         icon: 'more',

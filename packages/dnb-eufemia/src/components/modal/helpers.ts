@@ -65,7 +65,7 @@ export function removeFromIndex(elem: ModalStackEntry) {
         window.__modalStack = []
       }
       window.__modalStack = window.__modalStack.filter(
-        (cur) => cur !== elem
+        (cur) => cur !== elem,
       )
     } catch (e) {
       warn(e)

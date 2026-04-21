@@ -48,7 +48,7 @@ export type UseFieldValidationParams<Value> = {
   setFieldEventListener: (
     identifier: Identifier,
     event: string,
-    fn: () => void
+    fn: () => void,
   ) => void
   getValueByPath: (path: string) => unknown
   getSourceValue: (path: string) => unknown
@@ -59,7 +59,7 @@ export type UseFieldValidationParams<Value> = {
   makeIteratePath: (
     path: string,
     suffix?: string,
-    options?: unknown
+    options?: unknown,
   ) => string
   errorPrioritization: string[]
   sectionPath: string
@@ -83,7 +83,7 @@ export type UseFieldValidationParams<Value> = {
   persistErrorState: (
     method: PersistErrorStateMethod,
     initiator: ErrorInitiator,
-    error?: Error | FormError | Array<Error | FormError>
+    error?: Error | FormError | Array<Error | FormError>,
   ) => void
   clearErrorState: () => void
   revealError: () => void
@@ -184,7 +184,7 @@ export default function useFieldValidation<Value>({
   if (!schemaValidatorRef.current && finalSchema) {
     if (hasZodSchema) {
       schemaValidatorRef.current = createZodValidator(
-        finalSchema as z.ZodSchema
+        finalSchema as z.ZodSchema,
       )
     } else {
       schemaValidatorRef.current = getAjvInstance()?.compile?.(finalSchema)
@@ -196,7 +196,7 @@ export default function useFieldValidation<Value>({
     if (finalSchema) {
       if (hasZodSchema) {
         schemaValidatorRef.current = createZodValidator(
-          finalSchema as z.ZodSchema
+          finalSchema as z.ZodSchema,
         )
       } else {
         schemaValidatorRef.current =
@@ -220,14 +220,14 @@ export default function useFieldValidation<Value>({
       setFieldEventListener?.(
         path,
         'onPathChange',
-        connectWithPathListenerRef.current
+        connectWithPathListenerRef.current,
       )
 
       return {
         getValue: () => getValueByPath(path),
       }
     },
-    [getValueByPath, setFieldEventListener]
+    [getValueByPath, setFieldEventListener],
   )
 
   // -- additionalArgs --
@@ -273,7 +273,7 @@ export default function useFieldValidation<Value>({
   const callValidatorFnAsync = useCallback(
     async (
       validator: Validator<Value>,
-      value: Value = valueRef.current
+      value: Value = valueRef.current,
     ): Promise<ReturnType<Validator<Value>>> => {
       if (typeof validator !== 'function') {
         return undefined
@@ -290,7 +290,7 @@ export default function useFieldValidation<Value>({
           } else if (!hasBeenCalledRef(validatorOrError)) {
             const result = await callValidatorFnAsync(
               validatorOrError,
-              value
+              value,
             )
             if (result instanceof Error) {
               callStackRef.current = []
@@ -310,13 +310,13 @@ export default function useFieldValidation<Value>({
         return ensureErrorMessageObject(result)
       }
     },
-    [additionalArgs, hasBeenCalledRef, ensureErrorMessageObject, valueRef]
+    [additionalArgs, hasBeenCalledRef, ensureErrorMessageObject, valueRef],
   )
 
   const callValidatorFnSync = useCallback(
     (
       validator: Validator<Value>,
-      value: Value = valueRef.current
+      value: Value = valueRef.current,
     ): ReturnType<Validator<Value>> => {
       if (typeof validator !== 'function') {
         return undefined // stop here
@@ -326,7 +326,7 @@ export default function useFieldValidation<Value>({
 
       if (Array.isArray(result)) {
         const hasAsyncValidator = result.some((validator) =>
-          isAsync(validator)
+          isAsync(validator),
         )
         if (hasAsyncValidator) {
           return new Promise((resolve) => {
@@ -367,7 +367,7 @@ export default function useFieldValidation<Value>({
       hasBeenCalledRef,
       ensureErrorMessageObject,
       valueRef,
-    ]
+    ],
   )
 
   // -- Validator cache --
@@ -387,7 +387,7 @@ export default function useFieldValidation<Value>({
         persistErrorState(
           runAsync ? 'gracefully' : 'weak',
           'onChangeValidator',
-          result
+          result,
         )
 
         if (
@@ -425,7 +425,7 @@ export default function useFieldValidation<Value>({
       validateUnchanged,
       changedRef,
       localErrorInitiatorRef,
-    ]
+    ],
   )
 
   const callOnChangeValidator = useCallback(async () => {
@@ -520,7 +520,7 @@ export default function useFieldValidation<Value>({
 
       const value = transformers.current.toEvent(
         overrideValue ?? valueRef.current,
-        'onBlurValidator'
+        'onBlurValidator',
       )
 
       let result = isAsync(onBlurValidatorRef.current)
@@ -532,7 +532,7 @@ export default function useFieldValidation<Value>({
 
       return { result }
     },
-    [callValidatorFnAsync, callValidatorFnSync, transformers, valueRef]
+    [callValidatorFnAsync, callValidatorFnSync, transformers, valueRef],
   )
 
   const revealOnBlurValidatorResult = useCallback(
@@ -546,7 +546,7 @@ export default function useFieldValidation<Value>({
 
       revealError()
     },
-    [defineAsyncProcess, persistErrorState, revealError, setFieldState]
+    [defineAsyncProcess, persistErrorState, revealError, setFieldState],
   )
 
   const startOnBlurValidatorProcess = useCallback(
@@ -575,7 +575,7 @@ export default function useFieldValidation<Value>({
 
       const value = transformers.current.toEvent(
         overrideValue ?? valueRef.current,
-        'onBlurValidator'
+        'onBlurValidator',
       )
 
       let result = isAsync(onBlurValidatorRef.current)
@@ -599,7 +599,7 @@ export default function useFieldValidation<Value>({
       localErrorInitiatorRef,
       transformers,
       valueRef,
-    ]
+    ],
   )
 
   const runOnBlurValidator = useCallback(async () => {
@@ -712,7 +712,7 @@ export default function useFieldValidation<Value>({
           } else {
             error = getAjvInstance()?.ajvErrorsToOneFormError(
               (schemaValidatorRef.current as ValidateFunction).errors,
-              value
+              value,
             )
           }
 

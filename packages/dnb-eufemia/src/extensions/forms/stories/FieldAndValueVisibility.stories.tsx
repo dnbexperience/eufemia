@@ -13,7 +13,7 @@ const LogVisibleData = () => {
       'visibleData',
       reduceToVisibleFields(data, {
         removePaths: ['/isVisible'],
-      })
+      }),
     )
   }, [data, reduceToVisibleFields])
 

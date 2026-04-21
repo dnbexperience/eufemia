@@ -26,7 +26,7 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
   const propsWithContext = extendPropsWithContext(
     localProps,
     defaultProps,
-    context?.Dialog
+    context?.Dialog,
   )
 
   const {

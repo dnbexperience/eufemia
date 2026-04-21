@@ -107,7 +107,7 @@ const Table = (componentProps: TableAllProps) => {
     context?.Table,
     {
       skeleton: context?.skeleton,
-    }
+    },
   )
 
   const {
@@ -159,7 +159,7 @@ const Table = (componentProps: TableAllProps) => {
       mode === 'accordion' && 'dnb-table--accordion',
       mode === 'navigation' && 'dnb-table--navigation',
       skeletonClasses,
-      className
+      className,
     ),
   })
 

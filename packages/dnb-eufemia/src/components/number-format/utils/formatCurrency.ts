@@ -29,11 +29,11 @@ import { alignCurrencySymbol } from './formatNumberCore'
 
 export function formatCurrency(
   value: NumberFormatValue | null | undefined,
-  options: NumberFormatOptionParams & { returnAria: true }
+  options: NumberFormatOptionParams & { returnAria: true },
 ): NumberFormatReturnValue
 export function formatCurrency(
   value: NumberFormatValue | null | undefined,
-  options?: NumberFormatOptionParams
+  options?: NumberFormatOptionParams,
 ): string
 export function formatCurrency(
   value: NumberFormatValue | null | undefined,
@@ -52,7 +52,7 @@ export function formatCurrency(
     returnAria = false,
     invalidAriaText = null,
     cleanCopyValue = null,
-  }: NumberFormatOptionParams = {}
+  }: NumberFormatOptionParams = {},
 ): string | NumberFormatReturnValue {
   value = isAbsent(value) ? ABSENT_VALUE_FORMAT : value
 
@@ -90,7 +90,7 @@ export function formatCurrency(
   opts.style = 'currency'
   opts.currencyDisplay = getFallbackCurrencyDisplay(
     locale,
-    opts.currencyDisplay || currencyDisplay
+    opts.currencyDisplay || currencyDisplay,
   )
 
   // if currency has no decimal, then go ahead and remove it
@@ -136,10 +136,10 @@ export function formatCurrency(
       ({ value: currencyValue }: FormatPartItem) => {
         return (currencySuffix = alignCurrencySymbol(
           currencyValue.trim(),
-          currencyDisplay
+          currencyDisplay,
         ))
       },
-      resolvedPosition
+      resolvedPosition,
     )
   }
 

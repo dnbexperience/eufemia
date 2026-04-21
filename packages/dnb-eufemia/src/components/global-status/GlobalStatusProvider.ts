@@ -36,7 +36,7 @@ export type GlobalStatusResult = {
 type OnUpdateCallback = (
   globalStatus: GlobalStatusResult,
   props: StatusProps | null,
-  opts: { isEmpty?: boolean }
+  opts: { isEmpty?: boolean },
 ) => void
 
 type OnReadyEntry = {
@@ -65,7 +65,7 @@ export class GlobalStatusProviderItem {
   forceRerender(
     globalStatus: GlobalStatusResult,
     props: StatusProps | null,
-    { bufferDelay = 0, isEmpty = false } = {}
+    { bufferDelay = 0, isEmpty = false } = {},
   ) {
     const run = () => {
       this._onUpdateEvents.forEach((event) => {
@@ -111,7 +111,7 @@ export class GlobalStatusProviderItem {
 
     // replace the props if exists
     const stackIndex = this.stack.findIndex(
-      (cur) => cur.statusId === newProps.statusId
+      (cur) => cur.statusId === newProps.statusId,
     )
     if (stackIndex > -1) {
       this.stack[stackIndex] = newProps
@@ -138,7 +138,7 @@ export class GlobalStatusProviderItem {
   update(
     statusId: string,
     newProps: StatusProps,
-    opts: { preventRerender?: boolean; preventRestack?: boolean } = {}
+    opts: { preventRerender?: boolean; preventRestack?: boolean } = {},
   ) {
     const item = this.get(statusId)
     if (!item) {
@@ -186,7 +186,7 @@ export class GlobalStatusProviderItem {
       preventRerender?: boolean
       bufferDelay?: number
       [key: string]: unknown
-    } = {}
+    } = {},
   ) {
     if (statusId) {
       this.stack = this.stack.filter((cur) => {
@@ -227,7 +227,7 @@ export class GlobalStatusProviderItem {
         }
         this._onReadyEvents[i] = null
         return false
-      }
+      },
     )
 
     return true
@@ -235,7 +235,7 @@ export class GlobalStatusProviderItem {
 
   addOnReady(
     status: GlobalStatusProviderItem,
-    cb: (status: GlobalStatusProviderItem) => void
+    cb: (status: GlobalStatusProviderItem) => void,
   ) {
     this._onReadyEvents.push({ status, cb })
   }
@@ -259,7 +259,7 @@ class GlobalStatusProvider {
   static init(
     id = 'main',
     onReady: ((status: GlobalStatusProviderItem) => void) | null = null,
-    props: StatusProps | null = null
+    props: StatusProps | null = null,
   ) {
     const existingStatus = GlobalStatusProvider.get(id)
 
@@ -299,7 +299,7 @@ class GlobalStatusProvider {
 
   static prepareItemWithStatusId(
     item: StatusItem | string,
-    statusId: string | null = null
+    statusId: string | null = null,
   ): StatusItem {
     if (typeof item === 'string') {
       item = { text: item }
@@ -349,7 +349,7 @@ class GlobalStatusProvider {
           item = GlobalStatusProvider.prepareItemWithStatusId(item)
 
           const foundAtIndex = _acc.findIndex(
-            ({ itemId }) => itemId === item.itemId
+            ({ itemId }) => itemId === item.itemId,
           )
           if (foundAtIndex > -1) {
             _acc[foundAtIndex] = item

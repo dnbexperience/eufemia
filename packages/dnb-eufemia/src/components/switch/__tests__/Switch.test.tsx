@@ -108,7 +108,7 @@ describe('Switch component', () => {
     TestStates(
       <React.StrictMode>
         <ControlledVsUncontrolled />
-      </React.StrictMode>
+      </React.StrictMode>,
     )
   })
 
@@ -135,16 +135,16 @@ describe('Switch component', () => {
     render(
       <Provider formElement={{ labelDirection: 'vertical' }}>
         <Switch label="Label" />
-      </Provider>
+      </Provider>,
     )
 
     const element = document.querySelector('.dnb-switch')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
     const inputElement = document.querySelector('.dnb-switch input')
     const inputAttributes = Array.from(inputElement.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual(['class'])

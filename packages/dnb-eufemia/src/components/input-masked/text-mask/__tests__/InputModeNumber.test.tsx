@@ -6,7 +6,7 @@ import InputModeNumber from '../InputModeNumber'
 
 let instance: InputModeNumber = null
 const MockComponent = (
-  props: React.InputHTMLAttributes<HTMLInputElement>
+  props: React.InputHTMLAttributes<HTMLInputElement>,
 ) => {
   const elementRef = useRef<HTMLInputElement | null>(null)
 
@@ -52,7 +52,7 @@ describe('InputModeNumber', () => {
       render(<MockComponent />)
 
       expect(
-        document.querySelector('input').hasAttribute('inputmode')
+        document.querySelector('input').hasAttribute('inputmode'),
       ).toBeFalsy()
     })
 
@@ -63,7 +63,7 @@ describe('InputModeNumber', () => {
 
       expect(document.querySelector('input')).toHaveAttribute(
         'inputmode',
-        'tel'
+        'tel',
       )
     })
 
@@ -184,7 +184,7 @@ describe('InputModeNumber', () => {
 
     it('should keep style when mouseEnter is called', async () => {
       render(
-        <MockComponent type="text" value="12" style={{ width: '2rem' }} />
+        <MockComponent type="text" value="12" style={{ width: '2rem' }} />,
       )
 
       const inputElement = document.querySelector('input')
@@ -207,7 +207,7 @@ describe('InputModeNumber', () => {
 
     it('should add "dnb-input-masked--hide-controls" class when mouseEnter is called', async () => {
       render(
-        <MockComponent type="text" value="12" style={{ width: '2rem' }} />
+        <MockComponent type="text" value="12" style={{ width: '2rem' }} />,
       )
 
       const inputElement = document.querySelector('input')
@@ -215,7 +215,7 @@ describe('InputModeNumber', () => {
 
       expect(inputElement).toHaveAttribute('type', 'text')
       expect(inputElement).not.toHaveClass(
-        'dnb-input-masked--hide-controls'
+        'dnb-input-masked--hide-controls',
       )
 
       fireEvent.mouseEnter(inputElement)
@@ -228,7 +228,7 @@ describe('InputModeNumber', () => {
       })
 
       expect(inputElement).not.toHaveClass(
-        'dnb-input-masked--hide-controls'
+        'dnb-input-masked--hide-controls',
       )
     })
 

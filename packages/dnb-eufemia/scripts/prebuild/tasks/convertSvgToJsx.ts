@@ -48,12 +48,12 @@ export default async function convertSvgToJsx({
       ],
       {
         absolute: true,
-      }
+      },
     )
     await Promise.all(filesToDelete.map((file) => fs.remove(file)))
 
     log.info(
-      '> PrePublish: deleted all svg files before converting "svg to jsx"!'
+      '> PrePublish: deleted all svg files before converting "svg to jsx"!',
     )
   }
 
@@ -62,7 +62,7 @@ export default async function convertSvgToJsx({
       path.dirname(path.resolve(ROOT_DIR, srcPath, '../')),
       {
         withFileTypes: true,
-      }
+      },
     )
   )
     .filter((dir) => dir.isDirectory())
@@ -70,7 +70,7 @@ export default async function convertSvgToJsx({
 
   await asyncForEach(dirs, async (assetsDir) => {
     log.start(
-      `> PrePublish: converting "svg to jsx" for "${assetsDir}" as started ...`
+      `> PrePublish: converting "svg to jsx" for "${assetsDir}" as started ...`,
     )
 
     const icons: TransformedIcons = await transformSvg({
@@ -85,7 +85,7 @@ export default async function convertSvgToJsx({
     log.succeed(
       `> PrePublish: Converting "svg to jsx" for "${assetsDir}" is done (converted ${
         icons.length
-      } icons with ${icons.length / sizes.length} in total)`
+      } icons with ${icons.length / sizes.length} in total)`,
     )
 
     await controlRoutine(icons)
@@ -94,7 +94,7 @@ export default async function convertSvgToJsx({
 
 const controlRoutine = async (icons: TransformedIcons) => {
   const sizes = Object.values(ICON_SIZES).filter(({ suffix }) =>
-    Boolean(suffix)
+    Boolean(suffix),
   )
 
   sizes.forEach(({ suffix: size }) => {
@@ -110,7 +110,7 @@ const controlRoutine = async (icons: TransformedIcons) => {
         log.fail(
           `The icon "${origName}" was not found with another size${
             origName.endsWith(size) ? '' : ` (${size})`
-          }! They should be looked up. The failure can be in several places.`
+          }! They should be looked up. The failure can be in several places.`,
         )
       }
     })
@@ -160,7 +160,7 @@ const transformSvgToReact = async ({ srcPath, destPath }) => {
         ROOT_DIR,
         destPath,
         parsed.dir,
-        parsed.name + '.tsx'
+        parsed.name + '.tsx',
       )
       await fs.outputFile(destFile, result)
     }
@@ -180,7 +180,7 @@ const transformToJsx = (content, file): PromiseLike<string> => {
   try {
     content = content.replace(
       /clip[0-9]+/g,
-      `clip-${md5(filename).substring(0, 6)}`
+      `clip-${md5(filename).substring(0, 6)}`,
     )
     return new Promise((resolve, reject) =>
       svgr(
@@ -195,7 +195,7 @@ const transformToJsx = (content, file): PromiseLike<string> => {
            */
           plugins: ['@svgr/plugin-jsx'],
         },
-        { componentName }
+        { componentName },
       )
         .then(async (res) => {
           log.info(`> PrePublish: Icon was converted: ${basename}`)
@@ -203,7 +203,7 @@ const transformToJsx = (content, file): PromiseLike<string> => {
           // Add type annotation to the props parameter before formatting
           const typed = res.replace(
             /\(props\) =>/,
-            `(props?: IconSVGProps) =>`
+            `(props?: IconSVGProps) =>`,
           )
 
           resolve(
@@ -217,20 +217,20 @@ const transformToJsx = (content, file): PromiseLike<string> => {
                 // This is a fix, so the Rollup ESM export does export React.createElement, and not only createElement with a named import
                 .replace(
                   new RegExp(`import \\* as React from 'react'`, 'g'),
-                  `import React from 'react'`
+                  `import React from 'react'`,
                 )
                 // Add import of IconSVGProps type after the React import
                 .replace(
                   `import React from 'react'`,
-                  `import React from 'react'\nimport type { IconSVGProps } from '../../components/icon/Icon'`
-                )
+                  `import React from 'react'\nimport type { IconSVGProps } from '../../components/icon/Icon'`,
+                ),
           )
         })
-        .catch(reject)
+        .catch(reject),
     )
   } catch (e) {
     log.fail(
-      `> PrePublish: convertSvgToJsx conversion of "${basename}" failed`
+      `> PrePublish: convertSvgToJsx conversion of "${basename}" failed`,
     )
     throw e
   }
@@ -297,7 +297,7 @@ const generateIndexFile = async ({
       ({ name, filename }) =>
         `import ${name} from '.${
           assetsDir === '' ? `/${FALLBACK}` : ''
-        }/${filename}'`
+        }/${filename}'`,
     )
     .join('\n')
   const _keys = icons.map(({ name }) => name).join(', ')
@@ -312,7 +312,7 @@ const generateIndexFile = async ({
     {
       ...prettierrc,
       parser: 'babel',
-    }
+    },
   )
 
   try {
@@ -320,7 +320,7 @@ const generateIndexFile = async ({
       ROOT_DIR,
       destPath,
       assetsDir,
-      `index.ts`
+      `index.ts`,
     )
 
     await fs.writeFile(indexFile, indexContent)
@@ -343,7 +343,7 @@ const generateGroupFiles = async ({
 
   // from the svg lock file we can generate groups out of the "bundleName"
   const groups: Record<string, Array<IconItem>> = Object.entries(
-    lockFileContent
+    lockFileContent,
   ).reduce((acc, [file, { bundleName }]) => {
     acc[bundleName] = acc[bundleName] || []
     const basename = path.basename(file)
@@ -352,7 +352,7 @@ const generateGroupFiles = async ({
       ROOT_DIR,
       destPath,
       assetsDir,
-      `${filename}.tsx`
+      `${filename}.tsx`,
     )
 
     // make sure the file actually exists
@@ -374,18 +374,18 @@ const generateGroupFiles = async ({
       Object.entries(groups),
       async ([groupName, entries]) => {
         entries = entries.sort(({ name: a }, { name: b }) =>
-          a > b ? 1 : -1
+          a > b ? 1 : -1,
         )
         const groupFile = path.resolve(
           ROOT_DIR,
           destPath,
           assetsDir,
-          `${groupName}.ts`
+          `${groupName}.ts`,
         )
 
         const _imports = entries
           .map(
-            ({ name, filename }) => `import ${name} from './${filename}'`
+            ({ name, filename }) => `import ${name} from './${filename}'`,
           )
           .join('\n')
         const _keys = entries.map(({ name }) => name).join(', ')
@@ -400,11 +400,11 @@ const generateGroupFiles = async ({
           {
             ...prettierrc,
             parser: 'babel',
-          }
+          },
         )
 
         await fs.writeFile(groupFile, groupFileContent)
-      }
+      },
     )
   } catch (e) {
     throw e instanceof Error ? e : new Error(String(e))
@@ -427,7 +427,7 @@ const generateFallbackIndexFiles = async ({
         {
           ...prettierrc,
           parser: 'babel',
-        }
+        },
       )
 
       const indexFile = path.resolve(ROOT_DIR, destPath, `${filename}.ts`)
@@ -440,5 +440,8 @@ const generateFallbackIndexFiles = async ({
 }
 
 const prettierrc = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
+  fs.readFileSync(
+    path.resolve(__dirname, '../../../.prettierrc'),
+    'utf-8',
+  ),
 )

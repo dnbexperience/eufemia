@@ -5,7 +5,7 @@ export type CardContextValue = {
 }
 
 const CardContext = React.createContext<CardContextValue | undefined>(
-  undefined
+  undefined,
 )
 
 export default CardContext

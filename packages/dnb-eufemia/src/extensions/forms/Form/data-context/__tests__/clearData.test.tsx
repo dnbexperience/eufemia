@@ -14,7 +14,7 @@ describe('Form.clearData', () => {
     render(
       <Form.Handler id="unique-id" data={{ myString: 'my string' }}>
         <Field.String path="/myString" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelector('input')).toHaveValue('my string')
@@ -31,7 +31,7 @@ describe('Form.clearData', () => {
           <Field.String path="/myString" required />
         </Form.Handler>
         <button onClick={() => Form.clearData('unique-id')} />
-      </React.StrictMode>
+      </React.StrictMode>,
     )
 
     const input = document.querySelector('input')
@@ -52,7 +52,7 @@ describe('Form.clearData', () => {
     render(
       <Form.Handler id="unique-id" onClear={onClear}>
         <Field.String path="/myString" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(onClear).not.toHaveBeenCalled()
@@ -71,7 +71,7 @@ describe('Form.clearData', () => {
       render(
         <Form.Handler id="unique-id" data={{ myString: 'my string' }}>
           <Field.String path="/myString" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('input')).toHaveValue('my string')
@@ -81,7 +81,7 @@ describe('Form.clearData', () => {
       render(
         <Form.Handler id="unique-id">
           <Field.String path="/myString" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('input')).toHaveValue('')

@@ -11,7 +11,7 @@ export type FieldBoundaryProviderProps = {
 }
 
 export default function FieldBoundaryProvider(
-  props: FieldBoundaryProviderProps
+  props: FieldBoundaryProviderProps,
 ) {
   const { showErrors = undefined, onPathError = null, children } = props
   const [, forceUpdate] = useReducer(() => ({}), {})

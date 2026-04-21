@@ -328,7 +328,7 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
         expect(screenshot).toMatchImageSnapshot()
       })
     })
-  }
+  },
 )
 
 describe.each(['dnb', 'sbanken'])('Button for %s', (themeName) => {
@@ -370,7 +370,7 @@ describe.each(['dnb', 'sbanken'])('Button for %s', (themeName) => {
         })
         expect(screenshot).toMatchImageSnapshot()
       })
-    }
+    },
   )
 })
 

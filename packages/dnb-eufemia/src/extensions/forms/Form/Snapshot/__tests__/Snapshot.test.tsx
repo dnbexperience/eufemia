@@ -49,14 +49,14 @@ describe('Form.Snapshot', () => {
     render(
       <Form.Handler>
         <MockComponent />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const willBeRevertedInput = screen.getByLabelText(
-      'Will be reverted'
+      'Will be reverted',
     ) as HTMLInputElement
     const willStayInput = screen.getByLabelText(
-      'Will stay'
+      'Will stay',
     ) as HTMLInputElement
     const undoButton = screen.getByText('Undo')
     const redoButton = screen.getByText('Redo')
@@ -158,14 +158,14 @@ describe('Form.Snapshot', () => {
         </Form.Handler>
 
         <MockHookFromOutside />
-      </>
+      </>,
     )
 
     const willBeRevertedInput = screen.getByLabelText(
-      'Will be reverted'
+      'Will be reverted',
     ) as HTMLInputElement
     const willStayInput = screen.getByLabelText(
-      'Will stay'
+      'Will stay',
     ) as HTMLInputElement
     const undoButton = screen.getByText('Undo')
     const redoButton = screen.getByText('Redo')

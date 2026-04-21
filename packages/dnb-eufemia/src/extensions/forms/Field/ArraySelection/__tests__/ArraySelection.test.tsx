@@ -20,7 +20,7 @@ describe('ArraySelection', () => {
         <Field.ArraySelection>
           <Field.Option value="option1">Option 1</Field.Option>
           <Field.Option value="option2">Option 2</Field.Option>
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
 
       expect(screen.getByText('Option 1')).toBeInTheDocument()
@@ -32,7 +32,7 @@ describe('ArraySelection', () => {
         <Field.ArraySelection label="Test Label">
           <Field.Option value="option1">Option 1</Field.Option>
           <Field.Option value="option2">Option 2</Field.Option>
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
 
       const fieldset = document.querySelector('fieldset')
@@ -51,13 +51,13 @@ describe('ArraySelection', () => {
       render(
         <Field.ArraySelection size="large">
           <Field.Option value="option2">Option 2</Field.Option>
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
 
       const fieldArraySelectionElement: HTMLInputElement =
         document.querySelector('.dnb-forms-field-array-selection')
       expect(fieldArraySelectionElement.classList).toContain(
-        'dnb-forms-field-block--label-height-large'
+        'dnb-forms-field-block--label-height-large',
       )
 
       const checkboxElement: HTMLInputElement =
@@ -72,7 +72,7 @@ describe('ArraySelection', () => {
         >
           <Field.Option value="option1">Option 1</Field.Option>
           <Field.Option value="option2">Option 2</Field.Option>
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
     })
@@ -86,7 +86,7 @@ describe('ArraySelection', () => {
           <Field.Option value="bar" title="title b">
             child b
           </Field.Option>
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
       const options = document.querySelectorAll('.dnb-checkbox')
       expect(options[0].textContent).toBe('title a')
@@ -162,11 +162,11 @@ describe('ArraySelection', () => {
               })
             }}
           </Field.ArraySelection>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const options = Array.from(
-        document.querySelectorAll('.dnb-checkbox')
+        document.querySelectorAll('.dnb-checkbox'),
       )
 
       expect(options).toHaveLength(2)
@@ -185,25 +185,25 @@ describe('ArraySelection', () => {
         <Field.ArraySelection onChange={handleChange}>
           <Field.Option value="option1">Option 1</Field.Option>
           <Field.Option value="option2">Option 2</Field.Option>
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
 
       fireEvent.click(screen.getByText('Option 1'))
       expect(handleChange).toHaveBeenLastCalledWith(
         ['option1'],
-        expect.anything()
+        expect.anything(),
       )
 
       fireEvent.click(screen.getByText('Option 2'))
       expect(handleChange).toHaveBeenLastCalledWith(
         ['option1', 'option2'],
-        expect.anything()
+        expect.anything(),
       )
 
       fireEvent.click(screen.getByText('Option 1'))
       expect(handleChange).toHaveBeenLastCalledWith(
         ['option2'],
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -213,7 +213,7 @@ describe('ArraySelection', () => {
         <Field.ArraySelection onChange={handleChange} emptyValue={[]}>
           <Field.Option value="option1">Option 1</Field.Option>
           <Field.Option value="option2">Option 2</Field.Option>
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
 
       fireEvent.click(screen.getByText('Option 1'))
@@ -227,7 +227,7 @@ describe('ArraySelection', () => {
         <Field.ArraySelection error={errorMessage}>
           <Field.Option value="option1">Option 1</Field.Option>
           <Field.Option value="option2">Option 2</Field.Option>
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
 
       const element = document.querySelector('.dnb-form-status')
@@ -243,14 +243,14 @@ describe('ArraySelection', () => {
         <Field.ArraySelection layout={layout}>
           <Field.Option value="option1">Option 1</Field.Option>
           <Field.Option value="option2">Option 2</Field.Option>
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
 
       const element = document.querySelector(
-        '.dnb-forms-field-block__grid'
+        '.dnb-forms-field-block__grid',
       )
       expect(element).toHaveClass(
-        `dnb-forms-field-block--layout-${layout}`
+        `dnb-forms-field-block--layout-${layout}`,
       )
     })
 
@@ -259,11 +259,11 @@ describe('ArraySelection', () => {
         <Field.ArraySelection>
           <Field.Option value="option1">Option 1</Field.Option>
           <Field.Option value="option2">Option 2</Field.Option>
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
 
       expect(
-        document.querySelector('.dnb-forms-field-array-selection')
+        document.querySelector('.dnb-forms-field-array-selection'),
       ).toHaveClass('dnb-forms-field-array-selection--variant-checkbox')
     })
 
@@ -273,14 +273,14 @@ describe('ArraySelection', () => {
         <Field.ArraySelection optionsLayout={optionsLayout}>
           <Field.Option value="option1">Option 1</Field.Option>
           <Field.Option value="option2">Option 2</Field.Option>
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
 
       const element = document.querySelector(
-        '.dnb-forms-field-array-selection'
+        '.dnb-forms-field-array-selection',
       )
       expect(element).toHaveClass(
-        `dnb-forms-field-array-selection--options-layout--${optionsLayout}`
+        `dnb-forms-field-array-selection--options-layout--${optionsLayout}`,
       )
     })
 
@@ -289,11 +289,11 @@ describe('ArraySelection', () => {
         <Field.ArraySelection>
           <Field.Option value="option1">Option 1</Field.Option>
           <Field.Option value="option2">Option 2</Field.Option>
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
 
       const [option1, option2] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
       expect(option1).toBeInTheDocument()
       expect(option2).toBeInTheDocument()
@@ -304,11 +304,11 @@ describe('ArraySelection', () => {
         <Field.ArraySelection disabled>
           <Field.Option value="option1">Option 1</Field.Option>
           <Field.Option value="option2">Option 2</Field.Option>
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
 
       const [option1, option2] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       expect(option1).toBeDisabled()
@@ -324,11 +324,11 @@ describe('ArraySelection', () => {
               <Field.Option value="option2">Option 2</Field.Option>
             </div>
           </div>
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
 
       const [option1, option2] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       expect(option1).toBeInTheDocument()
@@ -343,11 +343,11 @@ describe('ArraySelection', () => {
           <Form.Visibility visible>
             <Field.Option value="option2">Option 2</Field.Option>
           </Form.Visibility>
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
 
       const [option1, option2, option3] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       expect(option1).toHaveAttribute('type', 'checkbox')
@@ -361,11 +361,11 @@ describe('ArraySelection', () => {
         <Field.ArraySelection error={errorMessage}>
           <Field.Option value="option1">Option 1</Field.Option>
           <Field.Option value="option2">Option 2</Field.Option>
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
 
       const [option1, option2] = Array.from(
-        document.querySelectorAll('.dnb-checkbox')
+        document.querySelectorAll('.dnb-checkbox'),
       )
 
       expect(option1).toHaveClass('dnb-checkbox__status--error')
@@ -379,7 +379,7 @@ describe('ArraySelection', () => {
           <Field.Option value="B" title="Baar!" />
           <Field.Option value="C" title="Bazz!" />
           <Field.Option value="D" title="Quxx!" />
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
 
       const element = document.querySelector('.dnb-form-status')
@@ -402,7 +402,7 @@ describe('ArraySelection', () => {
             <Field.Option value="C" title="Bazz!" />
             <Field.Option value="D" title="Quxx!" />
           </Field.ArraySelection>
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const [optionA, optionB, optionC, optionD]: Array<HTMLElement> =
@@ -431,11 +431,11 @@ describe('ArraySelection', () => {
           >
             <Field.Option value="baz">Baz!</Field.Option>
           </Field.ArraySelection>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const options = Array.from(
-        document.querySelectorAll('.dnb-checkbox')
+        document.querySelectorAll('.dnb-checkbox'),
       )
       expect(options).toHaveLength(3)
 
@@ -450,19 +450,19 @@ describe('ArraySelection', () => {
       expect(option3.querySelector('input').checked).toBe(false)
 
       expect(option1.querySelector('input').id).toBe(
-        option1.querySelector('label').getAttribute('for')
+        option1.querySelector('label').getAttribute('for'),
       )
       expect(option2.querySelector('input').id).toBe(
-        option2.querySelector('label').getAttribute('for')
+        option2.querySelector('label').getAttribute('for'),
       )
       expect(option3.querySelector('input').id).toBe(
-        option3.querySelector('label').getAttribute('for')
+        option3.querySelector('label').getAttribute('for'),
       )
       expect(option1.querySelector('input').id).not.toBe(
-        option2.querySelector('label').getAttribute('for')
+        option2.querySelector('label').getAttribute('for'),
       )
       expect(option1.querySelector('input').id).not.toBe(
-        option3.querySelector('label').getAttribute('for')
+        option3.querySelector('label').getAttribute('for'),
       )
     })
 
@@ -495,7 +495,7 @@ describe('ArraySelection', () => {
               return null
             }}
           </DataContext.Consumer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
@@ -559,20 +559,20 @@ describe('ArraySelection', () => {
             exclusiveMinimum={900}
             validateInitially
           />
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
 
       expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)
       const [first, second] = Array.from(
-        document.querySelectorAll('.dnb-form-status')
+        document.querySelectorAll('.dnb-form-status'),
       )
 
       expect(first.textContent).toBe(nb.Field.errorRequired)
       expect(second.textContent).toBe(
         nb.NumberField.errorExclusiveMinimum.replace(
           '{exclusiveMinimum}',
-          '900'
-        )
+          '900',
+        ),
       )
     })
 
@@ -587,7 +587,7 @@ describe('ArraySelection', () => {
           >
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
-          </Field.ArraySelection>
+          </Field.ArraySelection>,
         )
 
         expect(await axeComponent(result)).toHaveNoViolations()
@@ -598,11 +598,11 @@ describe('ArraySelection', () => {
           <Field.ArraySelection variant="checkbox" required>
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
-          </Field.ArraySelection>
+          </Field.ArraySelection>,
         )
 
         const [first, second] = Array.from(
-          document.querySelectorAll('input')
+          document.querySelectorAll('input'),
         )
         expect(first).toHaveAttribute('aria-required', 'true')
         expect(second).toHaveAttribute('aria-required', 'true')
@@ -617,11 +617,11 @@ describe('ArraySelection', () => {
           >
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
-          </Field.ArraySelection>
+          </Field.ArraySelection>,
         )
 
         const [first, second] = Array.from(
-          document.querySelectorAll('input')
+          document.querySelectorAll('input'),
         )
         expect(first).toHaveAttribute('aria-invalid', 'true')
         expect(second).toHaveAttribute('aria-invalid', 'true')
@@ -633,7 +633,7 @@ describe('ArraySelection', () => {
         <Field.ArraySelection label="Legend">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
 
       const fieldset = document.querySelector('fieldset')
@@ -649,7 +649,7 @@ describe('ArraySelection', () => {
         <Field.ArraySelection>
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
 
       const fieldset = document.querySelector('fieldset')
@@ -664,7 +664,7 @@ describe('ArraySelection', () => {
         <Field.ArraySelection label="Legend">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
       expect(await axeComponent(Comp)).toHaveNoViolations()
     })
@@ -674,7 +674,7 @@ describe('ArraySelection', () => {
         <Field.ArraySelection>
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
       expect(await axeComponent(Comp)).toHaveNoViolations()
     })
@@ -692,7 +692,7 @@ describe('ArraySelection', () => {
             <Field.Option value="bar" title="title b">
               child b
             </Field.Option>
-          </Field.ArraySelection>
+          </Field.ArraySelection>,
         )
 
         const options = document.querySelectorAll('.dnb-button__text')
@@ -705,11 +705,11 @@ describe('ArraySelection', () => {
           <Field.ArraySelection variant={testVariant}>
             <Field.Option value="option1">Option 1</Field.Option>
             <Field.Option value="option2">Option 2</Field.Option>
-          </Field.ArraySelection>
+          </Field.ArraySelection>,
         )
 
         const [option1, option2] = Array.from(
-          document.querySelectorAll('button')
+          document.querySelectorAll('button'),
         )
         expect(option1).toBeInTheDocument()
         expect(option2).toBeInTheDocument()
@@ -719,17 +719,17 @@ describe('ArraySelection', () => {
         render(
           <Field.ArraySelection variant={testVariant} size="large">
             <Field.Option value="option2">Option 2</Field.Option>
-          </Field.ArraySelection>
+          </Field.ArraySelection>,
         )
 
         const fieldArraySelectionElement: HTMLInputElement =
           document.querySelector('.dnb-forms-field-array-selection')
         expect(fieldArraySelectionElement.classList).toContain(
-          'dnb-forms-field-block--label-height-large'
+          'dnb-forms-field-block--label-height-large',
         )
 
         const buttonElement: HTMLInputElement = document.querySelector(
-          '.dnb-toggle-button__button'
+          '.dnb-toggle-button__button',
         )
         expect(buttonElement.classList).toContain('dnb-button--size-large')
       })
@@ -743,11 +743,11 @@ describe('ArraySelection', () => {
                 <Field.Option value="option2">Option 2</Field.Option>
               </div>
             </div>
-          </Field.ArraySelection>
+          </Field.ArraySelection>,
         )
 
         const [option1, option2] = Array.from(
-          document.querySelectorAll('button')
+          document.querySelectorAll('button'),
         )
 
         expect(option1).toBeInTheDocument()
@@ -762,11 +762,11 @@ describe('ArraySelection', () => {
             <Form.Visibility visible>
               <Field.Option value="option2">Option 2</Field.Option>
             </Form.Visibility>
-          </Field.ArraySelection>
+          </Field.ArraySelection>,
         )
 
         const [option1, option2, option3] = Array.from(
-          document.querySelectorAll('button, input')
+          document.querySelectorAll('button, input'),
         )
 
         expect(option1).toHaveAttribute('type', 'button')
@@ -780,11 +780,11 @@ describe('ArraySelection', () => {
           <Field.ArraySelection variant={testVariant} error={errorMessage}>
             <Field.Option value="option1">Option 1</Field.Option>
             <Field.Option value="option2">Option 2</Field.Option>
-          </Field.ArraySelection>
+          </Field.ArraySelection>,
         )
 
         const [option1, option2] = Array.from(
-          document.querySelectorAll('.dnb-toggle-button')
+          document.querySelectorAll('.dnb-toggle-button'),
         )
 
         expect(option1).toHaveClass('dnb-toggle-button__status--error')
@@ -796,11 +796,11 @@ describe('ArraySelection', () => {
           <Field.ArraySelection variant={testVariant} disabled>
             <Field.Option value="option1">Option 1</Field.Option>
             <Field.Option value="option2">Option 2</Field.Option>
-          </Field.ArraySelection>
+          </Field.ArraySelection>,
         )
 
         const [option1, option2] = Array.from(
-          document.querySelectorAll('button')
+          document.querySelectorAll('button'),
         )
 
         expect(option1).toBeDisabled()
@@ -812,11 +812,11 @@ describe('ArraySelection', () => {
           <Field.ArraySelection variant={testVariant}>
             <Field.Option value="option1">Option 1</Field.Option>
             <Field.Option value="option2">Option 2</Field.Option>
-          </Field.ArraySelection>
+          </Field.ArraySelection>,
         )
 
         expect(
-          document.querySelector('.dnb-forms-field-array-selection')
+          document.querySelector('.dnb-forms-field-array-selection'),
         ).toHaveClass('dnb-forms-field-array-selection--variant-button')
       })
 
@@ -828,10 +828,10 @@ describe('ArraySelection', () => {
           >
             <Field.Option value="option1">Option 1</Field.Option>
             <Field.Option value="option2">Option 2</Field.Option>
-          </Field.ArraySelection>
+          </Field.ArraySelection>,
         )
         expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(
-          1
+          1,
         )
       })
 
@@ -845,7 +845,7 @@ describe('ArraySelection', () => {
             <Field.Option value="B" title="Baar!" />
             <Field.Option value="C" title="Bazz!" />
             <Field.Option value="D" title="Quxx!" />
-          </Field.ArraySelection>
+          </Field.ArraySelection>,
         )
 
         const element = document.querySelector('.dnb-form-status')
@@ -857,7 +857,7 @@ describe('ArraySelection', () => {
           optionC,
           optionD,
         ]: Array<HTMLButtonElement> = Array.from(
-          document.querySelectorAll('.dnb-toggle-button')
+          document.querySelectorAll('.dnb-toggle-button'),
         )
         expect(optionA).toHaveClass('dnb-toggle-button__status--error')
         expect(optionB).toHaveClass('dnb-toggle-button__status--error')
@@ -877,7 +877,7 @@ describe('ArraySelection', () => {
               <Field.Option value="C" title="Bazz!" />
               <Field.Option value="D" title="Quxx!" />
             </Field.ArraySelection>
-          </FieldBlock>
+          </FieldBlock>,
         )
 
         const [
@@ -886,7 +886,7 @@ describe('ArraySelection', () => {
           optionC,
           optionD,
         ]: Array<HTMLButtonElement> = Array.from(
-          document.querySelectorAll('.dnb-toggle-button')
+          document.querySelectorAll('.dnb-toggle-button'),
         )
         expect(optionA).toHaveClass('dnb-toggle-button__status--error')
         expect(optionB).toHaveClass('dnb-toggle-button__status--error')
@@ -912,13 +912,13 @@ describe('ArraySelection', () => {
             >
               <Field.Option value="baz">Baz!</Field.Option>
             </Field.ArraySelection>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const options = Array.from(
           document.querySelectorAll(
-            `.dnb-forms-field-array-selection__button `
-          )
+            `.dnb-forms-field-array-selection__button `,
+          ),
         )
         expect(options).toHaveLength(3)
 
@@ -930,19 +930,19 @@ describe('ArraySelection', () => {
 
         expect(option1.querySelector('button')).toHaveAttribute(
           'aria-checked',
-          'false'
+          'false',
         )
         expect(option1).not.toHaveClass('dnb-toggle-button--checked')
 
         expect(option2.querySelector('button')).toHaveAttribute(
           'aria-checked',
-          'true'
+          'true',
         )
         expect(option2).toHaveClass('dnb-toggle-button--checked')
 
         expect(option3.querySelector('button')).toHaveAttribute(
           'aria-checked',
-          'false'
+          'false',
         )
         expect(option3).not.toHaveClass('dnb-toggle-button--checked')
       })
@@ -970,13 +970,13 @@ describe('ArraySelection', () => {
                 maxItems: 'You can only select up to three',
               }}
             />
-          </DataContext.Provider>
+          </DataContext.Provider>,
         )
 
         // Trying to select only one item
         fireEvent.click(screen.getByText('Oslo'))
         expect(
-          screen.getByText('You must select at least two')
+          screen.getByText('You must select at least two'),
         ).toBeInTheDocument()
 
         // Trying to select four items
@@ -984,7 +984,7 @@ describe('ArraySelection', () => {
         fireEvent.click(screen.getByText('Copenhagen'))
         fireEvent.click(screen.getByText('Helsinki'))
         expect(
-          screen.getByText('You can only select up to three')
+          screen.getByText('You can only select up to three'),
         ).toBeInTheDocument()
       })
 
@@ -1017,7 +1017,7 @@ describe('ArraySelection', () => {
                 return null
               }}
             </DataContext.Consumer>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(dataContext.fieldDisplayValueRef.current).toEqual({
@@ -1075,7 +1075,7 @@ describe('ArraySelection', () => {
             data,
             ({ value, displayValue, label }) => {
               return { value, displayValue, label }
-            }
+            },
           )
         })
 
@@ -1107,7 +1107,7 @@ describe('ArraySelection', () => {
                 ]}
               />
             </Iterate.Array>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         fireEvent.submit(document.querySelector('form'))
@@ -1167,11 +1167,11 @@ describe('ArraySelection', () => {
           <Field.ArraySelection variant={testVariant}>
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
-          </Field.ArraySelection>
+          </Field.ArraySelection>,
         )
 
         const [first, second] = Array.from(
-          document.querySelectorAll('.dnb-toggle-button')
+          document.querySelectorAll('.dnb-toggle-button'),
         )
 
         expect(first.querySelector('.dnb-button').tagName).toBe('BUTTON')
@@ -1189,7 +1189,7 @@ describe('ArraySelection', () => {
             >
               <Field.Option value="foo">Foo</Field.Option>
               <Field.Option value="bar">Bar</Field.Option>
-            </Field.ArraySelection>
+            </Field.ArraySelection>,
           )
 
           expect(await axeComponent(result)).toHaveNoViolations()
@@ -1200,11 +1200,11 @@ describe('ArraySelection', () => {
             <Field.ArraySelection variant={testVariant} required>
               <Field.Option value="foo">Foo</Field.Option>
               <Field.Option value="bar">Bar</Field.Option>
-            </Field.ArraySelection>
+            </Field.ArraySelection>,
           )
 
           const [first, second] = Array.from(
-            document.querySelectorAll('button')
+            document.querySelectorAll('button'),
           )
           expect(first).toHaveAttribute('aria-required', 'true')
           expect(second).toHaveAttribute('aria-required', 'true')
@@ -1219,11 +1219,11 @@ describe('ArraySelection', () => {
             >
               <Field.Option value="foo">Foo</Field.Option>
               <Field.Option value="bar">Bar</Field.Option>
-            </Field.ArraySelection>
+            </Field.ArraySelection>,
           )
 
           const [first, second] = Array.from(
-            document.querySelectorAll('button')
+            document.querySelectorAll('button'),
           )
           expect(first).toHaveAttribute('aria-invalid', 'true')
           expect(second).toHaveAttribute('aria-invalid', 'true')
@@ -1235,7 +1235,7 @@ describe('ArraySelection', () => {
           <Field.ArraySelection label="Legend" variant={testVariant}>
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
-          </Field.ArraySelection>
+          </Field.ArraySelection>,
         )
 
         const fieldset = document.querySelector('fieldset')
@@ -1251,7 +1251,7 @@ describe('ArraySelection', () => {
           <Field.ArraySelection variant={testVariant}>
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
-          </Field.ArraySelection>
+          </Field.ArraySelection>,
         )
 
         const fieldset = document.querySelector('fieldset')
@@ -1266,7 +1266,7 @@ describe('ArraySelection', () => {
           <Field.ArraySelection label="Legend" variant={testVariant}>
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
-          </Field.ArraySelection>
+          </Field.ArraySelection>,
         )
         expect(await axeComponent(Comp)).toHaveNoViolations()
       })
@@ -1276,11 +1276,11 @@ describe('ArraySelection', () => {
           <Field.ArraySelection variant={testVariant}>
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
-          </Field.ArraySelection>
+          </Field.ArraySelection>,
         )
         expect(await axeComponent(Comp)).toHaveNoViolations()
       })
-    }
+    },
   )
 
   describe('width', () => {
@@ -1290,16 +1290,16 @@ describe('ArraySelection', () => {
         render(
           <Field.ArraySelection width={width}>
             <Field.Option value="foo">Foo</Field.Option>
-          </Field.ArraySelection>
+          </Field.ArraySelection>,
         )
 
         const contents = document.querySelector(
-          '.dnb-forms-field-block__contents'
+          '.dnb-forms-field-block__contents',
         )
         expect(contents.classList).toContain(
-          `dnb-forms-field-block__contents--width-${width}`
+          `dnb-forms-field-block__contents--width-${width}`,
         )
-      }
+      },
     )
 
     it.each(['small', 'medium', 'large'] as const)(
@@ -1308,16 +1308,16 @@ describe('ArraySelection', () => {
         render(
           <Field.ArraySelection variant="button" width={width}>
             <Field.Option value="foo">Foo</Field.Option>
-          </Field.ArraySelection>
+          </Field.ArraySelection>,
         )
 
         const contents = document.querySelector(
-          '.dnb-forms-field-block__contents'
+          '.dnb-forms-field-block__contents',
         )
         expect(contents.classList).toContain(
-          `dnb-forms-field-block__contents--width-${width}`
+          `dnb-forms-field-block__contents--width-${width}`,
         )
-      }
+      },
     )
 
     it.each(['small', 'medium', 'large'] as const)(
@@ -1326,30 +1326,30 @@ describe('ArraySelection', () => {
         render(
           <Field.ArraySelection variant="checkbox-button" width={width}>
             <Field.Option value="foo">Foo</Field.Option>
-          </Field.ArraySelection>
+          </Field.ArraySelection>,
         )
 
         const contents = document.querySelector(
-          '.dnb-forms-field-block__contents'
+          '.dnb-forms-field-block__contents',
         )
         expect(contents.classList).toContain(
-          `dnb-forms-field-block__contents--width-${width}`
+          `dnb-forms-field-block__contents--width-${width}`,
         )
-      }
+      },
     )
 
     it('should support "stretch" width', () => {
       render(
         <Field.ArraySelection width="stretch">
           <Field.Option value="foo">Foo</Field.Option>
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
 
       const contents = document.querySelector(
-        '.dnb-forms-field-block__contents'
+        '.dnb-forms-field-block__contents',
       )
       expect(contents.classList).toContain(
-        'dnb-forms-field-block__contents--width-stretch'
+        'dnb-forms-field-block__contents--width-stretch',
       )
     })
 
@@ -1357,19 +1357,19 @@ describe('ArraySelection', () => {
       render(
         <Field.ArraySelection width="4rem">
           <Field.Option value="foo">Foo</Field.Option>
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
 
       const mainElement = document.querySelector('.dnb-forms-field-block')
       const contents = mainElement.querySelector(
-        '.dnb-forms-field-block__contents'
+        '.dnb-forms-field-block__contents',
       )
 
       expect(contents.classList).toContain(
-        'dnb-forms-field-block__contents--width-custom'
+        'dnb-forms-field-block__contents--width-custom',
       )
       expect(mainElement).toHaveStyle(
-        '--dnb-forms-field-block-content-width: 4rem;'
+        '--dnb-forms-field-block-content-width: 4rem;',
       )
     })
 
@@ -1377,14 +1377,14 @@ describe('ArraySelection', () => {
       render(
         <Field.ArraySelection width={false}>
           <Field.Option value="foo">Foo</Field.Option>
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
 
       const contents = document.querySelector(
-        '.dnb-forms-field-block__contents'
+        '.dnb-forms-field-block__contents',
       )
       expect(contents.className).not.toMatch(
-        /dnb-forms-field-block__contents--width/
+        /dnb-forms-field-block__contents--width/,
       )
     })
   })
@@ -1408,11 +1408,11 @@ describe('ArraySelection', () => {
               </div>
             )
           }}
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
 
       const inputs = document.querySelectorAll(
-        '.dnb-forms-field-array-selection input'
+        '.dnb-forms-field-array-selection input',
       )
       const ids = Array.from(inputs)
         .map((el) => el.id)
@@ -1438,11 +1438,11 @@ describe('ArraySelection', () => {
               </div>
             )
           }}
-        </Field.ArraySelection>
+        </Field.ArraySelection>,
       )
 
       const inputs = document.querySelectorAll(
-        '.dnb-forms-field-array-selection input'
+        '.dnb-forms-field-array-selection input',
       )
       const ids = Array.from(inputs)
         .map((el) => el.id)

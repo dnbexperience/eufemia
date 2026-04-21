@@ -16,7 +16,7 @@ describe('Field.BankAccountNumber', () => {
     render(<Field.BankAccountNumber {...props} />)
 
     const component = document.querySelector(
-      '.dnb-forms-field-bank-account-number'
+      '.dnb-forms-field-bank-account-number',
     )
 
     expect(component).toBeInTheDocument()
@@ -42,7 +42,7 @@ describe('Field.BankAccountNumber', () => {
         required
         onChangeValidator={onChangeValidator}
         validateInitially
-      />
+      />,
     )
 
     await waitFor(() => {
@@ -102,7 +102,7 @@ describe('Field.BankAccountNumber', () => {
               value={bankAccountNo}
               validateInitially
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         fireEvent.blur(document.querySelector('input'))
@@ -110,7 +110,7 @@ describe('Field.BankAccountNumber', () => {
         await expect(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
         }).toNeverResolve()
-      }
+      },
     )
 
     it.each(invalidBankAccountNumbers)(
@@ -120,7 +120,7 @@ describe('Field.BankAccountNumber', () => {
           <Field.BankAccountNumber
             value={bankAccountNo}
             validateInitially
-          />
+          />,
         )
 
         fireEvent.blur(document.querySelector('input'))
@@ -128,10 +128,10 @@ describe('Field.BankAccountNumber', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.BankAccountNumber.errorBankAccountNumber
+            nb.BankAccountNumber.errorBankAccountNumber,
           )
         })
-      }
+      },
     )
 
     it.each(invalidBankAccountNumbersTooShort)(
@@ -141,7 +141,7 @@ describe('Field.BankAccountNumber', () => {
           <Field.BankAccountNumber
             value={bankAccountNo}
             validateInitially
-          />
+          />,
         )
 
         fireEvent.blur(document.querySelector('input'))
@@ -149,10 +149,10 @@ describe('Field.BankAccountNumber', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.BankAccountNumber.errorBankAccountNumberLength
+            nb.BankAccountNumber.errorBankAccountNumberLength,
           )
         })
-      }
+      },
     )
   })
 
@@ -211,7 +211,7 @@ describe('Field.BankAccountNumber', () => {
               validateInitially
               onBlurValidator={customValidator}
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         fireEvent.blur(document.querySelector('input'))
@@ -219,7 +219,7 @@ describe('Field.BankAccountNumber', () => {
         await expect(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
         }).toNeverResolve()
-      }
+      },
     )
 
     it.each(validBankAccountNumbersNotStartingWith1)(
@@ -230,14 +230,14 @@ describe('Field.BankAccountNumber', () => {
             value={bankAccountNo}
             validateInitially
             onBlurValidator={customValidator}
-          />
+          />,
         )
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent('My error')
         })
-      }
+      },
     )
 
     it.each(invalidBankAccountNumbers)(
@@ -248,7 +248,7 @@ describe('Field.BankAccountNumber', () => {
             value={bankAccountNo}
             validateInitially
             onBlurValidator={customValidator}
-          />
+          />,
         )
 
         fireEvent.blur(document.querySelector('input'))
@@ -256,10 +256,10 @@ describe('Field.BankAccountNumber', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.BankAccountNumber.errorBankAccountNumber
+            nb.BankAccountNumber.errorBankAccountNumber,
           )
         })
-      }
+      },
     )
 
     it.each(invalidBankAccountNumbersTooShort)(
@@ -270,7 +270,7 @@ describe('Field.BankAccountNumber', () => {
             value={bankAccountNo}
             validateInitially
             onBlurValidator={customValidator}
-          />
+          />,
         )
 
         fireEvent.blur(document.querySelector('input'))
@@ -278,17 +278,17 @@ describe('Field.BankAccountNumber', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.BankAccountNumber.errorBankAccountNumberLength
+            nb.BankAccountNumber.errorBankAccountNumberLength,
           )
         })
-      }
+      },
     )
   })
 
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(
-        <Field.BankAccountNumber required validateInitially />
+        <Field.BankAccountNumber required validateInitially />,
       )
 
       expect(await axeComponent(result)).toHaveNoViolations()
@@ -319,10 +319,10 @@ describe('Field.BankAccountNumber', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).toBeInTheDocument()
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        nb.BankAccountNumber.errorBankAccountNumberLength
+        nb.BankAccountNumber.errorBankAccountNumberLength,
       )
     })
 
@@ -331,10 +331,10 @@ describe('Field.BankAccountNumber', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).toBeInTheDocument()
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        nb.BankAccountNumber.errorBankAccountNumber
+        nb.BankAccountNumber.errorBankAccountNumber,
       )
     })
 
@@ -344,7 +344,7 @@ describe('Field.BankAccountNumber', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).not.toBeInTheDocument()
     })
   })
@@ -357,7 +357,7 @@ describe('Field.BankAccountNumber', () => {
         onStatusChange={onStatusChange}
         validateContinuously
         required
-      />
+      />,
     )
 
     const input = document.querySelector('input')
@@ -370,7 +370,7 @@ describe('Field.BankAccountNumber', () => {
       expect(onStatusChange).toHaveBeenLastCalledWith(
         expect.objectContaining({
           error: expect.anything(),
-        })
+        }),
       )
     })
 
@@ -400,7 +400,7 @@ describe('Field.BankAccountNumber', () => {
       <Field.BankAccountNumber
         onStatusChange={onStatusChange}
         error={undefined}
-      />
+      />,
     )
 
     // Initially no error should be called
@@ -413,7 +413,7 @@ describe('Field.BankAccountNumber', () => {
       <Field.BankAccountNumber
         onStatusChange={onStatusChange}
         error={error1}
-      />
+      />,
     )
 
     // Wait for onStatusChange to be called with error
@@ -431,7 +431,7 @@ describe('Field.BankAccountNumber', () => {
       <Field.BankAccountNumber
         onStatusChange={onStatusChange}
         error={error2}
-      />
+      />,
     )
 
     await waitFor(() => {
@@ -448,7 +448,7 @@ describe('Field.BankAccountNumber', () => {
       <Field.BankAccountNumber
         onStatusChange={onStatusChange}
         error={undefined}
-      />
+      />,
     )
 
     await waitFor(() => {
@@ -475,7 +475,7 @@ describe('Field.BankAccountNumber', () => {
           bankAccountType="swedishBban"
           value="50001234567"
           omitMask
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -488,7 +488,7 @@ describe('Field.BankAccountNumber', () => {
           bankAccountType="swedishBankgiro"
           value="59140129"
           omitMask
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -501,7 +501,7 @@ describe('Field.BankAccountNumber', () => {
           bankAccountType="iban"
           value="NO9386011117947"
           omitMask
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -544,7 +544,7 @@ describe('Field.BankAccountNumber', () => {
             value="NO9386011117947"
             validateInitially
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       fireEvent.blur(document.querySelector('input'))
@@ -558,7 +558,7 @@ describe('Field.BankAccountNumber', () => {
       render(<Field.BankAccountNumber />)
 
       expect(document.querySelector('label')).toHaveTextContent(
-        nb.BankAccountNumber.label
+        nb.BankAccountNumber.label,
       )
     })
 
@@ -566,7 +566,7 @@ describe('Field.BankAccountNumber', () => {
       render(<Field.BankAccountNumber bankAccountType="iban" />)
 
       expect(document.querySelector('label')).toHaveTextContent(
-        nb.BankAccountNumber.labelIban
+        nb.BankAccountNumber.labelIban,
       )
     })
 
@@ -574,7 +574,7 @@ describe('Field.BankAccountNumber', () => {
       render(<Field.BankAccountNumber bankAccountType="swedishBban" />)
 
       expect(document.querySelector('label')).toHaveTextContent(
-        nb.BankAccountNumber.labelSwedishBban
+        nb.BankAccountNumber.labelSwedishBban,
       )
     })
 
@@ -582,7 +582,7 @@ describe('Field.BankAccountNumber', () => {
       render(<Field.BankAccountNumber bankAccountType="swedishBankgiro" />)
 
       expect(document.querySelector('label')).toHaveTextContent(
-        nb.BankAccountNumber.labelSwedishBankgiro
+        nb.BankAccountNumber.labelSwedishBankgiro,
       )
     })
 
@@ -590,7 +590,7 @@ describe('Field.BankAccountNumber', () => {
       render(<Field.BankAccountNumber bankAccountType="swedishPlusgiro" />)
 
       expect(document.querySelector('label')).toHaveTextContent(
-        nb.BankAccountNumber.labelSwedishPlusgiro
+        nb.BankAccountNumber.labelSwedishPlusgiro,
       )
     })
 
@@ -599,11 +599,11 @@ describe('Field.BankAccountNumber', () => {
         <Field.BankAccountNumber
           bankAccountType="iban"
           label="Custom label"
-        />
+        />,
       )
 
       expect(document.querySelector('label')).toHaveTextContent(
-        'Custom label'
+        'Custom label',
       )
     })
 
@@ -614,7 +614,7 @@ describe('Field.BankAccountNumber', () => {
         <Field.BankAccountNumber
           bankAccountType="iban"
           onChange={onChange}
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -630,7 +630,7 @@ describe('Field.BankAccountNumber', () => {
         <Field.BankAccountNumber
           bankAccountType="iban"
           value="NO9386011117947"
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -644,7 +644,7 @@ describe('Field.BankAccountNumber', () => {
         <Field.BankAccountNumber
           bankAccountType="iban"
           onChange={onChange}
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -662,7 +662,7 @@ describe('Field.BankAccountNumber', () => {
         <Field.BankAccountNumber
           bankAccountType="iban"
           onChange={onChange}
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -680,7 +680,7 @@ describe('Field.BankAccountNumber', () => {
         <Field.BankAccountNumber
           bankAccountType="iban"
           onChange={onChange}
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -697,7 +697,7 @@ describe('Field.BankAccountNumber', () => {
         <Field.BankAccountNumber
           bankAccountType="iban"
           onChange={onChange}
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -711,7 +711,7 @@ describe('Field.BankAccountNumber', () => {
         <Field.BankAccountNumber
           bankAccountType="iban"
           value="NO9386011117947"
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -723,7 +723,7 @@ describe('Field.BankAccountNumber', () => {
         <Field.BankAccountNumber
           bankAccountType="iban"
           value="LC55HEMM000100010012001200023015"
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -735,7 +735,7 @@ describe('Field.BankAccountNumber', () => {
         <Field.BankAccountNumber
           bankAccountType="iban"
           value="GB29NWBK60161331926819"
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -752,7 +752,7 @@ describe('Field.BankAccountNumber', () => {
           bankAccountType="norwegianBban"
           onChange={onChange}
           validate={false}
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -769,7 +769,7 @@ describe('Field.BankAccountNumber', () => {
           bankAccountType="norwegianBban"
           value="12345678901"
           validate={false}
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -783,7 +783,7 @@ describe('Field.BankAccountNumber', () => {
         <Field.BankAccountNumber
           bankAccountType="swedishBban"
           onChange={onChange}
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -799,7 +799,7 @@ describe('Field.BankAccountNumber', () => {
         <Field.BankAccountNumber
           bankAccountType="swedishBban"
           value="50001234567890"
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -813,7 +813,7 @@ describe('Field.BankAccountNumber', () => {
         <Field.BankAccountNumber
           bankAccountType="swedishBankgiro"
           onChange={onChange}
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -833,7 +833,7 @@ describe('Field.BankAccountNumber', () => {
         <Field.BankAccountNumber
           bankAccountType="swedishPlusgiro"
           onChange={onChange}
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -853,7 +853,7 @@ describe('Field.BankAccountNumber', () => {
         <Field.BankAccountNumber
           bankAccountType="iban"
           onChange={onChange}
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -898,7 +898,7 @@ describe('Field.BankAccountNumber', () => {
           bankAccountType="swedishBankgiro"
           value="5914012"
           onChange={onChange}
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -941,7 +941,7 @@ describe('Field.BankAccountNumber', () => {
           bankAccountType="swedishPlusgiro"
           value="1263664"
           onChange={onChange}
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -957,7 +957,7 @@ describe('Field.BankAccountNumber', () => {
         <Field.BankAccountNumber
           bankAccountType="swedishBankgiro"
           value="5914012"
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -969,7 +969,7 @@ describe('Field.BankAccountNumber', () => {
         <Field.BankAccountNumber
           bankAccountType="swedishBankgiro"
           value="59140129"
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -981,7 +981,7 @@ describe('Field.BankAccountNumber', () => {
         <Field.BankAccountNumber
           bankAccountType="swedishPlusgiro"
           value="1263664"
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -997,7 +997,7 @@ describe('Field.BankAccountNumber', () => {
           bankAccountType="swedishBankgiro"
           onChange={onChange}
           onBlur={onBlur}
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -1013,7 +1013,7 @@ describe('Field.BankAccountNumber', () => {
         <Field.BankAccountNumber
           bankAccountType="swedishBankgiro"
           defaultValue="5914012"
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -1037,7 +1037,7 @@ describe('Field.BankAccountNumber', () => {
         <Field.BankAccountNumber
           bankAccountType="swedishPlusgiro"
           defaultValue="1263664"
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -1062,7 +1062,7 @@ describe('Field.BankAccountNumber', () => {
       render(
         <Form.Handler data={{ myAccount: '12345678901' }}>
           <Field.BankAccountNumber path="/myAccount" validate={false} />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -1073,7 +1073,7 @@ describe('Field.BankAccountNumber', () => {
       render(
         <Form.Handler data={{ myIban: 'GB29NWBK60161331926819' }}>
           <Field.BankAccountNumber path="/myIban" bankAccountType="iban" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -1087,7 +1087,7 @@ describe('Field.BankAccountNumber', () => {
             path="/myAccount"
             bankAccountType="swedishBban"
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -1100,7 +1100,7 @@ describe('Field.BankAccountNumber', () => {
       render(
         <Form.Handler onSubmit={onSubmit}>
           <Field.BankAccountNumber path="/iban" bankAccountType="iban" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -1112,7 +1112,7 @@ describe('Field.BankAccountNumber', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenCalledWith(
           { iban: 'DE89370400440532013000' },
-          expect.anything()
+          expect.anything(),
         )
       })
     })
@@ -1123,7 +1123,7 @@ describe('Field.BankAccountNumber', () => {
       render(
         <Form.Handler onSubmit={onSubmit}>
           <Field.BankAccountNumber path="/account" validate={false} />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -1135,7 +1135,7 @@ describe('Field.BankAccountNumber', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenCalledWith(
           { account: '12345678901' },
-          expect.anything()
+          expect.anything(),
         )
       })
     })
@@ -1149,7 +1149,7 @@ describe('Field.BankAccountNumber', () => {
             path="/bankgiro"
             bankAccountType="swedishBankgiro"
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -1161,7 +1161,7 @@ describe('Field.BankAccountNumber', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenCalledWith(
           { bankgiro: '59140129' },
-          expect.anything()
+          expect.anything(),
         )
       })
     })
@@ -1180,7 +1180,7 @@ describe('Field.BankAccountNumber', () => {
                 : (external as string)
             }
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -1201,7 +1201,7 @@ describe('Field.BankAccountNumber', () => {
                 : internal
             }
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -1213,7 +1213,7 @@ describe('Field.BankAccountNumber', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenCalledWith(
           { iban: 'GB29NWBK60161331926819' },
-          expect.anything()
+          expect.anything(),
         )
       })
     })
@@ -1230,7 +1230,7 @@ describe('Field.BankAccountNumber', () => {
                 : (external as string)
             }
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -1251,7 +1251,7 @@ describe('Field.BankAccountNumber', () => {
         <Field.BankAccountNumber
           bankAccountType="iban"
           value={undefined}
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -1266,7 +1266,7 @@ describe('Field.BankAccountNumber', () => {
           bankAccountType="iban"
           value="NO9386011117947"
           onChange={onChange}
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -1284,7 +1284,7 @@ describe('Field.BankAccountNumber', () => {
           value="12345678901"
           validate={false}
           onChange={onChange}
-        />
+        />,
       )
 
       const input = document.querySelector('input')

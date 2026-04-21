@@ -18,7 +18,7 @@ describe('Field.Option', () => {
         <Field.Selection>
           <Field.Option value="foo" title="Foo!" />
           <Field.Option value="bar" title="Baar!" />
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       expect(await axeComponent(result)).toHaveNoViolations()

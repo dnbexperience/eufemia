@@ -76,9 +76,9 @@ function Label(props: LabelProps) {
         `dnb-t__line-height--${resolvedLineHeight}`,
         `dnb-t__weight--${fontWeight}`,
         skeletonClass,
-        className
+        className,
       ),
-    })
+    }),
   )
 
   applySkeletonAttributes(attributes)

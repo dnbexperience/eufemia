@@ -22,7 +22,7 @@ describe('CancelButton', () => {
             <CancelButton showConfirmDialog={false} />
           </Toolbar>
         </SectionContainerContext>
-      </FieldBoundaryContext>
+      </FieldBoundaryContext>,
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -43,7 +43,7 @@ describe('CancelButton', () => {
         <Toolbar>
           <CancelButton showConfirmDialog={false} />
         </Toolbar>
-      </SectionContainerContext>
+      </SectionContainerContext>,
     )
 
     const button = document.querySelector('button')
@@ -69,7 +69,7 @@ describe('CancelButton', () => {
             </ToolbarContext>
           </Toolbar>
         </SectionContainerContext>
-      </FieldBoundaryContext>
+      </FieldBoundaryContext>,
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -99,7 +99,7 @@ describe('CancelButton', () => {
             </ToolbarContext>
           </Toolbar>
         </SectionContainerContext>
-      </FieldBoundaryContext>
+      </FieldBoundaryContext>,
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -132,7 +132,7 @@ describe('CancelButton', () => {
             </ToolbarContext>
           </Toolbar>
         </SectionContainerContext>
-      </FieldBoundaryContext>
+      </FieldBoundaryContext>,
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -167,7 +167,7 @@ describe('CancelButton', () => {
             </ToolbarContext>
           </Toolbar>
         </SectionContainerContext>
-      </FieldBoundaryContext>
+      </FieldBoundaryContext>,
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -200,7 +200,7 @@ describe('CancelButton', () => {
             <CancelButton showConfirmDialog={false} />
           </Toolbar>
         </SectionContainerContext>
-      </DataContext.Provider>
+      </DataContext.Provider>,
     )
 
     fireEvent.change(document.querySelector('input'), {
@@ -220,7 +220,7 @@ describe('CancelButton', () => {
             <CancelButton />
           </Toolbar>
         </SectionContainerContext>
-      </FieldBoundaryContext>
+      </FieldBoundaryContext>,
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -230,7 +230,7 @@ describe('CancelButton', () => {
     expect(dialog).toHaveTextContent(nb.confirmCancelText)
 
     await userEvent.click(
-      document.querySelector('.dnb-dialog .dnb-button--primary')
+      document.querySelector('.dnb-dialog .dnb-button--primary'),
     )
 
     await waitFor(() => {

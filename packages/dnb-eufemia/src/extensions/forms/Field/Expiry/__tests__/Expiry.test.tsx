@@ -20,7 +20,7 @@ const en = enGB['en-GB'].Expiry
 
 const getExpiryInputs = () =>
   Array.from(
-    document.querySelectorAll('.dnb-segmented-field__section')
+    document.querySelectorAll('.dnb-segmented-field__section'),
   ) as Array<HTMLInputElement>
 
 const getMonthInput = () => getExpiryInputs()[0]
@@ -32,10 +32,10 @@ describe('Field.Expiry', () => {
     render(<Field.Expiry value="0835" size="large" />)
 
     const fieldBlockElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-block'
+      '.dnb-forms-field-block',
     )
     expect(fieldBlockElement.classList).toContain(
-      'dnb-forms-field-block--label-height-large'
+      'dnb-forms-field-block--label-height-large',
     )
 
     const inputElement: HTMLInputElement =
@@ -96,7 +96,7 @@ describe('Field.Expiry', () => {
     render(
       <Form.Handler onChange={onChangeContext}>
         <Field.Expiry path="/myField" onChange={onChange} />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = getMonthInput()
@@ -122,7 +122,7 @@ describe('Field.Expiry', () => {
       {
         myField: undefined,
       },
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -265,7 +265,7 @@ describe('Field.Expiry', () => {
           transformOut={transformOut}
           transformIn={transformIn}
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const monthInput = getMonthInput()
@@ -296,7 +296,7 @@ describe('Field.Expiry', () => {
           month: '12',
         },
       },
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -332,7 +332,7 @@ describe('Field.Expiry', () => {
           transformOut={transformOut}
           transformIn={transformIn}
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const monthInput = getMonthInput()
@@ -376,7 +376,7 @@ describe('Field.Expiry', () => {
           month: undefined,
         },
       },
-      expect.anything()
+      expect.anything(),
     )
 
     // Verify final state - both inputs should be empty/placeholder
@@ -395,7 +395,7 @@ describe('Field.Expiry', () => {
         onChange={onChange}
         onBlur={onBlur}
         onFocus={onFocus}
-      />
+      />,
     )
 
     const monthInput = getMonthInput()
@@ -450,13 +450,13 @@ describe('Field.Expiry', () => {
         value="121"
         validateInitially
         onBlurValidator={onBlurValidator}
-      />
+      />,
     )
 
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert').textContent).toBe(
-        'My error message'
+        'My error message',
       )
     })
 
@@ -488,13 +488,13 @@ describe('Field.Expiry', () => {
           validateInitially
           onBlurValidator={customValidator}
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert').textContent).toBe(
-        'My error message'
+        'My error message',
       )
     })
 
@@ -505,13 +505,13 @@ describe('Field.Expiry', () => {
           validateInitially
           onBlurValidator={customValidator}
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert').textContent).toBe(
-        no.errorYear.replace(/\{year\}/, '1å')
+        no.errorYear.replace(/\{year\}/, '1å'),
       )
     })
 
@@ -522,7 +522,7 @@ describe('Field.Expiry', () => {
           validateInitially
           onBlurValidator={customValidator}
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     await expect(() => {
@@ -634,7 +634,7 @@ describe('Field.Expiry', () => {
       await userEvent.click(yearInput)
       yearInput.setSelectionRange(
         yearInput.value.length,
-        yearInput.value.length
+        yearInput.value.length,
       )
       await userEvent.keyboard('{Backspace>3}')
 
@@ -697,7 +697,7 @@ describe('Field.Expiry', () => {
       render(<Field.Expiry />)
 
       const [monthInput, yearInput] = Array.from(
-        getExpiryInputs()
+        getExpiryInputs(),
       ) as HTMLInputElement[]
 
       await userEvent.click(monthInput)
@@ -744,7 +744,7 @@ describe('Field.Expiry', () => {
         <>
           <Field.Expiry value="1225" />
           <button type="button">Next</button>
-        </>
+        </>,
       )
 
       const yearInput = getYearInput()
@@ -757,7 +757,7 @@ describe('Field.Expiry', () => {
       await userEvent.tab()
 
       expect(document.activeElement).toBe(
-        document.querySelector('button[type="button"]')
+        document.querySelector('button[type="button"]'),
       )
       expect(yearInput.selectionStart).toBe(yearInput.value.length)
       expect(yearInput.selectionEnd).toBe(yearInput.value.length)
@@ -838,27 +838,27 @@ describe('Field.Expiry', () => {
       const inputWrapper = document.querySelector('.dnb-input')
 
       expect(inputWrapper.classList).not.toContain(
-        'dnb-input__status--error'
+        'dnb-input__status--error',
       )
       expect(
-        document.querySelector('.dnb-form-status__text')
+        document.querySelector('.dnb-form-status__text'),
       ).not.toBeInTheDocument()
 
       await userEvent.click(input)
       await userEvent.keyboard('1')
 
       expect(inputWrapper.classList).not.toContain(
-        'dnb-input__status--error'
+        'dnb-input__status--error',
       )
       expect(
-        document.querySelector('.dnb-form-status__text')
+        document.querySelector('.dnb-form-status__text'),
       ).not.toBeInTheDocument()
 
       await userEvent.keyboard('{Backspace}')
       await userEvent.click(document.body)
 
       const formStatusText = document.querySelector(
-        '.dnb-form-status__text'
+        '.dnb-form-status__text',
       )
 
       expect(inputWrapper.classList).toContain('dnb-input__status--error')
@@ -869,7 +869,7 @@ describe('Field.Expiry', () => {
       await userEvent.keyboard('12')
 
       expect(inputWrapper.classList).not.toContain(
-        'dnb-input__status--error'
+        'dnb-input__status--error',
       )
       expect(formStatusText).not.toBeInTheDocument()
     })
@@ -878,26 +878,26 @@ describe('Field.Expiry', () => {
       render(<Field.Expiry value="324" />)
 
       const [firstMessage, secondMessage] = Array.from(
-        document.querySelectorAll('.dnb-li')
+        document.querySelectorAll('.dnb-li'),
       )
 
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).toBeInTheDocument()
 
       expect(firstMessage).toHaveTextContent(
-        no.errorMonth.replace(/\{month\}/g, '32')
+        no.errorMonth.replace(/\{month\}/g, '32'),
       )
 
       expect(secondMessage).toHaveTextContent(
-        no.errorYear.replace(/\{year\}/g, '4å')
+        no.errorYear.replace(/\{year\}/g, '4å'),
       )
 
       await userEvent.click(getMonthInput())
       await userEvent.keyboard('0125')
 
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).not.toBeInTheDocument()
     })
 
@@ -911,25 +911,25 @@ describe('Field.Expiry', () => {
       await userEvent.click(document.body)
 
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).toBeInTheDocument()
 
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        no.errorMonth.replace(/\{month\}/, '13')
+        no.errorMonth.replace(/\{month\}/, '13'),
       )
 
       await userEvent.click(monthInput)
       await userEvent.keyboard('99')
       await userEvent.click(document.body)
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        no.errorMonth.replace(/\{month\}/, '99')
+        no.errorMonth.replace(/\{month\}/, '99'),
       )
 
       await userEvent.click(monthInput)
       await userEvent.keyboard('0025')
       await userEvent.click(document.body)
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        no.errorMonth.replace(/\{month\}/, '00')
+        no.errorMonth.replace(/\{month\}/, '00'),
       )
       await userEvent.click(monthInput)
     })
@@ -948,10 +948,10 @@ describe('Field.Expiry', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
         expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-          no.errorMonth.replace(/\{month\}/, '13')
+          no.errorMonth.replace(/\{month\}/, '13'),
         )
       })
 
@@ -962,7 +962,7 @@ describe('Field.Expiry', () => {
       expect(monthInput).toHaveValue('01')
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).not.toBeInTheDocument()
       })
 
@@ -972,10 +972,10 @@ describe('Field.Expiry', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
         expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-          no.errorMonth.replace(/\{month\}/, '99')
+          no.errorMonth.replace(/\{month\}/, '99'),
         )
       })
     })
@@ -986,19 +986,19 @@ describe('Field.Expiry', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
       })
 
       const [firstMessage, secondMessage] = Array.from(
-        document.querySelectorAll('.dnb-li')
+        document.querySelectorAll('.dnb-li'),
       )
 
       expect(firstMessage).toHaveTextContent(
-        no.errorMonth.replace(/\{month\}/g, '32')
+        no.errorMonth.replace(/\{month\}/g, '32'),
       )
       expect(secondMessage).toHaveTextContent(
-        no.errorYear.replace(/\{year\}/g, '4å')
+        no.errorYear.replace(/\{year\}/g, '4å'),
       )
     })
     it('should show error initially when validateInitially is enabled but required is set', async () => {
@@ -1007,10 +1007,10 @@ describe('Field.Expiry', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
         expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-          no.errorRequired
+          no.errorRequired,
         )
       })
     })
@@ -1031,7 +1031,7 @@ describe('Field.Expiry', () => {
         <Field.Expiry
           onChangeValidator={onChangeValidator}
           validateContinuously
-        />
+        />,
       )
 
       const monthInput = getMonthInput()
@@ -1042,10 +1042,10 @@ describe('Field.Expiry', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
         expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-          'Expiry date must be in 2025 or later'
+          'Expiry date must be in 2025 or later',
         )
       })
 
@@ -1054,7 +1054,7 @@ describe('Field.Expiry', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).not.toBeInTheDocument()
       })
     })
@@ -1069,11 +1069,11 @@ describe('Field.Expiry', () => {
       await userEvent.click(document.body)
 
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).toBeInTheDocument()
 
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        no.errorYear.replace(/\{year\}/, '2å')
+        no.errorYear.replace(/\{year\}/, '2å'),
       )
 
       await userEvent.click(yearInput)
@@ -1081,7 +1081,7 @@ describe('Field.Expiry', () => {
       await userEvent.click(document.body)
 
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).not.toBeInTheDocument()
     })
 
@@ -1101,7 +1101,7 @@ describe('Field.Expiry', () => {
       expect(yearInput).toHaveValue('åå')
 
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).not.toBeInTheDocument()
     })
 
@@ -1121,7 +1121,7 @@ describe('Field.Expiry', () => {
       expect(yearInput).toHaveValue('åå')
 
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).toBeInTheDocument()
     })
 
@@ -1129,30 +1129,30 @@ describe('Field.Expiry', () => {
       render(
         <FormHandler locale="en-GB">
           <Field.Expiry value="324" />
-        </FormHandler>
+        </FormHandler>,
       )
 
       const [firstMessage, secondMessage] = Array.from(
-        document.querySelectorAll('.dnb-li')
+        document.querySelectorAll('.dnb-li'),
       )
 
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).toBeInTheDocument()
 
       expect(firstMessage).toHaveTextContent(
-        en.errorMonth.replace(/\{month\}/g, '32')
+        en.errorMonth.replace(/\{month\}/g, '32'),
       )
 
       expect(secondMessage).toHaveTextContent(
-        en.errorYear.replace(/\{year\}/g, '4y')
+        en.errorYear.replace(/\{year\}/g, '4y'),
       )
 
       await userEvent.click(getMonthInput())
       await userEvent.keyboard('0125')
 
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).not.toBeInTheDocument()
     })
   })
@@ -1169,7 +1169,7 @@ describe('Field.Expiry', () => {
             return null
           }}
         </DataContext.Consumer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
@@ -1193,7 +1193,7 @@ describe('Field.Expiry', () => {
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(
-        <Field.Expiry label="Label" required validateInitially />
+        <Field.Expiry label="Label" required validateInitially />,
       )
 
       expect(await axeComponent(result)).toHaveNoViolations()
@@ -1250,7 +1250,7 @@ describe('Field.Expiry', () => {
     render(
       <FieldBlock>
         <Field.Expiry error={new Error('Error message')} />
-      </FieldBlock>
+      </FieldBlock>,
     )
 
     const input = document.querySelector('.dnb-input')
@@ -1265,7 +1265,7 @@ describe('Field.Expiry', () => {
         onStatusChange={onStatusChange}
         validateContinuously
         required
-      />
+      />,
     )
 
     const monthInput = getMonthInput()
@@ -1279,7 +1279,7 @@ describe('Field.Expiry', () => {
       expect(onStatusChange).toHaveBeenLastCalledWith(
         expect.objectContaining({
           error: expect.anything(),
-        })
+        }),
       )
     })
 
@@ -1305,7 +1305,7 @@ describe('Field.Expiry', () => {
     const error2 = new Error('Error 2')
 
     const { rerender } = render(
-      <Field.Expiry onStatusChange={onStatusChange} error={undefined} />
+      <Field.Expiry onStatusChange={onStatusChange} error={undefined} />,
     )
 
     // Initially no error should be called
@@ -1315,7 +1315,7 @@ describe('Field.Expiry', () => {
 
     // Set error prop
     rerender(
-      <Field.Expiry onStatusChange={onStatusChange} error={error1} />
+      <Field.Expiry onStatusChange={onStatusChange} error={error1} />,
     )
 
     // Wait for onStatusChange to be called with error
@@ -1330,7 +1330,7 @@ describe('Field.Expiry', () => {
 
     // Change to different error
     rerender(
-      <Field.Expiry onStatusChange={onStatusChange} error={error2} />
+      <Field.Expiry onStatusChange={onStatusChange} error={error2} />,
     )
 
     await waitFor(() => {
@@ -1344,7 +1344,7 @@ describe('Field.Expiry', () => {
 
     // Clear error
     rerender(
-      <Field.Expiry onStatusChange={onStatusChange} error={undefined} />
+      <Field.Expiry onStatusChange={onStatusChange} error={undefined} />,
     )
 
     await waitFor(() => {

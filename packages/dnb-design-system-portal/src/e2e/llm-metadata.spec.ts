@@ -12,7 +12,7 @@ test.describe('LLM integration', () => {
 
     const llmsLink = await page
       .locator(
-        'head link[rel="alternate"][type="text/plain"][href="/llms.txt"]'
+        'head link[rel="alternate"][type="text/plain"][href="/llms.txt"]',
       )
       .first()
     await expect(llmsLink).toHaveCount(1)
@@ -60,7 +60,7 @@ test.describe('LLM integration', () => {
     if (!fs.existsSync(firstMdFile)) {
       test.skip(
         true,
-        'portal public .md files not found (run build:e2e from portal package first)'
+        'portal public .md files not found (run build:e2e from portal package first)',
       )
       return
     }
@@ -75,7 +75,7 @@ test.describe('LLM integration', () => {
       const htmlFile = path.join(
         publicDir,
         mdPath.replace(/^\//, '').replace(/\.md$/, ''),
-        'index.html'
+        'index.html',
       )
       expect(fs.existsSync(htmlFile)).toBeTruthy()
       const htmlBody = fs.readFileSync(htmlFile, 'utf-8')

@@ -26,7 +26,7 @@ export type TableAccordionContentSingleProps = Omit<
 >
 
 function TableAccordionContent(
-  componentProps: TableAccordionContentProps
+  componentProps: TableAccordionContentProps,
 ) {
   const {
     variant,
@@ -57,7 +57,7 @@ function TableAccordionContent(
     noAnimation,
   })
   const keepInDOM = Boolean(
-    React.useContext(TableAccordionContext)?.keepInDOM
+    React.useContext(TableAccordionContext)?.keepInDOM,
   )
   const shouldRenderContent = isInDOM || keepInDOM
 
@@ -93,7 +93,7 @@ function TableAccordionContent(
         isInDOM && 'dnb-table__tr__accordion-content--expanded',
         isAnimating && 'dnb-table__tr__accordion-content--animating',
         isVisibleParallax && 'dnb-table__tr__accordion-content--parallax',
-        className
+        className,
       )}
       ref={trRef}
       {...props}
@@ -149,7 +149,7 @@ const ChevronTd = ({
 )
 
 export function TableAccordionContentRow(
-  props: TableAccordionContentRowProps
+  props: TableAccordionContentRowProps,
 ) {
   const tableContext = React.useContext(TableContext)
   tableContext.hasAccordionRows = true

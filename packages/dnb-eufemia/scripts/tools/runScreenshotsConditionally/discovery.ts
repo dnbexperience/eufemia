@@ -13,7 +13,7 @@ import type { RunnerContext } from './types'
 
 export function collectFilesRecursively(
   rootDirectory: string,
-  filePattern: RegExp
+  filePattern: RegExp,
 ): string[] {
   const foundFiles: string[] = []
 
@@ -56,16 +56,16 @@ export function collectScreenshotTests(context: RunnerContext): string[] {
 
   const foundTests = collectFilesRecursively(
     srcPath,
-    SCREENSHOT_FILE_PATTERN
+    SCREENSHOT_FILE_PATTERN,
   )
     .filter((absolutePath) => {
       return !absolutePath.includes(
-        `${path.sep}__image_snapshots__${path.sep}`
+        `${path.sep}__image_snapshots__${path.sep}`,
       )
     })
     .map((absolutePath) => {
       return normalizePath(
-        path.relative(context.packageRoot, absolutePath)
+        path.relative(context.packageRoot, absolutePath),
       )
     })
 
@@ -79,9 +79,9 @@ export function collectScssFiles(context: RunnerContext): string[] {
   const scssFiles = collectFilesRecursively(srcPath, /\.scss$/).map(
     (absolutePath) => {
       return normalizePath(
-        path.relative(context.packageRoot, absolutePath)
+        path.relative(context.packageRoot, absolutePath),
       )
-    }
+    },
   )
 
   return Array.from(new Set(scssFiles)).sort((a, b) => {
@@ -106,7 +106,7 @@ function extractScreenshotUrls(testContent: string): string[] {
 
 function toPortalDocsDirectory(
   context: RunnerContext,
-  url: string
+  url: string,
 ): string | null {
   if (!url.startsWith(PORTAL_DOCS_PATH_PREFIX)) {
     return null
@@ -128,7 +128,7 @@ function toPortalDocsDirectory(
 
 function toPortalDocsAbsolutePath(
   context: RunnerContext,
-  repoRelativePath: string
+  repoRelativePath: string,
 ): string | null {
   const normalizedPath = normalizePath(repoRelativePath)
 
@@ -137,7 +137,7 @@ function toPortalDocsAbsolutePath(
   }
 
   const docsRelativePath = normalizedPath.slice(
-    PORTAL_DOCS_REPO_PREFIX.length
+    PORTAL_DOCS_REPO_PREFIX.length,
   )
 
   if (!docsRelativePath) {
@@ -148,7 +148,7 @@ function toPortalDocsAbsolutePath(
 }
 
 export function collectChangedEntityNames(
-  sourceChanges: string[]
+  sourceChanges: string[],
 ): Set<string> {
   const entityNames = new Set<string>()
 
@@ -193,7 +193,7 @@ export function collectChangedEntityNames(
 export function findCompositionImpactedTests(
   context: RunnerContext,
   sourceChanges: string[],
-  allScreenshotTests: string[]
+  allScreenshotTests: string[],
 ): string[] {
   if (!existsSync(context.portalDocsRoot)) {
     return []
@@ -229,7 +229,7 @@ export function findCompositionImpactedTests(
       if (!docsDirectoryCache.has(docsDirectory)) {
         docsDirectoryCache.set(
           docsDirectory,
-          collectFilesRecursively(docsDirectory, PORTAL_FILE_PATTERN)
+          collectFilesRecursively(docsDirectory, PORTAL_FILE_PATTERN),
         )
       }
 
@@ -276,7 +276,7 @@ export function findCompositionImpactedTests(
 export function findPortalDocsImpactedTests(
   context: RunnerContext,
   changedRepoFiles: string[],
-  allScreenshotTests: string[]
+  allScreenshotTests: string[],
 ): string[] {
   if (!existsSync(context.portalDocsRoot)) {
     return []

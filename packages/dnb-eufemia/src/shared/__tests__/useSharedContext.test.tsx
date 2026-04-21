@@ -55,7 +55,7 @@ describe('useSharedContext', () => {
               {children}
             </Provider>
           ),
-        }
+        },
       )
 
       expect(result.current.customProp).toBe('test')
@@ -156,7 +156,7 @@ describe('useSharedContext', () => {
           wrapper: ({ children }) => (
             <Provider value={complexData}>{children}</Provider>
           ),
-        }
+        },
       )
 
       expect(result.current.config.theme).toBe('dark')
@@ -178,12 +178,12 @@ describe('useSharedContext', () => {
 
       const { result: result1 } = renderHook(
         () => useSharedContext<SharedData>(),
-        { wrapper }
+        { wrapper },
       )
 
       const { result: result2 } = renderHook(
         () => useSharedContext<SharedData>(),
-        { wrapper }
+        { wrapper },
       )
 
       expect(result1.current.sharedCount).toBe(42)

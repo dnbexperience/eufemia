@@ -61,7 +61,7 @@ describe('Heading', () => {
         'custom-class',
         selector.replace(/^\./, ''),
       ])
-    }
+    },
   )
 
   it.each(headings)(
@@ -72,25 +72,25 @@ describe('Heading', () => {
       const element = document.querySelector(selector)
 
       expect(Array.from(element.classList)).toContain(
-        'dnb-space__top--large'
+        'dnb-space__top--large',
       )
-    }
+    },
   )
 
   it.each(headings)(
     '%s should have _isHeadingElement',
     ({ component: Component }) => {
       expect((Component as ComponentMarkers)._isHeadingElement).toBe(true)
-    }
+    },
   )
 
   it.each(headings)(
     '%s should have _supportsSpacingProps',
     ({ component: Component }) => {
       expect((Component as ComponentMarkers)._supportsSpacingProps).toBe(
-        true
+        true,
       )
-    }
+    },
   )
 
   it.each(headings)(
@@ -102,9 +102,9 @@ describe('Heading', () => {
 
       expect(Array.from(element.classList)).toEqual(['dnb-h--large'])
       expect(element.tagName).toEqual(
-        Component.name === 'H' ? 'H1' : Component.name
+        Component.name === 'H' ? 'H1' : Component.name,
       )
-    }
+    },
   )
 
   it.each(headings)(
@@ -114,11 +114,11 @@ describe('Heading', () => {
 
       const element = document.querySelector(selector)
       const attributes = Array.from(element.attributes).map(
-        (attr) => attr.name
+        (attr) => attr.name,
       )
 
       expect(attributes).toEqual(['aria-label', 'class'])
-    }
+    },
   )
 
   describe('surface', () => {
@@ -130,9 +130,9 @@ describe('Heading', () => {
         const element = document.querySelector(selector)
 
         expect(element.classList.contains('dnb-t--surface-dark')).toBe(
-          false
+          false,
         )
-      }
+      },
     )
 
     it.each(headings)(
@@ -141,15 +141,15 @@ describe('Heading', () => {
         render(
           <Theme.Context surface="dark">
             <Component>Heading</Component>
-          </Theme.Context>
+          </Theme.Context>,
         )
 
         const element = document.querySelector(selector)
 
         expect(element.classList.contains('dnb-t--surface-dark')).toBe(
-          true
+          true,
         )
-      }
+      },
     )
   })
 })

@@ -32,7 +32,7 @@ function ListShowMoreButton(props: ListShowMoreButtonProps) {
     id,
     {
       expanded: false,
-    }
+    },
   )
 
   const expanded = data?.expanded ?? false

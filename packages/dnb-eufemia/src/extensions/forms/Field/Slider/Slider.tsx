@@ -58,7 +58,7 @@ function SliderComponent(props: FieldSliderProps) {
 
       return getSourceValue(source) || 0
     },
-    [getSourceValue]
+    [getSourceValue],
   )
   const preparedProps = {
     ...props,
@@ -108,7 +108,7 @@ function SliderComponent(props: FieldSliderProps) {
     if ((path || itemPath) && numberFormat) {
       const { number } = getFormattedNumber(
         (sliderValue as number) ?? 0,
-        numberFormat
+        numberFormat,
       )
       setDisplayValue(number)
     }
@@ -127,7 +127,7 @@ function SliderComponent(props: FieldSliderProps) {
         handleChange?.(value as number)
       }
     },
-    [handleChange, props.paths]
+    [handleChange, props.paths],
   )
 
   const fieldBlockProps: FieldBlockProps = {

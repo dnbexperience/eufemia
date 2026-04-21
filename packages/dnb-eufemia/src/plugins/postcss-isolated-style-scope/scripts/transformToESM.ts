@@ -7,7 +7,7 @@ export function transformFilesToESM(): void {
     ['./build/**/plugins/**/*.js', '!./build/cjs/plugins/**/*.js'],
     {
       onlyFiles: true,
-    }
+    },
   )
 
   files.forEach((file: string) => {

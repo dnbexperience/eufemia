@@ -28,7 +28,7 @@ export type DatePickerRangeProps = Omit<
       event: DatePickerChangeEvent<
         | React.MouseEvent<HTMLSpanElement>
         | React.KeyboardEvent<HTMLTableElement>
-      >
+      >,
     ) => void
   }
 
@@ -45,7 +45,7 @@ function DatePickerRange({
         | React.MouseEvent<HTMLSpanElement>
         | React.KeyboardEvent<HTMLTableElement>
       > &
-        DatePickerDates
+        DatePickerDates,
     ) => {
       callOnChangeHandler(event)
 
@@ -55,7 +55,7 @@ function DatePickerRange({
         ...event,
       })
     },
-    [onPickerChange, callOnChangeHandler]
+    [onPickerChange, callOnChangeHandler],
   )
 
   return (

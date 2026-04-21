@@ -12,7 +12,7 @@ import Provider from '../../../shared/Provider'
 describe('useNumberFormat', () => {
   it('will render without provider', () => {
     const { result } = renderHook(() =>
-      useNumberFormat(1234, formatCurrency)
+      useNumberFormat(1234, formatCurrency),
     )
 
     expect(result.current).toBe('1 234,00 kr')
@@ -20,7 +20,7 @@ describe('useNumberFormat', () => {
 
   it('will return object when returnAria is true', () => {
     const { result } = renderHook(() =>
-      useNumberFormat(1234, formatCurrency, { returnAria: true })
+      useNumberFormat(1234, formatCurrency, { returnAria: true }),
     )
 
     expect(result.current).toEqual(
@@ -31,7 +31,7 @@ describe('useNumberFormat', () => {
         number: '1 234,00 kr',
         type: 'currency',
         value: 1234,
-      })
+      }),
     )
   })
 
@@ -49,7 +49,7 @@ describe('useNumberFormat', () => {
     )
     const { result } = renderHook(
       () => useNumberFormat(1234, formatCurrency),
-      { wrapper }
+      { wrapper },
     )
 
     expect(result.current).toBe('NOK\u00A01,234.00')
@@ -68,7 +68,7 @@ describe('useNumberFormat', () => {
     )
     const { result } = renderHook(
       () => useNumberFormat(1234, formatCurrency),
-      { wrapper }
+      { wrapper },
     )
 
     expect(result.current).toBe('NOK\u00A01,234.00')
@@ -87,7 +87,7 @@ describe('useNumberFormat', () => {
     )
     const { result } = renderHook(
       () => useNumberFormat('invalid', formatCurrency),
-      { wrapper }
+      { wrapper },
     )
 
     expect(result.current).toBe('NOK –')

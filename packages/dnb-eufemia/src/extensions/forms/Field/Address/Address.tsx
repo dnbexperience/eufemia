@@ -36,7 +36,7 @@ Address.Postal = function PostalAddress(props: FieldAddressProps) {
       'Field.errorPattern': errorPattern,
       ...props.errorMessages,
     }),
-    [errorPattern, errorRequired, props.errorMessages]
+    [errorPattern, errorRequired, props.errorMessages],
   )
 
   const postalAddressProps: FieldAddressProps = {
@@ -59,7 +59,7 @@ Address.Street = function StreetAddress(props: FieldAddressProps) {
       'Field.errorPattern': errorPattern,
       ...props.errorMessages,
     }),
-    [errorPattern, errorRequired, props.errorMessages]
+    [errorPattern, errorRequired, props.errorMessages],
   )
 
   const streetAddressProps: FieldAddressProps = {

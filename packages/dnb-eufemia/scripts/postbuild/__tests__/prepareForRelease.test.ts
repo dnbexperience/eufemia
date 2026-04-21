@@ -39,7 +39,7 @@ describe('buildExportsMap', () => {
         import: './index.js',
         require: './cjs/index.js',
         types: './index.d.ts',
-      })
+      }),
     )
     expect(exportsMap['./components/*']).toBeTruthy()
     expect(exportsMap['./components/*.js']).toBeTruthy()
@@ -55,7 +55,7 @@ describe('buildExportsMap', () => {
 describe('package.json', () => {
   const packageJsonFile = path.resolve(
     packpath.self(),
-    'build/package.json'
+    'build/package.json',
   )
   const buildDir = path.resolve(packpath.self(), 'build')
 
@@ -102,7 +102,7 @@ describe('package.json', () => {
         'style/**/*',
         'es/style/**/*',
         'esm/style/**/*',
-      ])
+      ]),
     )
   })
 
@@ -111,7 +111,7 @@ describe('package.json', () => {
       expect.objectContaining({
         react: expect.anything(),
         'react-dom': expect.anything(),
-      })
+      }),
     )
   })
 
@@ -139,7 +139,7 @@ describe('package.json', () => {
 
     const assertExport = (
       key,
-      expected?: Record<string, string> | string
+      expected?: Record<string, string> | string,
     ) => {
       const exportsMap = packageJson.exports as Record<string, ExportEntry>
       const entry = exportsMap[key]
@@ -176,7 +176,7 @@ describe('package.json', () => {
 
     const assertPatternExport = (
       key,
-      expected: Record<string, string | string[]>
+      expected: Record<string, string | string[]>,
     ) => {
       const exportsMap = packageJson.exports as Record<string, ExportEntry>
       const entry = exportsMap[key]
@@ -198,7 +198,7 @@ describe('package.json', () => {
           import: './index.js',
           require: './cjs/index.js',
           types: './index.d.ts',
-        })
+        }),
       )
       expect(exportsMap['./components/*']).toBeTruthy()
       expect(exportsMap['./components/*.js']).toBeTruthy()
@@ -225,7 +225,7 @@ describe('package.json', () => {
       expect(exportsMap['./style/*']).toBe('./style/*')
       expect(exportsMap['./style/*/*/*']).toBe('./style/*/*/*')
       expect(
-        fs.existsSync(path.resolve(buildDir, 'style/core/utilities.scss'))
+        fs.existsSync(path.resolve(buildDir, 'style/core/utilities.scss')),
       ).toBe(true)
 
       assertExport('./components', {
@@ -286,14 +286,14 @@ describe('package.json', () => {
 
       expect(exportsMap['./assets/*/*/*']).toBe('./assets/*/*/*')
       expect(
-        fs.existsSync(path.resolve(buildDir, 'assets/flags/1x1/no.svg'))
+        fs.existsSync(path.resolve(buildDir, 'assets/flags/1x1/no.svg')),
       ).toBe(true)
     })
   })
 
   it('has publishConfig', () => {
     expect(packageJson.publishConfig).toEqual(
-      expect.objectContaining({ access: 'public' })
+      expect.objectContaining({ access: 'public' }),
     )
   })
 })
@@ -313,7 +313,7 @@ describe('release config', () => {
 
   beforeAll(async () => {
     packageJson = await fs.readJson(
-      path.resolve(packpath.self(), 'package.json')
+      path.resolve(packpath.self(), 'package.json'),
     )
   })
 
@@ -321,7 +321,7 @@ describe('release config', () => {
     const plugins = packageJson.release?.plugins ?? []
     const npmPlugin = plugins.find(
       (plugin) =>
-        Array.isArray(plugin) && plugin[0] === '@semantic-release/npm'
+        Array.isArray(plugin) && plugin[0] === '@semantic-release/npm',
     )
 
     expect(npmPlugin).toBeTruthy()
@@ -358,7 +358,7 @@ describe('release config', () => {
     // Verify npm plugin has provenance config
     const npmPlugin = releaseRc.plugins.find(
       (plugin) =>
-        Array.isArray(plugin) && plugin[0] === '@semantic-release/npm'
+        Array.isArray(plugin) && plugin[0] === '@semantic-release/npm',
     )
     expect(npmPlugin).toBeTruthy()
 

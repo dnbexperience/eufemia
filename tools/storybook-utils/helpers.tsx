@@ -31,7 +31,7 @@ export const Wrapper = ({
       className={clsx(
         !skipCoreStyle && 'dnb-core-style',
         showOverflow && 'show-overflow',
-        className
+        className,
       )}
       {...rest}
     >

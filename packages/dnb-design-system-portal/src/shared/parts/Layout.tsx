@@ -147,7 +147,7 @@ const Content = ({
         contentStyle,
         'dnb-app-content',
         fullscreen && 'fullscreen-page',
-        className
+        className,
       )}
     >
       {children}
@@ -162,7 +162,7 @@ const MainContent = ({ mainRef, ...props }) => (
     className={clsx(
       mainStyle,
       'dnb-no-focus',
-      'dnb-spacing' // used so the portal elements uses their default space
+      'dnb-spacing', // used so the portal elements uses their default space
     )}
     {...props}
   />

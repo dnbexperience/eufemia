@@ -6,7 +6,7 @@ import { useEffect, useRef } from 'react'
  */
 export default function useUpdateEffect(
   callback: EffectCallback,
-  deps?: DependencyList
+  deps?: DependencyList,
 ) {
   const wasMounted = useRef(false)
 

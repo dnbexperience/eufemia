@@ -70,21 +70,21 @@ const mockData: DrawerListDataArray = [
 describe('DrawerList component', () => {
   const getFocusedItemIndex = () => {
     const item = document.querySelector(
-      'li.dnb-drawer-list__option.dnb-drawer-list__option--focus'
+      'li.dnb-drawer-list__option.dnb-drawer-list__option--focus',
     )
     return Array.from(item?.parentElement.children || []).indexOf(item)
   }
 
   const getSelectedItemIndex = () => {
     const item = document.querySelector(
-      'li.dnb-drawer-list__option.dnb-drawer-list__option--selected'
+      'li.dnb-drawer-list__option.dnb-drawer-list__option--selected',
     )
     return Array.from(item?.parentElement.children || []).indexOf(item)
   }
 
   const isListFocused = () => {
     const item = document.querySelector(
-      'ul.dnb-drawer-list__options.dnb-drawer-list__options--focusring'
+      'ul.dnb-drawer-list__options.dnb-drawer-list__options--focusring',
     )
     return getFocusedItemIndex() === -1 && item !== null
   }
@@ -92,19 +92,19 @@ describe('DrawerList component', () => {
   it('has correct state at startup', () => {
     render(<DrawerList {...props} data={mockData} />)
     expect(
-      document.querySelector('.dnb-drawer-list--open')
+      document.querySelector('.dnb-drawer-list--open'),
     ).toBeInTheDocument()
   })
 
   it('should skip portal when skipPortal is set', () => {
     render(<DrawerList {...props} data={mockData} skipPortal />)
     expect(
-      document.querySelector('.dnb-drawer-list--open')
+      document.querySelector('.dnb-drawer-list--open'),
     ).toBeInTheDocument()
     expect(
       document
         .querySelector('.dnb-drawer-list--open')
-        .closest('#eufemia-portal-root')
+        .closest('#eufemia-portal-root'),
     ).toBeNull()
   })
 
@@ -113,7 +113,7 @@ describe('DrawerList component', () => {
     expect(
       document
         .querySelector('.dnb-drawer-list--open')
-        .closest('#eufemia-portal-root')
+        .closest('#eufemia-portal-root'),
     ).toBeInTheDocument()
   })
 
@@ -121,17 +121,17 @@ describe('DrawerList component', () => {
     const { rerender } = render(<DrawerList {...props} data={mockData} />)
 
     expect(
-      document.querySelector('.dnb-drawer-list--open')
+      document.querySelector('.dnb-drawer-list--open'),
     ).toBeInTheDocument()
 
     rerender(<DrawerList {...props} data={mockData} open={false} />)
     expect(
-      document.querySelector('.dnb-drawer-list--open')
+      document.querySelector('.dnb-drawer-list--open'),
     ).not.toBeInTheDocument()
 
     rerender(<DrawerList {...props} data={mockData} open={true} />)
     expect(
-      document.querySelector('.dnb-drawer-list--open')
+      document.querySelector('.dnb-drawer-list--open'),
     ).toBeInTheDocument()
   })
 
@@ -145,15 +145,15 @@ describe('DrawerList component', () => {
           noAnimation
           data={mockData}
         />
-      </Dialog>
+      </Dialog>,
     )
 
     expect(
-      document.querySelector('.dnb-drawer-list--open')
+      document.querySelector('.dnb-drawer-list--open'),
     ).toBeInTheDocument()
 
     const options = document.querySelector(
-      '.dnb-drawer-list__options'
+      '.dnb-drawer-list__options',
     ) as HTMLElement
     expect(options).toBeInTheDocument()
 
@@ -161,18 +161,18 @@ describe('DrawerList component', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-drawer-list__options')
+        document.querySelector('.dnb-drawer-list__options'),
       ).not.toBeInTheDocument()
     })
 
     expect(document.documentElement).toHaveAttribute(
-      'data-dnb-modal-active'
+      'data-dnb-modal-active',
     )
 
     await userEvent.keyboard('{Escape}')
 
     expect(document.documentElement).not.toHaveAttribute(
-      'data-dnb-modal-active'
+      'data-dnb-modal-active',
     )
 
     document.body.removeAttribute('style')
@@ -233,7 +233,7 @@ describe('DrawerList component', () => {
           {...disabledOptionProps}
           onChange={onChange}
           onSelect={onSelect}
-        />
+        />,
       )
 
       keydown('ArrowDown')
@@ -253,7 +253,7 @@ describe('DrawerList component', () => {
       })
 
       await fireEvent.click(
-        document.querySelectorAll('.dnb-drawer-list__option')[1]
+        document.querySelectorAll('.dnb-drawer-list__option')[1],
       )
       await waitFor(() => {
         // onChange and onSelect is not called when attempting to click a disabled item
@@ -271,7 +271,7 @@ describe('DrawerList component', () => {
         data={mockData}
         defaultValue={props.value}
         {...mockProps}
-      />
+      />,
     )
 
     expect(getSelectedItemIndex()).toBe(props.value)
@@ -287,7 +287,7 @@ describe('DrawerList component', () => {
         defaultValue={props.value}
         {...mockProps}
         title={title}
-      />
+      />,
     )
     expect(screen.getByTitle(title)).toBeInTheDocument()
 
@@ -301,7 +301,7 @@ describe('DrawerList component', () => {
         {...mockProps}
         title={title}
         value={(props.value as number) + 1}
-      />
+      />,
     )
 
     // the selected option got a new position and is focused
@@ -317,7 +317,7 @@ describe('DrawerList component', () => {
     render(<DrawerList {...props} data={mockData} />)
 
     expect(
-      document.querySelector('.dnb-drawer-list__option--focus')
+      document.querySelector('.dnb-drawer-list__option--focus'),
     ).toBeInTheDocument()
 
     keydown('s')
@@ -338,7 +338,7 @@ describe('DrawerList component', () => {
     render(<DrawerList {...props} data={mockData} />)
 
     expect(
-      document.querySelector('.dnb-drawer-list__option--focus')
+      document.querySelector('.dnb-drawer-list__option--focus'),
     ).toBeInTheDocument()
 
     keydown('s')
@@ -442,11 +442,11 @@ describe('DrawerList component', () => {
       <DrawerListProvider open noAnimation data={mockData}>
         <ContextConsumer />
         <DrawerList noAnimation />
-      </DrawerListProvider>
+      </DrawerListProvider>,
     )
 
     expect(
-      document.querySelector('ul.dnb-drawer-list__options')
+      document.querySelector('ul.dnb-drawer-list__options'),
     ).toBeInTheDocument()
     expect(getFocusedItemIndex()).toBe(-1)
 
@@ -463,7 +463,7 @@ describe('DrawerList component', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('ul.dnb-drawer-list__options')
+        document.querySelector('ul.dnb-drawer-list__options'),
       ).not.toBeInTheDocument()
     })
 
@@ -472,7 +472,7 @@ describe('DrawerList component', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('ul.dnb-drawer-list__options')
+        document.querySelector('ul.dnb-drawer-list__options'),
       ).toBeInTheDocument()
 
       expect(getFocusedItemIndex()).toBe(1)
@@ -492,11 +492,11 @@ describe('DrawerList component', () => {
       <DrawerListProvider open noAnimation value={1} data={mockData}>
         <ContextConsumer />
         <DrawerList noAnimation />
-      </DrawerListProvider>
+      </DrawerListProvider>,
     )
 
     expect(
-      document.querySelector('ul.dnb-drawer-list__options')
+      document.querySelector('ul.dnb-drawer-list__options'),
     ).toBeInTheDocument()
     expect(getFocusedItemIndex()).toBe(1)
     expect(getSelectedItemIndex()).toBe(1)
@@ -514,7 +514,7 @@ describe('DrawerList component', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('ul.dnb-drawer-list__options')
+        document.querySelector('ul.dnb-drawer-list__options'),
       ).not.toBeInTheDocument()
     })
 
@@ -523,7 +523,7 @@ describe('DrawerList component', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('ul.dnb-drawer-list__options')
+        document.querySelector('ul.dnb-drawer-list__options'),
       ).toBeInTheDocument()
 
       expect(getFocusedItemIndex()).toBe(1)
@@ -539,7 +539,7 @@ describe('DrawerList component', () => {
         {...props}
         data={Object.freeze(mockData) as DrawerListDataArray}
         onSelect={onSelect}
-      />
+      />,
     )
 
     // select the current
@@ -559,7 +559,7 @@ describe('DrawerList component', () => {
         data={Object.freeze(mockData) as DrawerListDataArray}
         onSelect={onSelect}
         open={null}
-      />
+      />,
     )
 
     // then open again
@@ -569,7 +569,7 @@ describe('DrawerList component', () => {
         data={Object.freeze(mockData) as DrawerListDataArray}
         onSelect={onSelect}
         open={true}
-      />
+      />,
     )
     keydown('ArrowDown')
     await waitFor(() => {
@@ -583,42 +583,44 @@ describe('DrawerList component', () => {
 
   it('will set data-dnb-drawer-list-active with id', () => {
     const { rerender } = render(
-      <DrawerList {...props} open={false} data={mockData} />
+      <DrawerList {...props} open={false} data={mockData} />,
     )
 
     rerender(<DrawerList {...props} open={true} data={mockData} />)
 
     expect(
-      document.documentElement.getAttribute('data-dnb-drawer-list-active')
+      document.documentElement.getAttribute('data-dnb-drawer-list-active'),
     ).toBe(props.id)
 
     rerender(<DrawerList {...props} open={false} data={mockData} />)
 
     expect(document.documentElement).not.toHaveAttribute(
-      'data-dnb-drawer-list-active'
+      'data-dnb-drawer-list-active',
     )
   })
 
   describe('id', () => {
     const testAllIds = (id) => {
       expect(
-        document.querySelector('.dnb-drawer-list').getAttribute('id')
+        document.querySelector('.dnb-drawer-list').getAttribute('id'),
       ).toBe(`${id}-drawer-list`)
 
       expect(
-        document.querySelector('.dnb-drawer-list__list').getAttribute('id')
+        document
+          .querySelector('.dnb-drawer-list__list')
+          .getAttribute('id'),
       ).toBe(`${id}-listbox`)
 
       expect(
         document
           .querySelector('.dnb-drawer-list__options')
-          .getAttribute('id')
+          .getAttribute('id'),
       ).toBe(`${id}-ul`)
 
       expect(
         document
           .querySelector('.dnb-drawer-list__option')
-          .getAttribute('id')
+          .getAttribute('id'),
       ).toBe(`option-${id}-0`)
 
       keydown('ArrowDown')
@@ -626,13 +628,13 @@ describe('DrawerList component', () => {
       expect(
         document
           .querySelector('.dnb-drawer-list__options')
-          .getAttribute('aria-activedescendant')
+          .getAttribute('aria-activedescendant'),
       ).toBe(`option-${id}-3`)
 
       expect(
         document.documentElement.getAttribute(
-          'data-dnb-drawer-list-active'
-        )
+          'data-dnb-drawer-list-active',
+        ),
       ).toBe(id)
     }
 
@@ -663,7 +665,7 @@ describe('DrawerList component', () => {
         render(
           <DrawerListProvider {...props} data={mockData}>
             <DrawerList />
-          </DrawerListProvider>
+          </DrawerListProvider>,
         )
 
         testAllIds(props.id)
@@ -673,7 +675,7 @@ describe('DrawerList component', () => {
         render(
           <DrawerListProvider {...props} data={mockData}>
             <DrawerList id="badId" />
-          </DrawerListProvider>
+          </DrawerListProvider>,
         )
 
         testAllIds(props.id)
@@ -684,7 +686,7 @@ describe('DrawerList component', () => {
         render(
           <DrawerListProvider {...rest} data={mockData}>
             <DrawerList />
-          </DrawerListProvider>
+          </DrawerListProvider>,
         )
         const domId = document
           .querySelector('.dnb-drawer-list')
@@ -701,19 +703,19 @@ describe('DrawerList component', () => {
 
   it('will unset data-dnb-drawer-list-active on unmount', () => {
     const { rerender, unmount } = render(
-      <DrawerList {...props} data={mockData} open={false} />
+      <DrawerList {...props} data={mockData} open={false} />,
     )
 
     rerender(<DrawerList {...props} data={mockData} open={true} />)
 
     expect(
-      document.documentElement.getAttribute('data-dnb-drawer-list-active')
+      document.documentElement.getAttribute('data-dnb-drawer-list-active'),
     ).toBe(props.id)
 
     unmount()
 
     expect(document.documentElement).not.toHaveAttribute(
-      'data-dnb-drawer-list-active'
+      'data-dnb-drawer-list-active',
     )
   })
 
@@ -729,7 +731,7 @@ describe('DrawerList component', () => {
     rerender(<MockComponent open />)
 
     expect(document.body.getAttribute('style')).toBe(
-      'overflow: hidden; height: auto; box-sizing: border-box; margin-right: 0px;'
+      'overflow: hidden; height: auto; box-sizing: border-box; margin-right: 0px;',
     )
 
     rerender(<MockComponent open={false} />)
@@ -747,7 +749,7 @@ describe('DrawerList component', () => {
         data={mockData}
         onChange={onChange}
         onSelect={onSelect}
-      />
+      />,
     )
 
     // then simulate changes
@@ -767,7 +769,7 @@ describe('DrawerList component', () => {
         onChange={onChange}
         onSelect={onSelect}
         open={null}
-      />
+      />,
     )
 
     // then open again
@@ -778,7 +780,7 @@ describe('DrawerList component', () => {
         onChange={onChange}
         onSelect={onSelect}
         open={true}
-      />
+      />,
     )
 
     // then simulate changes
@@ -801,7 +803,7 @@ describe('DrawerList component', () => {
         value={0}
         data={mockData}
         onChange={onChange}
-      />
+      />,
     )
 
     // then simulate changes
@@ -818,19 +820,23 @@ describe('DrawerList component', () => {
     const directionTop = 'top'
 
     const { rerender } = render(
-      <DrawerList {...props} data={mockData} direction={directionTop} />
+      <DrawerList {...props} data={mockData} direction={directionTop} />,
     )
 
     expect(
-      document.querySelector(`.dnb-drawer-list--${directionTop}`)
+      document.querySelector(`.dnb-drawer-list--${directionTop}`),
     ).toBeInTheDocument()
 
     const directionBottom = 'bottom'
     rerender(
-      <DrawerList {...props} data={mockData} direction={directionBottom} />
+      <DrawerList
+        {...props}
+        data={mockData}
+        direction={directionBottom}
+      />,
     )
     expect(
-      document.querySelector(`.dnb-drawer-list--${directionBottom}`)
+      document.querySelector(`.dnb-drawer-list--${directionBottom}`),
     ).toBeInTheDocument()
   })
 
@@ -840,7 +846,7 @@ describe('DrawerList component', () => {
     render(<DrawerList {...props} data={mockData} onClose={onClose} />)
 
     expect(
-      Array.from(document.querySelector('span.dnb-drawer-list').classList)
+      Array.from(document.querySelector('span.dnb-drawer-list').classList),
     ).toEqual([
       'dnb-drawer-list',
       'dnb-drawer-list--bottom',
@@ -857,8 +863,8 @@ describe('DrawerList component', () => {
     await waitFor(() => {
       expect(
         Array.from(
-          document.querySelector('span.dnb-drawer-list').classList
-        )
+          document.querySelector('span.dnb-drawer-list').classList,
+        ),
       ).toEqual([
         'dnb-drawer-list',
         'dnb-drawer-list--bottom',
@@ -884,7 +890,7 @@ describe('DrawerList component', () => {
     render(<DrawerList {...props} data={mockData} />)
 
     expect(
-      document.querySelectorAll('li.dnb-drawer-list__option').length
+      document.querySelectorAll('li.dnb-drawer-list__option').length,
     ).toBe(mockData.length)
   })
 
@@ -900,7 +906,7 @@ describe('DrawerList component', () => {
         onSelect={onSelect}
         data={() => ({ a: 'A', b: 'B', c: 'C' })}
         {...mockProps}
-      />
+      />,
     )
 
     // then simulate changes
@@ -950,7 +956,7 @@ describe('DrawerList component', () => {
         data={data.first}
         value={data.first[0].selectedKey}
         {...mockProps}
-      />
+      />,
     )
 
     expect(getSelectedItem()).toHaveTextContent('Content 1')
@@ -962,7 +968,7 @@ describe('DrawerList component', () => {
         data={data.second}
         value={data.second[1].selectedKey}
         {...mockProps}
-      />
+      />,
     )
 
     expect(getSelectedItem()).toHaveTextContent('Content 5')
@@ -974,7 +980,7 @@ describe('DrawerList component', () => {
         data={data.third}
         value={data.third[2].selectedKey}
         {...mockProps}
-      />
+      />,
     )
 
     expect(getSelectedItem()).toHaveTextContent('Content 8')
@@ -992,7 +998,7 @@ describe('DrawerList component', () => {
         onClose={onClose}
         {...params}
         data={mockData}
-      />
+      />,
     )
 
     expect(onOpen.mock.calls.length).toBe(1)
@@ -1010,7 +1016,7 @@ describe('DrawerList component', () => {
       expect(
         document
           .querySelector('.dnb-drawer-list__options')
-          .getAttribute('style')
+          .getAttribute('style'),
       ).toBe('max-height: 10rem;')
     })
 
@@ -1038,13 +1044,13 @@ describe('DrawerList component', () => {
 
       const directionTop = 'top'
       render(
-        <DrawerList {...props} data={mockData} direction={directionTop} />
+        <DrawerList {...props} data={mockData} direction={directionTop} />,
       )
 
       expect(
         document
           .querySelector('.dnb-drawer-list__options')
-          .getAttribute('style')
+          .getAttribute('style'),
       ).toBe('max-height: 4rem;')
     })
 
@@ -1067,13 +1073,13 @@ describe('DrawerList component', () => {
       const directionTop = 'bottom'
 
       render(
-        <DrawerList {...props} data={mockData} direction={directionTop} />
+        <DrawerList {...props} data={mockData} direction={directionTop} />,
       )
 
       expect(
         document
           .querySelector('.dnb-drawer-list__options')
-          .getAttribute('style')
+          .getAttribute('style'),
       ).toBe('max-height: 4rem;')
     })
   })
@@ -1095,22 +1101,22 @@ describe('DrawerList component', () => {
           data={scrollableData}
           scrollable
           direction="auto"
-        />
+        />,
       )
 
       const listElement = document.querySelector(
-        '.dnb-drawer-list__options'
+        '.dnb-drawer-list__options',
       ) as HTMLElement
 
       // Wait for initial render
       await waitFor(() => {
         expect(
-          document.querySelectorAll('li.dnb-drawer-list__option')
+          document.querySelectorAll('li.dnb-drawer-list__option'),
         ).toHaveLength(30)
       })
 
       const isBottomDirection = document.querySelector(
-        '.dnb-drawer-list--bottom'
+        '.dnb-drawer-list--bottom',
       )
 
       // Trigger direction change by scrolling to opposite position
@@ -1124,7 +1130,7 @@ describe('DrawerList component', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector(expectedSelector)
+          document.querySelector(expectedSelector),
         ).toBeInTheDocument()
       })
 
@@ -1152,17 +1158,17 @@ describe('DrawerList component', () => {
       }))
 
       const { rerender } = render(
-        <DrawerList {...props} data={initialData} scrollable />
+        <DrawerList {...props} data={initialData} scrollable />,
       )
 
       const listElement = document.querySelector(
-        '.dnb-drawer-list__options'
+        '.dnb-drawer-list__options',
       ) as HTMLElement
 
       // Verify initial items are rendered
       await waitFor(() => {
         expect(
-          document.querySelectorAll('li.dnb-drawer-list__option')
+          document.querySelectorAll('li.dnb-drawer-list__option'),
         ).toHaveLength(10)
       })
 
@@ -1176,7 +1182,7 @@ describe('DrawerList component', () => {
       // Wait for DOM update
       await waitFor(() => {
         expect(
-          document.querySelectorAll('li.dnb-drawer-list__option')
+          document.querySelectorAll('li.dnb-drawer-list__option'),
         ).toHaveLength(15)
       })
 
@@ -1204,13 +1210,13 @@ describe('DrawerList component', () => {
               style: { hyphens: 'auto' },
             },
           ]}
-        />
+        />,
       )
 
       expect(
         document
           .querySelector('li.dnb-drawer-list__option')
-          .getAttribute('style')
+          .getAttribute('style'),
       ).toBe('hyphens: auto;')
     })
 
@@ -1230,13 +1236,13 @@ describe('DrawerList component', () => {
               Content
             </DrawerList.Item>
           </DrawerList.Options>
-        </DrawerList>
+        </DrawerList>,
       )
 
       expect(
         document
           .querySelector('li.dnb-drawer-list__option')
-          .getAttribute('style')
+          .getAttribute('style'),
       ).toBe('hyphens: auto;')
     })
 
@@ -1248,13 +1254,13 @@ describe('DrawerList component', () => {
               Content
             </DrawerList.HorizontalItem>
           </DrawerList.Options>
-        </DrawerList>
+        </DrawerList>,
       )
 
       expect(
         document
           .querySelector('span.dnb-drawer-list__option__item')
-          .getAttribute('style')
+          .getAttribute('style'),
       ).toBe('hyphens: auto;')
     })
   })
@@ -1286,26 +1292,26 @@ describe('DrawerList component', () => {
           noAnimation={true}
           data={dataProp}
           groups={groupsProp}
-        />
+        />,
       )
 
       const groupsUL = document.querySelectorAll('.dnb-drawer-list__group')
       expect(groupsUL.length).toBe(4)
       expect(
         groupsUL[0].querySelector('.dnb-drawer-list__group-title')
-          .textContent
+          .textContent,
       ).toBe('First')
       expect(
         groupsUL[1].querySelector('.dnb-drawer-list__group-title')
-          .textContent
+          .textContent,
       ).toBe('Second')
       expect(
         groupsUL[2].querySelector('.dnb-drawer-list__group-title')
-          .textContent
+          .textContent,
       ).toBe('Third')
       expect(
         groupsUL[3].querySelector('.dnb-drawer-list__group-title')
-          .textContent
+          .textContent,
       ).toBe('Fourth')
 
       const options = document.querySelectorAll('.dnb-drawer-list__option')
@@ -1313,23 +1319,23 @@ describe('DrawerList component', () => {
 
       expect(
         groupsUL[0].querySelectorAll('.dnb-drawer-list__option')[0]
-          .textContent
+          .textContent,
       ).toBe('Item 0.1')
       expect(
         groupsUL[0].querySelectorAll('.dnb-drawer-list__option')[1]
-          .textContent
+          .textContent,
       ).toBe('Item 0.2')
       expect(
         groupsUL[1].querySelectorAll('.dnb-drawer-list__option')[0]
-          .textContent
+          .textContent,
       ).toBe('Item 1.1')
       expect(
         groupsUL[2].querySelectorAll('.dnb-drawer-list__option')[0]
-          .textContent
+          .textContent,
       ).toBe('Item 2.1')
       expect(
         groupsUL[3].querySelectorAll('.dnb-drawer-list__option')[0]
-          .textContent
+          .textContent,
       ).toBe('Item 3.1')
     })
 
@@ -1340,11 +1346,11 @@ describe('DrawerList component', () => {
           noAnimation={true}
           data={dataProp}
           groups={[undefined, undefined, 'Third']}
-        />
+        />,
       )
 
       const groupsUL = document.querySelectorAll(
-        '.dnb-drawer-list__group-title'
+        '.dnb-drawer-list__group-title',
       )
       expect(groupsUL.length).toBe(4)
 
@@ -1362,11 +1368,11 @@ describe('DrawerList component', () => {
 
       expect(global.console.log).toHaveBeenCalledWith(
         expect.stringContaining('Eufemia'),
-        `Missing group title for groupIndex: 1`
+        `Missing group title for groupIndex: 1`,
       )
       expect(global.console.log).toHaveBeenCalledWith(
         expect.stringContaining('Eufemia'),
-        `Missing group title for groupIndex: 3`
+        `Missing group title for groupIndex: 3`,
       )
     })
 
@@ -1377,24 +1383,24 @@ describe('DrawerList component', () => {
           noAnimation={true}
           data={[...dataProp, { content: 'Item without groupIndex' }]}
           groups={groupsProp}
-        />
+        />,
       )
 
       const groups = document.querySelectorAll('.dnb-drawer-list__group')
       expect(groups.length).toBe(5)
 
       const finalGroupTitle = groups[4].querySelector(
-        '.dnb-drawer-list__group-title'
+        '.dnb-drawer-list__group-title',
       )
       expect(finalGroupTitle.textContent).toBe(nbNO.noGroupSR)
       expect(finalGroupTitle.classList).toContain('dnb-sr-only')
 
       const finalGroupItems = groups[4].querySelectorAll(
-        '.dnb-drawer-list__option'
+        '.dnb-drawer-list__option',
       )
       expect(finalGroupItems.length).toBe(1)
       expect(finalGroupItems[0].textContent).toBe(
-        'Item without groupIndex'
+        'Item without groupIndex',
       )
     })
   })
@@ -1412,7 +1418,7 @@ describe('DrawerList markup', () => {
     }
 
     const result = render(
-      <DrawerList {...snapshotProps} data={mockData} />
+      <DrawerList {...snapshotProps} data={mockData} />,
     )
     expect(
       await axeComponent(result, {
@@ -1420,7 +1426,7 @@ describe('DrawerList markup', () => {
           'aria-input-field-name': { enabled: false },
           'aria-required-children': { enabled: false },
         },
-      })
+      }),
     ).toHaveNoViolations()
   })
 
@@ -1429,14 +1435,14 @@ describe('DrawerList markup', () => {
     const ul = document.querySelector('ul.dnb-drawer-list__options')
 
     expect(ul.getAttribute('aria-activedescendant')).toEqual(
-      `option-${props.id}-0`
+      `option-${props.id}-0`,
     )
 
     keydown('ArrowDown')
 
     await waitFor(() => {
       expect(ul.getAttribute('aria-activedescendant')).toEqual(
-        `option-${props.id}-0`
+        `option-${props.id}-0`,
       )
     })
 
@@ -1444,7 +1450,7 @@ describe('DrawerList markup', () => {
 
     await waitFor(() => {
       expect(ul.getAttribute('aria-activedescendant')).toEqual(
-        `option-${props.id}-6`
+        `option-${props.id}-6`,
       )
     })
 
@@ -1452,7 +1458,7 @@ describe('DrawerList markup', () => {
 
     await waitFor(() => {
       expect(ul.getAttribute('aria-activedescendant')).toEqual(
-        `option-${props.id}-5`
+        `option-${props.id}-5`,
       )
     })
 
@@ -1460,7 +1466,7 @@ describe('DrawerList markup', () => {
 
     await waitFor(() => {
       expect(ul.getAttribute('aria-activedescendant')).toEqual(
-        `option-${props.id}-6`
+        `option-${props.id}-6`,
       )
     })
 
@@ -1468,7 +1474,7 @@ describe('DrawerList markup', () => {
 
     await waitFor(() => {
       expect(ul.getAttribute('aria-activedescendant')).toEqual(
-        `option-${props.id}-0`
+        `option-${props.id}-0`,
       )
     })
 
@@ -1476,7 +1482,7 @@ describe('DrawerList markup', () => {
 
     await waitFor(() => {
       expect(ul.getAttribute('aria-activedescendant')).toEqual(
-        `option-${props.id}-1`
+        `option-${props.id}-1`,
       )
     })
   })
@@ -1493,24 +1499,24 @@ describe('DrawerList portal', () => {
     const { rerender } = render(<DrawerList open noAnimation />)
 
     const styleElement = document.querySelector(
-      '.dnb-drawer-list__portal__style'
+      '.dnb-drawer-list__portal__style',
     )
 
     await waitFor(() => {
       expect(styleElement.getAttribute('style')).toBe(
-        'width: 64px; --drawer-list-width: 4rem; top: 0px; left: 0px;'
+        'width: 64px; --drawer-list-width: 4rem; top: 0px; left: 0px;',
       )
     })
 
     rerender(<DrawerList open noAnimation independentWidth />)
 
     expect(styleElement.getAttribute('style')).toBe(
-      'width: 320px; --drawer-list-width: 20rem; top: 0px; left: 0px;'
+      'width: 320px; --drawer-list-width: 20rem; top: 0px; left: 0px;',
     )
 
     const element = document.querySelector('.dnb-drawer-list')
     expect(Array.from(element.classList)).toContain(
-      'dnb-drawer-list--independent-width'
+      'dnb-drawer-list--independent-width',
     )
   })
 
@@ -1524,32 +1530,32 @@ describe('DrawerList portal', () => {
     const { rerender } = render(
       <IsolatedStyleScope>
         <DrawerList open noAnimation />
-      </IsolatedStyleScope>
+      </IsolatedStyleScope>,
     )
 
     const styleElement = document.querySelector(
-      '.dnb-drawer-list__portal__style'
+      '.dnb-drawer-list__portal__style',
     )
 
     await waitFor(() => {
       expect(styleElement.getAttribute('style')).toBe(
-        'width: 64px; --drawer-list-width: 4rem; top: 0px; left: 0px;'
+        'width: 64px; --drawer-list-width: 4rem; top: 0px; left: 0px;',
       )
     })
 
     rerender(
       <IsolatedStyleScope>
         <DrawerList open noAnimation independentWidth />
-      </IsolatedStyleScope>
+      </IsolatedStyleScope>,
     )
 
     expect(styleElement.getAttribute('style')).toBe(
-      'width: 320px; --drawer-list-width: 20rem; top: 0px; left: 0px;'
+      'width: 320px; --drawer-list-width: 20rem; top: 0px; left: 0px;',
     )
 
     const element = document.querySelector('.dnb-drawer-list')
     expect(Array.from(element.classList)).toContain(
-      'dnb-drawer-list--independent-width'
+      'dnb-drawer-list--independent-width',
     )
   })
 })
@@ -1562,7 +1568,7 @@ describe('DrawerList scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-drawer-list-theme-ui.scss')
+      require.resolve('../style/themes/dnb-drawer-list-theme-ui.scss'),
     )
     expect(css).toMatchSnapshot()
   })

@@ -18,7 +18,7 @@ export function useSegmentedFieldValues<T extends string>({
   defaultValues,
 }: UseSegmentedFieldValuesProps<T>) {
   const valuesRef = useRef<SegmentedFieldValue<T>>(
-    defaultValues ? defaultValues : createDefaultValues(inputs)
+    defaultValues ? defaultValues : createDefaultValues(inputs),
   )
   const [, forceUpdate] = useReducer(() => ({}), {})
   const previousDefaultValuesRef = useRef(defaultValues)
@@ -32,7 +32,7 @@ export function useSegmentedFieldValues<T extends string>({
       const hasChanges =
         !previousValues ||
         Object.keys(defaultValues).some(
-          (key) => previousValues[key as T] !== defaultValues[key as T]
+          (key) => previousValues[key as T] !== defaultValues[key as T],
         )
 
       if (hasChanges) {

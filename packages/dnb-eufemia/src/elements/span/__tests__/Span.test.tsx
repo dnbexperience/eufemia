@@ -37,7 +37,7 @@ describe('Span element', () => {
         family="monospace"
         weight="medium"
         decoration="underline"
-      />
+      />,
     )
     const element = document.querySelector('.dnb-t__size--small')
 

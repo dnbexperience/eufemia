@@ -35,7 +35,7 @@ describe('Value.Upload', () => {
     render(<Value.Upload value={files} />)
 
     const valueElement = document.querySelector(
-      '.dnb-forms-value-upload .dnb-forms-value-block__content'
+      '.dnb-forms-value-upload .dnb-forms-value-block__content',
     )
     expect(getValueText(valueElement)).toBe('foo.png, bar.png og baz.png')
   })
@@ -44,7 +44,7 @@ describe('Value.Upload', () => {
     render(<Value.Upload value={[]} />)
 
     expect(
-      document.querySelector('.dnb-forms-value-upload')
+      document.querySelector('.dnb-forms-value-upload'),
     ).not.toBeInTheDocument()
   })
 
@@ -52,10 +52,10 @@ describe('Value.Upload', () => {
     render(<Value.Upload value={[]} showEmpty />)
 
     expect(
-      document.querySelector('.dnb-forms-value-upload')
+      document.querySelector('.dnb-forms-value-upload'),
     ).toHaveTextContent('')
     expect(
-      document.querySelector('.dnb-forms-value-block__content')
+      document.querySelector('.dnb-forms-value-block__content'),
     ).not.toBeInTheDocument()
   })
 
@@ -64,8 +64,8 @@ describe('Value.Upload', () => {
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-upload .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-upload .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('')
   })
 
@@ -76,11 +76,11 @@ describe('Value.Upload', () => {
       <Form.Handler sessionStorageId="session-storage-id">
         <Field.Upload path="/myFiles" />
         <Value.Upload path="/myFiles" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
-      document.querySelector('.dnb-forms-value-upload')
+      document.querySelector('.dnb-forms-value-upload'),
     ).not.toBeInTheDocument()
 
     const element = document.querySelector('.dnb-upload')
@@ -94,8 +94,8 @@ describe('Value.Upload', () => {
     await waitFor(() => {
       expect(
         document.querySelector(
-          '.dnb-forms-value-upload .dnb-forms-value-block__content'
-        )
+          '.dnb-forms-value-upload .dnb-forms-value-block__content',
+        ),
       ).toHaveTextContent('fileName.png')
     })
 
@@ -112,7 +112,7 @@ describe('Value.Upload', () => {
             return null
           }}
         </DataContext.Consumer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(dataContext.internalDataRef.current.myFiles).toEqual([
@@ -125,8 +125,8 @@ describe('Value.Upload', () => {
     ])
     expect(
       document.querySelector(
-        '.dnb-forms-value-upload .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-upload .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('fileName.png')
   })
 
@@ -135,24 +135,24 @@ describe('Value.Upload', () => {
       <Value.Upload
         value={files}
         format={{ style: 'short', type: 'disjunction' }}
-      />
+      />,
     )
 
     const formattedValueElement = document.querySelector(
-      '.dnb-forms-value-upload .dnb-forms-value-block__content'
+      '.dnb-forms-value-upload .dnb-forms-value-block__content',
     )
     expect(getValueText(formattedValueElement)).toBe(
-      'foo.png, bar.png eller baz.png'
+      'foo.png, bar.png eller baz.png',
     )
   })
 
   it('should render different variants', () => {
     const { rerender } = render(
-      <Value.Upload variant="ol" value={files} />
+      <Value.Upload variant="ol" value={files} />,
     )
 
     const valueBlock = document.querySelector(
-      '.dnb-forms-value-upload .dnb-forms-value-block__content'
+      '.dnb-forms-value-upload .dnb-forms-value-block__content',
     )
 
     const ol = valueBlock.querySelector('.dnb-ol') as HTMLOListElement
@@ -177,11 +177,11 @@ describe('Value.Upload', () => {
 
   it('should render different `listTypes`', () => {
     const { rerender } = render(
-      <Value.Upload variant="ol" listType="a" value={files} />
+      <Value.Upload variant="ol" listType="a" value={files} />,
     )
 
     const valueBlock = document.querySelector(
-      '.dnb-forms-value-upload .dnb-forms-value-block__content'
+      '.dnb-forms-value-upload .dnb-forms-value-block__content',
     )
 
     const list = (type: 'ol' | 'ul') =>
@@ -211,28 +211,28 @@ describe('Value.Upload', () => {
   it('renders label when showEmpty is true', () => {
     render(<Value.Upload showEmpty label="My label" />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      'My label'
+      'My label',
     )
   })
 
   it('renders value and label', () => {
     render(<Value.Upload label="My selections" value={files} />)
     const valueElementWithLabel = document.querySelector(
-      '.dnb-forms-value-upload .dnb-forms-value-block__content'
+      '.dnb-forms-value-upload .dnb-forms-value-block__content',
     )
     expect(getValueText(valueElementWithLabel)).toBe(
-      'foo.png, bar.png og baz.png'
+      'foo.png, bar.png og baz.png',
     )
 
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      'My selections'
+      'My selections',
     )
   })
 
   it('renders custom label', () => {
     render(<Value.Upload label="Custom label" showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      'Custom label'
+      'Custom label',
     )
   })
 
@@ -245,11 +245,11 @@ describe('Value.Upload', () => {
     render(
       <Form.Handler data={{ myPath: files }}>
         <Value.Upload path="/myPath" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const valueFromPath = document.querySelector(
-      '.dnb-forms-value-upload .dnb-forms-value-block__content'
+      '.dnb-forms-value-upload .dnb-forms-value-block__content',
     )
     expect(getValueText(valueFromPath)).toBe('foo.png, bar.png og baz.png')
   })
@@ -258,14 +258,14 @@ describe('Value.Upload', () => {
     render(
       <Form.Handler locale="en-GB" data={{ myPath: files }}>
         <Value.Upload path="/myPath" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const englishValueElement = document.querySelector(
-      '.dnb-forms-value-upload .dnb-forms-value-block__content'
+      '.dnb-forms-value-upload .dnb-forms-value-block__content',
     )
     expect(getValueText(englishValueElement)).toBe(
-      'foo.png, bar.png and baz.png'
+      'foo.png, bar.png and baz.png',
     )
   })
 
@@ -280,11 +280,11 @@ describe('Value.Upload', () => {
               id: '1',
             },
           ]}
-        />
+        />,
       )
 
       expect(
-        screen.queryByTestId('file pdf medium icon')
+        screen.queryByTestId('file pdf medium icon'),
       ).toBeInTheDocument()
     })
 
@@ -298,11 +298,11 @@ describe('Value.Upload', () => {
               id: '1',
             },
           ]}
-        />
+        />,
       )
 
       expect(
-        screen.queryByTestId('file xls medium icon')
+        screen.queryByTestId('file xls medium icon'),
       ).toBeInTheDocument()
     })
 
@@ -316,11 +316,11 @@ describe('Value.Upload', () => {
               id: '1',
             },
           ]}
-        />
+        />,
       )
 
       expect(
-        screen.queryByTestId('file ppt medium icon')
+        screen.queryByTestId('file ppt medium icon'),
       ).toBeInTheDocument()
     })
 
@@ -334,11 +334,11 @@ describe('Value.Upload', () => {
               id: '1',
             },
           ]}
-        />
+        />,
       )
 
       expect(
-        screen.queryByTestId('file csv medium icon')
+        screen.queryByTestId('file csv medium icon'),
       ).toBeInTheDocument()
     })
 
@@ -352,11 +352,11 @@ describe('Value.Upload', () => {
               id: '1',
             },
           ]}
-        />
+        />,
       )
 
       expect(
-        screen.queryByTestId('file txt medium icon')
+        screen.queryByTestId('file txt medium icon'),
       ).toBeInTheDocument()
     })
 
@@ -370,11 +370,11 @@ describe('Value.Upload', () => {
               id: '1',
             },
           ]}
-        />
+        />,
       )
 
       expect(
-        screen.queryByTestId('file xml medium icon')
+        screen.queryByTestId('file xml medium icon'),
       ).toBeInTheDocument()
     })
 
@@ -386,13 +386,13 @@ describe('Value.Upload', () => {
               file: createMockFile(
                 'file.custom',
                 100,
-                'application/custom'
+                'application/custom',
               ),
               exists: false,
               id: '1',
             },
           ]}
-        />
+        />,
       )
 
       expect(screen.queryByTestId('file medium icon')).toBeInTheDocument()
@@ -411,7 +411,7 @@ describe('Value.Upload', () => {
             id: '1',
           },
         ]}
-      />
+      />,
     )
     expect(screen.queryByText(fileName).tagName).toBe('SPAN')
     expect(screen.queryByText(fileName)).toHaveClass('dnb-span')
@@ -430,7 +430,7 @@ describe('Value.Upload', () => {
               id: '1',
             },
           ]}
-        />
+        />,
       )
       expect(screen.queryByText(fileName).tagName).toBe('A')
     })
@@ -449,7 +449,7 @@ describe('Value.Upload', () => {
               id: '1',
             },
           ]}
-        />
+        />,
       )
 
       const buttonElement = document.querySelector('.dnb-button')
@@ -474,7 +474,7 @@ describe('Value.Upload', () => {
               id: '1',
             },
           ]}
-        />
+        />,
       )
 
       const buttonElement = document.querySelector('.dnb-button')
@@ -482,7 +482,7 @@ describe('Value.Upload', () => {
       await waitFor(() => {
         fireEvent.click(buttonElement)
         expect(
-          document.querySelector('.dnb-progress-indicator')
+          document.querySelector('.dnb-progress-indicator'),
         ).toBeInTheDocument()
       })
     })
@@ -498,11 +498,11 @@ describe('Value.Upload', () => {
               isLoading: true,
             },
           ]}
-        />
+        />,
       )
 
       expect(
-        document.querySelector('.dnb-progress-indicator')
+        document.querySelector('.dnb-progress-indicator'),
       ).toBeInTheDocument()
     })
 
@@ -522,10 +522,10 @@ describe('Value.Upload', () => {
               id: '1',
             },
           ]}
-        />
+        />,
       )
       const anchorElement = screen.queryByText(
-        fileName
+        fileName,
       ) as HTMLAnchorElement
       expect(anchorElement.href).toMatch(mockUrl)
 
@@ -543,7 +543,7 @@ describe('Value.Upload', () => {
               id: '1',
             },
           ]}
-        />
+        />,
       )
 
       const element = document.querySelector('a')
@@ -564,7 +564,7 @@ describe('Value.Upload', () => {
               id: '1',
             },
           ]}
-        />
+        />,
       )
 
       expect(screen.queryByText(`${fileName} (1 MB)`)).toBeInTheDocument()

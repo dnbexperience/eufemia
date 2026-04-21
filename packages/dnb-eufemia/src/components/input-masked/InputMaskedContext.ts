@@ -12,7 +12,7 @@ export type InputMaskedContextValue = {
 }
 
 const InputMaskedContext = React.createContext<InputMaskedContextValue>(
-  {} as InputMaskedContextValue
+  {} as InputMaskedContextValue,
 )
 
 export default InputMaskedContext

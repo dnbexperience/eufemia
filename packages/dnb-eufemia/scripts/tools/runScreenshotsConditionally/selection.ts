@@ -17,7 +17,7 @@ export type GlobalImpactCause = {
 }
 
 export function toPackageRelativePath(
-  repoRelativePath: string
+  repoRelativePath: string,
 ): string | null {
   const normalizedPath = normalizePath(repoRelativePath)
 
@@ -40,7 +40,7 @@ export function toPackageRelativePath(
 
 export function isGlobalVisualImpact(
   repoRelativePath: string,
-  packageRelativePath: string | null
+  packageRelativePath: string | null,
 ): boolean {
   if (!packageRelativePath) {
     return false
@@ -56,7 +56,7 @@ export function isGlobalVisualImpact(
 }
 
 export function getGlobalImpactCauses(
-  changedRepoFiles: string[]
+  changedRepoFiles: string[],
 ): GlobalImpactCause[] {
   const causes: GlobalImpactCause[] = []
 
@@ -108,7 +108,7 @@ export function getOwningDirectory(testPath: string): string {
 
 export function findMatchingScreenshotTests(
   affectedFiles: Set<string>,
-  allScreenshotTests: string[]
+  allScreenshotTests: string[],
 ): string[] {
   const impactedTests = new Set<string>()
 
@@ -144,7 +144,7 @@ export function findMatchingScreenshotTests(
 function addTestCause(
   testCauses: Record<string, string[]>,
   testPath: string,
-  cause: string
+  cause: string,
 ) {
   if (!testCauses[testPath]) {
     testCauses[testPath] = []
@@ -157,7 +157,7 @@ function addTestCause(
 
 function collectDirectSourceFileDetails(
   selectedTests: string[],
-  sourceChanges: string[]
+  sourceChanges: string[],
 ): Record<string, string[]> {
   const directSourceDetails: Record<string, string[]> = {}
 
@@ -183,7 +183,7 @@ function collectDirectSourceFileDetails(
 function prioritizeTestCauses(
   testCauses: Record<string, string[]>,
   selectedTests: string[],
-  directSourceDetails: Record<string, string[]>
+  directSourceDetails: Record<string, string[]>,
 ) {
   const priorityByCause: Record<string, number> = {
     'SCSS dependency impact': 0,
@@ -219,7 +219,7 @@ export function analyzeSelection({
   impactedThreshold = DEFAULT_IMPACTED_THRESHOLD,
 }: SelectionInput): SelectionAnalysis {
   const normalizedChangedFiles = Array.from(
-    new Set(changedRepoFiles.map(normalizePath))
+    new Set(changedRepoFiles.map(normalizePath)),
   )
   const testCauses: Record<string, string[]> = {}
 
@@ -336,7 +336,7 @@ export function analyzeSelection({
 
   const affectedTsFiles = expandReverseDependencies(
     sourceChanges,
-    dependencyMap
+    dependencyMap,
   )
 
   const scssSourceChanges = sourceChanges.filter((packagePath) => {
@@ -344,7 +344,7 @@ export function analyzeSelection({
   })
   const affectedScssFiles = expandReverseDependencies(
     scssSourceChanges,
-    scssDependencyMap
+    scssDependencyMap,
   )
 
   const combinedAffectedFiles = new Set<string>()
@@ -357,15 +357,15 @@ export function analyzeSelection({
 
   const impactedTestsByTs = findMatchingScreenshotTests(
     affectedTsFiles,
-    allScreenshotTests
+    allScreenshotTests,
   )
   const impactedTestsByScss = findMatchingScreenshotTests(
     affectedScssFiles,
-    allScreenshotTests
+    allScreenshotTests,
   )
   const impactedTests = findMatchingScreenshotTests(
     combinedAffectedFiles,
-    allScreenshotTests
+    allScreenshotTests,
   )
 
   const combinedImpactedTests = new Set<string>(impactedTests)
@@ -384,7 +384,7 @@ export function analyzeSelection({
       addTestCause(
         testCauses,
         testPath,
-        'Component usage in demo/examples'
+        'Component usage in demo/examples',
       )
     }
   })
@@ -402,7 +402,7 @@ export function analyzeSelection({
 
   const directSourceDetails = collectDirectSourceFileDetails(
     selectedTests,
-    sourceChanges
+    sourceChanges,
   )
   prioritizeTestCauses(testCauses, selectedTests, directSourceDetails)
 
@@ -420,12 +420,12 @@ export function analyzeSelection({
     impactedTestsByComposition: compositionImpactedTests.filter(
       (testPath) => {
         return allScreenshotTests.includes(testPath)
-      }
+      },
     ),
     impactedTestsByPortalDocs: portalDocsImpactedTests.filter(
       (testPath) => {
         return allScreenshotTests.includes(testPath)
-      }
+      },
     ),
     testCauses,
   }

@@ -39,7 +39,7 @@ describe('ItemIcon', () => {
         id="icon-id"
       >
         {fish_medium}
-      </ItemIcon>
+      </ItemIcon>,
     )
 
     const element = document.querySelector('.dnb-flex-item')
@@ -53,7 +53,7 @@ describe('ItemIcon', () => {
     render(
       <ItemIcon top="small" left="x-small">
         {fish_medium}
-      </ItemIcon>
+      </ItemIcon>,
     )
 
     const element = document.querySelector('.dnb-flex-item')
@@ -89,7 +89,7 @@ describe('ItemIcon', () => {
     render(
       <Container skeleton>
         <ItemIcon>{fish_medium}</ItemIcon>
-      </Container>
+      </Container>,
     )
 
     const element = document.querySelector('.dnb-list__item__icon')
@@ -104,7 +104,7 @@ describe('ItemIcon', () => {
         <ItemContent>
           <ItemIcon>{fish_medium}</ItemIcon>
         </ItemContent>
-      </Container>
+      </Container>,
     )
 
     expect(await axeComponent(container)).toHaveNoViolations()

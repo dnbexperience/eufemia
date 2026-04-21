@@ -42,7 +42,7 @@ export function SliderProvider(localProps: SliderAllProps) {
     { skeleton: context?.skeleton },
     pickFormElementProps(context?.formElement),
     context?.getTranslation(localProps).Slider,
-    context?.Slider
+    context?.Slider,
   )
 
   const [_id] = React.useState(makeUniqueId)
@@ -126,7 +126,7 @@ export function SliderProvider(localProps: SliderAllProps) {
 
   const emitChange = (
     event: MouseEvent | TouchEvent,
-    rawValue: number
+    rawValue: number,
   ) => {
     if (disabled || skeleton) {
       return
@@ -155,7 +155,7 @@ export function SliderProvider(localProps: SliderAllProps) {
             ? (realtimeValue.current as Array<number>)
             : value,
           currentIndex,
-          numberValue
+          numberValue,
         )
 
         if (multiThumbBehavior === 'push') {
@@ -220,7 +220,7 @@ export function SliderProvider(localProps: SliderAllProps) {
     if (state) {
       animationTimeout.current = setTimeout(
         () => updateAnimateState(false),
-        250
+        250,
       )
     }
   }

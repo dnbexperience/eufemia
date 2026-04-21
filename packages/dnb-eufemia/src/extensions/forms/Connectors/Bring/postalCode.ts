@@ -79,7 +79,7 @@ export const responseResolver: ResponseResolver<
 
 export function autofill(
   generalConfig: GeneralConfig,
-  handlerConfig?: AutofillHandlerConfig & { cityPath: Path }
+  handlerConfig?: AutofillHandlerConfig & { cityPath: Path },
 ): UseFieldProps<string>['onChange'] {
   const abortControllerRef = { current: null }
 
@@ -117,7 +117,7 @@ export function autofill(
         if (cityPath) {
           if (!additionalArgs.dataContext) {
             throw new Error(
-              'No data context found in the postalCode connector'
+              'No data context found in the postalCode connector',
             )
           }
           const { dataContext } = additionalArgs
@@ -145,7 +145,7 @@ export function autofill(
 
 export function validator(
   generalConfig: GeneralConfig,
-  handlerConfig?: AutofillHandlerConfig
+  handlerConfig?: AutofillHandlerConfig,
 ):
   | UseFieldProps<string>['onChangeValidator']
   | UseFieldProps<string>['onBlurValidator'] {
@@ -168,7 +168,10 @@ export function validator(
 
     if (!isSupportedCountryCode(countryCode, supportedCountryCodes)) {
       return new Error(
-        unsupportedCountryCodeMessage.replace('{countryCode}', countryCode)
+        unsupportedCountryCodeMessage.replace(
+          '{countryCode}',
+          countryCode,
+        ),
       )
     }
 
@@ -184,7 +187,7 @@ export function validator(
           abortControllerRef,
           preResponseResolver:
             handlerConfig?.preResponseResolver ?? preResponseResolver,
-        }
+        },
       )
 
       const onMatch = () => {

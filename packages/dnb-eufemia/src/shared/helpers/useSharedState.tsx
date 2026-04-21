@@ -21,7 +21,7 @@ export function useWeakSharedState<
   /** The initial data for the shared state. */
   initialData: Data = undefined,
   /** Optional callback function to be called when the shared state is set from another instance/component. */
-  onChange = null
+  onChange = null,
 ) {
   return useSharedState<Data>(id, initialData, onChange, { weak: true })
 }
@@ -40,7 +40,7 @@ export function useSharedState<Data>(
   {
     /** When set to `true`, the shared state will be deleted when all components have been unmounted. */
     weak = false,
-  } = {}
+  } = {},
 ) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const hasMountedRef = useMounted()
@@ -82,7 +82,7 @@ export function useSharedState<Data>(
       return createSharedState(
         createReferenceKey(id, 'oc'),
         { onChange },
-        { shouldSync }
+        { shouldSync },
       )
     }
 
@@ -95,7 +95,7 @@ export function useSharedState<Data>(
         sharedAttachment.data?.onChange?.(newData)
       }
     },
-    [id, sharedAttachment]
+    [id, sharedAttachment],
   )
 
   const update = useCallback(
@@ -104,7 +104,7 @@ export function useSharedState<Data>(
         sharedState.update(newData, opts)
       }
     },
-    [id, sharedState]
+    [id, sharedState],
   )
 
   const get = useCallback(() => {
@@ -122,7 +122,7 @@ export function useSharedState<Data>(
         syncAttachment(newData)
       }
     },
-    [id, sharedState, syncAttachment]
+    [id, sharedState, syncAttachment],
   )
 
   const extend = useCallback(
@@ -132,7 +132,7 @@ export function useSharedState<Data>(
         syncAttachment(newData)
       }
     },
-    [id, sharedState, syncAttachment]
+    [id, sharedState, syncAttachment],
   )
 
   useLayoutEffect(() => {
@@ -207,7 +207,7 @@ export function createSharedState<Data>(
   {
     /** A function that returns true if the component should be rerendered. */
     shouldSync = null,
-  } = {}
+  } = {},
 ): SharedStateInstance<Data> {
   if (!sharedStates.get(id)) {
     const subscribersRef = {
@@ -253,7 +253,7 @@ export function createSharedState<Data>(
 
     const unsubscribe = (subscriber: Subscriber) => {
       subscribersRef.current = subscribersRef.current.filter(
-        (sub) => sub !== subscriber
+        (sub) => sub !== subscriber,
       )
     }
 

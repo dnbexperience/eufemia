@@ -10,7 +10,7 @@ import { createMockContext } from './testHelpers'
 
 function renderWithContext(
   ui: React.ReactElement,
-  contextOverrides?: Partial<MenuContextValue>
+  contextOverrides?: Partial<MenuContextValue>,
 ) {
   const context = createMockContext(contextOverrides)
   return {
@@ -24,7 +24,7 @@ describe('MenuList', () => {
     renderWithContext(
       <MenuList>
         <MenuAction text="Item" />
-      </MenuList>
+      </MenuList>,
     )
 
     const element = document.querySelector('.dnb-menu__list')
@@ -36,7 +36,7 @@ describe('MenuList', () => {
     renderWithContext(
       <MenuList>
         <MenuAction text="Item" />
-      </MenuList>
+      </MenuList>,
     )
 
     const element = document.querySelector('[role="menu"]')
@@ -48,7 +48,7 @@ describe('MenuList', () => {
       <MenuList>
         <MenuAction text="First" />
         <MenuAction text="Second" />
-      </MenuList>
+      </MenuList>,
     )
 
     const items = document.querySelectorAll('[role="menuitem"]')
@@ -59,7 +59,7 @@ describe('MenuList', () => {
     renderWithContext(
       <MenuList aria-label="File actions">
         <MenuAction text="Item" />
-      </MenuList>
+      </MenuList>,
     )
 
     const element = document.querySelector('[role="menu"]')
@@ -70,7 +70,7 @@ describe('MenuList', () => {
     renderWithContext(
       <MenuList aria-labelledby="menu-heading">
         <MenuAction text="Item" />
-      </MenuList>
+      </MenuList>,
     )
 
     const element = document.querySelector('[role="menu"]')
@@ -81,7 +81,7 @@ describe('MenuList', () => {
     renderWithContext(
       <MenuList className="custom-menu">
         <MenuAction text="Item" />
-      </MenuList>
+      </MenuList>,
     )
 
     const element = document.querySelector('.dnb-menu__list')
@@ -94,7 +94,7 @@ describe('MenuList', () => {
         <MenuAction text="First" />
         <MenuDivider />
         <MenuAction text="Second" />
-      </MenuList>
+      </MenuList>,
     )
 
     const divider = document.querySelector('[role="separator"]')
@@ -110,7 +110,7 @@ describe('MenuList', () => {
           <MenuAction text="Item 2" />
           <MenuAction text="Item 3" />
         </MenuList>,
-        { activeIndex: -1, setActiveIndex }
+        { activeIndex: -1, setActiveIndex },
       )
 
       const menu = document.querySelector('[role="menu"]')
@@ -129,7 +129,7 @@ describe('MenuList', () => {
           <MenuAction text="Item 2" />
           <MenuAction text="Item 3" />
         </MenuList>,
-        { activeIndex: -1, setActiveIndex }
+        { activeIndex: -1, setActiveIndex },
       )
 
       const menu = document.querySelector('[role="menu"]')
@@ -148,7 +148,7 @@ describe('MenuList', () => {
           <MenuAction text="Item 2" />
           <MenuAction text="Item 3" />
         </MenuList>,
-        { activeIndex: 0, setActiveIndex }
+        { activeIndex: 0, setActiveIndex },
       )
 
       const menu = document.querySelector('[role="menu"]')
@@ -167,7 +167,7 @@ describe('MenuList', () => {
           <MenuAction text="Item 2" />
           <MenuAction text="Item 3" />
         </MenuList>,
-        { activeIndex: 2, setActiveIndex }
+        { activeIndex: 2, setActiveIndex },
       )
 
       const menu = document.querySelector('[role="menu"]')
@@ -185,7 +185,7 @@ describe('MenuList', () => {
           <MenuAction text="Item 1" />
           <MenuAction text="Item 2" />
         </MenuList>,
-        { activeIndex: 1, setActiveIndex }
+        { activeIndex: 1, setActiveIndex },
       )
 
       const menu = document.querySelector('[role="menu"]')
@@ -204,7 +204,7 @@ describe('MenuList', () => {
           <MenuAction text="Item 2" />
           <MenuAction text="Item 3" />
         </MenuList>,
-        { activeIndex: 0, setActiveIndex }
+        { activeIndex: 0, setActiveIndex },
       )
 
       const menu = document.querySelector('[role="menu"]')
@@ -223,7 +223,7 @@ describe('MenuList', () => {
           <MenuAction text="Item 2" disabled />
           <MenuAction text="Item 3" />
         </MenuList>,
-        { activeIndex: 0, setActiveIndex }
+        { activeIndex: 0, setActiveIndex },
       )
 
       const menu = document.querySelector('[role="menu"]')
@@ -242,7 +242,7 @@ describe('MenuList', () => {
           <MenuAction text="Item 2" />
           <MenuAction text="Item 3" />
         </MenuList>,
-        { activeIndex: 2, setActiveIndex }
+        { activeIndex: 2, setActiveIndex },
       )
 
       const menu = document.querySelector('[role="menu"]')
@@ -259,7 +259,7 @@ describe('MenuList', () => {
           <MenuAction text="Item 2" />
           <MenuAction text="Item 3" />
         </MenuList>,
-        { activeIndex: 0, setActiveIndex }
+        { activeIndex: 0, setActiveIndex },
       )
 
       const menu = document.querySelector('[role="menu"]')
@@ -273,7 +273,7 @@ describe('MenuList', () => {
         <MenuList>
           <MenuAction text="Item 1" />
           <MenuAction text="Item 2" />
-        </MenuList>
+        </MenuList>,
       )
 
       const menu = document.querySelector('[role="menu"]')
@@ -287,7 +287,7 @@ describe('MenuList', () => {
         <MenuList>
           <MenuAction text="Item 1" />
           <MenuAction text="Item 2" />
-        </MenuList>
+        </MenuList>,
       )
 
       const menu = document.querySelector('[role="menu"]')
@@ -303,7 +303,7 @@ describe('MenuList', () => {
         <MenuList aria-label="Test menu">
           <MenuAction text="Item 1" />
           <MenuAction text="Item 2" />
-        </MenuList>
+        </MenuList>,
       )
 
       expect(await axeComponent(container)).toHaveNoViolations()
@@ -315,7 +315,7 @@ describe('MenuList', () => {
           <MenuAction text="Item 1" />
           <MenuDivider />
           <MenuAction text="Item 2" />
-        </MenuList>
+        </MenuList>,
       )
 
       expect(await axeComponent(container)).toHaveNoViolations()
@@ -326,7 +326,7 @@ describe('MenuList', () => {
         <MenuList aria-label="Test menu">
           <MenuAction text="Item 1" />
           <MenuAction text="Item 2" disabled />
-        </MenuList>
+        </MenuList>,
       )
 
       expect(await axeComponent(container)).toHaveNoViolations()
@@ -342,14 +342,14 @@ describe('MenuList', () => {
           <MenuAction text="Item 3" />
           <MenuAction text="Item 4" />
           <MenuAction text="Item 5" />
-        </MenuList>
+        </MenuList>,
       )
 
       const element = document.querySelector(
-        '.dnb-menu__list'
+        '.dnb-menu__list',
       ) as HTMLElement
       expect(element.style.maxHeight).toBe(
-        'calc(var(--menu-action-min-height, 2.5rem) * 3 + var(--menu-content-padding, 0.25rem) * 2)'
+        'calc(var(--menu-action-min-height, 2.5rem) * 3 + var(--menu-content-padding, 0.25rem) * 2)',
       )
       expect(element.style.overflowY).toBe('auto')
     })
@@ -359,11 +359,11 @@ describe('MenuList', () => {
         <MenuList>
           <MenuAction text="Item 1" />
           <MenuAction text="Item 2" />
-        </MenuList>
+        </MenuList>,
       )
 
       const element = document.querySelector(
-        '.dnb-menu__list'
+        '.dnb-menu__list',
       ) as HTMLElement
       expect(element.style.maxHeight).toBe('')
     })
@@ -373,11 +373,11 @@ describe('MenuList', () => {
         <MenuList maxVisibleListItems={0}>
           <MenuAction text="Item 1" />
           <MenuAction text="Item 2" />
-        </MenuList>
+        </MenuList>,
       )
 
       const element = document.querySelector(
-        '.dnb-menu__list'
+        '.dnb-menu__list',
       ) as HTMLElement
       expect(element.style.maxHeight).toBe('')
     })
@@ -397,11 +397,11 @@ describe('MenuList', () => {
       // Mock offsetTop/offsetHeight on HTMLLIElement before render
       const originalOffsetTop = Object.getOwnPropertyDescriptor(
         HTMLElement.prototype,
-        'offsetTop'
+        'offsetTop',
       )
       const originalOffsetHeight = Object.getOwnPropertyDescriptor(
         HTMLElement.prototype,
-        'offsetHeight'
+        'offsetHeight',
       )
 
       Object.defineProperty(HTMLElement.prototype, 'offsetTop', {
@@ -409,7 +409,7 @@ describe('MenuList', () => {
         get() {
           if (this.getAttribute('role') === 'menuitem') {
             const index = Array.from(
-              this.parentElement?.children ?? []
+              this.parentElement?.children ?? [],
             ).indexOf(this)
             return index * itemHeight
           }
@@ -431,11 +431,11 @@ describe('MenuList', () => {
           <MenuAction text="Item 1" />
           <MenuAction text="Item 2" />
           <MenuAction text="Item 3" />
-        </MenuList>
+        </MenuList>,
       )
 
       const element = document.querySelector(
-        '.dnb-menu__list'
+        '.dnb-menu__list',
       ) as HTMLElement
       const expectedHeight = itemHeight * 2 + paddingBlock * 2
       expect(element.style.maxHeight).toBe(`${expectedHeight}px`)
@@ -445,14 +445,14 @@ describe('MenuList', () => {
         Object.defineProperty(
           HTMLElement.prototype,
           'offsetTop',
-          originalOffsetTop
+          originalOffsetTop,
         )
       }
       if (originalOffsetHeight) {
         Object.defineProperty(
           HTMLElement.prototype,
           'offsetHeight',
-          originalOffsetHeight
+          originalOffsetHeight,
         )
       }
       window.getComputedStyle = originalGetComputedStyle
@@ -465,11 +465,11 @@ describe('MenuList', () => {
           <MenuAction text="Item 2" />
           <MenuAction text="Item 3" />
           <MenuAction text="Item 4" />
-        </MenuList>
+        </MenuList>,
       )
 
       const element = document.querySelector(
-        '.dnb-menu__list'
+        '.dnb-menu__list',
       ) as HTMLElement
       expect(element.style.maxHeight).toBe('100px')
     })
@@ -481,7 +481,7 @@ describe('MenuList', () => {
       const { unmount } = renderWithContext(
         <MenuList maxVisibleListItems={3}>
           <MenuAction text="Item 1" />
-        </MenuList>
+        </MenuList>,
       )
 
       expect(addSpy).toHaveBeenCalledWith('resize', expect.any(Function))
@@ -490,7 +490,7 @@ describe('MenuList', () => {
 
       expect(removeSpy).toHaveBeenCalledWith(
         'resize',
-        expect.any(Function)
+        expect.any(Function),
       )
 
       addSpy.mockRestore()

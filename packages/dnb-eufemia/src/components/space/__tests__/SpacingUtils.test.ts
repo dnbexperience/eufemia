@@ -87,37 +87,37 @@ describe('calc', () => {
 
   it('should output calc based on string types', () => {
     expect(calc('large x-small')).toEqual(
-      'calc(var(--spacing-large) + var(--spacing-x-small))'
+      'calc(var(--spacing-large) + var(--spacing-x-small))',
     )
   })
 
   it('should output calc based on argument types', () => {
     expect(calc('large', 'x-small')).toEqual(
-      'calc(var(--spacing-large) + var(--spacing-x-small))'
+      'calc(var(--spacing-large) + var(--spacing-x-small))',
     )
   })
 
   it('should output calc based on rem numbers', () => {
     expect(calc(2, 0.5)).toEqual(
-      'calc(var(--spacing-large) + var(--spacing-x-small))'
+      'calc(var(--spacing-large) + var(--spacing-x-small))',
     )
   })
 
   it('should output calc based on rem strings', () => {
     expect(calc('2rem', '0.5rem')).toEqual(
-      'calc(var(--spacing-large) + var(--spacing-x-small))'
+      'calc(var(--spacing-large) + var(--spacing-x-small))',
     )
   })
 
   it('should output calc based on pixel values', () => {
     expect(calc('32px', '8px')).toEqual(
-      'calc(var(--spacing-large) + var(--spacing-x-small))'
+      'calc(var(--spacing-large) + var(--spacing-x-small))',
     )
   })
 
   it('should output calc with mixed spacing types', () => {
     expect(calc('32px', 'x-small', 1)).toEqual(
-      'calc(var(--spacing-large) + var(--spacing-x-small) + var(--spacing-small))'
+      'calc(var(--spacing-large) + var(--spacing-x-small) + var(--spacing-small))',
     )
   })
 
@@ -125,28 +125,28 @@ describe('calc', () => {
     expect(calc('17px')).toEqual('calc(var(--spacing-small))')
     expect(calc('33px')).toEqual('calc(var(--spacing-large))')
     expect(calc('43px')).toEqual(
-      'calc(var(--spacing-large) + var(--spacing-x-small))'
+      'calc(var(--spacing-large) + var(--spacing-x-small))',
     )
   })
 
   it('should sum all types', () => {
     expect(calc('800px')).toEqual(
-      'calc(var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-small))'
+      'calc(var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-small))',
     )
   })
 
   it('should calc documented examples', () => {
     expect(calc('medium large')).toEqual(
-      'calc(var(--spacing-medium) + var(--spacing-large))'
+      'calc(var(--spacing-medium) + var(--spacing-large))',
     )
     expect(calc('medium', 'large')).toEqual(
-      'calc(var(--spacing-medium) + var(--spacing-large))'
+      'calc(var(--spacing-medium) + var(--spacing-large))',
     )
     expect(calc('1.5rem', '2rem')).toEqual(
-      'calc(var(--spacing-medium) + var(--spacing-large))'
+      'calc(var(--spacing-medium) + var(--spacing-large))',
     )
     expect(calc('24px', '32px')).toEqual(
-      'calc(var(--spacing-medium) + var(--spacing-large))'
+      'calc(var(--spacing-medium) + var(--spacing-large))',
     )
   })
 
@@ -266,7 +266,7 @@ describe('createSpacing', () => {
       'dnb-space__top--zero',
     ])
     expect(
-      createSpacing({ space: 0, right: 'small small' }).className
+      createSpacing({ space: 0, right: 'small small' }).className,
     ).toEqual([
       'dnb-space__right--large',
       'dnb-space__left--zero',
@@ -274,7 +274,7 @@ describe('createSpacing', () => {
       'dnb-space__top--zero',
     ])
     expect(
-      createSpacing({ space: 0, bottom: 'small small small' }).className
+      createSpacing({ space: 0, bottom: 'small small small' }).className,
     ).toEqual([
       'dnb-space__bottom--x-large',
       'dnb-space__left--zero',
@@ -282,7 +282,7 @@ describe('createSpacing', () => {
       'dnb-space__top--zero',
     ])
     expect(
-      createSpacing({ space: 0, top: 'small small' }).className
+      createSpacing({ space: 0, top: 'small small' }).className,
     ).toEqual([
       'dnb-space__top--large',
       'dnb-space__left--zero',
@@ -290,13 +290,13 @@ describe('createSpacing', () => {
       'dnb-space__right--zero',
     ])
     expect(
-      createSpacing({ space: { top: 'small' }, top: 'large' }).className
+      createSpacing({ space: { top: 'small' }, top: 'large' }).className,
     ).toEqual(['dnb-space__top--large'])
     expect(
       createSpacing({
         space: { right: 'small', left: 0 },
         right: 'large',
-      }).className
+      }).className,
     ).toEqual(['dnb-space__right--large', 'dnb-space__left--zero'])
   })
 
@@ -308,7 +308,7 @@ describe('createSpacing', () => {
 describe('createSpacingProperties', () => {
   it('should return correct spacing properties', () => {
     expect(
-      createSpacingProperties({ innerSpace: { right: 'large x-small' } })
+      createSpacingProperties({ innerSpace: { right: 'large x-small' } }),
     ).toEqual({
       '--padding-r-l': '2.5rem',
       '--padding-r-m': '2.5rem',
@@ -320,7 +320,7 @@ describe('createSpacingProperties', () => {
     expect(
       createSpacingProperties({
         innerSpace: { inline: 'small', block: 'large' },
-      })
+      }),
     ).toEqual({
       '--padding-b-l': '2rem',
       '--padding-l-l': '1rem',
@@ -346,7 +346,7 @@ describe('createSpacingProperties', () => {
           left: 'medium',
           top: false,
         },
-      })
+      }),
     ).toEqual({
       '--padding-b-l': '2rem',
       '--padding-l-l': '1.5rem',
@@ -365,7 +365,7 @@ describe('createSpacingProperties', () => {
 
   it('should return properties with zero', () => {
     expect(
-      createSpacingProperties({ innerSpace: { right: false } })
+      createSpacingProperties({ innerSpace: { right: false } }),
     ).toEqual({
       '--padding-r-l': '0',
       '--padding-r-m': '0',
@@ -377,7 +377,7 @@ describe('createSpacingProperties', () => {
       '--padding-r-s': '0',
     })
     expect(
-      createSpacingProperties({ innerSpace: { right: null } })
+      createSpacingProperties({ innerSpace: { right: null } }),
     ).toEqual({})
   })
 
@@ -457,7 +457,7 @@ describe('createSpacingProperties', () => {
               bottom: '16px',
             },
           },
-        })
+        }),
       ).toEqual({
         '--padding-b-l': '1rem',
         '--padding-l-l': '1.5rem',
@@ -476,7 +476,7 @@ describe('createSpacingProperties', () => {
 
     it('should set 0 per media size', () => {
       expect(
-        createSpacingProperties({ innerSpace: { small: { right: 0 } } })
+        createSpacingProperties({ innerSpace: { small: { right: 0 } } }),
       ).toEqual({ '--padding-r-s': '0' })
     })
 
@@ -484,7 +484,7 @@ describe('createSpacingProperties', () => {
       expect(
         createSpacingProperties({
           innerSpace: { small: { block: 'large' } },
-        })
+        }),
       ).toEqual({
         '--padding-b-s': '2rem',
         '--padding-t-s': '2rem',
@@ -495,7 +495,7 @@ describe('createSpacingProperties', () => {
       expect(
         createSpacingProperties({
           innerSpace: { small: { inline: 'x-small' } },
-        })
+        }),
       ).toEqual({
         '--padding-l-s': '0.5rem',
         '--padding-r-s': '0.5rem',
@@ -506,7 +506,7 @@ describe('createSpacingProperties', () => {
       expect(
         createSpacingProperties({
           innerSpace: { small: { right: null } },
-        })
+        }),
       ).toEqual({})
     })
 
@@ -514,7 +514,7 @@ describe('createSpacingProperties', () => {
       expect(
         createSpacingProperties({
           innerSpace: { small: true },
-        })
+        }),
       ).toEqual({
         '--padding-b-s': '1rem',
         '--padding-l-s': '1rem',
@@ -570,7 +570,7 @@ describe('createMarginProperties', () => {
         right: 'large x-small',
         bottom: 'medium',
         left: 'x-small',
-      })
+      }),
     ).toEqual({})
   })
 
@@ -580,13 +580,13 @@ describe('createMarginProperties', () => {
 
   it('should let explicit directions override the space shorthand', () => {
     expect(
-      createMarginProperties({ space: 'small', right: 'large' })
+      createMarginProperties({ space: 'small', right: 'large' }),
     ).toEqual({})
   })
 
   it('should support the space object shorthand', () => {
     expect(
-      createMarginProperties({ space: { top: 'small', right: 'large' } })
+      createMarginProperties({ space: { top: 'small', right: 'large' } }),
     ).toEqual({})
   })
 
@@ -594,7 +594,7 @@ describe('createMarginProperties', () => {
     expect(
       createMarginProperties({ top: false, right: 0 } as Parameters<
         typeof createMarginProperties
-      >[0])
+      >[0]),
     ).toEqual({})
   })
 
@@ -608,7 +608,7 @@ describe('createMarginProperties', () => {
 
   it('should handle rem and px values', () => {
     expect(
-      createMarginProperties({ top: '1.5rem', right: '16px' })
+      createMarginProperties({ top: '1.5rem', right: '16px' }),
     ).toEqual({})
   })
 
@@ -636,7 +636,7 @@ describe('createMarginProperties', () => {
               right: '5rem',
             },
           },
-        })
+        }),
       ).toEqual({
         '--margin-t-s': '2.5rem',
         '--margin-r-s': '2.5rem',
@@ -661,7 +661,7 @@ describe('createMarginProperties', () => {
             medium: 'large',
             large: 'x-large',
           },
-        })
+        }),
       ).toEqual({
         '--margin-t-s': '1rem',
         '--margin-r-s': '1rem',
@@ -686,7 +686,7 @@ describe('createMarginProperties', () => {
             medium: 'large',
           },
           right: 'x-large',
-        })
+        }),
       ).toEqual({
         '--margin-t-s': '1rem',
         '--margin-r-s': '3rem',
@@ -706,7 +706,7 @@ describe('createMarginProperties', () => {
           space: {
             medium: { top: 'large' },
           },
-        })
+        }),
       ).toEqual({
         '--margin-t-m': '2rem',
       })
@@ -733,7 +733,7 @@ describe('applySpacing', () => {
   it('should add spacing classes to an existing target className', () => {
     const result = applySpacing(
       { right: 'large' },
-      { className: 'dnb-my-component' }
+      { className: 'dnb-my-component' },
     )
     expect(result.className).toContain('dnb-my-component')
     expect(result.className).toContain('dnb-space__right--large')
@@ -745,7 +745,7 @@ describe('applySpacing', () => {
       {
         className: 'dnb-my-component',
         style: { color: 'red' } as React.CSSProperties,
-      }
+      },
     )
     expect(result.style).toEqual({
       color: 'red',
@@ -761,7 +761,7 @@ describe('applySpacing', () => {
       {
         className: 'dnb-my-component',
         style: { color: 'red' } as React.CSSProperties,
-      }
+      },
     )
     expect(result.style).toEqual({
       color: 'red',
@@ -781,7 +781,7 @@ describe('applySpacing', () => {
         className: 'dnb-my-component',
         id: 'my-id',
         title: 'my-title',
-      }
+      },
     )
     expect(result.id).toBe('my-id')
     expect(result.title).toBe('my-title')
@@ -791,7 +791,7 @@ describe('applySpacing', () => {
     const result = applySpacing(
       { noCollapse: true } as Parameters<typeof applySpacing>[0],
       { className: 'dnb-heading' },
-      'h1'
+      'h1',
     )
     expect(result.className).toContain('dnb-space--no-collapse')
     expect(result.className).toContain('dnb-space--inline')
@@ -848,7 +848,7 @@ describe('space with inline/block support', () => {
     expect(
       createMarginProperties({
         space: { inline: 'small', block: 'large' },
-      })
+      }),
     ).toEqual({})
   })
 
@@ -856,7 +856,7 @@ describe('space with inline/block support', () => {
     expect(
       createMarginProperties({
         space: { block: 'medium' },
-      })
+      }),
     ).toEqual({})
   })
 
@@ -864,7 +864,7 @@ describe('space with inline/block support', () => {
     expect(
       createMarginProperties({
         space: { inline: 'x-large' },
-      })
+      }),
     ).toEqual({})
   })
 
@@ -876,7 +876,7 @@ describe('space with inline/block support', () => {
           medium: { inline: 'large', block: 'x-large' },
           large: { block: 'xx-large' },
         },
-      })
+      }),
     ).toEqual({
       '--margin-l-s': '1rem',
       '--margin-r-s': '1rem',
@@ -897,7 +897,7 @@ describe('space with inline/block support', () => {
         space: { inline: 'small' },
         top: 'large',
         bottom: 'medium',
-      })
+      }),
     ).toEqual({})
   })
 
@@ -909,7 +909,7 @@ describe('space with inline/block support', () => {
           medium: { block: 'large' },
         },
         right: 'x-large', // Should override inline in all breakpoints
-      })
+      }),
     ).toEqual({
       '--margin-l-s': '1rem',
       '--margin-r-s': '3rem', // Overridden by individual prop

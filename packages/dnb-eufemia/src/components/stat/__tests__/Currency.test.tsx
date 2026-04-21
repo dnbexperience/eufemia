@@ -33,7 +33,7 @@ describe('Stat.Currency', () => {
         value={12345.67}
         signDisplay="always"
         colorizeBySign
-      />
+      />,
     )
 
     const root = document.querySelector('.dnb-stat')
@@ -52,7 +52,7 @@ describe('Stat.Currency', () => {
 
   it('supports fontSize and allows mainSize to override it', () => {
     const { rerender } = render(
-      <Stat.Currency value={12345.67} fontSize="x-large" />
+      <Stat.Currency value={12345.67} fontSize="x-large" />,
     )
 
     let amount = document.querySelector('.dnb-stat__amount')
@@ -66,7 +66,7 @@ describe('Stat.Currency', () => {
         value={12345.67}
         fontSize="x-large"
         mainSize="xx-large"
-      />
+      />,
     )
 
     amount = document.querySelector('.dnb-stat__amount')
@@ -80,7 +80,7 @@ describe('Stat.Currency', () => {
     render(
       <Stat.Trend>
         <Stat.Currency value={12345.67} />
-      </Stat.Trend>
+      </Stat.Trend>,
     )
 
     const amount = document.querySelector('.dnb-stat__amount')
@@ -94,7 +94,7 @@ describe('Stat.Currency', () => {
     render(
       <Stat.Info>
         <Stat.Currency value={12345.67} />
-      </Stat.Info>
+      </Stat.Info>,
     )
 
     const amount = document.querySelector('.dnb-stat__amount')
@@ -108,7 +108,7 @@ describe('Stat.Currency', () => {
     render(
       <Stat.Info>
         <Stat.Currency value={12345.67} />
-      </Stat.Info>
+      </Stat.Info>,
     )
 
     const amount = document.querySelector('.dnb-stat__amount')
@@ -131,7 +131,7 @@ describe('Stat.Currency', () => {
         value={12345.67}
         signDisplay="always"
         srLabel="Revenue"
-      />
+      />,
     )
 
     expect(await axeComponent(component)).toHaveNoViolations()

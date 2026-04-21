@@ -109,12 +109,12 @@ export default function ModalContent(props: ModalContentProps) {
   const setModalContentState = useCallback(
     (
       event: React.SyntheticEvent,
-      { triggeredBy }: ModalCloseHandlerParams
+      { triggeredBy }: ModalCloseHandlerParams,
     ) => {
       triggeredByRef.current = triggeredBy
       triggeredByEventRef.current = event
     },
-    []
+    [],
   )
 
   // Sync modalContentCloseRef
@@ -178,10 +178,10 @@ export default function ModalContent(props: ModalContentProps) {
             let focusElement = elem as HTMLElement
 
             const headerElem = elem.querySelector(
-              '.dnb-drawer__header, .dnb-dialog__header'
+              '.dnb-drawer__header, .dnb-dialog__header',
             )
             const firstHeading = (headerElem?.querySelector(
-              'h1, h2, h3'
+              'h1, h2, h3',
             ) || elem.querySelector('h1, h2, h3')) as HTMLElement
 
             if (firstHeading) {
@@ -195,7 +195,7 @@ export default function ModalContent(props: ModalContentProps) {
               focusElement = firstHeading
             } else {
               const focusHelper = elem.querySelector(
-                '.dnb-modal__close-button, .dnb-modal__focus-helper'
+                '.dnb-modal__close-button, .dnb-modal__focus-helper',
               ) as HTMLElement
               focusElement = focusHelper
             }
@@ -211,7 +211,7 @@ export default function ModalContent(props: ModalContentProps) {
             warn(e)
           }
         },
-        noAnimation ? 0 : timeoutDuration || 0
+        noAnimation ? 0 : timeoutDuration || 0,
       )
     }
   }, [contentRef, animationDuration, focusSelector, noAnimation])
@@ -248,21 +248,21 @@ export default function ModalContent(props: ModalContentProps) {
       {
         triggeredBy,
         ...params
-      }: ModalCloseHandlerParams & { ifIsLatest?: boolean }
+      }: ModalCloseHandlerParams & { ifIsLatest?: boolean },
     ) => {
       close(event, {
         triggeredBy,
         ...params,
       })
     },
-    [close]
+    [close],
   )
 
   const onCloseClickHandler = useCallback(
     (event: React.SyntheticEvent) => {
       closeModalContent(event, { triggeredBy: 'button' })
     },
-    [closeModalContent]
+    [closeModalContent],
   )
 
   const onContentMouseDownHandler = useCallback(
@@ -272,7 +272,7 @@ export default function ModalContent(props: ModalContentProps) {
           ? (event.target as HTMLElement)
           : null
     },
-    []
+    [],
   )
 
   const onContentClickHandler = useCallback(
@@ -289,7 +289,7 @@ export default function ModalContent(props: ModalContentProps) {
         })
       }
     },
-    [preventOverlayClose, closeModalContent]
+    [preventOverlayClose, closeModalContent],
   )
 
   const onKeyDownHandlerRef = useRef<(event: KeyboardEvent) => void>(null)
@@ -338,7 +338,7 @@ export default function ModalContent(props: ModalContentProps) {
           '.dnb-modal--bypass-invalidation',
           '.dnb-modal--bypass-invalidation-deep *',
           ...(bypassInvalidationSelectors || []),
-        ].filter(Boolean)
+        ].filter(Boolean),
       )
       ii.activate()
       iiRef.current = ii
@@ -471,11 +471,11 @@ export default function ModalContent(props: ModalContentProps) {
     'aria-labelledby': combineLabelledBy(
       props,
       title ? usedContentId + '-title' : null,
-      labelledBy
+      labelledBy,
     ),
     'aria-describedby': combineDescribedBy(
       props,
-      usedContentId + '-content'
+      usedContentId + '-content',
     ),
     'aria-label': !title && !labelledBy ? dialogTitle : undefined,
     className: clsx(
@@ -488,7 +488,7 @@ export default function ModalContent(props: ModalContentProps) {
         : null,
       `dnb-modal__vertical-alignment--${verticalAlignment}`,
       getThemeClasses(context?.theme),
-      contentClass
+      contentClass,
     ),
     onMouseDown: onContentMouseDownHandler,
     onClick: onContentClickHandler,
@@ -531,7 +531,7 @@ export default function ModalContent(props: ModalContentProps) {
           noAnimation && 'dnb-modal__overlay--no-animation',
           noAnimationOnMobile &&
             'dnb-modal__overlay--no-animation-on-mobile',
-          overlayClass
+          overlayClass,
         )}
         aria-hidden={true}
       />

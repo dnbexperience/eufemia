@@ -36,7 +36,7 @@ export class FormError extends Error {
 
   constructor(
     message: FormsTranslationFlat | string | React.ReactElement,
-    options?: FormErrorOptions
+    options?: FormErrorOptions,
   ) {
     super(message as string)
 

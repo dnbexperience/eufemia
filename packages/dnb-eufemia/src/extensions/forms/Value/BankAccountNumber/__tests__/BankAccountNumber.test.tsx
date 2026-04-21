@@ -10,15 +10,15 @@ describe('Value.BankAccountNumber', () => {
     render(<Value.BankAccountNumber value="20001234567" />)
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('2000 12 34567')
   })
 
   it('renders label when showEmpty is true', () => {
     render(<Value.BankAccountNumber showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      nb.BankAccountNumber.label
+      nb.BankAccountNumber.label,
     )
   })
 
@@ -26,18 +26,18 @@ describe('Value.BankAccountNumber', () => {
     render(<Value.BankAccountNumber value="20001234567" />)
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('2000 12 34567')
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      nb.BankAccountNumber.label
+      nb.BankAccountNumber.label,
     )
   })
 
   it('renders custom label', () => {
     render(<Value.BankAccountNumber label="Custom label" showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      'Custom label'
+      'Custom label',
     )
   })
 
@@ -50,13 +50,13 @@ describe('Value.BankAccountNumber', () => {
     render(
       <Form.Handler data={{ myPath: '20001234567' }}>
         <Value.BankAccountNumber path="/myPath" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('2000 12 34567')
   })
 
@@ -77,8 +77,8 @@ describe('Value.BankAccountNumber', () => {
       render(<Value.BankAccountNumber value="20001234567" />)
       expect(
         document.querySelector(
-          '.dnb-forms-value-string .dnb-forms-value-block__content'
-        )
+          '.dnb-forms-value-string .dnb-forms-value-block__content',
+        ),
       ).toHaveTextContent('2000 12 34567')
     })
 
@@ -87,12 +87,12 @@ describe('Value.BankAccountNumber', () => {
         <Value.BankAccountNumber
           bankAccountType="iban"
           value="NO9386011117947"
-        />
+        />,
       )
       expect(
         document.querySelector(
-          '.dnb-forms-value-string .dnb-forms-value-block__content'
-        )
+          '.dnb-forms-value-string .dnb-forms-value-block__content',
+        ),
       ).toHaveTextContent('NO93 8601 1117 947')
     })
 
@@ -101,12 +101,12 @@ describe('Value.BankAccountNumber', () => {
         <Value.BankAccountNumber
           bankAccountType="swedishBban"
           value="50001234567"
-        />
+        />,
       )
       expect(
         document.querySelector(
-          '.dnb-forms-value-string .dnb-forms-value-block__content'
-        )
+          '.dnb-forms-value-string .dnb-forms-value-block__content',
+        ),
       ).toHaveTextContent('5000-1234567')
     })
 
@@ -115,12 +115,12 @@ describe('Value.BankAccountNumber', () => {
         <Value.BankAccountNumber
           bankAccountType="swedishBankgiro"
           value="59140129"
-        />
+        />,
       )
       expect(
         document.querySelector(
-          '.dnb-forms-value-string .dnb-forms-value-block__content'
-        )
+          '.dnb-forms-value-string .dnb-forms-value-block__content',
+        ),
       ).toHaveTextContent('5914-0129')
     })
 
@@ -129,12 +129,12 @@ describe('Value.BankAccountNumber', () => {
         <Value.BankAccountNumber
           bankAccountType="swedishBankgiro"
           value="5914012"
-        />
+        />,
       )
       expect(
         document.querySelector(
-          '.dnb-forms-value-string .dnb-forms-value-block__content'
-        )
+          '.dnb-forms-value-string .dnb-forms-value-block__content',
+        ),
       ).toHaveTextContent('591-4012')
     })
 
@@ -143,12 +143,12 @@ describe('Value.BankAccountNumber', () => {
         <Value.BankAccountNumber
           bankAccountType="swedishPlusgiro"
           value="1263664"
-        />
+        />,
       )
       expect(
         document.querySelector(
-          '.dnb-forms-value-string .dnb-forms-value-block__content'
-        )
+          '.dnb-forms-value-string .dnb-forms-value-block__content',
+        ),
       ).toHaveTextContent('126366-4')
     })
 
@@ -157,12 +157,12 @@ describe('Value.BankAccountNumber', () => {
         <Value.BankAccountNumber
           bankAccountType="swedishPlusgiro"
           value="12636641"
-        />
+        />,
       )
       expect(
         document.querySelector(
-          '.dnb-forms-value-string .dnb-forms-value-block__content'
-        )
+          '.dnb-forms-value-string .dnb-forms-value-block__content',
+        ),
       ).toHaveTextContent('1263664-1')
     })
 
@@ -171,12 +171,12 @@ describe('Value.BankAccountNumber', () => {
         <Value.BankAccountNumber
           bankAccountType="swedishPlusgiro"
           value="12"
-        />
+        />,
       )
       expect(
         document.querySelector(
-          '.dnb-forms-value-string .dnb-forms-value-block__content'
-        )
+          '.dnb-forms-value-string .dnb-forms-value-block__content',
+        ),
       ).toHaveTextContent('1-2')
     })
   })
@@ -186,7 +186,7 @@ describe('Value.BankAccountNumber', () => {
       render(<Value.BankAccountNumber value="20001234567" />)
 
       expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-        nb.BankAccountNumber.label
+        nb.BankAccountNumber.label,
       )
     })
 
@@ -195,11 +195,11 @@ describe('Value.BankAccountNumber', () => {
         <Value.BankAccountNumber
           bankAccountType="iban"
           value="NO9386011117947"
-        />
+        />,
       )
 
       expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-        nb.BankAccountNumber.labelIban
+        nb.BankAccountNumber.labelIban,
       )
     })
 
@@ -208,11 +208,11 @@ describe('Value.BankAccountNumber', () => {
         <Value.BankAccountNumber
           bankAccountType="swedishBban"
           value="50001234567"
-        />
+        />,
       )
 
       expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-        nb.BankAccountNumber.labelSwedishBban
+        nb.BankAccountNumber.labelSwedishBban,
       )
     })
 
@@ -221,11 +221,11 @@ describe('Value.BankAccountNumber', () => {
         <Value.BankAccountNumber
           bankAccountType="swedishBankgiro"
           value="59140129"
-        />
+        />,
       )
 
       expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-        nb.BankAccountNumber.labelSwedishBankgiro
+        nb.BankAccountNumber.labelSwedishBankgiro,
       )
     })
 
@@ -234,11 +234,11 @@ describe('Value.BankAccountNumber', () => {
         <Value.BankAccountNumber
           bankAccountType="swedishPlusgiro"
           value="1263664"
-        />
+        />,
       )
 
       expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-        nb.BankAccountNumber.labelSwedishPlusgiro
+        nb.BankAccountNumber.labelSwedishPlusgiro,
       )
     })
 
@@ -248,11 +248,11 @@ describe('Value.BankAccountNumber', () => {
           bankAccountType="iban"
           value="NO9386011117947"
           label="Custom label"
-        />
+        />,
       )
 
       expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-        'Custom label'
+        'Custom label',
       )
     })
   })

@@ -15,7 +15,7 @@ describe('Icons', () => {
       <>
         <Down />
         <Up />
-      </>
+      </>,
     )
 
     expect(await axeComponent(Comp)).toHaveNoViolations()

@@ -135,7 +135,7 @@ export type NumberFormatProps = {
  */
 export type NumberFormatInternalFormatter = (
   value: NumberFormatValue | null,
-  options: NumberFormatOptionParams & { returnAria: true }
+  options: NumberFormatOptionParams & { returnAria: true },
 ) => NumberFormatReturnValue
 
 export type NumberFormatInternalProps = {
@@ -222,7 +222,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
   const [hover, setHover] = useState(false)
   const [copyTooltipActive, setCopyTooltipActive] = useState(false)
   const [copyTooltipText, setCopyTooltipText] = useState<string | null>(
-    null
+    null,
   )
 
   const needsFocusRef = useRef(false)
@@ -288,7 +288,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
       if (!propsWithDefaults.copySelection) {
         outsideClickRef.current = detectOutsideClick(
           elRef.current,
-          onBlurHandler
+          onBlurHandler,
         )
       }
     }
@@ -320,7 +320,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
         setCopyTooltipActive(false)
       }, COPY_TOOLTIP_TIMEOUT)
     },
-    [context, clearCopyTooltipTimeout]
+    [context, clearCopyTooltipTimeout],
   )
 
   const shortcutHandler = useCallback(() => {
@@ -367,7 +367,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
     propsWithDefaults,
     numberFormatDefaultProps,
     translations as Record<string, unknown>,
-    context?.NumberFormat as Record<string, unknown>
+    context?.NumberFormat as Record<string, unknown>,
   )
 
   const {
@@ -473,8 +473,8 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
     )
     aria = String(
       `${convertJsxToString(
-        runFix(prefix, 'dnb-number-format__prefix')
-      )} ${aria}`
+        runFix(prefix, 'dnb-number-format__prefix'),
+      )} ${aria}`,
     )
   }
   if (suffix) {
@@ -506,7 +506,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
         'dnb-number-format--currency',
       selectAllProp && 'dnb-number-format--select-all',
       selected && 'dnb-number-format--selected',
-      monospace && 'dnb-number-format--monospace'
+      monospace && 'dnb-number-format--monospace',
     ),
     // Makes it possible for NVDA to read on mouse over
     onMouseEnter,
@@ -531,7 +531,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
       <span
         className={clsx(
           'dnb-number-format__visible',
-          createSkeletonClass('font', skeleton as boolean, context)
+          createSkeletonClass('font', skeleton as boolean, context),
         )}
         // Makes it possible for NVDA to read on mouse over
         aria-hidden={!hover}

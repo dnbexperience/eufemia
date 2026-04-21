@@ -27,30 +27,30 @@ describe('Checkbox component', () => {
 
     // default checked value has to be false
     expect(
-      (screen.getByRole('checkbox') as HTMLInputElement).checked
+      (screen.getByRole('checkbox') as HTMLInputElement).checked,
     ).toBe(false)
 
     screen.getByRole('checkbox').click()
     expect(
-      (screen.getByRole('checkbox') as HTMLInputElement).checked
+      (screen.getByRole('checkbox') as HTMLInputElement).checked,
     ).toBe(true)
 
     screen.getByRole('checkbox').click()
     expect(
-      (screen.getByRole('checkbox') as HTMLInputElement).checked
+      (screen.getByRole('checkbox') as HTMLInputElement).checked,
     ).toBe(false)
 
     // also check if getDerivedStateFromProps sets the state as expected
     rerender(<Checkbox {...props} checked={true} />)
 
     expect(
-      (screen.getByRole('checkbox') as HTMLInputElement).checked
+      (screen.getByRole('checkbox') as HTMLInputElement).checked,
     ).toBe(true)
 
     const value = 'new value'
     rerender(<Checkbox {...props} checked={true} value={value} />)
     expect((screen.getByRole('checkbox') as HTMLInputElement).value).toBe(
-      value
+      value,
     )
   })
 
@@ -68,7 +68,7 @@ describe('Checkbox component', () => {
         event: expect.objectContaining({
           target: expect.objectContaining({ value: 'foo' }),
         }),
-      })
+      }),
     )
   })
 
@@ -95,7 +95,7 @@ describe('Checkbox component', () => {
     const onChange = jest.fn()
 
     render(
-      <Checkbox checked={false} onClick={onClick} onChange={onChange} />
+      <Checkbox checked={false} onClick={onClick} onChange={onChange} />,
     )
 
     const checkbox = document.querySelector('input')
@@ -110,7 +110,7 @@ describe('Checkbox component', () => {
         target: expect.objectContaining({
           checked: false,
         }),
-      })
+      }),
     )
 
     await userEvent.click(checkbox)
@@ -122,7 +122,7 @@ describe('Checkbox component', () => {
         target: expect.objectContaining({
           checked: false,
         }),
-      })
+      }),
     )
 
     userEvent.type(checkbox, '{Space}')
@@ -134,7 +134,7 @@ describe('Checkbox component', () => {
         target: expect.objectContaining({
           checked: false,
         }),
-      })
+      }),
     )
 
     userEvent.type(checkbox, '{Space}')
@@ -146,7 +146,7 @@ describe('Checkbox component', () => {
         target: expect.objectContaining({
           checked: false,
         }),
-      })
+      }),
     )
 
     expect(onChange).toHaveBeenCalledTimes(0)
@@ -172,7 +172,7 @@ describe('Checkbox component', () => {
         target: expect.objectContaining({
           checked: false,
         }),
-      })
+      }),
     )
 
     await userEvent.click(checkbox)
@@ -184,7 +184,7 @@ describe('Checkbox component', () => {
         target: expect.objectContaining({
           checked: false,
         }),
-      })
+      }),
     )
 
     expect(onChange).toHaveBeenCalledTimes(0)
@@ -303,7 +303,7 @@ describe('Checkbox component', () => {
     render(<Checkbox disabled={true} />)
 
     expect(
-      (screen.getByRole('checkbox') as HTMLInputElement).disabled
+      (screen.getByRole('checkbox') as HTMLInputElement).disabled,
     ).toBe(true)
   })
 
@@ -325,16 +325,16 @@ describe('Checkbox component', () => {
         formElement={{ labelDirection: 'vertical', disabled: true }}
       >
         <Checkbox label="Label" />
-      </Provider>
+      </Provider>,
     )
 
     const element = document.querySelector('.dnb-checkbox')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
     const inputElement = document.querySelector('.dnb-checkbox input')
     const inputAttributes = Array.from(inputElement.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual(['class'])
@@ -394,10 +394,10 @@ describe('Checkbox component', () => {
   it('should use span element if defined', () => {
     render(<Checkbox element="span" />)
     expect(document.querySelector('.dnb-checkbox__input').tagName).toBe(
-      'SPAN'
+      'SPAN',
     )
     expect(
-      document.querySelector('.dnb-checkbox__input').getAttribute('type')
+      document.querySelector('.dnb-checkbox__input').getAttribute('type'),
     ).toBe('checkbox')
   })
   describe('Indeterminate state', () => {
@@ -405,7 +405,7 @@ describe('Checkbox component', () => {
       render(<Checkbox indeterminate />)
 
       expect(
-        document.querySelector('.dnb-checkbox__indeterminate')
+        document.querySelector('.dnb-checkbox__indeterminate'),
       ).toBeInTheDocument()
     })
 
@@ -416,11 +416,11 @@ describe('Checkbox component', () => {
       screen.getByRole('checkbox').click()
 
       expect(mockOnChange).toHaveBeenCalledWith(
-        expect.not.objectContaining({ indeterminate: true })
+        expect.not.objectContaining({ indeterminate: true }),
       )
 
       expect(screen.getByRole('checkbox')).not.toHaveClass(
-        '.dnb-checkbox__indeterminate'
+        '.dnb-checkbox__indeterminate',
       )
     })
 
@@ -428,7 +428,7 @@ describe('Checkbox component', () => {
       render(<Checkbox indeterminate />)
 
       expect(
-        (screen.getByRole('checkbox') as HTMLInputElement).indeterminate
+        (screen.getByRole('checkbox') as HTMLInputElement).indeterminate,
       ).toBe(true)
     })
 
@@ -438,7 +438,7 @@ describe('Checkbox component', () => {
       screen.getByRole('checkbox').click()
 
       expect(
-        (screen.getByRole('checkbox') as HTMLInputElement).indeterminate
+        (screen.getByRole('checkbox') as HTMLInputElement).indeterminate,
       ).toBe(false)
     })
   })

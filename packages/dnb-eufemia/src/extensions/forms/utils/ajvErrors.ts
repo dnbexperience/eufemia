@@ -58,7 +58,7 @@ export function getValidationRule(ajvError: ErrorObject): string {
  * @returns The message values extracted from the error object.
  */
 export function getMessageValues(
-  ajvError: ErrorObject
+  ajvError: ErrorObject,
 ): FormError['messageValues'] {
   const validationRule = getValidationRule(ajvError)
 
@@ -106,7 +106,7 @@ export function ajvErrorToFormError(ajvError: ErrorObject): FormError {
       // at once, since an error might be validated one place, and then get a new message before it is displayed.
       messageValues: getMessageValues(ajvError),
       ajvKeyword: ajvError.keyword,
-    }
+    },
   )
 }
 
@@ -117,7 +117,7 @@ export function ajvErrorToFormError(ajvError: ErrorObject): FormError {
  */
 export function ajvErrorsToOneFormError(
   errors?: ErrorObject[] | null,
-  value?: unknown
+  value?: unknown,
 ): FormError | undefined {
   if (!errors || errors.length === 0) {
     return undefined
@@ -145,7 +145,7 @@ export function ajvErrorsToOneFormError(
  */
 export const ajvErrorsToFormErrors = (
   errors?: ErrorObject[] | null,
-  data?: JsonObject
+  data?: JsonObject,
 ): Record<string, FormError> => {
   return (errors ?? []).reduce((errors, ajvError) => {
     const path = getInstancePath(ajvError)
@@ -170,7 +170,7 @@ export const ajvErrorsToFormErrors = (
 function ajvErrorsTransformation(
   ajvError: ErrorObject,
   data?: Record<Path, unknown> | unknown,
-  path?: Path
+  path?: Path,
 ) {
   if (ajvError.keyword === 'type') {
     const value =

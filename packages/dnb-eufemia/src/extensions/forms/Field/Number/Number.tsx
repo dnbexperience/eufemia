@@ -224,7 +224,7 @@ function NumberComponent(props: FieldNumberProps) {
                 message: 'NumberField.errorExclusiveMinimum',
                 messageValues: {
                   exclusiveMinimum: formatValidationValue(
-                    p.exclusiveMinimum
+                    p.exclusiveMinimum,
                   ),
                 },
                 origin: 'number',
@@ -246,7 +246,7 @@ function NumberComponent(props: FieldNumberProps) {
                 message: 'NumberField.errorExclusiveMaximum',
                 messageValues: {
                   exclusiveMaximum: formatValidationValue(
-                    p.exclusiveMaximum
+                    p.exclusiveMaximum,
                   ),
                 },
                 origin: 'number',
@@ -319,7 +319,7 @@ function NumberComponent(props: FieldNumberProps) {
 
       return numberValue
     },
-    [props.emptyValue, allowNegative]
+    [props.emptyValue, allowNegative],
   )
 
   const ref = useRef<HTMLInputElement>(undefined)
@@ -389,14 +389,14 @@ function NumberComponent(props: FieldNumberProps) {
           numberValue = clamp(
             (value ?? startWith) + step,
             minimum,
-            maximum
+            maximum,
           )
           break
         case 'ArrowDown':
           numberValue = clamp(
             (value ?? startWith) - step,
             minimum,
-            maximum
+            maximum,
           )
           break
       }
@@ -416,7 +416,7 @@ function NumberComponent(props: FieldNumberProps) {
       startWith,
       step,
       value,
-    ]
+    ],
   )
 
   const onChangeHandler = useCallback(
@@ -432,7 +432,7 @@ function NumberComponent(props: FieldNumberProps) {
         }
       }
     },
-    [handleChange, handleBlur]
+    [handleChange, handleBlur],
   )
 
   const fieldBlockProps: FieldBlockProps = {
@@ -440,13 +440,13 @@ function NumberComponent(props: FieldNumberProps) {
     className: clsx(
       'dnb-forms-field-number',
       'dnb-input__border--tokens', // Used by "dnb-input__border"
-      className
+      className,
     ),
     contentClassName: clsx(
       'dnb-forms-field-number__contents',
       showStepControls && 'dnb-forms-field-number__contents--has-controls',
       hasError && 'dnb-input__status--error', // Also used by "dnb-input__border"
-      disabled && 'dnb-input--disabled' // Also used by "dnb-input__border"
+      disabled && 'dnb-input--disabled', // Also used by "dnb-input__border"
     ),
     width:
       (width === 'stretch' || fieldBlockContext?.composition) &&
@@ -474,7 +474,7 @@ function NumberComponent(props: FieldNumberProps) {
     onClick: increaseClickHandler,
     title: sharedContext?.translation.Slider.addTitle?.replace(
       '%s',
-      String(value + step)
+      String(value + step),
     ),
     status: hasError ? 'error' : undefined,
   }
@@ -494,7 +494,7 @@ function NumberComponent(props: FieldNumberProps) {
     onClick: decreaseClickHandler,
     title: sharedContext?.translation.Slider.subtractTitle?.replace(
       '%s',
-      String(value - step)
+      String(value - step),
     ),
   }
 
@@ -564,7 +564,7 @@ function NumberComponent(props: FieldNumberProps) {
     className: clsx(
       'dnb-forms-field-number__input',
       `dnb-input--${size}`,
-      inputClassName
+      inputClassName,
     ),
     step: showStepControls ? step : undefined,
     placeholder,

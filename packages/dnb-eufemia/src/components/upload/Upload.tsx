@@ -46,7 +46,7 @@ const Upload = (localProps: UploadAllProps) => {
     { skeleton: context?.skeleton },
     pickFormElementProps(context?.formElement),
     translations,
-    context.Upload
+    context.Upload,
   )
 
   const {
@@ -118,7 +118,7 @@ const Upload = (localProps: UploadAllProps) => {
 
       const validFiles = [...verifiedFiles].slice(
         0,
-        filesAmountLimit
+        filesAmountLimit,
       ) as Array<UploadFile>
 
       setFiles(validFiles)
@@ -141,7 +141,7 @@ const Upload = (localProps: UploadAllProps) => {
       onChange,
       setFiles,
       setInternalFiles,
-    ]
+    ],
   )
 
   const wrapperIsHeightAnimation = disableDragAndDrop || props.disabled
@@ -166,7 +166,7 @@ const Upload = (localProps: UploadAllProps) => {
               'dnb-upload',
               'dnb-form-component',
               variant && `dnb-upload--${variant}`,
-              className
+              className,
             ),
           })}
           {...(!wrapperIsHeightAnimation

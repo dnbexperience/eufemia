@@ -93,7 +93,7 @@ function HelpButtonInline(props: HelpButtonInlineProps) {
       event.preventDefault() // Because when used inside a FormLabel
       toggleOpen()
     },
-    [toggleOpen]
+    [toggleOpen],
   )
 
   const onKeyDownHandler = useCallback(
@@ -112,7 +112,7 @@ function HelpButtonInline(props: HelpButtonInlineProps) {
         }
       }
     },
-    [isOpen, toggleOpen]
+    [isOpen, toggleOpen],
   )
 
   const title = convertJsxToString(help?.title)
@@ -132,7 +132,7 @@ function HelpButtonInline(props: HelpButtonInlineProps) {
           isUserIntent && 'dnb-help-button__inline--user-intent',
           typeof wasOpenRef.current === 'boolean' &&
             'dnb-help-button__inline--was-open',
-          className
+          className,
         )}
         selected={isOpen}
         aria-controls={`${controlId}-content`}
@@ -169,7 +169,7 @@ export type HelpButtonInlineContentProps = SpacingProps & {
 }
 
 function HelpButtonInlineContentComponent(
-  props: HelpButtonInlineContentProps
+  props: HelpButtonInlineContentProps,
 ) {
   const {
     contentId,
@@ -238,7 +238,7 @@ function HelpButtonInlineContentComponent(
         }
       }
     },
-    [buttonRef, onClose]
+    [buttonRef, onClose],
   )
 
   const onAnimationEnd = useCallback(() => {
@@ -324,7 +324,7 @@ const MemoizedHelpButtonInline = React.memo(HelpButtonInline)
 export default MemoizedHelpButtonInline
 
 export const HelpButtonInlineContent = React.memo(
-  HelpButtonInlineContentComponent
+  HelpButtonInlineContentComponent,
 )
 
 withComponentMarkers(MemoizedHelpButtonInline, {

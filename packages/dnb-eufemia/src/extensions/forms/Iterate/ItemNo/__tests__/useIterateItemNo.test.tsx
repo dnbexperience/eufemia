@@ -15,7 +15,7 @@ describe('useIterateItemNo', () => {
     render(
       <IterateItemContext value={{ index: 0 }}>
         <TestComponent label="Hello {itemNo}" />
-      </IterateItemContext>
+      </IterateItemContext>,
     )
     expect(screen.getByText('Hello 1')).toBeInTheDocument()
   })
@@ -24,7 +24,7 @@ describe('useIterateItemNo', () => {
     render(
       <IterateItemContext value={{ index: 1 }}>
         <TestComponent label="Item {itemNo}" required />
-      </IterateItemContext>
+      </IterateItemContext>,
     )
     expect(screen.getByText('Item 2')).toBeInTheDocument()
     expect(screen.queryByText('(optional)')).toBeNull()
@@ -34,7 +34,7 @@ describe('useIterateItemNo', () => {
     render(
       <IterateItemContext value={{ index: 2 }}>
         <TestComponent label="Label {itemNo}" required={false} />
-      </IterateItemContext>
+      </IterateItemContext>,
     )
     expect(screen.getByText('Label 3 (valgfritt)')).toBeInTheDocument()
   })
@@ -47,7 +47,7 @@ describe('useIterateItemNo', () => {
           labelSuffix="(custom)"
           required={false}
         />
-      </IterateItemContext>
+      </IterateItemContext>,
     )
     expect(screen.getByText('Custom 4 (custom)')).toBeInTheDocument()
   })
@@ -60,7 +60,7 @@ describe('useIterateItemNo', () => {
           labelSuffix={true}
           required={false}
         />
-      </IterateItemContext>
+      </IterateItemContext>,
     )
     expect(screen.getByText('Custom 4')).toBeInTheDocument()
   })
@@ -73,7 +73,7 @@ describe('useIterateItemNo', () => {
           labelSuffix={false}
           required={false}
         />
-      </IterateItemContext>
+      </IterateItemContext>,
     )
     expect(screen.getByText('Custom 4')).toBeInTheDocument()
   })
@@ -89,17 +89,17 @@ describe('useIterateItemNo', () => {
     render(
       <Iterate.Array value={['foo']}>
         <Item />
-      </Iterate.Array>
+      </Iterate.Array>,
     )
 
     expect(document.querySelector('label').textContent).toContain(
-      'Item no. 1 – ready'
+      'Item no. 1 – ready',
     )
     expect(
       document.querySelector('.dnb-forms-field-block__label__content')
-        .innerHTML
+        .innerHTML,
     ).toMatchInlineSnapshot(
-      `"Item no. <code class="dnb-code">1</code> – <strong>ready</strong>"`
+      `"Item no. <code class="dnb-code">1</code> – <strong>ready</strong>"`,
     )
   })
 })

@@ -91,7 +91,7 @@ export type IsolationProps<Data extends JsonObject> = Omit<
 }
 
 function IsolationProvider<Data extends JsonObject>(
-  props: IsolationProps<Data>
+  props: IsolationProps<Data>,
 ) {
   const [dataReferenceFallback] = useState<IsolationDataReference>(() => {
     if (!props?.dataReference) {
@@ -144,14 +144,14 @@ function IsolationProvider<Data extends JsonObject>(
 
       return await onPathChange?.(path, value)
     },
-    [onPathChange, pathSection]
+    [onPathChange, pathSection],
   )
 
   const onUpdateDataValueHandler = useCallback(
     async (
       path: Path,
       value: unknown,
-      { preventUpdate = undefined } = {}
+      { preventUpdate = undefined } = {},
     ) => {
       if (internalDataRef.current === clearedData) {
         internalDataRef.current = {} as Data
@@ -163,7 +163,7 @@ function IsolationProvider<Data extends JsonObject>(
         forceUpdate()
       }
     },
-    []
+    [],
   )
 
   const removeSectionPath = useCallback(
@@ -172,7 +172,7 @@ function IsolationProvider<Data extends JsonObject>(
         ? pointer.get(data, pathSection)
         : data
     },
-    [pathSection]
+    [pathSection],
   )
 
   const getMountedData = useCallback((data: Data) => {
@@ -182,7 +182,7 @@ function IsolationProvider<Data extends JsonObject>(
         if (field.isMounted && pointer.has(data, path)) {
           pointer.set(mounterData, path, pointer.get(data, path))
         }
-      }
+      },
     )
     return mounterData
   }, [])
@@ -210,7 +210,7 @@ function IsolationProvider<Data extends JsonObject>(
     internalDataRef.current = Object.assign(
       {},
       localData || structuredClone(dataOuter) || {},
-      localDataRef.current
+      localDataRef.current,
     )
   }, [data, defaultData, pathSection, dataOuter, moveValueToPath])
 
@@ -247,7 +247,7 @@ function IsolationProvider<Data extends JsonObject>(
         path,
         Array.isArray(isolatedData)
           ? isolatedData
-          : extendDeep({}, outerData, isolatedData)
+          : extendDeep({}, outerData, isolatedData),
       )
 
       return result
@@ -260,7 +260,7 @@ function IsolationProvider<Data extends JsonObject>(
       handlePathChangeOuter,
       onCommitProp,
       removeSectionPath,
-    ]
+    ],
   )
 
   const setIsolatedData = useCallback((data: Data) => {
@@ -297,7 +297,7 @@ function IsolationProvider<Data extends JsonObject>(
     if (isZodSchema(outerContext.props.schema)) {
       providerProps.schema = extractZodSubSchema(
         outerContext.props.schema,
-        props.path
+        props.path,
       )
     } else {
       providerProps.schema = {
@@ -363,7 +363,7 @@ function BubbleValidation() {
     (showAllErrors: boolean) => {
       setShowAllErrors?.(showAllErrors)
     },
-    [setShowAllErrors]
+    [setShowAllErrors],
   )
 
   const { addSetShowAllErrorsRef } = outerContext || {}
@@ -374,7 +374,7 @@ function BubbleValidation() {
   useReportError(
     innerContext.hasErrors() ? isolationError : undefined,
     outerContext,
-    'isolation'
+    'isolation',
   )
 
   return null

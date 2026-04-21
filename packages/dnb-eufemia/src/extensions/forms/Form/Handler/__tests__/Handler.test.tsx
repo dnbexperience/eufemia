@@ -27,14 +27,14 @@ describe('Form.Handler', () => {
     render(
       <Form.Handler schema={schema}>
         <Field.String path="/foo" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     await waitFor(() =>
       expect(log).toHaveBeenCalledWith(
         expect.any(String),
-        expect.stringContaining('JSON Schema but no ajvInstance')
-      )
+        expect.stringContaining('JSON Schema but no ajvInstance'),
+      ),
     )
 
     log.mockRestore()
@@ -53,7 +53,7 @@ describe('Form.Handler', () => {
         }}
       >
         <Field.String path="/firstName" value="Value" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     fireEvent.submit(document.querySelector('form'))
@@ -78,7 +78,7 @@ describe('Form.Handler', () => {
         }}
       >
         <Field.String path="/firstName" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     fireEvent.submit(document.querySelector('form'))
@@ -95,7 +95,7 @@ describe('Form.Handler', () => {
       >
         <Field.String path="/foo" value="Value" />
         <Form.SubmitButton>Submit</Form.SubmitButton>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const inputElement = document.querySelector('input')
@@ -106,7 +106,7 @@ describe('Form.Handler', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledWith(
       { foo: 'Value' },
-      expect.anything()
+      expect.anything(),
     )
 
     fireEvent.change(inputElement, { target: { value: 'New Value' } })
@@ -115,7 +115,7 @@ describe('Form.Handler', () => {
     expect(onSubmit).toHaveBeenCalledTimes(2)
     expect(onSubmit).toHaveBeenCalledWith(
       { foo: 'New Value' },
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -129,7 +129,7 @@ describe('Form.Handler', () => {
       >
         <Field.String path="/foo" value="Value" />
         <Form.SubmitButton>Submit</Form.SubmitButton>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const inputElement = document.querySelector('input')
@@ -140,7 +140,7 @@ describe('Form.Handler', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledWith(
       { foo: 'Value' },
-      expect.anything()
+      expect.anything(),
     )
 
     fireEvent.click(buttonElement)
@@ -148,7 +148,7 @@ describe('Form.Handler', () => {
     expect(onSubmit).toHaveBeenCalledTimes(2)
     expect(onSubmit).toHaveBeenCalledWith(
       { foo: 'Value' },
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -162,7 +162,7 @@ describe('Form.Handler', () => {
       >
         <Field.String path="/foo" value="Value" />
         <Form.SubmitButton>Submit</Form.SubmitButton>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const formElement = document.querySelector('form')
@@ -190,7 +190,7 @@ describe('Form.Handler', () => {
       >
         <Field.String path="/foo" value="Value" />
         <Form.SubmitButton>Submit</Form.SubmitButton>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const formElement = document.querySelector('form')
@@ -209,7 +209,7 @@ describe('Form.Handler', () => {
     render(
       <Form.Handler data={{ foo: 'data-context-value' }}>
         <Form.SubmitButton>Submit</Form.SubmitButton>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const formElement = document.querySelector('.dnb-forms-form')
@@ -224,7 +224,7 @@ describe('Form.Handler', () => {
         className="custom-class"
       >
         <Form.SubmitButton>Submit</Form.SubmitButton>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const formElement = document.querySelector('form')
@@ -240,7 +240,7 @@ describe('Form.Handler', () => {
     render(
       <Form.Handler data={{ foo: 'data-context-value' }} top="large">
         <Form.SubmitButton>Submit</Form.SubmitButton>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const formElement = document.querySelector('form')
@@ -255,12 +255,12 @@ describe('Form.Handler', () => {
         aria-label="Aria Label"
       >
         <Form.SubmitButton>Submit</Form.SubmitButton>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const formElement = document.querySelector('form')
     const attributes = Array.from(formElement.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual(['class', 'aria-label'])
@@ -272,25 +272,25 @@ describe('Form.Handler', () => {
       const { rerender } = render(
         <Form.Handler autoComplete>
           <Field.String path="/firstName" />
-        </Form.Handler>
+        </Form.Handler>,
       )
       expect(
-        document.querySelector('input').getAttribute('autocomplete')
+        document.querySelector('input').getAttribute('autocomplete'),
       ).toBe('on')
       expect(document.querySelector('input').getAttribute('name')).toBe(
-        'firstName'
+        'firstName',
       )
 
       rerender(
         <Form.Handler autoComplete>
           <Field.String path="/firstName" autoComplete="family-name" />
-        </Form.Handler>
+        </Form.Handler>,
       )
       expect(
-        document.querySelector('input').getAttribute('autocomplete')
+        document.querySelector('input').getAttribute('autocomplete'),
       ).toBe('family-name')
       expect(document.querySelector('input').getAttribute('name')).toBe(
-        'firstName'
+        'firstName',
       )
     })
 
@@ -298,25 +298,25 @@ describe('Form.Handler', () => {
       const { rerender } = render(
         <Form.Handler autoComplete={false}>
           <Field.String path="/firstName" />
-        </Form.Handler>
+        </Form.Handler>,
       )
       expect(
-        document.querySelector('input').getAttribute('autocomplete')
+        document.querySelector('input').getAttribute('autocomplete'),
       ).toBe('off')
       expect(document.querySelector('input').getAttribute('name')).toBe(
-        'firstName'
+        'firstName',
       )
 
       rerender(
         <Form.Handler autoComplete={false}>
           <Field.String path="/firstName" autoComplete="family-name" />
-        </Form.Handler>
+        </Form.Handler>,
       )
       expect(
-        document.querySelector('input').getAttribute('autocomplete')
+        document.querySelector('input').getAttribute('autocomplete'),
       ).toBe('family-name')
       expect(document.querySelector('input').getAttribute('name')).toBe(
-        'firstName'
+        'firstName',
       )
     })
   })
@@ -340,7 +340,7 @@ describe('Form.Handler', () => {
       >
         <MockComponent path="/foo" />
         <Form.SubmitButton>Submit</Form.SubmitButton>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const formElement = document.querySelector('form')
@@ -355,7 +355,7 @@ describe('Form.Handler', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { other: 'data', foo: 'existing' },
-      expect.anything()
+      expect.anything(),
     )
 
     fireEvent.change(inputElement, { target: { value: 'New Value' } })
@@ -364,7 +364,7 @@ describe('Form.Handler', () => {
     expect(onSubmit).toHaveBeenCalledTimes(2)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { other: 'data', foo: 'New Value' },
-      expect.anything()
+      expect.anything(),
     )
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenLastCalledWith(
@@ -372,7 +372,7 @@ describe('Form.Handler', () => {
         other: 'data',
         foo: 'New Value',
       },
-      expect.anything()
+      expect.anything(),
     )
     expect(reset).toHaveBeenCalledTimes(1)
     expect(inputElement.value).toBe('New Value')
@@ -396,7 +396,7 @@ describe('Form.Handler', () => {
       >
         <MockComponent path="/foo" />
         <Form.SubmitButton>Submit</Form.SubmitButton>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const inputElement = document.querySelector('input')
@@ -408,7 +408,7 @@ describe('Form.Handler', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { other: 'data', foo: 'existing' },
-      expect.anything()
+      expect.anything(),
     )
 
     fireEvent.click(submitElement)
@@ -422,7 +422,7 @@ describe('Form.Handler', () => {
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenLastCalledWith(
       { foo: 'unset me' },
-      expect.anything()
+      expect.anything(),
     )
 
     fireEvent.click(submitElement)
@@ -431,14 +431,14 @@ describe('Form.Handler', () => {
     expect(onSubmit).toHaveBeenCalledTimes(3)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { foo: 'unset me' },
-      expect.anything()
+      expect.anything(),
     )
   })
 
   it('should store data to session storage when sessionStorageId is provided, but only after changes', async () => {
     const setItem = jest.spyOn(
       Object.getPrototypeOf(window.sessionStorage),
-      'setItem'
+      'setItem',
     )
 
     render(
@@ -447,14 +447,14 @@ describe('Form.Handler', () => {
         sessionStorageId="test-data"
       >
         <Field.String path="/foo" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(setItem).not.toHaveBeenLastCalledWith(
       'test-data',
       JSON.stringify({
         foo: 'original123',
-      })
+      }),
     )
 
     const inputElement = document.querySelector('input')
@@ -464,19 +464,19 @@ describe('Form.Handler', () => {
       'test-data',
       JSON.stringify({
         foo: 'original1',
-      })
+      }),
     )
     expect(setItem).toHaveBeenCalledWith(
       'test-data',
       JSON.stringify({
         foo: 'original12',
-      })
+      }),
     )
     expect(setItem).toHaveBeenCalledWith(
       'test-data',
       JSON.stringify({
         foo: 'original123',
-      })
+      }),
     )
 
     setItem.mockRestore()
@@ -486,7 +486,7 @@ describe('Form.Handler', () => {
   it('should reset sessionStorage on "resetForm" call', async () => {
     const setItem = jest.spyOn(
       Object.getPrototypeOf(window.sessionStorage),
-      'setItem'
+      'setItem',
     )
     const onSubmit: OnSubmit = jest.fn((data, { resetForm }) => {
       resetForm()
@@ -500,7 +500,7 @@ describe('Form.Handler', () => {
       >
         <Field.String path="/foo" />
         <Form.SubmitButton />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const inputElement = document.querySelector('input')
@@ -510,12 +510,12 @@ describe('Form.Handler', () => {
       'test-data',
       JSON.stringify({
         foo: 'original123',
-      })
+      }),
     )
     expect(window.sessionStorage.getItem('test-data')).toEqual(
       JSON.stringify({
         foo: 'original123',
-      })
+      }),
     )
 
     const buttonElement = document.querySelector('button')
@@ -532,7 +532,7 @@ describe('Form.Handler', () => {
     render(
       <Form.Handler onSubmit={onSubmit}>
         <Field.String value="" required />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const formElement = document.querySelector('form')
@@ -550,7 +550,7 @@ describe('Form.Handler', () => {
         <Field.String path="/other" value="include this" />
         <Form.SubmitButton />
       </Form.Handler>,
-      { wrapper: React.StrictMode }
+      { wrapper: React.StrictMode },
     )
 
     const buttonElement = document.querySelector('button')
@@ -558,7 +558,7 @@ describe('Form.Handler', () => {
 
     expect(onSubmit).toHaveBeenCalledWith(
       { foo: 'bar', other: 'include this' },
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -570,7 +570,7 @@ describe('Form.Handler', () => {
     render(
       <Form.Handler onSubmit={onSubmit} aria-labelledby="custom-id">
         <Form.SubmitButton />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const buttonElement = document.querySelector('button')
@@ -589,7 +589,7 @@ describe('Form.Handler', () => {
     render(
       <Form.Handler onSubmit={onSubmit} aria-labelledby="custom-id">
         <Form.SubmitButton />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const buttonElement = document.querySelector('button')
@@ -601,7 +601,7 @@ describe('Form.Handler', () => {
     expect(id).toEqual(expect.stringMatching(/id-.*-form-status/))
     expect(form).toHaveAttribute(
       'aria-labelledby',
-      expect.stringMatching(/custom-id/)
+      expect.stringMatching(/custom-id/),
     )
     expect(form).toHaveAttribute('aria-labelledby')
     expect(screen.queryByRole('alert')).toHaveTextContent('Form error')
@@ -623,7 +623,7 @@ describe('Form.Handler', () => {
         <Form.Handler onSubmit={onSubmit}>
           <Field.String value="Value" />
           <Form.SubmitButton />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const buttonElement = document.querySelector('button')
@@ -645,7 +645,7 @@ describe('Form.Handler', () => {
         <Form.Handler onSubmit={onSubmit}>
           <Field.String value="Value" onBlurValidator={asyncValidator} />
           <Form.SubmitButton />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const buttonElement = document.querySelector('button')
@@ -661,7 +661,7 @@ describe('Form.Handler', () => {
         <Form.Handler onSubmit={onSubmit}>
           <Field.String value="Value" onChangeValidator={asyncValidator} />
           <Form.SubmitButton />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       await userEvent.type(inputElement, '2')
@@ -676,7 +676,7 @@ describe('Form.Handler', () => {
       render(
         <Form.Handler onSubmit={onSubmit}>
           <Field.String />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const inputElement = document.querySelector('input')
@@ -711,7 +711,7 @@ describe('Form.Handler', () => {
           minimumAsyncBehaviorTime={30000} // with a high wait time, we ensure the Error will abort it
         >
           <Form.SubmitButton />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const buttonElement = document.querySelector('button')
@@ -722,8 +722,8 @@ describe('Form.Handler', () => {
 
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
-        )
+          '.dnb-forms-submit-indicator--state-pending',
+        ),
       ).toBeTruthy()
 
       await waitFor(() => {
@@ -731,13 +731,13 @@ describe('Form.Handler', () => {
       })
 
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        'Error message'
+        'Error message',
       )
 
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
-        )
+          '.dnb-forms-submit-indicator--state-pending',
+        ),
       ).toBeNull()
     })
 
@@ -752,7 +752,7 @@ describe('Form.Handler', () => {
         >
           <Field.String value="bar" path="/foo" />
           <Form.SubmitButton />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const buttonElement = document.querySelector('button')
@@ -769,13 +769,13 @@ describe('Form.Handler', () => {
             filterData: expect.any(Function),
             transformData: expect.any(Function),
             reduceToVisibleFields: expect.any(Function),
-          }
+          },
         )
 
         expect(onSubmitComplete).toHaveBeenCalledTimes(1)
         expect(onSubmitComplete).toHaveBeenCalledWith(
           { foo: 'bar' },
-          undefined
+          undefined,
         )
       })
     })
@@ -797,7 +797,7 @@ describe('Form.Handler', () => {
           asyncSubmitTimeout={20}
         >
           <Form.SubmitButton />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const buttonElement = document.querySelector('button')
@@ -806,8 +806,8 @@ describe('Form.Handler', () => {
 
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
-        )
+          '.dnb-forms-submit-indicator--state-pending',
+        ),
       ).toBeTruthy()
 
       await waitFor(() => {
@@ -816,15 +816,15 @@ describe('Form.Handler', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent('Redirecting to a new location')
       })
 
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-forms-submit-indicator--state-pending'
-          )
+            '.dnb-forms-submit-indicator--state-pending',
+          ),
         ).toBeNull()
       })
 
@@ -836,8 +836,8 @@ describe('Form.Handler', () => {
 
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
-        )
+          '.dnb-forms-submit-indicator--state-pending',
+        ),
       ).toBeTruthy()
 
       await waitFor(() => {
@@ -846,15 +846,15 @@ describe('Form.Handler', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent('Redirecting to a new location')
       })
 
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-forms-submit-indicator--state-pending'
-          )
+            '.dnb-forms-submit-indicator--state-pending',
+          ),
         ).toBeNull()
       })
 
@@ -882,7 +882,7 @@ describe('Form.Handler', () => {
             onChangeValidator={asyncValidator}
           />
           <Form.SubmitButton />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const buttonElement = document.querySelector('button')
@@ -899,13 +899,13 @@ describe('Form.Handler', () => {
             filterData: expect.any(Function),
             transformData: expect.any(Function),
             reduceToVisibleFields: expect.any(Function),
-          }
+          },
         )
 
         expect(onSubmitComplete).toHaveBeenCalledTimes(1)
         expect(onSubmitComplete).toHaveBeenCalledWith(
           { foo: 'bar' },
-          undefined
+          undefined,
         )
       })
     })
@@ -924,7 +924,7 @@ describe('Form.Handler', () => {
             onChangeValidator={asyncValidator}
           />
           <Form.SubmitButton />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const buttonElement = document.querySelector('button')
@@ -940,7 +940,7 @@ describe('Form.Handler', () => {
             filterData: expect.any(Function),
             transformData: expect.any(Function),
             reduceToVisibleFields: expect.any(Function),
-          }
+          },
         )
       })
 
@@ -959,7 +959,7 @@ describe('Form.Handler', () => {
             'NumberField.errorExclusiveMaximum': expect.any(String),
             'NumberField.errorMultipleOf': expect.any(String),
           }),
-        })
+        }),
       )
     })
 
@@ -969,7 +969,7 @@ describe('Form.Handler', () => {
       render(
         <Form.Handler onSubmit={onSubmit} minimumAsyncBehaviorTime={4}>
           <Form.SubmitButton />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const buttonElement = document.querySelector('button')
@@ -995,7 +995,7 @@ describe('Form.Handler', () => {
       render(
         <Form.Handler onSubmit={onSubmit}>
           <Form.SubmitButton />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const buttonElement = document.querySelector('button')
@@ -1003,15 +1003,15 @@ describe('Form.Handler', () => {
 
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
-        )
+          '.dnb-forms-submit-indicator--state-pending',
+        ),
       ).toBeTruthy()
 
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-forms-submit-indicator--state-pending'
-          )
+            '.dnb-forms-submit-indicator--state-pending',
+          ),
         ).toBeNull()
       })
     })
@@ -1022,7 +1022,7 @@ describe('Form.Handler', () => {
       render(
         <Form.Handler onSubmit={onSubmit}>
           <Form.SubmitButton />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const buttonElement = document.querySelector('button')
@@ -1030,15 +1030,15 @@ describe('Form.Handler', () => {
 
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
-        )
+          '.dnb-forms-submit-indicator--state-pending',
+        ),
       ).toBeTruthy()
 
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-forms-submit-indicator--state-pending'
-          )
+            '.dnb-forms-submit-indicator--state-pending',
+          ),
         ).toBeNull()
       })
     })
@@ -1059,7 +1059,7 @@ describe('Form.Handler', () => {
         }}
       >
         <Form.SubmitButton />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     fireEvent.submit(document.querySelector('form'))
@@ -1073,7 +1073,7 @@ describe('Form.Handler', () => {
         <Field.Selection variant="radio" disabled>
           <Field.Option />
         </Field.Selection>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelector('input')).toBeDisabled()
@@ -1083,21 +1083,21 @@ describe('Form.Handler', () => {
     const { rerender } = render(
       <Form.Handler locale="en-GB">
         <Field.Name.First />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      en.FirstName.label
+      en.FirstName.label,
     )
 
     rerender(
       <Form.Handler locale="nb-NO">
         <Field.Name.First />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      nb.FirstName.label
+      nb.FirstName.label,
     )
   })
 
@@ -1109,27 +1109,27 @@ describe('Form.Handler', () => {
     const { rerender } = render(
       <Form.Handler locale="en-GB" translations={translations}>
         <Field.PhoneNumber />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [countryCode, phoneNumber] = Array.from(
-      document.querySelectorAll('.dnb-form-label')
+      document.querySelectorAll('.dnb-form-label'),
     )
 
     expect(countryCode).toHaveTextContent(en.PhoneNumber.countryCodeLabel)
     expect(phoneNumber).toHaveTextContent(
-      translations['en-GB'].PhoneNumber.numberLabel
+      translations['en-GB'].PhoneNumber.numberLabel,
     )
 
     rerender(
       <Form.Handler locale="nb-NO" translations={translations}>
         <Field.PhoneNumber />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(countryCode).toHaveTextContent(nb.PhoneNumber.countryCodeLabel)
     expect(phoneNumber).toHaveTextContent(
-      translations['nb-NO'].PhoneNumber.numberLabel
+      translations['nb-NO'].PhoneNumber.numberLabel,
     )
   })
 
@@ -1156,7 +1156,7 @@ describe('Form.Handler', () => {
       render(
         <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           content
-        </Form.Handler>
+        </Form.Handler>,
       )
       expect(document.body).toHaveTextContent('content')
     })
@@ -1175,7 +1175,7 @@ describe('Form.Handler', () => {
       render(
         <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           content
-        </Form.Handler>
+        </Form.Handler>,
       )
       expect(document.body).toHaveTextContent('content')
     })
@@ -1198,7 +1198,7 @@ describe('Form.Handler', () => {
         render(
           <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
             content
-          </Form.Handler>
+          </Form.Handler>,
         )
       }).toThrow('strict mode: unknown keyword: "invalid"')
     })
@@ -1216,7 +1216,7 @@ describe('Form.Handler', () => {
       render(
         <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           content
-        </Form.Handler>
+        </Form.Handler>,
       )
       expect(document.body).toHaveTextContent('content')
     })
@@ -1237,7 +1237,7 @@ describe('Form.Handler', () => {
         render(
           <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
             content
-          </Form.Handler>
+          </Form.Handler>,
         )
       }).toThrow('type must be JSONType or JSONType[]: invalid')
     })
@@ -1261,7 +1261,7 @@ describe('Form.Handler', () => {
       render(
         <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           content
-        </Form.Handler>
+        </Form.Handler>,
       )
       expect(document.body).toHaveTextContent('content')
     })
@@ -1272,7 +1272,7 @@ describe('Form.Handler', () => {
       render(
         <Form.Handler decoupleForm>
           <Form.Element>content</Form.Element>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const formElements = document.querySelectorAll('form')
@@ -1285,7 +1285,7 @@ describe('Form.Handler', () => {
       render(
         <Form.Handler decoupleForm onSubmit={onSubmit}>
           <Form.Element>content</Form.Element>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       fireEvent.submit(document.querySelector('form'))
@@ -1297,12 +1297,12 @@ describe('Form.Handler', () => {
       render(
         <Form.Handler decoupleForm aria-label="Aria Label">
           <Form.Element>content</Form.Element>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('form')).toHaveAttribute(
         'aria-label',
-        'Aria Label'
+        'Aria Label',
       )
     })
 
@@ -1310,12 +1310,12 @@ describe('Form.Handler', () => {
       render(
         <Form.Handler decoupleForm aria-label="Aria Label">
           <Form.Element aria-label="Overwrite">content</Form.Element>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('form')).toHaveAttribute(
         'aria-label',
-        'Overwrite'
+        'Overwrite',
       )
     })
 
@@ -1325,7 +1325,7 @@ describe('Form.Handler', () => {
           <div className="wrapper">
             <Form.Element>content</Form.Element>
           </div>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const formElements = document.querySelectorAll('.wrapper > form')
@@ -1340,7 +1340,7 @@ describe('Form.Handler', () => {
       expect(log).toHaveBeenCalledTimes(1)
       expect(log).toHaveBeenCalledWith(
         expect.any(String),
-        'Please include a Form.Element when using decoupleForm!'
+        'Please include a Form.Element when using decoupleForm!',
       )
 
       log.mockRestore()
@@ -1398,7 +1398,7 @@ describe('Form.Handler TypeScript type validation', () => {
           }}
         >
           ...
-        </Form.Handler>
+        </Form.Handler>,
       )
     })
 
@@ -1412,7 +1412,7 @@ describe('Form.Handler TypeScript type validation', () => {
           }}
         >
           ...
-        </Form.Handler>
+        </Form.Handler>,
       )
     })
 
@@ -1428,7 +1428,7 @@ describe('Form.Handler TypeScript type validation', () => {
           }}
         >
           ...
-        </Form.Handler>
+        </Form.Handler>,
       )
     })
   })

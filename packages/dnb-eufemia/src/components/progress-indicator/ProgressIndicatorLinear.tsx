@@ -58,7 +58,7 @@ function ProgressIndicatorLine(props: ProgressIndicatorLinearAllProps) {
     <span
       className={clsx(
         'dnb-progress-indicator__linear',
-        size && `dnb-progress-indicator__linear--${size}`
+        size && `dnb-progress-indicator__linear--${size}`,
       )}
       style={{
         ...style,
@@ -74,7 +74,7 @@ function ProgressIndicatorLine(props: ProgressIndicatorLinearAllProps) {
           hasProgressValue &&
             'dnb-progress-indicator__linear__bar-transition',
           !hasProgressValue &&
-            'dnb-progress-indicator__linear__bar1-animation'
+            'dnb-progress-indicator__linear__bar1-animation',
         )}
         style={{
           backgroundColor: customColors?.line,
@@ -85,7 +85,7 @@ function ProgressIndicatorLine(props: ProgressIndicatorLinearAllProps) {
         <span
           className={clsx(
             'dnb-progress-indicator__linear__bar',
-            'dnb-progress-indicator__linear__bar2-animation'
+            'dnb-progress-indicator__linear__bar2-animation',
           )}
           style={{
             backgroundColor: customColors?.line,

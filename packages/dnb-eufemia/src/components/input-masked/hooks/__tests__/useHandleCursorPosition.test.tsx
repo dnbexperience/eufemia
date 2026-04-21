@@ -38,7 +38,7 @@ function setupScope(count = 3) {
 
 const createEvent = (
   input: HTMLInputElement,
-  key: string
+  key: string,
 ): React.KeyboardEvent<HTMLInputElement> =>
   ({
     key,
@@ -48,7 +48,7 @@ const createEvent = (
   }) as unknown as React.KeyboardEvent<HTMLInputElement>
 
 const createInputEvent = (
-  input: HTMLInputElement
+  input: HTMLInputElement,
 ): React.FormEvent<HTMLInputElement> =>
   ({
     currentTarget: input,
@@ -71,7 +71,7 @@ describe('useHandleCursorPosition', () => {
   it('moves focus to previous input on Backspace when field is empty', () => {
     const { scopeRef, inputs } = setupScope(2)
     const { result } = renderHook(() =>
-      useHandleCursorPosition(undefined, scopeRef)
+      useHandleCursorPosition(undefined, scopeRef),
     )
 
     const prev = inputs[0]
@@ -94,7 +94,7 @@ describe('useHandleCursorPosition', () => {
   it('moves focus to next input on ArrowRight when caret is at end', () => {
     const { scopeRef, inputs } = setupScope(3)
     const { result } = renderHook(() =>
-      useHandleCursorPosition(undefined, scopeRef)
+      useHandleCursorPosition(undefined, scopeRef),
     )
 
     const current = inputs[0]
@@ -117,7 +117,7 @@ describe('useHandleCursorPosition', () => {
   it('collapses selection on ArrowRight before moving focus', () => {
     const { scopeRef, inputs } = setupScope(2)
     const { result } = renderHook(() =>
-      useHandleCursorPosition(undefined, scopeRef)
+      useHandleCursorPosition(undefined, scopeRef),
     )
 
     const current = inputs[0]
@@ -141,7 +141,7 @@ describe('useHandleCursorPosition', () => {
   it('moves focus to previous input on ArrowLeft when caret is at start', () => {
     const { scopeRef, inputs } = setupScope(3)
     const { result } = renderHook(() =>
-      useHandleCursorPosition(undefined, scopeRef)
+      useHandleCursorPosition(undefined, scopeRef),
     )
 
     const current = inputs[1]
@@ -163,7 +163,7 @@ describe('useHandleCursorPosition', () => {
   it('auto advances to next input after the final character is applied', async () => {
     const { scopeRef, inputs } = setupScope(3)
     const { result } = renderHook(() =>
-      useHandleCursorPosition(/\d/, scopeRef)
+      useHandleCursorPosition(/\d/, scopeRef),
     )
 
     const current = inputs[0]
@@ -187,7 +187,7 @@ describe('useHandleCursorPosition', () => {
   it('does not auto advance on input events from an unfocused field', async () => {
     const { scopeRef, inputs } = setupScope(3)
     const { result } = renderHook(() =>
-      useHandleCursorPosition(/\d/, scopeRef)
+      useHandleCursorPosition(/\d/, scopeRef),
     )
 
     const current = inputs[0]
@@ -212,7 +212,7 @@ describe('useHandleCursorPosition', () => {
     const { scopeRef, inputs } = setupScope(2)
     const onTransferToNext = jest.fn()
     const { result } = renderHook(() =>
-      useHandleCursorPosition(/\d/, scopeRef, { onTransferToNext })
+      useHandleCursorPosition(/\d/, scopeRef, { onTransferToNext }),
     )
 
     const current = inputs[0]
@@ -249,7 +249,7 @@ describe('useHandleCursorPosition', () => {
       month: [/^[0-9]$/, /^[0-9]$/],
     }
     const { result } = renderHook(() =>
-      useHandleCursorPosition(keys, scopeRef)
+      useHandleCursorPosition(keys, scopeRef),
     )
 
     const current = inputs[0]

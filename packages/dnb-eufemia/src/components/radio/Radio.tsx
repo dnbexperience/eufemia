@@ -149,10 +149,10 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   const id = useId(ownProps.id)
 
   const [checkedState, setCheckedState] = useState(() =>
-    parseChecked(ownProps.checked)
+    parseChecked(ownProps.checked),
   )
   const [prevPropsChecked, setPrevPropsChecked] = useState(
-    ownProps.checked
+    ownProps.checked,
   )
 
   // Track whether the internal state was just set by a change event
@@ -171,17 +171,17 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   // Helper functions matching class component methods
   const isContextGroupOrSingle = useCallback(
     () => typeof groupContext.value !== 'undefined' && !ownProps.group,
-    [groupContext.value, ownProps.group]
+    [groupContext.value, ownProps.group],
   )
 
   const isPlainGroup = useCallback(
     () => typeof groupContext.value === 'undefined' && ownProps.group,
-    [groupContext.value, ownProps.group]
+    [groupContext.value, ownProps.group],
   )
 
   const isInNoGroup = useCallback(
     () => typeof groupContext.value === 'undefined' && !ownProps.group,
-    [groupContext.value, ownProps.group]
+    [groupContext.value, ownProps.group],
   )
 
   const callOnChange = useCallback(
@@ -209,7 +209,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
           checked: isChecked,
           value,
           event,
-        }
+        },
       )
 
       // help firefox and safari to have a correct state after a click
@@ -217,12 +217,12 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
         inputRef.current.focus()
       }
     },
-    []
+    [],
   )
 
   const onChangeHandler = useCallback(
     (
-      _event: React.ChangeEvent<HTMLInputElement> | React.KeyboardEvent
+      _event: React.ChangeEvent<HTMLInputElement> | React.KeyboardEvent,
     ) => {
       const event = _event
       if (ownPropsRef.current.readOnly) {
@@ -246,7 +246,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
         callOnChange({ value, checked: newChecked, event })
       }
     },
-    [checkedState, isPlainGroup, callOnChange]
+    [checkedState, isPlainGroup, callOnChange],
   )
 
   const onKeyDownHandler = useCallback(
@@ -277,10 +277,10 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
         'onKeyDown',
         {
           event,
-        }
+        },
       )
     },
-    [isInNoGroup, isContextGroupOrSingle, onChangeHandler]
+    [isInNoGroup, isContextGroupOrSingle, onChangeHandler],
   )
 
   const onClickHandler = useCallback(
@@ -296,7 +296,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
       const isChecked = (event.target as HTMLInputElement).checked
       callOnChange({ value, checked: isChecked, event })
     },
-    [isPlainGroup, callOnChange]
+    [isPlainGroup, callOnChange],
   )
 
   const resolvedProps = {
@@ -307,7 +307,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   const contextProps = extendExistingPropsWithContext(
     resolvedProps,
     radioDefaultProps,
-    groupContext as Record<string, unknown>
+    groupContext as Record<string, unknown>,
   )
 
   // use only the props from context, who are available here anyway
@@ -319,7 +319,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
     pickFormElementProps(context.formElement),
     (context as Record<string, unknown>)?.Radio as
       | Record<string, unknown>
-      | undefined
+      | undefined,
   )
 
   const {
@@ -387,7 +387,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
       status && `dnb-radio__status--${statusState}`,
       size && `dnb-radio--${size}`,
       label && `dnb-radio--label-position-${labelPosition || 'right'}`,
-      className
+      className,
     ),
   })
 
@@ -405,7 +405,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
     inputParams['aria-describedby'] = combineDescribedBy(
       inputParams,
       showStatus ? id + '-status' : null,
-      suffix ? id + '-suffix' : null
+      suffix ? id + '-suffix' : null,
     )
   }
   if (readOnly) {
@@ -447,7 +447,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
         ).current = el
       }
     },
-    [externalRef]
+    [externalRef],
   )
 
   return (
@@ -493,7 +493,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
               <span
                 className={clsx(
                   'dnb-radio__button',
-                  createSkeletonClass('shape', skeleton, context)
+                  createSkeletonClass('shape', skeleton, context),
                 )}
                 aria-hidden
               />
@@ -501,7 +501,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
               <span
                 className={clsx(
                   'dnb-radio__dot',
-                  createSkeletonClass('font', skeleton, context)
+                  createSkeletonClass('font', skeleton, context),
                 )}
                 aria-hidden
               />

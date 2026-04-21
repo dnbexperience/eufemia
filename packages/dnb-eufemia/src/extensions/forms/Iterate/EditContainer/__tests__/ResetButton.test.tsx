@@ -19,7 +19,7 @@ describe('ResetButton', () => {
         <Toolbar>
           <ResetButton showConfirmDialog={false} />
         </Toolbar>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -35,7 +35,7 @@ describe('ResetButton', () => {
         <Toolbar>
           <ResetButton showConfirmDialog={false} />
         </Toolbar>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -58,7 +58,7 @@ describe('ResetButton', () => {
         <Toolbar>
           <ResetButton showConfirmDialog={false} />
         </Toolbar>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -82,7 +82,7 @@ describe('ResetButton', () => {
         <Toolbar>
           <ResetButton />
         </Toolbar>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -93,7 +93,7 @@ describe('ResetButton', () => {
     expect(confirmDialog).toBeInTheDocument()
 
     await userEvent.click(
-      document.querySelector('.dnb-dialog .dnb-button--primary')
+      document.querySelector('.dnb-dialog .dnb-button--primary'),
     )
 
     expect(restoreOriginalValue).toHaveBeenCalledTimes(1)
@@ -123,7 +123,7 @@ describe('ResetButton', () => {
             </ToolbarContext>
           </Toolbar>
         </IterateItemContext>
-      </FieldBoundaryContext>
+      </FieldBoundaryContext>,
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -156,7 +156,7 @@ describe('ResetButton', () => {
             </ToolbarContext>
           </Toolbar>
         </IterateItemContext>
-      </FieldBoundaryContext>
+      </FieldBoundaryContext>,
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -190,7 +190,7 @@ describe('ResetButton', () => {
             </ToolbarContext>
           </Toolbar>
         </IterateItemContext>
-      </FieldBoundaryContext>
+      </FieldBoundaryContext>,
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -223,7 +223,7 @@ describe('ResetButton', () => {
             </ToolbarContext>
           </Toolbar>
         </IterateItemContext>
-      </FieldBoundaryContext>
+      </FieldBoundaryContext>,
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -244,7 +244,7 @@ describe('ResetButton', () => {
         <Toolbar>
           <ResetButton showConfirmDialog={false} />
         </Toolbar>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     const button = document.querySelector('button')

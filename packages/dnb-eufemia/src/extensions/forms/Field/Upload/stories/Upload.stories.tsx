@@ -15,7 +15,7 @@ const createRequest = () => {
     | undefined
 
   const fn = (
-    t: number
+    t: number,
   ): Promise<{ hasError: boolean; cancel?: boolean }> => {
     return new Promise((resolve) => {
       resolvePromise = resolve
@@ -77,7 +77,7 @@ export function Upload() {
 }
 
 async function mockAsyncFileUploadWithoutPromises(
-  newFiles: UploadValue
+  newFiles: UploadValue,
 ): Promise<UploadValue> {
   const updatedFiles: UploadValue = []
 
@@ -141,7 +141,7 @@ async function mockAsyncFileRemoval({ fileItem }) {
 }
 
 async function mockAsyncFileUpload(
-  newFiles: UploadValue
+  newFiles: UploadValue,
 ): Promise<UploadValue> {
   const updatedFiles: UploadValue = []
 
@@ -179,12 +179,12 @@ export const AsyncEverything = () => {
     const request = createRequest()
     console.log(
       'making API request to fetch the url of the file: ' +
-        fileItem.file.name
+        fileItem.file.name,
     )
     await request(3000) // Simulate a request
     window.open(
       'https://eufemia.dnb.no/images/avatars/1501870.jpg',
-      '_blank'
+      '_blank',
     )
   }
 
@@ -362,12 +362,12 @@ export const AsyncEverythingWithTransform = () => {
     const request = createRequest()
     console.log(
       'making API request to fetch the url of the file: ' +
-        fileItem.file.name
+        fileItem.file.name,
     )
     await request(3000) // Simulate a request
     window.open(
       'https://eufemia.dnb.no/images/avatars/1501870.jpg',
-      '_blank'
+      '_blank',
     )
   }
 
@@ -450,7 +450,7 @@ export const RequiredProperty = () => {
 
 export const IterateArrayUpload = () => {
   async function mockAsyncFileUpload(
-    newFiles: UploadValue
+    newFiles: UploadValue,
   ): Promise<UploadValue> {
     const updatedFiles: UploadValue = []
 
@@ -522,7 +522,7 @@ export const IterateArrayUpload = () => {
 
 export const TwoAsyncUploads = () => {
   async function mockAsyncFileUpload(
-    newFiles: UploadValue
+    newFiles: UploadValue,
   ): Promise<UploadValue> {
     const updatedFiles: UploadValue = []
 
@@ -678,7 +678,7 @@ export const WithOnValidationErrorSimple = () => {
 
 export const WithOnValidationError = () => {
   function syncValidationErrorHandler(
-    invalidFiles: UploadValue
+    invalidFiles: UploadValue,
   ): UploadValue {
     return invalidFiles.map((file) => ({
       ...file,
@@ -688,7 +688,7 @@ export const WithOnValidationError = () => {
   }
 
   async function mockAsyncFileHandler(
-    validFiles: UploadValue
+    validFiles: UploadValue,
   ): Promise<UploadValue> {
     const updatedFiles: UploadValue = []
 
@@ -745,7 +745,7 @@ export const WithOnValidationError = () => {
 
 export const WithOnValidationErrorAndAlwaysFailingUpload = () => {
   function syncValidationErrorHandler(
-    invalidFiles: UploadValue
+    invalidFiles: UploadValue,
   ): UploadValue {
     return invalidFiles.map((file) => ({
       ...file,
@@ -756,7 +756,7 @@ export const WithOnValidationErrorAndAlwaysFailingUpload = () => {
   }
 
   async function mockAsyncFileHandlerAlwaysFails(
-    validFiles: UploadValue
+    validFiles: UploadValue,
   ): Promise<UploadValue> {
     const updatedFiles: UploadValue = []
 

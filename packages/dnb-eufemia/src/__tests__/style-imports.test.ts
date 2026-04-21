@@ -33,7 +33,7 @@ describe('Style Import References', () => {
               `  Component: ${area}\n` +
               `  Folder:    ${folder}\n` +
               `  Import:    ${imp}\n` +
-              (reason ? `  Reason:    ${reason}\n` : '')
+              (reason ? `  Reason:    ${reason}\n` : ''),
           )
         }
       }
@@ -43,12 +43,12 @@ describe('Style Import References', () => {
 
     if (errors.length > 0) {
       console.error(
-        `\nFound ${errors.length} style import reference error(s)\n`
+        `\nFound ${errors.length} style import reference error(s)\n`,
       )
       errors.forEach((e, i) => console.error(`${i + 1}. ${e}\n`))
       console.error(`End of errors\n`)
       throw new Error(
-        `Found ${errors.length} style import reference error(s).`
+        `Found ${errors.length} style import reference error(s).`,
       )
     }
   })
@@ -58,13 +58,13 @@ function nameVariants(folder: string): string[] {
   const lower = folder.toLowerCase()
   const kebab = toKebabCase(folder)
   return Array.from(
-    new Set([folder, lower, kebab, `dnb-${lower}`, `dnb-${kebab}`])
+    new Set([folder, lower, kebab, `dnb-${lower}`, `dnb-${kebab}`]),
   )
 }
 
 function resolveImportBase(
   filePath: string,
-  importPath: string
+  importPath: string,
 ): string | null {
   const dir = path.dirname(filePath)
   let abs = path.resolve(dir, importPath)
@@ -85,7 +85,7 @@ function resolveImportBase(
 function getFiles(): Promise<string[]> {
   const root = path.join(__dirname, '..')
   const bases = ['components', 'extensions', 'fragments'].map((d) =>
-    path.join(root, d)
+    path.join(root, d),
   )
   const patterns = ['**/style/index.{js,ts}', '**/style.{js,ts}']
 
@@ -93,17 +93,17 @@ function getFiles(): Promise<string[]> {
     bases.flatMap((base) =>
       patterns.map((p) =>
         globby(p, { cwd: base }).then((ms) =>
-          ms.map((m) => path.join(base, m))
-        )
-      )
-    )
+          ms.map((m) => path.join(base, m)),
+        ),
+      ),
+    ),
   ).then((arrs) => arrs.flat())
 }
 
 function areaOf(filePath: string): string {
   const parts = filePath.split(path.sep)
   const i = parts.findIndex(
-    (p) => p === 'components' || p === 'extensions' || p === 'fragments'
+    (p) => p === 'components' || p === 'extensions' || p === 'fragments',
   )
   return i !== -1 && i + 1 < parts.length ? parts[i + 1] : ''
 }
@@ -133,7 +133,7 @@ function parseImports(src: string): string[] {
 function validate(
   filePath: string,
   importPath: string,
-  folder: string
+  folder: string,
 ): { ok: boolean; reason?: string } {
   if (!(importPath.startsWith('./') || importPath.startsWith('../'))) {
     return { ok: true }

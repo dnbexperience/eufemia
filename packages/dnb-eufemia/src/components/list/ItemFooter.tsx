@@ -34,7 +34,7 @@ function ItemFooter({
         className={clsx(
           'dnb-list__item__footer',
           appliedSkeleton && createSkeletonClass('font', true),
-          className
+          className,
         )}
         {...rest}
       >

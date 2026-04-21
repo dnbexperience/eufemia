@@ -8,7 +8,7 @@ import type { NumberFormatCurrencyPosition } from './types'
 export const currencyPositionFormatter = (
   existingFormatter: PartFormatter | null | undefined,
   callback: (item: FormatPartItem) => string,
-  position: NumberFormatCurrencyPosition | null = null
+  position: NumberFormatCurrencyPosition | null = null,
 ): PartFormatter => {
   let count = 0
   let countCurrency = -1

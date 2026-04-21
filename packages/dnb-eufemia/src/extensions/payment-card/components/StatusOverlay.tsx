@@ -60,7 +60,7 @@ const StatusOverlay = ({
       <div
         className={clsx(
           'dnb-payment-card__overlay__content',
-          `dnb-payment-card__overlay__content--${cardStatusOverlayThemeMap[cardDesign]}`
+          `dnb-payment-card__overlay__content--${cardStatusOverlayThemeMap[cardDesign]}`,
         )}
       >
         <StatusIcon status={cardStatus} />

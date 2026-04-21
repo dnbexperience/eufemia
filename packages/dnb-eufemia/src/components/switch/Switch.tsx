@@ -173,7 +173,7 @@ function Switch(props: SwitchProps) {
     ({ checked, event }) => {
       onChange?.({ checked, event })
     },
-    [onChange]
+    [onChange],
   )
 
   const onChangeHandler = useCallback(
@@ -191,7 +191,7 @@ function Switch(props: SwitchProps) {
       if (onChangeEnd) {
         setTimeout(
           () => onChangeEnd({ checked: updatedChecked, event }),
-          500
+          500,
         )
       }
 
@@ -200,7 +200,7 @@ function Switch(props: SwitchProps) {
         inputRef.current.focus()
       }
     },
-    [callOnChange, inputRef, onChangeEnd]
+    [callOnChange, inputRef, onChangeEnd],
   )
 
   const onClickHandler: React.MouseEventHandler<HTMLInputElement> =
@@ -227,7 +227,7 @@ function Switch(props: SwitchProps) {
           ...event,
         })
       },
-      [onClick, readOnly]
+      [onClick, readOnly],
     )
 
   const onKeyDownHandler = useCallback(
@@ -238,7 +238,7 @@ function Switch(props: SwitchProps) {
           break
       }
     },
-    [onChangeHandler]
+    [onChangeHandler],
   )
 
   const showStatus = useMemo(() => getStatusState(status), [status])
@@ -251,7 +251,7 @@ function Switch(props: SwitchProps) {
       `dnb-switch--label-position-${labelPosition || 'right'}`,
       'dnb-form-component',
       createSkeletonClass(null, skeleton),
-      className
+      className,
     ),
   })
 
@@ -265,7 +265,7 @@ function Switch(props: SwitchProps) {
     inputParams['aria-describedby'] = combineDescribedBy(
       inputParams,
       showStatus ? id + '-status' : null,
-      suffix ? id + '-suffix' : null
+      suffix ? id + '-suffix' : null,
     )
   }
   if (readOnly) {
@@ -280,7 +280,7 @@ function Switch(props: SwitchProps) {
       onMouseDown: (e: React.MouseEvent<HTMLSpanElement>) =>
         e.preventDefault(),
     }),
-    []
+    [],
   )
 
   const labelComp = useMemo(
@@ -296,7 +296,7 @@ function Switch(props: SwitchProps) {
           vertical={false}
         />
       ),
-    [disabled, id, label, labelSrOnly, skeleton]
+    [disabled, id, label, labelSrOnly, skeleton],
   )
 
   return (
@@ -349,7 +349,7 @@ function Switch(props: SwitchProps) {
               <span
                 className={clsx(
                   'dnb-switch__button',
-                  createSkeletonClass('shape', skeleton, context)
+                  createSkeletonClass('shape', skeleton, context),
                 )}
                 aria-hidden
               />
@@ -376,7 +376,7 @@ function Switch(props: SwitchProps) {
       defaultProps,
       { skeleton: context?.skeleton },
       pickFormElementProps(context?.formElement),
-      context.Switch
+      context.Switch,
     )
   }
 }

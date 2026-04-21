@@ -19,7 +19,7 @@ function toKebabCase(str) {
  */
 function getComponentDirName(filePath) {
   const match = filePath.match(
-    /\/src\/(?:components|extensions|fragments)\/([^/]+)\//
+    /\/src\/(?:components|extensions|fragments)\/([^/]+)\//,
   )
   return match ? match[1] : null
 }

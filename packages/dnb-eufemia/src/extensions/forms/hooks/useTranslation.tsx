@@ -40,7 +40,7 @@ export default function useTranslation<T = FormsTranslation>(
     | UseTranslationArgs<T>
     | FormsTranslation
     | CustomLocales
-    | Record<FormsTranslationLocale, T>
+    | Record<FormsTranslationLocale, T>,
 ) {
   const { locale, translation: globalTranslation } =
     useContext(SharedContext)
@@ -84,7 +84,7 @@ export default function useTranslation<T = FormsTranslation>(
     return extendDeep(
       {},
       formsLocales[translationLocale] || formsLocales[LOCALE],
-      globalTranslation
+      globalTranslation,
     )
   }, [globalTranslation, translationLocale])
 

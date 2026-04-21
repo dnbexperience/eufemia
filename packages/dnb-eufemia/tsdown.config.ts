@@ -65,7 +65,7 @@ function makeBundleConfig(
   }: {
     format: 'esm' | 'umd'
     globalName: string
-  }
+  },
 ): UserConfig {
   // Keep these always external (UMD globals or built-ins)
   const alwaysExternal = [
@@ -165,7 +165,7 @@ function shouldBeExternal(id: string, importer?: string) {
 
     const abs = path.resolve(path.dirname(importer), id)
     return externalized.some(
-      (dir) => abs === dir || abs.startsWith(dir + path.sep)
+      (dir) => abs === dir || abs.startsWith(dir + path.sep),
     )
   }
 

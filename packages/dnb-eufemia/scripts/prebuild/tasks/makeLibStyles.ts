@@ -32,7 +32,7 @@ export default async function makeLibStyles() {
     await runFactory('./src/components/**/style/**/dnb-*.scss')
     await runFactory('./src/extensions/**/style/**/dnb-*.scss')
     log.succeed(
-      `> PrePublish: "makeLibStyles" converting sass to css done`
+      `> PrePublish: "makeLibStyles" converting sass to css done`,
     )
   } catch (e) {
     // @ts-expect-error - strictFunctionTypes
@@ -47,7 +47,7 @@ type RunFactoryOptions = {
 
 export const runFactory = async (
   src: string,
-  { returnResult = false, returnFiles = false }: RunFactoryOptions = {}
+  { returnResult = false, returnFiles = false }: RunFactoryOptions = {},
 ): Promise<string[] | undefined> => {
   log.start(`> PrePublish: converting sass to css | ${src}`)
 
@@ -56,7 +56,7 @@ export const runFactory = async (
   const sassTransform = transformSass()
   const innerPathsTransform = transformPaths(
     '../../../../assets/',
-    '../../../assets/'
+    '../../../assets/',
   )
   const postcssTransform = transformPostcss(postcssConfig({ sass }))
   const cssnanoTransform = transformCssnano({ reduceIdents: false })
@@ -110,13 +110,13 @@ export const runFactory = async (
                 verbose: false,
               }),
             ],
-          }
-        )
+          },
+        ),
       )
 
       const scopedContent = await scopedPostcssTransform(
         pathFixedContent,
-        { path: cssPath }
+        { path: cssPath },
       )
       const scopedPath = cssPath.replace(/\.css$/, '--isolated.css')
       const scopedResult = innerPathsTransform(scopedContent)
@@ -150,7 +150,7 @@ export const runFactory = async (
   for (const entry of sorted) {
     const relativePath = path.relative(
       path.resolve(ROOT_DIR, 'src'),
-      entry.path
+      entry.path,
     )
     const destPath = path.resolve(ROOT_DIR, 'build', relativePath)
     await fs.outputFile(destPath, entry.result)

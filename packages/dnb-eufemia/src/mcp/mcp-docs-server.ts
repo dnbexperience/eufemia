@@ -270,7 +270,7 @@ function createDocsContext(docsRoot: string) {
   }
 
   async function resolveComponentPaths(
-    name: string
+    name: string,
   ): Promise<ResolvedComponent> {
     let doc = null
     let properties = null
@@ -342,13 +342,13 @@ function createDocsContext(docsRoot: string) {
     }
 
     const docExists = Boolean(
-      (await statSafe(resolveInside(docsRoot, doc).abs))?.isFile()
+      (await statSafe(resolveInside(docsRoot, doc).abs))?.isFile(),
     )
     const propertiesExists = Boolean(
-      (await statSafe(resolveInside(docsRoot, properties).abs))?.isFile()
+      (await statSafe(resolveInside(docsRoot, properties).abs))?.isFile(),
     )
     const eventsExists = Boolean(
-      (await statSafe(resolveInside(docsRoot, events).abs))?.isFile()
+      (await statSafe(resolveInside(docsRoot, events).abs))?.isFile(),
     )
 
     return {
@@ -368,7 +368,7 @@ function createDocsContext(docsRoot: string) {
     query: unknown,
     limit: number,
     prefix?: string,
-    opts: { concurrency?: number; timeoutMs?: number } = {}
+    opts: { concurrency?: number; timeoutMs?: number } = {},
   ): Promise<SearchHit[]> {
     const q = String(query ?? '').trim()
     if (q.length < 2) {
@@ -389,11 +389,11 @@ function createDocsContext(docsRoot: string) {
 
     const concurrency = Math.max(
       1,
-      Math.min(32, Number(opts.concurrency ?? 12))
+      Math.min(32, Number(opts.concurrency ?? 12)),
     )
     const timeoutMs = Math.max(
       200,
-      Math.min(15_000, Number(opts.timeoutMs ?? 2000))
+      Math.min(15_000, Number(opts.timeoutMs ?? 2000)),
     )
     const deadline = Date.now() + timeoutMs
 
@@ -479,18 +479,18 @@ function createDocsContext(docsRoot: string) {
           // 2. Number of occurrences of each word
           // 3. Proximity of words (closer together is better)
           const firstMatchIdx = Math.min(
-            ...wordMatches.map((m) => m.indices[0])
+            ...wordMatches.map((m) => m.indices[0]),
           )
           const totalOccurrences = wordMatches.reduce(
             (sum, m) => sum + m.indices.length,
-            0
+            0,
           )
 
           // Calculate average proximity (distance between words)
           let proximityScore = 0
           if (wordMatches.length > 1) {
             const allIndices = wordMatches.flatMap((m) =>
-              m.indices.map((idx) => ({ word: m.word, idx }))
+              m.indices.map((idx) => ({ word: m.word, idx })),
             )
             allIndices.sort((a, b) => a.idx - b.idx)
 
@@ -522,7 +522,7 @@ function createDocsContext(docsRoot: string) {
           const snippetStart = Math.max(0, firstMatchIdx - 80)
           const snippetEnd = Math.min(
             text.length,
-            firstMatchIdx + queryWords.join(' ').length + 220
+            firstMatchIdx + queryWords.join(' ').length + 220,
           )
           const snippet = text
             .slice(snippetStart, snippetEnd)
@@ -565,7 +565,7 @@ const DocsReadInput = z.object({
     .string()
     .min(1)
     .describe(
-      'Path relative to docs root (e.g. /uilib/components/button.md)'
+      'Path relative to docs root (e.g. /uilib/components/button.md)',
     ),
 })
 
@@ -613,13 +613,13 @@ type DocsToolHandlers = {
 }
 
 export function createDocsTools(
-  options: { docsRoot?: string } = {}
+  options: { docsRoot?: string } = {},
 ): DocsToolHandlers {
   const docsRoot = options.docsRoot ?? computeDocsRoot()
   const context = createDocsContext(docsRoot)
 
   const docsEntry = async (
-    _input: EmptyInputType
+    _input: EmptyInputType,
   ): Promise<ToolResult> => {
     if (!(await fileExists(context.llmMdAbs))) {
       return makeTextResult('llm.md not found in docs root.')
@@ -628,7 +628,7 @@ export function createDocsTools(
   }
 
   const docsIndex = async (
-    _input: EmptyInputType
+    _input: EmptyInputType,
   ): Promise<ToolResult> => {
     const files = await context.getMarkdownFilesCached()
     return makeTextResult(JSON.stringify(files, null, 2))
@@ -650,7 +650,7 @@ export function createDocsTools(
       resolved = resolveInside(context.docsRoot, userPath)
     } catch (e) {
       return makeTextResult(
-        `Invalid path: ${e instanceof Error ? e.message : String(e)}`
+        `Invalid path: ${e instanceof Error ? e.message : String(e)}`,
       )
     }
 
@@ -666,7 +666,7 @@ export function createDocsTools(
         mdExists = Boolean(
           (
             await statSafe(resolveInside(context.docsRoot, mdGuess).abs)
-          )?.isFile()
+          )?.isFile(),
         )
       } catch {
         mdExists = false
@@ -681,8 +681,8 @@ export function createDocsTools(
             suggestions: mdExists ? [mdGuess] : [],
           },
           null,
-          2
-        )
+          2,
+        ),
       )
     }
 
@@ -730,8 +730,8 @@ export function createDocsTools(
             children,
           },
           null,
-          2
-        )
+          2,
+        ),
       )
     }
 
@@ -787,8 +787,8 @@ export function createDocsTools(
             doc: info.doc,
           },
           null,
-          2
-        )
+          2,
+        ),
       )
     }
 
@@ -800,8 +800,8 @@ export function createDocsTools(
           jsonBlocks,
         },
         null,
-        2
-      )
+        2,
+      ),
     )
   }
 
@@ -821,8 +821,8 @@ export function createDocsTools(
             doc: info.doc,
           },
           null,
-          2
-        )
+          2,
+        ),
       )
     }
 
@@ -858,7 +858,7 @@ async function main() {
         'IMPORTANT! Primary entrypoint to the Eufemia documentation. Before implementing any Eufemia-based features or examples, call mcp_eufemia_docs_entry to understand the docs structure, and learn how to use the other MCP tools correctly; then use mcp_eufemia_docs_search and mcp_eufemia_docs_read to fetch relevant documentation. Make sure you have located and carefully read the relevant getting started or first-steps documentation before you implement any examples or code snippets based on these docs. Always follow these guidelines when using the documentation: use the documentation exactly as provided; gather all required information from the documentation before using it as a reference; and do not make assumptions or infer missing details unless the documentation or user explicitly instructs you to do so.',
       inputSchema: EmptyInput.shape,
     },
-    (input) => tools.docsEntry(input)
+    (input) => tools.docsEntry(input),
   )
 
   server.registerTool(
@@ -869,7 +869,7 @@ async function main() {
         'Return a JSON array of all known markdown and MDX documentation files under the docs root, without filtering. Use this when you need a complete, machine-readable overview of available docs paths (for example to cache, pre-index, or sanity-check the docs structure) rather than when you are looking for a specific document.',
       inputSchema: EmptyInput.shape,
     },
-    (input) => tools.docsIndex(input)
+    (input) => tools.docsIndex(input),
   )
 
   server.registerTool(
@@ -880,7 +880,7 @@ async function main() {
         'List markdown and MDX documentation files under an optional prefix, returning a JSON array of relative paths. Use this when you know the high-level area of the docs (for example `/uilib/components/` or `/uilib/extensions/forms/`) and want to discover which specific files exist there, before choosing a concrete path to read with docs_read.',
       inputSchema: DocsListInput.shape,
     },
-    (input) => tools.docsList(input)
+    (input) => tools.docsList(input),
   )
 
   server.registerTool(
@@ -891,7 +891,7 @@ async function main() {
         'Read the raw markdown or MDX content of a single documentation file, given its path relative to the docs root (for example `/uilib/components/button.md`). If the path points to a directory instead of a file, the tool returns a structured JSON payload with an error code, a list of child entries, and suggested file paths you can try instead. Use this when you already know or have discovered a specific path and need the full document content.',
       inputSchema: DocsReadInput.shape,
     },
-    (input) => tools.docsRead(input)
+    (input) => tools.docsRead(input),
   )
 
   server.registerTool(
@@ -902,7 +902,7 @@ async function main() {
         'Search across all markdown and MDX documentation using a free-text query, returning a JSON array of ranked matches with relevance scores and text snippets. Use this when you know what you are looking for conceptually (for example a component, feature, or concept name), but you do not know the exact file path yet. Prefer this after you have called the docs entry tool so you understand how the docs are structured. In particular, use this to find and read the appropriate getting started or first-steps documentation before you rely on any specific examples or code snippets.',
       inputSchema: DocsSearchInput.shape,
     },
-    (input) => tools.docsSearch(input)
+    (input) => tools.docsSearch(input),
   )
 
   server.registerTool(
@@ -913,7 +913,7 @@ async function main() {
         "Resolve the documentation paths for a single Eufemia component by its name (for example 'Button', 'Field.Address', or 'Value.Address'). Returns a JSON object that includes the doc, properties, and events paths plus existence flags. Use this when you are starting from a component name and need to know which documentation files to read or inspect next.",
       inputSchema: ComponentNameInput.shape,
     },
-    (input) => tools.componentFind(input)
+    (input) => tools.componentFind(input),
   )
 
   server.registerTool(
@@ -924,7 +924,7 @@ async function main() {
         "Return the full markdown or MDX documentation for a single Eufemia component, identified by its name (for example 'Button' or 'Field.Address'). Use this when you need to read the human-facing docs for a component, including narrative text, examples, and API, property, event and translation descriptions, rather than just the structured JSON blocks. Before implementing any examples from these docs, make sure you have already read the relevant getting started or first-steps documentation so you apply the examples in the correct way and context.",
       inputSchema: ComponentNameInput.shape,
     },
-    (input) => tools.componentDoc(input)
+    (input) => tools.componentDoc(input),
   )
 
   server.registerTool(
@@ -935,7 +935,7 @@ async function main() {
         'Extract and return all JSON code blocks from the component documentation markdown (for example structured API metadata embedded in ```json fences). Use this when you need a machine-readable representation of a component’s API or metadata, such as props or events, and you prefer to work with parsed JSON rather than free-form markdown.',
       inputSchema: ComponentNameInput.shape,
     },
-    (input) => tools.componentApi(input)
+    (input) => tools.componentApi(input),
   )
 
   server.registerTool(
@@ -946,7 +946,7 @@ async function main() {
         'Return the structured JSON blocks describing a component’s properties and events, as derived from its main documentation file. Use this when you specifically need the props- and events-level schema or configuration for a component, rather than the full documentation text, and want to drive code generation, validation, or other automated reasoning from that data.',
       inputSchema: ComponentNameInput.shape,
     },
-    (input) => tools.componentProps(input)
+    (input) => tools.componentProps(input),
   )
 
   const transport = new StdioServerTransport()

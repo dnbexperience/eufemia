@@ -12,7 +12,7 @@ export default function useDataContext(id: SharedStateId = undefined): {
   getContext: () => ContextState
 } {
   const { get } = useSharedState<ContextState>(
-    createReferenceKey(id, 'data-context')
+    createReferenceKey(id, 'data-context'),
   )
 
   const dataContext = useContext(DataContext)
@@ -21,7 +21,7 @@ export default function useDataContext(id: SharedStateId = undefined): {
     if (!id) {
       if (!dataContext.hasContext) {
         throw new Error(
-          'useDataContext needs to run inside DataContext (Form.Handler) or have a valid id'
+          'useDataContext needs to run inside DataContext (Form.Handler) or have a valid id',
         )
       } else {
         return dataContext

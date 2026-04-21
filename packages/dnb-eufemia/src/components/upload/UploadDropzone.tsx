@@ -53,7 +53,7 @@ export default function UploadDropzone({
       clearTimers()
       setHover(state)
     },
-    [clearTimers]
+    [clearTimers],
   )
 
   const dropHandler = useCallback(
@@ -63,21 +63,21 @@ export default function UploadDropzone({
       onInputUpload(files)
       hoverHandler(event, false)
     },
-    [getFiles, onInputUpload, hoverHandler]
+    [getFiles, onInputUpload, hoverHandler],
   )
 
   const dragEnterHandler = useCallback(
     (event: UploadDragEvent) => {
       hoverHandler(event, true)
     },
-    [hoverHandler]
+    [hoverHandler],
   )
 
   const dragLeaveHandler = useCallback(
     (event: UploadDragEvent) => {
       hoverHandler(event, false)
     },
-    [hoverHandler]
+    [hoverHandler],
   )
 
   useEffect(() => {

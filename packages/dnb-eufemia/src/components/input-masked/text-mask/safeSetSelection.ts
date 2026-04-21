@@ -16,7 +16,7 @@ const defer: (cb: () => void) => void =
 
 export function safeSetSelection(
   element: HTMLInputElement,
-  selectionPosition: number
+  selectionPosition: number,
 ) {
   if (
     document.activeElement === element ||

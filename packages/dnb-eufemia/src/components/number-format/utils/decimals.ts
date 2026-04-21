@@ -33,7 +33,7 @@ export const formatDecimals = (
   value: NumberFormatValue,
   decimals: number | string | null,
   rounding: string | boolean | null | undefined,
-  opts: InternalNumberFormatOptions = {}
+  opts: InternalNumberFormatOptions = {},
 ): NumberFormatValue => {
   decimals = parseFloat(String(decimals))
 
@@ -67,7 +67,7 @@ export const formatDecimals = (
  */
 export const countDecimals = (
   value: NumberFormatValue,
-  decimalSeparator = '.'
+  decimalSeparator = '.',
 ): number => {
   if (
     typeof value === 'number' &&

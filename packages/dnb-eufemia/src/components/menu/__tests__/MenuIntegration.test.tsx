@@ -20,7 +20,7 @@ describe('Menu integration with real Popover', () => {
           <Menu.Header text="Selection" />
           <Menu.Action text="Select All" />
         </Menu.List>
-      </Menu.Root>
+      </Menu.Root>,
     )
 
     const button = document.querySelector('.dnb-button') as HTMLElement
@@ -30,7 +30,7 @@ describe('Menu integration with real Popover', () => {
     })
 
     const firstItem = Array.from(
-      document.querySelectorAll('[role="menuitem"]')
+      document.querySelectorAll('[role="menuitem"]'),
     ).find((item) => item.textContent?.includes('Cut')) as HTMLElement
     firstItem.focus()
 
@@ -71,7 +71,7 @@ describe('Menu integration with real Popover', () => {
           </Menu.Root>
           <Menu.Action text="Close" />
         </Menu.List>
-      </Menu.Root>
+      </Menu.Root>,
     )
 
     // Open the parent menu by clicking the button
@@ -92,7 +92,7 @@ describe('Menu integration with real Popover', () => {
 
     // Focus the "Export as" sub-menu trigger
     const exportTrigger = Array.from(items).find((item) =>
-      item.textContent?.includes('Export as')
+      item.textContent?.includes('Export as'),
     ) as HTMLElement
     expect(exportTrigger).toBeTruthy()
     exportTrigger.focus()
@@ -100,7 +100,7 @@ describe('Menu integration with real Popover', () => {
     // Press ArrowRight to open sub-menu
     fireEvent.keyDown(exportTrigger, { key: 'ArrowRight' })
     expect(document.documentElement.getAttribute('data-whatinput')).toBe(
-      'keyboard'
+      'keyboard',
     )
 
     act(() => {
@@ -120,14 +120,14 @@ describe('Menu integration with real Popover', () => {
         new KeyboardEvent('keyup', {
           key: 'ArrowRight',
           bubbles: true,
-        })
+        }),
       )
     } else {
       exportTrigger.dispatchEvent(
         new KeyboardEvent('keyup', {
           key: 'ArrowRight',
           bubbles: true,
-        })
+        }),
       )
     }
 
@@ -162,7 +162,7 @@ describe('Menu integration with real Popover', () => {
             </Menu.List>
           </Menu.Root>
         </Menu.List>
-      </Menu.Root>
+      </Menu.Root>,
     )
 
     // Open parent
@@ -175,7 +175,7 @@ describe('Menu integration with real Popover', () => {
 
     // Click the "Export as" trigger
     const exportTrigger = Array.from(
-      document.querySelectorAll('[role="menuitem"]')
+      document.querySelectorAll('[role="menuitem"]'),
     ).find((el) => el.textContent?.includes('Export as')) as HTMLElement
     fireEvent.click(exportTrigger)
     act(() => {
@@ -207,7 +207,7 @@ describe('Menu integration with real Popover', () => {
             </Menu.List>
           </Menu.Root>
         </Menu.List>
-      </Menu.Root>
+      </Menu.Root>,
     )
 
     // Open parent
@@ -219,7 +219,7 @@ describe('Menu integration with real Popover', () => {
 
     // Click "Export as" to open nested menu
     const exportTrigger = Array.from(
-      document.querySelectorAll('[role="menuitem"]')
+      document.querySelectorAll('[role="menuitem"]'),
     ).find((el) => el.textContent?.includes('Export as')) as HTMLElement
     fireEvent.click(exportTrigger)
     act(() => {
@@ -249,7 +249,7 @@ describe('Menu integration with real Popover', () => {
             </Menu.List>
           </Menu.Root>
         </Menu.List>
-      </Menu.Root>
+      </Menu.Root>,
     )
 
     // Open parent
@@ -261,7 +261,7 @@ describe('Menu integration with real Popover', () => {
 
     // Find the nested trigger
     const exportTrigger = Array.from(
-      document.querySelectorAll('[role="menuitem"]')
+      document.querySelectorAll('[role="menuitem"]'),
     ).find((el) => el.textContent?.includes('Export as')) as HTMLElement
     expect(exportTrigger).toBeTruthy()
 

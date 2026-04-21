@@ -116,7 +116,7 @@ export default function SidebarLayout({
       showAll,
       pathPrefix,
     }),
-    location
+    location,
   )
     .filter(({ title, menuTitle }) => title || menuTitle)
     .map(
@@ -134,7 +134,7 @@ export default function SidebarLayout({
           subheadings,
           currentPathName,
         },
-        nr
+        nr,
       ) => {
         const props = {
           level,
@@ -151,7 +151,7 @@ export default function SidebarLayout({
         }
 
         return <ListItem key={path} {...props} scrollRef={scrollRef} />
-      }
+      },
     )
 
   return (
@@ -162,7 +162,7 @@ export default function SidebarLayout({
         navStyle,
         'dnb-scrollbar-appearance',
         isOpen && 'show-mobile-menu',
-        isClosing && 'hide-mobile-menu'
+        isClosing && 'hide-mobile-menu',
       )}
       ref={scrollRef}
     >
@@ -231,7 +231,7 @@ const ThemeBadge = ({ theme, ...props }: { theme: ThemeNames }) => {
       title={themeTitleTitle}
       className={clsx(
         'dnb-sidebar-menu__theme-badge',
-        `dnb-sidebar-menu__theme-badge--${theme}`
+        `dnb-sidebar-menu__theme-badge--${theme}`,
       )}
       {...props}
     />
@@ -283,14 +283,14 @@ function ListItem({
   const [hasCurrentPathNameChanged] = usePrevious(currentPathName)
   const hasSubheadings = useMemo(
     () => subheadings && subheadings.some((x) => x.hideInMenu !== true),
-    [subheadings]
+    [subheadings],
   )
   const isAccordion = useMemo(
     () => accordion && hasSubheadings,
-    [accordion, hasSubheadings]
+    [accordion, hasSubheadings],
   )
   const [isExpanded, setIsExpanded] = useState(
-    isAccordion ? isInsideActivePath || isActive : true
+    isAccordion ? isInsideActivePath || isActive : true,
   )
   const [manualClick, setManualClick] = useState(false)
   if (hideInMenu) {
@@ -346,7 +346,7 @@ function ListItem({
             `dnb-sidebar-menu--accordion dnb-sidebar-menu--${
               isExpanded ? 'expanded' : 'collapsed'
             }`,
-          className
+          className,
         )}
         ref={ref}
         style={
@@ -372,7 +372,7 @@ function ListItem({
               'dnb-anchor--no-underline',
               'dnb-anchor--no-radius',
               'dnb-anchor--no-hover',
-              icon && graphics[icon] ? 'has-icon' : null
+              icon && graphics[icon] ? 'has-icon' : null,
             )}
             {...params}
           >
@@ -477,7 +477,7 @@ const prepareNav = ({
         node: {
           fields: { slug },
         },
-      }) => slug
+      }) => slug,
     )
     .filter((slug) => slug !== '/')
     // preorder
@@ -510,7 +510,7 @@ const prepareNav = ({
           }
         }
       },
-      { items: [] }
+      { items: [] },
     )
 
   let countLevels = 0
@@ -531,7 +531,7 @@ const prepareNav = ({
           node: {
             fields: { slug },
           },
-        }) => slug === slugPath
+        }) => slug === slugPath,
       )
 
       const level = slug.split('/').filter(Boolean).length
@@ -576,7 +576,7 @@ const prepareNav = ({
   list
     // reorder regarding potential manually defined order
     .sort(({ _order: oA }, { _order: oB }) =>
-      oA < oB ? -1 : oA > oB ? 1 : 0
+      oA < oB ? -1 : oA > oB ? 1 : 0,
     )
 
   return list
@@ -644,7 +644,7 @@ function groupNavItems(navItems: NavItem[], location: Location) {
 
 function getActiveStatusForItem(
   currentPath: string,
-  { path: itemPath, showTabs, tabs }: NavItem
+  { path: itemPath, showTabs, tabs }: NavItem,
 ) {
   const portalSlug = itemPath.split('/').filter(Boolean)[0] ?? ''
   const categorySlug = itemPath.split('/').filter(Boolean)[1] ?? ''
@@ -655,13 +655,13 @@ function getActiveStatusForItem(
   const isInsideActivePath = checkIfActivePath(
     currentPath,
     itemPath,
-    isActive
+    isActive,
   )
 
   const isInsideActiveCategory = checkIfActiveCategory(
     currentPath,
     startOfCurrentPath,
-    isInsideActivePath
+    isInsideActivePath,
   )
 
   return { isActive, isInsideActiveCategory, isInsideActivePath }
@@ -670,7 +670,7 @@ function getActiveStatusForItem(
 function checkIfActiveCategory(
   currentPath: string,
   startOfCurrentPath: string,
-  isInsideActivePath?: boolean
+  isInsideActivePath?: boolean,
 ) {
   return (
     !isInsideActivePath &&
@@ -681,7 +681,7 @@ function checkIfActiveCategory(
 function checkIfActivePath(
   currentPath: string,
   itemPath: string,
-  isActive?: boolean
+  isActive?: boolean,
 ) {
   return !isActive && (currentPath + '/').startsWith(itemPath + '/')
 }
@@ -690,7 +690,7 @@ function checkIfActiveItem(
   currentPath: string,
   itemPath: string,
   showTabs?: boolean,
-  tabs?: NavItemTabs[]
+  tabs?: NavItemTabs[],
 ): boolean {
   if (!showTabs) {
     return itemPath === currentPath
@@ -709,7 +709,7 @@ function checkIfActiveItem(
     const lastSlug = slugs[slugs.length - 1]
     const currentPathWithoutTabSlug = currentPath.replace(
       `/${lastSlug}`,
-      ''
+      '',
     )
 
     if (itemPath === currentPathWithoutTabSlug) {
@@ -731,7 +731,7 @@ function checkIfActiveItem(
 
 function usePrevious<T>(
   value: T,
-  hasChanged: (current: T, previous: T) => boolean = (a, b) => a !== b
+  hasChanged: (current: T, previous: T) => boolean = (a, b) => a !== b,
 ): [boolean, T] {
   const valueRef = useRef(value)
   const previousValue = valueRef.current
@@ -741,12 +741,12 @@ function usePrevious<T>(
 }
 
 function ensureActiveMenuItemIsInView(
-  parentRef: React.RefObject<HTMLElement>
+  parentRef: React.RefObject<HTMLElement>,
 ) {
   const nav = parentRef?.current
   if (nav) {
     const item = nav.querySelector(
-      'li.is-active > div.dnb-sidebar-menu__item'
+      'li.is-active > div.dnb-sidebar-menu__item',
     ) as HTMLElement
 
     if (item) {

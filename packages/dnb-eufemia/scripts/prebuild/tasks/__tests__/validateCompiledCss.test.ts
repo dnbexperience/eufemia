@@ -3,7 +3,7 @@ import { validateCssBuffer } from '../../validateCompiledCss'
 describe('validateCssBuffer (Lightning CSS)', () => {
   it('accepts valid CSS', () => {
     expect(() =>
-      validateCssBuffer('t.css', Buffer.from('.a { color: red; }'))
+      validateCssBuffer('t.css', Buffer.from('.a { color: red; }')),
     ).not.toThrow()
   })
 
@@ -12,9 +12,9 @@ describe('validateCssBuffer (Lightning CSS)', () => {
       validateCssBuffer(
         'bad.css',
         Buffer.from(
-          '.dnb-button--icon-only.dnb-button--input-button:after:active[disabled]{top:0}'
-        )
-      )
+          '.dnb-button--icon-only.dnb-button--input-button:after:active[disabled]{top:0}',
+        ),
+      ),
     ).toThrow(/Pseudo-elements/)
   })
 })

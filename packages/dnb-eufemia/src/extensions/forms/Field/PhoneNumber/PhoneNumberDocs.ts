@@ -96,5 +96,5 @@ export const PhoneNumberSpecificEvents: PropertiesTableProps = {
 
 export const PhoneNumberGeneralEvents = getFieldEventsWithTypes(
   { type: 'string', optional: true },
-  { type: 'object' }
+  { type: 'object' },
 )

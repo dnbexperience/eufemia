@@ -61,7 +61,7 @@ describe('ItemBasic', () => {
     render(
       <ItemBasic icon={fish_medium} title="Title">
         <span data-testid="cell">Cell</span>
-      </ItemBasic>
+      </ItemBasic>,
     )
 
     const element = document.querySelector('.dnb-list__item')
@@ -79,7 +79,7 @@ describe('ItemBasic', () => {
     render(
       <Container variant="basic">
         <ItemBasic>Inherited</ItemBasic>
-      </Container>
+      </Container>,
     )
 
     const element = document.querySelector('.dnb-list__item')
@@ -107,7 +107,7 @@ describe('ItemBasic', () => {
     render(
       <Container variant="basic">
         <ItemBasic variant="basic">With prop and context</ItemBasic>
-      </Container>
+      </Container>,
     )
 
     const element = document.querySelector('.dnb-list__item')
@@ -137,7 +137,7 @@ describe('ItemBasic', () => {
     render(
       <ItemBasic className="custom-class">
         <span>Child</span>
-      </ItemBasic>
+      </ItemBasic>,
     )
 
     const element = document.querySelector('.dnb-list__item')
@@ -148,7 +148,7 @@ describe('ItemBasic', () => {
 
   it('declares _supportsSpacingProps for flex layout', () => {
     expect((ItemBasic as ComponentMarkers)._supportsSpacingProps).toBe(
-      true
+      true,
     )
   })
 
@@ -167,7 +167,7 @@ describe('ItemBasic', () => {
 
     expect(element.classList).toContain('dnb-list__item--pending')
     expect(
-      element.querySelector('.dnb-list__item__pending')
+      element.querySelector('.dnb-list__item__pending'),
     ).toBeInTheDocument()
   })
 
@@ -192,7 +192,7 @@ describe('ItemBasic', () => {
     const { container } = render(
       <Container>
         <ItemBasic title="Title">Content</ItemBasic>
-      </Container>
+      </Container>,
     )
 
     expect(await axeComponent(container)).toHaveNoViolations()
@@ -206,7 +206,7 @@ describe('ItemBasic', () => {
         aria-label="Basic item"
       >
         Content
-      </ItemBasic>
+      </ItemBasic>,
     )
 
     const element = document.querySelector('.dnb-list__item')
@@ -220,7 +220,7 @@ describe('ItemBasic', () => {
     render(
       <ItemBasic variant="basic" selected pending skeleton>
         Content
-      </ItemBasic>
+      </ItemBasic>,
     )
 
     const element = document.querySelector('.dnb-list__item')

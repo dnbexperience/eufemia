@@ -304,7 +304,7 @@ export const setFiles = () => {
                 return {
                   ...fileItem,
                 }
-              })
+              }),
             )
           }
         >

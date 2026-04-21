@@ -12,7 +12,7 @@ export type RootElement = Element
  */
 export const getClosestParent = (
   selector: TargetSelector,
-  element: RootElement
+  element: RootElement,
 ): Element | null => {
   try {
     const tagName = /[A-Z]/.test(selector) ? selector : null

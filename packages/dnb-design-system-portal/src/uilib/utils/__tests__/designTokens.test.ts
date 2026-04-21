@@ -35,11 +35,11 @@ describe('design token docs data', () => {
 
   it('extracts known modifiers from a token path', () => {
     expect(
-      extractTokenModifiers(['color', 'background', 'action'])
+      extractTokenModifiers(['color', 'background', 'action']),
     ).toEqual([])
 
     expect(
-      extractTokenModifiers(['color', 'background', 'action', 'hover'])
+      extractTokenModifiers(['color', 'background', 'action', 'hover']),
     ).toEqual(['hover'])
 
     expect(
@@ -50,7 +50,7 @@ describe('design token docs data', () => {
         'hover',
         'subtle',
         'ondark',
-      ])
+      ]),
     ).toEqual(['hover', 'subtle', 'ondark'])
 
     expect(
@@ -60,11 +60,11 @@ describe('design token docs data', () => {
         'first',
         'subtle',
         'static',
-      ])
+      ]),
     ).toEqual(['subtle', 'static'])
 
     expect(
-      extractTokenModifiers(['color', 'text', 'neutral', 'bold'])
+      extractTokenModifiers(['color', 'text', 'neutral', 'bold']),
     ).toEqual(['bold'])
 
     expect(
@@ -72,7 +72,7 @@ describe('design token docs data', () => {
         'color',
         'background',
         'action-hover-subtle-ondark',
-      ])
+      ]),
     ).toEqual(['hover', 'subtle', 'ondark'])
   })
 

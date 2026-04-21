@@ -67,7 +67,7 @@ export default function ModalHeader({
           className={clsx(
             'dnb-modal__title', // for tests
             `dnb-h--${fontSize}`,
-            titleClass
+            titleClass,
           )}
         >
           {usedTitle}

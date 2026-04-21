@@ -39,7 +39,7 @@ function Blockquote({
       className={clsx(
         className,
         noBackground && 'dnb-blockquote--no-background',
-        direction === 'vertical' && 'dnb-blockquote--top'
+        direction === 'vertical' && 'dnb-blockquote--top',
       )}
       {...props}
     >

@@ -52,7 +52,7 @@ export type InputMaskedChange = {
   cleanedValue?: string | number
 }
 export type InputMaskedEventHandler = (
-  payload: InputMaskedChange
+  payload: InputMaskedChange,
 ) => unknown
 export type InputMaskedOverwriteMode = MaskitoOptions['overwriteMode']
 export type InputMaskedProps = Omit<
@@ -187,7 +187,7 @@ function InputMasked({ ref, ...restProps }: InputMaskedProps) {
     return extendPropsWithContext(
       propsWithRef,
       defaultProps,
-      contextInputMasked
+      contextInputMasked,
     )
   }, [contextInputMasked, restProps, ref])
 

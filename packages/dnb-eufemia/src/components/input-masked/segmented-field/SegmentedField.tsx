@@ -90,7 +90,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
         onChangeExternal(updatedValues)
       }
     },
-    [onChangeBase, onChangeExternal]
+    [onChangeBase, onChangeExternal],
   )
 
   const clearGroupSelection = useCallback(() => {
@@ -143,7 +143,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
 
       const safePosition = Math.max(
         0,
-        Math.min(position, section.textContent?.length ?? 0)
+        Math.min(position, section.textContent?.length ?? 0),
       )
       const textNode = ensureTextNode(section)
 
@@ -162,14 +162,14 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
       sectionSelectionModeRef.current[inputId] = 'caret'
       caretPositionsRef.current[inputId] = safePosition
     },
-    []
+    [],
   )
 
   const selectWholeGroup = useCallback(
     (targetInputId: string) => {
       const currentSection = sectionRefs.current[targetInputId]
       const currentGroup = currentSection?.closest(
-        '.dnb-segmented-field__group'
+        '.dnb-segmented-field__group',
       ) as HTMLElement | null
       const sections = listAllSections(currentGroup || undefined)
 
@@ -221,7 +221,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
       caretPositionsRef,
       sectionRefs,
       sectionSelectionModeRef,
-    ]
+    ],
   )
 
   const focusSection = useCallback(
@@ -242,7 +242,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
       const displayValue = section.textContent ?? ''
       setSectionCaret(inputId, mode === 'end' ? displayValue.length : 0)
     },
-    [selectSection, setSectionCaret]
+    [selectSection, setSectionCaret],
   )
 
   const focusFirstSection = useCallback(
@@ -255,7 +255,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
 
       focusSection(String(firstId), 'all')
     },
-    [disabled, focusSection, inputs]
+    [disabled, focusSection, inputs],
   )
 
   const onLegendClick = useCallback(() => {
@@ -276,7 +276,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
         {inputs.map(
           (
             { id: inputId, onFocus: _a, onBlur: _b, ...itemProps },
-            index
+            index,
           ) => (
             <SegmentedFieldSection
               key={String(inputId)}
@@ -330,7 +330,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
               }}
               {...rest}
             />
-          )
+          ),
         )}
       </div>
 
@@ -372,7 +372,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
     className: clsx(
       'dnb-segmented-field__fieldset',
       labelDirection === 'horizontal' &&
-        'dnb-segmented-field__fieldset--horizontal'
+        'dnb-segmented-field__fieldset--horizontal',
     ),
   })
 

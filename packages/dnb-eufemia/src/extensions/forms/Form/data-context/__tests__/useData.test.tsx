@@ -45,7 +45,7 @@ describe('Form.useData', () => {
     }
 
     expect(renderComponent).toThrow(
-      'useData needs to run inside DataContext (Form.Handler) or have a valid id'
+      'useData needs to run inside DataContext (Form.Handler) or have a valid id',
     )
 
     log.mockRestore()
@@ -69,12 +69,12 @@ describe('Form.useData', () => {
               <MockComponent />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
     }
 
     expect(renderComponent).not.toThrow(
-      'useData needs to run inside DataContext (Form.Handler) or have a valid id'
+      'useData needs to run inside DataContext (Form.Handler) or have a valid id',
     )
   })
 
@@ -98,7 +98,7 @@ describe('Form.useData', () => {
             <MockComponent />
           </Wizard.Step>
         </Wizard.Container>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(collectData).toEqual({ foo: 'bar' })
@@ -368,7 +368,7 @@ describe('Form.useData', () => {
       })
 
       await userEvent.click(
-        document.querySelector('input[type="checkbox"]')
+        document.querySelector('input[type="checkbox"]'),
       )
 
       expect(dataContext.data).toEqual({
@@ -415,7 +415,7 @@ describe('Form.useData', () => {
       })
 
       await userEvent.click(
-        document.querySelector('input[type="checkbox"]')
+        document.querySelector('input[type="checkbox"]'),
       )
 
       expect(dataContext.data).toEqual({
@@ -607,7 +607,7 @@ describe('Form.useData', () => {
       render(
         <Form.Handler>
           <MockComponent />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(dataContext.data).toEqual({ foo: 'foo' })
@@ -632,7 +632,7 @@ describe('Form.useData', () => {
               return null
             }}
           </DataContext.Consumer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(dataContext.data).toEqual({ foo: 'empty' })
@@ -657,7 +657,7 @@ describe('Form.useData', () => {
               return null
             }}
           </DataContext.Consumer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(dataContext.data).toEqual({ foo: 'foo' })
@@ -697,13 +697,13 @@ describe('Form.useData', () => {
       render(
         <Form.Handler>
           <MockComponent />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(dataContext.data).toEqual({ foo: 'foo' })
       expect(document.querySelector('input')).toHaveValue('foo')
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       await userEvent.click(document.querySelector('button'))
@@ -711,12 +711,12 @@ describe('Form.useData', () => {
       expect(dataContext.data).toEqual({ foo: 'empty' })
       expect(document.querySelector('input')).toHaveValue('empty')
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       fireEvent.submit(document.querySelector('form'))
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
     })
 
@@ -748,13 +748,13 @@ describe('Form.useData', () => {
       render(
         <Form.Handler>
           <MockComponent />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(dataContext.data).toEqual({ foo: 'foo' })
       expect(document.querySelector('input')).toHaveValue('foo')
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       await userEvent.click(document.querySelector('button'))
@@ -768,12 +768,12 @@ describe('Form.useData', () => {
       expect(dataContext.data).toEqual({ foo: undefined })
       expect(document.querySelector('input')).toHaveValue('')
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       fireEvent.submit(document.querySelector('form'))
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
     })
 
@@ -837,7 +837,7 @@ describe('Form.useData', () => {
       })
 
       await userEvent.click(
-        document.querySelector('input[type="checkbox"]')
+        document.querySelector('input[type="checkbox"]'),
       )
 
       expect(dataContext.data).toEqual({
@@ -884,7 +884,7 @@ describe('Form.useData', () => {
       })
 
       await userEvent.click(
-        document.querySelector('input[type="checkbox"]')
+        document.querySelector('input[type="checkbox"]'),
       )
 
       expect(dataContext.data).toEqual({
@@ -962,7 +962,7 @@ describe('Form.useData', () => {
         },
       })
       expect(
-        result.current.data?.beneficialOwners?.addedOwners?.length
+        result.current.data?.beneficialOwners?.addedOwners?.length,
       ).toBe(3)
 
       // Reduce to 1 item
@@ -974,7 +974,7 @@ describe('Form.useData', () => {
 
       // The array should have 1 item, not 3
       expect(
-        result.current.data?.beneficialOwners?.addedOwners?.length
+        result.current.data?.beneficialOwners?.addedOwners?.length,
       ).toBe(1)
       expect(result.current.data).toEqual({
         beneficialOwners: {
@@ -1003,7 +1003,7 @@ describe('Form.useData', () => {
       })
 
       expect(
-        result.current.data?.beneficialOwners?.addedOwners?.length
+        result.current.data?.beneficialOwners?.addedOwners?.length,
       ).toBe(1)
 
       // Increase to 3 items
@@ -1017,7 +1017,7 @@ describe('Form.useData', () => {
 
       // The array should have 3 items
       expect(
-        result.current.data?.beneficialOwners?.addedOwners?.length
+        result.current.data?.beneficialOwners?.addedOwners?.length,
       ).toBe(3)
       expect(result.current.data).toEqual({
         beneficialOwners: {
@@ -1062,7 +1062,7 @@ describe('Form.useData', () => {
       })
 
       const [first, second, third] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       await userEvent.type(first, 'Owner 1')
@@ -1071,7 +1071,7 @@ describe('Form.useData', () => {
 
       await waitFor(() => {
         expect(
-          result.current.data?.beneficialOwners?.addedOwners?.length
+          result.current.data?.beneficialOwners?.addedOwners?.length,
         ).toBe(3)
       })
 
@@ -1083,7 +1083,7 @@ describe('Form.useData', () => {
 
       await waitFor(() => {
         expect(
-          result.current.data?.beneficialOwners?.addedOwners?.length
+          result.current.data?.beneficialOwners?.addedOwners?.length,
         ).toBe(1)
       })
 
@@ -1104,7 +1104,7 @@ describe('Form.useData', () => {
 
       await waitFor(() => {
         expect(
-          result.current.data?.beneficialOwners?.addedOwners?.length
+          result.current.data?.beneficialOwners?.addedOwners?.length,
         ).toBe(3)
       })
 
@@ -1149,7 +1149,7 @@ describe('Form.useData', () => {
 
     it('should return initial data if data is not present', () => {
       const { result } = renderHook((props = { key: 'value' }) =>
-        useData(identifier, props)
+        useData(identifier, props),
       )
 
       expect(result.current.data).toEqual({ key: 'value' })
@@ -1157,11 +1157,11 @@ describe('Form.useData', () => {
 
     it('should use the first initial data if is present', () => {
       const { result: A } = renderHook(
-        (props = { key: 'existingValue' }) => useData(identifier, props)
+        (props = { key: 'existingValue' }) => useData(identifier, props),
       )
 
       const { result: B } = renderHook((props = { key: 'value' }) =>
-        useData(identifier, props)
+        useData(identifier, props),
       )
 
       expect(A.current.data).toEqual({ key: 'existingValue' })
@@ -1170,7 +1170,7 @@ describe('Form.useData', () => {
 
     it('should have initial data on second hook when the first sets it', () => {
       const { result: A } = renderHook(() =>
-        useData(identifier, { initial: 'data' })
+        useData(identifier, { initial: 'data' }),
       )
       const { result: B } = renderHook(() => useData(identifier))
 
@@ -1181,7 +1181,7 @@ describe('Form.useData', () => {
     it('should have initial data on first hook when the second sets it', () => {
       const { result: A } = renderHook(() => useData(identifier))
       const { result: B } = renderHook(() =>
-        useData(identifier, { initial: 'data' })
+        useData(identifier, { initial: 'data' }),
       )
 
       expect(A.current.data).toEqual({ initial: 'data' })
@@ -1191,7 +1191,7 @@ describe('Form.useData', () => {
 
   it('should update data on second hook when using "set"', () => {
     const { result: A } = renderHook(() =>
-      useData(identifier, { initial: 'data' })
+      useData(identifier, { initial: 'data' }),
     )
     const { result: B } = renderHook(() => useData(identifier))
 
@@ -1213,7 +1213,7 @@ describe('Form.useData', () => {
 
     const { result: A } = renderHook(() => useData(identifier))
     const { result: B } = renderHook(() =>
-      useData<Data>(identifier, { initial: 'data' })
+      useData<Data>(identifier, { initial: 'data' }),
     )
 
     expect(A.current.data).toEqual({ initial: 'data' })
@@ -1252,7 +1252,7 @@ describe('Form.useData', () => {
 
   it('should return filterData fallback function without provider', () => {
     const { result } = renderHook((props = { key: 'value' }) =>
-      useData(identifier, props)
+      useData(identifier, props),
     )
 
     expect(result.current).toEqual({
@@ -1326,7 +1326,7 @@ describe('Form.useData', () => {
     expect(
       result.current.filterData({
         '/field1': false,
-      } as FilterData)
+      } as FilterData),
     ).toEqual({
       field2: '',
       field3: 'baz',
@@ -1338,7 +1338,7 @@ describe('Form.useData', () => {
         '/field2': ({ value }) => {
           return value !== ''
         },
-      } as FilterData)
+      } as FilterData),
     ).toEqual({
       field3: 'baz',
     })
@@ -1352,7 +1352,7 @@ describe('Form.useData', () => {
         '/field3': ({ data }) => {
           return (data as Data).field2 !== ''
         },
-      } as FilterData)
+      } as FilterData),
     ).toEqual({})
   })
 
@@ -1381,11 +1381,11 @@ describe('Form.useData', () => {
       })
 
       const [field1, field2] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       expect(
-        result.current.reduceToVisibleFields(result.current.data)
+        result.current.reduceToVisibleFields(result.current.data),
       ).toEqual({
         field1: 'foo',
         field2: 'bar',
@@ -1397,7 +1397,7 @@ describe('Form.useData', () => {
       })
 
       expect(
-        result.current.reduceToVisibleFields(result.current.data)
+        result.current.reduceToVisibleFields(result.current.data),
       ).toEqual({
         field2: 'bar',
         field3: 'baz',
@@ -1408,7 +1408,7 @@ describe('Form.useData', () => {
       })
 
       expect(
-        result.current.reduceToVisibleFields(result.current.data)
+        result.current.reduceToVisibleFields(result.current.data),
       ).toEqual({
         field1: 'something else',
         field2: 'bar',
@@ -1420,7 +1420,7 @@ describe('Form.useData', () => {
       })
 
       expect(
-        result.current.reduceToVisibleFields(result.current.data)
+        result.current.reduceToVisibleFields(result.current.data),
       ).toEqual({
         field1: 'something else',
         field3: 'baz',
@@ -1457,7 +1457,7 @@ describe('Form.useData', () => {
           </Form.Visibility>
 
           <Output />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const button = document.querySelector('button')
@@ -1523,7 +1523,7 @@ describe('Form.useData', () => {
           </Form.Visibility>
 
           <Output />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const button = document.querySelector('button')
@@ -1593,7 +1593,7 @@ describe('Form.useData', () => {
           </Form.Visibility>
 
           <Output />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const button = document.querySelector('button')
@@ -1636,7 +1636,7 @@ describe('Form.useData', () => {
       const MockComponent = () => {
         const [count, increment] = React.useReducer(
           (state) => state + 1,
-          0
+          0,
         )
         return (
           <Form.Handler>

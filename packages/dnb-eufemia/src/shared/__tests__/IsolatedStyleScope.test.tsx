@@ -16,7 +16,7 @@ describe('StyleScope', () => {
     render(
       <IsolatedStyleScope>
         <div id="content-child">Test Content</div>
-      </IsolatedStyleScope>
+      </IsolatedStyleScope>,
     )
 
     expect(document.getElementById('content-child')).toBeInTheDocument()
@@ -26,7 +26,7 @@ describe('StyleScope', () => {
     render(
       <IsolatedStyleScope scopeHash="custom-scope">
         <div id="content-child">Test Content</div>
-      </IsolatedStyleScope>
+      </IsolatedStyleScope>,
     )
 
     const scope =
@@ -39,7 +39,7 @@ describe('StyleScope', () => {
     render(
       <IsolatedStyleScope scopeHash="auto">
         <div id="content-child">Test Content</div>
-      </IsolatedStyleScope>
+      </IsolatedStyleScope>,
     )
 
     const scope =
@@ -54,14 +54,14 @@ describe('StyleScope', () => {
     render(
       <IsolatedStyleScope scopeHash="my-scope">
         <div id="content-child">Test Content</div>
-      </IsolatedStyleScope>
+      </IsolatedStyleScope>,
     )
 
     const wrapper = document.getElementById('content-child').parentElement
     expect(wrapper).toHaveClass('dnb-core-style')
 
     expect(document.body.innerHTML).toMatchInlineSnapshot(
-      `"<div><div data-scope-hash="my-scope" data-scope-hash-id="default" class="my-scope"><div class="dnb-core-style"><div id="content-child">Test Content</div></div></div></div>"`
+      `"<div><div data-scope-hash="my-scope" data-scope-hash-id="default" class="my-scope"><div class="dnb-core-style"><div id="content-child">Test Content</div></div></div></div>"`,
     )
   })
 
@@ -69,14 +69,14 @@ describe('StyleScope', () => {
     render(
       <IsolatedStyleScope scopeHash="my-scope" disableCoreStyleWrapper>
         <div id="content-child">Test Content</div>
-      </IsolatedStyleScope>
+      </IsolatedStyleScope>,
     )
 
     const wrapper = document.getElementById('content-child').parentElement
     expect(wrapper).not.toHaveClass('dnb-core-style')
 
     expect(document.body.innerHTML).toMatchInlineSnapshot(
-      `"<div><div data-scope-hash="my-scope" data-scope-hash-id="default" class="my-scope"><div id="content-child">Test Content</div></div></div>"`
+      `"<div><div data-scope-hash="my-scope" data-scope-hash-id="default" class="my-scope"><div id="content-child">Test Content</div></div></div>"`,
     )
   })
 
@@ -88,7 +88,7 @@ describe('StyleScope', () => {
         }}
       >
         <div id="content-child">Test Content</div>
-      </IsolatedStyleScope>
+      </IsolatedStyleScope>,
     )
 
     const scope =
@@ -100,11 +100,11 @@ describe('StyleScope', () => {
     render(
       <IsolatedStyleScope>
         <IsolatedStyleScope>content</IsolatedStyleScope>
-      </IsolatedStyleScope>
+      </IsolatedStyleScope>,
     )
 
     expect(
-      document.querySelectorAll('[class*=eufemia-scope--]')
+      document.querySelectorAll('[class*=eufemia-scope--]'),
     ).toHaveLength(1)
   })
 
@@ -114,7 +114,7 @@ describe('StyleScope', () => {
         <IsolatedStyleScope scopeHash="scope--inner">
           content
         </IsolatedStyleScope>
-      </IsolatedStyleScope>
+      </IsolatedStyleScope>,
     )
 
     expect(document.querySelectorAll('[class*=scope--]')).toHaveLength(2)
@@ -126,7 +126,7 @@ describe('StyleScope', () => {
         <IsolatedStyleScope scopeHash="scope--inner">
           content
         </IsolatedStyleScope>
-      </IsolatedStyleScope>
+      </IsolatedStyleScope>,
     )
 
     expect(document.querySelectorAll('[class*=scope--]')).toHaveLength(2)
@@ -150,7 +150,7 @@ describe('useIsolatedStyleScope', () => {
     render(
       <IsolatedStyleScope scopeHash="my-scope">
         <MockComponent />
-      </IsolatedStyleScope>
+      </IsolatedStyleScope>,
     )
 
     expect(scopeElement.className).toBe('my-scope')
@@ -191,7 +191,7 @@ describe('useIsolatedStyleScope', () => {
     render(
       <IsolatedStyleScope scopeHash="custom-scope" ref={customRef}>
         <MockComponent />
-      </IsolatedStyleScope>
+      </IsolatedStyleScope>,
     )
 
     expect(customRef.current).toBe(scopeElement)
@@ -230,7 +230,7 @@ describe('useIsolatedStyleScope', () => {
         <IsolatedStyleScope scopeHash="inner-scope" uniqueKey="inner">
           <InnerComponent />
         </IsolatedStyleScope>
-      </IsolatedStyleScope>
+      </IsolatedStyleScope>,
     )
 
     expect(innerElement).not.toBe(outerElement)
@@ -269,7 +269,7 @@ describe('useIsolatedStyleScope', () => {
         <IsolatedStyleScope scopeHash="same-scope">
           <InnerComponent />
         </IsolatedStyleScope>
-      </IsolatedStyleScope>
+      </IsolatedStyleScope>,
     )
 
     expect(innerElement).toBe(outerElement)
@@ -298,7 +298,7 @@ describe('useIsolatedStyleScope', () => {
         <IsolatedStyleScope scopeHash="child-scope">
           <InnerComponent />
         </IsolatedStyleScope>
-      </IsolatedStyleScope>
+      </IsolatedStyleScope>,
     )
 
     expect(innerScopeElement.className).toBe('child-scope')
@@ -321,7 +321,7 @@ describe('useIsolatedStyleScope', () => {
     const { unmount } = render(
       <IsolatedStyleScope scopeHash="my-scope">
         <MockComponent />
-      </IsolatedStyleScope>
+      </IsolatedStyleScope>,
     )
 
     expect(scopeElement.className).toBe('my-scope')
@@ -362,7 +362,7 @@ describe('useIsolatedStyleScope', () => {
         <IsolatedStyleScope scopeHash="inner-scope">
           <InnerComponent />
         </IsolatedStyleScope>
-      </IsolatedStyleScope>
+      </IsolatedStyleScope>,
     )
 
     expect(outerElement).toBe(innerElement)
@@ -374,7 +374,7 @@ describe('uniqueKey functionality', () => {
     render(
       <IsolatedStyleScope scopeHash="my-scope">
         <div id="content-child">Test Content</div>
-      </IsolatedStyleScope>
+      </IsolatedStyleScope>,
     )
 
     const scope =
@@ -386,7 +386,7 @@ describe('uniqueKey functionality', () => {
     render(
       <IsolatedStyleScope scopeHash="my-scope" uniqueKey="custom-key">
         <div id="content-child">Test Content</div>
-      </IsolatedStyleScope>
+      </IsolatedStyleScope>,
     )
 
     const scope =
@@ -401,7 +401,7 @@ describe('uniqueKey functionality', () => {
         <IsolatedStyleScope scopeHash="auto" uniqueKey="key2">
           <div id="inner-content">Inner Content</div>
         </IsolatedStyleScope>
-      </IsolatedStyleScope>
+      </IsolatedStyleScope>,
     )
 
     const outerContent = document.getElementById('outer-content')
@@ -414,29 +414,29 @@ describe('uniqueKey functionality', () => {
     // Each should be in its own style scope
     expect(outerContent.parentElement.parentElement).toHaveAttribute(
       'data-scope-hash-id',
-      'key1'
+      'key1',
     )
     expect(innerContent.parentElement.parentElement).toHaveAttribute(
       'data-scope-hash-id',
-      'key2'
+      'key2',
     )
 
     // Each should have a different scopeHash
     expect(outerContent.parentElement.parentElement).toHaveAttribute(
       'data-scope-hash',
-      'my-scope'
+      'my-scope',
     )
     expect(innerContent.parentElement.parentElement).toHaveAttribute(
       'data-scope-hash',
-      'my-scope'
+      'my-scope',
     )
 
     // Both should share the same scopeHash
     expect(outerContent.parentElement.parentElement).toHaveClass(
-      'my-scope'
+      'my-scope',
     )
     expect(innerContent.parentElement.parentElement).toHaveClass(
-      'my-scope'
+      'my-scope',
     )
   })
 
@@ -448,7 +448,7 @@ describe('uniqueKey functionality', () => {
         <IsolatedStyleScope scopeHash="auto" uniqueKey="test-key">
           <div id="inner-content">Inner Content</div>
         </IsolatedStyleScope>
-      </IsolatedStyleScope>
+      </IsolatedStyleScope>,
     )
 
     const outerContent = document.getElementById('outer-content')
@@ -459,19 +459,19 @@ describe('uniqueKey functionality', () => {
 
     expect(innerContent.previousElementSibling).toBe(outerContent)
     expect(innerContent.parentElement.parentElement).toHaveClass(
-      'my-scope'
+      'my-scope',
     )
 
     expect(outerContent.parentElement.parentElement).toHaveClass(
-      'my-scope'
+      'my-scope',
     )
     expect(outerContent.parentElement.parentElement).toHaveAttribute(
       'data-scope-hash-id',
-      'test-key'
+      'test-key',
     )
     expect(outerContent.parentElement.parentElement).toHaveAttribute(
       'data-scope-hash',
-      'my-scope'
+      'my-scope',
     )
   })
 
@@ -479,7 +479,7 @@ describe('uniqueKey functionality', () => {
     render(
       <IsolatedStyleScope scopeHash="my-scope" uniqueKey={false}>
         <div id="content-child">Test Content</div>
-      </IsolatedStyleScope>
+      </IsolatedStyleScope>,
     )
 
     const scope =
@@ -496,7 +496,7 @@ describe('uniqueKey functionality', () => {
         <IsolatedStyleScope scopeHash="auto" uniqueKey={false}>
           <div id="inner-content">Inner Content</div>
         </IsolatedStyleScope>
-      </IsolatedStyleScope>
+      </IsolatedStyleScope>,
     )
 
     const outerContent = document.getElementById('outer-content')
@@ -507,25 +507,25 @@ describe('uniqueKey functionality', () => {
 
     // Each should have its own style scope
     expect(outerContent.parentElement.parentElement).toHaveClass(
-      'my-scope'
+      'my-scope',
     )
     expect(outerContent.parentElement.parentElement).not.toHaveAttribute(
-      'data-scope-hash-id'
+      'data-scope-hash-id',
     )
     expect(outerContent.parentElement.parentElement).toHaveAttribute(
       'data-scope-hash',
-      'my-scope'
+      'my-scope',
     )
 
     expect(innerContent.parentElement.parentElement).toHaveClass(
-      'my-scope'
+      'my-scope',
     )
     expect(innerContent.parentElement.parentElement).not.toHaveAttribute(
-      'data-scope-hash-id'
+      'data-scope-hash-id',
     )
     expect(innerContent.parentElement.parentElement).toHaveAttribute(
       'data-scope-hash',
-      'my-scope'
+      'my-scope',
     )
   })
 
@@ -534,7 +534,7 @@ describe('uniqueKey functionality', () => {
       render(
         <IsolatedStyleScope scopeHash="my-scope" uniqueKey={false}>
           <div id="content-child">Test Content</div>
-        </IsolatedStyleScope>
+        </IsolatedStyleScope>,
       )
 
       const scope =
@@ -550,7 +550,7 @@ describe('uniqueKey functionality', () => {
       render(
         <IsolatedStyleScope scopeHash="my-scope" uniqueKey="custom-key">
           <div id="content-child">Test Content</div>
-        </IsolatedStyleScope>
+        </IsolatedStyleScope>,
       )
 
       const scope =

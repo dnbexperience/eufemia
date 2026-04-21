@@ -302,7 +302,7 @@ export function TableInContainer() {
 
 // Helper to mark a Zod schema as required with a custom message
 const asRequired = (
-  message = 'Field.errorRequired'
+  message = 'Field.errorRequired',
 ): [(value: unknown) => boolean, { message: string }] => {
   return [(value: unknown) => value !== undefined, { message }]
 }

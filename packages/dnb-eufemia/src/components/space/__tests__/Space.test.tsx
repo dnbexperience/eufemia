@@ -21,7 +21,7 @@ describe('Space component', () => {
   it('should have correct CSS classes', () => {
     render(<Space element="span" top="large" />)
     expect(document.querySelector('span.dnb-space').classList).toContain(
-      'dnb-space__top--large'
+      'dnb-space__top--large',
     )
   })
 
@@ -47,7 +47,7 @@ describe('Space component', () => {
   it('should accept space only prop', () => {
     render(<Space element="span" space="large" />)
     expect(
-      Object.values(document.querySelector('span.dnb-space').classList)
+      Object.values(document.querySelector('span.dnb-space').classList),
     ).toEqual([
       'dnb-space',
       'dnb-space__top--large',
@@ -67,10 +67,10 @@ describe('Space component', () => {
           bottom: 'small small',
           left: 'x-small x-small small',
         }}
-      />
+      />,
     )
     expect(
-      Object.values(document.querySelector('span.dnb-space').classList)
+      Object.values(document.querySelector('span.dnb-space').classList),
     ).toEqual([
       'dnb-space',
       'dnb-space__top--x-large',
@@ -85,7 +85,7 @@ describe('Space component', () => {
 
     const element = document.querySelector('div.dnb-space')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual(['class', 'id'])
@@ -95,37 +95,37 @@ describe('Space component', () => {
   it('should have collapse CSS class', () => {
     render(<Space top="large" noCollapse={true} />)
     expect(
-      document.querySelector('.dnb-space--no-collapse')
+      document.querySelector('.dnb-space--no-collapse'),
     ).toBeInTheDocument()
   })
 
   it('should not emit style for non-responsive spacing (handled by CSS classes)', () => {
     const { rerender } = render(
-      <Space top="large" right="small" bottom="0" left={false} />
+      <Space top="large" right="small" bottom="0" left={false} />,
     )
     expect(
-      document.querySelector('.dnb-space').getAttribute('style')
+      document.querySelector('.dnb-space').getAttribute('style'),
     ).toBeNull()
 
     rerender(<Space space="small" />)
     expect(
-      document.querySelector('.dnb-space').getAttribute('style')
+      document.querySelector('.dnb-space').getAttribute('style'),
     ).toBeNull()
   })
 
   it('should support "innerSpace"', () => {
     const { rerender } = render(<Space innerSpace={true} />)
     expect(
-      document.querySelector('.dnb-space').getAttribute('style')
+      document.querySelector('.dnb-space').getAttribute('style'),
     ).toBe(
-      '--padding-t-s: 1rem; --padding-r-s: 1rem; --padding-b-s: 1rem; --padding-l-s: 1rem; --padding-t-m: 1rem; --padding-r-m: 1rem; --padding-b-m: 1rem; --padding-l-m: 1rem; --padding-t-l: 1rem; --padding-r-l: 1rem; --padding-b-l: 1rem; --padding-l-l: 1rem;'
+      '--padding-t-s: 1rem; --padding-r-s: 1rem; --padding-b-s: 1rem; --padding-l-s: 1rem; --padding-t-m: 1rem; --padding-r-m: 1rem; --padding-b-m: 1rem; --padding-l-m: 1rem; --padding-t-l: 1rem; --padding-r-l: 1rem; --padding-b-l: 1rem; --padding-l-l: 1rem;',
     )
 
     rerender(<Space innerSpace="large medium small" />)
     expect(
-      document.querySelector('.dnb-space').getAttribute('style')
+      document.querySelector('.dnb-space').getAttribute('style'),
     ).toBe(
-      '--padding-t-s: 4.5rem; --padding-r-s: 4.5rem; --padding-b-s: 4.5rem; --padding-l-s: 4.5rem; --padding-t-m: 4.5rem; --padding-r-m: 4.5rem; --padding-b-m: 4.5rem; --padding-l-m: 4.5rem; --padding-t-l: 4.5rem; --padding-r-l: 4.5rem; --padding-b-l: 4.5rem; --padding-l-l: 4.5rem;'
+      '--padding-t-s: 4.5rem; --padding-r-s: 4.5rem; --padding-b-s: 4.5rem; --padding-l-s: 4.5rem; --padding-t-m: 4.5rem; --padding-r-m: 4.5rem; --padding-b-m: 4.5rem; --padding-l-m: 4.5rem; --padding-t-l: 4.5rem; --padding-r-l: 4.5rem; --padding-b-l: 4.5rem; --padding-l-l: 4.5rem;',
     )
   })
 
@@ -134,7 +134,7 @@ describe('Space component', () => {
       const Comp = render(
         <Space top="large">
           <Section>Content</Section>
-        </Space>
+        </Space>,
       )
       expect(await axeComponent(Comp)).toHaveNoViolations()
     })
@@ -157,17 +157,17 @@ describe('responsive space', () => {
           medium: 'large',
           large: 'x-large',
         }}
-      />
+      />,
     )
     expect(
-      document.querySelector('.dnb-space').getAttribute('style')
+      document.querySelector('.dnb-space').getAttribute('style'),
     ).toBe(
-      '--margin-t-s: 1rem; --margin-r-s: 1rem; --margin-b-s: 1rem; --margin-l-s: 1rem; --margin-t-m: 2rem; --margin-r-m: 2rem; --margin-b-m: 2rem; --margin-l-m: 2rem; --margin-t-l: 3rem; --margin-r-l: 3rem; --margin-b-l: 3rem; --margin-l-l: 3rem;'
+      '--margin-t-s: 1rem; --margin-r-s: 1rem; --margin-b-s: 1rem; --margin-l-s: 1rem; --margin-t-m: 2rem; --margin-r-m: 2rem; --margin-b-m: 2rem; --margin-l-m: 2rem; --margin-t-l: 3rem; --margin-r-l: 3rem; --margin-b-l: 3rem; --margin-l-l: 3rem;',
     )
 
     // CSS classes should be based on small breakpoint
     expect(
-      Object.values(document.querySelector('.dnb-space').classList)
+      Object.values(document.querySelector('.dnb-space').classList),
     ).toEqual([
       'dnb-space',
       'dnb-space__top--small',
@@ -184,17 +184,17 @@ describe('responsive space', () => {
           large: { left: 'x-large', right: 'x-small' },
         }}
         bottom="x-small"
-      />
+      />,
     )
     expect(
-      document.querySelector('.dnb-space').getAttribute('style')
+      document.querySelector('.dnb-space').getAttribute('style'),
     ).toBe(
-      '--margin-t-s: 1rem; --margin-r-s: 2rem; --margin-b-s: 0.5rem; --margin-t-m: 2rem; --margin-b-m: 0.5rem; --margin-r-l: 0.5rem; --margin-b-l: 0.5rem; --margin-l-l: 3rem;'
+      '--margin-t-s: 1rem; --margin-r-s: 2rem; --margin-b-s: 0.5rem; --margin-t-m: 2rem; --margin-b-m: 0.5rem; --margin-r-l: 0.5rem; --margin-b-l: 0.5rem; --margin-l-l: 3rem;',
     )
 
     // CSS classes should be based on small breakpoint
     expect(
-      Object.values(document.querySelector('.dnb-space').classList)
+      Object.values(document.querySelector('.dnb-space').classList),
     ).toEqual([
       'dnb-space',
       'dnb-space__top--small',
@@ -211,17 +211,17 @@ describe('responsive space', () => {
           medium: '2rem',
           large: { top: 'x-large', right: '1.5rem' },
         }}
-      />
+      />,
     )
     expect(
-      document.querySelector('.dnb-space').getAttribute('style')
+      document.querySelector('.dnb-space').getAttribute('style'),
     ).toBe(
-      '--margin-t-s: 1rem; --margin-r-s: 1rem; --margin-b-s: 1rem; --margin-l-s: 1rem; --margin-t-m: 2rem; --margin-r-m: 2rem; --margin-b-m: 2rem; --margin-l-m: 2rem; --margin-t-l: 3rem; --margin-r-l: 1.5rem;'
+      '--margin-t-s: 1rem; --margin-r-s: 1rem; --margin-b-s: 1rem; --margin-l-s: 1rem; --margin-t-m: 2rem; --margin-r-m: 2rem; --margin-b-m: 2rem; --margin-l-m: 2rem; --margin-t-l: 3rem; --margin-r-l: 1.5rem;',
     )
 
     // CSS classes should be based on small breakpoint (true = small)
     expect(
-      Object.values(document.querySelector('.dnb-space').classList)
+      Object.values(document.querySelector('.dnb-space').classList),
     ).toEqual([
       'dnb-space',
       'dnb-space__top--small',
@@ -238,15 +238,15 @@ describe('responsive space', () => {
           inline: 'small',
           block: 'large',
         }}
-      />
+      />,
     )
     expect(
-      document.querySelector('.dnb-space').getAttribute('style')
+      document.querySelector('.dnb-space').getAttribute('style'),
     ).toBeNull()
 
     // CSS classes should be based on expanded values
     expect(
-      Object.values(document.querySelector('.dnb-space').classList)
+      Object.values(document.querySelector('.dnb-space').classList),
     ).toEqual([
       'dnb-space',
       'dnb-space__top--large',
@@ -262,17 +262,17 @@ describe('responsive space', () => {
           medium: { block: 'large' },
           large: { inline: 'x-large' },
         }}
-      />
+      />,
     )
     expect(
-      document.querySelector('.dnb-space').getAttribute('style')
+      document.querySelector('.dnb-space').getAttribute('style'),
     ).toBe(
-      '--margin-l-s: 1rem; --margin-r-s: 1rem; --margin-t-s: 1.5rem; --margin-b-s: 1.5rem; --margin-t-m: 2rem; --margin-b-m: 2rem; --margin-l-l: 3rem; --margin-r-l: 3rem;'
+      '--margin-l-s: 1rem; --margin-r-s: 1rem; --margin-t-s: 1.5rem; --margin-b-s: 1.5rem; --margin-t-m: 2rem; --margin-b-m: 2rem; --margin-l-l: 3rem; --margin-r-l: 3rem;',
     )
 
     // CSS classes should be based on small breakpoint expanded values
     expect(
-      Object.values(document.querySelector('.dnb-space').classList)
+      Object.values(document.querySelector('.dnb-space').classList),
     ).toEqual([
       'dnb-space',
       'dnb-space__top--medium',
@@ -284,15 +284,15 @@ describe('responsive space', () => {
 
   it('should let individual direction props override inline/block shorthand', () => {
     render(
-      <Space space={{ inline: 'small' }} top="large" bottom="medium" />
+      <Space space={{ inline: 'small' }} top="large" bottom="medium" />,
     )
     expect(
-      document.querySelector('.dnb-space').getAttribute('style')
+      document.querySelector('.dnb-space').getAttribute('style'),
     ).toBeNull()
 
     // CSS classes should reflect the overrides
     expect(
-      Object.values(document.querySelector('.dnb-space').classList)
+      Object.values(document.querySelector('.dnb-space').classList),
     ).toEqual([
       'dnb-space',
       'dnb-space__top--large',
@@ -320,18 +320,18 @@ describe('responsive space', () => {
             right: '5rem',
           },
         }}
-      />
+      />,
     )
 
     expect(
-      document.querySelector('.dnb-space').getAttribute('style')
+      document.querySelector('.dnb-space').getAttribute('style'),
     ).toBe(
-      '--margin-t-s: 2.5rem; --margin-r-s: 2.5rem; --margin-b-s: 2.5rem; --margin-l-s: 2.5rem; --margin-t-m: 5rem; --margin-l-m: 1rem; --margin-b-m: 2rem; --margin-r-m: 5rem; --margin-t-l: 1rem; --margin-l-l: 1rem; --margin-b-l: 2rem; --margin-r-l: 5rem;'
+      '--margin-t-s: 2.5rem; --margin-r-s: 2.5rem; --margin-b-s: 2.5rem; --margin-l-s: 2.5rem; --margin-t-m: 5rem; --margin-l-m: 1rem; --margin-b-m: 2rem; --margin-r-m: 5rem; --margin-t-l: 1rem; --margin-l-l: 1rem; --margin-b-l: 2rem; --margin-r-l: 5rem;',
     )
 
     // CSS classes should be based on small breakpoint (large x-small = 2.5rem total)
     expect(
-      Object.values(document.querySelector('.dnb-space').classList)
+      Object.values(document.querySelector('.dnb-space').classList),
     ).toEqual([
       'dnb-space',
       'dnb-space__top--large',
@@ -362,13 +362,13 @@ describe('responsive space', () => {
             left: 'small',
           },
         }}
-      />
+      />,
     )
 
     expect(
-      document.querySelector('.dnb-space').getAttribute('style')
+      document.querySelector('.dnb-space').getAttribute('style'),
     ).toBe(
-      '--margin-t-s: 2.5rem; --margin-r-s: 2.5rem; --margin-b-s: 2.5rem; --margin-l-s: 2.5rem; --margin-t-m: 2rem; --margin-l-m: 0.5rem; --margin-b-m: 0; --margin-r-m: 4rem; --margin-t-l: 3.5rem; --margin-l-l: 1rem; --margin-b-l: 4rem; --margin-r-l: 3rem;'
+      '--margin-t-s: 2.5rem; --margin-r-s: 2.5rem; --margin-b-s: 2.5rem; --margin-l-s: 2.5rem; --margin-t-m: 2rem; --margin-l-m: 0.5rem; --margin-b-m: 0; --margin-r-m: 4rem; --margin-t-l: 3.5rem; --margin-l-l: 1rem; --margin-b-l: 4rem; --margin-r-l: 3rem;',
     )
   })
 
@@ -380,18 +380,18 @@ describe('responsive space', () => {
           medium: { top: '0rem', right: 'small', bottom: 'medium' },
           large: { left: 'zero', right: false },
         }}
-      />
+      />,
     )
 
     expect(
-      document.querySelector('.dnb-space').getAttribute('style')
+      document.querySelector('.dnb-space').getAttribute('style'),
     ).toBe(
-      '--margin-t-s: 2rem; --margin-b-s: 0; --margin-l-s: 0; --margin-r-m: 1rem; --margin-b-m: 1.5rem; --margin-r-l: 0;'
+      '--margin-t-s: 2rem; --margin-b-s: 0; --margin-l-s: 0; --margin-r-m: 1rem; --margin-b-m: 1.5rem; --margin-r-l: 0;',
     )
 
     // CSS classes should reflect only non-zero values from small breakpoint
     expect(
-      Object.values(document.querySelector('.dnb-space').classList)
+      Object.values(document.querySelector('.dnb-space').classList),
     ).toEqual([
       'dnb-space',
       'dnb-space__top--large',
@@ -413,13 +413,13 @@ describe('responsive space', () => {
           },
           large: 'xx-large x-small',
         }}
-      />
+      />,
     )
 
     expect(
-      document.querySelector('.dnb-space').getAttribute('style')
+      document.querySelector('.dnb-space').getAttribute('style'),
     ).toBe(
-      '--margin-t-s: 3rem; --margin-r-s: 3rem; --margin-b-s: 3rem; --margin-l-s: 3rem; --margin-t-m: 3.5rem; --margin-r-m: 1.5rem; --margin-b-m: 2.5rem; --margin-l-m: 0.5rem; --margin-t-l: 4rem; --margin-r-l: 4rem; --margin-b-l: 4rem; --margin-l-l: 4rem;'
+      '--margin-t-s: 3rem; --margin-r-s: 3rem; --margin-b-s: 3rem; --margin-l-s: 3rem; --margin-t-m: 3.5rem; --margin-r-m: 1.5rem; --margin-b-m: 2.5rem; --margin-l-m: 0.5rem; --margin-t-l: 4rem; --margin-r-l: 4rem; --margin-b-l: 4rem; --margin-l-l: 4rem;',
     )
   })
 })
@@ -433,12 +433,12 @@ describe('responsive innerSpace', () => {
           medium: true,
           large: { left: '16px', right: 'x-small' },
         }}
-      />
+      />,
     )
     expect(
-      document.querySelector('.dnb-space').getAttribute('style')
+      document.querySelector('.dnb-space').getAttribute('style'),
     ).toBe(
-      '--padding-t-s: 0.5rem; --padding-r-s: 2rem; --padding-t-m: 1rem; --padding-r-m: 1rem; --padding-b-m: 1rem; --padding-l-m: 1rem; --padding-l-l: 1rem; --padding-r-l: 0.5rem;'
+      '--padding-t-s: 0.5rem; --padding-r-s: 2rem; --padding-t-m: 1rem; --padding-r-m: 1rem; --padding-b-m: 1rem; --padding-l-m: 1rem; --padding-l-l: 1rem; --padding-r-l: 0.5rem;',
     )
   })
 })

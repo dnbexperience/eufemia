@@ -23,7 +23,7 @@ describe('CancelButton', () => {
             <CancelButton showConfirmDialog={false} />
           </Toolbar>
         </IterateItemContext>
-      </FieldBoundaryContext>
+      </FieldBoundaryContext>,
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -42,7 +42,7 @@ describe('CancelButton', () => {
         <Toolbar>
           <CancelButton showConfirmDialog={false} />
         </Toolbar>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -65,7 +65,7 @@ describe('CancelButton', () => {
         <Toolbar>
           <CancelButton showConfirmDialog={false} />
         </Toolbar>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -116,7 +116,7 @@ describe('CancelButton', () => {
             </Toolbar>
           </PushContainerContext>
         </IterateItemContext>
-      </MockBoundary>
+      </MockBoundary>,
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -148,7 +148,7 @@ describe('CancelButton', () => {
             </ToolbarContext>
           </Toolbar>
         </IterateItemContext>
-      </FieldBoundaryContext>
+      </FieldBoundaryContext>,
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -181,7 +181,7 @@ describe('CancelButton', () => {
             </ToolbarContext>
           </Toolbar>
         </IterateItemContext>
-      </FieldBoundaryContext>
+      </FieldBoundaryContext>,
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -216,7 +216,7 @@ describe('CancelButton', () => {
             </ToolbarContext>
           </Toolbar>
         </IterateItemContext>
-      </FieldBoundaryContext>
+      </FieldBoundaryContext>,
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -240,7 +240,7 @@ describe('CancelButton', () => {
           <Toolbar>
             <CancelButton showConfirmDialog={false} />
           </Toolbar>
-        </IterateItemContext>
+        </IterateItemContext>,
       )
 
       const button = document.querySelector('button')
@@ -253,7 +253,7 @@ describe('CancelButton', () => {
           <Toolbar>
             <CancelButton showConfirmDialog={false} />
           </Toolbar>
-        </IterateItemContext>
+        </IterateItemContext>,
       )
 
       const button = document.querySelector('button')
@@ -271,7 +271,7 @@ describe('CancelButton', () => {
             <CancelButton />
           </Toolbar>
         </IterateItemContext>
-      </FieldBoundaryContext>
+      </FieldBoundaryContext>,
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -280,11 +280,11 @@ describe('CancelButton', () => {
     expect(confirmDialog).toBeInTheDocument()
     // Ensure the confirm dialog uses cancel-specific title
     expect(confirmDialog).toHaveTextContent(
-      nbNO['nb-NO'].SectionEditContainer.confirmCancelText
+      nbNO['nb-NO'].SectionEditContainer.confirmCancelText,
     )
 
     await userEvent.click(
-      document.querySelector('.dnb-dialog .dnb-button--primary')
+      document.querySelector('.dnb-dialog .dnb-button--primary'),
     )
 
     await waitFor(() => {

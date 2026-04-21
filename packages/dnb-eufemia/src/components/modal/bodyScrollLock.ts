@@ -36,7 +36,7 @@ const setOverflowHidden = () => {
     htmlElement.style.height = '100%'
     htmlElement.style.setProperty(
       '--scrollbar-width',
-      `${scrollBarWidth}px`
+      `${scrollBarWidth}px`,
     )
 
     bodyElement.style.overflow = 'hidden'
@@ -64,7 +64,7 @@ const setOverflowHidden = () => {
 }
 
 const setOverflowHiddenIOS = (
-  targetElement: HTMLElement | HTMLElement[] | null
+  targetElement: HTMLElement | HTMLElement[] | null,
 ) => {
   if (targetElement) {
     const elementArray = Array.isArray(targetElement)
@@ -91,7 +91,7 @@ const setOverflowHiddenIOS = (
     document.addEventListener(
       'touchmove',
       preventDefault,
-      eventListenerOptions
+      eventListenerOptions,
     )
     documentListenerAdded = true
   }
@@ -115,7 +115,7 @@ const setOverflowHiddenIOS = (
       document.removeEventListener(
         'touchmove',
         preventDefault,
-        eventListenerOptions
+        eventListenerOptions,
       )
       documentListenerAdded = false
     }
@@ -199,7 +199,7 @@ const handleScroll = (event: TouchEvent, targetElement: HTMLElement) => {
         const hasScrollbar = isChildOfElement(
           event.target,
           targetElement,
-          checkIfHasScrollbar
+          checkIfHasScrollbar,
         )
 
         if (hasScrollbar && hasScrollbar !== targetElement) {
@@ -219,18 +219,18 @@ const handleScroll = (event: TouchEvent, targetElement: HTMLElement) => {
 }
 
 const checkTargetElement = (
-  targetElement: HTMLElement | HTMLElement[] | null
+  targetElement: HTMLElement | HTMLElement[] | null,
 ) => {
   if (targetElement) return
   if (targetElement === null) return
   warn(
     `If scrolling is also required in the floating layer, ` +
-      `the target element must be provided.`
+      `the target element must be provided.`,
   )
 }
 
 export const disableBodyScroll = (
-  targetElement: HTMLElement | HTMLElement[] | null
+  targetElement: HTMLElement | HTMLElement[] | null,
 ) => {
   if (isServer()) {
     return undefined // stop here
@@ -259,7 +259,7 @@ export const disableBodyScroll = (
 }
 
 export const enableBodyScroll = (
-  targetElement: HTMLElement | HTMLElement[] | null
+  targetElement: HTMLElement | HTMLElement[] | null,
 ) => {
   if (isServer()) {
     return undefined

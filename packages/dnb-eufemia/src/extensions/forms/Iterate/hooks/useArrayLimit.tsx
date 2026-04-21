@@ -22,14 +22,14 @@ export default function useArrayLimit(path: Path) {
         set(props)
       }
     },
-    [set, total, update]
+    [set, total, update],
   )
 
   const setShowStatus = useCallback(
     (show: boolean) => {
       extend({ show })
     },
-    [extend]
+    [extend],
   )
 
   const hasReachedLimit = typeof limit === 'number' && total >= limit

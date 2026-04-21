@@ -25,7 +25,7 @@ export function runCssVersionMismatchWarning() {
         const cssVersion =
           getCssVersion(document.body) ||
           getCssVersion(
-            document.getElementsByClassName('dnb-core-style')[0]
+            document.getElementsByClassName('dnb-core-style')[0],
           ) ||
           'unknown'
 

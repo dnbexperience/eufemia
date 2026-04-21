@@ -22,7 +22,7 @@ describe('Iterate.Count', () => {
         const { container } = render(
           <DataContext.Provider data={data}>
             <Count path={path} />
-          </DataContext.Provider>
+          </DataContext.Provider>,
         )
 
         expect(container).toHaveTextContent('3')
@@ -40,7 +40,7 @@ describe('Iterate.Count', () => {
         const { container } = render(
           <DataContext.Provider data={data}>
             <Count path={path} filter={filter} />
-          </DataContext.Provider>
+          </DataContext.Provider>,
         )
 
         expect(container).toHaveTextContent('2')
@@ -61,7 +61,7 @@ describe('Iterate.Count', () => {
         const { container } = render(
           <DataContext.Provider data={data}>
             <MockComponent />
-          </DataContext.Provider>
+          </DataContext.Provider>,
         )
 
         expect(container).toHaveTextContent('3')
@@ -86,7 +86,7 @@ describe('Iterate.Count', () => {
         const { container } = render(
           <DataContext.Provider data={data}>
             <MockComponent />
-          </DataContext.Provider>
+          </DataContext.Provider>,
         )
 
         expect(container).toHaveTextContent('2')
@@ -102,7 +102,7 @@ describe('Iterate.Count', () => {
         const { container } = render(
           <DataContext.Provider data={data}>
             <Count path={path} />
-          </DataContext.Provider>
+          </DataContext.Provider>,
         )
 
         expect(container).toHaveTextContent('NaN')
@@ -123,7 +123,7 @@ describe('Iterate.Count', () => {
               -
             </DataContext.Provider>
             <Count id={id} path={path} />
-          </>
+          </>,
         )
 
         expect(container).toHaveTextContent('3')
@@ -147,7 +147,7 @@ describe('Iterate.Count', () => {
               -
             </DataContext.Provider>
             <MockComponent />
-          </>
+          </>,
         )
         expect(container).toHaveTextContent('3')
         expect(value).toBe(3)
@@ -172,7 +172,7 @@ describe('Iterate.Count', () => {
             <DataContext.Provider id={id} data={data}>
               -
             </DataContext.Provider>
-          </>
+          </>,
         )
         expect(container).toHaveTextContent('3')
         expect(value).toBe(3)
@@ -191,7 +191,7 @@ describe('Iterate.Count', () => {
               -
             </DataContext.Provider>
             <Count id={id} path={path} />
-          </>
+          </>,
         )
 
         expect(container).toHaveTextContent('NaN')
@@ -210,7 +210,7 @@ describe('Iterate.Count', () => {
         const { container } = render(
           <DataContext.Provider data={data}>
             <Count path={path} />
-          </DataContext.Provider>
+          </DataContext.Provider>,
         )
 
         expect(container).toHaveTextContent('3')
@@ -229,7 +229,7 @@ describe('Iterate.Count', () => {
         const { container } = render(
           <DataContext.Provider data={data}>
             <Count path={path} filter={filter} />
-          </DataContext.Provider>
+          </DataContext.Provider>,
         )
 
         expect(container).toHaveTextContent('2')
@@ -250,7 +250,7 @@ describe('Iterate.Count', () => {
         const { container } = render(
           <DataContext.Provider data={data}>
             <MockComponent />
-          </DataContext.Provider>
+          </DataContext.Provider>,
         )
 
         expect(container).toHaveTextContent('3')
@@ -276,7 +276,7 @@ describe('Iterate.Count', () => {
         const { container } = render(
           <DataContext.Provider data={data}>
             <MockComponent />
-          </DataContext.Provider>
+          </DataContext.Provider>,
         )
 
         expect(container).toHaveTextContent('2')
@@ -292,7 +292,7 @@ describe('Iterate.Count', () => {
         const { container } = render(
           <DataContext.Provider data={data}>
             <Count path={path} />
-          </DataContext.Provider>
+          </DataContext.Provider>,
         )
 
         expect(container).toHaveTextContent('NaN')
@@ -313,7 +313,7 @@ describe('Iterate.Count', () => {
               -
             </DataContext.Provider>
             <Count id={id} path={path} />
-          </>
+          </>,
         )
 
         expect(container).toHaveTextContent('3')
@@ -337,7 +337,7 @@ describe('Iterate.Count', () => {
               -
             </DataContext.Provider>
             <MockComponent />
-          </>
+          </>,
         )
         expect(container).toHaveTextContent('3')
         expect(value).toBe(3)
@@ -362,7 +362,7 @@ describe('Iterate.Count', () => {
             <DataContext.Provider id={id} data={data}>
               -
             </DataContext.Provider>
-          </>
+          </>,
         )
         expect(container).toHaveTextContent('3')
         expect(value).toBe(3)
@@ -381,7 +381,7 @@ describe('Iterate.Count', () => {
               -
             </DataContext.Provider>
             <Count id={id} path={path} />
-          </>
+          </>,
         )
 
         expect(container).toHaveTextContent('NaN')
@@ -403,7 +403,7 @@ describe('Iterate.Count', () => {
           <Form.Section path="/mySection">
             <Count path={path} />
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(container).toHaveTextContent('3')

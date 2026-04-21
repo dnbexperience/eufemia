@@ -26,11 +26,11 @@ describe('Skeleton component', () => {
   it('has to use the provider to enable a skeleton in a component', () => {
     const { rerender } = render(<Skeleton {...props} />)
     expect(
-      document.querySelector('.dnb-input .dnb-skeleton')
+      document.querySelector('.dnb-input .dnb-skeleton'),
     ).not.toBeInTheDocument()
     rerender(<Skeleton {...props} show={true} />)
     expect(
-      document.querySelector('.dnb-input .dnb-skeleton')
+      document.querySelector('.dnb-input .dnb-skeleton'),
     ).toBeInTheDocument()
   })
 
@@ -47,13 +47,13 @@ describe('Skeleton component', () => {
 describe('undefined props should fall through to defaults', () => {
   it('should let context override show when prop is explicitly undefined', () => {
     const { container } = render(
-      <Skeleton {...props} show={undefined} skeleton={true} />
+      <Skeleton {...props} show={undefined} skeleton={true} />,
     )
 
     // When skeleton is true and show is not explicitly false,
     // the skeleton should still activate
     expect(
-      container.querySelector('[aria-busy="true"]')
+      container.querySelector('[aria-busy="true"]'),
     ).toBeInTheDocument()
   })
 })

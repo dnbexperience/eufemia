@@ -107,7 +107,7 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
     context?.GlobalError,
     translation,
     translation[localProps.statusCode || defaultProps.statusCode],
-    { skeleton: context?.skeleton }
+    { skeleton: context?.skeleton },
   )
 
   const {
@@ -136,7 +136,7 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
       'dnb-global-error',
       `dnb-global-error--${statusCode}`,
       center && 'dnb-global-error--center',
-      className
+      className,
     ),
   }) as Record<string, unknown>
 

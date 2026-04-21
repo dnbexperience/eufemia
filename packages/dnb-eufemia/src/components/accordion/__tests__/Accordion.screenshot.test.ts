@@ -206,5 +206,5 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
         })
       })
     })
-  }
+  },
 )

@@ -40,13 +40,13 @@ export type PortalRootProviderProps =
   React.PropsWithChildren<SelectorOptions>
 
 export function PortalRootProvider(
-  props: PortalRootProviderProps
+  props: PortalRootProviderProps,
 ): React.JSX.Element | null {
   const { id, insideSelector, beforeSelector, children } = props
 
   const value = useMemo(
     () => ({ id, insideSelector, beforeSelector }),
-    [id, insideSelector, beforeSelector]
+    [id, insideSelector, beforeSelector],
   )
 
   return <PortalRootContext value={value}>{children}</PortalRootContext>
@@ -133,7 +133,7 @@ function PortalRootInstance(props: PortalRootProps = {}): React.ReactNode {
         className={clsx(
           'dnb-core-style',
           'eufemia-portal-root',
-          className
+          className,
         )}
         style={{ ...scopeStyle, ...style }}
         {...rest}
@@ -141,7 +141,7 @@ function PortalRootInstance(props: PortalRootProps = {}): React.ReactNode {
         {children}
       </div>
     </IsolatedStyleScope>,
-    portalElement
+    portalElement,
   )
 }
 

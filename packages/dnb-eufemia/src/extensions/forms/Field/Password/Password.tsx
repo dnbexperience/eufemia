@@ -90,7 +90,7 @@ function Password({
         ref.current.focus()
       }
     },
-    [props]
+    [props],
   )
 
   const preventFocusChange = useCallback((event: React.MouseEvent) => {

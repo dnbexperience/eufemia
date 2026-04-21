@@ -69,7 +69,7 @@ function ArrayComponent(props: IterateArrayProps) {
   const valueBlockContext = useContext(ValueBlockContext)
   const { absolutePath } = useItemPath(itemPathProp)
   const { setLimitProps, error: limitWarning } = useArrayLimit(
-    pathProp || absolutePath
+    pathProp || absolutePath,
   )
 
   const { getValueByPath } = useDataValue()
@@ -79,7 +79,7 @@ function ArrayComponent(props: IterateArrayProps) {
     }
 
     let countValue = parseFloat(
-      getValueByPath(countPath, dataContext.data)
+      getValueByPath(countPath, dataContext.data),
     )
     if (!(countValue >= 0)) {
       countValue = 0
@@ -100,7 +100,7 @@ function ArrayComponent(props: IterateArrayProps) {
         return error
       }
     },
-    []
+    [],
   )
 
   const preparedProps = useMemo(() => {
@@ -136,7 +136,7 @@ function ArrayComponent(props: IterateArrayProps) {
         newValue.push(
           countPathTransform
             ? countPathTransform({ value, index: i })
-            : value
+            : value,
         )
       }
 
@@ -194,7 +194,7 @@ function ArrayComponent(props: IterateArrayProps) {
     ) {
       const currentValue = pointer.has(
         dataContext.internalDataRef.current,
-        path
+        path,
       )
         ? pointer.get(dataContext.internalDataRef.current, path)
         : undefined
@@ -302,7 +302,7 @@ function ArrayComponent(props: IterateArrayProps) {
         },
         handleChange: (path, value) => {
           const newArrayValue = structuredClone(
-            arrayValueRef.current || []
+            arrayValueRef.current || [],
           )
 
           // Make sure we have a new object reference,
@@ -327,11 +327,11 @@ function ArrayComponent(props: IterateArrayProps) {
         // - Called after animation end
         fulfillRemove: () => {
           const newArrayValue = structuredClone(
-            arrayValueRef.current || []
+            arrayValueRef.current || [],
           )
           newArrayValue.splice(index, 1)
           handleChange(
-            newArrayValue.length === 0 ? clearedArray : newArrayValue
+            newArrayValue.length === 0 ? clearedArray : newArrayValue,
           )
 
           delete modesRef.current?.[id]
@@ -345,7 +345,7 @@ function ArrayComponent(props: IterateArrayProps) {
         restoreOriginalValue: (value) => {
           if (value) {
             const newArrayValue = structuredClone(
-              arrayValueRef.current || []
+              arrayValueRef.current || [],
             )
             newArrayValue[index] = value
             handleChange(newArrayValue)
@@ -407,7 +407,7 @@ function ArrayComponent(props: IterateArrayProps) {
     className: clsx(
       'dnb-forms-iterate',
       'dnb-forms-section', // To support containers
-      props?.className
+      props?.className,
     ),
     ...pickFlexContainerProps(props as FlexContainerProps),
     ...pickSpacingProps(props),

@@ -93,9 +93,9 @@ export function onMediaQueryChange(
   property: MediaQueryProperties | string,
   callback?: (
     matches: boolean,
-    event: Partial<MediaQueryListEvent>
+    event: Partial<MediaQueryListEvent>,
   ) => void,
-  { runOnInit = false } = {}
+  { runOnInit = false } = {},
 ): MediaQueryListener {
   let query = property
   let when = null
@@ -130,7 +130,7 @@ export const isMatchMediaSupported = (): boolean =>
 export function makeMediaQueryList(
   { query, when, not = null }: MediaQueryProperties = {},
   breakpoints: MediaQueryBreakpoints = null,
-  options?: MediaQueryOptions
+  options?: MediaQueryOptions,
 ): MediaQueryList {
   const isSupported = isMatchMediaSupported()
 
@@ -157,7 +157,10 @@ export function makeMediaQueryList(
  */
 export function createMediaQueryListener(
   mediaQueryList: MediaQueryList,
-  callback: (matches: boolean, event: Partial<MediaQueryListEvent>) => void
+  callback: (
+    matches: boolean,
+    event: Partial<MediaQueryListEvent>,
+  ) => void,
 ): MediaQueryListener {
   if (!mediaQueryList) {
     return () => null
@@ -185,7 +188,7 @@ export function createMediaQueryListener(
 export function buildQuery(
   { query = null, when = null, not = null }: MediaQueryProperties = {},
   breakpoints?: MediaQueryBreakpoints,
-  options?: MediaQueryOptions
+  options?: MediaQueryOptions,
 ) {
   if (when) {
     if (typeof when === 'string') {
@@ -196,7 +199,7 @@ export function buildQuery(
 
     if (Array.isArray(when)) {
       listOfQueries = listOfQueries.concat(
-        combineQueries(when, breakpoints, options)
+        combineQueries(when, breakpoints, options),
       )
     } else if (typeof when === 'object') {
       const queryItem = convertToMediaQuery(when, breakpoints, options)
@@ -240,7 +243,7 @@ function reverseQuery(query: string) {
 function combineQueries(
   queries: Array<MediaQueryCondition>,
   breakpoints: MediaQueryBreakpoints = null,
-  options?: MediaQueryOptions
+  options?: MediaQueryOptions,
 ) {
   return queries
     .reduce((listOfQueries, when, i, arr) => {
@@ -287,7 +290,7 @@ function mergeBreakpoints(breakpoints: MediaQueryBreakpoints) {
 export function convertToMediaQuery(
   query: MediaQueryCondition | Array<MediaQueryCondition>,
   breakpoints: MediaQueryBreakpoints = null,
-  options?: MediaQueryOptions
+  options?: MediaQueryOptions,
 ): string {
   if (typeof query === 'string') {
     return query
@@ -317,7 +320,7 @@ export function convertToMediaQuery(
 function objToMediaQuery(
   obj: MediaQueryCondition,
   breakpoints: MediaQueryBreakpoints = null,
-  options?: MediaQueryOptions
+  options?: MediaQueryOptions,
 ): string {
   if (typeof obj === 'string') {
     return obj
@@ -358,7 +361,7 @@ function objToMediaQuery(
 
       return acc
     },
-    []
+    [],
   )
 
   if (Array.isArray(query)) {
@@ -376,7 +379,7 @@ function objToMediaQuery(
       const correctedSize = (size * 16 + 0.1) / 16 // add 0.1px to the minimum to avoid overlap with and equivalent maximum
       query = query.replace(
         /(min-width: [0-9]+em)/,
-        `min-width: ${correctedSize}em`
+        `min-width: ${correctedSize}em`,
       )
     }
   }
@@ -389,7 +392,7 @@ function objToMediaQuery(
  */
 function getValueByFeature(
   value: string,
-  types: MediaQueryBreakpoints = null
+  types: MediaQueryBreakpoints = null,
 ) {
   types = types || defaultBreakpoints
   if (Object.hasOwn(types, value)) {

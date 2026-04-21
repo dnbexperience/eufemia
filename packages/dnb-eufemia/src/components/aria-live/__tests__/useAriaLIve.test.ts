@@ -7,7 +7,7 @@ describe('useAriaLive', () => {
       useAriaLive({
         priority: 'low',
         children: 'Low priority announcement',
-      })
+      }),
     )
 
     expect(result.current['aria-live']).toBe('polite')
@@ -23,7 +23,7 @@ describe('useAriaLive', () => {
       useAriaLive({
         priority: 'high',
         children: 'High priority announcement',
-      })
+      }),
     )
 
     expect(result.current['aria-live']).toBe('assertive')

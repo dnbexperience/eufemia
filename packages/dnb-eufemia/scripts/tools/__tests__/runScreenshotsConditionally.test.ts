@@ -22,7 +22,7 @@ describe('runScreenshotsConditionally', () => {
 
   function select(
     input: Omit<SelectionInput, 'allScreenshotTests' | 'dependencyMap'> &
-      Partial<Pick<SelectionInput, 'dependencyMap'>>
+      Partial<Pick<SelectionInput, 'dependencyMap'>>,
   ) {
     return analyzeSelection({
       allScreenshotTests,
@@ -219,8 +219,8 @@ describe('path helpers', () => {
   it('normalizes package-relative paths from repository paths', () => {
     expect(
       toPackageRelativePath(
-        'packages/dnb-eufemia/src/components/button/Button.js'
-      )
+        'packages/dnb-eufemia/src/components/button/Button.js',
+      ),
     ).toBe('src/components/button/Button.js')
   })
 
@@ -228,8 +228,8 @@ describe('path helpers', () => {
     expect(
       isGlobalVisualImpact(
         'packages/dnb-design-system-portal/src/docs/uilib/components/button.mdx',
-        null
-      )
+        null,
+      ),
     ).toBe(false)
   })
 })

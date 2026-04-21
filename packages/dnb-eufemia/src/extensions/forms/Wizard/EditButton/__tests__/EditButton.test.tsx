@@ -24,7 +24,7 @@ describe('EditButton', () => {
     render(
       <Provider locale="en-GB">
         <EditButton />
-      </Provider>
+      </Provider>,
     )
 
     const button = document.querySelector('.dnb-forms-edit-button')
@@ -55,7 +55,7 @@ describe('EditButton', () => {
 
     expect(button.querySelector('.dnb-icon')).toHaveAttribute(
       'data-testid',
-      'edit icon'
+      'edit icon',
     )
   })
 
@@ -72,7 +72,7 @@ describe('EditButton', () => {
             <EditButton toStep={0} />
           </Wizard.Step>
         </Wizard.Container>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     await userEvent.click(document.querySelector('.dnb-forms-edit-button'))

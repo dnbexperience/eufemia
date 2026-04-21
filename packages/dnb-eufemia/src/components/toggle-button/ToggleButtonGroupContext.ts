@@ -21,8 +21,8 @@ export type ToggleButtonGroupContextValue = {
     context:
       | Record<string, unknown>
       | ((
-          tmp: Record<string, unknown> | undefined
-        ) => Record<string, unknown>)
+          tmp: Record<string, unknown> | undefined,
+        ) => Record<string, unknown>),
   ) => void
   onChange?: (args: {
     value: ToggleButtonValue | ToggleButtonValue[]

@@ -48,7 +48,7 @@ describe('CopyOnClick', () => {
     render(
       <CopyOnClick>
         <p>CopyOnClick text</p>
-      </CopyOnClick>
+      </CopyOnClick>,
     )
 
     expect(screen.getByText('CopyOnClick text')).toBeInTheDocument()
@@ -58,7 +58,7 @@ describe('CopyOnClick', () => {
     render(
       <CopyOnClick id="test-id" data-test="test-data">
         <p>CopyOnClick text</p>
-      </CopyOnClick>
+      </CopyOnClick>,
     )
 
     const element = document.querySelector('.dnb-copy-on-click')
@@ -71,7 +71,7 @@ describe('CopyOnClick', () => {
     render(
       <CopyOnClick>
         <p>CopyOnClick text</p>
-      </CopyOnClick>
+      </CopyOnClick>,
     )
 
     const element = document.querySelector('.dnb-copy-on-click')
@@ -81,7 +81,7 @@ describe('CopyOnClick', () => {
 
   it('should set a custom HTML class name on the element', () => {
     render(
-      <CopyOnClick className="custom-class">CopyOnClick text</CopyOnClick>
+      <CopyOnClick className="custom-class">CopyOnClick text</CopyOnClick>,
     )
 
     const element = document.querySelector('.dnb-copy-on-click')
@@ -91,7 +91,7 @@ describe('CopyOnClick', () => {
 
   it('should accept copyContent prop', () => {
     render(
-      <CopyOnClick copyContent="copyContent">CopyOnClick</CopyOnClick>
+      <CopyOnClick copyContent="copyContent">CopyOnClick</CopyOnClick>,
     )
 
     expect(screen.getByText('CopyOnClick')).toBeInTheDocument()
@@ -119,7 +119,7 @@ describe('CopyOnClick', () => {
     window.getSelection()?.removeAllRanges()
 
     render(
-      <CopyOnClick copyContent="copyContent">CopyOnClick</CopyOnClick>
+      <CopyOnClick copyContent="copyContent">CopyOnClick</CopyOnClick>,
     )
 
     expect(screen.getByText('CopyOnClick')).toBeInTheDocument()
@@ -135,7 +135,7 @@ describe('CopyOnClick', () => {
     render(
       <CopyOnClick>
         <NumberFormat.Currency value={1234567.89} currency="NOK" />
-      </CopyOnClick>
+      </CopyOnClick>,
     )
 
     await userEvent.click(document.querySelector('.dnb-copy-on-click'))
@@ -155,7 +155,7 @@ describe('CopyOnClick', () => {
       expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
       expect(
         document.querySelector('.dnb-tooltip__content').firstChild
-          .textContent
+          .textContent,
       ).toBe(customMessage)
     })
   })
@@ -195,7 +195,7 @@ describe('CopyOnClick', () => {
     // Tooltip should not become active
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-tooltip')
+        document.querySelector('.dnb-tooltip'),
       ).not.toBeInTheDocument()
     })
 

@@ -52,7 +52,7 @@ function ItemContent(props: ItemContentProps) {
         pending && 'dnb-list__item--pending',
         appliedDisabled && 'dnb-list__item--disabled',
         appliedSkeleton && createSkeletonClass('font', true),
-        className
+        className,
       )}
       {...rest}
     >

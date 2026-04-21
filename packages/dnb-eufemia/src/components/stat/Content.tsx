@@ -53,9 +53,9 @@ function Content(props: ContentProps) {
         'dnb-stat__content-item',
         `dnb-stat__content-item--${direction}`,
         skeletonClass,
-        className
+        className,
       ),
-    })
+    }),
   )
 
   applySkeletonAttributes(attributes)

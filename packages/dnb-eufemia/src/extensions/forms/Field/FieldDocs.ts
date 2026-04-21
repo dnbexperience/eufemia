@@ -16,7 +16,7 @@ export const FieldEvents: PropertiesTableProps = {
 
 export const getFieldEventsWithTypes = (
   valueType: { type: string; optional?: boolean } = undefined,
-  additionalArgsType: { type: string; optional?: boolean } = undefined
+  additionalArgsType: { type: string; optional?: boolean } = undefined,
 ): PropertiesTableProps => {
   const value = valueType
     ? `value${valueType.optional ? '?' : ''}: ${valueType.type}`

@@ -73,7 +73,7 @@ describe('Button component', () => {
       const icon = document.querySelector('.dnb-icon')
       expect(button.classList).toContain('dnb-button--size-medium')
       expect(button.classList).not.toContain(
-        'dnb-button--icon-size-medium'
+        'dnb-button--icon-size-medium',
       )
       expect(icon.classList).toContain('dnb-icon--default')
     })
@@ -99,14 +99,14 @@ describe('Button component', () => {
   it('has to have a bounding tag if property is set', () => {
     render(<Button bounding={true} />)
     expect(
-      document.querySelector('.dnb-button__bounding')
+      document.querySelector('.dnb-button__bounding'),
     ).toBeInTheDocument()
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(<Button />)
     expect(document.querySelector('button')).not.toHaveAttribute(
-      'disabled'
+      'disabled',
     )
     rerender(<Button disabled />)
 
@@ -117,11 +117,11 @@ describe('Button component', () => {
     render(
       <Theme.Context surface="dark">
         <Button>Button</Button>
-      </Theme.Context>
+      </Theme.Context>,
     )
 
     expect(document.querySelector('.dnb-button')).toHaveClass(
-      'dnb-button--surface-dark'
+      'dnb-button--surface-dark',
     )
   })
 
@@ -135,7 +135,7 @@ describe('Button component', () => {
     render(<Button element="span" />)
     expect(document.querySelector('.dnb-button').tagName).toBe('SPAN')
     expect(
-      document.querySelector('.dnb-button').getAttribute('type')
+      document.querySelector('.dnb-button').getAttribute('type'),
     ).toBe('button')
   })
 
@@ -155,12 +155,12 @@ describe('Button component', () => {
     render(
       <Provider formElement={{ vertical: true, disabled: true }}>
         <Button text="Button" />
-      </Provider>
+      </Provider>,
     )
 
     const element = document.querySelector('.dnb-button')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual([
@@ -220,10 +220,10 @@ describe('Button component', () => {
     expect(
       document
         .querySelector('.dnb-button__alignment')
-        .getAttribute('aria-hidden')
+        .getAttribute('aria-hidden'),
     ).toBe('true')
     expect(document.querySelector('.dnb-button__text').textContent).toBe(
-      text
+      text,
     )
 
     rerender(<Button icon="bell" />)
@@ -231,10 +231,10 @@ describe('Button component', () => {
     expect(
       document
         .querySelector('.dnb-button__alignment')
-        .getAttribute('aria-hidden')
+        .getAttribute('aria-hidden'),
     ).toBe('true')
     expect(
-      document.querySelector('.dnb-button__text')
+      document.querySelector('.dnb-button__text'),
     ).not.toBeInTheDocument()
   })
 
@@ -257,7 +257,7 @@ describe('Button component', () => {
           href="https://url"
           target="_blank"
           icon={null}
-        />
+        />,
       )
       expect(document.querySelector('svg')).toBeInTheDocument()
     })
@@ -275,7 +275,7 @@ describe('Button component', () => {
 
       it('should validate with ARIA rules when disabled', async () => {
         const Comp = render(
-          <Button {...props} href="https://url" disabled />
+          <Button {...props} href="https://url" disabled />,
         )
         expect(await axeComponent(Comp)).toHaveNoViolations()
       })
@@ -284,7 +284,7 @@ describe('Button component', () => {
         render(
           <Button href="https://url" disabled>
             Go to example
-          </Button>
+          </Button>,
         )
 
         const anchor = document.querySelector('a')
@@ -301,7 +301,7 @@ describe('Button component', () => {
         render(
           <Button href="https://url" disabled>
             Go to example
-          </Button>
+          </Button>,
         )
 
         const anchor = document.querySelector('a')
@@ -312,7 +312,7 @@ describe('Button component', () => {
         render(
           <Button href="https://example.com" disabled>
             Disabled link button
-          </Button>
+          </Button>,
         )
 
         const anchor = document.querySelector('a')
@@ -354,7 +354,7 @@ describe('Button component', () => {
 
   it('will replace icon with icon component', () => {
     const { rerender } = render(
-      <Button icon={<span className="dnb-icon custom-icon">icon</span>} />
+      <Button icon={<span className="dnb-icon custom-icon">icon</span>} />,
     )
     expect(document.querySelector('.custom-icon')).toBeInTheDocument()
 
@@ -363,12 +363,12 @@ describe('Button component', () => {
         icon={
           <IconPrimary icon="bell" className="custom-icon-component" />
         }
-      />
+      />,
     )
 
     expect(document.querySelector('.custom-icon')).not.toBeInTheDocument()
     expect(
-      document.querySelector('.custom-icon-component')
+      document.querySelector('.custom-icon-component'),
     ).toBeInTheDocument()
   })
 
@@ -412,8 +412,8 @@ describe('Button component', () => {
       expect.anything(),
       expect.anything(),
       expect.stringContaining(
-        'Icon-only Button requires either a "title" or "aria-label"'
-      )
+        'Icon-only Button requires either a "title" or "aria-label"',
+      ),
     )
   })
 
@@ -425,8 +425,8 @@ describe('Button component', () => {
       expect.anything(),
       expect.anything(),
       expect.stringContaining(
-        'Icon-only Button requires either a "title" or "aria-label"'
-      )
+        'Icon-only Button requires either a "title" or "aria-label"',
+      ),
     )
   })
 
@@ -438,18 +438,18 @@ describe('Button component', () => {
       expect.anything(),
       expect.anything(),
       expect.stringContaining(
-        'Icon-only Button requires either a "title" or "aria-label"'
-      )
+        'Icon-only Button requires either a "title" or "aria-label"',
+      ),
     )
   })
 
   it('has no size when only setting text', () => {
     render(<Button text="Button" />)
     expect(
-      document.querySelector('.dnb-button--size-medium')
+      document.querySelector('.dnb-button--size-medium'),
     ).not.toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-button--size-large')
+      document.querySelector('.dnb-button--size-large'),
     ).not.toBeInTheDocument()
   })
 
@@ -457,7 +457,7 @@ describe('Button component', () => {
     render(<Button text="text" style={{ color: 'red' }} />)
 
     expect(document.querySelector('button').getAttribute('style')).toBe(
-      'color: red;'
+      'color: red;',
     )
   })
 
@@ -467,14 +467,14 @@ describe('Button component', () => {
     const button = document.querySelector('button')
 
     expect(
-      document.querySelector('.dnb-tooltip--active')
+      document.querySelector('.dnb-tooltip--active'),
     ).not.toBeInTheDocument()
 
     await userEvent.hover(button)
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-tooltip--active')
+        document.querySelector('.dnb-tooltip--active'),
       ).toBeInTheDocument()
     })
   })
@@ -496,7 +496,7 @@ describe('undefined props should fall through to defaults', () => {
     render(
       <Provider Button={providerButtonProps}>
         <Button text="Button" icon="bell" />
-      </Provider>
+      </Provider>,
     )
 
     const button = document.querySelector('.dnb-button')
@@ -509,7 +509,7 @@ describe('undefined props should fall through to defaults', () => {
     render(
       <Provider Button={{ iconSize: 'medium' }}>
         <Button text="Button" icon="bell" iconSize={undefined} />
-      </Provider>
+      </Provider>,
     )
 
     const button = document.querySelector('.dnb-button')
@@ -530,7 +530,7 @@ describe('undefined props should fall through to defaults', () => {
     render(
       <Provider Button={{ iconSize: 'small' }}>
         <Button text="Button" icon="bell" iconSize="medium" />
-      </Provider>
+      </Provider>,
     )
 
     const button = document.querySelector('.dnb-button')
@@ -547,7 +547,7 @@ describe('undefined props should fall through to defaults', () => {
           icon={<IconPrimary icon="bell" />}
           iconSize={undefined}
         />
-      </Provider>
+      </Provider>,
     )
 
     const button = document.querySelector('.dnb-button')
@@ -561,7 +561,7 @@ describe('undefined props should fall through to defaults', () => {
         text="Button"
         icon={<IconPrimary icon="bell" />}
         iconSize={undefined}
-      />
+      />,
     )
 
     const button = document.querySelector('.dnb-button')
@@ -578,7 +578,7 @@ describe('undefined props should fall through to defaults', () => {
           icon={<IconPrimary icon="bell" />}
           iconSize="medium"
         />
-      </Provider>
+      </Provider>,
     )
 
     const button = document.querySelector('.dnb-button')
@@ -599,10 +599,10 @@ describe('Button scss', () => {
     (themeName) => {
       const css = loadScss(
         require.resolve(
-          `../style/themes/dnb-button-theme-${themeName}.scss`
-        )
+          `../style/themes/dnb-button-theme-${themeName}.scss`,
+        ),
       )
       expect(css).toMatchSnapshot()
-    }
+    },
   )
 })

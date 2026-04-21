@@ -56,7 +56,7 @@ function TextInternal(props: TextInternalProps) {
 
   const { skeletonClass, applySkeletonAttributes } = useStatSkeleton(
     skeleton,
-    skeletonMethod
+    skeletonMethod,
   )
 
   const resolvedSignTone = resolveSignTone(colorizeBySign, children)
@@ -81,9 +81,9 @@ function TextInternal(props: TextInternalProps) {
         textClassName && fontWeight && `dnb-t__weight--${fontWeight}`,
         resolvedSignTone && `dnb-stat--tone-${resolvedSignTone}`,
         skeletonClass,
-        className
+        className,
       ),
-    })
+    }),
   )
 
   applySkeletonAttributes(attributes)
@@ -101,7 +101,7 @@ Text._supportsSpacingProps = true
 
 function resolveSignTone(
   colorizeBySign: TextProps['colorizeBySign'],
-  children: React.ReactNode
+  children: React.ReactNode,
 ): 'positive' | 'negative' | null {
   if (colorizeBySign === false || colorizeBySign === null) {
     return null

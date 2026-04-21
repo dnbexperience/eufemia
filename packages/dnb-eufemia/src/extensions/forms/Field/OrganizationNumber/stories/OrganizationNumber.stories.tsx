@@ -9,7 +9,7 @@ export default {
 
 const myOrganizationNumberValidator: Validator<string> = (
   value,
-  { validators }
+  { validators },
 ) => {
   const { organizationNumberValidator } = validators
 

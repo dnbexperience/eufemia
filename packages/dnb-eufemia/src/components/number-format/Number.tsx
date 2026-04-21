@@ -15,7 +15,7 @@ export type NumberFormatNumberProps = Omit<
 
 const NumberFormatNumber = withFormatter<NumberFormatNumberProps>(
   'NumberFormat.Number',
-  formatNumber
+  formatNumber,
 )
 
 export default NumberFormatNumber

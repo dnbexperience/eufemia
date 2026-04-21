@@ -57,7 +57,7 @@ function DrawerListPortal({
       if (customElem.current) {
         customElem.current.removeEventListener(
           'scroll',
-          setPosition.current
+          setPosition.current,
         )
       }
       if (resizeObserver.current) {
@@ -114,7 +114,7 @@ function DrawerListPortal({
             parseFloat(
               window
                 .getComputedStyle(portalRef.current)
-                .getPropertyValue('--drawer-list-width')
+                .getPropertyValue('--drawer-list-width'),
             ) || 0
         }
         width = minWidth * 16
@@ -228,7 +228,7 @@ function DrawerListPortal({
             className={clsx(
               'dnb-drawer-list__portal__style',
               fixedPosition && 'dnb-drawer-list__portal__style--fixed',
-              className
+              className,
             )}
             style={style}
           >

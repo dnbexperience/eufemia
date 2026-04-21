@@ -5,7 +5,7 @@ import countries from '../../extensions/forms/constants/countries'
 describe('countryCodes', () => {
   it('should contain the same CDC values as countries', () => {
     const fromCountries = Array.from(
-      new Set(countries.map((c) => c.cdc))
+      new Set(countries.map((c) => c.cdc)),
     ).sort()
     const fromCountryCodes = Array.from(new Set([...countryCodes])).sort()
 
@@ -168,7 +168,7 @@ describe('detectCountryCode', () => {
 
   it('should return undefined for non-string value', () => {
     expect(
-      detectCountryCode(undefined as unknown as string)
+      detectCountryCode(undefined as unknown as string),
     ).toBeUndefined()
     expect(detectCountryCode(null as unknown as string)).toBeUndefined()
     expect(detectCountryCode(12345 as unknown as string)).toBeUndefined()

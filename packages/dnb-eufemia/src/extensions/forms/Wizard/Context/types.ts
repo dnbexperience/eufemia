@@ -14,7 +14,7 @@ export type OnStepChangeOptions = {
 export type OnStepChange = (
   index: StepIndex,
   mode: OnStepsChangeMode,
-  options: OnStepChangeOptions
+  options: OnStepChangeOptions,
 ) =>
   | EventReturnWithStateObject
   | void

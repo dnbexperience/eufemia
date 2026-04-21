@@ -19,7 +19,7 @@ function SnapshotProvider(props: SnapshotProps) {
 
   const { snapshotsRef } = useContext(DataContext) || {}
   const mountedFieldsRef = useRef<Map<Path, unknown> | undefined>(
-    undefined
+    undefined,
   )
   if (!mountedFieldsRef.current) {
     mountedFieldsRef.current = new Map()

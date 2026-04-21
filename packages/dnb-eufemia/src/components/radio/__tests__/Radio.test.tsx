@@ -98,7 +98,7 @@ describe('Radio component', () => {
     TestStates(
       <React.StrictMode>
         <ControlledVsUncontrolled />
-      </React.StrictMode>
+      </React.StrictMode>,
     )
   })
 
@@ -110,7 +110,7 @@ describe('Radio component', () => {
     rerender(<Radio disabled={false} />)
 
     expect(
-      document.querySelector('input[disabled]')
+      document.querySelector('input[disabled]'),
     ).not.toBeInTheDocument()
   })
 
@@ -129,7 +129,7 @@ describe('Radio component', () => {
     render(<Radio style={{ color: 'red' }} />)
 
     expect(document.querySelector('input').getAttribute('style')).toBe(
-      'color: red;'
+      'color: red;',
     )
   })
 
@@ -137,16 +137,16 @@ describe('Radio component', () => {
     render(
       <Provider formElement={{ vertical: true, disabled: true }}>
         <Radio label="Label" aria-label="Aria Label" />
-      </Provider>
+      </Provider>,
     )
 
     const element = document.querySelector('.dnb-radio')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
     const inputElement = document.querySelector('.dnb-radio input')
     const inputAttributes = Array.from(inputElement.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual(['class'])
@@ -177,7 +177,7 @@ describe('Radio ARIA', () => {
           // because of the role="radio", we have to allow this
           'aria-allowed-role': { enabled: false },
         },
-      })
+      }),
     ).toHaveNoViolations()
   })
 

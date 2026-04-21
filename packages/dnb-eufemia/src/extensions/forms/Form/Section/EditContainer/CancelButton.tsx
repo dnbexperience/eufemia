@@ -53,7 +53,7 @@ export default function CancelButton({
       setShowError,
       switchContainerMode,
       verifyFieldError,
-    ]
+    ],
   )
 
   const triggerAttributes: React.ComponentProps<typeof Button> = {

@@ -44,5 +44,5 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  }
+  },
 )

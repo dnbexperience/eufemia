@@ -8,16 +8,16 @@ describe('Value.Currency', () => {
     it('renders value', () => {
       render(<Value.Currency value={42} />)
       expect(
-        document.querySelector('.dnb-forms-value-number')
+        document.querySelector('.dnb-forms-value-number'),
       ).toHaveTextContent('42,00 kr')
     })
 
     it('renders label when showEmpty is true', () => {
       const { rerender } = render(
-        <Value.Currency label="Number label" showEmpty />
+        <Value.Currency label="Number label" showEmpty />,
       )
       expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-        'Number label'
+        'Number label',
       )
 
       rerender(<Value.Currency label="Number label" />)
@@ -28,23 +28,23 @@ describe('Value.Currency', () => {
       const { rerender } = render(<Value.Currency showEmpty />)
 
       expect(
-        document.querySelector('.dnb-forms-value-number')
+        document.querySelector('.dnb-forms-value-number'),
       ).toHaveTextContent('- kr')
 
       rerender(<Value.Currency showEmpty locale="en-GB" />)
 
       expect(
-        document.querySelector('.dnb-forms-value-number')
+        document.querySelector('.dnb-forms-value-number'),
       ).toHaveTextContent('NOK –')
     })
 
     it('renders value and label', () => {
       render(<Value.Currency label="Label" value={42} />)
       expect(
-        document.querySelector('.dnb-forms-value-number')
+        document.querySelector('.dnb-forms-value-number'),
       ).toHaveTextContent('42')
       expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-        'Label'
+        'Label',
       )
     })
 
@@ -57,7 +57,7 @@ describe('Value.Currency', () => {
       render(<Value.Currency value={-12345678} />)
 
       expect(
-        document.querySelector('.dnb-forms-value-number')
+        document.querySelector('.dnb-forms-value-number'),
       ).toHaveTextContent('-12 345 678,00 kr')
     })
 
@@ -65,11 +65,11 @@ describe('Value.Currency', () => {
       render(
         <Form.Handler data={{ myNumber: 1234 }}>
           <Value.Currency path="/myNumber" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('.dnb-forms-value-number')
+        document.querySelector('.dnb-forms-value-number'),
       ).toHaveTextContent('1 234,00 kr')
     })
 
@@ -77,7 +77,7 @@ describe('Value.Currency', () => {
       render(<Value.Currency value={-12345} percent />)
 
       expect(
-        document.querySelector('.dnb-forms-value-number')
+        document.querySelector('.dnb-forms-value-number'),
       ).toHaveTextContent('−12 345 %')
     })
 
@@ -85,7 +85,7 @@ describe('Value.Currency', () => {
       render(<Value.Currency value={-12345.6789} percent decimals={2} />)
 
       expect(
-        document.querySelector('.dnb-forms-value-number')
+        document.querySelector('.dnb-forms-value-number'),
       ).toHaveTextContent('−12 345,68 %')
     })
 
@@ -95,11 +95,11 @@ describe('Value.Currency', () => {
           value={-12345.6789}
           currency
           currencyDisplay="code"
-        />
+        />,
       )
 
       expect(
-        document.querySelector('.dnb-forms-value-number')
+        document.querySelector('.dnb-forms-value-number'),
       ).toHaveTextContent('NOK -12 345,68')
     })
 
@@ -109,13 +109,13 @@ describe('Value.Currency', () => {
           value={-12345.6789}
           currency
           currencyDisplay="code"
-        />
+        />,
       )
 
       expect(
         document
           .querySelector('.dnb-number-format .dnb-sr-only')
-          .getAttribute('data-text')
+          .getAttribute('data-text'),
       ).toBe('-12 345,68 kroner')
     })
 
@@ -128,29 +128,29 @@ describe('Value.Currency', () => {
             currencyPosition="before"
             currencyDisplay="name"
           />
-        </Provider>
+        </Provider>,
       )
 
       expect(
-        document.querySelector('.dnb-forms-value-number')
+        document.querySelector('.dnb-forms-value-number'),
       ).toHaveTextContent('kroner -12,345.68')
       expect(
         document
           .querySelector('.dnb-number-format .dnb-sr-only')
-          .getAttribute('data-text')
+          .getAttribute('data-text'),
       ).toBe('-12,345.68 kroner')
     })
 
     it('hides the currency sign when currencyDisplay is false', () => {
       render(
-        <Value.Currency value={1234.5} currency currencyDisplay={false} />
+        <Value.Currency value={1234.5} currency currencyDisplay={false} />,
       )
 
       expect(
-        document.querySelector('.dnb-forms-value-number')
+        document.querySelector('.dnb-forms-value-number'),
       ).toHaveTextContent('1 234,50')
       expect(
-        document.querySelector('.dnb-forms-value-number')
+        document.querySelector('.dnb-forms-value-number'),
       ).not.toHaveTextContent('kr')
     })
   })

@@ -40,7 +40,7 @@ function SkeletonProduct({
     <div
       className={clsx(
         'dnb-skeleton__figure',
-        'dnb-skeleton__figure--show'
+        'dnb-skeleton__figure--show',
       )}
       aria-busy
       {...rest}
@@ -51,7 +51,7 @@ function SkeletonProduct({
         className={clsx(
           'dnb-h--xx-large',
           'dnb-skeleton',
-          'dnb-skeleton--shape'
+          'dnb-skeleton--shape',
         )}
         aria-hidden
         style={{

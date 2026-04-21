@@ -79,7 +79,7 @@ const DialogAction = ({
         close,
       })
     },
-    [close, onConfirm]
+    [close, onConfirm],
   )
   const onDeclineHandler = useCallback(
     (event) => {
@@ -88,7 +88,7 @@ const DialogAction = ({
         close,
       })
     },
-    [close, onDecline]
+    [close, onDecline],
   )
 
   if (children) {
@@ -107,7 +107,7 @@ const DialogAction = ({
               })
             },
           },
-          childElement.props.children
+          childElement.props.children,
         )
       } else {
         return child

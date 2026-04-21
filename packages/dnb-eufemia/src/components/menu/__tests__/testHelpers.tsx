@@ -70,7 +70,7 @@ export function MockPopover(props: {
 }
 
 export function createMockContext(
-  overrides?: Partial<MenuContextValue>
+  overrides?: Partial<MenuContextValue>,
 ): MenuContextValue {
   const itemRefs: React.RefObject<Array<React.RefObject<HTMLElement>>> = {
     current: [],
@@ -96,14 +96,14 @@ export function createMockContext(
 
 export function renderWithContext(
   ui: React.ReactElement,
-  contextOverrides?: Partial<MenuContextValue>
+  contextOverrides?: Partial<MenuContextValue>,
 ) {
   const context = createMockContext(contextOverrides)
   return {
     ...render(
       <MenuContext value={context}>
         <ul role="menu">{ui}</ul>
-      </MenuContext>
+      </MenuContext>,
     ),
     context,
   }

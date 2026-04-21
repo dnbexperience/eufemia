@@ -65,7 +65,7 @@ const Timeline = (localProps: TimelineAllProps) => {
     context?.Timeline,
     {
       skeleton: context?.skeleton,
-    }
+    },
   )
   const {
     className,

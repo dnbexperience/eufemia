@@ -50,7 +50,7 @@ describe('Form.Section', () => {
 
   it('should have constant of _supportsSpacingProps="undefined"', () => {
     expect(
-      (Form.Section as ComponentMarkers)._supportsSpacingProps
+      (Form.Section as ComponentMarkers)._supportsSpacingProps,
     ).toBeUndefined()
   })
 
@@ -62,7 +62,7 @@ describe('Form.Section', () => {
     }
 
     expect(renderComponent).toThrow(
-      'path="withoutSlash" must start with a slash'
+      'path="withoutSlash" must start with a slash',
     )
 
     log.mockRestore()
@@ -81,10 +81,10 @@ describe('Form.Section', () => {
     render(<MySection required />)
 
     expect(
-      document.querySelector('input[name="firstName"]')
+      document.querySelector('input[name="firstName"]'),
     ).toHaveAttribute('aria-required')
     expect(
-      document.querySelector('input[name="lastName"]')
+      document.querySelector('input[name="lastName"]'),
     ).toHaveAttribute('aria-required', 'true')
   })
 
@@ -92,11 +92,11 @@ describe('Form.Section', () => {
     render(
       <MySection required>
         <Field.String path="/customChild" required />
-      </MySection>
+      </MySection>,
     )
 
     expect(
-      document.querySelector('input[name="customChild"]')
+      document.querySelector('input[name="customChild"]'),
     ).toHaveAttribute('aria-required', 'true')
   })
 
@@ -107,7 +107,7 @@ describe('Form.Section', () => {
         <Tools.ListAllProps generateRef={generateRef}>
           <MySection />
         </Tools.ListAllProps>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const { propsOfFields, propsOfValues } = generateRef.current()
@@ -181,7 +181,7 @@ describe('Form.Section', () => {
             }}
           />
         </Tools.GenerateSchema>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const { schema } = generateRef.current()
@@ -217,11 +217,11 @@ describe('Form.Section', () => {
         <Form.Section.EditContainer>
           Edit content
         </Form.Section.EditContainer>
-      </Form.Section>
+      </Form.Section>,
     )
 
     const viewBlock = document.querySelector(
-      '.dnb-forms-section-view-block'
+      '.dnb-forms-section-view-block',
     )
     expect(viewBlock).toBeInTheDocument()
     expect(viewBlock?.querySelector('button')).not.toBeInTheDocument()
@@ -241,7 +241,7 @@ describe('Form.Section', () => {
         {
           firstName: 'foo',
         },
-        expect.anything()
+        expect.anything(),
       )
 
       fireEvent.change(last, { target: { value: 'bar' } })
@@ -252,7 +252,7 @@ describe('Form.Section', () => {
           firstName: 'foo',
           lastName: 'bar',
         },
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -269,7 +269,7 @@ describe('Form.Section', () => {
         {
           mySection: { firstName: 'foo' },
         },
-        expect.anything()
+        expect.anything(),
       )
 
       fireEvent.change(last, { target: { value: 'bar' } })
@@ -279,7 +279,7 @@ describe('Form.Section', () => {
         {
           mySection: { firstName: 'foo', lastName: 'bar' },
         },
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -289,7 +289,7 @@ describe('Form.Section', () => {
       render(
         <Form.Handler onChange={onChange}>
           <MySection />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [first, last] = Array.from(document.querySelectorAll('input'))
@@ -301,7 +301,7 @@ describe('Form.Section', () => {
       expect(onChange).toHaveBeenNthCalledWith(
         1,
         { firstName: 'foo' },
-        expect.anything()
+        expect.anything(),
       )
       expect(onChange).toHaveBeenNthCalledWith(
         2,
@@ -309,7 +309,7 @@ describe('Form.Section', () => {
           firstName: 'foo',
           lastName: 'bar',
         },
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -319,7 +319,7 @@ describe('Form.Section', () => {
       render(
         <Form.Handler onChange={onChange}>
           <MySection path="/mySection" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [first, last] = Array.from(document.querySelectorAll('input'))
@@ -333,14 +333,14 @@ describe('Form.Section', () => {
         {
           mySection: { firstName: 'foo' },
         },
-        expect.anything()
+        expect.anything(),
       )
       expect(onChange).toHaveBeenNthCalledWith(
         2,
         {
           mySection: { firstName: 'foo', lastName: 'bar' },
         },
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -350,11 +350,11 @@ describe('Form.Section', () => {
       render(
         <Form.Handler>
           <MyOuterSection path="/mySection" onChange={onChange} />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [first, last, addition] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       fireEvent.change(first, { target: { value: 'foo' } })
@@ -367,7 +367,7 @@ describe('Form.Section', () => {
             },
           },
         },
-        expect.anything()
+        expect.anything(),
       )
 
       fireEvent.change(last, { target: { value: 'bar' } })
@@ -381,7 +381,7 @@ describe('Form.Section', () => {
             },
           },
         },
-        expect.anything()
+        expect.anything(),
       )
 
       fireEvent.change(addition, { target: { value: 'baz' } })
@@ -396,7 +396,7 @@ describe('Form.Section', () => {
             otherField: 'baz',
           },
         },
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -406,7 +406,7 @@ describe('Form.Section', () => {
       render(<MyOuterSection path="/mySection" onChange={onChange} />)
 
       const [first, last, addition] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       fireEvent.change(first, { target: { value: 'foo' } })
@@ -419,7 +419,7 @@ describe('Form.Section', () => {
             },
           },
         },
-        expect.anything()
+        expect.anything(),
       )
 
       fireEvent.change(last, { target: { value: 'bar' } })
@@ -433,7 +433,7 @@ describe('Form.Section', () => {
             },
           },
         },
-        expect.anything()
+        expect.anything(),
       )
 
       fireEvent.change(addition, { target: { value: 'baz' } })
@@ -448,7 +448,7 @@ describe('Form.Section', () => {
             otherField: 'baz',
           },
         },
-        expect.anything()
+        expect.anything(),
       )
     })
   })
@@ -481,11 +481,11 @@ describe('Form.Section', () => {
               label: 'Custom',
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('input[name="firstName"]')
+        document.querySelector('input[name="firstName"]'),
       ).toHaveAttribute('aria-required', 'true')
       expect(document.querySelector('label')).toHaveTextContent('Custom')
     })
@@ -500,7 +500,7 @@ describe('Form.Section', () => {
               lastName: { label: 'Label B' },
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [first, last] = Array.from(document.querySelectorAll('label'))
@@ -518,7 +518,7 @@ describe('Form.Section', () => {
               lastName: { onChange },
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [first, last] = Array.from(document.querySelectorAll('input'))
@@ -534,14 +534,14 @@ describe('Form.Section', () => {
       const { rerender } = render(
         <Form.Handler>
           <MySection path="/mySection" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('input[name="firstName"]')
+        document.querySelector('input[name="firstName"]'),
       ).not.toHaveAttribute('aria-required')
       expect(
-        document.querySelector('input[name="lastName"]')
+        document.querySelector('input[name="lastName"]'),
       ).toHaveAttribute('aria-required', 'true')
 
       rerender(
@@ -553,14 +553,14 @@ describe('Form.Section', () => {
               lastName: { required: false },
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('input[name="firstName"]')
+        document.querySelector('input[name="firstName"]'),
       ).toHaveAttribute('aria-required', 'true')
       expect(
-        document.querySelector('input[name="lastName"]')
+        document.querySelector('input[name="lastName"]'),
       ).not.toHaveAttribute('aria-required')
     })
 
@@ -570,14 +570,14 @@ describe('Form.Section', () => {
           <FieldPropsProvider required>
             <MySection path="/mySection" />
           </FieldPropsProvider>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('input[name="firstName"]')
+        document.querySelector('input[name="firstName"]'),
       ).toHaveAttribute('aria-required', 'true')
       expect(
-        document.querySelector('input[name="lastName"]')
+        document.querySelector('input[name="lastName"]'),
       ).toHaveAttribute('aria-required', 'true')
     })
 
@@ -587,14 +587,14 @@ describe('Form.Section', () => {
           <FieldPropsProvider required={false}>
             <MySection path="/mySection" />
           </FieldPropsProvider>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('input[name="firstName"]')
+        document.querySelector('input[name="firstName"]'),
       ).not.toHaveAttribute('aria-required')
       expect(
-        document.querySelector('input[name="lastName"]')
+        document.querySelector('input[name="lastName"]'),
       ).toHaveAttribute('aria-required', 'true')
     })
 
@@ -608,14 +608,14 @@ describe('Form.Section', () => {
               lastName: { required: false },
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('input[name="firstName"]')
+        document.querySelector('input[name="firstName"]'),
       ).not.toHaveAttribute('aria-required')
       expect(
-        document.querySelector('input[name="lastName"]')
+        document.querySelector('input[name="lastName"]'),
       ).not.toHaveAttribute('aria-required')
     })
 
@@ -632,13 +632,13 @@ describe('Form.Section', () => {
               },
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const statusMessage = document.querySelector('.dnb-form-status')
 
       expect(statusMessage).toHaveTextContent(
-        nb.StringField.errorMinLength.replace('{minLength}', '30')
+        nb.StringField.errorMinLength.replace('{minLength}', '30'),
       )
     })
 
@@ -661,12 +661,12 @@ describe('Form.Section', () => {
               },
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const statusMessage = document.querySelector('.dnb-form-status')
       expect(statusMessage).toHaveTextContent(
-        nb.NumberField.errorMinimum.replace('{minimum}', '30')
+        nb.NumberField.errorMinimum.replace('{minimum}', '30'),
       )
     })
 
@@ -682,7 +682,7 @@ describe('Form.Section', () => {
               lastName: { path: '/bar' },
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [first, last] = Array.from(document.querySelectorAll('input'))
@@ -696,14 +696,14 @@ describe('Form.Section', () => {
         {
           mySection: { bar: undefined, foo: 'foo' },
         },
-        expect.anything()
+        expect.anything(),
       )
       expect(onChange).toHaveBeenNthCalledWith(
         2,
         {
           mySection: { bar: 'bar', foo: 'foo' },
         },
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -726,11 +726,11 @@ describe('Form.Section', () => {
                 },
               }}
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(
-          document.querySelector('input[name="firstName"]')
+          document.querySelector('input[name="firstName"]'),
         ).toHaveAttribute('aria-required', 'true')
         expect(document.querySelector('label')).toHaveTextContent('Custom')
       })
@@ -747,11 +747,11 @@ describe('Form.Section', () => {
                 },
               }}
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const [first, last] = Array.from(
-          document.querySelectorAll('label')
+          document.querySelectorAll('label'),
         )
         expect(first).toHaveTextContent('Label A')
         expect(last).toHaveTextContent('Label B')
@@ -769,11 +769,11 @@ describe('Form.Section', () => {
                 },
               }}
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const [first, last] = Array.from(
-          document.querySelectorAll('input')
+          document.querySelectorAll('input'),
         )
 
         fireEvent.change(first)
@@ -787,14 +787,14 @@ describe('Form.Section', () => {
         const { rerender } = render(
           <Form.Handler>
             <MyOuterSection path="/mySection" />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(
-          document.querySelector('input[name="firstName"]')
+          document.querySelector('input[name="firstName"]'),
         ).not.toHaveAttribute('aria-required')
         expect(
-          document.querySelector('input[name="lastName"]')
+          document.querySelector('input[name="lastName"]'),
         ).toHaveAttribute('aria-required', 'true')
 
         rerender(
@@ -808,14 +808,14 @@ describe('Form.Section', () => {
                 },
               }}
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(
-          document.querySelector('input[name="firstName"]')
+          document.querySelector('input[name="firstName"]'),
         ).toHaveAttribute('aria-required', 'true')
         expect(
-          document.querySelector('input[name="lastName"]')
+          document.querySelector('input[name="lastName"]'),
         ).not.toHaveAttribute('aria-required')
       })
 
@@ -825,14 +825,14 @@ describe('Form.Section', () => {
             <FieldPropsProvider required>
               <MyOuterSection path="/mySection" />
             </FieldPropsProvider>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(
-          document.querySelector('input[name="firstName"]')
+          document.querySelector('input[name="firstName"]'),
         ).toHaveAttribute('aria-required', 'true')
         expect(
-          document.querySelector('input[name="lastName"]')
+          document.querySelector('input[name="lastName"]'),
         ).toHaveAttribute('aria-required', 'true')
       })
 
@@ -842,14 +842,14 @@ describe('Form.Section', () => {
             <FieldPropsProvider required={false}>
               <MyOuterSection path="/mySection" />
             </FieldPropsProvider>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(
-          document.querySelector('input[name="firstName"]')
+          document.querySelector('input[name="firstName"]'),
         ).not.toHaveAttribute('aria-required')
         expect(
-          document.querySelector('input[name="lastName"]')
+          document.querySelector('input[name="lastName"]'),
         ).toHaveAttribute('aria-required', 'true')
       })
 
@@ -865,14 +865,14 @@ describe('Form.Section', () => {
                 },
               }}
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(
-          document.querySelector('input[name="firstName"]')
+          document.querySelector('input[name="firstName"]'),
         ).not.toHaveAttribute('aria-required')
         expect(
-          document.querySelector('input[name="lastName"]')
+          document.querySelector('input[name="lastName"]'),
         ).not.toHaveAttribute('aria-required')
       })
 
@@ -891,13 +891,13 @@ describe('Form.Section', () => {
                 },
               }}
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const statusMessage = document.querySelector('.dnb-form-status')
 
         expect(statusMessage).toHaveTextContent(
-          nb.StringField.errorMinLength.replace('{minLength}', '30')
+          nb.StringField.errorMinLength.replace('{minLength}', '30'),
         )
       })
 
@@ -915,11 +915,11 @@ describe('Form.Section', () => {
                 },
               }}
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const [first, last, addition] = Array.from(
-          document.querySelectorAll('input')
+          document.querySelectorAll('input'),
         )
 
         fireEvent.change(first, { target: { value: 'foo' } })
@@ -938,7 +938,7 @@ describe('Form.Section', () => {
               otherField: undefined,
             },
           },
-          expect.anything()
+          expect.anything(),
         )
         expect(onChange).toHaveBeenNthCalledWith(
           2,
@@ -951,7 +951,7 @@ describe('Form.Section', () => {
               otherField: undefined,
             },
           },
-          expect.anything()
+          expect.anything(),
         )
         expect(onChange).toHaveBeenNthCalledWith(
           3,
@@ -964,7 +964,7 @@ describe('Form.Section', () => {
               otherField: 'baz',
             },
           },
-          expect.anything()
+          expect.anything(),
         )
       })
     })
@@ -972,7 +972,7 @@ describe('Form.Section', () => {
 
   it('should change minimum via overwrite props in nested section for Number field', () => {
     const MyOuterNumberSection = (
-      props: SectionProps<{ innerSection: { amount: any } }>
+      props: SectionProps<{ innerSection: { amount: any } }>,
     ) => (
       <Form.Section {...props}>
         <Form.Section path="/innerSection">
@@ -995,12 +995,12 @@ describe('Form.Section', () => {
             },
           }}
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const statusMessage = document.querySelector('.dnb-form-status')
     expect(statusMessage).toHaveTextContent(
-      nb.NumberField.errorMinimum.replace('{minimum}', '30')
+      nb.NumberField.errorMinimum.replace('{minimum}', '30'),
     )
   })
 
@@ -1014,14 +1014,14 @@ describe('Form.Section', () => {
       render(
         <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           <MySection path="/mySection" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('input[name="firstName"]')
+        document.querySelector('input[name="firstName"]'),
       ).toHaveAttribute('aria-required', 'true')
       expect(
-        document.querySelector('input[name="lastName"]')
+        document.querySelector('input[name="lastName"]'),
       ).toHaveAttribute('aria-required', 'true')
     })
 
@@ -1034,14 +1034,14 @@ describe('Form.Section', () => {
       render(
         <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           <MySection path="/mySection" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('input[name="firstName"]')
+        document.querySelector('input[name="firstName"]'),
       ).toHaveAttribute('aria-required', 'true')
       expect(
-        document.querySelector('input[name="lastName"]')
+        document.querySelector('input[name="lastName"]'),
       ).toHaveAttribute('aria-required', 'true')
     })
 
@@ -1064,14 +1064,14 @@ describe('Form.Section', () => {
       render(
         <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           <MySection path="/mySection" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('input[name="firstName"]')
+        document.querySelector('input[name="firstName"]'),
       ).toHaveAttribute('aria-required', 'true')
       expect(
-        document.querySelector('input[name="lastName"]')
+        document.querySelector('input[name="lastName"]'),
       ).toHaveAttribute('aria-required', 'true')
     })
 
@@ -1099,14 +1099,14 @@ describe('Form.Section', () => {
       render(
         <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           <MySection path="/myObject/mySection" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('input[name="firstName"]')
+        document.querySelector('input[name="firstName"]'),
       ).toHaveAttribute('aria-required', 'true')
       expect(
-        document.querySelector('input[name="lastName"]')
+        document.querySelector('input[name="lastName"]'),
       ).toHaveAttribute('aria-required', 'true')
     })
 
@@ -1129,14 +1129,14 @@ describe('Form.Section', () => {
       render(
         <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           <MySection path="/firstName" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('input[name="firstName"]')
+        document.querySelector('input[name="firstName"]'),
       ).toHaveAttribute('aria-required', 'true')
       expect(
-        document.querySelector('input[name="lastName"]')
+        document.querySelector('input[name="lastName"]'),
       ).toHaveAttribute('aria-required', 'true')
     })
 
@@ -1154,14 +1154,14 @@ describe('Form.Section', () => {
       render(
         <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           <MySection path="/firstName" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('input[name="firstName"]')
+        document.querySelector('input[name="firstName"]'),
       ).not.toHaveAttribute('aria-required')
       expect(
-        document.querySelector('input[name="lastName"]')
+        document.querySelector('input[name="lastName"]'),
       ).toHaveAttribute('aria-required', 'true')
     })
 
@@ -1192,13 +1192,13 @@ describe('Form.Section', () => {
               },
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const statusMessage = document.querySelector('.dnb-form-status')
 
       expect(statusMessage).toHaveTextContent(
-        nb.StringField.errorMinLength.replace('{minLength}', '30')
+        nb.StringField.errorMinLength.replace('{minLength}', '30'),
       )
     })
   })
@@ -1246,7 +1246,7 @@ describe('Form.Section', () => {
           <Form.Section path="/customer" schema={sectionSchema}>
             <Field.String path="/firstName" label="Given name" />
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input[name="firstName"]')
@@ -1265,7 +1265,7 @@ describe('Form.Section', () => {
       const errors = onSubmitRequest.mock.calls[0][0].getErrors()
 
       expect(
-        errors.some(({ path }) => path === '/customer/firstName')
+        errors.some(({ path }) => path === '/customer/firstName'),
       ).toBe(true)
     })
 
@@ -1286,11 +1286,11 @@ describe('Form.Section', () => {
           <Form.Section path="/customer" schema={sectionSchema}>
             <Field.String path="/firstName" label="Given name" />
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(schemaPathsTracker).toHaveBeenCalledWith(
-        expect.arrayContaining(['/customer'])
+        expect.arrayContaining(['/customer']),
       )
 
       const input = document.querySelector('input[name="firstName"]')
@@ -1334,18 +1334,18 @@ describe('Form.Section', () => {
           <Form.Section path="/address" schema={addressSchema}>
             <Field.String path="/lastName" label="Surname" />
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(schemaPathsTracker).toHaveBeenCalledWith(
-        expect.arrayContaining(['/customer', '/address'])
+        expect.arrayContaining(['/customer', '/address']),
       )
 
       const firstInput = document.querySelector(
-        'input[name="firstName"]'
+        'input[name="firstName"]',
       ) as HTMLInputElement
       const secondInput = document.querySelector(
-        'input[name="lastName"]'
+        'input[name="lastName"]',
       ) as HTMLInputElement
       const form = document.querySelector('form') as HTMLFormElement
 
@@ -1383,22 +1383,22 @@ describe('Form.Section', () => {
               <Field.String path="/city" label="City" />
             </Form.Section>
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(schemaPathsTracker).toHaveBeenCalledWith(
-        expect.arrayContaining(['/parent', '/parent/child'])
+        expect.arrayContaining(['/parent', '/parent/child']),
       )
 
       fireEvent.change(
         document.querySelector(
-          'input[name="parentField"]'
+          'input[name="parentField"]',
         ) as HTMLInputElement,
-        { target: { value: 'abc' } }
+        { target: { value: 'abc' } },
       )
       fireEvent.change(
         document.querySelector('input[name="city"]') as HTMLInputElement,
-        { target: { value: 'Os' } }
+        { target: { value: 'Os' } },
       )
       fireEvent.submit(document.querySelector('form') as HTMLFormElement)
 
@@ -1428,11 +1428,11 @@ describe('Form.Section', () => {
           <Form.Section path="/customer" schema={sectionSchema}>
             <Field.String path="/firstName" label="Given name" />
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(schemaPathsTracker).toHaveBeenCalledWith(
-        expect.arrayContaining(['/customer'])
+        expect.arrayContaining(['/customer']),
       )
 
       const input = document.querySelector('input[name="firstName"]')
@@ -1471,7 +1471,7 @@ describe('Form.Section', () => {
           <Form.Section path="/customer" schema={sectionSchema}>
             <Field.String path="/firstName" label="Given name" />
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input[name="firstName"]')
@@ -1486,7 +1486,7 @@ describe('Form.Section', () => {
 
       const errors = onSubmitRequest.mock.calls[0][0].getErrors()
       expect(
-        errors.some(({ path }) => path === '/customer/firstName')
+        errors.some(({ path }) => path === '/customer/firstName'),
       ).toBe(true)
     })
 
@@ -1507,7 +1507,7 @@ describe('Form.Section', () => {
           <Form.Section path="/customer" schema={sectionSchema}>
             <Field.String path="/firstName" label="Given name" />
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const lastCall =
@@ -1532,7 +1532,7 @@ describe('Form.Section', () => {
             <Field.String path="/firstName" label="Given name" />
           </Form.Section>
           <Form.SubmitButton />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input[name="firstName"]')
@@ -1568,11 +1568,11 @@ describe('Form.Section', () => {
           <Form.Section schema={sectionSchema}>
             <Field.String path="/firstName" label="Given name" />
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(schemaPathsTracker).toHaveBeenCalledWith(
-        expect.arrayContaining(['/'])
+        expect.arrayContaining(['/']),
       )
 
       const input = document.querySelector('input[name="firstName"]')
@@ -1611,11 +1611,11 @@ describe('Form.Section', () => {
         <Form.Section path="/customer" schema={sectionSchema}>
           <Field.String path="/firstName" label="Given name" />
           <Field.String path="/lastName" label="Surname" />
-        </Form.Section>
+        </Form.Section>,
       )
 
       const firstInput = document.querySelector(
-        'input[name="firstName"]'
+        'input[name="firstName"]',
       ) as HTMLInputElement
 
       // Enter one character
@@ -1637,7 +1637,7 @@ describe('Form.Section', () => {
       await waitFor(() => {
         const statusMessage = document.querySelector('.dnb-form-status')
         expect(statusMessage).toHaveTextContent(
-          nb.StringField.errorMinLength.replace('{minLength}', '4')
+          nb.StringField.errorMinLength.replace('{minLength}', '4'),
         )
       })
 
@@ -1676,14 +1676,14 @@ describe('Form.Section', () => {
             <Field.String path="/lastName" label="Surname" />
           </Form.Section>
           <Form.SubmitButton />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const firstInput = document.querySelector(
-        'input[name="firstName"]'
+        'input[name="firstName"]',
       ) as HTMLInputElement
       const lastInput = document.querySelector(
-        'input[name="lastName"]'
+        'input[name="lastName"]',
       ) as HTMLInputElement
       const form = document.querySelector('form') as HTMLFormElement
 
@@ -1704,7 +1704,7 @@ describe('Form.Section', () => {
       await waitFor(() => {
         const statusMessage = document.querySelector('.dnb-form-status')
         expect(statusMessage).toHaveTextContent(
-          nb.StringField.errorMinLength.replace('{minLength}', '4')
+          nb.StringField.errorMinLength.replace('{minLength}', '4'),
         )
       })
 
@@ -1752,18 +1752,18 @@ describe('Form.Section', () => {
               <Field.String path="/city" label="City" />
             </Form.Section>
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       fireEvent.change(
         document.querySelector(
-          'input[name="parentField"]'
+          'input[name="parentField"]',
         ) as HTMLInputElement,
-        { target: { value: 'abc' } }
+        { target: { value: 'abc' } },
       )
       fireEvent.change(
         document.querySelector('input[name="city"]') as HTMLInputElement,
-        { target: { value: 'Os' } }
+        { target: { value: 'Os' } },
       )
       fireEvent.submit(document.querySelector('form') as HTMLFormElement)
 
@@ -1771,10 +1771,10 @@ describe('Form.Section', () => {
 
       const errors = onSubmitRequest.mock.calls[0][0].getErrors()
       expect(
-        errors.some(({ path }) => path === '/parent/parentField')
+        errors.some(({ path }) => path === '/parent/parentField'),
       ).toBe(true)
       expect(
-        errors.some(({ path }) => path === '/parent/child/city')
+        errors.some(({ path }) => path === '/parent/child/city'),
       ).toBe(true)
     })
 
@@ -1795,7 +1795,7 @@ describe('Form.Section', () => {
           >
             <Field.String path="/firstName" label="Given name" />
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       // Errors should be present initially due to validateInitially
@@ -1849,7 +1849,7 @@ describe('Form.Section', () => {
             >
               <Field.String path="/firstName" label="Given name" />
             </Form.Section>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input[name="firstName"]')
@@ -1865,7 +1865,7 @@ describe('Form.Section', () => {
         const errors = onSubmitRequest.mock.calls[0][0].getErrors()
         // Should have error from handler schema (minLength: 5), not section schema
         expect(
-          errors.some(({ path }) => path === '/customer/firstName')
+          errors.some(({ path }) => path === '/customer/firstName'),
         ).toBe(true)
       })
 
@@ -1912,7 +1912,7 @@ describe('Form.Section', () => {
             >
               <Field.String path="/firstName" label="Given name" />
             </Form.Section>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input[name="firstName"]')
@@ -1930,7 +1930,7 @@ describe('Form.Section', () => {
         // Section schema fails (minLength: 5), so error should be present
         // This verifies that section schema validation runs even when handler schema would pass
         expect(
-          errors.some(({ path }) => path === '/customer/firstName')
+          errors.some(({ path }) => path === '/customer/firstName'),
         ).toBe(true)
       })
 
@@ -1959,7 +1959,7 @@ describe('Form.Section', () => {
             >
               <Field.String path="/firstName" label="Given name" />
             </Form.Section>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input[name="firstName"]')
@@ -2003,7 +2003,7 @@ describe('Form.Section', () => {
             >
               <Field.String path="/firstName" label="Given name" />
             </Form.Section>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input[name="firstName"]')
@@ -2055,7 +2055,7 @@ describe('Form.Section', () => {
             >
               <Field.String path="/firstName" label="Given name" />
             </Form.Section>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input[name="firstName"]')
@@ -2070,7 +2070,7 @@ describe('Form.Section', () => {
         const errors = onSubmitRequest.mock.calls[0][0].getErrors()
         // Should have error from handler schema
         expect(
-          errors.some(({ path }) => path === '/customer/firstName')
+          errors.some(({ path }) => path === '/customer/firstName'),
         ).toBe(true)
       })
 
@@ -2100,7 +2100,7 @@ describe('Form.Section', () => {
             >
               <Field.String path="/firstName" label="Given name" />
             </Form.Section>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input[name="firstName"]')
@@ -2115,7 +2115,7 @@ describe('Form.Section', () => {
         const errors = onSubmitRequest.mock.calls[0][0].getErrors()
         // Should have error from section schema
         expect(
-          errors.some(({ path }) => path === '/customer/firstName')
+          errors.some(({ path }) => path === '/customer/firstName'),
         ).toBe(true)
       })
     })
@@ -2153,11 +2153,11 @@ describe('Form.Section', () => {
           }}
         >
           <MyValueSection />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [first, last] = Array.from(
-        document.querySelectorAll('.dnb-forms-value-block__content')
+        document.querySelectorAll('.dnb-forms-value-block__content'),
       )
       expect(first).toHaveTextContent('foo')
       expect(last).toHaveTextContent('bar')
@@ -2174,11 +2174,11 @@ describe('Form.Section', () => {
           }}
         >
           <MyValueSection path="/mySection" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [first, last] = Array.from(
-        document.querySelectorAll('.dnb-forms-value-block__content')
+        document.querySelectorAll('.dnb-forms-value-block__content'),
       )
       expect(first).toHaveTextContent('foo')
       expect(last).toHaveTextContent('bar')
@@ -2215,7 +2215,7 @@ describe('Form.Section', () => {
       const { rerender } = render(
         <Form.Handler>
           <MySection />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const label = document.querySelector('label')
@@ -2230,7 +2230,7 @@ describe('Form.Section', () => {
       rerender(
         <Form.Handler locale="en-GB" translations={formTranslations}>
           <MySection />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(label).toHaveTextContent('Form en')
@@ -2246,11 +2246,11 @@ describe('Form.Section', () => {
       render(
         <Form.Handler translations={myTranslations} locale="en-GB">
           <MySection path="/should-not-matter" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [first, second] = Array.from(
-        document.querySelectorAll('label')
+        document.querySelectorAll('label'),
       )
       expect(first).toHaveTextContent('Custom label')
       expect(second).toHaveTextContent('Surname')
@@ -2294,22 +2294,22 @@ describe('Form.Section', () => {
           <MySection />
           <MySection />
           <MySection />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       {
         const [label1, label2] = Array.from(
-          document.querySelectorAll('label')
+          document.querySelectorAll('label'),
         )
         expect(label1).toHaveTextContent('Form nb')
         expect(label2).toHaveTextContent('Form nb')
       }
 
       expect(
-        sectionTranslations['nb-NO'].MySection.CustomField.label
+        sectionTranslations['nb-NO'].MySection.CustomField.label,
       ).toBe('Section nb')
       expect(
-        sectionTranslations['en-GB'].MySection.CustomField.label
+        sectionTranslations['en-GB'].MySection.CustomField.label,
       ).toBe('Section en')
 
       log.mockRestore()
@@ -2350,19 +2350,19 @@ describe('Form.Section', () => {
       render(
         <Form.Handler locale="sv-SE" translations={globalTranslations}>
           <MySection />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('output')).toHaveTextContent(
-        'MyComponent.title'
+        'MyComponent.title',
       )
 
       // Should have warned about missing translations
       expect(consoleSpy).toHaveBeenCalledWith(
         expect.any(String), // Eufemia styling prefix
         expect.stringContaining(
-          'Form.useTranslation: No translations found for locale "sv-SE"!'
-        )
+          'Form.useTranslation: No translations found for locale "sv-SE"!',
+        ),
       )
 
       consoleSpy.mockRestore()
@@ -2378,7 +2378,7 @@ describe('Form.Section', () => {
           }}
         >
           <Field.String path="/myField" />
-        </Form.Section>
+        </Form.Section>,
       )
 
       const input = document.querySelector('input')
@@ -2392,7 +2392,7 @@ describe('Form.Section', () => {
           }}
         >
           <Field.String path="/myField" />
-        </Form.Section>
+        </Form.Section>,
       )
 
       expect(input).toHaveValue('bar')
@@ -2406,7 +2406,7 @@ describe('Form.Section', () => {
           }}
         >
           <Field.String path="/myField" />
-        </Form.Section>
+        </Form.Section>,
       )
 
       const input = document.querySelector('input')
@@ -2420,7 +2420,7 @@ describe('Form.Section', () => {
           }}
         >
           <Field.String path="/myField" />
-        </Form.Section>
+        </Form.Section>,
       )
 
       expect(input).toHaveValue('foo')
@@ -2442,7 +2442,7 @@ describe('Form.Section', () => {
             <Field.String path="/sectionField" />
             <Field.String path="//rootField" />
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const inputs = Array.from(document.querySelectorAll('input'))
@@ -2468,7 +2468,7 @@ describe('Form.Section', () => {
               <Field.String path="//rootField" />
             </Form.Section>
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const inputs = Array.from(document.querySelectorAll('input'))
@@ -2489,7 +2489,7 @@ describe('Form.Section', () => {
           <Form.Section path="/section">
             <Field.String path="//rootField" />
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -2502,7 +2502,7 @@ describe('Form.Section', () => {
         expect.objectContaining({
           rootField: 'updated',
           section: {},
-        })
+        }),
       )
     })
 
@@ -2524,7 +2524,7 @@ describe('Form.Section', () => {
             <Field.String path="/sectionField" />
             <Field.String path="//user/profile/name" />
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const inputs = Array.from(document.querySelectorAll('input'))
@@ -2543,7 +2543,7 @@ describe('Form.Section', () => {
           <Form.Section path="/section">
             <Value.String path="//rootData" />
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       // This should access the rootData from root
@@ -2570,7 +2570,7 @@ describe('Form.Section', () => {
               <Field.String path="/field" />
             </Form.Section>
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -2592,7 +2592,7 @@ describe('Form.Section', () => {
               <Field.String path="/rootField" />
             </Form.Section>
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')

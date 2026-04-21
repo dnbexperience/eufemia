@@ -52,11 +52,11 @@ export function useCount(id: SharedStateId = undefined) {
   const count = useCallback(
     (
       path: IterateCountProps['path'],
-      filter?: IterateCountProps['filter']
+      filter?: IterateCountProps['filter'],
     ) => {
       return countData(data, { path, filter })
     },
-    [data]
+    [data],
   )
 
   return { count }

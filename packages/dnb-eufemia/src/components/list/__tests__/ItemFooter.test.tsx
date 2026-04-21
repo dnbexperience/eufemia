@@ -11,7 +11,7 @@ describe('ItemFooter', () => {
     render(<ItemFooter>Footer content</ItemFooter>)
 
     const contentWrapper = document.querySelector(
-      '.dnb-list__item__footer'
+      '.dnb-list__item__footer',
     )
 
     expect(contentWrapper).toBeInTheDocument()
@@ -22,10 +22,10 @@ describe('ItemFooter', () => {
     render(<ItemFooter>Content</ItemFooter>)
 
     const separator = document.querySelector(
-      '.dnb-list__item__footer-separator'
+      '.dnb-list__item__footer-separator',
     )
     const contentWrapper = document.querySelector(
-      '.dnb-list__item__footer'
+      '.dnb-list__item__footer',
     )
 
     expect(separator).toBeInTheDocument()
@@ -38,7 +38,7 @@ describe('ItemFooter', () => {
     render(<ItemFooter className="my-footer">Content</ItemFooter>)
 
     const contentWrapper = document.querySelector(
-      '.dnb-list__item__footer'
+      '.dnb-list__item__footer',
     )
 
     expect(contentWrapper.classList).toContain('dnb-list__item__footer')
@@ -54,17 +54,17 @@ describe('ItemFooter', () => {
         id="footer-id"
       >
         Content
-      </ItemFooter>
+      </ItemFooter>,
     )
 
     const contentWrapper = document.querySelector(
-      '.dnb-list__item__footer'
+      '.dnb-list__item__footer',
     )
 
     expect(contentWrapper.getAttribute('data-testid')).toBe('item-footer')
     expect(contentWrapper.getAttribute('data-foo')).toBe('bar')
     expect(contentWrapper.getAttribute('aria-label')).toBe(
-      'Footer section'
+      'Footer section',
     )
     expect(contentWrapper.getAttribute('id')).toBe('footer-id')
   })
@@ -73,11 +73,11 @@ describe('ItemFooter', () => {
     render(
       <ItemFooter top="medium" left="x-small">
         Content
-      </ItemFooter>
+      </ItemFooter>,
     )
 
     const contentWrapper = document.querySelector(
-      '.dnb-list__item__footer'
+      '.dnb-list__item__footer',
     )
 
     expect(contentWrapper.classList).toContain('dnb-space__top--medium')
@@ -92,7 +92,7 @@ describe('ItemFooter', () => {
     render(<ItemFooter>Content</ItemFooter>)
 
     const element = document.querySelector(
-      '.dnb-flex-item.dnb-list__item__footer'
+      '.dnb-flex-item.dnb-list__item__footer',
     )
 
     expect(element.getAttribute('variant')).toBeNull()
@@ -105,7 +105,7 @@ describe('ItemFooter', () => {
     render(<ItemFooter skeleton>Content</ItemFooter>)
 
     const element = document.querySelector(
-      '.dnb-list__item__footer:not(hr)'
+      '.dnb-list__item__footer:not(hr)',
     )
 
     expect(element.classList).toContain('dnb-skeleton')
@@ -116,11 +116,11 @@ describe('ItemFooter', () => {
     render(
       <Container skeleton>
         <ItemFooter>Content</ItemFooter>
-      </Container>
+      </Container>,
     )
 
     const element = document.querySelector(
-      '.dnb-list__item__footer:not(hr)'
+      '.dnb-list__item__footer:not(hr)',
     )
 
     expect(element.classList).toContain('dnb-skeleton')
@@ -136,7 +136,7 @@ describe('ItemFooter', () => {
     render(
       <ItemFooter skeleton>
         <SkeletonConsumer />
-      </ItemFooter>
+      </ItemFooter>,
     )
 
     const consumer = document.querySelector('[data-skeleton]')
@@ -149,7 +149,7 @@ describe('ItemFooter', () => {
         <ItemContent>
           <ItemFooter>Footer content</ItemFooter>
         </ItemContent>
-      </Container>
+      </Container>,
     )
 
     expect(await axeComponent(container)).toHaveNoViolations()

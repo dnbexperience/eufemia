@@ -9,12 +9,12 @@ describe('Grid.Container', () => {
     render(
       <Grid.Container aria-label="Aria Label">
         <Grid.Item>Item</Grid.Item>
-      </Grid.Container>
+      </Grid.Container>,
     )
 
     const element = document.querySelector('.dnb-grid-container')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toContain('aria-label')
@@ -25,7 +25,7 @@ describe('Grid.Container', () => {
     const { rerender } = render(
       <Grid.Container top="large">
         <Grid.Item>Item</Grid.Item>
-      </Grid.Container>
+      </Grid.Container>,
     )
     const element = document.querySelector('.dnb-grid-container ')
 
@@ -34,7 +34,7 @@ describe('Grid.Container', () => {
     rerender(
       <Grid.Container top="x-large">
         <Grid.Item>Item</Grid.Item>
-      </Grid.Container>
+      </Grid.Container>,
     )
 
     expect(element.classList).toContain('dnb-space__top--x-large')
@@ -44,42 +44,42 @@ describe('Grid.Container', () => {
     const { rerender } = render(
       <Grid.Container columnGap rowGap>
         <Grid.Item>Item</Grid.Item>
-      </Grid.Container>
+      </Grid.Container>,
     )
 
     const element = document.querySelector('.dnb-grid-container')
 
     expect(element.className).toContain(
-      'dnb-grid-container--column-gap-small'
+      'dnb-grid-container--column-gap-small',
     )
     expect(element.className).toContain(
-      'dnb-grid-container--row-gap-small'
+      'dnb-grid-container--row-gap-small',
     )
 
     rerender(
       <Grid.Container columnGap="medium" rowGap="medium">
         <Grid.Item>Item</Grid.Item>
-      </Grid.Container>
+      </Grid.Container>,
     )
 
     expect(element.className).toContain(
-      'dnb-grid-container--column-gap-medium'
+      'dnb-grid-container--column-gap-medium',
     )
     expect(element.className).toContain(
-      'dnb-grid-container--row-gap-medium'
+      'dnb-grid-container--row-gap-medium',
     )
 
     rerender(
       <Grid.Container columnGap="large" rowGap="large">
         <Grid.Item>Item</Grid.Item>
-      </Grid.Container>
+      </Grid.Container>,
     )
 
     expect(element.className).toContain(
-      'dnb-grid-container--column-gap-large'
+      'dnb-grid-container--column-gap-large',
     )
     expect(element.className).toContain(
-      'dnb-grid-container--row-gap-large'
+      'dnb-grid-container--row-gap-large',
     )
   })
 
@@ -87,7 +87,7 @@ describe('Grid.Container', () => {
     render(
       <Grid.Container className="custom-class">
         <Grid.Item>Item</Grid.Item>
-      </Grid.Container>
+      </Grid.Container>,
     )
 
     const element = document.querySelector('.dnb-grid-container')
@@ -105,13 +105,13 @@ describe('Grid.Container', () => {
         <Grid.Item>Item 1</Grid.Item>
         <Grid.Item>Item 2</Grid.Item>
         <Grid.Item>Item 3</Grid.Item>
-      </Grid.Container>
+      </Grid.Container>,
     )
 
     const element = document.querySelector('.dnb-grid-container')
     const children = element.children
     const childrenTextContents = Array.from(children).map((child) =>
-      child.textContent.replace(/[\u200C]/g, '')
+      child.textContent.replace(/[\u200C]/g, ''),
     )
 
     expect(children.length).toEqual(3)
@@ -122,11 +122,11 @@ describe('Grid.Container', () => {
     const { rerender } = render(
       <Grid.Container columns={10}>
         <Grid.Item>Item</Grid.Item>
-      </Grid.Container>
+      </Grid.Container>,
     )
 
     const element = document.querySelector(
-      '.dnb-grid-container'
+      '.dnb-grid-container',
     ) as HTMLElement
 
     expect(element.style.getPropertyValue('--small-columns')).toBe('10')
@@ -142,7 +142,7 @@ describe('Grid.Container', () => {
         }}
       >
         <Grid.Item>Item</Grid.Item>
-      </Grid.Container>
+      </Grid.Container>,
     )
 
     expect(element.style.getPropertyValue('--small-columns')).toBe('4')
@@ -164,7 +164,7 @@ describe('Grid.Container', () => {
     render(
       <Grid.Container ref={ref}>
         <Grid.Item>Item</Grid.Item>
-      </Grid.Container>
+      </Grid.Container>,
     )
 
     const element = document.querySelector('.dnb-grid-container')
@@ -180,7 +180,7 @@ describe('Grid.Container', () => {
     render(
       <Grid.Container ref={refFn}>
         <Grid.Item>Item</Grid.Item>
-      </Grid.Container>
+      </Grid.Container>,
     )
 
     const element = document.querySelector('.dnb-grid-container')
@@ -193,7 +193,7 @@ describe('Grid.Container aria', () => {
     const Component = render(
       <Grid.Container>
         <Grid.Item>Item</Grid.Item>
-      </Grid.Container>
+      </Grid.Container>,
     )
     expect(await axeComponent(Component)).toHaveNoViolations()
   })

@@ -44,7 +44,7 @@ function RemoveButton(props: IterateRemoveButtonProps) {
         handleRemove?.()
       }
     },
-    [handleRemove, handleRemoveItem, itemPath]
+    [handleRemove, handleRemoveItem, itemPath],
   )
 
   const triggerAttributes: ButtonProps = {

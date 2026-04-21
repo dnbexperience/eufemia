@@ -10,7 +10,7 @@ import { validateDOMAttributes } from '../../shared/component-helper'
 import type { ProgressIndicatorCircularAllProps } from './types'
 
 function ProgressIndicatorCircular(
-  props: ProgressIndicatorCircularAllProps
+  props: ProgressIndicatorCircularAllProps,
 ) {
   const {
     size,
@@ -58,7 +58,7 @@ function ProgressIndicatorCircular(
   const doAnimation = (
     element: SVGSVGElement,
     animateOnStart = true,
-    callback = null
+    callback = null,
   ) => {
     const min = 1
     const max = Math.PI * 100
@@ -144,7 +144,7 @@ function ProgressIndicatorCircular(
         'dnb-progress-indicator__circular',
         size && `dnb-progress-indicator__circular--${size}`,
         progressIsControlled &&
-          'dnb-progress-indicator__circular--has-progress-value'
+          'dnb-progress-indicator__circular--has-progress-value',
       )}
       {...remainingDOMAttributes}
     >
@@ -165,7 +165,7 @@ function ProgressIndicatorCircular(
         className={clsx(
           'dark',
           'dark',
-          progressIsControlled || useAnimationFrame ? 'paused' : null
+          progressIsControlled || useAnimationFrame ? 'paused' : null,
         )}
         style={
           progressIsControlled
@@ -247,7 +247,7 @@ function getOffset(progress: number, counterClockwise = false) {
  * @returns
  */
 function correctPercentageStrokeWidth(
-  strokeWidth: CSS.Property.StrokeWidth
+  strokeWidth: CSS.Property.StrokeWidth,
 ) {
   if (typeof strokeWidth === 'string' && strokeWidth.endsWith('%')) {
     const number = parseFloat(strokeWidth.slice(0, strokeWidth.length - 1))

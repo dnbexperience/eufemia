@@ -50,7 +50,7 @@ declare function LiveProvider({
 declare function LiveEditor(props: Partial<Props$3>): React.ReactElement
 
 declare function LiveError<T extends Record<string, unknown>>(
-  props: T
+  props: T,
 ): React.ReactElement | null
 
 type Props$1<
@@ -59,10 +59,10 @@ type Props$1<
   Component?: T
 } & React__default.ComponentPropsWithoutRef<T>
 declare function LivePreview<T extends keyof JSX.IntrinsicElements>(
-  props: Props$1<T>
+  props: Props$1<T>,
 ): React.ReactElement
 declare function LivePreview<T extends React__default.ElementType>(
-  props: Props$1<T>
+  props: Props$1<T>,
 ): React.ReactElement
 
 type ContextValue = {
@@ -92,7 +92,7 @@ type GenerateOptions = {
 }
 declare const generateElement: (
   { code, scope, enableTypeScript }: GenerateOptions,
-  errorCallback: (error: Error) => void
+  errorCallback: (error: Error) => void,
 ) => {
   new (props: {} | Readonly<{}>): {
     componentDidCatch(error: Error): void
@@ -103,11 +103,11 @@ declare const generateElement: (
         | {}
         | ((
             prevState: Readonly<{}>,
-            props: Readonly<{}>
+            props: Readonly<{}>,
           ) => {} | Pick<{}, K> | null)
         | Pick<{}, K>
         | null,
-      callback?: (() => void) | undefined
+      callback?: (() => void) | undefined,
     ): void
     forceUpdate(callback?: (() => void) | undefined): void
     readonly props: Readonly<{}>
@@ -119,42 +119,42 @@ declare const generateElement: (
     shouldComponentUpdate?(
       nextProps: Readonly<{}>,
       nextState: Readonly<{}>,
-      nextContext: any
+      nextContext: any,
     ): boolean
     componentWillUnmount?(): void
     getSnapshotBeforeUpdate?(
       prevProps: Readonly<{}>,
-      prevState: Readonly<{}>
+      prevState: Readonly<{}>,
     ): any
     componentDidUpdate?(
       prevProps: Readonly<{}>,
       prevState: Readonly<{}>,
-      snapshot?: any
+      snapshot?: any,
     ): void
     componentWillMount?(): void
     UNSAFE_componentWillMount?(): void
     componentWillReceiveProps?(
       nextProps: Readonly<{}>,
-      nextContext: any
+      nextContext: any,
     ): void
     UNSAFE_componentWillReceiveProps?(
       nextProps: Readonly<{}>,
-      nextContext: any
+      nextContext: any,
     ): void
     componentWillUpdate?(
       nextProps: Readonly<{}>,
       nextState: Readonly<{}>,
-      nextContext: any
+      nextContext: any,
     ): void
     UNSAFE_componentWillUpdate?(
       nextProps: Readonly<{}>,
       nextState: Readonly<{}>,
-      nextContext: any
+      nextContext: any,
     ): void
   }
   new (
     props: {},
-    context: any
+    context: any,
   ): {
     componentDidCatch(error: Error): void
     render(): React.ReactElement | null
@@ -164,11 +164,11 @@ declare const generateElement: (
         | {}
         | ((
             prevState: Readonly<{}>,
-            props: Readonly<{}>
+            props: Readonly<{}>,
           ) => {} | Pick<{}, K> | null)
         | Pick<{}, K>
         | null,
-      callback?: (() => void) | undefined
+      callback?: (() => void) | undefined,
     ): void
     forceUpdate(callback?: (() => void) | undefined): void
     readonly props: Readonly<{}>
@@ -180,37 +180,37 @@ declare const generateElement: (
     shouldComponentUpdate?(
       nextProps: Readonly<{}>,
       nextState: Readonly<{}>,
-      nextContext: any
+      nextContext: any,
     ): boolean
     componentWillUnmount?(): void
     getSnapshotBeforeUpdate?(
       prevProps: Readonly<{}>,
-      prevState: Readonly<{}>
+      prevState: Readonly<{}>,
     ): any
     componentDidUpdate?(
       prevProps: Readonly<{}>,
       prevState: Readonly<{}>,
-      snapshot?: any
+      snapshot?: any,
     ): void
     componentWillMount?(): void
     UNSAFE_componentWillMount?(): void
     componentWillReceiveProps?(
       nextProps: Readonly<{}>,
-      nextContext: any
+      nextContext: any,
     ): void
     UNSAFE_componentWillReceiveProps?(
       nextProps: Readonly<{}>,
-      nextContext: any
+      nextContext: any,
     ): void
     componentWillUpdate?(
       nextProps: Readonly<{}>,
       nextState: Readonly<{}>,
-      nextContext: any
+      nextContext: any,
     ): void
     UNSAFE_componentWillUpdate?(
       nextProps: Readonly<{}>,
       nextState: Readonly<{}>,
-      nextContext: any
+      nextContext: any,
     ): void
   }
   contextType?: React__default.Context<any> | undefined
@@ -218,7 +218,7 @@ declare const generateElement: (
 declare const renderElementAsync: (
   { code, scope, enableTypeScript }: GenerateOptions,
   resultCallback: (sender: ComponentType) => void,
-  errorCallback: (error: Error) => void
+  errorCallback: (error: Error) => void,
 ) => void
 
 export {

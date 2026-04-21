@@ -72,13 +72,13 @@ export function setSectionDomApi({
   if (sectionSelectionModeRef.current[inputId] !== 'all') {
     caretPositionsRef.current[inputId] = Math.min(
       caretPositionsRef.current[inputId] ?? displayValue.length,
-      displayValue.length
+      displayValue.length,
     )
   }
 }
 
 export function pickSectionDomProps(
-  props: Record<string, unknown> | undefined
+  props: Record<string, unknown> | undefined,
 ): Record<string, unknown> {
   if (!props) {
     return {}
@@ -104,7 +104,7 @@ export function pickSectionDomProps(
 
       return acc
     },
-    {}
+    {},
   )
 }
 
@@ -126,8 +126,8 @@ export function listAllSections(scope?: HTMLElement) {
     const root: Document | HTMLElement = scope || document
     return Array.from(
       root.querySelectorAll<HTMLSpanElement>(
-        '.dnb-segmented-field__section'
-      )
+        '.dnb-segmented-field__section',
+      ),
     )
   } catch {
     return []

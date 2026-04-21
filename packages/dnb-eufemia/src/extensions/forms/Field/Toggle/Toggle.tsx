@@ -47,7 +47,7 @@ export type ToggleProps = {
    */
   onClick?: (
     value: unknown,
-    params: { event: React.MouseEvent<HTMLInputElement> }
+    params: { event: React.MouseEvent<HTMLInputElement> },
   ) => void
 }
 
@@ -110,25 +110,25 @@ function Toggle(props: FieldToggleProps) {
       }
       onClick?.(args.checked ? valueOn : valueOff, event)
     },
-    [onClick, valueOff, valueOn]
+    [onClick, valueOff, valueOn],
   )
   const handleCheckboxChange = useCallback(
     (args: CheckboxOnChangeParams | ToggleButtonChangeEvent) => {
       handleChange?.(args.checked ? valueOn : valueOff, args)
     },
-    [handleChange, valueOn, valueOff]
+    [handleChange, valueOn, valueOff],
   )
   const handleToggleChange = useCallback(
     ({ value }) => {
       handleChange?.(value === 'on' ? valueOn : valueOff)
     },
-    [handleChange, valueOn, valueOff]
+    [handleChange, valueOn, valueOff],
   )
   const handleSwitchChange = useCallback(
     (args: SwitchOnChangeParams) => {
       handleChange?.(args.checked ? valueOn : valueOff, args)
     },
-    [handleChange, valueOn, valueOff]
+    [handleChange, valueOn, valueOff],
   )
 
   const cn = clsx('dnb-forms-field-toggle', className)

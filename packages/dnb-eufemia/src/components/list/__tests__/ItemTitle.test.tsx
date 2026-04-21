@@ -23,10 +23,10 @@ describe('ItemTitle', () => {
 
     expect(element.classList).toContain('dnb-list__item__title')
     expect(
-      element.querySelector('.dnb-t__size--basis')
+      element.querySelector('.dnb-t__size--basis'),
     ).toBeInTheDocument()
     expect(element.querySelector('.dnb-t__size--basis').textContent).toBe(
-      'Title'
+      'Title',
     )
   })
 
@@ -36,10 +36,10 @@ describe('ItemTitle', () => {
     const element = document.querySelector('.dnb-list__item__title')
 
     expect(
-      element.querySelector('.dnb-t__size--small')
+      element.querySelector('.dnb-t__size--small'),
     ).toBeInTheDocument()
     expect(element.querySelector('.dnb-t__size--small').textContent).toBe(
-      'Small Title'
+      'Small Title',
     )
   })
 
@@ -49,7 +49,7 @@ describe('ItemTitle', () => {
     const element = document.querySelector('.dnb-list__item__title')
 
     expect(
-      element.querySelector('.dnb-t__size--basis')
+      element.querySelector('.dnb-t__size--basis'),
     ).toBeInTheDocument()
   })
 
@@ -59,7 +59,7 @@ describe('ItemTitle', () => {
     const element = document.querySelector('.dnb-list__item__title')
 
     expect(
-      element.querySelector('.dnb-t__weight--medium')
+      element.querySelector('.dnb-t__weight--medium'),
     ).not.toBeInTheDocument()
   })
 
@@ -67,7 +67,7 @@ describe('ItemTitle', () => {
     render(<ItemTitle fontWeight="medium">Title</ItemTitle>)
 
     const span = document.querySelector(
-      '.dnb-list__item__title .dnb-t__weight--medium'
+      '.dnb-list__item__title .dnb-t__weight--medium',
     )
 
     expect(span).toBeInTheDocument()
@@ -92,7 +92,7 @@ describe('ItemTitle', () => {
         id="title-id"
       >
         Title
-      </ItemTitle>
+      </ItemTitle>,
     )
 
     const element = document.querySelector('.dnb-list__item__title')
@@ -107,7 +107,7 @@ describe('ItemTitle', () => {
     render(
       <ItemTitle top="small" bottom="medium">
         Title
-      </ItemTitle>
+      </ItemTitle>,
     )
 
     const element = document.querySelector('.dnb-list__item__title')
@@ -144,7 +144,7 @@ describe('ItemTitle', () => {
     render(
       <Container skeleton>
         <ItemTitle>Content</ItemTitle>
-      </Container>
+      </Container>,
     )
 
     const element = document.querySelector('.dnb-list__item__title')
@@ -162,7 +162,7 @@ describe('ItemTitle', () => {
     render(
       <ItemTitle skeleton>
         <SkeletonConsumer />
-      </ItemTitle>
+      </ItemTitle>,
     )
 
     const consumer = document.querySelector('[data-skeleton]')
@@ -175,7 +175,7 @@ describe('ItemTitle', () => {
         <ItemContent>
           <ItemTitle>Title content</ItemTitle>
         </ItemContent>
-      </Container>
+      </Container>,
     )
 
     expect(await axeComponent(container)).toHaveNoViolations()

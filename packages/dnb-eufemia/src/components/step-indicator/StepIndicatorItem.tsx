@@ -101,13 +101,13 @@ function StepIndicatorItem({
           onClickHandler,
         },
         'onClick',
-        params
+        params,
       )
 
       const onClickGlobal = dispatchCustomElementEvent(
         context,
         'onClick',
-        params
+        params,
       )
 
       if (onClickItem === false || onClickGlobal === false) {
@@ -119,7 +119,7 @@ function StepIndicatorItem({
         dispatchCustomElementEvent(context, 'onChange', params)
       }
     },
-    [context, props]
+    [context, props],
   )
 
   const {
@@ -212,7 +212,7 @@ function StepIndicatorItem({
         usedIsCurrent && 'dnb-step-indicator__item--current',
         isInactive && 'dnb-step-indicator__item--inactive',
         isVisited && 'dnb-step-indicator__item--visited',
-        itemParams.className
+        itemParams.className,
       )}
     >
       <div
@@ -220,7 +220,7 @@ function StepIndicatorItem({
           'dnb-step-indicator__item__wrapper',
           !status &&
             isVisited &&
-            'dnb-step-indicator__item__wrapper--check'
+            'dnb-step-indicator__item__wrapper--check',
         )}
       >
         <span
@@ -232,7 +232,7 @@ function StepIndicatorItem({
                   (isVisited
                     ? 'dnb-step-indicator__item__bullet--check'
                     : 'dnb-step-indicator__item__bullet--empty'),
-            createSkeletonClass('shape', skeleton)
+            createSkeletonClass('shape', skeleton),
           )}
         >
           {status && !usedIsCurrent ? (
@@ -247,7 +247,7 @@ function StepIndicatorItem({
               icon="check"
               className={clsx(
                 'dnb-step-indicator__item__icon',
-                !isVisited && 'dnb-step-indicator__item__icon--hidden'
+                !isVisited && 'dnb-step-indicator__item__icon--hidden',
               )}
               size="auto"
             />
@@ -256,7 +256,7 @@ function StepIndicatorItem({
         <div
           className={clsx(
             'dnb-step-indicator__item-content',
-            createSkeletonClass('font', skeleton)
+            createSkeletonClass('font', skeleton),
           )}
         >
           {!hideNumbers && (
@@ -308,7 +308,7 @@ export function StepItemButton({
         className,
         'dnb-step-indicator__button',
         status &&
-          `dnb-step-indicator__button--has-status dnb-step-indicator__button--${statusState}`
+          `dnb-step-indicator__button--has-status dnb-step-indicator__button--${statusState}`,
       )}
       noStyle={notClickable}
       ref={ref}

@@ -25,7 +25,7 @@ describe('Form.SubmitIndicator', () => {
 
   it('should set custom "className"', () => {
     render(
-      <Form.SubmitIndicator className="custom-class" state={undefined} />
+      <Form.SubmitIndicator className="custom-class" state={undefined} />,
     )
 
     const element = document.querySelector('.dnb-forms-submit-indicator')
@@ -59,16 +59,16 @@ describe('Form.SubmitIndicator', () => {
 
   it('should forward HTML attributes', () => {
     render(
-      <Form.SubmitIndicator state="pending" aria-label="Custom Label" />
+      <Form.SubmitIndicator state="pending" aria-label="Custom Label" />,
     )
 
     const element = document.querySelector('.dnb-forms-submit-indicator')
     const dots = document.querySelector(
-      '.dnb-forms-submit-indicator__content'
+      '.dnb-forms-submit-indicator__content',
     )
 
     expect(
-      Array.from(element.attributes).map((attr) => attr.name)
+      Array.from(element.attributes).map((attr) => attr.name),
     ).toEqual(['class'])
 
     expect(Array.from(dots.attributes).map((attr) => attr.name)).toEqual([
@@ -90,7 +90,7 @@ describe('Form.SubmitIndicator', () => {
     render(<Form.SubmitIndicator state="abort" />)
 
     const dots = document.querySelector(
-      '.dnb-forms-submit-indicator__content'
+      '.dnb-forms-submit-indicator__content',
     )
 
     expect(dots).not.toHaveAttribute('role', 'status')
@@ -100,7 +100,7 @@ describe('Form.SubmitIndicator', () => {
     render(<Form.SubmitIndicator state="pending" />)
 
     const dots = document.querySelector(
-      '.dnb-forms-submit-indicator__content'
+      '.dnb-forms-submit-indicator__content',
     )
 
     expect(dots).toHaveAttribute('role', 'status')
@@ -110,7 +110,7 @@ describe('Form.SubmitIndicator', () => {
     render(<Form.SubmitIndicator state="pending" />)
 
     const dots = document.querySelector(
-      '.dnb-forms-submit-indicator__content'
+      '.dnb-forms-submit-indicator__content',
     )
 
     expect(dots).toHaveAttribute('aria-busy', 'true')
@@ -120,7 +120,7 @@ describe('Form.SubmitIndicator', () => {
     render(<Form.SubmitIndicator state="complete" />)
 
     const dots = document.querySelector(
-      '.dnb-forms-submit-indicator__content'
+      '.dnb-forms-submit-indicator__content',
     )
 
     expect(dots).toHaveAttribute('aria-hidden', 'true')
@@ -130,7 +130,7 @@ describe('Form.SubmitIndicator', () => {
     render(<Form.SubmitIndicator state="pending" />)
 
     const dots = document.querySelector(
-      '.dnb-forms-submit-indicator__content'
+      '.dnb-forms-submit-indicator__content',
     )
 
     expect(dots).toHaveAttribute('aria-label', nbNO.SubmitIndicator.label)
@@ -140,7 +140,7 @@ describe('Form.SubmitIndicator', () => {
     render(<Form.SubmitIndicator state="pending" label="Custom label" />)
 
     const dots = document.querySelector(
-      '.dnb-forms-submit-indicator__content'
+      '.dnb-forms-submit-indicator__content',
     )
 
     expect(dots).toHaveAttribute('aria-label', 'Custom label')
@@ -150,7 +150,7 @@ describe('Form.SubmitIndicator', () => {
     render(<Form.SubmitIndicator state="pending" showLabel />)
 
     const label = document.querySelector(
-      '.dnb-forms-submit-indicator__label'
+      '.dnb-forms-submit-indicator__label',
     )
 
     expect(label).toHaveTextContent(nbNO.SubmitIndicator.label)
@@ -162,11 +162,11 @@ describe('Form.SubmitIndicator', () => {
         state="pending"
         label="Custom label"
         showLabel
-      />
+      />,
     )
 
     const label = document.querySelector(
-      '.dnb-forms-submit-indicator__label'
+      '.dnb-forms-submit-indicator__label',
     )
 
     expect(label).toHaveTextContent('Custom label')
@@ -177,13 +177,13 @@ describe('Form.SubmitIndicator', () => {
 
     const element = document.querySelector('.dnb-forms-submit-indicator')
     expect(element).toHaveClass(
-      'dnb-forms-submit-indicator--state-pending'
+      'dnb-forms-submit-indicator--state-pending',
     )
 
     rerender(<Form.SubmitIndicator state="complete" />)
 
     expect(element).toHaveClass(
-      'dnb-forms-submit-indicator--state-complete'
+      'dnb-forms-submit-indicator--state-complete',
     )
   })
 
@@ -221,7 +221,7 @@ describe('Form.SubmitIndicator', () => {
     const { rerender } = render(
       <Form.SubmitIndicator state="pending">
         Text of a long label 1
-      </Form.SubmitIndicator>
+      </Form.SubmitIndicator>,
     )
 
     let count = 0
@@ -236,13 +236,13 @@ describe('Form.SubmitIndicator', () => {
 
     const element = document.querySelector('.dnb-forms-submit-indicator')
     expect(element).not.toHaveClass(
-      'dnb-forms-submit-indicator--inline-wrap'
+      'dnb-forms-submit-indicator--inline-wrap',
     )
 
     rerender(
       <Form.SubmitIndicator state="pending">
         Text of a long label 2
-      </Form.SubmitIndicator>
+      </Form.SubmitIndicator>,
     )
 
     expect(element).toHaveClass('dnb-forms-submit-indicator--inline-wrap')
@@ -256,11 +256,11 @@ describe('Form.SubmitIndicator', () => {
     rerender(
       <Form.SubmitIndicator state="pending">
         Text of a long label 3
-      </Form.SubmitIndicator>
+      </Form.SubmitIndicator>,
     )
 
     expect(element).not.toHaveClass(
-      'dnb-forms-submit-indicator--inline-wrap'
+      'dnb-forms-submit-indicator--inline-wrap',
     )
   })
 
@@ -268,7 +268,7 @@ describe('Form.SubmitIndicator', () => {
     render(
       <Form.SubmitIndicator state="pending">
         Text of a long label
-      </Form.SubmitIndicator>
+      </Form.SubmitIndicator>,
     )
 
     let count = 0
@@ -283,14 +283,14 @@ describe('Form.SubmitIndicator', () => {
 
     const element = document.querySelector('.dnb-forms-submit-indicator')
     expect(element).not.toHaveClass(
-      'dnb-forms-submit-indicator--inline-wrap'
+      'dnb-forms-submit-indicator--inline-wrap',
     )
 
     window.dispatchEvent(new Event('resize'))
 
     await waitFor(() => {
       expect(element).toHaveClass(
-        'dnb-forms-submit-indicator--inline-wrap'
+        'dnb-forms-submit-indicator--inline-wrap',
       )
     })
   })
@@ -305,16 +305,16 @@ describe('Form.SubmitIndicator', () => {
     const { rerender } = render(
       <Form.SubmitIndicator state="pending">
         Text of a <b>bold</b> label 1
-      </Form.SubmitIndicator>
+      </Form.SubmitIndicator>,
     )
 
     const element = document.querySelector('.dnb-forms-submit-indicator')
     expect(element).not.toHaveClass(
-      'dnb-forms-submit-indicator--inline-wrap'
+      'dnb-forms-submit-indicator--inline-wrap',
     )
 
     expect(element.querySelector('span').innerHTML).toBe(
-      'Text of a <b>bold</b> label 1'
+      'Text of a <b>bold</b> label 1',
     )
 
     let count = 0
@@ -330,12 +330,12 @@ describe('Form.SubmitIndicator', () => {
     rerender(
       <Form.SubmitIndicator state="pending">
         Text of a <b>bold</b> label 2
-      </Form.SubmitIndicator>
+      </Form.SubmitIndicator>,
     )
 
     expect(element).toHaveClass('dnb-forms-submit-indicator--inline-wrap')
     expect(element.querySelector('span').innerHTML).toBe(
-      'Text of a <b>bold</b> label 2'
+      'Text of a <b>bold</b> label 2',
     )
 
     Object.defineProperties(HTMLElement.prototype, {
@@ -347,14 +347,14 @@ describe('Form.SubmitIndicator', () => {
     rerender(
       <Form.SubmitIndicator state="pending">
         Text of a <b>bold</b> label 3
-      </Form.SubmitIndicator>
+      </Form.SubmitIndicator>,
     )
 
     expect(element).not.toHaveClass(
-      'dnb-forms-submit-indicator--inline-wrap'
+      'dnb-forms-submit-indicator--inline-wrap',
     )
     expect(element.querySelector('span').innerHTML).toBe(
-      'Text of a <b>bold</b> label 3'
+      'Text of a <b>bold</b> label 3',
     )
   })
 
@@ -373,16 +373,16 @@ describe('Form.SubmitIndicator', () => {
     const { rerender } = render(
       <Form.SubmitIndicator state="pending">
         <NestedComponent /> label 1
-      </Form.SubmitIndicator>
+      </Form.SubmitIndicator>,
     )
 
     const element = document.querySelector('.dnb-forms-submit-indicator')
 
     expect(element).not.toHaveClass(
-      'dnb-forms-submit-indicator--inline-wrap'
+      'dnb-forms-submit-indicator--inline-wrap',
     )
     expect(element.querySelector('span').innerHTML).toBe(
-      '<button>1</button> label 1'
+      '<button>1</button> label 1',
     )
 
     let count = 0
@@ -398,14 +398,14 @@ describe('Form.SubmitIndicator', () => {
     rerender(
       <Form.SubmitIndicator state="pending">
         <NestedComponent /> label 2
-      </Form.SubmitIndicator>
+      </Form.SubmitIndicator>,
     )
 
     await userEvent.click(document.querySelector('button'))
 
     expect(element).toHaveClass('dnb-forms-submit-indicator--inline-wrap')
     expect(element.querySelector('span').innerHTML).toBe(
-      '<button>2</button> label 2'
+      '<button>2</button> label 2',
     )
   })
 

@@ -24,7 +24,7 @@ describe('Heading component', () => {
     render(<Heading text="text" style={{ color: 'red' }} />)
 
     expect(
-      document.querySelector('.dnb-heading').getAttribute('style')
+      document.querySelector('.dnb-heading').getAttribute('style'),
     ).toBe('color: red;')
   })
 
@@ -57,7 +57,7 @@ describe('Heading component', () => {
         <Heading debug inherit decrease>
           Heading #12
         </Heading>
-      </React.StrictMode>
+      </React.StrictMode>,
     )
 
     let i = -1
@@ -91,7 +91,7 @@ describe('Heading component', () => {
         <Heading debug reset>
           Heading #4
         </Heading>
-      </React.StrictMode>
+      </React.StrictMode>,
     )
 
     let i = -1
@@ -114,7 +114,7 @@ describe('Heading component', () => {
           </Heading.Level>
           <Heading reset>Heading #5</Heading>
         </Heading.Level>
-      </React.StrictMode>
+      </React.StrictMode>,
     )
 
     let i = -1
@@ -135,7 +135,7 @@ describe('Heading component', () => {
           <H3 level="use">Heading #3</H3>
           <Heading>Heading #4</Heading>
         </Heading.Level>
-      </React.StrictMode>
+      </React.StrictMode>,
     )
 
     const first = document.querySelectorAll('h3.dnb-h--medium')
@@ -161,14 +161,14 @@ describe('Heading component', () => {
     const { rerender } = render(<RenderComp />)
 
     expect(document.querySelector('.dnb-heading').textContent).toBe(
-      '[h1] Heading #1'
+      '[h1] Heading #1',
     )
 
     rerender(<RenderComp level={3} />)
 
     // We got a level correction here!
     expect(document.querySelector('.dnb-heading').textContent).toBe(
-      '[h2] Heading #1'
+      '[h2] Heading #1',
     )
 
     // expect(warn). toHaveBeenCalledTimes(2) // 2 because of StrictMode
@@ -181,13 +181,13 @@ describe('Heading component', () => {
       2,
       '\nNB: This warning was triggered by:',
       '',
-      'Heading #1'
+      'Heading #1',
     )
 
     rerender(<RenderComp level={4} skipCorrection={true} />)
 
     expect(document.querySelector('.dnb-heading').textContent).toBe(
-      '[h4] Heading #1'
+      '[h4] Heading #1',
     )
     // still one time, same as we had earlier
     expect(warn).toHaveBeenCalledTimes(1) // 2 because of StrictMode
@@ -195,13 +195,13 @@ describe('Heading component', () => {
 
   it('should have correct leveling after using setNextLevel', async () => {
     const { rerender: rerenderH1, container: h1 } = render(
-      <Heading debug={warn}>h1</Heading>
+      <Heading debug={warn}>h1</Heading>,
     )
 
     Heading.setNextLevel(2)
 
     const { rerender: rerenderH2, container: h2 } = render(
-      <Heading debug={warn}>h2</Heading>
+      <Heading debug={warn}>h2</Heading>,
     )
 
     setNextLevel(3)
@@ -209,7 +209,7 @@ describe('Heading component', () => {
     const { rerender: rerenderH3, container: h3 } = render(
       <Heading.Level debug={warn}>
         <Heading>h3</Heading>
-      </Heading.Level>
+      </Heading.Level>,
     )
 
     expect(h1.querySelector('.dnb-heading').textContent).toBe('[h1] h1')
@@ -221,7 +221,7 @@ describe('Heading component', () => {
     rerenderH2(
       <Heading debug={warn} level={3}>
         h2
-      </Heading>
+      </Heading>,
     )
     expect(h2.querySelector('.dnb-heading').textContent).toBe('[h4] h2')
 
@@ -230,14 +230,14 @@ describe('Heading component', () => {
     rerenderH2(
       <Heading debug={warn} level={5}>
         h2
-      </Heading>
+      </Heading>,
     )
     expect(h2.querySelector('.dnb-heading').textContent).toBe('[h1] h2')
 
     rerenderH2(
       <Heading debug={warn} level={2}>
         h2
-      </Heading>
+      </Heading>,
     )
     expect(h2.querySelector('.dnb-heading').textContent).toBe('[h2] h2')
 
@@ -246,28 +246,28 @@ describe('Heading component', () => {
     rerenderH1(
       <Heading debug={warn} level={3}>
         h1
-      </Heading>
+      </Heading>,
     )
     expect(h1.querySelector('.dnb-heading').textContent).toBe('[h2] h1')
 
     rerenderH3(
       <Heading debug={warn} level={3}>
         h1
-      </Heading>
+      </Heading>,
     )
     expect(h3.querySelector('.dnb-heading').textContent).toBe('[h3] h1')
   })
 
   it('should have correct leveling after using resetLevels', () => {
     const { rerender, container: h2 } = render(
-      <Heading debug={warn}>h2</Heading>
+      <Heading debug={warn}>h2</Heading>,
     )
     expect(h2.querySelector('.dnb-heading').textContent).toBe('[h1] h2')
 
     rerender(
       <Heading debug={warn} level={3}>
         h2
-      </Heading>
+      </Heading>,
     )
     expect(h2.querySelector('.dnb-heading').textContent).toBe('[h2] h2')
 
@@ -276,14 +276,14 @@ describe('Heading component', () => {
     rerender(
       <Heading debug={warn} level={4}>
         h2
-      </Heading>
+      </Heading>,
     )
     expect(h2.querySelector('.dnb-heading').textContent).toBe('[h1] h2')
 
     rerender(
       <Heading debug={warn} level={2}>
         h2
-      </Heading>
+      </Heading>,
     )
     expect(h2.querySelector('.dnb-heading').textContent).toBe('[h2] h2')
   })
@@ -292,7 +292,7 @@ describe('Heading component', () => {
     render(
       <Heading element="span" debug={warn} reset={1}>
         Heading #1
-      </Heading>
+      </Heading>,
     )
 
     const elem = document.querySelectorAll('span.dnb-heading')
@@ -305,11 +305,11 @@ describe('Heading component', () => {
     render(
       <Heading debug={warn} level={0 as HeadingLevel} reset={1}>
         Heading #1
-      </Heading>
+      </Heading>,
     )
 
     expect(document.querySelectorAll('.dnb-heading')[0].textContent).toBe(
-      '[h1] Heading #1'
+      '[h1] Heading #1',
     )
   })
 
@@ -321,14 +321,14 @@ describe('Heading component', () => {
         <Heading debug={debugWarning} increase>
           Heading #2
         </Heading>
-      </>
+      </>,
     )
 
     expect(document.querySelectorAll('.dnb-heading')[0].textContent).toBe(
-      '[h1] Heading #1'
+      '[h1] Heading #1',
     )
     expect(document.querySelectorAll('.dnb-heading')[1].textContent).toBe(
-      '[h2] Heading #2'
+      '[h2] Heading #2',
     )
     expect(debugWarning).not.toHaveBeenCalled()
   })
@@ -337,14 +337,14 @@ describe('Heading component', () => {
     render(
       <Heading debug={warn} size="x-large" reset={1}>
         Heading #1
-      </Heading>
+      </Heading>,
     )
 
     const elem = document.querySelectorAll('.dnb-heading')
     expect(elem[0].textContent).toBe('[h1] Heading #1')
     expect(elem[0].classList).toContain('dnb-h--x-large')
     expect(elem[0].getAttribute('class')).toBe(
-      'dnb-heading dnb-h--x-large'
+      'dnb-heading dnb-h--x-large',
     )
   })
 
@@ -355,7 +355,7 @@ describe('Heading component', () => {
           <Heading level={4}>Heading #1</Heading>
           <Heading increase>Heading #2</Heading>
         </Heading.Level>
-      </React.StrictMode>
+      </React.StrictMode>,
     )
 
     const elem = document.querySelectorAll('.dnb-heading')
@@ -373,7 +373,7 @@ describe('Heading component', () => {
             <Heading increase>Heading #3</Heading>
           </Heading.Increase>
         </Heading.Level>
-      </React.StrictMode>
+      </React.StrictMode>,
     )
 
     const elem = document.querySelectorAll('.dnb-heading')
@@ -470,7 +470,7 @@ describe('Heading component', () => {
             </Heading.Increase>
           </Heading.Increase>
         </Heading.Level>
-      </React.StrictMode>
+      </React.StrictMode>,
     )
 
     let i = -1
@@ -508,7 +508,7 @@ describe('Heading component', () => {
             </Heading.Increase>
           </Heading.Increase>
         </Heading.Level>
-      </React.StrictMode>
+      </React.StrictMode>,
     )
     expect(await axeComponent(Comp, {})).toHaveNoViolations()
   })

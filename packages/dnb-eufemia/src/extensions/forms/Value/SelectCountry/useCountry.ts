@@ -23,7 +23,7 @@ export default function useCountry() {
         },
       })?.at(0)?.content
     },
-    [countries, locale]
+    [countries, locale],
   )
 
   return { getCountryNameByIso }

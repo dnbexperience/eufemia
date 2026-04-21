@@ -126,7 +126,8 @@ const Typography = ({
         decoration && `dnb-t__decoration--${decoration}`,
         slant && `dnb-t__slant--${slant}`,
         context?.theme?.surface === 'dark' && 'dnb-t--surface-dark',
-        (lineHeight || size) && `dnb-t__line-height--${lineHeight || size}`
+        (lineHeight || size) &&
+          `dnb-t__line-height--${lineHeight || size}`,
       )}
     />
   )
@@ -160,7 +161,7 @@ const HEADING_LINE_HEIGHT_MAP: Record<TypographySize, TypographySize> = {
 }
 
 export function getHeadingLineHeightSize(
-  fontSize: TypographySize
+  fontSize: TypographySize,
 ): TypographySize {
   return HEADING_LINE_HEIGHT_MAP[fontSize] || 'basis'
 }

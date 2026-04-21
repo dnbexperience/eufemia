@@ -21,7 +21,7 @@ export default function useHandleLayoutEffect({
       // Wait for the new stepElementRef to be set
       window.requestAnimationFrame(() => {
         isInteractionRef.current && fn()
-      })
+      }),
     )
   }, [])
 

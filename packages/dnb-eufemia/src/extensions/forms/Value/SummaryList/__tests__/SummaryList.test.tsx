@@ -11,7 +11,7 @@ describe('Value.SummaryList', () => {
 
     const element = document.querySelector('.dnb-forms-summary-list')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toContain('aria-label')
@@ -22,7 +22,7 @@ describe('Value.SummaryList', () => {
     render(
       <SummaryList>
         <Value.String value="Value" />
-      </SummaryList>
+      </SummaryList>,
     )
     expect(document.querySelector('dt')).toHaveClass('dnb-sr-only')
   })
@@ -31,7 +31,7 @@ describe('Value.SummaryList', () => {
     render(
       <Value.SummaryList>
         <Value.String label="Label" labelSrOnly showEmpty />
-      </Value.SummaryList>
+      </Value.SummaryList>,
     )
 
     const element = document.querySelector('dt')
@@ -46,16 +46,16 @@ describe('Value.SummaryList', () => {
       <SummaryList>
         <Form.SubHeading>Heading</Form.SubHeading>
         <Value.String label="Label" value="Value" />
-      </SummaryList>
+      </SummaryList>,
     )
 
     expect(log).toHaveBeenCalledTimes(1)
     expect(log).toHaveBeenLastCalledWith(
       expect.any(String),
       expect.stringContaining(
-        'Value.SummaryList accepts only Value.* components!'
+        'Value.SummaryList accepts only Value.* components!',
       ),
-      expect.any(Object)
+      expect.any(Object),
     )
 
     log.mockRestore()
@@ -70,16 +70,16 @@ describe('Value.SummaryList', () => {
           <Form.SubHeading>Heading</Form.SubHeading>
           <Value.String label="Label" value="Value" />
         </>
-      </SummaryList>
+      </SummaryList>,
     )
 
     expect(log).toHaveBeenCalledTimes(1)
     expect(log).toHaveBeenLastCalledWith(
       expect.any(String),
       expect.stringContaining(
-        'Value.SummaryList accepts only Value.* components!'
+        'Value.SummaryList accepts only Value.* components!',
       ),
-      expect.any(Object)
+      expect.any(Object),
     )
 
     log.mockRestore()
@@ -87,7 +87,7 @@ describe('Value.SummaryList', () => {
 
   it('should support spacing props', () => {
     const { rerender } = render(
-      <SummaryList top="x-large">Space Summary</SummaryList>
+      <SummaryList top="x-large">Space Summary</SummaryList>,
     )
     const element = document.querySelector('.dnb-forms-summary-list')
 
@@ -100,7 +100,7 @@ describe('Value.SummaryList', () => {
 
   it('should contain given classes', () => {
     render(
-      <SummaryList className="custom-class">Class Summary</SummaryList>
+      <SummaryList className="custom-class">Class Summary</SummaryList>,
     )
 
     const element = document.querySelector('.dnb-forms-summary-list')
@@ -134,7 +134,7 @@ describe('Value.SummaryList', () => {
     render(
       <SummaryList>
         <Value.String label="Label" value="Value" />
-      </SummaryList>
+      </SummaryList>,
     )
 
     const element = document.querySelector('.dnb-forms-summary-list')
@@ -149,7 +149,7 @@ describe('Value.SummaryList', () => {
     render(
       <SummaryList>
         <Value.String value="Value" />
-      </SummaryList>
+      </SummaryList>,
     )
 
     const element = document.querySelector('.dnb-forms-summary-list')
@@ -187,14 +187,14 @@ describe('Value.SummaryList', () => {
             <Value.String path="/foo" />
             <Value.String path="/bar" />
           </Value.SummaryList>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelectorAll('dd')).toHaveLength(2)
       expect(document.querySelectorAll('input')).toHaveLength(2)
 
       const [valueFoo, valueBar] = Array.from(
-        document.querySelectorAll('dd')
+        document.querySelectorAll('dd'),
       )
 
       expect(valueFoo).toHaveTextContent('Foo')
@@ -221,11 +221,11 @@ describe('Value.SummaryList', () => {
             <Value.String path="/foo" />
             <Value.String path="/bar" />
           </Value.SummaryList>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [labelFoo, labelBar] = Array.from(
-        document.querySelectorAll('dt')
+        document.querySelectorAll('dt'),
       )
 
       expect(labelFoo).toHaveTextContent('foo label')
@@ -247,11 +247,11 @@ describe('Value.SummaryList', () => {
             <Value.String path="/foo" />
             <Value.String path="/bar" />
           </Value.SummaryList>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [labelFoo, labelBar] = Array.from(
-        document.querySelectorAll('dt')
+        document.querySelectorAll('dt'),
       )
 
       expect(labelFoo).toHaveTextContent('FOO LABEL')
@@ -276,7 +276,7 @@ describe('Value.SummaryList', () => {
               <Value.String label="Label" value="Second field" />
             </Form.Visibility>
           </Value.SummaryList>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const checkbox = document.querySelector('input')
@@ -337,11 +337,11 @@ describe('Value.SummaryList', () => {
               content: 'Help content',
             }}
           />
-        </Value.SummaryList>
+        </Value.SummaryList>,
       )
 
       await userEvent.click(
-        document.querySelector('.dnb-help-button__inline')
+        document.querySelector('.dnb-help-button__inline'),
       )
 
       const element = document.querySelector('.dnb-forms-summary-list')
@@ -361,11 +361,11 @@ describe('Value.SummaryList', () => {
               content: 'Help content',
             }}
           />
-        </Value.SummaryList>
+        </Value.SummaryList>,
       )
 
       await userEvent.click(
-        document.querySelector('.dnb-help-button__inline')
+        document.querySelector('.dnb-help-button__inline'),
       )
 
       const element = document.querySelector('.dnb-forms-summary-list')
@@ -387,11 +387,11 @@ describe('Value.SummaryList', () => {
               }}
             />
           </Value.Composition>
-        </Value.SummaryList>
+        </Value.SummaryList>,
       )
 
       await userEvent.click(
-        document.querySelector('.dnb-help-button__inline')
+        document.querySelector('.dnb-help-button__inline'),
       )
 
       const element = document.querySelector('.dnb-forms-summary-list')

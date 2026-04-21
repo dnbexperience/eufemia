@@ -13,7 +13,7 @@ describe('EditContainer', () => {
     const { rerender } = render(
       <IterateItemContext value={{ containerMode: 'view', value: 'foo' }}>
         <EditContainer>content</EditContainer>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     const element = document.querySelector('.dnb-forms-section-block')
@@ -28,7 +28,7 @@ describe('EditContainer', () => {
     rerender(
       <IterateItemContext value={{ containerMode: 'edit', value: 'foo' }}>
         <EditContainer>content</EditContainer>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
@@ -40,7 +40,7 @@ describe('EditContainer', () => {
     render(
       <IterateItemContext value={{ switchContainerMode }}>
         <EditContainer>content</EditContainer>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -55,7 +55,7 @@ describe('EditContainer', () => {
     render(
       <IterateItemContext value={{ switchContainerMode, isNew: true }}>
         <EditContainer>content</EditContainer>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -70,14 +70,14 @@ describe('EditContainer', () => {
     render(
       <IterateItemContext value={{ handleRemove, isNew: true }}>
         <EditContainer>content</EditContainer>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     // Opens confirmation dialog
     fireEvent.click(document.querySelectorAll('button')[1])
     // Confirm removal in dialog
     fireEvent.click(
-      document.querySelector('.dnb-dialog__actions .dnb-button--primary')
+      document.querySelector('.dnb-dialog__actions .dnb-button--primary'),
     )
 
     expect(handleRemove).toHaveBeenCalledTimes(1)
@@ -96,14 +96,14 @@ describe('EditContainer', () => {
         }}
       >
         <EditContainer>content</EditContainer>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     // Opens confirmation dialog
     fireEvent.click(document.querySelectorAll('button')[1])
     // Confirm cancel in dialog
     fireEvent.click(
-      document.querySelector('.dnb-dialog__actions .dnb-button--primary')
+      document.querySelector('.dnb-dialog__actions .dnb-button--primary'),
     )
 
     expect(restoreOriginalValue).toHaveBeenCalledTimes(1)
@@ -114,11 +114,11 @@ describe('EditContainer', () => {
     render(
       <IterateItemContext value={{ containerMode: 'edit' }}>
         <EditContainer title="Item title">content</EditContainer>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     expect(document.querySelector('.dnb-p')).toHaveTextContent(
-      'Item title'
+      'Item title',
     )
   })
 
@@ -128,11 +128,11 @@ describe('EditContainer', () => {
         <EditContainer title="Item title" titleWhenNew="New Item title">
           content
         </EditContainer>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     expect(document.querySelector('.dnb-p')).toHaveTextContent(
-      'New Item title'
+      'New Item title',
     )
   })
 
@@ -140,7 +140,7 @@ describe('EditContainer', () => {
     render(
       <Iterate.Array value={['foo', 'bar']}>
         <EditContainer title="Item title {itemNo}">content</EditContainer>
-      </Iterate.Array>
+      </Iterate.Array>,
     )
 
     const leads = document.querySelectorAll('.dnb-p')
@@ -157,11 +157,11 @@ describe('EditContainer', () => {
         <EditContainer titleWhenNew="New Item title {itemNo}">
           content
         </EditContainer>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     expect(document.querySelector('.dnb-p')).toHaveTextContent(
-      'New Item title 1'
+      'New Item title 1',
     )
   })
 
@@ -169,11 +169,11 @@ describe('EditContainer', () => {
     render(
       <IterateItemContext value={{ containerMode: 'edit' }}>
         <EditContainer>content</EditContainer>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     expect(
-      document.querySelector('.dnb-forms-section-edit-block')
+      document.querySelector('.dnb-forms-section-edit-block'),
     ).toBeInTheDocument()
   })
 
@@ -181,13 +181,13 @@ describe('EditContainer', () => {
     render(
       <IterateItemContext value={{ containerMode: 'edit' }}>
         <EditContainer data-attr="value">content</EditContainer>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-section-edit-block .dnb-forms-section-block__inner'
-      )
+        '.dnb-forms-section-edit-block .dnb-forms-section-block__inner',
+      ),
     ).toHaveAttribute('data-attr', 'value')
   })
 
@@ -199,11 +199,11 @@ describe('EditContainer', () => {
             <Field.String required itemPath="/" />
           </EditContainer>
         </Iterate.Array>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
-      document.querySelector('.dnb-form-status')
+      document.querySelector('.dnb-form-status'),
     ).not.toBeInTheDocument()
 
     const [doneButton] = Array.from(document.querySelectorAll('button'))
@@ -219,7 +219,7 @@ describe('EditContainer', () => {
     await userEvent.click(doneButton)
 
     expect(
-      document.querySelector('.dnb-form-status')
+      document.querySelector('.dnb-form-status'),
     ).not.toBeInTheDocument()
   })
 
@@ -233,7 +233,7 @@ describe('EditContainer', () => {
           }}
         >
           <EditContainer>content</EditContainer>
-        </IterateItemContext>
+        </IterateItemContext>,
       )
 
       const buttons = document.querySelectorAll('button')
@@ -247,7 +247,7 @@ describe('EditContainer', () => {
       render(
         <IterateItemContext value={{ containerMode: 'edit' }}>
           <EditContainer>content</EditContainer>
-        </IterateItemContext>
+        </IterateItemContext>,
       )
 
       const buttons = document.querySelectorAll('button')
@@ -282,7 +282,7 @@ describe('EditContainer', () => {
           >
             <EditContainer>content</EditContainer>
           </IterateItemContext>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(screen.getByText(remove)).toBeInTheDocument()
@@ -313,7 +313,7 @@ describe('EditContainer', () => {
           >
             <EditContainer>content</EditContainer>
           </IterateItemContext>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(screen.getByText(cancel)).toBeInTheDocument()

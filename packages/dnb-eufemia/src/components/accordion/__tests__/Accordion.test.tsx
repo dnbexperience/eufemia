@@ -30,19 +30,19 @@ describe('Accordion component', () => {
     expect(
       document
         .querySelector('.dnb-accordion__header')
-        .getAttribute('aria-expanded')
+        .getAttribute('aria-expanded'),
     ).toBe('false')
     fireEvent.click(document.querySelector('.dnb-accordion__header')) // we could send inn the event data structure like this: , { target: { expanded: true } }
     expect(
       document
         .querySelector('.dnb-accordion__header')
-        .getAttribute('aria-expanded')
+        .getAttribute('aria-expanded'),
     ).toBe('true')
     rerender(<Accordion {...props} expanded={false} />)
     expect(
       document
         .querySelector('.dnb-accordion__header')
-        .getAttribute('aria-expanded')
+        .getAttribute('aria-expanded'),
     ).toBe('false')
   })
 
@@ -66,22 +66,22 @@ describe('Accordion component', () => {
     const { rerender } = render(
       <Accordion {...props} expanded>
         string content
-      </Accordion>
+      </Accordion>,
     )
 
     expect(document.querySelector('.dnb-p').textContent).toBe(
-      'string content'
+      'string content',
     )
 
     rerender(
       <Accordion {...props} expanded>
         <span className="no-string">no string content</span>
-      </Accordion>
+      </Accordion>,
     )
 
     expect(document.querySelector('.dnb-p')).toBeFalsy()
     expect(document.querySelector('.no-string').textContent).toBe(
-      'no string content'
+      'no string content',
     )
   })
 
@@ -90,7 +90,7 @@ describe('Accordion component', () => {
 
     rerender(<Accordion {...props} disabled={true} />)
     expect(
-      document.querySelector('.dnb-accordion__header')
+      document.querySelector('.dnb-accordion__header'),
     ).toHaveAttribute('disabled')
   })
 
@@ -99,10 +99,10 @@ describe('Accordion component', () => {
 
     expect(
       Array.from(
-        document.querySelector('.dnb-accordion__header').classList
-      )
+        document.querySelector('.dnb-accordion__header').classList,
+      ),
     ).toEqual(
-      expect.arrayContaining(['dnb-accordion__header--no-animation'])
+      expect.arrayContaining(['dnb-accordion__header--no-animation']),
     )
   })
 
@@ -114,34 +114,34 @@ describe('Accordion component', () => {
           closed: AddIcon,
           expanded: SubtractIcon,
         }}
-      />
+      />,
     )
 
     const { container: c1 } = render(<AddIcon />)
     const { container: c2 } = render(<SubtractIcon />)
 
     expect(document.querySelector('.dnb-accordion svg').outerHTML).toBe(
-      c1.innerHTML
+      c1.innerHTML,
     )
 
     fireEvent.click(document.querySelector('.dnb-accordion__header'))
 
     expect(document.querySelector('.dnb-accordion svg').outerHTML).toBe(
-      c2.innerHTML
+      c2.innerHTML,
     )
   })
 
   it('supports default outlined variant', () => {
     render(<Accordion />)
     expect(document.querySelector('.dnb-accordion').classList).toContain(
-      'dnb-accordion__variant--outlined'
+      'dnb-accordion__variant--outlined',
     )
   })
 
   it('supports plain variant', () => {
     render(<Accordion {...props} variant="plain" />)
     expect(document.querySelector('.dnb-accordion').classList).toContain(
-      'dnb-accordion__variant--plain'
+      'dnb-accordion__variant--plain',
     )
   })
 
@@ -150,16 +150,16 @@ describe('Accordion component', () => {
 
     expect(
       Array.from(
-        document.querySelector('.dnb-accordion__content').classList
-      )
+        document.querySelector('.dnb-accordion__content').classList,
+      ),
     ).toEqual(expect.arrayContaining(['dnb-height-animation--hidden']))
 
     fireEvent.click(document.querySelector('.dnb-accordion__header'))
 
     expect(
       Array.from(
-        document.querySelector('.dnb-accordion__content').classList
-      )
+        document.querySelector('.dnb-accordion__content').classList,
+      ),
     ).toEqual(expect.arrayContaining(['dnb-height-animation--is-in-dom']))
   })
 
@@ -214,14 +214,14 @@ describe('Accordion group component', () => {
         <Accordion id="accordion-2" title="Accordion 2" expanded={false}>
           Accordion 2
         </Accordion>
-      </Accordion.Group>
+      </Accordion.Group>,
     )
 
     expect(
-      document.querySelector('#accordion-1 .dnb-accordion__content')
+      document.querySelector('#accordion-1 .dnb-accordion__content'),
     ).toBeInTheDocument()
     expect(
-      document.querySelector('#accordion-2 .dnb-accordion__content')
+      document.querySelector('#accordion-2 .dnb-accordion__content'),
     ).toBeFalsy()
   })
 
@@ -236,11 +236,11 @@ describe('Accordion group component', () => {
       >
         <Accordion id="accordion-1" value="first" data-prop="value-1" />
         <Accordion id="accordion-2" value="second" data-prop="value-2" />
-      </Accordion.Group>
+      </Accordion.Group>,
     )
 
     fireEvent.click(
-      document.querySelector('#accordion-1 .dnb-accordion__header')
+      document.querySelector('#accordion-1 .dnb-accordion__header'),
     )
     expect(myEvent).toHaveBeenCalled()
     expect(myEvent.mock.calls[0][0].id).toBe('accordion-1')
@@ -248,13 +248,13 @@ describe('Accordion group component', () => {
     expect(myEvent.mock.calls.length).toBe(1)
 
     fireEvent.click(
-      document.querySelector('#accordion-2 .dnb-accordion__header')
+      document.querySelector('#accordion-2 .dnb-accordion__header'),
     )
     expect(myEvent.mock.calls[1][0].id).toBe('accordion-2')
     expect(myEvent.mock.calls[1][0].expanded).toBe(true)
 
     fireEvent.click(
-      document.querySelector('#accordion-1 .dnb-accordion__header')
+      document.querySelector('#accordion-1 .dnb-accordion__header'),
     )
     expect(myEvent.mock.calls[2][0].expanded).toBe(true)
   })
@@ -290,11 +290,11 @@ describe('Accordion group component', () => {
             etiam
           </Accordion.Content>
         </Accordion>
-      </Accordion.Group>
+      </Accordion.Group>,
     )
 
     const [first, second, third] = Array.from(
-      document.querySelectorAll('.dnb-accordion')
+      document.querySelectorAll('.dnb-accordion'),
     )
 
     expect(first).toHaveClass('dnb-accordion--expanded')
@@ -365,64 +365,64 @@ describe('Accordion container component', () => {
     render(<Container />)
 
     expect(document.querySelector('button#increment').textContent).toBe(
-      '1'
+      '1',
     )
 
     fireEvent.click(document.querySelector('button#increment'))
     expect(document.querySelector('button#increment').textContent).toBe(
-      '2'
+      '2',
     )
 
     expect(document.querySelector('div#mounted-1')).toBeFalsy()
     expect(document.querySelector('div#mounted-2').textContent).toBe(
-      'true'
+      'true',
     )
     expect(document.querySelector('div#mounted-3')).toBeFalsy()
     expect(
       document
         .querySelector('#accordion-2 .dnb-accordion__header')
-        .getAttribute('aria-expanded')
+        .getAttribute('aria-expanded'),
     ).toBe('true')
 
     fireEvent.click(
-      document.querySelector('#accordion-1 .dnb-accordion__header')
+      document.querySelector('#accordion-1 .dnb-accordion__header'),
     )
 
     fireEvent.click(document.querySelector('button#increment'))
     expect(document.querySelector('button#increment').textContent).toBe(
-      '3'
+      '3',
     )
 
     expect(document.querySelector('div#mounted-1').textContent).toBe(
-      'true'
+      'true',
     )
     expect(document.querySelector('div#mounted-2').textContent).toBe(
-      'true'
+      'true',
     )
     expect(document.querySelector('div#mounted-3')).toBeFalsy()
 
     fireEvent.click(
-      document.querySelector('#accordion-2 .dnb-accordion__header')
+      document.querySelector('#accordion-2 .dnb-accordion__header'),
     )
 
     fireEvent.click(document.querySelector('button#increment'))
     expect(document.querySelector('button#increment').textContent).toBe(
-      '4'
+      '4',
     )
 
     expect(document.querySelector('div#mounted-3')).toBeFalsy()
 
     fireEvent.click(
-      document.querySelector('#accordion-3 .dnb-accordion__header')
+      document.querySelector('#accordion-3 .dnb-accordion__header'),
     )
 
     fireEvent.click(document.querySelector('button#increment'))
     expect(document.querySelector('button#increment').textContent).toBe(
-      '5'
+      '5',
     )
 
     expect(document.querySelector('div#mounted-3').textContent).toBe(
-      'true'
+      'true',
     )
   })
 
@@ -437,13 +437,13 @@ describe('Accordion container component', () => {
     jest.spyOn(contentElem, 'offsetTop', 'get').mockReturnValue(48)
 
     fireEvent.click(
-      document.querySelector('#accordion-1 .dnb-accordion__header')
+      document.querySelector('#accordion-1 .dnb-accordion__header'),
     )
 
     expect(
       document
         .querySelector('.dnb-accordion-group--single-container')
-        .getAttribute('style')
+        .getAttribute('style'),
     ).toBe('transition-duration: 1ms; min-height: 6rem;')
   })
 
@@ -472,11 +472,11 @@ describe('Accordion container component', () => {
             etiam
           </Accordion.Content>
         </Accordion>
-      </Accordion.Group>
+      </Accordion.Group>,
     )
 
     const [first, second, third] = Array.from(
-      document.querySelectorAll('.dnb-accordion__header')
+      document.querySelectorAll('.dnb-accordion__header'),
     )
 
     expect(first).toHaveAttribute('aria-expanded', 'false')
@@ -508,7 +508,7 @@ describe('Accordion scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-accordion-theme-ui.scss')
+      require.resolve('../style/themes/dnb-accordion-theme-ui.scss'),
     )
     expect(css).toMatchSnapshot()
   })

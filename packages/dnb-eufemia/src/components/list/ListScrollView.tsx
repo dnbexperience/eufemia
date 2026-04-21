@@ -38,7 +38,7 @@ function ListScrollView(props: ListScrollViewProps) {
     string | undefined
   >(undefined)
   const [outlineCompensation, setOutlineCompensation] = useState(
-    defaultListItemOutlineCompensation
+    defaultListItemOutlineCompensation,
   )
 
   const hasValidMaxVisibleListItems =
@@ -57,16 +57,16 @@ function ListScrollView(props: ListScrollViewProps) {
     }
 
     setOutlineCompensation(
-      getListItemOutlineCompensation(localRef.current)
+      getListItemOutlineCompensation(localRef.current),
     )
 
     const measuredHeight = getVisibleListItemsHeight(
       localRef.current,
-      maxVisibleListItems
+      maxVisibleListItems,
     )
 
     setMeasuredMaxHeight(
-      measuredHeight ? `${measuredHeight}px` : undefined
+      measuredHeight ? `${measuredHeight}px` : undefined,
     )
   }, [hasValidMaxVisibleListItems, maxVisibleListItems, style?.maxHeight])
 
@@ -118,7 +118,7 @@ function ListScrollView(props: ListScrollViewProps) {
       className={clsx(
         'dnb-list__card__scroll-view',
         'dnb-list--inset-outline',
-        className
+        className,
       )}
       interactive="auto"
       ref={localRef}
@@ -148,14 +148,14 @@ function ListScrollView(props: ListScrollViewProps) {
 
 function getVisibleListItemsHeight(
   scrollViewElement: HTMLDivElement | null,
-  maxVisibleListItems: number
+  maxVisibleListItems: number,
 ) {
   if (!scrollViewElement) {
     return null
   }
 
   const listElement = scrollViewElement.querySelector(
-    '.dnb-list__container'
+    '.dnb-list__container',
   )
 
   if (!(listElement instanceof HTMLElement)) {
@@ -163,7 +163,7 @@ function getVisibleListItemsHeight(
   }
 
   const items = Array.from(listElement.children).filter(
-    (element): element is HTMLElement => element instanceof HTMLElement
+    (element): element is HTMLElement => element instanceof HTMLElement,
   )
 
   const firstVisibleItem = items[0]
@@ -176,12 +176,12 @@ function getVisibleListItemsHeight(
   return Math.ceil(
     lastVisibleItem.offsetTop +
       lastVisibleItem.offsetHeight -
-      firstVisibleItem.offsetTop
+      firstVisibleItem.offsetTop,
   )
 }
 
 function getListItemOutlineCompensation(
-  scrollViewElement: HTMLDivElement | null
+  scrollViewElement: HTMLDivElement | null,
 ) {
   if (!scrollViewElement || typeof getComputedStyle === 'undefined') {
     return defaultListItemOutlineCompensation

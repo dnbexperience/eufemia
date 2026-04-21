@@ -38,7 +38,7 @@ describe('getStyleScopeHash', () => {
     'should return default scope when version has no numbers or slashes (%s)',
     (_, module) => {
       expect(module.getStyleScopeHash()).toBe('eufemia-scope--default')
-    }
+    },
   )
 
   it.each([
@@ -49,7 +49,7 @@ describe('getStyleScopeHash', () => {
     (_, module, buildInfo) => {
       jest.mocked(buildInfo.getVersion).mockReturnValue('1.2.3' as any)
       expect(module.getStyleScopeHash()).toBe('eufemia-scope--1_2_3')
-    }
+    },
   )
 
   it.each([
@@ -63,7 +63,7 @@ describe('getStyleScopeHash', () => {
         .mockReturnValue('feature/branch' as any)
       jest.mocked(buildInfo.getSha).mockReturnValue('abc123' as any)
       expect(module.getStyleScopeHash()).toBe('eufemia-scope--abc123')
-    }
+    },
   )
 
   it.each([
@@ -71,7 +71,7 @@ describe('getStyleScopeHash', () => {
     ['CommonJS', BuildInfoCjs, BuildInfoCjsModule],
   ])('should use provided version from options (%s)', (_, module) => {
     expect(module.getStyleScopeHash({ version: '2.0.0' })).toBe(
-      'eufemia-scope--2_0_0'
+      'eufemia-scope--2_0_0',
     )
   })
 
@@ -85,9 +85,9 @@ describe('getStyleScopeHash', () => {
         module.getStyleScopeHash({
           version: 'feature/new-branch',
           sha: 'def456',
-        })
+        }),
       ).toBe('eufemia-scope--def456')
-    }
+    },
   )
 
   it.each([
@@ -97,8 +97,8 @@ describe('getStyleScopeHash', () => {
     'should fall back to default scope when provided version has no numbers or slashes (%s)',
     (_, module) => {
       expect(module.getStyleScopeHash({ version: 'stable' })).toBe(
-        'eufemia-scope--default'
+        'eufemia-scope--default',
       )
-    }
+    },
   )
 })

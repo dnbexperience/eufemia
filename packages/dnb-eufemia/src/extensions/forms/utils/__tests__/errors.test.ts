@@ -91,7 +91,7 @@ describe('extendErrorMessagesWithTranslationMessages', () => {
 
     const messages = extendErrorMessagesWithTranslationMessages(
       mockMessages,
-      mockTranslation
+      mockTranslation,
     )
 
     expect(messages).toEqual({
@@ -115,7 +115,7 @@ describe('extendErrorMessagesWithTranslationMessages', () => {
     }
     const messages = extendErrorMessagesWithTranslationMessages(
       customMessages,
-      mockTranslation
+      mockTranslation,
     )
 
     expect(messages['Field.errorRequired']).toBe('Custom required message') // should not be overwritten
@@ -128,7 +128,7 @@ describe('extendErrorMessagesWithTranslationMessages', () => {
     }
     const result = extendErrorMessagesWithTranslationMessages(
       messages,
-      mockTranslation
+      mockTranslation,
     )
 
     expect(result['Field.errorRequired']).toBe('Already exists')

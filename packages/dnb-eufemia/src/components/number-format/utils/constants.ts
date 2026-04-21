@@ -12,7 +12,7 @@ export const NUMBER_MINUS = '-|−|‐|‒|–|—|―'
 export const ABSENT_VALUE_FORMAT = '–'
 
 export function isAbsent(
-  value: NumberFormatValue | null | undefined
+  value: NumberFormatValue | null | undefined,
 ): boolean {
   return (
     value === null ||

@@ -79,7 +79,7 @@ function SpaceInstance(localProps: SpaceAllProps) {
         localProps,
         defaultProps,
         { space: context.space },
-        { skeleton: context?.skeleton }
+        { skeleton: context?.skeleton },
       )
     : localProps
 
@@ -113,7 +113,7 @@ function SpaceInstance(localProps: SpaceAllProps) {
       inline && 'dnb-space--inline',
       createSkeletonClass(null, skeleton), // do not send along context
       ...spacing.className,
-      className
+      className,
     ),
     ...attributes,
   }
@@ -176,7 +176,7 @@ function SpaceElement({
       <R
         className={clsx(
           'dnb-space--no-collapse',
-          isInline(element as string) && 'dnb-space--inline'
+          isInline(element as string) && 'dnb-space--inline',
         )}
       >
         {component}

@@ -37,7 +37,7 @@ const pairwiseAria = (digits: string) =>
  */
 export const formatBankAccountNumberByType = (
   number: NumberFormatValue,
-  bankAccountType: BankAccountType = 'norwegianBban'
+  bankAccountType: BankAccountType = 'norwegianBban',
 ): FormattedParts => {
   if (isAbsent(number)) {
     return { number: ABSENT_VALUE_FORMAT, aria: ABSENT_VALUE_FORMAT }
@@ -109,10 +109,10 @@ export const formatBankAccountNumberByType = (
 
 const norwegianBbanParts = (
   value: NumberFormatValue,
-  _locale: string | null = null
+  _locale: string | null = null,
 ): FormattedParts => formatBankAccountNumberByType(value, 'norwegianBban')
 
 export const formatBankAccountNumber = formatWith(
   'ban',
-  norwegianBbanParts
+  norwegianBbanParts,
 )

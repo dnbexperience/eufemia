@@ -17,7 +17,7 @@ describe('Field.NationalIdentityNumber', () => {
 
   it('should have correct mask', () => {
     const { rerender } = render(
-      <Field.NationalIdentityNumber value="12345678901234567890" />
+      <Field.NationalIdentityNumber value="12345678901234567890" />,
     )
 
     const inputElement = document.querySelector('input')
@@ -27,7 +27,7 @@ describe('Field.NationalIdentityNumber', () => {
       <Field.NationalIdentityNumber
         omitMask
         value="12345678901234567890"
-      />
+      />,
     )
 
     expect(inputElement.value).toBe('12345678901')
@@ -38,11 +38,11 @@ describe('Field.NationalIdentityNumber', () => {
       <Form.Handler>
         <Field.NationalIdentityNumber required />
         <Form.SubmitButton />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const buttonElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-submit-button'
+      '.dnb-forms-submit-button',
     )
 
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -57,7 +57,7 @@ describe('Field.NationalIdentityNumber', () => {
 
     expect(screen.queryByRole('alert')).toBeInTheDocument()
     expect(screen.queryByRole('alert')).toHaveTextContent(
-      nb.NationalIdentityNumber.errorRequired
+      nb.NationalIdentityNumber.errorRequired,
     )
   })
 
@@ -67,13 +67,13 @@ describe('Field.NationalIdentityNumber', () => {
         validateInitially
         pattern=".*"
         value="123"
-      />
+      />,
     )
 
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        nb.NationalIdentityNumber.errorFnrLength
+        nb.NationalIdentityNumber.errorFnrLength,
       )
     })
 
@@ -82,13 +82,13 @@ describe('Field.NationalIdentityNumber', () => {
         validateInitially
         pattern=".*"
         value="456"
-      />
+      />,
     )
 
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        nb.NationalIdentityNumber.errorDnrLength
+        nb.NationalIdentityNumber.errorDnrLength,
       )
     })
   })
@@ -101,13 +101,13 @@ describe('Field.NationalIdentityNumber', () => {
           value="58081633086" // valid, but not in the pattern
           pattern="^6"
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert').textContent).toBe(
-        nb.NationalIdentityNumber.errorFnr
+        nb.NationalIdentityNumber.errorFnr,
       )
     })
   })
@@ -125,7 +125,7 @@ describe('Field.NationalIdentityNumber', () => {
             return [dummyValidator]
           }}
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     await expect(() => {
@@ -148,7 +148,7 @@ describe('Field.NationalIdentityNumber', () => {
         required
         onChangeValidator={onChangeValidator}
         validateInitially
-      />
+      />,
     )
 
     await waitFor(() => {
@@ -170,7 +170,7 @@ describe('Field.NationalIdentityNumber', () => {
         required
         onChangeValidator={onChangeValidator}
         validateInitially
-      />
+      />,
     )
 
     expect(onChangeValidator).toHaveBeenCalledTimes(1)
@@ -185,7 +185,7 @@ describe('Field.NationalIdentityNumber', () => {
           'StringField.errorMaxLength':
             expect.stringContaining('{maxLength}'),
         }),
-      })
+      }),
     )
   })
 
@@ -227,7 +227,7 @@ describe('Field.NationalIdentityNumber', () => {
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        nb.NationalIdentityNumber.errorRequired
+        nb.NationalIdentityNumber.errorRequired,
       )
     })
   })
@@ -238,7 +238,7 @@ describe('Field.NationalIdentityNumber', () => {
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        nb.NationalIdentityNumber.errorRequired
+        nb.NationalIdentityNumber.errorRequired,
       )
     })
   })
@@ -249,7 +249,7 @@ describe('Field.NationalIdentityNumber', () => {
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        nb.NationalIdentityNumber.errorFnrLength
+        nb.NationalIdentityNumber.errorFnrLength,
       )
     })
   })
@@ -269,7 +269,7 @@ describe('Field.NationalIdentityNumber', () => {
         value={invalidFnr}
         validateInitially
         onBlurValidator={false}
-      />
+      />,
     )
 
     fireEvent.blur(document.querySelector('input'))
@@ -286,7 +286,7 @@ describe('Field.NationalIdentityNumber', () => {
         value={invalidDnum}
         validateInitially
         validate={false}
-      />
+      />,
     )
 
     fireEvent.blur(document.querySelector('input'))
@@ -301,7 +301,7 @@ describe('Field.NationalIdentityNumber', () => {
         value={invalidFnr}
         validateInitially
         validate={false}
-      />
+      />,
     )
 
     fireEvent.blur(document.querySelector('input'))
@@ -325,7 +325,7 @@ describe('Field.NationalIdentityNumber', () => {
         onChangeValidator={customValidator}
         validateInitially
         validate={false}
-      />
+      />,
     )
 
     expect(screen.queryByRole('alert')).toBeNull()
@@ -351,7 +351,7 @@ describe('Field.NationalIdentityNumber', () => {
         validateInitially
         validate={false}
         onChangeValidator={customValidator}
-      />
+      />,
     )
 
     expect(screen.queryByRole('alert')).toBeNull()
@@ -386,7 +386,7 @@ describe('Field.NationalIdentityNumber', () => {
 
     it.each(validDNum)('Valid D number: %s', async (dNum) => {
       render(
-        <Field.NationalIdentityNumber value={dNum} validateInitially />
+        <Field.NationalIdentityNumber value={dNum} validateInitially />,
       )
 
       fireEvent.blur(document.querySelector('input'))
@@ -396,7 +396,7 @@ describe('Field.NationalIdentityNumber', () => {
 
     it.each(invalidDNum)('Invalid D number: %s', async (dNum) => {
       render(
-        <Field.NationalIdentityNumber value={dNum} validateInitially />
+        <Field.NationalIdentityNumber value={dNum} validateInitially />,
       )
 
       fireEvent.blur(document.querySelector('input'))
@@ -404,14 +404,14 @@ describe('Field.NationalIdentityNumber', () => {
       await waitFor(() => {
         expect(screen.queryByRole('alert')).toBeInTheDocument()
         expect(screen.queryByRole('alert')).toHaveTextContent(
-          nb.NationalIdentityNumber.errorDnr
+          nb.NationalIdentityNumber.errorDnr,
         )
       })
     })
 
     it.each(invalidDNumTooShort)('Invalid D number: %s', async (dNum) => {
       render(
-        <Field.NationalIdentityNumber value={dNum} validateInitially />
+        <Field.NationalIdentityNumber value={dNum} validateInitially />,
       )
 
       fireEvent.blur(document.querySelector('input'))
@@ -419,7 +419,7 @@ describe('Field.NationalIdentityNumber', () => {
       await waitFor(() => {
         expect(screen.queryByRole('alert')).toBeInTheDocument()
         expect(screen.queryByRole('alert')).toHaveTextContent(
-          nb.NationalIdentityNumber.errorDnrLength
+          nb.NationalIdentityNumber.errorDnrLength,
         )
       })
     })
@@ -459,20 +459,26 @@ describe('Field.NationalIdentityNumber', () => {
       'Valid national identity number(fnr): %s',
       async (fnrNum) => {
         render(
-          <Field.NationalIdentityNumber validateInitially value={fnrNum} />
+          <Field.NationalIdentityNumber
+            validateInitially
+            value={fnrNum}
+          />,
         )
 
         fireEvent.blur(document.querySelector('input'))
 
         expect(screen.queryByRole('alert')).toBeNull()
-      }
+      },
     )
 
     it.each(invalidFnrNum)(
       'Invalid national identity number(fnr): %s',
       async (fnrNum) => {
         render(
-          <Field.NationalIdentityNumber validateInitially value={fnrNum} />
+          <Field.NationalIdentityNumber
+            validateInitially
+            value={fnrNum}
+          />,
         )
 
         fireEvent.blur(document.querySelector('input'))
@@ -480,17 +486,20 @@ describe('Field.NationalIdentityNumber', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.NationalIdentityNumber.errorFnr
+            nb.NationalIdentityNumber.errorFnr,
           )
         })
-      }
+      },
     )
 
     it.each(invalidFnrNumTooShort)(
       'Invalid national identity number(fnr): %s',
       async (fnrNum) => {
         render(
-          <Field.NationalIdentityNumber validateInitially value={fnrNum} />
+          <Field.NationalIdentityNumber
+            validateInitially
+            value={fnrNum}
+          />,
         )
 
         fireEvent.blur(document.querySelector('input'))
@@ -498,10 +507,10 @@ describe('Field.NationalIdentityNumber', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.NationalIdentityNumber.errorFnrLength
+            nb.NationalIdentityNumber.errorFnrLength,
           )
         })
-      }
+      },
     )
   })
 
@@ -545,7 +554,7 @@ describe('Field.NationalIdentityNumber', () => {
           onChangeValidator={customValidator}
           validateInitially
           value={fnrNum}
-        />
+        />,
       )
 
       expect(screen.queryByRole('alert')).toBeNull()
@@ -557,13 +566,13 @@ describe('Field.NationalIdentityNumber', () => {
           onChangeValidator={customValidator}
           validateInitially
           value={id}
-        />
+        />,
       )
 
       await waitFor(() => {
         expect(screen.queryByRole('alert')).toBeInTheDocument()
         expect(screen.queryByRole('alert')).toHaveTextContent(
-          'custom error'
+          'custom error',
         )
       })
     })
@@ -574,13 +583,13 @@ describe('Field.NationalIdentityNumber', () => {
           onChangeValidator={customValidator}
           validateInitially
           value={dNum}
-        />
+        />,
       )
 
       await waitFor(() => {
         expect(screen.queryByRole('alert')).toBeInTheDocument()
         expect(screen.queryByRole('alert')).toHaveTextContent(
-          nb.NationalIdentityNumber.errorDnr
+          nb.NationalIdentityNumber.errorDnr,
         )
       })
     })
@@ -591,13 +600,13 @@ describe('Field.NationalIdentityNumber', () => {
           onChangeValidator={customValidator}
           validateInitially
           value={dNum}
-        />
+        />,
       )
 
       await waitFor(() => {
         expect(screen.queryByRole('alert')).toBeInTheDocument()
         expect(screen.queryByRole('alert')).toHaveTextContent(
-          nb.NationalIdentityNumber.errorDnrLength
+          nb.NationalIdentityNumber.errorDnrLength,
         )
       })
     })
@@ -610,16 +619,16 @@ describe('Field.NationalIdentityNumber', () => {
             onChangeValidator={customValidator}
             validateInitially
             value={fnr}
-          />
+          />,
         )
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.NationalIdentityNumber.errorFnr
+            nb.NationalIdentityNumber.errorFnr,
           )
         })
-      }
+      },
     )
 
     it.each(invalidFnrTooShort)(
@@ -630,16 +639,16 @@ describe('Field.NationalIdentityNumber', () => {
             onChangeValidator={customValidator}
             validateInitially
             value={fnr}
-          />
+          />,
         )
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.NationalIdentityNumber.errorFnrLength
+            nb.NationalIdentityNumber.errorFnrLength,
           )
         })
-      }
+      },
     )
   })
 
@@ -661,10 +670,10 @@ describe('Field.NationalIdentityNumber', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).toBeInTheDocument()
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        nb.NationalIdentityNumber.errorFnrLength
+        nb.NationalIdentityNumber.errorFnrLength,
       )
     })
 
@@ -673,10 +682,10 @@ describe('Field.NationalIdentityNumber', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).toBeInTheDocument()
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        nb.NationalIdentityNumber.errorFnr
+        nb.NationalIdentityNumber.errorFnr,
       )
     })
 
@@ -686,7 +695,7 @@ describe('Field.NationalIdentityNumber', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).not.toBeInTheDocument()
     })
   })
@@ -699,7 +708,7 @@ describe('Field.NationalIdentityNumber', () => {
         onStatusChange={onStatusChange}
         validateContinuously
         required
-      />
+      />,
     )
 
     const input = document.querySelector('input')
@@ -712,7 +721,7 @@ describe('Field.NationalIdentityNumber', () => {
       expect(onStatusChange).toHaveBeenLastCalledWith(
         expect.objectContaining({
           error: expect.anything(),
-        })
+        }),
       )
     })
 
@@ -742,7 +751,7 @@ describe('Field.NationalIdentityNumber', () => {
       <Field.NationalIdentityNumber
         onStatusChange={onStatusChange}
         error={undefined}
-      />
+      />,
     )
 
     // Initially no error should be called
@@ -755,7 +764,7 @@ describe('Field.NationalIdentityNumber', () => {
       <Field.NationalIdentityNumber
         onStatusChange={onStatusChange}
         error={error1}
-      />
+      />,
     )
 
     // Wait for onStatusChange to be called with error
@@ -773,7 +782,7 @@ describe('Field.NationalIdentityNumber', () => {
       <Field.NationalIdentityNumber
         onStatusChange={onStatusChange}
         error={error2}
-      />
+      />,
     )
 
     await waitFor(() => {
@@ -790,7 +799,7 @@ describe('Field.NationalIdentityNumber', () => {
       <Field.NationalIdentityNumber
         onStatusChange={onStatusChange}
         error={undefined}
-      />
+      />,
     )
 
     await waitFor(() => {

@@ -75,19 +75,19 @@ export type DatePickerInputProps = Omit<
     showInput?: boolean
     onSubmit?: (event: React.MouseEvent<HTMLButtonElement>) => void
     onChange?: (
-      event: DatePickerReturnObject<React.ChangeEvent<HTMLInputElement>>
+      event: DatePickerReturnObject<React.ChangeEvent<HTMLInputElement>>,
     ) => void
     /**
      * Will be called once the input gets focus.
      */
     onFocus?: (
-      event: DatePickerReturnObject<React.FocusEvent<HTMLInputElement>>
+      event: DatePickerReturnObject<React.FocusEvent<HTMLInputElement>>,
     ) => void
     /**
      * Will be called once the input lose focus.
      */
     onBlur?: (
-      event: DatePickerReturnObject<React.FocusEvent<HTMLInputElement>>
+      event: DatePickerReturnObject<React.FocusEvent<HTMLInputElement>>,
     ) => void
     /** @internal */
     _omitInputShellClass?: boolean
@@ -179,7 +179,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       startDate,
       endDate,
     }),
-    [startDate, endDate]
+    [startDate, endDate],
   )
 
   const dateRefs = useRef<DatePickerInputDates>({
@@ -220,7 +220,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           ? 'day'
           : p.toLowerCase().startsWith('m')
             ? 'month'
-            : 'year'
+            : 'year',
       ) as Array<'day' | 'month' | 'year'>
   }, [resolvedMaskOrder, separatorRegExp])
 
@@ -238,13 +238,13 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         year: String(dateRefs.current[`${mode}Year`] || ''),
       }
     },
-    []
+    [],
   )
 
   const copyHandler = useCallback(
     (
       event: React.ClipboardEvent<HTMLInputElement>,
-      mode: DatePickerEventAttributes['mode']
+      mode: DatePickerEventAttributes['mode'],
     ) => {
       const date = mode === 'end' ? endDate : startDate
       if (isValidFn(date)) {
@@ -253,7 +253,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         event.clipboardData.setData('text/plain', valueToCopy)
       }
     },
-    [endDate, locale, startDate]
+    [endDate, locale, startDate],
   )
 
   const pasteHandler = useCallback(
@@ -337,7 +337,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         warn(error)
       }
     },
-    [resolvedMaskOrder, updateDates, updateInputDates]
+    [resolvedMaskOrder, updateDates, updateInputDates],
   )
 
   const buildInputs = useCallback(
@@ -350,7 +350,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       const byPart = (part: 'day' | 'month' | 'year') => {
         const len = part === 'year' ? 4 : 2
         const placeholder = String(
-          phChars[part] || (part === 'year' ? 'y' : part[0])
+          phChars[part] || (part === 'year' ? 'y' : part[0]),
         ).repeat(len)
         const labelBase = translation[part]
         const label = isRange
@@ -391,7 +391,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       }
       return orderedParts.map((p) => byPart(p))
     },
-    [isRange, orderedParts, pasteHandler, copyHandler, translation]
+    [isRange, orderedParts, pasteHandler, copyHandler, translation],
   )
 
   const callOnChangeAsInvalid = useCallback(
@@ -422,7 +422,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         })
       }
     },
-    [callOnChangeHandler, hasHadValidDate, startDate, endDate]
+    [callOnChangeHandler, hasHadValidDate, startDate, endDate],
   )
 
   const callOnChange = useCallback(
@@ -461,7 +461,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         }
       })
     },
-    [updateDates, callOnChangeHandler, isRange]
+    [updateDates, callOnChangeHandler, isRange],
   )
 
   const callOnType = useCallback(
@@ -469,7 +469,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       const getInputPart = (
         mode: 'start' | 'end',
         part: 'Day' | 'Month' | 'Year',
-        fallback: string
+        fallback: string,
       ) => {
         const refValue = dateRefs.current[`${mode}${part}`]
         const inputValue = inputDates[`${mode}${part}`]
@@ -507,7 +507,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             ].join('-')
             return acc
           },
-          { startDate: undefined, endDate: undefined }
+          { startDate: undefined, endDate: undefined },
         )
 
       // Get the typed dates, so we can ...
@@ -547,14 +547,14 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         ...typedDates,
       })
     },
-    [isRange, getReturnObject, onType, inputDates]
+    [isRange, getReturnObject, onType, inputDates],
   )
 
   const setDate = useCallback(
     (
       event: React.ChangeEvent<HTMLInputElement>,
       mode: 'start' | 'end',
-      type: 'Day' | 'Month' | 'Year'
+      type: 'Day' | 'Month' | 'Year',
     ) => {
       const value = event.target.value
 
@@ -580,7 +580,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       const date = new Date(
         parseFloat(String(year)),
         parseFloat(String(month)) - 1,
-        parseFloat(String(day))
+        parseFloat(String(day)),
       )
 
       const [yStr, mStr, dStr] = [
@@ -656,7 +656,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       dateRefs,
       temporaryDates,
       updateInputDates,
-    ]
+    ],
   )
 
   const onMultiChange = useCallback(
@@ -696,21 +696,21 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       } as React.ChangeEvent<HTMLInputElement>
       setDate(synthetic, mode, Type)
     },
-    [setDate, getValues]
+    [setDate, getValues],
   )
 
   const onMultiChangeStart = useCallback(
     (values: MValues<'day' | 'month' | 'year'>) => {
       onMultiChange('start', values)
     },
-    [onMultiChange]
+    [onMultiChange],
   )
 
   const onMultiChangeEnd = useCallback(
     (values: MValues<'day' | 'month' | 'year'>) => {
       onMultiChange('end', values)
     },
-    [onMultiChange]
+    [onMultiChange],
   )
 
   const getDerivedDatesFromInputs = useCallback(() => {
@@ -737,7 +737,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       const parsedDate = new Date(
         Number(year),
         Number(month) - 1,
-        Number(day)
+        Number(day),
       )
 
       const isValidDate =
@@ -870,7 +870,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       selectedDateTitle
         ? `${selectedDateTitle}, ${translation.openPickerText}`
         : translation.openPickerText,
-    [selectedDateTitle, translation]
+    [selectedDateTitle, translation],
   )
 
   validateDOMAttributes(props, attributes)
@@ -878,7 +878,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
   const SubmitElement: React.ElementType = useMemo(
     () => (showInput ? SubmitButton : Button),
-    [showInput]
+    [showInput],
   )
 
   return (
@@ -891,7 +891,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           inputElement && typeof inputElement !== 'string'
             ? typeof inputElement === 'function'
               ? (inputElement as (...args: unknown[]) => React.ReactNode)(
-                  props
+                  props,
                 )
               : inputElement
             : renderInputElement
@@ -957,7 +957,7 @@ function getCopyValue(date: Date, locale: string) {
 
 function syncDateRefs(
   dateRefs: React.RefObject<DatePickerInputDates>,
-  inputDates: DatePickerInputDates
+  inputDates: DatePickerInputDates,
 ) {
   for (const date in dateRefs.current) {
     const dateRefValue = dateRefs.current[date]

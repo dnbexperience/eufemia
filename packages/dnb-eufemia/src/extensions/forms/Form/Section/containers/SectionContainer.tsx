@@ -30,7 +30,7 @@ export type SectionContainerAllProps = {
 } & SectionContainerProps
 
 function SectionContainer(
-  props: SectionContainerAllProps & FlexContainerProps
+  props: SectionContainerAllProps & FlexContainerProps,
 ) {
   const {
     mode,
@@ -102,7 +102,7 @@ function SectionContainer(
         omitFocusManagementRef.current = false
       }
     },
-    [omitFocusManagementRef]
+    [omitFocusManagementRef],
   )
 
   // - Remove the block with animation, if it's in the right mode
@@ -111,7 +111,7 @@ function SectionContainer(
       setFocus(state)
       onAnimationEnd?.(state)
     },
-    [onAnimationEnd, setFocus]
+    [onAnimationEnd, setFocus],
   )
 
   return (
@@ -123,7 +123,7 @@ function SectionContainer(
           'dnb-forms-section-block--no-animation',
         contextRef.current.hasSubmitError &&
           'dnb-forms-section-block--error',
-        className
+        className,
       )}
       open={openRef.current}
       onAnimationEnd={handleAnimationEnd}

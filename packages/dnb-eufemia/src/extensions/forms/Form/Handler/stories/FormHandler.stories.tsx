@@ -17,7 +17,7 @@ const createRequest = () => {
     | undefined
 
   const fn = (
-    t: number
+    t: number,
   ): Promise<{ hasError: boolean; cancel?: boolean }> => {
     return new Promise((resolve) => {
       resolvePromise = resolve
@@ -38,7 +38,7 @@ const createRequest = () => {
 
 const firstValidator = debounceAsync(async function firstValidator(
   this: { addCancelEvent: (fn: () => void) => () => boolean },
-  value: string
+  value: string,
 ) {
   const start = Date.now()
   debug('Validation request 1', value, start)
@@ -49,7 +49,7 @@ const firstValidator = debounceAsync(async function firstValidator(
 
   if (wasCanceled()) {
     return new Error(
-      `Validation request 1 canceled after ${String(Date.now() - start)}ms`
+      `Validation request 1 canceled after ${String(Date.now() - start)}ms`,
     )
   } else {
     debug('Validation request 1 done in:', Date.now() - start)
@@ -63,7 +63,7 @@ const firstValidator = debounceAsync(async function firstValidator(
 
 const secondValidator = debounceAsync(async function secondValidator(
   this: { addCancelEvent: (fn: () => void) => () => boolean },
-  value: string
+  value: string,
 ) {
   const start = Date.now()
   debug('Validation request 2', value, start)
@@ -74,7 +74,7 @@ const secondValidator = debounceAsync(async function secondValidator(
 
   if (wasCanceled()) {
     return new Error(
-      `Validation request 2 canceled after ${String(Date.now() - start)}ms`
+      `Validation request 2 canceled after ${String(Date.now() - start)}ms`,
     )
   } else {
     debug('Validation request 2 done in:', Date.now() - start)
@@ -88,7 +88,7 @@ const secondValidator = debounceAsync(async function secondValidator(
 
 const thirdValidator = debounceAsync(async function thirdValidator(
   this: { addCancelEvent: (fn: () => void) => () => boolean },
-  value: string
+  value: string,
 ) {
   const start = Date.now()
   debug('Validation request 3', value, start)
@@ -99,7 +99,7 @@ const thirdValidator = debounceAsync(async function thirdValidator(
 
   if (wasCanceled()) {
     return new Error(
-      `Validation request 3 canceled after ${String(Date.now() - start)}ms`
+      `Validation request 3 canceled after ${String(Date.now() - start)}ms`,
     )
   } else {
     debug('Validation request 3 done in:', Date.now() - start)
@@ -113,7 +113,7 @@ const thirdValidator = debounceAsync(async function thirdValidator(
 
 const submitHandler = debounceAsync(async function submit(
   this: { addCancelEvent: (fn: () => void) => () => boolean },
-  data
+  data,
 ) {
   const start = Date.now()
   debug('Submit of data started:', data, start)

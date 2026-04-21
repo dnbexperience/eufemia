@@ -31,7 +31,7 @@ export default async function makeMainStyle() {
   // this way we avoid cross "includePaths" and the result is:
   // Now a custom theme can overwrite existing CSS Custom Properties
   const listWithThemesToProcess = await globby(
-    './src/style/themes/*/*-theme-*.scss'
+    './src/style/themes/*/*-theme-*.scss',
   )
   await asyncForEach(listWithThemesToProcess, async (themeFile) => {
     // in order to keep the folder structure, we have to add these asterisks
@@ -40,7 +40,7 @@ export default async function makeMainStyle() {
   })
 
   const listWithPackagesToProcess = await globby(
-    './src/style/**/*-ui-*.scss'
+    './src/style/**/*-ui-*.scss',
   )
   await asyncForEach(listWithPackagesToProcess, async (packageFile) => {
     // in order to keep the folder structure, we have to add these asterisks
@@ -49,7 +49,7 @@ export default async function makeMainStyle() {
   })
 
   log.succeed(
-    '> PrePublish: "makeMainStyle" transforming style modules done'
+    '> PrePublish: "makeMainStyle" transforming style modules done',
   )
 }
 
@@ -60,7 +60,7 @@ type RunFactoryOptions = {
 
 export const runFactory = async (
   src: string,
-  { returnResult = false, returnFiles = false }: RunFactoryOptions = {}
+  { returnResult = false, returnFiles = false }: RunFactoryOptions = {},
 ): Promise<string[] | undefined> => {
   log.start('> PrePublish: transforming main style')
 
@@ -111,8 +111,8 @@ export const runFactory = async (
                 verbose: true,
               }),
             ],
-          }
-        )
+          },
+        ),
       )
 
       const scopedContent = await scopedPostcssTransform(cssContent, {
@@ -150,7 +150,7 @@ export const runFactory = async (
   for (const entry of sorted) {
     const relativePath = path.relative(
       path.resolve(ROOT_DIR, 'src'),
-      entry.path
+      entry.path,
     )
     const destPath = path.resolve(ROOT_DIR, 'build', relativePath)
     await fs.outputFile(destPath, entry.result)

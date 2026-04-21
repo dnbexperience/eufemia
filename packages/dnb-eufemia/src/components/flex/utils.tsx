@@ -19,7 +19,7 @@ export const omitSpacingProps = removeSpaceProps
  * @returns {SpacingProps} - The spacing props object.
  */
 export function pickSpacingProps<Props extends SpacingProps>(
-  props: Props
+  props: Props,
 ): SpacingProps {
   const obj: SpacingProps = {}
   for (const key in props as SpacingProps) {
@@ -38,7 +38,7 @@ export function pickSpacingProps<Props extends SpacingProps>(
  */
 export function getSpaceValue(
   type: FlexStart | FlexEnd,
-  element: React.ReactNode
+  element: React.ReactNode,
 ): SpaceType | undefined {
   if (!React.isValidElement<Record<string, any>>(element)) {
     return undefined
@@ -109,7 +109,7 @@ export function renderWithSpacing(
     key?: string
     className?: string
     wrapInSpace?: boolean
-  }
+  },
 ) {
   const variant = getSpaceVariant(element)
   const { wrapInSpace = true } = spaceProps
@@ -134,10 +134,10 @@ export function renderWithSpacing(
               element: element as React.ReactNode,
               spaceProps,
               wrapInSpace,
-            })
+            }),
           )
         })
-      }
+      },
     )
   }
 
@@ -167,7 +167,7 @@ function wrapWithSpace({
         >),
         key,
         ...props,
-      }
+      },
     )
   }
 
@@ -198,7 +198,7 @@ function cloneIntrinsicElementWithSpacing(
     className?: string
     style?: React.CSSProperties
     wrapInSpace?: boolean
-  }
+  },
 ) {
   if (!React.isValidElement<Record<string, any>>(element)) {
     return element
@@ -219,13 +219,13 @@ function cloneIntrinsicElementWithSpacing(
       className: clsx(
         elementProps?.className,
         ...spacing.className,
-        className
+        className,
       ),
       style: {
         ...elementProps?.style,
         ...spacing.style,
         ...style,
       },
-    }
+    },
   )
 }

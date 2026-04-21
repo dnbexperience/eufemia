@@ -31,7 +31,7 @@ describe('List Container', () => {
     render(
       <Container className="custom-class">
         <span>Child</span>
-      </Container>
+      </Container>,
     )
 
     const element = document.querySelector('.dnb-list')
@@ -80,7 +80,7 @@ describe('List Container', () => {
       <Container>
         <ItemContent>Item 1</ItemContent>
         <ItemContent>Item 2</ItemContent>
-      </Container>
+      </Container>,
     )
 
     const list = document.querySelector('.dnb-list')
@@ -98,7 +98,7 @@ describe('List Container', () => {
       <Container separated>
         <li>Item 1</li>
         <li>Item 2</li>
-      </Container>
+      </Container>,
     )
 
     const list = document.querySelector('.dnb-list')
@@ -117,7 +117,7 @@ describe('List Container', () => {
       <Container skeleton>
         <ItemContent>Item 1</ItemContent>
         <ItemContent>Item 2</ItemContent>
-      </Container>
+      </Container>,
     )
 
     const items = document.querySelectorAll('.dnb-list__item')
@@ -133,7 +133,7 @@ describe('List Container', () => {
       <Container skeleton>
         <ItemContent>Skeleton item</ItemContent>
         <ItemContent skeleton={false}>Not skeleton</ItemContent>
-      </Container>
+      </Container>,
     )
 
     const items = document.querySelectorAll('.dnb-list__item')
@@ -146,7 +146,7 @@ describe('List Container', () => {
     render(
       <Container>
         <ItemContent>Item</ItemContent>
-      </Container>
+      </Container>,
     )
 
     const element = document.querySelector('.dnb-list__container')
@@ -160,7 +160,7 @@ describe('List Container', () => {
         <Container>
           <ItemContent>Item</ItemContent>
         </Container>
-      </Provider>
+      </Provider>,
     )
 
     const item = document.querySelector('.dnb-list__item')
@@ -174,7 +174,7 @@ describe('List Container', () => {
         <Container skeleton={false}>
           <ItemContent>Item</ItemContent>
         </Container>
-      </Provider>
+      </Provider>,
     )
 
     const item = document.querySelector('.dnb-list__item')
@@ -186,7 +186,7 @@ describe('List Container', () => {
     render(
       <Container disabled>
         <ItemContent>Item</ItemContent>
-      </Container>
+      </Container>,
     )
 
     const item = document.querySelector('.dnb-list__item')
@@ -198,7 +198,7 @@ describe('List Container', () => {
     render(
       <Container disabled>
         <ItemContent disabled={false}>Item</ItemContent>
-      </Container>
+      </Container>,
     )
 
     const item = document.querySelector('.dnb-list__item')
@@ -211,7 +211,7 @@ describe('List Container', () => {
       <Container>
         <ItemContent>Item one</ItemContent>
         <ItemContent>Item two</ItemContent>
-      </Container>
+      </Container>,
     )
 
     expect(await axeComponent(container)).toHaveNoViolations()
@@ -221,7 +221,7 @@ describe('List Container', () => {
     render(
       <Container aria-label="Navigation items">
         <ItemContent>Item one</ItemContent>
-      </Container>
+      </Container>,
     )
 
     const element = document.querySelector('.dnb-list')
@@ -236,7 +236,7 @@ describe('List Container', () => {
         <Container aria-labelledby="list-heading">
           <ItemContent>Item one</ItemContent>
         </Container>
-      </>
+      </>,
     )
 
     const element = document.querySelector('.dnb-list')
@@ -248,7 +248,7 @@ describe('List Container', () => {
     render(
       <Container id="my-container">
         <ItemContent>Item one</ItemContent>
-      </Container>
+      </Container>,
     )
 
     const element = document.querySelector('.dnb-list')
@@ -261,7 +261,7 @@ describe('List Container', () => {
       <Container aria-label="Important items">
         <ItemContent>Item one</ItemContent>
         <ItemContent>Item two</ItemContent>
-      </Container>
+      </Container>,
     )
 
     expect(await axeComponent(container)).toHaveNoViolations()
@@ -275,7 +275,7 @@ describe('List Container', () => {
         aria-describedby="desc"
       >
         <ItemContent>Item one</ItemContent>
-      </Container>
+      </Container>,
     )
 
     const element = document.querySelector('.dnb-list__container')
@@ -289,7 +289,7 @@ describe('List Container', () => {
     render(
       <Container variant="basic" separated skeleton disabled>
         <ItemContent>Item one</ItemContent>
-      </Container>
+      </Container>,
     )
 
     const element = document.querySelector('.dnb-list__container')
@@ -303,7 +303,7 @@ describe('List Container', () => {
     render(
       <Container>
         <ItemContent>Item one</ItemContent>
-      </Container>
+      </Container>,
     )
 
     const element = document.querySelector('.dnb-list__container')

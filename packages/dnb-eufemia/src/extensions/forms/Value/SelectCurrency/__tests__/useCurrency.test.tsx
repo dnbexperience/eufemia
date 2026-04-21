@@ -34,7 +34,7 @@ describe('useCurrency', () => {
     const { getCurrencyDisplayNameByIso } = result.current
 
     expect(getCurrencyDisplayNameByIso('USD')).toBe(
-      'United States dollar (USD)'
+      'United States dollar (USD)',
     )
     expect(getCurrencyData).toHaveBeenCalledWith({
       lang: 'en',

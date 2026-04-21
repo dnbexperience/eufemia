@@ -12,7 +12,7 @@ const createRequest = () => {
     | undefined
 
   const fn = (
-    t: number
+    t: number,
   ): Promise<{ hasError: boolean; cancel?: boolean }> => {
     return new Promise((resolve) => {
       resolvePromise = resolve
@@ -45,12 +45,12 @@ async function mockAsyncFileFetching({ fileItem }) {
   const request = createRequest()
   console.log(
     'making API request to fetch the url of the file: ' +
-      fileItem.file.name
+      fileItem.file.name,
   )
   await request(3000) // Simulate a request
   window.open(
     'https://eufemia.dnb.no/images/avatars/' + fileItem.file.name,
-    '_blank'
+    '_blank',
   )
 }
 

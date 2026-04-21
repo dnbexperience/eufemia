@@ -97,7 +97,7 @@ const defaultProps: Partial<TagProps> = {
 const Tag = (
   localProps: TagProps &
     SpacingProps &
-    Omit<React.HTMLProps<HTMLElement>, 'onClick'>
+    Omit<React.HTMLProps<HTMLElement>, 'onClick'>,
 ) => {
   // Every component should have a context
   const context = React.useContext(Context)
@@ -109,7 +109,7 @@ const Tag = (
     defaultProps,
     context?.translation?.Tag,
     context?.Tag,
-    tagGroupContext
+    tagGroupContext,
   )
 
   const {
@@ -139,7 +139,7 @@ const Tag = (
       'dnb-tag',
       className,
       isInteractive && 'dnb-tag--interactive',
-      `dnb-tag--${usedVariant}`
+      `dnb-tag--${usedVariant}`,
     ),
   })
   const additionalButtonParams: Pick<ButtonProps, 'element' | 'type'> = {}
@@ -163,7 +163,7 @@ const Tag = (
 
   if (!tagGroupContext && !hasLabel) {
     warn(
-      `Tag group required: A Tag requires a Tag.Group with label description as a parent component. This is to ensure correct semantic and accessibility.`
+      `Tag group required: A Tag requires a Tag.Group with label description as a parent component. This is to ensure correct semantic and accessibility.`,
     )
   }
 

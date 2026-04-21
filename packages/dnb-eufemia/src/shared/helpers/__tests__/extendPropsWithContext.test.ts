@@ -81,7 +81,7 @@ describe('extendPropsWithContext', () => {
       props,
       defaultProps,
       context1,
-      context2
+      context2,
     )
 
     expect(result).toMatchObject({
@@ -113,7 +113,7 @@ describe('extendExistingPropsWithContext', () => {
     const result = extendExistingPropsWithContext(
       props,
       defaultProps,
-      context1
+      context1,
     )
 
     expect(result).toMatchObject({
@@ -129,7 +129,7 @@ describe('extendExistingPropsWithContext', () => {
     const result = extendExistingPropsWithContext(
       props,
       defaultProps,
-      context1
+      context1,
     )
 
     expect(result).toMatchObject({
@@ -145,7 +145,7 @@ describe('extendExistingPropsWithContext', () => {
     const result = extendExistingPropsWithContext(
       props,
       defaultProps,
-      context1
+      context1,
     )
 
     expect(result).toMatchObject({

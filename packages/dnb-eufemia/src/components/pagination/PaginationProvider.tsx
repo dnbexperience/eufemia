@@ -149,7 +149,7 @@ const PaginationProvider = (props: any) => {
     (
       pageNumber: number,
       itemProps: Record<string, unknown> = {},
-      existingItems = itemsRef.current
+      existingItems = itemsRef.current,
     ) => {
       const position =
         itemProps.position ||
@@ -161,7 +161,7 @@ const PaginationProvider = (props: any) => {
 
       const exists =
         existingItems.findIndex(
-          ({ pageNumber: p }: ContentObject) => p === pageNumber
+          ({ pageNumber: p }: ContentObject) => p === pageNumber,
         ) > -1
       if (exists) {
         return existingItems
@@ -183,14 +183,14 @@ const PaginationProvider = (props: any) => {
 
       return undefined
     },
-    []
+    [],
   )
 
   const setContent = useCallback(
     (
       newContent: unknown,
       content: React.ReactNode = null,
-      position: string | null = null
+      position: string | null = null,
     ) => {
       if (!Array.isArray(newContent) && content) {
         newContent = [newContent, content]
@@ -207,7 +207,7 @@ const PaginationProvider = (props: any) => {
 
       if (content) {
         let itemToPrepare = itemsRef.current.find(
-          ({ pageNumber: p }: ContentObject) => p === pageNumber
+          ({ pageNumber: p }: ContentObject) => p === pageNumber,
         )
         let newItems: ContentObject[] | null = null
 
@@ -217,7 +217,7 @@ const PaginationProvider = (props: any) => {
             position,
           })
           itemToPrepare = newItems.find(
-            ({ pageNumber: p }: ContentObject) => p === pageNumber
+            ({ pageNumber: p }: ContentObject) => p === pageNumber,
           )
         }
 
@@ -235,7 +235,7 @@ const PaginationProvider = (props: any) => {
         pendingCallOnPageUpdateRef.current = true
       }
     },
-    [prefillItems]
+    [prefillItems],
   )
 
   const resetContent = useCallback(() => {
@@ -262,7 +262,7 @@ const PaginationProvider = (props: any) => {
       setHasEndedInfinity(false)
     },
     // Uses propsRef to stay stable — registered externally via resetPaginationHandler on mount only.
-    []
+    [],
   )
 
   // Handle the onEnd dispatch after hasEndedInfinity becomes true
@@ -280,7 +280,7 @@ const PaginationProvider = (props: any) => {
         pendingSetItemsCbRef.current = cb
       }
     },
-    []
+    [],
   )
 
   const setStateHandler = useCallback(
@@ -295,7 +295,7 @@ const PaginationProvider = (props: any) => {
         upperPage: number | undefined
         skipObserver: boolean
       }>,
-      cb?: () => void
+      cb?: () => void,
     ) => {
       if ('items' in state) {
         setItemsState(state.items)
@@ -323,7 +323,7 @@ const PaginationProvider = (props: any) => {
         pendingSetStateCbRef.current = cb
       }
     },
-    []
+    [],
   )
 
   const updatePageContent = useCallback(
@@ -376,7 +376,7 @@ const PaginationProvider = (props: any) => {
       hasEndedInfinity,
       lowerPage,
       upperPage,
-    ]
+    ],
   )
 
   // Handle the onEnd dispatch after hasEndedInfinity becomes true.
@@ -522,7 +522,7 @@ const PaginationProvider = (props: any) => {
           clearTimeout(rerenderTimeoutRef.current)
           rerenderTimeoutRef.current = setTimeout(
             () => setContent(store.pageNumber, store.content),
-            1
+            1,
           )
         }
       }
@@ -563,7 +563,7 @@ const PaginationProvider = (props: any) => {
     isMountedRef.current = true
 
     updatePageContent(
-      startupPageRef.current || currentPageInternalRef.current
+      startupPageRef.current || currentPageInternalRef.current,
     )
 
     return () => {
@@ -651,7 +651,7 @@ const PaginationProvider = (props: any) => {
       startupPage,
       lowerPage,
       upperPage,
-    ]
+    ],
   )
 
   return (

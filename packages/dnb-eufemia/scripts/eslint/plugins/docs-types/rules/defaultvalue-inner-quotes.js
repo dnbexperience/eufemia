@@ -108,7 +108,7 @@ module.exports = {
         }
 
         const typeProperty = parent.properties.find(
-          (p) => p.type === 'Property' && getPropertyName(p) === 'type'
+          (p) => p.type === 'Property' && getPropertyName(p) === 'type',
         )
 
         if (

@@ -676,7 +676,7 @@ function UpdateDataExample() {
               size="small"
               onClick={() => {
                 const updatedSelectedData = selectedData.filter(
-                  (data) => item?.selectedValue !== data?.selectedValue
+                  (data) => item?.selectedValue !== data?.selectedValue,
                 )
                 setSelectedData(updatedSelectedData)
                 setChoiceData(
@@ -684,9 +684,9 @@ function UpdateDataExample() {
                     (data) =>
                       updatedSelectedData.findIndex(
                         ({ selectedValue: updatedValue }) =>
-                          updatedValue === data?.selectedValue
-                      ) === -1
-                  )
+                          updatedValue === data?.selectedValue,
+                      ) === -1,
+                  ),
                 )
               }}
             >
@@ -707,11 +707,12 @@ function UpdateDataExample() {
             setChoiceData(
               choiceData.filter((item) => {
                 return data && item?.selectedValue !== data?.selectedValue
-              })
+              }),
             )
             if (
               selectedData.findIndex(
-                ({ selectedValue }) => selectedValue === data.selectedValue
+                ({ selectedValue }) =>
+                  selectedValue === data.selectedValue,
               ) === -1
             ) {
               setSelectedData([...selectedData, data])

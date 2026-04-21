@@ -54,7 +54,7 @@ export type ListFormatProps = {
 function ListFormat(
   localProps: Omit<UlAllProps, 'value'> &
     Omit<OlAllProps, 'value'> &
-    ListFormatProps
+    ListFormatProps,
 ) {
   const { locale, ListFormat } = useContext(SharedContext)
 
@@ -99,7 +99,7 @@ function ListFormat(
         className={clsx(
           'dnb-list-format',
           listType === 'unstyled' && 'dnb-unstyled-list',
-          className
+          className,
         )}
         {...props}
       >
@@ -122,7 +122,7 @@ export function listFormat(
   }: {
     locale?: InternalLocale
     format?: ListFormatProps['format']
-  } = {}
+  } = {},
 ) {
   if (!Array.isArray(list)) {
     return list

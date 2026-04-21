@@ -18,7 +18,7 @@ describe('useSharedState', () => {
 
   it('should create a new shared state if one does not exist', () => {
     const { result } = renderHook(() =>
-      useSharedState(identifier, { test: 'initial' })
+      useSharedState(identifier, { test: 'initial' }),
     )
     expect(result.current.data).toEqual({ test: 'initial' })
   })
@@ -26,14 +26,14 @@ describe('useSharedState', () => {
   it('should use an existing shared state if one exists', () => {
     createSharedState(identifier, { test: 'existing' })
     const { result } = renderHook(() =>
-      useSharedState(identifier, { test: 'initial' })
+      useSharedState(identifier, { test: 'initial' }),
     )
     expect(result.current.data).toEqual({ test: 'existing' })
   })
 
   it('should update the shared state', () => {
     const { result } = renderHook(() =>
-      useSharedState(identifier, { test: 'initial' })
+      useSharedState(identifier, { test: 'initial' }),
     )
     act(() => {
       result.current.update({ test: 'updated' })
@@ -43,7 +43,7 @@ describe('useSharedState', () => {
 
   it('should update the component when the shared state changes', () => {
     const { result } = renderHook(() =>
-      useSharedState(identifier, { test: 'initial' })
+      useSharedState(identifier, { test: 'initial' }),
     )
     const sharedState = createSharedState(identifier)
     act(() => {
@@ -55,7 +55,7 @@ describe('useSharedState', () => {
   it('should update the shared state with a function reference as id', () => {
     const identifier = () => null
     const { result } = renderHook(() =>
-      useSharedState(identifier, { test: 'initial' })
+      useSharedState(identifier, { test: 'initial' }),
     )
     act(() => {
       result.current.update({ test: 'updated' })
@@ -66,7 +66,7 @@ describe('useSharedState', () => {
   it('should update the shared state with an async function reference as id', () => {
     const identifier = async () => null
     const { result } = renderHook(() =>
-      useSharedState(identifier, { test: 'initial' })
+      useSharedState(identifier, { test: 'initial' }),
     )
     act(() => {
       result.current.update({ test: 'updated' })
@@ -77,7 +77,7 @@ describe('useSharedState', () => {
   it('should update the shared state with an object reference as id', () => {
     const identifier = {}
     const { result } = renderHook(() =>
-      useSharedState(identifier, { test: 'initial' })
+      useSharedState(identifier, { test: 'initial' }),
     )
     act(() => {
       result.current.update({ test: 'updated' })
@@ -88,7 +88,7 @@ describe('useSharedState', () => {
   it('should update the shared state with a React context reference as id', () => {
     const identifier = createContext(null)
     const { result } = renderHook(() =>
-      useSharedState(identifier, { test: 'initial' })
+      useSharedState(identifier, { test: 'initial' }),
     )
     act(() => {
       result.current.update({ test: 'updated' })
@@ -98,7 +98,7 @@ describe('useSharedState', () => {
 
   it('should unsubscribe from the shared state when the component unmounts', () => {
     const { result, unmount } = renderHook(() =>
-      useSharedState(identifier, { test: 'initial' })
+      useSharedState(identifier, { test: 'initial' }),
     )
     const sharedState = createSharedState(identifier)
 
@@ -113,14 +113,14 @@ describe('useSharedState', () => {
 
   it('should return undefined data when no ID is given', () => {
     const { result } = renderHook(() =>
-      useSharedState(null, { test: 'initial' })
+      useSharedState(null, { test: 'initial' }),
     )
     expect(result.current.data).toBeUndefined()
   })
 
   it('should not update the data when no ID is given', () => {
     const { result } = renderHook(() =>
-      useSharedState(null, { test: 'initial' })
+      useSharedState(null, { test: 'initial' }),
     )
     expect(result.current.data).toBeUndefined()
     act(() => {
@@ -131,7 +131,7 @@ describe('useSharedState', () => {
 
   it('should not subscribe to the shared state when no ID is given', () => {
     const { result, unmount } = renderHook(() =>
-      useSharedState(null, { test: 'initial' })
+      useSharedState(null, { test: 'initial' }),
     )
     expect(result.current.data).toBeUndefined()
     unmount()
@@ -145,13 +145,13 @@ describe('useSharedState', () => {
     const onChange = jest.fn()
 
     const { result: resultA } = renderHook(() =>
-      useSharedState(identifier)
+      useSharedState(identifier),
     )
     const { result: resultB } = renderHook(() =>
-      useSharedState(identifier, undefined, onChange)
+      useSharedState(identifier, undefined, onChange),
     )
     const { result: resultC } = renderHook(() =>
-      useSharedState(identifier)
+      useSharedState(identifier),
     )
 
     act(() => {
@@ -174,13 +174,13 @@ describe('useSharedState', () => {
     const onChange = jest.fn()
 
     const { result: resultA } = renderHook(() =>
-      useSharedState(identifier)
+      useSharedState(identifier),
     )
     const { result: resultB } = renderHook(() =>
-      useSharedState(identifier, undefined, onChange)
+      useSharedState(identifier, undefined, onChange),
     )
     const { result: resultC } = renderHook(() =>
-      useSharedState(identifier)
+      useSharedState(identifier),
     )
 
     act(() => {
@@ -197,10 +197,10 @@ describe('useSharedState', () => {
 
   it('should sync all hooks', () => {
     const { result: resultA } = renderHook(() =>
-      useSharedState(identifier)
+      useSharedState(identifier),
     )
     const { result: resultB } = renderHook(() =>
-      useSharedState(identifier)
+      useSharedState(identifier),
     )
 
     expect(resultA.current.data).toEqual(undefined)
@@ -223,10 +223,10 @@ describe('useSharedState', () => {
 
   it('should sync all hooks, except the one that is set to "preventSyncOfSameInstance"', () => {
     const { result: resultA } = renderHook(() =>
-      useSharedState(identifier)
+      useSharedState(identifier),
     )
     const { result: resultB } = renderHook(() =>
-      useSharedState(identifier)
+      useSharedState(identifier),
     )
 
     expect(resultA.current.data).toEqual(undefined)
@@ -244,7 +244,7 @@ describe('useSharedState', () => {
       // then the "resultA" will not be synced, so resultA will still have "bar".
       resultB.current.update(
         { foo: 'baz' },
-        { preventSyncOfSameInstance: true }
+        { preventSyncOfSameInstance: true },
       )
     })
 
@@ -258,10 +258,10 @@ describe('useWeakSharedState', () => {
     const identifier = {}
 
     const { unmount: unmountA } = renderHook(() =>
-      useWeakSharedState(identifier, { test: 'initial' })
+      useWeakSharedState(identifier, { test: 'initial' }),
     )
     const { unmount: unmountB } = renderHook(() =>
-      useWeakSharedState(identifier)
+      useWeakSharedState(identifier),
     )
 
     const getStateOf = (identifier) => {
@@ -282,10 +282,10 @@ describe('useWeakSharedState', () => {
     const identifier = {}
 
     const { unmount: unmountA } = renderHook(() =>
-      useSharedState(identifier, { test: 'initial' })
+      useSharedState(identifier, { test: 'initial' }),
     )
     const { unmount: unmountB } = renderHook(() =>
-      useSharedState(identifier)
+      useSharedState(identifier),
     )
 
     const getStateOf = (identifier) => {

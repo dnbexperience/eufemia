@@ -137,5 +137,5 @@ describe.each(['ui', 'sbanken'])(
         expect(screenshot).toMatchImageSnapshot()
       })
     })
-  }
+  },
 )

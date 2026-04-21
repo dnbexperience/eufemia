@@ -6,7 +6,7 @@ import type { ComponentMarkers } from '../../../../../shared/helpers/withCompone
 describe('Form.Appearance', () => {
   it('should have constant of _supportsSpacingProps="children"', () => {
     expect(
-      (Form.Appearance as ComponentMarkers)._supportsSpacingProps
+      (Form.Appearance as ComponentMarkers)._supportsSpacingProps,
     ).toBe('children')
   })
 
@@ -15,21 +15,21 @@ describe('Form.Appearance', () => {
       const { rerender } = render(
         <Form.Appearance size="medium">
           <Field.String />
-        </Form.Appearance>
+        </Form.Appearance>,
       )
 
       expect(document.querySelector('.dnb-input')).toHaveClass(
-        'dnb-input--medium'
+        'dnb-input--medium',
       )
 
       rerender(
         <Form.Appearance size="large">
           <Field.String />
-        </Form.Appearance>
+        </Form.Appearance>,
       )
 
       expect(document.querySelector('.dnb-input')).toHaveClass(
-        'dnb-input--large'
+        'dnb-input--large',
       )
     })
 
@@ -37,21 +37,21 @@ describe('Form.Appearance', () => {
       const { rerender } = render(
         <Form.Appearance size="medium">
           <Field.Number />
-        </Form.Appearance>
+        </Form.Appearance>,
       )
 
       expect(document.querySelector('.dnb-input')).toHaveClass(
-        'dnb-input--medium'
+        'dnb-input--medium',
       )
 
       rerender(
         <Form.Appearance size="large">
           <Field.Number />
-        </Form.Appearance>
+        </Form.Appearance>,
       )
 
       expect(document.querySelector('.dnb-input')).toHaveClass(
-        'dnb-input--large'
+        'dnb-input--large',
       )
     })
 
@@ -59,11 +59,11 @@ describe('Form.Appearance', () => {
       render(
         <Form.Appearance size="medium">
           <Field.Date />
-        </Form.Appearance>
+        </Form.Appearance>,
       )
 
       expect(document.querySelector('.dnb-date-picker')).toHaveClass(
-        'dnb-date-picker--medium'
+        'dnb-date-picker--medium',
       )
     })
 
@@ -71,11 +71,11 @@ describe('Form.Appearance', () => {
       render(
         <Form.Appearance size="medium">
           <Field.Email />
-        </Form.Appearance>
+        </Form.Appearance>,
       )
 
       expect(document.querySelector('.dnb-input')).toHaveClass(
-        'dnb-input--medium'
+        'dnb-input--medium',
       )
     })
 
@@ -83,11 +83,11 @@ describe('Form.Appearance', () => {
       render(
         <Form.Appearance size="medium">
           <Field.Currency />
-        </Form.Appearance>
+        </Form.Appearance>,
       )
 
       expect(document.querySelector('.dnb-input')).toHaveClass(
-        'dnb-input--medium'
+        'dnb-input--medium',
       )
     })
 
@@ -95,11 +95,11 @@ describe('Form.Appearance', () => {
       render(
         <Form.Appearance size="medium">
           <Field.NationalIdentityNumber />
-        </Form.Appearance>
+        </Form.Appearance>,
       )
 
       expect(document.querySelector('.dnb-input')).toHaveClass(
-        'dnb-input--medium'
+        'dnb-input--medium',
       )
     })
 
@@ -107,11 +107,11 @@ describe('Form.Appearance', () => {
       render(
         <Form.Appearance size="medium">
           <Field.OrganizationNumber />
-        </Form.Appearance>
+        </Form.Appearance>,
       )
 
       expect(document.querySelector('.dnb-input')).toHaveClass(
-        'dnb-input--medium'
+        'dnb-input--medium',
       )
     })
 
@@ -119,11 +119,11 @@ describe('Form.Appearance', () => {
       render(
         <Form.Appearance size="medium">
           <Field.Password />
-        </Form.Appearance>
+        </Form.Appearance>,
       )
 
       expect(document.querySelector('.dnb-input')).toHaveClass(
-        'dnb-input--medium'
+        'dnb-input--medium',
       )
     })
 
@@ -131,14 +131,14 @@ describe('Form.Appearance', () => {
       render(
         <Form.Appearance size="medium">
           <Field.PhoneNumber />
-        </Form.Appearance>
+        </Form.Appearance>,
       )
 
       expect(document.querySelector('.dnb-autocomplete')).toHaveClass(
-        'dnb-autocomplete--medium'
+        'dnb-autocomplete--medium',
       )
       expect(document.querySelector('.dnb-input')).toHaveClass(
-        'dnb-input--medium'
+        'dnb-input--medium',
       )
     })
 
@@ -146,11 +146,11 @@ describe('Form.Appearance', () => {
       render(
         <Form.Appearance size="medium">
           <Field.PostalCodeAndCity postalCode={{}} city={{}} />
-        </Form.Appearance>
+        </Form.Appearance>,
       )
 
       const [postalCode, city] = Array.from(
-        document.querySelectorAll('.dnb-input')
+        document.querySelectorAll('.dnb-input'),
       )
       expect(postalCode).toHaveClass('dnb-input--medium')
       expect(city).toHaveClass('dnb-input--medium')
@@ -160,11 +160,11 @@ describe('Form.Appearance', () => {
       render(
         <Form.Appearance size="medium">
           <Field.SelectCountry />
-        </Form.Appearance>
+        </Form.Appearance>,
       )
 
       expect(document.querySelector('.dnb-autocomplete')).toHaveClass(
-        'dnb-autocomplete--medium'
+        'dnb-autocomplete--medium',
       )
     })
 
@@ -172,11 +172,11 @@ describe('Form.Appearance', () => {
       render(
         <Form.Appearance size="medium">
           <Field.SelectCurrency />
-        </Form.Appearance>
+        </Form.Appearance>,
       )
 
       expect(document.querySelector('.dnb-autocomplete')).toHaveClass(
-        'dnb-autocomplete--medium'
+        'dnb-autocomplete--medium',
       )
     })
 
@@ -184,11 +184,11 @@ describe('Form.Appearance', () => {
       render(
         <Form.Appearance size="medium">
           <Field.Expiry />
-        </Form.Appearance>
+        </Form.Appearance>,
       )
 
       expect(document.querySelector('.dnb-input')).toHaveClass(
-        'dnb-input--medium'
+        'dnb-input--medium',
       )
     })
   })

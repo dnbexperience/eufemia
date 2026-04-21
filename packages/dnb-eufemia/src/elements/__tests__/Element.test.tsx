@@ -23,11 +23,11 @@ describe('Element', () => {
     const { container } = render(
       <Element {...props} className="extra">
         text
-      </Element>
+      </Element>,
     )
 
     expect(container.querySelector('p').getAttribute('class')).toBe(
-      'extra dnb-skeleton dnb-skeleton--font dnb-p'
+      'extra dnb-skeleton dnb-skeleton--font dnb-p',
     )
   })
 
@@ -35,7 +35,7 @@ describe('Element', () => {
     render(
       <Element as="p" top="medium">
         text
-      </Element>
+      </Element>,
     )
 
     const element = document.querySelector('.dnb-p')
@@ -46,7 +46,7 @@ describe('Element', () => {
     ])
 
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual(['class'])
@@ -56,7 +56,7 @@ describe('Element', () => {
     render(
       <Element as="p" top="medium">
         text
-      </Element>
+      </Element>,
     )
 
     const element = document.querySelector('.dnb-p')
@@ -68,21 +68,21 @@ describe('Element', () => {
     const { container, rerender } = render(
       <Element as="p" skeleton>
         text
-      </Element>
+      </Element>,
     )
 
     expect(container.querySelector('p').getAttribute('class')).toBe(
-      'dnb-skeleton dnb-skeleton--font dnb-p'
+      'dnb-skeleton dnb-skeleton--font dnb-p',
     )
 
     rerender(
       <Element as="p" skeleton skeletonMethod="shape">
         text
-      </Element>
+      </Element>,
     )
 
     expect(container.querySelector('p').getAttribute('class')).toBe(
-      'dnb-skeleton dnb-skeleton--shape dnb-p'
+      'dnb-skeleton dnb-skeleton--shape dnb-p',
     )
   })
 
@@ -92,17 +92,17 @@ describe('Element', () => {
         <Element as="p" className="my-p">
           text
         </Element>
-      </Provider>
+      </Provider>,
     )
 
     const element = container.querySelector('.my-p')
 
     expect(element.getAttribute('class')).toBe(
-      'my-p dnb-skeleton dnb-skeleton--font dnb-p'
+      'my-p dnb-skeleton dnb-skeleton--font dnb-p',
     )
 
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual([
@@ -140,7 +140,7 @@ describe('Element', () => {
         <Element id="a" as="a" internalClass={true}>
           text
         </Element>
-      </>
+      </>,
     )
 
     const elementSpan = document.querySelector('#s')
@@ -160,7 +160,7 @@ describe('Element', () => {
     render(
       <Element as="span" internalClass="replacement-class">
         text
-      </Element>
+      </Element>,
     )
 
     const element = document.querySelector('span')
@@ -172,7 +172,7 @@ describe('Element', () => {
     render(
       <Element as="span" internalClass={false}>
         text
-      </Element>
+      </Element>,
     )
 
     const element = document.querySelector('span')
@@ -184,7 +184,7 @@ describe('Element', () => {
     render(
       <Element id="el" as={myPElement}>
         text
-      </Element>
+      </Element>,
     )
     const element = document.querySelector('#el')
     expect(element.tagName).toBe('P')
@@ -196,7 +196,7 @@ describe('Element', () => {
     render(
       <Element id="el" as={myPElement} internalClass="my-class">
         text
-      </Element>
+      </Element>,
     )
     const element = document.querySelector('#el')
     expect(element.getAttribute('class')).toBe('my-class')

@@ -44,5 +44,5 @@ export const DateOfBirthSpecificEvents: PropertiesTableProps = {
 
 export const DateOfBirthGeneralEvents = getFieldEventsWithTypes(
   { type: 'string', optional: true },
-  { type: 'object' }
+  { type: 'object' },
 )

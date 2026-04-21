@@ -10,7 +10,7 @@ describe('List.Card', () => {
     render(
       <List.Card>
         <span>Content</span>
-      </List.Card>
+      </List.Card>,
     )
 
     const element = document.querySelector('.dnb-list__card')
@@ -22,7 +22,7 @@ describe('List.Card', () => {
     render(
       <List.Card>
         <span>Content</span>
-      </List.Card>
+      </List.Card>,
     )
 
     const element = document.querySelector('.dnb-list__card')
@@ -34,7 +34,7 @@ describe('List.Card', () => {
     render(
       <List.Card className="custom-class">
         <span>Content</span>
-      </List.Card>
+      </List.Card>,
     )
 
     const element = document.querySelector('.dnb-list__card')
@@ -47,7 +47,7 @@ describe('List.Card', () => {
     render(
       <List.Card>
         <span>Card content</span>
-      </List.Card>
+      </List.Card>,
     )
 
     const element = document.querySelector('.dnb-list__card')
@@ -60,7 +60,7 @@ describe('List.Card', () => {
       <List.Card stack>
         <span>Item 1</span>
         <span>Item 2</span>
-      </List.Card>
+      </List.Card>,
     )
 
     const element = document.querySelector('.dnb-list__card')
@@ -73,12 +73,12 @@ describe('List.Card', () => {
       <List.Card>
         <span>Item 1</span>
         <span>Item 2</span>
-      </List.Card>
+      </List.Card>,
     )
 
     const element = document.querySelector('.dnb-list__card')
     const inner = element.querySelector(
-      '.dnb-flex-container--align-stretch'
+      '.dnb-flex-container--align-stretch',
     )
 
     expect(inner).toBeInTheDocument()
@@ -88,7 +88,7 @@ describe('List.Card', () => {
     render(
       <List.Card title="My Title">
         <span>Content</span>
-      </List.Card>
+      </List.Card>,
     )
 
     const element = document.querySelector('.dnb-list__card')
@@ -118,7 +118,7 @@ describe('List.Card', () => {
             <List.Cell.End>1 234 kr</List.Cell.End>
           </List.Item.Action>
         </List.Container>
-      </List.Card>
+      </List.Card>,
     )
 
     const card = document.querySelector('.dnb-list__card')
@@ -136,7 +136,7 @@ describe('List.ScrollView', () => {
     render(
       <List.ScrollView>
         <span>Content</span>
-      </List.ScrollView>
+      </List.ScrollView>,
     )
 
     const element = document.querySelector('.dnb-list__card__scroll-view')
@@ -148,7 +148,7 @@ describe('List.ScrollView', () => {
     render(
       <List.ScrollView className="my-scroll">
         <span>Content</span>
-      </List.ScrollView>
+      </List.ScrollView>,
     )
 
     const element = document.querySelector('.dnb-list__card__scroll-view')
@@ -161,7 +161,7 @@ describe('List.ScrollView', () => {
     render(
       <List.ScrollView>
         <span>Scrollable content</span>
-      </List.ScrollView>
+      </List.ScrollView>,
     )
 
     const element = document.querySelector('.dnb-list__card__scroll-view')
@@ -173,11 +173,11 @@ describe('List.ScrollView', () => {
     render(
       <List.ScrollView style={{ maxHeight: '20rem' }}>
         <span>Content</span>
-      </List.ScrollView>
+      </List.ScrollView>,
     )
 
     const element = document.querySelector(
-      '.dnb-list__card__scroll-view'
+      '.dnb-list__card__scroll-view',
     ) as HTMLElement
 
     expect(element.style.maxHeight).toBe('20rem')
@@ -187,15 +187,15 @@ describe('List.ScrollView', () => {
     render(
       <List.ScrollView maxVisibleListItems={3}>
         <span>Content</span>
-      </List.ScrollView>
+      </List.ScrollView>,
     )
 
     const element = document.querySelector(
-      '.dnb-list__card__scroll-view'
+      '.dnb-list__card__scroll-view',
     ) as HTMLElement
 
     expect(element.style.maxHeight).toBe(
-      'calc(calc(var(--item-height, 4rem) * 3) + 0.125rem)'
+      'calc(calc(var(--item-height, 4rem) * 3) + 0.125rem)',
     )
     expect(element.style.marginBottom).toBe('-0.125rem')
   })
@@ -240,11 +240,11 @@ describe('List.ScrollView', () => {
             </List.Item.Action>
           </List.Container>
         </List.ScrollView>
-      </List.Card>
+      </List.Card>,
     )
 
     const element = document.querySelector(
-      '.dnb-list__card__scroll-view'
+      '.dnb-list__card__scroll-view',
     ) as HTMLElement
 
     await waitFor(() => {
@@ -296,11 +296,11 @@ describe('List.ScrollView', () => {
             <List.Cell.End>200 kr</List.Cell.End>
           </List.Item.Action>
         </List.Container>
-      </List.ScrollView>
+      </List.ScrollView>,
     )
 
     const element = document.querySelector(
-      '.dnb-list__card__scroll-view'
+      '.dnb-list__card__scroll-view',
     ) as HTMLElement
 
     await waitFor(() => {
@@ -332,11 +332,11 @@ describe('List.ScrollView', () => {
         style={{ maxHeight: '20rem' }}
       >
         <span>Content</span>
-      </List.ScrollView>
+      </List.ScrollView>,
     )
 
     const element = document.querySelector(
-      '.dnb-list__card__scroll-view'
+      '.dnb-list__card__scroll-view',
     ) as HTMLElement
 
     expect(element.style.maxHeight).toBe('20rem')
@@ -374,12 +374,12 @@ describe('List.ScrollView', () => {
             </List.Item.Action>
           </List.Container>
         </List.ScrollView>
-      </List.Card>
+      </List.Card>,
     )
 
     const card = document.querySelector('.dnb-list__card')
     const scrollView = document.querySelector(
-      '.dnb-list__card__scroll-view'
+      '.dnb-list__card__scroll-view',
     )
     const items = document.querySelectorAll('.dnb-list__item')
 
@@ -399,7 +399,7 @@ describe('List.ScrollView', () => {
               <List.Cell.End>Value</List.Cell.End>
             </List.Item.Basic>
           </List.Container>
-        </List.Card>
+        </List.Card>,
       )
 
       expect(await axeComponent(container)).toHaveNoViolations()
@@ -415,7 +415,7 @@ describe('List.ScrollView', () => {
               </List.Item.Action>
             </List.Container>
           </List.ScrollView>
-        </List.Card>
+        </List.Card>,
       )
 
       expect(await axeComponent(container)).toHaveNoViolations()
@@ -430,7 +430,7 @@ describe('List.ScrollView', () => {
             <List.Cell.End>Value</List.Cell.End>
           </List.Item.Basic>
         </List.Container>
-      </List.ScrollView>
+      </List.ScrollView>,
     )
 
     const items = document.querySelectorAll('.dnb-list__item')
@@ -449,7 +449,7 @@ describe('List.ScrollView', () => {
             <List.Cell.End>Value</List.Cell.End>
           </List.Item.Basic>
         </List.ScrollView>
-      </List.Container>
+      </List.Container>,
     )
 
     const item = document.querySelector('.dnb-list__item')
@@ -466,7 +466,7 @@ describe('List.ScrollView', () => {
             <List.Cell.End>Value</List.Cell.End>
           </List.Item.Basic>
         </List.ScrollView>
-      </List.Container>
+      </List.Container>,
     )
 
     const item = document.querySelector('.dnb-list__item')
@@ -483,7 +483,7 @@ describe('List.ScrollView', () => {
             <List.Cell.End>Value</List.Cell.End>
           </List.Item.Basic>
         </List.Container>
-      </List.ScrollView>
+      </List.ScrollView>,
     )
 
     const item = document.querySelector('.dnb-list__item')
@@ -499,7 +499,7 @@ describe('List.ScrollView', () => {
             <List.Cell.End>Value</List.Cell.End>
           </List.Item.Basic>
         </List.ScrollView>
-      </List.Container>
+      </List.Container>,
     )
 
     const item = document.querySelector('.dnb-list__item')
@@ -511,7 +511,7 @@ describe('List.ScrollView', () => {
     render(
       <List.Card id="my-card">
         <span>Content</span>
-      </List.Card>
+      </List.Card>,
     )
 
     const element = document.querySelector('.dnb-list__card')

@@ -11,7 +11,7 @@ describe('Form.Element', () => {
       <Form.Element onSubmit={onSubmitElement}>
         <Field.String path="/foo" value="Value" />
         <Form.SubmitButton>Submit</Form.SubmitButton>
-      </Form.Element>
+      </Form.Element>,
     )
 
     const inputElement = document.querySelector('input')
@@ -26,7 +26,7 @@ describe('Form.Element', () => {
     expect(onSubmitElement).toHaveBeenCalledTimes(2)
 
     expect(onSubmitElement).toHaveBeenCalledWith(
-      expect.objectContaining({ type: 'submit', target: inputElement })
+      expect.objectContaining({ type: 'submit', target: inputElement }),
     )
   })
 
@@ -43,7 +43,7 @@ describe('Form.Element', () => {
           <Field.String path="/foo" value="Value" />
           <Form.SubmitButton>Submit</Form.SubmitButton>
         </Form.Element>
-      </DataContext.Provider>
+      </DataContext.Provider>,
     )
 
     const inputElement = document.querySelector('input')
@@ -54,12 +54,12 @@ describe('Form.Element', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledWith(
       { foo: 'Value' },
-      expect.anything()
+      expect.anything(),
     )
 
     expect(onSubmitElement).toHaveBeenCalledTimes(1)
     expect(onSubmitElement).toHaveBeenCalledWith(
-      expect.objectContaining({ type: 'submit', target: inputElement })
+      expect.objectContaining({ type: 'submit', target: inputElement }),
     )
 
     fireEvent.click(buttonElement)
@@ -67,12 +67,12 @@ describe('Form.Element', () => {
     expect(onSubmit).toHaveBeenCalledTimes(2)
     expect(onSubmit).toHaveBeenCalledWith(
       { foo: 'Value' },
-      expect.anything()
+      expect.anything(),
     )
 
     expect(onSubmitElement).toHaveBeenCalledTimes(2)
     expect(onSubmitElement).toHaveBeenCalledWith(
-      expect.objectContaining({ type: 'submit', target: inputElement })
+      expect.objectContaining({ type: 'submit', target: inputElement }),
     )
   })
 
@@ -83,7 +83,7 @@ describe('Form.Element', () => {
       <Form.Element onSubmit={onSubmitElement}>
         <Field.String path="/foo" value="Value" />
         <Form.SubmitButton>Submit</Form.SubmitButton>
-      </Form.Element>
+      </Form.Element>,
     )
 
     const formElement = document.querySelector('form')
@@ -110,7 +110,7 @@ describe('Form.Element', () => {
       >
         <Field.String path="/foo" value="Value" />
         <Form.SubmitButton>Submit</Form.SubmitButton>
-      </Form.Element>
+      </Form.Element>,
     )
 
     const formElement = document.querySelector('form')
@@ -129,7 +129,7 @@ describe('Form.Element', () => {
     render(
       <Form.Element>
         <Form.SubmitButton>Submit</Form.SubmitButton>
-      </Form.Element>
+      </Form.Element>,
     )
 
     const formElement = document.querySelector('.dnb-forms-form')
@@ -141,7 +141,7 @@ describe('Form.Element', () => {
     render(
       <Form.Element className="custom-class">
         <Form.SubmitButton>Submit</Form.SubmitButton>
-      </Form.Element>
+      </Form.Element>,
     )
 
     const formElement = document.querySelector('form')
@@ -157,7 +157,7 @@ describe('Form.Element', () => {
     render(
       <Form.Element top="large">
         <Form.SubmitButton>Submit</Form.SubmitButton>
-      </Form.Element>
+      </Form.Element>,
     )
 
     const formElement = document.querySelector('form')
@@ -169,12 +169,12 @@ describe('Form.Element', () => {
     render(
       <Form.Element aria-label="Aria Label">
         <Form.SubmitButton>Submit</Form.SubmitButton>
-      </Form.Element>
+      </Form.Element>,
     )
 
     const formElement = document.querySelector('form')
     const attributes = Array.from(formElement.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual(['class', 'aria-label'])
@@ -187,7 +187,7 @@ describe('Form.Element', () => {
       // @ts-expect-error
       <Form.Element id={myId}>
         <Form.SubmitButton>Submit</Form.SubmitButton>
-      </Form.Element>
+      </Form.Element>,
     )
 
     const formElement = document.querySelector('form')

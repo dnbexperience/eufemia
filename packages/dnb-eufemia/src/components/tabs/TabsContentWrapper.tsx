@@ -82,7 +82,7 @@ export default function ContentWrapper({
   if (activeKey) {
     params['aria-labelledby'] = combineLabelledBy(
       params,
-      `${id}-tab-${activeKey}`
+      `${id}-tab-${activeKey}`,
     )
   }
 
@@ -96,7 +96,7 @@ export default function ContentWrapper({
       contentInnerSpace,
       ...rest,
     },
-    params
+    params,
   )
 
   let content: React.ReactNode = children as React.ReactNode
@@ -147,9 +147,9 @@ export default function ContentWrapper({
           className: clsx(
             'dnb-tabs__content',
             'dnb-no-focus',
-            !contentStyle && resolvedInnerSpace && 'dnb-space'
+            !contentStyle && resolvedInnerSpace && 'dnb-space',
           ),
-        }
+        },
       )}
       duration={600}
       animate={animate === true}

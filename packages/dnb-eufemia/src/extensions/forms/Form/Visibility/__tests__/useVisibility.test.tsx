@@ -10,7 +10,7 @@ describe('useVisibility', () => {
       const { result } = renderHook(() =>
         useVisibility({
           visible: true,
-        })
+        }),
       )
       expect(result.current.check()).toBe(true)
     })
@@ -19,7 +19,7 @@ describe('useVisibility', () => {
       const { result } = renderHook(() =>
         useVisibility({
           visible: false,
-        })
+        }),
       )
       expect(result.current.check()).toBe(false)
     })
@@ -35,7 +35,7 @@ describe('useVisibility', () => {
           wrapper: ({ children }) => (
             <Provider data={{ isTruthy: undefined }}>{children}</Provider>
           ),
-        }
+        },
       )
       expect(result.current.check()).toBe(true)
     })
@@ -52,7 +52,7 @@ describe('useVisibility', () => {
           wrapper: ({ children }) => (
             <Provider data={{ isDefined: 'foo' }}>{children}</Provider>
           ),
-        }
+        },
       )
       expect(result.current.check()).toBe(true)
     })
@@ -67,7 +67,7 @@ describe('useVisibility', () => {
           wrapper: ({ children }) => (
             <Provider data={{ isDefined: 'foo' }}>{children}</Provider>
           ),
-        }
+        },
       )
       expect(result.current.check()).toBe(false)
     })
@@ -81,7 +81,7 @@ describe('useVisibility', () => {
       expect(
         result.current.check({
           pathDefined: '/isUndefined',
-        })
+        }),
       ).toBe(false)
     })
   })
@@ -97,7 +97,7 @@ describe('useVisibility', () => {
           wrapper: ({ children }) => (
             <Provider data={{ isDefined: 'foo' }}>{children}</Provider>
           ),
-        }
+        },
       )
       expect(result.current.check()).toBe(false)
     })
@@ -112,7 +112,7 @@ describe('useVisibility', () => {
           wrapper: ({ children }) => (
             <Provider data={{ isDefined: 'foo' }}>{children}</Provider>
           ),
-        }
+        },
       )
       expect(result.current.check()).toBe(true)
     })
@@ -126,7 +126,7 @@ describe('useVisibility', () => {
       expect(
         result.current.check({
           pathUndefined: '/isUndefined',
-        })
+        }),
       ).toBe(true)
     })
   })
@@ -142,7 +142,7 @@ describe('useVisibility', () => {
           wrapper: ({ children }) => (
             <Provider data={{ isTruthy: 'value' }}>{children}</Provider>
           ),
-        }
+        },
       )
       expect(result.current.check()).toBe(true)
     })
@@ -156,7 +156,7 @@ describe('useVisibility', () => {
       expect(
         result.current.check({
           pathTruthy: '/isFalsy',
-        })
+        }),
       ).toBe(false)
     })
 
@@ -169,7 +169,7 @@ describe('useVisibility', () => {
       expect(
         result.current.check({
           pathTruthy: '/isNotDefined',
-        })
+        }),
       ).toBe(false)
     })
   })
@@ -185,7 +185,7 @@ describe('useVisibility', () => {
           wrapper: ({ children }) => (
             <Provider data={{ isFalsy: null }}>{children}</Provider>
           ),
-        }
+        },
       )
       expect(result.current.check()).toBe(true)
     })
@@ -199,7 +199,7 @@ describe('useVisibility', () => {
       expect(
         result.current.check({
           pathFalsy: '/isNotDefined',
-        })
+        }),
       ).toBe(true)
     })
 
@@ -212,7 +212,7 @@ describe('useVisibility', () => {
       expect(
         result.current.check({
           pathFalsy: '/isTruthy',
-        })
+        }),
       ).toBe(false)
     })
   })
@@ -231,7 +231,7 @@ describe('useVisibility', () => {
           wrapper: ({ children }) => (
             <Provider data={{ myPath: 'foo' }}>{children}</Provider>
           ),
-        }
+        },
       )
       expect(result.current.check()).toBe(true)
     })
@@ -248,7 +248,7 @@ describe('useVisibility', () => {
             path: '/myPath',
             hasValue: 'bar',
           },
-        })
+        }),
       ).toBe(false)
     })
 
@@ -264,7 +264,7 @@ describe('useVisibility', () => {
             path: '/nonExistingPath',
             hasValue: 'foo',
           },
-        })
+        }),
       ).toBe(false)
     })
 
@@ -280,7 +280,7 @@ describe('useVisibility', () => {
           }),
         {
           wrapper: ({ children }) => <Provider>{children}</Provider>,
-        }
+        },
       )
       expect(result.current.check()).toBe(false)
       expect(hasValue).toHaveBeenCalledTimes(1)
@@ -299,7 +299,7 @@ describe('useVisibility', () => {
               path: '/something',
               isValid: true,
             },
-          })
+          }),
         ).toBe(false)
       })
 
@@ -319,7 +319,7 @@ describe('useVisibility', () => {
               path: '/myPath',
               isValid: true,
             },
-          })
+          }),
         ).toBe(false)
       })
 
@@ -339,7 +339,7 @@ describe('useVisibility', () => {
               path: '/myPath',
               isValid: true,
             },
-          })
+          }),
         ).toBe(true)
       })
 
@@ -359,7 +359,7 @@ describe('useVisibility', () => {
               path: '/myPath',
               isValid: true,
             },
-          })
+          }),
         ).toBe(false)
 
         fireEvent.focus(document.querySelector('input'))
@@ -372,7 +372,7 @@ describe('useVisibility', () => {
               path: '/myPath',
               isValid: true,
             },
-          })
+          }),
         ).toBe(false)
 
         fireEvent.blur(document.querySelector('input'))
@@ -382,7 +382,7 @@ describe('useVisibility', () => {
               path: '/myPath',
               isValid: true,
             },
-          })
+          }),
         ).toBe(true)
       })
 
@@ -403,7 +403,7 @@ describe('useVisibility', () => {
               isValid: true,
               validateContinuously: true,
             },
-          })
+          }),
         ).toBe(false)
 
         fireEvent.focus(document.querySelector('input'))
@@ -417,7 +417,7 @@ describe('useVisibility', () => {
               isValid: true,
               validateContinuously: true,
             },
-          })
+          }),
         ).toBe(true)
 
         fireEvent.blur(document.querySelector('input'))
@@ -427,7 +427,7 @@ describe('useVisibility', () => {
               path: '/myPath',
               isValid: true,
             },
-          })
+          }),
         ).toBe(true)
       })
     })
@@ -447,7 +447,7 @@ describe('useVisibility', () => {
           wrapper: ({ children }) => (
             <Provider data={{ myPath: 'foo' }}>{children}</Provider>
           ),
-        }
+        },
       )
       expect(result.current.check()).toBe(false)
     })
@@ -464,7 +464,7 @@ describe('useVisibility', () => {
             path: '/myPath',
             hasValue: 'bar',
           },
-        })
+        }),
       ).toBe(true)
     })
 
@@ -480,7 +480,7 @@ describe('useVisibility', () => {
               path: '/something',
               isValid: true,
             },
-          })
+          }),
         ).toBe(true)
       })
 
@@ -500,7 +500,7 @@ describe('useVisibility', () => {
               path: '/myPath',
               isValid: true,
             },
-          })
+          }),
         ).toBe(true)
       })
 
@@ -520,7 +520,7 @@ describe('useVisibility', () => {
               path: '/myPath',
               isValid: true,
             },
-          })
+          }),
         ).toBe(false)
       })
 
@@ -540,7 +540,7 @@ describe('useVisibility', () => {
               path: '/myPath',
               isValid: true,
             },
-          })
+          }),
         ).toBe(true)
 
         fireEvent.focus(document.querySelector('input'))
@@ -553,7 +553,7 @@ describe('useVisibility', () => {
               path: '/myPath',
               isValid: true,
             },
-          })
+          }),
         ).toBe(true)
 
         fireEvent.blur(document.querySelector('input'))
@@ -563,7 +563,7 @@ describe('useVisibility', () => {
               path: '/myPath',
               isValid: true,
             },
-          })
+          }),
         ).toBe(false)
       })
     })
@@ -587,7 +587,7 @@ describe('useVisibility', () => {
                 </Iterate.Array>
               </Provider>
             ),
-          }
+          },
         )
         expect(result.current.check()).toBe(true)
       })
@@ -611,7 +611,7 @@ describe('useVisibility', () => {
                 <Iterate.Array path="/myList">{children}</Iterate.Array>
               </Provider>
             ),
-          }
+          },
         )
         expect(result.current.check()).toBe(true)
       })
@@ -633,7 +633,7 @@ describe('useVisibility', () => {
                 <Iterate.Array path="/myList">{children}</Iterate.Array>
               </Provider>
             ),
-          }
+          },
         )
         expect(result.current.check()).toBe(false)
       })
@@ -655,7 +655,7 @@ describe('useVisibility', () => {
                 <Iterate.Array path="/myList">{children}</Iterate.Array>
               </Provider>
             ),
-          }
+          },
         )
         expect(result.current.check()).toBe(false)
       })
@@ -679,7 +679,7 @@ describe('useVisibility', () => {
                 <Iterate.Array path="/myList">{children}</Iterate.Array>
               </Provider>
             ),
-          }
+          },
         )
         expect(result.current.check()).toBe(false)
       })
@@ -701,7 +701,7 @@ describe('useVisibility', () => {
                 <Iterate.Array path="/myList">{children}</Iterate.Array>
               </Provider>
             ),
-          }
+          },
         )
         expect(result.current.check()).toBe(true)
       })
@@ -723,7 +723,7 @@ describe('useVisibility', () => {
                 <Iterate.Array path="/myList">{children}</Iterate.Array>
               </Provider>
             ),
-          }
+          },
         )
         expect(result.current.check()).toBe(true)
       })
@@ -743,7 +743,7 @@ describe('useVisibility', () => {
                 <Iterate.Array path="/myList">{children}</Iterate.Array>
               </Provider>
             ),
-          }
+          },
         )
         expect(result.current.check()).toBe(true)
       })
@@ -763,7 +763,7 @@ describe('useVisibility', () => {
         expect(
           result.current.check({
             pathTruthy: '/isFalsy',
-          })
+          }),
         ).toBe(false)
       })
 
@@ -785,7 +785,7 @@ describe('useVisibility', () => {
         expect(
           result.current.check({
             pathTruthy: '/isNotDefined',
-          })
+          }),
         ).toBe(false)
       })
     })
@@ -810,7 +810,7 @@ describe('useVisibility', () => {
             initialProps: {
               withinIterate: true,
             },
-          }
+          },
         )
         expect(result.current.check()).toBe(true)
       })
@@ -829,7 +829,7 @@ describe('useVisibility', () => {
         expect(
           result.current.check({
             pathFalsy: '/isNotDefined',
-          })
+          }),
         ).toBe(true)
       })
 
@@ -847,7 +847,7 @@ describe('useVisibility', () => {
         expect(
           result.current.check({
             pathFalsy: '/isTruthy',
-          })
+          }),
         ).toBe(false)
       })
     })

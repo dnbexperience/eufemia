@@ -25,7 +25,7 @@ describe('PortalRoot', () => {
     render(
       <PortalRoot>
         <div data-testid="portal-content">Portal Content</div>
-      </PortalRoot>
+      </PortalRoot>,
     )
 
     const portalElement = document.getElementById('eufemia-portal-root')
@@ -33,7 +33,7 @@ describe('PortalRoot', () => {
     expect(portalElement).toHaveAttribute('role', 'presentation')
 
     const content = portalElement.querySelector(
-      '[data-testid="portal-content"]'
+      '[data-testid="portal-content"]',
     )
     expect(content).toBeInTheDocument()
     expect(content).toHaveTextContent('Portal Content')
@@ -44,7 +44,7 @@ describe('PortalRoot', () => {
     render(
       <PortalRoot ref={ref}>
         <div>Content</div>
-      </PortalRoot>
+      </PortalRoot>,
     )
 
     expect(ref.current).toBeInTheDocument()
@@ -60,7 +60,7 @@ describe('PortalRoot', () => {
     render(
       <PortalRoot ref={refFn}>
         <div>Content</div>
-      </PortalRoot>
+      </PortalRoot>,
     )
 
     expect(refElement).toBeInTheDocument()
@@ -75,7 +75,7 @@ describe('PortalRoot', () => {
     const { container } = render(
       <PortalRoot>
         <div>Content</div>
-      </PortalRoot>
+      </PortalRoot>,
     )
 
     expect(container).toBeEmptyDOMElement()
@@ -93,7 +93,7 @@ describe('PortalRoot', () => {
     render(
       <PortalRoot>
         <div>Content</div>
-      </PortalRoot>
+      </PortalRoot>,
     )
 
     const portalElements = document.querySelectorAll(`#${portalId}`)
@@ -105,7 +105,7 @@ describe('PortalRoot', () => {
     render(
       <PortalRoot id={customId}>
         <div data-testid="portal-content">Portal Content</div>
-      </PortalRoot>
+      </PortalRoot>,
     )
 
     const portalElement = document.getElementById(customId)
@@ -113,7 +113,7 @@ describe('PortalRoot', () => {
     expect(portalElement).toHaveAttribute('role', 'presentation')
 
     const content = portalElement.querySelector(
-      '[data-testid="portal-content"]'
+      '[data-testid="portal-content"]',
     )
     expect(content).toBeInTheDocument()
     expect(content).toHaveTextContent('Portal Content')
@@ -129,7 +129,7 @@ describe('PortalRoot', () => {
         <PortalRoot id={customId}>
           <div data-testid="portal-content">Portal Content</div>
         </PortalRoot>
-      </>
+      </>,
     )
 
     // Verify only one element with the custom id exists (no duplicates)
@@ -138,7 +138,7 @@ describe('PortalRoot', () => {
 
     // Verify the ID appears only once in the entire document
     const allElementsWithId = document.querySelectorAll(
-      `[id="${customId}"]`
+      `[id="${customId}"]`,
     )
     expect(allElementsWithId).toHaveLength(1)
 
@@ -150,7 +150,7 @@ describe('PortalRoot', () => {
 
     // Verify portal content is rendered inside the existing element
     const portalContent = portalElement?.querySelector(
-      '[data-testid="portal-content"]'
+      '[data-testid="portal-content"]',
     )
     expect(portalContent).toBeInTheDocument()
     expect(portalContent).toHaveTextContent('Portal Content')
@@ -195,7 +195,7 @@ describe('PortalRoot', () => {
     const { rerender } = render(
       <PortalRoot>
         <div data-testid="content">Content</div>
-      </PortalRoot>
+      </PortalRoot>,
     )
 
     // Verify element exists (created in useMemo)
@@ -207,13 +207,13 @@ describe('PortalRoot', () => {
     rerender(
       <PortalRoot>
         <div data-testid="content">Updated Content</div>
-      </PortalRoot>
+      </PortalRoot>,
     )
 
     // Element should still exist and content should be updated
     expect(defaultElement).toBeInTheDocument()
     const content = defaultElement?.querySelector(
-      '[data-testid="content"]'
+      '[data-testid="content"]',
     )
     expect(content).toHaveTextContent('Updated Content')
 
@@ -224,14 +224,14 @@ describe('PortalRoot', () => {
     render(
       <PortalRoot id={customId}>
         <div data-testid="custom-content">Custom Content</div>
-      </PortalRoot>
+      </PortalRoot>,
     )
 
     // Verify the element exists (created/found in useLayoutEffect)
     const customElement = document.getElementById(customId)
     expect(customElement).toBeInTheDocument()
     const customContent = customElement?.querySelector(
-      '[data-testid="custom-content"]'
+      '[data-testid="custom-content"]',
     )
     expect(customContent).toBeInTheDocument()
     expect(customContent).toHaveTextContent('Custom Content')
@@ -247,7 +247,7 @@ describe('PortalRoot', () => {
     render(
       <PortalRoot id={customId}>
         <div>Content</div>
-      </PortalRoot>
+      </PortalRoot>,
     )
 
     const portalElements = document.querySelectorAll(`#${customId}`)
@@ -256,7 +256,7 @@ describe('PortalRoot', () => {
     // The existing element should still have the data-test attribute
     expect(document.getElementById(customId)).toHaveAttribute(
       'data-test',
-      'existing'
+      'existing',
     )
   })
 
@@ -271,7 +271,7 @@ describe('PortalRoot', () => {
     render(
       <PortalRoot id={customId}>
         <div>Content</div>
-      </PortalRoot>
+      </PortalRoot>,
     )
 
     const portalElement = document.getElementById(customId)
@@ -286,7 +286,7 @@ describe('PortalRoot', () => {
     render(
       <PortalRoot id={customId} ref={ref}>
         <div>Content</div>
-      </PortalRoot>
+      </PortalRoot>,
     )
 
     expect(ref.current).toBeInTheDocument()
@@ -307,25 +307,25 @@ describe('PortalRoot', () => {
     // Verify the structure matches the docs example
     expect(document.body.querySelector('#app')).toBeInTheDocument()
     expect(
-      document.body.querySelector('#eufemia-portal-root')
+      document.body.querySelector('#eufemia-portal-root'),
     ).toBeInTheDocument()
 
     // Now render PortalRoot - it should reuse the existing element
     render(
       <PortalRoot>
         <div data-testid="portal-content">Portal Content</div>
-      </PortalRoot>
+      </PortalRoot>,
     )
 
     // Verify only one element with the id exists
     const portalElements = document.querySelectorAll(
-      '#eufemia-portal-root'
+      '#eufemia-portal-root',
     )
     expect(portalElements).toHaveLength(1)
 
     // Verify the content is rendered in the pre-existing element
     const content = portalRoot.querySelector(
-      '[data-testid="portal-content"]'
+      '[data-testid="portal-content"]',
     )
     expect(content).toBeInTheDocument()
     expect(content).toHaveTextContent('Portal Content')
@@ -333,7 +333,7 @@ describe('PortalRoot', () => {
     // Verify the element still exists in the body as a sibling to app root
     expect(document.body.querySelector('#app')).toBeInTheDocument()
     expect(
-      document.body.querySelector('#eufemia-portal-root')
+      document.body.querySelector('#eufemia-portal-root'),
     ).toBeInTheDocument()
   })
 
@@ -351,25 +351,25 @@ describe('PortalRoot', () => {
     render(
       <PortalRoot id="my-custom-portal-root">
         <div data-testid="portal-content">Portal Content</div>
-      </PortalRoot>
+      </PortalRoot>,
     )
 
     // Verify only one element with the id exists
     const portalElements = document.querySelectorAll(
-      '#my-custom-portal-root'
+      '#my-custom-portal-root',
     )
     expect(portalElements).toHaveLength(1)
 
     // Verify the content is rendered in the pre-existing element
     const content = customPortalRoot.querySelector(
-      '[data-testid="portal-content"]'
+      '[data-testid="portal-content"]',
     )
     expect(content).toBeInTheDocument()
     expect(content).toHaveTextContent('Portal Content')
 
     // Verify the element is the same instance
     expect(document.getElementById('my-custom-portal-root')).toBe(
-      customPortalRoot
+      customPortalRoot,
     )
   })
 
@@ -378,7 +378,7 @@ describe('PortalRoot', () => {
       render(
         <PortalRoot>
           <div data-testid="portal-content">Portal Content</div>
-        </PortalRoot>
+        </PortalRoot>,
       )
 
       const portalElement = document.getElementById('eufemia-portal-root')
@@ -386,7 +386,7 @@ describe('PortalRoot', () => {
 
       // Find the content element
       const content = portalElement.querySelector(
-        '[data-testid="portal-content"]'
+        '[data-testid="portal-content"]',
       )
       expect(content).toBeInTheDocument()
 
@@ -442,14 +442,14 @@ describe('PortalRoot', () => {
           <PortalRoot>
             <div data-testid="portal-content">Portal Content</div>
           </PortalRoot>
-        </IsolatedStyleScope>
+        </IsolatedStyleScope>,
       )
 
       const portalElement = document.getElementById('eufemia-portal-root')
       expect(portalElement).toBeInTheDocument()
 
       const content = portalElement.querySelector(
-        '[data-testid="portal-content"]'
+        '[data-testid="portal-content"]',
       )
       expect(content).toBeInTheDocument()
 
@@ -468,7 +468,7 @@ describe('PortalRoot', () => {
       // The portal should be properly isolated within the parent IsolatedStyleScope
       // The parent scope should also exist in the DOM
       const parentScope = document.querySelector(
-        '[data-scope-hash="custom-scope"]'
+        '[data-scope-hash="custom-scope"]',
       )
       expect(parentScope).toBeInTheDocument()
 
@@ -533,7 +533,7 @@ describe('PortalRoot', () => {
           <PortalRoot style={componentStyle}>
             <div>Content</div>
           </PortalRoot>
-        </IsolatedStyleScopeContext>
+        </IsolatedStyleScopeContext>,
       )
 
       const portalElement = document.getElementById('eufemia-portal-root')
@@ -561,7 +561,7 @@ describe('PortalRoot', () => {
             </IsolatedStyleScope>
           </div>
           <div id={customId} className="existing-element" />
-        </>
+        </>,
       )
 
       // Verify only one element with the custom id exists (no duplicates)
@@ -570,7 +570,7 @@ describe('PortalRoot', () => {
 
       // Verify the ID appears only once in the entire document
       const allElementsWithId = document.querySelectorAll(
-        `[id="${customId}"]`
+        `[id="${customId}"]`,
       )
       expect(allElementsWithId).toHaveLength(1)
 
@@ -582,7 +582,7 @@ describe('PortalRoot', () => {
 
       // Verify portal content is rendered inside the existing element
       const portalContent = portalElement?.querySelector(
-        '[data-testid="portal-content"]'
+        '[data-testid="portal-content"]',
       )
       expect(portalContent).toBeInTheDocument()
       expect(portalContent).toHaveTextContent('Portal Content')
@@ -597,7 +597,7 @@ describe('PortalRoot', () => {
 
       // Verify the parent IsolatedStyleScope also exists
       const parentScope = document.querySelector(
-        '[data-scope-hash="custom-scope"]'
+        '[data-scope-hash="custom-scope"]',
       )
       expect(parentScope).toBeInTheDocument()
 
@@ -661,12 +661,12 @@ describe('PortalRoot', () => {
           <PortalRoot>
             <div data-testid="portal-content">Portal Content</div>
           </PortalRoot>
-        </IsolatedStyleScopeContext>
+        </IsolatedStyleScopeContext>,
       )
 
       const portalElement = document.getElementById('eufemia-portal-root')
       const content = portalElement.querySelector(
-        '[data-testid="portal-content"]'
+        '[data-testid="portal-content"]',
       )
 
       // PortalRoot should create its own isolated style scope
@@ -861,7 +861,7 @@ describe('getOrCreatePortalElement', () => {
       render(
         <PortalRoot insideSelector="#wrapper">
           <div data-testid="content">Content</div>
-        </PortalRoot>
+        </PortalRoot>,
       )
 
       const portalElement = document.getElementById('eufemia-portal-root')
@@ -883,7 +883,7 @@ describe('getOrCreatePortalElement', () => {
       render(
         <PortalRoot beforeSelector="#root">
           <div data-testid="content">Content</div>
-        </PortalRoot>
+        </PortalRoot>,
       )
 
       const portalElement = document.getElementById('eufemia-portal-root')
@@ -905,7 +905,7 @@ describe('getOrCreatePortalElement', () => {
           <PortalRoot>
             <div data-testid="content">Content</div>
           </PortalRoot>
-        </PortalRoot.Provider>
+        </PortalRoot.Provider>,
       )
 
       const portalElement = document.getElementById('eufemia-portal-root')
@@ -929,7 +929,7 @@ describe('getOrCreatePortalElement', () => {
           <PortalRoot insideSelector="#inner">
             <div data-testid="content">Content</div>
           </PortalRoot>
-        </PortalRoot.Provider>
+        </PortalRoot.Provider>,
       )
 
       const portalElement = document.getElementById('eufemia-portal-root')
@@ -945,7 +945,7 @@ describe('getOrCreatePortalElement', () => {
           beforeSelector="#nope"
         >
           <div data-testid="content">Content</div>
-        </PortalRoot>
+        </PortalRoot>,
       )
 
       const portalElement = document.getElementById('eufemia-portal-root')
@@ -970,7 +970,7 @@ describe('getOrCreatePortalElement', () => {
       render(
         <PortalRoot beforeSelector="#root" insideSelector="#inner">
           <div>Content</div>
-        </PortalRoot>
+        </PortalRoot>,
       )
 
       const portalElement = document.getElementById('eufemia-portal-root')
@@ -1003,7 +1003,7 @@ describe('getOrCreatePortalElement', () => {
           <PortalRoot>
             <div>Content</div>
           </PortalRoot>
-        </PortalRoot.Provider>
+        </PortalRoot.Provider>,
       )
 
       const portalElement = document.getElementById('eufemia-portal-root')
@@ -1021,14 +1021,14 @@ describe('getOrCreatePortalElement', () => {
           <PortalRoot>
             <div data-testid="content">Content</div>
           </PortalRoot>
-        </PortalRoot.Provider>
+        </PortalRoot.Provider>,
       )
 
       const providerElem = document.getElementById('provider-portal-root')
       expect(providerElem).toBeInTheDocument()
       expect(providerElem).toHaveAttribute('role', 'presentation')
       expect(
-        providerElem?.querySelector('[data-testid="content"]')
+        providerElem?.querySelector('[data-testid="content"]'),
       ).toBeInTheDocument()
 
       // Default id should not exist in this case
@@ -1041,15 +1041,15 @@ describe('getOrCreatePortalElement', () => {
           <PortalRoot id="component-portal-root">
             <div data-testid="content">Content</div>
           </PortalRoot>
-        </PortalRoot.Provider>
+        </PortalRoot.Provider>,
       )
 
       const componentElem = document.getElementById(
-        'component-portal-root'
+        'component-portal-root',
       )
       expect(componentElem).toBeInTheDocument()
       expect(
-        componentElem?.querySelector('[data-testid="content"]')
+        componentElem?.querySelector('[data-testid="content"]'),
       ).toBeInTheDocument()
 
       // Ensure provider id element not created
@@ -1063,7 +1063,7 @@ describe('PortalRoot aria', () => {
     const Component = render(
       <PortalRoot>
         <div>Portal content</div>
-      </PortalRoot>
+      </PortalRoot>,
     )
     expect(await axeComponent(Component)).toHaveNoViolations()
   })

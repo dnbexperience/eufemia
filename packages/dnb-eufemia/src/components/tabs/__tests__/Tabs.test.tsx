@@ -34,12 +34,12 @@ describe('Tabs component', () => {
     render(
       <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
         {contentWrapperData}
-      </Tabs>
+      </Tabs>,
     )
     expect(
       document
         .querySelector('.dnb-tabs__button.selected')
-        .querySelectorAll('span')[0].textContent
+        .querySelectorAll('span')[0].textContent,
     ).toBe(tablistData.find(({ key }) => key === startupSelectedKey).title)
   })
 
@@ -66,7 +66,7 @@ describe('Tabs component', () => {
         onClick={onClick}
       >
         {contentWrapperData}
-      </Tabs>
+      </Tabs>,
     )
 
     fireEvent.click(document.querySelectorAll('.dnb-tabs__button')[1])
@@ -90,7 +90,7 @@ describe('Tabs component', () => {
     render(
       <Tabs {...props} data={tablistData} onFocus={onFocus}>
         {contentWrapperData}
-      </Tabs>
+      </Tabs>,
     )
 
     fireEvent.keyDown(document.querySelector('.dnb-tabs__tabs__tablist'), {
@@ -124,15 +124,15 @@ describe('Tabs component', () => {
     render(
       <Tabs {...props} data={tablistData} tabElement={Link}>
         {contentWrapperData}
-      </Tabs>
+      </Tabs>,
     )
 
     expect(
       document
         .querySelector('.dnb-tabs__tabs__tablist')
-        .querySelectorAll('a')[1].outerHTML
+        .querySelectorAll('a')[1].outerHTML,
     ).toMatchInlineSnapshot(
-      `"<a href="/second"><span class="dnb-tabs__button__title">Second</span><span aria-hidden="true" hidden="" class="dnb-dummy">Second</span></a>"`
+      `"<a href="/second"><span class="dnb-tabs__button__title">Second</span><span aria-hidden="true" hidden="" class="dnb-dummy">Second</span></a>"`,
     )
   })
 
@@ -140,7 +140,7 @@ describe('Tabs component', () => {
     render(
       <Tabs {...props} data={tablistData} align="right">
         {contentWrapperData}
-      </Tabs>
+      </Tabs>,
     )
 
     const element = document.querySelector('.dnb-tabs__tabs')
@@ -156,7 +156,7 @@ describe('Tabs component', () => {
     render(
       <Tabs {...props} data={tablistData} noBorder>
         {contentWrapperData}
-      </Tabs>
+      </Tabs>,
     )
 
     const element = document.querySelector('.dnb-tabs__tabs')
@@ -173,7 +173,7 @@ describe('Tabs component', () => {
     render(
       <Tabs {...props} data={tablistData} contentInnerSpace="small">
         {contentWrapperData}
-      </Tabs>
+      </Tabs>,
     )
 
     const element = document.querySelector('.dnb-tabs__content')
@@ -182,7 +182,7 @@ describe('Tabs component', () => {
       expect.arrayContaining([
         'dnb-tabs__content',
         'dnb-height-animation--is-in-dom',
-      ])
+      ]),
     )
   })
 
@@ -190,7 +190,7 @@ describe('Tabs component', () => {
     render(
       <Tabs {...props} data={tablistData} tabsInnerSpace={true}>
         {contentWrapperData}
-      </Tabs>
+      </Tabs>,
     )
 
     const element = document.querySelector<HTMLElement>('.dnb-tabs__tabs')
@@ -202,7 +202,7 @@ describe('Tabs component', () => {
     render(
       <Tabs {...props} data={tablistData} top="large">
         {contentWrapperData}
-      </Tabs>
+      </Tabs>,
     )
 
     const element = document.querySelector('.dnb-tabs')
@@ -217,7 +217,7 @@ describe('Tabs component', () => {
     render(
       <Tabs {...props} data={tablistData} tabsStyle="black-3">
         {contentWrapperData}
-      </Tabs>
+      </Tabs>,
     )
 
     const element = document.querySelector('.dnb-tabs__tabs')
@@ -229,7 +229,7 @@ describe('Tabs component', () => {
         'dnb-tabs__tabs--left',
         'dnb-section',
         'dnb-section--black-3',
-      ])
+      ]),
     )
   })
 
@@ -237,7 +237,7 @@ describe('Tabs component', () => {
     render(
       <Tabs {...props} data={tablistData} contentStyle="black-3">
         {contentWrapperData}
-      </Tabs>
+      </Tabs>,
     )
 
     const element = document.querySelector('.dnb-tabs__content')
@@ -253,7 +253,7 @@ describe('Tabs component', () => {
         'dnb-height-animation',
         'dnb-height-animation--is-in-dom',
         'dnb-height-animation--is-visible',
-      ])
+      ]),
     )
   })
 
@@ -266,7 +266,7 @@ describe('Tabs component', () => {
         selectedKey={startupSelectedKey}
       >
         {contentWrapperData}
-      </Tabs>
+      </Tabs>,
     )
 
     const tabs = document.querySelector('.dnb-tabs__tabs')
@@ -283,7 +283,7 @@ describe('Tabs component', () => {
       '\u001b[0m\u001b[1m\u001b[38;5;23m\u001b[48;5;152mEufemia\u001b[49m\u001b[39m\u001b[22m\u001b[0m',
       `No content was given to the Tabs component!
 Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outside of the Tabs component</Tabs.Content>
-`
+`,
     )
   })
 })
@@ -293,14 +293,14 @@ describe('TabList component', () => {
     render(
       <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
         {contentWrapperData}
-      </Tabs>
+      </Tabs>,
     )
 
     expect(
-      document.querySelectorAll('.dnb-tabs__button__snap').length
+      document.querySelectorAll('.dnb-tabs__button__snap').length,
     ).toBe(tablistData.length)
     expect(document.querySelectorAll('div[role="tabpanel"]').length).toBe(
-      1
+      1,
     )
   })
 
@@ -308,13 +308,13 @@ describe('TabList component', () => {
     render(
       <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
         {contentWrapperData}
-      </Tabs>
+      </Tabs>,
     )
 
     fireEvent.click(document.querySelector('button[data-tab-key="third"]'))
 
     expect(
-      document.querySelector('button[data-tab-key="third"]').classList
+      document.querySelector('button[data-tab-key="third"]').classList,
     ).toContain('selected')
 
     const content = document.querySelector('div[role="tabpanel"]')
@@ -328,16 +328,16 @@ describe('A single Tab component', () => {
     render(
       <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
         {contentWrapperData}
-      </Tabs>
+      </Tabs>,
     )
 
     expect(
       document
         .querySelector('button[data-tab-key="second"]')
-        .getAttribute('role')
+        .getAttribute('role'),
     ).toBe('tab')
     expect(
-      document.querySelector('button[data-tab-key="second"]').classList
+      document.querySelector('button[data-tab-key="second"]').classList,
     ).toContain('selected')
   })
 
@@ -345,12 +345,12 @@ describe('A single Tab component', () => {
     render(
       <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
         {contentWrapperData}
-      </Tabs>
+      </Tabs>,
     )
 
     // reset the state
     fireEvent.click(
-      document.querySelector('button[data-tab-key="second"]')
+      document.querySelector('button[data-tab-key="second"]'),
     )
 
     fireEvent.keyDown(document.querySelector('div[role="tablist"]'), {
@@ -368,17 +368,17 @@ describe('A single Tab component', () => {
     expect(
       document
         .querySelectorAll('.dnb-tabs__button__snap')[0]
-        .querySelector('button').classList
+        .querySelector('button').classList,
     ).toContain('selected')
     expect(
-      document.querySelector('div.dnb-tabs__content').textContent
+      document.querySelector('div.dnb-tabs__content').textContent,
     ).toBe('First')
 
     // then click on tab two
     // also test the ability of having a integer only as the key
     fireEvent.click(document.querySelector('button[data-tab-key="2"]'))
     expect(
-      document.querySelector('div.dnb-tabs__content').textContent
+      document.querySelector('div.dnb-tabs__content').textContent,
     ).toBe('Second')
   })
 
@@ -397,11 +397,11 @@ describe('A single Tab component', () => {
           },
           { title: 'Two', key: 'two', content: 'Content two' },
         ]}
-      />
+      />,
     )
 
     expect(
-      document.querySelector('div.dnb-tabs__cached')
+      document.querySelector('div.dnb-tabs__cached'),
     ).toBeInTheDocument()
 
     // also check a real live rerender scenario
@@ -417,7 +417,7 @@ describe('A single Tab component', () => {
     expect(
       document
         .querySelectorAll('div.dnb-tabs__cached')[0]
-        .getAttribute('aria-hidden')
+        .getAttribute('aria-hidden'),
     ).toBe('true')
 
     // and on tab one again
@@ -426,18 +426,18 @@ describe('A single Tab component', () => {
     // the entered value should still be the same
     expect(
       (document.querySelector('.dnb-input__input') as HTMLInputElement)
-        .value
+        .value,
     ).toBe(value)
 
     expect(
       document
         .querySelectorAll('div.dnb-tabs__cached')[0]
-        .getAttribute('aria-hidden')
+        .getAttribute('aria-hidden'),
     ).not.toBe('true')
     expect(
       document
         .querySelectorAll('div.dnb-tabs__cached')[1]
-        .getAttribute('aria-hidden')
+        .getAttribute('aria-hidden'),
     ).toBe('true')
   })
 
@@ -454,27 +454,27 @@ describe('A single Tab component', () => {
           },
           { title: 'Two', key: 2, content: 'Content two' },
         ]}
-      />
+      />,
     )
 
     expect(
-      document.querySelector('div.dnb-tabs__cached')
+      document.querySelector('div.dnb-tabs__cached'),
     ).toBeInTheDocument()
 
     expect(
-      document.querySelectorAll('div.dnb-tabs__cached')[0]
+      document.querySelectorAll('div.dnb-tabs__cached')[0],
     ).not.toHaveAttribute('aria-hidden')
     expect(
       document
         .querySelectorAll('div.dnb-tabs__cached')[1]
-        .getAttribute('aria-hidden')
+        .getAttribute('aria-hidden'),
     ).toBe('true')
 
     expect(
-      document.querySelectorAll('div.dnb-tabs__cached')[0].textContent
+      document.querySelectorAll('div.dnb-tabs__cached')[0].textContent,
     ).toBe('Content one')
     expect(
-      document.querySelectorAll('div.dnb-tabs__cached')[1].textContent
+      document.querySelectorAll('div.dnb-tabs__cached')[1].textContent,
     ).toBe('Content two')
   })
 
@@ -485,25 +485,25 @@ describe('A single Tab component', () => {
         <Tabs.Content title="second title" selected>
           second
         </Tabs.Content>
-      </Tabs>
+      </Tabs>,
     )
     expect(
       document
         .querySelector('button.selected')
-        .getAttribute('data-tab-key')
+        .getAttribute('data-tab-key'),
     ).toBe('second-title')
     expect(
       document
         .querySelectorAll('.dnb-tabs__button__snap button')[1]
-        .getAttribute('data-tab-key')
+        .getAttribute('data-tab-key'),
     ).toBe('second-title')
     expect(
-      document.querySelector('div.dnb-tabs__content').textContent
+      document.querySelector('div.dnb-tabs__content').textContent,
     ).toBe('second')
     expect(
       document.querySelector(
-        'button[aria-selected=true] span.dnb-tabs__button__title'
-      ).textContent
+        'button[aria-selected=true] span.dnb-tabs__button__title',
+      ).textContent,
     ).toBe('second title')
   })
 
@@ -531,7 +531,7 @@ describe('A single Tab component', () => {
     expect(
       document
         .querySelector('button.selected')
-        .getAttribute('data-tab-key')
+        .getAttribute('data-tab-key'),
     ).toBe('first')
     expect(testKey).toBe('first')
     expect(testTitle).toBe('First')
@@ -541,7 +541,7 @@ describe('A single Tab component', () => {
     expect(
       document
         .querySelector('button.selected')
-        .getAttribute('data-tab-key')
+        .getAttribute('data-tab-key'),
     ).toBe('second')
     expect(testKey).toBe('second')
 
@@ -550,7 +550,7 @@ describe('A single Tab component', () => {
     expect(
       document
         .querySelector('button.selected')
-        .getAttribute('data-tab-key')
+        .getAttribute('data-tab-key'),
     ).toBe('third')
     expect(testKey).toBe('third')
   })
@@ -561,15 +561,15 @@ describe('A single Tab component', () => {
         <Tabs.Content title="single title">
           <div>single</div>
         </Tabs.Content>
-      </Tabs>
+      </Tabs>,
     )
 
     expect(
-      document.querySelector('div.dnb-tabs__content__inner').textContent
+      document.querySelector('div.dnb-tabs__content__inner').textContent,
     ).toBe('single')
     expect(
       document.querySelector('button span.dnb-tabs__button__title')
-        .textContent
+        .textContent,
     ).toBe('single title')
   })
 
@@ -601,20 +601,20 @@ describe('A single Tab component', () => {
         <Tabs.Content key="fifth" title="Fifth">
           Fifth tab content
         </Tabs.Content>
-      </Tabs>
+      </Tabs>,
     )
 
     expect(
       document.querySelectorAll('div.dnb-tabs__content__inner')[0]
-        .textContent
+        .textContent,
     ).toBe('Third tab content')
     expect(
       document.querySelectorAll('button span.dnb-tabs__button__title')[0]
-        .textContent
+        .textContent,
     ).toBe('Third')
     expect(
       document.querySelectorAll('button span.dnb-tabs__button__title')[1]
-        .textContent
+        .textContent,
     ).toBe('Fifth')
   })
 
@@ -625,15 +625,15 @@ describe('A single Tab component', () => {
         data={[
           { title: 'single title', key: 1, content: <div>single</div> },
         ]}
-      />
+      />,
     )
 
     expect(
-      document.querySelector('div.dnb-tabs__content').textContent
+      document.querySelector('div.dnb-tabs__content').textContent,
     ).toBe('single')
     expect(
       document.querySelector('button span.dnb-tabs__button__title')
-        .textContent
+        .textContent,
     ).toBe('single title')
   })
 
@@ -661,7 +661,7 @@ describe('A single Tab component', () => {
             },
           ]}
         />
-      </React.StrictMode>
+      </React.StrictMode>,
     )
 
     expect(document.querySelector('.dnb-tabs')).toBeInTheDocument()
@@ -685,10 +685,10 @@ describe('A single Tab component', () => {
             key: 'third_key',
           },
         ]}
-      />
+      />,
     )
     const [first, second, third] = Array.from(
-      document.querySelectorAll('.dnb-tabs__button')
+      document.querySelectorAll('.dnb-tabs__button'),
     )
 
     expect(first).toHaveAttribute('data-tab-key', 'first_key')
@@ -712,7 +712,7 @@ describe('A single Tab component', () => {
     render(
       <Tabs {...props} data={tablistData}>
         {contentWrapperData}
-      </Tabs>
+      </Tabs>,
     )
 
     const tablist = document.querySelector('.dnb-tabs__tabs__tablist')
@@ -730,7 +730,7 @@ describe('A single Tab component', () => {
     fireEvent(window, new Event('resize'))
 
     expect(document.querySelector('.dnb-tabs__tabs')).not.toHaveClass(
-      'dnb-tabs--has-scrollbar'
+      'dnb-tabs--has-scrollbar',
     )
 
     jest.restoreAllMocks()
@@ -745,7 +745,7 @@ describe('Tabs scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-tabs-theme-ui.scss')
+      require.resolve('../style/themes/dnb-tabs-theme-ui.scss'),
     )
     expect(css).toMatchSnapshot()
   })
@@ -756,7 +756,7 @@ describe('Tabs ARIA', () => {
     const Comp = render(
       <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
         {contentWrapperData}
-      </Tabs>
+      </Tabs>,
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })

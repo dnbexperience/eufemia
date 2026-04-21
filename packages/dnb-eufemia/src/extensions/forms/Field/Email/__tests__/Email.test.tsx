@@ -21,7 +21,7 @@ describe('Field.Email', () => {
     render(
       <Form.Handler onSubmit={onSubmit}>
         <Field.Email required />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const form = document.querySelector('form')
@@ -37,7 +37,7 @@ describe('Field.Email', () => {
     render(
       <Form.Handler onSubmit={onSubmit}>
         <Field.Email required path="/email" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
@@ -54,7 +54,7 @@ describe('Field.Email', () => {
 
     expect(onSubmit).toHaveBeenLastCalledWith(
       { email: 'user@example.com' },
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -64,7 +64,7 @@ describe('Field.Email', () => {
     render(
       <Form.Handler onSubmit={onSubmit}>
         <Field.Email path="/email" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const form = document.querySelector('form')
@@ -73,7 +73,7 @@ describe('Field.Email', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { email: undefined },
-      expect.anything()
+      expect.anything(),
     )
 
     const input = document.querySelector('input')
@@ -83,7 +83,7 @@ describe('Field.Email', () => {
 
     expect(onSubmit).toHaveBeenLastCalledWith(
       { email: 'user@example.com' },
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -115,7 +115,7 @@ describe('Field.Email', () => {
     render(
       <Form.Handler>
         <Field.Email path="/email" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
@@ -141,7 +141,7 @@ describe('Field.Email', () => {
     render(
       <Form.Handler>
         <Field.Email path="/email" maxLength={10} />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
@@ -157,7 +157,7 @@ describe('Field.Email', () => {
     render(
       <Form.Handler>
         <Field.Email path="/email" maxLength={undefined} />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
@@ -194,12 +194,12 @@ describe('Field.Email', () => {
     render(
       <Form.Handler required>
         <Field.Email required={false} />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const label = document.querySelector('label')
     expect(label).toHaveTextContent(
-      `${nb.Email.label} ${nb.Field.optionalLabelSuffix}`
+      `${nb.Email.label} ${nb.Field.optionalLabelSuffix}`,
     )
   })
 
@@ -326,7 +326,7 @@ describe('Field.Email', () => {
       render(<Field.Email validateInitially value={email} />)
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        nb.Email.errorPattern
+        nb.Email.errorPattern,
       )
     })
   })

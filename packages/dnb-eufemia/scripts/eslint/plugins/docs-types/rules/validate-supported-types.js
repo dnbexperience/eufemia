@@ -167,7 +167,7 @@ module.exports = {
             fix(fixer) {
               return fixer.replaceText(
                 typeNode,
-                `'${escapeForSingleQuotes(expectedValue)}'`
+                `'${escapeForSingleQuotes(expectedValue)}'`,
               )
             },
           })

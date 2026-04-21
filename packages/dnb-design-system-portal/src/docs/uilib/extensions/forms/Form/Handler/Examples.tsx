@@ -99,7 +99,7 @@ export const AsyncOnSubmitRequest = () => {
           // Return an error message to display in the form
           return {
             error: new Error(
-              `The form has ${errors.length} error(s). Please fix them before submitting.`
+              `The form has ${errors.length} error(s). Please fix them before submitting.`,
             ),
           }
         }}
@@ -127,7 +127,7 @@ export const AsyncChangeAndValidation = () => {
     <ComponentBox scope={{ debounceAsync, createRequest, stopIcon }}>
       {() => {
         const validator = debounceAsync(async function secondValidator(
-          value: string
+          value: string,
         ) {
           try {
             const request = createRequest()
@@ -443,7 +443,7 @@ export const TransformData = () => {
               data,
               ({ value, displayValue, label }) => {
                 return { value, displayValue, label }
-              }
+              },
             )
 
             setSubmitData(transformedData)

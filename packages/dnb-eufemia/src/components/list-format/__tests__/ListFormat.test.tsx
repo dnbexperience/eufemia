@@ -13,7 +13,7 @@ import { render } from '@testing-library/react'
 describe('ListFormat', () => {
   it('renders string values', () => {
     const { container } = render(
-      <ListFormat value={['Foo', 'Bar', 'Baz']} />
+      <ListFormat value={['Foo', 'Bar', 'Baz']} />,
     )
 
     expect(container).toHaveTextContent('Foo, Bar og Baz')
@@ -46,7 +46,7 @@ describe('ListFormat', () => {
             link
           </a>,
         ]}
-      />
+      />,
     )
 
     expect(container).toHaveTextContent('A, B, C, D, 123 og link')
@@ -64,7 +64,7 @@ describe('ListFormat', () => {
           'D',
           123,
         ]}
-      />
+      />,
     )
 
     expect(container).toHaveTextContent('A, B, C, D og 123')
@@ -75,7 +75,7 @@ describe('ListFormat', () => {
       <ListFormat
         value={[123, 456, 789]}
         format={{ style: 'short', type: 'disjunction' }}
-      />
+      />,
     )
 
     expect(container).toHaveTextContent('123, 456 eller 789')
@@ -95,15 +95,15 @@ describe('ListFormat', () => {
       <span key="c">c</span>,
     ]
     const { container: containerWithoutRootFragment } = render(
-      <ListFormat variant="ol" value={withRootFragment} />
+      <ListFormat variant="ol" value={withRootFragment} />,
     )
 
     const { container: containerWithRootFragment } = render(
-      <ListFormat variant="ol" value={withoutRootFragment} />
+      <ListFormat variant="ol" value={withoutRootFragment} />,
     )
 
     expect(containerWithoutRootFragment.textContent).toEqual(
-      containerWithRootFragment.textContent
+      containerWithRootFragment.textContent,
     )
   })
 
@@ -121,22 +121,22 @@ describe('ListFormat', () => {
       <span key="c">c</span>,
     ]
     const { container: containerWithoutRootFragment } = render(
-      <ListFormat variant="ol">{withRootFragment}</ListFormat>
+      <ListFormat variant="ol">{withRootFragment}</ListFormat>,
     )
 
     const { container: containerWithRootFragment } = render(
-      <ListFormat variant="ol">{withoutRootFragment}</ListFormat>
+      <ListFormat variant="ol">{withoutRootFragment}</ListFormat>,
     )
 
     expect(containerWithoutRootFragment.textContent).toEqual(
-      containerWithRootFragment.textContent
+      containerWithRootFragment.textContent,
     )
   })
 
   it('should render different variants', () => {
     const values = [123, 456, 789]
     const { container, rerender } = render(
-      <ListFormat variant="ol" value={values} />
+      <ListFormat variant="ol" value={values} />,
     )
 
     const valueBlock = container
@@ -146,7 +146,7 @@ describe('ListFormat', () => {
     expect(ol).toBeInTheDocument()
     expect(ol.children.length).toBe(3)
     expect(ol).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
     rerender(<ListFormat variant="ul" value={values} />)
 
@@ -156,7 +156,7 @@ describe('ListFormat', () => {
     expect(ul).toBeInTheDocument()
     expect(ul.children.length).toBe(3)
     expect(ul).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
 
     rerender(<ListFormat variant="text" value={values} />)
@@ -169,7 +169,7 @@ describe('ListFormat', () => {
   it('should render different `listTypes` using value', () => {
     const values = [123, 456, 789]
     const { container, rerender } = render(
-      <ListFormat variant="ol" listType="a" value={values} />
+      <ListFormat variant="ol" listType="a" value={values} />,
     )
 
     const valueBlock = container
@@ -179,52 +179,52 @@ describe('ListFormat', () => {
 
     expect(list('ol')).toHaveAttribute('type', 'a')
     expect(list('ol')).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
 
     rerender(<ListFormat variant="ol" listType="A" value={values} />)
     expect(list('ol')).toHaveAttribute('type', 'A')
     expect(list('ol')).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
 
     rerender(<ListFormat variant="ol" listType="i" value={values} />)
     expect(list('ol')).toHaveAttribute('type', 'i')
     expect(list('ol')).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
 
     rerender(<ListFormat variant="ol" listType="I" value={values} />)
     expect(list('ol')).toHaveAttribute('type', 'I')
     expect(list('ol')).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
 
     rerender(<ListFormat variant="ul" listType="circle" value={values} />)
     expect(list('ul')).toHaveAttribute('type', 'circle')
     expect(list('ul')).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
 
     rerender(<ListFormat variant="ul" listType="disc" value={values} />)
     expect(list('ul')).toHaveAttribute('type', 'disc')
     expect(list('ul')).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
 
     rerender(<ListFormat variant="ul" listType="square" value={values} />)
     expect(list('ul')).toHaveAttribute('type', 'square')
     expect(list('ul')).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
 
     rerender(
-      <ListFormat variant="ul" listType="unstyled" value={values} />
+      <ListFormat variant="ul" listType="unstyled" value={values} />,
     )
     expect(list('ul')).not.toHaveAttribute('type')
     expect(list('ul')).toHaveClass('dnb-unstyled-list dnb-ul')
     expect(list('ul')).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
   })
 
@@ -233,7 +233,7 @@ describe('ListFormat', () => {
     const { container, rerender } = render(
       <ListFormat variant="ol" listType="a">
         {values}
-      </ListFormat>
+      </ListFormat>,
     )
 
     const valueBlock = container
@@ -243,78 +243,78 @@ describe('ListFormat', () => {
 
     expect(list('ol')).toHaveAttribute('type', 'a')
     expect(list('ol')).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
 
     rerender(
       <ListFormat variant="ol" listType="A">
         {values}
-      </ListFormat>
+      </ListFormat>,
     )
     expect(list('ol')).toHaveAttribute('type', 'A')
     expect(list('ol')).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
 
     rerender(
       <ListFormat variant="ol" listType="i">
         {values}
-      </ListFormat>
+      </ListFormat>,
     )
     expect(list('ol')).toHaveAttribute('type', 'i')
     expect(list('ol')).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
 
     rerender(
       <ListFormat variant="ol" listType="I">
         {values}
-      </ListFormat>
+      </ListFormat>,
     )
     expect(list('ol')).toHaveAttribute('type', 'I')
     expect(list('ol')).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
 
     rerender(
       <ListFormat variant="ul" listType="circle">
         {values}
-      </ListFormat>
+      </ListFormat>,
     )
     expect(list('ul')).toHaveAttribute('type', 'circle')
     expect(list('ul')).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
 
     rerender(
       <ListFormat variant="ul" listType="disc">
         {values}
-      </ListFormat>
+      </ListFormat>,
     )
     expect(list('ul')).toHaveAttribute('type', 'disc')
     expect(list('ul')).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
 
     rerender(
       <ListFormat variant="ul" listType="square">
         {values}
-      </ListFormat>
+      </ListFormat>,
     )
     expect(list('ul')).toHaveAttribute('type', 'square')
     expect(list('ul')).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
 
     rerender(
       <ListFormat variant="ul" listType="unstyled">
         {values}
-      </ListFormat>
+      </ListFormat>,
     )
     expect(list('ul')).not.toHaveAttribute('type')
     expect(list('ul')).toHaveClass('dnb-unstyled-list dnb-ul')
     expect(list('ul')).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
   })
 
@@ -330,7 +330,7 @@ describe('ListFormat', () => {
     const { container, rerender } = render(
       <ListFormat variant="ol" listType="a">
         {values}
-      </ListFormat>
+      </ListFormat>,
     )
 
     const valueBlock = container
@@ -340,67 +340,67 @@ describe('ListFormat', () => {
 
     expect(list('ol')).toHaveAttribute('type', 'a')
     expect(list('ol')).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
 
     rerender(
       <ListFormat variant="ol" listType="A">
         {values}
-      </ListFormat>
+      </ListFormat>,
     )
     expect(list('ol')).toHaveAttribute('type', 'A')
     expect(list('ol')).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
 
     rerender(
       <ListFormat variant="ol" listType="i">
         {values}
-      </ListFormat>
+      </ListFormat>,
     )
     expect(list('ol')).toHaveAttribute('type', 'i')
     expect(list('ol')).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
 
     rerender(
       <ListFormat variant="ol" listType="I">
         {values}
-      </ListFormat>
+      </ListFormat>,
     )
     expect(list('ol')).toHaveAttribute('type', 'I')
     expect(list('ol')).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
 
     rerender(
       <ListFormat variant="ul" listType="circle">
         {values}
-      </ListFormat>
+      </ListFormat>,
     )
     expect(list('ul')).toHaveAttribute('type', 'circle')
     expect(list('ul')).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
 
     rerender(
       <ListFormat variant="ul" listType="disc">
         {values}
-      </ListFormat>
+      </ListFormat>,
     )
     expect(list('ul')).toHaveAttribute('type', 'disc')
     expect(list('ul')).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
 
     rerender(
       <ListFormat variant="ul" listType="square">
         {values}
-      </ListFormat>
+      </ListFormat>,
     )
     expect(list('ul')).toHaveAttribute('type', 'square')
     expect(list('ul')).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
   })
 
@@ -415,7 +415,7 @@ describe('ListFormat', () => {
     const { container, rerender } = render(
       <ListFormat variant="ol" listType="a">
         {values}
-      </ListFormat>
+      </ListFormat>,
     )
 
     const valueBlock = container
@@ -428,42 +428,42 @@ describe('ListFormat', () => {
     rerender(
       <ListFormat variant="ol" listType="A">
         {values}
-      </ListFormat>
+      </ListFormat>,
     )
     expect(list('ol')).toHaveAttribute('type', 'A')
 
     rerender(
       <ListFormat variant="ol" listType="i">
         {values}
-      </ListFormat>
+      </ListFormat>,
     )
     expect(list('ol')).toHaveAttribute('type', 'i')
 
     rerender(
       <ListFormat variant="ol" listType="I">
         {values}
-      </ListFormat>
+      </ListFormat>,
     )
     expect(list('ol')).toHaveAttribute('type', 'I')
 
     rerender(
       <ListFormat variant="ul" listType="circle">
         {values}
-      </ListFormat>
+      </ListFormat>,
     )
     expect(list('ul')).toHaveAttribute('type', 'circle')
 
     rerender(
       <ListFormat variant="ul" listType="disc">
         {values}
-      </ListFormat>
+      </ListFormat>,
     )
     expect(list('ul')).toHaveAttribute('type', 'disc')
 
     rerender(
       <ListFormat variant="ul" listType="square">
         {values}
-      </ListFormat>
+      </ListFormat>,
     )
     expect(list('ul')).toHaveAttribute('type', 'square')
   })
@@ -472,7 +472,7 @@ describe('ListFormat', () => {
     const { container } = render(
       <Provider locale="en-GB">
         <ListFormat value={['Baz', 'Bar', 'Foo']} />
-      </Provider>
+      </Provider>,
     )
 
     expect(container).toHaveTextContent('Baz, Bar and Foo')
@@ -482,7 +482,7 @@ describe('ListFormat', () => {
     const { container } = render(
       <Provider locale="en-GB">
         <ListFormat>{['Baz', 'Bar', 'Foo']}</ListFormat>
-      </Provider>
+      </Provider>,
     )
 
     expect(container).toHaveTextContent('Baz, Bar and Foo')
@@ -496,7 +496,7 @@ describe('ListFormat', () => {
           <>Bar</>
           <>Foo</>
         </ListFormat>
-      </Provider>
+      </Provider>,
     )
 
     expect(container).toHaveTextContent('Baz, Bar and Foo')
@@ -510,7 +510,7 @@ describe('ListFormat', () => {
           <React.Fragment key="456">Bar</React.Fragment>
           <React.Fragment key="789">Foo</React.Fragment>
         </ListFormat>
-      </Provider>
+      </Provider>,
     )
 
     expect(container).toHaveTextContent('Baz, Bar and Foo')
@@ -523,7 +523,7 @@ describe('ListFormat', () => {
         variant="ol"
         listType="a"
         top="large"
-      />
+      />,
     )
 
     const element = document.querySelector('.dnb-list-format')
@@ -570,7 +570,7 @@ describe('listFormat', () => {
 
   it('accepts array with falsy values', () => {
     expect(listFormat([null, undefined, false, NaN, '', 0, -0])).toBe(
-      ', 0 og 0'
+      ', 0 og 0',
     )
   })
 
@@ -632,14 +632,14 @@ describe('listFormat', () => {
       <span key="c">c</span>,
     ])
     const { container: containerWithRootFragment } = render(
-      withRootFragment as any
+      withRootFragment as any,
     )
     const { container: containerWithoutRootFragment } = render(
-      withoutRootFragment as any
+      withoutRootFragment as any,
     )
 
     expect(containerWithRootFragment.textContent).toEqual(
-      containerWithoutRootFragment.textContent
+      containerWithoutRootFragment.textContent,
     )
   })
 
@@ -647,7 +647,7 @@ describe('listFormat', () => {
     expect(
       listFormat([123, 456, 789], {
         format: { style: 'short', type: 'disjunction' },
-      })
+      }),
     ).toBe('123, 456 eller 789')
   })
 
@@ -656,7 +656,7 @@ describe('listFormat', () => {
       listFormat([123, 456, 789], {
         locale: 'en-US',
         format: { style: 'short', type: 'disjunction' },
-      })
+      }),
     ).toBe('123, 456, or 789')
   })
 })

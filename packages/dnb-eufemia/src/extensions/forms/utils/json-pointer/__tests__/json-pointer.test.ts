@@ -215,9 +215,9 @@ describe('json-pointer', () => {
         function () {
           remove(rfcExample, [...rfcParsed[p].tokens])
           expect(() => get(rfcExample, [...rfcParsed[p].tokens])).toThrow(
-            Error
+            Error,
           )
-        }
+        },
       )
     })
 
@@ -370,7 +370,7 @@ describe('json-pointer', () => {
   describe('compile', () => {
     it('should build a json pointer from an array of reference tokens', () => {
       expect(compile(['hello~bla', 'test/bla'])).toBe(
-        '/hello~0bla/test~1bla'
+        '/hello~0bla/test~1bla',
       )
     })
   })
@@ -379,7 +379,7 @@ describe('json-pointer', () => {
     Object.keys(rfcValues).forEach((p) => {
       it('should equal for "' + p + '"', () => {
         expect(
-          compile(parse(p) as Extract<PointerPath, Array<string>>)
+          compile(parse(p) as Extract<PointerPath, Array<string>>),
         ).toBe(p)
       })
     })

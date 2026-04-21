@@ -46,13 +46,13 @@ export type EventListenerCall = {
     | 'onMount'
     | 'onSetFieldError'
   callback: (
-    params?: { value: unknown } | { preventSubmit: () => void }
+    params?: { value: unknown } | { preventSubmit: () => void },
   ) => void | Promise<void | Error>
 }
 
 export type VisibleDataHandler<Data> = (
   data?: Data,
-  options?: VisibleDataOptions
+  options?: VisibleDataOptions,
 ) => Partial<Data>
 export type VisibleDataOptions = {
   keepPaths?: Array<Path>
@@ -60,20 +60,20 @@ export type VisibleDataOptions = {
 }
 export type MutateDataHandler<Data> = (
   data: Data,
-  mutate: TransformData
+  mutate: TransformData,
 ) => Partial<Data>
 export type FilterDataHandler<Data> = (
   data: Data,
-  filter: FilterData
+  filter: FilterData,
 ) => Partial<Data>
 export type FilterDataHandlerCallback<R> = (
-  parameters: FilterDataHandlerParameters
+  parameters: FilterDataHandlerParameters,
 ) => R
 export type FilterDataHandlerParameters = DataPathHandlerParameters & {
   path: Path
 }
 export type DataPathHandler<Data = unknown> = (
-  parameters: DataPathHandlerParameters<Data>
+  parameters: DataPathHandlerParameters<Data>,
 ) => boolean | undefined
 export type DataPathHandlerParameters<Data = unknown> = {
   path: Path
@@ -131,7 +131,7 @@ export type ContextState = {
   autoComplete?: boolean
   handlePathChange: (
     path: Path,
-    value?: any
+    value?: any,
   ) =>
     | EventReturnWithStateObject
     | unknown
@@ -140,7 +140,7 @@ export type ContextState = {
   updateDataValue: (
     path: Path,
     value: any,
-    options?: { preventUpdate?: boolean }
+    options?: { preventUpdate?: boolean },
   ) => void
   setData: (data: any, options?: { preventUpdate?: boolean }) => void
   clearData?: () => void
@@ -160,7 +160,7 @@ export type ContextState = {
   setMountedFieldState: (path: Path, options: MountState) => void
   setFormState?: (
     state: SubmitState,
-    options?: { keepPending?: boolean }
+    options?: { keepPending?: boolean },
   ) => void
   setSubmitState?: (state: EventStateObject) => void
   addOnChangeHandler?: (callback: OnChange) => void
@@ -184,12 +184,12 @@ export type ContextState = {
     path: EventListenerCall['path'],
     type: EventListenerCall['type'],
     callback: EventListenerCall['callback'],
-    params?: { remove?: boolean }
+    params?: { remove?: boolean },
   ) => void
   revealError?: (path: Path, hasError: boolean) => void
   setFieldInternals?: <Props>(
     path: Path,
-    internals: FieldInternalsValue<Props>
+    internals: FieldInternalsValue<Props>,
   ) => void
   setValueInternals?: (path: Path, props: unknown) => void
   setFieldConnection?: (path: Path, connections: FieldConnections) => void
@@ -227,7 +227,7 @@ export type ContextState = {
   restHandlerProps?: Record<string, unknown>
   setActiveSubmitButtonId?: (id?: string) => void
   registerSectionSchema?: (
-    registration: SectionSchemaRegistration
+    registration: SectionSchemaRegistration,
   ) => () => void
   sectionSchemaPathsRef?: React.RefObject<Set<Path>>
   props: ProviderProps<JsonObject>

@@ -20,17 +20,17 @@ describe('Field.SelectCountry', () => {
     render(<Field.SelectCountry size="large" />)
 
     const autocompleteElement: HTMLInputElement = document.querySelector(
-      '.dnb-autocomplete'
+      '.dnb-autocomplete',
     )
     expect(autocompleteElement.classList).toContain(
-      'dnb-autocomplete--large'
+      'dnb-autocomplete--large',
     )
 
     const selectCountryElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-country'
+      '.dnb-forms-field-select-country',
     )
     expect(selectCountryElement.classList).toContain(
-      'dnb-forms-field-block--label-height-large'
+      'dnb-forms-field-block--label-height-large',
     )
   })
 
@@ -44,11 +44,11 @@ describe('Field.SelectCountry', () => {
         onChange={onChange}
         onBlur={onBlur}
         onFocus={onFocus}
-      />
+      />,
     )
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-country input'
+      '.dnb-forms-field-select-country input',
     )
     const firstItemElement = () =>
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
@@ -104,13 +104,13 @@ describe('Field.SelectCountry', () => {
     render(<Field.SelectCountry onChange={onChange} />)
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-country input'
+      '.dnb-forms-field-select-country input',
     )
     const liElements = () =>
       document.querySelectorAll('li:not([aria-hidden])')
     const selectedItemElement = () =>
       document.querySelector(
-        '.dnb-drawer-list__option.dnb-drawer-list__option--selected'
+        '.dnb-drawer-list__option.dnb-drawer-list__option--selected',
       )
 
     fireEvent.focus(inputElement)
@@ -137,11 +137,11 @@ describe('Field.SelectCountry', () => {
     render(
       <Field.SelectCountry
         filterCountries={({ regions }) => regions?.includes('Scandinavia')}
-      />
+      />,
     )
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-country input'
+      '.dnb-forms-field-select-country input',
     )
 
     // open
@@ -154,7 +154,7 @@ describe('Field.SelectCountry', () => {
     expect(liElements[2].textContent).toBe('Danmark')
 
     expect(
-      document.querySelector('li.dnb-drawer-list__option--selected')
+      document.querySelector('li.dnb-drawer-list__option--selected'),
     ).not.toBeInTheDocument()
   })
 
@@ -162,7 +162,7 @@ describe('Field.SelectCountry', () => {
     render(<Field.SelectCountry />)
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-country input'
+      '.dnb-forms-field-select-country input',
     )
 
     // open
@@ -181,11 +181,11 @@ describe('Field.SelectCountry', () => {
     const { rerender } = render(
       <Form.Handler>
         <Field.SelectCountry />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-country input'
+      '.dnb-forms-field-select-country input',
     )
 
     // open
@@ -199,13 +199,13 @@ describe('Field.SelectCountry', () => {
     rerender(
       <Form.Handler locale="en-GB">
         <Field.SelectCountry />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     {
       const liElements = document.querySelectorAll('li:not([aria-hidden])')
       expect(liElements[liElements.length - 1].textContent).toBe(
-        'Åland Islands'
+        'Åland Islands',
       )
     }
   })
@@ -214,7 +214,7 @@ describe('Field.SelectCountry', () => {
     render(<Field.SelectCountry countries="Scandinavia" />)
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-country input'
+      '.dnb-forms-field-select-country input',
     )
 
     // open
@@ -232,11 +232,11 @@ describe('Field.SelectCountry', () => {
       <Field.SelectCountry
         countries="Scandinavia"
         filterCountries={({ iso }) => iso !== 'DK'}
-      />
+      />,
     )
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-country input'
+      '.dnb-forms-field-select-country input',
     )
 
     // open
@@ -252,7 +252,7 @@ describe('Field.SelectCountry', () => {
     render(<Field.SelectCountry countries="Prioritized" />)
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-country input'
+      '.dnb-forms-field-select-country input',
     )
 
     // open
@@ -272,15 +272,15 @@ describe('Field.SelectCountry', () => {
       <Form.Handler>
         <Field.SelectCountry required />
         <Form.SubmitButton />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const buttonElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-submit-button'
+      '.dnb-forms-submit-button',
     )
 
     expect(
-      document.querySelector('.dnb-form-status')
+      document.querySelector('.dnb-form-status'),
     ).not.toBeInTheDocument()
 
     fireEvent.click(buttonElement)
@@ -292,11 +292,11 @@ describe('Field.SelectCountry', () => {
     render(
       <Form.Handler defaultData={{ country: 'NO' }}>
         <Field.SelectCountry path="/country" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-country input'
+      '.dnb-forms-field-select-country input',
     )
 
     expect(inputElement.value).toBe('Norge')
@@ -310,11 +310,11 @@ describe('Field.SelectCountry', () => {
         <Iterate.Array path="/items">
           <Field.SelectCountry itemPath="/country" />
         </Iterate.Array>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [norway, denmark] = Array.from(
-      document.querySelectorAll('.dnb-forms-field-select-country')
+      document.querySelectorAll('.dnb-forms-field-select-country'),
     )
 
     expect(norway.querySelector('input')).toHaveValue('Norge')
@@ -323,7 +323,7 @@ describe('Field.SelectCountry', () => {
 
   it('should execute validateInitially if required', () => {
     const { rerender } = render(
-      <Field.SelectCountry required validateInitially />
+      <Field.SelectCountry required validateInitially />,
     )
 
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
@@ -331,7 +331,7 @@ describe('Field.SelectCountry', () => {
     rerender(<Field.SelectCountry validateInitially />)
 
     expect(
-      document.querySelector('.dnb-form-status')
+      document.querySelector('.dnb-form-status'),
     ).not.toBeInTheDocument()
   })
 
@@ -339,18 +339,18 @@ describe('Field.SelectCountry', () => {
     const { rerender } = render(
       <Provider>
         <Field.SelectCountry value="NO" />
-      </Provider>
+      </Provider>,
     )
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-country input'
+      '.dnb-forms-field-select-country input',
     )
 
     fireEvent.mouseDown(inputElement)
 
     const selectedItemElement = () =>
       document.querySelector(
-        '.dnb-drawer-list__option.dnb-drawer-list__option--selected'
+        '.dnb-drawer-list__option.dnb-drawer-list__option--selected',
       )
 
     expect(inputElement.value).toBe('Norge')
@@ -359,7 +359,7 @@ describe('Field.SelectCountry', () => {
     rerender(
       <Provider locale="en-GB">
         <Field.SelectCountry value="NO" />
-      </Provider>
+      </Provider>,
     )
 
     fireEvent.mouseDown(inputElement)
@@ -372,7 +372,7 @@ describe('Field.SelectCountry', () => {
     rerender(
       <Provider locale="nb-NO">
         <Field.SelectCountry value="DK" />
-      </Provider>
+      </Provider>,
     )
 
     fireEvent.mouseDown(inputElement)
@@ -397,7 +397,7 @@ describe('Field.SelectCountry', () => {
     render(
       <FieldBlock>
         <Field.SelectCountry error={errorMessage} />
-      </FieldBlock>
+      </FieldBlock>,
     )
 
     const input = document.querySelector('.dnb-autocomplete__input')
@@ -434,7 +434,7 @@ describe('Field.SelectCountry', () => {
           path="/country"
           transformIn={valueTransformIn}
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const NO = {
@@ -469,7 +469,7 @@ describe('Field.SelectCountry', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { country: 'Norge (NO)' },
-      expect.anything()
+      expect.anything(),
     )
 
     expect(transformOut).toHaveBeenCalledTimes(1)
@@ -496,7 +496,7 @@ describe('Field.SelectCountry', () => {
     expect(onSubmit).toHaveBeenCalledTimes(2)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { country: 'Sveits (CH)' },
-      expect.anything()
+      expect.anything(),
     )
 
     expect(transformOut).toHaveBeenCalledTimes(4)
@@ -555,7 +555,7 @@ describe('Field.SelectCountry', () => {
           path="/country"
           transformIn={valueTransformIn}
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const NO = {
@@ -590,7 +590,7 @@ describe('Field.SelectCountry', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { country: 'Norge (NO)' },
-      expect.anything()
+      expect.anything(),
     )
 
     expect(transformOut).toHaveBeenCalledTimes(0)
@@ -617,7 +617,7 @@ describe('Field.SelectCountry', () => {
     expect(onSubmit).toHaveBeenCalledTimes(2)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { country: 'Sveits (CH)' },
-      expect.anything()
+      expect.anything(),
     )
 
     expect(transformOut).toHaveBeenCalledTimes(3)
@@ -652,7 +652,7 @@ describe('Field.SelectCountry', () => {
             return null
           }}
         </DataContext.Consumer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
@@ -683,25 +683,25 @@ describe('Field.SelectCountry', () => {
         <Iterate.PushContainer path="/persons">
           <Field.SelectCountry itemPath="/" defaultValue="NO" />
         </Iterate.PushContainer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
-      document.querySelector('.dnb-drawer-list__option')
+      document.querySelector('.dnb-drawer-list__option'),
     ).not.toBeInTheDocument()
   })
 
   it('should have default autoComplete', () => {
     render(<Field.SelectCountry />)
     expect(
-      document.querySelector('input').getAttribute('autocomplete')
+      document.querySelector('input').getAttribute('autocomplete'),
     ).toBe('country-name')
   })
 
   it('should render autoComplete when provided', () => {
     render(<Field.SelectCountry autoComplete="country" />)
     expect(
-      document.querySelector('input').getAttribute('autocomplete')
+      document.querySelector('input').getAttribute('autocomplete'),
     ).toBe('country')
   })
 
@@ -739,7 +739,7 @@ describe('Field.SelectCountry', () => {
     render(<Field.SelectCountry defaultValue="NO" noAnimation />)
 
     const input: HTMLInputElement = document.querySelector(
-      '.dnb-autocomplete input'
+      '.dnb-autocomplete input',
     )
 
     await userEvent.click(input)
@@ -753,7 +753,7 @@ describe('Field.SelectCountry', () => {
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(
-        <Field.SelectCountry required validateInitially />
+        <Field.SelectCountry required validateInitially />,
       )
 
       expect(await axeComponent(result)).toHaveNoViolations()
@@ -781,11 +781,11 @@ describe('Field.SelectCountry', () => {
     render(
       <Form.Handler onChange={onChange} onSubmit={onSubmit}>
         <Field.SelectCountry path="/country" value="SE" noAnimation />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-country input'
+      '.dnb-forms-field-select-country input',
     )
 
     // Initial state: should show Sverige

@@ -30,21 +30,21 @@ describe('ToggleButton component', () => {
     expect(
       document
         .querySelector('.dnb-checkbox__input')
-        .getAttribute('data-checked')
+        .getAttribute('data-checked'),
     ).toBe('false')
 
     fireEvent.click(document.querySelector('button')) // we could send inn the event data structure like this: , { target: { checked: true } }
     expect(
       document
         .querySelector('.dnb-checkbox__input')
-        .getAttribute('data-checked')
+        .getAttribute('data-checked'),
     ).toBe('true')
 
     fireEvent.click(document.querySelector('button'))
     expect(
       document
         .querySelector('.dnb-checkbox__input')
-        .getAttribute('data-checked')
+        .getAttribute('data-checked'),
     ).toBe('false')
 
     // also check if getDerivedStateFromProps sets the state as expected
@@ -52,48 +52,48 @@ describe('ToggleButton component', () => {
     expect(
       document
         .querySelector('.dnb-checkbox__input')
-        .getAttribute('data-checked')
+        .getAttribute('data-checked'),
     ).toBe('true')
   })
 
   it('has correct variant', () => {
     const { rerender } = render(
-      <ToggleButton variant="checkbox" checked={false} />
+      <ToggleButton variant="checkbox" checked={false} />,
     )
 
     // default checked value has to be false
     expect(
       document
         .querySelector('.dnb-checkbox__input')
-        .getAttribute('data-checked')
+        .getAttribute('data-checked'),
     ).toBe('false')
 
     fireEvent.click(document.querySelector('button')) // we could send inn the event data structure like this: , { target: { checked: true } }
     expect(
       document
         .querySelector('.dnb-checkbox__input')
-        .getAttribute('data-checked')
+        .getAttribute('data-checked'),
     ).toBe('true')
     expect(
-      document.querySelector('.dnb-checkbox__button')
+      document.querySelector('.dnb-checkbox__button'),
     ).toBeInTheDocument()
 
     rerender(<ToggleButton variant="radio" checked={false} />)
 
     expect(
-      document.querySelector('.dnb-radio__button')
+      document.querySelector('.dnb-radio__button'),
     ).toBeInTheDocument()
     expect(
       document
         .querySelector('.dnb-radio__input')
-        .getAttribute('data-checked')
+        .getAttribute('data-checked'),
     ).toBe('true')
 
     fireEvent.click(document.querySelector('button')) // we could send inn the event data structure like this: , { target: { checked: true } }
     expect(
       document
         .querySelector('.dnb-radio__input')
-        .getAttribute('data-checked')
+        .getAttribute('data-checked'),
     ).toBe('false')
   })
 
@@ -142,27 +142,27 @@ describe('ToggleButton component', () => {
       expect(
         document
           .querySelector('.dnb-checkbox__input')
-          .getAttribute('data-checked')
+          .getAttribute('data-checked'),
       ).toBe('true')
       expect(
         document
           .querySelector('button.dnb-toggle-button__button')
-          .getAttribute('aria-pressed')
+          .getAttribute('aria-pressed'),
       ).toBe('true')
 
       // change it to false
       fireEvent.click(
-        document.querySelector('button.dnb-toggle-button__button')
+        document.querySelector('button.dnb-toggle-button__button'),
       )
       expect(
         document
           .querySelector('.dnb-checkbox__input')
-          .getAttribute('data-checked')
+          .getAttribute('data-checked'),
       ).toBe('false')
       expect(
         document
           .querySelector('button.dnb-toggle-button__button')
-          .getAttribute('aria-pressed')
+          .getAttribute('aria-pressed'),
       ).toBe('false')
 
       // set it to true
@@ -170,12 +170,12 @@ describe('ToggleButton component', () => {
       expect(
         document
           .querySelector('button.dnb-toggle-button__button')
-          .getAttribute('aria-pressed')
+          .getAttribute('aria-pressed'),
       ).toBe('true')
       expect(
         document
           .querySelector('.dnb-checkbox__input')
-          .getAttribute('data-checked')
+          .getAttribute('data-checked'),
       ).toBe('true')
 
       // reset it with undefined to false
@@ -183,7 +183,7 @@ describe('ToggleButton component', () => {
       expect(
         document
           .querySelector('.dnb-checkbox__input')
-          .getAttribute('data-checked')
+          .getAttribute('data-checked'),
       ).toBe('false')
 
       // set it to true + reset it with null to false
@@ -192,7 +192,7 @@ describe('ToggleButton component', () => {
       expect(
         document
           .querySelector('.dnb-checkbox__input')
-          .getAttribute('data-checked')
+          .getAttribute('data-checked'),
       ).toBe('false')
 
       // re-render + still false
@@ -200,7 +200,7 @@ describe('ToggleButton component', () => {
       expect(
         document
           .querySelector('.dnb-checkbox__input')
-          .getAttribute('data-checked')
+          .getAttribute('data-checked'),
       ).toBe('false')
 
       cleanup()
@@ -210,7 +210,7 @@ describe('ToggleButton component', () => {
     TestStates(
       <React.StrictMode>
         <ControlledVsUncontrolled />
-      </React.StrictMode>
+      </React.StrictMode>,
     )
   })
 
@@ -225,18 +225,18 @@ describe('ToggleButton component', () => {
     expect(
       document
         .querySelector('button.dnb-toggle-button__button')
-        .getAttribute('role')
+        .getAttribute('role'),
     ).toBe('radio')
 
     expect(
       document
         .querySelector('button.dnb-toggle-button__button')
-        .getAttribute('aria-pressed')
+        .getAttribute('aria-pressed'),
     ).toBe(null)
     expect(
       document
         .querySelector('button.dnb-toggle-button__button')
-        .getAttribute('aria-checked')
+        .getAttribute('aria-checked'),
     ).toBe('false')
 
     fireEvent.click(document.querySelector('button'))
@@ -244,12 +244,12 @@ describe('ToggleButton component', () => {
     expect(
       document
         .querySelector('button.dnb-toggle-button__button')
-        .getAttribute('aria-pressed')
+        .getAttribute('aria-pressed'),
     ).toBe(null)
     expect(
       document
         .querySelector('button.dnb-toggle-button__button')
-        .getAttribute('aria-checked')
+        .getAttribute('aria-checked'),
     ).toBe('true')
   })
 
@@ -258,18 +258,18 @@ describe('ToggleButton component', () => {
     expect(
       document
         .querySelector('button.dnb-toggle-button__button')
-        .getAttribute('role')
+        .getAttribute('role'),
     ).toBe('checkbox')
 
     expect(
       document
         .querySelector('button.dnb-toggle-button__button')
-        .getAttribute('aria-pressed')
+        .getAttribute('aria-pressed'),
     ).toBe(null)
     expect(
       document
         .querySelector('button.dnb-toggle-button__button')
-        .getAttribute('aria-checked')
+        .getAttribute('aria-checked'),
     ).toBe('false')
 
     fireEvent.click(document.querySelector('button'))
@@ -277,12 +277,12 @@ describe('ToggleButton component', () => {
     expect(
       document
         .querySelector('button.dnb-toggle-button__button')
-        .getAttribute('aria-pressed')
+        .getAttribute('aria-pressed'),
     ).toBe(null)
     expect(
       document
         .querySelector('button.dnb-toggle-button__button')
-        .getAttribute('aria-checked')
+        .getAttribute('aria-checked'),
     ).toBe('true')
   })
 
@@ -315,12 +315,12 @@ describe('ToggleButton component', () => {
     render(
       <Provider formElement={{ labelDirection: 'vertical' }}>
         <ToggleButton label="Label" />
-      </Provider>
+      </Provider>,
     )
 
     const element = document.querySelector('.dnb-toggle-button')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual(['class'])
@@ -336,14 +336,14 @@ describe('ToggleButton component', () => {
     const button = document.querySelector('button')
 
     expect(
-      document.querySelector('.dnb-tooltip--active')
+      document.querySelector('.dnb-tooltip--active'),
     ).not.toBeInTheDocument()
 
     await userEvent.hover(button)
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-tooltip--active')
+        document.querySelector('.dnb-tooltip--active'),
       ).toBeInTheDocument()
     })
   })
@@ -364,7 +364,7 @@ describe('ToggleButton component', () => {
       const icon = document.querySelector('.dnb-icon')
       expect(button.classList).toContain('dnb-button--size-medium')
       expect(button.classList).not.toContain(
-        'dnb-button--icon-size-medium'
+        'dnb-button--icon-size-medium',
       )
       expect(icon.classList).toContain('dnb-icon--default')
     })
@@ -402,7 +402,7 @@ describe('ToggleButton scss', () => {
 
   it('should match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-toggle-button-theme-ui.scss')
+      require.resolve('../style/themes/dnb-toggle-button-theme-ui.scss'),
     )
     expect(css).toMatchSnapshot()
   })

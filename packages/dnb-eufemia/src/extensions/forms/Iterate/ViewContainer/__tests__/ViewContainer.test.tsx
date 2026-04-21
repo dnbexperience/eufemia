@@ -12,7 +12,7 @@ describe('ViewContainer', () => {
     const { rerender } = render(
       <IterateItemContext value={{ containerMode: 'edit', value: 'foo' }}>
         <ViewContainer>content</ViewContainer>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     const element = document.querySelector('.dnb-forms-section-block')
@@ -27,7 +27,7 @@ describe('ViewContainer', () => {
     rerender(
       <IterateItemContext value={{ containerMode: 'view', value: 'foo' }}>
         <ViewContainer>content</ViewContainer>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
@@ -39,7 +39,7 @@ describe('ViewContainer', () => {
     render(
       <IterateItemContext value={{ switchContainerMode }}>
         <ViewContainer>content</ViewContainer>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -52,11 +52,11 @@ describe('ViewContainer', () => {
     render(
       <IterateItemContext value={{ containerMode: 'edit' }}>
         <ViewContainer title="Item title">content</ViewContainer>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     expect(document.querySelector('.dnb-p')).toHaveTextContent(
-      'Item title'
+      'Item title',
     )
   })
 
@@ -64,7 +64,7 @@ describe('ViewContainer', () => {
     render(
       <Iterate.Array value={['foo', 'bar']}>
         <ViewContainer title="Item title {itemNo}">content</ViewContainer>
-      </Iterate.Array>
+      </Iterate.Array>,
     )
 
     const leads = document.querySelectorAll('.dnb-p')
@@ -79,7 +79,7 @@ describe('ViewContainer', () => {
     render(
       <IterateItemContext value={{ handleRemove }}>
         <ViewContainer>content</ViewContainer>{' '}
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     fireEvent.click(document.querySelectorAll('button')[1])
@@ -91,11 +91,11 @@ describe('ViewContainer', () => {
     render(
       <IterateItemContext value={{ containerMode: 'view' }}>
         <ViewContainer>content</ViewContainer>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     expect(
-      document.querySelector('.dnb-forms-section-view-block')
+      document.querySelector('.dnb-forms-section-view-block'),
     ).toBeInTheDocument()
   })
 
@@ -103,13 +103,13 @@ describe('ViewContainer', () => {
     render(
       <IterateItemContext value={{ containerMode: 'view' }}>
         <ViewContainer data-attr="value">content</ViewContainer>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-section-view-block .dnb-forms-section-block__inner'
-      )
+        '.dnb-forms-section-view-block .dnb-forms-section-block__inner',
+      ),
     ).toHaveAttribute('data-attr', 'value')
   })
 
@@ -117,7 +117,7 @@ describe('ViewContainer', () => {
     render(
       <IterateItemContext value={{ containerMode: 'view' }}>
         <ViewContainer>content</ViewContainer>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     const buttons = document.querySelectorAll('button')
@@ -147,7 +147,7 @@ describe('ViewContainer', () => {
         <IterateItemContext value={{ containerMode: 'view' }}>
           <ViewContainer>content</ViewContainer>
         </IterateItemContext>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(screen.getByText(remove)).toBeInTheDocument()

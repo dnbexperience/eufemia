@@ -129,7 +129,7 @@ function ValueBlock(localProps: ValueBlockProps) {
     isCompositionInContext ? null : ref,
     label,
     path,
-    itemPath
+    itemPath,
   )
 
   const summaryListLayout = summaryListContext?.layout
@@ -156,7 +156,7 @@ function ValueBlock(localProps: ValueBlockProps) {
         content
       )
     },
-    [hasHelp, help, id, summaryListLayout]
+    [hasHelp, help, id, summaryListLayout],
   )
 
   let content = null
@@ -164,7 +164,7 @@ function ValueBlock(localProps: ValueBlockProps) {
   const defaultClass = clsx(
     'dnb-forms-value-block__content',
     `dnb-forms-value-block__content--gap-${gap === false ? 'none' : gap}`,
-    maxWidth && `dnb-forms-value-block__content--max-width-${maxWidth}`
+    maxWidth && `dnb-forms-value-block__content--max-width-${maxWidth}`,
   )
   const compositionClass =
     isComposition && 'dnb-forms-value-block__composition--horizontal'
@@ -202,7 +202,7 @@ function ValueBlock(localProps: ValueBlockProps) {
               className={clsx(
                 'dnb-forms-value-block__label',
                 ((!label && !hasHelp) || labelSrOnly) && 'dnb-sr-only',
-                className
+                className,
               )}
             >
               <VisibilityWrapper>
@@ -221,7 +221,7 @@ function ValueBlock(localProps: ValueBlockProps) {
               className={clsx(
                 compositionClass,
                 maxWidth &&
-                  `dnb-forms-value-block__content--max-width-${maxWidth}`
+                  `dnb-forms-value-block__content--max-width-${maxWidth}`,
               )}
             >
               <VisibilityWrapper>
@@ -253,7 +253,7 @@ function ValueBlock(localProps: ValueBlockProps) {
             'dnb-forms-value-block',
             inline && 'dnb-forms-value-block--inline',
             compositionClass,
-            className
+            className,
           )}
           {...pickSpacingProps(props)}
         >
@@ -302,7 +302,7 @@ function useNotInSummaryList(
   ref: React.RefObject<HTMLElement>,
   label?: React.ReactNode,
   path?: Path,
-  itemPath?: Path
+  itemPath?: Path,
 ) {
   useEffect(() => {
     if (ref?.current) {
@@ -318,7 +318,7 @@ function useNotInSummaryList(
             [
               'Value components as siblings should be wrapped inside a Value.SummaryList:',
               { label, path, itemPath },
-            ].filter(Boolean)
+            ].filter(Boolean),
           )
         }
       } catch (error) {

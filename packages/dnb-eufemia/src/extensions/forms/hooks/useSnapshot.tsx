@@ -24,7 +24,7 @@ export default function useSnapshot(id?: SharedStateId) {
     (
       id: SnapshotId = makeUniqueId(),
       name: SnapshotName = null,
-      content: JsonObject = null
+      content: JsonObject = null,
     ): SnapshotId => {
       if (!content) {
         const snapshotWithPaths = snapshotsRef?.current?.get?.(name)
@@ -43,26 +43,26 @@ export default function useSnapshot(id?: SharedStateId) {
 
       internalSnapshotsRef.current.set(
         combineIdWithName(id, name),
-        content
+        content,
       )
 
       return id
     },
-    [internalData, snapshotsRef]
+    [internalData, snapshotsRef],
   )
 
   const getSnapshot = useCallback(
     (id: SnapshotId, name: SnapshotName = null): JsonObject => {
       return internalSnapshotsRef.current.get(combineIdWithName(id, name))
     },
-    []
+    [],
   )
 
   const deleteSnapshot = useCallback(
     (id: SnapshotId, name: SnapshotName = null): void => {
       internalSnapshotsRef.current.delete(combineIdWithName(id, name))
     },
-    []
+    [],
   )
 
   const applySnapshot = useCallback(
@@ -77,7 +77,7 @@ export default function useSnapshot(id?: SharedStateId) {
         setData(snapshot)
       }
     },
-    [getSnapshot, setData, updateData]
+    [getSnapshot, setData, updateData],
   )
 
   const revertSnapshot = useCallback(
@@ -85,7 +85,7 @@ export default function useSnapshot(id?: SharedStateId) {
       applySnapshot(id, name)
       deleteSnapshot(id, name)
     },
-    [applySnapshot, deleteSnapshot]
+    [applySnapshot, deleteSnapshot],
   )
 
   return useMemo(() => {
@@ -101,7 +101,7 @@ export default function useSnapshot(id?: SharedStateId) {
 
 function combineIdWithName(
   id: SnapshotId,
-  name: SnapshotName = null
+  name: SnapshotName = null,
 ): string {
   return name ? `${id}-${name}` : String(id)
 }

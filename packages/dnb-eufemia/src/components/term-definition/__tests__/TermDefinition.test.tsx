@@ -29,7 +29,7 @@ describe('TermDefinition', () => {
     expect(trigger).not.toHaveAttribute('aria-controls')
 
     const description = document.getElementById(
-      trigger.getAttribute('aria-describedby')
+      trigger.getAttribute('aria-describedby'),
     )
     expect(description).toHaveTextContent(translations.openTriggerTitle)
     expect(description).toHaveAttribute('aria-hidden', 'true')
@@ -58,7 +58,7 @@ describe('TermDefinition', () => {
       expect(controlsId).toBeTruthy()
       const tooltipElement = document.getElementById(controlsId)
       expect(
-        tooltipElement.classList.contains('dnb-popover__content')
+        tooltipElement.classList.contains('dnb-popover__content'),
       ).toBe(true)
     })
   })
@@ -79,10 +79,10 @@ describe('TermDefinition', () => {
     expect(trigger).toHaveAttribute('aria-expanded', 'true')
     expect(trigger).toHaveAttribute(
       'title',
-      translations.closeTriggerTitle
+      translations.closeTriggerTitle,
     )
     expect(
-      document.getElementById(trigger.getAttribute('aria-describedby'))
+      document.getElementById(trigger.getAttribute('aria-describedby')),
     ).toHaveTextContent(translations.closeTriggerTitle)
 
     const headerTerm = document.querySelector('.dnb-popover__title strong')
@@ -99,11 +99,11 @@ describe('TermDefinition', () => {
     await userEvent.click(trigger)
     await waitFor(() => {
       const portalRoot = document.querySelector(
-        '.dnb-term-definition__portal'
+        '.dnb-term-definition__portal',
       )
       expect(portalRoot).not.toBeNull()
       expect(
-        portalRoot.querySelector('.dnb-term-definition')
+        portalRoot.querySelector('.dnb-term-definition'),
       ).not.toBeNull()
     })
   })
@@ -124,7 +124,7 @@ describe('TermDefinition', () => {
     render(
       <TermDefinition content={definition} top="large">
         {term}
-      </TermDefinition>
+      </TermDefinition>,
     )
     const trigger = document.querySelector('.dnb-term-definition__trigger')
     expect(trigger.classList.contains('dnb-space__top--large')).toBe(true)
@@ -144,10 +144,10 @@ describe('TermDefinition', () => {
     await wait(150)
     await userEvent.click(trigger)
     await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false'),
     )
     const activeTooltip = document.querySelector(
-      '.dnb-term-definition.dnb-tooltip--active'
+      '.dnb-term-definition.dnb-tooltip--active',
     )
     expect(activeTooltip).toBeNull()
   })
@@ -181,7 +181,7 @@ describe('TermDefinition', () => {
 
     fireEvent.keyDown(content, { key: 'Escape' })
     await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false'),
     )
     await waitFor(() => {
       expect(document.activeElement).toBe(trigger)
@@ -202,7 +202,7 @@ describe('TermDefinition', () => {
     fireEvent.mouseDown(document.documentElement)
 
     await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false'),
     )
 
     const tooltip = document.querySelector('.dnb-term-definition')
@@ -223,7 +223,7 @@ describe('TermDefinition', () => {
     fireEvent.click(closeButton)
 
     await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false'),
     )
     await waitFor(() => {
       expect(document.activeElement).toBe(trigger)
@@ -246,7 +246,7 @@ describe('TermDefinition', () => {
     })
 
     await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false'),
     )
     await waitFor(() => {
       expect(document.activeElement).toBe(trigger)
@@ -267,7 +267,7 @@ describe('TermDefinition', () => {
     fireEvent.click(closeButton)
 
     await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false'),
     )
     await waitFor(() => {
       expect(document.activeElement).toBe(trigger)
@@ -277,7 +277,7 @@ describe('TermDefinition', () => {
   it('calls focus with preventScroll when closing', async () => {
     render(<TermDefinition content={definition}>{term}</TermDefinition>)
     const trigger = document.querySelector(
-      '.dnb-term-definition__trigger'
+      '.dnb-term-definition__trigger',
     ) as HTMLElement
 
     const focusSpy = jest.spyOn(trigger, 'focus')
@@ -292,7 +292,7 @@ describe('TermDefinition', () => {
     fireEvent.click(closeButton)
 
     await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false'),
     )
 
     expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
@@ -313,12 +313,12 @@ describe('TermDefinition', () => {
             </TermDefinition>
           </>
         }
-      />
+      />,
     )
 
     // Verify the field is rendered
     const input = document.querySelector(
-      'input[autocomplete="email"]'
+      'input[autocomplete="email"]',
     ) as HTMLInputElement
     expect(input).toBeInTheDocument()
     expect(input).toHaveAttribute('autocomplete', 'email')
@@ -328,7 +328,7 @@ describe('TermDefinition', () => {
     expect(label).toBeInTheDocument()
 
     const termTrigger = label.querySelector(
-      '.dnb-term-definition__trigger'
+      '.dnb-term-definition__trigger',
     )
     expect(termTrigger).toBeInTheDocument()
     expect(termTrigger).toHaveTextContent('what is email?')
@@ -340,7 +340,7 @@ describe('TermDefinition', () => {
       expect(tooltipBody).toBeInTheDocument()
       expect(tooltipBody.textContent).toBe(emailDefinition)
       const tooltipContent = document.querySelector(
-        '.dnb-popover__content'
+        '.dnb-popover__content',
       )
       expect(document.activeElement).toBe(tooltipContent)
     })
@@ -375,15 +375,15 @@ describe('TermDefinition', () => {
             </TermDefinition>
           </>
         }
-      />
+      />,
     )
 
     const input = document.querySelector(
-      'input[autocomplete="email"]'
+      'input[autocomplete="email"]',
     ) as HTMLInputElement
     const label = document.querySelector('label')
     const termTrigger = label.querySelector(
-      '.dnb-term-definition__trigger'
+      '.dnb-term-definition__trigger',
     ) as HTMLElement
 
     // Tab to the term definition trigger
@@ -409,7 +409,7 @@ describe('TermDefinition', () => {
 describe('TermDefinition aria', () => {
   it('should validate', async () => {
     const Component = render(
-      <TermDefinition content="A definition">Term</TermDefinition>
+      <TermDefinition content="A definition">Term</TermDefinition>,
     )
     expect(await axeComponent(Component)).toHaveNoViolations()
   })

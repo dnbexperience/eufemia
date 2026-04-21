@@ -40,7 +40,7 @@ const lintWithRule = async ({
 
 const makeTempTokenFiles = () => {
   const rootDir = fs.mkdtempSync(
-    path.join(os.tmpdir(), 'dnb-token-stylelint-')
+    path.join(os.tmpdir(), 'dnb-token-stylelint-'),
   )
 
   const files = {
@@ -111,7 +111,7 @@ describe('token-name-policy stylelint rule', () => {
 
     expect(errors).toHaveLength(1)
     expect(errors[0].text).toContain(
-      'Unexpected token reference "--dnb-greyscale-25"'
+      'Unexpected token reference "--dnb-greyscale-25"',
     )
     expect(errors[0].text).toContain('Expected prefix "--carnegie-"')
   })
@@ -145,7 +145,7 @@ describe('token-name-policy stylelint rule', () => {
 
     expect(errors).toHaveLength(1)
     expect(errors[0].text).toContain(
-      'Expected "--token-" followed by one of: color'
+      'Expected "--token-" followed by one of: color',
     )
   })
 
@@ -157,7 +157,7 @@ describe('token-name-policy stylelint rule', () => {
 
     expect(errors).toHaveLength(1)
     expect(errors[0].text).toContain(
-      'Expected "--token-color-" followed by one of:'
+      'Expected "--token-color-" followed by one of:',
     )
   })
 
@@ -169,7 +169,7 @@ describe('token-name-policy stylelint rule', () => {
 
     expect(errors).toHaveLength(1)
     expect(errors[0].text).toContain(
-      'Expected the 4th segment to be one of:'
+      'Expected the 4th segment to be one of:',
     )
   })
 
@@ -228,7 +228,7 @@ describe('token-name-policy stylelint rule', () => {
 
     expect(errors).toHaveLength(1)
     expect(errors[0].text).toContain(
-      'token was not found in theme token files'
+      'token was not found in theme token files',
     )
   })
 
@@ -266,21 +266,21 @@ describe('token-name-policy stylelint rule', () => {
     try {
       fs.writeFileSync(
         path.join(temp.rootDir, temp.files.ui),
-        ':root { --token-color-text-neutral: #111; --token-color-text-action: #222; }\n'
+        ':root { --token-color-text-neutral: #111; --token-color-text-action: #222; }\n',
       )
       fs.writeFileSync(
         path.join(temp.rootDir, temp.files.sbanken),
-        ':root { --token-color-text-neutral: #111; --token-color-text-action: #222; }\n'
+        ':root { --token-color-text-neutral: #111; --token-color-text-action: #222; }\n',
       )
       fs.writeFileSync(
         path.join(temp.rootDir, temp.files.carnegie),
-        ':root { --token-color-text-neutral: #111; }\n'
+        ':root { --token-color-text-neutral: #111; }\n',
       )
 
       const errors = await lintWithRule({
         code: fs.readFileSync(
           path.join(temp.rootDir, temp.files.carnegie),
-          'utf-8'
+          'utf-8',
         ),
         codeFilename: path.join(temp.rootDir, temp.files.carnegie),
         ruleOptions: {
@@ -290,7 +290,7 @@ describe('token-name-policy stylelint rule', () => {
       })
 
       expect(
-        errors.some((e) => e.text.includes('--token-color-text-action'))
+        errors.some((e) => e.text.includes('--token-color-text-action')),
       ).toBe(true)
     } finally {
       temp.cleanup()
@@ -307,11 +307,11 @@ describe('token-name-policy stylelint rule', () => {
       fs.writeFileSync(path.join(temp.rootDir, temp.files.ui), content)
       fs.writeFileSync(
         path.join(temp.rootDir, temp.files.sbanken),
-        content
+        content,
       )
       fs.writeFileSync(
         path.join(temp.rootDir, temp.files.carnegie),
-        content
+        content,
       )
 
       const errors = await lintWithRule({
@@ -324,7 +324,7 @@ describe('token-name-policy stylelint rule', () => {
       })
 
       expect(
-        errors.some((e) => e.text.includes('All brand tokens.scss files'))
+        errors.some((e) => e.text.includes('All brand tokens.scss files')),
       ).toBe(false)
     } finally {
       temp.cleanup()
@@ -339,7 +339,7 @@ describe('token-name-policy stylelint rule', () => {
 
     expect(errors).toHaveLength(1)
     expect(errors[0].text).toContain(
-      'must not be used in :root, html, or body selectors'
+      'must not be used in :root, html, or body selectors',
     )
   })
 
@@ -351,7 +351,7 @@ describe('token-name-policy stylelint rule', () => {
 
     expect(errors).toHaveLength(1)
     expect(errors[0].text).toContain(
-      'must not be used in :root, html, or body selectors'
+      'must not be used in :root, html, or body selectors',
     )
   })
 
@@ -363,7 +363,7 @@ describe('token-name-policy stylelint rule', () => {
 
     expect(errors).toHaveLength(1)
     expect(errors[0].text).toContain(
-      'must not be used in :root, html, or body selectors'
+      'must not be used in :root, html, or body selectors',
     )
   })
 
@@ -375,8 +375,8 @@ describe('token-name-policy stylelint rule', () => {
 
     expect(
       errors.some((e) =>
-        e.text.includes('must not be used in :root, html, or body')
-      )
+        e.text.includes('must not be used in :root, html, or body'),
+      ),
     ).toBe(false)
   })
 
@@ -388,8 +388,8 @@ describe('token-name-policy stylelint rule', () => {
 
     expect(
       errors.some((e) =>
-        e.text.includes('must not be used in :root, html, or body')
-      )
+        e.text.includes('must not be used in :root, html, or body'),
+      ),
     ).toBe(false)
   })
 })

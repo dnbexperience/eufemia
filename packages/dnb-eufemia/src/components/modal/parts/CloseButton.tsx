@@ -35,7 +35,7 @@ function CloseButton(props: CloseButtonProps) {
       iconPosition: 'left',
       className: null,
     },
-    context.getTranslation(props).Modal
+    context.getTranslation(props).Modal,
   )
 
   return (

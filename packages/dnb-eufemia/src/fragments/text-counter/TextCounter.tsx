@@ -62,7 +62,7 @@ export default function TextCounter(localProps: TextCounterProps) {
       className={clsx(
         'dnb-text-counter',
         length > max && 'dnb-text-counter--exceeded',
-        className
+        className,
       )}
       {...rest}
     >

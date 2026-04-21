@@ -62,7 +62,7 @@ function DatePickerFooter({
       onSubmit?.(args)
       setSubmittedDates({ startDate, endDate })
     },
-    [onSubmit, startDate, endDate, setSubmittedDates]
+    [onSubmit, startDate, endDate, setSubmittedDates],
   )
 
   const onCancelHandler = useCallback(
@@ -71,7 +71,7 @@ function DatePickerFooter({
         onCancel?.({ ...args, ...dates })
       })
     },
-    [updateDates, onCancel, submittedDates]
+    [updateDates, onCancel, submittedDates],
   )
 
   const onResetHandler = useCallback(
@@ -98,10 +98,10 @@ function DatePickerFooter({
         },
         (dates) => {
           onReset?.({ ...args, ...dates })
-        }
+        },
       )
     },
-    [dateFormat, updateDates, previousDateProps, onReset]
+    [dateFormat, updateDates, previousDateProps, onReset],
   )
 
   if (

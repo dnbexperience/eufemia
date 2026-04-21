@@ -35,7 +35,7 @@ const parentScopeContextMap = new Map<
 >()
 
 export default function IsolatedStyleScope(
-  props: IsolatedStyleScopeProps
+  props: IsolatedStyleScopeProps,
 ) {
   const styleScopeContext = useContext(IsolatedStyleScopeContext)
   const {
@@ -68,7 +68,7 @@ export default function IsolatedStyleScope(
   if (styleScopeContext?.generatedScopeHash) {
     parentContextMap.set(
       styleScopeContext.generatedScopeHash,
-      styleScopeContext
+      styleScopeContext,
     )
   }
 
@@ -128,7 +128,7 @@ export default function IsolatedStyleScope(
 export function getCurrentStyleScopeElement(
   currentElement: HTMLElement,
   scopeHash = 'auto',
-  fallback = null
+  fallback = null,
 ) {
   if (scopeHash === 'auto') {
     scopeHash = getStyleScopeHash()

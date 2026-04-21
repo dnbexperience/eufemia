@@ -29,7 +29,7 @@ describe('Form.Isolation', () => {
 
   it('should have constant of _supportsSpacingProps="undefined"', () => {
     expect(
-      (Form.Isolation as ComponentMarkers)._supportsSpacingProps
+      (Form.Isolation as ComponentMarkers)._supportsSpacingProps,
     ).toBeUndefined()
   })
 
@@ -48,11 +48,11 @@ describe('Form.Isolation', () => {
         </Form.Isolation>
 
         <Form.SubmitButton />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [regular, isolated] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     expect(regular).toHaveValue('Regular')
@@ -78,11 +78,11 @@ describe('Form.Isolation', () => {
         </Form.Isolation>
 
         <Form.SubmitButton />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [regular, isolated] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     expect(regular).toHaveValue('Regular')
@@ -108,11 +108,11 @@ describe('Form.Isolation', () => {
         </Form.Isolation>
 
         <Form.SubmitButton />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [regular, isolated] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     expect(regular).toHaveValue('Regular')
@@ -136,11 +136,11 @@ describe('Form.Isolation', () => {
         </Form.Isolation>
 
         <Form.SubmitButton />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [regular, isolated] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     expect(regular).toHaveValue('Regular')
@@ -164,11 +164,11 @@ describe('Form.Isolation', () => {
         </Form.Isolation>
 
         <Form.SubmitButton />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [regular, isolated] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     expect(regular).toHaveValue('Regular')
@@ -191,7 +191,7 @@ describe('Form.Isolation', () => {
           <Field.String path="/isolated" />
           <Form.Isolation.CommitButton />
         </Form.Isolation>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const form = document.querySelector('form')
@@ -210,7 +210,7 @@ describe('Form.Isolation', () => {
           isolated: 'Isolated updated',
         },
       },
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -227,11 +227,11 @@ describe('Form.Isolation', () => {
         <Form.Isolation>
           <Field.String path="/isolated" />
         </Form.Isolation>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [regular, isolated] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     expect(regular).toHaveValue('Regular')
@@ -275,12 +275,12 @@ describe('Form.Isolation', () => {
           <Field.String path="/isolated" />
           <Form.Isolation.CommitButton />
         </Form.Isolation>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const button = document.querySelector('button')
     const [regular, isolated] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     expect(regular).toHaveValue('Regular')
@@ -297,7 +297,7 @@ describe('Form.Isolation', () => {
         regular: 'Regular',
         isolated: 'Something',
       },
-      expect.anything()
+      expect.anything(),
     )
 
     await userEvent.type(regular, ' updated')
@@ -311,7 +311,7 @@ describe('Form.Isolation', () => {
         regular: 'Regular updated',
         isolated: 'Something',
       },
-      expect.anything()
+      expect.anything(),
     )
 
     await userEvent.type(isolated, ' 2')
@@ -325,7 +325,7 @@ describe('Form.Isolation', () => {
         regular: 'Regular updated',
         isolated: 'Something 2',
       },
-      expect.anything()
+      expect.anything(),
     )
 
     await userEvent.type(regular, ' 2')
@@ -339,7 +339,7 @@ describe('Form.Isolation', () => {
         regular: 'Regular updated 2',
         isolated: 'Something 2',
       },
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -358,12 +358,12 @@ describe('Form.Isolation', () => {
           <Field.String path="/isolated" />
           <Form.Isolation.CommitButton />
         </Form.Isolation>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const button = document.querySelector('button')
     const [regular, synced, isolated] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     expect(regular).toHaveValue('Regular')
@@ -396,11 +396,11 @@ describe('Form.Isolation', () => {
         <Form.Isolation>
           <Field.String path="/isolated" />
         </Form.Isolation>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [outside, inside] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     expect(outside).toHaveValue('Isolated')
@@ -479,11 +479,11 @@ describe('Form.Isolation', () => {
         </Form.Isolation>
 
         <Form.SubmitButton />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [regular, isolated] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     await userEvent.type(isolated, 'Isolated')
@@ -497,7 +497,7 @@ describe('Form.Isolation', () => {
       {
         regular: 'Regular',
       },
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -513,11 +513,11 @@ describe('Form.Isolation', () => {
         </Form.Isolation>
 
         <Form.SubmitButton />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [regular, isolated] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     await userEvent.type(isolated, 'Isolated')
@@ -527,7 +527,7 @@ describe('Form.Isolation', () => {
       {
         isolated: 'Isolated',
       },
-      expect.anything()
+      expect.anything(),
     )
 
     await userEvent.type(regular, 'Regular')
@@ -548,11 +548,11 @@ describe('Form.Isolation', () => {
         </Form.Isolation>
 
         <Form.SubmitButton />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [regular, isolated] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     await userEvent.type(isolated, 'Isolated')
@@ -568,7 +568,7 @@ describe('Form.Isolation', () => {
       {
         isolated: 'Isolated',
       },
-      expect.anything()
+      expect.anything(),
     )
 
     await userEvent.type(regular, 'Regular')
@@ -579,7 +579,7 @@ describe('Form.Isolation', () => {
         regular: 'Regular',
         isolated: 'Isolated',
       },
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -599,12 +599,12 @@ describe('Form.Isolation', () => {
           <Field.String path="/isolated" />
           <Form.Isolation.CommitButton />
         </Form.Isolation>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const button = document.querySelector('button')
     const [regular, isolated] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     expect(regular).toHaveValue('Regular')
@@ -620,7 +620,7 @@ describe('Form.Isolation', () => {
       {
         isolated: 'Something',
       },
-      expect.anything()
+      expect.anything(),
     )
 
     await userEvent.type(regular, ' updated')
@@ -633,7 +633,7 @@ describe('Form.Isolation', () => {
       {
         isolated: 'Something',
       },
-      expect.anything()
+      expect.anything(),
     )
 
     await userEvent.type(isolated, ' 2')
@@ -646,7 +646,7 @@ describe('Form.Isolation', () => {
       {
         isolated: 'Something 2',
       },
-      expect.anything()
+      expect.anything(),
     )
 
     await userEvent.type(regular, ' 2')
@@ -659,7 +659,7 @@ describe('Form.Isolation', () => {
       {
         isolated: 'Something 2',
       },
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -679,11 +679,11 @@ describe('Form.Isolation', () => {
         </Form.Isolation>
 
         <Form.SubmitButton />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [regular, isolated] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     await userEvent.type(isolated, 'Isolated')
@@ -699,7 +699,7 @@ describe('Form.Isolation', () => {
       {
         isolated: 'Isolated',
       },
-      expect.anything()
+      expect.anything(),
     )
 
     await userEvent.type(regular, 'Regular')
@@ -713,7 +713,7 @@ describe('Form.Isolation', () => {
       {
         isolated: 'Isolated',
       },
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -736,11 +736,11 @@ describe('Form.Isolation', () => {
         </Form.Isolation>
 
         <Form.SubmitButton />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [regular, isolated] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     expect(regular).toHaveValue('Regular')
@@ -762,7 +762,7 @@ describe('Form.Isolation', () => {
           isolated: 'Isolated changed',
         },
       },
-      expect.anything()
+      expect.anything(),
     )
 
     await userEvent.type(regular, ' changed')
@@ -775,7 +775,7 @@ describe('Form.Isolation', () => {
           isolated: 'Isolated changed',
         },
       },
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -802,7 +802,7 @@ describe('Form.Isolation', () => {
           <Field.String path="/myKey" />
           <Form.Isolation.CommitButton />
         </Form.Isolation>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
@@ -817,7 +817,7 @@ describe('Form.Isolation', () => {
 
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      nb.Field.errorPattern
+      nb.Field.errorPattern,
     )
   })
 
@@ -826,7 +826,7 @@ describe('Form.Isolation', () => {
       render(
         <Form.Isolation>
           <Form.Isolation.CommitButton />
-        </Form.Isolation>
+        </Form.Isolation>,
       )
 
       const button = document.querySelector('button')
@@ -846,7 +846,7 @@ describe('Form.Isolation', () => {
             <Field.String path="/isolated" />
             <Form.Isolation.CommitButton />
           </Form.Isolation>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const isolated = document.querySelector('input')
@@ -863,14 +863,14 @@ describe('Form.Isolation', () => {
         {
           isolated: 'Isolated',
         },
-        expect.anything()
+        expect.anything(),
       )
       expect(onCommit).toHaveBeenCalledTimes(1)
       expect(onCommit).toHaveBeenLastCalledWith(
         {
           isolated: 'Isolated',
         },
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.click(button)
@@ -881,14 +881,14 @@ describe('Form.Isolation', () => {
         {
           isolated: 'Isolated',
         },
-        expect.anything()
+        expect.anything(),
       )
       expect(onCommit).toHaveBeenCalledTimes(2)
       expect(onCommit).toHaveBeenLastCalledWith(
         {
           isolated: 'Isolated',
         },
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.click(button)
@@ -898,14 +898,14 @@ describe('Form.Isolation', () => {
         {
           isolated: 'Isolated-updated',
         },
-        expect.anything()
+        expect.anything(),
       )
       expect(onCommit).toHaveBeenCalledTimes(3)
       expect(onCommit).toHaveBeenLastCalledWith(
         {
           isolated: 'Isolated-updated',
         },
-        expect.anything()
+        expect.anything(),
       )
 
       expect(onSubmit).toHaveBeenCalledTimes(0)
@@ -923,12 +923,12 @@ describe('Form.Isolation', () => {
               <Field.String path="/isolated" />
               <Form.Isolation.CommitButton />
             </Form.Isolation>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const isolated = document.querySelector('input')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
 
         await userEvent.type(isolated, 'Isolated')
@@ -948,14 +948,14 @@ describe('Form.Isolation', () => {
           {
             isolated: 'Isolated',
           },
-          expect.anything()
+          expect.anything(),
         )
         expect(onCommit).toHaveBeenCalledTimes(1)
         expect(onCommit).toHaveBeenLastCalledWith(
           {
             isolated: 'Isolated',
           },
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.click(commitButton)
@@ -970,14 +970,14 @@ describe('Form.Isolation', () => {
           {
             isolated: undefined,
           },
-          expect.anything()
+          expect.anything(),
         )
         expect(onCommit).toHaveBeenCalledTimes(2)
         expect(onCommit).toHaveBeenLastCalledWith(
           {
             isolated: undefined,
           },
-          expect.anything()
+          expect.anything(),
         )
       })
 
@@ -990,14 +990,14 @@ describe('Form.Isolation', () => {
             </Form.Isolation>
 
             <Field.String className="outside" path="/isolated" />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const inside = document.querySelector('.inside input')
         const outside = document.querySelector('.outside input')
 
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
 
         await userEvent.type(inside, 'Isolated')
@@ -1036,7 +1036,7 @@ describe('Form.Isolation', () => {
               <Field.String path="/isolated" />
               <Form.Isolation.CommitButton />
             </Form.Isolation>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const isolated = document.querySelector('input')
@@ -1058,14 +1058,14 @@ describe('Form.Isolation', () => {
           {
             isolated: 'Isolated',
           },
-          expect.anything()
+          expect.anything(),
         )
         expect(onCommit).toHaveBeenCalledTimes(1)
         expect(onCommit).toHaveBeenLastCalledWith(
           {
             isolated: 'Isolated',
           },
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.keyboard('{Enter}')
@@ -1080,14 +1080,14 @@ describe('Form.Isolation', () => {
           {
             isolated: undefined,
           },
-          expect.anything()
+          expect.anything(),
         )
         expect(onCommit).toHaveBeenCalledTimes(2)
         expect(onCommit).toHaveBeenLastCalledWith(
           {
             isolated: undefined,
           },
-          expect.anything()
+          expect.anything(),
         )
       })
 
@@ -1103,12 +1103,12 @@ describe('Form.Isolation', () => {
               />
               <Form.Isolation.CommitButton />
             </Form.Isolation>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const isolated = document.querySelector('input')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
 
         expect(isolated).toHaveValue('default value')
@@ -1129,7 +1129,7 @@ describe('Form.Isolation', () => {
           {
             isolated: 'default value with a change',
           },
-          expect.anything()
+          expect.anything(),
         )
       })
 
@@ -1148,12 +1148,12 @@ describe('Form.Isolation', () => {
               <Field.String path="/isolated" />
               <Form.Isolation.CommitButton />
             </Form.Isolation>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const isolated = document.querySelector('input')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
 
         expect(isolated).toHaveValue('default value')
@@ -1174,7 +1174,7 @@ describe('Form.Isolation', () => {
           {
             isolated: 'default value with a change',
           },
-          expect.anything()
+          expect.anything(),
         )
       })
 
@@ -1191,12 +1191,12 @@ describe('Form.Isolation', () => {
               />
               <Form.Isolation.CommitButton />
             </Form.Isolation>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const isolated = document.querySelector('input')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
 
         expect(isolated).toHaveValue('default value')
@@ -1211,7 +1211,7 @@ describe('Form.Isolation', () => {
         await waitFor(() => {
           expect(isolated).toHaveValue('')
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toHaveTextContent(nb.Field.errorRequired)
         })
 
@@ -1234,12 +1234,12 @@ describe('Form.Isolation', () => {
 
               <Form.Isolation.CommitButton />
             </Form.Isolation>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const isolated = document.querySelector('input')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
 
         await userEvent.type(isolated, 'foo')
@@ -1251,7 +1251,7 @@ describe('Form.Isolation', () => {
 
         await userEvent.type(
           isolated,
-          '{Backspace>3}Use this as the reset data'
+          '{Backspace>3}Use this as the reset data',
         )
 
         dataReference.refresh()
@@ -1275,7 +1275,7 @@ describe('Form.Isolation', () => {
           {
             isolated: 'Isolated',
           },
-          expect.anything()
+          expect.anything(),
         )
       })
     })
@@ -1291,7 +1291,7 @@ describe('Form.Isolation', () => {
             <Field.String path="/isolated" />
             <Form.SubmitButton />
           </Form.Isolation>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const isolated = document.querySelector('input')
@@ -1310,14 +1310,14 @@ describe('Form.Isolation', () => {
         {
           isolated: 'Isolated',
         },
-        expect.anything()
+        expect.anything(),
       )
       expect(onCommit).toHaveBeenCalledTimes(1)
       expect(onCommit).toHaveBeenLastCalledWith(
         {
           isolated: 'Isolated',
         },
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.click(button)
@@ -1328,14 +1328,14 @@ describe('Form.Isolation', () => {
         {
           isolated: 'Isolated',
         },
-        expect.anything()
+        expect.anything(),
       )
       expect(onCommit).toHaveBeenCalledTimes(2)
       expect(onCommit).toHaveBeenLastCalledWith(
         {
           isolated: 'Isolated',
         },
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.click(button)
@@ -1345,14 +1345,14 @@ describe('Form.Isolation', () => {
         {
           isolated: 'Isolated-updated',
         },
-        expect.anything()
+        expect.anything(),
       )
       expect(onCommit).toHaveBeenCalledTimes(3)
       expect(onCommit).toHaveBeenLastCalledWith(
         {
           isolated: 'Isolated-updated',
         },
-        expect.anything()
+        expect.anything(),
       )
 
       expect(onSubmit).toHaveBeenCalledTimes(0)
@@ -1372,17 +1372,17 @@ describe('Form.Isolation', () => {
         </Form.Isolation>
 
         <Form.SubmitButton />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [regular, isolated] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     await userEvent.type(isolated, 'Isolated')
 
     const [isolatedSubmitButton, regularSubmitButton] = Array.from(
-      document.querySelectorAll('button')
+      document.querySelectorAll('button'),
     )
 
     expect(isolatedSubmitButton).toHaveAttribute('type', 'button')
@@ -1400,7 +1400,7 @@ describe('Form.Isolation', () => {
         isolated: 'Isolated',
         regular: undefined,
       },
-      expect.anything()
+      expect.anything(),
     )
 
     await userEvent.type(regular, 'Regular')
@@ -1413,7 +1413,7 @@ describe('Form.Isolation', () => {
         isolated: 'Isolated',
         regular: 'Regular',
       },
-      expect.anything()
+      expect.anything(),
     )
 
     await userEvent.type(isolated, 'Isolated changed')
@@ -1430,11 +1430,11 @@ describe('Form.Isolation', () => {
           <Field.String />
           <Field.Number />
         </Form.Isolation>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [regular, isolatedString, isolatedNumber] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     {
@@ -1478,11 +1478,11 @@ describe('Form.Isolation', () => {
           <Field.Number />
           <Form.Isolation.CommitButton />
         </Form.Isolation>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [regular, isolatedString, isolatedNumber] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     {
@@ -1541,18 +1541,18 @@ describe('Form.Isolation', () => {
           <Field.String path="/myValue" value="isolated" />
           <Form.Isolation.CommitButton />
         </Form.Isolation>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [regular, isolated] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     expect(regular).toHaveValue('')
     expect(isolated).toHaveValue('isolated')
 
     const commitButton = document.querySelector(
-      '.dnb-forms-isolate__commit-button'
+      '.dnb-forms-isolate__commit-button',
     )
     fireEvent.click(commitButton)
 
@@ -1585,18 +1585,18 @@ describe('Form.Isolation', () => {
           <Field.String path="/myValue" value="isolated" />
           <Form.Isolation.CommitButton />
         </Form.Isolation>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [regular, isolated] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     expect(regular).toHaveValue('')
     expect(isolated).toHaveValue('isolated')
 
     const commitButton = document.querySelector(
-      '.dnb-forms-isolate__commit-button'
+      '.dnb-forms-isolate__commit-button',
     )
     await userEvent.click(commitButton)
 
@@ -1622,14 +1622,14 @@ describe('Form.Isolation', () => {
           <Field.String required />
           <Form.Isolation.CommitButton />
         </Form.Isolation>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const form = document.querySelector('form')
     fireEvent.submit(form)
 
     const [regular, isolated] = Array.from(
-      document.querySelectorAll('.dnb-forms-field-block')
+      document.querySelectorAll('.dnb-forms-field-block'),
     )
 
     {
@@ -1670,7 +1670,7 @@ describe('Form.Isolation', () => {
         <Form.Isolation commitHandleRef={commitHandleRef}>
           <Field.String required />
         </Form.Isolation>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(0)
@@ -1690,7 +1690,7 @@ describe('Form.Isolation', () => {
         <Form.Isolation>
           <Field.String required />
         </Form.Isolation>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelector('.dnb-form-status')).toBeNull()
@@ -1701,7 +1701,7 @@ describe('Form.Isolation', () => {
     expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
 
     const [regular, isolated] = Array.from(
-      document.querySelectorAll('.dnb-forms-field-block')
+      document.querySelectorAll('.dnb-forms-field-block'),
     )
 
     {
@@ -1710,7 +1710,7 @@ describe('Form.Isolation', () => {
       })
       fireEvent(regular.querySelector('input'), enterKey)
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Field.errorRequired
+        nb.Field.errorRequired,
       )
     }
 
@@ -1722,7 +1722,7 @@ describe('Form.Isolation', () => {
       })
       fireEvent(isolated.querySelector('input'), enterKey)
       expect(isolated.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Field.errorRequired
+        nb.Field.errorRequired,
       )
     }
 
@@ -1751,11 +1751,11 @@ describe('Form.Isolation', () => {
           <Field.String path="/newPerson/name" />
           <Form.Isolation.CommitButton />
         </Form.Isolation>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const commitButton = document.querySelector(
-      '.dnb-forms-isolate__commit-button'
+      '.dnb-forms-isolate__commit-button',
     )
     const isolated = document.querySelector('input')
 
@@ -1768,7 +1768,7 @@ describe('Form.Isolation', () => {
         existing: 'data',
         persons: [{ name: 'John' }, { name: 'Oda' }],
       },
-      expect.anything()
+      expect.anything(),
     )
 
     await userEvent.type(isolated, '{Backspace>3}Odd')
@@ -1780,7 +1780,7 @@ describe('Form.Isolation', () => {
         existing: 'data',
         persons: [{ name: 'John' }, { name: 'Oda' }, { name: 'Odd' }],
       },
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -1814,7 +1814,7 @@ describe('Form.Isolation', () => {
           <Field.String label="Synced" path="/isolated" />
           <Field.String label="Regular" path="/regular" />
         </Form.Section>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const button = document.querySelector('button')
@@ -1829,7 +1829,7 @@ describe('Form.Isolation', () => {
 
     expect(onPathChange).toHaveBeenLastCalledWith(
       '/isolated',
-      'inside changed'
+      'inside changed',
     )
 
     expect(isolated).toHaveValue('inside changed')
@@ -1856,7 +1856,7 @@ describe('Form.Isolation', () => {
       {
         clearData: expect.any(Function),
         preventCommit: expect.any(Function),
-      }
+      },
     )
     expect(onChange).toHaveBeenLastCalledWith(
       {
@@ -1865,7 +1865,7 @@ describe('Form.Isolation', () => {
           regular: 'regular changed',
         },
       },
-      expect.anything()
+      expect.anything(),
     )
 
     expect(isolated).toHaveValue('inside changed')
@@ -1888,7 +1888,7 @@ describe('Form.Isolation', () => {
 
     expect(onPathChange).toHaveBeenLastCalledWith(
       '/isolated',
-      'inside changed 2x'
+      'inside changed 2x',
     )
 
     expect(isolated).toHaveValue('inside changed 2x')
@@ -1924,7 +1924,7 @@ describe('Form.Isolation', () => {
           <Field.String label="Synced" path="/isolated" />
           <Field.String label="Regular" path="/regular" />
         </Form.Section>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const button = document.querySelector('button')
@@ -1947,7 +1947,7 @@ describe('Form.Isolation', () => {
       {
         clearData: expect.any(Function),
         preventCommit: expect.any(Function),
-      }
+      },
     )
     expect(onChange).toHaveBeenLastCalledWith(
       {
@@ -1956,7 +1956,7 @@ describe('Form.Isolation', () => {
           regular: 'regular',
         },
       },
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -1988,7 +1988,7 @@ describe('Form.Isolation', () => {
           <Field.String label="Synced" path="/isolated" />
           <Field.String label="Regular" path="/regular" />
         </Form.Section>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const button = document.querySelector('button')
@@ -2009,7 +2009,7 @@ describe('Form.Isolation', () => {
       {
         clearData: expect.any(Function),
         preventCommit: expect.any(Function),
-      }
+      },
     )
 
     await waitFor(() => {
@@ -2023,7 +2023,7 @@ describe('Form.Isolation', () => {
     await userEvent.click(button)
 
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      nb.Field.errorRequired
+      nb.Field.errorRequired,
     )
 
     await userEvent.type(isolated, 'new value')
@@ -2057,7 +2057,7 @@ describe('Form.Isolation', () => {
 
           <Field.String path="/outer" />
           <CollectOuterData />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(innerContext.data).toEqual({
@@ -2076,7 +2076,7 @@ describe('Form.Isolation', () => {
 
           <Field.String path="/outer" value="outer value" />
           <CollectOuterData />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(innerContext.data).toEqual({
@@ -2115,7 +2115,7 @@ describe('Form.Isolation', () => {
             <Field.String itemPath="/item" />
           </Iterate.Array>
           <CollectOuterData />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(innerContext.data).toEqual({
@@ -2139,7 +2139,7 @@ describe('Form.Isolation', () => {
             <Field.String itemPath="/item" />
           </Iterate.Array>
           <CollectOuterData />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(innerContext.data).toEqual({
@@ -2178,7 +2178,7 @@ describe('Form.Isolation', () => {
             <Field.String itemPath="/item" />
           </Iterate.Array>
           <CollectOuterData />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(innerContext.data).toEqual({
@@ -2202,7 +2202,7 @@ describe('Form.Isolation', () => {
             <Field.String itemPath="/item" value="outer value" />
           </Iterate.Array>
           <CollectOuterData />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(innerContext.data).toEqual({
@@ -2238,7 +2238,7 @@ describe('Form.Isolation', () => {
           </Form.Section>
 
           <CollectOuterData />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(innerContext.data).toEqual({
@@ -2260,7 +2260,7 @@ describe('Form.Isolation', () => {
           </Form.Section>
 
           <CollectOuterData />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(innerContext.data).toEqual({
@@ -2293,13 +2293,13 @@ describe('Form.Isolation', () => {
             <Field.String path="/name" />
             <Form.Isolation.CommitButton />
           </Form.Isolation>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
       const form = document.querySelector('form')
       const commitButton = document.querySelector(
-        '.dnb-forms-isolate__commit-button'
+        '.dnb-forms-isolate__commit-button',
       )
 
       await userEvent.type(input, 'Tony')
@@ -2322,7 +2322,7 @@ describe('Form.Isolation', () => {
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
         { name: 'Tony' },
-        expect.anything()
+        expect.anything(),
       )
       expect(onSubmitRequest).toHaveBeenCalledTimes(1)
       expect(onCommit).toHaveBeenCalledTimes(1)
@@ -2335,13 +2335,13 @@ describe('Form.Isolation', () => {
             <Field.String path="/name" />
             <Form.Isolation.CommitButton />
           </Form.Isolation>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
       const form = document.querySelector('form')
       const commitButton = document.querySelector(
-        '.dnb-forms-isolate__commit-button'
+        '.dnb-forms-isolate__commit-button',
       )
 
       await userEvent.type(input, 'Tony')
@@ -2349,17 +2349,17 @@ describe('Form.Isolation', () => {
       fireEvent.submit(form)
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Isolation.preventUncommittedChangesText
+        nb.Isolation.preventUncommittedChangesText,
       )
 
       await userEvent.click(commitButton)
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
 
@@ -2367,7 +2367,7 @@ describe('Form.Isolation', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })
@@ -2382,13 +2382,13 @@ describe('Form.Isolation', () => {
               <Field.String path="/name" emptyValue="The empty value" />
               <Form.Isolation.CommitButton />
             </Form.Isolation>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
 
         expect(input).toHaveValue('The empty value')
@@ -2398,7 +2398,7 @@ describe('Form.Isolation', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.click(commitButton)
@@ -2407,7 +2407,7 @@ describe('Form.Isolation', () => {
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { name: 'The empty value' },
-          expect.anything()
+          expect.anything(),
         )
       })
 
@@ -2421,13 +2421,13 @@ describe('Form.Isolation', () => {
               <Form.Isolation.CommitButton />
               <Form.Isolation.ResetButton />
             </Form.Isolation>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
 
         expect(input).toHaveValue('The empty value')
@@ -2437,7 +2437,7 @@ describe('Form.Isolation', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.type(input, 'X')
@@ -2445,16 +2445,16 @@ describe('Form.Isolation', () => {
 
         expect(input).toHaveValue('The empty valueX')
         expect(
-          document.querySelector('.dnb-forms-isolate__reset-button')
+          document.querySelector('.dnb-forms-isolate__reset-button'),
         ).toBeInTheDocument()
 
         await userEvent.click(
-          document.querySelector('.dnb-forms-isolate__reset-button')
+          document.querySelector('.dnb-forms-isolate__reset-button'),
         )
 
         // Confirm the clear
         await userEvent.click(
-          document.querySelector('.dnb-button--primary')
+          document.querySelector('.dnb-button--primary'),
         )
 
         await waitFor(() => {
@@ -2467,7 +2467,7 @@ describe('Form.Isolation', () => {
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.click(commitButton)
@@ -2479,7 +2479,7 @@ describe('Form.Isolation', () => {
         expect(onSubmit).toHaveBeenCalledTimes(3)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { name: 'The empty value' },
-          expect.anything()
+          expect.anything(),
         )
       })
     })
@@ -2495,13 +2495,13 @@ describe('Form.Isolation', () => {
               <Form.Isolation.CommitButton />
               <Form.Isolation.ResetButton />
             </Form.Isolation>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
 
         expect(input).toHaveValue('A default value')
@@ -2511,7 +2511,7 @@ describe('Form.Isolation', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.click(commitButton)
@@ -2520,7 +2520,7 @@ describe('Form.Isolation', () => {
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { name: 'A default value' },
-          expect.anything()
+          expect.anything(),
         )
       })
 
@@ -2534,13 +2534,13 @@ describe('Form.Isolation', () => {
               <Form.Isolation.CommitButton />
               <Form.Isolation.ResetButton />
             </Form.Isolation>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
 
         expect(input).toHaveValue('A default value')
@@ -2550,7 +2550,7 @@ describe('Form.Isolation', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.type(input, 'X')
@@ -2558,16 +2558,16 @@ describe('Form.Isolation', () => {
 
         expect(input).toHaveValue('A default valueX')
         expect(
-          document.querySelector('.dnb-forms-isolate__reset-button')
+          document.querySelector('.dnb-forms-isolate__reset-button'),
         ).toBeInTheDocument()
 
         await userEvent.click(
-          document.querySelector('.dnb-forms-isolate__reset-button')
+          document.querySelector('.dnb-forms-isolate__reset-button'),
         )
 
         // Confirm the clear
         await userEvent.click(
-          document.querySelector('.dnb-button--primary')
+          document.querySelector('.dnb-button--primary'),
         )
 
         await waitFor(() => {
@@ -2580,7 +2580,7 @@ describe('Form.Isolation', () => {
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.click(commitButton)
@@ -2592,7 +2592,7 @@ describe('Form.Isolation', () => {
         expect(onSubmit).toHaveBeenCalledTimes(3)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { name: 'A default value' },
-          expect.anything()
+          expect.anything(),
         )
       })
     })
@@ -2612,13 +2612,13 @@ describe('Form.Isolation', () => {
               <Form.Isolation.CommitButton />
               <Form.Isolation.ResetButton />
             </Form.Isolation>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
 
         expect(input).toHaveValue('A default value')
@@ -2628,7 +2628,7 @@ describe('Form.Isolation', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.click(commitButton)
@@ -2637,7 +2637,7 @@ describe('Form.Isolation', () => {
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { name: 'A default value' },
-          expect.anything()
+          expect.anything(),
         )
       })
 
@@ -2655,13 +2655,13 @@ describe('Form.Isolation', () => {
               <Form.Isolation.CommitButton />
               <Form.Isolation.ResetButton />
             </Form.Isolation>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
 
         expect(input).toHaveValue('A default value')
@@ -2671,7 +2671,7 @@ describe('Form.Isolation', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.type(input, 'X')
@@ -2679,16 +2679,16 @@ describe('Form.Isolation', () => {
 
         expect(input).toHaveValue('A default valueX')
         expect(
-          document.querySelector('.dnb-forms-isolate__reset-button')
+          document.querySelector('.dnb-forms-isolate__reset-button'),
         ).toBeInTheDocument()
 
         await userEvent.click(
-          document.querySelector('.dnb-forms-isolate__reset-button')
+          document.querySelector('.dnb-forms-isolate__reset-button'),
         )
 
         // Confirm the clear
         await userEvent.click(
-          document.querySelector('.dnb-button--primary')
+          document.querySelector('.dnb-button--primary'),
         )
 
         await waitFor(() => {
@@ -2701,7 +2701,7 @@ describe('Form.Isolation', () => {
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.click(commitButton)
@@ -2713,7 +2713,7 @@ describe('Form.Isolation', () => {
         expect(onSubmit).toHaveBeenCalledTimes(3)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { name: 'A default value' },
-          expect.anything()
+          expect.anything(),
         )
       })
     })
@@ -2733,13 +2733,13 @@ describe('Form.Isolation', () => {
               <Form.Isolation.CommitButton />
               <Form.Isolation.ResetButton />
             </Form.Isolation>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
 
         expect(input).toHaveValue('A data value')
@@ -2749,7 +2749,7 @@ describe('Form.Isolation', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.click(commitButton)
@@ -2758,7 +2758,7 @@ describe('Form.Isolation', () => {
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { name: 'A data value' },
-          expect.anything()
+          expect.anything(),
         )
       })
 
@@ -2776,13 +2776,13 @@ describe('Form.Isolation', () => {
               <Form.Isolation.CommitButton />
               <Form.Isolation.ResetButton />
             </Form.Isolation>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
 
         expect(input).toHaveValue('A data value')
@@ -2792,7 +2792,7 @@ describe('Form.Isolation', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.type(input, 'X')
@@ -2800,16 +2800,16 @@ describe('Form.Isolation', () => {
 
         expect(input).toHaveValue('A data valueX')
         expect(
-          document.querySelector('.dnb-forms-isolate__reset-button')
+          document.querySelector('.dnb-forms-isolate__reset-button'),
         ).toBeInTheDocument()
 
         await userEvent.click(
-          document.querySelector('.dnb-forms-isolate__reset-button')
+          document.querySelector('.dnb-forms-isolate__reset-button'),
         )
 
         // Confirm the clear
         await userEvent.click(
-          document.querySelector('.dnb-button--primary')
+          document.querySelector('.dnb-button--primary'),
         )
 
         await waitFor(() => {
@@ -2822,7 +2822,7 @@ describe('Form.Isolation', () => {
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.click(commitButton)
@@ -2837,7 +2837,7 @@ describe('Form.Isolation', () => {
         expect(onSubmit).toHaveBeenCalledTimes(3)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { name: 'A data value' },
-          expect.anything()
+          expect.anything(),
         )
       })
     })
@@ -2875,13 +2875,13 @@ describe('Form.Isolation', () => {
               <Form.SubmitButton />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
       const form = document.querySelector('form')
       const commitButton = document.querySelector(
-        '.dnb-forms-isolate__commit-button'
+        '.dnb-forms-isolate__commit-button',
       )
 
       const nextButton = () => {
@@ -2904,10 +2904,10 @@ describe('Form.Isolation', () => {
       expect(onCommit).toHaveBeenCalledTimes(0)
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Isolation.preventUncommittedChangesText
+        nb.Isolation.preventUncommittedChangesText,
       )
 
       await userEvent.click(commitButton)
@@ -2915,7 +2915,7 @@ describe('Form.Isolation', () => {
       expect(onCommit).toHaveBeenCalledTimes(1)
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
 
@@ -2926,7 +2926,7 @@ describe('Form.Isolation', () => {
       expect(onStepChange).toHaveBeenLastCalledWith(
         1,
         'next',
-        expect.anything()
+        expect.anything(),
       )
 
       fireEvent.submit(form)
@@ -2944,7 +2944,7 @@ describe('Form.Isolation', () => {
             <Form.Isolation.CommitButton />
             <Form.Isolation.ResetButton showWhen="uncommittedChangeDetected" />
           </Form.Isolation>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -2952,14 +2952,14 @@ describe('Form.Isolation', () => {
 
       expect(
         document.querySelector('.dnb-forms-isolate__reset-button')
-          .parentElement
+          .parentElement,
       ).toHaveAttribute('hidden')
 
       fireEvent.submit(form)
 
       expect(
         document.querySelector('.dnb-forms-isolate__reset-button')
-          .parentElement
+          .parentElement,
       ).toHaveAttribute('hidden')
 
       await userEvent.type(input, 'X')
@@ -2968,7 +2968,7 @@ describe('Form.Isolation', () => {
 
       expect(
         document.querySelector('.dnb-forms-isolate__reset-button')
-          .parentElement
+          .parentElement,
       ).not.toHaveAttribute('hidden')
     })
 
@@ -2980,21 +2980,21 @@ describe('Form.Isolation', () => {
             <Form.Isolation.CommitButton />
             <Form.Isolation.ResetButton />
           </Form.Isolation>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
       const form = document.querySelector('form')
       const commitButton = document.querySelector(
-        '.dnb-forms-isolate__commit-button'
+        '.dnb-forms-isolate__commit-button',
       )
 
       expect(
-        document.querySelector('.dnb-forms-isolate__reset-button')
+        document.querySelector('.dnb-forms-isolate__reset-button'),
       ).toHaveAttribute('disabled')
       expect(
         document.querySelector('.dnb-forms-isolate__reset-button')
-          .parentElement
+          .parentElement,
       ).not.toHaveAttribute('hidden')
 
       await userEvent.type(input, 'Tony')
@@ -3002,28 +3002,28 @@ describe('Form.Isolation', () => {
       fireEvent.submit(form)
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
       expect(
-        document.querySelector('.dnb-forms-isolate__reset-button')
+        document.querySelector('.dnb-forms-isolate__reset-button'),
       ).not.toHaveAttribute('disabled')
       expect(
         document.querySelector('.dnb-forms-isolate__reset-button')
-          .parentElement
+          .parentElement,
       ).not.toHaveAttribute('hidden')
 
       await userEvent.click(commitButton)
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-forms-isolate__reset-button')
+          document.querySelector('.dnb-forms-isolate__reset-button'),
         ).toHaveAttribute('disabled')
         expect(
           document.querySelector('.dnb-forms-isolate__reset-button')
-            .parentElement
+            .parentElement,
         ).not.toHaveAttribute('hidden')
       })
     })
@@ -3047,7 +3047,7 @@ describe('Form.Isolation', () => {
             <Form.Isolation.CommitButton />
             <Form.Isolation.ResetButton />
           </Form.Isolation>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -3061,15 +3061,15 @@ describe('Form.Isolation', () => {
       expect(onSubmitRequest).toHaveBeenCalledTimes(1)
       expect(onCommit).toHaveBeenCalledTimes(0)
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Isolation.preventUncommittedChangesText
+        nb.Isolation.preventUncommittedChangesText,
       )
 
       // Click the reset button
       await userEvent.click(
-        document.querySelector('.dnb-forms-isolate__reset-button')
+        document.querySelector('.dnb-forms-isolate__reset-button'),
       )
 
       // Confirm the clear
@@ -3124,12 +3124,12 @@ describe('Form.Isolation', () => {
             <Form.Isolation.CommitButton />
             <Form.Isolation.ResetButton showConfirmDialog={false} />
           </Form.Isolation>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
       const resetButton = document.querySelector(
-        '.dnb-forms-isolate__reset-button'
+        '.dnb-forms-isolate__reset-button',
       )
 
       expect(resetButton).toBeDisabled()
@@ -3167,20 +3167,20 @@ describe('Form.Isolation', () => {
             <Field.String label="Isolated" path="/isolated" required />
             <Form.Isolation.CommitButton />
           </Form.Isolation>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
       const form = document.querySelector('form')
       const commitButton = document.querySelector(
-        '.dnb-forms-isolate__commit-button'
+        '.dnb-forms-isolate__commit-button',
       )
 
       await userEvent.click(commitButton)
       fireEvent.submit(form)
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Field.errorRequired
+        nb.Field.errorRequired,
       )
 
       expect(onSubmit).toHaveBeenCalledTimes(0)
@@ -3221,13 +3221,13 @@ describe('Form.Isolation', () => {
           </Form.Isolation>
 
           <OuterDataContext />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
       const form = document.querySelector('form')
       const commitButton = document.querySelector(
-        '.dnb-forms-isolate__commit-button'
+        '.dnb-forms-isolate__commit-button',
       )
 
       expect(outerDataContext).toBeUndefined()
@@ -3295,7 +3295,7 @@ describe('Form.Isolation', () => {
           </Wizard.Container>
 
           <OuterDataContext />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const inputField = () => document.querySelector('input')
@@ -3398,7 +3398,7 @@ describe('Form.Isolation', () => {
             <output>Step 3</output>
             <Wizard.Buttons />
           </Wizard.Step>
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       const nextButton = () => {
@@ -3434,7 +3434,7 @@ describe('Form.Isolation', () => {
               <output>content</output>
             </Form.Visibility>
           </Form.Isolation>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('output')).toBeInTheDocument()
@@ -3450,7 +3450,7 @@ describe('Form.Isolation', () => {
               <output>content</output>
             </Form.Visibility>
           </Form.Isolation>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('output')).toBeNull()
@@ -3495,12 +3495,12 @@ describe('Form.Isolation', () => {
               <Field.String path="/foo" />
               <Form.Isolation.CommitButton />
             </Form.Isolation>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input[name="foo"]')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
 
         expect(input).toBeInTheDocument()
@@ -3514,7 +3514,7 @@ describe('Form.Isolation', () => {
         await waitFor(() => {
           const statusMessage = document.querySelector('.dnb-form-status')
           expect(statusMessage).toHaveTextContent(
-            nb.StringField.errorMinLength.replace('{minLength}', '4')
+            nb.StringField.errorMinLength.replace('{minLength}', '4'),
           )
         })
 
@@ -3527,7 +3527,7 @@ describe('Form.Isolation', () => {
         // Should not have validation error anymore
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).not.toBeInTheDocument()
         })
       })
@@ -3572,12 +3572,12 @@ describe('Form.Isolation', () => {
               <Field.String path="/foo" />
               <Form.Isolation.CommitButton />
             </Form.Isolation>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input[name="foo"]')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
 
         expect(input).toBeInTheDocument()
@@ -3591,7 +3591,7 @@ describe('Form.Isolation', () => {
         await waitFor(() => {
           const statusMessage = document.querySelector('.dnb-form-status')
           expect(statusMessage).toHaveTextContent(
-            nb.StringField.errorMinLength.replace('{minLength}', '4')
+            nb.StringField.errorMinLength.replace('{minLength}', '4'),
           )
         })
 
@@ -3604,7 +3604,7 @@ describe('Form.Isolation', () => {
         // Should not have validation error anymore
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).not.toBeInTheDocument()
         })
       })
@@ -3633,16 +3633,16 @@ describe('Form.Isolation', () => {
               <Field.String path="/foo" />
               <Form.Isolation.CommitButton />
             </Form.Isolation>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input[name="foo"]')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
 
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
         expect(input).toHaveValue('foo')
 
@@ -3651,7 +3651,7 @@ describe('Form.Isolation', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toBeInTheDocument()
         })
 
@@ -3663,7 +3663,7 @@ describe('Form.Isolation', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).not.toBeInTheDocument()
         })
       })
@@ -3691,18 +3691,18 @@ describe('Form.Isolation', () => {
               <Field.String path="/foo" />
               <Form.Isolation.CommitButton />
             </Form.Isolation>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input[name="foo"]')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
 
         expect(input).toBeInTheDocument()
         expect(input).toHaveValue('foo')
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
 
         // Trigger validation from inherited schema/ajv
@@ -3721,7 +3721,7 @@ describe('Form.Isolation', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).not.toBeInTheDocument()
         })
       })
@@ -3751,15 +3751,15 @@ describe('Form.Isolation', () => {
               <Form.Isolation.CommitButton />
             </Form.Isolation>
             <Form.SubmitButton />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input[name="foo"]')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
         const submitButton = document.querySelector(
-          '.dnb-forms-submit-button'
+          '.dnb-forms-submit-button',
         )
 
         expect(input).toBeInTheDocument()
@@ -3772,7 +3772,7 @@ describe('Form.Isolation', () => {
         // No validation error yet
         await expect(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toBeInTheDocument()
         }).toNeverResolve()
 
@@ -3782,7 +3782,7 @@ describe('Form.Isolation', () => {
         // Wait for validation error to appear
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toBeInTheDocument()
         })
       })
@@ -3823,15 +3823,15 @@ describe('Form.Isolation', () => {
               <Form.Isolation.CommitButton />
             </Form.Isolation>
             <Form.SubmitButton />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const nameInput = document.querySelector('input[name="foo"]')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
         const submitButton = document.querySelector(
-          '.dnb-forms-submit-button'
+          '.dnb-forms-submit-button',
         )
 
         expect(nameInput).toHaveValue('foo')
@@ -3844,7 +3844,7 @@ describe('Form.Isolation', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toBeInTheDocument()
         })
 
@@ -3866,7 +3866,7 @@ describe('Form.Isolation', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).not.toBeInTheDocument()
         })
       })
@@ -3889,12 +3889,12 @@ describe('Form.Isolation', () => {
               <Field.String path="/foo" />
               <Form.Isolation.CommitButton />
             </Form.Isolation>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input[name="foo"]')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
 
         expect(input).toHaveValue('foo')
@@ -3904,7 +3904,7 @@ describe('Form.Isolation', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toBeInTheDocument()
         })
 
@@ -3916,7 +3916,7 @@ describe('Form.Isolation', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).not.toBeInTheDocument()
         })
       })
@@ -3933,12 +3933,12 @@ describe('Form.Isolation', () => {
               <Field.String path="/foo" />
               <Form.Isolation.CommitButton />
             </Form.Isolation>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input[name="foo"]')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
 
         expect(input).toBeInTheDocument()
@@ -3949,7 +3949,7 @@ describe('Form.Isolation', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toBeInTheDocument()
         })
 
@@ -3961,7 +3961,7 @@ describe('Form.Isolation', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).not.toBeInTheDocument()
         })
       })
@@ -3986,12 +3986,12 @@ describe('Form.Isolation', () => {
               <Field.String path="/foo" />
               <Form.Isolation.CommitButton />
             </Form.Isolation>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input[name="foo"]')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
 
         expect(input).toBeInTheDocument()
@@ -4004,7 +4004,7 @@ describe('Form.Isolation', () => {
         // Wait for validation error to appear
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toBeInTheDocument()
         })
       })
@@ -4021,15 +4021,15 @@ describe('Form.Isolation', () => {
               <Form.Isolation.CommitButton />
             </Form.Isolation>
             <Form.SubmitButton />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input[name="foo"]')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
         const submitButton = document.querySelector(
-          '.dnb-forms-submit-button'
+          '.dnb-forms-submit-button',
         )
 
         expect(input).toBeInTheDocument()
@@ -4042,7 +4042,7 @@ describe('Form.Isolation', () => {
         // No validation error yet
         await expect(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toBeInTheDocument()
         }).toNeverResolve()
 
@@ -4052,7 +4052,7 @@ describe('Form.Isolation', () => {
         // Wait for validation error to appear
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toBeInTheDocument()
         })
       })
@@ -4077,12 +4077,12 @@ describe('Form.Isolation', () => {
               <Field.String path="/foo" />
               <Form.Isolation.CommitButton />
             </Form.Isolation>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input[name="foo"]')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
 
         expect(input).toBeInTheDocument()
@@ -4095,7 +4095,7 @@ describe('Form.Isolation', () => {
         // Wait for validation error to appear
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toBeInTheDocument()
         })
       })
@@ -4121,15 +4121,15 @@ describe('Form.Isolation', () => {
               <Form.Isolation.CommitButton />
             </Form.Isolation>
             <Form.SubmitButton />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const nameInput = document.querySelector('input[name="foo"]')
         const commitButton = document.querySelector(
-          '.dnb-forms-isolate__commit-button'
+          '.dnb-forms-isolate__commit-button',
         )
         const submitButton = document.querySelector(
-          '.dnb-forms-submit-button'
+          '.dnb-forms-submit-button',
         )
 
         expect(nameInput).toHaveValue('foo')
@@ -4142,7 +4142,7 @@ describe('Form.Isolation', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toBeInTheDocument()
         })
 
@@ -4164,7 +4164,7 @@ describe('Form.Isolation', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).not.toBeInTheDocument()
         })
       })

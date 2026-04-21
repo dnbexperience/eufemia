@@ -98,7 +98,7 @@ export function isTrElement(Element) {
 
 export function preparePageElement(
   Element,
-  includeClassName = 'dnb-pagination__page'
+  includeClassName = 'dnb-pagination__page',
 ) {
   if (String(Element) === 'Symbol(react.fragment)') {
     return Element

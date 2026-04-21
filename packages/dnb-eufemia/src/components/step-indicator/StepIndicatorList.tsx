@@ -46,7 +46,7 @@ function StepIndicatorList() {
           {...params}
           className={clsx(
             'dnb-step-indicator',
-            createSkeletonClass('font', skeleton)
+            createSkeletonClass('font', skeleton),
           )}
         >
           {countSteps > 0 && (

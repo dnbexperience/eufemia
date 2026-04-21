@@ -8,7 +8,7 @@ function renderInRoot(node: React.ReactNode) {
     <Stat.Root>
       <Stat.Label>Revenue</Stat.Label>
       <Stat.Content>{node}</Stat.Content>
-    </Stat.Root>
+    </Stat.Root>,
   )
 }
 
@@ -27,7 +27,7 @@ describe('Stat.Text', () => {
 
   it('supports colorizeBySign with an explicit numeric value', () => {
     renderInRoot(
-      <Stat.Text colorizeBySign={-123}>Custom content</Stat.Text>
+      <Stat.Text colorizeBySign={-123}>Custom content</Stat.Text>,
     )
 
     const text = document.querySelector('.dnb-stat__text')
@@ -71,7 +71,7 @@ describe('Stat.Text', () => {
     renderInRoot(
       <Stat.Text fontSize="x-large" fontWeight="regular">
         Custom content
-      </Stat.Text>
+      </Stat.Text>,
     )
 
     const text = document.querySelector('.dnb-stat__text')
@@ -82,13 +82,13 @@ describe('Stat.Text', () => {
 
   it('supports screen reader labeling', () => {
     renderInRoot(
-      <Stat.Text srLabel="Revenue delta">Custom content</Stat.Text>
+      <Stat.Text srLabel="Revenue delta">Custom content</Stat.Text>,
     )
 
     const text = document.querySelector('.dnb-stat__text')
 
     expect(text.getAttribute('aria-label')).toBe(
-      'Revenue delta\u00A0Custom content'
+      'Revenue delta\u00A0Custom content',
     )
   })
 
@@ -118,7 +118,7 @@ describe('Stat.Text', () => {
         className="custom-class"
       >
         Custom content
-      </Stat.Text>
+      </Stat.Text>,
     )
 
     const text = document.querySelector('.dnb-stat__text')

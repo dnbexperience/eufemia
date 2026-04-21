@@ -52,7 +52,7 @@ function Info(props: InfoProps) {
         'dnb-stat',
         'dnb-stat__info',
         `dnb-stat__info--${variant}`,
-        className
+        className,
       )}
       style={style}
       skeleton={skeleton}

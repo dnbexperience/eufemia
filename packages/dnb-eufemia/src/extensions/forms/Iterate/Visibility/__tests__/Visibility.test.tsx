@@ -8,7 +8,7 @@ describe('Iterate.Visibility', () => {
     render(
       <Iterate.Array value={[{ foo: 'bar' }]}>
         <Iterate.Visibility>Child</Iterate.Visibility>
-      </Iterate.Array>
+      </Iterate.Array>,
     )
     expect(screen.getByText('Child')).toBeInTheDocument()
   })
@@ -18,7 +18,7 @@ describe('Iterate.Visibility', () => {
       render(
         <Iterate.Array value={[{ foo: 'bar' }]}>
           <Iterate.Visibility visible={true}>Child</Iterate.Visibility>
-        </Iterate.Array>
+        </Iterate.Array>,
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -27,7 +27,7 @@ describe('Iterate.Visibility', () => {
       render(
         <Iterate.Array value={[{ foo: 'bar' }]}>
           <Iterate.Visibility visible={false}>Child</Iterate.Visibility>
-        </Iterate.Array>
+        </Iterate.Array>,
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -42,7 +42,7 @@ describe('Iterate.Visibility', () => {
               Child
             </Iterate.Visibility>
           </Iterate.Array>
-        </Provider>
+        </Provider>,
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -55,7 +55,7 @@ describe('Iterate.Visibility', () => {
               Child
             </Iterate.Visibility>
           </Iterate.Array>
-        </Provider>
+        </Provider>,
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -70,7 +70,7 @@ describe('Iterate.Visibility', () => {
               Child
             </Iterate.Visibility>
           </Iterate.Array>
-        </Provider>
+        </Provider>,
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -83,7 +83,7 @@ describe('Iterate.Visibility', () => {
               Child
             </Iterate.Visibility>
           </Iterate.Array>
-        </Provider>
+        </Provider>,
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -98,7 +98,7 @@ describe('Iterate.Visibility', () => {
               Child
             </Iterate.Visibility>
           </Iterate.Array>
-        </Provider>
+        </Provider>,
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -111,7 +111,7 @@ describe('Iterate.Visibility', () => {
               Child
             </Iterate.Visibility>
           </Iterate.Array>
-        </Provider>
+        </Provider>,
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -124,7 +124,7 @@ describe('Iterate.Visibility', () => {
               Child
             </Iterate.Visibility>
           </Iterate.Array>
-        </Provider>
+        </Provider>,
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -139,7 +139,7 @@ describe('Iterate.Visibility', () => {
               Child
             </Iterate.Visibility>
           </Iterate.Array>
-        </Provider>
+        </Provider>,
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -152,7 +152,7 @@ describe('Iterate.Visibility', () => {
               Child
             </Iterate.Visibility>
           </Iterate.Array>
-        </Provider>
+        </Provider>,
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -165,7 +165,7 @@ describe('Iterate.Visibility', () => {
               Child
             </Iterate.Visibility>
           </Iterate.Array>
-        </Provider>
+        </Provider>,
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -181,7 +181,7 @@ describe('Iterate.Visibility', () => {
               Child
             </Iterate.Visibility>
           </Iterate.Array>
-        </Provider>
+        </Provider>,
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -195,7 +195,7 @@ describe('Iterate.Visibility', () => {
               Child
             </Iterate.Visibility>
           </Iterate.Array>
-        </Provider>
+        </Provider>,
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
       expect(inferData).toHaveBeenCalledTimes(1)
@@ -216,7 +216,7 @@ describe('Iterate.Visibility', () => {
               Child
             </Iterate.Visibility>
           </Iterate.Array>
-        </Provider>
+        </Provider>,
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -231,7 +231,7 @@ describe('Iterate.Visibility', () => {
               Child
             </Iterate.Visibility>
           </Iterate.Array>
-        </Provider>
+        </Provider>,
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -249,7 +249,7 @@ describe('Iterate.Visibility', () => {
               Child
             </Iterate.Visibility>
           </Iterate.Array>
-        </Provider>
+        </Provider>,
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -266,7 +266,7 @@ describe('Iterate.Visibility', () => {
               Child
             </Iterate.Visibility>
           </Iterate.Array>
-        </Provider>
+        </Provider>,
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -281,7 +281,7 @@ describe('Iterate.Visibility', () => {
               Child
             </Iterate.Visibility>
           </Iterate.Array>
-        </Provider>
+        </Provider>,
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -305,7 +305,7 @@ describe('Iterate.Visibility', () => {
                 </Iterate.Visibility>
               </Iterate.Array>
             </Form.Section>
-          </Provider>
+          </Provider>,
         )
         expect(screen.getByText('Child')).toBeInTheDocument()
       })

@@ -8,8 +8,8 @@ describe('Value.ArraySelection', () => {
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-array-selection .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('Foo, Bar og Baz')
   })
 
@@ -18,8 +18,8 @@ describe('Value.ArraySelection', () => {
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-array-selection .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('123, 456 og 789')
   })
 
@@ -28,24 +28,24 @@ describe('Value.ArraySelection', () => {
       <Value.ArraySelection
         value={[123, 456, 789]}
         format={{ style: 'short', type: 'disjunction' }}
-      />
+      />,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-array-selection .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('123, 456 eller 789')
   })
 
   it('should render different variants', () => {
     const values = [123, 456, 789]
     const { rerender } = render(
-      <Value.ArraySelection variant="ol" value={values} />
+      <Value.ArraySelection variant="ol" value={values} />,
     )
 
     const valueBlock = document.querySelector(
-      '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
+      '.dnb-forms-value-array-selection .dnb-forms-value-block__content',
     )
 
     const ol = valueBlock.querySelector('.dnb-ol') as HTMLOListElement
@@ -53,7 +53,7 @@ describe('Value.ArraySelection', () => {
     expect(ol).toBeInTheDocument()
     expect(ol.children.length).toBe(3)
     expect(ol).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
     rerender(<Value.ArraySelection variant="ul" value={values} />)
 
@@ -63,7 +63,7 @@ describe('Value.ArraySelection', () => {
     expect(ul).toBeInTheDocument()
     expect(ul.children.length).toBe(3)
     expect(ul).toContainHTML(
-      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>',
     )
 
     rerender(<Value.ArraySelection variant="text" value={values} />)
@@ -76,11 +76,11 @@ describe('Value.ArraySelection', () => {
   it('should render different `listTypes`', () => {
     const values = [123, 456, 789]
     const { rerender } = render(
-      <Value.ArraySelection variant="ol" listType="a" value={values} />
+      <Value.ArraySelection variant="ol" listType="a" value={values} />,
     )
 
     const valueBlock = document.querySelector(
-      '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
+      '.dnb-forms-value-array-selection .dnb-forms-value-block__content',
     )
 
     const list = (type: 'ol' | 'ul') =>
@@ -89,17 +89,17 @@ describe('Value.ArraySelection', () => {
     expect(list('ol')).toHaveAttribute('type', 'a')
 
     rerender(
-      <Value.ArraySelection variant="ol" listType="A" value={values} />
+      <Value.ArraySelection variant="ol" listType="A" value={values} />,
     )
     expect(list('ol')).toHaveAttribute('type', 'A')
 
     rerender(
-      <Value.ArraySelection variant="ol" listType="i" value={values} />
+      <Value.ArraySelection variant="ol" listType="i" value={values} />,
     )
     expect(list('ol')).toHaveAttribute('type', 'i')
 
     rerender(
-      <Value.ArraySelection variant="ol" listType="I" value={values} />
+      <Value.ArraySelection variant="ol" listType="I" value={values} />,
     )
     expect(list('ol')).toHaveAttribute('type', 'I')
 
@@ -108,12 +108,12 @@ describe('Value.ArraySelection', () => {
         variant="ul"
         listType="circle"
         value={values}
-      />
+      />,
     )
     expect(list('ul')).toHaveAttribute('type', 'circle')
 
     rerender(
-      <Value.ArraySelection variant="ul" listType="disc" value={values} />
+      <Value.ArraySelection variant="ul" listType="disc" value={values} />,
     )
     expect(list('ul')).toHaveAttribute('type', 'disc')
 
@@ -122,7 +122,7 @@ describe('Value.ArraySelection', () => {
         variant="ul"
         listType="square"
         value={values}
-      />
+      />,
     )
     expect(list('ul')).toHaveAttribute('type', 'square')
   })
@@ -130,7 +130,7 @@ describe('Value.ArraySelection', () => {
   it('renders label when showEmpty is true', () => {
     render(<Value.ArraySelection showEmpty label="My label" />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      'My label'
+      'My label',
     )
   })
 
@@ -139,23 +139,23 @@ describe('Value.ArraySelection', () => {
       <Value.ArraySelection
         label="My selections"
         value={['Foo', 'Bar', 'Baz']}
-      />
+      />,
     )
     expect(
       document.querySelector(
-        '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-array-selection .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('Foo, Bar og Baz')
 
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      'My selections'
+      'My selections',
     )
   })
 
   it('renders custom label', () => {
     render(<Value.ArraySelection label="Custom label" showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      'Custom label'
+      'Custom label',
     )
   })
 
@@ -168,13 +168,13 @@ describe('Value.ArraySelection', () => {
     render(
       <Form.Handler data={{ myPath: ['Baz', 'Bar', 'Foo'] }}>
         <Value.ArraySelection path="/myPath" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-array-selection .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('Baz, Bar og Foo')
   })
 
@@ -185,13 +185,13 @@ describe('Value.ArraySelection', () => {
         data={{ myPath: ['Baz', 'Bar', 'Foo'] }}
       >
         <Value.ArraySelection path="/myPath" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-array-selection .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('Baz, Bar and Foo')
   })
 
@@ -210,13 +210,13 @@ describe('Value.ArraySelection', () => {
         </Field.ArraySelection>
 
         <Value.ArraySelection path="/myPath" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-array-selection .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('Foo title and Bar title')
   })
 
@@ -235,11 +235,11 @@ describe('Value.ArraySelection', () => {
         </Field.ArraySelection>
 
         <Value.ArraySelection path="/myPath" showEmpty />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const element = document.querySelector(
-      '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
+      '.dnb-forms-value-array-selection .dnb-forms-value-block__content',
     )
 
     expect(element).toHaveTextContent('Foo title and Bar title')

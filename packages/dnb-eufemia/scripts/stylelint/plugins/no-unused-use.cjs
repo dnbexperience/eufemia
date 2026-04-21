@@ -91,7 +91,7 @@ const ruleFunction = (primary) => {
       RULE_NAME,
       {
         actual: primary,
-      }
+      },
     )
 
     if (!validOptions) {

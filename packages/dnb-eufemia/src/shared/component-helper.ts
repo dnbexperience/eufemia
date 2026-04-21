@@ -44,7 +44,7 @@ export const validateDOMAttributes = (
   /** `null` or an object with property `attributes` that is merged with `params` */
   props: Record<string, any>,
   /** object with DOM attributes */
-  params: Record<string, any>
+  params: Record<string, any>,
 ) => {
   // if there is an "attributes" prop, prepare these
   // mostly used for prop example usage
@@ -160,7 +160,7 @@ export function extendDeep(target = {}, ...sources) {
 export const dispatchCustomElementEvent = (
   src,
   eventName,
-  eventObjectOrig = undefined
+  eventObjectOrig = undefined,
 ) => {
   let ret = undefined
 
@@ -190,9 +190,9 @@ export const toPascalCase = (s) =>
         acc +
         cur.replace(
           /(\w)(\w*)/g,
-          (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase()
+          (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase(),
         ),
-      ''
+      '',
     )
 
 // transform MyComponent to my-component
@@ -207,7 +207,7 @@ export function toCapitalized(str) {
         .map((char, index, arr) =>
           index === 0 || arr[index - 1] === ' ' || arr[index - 1] === '-'
             ? char.toUpperCase()
-            : char
+            : char,
         )
         .join('')
     : str
@@ -218,7 +218,7 @@ export const makeUniqueId = (prefix = 'id-', length = 8) =>
   String(
     Math.random()
       .toString(36)
-      .substring(2, 2 + length) + idIncrement++
+      .substring(2, 2 + length) + idIncrement++,
   ).slice(-length)
 let idIncrement = 0
 
@@ -279,8 +279,8 @@ export function convertJsxToString(
   elements: React.ReactNode | React.ReactNode[],
   separator: string = undefined,
   transformWord: (
-    element: React.ReactElement<any>
-  ) => React.ReactElement<any> = undefined
+    element: React.ReactElement<any>,
+  ) => React.ReactElement<any> = undefined,
 ): string {
   if (!Array.isArray(elements)) {
     elements = [elements]

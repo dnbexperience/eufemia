@@ -41,24 +41,24 @@ describe('Form.Handler', () => {
       const { rerender } = render(<MockComponent locale="en-GB" />)
 
       const [countryCode, phoneNumber, output1] = Array.from(
-        document.querySelectorAll('label, output')
+        document.querySelectorAll('label, output'),
       )
 
       expect(countryCode).toHaveTextContent(
-        gb.PhoneNumber.countryCodeLabel
+        gb.PhoneNumber.countryCodeLabel,
       )
       expect(phoneNumber).toHaveTextContent(
-        translations['en-GB'].PhoneNumber.numberLabel
+        translations['en-GB'].PhoneNumber.numberLabel,
       )
       expect(output1).toHaveTextContent(translations['en-GB'].my.string)
 
       rerender(<MockComponent locale="nb-NO" />)
 
       expect(countryCode).toHaveTextContent(
-        nb.PhoneNumber.countryCodeLabel
+        nb.PhoneNumber.countryCodeLabel,
       )
       expect(phoneNumber).toHaveTextContent(
-        translations['nb-NO'].PhoneNumber.numberLabel
+        translations['nb-NO'].PhoneNumber.numberLabel,
       )
       expect(output1).toHaveTextContent(translations['nb-NO'].my.string)
     })
@@ -112,29 +112,29 @@ describe('Form.Handler', () => {
         Array.from(document.querySelectorAll('label, output'))
 
       expect(countryCode).toHaveTextContent(
-        gb.PhoneNumber.countryCodeLabel
+        gb.PhoneNumber.countryCodeLabel,
       )
       expect(phoneNumber).toHaveTextContent(
-        translations['en-GB']['PhoneNumber.numberLabel']
+        translations['en-GB']['PhoneNumber.numberLabel'],
       )
       expect(output1).toHaveTextContent(translations['en-GB']['my.string'])
       expect(output2).toHaveTextContent(translations['en-GB']['my.string'])
       expect(output3).toHaveTextContent(
-        translations['en-GB']['PhoneNumber.numberLabel']
+        translations['en-GB']['PhoneNumber.numberLabel'],
       )
 
       rerender(<MockComponent locale="nb-NO" />)
 
       expect(countryCode).toHaveTextContent(
-        nb.PhoneNumber.countryCodeLabel
+        nb.PhoneNumber.countryCodeLabel,
       )
       expect(phoneNumber).toHaveTextContent(
-        translations['nb-NO']['PhoneNumber.numberLabel']
+        translations['nb-NO']['PhoneNumber.numberLabel'],
       )
       expect(output1).toHaveTextContent(translations['nb-NO']['my.string'])
       expect(output2).toHaveTextContent(translations['nb-NO']['my.string'])
       expect(output3).toHaveTextContent(
-        translations['nb-NO']['PhoneNumber.numberLabel']
+        translations['nb-NO']['PhoneNumber.numberLabel'],
       )
     })
   })
@@ -172,24 +172,24 @@ describe('Form.Section', () => {
       const { rerender } = render(<MockComponent locale="en-GB" />)
 
       const [countryCode, phoneNumber, output1] = Array.from(
-        document.querySelectorAll('label, output')
+        document.querySelectorAll('label, output'),
       )
 
       expect(countryCode).toHaveTextContent(
-        gb.PhoneNumber.countryCodeLabel
+        gb.PhoneNumber.countryCodeLabel,
       )
       expect(phoneNumber).toHaveTextContent(
-        translations['en-GB'].PhoneNumber.numberLabel
+        translations['en-GB'].PhoneNumber.numberLabel,
       )
       expect(output1).toHaveTextContent(translations['en-GB'].my.string)
 
       rerender(<MockComponent locale="nb-NO" />)
 
       expect(countryCode).toHaveTextContent(
-        nb.PhoneNumber.countryCodeLabel
+        nb.PhoneNumber.countryCodeLabel,
       )
       expect(phoneNumber).toHaveTextContent(
-        translations['nb-NO'].PhoneNumber.numberLabel
+        translations['nb-NO'].PhoneNumber.numberLabel,
       )
       expect(output1).toHaveTextContent(translations['nb-NO'].my.string)
     })
@@ -233,29 +233,29 @@ describe('Form.Section', () => {
       const { rerender } = render(<MockComponent locale="en-GB" />)
 
       const [countryCode, phoneNumber, output1] = Array.from(
-        document.querySelectorAll('label, output')
+        document.querySelectorAll('label, output'),
       )
 
       expect(countryCode).toHaveTextContent(
-        gb.PhoneNumber.countryCodeLabel
+        gb.PhoneNumber.countryCodeLabel,
       )
       expect(phoneNumber).toHaveTextContent(
-        handlerTranslations['en-GB'].PhoneNumber.numberLabel
+        handlerTranslations['en-GB'].PhoneNumber.numberLabel,
       )
       expect(output1).toHaveTextContent(
-        handlerTranslations['en-GB'].my.string
+        handlerTranslations['en-GB'].my.string,
       )
 
       rerender(<MockComponent locale="nb-NO" />)
 
       expect(countryCode).toHaveTextContent(
-        nb.PhoneNumber.countryCodeLabel
+        nb.PhoneNumber.countryCodeLabel,
       )
       expect(phoneNumber).toHaveTextContent(
-        sectionTranslations['nb-NO'].PhoneNumber.numberLabel
+        sectionTranslations['nb-NO'].PhoneNumber.numberLabel,
       )
       expect(output1).toHaveTextContent(
-        sectionTranslations['nb-NO'].my.string
+        sectionTranslations['nb-NO'].my.string,
       )
     })
   })
@@ -310,29 +310,29 @@ describe('Form.Section', () => {
         Array.from(document.querySelectorAll('label, output'))
 
       expect(countryCode).toHaveTextContent(
-        gb.PhoneNumber.countryCodeLabel
+        gb.PhoneNumber.countryCodeLabel,
       )
       expect(phoneNumber).toHaveTextContent(
-        translations['en-GB']['PhoneNumber.numberLabel']
+        translations['en-GB']['PhoneNumber.numberLabel'],
       )
       expect(output1).toHaveTextContent(translations['en-GB']['my.string'])
       expect(output2).toHaveTextContent(translations['en-GB']['my.string'])
       expect(output3).toHaveTextContent(
-        translations['en-GB']['PhoneNumber.numberLabel']
+        translations['en-GB']['PhoneNumber.numberLabel'],
       )
 
       rerender(<MockComponent locale="nb-NO" />)
 
       expect(countryCode).toHaveTextContent(
-        nb.PhoneNumber.countryCodeLabel
+        nb.PhoneNumber.countryCodeLabel,
       )
       expect(phoneNumber).toHaveTextContent(
-        translations['nb-NO']['PhoneNumber.numberLabel']
+        translations['nb-NO']['PhoneNumber.numberLabel'],
       )
       expect(output1).toHaveTextContent(translations['nb-NO']['my.string'])
       expect(output2).toHaveTextContent(translations['nb-NO']['my.string'])
       expect(output3).toHaveTextContent(
-        translations['nb-NO']['PhoneNumber.numberLabel']
+        translations['nb-NO']['PhoneNumber.numberLabel'],
       )
     })
 
@@ -395,37 +395,37 @@ describe('Form.Section', () => {
         Array.from(document.querySelectorAll('label, output'))
 
       expect(countryCode).toHaveTextContent(
-        gb.PhoneNumber.countryCodeLabel
+        gb.PhoneNumber.countryCodeLabel,
       )
       expect(phoneNumber).toHaveTextContent(
-        handlerTranslations['en-GB']['PhoneNumber.numberLabel']
+        handlerTranslations['en-GB']['PhoneNumber.numberLabel'],
       )
       expect(output1).toHaveTextContent(
-        handlerTranslations['en-GB']['my.string']
+        handlerTranslations['en-GB']['my.string'],
       )
       expect(output2).toHaveTextContent(
-        handlerTranslations['en-GB']['my.string']
+        handlerTranslations['en-GB']['my.string'],
       )
       expect(output3).toHaveTextContent(
-        handlerTranslations['en-GB']['PhoneNumber.numberLabel']
+        handlerTranslations['en-GB']['PhoneNumber.numberLabel'],
       )
 
       rerender(<MockComponent locale="nb-NO" />)
 
       expect(countryCode).toHaveTextContent(
-        nb.PhoneNumber.countryCodeLabel
+        nb.PhoneNumber.countryCodeLabel,
       )
       expect(phoneNumber).toHaveTextContent(
-        sectionTranslations['nb-NO']['PhoneNumber.numberLabel']
+        sectionTranslations['nb-NO']['PhoneNumber.numberLabel'],
       )
       expect(output1).toHaveTextContent(
-        sectionTranslations['nb-NO']['my.string']
+        sectionTranslations['nb-NO']['my.string'],
       )
       expect(output2).toHaveTextContent(
-        sectionTranslations['nb-NO']['my.string']
+        sectionTranslations['nb-NO']['my.string'],
       )
       expect(output3).toHaveTextContent(
-        sectionTranslations['nb-NO']['PhoneNumber.numberLabel']
+        sectionTranslations['nb-NO']['PhoneNumber.numberLabel'],
       )
     })
   })
@@ -463,24 +463,24 @@ describe('Shared Provider', () => {
       const { rerender } = render(<MockComponent locale="en-GB" />)
 
       const [countryCode, phoneNumber, output1] = Array.from(
-        document.querySelectorAll('label, output')
+        document.querySelectorAll('label, output'),
       )
 
       expect(countryCode).toHaveTextContent(
-        gb.PhoneNumber.countryCodeLabel
+        gb.PhoneNumber.countryCodeLabel,
       )
       expect(phoneNumber).toHaveTextContent(
-        translations['en-GB'].PhoneNumber.numberLabel
+        translations['en-GB'].PhoneNumber.numberLabel,
       )
       expect(output1).toHaveTextContent(translations['en-GB'].my.string)
 
       rerender(<MockComponent locale="nb-NO" />)
 
       expect(countryCode).toHaveTextContent(
-        nb.PhoneNumber.countryCodeLabel
+        nb.PhoneNumber.countryCodeLabel,
       )
       expect(phoneNumber).toHaveTextContent(
-        translations['nb-NO'].PhoneNumber.numberLabel
+        translations['nb-NO'].PhoneNumber.numberLabel,
       )
       expect(output1).toHaveTextContent(translations['nb-NO'].my.string)
     })
@@ -536,29 +536,29 @@ describe('Shared Provider', () => {
         Array.from(document.querySelectorAll('label, output'))
 
       expect(countryCode).toHaveTextContent(
-        gb.PhoneNumber.countryCodeLabel
+        gb.PhoneNumber.countryCodeLabel,
       )
       expect(phoneNumber).toHaveTextContent(
-        translations['en-GB']['PhoneNumber.numberLabel']
+        translations['en-GB']['PhoneNumber.numberLabel'],
       )
       expect(output1).toHaveTextContent(translations['en-GB']['my.string'])
       expect(output2).toHaveTextContent(translations['en-GB']['my.string'])
       expect(output3).toHaveTextContent(
-        translations['en-GB']['PhoneNumber.numberLabel']
+        translations['en-GB']['PhoneNumber.numberLabel'],
       )
 
       rerender(<MockComponent locale="nb-NO" />)
 
       expect(countryCode).toHaveTextContent(
-        nb.PhoneNumber.countryCodeLabel
+        nb.PhoneNumber.countryCodeLabel,
       )
       expect(phoneNumber).toHaveTextContent(
-        translations['nb-NO']['PhoneNumber.numberLabel']
+        translations['nb-NO']['PhoneNumber.numberLabel'],
       )
       expect(output1).toHaveTextContent(translations['nb-NO']['my.string'])
       expect(output2).toHaveTextContent(translations['nb-NO']['my.string'])
       expect(output3).toHaveTextContent(
-        translations['nb-NO']['PhoneNumber.numberLabel']
+        translations['nb-NO']['PhoneNumber.numberLabel'],
       )
     })
   })

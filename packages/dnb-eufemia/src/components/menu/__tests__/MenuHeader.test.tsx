@@ -8,7 +8,7 @@ describe('MenuHeader', () => {
     render(
       <ul role="menu">
         <Menu.Header text="Section" />
-      </ul>
+      </ul>,
     )
 
     const header = document.querySelector('.dnb-menu__header')
@@ -22,7 +22,7 @@ describe('MenuHeader', () => {
         <Menu.Header>
           <strong>Custom</strong>
         </Menu.Header>
-      </ul>
+      </ul>,
     )
 
     const header = document.querySelector('.dnb-menu__header')
@@ -34,7 +34,7 @@ describe('MenuHeader', () => {
     render(
       <ul role="menu">
         <Menu.Header text="Section" />
-      </ul>
+      </ul>,
     )
 
     const header = document.querySelector('.dnb-menu__header')
@@ -46,7 +46,7 @@ describe('MenuHeader', () => {
       <ul role="menu">
         <Menu.Header text="Section" />
         <Menu.Action text="Item" />
-      </ul>
+      </ul>,
     )
 
     const header = document.querySelector('.dnb-menu__header')
@@ -57,7 +57,7 @@ describe('MenuHeader', () => {
     render(
       <ul role="menu">
         <Menu.Header text="Section" className="custom" />
-      </ul>
+      </ul>,
     )
 
     const header = document.querySelector('.dnb-menu__header')
@@ -68,7 +68,7 @@ describe('MenuHeader', () => {
     render(
       <ul role="menu">
         <Menu.Header text="From text">From children</Menu.Header>
-      </ul>
+      </ul>,
     )
 
     const text = document.querySelector('.dnb-menu__header__text')
@@ -86,7 +86,7 @@ describe('MenuHeader', () => {
           <Menu.Header text="Selection" />
           <Menu.Action text="Select All" />
         </Menu.List>
-      </Menu.Root>
+      </Menu.Root>,
     )
 
     const headers = document.querySelectorAll('.dnb-menu__header')
@@ -103,7 +103,7 @@ describe('MenuHeader', () => {
     const { container } = render(
       <ul role="menu">
         <Menu.Header text="Section" />
-      </ul>
+      </ul>,
     )
 
     expect(await axeComponent(container)).toHaveNoViolations()

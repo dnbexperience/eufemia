@@ -75,7 +75,7 @@ export type InputElement =
   | React.ReactNode
   | ((
       params: InputElementRenderProps,
-      ref: React.RefObject<HTMLInputElement | null>
+      ref: React.RefObject<HTMLInputElement | null>,
     ) => React.ReactNode)
 export type InputSubmitElement = React.ComponentType | React.ReactNode
 export type InputSubmitButtonIcon = string | React.ReactNode
@@ -373,13 +373,13 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   }, [])
 
   const [value, setValue] = useState<string | number | null>(
-    initialValue as string | number | null
+    initialValue as string | number | null,
   )
   const [inputState, setInputState] = useState(
-    restProps.inputState || 'virgin'
+    restProps.inputState || 'virgin',
   )
   const prevValuePropRef = useRef<string | number | null | undefined>(
-    restProps.value
+    restProps.value,
   )
 
   // use only the props from context, who are available here anyway
@@ -392,7 +392,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     { skeleton: context?.skeleton },
     context.getTranslation(restProps).Input,
     pickFormElementProps(context?.formElement),
-    context.Input
+    context.Input,
   )
 
   // getDerivedStateFromProps: sync value from props
@@ -461,7 +461,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.selectAll, props.onFocus]
+    [props.selectAll, props.onFocus],
   )
 
   const onBlurHandler = useCallback(
@@ -476,12 +476,12 @@ function InputComponent({ ref, ...restProps }: InputProps) {
           hasValue(eventValue) &&
             eventValue !== String(prevValuePropRef.current)
             ? 'dirty'
-            : 'initial'
+            : 'initial',
         )
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.onBlur]
+    [props.onBlur],
   )
 
   const onChangeHandler = useCallback(
@@ -502,7 +502,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.onChange, updateInputValue]
+    [props.onChange, updateInputValue],
   )
 
   const onKeyDownHandler = useCallback(
@@ -520,7 +520,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.onKeyDown, props.onSubmit]
+    [props.onKeyDown, props.onSubmit],
   )
 
   const clearValueHandler = useCallback(
@@ -540,7 +540,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
       inputRef.current.focus({ preventScroll: true })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [value, props.onChange, props.onClear]
+    [value, props.onChange, props.onClear],
   )
 
   const {
@@ -635,7 +635,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
       stretch && `dnb-input--stretch`,
       keepPlaceholder && 'dnb-input--keep-placeholder',
       'dnb-form-component',
-      className
+      className,
     ),
     'data-input-state': usedInputState,
     'data-has-content': hasVal ? 'true' : 'false',
@@ -691,7 +691,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
       inputParams,
       hasSubmitButton && !submitElement ? id + '-submit-button' : null,
       showStatus ? id + '-status' : null,
-      suffix ? id + '-suffix' : null
+      suffix ? id + '-suffix' : null,
     )
   }
   if (readOnly) {
@@ -702,7 +702,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     className: clsx(
       !_omitInputShellClass && 'dnb-input__shell',
       !_omitInputShellClass && 'dnb-input__border',
-      createSkeletonClass('shape', skeleton, context)
+      createSkeletonClass('shape', skeleton, context),
     ),
   }
 
@@ -716,7 +716,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     InputElement = (
       InputElement as (
         params: InputElementRenderProps,
-        ref: React.RefObject<HTMLInputElement | null>
+        ref: React.RefObject<HTMLInputElement | null>,
       ) => React.ReactNode
     )({ ...inputParams, value }, inputRef)
   } else if (!InputElement && _inputElement) {
@@ -778,7 +778,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
                 id={id + '-placeholder'}
                 className={clsx(
                   'dnb-input__placeholder',
-                  align ? `dnb-input__align--${align}` : null
+                  align ? `dnb-input__align--${align}` : null,
                 )}
                 role="presentation"
                 aria-hidden
@@ -901,7 +901,7 @@ function InputSubmitButton({
       })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.value, props.onSubmitFocus]
+    [props.value, props.onSubmitFocus],
   )
 
   const onSubmitBlurHandler = useCallback(
@@ -914,7 +914,7 @@ function InputSubmitButton({
       })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.value, props.onSubmitBlur]
+    [props.value, props.onSubmitBlur],
   )
 
   const onSubmitHandler = useCallback(
@@ -926,7 +926,7 @@ function InputSubmitButton({
       })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.value, props.onSubmit]
+    [props.value, props.onSubmit],
   )
 
   const {
@@ -959,7 +959,7 @@ function InputSubmitButton({
   skeletonDOMAttributes(
     params as Record<string, unknown>,
     skeleton,
-    context
+    context,
   )
 
   // also used for code markup simulation
@@ -974,7 +974,7 @@ function InputSubmitButton({
         className={clsx(
           'dnb-input__submit-button__button',
           'dnb-button--input-button',
-          className
+          className,
         )}
         variant={variant as ButtonVariant}
         icon={icon}
@@ -1023,7 +1023,7 @@ const InputIcon = React.memo(
 
     // For all other icons, don't memoize (always re-render)
     return false
-  }
+  },
 )
 InputIcon.displayName = 'InputIcon'
 
@@ -1041,7 +1041,7 @@ const Input: InputComponentType = Object.assign(
   {
     getValue,
     hasValue,
-  }
+  },
 )
 
 withComponentMarkers(Input, {

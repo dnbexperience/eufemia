@@ -20,13 +20,13 @@ describe('HelpButton', () => {
   it('should have question icon by default', () => {
     render(<HelpButton {...props} />)
     expect(
-      document.querySelector('.dnb-icon').getAttribute('data-testid')
+      document.querySelector('.dnb-icon').getAttribute('data-testid'),
     ).toBe('question icon')
     expect(document.querySelector('svg').outerHTML).toBe(
-      render(<QuestionIcon />).container.innerHTML
+      render(<QuestionIcon />).container.innerHTML,
     )
     expect(document.querySelector('.dnb-button').textContent.trim()).toBe(
-      ''
+      '',
     )
   })
 
@@ -34,33 +34,33 @@ describe('HelpButton', () => {
     render(<HelpButton text="text" style={{ color: 'red' }} />)
 
     expect(
-      document.querySelector('.dnb-button').getAttribute('style')
+      document.querySelector('.dnb-button').getAttribute('style'),
     ).toBe('color: red;')
   })
 
   it('should use "information" icon when set', () => {
     render(<HelpButton {...props} icon="information" />)
     expect(
-      document.querySelector('.dnb-icon').getAttribute('data-testid')
+      document.querySelector('.dnb-icon').getAttribute('data-testid'),
     ).toBe('information icon')
     expect(document.querySelector('svg').outerHTML).toBe(
-      render(<InformationIcon />).container.innerHTML
+      render(<InformationIcon />).container.innerHTML,
     )
     expect(document.querySelector('.dnb-button').textContent.trim()).toBe(
-      ''
+      '',
     )
   })
 
   it('should use given icon', () => {
     render(<HelpButton {...props} icon={InformationIcon} />)
     expect(
-      document.querySelector('.dnb-icon').getAttribute('data-testid')
+      document.querySelector('.dnb-icon').getAttribute('data-testid'),
     ).toBe('information medium icon')
     expect(document.querySelector('svg').outerHTML).toBe(
-      render(<InformationIcon />).container.innerHTML
+      render(<InformationIcon />).container.innerHTML,
     )
     expect(document.querySelector('.dnb-button').textContent.trim()).toBe(
-      ''
+      '',
     )
   })
 
@@ -69,14 +69,14 @@ describe('HelpButton', () => {
     expect(
       document
         .querySelector('.dnb-button')
-        .getAttribute('aria-roledescription')
+        .getAttribute('aria-roledescription'),
     ).toBe('Hjelp-knapp')
   })
 
   it('should have larger bounding class when size is set to small', () => {
     render(<HelpButton {...props} size="small" />)
     expect(
-      document.querySelector('.dnb-button .dnb-button__bounding')
+      document.querySelector('.dnb-button .dnb-button__bounding'),
     ).toBeInTheDocument()
   })
 
@@ -84,27 +84,27 @@ describe('HelpButton', () => {
     it('should have correct aria-label', () => {
       render(<HelpButton {...props} icon="bell" />)
       expect(
-        document.querySelector('.dnb-button').getAttribute('aria-label')
+        document.querySelector('.dnb-button').getAttribute('aria-label'),
       ).toBe('Hjelpetekst')
     })
 
     it('should have not aria-label if text is given', () => {
       render(<HelpButton {...props} icon="bell" text="button text" />)
       expect(document.querySelector('.dnb-button')).not.toHaveAttribute(
-        'aria-label'
+        'aria-label',
       )
       expect(
-        document.querySelector('.dnb-button').textContent.trim()
+        document.querySelector('.dnb-button').textContent.trim(),
       ).toBe('button text')
     })
 
     it('should have aria-label if title is given, but no text', () => {
       render(<HelpButton {...props} icon="bell" title="button title" />)
       expect(
-        document.querySelector('.dnb-button').getAttribute('aria-label')
+        document.querySelector('.dnb-button').getAttribute('aria-label'),
       ).toBe('button title')
       expect(
-        document.querySelector('.dnb-button').textContent.trim()
+        document.querySelector('.dnb-button').textContent.trim(),
       ).toBe('')
     })
 
@@ -115,13 +115,13 @@ describe('HelpButton', () => {
           icon="bell"
           title="button title"
           aria-label="custom aria-label"
-        />
+        />,
       )
       expect(
-        document.querySelector('.dnb-button').getAttribute('aria-label')
+        document.querySelector('.dnb-button').getAttribute('aria-label'),
       ).toBe('custom aria-label')
       expect(
-        document.querySelector('.dnb-button').textContent.trim()
+        document.querySelector('.dnb-button').textContent.trim(),
       ).toBe('')
     })
 
@@ -141,7 +141,7 @@ describe('HelpButton', () => {
     const dialogElem = document.getElementById(id)
     const textContent = String(dialogElem.textContent).replace(
       /\u200C/g,
-      ''
+      '',
     )
 
     expect(textContent).toContain(dialogContent)
@@ -158,7 +158,7 @@ describe('HelpButton', () => {
         )}
       >
         Help text
-      </HelpButton>
+      </HelpButton>,
     )
 
     fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
@@ -166,10 +166,10 @@ describe('HelpButton', () => {
     const dialogElem = document.querySelector('.custom-class')
 
     expect(
-      dialogElem.querySelector('.dnb-dialog__title').textContent
+      dialogElem.querySelector('.dnb-dialog__title').textContent,
     ).toBe('Title')
     expect(
-      dialogElem.querySelector('.dnb-dialog__content').textContent
+      dialogElem.querySelector('.dnb-dialog__content').textContent,
     ).toBe('Help text')
   })
 
@@ -191,7 +191,7 @@ describe('HelpButton', () => {
     render(
       <HelpButton size="small" left>
         Text
-      </HelpButton>
+      </HelpButton>,
     )
 
     const button = document.querySelector('.dnb-help-button')
@@ -214,7 +214,7 @@ describe('HelpButton scss', () => {
 
   it('should match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-help-button-theme-ui.scss')
+      require.resolve('../style/themes/dnb-help-button-theme-ui.scss'),
     )
     expect(css).toMatchSnapshot()
   })

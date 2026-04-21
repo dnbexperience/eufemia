@@ -29,7 +29,7 @@ function At(props: DataContextAtProps) {
     (changePath, value) => {
       handlePathChangeDataContext(`${path}${changePath}`, value)
     },
-    [handlePathChangeDataContext, path]
+    [handlePathChangeDataContext, path],
   )
 
   if (iterate) {
@@ -44,7 +44,7 @@ function At(props: DataContextAtProps) {
               ? (changePath, value) => {
                   handlePathChangeDataContext(
                     `${path}/${i}${changePath}`,
-                    value
+                    value,
                   )
                 }
               : undefined

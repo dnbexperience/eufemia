@@ -40,7 +40,7 @@ const defaultProps: Partial<TermDefinitionAllProps> = {
 }
 
 export default function TermDefinition(
-  localProps: TermDefinitionAllProps
+  localProps: TermDefinitionAllProps,
 ) {
   const context = useContext(Context)
 
@@ -48,7 +48,7 @@ export default function TermDefinition(
     localProps,
     defaultProps,
     { skeleton: context?.skeleton },
-    context?.TermDefinition
+    context?.TermDefinition,
   )
 
   const { children, content, className, placement, ...rest } = allProps
@@ -74,7 +74,7 @@ export default function TermDefinition(
       e.preventDefault()
       toggle()
     },
-    [toggle]
+    [toggle],
   )
 
   const onKeyDown = useCallback(
@@ -88,7 +88,7 @@ export default function TermDefinition(
         toggle(false)
       }
     },
-    [toggle]
+    [toggle],
   )
 
   const triggerProps = removeSpaceProps(rest)
@@ -104,7 +104,7 @@ export default function TermDefinition(
             'dnb-term-definition__trigger',
             'dnb-anchor',
             active && 'dnb-anchor--hover',
-            className
+            className,
           ),
           'aria-expanded': active,
           'aria-controls': active ? id : undefined,

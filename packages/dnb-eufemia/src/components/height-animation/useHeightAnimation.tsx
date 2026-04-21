@@ -64,13 +64,13 @@ export function useHeightAnimation(
     onOpen = null,
     onAnimationStart = null,
     onAnimationEnd = null,
-  }: UseHeightAnimationOptions = {}
+  }: UseHeightAnimationOptions = {},
 ) {
   const instRef = useRef<HeightAnimationInstance | null>(null)
   const isInitialRenderRef = useRef(
     typeof globalThis !== 'undefined'
       ? globalThis.readjustTime !== -1
-      : true
+      : true,
   )
 
   const [isOpen, setIsOpen] = useState(open)
@@ -143,7 +143,7 @@ export function useHeightAnimation(
 
       if (!isInitialRenderRef.current) {
         eventsRef.current.onAnimationStart?.(
-          state as HeightAnimationOnStart
+          state as HeightAnimationOnStart,
         )
       }
     })

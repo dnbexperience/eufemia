@@ -160,14 +160,14 @@ function WizardContainer(props: WizardContainerProps) {
   const sharedStateRef =
     useRef<SharedStateReturn<WizardContextState>>(undefined)
   sharedStateRef.current = useSharedState<WizardContextState>(
-    hasContext && id ? createReferenceKey(id, 'wizard') : undefined
+    hasContext && id ? createReferenceKey(id, 'wizard') : undefined,
   )
 
   const hasFieldErrorInStep = useCallback((index: StepIndex) => {
     return Array.from(fieldErrorRef.current.values()).some(
       ({ index: i, hasError }) => {
         return i === index && hasError
-      }
+      },
     )
   }, [])
 
@@ -226,7 +226,7 @@ function WizardContainer(props: WizardContainerProps) {
         storeStepStateRef.current.set(i, result)
       }
     },
-    [hasFieldErrorInStep]
+    [hasFieldErrorInStep],
   )
 
   const hasInvalidStepsState: WizardContextState['hasInvalidStepsState'] =
@@ -261,14 +261,14 @@ function WizardContainer(props: WizardContainerProps) {
 
         return false
       },
-      [syncStepsState]
+      [syncStepsState],
     )
 
   const setFieldError: WizardContextState['setFieldError'] = useCallback(
     (index, path, hasError) => {
       fieldErrorRef.current.set(path, { index, hasError })
     },
-    []
+    [],
   )
 
   const preventNavigation = useCallback((shouldPrevent = true) => {
@@ -300,7 +300,7 @@ function WizardContainer(props: WizardContainerProps) {
 
         return options
       },
-      [preventNavigation]
+      [preventNavigation],
     )
 
   const callOnStepChange = useCallback(
@@ -311,7 +311,7 @@ function WizardContainer(props: WizardContainerProps) {
 
       return onStepChange?.(index, mode, getStepChangeOptions(index))
     },
-    [getStepChangeOptions, onStepChange]
+    [getStepChangeOptions, onStepChange],
   )
 
   const { setFocus, scrollToTop, isInteractionRef } =
@@ -371,7 +371,7 @@ function WizardContainer(props: WizardContainerProps) {
         setShowAllErrors(
           bypassOnNavigation
             ? false
-            : hasInvalidStepsState(index, ['error'])
+            : hasInvalidStepsState(index, ['error']),
         )
 
         if (!preventNextStepRef.current && !(result instanceof Error)) {
@@ -427,7 +427,7 @@ function WizardContainer(props: WizardContainerProps) {
       setFormState,
       setShowAllErrors,
       setStepAsVisited,
-    ]
+    ],
   )
 
   const setActiveIndex = useCallback(
@@ -445,7 +445,7 @@ function WizardContainer(props: WizardContainerProps) {
         ...options,
       })
     },
-    [handleStepChange]
+    [handleStepChange],
   )
 
   const handlePrevious = useCallback(() => {
@@ -460,17 +460,17 @@ function WizardContainer(props: WizardContainerProps) {
     ({ currentStep }) => {
       setActiveIndex(
         currentStep,
-        mode === 'loose' ? { skipErrorCheck: true } : undefined
+        mode === 'loose' ? { skipErrorCheck: true } : undefined,
       )
     },
-    [mode, setActiveIndex]
+    [mode, setActiveIndex],
   )
 
   const setFormError = useCallback(
     (error: Error) => {
       setSubmitState?.({ error })
     },
-    [setSubmitState]
+    [setSubmitState],
   )
 
   const handleSubmit = useCallback(
@@ -485,7 +485,7 @@ function WizardContainer(props: WizardContainerProps) {
         preventSubmit()
       }
     },
-    [hasInvalidStepsState, handleNext]
+    [hasInvalidStepsState, handleNext],
   )
   useEventListener('onSubmit', handleSubmit)
 

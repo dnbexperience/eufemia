@@ -9,53 +9,53 @@ describe('Value.SelectCountry', () => {
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-select-country .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-select-country .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('Norge')
   })
 
   it('supports invalid values', () => {
     const { rerender } = render(
-      <Value.SelectCountry value={'NotValidISOCode' as CountryISO} />
+      <Value.SelectCountry value={'NotValidISOCode' as CountryISO} />,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-select-country .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-select-country .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('NotValidISOCode')
 
     rerender(
-      <Value.SelectCountry value={0 as unknown as CountryISO} showEmpty />
+      <Value.SelectCountry value={0 as unknown as CountryISO} showEmpty />,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-select-country .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-select-country .dnb-forms-value-block__content',
+      ),
     ).not.toBeInTheDocument()
 
     rerender(<Value.SelectCountry value={null} showEmpty />)
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-select-country .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-select-country .dnb-forms-value-block__content',
+      ),
     ).not.toBeInTheDocument()
 
     rerender(<Value.SelectCountry value={undefined} showEmpty />)
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-select-country .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-select-country .dnb-forms-value-block__content',
+      ),
     ).not.toBeInTheDocument()
   })
 
   it('renders label when showEmpty is true', () => {
     render(<Value.SelectCountry showEmpty label="My label" />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      'My label'
+      'My label',
     )
   })
 
@@ -63,19 +63,19 @@ describe('Value.SelectCountry', () => {
     render(<Value.SelectCountry label="My selections" value="NO" />)
     expect(
       document.querySelector(
-        '.dnb-forms-value-select-country .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-select-country .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('Norge')
 
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      'My selections'
+      'My selections',
     )
   })
 
   it('renders custom label', () => {
     render(<Value.SelectCountry label="Custom label" showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      'Custom label'
+      'Custom label',
     )
   })
 
@@ -88,13 +88,13 @@ describe('Value.SelectCountry', () => {
     render(
       <Form.Handler data={{ myCountry: 'CH' }}>
         <Value.SelectCountry path="/myCountry" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-select-country .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-select-country .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('Sveits')
   })
 
@@ -102,13 +102,13 @@ describe('Value.SelectCountry', () => {
     render(
       <Form.Handler locale="en-GB" data={{ myCountry: 'CH' }}>
         <Value.SelectCountry path="/myCountry" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-select-country .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-select-country .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('Switzerland')
   })
 })

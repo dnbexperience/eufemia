@@ -73,7 +73,7 @@ test.describe('Page Navigation', () => {
       expect(heading).toContain('Components')
 
       const accordionLinkText = await page.textContent(
-        'a[href="/uilib/components/accordion/"]'
+        'a[href="/uilib/components/accordion/"]',
       )
       expect(accordionLinkText).toContain('Accordion')
     })
@@ -114,7 +114,7 @@ test.describe('Page Navigation', () => {
         state: 'attached',
       })
       const buttonLink = page.locator(
-        '#portal-sidebar-menu a[href="/uilib/components/button/"]'
+        '#portal-sidebar-menu a[href="/uilib/components/button/"]',
       )
       await buttonLink.first().waitFor({ state: 'visible' })
       await buttonLink.first().click()
@@ -138,7 +138,7 @@ test.describe('Page Navigation', () => {
         state: 'attached',
       })
       const demosLink = page.locator(
-        'a[href="/uilib/components/button/demos/"]'
+        'a[href="/uilib/components/button/demos/"]',
       )
       await demosLink.first().waitFor({ state: 'visible' })
       await demosLink.first().click()
@@ -166,7 +166,7 @@ test.describe('Page Navigation', () => {
       expect(heading).toContain('Components')
 
       const accordionLinkText = await page.textContent(
-        'a[href="/uilib/components/accordion/"]'
+        'a[href="/uilib/components/accordion/"]',
       )
       expect(accordionLinkText).toContain('Accordion')
     })

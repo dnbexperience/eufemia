@@ -15,7 +15,7 @@ import SummaryListContext from '../Value/SummaryList/SummaryListContext'
 export type UseValueProps<Value> = ValueProps<Value>
 
 export default function useValueProps<Value = unknown, Props = unknown>(
-  localProps: Props & ValueProps<Value>
+  localProps: Props & ValueProps<Value>,
 ): Props & ValueProps<Value> {
   const [, forceUpdate] = useReducer(() => ({}), {})
 
@@ -84,7 +84,7 @@ export default function useValueProps<Value = unknown, Props = unknown>(
         (item.isPreMounted !== false || item.wasStepChange === true)
       )
     },
-    [inheritVisibility, mountedFieldsRef]
+    [inheritVisibility, mountedFieldsRef],
   )
 
   const value = shouldBeVisible(path)

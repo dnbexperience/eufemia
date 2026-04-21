@@ -58,7 +58,7 @@ const convertBrandVariable = (key: string, brand: string): string => {
       const targetNamespace = NAMESPACE_MAPPINGS[namespace] || namespace
       return withoutBrand.replace(
         namespacePrefix,
-        `--${targetNamespace}-${brand}-`
+        `--${targetNamespace}-${brand}-`,
       )
     }
   }
@@ -79,14 +79,14 @@ const convertVarReferences = (value: string, brand: string): string => {
     const pattern = new RegExp(`var\\(--${brand}-${namespace}-`, 'g')
     convertedValue = convertedValue.replace(
       pattern,
-      `var(--${targetNamespace}-${brand}-`
+      `var(--${targetNamespace}-${brand}-`,
     )
   }
 
   // Handle any remaining brand patterns
   convertedValue = convertedValue.replace(
     new RegExp(`var\\(--${brand}-`, 'g'),
-    'var(--'
+    'var(--',
   )
 
   return convertedValue
@@ -103,7 +103,7 @@ const convertBaseVarReferences = (value: string): string => {
 }
 
 export const convertVariablesToTailwindFormat = (
-  variables: CSSVariables
+  variables: CSSVariables,
 ): CSSVariables => {
   const convertedVariables: CSSVariables = {}
 
@@ -129,7 +129,7 @@ export const convertVariablesToTailwindFormat = (
           if (targetNamespace !== namespace) {
             convertedKey = key.replace(
               namespacePrefix,
-              `--${targetNamespace}-`
+              `--${targetNamespace}-`,
             )
           }
           break
@@ -238,7 +238,7 @@ export const VALID_TAILWIND_NAMESPACES: readonly string[] =
  * @returns Validation result with isValid and errors
  */
 export const validateTailwindVariables = (
-  variables: CSSVariables
+  variables: CSSVariables,
 ): ValidationResult => {
   const errors: string[] = []
 
@@ -251,12 +251,12 @@ export const validateTailwindVariables = (
 
     // Check for invalid Tailwind namespace patterns
     const hasValidNamespace = VALID_TAILWIND_NAMESPACES.some((namespace) =>
-      key.startsWith(namespace)
+      key.startsWith(namespace),
     )
 
     if (!hasValidNamespace && key.startsWith('--')) {
       errors.push(
-        `Variable ${key} doesn't follow Tailwind namespace conventions`
+        `Variable ${key} doesn't follow Tailwind namespace conventions`,
       )
     }
   })
@@ -285,7 +285,7 @@ export const isValidTailwindVariable = (key: string): boolean => {
 
   // Check for valid Tailwind namespace
   return VALID_TAILWIND_NAMESPACES.some((namespace) =>
-    key.startsWith(namespace)
+    key.startsWith(namespace),
   )
 }
 
@@ -297,7 +297,7 @@ export const isValidTailwindVariable = (key: string): boolean => {
  */
 export const getTailwindNamespace = (key: string): string | null => {
   const namespace = VALID_TAILWIND_NAMESPACES.find((ns) =>
-    key.startsWith(ns)
+    key.startsWith(ns),
   )
   return namespace || null
 }

@@ -93,7 +93,7 @@ describe('ModalContent Focus Logic', () => {
       rerender(
         <ModalContent {...props}>
           <DialogContent>Updated content</DialogContent>
-        </ModalContent>
+        </ModalContent>,
       )
 
       // Run all timers to flush the setTimeout
@@ -110,7 +110,7 @@ describe('ModalContent Focus Logic', () => {
       rerender(
         <ModalContent {...props}>
           <DialogContent>Updated content</DialogContent>
-        </ModalContent>
+        </ModalContent>,
       )
 
       jest.runAllTimers()
@@ -135,7 +135,7 @@ describe('ModalContent Focus Logic', () => {
       rerender(
         <ModalContent {...props}>
           <DialogContent>First update</DialogContent>
-        </ModalContent>
+        </ModalContent>,
       )
 
       jest.runAllTimers()
@@ -145,7 +145,7 @@ describe('ModalContent Focus Logic', () => {
       rerender(
         <ModalContent {...props}>
           <DialogContent>Second update</DialogContent>
-        </ModalContent>
+        </ModalContent>,
       )
 
       jest.runAllTimers()
@@ -168,7 +168,7 @@ describe('ModalContent Focus Logic', () => {
       rerender(
         <ModalContent {...props}>
           <DialogContent>First update</DialogContent>
-        </ModalContent>
+        </ModalContent>,
       )
 
       jest.runAllTimers()
@@ -181,7 +181,7 @@ describe('ModalContent Focus Logic', () => {
       rerender(
         <ModalContent {...props}>
           <DialogContent>Second update</DialogContent>
-        </ModalContent>
+        </ModalContent>,
       )
 
       jest.runAllTimers()
@@ -206,7 +206,7 @@ describe('ModalContent Focus Logic', () => {
       rerender(
         <ModalContent {...props}>
           <DialogContent>Updated content</DialogContent>
-        </ModalContent>
+        </ModalContent>,
       )
 
       jest.runAllTimers()
@@ -260,7 +260,7 @@ describe('ModalContent Focus Logic', () => {
       rerender(
         <ModalContent {...props}>
           <DialogContent>Test content</DialogContent>
-        </ModalContent>
+        </ModalContent>,
       )
 
       jest.runAllTimers()
@@ -273,7 +273,7 @@ describe('ModalContent Focus Logic', () => {
     it('should work with focusSelector prop', () => {
       const props = createTestProps()
       const { rerender } = render(
-        <ModalContent {...props} focusSelector="#custom-focus" />
+        <ModalContent {...props} focusSelector="#custom-focus" />,
       )
 
       // Add custom focus element to the mock
@@ -286,7 +286,7 @@ describe('ModalContent Focus Logic', () => {
       rerender(
         <ModalContent {...props} focusSelector="#custom-focus">
           <DialogContent>Updated content</DialogContent>
-        </ModalContent>
+        </ModalContent>,
       )
 
       jest.runAllTimers()
@@ -296,14 +296,14 @@ describe('ModalContent Focus Logic', () => {
     it('should work with animationDuration prop', () => {
       const props = createTestProps()
       const { rerender } = render(
-        <ModalContent {...props} animationDuration="100" />
+        <ModalContent {...props} animationDuration="100" />,
       )
 
       // Trigger children change
       rerender(
         <ModalContent {...props} animationDuration="100">
           <DialogContent>Updated content</DialogContent>
-        </ModalContent>
+        </ModalContent>,
       )
 
       jest.runAllTimers()

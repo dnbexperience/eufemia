@@ -84,7 +84,7 @@ const H = ({
       internalClass={clsx(
         targetSize && `dnb-h--${targetSize}`,
         context?.theme?.surface === 'dark' && 'dnb-t--surface-dark',
-        className
+        className,
       )}
       {...props}
       style={{ ...style, ...props.style }}

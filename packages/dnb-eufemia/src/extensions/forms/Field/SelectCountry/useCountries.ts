@@ -59,7 +59,7 @@ export default function useCountries({
 
       return listOfCountries
     },
-    [translations]
+    [translations],
   )
 
   const countries = useMemo(() => {

@@ -16,7 +16,7 @@ export function getDisplayValue({
 }) {
   const fallback = (placeholder || '').padEnd(
     length,
-    placeholder[0] || ' '
+    placeholder[0] || ' ',
   )
   const visiblePlaceholder = fallback.slice(0, length)
 
@@ -26,7 +26,7 @@ export function getDisplayValue({
 
   return `${value}${visiblePlaceholder.slice(value.length)}`.slice(
     0,
-    length
+    length,
   )
 }
 
@@ -37,7 +37,7 @@ export function insertChar(
   {
     overwriteMode,
     maxLength,
-  }: { overwriteMode: OverwriteMode; maxLength: number }
+  }: { overwriteMode: OverwriteMode; maxLength: number },
 ) {
   const chars = Array.from(value)
 
@@ -82,7 +82,7 @@ export function extractValidChars(value: string, mask: RegExp[]) {
 
 export function joinValues(
   values: Record<string, string>,
-  delimiter?: string
+  delimiter?: string,
 ) {
   const parts = Object.values(values).filter(Boolean)
 
@@ -168,7 +168,7 @@ export function insertCharIntoSection({
     {
       overwriteMode,
       maxLength: mask.length,
-    }
+    },
   )
 
   onChange(inputId, nextValue)

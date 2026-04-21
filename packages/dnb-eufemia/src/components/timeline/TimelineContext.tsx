@@ -6,7 +6,7 @@ export type TimelineContextValue = {
 }
 
 const TimelineContext = React.createContext<TimelineContextValue | null>(
-  null
+  null,
 )
 
 export default TimelineContext

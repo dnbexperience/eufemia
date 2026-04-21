@@ -243,7 +243,7 @@ const tabsDefaultProps: Record<string, unknown> = {
 
 function getSelectedKeyOrFallback(
   selectedKey: TabsSelectedKey | null,
-  data: TabDataItem[]
+  data: TabDataItem[],
 ) {
   let useKey = selectedKey
 
@@ -252,7 +252,7 @@ function getSelectedKeyOrFallback(
     useKey =
       data.reduce<TabsSelectedKey | null>(
         (acc, { selected, key }) => (selected ? key : acc),
-        null
+        null,
       ) ||
       (data[0] && data[0].key)
   } else {
@@ -272,7 +272,7 @@ function getData(props: TabsProps) {
   const addReactElement = (
     list: TabDataItem[],
     reactElem: React.ReactElement,
-    reactElemIndex?: number
+    reactElemIndex?: number,
   ) => {
     if (reactElem && reactElem.type === CustomContent) {
       // tabs data from main prop
@@ -320,7 +320,7 @@ function getData(props: TabsProps) {
     Array.isArray(props.children) &&
     props.children.some(
       (element) =>
-        typeof element === 'function' || React.isValidElement(element)
+        typeof element === 'function' || React.isValidElement(element),
     )
   ) {
     res = props.children.reduce((list, reactElem, i) => {
@@ -396,7 +396,7 @@ function TabsComponent(ownProps: TabsProps) {
   const initialData = useRef(getData(ownProps))
   const [data, setData] = useState<TabDataItem[]>(initialData.current)
   const [selectedKey, setSelectedKey] = useState<string | number>(() =>
-    getSelectedKeyOrFallback(ownProps.selectedKey, initialData.current)
+    getSelectedKeyOrFallback(ownProps.selectedKey, initialData.current),
   )
   const [focusKey, setFocusKey] = useState<string | number>(selectedKey)
   const [hasScrollbar, setHasScrollbar] = useState(false)
@@ -405,10 +405,10 @@ function TabsComponent(ownProps: TabsProps) {
 
   // Track previous props for getDerivedStateFromProps equivalent
   const [prevDataSource, setPrevDataSource] = useState(
-    ownProps.data || ownProps.children
+    ownProps.data || ownProps.children,
   )
   const [prevSelectedKey, setPrevSelectedKey] = useState(
-    ownProps.selectedKey
+    ownProps.selectedKey,
   )
 
   // getDerivedStateFromProps equivalent
@@ -425,7 +425,7 @@ function TabsComponent(ownProps: TabsProps) {
     if (ownProps.selectedKey && prevSelectedKey !== ownProps.selectedKey) {
       setPrevSelectedKey(ownProps.selectedKey)
       setSelectedKey(
-        getSelectedKeyOrFallback(ownProps.selectedKey, currentData)
+        getSelectedKeyOrFallback(ownProps.selectedKey, currentData),
       )
       propChangeRef.current = true
     }
@@ -457,7 +457,7 @@ function TabsComponent(ownProps: TabsProps) {
     if (typeof window !== 'undefined') {
       try {
         const pos = parseFloat(
-          window.localStorage.getItem(`tabs-pos-${_id}`)
+          window.localStorage.getItem(`tabs-pos-${_id}`),
         )
         window.localStorage.removeItem(`tabs-pos-${_id}`)
         return isNaN(pos) ? -1 : pos
@@ -492,7 +492,7 @@ function TabsComponent(ownProps: TabsProps) {
       try {
         window.localStorage.setItem(
           `tabs-last-${_id}`,
-          String(selectedKeyRef.current)
+          String(selectedKeyRef.current),
         )
       } catch (e) {
         warn(e)
@@ -532,7 +532,7 @@ function TabsComponent(ownProps: TabsProps) {
      * and its button to avoid false overflow detection.
      */
     const lastSnap = tablistElem.querySelector(
-      '.dnb-tabs__button__snap:last-of-type'
+      '.dnb-tabs__button__snap:last-of-type',
     )
     if (lastSnap) {
       const lastButton = lastSnap.querySelector('.dnb-tabs__button')
@@ -578,15 +578,15 @@ function TabsComponent(ownProps: TabsProps) {
         try {
           if (hasScrollbarRef.current && tablistRef.current) {
             const first = tablistRef.current.querySelector(
-              '.dnb-tabs__button__snap:first-of-type'
+              '.dnb-tabs__button__snap:first-of-type',
             )
             const isFirstItem = first.classList.contains(type)
             const last = tablistRef.current.querySelector(
-              '.dnb-tabs__button__snap:last-of-type'
+              '.dnb-tabs__button__snap:last-of-type',
             )
             const isLastItem = last.classList.contains(type)
             const elem = tablistRef.current.querySelector(
-              `.dnb-tabs__button.${type}`
+              `.dnb-tabs__button.${type}`,
             )
 
             const style = window.getComputedStyle(tabsRef.current)
@@ -599,7 +599,7 @@ function TabsComponent(ownProps: TabsProps) {
               parseFloat(style.paddingLeft) < 16
             ) {
               const navButton = tabsRef.current.querySelector(
-                '.dnb-tabs__scroll-nav-button:first-of-type'
+                '.dnb-tabs__scroll-nav-button:first-of-type',
               )
               const additionalSpace =
                 parseFloat(window.getComputedStyle(navButton).width) * 1.5
@@ -640,7 +640,7 @@ function TabsComponent(ownProps: TabsProps) {
       // Delay so Chrome/Safari makes the transition / animation smooth
       window.requestAnimationFrame(delay)
     },
-    []
+    [],
   )
 
   const handleVerticalScroll = () => {
@@ -659,7 +659,7 @@ function TabsComponent(ownProps: TabsProps) {
   const setFocusOnTabButton = useCallback(() => {
     try {
       const elem = tablistRef.current.querySelector(
-        '.dnb-tabs__button.focus'
+        '.dnb-tabs__button.focus',
       ) as HTMLElement
       elem.focus({ preventScroll: true })
 
@@ -669,7 +669,7 @@ function TabsComponent(ownProps: TabsProps) {
         process.env.NODE_ENV !== 'test'
       ) {
         warn(
-          `Could not find the required <Tabs.Content id="${_id}-content" ... /> that provides role="tabpanel"`
+          `Could not find the required <Tabs.Content id="${_id}-content" ... /> that provides role="tabpanel"`,
         )
       }
     } catch (e) {
@@ -685,13 +685,13 @@ function TabsComponent(ownProps: TabsProps) {
 
   const getStepKey = (
     useKey: string | number,
-    stateKey: string | number
+    stateKey: string | number,
   ) => {
     const currentData = dataRef.current.filter(({ disabled }) => !disabled)
     const currentIndex = currentData.reduce(
       (acc: number, { key }: TabDataItem, i: number) =>
         key == stateKey ? i : acc,
-      -1
+      -1,
     )
     let nextIndex = currentIndex + Number(useKey)
     if (nextIndex < 0) {
@@ -703,7 +703,7 @@ function TabsComponent(ownProps: TabsProps) {
     return currentData.reduce<string | number | null>(
       (acc, { key }: TabDataItem, i: number) =>
         i === nextIndex ? key : acc,
-      null
+      null,
     )
   }
 
@@ -725,7 +725,7 @@ function TabsComponent(ownProps: TabsProps) {
   const focusTab = (
     newFocusKey: string | number,
     event: React.SyntheticEvent | null = null,
-    mode: string | null = null
+    mode: string | null = null,
   ) => {
     // for handling openPrevTab and openNextTab
     if (mode === 'step' && parseFloat(String(newFocusKey))) {
@@ -740,7 +740,7 @@ function TabsComponent(ownProps: TabsProps) {
     dispatchCustomElementEvent(
       { props: propsRef.current },
       'onFocus',
-      getEventArgs({ event, focusKey: newFocusKey })
+      getEventArgs({ event, focusKey: newFocusKey }),
     )
 
     whatInput.specificKeys([9, 37, 39, 33, 34, 35, 36])
@@ -754,7 +754,7 @@ function TabsComponent(ownProps: TabsProps) {
   const openTab = (
     newSelectedKey: string | number,
     event: React.SyntheticEvent | null = null,
-    mode: string | null = null
+    mode: string | null = null,
   ) => {
     // saving the position will avoid flickering if the new tab will be done by a new page load
     saveLastPosition()
@@ -775,7 +775,7 @@ function TabsComponent(ownProps: TabsProps) {
     dispatchCustomElementEvent(
       { props: propsRef.current },
       'onChange',
-      getEventArgs({ event, selectedKey: newSelectedKey })
+      getEventArgs({ event, selectedKey: newSelectedKey }),
     )
 
     if (
@@ -791,7 +791,7 @@ function TabsComponent(ownProps: TabsProps) {
 
     if (sharedStateRef.current) {
       sharedStateRef.current.update(
-        getEventArgs({ event, selectedKey: newSelectedKey })
+        getEventArgs({ event, selectedKey: newSelectedKey }),
       )
     }
   }
@@ -947,7 +947,7 @@ function TabsComponent(ownProps: TabsProps) {
     try {
       const elem = getClosestParent(
         'dnb-tabs__button',
-        event.target as HTMLElement
+        event.target as HTMLElement,
       ) as HTMLElement | null
       currentKey = elem?.dataset?.tabKey
     } catch (e) {
@@ -962,7 +962,7 @@ function TabsComponent(ownProps: TabsProps) {
       dispatchCustomElementEvent(
         { props: propsRef.current },
         'onMouseEnter',
-        getEventArgs({ event, selectedKey: key })
+        getEventArgs({ event, selectedKey: key }),
       )
     }
   }
@@ -973,7 +973,7 @@ function TabsComponent(ownProps: TabsProps) {
       const ret = dispatchCustomElementEvent(
         { props: propsRef.current },
         'onClick',
-        getEventArgs({ event, selectedKey: key })
+        getEventArgs({ event, selectedKey: key }),
       )
 
       if (ret !== false) {
@@ -994,7 +994,7 @@ function TabsComponent(ownProps: TabsProps) {
         elem.focus({ preventScroll: true })
       } catch (e) {
         warn(
-          `Could not find the required <Tabs.Content id="${_id}-content" ... /> that provides role="tabpanel"`
+          `Could not find the required <Tabs.Content id="${_id}-content" ... /> that provides role="tabpanel"`,
         )
       }
     }
@@ -1045,7 +1045,7 @@ function TabsComponent(ownProps: TabsProps) {
   const renderWrapperRef =
     useRef<
       (
-        p: React.PropsWithChildren<Record<string, unknown>>
+        p: React.PropsWithChildren<Record<string, unknown>>,
       ) => React.ReactElement
     >(null)
   const renderTabsListRef =
@@ -1053,7 +1053,7 @@ function TabsComponent(ownProps: TabsProps) {
       (
         p: React.PropsWithChildren<
           { className?: string } & Record<string, unknown>
-        >
+        >,
       ) => React.ReactElement
     >(null)
   const renderContentRef = useRef<() => React.ReactElement>(null)
@@ -1113,7 +1113,7 @@ function TabsComponent(ownProps: TabsProps) {
           navButtonEdge && 'dnb-tabs--at-edge',
           noBorder && 'dnb-tabs__tabs--no-border',
           breakout && 'dnb-tabs__tabs--breakout',
-          extraClassName
+          extraClassName,
         )}
         ref={tabsRef}
         style={
@@ -1135,7 +1135,7 @@ function TabsComponent(ownProps: TabsProps) {
               (typeof isFirstRef.current !== 'undefined' ||
                 hasLastPosition()) &&
               'dnb-tabs__scroll-nav-button--visible',
-            isFirstRef.current && 'dnb-tabs__scroll-nav-button--hide'
+            isFirstRef.current && 'dnb-tabs__scroll-nav-button--hide',
           )}
         />
 
@@ -1149,7 +1149,7 @@ function TabsComponent(ownProps: TabsProps) {
               (typeof isLastRef.current !== 'undefined' ||
                 hasLastPosition()) &&
               'dnb-tabs__scroll-nav-button--visible',
-            isLastRef.current && 'dnb-tabs__scroll-nav-button--hide'
+            isLastRef.current && 'dnb-tabs__scroll-nav-button--hide',
           )}
         />
       </div>
@@ -1173,7 +1173,7 @@ function TabsComponent(ownProps: TabsProps) {
             }
             return acc
           },
-          {}
+          {},
         )
       } else if (preventRerender) {
         cacheRef.current = {
@@ -1193,13 +1193,13 @@ function TabsComponent(ownProps: TabsProps) {
               aria-hidden={hide ? true : undefined}
               className={clsx(
                 'dnb-tabs__cached',
-                hide && 'dnb-tabs__cached--hidden'
+                hide && 'dnb-tabs__cached--hidden',
               )}
             >
               {cachedContent}
             </div>
           )
-        }
+        },
       )
     } else {
       content = getContent(currentSelectedKey)
@@ -1262,7 +1262,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
             className={clsx(
               'dnb-tabs__button__snap',
               isFocus && 'focus',
-              isSelected && 'selected'
+              isSelected && 'selected',
             )}
             key={`tab-${key}`}
           >
@@ -1274,7 +1274,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
               className={clsx(
                 'dnb-tabs__button',
                 isFocus && 'focus',
-                isSelected && 'selected'
+                isSelected && 'selected',
               )}
               onMouseEnter={onMouseEnterHandler}
               onClick={onClickHandler}
@@ -1286,7 +1286,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
               <span
                 className={clsx(
                   'dnb-tabs__button__title',
-                  createSkeletonClass('font', skeleton, currentContext)
+                  createSkeletonClass('font', skeleton, currentContext),
                 )}
               >
                 {title as React.ReactNode}
@@ -1295,7 +1295,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
             </TabElement>
           </div>
         )
-      }
+      },
     )
 
     const params: Record<string, unknown> = {}
@@ -1305,7 +1305,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
     if (currentSelectedKey) {
       params['aria-labelledby'] = combineLabelledBy(
         params,
-        `${_id}-tab-${currentSelectedKey}`
+        `${_id}-tab-${currentSelectedKey}`,
       )
     }
     return (
@@ -1335,7 +1335,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
     const C = (
       p: React.PropsWithChildren<
         { className?: string } & Record<string, unknown>
-      >
+      >,
     ) => renderTabsListRef.current(p)
     C.displayName = 'TabsList'
     return C
@@ -1403,7 +1403,7 @@ export const Dummy = ({ children }: { children: React.ReactNode }) => {
 }
 
 const ScrollNavButton = (
-  props: Record<string, unknown> & { className?: string }
+  props: Record<string, unknown> & { className?: string },
 ) => {
   return (
     <Button

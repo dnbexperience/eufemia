@@ -128,7 +128,7 @@ export default function Section(props: SectionAllProps) {
 }
 
 export function SectionParams(
-  localProps: SectionAllProps
+  localProps: SectionAllProps,
 ): SectionReturnParams {
   const context = React.useContext(Context)
 
@@ -137,7 +137,7 @@ export function SectionParams(
     localProps,
     defaultProps,
     context.Section,
-    { surface: localProps?.surface ?? context?.theme?.surface }
+    { surface: localProps?.surface ?? context?.theme?.surface },
   )
 
   const {
@@ -171,13 +171,13 @@ export function SectionParams(
       'dnb-section',
       `dnb-section--${variant ?? surface ?? 'default'}`,
       surface && `dnb-section--surface-${surface}`,
-      className
+      className,
     ),
     style: {
       ...computeStyle(
         breakout,
         'breakout',
-        (value) => `var(--breakout--${value ? 'on' : 'off'})`
+        (value) => `var(--breakout--${value ? 'on' : 'off'})`,
       ),
       ...computeStyle(outset, 'outset', (value) => (value ? '1' : '0')),
       ...computeStyle(roundedCorner, 'rounded-corner', (value) =>
@@ -185,24 +185,24 @@ export function SectionParams(
           ? value && 'var(--rounded-corner--value)'
           : value
               .map((v) => (v ? 'var(--rounded-corner--value)' : '0'))
-              .join(' ')
+              .join(' '),
       ),
       ...computeStyle(textColor, 'text-color', (value) => getColor(value)),
       ...computeStyle(backgroundColor, 'background-color', (value) =>
-        getColor(value)
+        getColor(value),
       ),
       ...computeStyle(
         dropShadow,
         'drop-shadow',
-        (value) => value && 'var(--shadow-default)'
+        (value) => value && 'var(--shadow-default)',
       ),
       ...computeStyle(outline, 'outline-color', (value) =>
         typeof value === 'boolean'
           ? value && 'var(--outline-color--value)'
-          : getColor(value)
+          : getColor(value),
       ),
       ...computeStyle(outlineWidth, 'outline-width', (value) =>
-        typeof value === 'number' ? `${value}px` : value
+        typeof value === 'number' ? `${value}px` : value,
       ),
       ...attributes?.style,
     } as React.CSSProperties,
@@ -218,7 +218,7 @@ export function SectionParams(
 function computeStyle<T extends boolean | string | number | boolean[]>(
   property: T | ResponsiveProp<T>,
   name: string,
-  valueCallback: (value: T) => string | undefined
+  valueCallback: (value: T) => string | undefined,
 ) {
   let media = property as ResponsiveProp<T>
 

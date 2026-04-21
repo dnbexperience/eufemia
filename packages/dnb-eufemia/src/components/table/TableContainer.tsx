@@ -44,7 +44,7 @@ export default function TableContainer(props: TableContainerAllProps) {
   })
 
   const ScrollView = TableScrollView as (
-    props: InternalTableContainerTableScrollView
+    props: InternalTableContainerTableScrollView,
   ) => React.JSX.Element
 
   const isArray = Array.isArray(children)
@@ -74,7 +74,7 @@ export type TableContainerBodyProps = {
 }
 
 export function TableContainerBody(
-  props: TableContainerBodyProps & React.HTMLAttributes<HTMLDivElement>
+  props: TableContainerBodyProps & React.HTMLAttributes<HTMLDivElement>,
 ) {
   const { children, className, ...rest } = props
 
@@ -96,7 +96,7 @@ export type TableContainerHeadProps = {
 }
 
 export function TableContainerHead(
-  props: TableContainerHeadProps & React.HTMLAttributes<HTMLDivElement>
+  props: TableContainerHeadProps & React.HTMLAttributes<HTMLDivElement>,
 ) {
   const { children, className, ...rest } = props
 
@@ -105,7 +105,7 @@ export function TableContainerHead(
       className={clsx(
         'dnb-table__container__head',
         !children && 'dnb-table__container__head--empty',
-        className
+        className,
       )}
       {...rest}
     >
@@ -122,7 +122,7 @@ export type TableContainerFootProps = {
 }
 
 export function TableContainerFoot(
-  props: TableContainerFootProps & React.HTMLAttributes<HTMLDivElement>
+  props: TableContainerFootProps & React.HTMLAttributes<HTMLDivElement>,
 ) {
   const { children, className, ...rest } = props
 
@@ -131,7 +131,7 @@ export function TableContainerFoot(
       className={clsx(
         'dnb-table__container__foot',
         !children && 'dnb-table__container__foot--empty',
-        className
+        className,
       )}
       {...rest}
     >

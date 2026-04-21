@@ -22,7 +22,7 @@ describe('useFilteredProps', () => {
     expect(result.current.htmlAttributes.id).toBe('test-input')
     expect(result.current.htmlAttributes.className).toBe('test-class')
     expect(result.current.htmlAttributes.placeholder).toBe(
-      'test placeholder'
+      'test placeholder',
     )
   })
 

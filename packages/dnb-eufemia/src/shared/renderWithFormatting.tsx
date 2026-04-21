@@ -29,7 +29,7 @@ export default function renderWithFormatting(
     em = Em,
     link = Link,
     code = Code,
-  }: FormatOptions = {}
+  }: FormatOptions = {},
 ): React.ReactNode {
   // Fast-path: if text is a plain string without any formatting markers, return it directly
   if (typeof text === 'string') {
@@ -55,7 +55,7 @@ function withFormatting(
     code,
   }: Required<
     Pick<FormatOptions, 'strong' | 'em' | 'br' | 'link' | 'code'>
-  >
+  >,
 ): React.ReactNode {
   let nodes: Nodes = Array.isArray(text) ? text : [text]
 
@@ -109,8 +109,8 @@ function replaceInStrings(
   re: RegExp,
   replacer: (
     match: RegExpExecArray,
-    ctx: { i: number; k: () => string }
-  ) => Nodes
+    ctx: { i: number; k: () => string },
+  ) => Nodes,
 ): Nodes {
   let key = 0
   const k = () => String(key++)
@@ -145,7 +145,7 @@ function splitToken(
     i: number
     idx: number
     k: () => string
-  }) => React.ReactNode
+  }) => React.ReactNode,
 ): Nodes {
   let key = 0
   const k = () => String(key++)

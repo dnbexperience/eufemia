@@ -118,7 +118,7 @@ export type AutocompleteEventMethods = {
   debounce: (
     func: (...args: unknown[]) => void,
     props?: Record<string, unknown>,
-    wait?: number
+    wait?: number,
   ) => void
 }
 export type AutocompleteOnTypeParams = {
@@ -480,13 +480,13 @@ type SearchIndexItem = {
 type DebouncedEventFunction = (props?: Record<string, unknown>) => void
 
 function parseDataItem(
-  dataItem: DrawerListDataArrayObject | DrawerListInternalItem
+  dataItem: DrawerListDataArrayObject | DrawerListInternalItem,
 ): string | null {
   const searchWord = parseContentTitle(
     dataItem.searchContent || dataItem,
     {
       separator: ' ',
-    }
+    },
   )
   if (typeof searchWord !== 'string' && Array.isArray(searchWord)) {
     return parseDataItem(searchWord)
@@ -495,7 +495,7 @@ function parseDataItem(
 }
 
 function createSearchIndex(
-  data: DrawerListInternalData
+  data: DrawerListInternalData,
 ): SearchIndexItem[] {
   return data.map((dataItem) => {
     const contentChunk = parseDataItem(dataItem)
@@ -505,7 +505,7 @@ function createSearchIndex(
 
 function getCurrentDataTitle(
   selectedItem: string | number,
-  data: DrawerListInternalData
+  data: DrawerListInternalData,
 ): string | null {
   const currentData = getCurrentData(selectedItem, data)
   return parseContentTitle(currentData, {
@@ -527,7 +527,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   // Without this, explicit undefined values (e.g. size={undefined}) would override
   // defaults and prevent context values from being merged.
   const filteredOwnProps = Object.fromEntries(
-    Object.entries(ownProps).filter(([, v]) => v !== undefined)
+    Object.entries(ownProps).filter(([, v]) => v !== undefined),
   )
 
   // Merge props with context and defaults
@@ -536,7 +536,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     autocompleteDefaultProps,
     context.getTranslation?.(ownProps)?.Autocomplete,
     pickFormElementProps(context?.formElement),
-    context?.Autocomplete
+    context?.Autocomplete,
   )
 
   const {
@@ -640,7 +640,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     return null
   })
   const [typedInputValue, setTypedInputValue] = useState<string | null>(
-    null
+    null,
   )
   const [mode, setModeState] = useState(props.mode)
   const [hasFocus, setHasFocus] = useState(false)
@@ -651,7 +651,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   const [showAllNextTime, setShowAllNextTime] = useState(false)
   const [skipFocusDuringChange, setSkipFocusDuringChange] = useState(false)
   const [disableHighlightingState, setDisableHighlighting] = useState(
-    props.disableHighlighting
+    props.disableHighlighting,
   )
   const [visibleIndicator, setVisibleIndicator] = useState(false)
   const [searchIndex, setSearchIndexState] = useState<
@@ -713,7 +713,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         ? lastItem.showAll || String(lastItem.__id) === 'noOptions'
         : false
     },
-    [drawerList.data]
+    [drawerList.data],
   )
 
   const countData = useCallback(
@@ -721,7 +721,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       const count = data.length
       return count > 0 && hasInjectedDataItem(data) ? count - 1 : count
     },
-    [drawerList.data, hasInjectedDataItem]
+    [drawerList.data, hasInjectedDataItem],
   )
 
   const hasValidData = useCallback(
@@ -737,7 +737,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       }
       return false
     },
-    [drawerList.data, countData]
+    [drawerList.data, countData],
   )
 
   const hasSelectedItem = useCallback(() => {
@@ -753,7 +753,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       const originalData = drawerListRef.current.originalData
       return !(originalData && originalData.length === countData(data))
     },
-    [countData]
+    [countData],
   )
 
   const focusDrawerList = useCallback(() => {
@@ -781,26 +781,26 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   const setVisible = useCallback(
     (
       args: Record<string, unknown> | null = null,
-      onStateComplete: (() => void) | null = null
+      onStateComplete: (() => void) | null = null,
     ) => {
       wasVisibleRef.current = true
       drawerListRef.current
         .setWrapperElement(_ref.current)
         .setVisible(args, onStateComplete)
     },
-    []
+    [],
   )
 
   const setHidden = useCallback(
     (
       args: unknown[] | null = null,
-      onStateComplete: (() => void) | null = null
+      onStateComplete: (() => void) | null = null,
     ) => {
       drawerListRef.current.setHidden(args, onStateComplete)
       setHasFocus(false)
       setHasBlur(false)
     },
-    [setHasBlur]
+    [setHasBlur],
   )
 
   const resetActiveItem = useCallback(() => {
@@ -834,7 +834,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
             ignoreEvents: false,
           })
         }, 10)
-      }
+      },
     )
   }, [])
 
@@ -849,7 +849,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     const selectedItem =
       getCurrentIndex(
         propsRef.current.value,
-        drawerListRef.current.originalData
+        drawerListRef.current.originalData,
       ) ?? drawerListRef.current.selectedItem
 
     drawerListRef.current.setState({
@@ -869,7 +869,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         overwriteSearchIndex?: boolean
         data?: DrawerListInternalData
       } = {},
-      cb: (() => void) | null = null
+      cb: (() => void) | null = null,
     ) => {
       cacheMemoryRef.current = {}
 
@@ -888,13 +888,13 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
       return newSearchIndex
     },
-    [drawerList.originalData]
+    [drawerList.originalData],
   )
 
   const revalidateSelectedItem = useCallback(() => {
     const selectedItem = getCurrentIndex(
       props.value,
-      drawerListRef.current.originalData
+      drawerListRef.current.originalData,
     )
 
     drawerListRef.current.setState({
@@ -908,11 +908,11 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     }
     const selectedItem = getCurrentIndex(
       props.value,
-      drawerListRef.current.originalData
+      drawerListRef.current.originalData,
     )
     const usedInputValue = getCurrentDataTitle(
       selectedItem,
-      drawerListRef.current.originalData
+      drawerListRef.current.originalData,
     )
     setInputValue(usedInputValue)
   }, [props.inputValue, props.value, setInputValue])
@@ -929,7 +929,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
             ...getEventObjects('onChange'),
           })
         }
-      }
+      },
     )
   }, [hasSelectedItem])
 
@@ -954,7 +954,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       if (hasSelectedItem()) {
         const val = getCurrentDataTitle(
           drawerListRef.current.selectedItem,
-          drawerListRef.current.originalData
+          drawerListRef.current.originalData,
         )
         setInputValue(val)
       } else {
@@ -983,7 +983,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
               ignoreEvents: true,
               __id: 'noOptions',
             },
-          ]
+          ],
     )
     drawerListRef.current.setState({
       cacheHash: 'noOptions',
@@ -1054,7 +1054,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
       return data
     },
-    [hasFilterActive, props.showAll]
+    [hasFilterActive, props.showAll],
   )
 
   const runFilter = useCallback(
@@ -1066,8 +1066,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         searchNumbers: snParam = props.searchNumbers,
         inWordIndex = parseFloat(
           String(
-            props.searchInWordIndex ?? (skipFilterRef.current ? 1 : 3)
-          )
+            props.searchInWordIndex ?? (skipFilterRef.current ? 1 : 3),
+          ),
         ) - 1,
         disableHighlighting: disableHL = false,
         skipFilter = false,
@@ -1080,7 +1080,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         disableHighlighting?: boolean
         skipFilter?: boolean
         skipReorder?: boolean
-      } = {}
+      } = {},
     ) => {
       let currentSearchIndex = siParam
 
@@ -1128,11 +1128,11 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
             wordIndex >= inWordIndex
               ? `${processedWord}`
               : `(${wordBoundary})${processedWord}`,
-            'i'
+            'i',
           ),
           scoreRegex: new RegExp(
             `(${wordBoundary})${escapeRegexChars(word)}`,
-            'ig'
+            'ig',
           ),
         }
       })
@@ -1169,7 +1169,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
             if (wordIndex === 0 && firstWordRegex) {
               const isFirstWord = firstWordRegex.test(
-                contentChunk.split(' ')[0]
+                contentChunk.split(' ')[0],
               )
 
               if (isFirstWord) {
@@ -1221,7 +1221,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
         item.dataItem.render = (
           children: React.ReactNode,
-          id: string
+          id: string,
         ): React.ReactNode => {
           if (disableHL || disableHighlightingState) {
             return children
@@ -1244,7 +1244,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
                 children as React.ReactElement<{
                   children?: React.ReactNode[]
                 }>
-              ).props?.children
+              ).props?.children,
             )
           ) {
             childArray = (
@@ -1273,7 +1273,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
                     const cleanedWord = word.replace(
                       // @ts-expect-error Unicode property escapes are supported at runtime here
                       /[^\p{L}\p{N}]+/gu,
-                      ''
+                      '',
                     )
                     if (cleanedWord) {
                       const escapedWord = escapeRegexChars(cleanedWord)
@@ -1284,22 +1284,22 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
                             return match
                           }
                           return `${strS}${match}${strE}`
-                        }
+                        },
                       )
                     }
                   } else {
                     if (wordIndex >= inWordIndex) {
                       segment = segment.replace(
                         new RegExp(`(${word})`, 'gi'),
-                        `${strS}$1${strE}`
+                        `${strS}$1${strE}`,
                       )
                     } else {
                       segment = segment.replace(
                         new RegExp(
                           `(${getWordBoundary(wordIndex)})(${word})`,
-                          'gi'
+                          'gi',
                         ),
-                        `$1${strS}$2${strE}`
+                        `$1${strS}$2${strE}`,
                       )
                     }
                   }
@@ -1368,7 +1368,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
                           compEl.props.children === originalChild)
                         ? result
                         : Comp
-                    }
+                    },
                   )
                 } else if (typeof originalChild === 'string') {
                   result = originalChild
@@ -1376,7 +1376,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
                 if (
                   React.isValidElement<Record<string, unknown>>(
-                    originalChild
+                    originalChild,
                   )
                 ) {
                   result = React.createElement(
@@ -1385,13 +1385,13 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
                       ...originalChild.props,
                       key: 'clone' + cacheHash + idx,
                     },
-                    result
+                    result,
                   )
                 }
               }
 
               return result
-            }
+            },
           )
 
           return (cacheMemoryRef.current[cacheHash] = processed)
@@ -1415,7 +1415,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       if (!skipFilterRef.current && !skipFilter) {
         type ScoredItem = { totalScore: number; item: SearchIndexItem }
         const scored = (mappedIndex as ScoredItem[]).filter(
-          ({ totalScore }) => totalScore
+          ({ totalScore }) => totalScore,
         )
 
         if (!skipReorderRef.current && !skipReorder) {
@@ -1423,7 +1423,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         }
 
         return scored.map(
-          ({ item }) => item.dataItem
+          ({ item }) => item.dataItem,
         ) as DrawerListInternalData
       }
 
@@ -1435,7 +1435,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       props.searchNumbers,
       props.searchInWordIndex,
       disableHighlightingState,
-    ]
+    ],
   )
 
   const runFilterToHighlight = useCallback(
@@ -1448,11 +1448,11 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         skipFilter?: boolean
         value?: string
       } = {},
-      value: string | null = inputValueRef.current
+      value: string | null = inputValueRef.current,
     ) => {
       const possibleTitle = getCurrentDataTitle(
         drawerListRef.current.selectedItem,
-        drawerListRef.current.originalData
+        drawerListRef.current.originalData,
       )
 
       if (value === possibleTitle) {
@@ -1476,7 +1476,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
       return data
     },
-    [runFilter, wrapWithShowAll, countData]
+    [runFilter, wrapWithShowAll, countData],
   )
 
   const runFilterWithSideEffects = useCallback(
@@ -1490,7 +1490,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         disableHighlighting?: boolean
         skipFilter?: boolean
         skipReorder?: boolean
-      } = {}
+      } = {},
     ) => {
       const data: DrawerListInternalData = runFilter(value, options)
       const count = countData(data)
@@ -1544,7 +1544,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       resetSelectedItem,
       showAllItems,
       setVisible,
-    ]
+    ],
   )
 
   const showAll = useCallback(() => {
@@ -1563,7 +1563,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   const setVisibleByContext = useCallback(
     (
       options: Record<string, unknown> | null = {},
-      onStateComplete: (() => void) | null = null
+      onStateComplete: (() => void) | null = null,
     ) => {
       const skipFilter = showAllNextTime
       if (skipFilter) {
@@ -1578,13 +1578,13 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
       setVisible(null, onStateComplete)
     },
-    [showAllNextTime, runFilterToHighlight, setVisible]
+    [showAllNextTime, runFilterToHighlight, setVisible],
   )
 
   const toggleVisible = useCallback(
     (
       args: { hasFilter?: boolean } | null = null,
-      onStateComplete: (() => void) | null = null
+      onStateComplete: (() => void) | null = null,
     ) => {
       args = args || {}
       if (typeof args.hasFilter === 'undefined') {
@@ -1611,7 +1611,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       drawerList.isOpen,
       setHidden,
       setVisibleByContext,
-    ]
+    ],
   )
 
   const toggleVisibleAndFocusOptions = useCallback(() => {
@@ -1634,7 +1634,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       }
       return false
     },
-    []
+    [],
   )
 
   const emptyData = useCallback(() => {
@@ -1651,7 +1651,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       },
       {
         overwriteOriginalData: true,
-      }
+      },
     )
   }, [clearInputValue, setSearchIndex, resetActiveItem, totalReset])
 
@@ -1680,7 +1680,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
               resetSelectedItem()
             }
           }
-        }
+        },
       )
 
       drawerListRef.current.setData(
@@ -1706,12 +1706,12 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
                   showAllItems()
                 }
               }
-            }
+            },
           )
         },
         {
           overwriteOriginalData: true,
-        }
+        },
       )
     },
     [
@@ -1725,7 +1725,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       showNoOptionsItem,
       resetActiveItem,
       showAllItems,
-    ]
+    ],
   )
 
   // Keep latest event helper functions in a ref so that getEventObjects
@@ -1774,7 +1774,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
         const newDebouncedFn = debounce(
           func,
-          wait
+          wait,
         ) as DebouncedEventFunction
         debouncedEventFnsRef.current[key] = newDebouncedFn
 
@@ -1822,7 +1822,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         runFilterWithSideEffects(trimmed)
       }
     },
-    [runFilterWithSideEffects]
+    [runFilterWithSideEffects],
   )
 
   const onInputKeyDownHandler = useCallback(
@@ -1891,7 +1891,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       hasSelectedItem,
       hasActiveItem,
       toggleVisible,
-    ]
+    ],
   )
 
   const onInputClickHandler = useCallback(
@@ -1910,7 +1910,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       ignoreEvents,
       showAll,
       setVisibleByContext,
-    ]
+    ],
   )
 
   const onInputFocusHandler = useCallback(
@@ -1958,7 +1958,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       showAll,
       selectAll,
       setHasBlur,
-    ]
+    ],
   )
 
   const reserveActivityHandler = useCallback(
@@ -1969,9 +1969,9 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           ? getClosestParent('dnb-drawer-list', event.currentTarget) ||
             getClosestParent(
               'dnb-input__submit-button__button',
-              event.currentTarget
+              event.currentTarget,
             )
-          : false)
+          : false),
       )
 
       if (preventFiringBlurEvent.current) {
@@ -1979,11 +1979,11 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           () => {
             preventFiringBlurEvent.current = false
           },
-          noAnimation ? 1 : DrawerList.blurDelay
+          noAnimation ? 1 : DrawerList.blurDelay,
         )
       }
     },
-    [noAnimation]
+    [noAnimation],
   )
 
   const onBlurHandler = useCallback(
@@ -2023,7 +2023,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           clearTimeout(_blurTimeout.current)
           _blurTimeout.current = setTimeout(
             resetAfterClose,
-            DrawerList.blurDelay
+            DrawerList.blurDelay,
           )
         }
       }
@@ -2052,7 +2052,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       resetFilter,
       setHidden,
       setHasBlur,
-    ]
+    ],
   )
 
   const onTriggerKeyDownHandler = useCallback(
@@ -2082,7 +2082,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           break
       }
     },
-    [setVisible, focusInput]
+    [setVisible, focusInput],
   )
 
   const onCloseHandler = useCallback(
@@ -2098,7 +2098,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
       return res
     },
-    [setFocusOnInput]
+    [setFocusOnInput],
   )
 
   const onSelectHandler = useCallback((args: DrawerListSelectEvent) => {
@@ -2136,7 +2136,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
       return undefined
     },
-    [showAll, setFocusOnInput]
+    [showAll, setFocusOnInput],
   )
 
   const onChangeHandler = useCallback(
@@ -2173,7 +2173,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
         const val = getCurrentDataTitle(
           selectedItem,
-          drawerListRef.current.data
+          drawerListRef.current.data,
         )
         setInputValue(val)
       }
@@ -2194,7 +2194,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       focusDrawerList,
       setFocusOnInput,
       setInputValue,
-    ]
+    ],
   )
 
   // Handle prop-driven state updates (replaces getDerivedStateFromProps)
@@ -2230,7 +2230,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
       const currentData = getCurrentData(
         selectedItem,
-        normalizeData(props.data)
+        normalizeData(props.data),
       )
 
       const newInputValue = parseContentTitle(currentData, {
@@ -2346,7 +2346,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       status && `dnb-autocomplete__status--${statusState}`,
       showStatus && 'dnb-autocomplete__form-status',
       'dnb-form-component',
-      className
+      className,
     ),
   })
 
@@ -2396,7 +2396,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     inputParams['aria-describedby'] = combineDescribedBy(
       inputParams,
       showStatus ? id + '-status' : null,
-      suffix ? id + '-suffix' : null
+      suffix ? id + '-suffix' : null,
     )
   }
 
@@ -2425,7 +2425,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       {
         ...submitElement.props,
         ...triggerParams,
-      }
+      },
     )
   } else if (showSubmitButton) {
     submitButton = (
@@ -2445,7 +2445,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
   const currentDataItem = getCurrentData(
     selectedItem,
-    drawerList.originalData
+    drawerList.originalData,
   )
 
   const innerId =
@@ -2483,7 +2483,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       if (count > 0) {
         newString = String(props.ariaLiveOptions).replace(
           '%s',
-          String(count)
+          String(count),
         )
       } else {
         newString = props.noOptions
@@ -2532,7 +2532,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
             {CustomInput ? (
               React.createElement(
                 CustomInput as React.ElementType,
-                customInputParams
+                customInputParams,
               )
             ) : (
               <Input

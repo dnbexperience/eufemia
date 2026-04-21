@@ -41,7 +41,7 @@ function ScrollView(localProps: ScrollViewAllProps) {
   const props = extendPropsWithContext(
     localProps,
     defaultProps,
-    context.ScrollView
+    context.ScrollView,
   )
 
   const {
@@ -78,7 +78,7 @@ function ScrollView(localProps: ScrollViewAllProps) {
 
 function useInteractive({ interactive, children, ref }) {
   const [isInteractive, setAsInteractive] = React.useState(
-    Boolean(interactive)
+    Boolean(interactive),
   )
 
   useLayoutEffect(() => {

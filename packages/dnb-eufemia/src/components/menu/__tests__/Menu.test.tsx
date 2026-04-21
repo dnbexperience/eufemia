@@ -20,7 +20,7 @@ describe('Menu integration', () => {
           <Menu.Divider />
           <Menu.Action text="Delete" />
         </Menu.List>
-      </Menu.Root>
+      </Menu.Root>,
     )
 
     const menu = document.querySelector('[role="menu"]')
@@ -46,7 +46,7 @@ describe('Menu integration', () => {
         <Menu.List aria-label="Actions">
           <Menu.Action text="Item 1" />
         </Menu.List>
-      </Menu.Root>
+      </Menu.Root>,
     )
 
     const trigger = document.querySelector('button')
@@ -66,7 +66,7 @@ describe('Menu integration', () => {
         <Menu.List aria-label="Actions">
           <Menu.Action text="Click me" onClick={onClick} />
         </Menu.List>
-      </Menu.Root>
+      </Menu.Root>,
     )
 
     const item = document.querySelector('[role="menuitem"]')
@@ -87,7 +87,7 @@ describe('Menu integration', () => {
           <Menu.Action icon="bell" text="Alert" />
           <Menu.Action icon="trash" text="Delete" />
         </Menu.List>
-      </Menu.Root>
+      </Menu.Root>,
     )
 
     const icons = document.querySelectorAll('.dnb-menu__action__icon')
@@ -105,17 +105,17 @@ describe('Menu integration', () => {
           <Menu.Action text="Link action" href="/path" />
           <Menu.Action text="Disabled" disabled />
         </Menu.List>
-      </Menu.Root>
+      </Menu.Root>,
     )
 
     const items = document.querySelectorAll('[role="menuitem"]')
     expect(items).toHaveLength(3)
 
     expect(
-      document.querySelector('.dnb-menu__action--link')
+      document.querySelector('.dnb-menu__action--link'),
     ).toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-menu__action--disabled')
+      document.querySelector('.dnb-menu__action--disabled'),
     ).toBeInTheDocument()
   })
 
@@ -130,7 +130,7 @@ describe('Menu integration', () => {
         <Menu.List aria-label="Actions">
           <Menu.Action text="Disabled" disabled onClick={onClick} />
         </Menu.List>
-      </Menu.Root>
+      </Menu.Root>,
     )
 
     const item = document.querySelector('[role="menuitem"]')
@@ -165,13 +165,13 @@ describe('Menu integration', () => {
             element={MockLink as React.ComponentType}
           />
         </Menu.List>
-      </Menu.Root>
+      </Menu.Root>,
     )
 
     const link = document.querySelector('[data-router-link]')
     expect(link).toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-menu__action--link')
+      document.querySelector('.dnb-menu__action--link'),
     ).toBeInTheDocument()
   })
 
@@ -184,13 +184,13 @@ describe('Menu integration', () => {
         <Menu.List aria-label="Navigation">
           <Menu.Action text="Route" to="/route" />
         </Menu.List>
-      </Menu.Root>
+      </Menu.Root>,
     )
 
     const link = document.querySelector('.dnb-menu__action__link')
     expect(link).toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-menu__action--link')
+      document.querySelector('.dnb-menu__action--link'),
     ).toBeInTheDocument()
   })
 
@@ -206,7 +206,7 @@ describe('Menu integration', () => {
             <Menu.Action text="Item 2" />
             <Menu.Action text="Item 3" />
           </Menu.List>
-        </Menu.Root>
+        </Menu.Root>,
       )
 
       // Simulate mouse-open: focus lands on the <ul>, no item is active
@@ -235,7 +235,7 @@ describe('Menu integration', () => {
             <Menu.Action text="Item 2" />
             <Menu.Action text="Item 3" />
           </Menu.List>
-        </Menu.Root>
+        </Menu.Root>,
       )
 
       const menu = document.querySelector('[role="menu"]')
@@ -261,7 +261,7 @@ describe('Menu integration', () => {
             <Menu.Action text="Item 1" />
             <Menu.Action text="Item 2" />
           </Menu.List>
-        </Menu.Root>
+        </Menu.Root>,
       )
 
       const trigger = document.querySelector('button')
@@ -292,7 +292,7 @@ describe('Menu integration', () => {
             <Menu.Action text="Item 1" />
             <Menu.Action text="Item 2" />
           </Menu.List>
-        </Menu.Root>
+        </Menu.Root>,
       )
 
       const menu = document.querySelector('[role="menu"]')
@@ -313,7 +313,7 @@ describe('Menu integration', () => {
           <Menu.List aria-label="Actions">
             <Menu.Action text="Enter me" onClick={onClick} />
           </Menu.List>
-        </Menu.Root>
+        </Menu.Root>,
       )
 
       const item = document.querySelector('[role="menuitem"]')
@@ -333,7 +333,7 @@ describe('Menu integration', () => {
           <Menu.List aria-label="Actions">
             <Menu.Action text="Space me" onClick={onClick} />
           </Menu.List>
-        </Menu.Root>
+        </Menu.Root>,
       )
 
       const item = document.querySelector('[role="menuitem"]')
@@ -360,7 +360,7 @@ describe('Menu integration', () => {
             </Menu.Root>
             <Menu.Action text="Last" />
           </Menu.List>
-        </Menu.Root>
+        </Menu.Root>,
       )
 
       const menu = document.querySelector('[role="menu"]') as HTMLElement
@@ -395,7 +395,7 @@ describe('Menu integration', () => {
               </Menu.List>
             </Menu.Root>
           </Menu.List>
-        </Menu.Root>
+        </Menu.Root>,
       )
 
       const menus = document.querySelectorAll('[role="menu"]')
@@ -425,7 +425,7 @@ describe('Menu integration', () => {
               </Menu.List>
             </Menu.Root>
           </Menu.List>
-        </Menu.Root>
+        </Menu.Root>,
       )
 
       // Focus the sub-menu trigger item
@@ -454,11 +454,11 @@ describe('Menu integration', () => {
               </Menu.List>
             </Menu.Root>
           </Menu.List>
-        </Menu.Root>
+        </Menu.Root>,
       )
 
       const trigger = document.querySelector(
-        '.dnb-menu__action--has-submenu'
+        '.dnb-menu__action--has-submenu',
       )
       expect(trigger).toBeInTheDocument()
       expect(trigger.getAttribute('aria-haspopup')).toBe('menu')
@@ -466,7 +466,7 @@ describe('Menu integration', () => {
 
       // active-trigger class is auto-set when sub-menu is open
       expect(trigger.classList).toContain(
-        'dnb-menu__action--active-trigger'
+        'dnb-menu__action--active-trigger',
       )
     })
   })
@@ -482,7 +482,7 @@ describe('Menu integration', () => {
             <Menu.Action text="Copy" />
             <Menu.Action text="Paste" />
           </Menu.List>
-        </Menu.Root>
+        </Menu.Root>,
       )
 
       expect(await axeComponent(container)).toHaveNoViolations()
@@ -499,7 +499,7 @@ describe('Menu integration', () => {
             <Menu.Divider />
             <Menu.Action text="Delete" />
           </Menu.List>
-        </Menu.Root>
+        </Menu.Root>,
       )
 
       expect(await axeComponent(container)).toHaveNoViolations()
@@ -515,7 +515,7 @@ describe('Menu integration', () => {
             <Menu.Action text="Enabled" />
             <Menu.Action text="Disabled" disabled />
           </Menu.List>
-        </Menu.Root>
+        </Menu.Root>,
       )
 
       expect(await axeComponent(container)).toHaveNoViolations()
@@ -531,7 +531,7 @@ describe('Menu integration', () => {
             <Menu.Action text="Home" href="/" />
             <Menu.Action text="Settings" href="/settings" />
           </Menu.List>
-        </Menu.Root>
+        </Menu.Root>,
       )
 
       expect(await axeComponent(container)).toHaveNoViolations()
@@ -547,7 +547,7 @@ describe('Menu integration', () => {
             <Menu.Action icon="bell" text="Alert" />
             <Menu.Action icon="trash" text="Delete" />
           </Menu.List>
-        </Menu.Root>
+        </Menu.Root>,
       )
 
       expect(await axeComponent(container)).toHaveNoViolations()

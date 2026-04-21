@@ -56,7 +56,7 @@ function reduceContextHasValue<Props>(
   props: Props,
   defaults: DefaultsProps,
   contexts: Contexts,
-  { onlyMergeExistingProps = false } = {}
+  { onlyMergeExistingProps = false } = {},
 ) {
   const context = reduceContext(contexts)
   return Object.entries(context).reduce((acc, [key, value]) => {

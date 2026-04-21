@@ -12,8 +12,8 @@ describe('Value.String', () => {
     render(<Value.String label="The label" value="test123" />)
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('test123')
   })
 
@@ -40,7 +40,7 @@ describe('Value.String', () => {
   it('renders default class', () => {
     render(<Value.String label="The label" showEmpty />)
     expect(
-      document.querySelector('.dnb-forms-value-string')
+      document.querySelector('.dnb-forms-value-string'),
     ).toHaveTextContent('The label')
   })
 })

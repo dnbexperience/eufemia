@@ -91,7 +91,7 @@ const CopyOnClick = ({
       className={clsx(
         'dnb-copy-on-click',
         showCursor && !disabled && 'dnb-copy-on-click--cursor',
-        className
+        className,
       )}
       ref={ref}
       {...props}

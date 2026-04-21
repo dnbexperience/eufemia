@@ -308,26 +308,26 @@ export const DrawerScrollViewSetup = () => (
             scrollRef={scrollRef}
             onOpen={() => {
               const innerOverflowY = window.getComputedStyle(
-                ref.current
+                ref.current,
               ).overflowY
 
               const contentElem = scrollRef.current.querySelector(
-                '.dnb-drawer__content'
+                '.dnb-drawer__content',
               )
               const contentOverflowY =
                 window.getComputedStyle(contentElem)?.overflowY
 
               const scrollOverflowY = window.getComputedStyle(
-                scrollRef.current
+                scrollRef.current,
               ).overflowY
 
               if (contentOverflowY !== 'visible') {
                 setErrorMessage(
-                  `.dnb-drawer__content was "${contentOverflowY}" and not "visible"`
+                  `.dnb-drawer__content was "${contentOverflowY}" and not "visible"`,
                 )
               } else if (innerOverflowY !== 'visible') {
                 setErrorMessage(
-                  `.dnb-drawer__inner was "${innerOverflowY}" and not "visible"`
+                  `.dnb-drawer__inner was "${innerOverflowY}" and not "visible"`,
                 )
               } else if (scrollOverflowY !== 'auto') {
                 setErrorMessage('.dnb-scroll-view was not "auto"')

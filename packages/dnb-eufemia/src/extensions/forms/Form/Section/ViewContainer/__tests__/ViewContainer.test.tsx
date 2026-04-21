@@ -13,7 +13,7 @@ describe('ViewContainer', () => {
     const { rerender } = render(
       <SectionContainerContext value={{ containerMode: 'edit' }}>
         <ViewContainer>content</ViewContainer>
-      </SectionContainerContext>
+      </SectionContainerContext>,
     )
 
     const element = document.querySelector('.dnb-forms-section-block')
@@ -28,7 +28,7 @@ describe('ViewContainer', () => {
     rerender(
       <SectionContainerContext value={{ containerMode: 'view' }}>
         <ViewContainer>content</ViewContainer>
-      </SectionContainerContext>
+      </SectionContainerContext>,
     )
 
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
@@ -40,7 +40,7 @@ describe('ViewContainer', () => {
     render(
       <SectionContainerContext value={{ switchContainerMode }}>
         <ViewContainer>content</ViewContainer>
-      </SectionContainerContext>
+      </SectionContainerContext>,
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -53,11 +53,11 @@ describe('ViewContainer', () => {
     render(
       <SectionContainerContext value={{ containerMode: 'view' }}>
         <ViewContainer>content</ViewContainer>
-      </SectionContainerContext>
+      </SectionContainerContext>,
     )
 
     expect(
-      document.querySelector('.dnb-forms-section-view-block')
+      document.querySelector('.dnb-forms-section-view-block'),
     ).toBeInTheDocument()
   })
 
@@ -65,13 +65,13 @@ describe('ViewContainer', () => {
     render(
       <SectionContainerContext value={{ containerMode: 'view' }}>
         <ViewContainer data-attr="value">content</ViewContainer>
-      </SectionContainerContext>
+      </SectionContainerContext>,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-section-view-block .dnb-forms-section-block__inner'
-      )
+        '.dnb-forms-section-view-block .dnb-forms-section-block__inner',
+      ),
     ).toHaveAttribute('data-attr', 'value')
   })
 
@@ -79,7 +79,7 @@ describe('ViewContainer', () => {
     render(
       <SectionContainerContext value={{ containerMode: 'view' }}>
         <ViewContainer>content</ViewContainer>
-      </SectionContainerContext>
+      </SectionContainerContext>,
     )
 
     const buttons = document.querySelectorAll('button')
@@ -105,7 +105,7 @@ describe('ViewContainer', () => {
         <SectionContainerContext value={{ containerMode: 'edit' }}>
           <ViewContainer>content</ViewContainer>
         </SectionContainerContext>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(screen.getByText(edit)).toBeInTheDocument()
@@ -117,12 +117,12 @@ describe('ViewContainer', () => {
         <Form.Section.ViewContainer>
           Edit Content
         </Form.Section.ViewContainer>
-      </Form.Section>
+      </Form.Section>,
     )
 
     expect(document.querySelectorAll('button')).toHaveLength(1)
     expect(document.querySelectorAll('button')[0]).toHaveTextContent(
-      nb.editButton
+      nb.editButton,
     )
   })
 
@@ -133,7 +133,7 @@ describe('ViewContainer', () => {
           Edit Content
           <Toolbar>no button</Toolbar>
         </Form.Section.ViewContainer>
-      </Form.Section>
+      </Form.Section>,
     )
 
     expect(document.querySelectorAll('button')).toHaveLength(0)
@@ -145,7 +145,7 @@ describe('ViewContainer', () => {
         value={{ containerMode: 'view', disableEditing: true }}
       >
         <ViewContainer>content</ViewContainer>
-      </SectionContainerContext>
+      </SectionContainerContext>,
     )
 
     expect(document.querySelector('button')).not.toBeInTheDocument()

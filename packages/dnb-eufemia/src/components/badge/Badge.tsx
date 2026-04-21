@@ -112,7 +112,7 @@ function Badge(localProps: BadgeAllProps) {
     localProps,
     defaultProps,
     context?.Badge,
-    { skeleton: context?.skeleton }
+    { skeleton: context?.skeleton },
   )
   const { children, className } = allProps
 
@@ -152,7 +152,7 @@ function BadgeRoot({
 
 /** Ensures props that only affect certain variants are reset to default */
 function propGuard(
-  fn: (props: BadgeElemProps) => React.JSX.Element | null
+  fn: (props: BadgeElemProps) => React.JSX.Element | null,
 ): (props: BadgeElemProps) => React.JSX.Element | null {
   return (props) => {
     if (props.variant !== 'information') {
@@ -198,7 +198,7 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
 
   if (!label && contentIsNum) {
     warn(
-      `Label required: A Badge with a number as content requires a label describing the content of the badge. This is to ensure correct semantic and accessibility.`
+      `Label required: A Badge with a number as content requires a label describing the content of the badge. This is to ensure correct semantic and accessibility.`,
     )
   }
 
@@ -218,7 +218,7 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
             subtle ? ` dnb-badge--subtle` : ''
           }`,
         skeletonClasses,
-        className
+        className,
       )}
       {...restProps}
     >

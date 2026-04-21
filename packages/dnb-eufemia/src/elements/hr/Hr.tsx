@@ -29,7 +29,7 @@ const Hr = ({ breakout, dashed, className, ...props }: HrProps = {}) => {
       className={clsx(
         className,
         dashed && 'dnb-hr--dashed',
-        breakout && 'dnb-hr--breakout'
+        breakout && 'dnb-hr--breakout',
       )}
       {...props}
     />

@@ -88,11 +88,11 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         clearTimers()
         delayTimeout.current = setTimeout(
           run,
-          parseFloat(String(showDelay)) || 1
+          parseFloat(String(showDelay)) || 1,
         ) // have min 1 to make sure we are after onMouseLeave
       }
     },
-    [noAnimation, showDelay]
+    [noAnimation, showDelay],
   )
 
   const onFocus = useCallback(
@@ -102,7 +102,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
        */
       return onMouseEnter(e)
     },
-    [onMouseEnter]
+    [onMouseEnter],
   )
 
   const onMouseLeave = useCallback(
@@ -129,13 +129,13 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       if (skipPortal) {
         delayTimeout.current = setTimeout(
           run,
-          parseFloat(String(hideDelay))
+          parseFloat(String(hideDelay)),
         )
       } else {
         run()
       }
     },
-    [open, hideDelay, skipPortal]
+    [open, hideDelay, skipPortal],
   )
 
   const addEvents = useCallback(
@@ -151,7 +151,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         warn(e)
       }
     },
-    [onFocus, onMouseLeave, onMouseEnter]
+    [onFocus, onMouseLeave, onMouseEnter],
   )
 
   const removeEvents = useCallback(
@@ -170,7 +170,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         warn(e)
       }
     },
-    [onFocus, onMouseEnter, onMouseLeave]
+    [onFocus, onMouseEnter, onMouseLeave],
   )
 
   const overlayOpen = Boolean(isOpen || isOverlayHovered)
@@ -188,7 +188,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         ref: cloneRef,
         'aria-describedby': combineDescribedBy(
           target.props['aria-describedby'],
-          describedById
+          describedById,
         ),
       })
     }
@@ -242,7 +242,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       const withoutPrevious =
         previousDescribedByIdRef.current !== null
           ? existingValues.filter(
-              (value) => value !== previousDescribedByIdRef.current
+              (value) => value !== previousDescribedByIdRef.current,
             )
           : existingValues
 
@@ -255,7 +255,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       if (nextValues.length > 0) {
         targetElement.setAttribute(
           'aria-describedby',
-          nextValues.join(' ')
+          nextValues.join(' '),
         )
       } else {
         targetElement.removeAttribute('aria-describedby')
@@ -293,7 +293,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     if (skipPortal) {
       overlayDelayTimeout.current = setTimeout(
         run,
-        parseFloat(String(hideDelay)) || 1
+        parseFloat(String(hideDelay)) || 1,
       )
     } else {
       run()
@@ -310,7 +310,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         className={clsx(
           attributeClassName,
           'dnb-tooltip',
-          size && size !== 'default' && `dnb-tooltip--${size}`
+          size && size !== 'default' && `dnb-tooltip--${size}`,
         )}
         id={internalId}
         open={overlayOpen}

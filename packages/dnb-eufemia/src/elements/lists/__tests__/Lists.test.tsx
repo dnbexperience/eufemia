@@ -28,7 +28,7 @@ describe('Dl', () => {
           <Dt top="medium">Term</Dt>
           <Dd top="medium">Description</Dd>
         </Dl.Item>
-      </Dl>
+      </Dl>,
     )
 
     const element = document.querySelector('.dnb-dl')
@@ -47,7 +47,7 @@ describe('Dl', () => {
       'dnb-space__top--medium',
     ])
     expect(
-      Array.from(element.querySelector('.dnb-dl__item').classList)
+      Array.from(element.querySelector('.dnb-dl__item').classList),
     ).toEqual(['dnb-dl__item', 'dnb-dd', 'dnb-space__top--medium'])
   })
 
@@ -63,7 +63,7 @@ describe('Dl', () => {
             <Dt>Term</Dt>
             <Dd>Description</Dd>
           </Dl.Item>
-        </Dl>
+        </Dl>,
       )
       expect(await axeComponent(Component)).toHaveNoViolations()
     })
@@ -75,10 +75,12 @@ describe('Dl', () => {
             <Dt>Term</Dt>
             <Dd>Description</Dd>
           </Dl.Item>
-        </Dl>
+        </Dl>,
       )
       expect(
-        document.querySelector('.dnb-dl__item').getAttribute('aria-hidden')
+        document
+          .querySelector('.dnb-dl__item')
+          .getAttribute('aria-hidden'),
       ).toBe('true')
     })
   })
@@ -95,7 +97,7 @@ describe('Dl', () => {
               <Dd>Description</Dd>
             </Dl>
           </Dd>
-        </Dl>
+        </Dl>,
       )
       expect(await axeComponent(Component)).toHaveNoViolations()
     })

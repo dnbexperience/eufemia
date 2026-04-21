@@ -184,7 +184,7 @@ export const HorizontalAutoSize = () => {
 
 const useWindowWidth = () => {
   const [innerWidth, setWidth] = React.useState(
-    typeof window !== 'undefined' ? window.innerWidth : 0
+    typeof window !== 'undefined' ? window.innerWidth : 0,
   )
 
   React.useEffect(() => {
@@ -211,7 +211,7 @@ export const MediaQueryUseMedia = () => (
               {JSON.stringify(
                 { isSmall, isMedium, isLarge, isSSR, innerWidth },
                 null,
-                2
+                2,
               )}
             </pre>
           </Code>

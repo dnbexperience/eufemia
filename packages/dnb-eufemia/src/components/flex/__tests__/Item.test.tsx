@@ -12,7 +12,7 @@ describe('Flex.Item', () => {
 
     const element = document.querySelector('.dnb-flex-item')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toContain('aria-label')
@@ -46,7 +46,7 @@ describe('Flex.Item', () => {
     render(
       <Flex.Item>
         <P>Flex</P>
-      </Flex.Item>
+      </Flex.Item>,
     )
 
     const element = document.querySelector('.dnb-flex-item')
@@ -124,7 +124,7 @@ describe('Flex.Item', () => {
       render(
         <Flex.Container>
           <Flex.Item span={6}>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       const element = document.querySelector('.dnb-flex-item')
@@ -139,14 +139,14 @@ describe('Flex.Item', () => {
           <Flex.Item span={{ small: 4, large: 'auto' }}>
             FlexItem
           </Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       expect(getFlexItem(0).getAttribute('style')).toBe(
-        '--span--default: auto;'
+        '--span--default: auto;',
       )
       expect(getFlexItem(1).getAttribute('style')).toBe(
-        '--small: 4; --large: auto;'
+        '--small: 4; --large: auto;',
       )
 
       const element = document.querySelector('.dnb-flex-item')
@@ -159,28 +159,28 @@ describe('Flex.Item', () => {
         <Flex.Container>
           <Flex.Item span={4}>FlexItem</Flex.Item>
           <Flex.Item span={6}>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       expect(getFlexItem(0).getAttribute('style')).toBe(
-        '--span--default: 4;'
+        '--span--default: 4;',
       )
       expect(getFlexItem(1).getAttribute('style')).toBe(
-        '--span--default: 6;'
+        '--span--default: 6;',
       )
 
       rerender(
         <Flex.Container>
           <Flex.Item span={2}>FlexItem</Flex.Item>
           <Flex.Item span={10}>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       expect(getFlexItem(0).getAttribute('style')).toBe(
-        '--span--default: 2;'
+        '--span--default: 2;',
       )
       expect(getFlexItem(1).getAttribute('style')).toBe(
-        '--span--default: 10;'
+        '--span--default: 10;',
       )
 
       rerender(
@@ -191,24 +191,24 @@ describe('Flex.Item', () => {
           <Flex.Item style={{ background: 'red' }} span={5}>
             FlexItem
           </Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       expect(getFlexItem(0).getAttribute('style')).toBe(
-        '--span--default: 7;'
+        '--span--default: 7;',
       )
       expect(getFlexItem(1).getAttribute('style')).toBe(
-        '--span--default: 5;'
+        '--span--default: 5;',
       )
       expect(
         getFlexItem(0)
           .querySelector('.dnb-flex-item__spacer')
-          .getAttribute('style')
+          .getAttribute('style'),
       ).toBe('background: blue;')
       expect(
         getFlexItem(1)
           .querySelector('.dnb-flex-item__spacer')
-          .getAttribute('style')
+          .getAttribute('style'),
       ).toBe('background: red;')
     })
 
@@ -217,7 +217,7 @@ describe('Flex.Item', () => {
         <Flex.Container>
           <Flex.Item span={2}>FlexItem</Flex.Item>
           <Flex.Item span={2}>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       expect(getSpacingClasses()).toEqual([
@@ -229,7 +229,7 @@ describe('Flex.Item', () => {
         <Flex.Container>
           <Flex.Item span={12}>FlexItem</Flex.Item>
           <Flex.Item span={12}>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       expect(getSpacingClasses()).toEqual([
@@ -244,13 +244,13 @@ describe('Flex.Item', () => {
           <MainHeading level={1}>Heading</MainHeading>
           <Flex.Item span={2}>FlexItem</Flex.Item>
           <Flex.Item span={2}>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       const element = document.querySelector('.dnb-flex-container')
 
       expect(element.className).not.toContain(
-        'dnb-flex-container--has-size'
+        'dnb-flex-container--has-size',
       )
       expect(getSpacingClasses()).toEqual([
         ['dnb-space__left--zero', 'dnb-space__right--small'],
@@ -266,11 +266,11 @@ describe('Flex.Item', () => {
           <Flex.Item left="large" right="medium" span={2}>
             FlexItem
           </Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       expect(element.className).not.toContain(
-        'dnb-flex-container--has-size'
+        'dnb-flex-container--has-size',
       )
       expect(getSpacingClasses()).toEqual([
         ['dnb-space__left--small', 'dnb-space__right--small'],
@@ -283,7 +283,7 @@ describe('Flex.Item', () => {
         <Flex.Container direction="vertical">
           <Flex.Item span={2}>FlexItem</Flex.Item>
           <Flex.Item span={2}>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       expect(getSpacingClasses()).toEqual([
@@ -295,7 +295,7 @@ describe('Flex.Item', () => {
         <Flex.Container direction="vertical">
           <Flex.Item span={12}>FlexItem</Flex.Item>
           <Flex.Item span={12}>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       expect(getSpacingClasses()).toEqual([
@@ -314,7 +314,7 @@ describe('Flex.Item', () => {
             FlexItem
           </Flex.Item>
           <Flex.Item span={2}>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       expect(getSpacingClasses()).toEqual([
@@ -334,7 +334,7 @@ describe('Flex.Item', () => {
           <Flex.Item right="x-large" span={12}>
             FlexItem
           </Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       expect(getSpacingClasses()).toEqual([
@@ -354,7 +354,7 @@ describe('Flex.Item', () => {
             FlexItem
           </Flex.Item>
           <Flex.Item span={2}>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       expect(getSpacingClasses()).toEqual([
@@ -374,7 +374,7 @@ describe('Flex.Item', () => {
           <Flex.Item right="x-large" span={12}>
             FlexItem
           </Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       expect(getSpacingClasses()).toEqual([
@@ -389,7 +389,7 @@ describe('Flex.Item', () => {
         <Flex.Container gap="large">
           <Flex.Item span={2}>FlexItem</Flex.Item>
           <Flex.Item span={2}>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       expect(getSpacingClasses()).toEqual([
@@ -401,7 +401,7 @@ describe('Flex.Item', () => {
         <Flex.Container>
           <Flex.Item span={12}>FlexItem</Flex.Item>
           <Flex.Item span={12}>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       expect(getSpacingClasses()).toEqual([
@@ -418,7 +418,7 @@ describe('Flex.Item', () => {
           <Flex.Item span={{ small: 4, large: 12 }}>FlexItem</Flex.Item>
           <Flex.Item span={{ small: 6, large: 4 }}>FlexItem</Flex.Item>
           <Flex.Item span={{ small: 12, large: 6 }}>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       expect(getSpacingClasses()).toEqual([
@@ -446,7 +446,7 @@ describe('Flex.Item', () => {
           <Flex.Item span={{ small: 4, large: 12 }}>FlexItem</Flex.Item>
           <Flex.Item span={{ small: 6, large: 4 }}>FlexItem</Flex.Item>
           <Flex.Item span={{ small: 12, large: 6 }}>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       expect(getSpacingClasses()).toEqual([

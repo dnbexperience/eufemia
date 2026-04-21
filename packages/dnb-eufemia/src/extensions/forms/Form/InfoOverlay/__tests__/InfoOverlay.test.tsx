@@ -17,7 +17,7 @@ describe('Form.InfoOverlay', () => {
     render(
       <Form.Handler id={formId}>
         <Form.InfoOverlay>fallback content</Form.InfoOverlay>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelector('h2')).toBeNull()
@@ -45,7 +45,7 @@ describe('Form.InfoOverlay', () => {
     render(
       <Form.Handler id={formId}>
         <Form.InfoOverlay>fallback content</Form.InfoOverlay>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelector('h2')).toBeNull()
@@ -78,7 +78,7 @@ describe('Form.InfoOverlay', () => {
         >
           fallback content
         </Form.InfoOverlay>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     act(() => {
@@ -98,7 +98,7 @@ describe('Form.InfoOverlay', () => {
         <Form.InfoOverlay success={{ buttonClickHandler }}>
           fallback content
         </Form.InfoOverlay>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     act(() => {
@@ -126,7 +126,7 @@ describe('Form.InfoOverlay', () => {
         >
           fallback content
         </Form.InfoOverlay>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelector('h2')).toBeNull()
@@ -138,7 +138,7 @@ describe('Form.InfoOverlay', () => {
 
     expect(document.querySelector('h2')).toHaveTextContent('Custom title')
     expect(document.querySelector('p')).toHaveTextContent(
-      'Custom description'
+      'Custom description',
     )
 
     const anchors = document.querySelectorAll('a')
@@ -164,7 +164,7 @@ describe('Form.InfoOverlay', () => {
         >
           fallback content
         </Form.InfoOverlay>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelector('h2')).toBeNull()
@@ -176,7 +176,7 @@ describe('Form.InfoOverlay', () => {
 
     expect(document.querySelector('h2')).toHaveTextContent('Custom title')
     expect(document.querySelector('p')).toHaveTextContent(
-      'Custom description'
+      'Custom description',
     )
 
     const buttons = document.querySelectorAll('button')
@@ -195,7 +195,7 @@ describe('Form.InfoOverlay', () => {
         <Form.InfoOverlay>
           <output>content</output>
         </Form.InfoOverlay>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelector('h2')).toBeNull()
@@ -213,7 +213,7 @@ describe('Form.InfoOverlay', () => {
     const formId = {}
 
     render(
-      <Form.InfoOverlay id={formId}>fallback content</Form.InfoOverlay>
+      <Form.InfoOverlay id={formId}>fallback content</Form.InfoOverlay>,
     )
 
     const element = document.querySelector('.dnb-forms-info-overlay')
@@ -231,7 +231,7 @@ describe('Form.InfoOverlay', () => {
     render(
       <Form.Handler id="other-id">
         <Form.InfoOverlay id={formId}>fallback content</Form.InfoOverlay>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const element = document.querySelector('.dnb-forms-info-overlay')
@@ -249,7 +249,7 @@ describe('Form.InfoOverlay', () => {
     render(
       <Form.InfoOverlay id={formId} content="other content">
         never shown
-      </Form.InfoOverlay>
+      </Form.InfoOverlay>,
     )
 
     const element = document.querySelector('.dnb-forms-info-overlay')
@@ -265,7 +265,7 @@ describe('Form.InfoOverlay', () => {
     render(
       <Form.InfoOverlay content="custom content">
         never shown
-      </Form.InfoOverlay>
+      </Form.InfoOverlay>,
     )
 
     const element = document.querySelector('.dnb-forms-info-overlay')
@@ -276,7 +276,7 @@ describe('Form.InfoOverlay', () => {
     render(
       <Form.InfoOverlay content="custom content">
         never shown
-      </Form.InfoOverlay>
+      </Form.InfoOverlay>,
     )
 
     const element = document.querySelector('.dnb-forms-info-overlay')
@@ -285,7 +285,7 @@ describe('Form.InfoOverlay', () => {
 
   it('should set class of "--success"', () => {
     render(
-      <Form.InfoOverlay content="success">never shown</Form.InfoOverlay>
+      <Form.InfoOverlay content="success">never shown</Form.InfoOverlay>,
     )
 
     const element = document.querySelector('.dnb-forms-info-overlay')
@@ -294,7 +294,7 @@ describe('Form.InfoOverlay', () => {
 
   it('should set class of "--error"', () => {
     render(
-      <Form.InfoOverlay content="error">never shown</Form.InfoOverlay>
+      <Form.InfoOverlay content="error">never shown</Form.InfoOverlay>,
     )
 
     const element = document.querySelector('.dnb-forms-info-overlay')
@@ -309,7 +309,7 @@ describe('Form.InfoOverlay', () => {
         <Form.InfoOverlay>
           <output>content</output>
         </Form.InfoOverlay>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelector('body')).toHaveFocus()
@@ -320,7 +320,7 @@ describe('Form.InfoOverlay', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-forms-info-overlay--success')
+        document.querySelector('.dnb-forms-info-overlay--success'),
       ).toHaveFocus()
     })
 
@@ -331,10 +331,10 @@ describe('Form.InfoOverlay', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-forms-info-overlay')
+        document.querySelector('.dnb-forms-info-overlay'),
       ).toHaveFocus()
       expect(
-        document.querySelector('.dnb-forms-info-overlay')
+        document.querySelector('.dnb-forms-info-overlay'),
       ).not.toHaveClass('dnb-forms-info-overlay--success')
     })
 
@@ -345,13 +345,13 @@ describe('Form.InfoOverlay', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-forms-info-overlay--success')
+        document.querySelector('.dnb-forms-info-overlay--success'),
       ).toHaveFocus()
       expect(
-        document.querySelector('.dnb-forms-info-overlay')
+        document.querySelector('.dnb-forms-info-overlay'),
       ).toHaveClass('dnb-no-focus')
       expect(
-        document.querySelector('.dnb-forms-info-overlay')
+        document.querySelector('.dnb-forms-info-overlay'),
       ).toHaveAttribute('tabindex', '-1')
     })
   })
@@ -364,7 +364,7 @@ describe('Form.InfoOverlay', () => {
         <Form.InfoOverlay>
           <output>content</output>
         </Form.InfoOverlay>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     act(() => {
@@ -372,7 +372,7 @@ describe('Form.InfoOverlay', () => {
     })
 
     expect(document.querySelector('.dnb-forms-info-overlay')).toHaveClass(
-      'dnb-forms-info-overlay--error'
+      'dnb-forms-info-overlay--error',
     )
 
     const buttons = document.querySelectorAll('button')
@@ -383,7 +383,7 @@ describe('Form.InfoOverlay', () => {
     fireEvent.click(backButton)
 
     expect(
-      document.querySelector('.dnb-forms-info-overlay')
+      document.querySelector('.dnb-forms-info-overlay'),
     ).not.toHaveClass('dnb-forms-info-overlay--error')
   })
 
@@ -396,7 +396,7 @@ describe('Form.InfoOverlay', () => {
         <Form.InfoOverlay onCancel={onCancel}>
           <output>content</output>
         </Form.InfoOverlay>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     act(() => {
@@ -404,7 +404,7 @@ describe('Form.InfoOverlay', () => {
     })
 
     expect(document.querySelector('.dnb-forms-info-overlay')).toHaveClass(
-      'dnb-forms-info-overlay--error'
+      'dnb-forms-info-overlay--error',
     )
     expect(onCancel).not.toHaveBeenCalled()
 
@@ -423,34 +423,34 @@ describe('Form.InfoOverlay', () => {
     const { rerender } = render(
       <Form.Handler id={formId}>
         <Form.InfoOverlay>fallback content</Form.InfoOverlay>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
-      screen.getByText('fallback content').getAttribute('aria-hidden')
+      screen.getByText('fallback content').getAttribute('aria-hidden'),
     ).toBe('false')
 
     act(() => {
       Form.InfoOverlay.setContent(formId, 'success')
     })
     expect(
-      screen.getByText('fallback content').getAttribute('aria-hidden')
+      screen.getByText('fallback content').getAttribute('aria-hidden'),
     ).toBe('true')
 
     act(() => {
       Form.InfoOverlay.setContent(formId, undefined)
     })
     expect(
-      screen.getByText('fallback content').getAttribute('aria-hidden')
+      screen.getByText('fallback content').getAttribute('aria-hidden'),
     ).toBe('false')
 
     rerender(
       <Form.Handler id={formId} content={undefined}>
         <Form.InfoOverlay>fallback content</Form.InfoOverlay>
-      </Form.Handler>
+      </Form.Handler>,
     )
     expect(
-      screen.getByText('fallback content').getAttribute('aria-hidden')
+      screen.getByText('fallback content').getAttribute('aria-hidden'),
     ).toBe('false')
   })
 
@@ -516,7 +516,7 @@ describe('Form.InfoOverlay', () => {
 
           <Form.SubmitButton top />
         </Form.InfoOverlay>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const form = document.querySelector('form')

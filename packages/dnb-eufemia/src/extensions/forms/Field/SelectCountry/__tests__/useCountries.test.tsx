@@ -29,7 +29,7 @@ describe('useCountries', () => {
     })
 
     expect(getOneCountry(result.current.countries, 'CX').i18n['sv']).toBe(
-      'Julön'
+      'Julön',
     )
   })
 
@@ -45,7 +45,7 @@ describe('useCountries', () => {
     })
 
     expect(getOneCountry(result.current.countries, 'CX').i18n['da']).toBe(
-      'Juleøen'
+      'Juleøen',
     )
   })
 
@@ -64,7 +64,7 @@ describe('useCountries', () => {
     })
 
     expect(getOneCountry(result.current.countries, 'CX').i18n['sv']).toBe(
-      'Julön'
+      'Julön',
     )
   })
 
@@ -109,7 +109,7 @@ describe('useCountries', () => {
     expect(log).toHaveBeenCalledWith(
       expect.any(String),
       'Missing country translation:',
-      ['BQ', 'FK', 'XK', 'GS', 'TK']
+      ['BQ', 'FK', 'XK', 'GS', 'TK'],
     )
 
     log.mockRestore()
@@ -135,7 +135,7 @@ describe('useCountries', () => {
     })
 
     expect(getOneCountry(result.current.countries, 'CX').i18n['sv']).toBe(
-      'Juleøya'
+      'Juleøya',
     )
 
     log.mockRestore()

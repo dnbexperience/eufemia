@@ -130,7 +130,7 @@ const Avatar = (localProps: AvatarAllProps) => {
     defaultProps,
     context?.Avatar,
     { skeleton: context?.skeleton },
-    avatarGroupContext
+    avatarGroupContext,
   )
 
   const {
@@ -183,7 +183,7 @@ const Avatar = (localProps: AvatarAllProps) => {
 
   if (!avatarGroupContext && !hasLabel) {
     warn(
-      `Avatar group required: An Avatar requires an Avatar.Group with label description as a parent component. This is to ensure correct semantic and accessibility.`
+      `Avatar group required: An Avatar requires an Avatar.Group with label description as a parent component. This is to ensure correct semantic and accessibility.`,
     )
   }
 
@@ -205,7 +205,7 @@ const Avatar = (localProps: AvatarAllProps) => {
       `dnb-avatar--${variant || 'primary'}`,
       `dnb-avatar--size-${size || 'medium'}`,
       skeletonClasses,
-      className
+      className,
     ),
     style,
   })
@@ -231,7 +231,7 @@ withComponentMarkers(Avatar, {
 export default Avatar
 
 function isIconComponent(
-  element: unknown
+  element: unknown,
 ): element is React.ReactElement<IconAllProps> {
   return (
     React.isValidElement(element) &&
@@ -240,12 +240,12 @@ function isIconComponent(
 }
 
 function iconAutoSize(
-  icon: React.ReactElement<IconAllProps>
+  icon: React.ReactElement<IconAllProps>,
 ): React.ReactElement<IconAllProps> {
   if (!icon.props.size) {
     return React.createElement(
       icon.type as React.ComponentType<IconAllProps>,
-      { ...icon.props, size: 'auto' }
+      { ...icon.props, size: 'auto' },
     )
   }
 

@@ -42,7 +42,7 @@ type PopoverContainerProps = {
 }
 
 const isResolvedTargetRefsObject = (
-  target?: PopoverResolvedTargetElement
+  target?: PopoverResolvedTargetElement,
 ): target is PopoverTargetElementObject =>
   Boolean(target) &&
   typeof target === 'object' &&
@@ -77,7 +77,7 @@ function PopoverContainer(props: PopoverContainerProps) {
 
   const [style, setStyle] = useState<React.CSSProperties | null>(null)
   const [arrowStyle, setArrowStyle] = useState<React.CSSProperties | null>(
-    null
+    null,
   )
   const [resolvedPlacement, setResolvedPlacement] =
     useState<PopoverPlacement>(placement)
@@ -204,7 +204,7 @@ function PopoverContainer(props: PopoverContainerProps) {
         clearTimers()
         debounceTimeout.current = setTimeout(
           () => triggerRecalculation(getBodySize()),
-          100
+          100,
         )
       })
 
@@ -422,7 +422,7 @@ function PopoverContainer(props: PopoverContainerProps) {
 
     if (arrowPositionSelector) {
       const matchesSelector = (
-        element?: Element | null
+        element?: Element | null,
       ): element is HTMLElement => {
         if (!element || typeof element.matches !== 'function') {
           return false
@@ -435,14 +435,14 @@ function PopoverContainer(props: PopoverContainerProps) {
       }
 
       const queryWithin = (
-        root?: Element | Document | null
+        root?: Element | Document | null,
       ): HTMLElement | null => {
         if (!root || typeof root.querySelector !== 'function') {
           return null
         }
         try {
           return root.querySelector(
-            arrowPositionSelector
+            arrowPositionSelector,
           ) as HTMLElement | null
         } catch (_error) {
           return null
@@ -713,7 +713,7 @@ function PopoverContainer(props: PopoverContainerProps) {
       const arrowMin = Math.min(maxLeft, arrowBoundary)
       const arrowMax = Math.max(
         arrowMin,
-        Math.max(0, maxLeft - arrowBoundary)
+        Math.max(0, maxLeft - arrowBoundary),
       )
 
       let arrowClampMin = arrowMin
@@ -748,7 +748,7 @@ function PopoverContainer(props: PopoverContainerProps) {
       const arrowMin = Math.min(maxTop, arrowBoundary)
       const arrowMax = Math.max(
         arrowMin,
-        Math.max(0, maxTop - arrowBoundary)
+        Math.max(0, maxTop - arrowBoundary),
       )
 
       let arrowClampMin = arrowMin
@@ -861,7 +861,7 @@ function PopoverContainer(props: PopoverContainerProps) {
         noAnimationClasses,
         fixedClasses,
         activeClasses,
-        hideClasses
+        hideClasses,
       )}
       style={containerStyle}
     >
@@ -870,11 +870,11 @@ function PopoverContainer(props: PopoverContainerProps) {
           className={clsx(
             baseClassNames.map((base) => `${base}__arrow`),
             baseClassNames.map(
-              (base) => `${base}__arrow__arrow--${arrowPosition}`
+              (base) => `${base}__arrow__arrow--${arrowPosition}`,
             ),
             baseClassNames.map(
-              (base) => `${base}__arrow__placement--${resolvedPlacement}`
-            )
+              (base) => `${base}__arrow__placement--${resolvedPlacement}`,
+            ),
           )}
           style={{ ...arrowStyle }}
         />

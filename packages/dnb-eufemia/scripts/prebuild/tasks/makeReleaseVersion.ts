@@ -82,7 +82,7 @@ export async function makeReleaseVersion() {
     await fs.writeFile(file, scopeHash)
 
     log.succeed(
-      `Success on write to scope-hash.txt with scope hash: ${scopeHash}`
+      `Success on write to scope-hash.txt with scope hash: ${scopeHash}`,
     )
   }
 }

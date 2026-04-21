@@ -124,7 +124,7 @@ function Step(props: WizardStepProps): React.JSX.Element {
 
             // Try to find the step by a JSX title
             return originalTitleProp === title
-          }
+          },
         ) || {}
 
       if (index !== undefined) {

@@ -30,7 +30,7 @@ export type SkeletonDOMAttributesContext = {
 export const skeletonDOMAttributes = (
   params: React.HTMLProps<HTMLElement>,
   skeleton: SkeletonShow,
-  context?: SkeletonContextValue
+  context?: SkeletonContextValue,
 ) => {
   if (skeleton || (skeleton !== false && context?.skeleton)) {
     params.disabled = true
@@ -45,13 +45,13 @@ export const createSkeletonClass = (
   method: SkeletonMethods,
   skeleton: SkeletonShow,
   context?: SkeletonContextValue,
-  className = null
+  className = null,
 ) => {
   if (skeleton || (skeleton !== false && context?.skeleton)) {
     return clsx(
       className,
       'dnb-skeleton',
-      method && `dnb-skeleton--${method}`
+      method && `dnb-skeleton--${method}`,
     )
   }
 

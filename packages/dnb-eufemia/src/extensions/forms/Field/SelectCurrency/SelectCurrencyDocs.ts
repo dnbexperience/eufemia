@@ -21,5 +21,5 @@ export const SelectCurrencyProperties: PropertiesTableProps = {
 
 export const SelectCurrencyGeneralEvents = getFieldEventsWithTypes(
   { type: 'string', optional: true },
-  { type: 'object', optional: true }
+  { type: 'object', optional: true },
 )

@@ -3,7 +3,7 @@ import { useMenuContext } from './MenuContext'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
 
 export default function useMenuItemRegistration(
-  itemRef: React.RefObject<HTMLElement | null>
+  itemRef: React.RefObject<HTMLElement | null>,
 ) {
   const context = useMenuContext()
   const indexRef = useRef(-1)
@@ -18,7 +18,7 @@ export default function useMenuItemRegistration(
     }
 
     indexRef.current = registerItem(
-      itemRef as React.RefObject<HTMLElement>
+      itemRef as React.RefObject<HTMLElement>,
     )
 
     return () => {

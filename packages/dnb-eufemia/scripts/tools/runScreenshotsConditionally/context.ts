@@ -22,7 +22,7 @@ export function removeEmptyValues(list: string[]): string[] {
 }
 
 function readPackageJson(
-  packageJsonPath: string
+  packageJsonPath: string,
 ): { scripts?: unknown } | null {
   try {
     return JSON.parse(readFileSync(packageJsonPath, 'utf8'))
@@ -32,7 +32,7 @@ function readPackageJson(
 }
 
 function hasScreenshotCiScript(
-  packageData: { scripts?: unknown } | null
+  packageData: { scripts?: unknown } | null,
 ): boolean {
   if (!packageData || typeof packageData.scripts !== 'object') {
     return false
@@ -55,7 +55,7 @@ function resolvePackageRoot(): string {
   const workspacePackageRoot = path.join(cwd, 'packages', 'dnb-eufemia')
   const workspacePackageJsonPath = path.join(
     workspacePackageRoot,
-    'package.json'
+    'package.json',
   )
 
   if (hasScreenshotCiScript(readPackageJson(workspacePackageJsonPath))) {
@@ -68,7 +68,7 @@ function resolvePackageRoot(): string {
 export function createContext(): RunnerContext {
   const packageRoot = resolvePackageRoot()
   const packageJson = readPackageJson(
-    path.join(packageRoot, 'package.json')
+    path.join(packageRoot, 'package.json'),
   ) as { scripts: Record<string, string> } | null
 
   return {

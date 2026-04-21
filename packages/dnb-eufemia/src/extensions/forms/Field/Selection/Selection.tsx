@@ -184,17 +184,17 @@ function Selection(props: FieldSelectionProps) {
         !selectedKey || selectedKey === clearValue
           ? emptyValue
           : selectedKey,
-        { data }
+        { data },
       )
     },
-    [handleChange, emptyValue, clearValue]
+    [handleChange, emptyValue, clearValue],
   )
 
   const onChangeHandler = useCallback(
     ({ value }) => {
       handleChange?.(value === undefined ? emptyValue : value)
     },
-    [handleChange, emptyValue]
+    [handleChange, emptyValue],
   )
 
   // Specific handleShow and handleHide because Dropdown preserve the initially received callbacks, so changes
@@ -204,20 +204,20 @@ function Selection(props: FieldSelectionProps) {
     ({ data }: DrawerListVisibilityParams) => {
       setHasFocus(
         true,
-        typeof data === 'object' && data ? data.selectedKey : undefined
+        typeof data === 'object' && data ? data.selectedKey : undefined,
       )
     },
-    [setHasFocus]
+    [setHasFocus],
   )
 
   const handleHide = useCallback(
     ({ data }: DrawerListVisibilityParams) => {
       setHasFocus(
         false,
-        typeof data === 'object' && data ? data.selectedKey : undefined
+        typeof data === 'object' && data ? data.selectedKey : undefined,
       )
     },
-    [setHasFocus]
+    [setHasFocus],
   )
 
   const cn = clsx(
@@ -225,7 +225,7 @@ function Selection(props: FieldSelectionProps) {
     `dnb-forms-field-selection__variant--${variant}`,
     `dnb-forms-field-selection--layout-${layout}`,
     `dnb-forms-field-selection--options-layout--${optionsLayout}`,
-    className
+    className,
   )
 
   const fieldBlockProps: FieldBlockProps = {
@@ -247,7 +247,7 @@ function Selection(props: FieldSelectionProps) {
         })
       }
     },
-    [additionalArgs, emptyValue, onType]
+    [additionalArgs, emptyValue, onType],
   )
 
   switch (variant) {
@@ -311,12 +311,12 @@ function Selection(props: FieldSelectionProps) {
     case 'dropdown': {
       const data = renderDropdownItems(
         hasRenderPropChildren ? undefined : dataList,
-        transformSelection
+        transformSelection,
       )
         .concat(makeOptions(renderedChildren, transformSelection))
         .filter(Boolean)
       const displayValue = data.find(
-        (item) => item.selectedKey === value
+        (item) => item.selectedKey === value,
       )?.content
       setDisplayValue(displayValue)
 
@@ -379,7 +379,7 @@ function Selection(props: FieldSelectionProps) {
 function resolveChildren(
   children: FieldSelectionProps['children'],
   value: FieldSelectionProps['value'],
-  options: FieldSelectionProps['data']
+  options: FieldSelectionProps['data'],
 ) {
   if (typeof children === 'function') {
     return children({ value, options })
@@ -483,7 +483,7 @@ export function countOptions(children: React.ReactNode): number {
         (child.props as { children?: React.ReactNode }).children
       ) {
         count += countOptions(
-          (child.props as { children?: React.ReactNode }).children
+          (child.props as { children?: React.ReactNode }).children,
         )
       }
     }
@@ -496,7 +496,7 @@ export function mapOptions(
   children: React.ReactNode,
   {
     createOption,
-  }: { createOption: (props: OptionProps, i: number) => React.ReactNode }
+  }: { createOption: (props: OptionProps, i: number) => React.ReactNode },
 ) {
   return React.Children.map(
     // @ts-expect-error - strictFunctionTypes
@@ -514,19 +514,19 @@ export function mapOptions(
           return React.createElement(
             child.type as React.ComponentType<any>,
             child.props,
-            nestedChildren
+            nestedChildren,
           )
         }
       }
 
       return child
-    }
+    },
   )
 }
 
 export function makeOptions<T = DrawerListProps['data']>(
   children: React.ReactNode,
-  transformSelection?: FieldSelectionProps['transformSelection']
+  transformSelection?: FieldSelectionProps['transformSelection'],
 ): T {
   return React.Children.map(children, (child) => {
     if (child?.['props']?.children?.type === OptionField) {
@@ -569,7 +569,7 @@ export function makeOptions<T = DrawerListProps['data']>(
 
 function renderDropdownItems(
   data: Data,
-  transformSelection?: FieldSelectionProps['transformSelection']
+  transformSelection?: FieldSelectionProps['transformSelection'],
 ) {
   return (
     data?.map((props) => {

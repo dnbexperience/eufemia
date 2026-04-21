@@ -116,7 +116,7 @@ function HeightAnimation({
           !open &&
           'dnb-height-animation--hidden',
         showOverflow && 'dnb-height-animation--show-overflow',
-        className
+        className,
       )}
       style={{ ...firstPaintStyle, ...rest?.style }}
       aria-hidden={keepInDOM ? !open : undefined}

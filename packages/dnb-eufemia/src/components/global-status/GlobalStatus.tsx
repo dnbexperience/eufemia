@@ -454,7 +454,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
     dispatchCustomElementEvent(
       globalStatusRef.current,
       'onHide',
-      globalStatusRef.current
+      globalStatusRef.current,
     )
   }, [])
 
@@ -470,7 +470,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
         const element = wrapperRef.current
         scrollToStatusTimeoutRef.current = isElementVisible(
           element,
-          isDone
+          isDone,
         )
         if (element && typeof element.scrollIntoView === 'function') {
           // wait a tick, to make sure that the element is visible, as firefox needs that
@@ -490,13 +490,13 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
         warn('GlobalStatus: Could not scroll into view!', e)
       }
     },
-    []
+    [],
   )
 
   const gotoItem = useCallback(
     (
       event: React.MouseEvent | React.KeyboardEvent,
-      item: { itemId?: string; [key: string]: unknown }
+      item: { itemId?: string; [key: string]: unknown },
     ) => {
       const key = (event as React.KeyboardEvent).key
       if (
@@ -551,7 +551,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
         }
       }
     },
-    []
+    [],
   )
 
   const onAnimationStart = useCallback(
@@ -561,7 +561,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
           scrollToStatus()
       }
     },
-    [scrollToStatus]
+    [scrollToStatus],
   )
 
   const onAnimationEnd = useCallback(
@@ -573,7 +573,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
           dispatchCustomElementEvent(
             globalStatusRef.current,
             'onOpen',
-            globalStatusRef.current
+            globalStatusRef.current,
           )
           break
 
@@ -585,7 +585,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
           dispatchCustomElementEvent(
             globalStatusRef.current,
             'onAdjust',
-            globalStatusRef.current
+            globalStatusRef.current,
           )
           break
 
@@ -593,12 +593,12 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
           dispatchCustomElementEvent(
             globalStatusRef.current,
             'onClose',
-            globalStatusRef.current
+            globalStatusRef.current,
           )
           break
       }
     },
-    [setFocus]
+    [setFocus],
   )
 
   const onOpen = useCallback((isOpened: boolean) => {
@@ -606,7 +606,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
       dispatchCustomElementEvent(
         globalStatusRef.current,
         'onShow',
-        globalStatusRef.current
+        globalStatusRef.current,
       )
     }
   }, [])
@@ -616,7 +616,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
   const fallbackProps = extendPropsWithContext(
     ownProps,
     globalStatusDefaultProps,
-    context.getTranslation(ownProps).GlobalStatus
+    context.getTranslation(ownProps).GlobalStatus,
   )
 
   const props = extendPropsWithContext(
@@ -627,7 +627,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
       derivedGlobalStatus,
     ]),
     globalStatusDefaultProps,
-    fallbackProps
+    fallbackProps,
   )
 
   const lang = context.locale
@@ -674,7 +674,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
       'dnb-global-status__wrapper',
       'dnb-no-focus',
       createSkeletonClass('font', skeleton, context),
-      className
+      className,
     ),
     'aria-live': (isActive ? 'assertive' : 'off') as 'assertive' | 'off',
     onKeyDown: (e: React.KeyboardEvent) => {
@@ -863,12 +863,12 @@ const GlobalStatus: GlobalStatusWithStatics = Object.assign(
   React.memo(GlobalStatusComponent),
   {
     create: (
-      props: GlobalStatusInterceptorProps
+      props: GlobalStatusInterceptorProps,
     ): GlobalStatusInterceptor => new GlobalStatusInterceptor(props),
     Update: null as unknown as GlobalStatusWithStatics['Update'],
     Add: GlobalStatusController,
     Remove: GlobalStatusRemove,
-  }
+  },
 ) as unknown as GlobalStatusWithStatics
 GlobalStatus.Update = GlobalStatus.create
 
@@ -879,7 +879,7 @@ export default GlobalStatus
 const isElementVisible = (
   elem: HTMLElement,
   callback?: ((elem: HTMLElement) => void) | null,
-  delayFallback = 1e3
+  delayFallback = 1e3,
 ) => {
   if (typeof IntersectionObserver !== 'undefined') {
     const intersectionObserver = new IntersectionObserver((entries) => {

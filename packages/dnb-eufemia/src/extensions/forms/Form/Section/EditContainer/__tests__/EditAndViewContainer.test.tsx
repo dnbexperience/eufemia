@@ -29,7 +29,7 @@ describe('EditContainer and ViewContainer', () => {
         </Form.Section.EditContainer>
 
         <ContextConsumer />
-      </Form.Section>
+      </Form.Section>,
     )
 
     const blocks = document.querySelectorAll('.dnb-forms-section-block')
@@ -85,12 +85,12 @@ describe('EditContainer and ViewContainer', () => {
 
           <ContextConsumer />
         </Form.Section>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(containerMode).toBe('view')
     expect(
-      document.querySelector('.dnb-form-status')
+      document.querySelector('.dnb-form-status'),
     ).not.toBeInTheDocument()
 
     const input = document.querySelector('input')
@@ -122,7 +122,7 @@ describe('EditContainer and ViewContainer', () => {
         <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
 
         <ContextConsumer />
-      </Form.Section>
+      </Form.Section>,
     )
 
     expect(containerMode).toBe('view')
@@ -154,7 +154,7 @@ describe('EditContainer and ViewContainer', () => {
             </Form.Section.ViewContainer>
             <ContextConsumer />
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       // Submit to open edit due to error
@@ -164,34 +164,34 @@ describe('EditContainer and ViewContainer', () => {
 
       expect(containerMode).toBe('edit')
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
 
       // Press Cancel
       const buttons = Array.from(document.querySelectorAll('button'))
       const cancelButton = buttons.find(
         (btn) =>
-          btn.textContent?.trim() === nb.SectionEditContainer.cancelButton
+          btn.textContent?.trim() === nb.SectionEditContainer.cancelButton,
       )
       await userEvent.click(cancelButton)
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-dialog .dnb-button--primary')
-        ).toBeInTheDocument()
+          document.querySelector('.dnb-dialog .dnb-button--primary'),
+        ).toBeInTheDocument(),
       )
       await userEvent.click(
-        document.querySelector('.dnb-dialog .dnb-button--primary')
+        document.querySelector('.dnb-dialog .dnb-button--primary'),
       )
 
       // Should still be in edit mode and show the section error message
       await waitFor(() => {
         expect(containerMode).toBe('edit')
         const status = document.querySelector(
-          '.dnb-forms-section-toolbar .dnb-form-status'
+          '.dnb-forms-section-toolbar .dnb-form-status',
         )
         expect(status).toBeInTheDocument()
         expect(status).toHaveTextContent(
-          nb.SectionEditContainer.errorInSection
+          nb.SectionEditContainer.errorInSection,
         )
       })
     })
@@ -199,7 +199,7 @@ describe('EditContainer and ViewContainer', () => {
     it('should call restoreOriginalData and restore values on Cancel after submit error', async () => {
       const restoreSpy = jest.fn()
       const useContainerDataStoreModule = jest.requireActual(
-        '../useContainerDataStore'
+        '../useContainerDataStore',
       )
       const originalHook = useContainerDataStoreModule.default
       const mockUseContainerDataStore = jest
@@ -230,7 +230,7 @@ describe('EditContainer and ViewContainer', () => {
               content
             </Form.Section.ViewContainer>
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input') as HTMLInputElement
@@ -245,16 +245,16 @@ describe('EditContainer and ViewContainer', () => {
       const buttons = Array.from(document.querySelectorAll('button'))
       const cancelButton = buttons.find(
         (btn) =>
-          btn.textContent?.trim() === nb.SectionEditContainer.cancelButton
+          btn.textContent?.trim() === nb.SectionEditContainer.cancelButton,
       ) as HTMLButtonElement
       await userEvent.click(cancelButton)
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-dialog .dnb-button--primary')
-        ).toBeInTheDocument()
+          document.querySelector('.dnb-dialog .dnb-button--primary'),
+        ).toBeInTheDocument(),
       )
       await userEvent.click(
-        document.querySelector('.dnb-dialog .dnb-button--primary')
+        document.querySelector('.dnb-dialog .dnb-button--primary'),
       )
 
       // Assert restoreOriginalData was called and value restored
@@ -284,7 +284,7 @@ describe('EditContainer and ViewContainer', () => {
             <Form.Section.ViewContainer>view</Form.Section.ViewContainer>
             <ContextConsumer />
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const viewBlock = document
@@ -298,31 +298,31 @@ describe('EditContainer and ViewContainer', () => {
       expect(containerMode).toBe('edit')
       expect(viewBlock.className).toContain('dnb-height-animation--hidden')
       expect(editBlock.className).not.toContain(
-        'dnb-height-animation--hidden'
+        'dnb-height-animation--hidden',
       )
 
       // Cancel should keep edit because errors exist
       const buttons2 = Array.from(document.querySelectorAll('button'))
       const cancelButton2 = buttons2.find(
         (btn) =>
-          btn.textContent?.trim() === nb.SectionEditContainer.cancelButton
+          btn.textContent?.trim() === nb.SectionEditContainer.cancelButton,
       ) as HTMLButtonElement
       await userEvent.click(cancelButton2)
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-dialog .dnb-button--primary')
-        ).toBeInTheDocument()
+          document.querySelector('.dnb-dialog .dnb-button--primary'),
+        ).toBeInTheDocument(),
       )
       await userEvent.click(
-        document.querySelector('.dnb-dialog .dnb-button--primary')
+        document.querySelector('.dnb-dialog .dnb-button--primary'),
       )
       await waitFor(() => {
         expect(containerMode).toBe('edit')
         expect(editBlock.className).not.toContain(
-          'dnb-height-animation--hidden'
+          'dnb-height-animation--hidden',
         )
         expect(viewBlock.className).toContain(
-          'dnb-height-animation--hidden'
+          'dnb-height-animation--hidden',
         )
       })
 
@@ -334,10 +334,10 @@ describe('EditContainer and ViewContainer', () => {
       expect(containerMode).toBe('edit')
       await waitFor(() => {
         expect(viewBlock.className).toContain(
-          'dnb-height-animation--hidden'
+          'dnb-height-animation--hidden',
         )
         expect(editBlock.className).not.toContain(
-          'dnb-height-animation--hidden'
+          'dnb-height-animation--hidden',
         )
       })
     })
@@ -360,7 +360,7 @@ describe('EditContainer and ViewContainer', () => {
             </Form.Section.EditContainer>
             <ContextConsumer />
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const viewBlock = document
@@ -374,26 +374,26 @@ describe('EditContainer and ViewContainer', () => {
       expect(containerMode).toBe('edit')
       expect(viewBlock.className).toContain('dnb-height-animation--hidden')
       expect(editBlock.className).not.toContain(
-        'dnb-height-animation--hidden'
+        'dnb-height-animation--hidden',
       )
 
       // Cancel to switch to view (select by accessible name to avoid order dependence)
       const buttons = Array.from(document.querySelectorAll('button'))
       const foundCancel = buttons.find(
         (btn) =>
-          btn.textContent?.trim() === nb.SectionEditContainer.cancelButton
+          btn.textContent?.trim() === nb.SectionEditContainer.cancelButton,
       )
       await userEvent.click(foundCancel)
       await userEvent.click(
-        document.querySelector('.dnb-dialog .dnb-button--primary')
+        document.querySelector('.dnb-dialog .dnb-button--primary'),
       )
       await waitFor(() => {
         expect(containerMode).toBe('edit')
         expect(editBlock.className).not.toContain(
-          'dnb-height-animation--hidden'
+          'dnb-height-animation--hidden',
         )
         expect(viewBlock.className).toContain(
-          'dnb-height-animation--hidden'
+          'dnb-height-animation--hidden',
         )
       })
 
@@ -405,10 +405,10 @@ describe('EditContainer and ViewContainer', () => {
       expect(containerMode).toBe('edit')
       await waitFor(() => {
         expect(viewBlock.className).toContain(
-          'dnb-height-animation--hidden'
+          'dnb-height-animation--hidden',
         )
         expect(editBlock.className).not.toContain(
-          'dnb-height-animation--hidden'
+          'dnb-height-animation--hidden',
         )
       })
     })
@@ -436,7 +436,7 @@ describe('EditContainer and ViewContainer', () => {
 
             <ContextConsumer />
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(containerMode).toBe('edit')
@@ -448,16 +448,16 @@ describe('EditContainer and ViewContainer', () => {
       expect(input).toHaveValue('bar additional')
 
       const [, cancelButton] = Array.from(
-        document.querySelectorAll('button')
+        document.querySelectorAll('button'),
       )
       await userEvent.click(cancelButton)
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-dialog .dnb-button--primary')
-        ).toBeInTheDocument()
+          document.querySelector('.dnb-dialog .dnb-button--primary'),
+        ).toBeInTheDocument(),
       )
       await userEvent.click(
-        document.querySelector('.dnb-dialog .dnb-button--primary')
+        document.querySelector('.dnb-dialog .dnb-button--primary'),
       )
 
       await waitFor(() => {
@@ -487,15 +487,15 @@ describe('EditContainer and ViewContainer', () => {
           <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
 
           <ContextConsumer />
-        </Form.Section>
+        </Form.Section>,
       )
 
       expect(containerMode).toBe('edit')
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Field.errorRequired
+        nb.Field.errorRequired,
       )
 
       const input = document.querySelector('input')
@@ -504,7 +504,7 @@ describe('EditContainer and ViewContainer', () => {
       await userEvent.type(input, 'something')
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       const [doneButton] = Array.from(document.querySelectorAll('button'))
@@ -520,7 +520,7 @@ describe('EditContainer and ViewContainer', () => {
             <Field.String required />
             <Field.String required validateInitially={false} />
           </Form.Section.EditContainer>
-        </Form.Section>
+        </Form.Section>,
       )
 
       expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
@@ -543,7 +543,7 @@ describe('EditContainer and ViewContainer', () => {
           <Form.Section.EditContainer>
             <Field.String required validateInitially={false} />
           </Form.Section.EditContainer>
-        </Form.Section>
+        </Form.Section>,
       )
 
       const blocks = document.querySelectorAll('.dnb-forms-section-block')
@@ -565,7 +565,7 @@ describe('EditContainer and ViewContainer', () => {
 
       expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)
       expect(
-        document.querySelectorAll('.dnb-form-status')[1]
+        document.querySelectorAll('.dnb-form-status')[1],
       ).toHaveTextContent(nb.SectionEditContainer.errorInSection)
     })
 
@@ -589,14 +589,14 @@ describe('EditContainer and ViewContainer', () => {
           <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
 
           <ContextConsumer />
-        </Form.Section>
+        </Form.Section>,
       )
 
       expect(containerMode).toBe('edit')
       expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)
 
       const [doneButton, cancelButton] = Array.from(
-        document.querySelectorAll('button')
+        document.querySelectorAll('button'),
       )
       await userEvent.click(doneButton)
 
@@ -607,7 +607,7 @@ describe('EditContainer and ViewContainer', () => {
       // With invalid fields, cancel keeps edit and shows errors
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-form-status').length
+          document.querySelectorAll('.dnb-form-status').length,
         ).toBeGreaterThan(0)
       })
       expect(containerMode).toBe('edit')
@@ -636,7 +636,7 @@ describe('EditContainer and ViewContainer', () => {
           </Form.Section.EditContainer>
 
           <ContextConsumer />
-        </Form.Section>
+        </Form.Section>,
       )
 
       const blocks = document.querySelectorAll('.dnb-forms-section-block')
@@ -644,7 +644,7 @@ describe('EditContainer and ViewContainer', () => {
       const [viewBlock, editBlock] = Array.from(blocks)
       const [editButton] = Array.from(viewBlock.querySelectorAll('button'))
       const [cancelButton] = Array.from(
-        editBlock.querySelectorAll('button')
+        editBlock.querySelectorAll('button'),
       )
 
       expect(viewBlock).toHaveClass('dnb-forms-section-view-block')
@@ -658,7 +658,7 @@ describe('EditContainer and ViewContainer', () => {
 
       await waitFor(() => {
         expect(
-          editBlock.querySelector('.dnb-forms-section-block__inner')
+          editBlock.querySelector('.dnb-forms-section-block__inner'),
         ).toHaveFocus()
         expect(document.activeElement.parentElement).toBe(editBlock)
       })
@@ -669,25 +669,25 @@ describe('EditContainer and ViewContainer', () => {
       // Switch to view mode
       fireEvent.click(cancelButton)
       await userEvent.click(
-        document.querySelector('.dnb-dialog .dnb-button--primary')
+        document.querySelector('.dnb-dialog .dnb-button--primary'),
       )
       expect(containerMode).toBe('view')
 
       await waitFor(() => {
         expect(editBlock).toHaveAttribute('aria-hidden', 'true')
         expect(
-          document.querySelector('.dnb-dialog')
+          document.querySelector('.dnb-dialog'),
         ).not.toBeInTheDocument()
       })
       const viewInner = viewBlock.querySelector(
-        '.dnb-forms-section-block__inner'
+        '.dnb-forms-section-block__inner',
       ) as HTMLElement
       await waitFor(() => {
         const ae = document.activeElement
         expect(
           ae === document.body ||
             ae === viewInner ||
-            ae?.parentElement === viewBlock
+            ae?.parentElement === viewBlock,
         ).toBe(true)
       })
 
@@ -700,7 +700,7 @@ describe('EditContainer and ViewContainer', () => {
 
       await waitFor(() => {
         expect(
-          editBlock.querySelector('.dnb-forms-section-block__inner')
+          editBlock.querySelector('.dnb-forms-section-block__inner'),
         ).toHaveFocus()
         expect(document.activeElement.parentElement).toBe(editBlock)
       })
@@ -716,7 +716,7 @@ describe('EditContainer and ViewContainer', () => {
           <Form.Section.EditContainer>
             Edit Content
           </Form.Section.EditContainer>
-        </Form.Section>
+        </Form.Section>,
       )
 
       expect(document.body).toHaveFocus()
@@ -745,7 +745,7 @@ describe('EditContainer and ViewContainer', () => {
 
             <ContextConsumer />
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.body).toHaveFocus()
@@ -755,7 +755,7 @@ describe('EditContainer and ViewContainer', () => {
       const [viewBlock, editBlock] = Array.from(blocks)
       const [editButton] = Array.from(viewBlock.querySelectorAll('button'))
       const [cancelButton] = Array.from(
-        editBlock.querySelectorAll('button')
+        editBlock.querySelectorAll('button'),
       )
 
       await waitFor(() => {
@@ -770,26 +770,26 @@ describe('EditContainer and ViewContainer', () => {
 
       fireEvent.click(cancelButton)
       await userEvent.click(
-        document.querySelector('.dnb-dialog .dnb-button--primary')
+        document.querySelector('.dnb-dialog .dnb-button--primary'),
       )
 
       expect(containerMode).toBe('view')
       await waitFor(() => {
         expect(editBlock).toHaveAttribute('aria-hidden', 'true')
         expect(
-          document.querySelector('.dnb-dialog')
+          document.querySelector('.dnb-dialog'),
         ).not.toBeInTheDocument()
       })
       {
         const viewInner2 = viewBlock.querySelector(
-          '.dnb-forms-section-block__inner'
+          '.dnb-forms-section-block__inner',
         ) as HTMLElement
         await waitFor(() => {
           const ae = document.activeElement
           expect(
             ae === document.body ||
               ae === viewInner2 ||
-              ae?.parentElement === viewBlock
+              ae?.parentElement === viewBlock,
           ).toBe(true)
         })
       }
@@ -799,14 +799,14 @@ describe('EditContainer and ViewContainer', () => {
       expect(containerMode).toBe('edit')
       await waitFor(() => {
         expect(
-          editBlock.querySelector('.dnb-forms-section-block__inner')
+          editBlock.querySelector('.dnb-forms-section-block__inner'),
         ).toHaveFocus()
         expect(document.activeElement.parentElement).toBe(editBlock)
       })
 
       fireEvent.click(cancelButton)
       await userEvent.click(
-        document.querySelector('.dnb-dialog .dnb-button--primary')
+        document.querySelector('.dnb-dialog .dnb-button--primary'),
       )
 
       expect(containerMode).toBe('view')
@@ -815,14 +815,14 @@ describe('EditContainer and ViewContainer', () => {
       })
       {
         const viewInner3 = viewBlock.querySelector(
-          '.dnb-forms-section-block__inner'
+          '.dnb-forms-section-block__inner',
         ) as HTMLElement
         await waitFor(() => {
           const ae = document.activeElement
           expect(
             ae === document.body ||
               ae === viewInner3 ||
-              ae?.parentElement === viewBlock
+              ae?.parentElement === viewBlock,
           ).toBe(true)
         })
       }
@@ -832,7 +832,7 @@ describe('EditContainer and ViewContainer', () => {
       expect(containerMode).toBe('edit')
       await waitFor(() => {
         expect(
-          editBlock.querySelector('.dnb-forms-section-block__inner')
+          editBlock.querySelector('.dnb-forms-section-block__inner'),
         ).toHaveFocus()
         expect(document.activeElement.parentElement).toBe(editBlock)
       })
@@ -866,7 +866,7 @@ describe('EditContainer and ViewContainer', () => {
 
           <ContextConsumer />
         </Form.Section>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(containerMode).toBe('edit')
@@ -880,24 +880,24 @@ describe('EditContainer and ViewContainer', () => {
     const buttons = Array.from(document.querySelectorAll('button'))
     const cancelButton = buttons.find(
       (btn) =>
-        btn.textContent?.trim() === nb.SectionEditContainer.cancelButton
+        btn.textContent?.trim() === nb.SectionEditContainer.cancelButton,
     )
     await userEvent.click(cancelButton)
     await waitFor(() =>
       expect(
-        document.querySelector('.dnb-dialog .dnb-button--primary')
-      ).toBeInTheDocument()
+        document.querySelector('.dnb-dialog .dnb-button--primary'),
+      ).toBeInTheDocument(),
     )
     await userEvent.click(
-      document.querySelector('.dnb-dialog .dnb-button--primary')
+      document.querySelector('.dnb-dialog .dnb-button--primary'),
     )
     await waitFor(() =>
       expect(
-        document.querySelector('.dnb-dialog .dnb-button--primary')
-      ).toBeInTheDocument()
+        document.querySelector('.dnb-dialog .dnb-button--primary'),
+      ).toBeInTheDocument(),
     )
     await userEvent.click(
-      document.querySelector('.dnb-dialog .dnb-button--primary')
+      document.querySelector('.dnb-dialog .dnb-button--primary'),
     )
 
     await waitFor(() => {
@@ -917,17 +917,17 @@ describe('EditContainer and ViewContainer', () => {
         <Form.Section.EditContainer>
           Edit Content
         </Form.Section.EditContainer>
-      </Form.Section>
+      </Form.Section>,
     )
 
     const [viewBlock, editBlock] = Array.from(
-      document.querySelectorAll('.dnb-forms-section-block')
+      document.querySelectorAll('.dnb-forms-section-block'),
     )
     expect(viewBlock).toHaveClass(
-      'dnb-forms-section-block--variant-outline'
+      'dnb-forms-section-block--variant-outline',
     )
     expect(editBlock).toHaveClass(
-      'dnb-forms-section-block--variant-outline'
+      'dnb-forms-section-block--variant-outline',
     )
   })
 
@@ -941,11 +941,11 @@ describe('EditContainer and ViewContainer', () => {
         <Form.Section.EditContainer variant="basic">
           Edit Content
         </Form.Section.EditContainer>
-      </Form.Section>
+      </Form.Section>,
     )
 
     const [viewBlock, editBlock] = Array.from(
-      document.querySelectorAll('.dnb-forms-section-block')
+      document.querySelectorAll('.dnb-forms-section-block'),
     )
     expect(viewBlock).toHaveClass('dnb-forms-section-block--variant-basic')
     expect(editBlock).toHaveClass('dnb-forms-section-block--variant-basic')
@@ -961,17 +961,17 @@ describe('EditContainer and ViewContainer', () => {
         <Form.Section.EditContainer variant="filled">
           Edit Content
         </Form.Section.EditContainer>
-      </Form.Section>
+      </Form.Section>,
     )
 
     const [viewBlock, editBlock] = Array.from(
-      document.querySelectorAll('.dnb-forms-section-block')
+      document.querySelectorAll('.dnb-forms-section-block'),
     )
     expect(viewBlock).toHaveClass(
-      'dnb-forms-section-block--variant-filled'
+      'dnb-forms-section-block--variant-filled',
     )
     expect(editBlock).toHaveClass(
-      'dnb-forms-section-block--variant-filled'
+      'dnb-forms-section-block--variant-filled',
     )
   })
 
@@ -983,24 +983,24 @@ describe('EditContainer and ViewContainer', () => {
         </Form.Section.EditContainer>
 
         <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
-      </Form.Section>
+      </Form.Section>,
     )
 
     expect(
-      document.querySelector('.dnb-form-status')
+      document.querySelector('.dnb-form-status'),
     ).not.toBeInTheDocument()
 
     const [doneButton, cancelButton, editButton] = Array.from(
-      document.querySelectorAll('button')
+      document.querySelectorAll('button'),
     )
     expect(doneButton).toHaveTextContent(
-      nb.SectionEditContainer.doneButton
+      nb.SectionEditContainer.doneButton,
     )
     expect(cancelButton).toHaveTextContent(
-      nb.SectionEditContainer.cancelButton
+      nb.SectionEditContainer.cancelButton,
     )
     expect(editButton).toHaveTextContent(
-      nbNO['nb-NO'].SectionViewContainer.editButton
+      nbNO['nb-NO'].SectionViewContainer.editButton,
     )
     await userEvent.click(doneButton)
 
@@ -1015,14 +1015,14 @@ describe('EditContainer and ViewContainer', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
     })
 
     await userEvent.click(doneButton)
 
     expect(
-      document.querySelector('.dnb-form-status')
+      document.querySelector('.dnb-form-status'),
     ).not.toBeInTheDocument()
   })
 
@@ -1036,7 +1036,7 @@ describe('EditContainer and ViewContainer', () => {
         </Form.Section.EditContainer>
 
         <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
-      </Form.Section>
+      </Form.Section>,
     )
 
     const [doneButton] = Array.from(document.querySelectorAll('button'))
@@ -1059,22 +1059,22 @@ describe('EditContainer and ViewContainer', () => {
         </Form.Section.EditContainer>
 
         <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
-      </Form.Section>
+      </Form.Section>,
     )
 
     const buttons = Array.from(document.querySelectorAll('button'))
     const cancelButton = buttons.find(
       (btn) =>
-        btn.textContent?.trim() === nb.SectionEditContainer.cancelButton
+        btn.textContent?.trim() === nb.SectionEditContainer.cancelButton,
     )
     await userEvent.click(cancelButton)
     await waitFor(() =>
       expect(
-        document.querySelector('.dnb-dialog .dnb-button--primary')
-      ).toBeInTheDocument()
+        document.querySelector('.dnb-dialog .dnb-button--primary'),
+      ).toBeInTheDocument(),
     )
     await userEvent.click(
-      document.querySelector('.dnb-dialog .dnb-button--primary')
+      document.querySelector('.dnb-dialog .dnb-button--primary'),
     )
     await waitFor(() => {
       expect(onCancel).toHaveBeenCalledTimes(1)
@@ -1085,11 +1085,11 @@ describe('EditContainer and ViewContainer', () => {
     await userEvent.click(cancelButton)
     await waitFor(() =>
       expect(
-        document.querySelector('.dnb-dialog .dnb-button--primary')
-      ).toBeInTheDocument()
+        document.querySelector('.dnb-dialog .dnb-button--primary'),
+      ).toBeInTheDocument(),
     )
     await userEvent.click(
-      document.querySelector('.dnb-dialog .dnb-button--primary')
+      document.querySelector('.dnb-dialog .dnb-button--primary'),
     )
     await waitFor(() => {
       expect(onCancel).toHaveBeenCalledTimes(2)
@@ -1106,13 +1106,13 @@ describe('EditContainer and ViewContainer', () => {
         <Form.Section.ViewContainer onEdit={onEdit}>
           content
         </Form.Section.ViewContainer>
-      </Form.Section>
+      </Form.Section>,
     )
 
     const buttons = Array.from(document.querySelectorAll('button'))
     const editButton = buttons.find(
       (btn) =>
-        btn.textContent?.trim() === nb.SectionViewContainer.editButton
+        btn.textContent?.trim() === nb.SectionViewContainer.editButton,
     )
 
     await userEvent.click(editButton)
@@ -1129,11 +1129,11 @@ describe('EditContainer and ViewContainer', () => {
         <Form.Section.EditContainer className="custom-EditContainer">
           content
         </Form.Section.EditContainer>
-      </Form.Section>
+      </Form.Section>,
     )
 
     const [viewBlock, editBlock] = Array.from(
-      document.querySelectorAll('.dnb-forms-section-block')
+      document.querySelectorAll('.dnb-forms-section-block'),
     )
     expect(viewBlock).toHaveClass('custom-ViewContainer')
     expect(editBlock).toHaveClass('custom-EditContainer')

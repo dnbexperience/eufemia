@@ -63,7 +63,7 @@ export function TableClickableHead(allProps: TableClickableHeadProps) {
         trIsOpen && 'dnb-table__tr--expanded',
         disabled && 'dnb-table__tr--disabled',
         noAnimation && 'dnb-table__tr--no-animation',
-        trIsHover && trHadClick && 'dnb-table__tr--hover'
+        trIsHover && trHadClick && 'dnb-table__tr--hover',
       )}
       style={{
         ...style,
@@ -79,7 +79,7 @@ export function TableClickableHead(allProps: TableClickableHeadProps) {
   )
 
   function onKeydownHandler(
-    event: React.KeyboardEvent<HTMLTableRowElement>
+    event: React.KeyboardEvent<HTMLTableRowElement>,
   ) {
     switch (event.key) {
       case ' ':
@@ -102,7 +102,7 @@ export function TableClickableHead(allProps: TableClickableHeadProps) {
 export function onClickTr(
   event: React.SyntheticEvent,
   allowInteractiveElement = false,
-  onClick?: (event: React.SyntheticEvent) => void
+  onClick?: (event: React.SyntheticEvent) => void,
 ) {
   const target = event.target as HTMLElement
   if (
@@ -136,7 +136,7 @@ export function TableClickableButtonTd(props: {
   icon: 'chevron_down' | 'chevron_right'
   onClick: (
     event: React.SyntheticEvent,
-    allowInteractiveElement: boolean
+    allowInteractiveElement: boolean,
   ) => void
 }) {
   const { trIsOpen, ariaLabel, icon, onClick } = props

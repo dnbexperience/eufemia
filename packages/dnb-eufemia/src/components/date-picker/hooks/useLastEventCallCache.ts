@@ -9,7 +9,7 @@ export type LastEventCallCache = {
 type UncachedDates = LastEventCallCache
 
 export default function useLastEventCallCache(
-  uncachedDates: UncachedDates
+  uncachedDates: UncachedDates,
 ) {
   const [cache, setCache] = useState<LastEventCallCache>(undefined)
 

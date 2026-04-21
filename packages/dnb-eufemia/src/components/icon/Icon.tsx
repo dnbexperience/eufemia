@@ -127,7 +127,7 @@ export default function Icon(localProps: IconAllProps) {
     localProps,
     {},
     { skeleton: context?.skeleton },
-    context.Icon
+    context.Icon,
   )
 
   const {
@@ -188,7 +188,7 @@ export function calcSize(props: IconProps) {
     if (nameParts.length > 1) {
       const lastPartOfIconName = nameParts.reverse()[0] as ValidIconType
       const potentialSize = ListDefaultIconSizes.filter(
-        ([key]) => key === lastPartOfIconName
+        ([key]) => key === lastPartOfIconName,
       )?.[0]?.[1]
       if (potentialSize) {
         sizeAsInt = potentialSize
@@ -243,7 +243,7 @@ export function calcSize(props: IconProps) {
   else if (parseFloat(String(size)) > 0) {
     sizeAsInt =
       ListDefaultIconSizes.filter(
-        ([key, value]) => key && value === parseFloat(String(size))
+        ([key, value]) => key && value === parseFloat(String(size)),
       )?.[0]?.[1] ?? -1
 
     // has custom size
@@ -340,7 +340,7 @@ function prepareIconCore(
     sizeAsString?: string
     iconParams?: Record<string, unknown>
     label?: string
-  }
+  },
 ) {
   const {
     icon,
@@ -410,10 +410,10 @@ function prepareIconCore(
         inheritColor !== false && 'dnb-icon--inherit-color',
         sizeAsString ? `dnb-icon--${sizeAsString}` : 'dnb-icon--default',
         createSkeletonClass(null, skeleton, context),
-        className
+        className,
       ),
       style: wrapperParams.style,
-    })
+    }),
   )
 
   let iconToRender = getIcon(props)
@@ -429,8 +429,8 @@ function prepareIconCore(
           size,
           width,
           height,
-        }
-      )
+        },
+      ),
     )
   }
 
@@ -455,7 +455,7 @@ function usePrepareIcon(props: IconAllProps, context: ContextProps) {
 
   const label = useMemo(
     () => (icon ? getIconNameFromComponent(icon) : null),
-    [icon]
+    [icon],
   )
 
   return useMemo(
@@ -464,7 +464,7 @@ function usePrepareIcon(props: IconAllProps, context: ContextProps) {
         ...cachedCalcSize,
         label,
       }),
-    [props, context, cachedCalcSize, label]
+    [props, context, cachedCalcSize, label],
   )
 }
 
@@ -475,7 +475,7 @@ export function prepareIcon(props: IconAllProps, context: ContextProps) {
 export function prerenderIcon(
   props: IconProps & {
     listOfIcons?: Record<string, IconIcon>
-  }
+  },
 ) {
   const { size = null, listOfIcons = null, alt = null } = props
   let { icon } = props as Omit<IconProps, 'icon'> & { icon: IconType }

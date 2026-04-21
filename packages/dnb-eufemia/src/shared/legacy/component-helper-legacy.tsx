@@ -120,7 +120,7 @@ export const detectOutsideClick = (
     | HTMLElement[]
     | React.RefObject<HTMLElement>[],
   onSuccess: (args: { event: Event }) => void,
-  options?: { includedKeys?: string[] }
+  options?: { includedKeys?: string[] },
 ) => new DetectOutsideClickClass(ignoreElements, onSuccess, options)
 
 // Used by detectOutsideClick
@@ -138,7 +138,7 @@ export class DetectOutsideClickClass {
       | HTMLElement[]
       | React.RefObject<HTMLElement>[],
     onSuccess: (args: { event: Event }) => void,
-    options: { includedKeys?: string[] } = {}
+    options: { includedKeys?: string[] } = {},
   ) {
     const ignoreElements: (HTMLElement | React.RefObject<HTMLElement>)[] =
       Array.isArray(ignoreElementsInput)
@@ -156,7 +156,7 @@ export class DetectOutsideClickClass {
             event,
             ignoreElements,
           },
-          () => typeof onSuccess === 'function' && onSuccess({ event })
+          () => typeof onSuccess === 'function' && onSuccess({ event }),
         )
       }
       document.addEventListener('mousedown', this.handleClickOutside)
@@ -213,7 +213,7 @@ export class DetectOutsideClickClass {
       event: Event
       ignoreElements: (HTMLElement | React.RefObject<HTMLElement> | null)[]
     },
-    onSuccess: (() => void) | null = null
+    onSuccess: (() => void) | null = null,
   ) => {
     try {
       const currentElement = event.target as HTMLElement | null
@@ -286,6 +286,6 @@ const overflowIsScrollable = (elem: Element) => {
   return /scroll|auto/i.test(
     (style.overflow || '') +
       (style.overflowX || '') +
-      (style.overflowY || '')
+      (style.overflowY || ''),
   )
 }

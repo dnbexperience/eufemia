@@ -22,7 +22,7 @@ export default function usePartialDates() {
 
           return dates
         },
-        {}
+        {},
       )
 
       partialDatesRef.current = {
@@ -31,7 +31,7 @@ export default function usePartialDates() {
         ...nonPartialDates,
       }
     },
-    []
+    [],
   )
 
   return { partialDatesRef, setPartialDates }

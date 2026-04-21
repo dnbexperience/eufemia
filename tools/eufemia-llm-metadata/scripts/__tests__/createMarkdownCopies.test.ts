@@ -8,9 +8,8 @@ jest.unstable_mockModule('prettier', () => ({
   default: { format: async (code: string) => code },
 }))
 
-const { createMarkdownCopies } = await import(
-  '../../src/convertHelpers.ts'
-)
+const { createMarkdownCopies } =
+  await import('../../src/convertHelpers.ts')
 
 describe('createMarkdownCopies', () => {
   it('appends properties and events markdown to output', async () => {
@@ -32,7 +31,7 @@ describe('createMarkdownCopies', () => {
         'export const ButtonEvents = {',
         "  onClick: { doc: 'Click', type: 'function' },",
         '};',
-      ].join('\n')
+      ].join('\n'),
     )
 
     fs.writeFileSync(
@@ -45,7 +44,7 @@ describe('createMarkdownCopies', () => {
         '# Button',
         '',
         'Main content.',
-      ].join('\n')
+      ].join('\n'),
     )
 
     fs.writeFileSync(
@@ -60,7 +59,7 @@ describe('createMarkdownCopies', () => {
         '## Properties',
         '',
         '<PropertiesTable props={ButtonProperties} />',
-      ].join('\n')
+      ].join('\n'),
     )
 
     fs.writeFileSync(
@@ -71,7 +70,7 @@ describe('createMarkdownCopies', () => {
         '## Events',
         '',
         '<PropertiesTable props={ButtonEvents} />',
-      ].join('\n')
+      ].join('\n'),
     )
 
     await createMarkdownCopies({
@@ -85,7 +84,7 @@ describe('createMarkdownCopies', () => {
       outputRoot,
       'uilib',
       'components',
-      'button.md'
+      'button.md',
     )
     const output = fs.readFileSync(outputPath, 'utf-8')
 
@@ -110,14 +109,14 @@ describe('createMarkdownCopies', () => {
       'uilib',
       'components',
       'button',
-      'properties.md'
+      'properties.md',
     )
     const eventsPath = path.join(
       outputRoot,
       'uilib',
       'components',
       'button',
-      'events.md'
+      'events.md',
     )
     expect(fs.existsSync(propsPath)).toBe(false)
     expect(fs.existsSync(eventsPath)).toBe(false)
@@ -142,7 +141,7 @@ describe('createMarkdownCopies', () => {
         '# Button',
         '',
         'Main content.',
-      ].join('\n')
+      ].join('\n'),
     )
 
     await createMarkdownCopies({
@@ -166,7 +165,7 @@ describe('createMarkdownCopies', () => {
       outputRoot,
       'uilib',
       'components',
-      'button.md'
+      'button.md',
     )
     const output = fs.readFileSync(outputPath, 'utf-8')
     expect(output).not.toContain('properties:')

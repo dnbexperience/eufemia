@@ -5,7 +5,7 @@ const dispatchMouse = () =>
 
 const dispatchKeyboard = (which = 9) =>
   window.dispatchEvent(
-    new KeyboardEvent('keydown', { which, bubbles: true })
+    new KeyboardEvent('keydown', { which, bubbles: true }),
   )
 
 describe('whatInput', () => {
@@ -13,7 +13,7 @@ describe('whatInput', () => {
     dispatchKeyboard()
 
     expect(document.documentElement.getAttribute('data-whatinput')).toBe(
-      'keyboard'
+      'keyboard',
     )
   })
 
@@ -21,7 +21,7 @@ describe('whatInput', () => {
     dispatchMouse()
 
     expect(document.documentElement.getAttribute('data-whatinput')).toBe(
-      'mouse'
+      'mouse',
     )
   })
 
@@ -31,15 +31,15 @@ describe('whatInput', () => {
     dispatchKeyboard()
     dispatchMouse()
     expect(document.documentElement.getAttribute('data-whatinput')).toBe(
-      'mouse'
+      'mouse',
     )
 
     // Shift key (16) should be ignored
     window.dispatchEvent(
-      new KeyboardEvent('keydown', { which: 16, bubbles: true })
+      new KeyboardEvent('keydown', { which: 16, bubbles: true }),
     )
     expect(document.documentElement.getAttribute('data-whatinput')).toBe(
-      'mouse'
+      'mouse',
     )
   })
 
@@ -50,21 +50,21 @@ describe('whatInput', () => {
     dispatchKeyboard()
     dispatchMouse()
     expect(document.documentElement.getAttribute('data-whatinput')).toBe(
-      'mouse'
+      'mouse',
     )
 
     // Key 65 ("a") should not trigger keyboard because only 9 is in specificKeys
     window.dispatchEvent(
-      new KeyboardEvent('keydown', { which: 65, bubbles: true })
+      new KeyboardEvent('keydown', { which: 65, bubbles: true }),
     )
     expect(document.documentElement.getAttribute('data-whatinput')).toBe(
-      'mouse'
+      'mouse',
     )
 
     // Tab (9) should trigger keyboard
     dispatchKeyboard()
     expect(document.documentElement.getAttribute('data-whatinput')).toBe(
-      'keyboard'
+      'keyboard',
     )
 
     // Reset

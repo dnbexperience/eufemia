@@ -61,7 +61,7 @@ function makeHeadingsResolver({
               reporter,
               cache,
               store,
-            }
+            },
           )
 
           if (!result) {

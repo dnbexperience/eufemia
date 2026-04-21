@@ -166,7 +166,7 @@ describe('Eufemia', () => {
           <IsolatedStyleScope scopeHash="eufemia-scope--1_2_3">
             content
           </IsolatedStyleScope>
-        </>
+        </>,
       )
 
       expect(window.Eufemia.versions).toEqual([
@@ -209,7 +209,7 @@ describe('Eufemia', () => {
                 `}
             </style>
           </IsolatedStyleScope>
-        </>
+        </>,
       )
 
       expect(window.Eufemia.versions).toEqual([
@@ -246,7 +246,7 @@ describe('Eufemia', () => {
           <IsolatedStyleScope scopeHash="eufemia-scope--1_2_3">
             content
           </IsolatedStyleScope>
-        </>
+        </>,
       )
 
       // The second SHA should fall back to the first available version
@@ -284,7 +284,7 @@ describe('Eufemia', () => {
           <IsolatedStyleScope scopeHash="eufemia-scope--1_2_3">
             content
           </IsolatedStyleScope>
-        </>
+        </>,
       )
 
       // Both SHAs should fall back to the current instance version
@@ -321,7 +321,7 @@ describe('Eufemia', () => {
           <IsolatedStyleScope scopeHash="eufemia-scope--1_2_3">
             content
           </IsolatedStyleScope>
-        </>
+        </>,
       )
 
       const versions = window.Eufemia.versions
@@ -331,7 +331,7 @@ describe('Eufemia', () => {
 
       // Verify the scopeElement is the correct element
       const expectedScopeElement = container.querySelector(
-        '[data-scope-hash-id][data-scope-sha="abc123"]'
+        '[data-scope-hash-id][data-scope-sha="abc123"]',
       )
       expect(versions[0].scopeElement).toBe(expectedScopeElement)
     })
@@ -353,7 +353,7 @@ describe('Eufemia', () => {
           <IsolatedStyleScope scopeHash="eufemia-scope--1_2_3">
             content
           </IsolatedStyleScope>
-        </>
+        </>,
       )
 
       const versions = window.Eufemia.versions

@@ -69,7 +69,7 @@ describe('ItemEnd', () => {
         id="end-id"
       >
         Content
-      </ItemEnd>
+      </ItemEnd>,
     )
 
     const element = document.querySelector('.dnb-flex-item')
@@ -83,7 +83,7 @@ describe('ItemEnd', () => {
     render(
       <ItemEnd top="small" right="large">
         Content
-      </ItemEnd>
+      </ItemEnd>,
     )
 
     const element = document.querySelector('.dnb-flex-item')
@@ -119,7 +119,7 @@ describe('ItemEnd', () => {
     render(
       <Container skeleton>
         <ItemEnd>Content</ItemEnd>
-      </Container>
+      </Container>,
     )
 
     const element = document.querySelector('.dnb-list__item__end')
@@ -137,7 +137,7 @@ describe('ItemEnd', () => {
     render(
       <ItemEnd skeleton>
         <SkeletonConsumer />
-      </ItemEnd>
+      </ItemEnd>,
     )
 
     const consumer = document.querySelector('[data-skeleton]')
@@ -150,7 +150,7 @@ describe('ItemEnd', () => {
         <ItemContent>
           <ItemEnd>End content</ItemEnd>
         </ItemContent>
-      </Container>
+      </Container>,
     )
 
     expect(await axeComponent(container)).toHaveNoViolations()

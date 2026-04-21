@@ -19,7 +19,7 @@ jest.mock(
   () => ({
     plain: { color: '#000', backgroundColor: '#fff' },
     styles: [],
-  })
+  }),
 )
 
 // Mock Tag
@@ -56,7 +56,7 @@ jest.mock('@dnb/eufemia/src/components', () => {
             onChange?.({ checked: event.target.checked }),
           ...rest,
         }),
-        label
+        label,
       ),
     Space: ({ children, ref, ...rest }: any) =>
       React.createElement('div', { ref: ref, ...rest }, children),
@@ -69,7 +69,7 @@ jest.mock('@dnb/eufemia/src/components', () => {
           onClick: () => onChange?.({ checked: !checked }),
           ...rest,
         },
-        children
+        children,
       ),
   }
 })
@@ -77,7 +77,7 @@ jest.mock('@dnb/eufemia/src/components', () => {
 // Mock makeUniqueId
 jest.mock('@dnb/eufemia/src/shared/component-helper', () => {
   const actual = jest.requireActual(
-    '@dnb/eufemia/src/shared/component-helper'
+    '@dnb/eufemia/src/shared/component-helper',
   )
 
   return {
@@ -113,7 +113,7 @@ jest.mock('react-live-ssr', () => {
       return React.createElement(
         'div',
         { 'data-testid': 'live-provider' },
-        children
+        children,
       )
     },
     LiveEditor: ({
@@ -158,7 +158,7 @@ describe('CodeBlock', () => {
 
   it('should render non-live code blocks with syntax highlighting', () => {
     const { container } = render(
-      <CodeBlock language="jsx">{'<div>Hello</div>'}</CodeBlock>
+      <CodeBlock language="jsx">{'<div>Hello</div>'}</CodeBlock>,
     )
 
     const pre = container.querySelector('pre')
@@ -170,7 +170,7 @@ describe('CodeBlock', () => {
     const { container } = render(
       <CodeBlock className="language-typescript">
         {'const x: number = 1'}
-      </CodeBlock>
+      </CodeBlock>,
     )
 
     const pre = container.querySelector('pre')
@@ -182,12 +182,12 @@ describe('CodeBlock', () => {
     const { container } = render(
       <CodeBlock reactLive scope={{}} language="jsx">
         {'<div>Live</div>'}
-      </CodeBlock>
+      </CodeBlock>,
     )
 
     expect(mockLiveProviderCode).toBe('<div>Live</div>')
     expect(
-      container.querySelector('[data-testid="live-preview"]')
+      container.querySelector('[data-testid="live-preview"]'),
     ).toBeTruthy()
   })
 
@@ -195,7 +195,7 @@ describe('CodeBlock', () => {
     render(
       <CodeBlock reactLive scope={{}} language="jsx">
         {'   '}
-      </CodeBlock>
+      </CodeBlock>,
     )
 
     expect(mockLiveProviderCode).toBe('No Code provided')
@@ -205,7 +205,7 @@ describe('CodeBlock', () => {
     render(
       <CodeBlock reactLive scope={{}} language="jsx">
         {'<div>Hello</div>'}
-      </CodeBlock>
+      </CodeBlock>,
     )
 
     expect(mockLiveProviderCode).not.toBe('No Code provided')
@@ -225,7 +225,7 @@ describe('CodeBlock', () => {
     const { rerender } = render(
       <CodeBlock reactLive scope={{}} language="jsx">
         {initialCode}
-      </CodeBlock>
+      </CodeBlock>,
     )
 
     expect(mockLiveProviderCode).toBe(initialCode)
@@ -240,7 +240,7 @@ describe('CodeBlock', () => {
     rerender(
       <CodeBlock reactLive scope={{}} language="jsx">
         {initialCode}
-      </CodeBlock>
+      </CodeBlock>,
     )
 
     // LiveProvider should still have the original code prop,
@@ -254,7 +254,7 @@ describe('CodeBlock', () => {
     render(
       <CodeBlock reactLive scope={{}} language="jsx">
         {'<div data-visual-test="my-test">Hello</div>'}
-      </CodeBlock>
+      </CodeBlock>,
     )
 
     expect(mockLiveProviderCode).toBe('<div>Hello</div>')
@@ -264,11 +264,11 @@ describe('CodeBlock', () => {
     const { container } = render(
       <CodeBlock reactLive scope={{}} language="jsx" hidePreview>
         {'<div>Hello</div>'}
-      </CodeBlock>
+      </CodeBlock>,
     )
 
     expect(
-      container.querySelector('[data-testid="live-preview"]')
+      container.querySelector('[data-testid="live-preview"]'),
     ).toBeNull()
   })
 
@@ -276,7 +276,7 @@ describe('CodeBlock', () => {
     const { queryByLabelText, rerender } = render(
       <CodeBlock reactLive scope={{}} language="jsx">
         {'<div>Hello</div>'}
-      </CodeBlock>
+      </CodeBlock>,
     )
 
     expect(queryByLabelText('Dark surface')).toBeNull()
@@ -284,7 +284,7 @@ describe('CodeBlock', () => {
     rerender(
       <CodeBlock reactLive scope={{}} language="jsx" surface="dark">
         {'<div>Hello</div>'}
-      </CodeBlock>
+      </CodeBlock>,
     )
 
     expect(queryByLabelText('Dark surface')).toBeTruthy()

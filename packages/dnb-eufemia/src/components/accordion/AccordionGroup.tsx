@@ -53,7 +53,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     props,
     accordionDefaultProps,
     context.Accordion,
-    context.getTranslation(props)['Accordion']
+    context.getTranslation(props)['Accordion'],
   )
 
   const {
@@ -90,7 +90,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
         collapseAllHandleRef as React.RefObject<() => void>
       mutableCollapseAllHandleRef.current = () => {
         collapseAccordionCallbacks.current.forEach((callback) =>
-          callback()
+          callback(),
         )
       }
     }
@@ -100,7 +100,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     className: clsx(
       'dnb-accordion-group',
       singleContainer && 'dnb-accordion-group--single-container',
-      className
+      className,
     ),
   })
 

@@ -17,7 +17,7 @@ describe('Tools.ListAllProps', () => {
           />
           <Value.String value="local value" placeholder="-" />
         </Tools.ListAllProps>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(log).toHaveBeenCalledWith(
@@ -43,7 +43,7 @@ describe('Tools.ListAllProps', () => {
           }),
         }),
         propsOfValues: {},
-      })
+      }),
     )
 
     log.mockRestore()
@@ -58,7 +58,7 @@ describe('Tools.ListAllProps', () => {
           <Field.String path="/myField" label="My field" />
           <Field.String path="/nested/myString" required minLength={2} />
         </Tools.ListAllProps>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
@@ -108,7 +108,7 @@ describe('Tools.ListAllProps', () => {
             minLength={2}
           />
         </Tools.ListAllProps>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
@@ -169,7 +169,7 @@ describe('Tools.ListAllProps', () => {
           <Value.String path="/myValue" label="My field" />
           <Value.String path="/nested/myString" placeholder="-" />
         </Tools.ListAllProps>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(generateRef.current().propsOfValues).toMatchInlineSnapshot(`
@@ -192,7 +192,7 @@ describe('Tools.ListAllProps', () => {
         <Tools.ListAllProps generateRef={generateRef}>
           <Value.String path="/myString" value="local value" />
         </Tools.ListAllProps>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(generateRef.current().propsOfValues).toMatchInlineSnapshot(`
@@ -230,7 +230,7 @@ describe('Tools.ListAllProps', () => {
             valueOff="unchecked"
           />
         </Tools.ListAllProps>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(generateRef.current()).toMatchInlineSnapshot(`
@@ -306,7 +306,7 @@ describe('Tools.ListAllProps', () => {
             exclusiveMaximum={25}
           />
         </Tools.ListAllProps>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(generateRef.current()).toMatchInlineSnapshot(`
@@ -399,7 +399,7 @@ describe('Tools.ListAllProps', () => {
             exclusiveMaximum={25}
           />
         </Tools.ListAllProps>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(generateRef.current()).toMatchInlineSnapshot(`
@@ -471,7 +471,7 @@ describe('Tools.ListAllProps', () => {
             required
           />
         </Tools.ListAllProps>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(generateRef.current()).toMatchInlineSnapshot(`
@@ -576,11 +576,11 @@ describe('Tools.ListAllProps', () => {
             />
           </Iterate.Array>
         </Tools.ListAllProps>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
-      generateRef.current().propsOfFields?.items?.children?.type?.name
+      generateRef.current().propsOfFields?.items?.children?.type?.name,
     ).not.toBe('NumberComponent')
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {

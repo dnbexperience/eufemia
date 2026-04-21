@@ -8,7 +8,7 @@ import type { FormVisibilityProps } from './Visibility'
 export type { FormVisibilityProps }
 
 export default function useVisibility(
-  props?: Partial<FormVisibilityProps>
+  props?: Partial<FormVisibilityProps>,
 ) {
   const {
     hasFieldError,
@@ -32,7 +32,7 @@ export default function useVisibility(
 
       return makePath(path)
     },
-    [makeIteratePath, makePath, withinIterate]
+    [makeIteratePath, makePath, withinIterate],
   )
 
   const check = useCallback(
@@ -49,7 +49,7 @@ export default function useVisibility(
         pathFalse,
         inferData,
         filterData,
-      }: Partial<FormVisibilityProps> = propsRef.current
+      }: Partial<FormVisibilityProps> = propsRef.current,
     ) => {
       if (typeof visible === 'boolean') {
         return visible
@@ -142,7 +142,7 @@ export default function useVisibility(
       makePath,
       mountedFieldsRef,
       hasFieldError,
-    ]
+    ],
   )
 
   return { check }

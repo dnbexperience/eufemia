@@ -34,7 +34,7 @@ describe('withComponentMarkers', () => {
     })
 
     expect((MyComponent as ComponentMarkers)._supportsSpacingProps).toBe(
-      true
+      true,
     )
   })
 
@@ -48,7 +48,7 @@ describe('withComponentMarkers', () => {
     })
 
     expect((MyComponent as ComponentMarkers)._supportsSpacingProps).toBe(
-      'children'
+      'children',
     )
   })
 
@@ -62,7 +62,7 @@ describe('withComponentMarkers', () => {
     })
 
     expect((MyComponent as ComponentMarkers)._supportsSpacingProps).toBe(
-      false
+      false,
     )
   })
 
@@ -90,10 +90,10 @@ describe('withComponentMarkers', () => {
 
     expect((MyFormComponent as ComponentMarkers)._formElement).toBe(true)
     expect(
-      (MyFormComponent as ComponentMarkers)._supportsSpacingProps
+      (MyFormComponent as ComponentMarkers)._supportsSpacingProps,
     ).toBe(true)
     expect(
-      (MyFormComponent as ComponentMarkers)._isHeadingElement
+      (MyFormComponent as ComponentMarkers)._isHeadingElement,
     ).toBeUndefined()
   })
 
@@ -140,7 +140,7 @@ describe('withComponentMarkers', () => {
     })
 
     expect(
-      (MyClassComponent as ComponentMarkers)._supportsSpacingProps
+      (MyClassComponent as ComponentMarkers)._supportsSpacingProps,
     ).toBe(true)
   })
 
@@ -155,7 +155,7 @@ describe('withComponentMarkers', () => {
         <FieldBlock label="Legend">
           <MockInput />
           <MockInput />
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       expect(document.querySelector('fieldset')).toBeInTheDocument()
@@ -171,7 +171,7 @@ describe('withComponentMarkers', () => {
       render(
         <FieldBlock label="Label">
           <MockInput />
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       expect(document.querySelector('fieldset')).not.toBeInTheDocument()
@@ -188,7 +188,7 @@ describe('withComponentMarkers', () => {
         <FieldBlock label="Label">
           <PlainComponent />
           <PlainComponent />
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       expect(document.querySelector('fieldset')).not.toBeInTheDocument()
@@ -208,7 +208,7 @@ describe('withComponentMarkers', () => {
         <Flex.Vertical>
           <TestItem />
           <TestItem />
-        </Flex.Vertical>
+        </Flex.Vertical>,
       )
 
       // When _supportsSpacingProps is true, no wrapping Space element is added
@@ -223,7 +223,7 @@ describe('withComponentMarkers', () => {
 
       // No extra wrapping Space elements
       expect(
-        document.querySelectorAll('.dnb-space:not(.dnb-flex-container)')
+        document.querySelectorAll('.dnb-space:not(.dnb-flex-container)'),
       ).toHaveLength(0)
     })
 
@@ -236,7 +236,7 @@ describe('withComponentMarkers', () => {
         <Flex.Vertical>
           <TestItem />
           <TestItem />
-        </Flex.Vertical>
+        </Flex.Vertical>,
       )
 
       const items = document.querySelectorAll('.test-item')
@@ -257,7 +257,7 @@ describe('withComponentMarkers', () => {
       render(
         <Flex.Vertical>
           <NoSpaceItem />
-        </Flex.Vertical>
+        </Flex.Vertical>,
       )
 
       const item = document.querySelector('.no-space-item')
@@ -285,7 +285,7 @@ describe('withComponentMarkers', () => {
             <ChildItem />
             <ChildItem />
           </WrapperComponent>
-        </Flex.Vertical>
+        </Flex.Vertical>,
       )
 
       // The children inside the wrapper should get their own Flex.Container
@@ -294,7 +294,7 @@ describe('withComponentMarkers', () => {
 
       // The wrapper's children are managed by a nested flex container
       const nestedContainers = document.querySelectorAll(
-        '.dnb-flex-container'
+        '.dnb-flex-container',
       )
       expect(nestedContainers.length).toBeGreaterThan(1)
     })
@@ -359,13 +359,13 @@ describe('withComponentMarkers', () => {
         <Flex.Vertical divider="line">
           <MyHeading>Heading</MyHeading>
           <div>content</div>
-        </Flex.Vertical>
+        </Flex.Vertical>,
       )
 
       // The heading should not have a bottom border / divider line
       const heading = document.querySelector('h2')
       expect(heading.parentElement.className).not.toMatch(
-        /dnb-flex-container__divider/
+        /dnb-flex-container__divider/,
       )
     })
   })

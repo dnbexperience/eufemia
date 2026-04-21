@@ -109,7 +109,7 @@ const AvatarGroup = (localProps: AvatarGroupAllProps) => {
     context?.AvatarGroup,
     {
       skeleton: context?.skeleton,
-    }
+    },
   )
 
   const maxElements =
@@ -180,7 +180,7 @@ function ElementsHidden(props: AvatarElementsHiddenProps) {
     <span
       className={clsx(
         'dnb-avatar__group--elements-left',
-        `dnb-avatar__group--elements-left--size-${size || 'medium'}`
+        `dnb-avatar__group--elements-left--size-${size || 'medium'}`,
       )}
     >
       {children}

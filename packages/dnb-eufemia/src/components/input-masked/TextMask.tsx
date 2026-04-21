@@ -82,7 +82,7 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
 
   const separatorTokens = useMemo(
     () => getSeparatorTokens(rawMask),
-    [rawMask]
+    [rawMask],
   )
 
   const options = useMemo<MaskitoOptions | null>(() => {
@@ -116,7 +116,7 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
               const value = elementState.value
               const [selectionStart, selectionEnd] = elementState.selection
               const isSeparatorBeforeCaret = separatorTokens.includes(
-                value[selectionStart - 1]
+                value[selectionStart - 1],
               )
 
               if (isSeparatorBeforeCaret) {
@@ -188,7 +188,7 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
         inputMode.setElement(el)
       }
     },
-    [inputRef, maskitoRef, inputMode]
+    [inputRef, maskitoRef, inputMode],
   )
 
   const params = useMemo(() => {
@@ -203,7 +203,7 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
       const sel: readonly [number, number] = [raw.length, raw.length]
       const { value: formatted } = maskitoTransform(
         { value: raw, selection: sel },
-        enhancedOptions
+        enhancedOptions,
       )
       baseProps.value = formatted
     }
@@ -262,7 +262,7 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
     ]
     const validated = maskitoTransform(
       { value: cleanValue, selection },
-      enhancedOptions
+      enhancedOptions,
     )
 
     // Only update if the formatted value actually changed to preserve Maskito's caret positioning.
@@ -320,7 +320,7 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
         value: cleanValue,
         selection: [cleanValue.length, cleanValue.length],
       },
-      options
+      options,
     )
     return formatted
   }, [value, showMask, options, rawMask, ghostPlaceholder])
@@ -359,7 +359,7 @@ const ALL_CHARACTERS = /[\s\S]/
 
 function appendOverflowTokens(
   maskExpression: MaskitoMaskExpression,
-  currentValue: string
+  currentValue: string,
 ): MaskitoMaskExpression {
   if (!Array.isArray(maskExpression)) {
     return maskExpression
@@ -368,7 +368,7 @@ function appendOverflowTokens(
   const userSlots = countUserSlots(maskExpression)
   const userInputLength = countUserInputLength(
     currentValue,
-    maskExpression
+    maskExpression,
   )
   const overflow = Math.max(0, userInputLength - userSlots)
   if (overflow <= 0) {
@@ -376,7 +376,7 @@ function appendOverflowTokens(
   }
 
   return maskExpression.concat(
-    Array.from({ length: overflow }, () => ALL_CHARACTERS)
+    Array.from({ length: overflow }, () => ALL_CHARACTERS),
   )
 }
 
@@ -395,13 +395,13 @@ function getSeparatorTokens(maskExpression: TextMaskMask) {
   }
   return maskExpression.filter(
     (token): token is string =>
-      typeof token === 'string' && token.length > 0
+      typeof token === 'string' && token.length > 0,
   )
 }
 
 function countUserInputLength(
   value: string,
-  maskExpression: MaskitoMaskExpression
+  maskExpression: MaskitoMaskExpression,
 ) {
   if (typeof value !== 'string') {
     return value == null ? 0 : String(value).length
@@ -458,7 +458,7 @@ function normalizeMask(maskProp: TextMaskMask): MaskitoMask | null {
 function stripAffixes(
   value: string,
   prefix: string,
-  suffix: string
+  suffix: string,
 ): string {
   let result = value
 
@@ -520,7 +520,7 @@ function createMaskitoNumberOptions(mp: {
   const defaultDecimalLimit = mp.allowDecimal === true ? 2 : 0
   const maximumFractionDigits = Math.max(
     0,
-    Number(mp.decimalLimit ?? defaultDecimalLimit)
+    Number(mp.decimalLimit ?? defaultDecimalLimit),
   )
 
   // Check if suffix starts with a comma - this is a special pattern like ',- kr'
@@ -573,7 +573,7 @@ function createMaskitoNumberOptions(mp: {
           const postfixLen = postfixToUse ? postfixToUse.length : 0
           const valueWithoutAffixes = elementState.value.slice(
             prefixLen,
-            elementState.value.length - postfixLen
+            elementState.value.length - postfixLen,
           )
           const newValue =
             prefix + valueWithoutAffixes + ',' + postfixToUse

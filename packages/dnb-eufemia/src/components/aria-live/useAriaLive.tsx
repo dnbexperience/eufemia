@@ -55,7 +55,7 @@ export default function useAriaLive(props: AriaLiveAllProps) {
   } = extendPropsWithContext(
     props,
     variantConfig[props.variant || 'text'],
-    priorityConfig[props.priority || 'low']
+    priorityConfig[props.priority || 'low'],
   )
 
   const showTextAnnouncement = delay > -1
@@ -74,10 +74,10 @@ export default function useAriaLive(props: AriaLiveAllProps) {
           clearTimeout(timeoutRef.current)
           timeoutRef.current = setTimeout(
             () => setAnnouncement(''),
-            isTest ? 100 : delay + 1000
+            isTest ? 100 : delay + 1000,
           )
         },
-        (isTest ? 0 : delay) ?? 1000
+        (isTest ? 0 : delay) ?? 1000,
       )
 
       return () => {
@@ -96,7 +96,7 @@ export default function useAriaLive(props: AriaLiveAllProps) {
     className: clsx(
       'dnb-aria-live',
       !showAnnouncement && 'dnb-sr-only',
-      className
+      className,
     ),
     children: showTextAnnouncement ? announcement : children,
     ...rest,

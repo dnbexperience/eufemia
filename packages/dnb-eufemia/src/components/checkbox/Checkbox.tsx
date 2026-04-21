@@ -122,7 +122,7 @@ function Checkbox(localProps: CheckboxProps) {
       {
         skeleton: context?.Checkbox,
       },
-      pickFormElementProps(context?.formElement)
+      pickFormElementProps(context?.formElement),
     )
   }, [context.Checkbox, context?.formElement, localProps])
 
@@ -188,7 +188,7 @@ function Checkbox(localProps: CheckboxProps) {
     (args) => {
       onChange?.(args)
     },
-    [onChange]
+    [onChange],
   )
 
   const handleChange = useCallback(
@@ -210,14 +210,14 @@ function Checkbox(localProps: CheckboxProps) {
         })
       }
     },
-    [callOnChange, ref]
+    [callOnChange, ref],
   )
 
   const onChangeHandler = useCallback(
     (event: CheckboxOnChangeParams['event']) => {
       handleChange(event)
     },
-    [handleChange]
+    [handleChange],
   )
 
   const onClickHandler: React.MouseEventHandler<HTMLInputElement> =
@@ -244,7 +244,7 @@ function Checkbox(localProps: CheckboxProps) {
           ...event,
         })
       },
-      [onClick, readOnly]
+      [onClick, readOnly],
     )
 
   const onKeyDownHandler = useCallback(
@@ -253,7 +253,7 @@ function Checkbox(localProps: CheckboxProps) {
         handleChange(event)
       }
     },
-    [handleChange]
+    [handleChange],
   )
 
   const showStatus = getStatusState(status)
@@ -273,7 +273,7 @@ function Checkbox(localProps: CheckboxProps) {
       inputParams['aria-describedby'] = combineDescribedBy(
         inputParams,
         showStatus ? id + '-status' : null,
-        suffix ? id + '-suffix' : null
+        suffix ? id + '-suffix' : null,
       )
     }
     if (readOnly) {
@@ -283,7 +283,7 @@ function Checkbox(localProps: CheckboxProps) {
     // also used for code markup simulation
     return validateDOMAttributes(
       props,
-      skeletonDOMAttributes(inputParams, skeleton, context)
+      skeletonDOMAttributes(inputParams, skeleton, context),
     )
   }, [
     context,
@@ -305,7 +305,7 @@ function Checkbox(localProps: CheckboxProps) {
       label && `dnb-checkbox--label-position-${labelPosition || 'right'}`,
       'dnb-form-component',
       createSkeletonClass(null, skeleton, context),
-      className
+      className,
     ),
   })
 
@@ -367,7 +367,7 @@ function Checkbox(localProps: CheckboxProps) {
             <span
               className={clsx(
                 'dnb-checkbox__button',
-                createSkeletonClass('shape', skeleton, context)
+                createSkeletonClass('shape', skeleton, context),
               )}
               aria-hidden
             >

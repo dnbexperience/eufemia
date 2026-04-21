@@ -19,7 +19,7 @@ describe('Field.PostalCodeAndCity', () => {
     render(<Field.PostalCodeAndCity />)
 
     const postalCodeInput = document.querySelector(
-      '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+      '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
     ) as HTMLInputElement
 
     expect(postalCodeInput).toHaveValue('')
@@ -34,29 +34,29 @@ describe('Field.PostalCodeAndCity', () => {
 
     const fieldPostalCodeElement: HTMLInputElement =
       document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code'
+        '.dnb-forms-field-postal-code-and-city__postal-code',
       )
     expect(fieldPostalCodeElement.classList).toContain(
-      'dnb-forms-field-block--label-height-large'
+      'dnb-forms-field-block--label-height-large',
     )
 
     const fieldPostalCodeInputElement: HTMLInputElement =
       document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code-input'
+        '.dnb-forms-field-postal-code-and-city__postal-code-input',
       )
     expect(fieldPostalCodeInputElement.classList).toContain(
-      'dnb-input--large'
+      'dnb-input--large',
     )
 
     const fieldCityElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-postal-code-and-city__city'
+      '.dnb-forms-field-postal-code-and-city__city',
     )
     expect(fieldCityElement.classList).toContain(
-      'dnb-forms-field-block--label-height-large'
+      'dnb-forms-field-block--label-height-large',
     )
 
     const fieldCityInputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-postal-code-and-city__city-input'
+      '.dnb-forms-field-postal-code-and-city__city-input',
     )
     expect(fieldCityInputElement.classList).toContain('dnb-input--large')
   })
@@ -65,7 +65,7 @@ describe('Field.PostalCodeAndCity', () => {
     render(<Field.PostalCodeAndCity />)
 
     const postalCodeInput = document.querySelector(
-      '.dnb-forms-field-postal-code-and-city__postal-code-input .dnb-input__input'
+      '.dnb-forms-field-postal-code-and-city__postal-code-input .dnb-input__input',
     )
 
     expect(postalCodeInput).toHaveAttribute('inputmode', 'numeric')
@@ -77,22 +77,24 @@ describe('Field.PostalCodeAndCity', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
     expect(
-      document.querySelectorAll('.dnb-input__status--error')
+      document.querySelectorAll('.dnb-input__status--error'),
     ).toHaveLength(0)
 
     rerender(
-      <Field.PostalCodeAndCity error={new Error('Single error message')} />
+      <Field.PostalCodeAndCity
+        error={new Error('Single error message')}
+      />,
     )
 
     expect(screen.queryAllByRole('alert')).toHaveLength(1)
     expect(screen.queryByRole('alert')).toBeInTheDocument()
     expect(screen.queryByRole('alert')).toHaveTextContent(
-      'Single error message'
+      'Single error message',
     )
 
     // Red border on two inputs
     expect(
-      document.querySelectorAll('.dnb-input__status--error')
+      document.querySelectorAll('.dnb-input__status--error'),
     ).toHaveLength(2)
   })
 
@@ -111,32 +113,32 @@ describe('Field.PostalCodeAndCity', () => {
           required: true,
           validateInitially: true,
         }}
-      />
+      />,
     )
 
     const [code, city] = Array.from(document.querySelectorAll('input'))
 
     await userEvent.type(code, 'x{Backspace}')
     expect(screen.queryByRole('alert')).toHaveTextContent(
-      nb.PostalCode.errorRequired
+      nb.PostalCode.errorRequired,
     )
     expect(code).toHaveValue('')
 
     await userEvent.type(city, 'x{Backspace}')
     expect(screen.queryByRole('alert')).toHaveTextContent(
-      nb.City.errorRequired
+      nb.City.errorRequired,
     )
     expect(city).toHaveValue('')
 
     await userEvent.type(code, '123')
     expect(screen.queryByRole('alert')).toHaveTextContent(
-      nb.PostalCode.errorPattern
+      nb.PostalCode.errorPattern,
     )
     expect(code).toHaveValue('123')
 
     await userEvent.type(city, '456')
     expect(screen.queryByRole('alert')).toHaveTextContent(
-      nb.City.errorPattern
+      nb.City.errorPattern,
     )
     expect(city).toHaveValue('456')
 
@@ -171,7 +173,7 @@ describe('Field.PostalCodeAndCity', () => {
       <Field.PostalCodeAndCity
         postalCode={{ autoComplete: 'off' }}
         city={{ autoComplete: 'off' }}
-      />
+      />,
     )
 
     const [code, city] = Array.from(document.querySelectorAll('input'))
@@ -198,11 +200,11 @@ describe('Field.PostalCodeAndCity', () => {
           postalCode={{ itemPath: '/postalCode' }}
           city={{ itemPath: '/city' }}
         />
-      </Iterate.Array>
+      </Iterate.Array>,
     )
 
     const [code1, city1, code2, city2] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     expect(code1).toHaveValue('0788')
@@ -216,7 +218,7 @@ describe('Field.PostalCodeAndCity', () => {
       render(<Field.PostalCodeAndCity countryCode="DE" />)
 
       const postalCodeInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       ) as HTMLInputElement
 
       expect(postalCodeInput).not.toHaveAttribute('placeholder')
@@ -230,7 +232,7 @@ describe('Field.PostalCodeAndCity', () => {
       const { rerender } = render(<Field.PostalCodeAndCity />)
 
       const city = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input',
       ) as HTMLInputElement
 
       expect(city).not.toHaveAttribute('placeholder')
@@ -264,11 +266,11 @@ describe('Field.PostalCodeAndCity', () => {
             validateInitially: true,
             pattern: '^[a-zA-ZäöüÄÖÜß -]+$',
           }}
-        />
+        />,
       )
 
       const [postalCode, city] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       expect(postalCode).toHaveAttribute('aria-placeholder', '00000')
@@ -286,11 +288,11 @@ describe('Field.PostalCodeAndCity', () => {
       const { rerender } = render(
         <Form.Handler data={{ countryCode: 'DE' }}>
           <Field.PostalCodeAndCity countryCode="/countryCode" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const postalCodeDe = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city input'
+        '.dnb-forms-field-postal-code-and-city input',
       )
 
       await userEvent.type(postalCodeDe, '123456')
@@ -300,11 +302,11 @@ describe('Field.PostalCodeAndCity', () => {
       rerender(
         <Form.Handler data={{ countryCode: 'NO' }}>
           <Field.PostalCodeAndCity countryCode="/countryCode" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const postalCodeNo = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city input'
+        '.dnb-forms-field-postal-code-and-city input',
       )
 
       await userEvent.type(postalCodeNo, '{Backspace>4}987654')
@@ -322,22 +324,22 @@ describe('Field.PostalCodeAndCity', () => {
           <Iterate.Array path="/items">
             <Field.PostalCodeAndCity countryCode="/countryCode" />
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [norway, germany] = Array.from(
-        document.querySelectorAll('.dnb-forms-field-postal-code-and-city')
+        document.querySelectorAll('.dnb-forms-field-postal-code-and-city'),
       )
 
       await userEvent.type(
         norway.querySelector('input'),
-        '{Backspace>4}987654'
+        '{Backspace>4}987654',
       )
       expect(norway.querySelector('input').value).toBe('9876')
 
       await userEvent.type(
         germany.querySelector('input'),
-        '{Backspace>4}987654'
+        '{Backspace>4}987654',
       )
       expect(germany.querySelector('input').value).toBe('987654')
     })
@@ -352,7 +354,7 @@ describe('Field.PostalCodeAndCity', () => {
                 validateInitially: true,
               }}
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -367,7 +369,7 @@ describe('Field.PostalCodeAndCity', () => {
                 validateInitially: true,
               }}
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -406,7 +408,7 @@ describe('Field.PostalCodeAndCity', () => {
 
   it('should have constant of _supportsSpacingProps=undefined', () => {
     expect(
-      (Field.PostalCodeAndCity as ComponentMarkers)._supportsSpacingProps
+      (Field.PostalCodeAndCity as ComponentMarkers)._supportsSpacingProps,
     ).toBe(undefined)
   })
 })

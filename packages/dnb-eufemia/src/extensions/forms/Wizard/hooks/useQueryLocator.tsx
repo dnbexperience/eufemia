@@ -17,7 +17,7 @@ export default function useQueryLocator(id: string = undefined) {
         setFormError(error as Error)
       }
     },
-    [name, setFormError]
+    [name, setFormError],
   )
 
   const { setActiveIndex } = useStep(id, { onStepChange })

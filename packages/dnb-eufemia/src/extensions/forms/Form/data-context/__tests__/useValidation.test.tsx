@@ -37,7 +37,7 @@ describe('useValidation', () => {
         render(
           <Form.Handler id={identifier}>
             <Field.String path="/foo" />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const { result } = renderHook(() => useValidation(identifier))
@@ -49,7 +49,7 @@ describe('useValidation', () => {
         render(
           <Form.Handler id={identifier}>
             <Field.String path="/foo" required />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const { result } = renderHook(() => useValidation(identifier))
@@ -61,7 +61,7 @@ describe('useValidation', () => {
         render(
           <Form.Handler id={identifier}>
             <Field.String path="/foo" required />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input')
@@ -89,7 +89,7 @@ describe('useValidation', () => {
               <Field.String path="/foo" required />
             </Form.Handler>
             <MockComponent />
-          </>
+          </>,
         )
 
         const input = document.querySelector('input')
@@ -112,7 +112,7 @@ describe('useValidation', () => {
         const { rerender } = render(
           <Form.Handler id={identifier} locale="nb-NO" onSubmit={onSubmit}>
             <Field.String path="/foo" required />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const { result } = renderHook(() => useValidation(identifier))
@@ -125,7 +125,7 @@ describe('useValidation', () => {
         rerender(
           <Form.Handler id={identifier} locale="en-GB" onSubmit={onSubmit}>
             <Field.String path="/foo" required />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         await waitFor(() => {
@@ -147,7 +147,7 @@ describe('useValidation', () => {
             data={{ foo: 'value' }}
           >
             <Field.String path="/foo" />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const { result } = renderHook(() => useValidation(identifier))
@@ -160,7 +160,7 @@ describe('useValidation', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toHaveTextContent('Error message')
         })
 
@@ -175,12 +175,12 @@ describe('useValidation', () => {
             data={{ foo: 'value' }}
           >
             <Field.String path="/foo" />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toHaveTextContent('Error message')
         })
 
@@ -203,7 +203,7 @@ describe('useValidation', () => {
             >
               <Field.String path="/foo" />
             </Form.Handler>
-          </div>
+          </div>,
         )
 
         act(() => {
@@ -229,7 +229,7 @@ describe('useValidation', () => {
             >
               <Field.String path="/foo" />
             </Form.Handler>
-          </div>
+          </div>,
         )
 
         await waitFor(() => {
@@ -276,7 +276,7 @@ describe('useValidation', () => {
         render(<MockComponent />)
 
         const dayInput = document.querySelector(
-          '.dnb-date-picker__input--day'
+          '.dnb-date-picker__input--day',
         ) as HTMLInputElement
 
         await userEvent.click(dayInput)
@@ -286,7 +286,7 @@ describe('useValidation', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status--error')
+            document.querySelector('.dnb-form-status--error'),
           ).toBeInTheDocument()
         })
 
@@ -296,7 +296,7 @@ describe('useValidation', () => {
         expect(output).toHaveTextContent('"hasErrors":true')
 
         await userEvent.click(
-          document.querySelector('button#change-locale')
+          document.querySelector('button#change-locale'),
         )
 
         await waitFor(() => {
@@ -334,7 +334,7 @@ describe('useValidation', () => {
         render(<MockComponent />)
 
         const dayInput = document.querySelector(
-          '.dnb-date-picker__input--day'
+          '.dnb-date-picker__input--day',
         ) as HTMLInputElement
 
         await userEvent.click(dayInput)
@@ -344,7 +344,7 @@ describe('useValidation', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status--error')
+            document.querySelector('.dnb-form-status--error'),
           ).toBeInTheDocument()
         })
 
@@ -352,7 +352,7 @@ describe('useValidation', () => {
         expect(output).toHaveTextContent('"hasErrors":true')
 
         await userEvent.click(
-          document.querySelector('button#change-locale')
+          document.querySelector('button#change-locale'),
         )
 
         await waitFor(() => {
@@ -373,7 +373,7 @@ describe('useValidation', () => {
             <Form.Handler>
               <Field.String path="/foo" />
               <MockComponent />
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           const output = document.querySelector('output')
@@ -385,7 +385,7 @@ describe('useValidation', () => {
             <Form.Handler>
               <Field.String path="/foo" required />
               <MockComponent />
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           const output = document.querySelector('output')
@@ -397,7 +397,7 @@ describe('useValidation', () => {
             <Form.Handler>
               <Field.String path="/foo" required />
               <MockComponent />
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           const input = document.querySelector('input')
@@ -424,7 +424,7 @@ describe('useValidation', () => {
       })
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        'Error message'
+        'Error message',
       )
       expect(result.current.hasErrors()).toBe(false)
 
@@ -433,7 +433,7 @@ describe('useValidation', () => {
       })
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        'Error message changed'
+        'Error message changed',
       )
       expect(result.current.hasErrors()).toBe(false)
     })
@@ -452,7 +452,7 @@ describe('useValidation', () => {
       render(
         <Form.Handler>
           <MockComponent />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const output = document.querySelector('output')
@@ -460,7 +460,7 @@ describe('useValidation', () => {
       expect(output).toHaveTextContent('{"hasError":false}')
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        'Error message'
+        'Error message',
       )
     })
 
@@ -474,7 +474,7 @@ describe('useValidation', () => {
       })
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        'Error message'
+        'Error message',
       )
       expect(result.current.hasErrors()).toBe(false)
 
@@ -498,7 +498,7 @@ describe('useValidation', () => {
       })
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        'Error message'
+        'Error message',
       )
       expect(result.current.hasErrors()).toBe(false)
 
@@ -519,7 +519,7 @@ describe('useValidation', () => {
         <Form.Handler id={identifier}>
           <Field.String path="/foo" required />
           <Field.String path="/bar" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const { result } = renderHook(() => useValidation(identifier))
@@ -546,7 +546,7 @@ describe('useValidation', () => {
     render(
       <Form.Handler>
         <MockComponent />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(result.current.hasFieldError('/foo')).toBe(true)
@@ -593,7 +593,7 @@ describe('useValidation', () => {
         expect(onSubmit).toHaveBeenCalledTimes(0)
 
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
       })
 
@@ -603,7 +603,7 @@ describe('useValidation', () => {
         render(
           <Form.Handler id={identifier} onSubmit={onSubmit}>
             <Field.String label="My field" path="/myField" />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const { result } = renderHook(() => useValidation(identifier))
@@ -616,7 +616,7 @@ describe('useValidation', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { myField: undefined },
-          expect.anything()
+          expect.anything(),
         )
 
         act(() => {
@@ -627,10 +627,10 @@ describe('useValidation', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toBeInTheDocument()
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toHaveTextContent('Error message')
         })
 
@@ -674,7 +674,7 @@ describe('useValidation', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { myField: undefined },
-          expect.anything()
+          expect.anything(),
         )
 
         act(() => {
@@ -685,10 +685,10 @@ describe('useValidation', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toBeInTheDocument()
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toHaveTextContent('Error message')
         })
 
@@ -730,7 +730,7 @@ describe('useValidation', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { myField: undefined },
-          expect.anything()
+          expect.anything(),
         )
 
         act(() => {
@@ -832,31 +832,31 @@ describe('useValidation', () => {
         render(
           <Form.Handler>
             <MockComponent />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
 
         fireEvent.submit(document.querySelector('form'))
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
 
         await userEvent.click(document.querySelector('button'))
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
 
         fireEvent.submit(document.querySelector('form'))
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
 
         await userEvent.click(document.querySelector('button'))
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })

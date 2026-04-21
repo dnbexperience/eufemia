@@ -145,7 +145,7 @@ describe('ItemAction', () => {
         id="action-id"
       >
         Content
-      </ItemAction>
+      </ItemAction>,
     )
 
     const element = document.querySelector('.dnb-list__item__action')
@@ -160,7 +160,7 @@ describe('ItemAction', () => {
     render(
       <ItemAction top="large" bottom="small">
         Content
-      </ItemAction>
+      </ItemAction>,
     )
 
     const element = document.querySelector('.dnb-list__item__action')
@@ -199,7 +199,7 @@ describe('ItemAction', () => {
     render(
       <ItemAction href="/test" selected>
         Content
-      </ItemAction>
+      </ItemAction>,
     )
 
     const element = document.querySelector('.dnb-list__item__action')
@@ -215,7 +215,7 @@ describe('ItemAction', () => {
 
       expect(element.classList).toContain('dnb-list__item--pending')
       expect(
-        element.querySelector('.dnb-list__item__pending')
+        element.querySelector('.dnb-list__item__pending'),
       ).toBeInTheDocument()
     })
 
@@ -234,7 +234,7 @@ describe('ItemAction', () => {
       render(
         <ItemAction pending onClick={handleClick}>
           Content
-        </ItemAction>
+        </ItemAction>,
       )
 
       const element = document.querySelector('.dnb-list__item__action')
@@ -250,7 +250,7 @@ describe('ItemAction', () => {
       render(
         <ItemAction pending onClick={handleClick}>
           Content
-        </ItemAction>
+        </ItemAction>,
       )
 
       const element = document.querySelector('.dnb-list__item__action')
@@ -266,7 +266,7 @@ describe('ItemAction', () => {
       render(
         <ItemAction pending onClick={handleClick}>
           Content
-        </ItemAction>
+        </ItemAction>,
       )
 
       const element = document.querySelector('.dnb-list__item__action')
@@ -280,7 +280,7 @@ describe('ItemAction', () => {
   it('declares _supportsSpacingProps for flex layout', () => {
     expect(
       (ItemAction as unknown as { _supportsSpacingProps: boolean })
-        ._supportsSpacingProps
+        ._supportsSpacingProps,
     ).toBe(true)
   })
 
@@ -308,7 +308,7 @@ describe('ItemAction', () => {
       render(
         <ItemAction disabled onClick={handleClick}>
           Content
-        </ItemAction>
+        </ItemAction>,
       )
 
       const element = document.querySelector('.dnb-list__item__action')
@@ -324,7 +324,7 @@ describe('ItemAction', () => {
       render(
         <ItemAction disabled onClick={handleClick}>
           Content
-        </ItemAction>
+        </ItemAction>,
       )
 
       const element = document.querySelector('.dnb-list__item__action')
@@ -338,7 +338,7 @@ describe('ItemAction', () => {
       render(
         <ItemAction disabled href="/path">
           Content
-        </ItemAction>
+        </ItemAction>,
       )
 
       const element = document.querySelector('.dnb-list__item__action')
@@ -351,7 +351,7 @@ describe('ItemAction', () => {
       render(
         <ItemAction disabled href="/path">
           Content
-        </ItemAction>
+        </ItemAction>,
       )
 
       const anchor = document.querySelector('.dnb-list__item__action a')
@@ -364,7 +364,7 @@ describe('ItemAction', () => {
       render(
         <Container disabled>
           <ItemAction>Content</ItemAction>
-        </Container>
+        </Container>,
       )
 
       const element = document.querySelector('.dnb-list__item__action')
@@ -378,7 +378,7 @@ describe('ItemAction', () => {
       render(
         <Container disabled>
           <ItemAction href="/path">Content</ItemAction>
-        </Container>
+        </Container>,
       )
 
       const element = document.querySelector('.dnb-list__item__action')
@@ -419,7 +419,7 @@ describe('ItemAction', () => {
       render(
         <ItemAction href="https://example.com/page">
           External link
-        </ItemAction>
+        </ItemAction>,
       )
 
       const container = document.querySelector(hrefSelector)
@@ -440,7 +440,7 @@ describe('ItemAction', () => {
       render(
         <ItemAction href="/path" role="button">
           Content
-        </ItemAction>
+        </ItemAction>,
       )
 
       const listItem = document.querySelector(hrefSelector)
@@ -469,7 +469,7 @@ describe('ItemAction', () => {
       render(
         <ItemAction href="/path" pending>
           Link content
-        </ItemAction>
+        </ItemAction>,
       )
 
       const listItem = document.querySelector(hrefSelector)
@@ -513,7 +513,7 @@ describe('ItemAction', () => {
       render(
         <ItemAction href="/path" target="_blank" rel="noopener noreferrer">
           Content
-        </ItemAction>
+        </ItemAction>,
       )
 
       const container = document.querySelector(hrefSelector)
@@ -540,7 +540,7 @@ describe('ItemAction', () => {
       render(
         <ItemAction href="/path" onClick={handleClick}>
           Content
-        </ItemAction>
+        </ItemAction>,
       )
 
       const listItem = document.querySelector(hrefSelector)
@@ -556,7 +556,7 @@ describe('ItemAction', () => {
       render(
         <ItemAction href="/path" pending onClick={handleClick}>
           Content
-        </ItemAction>
+        </ItemAction>,
       )
 
       const listItem = document.querySelector(hrefSelector)
@@ -572,7 +572,7 @@ describe('ItemAction', () => {
       render(
         <ItemAction href="/path" disabled onClick={handleClick}>
           Content
-        </ItemAction>
+        </ItemAction>,
       )
 
       const listItem = document.querySelector(hrefSelector)
@@ -602,7 +602,7 @@ describe('ItemAction', () => {
       render(
         <ItemAction element={MockLink} to="/route">
           Router link
-        </ItemAction>
+        </ItemAction>,
       )
 
       const anchor = document.querySelector('a')
@@ -616,11 +616,11 @@ describe('ItemAction', () => {
       render(
         <ItemAction element={MockLink} to="/route">
           Content
-        </ItemAction>
+        </ItemAction>,
       )
 
       const element = document.querySelector(
-        '.dnb-list__item__action--href'
+        '.dnb-list__item__action--href',
       )
 
       expect(element).toBeInTheDocument()
@@ -630,7 +630,7 @@ describe('ItemAction', () => {
       render(
         <ItemAction element={MockLink} to="/route">
           Content
-        </ItemAction>
+        </ItemAction>,
       )
 
       const element = document.querySelector('.dnb-list__item__action')
@@ -642,7 +642,7 @@ describe('ItemAction', () => {
       render(
         <ItemAction element={MockLink} to="/route" disabled>
           Content
-        </ItemAction>
+        </ItemAction>,
       )
 
       const anchor = document.querySelector('a')
@@ -655,7 +655,7 @@ describe('ItemAction', () => {
       render(
         <ItemAction element={MockLink} to="/route" pending>
           Content
-        </ItemAction>
+        </ItemAction>,
       )
 
       const anchor = document.querySelector('a')
@@ -667,11 +667,11 @@ describe('ItemAction', () => {
       render(
         <ItemAction element={MockLink} to="/route">
           Content
-        </ItemAction>
+        </ItemAction>,
       )
 
       const listItem = document.querySelector(
-        '.dnb-list__item__action--href'
+        '.dnb-list__item__action--href',
       )
       const anchor = listItem?.querySelector('a')
       const clickSpy = jest.spyOn(anchor as HTMLAnchorElement, 'click')
@@ -686,11 +686,11 @@ describe('ItemAction', () => {
       render(
         <ItemAction element={MockLink} to="/route">
           Content
-        </ItemAction>
+        </ItemAction>,
       )
 
       const listItem = document.querySelector(
-        '.dnb-list__item__action--href'
+        '.dnb-list__item__action--href',
       )
       const anchor = listItem?.querySelector('a')
       const clickSpy = jest.spyOn(anchor as HTMLAnchorElement, 'click')
@@ -711,7 +711,7 @@ describe('ItemAction', () => {
           }
         >
           Content
-        </ItemAction>
+        </ItemAction>,
       )
 
       const anchor = document.querySelector('a')

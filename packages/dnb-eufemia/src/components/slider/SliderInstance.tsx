@@ -70,7 +70,7 @@ export function SliderInstance() {
       status && `dnb-slider__status--${statusState}`,
       'dnb-form-component',
       createSkeletonClass(null, skeleton),
-      className
+      className,
     ),
   })
 
@@ -117,7 +117,7 @@ export function SliderInstance() {
                 ([key, { instance, ...options }]) => {
                   const Element = instance as React.ElementType
                   return <Element key={key} {...options} />
-                }
+                },
               )}
             <SliderThumb />
             <SliderTrackBefore />
@@ -180,7 +180,7 @@ function SubtractButton() {
       size="small"
       aria-label={subtractTitle?.replace(
         '%s',
-        humanNumber.aria || String(value)
+        humanNumber.aria || String(value),
       )}
       onClick={onSubtractClickHandler as ButtonOnClick}
       disabled={disabled}
@@ -215,7 +215,7 @@ function AddButton() {
       size="small"
       aria-label={addTitle?.replace(
         '%s',
-        humanNumber.aria || String(value)
+        humanNumber.aria || String(value),
       )}
       onClick={onAddClickHandler as ButtonOnClick}
       disabled={disabled}

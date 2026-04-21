@@ -247,7 +247,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
       : undefined
 
   const [afterContent, setAfterContent] = useState<React.ReactNode | null>(
-    null
+    null,
   )
 
   const props = extendExistingPropsWithContext(
@@ -258,7 +258,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
     buttonDefaultProps,
     { skeleton: context?.skeleton },
     pickFormElementProps(context?.formElement),
-    context.Button
+    context.Button,
   )
 
   const {
@@ -304,7 +304,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
   ) {
     warn(
       `Icon required: A Tertiary Button requires an icon to be WCAG compliant in most cases, because variant tertiary has no underline.
-(Override this warning using icon={false}, or consider using one of the other variants)`
+(Override this warning using icon={false}, or consider using one of the other variants)`,
     )
   }
 
@@ -331,7 +331,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
       !attributes['aria-label']
     ) {
       warn(
-        'Icon-only Button requires either a "title" or "aria-label" prop for accessibility.'
+        'Icon-only Button requires either a "title" or "aria-label" prop for accessibility.',
       )
     }
   } else if (content) {
@@ -375,11 +375,11 @@ function Button({ ref, ...restProps }: ButtonProps) {
       createSkeletonClass(
         variant === 'tertiary' ? 'font' : 'shape',
         skeleton,
-        context
+        context,
       ),
       className,
       props.href || props.to ? '' : null,
-      Element === Anchor && 'dnb-anchor--no-style'
+      Element === Anchor && 'dnb-anchor--no-style',
     ),
     title,
     id: resolvedId,
@@ -389,7 +389,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
   })
 
   const handleClick = (
-    event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
+    event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>,
   ) => {
     const result = dispatchCustomElementEvent(props, 'onClick', {
       event,

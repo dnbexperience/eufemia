@@ -38,14 +38,14 @@ describe('flatten translations', () => {
             other.string
           </Translation>
         </output>
-      </Provider>
+      </Provider>,
     )
 
     expect(document.querySelector('.Translation').textContent).toBe(
-      expectedNbNO
+      expectedNbNO,
     )
     expect(
-      document.querySelector('.TranslationIdAsChildren').textContent
+      document.querySelector('.TranslationIdAsChildren').textContent,
     ).toBe(expectedNbNO)
   })
 
@@ -56,7 +56,7 @@ describe('flatten translations', () => {
         <output className="invalid">
           <Translation id={id} />
         </output>
-      </Provider>
+      </Provider>,
     )
 
     expect(document.querySelector('.invalid').textContent).toBe(id)
@@ -87,19 +87,19 @@ describe('context.getTranslation', () => {
     const { rerender } = render(<MagicContext />)
 
     expect(document.querySelector('p.title').textContent).toBe(
-      nbNO['nb-NO'].HelpButton.title
+      nbNO['nb-NO'].HelpButton.title,
     )
     expect(document.querySelector('p.locale').textContent).toBe('nb-NO')
 
     rerender(<MagicContext lang="en-GB" />)
 
     expect(document.querySelector('p.title').textContent).toBe(
-      enGB['en-GB'].HelpButton.title
+      enGB['en-GB'].HelpButton.title,
     )
 
     // locale should not be changed
     expect(document.querySelector('p.locale').textContent).not.toBe(
-      'en-GB'
+      'en-GB',
     )
     expect(document.querySelector('p.locale').textContent).toBe('nb-NO')
   })
@@ -121,21 +121,21 @@ describe('context.getTranslation', () => {
     const { rerender } = render(
       <Provider translations={translations}>
         <MagicContext />
-      </Provider>
+      </Provider>,
     )
 
     expect(document.querySelector('p.other-string').textContent).toBe(
-      givenNbNO
+      givenNbNO,
     )
 
     rerender(
       <Provider translations={translations}>
         <MagicContext lang="en-GB" />
-      </Provider>
+      </Provider>,
     )
 
     expect(document.querySelector('p.other-string').textContent).toBe(
-      givenEnGB
+      givenEnGB,
     )
   })
 })
@@ -151,7 +151,7 @@ describe('Translation', () => {
     const { rerender } = render(
       <Provider translations={translations}>
         <Translation<TranslationType> id={(t) => t.my.string} foo="bar" />
-      </Provider>
+      </Provider>,
     )
 
     expect(document.body.textContent).toBe('streng bar')
@@ -162,7 +162,7 @@ describe('Translation', () => {
           id={(t) => t.my.string}
           foo={() => 'baz'}
         />
-      </Provider>
+      </Provider>,
     )
 
     expect(document.body.textContent).toBe('string baz')
@@ -179,7 +179,7 @@ describe('Translation', () => {
     const { rerender } = render(
       <Provider translations={translations}>
         <TComp id={(t) => t.my.string} foo="bar" />
-      </Provider>
+      </Provider>,
     )
 
     expect(document.body.textContent).toBe('streng bar')
@@ -187,7 +187,7 @@ describe('Translation', () => {
     rerender(
       <Provider locale="en-GB" translations={translations}>
         <TComp id={(t) => t.my.string} foo={() => 'baz'} />
-      </Provider>
+      </Provider>,
     )
 
     expect(document.body.textContent).toBe('string baz')
@@ -209,7 +209,7 @@ describe('Translation', () => {
         <output>
           <Translation<TranslationType> id={(t) => t.my.msg} />
         </output>
-      </Provider>
+      </Provider>,
     )
 
     expect(container.querySelector('output')).toMatchInlineSnapshot(`

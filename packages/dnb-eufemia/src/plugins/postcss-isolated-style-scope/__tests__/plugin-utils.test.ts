@@ -25,7 +25,7 @@ describe('findPathToScopeHash', () => {
 
   it('should find scope-hash.txt in a parent directory', () => {
     expect(findPathToScopeHash('/a/b/c/d/style.css')).toEqual(
-      path.join('/', 'a', 'b', 'c', 'd')
+      path.join('/', 'a', 'b', 'c', 'd'),
     )
   })
 
@@ -46,7 +46,7 @@ describe('getScopeHashFromFile', () => {
     expect(result).toBe('test-hash-123')
     expect(fs.readFileSync).toHaveBeenCalledWith(
       path.join('/path/to/scope/dir', 'scope-hash.txt'),
-      'utf-8'
+      'utf-8',
     )
   })
 
@@ -55,7 +55,7 @@ describe('getScopeHashFromFile', () => {
     expect(result).toBe('test-hash-123')
     expect(fs.readFileSync).toHaveBeenCalledWith(
       path.join('./relative/path', 'scope-hash.txt'),
-      'utf-8'
+      'utf-8',
     )
   })
 

@@ -23,7 +23,7 @@ export default function useCurrency() {
         },
       })?.at(0)?.selectedValue
     },
-    [locale]
+    [locale],
   )
 
   return { getCurrencyDisplayNameByIso }

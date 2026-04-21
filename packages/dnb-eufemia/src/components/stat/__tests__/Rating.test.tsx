@@ -38,10 +38,10 @@ describe('Stat.Rating', () => {
 
     const rating = document.querySelector('.dnb-stat__rating')
     const progressive = document.querySelector(
-      '.dnb-stat__rating-progressive'
+      '.dnb-stat__rating-progressive',
     )
     const steps = document.querySelectorAll(
-      '.dnb-stat__rating-progressive-step--base'
+      '.dnb-stat__rating-progressive-step--base',
     )
 
     expect(rating.classList).toContain('dnb-stat__rating--progressive')
@@ -56,16 +56,16 @@ describe('Stat.Rating', () => {
     render(<Stat.Rating variant="progressive" value={5} max={10} />)
 
     const steps = document.querySelectorAll(
-      '.dnb-stat__rating-progressive-step--base'
+      '.dnb-stat__rating-progressive-step--base',
     )
 
     expect(steps).toHaveLength(10)
 
     const firstHeight = (steps[0] as HTMLElement).style.getPropertyValue(
-      '--dnb-stat-rating-step-height'
+      '--dnb-stat-rating-step-height',
     )
     const lastHeight = (steps[9] as HTMLElement).style.getPropertyValue(
-      '--dnb-stat-rating-step-height'
+      '--dnb-stat-rating-step-height',
     )
 
     expect(firstHeight).toBe('0.25rem')
@@ -85,7 +85,7 @@ describe('Stat.Rating', () => {
     render(
       <Provider locale="en-GB">
         <Stat.Rating value={2} />
-      </Provider>
+      </Provider>,
     )
 
     const rating = document.querySelector('.dnb-stat__rating')
@@ -132,7 +132,7 @@ describe('Stat.Rating', () => {
       call
         .map((entry) => String(entry))
         .join(' ')
-        .includes('exceeds the supported limit')
+        .includes('exceeds the supported limit'),
     )
 
     expect(didWarn).toBe(true)
@@ -162,7 +162,7 @@ describe('Stat.Rating', () => {
         <Stat.Content>
           <Stat.Rating value={3.5} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const rating = document.querySelector('.dnb-stat__rating')
@@ -179,7 +179,7 @@ describe('Stat.Rating', () => {
         <Stat.Content>
           <Stat.Rating variant="progressive" value={4} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const rating = document.querySelector('.dnb-stat__rating')
@@ -196,7 +196,7 @@ describe('Stat.Rating', () => {
         <Stat.Content skeleton>
           <Stat.Rating value={3} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const rating = document.querySelector('.dnb-stat__rating')
@@ -236,7 +236,7 @@ describe('Stat.Rating', () => {
         data-testid="stat-rating"
         data-foo="bar"
         aria-describedby="desc"
-      />
+      />,
     )
 
     const rating = document.querySelector('.dnb-stat__rating')
@@ -248,7 +248,7 @@ describe('Stat.Rating', () => {
 
   it('does not forward component-specific props to the DOM', () => {
     render(
-      <Stat.Rating value={3} variant="progressive" max={7} skeleton />
+      <Stat.Rating value={3} variant="progressive" max={7} skeleton />,
     )
 
     const rating = document.querySelector('.dnb-stat__rating')

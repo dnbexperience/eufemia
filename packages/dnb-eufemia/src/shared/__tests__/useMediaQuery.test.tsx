@@ -53,13 +53,13 @@ describe('useMediaQuery', () => {
 
   it('should have valid strings inside render and rerender', () => {
     matchMedia.useMediaQuery(
-      '(min-width: 60.00625em) and (max-width: 72em)'
+      '(min-width: 60.00625em) and (max-width: 72em)',
     )
 
     const { rerender } = render(
       <RenderMediaQueryHook when={{ min: 'medium', max: 'large' }}>
         medium
-      </RenderMediaQueryHook>
+      </RenderMediaQueryHook>,
     )
 
     expect(document.getElementById('mq-mock').textContent).toBe('medium')
@@ -67,7 +67,7 @@ describe('useMediaQuery', () => {
     rerender(
       <RenderMediaQueryHook when={'medium large'}>
         medium
-      </RenderMediaQueryHook>
+      </RenderMediaQueryHook>,
     )
 
     expect(document.getElementById('mq-mock').textContent).toBe('')
@@ -88,7 +88,7 @@ describe('useMediaQuery', () => {
         <RenderMediaQueryHook when={{ min: 'medium', max: 'large' }}>
           medium
         </RenderMediaQueryHook>
-      </Provider>
+      </Provider>,
     )
 
     expect(document.getElementById('mq-mock').textContent).toBe('medium')
@@ -100,7 +100,7 @@ describe('useMediaQuery', () => {
     render(
       <RenderMediaQueryHook when={{ min: '0', max: 'x-large' }}>
         matches
-      </RenderMediaQueryHook>
+      </RenderMediaQueryHook>,
     )
 
     expect(document.getElementById('mq-mock').textContent).toBe('matches')
@@ -108,7 +108,7 @@ describe('useMediaQuery', () => {
 
   it('should handle media query changes', () => {
     matchMedia.useMediaQuery(
-      'not screen and (min-width: 40.00625em) and (max-width: 72em)'
+      'not screen and (min-width: 40.00625em) and (max-width: 72em)',
     )
 
     const match1Handler = jest.fn()
@@ -179,7 +179,7 @@ describe('useMediaQuery', () => {
         useMediaQuery({
           when,
         }),
-      { wrapper }
+      { wrapper },
     )
 
     expect(window.matchMedia).toHaveBeenCalledTimes(3)
@@ -195,7 +195,7 @@ describe('useMediaQuery', () => {
           disabled: true,
           when,
         }),
-      { wrapper }
+      { wrapper },
     )
 
     expect(window.matchMedia).toHaveBeenCalledTimes(3)

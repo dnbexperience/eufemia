@@ -9,12 +9,12 @@ describe('AriaLive', () => {
     render(<AriaLive>Default announcement</AriaLive>)
 
     await waitFor(() =>
-      expect(screen.getByText('Default announcement')).toBeInTheDocument()
+      expect(screen.getByText('Default announcement')).toBeInTheDocument(),
     )
 
     const element = document.querySelector('.dnb-aria-live')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual(['aria-live', 'aria-atomic', 'class'])
@@ -30,7 +30,7 @@ describe('AriaLive', () => {
     render(<AriaLive disabled={true}>Disabled announcement</AriaLive>)
 
     await waitFor(() =>
-      expect(screen.queryByText('Disabled announcement')).toBeNull()
+      expect(screen.queryByText('Disabled announcement')).toBeNull(),
     )
   })
 
@@ -39,19 +39,19 @@ describe('AriaLive', () => {
 
     expect(screen.queryByText('Delayed announcement')).toBeNull()
     await waitFor(() =>
-      expect(screen.getByText('Delayed announcement')).toBeInTheDocument()
+      expect(screen.getByText('Delayed announcement')).toBeInTheDocument(),
     )
   })
 
   it('renders with politeness', async () => {
     render(
-      <AriaLive politeness="assertive">Assertive announcement</AriaLive>
+      <AriaLive politeness="assertive">Assertive announcement</AriaLive>,
     )
 
     await waitFor(() =>
       expect(
-        screen.getByText('Assertive announcement')
-      ).toBeInTheDocument()
+        screen.getByText('Assertive announcement'),
+      ).toBeInTheDocument(),
     )
   })
 
@@ -59,7 +59,7 @@ describe('AriaLive', () => {
     render(<AriaLive atomic={true}>Atomic announcement</AriaLive>)
 
     await waitFor(() =>
-      expect(screen.getByText('Atomic announcement')).toBeInTheDocument()
+      expect(screen.getByText('Atomic announcement')).toBeInTheDocument(),
     )
   })
 
@@ -68,8 +68,8 @@ describe('AriaLive', () => {
 
     await waitFor(() =>
       expect(
-        screen.getByText('Relevant text announcement')
-      ).toBeInTheDocument()
+        screen.getByText('Relevant text announcement'),
+      ).toBeInTheDocument(),
     )
   })
 
@@ -77,13 +77,13 @@ describe('AriaLive', () => {
     const { rerender } = render(<AriaLive>First announcement</AriaLive>)
 
     await waitFor(() =>
-      expect(screen.getByText('First announcement')).toBeInTheDocument()
+      expect(screen.getByText('First announcement')).toBeInTheDocument(),
     )
 
     rerender(<AriaLive>Second announcement</AriaLive>)
 
     await waitFor(() =>
-      expect(screen.getByText('Second announcement')).toBeInTheDocument()
+      expect(screen.getByText('Second announcement')).toBeInTheDocument(),
     )
   })
 
@@ -91,11 +91,11 @@ describe('AriaLive', () => {
     render(
       <AriaLive>
         <p>Announcement</p>
-      </AriaLive>
+      </AriaLive>,
     )
 
     await waitFor(() =>
-      expect(screen.getByText('Announcement')).toBeInTheDocument()
+      expect(screen.getByText('Announcement')).toBeInTheDocument(),
     )
   })
 
@@ -103,7 +103,7 @@ describe('AriaLive', () => {
     render(
       <AriaLive id="test-id" data-test="test-data">
         <p>Announcement</p>
-      </AriaLive>
+      </AriaLive>,
     )
 
     const element = document.querySelector('.dnb-aria-live')
@@ -116,7 +116,7 @@ describe('AriaLive', () => {
     render(
       <AriaLive>
         <p>Announcement</p>
-      </AriaLive>
+      </AriaLive>,
     )
 
     const element = document.querySelector('.dnb-aria-live')
@@ -134,7 +134,7 @@ describe('AriaLive', () => {
     render(
       <AriaLive>
         <p>Announcement</p>
-      </AriaLive>
+      </AriaLive>,
     )
 
     const element = document.querySelector('.dnb-aria-live')
@@ -154,7 +154,7 @@ describe('AriaLive', () => {
     const { rerender } = render(
       <AriaLive>
         <p>Default priority announcement</p>
-      </AriaLive>
+      </AriaLive>,
     )
 
     let element = document.querySelector('.dnb-aria-live')
@@ -165,7 +165,7 @@ describe('AriaLive', () => {
     rerender(
       <AriaLive priority="low">
         <p>Low priority announcement</p>
-      </AriaLive>
+      </AriaLive>,
     )
 
     element = document.querySelector('.dnb-aria-live')
@@ -181,7 +181,7 @@ describe('AriaLive', () => {
           <li>item one</li>
           <li>item two</li>
         </ul>
-      </AriaLive>
+      </AriaLive>,
     )
 
     expect(screen.getByText('item one')).toBeInTheDocument()
@@ -196,7 +196,7 @@ describe('AriaLive', () => {
 
   it('should have constant of _supportsSpacingProps="children"', () => {
     expect((AriaLive as ComponentMarkers)._supportsSpacingProps).toBe(
-      'children'
+      'children',
     )
   })
 })

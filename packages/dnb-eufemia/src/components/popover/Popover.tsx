@@ -143,10 +143,10 @@ export default function Popover(props: PopoverProps) {
   const resolveTargetElementForContainer = useCallback(() => {
     if (isPopoverTargetElementObject(externalTargetElement)) {
       const horizontalRef = resolveTargetNode(
-        externalTargetElement.horizontalRef
+        externalTargetElement.horizontalRef,
       )
       const verticalRef = resolveTargetNode(
-        externalTargetElement.verticalRef
+        externalTargetElement.verticalRef,
       )
 
       return {
@@ -251,7 +251,7 @@ export default function Popover(props: PopoverProps) {
         close()
       }
     },
-    [close, isOpen, openPopover]
+    [close, isOpen, openPopover],
   )
 
   const runTriggerClick = useCallback(
@@ -261,7 +261,7 @@ export default function Popover(props: PopoverProps) {
       }
       toggle()
     },
-    [toggle]
+    [toggle],
   )
 
   useEffect(() => {
@@ -297,7 +297,7 @@ export default function Popover(props: PopoverProps) {
           if (!focusContent() && retries > 0) {
             scheduleFocusAttempt(delay, retries - 1)
           }
-        }, delay)
+        }, delay),
       )
     }
 
@@ -311,7 +311,7 @@ export default function Popover(props: PopoverProps) {
   const handleDocumentInteraction = useCallback(
     (
       event: MouseEvent | TouchEvent | KeyboardEvent,
-      overrideTarget?: EventTarget | null
+      overrideTarget?: EventTarget | null,
     ) => {
       if (preventClose) {
         return undefined // stop here
@@ -333,7 +333,7 @@ export default function Popover(props: PopoverProps) {
         toggle(false)
       }
     },
-    [preventClose, getCurrentTriggerElement, toggle]
+    [preventClose, getCurrentTriggerElement, toggle],
   )
 
   const handleDocumentTouchStart = useCallback((event: TouchEvent) => {
@@ -358,7 +358,7 @@ export default function Popover(props: PopoverProps) {
 
       handleDocumentInteraction(event, target)
     },
-    [handleDocumentInteraction]
+    [handleDocumentInteraction],
   )
 
   const handleDocumentKeyDown = useCallback(
@@ -384,7 +384,7 @@ export default function Popover(props: PopoverProps) {
         }
       }
     },
-    [preventClose, getCurrentTriggerElement, toggle]
+    [preventClose, getCurrentTriggerElement, toggle],
   )
 
   useEffect(() => {
@@ -394,26 +394,26 @@ export default function Popover(props: PopoverProps) {
 
     document.documentElement.addEventListener(
       'mousedown',
-      handleDocumentInteraction
+      handleDocumentInteraction,
     )
     document.documentElement.addEventListener(
       'touchstart',
       handleDocumentTouchStart,
-      { passive: true }
+      { passive: true },
     )
     document.documentElement.addEventListener(
       'touchmove',
       handleDocumentTouchMove,
-      { passive: true }
+      { passive: true },
     )
     document.documentElement.addEventListener(
       'touchend',
       handleDocumentTouchEnd,
-      { passive: true }
+      { passive: true },
     )
     document.documentElement.addEventListener(
       'keyup',
-      handleDocumentInteraction
+      handleDocumentInteraction,
     )
     // Use capture phase (true) to ensure we handle Escape before Modal/Dialog handlers
     document.addEventListener('keydown', handleDocumentKeyDown, true)
@@ -421,23 +421,23 @@ export default function Popover(props: PopoverProps) {
     return () => {
       document.documentElement.removeEventListener(
         'mousedown',
-        handleDocumentInteraction
+        handleDocumentInteraction,
       )
       document.documentElement.removeEventListener(
         'touchstart',
-        handleDocumentTouchStart
+        handleDocumentTouchStart,
       )
       document.documentElement.removeEventListener(
         'touchmove',
-        handleDocumentTouchMove
+        handleDocumentTouchMove,
       )
       document.documentElement.removeEventListener(
         'touchend',
-        handleDocumentTouchEnd
+        handleDocumentTouchEnd,
       )
       document.documentElement.removeEventListener(
         'keyup',
-        handleDocumentInteraction
+        handleDocumentInteraction,
       )
       document.removeEventListener('keydown', handleDocumentKeyDown, true)
     }
@@ -453,7 +453,7 @@ export default function Popover(props: PopoverProps) {
   const handleTriggerKeyDown = useCallback(
     (
       event: React.KeyboardEvent<HTMLElement>,
-      userHandler?: React.KeyboardEventHandler<HTMLElement>
+      userHandler?: React.KeyboardEventHandler<HTMLElement>,
     ) => {
       userHandler?.(event)
       if (event.defaultPrevented) {
@@ -464,7 +464,7 @@ export default function Popover(props: PopoverProps) {
         toggle()
       }
     },
-    [toggle]
+    [toggle],
   )
 
   const mergedTriggerAttributes: PopoverTriggerAttributes =
@@ -495,7 +495,7 @@ export default function Popover(props: PopoverProps) {
         mutableTriggerAttrRef.current = node
       }
     },
-    [triggerAttrRef]
+    [triggerAttrRef],
   )
 
   const statefulTitle = isOpen ? tr.closeTriggerTitle : tr.openTriggerTitle
@@ -508,7 +508,7 @@ export default function Popover(props: PopoverProps) {
     className: clsx(
       'dnb-popover__trigger',
       triggerAttrClassName,
-      triggerClassName
+      triggerClassName,
     ),
     title: triggerAttrTitle || statefulTitle,
     role: triggerAttrRole || 'button',
@@ -518,7 +518,7 @@ export default function Popover(props: PopoverProps) {
     'aria-expanded': isOpen,
     'aria-describedby': mergeDescribedBy(
       triggerAttrDescribedBy,
-      descriptionId
+      descriptionId,
     ),
     onClick: (event) => {
       triggerOnClick?.(event)
@@ -548,15 +548,15 @@ export default function Popover(props: PopoverProps) {
     } else if (isValidElement<Record<string, unknown>>(trigger)) {
       triggerMarkup = React.createElement(
         trigger.type as React.ComponentType<any>,
-        { ...trigger.props, ...triggerDomProps }
+        { ...trigger.props, ...triggerDomProps },
       )
     } else if (trigger) {
       warn(
-        'Popover: `trigger` must be a valid React element or render function when not using targetElement/targetSelector.'
+        'Popover: `trigger` must be a valid React element or render function when not using targetElement/targetSelector.',
       )
     } else {
       warn(
-        'Popover: please provide a `trigger` prop or point to an existing element using `targetElement` / `targetSelector`.'
+        'Popover: please provide a `trigger` prop or point to an existing element using `targetElement` / `targetSelector`.',
       )
     }
   }
@@ -571,7 +571,7 @@ export default function Popover(props: PopoverProps) {
       toggle,
       id: tooltipId,
     }),
-    [close, isOpen, openPopover, toggle, tooltipId]
+    [close, isOpen, openPopover, toggle, tooltipId],
   )
 
   const userContent = useMemo(() => {
@@ -605,7 +605,7 @@ export default function Popover(props: PopoverProps) {
     noInnerSpace &&
       baseClassNames.map((name) => `${name}--no-inner-space`),
     noMaxWidth && baseClassNames.map((name) => `${name}--no-max-width`),
-    className
+    className,
   )
 
   const popoverAttributes: React.HTMLAttributes<HTMLElement> = {
@@ -627,7 +627,7 @@ export default function Popover(props: PopoverProps) {
         className={clsx(
           'dnb-popover__content',
           'dnb-no-focus',
-          contentClassName
+          contentClassName,
         )}
         id={tooltipId}
         tabIndex={-1}
@@ -728,27 +728,27 @@ function usePopoverOpenState({
       }
       onOpenChange?.(next)
     },
-    [isControlled, onOpenChange]
+    [isControlled, onOpenChange],
   )
 
   return { isOpen, setOpenState }
 }
 
 function isRenderer<T>(
-  value: PopoverRenderable<T>
+  value: PopoverRenderable<T>,
 ): value is (context: T) => React.ReactNode {
   return typeof value === 'function'
 }
 
 function mergeDescribedBy(
   existing: string | undefined,
-  next: string
+  next: string,
 ): string | undefined {
   return combineDescribedBy({ 'aria-describedby': existing }, next)
 }
 
 function isPopoverTargetElementObject(
-  target: PopoverProps['targetElement']
+  target: PopoverProps['targetElement'],
 ): target is PopoverTargetElementObject {
   return (
     Boolean(target) &&
@@ -759,7 +759,7 @@ function isPopoverTargetElementObject(
 }
 
 function resolveTargetNode(
-  target?: PopoverProps['targetElement']
+  target?: PopoverProps['targetElement'],
 ): HTMLElement | null {
   if (!target || isPopoverTargetElementObject(target)) {
     return null

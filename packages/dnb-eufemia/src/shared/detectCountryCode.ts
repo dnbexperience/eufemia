@@ -9,7 +9,7 @@ import countryCodes from './constants/countryCodes'
  * country codes are prefix-free at each allocation length.
  */
 const strippedCodes: Array<string> = Array.from(
-  new Set(countryCodes.map((c) => c.replace(/-/g, '')))
+  new Set(countryCodes.map((c) => c.replace(/-/g, ''))),
 ).sort((a, b) => b.length - a.length || a.localeCompare(b))
 
 /**
@@ -18,7 +18,7 @@ const strippedCodes: Array<string> = Array.from(
  * Codes without dashes map to themselves (e.g. "47" → "47").
  */
 const cdcFormatMap: Record<string, string> = Object.fromEntries(
-  countryCodes.map((c) => [c.replace(/-/g, ''), c])
+  countryCodes.map((c) => [c.replace(/-/g, ''), c]),
 )
 
 /**
@@ -52,7 +52,7 @@ export type DetectedCountryCode = {
 }
 
 export default function detectCountryCode(
-  value: string
+  value: string,
 ): DetectedCountryCode | undefined {
   if (typeof value !== 'string') {
     return undefined

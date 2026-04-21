@@ -46,7 +46,7 @@ const SkipContent = (localProps: SkipContentAllProps) => {
     () => () => {
       clearTimeout(timeout.current)
     },
-    []
+    [],
   )
 
   const [visible, setVisible] = React.useState(false)
@@ -58,7 +58,7 @@ const SkipContent = (localProps: SkipContentAllProps) => {
     'dnb-skip-content',
     visible && 'dnb-skip-content--visible',
     keepReturnActive && 'dnb-skip-content__return--active',
-    className
+    className,
   )
   const returnSelector = selector.replace(/^(\.|#)/, '')
   const returnId = `${returnSelector}--alias`
@@ -92,7 +92,7 @@ const SkipContent = (localProps: SkipContentAllProps) => {
     // Wait one frame, so ref is set
     window.requestAnimationFrame(() => {
       const element = ref.current?.querySelector(
-        '.dnb-button'
+        '.dnb-button',
       ) as HTMLElement
       element?.focus()
     })
@@ -109,7 +109,7 @@ const SkipContent = (localProps: SkipContentAllProps) => {
         setFocus()
       }
     },
-    [setFocus]
+    [setFocus],
   )
 
   const handleKeyUp = useCallback(
@@ -118,7 +118,7 @@ const SkipContent = (localProps: SkipContentAllProps) => {
         setFocus()
       }
     },
-    [setFocus]
+    [setFocus],
   )
 
   return (

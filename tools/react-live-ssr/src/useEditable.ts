@@ -128,7 +128,7 @@ const getPosition = (element: HTMLElement): Position => {
 const makeRange = (
   element: HTMLElement,
   start: number,
-  end?: number
+  end?: number,
 ): Range => {
   if (start <= 0) {
     start = 0
@@ -207,7 +207,7 @@ const makeRange = (
 export const useEditable = (
   elementRef: RefObject<HTMLElement | undefined | null>,
   onChange: (text: string, position: Position) => void,
-  opts?: Options
+  opts?: Options,
 ): void => {
   if (!opts) {
     opts = {}
@@ -238,7 +238,7 @@ export const useEditable = (
   const editInsert = (
     element: HTMLElement,
     append: string,
-    deleteOffset?: number
+    deleteOffset?: number,
   ): void => {
     let range = getCurrentRange()
     range.deleteContents()
@@ -283,7 +283,7 @@ export const useEditable = (
     if (state.position) {
       const { position, extent } = state.position
       setCurrentRange(
-        makeRange(elementRef.current, position, position + extent)
+        makeRange(elementRef.current, position, position + extent),
       )
     }
 
@@ -331,7 +331,7 @@ export const useEditable = (
     const indentPattern = ' '.repeat(opts!.indentation || 0)
     const indentRe = new RegExp('^(?:' + indentPattern + ')')
     const blanklineRe = new RegExp(
-      '^(?:' + indentPattern + ')*(' + indentPattern + ')$'
+      '^(?:' + indentPattern + ')*(' + indentPattern + ')$',
     )
 
     let trackStateTimestamp = 0
@@ -388,7 +388,7 @@ export const useEditable = (
           for (i = mutation.removedNodes.length - 1; i >= 0; i--) {
             mutation.target.insertBefore(
               mutation.removedNodes[i],
-              mutation.nextSibling
+              mutation.nextSibling,
             )
           }
 

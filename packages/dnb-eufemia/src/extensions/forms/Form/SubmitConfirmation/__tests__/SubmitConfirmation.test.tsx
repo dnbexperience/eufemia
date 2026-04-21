@@ -35,11 +35,11 @@ describe('Form.SubmitConfirmation', () => {
           >
             <Form.SubmitButton />
           </Form.SubmitConfirmation>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const submitButton = document.querySelector(
-        '.dnb-forms-submit-button'
+        '.dnb-forms-submit-button',
       )
       await userEvent.click(submitButton)
       expect(onSubmit).toHaveBeenCalledTimes(0)
@@ -47,8 +47,8 @@ describe('Form.SubmitConfirmation', () => {
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-forms-submit-indicator--state-pending'
-          )
+            '.dnb-forms-submit-indicator--state-pending',
+          ),
         ).toBeTruthy()
       })
 
@@ -58,8 +58,8 @@ describe('Form.SubmitConfirmation', () => {
       await waitFor(() => {
         expect(
           submitButton.querySelector(
-            '.dnb-forms-submit-indicator--state-pending'
-          )
+            '.dnb-forms-submit-indicator--state-pending',
+          ),
         ).toBeFalsy()
       })
     })
@@ -87,11 +87,11 @@ describe('Form.SubmitConfirmation', () => {
           >
             <Form.SubmitButton />
           </Form.SubmitConfirmation>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const submitButton = document.querySelector(
-        '.dnb-forms-submit-button'
+        '.dnb-forms-submit-button',
       )
       await userEvent.click(submitButton)
       expect(onSubmit).toHaveBeenCalledTimes(0)
@@ -99,8 +99,8 @@ describe('Form.SubmitConfirmation', () => {
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-forms-submit-indicator--state-pending'
-          )
+            '.dnb-forms-submit-indicator--state-pending',
+          ),
         ).toBeTruthy()
       })
 
@@ -110,8 +110,8 @@ describe('Form.SubmitConfirmation', () => {
       await waitFor(() => {
         expect(
           submitButton.querySelector(
-            '.dnb-forms-submit-indicator--state-pending'
-          )
+            '.dnb-forms-submit-indicator--state-pending',
+          ),
         ).toBeFalsy()
       })
     })
@@ -132,13 +132,13 @@ describe('Form.SubmitConfirmation', () => {
             >
               <Form.SubmitButton />
             </Form.SubmitConfirmation>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(document.body).toHaveFocus()
 
         const submitButton = document.querySelector(
-          '.dnb-forms-submit-button'
+          '.dnb-forms-submit-button',
         ) as HTMLButtonElement
 
         const focus = jest.fn()
@@ -149,8 +149,8 @@ describe('Form.SubmitConfirmation', () => {
         await waitFor(() => {
           expect(
             submitButton.querySelector(
-              '.dnb-forms-submit-indicator--state-pending'
-            )
+              '.dnb-forms-submit-indicator--state-pending',
+            ),
           ).toBeTruthy()
         })
         expect(focus).toHaveBeenCalledTimes(1)
@@ -160,8 +160,8 @@ describe('Form.SubmitConfirmation', () => {
         await waitFor(() => {
           expect(
             submitButton.querySelector(
-              '.dnb-forms-submit-indicator--state-pending'
-            )
+              '.dnb-forms-submit-indicator--state-pending',
+            ),
           ).toBeFalsy()
         })
         expect(focus).toHaveBeenCalledTimes(2)
@@ -183,13 +183,13 @@ describe('Form.SubmitConfirmation', () => {
             >
               <Form.SubmitButton />
             </Form.SubmitConfirmation>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(document.body).toHaveFocus()
 
         const submitButton = document.querySelector(
-          '.dnb-forms-submit-button'
+          '.dnb-forms-submit-button',
         ) as HTMLButtonElement
 
         const focus = jest.fn()
@@ -200,8 +200,8 @@ describe('Form.SubmitConfirmation', () => {
         await waitFor(() => {
           expect(
             submitButton.querySelector(
-              '.dnb-forms-submit-indicator--state-pending'
-            )
+              '.dnb-forms-submit-indicator--state-pending',
+            ),
           ).toBeTruthy()
         })
         expect(focus).toHaveBeenCalledTimes(1)
@@ -211,8 +211,8 @@ describe('Form.SubmitConfirmation', () => {
         await waitFor(() => {
           expect(
             submitButton.querySelector(
-              '.dnb-forms-submit-indicator--state-pending'
-            )
+              '.dnb-forms-submit-indicator--state-pending',
+            ),
           ).toBeFalsy()
         })
         expect(focus).toHaveBeenCalledTimes(2)
@@ -241,7 +241,7 @@ describe('Form.SubmitConfirmation', () => {
           >
             content
           </Form.SubmitConfirmation>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       fireEvent.submit(document.querySelector('form'))
@@ -284,7 +284,7 @@ describe('Form.SubmitConfirmation', () => {
           >
             content
           </Form.SubmitConfirmation>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       await act(async () => {
@@ -296,7 +296,7 @@ describe('Form.SubmitConfirmation', () => {
       expect(onSubmitResult).toHaveBeenLastCalledWith(
         expect.objectContaining({
           submitState: { error, customStatus },
-        })
+        }),
       )
 
       await act(async () => {
@@ -308,7 +308,7 @@ describe('Form.SubmitConfirmation', () => {
       expect(onSubmitResult).toHaveBeenLastCalledWith(
         expect.objectContaining({
           submitState: { error, customStatus },
-        })
+        }),
       )
     })
   })
@@ -353,7 +353,7 @@ describe('Form.SubmitConfirmation', () => {
               )
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       // Initial state
@@ -361,7 +361,7 @@ describe('Form.SubmitConfirmation', () => {
 
       // Click submit button using CSS selector for reliability
       const submitButton = document.querySelector(
-        '.dnb-forms-submit-button'
+        '.dnb-forms-submit-button',
       ) as HTMLButtonElement
       await userEvent.click(submitButton)
       expect(onSubmit).toHaveBeenCalledTimes(0)
@@ -375,14 +375,14 @@ describe('Form.SubmitConfirmation', () => {
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-forms-submit-indicator--state-pending'
-          )
+            '.dnb-forms-submit-indicator--state-pending',
+          ),
         ).toBeInTheDocument()
       })
 
       // Find and click cancel button - use array destructuring for dialog buttons
       const dialogButtons = Array.from(
-        document.querySelectorAll('.dnb-dialog button')
+        document.querySelectorAll('.dnb-dialog button'),
       )
       const [cancelButton] = dialogButtons
       await userEvent.click(cancelButton)
@@ -405,11 +405,11 @@ describe('Form.SubmitConfirmation', () => {
       // Find and click confirm button (second button in dialog)
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-dialog button')
+          document.querySelectorAll('.dnb-dialog button'),
         ).toHaveLength(2)
       })
       const updatedDialogButtons = Array.from(
-        document.querySelectorAll('.dnb-dialog button')
+        document.querySelectorAll('.dnb-dialog button'),
       )
       const [, confirmButton] = updatedDialogButtons
       await userEvent.click(confirmButton)
@@ -473,13 +473,13 @@ describe('Form.SubmitConfirmation', () => {
               )
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(confirmationStateRef.current).toBe('idle')
 
       const submitButton = document.querySelector(
-        '.dnb-forms-submit-button'
+        '.dnb-forms-submit-button',
       )
       await userEvent.click(submitButton)
       expect(onSubmit).toHaveBeenCalledTimes(0)
@@ -487,14 +487,14 @@ describe('Form.SubmitConfirmation', () => {
       await waitFor(() => {
         expect(
           submitButton.querySelector(
-            '.dnb-forms-submit-indicator--state-pending'
-          )
+            '.dnb-forms-submit-indicator--state-pending',
+          ),
         ).toBeTruthy()
       })
 
       await act(async () => {
         document.dispatchEvent(
-          new KeyboardEvent('keydown', { key: 'Escape' })
+          new KeyboardEvent('keydown', { key: 'Escape' }),
         )
       })
       await waitFor(() => {
@@ -546,35 +546,35 @@ describe('Form.SubmitConfirmation', () => {
             )
           }}
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const submitButton = document.querySelector('.dnb-forms-submit-button')
     await userEvent.click(submitButton)
     expect(onSubmit).toHaveBeenCalledTimes(0)
     expect(document.querySelector('output')).toHaveTextContent(
-      'readyToBeSubmitted'
+      'readyToBeSubmitted',
     )
 
     await waitFor(() => {
       expect(
         submitButton.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
-        )
+          '.dnb-forms-submit-indicator--state-pending',
+        ),
       ).toBeTruthy()
     })
 
     const [cancelButton] = Array.from(
-      document.querySelectorAll('.dnb-dialog button')
+      document.querySelectorAll('.dnb-dialog button'),
     )
     await userEvent.click(cancelButton)
     expect(document.querySelector('output')).toHaveTextContent(
-      'readyToBeSubmitted'
+      'readyToBeSubmitted',
     )
     await waitFor(() => {
       expect(document.querySelector('output')).toHaveAttribute(
         'aria-hidden',
-        'true'
+        'true',
       )
     })
 
@@ -584,16 +584,16 @@ describe('Form.SubmitConfirmation', () => {
 
     fireEvent.submit(submitButton)
     expect(document.querySelector('output')).toHaveTextContent(
-      'readyToBeSubmitted'
+      'readyToBeSubmitted',
     )
 
     const [, confirmButton] = Array.from(
-      document.querySelectorAll('.dnb-dialog button')
+      document.querySelectorAll('.dnb-dialog button'),
     )
     await userEvent.click(confirmButton)
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(document.querySelector('output')).toHaveTextContent(
-      'submitInProgress'
+      'submitInProgress',
     )
 
     await waitFor(() => {
@@ -609,7 +609,7 @@ describe('Form.SubmitConfirmation', () => {
         <Form.SubmitConfirmation preventSubmitWhen={() => true}>
           content
         </Form.SubmitConfirmation>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const form = document.querySelector('form')
@@ -623,7 +623,7 @@ describe('Form.SubmitConfirmation', () => {
           content
         </Form.SubmitConfirmation>
         <Form.SubmitButton />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -646,7 +646,7 @@ describe('Form.SubmitConfirmation', () => {
         >
           content
         </Form.SubmitConfirmation>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     fireEvent.submit(document.querySelector('form'))
@@ -678,7 +678,7 @@ describe('Form.SubmitConfirmation', () => {
         >
           content
         </Form.SubmitConfirmation>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(confirmationStateRef.current).toBe('idle')
@@ -707,7 +707,7 @@ describe('Form.SubmitConfirmation', () => {
           </Wizard.Step>
         </Wizard.Container>
         <Form.SubmitButton />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const form = document.querySelector('form')
@@ -720,32 +720,32 @@ describe('Form.SubmitConfirmation', () => {
     expect(onStepChange).toHaveBeenLastCalledWith(
       1,
       'next',
-      expect.anything()
+      expect.anything(),
     )
 
     await userEvent.click(
-      document.querySelector('.dnb-forms-previous-button')
+      document.querySelector('.dnb-forms-previous-button'),
     )
     expect(onStepChange).toHaveBeenCalledTimes(2)
     expect(onStepChange).toHaveBeenLastCalledWith(
       0,
       'previous',
-      expect.anything()
+      expect.anything(),
     )
 
     await userEvent.click(
-      document.querySelector('.dnb-forms-submit-button')
+      document.querySelector('.dnb-forms-submit-button'),
     )
     expect(onSubmit).toHaveBeenCalledTimes(0)
     expect(onStepChange).toHaveBeenCalledTimes(3)
     expect(onStepChange).toHaveBeenLastCalledWith(
       1,
       'next',
-      expect.anything()
+      expect.anything(),
     )
 
     await userEvent.click(
-      document.querySelector('dnb-forms-submit-button')
+      document.querySelector('dnb-forms-submit-button'),
     )
     expect(onSubmit).toHaveBeenCalledTimes(0)
     expect(onStepChange).toHaveBeenCalledTimes(3)
@@ -768,7 +768,7 @@ describe('Form.SubmitConfirmation', () => {
           </Wizard.Step>
         </Wizard.Container>
         <Form.SubmitButton />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const form = document.querySelector('form')
@@ -789,7 +789,7 @@ describe('Form.SubmitConfirmation', () => {
             return <Button>I'm not disabled</Button>
           }}
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelector('button')).not.toBeDisabled()

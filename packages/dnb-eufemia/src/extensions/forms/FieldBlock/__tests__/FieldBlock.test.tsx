@@ -24,7 +24,7 @@ describe('FieldBlock', () => {
 
     const element = document.querySelector('.dnb-forms-field-block')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toContain('id')
@@ -33,7 +33,7 @@ describe('FieldBlock', () => {
 
   it('should support spacing props', () => {
     const { rerender } = render(
-      <FieldBlock top="large">content</FieldBlock>
+      <FieldBlock top="large">content</FieldBlock>,
     )
 
     const element = document.querySelector('.dnb-forms-field-block')
@@ -49,7 +49,7 @@ describe('FieldBlock', () => {
     const { rerender } = render(
       <FieldBlock label="Disabled label" disabled>
         content
-      </FieldBlock>
+      </FieldBlock>,
     )
 
     const labelElement = () => document.querySelector('label')
@@ -65,21 +65,21 @@ describe('FieldBlock', () => {
     const { rerender } = render(
       <FieldBlock label="Label" labelSize="medium">
         content
-      </FieldBlock>
+      </FieldBlock>,
     )
 
     expect(document.querySelector('.dnb-form-label').classList).toContain(
-      'dnb-h--medium'
+      'dnb-h--medium',
     )
 
     rerender(
       <FieldBlock label="Label" labelSize="large">
         content
-      </FieldBlock>
+      </FieldBlock>,
     )
 
     expect(document.querySelector('.dnb-form-label').classList).toContain(
-      'dnb-h--large'
+      'dnb-h--large',
     )
   })
 
@@ -88,14 +88,14 @@ describe('FieldBlock', () => {
 
     expect(
       Array.from(
-        document.querySelector('.dnb-forms-field-block').classList
-      )
+        document.querySelector('.dnb-forms-field-block').classList,
+      ),
     ).toEqual(['dnb-space', 'dnb-forms-field-block', 'custom-class'])
 
     expect(
       Array.from(
-        document.querySelector('.dnb-forms-field-block__grid').classList
-      )
+        document.querySelector('.dnb-forms-field-block__grid').classList,
+      ),
     ).toEqual([
       'dnb-forms-field-block__grid',
       'dnb-forms-field-block--layout-vertical',
@@ -106,7 +106,7 @@ describe('FieldBlock', () => {
     render(
       <FieldBlock forId="unique" label="A Label">
         <input type="text" id="unique" />
-      </FieldBlock>
+      </FieldBlock>,
     )
 
     const element = document.querySelector('.dnb-forms-field-block')
@@ -115,7 +115,7 @@ describe('FieldBlock', () => {
 
     expect(labelElement.getAttribute('for')).toBe('unique')
     expect(labelElement.getAttribute('for')).toBe(
-      inputElement.getAttribute('id')
+      inputElement.getAttribute('id'),
     )
   })
 
@@ -143,14 +143,14 @@ describe('FieldBlock', () => {
       render(
         <FieldBlock labelDescription="A Label Description">
           content
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const labelElement = document.querySelector('label')
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveClass(
-        'dnb-form-label dnb-space__right--small'
+        'dnb-form-label dnb-space__right--small',
       )
       expect(labelElement).toHaveTextContent('A Label Description')
     })
@@ -163,7 +163,7 @@ describe('FieldBlock', () => {
           labelDescriptionInline={false}
         >
           content
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const labelElement = document.querySelector('label')
@@ -179,7 +179,7 @@ describe('FieldBlock', () => {
           labelDescriptionInline
         >
           content
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const labelElement = document.querySelector('label')
@@ -192,7 +192,7 @@ describe('FieldBlock', () => {
       render(
         <FieldBlock labelDescription="A Label Description">
           content
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const labelElement = document.querySelector('label')
@@ -205,14 +205,14 @@ describe('FieldBlock', () => {
       render(
         <FieldBlock labelDescription={<span>A Label Description</span>}>
           content
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const labelElement = document.querySelector('label')
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveClass(
-        'dnb-form-label dnb-space__right--small'
+        'dnb-form-label dnb-space__right--small',
       )
       expect(labelElement).toHaveTextContent('A Label Description')
     })
@@ -223,14 +223,14 @@ describe('FieldBlock', () => {
       render(
         <FieldBlock labelDescription={<LabelDescription />}>
           content
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const labelElement = document.querySelector('label')
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveClass(
-        'dnb-form-label dnb-space__right--small'
+        'dnb-form-label dnb-space__right--small',
       )
       expect(labelElement).toHaveTextContent('A Label Description')
     })
@@ -240,15 +240,15 @@ describe('FieldBlock', () => {
 
       expect(
         document.querySelector(
-          '.dnb-forms-field-block__label__description'
-        )
+          '.dnb-forms-field-block__label__description',
+        ),
       ).toBeNull()
 
       const labelElement = document.querySelector('label')
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveClass(
-        'dnb-form-label dnb-space__right--small'
+        'dnb-form-label dnb-space__right--small',
       )
       expect(labelElement).toHaveTextContent('')
     })
@@ -259,17 +259,17 @@ describe('FieldBlock', () => {
       render(
         <FieldBlock label="A Label" labelSuffix="(valgfritt)">
           content
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const labelElement = document.querySelector('label')
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveTextContent(
-        `A Label ${nb.Field.optionalLabelSuffix}`
+        `A Label ${nb.Field.optionalLabelSuffix}`,
       )
       expect(
-        labelElement.querySelector('span > span').innerHTML
+        labelElement.querySelector('span > span').innerHTML,
       ).toContain(`A Label&nbsp;(valgfritt)`)
     })
 
@@ -280,17 +280,17 @@ describe('FieldBlock', () => {
           labelSuffix={<i>(valgfritt)</i>}
         >
           content
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const labelElement = document.querySelector('label')
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveTextContent(
-        `A Label ${nb.Field.optionalLabelSuffix}`
+        `A Label ${nb.Field.optionalLabelSuffix}`,
       )
       expect(labelElement.querySelector('span').innerHTML).toContain(
-        `<b>A Label</b>&nbsp;<i>(valgfritt)</i>`
+        `<b>A Label</b>&nbsp;<i>(valgfritt)</i>`,
       )
     })
   })
@@ -300,14 +300,14 @@ describe('FieldBlock', () => {
       render(
         <FieldBlock label="A Label" required={false}>
           content
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const labelElement = document.querySelector('label')
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveTextContent(
-        `A Label ${nb.Field.optionalLabelSuffix}`
+        `A Label ${nb.Field.optionalLabelSuffix}`,
       )
     })
 
@@ -319,7 +319,7 @@ describe('FieldBlock', () => {
           labelSuffix="(suffix)"
         >
           content
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const labelElement = document.querySelector('label')
@@ -333,12 +333,12 @@ describe('FieldBlock', () => {
           required={false}
         >
           content
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const labelElement = document.querySelector('label')
       expect(labelElement.textContent).toBe(
-        `My Label ${nb.Field.optionalLabelSuffix}`
+        `My Label ${nb.Field.optionalLabelSuffix}`,
       )
     })
 
@@ -348,14 +348,14 @@ describe('FieldBlock', () => {
           <FieldBlock label="A Label" required={false}>
             content
           </FieldBlock>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const labelElement = document.querySelector('label')
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveTextContent(
-        `A Label ${en.Field.optionalLabelSuffix}`
+        `A Label ${en.Field.optionalLabelSuffix}`,
       )
     })
 
@@ -363,17 +363,17 @@ describe('FieldBlock', () => {
       render(
         <FieldBlock label={<b>A Label</b>} required={false}>
           content
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const labelElement = document.querySelector('label')
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveTextContent(
-        `A Label ${nb.Field.optionalLabelSuffix}`
+        `A Label ${nb.Field.optionalLabelSuffix}`,
       )
       expect(labelElement.querySelector('span').innerHTML).toContain(
-        `<b>A Label</b>&nbsp;(valgfritt)`
+        `<b>A Label</b>&nbsp;(valgfritt)`,
       )
     })
   })
@@ -382,7 +382,7 @@ describe('FieldBlock', () => {
     const MockComponent = () => {
       const fromInput = React.useCallback(
         (external: unknown) => (external as { value: string }).value,
-        []
+        [],
       )
       const { value, handleChange } = useFieldProps({
         value: '',
@@ -424,7 +424,7 @@ describe('FieldBlock', () => {
           </FieldBlock>
           <span>no label</span>
         </div>
-      </FieldBlock>
+      </FieldBlock>,
     )
 
     expect(document.querySelector('fieldset')).not.toBeInTheDocument()
@@ -446,13 +446,13 @@ describe('FieldBlock', () => {
           </FieldBlock>
           <span>no label</span>
         </div>
-      </FieldBlock>
+      </FieldBlock>,
     )
 
     expect(document.querySelectorAll('fieldset')).toHaveLength(1)
     expect(document.querySelectorAll('legend')).toHaveLength(1)
     expect(document.querySelector('.dnb-forms-field-block').tagName).toBe(
-      'FIELDSET'
+      'FIELDSET',
     )
 
     const labelElements = document.querySelectorAll('.dnb-form-label')
@@ -468,7 +468,7 @@ describe('FieldBlock', () => {
       <FieldBlock label="Legend">
         <MockComponent label="Label" />
         <MockComponent label="Label" />
-      </FieldBlock>
+      </FieldBlock>,
     )
 
     expect(document.querySelectorAll('fieldset')).toHaveLength(1)
@@ -480,7 +480,7 @@ describe('FieldBlock', () => {
       <FieldBlock label="Legend" forId="unique">
         <MockComponent label="Label" />
         <MockComponent id="unique" />
-      </FieldBlock>
+      </FieldBlock>,
     )
 
     expect(document.querySelector('fieldset')).not.toBeInTheDocument()
@@ -490,7 +490,7 @@ describe('FieldBlock', () => {
     rerender(
       <FieldBlock label="Legend">
         <MockComponent />
-      </FieldBlock>
+      </FieldBlock>,
     )
 
     expect(document.querySelector('fieldset')).not.toBeInTheDocument()
@@ -505,7 +505,7 @@ describe('FieldBlock', () => {
       <FieldBlock label="Legend">
         <MockComponent />
         <MockComponent />
-      </FieldBlock>
+      </FieldBlock>,
     )
 
     expect(document.querySelectorAll('fieldset')).toHaveLength(1)
@@ -518,7 +518,7 @@ describe('FieldBlock', () => {
       <FieldBlock label="Legend">
         <MockComponent />
         <MockComponent />
-      </FieldBlock>
+      </FieldBlock>,
     )
 
     expect(document.querySelector('fieldset')).not.toBeInTheDocument()
@@ -532,21 +532,21 @@ describe('FieldBlock', () => {
     const { rerender } = render(
       <FieldBlock label="Label" help={help}>
         content
-      </FieldBlock>
+      </FieldBlock>,
     )
 
     expect(
-      document.querySelector('.dnb-form-label .dnb-help-button')
+      document.querySelector('.dnb-form-label .dnb-help-button'),
     ).toBeInTheDocument()
 
     rerender(
       <FieldBlock label="Label" help={help} hideHelpButton>
         content
-      </FieldBlock>
+      </FieldBlock>,
     )
 
     expect(
-      document.querySelector('.dnb-form-label .dnb-help-button')
+      document.querySelector('.dnb-form-label .dnb-help-button'),
     ).not.toBeInTheDocument()
   })
 
@@ -554,14 +554,14 @@ describe('FieldBlock', () => {
     render(
       <FieldBlock label="Legend" asFieldset>
         content
-      </FieldBlock>
+      </FieldBlock>,
     )
 
     expect(document.querySelectorAll('fieldset')).toHaveLength(1)
     expect(document.querySelectorAll('legend')).toHaveLength(1)
     expect(document.querySelector('legend')).not.toHaveAttribute('for')
     expect(document.querySelector('.dnb-forms-field-block').tagName).toBe(
-      'FIELDSET'
+      'FIELDSET',
     )
   })
 
@@ -570,7 +570,7 @@ describe('FieldBlock', () => {
       render(
         <FieldBlock label="Legend" asFieldset>
           content
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const fieldset = document.querySelector('fieldset')
@@ -593,7 +593,7 @@ describe('FieldBlock', () => {
         <FieldBlock label="Legend">
           <MockComponent label="Label" />
           <MockComponent label="Label" />
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const fieldset = document.querySelector('fieldset')
@@ -610,7 +610,7 @@ describe('FieldBlock', () => {
         <FieldBlock label="Legend">
           <MockComponent />
           <MockComponent />
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const fieldset = document.querySelector('fieldset')
@@ -626,7 +626,7 @@ describe('FieldBlock', () => {
       render(
         <FieldBlock label="Legend" asFieldset fieldsetRole="radiogroup">
           content
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const fieldset = document.querySelector('fieldset')
@@ -641,7 +641,7 @@ describe('FieldBlock', () => {
       render(
         <FieldBlock label="Legend" asFieldset>
           content
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const fieldset = document.querySelector('fieldset')
@@ -659,10 +659,10 @@ describe('FieldBlock', () => {
     const element = document.querySelector('.dnb-forms-field-block__grid')
 
     expect(element.classList).toContain(
-      'dnb-forms-field-block--layout-horizontal'
+      'dnb-forms-field-block--layout-horizontal',
     )
     expect(element.classList).not.toContain(
-      'dnb-forms-field-block--layout-vertical'
+      'dnb-forms-field-block--layout-vertical',
     )
   })
 
@@ -671,31 +671,31 @@ describe('FieldBlock', () => {
       render(
         <FieldBlock layoutOptions={{ width: 'medium' }}>
           content
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const mainElement = document.querySelector('.dnb-forms-field-block')
 
       expect(mainElement).toHaveStyle(
-        '--dnb-forms-field-block-layout-width-min: var(--forms-field-width--medium);'
+        '--dnb-forms-field-block-layout-width-min: var(--forms-field-width--medium);',
       )
       expect(mainElement).toHaveStyle(
-        '--dnb-forms-field-block-layout-width-max: var(--forms-field-width--medium);'
+        '--dnb-forms-field-block-layout-width-max: var(--forms-field-width--medium);',
       )
     })
 
     it('should support rem value in "layoutOptions" property', () => {
       render(
-        <FieldBlock layoutOptions={{ width: '4rem' }}>content</FieldBlock>
+        <FieldBlock layoutOptions={{ width: '4rem' }}>content</FieldBlock>,
       )
 
       const mainElement = document.querySelector('.dnb-forms-field-block')
 
       expect(mainElement).toHaveStyle(
-        '--dnb-forms-field-block-layout-width-min: 4rem;'
+        '--dnb-forms-field-block-layout-width-min: 4rem;',
       )
       expect(mainElement).toHaveStyle(
-        '--dnb-forms-field-block-layout-width-max: 4rem;'
+        '--dnb-forms-field-block-layout-width-max: 4rem;',
       )
     })
 
@@ -703,29 +703,29 @@ describe('FieldBlock', () => {
       const { rerender } = render(
         <FieldBlock layoutOptions={{ minWidth: 'medium' }}>
           content
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const mainElement = document.querySelector('.dnb-forms-field-block')
 
       expect(mainElement).toHaveStyle(
-        '--dnb-forms-field-block-layout-width-min: var(--forms-field-width--medium);'
+        '--dnb-forms-field-block-layout-width-min: var(--forms-field-width--medium);',
       )
       expect(mainElement).not.toHaveStyle(
-        '--dnb-forms-field-block-layout-width-max: var(--forms-field-width--medium);'
+        '--dnb-forms-field-block-layout-width-max: var(--forms-field-width--medium);',
       )
 
       rerender(
         <FieldBlock layoutOptions={{ maxWidth: 'medium' }}>
           content
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       expect(mainElement).not.toHaveStyle(
-        '--dnb-forms-field-block-layout-width-min: var(--forms-field-width--medium);'
+        '--dnb-forms-field-block-layout-width-min: var(--forms-field-width--medium);',
       )
       expect(mainElement).toHaveStyle(
-        '--dnb-forms-field-block-layout-width-max: var(--forms-field-width--medium);'
+        '--dnb-forms-field-block-layout-width-max: var(--forms-field-width--medium);',
       )
     })
 
@@ -735,10 +735,10 @@ describe('FieldBlock', () => {
       const mainElement = document.querySelector('.dnb-forms-field-block')
 
       expect(mainElement).toHaveStyle(
-        '--dnb-forms-field-block-layout-width-min: var(--forms-field-width--large);'
+        '--dnb-forms-field-block-layout-width-min: var(--forms-field-width--large);',
       )
       expect(mainElement).toHaveStyle(
-        '--dnb-forms-field-block-layout-width-max: var(--forms-field-width--large);'
+        '--dnb-forms-field-block-layout-width-max: var(--forms-field-width--large);',
       )
     })
 
@@ -748,49 +748,49 @@ describe('FieldBlock', () => {
       const mainElement = document.querySelector('.dnb-forms-field-block')
 
       expect(mainElement).toHaveStyle(
-        '--dnb-forms-field-block-layout-width-min: var(--forms-field-width--large);'
+        '--dnb-forms-field-block-layout-width-min: var(--forms-field-width--large);',
       )
       expect(mainElement).toHaveStyle(
-        '--dnb-forms-field-block-layout-width-max: var(--forms-field-width--large);'
+        '--dnb-forms-field-block-layout-width-max: var(--forms-field-width--large);',
       )
     })
   })
 
   it('should support "width" property', () => {
     const { rerender } = render(
-      <FieldBlock width="medium">content</FieldBlock>
+      <FieldBlock width="medium">content</FieldBlock>,
     )
 
     const element = document.querySelector('.dnb-forms-field-block')
 
     expect(element.classList).toContain(
-      'dnb-forms-field-block--width-medium'
+      'dnb-forms-field-block--width-medium',
     )
 
     rerender(<FieldBlock width="large">content</FieldBlock>)
 
     expect(element.classList).toContain(
-      'dnb-forms-field-block--width-large'
+      'dnb-forms-field-block--width-large',
     )
   })
 
   it('should support "contentWidth" property', () => {
     const { rerender } = render(
-      <FieldBlock contentWidth="medium">content</FieldBlock>
+      <FieldBlock contentWidth="medium">content</FieldBlock>,
     )
 
     const element = document.querySelector(
-      '.dnb-forms-field-block__contents'
+      '.dnb-forms-field-block__contents',
     )
 
     expect(element.classList).toContain(
-      'dnb-forms-field-block__contents--width-medium'
+      'dnb-forms-field-block__contents--width-medium',
     )
 
     rerender(<FieldBlock contentWidth="large">content</FieldBlock>)
 
     expect(element.classList).toContain(
-      'dnb-forms-field-block__contents--width-large'
+      'dnb-forms-field-block__contents--width-large',
     )
   })
 
@@ -800,7 +800,7 @@ describe('FieldBlock', () => {
     const mainElement = document.querySelector('.dnb-forms-field-block')
 
     expect(mainElement.classList).toContain(
-      'dnb-forms-field-block--width-custom'
+      'dnb-forms-field-block--width-custom',
     )
     expect(mainElement).toHaveStyle('--dnb-forms-field-block-width: 4rem;')
   })
@@ -810,24 +810,24 @@ describe('FieldBlock', () => {
 
     const mainElement = document.querySelector('.dnb-forms-field-block')
     const contentsElement = mainElement.querySelector(
-      '.dnb-forms-field-block__contents'
+      '.dnb-forms-field-block__contents',
     )
 
     expect(contentsElement.classList).toContain(
-      'dnb-forms-field-block__contents--width-custom'
+      'dnb-forms-field-block__contents--width-custom',
     )
     expect(mainElement).toHaveStyle(
-      '--dnb-forms-field-block-content-width: 4rem;'
+      '--dnb-forms-field-block-content-width: 4rem;',
     )
   })
 
   it('should support "contentClassName" property', () => {
     render(
-      <FieldBlock contentClassName="custom-class">content</FieldBlock>
+      <FieldBlock contentClassName="custom-class">content</FieldBlock>,
     )
 
     const element = document.querySelector(
-      '.dnb-forms-field-block__contents'
+      '.dnb-forms-field-block__contents',
     )
 
     expect(element.classList).toContain('custom-class')
@@ -844,7 +844,7 @@ describe('FieldBlock', () => {
     const { rerender } = render(
       <FieldBlock error={new Error('FieldBlock error')}>
         <MockComponent />
-      </FieldBlock>
+      </FieldBlock>,
     )
 
     expect(hasNestedError).toBeTruthy()
@@ -852,7 +852,7 @@ describe('FieldBlock', () => {
     rerender(
       <FieldBlock>
         <MockComponent />
-      </FieldBlock>
+      </FieldBlock>,
     )
 
     expect(hasNestedError).toBeFalsy()
@@ -880,7 +880,7 @@ describe('FieldBlock', () => {
         render(
           <FieldBlock info={<strong>{blockInfo}</strong>}>
             content
-          </FieldBlock>
+          </FieldBlock>,
         )
 
         const element = document.querySelector('.dnb-form-status')
@@ -907,13 +907,13 @@ describe('FieldBlock', () => {
         const { rerender } = render(<FieldBlock info="message" />)
 
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
 
         rerender(<FieldBlock info={undefined} />)
 
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
 
@@ -921,13 +921,13 @@ describe('FieldBlock', () => {
         const { rerender } = render(<Field.String info="message" />)
 
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
 
         rerender(<Field.String info={undefined} />)
 
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })
@@ -948,7 +948,7 @@ describe('FieldBlock', () => {
         render(
           <FieldBlock warning={<strong>{blockWarning}</strong>}>
             content
-          </FieldBlock>
+          </FieldBlock>,
         )
 
         const element = document.querySelector('.dnb-form-status')
@@ -963,13 +963,13 @@ describe('FieldBlock', () => {
         const { rerender } = render(<FieldBlock warning="message" />)
 
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
 
         rerender(<FieldBlock warning={undefined} />)
 
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
 
@@ -977,13 +977,13 @@ describe('FieldBlock', () => {
         const { rerender } = render(<Field.String warning="message" />)
 
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
 
         rerender(<Field.String warning={undefined} />)
 
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })
@@ -991,7 +991,7 @@ describe('FieldBlock', () => {
     describe('error prop', () => {
       it('should render a FormStatus correctly', () => {
         render(
-          <FieldBlock error={new Error(blockError)}>content</FieldBlock>
+          <FieldBlock error={new Error(blockError)}>content</FieldBlock>,
         )
 
         const element = document.querySelector('.dnb-form-status')
@@ -1004,33 +1004,33 @@ describe('FieldBlock', () => {
 
       it('should show and hide the message when error prop gets "undefined"', () => {
         const { rerender } = render(
-          <FieldBlock error={new Error('message')} />
+          <FieldBlock error={new Error('message')} />,
         )
 
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
 
         rerender(<FieldBlock error={undefined} />)
 
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
 
       it('should show and hide the message when error prop gets "undefined" (using Field.String in order to include useFieldProps)', () => {
         const { rerender } = render(
-          <Field.String error={new Error('message')} />
+          <Field.String error={new Error('message')} />,
         )
 
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
 
         rerender(<Field.String error={undefined} />)
 
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })
@@ -1040,13 +1040,13 @@ describe('FieldBlock', () => {
         render(
           <FieldBlock info={blockInfo} statusPosition="above">
             content
-          </FieldBlock>
+          </FieldBlock>,
         )
 
         const element = document.querySelector('.dnb-forms-field-block')
 
         expect(element).toHaveClass(
-          'dnb-forms-field-block--status-position-above'
+          'dnb-forms-field-block--status-position-above',
         )
       })
 
@@ -1056,7 +1056,7 @@ describe('FieldBlock', () => {
         const element = document.querySelector('.dnb-forms-field-block')
 
         expect(element).toHaveClass(
-          'dnb-forms-field-block--status-position-above'
+          'dnb-forms-field-block--status-position-above',
         )
       })
     })
@@ -1075,16 +1075,16 @@ describe('FieldBlock', () => {
         render(
           <FieldBlock error={new Error('Error message')}>
             <MockComponent />
-          </FieldBlock>
+          </FieldBlock>,
         )
 
         expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(
-          1
+          1,
         )
         expect(
-          document.querySelector('.dnb-form-status').textContent
+          document.querySelector('.dnb-form-status').textContent,
         ).toBe(
-          nb.Field.errorSummary + 'Error message' + nb.Field.errorRequired
+          nb.Field.errorSummary + 'Error message' + nb.Field.errorRequired,
         )
       })
 
@@ -1104,14 +1104,14 @@ describe('FieldBlock', () => {
         render(
           <FieldBlock error={outer}>
             <MockComponent />
-          </FieldBlock>
+          </FieldBlock>,
         )
 
         expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(
-          1
+          1,
         )
         expect(
-          document.querySelector('.dnb-form-status').textContent
+          document.querySelector('.dnb-form-status').textContent,
         ).toBe(nb.Field.errorSummary + 'Outer' + 'Nested')
       })
 
@@ -1131,17 +1131,17 @@ describe('FieldBlock', () => {
         render(
           <FieldBlock error={outer} disableStatusSummary>
             <MockComponent />
-          </FieldBlock>
+          </FieldBlock>,
         )
 
         expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(
-          2
+          2,
         )
         expect(
-          document.querySelectorAll('.dnb-form-status')[0].textContent
+          document.querySelectorAll('.dnb-form-status')[0].textContent,
         ).toBe('Outer')
         expect(
-          document.querySelectorAll('.dnb-form-status')[1].textContent
+          document.querySelectorAll('.dnb-form-status')[1].textContent,
         ).toBe('Nested')
       })
 
@@ -1158,13 +1158,15 @@ describe('FieldBlock', () => {
             value="abc"
             onChangeValidator={onChangeValidator}
             validateInitially
-          />
+          />,
         )
 
         expect(
-          document.querySelector('.dnb-form-status').textContent
+          document.querySelector('.dnb-form-status').textContent,
         ).toBe(
-          nb.Field.errorSummary + 'Error message one' + 'Error message two'
+          nb.Field.errorSummary +
+            'Error message one' +
+            'Error message two',
         )
       })
 
@@ -1181,13 +1183,15 @@ describe('FieldBlock', () => {
             value="abc"
             onBlurValidator={onBlurValidator}
             validateInitially
-          />
+          />,
         )
 
         expect(
-          document.querySelector('.dnb-form-status').textContent
+          document.querySelector('.dnb-form-status').textContent,
         ).toBe(
-          nb.Field.errorSummary + 'Error message one' + 'Error message two'
+          nb.Field.errorSummary +
+            'Error message one' +
+            'Error message two',
         )
       })
 
@@ -1204,16 +1208,16 @@ describe('FieldBlock', () => {
             value="abc"
             onChangeValidator={onChangeValidator}
             validateInitially
-          />
+          />,
         )
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status').textContent
+            document.querySelector('.dnb-form-status').textContent,
           ).toBe(
             nb.Field.errorSummary +
               'Error message one' +
-              'Error message two'
+              'Error message two',
           )
         })
       })
@@ -1231,16 +1235,16 @@ describe('FieldBlock', () => {
             value="abc"
             onBlurValidator={onBlurValidator}
             validateInitially
-          />
+          />,
         )
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status').textContent
+            document.querySelector('.dnb-form-status').textContent,
           ).toBe(
             nb.Field.errorSummary +
               'Error message one' +
-              'Error message two'
+              'Error message two',
           )
         })
       })
@@ -1271,7 +1275,7 @@ describe('FieldBlock', () => {
         expect(count).toBe(1)
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status').textContent
+            document.querySelector('.dnb-form-status').textContent,
           ).toBe('first error')
         })
 
@@ -1282,7 +1286,7 @@ describe('FieldBlock', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status').textContent
+            document.querySelector('.dnb-form-status').textContent,
           ).toBe(nb.Field.errorSummary + 'first error' + 'second error')
         })
       })
@@ -1299,7 +1303,7 @@ describe('FieldBlock', () => {
         const { rerender } = render(<FieldBlock>content</FieldBlock>)
 
         rerender(
-          <FieldBlock error={new Error(blockError)}>content</FieldBlock>
+          <FieldBlock error={new Error(blockError)}>content</FieldBlock>,
         )
 
         const element = document.querySelector('.dnb-form-status')
@@ -1315,7 +1319,7 @@ describe('FieldBlock', () => {
         const { rerender } = render(<FieldBlock>content</FieldBlock>)
 
         rerender(
-          <FieldBlock error={new Error(blockError)}>content</FieldBlock>
+          <FieldBlock error={new Error(blockError)}>content</FieldBlock>,
         )
 
         const element = document.querySelector('.dnb-form-status')
@@ -1341,7 +1345,7 @@ describe('FieldBlock', () => {
         const { rerender } = render(<FieldBlock>content</FieldBlock>)
 
         rerender(
-          <FieldBlock error={new Error(blockError)}>content</FieldBlock>
+          <FieldBlock error={new Error(blockError)}>content</FieldBlock>,
         )
 
         const element = document.querySelector('.dnb-form-status')
@@ -1355,7 +1359,7 @@ describe('FieldBlock', () => {
         const { rerender } = render(<FieldBlock>content</FieldBlock>)
 
         rerender(
-          <FieldBlock error={new Error(blockError)}>content</FieldBlock>
+          <FieldBlock error={new Error(blockError)}>content</FieldBlock>,
         )
 
         const element = document.querySelector('.dnb-form-status')
@@ -1368,7 +1372,7 @@ describe('FieldBlock', () => {
       const { rerender } = render(
         <FieldBlock id="unique" error={new Error(firstError)}>
           content
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const status = document.querySelector('.dnb-form-status')
@@ -1377,7 +1381,7 @@ describe('FieldBlock', () => {
       rerender(
         <FieldBlock forId="forId" error={new Error(firstError)}>
           content
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       expect(status).toHaveAttribute('id', 'forId-form-status--error')
@@ -1389,7 +1393,7 @@ describe('FieldBlock', () => {
           error={new Error(firstError)}
         >
           content
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       expect(status).toHaveAttribute('id', 'unique-form-status--error')
@@ -1401,15 +1405,15 @@ describe('FieldBlock', () => {
       render(
         <FieldBlock fieldState="pending">
           <MockComponent />
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const elements = document.querySelectorAll(
-        '.dnb-forms-submit-indicator'
+        '.dnb-forms-submit-indicator',
       )
       expect(elements).toHaveLength(1)
       expect(elements[0]).toHaveClass(
-        'dnb-forms-submit-indicator--state-pending'
+        'dnb-forms-submit-indicator--state-pending',
       )
     })
 
@@ -1417,7 +1421,7 @@ describe('FieldBlock', () => {
       render(
         <FieldBlock fieldState="pending">
           <MockComponent />
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const element = document.querySelector('.dnb-forms-submit-indicator')
@@ -1428,18 +1432,18 @@ describe('FieldBlock', () => {
       render(
         <FieldBlock fieldState="pending">
           <FieldBlock fieldState="pending">content</FieldBlock>
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const elements = document.querySelectorAll(
-        '.dnb-forms-submit-indicator'
+        '.dnb-forms-submit-indicator',
       )
       expect(elements).toHaveLength(2)
       expect(elements[0]).toHaveClass(
-        'dnb-forms-submit-indicator--state-pending'
+        'dnb-forms-submit-indicator--state-pending',
       )
       expect(elements[1]).toHaveClass(
-        'dnb-forms-submit-indicator--state-pending'
+        'dnb-forms-submit-indicator--state-pending',
       )
     })
 
@@ -1463,20 +1467,20 @@ describe('FieldBlock', () => {
       render(
         <FieldBlock>
           <MockComponent />
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const elements = document.querySelectorAll(
-        '.dnb-forms-submit-indicator'
+        '.dnb-forms-submit-indicator',
       )
       expect(elements).toHaveLength(2)
 
       await waitFor(() => {
         expect(elements[0].className).not.toContain(
-          'dnb-forms-submit-indicator--state-'
+          'dnb-forms-submit-indicator--state-',
         )
         expect(elements[1].className).not.toContain(
-          'dnb-forms-submit-indicator--state-'
+          'dnb-forms-submit-indicator--state-',
         )
       })
 
@@ -1486,20 +1490,20 @@ describe('FieldBlock', () => {
       })
 
       expect(elements[0]).toHaveClass(
-        'dnb-forms-submit-indicator--state-pending'
+        'dnb-forms-submit-indicator--state-pending',
       )
       expect(elements[1]).toHaveClass(
-        'dnb-forms-submit-indicator--state-pending'
+        'dnb-forms-submit-indicator--state-pending',
       )
 
       await waitFor(() => {
         expect(elements[0]).toHaveClass(
-          'dnb-forms-submit-indicator--state-complete'
+          'dnb-forms-submit-indicator--state-complete',
         )
       })
       await waitFor(() => {
         expect(elements[1]).toHaveClass(
-          'dnb-forms-submit-indicator--state-complete'
+          'dnb-forms-submit-indicator--state-complete',
         )
       })
     })
@@ -1517,7 +1521,7 @@ describe('FieldBlock', () => {
           }}
         >
           <MockComponent />
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const element = document.querySelector('.dnb-help-button__content')
@@ -1535,7 +1539,7 @@ describe('FieldBlock', () => {
           }}
         >
           <MockComponent />
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       fireEvent.click(document.querySelector('button'))
@@ -1543,7 +1547,7 @@ describe('FieldBlock', () => {
       const element = document.querySelector('.dnb-help-button__content')
       expect(element).toBeInTheDocument()
       expect(
-        document.querySelector('.dnb-help-button__content')
+        document.querySelector('.dnb-help-button__content'),
       ).toHaveTextContent('Help title Help content')
     })
 
@@ -1557,7 +1561,7 @@ describe('FieldBlock', () => {
           }}
         >
           <MockComponent />
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       fireEvent.click(document.querySelector('button'))
@@ -1566,7 +1570,7 @@ describe('FieldBlock', () => {
         const element = document.querySelector('.dnb-help-button__content')
         expect(element).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-help-button__content')
+          document.querySelector('.dnb-help-button__content'),
         ).toHaveTextContent('Help title Help content')
       }
 
@@ -1588,21 +1592,21 @@ describe('FieldBlock', () => {
           }}
         >
           <MockComponent />
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       {
         const element = document.querySelector('.dnb-help-button__content')
         expect(element).toBeInTheDocument()
         expect(document.querySelector('button').getAttribute('id')).toBe(
-          'unique-help'
+          'unique-help',
         )
       }
       {
         const element = document.querySelector('.dnb-help-button__content')
         expect(element).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-section').getAttribute('id')
+          document.querySelector('.dnb-section').getAttribute('id'),
         ).toBe('unique-help-content')
       }
     })
@@ -1619,13 +1623,13 @@ describe('FieldBlock', () => {
           }}
         >
           <MockComponent />
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const element = document.querySelector('.dnb-help-button__content')
       expect(element).toBeInTheDocument()
       expect(
-        document.querySelector('button').getAttribute('aria-controls')
+        document.querySelector('button').getAttribute('aria-controls'),
       ).toBe('unique-help-content')
     })
 
@@ -1639,7 +1643,7 @@ describe('FieldBlock', () => {
             }}
           >
             <MockComponent />
-          </FieldBlock>
+          </FieldBlock>,
         )
 
         await userEvent.click(document.querySelector('button'))
@@ -1659,7 +1663,7 @@ describe('FieldBlock', () => {
             }}
           >
             <MockComponent />
-          </FieldBlock>
+          </FieldBlock>,
         )
 
         await userEvent.click(document.querySelector('button'))
@@ -1680,7 +1684,7 @@ describe('FieldBlock', () => {
             }}
           >
             <MockComponent />
-          </FieldBlock>
+          </FieldBlock>,
         )
 
         await userEvent.click(document.querySelector('button'))
@@ -1698,7 +1702,7 @@ describe('FieldBlock', () => {
         <FieldBlock label="Legend" asFieldset>
           <MockComponent label="Label" id="input-1" />
           <MockComponent label="Label" id="input-2" />
-        </FieldBlock>
+        </FieldBlock>,
       )
       expect(await axeComponent(Comp)).toHaveNoViolations()
     })
@@ -1707,7 +1711,7 @@ describe('FieldBlock', () => {
       const Comp = render(
         <FieldBlock label="Legend">
           <MockComponent label="Label" id="input-1" />
-        </FieldBlock>
+        </FieldBlock>,
       )
       expect(await axeComponent(Comp)).toHaveNoViolations()
     })

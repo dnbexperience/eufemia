@@ -44,7 +44,7 @@ function GridContainer(props: GridContainerAllProps) {
     if (styleObj[prop] === 'unset') {
       const disableClass = `${n}__disabled--${prop.replace(
         /--([a-z]+)-.*/,
-        '$1'
+        '$1',
       )}`
       unsetClasses.push(disableClass)
     }
@@ -56,7 +56,7 @@ function GridContainer(props: GridContainerAllProps) {
     columnGap &&
       `${n}--column-gap-${columnGap === true ? 'small' : columnGap}`,
     rowGap && `${n}--row-gap-${rowGap === true ? 'small' : rowGap}`,
-    unsetClasses
+    unsetClasses,
   )
 
   return (

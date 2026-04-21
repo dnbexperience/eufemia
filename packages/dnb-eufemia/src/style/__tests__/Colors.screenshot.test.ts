@@ -23,5 +23,5 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  }
+  },
 )

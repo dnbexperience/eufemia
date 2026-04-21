@@ -15,7 +15,7 @@ describe('Selection', () => {
       <Field.Selection value="bar">
         <Field.Option value="foo">Foo</Field.Option>
         <Field.Option value="bar">Bar</Field.Option>
-      </Field.Selection>
+      </Field.Selection>,
     )
     expect(screen.queryAllByRole('combobox').length).toEqual(1)
     expect(screen.getByText('Bar')).toBeInTheDocument()
@@ -28,10 +28,10 @@ describe('Selection', () => {
       <Field.Selection value="bar">
         <Field.Option value="foo" title="Foo!" text="Text" />
         <Field.Option value="bar" title="Bar!" text="Text" />
-      </Field.Selection>
+      </Field.Selection>,
     )
     expect(
-      document.querySelector('.dnb-dropdown__text__inner')
+      document.querySelector('.dnb-dropdown__text__inner'),
     ).toHaveTextContent('Bar! Text')
   })
 
@@ -44,10 +44,10 @@ describe('Selection', () => {
         >
           <Field.Option value="foo" title="Foo!" text="Text" />
           <Field.Option value="bar" title="Bar!" text="Text" />
-        </Field.Selection>
+        </Field.Selection>,
       )
       expect(
-        document.querySelector('.dnb-dropdown__text__inner').textContent
+        document.querySelector('.dnb-dropdown__text__inner').textContent,
       ).toBe('Bar!')
     })
 
@@ -63,10 +63,10 @@ describe('Selection', () => {
           <Field.Option value="bar" text="Text">
             Bar!
           </Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
       expect(
-        document.querySelector('.dnb-dropdown__text__inner').textContent
+        document.querySelector('.dnb-dropdown__text__inner').textContent,
       ).toBe('Bar!')
     })
 
@@ -97,10 +97,10 @@ describe('Selection', () => {
             <Field.Option value="foo" title="Foo" text="Text" />
             <Field.Option value="bar" title="Bar" text="Text" />
           </Field.Selection>
-        </Form.Handler>
+        </Form.Handler>,
       )
       expect(
-        document.querySelector('.dnb-dropdown__text__inner').textContent
+        document.querySelector('.dnb-dropdown__text__inner').textContent,
       ).toBe('Bar!')
     })
   })
@@ -111,7 +111,7 @@ describe('Selection', () => {
         <Field.Option value="10" title="Ten" />
         <Field.Option value="20" title="Twenty" />
         <Field.Option value="30" title="Thirty" />
-      </Field.Selection>
+      </Field.Selection>,
     )
     expect(screen.getByText('Twenty')).toBeInTheDocument()
     expect(screen.queryByText('Ten')).not.toBeInTheDocument()
@@ -123,7 +123,7 @@ describe('Selection', () => {
       <Field.Selection value="bar">
         <Field.Option value="foo">Foo</Field.Option>
         <Field.Option value="bar">Bar</Field.Option>
-      </Field.Selection>
+      </Field.Selection>,
     )
 
     const btn1 = screen.getByRole('combobox')
@@ -135,7 +135,7 @@ describe('Selection', () => {
       <Field.Selection value="foo">
         <Field.Option value="foo">Foo</Field.Option>
         <Field.Option value="bar">Bar</Field.Option>
-      </Field.Selection>
+      </Field.Selection>,
     )
 
     // The selected button should now show the other option based on the value-prop change
@@ -151,7 +151,7 @@ describe('Selection', () => {
         <Field.Option value="two">Two</Field.Option>
         <Field.Option value="three">Three o'clock</Field.Option>
         <Field.Option value="four">Four o'clock rock</Field.Option>
-      </Field.Selection>
+      </Field.Selection>,
     )
 
     const selectionButton = screen.getByRole('combobox')
@@ -169,7 +169,7 @@ describe('Selection', () => {
       <Field.Selection placeholder="Select something">
         <Field.Option value="foo">Foo</Field.Option>
         <Field.Option value="bar">Bar</Field.Option>
-      </Field.Selection>
+      </Field.Selection>,
     )
     // getByText instead of getByPlaceholderText since eufemia adds placeholder as tag, not placeholder-attribute
     expect(screen.getByText('Select something')).toBeInTheDocument()
@@ -202,14 +202,14 @@ describe('Selection', () => {
             })
           }}
         </Field.Selection>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     await userEvent.click(screen.getByRole('combobox'))
 
     await waitFor(() => {
       const options = Array.from(
-        document.querySelectorAll('[role="option"]')
+        document.querySelectorAll('[role="option"]'),
       )
 
       expect(options).toHaveLength(2)
@@ -230,14 +230,14 @@ describe('variants', () => {
       render(
         <Field.Selection value="bar" size="large" variant="radio">
           <Field.Option value="bar" title="Bar!" text="Text" />
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const fieldRadioElement: HTMLInputElement = document.querySelector(
-        '.dnb-forms-field-selection__variant--radio'
+        '.dnb-forms-field-selection__variant--radio',
       )
       expect(fieldRadioElement.classList).toContain(
-        'dnb-forms-field-block--label-height-large'
+        'dnb-forms-field-block--label-height-large',
       )
 
       const radioElement: HTMLInputElement =
@@ -252,7 +252,7 @@ describe('variants', () => {
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const radioButtons = screen.queryAllByRole('radio')
@@ -279,7 +279,7 @@ describe('variants', () => {
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(radioButtons[0]).not.toBeChecked()
@@ -291,7 +291,7 @@ describe('variants', () => {
         <Field.Selection variant="radio" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
       const radioButtons = screen.queryAllByRole('radio')
       expect(radioButtons.length).toEqual(2)
@@ -308,7 +308,7 @@ describe('variants', () => {
           <Field.Option value="bar" title="title b">
             child b
           </Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const options = document.querySelectorAll('.dnb-radio')
@@ -387,7 +387,7 @@ describe('variants', () => {
               })
             }}
           </Field.Selection>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const options = Array.from(document.querySelectorAll('.dnb-radio'))
@@ -417,19 +417,19 @@ describe('variants', () => {
           >
             Bar
           </Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(2)
       const [first, second] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
       expect(first).toHaveAttribute(
         'aria-describedby',
-        expect.stringContaining('-suffix')
+        expect.stringContaining('-suffix'),
       )
       expect(second).toHaveAttribute(
         'aria-describedby',
-        expect.stringContaining('-suffix')
+        expect.stringContaining('-suffix'),
       )
     })
 
@@ -438,7 +438,7 @@ describe('variants', () => {
         <Field.Selection variant="radio" disabled>
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
       const radioButtons = screen.queryAllByRole('radio')
       expect(radioButtons[0]).toBeDisabled()
@@ -454,11 +454,11 @@ describe('variants', () => {
               <Field.Option value="option2">Option 2</Field.Option>
             </div>
           </div>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const [option1, option2] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       expect(option1).toBeInTheDocument()
@@ -473,11 +473,11 @@ describe('variants', () => {
           <Form.Visibility visible>
             <Field.Option value="option2">Option 2</Field.Option>
           </Form.Visibility>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const [option1, option2, option3] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       expect(option1).toHaveAttribute('type', 'radio')
@@ -490,13 +490,13 @@ describe('variants', () => {
         <Field.Selection variant="radio" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
       rerender(
         <Field.Selection variant="radio" value="foo">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const radioButtons = screen.queryAllByRole('radio')
@@ -530,7 +530,7 @@ describe('variants', () => {
             dataPath="/myList"
             onChange={onChange}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const options = Array.from(document.querySelectorAll('.dnb-radio'))
@@ -571,7 +571,7 @@ describe('variants', () => {
           >
             <Field.Option value="baz">Baz!</Field.Option>
           </Field.Selection>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const options = Array.from(document.querySelectorAll('.dnb-radio'))
@@ -585,31 +585,31 @@ describe('variants', () => {
 
       expect(option1.querySelector('input')).toHaveAttribute(
         'aria-checked',
-        'false'
+        'false',
       )
       expect(option2.querySelector('input')).toHaveAttribute(
         'aria-checked',
-        'true'
+        'true',
       )
       expect(option3.querySelector('input')).toHaveAttribute(
         'aria-checked',
-        'false'
+        'false',
       )
 
       expect(option1.querySelector('input').id).toBe(
-        option1.querySelector('label').getAttribute('for')
+        option1.querySelector('label').getAttribute('for'),
       )
       expect(option2.querySelector('input').id).toBe(
-        option2.querySelector('label').getAttribute('for')
+        option2.querySelector('label').getAttribute('for'),
       )
       expect(option3.querySelector('input').id).toBe(
-        option3.querySelector('label').getAttribute('for')
+        option3.querySelector('label').getAttribute('for'),
       )
       expect(option1.querySelector('input').id).not.toBe(
-        option2.querySelector('label').getAttribute('for')
+        option2.querySelector('label').getAttribute('for'),
       )
       expect(option1.querySelector('input').id).not.toBe(
-        option3.querySelector('label').getAttribute('for')
+        option3.querySelector('label').getAttribute('for'),
       )
     })
 
@@ -631,15 +631,15 @@ describe('variants', () => {
           >
             <Field.Option value="baz">Baz!</Field.Option>
           </Field.Selection>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('.dnb-dropdown__text__inner')
+        document.querySelector('.dnb-dropdown__text__inner'),
       ).toHaveTextContent('Bar! Text')
 
       await userEvent.click(
-        document.querySelector('.dnb-dropdown__trigger')
+        document.querySelector('.dnb-dropdown__trigger'),
       )
 
       await waitFor(() => {
@@ -655,7 +655,7 @@ describe('variants', () => {
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
           <Field.Option value="baz">Baz</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const radioButtons = screen.queryAllByRole('radio')
@@ -703,7 +703,7 @@ describe('variants', () => {
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
           <Field.Option value="baz">Baz</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const radioButtons = screen.queryAllByRole('radio')
@@ -726,7 +726,7 @@ describe('variants', () => {
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
           <Field.Option value="baz">Baz</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const radioButtons = screen.queryAllByRole('radio')
@@ -773,7 +773,7 @@ describe('variants', () => {
               return null
             }}
           </DataContext.Consumer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
@@ -800,7 +800,7 @@ describe('variants', () => {
           <Field.Option value="foo" style={{ color: 'red' }}>
             Foo
           </Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const option = document.querySelector('[role="radio"]')
@@ -818,7 +818,7 @@ describe('variants', () => {
               style: { color: 'red' },
             },
           ]}
-        />
+        />,
       )
 
       const option = document.querySelector('[role="radio"]')
@@ -836,7 +836,7 @@ describe('variants', () => {
           >
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
-          </Field.Selection>
+          </Field.Selection>,
         )
 
         expect(await axeComponent(result)).toHaveNoViolations()
@@ -847,11 +847,11 @@ describe('variants', () => {
           <Field.Selection variant="radio" value="bar" required>
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
-          </Field.Selection>
+          </Field.Selection>,
         )
 
         const [first, second] = Array.from(
-          document.querySelectorAll('input')
+          document.querySelectorAll('input'),
         )
         expect(first).toHaveAttribute('aria-required', 'true')
         expect(second).toHaveAttribute('aria-required', 'true')
@@ -862,11 +862,11 @@ describe('variants', () => {
           <Field.Selection variant="radio" required validateInitially>
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
-          </Field.Selection>
+          </Field.Selection>,
         )
 
         const [first, second] = Array.from(
-          document.querySelectorAll('input')
+          document.querySelectorAll('input'),
         )
         expect(first).toHaveAttribute('aria-invalid', 'true')
         expect(second).toHaveAttribute('aria-invalid', 'true')
@@ -878,7 +878,7 @@ describe('variants', () => {
         <Field.Selection variant="radio" label="Legend">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const fieldset = document.querySelector('fieldset')
@@ -893,7 +893,7 @@ describe('variants', () => {
       render(
         <Field.Selection variant="radio" label="Legend">
           <Field.Option value="foo">Foo</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const fieldset = document.querySelector('fieldset')
@@ -910,7 +910,7 @@ describe('variants', () => {
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
           <Field.Option value="baz">Baz</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const fieldset = document.querySelector('fieldset')
@@ -926,7 +926,7 @@ describe('variants', () => {
         <Field.Selection variant="radio" label="Legend">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
       expect(await axeComponent(Comp)).toHaveNoViolations()
     })
@@ -935,7 +935,7 @@ describe('variants', () => {
       const Comp = render(
         <Field.Selection variant="radio" label="Legend">
           <Field.Option value="foo">Foo</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
       expect(await axeComponent(Comp)).toHaveNoViolations()
     })
@@ -959,7 +959,7 @@ describe('variants', () => {
               </div>
             )
           }}
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const fieldset = document.querySelector('fieldset')
@@ -977,18 +977,18 @@ describe('variants', () => {
       render(
         <Field.Selection value="bar" size="large" variant="button">
           <Field.Option value="bar" title="Bar!" text="Text" />
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const fieldButtonElement: HTMLInputElement = document.querySelector(
-        '.dnb-forms-field-selection__variant--button'
+        '.dnb-forms-field-selection__variant--button',
       )
       expect(fieldButtonElement.classList).toContain(
-        'dnb-forms-field-block--label-height-large'
+        'dnb-forms-field-block--label-height-large',
       )
 
       const buttonElement: HTMLInputElement = document.querySelector(
-        '.dnb-toggle-button__button'
+        '.dnb-toggle-button__button',
       )
       expect(buttonElement.classList).toContain('dnb-button--size-large')
     })
@@ -998,7 +998,7 @@ describe('variants', () => {
         <Field.Selection variant="button">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const buttons = document.querySelectorAll('button')
@@ -1012,19 +1012,19 @@ describe('variants', () => {
         <Field.Selection variant="button" label="Legend">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       // Check that the fieldset has the group role when using multiple options
       expect(document.querySelector('fieldset')).toHaveAttribute(
         'role',
-        'group'
+        'group',
       )
 
       expect(
         document
           .querySelector('button.dnb-toggle-button__button')
-          .getAttribute('role')
+          .getAttribute('role'),
       ).toBe('radio')
     })
 
@@ -1043,19 +1043,19 @@ describe('variants', () => {
           >
             Bar
           </Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(2)
       const [first, second] = Array.from(
-        document.querySelectorAll('.dnb-toggle-button')
+        document.querySelectorAll('.dnb-toggle-button'),
       )
       expect(first.querySelector('button')).toHaveAttribute(
         'aria-describedby',
-        expect.stringContaining('-suffix')
+        expect.stringContaining('-suffix'),
       )
       expect(second.querySelector('button')).toHaveAttribute(
         'aria-describedby',
-        expect.stringContaining('-suffix')
+        expect.stringContaining('-suffix'),
       )
     })
 
@@ -1064,7 +1064,7 @@ describe('variants', () => {
         <Field.Selection variant="button" disabled>
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
       const buttons = document.querySelectorAll('button')
       expect(buttons[0]).toBeDisabled()
@@ -1076,7 +1076,7 @@ describe('variants', () => {
         <Field.Selection variant="button" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const buttons = document.querySelectorAll('button')
@@ -1094,11 +1094,11 @@ describe('variants', () => {
               <Field.Option value="option2">Option 2</Field.Option>
             </div>
           </div>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const [option1, option2] = Array.from(
-        document.querySelectorAll('button')
+        document.querySelectorAll('button'),
       )
 
       expect(option1).toBeInTheDocument()
@@ -1113,11 +1113,11 @@ describe('variants', () => {
           <Form.Visibility visible>
             <Field.Option value="option2">Option 2</Field.Option>
           </Form.Visibility>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const [option1, option2, option3] = Array.from(
-        document.querySelectorAll('button, input')
+        document.querySelectorAll('button, input'),
       )
 
       expect(option1).toHaveAttribute('type', 'button')
@@ -1130,7 +1130,7 @@ describe('variants', () => {
         <Field.Selection variant="button" label="Legend">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       expect(document.querySelectorAll('fieldset')).toHaveLength(1)
@@ -1140,7 +1140,7 @@ describe('variants', () => {
       rerender(
         <Field.Selection variant="button" label="Label">
           <Field.Option value="foo">Foo</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       expect(document.querySelectorAll('fieldset')).toHaveLength(0)
@@ -1148,7 +1148,7 @@ describe('variants', () => {
       expect(document.querySelectorAll('label')).toHaveLength(1)
       expect(document.querySelector('label')).toHaveAttribute('for')
       expect(document.querySelector('label').getAttribute('for')).toBe(
-        document.querySelector('button').getAttribute('id')
+        document.querySelector('button').getAttribute('id'),
       )
     })
 
@@ -1157,14 +1157,14 @@ describe('variants', () => {
         <Field.Selection variant="button" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       rerender(
         <Field.Selection variant="button" value="foo">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const buttons = document.querySelectorAll('button')
@@ -1198,7 +1198,7 @@ describe('variants', () => {
             dataPath="/myList"
             onChange={onChange}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const options = Array.from(document.querySelectorAll('button'))
@@ -1216,7 +1216,7 @@ describe('variants', () => {
 
       {
         const [option1, option2] = Array.from(
-          document.querySelectorAll('button')
+          document.querySelectorAll('button'),
         )
         expect(option1).toHaveAttribute('aria-checked', 'false')
         expect(option2).toHaveAttribute('aria-checked', 'true')
@@ -1245,7 +1245,7 @@ describe('variants', () => {
           <Field.Selection variant="button" dataPath="/myList">
             <Field.Option value="baz">Baz!</Field.Option>
           </Field.Selection>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const options = Array.from(document.querySelectorAll('button'))
@@ -1292,7 +1292,7 @@ describe('variants', () => {
               return null
             }}
           </DataContext.Consumer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
@@ -1320,7 +1320,7 @@ describe('variants', () => {
           <Field.Option value="foo" style={{ color: 'red' }}>
             Foo
           </Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const option = document.querySelector('button')
@@ -1338,7 +1338,7 @@ describe('variants', () => {
               style: { color: 'red' },
             },
           ]}
-        />
+        />,
       )
 
       const option = document.querySelector('button')
@@ -1356,7 +1356,7 @@ describe('variants', () => {
           >
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
-          </Field.Selection>
+          </Field.Selection>,
         )
 
         expect(await axeComponent(result)).toHaveNoViolations()
@@ -1367,11 +1367,11 @@ describe('variants', () => {
           <Field.Selection variant="button" value="bar" required>
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
-          </Field.Selection>
+          </Field.Selection>,
         )
 
         const [first, second] = Array.from(
-          document.querySelectorAll('button')
+          document.querySelectorAll('button'),
         )
         expect(first).toHaveAttribute('aria-required', 'true')
         expect(second).toHaveAttribute('aria-required', 'true')
@@ -1382,11 +1382,11 @@ describe('variants', () => {
           <Field.Selection variant="button" required validateInitially>
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
-          </Field.Selection>
+          </Field.Selection>,
         )
 
         const [first, second] = Array.from(
-          document.querySelectorAll('button')
+          document.querySelectorAll('button'),
         )
         expect(first).toHaveAttribute('aria-invalid', 'true')
         expect(second).toHaveAttribute('aria-invalid', 'true')
@@ -1398,7 +1398,7 @@ describe('variants', () => {
         <Field.Selection variant="button" label="Legend">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const fieldset = document.querySelector('fieldset')
@@ -1413,7 +1413,7 @@ describe('variants', () => {
       render(
         <Field.Selection variant="button" label="Legend">
           <Field.Option value="foo">Foo</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const fieldset = document.querySelector('fieldset')
@@ -1430,7 +1430,7 @@ describe('variants', () => {
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
           <Field.Option value="baz">Baz</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const fieldset = document.querySelector('fieldset')
@@ -1446,7 +1446,7 @@ describe('variants', () => {
         <Field.Selection variant="button" label="Legend">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
       expect(await axeComponent(Comp)).toHaveNoViolations()
     })
@@ -1455,7 +1455,7 @@ describe('variants', () => {
       const Comp = render(
         <Field.Selection variant="button" label="Legend">
           <Field.Option value="foo">Foo</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
       expect(await axeComponent(Comp)).toHaveNoViolations()
     })
@@ -1464,7 +1464,7 @@ describe('variants', () => {
   describe('dropdown', () => {
     const openDropdown = async () => {
       await userEvent.click(
-        document.querySelector('.dnb-dropdown__trigger')
+        document.querySelector('.dnb-dropdown__trigger'),
       )
     }
 
@@ -1473,15 +1473,15 @@ describe('variants', () => {
         <Field.Selection value="bar" size="large" variant="dropdown">
           <Field.Option value="foo" title="Foo!" text="Text" />
           <Field.Option value="bar" title="Bar!" text="Text" />
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const fieldDropdownElement: HTMLInputElement =
         document.querySelector(
-          '.dnb-forms-field-selection__variant--dropdown'
+          '.dnb-forms-field-selection__variant--dropdown',
         )
       expect(fieldDropdownElement.classList).toContain(
-        'dnb-forms-field-block--label-height-large'
+        'dnb-forms-field-block--label-height-large',
       )
 
       const dropdownElement: HTMLInputElement =
@@ -1494,7 +1494,7 @@ describe('variants', () => {
         <Field.Selection variant="dropdown">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       await openDropdown()
@@ -1519,7 +1519,7 @@ describe('variants', () => {
           <Field.Option value="bar" title="title b">
             child b
           </Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       await openDropdown()
@@ -1538,11 +1538,11 @@ describe('variants', () => {
         >
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
       expect(
-        document.querySelector('.dnb-dropdown__trigger')
+        document.querySelector('.dnb-dropdown__trigger'),
       ).toHaveAttribute('aria-describedby')
     })
 
@@ -1557,7 +1557,7 @@ describe('variants', () => {
           >
             <Field.Option value="foo" title="Foo!" text="Text" />
             <Field.Option value="bar" title="Bar!" text="Text" />
-          </Field.Selection>
+          </Field.Selection>,
         )
 
         const input = document.querySelector('button')
@@ -1571,11 +1571,11 @@ describe('variants', () => {
         <Field.Selection variant="dropdown" disabled>
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       expect(
-        document.querySelector('.dnb-dropdown__trigger')
+        document.querySelector('.dnb-dropdown__trigger'),
       ).toBeDisabled()
     })
 
@@ -1584,7 +1584,7 @@ describe('variants', () => {
         <Field.Selection variant="dropdown" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       await openDropdown()
@@ -1603,14 +1603,14 @@ describe('variants', () => {
         <Field.Selection variant="dropdown" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       rerender(
         <Field.Selection variant="dropdown" value="foo">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       await openDropdown()
@@ -1630,7 +1630,7 @@ describe('variants', () => {
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
           {null}
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       await openDropdown()
@@ -1642,12 +1642,12 @@ describe('variants', () => {
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
           content without a key
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       expect(document.querySelectorAll('[role="option"]')).toHaveLength(3)
       expect(
-        document.querySelectorAll('[role="option"]')[2]
+        document.querySelectorAll('[role="option"]')[2],
       ).toHaveTextContent('content without a key')
     })
 
@@ -1662,11 +1662,11 @@ describe('variants', () => {
         >
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       expect(document.querySelector('.dnb-dropdown')).toHaveClass(
-        'dnb-dropdown--vertical'
+        'dnb-dropdown--vertical',
       )
     })
 
@@ -1685,7 +1685,7 @@ describe('variants', () => {
               value: 'bar',
             },
           ]}
-        />
+        />,
       )
 
       const title = document.querySelector('.dnb-dropdown')
@@ -1694,7 +1694,7 @@ describe('variants', () => {
       await openDropdown()
 
       const options = Array.from(
-        document.querySelectorAll('[role="option"]')
+        document.querySelectorAll('[role="option"]'),
       )
       const [option1, option2] = options
 
@@ -1732,13 +1732,13 @@ describe('variants', () => {
             path="/mySelection"
             dataPath="/myList"
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       await openDropdown()
 
       const options = Array.from(
-        document.querySelectorAll('[role="option"]')
+        document.querySelectorAll('[role="option"]'),
       )
       const [option1, option2] = options
 
@@ -1773,13 +1773,13 @@ describe('variants', () => {
           <Field.Selection variant="dropdown" dataPath="/myList">
             <Field.Option value="baz">Baz!</Field.Option>
           </Field.Selection>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       await openDropdown()
 
       const options = Array.from(
-        document.querySelectorAll('[role="option"]')
+        document.querySelectorAll('[role="option"]'),
       )
 
       expect(options).toHaveLength(3)
@@ -1829,7 +1829,7 @@ describe('variants', () => {
               return null
             }}
           </DataContext.Consumer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
@@ -1861,7 +1861,7 @@ describe('variants', () => {
           <Field.Option value="foo" style={{ color: 'red' }}>
             Foo
           </Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       await openDropdown()
@@ -1881,7 +1881,7 @@ describe('variants', () => {
               style: { color: 'red' },
             },
           ]}
-        />
+        />,
       )
 
       await openDropdown()
@@ -1904,7 +1904,7 @@ describe('variants', () => {
           >
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
-          </Field.Selection>
+          </Field.Selection>,
         )
 
         await openDropdown()
@@ -1917,7 +1917,7 @@ describe('variants', () => {
           <Field.Selection variant="dropdown" value="bar" required>
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
-          </Field.Selection>
+          </Field.Selection>,
         )
 
         const button = document.querySelector('button')
@@ -1932,7 +1932,7 @@ describe('variants', () => {
           <Field.Selection variant="dropdown" required validateInitially>
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
-          </Field.Selection>
+          </Field.Selection>,
         )
 
         await openDropdown()
@@ -1947,7 +1947,7 @@ describe('variants', () => {
         <Field.Selection variant="dropdown" label="Legend">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const fieldset = document.querySelector('fieldset')
@@ -1962,7 +1962,7 @@ describe('variants', () => {
         <Field.Selection variant="dropdown" label="Legend">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
       expect(await axeComponent(Comp)).toHaveNoViolations()
     })
@@ -1978,22 +1978,22 @@ describe('variants', () => {
         <Field.Selection value="bar" size="large" variant="autocomplete">
           <Field.Option value="foo" title="Foo!" text="Text" />
           <Field.Option value="bar" title="Bar!" text="Text" />
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const fieldAutocompleteElement: HTMLInputElement =
         document.querySelector(
-          '.dnb-forms-field-selection__variant--autocomplete'
+          '.dnb-forms-field-selection__variant--autocomplete',
         )
       expect(fieldAutocompleteElement.classList).toContain(
-        'dnb-forms-field-block--label-height-large'
+        'dnb-forms-field-block--label-height-large',
       )
 
       const autocompleteElement: HTMLInputElement = document.querySelector(
-        '.dnb-autocomplete'
+        '.dnb-autocomplete',
       )
       expect(autocompleteElement.classList).toContain(
-        'dnb-autocomplete--large'
+        'dnb-autocomplete--large',
       )
     })
 
@@ -2002,11 +2002,11 @@ describe('variants', () => {
         <Field.Selection value="bar" size="large" variant="autocomplete">
           <Field.Option value="foo" title="Foo!" text="Text" />
           <Field.Option value="bar" title="Bar!" text="Text" />
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const autocompleteElement: HTMLInputElement = document.querySelector(
-        '.dnb-autocomplete input'
+        '.dnb-autocomplete input',
       )
 
       await userEvent.click(autocompleteElement)
@@ -2022,7 +2022,7 @@ describe('variants', () => {
         <Field.Selection variant="autocomplete">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       await openAutocomplete()
@@ -2046,11 +2046,11 @@ describe('variants', () => {
         >
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
       expect(document.querySelector('input')).toHaveAttribute(
-        'aria-describedby'
+        'aria-describedby',
       )
     })
 
@@ -2066,7 +2066,7 @@ describe('variants', () => {
               searchContent: ['Foo!', 'extra search value'],
             },
           ]}
-        />
+        />,
       )
 
       // Should be found when searching by extra search content
@@ -2074,10 +2074,10 @@ describe('variants', () => {
       await userEvent.type(input, 'extra search value')
       await waitFor(() => {
         expect(
-          document.querySelectorAll('li.dnb-drawer-list__option')
+          document.querySelectorAll('li.dnb-drawer-list__option'),
         ).toHaveLength(1)
         expect(
-          document.querySelector('[role="option"]')
+          document.querySelector('[role="option"]'),
         ).toHaveTextContent('Foo!')
       })
 
@@ -2101,7 +2101,7 @@ describe('variants', () => {
           >
             <Field.Option value="foo" title="Foo!" text="Text" />
             <Field.Option value="bar" title="Bar!" text="Text" />
-          </Field.Selection>
+          </Field.Selection>,
         )
 
         const input = document.querySelector('input')
@@ -2121,11 +2121,11 @@ describe('variants', () => {
           >
             <Field.Option value="foo" title="Foo!" text="Text" />
             <Field.Option value="bar" title="Bar!" text="Text" />
-          </Field.Selection>
+          </Field.Selection>,
         )
 
         expect(
-          document.querySelector('.dnb-input__clear-button')
+          document.querySelector('.dnb-input__clear-button'),
         ).toBeInTheDocument()
       })
     })
@@ -2142,7 +2142,7 @@ describe('variants', () => {
         >
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const input = document.querySelector('input')
@@ -2154,7 +2154,7 @@ describe('variants', () => {
           updateData: expect.any(Function),
           dataContext: expect.any(Object),
           value: 'foo',
-        })
+        }),
       )
 
       await userEvent.type(input, '{Backspace>3}')
@@ -2165,7 +2165,7 @@ describe('variants', () => {
           updateData: expect.any(Function),
           dataContext: expect.any(Object),
           value: undefined,
-        })
+        }),
       )
     })
 
@@ -2182,7 +2182,7 @@ describe('variants', () => {
         >
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const input = document.querySelector('input')
@@ -2194,7 +2194,7 @@ describe('variants', () => {
           updateData: expect.any(Function),
           dataContext: expect.any(Object),
           value: 'foo',
-        })
+        }),
       )
 
       await userEvent.type(input, '{Backspace>3}')
@@ -2205,7 +2205,7 @@ describe('variants', () => {
           updateData: expect.any(Function),
           dataContext: expect.any(Object),
           value: 'empty',
-        })
+        }),
       )
     })
 
@@ -2222,7 +2222,7 @@ describe('variants', () => {
         >
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const input = document.querySelector('input')
@@ -2237,20 +2237,20 @@ describe('variants', () => {
       })
 
       await userEvent.click(
-        document.querySelectorAll('[role="option"]')[0]
+        document.querySelectorAll('[role="option"]')[0],
       )
 
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange).toHaveBeenLastCalledWith('foo', expect.anything())
       expect(
-        document.querySelector('.dnb-drawer-list__option--selected')
+        document.querySelector('.dnb-drawer-list__option--selected'),
       ).not.toBeInTheDocument()
       expect(input).toHaveValue('foo')
 
       await userEvent.click(input)
 
       expect(
-        document.querySelector('.dnb-drawer-list__option--selected')
+        document.querySelector('.dnb-drawer-list__option--selected'),
       ).not.toBeInTheDocument()
       expect(input).toHaveValue('foo')
 
@@ -2287,7 +2287,7 @@ describe('variants', () => {
               mode: 'async',
               onType,
             }}
-          />
+          />,
         )
 
         const input = document.querySelector('input')
@@ -2301,7 +2301,7 @@ describe('variants', () => {
         })
 
         await userEvent.click(
-          document.querySelectorAll('[role="option"]')[0]
+          document.querySelectorAll('[role="option"]')[0],
         )
 
         await waitFor(() => {
@@ -2324,7 +2324,7 @@ describe('variants', () => {
         <Field.Selection variant="autocomplete" disabled>
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       expect(document.querySelector('input')).toBeDisabled()
@@ -2335,7 +2335,7 @@ describe('variants', () => {
         <Field.Selection variant="autocomplete" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       await openAutocomplete()
@@ -2356,14 +2356,14 @@ describe('variants', () => {
         <Field.Selection variant="autocomplete" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       rerender(
         <Field.Selection variant="autocomplete" value="foo">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       await openAutocomplete()
@@ -2385,14 +2385,14 @@ describe('variants', () => {
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
           {null}
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       await openAutocomplete()
 
       await waitFor(() => {
         expect(document.querySelectorAll('[role="option"]')).toHaveLength(
-          2
+          2,
         )
       })
 
@@ -2401,12 +2401,12 @@ describe('variants', () => {
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
           content without a key
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       expect(document.querySelectorAll('[role="option"]')).toHaveLength(3)
       expect(
-        document.querySelectorAll('[role="option"]')[2]
+        document.querySelectorAll('[role="option"]')[2],
       ).toHaveTextContent('content without a key')
     })
 
@@ -2422,12 +2422,12 @@ describe('variants', () => {
         >
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       expect(document.querySelector('button')).toHaveAttribute(
         'aria-label',
-        'Custom title'
+        'Custom title',
       )
     })
 
@@ -2446,7 +2446,7 @@ describe('variants', () => {
               value: 'bar',
             },
           ]}
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -2456,12 +2456,12 @@ describe('variants', () => {
 
       await waitFor(() => {
         expect(document.querySelectorAll('[role="option"]')).toHaveLength(
-          2
+          2,
         )
       })
 
       const options = Array.from(
-        document.querySelectorAll('[role="option"]')
+        document.querySelectorAll('[role="option"]'),
       )
       const [option1, option2] = options
 
@@ -2497,19 +2497,19 @@ describe('variants', () => {
             path="/mySelection"
             dataPath="/myList"
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       await openAutocomplete()
 
       await waitFor(() => {
         expect(document.querySelectorAll('[role="option"]')).toHaveLength(
-          2
+          2,
         )
       })
 
       const options = Array.from(
-        document.querySelectorAll('[role="option"]')
+        document.querySelectorAll('[role="option"]'),
       )
       const [option1, option2] = options
       expect(option1).toHaveTextContent('Foo!')
@@ -2541,19 +2541,19 @@ describe('variants', () => {
           <Field.Selection variant="autocomplete" dataPath="/myList">
             <Field.Option value="baz">Baz!</Field.Option>
           </Field.Selection>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       await openAutocomplete()
 
       await waitFor(() => {
         expect(document.querySelectorAll('[role="option"]')).toHaveLength(
-          3
+          3,
         )
       })
 
       const options = Array.from(
-        document.querySelectorAll('[role="option"]')
+        document.querySelectorAll('[role="option"]'),
       )
       const [option1, option2, option3] = options
 
@@ -2600,7 +2600,7 @@ describe('variants', () => {
               return null
             }}
           </DataContext.Consumer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
@@ -2632,7 +2632,7 @@ describe('variants', () => {
           <Field.Option value="foo" style={{ color: 'red' }}>
             Foo
           </Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       await openAutocomplete()
@@ -2652,7 +2652,7 @@ describe('variants', () => {
               style: { color: 'red' },
             },
           ]}
-        />
+        />,
       )
 
       await openAutocomplete()
@@ -2678,7 +2678,7 @@ describe('variants', () => {
           >
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
-          </Field.Selection>
+          </Field.Selection>,
         )
 
         expect(await axeComponent(result)).toHaveNoViolations()
@@ -2689,7 +2689,7 @@ describe('variants', () => {
           <Field.Selection variant="autocomplete" value="bar" required>
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
-          </Field.Selection>
+          </Field.Selection>,
         )
 
         const button = document.querySelector('input')
@@ -2708,7 +2708,7 @@ describe('variants', () => {
           >
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
-          </Field.Selection>
+          </Field.Selection>,
         )
 
         await openAutocomplete()
@@ -2723,7 +2723,7 @@ describe('variants', () => {
         <Field.Selection variant="autocomplete" label="Legend">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const fieldset = document.querySelector('fieldset')
@@ -2738,7 +2738,7 @@ describe('variants', () => {
         <Field.Selection variant="autocomplete" label="Legend">
           <Field.Option value="foo">Foo</Field.Option>
           <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
       expect(await axeComponent(Comp)).toHaveNoViolations()
     })
@@ -2756,7 +2756,7 @@ describe('event handlers', () => {
       >
         <Field.Option value="foo">Foo</Field.Option>
         <Field.Option value="bar">Bar</Field.Option>
-      </Field.Selection>
+      </Field.Selection>,
     )
 
     const selectionButton = screen.getByRole('combobox')
@@ -2791,7 +2791,7 @@ describe('event handlers', () => {
       >
         <Field.Option value="foo">Foo</Field.Option>
         <Field.Option value="bar">Bar</Field.Option>
-      </Field.Selection>
+      </Field.Selection>,
     )
 
     const selectionButton = screen.getByRole('combobox')
@@ -2813,7 +2813,7 @@ describe('event handlers', () => {
       >
         <Field.Option value="foo">Foo</Field.Option>
         <Field.Option value="bar">Bar</Field.Option>
-      </Field.Selection>
+      </Field.Selection>,
     )
 
     const selectionButton = screen.getByRole('combobox')
@@ -2837,7 +2837,7 @@ describe('validation and error handling', () => {
           <Field.Selection required validateInitially>
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
-          </Field.Selection>
+          </Field.Selection>,
         )
         const selectionButton = screen.getByRole('combobox')
         await userEvent.click(selectionButton)
@@ -2850,7 +2850,7 @@ describe('validation and error handling', () => {
           <Field.Selection required>
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
-          </Field.Selection>
+          </Field.Selection>,
         )
         const selectionButton = screen.getByRole('combobox')
         await userEvent.click(selectionButton)
@@ -2870,7 +2870,7 @@ describe('validation and error handling', () => {
       <Field.Selection error={new Error('This is what went wrong')}>
         <Field.Option value="foo">Foo</Field.Option>
         <Field.Option value="bar">Bar</Field.Option>
-      </Field.Selection>
+      </Field.Selection>,
     )
     const dropdown = document.querySelector('.dnb-dropdown')
     expect(dropdown.className).toContain('dnb-dropdown__status--error')
@@ -2882,7 +2882,7 @@ describe('validation and error handling', () => {
       >
         <Field.Option value="foo">Foo</Field.Option>
         <Field.Option value="bar">Bar</Field.Option>
-      </Field.Selection>
+      </Field.Selection>,
     )
 
     const radio = document.querySelector('.dnb-radio')
@@ -2895,7 +2895,7 @@ describe('validation and error handling', () => {
       >
         <Field.Option value="foo">Foo</Field.Option>
         <Field.Option value="bar">Bar</Field.Option>
-      </Field.Selection>
+      </Field.Selection>,
     )
 
     const button = document.querySelector('.dnb-toggle-button')
@@ -2912,14 +2912,14 @@ describe('validation and error handling', () => {
           Foo
         </Field.Option>
         <Field.Option value="bar">Bar</Field.Option>
-      </Field.Selection>
+      </Field.Selection>,
     )
     const [first, second] = Array.from(
-      document.querySelectorAll('.dnb-toggle-button')
+      document.querySelectorAll('.dnb-toggle-button'),
     )
     expect(first.className).toContain('dnb-toggle-button__status--error')
     expect(second.className).not.toContain(
-      'dnb-toggle-button__status--error'
+      'dnb-toggle-button__status--error',
     )
   })
 
@@ -2928,15 +2928,15 @@ describe('validation and error handling', () => {
       <Field.Selection variant="radio" validateInitially>
         <Field.Option value="first" title="First" />
         <Field.Number value={1} exclusiveMinimum={900} validateInitially />
-      </Field.Selection>
+      </Field.Selection>,
     )
 
     expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
     expect(document.querySelector('.dnb-form-status').textContent).toBe(
       nb.NumberField.errorExclusiveMinimum.replace(
         '{exclusiveMinimum}',
-        '900'
-      )
+        '900',
+      ),
     )
   })
 
@@ -2945,20 +2945,20 @@ describe('validation and error handling', () => {
       <Field.Selection variant="radio" required validateInitially>
         <Field.Option value="first" title="First" />
         <Field.Number value={1} exclusiveMinimum={900} validateInitially />
-      </Field.Selection>
+      </Field.Selection>,
     )
 
     expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)
     const [first, second] = Array.from(
-      document.querySelectorAll('.dnb-form-status')
+      document.querySelectorAll('.dnb-form-status'),
     )
 
     expect(first.textContent).toBe(nb.Field.errorRequired)
     expect(second.textContent).toBe(
       nb.NumberField.errorExclusiveMinimum.replace(
         '{exclusiveMinimum}',
-        '900'
-      )
+        '900',
+      ),
     )
   })
 })
@@ -2986,7 +2986,7 @@ describe('makeOptions', () => {
 
   it('title can be given by children', () => {
     const result = makeOptions(
-      <Field.Option value="foo">Foo</Field.Option>
+      <Field.Option value="foo">Foo</Field.Option>,
     )
 
     expect(result).toEqual([{ content: 'Foo', selectedKey: 'foo' }])
@@ -2996,7 +2996,7 @@ describe('makeOptions', () => {
     const result = makeOptions(
       <Field.Option value="foo" text="Text">
         Foo
-      </Field.Option>
+      </Field.Option>,
     )
 
     expect(result).toEqual([
@@ -3010,14 +3010,14 @@ describe('Selection width', () => {
     render(
       <Field.Selection>
         <Field.Option value="foo">Foo</Field.Option>
-      </Field.Selection>
+      </Field.Selection>,
     )
 
     const contents = document.querySelector(
-      '.dnb-forms-field-block__contents'
+      '.dnb-forms-field-block__contents',
     )
     expect(contents.classList).toContain(
-      'dnb-forms-field-block__contents--width-large'
+      'dnb-forms-field-block__contents--width-large',
     )
   })
 
@@ -3027,16 +3027,16 @@ describe('Selection width', () => {
       render(
         <Field.Selection width={width}>
           <Field.Option value="foo">Foo</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const contents = document.querySelector(
-        '.dnb-forms-field-block__contents'
+        '.dnb-forms-field-block__contents',
       )
       expect(contents.classList).toContain(
-        `dnb-forms-field-block__contents--width-${width}`
+        `dnb-forms-field-block__contents--width-${width}`,
       )
-    }
+    },
   )
 
   it.each(['small', 'medium', 'large'] as const)(
@@ -3045,16 +3045,16 @@ describe('Selection width', () => {
       render(
         <Field.Selection variant="autocomplete" width={width}>
           <Field.Option value="foo">Foo</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const contents = document.querySelector(
-        '.dnb-forms-field-block__contents'
+        '.dnb-forms-field-block__contents',
       )
       expect(contents.classList).toContain(
-        `dnb-forms-field-block__contents--width-${width}`
+        `dnb-forms-field-block__contents--width-${width}`,
       )
-    }
+    },
   )
 
   it.each(['small', 'medium', 'large'] as const)(
@@ -3063,16 +3063,16 @@ describe('Selection width', () => {
       render(
         <Field.Selection variant="radio" width={width}>
           <Field.Option value="foo">Foo</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const contents = document.querySelector(
-        '.dnb-forms-field-block__contents'
+        '.dnb-forms-field-block__contents',
       )
       expect(contents.classList).toContain(
-        `dnb-forms-field-block__contents--width-${width}`
+        `dnb-forms-field-block__contents--width-${width}`,
       )
-    }
+    },
   )
 
   it.each(['small', 'medium', 'large'] as const)(
@@ -3081,30 +3081,30 @@ describe('Selection width', () => {
       render(
         <Field.Selection variant="button" width={width}>
           <Field.Option value="foo">Foo</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const contents = document.querySelector(
-        '.dnb-forms-field-block__contents'
+        '.dnb-forms-field-block__contents',
       )
       expect(contents.classList).toContain(
-        `dnb-forms-field-block__contents--width-${width}`
+        `dnb-forms-field-block__contents--width-${width}`,
       )
-    }
+    },
   )
 
   it('should support "stretch" width', () => {
     render(
       <Field.Selection width="stretch">
         <Field.Option value="foo">Foo</Field.Option>
-      </Field.Selection>
+      </Field.Selection>,
     )
 
     const contents = document.querySelector(
-      '.dnb-forms-field-block__contents'
+      '.dnb-forms-field-block__contents',
     )
     expect(contents.classList).toContain(
-      'dnb-forms-field-block__contents--width-stretch'
+      'dnb-forms-field-block__contents--width-stretch',
     )
   })
 
@@ -3112,19 +3112,19 @@ describe('Selection width', () => {
     render(
       <Field.Selection width="4rem">
         <Field.Option value="foo">Foo</Field.Option>
-      </Field.Selection>
+      </Field.Selection>,
     )
 
     const mainElement = document.querySelector('.dnb-forms-field-block')
     const contents = mainElement.querySelector(
-      '.dnb-forms-field-block__contents'
+      '.dnb-forms-field-block__contents',
     )
 
     expect(contents.classList).toContain(
-      'dnb-forms-field-block__contents--width-custom'
+      'dnb-forms-field-block__contents--width-custom',
     )
     expect(mainElement).toHaveStyle(
-      '--dnb-forms-field-block-content-width: 4rem;'
+      '--dnb-forms-field-block-content-width: 4rem;',
     )
   })
 
@@ -3132,14 +3132,14 @@ describe('Selection width', () => {
     render(
       <Field.Selection width={false}>
         <Field.Option value="foo">Foo</Field.Option>
-      </Field.Selection>
+      </Field.Selection>,
     )
 
     const contents = document.querySelector(
-      '.dnb-forms-field-block__contents'
+      '.dnb-forms-field-block__contents',
     )
     expect(contents.className).not.toMatch(
-      /dnb-forms-field-block__contents--width/
+      /dnb-forms-field-block__contents--width/,
     )
   })
 
@@ -3162,11 +3162,11 @@ describe('Selection width', () => {
               </div>
             )
           }}
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const inputs = document.querySelectorAll(
-        '.dnb-forms-field-selection input'
+        '.dnb-forms-field-selection input',
       )
       const ids = Array.from(inputs)
         .map((el) => el.id)
@@ -3192,11 +3192,11 @@ describe('Selection width', () => {
               </div>
             )
           }}
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const inputs = document.querySelectorAll(
-        '.dnb-forms-field-selection input'
+        '.dnb-forms-field-selection input',
       )
       const ids = Array.from(inputs)
         .map((el) => el.id)

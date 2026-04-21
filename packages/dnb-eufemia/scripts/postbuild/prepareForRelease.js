@@ -36,15 +36,15 @@ export default async function prepareForRelease() {
   const prettierrc = JSON.parse(
     await fs.readFile(
       path.resolve(packpath.self(), '.prettierrc'),
-      'utf-8'
-    )
+      'utf-8',
+    ),
   )
   const formattedPackageJson = await prettier.format(
     JSON.stringify(packageJson),
     {
       ...prettierrc,
       filepath,
-    }
+    },
   )
   await fs.writeFile(dest, formattedPackageJson)
   log.info('Prepared package.json for release:', filepath, '->', dest)
@@ -55,14 +55,14 @@ export default async function prepareForRelease() {
     const releaseRcPath = path.resolve(
       packpath.self(),
       'build',
-      '.releaserc.json'
+      '.releaserc.json',
     )
     const formattedReleaseRc = await prettier.format(
       JSON.stringify(sourcePackageJson.release),
       {
         ...prettierrc,
         filepath: releaseRcPath,
-      }
+      },
     )
     await fs.writeFile(releaseRcPath, formattedReleaseRc)
     log.info('Created .releaserc.json in build directory:', releaseRcPath)

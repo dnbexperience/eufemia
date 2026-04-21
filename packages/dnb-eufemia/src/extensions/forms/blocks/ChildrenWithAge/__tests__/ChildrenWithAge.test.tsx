@@ -23,77 +23,77 @@ describe('ChildrenWithAge', () => {
         <ChildrenWithAge
           enableAdditionalQuestions={['daycare', 'joint-responsibility']}
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelector('legend')).toHaveTextContent(
-      translationsNO.ChildrenWithAge.hasChildren.fieldLabel
+      translationsNO.ChildrenWithAge.hasChildren.fieldLabel,
     )
     expect(
-      document.querySelectorAll('.dnb-forms-field-block__grid')
+      document.querySelectorAll('.dnb-forms-field-block__grid'),
     ).toHaveLength(1)
 
     await userEvent.click(document.querySelector('button'))
 
     const toggleButtons = Array.from(
-      document.querySelectorAll('.dnb-toggle-button')
+      document.querySelectorAll('.dnb-toggle-button'),
     )
 
     expect(toggleButtons.length).toBe(6)
 
     expect(
-      document.querySelectorAll('.dnb-forms-field-block__grid')
+      document.querySelectorAll('.dnb-forms-field-block__grid'),
     ).toHaveLength(5)
 
     expect(document.querySelector('input')).toHaveValue('1')
 
     expect(
-      document.querySelectorAll('.dnb-forms-field-number__input')
+      document.querySelectorAll('.dnb-forms-field-number__input'),
     ).toHaveLength(2)
 
     expect(
       screen.queryByText(
-        translationsNO.ChildrenWithAge.countChildren.fieldLabel
-      )
+        translationsNO.ChildrenWithAge.countChildren.fieldLabel,
+      ),
     ).toBeInTheDocument()
 
     expect(
       screen.queryByText(
         translations[
           'nb-NO'
-        ].ChildrenWithAge.childrenAge.fieldLabel.replace('{itemNo}', '1')
-      )
+        ].ChildrenWithAge.childrenAge.fieldLabel.replace('{itemNo}', '1'),
+      ),
     ).toBeInTheDocument()
 
     expect(
       screen.queryByText(
-        translationsNO.ChildrenWithAge.hasChildren.fieldLabel
-      )
+        translationsNO.ChildrenWithAge.hasChildren.fieldLabel,
+      ),
     ).toBeInTheDocument()
     expect(
       screen.queryAllByText(
-        translationsNO.ChildrenWithAge.usesDaycare.fieldLabel
-      )
+        translationsNO.ChildrenWithAge.usesDaycare.fieldLabel,
+      ),
     ).toHaveLength(1)
     expect(
       screen.queryByText(
-        translationsNO.ChildrenWithAge.hasJointResponsibility.fieldLabel
-      )
+        translationsNO.ChildrenWithAge.hasJointResponsibility.fieldLabel,
+      ),
     ).toBeInTheDocument()
 
     await userEvent.click(document.querySelectorAll('button')[5])
     expect(
       screen.queryByText(
-        translationsNO.ChildrenWithAge.dayCareExpenses.fieldLabel
-      )
+        translationsNO.ChildrenWithAge.dayCareExpenses.fieldLabel,
+      ),
     ).toBeInTheDocument()
 
     await userEvent.click(document.querySelectorAll('button')[7])
     expect(
       screen.queryByText(
         translationsNO.ChildrenWithAge.jointResponsibilityExpenses
-          .fieldLabel
-      )
+          .fieldLabel,
+      ),
     ).toBeInTheDocument()
   })
 
@@ -107,13 +107,13 @@ describe('ChildrenWithAge', () => {
       .closest('.dnb-forms-field-block') as HTMLElement
 
     expect(
-      within(countChildrenFieldBlock).getByTitle('Reduser (0)')
+      within(countChildrenFieldBlock).getByTitle('Reduser (0)'),
     ).toBeInTheDocument()
     expect(
-      within(countChildrenFieldBlock).getByTitle('Øk (2)')
+      within(countChildrenFieldBlock).getByTitle('Øk (2)'),
     ).toBeInTheDocument()
     expect(
-      document.querySelectorAll('.dnb-input__input')[0]
+      document.querySelectorAll('.dnb-input__input')[0],
     ).toHaveAttribute('inputmode', 'numeric')
   })
 
@@ -127,7 +127,7 @@ describe('ChildrenWithAge', () => {
       .closest('.dnb-forms-field-block') as HTMLElement
 
     const numOfChildrenInput = document.querySelectorAll(
-      '.dnb-input__input'
+      '.dnb-input__input',
     )[0]
 
     fireEvent.change(numOfChildrenInput, {
@@ -138,10 +138,10 @@ describe('ChildrenWithAge', () => {
     expect(numOfChildrenInput).toHaveValue('9')
 
     expect(
-      within(countChildrenFieldBlock).getByTitle('Øk (10)')
+      within(countChildrenFieldBlock).getByTitle('Øk (10)'),
     ).toBeInTheDocument()
     expect(
-      within(countChildrenFieldBlock).getByTitle('Øk (10)')
+      within(countChildrenFieldBlock).getByTitle('Øk (10)'),
     ).toHaveProperty('disabled')
   })
 
@@ -151,7 +151,7 @@ describe('ChildrenWithAge', () => {
     await userEvent.click(document.querySelector('button'))
 
     const numOfChildrenInput = document.querySelectorAll(
-      '.dnb-input__input'
+      '.dnb-input__input',
     )[0]
 
     fireEvent.change(numOfChildrenInput, {
@@ -165,12 +165,12 @@ describe('ChildrenWithAge', () => {
 
     const expectedText = nbNO['nb-NO'].NumberField.errorMaximum.replace(
       '{maximum}',
-      String(formatNumber(9, { locale: 'nb-NO' }))
+      String(formatNumber(9, { locale: 'nb-NO' })),
     )
     // Use regex to handle both regular and non-breaking spaces
     const expectedRegex = expectedText.replace(/\s/g, '\\s')
     expect(screen.getByRole('alert').textContent).toMatch(
-      new RegExp(expectedRegex)
+      new RegExp(expectedRegex),
     )
   })
 
@@ -184,17 +184,17 @@ describe('ChildrenWithAge', () => {
       .queryByText(
         translationsNO.ChildrenWithAge.childrenAge.fieldLabel.replace(
           '{itemNo}',
-          '1'
-        )
+          '1',
+        ),
       )
       .closest('.dnb-forms-field-block') as HTMLElement
 
     expect(
-      within(childrenAgeFieldBlock).queryByRole('Reduser')
+      within(childrenAgeFieldBlock).queryByRole('Reduser'),
     ).not.toBeInTheDocument()
 
     expect(
-      document.querySelectorAll('.dnb-input__input')[1]
+      document.querySelectorAll('.dnb-input__input')[1],
     ).toHaveAttribute('inputmode', 'numeric')
   })
 
@@ -219,12 +219,12 @@ describe('ChildrenWithAge', () => {
 
     const expectedText = nbNO['nb-NO'].NumberField.errorMaximum.replace(
       '{maximum}',
-      String(formatNumber(17, { locale: 'nb-NO' }))
+      String(formatNumber(17, { locale: 'nb-NO' })),
     )
     // Use regex to handle both regular and non-breaking spaces
     const expectedRegex = expectedText.replace(/\s/g, '\\s')
     expect(screen.getByRole('alert').textContent).toMatch(
-      new RegExp(expectedRegex)
+      new RegExp(expectedRegex),
     )
   })
 
@@ -254,7 +254,7 @@ describe('ChildrenWithAge', () => {
     render(
       <ChildrenWithAge
         enableAdditionalQuestions={['joint-responsibility']}
-      />
+      />,
     )
 
     await userEvent.click(document.querySelectorAll('button')[0])
@@ -267,12 +267,12 @@ describe('ChildrenWithAge', () => {
 
     const expectedText = nbNO['nb-NO'].NumberField.errorMaximum.replace(
       '{maximum}',
-      String(formatNumber(1000000, { locale: 'nb-NO' }))
+      String(formatNumber(1000000, { locale: 'nb-NO' })),
     )
     // Use regex to handle both regular and non-breaking spaces
     const expectedRegex = expectedText.replace(/\s/g, '\\s')
     expect(screen.getByRole('alert').textContent).toMatch(
-      new RegExp(expectedRegex)
+      new RegExp(expectedRegex),
     )
   })
 
@@ -289,12 +289,12 @@ describe('ChildrenWithAge', () => {
 
     const expectedText = nbNO['nb-NO'].NumberField.errorMaximum.replace(
       '{maximum}',
-      String(formatNumber(1000000, { locale: 'nb-NO' }))
+      String(formatNumber(1000000, { locale: 'nb-NO' })),
     )
     // Use regex to handle both regular and non-breaking spaces
     const expectedRegex = expectedText.replace(/\s/g, '\\s')
     expect(screen.getByRole('alert').textContent).toMatch(
-      new RegExp(expectedRegex)
+      new RegExp(expectedRegex),
     )
   })
 
@@ -303,11 +303,11 @@ describe('ChildrenWithAge', () => {
       <Form.Handler>
         <ChildrenWithAge />
         <ChildrenWithAge mode="summary" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [yesButton, noButton] = Array.from(
-      document.querySelectorAll('button')
+      document.querySelectorAll('button'),
     )
 
     await userEvent.click(noButton)
@@ -358,14 +358,14 @@ describe('ChildrenWithAge', () => {
     render(
       <Form.Handler translations={myTranslations} locale="en-GB">
         <ChildrenWithAge />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelector('.dnb-p')).toHaveTextContent(
-      'Custom title'
+      'Custom title',
     )
     expect(document.querySelector('legend')).toHaveTextContent(
-      translations['en-GB'].ChildrenWithAge.hasChildren.fieldLabel
+      translations['en-GB'].ChildrenWithAge.hasChildren.fieldLabel,
     )
   })
 
@@ -373,11 +373,11 @@ describe('ChildrenWithAge', () => {
     render(
       <Form.Handler locale="non-existent">
         <ChildrenWithAge />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelector('.dnb-p')).toHaveTextContent(
-      translations['nb-NO'].ChildrenWithAge.hasChildren.title
+      translations['nb-NO'].ChildrenWithAge.hasChildren.title,
     )
   })
 
@@ -391,22 +391,22 @@ describe('ChildrenWithAge', () => {
     render(
       <Form.Handler locale="nn-NO" translations={translations}>
         <ChildrenWithAge />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelector('.dnb-p')).toHaveTextContent(
-      'ChildrenWithAge.hasChildren.title'
+      'ChildrenWithAge.hasChildren.title',
     )
     expect(document.querySelector('legend')).toHaveTextContent(
-      'ChildrenWithAge.hasChildren.fieldLabel'
+      'ChildrenWithAge.hasChildren.fieldLabel',
     )
 
     // Should have warned about missing translations
     expect(consoleSpy).toHaveBeenCalledWith(
       expect.any(String), // Eufemia styling prefix
       expect.stringContaining(
-        'Form.useTranslation: No translations found for locale "nn-NO"!'
-      )
+        'Form.useTranslation: No translations found for locale "nn-NO"!',
+      ),
     )
 
     consoleSpy.mockRestore()
@@ -434,7 +434,7 @@ describe('ChildrenWithAge', () => {
         <Tools.ListAllProps generateRef={generateRef}>
           <ChildrenWithAge />
         </Tools.ListAllProps>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const { propsOfFields } = generateRef.current()
@@ -465,7 +465,7 @@ describe('ChildrenWithAge', () => {
         <Tools.ListAllProps generateRef={generateRef}>
           <ChildrenWithAge mode="summary" />
         </Tools.ListAllProps>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const { propsOfValues } = generateRef.current()
@@ -503,7 +503,7 @@ describe('ChildrenWithAge', () => {
         >
           <ChildrenWithAge />
         </Form.Handler>
-      </React.StrictMode>
+      </React.StrictMode>,
     )
 
     const [, noButton] = Array.from(document.querySelectorAll('button'))

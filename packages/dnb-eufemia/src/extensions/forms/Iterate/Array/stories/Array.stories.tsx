@@ -140,7 +140,7 @@ export const DependentSchemaValidationWithZod = () => {
                 message: 'Field.errorRequired',
               })
             }
-          }
+          },
         )
       }
 

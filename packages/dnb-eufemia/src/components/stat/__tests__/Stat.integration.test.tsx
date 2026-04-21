@@ -26,7 +26,7 @@ describe('Stat integration', () => {
           <Stat.Trend srLabel="Change">+12.4%</Stat.Trend>
           <Stat.Info>Some additional information.</Stat.Info>
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const root = document.querySelector('.dnb-stat__root')
@@ -49,7 +49,7 @@ describe('Stat integration', () => {
           <Stat.Trend srLabel="Change">+12.4%</Stat.Trend>
           <Stat.Info>Additional info</Stat.Info>
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const amount = document.querySelector('.dnb-stat__amount')
@@ -75,12 +75,12 @@ describe('Stat integration', () => {
           <Stat.Trend>+5%</Stat.Trend>
           <Stat.Info>Info text</Stat.Info>
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const label = document.querySelector('.dnb-stat__label')
     const currencyRoot = document.querySelector(
-      '.dnb-stat__content-item > .dnb-stat'
+      '.dnb-stat__content-item > .dnb-stat',
     )
     const trend = document.querySelector('.dnb-stat__trend')
     const info = document.querySelector('.dnb-stat__info')
@@ -98,7 +98,7 @@ describe('Stat integration', () => {
         <Stat.Content>
           <Stat.Rating value={4} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const rating = document.querySelector('.dnb-stat__rating')
@@ -115,7 +115,7 @@ describe('Stat integration', () => {
         <Stat.Content>
           <Stat.Rating variant="progressive" value={5} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const rating = document.querySelector('.dnb-stat__rating')
@@ -134,13 +134,13 @@ describe('Stat integration', () => {
         <Stat.Content>
           <Stat.Currency value={1234} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const label = document.querySelector('.dnb-stat__label')
     const info = document.querySelector('.dnb-stat__info')
     const currency = document.querySelector(
-      '.dnb-stat__content-item > .dnb-stat'
+      '.dnb-stat__content-item > .dnb-stat',
     )
 
     expect(label.classList).toContain('dnb-skeleton')
@@ -159,13 +159,13 @@ describe('Stat integration', () => {
             <Stat.Currency value={12345.67} />
           </Stat.Content>
         </Stat.Root>
-      </Provider>
+      </Provider>,
     )
 
     const amount = document.querySelector('.dnb-stat__amount')
     const currency = document.querySelector('.dnb-stat__currency')
     const currencyRoot = document.querySelector(
-      '.dnb-stat__content-item > .dnb-stat'
+      '.dnb-stat__content-item > .dnb-stat',
     )
 
     expect(amount.textContent).toBe('12,346')
@@ -185,7 +185,7 @@ describe('Stat integration', () => {
         <Stat.Content>
           <Stat.Currency value={29186} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const labels = document.querySelectorAll('.dnb-stat__label')
@@ -205,7 +205,7 @@ describe('Stat integration', () => {
           <Stat.Currency value={1234} srLabel="Total:" />
           <Stat.Trend srLabel="Change:">+12.4%</Stat.Trend>
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const srElements = document.querySelectorAll('.dnb-sr-only')
@@ -224,7 +224,7 @@ describe('Stat integration', () => {
         <Stat.Content direction="vertical">
           <Stat.Currency value={1234} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const root = document.querySelector('.dnb-stat__root')
@@ -251,7 +251,7 @@ describe('Stat integration', () => {
             />
           </Stat.Trend>
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const trend = document.querySelector('.dnb-stat__trend')
@@ -276,7 +276,7 @@ describe('Stat integration', () => {
             (<Stat.Percent value={16.79} decimals={2} srLabel="Change" />)
           </Stat.Info>
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const info = document.querySelector('.dnb-stat__info')
@@ -303,7 +303,7 @@ describe('Stat integration', () => {
             <Stat.Info>(some info)</Stat.Info>
           </Stat.Inline>
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const inline = document.querySelector('.dnb-stat__inline')
@@ -322,7 +322,7 @@ describe('Stat integration', () => {
         <Stat.Content>
           <Stat.Rating value={4} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const rating = document.querySelector('.dnb-stat__rating')
@@ -344,12 +344,12 @@ describe('Stat integration', () => {
             <Stat.Currency value={1234} />
           </Stat.Content>
         </Stat.Root>
-      </Provider>
+      </Provider>,
     )
 
     const label = document.querySelector('.dnb-stat__label')
     const currencyRoot = document.querySelector(
-      '.dnb-stat__content-item > .dnb-stat'
+      '.dnb-stat__content-item > .dnb-stat',
     )
 
     expect(label.classList).toContain('dnb-skeleton')
@@ -372,7 +372,7 @@ describe('Stat integration', () => {
             <Stat.Info>(additional info)</Stat.Info>
           </Stat.Inline>
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     expect(await axeComponent(component)).toHaveNoViolations()
@@ -393,7 +393,7 @@ describe('Stat integration', () => {
         <Stat.Content>
           <Stat.Rating value={3.5} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     expect(await axeComponent(component)).toHaveNoViolations()
@@ -409,11 +409,11 @@ describe('Stat integration', () => {
         <Stat.Content>
           <Stat.Currency {...props} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const currencyRoot = document.querySelector(
-      '.dnb-stat__content-item > .dnb-stat'
+      '.dnb-stat__content-item > .dnb-stat',
     )
     fireEvent.click(currencyRoot)
 
@@ -430,7 +430,7 @@ describe('Stat integration', () => {
         <Stat.Content>
           <Stat.Trend {...props} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const trend = document.querySelector('.dnb-stat__trend')
@@ -446,7 +446,7 @@ describe('Stat integration', () => {
         <Stat.Content element="div">
           <Stat.Currency value={1234} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const label = document.querySelector('.dnb-stat__label')
@@ -490,7 +490,7 @@ describe('Stat integration', () => {
 
   it('should validate standalone Currency with ARIA rules', async () => {
     const component = render(
-      <Stat.Currency value={1234} srLabel="Revenue" />
+      <Stat.Currency value={1234} srLabel="Revenue" />,
     )
 
     expect(await axeComponent(component)).toHaveNoViolations()
@@ -498,7 +498,7 @@ describe('Stat integration', () => {
 
   it('should validate standalone Percent with ARIA rules', async () => {
     const component = render(
-      <Stat.Percent value={42.5} srLabel="Change" />
+      <Stat.Percent value={42.5} srLabel="Change" />,
     )
 
     expect(await axeComponent(component)).toHaveNoViolations()
@@ -512,7 +512,7 @@ describe('Stat integration', () => {
 
   it('should validate standalone Trend with ARIA rules', async () => {
     const component = render(
-      <Stat.Trend srLabel="Change">+5.2%</Stat.Trend>
+      <Stat.Trend srLabel="Change">+5.2%</Stat.Trend>,
     )
 
     expect(await axeComponent(component)).toHaveNoViolations()
@@ -536,7 +536,7 @@ describe('Stat integration', () => {
     render(
       <Stat.Content skeleton>
         <IconPrimary icon="arrow_up" />
-      </Stat.Content>
+      </Stat.Content>,
     )
 
     const icon = document.querySelector('.dnb-icon')
@@ -553,7 +553,7 @@ describe('Stat integration', () => {
         <Stat.Content direction="vertical">
           <IconPrimary icon="arrow_up" />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const icon = document.querySelector('.dnb-icon')

@@ -45,7 +45,7 @@ export type IterateEditContainerAllProps = IterateEditContainerProps &
   ArrayItemAreaProps
 
 export default function EditContainer(
-  props: IterateEditContainerAllProps
+  props: IterateEditContainerAllProps,
 ) {
   const { toolbar, toolbarVariant, children, ...rest } = props
   const { arrayValue } = useContext(IterateItemContext)
@@ -58,7 +58,7 @@ export default function EditContainer(
   const hasToolbar =
     !toolbarElement &&
     (Array.isArray(children) ? children : [children]).some(
-      (child) => React.isValidElement(child) && child.type === Toolbar
+      (child) => React.isValidElement(child) && child.type === Toolbar,
     )
 
   return (
@@ -86,7 +86,7 @@ export function EditContainerWithoutToolbar(
   props: IterateEditContainerProps &
     Omit<FlexContainerProps, 'onAnimationEnd'> & {
       toolbar?: React.ReactNode
-    }
+    },
 ) {
   const { containerMode, isNew, index, path } =
     useContext(IterateItemContext)
@@ -105,7 +105,7 @@ export function EditContainerWithoutToolbar(
   const itemTitle = useMemo(() => {
     return replaceItemNo(
       wasNew && titleWhenNew ? titleWhenNew : title,
-      index
+      index,
     )
   }, [index, title, titleWhenNew, wasNew])
 

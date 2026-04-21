@@ -40,11 +40,11 @@ describe('MenuAction', () => {
     renderWithContext(
       <MenuAction>
         <span data-testid="child">Custom content</span>
-      </MenuAction>
+      </MenuAction>,
     )
 
     expect(
-      document.querySelector('[data-testid="child"]')
+      document.querySelector('[data-testid="child"]'),
     ).toBeInTheDocument()
   })
 
@@ -61,7 +61,7 @@ describe('MenuAction', () => {
   it('closes all menus after click', () => {
     const onClick = jest.fn()
     const { context } = renderWithContext(
-      <MenuAction text="Click" onClick={onClick} />
+      <MenuAction text="Click" onClick={onClick} />,
     )
 
     const item = document.querySelector('[role="menuitem"]')
@@ -73,7 +73,7 @@ describe('MenuAction', () => {
   it('does not close menus when hasSubMenu', () => {
     const onClick = jest.fn()
     const { context } = renderWithContext(
-      <MenuAction text="Sub" onClick={onClick} hasSubMenu />
+      <MenuAction text="Sub" onClick={onClick} hasSubMenu />,
     )
 
     const item = document.querySelector('[role="menuitem"]')
@@ -120,7 +120,7 @@ describe('MenuAction', () => {
     it('does not fire onClick when disabled', () => {
       const onClick = jest.fn()
       renderWithContext(
-        <MenuAction text="Disabled" disabled onClick={onClick} />
+        <MenuAction text="Disabled" disabled onClick={onClick} />,
       )
 
       const item = document.querySelector('[role="menuitem"]')
@@ -132,7 +132,7 @@ describe('MenuAction', () => {
     it('does not fire onClick on Enter when disabled', () => {
       const onClick = jest.fn()
       renderWithContext(
-        <MenuAction text="Disabled" disabled onClick={onClick} />
+        <MenuAction text="Disabled" disabled onClick={onClick} />,
       )
 
       const item = document.querySelector('[role="menuitem"]')
@@ -160,11 +160,11 @@ describe('MenuAction', () => {
               <MenuAction text="Sub menu" />
             </MenuTriggerContext>
           </ul>
-        </MenuContext>
+        </MenuContext>,
       )
 
       const item = document.querySelector(
-        '.dnb-menu__action--active-trigger'
+        '.dnb-menu__action--active-trigger',
       )
       expect(item).toBeInTheDocument()
     })
@@ -173,7 +173,7 @@ describe('MenuAction', () => {
   describe('link variant', () => {
     it('renders as link when href is provided', () => {
       renderWithContext(
-        <MenuAction text="Link" href="https://example.com" />
+        <MenuAction text="Link" href="https://example.com" />,
       )
 
       const anchor = document.querySelector('.dnb-menu__action__link')
@@ -196,7 +196,7 @@ describe('MenuAction', () => {
           href="https://example.com"
           target="_blank"
           rel="noopener noreferrer"
-        />
+        />,
       )
 
       const anchor = document.querySelector('a')
@@ -206,7 +206,7 @@ describe('MenuAction', () => {
 
     it('removes href when disabled', () => {
       renderWithContext(
-        <MenuAction text="Disabled Link" href="/path" disabled />
+        <MenuAction text="Disabled Link" href="/path" disabled />,
       )
 
       const anchor = document.querySelector('a')
@@ -233,7 +233,7 @@ describe('MenuAction', () => {
       renderWithContext(<MenuAction text="Sub" hasSubMenu />)
 
       const indicator = document.querySelector(
-        '.dnb-menu__action__submenu-indicator'
+        '.dnb-menu__action__submenu-indicator',
       )
       expect(indicator).toBeInTheDocument()
     })
@@ -264,7 +264,7 @@ describe('MenuAction', () => {
 
     it('has no axe violations for link variant', async () => {
       const { container } = renderWithContext(
-        <MenuAction text="Link" href="/path" />
+        <MenuAction text="Link" href="/path" />,
       )
 
       expect(await axeComponent(container)).toHaveNoViolations()
@@ -272,7 +272,7 @@ describe('MenuAction', () => {
 
     it('has no axe violations when disabled', async () => {
       const { container } = renderWithContext(
-        <MenuAction text="Disabled" disabled />
+        <MenuAction text="Disabled" disabled />,
       )
 
       expect(await axeComponent(container)).toHaveNoViolations()

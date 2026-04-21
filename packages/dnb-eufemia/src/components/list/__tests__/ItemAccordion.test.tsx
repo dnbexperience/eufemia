@@ -10,15 +10,15 @@ describe('ItemAccordion', () => {
       <ItemAccordion>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content body</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const accordion = document.querySelector('.dnb-list__item__accordion')
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
     const content = document.querySelector(
-      '.dnb-list__item__accordion__content'
+      '.dnb-list__item__accordion__content',
     )
 
     expect(accordion).toBeInTheDocument()
@@ -32,7 +32,7 @@ describe('ItemAccordion', () => {
       <ItemAccordion>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const accordion = document.querySelector('.dnb-list__item__accordion')
@@ -45,13 +45,13 @@ describe('ItemAccordion', () => {
       <ItemAccordion>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const accordion = document.querySelector('.dnb-list__item__accordion')
 
     expect(accordion.classList).not.toContain(
-      'dnb-list__item__accordion--open'
+      'dnb-list__item__accordion--open',
     )
   })
 
@@ -60,13 +60,13 @@ describe('ItemAccordion', () => {
       <ItemAccordion open>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const accordion = document.querySelector('.dnb-list__item__accordion')
 
     expect(accordion.classList).toContain(
-      'dnb-list__item__accordion--open'
+      'dnb-list__item__accordion--open',
     )
   })
 
@@ -75,36 +75,36 @@ describe('ItemAccordion', () => {
       <ItemAccordion open={false}>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     let accordion = document.querySelector('.dnb-list__item__accordion')
     expect(accordion.classList).not.toContain(
-      'dnb-list__item__accordion--open'
+      'dnb-list__item__accordion--open',
     )
 
     rerender(
       <ItemAccordion open>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     accordion = document.querySelector('.dnb-list__item__accordion')
     expect(accordion.classList).toContain(
-      'dnb-list__item__accordion--open'
+      'dnb-list__item__accordion--open',
     )
 
     rerender(
       <ItemAccordion open={false}>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     accordion = document.querySelector('.dnb-list__item__accordion')
     expect(accordion.classList).not.toContain(
-      'dnb-list__item__accordion--open'
+      'dnb-list__item__accordion--open',
     )
   })
 
@@ -113,42 +113,42 @@ describe('ItemAccordion', () => {
       <ItemAccordion open={false}>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
     let accordion = document.querySelector('.dnb-list__item__accordion')
 
     expect(accordion.classList).not.toContain(
-      'dnb-list__item__accordion--open'
+      'dnb-list__item__accordion--open',
     )
 
     rerender(
       <ItemAccordion open>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     accordion = document.querySelector('.dnb-list__item__accordion')
     expect(accordion.classList).toContain(
-      'dnb-list__item__accordion--open'
+      'dnb-list__item__accordion--open',
     )
 
     fireEvent.click(header)
 
     accordion = document.querySelector('.dnb-list__item__accordion')
     expect(accordion.classList).not.toContain(
-      'dnb-list__item__accordion--open'
+      'dnb-list__item__accordion--open',
     )
 
     fireEvent.click(header)
 
     accordion = document.querySelector('.dnb-list__item__accordion')
     expect(accordion.classList).toContain(
-      'dnb-list__item__accordion--open'
+      'dnb-list__item__accordion--open',
     )
   })
 
@@ -157,11 +157,11 @@ describe('ItemAccordion', () => {
       <ItemAccordion>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
 
     expect(header.getAttribute('role')).toBe('button')
@@ -173,11 +173,11 @@ describe('ItemAccordion', () => {
       <ItemAccordion>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
     const headerId = header.getAttribute('id')
     const controlsId = header.getAttribute('aria-controls')
@@ -195,11 +195,11 @@ describe('ItemAccordion', () => {
       <ItemAccordion open>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
 
     expect(header.getAttribute('aria-expanded')).toBe('true')
@@ -210,11 +210,11 @@ describe('ItemAccordion', () => {
       <ItemAccordion pending>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
 
     expect(header.getAttribute('aria-disabled')).toBe('true')
@@ -226,11 +226,11 @@ describe('ItemAccordion', () => {
       <ItemAccordion>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
     const headerId = header.getAttribute('id')
     const contentId = header.getAttribute('aria-controls')
@@ -248,11 +248,11 @@ describe('ItemAccordion', () => {
       <ItemAccordion open>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
     const contentId = header.getAttribute('aria-controls')
     const contentRegion = document.getElementById(contentId)
@@ -270,11 +270,11 @@ describe('ItemAccordion', () => {
           <ItemAccordion.Content>
             <span data-testid="accordion-content">Content body</span>
           </ItemAccordion.Content>
-        </ItemAccordion>
+        </ItemAccordion>,
       )
 
       const content = document.querySelector(
-        '[data-testid="accordion-content"]'
+        '[data-testid="accordion-content"]',
       )
       expect(content).toBeInTheDocument()
       expect(content).toHaveTextContent('Content body')
@@ -287,11 +287,11 @@ describe('ItemAccordion', () => {
           <ItemAccordion.Content>
             <span data-testid="accordion-content">Content body</span>
           </ItemAccordion.Content>
-        </ItemAccordion>
+        </ItemAccordion>,
       )
 
       const content = document.querySelector(
-        '[data-testid="accordion-content"]'
+        '[data-testid="accordion-content"]',
       )
       expect(content).not.toBeInTheDocument()
     })
@@ -302,21 +302,21 @@ describe('ItemAccordion', () => {
       <ItemAccordion id="my-accordion">
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
     const contentRegion = document.getElementById('my-accordion-content')
 
     expect(header.getAttribute('id')).toBe('my-accordion-header')
     expect(header.getAttribute('aria-controls')).toBe(
-      'my-accordion-content'
+      'my-accordion-content',
     )
     expect(contentRegion).toBeInTheDocument()
     expect(contentRegion.getAttribute('aria-labelledby')).toBe(
-      'my-accordion-header'
+      'my-accordion-header',
     )
   })
 
@@ -325,11 +325,11 @@ describe('ItemAccordion', () => {
       <ItemAccordion>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
 
     expect(header.querySelector('.dnb-icon')).toBeInTheDocument()
@@ -341,26 +341,26 @@ describe('ItemAccordion', () => {
       <ItemAccordion>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const accordion = document.querySelector('.dnb-list__item__accordion')
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
 
     expect(accordion.classList).not.toContain(
-      'dnb-list__item__accordion--open'
+      'dnb-list__item__accordion--open',
     )
 
     fireEvent.click(header)
     expect(accordion.classList).toContain(
-      'dnb-list__item__accordion--open'
+      'dnb-list__item__accordion--open',
     )
 
     fireEvent.click(header)
     expect(accordion.classList).not.toContain(
-      'dnb-list__item__accordion--open'
+      'dnb-list__item__accordion--open',
     )
   })
 
@@ -371,11 +371,11 @@ describe('ItemAccordion', () => {
       <ItemAccordion onClick={handleClick}>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
 
     fireEvent.click(header)
@@ -387,22 +387,22 @@ describe('ItemAccordion', () => {
       <ItemAccordion>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const accordion = document.querySelector('.dnb-list__item__accordion')
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
 
     fireEvent.keyDown(header, { key: 'Enter' })
     expect(accordion.classList).toContain(
-      'dnb-list__item__accordion--open'
+      'dnb-list__item__accordion--open',
     )
 
     fireEvent.keyDown(header, { key: 'Enter' })
     expect(accordion.classList).not.toContain(
-      'dnb-list__item__accordion--open'
+      'dnb-list__item__accordion--open',
     )
   })
 
@@ -411,22 +411,22 @@ describe('ItemAccordion', () => {
       <ItemAccordion>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const accordion = document.querySelector('.dnb-list__item__accordion')
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
 
     fireEvent.keyDown(header, { key: ' ' })
     expect(accordion.classList).toContain(
-      'dnb-list__item__accordion--open'
+      'dnb-list__item__accordion--open',
     )
 
     fireEvent.keyDown(header, { key: ' ' })
     expect(accordion.classList).not.toContain(
-      'dnb-list__item__accordion--open'
+      'dnb-list__item__accordion--open',
     )
   })
 
@@ -435,17 +435,17 @@ describe('ItemAccordion', () => {
       <ItemAccordion pending>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const accordion = document.querySelector('.dnb-list__item__accordion')
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
 
     fireEvent.click(header)
     expect(accordion.classList).not.toContain(
-      'dnb-list__item__accordion--open'
+      'dnb-list__item__accordion--open',
     )
   })
 
@@ -454,21 +454,21 @@ describe('ItemAccordion', () => {
       <ItemAccordion pending open>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const accordion = document.querySelector('.dnb-list__item__accordion')
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
 
     expect(accordion.classList).toContain(
-      'dnb-list__item__accordion--open'
+      'dnb-list__item__accordion--open',
     )
 
     fireEvent.keyDown(header, { key: 'Enter' })
     expect(accordion.classList).toContain(
-      'dnb-list__item__accordion--open'
+      'dnb-list__item__accordion--open',
     )
   })
 
@@ -477,7 +477,7 @@ describe('ItemAccordion', () => {
       <ItemAccordion disabled>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const item = document.querySelector('.dnb-list__item')
@@ -490,11 +490,11 @@ describe('ItemAccordion', () => {
       <ItemAccordion disabled>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
 
     expect(header.getAttribute('aria-disabled')).toBe('true')
@@ -506,17 +506,17 @@ describe('ItemAccordion', () => {
       <ItemAccordion disabled>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const accordion = document.querySelector('.dnb-list__item__accordion')
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
 
     fireEvent.click(header)
     expect(accordion.classList).not.toContain(
-      'dnb-list__item__accordion--open'
+      'dnb-list__item__accordion--open',
     )
   })
 
@@ -525,21 +525,21 @@ describe('ItemAccordion', () => {
       <ItemAccordion disabled open>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const accordion = document.querySelector('.dnb-list__item__accordion')
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
 
     expect(accordion.classList).toContain(
-      'dnb-list__item__accordion--open'
+      'dnb-list__item__accordion--open',
     )
 
     fireEvent.keyDown(header, { key: 'Enter' })
     expect(accordion.classList).toContain(
-      'dnb-list__item__accordion--open'
+      'dnb-list__item__accordion--open',
     )
   })
 
@@ -548,11 +548,11 @@ describe('ItemAccordion', () => {
       <ItemAccordion>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
     const chevron = header.querySelector('.dnb-list__item__chevron')
 
@@ -565,11 +565,11 @@ describe('ItemAccordion', () => {
       <ItemAccordion chevronPosition="left">
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
     const chevron = header.querySelector('.dnb-list__item__chevron')
 
@@ -582,11 +582,11 @@ describe('ItemAccordion', () => {
       <ItemAccordion chevronPosition="left">
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
 
     expect(header.className).toContain('dnb-list__item--chevron-left')
@@ -602,11 +602,11 @@ describe('ItemAccordion', () => {
         <ItemAccordion disabled>
           <ItemAccordion.Header>Title</ItemAccordion.Header>
           <ItemAccordion.Content>Content</ItemAccordion.Content>
-        </ItemAccordion>
+        </ItemAccordion>,
       )
 
       const accordion = document.querySelector(
-        '.dnb-list__item__accordion'
+        '.dnb-list__item__accordion',
       )
 
       expect(accordion.classList).toContain('dnb-list__item--disabled')
@@ -617,11 +617,11 @@ describe('ItemAccordion', () => {
         <ItemAccordion disabled>
           <ItemAccordion.Header>Title</ItemAccordion.Header>
           <ItemAccordion.Content>Content</ItemAccordion.Content>
-        </ItemAccordion>
+        </ItemAccordion>,
       )
 
       const header = document.querySelector(
-        '.dnb-list__item__accordion__header'
+        '.dnb-list__item__accordion__header',
       )
 
       expect(header.getAttribute('aria-disabled')).toBe('true')
@@ -633,20 +633,20 @@ describe('ItemAccordion', () => {
         <ItemAccordion disabled>
           <ItemAccordion.Header>Title</ItemAccordion.Header>
           <ItemAccordion.Content>Content</ItemAccordion.Content>
-        </ItemAccordion>
+        </ItemAccordion>,
       )
 
       const accordion = document.querySelector(
-        '.dnb-list__item__accordion'
+        '.dnb-list__item__accordion',
       )
       const header = document.querySelector(
-        '.dnb-list__item__accordion__header'
+        '.dnb-list__item__accordion__header',
       )
 
       fireEvent.click(header)
 
       expect(accordion.classList).not.toContain(
-        'dnb-list__item__accordion--open'
+        'dnb-list__item__accordion--open',
       )
     })
 
@@ -655,21 +655,21 @@ describe('ItemAccordion', () => {
         <ItemAccordion disabled>
           <ItemAccordion.Header>Title</ItemAccordion.Header>
           <ItemAccordion.Content>Content</ItemAccordion.Content>
-        </ItemAccordion>
+        </ItemAccordion>,
       )
 
       const header = document.querySelector(
-        '.dnb-list__item__accordion__header'
+        '.dnb-list__item__accordion__header',
       )
 
       fireEvent.keyDown(header, { key: 'Enter' })
 
       const accordion = document.querySelector(
-        '.dnb-list__item__accordion'
+        '.dnb-list__item__accordion',
       )
 
       expect(accordion.classList).not.toContain(
-        'dnb-list__item__accordion--open'
+        'dnb-list__item__accordion--open',
       )
     })
   })
@@ -681,11 +681,11 @@ describe('ItemAccordion', () => {
           <ItemAccordion.Header>Title</ItemAccordion.Header>
           <ItemAccordion.Content>Content body</ItemAccordion.Content>
         </ItemAccordion>
-      </Container>
+      </Container>,
     )
 
     const content = document.querySelector(
-      '.dnb-list__item__accordion__content'
+      '.dnb-list__item__accordion__content',
     )
 
     expect(content.classList).toContain('dnb-skeleton')
@@ -698,11 +698,11 @@ describe('ItemAccordion', () => {
           <ItemAccordion.Header>Title</ItemAccordion.Header>
           <ItemAccordion.Content>Content body</ItemAccordion.Content>
         </ItemAccordion>
-      </Container>
+      </Container>,
     )
 
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
 
     expect(header.classList).toContain('dnb-skeleton')
@@ -713,7 +713,7 @@ describe('ItemAccordion', () => {
       <ItemAccordion skeleton>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const accordion = document.querySelector('.dnb-list__item__accordion')
@@ -728,11 +728,11 @@ describe('ItemAccordion', () => {
         <ItemAccordion title="Auto title">
           <ItemAccordion.Content>Content body</ItemAccordion.Content>
         </ItemAccordion>
-      </Container>
+      </Container>,
     )
 
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
 
     expect(header.classList).toContain('dnb-skeleton')
@@ -745,7 +745,7 @@ describe('ItemAccordion', () => {
           <ItemAccordion.Header>Title</ItemAccordion.Header>
           <ItemAccordion.Content>Content body</ItemAccordion.Content>
         </ItemAccordion>
-      </Container>
+      </Container>,
     )
 
     const accordion = document.querySelector('.dnb-list__item__accordion')
@@ -761,7 +761,7 @@ describe('ItemAccordion', () => {
           <ItemAccordion.Header>Title</ItemAccordion.Header>
           <ItemAccordion.Content>Content body</ItemAccordion.Content>
         </ItemAccordion>
-      </Container>
+      </Container>,
     )
 
     const accordion = document.querySelector('.dnb-list__item__accordion')
@@ -785,7 +785,7 @@ describe('ItemAccordion', () => {
           </ItemAccordion.Header>
           <ItemAccordion.Content>Content body</ItemAccordion.Content>
         </ItemAccordion>
-      </Container>
+      </Container>,
     )
 
     const consumer = document.querySelector('[data-skeleton]')
@@ -806,7 +806,7 @@ describe('ItemAccordion', () => {
             <SkeletonConsumer />
           </ItemAccordion.Content>
         </ItemAccordion>
-      </Container>
+      </Container>,
     )
 
     const consumer = document.querySelector('[data-skeleton]')
@@ -819,7 +819,7 @@ describe('ItemAccordion', () => {
     render(<ItemAccordion.Header>Orphan header</ItemAccordion.Header>)
 
     const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
     expect(header).not.toBeInTheDocument()
 
@@ -828,8 +828,8 @@ describe('ItemAccordion', () => {
         .map((entry) => String(entry))
         .join(' ')
         .includes(
-          'List.Item.Accordion.Header should be used inside List.Item.Accordion.'
-        )
+          'List.Item.Accordion.Header should be used inside List.Item.Accordion.',
+        ),
     )
     expect(didWarn).toBe(true)
 
@@ -842,7 +842,7 @@ describe('ItemAccordion', () => {
     render(<ItemAccordion.Content>Orphan content</ItemAccordion.Content>)
 
     const content = document.querySelector(
-      '.dnb-list__item__accordion__content'
+      '.dnb-list__item__accordion__content',
     )
     expect(content).not.toBeInTheDocument()
 
@@ -851,8 +851,8 @@ describe('ItemAccordion', () => {
         .map((entry) => String(entry))
         .join(' ')
         .includes(
-          'List.Item.Accordion.Content should be used inside List.Item.Accordion.'
-        )
+          'List.Item.Accordion.Content should be used inside List.Item.Accordion.',
+        ),
     )
     expect(didWarn).toBe(true)
 
@@ -867,11 +867,11 @@ describe('ItemAccordion', () => {
         <ItemAccordion onChange={handleChange}>
           <ItemAccordion.Header>Title</ItemAccordion.Header>
           <ItemAccordion.Content>Content</ItemAccordion.Content>
-        </ItemAccordion>
+        </ItemAccordion>,
       )
 
       const header = document.querySelector(
-        '.dnb-list__item__accordion__header'
+        '.dnb-list__item__accordion__header',
       )
 
       fireEvent.click(header)
@@ -887,11 +887,11 @@ describe('ItemAccordion', () => {
         <ItemAccordion open onChange={handleChange}>
           <ItemAccordion.Header>Title</ItemAccordion.Header>
           <ItemAccordion.Content>Content</ItemAccordion.Content>
-        </ItemAccordion>
+        </ItemAccordion>,
       )
 
       const header = document.querySelector(
-        '.dnb-list__item__accordion__header'
+        '.dnb-list__item__accordion__header',
       )
 
       fireEvent.click(header)
@@ -907,11 +907,11 @@ describe('ItemAccordion', () => {
         <ItemAccordion onChange={handleChange}>
           <ItemAccordion.Header>Title</ItemAccordion.Header>
           <ItemAccordion.Content>Content</ItemAccordion.Content>
-        </ItemAccordion>
+        </ItemAccordion>,
       )
 
       const header = document.querySelector(
-        '.dnb-list__item__accordion__header'
+        '.dnb-list__item__accordion__header',
       )
 
       fireEvent.keyDown(header, { key: 'Enter' })
@@ -927,11 +927,11 @@ describe('ItemAccordion', () => {
         <ItemAccordion pending onChange={handleChange}>
           <ItemAccordion.Header>Title</ItemAccordion.Header>
           <ItemAccordion.Content>Content</ItemAccordion.Content>
-        </ItemAccordion>
+        </ItemAccordion>,
       )
 
       const header = document.querySelector(
-        '.dnb-list__item__accordion__header'
+        '.dnb-list__item__accordion__header',
       )
 
       fireEvent.click(header)
@@ -949,7 +949,7 @@ describe('ItemAccordion', () => {
       >
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const element = document.querySelector('.dnb-list__item__accordion')
@@ -964,7 +964,7 @@ describe('ItemAccordion', () => {
       <ItemAccordion variant="basic" skeleton open keepInDOM>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
+      </ItemAccordion>,
     )
 
     const element = document.querySelector('.dnb-list__item__accordion')

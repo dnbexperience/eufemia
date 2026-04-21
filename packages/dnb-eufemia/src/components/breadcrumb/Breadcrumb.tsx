@@ -174,7 +174,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
     defaultProps,
     context?.translation?.Breadcrumb,
     context?.Breadcrumb,
-    { skeleton: context?.skeleton }
+    { skeleton: context?.skeleton },
   )
 
   const {
@@ -263,7 +263,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
       'dnb-breadcrumb',
       `dnb-breadcrumb--variant-${currentVariant}`,
       skeletonClasses,
-      className
+      className,
     ),
   })
 

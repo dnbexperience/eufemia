@@ -27,12 +27,12 @@ describe('isAsync', () => {
     expect(
       isAsync(function () {
         return null
-      })
+      }),
     ).toBeFalsy()
     expect(
       isAsync(async function () {
         return null
-      })
+      }),
     ).toBeTruthy()
 
     function IAmSync() {
@@ -50,13 +50,13 @@ describe('isAsync', () => {
     expect(
       isAsync(() => {
         return new Promise(() => null)
-      })
+      }),
     ).toBeFalsy()
 
     expect(
       isAsync(function () {
         return new Promise(() => null)
-      })
+      }),
     ).toBeFalsy()
   })
 

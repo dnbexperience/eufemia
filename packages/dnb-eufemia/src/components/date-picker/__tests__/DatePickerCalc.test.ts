@@ -57,7 +57,7 @@ describe('convertStringToDate', () => {
       convertStringToDate('04/01/2019', {
         dateFormat: 'dd.MM.yyyy',
         strictDateFormat: true,
-      })
+      }),
     ).toBeNull()
     expect(log).not.toHaveBeenCalled()
 
@@ -72,7 +72,7 @@ describe('convertStringToDate', () => {
     expect(log).toHaveBeenCalledWith(
       expect.any(String),
       'convertStringToDate got invalid date:',
-      'not-a-date'
+      'not-a-date',
     )
 
     mock.mockRestore()

@@ -6,7 +6,7 @@ type WithChildrenProps = {
 }
 
 function withChildren<T>(
-  Component: React.ComponentType<T>
+  Component: React.ComponentType<T>,
 ): React.ComponentType<T & WithChildrenProps> {
   withComponentMarkers(Component, { _supportsSpacingProps: 'children' })
   return Component

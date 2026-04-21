@@ -50,14 +50,14 @@ export default function DialogContent({
   const context = useContext(ModalContext)
   const { minWidth, maxWidth } = checkMinMaxWidth(
     minWidthProp,
-    maxWidthProp
+    maxWidthProp,
   )
   const content =
     modalContent ||
     getContent(
       typeof rest.children === 'function'
         ? Object.freeze({ ...rest, close: context?.close })
-        : rest
+        : rest,
     )
 
   if (alignContent === null) {
@@ -78,7 +78,7 @@ export default function DialogContent({
       context?.hide && `dnb-dialog--hide`,
       noAnimation && `dnb-dialog--no-animation`,
       noAnimationOnMobile && `dnb-dialog--no-animation-on-mobile`,
-      className
+      className,
     ),
     style: (minWidth || maxWidth) && { minWidth, maxWidth },
     onClick: context?.preventClick,
@@ -89,17 +89,17 @@ export default function DialogContent({
 
   const navExists = findElementInChildren(
     content,
-    (cur) => cur.type === DialogNavigation || cur.type === ModalHeaderBar
+    (cur) => cur.type === DialogNavigation || cur.type === ModalHeaderBar,
   )
 
   const headerExists = findElementInChildren(
     content,
-    (cur) => cur.type === DialogHeader || cur.type === ModalHeader
+    (cur) => cur.type === DialogHeader || cur.type === ModalHeader,
   )
 
   const actionExists = findElementInChildren(
     content,
-    (cur) => cur.type === DialogAction
+    (cur) => cur.type === DialogAction,
   )
 
   const dialogActionProps = {
@@ -132,7 +132,7 @@ export default function DialogContent({
                 aria-hidden
                 className={clsx(
                   'dnb-dialog__icon__primary',
-                  'dnb-dialog__icon--' + confirmType
+                  'dnb-dialog__icon--' + confirmType,
                 )}
               />
             </div>

@@ -15,7 +15,10 @@ function toPascalCase(str: string): string {
 }
 
 const prettierrc = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
+  fs.readFileSync(
+    path.resolve(__dirname, '../../../.prettierrc'),
+    'utf-8',
+  ),
 )
 
 const isCLI = require.main === module
@@ -40,7 +43,7 @@ export const processComponents = async () => {
     templateListToExtendBy: 'Template',
     srcFile: path.resolve(
       __dirname,
-      '../../../src/core/templates/components-index-template.js'
+      '../../../src/core/templates/components-index-template.js',
     ),
     destFile: path.resolve(__dirname, '../../../src/components/index.ts'),
     filesToFindGlob: path.resolve(__dirname, '../../../src/components/'),
@@ -51,23 +54,23 @@ export const processComponents = async () => {
     (res) => {
       if (isCLI) {
         log.succeed(
-          '> PrePublish: Created the index template with all the components'
+          '> PrePublish: Created the index template with all the components',
         )
       }
       return res
-    }
+    },
   )
   await runFactory({
     ...componentsTemplateConfig,
     srcFile: path.resolve(
       __dirname,
-      '../../../src/core/templates/components-lib-template.js'
+      '../../../src/core/templates/components-lib-template.js',
     ),
     destFile: path.resolve(__dirname, '../../../src/components/lib.ts'),
   }).then((res) => {
     if (isCLI) {
       log.succeed(
-        '> PrePublish: Created the index template with all the components'
+        '> PrePublish: Created the index template with all the components',
       )
     }
     return res
@@ -76,14 +79,14 @@ export const processComponents = async () => {
     ...componentsTemplateConfig,
     srcFile: path.resolve(
       __dirname,
-      '../../../src/core/templates/component-export-template.js'
+      '../../../src/core/templates/component-export-template.js',
     ),
     destFile: false,
     destPath: path.resolve(__dirname, '../../../src/components'),
   }).then((res) => {
     if (isCLI) {
       log.succeed(
-        '> PrePublish: Created the index template with all the components'
+        '> PrePublish: Created the index template with all the components',
       )
     }
     return res
@@ -99,7 +102,7 @@ export const processFragments = async () => {
     templateListToExtendBy: 'Template',
     srcFile: path.resolve(
       __dirname,
-      '../../../src/core/templates/components-index-template.js'
+      '../../../src/core/templates/components-index-template.js',
     ),
     destFile: path.resolve(__dirname, '../../../src/fragments/index.ts'),
     filesToFindGlob: path.resolve(__dirname, '../../../src/fragments/'),
@@ -109,7 +112,7 @@ export const processFragments = async () => {
   await runFactory(fragmentsTemplateConfig).then((res) => {
     if (isCLI) {
       log.succeed(
-        '> PrePublish: Created the index template with all the fragments'
+        '> PrePublish: Created the index template with all the fragments',
       )
     }
     return res
@@ -118,13 +121,13 @@ export const processFragments = async () => {
     ...fragmentsTemplateConfig,
     srcFile: path.resolve(
       __dirname,
-      '../../../src/core/templates/fragments-lib-template.js'
+      '../../../src/core/templates/fragments-lib-template.js',
     ),
     destFile: path.resolve(__dirname, '../../../src/fragments/lib.ts'),
   }).then((res) => {
     if (isCLI) {
       log.succeed(
-        '> PrePublish: Created the index template with all the fragments'
+        '> PrePublish: Created the index template with all the fragments',
       )
     }
     return res
@@ -133,14 +136,14 @@ export const processFragments = async () => {
     ...fragmentsTemplateConfig,
     srcFile: path.resolve(
       __dirname,
-      '../../../src/core/templates/fragment-export-template.js'
+      '../../../src/core/templates/fragment-export-template.js',
     ),
     destFile: false,
     destPath: path.resolve(__dirname, '../../../src/fragments'),
   }).then((res) => {
     if (isCLI) {
       log.succeed(
-        '> PrePublish: Created the index template with all the fragments'
+        '> PrePublish: Created the index template with all the fragments',
       )
     }
     return res
@@ -154,7 +157,7 @@ export const processElements = async () => {
     templateListToExtendBy: 'Template',
     srcFile: path.resolve(
       __dirname,
-      '../../../src/core/templates/elements-index-template.js'
+      '../../../src/core/templates/elements-index-template.js',
     ),
     destFile: path.resolve(__dirname, '../../../src/elements/index.ts'),
     filesToFindGlob: path.resolve(__dirname, '../../../src/elements/'),
@@ -179,7 +182,7 @@ export const processElements = async () => {
     ...elementsTemplateConfig,
     srcFile: path.resolve(
       __dirname,
-      '../../../src/core/templates/elements-lib-template.js'
+      '../../../src/core/templates/elements-lib-template.js',
     ),
     destFile: path.resolve(__dirname, '../../../src/elements/lib.ts'),
     processToNamesIgnoreList: ['index', 'lib', 'Element'],
@@ -194,14 +197,14 @@ export const processElements = async () => {
     filesToFindGlobByUsingFolders: true,
     srcFile: path.resolve(
       __dirname,
-      '../../../src/core/templates/element-export-template.js'
+      '../../../src/core/templates/element-export-template.js',
     ),
     destFile: false,
     destPath: path.resolve(__dirname, '../../../src/elements'),
   }).then((res) => {
     if (isCLI) {
       log.succeed(
-        '> PrePublish: Created the index template with all the elements'
+        '> PrePublish: Created the index template with all the elements',
       )
     }
     return res
@@ -217,7 +220,7 @@ export const processExtensions = async () => {
     templateListToExtendBy: 'Template',
     srcFile: path.resolve(
       __dirname,
-      '../../../src/core/templates/components-index-template.js'
+      '../../../src/core/templates/components-index-template.js',
     ),
     destFile: path.resolve(__dirname, '../../../src/extensions/index.ts'),
     filesToFindGlob: path.resolve(__dirname, '../../../src/extensions/'),
@@ -236,7 +239,7 @@ export const processExtensions = async () => {
     ...{
       srcFile: path.resolve(
         __dirname,
-        '../../../src/core/templates/extensions-lib-template.js'
+        '../../../src/core/templates/extensions-lib-template.js',
       ),
       destFile: path.resolve(__dirname, '../../../src/extensions/lib.ts'),
     },
@@ -256,7 +259,7 @@ export const processMainIndex = async ({ components, elements }) => {
     templateListToExtendBy: 'Template',
     srcFile: path.resolve(
       __dirname,
-      '../../../src/core/templates/main-index-template.js'
+      '../../../src/core/templates/main-index-template.js',
     ),
     destFile: path.resolve(__dirname, '../../../src/index.ts'),
     filesToFindGlob: [...components, ...elements],
@@ -298,7 +301,7 @@ export const runFactory = async ({
       })
     if (filesToFindGlobByUsingFolders) {
       filesToFindGlob = filesToFindGlob.filter(({ source }) =>
-        fs.lstatSync(source).isDirectory()
+        fs.lstatSync(source).isDirectory(),
       )
     } else {
       filesToFindGlob = filesToFindGlob
@@ -340,12 +343,12 @@ export const runFactory = async ({
             // 1. replace templateListToExtendBy
             .replace(
               new RegExp(templateListToExtendBy, 'g'),
-              toPascalCase(file)
+              toPascalCase(file),
             )
             // 2. replace templateListToExtendBy, but lower case
             .replace(
               new RegExp(templateListToExtendBy.toLowerCase(), 'g'),
-              file
+              file,
             )
 
           await fs.writeFile(
@@ -353,13 +356,13 @@ export const runFactory = async ({
             await prettier.format(`${autoAdvice}${content}`, {
               ...prettierrc,
               parser: 'babel',
-            })
+            }),
           )
         } catch (e) {
           log.fail(`There was an error on creating ${destFile}!`)
           ErrorHandler(String(e))
         }
-      }
+      },
     )
   }
 
@@ -372,7 +375,7 @@ export const runFactory = async ({
         new RegExp(templateObjectToFill, 'g'),
         `{ ${filesToFindGlob
           .map(({ file }) => toPascalCase(file))
-          .join(', ')} }`
+          .join(', ')} }`,
       )
       // 2. replace templateListToExtend
       .replace(
@@ -382,11 +385,11 @@ export const runFactory = async ({
             let res = templateListToExtend
               .replace(
                 new RegExp(templateListToExtendBy, 'g'),
-                toPascalCase(file)
+                toPascalCase(file),
               )
               .replace(
                 new RegExp(templateListToExtendBy.toLowerCase(), 'g'),
-                file
+                file,
               )
 
             // in case we have a type to replace
@@ -408,7 +411,7 @@ export const runFactory = async ({
 
             return res
           })
-          .join('\n')
+          .join('\n'),
       )
     try {
       await fs.writeFile(
@@ -416,7 +419,7 @@ export const runFactory = async ({
         await prettier.format(`${autoAdvice}${content}`, {
           ...prettierrc,
           parser: 'babel',
-        })
+        }),
       )
     } catch (e) {
       log.fail(`There was an error on creating ${destFile}!`)

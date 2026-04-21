@@ -7,7 +7,7 @@ import type { Path } from '../../types'
  */
 export function extractZodSubSchema(
   root: z.ZodTypeAny,
-  pointer: Path
+  pointer: Path,
 ): z.ZodTypeAny {
   if (!pointer) return root
   const normalized = pointer.startsWith('#') ? pointer.slice(1) : pointer
@@ -60,20 +60,20 @@ export function extractZodSubSchema(
     ) {
       // Ambiguous: which branch?
       throw new Error(
-        'Pointer into union is ambiguous. Choose a branch explicitly.'
+        'Pointer into union is ambiguous. Choose a branch explicitly.',
       )
     }
 
     if (cur instanceof z.ZodIntersection) {
       // Also ambiguous: intersection has two sides; you must specify policy.
       throw new Error(
-        'Pointer into intersection is ambiguous. Decide how to traverse.'
+        'Pointer into intersection is ambiguous. Decide how to traverse.',
       )
     }
 
     const typeName = (cur as z.ZodTypeAny).type || cur.constructor.name
     throw new Error(
-      `Unsupported traversal at '${part}' for schema type '${typeName}'`
+      `Unsupported traversal at '${part}' for schema type '${typeName}'`,
     )
   }
 

@@ -65,7 +65,7 @@ export const useNumberMaskParams = () => {
           locale,
           typeof asCurrency === 'string' ? asCurrency : null,
           currencyMask?.currencyDisplay,
-          value
+          value,
         ),
       })
     }

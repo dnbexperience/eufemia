@@ -29,12 +29,12 @@ describe('PushContainer', () => {
         <Iterate.PushContainer path="/entries">
           <Field.String itemPath="/name" />
         </Iterate.PushContainer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
     const button = document.querySelector(
-      '.dnb-forms-iterate__done-button'
+      '.dnb-forms-iterate__done-button',
     )
 
     await userEvent.type(input, 'Tony')
@@ -52,7 +52,7 @@ describe('PushContainer', () => {
           },
         ],
       },
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -64,15 +64,15 @@ describe('PushContainer', () => {
         <Iterate.PushContainer path="/entries">
           <Field.String itemPath="/name" required />
         </Iterate.PushContainer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     await userEvent.click(
-      document.querySelector('.dnb-forms-iterate__done-button')
+      document.querySelector('.dnb-forms-iterate__done-button'),
     )
 
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      nb.Field.errorRequired
+      nb.Field.errorRequired,
     )
   })
 
@@ -88,40 +88,40 @@ describe('PushContainer', () => {
         >
           <Field.String itemPath="/name" required />
         </Iterate.PushContainer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     await userEvent.click(
-      document.querySelector('.dnb-forms-iterate__done-button')
+      document.querySelector('.dnb-forms-iterate__done-button'),
     )
 
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      nb.Field.errorRequired
+      nb.Field.errorRequired,
     )
 
     await userEvent.type(document.querySelector('input'), 'foo')
     await userEvent.click(
-      document.querySelector('.dnb-forms-iterate__done-button')
+      document.querySelector('.dnb-forms-iterate__done-button'),
     )
 
     expect(
-      document.querySelector('.dnb-form-status')
+      document.querySelector('.dnb-form-status'),
     ).not.toBeInTheDocument()
 
     await userEvent.click(
-      document.querySelector('.dnb-forms-iterate__open-button')
+      document.querySelector('.dnb-forms-iterate__open-button'),
     )
 
     expect(
-      document.querySelector('.dnb-form-status')
+      document.querySelector('.dnb-form-status'),
     ).not.toBeInTheDocument()
 
     await userEvent.click(
-      document.querySelector('.dnb-forms-iterate__done-button')
+      document.querySelector('.dnb-forms-iterate__done-button'),
     )
 
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      nb.Field.errorRequired
+      nb.Field.errorRequired,
     )
   })
 
@@ -145,43 +145,43 @@ describe('PushContainer', () => {
             </Iterate.PushContainer>
           </Wizard.Step>
         </Wizard.Container>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     fireEvent.submit(document.querySelector('form'))
 
     await waitFor(() => {
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Field.errorRequired
+        nb.Field.errorRequired,
       )
     })
 
     await userEvent.type(document.querySelector('input'), 'foo')
     await userEvent.click(
-      document.querySelector('.dnb-forms-iterate__done-button')
+      document.querySelector('.dnb-forms-iterate__done-button'),
     )
 
     expect(
-      document.querySelector('.dnb-forms-value-block')
+      document.querySelector('.dnb-forms-value-block'),
     ).toHaveTextContent('foo')
 
     await userEvent.click(
-      document.querySelector('.dnb-forms-iterate__open-button')
+      document.querySelector('.dnb-forms-iterate__open-button'),
     )
 
     await expect(() => {
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
     }).toNeverResolve()
 
     await userEvent.type(document.querySelector('input'), 'bar')
     await userEvent.click(
-      document.querySelector('.dnb-forms-iterate__done-button')
+      document.querySelector('.dnb-forms-iterate__done-button'),
     )
 
     expect(
-      document.querySelectorAll('.dnb-forms-value-block')[1]
+      document.querySelectorAll('.dnb-forms-value-block')[1],
     ).toHaveTextContent('bar')
   })
 
@@ -212,7 +212,7 @@ describe('PushContainer', () => {
               <Wizard.Buttons />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const nextButton = () => {
@@ -252,12 +252,12 @@ describe('PushContainer', () => {
           <Iterate.PushContainer path="/entries" showResetButton>
             <Field.String itemPath="/name" />
           </Iterate.PushContainer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
       const button = document.querySelector(
-        '.dnb-forms-iterate__reset-button'
+        '.dnb-forms-iterate__reset-button',
       )
 
       expect(button).toBeInTheDocument()
@@ -285,12 +285,12 @@ describe('PushContainer', () => {
           <Iterate.PushContainer path="/entries" showResetButton>
             <Field.String itemPath="/name" />
           </Iterate.PushContainer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
       const button = document.querySelector(
-        '.dnb-forms-iterate__reset-button'
+        '.dnb-forms-iterate__reset-button',
       )
 
       expect(button).toBeInTheDocument()
@@ -402,7 +402,7 @@ describe('PushContainer', () => {
               <Wizard.Buttons />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       // Wait for the internal "refresh" to be called,
@@ -411,7 +411,7 @@ describe('PushContainer', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-forms-iterate__reset-button')
+          document.querySelector('.dnb-forms-iterate__reset-button'),
         ).toBeDisabled()
       })
 
@@ -420,12 +420,12 @@ describe('PushContainer', () => {
       expect(screen.getByLabelText('Kari Nordmann')).not.toBeChecked()
 
       expect(
-        document.querySelector('.dnb-forms-iterate__reset-button')
+        document.querySelector('.dnb-forms-iterate__reset-button'),
       ).not.toBeDisabled()
 
       // Click the reset button
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate__reset-button')
+        document.querySelector('.dnb-forms-iterate__reset-button'),
       )
 
       // Confirm the clear
@@ -433,26 +433,26 @@ describe('PushContainer', () => {
       expect(screen.getByLabelText('Ola Nordmann')).not.toBeChecked()
 
       expect(
-        document.querySelector('.dnb-forms-iterate__reset-button')
+        document.querySelector('.dnb-forms-iterate__reset-button'),
       ).toBeDisabled()
 
       await userEvent.click(screen.getByText('Kari Nordmann'))
       expect(screen.getByLabelText('Kari Nordmann')).toBeChecked()
 
       expect(
-        document.querySelector('.dnb-forms-iterate__reset-button')
+        document.querySelector('.dnb-forms-iterate__reset-button'),
       ).not.toBeDisabled()
 
       // Click the reset button
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate__reset-button')
+        document.querySelector('.dnb-forms-iterate__reset-button'),
       )
 
       // Confirm the clear
       await userEvent.click(document.querySelector('.dnb-button--primary'))
 
       expect(
-        document.querySelector('.dnb-forms-iterate__reset-button')
+        document.querySelector('.dnb-forms-iterate__reset-button'),
       ).toBeDisabled()
     })
 
@@ -464,12 +464,12 @@ describe('PushContainer', () => {
           <Iterate.PushContainer path="/entries" showResetButton>
             <Field.String itemPath="/name" />
           </Iterate.PushContainer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
       const button = document.querySelector(
-        '.dnb-forms-iterate__reset-button'
+        '.dnb-forms-iterate__reset-button',
       )
 
       expect(button).not.toHaveFocus()
@@ -512,13 +512,13 @@ describe('PushContainer', () => {
           >
             <Field.String itemPath="/name" />
           </Iterate.PushContainer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
       const form = document.querySelector('form')
       const doneButton = document.querySelector(
-        '.dnb-forms-iterate__done-button'
+        '.dnb-forms-iterate__done-button',
       )
 
       await userEvent.type(input, 'Tony')
@@ -564,19 +564,19 @@ describe('PushContainer', () => {
           >
             <Field.String itemPath="/name" />
           </Iterate.PushContainer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const form = document.querySelector('form')
       const doneButton = document.querySelector(
-        '.dnb-forms-iterate__done-button'
+        '.dnb-forms-iterate__done-button',
       )
       const editContainer = document.querySelector(
-        '.dnb-forms-section-edit-block'
+        '.dnb-forms-section-edit-block',
       )
 
       expect(editContainer).not.toHaveClass(
-        'dnb-height-animation--is-visible'
+        'dnb-height-animation--is-visible',
       )
 
       // Wait for the internal "refresh" to be called,
@@ -593,14 +593,14 @@ describe('PushContainer', () => {
       await new Promise((resolve) => requestAnimationFrame(resolve))
 
       expect(editContainer).not.toHaveClass(
-        'dnb-height-animation--is-visible'
+        'dnb-height-animation--is-visible',
       )
 
       fireEvent.submit(form)
 
       await waitFor(() => {
         expect(editContainer).toHaveClass(
-          'dnb-height-animation--is-visible'
+          'dnb-height-animation--is-visible',
         )
       })
       expect(onSubmit).toHaveBeenCalledTimes(0)
@@ -611,7 +611,7 @@ describe('PushContainer', () => {
 
       await waitFor(() => {
         expect(editContainer).not.toHaveClass(
-          'dnb-height-animation--is-visible'
+          'dnb-height-animation--is-visible',
         )
       })
       expect(onCommit).toHaveBeenCalledTimes(1)
@@ -620,7 +620,7 @@ describe('PushContainer', () => {
 
       await waitFor(() => {
         expect(editContainer).not.toHaveClass(
-          'dnb-height-animation--is-visible'
+          'dnb-height-animation--is-visible',
         )
       })
       expect(onSubmit).toHaveBeenCalledTimes(1)
@@ -636,13 +636,13 @@ describe('PushContainer', () => {
           <Iterate.PushContainer path="/entries" preventUncommittedChanges>
             <Field.String itemPath="/name" />
           </Iterate.PushContainer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
       const form = document.querySelector('form')
       const doneButton = document.querySelector(
-        '.dnb-forms-iterate__done-button'
+        '.dnb-forms-iterate__done-button',
       )
 
       await userEvent.type(input, 'Tony')
@@ -650,22 +650,22 @@ describe('PushContainer', () => {
       fireEvent.submit(form)
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Isolation.preventUncommittedChangesText
+        nb.Isolation.preventUncommittedChangesText,
       )
 
       await userEvent.click(doneButton)
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       fireEvent.submit(form)
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
     })
 
@@ -684,13 +684,13 @@ describe('PushContainer', () => {
                 emptyValue="The empty value"
               />
             </Iterate.PushContainer>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
         const doneButton = document.querySelector(
-          '.dnb-forms-iterate__done-button'
+          '.dnb-forms-iterate__done-button',
         )
 
         expect(input).toHaveValue('The empty value')
@@ -700,7 +700,7 @@ describe('PushContainer', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.click(doneButton)
@@ -709,7 +709,7 @@ describe('PushContainer', () => {
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { entries: [{ name: 'The empty value' }] },
-          expect.anything()
+          expect.anything(),
         )
       })
 
@@ -727,13 +727,13 @@ describe('PushContainer', () => {
                 emptyValue="The empty value"
               />
             </Iterate.PushContainer>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
         const doneButton = document.querySelector(
-          '.dnb-forms-iterate__done-button'
+          '.dnb-forms-iterate__done-button',
         )
 
         expect(input).toHaveValue('The empty value')
@@ -743,7 +743,7 @@ describe('PushContainer', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.type(input, 'X')
@@ -751,16 +751,16 @@ describe('PushContainer', () => {
 
         expect(input).toHaveValue('The empty valueX')
         expect(
-          document.querySelector('.dnb-forms-iterate__reset-button')
+          document.querySelector('.dnb-forms-iterate__reset-button'),
         ).toBeInTheDocument()
 
         await userEvent.click(
-          document.querySelector('.dnb-forms-iterate__reset-button')
+          document.querySelector('.dnb-forms-iterate__reset-button'),
         )
 
         // Confirm the clear
         await userEvent.click(
-          document.querySelector('.dnb-button--primary')
+          document.querySelector('.dnb-button--primary'),
         )
 
         expect(input).toHaveValue('The empty value')
@@ -770,7 +770,7 @@ describe('PushContainer', () => {
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.click(doneButton)
@@ -782,7 +782,7 @@ describe('PushContainer', () => {
         expect(onSubmit).toHaveBeenCalledTimes(3)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { entries: [{ name: 'The empty value' }] },
-          expect.anything()
+          expect.anything(),
         )
       })
     })
@@ -802,13 +802,13 @@ describe('PushContainer', () => {
                 defaultValue="A default value"
               />
             </Iterate.PushContainer>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
         const doneButton = document.querySelector(
-          '.dnb-forms-iterate__done-button'
+          '.dnb-forms-iterate__done-button',
         )
 
         expect(input).toHaveValue('A default value')
@@ -818,7 +818,7 @@ describe('PushContainer', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.click(doneButton)
@@ -827,7 +827,7 @@ describe('PushContainer', () => {
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { entries: [{ name: 'A default value' }] },
-          expect.anything()
+          expect.anything(),
         )
       })
 
@@ -845,13 +845,13 @@ describe('PushContainer', () => {
                 defaultValue="A default value"
               />
             </Iterate.PushContainer>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
         const doneButton = document.querySelector(
-          '.dnb-forms-iterate__done-button'
+          '.dnb-forms-iterate__done-button',
         )
 
         expect(input).toHaveValue('A default value')
@@ -861,7 +861,7 @@ describe('PushContainer', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.type(input, 'X')
@@ -869,16 +869,16 @@ describe('PushContainer', () => {
 
         expect(input).toHaveValue('A default valueX')
         expect(
-          document.querySelector('.dnb-forms-iterate__reset-button')
+          document.querySelector('.dnb-forms-iterate__reset-button'),
         ).toBeInTheDocument()
 
         await userEvent.click(
-          document.querySelector('.dnb-forms-iterate__reset-button')
+          document.querySelector('.dnb-forms-iterate__reset-button'),
         )
 
         // Confirm the clear
         await userEvent.click(
-          document.querySelector('.dnb-button--primary')
+          document.querySelector('.dnb-button--primary'),
         )
 
         expect(input).toHaveValue('A default value')
@@ -888,7 +888,7 @@ describe('PushContainer', () => {
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.click(doneButton)
@@ -900,7 +900,7 @@ describe('PushContainer', () => {
         expect(onSubmit).toHaveBeenCalledTimes(3)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { entries: [{ name: 'A default value' }] },
-          expect.anything()
+          expect.anything(),
         )
       })
     })
@@ -918,13 +918,13 @@ describe('PushContainer', () => {
             >
               <Field.String itemPath="/name" />
             </Iterate.PushContainer>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
         const doneButton = document.querySelector(
-          '.dnb-forms-iterate__done-button'
+          '.dnb-forms-iterate__done-button',
         )
 
         expect(input).toHaveValue('A default value')
@@ -934,7 +934,7 @@ describe('PushContainer', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.click(doneButton)
@@ -943,7 +943,7 @@ describe('PushContainer', () => {
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { entries: [{ name: 'A default value' }] },
-          expect.anything()
+          expect.anything(),
         )
       })
 
@@ -959,13 +959,13 @@ describe('PushContainer', () => {
             >
               <Field.String itemPath="/name" />
             </Iterate.PushContainer>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
         const doneButton = document.querySelector(
-          '.dnb-forms-iterate__done-button'
+          '.dnb-forms-iterate__done-button',
         )
 
         expect(input).toHaveValue('A default value')
@@ -975,7 +975,7 @@ describe('PushContainer', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.type(input, 'X')
@@ -983,16 +983,16 @@ describe('PushContainer', () => {
 
         expect(input).toHaveValue('A default valueX')
         expect(
-          document.querySelector('.dnb-forms-iterate__reset-button')
+          document.querySelector('.dnb-forms-iterate__reset-button'),
         ).toBeInTheDocument()
 
         await userEvent.click(
-          document.querySelector('.dnb-forms-iterate__reset-button')
+          document.querySelector('.dnb-forms-iterate__reset-button'),
         )
 
         // Confirm the clear
         await userEvent.click(
-          document.querySelector('.dnb-button--primary')
+          document.querySelector('.dnb-button--primary'),
         )
 
         expect(input).toHaveValue('A default value')
@@ -1002,7 +1002,7 @@ describe('PushContainer', () => {
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.click(doneButton)
@@ -1014,7 +1014,7 @@ describe('PushContainer', () => {
         expect(onSubmit).toHaveBeenCalledTimes(3)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { entries: [{ name: 'A default value' }] },
-          expect.anything()
+          expect.anything(),
         )
       })
     })
@@ -1032,13 +1032,13 @@ describe('PushContainer', () => {
             >
               <Field.String itemPath="/name" />
             </Iterate.PushContainer>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
         const doneButton = document.querySelector(
-          '.dnb-forms-iterate__done-button'
+          '.dnb-forms-iterate__done-button',
         )
 
         expect(input).toHaveValue('A default value')
@@ -1048,7 +1048,7 @@ describe('PushContainer', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.click(doneButton)
@@ -1057,7 +1057,7 @@ describe('PushContainer', () => {
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { entries: [{ name: 'A default value' }] },
-          expect.anything()
+          expect.anything(),
         )
       })
 
@@ -1073,13 +1073,13 @@ describe('PushContainer', () => {
             >
               <Field.String itemPath="/name" />
             </Iterate.PushContainer>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
         const doneButton = document.querySelector(
-          '.dnb-forms-iterate__done-button'
+          '.dnb-forms-iterate__done-button',
         )
 
         expect(input).toHaveValue('A default value')
@@ -1089,7 +1089,7 @@ describe('PushContainer', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.type(input, 'X')
@@ -1097,16 +1097,16 @@ describe('PushContainer', () => {
 
         expect(input).toHaveValue('A default valueX')
         expect(
-          document.querySelector('.dnb-forms-iterate__reset-button')
+          document.querySelector('.dnb-forms-iterate__reset-button'),
         ).toBeInTheDocument()
 
         await userEvent.click(
-          document.querySelector('.dnb-forms-iterate__reset-button')
+          document.querySelector('.dnb-forms-iterate__reset-button'),
         )
 
         // Confirm the clear
         await userEvent.click(
-          document.querySelector('.dnb-button--primary')
+          document.querySelector('.dnb-button--primary'),
         )
 
         expect(input).toHaveValue('A default value')
@@ -1116,7 +1116,7 @@ describe('PushContainer', () => {
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.click(doneButton)
@@ -1128,7 +1128,7 @@ describe('PushContainer', () => {
         expect(onSubmit).toHaveBeenCalledTimes(3)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { entries: [{ name: 'A default value' }] },
-          expect.anything()
+          expect.anything(),
         )
       })
     })
@@ -1167,13 +1167,13 @@ describe('PushContainer', () => {
               <Form.SubmitButton />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
       const form = document.querySelector('form')
       const doneButton = document.querySelector(
-        '.dnb-forms-iterate__done-button'
+        '.dnb-forms-iterate__done-button',
       )
 
       const nextButton = () => {
@@ -1194,14 +1194,14 @@ describe('PushContainer', () => {
       expect(onCommit).toHaveBeenCalledTimes(0)
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
 
       await userEvent.click(doneButton)
 
       expect(onCommit).toHaveBeenCalledTimes(1)
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       await userEvent.click(nextButton())
@@ -1211,7 +1211,7 @@ describe('PushContainer', () => {
       expect(onStepChange).toHaveBeenLastCalledWith(
         1,
         'next',
-        expect.anything()
+        expect.anything(),
       )
 
       fireEvent.submit(form)
@@ -1229,13 +1229,13 @@ describe('PushContainer', () => {
           <Iterate.PushContainer path="/entries" preventUncommittedChanges>
             <Field.String itemPath="/name" />
           </Iterate.PushContainer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
       const form = document.querySelector('form')
       const doneButton = document.querySelector(
-        '.dnb-forms-iterate__done-button'
+        '.dnb-forms-iterate__done-button',
       )
 
       await userEvent.type(input, 'Tony')
@@ -1243,19 +1243,19 @@ describe('PushContainer', () => {
       fireEvent.submit(form)
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
       expect(
-        document.querySelector('.dnb-forms-iterate__reset-button')
+        document.querySelector('.dnb-forms-iterate__reset-button'),
       ).toBeInTheDocument()
 
       await userEvent.click(doneButton)
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
       expect(
-        document.querySelector('.dnb-forms-iterate__reset-button')
+        document.querySelector('.dnb-forms-iterate__reset-button'),
       ).not.toBeInTheDocument()
 
       fireEvent.submit(form)
@@ -1280,7 +1280,7 @@ describe('PushContainer', () => {
           >
             <Field.String itemPath="/name" />
           </Iterate.PushContainer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -1294,15 +1294,15 @@ describe('PushContainer', () => {
       expect(onSubmitRequest).toHaveBeenCalledTimes(1)
       expect(onCommit).toHaveBeenCalledTimes(0)
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Isolation.preventUncommittedChangesText
+        nb.Isolation.preventUncommittedChangesText,
       )
 
       // Click the reset button
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate__reset-button')
+        document.querySelector('.dnb-forms-iterate__reset-button'),
       )
 
       // Confirm the clear
@@ -1310,7 +1310,7 @@ describe('PushContainer', () => {
 
       expect(onCommit).toHaveBeenCalledTimes(0)
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       fireEvent.submit(form)
@@ -1355,7 +1355,7 @@ describe('PushContainer', () => {
                 <Wizard.Buttons />
               </Wizard.Step>
             </Wizard.Container>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(output()).toHaveTextContent('Step 1')
@@ -1364,7 +1364,7 @@ describe('PushContainer', () => {
 
         expect(output()).toHaveTextContent('Step 2')
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
 
@@ -1398,7 +1398,7 @@ describe('PushContainer', () => {
                 <Wizard.Buttons />
               </Wizard.Step>
             </Wizard.Container>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(output()).toHaveTextContent('Step 1')
@@ -1407,7 +1407,7 @@ describe('PushContainer', () => {
 
         expect(output()).toHaveTextContent('Step 2')
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
 
@@ -1448,7 +1448,7 @@ describe('PushContainer', () => {
                 <Wizard.Buttons />
               </Wizard.Step>
             </Wizard.Container>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(output()).toHaveTextContent('Step 1')
@@ -1459,10 +1459,10 @@ describe('PushContainer', () => {
         })
 
         expect(
-          document.querySelector('.dnb-forms-iterate__open-button')
+          document.querySelector('.dnb-forms-iterate__open-button'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-forms-section-edit-block')
+          document.querySelector('.dnb-forms-section-edit-block'),
         ).not.toHaveClass('dnb-height-animation--is-visible')
 
         await userEvent.click(nextButton())
@@ -1481,7 +1481,7 @@ describe('PushContainer', () => {
         })
 
         expect(
-          document.querySelector('.dnb-forms-section-edit-block')
+          document.querySelector('.dnb-forms-section-edit-block'),
         ).toHaveClass('dnb-height-animation--is-visible')
       })
 
@@ -1521,7 +1521,7 @@ describe('PushContainer', () => {
                 <Wizard.Buttons />
               </Wizard.Step>
             </Wizard.Container>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(output()).toHaveTextContent('Step 1')
@@ -1532,10 +1532,10 @@ describe('PushContainer', () => {
         })
 
         expect(
-          document.querySelector('.dnb-forms-iterate__open-button')
+          document.querySelector('.dnb-forms-iterate__open-button'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-forms-section-edit-block')
+          document.querySelector('.dnb-forms-section-edit-block'),
         ).not.toHaveClass('dnb-height-animation--is-visible')
 
         await userEvent.click(nextButton())
@@ -1554,7 +1554,7 @@ describe('PushContainer', () => {
         })
 
         expect(
-          document.querySelector('.dnb-forms-section-edit-block')
+          document.querySelector('.dnb-forms-section-edit-block'),
         ).not.toHaveClass('dnb-height-animation--is-visible')
 
         await userEvent.clear(document.querySelector('input'))
@@ -1591,20 +1591,20 @@ describe('PushContainer', () => {
           >
             <Field.String itemPath="/name" required />
           </Iterate.PushContainer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
       const form = document.querySelector('form')
       const doneButton = document.querySelector(
-        '.dnb-forms-iterate__done-button'
+        '.dnb-forms-iterate__done-button',
       )
 
       await userEvent.click(doneButton)
 
       expect(onCommit).toHaveBeenCalledTimes(0)
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Field.errorRequired
+        nb.Field.errorRequired,
       )
 
       fireEvent.submit(form)
@@ -1615,7 +1615,7 @@ describe('PushContainer', () => {
       await userEvent.type(input, 'Tony')
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       fireEvent.submit(form)
@@ -1657,19 +1657,19 @@ describe('PushContainer', () => {
             <Field.String itemPath="/name" required />
             <ErrorReporter />
           </Iterate.PushContainer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       await userEvent.type(document.querySelector('input'), 'Tony')
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate__done-button')
+        document.querySelector('.dnb-forms-iterate__done-button'),
       )
       expect(onCommit).toHaveBeenCalledTimes(1)
 
       expect(hasErrors).toBe(false)
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate__open-button')
+        document.querySelector('.dnb-forms-iterate__open-button'),
       )
 
       expect(hasErrors).toBe(true)
@@ -1683,13 +1683,13 @@ describe('PushContainer', () => {
           <Iterate.PushContainer path="/entries" bubbleValidation={false}>
             <Field.String itemPath="/name" required />
           </Iterate.PushContainer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       fireEvent.submit(document.querySelector('form'))
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
     })
 
@@ -1701,7 +1701,7 @@ describe('PushContainer', () => {
           <Iterate.PushContainer path="/entries" bubbleValidation>
             <Field.String itemPath="/name" required />
           </Iterate.PushContainer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -1710,13 +1710,13 @@ describe('PushContainer', () => {
       fireEvent.submit(form)
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Field.errorRequired
+        nb.Field.errorRequired,
       )
 
       await userEvent.type(input, 'Tony')
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       fireEvent.submit(form)
@@ -1758,7 +1758,7 @@ describe('PushContainer', () => {
                 <Wizard.Buttons />
               </Wizard.Step>
             </Wizard.Container>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(output()).toHaveTextContent('Step 1')
@@ -1776,17 +1776,17 @@ describe('PushContainer', () => {
         })
 
         await userEvent.click(
-          document.querySelector('.dnb-forms-iterate__open-button')
+          document.querySelector('.dnb-forms-iterate__open-button'),
         )
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
 
         await userEvent.click(nextButton())
 
         expect(output()).toHaveTextContent('Step 1')
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
       })
 
@@ -1813,32 +1813,32 @@ describe('PushContainer', () => {
                 <Wizard.Buttons />
               </Wizard.Step>
             </Wizard.Container>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(output()).toHaveTextContent('Step 1')
 
         await userEvent.click(
-          document.querySelector('.dnb-forms-iterate__open-button')
+          document.querySelector('.dnb-forms-iterate__open-button'),
         )
 
         await userEvent.click(nextButton())
 
         expect(output()).toHaveTextContent('Step 1')
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
 
         await userEvent.click(
-          document.querySelector('.dnb-forms-iterate__cancel-button')
+          document.querySelector('.dnb-forms-iterate__cancel-button'),
         )
         await waitFor(() =>
           expect(
-            document.querySelector('.dnb-dialog .dnb-button--primary')
-          ).toBeInTheDocument()
+            document.querySelector('.dnb-dialog .dnb-button--primary'),
+          ).toBeInTheDocument(),
         )
         await userEvent.click(
-          document.querySelector('.dnb-dialog .dnb-button--primary')
+          document.querySelector('.dnb-dialog .dnb-button--primary'),
         )
 
         await waitFor(async () => {
@@ -1854,12 +1854,12 @@ describe('PushContainer', () => {
         })
 
         await userEvent.click(
-          document.querySelector('.dnb-forms-iterate__open-button')
+          document.querySelector('.dnb-forms-iterate__open-button'),
         )
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).not.toBeInTheDocument()
         })
 
@@ -1867,7 +1867,7 @@ describe('PushContainer', () => {
 
         expect(output()).toHaveTextContent('Step 1')
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
       })
 
@@ -1899,20 +1899,20 @@ describe('PushContainer', () => {
                 <Wizard.Buttons />
               </Wizard.Step>
             </Wizard.Container>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(output()).toHaveTextContent('Step 1')
 
         await userEvent.click(
-          document.querySelector('.dnb-forms-iterate__open-button')
+          document.querySelector('.dnb-forms-iterate__open-button'),
         )
 
         await userEvent.click(nextButton())
 
         expect(output()).toHaveTextContent('Step 1')
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
 
         await userEvent.click(screen.getByText('Ja'))
@@ -1924,7 +1924,7 @@ describe('PushContainer', () => {
 
         await expect(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toBeInTheDocument()
         }).toNeverResolve()
       })
@@ -1962,12 +1962,12 @@ describe('PushContainer', () => {
             {/* Should validate using inherited schema */}
             <Field.String itemPath="/name" />
           </Iterate.PushContainer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
       const doneButton = document.querySelector(
-        '.dnb-forms-iterate__done-button'
+        '.dnb-forms-iterate__done-button',
       )
 
       // Enter too-short value and try to commit
@@ -1976,7 +1976,7 @@ describe('PushContainer', () => {
 
       // Check if the form status is showing the error
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
 
       // Should not commit invalid item (no array update)
@@ -1990,10 +1990,10 @@ describe('PushContainer', () => {
         expect(onChange).toHaveBeenCalledTimes(1)
         expect(onChange).toHaveBeenLastCalledWith(
           { entries: [{ name: 'fooX' }] },
-          expect.anything()
+          expect.anything(),
         )
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })
@@ -2012,12 +2012,12 @@ describe('PushContainer', () => {
             {/* Should validate using inherited Zod schema */}
             <Field.String itemPath="/name" />
           </Iterate.PushContainer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
       const doneButton = document.querySelector(
-        '.dnb-forms-iterate__done-button'
+        '.dnb-forms-iterate__done-button',
       )
 
       // Enter too-short value and try to commit
@@ -2026,7 +2026,7 @@ describe('PushContainer', () => {
 
       // Check if the form status is showing the error
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
 
       // Should not commit invalid item
@@ -2040,10 +2040,10 @@ describe('PushContainer', () => {
         expect(onChange).toHaveBeenCalledTimes(1)
         expect(onChange).toHaveBeenLastCalledWith(
           { entries: [{ name: 'fooX' }] },
-          expect.anything()
+          expect.anything(),
         )
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })
@@ -2060,32 +2060,32 @@ describe('PushContainer', () => {
         <Iterate.PushContainer path="/entries">
           <Field.String itemPath="/name" />
         </Iterate.PushContainer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
     const button = document.querySelector(
-      '.dnb-forms-iterate__done-button'
+      '.dnb-forms-iterate__done-button',
     )
 
     await userEvent.type(input, 'Tony')
 
     expect(
-      document.querySelectorAll('.dnb-forms-iterate__element')
+      document.querySelectorAll('.dnb-forms-iterate__element'),
     ).toHaveLength(0)
 
     await userEvent.click(button)
 
     expect(
-      document.querySelectorAll('.dnb-forms-iterate__element')
+      document.querySelectorAll('.dnb-forms-iterate__element'),
     ).toHaveLength(1)
     expect(
-      document.querySelector('.dnb-forms-section-edit-block')
+      document.querySelector('.dnb-forms-section-edit-block'),
     ).toHaveAttribute('aria-hidden', 'true')
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-forms-section-view-block')
+        document.querySelector('.dnb-forms-section-view-block'),
       ).toHaveAttribute('aria-hidden', 'false')
     })
   })
@@ -2096,12 +2096,12 @@ describe('PushContainer', () => {
         <Iterate.PushContainer path="/entries">
           <Field.Name.First itemPath="/name" required />
         </Iterate.PushContainer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
     const button = document.querySelector(
-      '.dnb-forms-iterate__done-button'
+      '.dnb-forms-iterate__done-button',
     )
 
     await userEvent.type(input, '1')
@@ -2109,7 +2109,7 @@ describe('PushContainer', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
     })
 
@@ -2131,12 +2131,12 @@ describe('PushContainer', () => {
         <Iterate.PushContainer path="/entries">
           <Field.Name.Last itemPath="/name" required />
         </Iterate.PushContainer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
     const button = document.querySelector(
-      '.dnb-forms-iterate__done-button'
+      '.dnb-forms-iterate__done-button',
     )
 
     expect(input).toHaveValue('')
@@ -2145,7 +2145,7 @@ describe('PushContainer', () => {
 
     expect(input).toHaveValue('')
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      nb.LastName.errorRequired
+      nb.LastName.errorRequired,
     )
   })
 
@@ -2155,12 +2155,12 @@ describe('PushContainer', () => {
         <Iterate.PushContainer path="/entries" required>
           <Field.Name.Last itemPath="/name" />
         </Iterate.PushContainer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
     const button = document.querySelector(
-      '.dnb-forms-iterate__done-button'
+      '.dnb-forms-iterate__done-button',
     )
 
     expect(input).toHaveValue('')
@@ -2169,7 +2169,7 @@ describe('PushContainer', () => {
 
     expect(input).toHaveValue('')
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      nb.LastName.errorRequired
+      nb.LastName.errorRequired,
     )
   })
 
@@ -2179,12 +2179,12 @@ describe('PushContainer', () => {
         <Iterate.PushContainer path="/entries">
           <Field.Name.Last itemPath="/name" />
         </Iterate.PushContainer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
     const button = document.querySelector(
-      '.dnb-forms-iterate__done-button'
+      '.dnb-forms-iterate__done-button',
     )
 
     expect(input).toHaveValue('')
@@ -2193,7 +2193,7 @@ describe('PushContainer', () => {
 
     expect(input).toHaveValue('')
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      nb.LastName.errorRequired
+      nb.LastName.errorRequired,
     )
   })
 
@@ -2201,7 +2201,7 @@ describe('PushContainer', () => {
     render(
       <Iterate.PushContainer path="/entries" title="New entry">
         <Field.String itemPath="/name" />
-      </Iterate.PushContainer>
+      </Iterate.PushContainer>,
     )
 
     const title = document.querySelector('.dnb-p--lead')
@@ -2215,7 +2215,7 @@ describe('PushContainer', () => {
         <Iterate.PushContainer path="/entries" data={{ name: 'Tony' }}>
           <Field.String itemPath="/name" />
         </Iterate.PushContainer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
@@ -2236,11 +2236,11 @@ describe('PushContainer', () => {
         <Iterate.PushContainer path="/" data="bar">
           <Field.String itemPath="/" />
         </Iterate.PushContainer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const blocks = Array.from(
-      document.querySelectorAll('.dnb-forms-section-block')
+      document.querySelectorAll('.dnb-forms-section-block'),
     )
     const [, , thirdBlock] = blocks
 
@@ -2252,7 +2252,7 @@ describe('PushContainer', () => {
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenLastCalledWith(
       ['foo', 'bar'],
-      expect.anything()
+      expect.anything(),
     )
 
     await userEvent.type(input, '{Backspace>3}baz')
@@ -2263,7 +2263,7 @@ describe('PushContainer', () => {
     expect(onChange).toHaveBeenCalledTimes(2)
     expect(onChange).toHaveBeenLastCalledWith(
       ['foo', 'bar', 'baz'],
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -2276,7 +2276,7 @@ describe('PushContainer', () => {
         >
           <Field.String itemPath="/name" />
         </Iterate.PushContainer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
@@ -2285,7 +2285,7 @@ describe('PushContainer', () => {
 
     expect(document.querySelectorAll('button')).toHaveLength(1)
     expect(
-      document.querySelector('.dnb-forms-section-block__inner button')
+      document.querySelector('.dnb-forms-section-block__inner button'),
     ).toBeInTheDocument()
   })
 
@@ -2295,11 +2295,11 @@ describe('PushContainer', () => {
         <Iterate.PushContainer path="/entries">
           <Field.String itemPath="/name" />
         </Iterate.PushContainer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const button = document.querySelector(
-      '.dnb-forms-iterate__done-button'
+      '.dnb-forms-iterate__done-button',
     )
     expect(button).toBeInTheDocument()
     expect(button).toHaveTextContent(nb.IteratePushContainer.createButton)
@@ -2311,13 +2311,13 @@ describe('PushContainer', () => {
         <Iterate.PushContainer path="/entries">
           <Field.String itemPath="/name" />
         </Iterate.PushContainer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const buttons = document.querySelectorAll('button')
     expect(buttons).toHaveLength(1)
     expect(buttons[0]).toHaveTextContent(
-      nb.IteratePushContainer.createButton
+      nb.IteratePushContainer.createButton,
     )
   })
 
@@ -2331,22 +2331,22 @@ describe('PushContainer', () => {
         >
           <Field.String itemPath="/name" />
         </Iterate.PushContainer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const editBlock = document.querySelector(
-      '.dnb-forms-section-edit-block'
+      '.dnb-forms-section-edit-block',
     )
 
     expect(editBlock).toHaveAttribute('aria-hidden', 'false')
 
     {
       const buttons = document.querySelectorAll(
-        '.dnb-forms-section-block__inner button'
+        '.dnb-forms-section-block__inner button',
       )
       expect(buttons).toHaveLength(1)
       expect(buttons[0]).toHaveTextContent(
-        nb.IteratePushContainer.createButton
+        nb.IteratePushContainer.createButton,
       )
 
       // Hide the form by adding a new item
@@ -2357,27 +2357,27 @@ describe('PushContainer', () => {
 
     // Show the form
     await userEvent.click(
-      document.querySelector('.dnb-forms-iterate__open-button')
+      document.querySelector('.dnb-forms-iterate__open-button'),
     )
 
     expect(editBlock).toHaveAttribute('aria-hidden', 'false')
 
     {
       const buttons = document.querySelectorAll(
-        '.dnb-forms-section-block__inner button'
+        '.dnb-forms-section-block__inner button',
       )
       expect(buttons).toHaveLength(2)
       expect(buttons[0]).toHaveTextContent(
-        nb.IteratePushContainer.createButton
+        nb.IteratePushContainer.createButton,
       )
       expect(buttons[1]).toHaveTextContent(
-        nb.IterateEditContainer.cancelButton
+        nb.IterateEditContainer.cancelButton,
       )
 
       // Hide the form by cancel (requires confirm)
       await userEvent.click(buttons[1])
       await userEvent.click(
-        document.querySelector('.dnb-dialog .dnb-button--primary')
+        document.querySelector('.dnb-dialog .dnb-button--primary'),
       )
     }
 
@@ -2385,25 +2385,25 @@ describe('PushContainer', () => {
 
     // Show the form
     await userEvent.click(
-      document.querySelector('.dnb-forms-iterate__open-button')
+      document.querySelector('.dnb-forms-iterate__open-button'),
     )
 
     {
       const buttons = document.querySelectorAll(
-        '.dnb-forms-section-block__inner button'
+        '.dnb-forms-section-block__inner button',
       )
       expect(buttons).toHaveLength(2)
       expect(buttons[0]).toHaveTextContent(
-        nb.IteratePushContainer.createButton
+        nb.IteratePushContainer.createButton,
       )
       expect(buttons[1]).toHaveTextContent(
-        nb.IterateEditContainer.cancelButton
+        nb.IterateEditContainer.cancelButton,
       )
 
       // Hide the form by pressing cancel (close)
       await userEvent.click(buttons[1])
       await userEvent.click(
-        document.querySelector('.dnb-dialog .dnb-button--primary')
+        document.querySelector('.dnb-dialog .dnb-button--primary'),
       )
 
       await waitFor(() => {
@@ -2424,7 +2424,7 @@ describe('PushContainer', () => {
         >
           <Field.String itemPath="/name" />
         </Iterate.PushContainer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const buttons = document.querySelectorAll('button')
@@ -2433,17 +2433,17 @@ describe('PushContainer', () => {
     const [addButton, cancelButton, openButton] = Array.from(buttons)
 
     expect(addButton).toHaveTextContent(
-      nb.IteratePushContainer.createButton
+      nb.IteratePushContainer.createButton,
     )
     expect(cancelButton).toHaveTextContent(
-      nb.IterateEditContainer.cancelButton
+      nb.IterateEditContainer.cancelButton,
     )
     expect(openButton).toHaveTextContent('Add new entry')
     expect(document.querySelector('.dnb-forms-section-block')).toHaveClass(
-      'dnb-height-animation--hidden'
+      'dnb-height-animation--hidden',
     )
     expect(
-      document.querySelector('.dnb-forms-section-edit-block')
+      document.querySelector('.dnb-forms-section-edit-block'),
     ).toHaveAttribute('aria-hidden', 'true')
   })
 
@@ -2465,7 +2465,7 @@ describe('PushContainer', () => {
           <Field.String itemPath="/" />
           <Toolbar />
         </Iterate.PushContainer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const toolbar = document.querySelector('#toolbar')
@@ -2477,11 +2477,11 @@ describe('PushContainer', () => {
     render(
       <Iterate.PushContainer top="large" path="/entries">
         <Field.String itemPath="/name" />
-      </Iterate.PushContainer>
+      </Iterate.PushContainer>,
     )
 
     expect(
-      document.querySelector('.dnb-forms-section-block__inner')
+      document.querySelector('.dnb-forms-section-block__inner'),
     ).toHaveClass('dnb-space__top--large')
   })
 
@@ -2498,11 +2498,11 @@ describe('PushContainer', () => {
         <Iterate.PushContainer path="/">
           <Field.String itemPath="/" />
         </Iterate.PushContainer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const blocks = Array.from(
-      document.querySelectorAll('.dnb-forms-section-block')
+      document.querySelectorAll('.dnb-forms-section-block'),
     )
     const [, , thirdBlock] = blocks
 
@@ -2517,7 +2517,7 @@ describe('PushContainer', () => {
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenLastCalledWith(
       ['foo', 'bar'],
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -2530,12 +2530,12 @@ describe('PushContainer', () => {
           <Iterate.PushContainer path="/myList">
             <Field.String itemPath="/foo" defaultValue="bar" />
           </Iterate.PushContainer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('input')).toHaveValue('bar')
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate__done-button')
+        document.querySelector('.dnb-forms-iterate__done-button'),
       )
 
       expect(document.querySelector('input')).toHaveValue('bar')
@@ -2544,11 +2544,11 @@ describe('PushContainer', () => {
         {
           myList: [{ foo: 'bar' }],
         },
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate__done-button')
+        document.querySelector('.dnb-forms-iterate__done-button'),
       )
 
       expect(document.querySelector('input')).toHaveValue('bar')
@@ -2557,7 +2557,7 @@ describe('PushContainer', () => {
         {
           myList: [{ foo: 'bar' }, { foo: 'bar' }],
         },
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -2569,12 +2569,12 @@ describe('PushContainer', () => {
           <Iterate.PushContainer path="/">
             <Field.String itemPath="/" defaultValue="foo" />
           </Iterate.PushContainer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('input')).toHaveValue('foo')
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate__done-button')
+        document.querySelector('.dnb-forms-iterate__done-button'),
       )
 
       expect(document.querySelector('input')).toHaveValue('foo')
@@ -2582,14 +2582,14 @@ describe('PushContainer', () => {
       expect(onChange).toHaveBeenLastCalledWith(['foo'], expect.anything())
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate__done-button')
+        document.querySelector('.dnb-forms-iterate__done-button'),
       )
 
       expect(document.querySelector('input')).toHaveValue('foo')
       expect(onChange).toHaveBeenCalledTimes(2)
       expect(onChange).toHaveBeenLastCalledWith(
         ['foo', 'foo'],
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -2606,11 +2606,11 @@ describe('PushContainer', () => {
           <Iterate.PushContainer path="/">
             <Field.String itemPath="/" defaultValue="bar" />
           </Iterate.PushContainer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const blocks = Array.from(
-        document.querySelectorAll('.dnb-forms-section-block')
+        document.querySelectorAll('.dnb-forms-section-block'),
       )
       const [, , thirdBlock] = blocks
 
@@ -2622,7 +2622,7 @@ describe('PushContainer', () => {
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange).toHaveBeenLastCalledWith(
         ['foo', 'bar'],
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -2643,14 +2643,14 @@ describe('PushContainer', () => {
               required
             />
           </Iterate.PushContainer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [firstInput, lastInput] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
       const button = document.querySelector(
-        '.dnb-forms-iterate__done-button'
+        '.dnb-forms-iterate__done-button',
       )
 
       expect(firstInput).toHaveValue('first name')
@@ -2667,7 +2667,7 @@ describe('PushContainer', () => {
             },
           ],
         },
-        expect.anything()
+        expect.anything(),
       )
 
       expect(firstInput).toHaveValue('first name')
@@ -2688,7 +2688,7 @@ describe('PushContainer', () => {
             },
           ],
         },
-        expect.anything()
+        expect.anything(),
       )
 
       expect(firstInput).toHaveValue('first name')
@@ -2713,7 +2713,7 @@ describe('PushContainer', () => {
             },
           ],
         },
-        expect.anything()
+        expect.anything(),
       )
 
       expect(firstInput).toHaveValue('first name')
@@ -2740,7 +2740,7 @@ describe('PushContainer', () => {
             <Field.String itemPath="/" defaultValue="default value" />
             <CollectInternalData />
           </Iterate.PushContainer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(internalContext).toMatchObject({
@@ -2754,7 +2754,7 @@ describe('PushContainer', () => {
       await userEvent.type(input, ' changed')
 
       const button = document.querySelector(
-        '.dnb-forms-iterate__done-button'
+        '.dnb-forms-iterate__done-button',
       )
 
       await userEvent.click(button)
@@ -2764,12 +2764,12 @@ describe('PushContainer', () => {
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange).toHaveBeenLastCalledWith(
         ['default value changed'],
-        expect.anything()
+        expect.anything(),
       )
       expect(onCommit).toHaveBeenCalledTimes(1)
       expect(onCommit).toHaveBeenLastCalledWith(
         ['default value changed'],
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.click(button)
@@ -2779,12 +2779,12 @@ describe('PushContainer', () => {
       expect(onChange).toHaveBeenCalledTimes(2)
       expect(onChange).toHaveBeenLastCalledWith(
         ['default value changed', 'default value'],
-        expect.anything()
+        expect.anything(),
       )
       expect(onCommit).toHaveBeenCalledTimes(2)
       expect(onCommit).toHaveBeenLastCalledWith(
         ['default value changed', 'default value'],
-        expect.anything()
+        expect.anything(),
       )
     })
   })
@@ -2802,11 +2802,11 @@ describe('PushContainer', () => {
         <Iterate.PushContainer path="/" data="bar">
           <Field.String itemPath="/" />
         </Iterate.PushContainer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const blocks = Array.from(
-      document.querySelectorAll('.dnb-forms-section-block')
+      document.querySelectorAll('.dnb-forms-section-block'),
     )
     const [, , thirdBlock] = blocks
 
@@ -2818,7 +2818,7 @@ describe('PushContainer', () => {
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenLastCalledWith(
       ['foo', 'bar'],
-      expect.anything()
+      expect.anything(),
     )
 
     await userEvent.type(input, '{Backspace>3}baz')
@@ -2829,7 +2829,7 @@ describe('PushContainer', () => {
     expect(onChange).toHaveBeenCalledTimes(2)
     expect(onChange).toHaveBeenLastCalledWith(
       ['foo', 'bar', 'baz'],
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -2850,30 +2850,30 @@ describe('PushContainer', () => {
         >
           <Field.String itemPath="/name" />
         </Iterate.PushContainer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
-      document.querySelector('.dnb-forms-iterate__open-button')
+      document.querySelector('.dnb-forms-iterate__open-button'),
     ).toHaveTextContent('Add no. 1')
 
     // Open the item
     await userEvent.click(
-      document.querySelector('.dnb-forms-iterate__open-button')
+      document.querySelector('.dnb-forms-iterate__open-button'),
     )
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-forms-iterate__open-button')
+        document.querySelector('.dnb-forms-iterate__open-button'),
       ).not.toBeInTheDocument()
     })
 
     // Add the item
     await userEvent.click(
-      document.querySelector('.dnb-forms-iterate__done-button')
+      document.querySelector('.dnb-forms-iterate__done-button'),
     )
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-forms-iterate__open-button')
+        document.querySelector('.dnb-forms-iterate__open-button'),
       ).toHaveTextContent('Add no. 2')
     })
 
@@ -2881,14 +2881,14 @@ describe('PushContainer', () => {
 
     // Remove the item
     await userEvent.click(
-      document.querySelector('.dnb-forms-iterate-remove-element-button')
+      document.querySelector('.dnb-forms-iterate-remove-element-button'),
     )
     expect(
-      document.querySelector('.dnb-forms-iterate__open-button')
+      document.querySelector('.dnb-forms-iterate__open-button'),
     ).toHaveTextContent('Add no. 2')
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-forms-iterate__open-button')
+        document.querySelector('.dnb-forms-iterate__open-button'),
       ).toHaveTextContent('Add no. 1')
     })
   })
@@ -2904,11 +2904,11 @@ describe('PushContainer', () => {
         <Iterate.PushContainer path="/myList">
           content
         </Iterate.PushContainer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const doneButton = document.querySelector(
-      '.dnb-forms-iterate__done-button'
+      '.dnb-forms-iterate__done-button',
     )
 
     // Add first item
@@ -2931,7 +2931,7 @@ describe('PushContainer', () => {
     })
 
     const removeButton = document.querySelector(
-      '.dnb-forms-iterate-remove-element-button'
+      '.dnb-forms-iterate-remove-element-button',
     )
     await userEvent.click(removeButton)
 
@@ -2967,7 +2967,7 @@ describe('PushContainer', () => {
               return null
             }}
           </DataContext.Consumer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(collectedData).toEqual({
@@ -2975,7 +2975,7 @@ describe('PushContainer', () => {
       })
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate__done-button')
+        document.querySelector('.dnb-forms-iterate__done-button'),
       )
 
       expect(collectedData).toEqual({
@@ -2983,7 +2983,7 @@ describe('PushContainer', () => {
       })
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate-remove-element-button')
+        document.querySelector('.dnb-forms-iterate-remove-element-button'),
       )
 
       expect(collectedData).toEqual({
@@ -2991,7 +2991,7 @@ describe('PushContainer', () => {
       })
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate__done-button')
+        document.querySelector('.dnb-forms-iterate__done-button'),
       )
 
       expect(collectedData).toEqual({
@@ -3019,22 +3019,22 @@ describe('PushContainer', () => {
               <Field.String itemPath="/" />
             </Iterate.PushContainer>
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('.dnb-forms-iterate__open-button')
+        document.querySelector('.dnb-forms-iterate__open-button'),
       ).toBeInTheDocument()
       expect(
-        document.querySelector('.dnb-forms-section-block')
+        document.querySelector('.dnb-forms-section-block'),
       ).toHaveClass('dnb-height-animation--hidden')
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate__open-button')
+        document.querySelector('.dnb-forms-iterate__open-button'),
       )
 
       expect(
-        document.querySelector('.dnb-forms-section-block')
+        document.querySelector('.dnb-forms-section-block'),
       ).toHaveClass('dnb-height-animation--is-visible')
     })
 
@@ -3059,21 +3059,21 @@ describe('PushContainer', () => {
               <Field.String itemPath="/" />
             </Iterate.PushContainer>
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('.dnb-forms-section-block')
+        document.querySelector('.dnb-forms-section-block'),
       ).toHaveClass('dnb-height-animation--hidden')
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate-remove-element-button')
+        document.querySelector('.dnb-forms-iterate-remove-element-button'),
       )
 
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
       expect(
-        document.querySelector('.dnb-forms-section-block')
+        document.querySelector('.dnb-forms-section-block'),
       ).toHaveClass('dnb-height-animation--is-visible')
     })
   })
@@ -3094,12 +3094,12 @@ describe('PushContainer', () => {
           <Iterate.PushContainer path="/entries" insertAt={0}>
             <Field.String itemPath="/" />
           </Iterate.PushContainer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
       const button = document.querySelector(
-        '.dnb-forms-iterate__done-button'
+        '.dnb-forms-iterate__done-button',
       )
 
       await userEvent.type(input, 'First entry')
@@ -3113,7 +3113,7 @@ describe('PushContainer', () => {
         {
           entries: ['First entry', 'Existing'],
         },
-        expect.anything()
+        expect.anything(),
       )
     })
   })
@@ -3137,7 +3137,7 @@ describe('PushContainer', () => {
             <output>content</output>
           </Form.Visibility>
         </Iterate.PushContainer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelector('output')).toBeNull()
@@ -3158,12 +3158,12 @@ describe('PushContainer', () => {
               <Field.String itemPath="/foo" />
             </Iterate.PushContainer>
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
       const button = document.querySelector(
-        '.dnb-forms-iterate__done-button'
+        '.dnb-forms-iterate__done-button',
       )
 
       expect(input).toHaveValue('')
@@ -3181,7 +3181,7 @@ describe('PushContainer', () => {
             myList: [{ foo: 'bar' }],
           },
         },
-        expect.anything()
+        expect.anything(),
       )
     })
   })

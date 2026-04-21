@@ -8,7 +8,7 @@ describe('Tools.Log', () => {
     render(
       <Form.Handler data={data}>
         <Tools.Log />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const element = document.querySelector('output')
@@ -20,7 +20,7 @@ describe('Tools.Log', () => {
     render(
       <Form.Handler data={data}>
         <Tools.Log />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const element = document.querySelector('output')
@@ -34,7 +34,7 @@ describe('Tools.Log', () => {
     render(
       <Form.Handler data={data}>
         <Tools.Log />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const element = document.querySelector('output')
@@ -46,7 +46,7 @@ describe('Tools.Log', () => {
     render(
       <Form.Handler data={data}>
         <Tools.Log label="My label" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const element = document.querySelector('output')
@@ -57,7 +57,7 @@ describe('Tools.Log', () => {
     const { rerender } = render(
       <Form.Handler>
         <Tools.Log placeholder="My placeholder" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const element = document.querySelector('output')
@@ -66,7 +66,7 @@ describe('Tools.Log', () => {
     rerender(
       <Form.Handler data={{ foo: 'bar' }}>
         <Tools.Log placeholder="My placeholder" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(element.textContent).not.toContain('My placeholder')
@@ -76,7 +76,7 @@ describe('Tools.Log', () => {
     render(
       <Form.Handler data={{ foo: 'bar' }}>
         <Tools.Log placeholder="My placeholder" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const element = document.querySelector('output')
@@ -87,7 +87,7 @@ describe('Tools.Log', () => {
     render(
       <Form.Handler data={{ foo: 'bar' }}>
         <Tools.Log placeholder="My placeholder" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const element = document.querySelector('output')

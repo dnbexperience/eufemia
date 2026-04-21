@@ -10,7 +10,7 @@ export type TransformerFns<Value> = {
   transformValue: (value: Value, currentValue?: Value) => Value
   provideAdditionalArgs: (
     value: Value,
-    additionalArgs?: ProvideAdditionalEventArgs
+    additionalArgs?: ProvideAdditionalEventArgs,
   ) => ProvideAdditionalEventArgs
   fromExternal: (value: Value) => Value
   validateRequired: (
@@ -20,7 +20,7 @@ export type TransformerFns<Value> = {
       required: boolean
       isChanged: boolean
       error: Error
-    }
+    },
   ) => Error | undefined
 }
 
@@ -71,15 +71,15 @@ export default function useFieldTransform<Value>({
     }): [Value] | [Value, ProvideAdditionalEventArgs] => {
       const value = transformers.current.toEvent(
         overrideValue ?? valueRef.current,
-        eventName
+        eventName,
       )
       const args = transformers.current.provideAdditionalArgs(
         value,
-        additionalArgs
+        additionalArgs,
       )
       const transformedValue = transformers.current.transformOut(
         value,
-        args
+        args,
       ) as Value
 
       if (typeof args !== 'undefined') {
@@ -90,7 +90,7 @@ export default function useFieldTransform<Value>({
     },
     // valueRef is a stable ref identity
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [],
   )
 
   return { transformers, getEventArgs }

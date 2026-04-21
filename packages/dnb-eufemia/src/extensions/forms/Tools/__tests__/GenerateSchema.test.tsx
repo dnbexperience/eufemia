@@ -12,7 +12,7 @@ describe('Tools.GenerateSchema', () => {
         <Tools.GenerateSchema generateRef={generateRef}>
           <Field.String path="/myString" />
         </Tools.GenerateSchema>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const { schema } = generateRef.current()
@@ -41,7 +41,7 @@ describe('Tools.GenerateSchema', () => {
             required
           />
         </Tools.GenerateSchema>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(log).toHaveBeenCalledWith({
@@ -63,7 +63,7 @@ describe('Tools.GenerateSchema', () => {
         <Tools.GenerateSchema generateRef={generateRef}>
           <Field.String path="/myString" />
         </Tools.GenerateSchema>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(generateRef.current().data).toMatchInlineSnapshot(`
@@ -77,7 +77,7 @@ describe('Tools.GenerateSchema', () => {
         <Tools.GenerateSchema generateRef={generateRef}>
           <Field.String path="/myString" value="local value" />
         </Tools.GenerateSchema>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(generateRef.current().data).toMatchInlineSnapshot(`
@@ -96,7 +96,7 @@ describe('Tools.GenerateSchema', () => {
           <Field.String path="/myField" label="My field" />
           <Field.String path="/nested/myString" required minLength={2} />
         </Tools.GenerateSchema>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
@@ -146,7 +146,7 @@ describe('Tools.GenerateSchema', () => {
             minLength={2}
           />
         </Tools.GenerateSchema>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
@@ -207,7 +207,7 @@ describe('Tools.GenerateSchema', () => {
           <Value.String path="/myValue" label="My field" />
           <Value.String path="/nested/myString" placeholder="-" />
         </Tools.GenerateSchema>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(generateRef.current().propsOfValues).toMatchInlineSnapshot(`
@@ -230,7 +230,7 @@ describe('Tools.GenerateSchema', () => {
         <Tools.GenerateSchema generateRef={generateRef}>
           <Value.String path="/myString" value="local value" />
         </Tools.GenerateSchema>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(generateRef.current().propsOfValues).toMatchInlineSnapshot(`
@@ -268,7 +268,7 @@ describe('Tools.GenerateSchema', () => {
             valueOff="unchecked"
           />
         </Tools.GenerateSchema>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(generateRef.current().schema).toMatchInlineSnapshot(`
@@ -315,7 +315,7 @@ describe('Tools.GenerateSchema', () => {
             exclusiveMaximum={25}
           />
         </Tools.GenerateSchema>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(generateRef.current().schema).toMatchInlineSnapshot(`
@@ -372,7 +372,7 @@ describe('Tools.GenerateSchema', () => {
             exclusiveMaximum={25}
           />
         </Tools.GenerateSchema>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(generateRef.current().schema).toMatchInlineSnapshot(`
@@ -426,7 +426,7 @@ describe('Tools.GenerateSchema', () => {
             required
           />
         </Tools.GenerateSchema>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(generateRef.current().schema).toMatchInlineSnapshot(`
@@ -495,7 +495,7 @@ describe('Tools.GenerateSchema', () => {
             required
           />
         </Tools.GenerateSchema>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const { schema, data } = generateRef.current()

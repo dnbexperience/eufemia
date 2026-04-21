@@ -28,13 +28,13 @@ describe('HeightAnimation', () => {
     const { rerender } = render(<HeightAnimation open={false} />)
 
     expect(
-      document.querySelector('.dnb-height-animation')
+      document.querySelector('.dnb-height-animation'),
     ).not.toBeInTheDocument()
 
     rerender(<HeightAnimation open />)
 
     expect(
-      document.querySelector('.dnb-height-animation--is-visible')
+      document.querySelector('.dnb-height-animation--is-visible'),
     ).toBeInTheDocument()
   })
 
@@ -42,7 +42,7 @@ describe('HeightAnimation', () => {
     render(<HeightAnimation duration={1000} />)
 
     expect(
-      document.querySelector('.dnb-height-animation')
+      document.querySelector('.dnb-height-animation'),
     ).toHaveAttribute('style', '--duration: 1000ms;')
   })
 
@@ -50,7 +50,7 @@ describe('HeightAnimation', () => {
     render(<HeightAnimation delay={1000} />)
 
     expect(
-      document.querySelector('.dnb-height-animation')
+      document.querySelector('.dnb-height-animation'),
     ).toHaveAttribute('style', '--delay: 1000ms;')
   })
 
@@ -58,11 +58,11 @@ describe('HeightAnimation', () => {
     globalThis.readjustTime = 1
 
     const { rerender } = render(
-      <HeightAnimation open={false}>123</HeightAnimation>
+      <HeightAnimation open={false}>123</HeightAnimation>,
     )
 
     expect(
-      document.querySelector('.dnb-height-animation')
+      document.querySelector('.dnb-height-animation'),
     ).not.toBeInTheDocument()
 
     rerender(<HeightAnimation open>123</HeightAnimation>)
@@ -96,7 +96,7 @@ describe('HeightAnimation', () => {
   it('should call onOpen', () => {
     const onOpen = jest.fn()
     const { rerender } = render(
-      <HeightAnimation open={false} onOpen={onOpen} />
+      <HeightAnimation open={false} onOpen={onOpen} />,
     )
 
     expect(onOpen).toHaveBeenCalledTimes(1)
@@ -120,13 +120,13 @@ describe('HeightAnimation', () => {
   it('should call onAnimationEnd', () => {
     const onAnimationEnd = jest.fn()
     const { rerender } = render(
-      <HeightAnimation open={false} onAnimationEnd={onAnimationEnd} />
+      <HeightAnimation open={false} onAnimationEnd={onAnimationEnd} />,
     )
 
     expect(onAnimationEnd).toHaveBeenCalledTimes(0)
 
     rerender(
-      <HeightAnimation open={true} onAnimationEnd={onAnimationEnd} />
+      <HeightAnimation open={true} onAnimationEnd={onAnimationEnd} />,
     )
 
     simulateAnimationEnd()
@@ -135,7 +135,7 @@ describe('HeightAnimation', () => {
     expect(onAnimationEnd).toHaveBeenLastCalledWith('opened')
 
     rerender(
-      <HeightAnimation open={false} onAnimationEnd={onAnimationEnd} />
+      <HeightAnimation open={false} onAnimationEnd={onAnimationEnd} />,
     )
 
     simulateAnimationEnd()
@@ -147,12 +147,12 @@ describe('HeightAnimation', () => {
   it('should call onInit', () => {
     const onInit = jest.fn()
     const { rerender } = render(
-      <HeightAnimation onInit={onInit} open={false} />
+      <HeightAnimation onInit={onInit} open={false} />,
     )
 
     expect(onInit).toHaveBeenCalledTimes(1)
     expect(onInit).toHaveBeenCalledWith(
-      expect.any(HeightAnimationInstance)
+      expect.any(HeightAnimationInstance),
     )
 
     rerender(<HeightAnimation onInit={onInit} open={true} />)
@@ -177,11 +177,11 @@ describe('HeightAnimation', () => {
       render(
         <HeightAnimation compensateForGap="auto">
           <span className="content">content</span>
-        </HeightAnimation>
+        </HeightAnimation>,
       )
 
       const inner = document.querySelector(
-        '.dnb-height-animation > .compensateForGap'
+        '.dnb-height-animation > .compensateForGap',
       )
       expect(inner).toBeInTheDocument()
     })
@@ -192,7 +192,7 @@ describe('HeightAnimation', () => {
           <HeightAnimation compensateForGap="auto">
             <span className="content">content</span>
           </HeightAnimation>
-        </div>
+        </div>,
       )
 
       const main = document.querySelector('.dnb-height-animation')
@@ -208,7 +208,7 @@ describe('HeightAnimation', () => {
       const { rerender } = render(
         <HeightAnimation keepInDOM>
           <span className="content">content</span>
-        </HeightAnimation>
+        </HeightAnimation>,
       )
 
       expect(document.querySelector('.content')).toBeInTheDocument()
@@ -217,7 +217,7 @@ describe('HeightAnimation', () => {
       rerender(
         <HeightAnimation keepInDOM open={false}>
           <span className="content">content</span>
-        </HeightAnimation>
+        </HeightAnimation>,
       )
 
       expect(document.querySelector('.content')).toBeInTheDocument()
@@ -225,7 +225,7 @@ describe('HeightAnimation', () => {
       rerender(
         <HeightAnimation keepInDOM open>
           <span className="content">content</span>
-        </HeightAnimation>
+        </HeightAnimation>,
       )
 
       expect(document.querySelector('.content')).toBeInTheDocument()
@@ -234,7 +234,7 @@ describe('HeightAnimation', () => {
       simulateAnimationEnd()
 
       expect(getElement()).not.toHaveClass(
-        'dnb-height-animation--animating'
+        'dnb-height-animation--animating',
       )
       expect(getElement()).toHaveClass('dnb-height-animation--is-in-dom')
       expect(getElement()).toHaveClass('dnb-height-animation--is-visible')
@@ -242,7 +242,7 @@ describe('HeightAnimation', () => {
 
     it('should set aria-hidden when closed and keepInDOM is true', () => {
       const { rerender } = render(
-        <HeightAnimation open={false} keepInDOM />
+        <HeightAnimation open={false} keepInDOM />,
       )
 
       expect(getElement()).toHaveAttribute('aria-hidden', 'true')
@@ -268,7 +268,7 @@ describe('HeightAnimation', () => {
 
     it('should set className "hidden" when closed and keepInDOM is true', () => {
       const { rerender } = render(
-        <HeightAnimation open={false} keepInDOM />
+        <HeightAnimation open={false} keepInDOM />,
       )
 
       expect(getElement()).toHaveClass('dnb-height-animation--hidden')
@@ -320,7 +320,7 @@ describe('HeightAnimation', () => {
     runAnimation()
 
     expect(getElement()).not.toHaveClass(
-      'dnb-height-animation--is-visible'
+      'dnb-height-animation--is-visible',
     )
     expect(getElement()).not.toHaveClass('dnb-height-animation--animating')
     expect(getElement()).not.toHaveClass('dnb-height-animation--parallax')
@@ -344,7 +344,7 @@ describe('HeightAnimation', () => {
 
   it('should have correct classes when animation is disabled', () => {
     const { rerender } = render(
-      <HeightAnimation animate={false} keepInDOM />
+      <HeightAnimation animate={false} keepInDOM />,
     )
 
     expect(getElement()).toHaveClass('dnb-height-animation--is-visible')
@@ -355,7 +355,7 @@ describe('HeightAnimation', () => {
     rerender(<HeightAnimation open={false} animate={false} keepInDOM />)
 
     expect(getElement()).not.toHaveClass(
-      'dnb-height-animation--is-visible'
+      'dnb-height-animation--is-visible',
     )
     expect(getElement()).not.toHaveClass('dnb-height-animation--animating')
     expect(getElement()).not.toHaveClass('dnb-height-animation--parallax')
@@ -364,7 +364,7 @@ describe('HeightAnimation', () => {
 
   it('should have constant of _supportsSpacingProps="children"', () => {
     expect(
-      (HeightAnimation as ComponentMarkers)._supportsSpacingProps
+      (HeightAnimation as ComponentMarkers)._supportsSpacingProps,
     ).toBe('children')
   })
 
@@ -400,17 +400,17 @@ describe('HeightAnimation without initializeTestSetup()', () => {
 
   it('should open without animation', () => {
     window.requestAnimationFrame = jest.fn((callback) =>
-      setTimeout(callback, 0)
+      setTimeout(callback, 0),
     )
 
     const { rerender } = render(
-      <HeightAnimation open={false}>visible content</HeightAnimation>
+      <HeightAnimation open={false}>visible content</HeightAnimation>,
     )
 
     expect(getElement()).toBeNull()
 
     rerender(
-      <HeightAnimation open={true}>visible content</HeightAnimation>
+      <HeightAnimation open={true}>visible content</HeightAnimation>,
     )
 
     expect(getElement()).toHaveTextContent('visible content')
@@ -447,7 +447,7 @@ describe('HeightAnimation without initializeTestSetup()', () => {
 describe('HeightAnimation aria', () => {
   it('should validate', async () => {
     const Component = render(
-      <HeightAnimation>visible content</HeightAnimation>
+      <HeightAnimation>visible content</HeightAnimation>,
     )
     expect(await axeComponent(Component)).toHaveNoViolations()
   })

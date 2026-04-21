@@ -26,8 +26,8 @@ function simulateSmallScreen() {
 const expandStepIndicator = async () => {
   await fireEvent.click(
     document.querySelector(
-      'button.dnb-step-indicator__trigger__button--collapsed'
-    )
+      'button.dnb-step-indicator__trigger__button--collapsed',
+    ),
   )
 }
 
@@ -36,7 +36,7 @@ beforeEach(() => {
   global.console.log = jest.fn((...args) => {
     if (
       !String(args[1]).includes(
-        'You may wrap Wizard.Container in Form.Handler'
+        'You may wrap Wizard.Container in Form.Handler',
       ) &&
       !String(args[1]).includes('initialActiveIndex=')
     ) {
@@ -79,13 +79,13 @@ describe('Wizard.Container', () => {
         <Wizard.Step title="Step 2">
           <Wizard.PreviousButton />
         </Wizard.Step>
-      </Wizard.Container>
+      </Wizard.Container>,
     )
 
     await expandStepIndicator()
 
     const [firstStep, secondStep] = Array.from(
-      document.querySelectorAll('.dnb-step-indicator__item')
+      document.querySelectorAll('.dnb-step-indicator__item'),
     )
 
     expect(firstStep.querySelector('.dnb-anchor').tagName).toBe('BUTTON')
@@ -106,12 +106,12 @@ describe('Wizard.Container', () => {
           <output>Step 2</output>
           <Wizard.Buttons />
         </Wizard.Step>
-      </Wizard.Container>
+      </Wizard.Container>,
     )
 
     await expandStepIndicator()
     const [firstStep, secondStep] = Array.from(
-      document.querySelectorAll('.dnb-step-indicator__item')
+      document.querySelectorAll('.dnb-step-indicator__item'),
     )
 
     await userEvent.click(secondStep.querySelector('.dnb-anchor'))
@@ -120,7 +120,7 @@ describe('Wizard.Container', () => {
     expect(onStepChange).toHaveBeenLastCalledWith(
       1,
       'next',
-      expect.anything()
+      expect.anything(),
     )
 
     await userEvent.click(firstStep.querySelector('.dnb-anchor'))
@@ -129,7 +129,7 @@ describe('Wizard.Container', () => {
     expect(onStepChange).toHaveBeenLastCalledWith(
       0,
       'previous',
-      expect.anything()
+      expect.anything(),
     )
 
     await userEvent.click(nextButton())
@@ -138,7 +138,7 @@ describe('Wizard.Container', () => {
     expect(onStepChange).toHaveBeenLastCalledWith(
       1,
       'next',
-      expect.anything()
+      expect.anything(),
     )
 
     // Use fireEvent to trigger the event fast
@@ -150,7 +150,7 @@ describe('Wizard.Container', () => {
       expect(onStepChange).toHaveBeenLastCalledWith(
         0,
         'previous',
-        expect.anything()
+        expect.anything(),
       )
       expect(previousButton()).not.toBeInTheDocument()
     })
@@ -170,7 +170,7 @@ describe('Wizard.Container', () => {
           <output>Step 2</output>
           <Wizard.Buttons />
         </Wizard.Step>
-      </Wizard.Container>
+      </Wizard.Container>,
     )
 
     await userEvent.click(nextButton())
@@ -215,12 +215,12 @@ describe('Wizard.Container', () => {
           <output>Step 2</output>
           <Wizard.Buttons />
         </Wizard.Step>
-      </Wizard.Container>
+      </Wizard.Container>,
     )
 
     await expandStepIndicator()
     const [firstStep, secondStep] = Array.from(
-      document.querySelectorAll('.dnb-step-indicator__item')
+      document.querySelectorAll('.dnb-step-indicator__item'),
     )
 
     await userEvent.click(secondStep.querySelector('.dnb-anchor'))
@@ -292,7 +292,7 @@ describe('Wizard.Container', () => {
           <Step2 />
           <Summary />
         </Wizard.Container>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(output()).toHaveTextContent('Step 1')
@@ -375,7 +375,7 @@ describe('Wizard.Container', () => {
               <Summary />
             </Wizard.Container>
           </Form.Handler>
-        </React.StrictMode>
+        </React.StrictMode>,
       )
 
       expect(output()).toHaveTextContent('Step 1')
@@ -458,7 +458,7 @@ describe('Wizard.Container', () => {
               <Summary />
             </Wizard.Container>
           </Form.Handler>
-        </React.StrictMode>
+        </React.StrictMode>,
       )
 
       expect(output()).toHaveTextContent('Step 1')
@@ -544,7 +544,7 @@ describe('Wizard.Container', () => {
               <Summary />
             </Wizard.Container>
           </Form.Handler>
-        </React.StrictMode>
+        </React.StrictMode>,
       )
 
       expect(screen.getAllByText('wizard.step1')).toHaveLength(2)
@@ -632,13 +632,13 @@ describe('Wizard.Container', () => {
         <Wizard.Step title="Step 3">
           <Wizard.PreviousButton />
         </Wizard.Step>
-      </Wizard.Container>
+      </Wizard.Container>,
     )
 
     const input = () => document.querySelector('input')
 
     const [, secondStep] = Array.from(
-      document.querySelectorAll('.dnb-step-indicator__item')
+      document.querySelectorAll('.dnb-step-indicator__item'),
     )
     expect(output()).toHaveTextContent('Step 1')
     expect(document.querySelector('.dnb-form-status')).toBeNull()
@@ -647,7 +647,7 @@ describe('Wizard.Container', () => {
 
     expect(output()).toHaveTextContent('Step 1')
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      nb.Field.errorRequired
+      nb.Field.errorRequired,
     )
 
     await userEvent.type(input(), 'invalid')
@@ -655,7 +655,7 @@ describe('Wizard.Container', () => {
 
     expect(output()).toHaveTextContent('Step 1')
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      'onChangeValidator-error'
+      'onChangeValidator-error',
     )
 
     fireEvent.blur(input())
@@ -663,7 +663,7 @@ describe('Wizard.Container', () => {
     await waitFor(() => {
       expect(output()).toHaveTextContent('Step 1')
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        'onBlurValidator-error'
+        'onBlurValidator-error',
       )
     })
 
@@ -677,7 +677,7 @@ describe('Wizard.Container', () => {
 
     expect(output()).toHaveTextContent('Step 2')
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      nb.Field.errorRequired
+      nb.Field.errorRequired,
     )
 
     await userEvent.click(previousButton())
@@ -685,7 +685,7 @@ describe('Wizard.Container', () => {
     expect(output()).toHaveTextContent('Step 1')
     expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
     expect(secondStep.querySelector('.dnb-form-status')).toHaveTextContent(
-      nb.Step.stepHasError
+      nb.Step.stepHasError,
     )
 
     await userEvent.type(input(), '{Backspace>8}invalid')
@@ -694,10 +694,10 @@ describe('Wizard.Container', () => {
     expect(output()).toHaveTextContent('Step 1')
     expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)
     expect(secondStep.querySelector('.dnb-form-status')).toHaveTextContent(
-      nb.Step.stepHasError
+      nb.Step.stepHasError,
     )
     expect(content().querySelector('.dnb-form-status')).toHaveTextContent(
-      'onChangeValidator-error'
+      'onChangeValidator-error',
     )
 
     fireEvent.blur(input())
@@ -705,7 +705,7 @@ describe('Wizard.Container', () => {
     await waitFor(() => {
       expect(output()).toHaveTextContent('Step 1')
       expect(
-        content().querySelector('.dnb-form-status')
+        content().querySelector('.dnb-form-status'),
       ).toHaveTextContent('onBlurValidator-error')
     })
 
@@ -715,7 +715,7 @@ describe('Wizard.Container', () => {
     expect(output()).toHaveTextContent('Step 2')
     expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      nb.Field.errorRequired
+      nb.Field.errorRequired,
     )
   }, 20000)
 
@@ -733,7 +733,7 @@ describe('Wizard.Container', () => {
         <Wizard.Step title="Step 3">
           <output>Step 3</output>
         </Wizard.Step>
-      </Wizard.Container>
+      </Wizard.Container>,
     )
 
     expect(output()).toHaveTextContent('Step 2')
@@ -751,7 +751,7 @@ describe('Wizard.Container', () => {
         <Wizard.Step title="Step 3">
           <output>Step 3</output>
         </Wizard.Step>
-      </Wizard.Container>
+      </Wizard.Container>,
     )
 
     expect(output()).toHaveTextContent('Step 2')
@@ -792,7 +792,7 @@ describe('Wizard.Container', () => {
         <Step1 />
         <Step2 />
         <Step3 />
-      </Wizard.Container>
+      </Wizard.Container>,
     )
 
     expect(output()).toHaveTextContent('Step 1')
@@ -803,7 +803,7 @@ describe('Wizard.Container', () => {
         <Step1 />
         <Step2 />
         <Step3 />
-      </Wizard.Container>
+      </Wizard.Container>,
     )
     await userEvent.click(nextButton())
 
@@ -815,7 +815,7 @@ describe('Wizard.Container', () => {
         <Step1 />
         <Step2 />
         <Step3 />
-      </Wizard.Container>
+      </Wizard.Container>,
     )
     await userEvent.click(nextButton())
 
@@ -846,7 +846,7 @@ describe('Wizard.Container', () => {
             <Form.SubmitButton />
           </Wizard.Step>
         </Wizard.Container>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(output()).toHaveTextContent('Step 1')
@@ -902,7 +902,7 @@ describe('Wizard.Container', () => {
             <output>Step 2</output>
           </Wizard.Step>
         </Wizard.Container>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(output()).toHaveTextContent('Step 1')
@@ -929,7 +929,7 @@ describe('Wizard.Container', () => {
           <Wizard.Step title="Step 2">
             <output>Step 2</output>
           </Wizard.Step>
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       expect(output()).toHaveTextContent('Step 2')
@@ -937,7 +937,7 @@ describe('Wizard.Container', () => {
       await expandStepIndicator()
 
       expect(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       ).toHaveLength(1)
     })
 
@@ -951,20 +951,20 @@ describe('Wizard.Container', () => {
           <Wizard.Step title="Step 2">
             <output>Step 2</output>
           </Wizard.Step>
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       expect(output()).toHaveTextContent('Step 2')
       expect(
-        document.querySelector('.dnb-step-indicator')
+        document.querySelector('.dnb-step-indicator'),
       ).toHaveTextContent('Steg 1 av 1')
       expect(
-        document.querySelector('.dnb-step-indicator__trigger__button')
+        document.querySelector('.dnb-step-indicator__trigger__button'),
       ).toHaveTextContent('Step 2')
 
       await expandStepIndicator()
       expect(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       ).toHaveLength(1)
 
       rerender(
@@ -977,19 +977,19 @@ describe('Wizard.Container', () => {
           <Wizard.Step title="Step 2">
             <output>Step 2</output>
           </Wizard.Step>
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       expect(output()).toHaveTextContent('Step 1')
       expect(
-        document.querySelector('.dnb-step-indicator')
+        document.querySelector('.dnb-step-indicator'),
       ).toHaveTextContent('Steg 2 av 2')
       expect(
-        document.querySelector('.dnb-step-indicator__trigger__button')
+        document.querySelector('.dnb-step-indicator__trigger__button'),
       ).toHaveTextContent('Step 1')
 
       expect(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       ).toHaveLength(2)
 
       rerender(
@@ -1002,19 +1002,19 @@ describe('Wizard.Container', () => {
           <Wizard.Step title="Step 2">
             <output>Step 2</output>
           </Wizard.Step>
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       expect(output()).toHaveTextContent('Step 2')
       expect(
-        document.querySelector('.dnb-step-indicator')
+        document.querySelector('.dnb-step-indicator'),
       ).toHaveTextContent('Steg 1 av 1')
       expect(
-        document.querySelector('.dnb-step-indicator__trigger__button')
+        document.querySelector('.dnb-step-indicator__trigger__button'),
       ).toHaveTextContent('Step 2')
 
       expect(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       ).toHaveLength(1)
 
       rerender(
@@ -1027,18 +1027,18 @@ describe('Wizard.Container', () => {
           <Wizard.Step title="Step 2" include={false}>
             <output>Step 2</output>
           </Wizard.Step>
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       expect(output()).toBeNull()
       expect(
-        document.querySelector('.dnb-step-indicator')
+        document.querySelector('.dnb-step-indicator'),
       ).toHaveTextContent('Steg 1 av 1')
       expect(
-        document.querySelector('.dnb-step-indicator__trigger__button')
+        document.querySelector('.dnb-step-indicator__trigger__button'),
       ).toHaveTextContent('')
       expect(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       ).toHaveLength(0)
     })
 
@@ -1086,7 +1086,7 @@ describe('Wizard.Container', () => {
       expect(output()).toHaveTextContent('Step 1')
       await expandStepIndicator()
       expect(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       ).toHaveLength(2)
       expect(previousButton()).toBeNull()
       expect(nextButton()).toBeInTheDocument()
@@ -1095,7 +1095,7 @@ describe('Wizard.Container', () => {
 
       expect(output()).toHaveTextContent('Step 1')
       expect(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       ).toHaveLength(1)
       expect(previousButton()).toBeNull()
       expect(nextButton()).not.toBeInTheDocument()
@@ -1103,7 +1103,7 @@ describe('Wizard.Container', () => {
       await userEvent.click(document.querySelector('#toggleStep2'))
 
       expect(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       ).toHaveLength(2)
       expect(previousButton()).toBeNull()
       expect(nextButton()).toBeInTheDocument()
@@ -1128,12 +1128,12 @@ describe('Wizard.Container', () => {
               <output>Step 2</output>
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
       await expandStepIndicator()
       expect(output()).toHaveTextContent('Step 2')
       expect(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       ).toHaveLength(1)
     })
 
@@ -1157,13 +1157,13 @@ describe('Wizard.Container', () => {
               <output>Step 2</output>
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       await expandStepIndicator()
       expect(output()).toHaveTextContent('Step 1')
       expect(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       ).toHaveLength(2)
     })
 
@@ -1206,20 +1206,20 @@ describe('Wizard.Container', () => {
               <Wizard.Buttons />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       await expandStepIndicator()
       const [groupOne, groupTwo] = Array.from(
-        document.querySelectorAll('.dnb-toggle-button button')
+        document.querySelectorAll('.dnb-toggle-button button'),
       )
 
       expect(output()).toHaveTextContent('Step 2')
       expect(
-        document.querySelector('.dnb-step-indicator')
+        document.querySelector('.dnb-step-indicator'),
       ).toHaveTextContent('Steg 1 av 1')
       expect(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       ).toHaveLength(1)
       expect(previousButton()).toBeNull()
       expect(nextButton()).toBeNull()
@@ -1228,10 +1228,10 @@ describe('Wizard.Container', () => {
 
       expect(output()).toHaveTextContent('Step 1')
       expect(
-        document.querySelector('.dnb-step-indicator')
+        document.querySelector('.dnb-step-indicator'),
       ).toHaveTextContent('Steg 1 av 2')
       expect(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       ).toHaveLength(2)
       expect(previousButton()).toBeNull()
       expect(nextButton()).toBeInTheDocument()
@@ -1240,24 +1240,24 @@ describe('Wizard.Container', () => {
 
       expect(output()).toHaveTextContent('Step 2')
       expect(
-        document.querySelector('.dnb-step-indicator')
+        document.querySelector('.dnb-step-indicator'),
       ).toHaveTextContent('Steg 1 av 1')
       expect(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       ).toHaveLength(1)
       expect(previousButton()).toBeNull()
       expect(nextButton()).toBeNull()
 
       await userEvent.click(
-        document.querySelectorAll('.dnb-toggle-button button')[2]
+        document.querySelectorAll('.dnb-toggle-button button')[2],
       )
 
       expect(output()).toBeNull()
       expect(
-        document.querySelector('.dnb-step-indicator__trigger__button')
+        document.querySelector('.dnb-step-indicator__trigger__button'),
       ).toHaveTextContent('')
       expect(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       ).toHaveLength(0)
       expect(previousButton()).toBeNull()
       expect(nextButton()).toBeNull()
@@ -1301,14 +1301,14 @@ describe('Wizard.Container', () => {
               <Wizard.Buttons />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(output()).toHaveTextContent('Step 2')
       expect(onStepChange).toHaveBeenCalledTimes(0)
 
       const [groupOne, groupTwo] = Array.from(
-        document.querySelectorAll('.dnb-toggle-button button')
+        document.querySelectorAll('.dnb-toggle-button button'),
       )
 
       await userEvent.click(groupOne)
@@ -1323,7 +1323,7 @@ describe('Wizard.Container', () => {
           previousStep: { index: 0, id: 'step-1' },
           preventNavigation: expect.any(Function),
           totalSteps: 2,
-        }
+        },
       )
 
       await userEvent.click(groupTwo)
@@ -1338,7 +1338,7 @@ describe('Wizard.Container', () => {
           previousStep: { index: 0, id: 'step-2' },
           preventNavigation: expect.any(Function),
           totalSteps: 1,
-        }
+        },
       )
 
       await userEvent.click(groupOne)
@@ -1353,7 +1353,7 @@ describe('Wizard.Container', () => {
           previousStep: { index: 0, id: 'step-1' },
           preventNavigation: expect.any(Function),
           totalSteps: 2,
-        }
+        },
       )
 
       await userEvent.click(nextButton())
@@ -1379,7 +1379,7 @@ describe('Wizard.Container', () => {
           previousStep: { index: 0, id: 'step-2' },
           preventNavigation: expect.any(Function),
           totalSteps: 1,
-        }
+        },
       )
 
       await userEvent.click(groupOne)
@@ -1394,7 +1394,7 @@ describe('Wizard.Container', () => {
           previousStep: { index: 0, id: 'step-1' },
           preventNavigation: expect.any(Function),
           totalSteps: 2,
-        }
+        },
       )
 
       await userEvent.click(nextButton())
@@ -1442,7 +1442,7 @@ describe('Wizard.Container', () => {
               <Wizard.NextButton />
             </Form.ButtonRow>
           </Wizard.Step>
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       expect(output()).toHaveTextContent('Step 1')
@@ -1488,13 +1488,13 @@ describe('Wizard.Container', () => {
             <output>Step 2</output>
             <Wizard.Buttons />
           </Wizard.Step>
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       await expandStepIndicator()
 
       const [firstStep, secondStep] = Array.from(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       )
       await userEvent.click(secondStep.querySelector('.dnb-anchor'))
       expect(output()).toHaveTextContent('Step 2')
@@ -1549,7 +1549,7 @@ describe('Wizard.Container', () => {
               </Form.ButtonRow>
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(output()).toHaveTextContent('Step 1')
@@ -1624,7 +1624,7 @@ describe('Wizard.Container', () => {
               <Wizard.NextButton />
             </Form.ButtonRow>
           </Wizard.Step>
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       expect(output()).toHaveTextContent('Step 1')
@@ -1683,7 +1683,7 @@ describe('Wizard.Container', () => {
               <Wizard.NextButton />
             </Form.ButtonRow>
           </Wizard.Step>
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       expect(output()).toHaveTextContent('Step 1')
@@ -1700,7 +1700,7 @@ describe('Wizard.Container', () => {
         expect(output()).toHaveTextContent('Step 1')
         expect(screen.queryAllByRole('alert')).toHaveLength(1)
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent('Error message')
         expect(previousButton()).toBeDisabled()
         expect(nextButton()).not.toBeDisabled()
@@ -1748,7 +1748,7 @@ describe('Wizard.Container', () => {
               <Wizard.NextButton />
             </Form.ButtonRow>
           </Wizard.Step>
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       expect(output()).toHaveTextContent('Step 1')
@@ -1807,7 +1807,7 @@ describe('Wizard.Container', () => {
               <Wizard.NextButton />
             </Form.ButtonRow>
           </Wizard.Step>
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       expect(output()).toHaveTextContent('Step 1')
@@ -1824,7 +1824,7 @@ describe('Wizard.Container', () => {
         expect(output()).toHaveTextContent('Step 1')
         expect(screen.queryAllByRole('alert')).toHaveLength(1)
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent('Error message')
         expect(previousButton()).toBeDisabled()
         expect(nextButton()).not.toBeDisabled()
@@ -1864,13 +1864,13 @@ describe('Wizard.Container', () => {
           <Wizard.PreviousButton />
           <Wizard.NextButton />
         </Wizard.Step>
-      </Wizard.Container>
+      </Wizard.Container>,
     )
 
     const scrollMock = jest
       .spyOn(
         document.querySelector('.dnb-forms-wizard-layout'),
-        'scrollIntoView'
+        'scrollIntoView',
       )
       .mockImplementation(scrollIntoViewMock)
 
@@ -1889,7 +1889,7 @@ describe('Wizard.Container', () => {
     })
     await expandStepIndicator()
     const secondStep = Array.from(
-      document.querySelectorAll('.dnb-step-indicator__item')
+      document.querySelectorAll('.dnb-step-indicator__item'),
     )[1]
 
     await userEvent.click(secondStep.querySelector('.dnb-anchor'))
@@ -1899,7 +1899,7 @@ describe('Wizard.Container', () => {
     })
 
     const firstStep = Array.from(
-      document.querySelectorAll('.dnb-step-indicator__item')
+      document.querySelectorAll('.dnb-step-indicator__item'),
     )[0]
     await userEvent.click(firstStep.querySelector('.dnb-anchor'))
     expect(output()).toHaveTextContent('Step 1')
@@ -1929,7 +1929,7 @@ describe('Wizard.Container', () => {
           <Wizard.PreviousButton />
           <Wizard.NextButton />
         </Wizard.Step>
-      </Wizard.Container>
+      </Wizard.Container>,
     )
 
     fireEvent.click(nextButton())
@@ -1946,7 +1946,7 @@ describe('Wizard.Container', () => {
     await expandStepIndicator()
 
     const [firstStep, secondStep] = Array.from(
-      document.querySelectorAll('.dnb-step-indicator__item')
+      document.querySelectorAll('.dnb-step-indicator__item'),
     )
     await userEvent.click(secondStep.querySelector('.dnb-anchor'))
     expect(output()).toHaveTextContent('Step 2')
@@ -1974,7 +1974,7 @@ describe('Wizard.Container', () => {
           <Wizard.PreviousButton />
           <Wizard.NextButton />
         </Wizard.Step>
-      </Wizard.Container>
+      </Wizard.Container>,
     )
 
     expect(output()).toHaveTextContent('Step 1')
@@ -2006,12 +2006,12 @@ describe('Wizard.Container', () => {
             return null
           }}
         </WizardContext.Consumer>
-      </Wizard.Container>
+      </Wizard.Container>,
     )
 
     const getHiddenSteps = () =>
       Array.from(
-        document.querySelectorAll('div[title="Wizard Step"][hidden]')
+        document.querySelectorAll('div[title="Wizard Step"][hidden]'),
       )
 
     expect(currentIndex).toBe(0)
@@ -2046,7 +2046,7 @@ describe('Wizard.Container', () => {
           <output>Step 2</output>
           <Wizard.Buttons />
         </Wizard.Step>
-      </Wizard.Container>
+      </Wizard.Container>,
     )
 
     expect(output()).toHaveTextContent('Step 1')
@@ -2095,7 +2095,7 @@ describe('Wizard.Container', () => {
           <output>Step 2</output>
           <Wizard.Buttons />
         </Wizard.Step>
-      </Wizard.Container>
+      </Wizard.Container>,
     )
 
     expect(output()).toHaveTextContent('Step 1')
@@ -2115,17 +2115,17 @@ describe('Wizard.Container', () => {
         <Wizard.Step>
           <output>Step 1</output>
         </Wizard.Step>
-      </Wizard.Container>
+      </Wizard.Container>,
     )
 
     expect(
-      document.querySelector('.dnb-step-indicator__trigger__button')
+      document.querySelector('.dnb-step-indicator__trigger__button'),
     ).toHaveTextContent('Title missing')
 
     expandStepIndicator()
 
     expect(
-      document.querySelector('.dnb-step-indicator__button')
+      document.querySelector('.dnb-step-indicator__button'),
     ).toHaveTextContent('Title missing')
   })
 
@@ -2137,13 +2137,13 @@ describe('Wizard.Container', () => {
         <Wizard.Step title="Step 1">
           <output>Step 1</output>
         </Wizard.Step>
-      </Wizard.Container>
+      </Wizard.Container>,
     )
 
     expect(log).toHaveBeenCalledTimes(1)
     expect(log).toHaveBeenCalledWith(
       expect.anything(),
-      'You may wrap Wizard.Container in Form.Handler'
+      'You may wrap Wizard.Container in Form.Handler',
     )
 
     log.mockRestore()
@@ -2178,7 +2178,7 @@ describe('Wizard.Container', () => {
           </Wizard.Step>
         </Wizard.Container>
         <Form.SubmitButton />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(output()).toHaveTextContent('Step 1')
@@ -2227,12 +2227,12 @@ describe('Wizard.Container', () => {
             <Wizard.Buttons />
           </Wizard.Step>
         </Wizard.Container>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     await expandStepIndicator()
     const [stepA, stepB, stepC] = Array.from(
-      document.querySelectorAll('.dnb-step-indicator__item')
+      document.querySelectorAll('.dnb-step-indicator__item'),
     )
 
     expect(stepA).toHaveClass('dnb-step-indicator__item--current')
@@ -2293,7 +2293,7 @@ describe('Wizard.Container', () => {
         dataContext.setFieldEventListener(
           identifier,
           'onSubmitCall',
-          onSubmitCall
+          onSubmitCall,
         )
 
         return () => {
@@ -2301,7 +2301,7 @@ describe('Wizard.Container', () => {
             identifier,
             'onSubmitCall',
             onSubmitCall,
-            { remove: true }
+            { remove: true },
           )
         }
       }, [dataContext])
@@ -2322,7 +2322,7 @@ describe('Wizard.Container', () => {
             <Wizard.Buttons />
           </Wizard.Step>
         </Wizard.Container>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     // Verify we start on Step 1
@@ -2366,7 +2366,7 @@ describe('Wizard.Container', () => {
             <Wizard.Buttons />
           </Wizard.Step>
         </Wizard.Container>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(output()).toHaveTextContent('Step 1')
@@ -2375,7 +2375,7 @@ describe('Wizard.Container', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
     })
 
@@ -2420,11 +2420,11 @@ describe('Wizard.Container', () => {
             <Wizard.Buttons />
           </Wizard.Step>
         </Wizard.Container>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [firstStep, secondStep] = Array.from(
-      document.querySelectorAll('.dnb-step-indicator__item')
+      document.querySelectorAll('.dnb-step-indicator__item'),
     )
 
     expect(output()).toHaveTextContent('Step 1')
@@ -2493,10 +2493,10 @@ describe('Wizard.Container', () => {
             <Wizard.PreviousButton />
             <Wizard.NextButton />
           </Wizard.Step>
-        </Wizard.Container>
+        </Wizard.Container>,
       )
       const [, secondStep] = Array.from(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       )
       expect(output()).toHaveTextContent('Step 1')
       expect(document.querySelector('.dnb-form-status')).toBeNull()
@@ -2515,7 +2515,7 @@ describe('Wizard.Container', () => {
 
       await waitFor(() => {
         expect(
-          content().querySelector('.dnb-form-status')
+          content().querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         expect(secondStep.querySelector('.dnb-form-status')).toBeNull()
       })
@@ -2527,7 +2527,7 @@ describe('Wizard.Container', () => {
       await waitFor(() => {
         expect(content().querySelector('.dnb-form-status')).toBeNull()
         expect(
-          secondStep.querySelector('.dnb-form-status')
+          secondStep.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
       })
 
@@ -2537,7 +2537,7 @@ describe('Wizard.Container', () => {
 
       await waitFor(() => {
         expect(
-          content().querySelector('.dnb-form-status')
+          content().querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         expect(secondStep.querySelector('.dnb-form-status')).toBeNull()
       })
@@ -2570,11 +2570,11 @@ describe('Wizard.Container', () => {
             <Field.String path="/foo" required />
             <Wizard.NextButton />
           </Wizard.Step>
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       const [firstStep, secondStep] = Array.from(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       )
 
       expect(output()).toHaveTextContent('Step 1')
@@ -2593,7 +2593,7 @@ describe('Wizard.Container', () => {
       await waitFor(() => {
         expect(output()).toHaveTextContent('Step 2')
         expect(
-          content().querySelector('.dnb-form-status')
+          content().querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
       })
       await userEvent.click(firstStep.querySelector('button'))
@@ -2602,7 +2602,7 @@ describe('Wizard.Container', () => {
         expect(output()).toHaveTextContent('Step 1')
         expect(content().querySelector('.dnb-form-status')).toBeNull()
         expect(
-          secondStep.querySelector('.dnb-form-status')
+          secondStep.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
       })
 
@@ -2611,7 +2611,7 @@ describe('Wizard.Container', () => {
       await waitFor(() => {
         expect(output()).toHaveTextContent('Step 2')
         expect(
-          content().querySelector('.dnb-form-status')
+          content().querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         expect(secondStep.querySelector('.dnb-form-status')).toBeNull()
       })
@@ -2640,11 +2640,11 @@ describe('Wizard.Container', () => {
             <output>Step 3</output>
             <Wizard.Buttons />
           </Wizard.Step>
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       const [firstStep] = Array.from(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       )
 
       expect(output()).toHaveTextContent('Step 3')
@@ -2672,7 +2672,7 @@ describe('Wizard.Container', () => {
         () => {
           expect(content().querySelector('.dnb-form-status')).toBeNull()
         },
-        { timeout: 10000, interval: 100 }
+        { timeout: 10000, interval: 100 },
       )
 
       // Go to Step 2
@@ -2682,7 +2682,7 @@ describe('Wizard.Container', () => {
         () => {
           expect(output()).toHaveTextContent('Step 2')
         },
-        { timeout: 10000, interval: 100 }
+        { timeout: 10000, interval: 100 },
       )
     })
 
@@ -2702,7 +2702,7 @@ describe('Wizard.Container', () => {
           <Wizard.Step title="Step 3">
             <Wizard.Buttons />
           </Wizard.Step>
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       const addedNodes = []
@@ -2767,7 +2767,7 @@ describe('Wizard.Container', () => {
               return null
             }}
           </WizardContext.Consumer>
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       expect(currentIndex).toBe(0)
@@ -2810,19 +2810,23 @@ describe('Wizard.Container', () => {
               <Wizard.Buttons />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(output()).toHaveTextContent('Step 1')
       expect(
-        document.querySelector('.dnb-step-indicator__item-content__status')
+        document.querySelector(
+          '.dnb-step-indicator__item-content__status',
+        ),
       ).toBeNull()
 
       await userEvent.click(nextButton())
 
       expect(output()).toHaveTextContent('Step 2')
       expect(
-        document.querySelector('.dnb-step-indicator__item-content__status')
+        document.querySelector(
+          '.dnb-step-indicator__item-content__status',
+        ),
       ).toBeNull()
     })
 
@@ -2855,11 +2859,11 @@ describe('Wizard.Container', () => {
               <Wizard.Buttons />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       ).toHaveLength(0)
       expect(output()).toHaveTextContent('Step 3')
 
@@ -2868,17 +2872,17 @@ describe('Wizard.Container', () => {
 
       expect(output()).toHaveTextContent('Step 3')
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Step.stepHasError
+        nb.Step.stepHasError,
       )
       expect(
         document.querySelectorAll(
-          '.dnb-step-indicator__item-content__status.dnb-form-status--error'
-        )
+          '.dnb-step-indicator__item-content__status.dnb-form-status--error',
+        ),
       ).toHaveLength(0)
       expect(
         document.querySelectorAll(
-          '.dnb-step-indicator__item-content__status.dnb-form-status--error'
-        )
+          '.dnb-step-indicator__item-content__status.dnb-form-status--error',
+        ),
       ).toHaveLength(0)
     })
 
@@ -2910,7 +2914,7 @@ describe('Wizard.Container', () => {
               <Wizard.Buttons />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(output()).toHaveTextContent('Step 3')
@@ -2961,7 +2965,7 @@ describe('Wizard.Container', () => {
         () => {
           expect(output()).toHaveTextContent('Step 3')
         },
-        { timeout: 10000, interval: 100 }
+        { timeout: 10000, interval: 100 },
       )
 
       expect(onSubmit).toHaveBeenCalledTimes(0)
@@ -2997,7 +3001,7 @@ describe('Wizard.Container', () => {
               <Wizard.Buttons />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(output()).toHaveTextContent('Step 2')
@@ -3010,10 +3014,10 @@ describe('Wizard.Container', () => {
       }).toNeverResolve()
       expect(onSubmit).toHaveBeenCalledTimes(0)
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Step.stepHasError
+        nb.Step.stepHasError,
       )
       expect(output()).toHaveTextContent('Step 2')
 
@@ -3069,11 +3073,11 @@ describe('Wizard.Container', () => {
               <Wizard.Buttons />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [, , thirdStep] = Array.from(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       )
 
       expect(output()).toHaveTextContent('Step 3')
@@ -3134,14 +3138,14 @@ describe('Wizard.Container', () => {
                 <Wizard.Buttons />
               </Wizard.Step>
             </Wizard.Container>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(output()).toHaveTextContent('Step 1')
         expect(
           document.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toBeNull()
 
         fireEvent.submit(document.querySelector('form'))
@@ -3151,8 +3155,8 @@ describe('Wizard.Container', () => {
         })
         expect(
           document.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toBeNull()
         expect(onSubmit).toHaveBeenCalledTimes(0)
 
@@ -3161,8 +3165,8 @@ describe('Wizard.Container', () => {
         expect(output()).toHaveTextContent('Step 2')
         expect(
           document.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toBeNull()
         expect(onSubmit).toHaveBeenCalledTimes(1)
       })
@@ -3180,14 +3184,14 @@ describe('Wizard.Container', () => {
                 <Wizard.Buttons />
               </Wizard.Step>
             </Wizard.Container>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(output()).toHaveTextContent('Step 1')
         expect(
           document.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toBeNull()
 
         await userEvent.click(nextButton())
@@ -3195,8 +3199,8 @@ describe('Wizard.Container', () => {
         expect(output()).toHaveTextContent('Step 2')
         expect(
           document.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toBeNull()
       })
 
@@ -3220,14 +3224,14 @@ describe('Wizard.Container', () => {
                 <Wizard.Buttons />
               </Wizard.Step>
             </Wizard.Container>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(output()).toHaveTextContent('Step 1')
         expect(
           document.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toBeNull()
 
         await userEvent.click(nextButton())
@@ -3235,8 +3239,8 @@ describe('Wizard.Container', () => {
         expect(output()).toHaveTextContent('Step 2')
         expect(
           document.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toBeNull()
       })
 
@@ -3262,14 +3266,14 @@ describe('Wizard.Container', () => {
                 <Wizard.Buttons />
               </Wizard.Step>
             </Wizard.Container>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(output()).toHaveTextContent('Step 1')
         expect(
           document.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toBeNull()
 
         await userEvent.click(nextButton())
@@ -3277,8 +3281,8 @@ describe('Wizard.Container', () => {
         expect(output()).toHaveTextContent('Step 2')
         expect(
           document.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toBeNull()
 
         await userEvent.click(previousButton())
@@ -3286,12 +3290,12 @@ describe('Wizard.Container', () => {
         expect(output()).toHaveTextContent('Step 1')
         expect(
           document.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toBeNull()
 
         await userEvent.click(
-          document.querySelector('.dnb-forms-iterate__open-button')
+          document.querySelector('.dnb-forms-iterate__open-button'),
         )
 
         await userEvent.click(nextButton())
@@ -3299,18 +3303,18 @@ describe('Wizard.Container', () => {
         expect(output()).toHaveTextContent('Step 1')
         expect(
           document.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toBeNull()
 
         await userEvent.click(
-          document.querySelector('.dnb-forms-iterate__cancel-button')
+          document.querySelector('.dnb-forms-iterate__cancel-button'),
         )
         // Confirm cancel in dialog
         await userEvent.click(
           document.querySelector(
-            '.dnb-dialog__actions .dnb-button--primary'
-          )
+            '.dnb-dialog__actions .dnb-button--primary',
+          ),
         )
 
         await waitFor(async () => {
@@ -3320,8 +3324,8 @@ describe('Wizard.Container', () => {
 
         expect(
           document.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toBeNull()
       })
 
@@ -3347,30 +3351,30 @@ describe('Wizard.Container', () => {
                 <Wizard.Buttons />
               </Wizard.Step>
             </Wizard.Container>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(output()).toHaveTextContent('Step 1')
 
         await userEvent.click(
-          document.querySelector('.dnb-forms-iterate__open-button')
+          document.querySelector('.dnb-forms-iterate__open-button'),
         )
 
         await userEvent.click(nextButton())
 
         expect(output()).toHaveTextContent('Step 1')
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
 
         await userEvent.click(
-          document.querySelector('.dnb-forms-iterate__cancel-button')
+          document.querySelector('.dnb-forms-iterate__cancel-button'),
         )
         // Confirm cancel in dialog
         await userEvent.click(
           document.querySelector(
-            '.dnb-dialog__actions .dnb-button--primary'
-          )
+            '.dnb-dialog__actions .dnb-button--primary',
+          ),
         )
 
         await waitFor(async () => {
@@ -3383,7 +3387,7 @@ describe('Wizard.Container', () => {
 
         await expect(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toBeInTheDocument()
         }).toNeverResolve()
       })
@@ -3418,7 +3422,7 @@ describe('Wizard.Container', () => {
                 <Wizard.Buttons />
               </Wizard.Step>
             </Wizard.Container>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(output()).toHaveTextContent('Step 3')
@@ -3429,8 +3433,8 @@ describe('Wizard.Container', () => {
         expect(output()).toHaveTextContent('Step 3')
         expect(
           document.querySelectorAll(
-            '.dnb-step-indicator__item-content__status.dnb-form-status--error'
-          )
+            '.dnb-step-indicator__item-content__status.dnb-form-status--error',
+          ),
         ).toHaveLength(2)
 
         // Go to Step 2
@@ -3444,8 +3448,8 @@ describe('Wizard.Container', () => {
         expect(output()).toHaveTextContent('Step 2')
         expect(
           document.querySelectorAll(
-            '.dnb-step-indicator__item-content__status.dnb-form-status--error'
-          )
+            '.dnb-step-indicator__item-content__status.dnb-form-status--error',
+          ),
         ).toHaveLength(1)
 
         // Go to Step 1
@@ -3459,8 +3463,8 @@ describe('Wizard.Container', () => {
         expect(output()).toHaveTextContent('Step 1')
         expect(
           document.querySelectorAll(
-            '.dnb-step-indicator__item-content__status.dnb-form-status--error'
-          )
+            '.dnb-step-indicator__item-content__status.dnb-form-status--error',
+          ),
         ).toHaveLength(1)
 
         // Set the input value directly using fireEvent for reliability
@@ -3469,8 +3473,8 @@ describe('Wizard.Container', () => {
 
         expect(
           document.querySelectorAll(
-            '.dnb-step-indicator__item-content__status.dnb-form-status--error'
-          )
+            '.dnb-step-indicator__item-content__status.dnb-form-status--error',
+          ),
         ).toHaveLength(1)
 
         // Go to Step 2
@@ -3480,8 +3484,8 @@ describe('Wizard.Container', () => {
 
         expect(
           document.querySelectorAll(
-            '.dnb-step-indicator__item-content__status.dnb-form-status--error'
-          )
+            '.dnb-step-indicator__item-content__status.dnb-form-status--error',
+          ),
         ).toHaveLength(0)
 
         // Set the input value directly using fireEvent for reliability
@@ -3490,8 +3494,8 @@ describe('Wizard.Container', () => {
 
         expect(
           document.querySelectorAll(
-            '.dnb-step-indicator__item-content__status.dnb-form-status--error'
-          )
+            '.dnb-step-indicator__item-content__status.dnb-form-status--error',
+          ),
         ).toHaveLength(0)
 
         // Go to Step 3 using Next button instead of form submission
@@ -3505,7 +3509,7 @@ describe('Wizard.Container', () => {
           {
             timeout: 10000,
             interval: 100,
-          }
+          },
         )
 
         expect(onSubmit).toHaveBeenCalledTimes(0)
@@ -3536,7 +3540,7 @@ describe('Wizard.Container', () => {
                 <Wizard.Buttons />
               </Wizard.Step>
             </Wizard.Container>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(output()).toHaveTextContent('Step 3')
@@ -3567,7 +3571,7 @@ describe('Wizard.Container', () => {
                 <Wizard.Buttons />
               </Wizard.Step>
             </Wizard.Container>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(output()).toHaveTextContent('Step 3')
@@ -3607,7 +3611,7 @@ describe('Wizard.Container', () => {
                 <Wizard.Buttons />
               </Wizard.Step>
             </Wizard.Container>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(output()).toHaveTextContent('Step 2')
@@ -3619,17 +3623,17 @@ describe('Wizard.Container', () => {
           () => {
             expect(output()).toHaveTextContent('Step 3')
           },
-          { timeout: 10000, interval: 100 }
+          { timeout: 10000, interval: 100 },
         )
 
         // Wait for error status to be cleared
         await waitFor(
           () => {
             expect(
-              screen.queryAllByText(nb.Step.stepHasError)
+              screen.queryAllByText(nb.Step.stepHasError),
             ).toHaveLength(0)
           },
-          { timeout: 10000, interval: 100 }
+          { timeout: 10000, interval: 100 },
         )
 
         fireEvent.submit(document.querySelector('form'))
@@ -3673,11 +3677,11 @@ describe('Wizard.Container', () => {
                 }}
               </WizardContext.Consumer>
             </Wizard.Container>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const [firstStep, secondStep] = Array.from(
-          document.querySelectorAll('.dnb-step-indicator__item')
+          document.querySelectorAll('.dnb-step-indicator__item'),
         )
 
         expect(currentIndex).toBe(2)
@@ -3687,10 +3691,10 @@ describe('Wizard.Container', () => {
         await waitFor(
           () => {
             expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(
-              2
+              2,
             )
           },
-          { timeout: 10000, interval: 100 }
+          { timeout: 10000, interval: 100 },
         )
 
         await userEvent.click(previousButton())
@@ -3699,13 +3703,13 @@ describe('Wizard.Container', () => {
 
         expect(
           firstStep.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toHaveTextContent(nb.Step.stepHasError)
         expect(
           secondStep.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).not.toBeInTheDocument()
         expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(1)
       })
@@ -3729,11 +3733,11 @@ describe('Wizard.Container', () => {
                 <Wizard.Buttons />
               </Wizard.Step>
             </Wizard.Container>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const [firstStep, secondStep] = Array.from(
-          document.querySelectorAll('.dnb-step-indicator__item')
+          document.querySelectorAll('.dnb-step-indicator__item'),
         )
 
         expect(output()).toHaveTextContent('Step 1')
@@ -3743,7 +3747,7 @@ describe('Wizard.Container', () => {
 
         expect(output()).toHaveTextContent('Step 1')
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
 
         await userEvent.type(document.querySelector('input'), 'foo')
@@ -3763,12 +3767,12 @@ describe('Wizard.Container', () => {
 
         expect(output()).toHaveTextContent('Step 1')
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
 
         await userEvent.type(
           document.querySelector('input'),
-          '{Backspace>3}'
+          '{Backspace>3}',
         )
 
         // Try Step 2
@@ -3776,7 +3780,7 @@ describe('Wizard.Container', () => {
 
         expect(output()).toHaveTextContent('Step 1')
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
 
         await userEvent.type(document.querySelector('input'), 'foo')
@@ -3802,11 +3806,11 @@ describe('Wizard.Container', () => {
                 <Wizard.Buttons />
               </Wizard.Step>
             </Wizard.Container>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const [firstStep, secondStep] = Array.from(
-          document.querySelectorAll('.dnb-step-indicator__item')
+          document.querySelectorAll('.dnb-step-indicator__item'),
         )
 
         expect(output()).toHaveTextContent('Step 1')
@@ -3819,13 +3823,13 @@ describe('Wizard.Container', () => {
         expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
         expect(
           firstStep.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).not.toBeInTheDocument()
         expect(
           document.querySelectorAll(
-            '.dnb-step-indicator__item-content__status.dnb-form-status--error'
-          )
+            '.dnb-step-indicator__item-content__status.dnb-form-status--error',
+          ),
         ).toHaveLength(0)
 
         // Go to Step 2
@@ -3838,13 +3842,13 @@ describe('Wizard.Container', () => {
         expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(1)
         expect(
           firstStep.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toHaveTextContent(nb.Step.stepHasError)
         expect(
           secondStep.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).not.toBeInTheDocument()
 
         await userEvent.type(document.querySelector('input'), 'bar')
@@ -3852,8 +3856,8 @@ describe('Wizard.Container', () => {
         expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(1)
         expect(
           firstStep.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toHaveTextContent(nb.Step.stepHasError)
 
         await userEvent.click(previousButton())
@@ -3866,7 +3870,7 @@ describe('Wizard.Container', () => {
 
         await userEvent.type(
           document.querySelector('input'),
-          '{Backspace>3}'
+          '{Backspace>3}',
         )
 
         expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
@@ -3901,7 +3905,7 @@ describe('Wizard.Container', () => {
                 <Wizard.Buttons />
               </Wizard.Step>
             </Wizard.Container>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(output()).toHaveTextContent('Step 3')
@@ -3909,24 +3913,24 @@ describe('Wizard.Container', () => {
         fireEvent.submit(document.querySelector('form'))
 
         const [firstStep, secondStep] = Array.from(
-          document.querySelectorAll('.dnb-step-indicator__item')
+          document.querySelectorAll('.dnb-step-indicator__item'),
         )
 
         expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(2)
         expect(
           firstStep.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toHaveTextContent(nb.Step.stepHasError)
         expect(
           secondStep.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toHaveTextContent(nb.Step.stepHasError)
         expect(
           document.querySelectorAll(
-            '.dnb-step-indicator__item-content__status.dnb-form-status--error'
-          )
+            '.dnb-step-indicator__item-content__status.dnb-form-status--error',
+          ),
         ).toHaveLength(2)
 
         await userEvent.click(previousButton())
@@ -3981,11 +3985,11 @@ describe('Wizard.Container', () => {
                 <Wizard.Buttons />
               </Wizard.Step>
             </Wizard.Container>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const [firstStep, secondStep] = Array.from(
-          document.querySelectorAll('.dnb-step-indicator__item')
+          document.querySelectorAll('.dnb-step-indicator__item'),
         )
 
         expect(output()).toHaveTextContent('Step 1')
@@ -3998,13 +4002,13 @@ describe('Wizard.Container', () => {
         expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
         expect(
           firstStep.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).not.toBeInTheDocument()
         expect(
           document.querySelectorAll(
-            '.dnb-step-indicator__item-content__status.dnb-form-status--error'
-          )
+            '.dnb-step-indicator__item-content__status.dnb-form-status--error',
+          ),
         ).toHaveLength(0)
 
         // Go to Step 2
@@ -4017,13 +4021,13 @@ describe('Wizard.Container', () => {
         expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(1)
         expect(
           firstStep.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toHaveTextContent(nb.Step.stepHasError)
         expect(
           secondStep.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).not.toBeInTheDocument()
 
         await userEvent.click(screen.getByRole('checkbox'))
@@ -4031,8 +4035,8 @@ describe('Wizard.Container', () => {
         expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(1)
         expect(
           firstStep.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toHaveTextContent(nb.Step.stepHasError)
 
         await userEvent.click(previousButton())
@@ -4067,7 +4071,7 @@ describe('Wizard.Container', () => {
                 <Field.String path="/someField" />
               </Wizard.Step>
             </Wizard.Container>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(document.querySelector('.dnb-form-status')).toBeNull()
@@ -4075,10 +4079,10 @@ describe('Wizard.Container', () => {
         await userEvent.click(screen.getByText('Neste'))
 
         expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(
-          1
+          1,
         )
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(nb.Field.errorRequired)
 
         await userEvent.click(screen.getByText('Nei'))
@@ -4088,10 +4092,10 @@ describe('Wizard.Container', () => {
         await userEvent.click(screen.getByText('Neste'))
 
         expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(
-          1
+          1,
         )
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(nb.Field.errorRequired)
 
         await userEvent.click(screen.getByText('Ja'))
@@ -4139,14 +4143,14 @@ describe('Wizard.Container', () => {
                 <Wizard.Buttons />
               </Wizard.Step>
             </Wizard.Container>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(output()).toHaveTextContent('Step 1')
         expect(
           document.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toBeNull()
         expect(document.querySelector('.dnb-form-status')).toBeNull()
 
@@ -4155,8 +4159,8 @@ describe('Wizard.Container', () => {
         expect(output()).toHaveTextContent('Step 2')
         expect(
           document.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toBeNull()
         expect(document.querySelector('.dnb-form-status')).toBeNull()
 
@@ -4165,8 +4169,8 @@ describe('Wizard.Container', () => {
         expect(output()).toHaveTextContent('Step 1')
         expect(
           document.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toBeNull()
         expect(document.querySelector('.dnb-form-status')).toBeNull()
 
@@ -4175,8 +4179,8 @@ describe('Wizard.Container', () => {
         expect(output()).toHaveTextContent('Step 2')
         expect(
           document.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toBeNull()
         expect(document.querySelector('.dnb-form-status')).toBeNull()
 
@@ -4185,14 +4189,14 @@ describe('Wizard.Container', () => {
         expect(output()).toHaveTextContent('Step 2')
         expect(
           document.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toBeNull()
         expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(
-          1
+          1,
         )
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(nb.Field.errorRequired)
 
         await userEvent.click(previousButton())
@@ -4200,8 +4204,8 @@ describe('Wizard.Container', () => {
         expect(output()).toHaveTextContent('Step 1')
         expect(
           document.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toHaveTextContent(nb.Step.stepHasError)
         expect(content().querySelector('.dnb-form-status')).toBeNull()
 
@@ -4210,14 +4214,14 @@ describe('Wizard.Container', () => {
         expect(output()).toHaveTextContent('Step 2')
         expect(
           document.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
+            '.dnb-step-indicator__item-content__status',
+          ),
         ).toBeNull()
         expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(
-          1
+          1,
         )
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(nb.Field.errorRequired)
       })
     })
@@ -4238,11 +4242,11 @@ describe('Wizard.Container', () => {
               <Wizard.Buttons />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       ).toHaveLength(0)
       expect(output()).toHaveTextContent('Step 1')
 
@@ -4253,7 +4257,7 @@ describe('Wizard.Container', () => {
       // Expect a single only from the input field
       expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
       expect(
-        content().querySelector('.dnb-form-status')
+        content().querySelector('.dnb-form-status'),
       ).not.toHaveTextContent(nb.Step.stepHasError)
 
       // Open the drawer
@@ -4264,14 +4268,14 @@ describe('Wizard.Container', () => {
 
       // Go to Step 2
       const [firstStep, secondStep] = Array.from(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       )
       await userEvent.click(secondStep.querySelector('.dnb-anchor'))
 
       // Expect a single error on the first step
       expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
       expect(
-        firstStep.querySelector('.dnb-form-status')
+        firstStep.querySelector('.dnb-form-status'),
       ).toHaveTextContent(nb.Step.stepHasError)
     })
   })
@@ -4375,7 +4379,7 @@ describe('Wizard.Container', () => {
           fooStep2: 'has value changed',
           fooStep3: undefined,
         },
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.click(nextButton())
@@ -4469,7 +4473,7 @@ describe('Wizard.Container', () => {
           }}
         >
           <MyWizard />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(currentData).toEqual({
@@ -4524,7 +4528,7 @@ describe('Wizard.Container', () => {
               <Wizard.Buttons />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('iframe').innerHTML).toBe('')
@@ -4566,7 +4570,7 @@ describe('Wizard.Container', () => {
               <Wizard.Buttons />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = () => {
@@ -4588,7 +4592,7 @@ describe('Wizard.Container', () => {
       expect(onStepChange).toHaveBeenLastCalledWith(
         1,
         'next',
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.click(previousButton())
@@ -4596,7 +4600,7 @@ describe('Wizard.Container', () => {
       expect(onStepChange).toHaveBeenLastCalledWith(
         0,
         'previous',
-        expect.anything()
+        expect.anything(),
       )
 
       expect(input()).toHaveValue('1234')
@@ -4627,7 +4631,7 @@ describe('Wizard.Container', () => {
               <Wizard.Buttons />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = () => {
@@ -4648,7 +4652,7 @@ describe('Wizard.Container', () => {
       expect(onStepChange).toHaveBeenLastCalledWith(
         1,
         'next',
-        expect.anything()
+        expect.anything(),
       )
       expect(input()).toHaveValue('123')
 
@@ -4661,7 +4665,7 @@ describe('Wizard.Container', () => {
       expect(onStepChange).toHaveBeenLastCalledWith(
         0,
         'previous',
-        expect.anything()
+        expect.anything(),
       )
       await waitFor(() => {
         expect(input()).toHaveValue('1234')
@@ -4691,7 +4695,7 @@ describe('Wizard.Container', () => {
               <Wizard.Buttons />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = () => {
@@ -4710,7 +4714,7 @@ describe('Wizard.Container', () => {
       expect(input()).toHaveValue('1234')
 
       const pushButton = document.querySelector(
-        '.dnb-forms-iterate-push-button'
+        '.dnb-forms-iterate-push-button',
       )
       await userEvent.click(pushButton)
 
@@ -4721,7 +4725,7 @@ describe('Wizard.Container', () => {
       expect(onStepChange).toHaveBeenLastCalledWith(
         1,
         'next',
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.click(previousButton())
@@ -4730,7 +4734,7 @@ describe('Wizard.Container', () => {
       expect(onStepChange).toHaveBeenLastCalledWith(
         0,
         'previous',
-        expect.anything()
+        expect.anything(),
       )
       expect(input()).toHaveValue('1234')
     })
@@ -4757,7 +4761,7 @@ describe('Wizard.Container', () => {
             <Wizard.Buttons />
           </Wizard.Step>
         </Wizard.Container>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     await userEvent.click(nextButton())
@@ -4766,7 +4770,7 @@ describe('Wizard.Container', () => {
     expect(onSubmitRequest).toHaveBeenLastCalledWith(
       expect.objectContaining({
         getErrors: expect.any(Function),
-      })
+      }),
     )
     expect(receivedErrors).toEqual([
       {
@@ -4792,11 +4796,11 @@ describe('Wizard.Container', () => {
           <Wizard.Step>Active Content</Wizard.Step>
           <Wizard.Step>keepInDOM Content</Wizard.Step>
           <Wizard.Step>keepInDOM Content</Wizard.Step>
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       const [step1, step2, step3] = Array.from(
-        document.querySelectorAll('.dnb-forms-step')
+        document.querySelectorAll('.dnb-forms-step'),
       )
 
       expect(step1).toHaveTextContent('Active Content')
@@ -4834,7 +4838,7 @@ describe('Wizard.Container', () => {
               <Field.String path="/someField" />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('.dnb-form-status')).toBeNull()
@@ -4843,7 +4847,7 @@ describe('Wizard.Container', () => {
 
       expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Field.errorRequired
+        nb.Field.errorRequired,
       )
 
       await userEvent.click(screen.getByText('Nei'))
@@ -4854,7 +4858,7 @@ describe('Wizard.Container', () => {
 
       expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Field.errorRequired
+        nb.Field.errorRequired,
       )
 
       await userEvent.click(screen.getByText('Ja'))
@@ -4920,7 +4924,7 @@ describe('Wizard.Container', () => {
               <Field.String path="/someField" />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('.dnb-form-status')).toBeNull()
@@ -4929,7 +4933,7 @@ describe('Wizard.Container', () => {
 
       expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Field.errorRequired
+        nb.Field.errorRequired,
       )
 
       await userEvent.click(screen.getByText('Nei'))
@@ -4940,7 +4944,7 @@ describe('Wizard.Container', () => {
 
       expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Field.errorRequired
+        nb.Field.errorRequired,
       )
 
       await userEvent.click(screen.getByText('Ja'))
@@ -4967,14 +4971,14 @@ describe('Wizard.Container', () => {
             <Wizard.PreviousButton />
           </Wizard.Step>
         </Wizard.Container>
-      </>
+      </>,
     )
     expect(
-      document.querySelector('button.dnb-step-indicator__trigger__button')
+      document.querySelector('button.dnb-step-indicator__trigger__button'),
     ).toHaveClass('dnb-step-indicator__trigger__button--expanded')
 
     expect(
-      document.querySelectorAll('li.dnb-step-indicator__item')
+      document.querySelectorAll('li.dnb-step-indicator__item'),
     ).toHaveLength(2)
   })
 })

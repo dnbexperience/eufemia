@@ -112,7 +112,7 @@ export type ModalProps = ModalRootProps & {
    */
   openModal?: (
     open?: (e: Event) => void,
-    instance?: ModalCallbackInstance
+    instance?: ModalCallbackInstance,
   ) => () => void | void
 
   /**
@@ -120,7 +120,7 @@ export type ModalProps = ModalRootProps & {
    */
   closeModal?: (
     close?: ModalCloseHandler,
-    instance?: ModalCallbackInstance
+    instance?: ModalCallbackInstance,
   ) => () => void | void
 
   /**
@@ -290,7 +290,7 @@ export type ModalContentProps = {
    */
   close?: (
     event?: Event | React.SyntheticEvent,
-    options?: { ifIsLatest?: boolean; triggeredBy?: string }
+    options?: { ifIsLatest?: boolean; triggeredBy?: string },
   ) => void
 
   /**

@@ -75,7 +75,7 @@ export default function Theme(themeProps: ThemeAllProps) {
       surface,
     },
     null,
-    context?.theme
+    context?.theme,
   )
 
   // When surface is "initial", reset it to break context inheritance
@@ -145,6 +145,6 @@ export function getThemeClasses(theme: ThemeProps, className = null) {
     name && variant && `eufemia-theme__${name}--${variant}`,
     contrastMode && 'eufemia-theme__contrast-mode',
     colorScheme && `eufemia-theme__color-scheme--${colorScheme}`,
-    size && `eufemia-theme__size--${size}`
+    size && `eufemia-theme__size--${size}`,
   )
 }

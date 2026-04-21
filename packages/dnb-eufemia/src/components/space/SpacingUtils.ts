@@ -80,7 +80,7 @@ export const calc = (...types: Array<SpaceType>) => {
  * @returns { '--padding-b-l': '2rem', '--padding-t-l': '1rem' }
  */
 export const createSpacingProperties = (
-  props: InnerSpacingProps
+  props: InnerSpacingProps,
 ): React.CSSProperties => {
   if (props?.innerSpace) {
     return computeProperties(props.innerSpace)
@@ -103,7 +103,7 @@ export const createSpacingProperties = (
  * @returns { '--margin-t-s': '1rem', '--margin-r-s': '0' }
  */
 export const createMarginProperties = (
-  props: SpacingProps | SpacingUnknownProps
+  props: SpacingProps | SpacingUnknownProps,
 ): React.CSSProperties => {
   return computeMarginProperties(props)
 }
@@ -115,7 +115,7 @@ function mergeSpacing(
     right?: SpaceType
     bottom?: SpaceType
     left?: SpaceType
-  }
+  },
 ): InnerSpacingElementProps {
   const { top, right, bottom, left } = individualProps
 
@@ -139,7 +139,7 @@ function mergeSpacing(
   }
 
   const base = transformToAll(
-    spaceValue as SpaceType | InnerSpacingElementProps
+    spaceValue as SpaceType | InnerSpacingElementProps,
   )
   const result = { ...base }
   if (typeof top !== 'undefined') {
@@ -158,7 +158,7 @@ function mergeSpacing(
 }
 
 function computeMarginProperties(
-  props: SpacingProps | SpacingUnknownProps
+  props: SpacingProps | SpacingUnknownProps,
 ): React.CSSProperties {
   const { space, top, right, bottom, left } = props as SpacingProps
   const individualProps = { top, right, bottom, left }
@@ -325,7 +325,7 @@ const collectSpacingClasses = (
      * To support typical not defined props form components
      */
     | SpacingUnknownProps,
-  elementName: string | null = null
+  elementName: string | null = null,
 ): string[] => {
   // Always work on a shallow clone so we never mutate the caller's props.
   // `createSpacing` / `applySpacing` call this helper and then pass the same
@@ -398,8 +398,8 @@ const collectSpacingClasses = (
         if (sum > 10) {
           warn(
             `Spacing of more than 10rem is not supported! You used ${sum} / (${typeModifiers.join(
-              ','
-            )})`
+              ',',
+            )})`,
           )
         } else {
           // auto combine classes
@@ -408,7 +408,7 @@ const collectSpacingClasses = (
           acc = [
             ...acc,
             ...nearestTypes.map(
-              (type) => `dnb-space__${direction}--${type}`
+              (type) => `dnb-space__${direction}--${type}`,
             ),
           ]
         }
@@ -445,7 +445,7 @@ export type SpacingReturn = {
  */
 export const createSpacing = (
   props: SpacingProps | SpacingUnknownProps,
-  elementName: string | null = null
+  elementName: string | null = null,
 ): SpacingReturn => {
   const className = collectSpacingClasses(props, elementName)
   const innerStyle = createSpacingProperties(props)
@@ -487,7 +487,7 @@ export type ApplySpacingTarget = {
 export const applySpacing = <T extends ApplySpacingTarget>(
   props: SpacingProps | SpacingUnknownProps,
   target: T,
-  elementName: string | null = null
+  elementName: string | null = null,
 ): T => {
   const classes = collectSpacingClasses(props, elementName)
   const innerStyle = createSpacingProperties(props)
@@ -573,7 +573,7 @@ export const sumTypes = (types: SpaceType | Array<SpaceType>) =>
 
 // @internal Returns an array with modifiers e.g. ["large", "x-small"]
 export const createTypeModifiers = (
-  types: SpaceType
+  types: SpaceType,
 ): Array<SpaceType> => {
   return (splitTypes(types) || []).reduce((acc, type) => {
     if (type) {
@@ -624,7 +624,7 @@ export const findType = (num: SpaceNumber): SpaceType => {
 
 // @internal Finds from "2.0" the equivalent type "large" and returns all results
 export const findTypeAll = (
-  num: SpaceNumber
+  num: SpaceNumber,
 ): Array<SpacePositiveSize | SpacePositiveRemValue> => {
   const listOfSpacePatterns = Object.entries(spacePatterns) as [
     SpacePositiveSize,
@@ -670,11 +670,11 @@ export const findNearestTypes = (num: SpaceNumber, multiply = false) => {
 export const isValidSpaceProp = (propName: string) =>
   propName &&
   ['top', 'right', 'bottom', 'left', 'space', 'innerSpace'].includes(
-    propName
+    propName,
   )
 
 export const removeSpaceProps = <Props extends SpacingProps>(
-  props: Props
+  props: Props,
 ): Omit<Props, keyof SpacingProps> => {
   const { space, innerSpace, top, bottom, left, right, ...restProps } =
     props

@@ -17,7 +17,7 @@ type UseHandleCursorPositionOptions = {
 function useHandleCursorPosition(
   keysToHandle?: RegExp | { [inputId: string]: RegExp[] },
   scopeRootRef?: RefObject<HTMLElement | null>,
-  options?: UseHandleCursorPositionOptions
+  options?: UseHandleCursorPositionOptions,
 ) {
   const onKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -29,7 +29,7 @@ function useHandleCursorPosition(
       const typedLen = getTypedLengthBasic(
         input.value || '',
         placeholder,
-        size
+        size,
       )
       const selStart = input.selectionStart ?? 0
       const selEnd = input.selectionEnd ?? selStart
@@ -109,7 +109,7 @@ function useHandleCursorPosition(
         }
       }
     },
-    [keysToHandle, options, scopeRootRef]
+    [keysToHandle, options, scopeRootRef],
   )
 
   const onInput = useCallback(
@@ -133,7 +133,7 @@ function useHandleCursorPosition(
       const typedLen = getTypedLengthBasic(
         input.value || '',
         input.placeholder || '',
-        size
+        size,
       )
 
       if (typedLen < size) {
@@ -143,7 +143,7 @@ function useHandleCursorPosition(
       const next = getAdjacentInput(
         scopeRootRef?.current || undefined,
         input,
-        'next'
+        'next',
       )
 
       if (next) {
@@ -152,7 +152,7 @@ function useHandleCursorPosition(
         })
       }
     },
-    [scopeRootRef]
+    [scopeRootRef],
   )
 
   return { onKeyDown, onInput }
@@ -163,8 +163,8 @@ function listAllInputs(scope?: HTMLElement): HTMLInputElement[] {
     const root: Document | HTMLElement = scope || document
     return Array.from(
       root.querySelectorAll<HTMLInputElement>(
-        '.dnb-multi-input-mask__input'
-      )
+        '.dnb-multi-input-mask__input',
+      ),
     )
   } catch {
     // querySelectorAll can throw if scope is a detached or invalid node
@@ -177,7 +177,7 @@ function listAllInputs(scope?: HTMLElement): HTMLInputElement[] {
 function getAdjacentInput(
   scope: HTMLElement | undefined,
   input: HTMLInputElement,
-  direction: 'next' | 'prev'
+  direction: 'next' | 'prev',
 ) {
   const allInputs = listAllInputs(scope)
   const index = allInputs.findIndex((el) => el === input)
@@ -196,7 +196,7 @@ function getAdjacentInput(
 function getTypedLengthBasic(
   value: string,
   placeholder: string,
-  size: number
+  size: number,
 ) {
   if (!size) {
     return value.length

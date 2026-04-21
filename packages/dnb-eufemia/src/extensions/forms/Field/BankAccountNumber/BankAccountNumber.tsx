@@ -77,7 +77,7 @@ function BankAccountNumber(props: FieldBankAccountNumberProps) {
       }
       return val.replace(/[^0-9]/g, '')
     },
-    [bankAccountType]
+    [bankAccountType],
   )
 
   // InputMasked's cleanedValue uses cleanNumber which strips non-numeric
@@ -91,7 +91,7 @@ function BankAccountNumber(props: FieldBankAccountNumberProps) {
       }
       return cleanValue(event?.value)
     },
-    [cleanValue, restProps.emptyValue]
+    [cleanValue, restProps.emptyValue],
   )
 
   const handleChange = useCallback(
@@ -99,7 +99,7 @@ function BankAccountNumber(props: FieldBankAccountNumberProps) {
       valueRef.current = newValue
       onChangeProp?.(newValue)
     },
-    [onChangeProp]
+    [onChangeProp],
   )
 
   const handleBlur = useCallback(
@@ -109,7 +109,7 @@ function BankAccountNumber(props: FieldBankAccountNumberProps) {
       }
       onBlurProp?.(...args)
     },
-    [bankAccountType, onBlurProp]
+    [bankAccountType, onBlurProp],
   )
 
   const label = useMemo(() => {
@@ -155,14 +155,14 @@ function BankAccountNumber(props: FieldBankAccountNumberProps) {
           translations.errorBankAccountNumberLength,
       })
     },
-    [bankAccountType, translations]
+    [bankAccountType, translations],
   )
 
   const onBlurValidator = onBlurValidatorProp ?? bankAccountNumberValidator
 
   const mask = useMemo(
     () => getMask(bankAccountType, omitMask, maskValue),
-    [bankAccountType, omitMask, maskValue]
+    [bankAccountType, omitMask, maskValue],
   )
 
   const onBlurValidatorToUse =

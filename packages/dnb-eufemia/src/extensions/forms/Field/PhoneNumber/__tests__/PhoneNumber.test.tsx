@@ -23,13 +23,13 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber />)
 
     const codeElement = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code input'
+      '.dnb-forms-field-phone-number__country-code input',
     )
 
     fireEvent.mouseDown(codeElement)
 
     const selectedItemElement = document.querySelector(
-      '.dnb-drawer-list__option.dnb-drawer-list__option--selected'
+      '.dnb-drawer-list__option.dnb-drawer-list__option--selected',
     )
 
     expect(selectedItemElement).toBeInTheDocument()
@@ -40,13 +40,13 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber />)
 
     const codeElement = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code input'
+      '.dnb-forms-field-phone-number__country-code input',
     )
 
     fireEvent.mouseDown(codeElement)
 
     const selectedItemElement = document.querySelector(
-      '.dnb-drawer-list__option.dnb-drawer-list__option--selected'
+      '.dnb-drawer-list__option.dnb-drawer-list__option--selected',
     )
 
     expect(selectedItemElement.textContent).toBe('Norge+47')
@@ -56,28 +56,28 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber size="large" />)
 
     const autocompleteElement: HTMLInputElement = document.querySelector(
-      '.dnb-autocomplete'
+      '.dnb-autocomplete',
     )
     expect(autocompleteElement.classList).toContain(
-      'dnb-autocomplete--large'
+      'dnb-autocomplete--large',
     )
 
     const fieldPhoneNumberElement: HTMLInputElement =
       document.querySelector('.dnb-forms-field-phone-number')
     expect(fieldPhoneNumberElement.classList).toContain(
-      'dnb-forms-field-block--label-height-large'
+      'dnb-forms-field-block--label-height-large',
     )
 
     const fieldPhoneNumberNumberElement: HTMLInputElement =
       document.querySelector('.dnb-forms-field-phone-number__number')
     expect(fieldPhoneNumberNumberElement.classList).toContain(
-      'dnb-forms-field-block--label-height-large'
+      'dnb-forms-field-block--label-height-large',
     )
   })
 
   it('should support disabled prop', () => {
     const { rerender } = render(
-      <Field.PhoneNumber label="Disabled label" disabled />
+      <Field.PhoneNumber label="Disabled label" disabled />,
     )
 
     const labelElement = () => document.querySelector('label')
@@ -93,7 +93,7 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber label="Phone Number Field" labelSrOnly />)
 
     const fieldBlock = document.querySelector(
-      '.dnb-forms-field-phone-number'
+      '.dnb-forms-field-phone-number',
     ) as HTMLElement
     const legend = fieldBlock.querySelector('legend')
     expect(legend).toBeInTheDocument()
@@ -102,13 +102,13 @@ describe('Field.PhoneNumber', () => {
 
     // Individual field labels should not have sr-only class
     const countryCodeField = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code'
+      '.dnb-forms-field-phone-number__country-code',
     )
     const countryCodeLabel = countryCodeField.querySelector('label')
     expect(countryCodeLabel).not.toHaveClass('dnb-sr-only')
 
     const numberField = document.querySelector(
-      '.dnb-forms-field-phone-number__number'
+      '.dnb-forms-field-phone-number__number',
     )
     const numberFieldLabel = numberField.querySelector('label')
     expect(numberFieldLabel).not.toHaveClass('dnb-sr-only')
@@ -118,7 +118,7 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber />)
 
     const fieldBlock = document.querySelector(
-      '.dnb-forms-field-phone-number'
+      '.dnb-forms-field-phone-number',
     ) as HTMLElement
     // CompositionField always renders as fieldset when asFieldset is true
     expect(fieldBlock.tagName).toBe('FIELDSET')
@@ -131,7 +131,7 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber label="Custom Phone Number" />)
 
     const fieldBlock = document.querySelector(
-      '.dnb-forms-field-phone-number'
+      '.dnb-forms-field-phone-number',
     ) as HTMLElement
     // When label is provided, it should render as fieldset with legend
     expect(fieldBlock.tagName).toBe('FIELDSET')
@@ -144,11 +144,11 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber />)
 
     const numberField = document.querySelector(
-      '.dnb-forms-field-phone-number__number'
+      '.dnb-forms-field-phone-number__number',
     )
     const numberFieldLabel = numberField.querySelector('label')
     expect(numberFieldLabel).toHaveTextContent(
-      nbNO.PhoneNumber.numberLabel
+      nbNO.PhoneNumber.numberLabel,
     )
   })
 
@@ -156,7 +156,7 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber numberLabel="Phone Number Input" />)
 
     const numberField = document.querySelector(
-      '.dnb-forms-field-phone-number__number'
+      '.dnb-forms-field-phone-number__number',
     )
     const numberFieldLabel = numberField.querySelector('label')
     expect(numberFieldLabel).toHaveTextContent('Phone Number Input')
@@ -166,13 +166,13 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber numberLabel={false} />)
 
     const numberField = document.querySelector(
-      '.dnb-forms-field-phone-number__number'
+      '.dnb-forms-field-phone-number__number',
     )
     const numberFieldLabel = numberField.querySelector('label')
     expect(numberFieldLabel).toBeInTheDocument()
     expect(numberFieldLabel).toHaveClass('dnb-sr-only')
     expect(numberFieldLabel).toHaveTextContent(
-      nbNO.PhoneNumber.numberLabel
+      nbNO.PhoneNumber.numberLabel,
     )
   })
 
@@ -180,13 +180,13 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber countryCodeLabel={false} />)
 
     const countryCodeField = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code'
+      '.dnb-forms-field-phone-number__country-code',
     )
     const countryCodeLabel = countryCodeField.querySelector('label')
     expect(countryCodeLabel).toBeInTheDocument()
     expect(countryCodeLabel).toHaveClass('dnb-sr-only')
     expect(countryCodeLabel).toHaveTextContent(
-      nbNO.PhoneNumber.countryCodeLabel
+      nbNO.PhoneNumber.countryCodeLabel,
     )
   })
 
@@ -195,11 +195,11 @@ describe('Field.PhoneNumber', () => {
       <Field.PhoneNumber
         label="Phone Number Field"
         numberLabel="Number Input"
-      />
+      />,
     )
 
     const fieldBlock = document.querySelector(
-      '.dnb-forms-field-phone-number'
+      '.dnb-forms-field-phone-number',
     ) as HTMLElement
     // When label is provided, it should render as fieldset with legend
     expect(fieldBlock.tagName).toBe('FIELDSET')
@@ -208,7 +208,7 @@ describe('Field.PhoneNumber', () => {
     expect(legend).toHaveTextContent('Phone Number Field')
 
     const numberField = document.querySelector(
-      '.dnb-forms-field-phone-number__number'
+      '.dnb-forms-field-phone-number__number',
     )
     const numberFieldLabel = numberField.querySelector('label')
     expect(numberFieldLabel).toHaveTextContent('Number Input')
@@ -222,16 +222,16 @@ describe('Field.PhoneNumber', () => {
             Phone <strong>Number</strong>
           </span>
         }
-      />
+      />,
     )
 
     const numberField = document.querySelector(
-      '.dnb-forms-field-phone-number__number'
+      '.dnb-forms-field-phone-number__number',
     )
     const numberFieldLabel = numberField.querySelector('label')
     expect(numberFieldLabel).toHaveTextContent('Phone Number')
     expect(numberFieldLabel.querySelector('strong')).toHaveTextContent(
-      'Number'
+      'Number',
     )
   })
 
@@ -240,22 +240,22 @@ describe('Field.PhoneNumber', () => {
       <Field.PhoneNumber
         label="Phone Number Field"
         labelDescription="This is a label description"
-      />
+      />,
     )
 
     const fieldBlock = document.querySelector(
-      '.dnb-forms-field-phone-number'
+      '.dnb-forms-field-phone-number',
     ) as HTMLElement
     const legend = fieldBlock.querySelector('legend')
     expect(legend).toBeInTheDocument()
     expect(legend).toHaveTextContent('Phone Number Field')
 
     const labelDescription = fieldBlock.querySelector(
-      '.dnb-forms-field-block__label__description'
+      '.dnb-forms-field-block__label__description',
     )
     expect(labelDescription).toBeInTheDocument()
     expect(labelDescription).toHaveTextContent(
-      'This is a label description'
+      'This is a label description',
     )
   })
 
@@ -266,34 +266,34 @@ describe('Field.PhoneNumber', () => {
         labelDescription="Additional label description that will stretch all the way down here"
         numberLabel={false}
         countryCodeLabel={false}
-      />
+      />,
     )
 
     const fieldBlock = document.querySelector(
-      '.dnb-forms-field-phone-number'
+      '.dnb-forms-field-phone-number',
     ) as HTMLElement
     const legend = fieldBlock.querySelector('legend')
     expect(legend).toBeInTheDocument()
     expect(legend).toHaveTextContent('Phone Number Field')
 
     const labelDescription = fieldBlock.querySelector(
-      '.dnb-forms-field-block__label__description'
+      '.dnb-forms-field-block__label__description',
     )
     expect(labelDescription).toBeInTheDocument()
     expect(labelDescription).toHaveTextContent(
-      'Additional label description that will stretch all the way down here'
+      'Additional label description that will stretch all the way down here',
     )
 
     // Verify individual field labels are hidden with sr-only (not removed)
     const countryCodeField = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code'
+      '.dnb-forms-field-phone-number__country-code',
     )
     const countryCodeLabel = countryCodeField.querySelector('label')
     expect(countryCodeLabel).toBeInTheDocument()
     expect(countryCodeLabel).toHaveClass('dnb-sr-only')
 
     const numberField = document.querySelector(
-      '.dnb-forms-field-phone-number__number'
+      '.dnb-forms-field-phone-number__number',
     )
     const numberFieldLabel = numberField.querySelector('label')
     expect(numberFieldLabel).toBeInTheDocument()
@@ -304,7 +304,7 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber label="Phone Number Field" labelSrOnly />)
 
     const fieldBlock = document.querySelector(
-      '.dnb-forms-field-phone-number'
+      '.dnb-forms-field-phone-number',
     ) as HTMLElement
     const legend = fieldBlock.querySelector('legend')
     expect(legend).toBeInTheDocument()
@@ -316,28 +316,28 @@ describe('Field.PhoneNumber', () => {
     render(
       <Form.Handler required>
         <Field.PhoneNumber required={false} />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const codeElement = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code'
+      '.dnb-forms-field-phone-number__country-code',
     ) as HTMLInputElement
     const numberElement = document.querySelector(
-      '.dnb-forms-field-phone-number__number'
+      '.dnb-forms-field-phone-number__number',
     ) as HTMLInputElement
 
     expect(codeElement.querySelector('label')).not.toHaveTextContent(
-      `${nbNO.Field.optionalLabelSuffix}`
+      `${nbNO.Field.optionalLabelSuffix}`,
     )
     expect(numberElement.querySelector('label')).toHaveTextContent(
-      `${nbNO.PhoneNumber.numberLabel} ${nbNO.Field.optionalLabelSuffix}`
+      `${nbNO.PhoneNumber.numberLabel} ${nbNO.Field.optionalLabelSuffix}`,
     )
 
     // Use "textContent" to check against non-breaking space
     expect(numberElement.querySelector('label').textContent).toBe(
       `${nbNO.PhoneNumber.numberLabel}${' '}${
         nbNO.Field.optionalLabelSuffix
-      }`
+      }`,
     )
   })
 
@@ -345,10 +345,10 @@ describe('Field.PhoneNumber', () => {
     const { rerender } = render(<Field.PhoneNumber value="999999990000" />)
 
     const codeElement = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code input'
+      '.dnb-forms-field-phone-number__country-code input',
     ) as HTMLInputElement
     const numberElement = document.querySelector(
-      '.dnb-forms-field-phone-number__number input'
+      '.dnb-forms-field-phone-number__number input',
     ) as HTMLInputElement
 
     expect(codeElement.value).toBe('NO (+47)')
@@ -372,13 +372,13 @@ describe('Field.PhoneNumber', () => {
     const { rerender } = render(<Field.PhoneNumber />)
 
     expect(
-      document.querySelector('.dnb-input__placeholder').textContent
+      document.querySelector('.dnb-input__placeholder').textContent,
     ).toBe('00 00 00 00')
 
     rerender(<Field.PhoneNumber value="+41" />)
 
     expect(
-      document.querySelector('.dnb-input__placeholder')
+      document.querySelector('.dnb-input__placeholder'),
     ).not.toBeInTheDocument()
   })
 
@@ -388,7 +388,7 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber onFocus={onFocus} onBlur={onBlur} />)
 
     const phoneElement = document.querySelector(
-      '.dnb-forms-field-phone-number__number input'
+      '.dnb-forms-field-phone-number__number input',
     )
 
     fireEvent.focus(phoneElement)
@@ -398,7 +398,7 @@ describe('Field.PhoneNumber', () => {
         countryCode: '+47',
         phoneNumber: undefined,
         iso: 'NO',
-      })
+      }),
     )
 
     fireEvent.blur(phoneElement)
@@ -408,7 +408,7 @@ describe('Field.PhoneNumber', () => {
         countryCode: '+47',
         phoneNumber: undefined,
         iso: 'NO',
-      })
+      }),
     )
 
     await userEvent.type(phoneElement, '99999999')
@@ -420,7 +420,7 @@ describe('Field.PhoneNumber', () => {
         countryCode: '+47',
         phoneNumber: '99999999',
         iso: 'NO',
-      })
+      }),
     )
 
     fireEvent.blur(phoneElement)
@@ -430,7 +430,7 @@ describe('Field.PhoneNumber', () => {
         countryCode: '+47',
         phoneNumber: '99999999',
         iso: 'NO',
-      })
+      }),
     )
   })
 
@@ -442,14 +442,14 @@ describe('Field.PhoneNumber', () => {
       <Field.PhoneNumber
         value="+46987654321231"
         onNumberChange={onNumberChange}
-      />
+      />,
     )
 
     const codeElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code input'
+      '.dnb-forms-field-phone-number__country-code input',
     )
     const phoneElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__number input'
+      '.dnb-forms-field-phone-number__number input',
     )
 
     expect(codeElement.value).toEqual('SE (+46)')
@@ -458,7 +458,7 @@ describe('Field.PhoneNumber', () => {
     await userEvent.clear(codeElement)
     await userEvent.type(codeElement, 'Norge')
     fireEvent.click(
-      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+      document.querySelectorAll('li.dnb-drawer-list__option')[0],
     )
 
     const items = document.querySelectorAll('li.dnb-drawer-list__option')
@@ -479,7 +479,7 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber />)
 
     const codeElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code input'
+      '.dnb-forms-field-phone-number__country-code input',
     )
 
     expect(codeElement.value).toEqual('NO (+47)')
@@ -523,10 +523,10 @@ describe('Field.PhoneNumber', () => {
     render(<MockPhoneNumber />)
 
     const codeElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code input'
+      '.dnb-forms-field-phone-number__country-code input',
     )
     const phoneElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__number input'
+      '.dnb-forms-field-phone-number__number input',
     )
     const firstItemElement = () =>
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
@@ -572,11 +572,11 @@ describe('Field.PhoneNumber', () => {
 
   it('should display specified countries on dropdown click, after user has entered a phonenumber', async () => {
     const { rerender } = render(
-      <Field.PhoneNumber countries="Scandinavia" />
+      <Field.PhoneNumber countries="Scandinavia" />,
     )
 
     const [ccInput, phoneInput] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
     const countries = () =>
       document.querySelectorAll('li:not([aria-hidden])')
@@ -633,17 +633,17 @@ describe('Field.PhoneNumber', () => {
         <Field.PhoneNumber
           onCountryCodeChange={onCountryCodeChange}
           noAnimation
-        />
+        />,
       )
 
       const codeElement = document.querySelector(
-        '.dnb-forms-field-phone-number__country-code input'
+        '.dnb-forms-field-phone-number__country-code input',
       )
 
       await userEvent.clear(codeElement)
       await userEvent.type(codeElement, 'Sverige')
       fireEvent.click(
-        document.querySelectorAll('li.dnb-drawer-list__option')[0]
+        document.querySelectorAll('li.dnb-drawer-list__option')[0],
       )
 
       await waitFor(() => {
@@ -658,11 +658,11 @@ describe('Field.PhoneNumber', () => {
       const onNumberChange = jest.fn()
 
       render(
-        <Field.PhoneNumber onNumberChange={onNumberChange} noAnimation />
+        <Field.PhoneNumber onNumberChange={onNumberChange} noAnimation />,
       )
 
       const phoneElement: HTMLInputElement = document.querySelector(
-        '.dnb-forms-field-phone-number__number input'
+        '.dnb-forms-field-phone-number__number input',
       )
 
       await userEvent.type(phoneElement, '9')
@@ -681,10 +681,10 @@ describe('Field.PhoneNumber', () => {
       render(<Field.PhoneNumber onChange={onChange} noAnimation />)
 
       const phoneElement: HTMLInputElement = document.querySelector(
-        '.dnb-forms-field-phone-number__number input'
+        '.dnb-forms-field-phone-number__number input',
       )
       const codeElement: HTMLInputElement = document.querySelector(
-        '.dnb-forms-field-phone-number__country-code input'
+        '.dnb-forms-field-phone-number__country-code input',
       )
       const firstItemElement = () =>
         document.querySelectorAll('li.dnb-drawer-list__option')[0]
@@ -697,7 +697,7 @@ describe('Field.PhoneNumber', () => {
           countryCode: '+47',
           phoneNumber: '99999999',
           iso: 'NO',
-        })
+        }),
       )
       expect(codeElement.value).toEqual('NO (+47)')
       expect(phoneElement.value).toEqual('99 99 99 99')
@@ -710,7 +710,7 @@ describe('Field.PhoneNumber', () => {
 
       expect(
         document.querySelector('li.dnb-drawer-list__option--selected')
-          .textContent
+          .textContent,
       ).toBe('Norge+47')
 
       await userEvent.type(codeElement, '{Backspace}')
@@ -728,7 +728,7 @@ describe('Field.PhoneNumber', () => {
           countryCode: '+41',
           phoneNumber: '99999999',
           iso: 'CH',
-        })
+        }),
       )
       expect(codeElement.value).toEqual('CH (+41)')
       expect(phoneElement.value).toEqual('99999999')
@@ -741,7 +741,7 @@ describe('Field.PhoneNumber', () => {
           countryCode: '+41',
           phoneNumber: undefined,
           iso: 'CH',
-        })
+        }),
       )
       expect(codeElement.value).toEqual('CH (+41)')
       expect(phoneElement.value).toEqual('')
@@ -753,11 +753,11 @@ describe('Field.PhoneNumber', () => {
       render(
         <Form.Handler onChange={onChange}>
           <Field.PhoneNumber path="/phone" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const phoneElement = document.querySelector(
-        '.dnb-forms-field-phone-number__number .dnb-input__input'
+        '.dnb-forms-field-phone-number__number .dnb-input__input',
       )
 
       await userEvent.type(phoneElement, '9999')
@@ -765,7 +765,7 @@ describe('Field.PhoneNumber', () => {
       expect(onChange).toHaveBeenCalledTimes(4)
       expect(onChange).toHaveBeenLastCalledWith(
         { phone: '+479999' },
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -800,7 +800,7 @@ describe('Field.PhoneNumber', () => {
           }}
         >
           <Field.PhoneNumber path="/myField" transformIn={transformIn} />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(transformIn).toHaveBeenCalledTimes(1)
@@ -811,10 +811,10 @@ describe('Field.PhoneNumber', () => {
       })
 
       const phoneElement = document.querySelector(
-        '.dnb-forms-field-phone-number__number .dnb-input__input'
+        '.dnb-forms-field-phone-number__number .dnb-input__input',
       )
       const codeElement = document.querySelector(
-        '.dnb-forms-field-phone-number__country-code input'
+        '.dnb-forms-field-phone-number__country-code input',
       )
 
       expect(phoneElement).toHaveValue('9999')
@@ -850,7 +850,7 @@ describe('Field.PhoneNumber', () => {
 
       const transformOut = (
         _internal: unknown,
-        additionalArgs?: unknown
+        additionalArgs?: unknown,
       ) => {
         const args = additionalArgs as AdditionalArgs | undefined
         return {
@@ -876,11 +876,11 @@ describe('Field.PhoneNumber', () => {
             transformOut={transformOut}
             noAnimation
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const codeElement = document.querySelector(
-        '.dnb-forms-field-phone-number__country-code input'
+        '.dnb-forms-field-phone-number__country-code input',
       )
 
       expect(codeElement).toHaveValue('GB (+44)')
@@ -899,14 +899,14 @@ describe('Field.PhoneNumber', () => {
 
       // The selected item should be GB (+44)
       const selectedItem = document.querySelector(
-        'li.dnb-drawer-list__option--selected'
+        'li.dnb-drawer-list__option--selected',
       )
       expect(selectedItem.textContent).toContain('+44')
 
       // The active/focused item should also be the selected country,
       // not the first item in the list
       const focusedItem = document.querySelector(
-        'li.dnb-drawer-list__option--focus'
+        'li.dnb-drawer-list__option--focus',
       )
       expect(focusedItem.textContent).toContain('+44')
     })
@@ -954,11 +954,11 @@ describe('Field.PhoneNumber', () => {
             transformOut={transformOut}
             transformIn={transformIn}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const phoneElement = document.querySelector(
-        '.dnb-forms-field-phone-number__number .dnb-input__input'
+        '.dnb-forms-field-phone-number__number .dnb-input__input',
       )
 
       await userEvent.type(phoneElement, '9999')
@@ -972,7 +972,7 @@ describe('Field.PhoneNumber', () => {
             countryCodePrefix: '+47',
           },
         },
-        expect.anything()
+        expect.anything(),
       )
       expect(transformOut).toHaveBeenCalledTimes(10)
       expect(transformOut).toHaveBeenLastCalledWith('+479999', {
@@ -998,7 +998,7 @@ describe('Field.PhoneNumber', () => {
             phoneNumber: undefined,
           },
         },
-        expect.anything()
+        expect.anything(),
       )
       expect(transformOut).toHaveBeenCalledTimes(12)
       expect(transformOut).toHaveBeenLastCalledWith(undefined, {
@@ -1020,7 +1020,7 @@ describe('Field.PhoneNumber', () => {
       render(<Field.PhoneNumber onChange={onChange} noAnimation />)
 
       const phoneElement = document.querySelector(
-        '.dnb-forms-field-phone-number__number input'
+        '.dnb-forms-field-phone-number__number input',
       )
       await userEvent.type(phoneElement, '123')
 
@@ -1032,7 +1032,7 @@ describe('Field.PhoneNumber', () => {
         '+47123',
         expect.objectContaining({
           phoneNumber: '123',
-        })
+        }),
       )
     })
 
@@ -1042,7 +1042,7 @@ describe('Field.PhoneNumber', () => {
       render(<Field.PhoneNumber onChange={onChange} noAnimation />)
 
       const phoneElement = document.querySelector(
-        '.dnb-forms-field-phone-number__number input'
+        '.dnb-forms-field-phone-number__number input',
       )
       await userEvent.type(phoneElement, '123')
 
@@ -1054,17 +1054,17 @@ describe('Field.PhoneNumber', () => {
         '+47123',
         expect.objectContaining({
           countryCode: '+47',
-        })
+        }),
       )
 
       const codeElement = document.querySelector(
-        '.dnb-forms-field-phone-number__country-code input'
+        '.dnb-forms-field-phone-number__country-code input',
       )
 
       await userEvent.clear(codeElement)
       await userEvent.type(codeElement, 'Sverige')
       fireEvent.click(
-        document.querySelectorAll('li.dnb-drawer-list__option')[0]
+        document.querySelectorAll('li.dnb-drawer-list__option')[0],
       )
 
       await waitFor(() => {
@@ -1075,7 +1075,7 @@ describe('Field.PhoneNumber', () => {
         '+46123',
         expect.objectContaining({
           countryCode: '+46',
-        })
+        }),
       )
     })
 
@@ -1085,7 +1085,7 @@ describe('Field.PhoneNumber', () => {
       render(<Field.PhoneNumber onChange={onChange} noAnimation />)
 
       const phoneElement = document.querySelector(
-        '.dnb-forms-field-phone-number__number input'
+        '.dnb-forms-field-phone-number__number input',
       )
       await userEvent.type(phoneElement, '123')
 
@@ -1097,17 +1097,17 @@ describe('Field.PhoneNumber', () => {
         '+47123',
         expect.objectContaining({
           iso: 'NO',
-        })
+        }),
       )
 
       const codeElement = document.querySelector(
-        '.dnb-forms-field-phone-number__country-code input'
+        '.dnb-forms-field-phone-number__country-code input',
       )
 
       await userEvent.clear(codeElement)
       await userEvent.type(codeElement, 'Sverige')
       fireEvent.click(
-        document.querySelectorAll('li.dnb-drawer-list__option')[0]
+        document.querySelectorAll('li.dnb-drawer-list__option')[0],
       )
 
       await waitFor(() => {
@@ -1118,7 +1118,7 @@ describe('Field.PhoneNumber', () => {
         '+46123',
         expect.objectContaining({
           iso: 'SE',
-        })
+        }),
       )
     })
   })
@@ -1132,14 +1132,14 @@ describe('Field.PhoneNumber', () => {
         onChange={onChange}
         onCountryCodeChange={onCountryCodeChange}
         value="+4712"
-      />
+      />,
     )
 
     const codeElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code input'
+      '.dnb-forms-field-phone-number__country-code input',
     )
     const phoneElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__number input'
+      '.dnb-forms-field-phone-number__number input',
     )
     const firstItemElement = () =>
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
@@ -1151,7 +1151,7 @@ describe('Field.PhoneNumber', () => {
       expect.objectContaining({
         countryCode: '+47',
         phoneNumber: '1',
-      })
+      }),
     )
 
     fireEvent.change(phoneElement, { target: { value: '' } })
@@ -1161,7 +1161,7 @@ describe('Field.PhoneNumber', () => {
       expect.objectContaining({
         countryCode: '+47',
         phoneNumber: undefined,
-      })
+      }),
     )
     expect(codeElement.value).toEqual('NO (+47)')
     expect(phoneElement.value).toEqual('')
@@ -1186,7 +1186,7 @@ describe('Field.PhoneNumber', () => {
       expect.objectContaining({
         countryCode: '+41',
         phoneNumber: '456',
-      })
+      }),
     )
     expect(codeElement.value).toEqual('CH (+41)')
     expect(phoneElement.value).toEqual('456')
@@ -1205,14 +1205,14 @@ describe('Field.PhoneNumber', () => {
           onCountryCodeChange={onCountryCodeChange}
           noAnimation
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const codeElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code input'
+      '.dnb-forms-field-phone-number__country-code input',
     )
     const phoneElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__number input'
+      '.dnb-forms-field-phone-number__number input',
     )
     const firstItemElement = () =>
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
@@ -1238,13 +1238,13 @@ describe('Field.PhoneNumber', () => {
       expect.objectContaining({
         countryCode: '+41',
         phoneNumber: '456',
-      })
+      }),
     )
     expect(formHandlerOnChange).toHaveBeenLastCalledWith(
       {
         myField: '+41456',
       },
-      expect.anything()
+      expect.anything(),
     )
     expect(codeElement.value).toEqual('CH (+41)')
     expect(phoneElement.value).toEqual('456')
@@ -1256,13 +1256,13 @@ describe('Field.PhoneNumber', () => {
       expect.objectContaining({
         countryCode: '+41',
         phoneNumber: undefined,
-      })
+      }),
     )
     expect(formHandlerOnChange).toHaveBeenLastCalledWith(
       {
         myField: undefined,
       },
-      expect.anything()
+      expect.anything(),
     )
     expect(codeElement.value).toEqual('CH (+41)')
     expect(phoneElement.value).toEqual('')
@@ -1273,7 +1273,7 @@ describe('Field.PhoneNumber', () => {
 
     const element = document.querySelector('.dnb-forms-field-phone-number')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual(['class', 'aria-labelledby', 'id'])
@@ -1293,7 +1293,7 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber />)
 
     const codeElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code input'
+      '.dnb-forms-field-phone-number__country-code input',
     )
 
     await userEvent.click(codeElement)
@@ -1310,10 +1310,10 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber onChange={onChange} />)
 
     const codeElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code input'
+      '.dnb-forms-field-phone-number__country-code input',
     )
     const phoneElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__number input'
+      '.dnb-forms-field-phone-number__number input',
     )
 
     fireEvent.change(phoneElement, {
@@ -1330,7 +1330,7 @@ describe('Field.PhoneNumber', () => {
       expect.objectContaining({
         countryCode: '+47',
         phoneNumber: '999',
-      })
+      }),
     )
     expect(onChange).toHaveBeenNthCalledWith(
       2,
@@ -1338,7 +1338,7 @@ describe('Field.PhoneNumber', () => {
       expect.objectContaining({
         countryCode: '+41',
         phoneNumber: '999',
-      })
+      }),
     )
 
     // Because of requestAnimationFrame
@@ -1353,10 +1353,10 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber onChange={onChange} />)
 
     const codeElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code input'
+      '.dnb-forms-field-phone-number__country-code input',
     )
     const phoneElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__number input'
+      '.dnb-forms-field-phone-number__number input',
     )
 
     // Simulate browser autofilling the phone number field first
@@ -1377,7 +1377,7 @@ describe('Field.PhoneNumber', () => {
       expect.objectContaining({
         countryCode: '+41',
         phoneNumber: '999',
-      })
+      }),
     )
 
     // Because of requestAnimationFrame
@@ -1390,7 +1390,7 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber required />)
 
     const phoneElement = document.querySelector(
-      '.dnb-forms-field-phone-number__number input'
+      '.dnb-forms-field-phone-number__number input',
     )
 
     await userEvent.type(phoneElement, '1{Backspace}')
@@ -1402,7 +1402,7 @@ describe('Field.PhoneNumber', () => {
     fireEvent.blur(phoneElement)
 
     expect(
-      document.querySelector('[role="alert"]')
+      document.querySelector('[role="alert"]'),
     ).not.toBeInTheDocument()
   })
 
@@ -1410,22 +1410,22 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber required value="+41" validateInitially />)
 
     const codeElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code input'
+      '.dnb-forms-field-phone-number__country-code input',
     )
     const phoneElement = document.querySelector(
-      '.dnb-forms-field-phone-number__number input'
+      '.dnb-forms-field-phone-number__number input',
     )
 
     expect(codeElement.value).toEqual('CH (+41)')
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      nbNO.PhoneNumber.errorRequired
+      nbNO.PhoneNumber.errorRequired,
     )
 
     await userEvent.type(phoneElement, '1')
     fireEvent.blur(phoneElement)
 
     expect(
-      document.querySelector('.dnb-form-status')
+      document.querySelector('.dnb-form-status'),
     ).not.toBeInTheDocument()
   })
 
@@ -1433,10 +1433,10 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber value="+41" />)
 
     const codeElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code input'
+      '.dnb-forms-field-phone-number__country-code input',
     )
     const phoneElement = document.querySelector(
-      '.dnb-forms-field-phone-number__number input'
+      '.dnb-forms-field-phone-number__number input',
     )
 
     expect(codeElement).toHaveValue('CH (+41)')
@@ -1447,7 +1447,7 @@ describe('Field.PhoneNumber', () => {
     await waitFor(() => {
       expect(
         document.querySelector('li.dnb-drawer-list__option--selected')
-          .textContent
+          .textContent,
       ).toBe('Sveits+41')
     })
   })
@@ -1460,14 +1460,14 @@ describe('Field.PhoneNumber', () => {
         }}
       >
         <Field.PhoneNumber path="/phoneNumber" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const codeElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code input'
+      '.dnb-forms-field-phone-number__country-code input',
     )
     const phoneElement = document.querySelector(
-      '.dnb-forms-field-phone-number__number input'
+      '.dnb-forms-field-phone-number__number input',
     )
 
     expect(codeElement).toHaveValue('CH (+41)')
@@ -1478,7 +1478,7 @@ describe('Field.PhoneNumber', () => {
     await waitFor(() => {
       expect(
         document.querySelector('li.dnb-drawer-list__option--selected')
-          .textContent
+          .textContent,
       ).toBe('Sveits+41')
     })
   })
@@ -1487,11 +1487,11 @@ describe('Field.PhoneNumber', () => {
     render(
       <SharedProvider locale="en-GB">
         <Field.PhoneNumber pattern="^\+47[49]+" />
-      </SharedProvider>
+      </SharedProvider>,
     )
 
     const numberElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__number input'
+      '.dnb-forms-field-phone-number__number input',
     )
 
     await userEvent.type(numberElement, '34')
@@ -1499,7 +1499,7 @@ describe('Field.PhoneNumber', () => {
 
     expect(document.querySelector('[role="alert"]')).toBeInTheDocument()
     expect(document.querySelector('[role="alert"]').textContent).toContain(
-      enGB.PhoneNumber.errorRequired
+      enGB.PhoneNumber.errorRequired,
     )
 
     await userEvent.type(numberElement, '{Backspace>8}89')
@@ -1513,14 +1513,14 @@ describe('Field.PhoneNumber', () => {
     expect(numberElement.value).toBe('43')
 
     expect(
-      document.querySelector('[role="alert"]')
+      document.querySelector('[role="alert"]'),
     ).not.toBeInTheDocument()
 
     await userEvent.type(numberElement, '{Backspace>8}98')
     fireEvent.blur(numberElement)
 
     expect(
-      document.querySelector('[role="alert"]')
+      document.querySelector('[role="alert"]'),
     ).not.toBeInTheDocument()
   })
 
@@ -1530,11 +1530,11 @@ describe('Field.PhoneNumber', () => {
       pattern: '((?=\\+47)^\\+47[49]\\d{7}$)|((?!\\+47)^\\+\\d{2}\\d{6})',
     }
     const { rerender } = render(
-      <Field.PhoneNumber value="+4799999999" {...props} />
+      <Field.PhoneNumber value="+4799999999" {...props} />,
     )
 
     expect(
-      document.querySelector('[role="alert"]')
+      document.querySelector('[role="alert"]'),
     ).not.toBeInTheDocument()
 
     rerender(<Field.PhoneNumber value="+479999" {...props} />)
@@ -1544,7 +1544,7 @@ describe('Field.PhoneNumber', () => {
     rerender(<Field.PhoneNumber value="+41999999" {...props} />)
 
     expect(
-      document.querySelector('[role="alert"]')
+      document.querySelector('[role="alert"]'),
     ).not.toBeInTheDocument()
 
     rerender(<Field.PhoneNumber value="+419999" {...props} />)
@@ -1564,7 +1564,7 @@ describe('Field.PhoneNumber', () => {
           validateInitially
           value="+419999"
         />
-      </SharedProvider>
+      </SharedProvider>,
     )
 
     expect(onChangeValidator).toHaveBeenCalledTimes(1)
@@ -1575,13 +1575,13 @@ describe('Field.PhoneNumber', () => {
           'Field.errorRequired': enGB.PhoneNumber.errorRequired,
           'Field.errorPattern': enGB.PhoneNumber.errorRequired,
         }),
-      })
+      }),
     )
 
     await waitFor(() => {
       expect(document.querySelector('[role="alert"]')).toBeInTheDocument()
       expect(
-        document.querySelector('[role="alert"]').textContent
+        document.querySelector('[role="alert"]').textContent,
       ).toContain('some error')
     })
   })
@@ -1590,11 +1590,11 @@ describe('Field.PhoneNumber', () => {
     render(
       <Field.PhoneNumber
         filterCountries={({ regions }) => regions?.includes('Scandinavia')}
-      />
+      />,
     )
 
     const codeElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code input'
+      '.dnb-forms-field-phone-number__country-code input',
     )
 
     // open
@@ -1613,7 +1613,7 @@ describe('Field.PhoneNumber', () => {
 
     expect(
       document.querySelector('li.dnb-drawer-list__option--selected')
-        .textContent
+        .textContent,
     ).toBe('Norge+47')
   })
 
@@ -1621,7 +1621,7 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber />)
 
     const codeElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code input'
+      '.dnb-forms-field-phone-number__country-code input',
     )
 
     // open
@@ -1645,7 +1645,7 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber countries="Scandinavia" />)
 
     const codeElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code input'
+      '.dnb-forms-field-phone-number__country-code input',
     )
 
     // open
@@ -1664,7 +1664,7 @@ describe('Field.PhoneNumber', () => {
 
     expect(
       document.querySelector('li.dnb-drawer-list__option--selected')
-        .textContent
+        .textContent,
     ).toBe('Norge+47')
   })
 
@@ -1673,11 +1673,11 @@ describe('Field.PhoneNumber', () => {
       <Field.PhoneNumber
         countries="Scandinavia"
         filterCountries={({ iso }) => iso !== 'DK'}
-      />
+      />,
     )
 
     const codeElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code input'
+      '.dnb-forms-field-phone-number__country-code input',
     )
 
     // open
@@ -1695,7 +1695,7 @@ describe('Field.PhoneNumber', () => {
 
     expect(
       document.querySelector('li.dnb-drawer-list__option--selected')
-        .textContent
+        .textContent,
     ).toBe('Norge+47')
   })
 
@@ -1703,7 +1703,7 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber countries="Prioritized" />)
 
     const codeElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code input'
+      '.dnb-forms-field-phone-number__country-code input',
     )
 
     // open
@@ -1727,15 +1727,17 @@ describe('Field.PhoneNumber', () => {
     const onChange = jest.fn()
 
     const { rerender } = render(
-      <Field.PhoneNumber omitCountryCodeField onChange={onChange} />
+      <Field.PhoneNumber omitCountryCodeField onChange={onChange} />,
     )
 
     const numberElement = document.querySelector(
-      '.dnb-forms-field-phone-number__number input'
+      '.dnb-forms-field-phone-number__number input',
     ) as HTMLInputElement
 
     expect(
-      document.querySelector('.dnb-forms-field-phone-number__country-code')
+      document.querySelector(
+        '.dnb-forms-field-phone-number__country-code',
+      ),
     ).not.toBeInTheDocument()
 
     await userEvent.type(numberElement, '123')
@@ -1747,7 +1749,7 @@ describe('Field.PhoneNumber', () => {
       '123',
       expect.objectContaining({
         phoneNumber: '123',
-      })
+      }),
     )
 
     rerender(
@@ -1755,7 +1757,7 @@ describe('Field.PhoneNumber', () => {
         omitCountryCodeField
         value="+4799999999"
         onChange={onChange}
-      />
+      />,
     )
 
     expect(numberElement.value).toBe('99 99 99 99')
@@ -1769,7 +1771,7 @@ describe('Field.PhoneNumber', () => {
       '8888',
       expect.objectContaining({
         phoneNumber: '8888',
-      })
+      }),
     )
 
     await userEvent.type(numberElement, '{Backspace>2}4')
@@ -1781,10 +1783,10 @@ describe('Field.PhoneNumber', () => {
       '884',
       expect.objectContaining({
         phoneNumber: '884',
-      })
+      }),
     )
     expect(
-      Object.hasOwn(onChange.mock.calls[17][1], 'countryCode')
+      Object.hasOwn(onChange.mock.calls[17][1], 'countryCode'),
     ).toBeFalsy()
   })
 
@@ -1792,7 +1794,7 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber value="" validateInitially />)
 
     expect(
-      document.querySelector('.dnb-form-status')
+      document.querySelector('.dnb-form-status'),
     ).not.toBeInTheDocument()
   })
 
@@ -1800,7 +1802,7 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber value={undefined} validateInitially />)
 
     expect(
-      document.querySelector('.dnb-form-status')
+      document.querySelector('.dnb-form-status'),
     ).not.toBeInTheDocument()
   })
 
@@ -1808,7 +1810,7 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber value="+41" validateInitially />)
 
     expect(
-      document.querySelector('.dnb-form-status')
+      document.querySelector('.dnb-form-status'),
     ).not.toBeInTheDocument()
   })
 
@@ -1817,22 +1819,22 @@ describe('Field.PhoneNumber', () => {
       <Form.Handler>
         <Field.PhoneNumber required />
         <Form.SubmitButton />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const buttonElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-submit-button'
+      '.dnb-forms-submit-button',
     )
 
     expect(
-      document.querySelector('.dnb-form-status')
+      document.querySelector('.dnb-form-status'),
     ).not.toBeInTheDocument()
 
     fireEvent.click(buttonElement)
 
     expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      nbNO.PhoneNumber.errorRequired
+      nbNO.PhoneNumber.errorRequired,
     )
   })
 
@@ -1845,11 +1847,11 @@ describe('Field.PhoneNumber', () => {
     render(
       <DataContext.Provider ajvInstance={makeAjvInstance()}>
         <Field.PhoneNumber schema={schema} />
-      </DataContext.Provider>
+      </DataContext.Provider>,
     )
 
     const numberElement = document.querySelector(
-      '.dnb-forms-field-phone-number__number input'
+      '.dnb-forms-field-phone-number__number input',
     ) as HTMLInputElement
 
     await userEvent.type(numberElement, '123')
@@ -1858,7 +1860,7 @@ describe('Field.PhoneNumber', () => {
     expect(numberElement.value).toBe('12 3')
     expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      nbNO.PhoneNumber.errorRequired
+      nbNO.PhoneNumber.errorRequired,
     )
 
     await userEvent.type(numberElement, '{Backspace>8}456')
@@ -1866,7 +1868,7 @@ describe('Field.PhoneNumber', () => {
 
     expect(numberElement.value).toBe('45 6')
     expect(
-      document.querySelector('.dnb-form-status')
+      document.querySelector('.dnb-form-status'),
     ).not.toBeInTheDocument()
   })
 
@@ -1874,24 +1876,24 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber required value="+47" />)
 
     expect(
-      document.querySelector('.dnb-form-status')
+      document.querySelector('.dnb-form-status'),
     ).not.toBeInTheDocument()
   })
 
   it('should execute validateInitially if required', () => {
     const { rerender } = render(
-      <Field.PhoneNumber required validateInitially />
+      <Field.PhoneNumber required validateInitially />,
     )
 
     expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      nbNO.PhoneNumber.errorRequired
+      nbNO.PhoneNumber.errorRequired,
     )
 
     rerender(<Field.PhoneNumber validateInitially />)
 
     expect(
-      document.querySelector('.dnb-form-status')
+      document.querySelector('.dnb-form-status'),
     ).not.toBeInTheDocument()
   })
 
@@ -1899,7 +1901,7 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber />)
 
     const phoneNumberInput = document.querySelector(
-      '.dnb-forms-field-phone-number__number .dnb-input__input'
+      '.dnb-forms-field-phone-number__number .dnb-input__input',
     )
 
     expect(phoneNumberInput).toHaveAttribute('inputmode', 'tel')
@@ -1909,11 +1911,11 @@ describe('Field.PhoneNumber', () => {
     render(
       <Form.Handler data={{ phoneNumber: '9999' }}>
         <Field.PhoneNumber path="/phoneNumber" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const phoneNumberInput = document.querySelector(
-      '.dnb-forms-field-phone-number__number .dnb-input__input'
+      '.dnb-forms-field-phone-number__number .dnb-input__input',
     )
 
     expect(phoneNumberInput).toHaveValue('99 99')
@@ -1924,18 +1926,18 @@ describe('Field.PhoneNumber', () => {
       const { rerender } = render(
         <SharedProvider>
           <Field.PhoneNumber />
-        </SharedProvider>
+        </SharedProvider>,
       )
 
       const codeElement = document.querySelector(
-        '.dnb-forms-field-phone-number__country-code input'
+        '.dnb-forms-field-phone-number__country-code input',
       )
 
       fireEvent.mouseDown(codeElement)
 
       const selectedItemElement = () =>
         document.querySelector(
-          '.dnb-drawer-list__option.dnb-drawer-list__option--selected'
+          '.dnb-drawer-list__option.dnb-drawer-list__option--selected',
         )
 
       await waitFor(() => {
@@ -1945,7 +1947,7 @@ describe('Field.PhoneNumber', () => {
       rerender(
         <SharedProvider locale="en-GB">
           <Field.PhoneNumber />
-        </SharedProvider>
+        </SharedProvider>,
       )
 
       fireEvent.mouseDown(codeElement)
@@ -1957,7 +1959,7 @@ describe('Field.PhoneNumber', () => {
       rerender(
         <SharedProvider locale="nb-NO">
           <Field.PhoneNumber />
-        </SharedProvider>
+        </SharedProvider>,
       )
 
       fireEvent.mouseDown(codeElement)
@@ -1971,18 +1973,18 @@ describe('Field.PhoneNumber', () => {
       const { rerender } = render(
         <SharedProvider>
           <Field.PhoneNumber />
-        </SharedProvider>
+        </SharedProvider>,
       )
 
       const codeElement: HTMLInputElement = document.querySelector(
-        '.dnb-forms-field-phone-number__country-code input'
+        '.dnb-forms-field-phone-number__country-code input',
       )
 
       const currentOptions = () =>
         Array.from(
           document.querySelectorAll(
-            '.dnb-drawer-list__options .dnb-drawer-list__option__inner'
-          )
+            '.dnb-drawer-list__options .dnb-drawer-list__option__inner',
+          ),
         ).map((option: Element) => option.textContent)
 
       await userEvent.click(codeElement)
@@ -1998,7 +2000,7 @@ describe('Field.PhoneNumber', () => {
       rerender(
         <SharedProvider locale="en-GB">
           <Field.PhoneNumber />
-        </SharedProvider>
+        </SharedProvider>,
       )
 
       await userEvent.clear(codeElement)
@@ -2012,7 +2014,7 @@ describe('Field.PhoneNumber', () => {
       rerender(
         <SharedProvider locale="nb-NO">
           <Field.PhoneNumber />
-        </SharedProvider>
+        </SharedProvider>,
       )
 
       await userEvent.clear(codeElement)
@@ -2037,14 +2039,14 @@ describe('Field.PhoneNumber', () => {
             return null
           }}
         </DataContext.Consumer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector(
-      '.dnb-forms-field-phone-number__number input'
+      '.dnb-forms-field-phone-number__number input',
     )
     const countryCode = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code input'
+      '.dnb-forms-field-phone-number__country-code input',
     )
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
@@ -2105,7 +2107,7 @@ describe('Field.PhoneNumber', () => {
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(
-        <Field.PhoneNumber required validateInitially />
+        <Field.PhoneNumber required validateInitially />,
       )
 
       expect(await axeComponent(result)).toHaveNoViolations()
@@ -2115,7 +2117,7 @@ describe('Field.PhoneNumber', () => {
       render(<Field.PhoneNumber required />)
 
       const input = document.querySelector(
-        '.dnb-forms-field-phone-number__number input'
+        '.dnb-forms-field-phone-number__number input',
       )
       expect(input).toHaveAttribute('aria-required', 'true')
     })
@@ -2124,7 +2126,7 @@ describe('Field.PhoneNumber', () => {
       render(<Field.PhoneNumber required validateInitially />)
 
       const input = document.querySelector(
-        '.dnb-forms-field-phone-number__number input'
+        '.dnb-forms-field-phone-number__number input',
       )
       expect(input).toHaveAttribute('aria-invalid', 'true')
     })
@@ -2132,7 +2134,7 @@ describe('Field.PhoneNumber', () => {
 
   it('should have constant of _supportsSpacingProps=undefined', () => {
     expect(
-      (Field.PhoneNumber as ComponentMarkers)._supportsSpacingProps
+      (Field.PhoneNumber as ComponentMarkers)._supportsSpacingProps,
     ).toBe(undefined)
   })
 
@@ -2141,10 +2143,10 @@ describe('Field.PhoneNumber', () => {
       render(<Field.PhoneNumber value="+47 12345678" />)
 
       const codeElement = document.querySelector(
-        '.dnb-forms-field-phone-number__country-code input'
+        '.dnb-forms-field-phone-number__country-code input',
       ) as HTMLInputElement
       const numberElement = document.querySelector(
-        '.dnb-forms-field-phone-number__number input'
+        '.dnb-forms-field-phone-number__number input',
       ) as HTMLInputElement
 
       expect(codeElement.value).toBe('NO (+47)')
@@ -2155,10 +2157,10 @@ describe('Field.PhoneNumber', () => {
       render(<Field.PhoneNumber value="+4712345678" />)
 
       const codeElement = document.querySelector(
-        '.dnb-forms-field-phone-number__country-code input'
+        '.dnb-forms-field-phone-number__country-code input',
       ) as HTMLInputElement
       const numberElement = document.querySelector(
-        '.dnb-forms-field-phone-number__number input'
+        '.dnb-forms-field-phone-number__number input',
       ) as HTMLInputElement
 
       expect(codeElement.value).toBe('NO (+47)')
@@ -2169,10 +2171,10 @@ describe('Field.PhoneNumber', () => {
       render(<Field.PhoneNumber value="+46701234567" />)
 
       const codeElement = document.querySelector(
-        '.dnb-forms-field-phone-number__country-code input'
+        '.dnb-forms-field-phone-number__country-code input',
       ) as HTMLInputElement
       const numberElement = document.querySelector(
-        '.dnb-forms-field-phone-number__number input'
+        '.dnb-forms-field-phone-number__number input',
       ) as HTMLInputElement
 
       expect(codeElement.value).toBe('SE (+46)')
@@ -2183,10 +2185,10 @@ describe('Field.PhoneNumber', () => {
       render(<Field.PhoneNumber value="004712345678" />)
 
       const codeElement = document.querySelector(
-        '.dnb-forms-field-phone-number__country-code input'
+        '.dnb-forms-field-phone-number__country-code input',
       ) as HTMLInputElement
       const numberElement = document.querySelector(
-        '.dnb-forms-field-phone-number__number input'
+        '.dnb-forms-field-phone-number__number input',
       ) as HTMLInputElement
 
       expect(codeElement.value).toBe('NO (+47)')
@@ -2197,7 +2199,7 @@ describe('Field.PhoneNumber', () => {
       render(<Field.PhoneNumber value="007" />)
 
       const numberElement = document.querySelector(
-        '.dnb-forms-field-phone-number__number input'
+        '.dnb-forms-field-phone-number__number input',
       ) as HTMLInputElement
 
       expect(numberElement.value).toBe('00 7')
@@ -2209,7 +2211,7 @@ describe('Field.PhoneNumber', () => {
       render(<Field.PhoneNumber value="+4712345678" onChange={onChange} />)
 
       const numberElement = document.querySelector(
-        '.dnb-forms-field-phone-number__number input'
+        '.dnb-forms-field-phone-number__number input',
       ) as HTMLInputElement
 
       await userEvent.type(numberElement, '{Backspace}9')
@@ -2219,7 +2221,7 @@ describe('Field.PhoneNumber', () => {
         expect.objectContaining({
           countryCode: '+47',
           phoneNumber: '12345679',
-        })
+        }),
       )
     })
 
@@ -2227,14 +2229,14 @@ describe('Field.PhoneNumber', () => {
       const onChange = jest.fn()
 
       render(
-        <Field.PhoneNumber value="004712345678" onChange={onChange} />
+        <Field.PhoneNumber value="004712345678" onChange={onChange} />,
       )
 
       const codeElement = document.querySelector(
-        '.dnb-forms-field-phone-number__country-code input'
+        '.dnb-forms-field-phone-number__country-code input',
       ) as HTMLInputElement
       const numberElement = document.querySelector(
-        '.dnb-forms-field-phone-number__number input'
+        '.dnb-forms-field-phone-number__number input',
       ) as HTMLInputElement
 
       expect(codeElement.value).toBe('NO (+47)')
@@ -2247,7 +2249,7 @@ describe('Field.PhoneNumber', () => {
         expect.objectContaining({
           countryCode: '+47',
           phoneNumber: '12345679',
-        })
+        }),
       )
     })
 
@@ -2255,10 +2257,10 @@ describe('Field.PhoneNumber', () => {
       render(<Field.PhoneNumber value="+16841234567" />)
 
       const codeElement = document.querySelector(
-        '.dnb-forms-field-phone-number__country-code input'
+        '.dnb-forms-field-phone-number__country-code input',
       ) as HTMLInputElement
       const numberElement = document.querySelector(
-        '.dnb-forms-field-phone-number__number input'
+        '.dnb-forms-field-phone-number__number input',
       ) as HTMLInputElement
 
       expect(codeElement.value).toBe('AS (+1-684)')
@@ -2269,17 +2271,17 @@ describe('Field.PhoneNumber', () => {
       const onChange = jest.fn()
 
       render(
-        <Field.PhoneNumber value="+16841234567" onChange={onChange} />
+        <Field.PhoneNumber value="+16841234567" onChange={onChange} />,
       )
 
       const codeElement = document.querySelector(
-        '.dnb-forms-field-phone-number__country-code input'
+        '.dnb-forms-field-phone-number__country-code input',
       ) as HTMLInputElement
 
       expect(codeElement.value).toBe('AS (+1-684)')
 
       const numberElement = document.querySelector(
-        '.dnb-forms-field-phone-number__number input'
+        '.dnb-forms-field-phone-number__number input',
       ) as HTMLInputElement
 
       await userEvent.type(numberElement, '{Backspace}9')
@@ -2290,7 +2292,7 @@ describe('Field.PhoneNumber', () => {
           countryCode: '+1-684',
           phoneNumber: '1234569',
           iso: 'AS',
-        })
+        }),
       )
     })
 
@@ -2298,11 +2300,11 @@ describe('Field.PhoneNumber', () => {
       const onChange = jest.fn()
 
       render(
-        <Field.PhoneNumber value="+16841234567" onChange={onChange} />
+        <Field.PhoneNumber value="+16841234567" onChange={onChange} />,
       )
 
       const numberElement = document.querySelector(
-        '.dnb-forms-field-phone-number__number input'
+        '.dnb-forms-field-phone-number__number input',
       ) as HTMLInputElement
 
       await userEvent.type(numberElement, '8')
@@ -2311,7 +2313,7 @@ describe('Field.PhoneNumber', () => {
         expect.any(String),
         expect.objectContaining({
           iso: 'AS',
-        })
+        }),
       )
     })
   })
@@ -2322,11 +2324,11 @@ describe('Field.PhoneNumber', () => {
     render(
       <Form.Handler onChange={onChange}>
         <Field.PhoneNumber path="/phone" value="+4612345678" noAnimation />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const ccInput: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code input'
+      '.dnb-forms-field-phone-number__country-code input',
     )
 
     // Initial state: should show Sweden's country code (+46)

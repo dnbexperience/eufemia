@@ -37,7 +37,7 @@ export function PostalCode() {
           payload: { city },
         }
       },
-    }
+    },
   )
   const onChange = withConfig(Connectors.Bring.postalCode.autofill, {
     cityPath: '/city',
@@ -95,7 +95,7 @@ export function Address() {
       countryCode: '/countryCode', // Can be "NO" or a path
       cityPath: '/city',
       postalCodePath: '/postalCode',
-    }
+    },
   )
 
   return (

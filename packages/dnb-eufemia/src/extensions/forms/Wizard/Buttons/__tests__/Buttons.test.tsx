@@ -21,7 +21,7 @@ describe('Wizard.Buttons', () => {
           <Step title="Step 2" />
           <Step title="Step 3" />
         </Wizard.Container>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const getButtons = () =>

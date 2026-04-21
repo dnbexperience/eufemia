@@ -23,7 +23,7 @@ describe('convertMdxToMd', () => {
         'export const ButtonProperties = {',
         "  size: { doc: 'Size of button', type: 'string' },",
         '};',
-      ].join('\n')
+      ].join('\n'),
     )
 
     const mdxPath = path.join(docsRoot, 'button.mdx')
@@ -35,7 +35,7 @@ describe('convertMdxToMd', () => {
         '## Properties',
         '',
         '<PropertiesTable props={ButtonProperties} />',
-      ].join('\n')
+      ].join('\n'),
     )
 
     const output = await convertMdxToMd({
@@ -65,7 +65,7 @@ describe('convertMdxToMd', () => {
         'export const SliderFieldProperties = {',
         "  min: { doc: 'Minimum value', type: 'number' },",
         '};',
-      ].join('\n')
+      ].join('\n'),
     )
 
     const mdxPath = path.join(docsRoot, 'slider.mdx')
@@ -82,7 +82,7 @@ describe('convertMdxToMd', () => {
         '  omit={["min"]}',
         '  showDefaultValue',
         '/>',
-      ].join('\n')
+      ].join('\n'),
     )
 
     const output = await convertMdxToMd({
@@ -116,7 +116,7 @@ describe('convertMdxToMd', () => {
         "  'en-GB': { Breadcrumb: { label: 'Home' } },",
         "  'nb-NO': { Breadcrumb: { label: 'Hjem' } },",
         '};',
-      ].join('\n')
+      ].join('\n'),
     )
 
     const mdxPath = path.join(docsRoot, 'breadcrumb.mdx')
@@ -128,7 +128,7 @@ describe('convertMdxToMd', () => {
         '## Translations',
         '',
         '<TranslationsTable source={translations} localeKey="Breadcrumb" />',
-      ].join('\n')
+      ].join('\n'),
     )
 
     const output = await convertMdxToMd({
@@ -158,7 +158,7 @@ describe('convertMdxToMd', () => {
     const mdxPath = path.join(docsRoot, 'title.mdx')
     fs.writeFileSync(
       mdxPath,
-      ['---', 'title: Button', '---', '', 'Some intro text.'].join('\n')
+      ['---', 'title: Button', '---', '', 'Some intro text.'].join('\n'),
     )
 
     const output = await convertMdxToMd({

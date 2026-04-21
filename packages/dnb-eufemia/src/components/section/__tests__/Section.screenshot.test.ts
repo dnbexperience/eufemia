@@ -35,7 +35,7 @@ describe.each(['ui', 'sbanken'])('Section for %s', (themeName) => {
         selector: `[data-visual-test="section-${sectionName}"]`,
       })
       expect(screenshot).toMatchImageSnapshot()
-    }
+    },
   )
 })
 

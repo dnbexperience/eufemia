@@ -77,7 +77,7 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
 
   const dayRef = useRef<FieldDateOfBirthProps['value']>(props?.emptyValue)
   const monthRef = useRef<FieldDateOfBirthProps['value']>(
-    props?.emptyValue
+    props?.emptyValue,
   )
   const yearRef = useRef<FieldDateOfBirthProps['value']>(props?.emptyValue)
 
@@ -103,7 +103,7 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
 
       return undefined
     },
-    [dateFormat]
+    [dateFormat],
   )
 
   const dateOfBirthValidator = useCallback(
@@ -123,7 +123,7 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
 
       return undefined
     },
-    [errorDateOfBirth, errorDateOfBirthFuture, dateFormat]
+    [errorDateOfBirth, errorDateOfBirthFuture, dateFormat],
   )
 
   const {
@@ -171,7 +171,7 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
       onChangeValidator,
       dateOfBirthValidator,
       provideAdditionalArgs,
-    ]
+    ],
   )
 
   const {
@@ -213,7 +213,7 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
         day,
       }
     },
-    [emptyValue]
+    [emptyValue],
   )
 
   const callOnChange = useCallback(
@@ -222,19 +222,19 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
       handleChange(
         joinValue(
           [eventValues.year, eventValues.month, eventValues.day],
-          dateFormat
+          dateFormat,
         ),
-        eventValues
+        eventValues,
       )
     },
-    [prepareEventValues, handleChange, dateFormat]
+    [prepareEventValues, handleChange, dateFormat],
   )
 
   const callOnBlurOrFocus = useCallback(
     (hasFocus: boolean) => {
       setHasFocus(hasFocus, undefined, prepareEventValues())
     },
-    [prepareEventValues, setHasFocus]
+    [prepareEventValues, setHasFocus],
   )
 
   useEffect(() => {
@@ -245,7 +245,7 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
       // This prevents overriding user input while typing
       const currentValues = joinValue(
         [yearRef.current, monthRef.current, dayRef.current],
-        dateFormat
+        dateFormat,
       )
       const shouldUpdate =
         (!dayRef.current && !monthRef.current && !yearRef.current) ||
@@ -269,7 +269,7 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
       callOnChange({ day, month: monthRef.current, year: yearRef.current })
       onDayChange?.(day)
     },
-    [emptyValue, callOnChange, onDayChange]
+    [emptyValue, callOnChange, onDayChange],
   )
 
   const handleMonthChange = useCallback(
@@ -280,7 +280,7 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
       callOnChange({ day: dayRef.current, month, year: yearRef.current })
       onMonthChange?.(month)
     },
-    [emptyValue, callOnChange, onMonthChange]
+    [emptyValue, callOnChange, onMonthChange],
   )
 
   const handleYearChange = useCallback(
@@ -291,7 +291,7 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
       callOnChange({ day: dayRef.current, month: monthRef.current, year })
       onYearChange?.(year)
     },
-    [emptyValue, callOnChange, onYearChange]
+    [emptyValue, callOnChange, onYearChange],
   )
 
   const normalizeDay = useCallback((value: string | undefined) => {
@@ -378,7 +378,7 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
         formatDate(new Date(0, i, 1), {
           locale,
           options: { month: 'long' },
-        })
+        }),
       )
 
       return { value, title, searchContent: [title, nr, value] }
@@ -391,7 +391,7 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
       const nr = parseFloat(event.value ?? '')
       if (!isNaN(nr)) {
         const monthValue = months.find(
-          (m) => parseFloat(m.value) === nr
+          (m) => parseFloat(m.value) === nr,
         )?.value
         const month = monthValue || emptyValue
         monthRef.current = month
@@ -400,7 +400,7 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
       } else {
         // If the value is a month name, find the corresponding value
         const monthValue = months.find(
-          (m) => m.title === event.value
+          (m) => m.title === event.value,
         )?.value
         if (monthValue) {
           monthRef.current = monthValue
@@ -409,7 +409,7 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
         }
       }
     },
-    [callOnChange, emptyValue, months]
+    [callOnChange, emptyValue, months],
   )
 
   return (
@@ -484,7 +484,7 @@ function capitalizeFirstLetter(s) {
 
 function joinValue(
   array: Array<string>,
-  dateFormat = DEFAULT_DATE_FORMAT
+  dateFormat = DEFAULT_DATE_FORMAT,
 ) {
   const [year, month, day] = array
   if (!year || !month || !day) {
@@ -523,7 +523,7 @@ function splitValue(value: string, dateFormat = DEFAULT_DATE_FORMAT) {
 
   // Create array of indices sorted by position in format
   const sortedIndices = [yearIndex, monthIndex, dayIndex].sort(
-    (a, b) => a - b
+    (a, b) => a - b,
   )
 
   // Map sorted indices to their corresponding match groups

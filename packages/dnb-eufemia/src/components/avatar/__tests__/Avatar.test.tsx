@@ -14,7 +14,7 @@ describe('Avatar', () => {
     render(
       <Avatar.Group {...props} label="label">
         <Avatar />
-      </Avatar.Group>
+      </Avatar.Group>,
     )
 
     expect(document.querySelector('.dnb-avatar')).toBeInTheDocument()
@@ -25,7 +25,7 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="label">
         <Avatar>{children}</Avatar>
-      </Avatar.Group>
+      </Avatar.Group>,
     )
 
     expect(screen.queryAllByText(children)[0]).toBeInTheDocument()
@@ -36,7 +36,7 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="label">
         <Avatar>{children}</Avatar>
-      </Avatar.Group>
+      </Avatar.Group>,
     )
 
     expect(screen.queryByText('E')).toBeInTheDocument()
@@ -48,7 +48,7 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="label">
         <Avatar>{children}</Avatar>
-      </Avatar.Group>
+      </Avatar.Group>,
     )
 
     expect(screen.queryByText(children)).toBeInTheDocument()
@@ -60,7 +60,7 @@ describe('Avatar', () => {
         <Avatar>
           <Icon icon={Confetti} />
         </Avatar>
-      </Avatar.Group>
+      </Avatar.Group>,
     )
 
     expect(screen.queryByTestId('confetti icon')).toBeInTheDocument()
@@ -72,7 +72,7 @@ describe('Avatar', () => {
         <Avatar>
           <Icon icon={Confetti} />
         </Avatar>
-      </Avatar.Group>
+      </Avatar.Group>,
     )
 
     const element = document.querySelector('.dnb-icon')
@@ -90,7 +90,7 @@ describe('Avatar', () => {
         <Avatar>
           <Icon icon={Confetti} size="small" />
         </Avatar>
-      </Avatar.Group>
+      </Avatar.Group>,
     )
 
     const element = document.querySelector('.dnb-icon')
@@ -106,7 +106,7 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="label">
         <Avatar icon={Confetti} />
-      </Avatar.Group>
+      </Avatar.Group>,
     )
 
     const element = document.querySelector('.dnb-icon')
@@ -122,7 +122,7 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="label">
         <Avatar icon={<Icon icon={Confetti} size="small" />} />
-      </Avatar.Group>
+      </Avatar.Group>,
     )
 
     const element = document.querySelector('.dnb-icon')
@@ -139,7 +139,7 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="label">
         <Avatar src={imgSrc} alt="custom_alt_label" />
-      </Avatar.Group>
+      </Avatar.Group>,
     )
 
     expect(screen.queryByRole('img').getAttribute('src')).toBe(imgSrc)
@@ -150,7 +150,7 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="label">
         <Avatar alt={imgAlt} src="/dnb/android-chrome-192x192.png" />
-      </Avatar.Group>
+      </Avatar.Group>,
     )
 
     expect(screen.getByAltText(imgAlt)).toBeInTheDocument()
@@ -172,7 +172,7 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="label">
         <Avatar imgProps={imgProps} />
-      </Avatar.Group>
+      </Avatar.Group>,
     )
 
     const image = screen.queryByRole('img')
@@ -203,10 +203,10 @@ describe('Avatar', () => {
     render(
       <Avatar.Group skeleton label="label">
         <Avatar>A</Avatar>
-      </Avatar.Group>
+      </Avatar.Group>,
     )
     expect(
-      document.getElementsByClassName(skeletonClassName)
+      document.getElementsByClassName(skeletonClassName),
     ).toHaveLength(1)
   })
 
@@ -218,11 +218,11 @@ describe('Avatar', () => {
         <Avatar.Group label="label">
           <Avatar>A</Avatar>
         </Avatar.Group>
-      </Provider>
+      </Provider>,
     )
 
     expect(
-      document.getElementsByClassName(skeletonClassName)
+      document.getElementsByClassName(skeletonClassName),
     ).toHaveLength(1)
   })
 
@@ -236,12 +236,12 @@ describe('Avatar', () => {
           alt={imgAlt}
           src="/dnb/android-chrome-192x192.png"
         />
-      </Avatar.Group>
+      </Avatar.Group>,
     )
 
     const element = document.querySelector('.dnb-avatar')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual(['class'])
@@ -257,11 +257,11 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="tags">
         <Avatar style={{ color: 'red' }}>A</Avatar>
-      </Avatar.Group>
+      </Avatar.Group>,
     )
 
     expect(
-      document.querySelector('.dnb-avatar').getAttribute('style')
+      document.querySelector('.dnb-avatar').getAttribute('style'),
     ).toBe('color: red;')
   })
 
@@ -271,7 +271,7 @@ describe('Avatar', () => {
         <Avatar top="large" bottom="small">
           A
         </Avatar>
-      </Avatar.Group>
+      </Avatar.Group>,
     )
 
     const element = document.querySelector('.dnb-avatar')
@@ -289,7 +289,7 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="label">
         <Avatar innerSpace="small">A</Avatar>
-      </Avatar.Group>
+      </Avatar.Group>,
     )
 
     const element = document.querySelector('.dnb-avatar')
@@ -304,10 +304,10 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="tags">
         <Avatar variant="tertiary">A</Avatar>
-      </Avatar.Group>
+      </Avatar.Group>,
     )
     expect(
-      document.querySelector('.dnb-avatar--tertiary')
+      document.querySelector('.dnb-avatar--tertiary'),
     ).toBeInTheDocument()
   })
 
@@ -315,10 +315,10 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="tags">
         <Avatar variant="primary">A</Avatar>
-      </Avatar.Group>
+      </Avatar.Group>,
     )
     expect(
-      document.querySelector('.dnb-avatar--primary')
+      document.querySelector('.dnb-avatar--primary'),
     ).toBeInTheDocument()
   })
 
@@ -326,10 +326,10 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="tags">
         <Avatar variant="secondary">A</Avatar>
-      </Avatar.Group>
+      </Avatar.Group>,
     )
     expect(
-      document.querySelector('.dnb-avatar--secondary')
+      document.querySelector('.dnb-avatar--secondary'),
     ).toBeInTheDocument()
   })
 
@@ -337,10 +337,10 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="tags">
         <Avatar size="small">A</Avatar>
-      </Avatar.Group>
+      </Avatar.Group>,
     )
     expect(
-      document.querySelector('.dnb-avatar--size-small')
+      document.querySelector('.dnb-avatar--size-small'),
     ).toBeInTheDocument()
   })
 
@@ -348,10 +348,10 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="tags">
         <Avatar size="medium">A</Avatar>
-      </Avatar.Group>
+      </Avatar.Group>,
     )
     expect(
-      document.querySelector('.dnb-avatar--size-medium')
+      document.querySelector('.dnb-avatar--size-medium'),
     ).toBeInTheDocument()
   })
 
@@ -359,10 +359,10 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="tags">
         <Avatar size="large">A</Avatar>
-      </Avatar.Group>
+      </Avatar.Group>,
     )
     expect(
-      document.querySelector('.dnb-avatar--size-large')
+      document.querySelector('.dnb-avatar--size-large'),
     ).toBeInTheDocument()
   })
 
@@ -370,10 +370,10 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="tags">
         <Avatar size="x-large">A</Avatar>
-      </Avatar.Group>
+      </Avatar.Group>,
     )
     expect(
-      document.querySelector('.dnb-avatar--size-x-large')
+      document.querySelector('.dnb-avatar--size-x-large'),
     ).toBeInTheDocument()
   })
 
@@ -381,10 +381,10 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="tags">
         <Avatar backgroundColor="fire-red">A</Avatar>
-      </Avatar.Group>
+      </Avatar.Group>,
     )
     expect(
-      document.querySelector('.dnb-avatar').getAttribute('style')
+      document.querySelector('.dnb-avatar').getAttribute('style'),
     ).toBe('--background-color: var(--color-fire-red);')
   })
 
@@ -392,10 +392,10 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="tags">
         <Avatar color="fire-red">A</Avatar>
-      </Avatar.Group>
+      </Avatar.Group>,
     )
     expect(
-      document.querySelector('.dnb-avatar').getAttribute('style')
+      document.querySelector('.dnb-avatar').getAttribute('style'),
     ).toBe('--color: var(--color-fire-red);')
   })
 
@@ -407,7 +407,7 @@ describe('Avatar', () => {
           <Avatar>A</Avatar>
           <Avatar>B</Avatar>
           <Avatar>C</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
 
       expect(screen.queryByText(label)).toBeInTheDocument()
@@ -420,7 +420,7 @@ describe('Avatar', () => {
           <Avatar>A</Avatar>
           <Avatar>B</Avatar>
           <Avatar>C</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
       expect(screen.queryByTestId('react-node')).toBeInTheDocument()
     })
@@ -431,7 +431,7 @@ describe('Avatar', () => {
           <Avatar>A</Avatar>
           <Avatar>B</Avatar>
           <Avatar>C</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
 
       const avatarsDisplayed =
@@ -448,7 +448,7 @@ describe('Avatar', () => {
           <Avatar>A</Avatar>
           <Avatar>B</Avatar>
           <Avatar>C</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
 
       const avatarsDisplayed =
@@ -463,11 +463,11 @@ describe('Avatar', () => {
       render(
         <Avatar.Group label="tags" style={{ color: 'red' }}>
           <Avatar>A</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
 
       expect(
-        document.querySelector('.dnb-avatar__group').getAttribute('style')
+        document.querySelector('.dnb-avatar__group').getAttribute('style'),
       ).toBe('color: red;')
     })
 
@@ -477,14 +477,14 @@ describe('Avatar', () => {
           <Avatar>A</Avatar>
           <Avatar>B</Avatar>
           <Avatar>C</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
 
       const avatarsDisplayed =
         document.getElementsByClassName('dnb-avatar')
 
       expect(
-        document.querySelector('.dnb-avatar__group--elements-left')
+        document.querySelector('.dnb-avatar__group--elements-left'),
       ).not.toBeInTheDocument()
 
       expect(avatarsDisplayed).toHaveLength(3)
@@ -496,14 +496,14 @@ describe('Avatar', () => {
           <Avatar>A</Avatar>
           <Avatar>B</Avatar>
           <Avatar>C</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
 
       const avatarsDisplayed =
         document.getElementsByClassName('dnb-avatar')
 
       expect(
-        document.querySelector('.dnb-avatar__group--elements-left')
+        document.querySelector('.dnb-avatar__group--elements-left'),
       ).not.toBeInTheDocument()
       expect(avatarsDisplayed).toHaveLength(3)
     })
@@ -514,14 +514,14 @@ describe('Avatar', () => {
           <Avatar>A</Avatar>
           <Avatar>B</Avatar>
           <Avatar>C</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
 
       const avatarsDisplayed =
         document.getElementsByClassName('dnb-avatar')
 
       expect(
-        document.querySelector('.dnb-avatar__group--elements-left')
+        document.querySelector('.dnb-avatar__group--elements-left'),
       ).not.toBeInTheDocument()
       expect(avatarsDisplayed).toHaveLength(3)
     })
@@ -531,14 +531,14 @@ describe('Avatar', () => {
         <Avatar.Group maxElements={null} label="label">
           <Avatar>A</Avatar>
           <Avatar>B</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
 
       const avatarsDisplayed =
         document.getElementsByClassName('dnb-avatar')
 
       expect(
-        document.querySelector('.dnb-avatar__group--elements-left')
+        document.querySelector('.dnb-avatar__group--elements-left'),
       ).not.toBeInTheDocument()
       expect(avatarsDisplayed).toHaveLength(2)
     })
@@ -551,14 +551,14 @@ describe('Avatar', () => {
           <Avatar>C</Avatar>
           <Avatar>D</Avatar>
           <Avatar>E</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
 
       const avatarsDisplayed =
         document.getElementsByClassName('dnb-avatar')
 
       expect(
-        document.querySelector('.dnb-avatar__group--elements-left')
+        document.querySelector('.dnb-avatar__group--elements-left'),
       ).toBeInTheDocument()
       expect(avatarsDisplayed).toHaveLength(3)
     })
@@ -568,10 +568,10 @@ describe('Avatar', () => {
         <Avatar.Group label="tags" variant="secondary">
           <Avatar>A</Avatar>
           <Avatar>A</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
       expect(
-        document.querySelectorAll('.dnb-avatar--secondary')
+        document.querySelectorAll('.dnb-avatar--secondary'),
       ).toHaveLength(2)
     })
 
@@ -580,10 +580,10 @@ describe('Avatar', () => {
         <Avatar.Group label="tags" variant="tertiary">
           <Avatar variant="secondary">A</Avatar>
           <Avatar variant="secondary">A</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
       expect(
-        document.querySelectorAll('.dnb-avatar--secondary')
+        document.querySelectorAll('.dnb-avatar--secondary'),
       ).toHaveLength(2)
     })
 
@@ -591,10 +591,10 @@ describe('Avatar', () => {
       render(
         <Avatar.Group label="tags" variant="secondary">
           <Avatar>A</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
       expect(
-        document.querySelector('.dnb-avatar--secondary')
+        document.querySelector('.dnb-avatar--secondary'),
       ).toBeInTheDocument()
     })
 
@@ -602,10 +602,10 @@ describe('Avatar', () => {
       render(
         <Avatar.Group label="tags" variant="tertiary">
           <Avatar variant="secondary">A</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
       expect(
-        document.querySelector('.dnb-avatar--secondary')
+        document.querySelector('.dnb-avatar--secondary'),
       ).toBeInTheDocument()
     })
 
@@ -614,10 +614,10 @@ describe('Avatar', () => {
         <Avatar.Group label="tags" size="large">
           <Avatar>A</Avatar>
           <Avatar>A</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
       expect(
-        document.querySelectorAll('.dnb-avatar--size-large')
+        document.querySelectorAll('.dnb-avatar--size-large'),
       ).toHaveLength(2)
     })
 
@@ -626,10 +626,10 @@ describe('Avatar', () => {
         <Avatar.Group label="tags" size="small">
           <Avatar size="large">A</Avatar>
           <Avatar size="large">A</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
       expect(
-        document.querySelectorAll('.dnb-avatar--size-large')
+        document.querySelectorAll('.dnb-avatar--size-large'),
       ).toHaveLength(2)
     })
 
@@ -637,10 +637,10 @@ describe('Avatar', () => {
       render(
         <Avatar.Group label="tags" size="large">
           <Avatar>A</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
       expect(
-        document.querySelector('.dnb-avatar--size-large')
+        document.querySelector('.dnb-avatar--size-large'),
       ).toBeInTheDocument()
     })
 
@@ -648,10 +648,10 @@ describe('Avatar', () => {
       render(
         <Avatar.Group label="tags" size="small">
           <Avatar size="large">A</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
       expect(
-        document.querySelector('.dnb-avatar--size-large')
+        document.querySelector('.dnb-avatar--size-large'),
       ).toBeInTheDocument()
     })
 
@@ -660,13 +660,13 @@ describe('Avatar', () => {
         <Avatar.Group label="tags" backgroundColor="fire-red">
           <Avatar>A</Avatar>
           <Avatar>A</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
       expect(
-        document.querySelectorAll('.dnb-avatar')[0].getAttribute('style')
+        document.querySelectorAll('.dnb-avatar')[0].getAttribute('style'),
       ).toBe('--background-color: var(--color-fire-red); z-index: 2;')
       expect(
-        document.querySelectorAll('.dnb-avatar')[1].getAttribute('style')
+        document.querySelectorAll('.dnb-avatar')[1].getAttribute('style'),
       ).toBe('--background-color: var(--color-fire-red); z-index: 1;')
     })
 
@@ -675,13 +675,13 @@ describe('Avatar', () => {
         <Avatar.Group label="tags" backgroundColor="emerald-green">
           <Avatar backgroundColor="fire-red">A</Avatar>
           <Avatar backgroundColor="fire-red">A</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
       expect(
-        document.querySelectorAll('.dnb-avatar')[0].getAttribute('style')
+        document.querySelectorAll('.dnb-avatar')[0].getAttribute('style'),
       ).toBe('--background-color: var(--color-fire-red); z-index: 2;')
       expect(
-        document.querySelectorAll('.dnb-avatar')[1].getAttribute('style')
+        document.querySelectorAll('.dnb-avatar')[1].getAttribute('style'),
       ).toBe('--background-color: var(--color-fire-red); z-index: 1;')
     })
 
@@ -689,10 +689,10 @@ describe('Avatar', () => {
       render(
         <Avatar.Group label="tags" backgroundColor="fire-red">
           <Avatar>A</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
       expect(
-        document.querySelector('.dnb-avatar').getAttribute('style')
+        document.querySelector('.dnb-avatar').getAttribute('style'),
       ).toBe('--background-color: var(--color-fire-red);')
     })
 
@@ -700,10 +700,10 @@ describe('Avatar', () => {
       render(
         <Avatar.Group label="tags" backgroundColor="emerald-green">
           <Avatar backgroundColor="fire-red">A</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
       expect(
-        document.querySelector('.dnb-avatar').getAttribute('style')
+        document.querySelector('.dnb-avatar').getAttribute('style'),
       ).toBe('--background-color: var(--color-fire-red);')
     })
 
@@ -712,13 +712,13 @@ describe('Avatar', () => {
         <Avatar.Group label="tags" color="fire-red">
           <Avatar>A</Avatar>
           <Avatar>A</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
       expect(
-        document.querySelectorAll('.dnb-avatar')[0].getAttribute('style')
+        document.querySelectorAll('.dnb-avatar')[0].getAttribute('style'),
       ).toBe('--color: var(--color-fire-red); z-index: 2;')
       expect(
-        document.querySelectorAll('.dnb-avatar')[1].getAttribute('style')
+        document.querySelectorAll('.dnb-avatar')[1].getAttribute('style'),
       ).toBe('--color: var(--color-fire-red); z-index: 1;')
     })
 
@@ -727,13 +727,13 @@ describe('Avatar', () => {
         <Avatar.Group label="tags" color="emerald-green">
           <Avatar color="fire-red">A</Avatar>
           <Avatar color="fire-red">A</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
       expect(
-        document.querySelectorAll('.dnb-avatar')[0].getAttribute('style')
+        document.querySelectorAll('.dnb-avatar')[0].getAttribute('style'),
       ).toBe('--color: var(--color-fire-red); z-index: 2;')
       expect(
-        document.querySelectorAll('.dnb-avatar')[1].getAttribute('style')
+        document.querySelectorAll('.dnb-avatar')[1].getAttribute('style'),
       ).toBe('--color: var(--color-fire-red); z-index: 1;')
     })
 
@@ -741,10 +741,10 @@ describe('Avatar', () => {
       render(
         <Avatar.Group label="tags" color="fire-red">
           <Avatar>A</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
       expect(
-        document.querySelector('.dnb-avatar').getAttribute('style')
+        document.querySelector('.dnb-avatar').getAttribute('style'),
       ).toBe('--color: var(--color-fire-red);')
     })
 
@@ -752,10 +752,10 @@ describe('Avatar', () => {
       render(
         <Avatar.Group label="tags" color="emerald-green">
           <Avatar color="fire-red">A</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
       expect(
-        document.querySelector('.dnb-avatar').getAttribute('style')
+        document.querySelector('.dnb-avatar').getAttribute('style'),
       ).toBe('--color: var(--color-fire-red);')
     })
 
@@ -770,7 +770,7 @@ describe('Avatar', () => {
         >
           <Avatar>A</Avatar>
           <Avatar>B</Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
 
       const avatars = Array.from(document.querySelectorAll('.dnb-avatar'))
@@ -781,10 +781,10 @@ describe('Avatar', () => {
         expect(avatar).toHaveClass('dnb-avatar--size-large')
         expect(avatar).toHaveClass('dnb-avatar--secondary')
         expect(avatar.getAttribute('style')).toContain(
-          '--background-color: var(--color-emerald-green)'
+          '--background-color: var(--color-emerald-green)',
         )
         expect(avatar.getAttribute('style')).toContain(
-          '--color: var(--color-fire-red)'
+          '--color: var(--color-fire-red)',
         )
       }
     })
@@ -806,7 +806,7 @@ describe('Avatar', () => {
           >
             A
           </Avatar>
-        </Avatar.Group>
+        </Avatar.Group>,
       )
 
       const avatar = document.querySelector('.dnb-avatar')
@@ -814,10 +814,10 @@ describe('Avatar', () => {
       expect(avatar).toHaveClass('dnb-avatar--size-small')
       expect(avatar).toHaveClass('dnb-avatar--tertiary')
       expect(avatar.getAttribute('style')).toContain(
-        '--background-color: var(--color-sea-green)'
+        '--background-color: var(--color-sea-green)',
       )
       expect(avatar.getAttribute('style')).toContain(
-        '--color: var(--color-white)'
+        '--color: var(--color-white)',
       )
     })
   })
@@ -828,7 +828,7 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="label">
         <Avatar ref={ref}>A</Avatar>
-      </Avatar.Group>
+      </Avatar.Group>,
     )
 
     const element = document.querySelector('.dnb-avatar')
@@ -844,7 +844,7 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="label">
         <Avatar ref={refFn}>A</Avatar>
-      </Avatar.Group>
+      </Avatar.Group>,
     )
 
     const element = document.querySelector('.dnb-avatar')
@@ -867,7 +867,7 @@ describe('Avatar scss', () => {
 
   it('should match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-avatar-theme-ui.scss')
+      require.resolve('../style/themes/dnb-avatar-theme-ui.scss'),
     )
     expect(css).toMatchSnapshot()
   })

@@ -93,7 +93,7 @@ export function DatePickerCalendarNav({
         if (view.nr === nr || isLinkedCalendars) {
           const month = dateHandlers[handlerType][navigationType](
             view.month,
-            1
+            1,
           )
 
           return { ...view, month }
@@ -103,14 +103,14 @@ export function DatePickerCalendarNav({
       })
       setViews(updatedViews)
     },
-    [type, views, setViews, isLinkedCalendars]
+    [type, views, setViews, isLinkedCalendars],
   )
 
   return (
     <div
       className={clsx(
         'dnb-date-picker__header__row',
-        type === 'year' && 'dnb-date-picker__header__row--year'
+        type === 'year' && 'dnb-date-picker__header__row--year',
       )}
     >
       <div className="dnb-date-picker__header__nav">
@@ -130,7 +130,7 @@ export function DatePickerCalendarNav({
         className="dnb-date-picker__header__title dnb-no-focus"
         title={title.replace(
           /%s/,
-          formatDate(date, { locale, options: titleFormat })
+          formatDate(date, { locale, options: titleFormat }),
         )}
         tabIndex={-1}
       >
@@ -202,7 +202,7 @@ function CalendarNavButton({
     formatDate(dateHandler(date, 1), {
       locale,
       options: dateFormat,
-    })
+    }),
   )
 
   const disabled =

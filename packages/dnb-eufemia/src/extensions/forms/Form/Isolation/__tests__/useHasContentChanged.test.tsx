@@ -78,7 +78,7 @@ describe('useHasContentChanged', () => {
       <Form.Isolation defaultData={data}>
         <RenderTheHook />
         <Field.String path="/name" />
-      </Form.Isolation>
+      </Form.Isolation>,
     )
 
     expect(hasContentChanged).toBe(false)
@@ -114,7 +114,7 @@ describe('useHasContentChanged', () => {
       <Form.Isolation defaultData={data}>
         <RenderTheHook />
         <Field.Upload path="/files" />
-      </Form.Isolation>
+      </Form.Isolation>,
     )
 
     expect(hasContentChanged).toBe(false)

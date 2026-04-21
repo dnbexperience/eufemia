@@ -15,7 +15,7 @@ describe('TableTd', () => {
             <TableTd {...props} />
           </tr>
         </tbody>
-      </table>
+      </table>,
     )
     expect(document.querySelector('td')).toBeInTheDocument()
   })
@@ -28,7 +28,7 @@ describe('TableTd', () => {
             <TableTd>td content</TableTd>
           </tr>
         </tbody>
-      </table>
+      </table>,
     )
 
     const element = document.querySelector('td')
@@ -44,12 +44,12 @@ describe('TableTd', () => {
             <TableTd aria-label="custom-label">td content</TableTd>
           </tr>
         </tbody>
-      </table>
+      </table>,
     )
 
     const element = document.querySelector('td')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual(['role', 'class', 'aria-label'])
@@ -63,7 +63,7 @@ describe('TableTd', () => {
             <TableTd>td content</TableTd>
           </tr>
         </tbody>
-      </table>
+      </table>,
     )
 
     const element = document.querySelector('td')
@@ -79,7 +79,7 @@ describe('TableTd', () => {
             <TableTd className="custom-class">td content</TableTd>
           </tr>
         </tbody>
-      </table>
+      </table>,
     )
 
     const element = document.querySelector('td')
@@ -97,12 +97,12 @@ describe('TableTd', () => {
             <TableTd noSpacing>td content</TableTd>
           </tr>
         </tbody>
-      </table>
+      </table>,
     )
 
     const element = document.querySelector('td')
     expect(Array.from(element.classList)).toContain(
-      'dnb-table__td--no-spacing'
+      'dnb-table__td--no-spacing',
     )
   })
 
@@ -114,12 +114,12 @@ describe('TableTd', () => {
             <TableTd spacing="horizontal">td content</TableTd>
           </tr>
         </tbody>
-      </table>
+      </table>,
     )
 
     const element = document.querySelector('td')
     expect(Array.from(element.classList)).toContain(
-      'dnb-table__td--spacing-horizontal'
+      'dnb-table__td--spacing-horizontal',
     )
   })
 

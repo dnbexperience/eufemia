@@ -42,12 +42,12 @@ function NationalIdentityNumber(props: FieldNationalIdentityNumberProps) {
       'Field.errorPattern': errorFnr,
       ...props.errorMessages,
     }),
-    [errorRequired, errorFnr, props.errorMessages]
+    [errorRequired, errorFnr, props.errorMessages],
   )
 
   const identificationNumberIsOfLength = (
     identificationNumber: string,
-    length: number
+    length: number,
   ) => {
     return identificationNumber?.length === length
   }
@@ -71,7 +71,7 @@ function NationalIdentityNumber(props: FieldNationalIdentityNumberProps) {
 
       return undefined
     },
-    [errorFnr, errorFnrLength]
+    [errorFnr, errorFnrLength],
   )
 
   const dnrValidator = useCallback(
@@ -93,7 +93,7 @@ function NationalIdentityNumber(props: FieldNationalIdentityNumberProps) {
 
       return undefined
     },
-    [errorDnr, errorDnrLength]
+    [errorDnr, errorDnrLength],
   )
 
   const dnrAndFnrValidator = useCallback(
@@ -105,7 +105,7 @@ function NationalIdentityNumber(props: FieldNationalIdentityNumberProps) {
       }
       return fnrValidator(value)
     },
-    [dnrValidator, fnrValidator]
+    [dnrValidator, fnrValidator],
   )
 
   const {
@@ -135,7 +135,7 @@ function NationalIdentityNumber(props: FieldNationalIdentityNumberProps) {
             /\d/,
             /\d/,
           ],
-    [omitMask]
+    [omitMask],
   )
 
   const onBlurValidatorToUse =
@@ -209,7 +209,7 @@ export function createMinimumAgeValidator(age: number) {
 
     if (!identificationNumberIs7DigitsOrMore) {
       return new FormError(
-        'NationalIdentityNumber.errorMinimumAgeValidatorLength'
+        'NationalIdentityNumber.errorMinimumAgeValidatorLength',
       )
     }
 
@@ -222,7 +222,7 @@ export function createMinimumAgeValidator(age: number) {
 
     return new FormError(
       'NationalIdentityNumber.errorMinimumAgeValidator',
-      { messageValues: { age: String(age) } }
+      { messageValues: { age: String(age) } },
     )
   }
 }

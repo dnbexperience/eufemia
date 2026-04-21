@@ -14,7 +14,7 @@ describe('Tools.Errors', () => {
     render(
       <Form.Handler>
         <Tools.Errors />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const element = document.querySelector('output')
@@ -28,7 +28,7 @@ describe('Tools.Errors', () => {
       <Form.Handler>
         <Field.String path="/foo" error={error} />
         <Tools.Errors />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const element = document.querySelector('output')
@@ -41,15 +41,15 @@ describe('Tools.Errors', () => {
           formErrors: {},
         },
         null,
-        2
-      ) + ' '
+        2,
+      ) + ' ',
     )
 
     rerender(
       <Form.Handler>
         <Field.String path="/foo" error={undefined} />
         <Tools.Errors />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(element.textContent).toBe(
@@ -59,8 +59,8 @@ describe('Tools.Errors', () => {
           formErrors: {},
         },
         null,
-        2
-      ) + ' '
+        2,
+      ) + ' ',
     )
   })
 
@@ -79,7 +79,7 @@ describe('Tools.Errors', () => {
       <Form.Handler schema={schema1} ajvInstance={ajv}>
         <Field.String path="/foo" />
         <Tools.Errors />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const element = document.querySelector('output')
@@ -94,8 +94,8 @@ describe('Tools.Errors', () => {
           },
         },
         null,
-        2
-      ) + ' '
+        2,
+      ) + ' ',
     )
 
     const schema2: JSONSchema = {
@@ -110,7 +110,7 @@ describe('Tools.Errors', () => {
       <Form.Handler schema={schema2} ajvInstance={ajv}>
         <Field.String path="/foo" />
         <Tools.Errors />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(element.textContent).toBe(
@@ -120,8 +120,8 @@ describe('Tools.Errors', () => {
           formErrors: {},
         },
         null,
-        2
-      ) + ' '
+        2,
+      ) + ' ',
     )
   })
 
@@ -133,12 +133,12 @@ describe('Tools.Errors', () => {
           <Field.String path="/foo" />
           <Form.Isolation.CommitButton />
         </Form.Isolation>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
     const commitButton = document.querySelector(
-      '.dnb-forms-isolate__commit-button'
+      '.dnb-forms-isolate__commit-button',
     )
     const form = document.querySelector('form')
 
@@ -160,9 +160,9 @@ describe('Tools.Errors', () => {
             formErrors: {},
           },
           null,
-          2
-        ) + ' '
-      )
+          2,
+        ) + ' ',
+      ),
     )
   })
 })

@@ -164,7 +164,7 @@ function StringComponent(props: FieldStringProps) {
       // Cleaned value for masked
       return event?.cleanedValue ?? event?.value
     },
-    [props.emptyValue]
+    [props.emptyValue],
   )
   const toEvent = useCallback(
     (value: string, type: string) => {
@@ -173,7 +173,7 @@ function StringComponent(props: FieldStringProps) {
         if (new RegExp(`^${spaces}|${spaces}$`).test(value)) {
           value = value.replace(
             new RegExp(`^${spaces}+|${spaces}+$`, 'g'),
-            ''
+            '',
           )
           handleChange(value)
         }
@@ -181,7 +181,7 @@ function StringComponent(props: FieldStringProps) {
       return value
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.trim]
+    [props.trim],
   )
   const transform = props.transformValue
   const transformValue = useCallback(
@@ -191,7 +191,7 @@ function StringComponent(props: FieldStringProps) {
       }
       return transform?.(value) || value
     },
-    [props.capitalize, transform]
+    [props.capitalize, transform],
   )
 
   const ref = useRef<HTMLInputElement>(undefined)
@@ -265,7 +265,7 @@ function StringComponent(props: FieldStringProps) {
 
   const transformInstantly = useCallback(
     (value: string) => (props.capitalize ? toCapitalized(value) : value),
-    [props.capitalize]
+    [props.capitalize],
   )
 
   const { handleSubmit } = dataContext ?? {}
@@ -282,7 +282,7 @@ function StringComponent(props: FieldStringProps) {
 
       onKeyDown?.(event)
     },
-    [handleSubmit, dataContext?.props?.isolate, multiline, onKeyDown]
+    [handleSubmit, dataContext?.props?.isolate, multiline, onKeyDown],
   )
 
   const cn = clsx('dnb-forms-field-string__input', inputClassName)

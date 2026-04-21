@@ -170,7 +170,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
 
   const id = useId(props.id ?? props.forId)
   const sharedData = createSharedState<FieldBlockProps>(
-    'field-block-props-' + id
+    'field-block-props-' + id,
   )
   const {
     className,
@@ -242,7 +242,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
     const existingIndex = stateRecordRef.current[identifier].findIndex(
       (item) => {
         return item.stateId === stateId && item.type === type
-      }
+      },
     )
 
     if (existingIndex > -1) {
@@ -268,7 +268,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
 
       forceUpdate()
     },
-    [setBlockRecordNested, setInternalRecord]
+    [setBlockRecordNested, setInternalRecord],
   )
 
   const setFieldState = useCallback(
@@ -279,7 +279,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
         forceUpdate()
       }
     },
-    []
+    [],
   )
 
   const showFieldError = useCallback(
@@ -307,7 +307,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
         forceUpdate()
       }
     },
-    [nestedFieldBlockContext]
+    [nestedFieldBlockContext],
   )
 
   const statusContent = useMemo(() => {
@@ -350,7 +350,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
               identifier,
               ...props,
             }
-          })
+          }),
         )
 
         // 2. Take states and group the same type together
@@ -469,7 +469,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
       mountedFieldsRef.current = new Map()
       stateRecordRef.current = {}
     },
-    []
+    [],
   )
 
   const mainClasses = clsx(
@@ -488,11 +488,11 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
       `dnb-forms-field-block__composition--${
         composition === true ? 'horizontal' : composition
       }`,
-    className
+    className,
   )
   const gridClasses = clsx(
     'dnb-forms-field-block__grid',
-    `dnb-forms-field-block--layout-${layout}`
+    `dnb-forms-field-block--layout-${layout}`,
   )
 
   // A child component with a label was found, use fieldset/legend instead of div/label
@@ -644,7 +644,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
                 !(parseFloat(contentWidth) <= 11) &&
                 `dnb-forms-field-block__contents--width-${
                   hasCustomContentWidth ? 'custom' : contentWidth
-                }`
+                }`,
             )}
           >
             <FormStatus {...statusContent?.error} />
@@ -660,7 +660,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
                   hasCustomContentWidth ? 'custom' : contentWidth
                 }`,
               align && `dnb-forms-field-block__contents--align-${align}`,
-              contentClassName
+              contentClassName,
             )}
             ref={contentsRef}
           >
@@ -748,7 +748,7 @@ function getMessage(error: FormError | Error) {
 }
 
 export function getMessagesFromError(
-  item: Partial<StateWithMessage>
+  item: Partial<StateWithMessage>,
 ): Array<StateMessage> {
   const { content } = item
 

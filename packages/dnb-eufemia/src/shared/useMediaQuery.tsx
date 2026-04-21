@@ -38,7 +38,7 @@ export default function useMediaQuery(props: MediaQueryProps) {
       disabled,
       correctRange,
       log,
-    })
+    }),
   )
   if (mediaQueryList.current?.matches) {
     matches = true
@@ -58,14 +58,14 @@ export default function useMediaQuery(props: MediaQueryProps) {
       mediaQueryList.current = makeMediaQueryList(
         { query, when, not },
         context.breakpoints,
-        { disabled, correctRange, log }
+        { disabled, correctRange, log },
       )
       matchUpdate(mediaQueryList.current?.matches)
     }
 
     listenerRef.current = createMediaQueryListener(
       mediaQueryList.current,
-      (match) => matchUpdate(match)
+      (match) => matchUpdate(match),
     )
 
     return listenerRef.current

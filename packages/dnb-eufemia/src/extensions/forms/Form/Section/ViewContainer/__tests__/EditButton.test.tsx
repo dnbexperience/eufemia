@@ -12,7 +12,7 @@ describe('EditButton', () => {
     render(
       <Toolbar>
         <EditButton />
-      </Toolbar>
+      </Toolbar>,
     )
 
     const button = document.querySelector('button')
@@ -27,7 +27,7 @@ describe('EditButton', () => {
         <Toolbar>
           <EditButton />
         </Toolbar>
-      </SectionContainerContext>
+      </SectionContainerContext>,
     )
 
     const button = document.querySelector('button')
@@ -43,7 +43,7 @@ describe('EditButton', () => {
         <Toolbar>
           <EditButton />
         </Toolbar>
-      </SectionContainerContext>
+      </SectionContainerContext>,
     )
 
     expect(document.querySelector('button')).not.toBeInTheDocument()
@@ -56,7 +56,7 @@ describe('EditButton', () => {
           className="custom-class"
           aria-label="Custom edit label"
         />
-      </Toolbar>
+      </Toolbar>,
     )
 
     const button = document.querySelector('button')

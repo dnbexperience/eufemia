@@ -41,7 +41,7 @@ describe('useHandleStatus', () => {
           error,
           name: 'fieldName',
         },
-      }
+      },
     )
 
     expect(useHasContentChangedMock).toHaveBeenLastCalledWith({
@@ -50,7 +50,7 @@ describe('useHandleStatus', () => {
     expect(useReportErrorMock).toHaveBeenLastCalledWith(
       undefined,
       outerContext,
-      'fieldName'
+      'fieldName',
     )
 
     expect(result.current.hasContentChanged).toBe(true)
@@ -77,7 +77,7 @@ describe('useHandleStatus', () => {
           error,
           name: 'fieldName',
         },
-      }
+      },
     )
 
     expect(useHasContentChangedMock).toHaveBeenLastCalledWith({
@@ -86,7 +86,7 @@ describe('useHandleStatus', () => {
     expect(useReportErrorMock).toHaveBeenLastCalledWith(
       undefined,
       outerContext,
-      'fieldName'
+      'fieldName',
     )
 
     // Initial state mirrors outerContext.showAllErrors, then effect sets it to false
@@ -114,14 +114,14 @@ describe('useHandleStatus', () => {
           error,
           name: 'fieldName',
         },
-      }
+      },
     )
 
     // Should report the error as content has changed and prevention is enabled
     expect(useReportErrorMock).toHaveBeenLastCalledWith(
       error,
       outerContextA,
-      'fieldName'
+      'fieldName',
     )
     expect(result.current.hasContentChanged).toBe(true)
 
@@ -184,7 +184,7 @@ describe('useHandleStatus', () => {
           error,
           name: 'fieldName',
         },
-      }
+      },
     )
 
     // Initially, with content changed and showAllErrors=true, status is shown

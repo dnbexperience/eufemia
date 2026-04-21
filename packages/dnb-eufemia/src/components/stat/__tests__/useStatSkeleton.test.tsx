@@ -27,7 +27,7 @@ describe('useStatSkeleton', () => {
     expect(result.current.skeletonClass).toContain('dnb-skeleton')
     expect(result.current.skeletonClass).toContain('dnb-skeleton--shape')
     expect(result.current.skeletonClass).not.toContain(
-      'dnb-skeleton--font'
+      'dnb-skeleton--font',
     )
   })
 

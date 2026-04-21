@@ -14,7 +14,10 @@ import { transformSass } from './transformUtils'
 import { convertVariablesToTailwindFormat } from './tailwindTransform'
 
 const prettierrc = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
+  fs.readFileSync(
+    path.resolve(__dirname, '../../../.prettierrc'),
+    'utf-8',
+  ),
 )
 
 const TOKEN_GROUP_SEPARATOR = '-'
@@ -71,7 +74,7 @@ export default async function makePropertiesFile() {
   await runDesignTokenFactory()
 
   log.succeed(
-    '> PrePublish: "makePropertiesFile" creating properties file done'
+    '> PrePublish: "makePropertiesFile" creating properties file done',
   )
 }
 
@@ -89,8 +92,8 @@ export default ${JSON.stringify(variables, null, 2)}`,
           semi: true,
           trailingComma: 'none',
           singleQuote: true,
-        }
-      )
+        },
+      ),
     ).trim() + ' // prettier-ignore\n' // so manual changes not removes the semi
   )
 }
@@ -120,8 +123,8 @@ ${cssContent}
           singleQuote: true,
           tabWidth: 2,
           useTabs: false,
-        }
-      )
+        },
+      ),
     ).trim() + '\n'
   )
 }
@@ -253,7 +256,7 @@ const hexAsRgb = (hex: string) => {
   }
   return `${parseInt(hex.substring(1, 3), 16)} ${parseInt(
     hex.substring(3, 5),
-    16
+    16,
   )} ${parseInt(hex.substring(5, 7), 16)}`
 }
 
@@ -326,7 +329,7 @@ export const transformFigmaPath = (path: string[]) => {
 
   if (unsupportedCharacters.length > 0) {
     const errorMessage = `Unsupported characters [ '${unsupportedCharacters.join(
-      "', '"
+      "', '",
     )}' ] in variable: "${cleanPath.join('/')}"`
     log.fail(errorMessage)
     throw new Error(errorMessage)
@@ -355,13 +358,13 @@ export const extractReferencedCssVariables = (content: string) => {
 
 const keepOnlyReferencedVariableDeclarations = (
   content: string,
-  referencedVariables: Set<string>
+  referencedVariables: Set<string>,
 ) => {
   return content
     .split('\n')
     .filter((line) => {
       const variableDeclarationMatch = line.match(
-        CSS_VARIABLE_DECLARATION_REGEX
+        CSS_VARIABLE_DECLARATION_REGEX,
       )
 
       if (!variableDeclarationMatch) {
@@ -380,7 +383,7 @@ const generateCSSVariablesFromFigmaExport = (
   value: FigmaNode | string | number,
   /** string placed first in the css variable: `--namespace-color-blue-500` */
   namespace?: string,
-  path: string[] = []
+  path: string[] = [],
 ) => {
   try {
     if (typeof value == 'string' || typeof value === 'number') {
@@ -391,7 +394,7 @@ const generateCSSVariablesFromFigmaExport = (
       const val = transformFigmaValue(value)
       return val
         ? `${transformNamespace(namespace)}${transformFigmaPath(
-            path
+            path,
           )}: ${val};\n`
         : ''
     } else {
@@ -401,7 +404,7 @@ const generateCSSVariablesFromFigmaExport = (
         result += generateCSSVariablesFromFigmaExport(
           val,
           namespace,
-          newPath
+          newPath,
         )
       }
       return result
@@ -431,7 +434,7 @@ const makeDesignTokenTailwindCSS = async (
   /** Root path for the generated Tailwind CSS file */
   outputPath: string,
   /** prefix to strip from variable names (e.g. 'token') */
-  prefix: string
+  prefix: string,
 ) => {
   try {
     const content = await promises.readFile(tokensScssPath, 'utf-8')
@@ -476,7 +479,7 @@ const makeDesignTokenTailwindCSS = async (
         // Strip the prefix from the variable name
         const strippedDeclaration = currentDeclaration.replace(
           new RegExp(`${prefixPattern}`),
-          '--'
+          '--',
         )
         const selectorDeclarations =
           declarationsBySelector.get(currentSelector) ?? []
@@ -511,7 +514,7 @@ ${scopedSelectors ? `\n\n${scopedSelectors}` : ''}
         await prettier.format(tailwindContent, {
           filepath: 'file.css',
           ...prettierrc,
-        })
+        }),
       ).trim() + '\n'
 
     await promises.writeFile(outputPath, prettierResult)
@@ -540,11 +543,11 @@ const makeDesignTokenSCSS = async (
   filter: (json: FigmaExport) => FigmaNode = (json) => json,
   options: {
     referencedVariables?: Set<string>
-  } = {}
+  } = {},
 ) => {
   try {
     const json = filter(
-      JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'))
+      JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8')),
     )
 
     let scssContent = `${scopeSelector} {\n`
@@ -555,14 +558,14 @@ const makeDesignTokenSCSS = async (
     if (options.referencedVariables) {
       scssContent = keepOnlyReferencedVariableDeclarations(
         scssContent,
-        options.referencedVariables
+        options.referencedVariables,
       )
     }
 
     if (referencePrefixOverride) {
       scssContent = scssContent.replace(
         /var\(\s*--(?:dnb|sbanken|carnegie)-([a-z0-9-]+)\s*\)/gi,
-        `var(--${referencePrefixOverride}-$1)`
+        `var(--${referencePrefixOverride}-$1)`,
       )
     }
 
@@ -570,7 +573,7 @@ const makeDesignTokenSCSS = async (
       await prettier.format(scssContent, {
         filepath: '*.scss',
         ...prettierrc,
-      })
+      }),
     )
 
     const outputScssContent = appendToFile
@@ -678,7 +681,7 @@ const runDesignTokenFactory = async () => {
   ]
 
   log.info(
-    `> PrePublish: "makePropertiesFile" Generating Figma sass files:`
+    `> PrePublish: "makePropertiesFile" Generating Figma sass files:`,
   )
 
   for (const file of tokenFiles) {
@@ -688,7 +691,7 @@ const runDesignTokenFactory = async () => {
       file.prefix,
       file.scopeSelector,
       file.appendToFile,
-      file.referencePrefixOverride
+      file.referencePrefixOverride,
     )
   }
 
@@ -700,7 +703,7 @@ const runDesignTokenFactory = async () => {
           file.theme,
           extractReferencedCssVariables(tokensContent),
         ] as [string, Set<string>]
-      })
+      }),
     )
 
   const referencedVariablesByTheme = referencedVariablesEntries.reduce(
@@ -714,7 +717,7 @@ const runDesignTokenFactory = async () => {
       acc.set(theme, existingVariables)
       return acc
     },
-    new Map<string, Set<string>>()
+    new Map<string, Set<string>>(),
   )
 
   await Promise.all(
@@ -729,27 +732,27 @@ const runDesignTokenFactory = async () => {
         file.filter,
         {
           referencedVariables: referencedVariablesByTheme.get(file.theme),
-        }
-      )
-    )
+        },
+      ),
+    ),
   )
 
   const uniqueTokenOutputs = Array.from(
-    new Set(tokenFiles.map((file) => file.out))
+    new Set(tokenFiles.map((file) => file.out)),
   )
 
   await Promise.all(
     uniqueTokenOutputs.map(async (tokensOutPath) => {
       const tailwindOutPath = tokensOutPath.replace(
         /tokens(-dark)?\.scss$/,
-        'tokens$1-tailwind.css'
+        'tokens$1-tailwind.css',
       )
 
       return makeDesignTokenTailwindCSS(
         tokensOutPath,
         tailwindOutPath,
-        'token'
+        'token',
       )
-    })
+    }),
   )
 }

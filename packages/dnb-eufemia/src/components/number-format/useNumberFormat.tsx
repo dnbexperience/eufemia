@@ -15,11 +15,11 @@ import { formatNumber } from './utils'
 export type NumberFormatter = {
   (
     value: NumberFormatValue | null,
-    options: NumberFormatOptionParams & { returnAria: true }
+    options: NumberFormatOptionParams & { returnAria: true },
   ): NumberFormatReturnValue
   (
     value: NumberFormatValue | null,
-    options?: NumberFormatOptionParams
+    options?: NumberFormatOptionParams,
   ): string
 }
 
@@ -36,23 +36,23 @@ export type NumberFormatter = {
 function useNumberFormat(
   value: NumberFormatValue,
   formatter: NumberFormatter,
-  options: NumberFormatOptionParams & { returnAria: true }
+  options: NumberFormatOptionParams & { returnAria: true },
 ): NumberFormatReturnValue
 function useNumberFormat(
   value: NumberFormatValue,
   formatter?: NumberFormatter,
-  options?: NumberFormatOptionParams
+  options?: NumberFormatOptionParams,
 ): string
 function useNumberFormat(
   value: NumberFormatValue,
   formatter: NumberFormatter = formatNumber,
-  options: NumberFormatOptionParams = {}
+  options: NumberFormatOptionParams = {},
 ): NumberFormatReturnValue | string {
   const context = useContext(Context)
   const params = extendPropsWithContext(
     options,
     { locale: context.locale },
-    context.NumberFormat
+    context.NumberFormat,
   ) as NumberFormatOptionParams
 
   return formatter(value, params)

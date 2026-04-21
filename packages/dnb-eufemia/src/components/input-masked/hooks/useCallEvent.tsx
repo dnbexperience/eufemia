@@ -38,7 +38,7 @@ export const useCallEvent = ({
 
   const callEvent = (
     { event, value }: { event: any; value?: any },
-    name: string
+    name: string,
   ) => {
     const maskParams = maskParamsRef.current as ReturnType<
       typeof useMaskParams
@@ -86,7 +86,7 @@ export const useCallEvent = ({
       ) {
         const onlyNumber = value.replace(
           new RegExp(`[^\\d${maskParams.decimalSymbol}]`, 'g'),
-          ''
+          '',
         )
         let leadingZeroes = 0
         for (let i = 0; i < onlyNumber.length - 1; i++) {

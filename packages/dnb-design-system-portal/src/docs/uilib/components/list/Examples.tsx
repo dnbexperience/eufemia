@@ -641,7 +641,7 @@ export const WithFormElements = () => {
                               </List.Cell.End>
                             </List.Item.Basic>
                           )
-                        }
+                        },
                       )}
                     </List.Container>
                   )

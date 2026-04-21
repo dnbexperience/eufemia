@@ -23,13 +23,13 @@ describe('makeLibStyles transform main SASS to CSS', () => {
       './src/components/button/style/dnb-button.scss',
       {
         returnResult: true,
-      }
+      },
     )
     global.files = await runFactory(
       './src/components/button/style/dnb-button.scss',
       {
         returnFiles: true,
-      }
+      },
     )
   })
 
@@ -53,10 +53,10 @@ describe('makeLibStyles transform main SASS to CSS', () => {
   it('includes correct files', () => {
     expect(global.files).toHaveLength(2)
     expect(global.files[0]).toContain(
-      '/components/button/style/dnb-button.css'
+      '/components/button/style/dnb-button.css',
     )
     expect(global.files[1]).toContain(
-      '/components/button/style/dnb-button.min.css'
+      '/components/button/style/dnb-button.min.css',
     )
   })
 })
@@ -95,13 +95,13 @@ describe('makeLibStyles with enableBuildStyleScope', () => {
       './src/components/button/style/dnb-button.scss',
       {
         returnResult: true,
-      }
+      },
     )
     global.files = await runFactory(
       './src/components/button/style/dnb-button.scss',
       {
         returnFiles: true,
-      }
+      },
     )
   })
 
@@ -115,10 +115,10 @@ describe('makeLibStyles with enableBuildStyleScope', () => {
 
   it('should generate isolated CSS files', async () => {
     expect(global.files.some((f) => f.includes('--isolated.css'))).toBe(
-      true
+      true,
     )
     expect(
-      global.files.some((f) => f.includes('--isolated.min.css'))
+      global.files.some((f) => f.includes('--isolated.min.css')),
     ).toBe(true)
   })
 })

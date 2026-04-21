@@ -258,12 +258,12 @@ describe('"validateDOMAttributes" should', () => {
     const props = {}
     const res1 = validateDOMAttributes(
       props,
-      Object.assign({}, { disabled: null })
+      Object.assign({}, { disabled: null }),
     )
     expect(res1).not.toHaveProperty('disabled')
     const res2 = validateDOMAttributes(
       props,
-      Object.assign({}, { disabled: 'disabled' })
+      Object.assign({}, { disabled: 'disabled' }),
     )
     expect(res2).toHaveProperty('disabled')
   })
@@ -328,13 +328,13 @@ describe('"validateDOMAttributes" should', () => {
 
     // Should not include dangerous prototype-polluting keys as own properties
     expect(Object.prototype.hasOwnProperty.call(res, '__proto__')).toBe(
-      false
+      false,
     )
     expect(Object.prototype.hasOwnProperty.call(res, 'constructor')).toBe(
-      false
+      false,
     )
     expect(Object.prototype.hasOwnProperty.call(res, 'prototype')).toBe(
-      false
+      false,
     )
 
     // Verify that Object.prototype was not polluted
@@ -386,20 +386,20 @@ describe('"extendDeep" should', () => {
 
   it('extend an object recursively and have correct object shape', () => {
     expect(
-      extendDeep({ key1: { key2: null } }, { key1: { key2: 'value' } })
+      extendDeep({ key1: { key2: null } }, { key1: { key2: 'value' } }),
     ).toEqual({
       key1: { key2: 'value' },
     })
     expect(
-      extendDeep({ key1: { key2: 'value' } }, { key1: { key2: null } })
+      extendDeep({ key1: { key2: 'value' } }, { key1: { key2: null } }),
     ).toEqual({
       key1: { key2: null },
     })
     expect(
       extendDeep(
         { key1: { key2: 'value' } },
-        { key1: { key2: null, foo: 'bar' } }
-      )
+        { key1: { key2: null, foo: 'bar' } },
+      ),
     ).toEqual({
       key1: { key2: null, foo: 'bar' },
     })
@@ -471,8 +471,8 @@ describe('"findElementInChildren" should', () => {
       React.createElement(
         'span',
         null,
-        React.createElement('h2', null, 'and this')
-      )
+        React.createElement('h2', null, 'and this'),
+      ),
     )
 
     const HeadingElement = findElementInChildren(children, (cur) => {
@@ -525,7 +525,7 @@ describe('"toCapitalized" should', () => {
     expect(String.prototype.replace).toHaveBeenCalledTimes(0)
     expect(toCapitalized('first word')).toBe('First Word')
     expect(
-      String(String.prototype.replace.mock.calls?.[0]?.[0])
+      String(String.prototype.replace.mock.calls?.[0]?.[0]),
     ).not.toContain('?<=')
     expect(String.prototype.replace).toHaveBeenCalledTimes(0)
   })
@@ -534,7 +534,7 @@ describe('"toCapitalized" should', () => {
 describe('"makeUniqueId" should', () => {
   it('have prepended "id-" by default', () => {
     expect(makeUniqueId()).toEqual(
-      expect.stringMatching(/^id-[a-z0-9]{8}/g)
+      expect.stringMatching(/^id-[a-z0-9]{8}/g),
     )
   })
 
@@ -551,7 +551,7 @@ describe('"makeUniqueId" should', () => {
 
   it('have a prepended string', () => {
     expect(makeUniqueId('string-', 10)).toEqual(
-      expect.stringMatching(/^string-[a-z0-9]{10}/g)
+      expect.stringMatching(/^string-[a-z0-9]{10}/g),
     )
   })
 })
@@ -598,7 +598,7 @@ describe('"convertJsxToString" should', () => {
       <div key="b">reachable B</div>,
     ]
     expect(convertJsxToString(Content, '|')).toBe(
-      'reachable A|reachable B'
+      'reachable A|reachable B',
     )
   })
 
@@ -611,7 +611,7 @@ describe('"convertJsxToString" should', () => {
       <div key="c"> reachable B</div>,
     ]
     expect(convertJsxToString(Content, ' ')).toBe(
-      'reachable A reachable B'
+      'reachable A reachable B',
     )
   })
 })
@@ -621,7 +621,7 @@ describe('"escapeRegexChars" should', () => {
 
   it('escape regex chars', () => {
     expect(escapeRegexChars(text)).toBe(
-      '\\-\\\\\\{\\}\\(\\)\\*\\+\\?\\.\\,\\^\\$\\|\\#'
+      '\\-\\\\\\{\\}\\(\\)\\*\\+\\?\\.\\,\\^\\$\\|\\#',
     )
   })
 })

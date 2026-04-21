@@ -39,7 +39,7 @@ describe('Typography element', () => {
 
     expect(element.classList.contains('dnb-p')).toBe(true)
     expect(element.classList.contains('dnb-t__line-height--large')).toBe(
-      true
+      true,
     )
     expect(element.classList.contains('dnb-t__size--large')).toBe(true)
   })
@@ -68,7 +68,7 @@ describe('Typography element', () => {
       render(
         <Typography proseMaxWidth={60} style={{ color: 'green' }}>
           Test text
-        </Typography>
+        </Typography>,
       )
       const element = document.querySelector('.dnb-p') as HTMLElement
 
@@ -87,13 +87,13 @@ describe('Typography element', () => {
       render(
         <Typography size="x-large" proseMaxWidth={120}>
           Large text with width limit
-        </Typography>
+        </Typography>,
       )
       const element = document.querySelector('.dnb-p') as HTMLElement
 
       expect(element.classList.contains('dnb-p')).toBe(true)
       expect(
-        element.classList.contains('dnb-t__line-height--x-large')
+        element.classList.contains('dnb-t__line-height--x-large'),
       ).toBe(true)
       expect(element.classList.contains('dnb-t__size--x-large')).toBe(true)
       expect(element.style.maxWidth).toBe('120ch')
@@ -111,22 +111,22 @@ describe('Typography element', () => {
           proseMaxWidth={90}
         >
           Styled text with width limit
-        </Typography>
+        </Typography>,
       )
       const element = document.querySelector('.dnb-p') as HTMLElement
 
       expect(element.classList.contains('dnb-p')).toBe(true)
       expect(element.classList.contains('dnb-t__line-height--small')).toBe(
-        true
+        true,
       )
       expect(element.classList.contains('dnb-t__size--small')).toBe(true)
       expect(element.classList.contains('dnb-t__align--right')).toBe(true)
       expect(element.classList.contains('dnb-t__family--heading')).toBe(
-        true
+        true,
       )
       expect(element.classList.contains('dnb-t__weight--bold')).toBe(true)
       expect(
-        element.classList.contains('dnb-t__decoration--underline')
+        element.classList.contains('dnb-t__decoration--underline'),
       ).toBe(true)
       expect(element.classList.contains('dnb-t__slant--italic')).toBe(true)
       expect(element.style.maxWidth).toBe('90ch')
@@ -136,7 +136,7 @@ describe('Typography element', () => {
       render(
         <Typography element="span" proseMaxWidth={50}>
           Span text with width limit
-        </Typography>
+        </Typography>,
       )
       const element = document.querySelector('.dnb-span') as HTMLElement
 
@@ -155,7 +155,7 @@ describe('Typography element', () => {
       render(
         <Typography.Provider proseMaxWidth>
           <Typography>Text with auto width</Typography>
-        </Typography.Provider>
+        </Typography.Provider>,
       )
       const element = document.querySelector('.dnb-p') as HTMLElement
 
@@ -168,7 +168,7 @@ describe('Typography element', () => {
       render(
         <Typography.Provider proseMaxWidth={80}>
           <Typography>Text with context width</Typography>
-        </Typography.Provider>
+        </Typography.Provider>,
       )
       const element = document.querySelector('.dnb-p') as HTMLElement
 
@@ -181,7 +181,7 @@ describe('Typography element', () => {
           <Typography proseMaxWidth={120}>
             Text with explicit width
           </Typography>
-        </Typography.Provider>
+        </Typography.Provider>,
       )
       const element = document.querySelector('.dnb-p') as HTMLElement
 
@@ -193,10 +193,10 @@ describe('Typography element', () => {
         <Typography.Provider proseMaxWidth={70}>
           <Typography>First paragraph</Typography>
           <Typography>Second paragraph</Typography>
-        </Typography.Provider>
+        </Typography.Provider>,
       )
       const elements = document.querySelectorAll(
-        '.dnb-p'
+        '.dnb-p',
       ) as NodeListOf<HTMLElement>
 
       expect(elements.length).toBe(2)
@@ -212,14 +212,14 @@ describe('Typography element', () => {
           <Typography.Provider proseMaxWidth={60}>
             <Typography>Inner paragraph</Typography>
           </Typography.Provider>
-        </Typography.Provider>
+        </Typography.Provider>,
       )
 
       const outerElement = document.querySelectorAll(
-        '.dnb-p'
+        '.dnb-p',
       )[0] as HTMLElement
       const innerElement = document.querySelectorAll(
-        '.dnb-p'
+        '.dnb-p',
       )[1] as HTMLElement
 
       expect(outerElement.style.maxWidth).toBe('80ch')
@@ -233,14 +233,14 @@ describe('Typography element', () => {
           <Typography.Provider proseMaxWidth={50}>
             <Typography>Inner paragraph</Typography>
           </Typography.Provider>
-        </Typography.Provider>
+        </Typography.Provider>,
       )
 
       const outerElement = document.querySelectorAll(
-        '.dnb-p'
+        '.dnb-p',
       )[0] as HTMLElement
       const innerElement = document.querySelectorAll(
-        '.dnb-p'
+        '.dnb-p',
       )[1] as HTMLElement
 
       expect(outerElement.style.maxWidth).toBe('100ch')
@@ -252,14 +252,14 @@ describe('Typography element', () => {
         <Typography.Provider proseMaxWidth={75}>
           <Typography>Typography component</Typography>
           <P>Paragraph component</P>
-        </Typography.Provider>
+        </Typography.Provider>,
       )
 
       const typographyElement = document.querySelectorAll(
-        '.dnb-p'
+        '.dnb-p',
       )[0] as HTMLElement
       const pElement = document.querySelectorAll(
-        '.dnb-p'
+        '.dnb-p',
       )[1] as HTMLElement
 
       expect(typographyElement.style.maxWidth).toBe('75ch')
@@ -270,7 +270,7 @@ describe('Typography element', () => {
       render(
         <Typography.Provider>
           <Typography>No width limit</Typography>
-        </Typography.Provider>
+        </Typography.Provider>,
       )
       const element = document.querySelector('.dnb-p') as HTMLElement
 
@@ -338,7 +338,7 @@ describe('Typography element', () => {
       render(
         <Theme.Context surface="dark">
           <Typography>Context dark text</Typography>
-        </Theme.Context>
+        </Theme.Context>,
       )
 
       const element = document.querySelector('.dnb-p')

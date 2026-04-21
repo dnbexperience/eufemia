@@ -23,7 +23,7 @@ describe('Theme', () => {
     render(
       <Theme name="eiendom" variant="soft">
         content
-      </Theme>
+      </Theme>,
     )
 
     const element = document.querySelector('.eufemia-theme')
@@ -40,7 +40,7 @@ describe('Theme', () => {
         <Theme id="theme-2" variant="soft">
           content
         </Theme>
-      </Theme>
+      </Theme>,
     )
 
     const element1 = document.querySelector('#theme-1')
@@ -187,13 +187,13 @@ describe('Theme', () => {
     render(
       <Theme.Context surface="dark">
         <ThemeConsumer />
-      </Theme.Context>
+      </Theme.Context>,
     )
 
     expect(receivedTheme).toEqual(
       expect.objectContaining({
         surface: 'dark',
-      })
+      }),
     )
   })
 
@@ -211,13 +211,13 @@ describe('Theme', () => {
         <Theme.Context surface="light">
           <ThemeConsumer />
         </Theme.Context>
-      </Theme.Context>
+      </Theme.Context>,
     )
 
     expect(receivedTheme).toEqual(
       expect.objectContaining({
         surface: 'light',
-      })
+      }),
     )
   })
 
@@ -235,13 +235,13 @@ describe('Theme', () => {
         <Theme.Context>
           <ThemeConsumer />
         </Theme.Context>
-      </Theme.Context>
+      </Theme.Context>,
     )
 
     expect(receivedTheme).toEqual(
       expect.objectContaining({
         surface: 'dark',
-      })
+      }),
     )
   })
 
@@ -273,7 +273,7 @@ describe('Theme', () => {
         <Theme.Context surface="initial">
           <ThemeConsumer />
         </Theme.Context>
-      </Theme.Context>
+      </Theme.Context>,
     )
 
     expect(receivedTheme.surface).toBeUndefined()
@@ -283,12 +283,12 @@ describe('Theme', () => {
     render(
       <Theme aria-label="custom label" element="section">
         content
-      </Theme>
+      </Theme>,
     )
 
     const element = document.querySelector('.eufemia-theme')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
     expect(attributes).toEqual(['class', 'aria-label'])
   })
@@ -323,11 +323,11 @@ describe('Theme', () => {
     const { getByText } = render(
       <Theme.Context name="eiendom" variant="soft">
         content
-      </Theme.Context>
+      </Theme.Context>,
     )
 
     expect(
-      document.querySelector('.eufemia-theme')
+      document.querySelector('.eufemia-theme'),
     ).not.toBeInTheDocument()
     expect(getByText('content')).toBeInTheDocument()
   })
@@ -336,13 +336,13 @@ describe('Theme', () => {
     const { rerender } = render(<Theme element={false}>content</Theme>)
 
     expect(
-      document.querySelector('.eufemia-theme')
+      document.querySelector('.eufemia-theme'),
     ).not.toBeInTheDocument()
 
     rerender(<Theme element={React.Fragment}>content</Theme>)
 
     expect(
-      document.querySelector('.eufemia-theme')
+      document.querySelector('.eufemia-theme'),
     ).not.toBeInTheDocument()
 
     rerender(<Theme element="div">content</Theme>)
@@ -358,7 +358,7 @@ describe('Portals', () => {
         <Dialog noAnimation open>
           content
         </Dialog>
-      </Theme>
+      </Theme>,
     )
 
     const element = document.querySelector('.eufemia-theme')
@@ -369,7 +369,7 @@ describe('Portals', () => {
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
-      ])
+      ]),
     )
     expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
   })
@@ -380,7 +380,7 @@ describe('Portals', () => {
         <Drawer noAnimation open>
           content
         </Drawer>
-      </Theme>
+      </Theme>,
     )
 
     const element = document.querySelector('.eufemia-theme')
@@ -392,7 +392,7 @@ describe('Portals', () => {
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
-      ])
+      ]),
     )
     expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
   })
@@ -401,7 +401,7 @@ describe('Portals', () => {
     render(
       <Theme name="eiendom" variant="soft" element={false}>
         <Dropdown open noAnimation data={['A', 'B']} />
-      </Theme>
+      </Theme>,
     )
 
     const element = document.querySelector('.eufemia-theme')
@@ -411,7 +411,7 @@ describe('Portals', () => {
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
-      ])
+      ]),
     )
     expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
   })
@@ -420,7 +420,7 @@ describe('Portals', () => {
     render(
       <Theme name="eiendom" variant="soft" element={false}>
         <Autocomplete open noAnimation data={['A', 'B']} />
-      </Theme>
+      </Theme>,
     )
 
     const element = document.querySelector('.eufemia-theme')
@@ -430,7 +430,7 @@ describe('Portals', () => {
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
-      ])
+      ]),
     )
     expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
   })
@@ -445,7 +445,7 @@ describe('Portals', () => {
           targetSelector="#tooltip-target"
           portalRootClass="eufemia-theme eufemia-theme__eiendom eufemia-theme__eiendom--soft"
         />
-      </Theme>
+      </Theme>,
     )
 
     const element = document.querySelector('.eufemia-theme')
@@ -457,7 +457,7 @@ describe('Portals', () => {
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
-      ])
+      ]),
     )
     expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
   })

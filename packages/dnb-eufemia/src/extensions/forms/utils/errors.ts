@@ -40,7 +40,7 @@ const ajvErrorKeywordsTranslationTable = [
  */
 export function extendErrorMessagesWithTranslationMessages(
   messages: DefaultErrorMessages,
-  translation: FormsTranslation
+  translation: FormsTranslation,
 ): DefaultErrorMessages {
   messages = { ...messages }
 
@@ -52,7 +52,7 @@ export function extendErrorMessagesWithTranslationMessages(
         messages[translationKey] =
           messages[translationKey] ?? translation[keys[0]]?.[keys[1]]
       }
-    }
+    },
   )
 
   return messages
@@ -62,17 +62,17 @@ export function extendErrorMessagesWithTranslationMessages(
  * Get the translation key from the Ajv validation rule
  */
 export function getTranslationKeyFromValidationRule(
-  validationRule: string
+  validationRule: string,
 ): string | undefined {
   const item = ajvErrorKeywordsTranslationTable.find(
-    ({ ajvKey }) => ajvKey === validationRule
+    ({ ajvKey }) => ajvKey === validationRule,
   )
   return item?.translationKey
 }
 
 export function errorChanged(
   error1?: FormError,
-  error2?: FormError
+  error2?: FormError,
 ): boolean {
   if (
     (error1 === undefined && error2 instanceof Error) ||

@@ -7,7 +7,7 @@ describe('Value.PhoneNumber', () => {
     render(<Value.PhoneNumber label="Custom label" showEmpty />)
 
     const labelElement = document.querySelector(
-      '.dnb-forms-value-block__label'
+      '.dnb-forms-value-block__label',
     )
     expect(labelElement.textContent).toBe('Custom label')
   })
@@ -16,13 +16,13 @@ describe('Value.PhoneNumber', () => {
     const { rerender } = render(<Value.PhoneNumber inline showEmpty />)
 
     expect(
-      document.querySelector('.dnb-forms-value-block__label')
+      document.querySelector('.dnb-forms-value-block__label'),
     ).toBeNull()
 
     rerender(<Value.PhoneNumber showEmpty />)
 
     expect(
-      document.querySelector('.dnb-forms-value-block__label')
+      document.querySelector('.dnb-forms-value-block__label'),
     ).toHaveTextContent('Mobilnummer')
   })
 
@@ -36,11 +36,11 @@ describe('Value.PhoneNumber', () => {
         }}
       >
         <Value.PhoneNumber showEmpty />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const labelElement = document.querySelector(
-      '.dnb-forms-value-block__label'
+      '.dnb-forms-value-block__label',
     )
     expect(labelElement.textContent).toBe('Custom')
   })

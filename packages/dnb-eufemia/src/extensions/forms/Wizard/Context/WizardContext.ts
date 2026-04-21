@@ -48,13 +48,13 @@ export type WizardContextState = {
       skipStepChangeCall,
       skipStepChangeCallBeforeMounted,
       skipStepChangeCallFromHook,
-    }?: SetActiveIndexOptions
+    }?: SetActiveIndexOptions,
   ) => void
   setFormError?: (error: Error) => void
   setFieldError?: (index: StepIndex, path: Path, hasError: boolean) => void
   hasInvalidStepsState?: (
     index?: StepIndex,
-    forStates?: Array<InternalStepStatus>
+    forStates?: Array<InternalStepStatus>,
   ) => boolean
   check?: ({ visibleWhen }: { visibleWhen: VisibleWhen }) => boolean
   collectStepsData?: (args: HandleStatusArgs) => { title: string }
@@ -63,7 +63,7 @@ export type WizardContextState = {
 }
 
 const WizardContext = React.createContext<WizardContextState | undefined>(
-  undefined
+  undefined,
 )
 
 export default WizardContext

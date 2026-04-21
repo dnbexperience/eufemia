@@ -7,7 +7,7 @@ import { Wizard } from '../../..'
 
 jest.mock('../../../../../shared/component-helper', () => {
   const original = jest.requireActual(
-    '../../../../../shared/component-helper'
+    '../../../../../shared/component-helper',
   )
   return {
     ...original,
@@ -57,7 +57,7 @@ describe('useStep', () => {
           <Step />
           <Step />
           <Step />
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       expect(output()).toHaveTextContent('{"activeIndex":1}')
@@ -93,7 +93,7 @@ describe('useStep', () => {
           <Step />
           <Step />
           <Step />
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       expect(output()).toHaveTextContent('{"activeIndex":0}')
@@ -147,7 +147,7 @@ describe('useStep', () => {
           <Step />
           <Step />
           <Step />
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       expect(output()).toHaveTextContent('{"activeIndex":0}')
@@ -210,7 +210,7 @@ describe('useStep', () => {
           <Step />
           <Step />
           <Step />
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       expect(output()).toHaveTextContent('{"activeIndex":0}')
@@ -299,7 +299,7 @@ describe('useStep', () => {
           <Step1 />
           <Step2 />
           <Step3 />
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       expect(output()).toHaveTextContent('{"activeIndex":0}')
@@ -407,7 +407,7 @@ describe('useStep', () => {
           <Step />
           <Step />
           <Step />
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       expect(output()).toHaveTextContent('{"totalSteps":3}')
@@ -459,7 +459,7 @@ describe('useStep', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('[data-active-index]')
+          document.querySelector('[data-active-index]'),
         ).toHaveTextContent('2')
       })
     })
@@ -467,7 +467,7 @@ describe('useStep', () => {
     it('returns a callable setActiveIndex stub immediately', async () => {
       const visibleOutput = () =>
         document.querySelector(
-          '.dnb-forms-wizard-layout__contents output'
+          '.dnb-forms-wizard-layout__contents output',
         ) as HTMLElement
       let setter: ReturnType<typeof useStep>['setActiveIndex']
 
@@ -498,7 +498,7 @@ describe('useStep', () => {
               <Wizard.Buttons />
             </Wizard.Step>
           </Wizard.Container>
-        </>
+        </>,
       )
 
       await waitFor(() => {
@@ -552,23 +552,23 @@ describe('useStep', () => {
             </Wizard.Step>
           </Wizard.Container>
           <RenderAfter />
-        </>
+        </>,
       )
 
       expect(document.querySelector('output.before')).toHaveTextContent(
-        '{"activeIndex":1}'
+        '{"activeIndex":1}',
       )
       expect(document.querySelector('output.after')).toHaveTextContent(
-        '{"activeIndex":1}'
+        '{"activeIndex":1}',
       )
 
       await userEvent.click(nextButton())
 
       expect(document.querySelector('output.before')).toHaveTextContent(
-        '{"activeIndex":2}'
+        '{"activeIndex":2}',
       )
       expect(document.querySelector('output.after')).toHaveTextContent(
-        '{"activeIndex":2}'
+        '{"activeIndex":2}',
       )
     })
 
@@ -622,7 +622,7 @@ describe('useStep', () => {
             </Wizard.Step>
           </Wizard.Container>
           <RenderAfter />
-        </>
+        </>,
       )
 
       expect(document.querySelector('output')).toHaveTextContent('Step 1')
@@ -690,7 +690,7 @@ describe('useStep', () => {
               <Step />
             </Wizard.Step>
           </Wizard.Container>
-        </>
+        </>,
       )
 
       expect(output()).toHaveTextContent('{"activeIndex":0}')
@@ -766,7 +766,7 @@ describe('useStep', () => {
               <Step />
             </Wizard.Step>
           </Wizard.Container>
-        </>
+        </>,
       )
 
       expect(output()).toHaveTextContent('{"activeIndex":0}')
@@ -876,7 +876,7 @@ describe('useStep', () => {
               <Step3 />
             </Wizard.Step>
           </Wizard.Container>
-        </>
+        </>,
       )
 
       expect(output()).toHaveTextContent('{"activeIndex":0}')
@@ -1060,7 +1060,7 @@ describe('useStep', () => {
 
             <Wizard.Step>content</Wizard.Step>
           </Wizard.Container>
-        </>
+        </>,
       )
 
       expect(output()).toHaveTextContent('{"totalSteps":3}')
@@ -1085,11 +1085,11 @@ describe('useStep', () => {
     render(
       <Wizard.Container>
         <MockStep />
-      </Wizard.Container>
+      </Wizard.Container>,
     )
 
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      'My error'
+      'My error',
     )
   })
 })

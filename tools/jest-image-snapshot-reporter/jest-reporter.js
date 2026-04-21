@@ -61,12 +61,12 @@ class JestReporter {
               const relativeImgPath = '..' + imgPath
 
               const message = ansiHTML(
-                failureMessage.replace(cwd, '').replace(/\n/g, '<br />')
+                failureMessage.replace(cwd, '').replace(/\n/g, '<br />'),
               )
 
               const { dataVisualTestId, lineNumber } = extractTestMetadata(
                 testFilePath,
-                title
+                title,
               )
 
               reports.push({
@@ -84,7 +84,7 @@ class JestReporter {
 
         return reports
       },
-      []
+      [],
     )
 
     const cliColors = {
@@ -98,10 +98,10 @@ class JestReporter {
     }
 
     console.log(
-      `\n\n${cliColors.bold}${cliColors.yellow}The report file and diffs images (${numFailedTests}): \n\n${cliColors.reset}`
+      `\n\n${cliColors.bold}${cliColors.yellow}The report file and diffs images (${numFailedTests}): \n\n${cliColors.reset}`,
     )
     console.log(
-      `🔖 ${cliColors.dim}file://${htmlFilePath}\n${cliColors.reset}`
+      `🔖 ${cliColors.dim}file://${htmlFilePath}\n${cliColors.reset}`,
     )
 
     const liElementHtml = fileReports
@@ -117,7 +117,7 @@ class JestReporter {
             dataVisualTestId,
             lineNumber,
           },
-          i
+          i,
         ) => {
           const imgExists = fs.existsSync(absoluteImgPath)
 
@@ -125,7 +125,7 @@ class JestReporter {
             console.log(
               `🔍 ${cliColors.dim}${i + 1}. file://${absoluteImgPath}${
                 cliColors.reset
-              }\n`
+              }\n`,
             )
           }
 
@@ -160,7 +160,7 @@ class JestReporter {
               </dl>
             </li>
         `
-        }
+        },
       )
       .join('\n')
 

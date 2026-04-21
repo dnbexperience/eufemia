@@ -80,7 +80,7 @@ export function parseContentTitle(
     separator = '\n',
     removeNumericOnlyValues = false,
     preferSelectedValue = false,
-  } = {}
+  } = {},
 ): string | null {
   dataItem = normalizeDataItem(dataItem)
 
@@ -133,7 +133,7 @@ export function parseContentTitle(
             ?.children
             ? nestedChildren
             : element
-        })
+        }),
       )
     } else if (!onlyNumericRegex.test(dataItem.selectedValue as string)) {
       ret = separator + ret
@@ -195,7 +195,7 @@ export function normalizeData(props): DrawerListInternalData {
 
 function normalizeDataItem(
   dataItem: DrawerListDataArrayItem,
-  markAsTransformed = false
+  markAsTransformed = false,
 ): DrawerListDataArrayObject {
   return dataItem === null
     ? undefined
@@ -219,7 +219,7 @@ export const getCurrentIndex = (value, data) => {
   // 2. if "selectedKey" is given in data, we now handle it as a value, and not an index.
   if (selectedKeyExists()) {
     const index = data?.findIndex(
-      (cur) => String(parseCurrentValue(cur)) === String(value)
+      (cur) => String(parseCurrentValue(cur)) === String(value),
     )
     if (index > -1) {
       return index
@@ -252,7 +252,7 @@ export const getCurrentIndex = (value, data) => {
 export const getSelectedItemValue = (value, state) => {
   if (hasObjectKeyAsValue(state)) {
     return parseCurrentValue(
-      state.data.filter((_, i) => i === parseFloat(value))[0]
+      state.data.filter((_, i) => i === parseFloat(value))[0],
     )
   }
 
@@ -316,14 +316,14 @@ function getFirstItemFromData(data: DrawerListInternalData): number {
 }
 
 export function prepareStartupState(
-  props: DrawerListProviderProps
+  props: DrawerListProviderProps,
 ): DrawerListContextState {
   const selectedItem = null
   const rawData = preSelectData(
     props.data ||
       (!React.isValidElement(props.children)
         ? (props.children as DrawerListData)
-        : undefined)
+        : undefined),
   )
   const data = getData(props)
   const open = props.open !== null ? props.open : null
@@ -351,12 +351,12 @@ export function prepareStartupState(
   ) {
     state.selectedItem = state.activeItem = getCurrentIndex(
       props.value,
-      data
+      data,
     )
   } else if (props.defaultValue !== null) {
     state.selectedItem = state.activeItem = getCurrentIndex(
       props.defaultValue,
-      data
+      data,
     )
     state._value = props.value
   }
@@ -366,7 +366,7 @@ export function prepareStartupState(
 
 export const prepareDerivedState = (
   props: DrawerListProviderProps,
-  state: DrawerListContextState
+  state: DrawerListContextState,
 ) => {
   if (state.open && !state.data && typeof props.data === 'function') {
     state.data = getData(props)
@@ -391,7 +391,7 @@ export const prepareDerivedState = (
   if (typeof props.wrapperElement === 'string') {
     if (typeof document !== 'undefined') {
       const wrapperElement = document.querySelector<HTMLElement>(
-        props.wrapperElement
+        props.wrapperElement,
       )
       if (wrapperElement) {
         state.wrapperElement = wrapperElement
@@ -451,7 +451,7 @@ export const prepareDerivedState = (
   ) {
     state.currentTitle = getCurrentDataTitle(
       state.selectedItem,
-      state.data
+      state.data,
     )
   }
 
@@ -473,5 +473,5 @@ export const getCurrentDataTitle = (selectedItem, data) => {
 export const findClosest = (arr, val) =>
   Math.max.apply(
     null,
-    arr.filter((v) => v <= val)
+    arr.filter((v) => v <= val),
   )

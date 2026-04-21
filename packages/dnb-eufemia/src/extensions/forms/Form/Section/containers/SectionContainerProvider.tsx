@@ -24,7 +24,7 @@ function SectionContainerProvider(props: SectionContainerProviderProps) {
       ? 'view'
       : containerMode === 'auto'
         ? 'view'
-        : containerMode
+        : containerMode,
   )
 
   const switchContainerMode = useCallback(
@@ -35,7 +35,7 @@ function SectionContainerProvider(props: SectionContainerProviderProps) {
       containerModeRef.current = mode
       forceUpdate()
     },
-    [disableEditing]
+    [disableEditing],
   )
 
   return (

@@ -17,7 +17,7 @@ describe('PreviousButton', () => {
     render(
       <Provider locale="en-GB">
         <PreviousButton />
-      </Provider>
+      </Provider>,
     )
 
     const button = document.querySelector('.dnb-forms-previous-button')
@@ -48,7 +48,7 @@ describe('PreviousButton', () => {
 
     expect(button.querySelector('.dnb-icon')).toHaveAttribute(
       'data-testid',
-      'chevron left icon'
+      'chevron left icon',
     )
   })
 
@@ -64,7 +64,7 @@ describe('PreviousButton', () => {
         }}
       >
         <PreviousButton />
-      </WizardContext>
+      </WizardContext>,
     )
 
     const button = document.querySelector('.dnb-forms-previous-button')
@@ -82,7 +82,7 @@ describe('PreviousButton', () => {
         }}
       >
         <PreviousButton />
-      </WizardContext>
+      </WizardContext>,
     )
 
     expect(button).toBeDisabled()
@@ -105,7 +105,7 @@ describe('PreviousButton', () => {
         }}
       >
         <PreviousButton />
-      </WizardContext>
+      </WizardContext>,
     )
 
     const button = document.querySelector('.dnb-forms-previous-button')

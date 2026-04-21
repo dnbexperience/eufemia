@@ -24,13 +24,13 @@ type Options = {
 async function run(
   input: string,
   expectedOutput?: string,
-  options: Options = {}
+  options: Options = {},
 ) {
   options.postcssOptions = options.postcssOptions ?? { from: '/file.css' }
 
   const result = await postcss([plugin(options)]).process(
     input,
-    options.postcssOptions
+    options.postcssOptions,
   )
 
   if (expectedOutput !== undefined) {
@@ -48,7 +48,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '.my-class { color: red; }',
         '.test-scope .my-class { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -56,7 +56,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '.class1, .class2 { color: red; }',
         '.test-scope .class1, .test-scope .class2 { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -64,7 +64,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '.parent .child { color: red; }',
         '.test-scope .parent .child { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -72,7 +72,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '.parent > .child + .sibling ~ .cousin { color: red; }',
         '.test-scope .parent > .child + .sibling ~ .cousin { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
   })
@@ -82,7 +82,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         ':root { --color: red; }',
         '.test-scope { --color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -90,7 +90,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '[data-test] { color: red; }',
         '.test-scope [data-test] { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -98,7 +98,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '[data-test][data-other] { color: red; }',
         '.test-scope [data-test][data-other] { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -106,7 +106,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '.button:hover { color: red; }',
         '.test-scope .button:hover { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -114,7 +114,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '.button:hover:focus:active { color: red; }',
         '.test-scope .button:hover:focus:active { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -122,7 +122,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '.text::before { content: ""; }',
         '.test-scope .text::before { content: ""; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -130,7 +130,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '::before { content: ""; }',
         '.test-scope ::before { content: ""; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -140,7 +140,7 @@ describe('isolated-style-scope-plugin', () => {
         '.test-scope * { color: red; }',
         {
           scopeHash: 'test-scope',
-        }
+        },
       )
     })
 
@@ -148,7 +148,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '*, ::before, ::after { color: red; }',
         '.test-scope *, .test-scope ::before, .test-scope ::after { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -156,7 +156,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '#id-selector { color: red; }',
         '.test-scope #id-selector { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -164,7 +164,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         'strong { color: red; }',
         '.test-scope strong { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -172,7 +172,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '.class1.class2.class3 { color: red; }',
         '.test-scope .class1.class2.class3 { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -180,7 +180,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '*.foo[data-foo]::marker > :nth-child(2) { color: red; }',
         '.test-scope *.foo[data-foo]::marker > :nth-child(2) { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -188,7 +188,7 @@ describe('isolated-style-scope-plugin', () => {
       await run(
         '[scope-placeholder] { color: red; }',
         '.test-scope { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -196,7 +196,7 @@ describe('isolated-style-scope-plugin', () => {
       await run(
         '.selector-before [scope-placeholder] .selector-after { color: red; }',
         '.selector-before .test-scope .selector-after { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -204,7 +204,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         'html [scope-placeholder] * { color: red; }',
         'html .test-scope * { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
   })
@@ -214,7 +214,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         'html { color: red; }',
         'html { color: red; }', // keep as is
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -222,7 +222,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         'body { color: red; }',
         'body { color: red; }', // keep as is
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -230,7 +230,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         'html body { color: red; }',
         'html body { color: red; }', // keep as is
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -238,7 +238,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         'body .module-class { color: red; }',
         'body .test-scope .module-class { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -246,14 +246,14 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         'html body .module-class { color: red; }',
         'html body .test-scope .module-class { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
     it('should not scope html body combo when no scopeHash is given', async () => {
       await run(
         'html body { color: red; }',
-        'html body { color: red; }' // keep as is
+        'html body { color: red; }', // keep as is
       )
     })
 
@@ -261,7 +261,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         'body [data-test] { color: red; }',
         'body .test-scope [data-test] { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -269,7 +269,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         'body * { color: red; }',
         'body .test-scope * { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -277,7 +277,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         'html * { color: red; }',
         'html * { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -285,7 +285,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         'html body * { color: red; }',
         'html body .test-scope * { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
   })
@@ -295,7 +295,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '.my-class { color: red; }',
         '.custom-scope .my-class { color: red; }',
-        { scopeHash: 'custom-scope' }
+        { scopeHash: 'custom-scope' },
       )
     })
 
@@ -304,7 +304,7 @@ describe('isolated-style-scope-plugin', () => {
       await run(
         '.my-class { color: red; }',
         '.custom-scope .my-class { color: red; }',
-        { scopeHash }
+        { scopeHash },
       )
       expect(scopeHash).toHaveBeenCalledWith('/file.css')
     })
@@ -330,7 +330,7 @@ describe('isolated-style-scope-plugin', () => {
           postcssOptions: {
             from: '/some/path/to/style.css',
           },
-        }
+        },
       )
 
       readFileSyncSpy.mockRestore()
@@ -356,7 +356,7 @@ describe('isolated-style-scope-plugin', () => {
           postcssOptions: {
             from: '/some/path/to/style.css',
           },
-        }
+        },
       )
 
       readFileSyncSpy.mockRestore()
@@ -372,7 +372,7 @@ describe('isolated-style-scope-plugin', () => {
       const existsSyncSpy = jest
         .spyOn(fs, 'existsSync')
         .mockImplementation((path: fs.PathLike) =>
-          String(path).includes('scope-hash.txt')
+          String(path).includes('scope-hash.txt'),
         )
       const getStyleScopeHashSpy = jest
         .spyOn(scopeHash, 'getStyleScopeHash')
@@ -386,7 +386,7 @@ describe('isolated-style-scope-plugin', () => {
           postcssOptions: {
             from: '/some/path/to/style.css',
           },
-        }
+        },
       )
 
       readFileSyncSpy.mockRestore()
@@ -401,7 +401,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '.eufemia-scope--something .my-class { color: red; }',
         '.custom-scope .my-class { color: red; }',
-        { scopeHash: 'custom-scope' }
+        { scopeHash: 'custom-scope' },
       )
     })
 
@@ -409,7 +409,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '.eufemia-scope--default { --color: red; }',
         '.test-scope { --color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -417,7 +417,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         'html .eufemia-scope--something .my-class { color: red; }',
         'html .custom-scope .my-class { color: red; }',
-        { scopeHash: 'custom-scope' }
+        { scopeHash: 'custom-scope' },
       )
     })
 
@@ -426,7 +426,7 @@ describe('isolated-style-scope-plugin', () => {
       await run(
         '.eufemia-scope--something .my-class { color: red; }',
         '.custom-scope .my-class { color: red; }',
-        { scopeHash }
+        { scopeHash },
       )
       expect(scopeHash).toHaveBeenCalledWith('/file.css')
     })
@@ -436,7 +436,7 @@ describe('isolated-style-scope-plugin', () => {
       await run(
         '.eufemia-scope--something .my-class { color: red; }',
         '.eufemia-scope--something .my-class { color: red; }',
-        { scopeHash }
+        { scopeHash },
       )
       expect(scopeHash).toHaveBeenCalledWith('/file.css')
     })
@@ -448,7 +448,7 @@ describe('isolated-style-scope-plugin', () => {
         {
           defaultScopeHash: 'x-',
           scopeHash: 'custom',
-        }
+        },
       )
     })
 
@@ -456,7 +456,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         'html .eufemia-scope--default { color: red; }',
         'html .custom-scope { color: red; }',
-        { scopeHash: 'custom-scope' }
+        { scopeHash: 'custom-scope' },
       )
     })
 
@@ -464,7 +464,7 @@ describe('isolated-style-scope-plugin', () => {
       await run(
         '.eufemia-scope--default { color: red; }',
         '.new-scope { color: red; }',
-        { scopeHash: 'new-scope' }
+        { scopeHash: 'new-scope' },
       )
     })
 
@@ -472,7 +472,7 @@ describe('isolated-style-scope-plugin', () => {
       await run(
         '@media (min-width: 40em){ .eufemia-scope--default { color: red; } }',
         '@media (min-width: 40em){ .new-scope { color: red; } }',
-        { scopeHash: 'new-scope' }
+        { scopeHash: 'new-scope' },
       )
     })
   })
@@ -482,7 +482,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '.dnb-core-style { color: red; }',
         '.dnb-core-style { color: red; }',
-        { skipClassNames: ['dnb-core-style'] }
+        { skipClassNames: ['dnb-core-style'] },
       )
     })
 
@@ -490,7 +490,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '.skip1, .skip2, .normal { color: red; }',
         '.skip1, .skip2, .test-scope .normal { color: red; }',
-        { skipClassNames: ['skip1', 'skip2'], scopeHash: 'test-scope' }
+        { skipClassNames: ['skip1', 'skip2'], scopeHash: 'test-scope' },
       )
     })
 
@@ -498,7 +498,7 @@ describe('isolated-style-scope-plugin', () => {
       await run(
         '[data-skip] { color: red; }',
         '[data-skip] { color: red; }',
-        { skipClassNames: ['data-skip'], scopeHash: 'test-scope' }
+        { skipClassNames: ['data-skip'], scopeHash: 'test-scope' },
       )
     })
 
@@ -509,7 +509,7 @@ describe('isolated-style-scope-plugin', () => {
         {
           scopeHash: 'ski-this-scope',
           skipClassNames: ['existing-scope'],
-        }
+        },
       )
     })
 
@@ -517,7 +517,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '[skip-isolation] #id-selector { color: red; }',
         '#id-selector { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -525,7 +525,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         'body .some-selector [skip-isolation] #some-id { color: red; }',
         'body .some-selector #some-id { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -533,7 +533,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '[skip-isolation]-something #id-selector { color: red; }',
         '.test-scope [skip-isolation]-something #id-selector { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -541,7 +541,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '.test-scope .my-class { color: red; }',
         '.test-scope .my-class { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -549,14 +549,14 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         'html .test-scope .my-class { color: red; }',
         'html .test-scope .my-class { color: red; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
     it('should not add scope class twice when starting with "eufemia-scope--"', async () => {
       return await run(
         'html .eufemia-scope--something .my-class { color: red; }',
-        'html .eufemia-scope--something .my-class { color: red; }'
+        'html .eufemia-scope--something .my-class { color: red; }',
       )
     })
 
@@ -564,7 +564,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         'html .x-something .my-class { color: red; }',
         'html .x-something .my-class { color: red; }',
-        { defaultScopeHash: 'x-' }
+        { defaultScopeHash: 'x-' },
       )
     })
   })
@@ -574,7 +574,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '@keyframes spin { 0% { transform: rotate(0deg); } }',
         '@keyframes spin { 0% { transform: rotate(0deg); } }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -582,7 +582,7 @@ describe('isolated-style-scope-plugin', () => {
       await run(
         '@supports (display: grid) { .foo { color: red; } }',
         '@supports (display: grid) { .test-scope .foo { color: red; } }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -590,7 +590,7 @@ describe('isolated-style-scope-plugin', () => {
       await run(
         '@media (min-width: 40em) { .foo { color: red; } }',
         '@media (min-width: 40em) { .test-scope .foo { color: red; } }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -598,7 +598,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '@font-face { font-family: "MyFont"; src: url("myfont.woff2"); }',
         '@font-face { font-family: "MyFont"; src: url("myfont.woff2"); }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
   })
@@ -609,7 +609,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }',
         '@keyframes fadeIn__test-scope { from { opacity: 0; } to { opacity: 1; } }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -617,7 +617,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '.btn { animation-name: fadeIn; }',
         '.test-scope .btn { animation-name: fadeIn__test-scope; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -625,7 +625,7 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '.icon { animation: spin 2s linear infinite; }',
         '.test-scope .icon { animation: spin__test-scope 2s linear infinite; }',
-        { scopeHash: 'test-scope' }
+        { scopeHash: 'test-scope' },
       )
     })
 
@@ -644,7 +644,7 @@ describe('isolated-style-scope-plugin', () => {
         {
           replaceClassNames: { 'old-class': 'new-class' },
           scopeHash: 'test-scope',
-        }
+        },
       )
     })
 
@@ -658,7 +658,7 @@ describe('isolated-style-scope-plugin', () => {
             'old-class2': 'new-class2',
           },
           scopeHash: 'test-scope',
-        }
+        },
       )
     })
 
@@ -669,7 +669,7 @@ describe('isolated-style-scope-plugin', () => {
         {
           replaceClassNames: { 'old-class': 'new-class' },
           scopeHash: 'test-scope',
-        }
+        },
       )
     })
 
@@ -681,7 +681,7 @@ describe('isolated-style-scope-plugin', () => {
           replaceClassNames: { 'old-class': 'new-class' },
           skipClassNames: ['skip-class'],
           scopeHash: 'test-scope',
-        }
+        },
       )
     })
 
@@ -695,7 +695,7 @@ describe('isolated-style-scope-plugin', () => {
             'old-class2': 'new-class2',
           },
           scopeHash: 'test-scope',
-        }
+        },
       )
     })
 
@@ -707,7 +707,7 @@ describe('isolated-style-scope-plugin', () => {
           scopeHash: 'scoped',
           skipClassNames: ['skip-me'],
           replaceClassNames: { old: 'new' },
-        }
+        },
       )
     })
   })
@@ -721,7 +721,7 @@ describe('isolated-style-scope-plugin', () => {
           {
             postcssOptions: { from: '/file.module.css' },
             scopeHash: 'test-scope',
-          }
+          },
         )
       })
 
@@ -729,7 +729,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           '.module-class { color: red; }',
           ':global(.test-scope) .module-class { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -737,7 +737,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           '#id-selector { color: red; }',
           ':global(.test-scope) #id-selector { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -745,7 +745,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           'strong { color: red; }',
           ':global(.test-scope) strong { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
     })
@@ -755,7 +755,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           'html .module-class { color: red; }',
           'html :global(.test-scope) .module-class { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -763,7 +763,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           'body .module-class { color: red; }',
           'body :global(.test-scope) .module-class { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -774,7 +774,7 @@ describe('isolated-style-scope-plugin', () => {
           {
             runAsCssModule: true,
             scopeHash: 'test-scope',
-          }
+          },
         )
       })
 
@@ -785,7 +785,7 @@ describe('isolated-style-scope-plugin', () => {
           {
             runAsCssModule: true,
             scopeHash: 'test-scope',
-          }
+          },
         )
       })
 
@@ -793,7 +793,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           'html body { color: red; }',
           'html body { color: red; }', // keep as is
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -801,7 +801,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           'html body .module-class { color: red; }',
           'html body :global(.test-scope) .module-class { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
     })
@@ -811,7 +811,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           '.eufemia-scope--something .my-class { color: red; }',
           ':global(.custom-scope) .my-class { color: red; }',
-          { runAsCssModule: true, scopeHash: 'custom-scope' }
+          { runAsCssModule: true, scopeHash: 'custom-scope' },
         )
       })
 
@@ -819,7 +819,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           ':global(.eufemia-scope--something) .my-class { color: red; }',
           ':global(.custom-scope) .my-class { color: red; }',
-          { runAsCssModule: true, scopeHash: 'custom-scope' }
+          { runAsCssModule: true, scopeHash: 'custom-scope' },
         )
       })
 
@@ -827,7 +827,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           'html :global(.eufemia-scope--something) .my-class { color: red; }',
           'html :global(.custom-scope) .my-class { color: red; }',
-          { runAsCssModule: true, scopeHash: 'custom-scope' }
+          { runAsCssModule: true, scopeHash: 'custom-scope' },
         )
       })
 
@@ -835,7 +835,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           ':global(.eufemia-scope--default) { --color: red; }',
           ':global(.custom-scope) { --color: red; }',
-          { scopeHash: 'custom-scope' }
+          { scopeHash: 'custom-scope' },
         )
       })
 
@@ -844,7 +844,7 @@ describe('isolated-style-scope-plugin', () => {
         await run(
           '.eufemia-scope--something .my-class { color: red; }',
           ':global(.custom-scope) .my-class { color: red; }',
-          { runAsCssModule: true, scopeHash }
+          { runAsCssModule: true, scopeHash },
         )
         expect(scopeHash).toHaveBeenCalledWith('/file.css')
       })
@@ -854,7 +854,7 @@ describe('isolated-style-scope-plugin', () => {
         await run(
           ':global(.eufemia-scope--something) .my-class { color: red; }',
           ':global(.custom-scope) .my-class { color: red; }',
-          { runAsCssModule: true, scopeHash }
+          { runAsCssModule: true, scopeHash },
         )
         expect(scopeHash).toHaveBeenCalledWith('/file.css')
       })
@@ -864,7 +864,7 @@ describe('isolated-style-scope-plugin', () => {
         await run(
           '.my-class { color: red; }',
           ':global(.custom-scope) .my-class { color: red; }',
-          { runAsCssModule: true, scopeHash }
+          { runAsCssModule: true, scopeHash },
         )
         expect(scopeHash).toHaveBeenCalledWith('/file.css')
       })
@@ -874,7 +874,7 @@ describe('isolated-style-scope-plugin', () => {
         await run(
           ':global(.eufemia-scope--something) .my-class { color: red; }',
           ':global(.eufemia-scope--something) .my-class { color: red; }',
-          { scopeHash }
+          { scopeHash },
         )
         expect(scopeHash).toHaveBeenCalledWith('/file.css')
       })
@@ -885,7 +885,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           ':global(.test-scope) .module-class { color: red; }',
           ':global(.test-scope) .module-class { color: red; }',
-          { scopeHash: 'test-scope' }
+          { scopeHash: 'test-scope' },
         )
       })
 
@@ -893,14 +893,14 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           'html :global(.test-scope) .module-class { color: red; }',
           'html :global(.test-scope) .module-class { color: red; }',
-          { scopeHash: 'test-scope' }
+          { scopeHash: 'test-scope' },
         )
       })
 
       it('should not add scope class twice when starting with "eufemia-scope--"', async () => {
         return await run(
           'html :global(.eufemia-scope--something) .my-class { color: red; }',
-          'html :global(.eufemia-scope--something) .my-class { color: red; }'
+          'html :global(.eufemia-scope--something) .my-class { color: red; }',
         )
       })
 
@@ -908,7 +908,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           'html :global(.x-something) .my-class { color: red; }',
           'html :global(.x-something) .my-class { color: red; }',
-          { defaultScopeHash: 'x-' }
+          { defaultScopeHash: 'x-' },
         )
       })
 
@@ -919,7 +919,7 @@ describe('isolated-style-scope-plugin', () => {
           {
             scopeHash: 'ski-this-scope',
             skipClassNames: ['existing-scope'],
-          }
+          },
         )
       })
     })
@@ -929,7 +929,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           ':root { --color: red; }',
           ':global(.test-scope) { --color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -937,7 +937,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           '[data-test] { color: red; }',
           ':global(.test-scope) [data-test] { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -945,7 +945,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           '[data-test][data-other] { color: red; }',
           ':global(.test-scope) [data-test][data-other] { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -953,7 +953,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           '.button:hover { color: red; }',
           ':global(.test-scope) .button:hover { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -961,7 +961,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           '.button:hover:focus:active { color: red; }',
           ':global(.test-scope) .button:hover:focus:active { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -969,7 +969,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           '.text::before { content: ""; }',
           ':global(.test-scope) .text::before { content: ""; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -977,7 +977,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           '::before { content: ""; }',
           ':global(.test-scope) ::before { content: ""; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -985,7 +985,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           '#id-selector { color: red; }',
           ':global(.test-scope) #id-selector { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -993,7 +993,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           'strong { color: red; }',
           ':global(.test-scope) strong { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1001,7 +1001,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           '.class1.class2.class3 { color: red; }',
           ':global(.test-scope) .class1.class2.class3 { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1009,7 +1009,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           '*.foo[data-foo]::marker > :nth-child(2) { color: red; }',
           ':global(.test-scope) *.foo[data-foo]::marker > :nth-child(2) { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1017,7 +1017,7 @@ describe('isolated-style-scope-plugin', () => {
         await run(
           ':global(.eufemia-scope--default) { color: red; }',
           ':global(.new-scope) { color: red; }',
-          { runAsCssModule: true, scopeHash: 'new-scope' }
+          { runAsCssModule: true, scopeHash: 'new-scope' },
         )
       })
 
@@ -1025,7 +1025,7 @@ describe('isolated-style-scope-plugin', () => {
         await run(
           ':global(.eufemia-scope--something) .selector { color:red; }',
           ':global(.custom) .selector { color:red; }',
-          { runAsCssModule: true, scopeHash: 'custom' }
+          { runAsCssModule: true, scopeHash: 'custom' },
         )
       })
 
@@ -1033,7 +1033,7 @@ describe('isolated-style-scope-plugin', () => {
         await run(
           '[scope-placeholder] { color: red; }',
           ':global(.test-scope) { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1041,7 +1041,7 @@ describe('isolated-style-scope-plugin', () => {
         await run(
           '.selector-before [scope-placeholder] .selector-after { color: red; }',
           '.selector-before :global(.test-scope) .selector-after { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
     })
@@ -1055,7 +1055,7 @@ describe('isolated-style-scope-plugin', () => {
             replaceClassNames: { 'old-class': 'new-class' },
             runAsCssModule: true,
             scopeHash: 'test-scope',
-          }
+          },
         )
       })
     })
@@ -1065,7 +1065,7 @@ describe('isolated-style-scope-plugin', () => {
         await run(
           ':global { color: red; }',
           ':global(.test-scope) { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1073,7 +1073,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           ':global .selector-a .selector-b { color: red; }',
           ':global(.test-scope) :global .selector-a .selector-b { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1081,7 +1081,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           ':global .selector { color: red; }',
           ':global(.test-scope) :global .selector { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1089,7 +1089,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           ':global /* comment */ .selector { color: red; }',
           ':global(.test-scope) :global .selector { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1097,7 +1097,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           ':global :root { --color: red; }',
           ':global(.test-scope) { --color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1105,7 +1105,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           ':global(.selector) :global .selector { --color: red; }',
           ':global(.test-scope) :global(.selector) :global .selector { --color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
     })
@@ -1118,7 +1118,7 @@ describe('isolated-style-scope-plugin', () => {
           {
             runAsCssModule: true,
             scopeHash: 'test-scope',
-          }
+          },
         )
       })
 
@@ -1126,7 +1126,7 @@ describe('isolated-style-scope-plugin', () => {
         await run(
           ':global .my-class { color: purple; }',
           ':global(.test-scope) :global .my-class { color: purple; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1134,7 +1134,7 @@ describe('isolated-style-scope-plugin', () => {
         await run(
           ':global {\n  html { color: red; }\n}',
           ':global {\n  html { color: red; }\n}',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1142,7 +1142,7 @@ describe('isolated-style-scope-plugin', () => {
         await run(
           ':global {\n  body { color: red; }\n}',
           ':global {\n  body { color: red; }\n}',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1150,7 +1150,7 @@ describe('isolated-style-scope-plugin', () => {
         await run(
           ':global {\n  html body { color: red; }\n}',
           ':global {\n  html body { color: red; }\n}',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1158,7 +1158,7 @@ describe('isolated-style-scope-plugin', () => {
         await run(
           ':global {\n  html { color: red; }\n.selector { color: red; }\n}',
           ':global {\n  html { color: red; }\n:global(.test-scope) .selector { color: red; }\n}',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1166,7 +1166,7 @@ describe('isolated-style-scope-plugin', () => {
         await run(
           ':global {\n  html body .my-class { color: red; }\n}',
           ':global {\n  html body :global(.test-scope) .my-class { color: red; }\n}',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1174,7 +1174,7 @@ describe('isolated-style-scope-plugin', () => {
         await run(
           ':global {\n  html { color: red; }\n  body { color: red; }\n  html body { color: green; }\n  .my-class { color: purple; }\n}',
           ':global {\n  html { color: red; }\n  body { color: red; }\n  html body { color: green; }\n  :global(.test-scope) .my-class { color: purple; }\n}',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1182,7 +1182,7 @@ describe('isolated-style-scope-plugin', () => {
         await run(
           ':global {\n  body [data-test] {\n    color: red;\n  }\n}',
           ':global {\n  body :global(.test-scope) [data-test] {\n    color: red;\n  }\n}',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1190,7 +1190,7 @@ describe('isolated-style-scope-plugin', () => {
         await run(
           ':global {\n  html * {\n    color: red;\n  }\n}',
           ':global {\n  html * {\n    color: red;\n  }\n}',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1198,7 +1198,7 @@ describe('isolated-style-scope-plugin', () => {
         await run(
           ':global {\n  body * {\n    color: red;\n  }\n}',
           ':global {\n  body :global(.test-scope) * {\n    color: red;\n  }\n}',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1206,7 +1206,7 @@ describe('isolated-style-scope-plugin', () => {
         await run(
           ':global {\n  * {\n    color: red;\n  }\n}',
           ':global {\n  :global(.test-scope) * {\n    color: red;\n  }\n}',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1214,7 +1214,7 @@ describe('isolated-style-scope-plugin', () => {
         await run(
           ':global {\n  [data-test] {\n    color: red;\n  }\n}',
           ':global {\n  :global(.test-scope) [data-test] {\n    color: red;\n  }\n}',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1222,7 +1222,7 @@ describe('isolated-style-scope-plugin', () => {
         await run(
           ':global {\n  body * {\n    color: red;\n  }\n * {\n    color: red;\n  }\n}',
           ':global {\n  body :global(.test-scope) * {\n    color: red;\n  }\n :global(.test-scope) * {\n    color: red;\n  }\n}',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1230,7 +1230,7 @@ describe('isolated-style-scope-plugin', () => {
         await run(
           ':global {\n  html body * {\n    color: green;\n  }\n}',
           ':global {\n  html body :global(.test-scope) * {\n    color: green;\n  }\n}',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1238,7 +1238,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           ':global body * { color: red; }',
           ':global body :global(.test-scope) * { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1246,7 +1246,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           ':global html body * { color: red; }',
           ':global html body :global(.test-scope) * { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1254,7 +1254,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           ':global body [data-test] { color: red; }',
           ':global body :global(.test-scope) [data-test] { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1262,7 +1262,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           ':global html * { color: red; }',
           ':global html * { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1270,7 +1270,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           ':global(html[data-visual-test]) .someClass { color: red; }',
           'html[data-visual-test] :global(.test-scope) .someClass { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1278,7 +1278,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           ':global(html[data-visual-test]) .someClass::after { color: red; }',
           'html[data-visual-test] :global(.test-scope) .someClass::after { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1286,7 +1286,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           ':global(html) { color: red; }',
           ':global(html) { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
 
@@ -1294,7 +1294,7 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           ':global(body[data-theme]) .someClass { color: red; }',
           'body[data-theme] :global(.test-scope) .someClass { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
+          { runAsCssModule: true, scopeHash: 'test-scope' },
         )
       })
     })
@@ -1308,7 +1308,7 @@ describe('isolated-style-scope-plugin', () => {
         {
           scopeHash: 'main-scope',
           sharedScopeHash: () => ['shared-1', 'shared-2'],
-        }
+        },
       )
     })
 
@@ -1319,7 +1319,7 @@ describe('isolated-style-scope-plugin', () => {
         {
           scopeHash: 'main-scope',
           sharedScopeHash: () => undefined,
-        }
+        },
       )
     })
 
@@ -1329,7 +1329,7 @@ describe('isolated-style-scope-plugin', () => {
         '.eufemia-scope--default .my-class { color: red; }',
         {
           sharedScopeHash: () => undefined,
-        }
+        },
       )
     })
 
@@ -1340,7 +1340,7 @@ describe('isolated-style-scope-plugin', () => {
         {
           scopeHash: 'shared-1',
           sharedScopeHash: () => ['shared-1', 'shared-2'],
-        }
+        },
       )
     })
 
@@ -1351,7 +1351,7 @@ describe('isolated-style-scope-plugin', () => {
         {
           scopeHash: 'main-scope',
           sharedScopeHash: () => ['shared-1', 'shared-2'],
-        }
+        },
       )
     })
 
@@ -1362,7 +1362,7 @@ describe('isolated-style-scope-plugin', () => {
         {
           scopeHash: 'main-scope',
           sharedScopeHash: () => ['shared-1', 'shared-2'],
-        }
+        },
       )
     })
 
@@ -1373,7 +1373,7 @@ describe('isolated-style-scope-plugin', () => {
         {
           scopeHash: 'main-scope',
           sharedScopeHash: () => ['shared-1', 'shared-2'],
-        }
+        },
       )
     })
 
@@ -1385,7 +1385,7 @@ describe('isolated-style-scope-plugin', () => {
           scopeHash: 'main-scope',
           sharedScopeHash: () => ['shared-1', 'shared-2'],
           runAsCssModule: true,
-        }
+        },
       )
     })
 
@@ -1397,7 +1397,7 @@ describe('isolated-style-scope-plugin', () => {
           scopeHash: 'main-scope',
           sharedScopeHash: () => ['shared-1', 'shared-2'],
           replaceClassNames: { 'old-name': 'new-name' },
-        }
+        },
       )
     })
 

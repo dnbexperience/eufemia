@@ -15,7 +15,7 @@ const createRequest = () => {
     | undefined
 
   const fn = (
-    t: number
+    t: number,
   ): Promise<{ hasError: boolean; cancel?: boolean }> => {
     return new Promise((resolve) => {
       resolvePromise = resolve
@@ -81,7 +81,7 @@ export const WizardDynamicStepsIncludeWhen = () => {
             index,
             mode,
             args.id,
-            args.previousStep
+            args.previousStep,
           )
 
           if (mode === 'previous') {

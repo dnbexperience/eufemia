@@ -118,13 +118,13 @@ export default function PopoverCloseButton({
         createSkeletonClass(
           resolvedVariant === 'tertiary' ? 'font' : 'shape',
           skeleton,
-          context
+          context,
         ),
-        className
+        className,
       ),
       type: resolvedType,
       ...rest,
-    }
+    },
   ) as React.ButtonHTMLAttributes<HTMLButtonElement>
 
   return (

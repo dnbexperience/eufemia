@@ -26,13 +26,13 @@ describe('Field.Upload', () => {
     expect(text).toHaveTextContent(nbShared.Upload.text)
 
     const [firstDt, secondDt] = Array.from(
-      document.querySelectorAll('dl dt')
+      document.querySelectorAll('dl dt'),
     )
     expect(firstDt).toHaveTextContent(nbShared.Upload.fileTypeDescription)
     expect(secondDt).toHaveTextContent(nbShared.Upload.fileSizeDescription)
 
     const [firstDd, , thirdDd, , fourthDd] = Array.from(
-      document.querySelectorAll('dl dd')
+      document.querySelectorAll('dl dd'),
     )
     expect(firstDd).toHaveTextContent('PDF')
     expect(thirdDd).toHaveTextContent('5 MB')
@@ -45,20 +45,20 @@ describe('Field.Upload', () => {
         acceptedFileTypes={['pdf']}
         filesAmountLimit={2}
         fileMaxSize={1}
-      />
+      />,
     )
 
     const [firstDt, secondDt, thirdDt] = Array.from(
-      document.querySelectorAll('dl dt')
+      document.querySelectorAll('dl dt'),
     )
     expect(firstDt).toHaveTextContent(nbShared.Upload.fileTypeDescription)
     expect(secondDt).toHaveTextContent(nbShared.Upload.fileSizeDescription)
     expect(thirdDt).toHaveTextContent(
-      nbShared.Upload.fileAmountDescription
+      nbShared.Upload.fileAmountDescription,
     )
 
     const [firstDd, , thirdDd, , fourthDd] = Array.from(
-      document.querySelectorAll('dl dd')
+      document.querySelectorAll('dl dd'),
     )
     expect(firstDd).toHaveTextContent('PDF')
     expect(thirdDd).toHaveTextContent('1 MB')
@@ -77,12 +77,12 @@ describe('Field.Upload', () => {
     render(
       <Form.Handler required>
         <Field.Upload required={false} />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [label] = Array.from(document.querySelectorAll('p'))
     expect(label).toHaveTextContent(
-      `${nbShared.Upload.title} ${nbForms.Field.optionalLabelSuffix}`
+      `${nbShared.Upload.title} ${nbForms.Field.optionalLabelSuffix}`,
     )
   })
 
@@ -92,7 +92,7 @@ describe('Field.Upload', () => {
         label="A Label"
         required={false}
         labelSuffix="(suffix)"
-      />
+      />,
     )
 
     const [label] = Array.from(document.querySelectorAll('p'))
@@ -107,7 +107,7 @@ describe('Field.Upload', () => {
         value={[
           { file: createMockFile('fileName-1.png', 100, 'image/png') },
         ]}
-      />
+      />,
     )
 
     const element = document.querySelector('.dnb-upload__file-cell button')
@@ -121,7 +121,7 @@ describe('Field.Upload', () => {
     render(<Field.Upload disabled />)
 
     expect(
-      document.querySelector('.dnb-upload__file-input')
+      document.querySelector('.dnb-upload__file-input'),
     ).toHaveAttribute('disabled')
     expect(document.querySelector('button')).toHaveAttribute('disabled')
   })
@@ -143,17 +143,17 @@ describe('Field.Upload', () => {
         value={[
           { file: createMockFile('fileName-1.png', 100, 'image/png') },
         ]}
-      />
+      />,
     )
 
     const fileButton = document.querySelector(
-      '.dnb-upload__file-cell button'
+      '.dnb-upload__file-cell button',
     )
 
     await waitFor(() => {
       fireEvent.click(fileButton)
       expect(
-        document.querySelector('.dnb-progress-indicator')
+        document.querySelector('.dnb-progress-indicator'),
       ).toBeInTheDocument()
     })
   })
@@ -168,7 +168,7 @@ describe('Field.Upload', () => {
         }}
       >
         <Field.Upload path="/myFiles" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const list = document.querySelector('ul')
@@ -181,7 +181,7 @@ describe('Field.Upload', () => {
         value={[
           { file: createMockFile('fileName-1.png', 100, 'image/png') },
         ]}
-      />
+      />,
     )
 
     const list = document.querySelector('ul')
@@ -209,7 +209,7 @@ describe('Field.Upload', () => {
           title: 'My Help Title',
           content: 'My Help Content',
         }}
-      />
+      />,
     )
 
     const helpButton = document.querySelector('.dnb-help-button')
@@ -224,7 +224,7 @@ describe('Field.Upload', () => {
         <Form.Handler onSubmit={onSubmit}>
           <Field.Upload path="/myFiles" />
           <Form.SubmitButton />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       fireEvent.submit(document.querySelector('form'))
@@ -232,7 +232,7 @@ describe('Field.Upload', () => {
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenCalledWith(
         { myFiles: undefined },
-        expect.anything()
+        expect.anything(),
       )
 
       const element = getRootElement()
@@ -268,7 +268,7 @@ describe('Field.Upload', () => {
             },
           ],
         },
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -279,7 +279,7 @@ describe('Field.Upload', () => {
       render(
         <Form.Handler onChange={onChangeContext}>
           <Field.Upload path="/myFiles" onChange={onChangeField} />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const getRootElement = () => document.querySelector('.dnb-upload')
@@ -304,7 +304,7 @@ describe('Field.Upload', () => {
             },
           ],
         },
-        expect.anything()
+        expect.anything(),
       )
       expect(onChangeField).toHaveBeenCalledTimes(1)
       expect(onChangeField).toHaveBeenLastCalledWith(
@@ -316,19 +316,19 @@ describe('Field.Upload', () => {
             name: 'fileName-1.png',
           },
         ],
-        expect.anything()
+        expect.anything(),
       )
 
       // delete the file
       fireEvent.click(
         document
           .querySelectorAll('.dnb-upload__file-cell')[0]
-          .querySelector('button')
+          .querySelector('button'),
       )
 
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell').length
+          document.querySelectorAll('.dnb-upload__file-cell').length,
         ).toBe(0)
       })
 
@@ -337,12 +337,12 @@ describe('Field.Upload', () => {
         {
           myFiles: undefined,
         },
-        expect.anything()
+        expect.anything(),
       )
       expect(onChangeField).toHaveBeenCalledTimes(2)
       expect(onChangeField).toHaveBeenLastCalledWith(
         undefined,
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -355,7 +355,7 @@ describe('Field.Upload', () => {
         <Form.Handler onChange={onChangeContext} onSubmit={onSubmit}>
           <Field.Upload path="/myFiles" onChange={onChangeField} />
           <Form.SubmitButton />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const getRootElement = () => document.querySelector('.dnb-upload')
@@ -366,7 +366,7 @@ describe('Field.Upload', () => {
       const file2 = createMockFile(
         'fileName-2.png',
         5 * BYTES_IN_A_MEGA_BYTE + 1, // exceeds the default fileMaxSize
-        'image/png'
+        'image/png',
       )
 
       fireEvent.drop(element, {
@@ -386,7 +386,7 @@ describe('Field.Upload', () => {
             {
               errorMessage: nbShared.Upload.errorLargeFile.replace(
                 '%size',
-                '5'
+                '5',
               ),
               file: file2,
               exists: false,
@@ -395,7 +395,7 @@ describe('Field.Upload', () => {
             },
           ],
         },
-        expect.anything()
+        expect.anything(),
       )
       expect(onChangeField).toHaveBeenCalledTimes(1)
       expect(onChangeField).toHaveBeenLastCalledWith(
@@ -409,7 +409,7 @@ describe('Field.Upload', () => {
           {
             errorMessage: nbShared.Upload.errorLargeFile.replace(
               '%size',
-              '5'
+              '5',
             ),
             file: file2,
             exists: false,
@@ -417,15 +417,15 @@ describe('Field.Upload', () => {
             name: 'fileName-2.png',
           },
         ],
-        expect.anything()
+        expect.anything(),
       )
 
       fireEvent.submit(document.querySelector('form'))
 
       expect(
         document.querySelector(
-          '.dnb-forms-field-block__status .dnb-form-status'
-        )
+          '.dnb-forms-field-block__status .dnb-form-status',
+        ),
       ).toHaveTextContent(nbForms.Upload.errorInvalidFiles)
 
       const deleteButton = screen.queryAllByRole('button', {
@@ -446,7 +446,7 @@ describe('Field.Upload', () => {
             },
           ],
         },
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -457,13 +457,13 @@ describe('Field.Upload', () => {
       render(
         <Form.Handler onChange={onChange} onSubmit={onSubmit}>
           <Field.Upload required path="/myFiles" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       fireEvent.submit(document.querySelector('form'))
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nbForms.Upload.errorRequired
+        nbForms.Upload.errorRequired,
       )
 
       const element = getRootElement()
@@ -474,7 +474,7 @@ describe('Field.Upload', () => {
           dataTransfer: {
             files: [file1],
           },
-        })
+        }),
       )
 
       expect(onChange).toHaveBeenCalledTimes(1)
@@ -489,11 +489,11 @@ describe('Field.Upload', () => {
             }),
           ],
         },
-        expect.anything()
+        expect.anything(),
       )
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       const deleteButton = screen.queryByRole('button', {
@@ -503,7 +503,7 @@ describe('Field.Upload', () => {
       fireEvent.click(deleteButton)
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nbForms.Upload.errorRequired
+        nbForms.Upload.errorRequired,
       )
     })
 
@@ -515,13 +515,13 @@ describe('Field.Upload', () => {
         <Form.Handler onChange={onChange} onSubmit={onSubmit}>
           <Field.Upload required path="/myFiles" />
           <Form.SubmitButton />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       fireEvent.submit(document.querySelector('form'))
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nbForms.Upload.errorRequired
+        nbForms.Upload.errorRequired,
       )
 
       const element = getRootElement()
@@ -545,11 +545,11 @@ describe('Field.Upload', () => {
             }),
           ],
         },
-        expect.anything()
+        expect.anything(),
       )
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       const deleteButton = screen.queryByRole('button', {
@@ -559,13 +559,13 @@ describe('Field.Upload', () => {
       fireEvent.click(deleteButton)
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
 
       fireEvent.submit(document.querySelector('form'))
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nbForms.Upload.errorRequired
+        nbForms.Upload.errorRequired,
       )
 
       expect(onChange).toHaveBeenCalledTimes(2)
@@ -590,7 +590,7 @@ describe('Field.Upload', () => {
             }),
           ],
         },
-        expect.anything()
+        expect.anything(),
       )
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
@@ -609,7 +609,7 @@ describe('Field.Upload', () => {
           filterData: expect.any(Function),
           transformData: expect.any(Function),
           reduceToVisibleFields: expect.any(Function),
-        }
+        },
       )
     })
 
@@ -620,20 +620,20 @@ describe('Field.Upload', () => {
       render(
         <Form.Handler onChange={onChange} onSubmit={onSubmit}>
           <Field.Upload required fileMaxSize={0.2} path="/myFiles" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       fireEvent.submit(document.querySelector('form'))
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nbForms.Upload.errorRequired
+        nbForms.Upload.errorRequired,
       )
 
       const element = getRootElement()
       const file1 = createMockFile(
         'fileName-1.png',
         0.2 * BYTES_IN_A_MEGA_BYTE + 1,
-        'image/png'
+        'image/png',
       )
 
       fireEvent.drop(element, {
@@ -649,7 +649,7 @@ describe('Field.Upload', () => {
             {
               errorMessage: nbShared.Upload.errorLargeFile.replace(
                 '%size',
-                '0,2'
+                '0,2',
               ),
               file: file1,
               exists: false,
@@ -658,21 +658,21 @@ describe('Field.Upload', () => {
             },
           ],
         },
-        expect.anything()
+        expect.anything(),
       )
 
       expect(
         document.querySelector(
-          '.dnb-forms-field-block__status .dnb-form-status'
-        )
+          '.dnb-forms-field-block__status .dnb-form-status',
+        ),
       ).not.toBeInTheDocument()
 
       fireEvent.submit(document.querySelector('form'))
 
       expect(
         document.querySelector(
-          '.dnb-forms-field-block__status .dnb-form-status'
-        )
+          '.dnb-forms-field-block__status .dnb-form-status',
+        ),
       ).toHaveTextContent(nbForms.Upload.errorInvalidFiles)
 
       const deleteButton = screen.queryByRole('button', {
@@ -683,8 +683,8 @@ describe('Field.Upload', () => {
 
       expect(
         document.querySelector(
-          '.dnb-forms-field-block__status .dnb-form-status'
-        )
+          '.dnb-forms-field-block__status .dnb-form-status',
+        ),
       ).toBeInTheDocument()
 
       fireEvent.submit(document.querySelector('form'))
@@ -692,13 +692,13 @@ describe('Field.Upload', () => {
       expect(onChange).toHaveBeenCalledTimes(2)
       expect(onChange).toHaveBeenLastCalledWith(
         { myFiles: undefined },
-        expect.anything()
+        expect.anything(),
       )
 
       expect(
         document.querySelector(
-          '.dnb-forms-field-block__status .dnb-form-status'
-        )
+          '.dnb-forms-field-block__status .dnb-form-status',
+        ),
       ).toHaveTextContent(nbForms.Upload.errorRequired)
 
       const file2 = createMockFile('fileName-1.png', 100, 'image/png')
@@ -721,7 +721,7 @@ describe('Field.Upload', () => {
             }),
           ],
         },
-        expect.anything()
+        expect.anything(),
       )
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
@@ -740,7 +740,7 @@ describe('Field.Upload', () => {
           filterData: expect.any(Function),
           transformData: expect.any(Function),
           reduceToVisibleFields: expect.any(Function),
-        }
+        },
       )
     })
   })
@@ -758,7 +758,7 @@ describe('Field.Upload', () => {
             path="/myFiles"
           />
           <Form.SubmitButton />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const submitButton = document.querySelector('button[type="submit"]')
@@ -766,8 +766,8 @@ describe('Field.Upload', () => {
 
       expect(
         document.querySelector(
-          '.dnb-forms-field-block__status .dnb-form-status'
-        )
+          '.dnb-forms-field-block__status .dnb-form-status',
+        ),
       ).toHaveTextContent(nbForms.Upload.errorRequired)
 
       const element = getRootElement()
@@ -790,13 +790,13 @@ describe('Field.Upload', () => {
             }),
           ],
         },
-        expect.anything()
+        expect.anything(),
       )
 
       expect(
         document.querySelector(
-          '.dnb-forms-field-block__status .dnb-form-status'
-        )
+          '.dnb-forms-field-block__status .dnb-form-status',
+        ),
       ).not.toBeInTheDocument()
 
       const deleteButton = screen.queryByRole('button', {
@@ -807,16 +807,16 @@ describe('Field.Upload', () => {
 
       expect(
         document.querySelector(
-          '.dnb-forms-field-block__status .dnb-form-status'
-        )
+          '.dnb-forms-field-block__status .dnb-form-status',
+        ),
       ).not.toBeInTheDocument()
 
       await userEvent.click(submitButton)
 
       expect(
         document.querySelector(
-          '.dnb-forms-field-block__status .dnb-form-status'
-        )
+          '.dnb-forms-field-block__status .dnb-form-status',
+        ),
       ).toHaveTextContent(nbForms.Upload.errorRequired)
 
       expect(onChange).toHaveBeenCalledTimes(2)
@@ -840,7 +840,7 @@ describe('Field.Upload', () => {
             }),
           ],
         },
-        expect.anything()
+        expect.anything(),
       )
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
@@ -859,7 +859,7 @@ describe('Field.Upload', () => {
           filterData: expect.any(Function),
           transformData: expect.any(Function),
           reduceToVisibleFields: expect.any(Function),
-        }
+        },
       )
     })
 
@@ -876,7 +876,7 @@ describe('Field.Upload', () => {
             path="/myFiles"
           />
           <Form.SubmitButton />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const submitButton = document.querySelector('button[type="submit"]')
@@ -884,15 +884,15 @@ describe('Field.Upload', () => {
 
       expect(
         document.querySelector(
-          '.dnb-forms-field-block__status .dnb-form-status'
-        )
+          '.dnb-forms-field-block__status .dnb-form-status',
+        ),
       ).toHaveTextContent(nbForms.Upload.errorRequired)
 
       const element = getRootElement()
       const file1 = createMockFile(
         'fileName-1.png',
         0.2 * BYTES_IN_A_MEGA_BYTE + 1,
-        'image/png'
+        'image/png',
       )
 
       fireEvent.drop(element, {
@@ -908,7 +908,7 @@ describe('Field.Upload', () => {
             {
               errorMessage: nbShared.Upload.errorLargeFile.replace(
                 '%size',
-                '0,2'
+                '0,2',
               ),
               file: file1,
               exists: false,
@@ -917,21 +917,21 @@ describe('Field.Upload', () => {
             },
           ],
         },
-        expect.anything()
+        expect.anything(),
       )
 
       expect(
         document.querySelector(
-          '.dnb-forms-field-block__status .dnb-form-status'
-        )
+          '.dnb-forms-field-block__status .dnb-form-status',
+        ),
       ).not.toBeInTheDocument()
 
       await userEvent.click(submitButton)
 
       expect(
         document.querySelector(
-          '.dnb-forms-field-block__status .dnb-form-status'
-        )
+          '.dnb-forms-field-block__status .dnb-form-status',
+        ),
       ).toHaveTextContent(nbForms.Upload.errorInvalidFiles)
 
       const deleteButton = screen.queryByRole('button', {
@@ -942,8 +942,8 @@ describe('Field.Upload', () => {
 
       expect(
         document.querySelector(
-          '.dnb-forms-field-block__status .dnb-form-status'
-        )
+          '.dnb-forms-field-block__status .dnb-form-status',
+        ),
       ).not.toBeInTheDocument()
 
       await userEvent.click(submitButton)
@@ -953,13 +953,13 @@ describe('Field.Upload', () => {
         {
           myFiles: undefined,
         },
-        expect.anything()
+        expect.anything(),
       )
 
       expect(
         document.querySelector(
-          '.dnb-forms-field-block__status .dnb-form-status'
-        )
+          '.dnb-forms-field-block__status .dnb-form-status',
+        ),
       ).toHaveTextContent(nbForms.Upload.errorRequired)
 
       const file2 = createMockFile('fileName-1.png', 100, 'image/png')
@@ -982,7 +982,7 @@ describe('Field.Upload', () => {
             }),
           ],
         },
-        expect.anything()
+        expect.anything(),
       )
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
@@ -1001,7 +1001,7 @@ describe('Field.Upload', () => {
           filterData: expect.any(Function),
           transformData: expect.any(Function),
           reduceToVisibleFields: expect.any(Function),
-        }
+        },
       )
     })
   })
@@ -1041,7 +1041,7 @@ describe('Field.Upload', () => {
               return null
             }}
           </DataContext.Consumer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const element = getRootElement()
@@ -1085,7 +1085,7 @@ describe('Field.Upload', () => {
               <Wizard.Buttons />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const element = getRootElement()
@@ -1106,7 +1106,7 @@ describe('Field.Upload', () => {
       expect(output()).toHaveTextContent('Step 1')
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       const deleteButton = screen.queryByRole('button', {
@@ -1119,8 +1119,8 @@ describe('Field.Upload', () => {
       expect(output()).toHaveTextContent('Step 1')
       expect(
         document.querySelector(
-          '.dnb-forms-field-block__status .dnb-form-status'
-        )
+          '.dnb-forms-field-block__status .dnb-form-status',
+        ),
       ).toHaveTextContent(nbForms.Upload.errorRequired)
     })
 
@@ -1148,7 +1148,7 @@ describe('Field.Upload', () => {
               <Wizard.Buttons />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const element = getRootElement()
@@ -1180,7 +1180,7 @@ describe('Field.Upload', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-progress-indicator')
+          document.querySelector('.dnb-progress-indicator'),
         ).not.toBeInTheDocument()
       })
 
@@ -1203,7 +1203,7 @@ describe('Field.Upload', () => {
               return file
             })
           }}
-        />
+        />,
       )
 
       const element = getRootElement()
@@ -1215,7 +1215,7 @@ describe('Field.Upload', () => {
       })
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       fireEvent.drop(element, {
@@ -1226,7 +1226,7 @@ describe('Field.Upload', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent('File name is too long')
       })
     })
@@ -1239,7 +1239,7 @@ describe('Field.Upload', () => {
           fileHandler={function () {
             return undefined
           }}
-        />
+        />,
       )
 
       const element = getRootElement()
@@ -1251,7 +1251,7 @@ describe('Field.Upload', () => {
       })
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell').length
+          document.querySelectorAll('.dnb-upload__file-cell').length,
         ).toBe(0)
       })
     })
@@ -1264,7 +1264,7 @@ describe('Field.Upload', () => {
           fileHandler={function () {
             return [undefined]
           }}
-        />
+        />,
       )
 
       const element = getRootElement()
@@ -1276,7 +1276,7 @@ describe('Field.Upload', () => {
       })
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell').length
+          document.querySelectorAll('.dnb-upload__file-cell').length,
         ).toBe(0)
       })
     })
@@ -1289,7 +1289,7 @@ describe('Field.Upload', () => {
           fileHandler={function () {
             return [{ file: createMockFile('1.png', 100, undefined) }]
           }}
-        />
+        />,
       )
 
       const element = getRootElement()
@@ -1300,7 +1300,7 @@ describe('Field.Upload', () => {
         },
       })
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(1)
     })
 
@@ -1312,7 +1312,7 @@ describe('Field.Upload', () => {
           fileHandler={function () {
             return [{ file: createMockFile('1', 100, 'image/png') }]
           }}
-        />
+        />,
       )
 
       const element = getRootElement()
@@ -1323,7 +1323,7 @@ describe('Field.Upload', () => {
         },
       })
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(1)
     })
 
@@ -1335,7 +1335,7 @@ describe('Field.Upload', () => {
           fileHandler={function () {
             return [{ file: createMockFile('1', 100, 'image/png') }]
           }}
-        />
+        />,
       )
 
       const element = getRootElement()
@@ -1346,7 +1346,7 @@ describe('Field.Upload', () => {
         },
       })
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(1)
     })
 
@@ -1358,7 +1358,7 @@ describe('Field.Upload', () => {
           fileHandler={function () {
             return [{ file: undefined }]
           }}
-        />
+        />,
       )
 
       const element = getRootElement()
@@ -1369,7 +1369,7 @@ describe('Field.Upload', () => {
         },
       })
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(1)
     })
 
@@ -1388,12 +1388,12 @@ describe('Field.Upload', () => {
                   errorMessage: 'customError',
                 },
               ]),
-            1
-          )
+            1,
+          ),
         )
 
       const asyncFileHandlerFnError = jest.fn(
-        asyncValidatorResolvingWithErrorMessage
+        asyncValidatorResolvingWithErrorMessage,
       )
 
       render(<Field.Upload fileHandler={asyncFileHandlerFnError} />)
@@ -1410,7 +1410,7 @@ describe('Field.Upload', () => {
         // Wait for since it's processed asynchronously
         expect(asyncFileHandlerFnError).toHaveBeenCalledTimes(1)
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent('customError')
       })
 
@@ -1418,12 +1418,12 @@ describe('Field.Upload', () => {
       fireEvent.click(
         document
           .querySelectorAll('.dnb-upload__file-cell')[0]
-          .querySelector('button')
+          .querySelector('button'),
       )
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })
@@ -1453,7 +1453,7 @@ describe('Field.Upload', () => {
       const asyncFileHandlerFn = jest.fn(asyncFileHandler)
 
       render(
-        <Field.Upload fileMaxSize={1} fileHandler={asyncFileHandlerFn} />
+        <Field.Upload fileMaxSize={1} fileHandler={asyncFileHandlerFn} />,
       )
 
       const element = getRootElement()
@@ -1466,15 +1466,15 @@ describe('Field.Upload', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell').length
+          document.querySelectorAll('.dnb-upload__file-cell').length,
         ).toBe(3)
 
         expect(document.querySelectorAll('.dnb-form-status').length).toBe(
-          2
+          2,
         )
 
         expect(
-          document.querySelectorAll('.dnb-progress-indicator').length
+          document.querySelectorAll('.dnb-progress-indicator').length,
         ).toBe(1)
 
         expect(screen.queryByText('error-1.png')).toBeInTheDocument()
@@ -1491,15 +1491,15 @@ describe('Field.Upload', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
 
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell').length
+          document.querySelectorAll('.dnb-upload__file-cell').length,
         ).toBe(3)
 
         expect(
-          document.querySelector('.dnb-progress-indicator')
+          document.querySelector('.dnb-progress-indicator'),
         ).not.toBeInTheDocument()
 
         expect(screen.queryByText('error-1.png')).toBeInTheDocument()
@@ -1521,12 +1521,12 @@ describe('Field.Upload', () => {
                   exists: false,
                 },
               ]),
-            1
-          )
+            1,
+          ),
         )
 
       const asyncFileHandlerFnSuccess = jest.fn(
-        asyncValidatorResolvingWithSuccess
+        asyncValidatorResolvingWithSuccess,
       )
 
       const onChange = jest.fn((args) => args)
@@ -1535,7 +1535,7 @@ describe('Field.Upload', () => {
         <Field.Upload
           fileHandler={asyncFileHandlerFnSuccess}
           onChange={onChange}
-        />
+        />,
       )
 
       const element = getRootElement()
@@ -1550,7 +1550,7 @@ describe('Field.Upload', () => {
         // Wait for since it's processed asynchronously
         expect(asyncFileHandlerFnSuccess).toHaveBeenCalledTimes(1)
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
 
@@ -1568,7 +1568,7 @@ describe('Field.Upload', () => {
             name: 'fileName-1.png',
           },
         ],
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -1578,16 +1578,16 @@ describe('Field.Upload', () => {
       render(
         <Field.Upload
           fileHandler={() => new Promise<UploadValue>(() => jest.fn())}
-        />
+        />,
       )
 
       const element = getRootElement()
 
       expect(
-        screen.queryByText(nbShared.Upload.loadingText)
+        screen.queryByText(nbShared.Upload.loadingText),
       ).not.toBeInTheDocument()
       expect(
-        document.querySelector('.dnb-progress-indicator')
+        document.querySelector('.dnb-progress-indicator'),
       ).not.toBeInTheDocument()
 
       fireEvent.drop(element, {
@@ -1598,10 +1598,10 @@ describe('Field.Upload', () => {
 
       await waitFor(() => {
         expect(
-          screen.getByText(nbShared.Upload.loadingText)
+          screen.getByText(nbShared.Upload.loadingText),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-progress-indicator')
+          document.querySelector('.dnb-progress-indicator'),
         ).toBeInTheDocument()
       })
     })
@@ -1610,17 +1610,17 @@ describe('Field.Upload', () => {
       const fileExisting = createMockFile(
         'fileName-existing.png',
         100,
-        'image/png'
+        'image/png',
       )
       const newFile1 = createMockFile(
         'fileName-new-1.png',
         100,
-        'image/png'
+        'image/png',
       )
       const newFile2 = createMockFile(
         'fileName-new-2.png',
         100,
-        'image/png'
+        'image/png',
       )
 
       const asyncValidatorResolvingWithSuccess = () =>
@@ -1639,28 +1639,28 @@ describe('Field.Upload', () => {
                   exists: false,
                 },
               ]),
-            1
-          )
+            1,
+          ),
         )
 
       render(
         <Field.Upload
           fileHandler={jest.fn(asyncValidatorResolvingWithSuccess)}
           value={[{ file: fileExisting }]}
-        />
+        />,
       )
 
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(1)
       expect(
-        screen.queryByText('fileName-existing.png')
+        screen.queryByText('fileName-existing.png'),
       ).toBeInTheDocument()
       expect(
-        screen.queryByText('fileName-new-1.png')
+        screen.queryByText('fileName-new-1.png'),
       ).not.toBeInTheDocument()
       expect(
-        screen.queryByText('fileName-new-2.png')
+        screen.queryByText('fileName-new-2.png'),
       ).not.toBeInTheDocument()
 
       const element = getRootElement()
@@ -1673,16 +1673,16 @@ describe('Field.Upload', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell').length
+          document.querySelectorAll('.dnb-upload__file-cell').length,
         ).toBe(3)
         expect(
-          screen.queryByText('fileName-existing.png')
+          screen.queryByText('fileName-existing.png'),
         ).toBeInTheDocument()
         expect(
-          screen.queryByText('fileName-new-1.png')
+          screen.queryByText('fileName-new-1.png'),
         ).toBeInTheDocument()
         expect(
-          screen.queryByText('fileName-new-2.png')
+          screen.queryByText('fileName-new-2.png'),
         ).toBeInTheDocument()
       })
     })
@@ -1691,18 +1691,18 @@ describe('Field.Upload', () => {
       const newFile1 = createMockFile(
         'fileName-new-1.png',
         2000000,
-        'image/png'
+        'image/png',
       )
 
       const asyncValidatorResolving = () =>
         new Promise<UploadValue>((resolve) =>
-          setTimeout(() => resolve([]), 1)
+          setTimeout(() => resolve([]), 1),
         )
 
       const asyncFileHandlerFn = jest.fn(asyncValidatorResolving)
 
       render(
-        <Field.Upload fileMaxSize={1} fileHandler={asyncFileHandlerFn} />
+        <Field.Upload fileMaxSize={1} fileHandler={asyncFileHandlerFn} />,
       )
 
       const element = getRootElement()
@@ -1717,15 +1717,15 @@ describe('Field.Upload', () => {
         expect(asyncFileHandlerFn).not.toHaveBeenCalled()
 
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
 
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell').length
+          document.querySelectorAll('.dnb-upload__file-cell').length,
         ).toBe(1)
 
         expect(
-          screen.queryByText('fileName-new-1.png')
+          screen.queryByText('fileName-new-1.png'),
         ).toBeInTheDocument()
       })
     })
@@ -1755,8 +1755,8 @@ describe('Field.Upload', () => {
                   exists: false,
                 },
               ]),
-            1
-          )
+            1,
+          ),
         )
 
       const asyncValidatorNeverResolving = () =>
@@ -1770,7 +1770,7 @@ describe('Field.Upload', () => {
             .mockReturnValueOnce(asyncValidatorNeverResolving())
             .mockReturnValueOnce(asyncValidatorResolvingWithSuccess(2))
             .mockReturnValueOnce(asyncValidatorNeverResolving())}
-        />
+        />,
       )
 
       const element = getRootElement()
@@ -1801,7 +1801,7 @@ describe('Field.Upload', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell').length
+          document.querySelectorAll('.dnb-upload__file-cell').length,
         ).toBe(6)
 
         expect(screen.queryByText('0.png')).toBeInTheDocument()
@@ -1812,7 +1812,7 @@ describe('Field.Upload', () => {
         expect(screen.queryByText('5.png')).not.toBeInTheDocument()
 
         expect(
-          document.querySelectorAll('.dnb-progress-indicator').length
+          document.querySelectorAll('.dnb-progress-indicator').length,
         ).toBe(4)
       })
     })
@@ -1841,7 +1841,7 @@ describe('Field.Upload', () => {
               }
             })
             resolve(filesToResolve)
-          }, 1)
+          }, 1),
         )
 
       render(
@@ -1850,12 +1850,12 @@ describe('Field.Upload', () => {
           fileHandler={jest
             .fn(asyncValidatorResolvingWithSuccess)
             .mockReturnValueOnce(
-              asyncValidatorResolvingWithSuccess(filesFirstUpload)
+              asyncValidatorResolvingWithSuccess(filesFirstUpload),
             )
             .mockReturnValueOnce(
-              asyncValidatorResolvingWithSuccess(filesSecondUpload)
+              asyncValidatorResolvingWithSuccess(filesSecondUpload),
             )}
-        />
+        />,
       )
 
       const element = getRootElement()
@@ -1869,7 +1869,7 @@ describe('Field.Upload', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell').length
+          document.querySelectorAll('.dnb-upload__file-cell').length,
         ).toBe(1)
       })
 
@@ -1882,7 +1882,7 @@ describe('Field.Upload', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell').length
+          document.querySelectorAll('.dnb-upload__file-cell').length,
         ).toBe(2)
       })
 
@@ -1890,12 +1890,12 @@ describe('Field.Upload', () => {
       fireEvent.click(
         document
           .querySelectorAll('.dnb-upload__file-cell')[0]
-          .querySelector('button')
+          .querySelector('button'),
       )
 
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell').length
+          document.querySelectorAll('.dnb-upload__file-cell').length,
         ).toBe(1)
       })
     })
@@ -1904,12 +1904,12 @@ describe('Field.Upload', () => {
       const supportedFile = createMockFile(
         'supported.png',
         100,
-        'image/png'
+        'image/png',
       )
       const unsupportedFile = createMockFile(
         'unsupported.png',
         BYTES_IN_A_MEGA_BYTE * 10,
-        'image/png'
+        'image/png',
       )
 
       let resolveFileHandler: ((value: UploadValue) => void) | undefined
@@ -1917,7 +1917,7 @@ describe('Field.Upload', () => {
         () =>
           new Promise<UploadValue>((resolve) => {
             resolveFileHandler = resolve
-          })
+          }),
       )
 
       let resolveDelete: (() => void) | undefined
@@ -1932,7 +1932,7 @@ describe('Field.Upload', () => {
           fileMaxSize={1}
           fileHandler={fileHandler}
           onFileDelete={asyncOnFileDelete}
-        />
+        />,
       )
 
       const element = getRootElement()
@@ -1947,17 +1947,17 @@ describe('Field.Upload', () => {
       // The supported file shows a spinner (uploading), the unsupported file shows an error
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell').length
+          document.querySelectorAll('.dnb-upload__file-cell').length,
         ).toBe(2)
 
         // One spinner for the uploading file
         expect(
-          document.querySelectorAll('.dnb-progress-indicator').length
+          document.querySelectorAll('.dnb-progress-indicator').length,
         ).toBe(1)
 
         // One error for the unsupported file
         expect(document.querySelectorAll('.dnb-form-status').length).toBe(
-          1
+          1,
         )
       })
 
@@ -1965,13 +1965,13 @@ describe('Field.Upload', () => {
       fireEvent.click(
         document
           .querySelectorAll('.dnb-upload__file-cell')[1]
-          .querySelector('button')
+          .querySelector('button'),
       )
 
       // Now both files should show spinners: uploading + deleting
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-progress-indicator').length
+          document.querySelectorAll('.dnb-progress-indicator').length,
         ).toBe(2)
       })
 
@@ -1988,7 +1988,7 @@ describe('Field.Upload', () => {
       await waitFor(() => {
         // Upload spinner gone, but delete spinner should remain
         expect(
-          document.querySelectorAll('.dnb-progress-indicator').length
+          document.querySelectorAll('.dnb-progress-indicator').length,
         ).toBe(1)
       })
 
@@ -1998,10 +1998,10 @@ describe('Field.Upload', () => {
       // After delete completes, the unsupported file should be removed
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell').length
+          document.querySelectorAll('.dnb-upload__file-cell').length,
         ).toBe(1)
         expect(
-          document.querySelectorAll('.dnb-progress-indicator').length
+          document.querySelectorAll('.dnb-progress-indicator').length,
         ).toBe(0)
       })
     })
@@ -2022,7 +2022,7 @@ describe('Field.Upload', () => {
         <Form.Handler onSubmit={onSubmit}>
           <Field.Upload path="/myFiles" fileHandler={fileHandler} />
           <Form.SubmitButton />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const element = getRootElement()
@@ -2042,7 +2042,7 @@ describe('Field.Upload', () => {
       // Wait for submit button to be disabled
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-forms-submit-button')
+          document.querySelector('.dnb-forms-submit-button'),
         ).toBeDisabled()
       })
 
@@ -2089,7 +2089,7 @@ describe('Field.Upload', () => {
             <Field.Upload itemPath="/files" fileHandler={fileHandler} />
           </Iterate.Array>
           <Form.SubmitButton />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const element = getRootElement()
@@ -2109,7 +2109,7 @@ describe('Field.Upload', () => {
       // Wait for submit button to be disabled
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-forms-submit-button')
+          document.querySelector('.dnb-forms-submit-button'),
         ).toBeDisabled()
       })
 
@@ -2147,16 +2147,16 @@ describe('Field.Upload', () => {
                         file,
                       },
                     ]),
-                  1
-                )
-              )
+                  1,
+                ),
+              ),
           )}
           value={[{ file }]}
-        />
+        />,
       )
 
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(1)
       expect(screen.queryByText('fileName.png')).toBeInTheDocument()
 
@@ -2170,7 +2170,7 @@ describe('Field.Upload', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell').length
+          document.querySelectorAll('.dnb-upload__file-cell').length,
         ).toBe(1)
         expect(screen.queryByText('fileName.png')).toBeInTheDocument()
       })
@@ -2198,8 +2198,8 @@ describe('Field.Upload', () => {
                 errorMessage: 'Failed to process',
               },
             ]),
-          1
-        )
+          1,
+        ),
       )
 
     const asyncFileHandlerFn = jest.fn(asyncValidatorWithMixedResults)
@@ -2217,12 +2217,12 @@ describe('Field.Upload', () => {
     await waitFor(() => {
       expect(asyncFileHandlerFn).toHaveBeenCalledTimes(1)
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(2)
       expect(screen.queryByText('successFile.png')).toBeInTheDocument()
       expect(screen.queryByText('failFile.png')).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        'Failed to process'
+        'Failed to process',
       )
     })
   })
@@ -2233,7 +2233,7 @@ describe('Field.Upload', () => {
     const { unmount } = render(
       <Form.Handler sessionStorageId="session-storage-id">
         <Field.Upload path="/myFiles" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const element = getRootElement()
@@ -2246,7 +2246,7 @@ describe('Field.Upload', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(1)
     })
 
@@ -2263,7 +2263,7 @@ describe('Field.Upload', () => {
             return null
           }}
         </DataContext.Consumer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     await waitFor(() => {
@@ -2280,7 +2280,7 @@ describe('Field.Upload', () => {
     const [title] = Array.from(document.querySelectorAll('p'))
     expect(title).toHaveTextContent(nbShared.Upload.title)
     expect(
-      document.querySelectorAll('.dnb-upload__file-cell').length
+      document.querySelectorAll('.dnb-upload__file-cell').length,
     ).toBe(1)
   })
 
@@ -2294,13 +2294,13 @@ describe('Field.Upload', () => {
       fileName,
       100,
       'image/png',
-      1730801854755
+      1730801854755,
     )
     const newFile = createMockFile(
       fileName,
       100,
       'image/png',
-      1730801854752
+      1730801854752,
     )
 
     render(
@@ -2314,11 +2314,11 @@ describe('Field.Upload', () => {
         }}
       >
         <Field.Upload path="/myFiles" onFileDelete={asyncOnFileDelete} />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
-      document.querySelectorAll('.dnb-upload__file-cell').length
+      document.querySelectorAll('.dnb-upload__file-cell').length,
     ).toBe(1)
 
     const element = getRootElement()
@@ -2332,7 +2332,7 @@ describe('Field.Upload', () => {
     // it should allow uploading two files with the same file name, as they are not identical files
     await waitFor(() => {
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(2)
     })
 
@@ -2340,12 +2340,12 @@ describe('Field.Upload', () => {
     fireEvent.click(
       document
         .querySelectorAll('.dnb-upload__file-cell')[1]
-        .querySelector('button')
+        .querySelector('button'),
     )
 
     await waitFor(() => {
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(1)
     })
 
@@ -2353,12 +2353,12 @@ describe('Field.Upload', () => {
     fireEvent.click(
       document
         .querySelectorAll('.dnb-upload__file-cell')[0]
-        .querySelector('button')
+        .querySelector('button'),
     )
 
     await waitFor(() => {
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(0)
     })
   })
@@ -2412,23 +2412,23 @@ describe('Field.Upload', () => {
           path="/myFiles"
           onFileDelete={asyncOnFileDelete}
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
-      document.querySelectorAll('.dnb-upload__file-cell').length
+      document.querySelectorAll('.dnb-upload__file-cell').length,
     ).toBe(1)
 
     // delete the file
     fireEvent.click(
       document
         .querySelectorAll('.dnb-upload__file-cell')[0]
-        .querySelector('button')
+        .querySelector('button'),
     )
 
     await waitFor(() => {
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(0)
     })
   })
@@ -2450,7 +2450,7 @@ describe('Field.Upload', () => {
         }}
       >
         <Field.Upload path="/myFiles" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const list = document.querySelector('ul')
@@ -2459,7 +2459,7 @@ describe('Field.Upload', () => {
     expect(
       screen.queryByRole('button', {
         name: nbShared.Upload.deleteButton,
-      })
+      }),
     ).not.toBeInTheDocument()
 
     expect(screen.queryByText(description)).toBeInTheDocument()
@@ -2489,11 +2489,11 @@ describe('Field.Upload', () => {
         ]}
       >
         <Field.Upload itemPath="/myFiles" />
-      </Iterate.Array>
+      </Iterate.Array>,
     )
 
     const [file1Input, file2Input] = Array.from(
-      document.querySelectorAll('.dnb-anchor')
+      document.querySelectorAll('.dnb-anchor'),
     )
 
     expect(file1Input).toHaveTextContent('fileName-1.png')
@@ -2508,7 +2508,7 @@ describe('Field.Upload', () => {
         () =>
           new Promise<UploadValue>((resolve) => {
             queuedResolvers.push(resolve)
-          })
+          }),
       )
 
       const onSubmit = jest.fn()
@@ -2517,12 +2517,12 @@ describe('Field.Upload', () => {
       const firstItemFile = createMockFile(
         'first-item-file.png',
         100,
-        'image/png'
+        'image/png',
       )
       const secondItemFile = createMockFile(
         'second-item-file.png',
         100,
-        'image/png'
+        'image/png',
       )
 
       render(
@@ -2550,7 +2550,7 @@ describe('Field.Upload', () => {
             />
           </Iterate.Array>
           <Form.SubmitButton />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       fireEvent.drop(document.querySelectorAll('input')[0], {
@@ -2579,10 +2579,10 @@ describe('Field.Upload', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell').length
+          document.querySelectorAll('.dnb-upload__file-cell').length,
         ).toBe(2)
         expect(document.querySelector('.dnb-anchor')).toHaveTextContent(
-          'first-item-file.png'
+          'first-item-file.png',
         )
       })
 
@@ -2596,16 +2596,16 @@ describe('Field.Upload', () => {
 
       await waitFor(() => {
         expect(latestData?.listOfFiles?.[0]?.files?.[0]?.file?.name).toBe(
-          'first-item-file.png'
+          'first-item-file.png',
         )
         expect(latestData?.listOfFiles?.[1]?.files?.[0]?.file?.name).toBe(
-          'second-item-file.png'
+          'second-item-file.png',
         )
         expect(
-          screen.queryByText('first-item-file.png')
+          screen.queryByText('first-item-file.png'),
         ).toBeInTheDocument()
         expect(
-          screen.queryByText('second-item-file.png')
+          screen.queryByText('second-item-file.png'),
         ).toBeInTheDocument()
       })
     })
@@ -2621,26 +2621,26 @@ describe('Field.Upload', () => {
       const errorFile1 = createMockFile(
         'error-file-1.png',
         5 * BYTES_IN_A_MEGA_BYTE + 1, // exceeds the default fileMaxSize
-        'image/png'
+        'image/png',
       )
       const errorFile2 = createMockFile(
         'error-file-2.strange.extension', // invalid file type by default
         BYTES_IN_A_MEGA_BYTE,
-        'image/png'
+        'image/png',
       )
 
       const asyncFileHandler1 = jest.fn(
         () =>
           new Promise<UploadValue>((resolve) => {
             resolveFileHandler1 = resolve
-          })
+          }),
       )
 
       const asyncFileHandler2 = jest.fn(
         () =>
           new Promise<UploadValue>((resolve) => {
             resolveFileHandler2 = resolve
-          })
+          }),
       )
 
       const FileHandlerWrapper = ({ id }: { id: number }) => {
@@ -2666,7 +2666,7 @@ describe('Field.Upload', () => {
             {(elementValue, index) => <FileHandlerWrapper id={index} />}
           </Iterate.Array>
           <Form.SubmitButton />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       fireEvent.drop(document.querySelectorAll('input')[0], {
@@ -2716,7 +2716,7 @@ describe('Field.Upload', () => {
         expect(screen.queryByText('error-file-1.png')).toBeInTheDocument()
         expect(screen.queryByText('new-file-2.png')).toBeInTheDocument()
         expect(
-          screen.queryByText('error-file-2.strange.extension')
+          screen.queryByText('error-file-2.strange.extension'),
         ).toBeInTheDocument()
       })
 
@@ -2724,31 +2724,31 @@ describe('Field.Upload', () => {
       fireEvent.click(
         document
           .querySelectorAll('.dnb-upload__file-cell')[1]
-          .querySelector('button')
+          .querySelector('button'),
       )
 
       // delete the second error file
       fireEvent.click(
         document
           .querySelectorAll('.dnb-upload__file-cell')[2]
-          .querySelector('button')
+          .querySelector('button'),
       )
 
       await waitFor(() => {
         expect(screen.queryByText('new-file-1.png')).toBeInTheDocument()
         expect(
-          screen.queryByText('error-file-1.png')
+          screen.queryByText('error-file-1.png'),
         ).not.toBeInTheDocument()
         expect(screen.queryByText('new-file-2.png')).toBeInTheDocument()
         expect(
-          screen.queryByText('error-file-2.strange.extension')
+          screen.queryByText('error-file-2.strange.extension'),
         ).not.toBeInTheDocument()
       })
 
       // Check that no error files remain
       expect(document.querySelectorAll('.dnb-form-status').length).toBe(0)
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(2)
 
       // Check submit button is not disabled
@@ -2782,7 +2782,7 @@ describe('Field.Upload', () => {
               },
             ],
           },
-          expect.anything()
+          expect.anything(),
         )
       })
     })
@@ -2803,28 +2803,28 @@ describe('Field.Upload', () => {
         () =>
           new Promise<UploadValue>((resolve) => {
             resolveFileHandler1 = resolve
-          })
+          }),
       )
 
       const asyncFileHandler2 = jest.fn(
         () =>
           new Promise<UploadValue>((resolve) => {
             resolveFileHandler2 = resolve
-          })
+          }),
       )
 
       const asyncOnFileDeleteHandler1 = jest.fn(
         () =>
           new Promise<void>((resolve) => {
             resolveOnFileDeleteHandler1 = resolve
-          })
+          }),
       )
 
       const asyncOnFileDeleteHandler2 = jest.fn(
         () =>
           new Promise<void>((resolve) => {
             resolveOnFileDeleteHandler2 = resolve
-          })
+          }),
       )
 
       const FileHandlerWrapper = ({ id }: { id: number }) => {
@@ -2858,7 +2858,7 @@ describe('Field.Upload', () => {
             {(elementValue, index) => <FileHandlerWrapper id={index} />}
           </Iterate.Array>
           <Form.SubmitButton />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       fireEvent.drop(document.querySelectorAll('input')[0], {
@@ -2875,7 +2875,7 @@ describe('Field.Upload', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell').length
+          document.querySelectorAll('.dnb-upload__file-cell').length,
         ).toBe(2)
       })
 
@@ -2889,7 +2889,7 @@ describe('Field.Upload', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell').length
+          document.querySelectorAll('.dnb-upload__file-cell').length,
         ).toBe(2)
         expect(screen.queryByText('new-file-1.png')).toBeInTheDocument()
       })
@@ -2898,7 +2898,7 @@ describe('Field.Upload', () => {
       fireEvent.click(
         document
           .querySelectorAll('.dnb-upload__file-cell')[0]
-          .querySelector('button')
+          .querySelector('button'),
       )
 
       resolveFileHandler2([
@@ -2913,7 +2913,7 @@ describe('Field.Upload', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell').length
+          document.querySelectorAll('.dnb-upload__file-cell').length,
         ).toBe(1)
         expect(screen.queryByText('new-file-2.png')).toBeInTheDocument()
       })
@@ -2939,7 +2939,7 @@ describe('Field.Upload', () => {
               },
             ],
           },
-          expect.anything()
+          expect.anything(),
         )
       })
 
@@ -2947,7 +2947,7 @@ describe('Field.Upload', () => {
       fireEvent.click(
         document
           .querySelectorAll('.dnb-upload__file-cell')[0]
-          .querySelector('button')
+          .querySelector('button'),
       )
 
       resolveOnFileDeleteHandler2()
@@ -2967,7 +2967,7 @@ describe('Field.Upload', () => {
               },
             ],
           },
-          expect.anything()
+          expect.anything(),
         )
       })
     })
@@ -3033,11 +3033,11 @@ describe('Field.Upload', () => {
             transformOut={transformOut}
           />
           <LogContext />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(1)
       expect(dataContext).toEqual({
         documents: [
@@ -3056,7 +3056,7 @@ describe('Field.Upload', () => {
       })
 
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(2)
       expect(dataContext).toEqual({
         documents: [
@@ -3082,11 +3082,11 @@ describe('Field.Upload', () => {
             defaultValue={defaultValue}
           />
           <LogContext />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(1)
       expect(dataContext).toEqual({
         documents: [
@@ -3105,7 +3105,7 @@ describe('Field.Upload', () => {
       })
 
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(2)
       expect(dataContext).toEqual({
         documents: [
@@ -3136,11 +3136,11 @@ describe('Field.Upload', () => {
         >
           <Field.Upload path="/documents" />
           <LogContext />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(1)
       expect(dataContext).toEqual({
         documents: [
@@ -3155,7 +3155,7 @@ describe('Field.Upload', () => {
         fileName,
         100,
         'application/pdf',
-        1743671810162
+        1743671810162,
       )
       fireEvent.drop(document.querySelector('input'), {
         dataTransfer: {
@@ -3164,7 +3164,7 @@ describe('Field.Upload', () => {
       })
 
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(1)
       expect(dataContext).toEqual({
         documents: [
@@ -3190,7 +3190,7 @@ describe('Field.Upload', () => {
             },
           ]}
           onChange={onChange}
-        />
+        />,
       )
 
       // User adds a file
@@ -3217,7 +3217,7 @@ describe('Field.Upload', () => {
 
       // Should still show 2 files
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(2)
     })
 
@@ -3230,7 +3230,7 @@ describe('Field.Upload', () => {
       })
 
       const { rerender } = render(
-        <Field.Upload value={[]} fileHandler={fileHandler} />
+        <Field.Upload value={[]} fileHandler={fileHandler} />,
       )
 
       // User drops a file
@@ -3245,7 +3245,7 @@ describe('Field.Upload', () => {
       // Wait for loading state
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-progress-indicator')
+          document.querySelector('.dnb-progress-indicator'),
         ).toBeInTheDocument()
       })
 
@@ -3270,21 +3270,21 @@ describe('Field.Upload', () => {
       // Wait for resolved state
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-progress-indicator')
+          document.querySelector('.dnb-progress-indicator'),
         ).not.toBeInTheDocument()
       })
 
       // Now try to update with stale loading value
       rerender(
-        <Field.Upload value={staleValue} fileHandler={fileHandler} />
+        <Field.Upload value={staleValue} fileHandler={fileHandler} />,
       )
 
       // Should still show resolved file, not revert to loading state
       expect(
-        document.querySelector('.dnb-progress-indicator')
+        document.querySelector('.dnb-progress-indicator'),
       ).not.toBeInTheDocument()
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(1)
     })
 
@@ -3297,11 +3297,11 @@ describe('Field.Upload', () => {
               id: 'file-1',
             },
           ]}
-        />
+        />,
       )
 
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(1)
       expect(screen.queryByText('file-1.png')).toBeInTheDocument()
 
@@ -3318,12 +3318,12 @@ describe('Field.Upload', () => {
               id: 'file-3',
             },
           ]}
-        />
+        />,
       )
 
       // Should show new files
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(2)
       expect(screen.queryByText('file-1.png')).not.toBeInTheDocument()
       expect(screen.queryByText('file-2.png')).toBeInTheDocument()
@@ -3347,7 +3347,7 @@ describe('Field.Upload', () => {
             },
           ]}
           fileHandler={fileHandler}
-        />
+        />,
       )
 
       // User drops a new file
@@ -3362,7 +3362,7 @@ describe('Field.Upload', () => {
       // Wait for loading state
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-progress-indicator')
+          document.querySelector('.dnb-progress-indicator'),
         ).toBeInTheDocument()
       })
 
@@ -3381,13 +3381,13 @@ describe('Field.Upload', () => {
             },
           ]}
           fileHandler={fileHandler}
-        />
+        />,
       )
 
       // Should preserve the loading file and merge with external files
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell').length
+          document.querySelectorAll('.dnb-upload__file-cell').length,
         ).toBe(3)
       })
       expect(screen.queryByText('existing.png')).toBeInTheDocument()
@@ -3405,13 +3405,13 @@ describe('Field.Upload', () => {
       // Wait for loading to complete
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-progress-indicator')
+          document.querySelector('.dnb-progress-indicator'),
         ).not.toBeInTheDocument()
       })
 
       // Should still have all files
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(3)
     })
 
@@ -3425,7 +3425,7 @@ describe('Field.Upload', () => {
             },
           ]}
           fileMaxSize={0.001}
-        />
+        />,
       )
 
       // User drops a file that's too large
@@ -3440,13 +3440,13 @@ describe('Field.Upload', () => {
       // Wait for error to appear
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
       })
 
       // Should have both files (valid + error file)
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(2)
 
       // External value updates but doesn't include error file
@@ -3463,20 +3463,20 @@ describe('Field.Upload', () => {
             },
           ]}
           fileMaxSize={0.001}
-        />
+        />,
       )
 
       // Should preserve the error file and merge with external files
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell').length
+          document.querySelectorAll('.dnb-upload__file-cell').length,
         ).toBe(3)
       })
       expect(screen.queryByText('valid.png')).toBeInTheDocument()
       expect(screen.queryByText('another.png')).toBeInTheDocument()
       expect(screen.queryByText('large.png')).toBeInTheDocument()
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
     })
 
@@ -3489,7 +3489,7 @@ describe('Field.Upload', () => {
       })
 
       const { rerender } = render(
-        <Field.Upload value={[]} fileHandler={fileHandler} />
+        <Field.Upload value={[]} fileHandler={fileHandler} />,
       )
 
       // User drops a file
@@ -3504,7 +3504,7 @@ describe('Field.Upload', () => {
       // Wait for loading state
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-progress-indicator')
+          document.querySelector('.dnb-progress-indicator'),
         ).toBeInTheDocument()
       })
 
@@ -3520,7 +3520,7 @@ describe('Field.Upload', () => {
       // Wait for resolved state
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-progress-indicator')
+          document.querySelector('.dnb-progress-indicator'),
         ).not.toBeInTheDocument()
       })
 
@@ -3535,12 +3535,12 @@ describe('Field.Upload', () => {
             },
           ]}
           fileHandler={fileHandler}
-        />
+        />,
       )
 
       // Should not duplicate - still just 1 file
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(1)
     })
 
@@ -3553,11 +3553,11 @@ describe('Field.Upload', () => {
               id: 'file-1',
             },
           ]}
-        />
+        />,
       )
 
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(1)
 
       // Update with empty value
@@ -3565,7 +3565,7 @@ describe('Field.Upload', () => {
 
       // Should clear all files
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(0)
     })
 
@@ -3578,11 +3578,11 @@ describe('Field.Upload', () => {
               id: 'file-1',
             },
           ]}
-        />
+        />,
       )
 
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(1)
 
       // Update with undefined value
@@ -3590,7 +3590,7 @@ describe('Field.Upload', () => {
 
       // Should clear all files
       expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
+        document.querySelectorAll('.dnb-upload__file-cell').length,
       ).toBe(0)
     })
   })
@@ -3601,14 +3601,14 @@ describe('Field.Upload', () => {
       const file = createMockFile(
         'large-file.png',
         10 * BYTES_IN_A_MEGA_BYTE,
-        'image/png'
+        'image/png',
       )
 
       render(
         <Field.Upload
           fileMaxSize={5}
           onValidationError={onValidationError}
-        />
+        />,
       )
 
       const element = getRootElement()
@@ -3627,7 +3627,7 @@ describe('Field.Upload', () => {
       expect(invalidFiles).toHaveLength(1)
       expect(invalidFiles[0].file.name).toBe('large-file.png')
       expect(invalidFiles[0].errorMessage).toBe(
-        nbShared.Upload.errorLargeFile.replace('%size', '5')
+        nbShared.Upload.errorLargeFile.replace('%size', '5'),
       )
     })
 
@@ -3639,7 +3639,7 @@ describe('Field.Upload', () => {
         <Field.Upload
           acceptedFileTypes={['pdf', 'png']}
           onValidationError={onValidationError}
-        />
+        />,
       )
 
       const element = getRootElement()
@@ -3658,7 +3658,7 @@ describe('Field.Upload', () => {
       expect(invalidFiles).toHaveLength(1)
       expect(invalidFiles[0].file.name).toBe('document.docx')
       expect(invalidFiles[0].errorMessage).toBe(
-        nbShared.Upload.errorUnsupportedFile
+        nbShared.Upload.errorUnsupportedFile,
       )
     })
 
@@ -3677,7 +3677,7 @@ describe('Field.Upload', () => {
       const file = createMockFile(
         'large-file.png',
         10 * BYTES_IN_A_MEGA_BYTE,
-        'image/png'
+        'image/png',
       )
 
       render(
@@ -3685,7 +3685,7 @@ describe('Field.Upload', () => {
           fileMaxSize={5}
           onValidationError={onValidationError}
           onChange={onChange}
-        />
+        />,
       )
 
       const element = getRootElement()
@@ -3708,7 +3708,7 @@ describe('Field.Upload', () => {
       const changeValue = onChange.mock.calls[0][0]
       expect(changeValue).toBeDefined()
       expect(changeValue[0].description).toBe(
-        'Modified by validation handler'
+        'Modified by validation handler',
       )
     })
 
@@ -3723,14 +3723,14 @@ describe('Field.Upload', () => {
       const file = createMockFile(
         'large-file.png',
         10 * BYTES_IN_A_MEGA_BYTE,
-        'image/png'
+        'image/png',
       )
 
       render(
         <Field.Upload
           fileMaxSize={5}
           onValidationError={onValidationError}
-        />
+        />,
       )
 
       const element = getRootElement()
@@ -3744,7 +3744,7 @@ describe('Field.Upload', () => {
       await waitFor(() => {
         expect(onValidationError).toHaveBeenCalledTimes(1)
         const fileNameElement = document.querySelector(
-          '.dnb-upload__file-cell__text-container span'
+          '.dnb-upload__file-cell__text-container span',
         )
         expect(fileNameElement.tagName).toBe('SPAN')
         expect(fileNameElement).not.toHaveAttribute('href')
@@ -3764,14 +3764,14 @@ describe('Field.Upload', () => {
       const file = createMockFile(
         'large-file.png',
         10 * BYTES_IN_A_MEGA_BYTE,
-        'image/png'
+        'image/png',
       )
 
       render(
         <Field.Upload
           fileMaxSize={5}
           onValidationError={onValidationError}
-        />
+        />,
       )
 
       const element = getRootElement()
@@ -3786,7 +3786,7 @@ describe('Field.Upload', () => {
         () => {
           expect(onValidationError).toHaveBeenCalledTimes(1)
         },
-        { timeout: 2000 }
+        { timeout: 2000 },
       )
 
       await waitFor(
@@ -3794,10 +3794,10 @@ describe('Field.Upload', () => {
           const fileCell = document.querySelector('.dnb-upload__file-cell')
           expect(fileCell).toBeInTheDocument()
           expect(fileCell).toHaveTextContent(
-            'This file cannot be uploaded'
+            'This file cannot be uploaded',
           )
         },
-        { timeout: 2000 }
+        { timeout: 2000 },
       )
 
       await waitFor(
@@ -3806,7 +3806,7 @@ describe('Field.Upload', () => {
           const button = fileCell.querySelector('button')
           expect(button).not.toBeInTheDocument()
         },
-        { timeout: 2000 }
+        { timeout: 2000 },
       )
     })
 
@@ -3823,7 +3823,7 @@ describe('Field.Upload', () => {
           files.map((file) => ({
             ...file,
             id: 'server-id',
-          }))
+          })),
         )
       })
 
@@ -3831,7 +3831,7 @@ describe('Field.Upload', () => {
       const invalidFile = createMockFile(
         'large-file.png',
         10 * BYTES_IN_A_MEGA_BYTE,
-        'image/png'
+        'image/png',
       )
 
       render(
@@ -3839,7 +3839,7 @@ describe('Field.Upload', () => {
           fileMaxSize={5}
           fileHandler={fileHandler}
           onValidationError={onValidationError}
-        />
+        />,
       )
 
       const element = getRootElement()
@@ -3866,7 +3866,7 @@ describe('Field.Upload', () => {
 
         // Both files should be displayed
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell')
+          document.querySelectorAll('.dnb-upload__file-cell'),
         ).toHaveLength(2)
       })
     })
@@ -3882,14 +3882,14 @@ describe('Field.Upload', () => {
       const invalidFile = createMockFile(
         'large-file.png',
         10 * BYTES_IN_A_MEGA_BYTE,
-        'image/png'
+        'image/png',
       )
 
       render(
         <Field.Upload
           fileMaxSize={5}
           onValidationError={onValidationError}
-        />
+        />,
       )
 
       const element = getRootElement()
@@ -3903,7 +3903,7 @@ describe('Field.Upload', () => {
       await waitFor(() => {
         expect(onValidationError).toHaveBeenCalledTimes(1)
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell')
+          document.querySelectorAll('.dnb-upload__file-cell'),
         ).toHaveLength(1)
       })
     })
@@ -3914,14 +3914,14 @@ describe('Field.Upload', () => {
       const file = createMockFile(
         'large-file.png',
         10 * BYTES_IN_A_MEGA_BYTE,
-        'image/png'
+        'image/png',
       )
 
       render(
         <Field.Upload
           fileMaxSize={5}
           onValidationError={onValidationError}
-        />
+        />,
       )
 
       const element = getRootElement()
@@ -3942,7 +3942,7 @@ describe('Field.Upload', () => {
         expect(fileCell).toBeInTheDocument()
         expect(fileCell).toHaveTextContent('large-file.png')
         expect(fileCell).toHaveTextContent(
-          nbShared.Upload.errorLargeFile.replace('%size', '5')
+          nbShared.Upload.errorLargeFile.replace('%size', '5'),
         )
       })
     })
@@ -3955,7 +3955,7 @@ describe('Field.Upload', () => {
         <Field.Upload
           fileMaxSize={5}
           onValidationError={onValidationError}
-        />
+        />,
       )
 
       const element = getRootElement()
@@ -3968,7 +3968,7 @@ describe('Field.Upload', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell')
+          document.querySelectorAll('.dnb-upload__file-cell'),
         ).toHaveLength(1)
       })
 
@@ -3989,7 +3989,7 @@ describe('Field.Upload', () => {
       const file = createMockFile(
         'large-file.png',
         10 * BYTES_IN_A_MEGA_BYTE,
-        'image/png'
+        'image/png',
       )
 
       render(
@@ -3997,7 +3997,7 @@ describe('Field.Upload', () => {
           fileMaxSize={5}
           onValidationError={onValidationError}
           onFileDelete={onFileDelete}
-        />
+        />,
       )
 
       const element = getRootElement()
@@ -4014,14 +4014,14 @@ describe('Field.Upload', () => {
 
       // Delete the file
       const deleteButton = document.querySelector(
-        '.dnb-upload__file-cell button'
+        '.dnb-upload__file-cell button',
       )
       fireEvent.click(deleteButton)
 
       await waitFor(() => {
         expect(onFileDelete).toHaveBeenCalledTimes(1)
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell')
+          document.querySelectorAll('.dnb-upload__file-cell'),
         ).toHaveLength(0)
       })
     })
@@ -4040,14 +4040,14 @@ describe('Field.Upload', () => {
       const file = createMockFile(
         'large-file.png',
         10 * BYTES_IN_A_MEGA_BYTE,
-        'image/png'
+        'image/png',
       )
 
       render(
         <Field.Upload
           fileMaxSize={5}
           onValidationError={onValidationError}
-        />
+        />,
       )
 
       const element = getRootElement()
@@ -4064,12 +4064,12 @@ describe('Field.Upload', () => {
 
       await waitFor(() => {
         const deleteButton = document.querySelector(
-          '.dnb-upload__file-cell button'
+          '.dnb-upload__file-cell button',
         )
         expect(deleteButton).toBeInTheDocument()
         expect(deleteButton).toHaveTextContent('Remove invalid file')
         expect(
-          deleteButton.querySelector('[data-testid="exclamation icon"]')
+          deleteButton.querySelector('[data-testid="exclamation icon"]'),
         ).toBeInTheDocument()
       })
     })
@@ -4093,7 +4093,7 @@ describe('Field.Upload', () => {
       const invalidFile = createMockFile(
         'invalid.png',
         10 * BYTES_IN_A_MEGA_BYTE,
-        'image/png'
+        'image/png',
       )
 
       render(
@@ -4101,7 +4101,7 @@ describe('Field.Upload', () => {
           fileMaxSize={5}
           onValidationError={onValidationError}
           fileHandler={fileHandler}
-        />
+        />,
       )
 
       const element = getRootElement()
@@ -4134,13 +4134,13 @@ describe('Field.Upload', () => {
       ])
       // Verify the valid file has no errorMessage
       expect(fileHandler.mock.calls[0][0][0]).not.toHaveProperty(
-        'errorMessage'
+        'errorMessage',
       )
 
       // Verify both files are displayed
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-upload__file-cell')
+          document.querySelectorAll('.dnb-upload__file-cell'),
         ).toHaveLength(2)
         expect(screen.queryByText('valid.png')).toBeInTheDocument()
         expect(screen.queryByText('invalid.png')).toBeInTheDocument()
@@ -4164,7 +4164,7 @@ describe('Field.Upload', () => {
             onValidationError={onValidationError}
             onChange={onChange}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const element = getRootElement()
@@ -4174,7 +4174,7 @@ describe('Field.Upload', () => {
       const invalidTypeFile = createMockFile(
         'document.txt',
         100,
-        'text/plain'
+        'text/plain',
       )
 
       // Upload a file with wrong type
@@ -4198,7 +4198,7 @@ describe('Field.Upload', () => {
         expect(fileCell).toBeInTheDocument()
         expect(fileCell).toHaveTextContent('document.txt')
         expect(fileCell).toHaveTextContent(
-          'Error handled by onValidationError'
+          'Error handled by onValidationError',
         )
       })
     })
@@ -4221,7 +4221,7 @@ describe('Field.Upload', () => {
         <Field.Upload
           onValidationError={onValidationError}
           fileHandler={fileHandler}
-        />
+        />,
       )
 
       const element = getRootElement()
@@ -4264,14 +4264,14 @@ describe('Field.Upload', () => {
       const { unmount } = render(
         <Form.Handler id={formId}>
           <Field.Upload id={fieldId} path="/myFiles" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const element = document.querySelector('.dnb-upload')
       const file = createMockFile(
         `file-${i}.png`,
         5 * BYTES_IN_A_MEGA_BYTE + 1,
-        'image/png'
+        'image/png',
       )
 
       fireEvent.drop(element, {
@@ -4279,7 +4279,7 @@ describe('Field.Upload', () => {
       })
 
       const fileListItems = document.querySelectorAll(
-        '.dnb-upload__file-cell'
+        '.dnb-upload__file-cell',
       )
       expect(fileListItems).toHaveLength(1)
 

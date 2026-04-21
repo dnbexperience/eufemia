@@ -27,7 +27,7 @@ export type DrawerListItemProps = Omit<
 export function DrawerListItem(
   props: DrawerListItemProps & {
     ref?: React.Ref<HTMLLIElement>
-  }
+  },
 ) {
   const {
     onClick,
@@ -48,7 +48,7 @@ export function DrawerListItem(
       className,
       'dnb-drawer-list__option',
       selected && 'dnb-drawer-list__option--selected',
-      active && 'dnb-drawer-list__option--focus'
+      active && 'dnb-drawer-list__option--focus',
     ),
     role,
     tabIndex: selected ? 0 : -1,

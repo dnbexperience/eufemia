@@ -6,7 +6,7 @@ describe('Lead', () => {
   it('has correct classes by default', () => {
     render(<Lead />)
     const element = document.querySelector(
-      '.dnb-p--lead'
+      '.dnb-p--lead',
     ) as HTMLParagraphElement
 
     expect(Array.from(element.classList)).toEqual(['dnb-p', 'dnb-p--lead'])
@@ -16,10 +16,10 @@ describe('Lead', () => {
     render(<Lead aria-label="Aria Label">Aria Paragraph</Lead>)
 
     const element = document.querySelector(
-      '.dnb-p--lead'
+      '.dnb-p--lead',
     ) as HTMLParagraphElement
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toContain('aria-label')
@@ -29,7 +29,7 @@ describe('Lead', () => {
   it('should support spacing props', () => {
     const { rerender } = render(<Lead top="x-large">Space Paragraph</Lead>)
     const element = document.querySelector(
-      '.dnb-p--lead'
+      '.dnb-p--lead',
     ) as HTMLParagraphElement
 
     expect(element.classList).toContain('dnb-space__top--x-large')
@@ -43,7 +43,7 @@ describe('Lead', () => {
     render(<Lead className="custom-class">Class Paragraph</Lead>)
 
     const element = document.querySelector(
-      '.dnb-p--lead'
+      '.dnb-p--lead',
     ) as HTMLParagraphElement
 
     expect(Array.from(element.classList)).toEqual([
@@ -57,7 +57,7 @@ describe('Lead', () => {
     render(<Lead>Children Paragraph</Lead>)
 
     const element = document.querySelector(
-      '.dnb-p--lead'
+      '.dnb-p--lead',
     ) as HTMLParagraphElement
     const children = element.childNodes
 

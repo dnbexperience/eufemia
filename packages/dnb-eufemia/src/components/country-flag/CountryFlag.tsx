@@ -38,7 +38,7 @@ const CountryFlag = (props: CountryFlagProps) => {
         'dnb-country-flag',
         'dnb-country-flag__size--' + (size || 'auto'),
         shape && 'dnb-country-flag__shape--' + shape,
-        className
+        className,
       )}
       {...rest}
     >

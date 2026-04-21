@@ -26,7 +26,7 @@ export default function AlignmentHelper({
         pseudoElementOnly
           ? 'dnb-alignment-helper--pseudo-element-only'
           : 'dnb-alignment-helper',
-        className
+        className,
       )}
       aria-hidden
       {...props}

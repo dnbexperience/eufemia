@@ -109,7 +109,7 @@ export function StepIndicatorProvider(props: StepIndicatorProviderProps) {
     const dataWithItems = data as StepIndicatorDataItem[]
 
     const itemWithCurrentStep = dataWithItems.find(
-      (item) => item.isCurrent
+      (item) => item.isCurrent,
     )
     // Is current on data item has precedence(?) over currentStep prop
     return itemWithCurrentStep
@@ -125,7 +125,7 @@ export function StepIndicatorProvider(props: StepIndicatorProviderProps) {
     forceUpdate()
   }, [])
   const listOfReachedSteps = useRef(
-    [activeStepRef.current].filter(Boolean)
+    [activeStepRef.current].filter(Boolean),
   ).current
   const context = useContext(Context)
 
@@ -135,7 +135,7 @@ export function StepIndicatorProvider(props: StepIndicatorProviderProps) {
         ?.replace('%step', String((activeStepRef.current || 0) + 1))
         .replace('%count', String(data?.length || 1))
     },
-    [data?.length]
+    [data?.length],
   )
 
   const makeContextValue = useCallback(() => {
@@ -144,7 +144,7 @@ export function StepIndicatorProvider(props: StepIndicatorProviderProps) {
       stepIndicatorDefaultProps,
       { skeleton: context?.skeleton },
       context.getTranslation(context).StepIndicator,
-      context.StepIndicator
+      context.StepIndicator,
     )
 
     const value = extendSafe(
@@ -169,7 +169,7 @@ export function StepIndicatorProvider(props: StepIndicatorProviderProps) {
         setActiveStep,
         openHandler,
         closeHandler,
-      }
+      },
     ) as StepIndicatorContextValues
 
     return value

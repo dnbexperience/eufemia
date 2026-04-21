@@ -19,7 +19,7 @@ describe('Visibility', () => {
 
   it('should have constant of _supportsSpacingProps="children"', () => {
     expect((Visibility as ComponentMarkers)._supportsSpacingProps).toBe(
-      'children'
+      'children',
     )
   })
 
@@ -28,7 +28,7 @@ describe('Visibility', () => {
       render(
         <Visibility id="my-id" visible>
           Child
-        </Visibility>
+        </Visibility>,
       )
 
       const element = document.querySelector('#my-id')
@@ -42,7 +42,7 @@ describe('Visibility', () => {
       render(
         <Visibility id="my-id" visible={false}>
           Child
-        </Visibility>
+        </Visibility>,
       )
 
       const element = document.querySelector('#my-id')
@@ -53,7 +53,7 @@ describe('Visibility', () => {
       render(
         <Visibility id="my-id" animate visible>
           Child
-        </Visibility>
+        </Visibility>,
       )
 
       const element = document.querySelector('#my-id')
@@ -66,7 +66,7 @@ describe('Visibility', () => {
       render(
         <Visibility id="my-id" keepInDOM visible={false}>
           Child
-        </Visibility>
+        </Visibility>,
       )
 
       const element = document.querySelector('#my-id')
@@ -101,7 +101,7 @@ describe('Visibility', () => {
       render(
         <Visibility keepInDOM visible={false}>
           Child
-        </Visibility>
+        </Visibility>,
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
       const element = document.querySelector('.dnb-forms-visibility')
@@ -114,7 +114,7 @@ describe('Visibility', () => {
       render(
         <Visibility keepInDOM animate visible={false}>
           Child
-        </Visibility>
+        </Visibility>,
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
       const element = document.querySelector('.dnb-forms-visibility')
@@ -129,7 +129,7 @@ describe('Visibility', () => {
       render(
         <Provider data={{ isDefined: 'foo' }}>
           <Visibility pathDefined="/isDefined">Child</Visibility>
-        </Provider>
+        </Provider>,
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -138,7 +138,7 @@ describe('Visibility', () => {
       render(
         <Provider data={{ isDefined: 'foo' }}>
           <Visibility pathDefined="/notDefined">Child</Visibility>
-        </Provider>
+        </Provider>,
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -149,7 +149,7 @@ describe('Visibility', () => {
       render(
         <Provider data={{ isDefined: 'foo' }}>
           <Visibility pathUndefined="/isDefined">Child</Visibility>
-        </Provider>
+        </Provider>,
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -158,7 +158,7 @@ describe('Visibility', () => {
       render(
         <Provider data={{ isDefined: 'foo' }}>
           <Visibility pathUndefined="/notDefined">Child</Visibility>
-        </Provider>
+        </Provider>,
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -169,7 +169,7 @@ describe('Visibility', () => {
       render(
         <Provider data={{ isTruthy: 'value' }}>
           <Visibility pathTruthy="/isTruthy">Child</Visibility>
-        </Provider>
+        </Provider>,
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -178,7 +178,7 @@ describe('Visibility', () => {
       render(
         <Provider data={{ isFalsy: null }}>
           <Visibility pathTruthy="/isFalsy">Child</Visibility>
-        </Provider>
+        </Provider>,
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -187,7 +187,7 @@ describe('Visibility', () => {
       render(
         <Provider data={{ isFalse: false }}>
           <Visibility pathTruthy="/isNotDefined">Child</Visibility>
-        </Provider>
+        </Provider>,
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -198,7 +198,7 @@ describe('Visibility', () => {
       render(
         <Provider data={{ isFalsy: null }}>
           <Visibility pathFalsy="/isFalsy">Child</Visibility>
-        </Provider>
+        </Provider>,
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -207,7 +207,7 @@ describe('Visibility', () => {
       render(
         <Provider data={{ isFalse: false }}>
           <Visibility pathFalsy="/isNotDefined">Child</Visibility>
-        </Provider>
+        </Provider>,
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -216,7 +216,7 @@ describe('Visibility', () => {
       render(
         <Provider data={{ isTruthy: 'value' }}>
           <Visibility pathFalsy="/isTruthy">Child</Visibility>
-        </Provider>
+        </Provider>,
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -228,7 +228,7 @@ describe('Visibility', () => {
       render(
         <Provider data={{ foo: 'bar' }}>
           <Visibility inferData={inferData}>Child</Visibility>
-        </Provider>
+        </Provider>,
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -238,7 +238,7 @@ describe('Visibility', () => {
       render(
         <Provider data={{ foo: 'bar' }}>
           <Visibility inferData={inferData}>Child</Visibility>
-        </Provider>
+        </Provider>,
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
       expect(inferData).toHaveBeenCalledTimes(1)
@@ -253,7 +253,7 @@ describe('Visibility', () => {
           <Visibility visibleWhen={{ path: '/myPath', hasValue: 'foo' }}>
             Child
           </Visibility>
-        </Provider>
+        </Provider>,
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -264,7 +264,7 @@ describe('Visibility', () => {
           <Visibility visibleWhen={{ path: '/myPath', hasValue: 'bar' }}>
             Child
           </Visibility>
-        </Provider>
+        </Provider>,
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -277,7 +277,7 @@ describe('Visibility', () => {
           >
             Child
           </Visibility>
-        </Provider>
+        </Provider>,
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -295,7 +295,7 @@ describe('Visibility', () => {
           >
             Child
           </Visibility>
-        </Provider>
+        </Provider>,
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
       expect(hasValue).toHaveBeenCalledTimes(1)
@@ -324,7 +324,7 @@ describe('Visibility', () => {
                 />
               </Form.Visibility>
             </Iterate.Array>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(document.querySelector('.firstName')).toBeInTheDocument()
@@ -332,7 +332,7 @@ describe('Visibility', () => {
 
         await userEvent.type(
           document.querySelector('.firstName input'),
-          'foo'
+          'foo',
         )
 
         expect(document.querySelector('.lastName')).toBeInTheDocument()
@@ -361,7 +361,7 @@ describe('Visibility', () => {
                 />
               </Form.Visibility>
             </Iterate.Array>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(document.querySelector('.firstName')).toBeInTheDocument()
@@ -369,7 +369,7 @@ describe('Visibility', () => {
 
         await userEvent.type(
           document.querySelector('.firstName input'),
-          'foo'
+          'foo',
         )
 
         expect(document.querySelector('.lastName')).toBeInTheDocument()
@@ -388,7 +388,7 @@ describe('Visibility', () => {
           >
             Child
           </Visibility>
-        </Provider>
+        </Provider>,
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -401,7 +401,7 @@ describe('Visibility', () => {
           >
             Child
           </Visibility>
-        </Provider>
+        </Provider>,
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -417,7 +417,7 @@ describe('Visibility', () => {
             <P>This is visible 2</P>
           </Form.Visibility>
         </Flex.Stack>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const checkbox = document.querySelector('input[type="checkbox"]')
@@ -430,14 +430,14 @@ describe('Visibility', () => {
 
     const [first, second] = Array.from(document.querySelectorAll('p'))
     expect(first).toHaveClass(
-      'dnb-p dnb-space__top--zero dnb-space__bottom--zero'
+      'dnb-p dnb-space__top--zero dnb-space__bottom--zero',
     )
     expect(second).toHaveClass(
-      'dnb-p dnb-space__top--medium dnb-space__bottom--zero'
+      'dnb-p dnb-space__top--medium dnb-space__bottom--zero',
     )
 
     const container = document.querySelector(
-      '.dnb-flex-container > .dnb-flex-container'
+      '.dnb-flex-container > .dnb-flex-container',
     )
     expect(container).toMatchInlineSnapshot(`
       <section
@@ -469,14 +469,14 @@ describe('Visibility', () => {
         >
           Child
         </Visibility>
-      </Provider>
+      </Provider>,
     )
 
     const element = document.querySelector('.dnb-height-animation')
 
     expect(element).toBeInTheDocument()
     expect(element).toHaveClass(
-      'dnb-space dnb-height-animation dnb-height-animation--is-in-dom dnb-height-animation--parallax'
+      'dnb-space dnb-height-animation dnb-height-animation--is-in-dom dnb-height-animation--parallax',
     )
   })
 
@@ -494,7 +494,7 @@ describe('Visibility', () => {
           <Form.Visibility pathTrue="/toggleValue" onVisible={onVisible}>
             content
           </Form.Visibility>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const checkbox = document.querySelector('input[type="checkbox"]')
@@ -520,7 +520,7 @@ describe('Visibility', () => {
           <Form.Visibility pathTrue="/toggleValue" onVisible={onVisible}>
             content
           </Form.Visibility>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const checkbox = document.querySelector('input[type="checkbox"]')
@@ -553,7 +553,7 @@ describe('Visibility', () => {
           >
             content
           </Form.Visibility>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const checkbox = document.querySelector('input[type="checkbox"]')
@@ -594,7 +594,7 @@ describe('Visibility', () => {
           >
             content
           </Form.Visibility>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const checkbox = document.querySelector('input[type="checkbox"]')
@@ -622,7 +622,7 @@ describe('Visibility', () => {
         >
           Child
         </Visibility>
-      </Provider>
+      </Provider>,
     )
 
     const element = document.querySelector('.dnb-height-animation')
@@ -638,7 +638,7 @@ describe('Visibility', () => {
           fieldPropsWhenHidden={{ disabled: true }}
         >
           <Field.String />
-        </Visibility>
+        </Visibility>,
       )
 
       expect(document.querySelector('input')).not.toBeDisabled()
@@ -650,7 +650,7 @@ describe('Visibility', () => {
           fieldPropsWhenHidden={{ disabled: true }}
         >
           <Field.String />
-        </Visibility>
+        </Visibility>,
       )
 
       expect(document.querySelector('input')).toBeDisabled()
@@ -662,7 +662,7 @@ describe('Visibility', () => {
           fieldPropsWhenHidden={{ disabled: true }}
         >
           <Field.String />
-        </Visibility>
+        </Visibility>,
       )
 
       expect(document.querySelector('input')).not.toBeDisabled()
@@ -676,7 +676,7 @@ describe('Visibility', () => {
           fieldPropsWhenHidden={{ disabled: true }}
         >
           <Field.String />
-        </Visibility>
+        </Visibility>,
       )
 
       expect(document.querySelector('input')).not.toBeDisabled()
@@ -688,7 +688,7 @@ describe('Visibility', () => {
           fieldPropsWhenHidden={{ disabled: true }}
         >
           <Field.String disabled />
-        </Visibility>
+        </Visibility>,
       )
 
       expect(document.querySelector('input')).toBeDisabled()
@@ -700,7 +700,7 @@ describe('Visibility', () => {
           fieldPropsWhenHidden={{ disabled: true }}
         >
           <Field.String disabled />
-        </Visibility>
+        </Visibility>,
       )
 
       expect(document.querySelector('input')).toBeDisabled()
@@ -712,7 +712,7 @@ describe('Visibility', () => {
           fieldPropsWhenHidden={{ disabled: true }}
         >
           <Field.String disabled={false} />
-        </Visibility>
+        </Visibility>,
       )
 
       expect(document.querySelector('input')).not.toBeDisabled()
@@ -728,7 +728,7 @@ describe('Visibility', () => {
           >
             <Field.String />
           </Visibility>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('input')).toBeDisabled()
@@ -742,7 +742,7 @@ describe('Visibility', () => {
           >
             <Field.String />
           </Visibility>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('input')).not.toBeDisabled()
@@ -756,7 +756,7 @@ describe('Visibility', () => {
           >
             <Field.String disabled />
           </Visibility>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('input')).toBeDisabled()
@@ -770,7 +770,7 @@ describe('Visibility', () => {
           >
             <Field.String disabled={false} />
           </Visibility>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('input')).not.toBeDisabled()
@@ -784,11 +784,11 @@ describe('Visibility', () => {
           fieldPropsWhenHidden={{ 'data-exclude-field': true }}
         >
           <Field.String />
-        </Visibility>
+        </Visibility>,
       )
 
       expect(document.querySelector('input')).not.toHaveAttribute(
-        'data-exclude-field'
+        'data-exclude-field',
       )
 
       rerender(
@@ -798,11 +798,11 @@ describe('Visibility', () => {
           fieldPropsWhenHidden={{ 'data-exclude-field': true }}
         >
           <Field.String disabled />
-        </Visibility>
+        </Visibility>,
       )
 
       expect(document.querySelector('input')).toHaveAttribute(
-        'data-exclude-field'
+        'data-exclude-field',
       )
     })
   })
@@ -912,11 +912,11 @@ describe('Visibility', () => {
           <Form.Visibility pathTrue="/isVisible" keepInDOM>
             <output data-is-visible />
           </Form.Visibility>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [first, second] = Array.from(
-        document.querySelectorAll('.dnb-forms-visibility')
+        document.querySelectorAll('.dnb-forms-visibility'),
       )
 
       expect(first).toHaveAttribute('hidden', '')
@@ -972,7 +972,7 @@ describe('Visibility', () => {
           <Form.Visibility pathTrue="/isVisible">
             has no filter
           </Form.Visibility>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(screen.queryByText('has filter')).not.toBeInTheDocument()
@@ -990,7 +990,7 @@ describe('Visibility', () => {
           <Form.Visibility pathTrue="/isVisible">
             has no filter
           </Form.Visibility>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(screen.queryByText('has filter')).not.toBeInTheDocument()
@@ -1017,7 +1017,7 @@ describe('Visibility', () => {
           <Form.Visibility pathDefined="/myField">
             outside section
           </Form.Visibility>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(screen.getByRole('textbox')).toHaveValue('value')
@@ -1036,7 +1036,7 @@ describe('Visibility', () => {
               Child
             </Form.Visibility>
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(screen.getByText('Child')).toBeInTheDocument()
@@ -1049,7 +1049,7 @@ describe('Visibility', () => {
             <Field.Boolean path="/myField" value={true} />
             <Form.Visibility pathTrue="/myField">Child</Form.Visibility>
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(screen.getByText('Child')).toBeInTheDocument()
@@ -1062,7 +1062,7 @@ describe('Visibility', () => {
             <Field.Boolean path="/myField" value={false} />
             <Form.Visibility pathFalse="/myField">Child</Form.Visibility>
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(screen.getByText('Child')).toBeInTheDocument()
@@ -1075,7 +1075,7 @@ describe('Visibility', () => {
             <Field.Number path="/myField" value={1} />
             <Form.Visibility pathTruthy="/myField">Child</Form.Visibility>
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(screen.getByText('Child')).toBeInTheDocument()
@@ -1088,7 +1088,7 @@ describe('Visibility', () => {
             <Field.String path="/myField" value={null} />
             <Form.Visibility pathFalsy="/myField">Child</Form.Visibility>
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(screen.getByText('Child')).toBeInTheDocument()
@@ -1113,7 +1113,7 @@ describe('Visibility', () => {
       render(
         <Provider>
           <MockComponent />
-        </Provider>
+        </Provider>,
       )
 
       expect(collectResult).toEqual([false])
@@ -1137,7 +1137,7 @@ describe('Visibility', () => {
         <Provider>
           <Field.Number path="/myPath" required minimum={2} />
           <MockComponent />
-        </Provider>
+        </Provider>,
       )
 
       expect(collectResult).toEqual([false, false])
@@ -1170,7 +1170,7 @@ describe('Visibility', () => {
         <Provider>
           <Field.Boolean path="/myPath" required />
           <MockComponent />
-        </Provider>
+        </Provider>,
       )
 
       expect(collectResult).toEqual([false, false])
@@ -1191,7 +1191,7 @@ describe('Visibility', () => {
         <Form.Visibility animate pathFalsy="/myField">
           Child
         </Form.Visibility>
-      </SummaryListContext>
+      </SummaryListContext>,
     )
 
     expect(container.innerHTML).toMatchInlineSnapshot(`"Child"`)
@@ -1201,11 +1201,11 @@ describe('Visibility', () => {
         <Form.Visibility animate pathFalsy="/myField">
           Child
         </Form.Visibility>
-      </SummaryListContext>
+      </SummaryListContext>,
     )
 
     expect(document.querySelector('.dnb-forms-visibility')).toHaveClass(
-      'dnb-height-animation'
+      'dnb-height-animation',
     )
 
     rerender(
@@ -1213,7 +1213,7 @@ describe('Visibility', () => {
         <Form.Visibility animate pathFalsy="/myField">
           Child
         </Form.Visibility>
-      </SummaryListContext>
+      </SummaryListContext>,
     )
 
     expect(container.innerHTML).toMatchInlineSnapshot(`"Child"`)

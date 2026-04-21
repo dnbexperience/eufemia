@@ -34,13 +34,13 @@ describe('address', () => {
           countryCode: 'NO', // Can be "NO" or a path
           cityPath: '/myCity',
           postalCodePath: '/myPostalCode',
-        }
+        },
       )
     })
 
     it('should support Autocomplete props', async () => {
       const { rerender } = render(
-        <Field.Address.Street element={addressSuggestionsElement} />
+        <Field.Address.Street element={addressSuggestionsElement} />,
       )
 
       expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
@@ -51,12 +51,12 @@ describe('address', () => {
           autocompleteProps={{
             icon: false,
           }}
-        />
+        />,
       )
 
       expect(document.querySelector('.dnb-icon')).not.toBeInTheDocument()
       expect(
-        document.querySelector('.dnb-input__placeholder')
+        document.querySelector('.dnb-input__placeholder'),
       ).toHaveTextContent(nb.StreetAddress.suggestionPlaceholder)
     })
 
@@ -64,7 +64,7 @@ describe('address', () => {
       render(
         <Form.Handler>
           <Field.Address.Street element={addressSuggestionsElement} />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -72,7 +72,7 @@ describe('address', () => {
       expect(input.value).toBe('a value')
 
       await userEvent.click(
-        document.querySelectorAll('[role="option"]')[0]
+        document.querySelectorAll('[role="option"]')[0],
       )
 
       expect(input.value).toBe('Gransvea 37')
@@ -82,7 +82,7 @@ describe('address', () => {
       render(
         <Form.Handler>
           <Field.Address.Street element={addressSuggestionsElement} />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -90,7 +90,7 @@ describe('address', () => {
 
       await waitFor(() => {
         expect(document.querySelectorAll('[role="option"]')).toHaveLength(
-          4
+          4,
         )
       })
 
@@ -121,15 +121,15 @@ describe('address', () => {
               path: '/myCity',
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
       const addressInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       )
       const cityInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input',
       )
 
       expect(addressInput).toHaveValue('')
@@ -139,12 +139,12 @@ describe('address', () => {
 
       await waitFor(() => {
         expect(document.querySelectorAll('[role="option"]')).toHaveLength(
-          4
+          4,
         )
       })
 
       await userEvent.click(
-        document.querySelectorAll('[role="option"]')[0]
+        document.querySelectorAll('[role="option"]')[0],
       )
       expect(input).toHaveValue('Gransvea 37')
       expect(addressInput).toHaveValue('1391')
@@ -152,21 +152,21 @@ describe('address', () => {
 
       await userEvent.click(input)
       await userEvent.click(
-        document.querySelectorAll('[role="option"]')[1]
+        document.querySelectorAll('[role="option"]')[1],
       )
       expect(addressInput).toHaveValue('2090')
       expect(cityInput).toHaveValue('Hurdal')
 
       await userEvent.click(input)
       await userEvent.click(
-        document.querySelectorAll('[role="option"]')[2]
+        document.querySelectorAll('[role="option"]')[2],
       )
       expect(addressInput).toHaveValue('1900')
       expect(cityInput).toHaveValue('Fetsund')
 
       await userEvent.click(input)
       await userEvent.click(
-        document.querySelectorAll('[role="option"]')[3]
+        document.querySelectorAll('[role="option"]')[3],
       )
       expect(addressInput).toHaveValue('1234')
       expect(cityInput).toHaveValue('City')
@@ -186,15 +186,15 @@ describe('address', () => {
               path: '/myCity',
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
       const addressInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       )
       const cityInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input',
       )
 
       expect(addressInput).toHaveValue('1234')
@@ -204,12 +204,12 @@ describe('address', () => {
 
       await waitFor(() => {
         expect(document.querySelectorAll('[role="option"]')).toHaveLength(
-          4
+          4,
         )
       })
 
       await userEvent.click(
-        document.querySelectorAll('[role="option"]')[0]
+        document.querySelectorAll('[role="option"]')[0],
       )
       expect(input).toHaveValue('Gransvea 37')
       expect(addressInput).toHaveValue('1391')
@@ -230,15 +230,15 @@ describe('address', () => {
               path: '/myCity',
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
       const addressInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       )
       const cityInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input',
       )
 
       expect(addressInput).toHaveValue('')
@@ -248,12 +248,12 @@ describe('address', () => {
 
       await waitFor(() => {
         expect(document.querySelectorAll('[role="option"]')).toHaveLength(
-          4
+          4,
         )
       })
 
       await userEvent.click(
-        document.querySelectorAll('[role="option"]')[0]
+        document.querySelectorAll('[role="option"]')[0],
       )
       expect(input).toHaveValue('Gransvea 37')
       expect(addressInput).toHaveValue('1391')
@@ -267,7 +267,7 @@ describe('address', () => {
           myPostalCode: '1391',
           myCity: 'Vollen',
         },
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -278,7 +278,7 @@ describe('address', () => {
           countryCode: '/myCountryCode',
           cityPath: '/myCity',
           postalCodePath: '/myPostalCode',
-        }
+        },
       )
 
       render(
@@ -293,7 +293,7 @@ describe('address', () => {
               path: '/myCity',
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -315,13 +315,13 @@ describe('address', () => {
           countryCode: 'NO',
           cityPath: '/myCity',
           postalCodePath: '/myPostalCode',
-        }
+        },
       )
 
       render(
         <Form.Handler>
           <Field.Address.Street element={addressSuggestionsElement} />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')

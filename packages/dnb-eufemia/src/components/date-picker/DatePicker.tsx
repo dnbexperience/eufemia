@@ -278,19 +278,19 @@ export type DatePickerProps = {
    */
   onDaysRender?: (
     days: Array<DatePickerCalendarDay>,
-    nr?: DatePickerCalendarProps['nr']
+    nr?: DatePickerCalendarProps['nr'],
   ) => void
   /**
    * Will be called on a date change event. Returns an `object`. See Returned Object below.
    */
   onChange?: (
-    event: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>
+    event: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>,
   ) => void
   /**
    * Will be called on every input and date picker interaction. Returns an `object`. See Returned Object below.
    */
   onType?: (
-    event: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>
+    event: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>,
   ) => void
   /**
    * Will be called once date-picker is visible.
@@ -304,19 +304,19 @@ export type DatePickerProps = {
    * Will be called once a user presses the submit button.
    */
   onSubmit?: (
-    event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
+    event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>,
   ) => void
   /**
    * Will be called once a user presses the cancel button.
    */
   onCancel?: (
-    event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
+    event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>,
   ) => void
   /**
    * Will be called once a user presses the reset button. The DatePicker will revert to the value it had when it was first rendered (the initial `date`, `startDate`, or `endDate` prop values). If no initial value was provided, the date will be cleared.
    */
   onReset?: (
-    event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
+    event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>,
   ) => void
   /**
    * Will be called once the input gets focus.
@@ -413,12 +413,12 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
   const focusCalendarTable = useCallback(
     () => calendarContainerRef.current?.querySelector('table'),
-    []
+    [],
   )
 
   if (endDateProp && !range) {
     warn(
-      `The DatePicker got a "endDate". You have to set range={true} as well!.`
+      `The DatePicker got a "endDate". You have to set range={true} as well!.`,
     )
   }
 
@@ -446,10 +446,10 @@ function DatePicker(externalProps: DatePickerAllProps) {
             }
           }
         },
-        noAnimation ? 1 : blurDelay
+        noAnimation ? 1 : blurDelay,
       ) // wait until animation is over
     },
-    [noAnimation, preventClose, onClose]
+    [noAnimation, preventClose, onClose],
   )
 
   const showPicker = useCallback(
@@ -463,7 +463,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
       onOpen?.({ ...getReturnObject.current(event) })
     },
-    [onOpen]
+    [onOpen],
   )
 
   // React to open prop changes (only when not inline)
@@ -487,7 +487,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
       setDates({ startDate: args.startDate, endDate: args.endDate })
     },
-    [hidePicker, showSubmitButton, showCancelButton]
+    [hidePicker, showSubmitButton, showCancelButton],
   )
 
   const onSubmitHandler = useCallback(
@@ -503,34 +503,34 @@ function DatePicker(externalProps: DatePickerAllProps) {
         showPicker(event)
       }
     },
-    [open, hidePicker, showPicker, onSubmit]
+    [open, hidePicker, showPicker, onSubmit],
   )
 
   const onCancelHandler = useCallback(
     (
-      event: DatePickerChangeEvent<React.MouseEvent<HTMLButtonElement>>
+      event: DatePickerChangeEvent<React.MouseEvent<HTMLButtonElement>>,
     ) => {
       hidePicker()
       onCancel?.({ ...getReturnObject.current(event) })
     },
-    [hidePicker, onCancel]
+    [hidePicker, onCancel],
   )
 
   const onResetHandler = useCallback(
     (
-      event: DatePickerChangeEvent<React.MouseEvent<HTMLButtonElement>>
+      event: DatePickerChangeEvent<React.MouseEvent<HTMLButtonElement>>,
     ) => {
       hidePicker()
       onReset?.({ ...getReturnObject.current(event) })
     },
-    [hidePicker, onReset]
+    [hidePicker, onReset],
   )
 
   const togglePicker = useCallback(
     (args: React.MouseEvent<HTMLButtonElement>) => {
       !open ? showPicker(args) : hidePicker(args)
     },
-    [open, showPicker, hidePicker]
+    [open, showPicker, hidePicker],
   )
 
   // use only the props from context, who are available here anyway
@@ -540,7 +540,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     { skeleton: context?.skeleton },
     context.getTranslation(props).DatePicker,
     pickFormElementProps(context?.formElement),
-    context.DatePicker
+    context.DatePicker,
   )
 
   const {
@@ -592,7 +592,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
   const attributes = useMemo(
     () => filterOutNonAttributes(restProps),
-    [restProps]
+    [restProps],
   )
 
   const showStatus = getStatusState(status)
@@ -603,7 +603,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     pickerParams['aria-describedby'] = combineDescribedBy(
       pickerParams,
       showStatus ? id + '-status' : null,
-      suffix ? id + '-suffix' : null
+      suffix ? id + '-suffix' : null,
     )
   }
 
@@ -632,7 +632,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     return range && endDate
       ? selectedDateRange.replace(
           /%s/,
-          formatDateRange({ startDate, endDate }, options)
+          formatDateRange({ startDate, endDate }, options),
         )
       : selectedDate.replace(/%s/, formatDate(startDate, options))
   }, [range, translation, dates, context.locale])
@@ -652,7 +652,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
       stretch && `dnb-date-picker--stretch`,
       'dnb-form-component',
       size && `dnb-date-picker--${size}`,
-      className
+      className,
     ),
     lang: context.locale,
   }) as HTMLProps<HTMLSpanElement>
@@ -668,14 +668,14 @@ function DatePicker(externalProps: DatePickerAllProps) {
       showSubmitButton ||
       showCancelButton ||
       showResetButton) &&
-      'dnb-date-picker__container--show-footer'
+      'dnb-date-picker__container--show-footer',
   )
 
   const remainingDOMProps = validateDOMAttributes(props, attributes)
   const remainingSubmitProps = validateDOMAttributes(null, submitParams)
   const remainingPickerProps = validateDOMAttributes(
     null,
-    skeletonDOMAttributes(pickerParams, skeleton, context)
+    skeletonDOMAttributes(pickerParams, skeleton, context),
   )
 
   return (

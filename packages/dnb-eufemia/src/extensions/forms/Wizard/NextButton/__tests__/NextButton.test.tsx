@@ -17,7 +17,7 @@ describe('NextButton', () => {
     render(
       <Provider locale="en-GB">
         <NextButton />
-      </Provider>
+      </Provider>,
     )
 
     const button = document.querySelector('.dnb-forms-next-button')
@@ -48,7 +48,7 @@ describe('NextButton', () => {
 
     expect(button.querySelector('.dnb-icon')).toHaveAttribute(
       'data-testid',
-      'chevron right icon'
+      'chevron right icon',
     )
   })
 
@@ -69,7 +69,7 @@ describe('NextButton', () => {
         }}
       >
         <NextButton />
-      </WizardContext>
+      </WizardContext>,
     )
 
     const button = document.querySelector('.dnb-forms-next-button')

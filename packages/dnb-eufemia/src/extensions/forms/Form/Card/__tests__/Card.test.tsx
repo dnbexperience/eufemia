@@ -21,7 +21,7 @@ describe('Form.Card', () => {
           medium: false,
           large: false,
         }}
-      />
+      />,
     )
 
     expect(element).toHaveStyle('--outset--small: 1')
@@ -45,7 +45,7 @@ describe('Form.Card', () => {
       expect(element).toHaveClass('dnb-flex-item--align-self-stretch')
       expect(container).toHaveClass('dnb-flex-container--align-stretch')
       expect(container).toHaveClass(
-        'dnb-flex-container--align-self-stretch'
+        'dnb-flex-container--align-self-stretch',
       )
       expect(container).toHaveClass('dnb-flex-container--spacing-medium')
     }
@@ -58,13 +58,13 @@ describe('Form.Card', () => {
 
       expect(element).toHaveClass('dnb-flex-item--align-self-stretch')
       expect(container).not.toHaveClass(
-        'dnb-flex-container--align-stretch'
+        'dnb-flex-container--align-stretch',
       )
       expect(container).toHaveClass(
-        'dnb-flex-container--align-self-stretch'
+        'dnb-flex-container--align-self-stretch',
       )
       expect(container).not.toHaveClass(
-        'dnb-flex-container--spacing-medium'
+        'dnb-flex-container--spacing-medium',
       )
     }
   })

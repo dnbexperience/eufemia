@@ -10,5 +10,5 @@ export type ListContextValue = {
 }
 
 export const ListContext = createContext<ListContextValue | undefined>(
-  undefined
+  undefined,
 )

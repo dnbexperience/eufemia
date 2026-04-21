@@ -40,7 +40,7 @@ describe('Field.SelectCurrency', () => {
       },
       executeBeforeSimulate: async () => {
         const element = document.querySelector(
-          '[data-visual-test="select-currency-opened"]'
+          '[data-visual-test="select-currency-opened"]',
         )
         element.scrollIntoView({
           behavior: 'auto',

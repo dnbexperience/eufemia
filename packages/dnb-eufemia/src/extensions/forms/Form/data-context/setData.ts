@@ -11,7 +11,7 @@ type SetDataReturn<Data> = {
 
 export default function setData<Data>(
   id: SharedStateId,
-  data?: Data
+  data?: Data,
 ): SetDataReturn<Data> {
   const sharedState = createSharedState(id)
 
@@ -27,7 +27,7 @@ export default function setData<Data>(
       value = value(
         pointer.has(existingData, path)
           ? pointer.get(existingData, path)
-          : undefined
+          : undefined,
       )
     }
 

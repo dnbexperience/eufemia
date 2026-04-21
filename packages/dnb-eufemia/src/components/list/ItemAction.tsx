@@ -39,7 +39,7 @@ export type ItemActionProps<E extends React.ElementType = 'a'> = {
 } & Omit<ItemContentProps, 'title' | 'element'>
 
 function ItemAction<E extends React.ElementType = 'a'>(
-  props: ItemActionProps<E>
+  props: ItemActionProps<E>,
 ) {
   const {
     className,
@@ -71,13 +71,13 @@ function ItemAction<E extends React.ElementType = 'a'>(
       event: React.MouseEvent<
         HTMLDivElement | HTMLAnchorElement,
         MouseEvent
-      >
+      >,
     ) => {
       if (!isInactive) {
         onClick && onClick(event as React.MouseEvent<HTMLDivElement>)
       }
     },
-    [onClick, isInactive]
+    [onClick, isInactive],
   )
 
   const handleKeyDown = useCallback(
@@ -88,11 +88,11 @@ function ItemAction<E extends React.ElementType = 'a'>(
           event as unknown as React.MouseEvent<
             HTMLDivElement | HTMLAnchorElement,
             MouseEvent
-          >
+          >,
         )
       }
     },
-    [handleClick]
+    [handleClick],
   )
 
   const anchorRef = useRef<HTMLAnchorElement>(null)
@@ -103,7 +103,7 @@ function ItemAction<E extends React.ElementType = 'a'>(
         onClick?.(event)
       }
     },
-    [onClick, isInactive]
+    [onClick, isInactive],
   )
 
   const handleLinkKeyDown = useCallback(
@@ -116,14 +116,14 @@ function ItemAction<E extends React.ElementType = 'a'>(
         }
       }
     },
-    [onClick, isInactive]
+    [onClick, isInactive],
   )
 
   const actionClassName = clsx(
     'dnb-list__item__action',
     chevronPosition === 'left' && 'dnb-list__item--chevron-left',
     (href || to) && 'dnb-list__item__action--href',
-    className
+    className,
   )
 
   const content = (

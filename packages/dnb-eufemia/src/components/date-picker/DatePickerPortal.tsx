@@ -68,7 +68,7 @@ export default function DatePickerPortal({
 
 function getPosition(
   targetElement: HTMLElement,
-  alignment: DatePickerPortalProps['alignment']
+  alignment: DatePickerPortalProps['alignment'],
 ) {
   const rect = targetElement?.getBoundingClientRect()
 

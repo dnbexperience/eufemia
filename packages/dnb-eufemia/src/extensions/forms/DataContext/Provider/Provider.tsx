@@ -134,7 +134,7 @@ export type DataContextProviderProps<Data extends JsonObject> =
      */
     onPathChange?: (
       path: Path,
-      value: unknown
+      value: unknown,
     ) =>
       | EventReturnWithStateObject
       | void
@@ -156,7 +156,7 @@ export type DataContextProviderProps<Data extends JsonObject> =
       /**
        * The result of the onSubmit function
        */
-      result: unknown
+      result: unknown,
     ) =>
       | EventReturnWithStateObject
       | void
@@ -208,7 +208,7 @@ export type DataContextProviderProps<Data extends JsonObject> =
 const isArrayJsonPointer = /^\/\d+(\/|$)/
 
 export default function Provider<Data extends JsonObject>(
-  props: DataContextProviderProps<Data>
+  props: DataContextProviderProps<Data>,
 ) {
   const [, forceUpdate] = useReducer(() => ({}), {})
 
@@ -247,7 +247,7 @@ export default function Provider<Data extends JsonObject>(
   // Prop error handling
   if (data !== undefined && sessionStorageId !== undefined) {
     throw new Error(
-      'Use "defaultData" instead of "data" when using sessionStorageId'
+      'Use "defaultData" instead of "data" when using sessionStorageId',
     )
   }
 
@@ -277,20 +277,20 @@ export default function Provider<Data extends JsonObject>(
   useEffect(() => {
     if (schema && !isZodSchema(schema) && !ajvInstance) {
       warn(
-        'Form.Handler received a JSON Schema but no ajvInstance. Provide ajvInstance={makeAjvInstance()} to enable schema validation.'
+        'Form.Handler received a JSON Schema but no ajvInstance. Provide ajvInstance={makeAjvInstance()} to enable schema validation.',
       )
     }
   }, [schema, ajvInstance])
 
   // - Paths
   const mountedFieldsRef: ContextState['mountedFieldsRef'] = useRef(
-    new Map()
+    new Map(),
   )
 
   // - Snapshots
   const snapshotsRef: ContextState['snapshotsRef'] = useRef(new Map())
   const existingFieldsRef: ContextState['existingFieldsRef'] = useRef(
-    new Map()
+    new Map(),
   )
 
   // - Errors from provider validation (the whole data set)
@@ -347,7 +347,7 @@ export default function Provider<Data extends JsonObject>(
           if (ajvErrors && ajvErrors.length) {
             errors = getAjvInstance()?.ajvErrorsToFormErrors(
               ajvErrors,
-              sectionData
+              sectionData,
             )
           }
         }
@@ -373,7 +373,7 @@ export default function Provider<Data extends JsonObject>(
 
       return errorsRef.current
     },
-    []
+    [],
   )
   const revealError = useCallback((path: Path, hasError: boolean) => {
     if (hasError) {
@@ -401,7 +401,7 @@ export default function Provider<Data extends JsonObject>(
       formStateRef.current = formState
       forceUpdate()
     },
-    []
+    [],
   )
   const setActiveSubmitButtonId = useCallback<
     ContextState['setActiveSubmitButtonId']
@@ -454,7 +454,7 @@ export default function Provider<Data extends JsonObject>(
 
   const ajvValidatorRef = useRef<UnifiedValidator>(undefined)
   const sectionSchemasRef = useRef<Map<symbol, SectionSchemaEntry>>(
-    new Map()
+    new Map(),
   )
   const sectionSchemaPathsRef = useRef<Set<Path>>(new Set())
 
@@ -481,7 +481,7 @@ export default function Provider<Data extends JsonObject>(
     },
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [],
   )
 
   // Ensure the AJV/Zod validator is created synchronously when a schema is present
@@ -500,7 +500,7 @@ export default function Provider<Data extends JsonObject>(
     }
 
     const validationResult = ajvValidatorRef.current(
-      internalDataRef.current
+      internalDataRef.current,
     )
 
     if (!validationResult) {
@@ -515,13 +515,13 @@ export default function Provider<Data extends JsonObject>(
         ) {
           // These are Zod errors, convert them to FormErrors
           errorsRef.current = zodErrorsToFormErrors(
-            errors as z.core.$ZodIssue[]
+            errors as z.core.$ZodIssue[],
           )
         } else {
           // These are AJV errors, use the existing conversion
           errorsRef.current = getAjvInstance()?.ajvErrorsToFormErrors(
             errors as ErrorObject<string, Record<string, unknown>>[],
-            internalDataRef.current
+            internalDataRef.current,
           )
         }
         return errorsRef.current
@@ -546,20 +546,20 @@ export default function Provider<Data extends JsonObject>(
         state === 'error'
           ? errorsRef.current?.[path] instanceof Error ||
               fieldErrorRef.current[path] instanceof Error
-          : fieldStateRef.current[path] === state
+          : fieldStateRef.current[path] === state,
       )
     },
-    []
+    [],
   )
   const hasFieldState = useCallback(
     (state: SubmitState) => {
       return Array.from(mountedFieldsRef.current.entries()).some(
         ([path, item]) => {
           return item.isMounted && checkFieldStateFor(path, state)
-        }
+        },
       )
     },
-    [checkFieldStateFor]
+    [checkFieldStateFor],
   )
   const hasFieldError = useCallback(
     (path: Path) => {
@@ -570,10 +570,10 @@ export default function Provider<Data extends JsonObject>(
             p === path &&
             checkFieldStateFor(path, 'error')
           )
-        }
+        },
       )
     },
-    [checkFieldStateFor]
+    [checkFieldStateFor],
   )
   const hasErrors = useCallback(() => {
     return hasFieldState('error')
@@ -599,7 +599,7 @@ export default function Provider<Data extends JsonObject>(
         }
       }
     },
-    []
+    [],
   )
 
   /**
@@ -614,13 +614,13 @@ export default function Provider<Data extends JsonObject>(
         bumpValidationVersionRef.current()
       }
     },
-    []
+    [],
   )
 
   const getDataPathHandlerParameters = useCallback(
     (
       path: Path,
-      data: Data = internalDataRef.current
+      data: Data = internalDataRef.current,
     ): DataPathHandlerParameters => {
       const value = pointer.has(data, path)
         ? pointer.get(data, path)
@@ -641,7 +641,7 @@ export default function Provider<Data extends JsonObject>(
         error,
       }
     },
-    []
+    [],
   )
 
   /**
@@ -651,7 +651,7 @@ export default function Provider<Data extends JsonObject>(
     (
       data: Data,
       handler: TransformData | FilterData,
-      { remove = false, mutate = true, fireHandlerWhen = null } = {}
+      { remove = false, mutate = true, fireHandlerWhen = null } = {},
     ) => {
       const freshData = {} as Data
       const mutateEntry = (path: Path, result: boolean | unknown) => {
@@ -677,7 +677,7 @@ export default function Provider<Data extends JsonObject>(
           const { type } = fieldDisplayValueRef.current[path] || {}
           if (fireHandlerWhen?.({ type }) !== false) {
             const result = handler(
-              getDataPathHandlerParameters(path, data)
+              getDataPathHandlerParameters(path, data),
             )
             mutateEntry(path, result)
           }
@@ -725,7 +725,7 @@ export default function Provider<Data extends JsonObject>(
               const traverse = (
                 subData: unknown,
                 subPath: string,
-                idx: number
+                idx: number,
               ) => {
                 if (idx === parts.length - 1) {
                   wildcardPaths.push({ path: subPath, condition })
@@ -737,7 +737,7 @@ export default function Provider<Data extends JsonObject>(
                     traverse(
                       list[i],
                       `${subPath}/${i}${parts[idx + 1]}`,
-                      idx + 1
+                      idx + 1,
                     )
                   })
                 }
@@ -756,7 +756,7 @@ export default function Provider<Data extends JsonObject>(
 
       return data
     },
-    [getDataPathHandlerParameters]
+    [getDataPathHandlerParameters],
   )
 
   /**
@@ -788,7 +788,7 @@ export default function Provider<Data extends JsonObject>(
 
       return visibleData
     },
-    []
+    [],
   )
 
   /**
@@ -802,14 +802,14 @@ export default function Provider<Data extends JsonObject>(
 
       return data
     },
-    [mutateDataHandler]
+    [mutateDataHandler],
   )
 
   const filterData = useCallback(
     (filter: FilterData, data = internalDataRef.current) => {
       return filterDataHandler(data, filter)
     },
-    [filterDataHandler]
+    [filterDataHandler],
   )
 
   const fieldDisplayValueRef: ContextState['fieldDisplayValueRef'] =
@@ -823,7 +823,7 @@ export default function Provider<Data extends JsonObject>(
     (path: Path, connections: Record<string, unknown>) => {
       fieldConnectionsRef.current[path] = connections
     },
-    []
+    [],
   )
 
   const fieldInternalsRef = useRef<FieldInternalsRef>({})
@@ -831,10 +831,10 @@ export default function Provider<Data extends JsonObject>(
     (path, internals) => {
       fieldInternalsRef.current[path] = Object.assign(
         fieldInternalsRef.current[path] || {},
-        internals
+        internals,
       )
     },
-    []
+    [],
   )
 
   const valueInternalsRef = useRef<ValueInternalsRef>({})
@@ -842,10 +842,10 @@ export default function Provider<Data extends JsonObject>(
     (path: Path, props: ValueProps) => {
       valueInternalsRef.current[path] = Object.assign(
         valueInternalsRef.current[path] || {},
-        { props }
+        { props },
       )
     },
-    []
+    [],
   )
 
   const hasFieldWithAsyncValidator = useCallback(() => {
@@ -867,10 +867,10 @@ export default function Provider<Data extends JsonObject>(
   // - Shared state
   const sharedData = useSharedState<Data>(id)
   const sharedAttachments = useSharedState<SharedAttachments<Data>>(
-    id ? createReferenceKey(id, 'attachments') : undefined
+    id ? createReferenceKey(id, 'attachments') : undefined,
   )
   const sharedDataContext = useSharedState<ContextState>(
-    id ? createReferenceKey(id, 'data-context') : undefined
+    id ? createReferenceKey(id, 'data-context') : undefined,
   )
 
   const setSharedData = sharedData.set
@@ -882,7 +882,7 @@ export default function Provider<Data extends JsonObject>(
       validationVersionRef.current += 1
       extendAttachment(
         { validationVersion: validationVersionRef.current },
-        { preventSyncOfSameInstance: true }
+        { preventSyncOfSameInstance: true },
       )
     }
   }
@@ -1035,7 +1035,7 @@ export default function Provider<Data extends JsonObject>(
 
         sectionSchemasRef.current.delete(registration.id)
         const stillUsesPath = Array.from(
-          sectionSchemasRef.current.values()
+          sectionSchemasRef.current.values(),
         ).some((item) => item.path === entry.path)
         if (!stillUsesPath) {
           sectionSchemaPathsRef.current.delete(entry.path)
@@ -1044,7 +1044,7 @@ export default function Provider<Data extends JsonObject>(
         validateData()
       }
     },
-    [createUnifiedValidator, validateData]
+    [createUnifiedValidator, validateData],
   )
 
   const storeInSession = useMemo(() => {
@@ -1052,10 +1052,10 @@ export default function Provider<Data extends JsonObject>(
       () => {
         window.sessionStorage?.setItem(
           sessionStorageId,
-          JSON.stringify(internalDataRef.current)
+          JSON.stringify(internalDataRef.current),
         )
       },
-      process.env.NODE_ENV === 'test' ? 1 : 800
+      process.env.NODE_ENV === 'test' ? 1 : 800,
     )
   }, [sessionStorageId])
 
@@ -1088,7 +1088,7 @@ export default function Provider<Data extends JsonObject>(
       sessionStorageId,
       storeInSession,
       transformIn,
-    ]
+    ],
   )
 
   /**
@@ -1124,7 +1124,7 @@ export default function Provider<Data extends JsonObject>(
       setData(newData, { preventUpdate })
       onUpdateDataValue?.(path, value, { preventUpdate })
     },
-    [onUpdateDataValue, setData]
+    [onUpdateDataValue, setData],
   )
 
   /**
@@ -1156,7 +1156,7 @@ export default function Provider<Data extends JsonObject>(
           }
         }
       },
-      [onPathChange, updateDataValue]
+      [onPathChange, updateDataValue],
     )
 
   /**
@@ -1203,7 +1203,7 @@ export default function Provider<Data extends JsonObject>(
       onChange,
       transformOut,
       validateData,
-    ]
+    ],
   )
 
   const changeHandlerStackRef = useRef<Array<OnChange<Data>>>([])
@@ -1243,7 +1243,7 @@ export default function Provider<Data extends JsonObject>(
         }
       }
     },
-    []
+    [],
   )
 
   // - Features
@@ -1262,7 +1262,7 @@ export default function Provider<Data extends JsonObject>(
       fn: () =>
         | EventReturnWithStateObject
         | void
-        | Promise<EventReturnWithStateObject | void>
+        | Promise<EventReturnWithStateObject | void>,
     ): Promise<EventStateObject | undefined> => {
       try {
         const result = await fn()
@@ -1276,7 +1276,7 @@ export default function Provider<Data extends JsonObject>(
         return { error: error as Error }
       }
     },
-    []
+    [],
   )
 
   /**
@@ -1293,7 +1293,7 @@ export default function Provider<Data extends JsonObject>(
         setSubmitState(result)
       }
     },
-    [setSubmitState]
+    [setSubmitState],
   )
 
   /**
@@ -1364,7 +1364,7 @@ export default function Provider<Data extends JsonObject>(
               internalDataRef.current,
               {
                 clearData,
-              }
+              },
             )
 
             // Notify listeners after committing isolated data
@@ -1400,7 +1400,7 @@ export default function Provider<Data extends JsonObject>(
           // Because we buffer the "revealError" in the useFieldProps hook,
           // we need to wait for the next frame before we continue and call "setShowAllErrors".
           await new Promise((resolve) =>
-            window.requestAnimationFrame(resolve)
+            window.requestAnimationFrame(resolve),
           )
 
           setFormState(undefined)
@@ -1428,7 +1428,7 @@ export default function Provider<Data extends JsonObject>(
                   return getDataPathHandlerParameters(path)
                 })
                 .filter(({ error }) => error),
-          })
+          }),
         )
 
         applySubmitState(submitRequestResult)
@@ -1459,7 +1459,7 @@ export default function Provider<Data extends JsonObject>(
       resolveStateResult,
       setFormState,
       setShowAllErrors,
-    ]
+    ],
   )
 
   const getSubmitData = useCallback(() => {
@@ -1477,11 +1477,11 @@ export default function Provider<Data extends JsonObject>(
   const getSubmitParams = useCallback(() => {
     const reduceToVisibleFields: VisibleDataHandler<Data> = (
       data,
-      options
+      options,
     ) => {
       return visibleDataHandler(
         transformOut ? mutateDataHandler(data, transformOut) : data,
-        options
+        options,
       )
     }
 
@@ -1595,19 +1595,19 @@ export default function Provider<Data extends JsonObject>(
       path: EventListenerCall['path'],
       type: EventListenerCall['type'],
       callback: EventListenerCall['callback'],
-      { remove = false } = {}
+      { remove = false } = {},
     ) => {
       fieldEventListenersRef.current =
         fieldEventListenersRef.current.filter(
           ({ path: p, type: t, callback: c }) => {
             return !(p === path && t === type && c === callback)
-          }
+          },
         )
       if (!remove) {
         fieldEventListenersRef.current.push({ path, type, callback })
       }
     },
-    []
+    [],
   )
 
   // Handle unresolved field states during async submit
@@ -1666,7 +1666,7 @@ export default function Provider<Data extends JsonObject>(
           fieldErrorRef,
           internalDataRef,
         },
-        { preventSyncOfSameInstance: true }
+        { preventSyncOfSameInstance: true },
       )
     }
   }, [
@@ -1713,7 +1713,7 @@ export default function Provider<Data extends JsonObject>(
       }
       return value as Return
     },
-    []
+    [],
   )
 
   const contextValue: ContextState = {

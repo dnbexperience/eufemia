@@ -19,7 +19,7 @@ describe('MenuAccordion', () => {
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext>
+      </MenuContext>,
     )
 
     const trigger = document.querySelector('[role="menuitem"]')
@@ -40,7 +40,7 @@ describe('MenuAccordion', () => {
             <Menu.Action text="PNG" />
           </Menu.Accordion>
         </ul>
-      </MenuContext>
+      </MenuContext>,
     )
 
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
@@ -72,7 +72,7 @@ describe('MenuAccordion', () => {
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext>
+      </MenuContext>,
     )
 
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
@@ -91,7 +91,7 @@ describe('MenuAccordion', () => {
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext>
+      </MenuContext>,
     )
 
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
@@ -112,7 +112,7 @@ describe('MenuAccordion', () => {
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext>
+      </MenuContext>,
     )
 
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
@@ -133,7 +133,7 @@ describe('MenuAccordion', () => {
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext>
+      </MenuContext>,
     )
 
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
@@ -152,7 +152,7 @@ describe('MenuAccordion', () => {
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext>
+      </MenuContext>,
     )
 
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
@@ -177,11 +177,11 @@ describe('MenuAccordion', () => {
             <Menu.Action text="PNG" />
           </Menu.Accordion>
         </ul>
-      </MenuContext>
+      </MenuContext>,
     )
 
     const trigger = document.querySelector(
-      '.dnb-menu__accordion__trigger'
+      '.dnb-menu__accordion__trigger',
     ) as HTMLElement
 
     // Open accordion
@@ -190,7 +190,7 @@ describe('MenuAccordion', () => {
 
     // Focus a child item
     const childItem = Array.from(
-      document.querySelectorAll('[role="menuitem"]')
+      document.querySelectorAll('[role="menuitem"]'),
     ).find((el) => el.textContent?.includes('PDF')) as HTMLElement
     childItem.focus()
 
@@ -210,7 +210,7 @@ describe('MenuAccordion', () => {
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext>
+      </MenuContext>,
     )
 
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
@@ -233,21 +233,21 @@ describe('MenuAccordion', () => {
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext>
+      </MenuContext>,
     )
 
     const wrapper = document.querySelector('.dnb-menu__accordion')
     expect(wrapper).toBeInTheDocument()
     expect(wrapper.classList.contains('custom')).toBe(true)
     expect(wrapper.classList.contains('dnb-menu__accordion--open')).toBe(
-      false
+      false,
     )
 
     // Open it
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
     fireEvent.click(trigger)
     expect(wrapper.classList.contains('dnb-menu__accordion--open')).toBe(
-      true
+      true,
     )
   })
 
@@ -261,12 +261,12 @@ describe('MenuAccordion', () => {
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext>
+      </MenuContext>,
     )
 
     const wrapper = document.querySelector('.dnb-menu__accordion')
     expect(
-      wrapper.classList.contains('dnb-menu__accordion--disabled')
+      wrapper.classList.contains('dnb-menu__accordion--disabled'),
     ).toBe(true)
   })
 
@@ -282,7 +282,7 @@ describe('MenuAccordion', () => {
             <Menu.Action text="PNG" />
           </Menu.Accordion>
         </ul>
-      </MenuContext>
+      </MenuContext>,
     )
 
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
@@ -312,7 +312,7 @@ describe('MenuAccordion', () => {
             <Menu.Action text="PDF" onClick={() => null} />
           </Menu.Accordion>
         </ul>
-      </MenuContext>
+      </MenuContext>,
     )
 
     // Open accordion
@@ -321,7 +321,7 @@ describe('MenuAccordion', () => {
 
     // Click child action
     const pdfAction = Array.from(
-      document.querySelectorAll('[role="menuitem"]')
+      document.querySelectorAll('[role="menuitem"]'),
     ).find((el) => el.textContent?.includes('PDF'))
     fireEvent.click(pdfAction)
 
@@ -341,7 +341,7 @@ describe('MenuAccordion', () => {
           </Menu.Accordion>
           <Menu.Action text="Close" />
         </Menu.List>
-      </Menu.Root>
+      </Menu.Root>,
     )
 
     const items = document.querySelectorAll('[role="menuitem"]')
@@ -350,7 +350,7 @@ describe('MenuAccordion', () => {
 
     // Open accordion
     const exportTrigger = Array.from(items).find((el) =>
-      el.textContent?.includes('Export as')
+      el.textContent?.includes('Export as'),
     )
     fireEvent.click(exportTrigger)
 
@@ -370,7 +370,7 @@ describe('MenuAccordion', () => {
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext>
+      </MenuContext>,
     )
 
     expect(registerItem).toHaveBeenCalled()
@@ -386,11 +386,11 @@ describe('MenuAccordion', () => {
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext>
+      </MenuContext>,
     )
 
     const indicator = document.querySelector(
-      '.dnb-menu__accordion__indicator'
+      '.dnb-menu__accordion__indicator',
     )
     expect(indicator).toBeTruthy()
 
@@ -400,7 +400,7 @@ describe('MenuAccordion', () => {
 
     // Indicator should still be present when open
     expect(
-      document.querySelector('.dnb-menu__accordion__indicator')
+      document.querySelector('.dnb-menu__accordion__indicator'),
     ).toBeTruthy()
   })
 
@@ -415,7 +415,7 @@ describe('MenuAccordion', () => {
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext>
+      </MenuContext>,
     )
 
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
@@ -438,7 +438,7 @@ describe('MenuAccordion', () => {
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext>
+      </MenuContext>,
     )
 
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
@@ -457,7 +457,7 @@ describe('MenuAccordion', () => {
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext>
+      </MenuContext>,
     )
 
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
@@ -483,7 +483,7 @@ describe('MenuAccordion', () => {
             <Menu.Action text="PDF" />
           </Menu.Accordion>
         </ul>
-      </MenuContext>
+      </MenuContext>,
     )
 
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
@@ -504,18 +504,18 @@ describe('MenuAccordion', () => {
             </Menu.Accordion>
             <Menu.Action text="Close" />
           </Menu.List>
-        </Menu.Root>
+        </Menu.Root>,
       )
 
       // Open accordion
       const exportTrigger = Array.from(
-        document.querySelectorAll('[role="menuitem"]')
+        document.querySelectorAll('[role="menuitem"]'),
       ).find((el) => el.textContent?.includes('Export as')) as HTMLElement
       fireEvent.click(exportTrigger)
 
       // Focus the last child item (PNG)
       const pngItem = Array.from(
-        document.querySelectorAll('[role="menuitem"]')
+        document.querySelectorAll('[role="menuitem"]'),
       ).find((el) => el.textContent?.includes('PNG')) as HTMLElement
       pngItem.focus()
 
@@ -524,7 +524,7 @@ describe('MenuAccordion', () => {
       fireEvent.keyDown(menu, { key: 'ArrowDown' })
 
       const closeItem = Array.from(
-        document.querySelectorAll('[role="menuitem"]')
+        document.querySelectorAll('[role="menuitem"]'),
       ).find((el) => el.textContent?.includes('Close')) as HTMLElement
       expect(document.activeElement).toBe(closeItem)
     })
@@ -541,18 +541,18 @@ describe('MenuAccordion', () => {
             </Menu.Accordion>
             <Menu.Action text="Close" />
           </Menu.List>
-        </Menu.Root>
+        </Menu.Root>,
       )
 
       // Open accordion
       const exportTrigger = Array.from(
-        document.querySelectorAll('[role="menuitem"]')
+        document.querySelectorAll('[role="menuitem"]'),
       ).find((el) => el.textContent?.includes('Export as')) as HTMLElement
       fireEvent.click(exportTrigger)
 
       // Focus the first child item (PDF)
       const pdfItem = Array.from(
-        document.querySelectorAll('[role="menuitem"]')
+        document.querySelectorAll('[role="menuitem"]'),
       ).find((el) => el.textContent?.includes('PDF')) as HTMLElement
       pdfItem.focus()
 
@@ -574,16 +574,16 @@ describe('MenuAccordion', () => {
             </Menu.Accordion>
             <Menu.Action text="Close" />
           </Menu.List>
-        </Menu.Root>
+        </Menu.Root>,
       )
 
       const exportTrigger = Array.from(
-        document.querySelectorAll('[role="menuitem"]')
+        document.querySelectorAll('[role="menuitem"]'),
       ).find((el) => el.textContent?.includes('Export as')) as HTMLElement
       fireEvent.click(exportTrigger)
 
       const pdfItem = Array.from(
-        document.querySelectorAll('[role="menuitem"]')
+        document.querySelectorAll('[role="menuitem"]'),
       ).find((el) => el.textContent?.includes('PDF')) as HTMLElement
       pdfItem.focus()
 
@@ -606,12 +606,12 @@ describe('MenuAccordion', () => {
             </Menu.Accordion>
             <Menu.Action text="Close" />
           </Menu.List>
-        </Menu.Root>
+        </Menu.Root>,
       )
 
       // Open accordion
       const exportTrigger = Array.from(
-        document.querySelectorAll('[role="menuitem"]')
+        document.querySelectorAll('[role="menuitem"]'),
       ).find((el) => el.textContent?.includes('Export as')) as HTMLElement
       fireEvent.click(exportTrigger)
 
@@ -623,7 +623,7 @@ describe('MenuAccordion', () => {
       fireEvent.keyDown(menu, { key: 'ArrowDown' })
 
       const pdfItem = Array.from(
-        document.querySelectorAll('[role="menuitem"]')
+        document.querySelectorAll('[role="menuitem"]'),
       ).find((el) => el.textContent?.includes('PDF')) as HTMLElement
       expect(document.activeElement).toBe(pdfItem)
     })

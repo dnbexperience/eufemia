@@ -111,7 +111,7 @@ function UploadFileItem(
   props: { uploadFile: UploadFile } & Pick<
     ValueUploadProps,
     'download' | 'onFileClick' | 'displaySize'
-  >
+  >,
 ) {
   const {
     uploadFile,

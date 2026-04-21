@@ -73,7 +73,7 @@ export default function MenuRoot(props: MenuRootProps) {
       }
       onOpenChange?.(next)
     },
-    [isControlled, onOpenChange]
+    [isControlled, onOpenChange],
   )
 
   const closeAll = useCallback(() => {
@@ -134,7 +134,7 @@ export default function MenuRoot(props: MenuRootProps) {
       registerItem,
       unregisterItem,
       isOpen,
-    ]
+    ],
   )
 
   // Reset item registration on each render cycle so indices stay correct
@@ -184,7 +184,7 @@ export default function MenuRoot(props: MenuRootProps) {
     (next: boolean) => {
       setOpenState(next)
     },
-    [setOpenState]
+    [setOpenState],
   )
 
   // Handle ArrowDown/ArrowUp/ArrowRight on trigger to open menu or move focus into it.
@@ -211,7 +211,7 @@ export default function MenuRoot(props: MenuRootProps) {
         })
       }
     },
-    [isOpen, handleOpenChange, setActiveIndex]
+    [isOpen, handleOpenChange, setActiveIndex],
   )
 
   // Build the trigger for Popover from Menu.Button or Menu.Action child

@@ -32,7 +32,7 @@ export type UseSubmitReturn = {
  */
 export default function useSubmit(id?: SharedStateId): UseSubmitReturn {
   const { get } = useSharedState<ContextState>(
-    createReferenceKey(id, 'data-context')
+    createReferenceKey(id, 'data-context'),
   )
   const dataContext = useContext(DataContext)
 

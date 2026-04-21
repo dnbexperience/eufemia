@@ -28,7 +28,7 @@ export function TableNavigationHead(allProps: TableNavigationHeadProps) {
     (event: React.SyntheticEvent, allowInteractiveElement?: boolean) => {
       onClickTr(event, allowInteractiveElement, onClick)
     },
-    [onClick]
+    [onClick],
   )
 
   if (hasOnClick) {
@@ -38,14 +38,14 @@ export function TableNavigationHead(allProps: TableNavigationHeadProps) {
         ariaLabel={tableContextAllProps?.navigationButtonSR}
         icon="chevron_right"
         onClick={onClickHandler}
-      />
+      />,
     )
   } else if (isTableHead(content)) {
     content.push(
       <TableIconSrTh
         key="th-icon"
         text={tableContext?.allProps?.navigationButtonSR}
-      />
+      />,
     )
   } else if (!hasOnClick) {
     content.push(<Td key="empty-td" />)

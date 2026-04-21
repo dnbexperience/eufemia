@@ -46,7 +46,7 @@ describe('useVerifyChildren', () => {
     expect(log).toHaveBeenCalledWith(
       expect.any(String),
       'Warning message',
-      undefined
+      undefined,
     )
 
     log.mockRestore()
@@ -78,7 +78,7 @@ describe('useVerifyChildren', () => {
     expect(log).toHaveBeenCalledWith(
       expect.any(String),
       'Warning message',
-      props
+      props,
     )
 
     log.mockRestore()

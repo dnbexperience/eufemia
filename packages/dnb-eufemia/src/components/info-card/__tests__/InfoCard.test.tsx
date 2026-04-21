@@ -13,7 +13,7 @@ describe('InfoCard', () => {
     render(<InfoCard />)
 
     expect(
-      document.querySelector('.dnb-info-card__text')
+      document.querySelector('.dnb-info-card__text'),
     ).not.toBeInTheDocument()
     expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
   })
@@ -23,7 +23,7 @@ describe('InfoCard', () => {
     render(<InfoCard {...props} />)
 
     expect(
-      document.querySelector('.dnb-info-card__text')
+      document.querySelector('.dnb-info-card__text'),
     ).toBeInTheDocument()
   })
 
@@ -33,10 +33,10 @@ describe('InfoCard', () => {
     render(<InfoCard text="text" title={title} />)
 
     expect(
-      document.querySelector('.dnb-info-card__title')
+      document.querySelector('.dnb-info-card__title'),
     ).toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-info-card__title').textContent
+      document.querySelector('.dnb-info-card__title').textContent,
     ).toMatch(title)
   })
 
@@ -44,7 +44,7 @@ describe('InfoCard', () => {
     render(<InfoCard text="text" style={{ color: 'red' }} />)
 
     expect(
-      document.querySelector('.dnb-info-card').getAttribute('style')
+      document.querySelector('.dnb-info-card').getAttribute('style'),
     ).toBe('color: red;')
   })
 
@@ -54,12 +54,12 @@ describe('InfoCard', () => {
     render(<InfoCard text="text" title={title} />)
 
     expect(
-      document.querySelector('.dnb-info-card__title')
+      document.querySelector('.dnb-info-card__title'),
     ).toBeInTheDocument()
     expect(
       within(
-        document.querySelector('.dnb-info-card__title')
-      ).queryByTestId('react-node')
+        document.querySelector('.dnb-info-card__title'),
+      ).queryByTestId('react-node'),
     ).toBeInTheDocument()
   })
 
@@ -69,10 +69,10 @@ describe('InfoCard', () => {
     render(<InfoCard text={text} />)
 
     expect(
-      document.querySelector('.dnb-info-card__text')
+      document.querySelector('.dnb-info-card__text'),
     ).toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-info-card__text').textContent
+      document.querySelector('.dnb-info-card__text').textContent,
     ).toMatch(text)
   })
 
@@ -82,12 +82,12 @@ describe('InfoCard', () => {
     render(<InfoCard text={text} />)
 
     expect(
-      document.querySelector('.dnb-info-card__text')
+      document.querySelector('.dnb-info-card__text'),
     ).toBeInTheDocument()
     expect(
       within(document.querySelector('.dnb-info-card__text')).queryByTestId(
-        'react-node'
-      )
+        'react-node',
+      ),
     ).toBeInTheDocument()
   })
 
@@ -103,7 +103,7 @@ describe('InfoCard', () => {
     const imgSrc = '/dnb/android-chrome-192x192.png'
 
     render(
-      <InfoCard text="text" imgProps={{ alt: 'alt-text', src: imgSrc }} />
+      <InfoCard text="text" imgProps={{ alt: 'alt-text', src: imgSrc }} />,
     )
 
     expect(screen.queryByRole('img').getAttribute('src')).toBe(imgSrc)
@@ -124,7 +124,7 @@ describe('InfoCard', () => {
     render(<InfoCard text="text" imgProps={imgProps} />)
 
     const infoCard = document.querySelector(
-      '.dnb-info-card'
+      '.dnb-info-card',
     ) as HTMLElement
     const image = within(infoCard).queryByRole('img')
 
@@ -138,10 +138,10 @@ describe('InfoCard', () => {
     render(<InfoCard text="text" />)
 
     expect(
-      document.querySelector('.dnb-info-card__buttons__accept-button')
+      document.querySelector('.dnb-info-card__buttons__accept-button'),
     ).not.toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-info-card__buttons__close-button')
+      document.querySelector('.dnb-info-card__buttons__close-button'),
     ).not.toBeInTheDocument()
   })
 
@@ -150,7 +150,7 @@ describe('InfoCard', () => {
     render(<InfoCard text="text" onAccept={onAccept} />)
 
     const buttonElement = document.querySelector(
-      '.dnb-info-card__buttons__accept-button'
+      '.dnb-info-card__buttons__accept-button',
     )
 
     expect(buttonElement).toBeInTheDocument()
@@ -165,7 +165,7 @@ describe('InfoCard', () => {
     render(<InfoCard text="text" acceptButtonText={acceptButtonText} />)
 
     const buttonElement = document.querySelector(
-      '.dnb-info-card__buttons__accept-button'
+      '.dnb-info-card__buttons__accept-button',
     )
 
     expect(buttonElement).toBeInTheDocument()
@@ -180,12 +180,12 @@ describe('InfoCard', () => {
     render(<InfoCard text="text" acceptButtonText={acceptButtonText} />)
 
     expect(
-      document.querySelector('.dnb-info-card__buttons__accept-button')
+      document.querySelector('.dnb-info-card__buttons__accept-button'),
     ).toBeInTheDocument()
     expect(
       within(
-        document.querySelector('.dnb-info-card__buttons__accept-button')
-      ).queryByTestId('react-node')
+        document.querySelector('.dnb-info-card__buttons__accept-button'),
+      ).queryByTestId('react-node'),
     ).toBeInTheDocument()
   })
 
@@ -194,7 +194,7 @@ describe('InfoCard', () => {
     render(<InfoCard text="text" onClose={onClose} />)
 
     const buttonElement = document.querySelector(
-      '.dnb-info-card__buttons__close-button'
+      '.dnb-info-card__buttons__close-button',
     )
 
     expect(buttonElement).toBeInTheDocument()
@@ -209,7 +209,7 @@ describe('InfoCard', () => {
     render(<InfoCard text="text" closeButtonText={closeButtonText} />)
 
     const buttonElement = document.querySelector(
-      '.dnb-info-card__buttons__close-button'
+      '.dnb-info-card__buttons__close-button',
     )
 
     expect(buttonElement).toBeInTheDocument()
@@ -222,12 +222,12 @@ describe('InfoCard', () => {
     render(<InfoCard text="text" closeButtonText={closeButtonText} />)
 
     expect(
-      document.querySelector('.dnb-info-card__buttons__close-button')
+      document.querySelector('.dnb-info-card__buttons__close-button'),
     ).toBeInTheDocument()
     expect(
       within(
-        document.querySelector('.dnb-info-card__buttons__close-button')
-      ).queryByTestId('react-node')
+        document.querySelector('.dnb-info-card__buttons__close-button'),
+      ).queryByTestId('react-node'),
     ).toBeInTheDocument()
   })
 
@@ -239,11 +239,11 @@ describe('InfoCard', () => {
         text="text"
         acceptButtonText="accept"
         acceptButtonAttributes={{ href }}
-      />
+      />,
     )
 
     const buttonElement = document.querySelector(
-      '.dnb-info-card__buttons__accept-button'
+      '.dnb-info-card__buttons__accept-button',
     )
 
     expect(buttonElement.getAttribute('href')).toMatch(href)
@@ -257,11 +257,11 @@ describe('InfoCard', () => {
         text="text"
         closeButtonText="accept"
         closeButtonAttributes={{ href }}
-      />
+      />,
     )
 
     const buttonElement = document.querySelector(
-      '.dnb-info-card__buttons__close-button'
+      '.dnb-info-card__buttons__close-button',
     )
 
     expect(buttonElement.getAttribute('href')).toMatch(href)
@@ -273,7 +273,7 @@ describe('InfoCard', () => {
     render(<InfoCard skeleton text="skeleton" />)
 
     expect(
-      document.querySelector('.dnb-info-card__text').className
+      document.querySelector('.dnb-info-card__text').className,
     ).toMatch(skeletonClassName)
   })
 
@@ -283,11 +283,11 @@ describe('InfoCard', () => {
     render(
       <Provider skeleton>
         <InfoCard text="skeleton" />
-      </Provider>
+      </Provider>,
     )
 
     expect(
-      document.querySelector('.dnb-info-card__text').className
+      document.querySelector('.dnb-info-card__text').className,
     ).toMatch(skeletonClassName)
   })
 
@@ -296,7 +296,7 @@ describe('InfoCard', () => {
 
     const element = document.querySelector('.dnb-info-card')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual(['class'])
@@ -322,7 +322,7 @@ describe('InfoCard', () => {
     render(<InfoCard dropShadow text="content" />)
 
     expect(document.querySelector('.dnb-info-card').className).toMatch(
-      shadowClassName
+      shadowClassName,
     )
   })
 
@@ -330,7 +330,7 @@ describe('InfoCard', () => {
     render(<InfoCard centered text="content" />)
 
     expect(document.querySelector('.dnb-info-card')).toHaveClass(
-      'dnb-info-card--centered'
+      'dnb-info-card--centered',
     )
   })
 
@@ -338,7 +338,7 @@ describe('InfoCard', () => {
     render(<InfoCard stretch text="content" />)
 
     expect(document.querySelector('.dnb-info-card')).toHaveClass(
-      'dnb-info-card--stretch'
+      'dnb-info-card--stretch',
     )
   })
 

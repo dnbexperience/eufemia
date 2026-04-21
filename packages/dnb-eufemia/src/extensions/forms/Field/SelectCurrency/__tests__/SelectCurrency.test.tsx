@@ -20,17 +20,17 @@ describe('Field.SelectCurrency', () => {
     render(<Field.SelectCurrency size="large" />)
 
     const autocompleteElement: HTMLInputElement = document.querySelector(
-      '.dnb-autocomplete'
+      '.dnb-autocomplete',
     )
     expect(autocompleteElement.classList).toContain(
-      'dnb-autocomplete--large'
+      'dnb-autocomplete--large',
     )
 
     const selectCurrencyElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-currency'
+      '.dnb-forms-field-select-currency',
     )
     expect(selectCurrencyElement.classList).toContain(
-      'dnb-forms-field-block--label-height-large'
+      'dnb-forms-field-block--label-height-large',
     )
   })
 
@@ -44,11 +44,11 @@ describe('Field.SelectCurrency', () => {
         onChange={onChange}
         onBlur={onBlur}
         onFocus={onFocus}
-      />
+      />,
     )
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-currency input'
+      '.dnb-forms-field-select-currency input',
     )
     const firstItemElement = () =>
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
@@ -114,13 +114,13 @@ describe('Field.SelectCurrency', () => {
     render(<Field.SelectCurrency onChange={onChange} />)
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-currency input'
+      '.dnb-forms-field-select-currency input',
     )
     const liElements = () =>
       document.querySelectorAll('li:not([aria-hidden])')
     const selectedItemElement = () =>
       document.querySelector(
-        '.dnb-drawer-list__option.dnb-drawer-list__option--selected'
+        '.dnb-drawer-list__option.dnb-drawer-list__option--selected',
       )
 
     fireEvent.focus(inputElement)
@@ -156,11 +156,11 @@ describe('Field.SelectCurrency', () => {
         filterCurrencies={({ regions }) =>
           regions?.includes('Scandinavia')
         }
-      />
+      />,
     )
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-currency input'
+      '.dnb-forms-field-select-currency input',
     )
 
     // open
@@ -174,7 +174,7 @@ describe('Field.SelectCurrency', () => {
     expect(liElements[3].textContent).toBe('EuroEUR')
 
     expect(
-      document.querySelector('li.dnb-drawer-list__option--selected')
+      document.querySelector('li.dnb-drawer-list__option--selected'),
     ).not.toBeInTheDocument()
   })
 
@@ -182,7 +182,7 @@ describe('Field.SelectCurrency', () => {
     render(<Field.SelectCurrency />)
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-currency input'
+      '.dnb-forms-field-select-currency input',
     )
 
     // open
@@ -202,11 +202,11 @@ describe('Field.SelectCurrency', () => {
     render(
       <Form.Handler>
         <Field.SelectCurrency />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-currency input'
+      '.dnb-forms-field-select-currency input',
     )
 
     // open
@@ -215,7 +215,7 @@ describe('Field.SelectCurrency', () => {
     {
       const liElements = document.querySelectorAll('li:not([aria-hidden])')
       expect(liElements[liElements.length - 1].textContent).toBe(
-        'Ungarsk forintHUF'
+        'Ungarsk forintHUF',
       )
     }
   })
@@ -224,11 +224,11 @@ describe('Field.SelectCurrency', () => {
     render(
       <Form.Handler locale="en-GB">
         <Field.SelectCurrency />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-currency input'
+      '.dnb-forms-field-select-currency input',
     )
 
     // open
@@ -237,7 +237,7 @@ describe('Field.SelectCurrency', () => {
     {
       const liElements = document.querySelectorAll('li:not([aria-hidden])')
       expect(liElements[liElements.length - 1].textContent).toBe(
-        'United Arab Emirates dirhamAED'
+        'United Arab Emirates dirhamAED',
       )
     }
   })
@@ -246,7 +246,7 @@ describe('Field.SelectCurrency', () => {
     render(<Field.SelectCurrency currencies="Scandinavia" />)
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-currency input'
+      '.dnb-forms-field-select-currency input',
     )
 
     // open
@@ -265,11 +265,11 @@ describe('Field.SelectCurrency', () => {
       <Field.SelectCurrency
         currencies="Scandinavia"
         filterCurrencies={({ iso }) => iso !== 'DKK'}
-      />
+      />,
     )
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-currency input'
+      '.dnb-forms-field-select-currency input',
     )
 
     // open
@@ -286,7 +286,7 @@ describe('Field.SelectCurrency', () => {
     render(<Field.SelectCurrency currencies="Prioritized" />)
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-currency input'
+      '.dnb-forms-field-select-currency input',
     )
 
     // open
@@ -307,15 +307,15 @@ describe('Field.SelectCurrency', () => {
       <Form.Handler>
         <Field.SelectCurrency required />
         <Form.SubmitButton />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const buttonElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-submit-button'
+      '.dnb-forms-submit-button',
     )
 
     expect(
-      document.querySelector('.dnb-form-status')
+      document.querySelector('.dnb-form-status'),
     ).not.toBeInTheDocument()
 
     fireEvent.click(buttonElement)
@@ -327,11 +327,11 @@ describe('Field.SelectCurrency', () => {
     render(
       <Form.Handler defaultData={{ currency: 'NOK' }}>
         <Field.SelectCurrency path="/currency" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-currency input'
+      '.dnb-forms-field-select-currency input',
     )
 
     expect(inputElement.value).toBe('Norsk krone (NOK)')
@@ -345,11 +345,11 @@ describe('Field.SelectCurrency', () => {
         <Iterate.Array path="/items">
           <Field.SelectCurrency itemPath="/currency" />
         </Iterate.Array>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [norway, denmark] = Array.from(
-      document.querySelectorAll('.dnb-forms-field-select-currency')
+      document.querySelectorAll('.dnb-forms-field-select-currency'),
     )
 
     expect(norway.querySelector('input')).toHaveValue('Norsk krone (NOK)')
@@ -358,7 +358,7 @@ describe('Field.SelectCurrency', () => {
 
   it('should execute validateInitially if required', () => {
     const { rerender } = render(
-      <Field.SelectCurrency required validateInitially />
+      <Field.SelectCurrency required validateInitially />,
     )
 
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
@@ -366,7 +366,7 @@ describe('Field.SelectCurrency', () => {
     rerender(<Field.SelectCurrency validateInitially />)
 
     expect(
-      document.querySelector('.dnb-form-status')
+      document.querySelector('.dnb-form-status'),
     ).not.toBeInTheDocument()
   })
 
@@ -374,18 +374,18 @@ describe('Field.SelectCurrency', () => {
     const { rerender } = render(
       <Provider>
         <Field.SelectCurrency value="NOK" />
-      </Provider>
+      </Provider>,
     )
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-currency input'
+      '.dnb-forms-field-select-currency input',
     )
 
     fireEvent.mouseDown(inputElement)
 
     const selectedItemElement = () =>
       document.querySelector(
-        '.dnb-drawer-list__option.dnb-drawer-list__option--selected'
+        '.dnb-drawer-list__option.dnb-drawer-list__option--selected',
       )
 
     expect(inputElement.value).toBe('Norsk krone (NOK)')
@@ -394,7 +394,7 @@ describe('Field.SelectCurrency', () => {
     rerender(
       <Provider locale="en-GB">
         <Field.SelectCurrency value="NOK" />
-      </Provider>
+      </Provider>,
     )
 
     fireEvent.mouseDown(inputElement)
@@ -407,7 +407,7 @@ describe('Field.SelectCurrency', () => {
     rerender(
       <Provider locale="nb-NO">
         <Field.SelectCurrency value="DKK" />
-      </Provider>
+      </Provider>,
     )
 
     fireEvent.mouseDown(inputElement)
@@ -420,11 +420,11 @@ describe('Field.SelectCurrency', () => {
     const { rerender } = render(
       <Provider locale="nb-NO">
         <Field.SelectCurrency />
-      </Provider>
+      </Provider>,
     )
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-currency input'
+      '.dnb-forms-field-select-currency input',
     )
 
     {
@@ -432,7 +432,7 @@ describe('Field.SelectCurrency', () => {
 
       await waitFor(() => {
         const liElements = document.querySelectorAll(
-          'li:not([aria-hidden])'
+          'li:not([aria-hidden])',
         )
         expect(liElements.length).toBeGreaterThan(0)
       })
@@ -441,7 +441,7 @@ describe('Field.SelectCurrency', () => {
       expect(liElements).toHaveLength(2)
 
       const hasNOK = Array.from(liElements).some((element) =>
-        element.textContent.includes('Norsk krone')
+        element.textContent.includes('Norsk krone'),
       )
       expect(hasNOK).toBe(true)
     }
@@ -449,7 +449,7 @@ describe('Field.SelectCurrency', () => {
     rerender(
       <Provider locale="en-GB">
         <Field.SelectCurrency />
-      </Provider>
+      </Provider>,
     )
 
     {
@@ -458,7 +458,7 @@ describe('Field.SelectCurrency', () => {
 
       await waitFor(() => {
         const liElements = document.querySelectorAll(
-          'li:not([aria-hidden])'
+          'li:not([aria-hidden])',
         )
         expect(liElements.length).toBeGreaterThan(0)
       })
@@ -467,7 +467,7 @@ describe('Field.SelectCurrency', () => {
       expect(liElements).toHaveLength(2)
 
       const hasNOK = Array.from(liElements).some((element) =>
-        element.textContent.includes('Norwegian krone')
+        element.textContent.includes('Norwegian krone'),
       )
       expect(hasNOK).toBe(true)
     }
@@ -477,7 +477,7 @@ describe('Field.SelectCurrency', () => {
     render(<Field.SelectCurrency />)
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-currency input'
+      '.dnb-forms-field-select-currency input',
     )
 
     {
@@ -486,7 +486,7 @@ describe('Field.SelectCurrency', () => {
 
       await waitFor(() => {
         const liElements = document.querySelectorAll(
-          'li:not([aria-hidden])'
+          'li:not([aria-hidden])',
         )
         expect(liElements.length).toBeGreaterThan(0)
       })
@@ -495,7 +495,7 @@ describe('Field.SelectCurrency', () => {
       expect(liElements).toHaveLength(2)
 
       const hasEuro = Array.from(liElements).some((element) =>
-        element.textContent.includes('Euro')
+        element.textContent.includes('Euro'),
       )
       expect(hasEuro).toBe(true)
     }
@@ -506,7 +506,7 @@ describe('Field.SelectCurrency', () => {
 
       await waitFor(() => {
         const liElements = document.querySelectorAll(
-          'li:not([aria-hidden])'
+          'li:not([aria-hidden])',
         )
         expect(liElements.length).toBeGreaterThan(40)
       })
@@ -515,7 +515,7 @@ describe('Field.SelectCurrency', () => {
 
       await waitFor(() => {
         const liElements = document.querySelectorAll(
-          'li:not([aria-hidden])'
+          'li:not([aria-hidden])',
         )
         expect(liElements.length).toBeGreaterThan(0)
       })
@@ -524,7 +524,7 @@ describe('Field.SelectCurrency', () => {
       expect(liElements).toHaveLength(2)
 
       const hasEuro = Array.from(liElements).some((element) =>
-        element.textContent.includes('Euro')
+        element.textContent.includes('Euro'),
       )
       expect(hasEuro).toBe(true)
     }
@@ -546,7 +546,7 @@ describe('Field.SelectCurrency', () => {
     render(
       <FieldBlock>
         <Field.SelectCurrency error={errorMessage} />
-      </FieldBlock>
+      </FieldBlock>,
     )
 
     const input = document.querySelector('.dnb-autocomplete__input')
@@ -583,7 +583,7 @@ describe('Field.SelectCurrency', () => {
           path="/currency"
           transformIn={valueTransformIn}
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const NOK = {
@@ -632,7 +632,7 @@ describe('Field.SelectCurrency', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { currency: 'Norsk krone (NOK)' },
-      expect.anything()
+      expect.anything(),
     )
 
     expect(transformOut).toHaveBeenCalledTimes(1)
@@ -659,7 +659,7 @@ describe('Field.SelectCurrency', () => {
     expect(onSubmit).toHaveBeenCalledTimes(2)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { currency: 'Sveitsisk franc (CHF)' },
-      expect.anything()
+      expect.anything(),
     )
 
     expect(transformOut).toHaveBeenCalledTimes(4)
@@ -682,19 +682,19 @@ describe('Field.SelectCurrency', () => {
     expect(valueTransformIn).toHaveBeenNthCalledWith(1, undefined)
     expect(valueTransformIn).toHaveBeenNthCalledWith(
       2,
-      'Norsk krone (NOK)'
+      'Norsk krone (NOK)',
     )
     expect(valueTransformIn).toHaveBeenNthCalledWith(
       3,
-      'Norsk krone (NOK)'
+      'Norsk krone (NOK)',
     )
     expect(valueTransformIn).toHaveBeenNthCalledWith(
       4,
-      'Sveitsisk franc (CHF)'
+      'Sveitsisk franc (CHF)',
     )
     expect(valueTransformIn).toHaveBeenNthCalledWith(
       5,
-      'Sveitsisk franc (CHF)'
+      'Sveitsisk franc (CHF)',
     )
   })
 
@@ -730,7 +730,7 @@ describe('Field.SelectCurrency', () => {
           path="/currency"
           transformIn={valueTransformIn}
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const NOK = {
@@ -779,7 +779,7 @@ describe('Field.SelectCurrency', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { currency: 'Norsk krone (NOK)' },
-      expect.anything()
+      expect.anything(),
     )
 
     expect(transformOut).toHaveBeenCalledTimes(0)
@@ -806,7 +806,7 @@ describe('Field.SelectCurrency', () => {
     expect(onSubmit).toHaveBeenCalledTimes(2)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { currency: 'Sveitsisk franc (CHF)' },
-      expect.anything()
+      expect.anything(),
     )
 
     expect(transformOut).toHaveBeenCalledTimes(3)
@@ -825,19 +825,19 @@ describe('Field.SelectCurrency', () => {
 
     expect(valueTransformIn).toHaveBeenNthCalledWith(
       1,
-      'Norsk krone (NOK)'
+      'Norsk krone (NOK)',
     )
     expect(valueTransformIn).toHaveBeenNthCalledWith(
       2,
-      'Norsk krone (NOK)'
+      'Norsk krone (NOK)',
     )
     expect(valueTransformIn).toHaveBeenNthCalledWith(
       3,
-      'Sveitsisk franc (CHF)'
+      'Sveitsisk franc (CHF)',
     )
     expect(valueTransformIn).toHaveBeenNthCalledWith(
       4,
-      'Sveitsisk franc (CHF)'
+      'Sveitsisk franc (CHF)',
     )
   })
 
@@ -853,7 +853,7 @@ describe('Field.SelectCurrency', () => {
             return null
           }}
         </DataContext.Consumer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
@@ -884,18 +884,18 @@ describe('Field.SelectCurrency', () => {
         <Iterate.PushContainer path="/persons">
           <Field.SelectCurrency itemPath="/" defaultValue="NOK" />
         </Iterate.PushContainer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
-      document.querySelector('.dnb-drawer-list__option')
+      document.querySelector('.dnb-drawer-list__option'),
     ).not.toBeInTheDocument()
   })
 
   it('should render autoComplete when provided', () => {
     render(<Field.SelectCurrency autoComplete="transaction-currency" />)
     expect(
-      document.querySelector('input').getAttribute('autocomplete')
+      document.querySelector('input').getAttribute('autocomplete'),
     ).toBe('transaction-currency')
   })
 
@@ -903,7 +903,7 @@ describe('Field.SelectCurrency', () => {
     render(<Field.SelectCurrency defaultValue="NOK" noAnimation />)
 
     const input: HTMLInputElement = document.querySelector(
-      '.dnb-autocomplete input'
+      '.dnb-autocomplete input',
     )
 
     await userEvent.click(input)
@@ -917,7 +917,7 @@ describe('Field.SelectCurrency', () => {
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(
-        <Field.SelectCurrency required validateInitially />
+        <Field.SelectCurrency required validateInitially />,
       )
 
       expect(await axeComponent(result)).toHaveNoViolations()
@@ -944,11 +944,11 @@ describe('Field.SelectCurrency', () => {
     render(
       <Form.Handler onChange={onChange}>
         <Field.SelectCurrency path="/currency" value="SEK" noAnimation />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const inputElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-select-currency input'
+      '.dnb-forms-field-select-currency input',
     )
 
     // Initial state: should show SEK

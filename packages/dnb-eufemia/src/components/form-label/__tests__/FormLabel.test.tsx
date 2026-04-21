@@ -14,10 +14,10 @@ describe('FormLabel component', () => {
   it('should forward unlisted attributes like "aria-hidden"', () => {
     render(<FormLabel forId="input" aria-hidden />)
     expect(
-      document.querySelector('label[aria-hidden]')
+      document.querySelector('label[aria-hidden]'),
     ).toBeInTheDocument()
     expect(document.querySelector('label[aria-hidden]')).toHaveAttribute(
-      'aria-hidden'
+      'aria-hidden',
     )
   })
 
@@ -27,7 +27,7 @@ describe('FormLabel component', () => {
     const element = document.querySelector('.dnb-form-label')
 
     expect(Array.from(element.classList)).toContain(
-      'dnb-space__right--small'
+      'dnb-space__right--small',
     )
 
     rerender(<FormLabel forId="input" text="Label" />)
@@ -41,7 +41,7 @@ describe('FormLabel component', () => {
     const element = document.querySelector('.dnb-form-label')
 
     expect(Array.from(element.classList)).toContain(
-      'dnb-space__top--large'
+      'dnb-space__top--large',
     )
   })
 
@@ -60,7 +60,7 @@ describe('FormLabel component', () => {
 
     expect(Array.from(element.classList)).toContain('dnb-sr-only')
     expect(Array.from(element.classList)).not.toContain(
-      'dnb-form-label--interactive'
+      'dnb-form-label--interactive',
     )
   })
 
@@ -70,7 +70,7 @@ describe('FormLabel component', () => {
     const element = document.querySelector('.dnb-form-label')
 
     expect(Array.from(element.classList)).not.toContain(
-      'dnb-form-label--interactive'
+      'dnb-form-label--interactive',
     )
   })
 
@@ -80,13 +80,13 @@ describe('FormLabel component', () => {
     const element = document.querySelector('.dnb-form-label')
 
     expect(Array.from(element.classList)).toContain(
-      'dnb-form-label--interactive'
+      'dnb-form-label--interactive',
     )
 
     rerender(<FormLabel onClick={() => null} />)
 
     expect(Array.from(element.classList)).toContain(
-      'dnb-form-label--interactive'
+      'dnb-form-label--interactive',
     )
   })
 
@@ -104,7 +104,7 @@ describe('FormLabel component', () => {
     const element = document.querySelector('.dnb-form-label')
 
     expect(Array.from(element.classList)).toContain(
-      'dnb-form-label--vertical'
+      'dnb-form-label--vertical',
     )
   })
 
@@ -114,7 +114,7 @@ describe('FormLabel component', () => {
     const element = document.querySelector('.dnb-form-label')
 
     expect(Array.from(element.classList)).not.toContain(
-      'dnb-form-label--vertical'
+      'dnb-form-label--vertical',
     )
   })
 
@@ -122,13 +122,13 @@ describe('FormLabel component', () => {
     render(
       <Provider formElement={{ labelDirection: 'horizontal' }}>
         <FormLabel />
-      </Provider>
+      </Provider>,
     )
 
     const element = document.querySelector('.dnb-form-label')
 
     expect(Array.from(element.classList)).not.toContain(
-      'dnb-form-label--vertical'
+      'dnb-form-label--vertical',
     )
   })
 
@@ -136,12 +136,12 @@ describe('FormLabel component', () => {
     render(
       <Provider formElement={{ labelDirection: 'vertical' }}>
         <FormLabel />
-      </Provider>
+      </Provider>,
     )
 
     const element = document.querySelector('.dnb-form-label')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual(['class'])
@@ -156,7 +156,7 @@ describe('FormLabel component', () => {
 
     const element = document.querySelector('.dnb-form-label')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual(['class'])
@@ -168,17 +168,17 @@ describe('FormLabel component', () => {
 
   it('should support heading size prop', () => {
     const { rerender } = render(
-      <FormLabel size="medium">content</FormLabel>
+      <FormLabel size="medium">content</FormLabel>,
     )
 
     expect(document.querySelector('.dnb-form-label').classList).toContain(
-      'dnb-h--medium'
+      'dnb-h--medium',
     )
 
     rerender(<FormLabel size="large">content</FormLabel>)
 
     expect(document.querySelector('.dnb-form-label').classList).toContain(
-      'dnb-h--large'
+      'dnb-h--large',
     )
   })
 
@@ -238,7 +238,7 @@ describe('FormLabel component', () => {
               content
             </FormLabel>
           }
-        />
+        />,
       )
 
       const elements = document.querySelectorAll('.dnb-form-label')
@@ -252,7 +252,7 @@ describe('FormLabel component', () => {
       render(
         <FormLabel
           text={<FormLabel text="nested">use "text" instead</FormLabel>}
-        />
+        />,
       )
 
       const elements = document.querySelectorAll('.dnb-form-label')
@@ -267,7 +267,7 @@ describe('FormLabel component', () => {
         <FormLabel
           className="original"
           text={<FormLabel className="nested">content</FormLabel>}
-        />
+        />,
       )
 
       const elements = document.querySelectorAll('.dnb-form-label')
@@ -275,7 +275,7 @@ describe('FormLabel component', () => {
 
       const element = elements[0]
       expect(element).toHaveClass(
-        'dnb-form-label dnb-space__right--small nested'
+        'dnb-form-label dnb-space__right--small nested',
       )
     })
 
@@ -306,7 +306,7 @@ describe('FormLabel component', () => {
 
   it('should validate with ARIA rules', async () => {
     const Comp = render(
-      <FormLabel title="Title" text="Label" forId="input" />
+      <FormLabel title="Title" text="Label" forId="input" />,
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
@@ -316,7 +316,7 @@ describe('FormLabel component', () => {
       <>
         <FormLabel text="Text" forId="input" />
         <Input id="input" value="some value" />
-      </>
+      </>,
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
@@ -327,7 +327,7 @@ describe('FormLabel component', () => {
         <>
           <FormLabel forId="input" />
           <input type="text" id="input" className="dnb-input__border" />
-        </>
+        </>,
       )
 
       const label = document.querySelector('label')
@@ -346,7 +346,7 @@ describe('FormLabel component', () => {
         <>
           <FormLabel forId="input" />
           <input type="text" id="input" />
-        </>
+        </>,
       )
 
       const label = document.querySelector('label')
@@ -364,7 +364,7 @@ describe('FormLabel component', () => {
             <button>Button</button>
           </FormLabel>
           <input type="text" id="input" className="dnb-input__border" />
-        </>
+        </>,
       )
 
       const label = document.querySelector('label')
@@ -392,7 +392,7 @@ describe('FormLabel component', () => {
             <button>Button</button>
           </FormLabel>
           <input type="text" id="input" className="dnb-input__border" />
-        </>
+        </>,
       )
 
       const label = document.querySelector('label')
@@ -424,7 +424,7 @@ describe('FormLabel component', () => {
             </span>
           </FormLabel>
           <input type="text" id="input" className="dnb-input__border" />
-        </>
+        </>,
       )
 
       const label = document.querySelector('label')

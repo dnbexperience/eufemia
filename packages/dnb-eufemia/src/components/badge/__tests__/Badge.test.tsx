@@ -61,7 +61,7 @@ describe('Badge', () => {
     const { rerender } = render(
       <Provider NumberFormat={{ decimals: 2 }}>
         <Badge content={1} variant="notification" label="Amount:" />
-      </Provider>
+      </Provider>,
     )
 
     const badge = document.querySelector('.dnb-badge')
@@ -70,7 +70,7 @@ describe('Badge', () => {
     rerender(
       <Provider locale="de-DE" NumberFormat={{ decimals: 2 }}>
         <Badge content={1234} variant="notification" label="Amount:" />
-      </Provider>
+      </Provider>,
     )
 
     expect(badge.textContent).toContain('Amount: 1.234')
@@ -98,7 +98,7 @@ describe('Badge', () => {
         <Avatar.Group label="children:">
           <Avatar>A</Avatar>
         </Avatar.Group>
-      </Badge>
+      </Badge>,
     )
 
     expect(screen.queryByTestId('confetti icon')).toBeInTheDocument()
@@ -108,7 +108,7 @@ describe('Badge', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
     render(
-      <Badge variant="notification" content={1} label="Notifications:" />
+      <Badge variant="notification" content={1} label="Notifications:" />,
     )
     expect(global.console.log).not.toHaveBeenCalled()
   })
@@ -117,7 +117,7 @@ describe('Badge', () => {
     render(<Badge style={{ color: 'red' }}>A</Badge>)
 
     expect(
-      document.querySelector('.dnb-badge').getAttribute('style')
+      document.querySelector('.dnb-badge').getAttribute('style'),
     ).toBe('color: red;')
   })
 
@@ -148,12 +148,12 @@ describe('Badge', () => {
         top="2rem"
         aria-label="Info about the badge"
         content="content"
-      />
+      />,
     )
 
     const element = document.querySelector('.dnb-badge')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual(['role', 'class', 'aria-label'])
@@ -170,7 +170,7 @@ describe('Badge', () => {
     render(
       <Badge top="2rem" content="content">
         <span>Child content</span>
-      </Badge>
+      </Badge>,
     )
 
     const element = document.querySelector('.dnb-badge__root')
@@ -181,7 +181,7 @@ describe('Badge', () => {
     ])
 
     expect(
-      Array.from(document.querySelector('.dnb-badge').classList)
+      Array.from(document.querySelector('.dnb-badge').classList),
     ).not.toContain('dnb-space__top--large')
   })
 
@@ -197,7 +197,7 @@ describe('Badge', () => {
     render(
       <Provider skeleton>
         <Badge content="content" />
-      </Provider>
+      </Provider>,
     )
 
     const element = document.querySelector('.dnb-badge')
@@ -216,7 +216,7 @@ describe('Badge', () => {
     render(
       <p>
         This is text with a <Badge content={9} vertical="top" />
-      </p>
+      </p>,
     )
 
     const badge = document.querySelector('.dnb-badge')
@@ -229,7 +229,7 @@ describe('Badge', () => {
       render(<Badge />)
 
       expect(
-        document.getElementsByClassName('dnb-badge--variant-information')
+        document.getElementsByClassName('dnb-badge--variant-information'),
       ).toHaveLength(1)
     })
 
@@ -244,7 +244,7 @@ describe('Badge', () => {
   describe('status and subtle props', () => {
     it('applies status class correctly', () => {
       const { rerender } = render(
-        <Badge content="test" status="positive" />
+        <Badge content="test" status="positive" />,
       )
       let element = document.querySelector('.dnb-badge')
       expect(element).toHaveClass('dnb-badge--status-positive')
@@ -272,7 +272,7 @@ describe('Badge', () => {
           variant="notification"
           status="positive"
           subtle
-        />
+        />,
       )
       const element = document.querySelector('.dnb-badge')
       expect(element).not.toHaveClass('dnb-badge--status-positive')
@@ -286,7 +286,7 @@ describe('Badge', () => {
       render(
         <Badge content="test" hideBadge>
           Hello
-        </Badge>
+        </Badge>,
       )
       expect(document.querySelector('.dnb-badge')).not.toBeInTheDocument()
     })
@@ -295,7 +295,7 @@ describe('Badge', () => {
       render(
         <Badge content="test" hideBadge={false}>
           Hello
-        </Badge>
+        </Badge>,
       )
       expect(document.querySelector('.dnb-badge')).toBeInTheDocument()
     })
@@ -304,11 +304,11 @@ describe('Badge', () => {
       render(
         <Badge content="badge content" hideBadge>
           <span data-testid="child">Child content</span>
-        </Badge>
+        </Badge>,
       )
       expect(screen.queryByTestId('child')).toBeInTheDocument()
       expect(
-        document.querySelector('.dnb-badge__root')
+        document.querySelector('.dnb-badge__root'),
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-badge')).not.toBeInTheDocument()
     })
@@ -351,7 +351,7 @@ describe('Badge scss', () => {
 
   it('should match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-badge-theme-ui.scss')
+      require.resolve('../style/themes/dnb-badge-theme-ui.scss'),
     )
     expect(css).toMatchSnapshot()
   })

@@ -324,7 +324,7 @@ function DrawerList(props: DrawerListAllProps) {
 DrawerList.blurDelay = DrawerListProvider.blurDelay // some ms more than "DrawerListSlideDown 200ms"
 
 const DrawerListInstance = React.memo(function DrawerListInstance(
-  ownProps: DrawerListAllProps
+  ownProps: DrawerListAllProps,
 ) {
   const context = useContext(DrawerListContext)
 
@@ -366,7 +366,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
           break
       }
     },
-    [context.drawerList]
+    [context.drawerList],
   )
 
   const selectItemHandler = useCallback(
@@ -379,7 +379,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
         })
       }
     },
-    [context.drawerList]
+    [context.drawerList],
   )
 
   const onItemMouseEnterCallback = context.drawerList
@@ -392,7 +392,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
         onItemMouseEnterCallback({ item: itemId, data, event })
       }
     },
-    [onItemMouseEnterCallback, context.drawerList.data]
+    [onItemMouseEnterCallback, context.drawerList.data],
   )
 
   const {
@@ -487,7 +487,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
   const renderData = makeRenderData(
     data,
     groups,
-    context.getTranslation(propsWithDefaults).DrawerList
+    context.getTranslation(propsWithDefaults).DrawerList,
   )
   const hasGroups =
     renderData.length > 1 || renderData[0]?.groupTitle !== undefined
@@ -506,7 +506,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
       independentWidth && 'dnb-drawer-list--independent-width',
       scrollable && 'dnb-drawer-list--scroll',
       noScrollAnimation && 'dnb-drawer-list--no-scroll-animation',
-      className
+      className,
     ),
     ...attributes,
   })
@@ -516,7 +516,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
     className: clsx(
       'dnb-drawer-list__list',
       noAnimation && 'dnb-drawer-list__list--no-animation',
-      listClass
+      listClass,
     ),
   }
 
@@ -549,7 +549,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
 
   Object.assign(
     context.drawerList.attributes,
-    validateDOMAttributes(null, attributes)
+    validateDOMAttributes(null, attributes),
   )
 
   const ignoreEventsBoolean = ignoreEvents
@@ -580,7 +580,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
                 i === 0 && 'first-of-type', // because of the triangle element
                 i === data.length - 1 && 'last-of-type', // because of the triangle element
                 (ignoreEventsBoolean || ignoreEvents) && 'ignore-events',
-                className
+                className,
               ),
               active: __id === activeItem,
               selected: !ignoreEvents && __id === selectedItem,
@@ -601,7 +601,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
               liParams.onMouseEnter = null
               liParams.className = clsx(
                 liParams.className,
-                'dnb-drawer-list__option--ignore'
+                'dnb-drawer-list__option--ignore',
               )
             }
 
@@ -627,7 +627,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
               className={clsx(
                 'dnb-drawer-list__group',
                 j === 0 && 'first-of-type',
-                j === renderData.length - 1 && 'last-of-type'
+                j === renderData.length - 1 && 'last-of-type',
               )}
             >
               <li
@@ -637,7 +637,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
                   'dnb-drawer-list__group-title',
                   hideTitle && 'dnb-sr-only',
                   groupdId === closestToBottom && 'closest-to-bottom',
-                  groupdId === closestToTop && 'closest-to-top'
+                  groupdId === closestToTop && 'closest-to-top',
                 )}
               >
                 {groupTitle}
@@ -696,7 +696,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
     <span
       className={clsx(
         'dnb-drawer-list__root',
-        !skipPortal && 'dnb-drawer-list__root--portal'
+        !skipPortal && 'dnb-drawer-list__root--portal',
       )}
       ref={_refRoot}
     >
@@ -719,7 +719,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
 function makeRenderData(
   data: DrawerListInternalData,
   groups?: DrawerListGroupTitles,
-  translation?: Translation['DrawerList']
+  translation?: Translation['DrawerList'],
 ): DrawerListRenderData {
   const renderData: DrawerListRenderData = []
   const noIndex = []
@@ -796,7 +796,7 @@ DrawerList.Options = React.memo(
         className={clsx(
           'dnb-drawer-list__options',
           showFocusRing && 'dnb-drawer-list__options--focusring',
-          className
+          className,
         )}
         {...rest}
         ref={ref}
@@ -817,7 +817,7 @@ DrawerList.Options = React.memo(
       return false
     }
     return prevProps.cacheHash === nextProps.cacheHash
-  }
+  },
 )
 
 DrawerList.Item = DrawerListItem

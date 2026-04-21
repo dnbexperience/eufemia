@@ -70,7 +70,7 @@ export default function InfinityScroller({
       clearTimeout(startupTimeoutRef.current)
       clearTimeout(bufferTimeoutRef.current)
       callOnUnmountRef.current.forEach(
-        (f) => typeof f === 'function' && f()
+        (f) => typeof f === 'function' && f(),
       )
     }
   }, [])
@@ -105,11 +105,11 @@ export default function InfinityScroller({
 
   const waitForReachedTime = (
     fn: (params: CallbackBufferParams) => void,
-    params: CallbackBufferParams
+    params: CallbackBufferParams,
   ) => {
     callbackBufferRef.current.push({ fn, params })
     callBuffer(
-      params.preventWaitForDelay ? -1 : paginationRef.current.minTime
+      params.preventWaitForDelay ? -1 : paginationRef.current.minTime,
     )
   }
 
@@ -120,7 +120,7 @@ export default function InfinityScroller({
       preventWaitForDelay = false,
       callOnEnd = false,
       onDispatch = null,
-    }: EventHandlerOptions = {}
+    }: EventHandlerOptions = {},
   ) => {
     waitForReachedTime(
       ({
@@ -160,7 +160,7 @@ export default function InfinityScroller({
           createEvent('onLoad')
         }
       },
-      { pageNumber, callStartupEvent, preventWaitForDelay }
+      { pageNumber, callStartupEvent, preventWaitForDelay },
     )
   }
 
@@ -173,7 +173,7 @@ export default function InfinityScroller({
     }: Pick<
       EventHandlerOptions,
       'callStartupEvent' | 'preventWaitForDelay'
-    > = {}
+    > = {},
   ) => {
     const { pageCountInternal, endInfinity } = paginationRef.current
 
@@ -184,7 +184,7 @@ export default function InfinityScroller({
 
     const exists =
       paginationRef.current.items.findIndex(
-        (obj: { pageNumber: number }) => obj.pageNumber === newPageNo
+        (obj: { pageNumber: number }) => obj.pageNumber === newPageNo,
       ) > -1
 
     if (exists) {
@@ -218,7 +218,7 @@ export default function InfinityScroller({
           position: 'after',
           skipObserver,
         },
-        { callStartupEvent, preventWaitForDelay }
+        { callStartupEvent, preventWaitForDelay },
       )
     }
   }
@@ -354,7 +354,7 @@ export default function InfinityScroller({
         skipObserver: boolean
         ScrollElement: React.ComponentType<Record<string, unknown>>
       },
-      idx: number
+      idx: number,
     ) => {
       const isLastItem = idx === items.length - 1
 
@@ -458,7 +458,7 @@ export default function InfinityScroller({
             )}
         </Elem>
       )
-    }
+    },
   )
 }
 
@@ -477,7 +477,7 @@ function InteractionMarker({
   const markerRef = useRef<HTMLElement>(null)
   const observerRef = useRef<IntersectionObserver | null>(null)
   const hasObserverSupport = useRef(
-    typeof IntersectionObserver !== 'undefined'
+    typeof IntersectionObserver !== 'undefined',
   )
   const isMountedRef = useRef(false)
   const readyTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null)
@@ -485,7 +485,7 @@ function InteractionMarker({
   useMountEffect(() => {
     if (typeof markerElement === 'function') {
       warn(
-        'Pagination: Please use a string or React element e.g. markerElement="tr"'
+        'Pagination: Please use a string or React element e.g. markerElement="tr"',
       )
     }
 

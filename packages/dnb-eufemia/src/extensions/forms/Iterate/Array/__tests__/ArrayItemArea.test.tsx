@@ -32,7 +32,7 @@ describe('ArrayItemArea', () => {
       <ArrayItemArea mode="view" onAnimationEnd={onAnimationEnd}>
         <RemoveButton />
       </ArrayItemArea>,
-      { wrapper }
+      { wrapper },
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -53,7 +53,7 @@ describe('ArrayItemArea', () => {
       <ArrayItemArea mode="view">
         <RemoveButton />
       </ArrayItemArea>,
-      { wrapper }
+      { wrapper },
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -76,7 +76,7 @@ describe('ArrayItemArea', () => {
       <ArrayItemArea mode="view">
         <RemoveButton />
       </ArrayItemArea>,
-      { wrapper }
+      { wrapper },
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -96,22 +96,22 @@ describe('ArrayItemArea', () => {
         </Iterate.Array>
 
         <Iterate.PushButton path="/myList" pushValue="foo" />
-      </DataContext.Provider>
+      </DataContext.Provider>,
     )
 
     const addButton = document.querySelector('button')
     fireEvent.click(addButton)
 
     const elements = document.querySelectorAll(
-      '.dnb-forms-iterate__element'
+      '.dnb-forms-iterate__element',
     )
     expect(elements).toHaveLength(2)
 
     expect(
-      elements[0].querySelector('.dnb-forms-section-block--new')
+      elements[0].querySelector('.dnb-forms-section-block--new'),
     ).toBeFalsy()
     expect(
-      elements[1].querySelector('.dnb-forms-section-block--new')
+      elements[1].querySelector('.dnb-forms-section-block--new'),
     ).toBeTruthy()
   })
 
@@ -133,35 +133,35 @@ describe('ArrayItemArea', () => {
         </Iterate.Array>
 
         <Iterate.PushButton path="/myList" pushValue={undefined} />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
-      document.querySelector('.dnb-forms-section-block--error')
+      document.querySelector('.dnb-forms-section-block--error'),
     ).toBeFalsy()
 
     const addButton = document.querySelector('button')
     fireEvent.click(addButton)
 
     const elements = document.querySelectorAll(
-      '.dnb-forms-iterate__element'
+      '.dnb-forms-iterate__element',
     )
     expect(elements).toHaveLength(2)
 
     expect(
-      elements[0].querySelector('.dnb-forms-section-block--error')
+      elements[0].querySelector('.dnb-forms-section-block--error'),
     ).toBeFalsy()
     expect(
-      elements[1].querySelector('.dnb-forms-section-block--error')
+      elements[1].querySelector('.dnb-forms-section-block--error'),
     ).toBeFalsy()
 
     fireEvent.submit(document.querySelector('form'))
 
     expect(
-      elements[0].querySelector('.dnb-forms-section-block--error')
+      elements[0].querySelector('.dnb-forms-section-block--error'),
     ).toBeFalsy()
     expect(
-      elements[1].querySelector('.dnb-forms-section-block--error')
+      elements[1].querySelector('.dnb-forms-section-block--error'),
     ).toBeTruthy()
   })
 
@@ -176,7 +176,7 @@ describe('ArrayItemArea', () => {
       <ArrayItemArea mode="view" openDelay={1}>
         Content
       </ArrayItemArea>,
-      { wrapper }
+      { wrapper },
     )
 
     const block = document.querySelector('.dnb-forms-section-block')
@@ -185,7 +185,7 @@ describe('ArrayItemArea', () => {
     rerender(
       <ArrayItemArea mode="edit" openDelay={1}>
         Content
-      </ArrayItemArea>
+      </ArrayItemArea>,
     )
 
     expect(block).toHaveClass('dnb-height-animation--hidden')
@@ -206,7 +206,7 @@ describe('ArrayItemArea', () => {
     render(<ArrayItemArea mode="view">Content</ArrayItemArea>, { wrapper })
 
     expect(
-      document.querySelector('.dnb-forms-section-block__inner').tagName
+      document.querySelector('.dnb-forms-section-block__inner').tagName,
     ).toBe('SECTION')
   })
 
@@ -221,17 +221,17 @@ describe('ArrayItemArea', () => {
       <ArrayItemArea mode="view" ariaLabel="Aria Label">
         Content
       </ArrayItemArea>,
-      { wrapper }
+      { wrapper },
     )
 
     expect(
-      document.querySelector('.dnb-forms-section-block__inner')
+      document.querySelector('.dnb-forms-section-block__inner'),
     ).toHaveAttribute('aria-label', 'Aria Label')
   })
 
   it('renders content and without errors', () => {
     const { rerender } = render(
-      <ArrayItemArea mode="view">content</ArrayItemArea>
+      <ArrayItemArea mode="view">content</ArrayItemArea>,
     )
 
     const element = document.querySelector('.dnb-forms-section-block')
@@ -246,7 +246,7 @@ describe('ArrayItemArea', () => {
     rerender(
       <ArrayItemArea mode="view" open>
         content
-      </ArrayItemArea>
+      </ArrayItemArea>,
     )
 
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
@@ -256,11 +256,11 @@ describe('ArrayItemArea', () => {
     render(
       <ArrayItemArea mode="view" open={false}>
         content
-      </ArrayItemArea>
+      </ArrayItemArea>,
     )
 
     expect(
-      document.querySelector('.dnb-forms-section-block')
+      document.querySelector('.dnb-forms-section-block'),
     ).not.toHaveClass('open')
   })
 
@@ -272,7 +272,7 @@ describe('ArrayItemArea', () => {
         <ArrayItemArea mode="view">
           <RemoveButton />
         </ArrayItemArea>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -296,7 +296,7 @@ describe('ArrayItemArea', () => {
         <ArrayItemArea mode="view">
           <RemoveButton />
         </ArrayItemArea>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     const element = document.querySelector('.dnb-forms-section-block')
@@ -317,7 +317,7 @@ describe('ArrayItemArea', () => {
     const { rerender } = render(
       <IterateItemContext value={{ containerMode: 'view', value: 'foo' }}>
         <ArrayItemArea mode="view">content</ArrayItemArea>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     const element = document.querySelector('.dnb-forms-section-block')
@@ -327,7 +327,7 @@ describe('ArrayItemArea', () => {
     rerender(
       <IterateItemContext value={{ containerMode: 'edit', value: 'foo' }}>
         <ArrayItemArea mode="view">content</ArrayItemArea>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     expect(element).toHaveClass('dnb-height-animation--hidden')
@@ -353,7 +353,7 @@ describe('ArrayItemArea', () => {
         <ArrayItemArea mode="view">
           <ContextConsumer />
         </ArrayItemArea>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     expect(containerMode).toBe('view')
@@ -379,7 +379,7 @@ describe('ArrayItemArea', () => {
         <ArrayItemArea mode="edit">
           <ContextConsumer />
         </ArrayItemArea>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     expect(containerMode).toBe('view')
@@ -407,7 +407,7 @@ describe('ArrayItemArea', () => {
         <ArrayItemArea mode="view">
           <ContextConsumer />
         </ArrayItemArea>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     expect(containerMode).toBe('edit')
@@ -436,7 +436,7 @@ describe('ArrayItemArea', () => {
         <ArrayItemArea mode="edit">
           <ContextConsumer />
         </ArrayItemArea>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     expect(containerMode).toBe('edit')
@@ -469,7 +469,7 @@ describe('ArrayItemArea', () => {
         <ArrayItemArea mode="edit">
           <ContextConsumer />
         </ArrayItemArea>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     expect(containerMode).toBe('edit')
@@ -495,7 +495,7 @@ describe('ArrayItemArea', () => {
         >
           <ArrayItemArea mode="edit">content</ArrayItemArea>
         </IterateItemContext>
-      </FieldBoundaryContext>
+      </FieldBoundaryContext>,
     )
 
     expect(switchContainerMode).toHaveBeenCalledTimes(1)
@@ -509,7 +509,7 @@ describe('ArrayItemArea', () => {
     const { rerender } = render(
       <ArrayItemArea mode="view" open={true}>
         content
-      </ArrayItemArea>
+      </ArrayItemArea>,
     )
 
     const element = document.querySelector('.dnb-forms-section-block')
@@ -519,7 +519,7 @@ describe('ArrayItemArea', () => {
     rerender(
       <ArrayItemArea mode="view" open={false}>
         content
-      </ArrayItemArea>
+      </ArrayItemArea>,
     )
 
     expect(element).toHaveClass('dnb-height-animation--hidden')
@@ -527,7 +527,7 @@ describe('ArrayItemArea', () => {
     rerender(
       <ArrayItemArea mode="view" open={true}>
         content
-      </ArrayItemArea>
+      </ArrayItemArea>,
     )
 
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
@@ -537,7 +537,7 @@ describe('ArrayItemArea', () => {
     render(
       <IterateItemContext value={{ containerMode: 'view', isNew: true }}>
         <ArrayItemArea mode="view">content</ArrayItemArea>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     const element = document.querySelector('.dnb-forms-section-block')
@@ -560,7 +560,7 @@ describe('ArrayItemArea', () => {
         <ArrayItemArea mode="view" onAnimationEnd={onAnimationEnd}>
           <RemoveButton />
         </ArrayItemArea>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     const buttons = document.querySelectorAll('button')

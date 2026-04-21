@@ -92,7 +92,7 @@ export function AriaLiveAdditions() {
       enabled: true,
       content: ['Line 1'],
     }),
-    []
+    [],
   )
   const { data, update } = Form.useData('aria-live-additions', defaultData)
 

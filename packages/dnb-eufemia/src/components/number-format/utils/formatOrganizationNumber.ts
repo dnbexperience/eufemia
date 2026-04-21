@@ -8,7 +8,7 @@ import type { NumberFormatValue, FormattedParts } from './types'
 
 const formatOrganizationNumberParts = (
   number: NumberFormatValue,
-  locale: string | null = null
+  locale: string | null = null,
 ): FormattedParts => {
   if (isAbsent(number)) {
     return { number: ABSENT_VALUE_FORMAT, aria: ABSENT_VALUE_FORMAT }
@@ -43,5 +43,5 @@ const formatOrganizationNumberParts = (
 
 export const formatOrganizationNumber = formatWith(
   'org',
-  formatOrganizationNumberParts
+  formatOrganizationNumberParts,
 )

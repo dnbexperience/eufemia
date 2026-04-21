@@ -44,7 +44,7 @@ function NumberValue(props: ValueNumberProps) {
     // @ts-expect-error - strictFunctionTypes
   } = useValueProps(props)
   const { percent, ...numberFormatRest } = omitSpacingProps(
-    rest
+    rest,
   ) as ValueNumberProps & {
     percent?: boolean
   }

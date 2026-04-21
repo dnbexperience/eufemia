@@ -62,12 +62,12 @@ describe('runCssVersionMismatchWarning', () => {
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       'Eufemia CSS and JS version mismatch!',
       '\nCSS: 4.0.0',
-      '\nJS: 1.0.0'
+      '\nJS: 1.0.0',
     )
 
     global.document.body.style.setProperty(
       '--eufemia-version',
-      originalBodyVersion
+      originalBodyVersion,
     )
     window.Eufemia.version = originalJsVersion
   })
@@ -87,7 +87,7 @@ describe('runCssVersionMismatchWarning', () => {
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       'Eufemia CSS and JS version mismatch!',
       '\nCSS: 3.0.0',
-      '\nJS: 1.0.0'
+      '\nJS: 1.0.0',
     )
 
     div.remove()
@@ -120,7 +120,7 @@ describe('runCssVersionMismatchWarning', () => {
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       'Eufemia CSS and JS version mismatch!',
       '\nCSS: 2.0.0',
-      '\nJS: 1.0.0'
+      '\nJS: 1.0.0',
     )
 
     window.Eufemia.version = originalJsVersion
@@ -143,7 +143,7 @@ describe('runCssVersionMismatchWarning', () => {
       expect.any(String),
       'Eufemia CSS and JS version mismatch! CSS version is either not loaded (are you perhaps using lazy loading?), or older than "10.25.0"',
       '\nCSS: unknown',
-      '\nJS: 1.0.0'
+      '\nJS: 1.0.0',
     )
 
     window.Eufemia.version = originalJsVersion
@@ -166,7 +166,7 @@ describe('runCssVersionMismatchWarning', () => {
     expect(consoleWarnSpy).not.toHaveBeenCalled()
     expect(addEventListener).toHaveBeenCalledWith(
       'load',
-      expect.any(Function)
+      expect.any(Function),
     )
   })
 
@@ -187,7 +187,7 @@ describe('runCssVersionMismatchWarning', () => {
     expect(consoleErrorSpy).not.toHaveBeenCalled()
     expect(consoleWarnSpy).not.toHaveBeenCalled()
     expect(requestAnimationFrameSpy).toHaveBeenCalledWith(
-      expect.any(Function)
+      expect.any(Function),
     )
 
     global.document = originalDocument
@@ -211,7 +211,7 @@ describe('runCssVersionMismatchWarning', () => {
       expect.any(String),
       'Eufemia CSS and JS version mismatch! CSS version is either not loaded (are you perhaps using lazy loading?), or older than "10.25.0"',
       '\nCSS: unknown',
-      '\nJS: undefined'
+      '\nJS: undefined',
     )
 
     // Restore Eufemia

@@ -12,7 +12,7 @@ describe('Form.MainHeading', () => {
 
     const element = document.querySelector('.dnb-forms-main-heading')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toContain('aria-label')
@@ -21,7 +21,7 @@ describe('Form.MainHeading', () => {
 
   it('should support spacing props', () => {
     const { rerender } = render(
-      <MainHeading top="x-large">Space Heading</MainHeading>
+      <MainHeading top="x-large">Space Heading</MainHeading>,
     )
     const element = document.querySelector('.dnb-forms-main-heading')
 
@@ -34,7 +34,7 @@ describe('Form.MainHeading', () => {
 
   it('should contain given classes', () => {
     render(
-      <MainHeading className="custom-class">Class Heading</MainHeading>
+      <MainHeading className="custom-class">Class Heading</MainHeading>,
     )
 
     const element = document.querySelector('.dnb-forms-main-heading')

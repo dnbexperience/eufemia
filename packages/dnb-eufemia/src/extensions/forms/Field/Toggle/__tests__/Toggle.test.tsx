@@ -23,7 +23,7 @@ describe('Field.Toggle', () => {
         valueOff="unchecked"
         label="Disabled label"
         disabled
-      />
+      />,
     )
 
     const labelElement = () => document.querySelector('label')
@@ -35,7 +35,7 @@ describe('Field.Toggle', () => {
         valueOn="checked"
         valueOff="unchecked"
         label="Disabled label"
-      />
+      />,
     )
 
     expect(labelElement()).not.toHaveAttribute('disabled')
@@ -51,13 +51,13 @@ describe('Field.Toggle', () => {
             variant="switch"
             label="Boolean label"
             size="large"
-          />
+          />,
         )
 
         const fieldToggleElement: HTMLInputElement =
           document.querySelector('.dnb-forms-field-toggle')
         expect(fieldToggleElement.classList).toContain(
-          'dnb-forms-field-block--label-height-large'
+          'dnb-forms-field-block--label-height-large',
         )
 
         const switchElement: HTMLInputElement =
@@ -72,7 +72,7 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="switch"
             label="Boolean label"
-          />
+          />,
         )
         expect(screen.getByLabelText('Boolean label')).toBeInTheDocument()
       })
@@ -84,7 +84,7 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="switch"
             label="Boolean label"
-          />
+          />,
         )
         expect(screen.queryAllByLabelText('Boolean label')).toHaveLength(1)
         expect(screen.queryByText('Ja')).not.toBeInTheDocument()
@@ -98,20 +98,20 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="switch"
             help={{ title: 'Help title', content: 'Help content' }}
-          />
+          />,
         )
         expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(
-          1
+          1,
         )
         const helpButton = document.querySelector(
-          '.dnb-switch__suffix .dnb-help-button'
+          '.dnb-switch__suffix .dnb-help-button',
         )
         expect(helpButton).toBeInTheDocument()
         expect(document.querySelector('input')).toHaveAttribute(
-          'aria-describedby'
+          'aria-describedby',
         )
         expect(
-          document.querySelector('input').getAttribute('aria-describedby')
+          document.querySelector('input').getAttribute('aria-describedby'),
         ).toContain(document.querySelector('.dnb-help-button').id)
       })
 
@@ -122,10 +122,10 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="switch"
             error={new Error('This is what went wrong')}
-          />
+          />,
         )
         expect(
-          screen.getByText('This is what went wrong')
+          screen.getByText('This is what went wrong'),
         ).toBeInTheDocument()
       })
 
@@ -136,7 +136,7 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="switch"
             error={new Error('This is what went wrong')}
-          />
+          />,
         )
         const element = document.querySelector('.dnb-switch')
         expect(element.className).toContain('dnb-switch__status--error')
@@ -151,7 +151,7 @@ describe('Field.Toggle', () => {
             variant="switch"
             value={false}
             onChange={onChange}
-          />
+          />,
         )
         const input = screen.getByRole('switch')
         await userEvent.click(input)
@@ -173,7 +173,7 @@ describe('Field.Toggle', () => {
             variant="switch"
             required
             validateInitially
-          />
+          />,
         )
         expect(screen.getByRole('alert')).toBeInTheDocument()
       })
@@ -187,7 +187,7 @@ describe('Field.Toggle', () => {
             value={true}
             validateInitially
             required
-          />
+          />,
         )
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
@@ -201,7 +201,7 @@ describe('Field.Toggle', () => {
             value={false}
             validateInitially
             required
-          />
+          />,
         )
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
@@ -226,7 +226,7 @@ describe('Field.Toggle', () => {
                 return null
               }}
             </DataContext.Consumer>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(dataContext.fieldDisplayValueRef.current).toEqual({
@@ -259,7 +259,7 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="checkbox"
             onClick={onClick}
-          />
+          />,
         )
 
         const checkbox = document.querySelector('input')
@@ -273,7 +273,7 @@ describe('Field.Toggle', () => {
           'off',
           expect.objectContaining({
             checked: false,
-          })
+          }),
         )
 
         await userEvent.click(checkbox)
@@ -284,7 +284,7 @@ describe('Field.Toggle', () => {
           'off',
           expect.objectContaining({
             checked: false,
-          })
+          }),
         )
       })
 
@@ -301,7 +301,7 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="switch"
             onClick={onClick}
-          />
+          />,
         )
 
         const switchElem = document.querySelector('input')
@@ -315,7 +315,7 @@ describe('Field.Toggle', () => {
           'on',
           expect.objectContaining({
             checked: true,
-          })
+          }),
         )
 
         await userEvent.click(switchElem)
@@ -326,7 +326,7 @@ describe('Field.Toggle', () => {
           'on',
           expect.objectContaining({
             checked: true,
-          })
+          }),
         )
       })
 
@@ -340,7 +340,7 @@ describe('Field.Toggle', () => {
               variant="switch"
               validateInitially
               required
-            />
+            />,
           )
 
           expect(await axeComponent(result)).toHaveNoViolations()
@@ -354,7 +354,7 @@ describe('Field.Toggle', () => {
               label="Label"
               variant="switch"
               required
-            />
+            />,
           )
 
           const input = document.querySelector('input')
@@ -370,7 +370,7 @@ describe('Field.Toggle', () => {
               variant="switch"
               validateInitially
               required
-            />
+            />,
           )
 
           const input = document.querySelector('input')
@@ -388,17 +388,17 @@ describe('Field.Toggle', () => {
             variant="button"
             label="Toggle label"
             size="large"
-          />
+          />,
         )
 
         const fieldToggleElement: HTMLInputElement =
           document.querySelector('.dnb-forms-field-toggle')
         expect(fieldToggleElement.classList).toContain(
-          'dnb-forms-field-block--label-height-large'
+          'dnb-forms-field-block--label-height-large',
         )
 
         const buttonElement: HTMLInputElement = document.querySelector(
-          '.dnb-toggle-button__button'
+          '.dnb-toggle-button__button',
         )
         expect(buttonElement.classList).toContain('dnb-button--size-large')
       })
@@ -410,7 +410,7 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="button"
             label="Toggle label"
-          />
+          />,
         )
         expect(screen.getByText('Toggle label')).toBeInTheDocument()
       })
@@ -422,18 +422,18 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="button"
             help={{ title: 'Help title', content: 'Help content' }}
-          />
+          />,
         )
         expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(
-          1
+          1,
         )
         expect(
-          document.querySelector('.dnb-toggle-button__button')
+          document.querySelector('.dnb-toggle-button__button'),
         ).toHaveAttribute('aria-describedby')
         expect(
           document
             .querySelector('.dnb-toggle-button__button')
-            .getAttribute('aria-describedby')
+            .getAttribute('aria-describedby'),
         ).toBe(document.querySelector('.dnb-help-button').id)
       })
 
@@ -447,11 +447,11 @@ describe('Field.Toggle', () => {
             variant="button"
             value="on"
             onChange={onChange}
-          />
+          />,
         )
 
         const element = document.querySelector(
-          '.dnb-toggle-button__button'
+          '.dnb-toggle-button__button',
         )
 
         expect(element).toBeInTheDocument()
@@ -490,7 +490,7 @@ describe('Field.Toggle', () => {
                 return null
               }}
             </DataContext.Consumer>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(dataContext.fieldDisplayValueRef.current).toEqual({
@@ -521,7 +521,7 @@ describe('Field.Toggle', () => {
               variant="button"
               required
               validateInitially
-            />
+            />,
           )
 
           expect(await axeComponent(result)).toHaveNoViolations()
@@ -535,7 +535,7 @@ describe('Field.Toggle', () => {
               valueOff="off"
               variant="button"
               required
-            />
+            />,
           )
 
           const button = document.querySelector('button')
@@ -551,7 +551,7 @@ describe('Field.Toggle', () => {
               variant="button"
               required
               validateInitially
-            />
+            />,
           )
 
           const button = document.querySelector('button')
@@ -569,7 +569,7 @@ describe('Field.Toggle', () => {
             variant="buttons"
             value="on"
             error={errorMessage}
-          />
+          />,
         )
 
         const element = document.querySelector('.dnb-form-status')
@@ -591,7 +591,7 @@ describe('Field.Toggle', () => {
               value="on"
               error={errorMessage}
             />
-          </FieldBlock>
+          </FieldBlock>,
         )
 
         const input = document.querySelector('.dnb-toggle-button')
@@ -608,27 +608,27 @@ describe('Field.Toggle', () => {
             variant="buttons"
             label="Toggle label"
             size="large"
-          />
+          />,
         )
 
         const fieldToggleElement: HTMLInputElement =
           document.querySelector('.dnb-forms-field-toggle')
         expect(fieldToggleElement.classList).toContain(
-          'dnb-forms-field-block--label-height-large'
+          'dnb-forms-field-block--label-height-large',
         )
 
         const buttonElementOne: Element = document.querySelectorAll(
-          '.dnb-toggle-button__button'
+          '.dnb-toggle-button__button',
         )[1]
         expect(buttonElementOne.classList).toContain(
-          'dnb-button--size-large'
+          'dnb-button--size-large',
         )
 
         const buttonElementTwo: Element = document.querySelectorAll(
-          '.dnb-toggle-button__button'
+          '.dnb-toggle-button__button',
         )[0]
         expect(buttonElementTwo.classList).toContain(
-          'dnb-button--size-large'
+          'dnb-button--size-large',
         )
       })
 
@@ -639,7 +639,7 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="buttons"
             label="Toggle label"
-          />
+          />,
         )
         expect(screen.getByText('Toggle label')).toBeInTheDocument()
       })
@@ -651,13 +651,13 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="buttons"
             help={{ title: 'Help title', content: 'Help content' }}
-          />
+          />,
         )
         expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(
-          1
+          1,
         )
         expect(
-          document.querySelector('.dnb-toggle-button__button')
+          document.querySelector('.dnb-toggle-button__button'),
         ).toHaveAttribute('aria-describedby')
       })
 
@@ -671,12 +671,12 @@ describe('Field.Toggle', () => {
             variant="buttons"
             value="on"
             onChange={onChange}
-          />
+          />,
         )
 
         const [yesElement, noElement]: Array<HTMLButtonElement> =
           Array.from(
-            document.querySelectorAll('.dnb-toggle-button__button')
+            document.querySelectorAll('.dnb-toggle-button__button'),
           )
 
         expect(yesElement).toHaveAttribute('aria-checked', 'true')
@@ -704,12 +704,12 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="buttons"
             value="on"
-          />
+          />,
         )
 
         const [yesElement, noElement]: Array<HTMLButtonElement> =
           Array.from(
-            document.querySelectorAll('.dnb-toggle-button__button')
+            document.querySelectorAll('.dnb-toggle-button__button'),
           )
 
         expect(yesElement).toHaveAttribute('aria-checked', 'true')
@@ -721,7 +721,7 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="buttons"
             value={undefined}
-          />
+          />,
         )
 
         expect(yesElement).toHaveAttribute('aria-checked', 'false')
@@ -738,7 +738,7 @@ describe('Field.Toggle', () => {
               variant="buttons"
               required
               validateInitially
-            />
+            />,
           )
 
           expect(await axeComponent(result)).toHaveNoViolations()
@@ -752,11 +752,11 @@ describe('Field.Toggle', () => {
               valueOff="off"
               variant="buttons"
               required
-            />
+            />,
           )
 
           const [first, second] = Array.from(
-            document.querySelectorAll('button')
+            document.querySelectorAll('button'),
           )
           expect(first).toHaveAttribute('aria-required', 'true')
           expect(second).toHaveAttribute('aria-required', 'true')
@@ -771,11 +771,11 @@ describe('Field.Toggle', () => {
               variant="buttons"
               required
               validateInitially
-            />
+            />,
           )
 
           const [first, second] = Array.from(
-            document.querySelectorAll('button')
+            document.querySelectorAll('button'),
           )
           expect(first).toHaveAttribute('aria-invalid', 'true')
           expect(second).toHaveAttribute('aria-invalid', 'true')
@@ -793,7 +793,7 @@ describe('Field.Toggle', () => {
             variant="buttons"
             value="on"
             error={errorMessage}
-          />
+          />,
         )
 
         const element = document.querySelector('.dnb-form-status')
@@ -818,7 +818,7 @@ describe('Field.Toggle', () => {
               value="on"
               error={errorMessage}
             />
-          </FieldBlock>
+          </FieldBlock>,
         )
 
         const [yesElement, noElement]: Array<HTMLButtonElement> =
@@ -834,7 +834,7 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="buttons"
             label="Legend"
-          />
+          />,
         )
 
         const fieldset = document.querySelector('fieldset')
@@ -847,7 +847,7 @@ describe('Field.Toggle', () => {
 
       it('should not have fieldset when no label is given', () => {
         render(
-          <Field.Toggle valueOn="on" valueOff="off" variant="buttons" />
+          <Field.Toggle valueOn="on" valueOff="off" variant="buttons" />,
         )
 
         const fieldset = document.querySelector('fieldset')
@@ -864,7 +864,7 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="buttons"
             label="Test Label"
-          />
+          />,
         )
 
         const fieldset = document.querySelector('fieldset')
@@ -881,14 +881,14 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="buttons"
             label="Legend"
-          />
+          />,
         )
         expect(await axeComponent(Comp)).toHaveNoViolations()
       })
 
       it('should validate with ARIA rules when not using fieldset', async () => {
         const Comp = render(
-          <Field.Toggle valueOn="on" valueOff="off" variant="buttons" />
+          <Field.Toggle valueOn="on" valueOff="off" variant="buttons" />,
         )
         expect(await axeComponent(Comp)).toHaveNoViolations()
       })
@@ -903,13 +903,13 @@ describe('Field.Toggle', () => {
             variant="radio"
             label="Toggle label"
             size="large"
-          />
+          />,
         )
 
         const fieldToggleElement: HTMLInputElement =
           document.querySelector('.dnb-forms-field-toggle')
         expect(fieldToggleElement.classList).toContain(
-          'dnb-forms-field-block--label-height-large'
+          'dnb-forms-field-block--label-height-large',
         )
 
         const radioElementOne: Element =
@@ -928,7 +928,7 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="radio"
             label="Radio label"
-          />
+          />,
         )
         expect(screen.getByText('Radio label')).toBeInTheDocument()
       })
@@ -940,13 +940,13 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="radio"
             help={{ title: 'Help title', content: 'Help content' }}
-          />
+          />,
         )
         expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(
-          1
+          1,
         )
         expect(
-          document.querySelector('.dnb-radio__input')
+          document.querySelector('.dnb-radio__input'),
         ).toHaveAttribute('aria-describedby')
       })
 
@@ -960,7 +960,7 @@ describe('Field.Toggle', () => {
             variant="radio"
             value="on"
             onChange={onChange}
-          />
+          />,
         )
 
         const [yesElement, noElement]: Array<HTMLButtonElement> =
@@ -991,7 +991,7 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="radio"
             value="on"
-          />
+          />,
         )
 
         const [yesElement, noElement]: Array<HTMLButtonElement> =
@@ -1006,7 +1006,7 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="radio"
             value={undefined}
-          />
+          />,
         )
 
         expect(yesElement).toHaveAttribute('aria-checked', 'false')
@@ -1023,7 +1023,7 @@ describe('Field.Toggle', () => {
               variant="radio"
               required
               validateInitially
-            />
+            />,
           )
 
           expect(await axeComponent(result)).toHaveNoViolations()
@@ -1037,11 +1037,11 @@ describe('Field.Toggle', () => {
               valueOff="off"
               variant="radio"
               required
-            />
+            />,
           )
 
           const [first, second] = Array.from(
-            document.querySelectorAll('.dnb-radio__input')
+            document.querySelectorAll('.dnb-radio__input'),
           )
           expect(first).toHaveAttribute('aria-required', 'true')
           expect(second).toHaveAttribute('aria-required', 'true')
@@ -1056,11 +1056,11 @@ describe('Field.Toggle', () => {
               variant="radio"
               required
               validateInitially
-            />
+            />,
           )
 
           const [first, second] = Array.from(
-            document.querySelectorAll('.dnb-radio__input')
+            document.querySelectorAll('.dnb-radio__input'),
           )
           expect(first).toHaveAttribute('aria-invalid', 'true')
           expect(second).toHaveAttribute('aria-invalid', 'true')
@@ -1078,7 +1078,7 @@ describe('Field.Toggle', () => {
             variant="radio"
             value="on"
             error={errorMessage}
-          />
+          />,
         )
 
         const element = document.querySelector('.dnb-form-status')
@@ -1103,7 +1103,7 @@ describe('Field.Toggle', () => {
               value="on"
               error={errorMessage}
             />
-          </FieldBlock>
+          </FieldBlock>,
         )
 
         const [yesElement, noElement]: Array<HTMLButtonElement> =
@@ -1122,19 +1122,19 @@ describe('Field.Toggle', () => {
             variant="checkbox-button"
             label="Toggle label"
             size="large"
-          />
+          />,
         )
 
         const fieldToggleElement: HTMLInputElement =
           document.querySelector('.dnb-forms-field-toggle')
         expect(fieldToggleElement.classList).toContain(
-          'dnb-forms-field-block--label-height-large'
+          'dnb-forms-field-block--label-height-large',
         )
 
         const checkboxButtonElement: HTMLInputElement =
           document.querySelector('.dnb-toggle-button__button')
         expect(checkboxButtonElement.classList).toContain(
-          'dnb-button--size-large'
+          'dnb-button--size-large',
         )
       })
 
@@ -1145,7 +1145,7 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="checkbox-button"
             label="Toggle label"
-          />
+          />,
         )
         expect(screen.getByText('Toggle label')).toBeInTheDocument()
       })
@@ -1157,18 +1157,18 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="checkbox-button"
             help={{ title: 'Help title', content: 'Help content' }}
-          />
+          />,
         )
         expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(
-          1
+          1,
         )
         expect(
-          document.querySelector('.dnb-toggle-button__button')
+          document.querySelector('.dnb-toggle-button__button'),
         ).toHaveAttribute('aria-describedby')
         expect(
           document
             .querySelector('.dnb-toggle-button__button')
-            .getAttribute('aria-describedby')
+            .getAttribute('aria-describedby'),
         ).toBe(document.querySelector('.dnb-help-button').id)
       })
 
@@ -1182,11 +1182,11 @@ describe('Field.Toggle', () => {
             variant="checkbox-button"
             value="on"
             onChange={onChange}
-          />
+          />,
         )
 
         const element = document.querySelector(
-          '.dnb-toggle-button__button .dnb-checkbox__input'
+          '.dnb-toggle-button__button .dnb-checkbox__input',
         )
 
         expect(element).toBeInTheDocument()
@@ -1215,7 +1215,7 @@ describe('Field.Toggle', () => {
               variant="checkbox-button"
               required
               validateInitially
-            />
+            />,
           )
 
           expect(await axeComponent(result)).toHaveNoViolations()
@@ -1229,7 +1229,7 @@ describe('Field.Toggle', () => {
               valueOff="off"
               variant="checkbox-button"
               required
-            />
+            />,
           )
 
           const button = document.querySelector('button')
@@ -1245,7 +1245,7 @@ describe('Field.Toggle', () => {
               variant="checkbox-button"
               required
               validateInitially
-            />
+            />,
           )
 
           const button = document.querySelector('button')
@@ -1264,7 +1264,7 @@ describe('Field.Toggle', () => {
             variant="checkbox-button"
             value="on"
             error={errorMessage}
-          />
+          />,
         )
 
         const element = document.querySelector('.dnb-form-status')
@@ -1287,7 +1287,7 @@ describe('Field.Toggle', () => {
               value="on"
               error={errorMessage}
             />
-          </FieldBlock>
+          </FieldBlock>,
         )
 
         const input = document.querySelector('.dnb-toggle-button')
@@ -1304,13 +1304,13 @@ describe('Field.Toggle', () => {
             variant="checkbox"
             label="Toggle label"
             size="large"
-          />
+          />,
         )
 
         const fieldToggleElement: HTMLInputElement =
           document.querySelector('.dnb-forms-field-toggle')
         expect(fieldToggleElement.classList).toContain(
-          'dnb-forms-field-block--label-height-large'
+          'dnb-forms-field-block--label-height-large',
         )
 
         const checkboxElement: HTMLInputElement =
@@ -1325,7 +1325,7 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="checkbox"
             label="Toggle label"
-          />
+          />,
         )
         expect(screen.getByLabelText('Toggle label')).toBeInTheDocument()
       })
@@ -1338,7 +1338,7 @@ describe('Field.Toggle', () => {
             variant="checkbox"
             label="Toggle label"
             labelSrOnly
-          />
+          />,
         )
 
         const element = document.querySelector('.dnb-form-label')
@@ -1355,20 +1355,20 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="checkbox"
             help={{ title: 'Help title', content: 'Help content' }}
-          />
+          />,
         )
         expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(
-          1
+          1,
         )
         const helpButton = document.querySelector(
-          '.dnb-checkbox__suffix .dnb-help-button'
+          '.dnb-checkbox__suffix .dnb-help-button',
         )
         expect(helpButton).toBeInTheDocument()
         expect(document.querySelector('input')).toHaveAttribute(
-          'aria-describedby'
+          'aria-describedby',
         )
         expect(
-          document.querySelector('input').getAttribute('aria-describedby')
+          document.querySelector('input').getAttribute('aria-describedby'),
         ).toContain(document.querySelector('.dnb-help-button').id)
       })
 
@@ -1382,7 +1382,7 @@ describe('Field.Toggle', () => {
             variant="checkbox"
             value="on"
             onChange={onChange}
-          />
+          />,
         )
 
         const element = document.querySelector('.dnb-checkbox__input')
@@ -1413,7 +1413,7 @@ describe('Field.Toggle', () => {
               variant="checkbox"
               required
               validateInitially
-            />
+            />,
           )
 
           expect(await axeComponent(result)).toHaveNoViolations()
@@ -1427,7 +1427,7 @@ describe('Field.Toggle', () => {
               valueOff="off"
               variant="checkbox"
               required
-            />
+            />,
           )
 
           const input = document.querySelector('input')
@@ -1443,7 +1443,7 @@ describe('Field.Toggle', () => {
               variant="checkbox"
               required
               validateInitially
-            />
+            />,
           )
 
           const input = document.querySelector('input')
@@ -1462,7 +1462,7 @@ describe('Field.Toggle', () => {
             variant="checkbox"
             value="on"
             error={errorMessage}
-          />
+          />,
         )
 
         const element = document.querySelector('.dnb-form-status')
@@ -1485,7 +1485,7 @@ describe('Field.Toggle', () => {
               value="on"
               error={errorMessage}
             />
-          </FieldBlock>
+          </FieldBlock>,
         )
 
         const input = document.querySelector('.dnb-checkbox')
@@ -1500,7 +1500,7 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="checkbox"
             required
-          />
+          />,
         )
 
         const checkbox = document.querySelector('input')
@@ -1516,7 +1516,7 @@ describe('Field.Toggle', () => {
             variant="checkbox"
             required
             validateInitially
-          />
+          />,
         )
 
         const checkbox = document.querySelector('input')
@@ -1532,7 +1532,7 @@ describe('Field.Toggle', () => {
               valueOff="off"
               variant="checkbox"
             />
-          </Iterate.Array>
+          </Iterate.Array>,
         )
 
         expect(screen.getByText('Label 1')).toBeInTheDocument()
@@ -1551,7 +1551,7 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="checkbox"
             onClick={onClick}
-          />
+          />,
         )
 
         const checkbox = document.querySelector('input')
@@ -1565,7 +1565,7 @@ describe('Field.Toggle', () => {
           'off',
           expect.objectContaining({
             checked: false,
-          })
+          }),
         )
 
         await userEvent.click(checkbox)
@@ -1576,7 +1576,7 @@ describe('Field.Toggle', () => {
           'off',
           expect.objectContaining({
             checked: false,
-          })
+          }),
         )
       })
 
@@ -1593,7 +1593,7 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="checkbox"
             onClick={onClick}
-          />
+          />,
         )
 
         const checkbox = document.querySelector('input')
@@ -1607,7 +1607,7 @@ describe('Field.Toggle', () => {
           'on',
           expect.objectContaining({
             checked: true,
-          })
+          }),
         )
 
         await userEvent.click(checkbox)
@@ -1618,7 +1618,7 @@ describe('Field.Toggle', () => {
           'on',
           expect.objectContaining({
             checked: true,
-          })
+          }),
         )
       })
     })

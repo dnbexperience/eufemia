@@ -34,13 +34,15 @@ describe('Input component', () => {
     render(
       <Input {...props} value={null}>
         {null}
-      </Input>
+      </Input>,
     )
 
     fireEvent.focus(document.querySelector('input'))
 
     expect(
-      document.querySelector('.dnb-input').getAttribute('data-input-state')
+      document
+        .querySelector('.dnb-input')
+        .getAttribute('data-input-state'),
     ).toBe('focus')
   })
 
@@ -48,11 +50,13 @@ describe('Input component', () => {
     render(
       <Input {...props} value={null}>
         {null}
-      </Input>
+      </Input>,
     )
 
     expect(
-      document.querySelector('.dnb-input').getAttribute('data-has-content')
+      document
+        .querySelector('.dnb-input')
+        .getAttribute('data-has-content'),
     ).toBe('false')
 
     const newValue = 'new value'
@@ -61,7 +65,9 @@ describe('Input component', () => {
     })
 
     expect(
-      document.querySelector('.dnb-input').getAttribute('data-has-content')
+      document
+        .querySelector('.dnb-input')
+        .getAttribute('data-has-content'),
     ).toBe('true')
 
     expect(document.querySelector('input').value).toBe(newValue)
@@ -101,7 +107,7 @@ describe('Input component', () => {
     render(<Input value={1234.56} style={{ color: 'red' }} />)
 
     expect(document.querySelector('input').getAttribute('style')).toBe(
-      'color: red;'
+      'color: red;',
     )
   })
 
@@ -122,7 +128,7 @@ describe('Input component', () => {
     render(<Controlled />)
 
     expect(document.querySelector('input').value).toBe(
-      formatNumber(initialValue)
+      formatNumber(initialValue),
     )
 
     const newValue = '12345678'
@@ -131,7 +137,7 @@ describe('Input component', () => {
     })
 
     expect(document.querySelector('input').value).toBe(
-      formatNumber(newValue)
+      formatNumber(newValue),
     )
   })
 
@@ -141,7 +147,7 @@ describe('Input component', () => {
         onChange={({ value }) => {
           return String(value).toUpperCase()
         }}
-      />
+      />,
     )
 
     const newValue = 'new value'
@@ -158,7 +164,7 @@ describe('Input component', () => {
         onChange={() => {
           return false
         }}
-      />
+      />,
     )
 
     const newValue = 'new value'
@@ -183,7 +189,7 @@ describe('Input component', () => {
         value={initValue}
         onChange={onChange}
         onKeyDown={onKeyDown} // additional native event test
-      />
+      />,
     )
 
     expect(document.querySelector('input').value).toBe(initValue)
@@ -212,7 +218,7 @@ describe('Input component', () => {
     const { rerender } = render(
       <Input {...props} value={null}>
         {null}
-      </Input>
+      </Input>,
     )
 
     const initValue = 'new prop value'
@@ -221,43 +227,43 @@ describe('Input component', () => {
     rerender(
       <Input {...props} value={initValue}>
         {null}
-      </Input>
+      </Input>,
     )
     expect(document.querySelector('input').value).toBe(initValue)
 
     rerender(
       <Input {...props} value={emptyValue}>
         {null}
-      </Input>
+      </Input>,
     )
     expect(document.querySelector('input').value).toBe('')
   })
 
   it('should show placeholder with both value null and undefined', () => {
     const { rerender } = render(
-      <Input value={undefined} placeholder="AA" />
+      <Input value={undefined} placeholder="AA" />,
     )
 
     expect(
-      document.querySelector('.dnb-input__placeholder').textContent
+      document.querySelector('.dnb-input__placeholder').textContent,
     ).toBe('AA')
 
     rerender(<Input placeholder="BB" value={null} />)
 
     expect(
-      document.querySelector('.dnb-input__placeholder').textContent
+      document.querySelector('.dnb-input__placeholder').textContent,
     ).toBe('BB')
 
     rerender(<Input placeholder="CC" value="" />)
 
     expect(
-      document.querySelector('.dnb-input__placeholder').textContent
+      document.querySelector('.dnb-input__placeholder').textContent,
     ).toBe('CC')
 
     rerender(<Input placeholder="CC" value="new-value" />)
 
     expect(
-      document.querySelector('.dnb-input__placeholder')
+      document.querySelector('.dnb-input__placeholder'),
     ).not.toBeInTheDocument()
   })
 
@@ -304,14 +310,14 @@ describe('Input component', () => {
 
   it('uses aria-placeholder and label for when placeholder is set', () => {
     const { rerender } = render(
-      <Input id="unique" placeholder="Placeholder" label="Label-text" />
+      <Input id="unique" placeholder="Placeholder" label="Label-text" />,
     )
 
     expect(document.querySelector('label').getAttribute('for')).toContain(
-      'unique'
+      'unique',
     )
     expect(
-      document.querySelector('input').getAttribute('aria-placeholder')
+      document.querySelector('input').getAttribute('aria-placeholder'),
     ).toContain('Placeholder')
 
     rerender(
@@ -319,27 +325,27 @@ describe('Input component', () => {
         id="unique"
         placeholder="Placeholder-text"
         label={undefined}
-      />
+      />,
     )
 
     expect(document.querySelector('label')).not.toBeInTheDocument()
     expect(
-      document.querySelector('input').getAttribute('aria-placeholder')
+      document.querySelector('input').getAttribute('aria-placeholder'),
     ).toContain('Placeholder-text')
     expect(document.querySelector('input')).not.toHaveAttribute(
-      'aria-labelledby'
+      'aria-labelledby',
     )
 
     rerender(
-      <Input id="unique" placeholder={undefined} label={undefined} />
+      <Input id="unique" placeholder={undefined} label={undefined} />,
     )
 
     expect(document.querySelector('label')).not.toBeInTheDocument()
     expect(document.querySelector('input')).not.toHaveAttribute(
-      'aria-placeholder'
+      'aria-placeholder',
     )
     expect(document.querySelector('input')).not.toHaveAttribute(
-      'aria-labelledby'
+      'aria-labelledby',
     )
   })
 
@@ -347,33 +353,33 @@ describe('Input component', () => {
     const Placeholder = ({ children }) => <span>{children}</span>
 
     const { rerender } = render(
-      <Input placeholder={<Placeholder>Placeholder</Placeholder>} />
+      <Input placeholder={<Placeholder>Placeholder</Placeholder>} />,
     )
 
     expect(
-      document.querySelector('input').getAttribute('aria-placeholder')
+      document.querySelector('input').getAttribute('aria-placeholder'),
     ).toContain('Placeholder')
     expect(
-      document.querySelector('.dnb-input__placeholder')
+      document.querySelector('.dnb-input__placeholder'),
     ).toHaveTextContent('Placeholder')
 
     rerender(
-      <Input placeholder={<Placeholder>Placeholder-text</Placeholder>} />
+      <Input placeholder={<Placeholder>Placeholder-text</Placeholder>} />,
     )
 
     expect(
-      document.querySelector('input').getAttribute('aria-placeholder')
+      document.querySelector('input').getAttribute('aria-placeholder'),
     ).toContain('Placeholder-text')
     expect(
-      document.querySelector('.dnb-input__placeholder')
+      document.querySelector('.dnb-input__placeholder'),
     ).toHaveTextContent('Placeholder-text')
 
     rerender(
-      <Input id="unique" placeholder={undefined} label={undefined} />
+      <Input id="unique" placeholder={undefined} label={undefined} />,
     )
 
     expect(document.querySelector('input')).not.toHaveAttribute(
-      'aria-placeholder'
+      'aria-placeholder',
     )
     expect(document.querySelector('.dnb-input__placeholder')).toBeNull()
   })
@@ -381,7 +387,7 @@ describe('Input component', () => {
   it('has correct medium input size', () => {
     render(<Input size="medium" />)
     expect(
-      document.querySelector('.dnb-input--medium')
+      document.querySelector('.dnb-input--medium'),
     ).toBeInTheDocument()
   })
 
@@ -424,14 +430,14 @@ describe('Input component', () => {
     const { rerender } = render(
       <Input {...props} value={null}>
         {null}
-      </Input>
+      </Input>,
     )
 
     const value = 'new value'
     rerender(
       <Input {...props} value={value}>
         {null}
-      </Input>
+      </Input>,
     )
     expect(document.querySelector('input').value).toBe(value)
   })
@@ -444,7 +450,7 @@ describe('Input component', () => {
   it('has to have a status value as defined in the prop', () => {
     render(<Input {...props} status="status" statusState="error" />)
     expect(
-      document.querySelector('.dnb-form-status__text').textContent
+      document.querySelector('.dnb-form-status__text').textContent,
     ).toBe('status')
   })
 
@@ -455,14 +461,14 @@ describe('Input component', () => {
         status="status text"
         statusState="warning"
         statusProps={{ stretch: true }}
-      />
+      />,
     )
 
     expect(document.querySelector('.dnb-form-status')).toHaveClass(
-      'dnb-form-status--warning dnb-form-status__size--default dnb-form-status--stretch dnb-form-status--has-content dnb-form-status--has-content'
+      'dnb-form-status--warning dnb-form-status__size--default dnb-form-status--stretch dnb-form-status--has-content dnb-form-status--has-content',
     )
     expect(document.querySelector('.dnb-form-status')).toHaveClass(
-      'dnb-height-animation--is-visible dnb-height-animation--is-in-dom'
+      'dnb-height-animation--is-visible dnb-height-animation--is-in-dom',
     )
   })
 
@@ -473,7 +479,7 @@ describe('Input component', () => {
 
     expect(document.querySelector('input')).toHaveAttribute('disabled')
     expect(document.querySelector('.dnb-input')).toHaveClass(
-      'dnb-input--disabled'
+      'dnb-input--disabled',
     )
   })
 
@@ -481,13 +487,13 @@ describe('Input component', () => {
     render(
       <Input {...props} type="search" value={null} aria-describedby="id">
         {null}
-      </Input>
+      </Input>,
     )
 
     expect(
       document
         .querySelector('.dnb-input__input')
-        .getAttribute('aria-describedby')
+        .getAttribute('aria-describedby'),
     ).toBe('id input-submit-button')
 
     const Button = document.querySelector('button')
@@ -497,7 +503,7 @@ describe('Input component', () => {
     expect(
       document
         .querySelector('.dnb-input__submit-button')
-        .getAttribute('data-input-state')
+        .getAttribute('data-input-state'),
     ).toBe('focus')
   })
 
@@ -536,7 +542,7 @@ describe('Input component', () => {
         value="value"
         type="search"
         onSubmit={onSubmit}
-      />
+      />,
     )
 
     expect(document.querySelector('input').value).toBe('value')
@@ -556,7 +562,7 @@ describe('Input component', () => {
         value="value"
         type="search"
         onSubmit={onSubmit}
-      />
+      />,
     )
 
     expect(document.querySelector('input').value).toBe('value')
@@ -576,7 +582,7 @@ describe('Input component', () => {
         value="value"
         type="search"
         onSubmitFocus={onSubmitFocus}
-      />
+      />,
     )
 
     expect(document.querySelector('input').value).toBe('value')
@@ -596,7 +602,7 @@ describe('Input component', () => {
         value="value"
         type="search"
         onSubmitBlur={onSubmitBlur}
-      />
+      />,
     )
 
     expect(document.querySelector('input').value).toBe('value')
@@ -621,7 +627,7 @@ describe('Input with clear button', () => {
     expect(document.querySelector('input').value).toBe('value')
 
     const clearButton = document.querySelector(
-      'button#input-id-clear-button'
+      'button#input-id-clear-button',
     )
     fireEvent.click(clearButton)
 
@@ -634,7 +640,7 @@ describe('Input with clear button', () => {
     expect(document.querySelector('input').value).toBe('value')
 
     const clearButton = document.querySelector(
-      'button#input-id-clear-button'
+      'button#input-id-clear-button',
     )
     fireEvent.click(clearButton)
 
@@ -649,7 +655,7 @@ describe('Input with clear button', () => {
     expect(document.querySelector('input').value).toBe('')
 
     const clearButton = document.querySelector(
-      'button#input-id-clear-button'
+      'button#input-id-clear-button',
     )
 
     expect(document.querySelector('input').value).toBe('')
@@ -661,13 +667,15 @@ describe('Input with clear button', () => {
     render(<Input id="input-id" showClearButton={true} value="value" />)
 
     const clearButton = document.querySelector(
-      'button#input-id-clear-button'
+      'button#input-id-clear-button',
     )
     fireEvent.click(clearButton)
 
     fireEvent.focus(document.querySelector('input'))
     expect(
-      document.querySelector('.dnb-input').getAttribute('data-input-state')
+      document
+        .querySelector('.dnb-input')
+        .getAttribute('data-input-state'),
     ).toBe('focus')
   })
 
@@ -690,12 +698,12 @@ describe('Input with clear button', () => {
     render(
       <Provider formElement={{ labelDirection: 'vertical' }}>
         <Input label="Label" />
-      </Provider>
+      </Provider>,
     )
 
     const element = document.querySelector('.dnb-input')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual([
@@ -714,49 +722,49 @@ describe('Input with clear button', () => {
 
   it('should support icon', () => {
     const { rerender } = render(
-      <Input showClearButton={true} icon="bell" />
+      <Input showClearButton={true} icon="bell" />,
     )
     expect(
-      document.querySelector('.dnb-input__icon').querySelector('svg')
+      document.querySelector('.dnb-input__icon').querySelector('svg'),
     ).toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-icon--default')
+      document.querySelector('.dnb-icon--default'),
     ).toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-input--icon-position-right')
+      document.querySelector('.dnb-input--icon-position-right'),
     ).not.toBeInTheDocument()
 
     rerender(
-      <Input showClearButton={true} icon="bell" iconPosition="right" />
+      <Input showClearButton={true} icon="bell" iconPosition="right" />,
     )
 
     expect(
-      document.querySelector('.dnb-input--icon-position-right')
+      document.querySelector('.dnb-input--icon-position-right'),
     ).toBeInTheDocument()
 
     expect(
       document
         .querySelector('.dnb-input')
         .querySelector('.dnb-input__input ~ .dnb-input__icon')
-        .querySelector('svg')
+        .querySelector('svg'),
     ).toBeInTheDocument()
   })
 
   it('should warn about clear button and right icon position', () => {
     global.console.log = jest.fn()
     render(
-      <Input showClearButton={true} icon="bell" iconPosition="right" />
+      <Input showClearButton={true} icon="bell" iconPosition="right" />,
     )
     expect(
-      document.querySelector('.dnb-input--clear')
+      document.querySelector('.dnb-input--clear'),
     ).not.toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-input__icon').querySelector('svg')
+      document.querySelector('.dnb-input__icon').querySelector('svg'),
     ).toBeInTheDocument()
     expect(global.console.log).toHaveBeenCalledTimes(1)
     expect(global.console.log).toHaveBeenCalledWith(
       expect.stringContaining('Eufemia'),
-      `You cannot have a clear button and iconPosition="right"`
+      `You cannot have a clear button and iconPosition="right"`,
     )
   })
 
@@ -768,14 +776,14 @@ describe('Input with clear button', () => {
       document
         .querySelector('.dnb-input')
         .querySelector('.dnb-input__input ~ .dnb-input__inner__element')
-        .textContent
+        .textContent,
     ).toBe('custom element')
 
     expect(
       document
         .querySelector('.dnb-input')
         .querySelector('.dnb-input__inner__element ~ .dnb-input__icon')
-        .querySelector('svg')
+        .querySelector('svg'),
     ).toBeInTheDocument()
   })
 
@@ -789,18 +797,18 @@ describe('Input with clear button', () => {
         showClearButton
         onClear={onClear}
         onChange={onChange}
-      />
+      />,
     )
 
     fireEvent.click(document.querySelector('.dnb-input__clear-button'))
 
     expect(onClear).toHaveBeenCalledTimes(1)
     expect(onClear).toHaveBeenCalledWith(
-      expect.objectContaining({ value: '', previousValue: '123' })
+      expect.objectContaining({ value: '', previousValue: '123' }),
     )
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenCalledWith(
-      expect.objectContaining({ value: '' })
+      expect.objectContaining({ value: '' }),
     )
   })
 
@@ -810,10 +818,10 @@ describe('Input with clear button', () => {
     const wrapper = document.querySelector('.dnb-input')
     // Should not render shell or border elements/classes
     expect(
-      wrapper.querySelector('.dnb-input__shell')
+      wrapper.querySelector('.dnb-input__shell'),
     ).not.toBeInTheDocument()
     expect(
-      wrapper.querySelector('.dnb-input__border')
+      wrapper.querySelector('.dnb-input__border'),
     ).not.toBeInTheDocument()
   })
 })
@@ -861,19 +869,19 @@ describe('Input icon memoization', () => {
 
   it('should re-render when icon changes from one icon to another icon', () => {
     const { rerender } = render(
-      <Input {...props} icon={<AddIcon data-testid="icon-1" />} />
+      <Input {...props} icon={<AddIcon data-testid="icon-1" />} />,
     )
 
     expect(
-      document.querySelector('[data-testid="icon-1"]')
+      document.querySelector('[data-testid="icon-1"]'),
     ).toBeInTheDocument()
 
     rerender(
-      <Input {...props} icon={<SubtractIcon data-testid="icon-2" />} />
+      <Input {...props} icon={<SubtractIcon data-testid="icon-2" />} />,
     )
 
     expect(
-      document.querySelector('[data-testid="icon-2"]')
+      document.querySelector('[data-testid="icon-2"]'),
     ).toBeInTheDocument()
   })
 
@@ -885,25 +893,25 @@ describe('Input icon memoization', () => {
     })
 
     const { rerender } = render(
-      <Input {...props} icon={<ProgressIndicator type="circular" />} />
+      <Input {...props} icon={<ProgressIndicator type="circular" />} />,
     )
 
     expect(
-      document.querySelector('.dnb-progress-indicator__circular')
+      document.querySelector('.dnb-progress-indicator__circular'),
     ).toBeInTheDocument()
 
     // Re-render with ProgressIndicator but different props
     rerender(
-      <Input {...props} icon={<ProgressIndicator type="linear" />} />
+      <Input {...props} icon={<ProgressIndicator type="linear" />} />,
     )
 
     // The memo comparator should recognize it via displayName and skip re-render
     expect(
-      document.querySelector('.dnb-progress-indicator__linear')
+      document.querySelector('.dnb-progress-indicator__linear'),
     ).not.toBeInTheDocument()
 
     expect(
-      document.querySelector('.dnb-progress-indicator__circular')
+      document.querySelector('.dnb-progress-indicator__circular'),
     ).toBeInTheDocument()
 
     // Restore original name
@@ -926,7 +934,7 @@ describe('Input ARIA', () => {
           autocomplete="off"
           value="some value"
         />
-      </>
+      </>,
     )
 
     expect(await axeComponent(Comp)).toHaveNoViolations()
@@ -937,7 +945,7 @@ describe('Input ARIA', () => {
       <>
         <label htmlFor="input">text</label>
         <Input {...props} id="input" value="some value" />
-      </>
+      </>,
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
@@ -951,7 +959,7 @@ describe('Input scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-input-theme-ui.scss')
+      require.resolve('../style/themes/dnb-input-theme-ui.scss'),
     )
     expect(css).toMatchSnapshot()
   })

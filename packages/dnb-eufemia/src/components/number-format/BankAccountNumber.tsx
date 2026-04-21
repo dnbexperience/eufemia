@@ -10,7 +10,7 @@ export type NumberFormatBankAccountNumberProps = Omit<
 const NumberFormatBankAccountNumber =
   withFormatter<NumberFormatBankAccountNumberProps>(
     'NumberFormat.BankAccountNumber',
-    formatBankAccountNumber
+    formatBankAccountNumber,
   )
 
 export default NumberFormatBankAccountNumber

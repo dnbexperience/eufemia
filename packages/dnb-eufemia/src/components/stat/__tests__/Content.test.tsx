@@ -14,7 +14,7 @@ describe('Stat.Content', () => {
           <Stat.Currency value={1234} />
           <Stat.Trend>+1.2%</Stat.Trend>
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const content = document.querySelector('.dnb-stat__content-item')
@@ -38,7 +38,7 @@ describe('Stat.Content', () => {
       call
         .map((entry) => String(entry))
         .join(' ')
-        .includes('Stat.Content should be used inside Stat.Root')
+        .includes('Stat.Content should be used inside Stat.Root'),
     )
 
     expect(didWarn).toBe(true)
@@ -54,11 +54,11 @@ describe('Stat.Content', () => {
         <Stat.Content skeleton>
           <Stat.Currency value={1234} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const currency = document.querySelector(
-      '.dnb-stat__content-item > .dnb-stat'
+      '.dnb-stat__content-item > .dnb-stat',
     )
 
     expect(currency.classList).toContain('dnb-skeleton')
@@ -77,11 +77,11 @@ describe('Stat.Content', () => {
         <Stat.Content>
           <Stat.Currency value={1234} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const currency = document.querySelector(
-      '.dnb-stat__content-item > .dnb-stat'
+      '.dnb-stat__content-item > .dnb-stat',
     )
 
     expect(currency.classList).not.toContain('dnb-skeleton')
@@ -99,11 +99,11 @@ describe('Stat.Content', () => {
         <Stat.Content skeleton>
           <Stat.Currency value={1234} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const currency = document.querySelector(
-      '.dnb-stat__content-item > .dnb-stat'
+      '.dnb-stat__content-item > .dnb-stat',
     )
 
     expect(currency.classList).toContain('dnb-skeleton')
@@ -121,7 +121,7 @@ describe('Stat.Content', () => {
         <Stat.Content skeleton>
           <Stat.Currency value={1234} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const content = document.querySelector('.dnb-stat__content-item')
@@ -142,7 +142,7 @@ describe('Stat.Content', () => {
         <Stat.Content top="large">
           <Stat.Currency value={1234} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const content = document.querySelector('.dnb-stat__content-item')
@@ -159,7 +159,7 @@ describe('Stat.Content', () => {
         <Stat.Content>
           <Stat.Currency value={1234} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     expect(await axeComponent(component)).toHaveNoViolations()
@@ -172,7 +172,7 @@ describe('Stat.Content', () => {
         <Stat.Content id="my-content">
           <Stat.Currency value={1234} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const content = document.querySelector('.dnb-stat__content-item')
@@ -189,7 +189,7 @@ describe('Stat.Content', () => {
         <Stat.Content style={{ color: 'red' }}>
           <Stat.Currency value={1234} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const content = document.querySelector('.dnb-stat__content-item')
@@ -208,7 +208,7 @@ describe('Stat.Content', () => {
         <Stat.Content className="custom-class">
           <Stat.Currency value={1234} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const content = document.querySelector('.dnb-stat__content-item')
@@ -224,7 +224,7 @@ describe('Stat.Content', () => {
     render(
       <Stat.Content element="div">
         <Stat.Currency value={1234} />
-      </Stat.Content>
+      </Stat.Content>,
     )
 
     const content = document.querySelector('.dnb-stat__content-item')
@@ -239,7 +239,7 @@ describe('Stat.Content', () => {
     render(
       <Stat.Content direction="vertical" className="custom">
         <Stat.Currency value={1234} />
-      </Stat.Content>
+      </Stat.Content>,
     )
 
     const content = document.querySelector('.dnb-stat__content-item')
@@ -258,7 +258,7 @@ describe('Stat.Content', () => {
     render(
       <Stat.Content skeleton>
         <Stat.Currency value={1234} />
-      </Stat.Content>
+      </Stat.Content>,
     )
 
     const content = document.querySelector('.dnb-stat__content-item')
@@ -281,7 +281,7 @@ describe('Stat.Content', () => {
         >
           <Stat.Currency value={1234} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const content = document.querySelector('.dnb-stat__content-item')
@@ -298,7 +298,7 @@ describe('Stat.Content', () => {
         <Stat.Content direction="vertical" skeleton>
           <Stat.Currency value={1234} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const content = document.querySelector('.dnb-stat__content-item')
@@ -316,7 +316,7 @@ describe('Stat.Content', () => {
             <Stat.Currency value={1234} />
           </Stat.Content>
         </Stat.Root>
-      </AriaLive>
+      </AriaLive>,
     )
 
     const ariaLiveElement = document.querySelector('.dnb-aria-live')
@@ -332,7 +332,7 @@ describe('Stat.Content', () => {
             <Stat.Currency value={5678} />
           </Stat.Content>
         </Stat.Root>
-      </AriaLive>
+      </AriaLive>,
     )
 
     expect(ariaLiveElement.textContent).toContain('5\u00a0678')

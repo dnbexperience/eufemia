@@ -319,7 +319,7 @@ export const DialogConfirmScrollableContent = () => {
               onOpen={() => {
                 if (
                   document.documentElement.classList.contains(
-                    'scroll-to-bottom'
+                    'scroll-to-bottom',
                   )
                 ) {
                   scrollRef.current.scrollTop = 100000
@@ -426,7 +426,7 @@ export const DialogInformationScrollableContent = () => {
               onOpen={() => {
                 if (
                   document.documentElement.classList.contains(
-                    'scroll-to-bottom-info'
+                    'scroll-to-bottom-info',
                   )
                 ) {
                   scrollRef.current.scrollTop = 100000

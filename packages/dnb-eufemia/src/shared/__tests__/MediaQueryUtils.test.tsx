@@ -51,7 +51,7 @@ describe('onMediaQueryChange', () => {
       false,
       expect.objectContaining({
         matches: false,
-      })
+      }),
     )
 
     matchMedia.useMediaQuery('(min-width: 72em)')
@@ -60,7 +60,7 @@ describe('onMediaQueryChange', () => {
       true,
       expect.objectContaining({
         matches: true,
-      })
+      }),
     )
   })
 
@@ -88,19 +88,19 @@ describe('buildQuery', () => {
 
   it('should return query string for media type with not', () => {
     expect(buildQuery({ when: { monochrome: false } })).toBe(
-      'not (monochrome)'
+      'not (monochrome)',
     )
   })
 
   it('should return query string for media type with orientation', () => {
     expect(buildQuery({ when: { orientation: 'landscape' } })).toBe(
-      '(orientation: landscape)'
+      '(orientation: landscape)',
     )
   })
 
   it('should return query string for media features', () => {
     expect(buildQuery({ when: { minWidth: 10, maxWidth: 20 } })).toBe(
-      '(min-width: 10em) and (max-width: 20em)'
+      '(min-width: 10em) and (max-width: 20em)',
     )
   })
 
@@ -117,7 +117,7 @@ describe('buildQuery', () => {
           minWidth: 10,
           maxWidth: 20,
         },
-      })
+      }),
     ).toBe('screen and (min-width: 10em) and (max-width: 20em)')
   })
 
@@ -128,7 +128,7 @@ describe('buildQuery', () => {
           minWidth: 'small',
           maxWidth: 'large',
         },
-      })
+      }),
     ).toBe('(min-width: 40em) and (max-width: 72em)')
   })
 
@@ -139,7 +139,7 @@ describe('buildQuery', () => {
           min: 'small',
           max: 'large',
         },
-      })
+      }),
     ).toBe('(min-width: 40em) and (max-width: 72em)')
   })
 
@@ -151,7 +151,7 @@ describe('buildQuery', () => {
           min: 'small',
           max: 'large',
         },
-      })
+      }),
     ).toBe('not all and (min-width: 40em) and (max-width: 72em)')
   })
 
@@ -161,7 +161,7 @@ describe('buildQuery', () => {
         when: {
           min: 'small',
         },
-      })
+      }),
     ).toBe('(min-width: 40em)')
 
     expect(
@@ -169,7 +169,7 @@ describe('buildQuery', () => {
         when: {
           minWidth: 'small',
         },
-      })
+      }),
     ).toBe('(min-width: 40em)')
   })
 
@@ -180,7 +180,7 @@ describe('buildQuery', () => {
           min: 10,
           max: '72em',
         },
-      })
+      }),
     ).toBe('(min-width: 10em) and (max-width: 72em)')
   })
 
@@ -193,7 +193,7 @@ describe('buildQuery', () => {
           min: 'small',
           max: 'large',
         },
-      })
+      }),
     ).toBe('all and (min-width: 40em) and (max-width: 72em)')
   })
 
@@ -205,7 +205,7 @@ describe('buildQuery', () => {
           min: 'small',
           max: 'large',
         },
-      })
+      }),
     ).toBe('not all and (min-width: 40em) and (max-width: 72em)')
   })
 
@@ -213,7 +213,7 @@ describe('buildQuery', () => {
     expect(
       buildQuery({
         when: [{ max: 'small' }, { min: 'large', max: 'x-large' }],
-      })
+      }),
     ).toBe('(max-width: 40em), (min-width: 72em) and (max-width: 80em)')
   })
 
@@ -221,7 +221,7 @@ describe('buildQuery', () => {
     expect(
       buildQuery({
         when: [{ max: 'small' }, { min: 'x-large', max: 'xx-large' }],
-      })
+      }),
     ).toBe('(max-width: 40em), (min-width: 80em) and (max-width: 90em)')
   })
 
@@ -232,7 +232,7 @@ describe('buildQuery', () => {
           { minWidth: 10 },
           { monochrome: true, orientation: 'landscape' },
         ],
-      })
+      }),
     ).toBe('(min-width: 10em), (monochrome) and (orientation: landscape)')
   })
 
@@ -245,15 +245,15 @@ describe('buildQuery', () => {
           { monochrome: true, orientation: 'landscape' },
           { maxWidth: 50 },
         ],
-      })
+      }),
     ).toBe(
-      '(min-width: 10em) and (monochrome) and (orientation: landscape), (max-width: 50em)'
+      '(min-width: 10em) and (monochrome) and (orientation: landscape), (max-width: 50em)',
     )
   })
 
   it('should only return feature if its value is true', () => {
     expect(buildQuery({ when: { all: true, monochrome: true } })).toBe(
-      'all and (monochrome)'
+      'all and (monochrome)',
     )
   })
 })
@@ -296,19 +296,19 @@ describe('convertToMediaQuery', () => {
 
   it('should return query string for media type with not', () => {
     expect(convertToMediaQuery({ monochrome: false })).toBe(
-      'not (monochrome)'
+      'not (monochrome)',
     )
   })
 
   it('should return query string for media type with orientation', () => {
     expect(convertToMediaQuery({ orientation: 'landscape' })).toBe(
-      '(orientation: landscape)'
+      '(orientation: landscape)',
     )
   })
 
   it('should return query string for media features', () => {
     expect(convertToMediaQuery({ minWidth: 10, maxWidth: 20 })).toBe(
-      '(min-width: 10em) and (max-width: 20em)'
+      '(min-width: 10em) and (max-width: 20em)',
     )
   })
 
@@ -318,7 +318,7 @@ describe('convertToMediaQuery', () => {
         screen: true,
         minWidth: 10,
         maxWidth: 20,
-      })
+      }),
     ).toBe('screen and (min-width: 10em) and (max-width: 20em)')
   })
 
@@ -327,7 +327,7 @@ describe('convertToMediaQuery', () => {
       convertToMediaQuery({
         minWidth: 'small',
         maxWidth: 'large',
-      })
+      }),
     ).toBe('(min-width: 40em) and (max-width: 72em)')
   })
 
@@ -336,7 +336,7 @@ describe('convertToMediaQuery', () => {
       convertToMediaQuery({
         min: 'small',
         max: 'large',
-      })
+      }),
     ).toBe('(min-width: 40em) and (max-width: 72em)')
   })
 
@@ -346,7 +346,7 @@ describe('convertToMediaQuery', () => {
         not: true,
         min: 'small',
         max: 'large',
-      })
+      }),
     ).toBe('not all and (min-width: 40em) and (max-width: 72em)')
   })
 
@@ -355,7 +355,7 @@ describe('convertToMediaQuery', () => {
       convertToMediaQuery({
         minWidth: 10,
         aspectRatio: '3/4',
-      })
+      }),
     ).toBe('(min-width: 10em) and (aspect-ratio: 3/4)')
   })
 
@@ -364,7 +364,7 @@ describe('convertToMediaQuery', () => {
       convertToMediaQuery({
         minWidth: '10em',
         aspectRatio: '3/4',
-      })
+      }),
     ).toBe('(min-width: 10em) and (aspect-ratio: 3/4)')
   })
 
@@ -373,7 +373,7 @@ describe('convertToMediaQuery', () => {
       convertToMediaQuery([
         { minWidth: 10 },
         { monochrome: true, orientation: 'landscape' },
-      ])
+      ]),
     ).toBe('(min-width: 10em), (monochrome) and (orientation: landscape)')
   })
 
@@ -384,15 +384,15 @@ describe('convertToMediaQuery', () => {
         'and',
         { monochrome: true, orientation: 'landscape' },
         { maxWidth: 50 },
-      ])
+      ]),
     ).toBe(
-      '(min-width: 10em) and (monochrome) and (orientation: landscape), (max-width: 50em)'
+      '(min-width: 10em) and (monochrome) and (orientation: landscape), (max-width: 50em)',
     )
   })
 
   it('should only return feature if its value is true', () => {
     expect(convertToMediaQuery({ all: true, monochrome: true })).toBe(
-      'all and (monochrome)'
+      'all and (monochrome)',
     )
   })
 })

@@ -18,10 +18,10 @@ type UseDataReturn = {
 }
 
 export default function useValidation(
-  id: SharedStateId = undefined
+  id: SharedStateId = undefined,
 ): UseDataReturn {
   const { data: sharedDataContext } = useSharedState<ContextState>(
-    id ? createReferenceKey(id, 'data-context') : undefined
+    id ? createReferenceKey(id, 'data-context') : undefined,
   )
 
   const { data } = useSharedState<
@@ -54,7 +54,7 @@ export default function useValidation(
     (error: Error) => {
       setSubmitState?.({ error })
     },
-    [setSubmitState]
+    [setSubmitState],
   )
 
   // Field status
@@ -65,12 +65,12 @@ export default function useValidation(
       const connections = getFieldConnections()
       connections?.[path]?.setEventResult?.(status)
     },
-    [getFieldConnections, setFieldStatusCache]
+    [getFieldConnections, setFieldStatusCache],
   )
 
   return useMemo(
     () => ({ hasErrors, hasFieldError, setFormError, setFieldStatus }),
-    [hasErrors, hasFieldError, setFormError, setFieldStatus]
+    [hasErrors, hasFieldError, setFormError, setFieldStatus],
   )
 }
 
@@ -81,11 +81,11 @@ type UseConnectionsSharedState = {
 
 function useConnections(id: SharedStateId = undefined) {
   const { data: sharedDataContext } = useSharedState<ContextState>(
-    id ? createReferenceKey(id, 'data-context') : undefined
+    id ? createReferenceKey(id, 'data-context') : undefined,
   )
 
   const { get } = useSharedState<UseConnectionsSharedState>(
-    id ? createReferenceKey(id, 'attachments') : undefined
+    id ? createReferenceKey(id, 'attachments') : undefined,
   )
 
   const dataContext = useContext(DataContext)
@@ -109,11 +109,11 @@ function useConnections(id: SharedStateId = undefined) {
         attachments.fieldStatusRef.current[path] = status
       }
     },
-    [get]
+    [get],
   )
 
   return useMemo(
     () => ({ getFieldConnections, setFieldStatusCache }),
-    [getFieldConnections, setFieldStatusCache]
+    [getFieldConnections, setFieldStatusCache],
   )
 }

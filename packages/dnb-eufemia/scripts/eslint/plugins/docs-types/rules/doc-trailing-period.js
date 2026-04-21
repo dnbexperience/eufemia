@@ -76,7 +76,7 @@ module.exports = {
               const trailingWhitespace = inner.slice(trimmedInner.length)
               return fixer.replaceText(
                 node.value,
-                `${quote}${trimmedInner}.${trailingWhitespace}${quote}`
+                `${quote}${trimmedInner}.${trailingWhitespace}${quote}`,
               )
             }
 
@@ -87,7 +87,7 @@ module.exports = {
               const trailingWhitespace = inner.slice(trimmedInner.length)
               return fixer.replaceText(
                 node.value,
-                `\`${trimmedInner}.${trailingWhitespace}\``
+                `\`${trimmedInner}.${trailingWhitespace}\``,
               )
             }
 

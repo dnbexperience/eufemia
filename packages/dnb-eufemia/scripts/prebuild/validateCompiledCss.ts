@@ -13,7 +13,7 @@ const ROOT_DIR = packpath.self()
 
 export function validateCssBuffer(
   filenameForErrors: string,
-  code: Buffer
+  code: Buffer,
 ): void {
   transform({
     filename: filenameForErrors,
@@ -31,7 +31,7 @@ export async function validateCompiledCss(): Promise<void> {
 
   if (files.length === 0) {
     throw new Error(
-      'validateCompiledCss: no CSS files found under build/. Run yarn build:prebuild first.'
+      'validateCompiledCss: no CSS files found under build/. Run yarn build:prebuild first.',
     )
   }
 
@@ -46,7 +46,7 @@ export async function validateCompiledCss(): Promise<void> {
         `Lightning CSS failed to parse compiled CSS (${relative}): ${
           e instanceof Error ? e.message : e
         }`,
-        { cause: e }
+        { cause: e },
       )
     }
   }

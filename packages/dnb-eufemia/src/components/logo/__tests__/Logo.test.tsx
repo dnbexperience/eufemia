@@ -25,7 +25,7 @@ describe('Logo component', () => {
   it('should set correct class when inheritColor is set', () => {
     render(<Logo inheritColor />)
     expect(document.querySelector('.dnb-logo')).toHaveClass(
-      'dnb-logo--inherit-color'
+      'dnb-logo--inherit-color',
     )
   })
 
@@ -33,14 +33,14 @@ describe('Logo component', () => {
     render(<Logo height="48" />)
     expect(document.querySelector('.dnb-logo svg')).toHaveAttribute(
       'height',
-      '48'
+      '48',
     )
   })
 
   it('should set correct class when inheritSize is true', () => {
     render(<Logo inheritSize />)
     expect(document.querySelector('.dnb-logo')).toHaveClass(
-      'dnb-logo--inherit-size'
+      'dnb-logo--inherit-size',
     )
   })
 
@@ -58,17 +58,17 @@ describe('Logo component', () => {
     render(<Logo />)
     expect(document.querySelector('title').textContent).toBe('DNB Logo')
     expect(document.querySelector('.dnb-logo').getAttribute('alt')).toBe(
-      'DNB Logo'
+      'DNB Logo',
     )
   })
 
   it('should have Sbanken title inside SVG', () => {
     render(<Logo svg={SbankenDefault} />)
     expect(document.querySelector('title').textContent).toBe(
-      'Sbanken - et konsept fra DNB'
+      'Sbanken - et konsept fra DNB',
     )
     expect(
-      document.querySelector('[role="img"]').getAttribute('alt')
+      document.querySelector('[role="img"]').getAttribute('alt'),
     ).toBe('Sbanken - et konsept fra DNB')
   })
 
@@ -81,21 +81,21 @@ describe('Logo component', () => {
     render(<Logo style={{ color: 'red' }} />)
 
     expect(document.querySelector('.dnb-logo').getAttribute('style')).toBe(
-      'color: red;'
+      'color: red;',
     )
   })
 
   it('should set role="img"', () => {
     render(<Logo />)
     expect(document.querySelector('.dnb-logo').getAttribute('role')).toBe(
-      'img'
+      'img',
     )
   })
 
   it('should set custom class', () => {
     render(<Logo className="custom-selector" />)
     expect(document.querySelector('[role="img"]')).toHaveClass(
-      'custom-selector'
+      'custom-selector',
     )
   })
 
@@ -110,7 +110,7 @@ describe('Logo component', () => {
         }}
       >
         <Logo />
-      </Provider>
+      </Provider>,
     )
 
     const html = document.querySelector('svg').outerHTML
@@ -124,7 +124,7 @@ describe('Logo component', () => {
     render(
       <Theme name="sbanken">
         <Logo svg={SbankenCompact} />
-      </Theme>
+      </Theme>,
     )
 
     const html = document.querySelector('svg').outerHTML
@@ -143,7 +143,7 @@ describe('Logo component', () => {
 
     const element = document.querySelector('.dnb-logo')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).not.toContain('top')
@@ -175,7 +175,7 @@ describe('Logo component', () => {
 
     const element = document.querySelector('.dnb-logo')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual([
@@ -264,7 +264,7 @@ describe('Logo component', () => {
       props: React.SVGProps<SVGSVGElement> & {
         propMapping?: unknown
         colorScheme?: string
-      }
+      },
     ) => {
       return (
         <svg viewBox="0 0 10 10" {...props}>

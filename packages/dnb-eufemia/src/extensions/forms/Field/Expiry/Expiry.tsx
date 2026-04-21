@@ -51,7 +51,7 @@ function Expiry(props: ExpiryProps = {}) {
 
   const expiryValidator = useCallback(
     (value: string) => validateMonthAndYear(value, placeholders),
-    [placeholders]
+    [placeholders],
   )
 
   const {
@@ -70,18 +70,18 @@ function Expiry(props: ExpiryProps = {}) {
       'Field.errorRequired': errorRequired,
       ...propErrorMessages,
     }),
-    [errorRequired, propErrorMessages]
+    [errorRequired, propErrorMessages],
   )
 
   const fromInput = useCallback(
     (values: ExpiryValue) => {
       const monthString = expiryValueToString(
         stripPlaceholderChars(values.month, placeholders.month),
-        placeholders.month
+        placeholders.month,
       )
       const yearString = expiryValueToString(
         stripPlaceholderChars(values.year, placeholders.year),
-        placeholders.year
+        placeholders.year,
       )
 
       if (
@@ -93,14 +93,14 @@ function Expiry(props: ExpiryProps = {}) {
 
       return `${monthString}${yearString}`
     },
-    [placeholders.month, placeholders.year]
+    [placeholders.month, placeholders.year],
   )
 
   const validateRequired = useCallback(
     (value: string, { required, error }) => {
       return required && !value ? error : undefined
     },
-    []
+    [],
   )
 
   const validateInitially = useMemo(() => {
@@ -133,7 +133,7 @@ function Expiry(props: ExpiryProps = {}) {
       }
       return external
     },
-    [placeholders.month, placeholders.year]
+    [placeholders.month, placeholders.year],
   )
 
   const transformIn = useCallback(
@@ -148,11 +148,11 @@ function Expiry(props: ExpiryProps = {}) {
         if (external?.year || external?.month) {
           const monthString = expiryValueToString(
             external.month as string,
-            placeholders.month
+            placeholders.month,
           )
           const yearString = expiryValueToString(
             external.year as string,
-            placeholders.year
+            placeholders.year,
           )
 
           if (
@@ -168,7 +168,7 @@ function Expiry(props: ExpiryProps = {}) {
 
       return value
     },
-    [transformInProp, placeholders.month, placeholders.year]
+    [transformInProp, placeholders.month, placeholders.year],
   )
 
   const provideAdditionalArgs = useCallback(
@@ -181,7 +181,7 @@ function Expiry(props: ExpiryProps = {}) {
         year: stripPlaceholderChars(year, placeholders.year) || undefined,
       }
     },
-    [placeholders.month, placeholders.year]
+    [placeholders.month, placeholders.year],
   )
 
   const preparedProps: ExpiryProps = {
@@ -334,7 +334,7 @@ function repeatPlaceholder(character: string, length: number) {
 
 function stripPlaceholderChars(
   value: string | undefined,
-  placeholder: string
+  placeholder: string,
 ) {
   if (!value) {
     return ''
@@ -349,7 +349,7 @@ function stripPlaceholderChars(
 
 function validateMonthAndYear(
   date: string,
-  placeholders: Translation['DatePicker']['placeholderCharacters']
+  placeholders: Translation['DatePicker']['placeholderCharacters'],
 ) {
   const { month, year } = stringToExpiryValue(date)
 
@@ -376,7 +376,7 @@ function validateMonthAndYear(
     messages.push(
       new FormError('Expiry.errorMonth', {
         messageValues: { month: month },
-      })
+      }),
     )
   }
 
@@ -385,7 +385,7 @@ function validateMonthAndYear(
     messages.push(
       new FormError('Expiry.errorYear', {
         messageValues: { year: year },
-      })
+      }),
     )
   }
 

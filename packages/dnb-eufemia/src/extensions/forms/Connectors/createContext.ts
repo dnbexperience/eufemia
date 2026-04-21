@@ -10,22 +10,22 @@ export type GeneralConfig = {
       | string
       | ((
           value: string,
-          { countryCode }: UrlSecondParameter
+          { countryCode }: UrlSecondParameter,
         ) => string | Promise<string>)
     headers?: HeadersInit
   }
 }
 
 export function createContext<GeneralConfigGeneric = GeneralConfig>(
-  generalConfig: GeneralConfigGeneric = null
+  generalConfig: GeneralConfigGeneric = null,
 ) {
   return {
     withConfig<HandlerConfig, ReturnValue>(
       fn: (
         generalConfig: GeneralConfigGeneric,
-        handlerConfig?: HandlerConfig
+        handlerConfig?: HandlerConfig,
       ) => ReturnValue,
-      handlerConfig?: HandlerConfig
+      handlerConfig?: HandlerConfig,
     ): ReturnValue {
       return fn(generalConfig, handlerConfig)
     },
@@ -42,7 +42,7 @@ export type ResponseResolver<
   Payload = Record<string, unknown>,
 > = (
   response: Response,
-  handlerConfig?: HandlerConfig
+  handlerConfig?: HandlerConfig,
 ) => {
   /**
    * The matcher to be used to determine if and how the connector,
@@ -66,7 +66,7 @@ export type FetchDataFromAPIOptions = {
 
 async function fetchDataFromAPI<Data = unknown>(
   generalConfig: GeneralConfig & { fetchConfig: { url: string } },
-  options?: FetchDataFromAPIOptions
+  options?: FetchDataFromAPIOptions,
 ): Promise<{
   data: Data
   response: Response
@@ -120,7 +120,7 @@ export type FetchDataReturnValue<Data = unknown> = {
 
 export async function fetchData<Data = unknown>(
   value: string,
-  options: FetchDataFromAPIOptions
+  options: FetchDataFromAPIOptions,
 ): Promise<FetchDataReturnValue<Data>> {
   const { generalConfig, parameters } = options || {}
 
@@ -140,7 +140,7 @@ export async function fetchData<Data = unknown>(
         url,
       },
     },
-    options
+    options,
   )
 
   if (!response) {
@@ -183,7 +183,7 @@ export function handleCountryPath({
   additionalArgs: ReceiveAdditionalEventArgs<unknown>
   handler: (
     value: string,
-    additionalArgs: ReceiveAdditionalEventArgs<unknown>
+    additionalArgs: ReceiveAdditionalEventArgs<unknown>,
   ) => void
 }) {
   const { countryCode, countryCodeValue } = getCountryCodeValue({
@@ -202,7 +202,7 @@ export function handleCountryPath({
       'onPathChange',
       () => {
         handler(value, additionalArgs)
-      }
+      },
     )
   }
 
@@ -211,12 +211,12 @@ export function handleCountryPath({
 
 export function isSupportedCountryCode(
   countryCode: string,
-  supportedCountryCodes: readonly string[]
+  supportedCountryCodes: readonly string[],
 ) {
   if (!countryCode) {
     return false
   }
   return (supportedCountryCodes as unknown as Array<string>).includes(
-    String(countryCode).toUpperCase()
+    String(countryCode).toUpperCase(),
   )
 }

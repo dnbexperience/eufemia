@@ -10,12 +10,12 @@ describe('Card', () => {
       <Card aria-label="Aria Label">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
         cursus pharetra elit in bibendum.
-      </Card>
+      </Card>,
     )
 
     const element = document.querySelector('.dnb-card')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toContain('aria-label')
@@ -27,11 +27,11 @@ describe('Card', () => {
       <Card style={{ color: 'red' }}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
         cursus pharetra elit in bibendum.
-      </Card>
+      </Card>,
     )
 
     expect(
-      document.querySelector('.dnb-card').getAttribute('style')
+      document.querySelector('.dnb-card').getAttribute('style'),
     ).toContain('color: red;')
   })
 
@@ -40,7 +40,7 @@ describe('Card', () => {
       <Card top="large">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
         cursus pharetra elit in bibendum.
-      </Card>
+      </Card>,
     )
 
     const element = document.querySelector('.dnb-card')
@@ -51,7 +51,7 @@ describe('Card', () => {
       <Card top="x-large">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
         cursus pharetra elit in bibendum.
-      </Card>
+      </Card>,
     )
 
     expect(element).toHaveClass('dnb-space__top--x-large')
@@ -62,7 +62,7 @@ describe('Card', () => {
       <Card className="custom-class">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
         cursus pharetra elit in bibendum.
-      </Card>
+      </Card>,
     )
 
     const element = document.querySelector('.dnb-card')
@@ -84,7 +84,7 @@ describe('Card', () => {
       <Card>
         <P>Paragraph</P>
         <P>Paragraph</P>
-      </Card>
+      </Card>,
     )
 
     const element = document.querySelector('.dnb-card')
@@ -99,7 +99,7 @@ describe('Card', () => {
       <Card stack>
         <P>Paragraph</P>
         <P>Paragraph</P>
-      </Card>
+      </Card>,
     )
 
     const element = document.querySelector('.dnb-flex-container')
@@ -110,7 +110,7 @@ describe('Card', () => {
     render(
       <Card stack gap="large">
         content
-      </Card>
+      </Card>,
     )
 
     const element = document.querySelector('.dnb-flex-container')
@@ -122,7 +122,7 @@ describe('Card', () => {
       <Card stack>
         <P>Paragraph</P>
         <P>Paragraph</P>
-      </Card>
+      </Card>,
     )
 
     const element = document.querySelector('.dnb-card')
@@ -135,7 +135,7 @@ describe('Card', () => {
 
     expect(children[0].tagName).toBe('P')
     expect(children[0]).toHaveClass(
-      'dnb-p dnb-space__top--zero dnb-space__bottom--zero'
+      'dnb-p dnb-space__top--zero dnb-space__bottom--zero',
     )
 
     expect(children[1].tagName).toBe('P')
@@ -147,7 +147,7 @@ describe('Card', () => {
       <Card stack>
         <P>Paragraph</P>
         <P>Paragraph</P>
-      </Card>
+      </Card>,
     )
 
     const element = document.querySelector('.dnb-card')
@@ -164,7 +164,7 @@ describe('Card', () => {
       <Card align="stretch">
         <P>Paragraph</P>
         <P>Paragraph</P>
-      </Card>
+      </Card>,
     )
 
     const element = document.querySelector('.dnb-card')
@@ -180,7 +180,7 @@ describe('Card', () => {
       <Card align="flex-end">
         <P>Paragraph</P>
         <P>Paragraph</P>
-      </Card>
+      </Card>,
     )
 
     const element = document.querySelector('.dnb-card')
@@ -196,7 +196,7 @@ describe('Card', () => {
       <Card stack divider="line">
         <P>Paragraph</P>
         <P>Paragraph</P>
-      </Card>
+      </Card>,
     )
 
     const element = document.querySelector('.dnb-card')
@@ -209,16 +209,16 @@ describe('Card', () => {
 
     expect(children[0].tagName).toBe('P')
     expect(children[0]).toHaveClass(
-      'dnb-p dnb-space__top--zero dnb-space__bottom--zero'
+      'dnb-p dnb-space__top--zero dnb-space__bottom--zero',
     )
     expect(children[1].tagName).toBe('HR')
     expect(children[1]).toHaveClass(
-      'dnb-flex-container__hr dnb-space__top--medium dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
+      'dnb-flex-container__hr dnb-space__top--medium dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr',
     )
 
     expect(children[2].tagName).toBe('P')
     expect(children[2]).toHaveClass(
-      'dnb-p dnb-space__top--medium dnb-space__bottom--zero'
+      'dnb-p dnb-space__top--medium dnb-space__bottom--zero',
     )
   })
 
@@ -226,7 +226,7 @@ describe('Card', () => {
     const { rerender } = render(
       <Card direction="vertical">
         <P>Paragraph</P>
-      </Card>
+      </Card>,
     )
 
     const element = document.querySelector('.dnb-card')
@@ -237,11 +237,11 @@ describe('Card', () => {
     rerender(
       <Card direction="horizontal">
         <P>Paragraph</P>
-      </Card>
+      </Card>,
     )
 
     expect(container).toHaveClass(
-      'dnb-flex-container--direction-horizontal'
+      'dnb-flex-container--direction-horizontal',
     )
   })
 
@@ -249,7 +249,7 @@ describe('Card', () => {
     render(
       <Card>
         <P>Paragraph</P>
-      </Card>
+      </Card>,
     )
 
     const element = document.querySelector('.dnb-card')
@@ -261,7 +261,7 @@ describe('Card', () => {
     render(
       <Card element="article">
         <P>Paragraph</P>
-      </Card>
+      </Card>,
     )
 
     const element = document.querySelector('.dnb-card')
@@ -275,7 +275,7 @@ describe('Card', () => {
         <P>Paragraph</P>
         <P>Paragraph</P>
         <P>Paragraph</P>
-      </Card>
+      </Card>,
     )
 
     const element = document.querySelector('.dnb-card')
@@ -300,7 +300,7 @@ describe('Card', () => {
         <P>Paragraph</P>
         <P>Paragraph</P>
         <P>Paragraph</P>
-      </Card>
+      </Card>,
     )
 
     expect(container).toHaveClass('dnb-flex-container--spacing-large')
@@ -337,7 +337,7 @@ describe('Card', () => {
     render(
       <Card filled>
         <P>Paragraph</P>
-      </Card>
+      </Card>,
     )
 
     const element = document.querySelector('.dnb-card')
@@ -373,7 +373,7 @@ describe('Card', () => {
           medium: false,
           large: false,
         }}
-      />
+      />,
     )
 
     expect(element).toHaveStyle('--outset--small: 1')
@@ -401,13 +401,13 @@ describe('Card', () => {
 
     const element = document.querySelector('.dnb-card')
     expect(element).toHaveStyle(
-      '--drop-shadow--small: var(--shadow-default)'
+      '--drop-shadow--small: var(--shadow-default)',
     )
     expect(element).toHaveStyle(
-      '--drop-shadow--medium: var(--shadow-default)'
+      '--drop-shadow--medium: var(--shadow-default)',
     )
     expect(element).toHaveStyle(
-      '--drop-shadow--large: var(--shadow-default)'
+      '--drop-shadow--large: var(--shadow-default)',
     )
   })
 
@@ -415,7 +415,7 @@ describe('Card', () => {
     render(
       <Card outset>
         <Card outset />
-      </Card>
+      </Card>,
     )
 
     const firstCard = document.querySelector('.dnb-card')
@@ -434,7 +434,7 @@ describe('Card', () => {
     const { rerender } = render(
       <Card>
         <P>Paragraph</P>
-      </Card>
+      </Card>,
     )
 
     const element = document.querySelector('.dnb-card')
@@ -444,7 +444,7 @@ describe('Card', () => {
     rerender(
       <Card responsive={false}>
         <P>Paragraph</P>
-      </Card>
+      </Card>,
     )
 
     expect(element).not.toHaveClass('dnb-card--responsive')
@@ -454,23 +454,23 @@ describe('Card', () => {
     const { rerender } = render(
       <Card>
         <P>Paragraph</P>
-      </Card>
+      </Card>,
     )
 
     const element = document.querySelector('.dnb-card')
 
     expect(
-      window.getComputedStyle(element).getPropertyValue('--padding-l-s')
+      window.getComputedStyle(element).getPropertyValue('--padding-l-s'),
     ).toBe('0')
 
     rerender(
       <Card responsive={false}>
         <P>Paragraph</P>
-      </Card>
+      </Card>,
     )
 
     expect(
-      window.getComputedStyle(element).getPropertyValue('--padding-l-s')
+      window.getComputedStyle(element).getPropertyValue('--padding-l-s'),
     ).toBe('1rem')
   })
 
@@ -478,29 +478,29 @@ describe('Card', () => {
     const { rerender } = render(
       <Card title="Title">
         <P>Paragraph</P>
-      </Card>
+      </Card>,
     )
 
     const element = document.querySelector('.dnb-card')
 
     expect(element.querySelector('.dnb-card__title')).toHaveTextContent(
-      'Title'
+      'Title',
     )
 
     rerender(
       <Card title="Title changed">
         <P>Paragraph</P>
-      </Card>
+      </Card>,
     )
 
     expect(element.querySelector('.dnb-card__title')).toHaveTextContent(
-      'Title changed'
+      'Title changed',
     )
 
     rerender(
       <Card>
         <P>Paragraph</P>
-      </Card>
+      </Card>,
     )
 
     expect(element.querySelector('.dnb-card__title')).toBeNull()
@@ -510,25 +510,26 @@ describe('Card', () => {
     const { rerender } = render(
       <Card title="Title">
         <P>Paragraph</P>
-      </Card>
+      </Card>,
     )
 
     const element = document.querySelector('.dnb-card')
 
     expect(element).toHaveAttribute(
       'aria-labelledby',
-      element.querySelector('.dnb-card__title').getAttribute('id')
+      element.querySelector('.dnb-card__title').getAttribute('id'),
     )
 
     rerender(
       <Card title="Title" aria-labelledby="123">
         <P>Paragraph</P>
-      </Card>
+      </Card>,
     )
 
     expect(element).toHaveAttribute(
       'aria-labelledby',
-      '123 ' + element.querySelector('.dnb-card__title').getAttribute('id')
+      '123 ' +
+        element.querySelector('.dnb-card__title').getAttribute('id'),
     )
   })
 
@@ -538,7 +539,7 @@ describe('Card', () => {
     render(
       <Card ref={ref}>
         <P>Card content</P>
-      </Card>
+      </Card>,
     )
 
     const element = document.querySelector('.dnb-card')
@@ -554,7 +555,7 @@ describe('Card', () => {
     render(
       <Card ref={refFn}>
         <P>Card content</P>
-      </Card>
+      </Card>,
     )
 
     const element = document.querySelector('.dnb-card')
@@ -566,7 +567,7 @@ describe('Card', () => {
       const Comp = render(
         <Card title="Card Title">
           <P>Card content paragraph</P>
-        </Card>
+        </Card>,
       )
       expect(await axeComponent(Comp)).toHaveNoViolations()
     })

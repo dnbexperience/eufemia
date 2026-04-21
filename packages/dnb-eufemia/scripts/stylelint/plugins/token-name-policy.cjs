@@ -86,14 +86,14 @@ const escapeRegExp = (value) => {
 const createTokenDeclarationPattern = (tokenPrefix) => {
   return new RegExp(
     `(^|\\s)(${escapeRegExp(tokenPrefix)}[a-z0-9-]+)\\s*:`,
-    'gim'
+    'gim',
   )
 }
 
 const createTokenReferenceRegex = (tokenPrefix, flags = 'gi') => {
   return new RegExp(
     `var\\(\\s*(${escapeRegExp(tokenPrefix)}[a-z0-9-]+)\\s*\\)`,
-    flags
+    flags,
   )
 }
 
@@ -108,15 +108,15 @@ const messages = stylelint.utils.ruleMessages(RULE_NAME, {
     `Unexpected token variable "${prop}" in tokens file. Expected prefix "${tokenPrefix}".`,
   wrongTokenCategory: (prop, categories) =>
     `Unexpected token variable "${prop}" in tokens file. Expected "--token-" followed by one of: ${categories.join(
-      ', '
+      ', ',
     )}.`,
   wrongTokenColorCategory: (prop, categories) =>
     `Unexpected token variable "${prop}" in tokens file. Expected "--token-color-" followed by one of: ${categories.join(
-      ', '
+      ', ',
     )}.`,
   wrongTokenColorSemantic: (prop, semantics) =>
     `Unexpected token variable "${prop}" in tokens file. Expected the 4th segment to be one of: ${semantics.join(
-      ', '
+      ', ',
     )}.`,
   forbiddenFoundationReferenceOutsideTokens: (ref) =>
     `Unexpected foundation token reference "${ref}" outside tokens.scss. Foundation variables may only be used in tokens.scss.`,
@@ -163,14 +163,14 @@ const resolveTokenFilePaths = ({
       .map((filePath) =>
         path.isAbsolute(filePath)
           ? filePath
-          : path.resolve(projectRoot, filePath)
+          : path.resolve(projectRoot, filePath),
       )
       .filter((filePath) => fs.existsSync(filePath))
   }
 
   const themesDir = path.resolve(
     projectRoot,
-    DEFAULT_POLICY.themesDirRelativePath
+    DEFAULT_POLICY.themesDirRelativePath,
   )
 
   if (!fs.existsSync(themesDir)) {
@@ -181,14 +181,14 @@ const resolveTokenFilePaths = ({
     .readdirSync(themesDir, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
     .map((entry) =>
-      path.join(themesDir, entry.name, DEFAULT_POLICY.tokenFileName)
+      path.join(themesDir, entry.name, DEFAULT_POLICY.tokenFileName),
     )
     .filter((filePath) => fs.existsSync(filePath))
 }
 
 const extractTokenDeclarations = (
   content,
-  tokenPrefix = DEFAULT_POLICY.tokenPrefix
+  tokenPrefix = DEFAULT_POLICY.tokenPrefix,
 ) => {
   const declarations = new Set()
   const declarationRegex =
@@ -224,7 +224,7 @@ const loadKnownTokenVariables = ({
 
     for (const variable of extractTokenDeclarations(
       fileContent,
-      tokenPrefix
+      tokenPrefix,
     )) {
       knownVariables.add(variable)
     }
@@ -251,7 +251,7 @@ const loadTokenVariablesByFile = ({
     const fileContent = fs.readFileSync(absolutePath, 'utf-8')
     variablesByFile.set(
       absolutePath,
-      extractTokenDeclarations(fileContent, tokenPrefix)
+      extractTokenDeclarations(fileContent, tokenPrefix),
     )
   }
 
@@ -266,7 +266,7 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
       {
         actual: primary,
         possible: [true],
-      }
+      },
     )
 
     if (!validOptions) {
@@ -382,7 +382,7 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
                 node: decl,
                 message: messages.tokenInGlobalScope(
                   variableReference,
-                  ruleNode.selector.trim()
+                  ruleNode.selector.trim(),
                 ),
               })
             }
@@ -422,7 +422,7 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
             node: decl,
             message: messages.wrongTokenDeclarationPrefix(
               decl.prop,
-              tokenPrefix
+              tokenPrefix,
             ),
           })
         }
@@ -438,7 +438,7 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
               node: decl,
               message: messages.wrongTokenCategory(
                 decl.prop,
-                allowedTokenCategories
+                allowedTokenCategories,
               ),
             })
           } else if (tokenCategory === 'color') {
@@ -454,7 +454,7 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
                 node: decl,
                 message: messages.wrongTokenColorCategory(
                   decl.prop,
-                  allowedTokenColorCategories
+                  allowedTokenColorCategories,
                 ),
               })
             } else if (
@@ -473,7 +473,7 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
                   node: decl,
                   message: messages.wrongTokenColorSemantic(
                     decl.prop,
-                    allowedTokenColorSemantics
+                    allowedTokenColorSemantics,
                   ),
                 })
               }
@@ -520,7 +520,7 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
               message: messages.wrongReferencePrefix(
                 variableReference,
                 expectedPrefix,
-                theme
+                theme,
               ),
             })
           }
@@ -538,7 +538,7 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
           if (
             variableReference &&
             !allowedFoundationReferencePrefixes.some((prefix) =>
-              variableReference.startsWith(prefix)
+              variableReference.startsWith(prefix),
             )
           ) {
             stylelint.utils.report({
@@ -547,7 +547,7 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
               node: decl,
               message:
                 messages.forbiddenFoundationReferenceOutsideTokens(
-                  variableReference
+                  variableReference,
                 ),
             })
           }
@@ -579,7 +579,7 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
                 node: decl,
                 message:
                   messages.unknownTokenReferenceOutsideTokens(
-                    variableReference
+                    variableReference,
                   ),
               })
             }

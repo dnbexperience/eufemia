@@ -33,7 +33,7 @@ describe('extractZodSubSchema', () => {
         u: z.union([z.string(), z.number()]),
         i: z.intersection(
           z.object({ a: z.string() }),
-          z.object({ b: z.number() })
+          z.object({ b: z.number() }),
         ),
       }),
     }),
@@ -78,11 +78,11 @@ describe('extractZodSubSchema', () => {
   it('tuple item traversal (valid index)', () => {
     const item0 = extractZodSubSchema(
       base,
-      '/mySchema/secondSubSchema/tuple/0'
+      '/mySchema/secondSubSchema/tuple/0',
     )
     const item1 = extractZodSubSchema(
       base,
-      '/mySchema/secondSubSchema/tuple/1'
+      '/mySchema/secondSubSchema/tuple/1',
     )
     expect(item0).toBeInstanceOf(z.ZodString)
     expect(item1).toBeInstanceOf(z.ZodNumber)
@@ -93,23 +93,23 @@ describe('extractZodSubSchema', () => {
 
   it('tuple item traversal (index out of range)', () => {
     expect(() =>
-      extractZodSubSchema(base, '/mySchema/secondSubSchema/tuple/2')
+      extractZodSubSchema(base, '/mySchema/secondSubSchema/tuple/2'),
     ).toThrow(/Tuple index out of range: 2/)
     expect(() =>
-      extractZodSubSchema(base, '/mySchema/secondSubSchema/tuple/-1')
+      extractZodSubSchema(base, '/mySchema/secondSubSchema/tuple/-1'),
     ).toThrow(/Tuple index out of range: -1/)
     expect(() =>
       extractZodSubSchema(
         base,
-        '/mySchema/secondSubSchema/tuple/not-a-number'
-      )
+        '/mySchema/secondSubSchema/tuple/not-a-number',
+      ),
     ).toThrow(/Tuple index out of range: not-a-number/)
   })
 
   it('record traversal returns value schema regardless of key', () => {
     const recVal = extractZodSubSchema(
       base,
-      '/mySchema/secondSubSchema/rec/anyKey'
+      '/mySchema/secondSubSchema/rec/anyKey',
     )
     expect(recVal).toBeInstanceOf(z.ZodNumber)
     recVal.parse(7)
@@ -120,7 +120,7 @@ describe('extractZodSubSchema', () => {
     // Traverse into 'wrapped' object, then into property 'x'
     const inner = extractZodSubSchema(
       base,
-      '/mySchema/secondSubSchema/wrapped/x'
+      '/mySchema/secondSubSchema/wrapped/x',
     )
     expect(inner).toBeInstanceOf(z.ZodString)
     inner.parse('hello')
@@ -130,7 +130,7 @@ describe('extractZodSubSchema', () => {
   it('JSON Pointer decoding (~1 -> "/", ~0 -> "~")', () => {
     const tildeProp = extractZodSubSchema(
       base,
-      '/mySchema/secondSubSchema/special/a~1b/~0tilde'
+      '/mySchema/secondSubSchema/special/a~1b/~0tilde',
     )
     expect(tildeProp).toBeInstanceOf(z.ZodString)
     tildeProp.parse('works')
@@ -138,33 +138,33 @@ describe('extractZodSubSchema', () => {
 
   it('missing key throws helpful error', () => {
     expect(() =>
-      extractZodSubSchema(base, '/mySchema/secondSubSchema/nope')
+      extractZodSubSchema(base, '/mySchema/secondSubSchema/nope'),
     ).toThrow(/Key 'nope' not found in object shape/)
   })
 
   it('union path is rejected as ambiguous', () => {
     expect(() =>
-      extractZodSubSchema(base, '/mySchema/secondSubSchema/u/anything')
+      extractZodSubSchema(base, '/mySchema/secondSubSchema/u/anything'),
     ).toThrow(/Pointer into union is ambiguous/i)
   })
 
   it('intersection path is rejected as ambiguous', () => {
     expect(() =>
-      extractZodSubSchema(base, '/mySchema/secondSubSchema/i/anything')
+      extractZodSubSchema(base, '/mySchema/secondSubSchema/i/anything'),
     ).toThrow(/Pointer into intersection is ambiguous/i)
   })
 
   it('unsupported traversal (e.g., into a primitive)', () => {
     // Trying to go "inside" a string should error
     expect(() =>
-      extractZodSubSchema(base, '/mySchema/secondSubSchema/id/extra')
+      extractZodSubSchema(base, '/mySchema/secondSubSchema/id/extra'),
     ).toThrow(/Unsupported traversal at 'extra'/)
   })
 
   it('hash-prefixed pointer ("#/...") is supported', () => {
     const sub = extractZodSubSchema(
       base,
-      '#/mySchema/secondSubSchema/rec/any'
+      '#/mySchema/secondSubSchema/rec/any',
     )
     expect(sub).toBeInstanceOf(z.ZodNumber)
   })
@@ -266,10 +266,10 @@ describe('unwrap', () => {
         z.lazy(() =>
           z.promise(
             z.optional(
-              z.nullable(base.default({ x: 'd' }).catch({ x: 'c' }))
-            )
-          )
-        )
+              z.nullable(base.default({ x: 'd' }).catch({ x: 'c' })),
+            ),
+          ),
+        ),
       )
       .nonoptional() // long chain
 

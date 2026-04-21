@@ -167,13 +167,13 @@ export const AccordionSandbox = () => {
 
 function AccordionWithContainer() {
   const ref1 = React.useRef<{ setContainerHeight?: () => void } | null>(
-    null
+    null,
   )
   const ref2 = React.useRef<{ setContainerHeight?: () => void } | null>(
-    null
+    null,
   )
   const ref3 = React.useRef<{ setContainerHeight?: () => void } | null>(
-    null
+    null,
   )
   const [changeHeight] = React.useState(() => ({ ref1, ref2, ref3 }))
   const [flushCache, flushCacheNow] = React.useState(false)

@@ -14,7 +14,7 @@ const CardTypeText = ({ isCredit, skeleton }: CardTypeTextProps) => {
     <span
       className={clsx(
         'dnb-payment-card__card__element--wrapper',
-        createSkeletonClass('font', skeleton)
+        createSkeletonClass('font', skeleton),
       )}
     >
       <P className="dnb-payment-card__card__type-text">{cardType}</P>

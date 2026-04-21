@@ -23,7 +23,7 @@ describe('useTheme', () => {
         name: 'eiendom',
         variant: 'soft',
         surface: 'dark',
-      })
+      }),
     )
   })
 

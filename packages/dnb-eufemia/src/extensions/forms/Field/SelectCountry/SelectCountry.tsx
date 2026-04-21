@@ -72,7 +72,7 @@ function SelectCountry(props: FieldSelectCountryProps) {
     errorRequired,
   } = useTranslation().SelectCountry
   const lang = (sharedContext.locale || LOCALE).split(
-    '-'
+    '-',
   )[0] as CountryLang
   const { countries } = useCountries()
 
@@ -84,7 +84,7 @@ function SelectCountry(props: FieldSelectCountryProps) {
       }
       return country
     },
-    [countries, lang]
+    [countries, lang],
   )
 
   const provideAdditionalArgs = useCallback(
@@ -97,14 +97,14 @@ function SelectCountry(props: FieldSelectCountryProps) {
 
       return undefined
     },
-    [getCountryObjectByIso]
+    [getCountryObjectByIso],
   )
 
   const errorMessages = useMemo(
     () => ({
       required: errorRequired,
     }),
-    [errorRequired]
+    [errorRequired],
   )
 
   const preparedProps: FieldSelectCountryProps = {
@@ -150,7 +150,7 @@ function SelectCountry(props: FieldSelectCountryProps) {
     (country: CountryType) => {
       return countryFilter(country, filterCountries, ccFilter)
     },
-    [ccFilter, filterCountries]
+    [ccFilter, filterCountries],
   )
 
   /**
@@ -197,7 +197,7 @@ function SelectCountry(props: FieldSelectCountryProps) {
         handleChange(country.iso, country)
       }
     },
-    [getCountryObjectByIso, handleChange]
+    [getCountryObjectByIso, handleChange],
   )
 
   const fillData = useCallback(() => {
@@ -219,7 +219,7 @@ function SelectCountry(props: FieldSelectCountryProps) {
       updateData(dataRef.current)
       handleFocus()
     },
-    [fillData, handleFocus]
+    [fillData, handleFocus],
   )
 
   const onTypeHandler = useCallback(
@@ -228,7 +228,9 @@ function SelectCountry(props: FieldSelectCountryProps) {
       if (typeof event?.nativeEvent?.data === 'undefined') {
         const search = currentValue.toLowerCase()
         const country = countries.find(({ i18n }) =>
-          Object.values(i18n).some((s) => s.toLowerCase().includes(search))
+          Object.values(i18n).some((s) =>
+            s.toLowerCase().includes(search),
+          ),
         )
         if (country?.iso) {
           setHidden()
@@ -236,13 +238,13 @@ function SelectCountry(props: FieldSelectCountryProps) {
         }
       }
     },
-    [countries, handleChange]
+    [countries, handleChange],
   )
 
   useMemo(() => {
     if (path || itemPath) {
       setDisplayValue(
-        getCountryObjectByIso(value)?.i18n?.[langRef.current]
+        getCountryObjectByIso(value)?.i18n?.[langRef.current],
       )
     }
   }, [getCountryObjectByIso, itemPath, path, setDisplayValue, value])
@@ -294,7 +296,7 @@ type GetCountryData = {
   sort?: Extract<CountryFilterSet, 'Prioritized'>
   makeObject?: (
     country: CountryType,
-    lang: string
+    lang: string,
   ) => {
     selectedKey: string
     content: string | Array<string>
@@ -353,7 +355,7 @@ export function getCountryData({
 export function countryFilter(
   country: CountryType,
   filterCountries: (country: CountryType) => boolean,
-  ccFilter: CountryFilterSet
+  ccFilter: CountryFilterSet,
 ) {
   let result = true
 

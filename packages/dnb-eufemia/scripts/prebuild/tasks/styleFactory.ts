@@ -21,7 +21,10 @@ const processToNamesIgnoreList = [
   '!**/style/themes/**',
 ]
 const prettierrc = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
+  fs.readFileSync(
+    path.resolve(__dirname, '../../../.prettierrc'),
+    'utf-8',
+  ),
 )
 const isCLI = require.main === module
 
@@ -39,7 +42,7 @@ async function runStyleFactory() {
   await runFactory({
     outputFile: path.resolve(
       __dirname,
-      `../../../src/style/${fallbackPrefix}-ui-components.scss`
+      `../../../src/style/${fallbackPrefix}-ui-components.scss`,
     ),
     customContent: `
       @use './core/utilities.scss';
@@ -49,13 +52,13 @@ async function runStyleFactory() {
     searchGlob: [
       path.resolve(
         __dirname,
-        `../../../src/components/*/style/${fallbackPrefix}-*.scss`
+        `../../../src/components/*/style/${fallbackPrefix}-*.scss`,
       ),
     ],
   }).then(() => {
     if (isCLI) {
       log.succeed(
-        '> PrePublish: "styleFactory" Created the style file with all the components'
+        '> PrePublish: "styleFactory" Created the style file with all the components',
       )
     }
   })
@@ -64,20 +67,20 @@ async function runStyleFactory() {
   await runFactory({
     outputFile: path.resolve(
       __dirname,
-      `../../../src/style/${fallbackPrefix}-ui-elements.scss`
+      `../../../src/style/${fallbackPrefix}-ui-elements.scss`,
     ),
     customContent: `@use './core/utilities.scss';`,
     importContent: ({ relativeSource }) => `@use '${relativeSource}';`,
     searchGlob: [
       path.resolve(
         __dirname,
-        `../../../src/elements/*/style/${fallbackPrefix}-*.scss`
+        `../../../src/elements/*/style/${fallbackPrefix}-*.scss`,
       ),
     ],
   }).then(() => {
     if (isCLI) {
       log.succeed(
-        '> PrePublish: "styleFactory" Created the style file with all the elements'
+        '> PrePublish: "styleFactory" Created the style file with all the elements',
       )
     }
   })
@@ -86,20 +89,20 @@ async function runStyleFactory() {
   await runFactory({
     outputFile: path.resolve(
       __dirname,
-      `../../../src/style/${fallbackPrefix}-ui-fragments.scss`
+      `../../../src/style/${fallbackPrefix}-ui-fragments.scss`,
     ),
     customContent: `@use './core/utilities.scss';`,
     importContent: ({ relativeSource }) => `@use '${relativeSource}';`,
     searchGlob: [
       path.resolve(
         __dirname,
-        `../../../src/fragments/*/style/${fallbackPrefix}-*.scss`
+        `../../../src/fragments/*/style/${fallbackPrefix}-*.scss`,
       ),
     ],
   }).then(() => {
     if (isCLI) {
       log.succeed(
-        '> PrePublish: "styleFactory" Created the style file with all the fragments'
+        '> PrePublish: "styleFactory" Created the style file with all the fragments',
       )
     }
   })
@@ -108,14 +111,14 @@ async function runStyleFactory() {
   await runFactory({
     outputFile: path.resolve(
       __dirname,
-      `../../../src/style/${fallbackPrefix}-ui-extensions.scss`
+      `../../../src/style/${fallbackPrefix}-ui-extensions.scss`,
     ),
     customContent: `@use './core/utilities.scss';`,
     importContent: ({ relativeSource }) => `@use '${relativeSource}';`,
     searchGlob: [
       path.resolve(
         __dirname,
-        `../../../src/extensions/*/style/${fallbackPrefix}-*.scss`
+        `../../../src/extensions/*/style/${fallbackPrefix}-*.scss`,
       ),
     ],
   }).then(() => {
@@ -128,20 +131,20 @@ async function runStyleFactory() {
   await runFactory({
     outputFile: path.resolve(
       __dirname,
-      `../../../src/style/${fallbackPrefix}-ui-forms.scss`
+      `../../../src/style/${fallbackPrefix}-ui-forms.scss`,
     ),
     customContent: `@use './core/utilities.scss';`,
     importContent: ({ relativeSource }) => `@use '${relativeSource}';`,
     searchGlob: [
       path.resolve(
         __dirname,
-        `../../../src/extensions/forms/**/style/${fallbackPrefix}-*.scss`
+        `../../../src/extensions/forms/**/style/${fallbackPrefix}-*.scss`,
       ),
     ].concat(['!**/style/dnb-forms.*']),
   }).then(() => {
     if (isCLI) {
       log.succeed(
-        '> PrePublish: "styleFactory" Created the style file with all the forms styles'
+        '> PrePublish: "styleFactory" Created the style file with all the forms styles',
       )
     }
   })
@@ -159,7 +162,7 @@ const runFactory = async ({
       searchGlob.concat(processToNamesIgnoreList),
       {
         onlyDirectories,
-      }
+      },
     )
     searchGlob.sort()
   } catch (e) {
@@ -185,7 +188,7 @@ const runFactory = async ({
       await prettier.format(`${autoAdvice}${customContent}${content}\n`, {
         ...prettierrc,
         filepath: outputFile,
-      })
+      }),
     )
   } catch (e) {
     log.fail(`There was an error on creating ${outputFile}!`)

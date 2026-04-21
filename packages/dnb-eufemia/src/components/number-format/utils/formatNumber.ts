@@ -24,11 +24,11 @@ import {
 
 export function formatNumber(
   value: NumberFormatValue | null | undefined,
-  options: NumberFormatOptionParams & { returnAria: true }
+  options: NumberFormatOptionParams & { returnAria: true },
 ): NumberFormatReturnValue
 export function formatNumber(
   value: NumberFormatValue | null | undefined,
-  options?: NumberFormatOptionParams
+  options?: NumberFormatOptionParams,
 ): string
 export function formatNumber(
   value: NumberFormatValue | null | undefined,
@@ -43,7 +43,7 @@ export function formatNumber(
     returnAria = false,
     invalidAriaText = null,
     cleanCopyValue = null,
-  }: NumberFormatOptionParams = {}
+  }: NumberFormatOptionParams = {},
 ): string | NumberFormatReturnValue {
   value = isAbsent(value) ? ABSENT_VALUE_FORMAT : value
 

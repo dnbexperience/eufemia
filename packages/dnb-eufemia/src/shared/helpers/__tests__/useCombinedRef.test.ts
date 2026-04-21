@@ -27,7 +27,7 @@ describe('useCombinedRef', () => {
     const callbackRef = jest.fn()
     const objectRef = createRef<HTMLDivElement>()
     const { result } = renderHook(() =>
-      useCombinedRef(callbackRef, objectRef)
+      useCombinedRef(callbackRef, objectRef),
     )
 
     const node = document.createElement('div')
@@ -40,7 +40,7 @@ describe('useCombinedRef', () => {
   it('should handle undefined refs', () => {
     const callbackRef = jest.fn()
     const { result } = renderHook(() =>
-      useCombinedRef(undefined, callbackRef, undefined)
+      useCombinedRef(undefined, callbackRef, undefined),
     )
 
     const node = document.createElement('div')
@@ -53,7 +53,7 @@ describe('useCombinedRef', () => {
     const callbackRef = jest.fn()
     const objectRef = createRef<HTMLDivElement>()
     const { result } = renderHook(() =>
-      useCombinedRef(callbackRef, objectRef)
+      useCombinedRef(callbackRef, objectRef),
     )
 
     const node = document.createElement('div')
@@ -67,7 +67,7 @@ describe('useCombinedRef', () => {
   it('should return a stable callback when refs do not change', () => {
     const callbackRef = jest.fn()
     const { result, rerender } = renderHook(() =>
-      useCombinedRef(callbackRef)
+      useCombinedRef(callbackRef),
     )
 
     const first = result.current

@@ -40,36 +40,36 @@ describe('BreadcrumbItem', () => {
 
   it('should have aria-current when variant is current', () => {
     const { rerender } = render(
-      <BreadcrumbItem {...defaultProps} variant="current" />
+      <BreadcrumbItem {...defaultProps} variant="current" />,
     )
 
     expect(document.querySelector('li')).toHaveAttribute(
       'aria-current',
-      'page'
+      'page',
     )
 
     rerender(<BreadcrumbItem {...defaultProps} />)
 
     expect(document.querySelector('li')).not.toHaveAttribute(
-      'aria-current'
+      'aria-current',
     )
   })
 
   it('should have delay style based on itemNo', () => {
     const { rerender } = render(
-      <BreadcrumbItem {...defaultProps} itemNo={1} />
+      <BreadcrumbItem {...defaultProps} itemNo={1} />,
     )
 
     expect(document.querySelector('li')).toHaveAttribute(
       'style',
-      '--delay: 1;'
+      '--delay: 1;',
     )
 
     rerender(<BreadcrumbItem {...defaultProps} itemNo={2} />)
 
     expect(document.querySelector('li')).toHaveAttribute(
       'style',
-      '--delay: 2;'
+      '--delay: 2;',
     )
   })
 
@@ -84,7 +84,7 @@ describe('BreadcrumbItem', () => {
       expect(document.querySelector('img')).toBeDefined()
       expect(document.querySelector('.dnb-icon')).toHaveAttribute(
         'data-testid',
-        'chevron right icon'
+        'chevron right icon',
       )
     })
 
@@ -94,7 +94,7 @@ describe('BreadcrumbItem', () => {
       expect(document.querySelector('img')).toBeDefined()
       expect(document.querySelector('.dnb-icon')).toHaveAttribute(
         'data-testid',
-        'arrow right icon'
+        'arrow right icon',
       )
     })
 
@@ -104,11 +104,11 @@ describe('BreadcrumbItem', () => {
           {...defaultProps}
           onClick={jest.fn()}
           style={{ color: 'red' }}
-        />
+        />,
       )
 
       expect(document.querySelector('a').getAttribute('style')).toBe(
-        'color: red;'
+        'color: red;',
       )
     })
 
@@ -118,7 +118,7 @@ describe('BreadcrumbItem', () => {
       expect(document.querySelector('img')).toBeDefined()
       expect(document.querySelector('.dnb-icon')).toHaveAttribute(
         'data-testid',
-        'home icon'
+        'home icon',
       )
     })
 
@@ -130,12 +130,12 @@ describe('BreadcrumbItem', () => {
         render(
           <Theme name="sbanken">
             <BreadcrumbItem {...defaultProps} />
-          </Theme>
+          </Theme>,
         )
 
         expect(document.querySelector('.dnb-icon')).toHaveAttribute(
           'data-testid',
-          'chevron left icon'
+          'chevron left icon',
         )
 
         window.matchMedia = matchMedia
@@ -147,12 +147,12 @@ describe('BreadcrumbItem', () => {
         const { rerender } = render(
           <Theme name="sbanken">
             <BreadcrumbItem {...defaultProps} variant="home" />
-          </Theme>
+          </Theme>,
         )
 
         expect(document.querySelector('.dnb-icon')).toHaveAttribute(
           'data-testid',
-          'home icon'
+          'home icon',
         )
 
         rerender(
@@ -161,12 +161,12 @@ describe('BreadcrumbItem', () => {
               {...defaultProps}
               variant={'single' as BreadcrumbItemProps['variant']}
             />
-          </Theme>
+          </Theme>,
         )
 
         expect(document.querySelector('.dnb-icon')).toHaveAttribute(
           'data-testid',
-          'chevron left icon'
+          'chevron left icon',
         )
 
         rerender(
@@ -175,12 +175,12 @@ describe('BreadcrumbItem', () => {
               {...defaultProps}
               variant={'collapse' as BreadcrumbItemProps['variant']}
             />
-          </Theme>
+          </Theme>,
         )
 
         expect(document.querySelector('.dnb-icon')).toHaveAttribute(
           'data-testid',
-          'chevron left icon'
+          'chevron left icon',
         )
       })
 
@@ -190,12 +190,12 @@ describe('BreadcrumbItem', () => {
         render(
           <Theme name="sbanken">
             <BreadcrumbItem {...defaultProps} />
-          </Theme>
+          </Theme>,
         )
 
         expect(document.querySelector('.dnb-icon')).toHaveAttribute(
           'data-testid',
-          'chevron left icon'
+          'chevron left icon',
         )
 
         act(() => {
@@ -204,7 +204,7 @@ describe('BreadcrumbItem', () => {
 
         expect(document.querySelector('.dnb-icon')).toHaveAttribute(
           'data-testid',
-          'chevron left icon'
+          'chevron left icon',
         )
 
         act(() => {
@@ -213,7 +213,7 @@ describe('BreadcrumbItem', () => {
 
         expect(document.querySelector('.dnb-icon')).toHaveAttribute(
           'data-testid',
-          'chevron right icon'
+          'chevron right icon',
         )
       })
     })

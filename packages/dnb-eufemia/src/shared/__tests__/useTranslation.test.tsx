@@ -20,7 +20,7 @@ describe('useTranslation without an ID', () => {
       Object.assign({}, nbNO[defaultLocale], {
         formatMessage: expect.any(Function),
         renderMessage: expect.any(Function),
-      })
+      }),
     )
   })
 
@@ -35,7 +35,7 @@ describe('useTranslation without an ID', () => {
       Object.assign({}, enGB['en-GB'], {
         formatMessage: expect.any(Function),
         renderMessage: expect.any(Function),
-      })
+      }),
     )
 
     const { result: resultNO } = renderHook(useTranslation, {
@@ -48,7 +48,7 @@ describe('useTranslation without an ID', () => {
       Object.assign({}, nbNO['nb-NO'], {
         formatMessage: expect.any(Function),
         renderMessage: expect.any(Function),
-      })
+      }),
     )
   })
 
@@ -63,7 +63,7 @@ describe('useTranslation without an ID', () => {
       Object.assign({}, nbNO['nb-NO'], {
         formatMessage: expect.any(Function),
         renderMessage: expect.any(Function),
-      })
+      }),
     )
   })
 
@@ -79,7 +79,7 @@ describe('useTranslation without an ID', () => {
     })
 
     expect(result.current.DatePicker).toMatchObject(
-      extendedLocale.DatePicker
+      extendedLocale.DatePicker,
     )
   })
 
@@ -99,7 +99,7 @@ describe('useTranslation without an ID', () => {
     })
 
     expect(result.current.DatePicker).toMatchObject(
-      extendedLocale['nb-NO'].DatePicker
+      extendedLocale['nb-NO'].DatePicker,
     )
 
     const { result: resultGB } = renderHook(
@@ -108,18 +108,18 @@ describe('useTranslation without an ID', () => {
         wrapper: ({ children }) => (
           <Provider locale="en-GB">{children}</Provider>
         ),
-      }
+      },
     )
 
     expect(resultGB.current.DatePicker).not.toMatchObject(
-      extendedLocale['nb-NO'].DatePicker
+      extendedLocale['nb-NO'].DatePicker,
     )
 
     expect(console.log).toHaveBeenCalledWith(
       expect.any(String),
       expect.stringContaining(
-        'useTranslation: No translations found for locale "en-GB"!'
-      )
+        'useTranslation: No translations found for locale "en-GB"!',
+      ),
     )
 
     spy.mockRestore()
@@ -156,21 +156,21 @@ describe('useTranslation without an ID', () => {
     const { rerender } = render(
       <Provider translations={customTranslation} locale="en-GB">
         <MyComponent />
-      </Provider>
+      </Provider>,
     )
 
     expect(document.querySelector('p')).toHaveTextContent(
-      'Custom string Second string'
+      'Custom string Second string',
     )
 
     rerender(
       <Provider translations={customTranslation} locale="nb-NO">
         <MyComponent />
-      </Provider>
+      </Provider>,
     )
 
     expect(document.querySelector('p')).toHaveTextContent(
-      'Tilpasset streng Ny streng'
+      'Tilpasset streng Ny streng',
     )
   })
 
@@ -204,7 +204,7 @@ describe('useTranslation without an ID', () => {
 
       expect(result.current.formatMessage).toBeInstanceOf(Function)
       expect(result.current.formatMessage('Modal.closeTitle')).toBe(
-        nbNO['nb-NO'].Modal.closeTitle
+        nbNO['nb-NO'].Modal.closeTitle,
       )
     })
 
@@ -216,7 +216,7 @@ describe('useTranslation without an ID', () => {
       })
 
       expect(result.current.formatMessage('Modal.closeTitle')).toBe(
-        enGB['en-GB'].Modal.closeTitle
+        enGB['en-GB'].Modal.closeTitle,
       )
     })
 
@@ -229,19 +229,19 @@ describe('useTranslation without an ID', () => {
       const { rerender } = render(
         <Provider locale="nb-NO">
           <MockComponent />
-        </Provider>
+        </Provider>,
       )
       expect(document.body.textContent).toBe(
-        nbNO['nb-NO'].Modal.closeTitle
+        nbNO['nb-NO'].Modal.closeTitle,
       )
 
       rerender(
         <Provider locale="en-GB">
           <MockComponent />
-        </Provider>
+        </Provider>,
       )
       expect(document.body.textContent).toBe(
-        enGB['en-GB'].Modal.closeTitle
+        enGB['en-GB'].Modal.closeTitle,
       )
     })
 
@@ -260,25 +260,25 @@ describe('useTranslation without an ID', () => {
       const { rerender } = render(
         <Provider locale="nb-NO" translations={myTranslations}>
           <MockComponent />
-        </Provider>
+        </Provider>,
       )
       expect(document.body.textContent).toBe(
         myTranslations['nb-NO'].Custom.translation.replace(
           '{myKey}',
-          'value!'
-        )
+          'value!',
+        ),
       )
 
       rerender(
         <Provider locale="en-GB" translations={myTranslations}>
           <MockComponent />
-        </Provider>
+        </Provider>,
       )
       expect(document.body.textContent).toBe(
         myTranslations['en-GB'].Custom.translation.replace(
           '{myKey}',
-          'value!'
-        )
+          'value!',
+        ),
       )
     })
 
@@ -297,25 +297,25 @@ describe('useTranslation without an ID', () => {
       const { rerender } = render(
         <Provider locale="nb-NO" translations={myTranslations}>
           <MockComponent />
-        </Provider>
+        </Provider>,
       )
       expect(document.body.textContent).toBe(
         myTranslations['nb-NO'].Custom.translation.replace(
           '{myKey}',
-          'value!'
-        )
+          'value!',
+        ),
       )
 
       rerender(
         <Provider locale="en-GB" translations={myTranslations}>
           <MockComponent />
-        </Provider>
+        </Provider>,
       )
       expect(document.body.textContent).toBe(
         myTranslations['en-GB'].Custom.translation.replace(
           '{myKey}',
-          'value!'
-        )
+          'value!',
+        ),
       )
     })
 
@@ -349,16 +349,16 @@ describe('useTranslation without an ID', () => {
               {children}
             </Provider>
           ),
-        }
+        },
       )
 
       expect(result.result.current.myGroup.stringWithArg).toBe(
-        'Second string {arg}'
+        'Second string {arg}',
       )
       expect(
         result.result.current.formatMessage('myGroup.stringWithArg', {
           arg: 'dynamic-value',
-        })
+        }),
       ).toBe('Second string dynamic-value')
     })
   })
@@ -383,7 +383,7 @@ describe('useTranslation without an ID', () => {
         wrapper: (props) => (
           <Provider {...props} translations={translations} />
         ),
-      }
+      },
     )
 
     expect(result.current.my.string).toBe('Min streng')
@@ -468,11 +468,11 @@ describe('useTranslation with an ID', () => {
           <output>
             <RenderUseTranslation />
           </output>
-        </Provider>
+        </Provider>,
       )
 
       expect(document.querySelector('output').textContent).toBe(
-        expectedNbNO
+        expectedNbNO,
       )
     })
 
@@ -483,17 +483,17 @@ describe('useTranslation with an ID', () => {
             <RenderUseTranslation />
           </output>
           <ChangeLocale />
-        </Provider>
+        </Provider>,
       )
 
       expect(document.querySelector('output').textContent).toBe(
-        expectedNbNO
+        expectedNbNO,
       )
 
       fireEvent.click(document.querySelector('button.en-GB'))
 
       expect(document.querySelector('output').textContent).toBe(
-        expectedEnGB
+        expectedEnGB,
       )
     })
 
@@ -513,32 +513,32 @@ describe('useTranslation with an ID', () => {
           </Provider>
 
           <ChangeLocale className="root" />
-        </Provider>
+        </Provider>,
       )
 
       expect(document.querySelector('span.root').textContent).toBe(
-        expectedNbNO
+        expectedNbNO,
       )
       expect(document.querySelector('span.nested').textContent).toBe(
-        expectedNbNONested
+        expectedNbNONested,
       )
 
       fireEvent.click(document.querySelector('div.root button.en-GB'))
 
       expect(document.querySelector('span.root').textContent).toBe(
-        expectedEnGB
+        expectedEnGB,
       )
       expect(document.querySelector('span.nested').textContent).toBe(
-        expectedEnGBNested
+        expectedEnGBNested,
       )
 
       fireEvent.click(document.querySelector('div.nested button.en-GB'))
 
       expect(document.querySelector('span.root').textContent).toBe(
-        expectedEnGB
+        expectedEnGB,
       )
       expect(document.querySelector('span.nested').textContent).toBe(
-        expectedEnGBNested
+        expectedEnGBNested,
       )
 
       // if we change the nested locale ...
@@ -546,10 +546,10 @@ describe('useTranslation with an ID', () => {
 
       // ... we also change the root
       expect(document.querySelector('span.root').textContent).toBe(
-        expectedNbNO
+        expectedNbNO,
       )
       expect(document.querySelector('span.nested').textContent).toBe(
-        expectedNbNONested
+        expectedNbNONested,
       )
     })
   })
@@ -635,19 +635,19 @@ describe('useTranslation with an ID', () => {
           wrapper: ({ children }) => (
             <Provider locale="sv-SE">{children}</Provider>
           ),
-        }
+        },
       )
 
       expect(result.current.MyComponent.title).toBe('MyComponent.title')
       expect(result.current.MyComponent.description).toBe(
-        'MyComponent.description'
+        'MyComponent.description',
       )
 
       expect(console.log).toHaveBeenCalledWith(
         expect.any(String),
         expect.stringContaining(
-          'useTranslation: No translations found for locale "sv-SE"!'
-        )
+          'useTranslation: No translations found for locale "sv-SE"!',
+        ),
       )
     })
 
@@ -679,7 +679,7 @@ describe('useTranslation with an ID', () => {
           wrapper: ({ children }) => (
             <Provider locale="sv-SE">{children}</Provider>
           ),
-        }
+        },
       )
 
       expect(result.current.MyComponent.title).toBe('Swedish title')
@@ -688,8 +688,8 @@ describe('useTranslation with an ID', () => {
       expect(console.log).toHaveBeenCalledWith(
         expect.any(String),
         expect.stringContaining(
-          'useTranslation: No translations found for locale "sv-SE"!'
-        )
+          'useTranslation: No translations found for locale "sv-SE"!',
+        ),
       )
     })
 
@@ -721,12 +721,12 @@ describe('useTranslation with an ID', () => {
           wrapper: ({ children }) => (
             <Provider locale="sv-SE">{children}</Provider>
           ),
-        }
+        },
       )
 
       expect(result.current.MyComponent.title).toBe('Swedish title')
       expect(result.current.MyComponent.description).toBe(
-        'Swedish description'
+        'Swedish description',
       )
 
       expect(console.log).not.toHaveBeenCalled()
@@ -756,19 +756,19 @@ describe('useTranslation with an ID', () => {
               {children}
             </Provider>
           ),
-        }
+        },
       )
 
       expect(result.current.MyComponent.title).toBe('MyComponent.title')
       expect(result.current.MyComponent.description).toBe(
-        'MyComponent.description'
+        'MyComponent.description',
       )
 
       expect(console.log).toHaveBeenCalledWith(
         expect.any(String),
         expect.stringContaining(
-          'useTranslation: No translations found for locale "sv-SE"!'
-        )
+          'useTranslation: No translations found for locale "sv-SE"!',
+        ),
       )
     })
 
@@ -792,19 +792,19 @@ describe('useTranslation with an ID', () => {
           wrapper: ({ children }) => (
             <Provider locale="sv-SE">{children}</Provider>
           ),
-        }
+        },
       )
 
       expect(result.current.MyComponent.title).toBe('MyComponent.title')
       expect(result.current.MyComponent.description).toBe(
-        'MyComponent.description'
+        'MyComponent.description',
       )
 
       expect(console.log).toHaveBeenCalledWith(
         expect.any(String),
         expect.stringContaining(
-          'useTranslation: No translations found for locale "sv-SE"!'
-        )
+          'useTranslation: No translations found for locale "sv-SE"!',
+        ),
       )
     })
   })
@@ -814,7 +814,7 @@ describe('useTranslation with an ID', () => {
       () => useTranslation('Modal.closeTitle'),
       {
         wrapper: ({ children }) => <Provider>{children}</Provider>,
-      }
+      },
     )
 
     expect(result.current).toEqual(nbNO['nb-NO'].Modal.closeTitle)
@@ -831,7 +831,7 @@ describe('useTranslation with an ID', () => {
       Object.assign({}, enGB['en-GB'], {
         formatMessage: expect.any(Function),
         renderMessage: expect.any(Function),
-      })
+      }),
     )
   })
 
@@ -846,7 +846,7 @@ describe('useTranslation with an ID', () => {
       Object.assign({}, enGB['en-GB'], {
         formatMessage: expect.any(Function),
         renderMessage: expect.any(Function),
-      })
+      }),
     )
   })
 
@@ -861,7 +861,7 @@ describe('useTranslation with an ID', () => {
       Object.assign({}, enGB['en-GB'], {
         formatMessage: expect.any(Function),
         renderMessage: expect.any(Function),
-      })
+      }),
     )
   })
 })

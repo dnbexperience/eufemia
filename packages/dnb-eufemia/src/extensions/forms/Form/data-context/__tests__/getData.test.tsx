@@ -20,7 +20,7 @@ describe('getData', () => {
     render(
       <Form.Handler id={identifier}>
         <Field.String path="/foo" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const { data } = getData<Data>(identifier)
@@ -33,7 +33,7 @@ describe('getData', () => {
     render(
       <Form.Handler id={identifier}>
         <Field.String path="/foo" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(getData<Data>(identifier).data).toEqual({ foo: undefined })
@@ -56,7 +56,7 @@ describe('getData', () => {
     render(
       <Form.Handler id={identifier}>
         <Field.String path="/foo" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(getData<Data>(identifier).data).toEqual({ foo: undefined })
@@ -84,7 +84,7 @@ describe('getData', () => {
     render(
       <Form.Handler id={identifier}>
         <Field.String path="/foo" value="existing value" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(getData<Data>(identifier).data).toEqual({
@@ -105,20 +105,20 @@ describe('getData', () => {
     render(
       <Form.Handler id={identifier}>
         <Field.String path="/deep/foo" value="existing value" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(getData<Data>(identifier).getValue('/deep/foo')).toEqual(
-      'existing value'
+      'existing value',
     )
 
     await userEvent.type(
       document.querySelector('input'),
-      '{Backspace>20}new value'
+      '{Backspace>20}new value',
     )
 
     expect(getData<Data>(identifier).getValue('/deep/foo')).toEqual(
-      'new value'
+      'new value',
     )
   })
 
@@ -126,7 +126,7 @@ describe('getData', () => {
     render(
       <Form.Handler id={identifier}>
         <Field.String path="/deep/foo" value="existing value" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(getData(identifier).getValue('/does-not-exist')).toBeUndefined()
@@ -148,7 +148,7 @@ describe('getData', () => {
         <Form.Handler id={identifier}>
           <Field.String path="/foo" defaultValue="foo" disabled />
           <Field.String path="/bar" defaultValue="baz" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const { data, filterData } = getData<Data>(identifier)
@@ -175,7 +175,7 @@ describe('getData', () => {
           </Form.Visibility>
 
           <Field.String path="/bar" defaultValue="baz" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const { data, reduceToVisibleFields } = getData<Data>(identifier)
@@ -192,7 +192,7 @@ describe('getData', () => {
           </Form.Visibility>
 
           <Field.String path="/bar" defaultValue="baz" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(reduceToVisibleFields(data)).toEqual({
@@ -206,7 +206,7 @@ describe('getData', () => {
           </Form.Visibility>
 
           <Field.String path="/bar" defaultValue="baz" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(reduceToVisibleFields(data)).toEqual({

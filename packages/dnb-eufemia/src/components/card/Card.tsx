@@ -89,7 +89,7 @@ function Card(props: CardProps) {
       className,
       responsive && 'dnb-card--responsive',
       filled && 'dnb-card--filled',
-      !innerSpace && innerSpace != null && 'dnb-card--no-inner-space'
+      !innerSpace && innerSpace != null && 'dnb-card--no-inner-space',
     ),
     breakout: responsive ? trueWhenSmall : false,
     outset: nestedContext?.isNested

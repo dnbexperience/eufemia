@@ -76,7 +76,7 @@ export default function CancelButton(props: Props) {
       setShowError,
       switchContainerMode,
       verifyFieldError,
-    ]
+    ],
   )
 
   const wasNew = useWasNew({ isNew, containerMode })

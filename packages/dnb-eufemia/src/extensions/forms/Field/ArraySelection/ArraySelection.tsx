@@ -115,7 +115,7 @@ function ArraySelection(props: FieldArraySelectionProps) {
       }`,
       `dnb-forms-field-array-selection--layout-${layout}`,
       `dnb-forms-field-array-selection--options-layout--${optionsLayout}`,
-      className
+      className,
     ),
     contentClassName: 'dnb-forms-field-array-selection__options',
     disableStatusSummary: true,
@@ -173,7 +173,7 @@ function ArraySelection(props: FieldArraySelectionProps) {
 function resolveChildren(
   children: FieldArraySelectionProps['children'],
   value: FieldArraySelectionProps['value'],
-  options: FieldArraySelectionProps['data']
+  options: FieldArraySelectionProps['data'],
 ) {
   if (typeof children === 'function') {
     return children({ value, options })
@@ -222,7 +222,7 @@ export function useCheckboxOrToggleOptions({
   const { setFieldInternals } = useContext(DataContext)
   const optionsCount = useMemo(
     () => countOptions(children) + (dataList?.length || 0),
-    [dataList, children]
+    [dataList, children],
   )
   const activeData: Array<OptionProps> = []
 
@@ -255,7 +255,7 @@ export function useCheckboxOrToggleOptions({
           : [...(value ?? []), active]
 
         handleChange?.(
-          newValue.length === 0 ? (emptyValue as typeof value) : newValue
+          newValue.length === 0 ? (emptyValue as typeof value) : newValue,
         )
       }
 
@@ -272,7 +272,7 @@ export function useCheckboxOrToggleOptions({
             `dnb-forms-field-array-selection__${
               variant === 'checkbox' ? 'checkbox' : 'button'
             }`,
-            className
+            className,
           )}
           size={size}
           label={variant === 'checkbox' ? label : undefined}
@@ -306,12 +306,12 @@ export function useCheckboxOrToggleOptions({
       value,
       variant,
       warning,
-    ]
+    ],
   )
 
   const result = [
     ...(dataList || []).map((props, i) =>
-      createOption(props as OptionProps, i)
+      createOption(props as OptionProps, i),
     ),
     // @ts-expect-error - strictFunctionTypes
     ...(mapOptions(children, { createOption }) || []).filter(Boolean),

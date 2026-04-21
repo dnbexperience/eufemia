@@ -46,7 +46,7 @@ export function formatToParts({
     try {
       const inst = new Intl.NumberFormat(
         locale || LOCALE,
-        toIntlOptions(options || {})
+        toIntlOptions(options || {}),
       )
       if (typeof inst.formatToParts === 'function') {
         return inst.formatToParts(Number(number))
@@ -68,7 +68,7 @@ export function formatToParts({
  */
 export function alignCurrencySymbol(
   output: string | number,
-  currencyDisplay: string | boolean | null | undefined
+  currencyDisplay: string | boolean | null | undefined,
 ): string {
   if (typeof output === 'string' && currencyDisplay === 'name') {
     output = output.replace(/(nor[^\s]+?)\s(\w+)/i, '$2')
@@ -86,7 +86,7 @@ export function alignCurrencySymbol(
  */
 export const prepareMinus = (
   display: string,
-  locale: string | null
+  locale: string | null,
 ): string => {
   if (!(locale && /(no|nb|nn)$/i.test(locale))) {
     return display
@@ -124,7 +124,7 @@ export const prepareMinus = (
 export const enhanceSR = (
   value: NumberFormatValue,
   aria: string,
-  locale: string | null
+  locale: string | null,
 ): string => {
   if (IS_MAC && Math.abs(parseFloat(String(value))) <= 99999) {
     aria = String(aria).replace(/\s([0-9])/g, '$1')
@@ -146,7 +146,7 @@ function replaceNaNWithDash(number: string | number): string {
   const escapedDash = escapeRegexChars(ABSENT_VALUE_FORMAT)
   return replaced.replace(
     new RegExp(`([^\\s])${escapedDash}`, 'g'),
-    `$1 ${ABSENT_VALUE_FORMAT}`
+    `$1 ${ABSENT_VALUE_FORMAT}`,
   )
 }
 
@@ -158,13 +158,13 @@ export const formatNumberCore = (
   number: NumberFormatValue,
   locale: string | null,
   options: InternalNumberFormatOptions = {},
-  formatter: PartFormatter | null = null
+  formatter: PartFormatter | null = null,
 ): string => {
   try {
     if (options.currencyDisplay) {
       options.currencyDisplay = getFallbackCurrencyDisplay(
         locale,
-        options.currencyDisplay
+        options.currencyDisplay,
       )
     }
 
@@ -181,17 +181,17 @@ export const formatNumberCore = (
     ) {
       number = parseFloat(String(number)).toLocaleString(
         locale || LOCALE,
-        toIntlOptions(options)
+        toIntlOptions(options),
       )
     }
     if (
       new RegExp(`^(${NUMBER_MINUS})(0|0[^\\d]|0\\s.*)$`).test(
-        String(number)
+        String(number),
       )
     ) {
       number = String(number).replace(
         new RegExp(`(${NUMBER_MINUS})0`),
-        '0'
+        '0',
       )
     }
   } catch (e) {
@@ -201,11 +201,11 @@ export const formatNumberCore = (
         locale,
         options,
       ])}`,
-      e
+      e,
     )
   }
 
   return replaceNaNWithDash(
-    alignCurrencySymbol(number, options.currencyDisplay)
+    alignCurrencySymbol(number, options.currencyDisplay),
   )
 }

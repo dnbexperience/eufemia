@@ -61,7 +61,7 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  }
+  },
 )
 
 // NB: Because of focus simulation and screenshotElement.press('Tab')
@@ -121,5 +121,5 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  }
+  },
 )

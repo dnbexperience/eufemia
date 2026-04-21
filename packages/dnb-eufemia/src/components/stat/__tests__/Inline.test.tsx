@@ -23,18 +23,18 @@ describe('Stat.Inline', () => {
       <Stat.Inline>
         <Stat.Trend>+1.2%</Stat.Trend>
         <Stat.Info>(additional information)</Stat.Info>
-      </Stat.Inline>
+      </Stat.Inline>,
     )
 
     const inline = document.querySelector('.dnb-stat__inline')
 
     expect(inline).toBeInTheDocument()
     expect(inline.classList).toContain(
-      'dnb-flex-container--direction-horizontal'
+      'dnb-flex-container--direction-horizontal',
     )
     expect(inline.classList).toContain('dnb-flex-container--align-center')
     expect(inline.classList).toContain(
-      'dnb-flex-container--spacing-x-small'
+      'dnb-flex-container--spacing-x-small',
     )
   })
 
@@ -43,17 +43,17 @@ describe('Stat.Inline', () => {
       <Stat.Inline align="baseline" gap="small">
         <Stat.Trend>+1.2%</Stat.Trend>
         <Stat.Info>(additional information)</Stat.Info>
-      </Stat.Inline>
+      </Stat.Inline>,
     )
 
     const inline = document.querySelector('.dnb-stat__inline')
 
     expect(inline.classList).toContain(
-      'dnb-flex-container--align-baseline'
+      'dnb-flex-container--align-baseline',
     )
     expect(inline.classList).toContain('dnb-flex-container--spacing-small')
     expect(inline.classList).not.toContain(
-      'dnb-flex-container--align-center'
+      'dnb-flex-container--align-center',
     )
   })
 
@@ -62,7 +62,7 @@ describe('Stat.Inline', () => {
       <Stat.Inline>
         <Stat.Trend>+1.2%</Stat.Trend>
         <Stat.Info>(additional information)</Stat.Info>
-      </Stat.Inline>
+      </Stat.Inline>,
     )
 
     expect(await axeComponent(component)).toHaveNoViolations()
@@ -73,7 +73,7 @@ describe('Stat.Inline', () => {
       <Stat.Inline skeleton>
         <Stat.Trend>+1.2%</Stat.Trend>
         <Stat.Info>(additional information)</Stat.Info>
-      </Stat.Inline>
+      </Stat.Inline>,
     )
 
     const inline = document.querySelector('.dnb-stat__inline')
@@ -90,7 +90,7 @@ describe('Stat.Inline', () => {
           <Stat.Trend>+1.2%</Stat.Trend>
           <Stat.Info>(additional information)</Stat.Info>
         </Stat.Inline>
-      </Provider>
+      </Provider>,
     )
 
     const inline = document.querySelector('.dnb-stat__inline')
@@ -104,7 +104,7 @@ describe('Stat.Inline', () => {
       <Stat.Inline skeleton>
         <Stat.Trend>+1.2%</Stat.Trend>
         <Stat.Info>(additional information)</Stat.Info>
-      </Stat.Inline>
+      </Stat.Inline>,
     )
 
     const trend = document.querySelector('.dnb-stat__trend')
@@ -125,7 +125,7 @@ describe('Stat.Inline', () => {
     render(
       <Stat.Inline skeleton>
         <ContextReader />
-      </Stat.Inline>
+      </Stat.Inline>,
     )
 
     expect(contextSkeleton).toBe(true)
@@ -136,7 +136,7 @@ describe('Stat.Inline', () => {
       <Stat.Inline>
         <Stat.Trend>+1.2%</Stat.Trend>
         <Stat.Info>(additional information)</Stat.Info>
-      </Stat.Inline>
+      </Stat.Inline>,
     )
 
     const trend = document.querySelector('.dnb-stat__trend')
@@ -158,7 +158,7 @@ describe('Stat.Inline', () => {
             <Stat.Info>(info)</Stat.Info>
           </Stat.Inline>
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const inline = document.querySelector('.dnb-stat__inline')
@@ -175,7 +175,7 @@ describe('Stat.Inline', () => {
       <Stat.Inline id="my-inline">
         <Stat.Trend>+1.2%</Stat.Trend>
         <Stat.Info>(additional information)</Stat.Info>
-      </Stat.Inline>
+      </Stat.Inline>,
     )
 
     const inline = document.querySelector('.dnb-stat__inline')
@@ -187,14 +187,14 @@ describe('Stat.Inline', () => {
     render(
       <Stat.Inline>
         <Stat.Trend>+1.2%</Stat.Trend>
-      </Stat.Inline>
+      </Stat.Inline>,
     )
 
     const didWarn = log.mock.calls.some((call) =>
       call
         .map((entry) => String(entry))
         .join(' ')
-        .includes('Stat.Inline should be used inside Stat.Root')
+        .includes('Stat.Inline should be used inside Stat.Root'),
     )
     expect(didWarn).toBe(true)
   })
@@ -208,14 +208,14 @@ describe('Stat.Inline', () => {
             <Stat.Trend>+1.2%</Stat.Trend>
           </Stat.Inline>
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const didWarn = log.mock.calls.some((call) =>
       call
         .map((entry) => String(entry))
         .join(' ')
-        .includes('Stat.Inline should be used inside Stat.Root')
+        .includes('Stat.Inline should be used inside Stat.Root'),
     )
     expect(didWarn).toBe(false)
   })
@@ -233,7 +233,7 @@ describe('Stat.Inline', () => {
             <Stat.Trend>+1.2%</Stat.Trend>
           </Stat.Inline>
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const inline = document.querySelector('.dnb-stat__inline')

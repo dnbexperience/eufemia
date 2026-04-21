@@ -30,10 +30,10 @@ function BankAccountNumber(props: ValueBankAccountNumberProps) {
 
       return formatBankAccountNumberByType(
         String(external),
-        bankAccountType
+        bankAccountType,
       ).number
     },
-    [bankAccountType]
+    [bankAccountType],
   )
 
   const label = useMemo(() => {

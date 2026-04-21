@@ -114,7 +114,7 @@ export function UpdateEachOther() {
           setSelectedAccountsB(
             accounts.filter(({ selectedKey }) => {
               return selectedKey !== account?.selectedKey
-            })
+            }),
           )
         }}
       />
@@ -130,7 +130,7 @@ export function UpdateEachOther() {
           setSelectedAccountsA(
             accounts.filter(({ selectedKey }) => {
               return selectedKey !== account?.selectedKey
-            })
+            }),
           )
         }}
       />
@@ -217,7 +217,7 @@ const AutocompleteWithState = () => {
             return () => clearTimeout(timeout)
           },
           { value, results },
-          1e3
+          1e3,
         )
       }}
     />
@@ -715,7 +715,7 @@ function UpdateDataExample() {
             size="small"
             onClick={() => {
               const updatedSelectedData = selectedData.filter(
-                (data) => item.selectedValue !== data.selectedValue
+                (data) => item.selectedValue !== data.selectedValue,
               )
               setSelectedData(updatedSelectedData)
               setChoiceData(
@@ -723,9 +723,9 @@ function UpdateDataExample() {
                   (data) =>
                     updatedSelectedData.findIndex(
                       ({ selectedValue: updatedValue }) =>
-                        updatedValue === data?.selectedValue
-                    ) === -1
-                )
+                        updatedValue === data?.selectedValue,
+                    ) === -1,
+                ),
               )
             }}
           >
@@ -743,12 +743,13 @@ function UpdateDataExample() {
           if (data && typeof data === 'object') {
             setChoiceData(
               choiceData.filter(
-                (item) => item.selectedValue !== data.selectedValue
-              )
+                (item) => item.selectedValue !== data.selectedValue,
+              ),
             )
             if (
               selectedData.findIndex(
-                ({ selectedValue }) => selectedValue === data.selectedValue
+                ({ selectedValue }) =>
+                  selectedValue === data.selectedValue,
               ) === -1
             ) {
               setSelectedData([...selectedData, data])
@@ -883,7 +884,7 @@ export const AsyncSearchExample = () => {
         return () => clearTimeout(timeout)
       },
       { value },
-      150
+      150,
     )
   }
   return (
@@ -906,7 +907,7 @@ export const AsyncSearchExample = () => {
             setOnChangeValue(
               typeof event.data === 'object'
                 ? event.data?.content
-                : undefined
+                : undefined,
             )
           }}
         />
@@ -974,7 +975,7 @@ export const Memo = () => {
     label,
   }: {
     getInputIcon: (
-      value: string | number | undefined
+      value: string | number | undefined,
     ) => string | React.JSX.Element
     label: string
   }) {

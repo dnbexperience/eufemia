@@ -25,7 +25,7 @@ function Code({
       ref={ref}
       className={clsx(
         context?.theme?.surface === 'dark' && 'dnb-code--surface-dark',
-        className
+        className,
       )}
       {...props}
     />

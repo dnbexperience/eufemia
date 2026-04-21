@@ -24,7 +24,7 @@ type TokenType = 'color' | 'spacing'
 type DecorativeVariant = 'non-static' | 'static'
 const defaultVisibleTypes: TokenType[] = ['color']
 const TokenTypeContext = React.createContext<TokenType[]>(
-  defaultVisibleTypes
+  defaultVisibleTypes,
 )
 
 const renderInlineCodeList = (values: readonly string[]) => {
@@ -122,7 +122,7 @@ const renderColorValue = (value: string) => {
 
 const renderColorValueWithTooltip = (
   value: string,
-  foundationReference: string | null
+  foundationReference: string | null,
 ) => {
   const content = renderColorValue(value)
 
@@ -156,7 +156,7 @@ const isStaticToken = (token: TokenRow) => {
 
 const sortTokensByDefault = (
   tokens: TokenRow[],
-  section: TokenSectionId
+  section: TokenSectionId,
 ) => {
   return [...tokens].sort((a, b) => {
     if (section === 'decorative') {
@@ -172,7 +172,7 @@ const sortTokensByDefault = (
 
     const groupCompare = collator.compare(
       getGroupLabel(a),
-      getGroupLabel(b)
+      getGroupLabel(b),
     )
 
     if (groupCompare !== 0) {
@@ -186,7 +186,7 @@ const sortTokensByDefault = (
 const sortTokensByGroup = (
   tokens: TokenRow[],
   section: TokenSectionId,
-  direction: 'asc' | 'desc'
+  direction: 'asc' | 'desc',
 ) => {
   return [...tokens].sort((a, b) => {
     let result = 0
@@ -214,7 +214,7 @@ const sortTokensByGroup = (
 
 const sortTokensByName = (
   tokens: TokenRow[],
-  direction: 'asc' | 'desc'
+  direction: 'asc' | 'desc',
 ) => {
   return [...tokens].sort((a, b) => {
     let result = collator.compare(getTokenLabel(a), getTokenLabel(b))
@@ -249,7 +249,7 @@ export function TokenTypeFilter({
   children: React.ReactNode
 }) {
   const [visibleTypes, setVisibleTypes] = React.useState<TokenType[]>(
-    defaultVisibleTypes
+    defaultVisibleTypes,
   )
 
   return (
@@ -384,7 +384,7 @@ export function TokenSectionTable({
 
   const availableModifiers = React.useMemo(
     () => getAvailableModifiers(sectionTokens),
-    [sectionTokens]
+    [sectionTokens],
   )
   const [activeModifiers, setActiveModifiers] = React.useState<
     TokenModifier[]
@@ -413,7 +413,7 @@ export function TokenSectionTable({
     {
       direction: 'off',
       modes: ['asc', 'desc'],
-    }
+    },
   )
 
   const visibleTokens = React.useMemo(() => {
@@ -434,7 +434,7 @@ export function TokenSectionTable({
       }
 
       return activeModifiers.every((modifier) =>
-        token.modifiers.includes(modifier)
+        token.modifiers.includes(modifier),
       )
     })
 
@@ -442,14 +442,14 @@ export function TokenSectionTable({
       return sortTokensByGroup(
         filteredTokens,
         section,
-        sortState.group.reversed ? 'desc' : 'asc'
+        sortState.group.reversed ? 'desc' : 'asc',
       )
     }
 
     if (activeSortName === 'name') {
       return sortTokensByName(
         filteredTokens,
-        sortState.name.reversed ? 'desc' : 'asc'
+        sortState.name.reversed ? 'desc' : 'asc',
       )
     }
 
@@ -499,7 +499,7 @@ export function TokenSectionTable({
             value={visibleDecorativeVariants}
             onChange={(value) => {
               setVisibleDecorativeVariants(
-                (value as DecorativeVariant[]) || []
+                (value as DecorativeVariant[]) || [],
               )
             }}
             optionsLayout="horizontal"
@@ -624,35 +624,35 @@ export function TokenSectionTable({
                 <Td>
                   {renderColorValueWithTooltip(
                     token.references.uiLight,
-                    token.foundationReferences.uiLight
+                    token.foundationReferences.uiLight,
                   )}
                 </Td>
                 {isDev && (
                   <Td>
                     {renderColorValueWithTooltip(
                       token.references.uiDark,
-                      token.foundationReferences.uiDark
+                      token.foundationReferences.uiDark,
                     )}
                   </Td>
                 )}
                 <Td>
                   {renderColorValueWithTooltip(
                     token.references.sbankenLight,
-                    token.foundationReferences.sbankenLight
+                    token.foundationReferences.sbankenLight,
                   )}
                 </Td>
                 {isDev && (
                   <Td>
                     {renderColorValueWithTooltip(
                       token.references.sbankenDark,
-                      token.foundationReferences.sbankenDark
+                      token.foundationReferences.sbankenDark,
                     )}
                   </Td>
                 )}
                 <Td>
                   {renderColorValueWithTooltip(
                     token.references.carnegie,
-                    token.foundationReferences.carnegie
+                    token.foundationReferences.carnegie,
                   )}
                 </Td>
               </Tr>

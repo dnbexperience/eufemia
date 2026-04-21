@@ -41,18 +41,18 @@ describe('Field.Date', () => {
     render(<Field.Date tooltip="My tooltip" />)
 
     const button = document.querySelector(
-      '.dnb-date-picker .dnb-input__submit-button__button'
+      '.dnb-date-picker .dnb-input__submit-button__button',
     )
 
     expect(
-      document.querySelector('.dnb-tooltip--active')
+      document.querySelector('.dnb-tooltip--active'),
     ).not.toBeInTheDocument()
 
     await userEvent.hover(button)
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-tooltip--active')
+        document.querySelector('.dnb-tooltip--active'),
       ).toBeInTheDocument()
     })
   })
@@ -61,10 +61,10 @@ describe('Field.Date', () => {
     render(<Field.Date size="large" />)
 
     const fieldStringElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-string'
+      '.dnb-forms-field-string',
     )
     expect(fieldStringElement.classList).toContain(
-      'dnb-forms-field-block--label-height-large'
+      'dnb-forms-field-block--label-height-large',
     )
 
     const datePickerElement: HTMLInputElement =
@@ -81,21 +81,21 @@ describe('Field.Date', () => {
 
     const datePicker = document.querySelector('.dnb-date-picker')
     const dayInput = datePicker.querySelector(
-      '.dnb-date-picker__input--day'
+      '.dnb-date-picker__input--day',
     )
     const yearInput = datePicker.querySelector(
-      '.dnb-date-picker__input--year'
+      '.dnb-date-picker__input--year',
     )
 
     expect(datePicker.classList).not.toContain(
-      'dnb-date-picker__status--error'
+      'dnb-date-picker__status--error',
     )
     expect(
-      datePicker.querySelector('.dnb-form-status__text')
+      datePicker.querySelector('.dnb-form-status__text'),
     ).not.toBeInTheDocument()
 
     expect(
-      document.querySelector('.dnb-form-status')
+      document.querySelector('.dnb-form-status'),
     ).not.toBeInTheDocument()
 
     await userEvent.click(yearInput)
@@ -104,10 +104,10 @@ describe('Field.Date', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
       expect(
-        document.querySelector('.dnb-form-status__text')
+        document.querySelector('.dnb-form-status__text'),
       ).toHaveTextContent(nb.Date.errorRequired)
     })
 
@@ -116,7 +116,7 @@ describe('Field.Date', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
     })
 
@@ -126,10 +126,10 @@ describe('Field.Date', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
       expect(
-        document.querySelector('.dnb-form-status__text')
+        document.querySelector('.dnb-form-status__text'),
       ).toHaveTextContent(nb.Date.errorRequired)
     })
   })
@@ -139,21 +139,21 @@ describe('Field.Date', () => {
 
     const datePicker = document.querySelector('.dnb-date-picker')
     const startDayInput = datePicker.querySelector(
-      '.dnb-date-picker__input--day'
+      '.dnb-date-picker__input--day',
     )
     const endDateYear = datePicker.querySelectorAll(
-      '.dnb-date-picker__input--year'
+      '.dnb-date-picker__input--year',
     )[1]
 
     expect(datePicker.classList).not.toContain(
-      'dnb-date-picker__status--error'
+      'dnb-date-picker__status--error',
     )
     expect(
-      datePicker.querySelector('.dnb-form-status__text')
+      datePicker.querySelector('.dnb-form-status__text'),
     ).not.toBeInTheDocument()
 
     expect(
-      document.querySelector('.dnb-form-status')
+      document.querySelector('.dnb-form-status'),
     ).not.toBeInTheDocument()
 
     await userEvent.click(endDateYear)
@@ -162,10 +162,10 @@ describe('Field.Date', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
       expect(
-        document.querySelector('.dnb-form-status__text')
+        document.querySelector('.dnb-form-status__text'),
       ).toHaveTextContent(nb.Date.errorRequiredRange)
     })
 
@@ -175,7 +175,7 @@ describe('Field.Date', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
     })
   })
@@ -185,7 +185,7 @@ describe('Field.Date', () => {
 
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-form-status__text')
+      document.querySelector('.dnb-form-status__text'),
     ).toHaveTextContent(nb.Date.errorRequiredRange)
   })
 
@@ -196,12 +196,12 @@ describe('Field.Date', () => {
         range
         required
         validateInitially
-      />
+      />,
     )
 
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-form-status__text')
+      document.querySelector('.dnb-form-status__text'),
     ).toHaveTextContent(nb.Date.errorRequiredRange)
   })
 
@@ -212,22 +212,22 @@ describe('Field.Date', () => {
         range
         required
         validateInitially
-      />
+      />,
     )
 
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-form-status__text')
+      document.querySelector('.dnb-form-status__text'),
     ).toHaveTextContent(nb.Date.errorRequiredRange)
   })
 
   it('should support date range', () => {
     const { rerender } = render(
-      <Field.Date range value="2024-09-01|2024-09-30" />
+      <Field.Date range value="2024-09-01|2024-09-30" />,
     )
 
     const fields = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
 
     expect(fields).toHaveLength(6)
@@ -294,11 +294,11 @@ describe('Field.Date', () => {
         value="2025-01-01|2025-01-31"
         onChange={onChange}
         range
-      />
+      />,
     )
 
     const [startMonth, endMonth] = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input--month')
+      document.querySelectorAll('.dnb-date-picker__input--month'),
     ) as Array<HTMLInputElement>
 
     await userEvent.click(startMonth)
@@ -321,7 +321,7 @@ describe('Field.Date', () => {
     render(<Field.Date value="2025-11-12" onChange={onChange} />)
 
     const [day, month, year] = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     ) as Array<HTMLInputElement>
 
     await userEvent.click(year)
@@ -356,7 +356,7 @@ describe('Field.Date', () => {
     render(<Field.Date value="2025-11-12" onChange={onChange} />)
 
     const [, , year] = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     ) as Array<HTMLInputElement>
 
     await userEvent.click(year)
@@ -380,12 +380,12 @@ describe('Field.Date', () => {
       render(
         <Form.Handler>
           <Field.Date minDate="2025-01-01" required />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).not.toBeInTheDocument()
       })
 
@@ -393,12 +393,12 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
       })
 
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).toHaveTextContent(nb.Date.errorRequired)
     })
 
@@ -413,7 +413,7 @@ describe('Field.Date', () => {
             minDate={minDate}
             maxDate={maxDate}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const day = document.querySelector('.dnb-date-picker__input--day')
@@ -424,15 +424,15 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toHaveTextContent(
           en.Date.errorMinDate.replace(
             /\{date\}/,
-            formatDate(minDate, options.en)
-          )
+            formatDate(minDate, options.en),
+          ),
         )
       })
 
@@ -442,12 +442,12 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toHaveTextContent(
           en.Date.errorMaxDate.replace(
             /\{date\}/,
-            formatDate(maxDate, options.en)
-          )
+            formatDate(maxDate, options.en),
+          ),
         )
       })
     })
@@ -458,7 +458,7 @@ describe('Field.Date', () => {
 
       const getMessages = () =>
         Array.from(
-          document.querySelectorAll('.dnb-form-status .dnb-li')
+          document.querySelectorAll('.dnb-form-status .dnb-li'),
         ) as Array<HTMLLIElement>
 
       render(
@@ -469,11 +469,11 @@ describe('Field.Date', () => {
             maxDate={maxDate}
             range
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [startDay, endDay] = Array.from(
-        document.querySelectorAll('.dnb-date-picker__input--day')
+        document.querySelectorAll('.dnb-date-picker__input--day'),
       ) as Array<HTMLInputElement>
 
       await userEvent.click(startDay)
@@ -484,10 +484,10 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toHaveTextContent(en.Field.errorSummary)
       })
 
@@ -495,14 +495,14 @@ describe('Field.Date', () => {
         expect(getMessages().at(0)).toHaveTextContent(
           en.Date.errorStartDateMinDate.replace(
             /\{date\}/,
-            formatDate(minDate, options.en)
-          )
+            formatDate(minDate, options.en),
+          ),
         )
         expect(getMessages().at(1)).toHaveTextContent(
           en.Date.errorEndDateMaxDate.replace(
             /\{date\}/,
-            formatDate(maxDate, options.en)
-          )
+            formatDate(maxDate, options.en),
+          ),
         )
       })
 
@@ -514,14 +514,14 @@ describe('Field.Date', () => {
         expect(getMessages().at(0)).toHaveTextContent(
           en.Date.errorStartDateMaxDate.replace(
             /\{date\}/,
-            formatDate(maxDate, options.en)
-          )
+            formatDate(maxDate, options.en),
+          ),
         )
         expect(getMessages().at(1)).toHaveTextContent(
           en.Date.errorEndDateMaxDate.replace(
             /\{date\}/,
-            formatDate(maxDate, options.en)
-          )
+            formatDate(maxDate, options.en),
+          ),
         )
       })
 
@@ -533,14 +533,14 @@ describe('Field.Date', () => {
         expect(getMessages().at(0)).toHaveTextContent(
           en.Date.errorStartDateMaxDate.replace(
             /\{date\}/,
-            formatDate(maxDate, options.en)
-          )
+            formatDate(maxDate, options.en),
+          ),
         )
         expect(getMessages().at(1)).toHaveTextContent(
           en.Date.errorEndDateMinDate.replace(
             /\{date\}/,
-            formatDate(minDate, options.en)
-          )
+            formatDate(minDate, options.en),
+          ),
         )
       })
 
@@ -552,14 +552,14 @@ describe('Field.Date', () => {
         expect(getMessages().at(0)).toHaveTextContent(
           en.Date.errorStartDateMinDate.replace(
             /\{date\}/,
-            formatDate(minDate, options.en)
-          )
+            formatDate(minDate, options.en),
+          ),
         )
         expect(getMessages().at(1)).toHaveTextContent(
           en.Date.errorEndDateMinDate.replace(
             /\{date\}/,
-            formatDate(minDate, options.en)
-          )
+            formatDate(minDate, options.en),
+          ),
         )
       })
     })
@@ -568,7 +568,7 @@ describe('Field.Date', () => {
       render(<Field.Date value="2023-01-16" />)
 
       const [day, month, year]: Array<HTMLInputElement> = Array.from(
-        document.querySelectorAll('.dnb-date-picker__input')
+        document.querySelectorAll('.dnb-date-picker__input'),
       )
 
       expect(day).toHaveValue('16')
@@ -576,7 +576,7 @@ describe('Field.Date', () => {
       expect(year).toHaveValue('2023')
 
       const yearInput = document.querySelector(
-        '.dnb-date-picker__input--year'
+        '.dnb-date-picker__input--year',
       ) as HTMLInputElement
 
       await userEvent.click(yearInput)
@@ -588,7 +588,7 @@ describe('Field.Date', () => {
       expect(year).toHaveValue(nbYearPlaceholder)
 
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).not.toBeInTheDocument()
     })
 
@@ -596,7 +596,7 @@ describe('Field.Date', () => {
       render(<Field.Date />)
 
       const [day, month, year]: Array<HTMLInputElement> = Array.from(
-        document.querySelectorAll('.dnb-date-picker__input')
+        document.querySelectorAll('.dnb-date-picker__input'),
       )
 
       await userEvent.click(day)
@@ -608,7 +608,7 @@ describe('Field.Date', () => {
         expect(month).toHaveValue('01')
         expect(year).toHaveValue('2023')
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).not.toBeInTheDocument()
       })
 
@@ -621,7 +621,7 @@ describe('Field.Date', () => {
         expect(month).toHaveValue('mm')
         expect(year).toHaveValue(nbYearPlaceholder)
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).not.toBeInTheDocument()
       })
     })
@@ -630,7 +630,7 @@ describe('Field.Date', () => {
       render(<Field.Date value="2023-01-16" required />)
 
       const [day, month, year]: Array<HTMLInputElement> = Array.from(
-        document.querySelectorAll('.dnb-date-picker__input')
+        document.querySelectorAll('.dnb-date-picker__input'),
       )
 
       expect(day).toHaveValue('16')
@@ -638,7 +638,7 @@ describe('Field.Date', () => {
       expect(year).toHaveValue('2023')
 
       const yearInput = document.querySelector(
-        '.dnb-date-picker__input--year'
+        '.dnb-date-picker__input--year',
       ) as HTMLInputElement
 
       await userEvent.click(yearInput)
@@ -651,7 +651,7 @@ describe('Field.Date', () => {
         expect(year).toHaveValue(nbYearPlaceholder)
 
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
       })
     })
@@ -660,7 +660,7 @@ describe('Field.Date', () => {
       render(<Field.Date />)
 
       const dayInput = document.querySelector(
-        '.dnb-date-picker__input--day'
+        '.dnb-date-picker__input--day',
       ) as HTMLInputElement
 
       await userEvent.click(dayInput)
@@ -669,11 +669,11 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
 
         expect(
-          document.querySelector('.dnb-form-status__text')
+          document.querySelector('.dnb-form-status__text'),
         ).toHaveTextContent(nb.Date.errorInvalidDate)
       })
 
@@ -683,7 +683,7 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).not.toBeInTheDocument()
       })
     })
@@ -692,7 +692,7 @@ describe('Field.Date', () => {
       render(<Field.Date />)
 
       const [day, month, year]: Array<HTMLInputElement> = Array.from(
-        document.querySelectorAll('.dnb-date-picker__input')
+        document.querySelectorAll('.dnb-date-picker__input'),
       )
 
       await userEvent.click(day)
@@ -701,10 +701,10 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status__text')
+          document.querySelector('.dnb-form-status__text'),
         ).toHaveTextContent(nb.Date.errorInvalidDate)
       })
 
@@ -717,7 +717,7 @@ describe('Field.Date', () => {
         expect(month).toHaveValue('mm')
         expect(year).toHaveValue(nbYearPlaceholder)
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).not.toBeInTheDocument()
       })
     })
@@ -726,12 +726,12 @@ describe('Field.Date', () => {
       render(<Field.Date range />)
 
       const [startDay, endDay] = Array.from(
-        document.querySelectorAll('.dnb-date-picker__input--day')
+        document.querySelectorAll('.dnb-date-picker__input--day'),
       ) as Array<HTMLInputElement>
 
       const getMessages = () =>
         Array.from(
-          document.querySelectorAll('.dnb-form-status .dnb-li')
+          document.querySelectorAll('.dnb-form-status .dnb-li'),
         ) as Array<HTMLLIElement>
 
       // Type start date
@@ -741,11 +741,11 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
 
         expect(
-          document.querySelector('.dnb-form-status__text')
+          document.querySelector('.dnb-form-status__text'),
         ).toHaveTextContent(nb.Date.errorInvalidStartDate)
       })
 
@@ -756,13 +756,13 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
         expect(getMessages().at(0)).toHaveTextContent(
-          nb.Date.errorInvalidStartDate
+          nb.Date.errorInvalidStartDate,
         )
         expect(getMessages().at(1)).toHaveTextContent(
-          nb.Date.errorInvalidEndDate
+          nb.Date.errorInvalidEndDate,
         )
       })
 
@@ -773,10 +773,10 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status__text')
+          document.querySelector('.dnb-form-status__text'),
         ).toHaveTextContent(nb.Date.errorInvalidEndDate)
       })
 
@@ -787,7 +787,7 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).not.toBeInTheDocument()
       })
     })
@@ -796,7 +796,7 @@ describe('Field.Date', () => {
       render(<Field.Date value="2025-01-10|2025-01-20" range />)
 
       const [startDay] = Array.from(
-        document.querySelectorAll('.dnb-date-picker__input--day')
+        document.querySelectorAll('.dnb-date-picker__input--day'),
       ) as Array<HTMLInputElement>
 
       // Change start date day to 25 (after end date of Jan 20)
@@ -806,13 +806,13 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
       })
       expect(
-        document.querySelector('.dnb-form-status__text')
+        document.querySelector('.dnb-form-status__text'),
       ).toHaveTextContent(
-        nb.Date.errorStartDateMaxDate.replace('{date}', '20. januar 2025')
+        nb.Date.errorStartDateMaxDate.replace('{date}', '20. januar 2025'),
       )
 
       // Fix start date back to before end date
@@ -822,7 +822,7 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).not.toBeInTheDocument()
       })
     })
@@ -831,7 +831,7 @@ describe('Field.Date', () => {
       render(<Field.Date value="2025-01-15|2025-01-20" range />)
 
       const [, , , endDay] = Array.from(
-        document.querySelectorAll('.dnb-date-picker__input')
+        document.querySelectorAll('.dnb-date-picker__input'),
       ) as Array<HTMLInputElement>
 
       // Change end date day to 10 (before start date of Jan 15)
@@ -841,13 +841,13 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
       })
       expect(
-        document.querySelector('.dnb-form-status__text')
+        document.querySelector('.dnb-form-status__text'),
       ).toHaveTextContent(
-        nb.Date.errorEndDateMinDate.replace('{date}', '15. januar 2025')
+        nb.Date.errorEndDateMinDate.replace('{date}', '15. januar 2025'),
       )
 
       // Fix end date back to after start date
@@ -857,7 +857,7 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).not.toBeInTheDocument()
       })
     })
@@ -866,14 +866,14 @@ describe('Field.Date', () => {
       render(<Field.Date value="2025-01-15|null" range />)
 
       const [startDay] = Array.from(
-        document.querySelectorAll('.dnb-date-picker__input--day')
+        document.querySelectorAll('.dnb-date-picker__input--day'),
       ) as Array<HTMLInputElement>
 
       await userEvent.click(startDay)
       await userEvent.click(document.body)
 
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).not.toBeInTheDocument()
     })
 
@@ -881,14 +881,14 @@ describe('Field.Date', () => {
       render(<Field.Date value="null|2025-01-20" range />)
 
       const [, endDay] = Array.from(
-        document.querySelectorAll('.dnb-date-picker__input--day')
+        document.querySelectorAll('.dnb-date-picker__input--day'),
       ) as Array<HTMLInputElement>
 
       await userEvent.click(endDay)
       await userEvent.click(document.body)
 
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).not.toBeInTheDocument()
     })
 
@@ -896,7 +896,7 @@ describe('Field.Date', () => {
       render(<Field.Date value="2025-01-10|2025-01-20" range required />)
 
       const startYear = document.querySelector(
-        '.dnb-date-picker__input--year'
+        '.dnb-date-picker__input--year',
       ) as HTMLInputElement
 
       // Clear both dates
@@ -905,12 +905,12 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
       })
 
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).toHaveTextContent(nb.Date.errorRequiredRange)
     })
 
@@ -921,11 +921,11 @@ describe('Field.Date', () => {
         <Form.Handler onSubmit={onSubmit}>
           <Field.Date path="/date" value="2025-01-10|2025-01-20" range />
           <Form.SubmitButton />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [startDay] = Array.from(
-        document.querySelectorAll('.dnb-date-picker__input--day')
+        document.querySelectorAll('.dnb-date-picker__input--day'),
       ) as Array<HTMLInputElement>
 
       // Change start date day to 25 (after end date of Jan 20)
@@ -935,18 +935,18 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
       })
       expect(
-        document.querySelector('.dnb-form-status__text')
+        document.querySelector('.dnb-form-status__text'),
       ).toHaveTextContent(
-        nb.Date.errorStartDateMaxDate.replace('{date}', '20. januar 2025')
+        nb.Date.errorStartDateMaxDate.replace('{date}', '20. januar 2025'),
       )
 
       // Try to submit the form - it should not succeed due to the error
       await userEvent.click(
-        document.querySelector('button[type="submit"]')
+        document.querySelector('button[type="submit"]'),
       )
 
       expect(onSubmit).not.toHaveBeenCalled()
@@ -957,18 +957,18 @@ describe('Field.Date', () => {
 
       const datePicker = document.querySelector('.dnb-date-picker')
       const endDateYear = datePicker.querySelectorAll(
-        '.dnb-date-picker__input--year'
+        '.dnb-date-picker__input--year',
       )[1]
 
       expect(datePicker.classList).not.toContain(
-        'dnb-date-picker__status--error'
+        'dnb-date-picker__status--error',
       )
       expect(
-        datePicker.querySelector('.dnb-form-status__text')
+        datePicker.querySelector('.dnb-form-status__text'),
       ).not.toBeInTheDocument()
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       await userEvent.type(endDateYear, '{Backspace>16}')
@@ -976,14 +976,14 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(datePicker.classList).not.toContain(
-          'dnb-date-picker__status--error'
+          'dnb-date-picker__status--error',
         )
         expect(
-          datePicker.querySelector('.dnb-form-status__text')
+          datePicker.querySelector('.dnb-form-status__text'),
         ).not.toBeInTheDocument()
 
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })
@@ -992,11 +992,11 @@ describe('Field.Date', () => {
       render(<Field.Date value="2023-12-07|2023-12-14" range />)
 
       const startYearInput = document.querySelector(
-        '.dnb-date-picker__input--year'
+        '.dnb-date-picker__input--year',
       )
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       await userEvent.type(startYearInput, '{Backspace>8}')
@@ -1004,7 +1004,7 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })
@@ -1013,11 +1013,11 @@ describe('Field.Date', () => {
       render(<Field.Date value="2023-12-07|2023-12-14" range />)
 
       const [, , , endDay, endMonth, endYear] = Array.from(
-        document.querySelectorAll('.dnb-date-picker__input')
+        document.querySelectorAll('.dnb-date-picker__input'),
       ) as Array<HTMLInputElement>
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       for (const input of [endDay, endMonth, endYear]) {
@@ -1027,7 +1027,7 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })
@@ -1036,11 +1036,11 @@ describe('Field.Date', () => {
       render(
         <Form.Handler locale="en-GB">
           <Field.Date />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const dayInput = document.querySelector(
-        '.dnb-date-picker__input--day'
+        '.dnb-date-picker__input--day',
       ) as HTMLInputElement
 
       await userEvent.click(dayInput)
@@ -1049,11 +1049,11 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
 
         expect(
-          document.querySelector('.dnb-form-status__text')
+          document.querySelector('.dnb-form-status__text'),
         ).toHaveTextContent(en.Date.errorInvalidDate)
       })
 
@@ -1063,7 +1063,7 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).not.toBeInTheDocument()
       })
     })
@@ -1072,16 +1072,16 @@ describe('Field.Date', () => {
       render(
         <Form.Handler locale="en-GB">
           <Field.Date range />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [startDay, endDay] = Array.from(
-        document.querySelectorAll('.dnb-date-picker__input--day')
+        document.querySelectorAll('.dnb-date-picker__input--day'),
       ) as Array<HTMLInputElement>
 
       const getMessages = () =>
         Array.from(
-          document.querySelectorAll('.dnb-form-status .dnb-li')
+          document.querySelectorAll('.dnb-form-status .dnb-li'),
         ) as Array<HTMLLIElement>
 
       // Type start date
@@ -1091,11 +1091,11 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
 
         expect(
-          document.querySelector('.dnb-form-status__text')
+          document.querySelector('.dnb-form-status__text'),
         ).toHaveTextContent(en.Date.errorInvalidStartDate)
       })
 
@@ -1106,13 +1106,13 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
         expect(getMessages().at(0)).toHaveTextContent(
-          en.Date.errorInvalidStartDate
+          en.Date.errorInvalidStartDate,
         )
         expect(getMessages().at(1)).toHaveTextContent(
-          en.Date.errorInvalidEndDate
+          en.Date.errorInvalidEndDate,
         )
       })
 
@@ -1123,10 +1123,10 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status__text')
+          document.querySelector('.dnb-form-status__text'),
         ).toHaveTextContent(en.Date.errorInvalidEndDate)
       })
 
@@ -1137,7 +1137,7 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).not.toBeInTheDocument()
       })
     })
@@ -1155,11 +1155,11 @@ describe('Field.Date', () => {
             return null
           }}
         </DataContext.Consumer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const day = document.querySelector(
-      '.dnb-date-picker__input'
+      '.dnb-date-picker__input',
     ) as HTMLInputElement
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
@@ -1194,11 +1194,11 @@ describe('Field.Date', () => {
             return null
           }}
         </DataContext.Consumer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const day = document.querySelector(
-      '.dnb-date-picker__input'
+      '.dnb-date-picker__input',
     ) as HTMLInputElement
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
@@ -1226,16 +1226,16 @@ describe('Field.Date', () => {
       render(<Field.Date month="2024-12-01" value="2024-01-15" />)
 
       await userEvent.click(
-        document.querySelector('button.dnb-input__submit-button__button')
+        document.querySelector('button.dnb-input__submit-button__button'),
       )
 
       const monthTitle = document.querySelector(
-        '.dnb-date-picker__header__title'
+        '.dnb-date-picker__header__title',
       )
 
       expect(monthTitle).toHaveTextContent('desember 2024')
       expect(
-        screen.getByLabelText('søndag 15. desember 2024')
+        screen.getByLabelText('søndag 15. desember 2024'),
       ).toBeInTheDocument()
     })
 
@@ -1245,15 +1245,15 @@ describe('Field.Date', () => {
           month="2024-06-01"
           value="2024-01-15|2024-02-20"
           range
-        />
+        />,
       )
 
       await userEvent.click(
-        document.querySelector('button.dnb-input__submit-button__button')
+        document.querySelector('button.dnb-input__submit-button__button'),
       )
 
       const [firstMonth, secondMonth] = Array.from(
-        document.querySelectorAll('.dnb-date-picker__header__title')
+        document.querySelectorAll('.dnb-date-picker__header__title'),
       )
 
       expect(firstMonth).toHaveTextContent('juni 2024')
@@ -1266,11 +1266,11 @@ describe('Field.Date', () => {
       render(<Field.Date hideLastWeek value="2024-10-15" />)
 
       await userEvent.click(
-        document.querySelector('button.dnb-input__submit-button__button')
+        document.querySelector('button.dnb-input__submit-button__button'),
       )
 
       const calendarWeeks = document.querySelectorAll(
-        '.dnb-date-picker__calendar__week'
+        '.dnb-date-picker__calendar__week',
       )
 
       // Check that there are fewer weeks displayed
@@ -1278,7 +1278,7 @@ describe('Field.Date', () => {
 
       // Verify the last week is not present
       expect(
-        document.querySelector('.dnb-date-picker__calendar__week--last')
+        document.querySelector('.dnb-date-picker__calendar__week--last'),
       ).not.toBeInTheDocument()
     })
   })
@@ -1294,11 +1294,11 @@ describe('Field.Date', () => {
     expect(startYear).toHaveValue('2024')
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
 
     expect(
-      screen.getByLabelText('tirsdag 1. oktober 2024')
+      screen.getByLabelText('tirsdag 1. oktober 2024'),
     ).toHaveAttribute('aria-current', 'date')
   })
 
@@ -1311,7 +1311,7 @@ describe('Field.Date', () => {
         dateFormat="dd/MM/yyyy"
         returnFormat="dd/MM/yyyy"
         onChange={onChange}
-      />
+      />,
     )
 
     const [startDay, startMonth, startYear]: Array<HTMLInputElement> =
@@ -1322,15 +1322,15 @@ describe('Field.Date', () => {
     expect(startYear).toHaveValue('2024')
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
 
     expect(
-      screen.getByLabelText('tirsdag 1. oktober 2024')
+      screen.getByLabelText('tirsdag 1. oktober 2024'),
     ).toHaveAttribute('aria-current', 'date')
 
     await userEvent.click(
-      screen.getByLabelText('torsdag 31. oktober 2024')
+      screen.getByLabelText('torsdag 31. oktober 2024'),
     )
 
     expect(onChange).toHaveBeenCalledWith('31/10/2024', expect.anything())
@@ -1338,7 +1338,7 @@ describe('Field.Date', () => {
     expect(startMonth).toHaveValue('10')
     expect(startYear).toHaveValue('2024')
     expect(
-      screen.getByLabelText('torsdag 31. oktober 2024')
+      screen.getByLabelText('torsdag 31. oktober 2024'),
     ).toHaveAttribute('aria-current', 'date')
   })
 
@@ -1346,7 +1346,7 @@ describe('Field.Date', () => {
     render(<Field.Date />)
 
     expect(
-      document.querySelector('.dnb-date-picker__input__wrapper')
+      document.querySelector('.dnb-date-picker__input__wrapper'),
     ).toBeInTheDocument()
   })
 
@@ -1354,12 +1354,12 @@ describe('Field.Date', () => {
     render(<Field.Date showInput={false} />)
 
     const fields: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
 
     expect(fields).toHaveLength(3)
     expect(document.querySelector('.dnb-date-picker')).toHaveClass(
-      'dnb-date-picker--hidden'
+      'dnb-date-picker--hidden',
     )
   })
 
@@ -1367,7 +1367,7 @@ describe('Field.Date', () => {
     render(<Field.Date value="2024-10-26" maskOrder="mm/dd/yyyy" />)
 
     const [month, day, year]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
 
     expect(month).toHaveValue('10')
@@ -1379,7 +1379,7 @@ describe('Field.Date', () => {
     render(<Field.Date open />)
 
     expect(
-      document.querySelector('.dnb-date-picker__calendar')
+      document.querySelector('.dnb-date-picker__calendar'),
     ).toBeInTheDocument()
   })
 
@@ -1387,7 +1387,7 @@ describe('Field.Date', () => {
     render(<Field.Date maskPlaceholder="aa/bb/cccc" />)
 
     const [day, month, year]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
 
     expect(day.value).toBe('dd')
@@ -1395,7 +1395,7 @@ describe('Field.Date', () => {
     expect(year.value).toBe(nbYearPlaceholder)
 
     const separators = Array.from(
-      document.querySelectorAll('.dnb-segmented-field__delimiter')
+      document.querySelectorAll('.dnb-segmented-field__delimiter'),
     )
     expect(separators.map((element) => element.textContent)).toEqual([
       '/',
@@ -1407,14 +1407,14 @@ describe('Field.Date', () => {
     render(<Field.Date hideNavigation />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
 
     expect(
-      document.querySelector('.dnb-date-picker__prev')
+      document.querySelector('.dnb-date-picker__prev'),
     ).not.toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-date-picker__next')
+      document.querySelector('.dnb-date-picker__next'),
     ).not.toBeInTheDocument()
   })
 
@@ -1422,11 +1422,11 @@ describe('Field.Date', () => {
     render(<Field.Date hideDays />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
 
     expect(
-      document.querySelector('.dnb-date-picker__labels')
+      document.querySelector('.dnb-date-picker__labels'),
     ).not.toBeInTheDocument()
   })
 
@@ -1434,11 +1434,11 @@ describe('Field.Date', () => {
     render(<Field.Date />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
 
     const [resetButton, cancelButton] = Array.from(
-      document.querySelectorAll('.dnb-date-picker__footer button')
+      document.querySelectorAll('.dnb-date-picker__footer button'),
     )
 
     expect(resetButton).toBeInTheDocument()
@@ -1461,11 +1461,11 @@ describe('Field.Date', () => {
             return null
           }}
         </DataContext.Consumer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const dayInput = document.querySelector(
-      '.dnb-date-picker__input'
+      '.dnb-date-picker__input',
     ) as HTMLInputElement
     await userEvent.click(dayInput)
     await userEvent.keyboard('01102024')
@@ -1480,16 +1480,16 @@ describe('Field.Date', () => {
     })
 
     const openButton = document.querySelector(
-      'button.dnb-input__submit-button__button'
+      'button.dnb-input__submit-button__button',
     )
     await userEvent.click(openButton)
 
     expect(document.querySelector('.dnb-date-picker')).toHaveClass(
-      'dnb-date-picker--open'
+      'dnb-date-picker--open',
     )
 
     const resetButton = document.querySelector(
-      'button[data-testid="reset"]'
+      'button[data-testid="reset"]',
     )
     await userEvent.click(resetButton)
 
@@ -1500,15 +1500,15 @@ describe('Field.Date', () => {
         isValid: false,
         startDate: undefined,
         endDate: undefined,
-      })
+      }),
     )
 
     expect(document.querySelector('.dnb-date-picker')).not.toHaveClass(
-      'dnb-date-picker--open'
+      'dnb-date-picker--open',
     )
 
     const [day, month, year]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
 
     expect(day.value).toBe('dd')
@@ -1531,7 +1531,7 @@ describe('Field.Date', () => {
     render(<Field.Date onReset={onReset} />)
 
     const [day, month, year]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
 
     // Verify that the date is undefined
@@ -1548,7 +1548,7 @@ describe('Field.Date', () => {
 
     // Open the date picker and select a date
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
     await userEvent.click(screen.getByLabelText('torsdag 14. august 2025'))
 
@@ -1559,7 +1559,7 @@ describe('Field.Date', () => {
 
     // Clear the date by clicking the reset button
     await userEvent.click(
-      document.querySelector('button[data-testid="reset"]')
+      document.querySelector('button[data-testid="reset"]'),
     )
 
     expect(day.value).toBe('dd')
@@ -1573,7 +1573,7 @@ describe('Field.Date', () => {
     render(<Field.Date value="2024-04-01|2024-05-17" range />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
 
     const [
@@ -1584,7 +1584,7 @@ describe('Field.Date', () => {
       endMonth,
       endYear,
     ]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
 
     expect(startDay.value).toBe('01')
@@ -1604,7 +1604,7 @@ describe('Field.Date', () => {
     expect(endYear.value).toBe('2024')
 
     expect(document.querySelector('.dnb-date-picker')).not.toHaveClass(
-      'dnb-date-picker--open'
+      'dnb-date-picker--open',
     )
   })
 
@@ -1612,7 +1612,7 @@ describe('Field.Date', () => {
     render(<Field.Date value="2024-10-15" />)
 
     const [day, month, year]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
 
     expect(day.value).toBe('15')
@@ -1621,10 +1621,10 @@ describe('Field.Date', () => {
 
     // Open the date picker and select a new date
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
     await userEvent.click(
-      screen.getByLabelText('torsdag 24. oktober 2024')
+      screen.getByLabelText('torsdag 24. oktober 2024'),
     )
 
     expect(day.value).toBe('24')
@@ -1633,7 +1633,7 @@ describe('Field.Date', () => {
 
     // Click reset button
     await userEvent.click(
-      document.querySelector('button[data-testid="reset"]')
+      document.querySelector('button[data-testid="reset"]'),
     )
 
     // Should reset to the initial value
@@ -1653,7 +1653,7 @@ describe('Field.Date', () => {
       endMonth,
       endYear,
     ]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
 
     expect(startDay.value).toBe('01')
@@ -1665,13 +1665,13 @@ describe('Field.Date', () => {
 
     // Open the date picker and select new dates
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
     await userEvent.click(
-      screen.getAllByLabelText('tirsdag 15. oktober 2024')[0]
+      screen.getAllByLabelText('tirsdag 15. oktober 2024')[0],
     )
     await userEvent.click(
-      screen.getAllByLabelText('fredag 25. oktober 2024')[0]
+      screen.getAllByLabelText('fredag 25. oktober 2024')[0],
     )
 
     expect(startDay.value).toBe('15')
@@ -1679,7 +1679,7 @@ describe('Field.Date', () => {
 
     // Click reset button
     await userEvent.click(
-      document.querySelector('button[data-testid="reset"]')
+      document.querySelector('button[data-testid="reset"]'),
     )
 
     // Should reset to the initial values
@@ -1695,11 +1695,11 @@ describe('Field.Date', () => {
     render(
       <Form.Handler>
         <Field.Date path="/date" required />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [day]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
 
     // Enter a date
@@ -1710,10 +1710,10 @@ describe('Field.Date', () => {
 
     // Open the date picker and click reset
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
     await userEvent.click(
-      document.querySelector('button[data-testid="reset"]')
+      document.querySelector('button[data-testid="reset"]'),
     )
 
     // Should show required error
@@ -1729,11 +1729,11 @@ describe('Field.Date', () => {
     render(
       <Form.Handler>
         <Field.Date path="/date" required range />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [startDay]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
 
     // Enter dates
@@ -1743,16 +1743,16 @@ describe('Field.Date', () => {
 
     // Open the date picker and click reset
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
     await userEvent.click(
-      document.querySelector('button[data-testid="reset"]')
+      document.querySelector('button[data-testid="reset"]'),
     )
 
     // Should show required range error
     await waitFor(() => {
       expect(
-        screen.getByText(nb.Date.errorRequiredRange)
+        screen.getByText(nb.Date.errorRequiredRange),
       ).toBeInTheDocument()
     })
 
@@ -1764,18 +1764,22 @@ describe('Field.Date', () => {
     const minDate = '2024-06-01'
 
     render(
-      <Field.Date value="2024-01-15" minDate={minDate} validateInitially />
+      <Field.Date
+        value="2024-01-15"
+        minDate={minDate}
+        validateInitially
+      />,
     )
 
     // Initial value is before minDate, error should show due to validateInitially
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status__text')
+        document.querySelector('.dnb-form-status__text'),
       ).toHaveTextContent(
         nb.Date.errorMinDate.replace(
           /\{date\}/,
-          formatDate(minDate, options.no)
-        )
+          formatDate(minDate, options.no),
+        ),
       )
     })
   })
@@ -1784,18 +1788,22 @@ describe('Field.Date', () => {
     const maxDate = '2024-10-31'
 
     render(
-      <Field.Date value="2024-12-15" maxDate={maxDate} validateInitially />
+      <Field.Date
+        value="2024-12-15"
+        maxDate={maxDate}
+        validateInitially
+      />,
     )
 
     // Initial value is after maxDate, error should show due to validateInitially
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status__text')
+        document.querySelector('.dnb-form-status__text'),
       ).toHaveTextContent(
         nb.Date.errorMaxDate.replace(
           /\{date\}/,
-          formatDate(maxDate, options.no)
-        )
+          formatDate(maxDate, options.no),
+        ),
       )
     })
   })
@@ -1812,11 +1820,11 @@ describe('Field.Date', () => {
             return null
           }}
         </DataContext.Consumer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [day]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
 
     // Enter a date
@@ -1829,10 +1837,10 @@ describe('Field.Date', () => {
 
     // Open picker and click reset
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
     await userEvent.click(
-      document.querySelector('button[data-testid="reset"]')
+      document.querySelector('button[data-testid="reset"]'),
     )
 
     expect(dataContext.internalDataRef.current).toEqual({
@@ -1858,11 +1866,11 @@ describe('Field.Date', () => {
             return null
           }}
         </DataContext.Consumer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [day]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
 
     expect(dataContext.internalDataRef.current).toEqual({
@@ -1871,10 +1879,10 @@ describe('Field.Date', () => {
 
     // Change the date
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
     await userEvent.click(
-      screen.getByLabelText('torsdag 24. oktober 2024')
+      screen.getByLabelText('torsdag 24. oktober 2024'),
     )
 
     expect(dataContext.internalDataRef.current).toEqual({
@@ -1883,7 +1891,7 @@ describe('Field.Date', () => {
 
     // Click reset
     await userEvent.click(
-      document.querySelector('button[data-testid="reset"]')
+      document.querySelector('button[data-testid="reset"]'),
     )
 
     // Should reset to initial value in Form context
@@ -1913,7 +1921,7 @@ describe('Field.Date', () => {
             return null
           }}
         </DataContext.Consumer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(dataContext.internalDataRef.current).toEqual({
@@ -1922,13 +1930,13 @@ describe('Field.Date', () => {
 
     // Open picker and select new dates
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
     await userEvent.click(
-      screen.getAllByLabelText('tirsdag 15. oktober 2024')[0]
+      screen.getAllByLabelText('tirsdag 15. oktober 2024')[0],
     )
     await userEvent.click(
-      screen.getAllByLabelText('fredag 25. oktober 2024')[0]
+      screen.getAllByLabelText('fredag 25. oktober 2024')[0],
     )
 
     expect(dataContext.internalDataRef.current).toEqual({
@@ -1937,7 +1945,7 @@ describe('Field.Date', () => {
 
     // Click reset
     await userEvent.click(
-      document.querySelector('button[data-testid="reset"]')
+      document.querySelector('button[data-testid="reset"]'),
     )
 
     // Should reset to initial value in Form context
@@ -1950,7 +1958,7 @@ describe('Field.Date', () => {
     render(<Field.Date value="2023-01-16" showInput />)
 
     const [day, month, year]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
 
     expect(day.value).toBe('16')
@@ -1967,10 +1975,10 @@ describe('Field.Date', () => {
 
     // Open picker and click reset
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
     await userEvent.click(
-      document.querySelector('button[data-testid="reset"]')
+      document.querySelector('button[data-testid="reset"]'),
     )
 
     // Should reset to the initial value
@@ -1988,10 +1996,10 @@ describe('Field.Date', () => {
 
     // Open picker and click cancel — should keep the typed value
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
     await userEvent.click(
-      document.querySelector('button[data-testid="cancel"]')
+      document.querySelector('button[data-testid="cancel"]'),
     )
 
     // Should keep the typed value (2025-12-12), NOT revert to stale 2024-12-12
@@ -2004,7 +2012,7 @@ describe('Field.Date', () => {
     render(<Field.Date value="2023-01-16" showInput />)
 
     const [day, month, year]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
 
     expect(day.value).toBe('16')
@@ -2013,10 +2021,10 @@ describe('Field.Date', () => {
 
     // Open picker and cancel immediately
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
     await userEvent.click(
-      document.querySelector('button[data-testid="cancel"]')
+      document.querySelector('button[data-testid="cancel"]'),
     )
 
     expect(day.value).toBe('16')
@@ -2028,7 +2036,7 @@ describe('Field.Date', () => {
     render(<Field.Date value="2023-01-16" showInput />)
 
     const [day, month, year]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
 
     // Type a new date
@@ -2041,10 +2049,10 @@ describe('Field.Date', () => {
 
     // Open picker and cancel — should keep the typed value
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
     await userEvent.click(
-      document.querySelector('button[data-testid="cancel"]')
+      document.querySelector('button[data-testid="cancel"]'),
     )
 
     // Cancel keeps the value from when the picker was opened
@@ -2057,7 +2065,7 @@ describe('Field.Date', () => {
     render(<Field.Date value="2023-01-16" showInput showSubmitButton />)
 
     const [day, month, year]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
 
     // Type a new date
@@ -2066,10 +2074,10 @@ describe('Field.Date', () => {
 
     // Open picker and submit
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
     await userEvent.click(
-      document.querySelector('button[data-testid="submit"]')
+      document.querySelector('button[data-testid="submit"]'),
     )
 
     expect(day.value).toBe('25')
@@ -2086,10 +2094,10 @@ describe('Field.Date', () => {
 
     // Open picker and cancel — should keep the typed value (value at open)
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
     await userEvent.click(
-      document.querySelector('button[data-testid="cancel"]')
+      document.querySelector('button[data-testid="cancel"]'),
     )
 
     // Cancel reverts to value when picker was opened (2026-01-01)
@@ -2102,7 +2110,7 @@ describe('Field.Date', () => {
     render(<Field.Date showInput />)
 
     const [day, month, year]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
 
     // Type a date
@@ -2115,10 +2123,10 @@ describe('Field.Date', () => {
 
     // Open picker and reset (should clear since no initial value)
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
     await userEvent.click(
-      document.querySelector('button[data-testid="reset"]')
+      document.querySelector('button[data-testid="reset"]'),
     )
 
     expect(day.value).toBe('dd')
@@ -2135,10 +2143,10 @@ describe('Field.Date', () => {
 
     // Open picker and cancel — should keep the typed value
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
     await userEvent.click(
-      document.querySelector('button[data-testid="cancel"]')
+      document.querySelector('button[data-testid="cancel"]'),
     )
 
     // Cancel keeps the value from when the picker was opened
@@ -2151,7 +2159,7 @@ describe('Field.Date', () => {
     render(<Field.Date value="2023-01-16" showInput />)
 
     const [day, month, year]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
 
     // Type a new date
@@ -2160,10 +2168,10 @@ describe('Field.Date', () => {
 
     // First reset
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
     await userEvent.click(
-      document.querySelector('button[data-testid="reset"]')
+      document.querySelector('button[data-testid="reset"]'),
     )
 
     expect(day.value).toBe('16')
@@ -2176,10 +2184,10 @@ describe('Field.Date', () => {
 
     // Second reset
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
     await userEvent.click(
-      document.querySelector('button[data-testid="reset"]')
+      document.querySelector('button[data-testid="reset"]'),
     )
 
     expect(day.value).toBe('16')
@@ -2196,10 +2204,10 @@ describe('Field.Date', () => {
 
     // Cancel — should keep the typed value
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
     await userEvent.click(
-      document.querySelector('button[data-testid="cancel"]')
+      document.querySelector('button[data-testid="cancel"]'),
     )
 
     // Cancel keeps the value from when the picker was opened
@@ -2212,7 +2220,7 @@ describe('Field.Date', () => {
     render(<Field.Date value="2023-01-16|2023-02-20" range showInput />)
 
     const inputs: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
     const [startDay, startMonth, startYear, endDay, endMonth, endYear] =
       inputs
@@ -2241,10 +2249,10 @@ describe('Field.Date', () => {
 
     // Open picker and reset
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
     await userEvent.click(
-      document.querySelector('button[data-testid="reset"]')
+      document.querySelector('button[data-testid="reset"]'),
     )
 
     expect(startDay.value).toBe('16')
@@ -2262,10 +2270,10 @@ describe('Field.Date', () => {
 
     // Open picker and cancel — should keep the typed values
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
     await userEvent.click(
-      document.querySelector('button[data-testid="cancel"]')
+      document.querySelector('button[data-testid="cancel"]'),
     )
 
     // Cancel keeps the values from when the picker was opened
@@ -2279,15 +2287,15 @@ describe('Field.Date', () => {
 
   it('should be able to hide and show submit, cancel and reset buttons', async () => {
     const { rerender } = render(
-      <Field.Date showSubmitButton showCancelButton showResetButton />
+      <Field.Date showSubmitButton showCancelButton showResetButton />,
     )
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
 
     const [submitButton, resetButton, cancelButton] = Array.from(
-      document.querySelectorAll('.dnb-date-picker__footer button')
+      document.querySelectorAll('.dnb-date-picker__footer button'),
     )
 
     expect(submitButton).toBeInTheDocument()
@@ -2302,7 +2310,7 @@ describe('Field.Date', () => {
         showSubmitButton={false}
         showCancelButton={false}
         showResetButton={false}
-      />
+      />,
     )
 
     expect(submitButton).not.toBeInTheDocument()
@@ -2317,15 +2325,15 @@ describe('Field.Date', () => {
         submitButtonText="Custom Submit"
         cancelButtonText="Custom Cancel"
         resetButtonText="Custom Reset"
-      />
+      />,
     )
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
 
     const [submitButton, resetButton, cancelButton] = Array.from(
-      document.querySelectorAll('.dnb-date-picker__footer button')
+      document.querySelectorAll('.dnb-date-picker__footer button'),
     )
 
     expect(submitButton).toHaveTextContent('Custom Submit')
@@ -2337,31 +2345,31 @@ describe('Field.Date', () => {
     render(<Field.Date value="2024-11-01|2024-12-01" range link />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
 
     const [rightCalendar, leftCalendar] = Array.from(
-      document.querySelectorAll('.dnb-date-picker__calendar')
+      document.querySelectorAll('.dnb-date-picker__calendar'),
     )
 
     const rightNext = rightCalendar.querySelector('.dnb-date-picker__next')
     const leftPrev = leftCalendar.querySelector('.dnb-date-picker__prev')
 
     expect(
-      rightCalendar.querySelector('.dnb-date-picker__header__title')
+      rightCalendar.querySelector('.dnb-date-picker__header__title'),
     ).toHaveTextContent('november 2024')
     expect(
-      leftCalendar.querySelector('.dnb-date-picker__header__title')
+      leftCalendar.querySelector('.dnb-date-picker__header__title'),
     ).toHaveTextContent('desember 2024')
 
     await userEvent.click(rightNext)
     await userEvent.click(rightNext)
 
     expect(
-      rightCalendar.querySelector('.dnb-date-picker__header__title')
+      rightCalendar.querySelector('.dnb-date-picker__header__title'),
     ).toHaveTextContent('januar 2025')
     expect(
-      leftCalendar.querySelector('.dnb-date-picker__header__title')
+      leftCalendar.querySelector('.dnb-date-picker__header__title'),
     ).toHaveTextContent('februar 2025')
 
     await userEvent.click(leftPrev)
@@ -2370,10 +2378,10 @@ describe('Field.Date', () => {
     await userEvent.click(leftPrev)
 
     expect(
-      rightCalendar.querySelector('.dnb-date-picker__header__title')
+      rightCalendar.querySelector('.dnb-date-picker__header__title'),
     ).toHaveTextContent('september 2024')
     expect(
-      leftCalendar.querySelector('.dnb-date-picker__header__title')
+      leftCalendar.querySelector('.dnb-date-picker__header__title'),
     ).toHaveTextContent('oktober 2024')
   })
 
@@ -2381,11 +2389,11 @@ describe('Field.Date', () => {
     render(<Field.Date firstDay="tuesday" />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
 
     const [firstDay] = Array.from(
-      document.querySelectorAll('.dnb-date-picker__labels__day')
+      document.querySelectorAll('.dnb-date-picker__labels__day'),
     )
 
     expect(firstDay).toHaveTextContent('ti')
@@ -2396,12 +2404,12 @@ describe('Field.Date', () => {
     const { rerender } = render(<Field.Date alignPicker="right" open />)
 
     expect(
-      document.querySelector('.dnb-popover__arrow__arrow--right')
+      document.querySelector('.dnb-popover__arrow__arrow--right'),
     ).toBeInTheDocument()
 
     rerender(<Field.Date alignPicker="left" open />)
     expect(
-      document.querySelector('.dnb-popover__arrow__arrow--left')
+      document.querySelector('.dnb-popover__arrow__arrow--left'),
     ).toBeInTheDocument()
   })
 
@@ -2409,17 +2417,17 @@ describe('Field.Date', () => {
     render(<Field.Date onlyMonth />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
 
     const calendar = document.querySelector('.dnb-date-picker__calendar')
 
     expect(
-      calendar.querySelector('.dnb-date-picker__header--only-month-label')
+      calendar.querySelector('.dnb-date-picker__header--only-month-label'),
     ).toBeInTheDocument()
 
     expect(
-      calendar.querySelector('.dnb-date-picker__labels')
+      calendar.querySelector('.dnb-date-picker__labels'),
     ).not.toBeInTheDocument()
   })
 
@@ -2443,11 +2451,11 @@ describe('Field.Date', () => {
             endDate: '2024-10-31',
           },
         ]}
-      />
+      />,
     )
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
 
     const [
@@ -2458,11 +2466,11 @@ describe('Field.Date', () => {
       endMonth,
       endYear,
     ]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
 
     const [dayShortcut, weekShortcut, monthShortcut] = Array.from(
-      document.querySelectorAll('.dnb-date-picker__addon button')
+      document.querySelectorAll('.dnb-date-picker__addon button'),
     )
 
     expect(startDay).toHaveValue('dd')
@@ -2523,7 +2531,7 @@ describe('Field.Date', () => {
     render(<DateWithAddon />)
 
     const [day, month, year]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
 
     expect(day).toHaveValue('01')
@@ -2531,11 +2539,11 @@ describe('Field.Date', () => {
     expect(year).toHaveValue('2024')
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
 
     const addonElement = document.querySelector(
-      '.dnb-date-picker__addon button'
+      '.dnb-date-picker__addon button',
     )
 
     expect(addonElement).toHaveTextContent('Custom Date Addon')
@@ -2553,15 +2561,15 @@ describe('Field.Date', () => {
     render(<Field.Date disableAutofocus />)
 
     const [day, month, year]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
 
     const monthTable = document.querySelector(
-      '.dnb-date-picker__calendar table'
+      '.dnb-date-picker__calendar table',
     )
 
     expect(monthTable).toHaveClass('dnb-no-focus')
@@ -2580,7 +2588,7 @@ describe('Field.Date', () => {
     render(<Field.Date onType={onType} />)
 
     const dayInput = document.querySelector(
-      '.dnb-date-picker__input'
+      '.dnb-date-picker__input',
     ) as HTMLInputElement
 
     await userEvent.click(dayInput)
@@ -2589,7 +2597,7 @@ describe('Field.Date', () => {
     await waitFor(() => {
       expect(onType).toHaveBeenCalled()
       expect(onType).toHaveBeenLastCalledWith(
-        expect.objectContaining({ date: '2024-10-01' })
+        expect.objectContaining({ date: '2024-10-01' }),
       )
     })
   })
@@ -2602,22 +2610,22 @@ describe('Field.Date', () => {
         value="2024-10-31"
         showSubmitButton
         onSubmit={onSubmit}
-      />
+      />,
     )
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
 
     const submitButton = document.querySelector(
-      '.dnb-date-picker__footer button[data-testid="submit"]'
+      '.dnb-date-picker__footer button[data-testid="submit"]',
     )
 
     await userEvent.click(submitButton)
 
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenLastCalledWith(
-      expect.objectContaining({ date: '2024-10-31' })
+      expect.objectContaining({ date: '2024-10-31' }),
     )
   })
 
@@ -2627,18 +2635,18 @@ describe('Field.Date', () => {
     render(<Field.Date value="2024-10-31" onCancel={onCancel} />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
 
     const cancelButton = document.querySelector(
-      '.dnb-date-picker__footer button[data-testid="cancel"]'
+      '.dnb-date-picker__footer button[data-testid="cancel"]',
     )
 
     await userEvent.click(cancelButton)
 
     expect(onCancel).toHaveBeenCalledTimes(1)
     expect(onCancel).toHaveBeenLastCalledWith(
-      expect.objectContaining({ date: '2024-10-31' })
+      expect.objectContaining({ date: '2024-10-31' }),
     )
   })
 
@@ -2648,11 +2656,11 @@ describe('Field.Date', () => {
     render(<Field.Date value="2024-10-31" onReset={onReset} />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
 
     const resetButton = document.querySelector(
-      '.dnb-date-picker__footer button[data-testid="reset"]'
+      '.dnb-date-picker__footer button[data-testid="reset"]',
     )
 
     await userEvent.click(resetButton)
@@ -2667,12 +2675,12 @@ describe('Field.Date', () => {
     render(<Field.Date value="2024-10-31" onOpen={onOpen} />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
 
     expect(onOpen).toHaveBeenCalledTimes(1)
     expect(onOpen).toHaveBeenLastCalledWith(
-      expect.objectContaining({ date: '2024-10-31' })
+      expect.objectContaining({ date: '2024-10-31' }),
     )
   })
 
@@ -2682,20 +2690,20 @@ describe('Field.Date', () => {
     render(<Field.Date value="2024-10-31" onClose={onClose} />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
     await waitFor(() =>
       expect(
-        document.querySelector('.dnb-date-picker__portal')
-      ).not.toBeInTheDocument()
+        document.querySelector('.dnb-date-picker__portal'),
+      ).not.toBeInTheDocument(),
     )
 
     expect(onClose).toHaveBeenCalledTimes(1)
     expect(onClose).toHaveBeenLastCalledWith(
-      expect.objectContaining({ date: '2024-10-31' })
+      expect.objectContaining({ date: '2024-10-31' }),
     )
   })
 
@@ -2705,7 +2713,7 @@ describe('Field.Date', () => {
     render(<Field.Date value="2024-10-01" onDaysRender={onDaysRender} />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
 
     expect(onDaysRender).toHaveBeenCalledTimes(1)
@@ -2723,7 +2731,7 @@ describe('Field.Date', () => {
         isStartDate: false,
         isToday: false,
         isWithinSelection: false,
-      })
+      }),
     )
   })
 
@@ -2731,19 +2739,19 @@ describe('Field.Date', () => {
     render(<Field.Date skipPortal />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
 
     // dnb-date-picker__container is within dnb-date-picker__shell when portal is skipped (wrapped by Popover span)
     await waitFor(() => {
       expect(
         document.querySelector(
-          '.dnb-date-picker__shell .dnb-date-picker__container'
-        )
+          '.dnb-date-picker__shell .dnb-date-picker__container',
+        ),
       ).toBeInTheDocument()
     })
     expect(
-      document.body.querySelector('.dnb-date-picker__portal')
+      document.body.querySelector('.dnb-date-picker__portal'),
     ).not.toBeInTheDocument()
   })
 
@@ -2751,35 +2759,35 @@ describe('Field.Date', () => {
     const onChange = jest.fn()
 
     render(
-      <Field.Date value="2025-04-16" yearNavigation onChange={onChange} />
+      <Field.Date value="2025-04-16" yearNavigation onChange={onChange} />,
     )
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
 
     const [monthTitle, yearTitle] = Array.from(
-      document.querySelectorAll('.dnb-date-picker__header__title')
+      document.querySelectorAll('.dnb-date-picker__header__title'),
     )
 
     const [prevMonthButton, prevYearButton] = Array.from(
-      document.querySelectorAll('.dnb-date-picker__prev')
+      document.querySelectorAll('.dnb-date-picker__prev'),
     )
     const [nextMonthButton, nextYearButton] = Array.from(
-      document.querySelectorAll('.dnb-date-picker__next')
+      document.querySelectorAll('.dnb-date-picker__next'),
     )
 
     const [day, month, year] = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     ) as Array<HTMLInputElement>
 
     expect(prevMonthButton).toHaveAttribute(
       'aria-label',
-      'Forrige måned mars'
+      'Forrige måned mars',
     )
     expect(nextMonthButton).toHaveAttribute(
       'aria-label',
-      'Neste måned mai'
+      'Neste måned mai',
     )
     expect(prevYearButton).toHaveAttribute('aria-label', 'Forrige år 2024')
     expect(nextYearButton).toHaveAttribute('aria-label', 'Neste år 2026')
@@ -2794,11 +2802,11 @@ describe('Field.Date', () => {
     // Verify month
     expect(prevMonthButton).toHaveAttribute(
       'aria-label',
-      'Forrige måned mars'
+      'Forrige måned mars',
     )
     expect(nextMonthButton).toHaveAttribute(
       'aria-label',
-      'Neste måned mai'
+      'Neste måned mai',
     )
     expect(monthTitle).toHaveTextContent('april')
     expect(monthTitle).toHaveAttribute('title', 'Valgt måned april')
@@ -2815,11 +2823,11 @@ describe('Field.Date', () => {
     // Verify month
     expect(prevMonthButton).toHaveAttribute(
       'aria-label',
-      'Forrige måned mars'
+      'Forrige måned mars',
     )
     expect(nextMonthButton).toHaveAttribute(
       'aria-label',
-      'Neste måned mai'
+      'Neste måned mai',
     )
     expect(monthTitle).toHaveTextContent('april')
     expect(monthTitle).toHaveAttribute('title', 'Valgt måned april')
@@ -2833,7 +2841,7 @@ describe('Field.Date', () => {
     expect(year).toHaveValue('2026')
     expect(screen.getByLabelText('onsdag 1. april 2026')).toHaveAttribute(
       'aria-current',
-      'date'
+      'date',
     )
   })
 
@@ -2846,11 +2854,11 @@ describe('Field.Date', () => {
         onChange={onChange}
         yearNavigation
         range
-      />
+      />,
     )
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button__button'),
     )
 
     const [
@@ -2859,7 +2867,7 @@ describe('Field.Date', () => {
       rightMonthTitle,
       rightYearTitle,
     ] = Array.from(
-      document.querySelectorAll('.dnb-date-picker__header__title')
+      document.querySelectorAll('.dnb-date-picker__header__title'),
     )
 
     const [
@@ -2878,44 +2886,44 @@ describe('Field.Date', () => {
 
     const [startDay, startMonth, startYear, endDay, endMonth, endYear] =
       Array.from(
-        document.querySelectorAll('.dnb-date-picker__input')
+        document.querySelectorAll('.dnb-date-picker__input'),
       ) as Array<HTMLInputElement>
 
     // Verify initial label values
     // Left
     expect(leftPrevMonthButton).toHaveAttribute(
       'aria-label',
-      'Forrige måned mars'
+      'Forrige måned mars',
     )
     expect(leftNextMonthButton).toHaveAttribute(
       'aria-label',
-      'Neste måned mai'
+      'Neste måned mai',
     )
     expect(leftPrevYearButton).toHaveAttribute(
       'aria-label',
-      'Forrige år 2024'
+      'Forrige år 2024',
     )
     expect(leftNextYearButton).toHaveAttribute(
       'aria-label',
-      'Neste år 2026'
+      'Neste år 2026',
     )
 
     // Right
     expect(rightPrevMonthButton).toHaveAttribute(
       'aria-label',
-      'Forrige måned april'
+      'Forrige måned april',
     )
     expect(rightNextMonthButton).toHaveAttribute(
       'aria-label',
-      'Neste måned juni'
+      'Neste måned juni',
     )
     expect(rightPrevYearButton).toHaveAttribute(
       'aria-label',
-      'Forrige år 2025'
+      'Forrige år 2025',
     )
     expect(rightNextYearButton).toHaveAttribute(
       'aria-label',
-      'Neste år 2027'
+      'Neste år 2027',
     )
 
     await userEvent.click(leftPrevYearButton)
@@ -2927,11 +2935,11 @@ describe('Field.Date', () => {
     expect(leftYearTitle).toHaveAttribute('title', 'Valgt år 2024')
     expect(leftPrevYearButton).toHaveAttribute(
       'aria-label',
-      'Forrige år 2023'
+      'Forrige år 2023',
     )
     expect(leftNextYearButton).toHaveAttribute(
       'aria-label',
-      'Neste år 2025'
+      'Neste år 2025',
     )
 
     // Right
@@ -2939,22 +2947,22 @@ describe('Field.Date', () => {
     expect(rightYearTitle).toHaveAttribute('title', 'Valgt år 2025')
     expect(rightPrevYearButton).toHaveAttribute(
       'aria-label',
-      'Forrige år 2024'
+      'Forrige år 2024',
     )
     expect(rightNextYearButton).toHaveAttribute(
       'aria-label',
-      'Neste år 2026'
+      'Neste år 2026',
     )
 
     // Verify months
     // Left
     expect(leftPrevMonthButton).toHaveAttribute(
       'aria-label',
-      'Forrige måned mars'
+      'Forrige måned mars',
     )
     expect(leftNextMonthButton).toHaveAttribute(
       'aria-label',
-      'Neste måned mai'
+      'Neste måned mai',
     )
     expect(leftMonthTitle).toHaveTextContent('april')
     expect(leftMonthTitle).toHaveAttribute('title', 'Valgt måned april')
@@ -2964,11 +2972,11 @@ describe('Field.Date', () => {
     expect(rightMonthTitle).toHaveAttribute('title', 'Valgt måned mai')
     expect(rightPrevMonthButton).toHaveAttribute(
       'aria-label',
-      'Forrige måned april'
+      'Forrige måned april',
     )
     expect(rightNextMonthButton).toHaveAttribute(
       'aria-label',
-      'Neste måned juni'
+      'Neste måned juni',
     )
 
     await userEvent.click(leftNextYearButton)
@@ -2982,11 +2990,11 @@ describe('Field.Date', () => {
     expect(leftYearTitle).toHaveAttribute('title', 'Valgt år 2026')
     expect(leftPrevYearButton).toHaveAttribute(
       'aria-label',
-      'Forrige år 2025'
+      'Forrige år 2025',
     )
     expect(leftNextYearButton).toHaveAttribute(
       'aria-label',
-      'Neste år 2027'
+      'Neste år 2027',
     )
 
     // Right
@@ -2994,22 +3002,22 @@ describe('Field.Date', () => {
     expect(rightYearTitle).toHaveAttribute('title', 'Valgt år 2027')
     expect(rightPrevYearButton).toHaveAttribute(
       'aria-label',
-      'Forrige år 2026'
+      'Forrige år 2026',
     )
     expect(rightNextYearButton).toHaveAttribute(
       'aria-label',
-      'Neste år 2028'
+      'Neste år 2028',
     )
 
     // Verify months
     // Left
     expect(leftPrevMonthButton).toHaveAttribute(
       'aria-label',
-      'Forrige måned mars'
+      'Forrige måned mars',
     )
     expect(leftNextMonthButton).toHaveAttribute(
       'aria-label',
-      'Neste måned mai'
+      'Neste måned mai',
     )
     expect(leftMonthTitle).toHaveTextContent('april')
     expect(leftMonthTitle).toHaveAttribute('title', 'Valgt måned april')
@@ -3019,11 +3027,11 @@ describe('Field.Date', () => {
     expect(rightMonthTitle).toHaveAttribute('title', 'Valgt måned mai')
     expect(rightPrevMonthButton).toHaveAttribute(
       'aria-label',
-      'Forrige måned april'
+      'Forrige måned april',
     )
     expect(rightNextMonthButton).toHaveAttribute(
       'aria-label',
-      'Neste måned juni'
+      'Neste måned juni',
     )
 
     // Pick new dates
@@ -3033,7 +3041,7 @@ describe('Field.Date', () => {
     expect(onChange).toHaveBeenCalledTimes(2)
     expect(onChange).toHaveBeenCalledWith(
       '2026-04-01|2027-05-01',
-      expect.anything()
+      expect.anything(),
     )
     // Start date
     expect(startDay).toHaveValue('01')
@@ -3041,7 +3049,7 @@ describe('Field.Date', () => {
     expect(startYear).toHaveValue('2026')
     expect(screen.getByLabelText('onsdag 1. april 2026')).toHaveAttribute(
       'aria-current',
-      'date'
+      'date',
     )
 
     // End date
@@ -3050,7 +3058,7 @@ describe('Field.Date', () => {
     expect(endYear).toHaveValue('2027')
     expect(screen.getByLabelText('lørdag 1. mai 2027')).toHaveAttribute(
       'aria-current',
-      'date'
+      'date',
     )
   })
 
@@ -3085,11 +3093,11 @@ describe('Field.Date', () => {
         minDate={minDate}
         maxDate={maxDate}
         onBlurValidator={onBlurValidator}
-      />
+      />,
     )
 
     const [day, month]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
 
     // Test myOnBlurValidator
@@ -3099,11 +3107,11 @@ describe('Field.Date', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).toBeInTheDocument()
 
       expect(screen.getByRole('alert')).toHaveTextContent(
-        'My custom message'
+        'My custom message',
       )
     })
 
@@ -3113,11 +3121,11 @@ describe('Field.Date', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).toBeInTheDocument()
 
       const [firstMessage, secondMessage] = Array.from(
-        document.querySelectorAll('.dnb-li')
+        document.querySelectorAll('.dnb-li'),
       )
 
       expect(firstMessage).toHaveTextContent('My custom message 1')
@@ -3131,16 +3139,16 @@ describe('Field.Date', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).toBeInTheDocument()
 
       expect(
-        document.querySelector('.dnb-form-status__text')
+        document.querySelector('.dnb-form-status__text'),
       ).toHaveTextContent(
         nb.Date.errorMaxDate.replace(
           /\{date\}/,
-          formatDate(maxDate, options.no)
-        )
+          formatDate(maxDate, options.no),
+        ),
       )
     })
 
@@ -3150,16 +3158,16 @@ describe('Field.Date', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).toBeInTheDocument()
 
       expect(
-        document.querySelector('.dnb-form-status__text')
+        document.querySelector('.dnb-form-status__text'),
       ).toHaveTextContent(
         nb.Date.errorMinDate.replace(
           /\{date\}/,
-          formatDate(minDate, options.no)
-        )
+          formatDate(minDate, options.no),
+        ),
       )
     })
 
@@ -3169,7 +3177,7 @@ describe('Field.Date', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).not.toBeInTheDocument()
     })
 
@@ -3180,10 +3188,10 @@ describe('Field.Date', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).toBeInTheDocument()
       expect(
-        document.querySelector('.dnb-form-status__text')
+        document.querySelector('.dnb-form-status__text'),
       ).toHaveTextContent(nb.Date.errorInvalidDate)
     })
 
@@ -3193,7 +3201,7 @@ describe('Field.Date', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).not.toBeInTheDocument()
     })
   })
@@ -3208,11 +3216,11 @@ describe('Field.Date', () => {
         minDate={minDate}
         maxDate={maxDate}
         onBlurValidator={false}
-      />
+      />,
     )
 
     const [dayInput, monthInput]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
+      document.querySelectorAll('.dnb-date-picker__input'),
     )
 
     await userEvent.click(dayInput)
@@ -3220,7 +3228,7 @@ describe('Field.Date', () => {
     await userEvent.click(document.body)
 
     expect(
-      document.querySelector('.dnb-form-status--error')
+      document.querySelector('.dnb-form-status--error'),
     ).not.toBeInTheDocument()
 
     await userEvent.click(monthInput)
@@ -3228,7 +3236,7 @@ describe('Field.Date', () => {
     await userEvent.click(document.body)
 
     expect(
-      document.querySelector('.dnb-form-status--error')
+      document.querySelector('.dnb-form-status--error'),
     ).not.toBeInTheDocument()
 
     await userEvent.click(dayInput)
@@ -3236,22 +3244,22 @@ describe('Field.Date', () => {
     await userEvent.click(document.body)
 
     expect(
-      document.querySelector('.dnb-form-status--error')
+      document.querySelector('.dnb-form-status--error'),
     ).not.toBeInTheDocument()
   })
 
   describe('startMonth and endMonth', () => {
     it('should display correct start and end month on opening the date picker', async () => {
       render(
-        <Field.Date startMonth="2024-01-01" endMonth="2024-12-31" range />
+        <Field.Date startMonth="2024-01-01" endMonth="2024-12-31" range />,
       )
 
       await userEvent.click(
-        document.querySelector('button.dnb-input__submit-button__button')
+        document.querySelector('button.dnb-input__submit-button__button'),
       )
 
       const [startMonth, endMonth] = Array.from(
-        document.querySelectorAll('.dnb-date-picker__header__title')
+        document.querySelectorAll('.dnb-date-picker__header__title'),
       )
 
       expect(startMonth).toHaveTextContent('januar 2024')
@@ -3267,81 +3275,81 @@ describe('Field.Date', () => {
           minDate="2024-10-01"
           maxDate="2024-10-31"
           range
-        />
+        />,
       )
 
       await userEvent.click(
-        document.querySelector('button.dnb-input__submit-button__button')
+        document.querySelector('button.dnb-input__submit-button__button'),
       )
 
       const [rightCalendar, leftCalendar] = Array.from(
-        document.querySelectorAll('.dnb-date-picker__calendar')
+        document.querySelectorAll('.dnb-date-picker__calendar'),
       )
 
       const rightPrev = rightCalendar.querySelector(
-        '.dnb-date-picker__prev'
+        '.dnb-date-picker__prev',
       )
       const rightNext = rightCalendar.querySelector(
-        '.dnb-date-picker__next'
+        '.dnb-date-picker__next',
       )
       const leftPrev = leftCalendar.querySelector('.dnb-date-picker__prev')
       const leftNext = leftCalendar.querySelector('dnb-date-picker__next')
 
       expect(
-        rightCalendar.querySelector('.dnb-date-picker__header__title')
+        rightCalendar.querySelector('.dnb-date-picker__header__title'),
       ).toHaveTextContent('oktober 2024')
       expect(
-        leftCalendar.querySelector('.dnb-date-picker__header__title')
+        leftCalendar.querySelector('.dnb-date-picker__header__title'),
       ).toHaveTextContent('oktober 2024')
 
       await userEvent.click(rightPrev)
 
       expect(
-        rightCalendar.querySelector('.dnb-date-picker__header__title')
+        rightCalendar.querySelector('.dnb-date-picker__header__title'),
       ).toHaveTextContent('oktober 2024')
       expect(
-        leftCalendar.querySelector('.dnb-date-picker__header__title')
+        leftCalendar.querySelector('.dnb-date-picker__header__title'),
       ).toHaveTextContent('oktober 2024')
 
       await userEvent.click(rightNext)
 
       expect(
-        rightCalendar.querySelector('.dnb-date-picker__header__title')
+        rightCalendar.querySelector('.dnb-date-picker__header__title'),
       ).toHaveTextContent('oktober 2024')
       expect(
-        leftCalendar.querySelector('.dnb-date-picker__header__title')
+        leftCalendar.querySelector('.dnb-date-picker__header__title'),
       ).toHaveTextContent('oktober 2024')
 
       await userEvent.click(leftPrev)
 
       expect(
-        rightCalendar.querySelector('.dnb-date-picker__header__title')
+        rightCalendar.querySelector('.dnb-date-picker__header__title'),
       ).toHaveTextContent('oktober 2024')
       expect(
-        leftCalendar.querySelector('.dnb-date-picker__header__title')
+        leftCalendar.querySelector('.dnb-date-picker__header__title'),
       ).toHaveTextContent('oktober 2024')
 
       await userEvent.click(leftNext)
 
       expect(
-        rightCalendar.querySelector('.dnb-date-picker__header__title')
+        rightCalendar.querySelector('.dnb-date-picker__header__title'),
       ).toHaveTextContent('oktober 2024')
       expect(
-        leftCalendar.querySelector('.dnb-date-picker__header__title')
+        leftCalendar.querySelector('.dnb-date-picker__header__title'),
       ).toHaveTextContent('oktober 2024')
 
       expect(
-        screen.getAllByLabelText('mandag 30. september 2024')[0]
+        screen.getAllByLabelText('mandag 30. september 2024')[0],
       ).toHaveAttribute('disabled')
       expect(
-        screen.getAllByLabelText('mandag 30. september 2024')[0]
+        screen.getAllByLabelText('mandag 30. september 2024')[0],
       ).toHaveAttribute('aria-disabled', 'true')
 
       expect(
-        screen.getAllByLabelText('fredag 1. november 2024')[0]
+        screen.getAllByLabelText('fredag 1. november 2024')[0],
       ).toHaveAttribute('disabled')
       expect(
-        screen.getAllByLabelText('fredag 1. november 2024')[0]
+        screen.getAllByLabelText('fredag 1. november 2024')[0],
       ).toHaveAttribute('aria-disabled', 'true')
     })
 
@@ -3363,41 +3371,41 @@ describe('Field.Date', () => {
               <Wizard.Buttons />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       await userEvent.click(
-        document.querySelector('button.dnb-input__submit-button__button')
+        document.querySelector('button.dnb-input__submit-button__button'),
       )
 
       // Clicking the minDate should not trigger error
       await userEvent.click(screen.getByLabelText('torsdag 13. mars 2025'))
       await userEvent.click(screen.getByText('Neste'))
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).not.toBeInTheDocument()
 
       // Clicking the maxDate should not trigger error
       await userEvent.click(screen.getByText('Tilbake'))
       await userEvent.click(
-        document.querySelector('button.dnb-input__submit-button__button')
+        document.querySelector('button.dnb-input__submit-button__button'),
       )
       await userEvent.click(screen.getByLabelText('mandag 31. mars 2025'))
       await userEvent.click(screen.getByText('Neste'))
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).not.toBeInTheDocument()
 
       // Double check that dates before min and max date are disabled in the calendar
       await userEvent.click(screen.getByText('Tilbake'))
       await userEvent.click(
-        document.querySelector('button.dnb-input__submit-button__button')
+        document.querySelector('button.dnb-input__submit-button__button'),
       )
       expect(
-        screen.getByLabelText('onsdag 12. mars 2025')
+        screen.getByLabelText('onsdag 12. mars 2025'),
       ).toHaveAttribute('disabled')
       expect(
-        screen.getByLabelText('tirsdag 1. april 2025')
+        screen.getByLabelText('tirsdag 1. april 2025'),
       ).toHaveAttribute('disabled')
     })
 
@@ -3419,41 +3427,41 @@ describe('Field.Date', () => {
               <Wizard.Buttons />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       await userEvent.click(
-        document.querySelector('button.dnb-input__submit-button__button')
+        document.querySelector('button.dnb-input__submit-button__button'),
       )
 
       // Clicking the minDate should not trigger error
       await userEvent.click(screen.getByLabelText('torsdag 13. mars 2025'))
       await userEvent.click(screen.getByText('Neste'))
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).not.toBeInTheDocument()
 
       // Clicking the maxDate should not trigger error
       await userEvent.click(screen.getByText('Tilbake'))
       await userEvent.click(
-        document.querySelector('button.dnb-input__submit-button__button')
+        document.querySelector('button.dnb-input__submit-button__button'),
       )
       await userEvent.click(screen.getByLabelText('mandag 31. mars 2025'))
       await userEvent.click(screen.getByText('Neste'))
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).not.toBeInTheDocument()
 
       // Double check that dates before min and max date are disabled in the calendar
       await userEvent.click(screen.getByText('Tilbake'))
       await userEvent.click(
-        document.querySelector('button.dnb-input__submit-button__button')
+        document.querySelector('button.dnb-input__submit-button__button'),
       )
       expect(
-        screen.getByLabelText('onsdag 12. mars 2025')
+        screen.getByLabelText('onsdag 12. mars 2025'),
       ).toHaveAttribute('disabled')
       expect(
-        screen.getByLabelText('tirsdag 1. april 2025')
+        screen.getByLabelText('tirsdag 1. april 2025'),
       ).toHaveAttribute('disabled')
     })
 
@@ -3464,11 +3472,11 @@ describe('Field.Date', () => {
         render(<Field.Date value={minDate} minDate={minDate} />)
 
         const day = document.querySelector(
-          '.dnb-date-picker__input--day'
+          '.dnb-date-picker__input--day',
         ) as HTMLInputElement
 
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).not.toBeInTheDocument()
 
         await userEvent.click(day)
@@ -3477,16 +3485,16 @@ describe('Field.Date', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status--error')
+            document.querySelector('.dnb-form-status--error'),
           ).toBeInTheDocument()
 
           expect(
-            document.querySelector('.dnb-form-status--error')
+            document.querySelector('.dnb-form-status--error'),
           ).toHaveTextContent(
             nb.Date.errorMinDate.replace(
               /\{date\}/,
-              formatDate(minDate, options.no)
-            )
+              formatDate(minDate, options.no),
+            ),
           )
         })
       })
@@ -3497,11 +3505,11 @@ describe('Field.Date', () => {
         render(<Field.Date value={maxDate} maxDate={maxDate} />)
 
         const day = document.querySelector(
-          '.dnb-date-picker__input--day'
+          '.dnb-date-picker__input--day',
         ) as HTMLInputElement
 
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).not.toBeInTheDocument()
 
         await userEvent.click(day)
@@ -3510,16 +3518,16 @@ describe('Field.Date', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status--error')
+            document.querySelector('.dnb-form-status--error'),
           ).toBeInTheDocument()
 
           expect(
-            document.querySelector('.dnb-form-status--error')
+            document.querySelector('.dnb-form-status--error'),
           ).toHaveTextContent(
             nb.Date.errorMaxDate.replace(
               /\{date\}/,
-              formatDate(maxDate, options.no)
-            )
+              formatDate(maxDate, options.no),
+            ),
           )
         })
       })
@@ -3532,15 +3540,15 @@ describe('Field.Date', () => {
             value={`${minDate}|undefined`}
             minDate={minDate}
             range
-          />
+          />,
         )
 
         const [startDay] = Array.from(
-          document.querySelectorAll('.dnb-date-picker__input--day')
+          document.querySelectorAll('.dnb-date-picker__input--day'),
         ) as Array<HTMLInputElement>
 
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).not.toBeInTheDocument()
 
         await userEvent.click(startDay)
@@ -3549,16 +3557,16 @@ describe('Field.Date', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status--error')
+            document.querySelector('.dnb-form-status--error'),
           ).toBeInTheDocument()
 
           expect(
-            document.querySelector('.dnb-form-status--error')
+            document.querySelector('.dnb-form-status--error'),
           ).toHaveTextContent(
             nb.Date.errorStartDateMinDate.replace(
               /\{date\}/,
-              formatDate(minDate, options.no)
-            )
+              formatDate(minDate, options.no),
+            ),
           )
         })
       })
@@ -3571,15 +3579,15 @@ describe('Field.Date', () => {
             value={`${maxDate}|undefined`}
             maxDate={maxDate}
             range
-          />
+          />,
         )
 
         const [startDay] = Array.from(
-          document.querySelectorAll('.dnb-date-picker__input--day')
+          document.querySelectorAll('.dnb-date-picker__input--day'),
         ) as Array<HTMLInputElement>
 
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).not.toBeInTheDocument()
 
         await userEvent.click(startDay)
@@ -3588,16 +3596,16 @@ describe('Field.Date', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status--error')
+            document.querySelector('.dnb-form-status--error'),
           ).toBeInTheDocument()
 
           expect(
-            document.querySelector('.dnb-form-status--error')
+            document.querySelector('.dnb-form-status--error'),
           ).toHaveTextContent(
             nb.Date.errorStartDateMaxDate.replace(
               /\{date\}/,
-              formatDate(maxDate, options.no)
-            )
+              formatDate(maxDate, options.no),
+            ),
           )
         })
       })
@@ -3610,15 +3618,15 @@ describe('Field.Date', () => {
             value={`undefined|${minDate}`}
             minDate={minDate}
             range
-          />
+          />,
         )
 
         const [, endDay] = Array.from(
-          document.querySelectorAll('.dnb-date-picker__input--day')
+          document.querySelectorAll('.dnb-date-picker__input--day'),
         ) as Array<HTMLInputElement>
 
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).not.toBeInTheDocument()
 
         await userEvent.click(endDay)
@@ -3627,16 +3635,16 @@ describe('Field.Date', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status--error')
+            document.querySelector('.dnb-form-status--error'),
           ).toBeInTheDocument()
 
           expect(
-            document.querySelector('.dnb-form-status--error')
+            document.querySelector('.dnb-form-status--error'),
           ).toHaveTextContent(
             nb.Date.errorEndDateMinDate.replace(
               /\{date\}/,
-              formatDate(minDate, options.no)
-            )
+              formatDate(minDate, options.no),
+            ),
           )
         })
       })
@@ -3649,15 +3657,15 @@ describe('Field.Date', () => {
             value={`undefined|${maxDate}`}
             maxDate={maxDate}
             range
-          />
+          />,
         )
 
         const [, endDay] = Array.from(
-          document.querySelectorAll('.dnb-date-picker__input--day')
+          document.querySelectorAll('.dnb-date-picker__input--day'),
         ) as Array<HTMLInputElement>
 
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).not.toBeInTheDocument()
 
         await userEvent.click(endDay)
@@ -3666,16 +3674,16 @@ describe('Field.Date', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status--error')
+            document.querySelector('.dnb-form-status--error'),
           ).toBeInTheDocument()
 
           expect(
-            document.querySelector('.dnb-form-status--error')
+            document.querySelector('.dnb-form-status--error'),
           ).toHaveTextContent(
             nb.Date.errorEndDateMaxDate.replace(
               /\{date\}/,
-              formatDate(maxDate, options.no)
-            )
+              formatDate(maxDate, options.no),
+            ),
           )
         })
       })
@@ -3686,7 +3694,7 @@ describe('Field.Date', () => {
 
         const getMessages = () =>
           Array.from(
-            document.querySelectorAll('.dnb-form-status .dnb-li')
+            document.querySelectorAll('.dnb-form-status .dnb-li'),
           ) as Array<HTMLLIElement>
 
         render(
@@ -3695,15 +3703,15 @@ describe('Field.Date', () => {
             minDate={minDate}
             maxDate={maxDate}
             range
-          />
+          />,
         )
 
         const [startDay, endDay] = Array.from(
-          document.querySelectorAll('.dnb-date-picker__input--day')
+          document.querySelectorAll('.dnb-date-picker__input--day'),
         ) as Array<HTMLInputElement>
 
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).not.toBeInTheDocument()
 
         // Focus on day inputs and select out of limit dates
@@ -3713,11 +3721,11 @@ describe('Field.Date', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status--error')
+            document.querySelector('.dnb-form-status--error'),
           ).toBeInTheDocument()
 
           const statusText = document.querySelector(
-            '.dnb-form-status__text'
+            '.dnb-form-status__text',
           )
 
           expect(statusText).toHaveTextContent(nb.Field.errorSummary)
@@ -3725,14 +3733,14 @@ describe('Field.Date', () => {
           expect(getMessages().at(0)).toHaveTextContent(
             nb.Date.errorStartDateMinDate.replace(
               /\{date\}/,
-              formatDate(minDate, options.no)
-            )
+              formatDate(minDate, options.no),
+            ),
           )
           expect(getMessages().at(1)).toHaveTextContent(
             nb.Date.errorEndDateMaxDate.replace(
               /\{date\}/,
-              formatDate(maxDate, options.no)
-            )
+              formatDate(maxDate, options.no),
+            ),
           )
         })
 
@@ -3744,14 +3752,14 @@ describe('Field.Date', () => {
           expect(getMessages().at(0)).toHaveTextContent(
             nb.Date.errorStartDateMaxDate.replace(
               /\{date\}/,
-              formatDate(maxDate, options.no)
-            )
+              formatDate(maxDate, options.no),
+            ),
           )
           expect(getMessages().at(1)).toHaveTextContent(
             nb.Date.errorEndDateMaxDate.replace(
               /\{date\}/,
-              formatDate(maxDate, options.no)
-            )
+              formatDate(maxDate, options.no),
+            ),
           )
         })
 
@@ -3763,14 +3771,14 @@ describe('Field.Date', () => {
           expect(getMessages().at(0)).toHaveTextContent(
             nb.Date.errorStartDateMaxDate.replace(
               /\{date\}/,
-              formatDate(maxDate, options.no)
-            )
+              formatDate(maxDate, options.no),
+            ),
           )
           expect(getMessages().at(1)).toHaveTextContent(
             nb.Date.errorEndDateMinDate.replace(
               /\{date\}/,
-              formatDate(minDate, options.no)
-            )
+              formatDate(minDate, options.no),
+            ),
           )
         })
 
@@ -3782,14 +3790,14 @@ describe('Field.Date', () => {
           expect(getMessages().at(0)).toHaveTextContent(
             nb.Date.errorStartDateMinDate.replace(
               /\{date\}/,
-              formatDate(minDate, options.no)
-            )
+              formatDate(minDate, options.no),
+            ),
           )
           expect(getMessages().at(1)).toHaveTextContent(
             nb.Date.errorEndDateMinDate.replace(
               /\{date\}/,
-              formatDate(minDate, options.no)
-            )
+              formatDate(minDate, options.no),
+            ),
           )
         })
 
@@ -3799,7 +3807,7 @@ describe('Field.Date', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status--error')
+            document.querySelector('.dnb-form-status--error'),
           ).not.toBeInTheDocument()
         })
       })
@@ -3812,24 +3820,24 @@ describe('Field.Date', () => {
             value="2024-12-31"
             minDate={minDate}
             validateInitially
-          />
+          />,
         )
 
         const day = document.querySelector(
-          '.dnb-date-picker__input--day'
+          '.dnb-date-picker__input--day',
         ) as HTMLInputElement
 
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
 
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toHaveTextContent(
           nb.Date.errorMinDate.replace(
             /\{date\}/,
-            formatDate(minDate, options.no)
-          )
+            formatDate(minDate, options.no),
+          ),
         )
 
         await userEvent.click(day)
@@ -3837,7 +3845,7 @@ describe('Field.Date', () => {
         await userEvent.click(document.body)
 
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).not.toBeInTheDocument()
       })
 
@@ -3849,24 +3857,24 @@ describe('Field.Date', () => {
             value="2025-02-01"
             maxDate={maxDate}
             validateInitially
-          />
+          />,
         )
 
         const day = document.querySelector(
-          '.dnb-date-picker__input--day'
+          '.dnb-date-picker__input--day',
         ) as HTMLInputElement
 
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
 
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toHaveTextContent(
           nb.Date.errorMaxDate.replace(
             /\{date\}/,
-            formatDate(maxDate, options.no)
-          )
+            formatDate(maxDate, options.no),
+          ),
         )
 
         await userEvent.click(day)
@@ -3874,7 +3882,7 @@ describe('Field.Date', () => {
         await userEvent.click(document.body)
 
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).not.toBeInTheDocument()
       })
 
@@ -3889,32 +3897,32 @@ describe('Field.Date', () => {
             maxDate={maxDate}
             validateInitially
             range
-          />
+          />,
         )
 
         const [startDay] = Array.from(
-          document.querySelectorAll('.dnb-date-picker__input--day')
+          document.querySelectorAll('.dnb-date-picker__input--day'),
         ) as Array<HTMLInputElement>
 
         const [startDayError, endDayError] = Array.from(
-          document.querySelectorAll('.dnb-li')
+          document.querySelectorAll('.dnb-li'),
         ) as Array<HTMLLIElement>
 
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
 
         expect(startDayError).toHaveTextContent(
           nb.Date.errorStartDateMinDate.replace(
             /\{date\}/,
-            formatDate(minDate, options.no)
-          )
+            formatDate(minDate, options.no),
+          ),
         )
         expect(endDayError).toHaveTextContent(
           nb.Date.errorEndDateMaxDate.replace(
             /\{date\}/,
-            formatDate(maxDate, options.no)
-          )
+            formatDate(maxDate, options.no),
+          ),
         )
 
         await userEvent.click(startDay)
@@ -3922,7 +3930,7 @@ describe('Field.Date', () => {
         await userEvent.click(document.body)
 
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).not.toBeInTheDocument()
       })
     })
@@ -3931,7 +3939,7 @@ describe('Field.Date', () => {
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(
-        <Field.Date label="Label" required validateInitially />
+        <Field.Date label="Label" required validateInitially />,
       )
 
       expect(await axeComponent(result)).toHaveNoViolations()
@@ -3967,7 +3975,7 @@ describe('Field.Date', () => {
       render(
         <FieldBlock>
           <Field.Date error={new Error('Error message')} />
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const input = document.querySelector('.dnb-date-picker')
@@ -3979,7 +3987,7 @@ describe('Field.Date', () => {
         render(<Field.Date required validateInitially />)
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status--error')
+            document.querySelector('.dnb-form-status--error'),
           ).toBeInTheDocument()
         })
       })
@@ -3997,15 +4005,15 @@ describe('Field.Date', () => {
               schema={{ type: 'string', minLength: 10 }}
               validateUnchanged
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector(
-          '.dnb-date-picker__input'
+          '.dnb-date-picker__input',
         ) as HTMLElement
 
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
 
         input.focus()
@@ -4013,7 +4021,7 @@ describe('Field.Date', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status--error')
+            document.querySelector('.dnb-form-status--error'),
           ).toBeInTheDocument()
         })
 
@@ -4045,7 +4053,7 @@ describe('Field.Date', () => {
           width="large"
           showInput
           value="2023-01-16"
-        />
+        />,
       )
 
       // Verify alignPicker is 'right' when width is large and showInput is true
@@ -4078,7 +4086,7 @@ describe('Field.Date', () => {
           width="stretch"
           showInput
           value="2023-01-16"
-        />
+        />,
       )
 
       // Verify alignPicker is 'right' when width is stretch and showInput is true
@@ -4111,7 +4119,7 @@ describe('Field.Date', () => {
           width="large"
           showInput={false}
           value="2023-01-16"
-        />
+        />,
       )
 
       // Verify alignPicker is undefined when showInput is false
@@ -4142,7 +4150,7 @@ describe('Field.Date', () => {
           width="small"
           showInput
           value="2023-01-16"
-        />
+        />,
       )
 
       // Verify alignPicker is undefined when width is small
@@ -4157,7 +4165,7 @@ describe('Field.Date', () => {
       render(<Field.Date required />)
 
       const [startDay] = Array.from(
-        document.querySelectorAll('.dnb-date-picker__input--day')
+        document.querySelectorAll('.dnb-date-picker__input--day'),
       ) as Array<HTMLInputElement>
 
       await userEvent.click(startDay)
@@ -4166,10 +4174,10 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status__text')
+          document.querySelector('.dnb-form-status__text'),
         ).toHaveTextContent(nb.Date.errorRequired)
       })
     })
@@ -4178,7 +4186,7 @@ describe('Field.Date', () => {
       render(<Field.Date range required />)
 
       const [startDay, endDay] = Array.from(
-        document.querySelectorAll('.dnb-date-picker__input--day')
+        document.querySelectorAll('.dnb-date-picker__input--day'),
       ) as Array<HTMLInputElement>
 
       await userEvent.click(startDay)
@@ -4188,10 +4196,10 @@ describe('Field.Date', () => {
       await userEvent.click(document.body)
 
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).toBeInTheDocument()
       expect(
-        document.querySelector('.dnb-form-status__text')
+        document.querySelector('.dnb-form-status__text'),
       ).toHaveTextContent(nb.Date.errorRequiredRange)
     })
 
@@ -4199,7 +4207,7 @@ describe('Field.Date', () => {
       render(<Field.Date range required />)
 
       const [startDay, endDay] = Array.from(
-        document.querySelectorAll('.dnb-date-picker__input--day')
+        document.querySelectorAll('.dnb-date-picker__input--day'),
       ) as Array<HTMLInputElement>
 
       // Type a complete start date
@@ -4211,10 +4219,10 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status__text')
+          document.querySelector('.dnb-form-status__text'),
         ).toHaveTextContent(nb.Date.errorRequiredRange)
       })
 
@@ -4226,7 +4234,7 @@ describe('Field.Date', () => {
       // Both dates are now complete — error should clear
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status--error')
+          document.querySelector('.dnb-form-status--error'),
         ).not.toBeInTheDocument()
       })
     })
@@ -4236,18 +4244,18 @@ describe('Field.Date', () => {
 
       const datePicker = document.querySelector('.dnb-date-picker')
       const endDateYear = datePicker.querySelectorAll(
-        '.dnb-date-picker__input--year'
+        '.dnb-date-picker__input--year',
       )[1]
 
       expect(datePicker.classList).not.toContain(
-        'dnb-date-picker__status--error'
+        'dnb-date-picker__status--error',
       )
       expect(
-        datePicker.querySelector('.dnb-form-status__text')
+        datePicker.querySelector('.dnb-form-status__text'),
       ).not.toBeInTheDocument()
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       await userEvent.type(endDateYear, '{Backspace>16}')
@@ -4255,11 +4263,11 @@ describe('Field.Date', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
 
         expect(
-          document.querySelector('.dnb-form-status__text')
+          document.querySelector('.dnb-form-status__text'),
         ).toHaveTextContent(nb.Date.errorRequiredRange)
       })
     })
@@ -4269,7 +4277,7 @@ describe('Field.Date', () => {
     render(<Field.Date validateContinuously />)
 
     const dayInput = document.querySelector(
-      '.dnb-date-picker__input--day'
+      '.dnb-date-picker__input--day',
     ) as HTMLInputElement
 
     // Type invalid date - error should appear during typing
@@ -4278,10 +4286,10 @@ describe('Field.Date', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).toBeInTheDocument()
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        nb.Date.errorInvalidDate
+        nb.Date.errorInvalidDate,
       )
     })
 
@@ -4291,7 +4299,7 @@ describe('Field.Date', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).not.toBeInTheDocument()
     })
 
@@ -4301,10 +4309,10 @@ describe('Field.Date', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).toBeInTheDocument()
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        nb.Date.errorInvalidDate
+        nb.Date.errorInvalidDate,
       )
     })
   })
@@ -4317,11 +4325,11 @@ describe('Field.Date', () => {
         onStatusChange={onStatusChange}
         validateContinuously
         required
-      />
+      />,
     )
 
     const dayInput = document.querySelector(
-      '.dnb-date-picker__input--day'
+      '.dnb-date-picker__input--day',
     ) as HTMLInputElement
 
     // Type invalid date
@@ -4333,7 +4341,7 @@ describe('Field.Date', () => {
       expect(onStatusChange).toHaveBeenLastCalledWith(
         expect.objectContaining({
           error: expect.anything(),
-        })
+        }),
       )
     })
 
@@ -4360,7 +4368,7 @@ describe('Field.Date', () => {
     const error2 = new Error('Error 2')
 
     const { rerender } = render(
-      <Field.Date onStatusChange={onStatusChange} error={undefined} />
+      <Field.Date onStatusChange={onStatusChange} error={undefined} />,
     )
 
     // Initially no error should be called
@@ -4395,7 +4403,7 @@ describe('Field.Date', () => {
 
     // Clear error
     rerender(
-      <Field.Date onStatusChange={onStatusChange} error={undefined} />
+      <Field.Date onStatusChange={onStatusChange} error={undefined} />,
     )
 
     await waitFor(() => {

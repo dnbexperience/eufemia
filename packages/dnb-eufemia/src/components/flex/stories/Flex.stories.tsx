@@ -17,7 +17,7 @@ export default {
 const Wrapper = Flex.withChildren(
   ({ children }: { children?: React.ReactNode }) => {
     return <div className="wrapper">{children}</div>
-  }
+  },
 )
 
 export function FlexWithVisibility() {

@@ -26,7 +26,7 @@ export default function HelpButtonInstance(localProps: ButtonProps) {
   const props = extendPropsWithContext(
     localProps,
     defaultProps,
-    context.HelpButton
+    context.HelpButton,
   )
 
   const { size, icon, onClick, className, ...rest } = props

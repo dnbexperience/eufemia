@@ -11,7 +11,7 @@ describe('VisuallyHidden', () => {
     render(<VisuallyHidden {...props} />)
 
     expect(
-      document.querySelector('.dnb-visually-hidden')
+      document.querySelector('.dnb-visually-hidden'),
     ).toBeInTheDocument()
   })
 
@@ -19,7 +19,7 @@ describe('VisuallyHidden', () => {
     render(<VisuallyHidden />)
 
     expect(
-      document.querySelector('.dnb-visually-hidden')
+      document.querySelector('.dnb-visually-hidden'),
     ).toBeInTheDocument()
   })
 
@@ -27,7 +27,7 @@ describe('VisuallyHidden', () => {
     render(<VisuallyHidden>children</VisuallyHidden>)
 
     expect(
-      document.querySelector('.dnb-visually-hidden')
+      document.querySelector('.dnb-visually-hidden'),
     ).toBeInTheDocument()
   })
 
@@ -36,7 +36,7 @@ describe('VisuallyHidden', () => {
 
     render(<VisuallyHidden>ClassName</VisuallyHidden>)
     expect(
-      document.querySelector('.dnb-visually-hidden').className
+      document.querySelector('.dnb-visually-hidden').className,
     ).toMatch(defaultClassName)
   })
 
@@ -46,10 +46,10 @@ describe('VisuallyHidden', () => {
     render(
       <VisuallyHidden className={customClassName}>
         ClassName
-      </VisuallyHidden>
+      </VisuallyHidden>,
     )
     expect(
-      document.querySelector('.dnb-visually-hidden').className
+      document.querySelector('.dnb-visually-hidden').className,
     ).toMatch(customClassName)
   })
 
@@ -58,21 +58,21 @@ describe('VisuallyHidden', () => {
 
     render(<VisuallyHidden focusable>focusable</VisuallyHidden>)
     expect(
-      document.querySelector('.dnb-visually-hidden').className
+      document.querySelector('.dnb-visually-hidden').className,
     ).toMatch(focusableClassName)
   })
 
   it('renders with span as the default element', () => {
     render(<VisuallyHidden>I'm a span</VisuallyHidden>)
     expect(document.querySelector('span') instanceof HTMLElement).toBe(
-      true
+      true,
     )
   })
 
   it('supports inline styling', () => {
     render(<VisuallyHidden style={{ color: 'red' }} />)
     expect(
-      document.querySelector('.dnb-visually-hidden').getAttribute('style')
+      document.querySelector('.dnb-visually-hidden').getAttribute('style'),
     ).toBe('color: red;')
   })
 
@@ -85,11 +85,11 @@ describe('VisuallyHidden', () => {
     render(
       <Provider locale="en-GB">
         <VisuallyHidden>Provider</VisuallyHidden>
-      </Provider>
+      </Provider>,
     )
 
     expect(
-      document.querySelector('.dnb-visually-hidden')
+      document.querySelector('.dnb-visually-hidden'),
     ).toBeInTheDocument()
   })
 

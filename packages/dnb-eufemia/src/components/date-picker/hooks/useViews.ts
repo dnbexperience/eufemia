@@ -16,7 +16,7 @@ export type UseViewsParams = ViewDates & {
 export default function useViews({ isRange, ...dates }: UseViewsParams) {
   const [previousDates, setPreviousDates] = useState(dates)
   const [views, setViews] = useState<Array<DatePickerCalendarView>>(
-    getViews({ ...dates, isRange })
+    getViews({ ...dates, isRange }),
   )
 
   const hasClickedCalendarDay = useRef<boolean>(false)
@@ -24,14 +24,14 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
   const hasDateChanges = useMemo(
     () =>
       Object.keys(dates).some(
-        (date) => previousDates[date] !== dates[date]
+        (date) => previousDates[date] !== dates[date],
       ),
-    [dates, previousDates]
+    [dates, previousDates],
   )
 
   const setHasClickedCalendarDay = useCallback(
     (hasClicked: boolean) => (hasClickedCalendarDay.current = hasClicked),
-    []
+    [],
   )
 
   if (hasDateChanges) {
@@ -52,7 +52,7 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
 
   function updateViews(
     views: Array<DatePickerCalendarView>,
-    cb: (...args: unknown[]) => void = null
+    cb: (...args: unknown[]) => void = null,
   ) {
     setViews(views)
     cb?.()

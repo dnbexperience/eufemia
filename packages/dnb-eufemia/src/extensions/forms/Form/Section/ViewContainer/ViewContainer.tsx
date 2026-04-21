@@ -28,7 +28,7 @@ function ViewContainer(props: FormSectionViewContainerAllProps) {
 
   const childArray = Array.isArray(children) ? children : [children]
   const hasToolbar = childArray.some(
-    (child) => React.isValidElement(child) && child.type === Toolbar
+    (child) => React.isValidElement(child) && child.type === Toolbar,
   )
 
   const showDefaultToolbar = !disableEditing && !hasToolbar

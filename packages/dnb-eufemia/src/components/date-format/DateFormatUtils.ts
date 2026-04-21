@@ -69,7 +69,7 @@ function isUTCDateString(dateValue: string): boolean {
 export function getDateTimeSeparator(
   locale: AnyLocale,
   dateStyle: Intl.DateTimeFormatOptions['dateStyle'],
-  timeStyle: Intl.DateTimeFormatOptions['timeStyle']
+  timeStyle: Intl.DateTimeFormatOptions['timeStyle'],
 ): string {
   try {
     const formatter = new Intl.DateTimeFormat(locale, {
@@ -110,7 +110,7 @@ export function formatDate(
     timeZone,
     hideCurrentYear,
     hideYear,
-  }: DateFormatOptions = {}
+  }: DateFormatOptions = {},
 ) {
   // Preserve original string for UTC detection
   const originalString =
@@ -172,7 +172,7 @@ export function formatDate(
 
     const datePart = new Intl.DateTimeFormat(
       locale,
-      dateOnlyOptions
+      dateOnlyOptions,
     ).format(date)
 
     if (finalOptions.timeStyle) {
@@ -185,13 +185,13 @@ export function formatDate(
 
       const timePart = new Intl.DateTimeFormat(
         locale,
-        timeOnlyOptions
+        timeOnlyOptions,
       ).format(date)
 
       const separator = getDateTimeSeparator(
         locale,
         dateStyle,
-        finalOptions.timeStyle
+        finalOptions.timeStyle,
       )
 
       return `${datePart}${separator}${timePart}`
@@ -207,7 +207,7 @@ export function formatDateRange(
   {
     locale = defaultLocale,
     options = { dateStyle: 'long' },
-  }: DateFormatOptions = {}
+  }: DateFormatOptions = {},
 ) {
   const startDate = convertStringToDate(dates.startDate)
   const endDate = convertStringToDate(dates.endDate)
@@ -215,7 +215,7 @@ export function formatDateRange(
   if (typeof Intl !== 'undefined') {
     return new Intl.DateTimeFormat(locale, options).formatRange(
       startDate,
-      endDate
+      endDate,
     )
   }
 
@@ -253,7 +253,7 @@ export function getRelativeTime(
     style: 'long',
   },
   dateStyle?: Intl.DateTimeFormatOptions['dateStyle'],
-  relativeTimeReference?: Date | (() => Date)
+  relativeTimeReference?: Date | (() => Date),
 ) {
   // Map dateStyle to RelativeTimeFormat style for consistent styling
   // short -> narrow (most abbreviated), medium -> short (medium abbreviation), long -> long (full words)
@@ -270,7 +270,7 @@ export function getRelativeTime(
     // eslint-disable-next-line compat/compat
     const relativeTimeFormatter = new Intl.RelativeTimeFormat(
       locale,
-      relativeTimeOptions
+      relativeTimeOptions,
     )
 
     const nowDate =
@@ -284,7 +284,7 @@ export function getRelativeTime(
     const timeUnit = getTimeUnit(msDateDifference)
 
     const timeUnitDifference = Math.round(
-      msDateDifference / timeUnitsInMs[timeUnit]
+      msDateDifference / timeUnitsInMs[timeUnit],
     )
 
     return relativeTimeFormatter.format(timeUnitDifference, timeUnit)
@@ -303,7 +303,7 @@ export function getRelativeTime(
  */
 export function getRelativeTimeNextUpdateMs(
   date: Date,
-  relativeTimeReference: Date | (() => Date) = new Date()
+  relativeTimeReference: Date | (() => Date) = new Date(),
 ): number {
   const nowDate =
     relativeTimeReference instanceof Date
@@ -387,7 +387,7 @@ export function parseDuration(durationString: string): number {
  */
 function buildDurationObject(
   durationMs: number,
-  originalDurationString?: string
+  originalDurationString?: string,
 ): DurationFormatInput {
   // If we have the original string, parse it directly to preserve exact units
   if (originalDurationString) {
@@ -427,22 +427,22 @@ function buildDurationObject(
   const units = {
     years: Math.floor(absDuration / timeUnitsInMs.years),
     months: Math.floor(
-      (absDuration % timeUnitsInMs.years) / timeUnitsInMs.months
+      (absDuration % timeUnitsInMs.years) / timeUnitsInMs.months,
     ),
     weeks: Math.floor(
-      (absDuration % timeUnitsInMs.months) / timeUnitsInMs.weeks
+      (absDuration % timeUnitsInMs.months) / timeUnitsInMs.weeks,
     ),
     days: Math.floor(
-      (absDuration % timeUnitsInMs.weeks) / timeUnitsInMs.days
+      (absDuration % timeUnitsInMs.weeks) / timeUnitsInMs.days,
     ),
     hours: Math.floor(
-      (absDuration % timeUnitsInMs.days) / timeUnitsInMs.hours
+      (absDuration % timeUnitsInMs.days) / timeUnitsInMs.hours,
     ),
     minutes: Math.floor(
-      (absDuration % timeUnitsInMs.hours) / timeUnitsInMs.minutes
+      (absDuration % timeUnitsInMs.hours) / timeUnitsInMs.minutes,
     ),
     seconds: Math.floor(
-      (absDuration % timeUnitsInMs.minutes) / timeUnitsInMs.seconds
+      (absDuration % timeUnitsInMs.minutes) / timeUnitsInMs.seconds,
     ),
   }
 
@@ -483,7 +483,7 @@ function buildDurationObject(
 
   // Only include non-zero units for non-zero durations
   return Object.fromEntries(
-    Object.entries(units).filter(([, value]) => value > 0)
+    Object.entries(units).filter(([, value]) => value > 0),
   )
 }
 
@@ -492,7 +492,7 @@ function buildDurationObject(
  */
 function createDurationFormatter(
   locale: string,
-  dateStyle?: Intl.DateTimeFormatOptions['dateStyle']
+  dateStyle?: Intl.DateTimeFormatOptions['dateStyle'],
 ): DurationFormat | null {
   try {
     const DurationFormat = (Intl as any)
@@ -518,7 +518,7 @@ export function formatDuration(
   durationMs: number,
   locale: AnyLocale = defaultLocale,
   dateStyle?: Intl.DateTimeFormatOptions['dateStyle'],
-  originalDurationString?: string
+  originalDurationString?: string,
 ): string {
   if (!Number.isFinite(durationMs)) {
     return '0 seconds'
@@ -526,7 +526,7 @@ export function formatDuration(
 
   const durationObject = buildDurationObject(
     durationMs,
-    originalDurationString
+    originalDurationString,
   )
 
   // Try primary locale

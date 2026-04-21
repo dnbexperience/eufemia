@@ -4,7 +4,7 @@ import RemoveButton from '../RemoveButton'
 import useTranslation from '../../hooks/useTranslation'
 
 export default function ViewContainerRemoveButton(
-  props: RemoveButtonProps
+  props: RemoveButtonProps,
 ) {
   const { removeButton } = useTranslation().IterateViewContainer
 

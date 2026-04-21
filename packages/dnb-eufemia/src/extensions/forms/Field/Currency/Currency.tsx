@@ -32,7 +32,7 @@ function Currency(props: FieldCurrencyProps) {
       getCurrencySymbol(
         sharedContext?.locale,
         currencyValue,
-        props.currencyDisplay
+        props.currencyDisplay,
       ),
   }
 

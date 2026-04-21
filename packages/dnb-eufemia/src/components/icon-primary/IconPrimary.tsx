@@ -25,12 +25,12 @@ export default function IconPrimary(localProps: IconAllProps) {
     {},
     { skeleton: context?.skeleton },
     context.Icon,
-    context.IconPrimary
+    context.IconPrimary,
   )
 
   const { icon, size, wrapperParams, iconParams, alt } = prepareIcon(
     props,
-    context
+    context,
   )
 
   const IconContainer = prerenderIcon({

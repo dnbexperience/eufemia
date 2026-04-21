@@ -58,15 +58,15 @@ import type {
 export type DrawerListProviderChainable = {
   setVisible: (
     args?: Record<string, unknown> | null,
-    onStateComplete?: (() => void) | null
+    onStateComplete?: (() => void) | null,
   ) => void
   setHidden: (
     args?: unknown[] | null,
-    onStateComplete?: (() => void) | null
+    onStateComplete?: (() => void) | null,
   ) => void
   toggleVisible: (...args: unknown[]) => void
   setWrapperElement: (
-    wrapperElement?: string | HTMLElement
+    wrapperElement?: string | HTMLElement,
   ) => DrawerListProviderChainable
   setData: DrawerListProviderProps['setData']
   setState: DrawerListProviderProps['setState']
@@ -98,14 +98,14 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
         overwriteOriginalData,
       }?: {
         overwriteOriginalData?: boolean
-      }
+      },
     ) => void
     setState?: (
       state: Partial<DrawerListContextState>,
-      cb?: () => void
+      cb?: () => void,
     ) => void
     setWrapperElement?: (
-      wrapperElement?: string | HTMLElement
+      wrapperElement?: string | HTMLElement,
     ) => DrawerListProviderChainable
     setHidden?: (args?: unknown[], onStateComplete?: () => void) => void
     selectItemAndClose?: (
@@ -113,7 +113,7 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
       args?: {
         fireSelectEvent?: boolean
         event?: React.SyntheticEvent | Event | Record<string, unknown>
-      }
+      },
     ) => void
     selectedItem?: string | number
     activeItem?: string | number
@@ -125,7 +125,7 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
     removeObservers?: () => void
     setVisible?: (
       args?: Record<string, unknown>,
-      onStateComplete?: () => void
+      onStateComplete?: () => void,
     ) => void
     toggleVisible?: (...args: unknown[]) => void
     selectItem?: (
@@ -134,14 +134,14 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
         fireSelectEvent?: boolean
         event?: React.SyntheticEvent | Event
         closeOnSelection?: boolean
-      }
+      },
     ) => void
     scrollToItem?: (
       activeItem: string | number,
       opt?: {
         scrollTo?: boolean
         element?: HTMLElement
-      }
+      },
     ) => void
     setActiveItemAndScrollToIt?: (
       activeItem: string | number,
@@ -149,7 +149,7 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
         fireSelectEvent?: boolean
         scrollTo?: boolean
         event?: React.SyntheticEvent | Event
-      }
+      },
     ) => void
     _refShell?: React.RefObject<HTMLSpanElement>
     _refTriangle?: React.RefObject<HTMLLIElement & HTMLSpanElement>
@@ -171,7 +171,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   // Apply defaults
   const props = useMemo(
     () => ({ ...allDefaultProps, ...ownProps }) as DrawerListProviderProps,
-    [ownProps]
+    [ownProps],
   )
   const propsRef = useRef(props)
   propsRef.current = props
@@ -206,7 +206,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       }
       forceUpdate()
     },
-    []
+    [],
   )
 
   // Apply pending state updates during render (before prepareDerivedState)
@@ -251,7 +251,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   const rootElemRef = useRef<Window | Element>(null)
   const changedOrderForRef = useRef<string | null>(null)
   const searchCacheRef = useRef<Record<string, { i: number }[]> | null>(
-    null
+    null,
   )
   const metaRef = useRef({
     cmd: false,
@@ -269,7 +269,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       return
     }
     const elements = _refUl.current?.querySelectorAll<HTMLLIElement>(
-      'li.dnb-drawer-list__option,li.dnb-drawer-list__group-title'
+      'li.dnb-drawer-list__option,li.dnb-drawer-list__group-title',
     )
     itemSpotsRef.current = {}
     elements.forEach((element) => {
@@ -313,7 +313,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         const counts = Object.keys(itemSpotsRef.current)
         closestToBottom = findClosest(
           counts,
-          _refUl.current.scrollTop + _refUl.current.offsetHeight
+          _refUl.current.scrollTop + _refUl.current.offsetHeight,
         )
         closestToTop = findClosest(counts, _refUl.current.scrollTop)
         if (
@@ -397,17 +397,17 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     if (typeof window !== 'undefined' && setDirectionFnRef.current) {
       rootElemRef.current?.removeEventListener(
         'scroll',
-        setDirectionFnRef.current
+        setDirectionFnRef.current,
       )
 
       if (typeof window.visualViewport !== 'undefined') {
         window.visualViewport.removeEventListener(
           'scroll',
-          setDirectionFnRef.current
+          setDirectionFnRef.current,
         )
         window.visualViewport.removeEventListener(
           'resize',
-          setDirectionFnRef.current
+          setDirectionFnRef.current,
         )
       } else {
         window.removeEventListener('resize', setDirectionFnRef.current)
@@ -516,7 +516,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         } else {
           vh = Math.max(
             document.documentElement.clientHeight,
-            window.innerHeight || 0
+            window.innerHeight || 0,
           )
         }
 
@@ -564,17 +564,17 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     rootElemRef.current = customElem || window
     rootElemRef.current.addEventListener(
       'scroll',
-      setDirectionFnRef.current
+      setDirectionFnRef.current,
     )
 
     if (typeof window.visualViewport !== 'undefined') {
       window.visualViewport.addEventListener(
         'scroll',
-        setDirectionFnRef.current
+        setDirectionFnRef.current,
       )
       window.visualViewport.addEventListener(
         'resize',
-        setDirectionFnRef.current
+        setDirectionFnRef.current,
       )
     } else {
       window.addEventListener('resize', setDirectionFnRef.current)
@@ -617,7 +617,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
             parseContentTitle(itemData, {
               separator: ' ',
               removeNumericOnlyValues: true,
-            })
+            }),
           )
 
           const firstLetter = String(str[0]).toLowerCase()
@@ -643,14 +643,14 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 
   const getActiveElement = useCallback(() => {
     return _refUl.current?.querySelector<HTMLLIElement>(
-      'li.dnb-drawer-list__option--focus'
+      'li.dnb-drawer-list__option--focus',
     )
   }, [])
 
   const getSelectedElement = useCallback(() => {
     return (
       _refUl.current?.querySelector<HTMLLIElement>(
-        'li.dnb-drawer-list__option--selected'
+        'li.dnb-drawer-list__option--selected',
       ) || _refUl.current
     )
   }, [])
@@ -662,7 +662,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 
   const getElementGroup = useCallback((element: HTMLLIElement) => {
     return element?.parentElement?.classList.contains(
-      'dnb-drawer-list__group'
+      'dnb-drawer-list__group',
     )
       ? (element.parentElement as HTMLUListElement)
       : null
@@ -684,9 +684,9 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     const elem =
       activeElement?.nextElementSibling ||
       getElementGroup(
-        activeElement
+        activeElement,
       )?.nextElementSibling?.querySelector<HTMLLIElement>(
-        'li.dnb-drawer-list__option.first-of-type'
+        'li.dnb-drawer-list__option.first-of-type',
       )
 
     return getItemData(elem)
@@ -697,13 +697,13 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 
     const elem =
       (activeElement?.previousElementSibling?.classList.contains(
-        'dnb-drawer-list__option'
+        'dnb-drawer-list__option',
       ) &&
         activeElement?.previousElementSibling) ||
       getElementGroup(
-        activeElement
+        activeElement,
       )?.previousElementSibling?.querySelector<HTMLLIElement>(
-        'li.dnb-drawer-list__option.last-of-type'
+        'li.dnb-drawer-list__option.last-of-type',
       )
 
     return getItemData(elem)
@@ -711,14 +711,14 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 
   const getFirstItem = useCallback(() => {
     const elem = _refUl.current?.querySelector<HTMLLIElement>(
-      'li.dnb-drawer-list__option.first-item'
+      'li.dnb-drawer-list__option.first-item',
     )
     return getItemData(elem)
   }, [getItemData])
 
   const getLastItem = useCallback(() => {
     const elem = _refUl.current?.querySelector<HTMLLIElement>(
-      'li.dnb-drawer-list__option.last-item'
+      'li.dnb-drawer-list__option.last-item',
     )
     return getItemData(elem)
   }, [getItemData])
@@ -737,17 +737,17 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         if (active) {
           document.documentElement.setAttribute(
             'data-dnb-drawer-list-active',
-            String(stateRef.current.id)
+            String(stateRef.current.id),
           )
         } else {
           document.documentElement.removeAttribute(
-            'data-dnb-drawer-list-active'
+            'data-dnb-drawer-list-active',
           )
         }
       } catch (e) {
         warn(
           'DrawerList: Error on set "data-dnb-drawer-list-active" by using element.setAttribute()',
-          e
+          e,
         )
       }
     }
@@ -789,7 +789,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
                   'onOpenFocus',
                   {
                     element: liElement,
-                  }
+                  },
                 )
               }
             } else {
@@ -801,13 +801,13 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         }
       }, 1)
     },
-    [getActiveElement, getSelectedElement]
+    [getActiveElement, getSelectedElement],
   )
 
   const setActiveItemAndScrollToIt = useCallback(
     (
       activeItem,
-      { fireSelectEvent = false, scrollTo = true, event = null } = {}
+      { fireSelectEvent = false, scrollTo = true, event = null } = {},
     ) => {
       mergeState({ activeItem }, () => {
         if (parseFloat(activeItem) === -1) {
@@ -820,7 +820,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
             'onOpenFocus',
             {
               element: _refUl.current,
-            }
+            },
           )
         } else if (parseFloat(activeItem) > -1) {
           const { selectedItem } = stateRef.current
@@ -834,12 +834,12 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
                 activeItem,
                 value: getSelectedItemValue(
                   selectedItem,
-                  stateRef.current
+                  stateRef.current,
                 ),
                 data: getEventData(activeItem, stateRef.current.data),
                 event,
                 attributes,
-              }
+              },
             )
             if (ret === false) {
               return // stop here!
@@ -854,7 +854,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         }
       })
     },
-    [mergeState, scrollToItem]
+    [mergeState, scrollToItem],
   )
 
   const setWrapperElement = useCallback(
@@ -872,7 +872,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 
       return selfRef.current
     },
-    [mergeState]
+    [mergeState],
   )
 
   // Stable event handlers for addEventListener
@@ -918,7 +918,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     outsideClickRef.current = detectOutsideClick(
       [stateRef.current.wrapperElement, _refRoot.current, _refUl.current],
       () => setHiddenFnRef.current({ preventHideFocus: true }),
-      { includedKeys: ['Tab'] }
+      { includedKeys: ['Tab'] },
     )
 
     if (typeof document !== 'undefined') {
@@ -998,7 +998,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         clearTimeout(showTimeoutRef.current)
         showTimeoutRef.current = setTimeout(
           animationDelayHandler,
-          DrawerListProvider.blurDelay
+          DrawerListProvider.blurDelay,
         )
       }
 
@@ -1014,7 +1014,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 
       setActiveItemAndScrollToIt(
         parseFloat(newActiveItem as string) > -1 ? newActiveItem : -1,
-        { scrollTo: false }
+        { scrollTo: false },
       )
     }
 
@@ -1022,7 +1022,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       clearTimeout(hideTimeoutRef.current)
       hideTimeoutRef.current = setTimeout(
         handleSingleComponentCheck,
-        DrawerListProvider.blurDelay
+        DrawerListProvider.blurDelay,
       )
     } else {
       handleSingleComponentCheck()
@@ -1047,7 +1047,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         parseFloat(selectedItem as string) > -1
           ? selectedItem
           : activeItem,
-        stateRef.current.data
+        stateRef.current.data,
       ),
       attributes: attributesRef.current,
     })
@@ -1076,7 +1076,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         clearTimeout(hideTimeoutRef.current)
         hideTimeoutRef.current = setTimeout(
           delayHandler,
-          DrawerListProvider.blurDelay
+          DrawerListProvider.blurDelay,
         )
       }
     }
@@ -1088,7 +1088,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         ? setHidden(...args)
         : setVisible(...args)
     },
-    [setHidden, setVisible]
+    [setHidden, setVisible],
   )
 
   const setDataHandler = useCallback(
@@ -1113,12 +1113,12 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         () => {
           refreshScrollObserver()
           typeof cb === 'function' && cb(data)
-        }
+        },
       )
 
       return selfRef.current
     },
-    [mergeState, refreshScrollObserver]
+    [mergeState, refreshScrollObserver],
   )
 
   const setStateHandler = useCallback(
@@ -1126,7 +1126,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       mergeState({ ...state }, cb)
       return selfRef.current
     },
-    [mergeState]
+    [mergeState],
   )
 
   const selectItem = useCallback(
@@ -1136,7 +1136,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         fireSelectEvent = false,
         event = null,
         closeOnSelection = false,
-      } = {}
+      } = {},
     ) => {
       if (itemToSelect === -1) {
         itemToSelect = null
@@ -1161,7 +1161,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       const res = dispatchCustomElementEvent(
         stateRef.current,
         'onPreChange',
-        attr
+        attr,
       )
 
       if (res === false) {
@@ -1208,11 +1208,11 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
             selectedItem: itemToSelect,
             activeItem: itemToSelect,
           },
-          onSelectionIsComplete
+          onSelectionIsComplete,
         )
       }
     },
-    [mergeState, setHidden]
+    [mergeState, setHidden],
   )
 
   const selectItemAndClose = useCallback(
@@ -1220,7 +1220,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       args.closeOnSelection = true
       return selectItem(itemToSelect, args)
     },
-    [selectItem]
+    [selectItem],
   )
 
   // Update onKeyDownHandler ref with latest implementation
@@ -1241,7 +1241,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       try {
         const ulElem = getClosestParent(
           'dnb-drawer-list__options',
-          document.activeElement
+          document.activeElement,
         )
 
         isSameDrawer =
@@ -1307,7 +1307,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         {
           if ((e.target as HTMLElement).tagName === 'A') {
             ;(e.target as HTMLElement).dispatchEvent(
-              new MouseEvent('click')
+              new MouseEvent('click'),
             )
             setHidden()
             return // stop here
@@ -1353,7 +1353,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 
               const currentActiveElement = getClosestParent(
                 'dnb-drawer-list__option',
-                document.activeElement
+                document.activeElement,
               )
 
               if (currentActiveElement !== activeElement) {
@@ -1362,7 +1362,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
                     const elem = document.createElement('BUTTON')
                     elem.setAttribute(
                       'style',
-                      'opacity:0;position:absolute;'
+                      'opacity:0;position:absolute;',
                     )
                     const focus = () => {
                       prevActiveElement.focus()
@@ -1391,7 +1391,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
                     activeElement.appendChild(after)
                     activeElement.insertBefore(
                       before,
-                      activeElement.firstChild
+                      activeElement.firstChild,
                     )
                   } catch (err) {
                     //
@@ -1432,7 +1432,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     ) {
       const ulElem = getClosestParent(
         'dnb-drawer-list__options',
-        document.activeElement
+        document.activeElement,
       )
 
       if (ulElem === _refUl.current) {
@@ -1568,7 +1568,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 DrawerListProviderComponent.displayName = 'DrawerListProvider'
 
 const DrawerListProvider = React.memo(
-  DrawerListProviderComponent
+  DrawerListProviderComponent,
 ) as React.MemoExoticComponent<typeof DrawerListProviderComponent> & {
   blurDelay: number
 }

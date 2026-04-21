@@ -33,11 +33,11 @@ describe('UploadFileListLink', () => {
       const href = 'mock-url'
 
       render(
-        <UploadFileLink {...defaultProps} text={fileName} href={href} />
+        <UploadFileLink {...defaultProps} text={fileName} href={href} />,
       )
 
       const anchorElement = screen.queryByText(
-        fileName
+        fileName,
       ) as HTMLAnchorElement
       expect(anchorElement.href).toMatch(href)
     })
@@ -50,7 +50,7 @@ describe('UploadFileListLink', () => {
           {...defaultProps}
           text={fileName}
           download={true}
-        />
+        />,
       )
 
       const element = document.querySelector('.dnb-a')
@@ -81,7 +81,7 @@ describe('UploadFileListLink', () => {
           {...defaultProps}
           onClick={jest.fn()}
           text={fileName}
-        />
+        />,
       )
       expect(screen.queryByText(fileName)).toBeInTheDocument()
     })
@@ -103,7 +103,7 @@ describe('UploadFileListLink', () => {
           {...defaultProps}
           onClick={jest.fn()}
           top="large"
-        />
+        />,
       )
 
       const element = document.querySelector('.dnb-button')
@@ -123,7 +123,7 @@ describe('UploadFileListLink', () => {
       render(<UploadFileLink {...props} data-testid="test" />)
       expect(document.querySelector('span')).toHaveAttribute(
         'data-testid',
-        'test'
+        'test',
       )
     })
   })

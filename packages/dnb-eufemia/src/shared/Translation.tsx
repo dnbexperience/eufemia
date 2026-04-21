@@ -28,7 +28,7 @@ const TranslationImpl = <T = TranslationCustomLocales,>({
       | string
       | TranslationIdAsFunction<TranslationCustomLocales>,
     params,
-    translation
+    translation,
   )
 
   if (typeof result !== 'string') {
@@ -39,12 +39,12 @@ const TranslationImpl = <T = TranslationCustomLocales,>({
 }
 
 type TranslationFn = <T = TranslationCustomLocales>(
-  props: TranslationProps<T>
+  props: TranslationProps<T>,
 ) => React.JSX.Element
 
 export type TranslationComponent = TranslationFn & {
   withTypes: <T = TranslationCustomLocales>() => (
-    props: TranslationProps<T>
+    props: TranslationProps<T>,
   ) => React.JSX.Element
 }
 

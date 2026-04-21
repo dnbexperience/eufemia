@@ -71,7 +71,7 @@ function Logo(localProps: LogoProps) {
   const props = extendPropsWithContext(
     localProps,
     defaultProps,
-    context.Logo
+    context.Logo,
   )
 
   const {
@@ -139,7 +139,7 @@ function Logo(localProps: LogoProps) {
       (parseFloat(width) > 0 || parseFloat(height) > 0) &&
         `dnb-logo--has-size`,
       inheritSize && `dnb-logo--inherit-size`,
-      inheritColor && `dnb-logo--inherit-color`
+      inheritColor && `dnb-logo--inherit-color`,
     )
   }, [
     detectedBrand,
@@ -182,7 +182,7 @@ function renderCustomSvg(
     | React.ComponentType<React.SVGProps<SVGSVGElement>>
     | React.ReactElement<React.SVGProps<SVGSVGElement>>,
   svgParams: React.SVGProps<SVGSVGElement> & { alt: string },
-  theme: UseThemeReturn
+  theme: UseThemeReturn,
 ) {
   if (React.isValidElement(SvgComponent)) {
     const allowedProps: Record<string, unknown> = {}

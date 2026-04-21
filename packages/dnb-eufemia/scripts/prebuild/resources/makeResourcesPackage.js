@@ -32,7 +32,7 @@ const transformPaths = (from, to) => (content) =>
 
 const copyStylePackages = async (
   src = './build/style/**/*.css',
-  { returnResult = false } = {}
+  { returnResult = false } = {},
 ) => {
   log.start('> PrePublish: copy style resources')
 
@@ -49,12 +49,12 @@ const copyStylePackages = async (
 
     const relativePath = path.relative(
       path.resolve(ROOT_DIR, 'build/style'),
-      absolutePath
+      absolutePath,
     )
     const destPath = path.resolve(
       ROOT_DIR,
       'dnb-ui-resources/style',
-      relativePath
+      relativePath,
     )
     await fs.outputFile(destPath, transformed)
   }
@@ -72,21 +72,21 @@ const copyFiles = async (src, destDir) => {
 }
 
 const copyFonts = async (
-  src = ['./assets/fonts/dnb/*', '!./assets/fonts/dnb/*.zip']
+  src = ['./assets/fonts/dnb/*', '!./assets/fonts/dnb/*.zip'],
 ) => {
   log.start('> PrePublish: copy fonts resources')
   await copyFiles(src, 'dnb-ui-resources/resources/fonts')
 }
 
 const copyBrowser = async (
-  src = ['./assets/browser/*', '!./assets/browser/*.zip']
+  src = ['./assets/browser/*', '!./assets/browser/*.zip'],
 ) => {
   log.start('> PrePublish: copy browser resources')
   await copyFiles(src, 'dnb-ui-resources/resources/browser')
 }
 
 const copyUMD = async (
-  src = ['./build/umd/*', '../../node_modules/react/umd/*']
+  src = ['./build/umd/*', '../../node_modules/react/umd/*'],
 ) => {
   log.start('> PrePublish: copy UMD resources')
   await copyFiles(src, 'dnb-ui-resources/umd')
@@ -106,7 +106,7 @@ To make usage of the content, copy the \`style\`, \`umd\` and \`resources\` fold
 For documentation, visit: https://eufemia.dnb.no/
 
 License: Apache 2.0 with Commons Clause
-`
+`,
   )
 }
 
@@ -123,7 +123,7 @@ const createTar = async () => {
       gzip: true,
       file: path.resolve(distPath, 'dnb-ui-resources.tgz'),
     },
-    ['./dnb-ui-resources']
+    ['./dnb-ui-resources'],
   )
 }
 

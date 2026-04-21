@@ -22,7 +22,7 @@ export function withFormatter<
 >(
   displayName: string,
   formatter: NumberFormatInternalFormatter,
-  forcedProps: Partial<NumberFormatProps> = {}
+  forcedProps: Partial<NumberFormatProps> = {},
 ) {
   function NumberFormatVariant(props: ThisVariantProps) {
     return (

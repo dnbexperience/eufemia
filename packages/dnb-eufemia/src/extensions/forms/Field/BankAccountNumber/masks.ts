@@ -24,7 +24,7 @@ const norwegianBbanMask: MaskEntry = [
 
 const norwegianBbanMaskNoFormat: MaskEntry = Array.from(
   { length: 11 },
-  () => /\d/
+  () => /\d/,
 )
 
 /**
@@ -51,7 +51,7 @@ const swedishBbanMask: MaskEntry = [
 
 const swedishBbanMaskNoFormat: MaskEntry = Array.from(
   { length: 14 },
-  () => /\d/
+  () => /\d/,
 )
 
 /**
@@ -62,7 +62,7 @@ const swedishBbanMaskNoFormat: MaskEntry = Array.from(
  */
 const swedishBankgiroMaskDigitsOnly: MaskEntry = Array.from(
   { length: 8 },
-  () => /\d/
+  () => /\d/,
 )
 
 function buildSwedishBankgiroMask(value?: string): MaskEntry {
@@ -91,7 +91,7 @@ function buildSwedishBankgiroMask(value?: string): MaskEntry {
  */
 const swedishPlusgiroMaskDigitsOnly: MaskEntry = Array.from(
   { length: 8 },
-  () => /\d/
+  () => /\d/,
 )
 
 function buildSwedishPlusgiroMask(value?: string): MaskEntry {
@@ -137,13 +137,13 @@ function buildIbanMask(): MaskEntry {
 
 const ibanMaskNoFormat: MaskEntry = Array.from(
   { length: 34 },
-  () => /[A-Za-z0-9]/
+  () => /[A-Za-z0-9]/,
 )
 
 export function getMask(
   bankAccountType: BankAccountType,
   omitMask: boolean,
-  value?: string
+  value?: string,
 ): MaskEntry {
   if (omitMask) {
     switch (bankAccountType) {
@@ -177,7 +177,7 @@ export function getMask(
 }
 
 export function getInputMode(
-  bankAccountType: BankAccountType
+  bankAccountType: BankAccountType,
 ): 'numeric' | 'text' {
   if (bankAccountType === 'iban') {
     return 'text'
@@ -186,7 +186,7 @@ export function getInputMode(
 }
 
 export function getWidth(
-  bankAccountType: BankAccountType
+  bankAccountType: BankAccountType,
 ): FieldBlockWidth {
   switch (bankAccountType) {
     case 'iban':
@@ -197,7 +197,7 @@ export function getWidth(
 }
 
 export function hasVariableMask(
-  bankAccountType: BankAccountType
+  bankAccountType: BankAccountType,
 ): boolean {
   return (
     bankAccountType === 'swedishBankgiro' ||

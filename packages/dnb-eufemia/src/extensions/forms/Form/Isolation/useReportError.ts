@@ -10,7 +10,7 @@ import { usePath } from '../../hooks'
 export default function useReportError(
   error: Error,
   customDataContext?: ContextState,
-  name?: string
+  name?: string,
 ) {
   const { joinPath } = usePath()
   const dataContext = useContext(DataContext)
@@ -46,7 +46,7 @@ export default function useReportError(
     setFieldErrorWizard?.(
       wizardIndex,
       path,
-      currentError ? true : undefined
+      currentError ? true : undefined,
     )
 
     setFieldErrorDataContext?.(path, currentError)

@@ -36,7 +36,7 @@ export function getPortalPaths(store: any) {
 export async function findDocExtras(file: string) {
   const extrasDir = path.join(
     path.dirname(file),
-    path.basename(file, path.extname(file))
+    path.basename(file, path.extname(file)),
   )
 
   const propsFile = await findExisting([
@@ -99,7 +99,7 @@ export async function loadTsDocs(rel: string) {
     const typographyDocsDir = path.join(
       tsSrcRoot,
       'elements',
-      'typography'
+      'typography',
     )
     const typographyDocsNameMap: Record<string, string> = {
       lead: 'LeadDocs',
@@ -136,7 +136,7 @@ export async function loadTsDocs(rel: string) {
 
 export function mergeDocs(
   base: Record<string, any>,
-  extra: Record<string, any>
+  extra: Record<string, any>,
 ) {
   return { ...base, ...(extra || {}) }
 }
@@ -146,7 +146,7 @@ export async function resolveMetaText(file: string) {
     path.join(
       path.dirname(file),
       path.basename(file, path.extname(file)),
-      'info.mdx'
+      'info.mdx',
     ),
     path.join(path.dirname(file), 'info.mdx'),
   ])
@@ -243,7 +243,7 @@ export function buildMetadata({
             local: toWorkspacePath(propsFile, siteDir),
             public: toPublicUrl(
               joinSlug(slug, 'properties/'),
-              publicUrlBase
+              publicUrlBase,
             ),
           }
         : null,
@@ -278,14 +278,14 @@ export async function writeLlmsText({
   const hydrated: Array<any> = results || []
   const llmsPath = path.join(
     outputRoot || path.join(siteDir, 'public'),
-    llmsFilename
+    llmsFilename,
   )
   const llmsContent = await formatLlmsText(
     buildLlmsText(hydrated, {
       version,
       publicUrlBase,
     }),
-    siteDir
+    siteDir,
   )
 
   await fs.writeFile(llmsPath, llmsContent, 'utf-8')
@@ -299,7 +299,7 @@ export function toSlugAndDir(rel: string) {
   const noExt = rel.replace(/\.[^/.]+$/, '')
   const slug = `/${path.posix.join(
     'uilib',
-    noExt.split(path.sep).join('/')
+    noExt.split(path.sep).join('/'),
   )}/`
   const dirForExtras = path.posix.join(slug).replace(/^\//, '')
   return { slug, dirForExtras }
@@ -316,7 +316,7 @@ function normalizePublicUrlBase(publicUrlBase: string) {
 
 export function toPublicUrl(
   slugPath: string,
-  publicUrlBase: string = DEFAULT_PUBLIC_URL
+  publicUrlBase: string = DEFAULT_PUBLIC_URL,
 ) {
   const base = normalizePublicUrlBase(publicUrlBase || '')
 
@@ -464,9 +464,9 @@ export function toPascalCase(s: string) {
         acc +
         cur.replace(
           /(\w)(\w*)/g,
-          (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase()
+          (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase(),
         ),
-      ''
+      '',
     )
 }
 
@@ -510,7 +510,7 @@ export function makeChecksum({
 
       for (const k of keys) {
         const v = obj[k]
-        out[k] = Array.isArray(v) ? [...v] : v ?? null
+        out[k] = Array.isArray(v) ? [...v] : (v ?? null)
       }
       return out
     }
@@ -568,7 +568,7 @@ export async function findSourceInfo({
     const altName = name.split('(')[0]?.trim()
     const dirName = toPascalCase(path.basename(tsDocsDir))
     const nameCandidates = Array.from(
-      new Set([name, altName, dirName].filter(Boolean))
+      new Set([name, altName, dirName].filter(Boolean)),
     )
     const candidates = [
       ...nameCandidates.flatMap((candidate) => [
@@ -679,7 +679,7 @@ export function buildLlmsText(
   {
     version,
     publicUrlBase = DEFAULT_PUBLIC_URL,
-  }: { version: string; publicUrlBase?: string }
+  }: { version: string; publicUrlBase?: string },
 ) {
   const normalizedResults = results.filter((entry) => entry && entry.meta)
   const lines: string[] = []
@@ -713,10 +713,10 @@ export function buildLlmsText(
     g === 'components'
       ? 'Components'
       : g === 'extensions'
-      ? 'Extensions'
-      : g === 'elements'
-      ? 'Elements'
-      : 'Unlisted'
+        ? 'Extensions'
+        : g === 'elements'
+          ? 'Elements'
+          : 'Unlisted'
 
   const printed = new Set<string>()
   const pushEntry = (meta: any) => {
@@ -724,8 +724,8 @@ export function buildLlmsText(
     const prefix = slug.includes('/extensions/forms/Value/')
       ? 'Value'
       : slug.includes('/extensions/forms/feature-fields/')
-      ? 'Field'
-      : null
+        ? 'Field'
+        : null
     const hasPrefix =
       prefix && typeof meta?.name === 'string'
         ? meta.name.startsWith(`${prefix}.`)
@@ -744,7 +744,7 @@ export function buildLlmsText(
     lines.push('')
   }
   const rest = filtered.filter(
-    (entry) => !order.includes(entry.meta?.group || 'unlisted')
+    (entry) => !order.includes(entry.meta?.group || 'unlisted'),
   )
 
   if (rest.length > 0) {
@@ -871,12 +871,10 @@ export async function extractTsDocs(dir: string) {
 
 async function evaluateTsModule(file: string) {
   const { default: babel } = await import('@babel/core')
-  const { default: transformTS } = await import(
-    '@babel/plugin-transform-typescript'
-  )
-  const { default: transformCJS } = await import(
-    '@babel/plugin-transform-modules-commonjs'
-  )
+  const { default: transformTS } =
+    await import('@babel/plugin-transform-typescript')
+  const { default: transformCJS } =
+    await import('@babel/plugin-transform-modules-commonjs')
   const vm = await import('node:vm')
   const moduleApi = await import('node:module')
   const localRequire = (moduleApi as any).createRequire(file)
@@ -886,7 +884,7 @@ async function evaluateTsModule(file: string) {
 
   code = code.replace(
     /(^\s*import[\s\S]*?from\s+['"][^'"]+['"][^\n]*$)/gm,
-    ''
+    '',
   )
 
   const result = await babel.transformAsync(injection + '\n' + code, {
@@ -1001,7 +999,7 @@ function findPackageRoot(pkgName: string) {
       current,
       'packages',
       workspaceName,
-      'package.json'
+      'package.json',
     )
 
     if (fs.existsSync(workspaceCandidate)) {
@@ -1012,7 +1010,7 @@ function findPackageRoot(pkgName: string) {
       current,
       'node_modules',
       ...pkgName.split('/'),
-      'package.json'
+      'package.json',
     )
 
     if (fs.existsSync(candidate)) {
@@ -1035,7 +1033,7 @@ function addDocsFromExport(
     props: Record<string, any>
     events: Record<string, any>
     related: string[]
-  }
+  },
 ) {
   for (const [key, entry] of Object.entries(value || {})) {
     const relMatch = /^\[([^\]]+)\]/.exec(key)
@@ -1109,7 +1107,7 @@ export async function createMarkdownCopies({
     const resolvedOutputRoot = outputRoot || path.join(siteDir, 'public')
     const mdOutputPath = path.join(
       resolvedOutputRoot,
-      slug.replace(/\/$/, '') + '.md'
+      slug.replace(/\/$/, '') + '.md',
     )
     const outputDir = path.dirname(mdOutputPath)
     const entryLinks = {
@@ -1277,7 +1275,7 @@ async function replacePropertiesTableWithJsonBlock(
     inputDir: string
     docsRoot: string
     docsBaseRoot: string
-  }
+  },
 ) {
   const regex = /<PropertiesTable\b[\s\S]*?\/>/g
 
@@ -1394,7 +1392,7 @@ function parsePropertiesTableAttributes(tag: string) {
           inner,
           i + 1,
           '{',
-          '}'
+          '}',
         )
         attr = { type: 'expression', value: value.trim() }
         i = nextIndex
@@ -1441,7 +1439,7 @@ function convertPropertyAttribute(attr: ParsedPropertyAttribute) {
 
 function applyValueType(
   propsValue: Record<string, any>,
-  valueTypeMeta: any
+  valueTypeMeta: any,
 ): Record<string, any> {
   if (!propsValue || valueTypeMeta === undefined) {
     return propsValue
@@ -1499,7 +1497,7 @@ function readBalancedExpression(
   str: string,
   startIndex: number,
   open: string,
-  close: string
+  close: string,
 ) {
   let depth = 1
   let currentIndex = startIndex
@@ -1600,7 +1598,7 @@ async function replaceTranslationsTableWithJsonBlock(
     inputDir: string
     docsRoot: string
     docsBaseRoot: string
-  }
+  },
 ) {
   const regex = /<TranslationsTable\b[^>]*\/>/g
 
@@ -1700,7 +1698,7 @@ function extractSourceName(tag: string) {
 
 function buildTranslationsJson(
   source: Record<string, any> | null,
-  localeKeys: string[]
+  localeKeys: string[],
 ) {
   if (!source) {
     return null
@@ -1724,7 +1722,7 @@ function buildTranslationsJson(
     key: string,
     translation: any,
     locale: string,
-    localeKey: string
+    localeKey: string,
   ) => {
     const fullKey = `${localeKey}.${key}`
 
@@ -1766,7 +1764,7 @@ function buildTranslationsJson(
   })
 
   const sortedEntries = Object.fromEntries(
-    Object.entries(entries).sort(([a], [b]) => a.localeCompare(b))
+    Object.entries(entries).sort(([a], [b]) => a.localeCompare(b)),
   )
   const locales = Object.keys(source).sort()
 
@@ -1834,40 +1832,40 @@ async function loadDefaultTranslations() {
   }
 
   const nbNO = await loadModuleDefault(
-    '@dnb/eufemia/src/shared/locales/nb-NO'
+    '@dnb/eufemia/src/shared/locales/nb-NO',
   )
   const enGB = await loadModuleDefault(
-    '@dnb/eufemia/src/shared/locales/en-GB'
+    '@dnb/eufemia/src/shared/locales/en-GB',
   )
   const nbNOForms = await loadModuleDefault(
-    '@dnb/eufemia/src/extensions/forms/constants/locales/nb-NO'
+    '@dnb/eufemia/src/extensions/forms/constants/locales/nb-NO',
   )
   const enGBForms = await loadModuleDefault(
-    '@dnb/eufemia/src/extensions/forms/constants/locales/en-GB'
+    '@dnb/eufemia/src/extensions/forms/constants/locales/en-GB',
   )
   const nbNOCountries = await loadModuleDefault(
-    '@dnb/eufemia/src/extensions/forms/constants/locales/countries/nb-NO'
+    '@dnb/eufemia/src/extensions/forms/constants/locales/countries/nb-NO',
   )
   const enGBCountries = await loadModuleDefault(
-    '@dnb/eufemia/src/extensions/forms/constants/locales/countries/en-GB'
+    '@dnb/eufemia/src/extensions/forms/constants/locales/countries/en-GB',
   )
   const svSE = await loadModuleDefault(
-    '@dnb/eufemia/src/shared/locales/sv-SE'
+    '@dnb/eufemia/src/shared/locales/sv-SE',
   )
   const daDK = await loadModuleDefault(
-    '@dnb/eufemia/src/shared/locales/da-DK'
+    '@dnb/eufemia/src/shared/locales/da-DK',
   )
   const svSEForms = await loadModuleDefault(
-    '@dnb/eufemia/src/extensions/forms/constants/locales/sv-SE'
+    '@dnb/eufemia/src/extensions/forms/constants/locales/sv-SE',
   )
   const daDKForms = await loadModuleDefault(
-    '@dnb/eufemia/src/extensions/forms/constants/locales/da-DK'
+    '@dnb/eufemia/src/extensions/forms/constants/locales/da-DK',
   )
   const svSECountries = await loadModuleDefault(
-    '@dnb/eufemia/src/extensions/forms/constants/locales/countries/sv-SE'
+    '@dnb/eufemia/src/extensions/forms/constants/locales/countries/sv-SE',
   )
   const daDKCountries = await loadModuleDefault(
-    '@dnb/eufemia/src/extensions/forms/constants/locales/countries/da-DK'
+    '@dnb/eufemia/src/extensions/forms/constants/locales/countries/da-DK',
   )
 
   const translations = mergeTranslationsLocal(
@@ -1882,7 +1880,7 @@ async function loadDefaultTranslations() {
     svSECountries || {},
     daDK || {},
     daDKForms || {},
-    daDKCountries || {}
+    daDKCountries || {},
   )
 
   defaultTranslationsCache = extendDeepLocal({}, translations || {})
@@ -1969,7 +1967,7 @@ function resolveFallbackLink(
   links: {
     propertiesUrl?: string | null
     eventsUrl?: string | null
-  }
+  },
 ) {
   const base = path.basename(inputPath).toLowerCase()
 
@@ -1998,7 +1996,7 @@ function addDocLinksToFrontmatter(
     version?: string | null
     generatedAt?: string | null
     checksum?: string | null
-  }
+  },
 ) {
   const lines: string[] = []
 
@@ -2124,7 +2122,7 @@ function extractImports(content: string) {
 
 function collectImportSpecifiers(
   statement: string,
-  importsByFile: Map<string, string[]>
+  importsByFile: Map<string, string[]>,
 ) {
   if (/^import\s+type\s+/.test(statement)) {
     return
@@ -2273,7 +2271,7 @@ async function collectComponentCode({
         t,
         traverse,
         generate,
-        prettierConfig
+        prettierConfig,
       )
       parsedFiles.set(resolvedPath, fileCode)
     }
@@ -2284,7 +2282,7 @@ async function collectComponentCode({
 
         if (ns) {
           for (const [exportName, exportCode] of Array.from(
-            fileCode.entries()
+            fileCode.entries(),
           )) {
             componentCode.set(`${ns}.${exportName}`, {
               code: exportCode,
@@ -2375,7 +2373,7 @@ async function extractExports(
   t: any,
   traverse: any,
   generate: any,
-  prettierConfig: PrettierConfig
+  prettierConfig: PrettierConfig,
 ) {
   const exportsMap = new Map<string, string>()
   const exportEntries: Array<{ name: string; jsxNode: any }> = []
@@ -2413,7 +2411,7 @@ async function extractExports(
       entry.jsxNode,
       t,
       generate,
-      prettierConfig
+      prettierConfig,
     )
 
     if (code) {
@@ -2436,7 +2434,7 @@ function getReturnedJSX(fnNode: any, t: any) {
 
     if (t.isBlockStatement(fnNode.body)) {
       const returnStmt = fnNode.body.body.find((node: any) =>
-        t.isReturnStatement(node)
+        t.isReturnStatement(node),
       )
       const arg = returnStmt?.argument
 
@@ -2448,7 +2446,7 @@ function getReturnedJSX(fnNode: any, t: any) {
 
   if (t.isFunctionDeclaration(fnNode) || t.isFunctionExpression(fnNode)) {
     const returnStmt = fnNode.body.body.find((node: any) =>
-      t.isReturnStatement(node)
+      t.isReturnStatement(node),
     )
     const arg = returnStmt?.argument
 
@@ -2464,7 +2462,7 @@ async function formatJSXChildren(
   jsxNode: any,
   t: any,
   generate: any,
-  prettierConfig: PrettierConfig
+  prettierConfig: PrettierConfig,
 ) {
   let children: any[] = []
 
@@ -2514,7 +2512,7 @@ async function formatJSXChildren(
 
           if (t.isReturnStatement(last) && last.argument) {
             const renderCall = t.expressionStatement(
-              t.callExpression(t.identifier('render'), [last.argument])
+              t.callExpression(t.identifier('render'), [last.argument]),
             )
             childCode = statements
               .slice(0, -1)
@@ -2582,7 +2580,7 @@ function stripWrapperTags(content: string, tagNames: string[]) {
 
 function replaceComponentUsages(
   content: string,
-  componentCode: Map<string, ComponentEntry | string>
+  componentCode: Map<string, ComponentEntry | string>,
 ) {
   const componentRegex = /<([A-Z][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)*)\s*\/>/g
 

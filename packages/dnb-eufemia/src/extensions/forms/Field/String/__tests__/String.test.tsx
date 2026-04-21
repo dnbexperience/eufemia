@@ -37,14 +37,14 @@ const syncValidatorReturningError = () =>
 
 const asyncValidatorResolvingWithUndefined = () =>
   new Promise<Error | undefined>((resolve) =>
-    setTimeout(() => resolve(undefined), 1)
+    setTimeout(() => resolve(undefined), 1),
   )
 const asyncValidatorResolvingWithError = () =>
   new Promise<Error | undefined>((resolve) =>
     setTimeout(
       () => resolve(new Error('Whats left when nothing is right?')),
-      1
-    )
+      1,
+    ),
   )
 
 describe('Field.String', () => {
@@ -62,13 +62,13 @@ describe('Field.String', () => {
       render(<Field.String placeholder="Enter something" />)
       expect(
         // getByText instead of getByPlaceholderText since eufemia adds placeholder as tag, not placeholder-attribute
-        screen.getByText('Enter something')
+        screen.getByText('Enter something'),
       ).toBeInTheDocument()
     })
 
     it('allows typing beyond the provided mask length when allowOverflow is set', async () => {
       render(
-        <Field.String allowOverflow mask={[/\d/, '-', /\d/, '-', /\d/]} />
+        <Field.String allowOverflow mask={[/\d/, '-', /\d/, '-', /\d/]} />,
       )
 
       const element = document.querySelector('input')
@@ -81,13 +81,13 @@ describe('Field.String', () => {
       render(
         <Field.String
           help={{ title: 'Help title', content: 'Help content' }}
-        />
+        />,
       )
       expect(document.querySelector('input')).toHaveAttribute(
-        'aria-describedby'
+        'aria-describedby',
       )
       expect(
-        document.querySelector('input').getAttribute('aria-describedby')
+        document.querySelector('input').getAttribute('aria-describedby'),
       ).toBe(document.querySelector('.dnb-help-button').id)
     })
 
@@ -99,10 +99,10 @@ describe('Field.String', () => {
 
     it('does not render placeholder when value is given', () => {
       render(
-        <Field.String value="value-text" placeholder="placeholder-text" />
+        <Field.String value="value-text" placeholder="placeholder-text" />,
       )
       expect(
-        screen.queryByText('placeholder-text')
+        screen.queryByText('placeholder-text'),
       ).not.toBeInTheDocument()
     })
 
@@ -118,7 +118,7 @@ describe('Field.String', () => {
 
     it('support Input props such as "keepPlaceholder"', async () => {
       render(
-        <Field.String keepPlaceholder placeholder="Placeholder text" />
+        <Field.String keepPlaceholder placeholder="Placeholder text" />,
       )
 
       const input = document.querySelector('input')
@@ -126,12 +126,12 @@ describe('Field.String', () => {
 
       expect(inputField).toHaveClass('dnb-input--keep-placeholder')
       expect(
-        document.querySelector('.dnb-input__placeholder')
+        document.querySelector('.dnb-input__placeholder'),
       ).toHaveTextContent('Placeholder text')
 
       fireEvent.focus(input)
       expect(
-        document.querySelector('.dnb-input__placeholder')
+        document.querySelector('.dnb-input__placeholder'),
       ).toHaveTextContent('Placeholder text')
 
       await userEvent.type(input, 'a')
@@ -140,7 +140,7 @@ describe('Field.String', () => {
       await userEvent.type(input, '{Backspace}')
       fireEvent.focus(input)
       expect(
-        document.querySelector('.dnb-input__placeholder')
+        document.querySelector('.dnb-input__placeholder'),
       ).toHaveTextContent('Placeholder text')
     })
 
@@ -150,7 +150,7 @@ describe('Field.String', () => {
           keepPlaceholder
           placeholder="Placeholder text"
           multiline
-        />
+        />,
       )
 
       const textarea = document.querySelector('textarea')
@@ -158,37 +158,37 @@ describe('Field.String', () => {
 
       expect(textareaField).toHaveClass('dnb-textarea--keep-placeholder')
       expect(
-        document.querySelector('.dnb-textarea__placeholder')
+        document.querySelector('.dnb-textarea__placeholder'),
       ).toHaveTextContent('Placeholder text')
 
       fireEvent.focus(textarea)
       expect(
-        document.querySelector('.dnb-textarea__placeholder')
+        document.querySelector('.dnb-textarea__placeholder'),
       ).toHaveTextContent('Placeholder text')
 
       await userEvent.type(textarea, 'a')
       expect(
-        document.querySelector('.dnb-textarea__placeholder')
+        document.querySelector('.dnb-textarea__placeholder'),
       ).toBeNull()
 
       await userEvent.type(textarea, '{Backspace}')
       fireEvent.focus(textarea)
       expect(
-        document.querySelector('.dnb-textarea__placeholder')
+        document.querySelector('.dnb-textarea__placeholder'),
       ).toHaveTextContent('Placeholder text')
     })
 
     it('support Input props such as "size"', () => {
       render(<Field.String size="large" />)
       expect(document.querySelector('.dnb-input')).toHaveClass(
-        'dnb-input--large'
+        'dnb-input--large',
       )
     })
 
     it('support Input props such as "align"', () => {
       render(<Field.String align="right" />)
       expect(document.querySelector('.dnb-input')).toHaveClass(
-        'dnb-input__align--right'
+        'dnb-input__align--right',
       )
     })
 
@@ -199,7 +199,7 @@ describe('Field.String', () => {
           autoResize
           rows={1}
           autoResizeMaxRows={4}
-        />
+        />,
       )
 
       const elem = document.querySelector('textarea')
@@ -222,7 +222,7 @@ describe('Field.String', () => {
 
     it('should support disabled prop', () => {
       const { rerender } = render(
-        <Field.String label="Disabled label" disabled />
+        <Field.String label="Disabled label" disabled />,
       )
 
       const labelElement = () => document.querySelector('label')
@@ -238,7 +238,7 @@ describe('Field.String', () => {
       const onChange = jest.fn()
 
       render(
-        <Field.String onChange={onChange} capitalize value="first WORD" />
+        <Field.String onChange={onChange} capitalize value="first WORD" />,
       )
 
       const input = document.querySelector('input')
@@ -250,7 +250,7 @@ describe('Field.String', () => {
 
       expect(onChange).toHaveBeenLastCalledWith(
         'First Word Second',
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.type(input, ' WORD')
@@ -258,7 +258,7 @@ describe('Field.String', () => {
 
       expect(onChange).toHaveBeenLastCalledWith(
         'First Word Second Word',
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.type(input, '{Backspace>22}')
@@ -292,7 +292,7 @@ describe('Field.String', () => {
             transformOut={transformOut}
             onChange={onChangeField}
           />
-        </Provider>
+        </Provider>,
       )
 
       const input = document.querySelector('input')
@@ -312,17 +312,17 @@ describe('Field.String', () => {
       expect(transformOut).toHaveBeenCalledTimes(13)
       expect(transformOut).toHaveBeenLastCalledWith(
         'ABc',
-        expect.anything()
+        expect.anything(),
       )
       expect(onChangeProvider).toHaveBeenCalledTimes(6)
       expect(onChangeProvider).toHaveBeenLastCalledWith(
         { myField: 'abc' },
-        expect.anything()
+        expect.anything(),
       )
       expect(onChangeField).toHaveBeenCalledTimes(6)
       expect(onChangeField).toHaveBeenLastCalledWith(
         'abc',
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.type(input, '{Backspace>3}EfG')
@@ -333,17 +333,17 @@ describe('Field.String', () => {
       expect(transformOut).toHaveBeenCalledTimes(25)
       expect(transformOut).toHaveBeenLastCalledWith(
         'EFG',
-        expect.anything()
+        expect.anything(),
       )
       expect(onChangeProvider).toHaveBeenCalledTimes(12)
       expect(onChangeProvider).toHaveBeenLastCalledWith(
         { myField: 'efg' },
-        expect.anything()
+        expect.anything(),
       )
       expect(onChangeField).toHaveBeenCalledTimes(12)
       expect(onChangeField).toHaveBeenLastCalledWith(
         'efg',
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -373,7 +373,7 @@ describe('Field.String', () => {
           />
 
           <Value.String path="/myValue" transformIn={valueTransformIn} />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(transformOut).toHaveBeenCalledTimes(1)
@@ -394,7 +394,7 @@ describe('Field.String', () => {
             value: 'A',
           },
         },
-        expect.anything()
+        expect.anything(),
       )
 
       expect(transformOut).toHaveBeenCalledTimes(1)
@@ -403,14 +403,14 @@ describe('Field.String', () => {
 
       expect(input).toHaveValue('A')
       expect(
-        document.querySelector('.dnb-forms-value-block__content')
+        document.querySelector('.dnb-forms-value-block__content'),
       ).toHaveTextContent('A')
 
       await userEvent.type(input, '{Backspace>1}B')
 
       expect(input).toHaveValue('B')
       expect(
-        document.querySelector('.dnb-forms-value-block__content')
+        document.querySelector('.dnb-forms-value-block__content'),
       ).toHaveTextContent('B')
 
       expect(transformOut).toHaveBeenCalledTimes(6)
@@ -426,7 +426,7 @@ describe('Field.String', () => {
             value: 'B',
           },
         },
-        expect.anything()
+        expect.anything(),
       )
 
       expect(transformOut).toHaveBeenCalledTimes(6)
@@ -437,27 +437,27 @@ describe('Field.String', () => {
       expect(transformOut).toHaveBeenNthCalledWith(
         2,
         'A',
-        expect.anything()
+        expect.anything(),
       )
       expect(transformOut).toHaveBeenNthCalledWith(
         3,
         undefined,
-        expect.anything()
+        expect.anything(),
       )
       expect(transformOut).toHaveBeenNthCalledWith(
         4,
         undefined,
-        expect.anything()
+        expect.anything(),
       )
       expect(transformOut).toHaveBeenNthCalledWith(
         5,
         'B',
-        expect.anything()
+        expect.anything(),
       )
       expect(transformOut).toHaveBeenNthCalledWith(
         6,
         'B',
-        expect.anything()
+        expect.anything(),
       )
 
       expect(transformIn).toHaveBeenNthCalledWith(1, 'A')
@@ -516,7 +516,7 @@ describe('Field.String', () => {
           value=" first"
           onChange={onChange}
           onBlur={onBlur}
-        />
+        />,
       )
 
       const input = document.querySelector('input')
@@ -527,7 +527,7 @@ describe('Field.String', () => {
 
       expect(onChange).toHaveBeenLastCalledWith(
         ' first second ',
-        expect.anything()
+        expect.anything(),
       )
 
       fireEvent.blur(input)
@@ -535,11 +535,11 @@ describe('Field.String', () => {
       expect(input).toHaveValue('first second')
       expect(onBlur).toHaveBeenLastCalledWith(
         'first second',
-        expect.anything()
+        expect.anything(),
       )
       expect(onChange).toHaveBeenLastCalledWith(
         'first second',
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.type(input, '{Backspace>12}third')
@@ -557,38 +557,38 @@ describe('Field.String', () => {
       const { rerender } = render(<Field.String label="Label" />)
 
       expect(document.querySelector('input').getAttribute('id')).toBe(
-        document.querySelector('label').getAttribute('for')
+        document.querySelector('label').getAttribute('for'),
       )
 
       rerender(<Field.String label="Label" multiline />)
 
       expect(document.querySelector('textarea').getAttribute('id')).toBe(
-        document.querySelector('label').getAttribute('for')
+        document.querySelector('label').getAttribute('for'),
       )
 
       rerender(<Field.String label="Label" mask={[/\/d/]} />)
 
       expect(document.querySelector('input').getAttribute('id')).toBe(
-        document.querySelector('label').getAttribute('for')
+        document.querySelector('label').getAttribute('for'),
       )
     })
 
     it('renders autoComplete', () => {
       const { rerender } = render(
-        <Field.String autoComplete="given-name" />
+        <Field.String autoComplete="given-name" />,
       )
       expect(
-        document.querySelector('input').getAttribute('autocomplete')
+        document.querySelector('input').getAttribute('autocomplete'),
       ).toBe('given-name')
 
       rerender(
-        <Field.String path="/firstName" autoComplete="family-name" />
+        <Field.String path="/firstName" autoComplete="family-name" />,
       )
       expect(document.querySelector('input').getAttribute('name')).toBe(
-        'firstName'
+        'firstName',
       )
       expect(
-        document.querySelector('input').getAttribute('autocomplete')
+        document.querySelector('input').getAttribute('autocomplete'),
       ).toBe('family-name')
 
       rerender(
@@ -596,34 +596,34 @@ describe('Field.String', () => {
           path="/firstName"
           autoComplete="family-name"
           name="additional-name"
-        />
+        />,
       )
       expect(document.querySelector('input').getAttribute('name')).toBe(
-        'additional-name'
+        'additional-name',
       )
       expect(
-        document.querySelector('input').getAttribute('autocomplete')
+        document.querySelector('input').getAttribute('autocomplete'),
       ).toBe('family-name')
     })
 
     it('renders name based on path', () => {
       render(<Field.String path="/firstName" />)
       expect(document.querySelector('input').getAttribute('name')).toBe(
-        'firstName'
+        'firstName',
       )
     })
 
     it('renders error', () => {
       render(<Field.String error={new Error('This is what went wrong')} />)
       expect(
-        screen.getByText('This is what went wrong')
+        screen.getByText('This is what went wrong'),
       ).toBeInTheDocument()
     })
 
     describe('shows error border', () => {
       it('for basis input', () => {
         render(
-          <Field.String error={new Error('This is what went wrong')} />
+          <Field.String error={new Error('This is what went wrong')} />,
         )
         const element = document.querySelector('.dnb-input')
         expect(element.className).toContain('dnb-input__status--error')
@@ -633,7 +633,7 @@ describe('Field.String', () => {
         render(
           <FieldBlock>
             <Field.String error={new Error('This is what went wrong')} />
-          </FieldBlock>
+          </FieldBlock>,
         )
         const element = document.querySelector('.dnb-input')
         expect(element.className).toContain('dnb-input__status--error')
@@ -644,7 +644,7 @@ describe('Field.String', () => {
           <Field.String
             mask={[/\/d/]}
             error={new Error('This is what went wrong')}
-          />
+          />,
         )
         const element = document.querySelector('.dnb-input-masked')
         expect(element.className).toContain('dnb-input__status--error')
@@ -657,7 +657,7 @@ describe('Field.String', () => {
               mask={[/\/d/]}
               error={new Error('This is what went wrong')}
             />
-          </FieldBlock>
+          </FieldBlock>,
         )
         const element = document.querySelector('.dnb-input-masked')
         expect(element.className).toContain('dnb-input__status--error')
@@ -668,7 +668,7 @@ describe('Field.String', () => {
           <Field.String
             multiline
             error={new Error('This is what went wrong')}
-          />
+          />,
         )
         const element = document.querySelector('.dnb-textarea')
         expect(element.className).toContain('dnb-textarea__status--error')
@@ -681,7 +681,7 @@ describe('Field.String', () => {
               multiline
               error={new Error('This is what went wrong')}
             />
-          </FieldBlock>
+          </FieldBlock>,
         )
         const element = document.querySelector('.dnb-textarea')
         expect(element.className).toContain('dnb-textarea__status--error')
@@ -692,7 +692,7 @@ describe('Field.String', () => {
           <Field.String
             data-testid="testid"
             data-long-value="long-value"
-          />
+          />,
         )
 
         const input = document.querySelector('input')
@@ -705,7 +705,7 @@ describe('Field.String', () => {
             data-testid="testid"
             data-long-value="long-value"
             multiline
-          />
+          />,
         )
 
         const textarea = document.querySelector('textarea')
@@ -726,17 +726,17 @@ describe('Field.String', () => {
       expect(onChange).toHaveBeenNthCalledWith(
         1,
         'abcd',
-        expect.anything()
+        expect.anything(),
       )
       expect(onChange).toHaveBeenNthCalledWith(
         2,
         'abcde',
-        expect.anything()
+        expect.anything(),
       )
       expect(onChange).toHaveBeenNthCalledWith(
         3,
         'abcdef',
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -762,7 +762,7 @@ describe('Field.String', () => {
         expect(onBlur).toHaveBeenNthCalledWith(
           1,
           'song2',
-          expect.anything()
+          expect.anything(),
         )
       })
       await userEvent.type(input, '345')
@@ -771,7 +771,7 @@ describe('Field.String', () => {
       expect(onBlur).toHaveBeenNthCalledWith(
         2,
         'song2345',
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -784,7 +784,7 @@ describe('Field.String', () => {
 
       const input = document.querySelector('input')
       const indicator = document.querySelector(
-        '.dnb-forms-submit-indicator'
+        '.dnb-forms-submit-indicator',
       )
 
       // Use fireEvent over userEvent to avoid async related delays
@@ -793,13 +793,13 @@ describe('Field.String', () => {
       await waitFor(() => {
         expect(input).not.toBeDisabled()
         expect(indicator).toHaveClass(
-          'dnb-forms-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator--state-pending',
         )
       })
       await waitFor(() => {
         expect(input).not.toBeDisabled()
         expect(indicator).toHaveClass(
-          'dnb-forms-submit-indicator--state-complete'
+          'dnb-forms-submit-indicator--state-complete',
         )
       })
     })
@@ -813,10 +813,10 @@ describe('Field.String', () => {
             <Field.String
               value="abc"
               schema={{ type: 'string', minLength: 6 }}
-            />
+            />,
           )
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).not.toBeInTheDocument()
         })
 
@@ -825,15 +825,15 @@ describe('Field.String', () => {
             <Field.String
               value="abc"
               schema={{ type: 'string', minLength: 6 }}
-            />
+            />,
           )
           const input = document.querySelector('input')
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).not.toBeInTheDocument()
           fireEvent.blur(input)
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).not.toBeInTheDocument()
         })
 
@@ -844,17 +844,17 @@ describe('Field.String', () => {
                 value="abc"
                 schema={{ type: 'string', minLength: 6 }}
               />
-            </Provider>
+            </Provider>,
           )
           // Do not show error initially when validateInitially is not enabled, to avoid initial error messages all over empty forms
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).not.toBeInTheDocument()
           const input = document.querySelector('input')
           // Errors should be hidden while typing (field is in focus)
           await userEvent.type(input, 'd')
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).not.toBeInTheDocument()
           // Error should be visible after blurring the field
           fireEvent.blur(input)
@@ -863,7 +863,7 @@ describe('Field.String', () => {
           await userEvent.type(input, 'ef')
           fireEvent.blur(input)
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).not.toBeInTheDocument()
         })
       })
@@ -875,20 +875,20 @@ describe('Field.String', () => {
             maxLength={3}
             pattern="^[a-zA-Z]$"
             value="invalid"
-          />
+          />,
         )
 
         const firstError = nb.StringField.errorMaxLength.replace(
           '{maxLength}',
-          '3'
+          '3',
         )
         const secondError = nb.Field.errorPattern
 
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status').textContent
+          document.querySelector('.dnb-form-status').textContent,
         ).toBe(nb.Field.errorSummary + firstError + secondError)
       })
 
@@ -901,7 +901,7 @@ describe('Field.String', () => {
                 schema={{ type: 'string', minLength: 6 }}
                 validateInitially
               />
-            </Provider>
+            </Provider>,
           )
           await waitFor(() => {
             expect(screen.getByRole('alert')).toBeInTheDocument()
@@ -918,11 +918,11 @@ describe('Field.String', () => {
                 schema={{ type: 'string', minLength: 6 }}
                 validateUnchanged
               />
-            </Provider>
+            </Provider>,
           )
           const input = document.querySelector('input')
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).not.toBeInTheDocument()
           input.focus()
           fireEvent.blur(input)
@@ -952,7 +952,7 @@ describe('Field.String', () => {
         await userEvent.type(input, 'b')
         fireEvent.blur(input)
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
 
@@ -985,7 +985,7 @@ describe('Field.String', () => {
         await userEvent.type(input, 'd')
         fireEvent.blur(input)
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })
@@ -1005,7 +1005,7 @@ describe('Field.String', () => {
         await userEvent.type(input, 'd')
         fireEvent.blur(input)
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })
@@ -1025,7 +1025,7 @@ describe('Field.String', () => {
         await userEvent.type(input, '2')
         fireEvent.blur(input)
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })
@@ -1047,10 +1047,10 @@ describe('Field.String', () => {
         fireEvent.blur(input)
 
         expect(
-          document.querySelector('.dnb-form-status__text').innerHTML
+          document.querySelector('.dnb-form-status__text').innerHTML,
         ).toBe('A <strong>formatted</strong> error message')
         expect(
-          document.querySelector('.dnb-form-status').textContent
+          document.querySelector('.dnb-form-status').textContent,
         ).toBe('A formatted error message')
       })
 
@@ -1070,10 +1070,10 @@ describe('Field.String', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status__text').innerHTML
+            document.querySelector('.dnb-form-status__text').innerHTML,
           ).toBe('A <strong>formatted</strong> error message')
           expect(
-            document.querySelector('.dnb-form-status').textContent
+            document.querySelector('.dnb-form-status').textContent,
           ).toBe('A formatted error message')
         })
       })
@@ -1081,14 +1081,14 @@ describe('Field.String', () => {
       describe('validation using a synchronous external onChangeValidator function', () => {
         it('should show error returned by onChangeValidator', async () => {
           const onChangeValidator: Validator<string> = jest.fn(
-            syncValidatorReturningError
+            syncValidatorReturningError,
           )
           render(
             <Field.String
               value="abc"
               onChangeValidator={onChangeValidator}
               validateInitially
-            />
+            />,
           )
           await waitFor(() => {
             // Wait for since external validators are processed asynchronously
@@ -1096,10 +1096,10 @@ describe('Field.String', () => {
             expect(onChangeValidator).toHaveBeenNthCalledWith(
               1,
               'abc',
-              expect.anything()
+              expect.anything(),
             )
             expect(
-              screen.getByText('I think this is wrong')
+              screen.getByText('I think this is wrong'),
             ).toBeInTheDocument()
           })
 
@@ -1112,38 +1112,38 @@ describe('Field.String', () => {
             expect(onChangeValidator).toHaveBeenNthCalledWith(
               2,
               'abcd',
-              expect.anything()
+              expect.anything(),
             )
             expect(onChangeValidator).toHaveBeenNthCalledWith(
               3,
               'abcde',
-              expect.anything()
+              expect.anything(),
             )
             expect(onChangeValidator).toHaveBeenNthCalledWith(
               4,
               'abcdef',
-              expect.anything()
+              expect.anything(),
             )
             expect(
-              screen.getByText('I think this is wrong')
+              screen.getByText('I think this is wrong'),
             ).toBeInTheDocument()
           })
         })
 
         it('should not show error when onChangeValidator returns undefined', async () => {
           const onChangeValidator: Validator<string> = jest.fn(
-            syncValidatorReturningUndefined
+            syncValidatorReturningUndefined,
           )
           render(
             <Field.String
               value="abc"
               onChangeValidator={onChangeValidator}
               validateInitially
-            />
+            />,
           )
           await expect(() => {
             expect(
-              document.querySelector('.dnb-form-status')
+              document.querySelector('.dnb-form-status'),
             ).toBeInTheDocument()
           }).toNeverResolve()
         })
@@ -1152,14 +1152,14 @@ describe('Field.String', () => {
       describe('validation using an asynchronous external onChangeValidator function', () => {
         it('should show error returned by onChangeValidator', async () => {
           const onChangeValidator: Validator<string> = jest.fn(
-            asyncValidatorResolvingWithError
+            asyncValidatorResolvingWithError,
           )
           render(
             <Field.String
               value="abc"
               onChangeValidator={onChangeValidator}
               validateInitially
-            />
+            />,
           )
           await waitFor(() => {
             // Wait for since external validators are processed asynchronously
@@ -1167,10 +1167,10 @@ describe('Field.String', () => {
             expect(onChangeValidator).toHaveBeenNthCalledWith(
               1,
               'abc',
-              expect.anything()
+              expect.anything(),
             )
             expect(
-              screen.getByText('Whats left when nothing is right?')
+              screen.getByText('Whats left when nothing is right?'),
             ).toBeInTheDocument()
           })
 
@@ -1185,38 +1185,38 @@ describe('Field.String', () => {
           expect(onChangeValidator).toHaveBeenNthCalledWith(
             2,
             'abcd',
-            expect.anything()
+            expect.anything(),
           )
           expect(onChangeValidator).toHaveBeenNthCalledWith(
             3,
             'abcde',
-            expect.anything()
+            expect.anything(),
           )
           expect(onChangeValidator).toHaveBeenNthCalledWith(
             4,
             'abcdef',
-            expect.anything()
+            expect.anything(),
           )
           expect(
-            screen.getByText('Whats left when nothing is right?')
+            screen.getByText('Whats left when nothing is right?'),
           ).toBeInTheDocument()
         })
 
         it('should not show error when onChangeValidator returns undefined', async () => {
           const onChangeValidator: Validator<string> = jest.fn(
-            asyncValidatorResolvingWithUndefined
+            asyncValidatorResolvingWithUndefined,
           )
           render(
             <Field.String
               value="foo"
               onChangeValidator={onChangeValidator}
               validateInitially
-            />
+            />,
           )
 
           await expect(() => {
             expect(
-              document.querySelector('.dnb-form-status')
+              document.querySelector('.dnb-form-status'),
             ).toBeInTheDocument()
           }).toNeverResolve()
         })
@@ -1240,10 +1240,10 @@ describe('Field.String', () => {
         fireEvent.blur(input)
 
         expect(
-          document.querySelector('.dnb-form-status__text').innerHTML
+          document.querySelector('.dnb-form-status__text').innerHTML,
         ).toBe('A <strong>formatted</strong> error message')
         expect(
-          document.querySelector('.dnb-form-status').textContent
+          document.querySelector('.dnb-form-status').textContent,
         ).toBe('A formatted error message')
       })
 
@@ -1264,10 +1264,10 @@ describe('Field.String', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status__text').innerHTML
+            document.querySelector('.dnb-form-status__text').innerHTML,
           ).toBe('A <strong>formatted</strong> error message')
           expect(
-            document.querySelector('.dnb-form-status').textContent
+            document.querySelector('.dnb-form-status').textContent,
           ).toBe('A formatted error message')
         })
       })
@@ -1275,21 +1275,21 @@ describe('Field.String', () => {
       describe('validation using a synchronous external onBlurValidator function', () => {
         it('should show error returned by onBlurValidator', async () => {
           const onBlurValidator: Validator<string> = jest.fn(
-            syncValidatorReturningError
+            syncValidatorReturningError,
           )
           render(
             <Field.String
               value="abc"
               onBlurValidator={onBlurValidator}
               validateInitially
-            />
+            />,
           )
 
           await waitFor(() => {
             // Wait for since external validators are processed asynchronously
             expect(onBlurValidator).toHaveBeenCalledTimes(1)
             expect(
-              document.querySelector('.dnb-form-status')
+              document.querySelector('.dnb-form-status'),
             ).toBeInTheDocument()
           })
           const input = document.querySelector('input')
@@ -1302,37 +1302,37 @@ describe('Field.String', () => {
             expect(onBlurValidator).toHaveBeenNthCalledWith(
               1,
               'abc',
-              expect.anything()
+              expect.anything(),
             )
             expect(onBlurValidator).toHaveBeenNthCalledWith(
               2,
               'abcdef',
-              expect.anything()
+              expect.anything(),
             )
 
             expect(
-              screen.getByText('I think this is wrong')
+              screen.getByText('I think this is wrong'),
             ).toBeInTheDocument()
           })
         })
 
         it('should not show error when onBlurValidator returns undefined', async () => {
           const onBlurValidator: Validator<string> = jest.fn(
-            syncValidatorReturningUndefined
+            syncValidatorReturningUndefined,
           )
           render(
             <Field.String
               value="abc"
               onBlurValidator={onBlurValidator}
               validateInitially
-            />
+            />,
           )
           const input = document.querySelector('input')
           await userEvent.type(input, 'd')
           fireEvent.blur(input)
           await expect(() => {
             expect(
-              document.querySelector('.dnb-form-status')
+              document.querySelector('.dnb-form-status'),
             ).toBeInTheDocument()
           }).toNeverResolve()
         })
@@ -1341,21 +1341,21 @@ describe('Field.String', () => {
       describe('validation using an asynchronous external onBlurValidator function', () => {
         it('should show error returned by onBlurValidator', async () => {
           const onBlurValidator: Validator<string> = jest.fn(
-            asyncValidatorResolvingWithError
+            asyncValidatorResolvingWithError,
           )
           render(
             <Field.String
               value="abc"
               onBlurValidator={onBlurValidator}
               validateInitially
-            />
+            />,
           )
 
           await waitFor(() => {
             // Wait for since external validators are processed asynchronously
             expect(onBlurValidator).toHaveBeenCalledTimes(1)
             expect(
-              document.querySelector('.dnb-form-status')
+              document.querySelector('.dnb-form-status'),
             ).toBeInTheDocument()
           })
           const input = document.querySelector('input')
@@ -1368,37 +1368,37 @@ describe('Field.String', () => {
             expect(onBlurValidator).toHaveBeenNthCalledWith(
               1,
               'abc',
-              expect.anything()
+              expect.anything(),
             )
             expect(onBlurValidator).toHaveBeenNthCalledWith(
               2,
               'abcdef',
-              expect.anything()
+              expect.anything(),
             )
 
             expect(
-              screen.getByText('Whats left when nothing is right?')
+              screen.getByText('Whats left when nothing is right?'),
             ).toBeInTheDocument()
           })
         })
 
         it('should not show error when onBlurValidator returns undefined', async () => {
           const onBlurValidator: Validator<string> = jest.fn(
-            asyncValidatorResolvingWithUndefined
+            asyncValidatorResolvingWithUndefined,
           )
           render(
             <Field.String
               value="abc"
               onBlurValidator={onBlurValidator}
               validateInitially
-            />
+            />,
           )
           const input = document.querySelector('input')
           await userEvent.type(input, 'd')
           fireEvent.blur(input)
           await expect(() => {
             expect(
-              document.querySelector('.dnb-form-status')
+              document.querySelector('.dnb-form-status'),
             ).toBeInTheDocument()
           }).toNeverResolve()
         })
@@ -1414,10 +1414,10 @@ describe('Field.String', () => {
             }}
             required
             validateInitially
-          />
+          />,
         )
         expect(
-          document.querySelector('.dnb-form-status').textContent
+          document.querySelector('.dnb-form-status').textContent,
         ).toBe('You need this')
       })
 
@@ -1428,10 +1428,10 @@ describe('Field.String', () => {
             errorMessages={{
               'MyCustom.message': 'Your custom error message',
             }}
-          />
+          />,
         )
         expect(
-          document.querySelector('.dnb-form-status').textContent
+          document.querySelector('.dnb-form-status').textContent,
         ).toBe('Your custom error message')
       })
 
@@ -1446,13 +1446,13 @@ describe('Field.String', () => {
                 </>
               ),
             }}
-          />
+          />,
         )
         expect(
-          document.querySelector('.dnb-form-status__text').innerHTML
+          document.querySelector('.dnb-form-status__text').innerHTML,
         ).toBe('A <strong>formatted</strong> error message')
         expect(
-          document.querySelector('.dnb-form-status').textContent
+          document.querySelector('.dnb-form-status').textContent,
         ).toBe('A formatted error message')
       })
 
@@ -1466,11 +1466,11 @@ describe('Field.String', () => {
             }}
             minLength={4}
             validateInitially
-          />
+          />,
         )
 
         expect(
-          document.querySelector('.dnb-form-status').textContent
+          document.querySelector('.dnb-form-status').textContent,
         ).toBe('At least 4.')
       })
 
@@ -1488,12 +1488,12 @@ describe('Field.String', () => {
               return new FormError('MyCustom.message')
             }}
             validateInitially
-          />
+          />,
         )
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status').textContent
+            document.querySelector('.dnb-form-status').textContent,
           ).toBe(customMessage)
         })
 
@@ -1504,21 +1504,21 @@ describe('Field.String', () => {
         const { rerender } = render(
           <SharedProvider locale="nb-NO">
             <Field.String required validateInitially />
-          </SharedProvider>
+          </SharedProvider>,
         )
 
         expect(
-          document.querySelector('.dnb-form-status__text')
+          document.querySelector('.dnb-form-status__text'),
         ).toHaveTextContent(nb.Field.errorRequired)
 
         rerender(
           <SharedProvider locale="en-GB">
             <Field.String required validateInitially />
-          </SharedProvider>
+          </SharedProvider>,
         )
 
         expect(
-          document.querySelector('.dnb-form-status__text')
+          document.querySelector('.dnb-form-status__text'),
         ).toHaveTextContent(en.Field.errorRequired)
       })
     })
@@ -1529,10 +1529,10 @@ describe('Field.String', () => {
       render(
         <Provider data={{ foo: 'data-context-value' }}>
           <Field.String path="/foo" />
-        </Provider>
+        </Provider>,
       )
       expect(
-        screen.getByDisplayValue('data-context-value')
+        screen.getByDisplayValue('data-context-value'),
       ).toBeInTheDocument()
     })
 
@@ -1540,7 +1540,7 @@ describe('Field.String', () => {
       render(
         <Provider data={{ foo: 'data-context-value' }}>
           <Field.String path="/foo" value="direct-prop" />
-        </Provider>
+        </Provider>,
       )
       expect(screen.getByDisplayValue('direct-prop')).toBeInTheDocument()
     })
@@ -1559,7 +1559,7 @@ describe('Field.String', () => {
           onPathChange={dataContextOnPathChange}
         >
           <Field.String path="/foo" onChange={inputOnChange} />
-        </Provider>
+        </Provider>,
       )
       const input = document.querySelector('input')
       await userEvent.type(input, 'O!')
@@ -1568,12 +1568,12 @@ describe('Field.String', () => {
         expect(inputOnChange).toHaveBeenNthCalledWith(
           1,
           'FOOO',
-          expect.anything()
+          expect.anything(),
         )
         expect(inputOnChange).toHaveBeenNthCalledWith(
           2,
           'FOOO!',
-          expect.anything()
+          expect.anything(),
         )
 
         expect(dataContextOnChange).toHaveBeenNthCalledWith(
@@ -1582,7 +1582,7 @@ describe('Field.String', () => {
             foo: 'FOOO',
             bar: 'BAAAR',
           },
-          expect.anything()
+          expect.anything(),
         )
         expect(dataContextOnChange).toHaveBeenNthCalledWith(
           2,
@@ -1590,18 +1590,18 @@ describe('Field.String', () => {
             foo: 'FOOO!',
             bar: 'BAAAR',
           },
-          expect.anything()
+          expect.anything(),
         )
 
         expect(dataContextOnPathChange).toHaveBeenNthCalledWith(
           1,
           '/foo',
-          'FOOO'
+          'FOOO',
         )
         expect(dataContextOnPathChange).toHaveBeenNthCalledWith(
           2,
           '/foo',
-          'FOOO!'
+          'FOOO!',
         )
       })
     })
@@ -1611,7 +1611,7 @@ describe('Field.String', () => {
     const { rerender } = render(
       <SharedProvider>
         <Field.String multiline characterCounter={8} value="foo" />
-      </SharedProvider>
+      </SharedProvider>,
     )
 
     const counter = document.querySelector('.dnb-text-counter')
@@ -1629,7 +1629,7 @@ describe('Field.String', () => {
     rerender(
       <SharedProvider locale="en-GB">
         <Field.String multiline characterCounter={8} value="foo" />
-      </SharedProvider>
+      </SharedProvider>,
     )
 
     expect(counter).toHaveTextContent('2 of 8 characters remaining')
@@ -1645,13 +1645,13 @@ describe('Field.String', () => {
           characterCounter={{ max: 8, variant: 'up' }}
           value="foo"
         />
-      </SharedProvider>
+      </SharedProvider>,
     )
 
     expect(counter).toHaveTextContent(
       sharedGB['en-GB'].TextCounter.characterExceeded
         .replace('%count', '1')
-        .replace('%max', '8')
+        .replace('%max', '8'),
     )
   })
 
@@ -1688,7 +1688,7 @@ describe('Field.String', () => {
             return null
           }}
         </DataContext.Consumer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
@@ -1725,7 +1725,7 @@ describe('Field.String', () => {
         data,
         ({ value, displayValue, label }) => {
           return { value, displayValue, label }
-        }
+        },
       )
     })
 
@@ -1736,7 +1736,7 @@ describe('Field.String', () => {
           path="/stringField"
           defaultValue="foo"
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     fireEvent.submit(document.querySelector('form'))
@@ -1752,7 +1752,7 @@ describe('Field.String', () => {
 
     await userEvent.type(
       document.querySelector('input'),
-      '{Backspace>3}bar'
+      '{Backspace>3}bar',
     )
 
     fireEvent.submit(document.querySelector('form'))
@@ -1801,7 +1801,7 @@ describe('Field.String', () => {
             return null
           }}
         </DataContext.Consumer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
@@ -1846,7 +1846,7 @@ describe('Field.String', () => {
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(
-        <Field.String label="Label" required validateInitially />
+        <Field.String label="Label" required validateInitially />,
       )
 
       expect(await axeComponent(result)).toHaveNoViolations()
@@ -1867,7 +1867,7 @@ describe('Field.String', () => {
             schema={{ type: 'string', minLength: 6 }}
             validateInitially
           />
-        </Provider>
+        </Provider>,
       )
 
       const input = document.querySelector('input')
@@ -1882,7 +1882,7 @@ describe('Field.String', () => {
             label="Label"
             required
             validateInitially
-          />
+          />,
         )
 
         expect(await axeComponent(result)).toHaveNoViolations()
@@ -1904,7 +1904,7 @@ describe('Field.String', () => {
               schema={{ type: 'string', minLength: 6 }}
               validateInitially
             />
-          </Provider>
+          </Provider>,
         )
 
         const textarea = document.querySelector('textarea')
@@ -1934,7 +1934,7 @@ describe('Field.String', () => {
       render(<Field.String info={[firstInfo, secondInfo]} />)
 
       expect(document.querySelector('.dnb-form-status').textContent).toBe(
-        nb.Field.stateSummary + firstInfo + secondInfo
+        nb.Field.stateSummary + firstInfo + secondInfo,
       )
     })
   })
@@ -1960,7 +1960,7 @@ describe('Field.String', () => {
       render(<Field.String warning={[firstWarning, secondWarning]} />)
 
       expect(document.querySelector('.dnb-form-status').textContent).toBe(
-        nb.Field.stateSummary + firstWarning + secondWarning
+        nb.Field.stateSummary + firstWarning + secondWarning,
       )
     })
   })
@@ -1988,11 +1988,11 @@ describe('Field.String', () => {
       render(
         <Field.String
           error={[new Error(firstError), new Error(secondError)]}
-        />
+        />,
       )
 
       expect(document.querySelector('.dnb-form-status').textContent).toBe(
-        nb.Field.errorSummary + firstError + secondError
+        nb.Field.errorSummary + firstError + secondError,
       )
     })
 
@@ -2004,13 +2004,13 @@ describe('Field.String', () => {
               A <strong>formatted</strong> error message
             </>
           }
-        />
+        />,
       )
       expect(
-        document.querySelector('.dnb-form-status__text').innerHTML
+        document.querySelector('.dnb-form-status__text').innerHTML,
       ).toBe('A <strong>formatted</strong> error message')
       expect(document.querySelector('.dnb-form-status').textContent).toBe(
-        'A formatted error message'
+        'A formatted error message',
       )
     })
 
@@ -2025,13 +2025,13 @@ describe('Field.String', () => {
               Second <strong>formatted</strong> error message
             </>,
           ]}
-        />
+        />,
       )
       expect(
-        document.querySelector('.dnb-form-status__text').innerHTML
+        document.querySelector('.dnb-form-status__text').innerHTML,
       ).toBe(
         nb.Field.errorSummary +
-          '<ul class="dnb-ul"><li class="dnb-li">First <strong>formatted</strong> error message</li><li class="dnb-li">Second <strong>formatted</strong> error message</li></ul>'
+          '<ul class="dnb-ul"><li class="dnb-li">First <strong>formatted</strong> error message</li><li class="dnb-li">Second <strong>formatted</strong> error message</li></ul>',
       )
     })
 
@@ -2055,13 +2055,13 @@ describe('Field.String', () => {
               </>
             ),
           }}
-        />
+        />,
       )
       expect(
-        document.querySelector('.dnb-form-status__text').innerHTML
+        document.querySelector('.dnb-form-status__text').innerHTML,
       ).toBe(
         nb.Field.errorSummary +
-          '<ul class="dnb-ul"><li class="dnb-li">First error message</li><li class="dnb-li">Second <strong>formatted</strong> error message.</li><li class="dnb-li">Third error message</li><li class="dnb-li">Fourth error message</li><li class="dnb-li">Fifth <strong>formatted</strong> error message.</li></ul>'
+          '<ul class="dnb-ul"><li class="dnb-li">First error message</li><li class="dnb-li">Second <strong>formatted</strong> error message.</li><li class="dnb-li">Third error message</li><li class="dnb-li">Fourth error message</li><li class="dnb-li">Fifth <strong>formatted</strong> error message.</li></ul>',
       )
     })
 
@@ -2078,30 +2078,30 @@ describe('Field.String', () => {
               </>
             }
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       fireEvent.submit(document.querySelector('form'))
 
       expect(onSubmit).not.toHaveBeenCalled()
       expect(
-        document.querySelector('.dnb-form-status__text').innerHTML
+        document.querySelector('.dnb-form-status__text').innerHTML,
       ).toBe('A <strong>formatted</strong> error message')
       expect(document.querySelector('.dnb-form-status').textContent).toBe(
-        'A formatted error message'
+        'A formatted error message',
       )
 
       rerender(
         <Form.Handler onSubmit={onSubmit}>
           <Field.String path="/myValue" error={undefined} />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       fireEvent.submit(document.querySelector('form'))
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(
-        document.querySelector('.dnb-form-status__text')
+        document.querySelector('.dnb-form-status__text'),
       ).not.toBeInTheDocument()
     })
   })
@@ -2119,54 +2119,54 @@ describe('Field.String', () => {
           warning="warning"
           info="info"
           required
-        />
+        />,
       )
 
       const input = document.querySelector('input')
 
       expect(input).toHaveAttribute(
         'aria-describedby',
-        'unique-form-status--error unique-form-status--warning unique-form-status--information'
+        'unique-form-status--error unique-form-status--warning unique-form-status--information',
       )
 
       const [first, second, third] = Array.from(
-        document.querySelectorAll('.dnb-form-status')
+        document.querySelectorAll('.dnb-form-status'),
       )
 
       expect(first).toHaveAttribute('id', 'unique-form-status--error')
       expect(second).toHaveAttribute('id', 'unique-form-status--warning')
       expect(third).toHaveAttribute(
         'id',
-        'unique-form-status--information'
+        'unique-form-status--information',
       )
 
       expect(
-        document.querySelectorAll('#unique-form-status--error')
+        document.querySelectorAll('#unique-form-status--error'),
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('#unique-form-status--warning')
+        document.querySelectorAll('#unique-form-status--warning'),
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('#unique-form-status--information')
+        document.querySelectorAll('#unique-form-status--information'),
       ).toHaveLength(1)
 
       await userEvent.type(input, 'x')
 
       expect(
-        document.querySelectorAll('#unique-form-status--error')
+        document.querySelectorAll('#unique-form-status--error'),
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('#unique-form-status--warning')
+        document.querySelectorAll('#unique-form-status--warning'),
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('#unique-form-status--information')
+        document.querySelectorAll('#unique-form-status--information'),
       ).toHaveLength(1)
 
       fireEvent.blur(input)
 
       expect(input).toHaveAttribute(
         'aria-describedby',
-        'unique-form-status--error unique-form-status--warning unique-form-status--information'
+        'unique-form-status--error unique-form-status--warning unique-form-status--information',
       )
     })
 
@@ -2177,35 +2177,35 @@ describe('Field.String', () => {
           error={new Error('error')}
           warning="warning"
           info="info"
-        />
+        />,
       )
 
       const input = document.querySelector('input')
 
       expect(input).toHaveAttribute(
         'aria-describedby',
-        'unique-form-status--error unique-form-status--warning unique-form-status--information'
+        'unique-form-status--error unique-form-status--warning unique-form-status--information',
       )
 
       const [first, second, third] = Array.from(
-        document.querySelectorAll('.dnb-form-status')
+        document.querySelectorAll('.dnb-form-status'),
       )
 
       expect(first).toHaveAttribute('id', 'unique-form-status--error')
       expect(second).toHaveAttribute('id', 'unique-form-status--warning')
       expect(third).toHaveAttribute(
         'id',
-        'unique-form-status--information'
+        'unique-form-status--information',
       )
 
       expect(
-        document.querySelectorAll('#unique-form-status--error')
+        document.querySelectorAll('#unique-form-status--error'),
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('#unique-form-status--warning')
+        document.querySelectorAll('#unique-form-status--warning'),
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('#unique-form-status--information')
+        document.querySelectorAll('#unique-form-status--information'),
       ).toHaveLength(1)
     })
 
@@ -2217,13 +2217,13 @@ describe('Field.String', () => {
           warning={inputWarning}
           info={inputInfo}
           required
-        />
+        />,
       )
 
       const input = document.querySelector('input')
 
       const [first, second, third] = Array.from(
-        document.querySelectorAll('.dnb-form-status')
+        document.querySelectorAll('.dnb-form-status'),
       )
 
       expect(first).toHaveTextContent(inputError)
@@ -2251,7 +2251,7 @@ describe('Field.String', () => {
       render(
         <Form.Handler onSubmit={onSubmit}>
           <Field.String path="/myValue" emptyValue="" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const form = document.querySelector('form')
@@ -2262,7 +2262,7 @@ describe('Field.String', () => {
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
         { myValue: '' },
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.type(input, ' ')
@@ -2271,7 +2271,7 @@ describe('Field.String', () => {
       expect(onSubmit).toHaveBeenCalledTimes(2)
       expect(onSubmit).toHaveBeenLastCalledWith(
         { myValue: ' ' },
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.type(input, '{Backspace}')
@@ -2280,7 +2280,7 @@ describe('Field.String', () => {
       expect(onSubmit).toHaveBeenCalledTimes(3)
       expect(onSubmit).toHaveBeenLastCalledWith(
         { myValue: '' },
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -2290,7 +2290,7 @@ describe('Field.String', () => {
       render(
         <Form.Handler onSubmit={onSubmit}>
           <Field.String path="/myValue" emptyValue="foo" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const form = document.querySelector('form')
@@ -2301,7 +2301,7 @@ describe('Field.String', () => {
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
         { myValue: 'foo' },
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.type(input, ' ')
@@ -2310,7 +2310,7 @@ describe('Field.String', () => {
       expect(onSubmit).toHaveBeenCalledTimes(2)
       expect(onSubmit).toHaveBeenLastCalledWith(
         { myValue: 'foo ' },
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.type(input, '{Backspace>4}')
@@ -2319,7 +2319,7 @@ describe('Field.String', () => {
       expect(onSubmit).toHaveBeenCalledTimes(3)
       expect(onSubmit).toHaveBeenLastCalledWith(
         { myValue: 'foo' },
-        expect.anything()
+        expect.anything(),
       )
     })
   })
@@ -2343,7 +2343,7 @@ describe('Field.String', () => {
           const caretPos = inputEl.selectionStart
           const inserted = currentVal.substring(
             caretPos - addedLength,
-            caretPos
+            caretPos,
           )
 
           if (forbiddenRegex.test(inserted)) {
@@ -2351,12 +2351,12 @@ describe('Field.String', () => {
 
             inputEl.setSelectionRange(
               caretPos - addedLength,
-              caretPos - addedLength
+              caretPos - addedLength,
             )
           } else {
             inputEl.dataset.oldVal = currentVal
           }
-        }
+        },
       )
 
       const onFocus = jest.fn(
@@ -2365,7 +2365,7 @@ describe('Field.String', () => {
           if (typeof inputEl.dataset.oldVal === 'undefined') {
             inputEl.dataset.oldVal = inputEl.value
           }
-        }
+        },
       )
 
       render(
@@ -2378,7 +2378,7 @@ describe('Field.String', () => {
               onInput,
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -2411,12 +2411,12 @@ describe('Field.String', () => {
               </>
             }
           />
-        </>
+        </>,
       )
 
       expect(
         document.querySelector('.dnb-global-status__message__content p')
-          .innerHTML
+          .innerHTML,
       ).toBe('A <strong>formatted</strong> error message')
     })
   })
@@ -2434,7 +2434,7 @@ describe('Field.String', () => {
       await waitFor(() => {
         expect(screen.getByRole('alert')).toBeInTheDocument()
         expect(screen.getByRole('alert')).toHaveTextContent(
-          nb.StringField.errorMinLength.replace('{minLength}', '4')
+          nb.StringField.errorMinLength.replace('{minLength}', '4'),
         )
       })
     })
@@ -2445,7 +2445,7 @@ describe('Field.String', () => {
       render(
         <Form.Handler schema={schema}>
           <Field.String path="/name" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -2455,7 +2455,7 @@ describe('Field.String', () => {
       await waitFor(() => {
         expect(screen.getByRole('alert')).toBeInTheDocument()
         expect(screen.getByRole('alert')).toHaveTextContent(
-          nb.StringField.errorMinLength.replace('{minLength}', '6')
+          nb.StringField.errorMinLength.replace('{minLength}', '6'),
         )
       })
     })
@@ -2472,7 +2472,7 @@ describe('Field.String', () => {
       await waitFor(() => {
         expect(screen.getByRole('alert')).toBeInTheDocument()
         expect(screen.getByRole('alert')).toHaveTextContent(
-          nb.StringField.errorMaxLength.replace('{maxLength}', '3')
+          nb.StringField.errorMaxLength.replace('{maxLength}', '3'),
         )
       })
     })
@@ -2483,7 +2483,7 @@ describe('Field.String', () => {
       render(
         <Form.Handler schema={schema}>
           <Field.String path="/code" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -2493,7 +2493,7 @@ describe('Field.String', () => {
       await waitFor(() => {
         expect(screen.getByRole('alert')).toBeInTheDocument()
         expect(screen.getByRole('alert')).toHaveTextContent(
-          nb.StringField.errorMaxLength.replace('{maxLength}', '2')
+          nb.StringField.errorMaxLength.replace('{maxLength}', '2'),
         )
       })
     })
@@ -2504,12 +2504,12 @@ describe('Field.String', () => {
         .regex(/^[A-Z]{2}\d{4}$/, 'Must be 2 letters followed by 4 digits')
 
       render(
-        <Field.String schema={schema} value="abc123" validateInitially />
+        <Field.String schema={schema} value="abc123" validateInitially />,
       )
 
       expect(screen.getByRole('alert')).toBeInTheDocument()
       expect(screen.getByRole('alert')).toHaveTextContent(
-        'Must be 2 letters followed by 4 digits'
+        'Must be 2 letters followed by 4 digits',
       )
     })
 
@@ -2517,24 +2517,24 @@ describe('Field.String', () => {
       const schema = z.string().regex(/^[A-Z]{2}\d{4}$/)
 
       render(
-        <Field.String schema={schema} value="abc123" validateInitially />
+        <Field.String schema={schema} value="abc123" validateInitially />,
       )
 
       expect(screen.getByRole('alert')).toBeInTheDocument()
       expect(screen.getByRole('alert')).toHaveTextContent(
-        nb.Field.errorPattern
+        nb.Field.errorPattern,
       )
     })
     it('should validate with Zod schema', async () => {
       const schema = z.string().min(5, 'Minimum 5 characters required')
 
       render(
-        <Field.String value="abc" schema={schema} validateInitially />
+        <Field.String value="abc" schema={schema} validateInitially />,
       )
 
       expect(screen.getByRole('alert')).toBeInTheDocument()
       expect(
-        screen.getByText('Minimum 5 characters required')
+        screen.getByText('Minimum 5 characters required'),
       ).toBeInTheDocument()
     })
 
@@ -2542,11 +2542,11 @@ describe('Field.String', () => {
       const schema = z.string().min(3)
 
       render(
-        <Field.String value="abc" schema={schema} validateInitially />
+        <Field.String value="abc" schema={schema} validateInitially />,
       )
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
     })
 
@@ -2561,7 +2561,7 @@ describe('Field.String', () => {
         render(
           <Form.Handler schema={schema} defaultData={{ name: 'abc' }}>
             <Field.String path="/name" />
-          </Form.Handler>
+          </Form.Handler>,
         )
       }).not.toThrow()
 
@@ -2578,11 +2578,11 @@ describe('Field.String', () => {
       render(
         <Form.Handler schema={schema}>
           <Field.String path="/name" value="abcdef" validateInitially />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
     })
 
@@ -2591,11 +2591,11 @@ describe('Field.String', () => {
         const schema = z.string().min(5, 'Minimum 5 characters required')
 
         render(
-          <Field.String value="abc" schema={schema} validateInitially />
+          <Field.String value="abc" schema={schema} validateInitially />,
         )
         expect(screen.getByRole('alert')).toBeInTheDocument()
         expect(
-          screen.getByText('Minimum 5 characters required')
+          screen.getByText('Minimum 5 characters required'),
         ).toBeInTheDocument()
       })
 
@@ -2603,10 +2603,10 @@ describe('Field.String', () => {
         const schema = z.string().min(3, 'Minimum 3 characters required')
 
         render(
-          <Field.String value="abc" schema={schema} validateInitially />
+          <Field.String value="abc" schema={schema} validateInitially />,
         )
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
 
@@ -2614,7 +2614,7 @@ describe('Field.String', () => {
         const schema = z.string().min(5, 'Minimum 5 characters required')
 
         render(
-          <Field.String value="abc" schema={schema} validateUnchanged />
+          <Field.String value="abc" schema={schema} validateUnchanged />,
         )
         const input = document.querySelector('input')
         input.focus()
@@ -2623,7 +2623,7 @@ describe('Field.String', () => {
           expect(screen.getByRole('alert')).toBeInTheDocument()
         })
         expect(
-          screen.getByText('Minimum 5 characters required')
+          screen.getByText('Minimum 5 characters required'),
         ).toBeInTheDocument()
       })
     })

@@ -25,7 +25,7 @@ describe('Radio group component', () => {
       >
         <Radio id="radio-1" label="Radio 1" value="first" />
         <Radio id="radio-2" label="Radio 2" value="second" checked />
-      </Radio.Group>
+      </Radio.Group>,
     )
     fireEvent.click(document.querySelectorAll('input')[0])
     expect(myEvent.mock.calls.length).toBe(1)
@@ -42,7 +42,7 @@ describe('Radio group component', () => {
     render(
       <Radio.Group>
         <Radio disabled />
-      </Radio.Group>
+      </Radio.Group>,
     )
 
     expect(document.querySelector('input[disabled]')).toBeInTheDocument()
@@ -52,7 +52,7 @@ describe('Radio group component', () => {
     render(
       <Radio.Group disabled>
         <Radio />
-      </Radio.Group>
+      </Radio.Group>,
     )
 
     expect(document.querySelector('input[disabled]')).toBeInTheDocument()
@@ -62,13 +62,13 @@ describe('Radio group component', () => {
     render(
       <Radio.Group style={{ color: 'red' }}>
         <Radio />
-      </Radio.Group>
+      </Radio.Group>,
     )
 
     expect(
       document
         .querySelector('.dnb-radio-group__shell')
-        .getAttribute('style')
+        .getAttribute('style'),
     ).toBe('color: red;')
   })
 
@@ -77,14 +77,14 @@ describe('Radio group component', () => {
       <Radio.Group disabled>
         <Radio disabled={false} />
         <Radio disabled />
-      </Radio.Group>
+      </Radio.Group>,
     )
 
     expect(document.querySelectorAll('input')[0]).not.toHaveAttribute(
-      'disabled'
+      'disabled',
     )
     expect(document.querySelectorAll('input')[1]).toHaveAttribute(
-      'disabled'
+      'disabled',
     )
   })
 
@@ -93,7 +93,7 @@ describe('Radio group component', () => {
       <Radio.Group top="2rem">
         <Radio id="radio-1" label="Radio 1" value="first" />
         <Radio id="radio-2" label="Radio 2" value="second" checked />
-      </Radio.Group>
+      </Radio.Group>,
     )
 
     const element = document.querySelector('.dnb-radio-group')
@@ -113,12 +113,12 @@ describe('Radio group component', () => {
           <Radio id="radio-1" label="Radio 1" value="first" />
           <Radio id="radio-2" label="Radio 2" value="second" checked />
         </Radio.Group>
-      </Provider>
+      </Provider>,
     )
 
     const element = document.querySelector('.dnb-radio-group')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual(['class'])
@@ -130,8 +130,8 @@ describe('Radio group component', () => {
     expect(
       Array.from(
         document.querySelector('.dnb-radio-group .dnb-flex-container')
-          .classList
-      )
+          .classList,
+      ),
     ).toEqual([
       'dnb-space',
       'dnb-flex-container',
@@ -143,7 +143,7 @@ describe('Radio group component', () => {
       'dnb-flex-container--divider-space',
     ])
     expect(
-      Array.from(document.querySelector('.dnb-flex-container').classList)
+      Array.from(document.querySelector('.dnb-flex-container').classList),
     ).toEqual([
       'dnb-space',
       'dnb-flex-container',
@@ -160,7 +160,7 @@ describe('Radio group component', () => {
     const { rerender } = render(
       <Radio.Group label="Label" vertical>
         <Radio />
-      </Radio.Group>
+      </Radio.Group>,
     )
 
     const element = document.querySelector('.dnb-radio-group')
@@ -180,7 +180,7 @@ describe('Radio group component', () => {
     rerender(
       <Radio.Group label="Label" labelDirection="vertical">
         <Radio />
-      </Radio.Group>
+      </Radio.Group>,
     )
 
     expect(Array.from(flexElement.classList)).toEqual([
@@ -200,7 +200,7 @@ describe('Radio group component', () => {
       <Radio.Group label="Legend">
         <Radio label="First" value="first" />
         <Radio label="Second" value="second" />
-      </Radio.Group>
+      </Radio.Group>,
     )
 
     expect(document.querySelectorAll('fieldset')).toHaveLength(1)
@@ -211,7 +211,7 @@ describe('Radio group component', () => {
       <Radio.Group>
         <Radio label="First" value="first" />
         <Radio label="Second" value="second" />
-      </Radio.Group>
+      </Radio.Group>,
     )
 
     expect(document.querySelector('fieldset')).not.toBeInTheDocument()
@@ -224,7 +224,7 @@ describe('Radio group component', () => {
       <Radio.Group>
         <Radio label="First" value="first" />
         <Radio label="Second" value="second" />
-      </Radio.Group>
+      </Radio.Group>,
     )
 
     expect(document.querySelectorAll('label')).toHaveLength(2)
@@ -236,7 +236,7 @@ describe('Radio group component', () => {
         <Radio.Group label="Legend">
           <Radio label="First" value="first" />
           <Radio label="Second" value="second" />
-        </Radio.Group>
+        </Radio.Group>,
       )
 
       const fieldset = document.querySelector('fieldset')
@@ -252,7 +252,7 @@ describe('Radio group component', () => {
         <Radio.Group>
           <Radio label="First" value="first" />
           <Radio label="Second" value="second" />
-        </Radio.Group>
+        </Radio.Group>,
       )
 
       const fieldset = document.querySelector('fieldset')
@@ -269,7 +269,7 @@ describe('Radio group component', () => {
         <Radio.Group label="Legend">
           <Radio label="First" value="first" />
           <Radio label="Second" value="second" />
-        </Radio.Group>
+        </Radio.Group>,
       )
 
       const shell = document.querySelector('.dnb-radio-group__shell')
@@ -289,7 +289,7 @@ describe('Radio ARIA', () => {
       >
         <Radio id="radio-1" label="Radio 1" value="first" />
         <Radio id="radio-2" label="Radio 2" value="second" checked />
-      </Radio.Group>
+      </Radio.Group>,
     )
     expect(
       await axeComponent(Comp, {
@@ -298,7 +298,7 @@ describe('Radio ARIA', () => {
           // because of the role="radio", we have to allow this
           'aria-allowed-role': { enabled: false },
         },
-      })
+      }),
     ).toHaveNoViolations()
   })
 
@@ -307,7 +307,7 @@ describe('Radio ARIA', () => {
       <Radio.Group name="group" id="group" onChange={jest.fn()}>
         <Radio id="radio-1" label="Radio 1" value="first" />
         <Radio id="radio-2" label="Radio 2" value="second" checked />
-      </Radio.Group>
+      </Radio.Group>,
     )
     expect(
       await axeComponent(Comp, {
@@ -316,7 +316,7 @@ describe('Radio ARIA', () => {
           // because of the role="radio", we have to allow this
           'aria-allowed-role': { enabled: false },
         },
-      })
+      }),
     ).toHaveNoViolations()
   })
 })

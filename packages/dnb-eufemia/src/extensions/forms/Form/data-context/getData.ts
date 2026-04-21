@@ -20,11 +20,11 @@ type SetDataReturn<Data> = {
 }
 
 export default function getData<Data>(
-  id: SharedStateId
+  id: SharedStateId,
 ): SetDataReturn<Data> {
   const sharedState = createSharedState(id)
   const sharedAttachments = createSharedState<SharedAttachments<Data>>(
-    createReferenceKey(id, 'attachments')
+    createReferenceKey(id, 'attachments'),
   )
 
   const data = sharedState.get() as Data

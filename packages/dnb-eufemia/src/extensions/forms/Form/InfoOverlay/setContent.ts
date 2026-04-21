@@ -12,10 +12,10 @@ export type InfoOverlayContent =
 
 export default function setContent(
   id: SharedStateId,
-  content: InfoOverlayContent
+  content: InfoOverlayContent,
 ) {
   const sharedState = createSharedState(
-    createReferenceKey(id, 'info-overlay')
+    createReferenceKey(id, 'info-overlay'),
   )
   sharedState.extend({ content })
 }

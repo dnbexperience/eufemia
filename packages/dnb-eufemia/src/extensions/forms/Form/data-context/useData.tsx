@@ -36,16 +36,16 @@ export type PathType<T, P extends string> = P extends `/${infer Rest}`
 
 export type UseDataReturnUpdate<Data> = <P extends Path>(
   path: P,
-  value: ((value: PathType<Data, P>) => unknown) | unknown
+  value: ((value: PathType<Data, P>) => unknown) | unknown,
 ) => void
 
 export type UseDataReturnGetValue<Data> = <P extends Path>(
-  path: P
+  path: P,
 ) => PathType<Data, P> | any
 
 export type UseDataReturnFilterData<Data> = (
   filterDataHandler: FilterData,
-  data?: Data
+  data?: Data,
 ) => Partial<Data>
 
 export type UseDataReturnVisibleData<Data> = VisibleDataHandler<Data>
@@ -70,7 +70,7 @@ type UseDataReturn<Data> = {
  */
 export default function useData<Data = JsonObject>(
   id: SharedStateId = undefined,
-  initialData: Data = undefined
+  initialData: Data = undefined,
 ): UseDataReturn<Data> {
   const sharedDataRef = useRef<ReturnType<
     typeof useSharedState<Data>
@@ -83,12 +83,12 @@ export default function useData<Data = JsonObject>(
   sharedDataRef.current = useSharedState<Data>(
     id,
     initialData,
-    forceUpdate
+    forceUpdate,
   )
 
   sharedAttachmentsRef.current = useSharedState<SharedAttachments<Data>>(
     createReferenceKey(id, 'attachments'),
-    { rerenderUseDataHook: forceUpdate }
+    { rerenderUseDataHook: forceUpdate },
   )
 
   // If no id is provided, use the context data
@@ -96,7 +96,7 @@ export default function useData<Data = JsonObject>(
   if (!id) {
     if (!dataContext.hasContext) {
       throw new Error(
-        'useData needs to run inside DataContext (Form.Handler) or have a valid id'
+        'useData needs to run inside DataContext (Form.Handler) or have a valid id',
       )
     }
 
@@ -112,7 +112,7 @@ export default function useData<Data = JsonObject>(
     return structuredClone(
       sharedAttachmentsRef.current?.data?.internalDataRef?.current ||
         sharedDataRef.current.data ||
-        {}
+        {},
     ) as Data & JsonObject
   }, [])
 
@@ -124,7 +124,7 @@ export default function useData<Data = JsonObject>(
         setData?.(newData)
       }
     },
-    [id, setData]
+    [id, setData],
   )
 
   const update = useCallback<UseDataReturnUpdate<Data>>(
@@ -150,7 +150,7 @@ export default function useData<Data = JsonObject>(
         }
       }
     },
-    [getExistingData, id, updateDataValue]
+    [getExistingData, id, updateDataValue],
   )
 
   const remove = useCallback<UseDataReturn<Data>['remove']>(
@@ -169,7 +169,7 @@ export default function useData<Data = JsonObject>(
         }
       }
     },
-    [getExistingData, id, setData]
+    [getExistingData, id, setData],
   )
 
   const reduceToVisibleFields = useCallback<
@@ -179,13 +179,13 @@ export default function useData<Data = JsonObject>(
       if (id) {
         return sharedAttachmentsRef.current.data?.visibleDataHandler?.(
           data,
-          options
+          options,
         )
       }
 
       return dataContext?.visibleDataHandler?.(data, options)
     },
-    [dataContext, id]
+    [dataContext, id],
   )
 
   const filterData = useCallback<UseDataReturn<Data>['filterData']>(
@@ -193,13 +193,13 @@ export default function useData<Data = JsonObject>(
       if (id) {
         return sharedAttachmentsRef.current.data?.filterDataHandler?.(
           data,
-          filter
+          filter,
         )
       }
 
       return dataContext?.filterDataHandler?.(data, filter)
     },
-    [dataContext, id]
+    [dataContext, id],
   )
 
   const getValue = useCallback<UseDataReturn<Data>['getValue']>((path) => {
@@ -236,6 +236,6 @@ export default function useData<Data = JsonObject>(
       getValue,
       reduceToVisibleFields,
       filterData,
-    ]
+    ],
   )
 }

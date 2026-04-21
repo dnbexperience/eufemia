@@ -9,7 +9,7 @@ import detectCountryCode from '../../../shared/detectCountryCode'
 
 const formatPhoneNumberParts = (
   number: NumberFormatValue,
-  locale: string | null = null
+  locale: string | null = null,
 ): FormattedParts => {
   if (isAbsent(number)) {
     return { number: ABSENT_VALUE_FORMAT, aria: ABSENT_VALUE_FORMAT }
@@ -66,7 +66,7 @@ const formatPhoneNumberParts = (
               .split(
                 length === 6
                   ? /^(\+[\d]{2})|([\d]{3})/
-                  : /^(\+[\d]{2})|([\d]{2})/
+                  : /^(\+[\d]{2})|([\d]{2})/,
               )
               .filter((s) => s)
               .join(' ')
@@ -91,5 +91,5 @@ const formatPhoneNumberParts = (
 
 export const formatPhoneNumber = formatWith(
   'phone',
-  formatPhoneNumberParts
+  formatPhoneNumberParts,
 )

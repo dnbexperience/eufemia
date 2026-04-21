@@ -10,7 +10,7 @@ export default {
       {
         configFile: path.resolve(
           path.dirname(new URL(import.meta.url).pathname),
-          '../../packages/dnb-eufemia/babel.config.js'
+          '../../packages/dnb-eufemia/babel.config.js',
         ),
         babelrc: false,
       },

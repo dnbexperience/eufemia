@@ -26,7 +26,7 @@ describe('Iterate.Array', () => {
       render(
         <Iterate.Array id="my-array" value={['one', 'two']}>
           <Field.String itemPath="/" />
-        </Iterate.Array>
+        </Iterate.Array>,
       )
 
       const element = document.querySelector('#my-array')
@@ -38,7 +38,7 @@ describe('Iterate.Array', () => {
       render(
         <Iterate.Array value={['one']}>
           <Field.String itemPath="/" />
-        </Iterate.Array>
+        </Iterate.Array>,
       )
 
       const element = document.querySelector('.dnb-forms-iterate')
@@ -54,7 +54,7 @@ describe('Iterate.Array', () => {
       render(
         <Iterate.Array value={['one', 'two', 'three']} onChange={onChange}>
           <Field.String itemPath="/" />
-        </Iterate.Array>
+        </Iterate.Array>,
       )
       const fields = document.querySelectorAll('input')
       expect(fields).toHaveLength(3)
@@ -75,32 +75,32 @@ describe('Iterate.Array', () => {
       expect(onChange).toHaveBeenNthCalledWith(
         1,
         ['one1', 'two', 'three'],
-        expect.anything()
+        expect.anything(),
       )
       expect(onChange).toHaveBeenNthCalledWith(
         2,
         ['one1', 'two', 'threet'],
-        expect.anything()
+        expect.anything(),
       )
       expect(onChange).toHaveBeenNthCalledWith(
         3,
         ['one1', 'two', 'threeth'],
-        expect.anything()
+        expect.anything(),
       )
       expect(onChange).toHaveBeenNthCalledWith(
         4,
         ['one1', 'two', 'threethr'],
-        expect.anything()
+        expect.anything(),
       )
       expect(onChange).toHaveBeenNthCalledWith(
         5,
         ['one1', 'two', 'threethre'],
-        expect.anything()
+        expect.anything(),
       )
       expect(onChange).toHaveBeenNthCalledWith(
         6,
         ['one1', 'two', 'threethree'],
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -115,7 +115,7 @@ describe('Iterate.Array', () => {
       render(
         <Iterate.Array value={data} onChange={onChange}>
           {callback}
-        </Iterate.Array>
+        </Iterate.Array>,
       )
 
       const fields = document.querySelectorAll('input')
@@ -135,7 +135,7 @@ describe('Iterate.Array', () => {
           expect.objectContaining({
             arrayValue: data,
           }),
-        ])
+        ]),
       )
       expect(callback).toHaveBeenNthCalledWith(
         2,
@@ -145,7 +145,7 @@ describe('Iterate.Array', () => {
           expect.objectContaining({
             arrayValue: data,
           }),
-        ])
+        ]),
       )
       expect(callback).toHaveBeenNthCalledWith(
         3,
@@ -155,7 +155,7 @@ describe('Iterate.Array', () => {
           expect.objectContaining({
             arrayValue: data,
           }),
-        ])
+        ]),
       )
     })
 
@@ -168,14 +168,14 @@ describe('Iterate.Array', () => {
         render(
           <Iterate.Array value={list} placeholder="Placeholder text">
             {renderProp}
-          </Iterate.Array>
+          </Iterate.Array>,
         )
 
         expect(
-          document.querySelectorAll('.dnb-forms-section')
+          document.querySelectorAll('.dnb-forms-section'),
         ).toHaveLength(1)
         expect(
-          document.querySelector('.dnb-forms-section')
+          document.querySelector('.dnb-forms-section'),
         ).toHaveTextContent('Placeholder text')
       })
 
@@ -191,14 +191,14 @@ describe('Iterate.Array', () => {
             placeholder="Placeholder text"
           >
             {renderProp}
-          </Iterate.Array>
+          </Iterate.Array>,
         )
 
         expect(
-          document.querySelectorAll('.dnb-forms-section')
+          document.querySelectorAll('.dnb-forms-section'),
         ).toHaveLength(1)
         expect(
-          document.querySelector('.dnb-forms-section')
+          document.querySelector('.dnb-forms-section'),
         ).toHaveTextContent('Placeholder text')
       })
 
@@ -210,14 +210,14 @@ describe('Iterate.Array', () => {
         render(
           <Iterate.Array value={list} placeholder="Placeholder text">
             {renderProp}
-          </Iterate.Array>
+          </Iterate.Array>,
         )
 
         expect(
-          document.querySelectorAll('.dnb-forms-section')
+          document.querySelectorAll('.dnb-forms-section'),
         ).toHaveLength(1)
         expect(
-          document.querySelector('.dnb-forms-section')
+          document.querySelector('.dnb-forms-section'),
         ).toHaveTextContent('Placeholder text')
       })
 
@@ -227,15 +227,15 @@ describe('Iterate.Array', () => {
         render(
           <Iterate.Array value={list} placeholder="Placeholder text">
             content
-          </Iterate.Array>
+          </Iterate.Array>,
         )
 
         expect(document.querySelectorAll('.dnb-span')).toHaveLength(1)
         expect(document.querySelector('.dnb-span')).toHaveTextContent(
-          'Placeholder text'
+          'Placeholder text',
         )
         expect(document.querySelector('.dnb-span')).toHaveClass(
-          'dnb-t__size--small'
+          'dnb-t__size--small',
         )
       })
     })
@@ -246,7 +246,7 @@ describe('Iterate.Array', () => {
           <Iterate.Array value={['foo', 'bar']}>
             <Field.String itemPath="/" label="Field label {itemNo}" />
             <Value.String itemPath="/" label="Value label {itemNo}" />
-          </Iterate.Array>
+          </Iterate.Array>,
         )
 
         const [fieldLabel1, valueLabel1, fieldLabel2, valueLabel2] =
@@ -267,7 +267,7 @@ describe('Iterate.Array', () => {
             <ValueBlock label="ValueBlock label {itemNo}">
               content
             </ValueBlock>
-          </Iterate.Array>
+          </Iterate.Array>,
         )
 
         const [FieldBlock1, ValueBlock1, FieldBlock2, ValueBlock2] =
@@ -290,17 +290,17 @@ describe('Iterate.Array', () => {
           <Iterate.Array path="/" value={['a']} validateInitially>
             <Field.String itemPath="/" />
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(
-          nb.IterateArray.errorMinItems.replace('{minItems}', '3')
+          nb.IterateArray.errorMinItems.replace('{minItems}', '3'),
         )
       })
     })
@@ -313,17 +313,17 @@ describe('Iterate.Array', () => {
           <Iterate.Array path="/" value={['a', 'b']} validateInitially>
             <Field.String itemPath="/" />
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(
-          nb.IterateArray.errorMaxItems.replace('{maxItems}', '1')
+          nb.IterateArray.errorMaxItems.replace('{maxItems}', '1'),
         )
       })
     })
@@ -344,7 +344,7 @@ describe('Iterate.Array', () => {
         >
           <Field.String itemPath="/foo" />
           <Field.String itemPath="/bar" />
-        </Iterate.Array>
+        </Iterate.Array>,
       )
 
       const fields = document.querySelectorAll('input')
@@ -379,7 +379,7 @@ describe('Iterate.Array', () => {
           { foo: 'foo 1', bar: 'bar 1' },
           { foo: 'foo 2', bar: 'bar 2' },
         ],
-        expect.anything()
+        expect.anything(),
       )
       expect(onChange).toHaveBeenNthCalledWith(
         2,
@@ -388,7 +388,7 @@ describe('Iterate.Array', () => {
           { foo: 'foo 1', bar: 'bar 1' },
           { foo: 'foo 2c', bar: 'bar 2' },
         ],
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -404,7 +404,7 @@ describe('Iterate.Array', () => {
           <Iterate.Array path="/">
             <Field.String itemPath="/name" />
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const inputs = document.querySelectorAll('input')
@@ -423,7 +423,7 @@ describe('Iterate.Array', () => {
           <Iterate.Array path="/items" countPath="/count">
             <Field.Number itemPath="/" />
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const inputs = document.querySelectorAll('input')
@@ -440,7 +440,7 @@ describe('Iterate.Array', () => {
               <Field.Number itemPath="/" />
             </Iterate.Array>
           </section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelectorAll('section input')).toHaveLength(2)
@@ -478,7 +478,7 @@ describe('Iterate.Array', () => {
               return null
             }}
           </DataContext.Context.Consumer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelectorAll('section input')).toHaveLength(2)
@@ -490,7 +490,7 @@ describe('Iterate.Array', () => {
 
       await userEvent.type(
         document.querySelectorAll('section input')[0],
-        '2'
+        '2',
       )
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange).toHaveBeenLastCalledWith(
@@ -498,7 +498,7 @@ describe('Iterate.Array', () => {
           count: 2,
           items: [22, 2],
         },
-        expect.anything()
+        expect.anything(),
       )
       expect(collectedContext.data).toEqual({
         count: 2,
@@ -516,7 +516,7 @@ describe('Iterate.Array', () => {
           count: 3, // we first only change this value
           items: [22, 2],
         },
-        expect.anything()
+        expect.anything(),
       )
       expect(collectedContext.data).toEqual({
         count: 3,
@@ -530,7 +530,7 @@ describe('Iterate.Array', () => {
             count: 3,
             items: [22, 2, 2],
           },
-          expect.anything()
+          expect.anything(),
         )
       })
 
@@ -550,7 +550,7 @@ describe('Iterate.Array', () => {
           count: 1, // we first only change this value
           items: [22, 2, 2],
         },
-        expect.anything()
+        expect.anything(),
       )
       expect(collectedContext.data).toEqual({
         count: 1,
@@ -564,7 +564,7 @@ describe('Iterate.Array', () => {
             count: 1,
             items: [22],
           },
-          expect.anything()
+          expect.anything(),
         )
       })
 
@@ -582,7 +582,7 @@ describe('Iterate.Array', () => {
               <Field.Number itemPath="/" defaultValue={2} />
             </Iterate.Array>
           </section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const inputs = document.querySelectorAll('input')
@@ -603,7 +603,7 @@ describe('Iterate.Array', () => {
           >
             <Field.Number itemPath="/item" />
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const inputs = document.querySelectorAll('input')
@@ -626,7 +626,7 @@ describe('Iterate.Array', () => {
               <Field.Number itemPath="/item" defaultValue={2} />
             </Iterate.Array>
           </Form.Handler>
-        </React.StrictMode>
+        </React.StrictMode>,
       )
 
       const inputs = document.querySelectorAll('input')
@@ -641,7 +641,7 @@ describe('Iterate.Array', () => {
           <Iterate.Array path="/items" countPath="/count">
             <Field.Number itemPath="/" />
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelectorAll('input')).toHaveLength(0)
@@ -653,7 +653,7 @@ describe('Iterate.Array', () => {
           <Iterate.Array path="/items" countPath="/count">
             <Field.Number itemPath="/" />
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelectorAll('input')).toHaveLength(0)
@@ -669,7 +669,7 @@ describe('Iterate.Array', () => {
           >
             <Field.Number itemPath="/" />
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelectorAll('input')).toHaveLength(2)
@@ -683,11 +683,11 @@ describe('Iterate.Array', () => {
           <Iterate.Array path="/items" required validateInitially>
             <Field.String itemPath="/" />
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Field.errorRequired
+        nb.Field.errorRequired,
       )
     })
 
@@ -697,11 +697,11 @@ describe('Iterate.Array', () => {
           <Iterate.Array path="/items" validateInitially>
             <Field.String itemPath="/" />
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
     })
 
@@ -718,11 +718,11 @@ describe('Iterate.Array', () => {
           >
             <Field.String itemPath="/" />
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        'Custom message'
+        'Custom message',
       )
     })
 
@@ -732,17 +732,17 @@ describe('Iterate.Array', () => {
           <Iterate.Array path="/items" required>
             <Field.String itemPath="/" />
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       fireEvent.submit(document.querySelector('form'))
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Field.errorRequired
+        nb.Field.errorRequired,
       )
     })
 
@@ -753,24 +753,24 @@ describe('Iterate.Array', () => {
             <Field.String itemPath="/" />
           </Iterate.Array>
           <Iterate.PushButton path="/items" pushValue="baz" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       fireEvent.submit(document.querySelector('form'))
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Field.errorRequired
+        nb.Field.errorRequired,
       )
 
       await userEvent.click(document.querySelector('button'))
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })
@@ -793,7 +793,7 @@ describe('Iterate.Array', () => {
               <Wizard.Buttons />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const nextButton = () => {
@@ -805,19 +805,19 @@ describe('Iterate.Array', () => {
 
       expect(output()).toHaveTextContent('Step 1')
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       fireEvent.submit(document.querySelector('form'))
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate-push-button')
+        document.querySelector('.dnb-forms-iterate-push-button'),
       )
 
       expect(output()).toHaveTextContent('Step 1')
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
 
@@ -826,7 +826,7 @@ describe('Iterate.Array', () => {
 
       await expect(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
       }).toNeverResolve()
     })
@@ -848,7 +848,7 @@ describe('Iterate.Array', () => {
               <Wizard.Buttons />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const nextButton = () => {
@@ -863,14 +863,14 @@ describe('Iterate.Array', () => {
 
       expect(output()).toHaveTextContent('Step 1')
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       await userEvent.click(nextButton())
       expect(output()).toHaveTextContent('Step 2')
       await expect(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
       }).toNeverResolve()
 
@@ -878,7 +878,7 @@ describe('Iterate.Array', () => {
       expect(output()).toHaveTextContent('Step 1')
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
       })
 
@@ -886,7 +886,7 @@ describe('Iterate.Array', () => {
       expect(output()).toHaveTextContent('Step 2')
       await expect(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       }).toNeverResolve()
     })
@@ -899,13 +899,13 @@ describe('Iterate.Array', () => {
               <Field.String itemPath="/" />
             </Iterate.Array>
           </FieldBlock>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
         document.querySelector(
-          '.dnb-forms-field-block__status > .dnb-form-status'
-        )
+          '.dnb-forms-field-block__status > .dnb-form-status',
+        ),
       ).toHaveTextContent(nb.Field.errorRequired)
     })
 
@@ -923,36 +923,36 @@ describe('Iterate.Array', () => {
             </Iterate.Array>
           </FieldBlock>
           <Iterate.PushButton path="/items" pushValue="baz" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       fireEvent.submit(document.querySelector('form'))
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       await userEvent.click(document.querySelector('button'))
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       await userEvent.click(document.querySelector('button'))
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Field.errorRequired
+        nb.Field.errorRequired,
       )
 
       // Add a new item
       await userEvent.click(document.querySelector('button'))
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
     })
   })
@@ -964,11 +964,11 @@ describe('Iterate.Array', () => {
           <Iterate.Array path="/items" minItems={1} validateInitially>
             <Field.String itemPath="/" />
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.IterateArray.errorMinItems.replace('{minItems}', '1')
+        nb.IterateArray.errorMinItems.replace('{minItems}', '1'),
       )
     })
   })
@@ -980,11 +980,11 @@ describe('Iterate.Array', () => {
           <Iterate.Array path="/items" maxItems={1} validateInitially>
             <Field.String itemPath="/" />
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.IterateArray.errorMaxItems.replace('{maxItems}', '1')
+        nb.IterateArray.errorMaxItems.replace('{maxItems}', '1'),
       )
     })
   })
@@ -1013,21 +1013,21 @@ describe('Iterate.Array', () => {
             <Field.String itemPath="/" />
           </Iterate.Array>
           <Iterate.PushButton path="/items" pushValue="baz" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(onChangeValidator).toHaveBeenCalledTimes(1)
       expect(onChangeValidator).toHaveBeenCalledWith(
         ['foo', 'bar'],
-        expect.anything()
+        expect.anything(),
       )
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent('Error message')
       })
 
@@ -1036,12 +1036,12 @@ describe('Iterate.Array', () => {
       expect(onChangeValidator).toHaveBeenCalledTimes(3)
       expect(onChangeValidator).toHaveBeenCalledWith(
         ['foo', 'bar', 'baz'],
-        expect.anything()
+        expect.anything(),
       )
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })
@@ -1068,7 +1068,7 @@ describe('Iterate.Array', () => {
             <Field.String itemPath="/" />
           </Iterate.Array>
           <Iterate.PushButton path="/items" pushValue="baz" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(onChangeValidator).toHaveBeenCalledTimes(0)
@@ -1079,15 +1079,15 @@ describe('Iterate.Array', () => {
       expect(onChangeValidator).toHaveBeenCalledTimes(1)
       expect(onChangeValidator).toHaveBeenCalledWith(
         ['foo', 'bar'],
-        expect.anything()
+        expect.anything(),
       )
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent('Error message')
       })
 
@@ -1096,12 +1096,12 @@ describe('Iterate.Array', () => {
       expect(onChangeValidator).toHaveBeenCalledTimes(3)
       expect(onChangeValidator).toHaveBeenCalledWith(
         ['foo', 'bar', 'baz'],
-        expect.anything()
+        expect.anything(),
       )
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })
@@ -1128,7 +1128,7 @@ describe('Iterate.Array', () => {
           >
             <Field.String itemPath="/" />
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -1136,12 +1136,12 @@ describe('Iterate.Array', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
       })
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        'You cannot have duplicate items: foo'
+        'You cannot have duplicate items: foo',
       )
     })
   })
@@ -1154,7 +1154,7 @@ describe('Iterate.Array', () => {
         render(
           <Iterate.Array value={['first', 'second', 'third']}>
             {renderProp}
-          </Iterate.Array>
+          </Iterate.Array>,
         )
 
         expect(renderProp).toHaveBeenCalledTimes(3)
@@ -1162,19 +1162,19 @@ describe('Iterate.Array', () => {
           1,
           'first',
           0,
-          expect.any(Array)
+          expect.any(Array),
         )
         expect(renderProp).toHaveBeenNthCalledWith(
           2,
           'second',
           1,
-          expect.any(Array)
+          expect.any(Array),
         )
         expect(renderProp).toHaveBeenNthCalledWith(
           3,
           'third',
           2,
-          expect.any(Array)
+          expect.any(Array),
         )
       })
     })
@@ -1195,7 +1195,7 @@ describe('Iterate.Array', () => {
           >
             {renderProp1}
             {renderProp2}
-          </Iterate.Array>
+          </Iterate.Array>,
         )
 
         expect(renderProp1).toHaveBeenCalledTimes(4)
@@ -1203,25 +1203,25 @@ describe('Iterate.Array', () => {
           1,
           { mem: 'A' },
           0,
-          expect.any(Array)
+          expect.any(Array),
         )
         expect(renderProp1).toHaveBeenNthCalledWith(
           2,
           { mem: 'B' },
           1,
-          expect.any(Array)
+          expect.any(Array),
         )
         expect(renderProp1).toHaveBeenNthCalledWith(
           3,
           { mem: 'C' },
           2,
-          expect.any(Array)
+          expect.any(Array),
         )
         expect(renderProp1).toHaveBeenNthCalledWith(
           4,
           { mem: 'D', second: '2nd' },
           3,
-          expect.any(Array)
+          expect.any(Array),
         )
 
         expect(renderProp2).toHaveBeenCalledTimes(4)
@@ -1229,25 +1229,25 @@ describe('Iterate.Array', () => {
           1,
           { mem: 'A' },
           0,
-          expect.any(Array)
+          expect.any(Array),
         )
         expect(renderProp2).toHaveBeenNthCalledWith(
           2,
           { mem: 'B' },
           1,
-          expect.any(Array)
+          expect.any(Array),
         )
         expect(renderProp2).toHaveBeenNthCalledWith(
           3,
           { mem: 'C' },
           2,
-          expect.any(Array)
+          expect.any(Array),
         )
         expect(renderProp2).toHaveBeenNthCalledWith(
           4,
           { mem: 'D', second: '2nd' },
           3,
-          expect.any(Array)
+          expect.any(Array),
         )
       })
     })
@@ -1265,14 +1265,14 @@ describe('Iterate.Array', () => {
           </Iterate.Array>
 
           <Iterate.PushButton path="/myList" pushValue="foo" />
-        </DataContext.Provider>
+        </DataContext.Provider>,
       )
 
       const addButton = document.querySelector('button')
       fireEvent.click(addButton)
 
       const elements = document.querySelectorAll(
-        '.dnb-forms-iterate__element'
+        '.dnb-forms-iterate__element',
       )
       expect(elements).toHaveLength(1)
 
@@ -1281,7 +1281,7 @@ describe('Iterate.Array', () => {
         {
           myList: ['foo'],
         },
-        expect.anything()
+        expect.anything(),
       )
       expect(onChangeIterate).toHaveBeenCalledTimes(1)
       expect(onChangeIterate).toHaveBeenLastCalledWith(['foo'])
@@ -1296,7 +1296,7 @@ describe('Iterate.Array', () => {
             <Iterate.Array path="/myList" defaultValue={[null]}>
               <Field.String itemPath="/" required />
             </Iterate.Array>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const form = document.querySelector('form')
@@ -1306,7 +1306,7 @@ describe('Iterate.Array', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelectorAll('.dnb-form-status')
+            document.querySelectorAll('.dnb-form-status'),
           ).toHaveLength(1)
         })
       })
@@ -1321,7 +1321,7 @@ describe('Iterate.Array', () => {
                 <Field.String itemPath="/" />
               </Iterate.Array>
             </Form.Handler>
-          </React.StrictMode>
+          </React.StrictMode>,
         )
 
         const form = document.querySelector('form')
@@ -1334,7 +1334,7 @@ describe('Iterate.Array', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { myList: [''] },
-          expect.anything()
+          expect.anything(),
         )
       })
 
@@ -1348,7 +1348,7 @@ describe('Iterate.Array', () => {
                 <Field.String itemPath="/" />
               </Iterate.Array>
             </Form.Handler>
-          </React.StrictMode>
+          </React.StrictMode>,
         )
 
         const form = document.querySelector('form')
@@ -1361,7 +1361,7 @@ describe('Iterate.Array', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { myList: ['foo'] },
-          expect.anything()
+          expect.anything(),
         )
       })
 
@@ -1375,7 +1375,7 @@ describe('Iterate.Array', () => {
                 <Field.String itemPath="/" defaultValue="foo" />
               </Iterate.Array>
             </Form.Handler>
-          </React.StrictMode>
+          </React.StrictMode>,
         )
 
         const form = document.querySelector('form')
@@ -1388,7 +1388,7 @@ describe('Iterate.Array', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { myList: ['foo'] },
-          expect.anything()
+          expect.anything(),
         )
       })
 
@@ -1402,7 +1402,7 @@ describe('Iterate.Array', () => {
                 <Field.String itemPath="/" defaultValue="foo" />
               </Iterate.Array>
             </Form.Handler>
-          </React.StrictMode>
+          </React.StrictMode>,
         )
 
         const form = document.querySelector('form')
@@ -1415,7 +1415,7 @@ describe('Iterate.Array', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { myList: ['foo'] },
-          expect.anything()
+          expect.anything(),
         )
       })
 
@@ -1427,7 +1427,7 @@ describe('Iterate.Array', () => {
             <Form.Handler onSubmit={onSubmit}>
               <Iterate.Array path="/myList">content</Iterate.Array>
             </Form.Handler>
-          </React.StrictMode>
+          </React.StrictMode>,
         )
 
         const form = document.querySelector('form')
@@ -1436,7 +1436,7 @@ describe('Iterate.Array', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { myList: undefined },
-          expect.anything()
+          expect.anything(),
         )
       })
 
@@ -1448,7 +1448,7 @@ describe('Iterate.Array', () => {
             <Form.Handler onSubmit={onSubmit}>
               <Iterate.Array path="/myList">content</Iterate.Array>
             </Form.Handler>
-          </React.StrictMode>
+          </React.StrictMode>,
         )
 
         const form = document.querySelector('form')
@@ -1457,7 +1457,7 @@ describe('Iterate.Array', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { myList: undefined },
-          expect.anything()
+          expect.anything(),
         )
       })
 
@@ -1469,7 +1469,7 @@ describe('Iterate.Array', () => {
             <Iterate.Array path="/myList" emptyValue={undefined}>
               <Field.String itemPath="/" />
             </Iterate.Array>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const form = document.querySelector('form')
@@ -1478,7 +1478,7 @@ describe('Iterate.Array', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
           { myList: undefined },
-          expect.anything()
+          expect.anything(),
         )
       })
     })
@@ -1501,7 +1501,7 @@ describe('Iterate.Array', () => {
                 <Field.String itemPath="/" />
                 <Field.String path="/otherValue" />
               </Iterate.Array>
-            </DataContext.Provider>
+            </DataContext.Provider>,
           )
 
           const fields = document.querySelectorAll('input')
@@ -1524,37 +1524,37 @@ describe('Iterate.Array', () => {
           expect(iterateOnChange).toHaveBeenNthCalledWith(
             1,
             ['fool', 'bar'],
-            expect.anything()
+            expect.anything(),
           )
           expect(iterateOnChange).toHaveBeenNthCalledWith(
             2,
             ['fools', 'bar'],
-            expect.anything()
+            expect.anything(),
           )
           expect(iterateOnChange).toHaveBeenNthCalledWith(
             3,
             ['fools', 'bar '],
-            expect.anything()
+            expect.anything(),
           )
           expect(iterateOnChange).toHaveBeenNthCalledWith(
             4,
             ['fools', 'bar c'],
-            expect.anything()
+            expect.anything(),
           )
           expect(iterateOnChange).toHaveBeenNthCalledWith(
             5,
             ['fools', 'bar co'],
-            expect.anything()
+            expect.anything(),
           )
           expect(iterateOnChange).toHaveBeenNthCalledWith(
             6,
             ['fools', 'bar cod'],
-            expect.anything()
+            expect.anything(),
           )
           expect(iterateOnChange).toHaveBeenNthCalledWith(
             7,
             ['fools', 'bar code'],
-            expect.anything()
+            expect.anything(),
           )
 
           expect(dataContextOnChange).toHaveBeenCalledTimes(8)
@@ -1564,7 +1564,7 @@ describe('Iterate.Array', () => {
               someList: ['fool', 'bar'],
               otherValue: 'lorem ipsu',
             },
-            expect.anything()
+            expect.anything(),
           )
           expect(dataContextOnChange).toHaveBeenNthCalledWith(
             2,
@@ -1572,7 +1572,7 @@ describe('Iterate.Array', () => {
               someList: ['fools', 'bar'],
               otherValue: 'lorem ipsu',
             },
-            expect.anything()
+            expect.anything(),
           )
           expect(dataContextOnChange).toHaveBeenNthCalledWith(
             3,
@@ -1580,7 +1580,7 @@ describe('Iterate.Array', () => {
               someList: ['fools', 'bar'],
               otherValue: 'lorem ipsum',
             },
-            expect.anything()
+            expect.anything(),
           )
           expect(dataContextOnChange).toHaveBeenNthCalledWith(
             4,
@@ -1588,7 +1588,7 @@ describe('Iterate.Array', () => {
               someList: ['fools', 'bar '],
               otherValue: 'lorem ipsum',
             },
-            expect.anything()
+            expect.anything(),
           )
           expect(dataContextOnChange).toHaveBeenNthCalledWith(
             5,
@@ -1596,7 +1596,7 @@ describe('Iterate.Array', () => {
               someList: ['fools', 'bar c'],
               otherValue: 'lorem ipsum',
             },
-            expect.anything()
+            expect.anything(),
           )
           expect(dataContextOnChange).toHaveBeenNthCalledWith(
             6,
@@ -1604,7 +1604,7 @@ describe('Iterate.Array', () => {
               someList: ['fools', 'bar co'],
               otherValue: 'lorem ipsum',
             },
-            expect.anything()
+            expect.anything(),
           )
           expect(dataContextOnChange).toHaveBeenNthCalledWith(
             7,
@@ -1612,7 +1612,7 @@ describe('Iterate.Array', () => {
               someList: ['fools', 'bar cod'],
               otherValue: 'lorem ipsum',
             },
-            expect.anything()
+            expect.anything(),
           )
           expect(dataContextOnChange).toHaveBeenNthCalledWith(
             8,
@@ -1620,7 +1620,7 @@ describe('Iterate.Array', () => {
               someList: ['fools', 'bar code'],
               otherValue: 'lorem ipsum',
             },
-            expect.anything()
+            expect.anything(),
           )
         })
 
@@ -1631,7 +1631,7 @@ describe('Iterate.Array', () => {
               (filteredData = filterData({
                 '/firstList/0/secondList/*/foo': false,
                 '/firstList/1/secondList/*/bar': false,
-              }))
+              })),
           )
 
           render(
@@ -1657,7 +1657,7 @@ describe('Iterate.Array', () => {
               }}
             >
               <Form.SubmitButton>Submit</Form.SubmitButton>
-            </DataContext.Provider>
+            </DataContext.Provider>,
           )
 
           const submitButton = document.querySelector('button')
@@ -1696,7 +1696,7 @@ describe('Iterate.Array', () => {
                 },
               ],
             },
-            expect.anything()
+            expect.anything(),
           )
           expect(filteredData).toEqual({
             firstList: [
@@ -1736,7 +1736,7 @@ describe('Iterate.Array', () => {
       const { container } = render(
         <Iterate.Array value={['one', 'two', 'three']} withoutFlex>
           <Value.String itemPath="/" />
-        </Iterate.Array>
+        </Iterate.Array>,
       )
 
       expect(container.children).toHaveLength(3)
@@ -1744,7 +1744,7 @@ describe('Iterate.Array', () => {
       expect(log).toHaveBeenCalledWith(
         expect.any(String),
         'Value components as siblings should be wrapped inside a Value.SummaryList:',
-        { itemPath: '/', label: undefined, path: undefined }
+        { itemPath: '/', label: undefined, path: undefined },
       )
 
       log.mockRestore()
@@ -1756,7 +1756,7 @@ describe('Iterate.Array', () => {
           <Iterate.Array value={['one', 'two', 'three']}>
             <Value.String itemPath="/" />
           </Iterate.Array>
-        </Value.SummaryList>
+        </Value.SummaryList>,
       )
 
       expect(container.querySelector('.dnb-flex-container')).toBeNull()
@@ -1768,7 +1768,7 @@ describe('Iterate.Array', () => {
           <Iterate.Array value={['one', 'two', 'three']}>
             <Value.String itemPath="/" />
           </Iterate.Array>
-        </Value.Composition>
+        </Value.Composition>,
       )
 
       expect(container.querySelector('.dnb-flex-container')).toBeNull()
@@ -1793,12 +1793,12 @@ describe('Iterate.Array', () => {
               )
             }}
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const form = document.querySelector('form')
       const [first, second, third, forth] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       expect(first).toHaveValue('value 1')
@@ -1813,7 +1813,7 @@ describe('Iterate.Array', () => {
         {
           myList: ['value 1', 'value 2', 'value 3', 'value 4'],
         },
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -1837,12 +1837,12 @@ describe('Iterate.Array', () => {
               )
             }}
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const form = document.querySelector('form')
       const [first, second, third] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       expect(first).toHaveValue('default value 1')
@@ -1856,7 +1856,7 @@ describe('Iterate.Array', () => {
         {
           myList: ['default value 1', 'default value 2', 'something'],
         },
-        expect.anything()
+        expect.anything(),
       )
     })
   })
@@ -1892,7 +1892,7 @@ describe('Iterate.Array', () => {
               return <CaptureItemChange index={index} />
             }}
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       await waitFor(() => {
@@ -1938,12 +1938,12 @@ describe('Iterate.Array', () => {
               return null
             }}
           </DataContext.Consumer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const form = document.querySelector('form')
       const [first, second] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       expect(first).toHaveValue('value 1')
@@ -1960,7 +1960,7 @@ describe('Iterate.Array', () => {
         {
           outer: [{ inner: ['value 1', 'value 2'] }],
         },
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -1985,12 +1985,12 @@ describe('Iterate.Array', () => {
               return null
             }}
           </DataContext.Consumer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const form = document.querySelector('form')
       const [first, second] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       expect(first).toHaveValue('value 1')
@@ -2003,7 +2003,7 @@ describe('Iterate.Array', () => {
         {
           outer: [{ inner: ['value 1', 'value 2'] }],
         },
-        expect.anything()
+        expect.anything(),
       )
       expect(collectedContext.data).toEqual({
         outer: [{ inner: ['value 1', 'value 2'] }],
@@ -2031,12 +2031,12 @@ describe('Iterate.Array', () => {
               return null
             }}
           </DataContext.Consumer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const form = document.querySelector('form')
       const [first, second] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       expect(first).toHaveValue('value 1')
@@ -2049,7 +2049,7 @@ describe('Iterate.Array', () => {
         {
           outer: [{ inner: ['value 1', 'value 2'] }],
         },
-        expect.anything()
+        expect.anything(),
       )
       expect(collectedContext.data).toEqual({
         outer: [{ inner: ['value 1', 'value 2'] }],
@@ -2071,12 +2071,12 @@ describe('Iterate.Array', () => {
               <Field.String itemPath="/" />
             </Iterate.Array>
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const form = document.querySelector('form')
       const [first, second] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       expect(first).toHaveValue('value 1')
@@ -2095,7 +2095,7 @@ describe('Iterate.Array', () => {
         {
           outer: [{ inner: ['value foo', 'value bar'] }],
         },
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -2121,12 +2121,12 @@ describe('Iterate.Array', () => {
               }}
             </Iterate.Array>
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const form = document.querySelector('form')
       const [first, second, third] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       expect(first).toHaveValue('default value 1')
@@ -2142,7 +2142,7 @@ describe('Iterate.Array', () => {
             { inner: ['default value 1', 'default value 2', 'something'] },
           ],
         },
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -2184,21 +2184,21 @@ describe('Iterate.Array', () => {
               return null
             }}
           </DataContext.Consumer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelectorAll('.dnb-forms-iterate__element')
+        document.querySelectorAll('.dnb-forms-iterate__element'),
       ).toHaveLength(2)
 
       // Remove the item
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate-remove-element-button')
+        document.querySelector('.dnb-forms-iterate-remove-element-button'),
       )
 
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-forms-iterate__element')
+          document.querySelectorAll('.dnb-forms-iterate__element'),
         ).toHaveLength(1)
         expect(collectedContext.data).toEqual({
           subdata: {
@@ -2214,12 +2214,12 @@ describe('Iterate.Array', () => {
 
       // Remove the item
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate-remove-element-button')
+        document.querySelector('.dnb-forms-iterate-remove-element-button'),
       )
 
       await waitFor(() => {
         expect(
-          document.querySelectorAll('.dnb-forms-iterate__element')
+          document.querySelectorAll('.dnb-forms-iterate__element'),
         ).toHaveLength(0)
         expect(collectedContext.data).toEqual({
           subdata: {
@@ -2234,7 +2234,7 @@ describe('Iterate.Array', () => {
     render(<Iterate.Array value={['one']}>content</Iterate.Array>)
 
     expect(
-      document.querySelector('.dnb-forms-iterate__element')
+      document.querySelector('.dnb-forms-iterate__element'),
     ).toHaveAttribute('tabindex', '-1')
   })
 
@@ -2254,7 +2254,7 @@ describe('Iterate.Array', () => {
     render(
       <Iterate.Array value={['one']}>
         <ContextConsumer />
-      </Iterate.Array>
+      </Iterate.Array>,
     )
 
     expect(elementRef).toBeDefined()
@@ -2277,7 +2277,7 @@ describe('Iterate.Array', () => {
     render(
       <Iterate.Array value={['one']}>
         <ContextConsumer />
-      </Iterate.Array>
+      </Iterate.Array>,
     )
 
     expect(contextToTest).toMatchObject({
@@ -2296,14 +2296,14 @@ describe('Iterate.Array', () => {
             </output>
           )
         }}
-      </Iterate.Array>
+      </Iterate.Array>,
     )
 
     expect(
-      document.querySelectorAll('.dnb-forms-iterate__element')
+      document.querySelectorAll('.dnb-forms-iterate__element'),
     ).toHaveLength(1)
     expect(document.querySelector('output')).toHaveTextContent(
-      'Content "foo" 0'
+      'Content "foo" 0',
     )
 
     rerender(
@@ -2315,7 +2315,7 @@ describe('Iterate.Array', () => {
             </output>
           )
         }}
-      </Iterate.Array>
+      </Iterate.Array>,
     )
 
     const outputs = document.querySelectorAll('output')
@@ -2328,22 +2328,22 @@ describe('Iterate.Array', () => {
       const { rerender } = render(
         <Iterate.Array value={['foo', 'bar', 'baz']} limit={2}>
           <Value.String itemPath="/" />
-        </Iterate.Array>
+        </Iterate.Array>,
       )
 
       expect(
-        document.querySelectorAll('.dnb-forms-iterate__element')
+        document.querySelectorAll('.dnb-forms-iterate__element'),
       ).toHaveLength(2)
       expect(document.body.textContent).toBe('foobar')
 
       rerender(
         <Iterate.Array value={['foo', 'bar', 'baz']} limit={1}>
           <Value.String itemPath="/" />
-        </Iterate.Array>
+        </Iterate.Array>,
       )
 
       expect(
-        document.querySelectorAll('.dnb-forms-iterate__element')
+        document.querySelectorAll('.dnb-forms-iterate__element'),
       ).toHaveLength(1)
       expect(document.body.textContent).toBe('foo')
     })
@@ -2352,7 +2352,7 @@ describe('Iterate.Array', () => {
       render(
         <Iterate.Array value={['foo', 'bar', 'baz']} limit={2}>
           <Value.String itemPath="/" />
-        </Iterate.Array>
+        </Iterate.Array>,
       )
 
       expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(0)
@@ -2364,35 +2364,35 @@ describe('Iterate.Array', () => {
       render(
         <Iterate.Array value={['foo', 'bar', 'baz']} reverse>
           <Value.String itemPath="/" label="Label {itemNo}" />
-        </Iterate.Array>
+        </Iterate.Array>,
       )
 
       expect(
-        document.querySelectorAll('.dnb-forms-iterate__element')
+        document.querySelectorAll('.dnb-forms-iterate__element'),
       ).toHaveLength(3)
       expect(
         document.querySelectorAll(
-          '.dnb-forms-iterate__element .dnb-forms-value-block__content'
-        )[0]
+          '.dnb-forms-iterate__element .dnb-forms-value-block__content',
+        )[0],
       ).toHaveTextContent('baz')
       expect(
         document.querySelectorAll(
-          '.dnb-forms-iterate__element .dnb-forms-value-block__content'
-        )[1]
+          '.dnb-forms-iterate__element .dnb-forms-value-block__content',
+        )[1],
       ).toHaveTextContent('bar')
       expect(
         document.querySelectorAll(
-          '.dnb-forms-iterate__element .dnb-forms-value-block__content'
-        )[2]
+          '.dnb-forms-iterate__element .dnb-forms-value-block__content',
+        )[2],
       ).toHaveTextContent('foo')
       expect(
-        document.querySelectorAll('.dnb-form-label')[0]
+        document.querySelectorAll('.dnb-form-label')[0],
       ).toHaveTextContent('Label 3')
       expect(
-        document.querySelectorAll('.dnb-form-label')[1]
+        document.querySelectorAll('.dnb-form-label')[1],
       ).toHaveTextContent('Label 2')
       expect(
-        document.querySelectorAll('.dnb-form-label')[2]
+        document.querySelectorAll('.dnb-form-label')[2],
       ).toHaveTextContent('Label 1')
     })
   })
@@ -2423,11 +2423,11 @@ describe('Iterate.Array', () => {
           >
             <Field.String itemPath="/" />
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        'You need at least 1 items.'
+        'You need at least 1 items.',
       )
 
       rerender(
@@ -2443,11 +2443,11 @@ describe('Iterate.Array', () => {
           >
             <Field.String itemPath="/" />
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        'You cannot have more than 2 items.'
+        'You cannot have more than 2 items.',
       )
     })
 
@@ -2481,11 +2481,11 @@ describe('Iterate.Array', () => {
           >
             <Field.String itemPath="/" />
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        'You need at least 1 items.'
+        'You need at least 1 items.',
       )
 
       rerender(
@@ -2501,11 +2501,11 @@ describe('Iterate.Array', () => {
           >
             <Field.String itemPath="/" />
           </Iterate.Array>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        'You cannot have more than 2 items.'
+        'You cannot have more than 2 items.',
       )
     })
 
@@ -2544,7 +2544,7 @@ describe('Iterate.Array', () => {
             path="/myList"
             pushValue={{ foo }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(screen.getByText(foo)).toBeInTheDocument()
@@ -2556,7 +2556,7 @@ describe('Iterate.Array', () => {
         expect(screen.queryByText(foo)).not.toBeInTheDocument()
         expect(screen.queryByText(minItems)).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status').textContent
+          document.querySelector('.dnb-form-status').textContent,
         ).toBe(minItems)
       })
 
@@ -2593,19 +2593,19 @@ describe('Iterate.Array', () => {
               </Iterate.EditContainer>
             </Iterate.Array>
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
       expect(input).toHaveValue('foo')
       expect(
-        document.querySelector('.dnb-forms-value-block')
+        document.querySelector('.dnb-forms-value-block'),
       ).toHaveTextContent('foo')
 
       await userEvent.type(input, '{Backspace>3}bar')
       expect(input).toHaveValue('bar')
       expect(
-        document.querySelector('.dnb-forms-value-block')
+        document.querySelector('.dnb-forms-value-block'),
       ).toHaveTextContent('bar')
 
       fireEvent.submit(document.querySelector('form'))
@@ -2616,7 +2616,7 @@ describe('Iterate.Array', () => {
             myList: [{ foo: 'bar' }],
           },
         },
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -2666,7 +2666,7 @@ describe('Iterate.Array', () => {
               pushValue={{ foo }}
             />
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(screen.getByText(foo)).toBeInTheDocument()
@@ -2678,7 +2678,7 @@ describe('Iterate.Array', () => {
         expect(screen.queryByText(foo)).not.toBeInTheDocument()
         expect(screen.queryByText(minItems)).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status').textContent
+          document.querySelector('.dnb-form-status').textContent,
         ).toBe(minItems)
       })
 

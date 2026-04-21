@@ -116,14 +116,14 @@ describe('createMinimumAgeVerifier', () => {
       'Identity number is 18 years or older : %s',
       (validId) => {
         expect(isAdult(validId)).toBe(true)
-      }
+      },
     )
 
     it.each(invalidIds)(
       'Invalid identity number is not 18 years or older: %s',
       (invalidId) => {
         expect(isAdult(invalidId)).toBe(false)
-      }
+      },
     )
   })
 })

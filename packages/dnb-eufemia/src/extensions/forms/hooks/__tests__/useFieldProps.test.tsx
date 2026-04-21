@@ -59,7 +59,7 @@ describe('useFieldProps', () => {
     expect(onChange).toHaveBeenNthCalledWith(
       1,
       'new-value',
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -68,7 +68,7 @@ describe('useFieldProps', () => {
 
     const { result } = renderHook(
       () => useFieldProps({ path: '/foo', value }),
-      { wrapper: Provider }
+      { wrapper: Provider },
     )
 
     expect(result.current.dataContext.data).toEqual({
@@ -86,7 +86,7 @@ describe('useFieldProps', () => {
         wrapper: (props) => (
           <Provider data={{ foo: givenValue }} {...props} />
         ),
-      }
+      },
     )
 
     expect(result.current.dataContext.data).toEqual({
@@ -107,7 +107,7 @@ describe('useFieldProps', () => {
             error: initialError,
           },
           wrapper: Provider,
-        }
+        },
       )
 
       await waitFor(() => {
@@ -147,7 +147,7 @@ describe('useFieldProps', () => {
             emptyValue: '',
             value: '',
           }),
-        { wrapper: Provider }
+        { wrapper: Provider },
       )
 
       await waitFor(() => {
@@ -155,7 +155,7 @@ describe('useFieldProps', () => {
         expect(onStatusChange).toHaveBeenCalledWith(
           expect.objectContaining({
             error: expect.anything(),
-          })
+          }),
         )
       })
     })
@@ -170,7 +170,7 @@ describe('useFieldProps', () => {
             info: 'initial info',
           },
           wrapper: Provider,
-        }
+        },
       )
 
       await waitFor(() => {
@@ -206,7 +206,7 @@ describe('useFieldProps', () => {
             onStatusChange,
             warning: 'warning message',
           }),
-        { wrapper: Provider }
+        { wrapper: Provider },
       )
 
       await waitFor(() => {
@@ -229,7 +229,7 @@ describe('useFieldProps', () => {
             onStatusChange,
             error: errorValue,
           }),
-        { wrapper: Provider }
+        { wrapper: Provider },
       )
 
       await waitFor(() => {
@@ -253,7 +253,7 @@ describe('useFieldProps', () => {
             error: errorValue,
           },
           wrapper: Provider,
-        }
+        },
       )
 
       await waitFor(() => {
@@ -292,7 +292,7 @@ describe('useFieldProps', () => {
             warning: 'Warning message',
             error: errorValue,
           }),
-        { wrapper: Provider }
+        { wrapper: Provider },
       )
 
       await waitFor(() => {
@@ -314,7 +314,7 @@ describe('useFieldProps', () => {
             onStatusChange,
             validateInitially: true,
           }),
-        { wrapper: Provider }
+        { wrapper: Provider },
       )
 
       await waitFor(() => {
@@ -338,7 +338,7 @@ describe('useFieldProps', () => {
         {
           initialProps: { value: 'valid' },
           wrapper: Provider,
-        }
+        },
       )
 
       // Initially no error should be called (valid value)
@@ -355,7 +355,7 @@ describe('useFieldProps', () => {
         expect(onStatusChange).toHaveBeenLastCalledWith(
           expect.objectContaining({
             error: expect.anything(),
-          })
+          }),
         )
       })
 
@@ -390,7 +390,7 @@ describe('useFieldProps', () => {
         {
           initialProps: { error: undefined },
           wrapper: Provider,
-        }
+        },
       )
 
       // Initially no error should be called
@@ -449,7 +449,7 @@ describe('useFieldProps', () => {
           }),
         {
           initialProps: { value: '' },
-        }
+        },
       )
 
       // Mark as changed to enable validation from now on
@@ -504,7 +504,7 @@ describe('useFieldProps', () => {
           }),
         {
           initialProps: { value: '' },
-        }
+        },
       )
 
       // Change value to invalid - onBlurValidator should be called as onChangeValidator
@@ -517,7 +517,7 @@ describe('useFieldProps', () => {
         expect(result.current.hasError).toBeTruthy()
         expect(result.current.error).toBeInstanceOf(Error)
         expect(getError(result.current.error).message).toBe(
-          'Value must be at least 3 characters'
+          'Value must be at least 3 characters',
         )
       })
 
@@ -559,7 +559,7 @@ describe('useFieldProps', () => {
           }),
         {
           initialProps: { value: '' },
-        }
+        },
       )
 
       // Change value to invalid - onChangeValidator should be called, not onBlurValidator
@@ -573,7 +573,7 @@ describe('useFieldProps', () => {
         expect(result.current.hasError).toBeTruthy()
         expect(result.current.error).toBeInstanceOf(Error)
         expect(getError(result.current.error).message).toBe(
-          'onChangeValidator error'
+          'onChangeValidator error',
         )
       })
     })
@@ -593,7 +593,7 @@ describe('useFieldProps', () => {
           }),
         {
           initialProps: { value: '' },
-        }
+        },
       )
 
       // Change value - onBlurValidator should not be called as onChangeValidator
@@ -629,7 +629,7 @@ describe('useFieldProps', () => {
           }),
         {
           initialProps: { value: '' },
-        }
+        },
       )
 
       // Error should nto be displayed initially when field is required and empty
@@ -665,7 +665,7 @@ describe('useFieldProps', () => {
 
       const { result } = renderHook(
         () => useFieldProps({ path: '/foo', defaultValue }),
-        { wrapper: Provider }
+        { wrapper: Provider },
       )
 
       expect(result.current.dataContext.data).toEqual({
@@ -686,7 +686,7 @@ describe('useFieldProps', () => {
               </React.StrictMode>
             )
           },
-        }
+        },
       )
 
       expect(result.current.dataContext.data).toEqual({
@@ -706,7 +706,7 @@ describe('useFieldProps', () => {
               <Provider data={{ foo: givenValue }} {...props} />
             </React.StrictMode>
           ),
-        }
+        },
       )
 
       expect(result.current.dataContext.data).toEqual({
@@ -728,7 +728,7 @@ describe('useFieldProps', () => {
           wrapper: (props) => (
             <Provider data={{ foo: givenValue }} {...props} />
           ),
-        }
+        },
       )
 
       expect(result.current.dataContext.data).toEqual({
@@ -752,7 +752,7 @@ describe('useFieldProps', () => {
           initialProps: {
             defaultValue,
           },
-        }
+        },
       )
 
       expect(result.current.value).toBe(defaultValue)
@@ -775,7 +775,7 @@ describe('useFieldProps', () => {
         }),
       {
         wrapper,
-      }
+      },
     )
 
     const { handleFocus, handleBlur, handleChange } = result.current
@@ -813,7 +813,7 @@ describe('useFieldProps', () => {
           value: 'foo',
           emptyValue: '',
           required: true,
-        })
+        }),
       )
 
       const { handleFocus, handleBlur, handleChange } = result.current
@@ -850,7 +850,7 @@ describe('useFieldProps', () => {
           value: 'foo',
           emptyValue: '',
           required: true,
-        })
+        }),
       )
 
       const { handleChange } = result.current
@@ -942,7 +942,7 @@ describe('useFieldProps', () => {
           wrapper: ({ children }) => (
             <Provider ajvInstance={makeAjvInstance()}>{children}</Provider>
           ),
-        }
+        },
       )
 
       const { handleChange, handleFocus } = result.current
@@ -986,7 +986,7 @@ describe('useFieldProps', () => {
           wrapper: ({ children }) => (
             <Provider ajvInstance={makeAjvInstance()}>{children}</Provider>
           ),
-        }
+        },
       )
 
       await waitFor(() => {
@@ -1008,14 +1008,14 @@ describe('useFieldProps', () => {
       await waitFor(() => {
         expect(result.current.error).toBeInstanceOf(Error)
         expect(getError(result.current.error).message).toBe(
-          'The field value (invalid) type must be number'
+          'The field value (invalid) type must be number',
         )
       })
 
       expect(log).toHaveBeenCalledTimes(1)
       expect(log).toHaveBeenNthCalledWith(
         1,
-        'The field value (invalid) type must be number'
+        'The field value (invalid) type must be number',
       )
 
       log.mockRestore()
@@ -1038,7 +1038,7 @@ describe('useFieldProps', () => {
           wrapper: ({ children }) => (
             <Provider ajvInstance={makeAjvInstance()}>{children}</Provider>
           ),
-        }
+        },
       )
 
       const { handleChange } = result.current
@@ -1046,7 +1046,7 @@ describe('useFieldProps', () => {
       await waitFor(() => {
         expect(result.current.error).toBeInstanceOf(Error)
         expect(getError(result.current.error).message).toBe(
-          'The field value (invalid) type must be number'
+          'The field value (invalid) type must be number',
         )
       })
 
@@ -1080,18 +1080,18 @@ describe('useFieldProps', () => {
       await waitFor(() => {
         expect(result.current.error).toBeInstanceOf(Error)
         expect(getError(result.current.error).message).toBe(
-          'The field value (123) type must be string'
+          'The field value (123) type must be string',
         )
       })
 
       expect(log).toHaveBeenCalledTimes(2)
       expect(log).toHaveBeenNthCalledWith(
         1,
-        'The field value (invalid) type must be number'
+        'The field value (invalid) type must be number',
       )
       expect(log).toHaveBeenNthCalledWith(
         2,
-        'The field value (123) type must be string'
+        'The field value (123) type must be string',
       )
 
       log.mockRestore()
@@ -1146,7 +1146,7 @@ describe('useFieldProps', () => {
       })
       await waitFor(() => {
         expect(getError(result.current.error).message).toBe(
-          'throw-onBlurValidator'
+          'throw-onBlurValidator',
         )
       })
 
@@ -1158,7 +1158,7 @@ describe('useFieldProps', () => {
       })
       await waitFor(() => {
         expect(getError(result.current.error).message).toBe(
-          'throw-on-required'
+          'throw-on-required',
         )
       })
 
@@ -1177,7 +1177,7 @@ describe('useFieldProps', () => {
       })
       await waitFor(() => {
         expect(getError(result.current.error).message).toBe(
-          'throw-onBlurValidator'
+          'throw-onBlurValidator',
         )
       })
 
@@ -1189,7 +1189,7 @@ describe('useFieldProps', () => {
       })
       await waitFor(() => {
         expect(getError(result.current.error).message).toBe(
-          nb.Field.errorPattern
+          nb.Field.errorPattern,
         )
       })
 
@@ -1208,7 +1208,7 @@ describe('useFieldProps', () => {
       })
       await waitFor(() => {
         expect(getError(result.current.error).message).toBe(
-          'throw-onBlurValidator'
+          'throw-onBlurValidator',
         )
       })
 
@@ -1227,7 +1227,7 @@ describe('useFieldProps', () => {
       })
       await waitFor(() => {
         expect(getError(result.current.error).message).toBe(
-          'throw-onChangeValidator'
+          'throw-onChangeValidator',
         )
       })
 
@@ -1238,7 +1238,7 @@ describe('useFieldProps', () => {
       })
       await waitFor(() => {
         expect(getError(result.current.error).message).toBe(
-          'throw-onBlurValidator'
+          'throw-onBlurValidator',
         )
       })
     })
@@ -1253,17 +1253,17 @@ describe('useFieldProps', () => {
         {
           initialProps: { error },
           wrapper,
-        }
+        },
       )
 
       expect(document.querySelector('.dnb-form-status').textContent).toBe(
-        'A formatted error message'
+        'A formatted error message',
       )
 
       rerender({ error: undefined })
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
     })
 
@@ -1281,20 +1281,20 @@ describe('useFieldProps', () => {
         {
           initialProps: { error },
           wrapper,
-        }
+        },
       )
 
       expect(
-        document.querySelector('.dnb-form-status__text').innerHTML
+        document.querySelector('.dnb-form-status__text').innerHTML,
       ).toBe('A <strong>formatted</strong> error message')
       expect(document.querySelector('.dnb-form-status').textContent).toBe(
-        'A formatted error message'
+        'A formatted error message',
       )
 
       rerender({ error: undefined })
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
     })
 
@@ -1315,20 +1315,20 @@ describe('useFieldProps', () => {
             ],
           },
           wrapper,
-        }
+        },
       )
 
       expect(
-        document.querySelector('.dnb-form-status__text').innerHTML
+        document.querySelector('.dnb-form-status__text').innerHTML,
       ).toBe(
         nb.Field.errorSummary +
-          `<ul class="dnb-ul"><li class="dnb-li">First <strong>formatted</strong> error message</li><li class="dnb-li">Second <strong>formatted</strong> error message</li></ul>`
+          `<ul class="dnb-ul"><li class="dnb-li">First <strong>formatted</strong> error message</li><li class="dnb-li">Second <strong>formatted</strong> error message</li></ul>`,
       )
 
       rerender({ error: undefined })
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
     })
 
@@ -1342,11 +1342,11 @@ describe('useFieldProps', () => {
             errorMessages: {
               'Field.errorRequired': 'Show this message',
             },
-          })
+          }),
         )
         expect(result.current.error).toBeInstanceOf(Error)
         expect(getError(result.current.error).message).toBe(
-          'Show this message'
+          'Show this message',
         )
       })
 
@@ -1365,11 +1365,11 @@ describe('useFieldProps', () => {
                 'Field.errorRequired': 'Show this message',
               },
             },
-          }
+          },
         )
         expect(result.current.error).toBeInstanceOf(Error)
         expect(getError(result.current.error).message).toBe(
-          'Show this message'
+          'Show this message',
         )
 
         rerender({
@@ -1380,7 +1380,7 @@ describe('useFieldProps', () => {
         })
 
         expect(getError(result.current.error).message).toBe(
-          'Update the message'
+          'Update the message',
         )
       })
 
@@ -1401,24 +1401,24 @@ describe('useFieldProps', () => {
         const { rerender } = render(
           <Provider locale="nb-NO">
             <MockComponent />
-          </Provider>
+          </Provider>,
         )
 
         await waitFor(() => {
           expect(screen.getByTestId('error-message').textContent).toBe(
-            nb.Field.errorRequired
+            nb.Field.errorRequired,
           )
         })
 
         rerender(
           <Provider locale="en-GB">
             <MockComponent />
-          </Provider>
+          </Provider>,
         )
 
         await waitFor(() => {
           expect(screen.getByTestId('error-message').textContent).toBe(
-            en.Field.errorRequired
+            en.Field.errorRequired,
           )
         })
       })
@@ -1445,20 +1445,20 @@ describe('useFieldProps', () => {
               errorMessages,
             },
             wrapper,
-          }
+          },
         )
 
         expect(
-          document.querySelector('.dnb-form-status__text').innerHTML
+          document.querySelector('.dnb-form-status__text').innerHTML,
         ).toBe('A <strong>formatted</strong> error message')
         expect(
-          document.querySelector('.dnb-form-status').textContent
+          document.querySelector('.dnb-form-status').textContent,
         ).toBe('A formatted error message')
 
         rerender({ error: undefined, errorMessages })
 
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })
@@ -1469,7 +1469,7 @@ describe('useFieldProps', () => {
           value: '',
           required: true,
           validateInitially: true,
-        })
+        }),
       )
       expect(result.current.error).toBeInstanceOf(Error)
     })
@@ -1495,7 +1495,7 @@ describe('useFieldProps', () => {
           },
           onChange,
           onBlur,
-        })
+        }),
       )
 
       const { handleChange } = result.current
@@ -1511,7 +1511,7 @@ describe('useFieldProps', () => {
       await waitFor(() => {
         expect(result.current.error).toBeInstanceOf(Error)
         expect(getError(result.current.error).message).toBe(
-          'Show this message'
+          'Show this message',
         )
       })
 
@@ -1530,7 +1530,7 @@ describe('useFieldProps', () => {
           value: undefined,
           required: true,
           validateInitially: true,
-        })
+        }),
       )
       await waitFor(() => {
         expect(result.current.error).toBeInstanceOf(Error)
@@ -1548,7 +1548,7 @@ describe('useFieldProps', () => {
               required: true,
               validateInitially: true,
             },
-          }
+          },
         )
 
         expect(result.current.error).toBeInstanceOf(Error)
@@ -1570,7 +1570,7 @@ describe('useFieldProps', () => {
               required: true,
               validateInitially: true,
             },
-          }
+          },
         )
 
         expect(result.current.error).toBeInstanceOf(Error)
@@ -1610,7 +1610,7 @@ describe('useFieldProps', () => {
         '123',
         expect.objectContaining({
           props: expect.objectContaining({ foo: 'bar' }),
-        })
+        }),
       )
     })
   })
@@ -1641,7 +1641,7 @@ describe('useFieldProps', () => {
         '123',
         expect.objectContaining({
           props: expect.objectContaining({ foo: 'bar' }),
-        })
+        }),
       )
     })
   })
@@ -1671,7 +1671,7 @@ describe('useFieldProps', () => {
         '456',
         expect.objectContaining({
           props: expect.objectContaining({ foo: 'bar' }),
-        })
+        }),
       )
     })
   })
@@ -1696,7 +1696,7 @@ describe('useFieldProps', () => {
             onChange,
             value: '',
           },
-        }
+        },
       )
 
       expect(result.current.fieldState).toBeUndefined()
@@ -1906,7 +1906,7 @@ describe('useFieldProps', () => {
             onChangeValidator,
             onBlurValidator,
           },
-        }
+        },
       )
 
       expect(result.current.disabled).toBeUndefined()
@@ -2084,7 +2084,7 @@ describe('useFieldProps', () => {
 
       await waitFor(() => {
         expect(getError(result.current.error).message).toBe(
-          'Error message'
+          'Error message',
         )
         expect(result.current.fieldState).toBe('complete')
       })
@@ -2099,7 +2099,7 @@ describe('useFieldProps', () => {
 
       await waitFor(() => {
         expect(getError(result.current.error).message).toBe(
-          'Error message'
+          'Error message',
         )
         expect(result.current.fieldState).toBe('complete')
         expect(events).toEqual(['onBlurValidator'])
@@ -2320,7 +2320,7 @@ describe('useFieldProps', () => {
       expect(result.current.fieldState).toBe('pending')
       expect(result.current.error).toBeInstanceOf(Error)
       expect(getError(result.current.error).message).toBe(
-        'Error message by onChangeValidator'
+        'Error message by onChangeValidator',
       )
 
       await waitFor(() => {
@@ -2328,7 +2328,7 @@ describe('useFieldProps', () => {
         expect(result.current.fieldState).toBe('error')
         expect(result.current.error).toBeInstanceOf(Error)
         expect(getError(result.current.error).message).toBe(
-          'Error message by onBlurValidator'
+          'Error message by onBlurValidator',
         )
       })
 
@@ -2493,7 +2493,7 @@ describe('useFieldProps', () => {
         expect(events).toEqual(['onChangeValidator'])
         expect(result.current.fieldState).toBe('error')
         expect(getError(result.current.error).message).toBe(
-          'Error in onChangeValidator'
+          'Error in onChangeValidator',
         )
       })
 
@@ -2523,7 +2523,7 @@ describe('useFieldProps', () => {
         ])
         expect(result.current.fieldState).toBe('error')
         expect(getError(result.current.error).message).toBe(
-          'Error in onBlurValidator'
+          'Error in onBlurValidator',
         )
       })
 
@@ -2542,7 +2542,7 @@ describe('useFieldProps', () => {
         expect(events).toEqual(['onChangeValidator', 'onChangeForm'])
         expect(result.current.fieldState).toBe('error')
         expect(getError(result.current.error).message).toBe(
-          'Error in onChangeForm'
+          'Error in onChangeForm',
         )
       })
 
@@ -2565,7 +2565,7 @@ describe('useFieldProps', () => {
         ])
         expect(result.current.fieldState).toBe('error')
         expect(getError(result.current.error).message).toBe(
-          'Error in onChangeField'
+          'Error in onChangeField',
         )
       })
 
@@ -2593,7 +2593,7 @@ describe('useFieldProps', () => {
         ])
         expect(result.current.fieldState).toBe('error')
         expect(getError(result.current.error).message).toBe(
-          'Error in onBlurValidator'
+          'Error in onBlurValidator',
         )
       })
     })
@@ -2627,7 +2627,7 @@ describe('useFieldProps', () => {
         expect(result.current.info).toBe('Info message')
         expect(result.current.warning).toBe('Warning message')
         expect(getError(result.current.error).message).toBe(
-          'Error message'
+          'Error message',
         )
       })
     })
@@ -2660,7 +2660,7 @@ describe('useFieldProps', () => {
         '456',
         expect.objectContaining({
           props: expect.objectContaining({ foo: 'bar' }),
-        })
+        }),
       )
     })
   })
@@ -2670,7 +2670,7 @@ describe('useFieldProps', () => {
       const { result } = renderHook(() =>
         useFieldProps({
           'aria-label': 'custom attribute',
-        })
+        }),
       )
 
       expect(result.current.htmlAttributes).toEqual({
@@ -2684,7 +2684,7 @@ describe('useFieldProps', () => {
           id: 'unique',
           error: new Error('error'),
           'aria-describedby': 'existing-id',
-        })
+        }),
       )
 
       expect(result.current.htmlAttributes).toEqual({
@@ -2698,7 +2698,7 @@ describe('useFieldProps', () => {
         useFieldProps({
           value: undefined,
           validateInitially: true,
-        })
+        }),
       )
 
       expect(result.current.htmlAttributes).toEqual({})
@@ -2709,7 +2709,7 @@ describe('useFieldProps', () => {
         useFieldProps({
           value: undefined,
           required: false,
-        })
+        }),
       )
 
       expect(result.current.htmlAttributes).toEqual({})
@@ -2722,7 +2722,7 @@ describe('useFieldProps', () => {
           useFieldProps({
             value: undefined,
             required: true,
-          })
+          }),
         )
 
         expect(result.current.error).not.toBeInstanceOf(Error)
@@ -2747,7 +2747,7 @@ describe('useFieldProps', () => {
             path: '/myField',
             value: undefined,
             schema,
-          })
+          }),
         )
 
         expect(result.current.htmlAttributes).toEqual({
@@ -2781,7 +2781,7 @@ describe('useFieldProps', () => {
                 </Provider>
               )
             },
-          }
+          },
         )
 
         expect(result.current.htmlAttributes).toEqual({
@@ -2820,7 +2820,7 @@ describe('useFieldProps', () => {
                 </Provider>
               )
             },
-          }
+          },
         )
 
         expect(result.current.htmlAttributes).toEqual({
@@ -2836,7 +2836,7 @@ describe('useFieldProps', () => {
           value: undefined,
           required: true,
           validateInitially: true,
-        })
+        }),
       )
 
       expect(result.current.error).toBeInstanceOf(Error)
@@ -2852,7 +2852,7 @@ describe('useFieldProps', () => {
         (props: any) => useFieldProps(props),
         {
           initialProps: {},
-        }
+        },
       )
 
       expect(result.current.htmlAttributes).toEqual({})
@@ -2883,7 +2883,7 @@ describe('useFieldProps', () => {
 
     it('should combine all aria', async () => {
       const { result } = renderHook(() =>
-        useFieldProps({ error: new Error('error'), required: true })
+        useFieldProps({ error: new Error('error'), required: true }),
       )
 
       expect(result.current.htmlAttributes).toEqual({
@@ -2906,7 +2906,7 @@ describe('useFieldProps', () => {
           onChange,
           transformIn,
           transformOut,
-        })
+        }),
       )
 
       const { handleChange } = result.current
@@ -2962,7 +2962,7 @@ describe('useFieldProps', () => {
 
       const { result } = renderHook(
         () => useFieldProps({ path: '/foo', transformOut, value }),
-        { wrapper: Provider }
+        { wrapper: Provider },
       )
 
       expect(result.current.dataContext.data).toEqual({
@@ -2985,7 +2985,7 @@ describe('useFieldProps', () => {
             transformIn,
             defaultValue,
           }),
-        { wrapper: Provider }
+        { wrapper: Provider },
       )
 
       expect(result.current.dataContext.data).toEqual({
@@ -3011,7 +3011,7 @@ describe('useFieldProps', () => {
           transformOut,
           fromInput,
           toInput,
-        })
+        }),
       )
 
       const { handleChange } = result.current
@@ -3052,7 +3052,7 @@ describe('useFieldProps', () => {
           onChange,
           fromInput,
           toInput,
-        })
+        }),
       )
 
       const { handleChange } = result.current
@@ -3096,7 +3096,7 @@ describe('useFieldProps', () => {
           onChange,
           onFocus,
           onBlur,
-        })
+        }),
       )
 
       const { handleFocus, handleBlur, handleChange } = result.current
@@ -3149,7 +3149,7 @@ describe('useFieldProps', () => {
           onChange,
           onFocus,
           onBlur,
-        })
+        }),
       )
 
       const { handleFocus, handleBlur, handleChange } = result.current
@@ -3195,7 +3195,7 @@ describe('useFieldProps', () => {
         useFieldProps({
           value: 1,
           transformValue,
-        })
+        }),
       )
 
       const { handleFocus, handleBlur, handleChange } = result.current
@@ -3350,7 +3350,7 @@ describe('useFieldProps', () => {
           onFocus,
           onBlur,
           onChange,
-        })
+        }),
       )
 
       const { handleFocus, handleBlur, updateValue } = result.current
@@ -3389,7 +3389,7 @@ describe('useFieldProps', () => {
           onChange,
           fromInput,
           toInput,
-        })
+        }),
       )
 
       const { updateValue, handleChange } = result.current
@@ -3443,7 +3443,7 @@ describe('useFieldProps', () => {
           onBlur,
           onChange,
           required: true,
-        })
+        }),
       )
 
       const { handleFocus, handleBlur, updateValue } = result.current
@@ -3491,7 +3491,7 @@ describe('useFieldProps', () => {
     const { rerender } = render(
       <FieldBlock error={new Error('Error message')}>
         <MockComponent />
-      </FieldBlock>
+      </FieldBlock>,
     )
 
     expect(hasOuterError).toBeTruthy()
@@ -3499,7 +3499,7 @@ describe('useFieldProps', () => {
     rerender(
       <FieldBlock>
         <MockComponent />
-      </FieldBlock>
+      </FieldBlock>,
     )
 
     expect(hasOuterError).toBeFalsy()
@@ -3527,11 +3527,11 @@ describe('useFieldProps', () => {
             {children}
           </Form.Handler>
         ),
-      }
+      },
     )
 
     expect(result.current.error).toEqual(
-      new Error('new required error message')
+      new Error('new required error message'),
     )
   })
 
@@ -3543,7 +3543,7 @@ describe('useFieldProps', () => {
         wrapper: ({ children }) => (
           <Form.Handler autoComplete>{children}</Form.Handler>
         ),
-      }
+      },
     )
 
     expect(result.current.autoComplete).toBe('on')
@@ -3562,7 +3562,7 @@ describe('useFieldProps', () => {
     const { result } = renderHook(() => useFieldProps(dataAttributes))
 
     expect(result.current.htmlAttributes).toEqual(
-      expect.objectContaining(dataAttributes)
+      expect.objectContaining(dataAttributes),
     )
   })
 
@@ -3576,7 +3576,7 @@ describe('useFieldProps', () => {
     const { result } = renderHook(() => useFieldProps(htmlAttributes))
 
     expect(result.current.htmlAttributes).toEqual(
-      expect.objectContaining(htmlAttributes)
+      expect.objectContaining(htmlAttributes),
     )
   })
 
@@ -3615,7 +3615,7 @@ describe('useFieldProps', () => {
     expect(setFieldInternalsDataContext).toHaveBeenCalledTimes(1)
     expect(setFieldInternalsDataContext).toHaveBeenLastCalledWith(
       props.path,
-      { id: expect.any(String), props }
+      { id: expect.any(String), props },
     )
 
     rerender({
@@ -3634,7 +3634,7 @@ describe('useFieldProps', () => {
           value: 'new value',
           emptyValue: 'new empty value',
         },
-      }
+      },
     )
   })
 
@@ -3656,7 +3656,7 @@ describe('useFieldProps', () => {
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenLastCalledWith(
       { foo: 'new-value' },
-      expect.anything()
+      expect.anything(),
     )
     expect(result.current.error).toBeUndefined()
   })
@@ -3698,7 +3698,7 @@ describe('useFieldProps', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { foo: first },
-      expect.anything()
+      expect.anything(),
     )
     expect(result.current.value).toBe(first)
 
@@ -3711,7 +3711,7 @@ describe('useFieldProps', () => {
     expect(onSubmit).toHaveBeenCalledTimes(2)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { foo: second },
-      expect.anything()
+      expect.anything(),
     )
     expect(result.current.value).toBe(second)
 
@@ -3723,7 +3723,7 @@ describe('useFieldProps', () => {
     expect(onSubmit).toHaveBeenCalledTimes(3)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { foo: first },
-      expect.anything()
+      expect.anything(),
     )
     expect(result.current.value).toBe(first)
   })
@@ -3760,7 +3760,7 @@ describe('useFieldProps', () => {
           value: 'my-value',
         },
         wrapper: (props) => <Provider {...props} onChange={onChange} />,
-      }
+      },
     )
 
     await act(async () => {
@@ -3770,7 +3770,7 @@ describe('useFieldProps', () => {
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenLastCalledWith(
       { foo: 'my-value' },
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -3788,7 +3788,7 @@ describe('useFieldProps', () => {
           error: new Error('Error message'),
         },
         wrapper: (props) => <Provider {...props} onChange={onChange} />,
-      }
+      },
     )
 
     await act(async () => {
@@ -3798,7 +3798,7 @@ describe('useFieldProps', () => {
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenLastCalledWith(
       { foo: 'new-value' },
-      expect.anything()
+      expect.anything(),
     )
     expect(result.current.error).toBeInstanceOf(Error)
   })
@@ -3813,7 +3813,7 @@ describe('useFieldProps', () => {
             value: 'foo',
             validateInitially: true,
           },
-        }
+        },
       )
 
       await waitFor(() => {
@@ -3853,7 +3853,7 @@ describe('useFieldProps', () => {
               onChangeValidator,
               value: '',
             },
-          }
+          },
         )
 
         expect(result.current.fieldState).toBeUndefined()
@@ -3912,7 +3912,7 @@ describe('useFieldProps', () => {
               info: 'Info message',
               warning: 'Warning message',
             },
-          }
+          },
         )
         const id = result.current.id
         const { result: sharedResult } = renderHook(() =>
@@ -3922,7 +3922,7 @@ describe('useFieldProps', () => {
             fieldState: SubmitState
             info: string
             warning: string
-          }>('field-block-props-' + id)
+          }>('field-block-props-' + id),
         )
         expect(sharedResult.current.data).toEqual({
           disabled: undefined,
@@ -4035,7 +4035,7 @@ describe('useFieldProps', () => {
               onChangeValidator,
               value: '',
             },
-          }
+          },
         )
 
         expect(result.current.fieldState).toBeUndefined()
@@ -4080,7 +4080,7 @@ describe('useFieldProps', () => {
               value: '',
               disabled: undefined,
             },
-          }
+          },
         )
 
         expect(result.current.fieldState).toBeUndefined()
@@ -4130,7 +4130,7 @@ describe('useFieldProps', () => {
               schema={schema}
               onChangeValidator={onChangeValidator}
             />
-          </Provider>
+          </Provider>,
         )
 
         const input = document.querySelector('input')
@@ -4143,7 +4143,7 @@ describe('useFieldProps', () => {
 
         expect(screen.queryByRole('alert')).toBeInTheDocument()
         expect(screen.queryByRole('alert')).toHaveTextContent(
-          'onChangeValidator error'
+          'onChangeValidator error',
         )
 
         window.requestAnimationFrame = original
@@ -4162,7 +4162,7 @@ describe('useFieldProps', () => {
               onChangeValidator={onChangeValidator}
               validateInitially
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         await waitFor(() => {
@@ -4183,7 +4183,7 @@ describe('useFieldProps', () => {
               onChangeValidator={onChangeValidator}
               validateInitially
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         await waitFor(() => {
@@ -4217,7 +4217,7 @@ describe('useFieldProps', () => {
               defaultValue={2}
               onChangeValidator={onChangeValidator}
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -4227,7 +4227,7 @@ describe('useFieldProps', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            'The amount should be greater than 2'
+            'The amount should be greater than 2',
           )
         })
         expect(onChangeValidator).toHaveBeenCalledTimes(1)
@@ -4235,7 +4235,7 @@ describe('useFieldProps', () => {
           2,
           expect.objectContaining({
             connectWithPath: expect.any(Function),
-          })
+          }),
         )
       })
 
@@ -4251,11 +4251,11 @@ describe('useFieldProps', () => {
               defaultValue={2}
               onChangeValidator={onChangeValidator}
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const [inputWithRefValue] = Array.from(
-          document.querySelectorAll('input')
+          document.querySelectorAll('input'),
         )
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -4266,7 +4266,7 @@ describe('useFieldProps', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            'The amount should be greater than 2'
+            'The amount should be greater than 2',
           )
         })
 
@@ -4274,7 +4274,7 @@ describe('useFieldProps', () => {
         await userEvent.type(inputWithRefValue, '2')
 
         expect(screen.queryByRole('alert')).toHaveTextContent(
-          'The amount should be greater than 22'
+          'The amount should be greater than 22',
         )
       })
 
@@ -4290,11 +4290,11 @@ describe('useFieldProps', () => {
               defaultValue={2}
               onChangeValidator={onChangeValidator}
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const [inputWithRefValue] = Array.from(
-          document.querySelectorAll('input')
+          document.querySelectorAll('input'),
         )
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -4305,7 +4305,7 @@ describe('useFieldProps', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            'The amount should be greater than 2'
+            'The amount should be greater than 2',
           )
         })
 
@@ -4317,7 +4317,7 @@ describe('useFieldProps', () => {
           2,
           expect.objectContaining({
             connectWithPath: expect.any(Function),
-          })
+          }),
         )
       })
 
@@ -4333,11 +4333,11 @@ describe('useFieldProps', () => {
               defaultValue={2}
               onChangeValidator={onChangeValidator}
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const [inputWithRefValue] = Array.from(
-          document.querySelectorAll('input')
+          document.querySelectorAll('input'),
         )
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -4348,7 +4348,7 @@ describe('useFieldProps', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            'The amount should be greater than 2'
+            'The amount should be greater than 2',
           )
         })
 
@@ -4376,13 +4376,13 @@ describe('useFieldProps', () => {
                 onChangeValidator={onChangeValidator}
                 validateInitially
               />
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 2'
+              'The amount should be greater than 2',
             )
           })
         })
@@ -4400,17 +4400,17 @@ describe('useFieldProps', () => {
                 onChangeValidator={onChangeValidator}
                 validateInitially
               />
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           const [inputWithRefValue] = Array.from(
-            document.querySelectorAll('input')
+            document.querySelectorAll('input'),
           )
 
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 2'
+              'The amount should be greater than 2',
             )
           })
 
@@ -4440,13 +4440,13 @@ describe('useFieldProps', () => {
                 onChangeValidator={onChangeValidator}
                 validateUnchanged
               />
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 2'
+              'The amount should be greater than 2',
             )
           })
         })
@@ -4464,17 +4464,17 @@ describe('useFieldProps', () => {
                 onChangeValidator={onChangeValidator}
                 validateUnchanged
               />
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           const [inputWithRefValue] = Array.from(
-            document.querySelectorAll('input')
+            document.querySelectorAll('input'),
           )
 
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 2'
+              'The amount should be greater than 2',
             )
           })
 
@@ -4487,7 +4487,7 @@ describe('useFieldProps', () => {
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 3'
+              'The amount should be greater than 3',
             )
           })
         })
@@ -4507,7 +4507,7 @@ describe('useFieldProps', () => {
                 onChangeValidator={onChangeValidator}
                 validateContinuously
               />
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -4526,11 +4526,11 @@ describe('useFieldProps', () => {
                 onChangeValidator={onChangeValidator}
                 validateContinuously
               />
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           const [inputWithRefValue] = Array.from(
-            document.querySelectorAll('input')
+            document.querySelectorAll('input'),
           )
 
           // Show error message
@@ -4539,7 +4539,7 @@ describe('useFieldProps', () => {
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 2'
+              'The amount should be greater than 2',
             )
           })
 
@@ -4552,7 +4552,7 @@ describe('useFieldProps', () => {
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 3'
+              'The amount should be greater than 3',
             )
           })
         })
@@ -4593,7 +4593,7 @@ describe('useFieldProps', () => {
                 onChangeValidator={onChangeValidator}
               />
             </Iterate.Array>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -4603,7 +4603,7 @@ describe('useFieldProps', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            'The amount should be greater than 2'
+            'The amount should be greater than 2',
           )
         })
         expect(onChangeValidator).toHaveBeenCalledTimes(1)
@@ -4611,7 +4611,7 @@ describe('useFieldProps', () => {
           2,
           expect.objectContaining({
             connectWithPath: expect.any(Function),
-          })
+          }),
         )
       })
 
@@ -4632,11 +4632,11 @@ describe('useFieldProps', () => {
                 onChangeValidator={onChangeValidator}
               />
             </Iterate.Array>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const [inputWithRefValue] = Array.from(
-          document.querySelectorAll('input')
+          document.querySelectorAll('input'),
         )
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -4647,7 +4647,7 @@ describe('useFieldProps', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            'The amount should be greater than 2'
+            'The amount should be greater than 2',
           )
         })
 
@@ -4655,7 +4655,7 @@ describe('useFieldProps', () => {
         await userEvent.type(inputWithRefValue, '2')
 
         expect(screen.queryByRole('alert')).toHaveTextContent(
-          'The amount should be greater than 22'
+          'The amount should be greater than 22',
         )
       })
 
@@ -4676,11 +4676,11 @@ describe('useFieldProps', () => {
                 onChangeValidator={onChangeValidator}
               />
             </Iterate.Array>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const [inputWithRefValue] = Array.from(
-          document.querySelectorAll('input')
+          document.querySelectorAll('input'),
         )
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -4691,7 +4691,7 @@ describe('useFieldProps', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            'The amount should be greater than 2'
+            'The amount should be greater than 2',
           )
         })
 
@@ -4703,7 +4703,7 @@ describe('useFieldProps', () => {
           2,
           expect.objectContaining({
             connectWithPath: expect.any(Function),
-          })
+          }),
         )
       })
 
@@ -4724,11 +4724,11 @@ describe('useFieldProps', () => {
                 onChangeValidator={onChangeValidator}
               />
             </Iterate.Array>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const [inputWithRefValue] = Array.from(
-          document.querySelectorAll('input')
+          document.querySelectorAll('input'),
         )
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -4739,7 +4739,7 @@ describe('useFieldProps', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            'The amount should be greater than 2'
+            'The amount should be greater than 2',
           )
         })
 
@@ -4769,13 +4769,13 @@ describe('useFieldProps', () => {
                   validateInitially
                 />
               </Iterate.Array>
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 2'
+              'The amount should be greater than 2',
             )
           })
         })
@@ -4795,17 +4795,17 @@ describe('useFieldProps', () => {
                   validateInitially
                 />
               </Iterate.Array>
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           const [inputWithRefValue] = Array.from(
-            document.querySelectorAll('input')
+            document.querySelectorAll('input'),
           )
 
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 2'
+              'The amount should be greater than 2',
             )
           })
 
@@ -4837,13 +4837,13 @@ describe('useFieldProps', () => {
                   validateUnchanged
                 />
               </Iterate.Array>
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 2'
+              'The amount should be greater than 2',
             )
           })
         })
@@ -4863,17 +4863,17 @@ describe('useFieldProps', () => {
                   validateUnchanged
                 />
               </Iterate.Array>
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           const [inputWithRefValue] = Array.from(
-            document.querySelectorAll('input')
+            document.querySelectorAll('input'),
           )
 
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 2'
+              'The amount should be greater than 2',
             )
           })
 
@@ -4886,7 +4886,7 @@ describe('useFieldProps', () => {
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 3'
+              'The amount should be greater than 3',
             )
           })
         })
@@ -4908,7 +4908,7 @@ describe('useFieldProps', () => {
                   validateContinuously
                 />
               </Iterate.Array>
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -4929,11 +4929,11 @@ describe('useFieldProps', () => {
                   validateContinuously
                 />
               </Iterate.Array>
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           const [inputWithRefValue] = Array.from(
-            document.querySelectorAll('input')
+            document.querySelectorAll('input'),
           )
 
           // Show error message
@@ -4942,7 +4942,7 @@ describe('useFieldProps', () => {
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 2'
+              'The amount should be greater than 2',
             )
           })
 
@@ -4955,7 +4955,7 @@ describe('useFieldProps', () => {
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 3'
+              'The amount should be greater than 3',
             )
           })
         })
@@ -4992,7 +4992,7 @@ describe('useFieldProps', () => {
               onChangeValidator={myOnChangeValidator}
               validateUnchanged
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         await waitFor(() => {
@@ -5004,7 +5004,7 @@ describe('useFieldProps', () => {
 
         await userEvent.type(
           document.querySelector('input'),
-          '{Backspace}bar'
+          '{Backspace}bar',
         )
 
         await waitFor(() => {
@@ -5046,7 +5046,7 @@ describe('useFieldProps', () => {
               onChangeValidator={myValidator}
               validateUnchanged
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         await waitFor(() => {
@@ -5058,7 +5058,7 @@ describe('useFieldProps', () => {
 
         await userEvent.type(
           document.querySelector('input'),
-          '{Backspace}bar'
+          '{Backspace}bar',
         )
 
         await waitFor(() => {
@@ -5094,10 +5094,10 @@ describe('useFieldProps', () => {
       })
 
       expect(
-        document.querySelector('.dnb-form-status__text').innerHTML
+        document.querySelector('.dnb-form-status__text').innerHTML,
       ).toBe('A <strong>formatted</strong> error message')
       expect(document.querySelector('.dnb-form-status').textContent).toBe(
-        'A formatted error message'
+        'A formatted error message',
       )
 
       act(() => {
@@ -5105,7 +5105,7 @@ describe('useFieldProps', () => {
       })
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
     })
 
@@ -5129,7 +5129,7 @@ describe('useFieldProps', () => {
       })
 
       expect(document.querySelector('.dnb-form-status').textContent).toBe(
-        'A formatted error message'
+        'A formatted error message',
       )
 
       act(() => {
@@ -5137,7 +5137,7 @@ describe('useFieldProps', () => {
       })
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
     })
 
@@ -5186,7 +5186,7 @@ describe('useFieldProps', () => {
             })
 
             return [fooValidator, barValidator, bazValidator]
-          }
+          },
         )
 
         render(
@@ -5197,7 +5197,7 @@ describe('useFieldProps', () => {
               onChangeValidator={publicValidator}
               validateUnchanged
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         await waitFor(() => {
@@ -5216,12 +5216,12 @@ describe('useFieldProps', () => {
               barValidator,
               bazValidator,
             },
-          })
+          }),
         )
 
         await userEvent.type(
           document.querySelector('input'),
-          '{Backspace}bar'
+          '{Backspace}bar',
         )
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toHaveTextContent('bar')
@@ -5234,7 +5234,7 @@ describe('useFieldProps', () => {
 
         await userEvent.type(
           document.querySelector('input'),
-          '{Backspace}baz'
+          '{Backspace}baz',
         )
 
         await waitFor(() => {
@@ -5260,7 +5260,7 @@ describe('useFieldProps', () => {
           <Field.String
             onBlurValidator={onBlurValidator}
             exportValidators={{ onBlurValidator }}
-          />
+          />,
         )
 
         const input = document.querySelector('input')
@@ -5277,7 +5277,7 @@ describe('useFieldProps', () => {
         expect(onBlurValidator).toHaveBeenCalledTimes(2)
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toHaveTextContent('Error message')
         })
       })
@@ -5323,7 +5323,7 @@ describe('useFieldProps', () => {
         expect(myValidator).toHaveBeenCalledTimes(2)
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toHaveTextContent('Error message')
         })
 
@@ -5334,7 +5334,7 @@ describe('useFieldProps', () => {
         expect(myValidator).toHaveBeenCalledTimes(3)
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toHaveTextContent('Error message')
         })
       })
@@ -5380,7 +5380,7 @@ describe('useFieldProps', () => {
         expect(myValidator).toHaveBeenCalledTimes(4)
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toHaveTextContent('Error message')
         })
 
@@ -5391,7 +5391,7 @@ describe('useFieldProps', () => {
         expect(myValidator).toHaveBeenCalledTimes(6)
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toHaveTextContent('Error message')
         })
       })
@@ -5440,7 +5440,7 @@ describe('useFieldProps', () => {
             })
 
             return [fooValidator, bazValidator]
-          }
+          },
         )
 
         render(
@@ -5451,7 +5451,7 @@ describe('useFieldProps', () => {
               onChangeValidator={publicValidator}
               validateUnchanged
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         await waitFor(() => {
@@ -5470,12 +5470,12 @@ describe('useFieldProps', () => {
               barValidator,
               bazValidator,
             },
-          })
+          }),
         )
 
         await userEvent.type(
           document.querySelector('input'),
-          '{Backspace}bar' // remove one letter from bar, so the bar validator should return undefined
+          '{Backspace}bar', // remove one letter from bar, so the bar validator should return undefined
         )
         await waitFor(() => {
           // Here we should not see the bar validator called
@@ -5489,7 +5489,7 @@ describe('useFieldProps', () => {
 
         await userEvent.type(
           document.querySelector('input'),
-          '{Backspace}baz'
+          '{Backspace}baz',
         )
 
         await waitFor(() => {
@@ -5527,7 +5527,7 @@ describe('useFieldProps', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toBeInTheDocument()
         })
       })
@@ -5556,7 +5556,7 @@ describe('useFieldProps', () => {
 
         await expect(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toBeInTheDocument()
         }).toNeverResolve()
       })
@@ -5610,7 +5610,7 @@ describe('useFieldProps', () => {
               onChangeValidator={publicValidator}
               validateUnchanged
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         await waitFor(() => {
@@ -5628,12 +5628,12 @@ describe('useFieldProps', () => {
               barValidator,
               bazValidator,
             },
-          })
+          }),
         )
 
         await userEvent.type(
           document.querySelector('input'),
-          '{Backspace}bar'
+          '{Backspace}bar',
         )
         await expect(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -5645,7 +5645,7 @@ describe('useFieldProps', () => {
 
         await userEvent.type(
           document.querySelector('input'),
-          '{Backspace}baz'
+          '{Backspace}baz',
         )
 
         await expect(() => {
@@ -5672,7 +5672,7 @@ describe('useFieldProps', () => {
               onBlurValidator={onBlurValidator}
               validateInitially
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         await waitFor(() => {
@@ -5693,11 +5693,11 @@ describe('useFieldProps', () => {
               onBlurValidator={onBlurValidator}
               validateInitially
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(
-          document.querySelector('.dnb-forms-submit-indicator')
+          document.querySelector('.dnb-forms-submit-indicator'),
         ).toHaveClass('dnb-forms-submit-indicator--state-pending')
 
         await waitFor(() => {
@@ -5710,7 +5710,7 @@ describe('useFieldProps', () => {
     describe('connectWithPath', () => {
       const onBlurValidatorFn: UseFieldProps<number>['onBlurValidator'] = (
         num,
-        { connectWithPath }
+        { connectWithPath },
       ) => {
         const amount = connectWithPath('/refValue').getValue()
 
@@ -5733,7 +5733,7 @@ describe('useFieldProps', () => {
               defaultValue={2}
               onBlurValidator={onBlurValidator}
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -5743,7 +5743,7 @@ describe('useFieldProps', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            'The amount should be greater than 2'
+            'The amount should be greater than 2',
           )
         })
 
@@ -5752,7 +5752,7 @@ describe('useFieldProps', () => {
           2,
           expect.objectContaining({
             connectWithPath: expect.any(Function),
-          })
+          }),
         )
       })
 
@@ -5768,11 +5768,11 @@ describe('useFieldProps', () => {
               defaultValue={1}
               onBlurValidator={onBlurValidator}
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const [inputWithRefValue, inputWithOnBlurValidator] = Array.from(
-          document.querySelectorAll('input')
+          document.querySelectorAll('input'),
         )
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -5784,7 +5784,7 @@ describe('useFieldProps', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            'The amount should be greater than 12'
+            'The amount should be greater than 12',
           )
         })
 
@@ -5792,7 +5792,7 @@ describe('useFieldProps', () => {
         await userEvent.type(inputWithRefValue, '3')
 
         expect(screen.queryByRole('alert')).toHaveTextContent(
-          'The amount should be greater than 123'
+          'The amount should be greater than 123',
         )
       })
 
@@ -5808,11 +5808,11 @@ describe('useFieldProps', () => {
               defaultValue={2}
               onBlurValidator={onBlurValidator}
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const [inputWithRefValue] = Array.from(
-          document.querySelectorAll('input')
+          document.querySelectorAll('input'),
         )
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -5832,7 +5832,7 @@ describe('useFieldProps', () => {
           2,
           expect.objectContaining({
             connectWithPath: expect.any(Function),
-          })
+          }),
         )
       })
 
@@ -5848,11 +5848,11 @@ describe('useFieldProps', () => {
               defaultValue={2}
               onBlurValidator={onBlurValidator}
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const [inputWithRefValue] = Array.from(
-          document.querySelectorAll('input')
+          document.querySelectorAll('input'),
         )
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -5888,7 +5888,7 @@ describe('useFieldProps', () => {
                 onBlurValidator={onBlurValidator}
                 validateInitially
               />
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           await waitFor(() => {
@@ -5909,11 +5909,11 @@ describe('useFieldProps', () => {
                 onBlurValidator={onBlurValidator}
                 validateInitially
               />
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           const [inputWithRefValue] = Array.from(
-            document.querySelectorAll('input')
+            document.querySelectorAll('input'),
           )
 
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -5942,7 +5942,7 @@ describe('useFieldProps', () => {
                 onBlurValidator={onBlurValidator}
                 validateUnchanged
               />
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -5961,11 +5961,11 @@ describe('useFieldProps', () => {
                 onBlurValidator={onBlurValidator}
                 validateUnchanged
               />
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           const [inputWithRefValue] = Array.from(
-            document.querySelectorAll('input')
+            document.querySelectorAll('input'),
           )
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -5994,7 +5994,7 @@ describe('useFieldProps', () => {
                 onBlurValidator={onBlurValidator}
                 validateContinuously
               />
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -6005,7 +6005,7 @@ describe('useFieldProps', () => {
     describe('connectWithItemPath', () => {
       const onBlurValidatorFn: UseFieldProps<number>['onBlurValidator'] = (
         num,
-        { connectWithItemPath }
+        { connectWithItemPath },
       ) => {
         const amount = connectWithItemPath('/refValue').getValue()
 
@@ -6034,7 +6034,7 @@ describe('useFieldProps', () => {
                 onBlurValidator={onBlurValidator}
               />
             </Iterate.Array>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -6044,7 +6044,7 @@ describe('useFieldProps', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            'The amount should be greater than 2'
+            'The amount should be greater than 2',
           )
         })
 
@@ -6053,7 +6053,7 @@ describe('useFieldProps', () => {
           2,
           expect.objectContaining({
             connectWithPath: expect.any(Function),
-          })
+          }),
         )
       })
 
@@ -6075,11 +6075,11 @@ describe('useFieldProps', () => {
                 onBlurValidator={onBlurValidator}
               />
             </Iterate.Array>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const [inputWithRefValue, inputWithOnBlurValidator] = Array.from(
-          document.querySelectorAll('input')
+          document.querySelectorAll('input'),
         )
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -6091,7 +6091,7 @@ describe('useFieldProps', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            'The amount should be greater than 12'
+            'The amount should be greater than 12',
           )
         })
 
@@ -6099,7 +6099,7 @@ describe('useFieldProps', () => {
         await userEvent.type(inputWithRefValue, '3')
 
         expect(screen.queryByRole('alert')).toHaveTextContent(
-          'The amount should be greater than 123'
+          'The amount should be greater than 123',
         )
       })
 
@@ -6121,11 +6121,11 @@ describe('useFieldProps', () => {
                 onBlurValidator={onBlurValidator}
               />
             </Iterate.Array>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const [inputWithRefValue] = Array.from(
-          document.querySelectorAll('input')
+          document.querySelectorAll('input'),
         )
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -6145,7 +6145,7 @@ describe('useFieldProps', () => {
           2,
           expect.objectContaining({
             connectWithPath: expect.any(Function),
-          })
+          }),
         )
       })
 
@@ -6167,11 +6167,11 @@ describe('useFieldProps', () => {
                 onBlurValidator={onBlurValidator}
               />
             </Iterate.Array>
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const [inputWithRefValue] = Array.from(
-          document.querySelectorAll('input')
+          document.querySelectorAll('input'),
         )
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -6209,7 +6209,7 @@ describe('useFieldProps', () => {
                   validateInitially
                 />
               </Iterate.Array>
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           await waitFor(() => {
@@ -6236,11 +6236,11 @@ describe('useFieldProps', () => {
                   validateInitially
                 />
               </Iterate.Array>
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           const [inputWithRefValue] = Array.from(
-            document.querySelectorAll('input')
+            document.querySelectorAll('input'),
           )
 
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -6271,7 +6271,7 @@ describe('useFieldProps', () => {
                   validateUnchanged
                 />
               </Iterate.Array>
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -6292,11 +6292,11 @@ describe('useFieldProps', () => {
                   validateUnchanged
                 />
               </Iterate.Array>
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           const [inputWithRefValue] = Array.from(
-            document.querySelectorAll('input')
+            document.querySelectorAll('input'),
           )
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -6327,7 +6327,7 @@ describe('useFieldProps', () => {
                   validateContinuously
                 />
               </Iterate.Array>
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -6380,7 +6380,7 @@ describe('useFieldProps', () => {
             })
 
             return [fooValidator, bazValidator]
-          }
+          },
         )
 
         render(
@@ -6390,7 +6390,7 @@ describe('useFieldProps', () => {
               defaultValue="foo"
               onBlurValidator={publicValidator}
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         fireEvent.submit(document.querySelector('form'))
@@ -6411,14 +6411,14 @@ describe('useFieldProps', () => {
               barValidator,
               bazValidator,
             },
-          })
+          }),
         )
 
         const input = document.querySelector('input')
 
         await userEvent.type(
           input,
-          '{Backspace}bar' // remove one letter from bar, so the bar validator should return undefined
+          '{Backspace}bar', // remove one letter from bar, so the bar validator should return undefined
         )
         fireEvent.blur(input)
         await waitFor(() => {
@@ -6464,7 +6464,7 @@ describe('useFieldProps', () => {
       })
 
       expect(getError(result.current.error).message).toBe(
-        nb.Field.errorRequired
+        nb.Field.errorRequired,
       )
 
       act(() => {
@@ -6473,7 +6473,7 @@ describe('useFieldProps', () => {
       })
 
       expect(getError(result.current.error).message).toBe(
-        'This is wrong...'
+        'This is wrong...',
       )
     })
 
@@ -6503,7 +6503,7 @@ describe('useFieldProps', () => {
       })
 
       expect(getError(result.current.error).message).toBe(
-        nb.Field.errorPattern
+        nb.Field.errorPattern,
       )
 
       act(() => {
@@ -6512,17 +6512,17 @@ describe('useFieldProps', () => {
       })
 
       expect(getError(result.current.error).message).toBe(
-        'This is wrong...'
+        'This is wrong...',
       )
     })
 
     it('should always show onBlurValidator over onChangeValidator', () => {
       const onChangeValidator = jest.fn(
-        () => new Error('Error message by onChangeValidator')
+        () => new Error('Error message by onChangeValidator'),
       )
 
       const onBlurValidator = jest.fn(
-        () => new Error('Error message by onBlurValidator')
+        () => new Error('Error message by onBlurValidator'),
       )
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
@@ -6540,7 +6540,7 @@ describe('useFieldProps', () => {
       })
 
       expect(getError(result.current.error).message).toBe(
-        'Error message by onBlurValidator'
+        'Error message by onBlurValidator',
       )
 
       act(() => {
@@ -6549,16 +6549,16 @@ describe('useFieldProps', () => {
       })
 
       expect(getError(result.current.error).message).toBe(
-        'Error message by onBlurValidator'
+        'Error message by onBlurValidator',
       )
     })
 
     it('should call onBlurValidator when the error initiator is an async onChangeValidator', async () => {
       const onBlurValidator = jest.fn(
-        () => new Error('Error message by onBlurValidator')
+        () => new Error('Error message by onBlurValidator'),
       )
       const onChangeValidator = jest.fn(
-        async () => new Error('Error message by onChangeValidator')
+        async () => new Error('Error message by onChangeValidator'),
       )
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
@@ -6583,13 +6583,13 @@ describe('useFieldProps', () => {
       })
 
       expect(getError(result.current.error).message).toBe(
-        'Error message by onBlurValidator'
+        'Error message by onBlurValidator',
       )
     })
 
     it('should call onBlurValidator when the error initiator is an async onChange handler', async () => {
       const onBlurValidator = jest.fn(
-        () => new Error('Error message by onBlurValidator')
+        () => new Error('Error message by onBlurValidator'),
       )
       const onChange = jest.fn(async () => null)
 
@@ -6615,16 +6615,16 @@ describe('useFieldProps', () => {
       })
 
       expect(getError(result.current.error).message).toBe(
-        'Error message by onBlurValidator'
+        'Error message by onBlurValidator',
       )
     })
 
     it('should call onBlurValidator when the error initiator is onChangeValidator and the onChangeValidator is async', async () => {
       const onBlurValidator = jest.fn(
-        () => new Error('Error message by onBlurValidator')
+        () => new Error('Error message by onBlurValidator'),
       )
       const onChangeValidator = jest.fn(
-        async () => new Error('Error message by onChangeValidator')
+        async () => new Error('Error message by onChangeValidator'),
       )
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
@@ -6648,7 +6648,7 @@ describe('useFieldProps', () => {
       })
 
       expect(getError(result.current.error).message).toBe(
-        'Error message by onBlurValidator'
+        'Error message by onBlurValidator',
       )
     })
 
@@ -6676,7 +6676,7 @@ describe('useFieldProps', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
       })
     })
@@ -6702,7 +6702,7 @@ describe('useFieldProps', () => {
             onBlurValidator,
             value: '',
           },
-        }
+        },
       )
 
       expect(result.current.fieldState).toBeUndefined()
@@ -6751,7 +6751,7 @@ describe('useFieldProps', () => {
             onBlurValidator,
             value: '',
           },
-        }
+        },
       )
 
       expect(result.current.fieldState).toBeUndefined()
@@ -6886,10 +6886,10 @@ describe('useFieldProps', () => {
       })
 
       expect(
-        document.querySelector('.dnb-form-status__text').innerHTML
+        document.querySelector('.dnb-form-status__text').innerHTML,
       ).toBe('A <strong>formatted</strong> error message')
       expect(document.querySelector('.dnb-form-status').textContent).toBe(
-        'A formatted error message'
+        'A formatted error message',
       )
 
       act(() => {
@@ -6897,7 +6897,7 @@ describe('useFieldProps', () => {
       })
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
     })
 
@@ -6922,7 +6922,7 @@ describe('useFieldProps', () => {
       })
 
       expect(document.querySelector('.dnb-form-status').textContent).toBe(
-        'A formatted error message'
+        'A formatted error message',
       )
 
       act(() => {
@@ -6930,7 +6930,7 @@ describe('useFieldProps', () => {
       })
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
     })
   })
@@ -6984,7 +6984,7 @@ describe('useFieldProps', () => {
               </Context>
             )
           },
-        }
+        },
       )
 
       const { revealError } = result.current
@@ -6999,19 +6999,19 @@ describe('useFieldProps', () => {
       expect(revealErrorDataContext).toHaveBeenCalledTimes(1)
       expect(revealErrorDataContext).toHaveBeenLastCalledWith(
         '/foo',
-        false
+        false,
       )
       expect(revealErrorBoundary).toHaveBeenCalledTimes(1)
       expect(revealErrorBoundary).toHaveBeenLastCalledWith('/foo', false)
       expect(showFieldErrorFieldBlock).toHaveBeenCalledTimes(1)
       expect(showFieldErrorFieldBlock).toHaveBeenLastCalledWith(
         '/foo',
-        false
+        false,
       )
       expect(setFieldErrorWizard).toHaveBeenLastCalledWith(
         1,
         '/foo',
-        false
+        false,
       )
 
       rerender({
@@ -7028,7 +7028,7 @@ describe('useFieldProps', () => {
       expect(showFieldErrorFieldBlock).toHaveBeenCalledTimes(2)
       expect(showFieldErrorFieldBlock).toHaveBeenLastCalledWith(
         '/foo',
-        true
+        true,
       )
       expect(setFieldErrorWizard).toHaveBeenLastCalledWith(1, '/foo', true)
     })
@@ -7108,7 +7108,7 @@ describe('useFieldProps', () => {
 
       await userEvent.type(document.querySelector('input'), 'foo')
       await userEvent.click(
-        document.querySelectorAll('[role="option"]')[0]
+        document.querySelectorAll('[role="option"]')[0],
       )
 
       expect(document.querySelector('input')).toHaveValue('Foo')
@@ -7119,12 +7119,12 @@ describe('useFieldProps', () => {
 
       expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        'Show this error!'
+        'Show this error!',
       )
 
       await userEvent.click(document.querySelector('input'))
       await userEvent.click(
-        document.querySelectorAll('[role="option"]')[1]
+        document.querySelectorAll('[role="option"]')[1],
       )
 
       expect(document.querySelector('input')).toHaveValue('Bar')
@@ -7152,7 +7152,7 @@ describe('useFieldProps', () => {
             } as unknown as ContextState
             return <Context value={value}>{children}</Context>
           },
-        }
+        },
       )
 
       expect(setMountedFieldState).toHaveBeenCalledTimes(2)
@@ -7192,7 +7192,7 @@ describe('useFieldProps', () => {
               </Context>
             )
           },
-        }
+        },
       )
 
       expect(setMountedFieldState).toHaveBeenCalledTimes(3)
@@ -7237,7 +7237,7 @@ describe('useFieldProps', () => {
               </Context>
             )
           },
-        }
+        },
       )
 
       expect(setMountedFieldState).toHaveBeenCalledTimes(3)
@@ -7287,7 +7287,7 @@ describe('useFieldProps', () => {
               </Context>
             )
           },
-        }
+        },
       )
 
       expect(setMountedFieldState).toHaveBeenCalledTimes(2)
@@ -7342,13 +7342,13 @@ describe('useFieldProps', () => {
             <Field.String path="/myPath" />
             <Field.String path="/myPath" />
           </Form.Handler>
-        </React.StrictMode>
+        </React.StrictMode>,
       )
 
       expect(log).toHaveBeenCalledWith(
         expect.any(String),
         'Path declared multiple times:',
-        '/myPath'
+        '/myPath',
       )
     })
 
@@ -7356,7 +7356,7 @@ describe('useFieldProps', () => {
       const MockComponent = () => {
         useFieldProps(
           { path: '/myPath' },
-          { omitMultiplePathWarning: true }
+          { omitMultiplePathWarning: true },
         )
         return null
       }
@@ -7367,7 +7367,7 @@ describe('useFieldProps', () => {
             <MockComponent />
             <MockComponent />
           </Form.Handler>
-        </React.StrictMode>
+        </React.StrictMode>,
       )
 
       expect(log).toHaveBeenCalledTimes(0)
@@ -7383,7 +7383,7 @@ describe('useFieldProps', () => {
             <Field.String path="/myPath" />
             <Field.String path="/myPath" />
           </Form.Handler>
-        </React.StrictMode>
+        </React.StrictMode>,
       )
 
       expect(log).toHaveBeenCalledTimes(0)
@@ -7399,13 +7399,13 @@ describe('useFieldProps', () => {
               <Field.String itemPath="/myPath" defaultValue="bar" />
             </Iterate.Array>
           </Form.Handler>
-        </React.StrictMode>
+        </React.StrictMode>,
       )
 
       expect(log).toHaveBeenCalledWith(
         expect.any(String),
         'Path declared multiple times:',
-        '/0/myPath'
+        '/0/myPath',
       )
     })
 
@@ -7420,13 +7420,13 @@ describe('useFieldProps', () => {
               <Field.String itemPath="/myPath" defaultValue="bar" />
             </Iterate.Array>
           </Form.Handler>
-        </React.StrictMode>
+        </React.StrictMode>,
       )
 
       expect(log).toHaveBeenCalledWith(
         expect.any(String),
         'Path declared multiple times:',
-        '/0/myPath'
+        '/0/myPath',
       )
     })
 
@@ -7438,7 +7438,7 @@ describe('useFieldProps', () => {
               <Field.String path="/myPath" />
             </Iterate.Array>
           </Form.Handler>
-        </React.StrictMode>
+        </React.StrictMode>,
       )
 
       expect(log).toHaveBeenCalledTimes(0)
@@ -7462,7 +7462,7 @@ describe('useFieldProps', () => {
               </Form.Section>
             </Form.Section>
           </Form.Handler>
-        </React.StrictMode>
+        </React.StrictMode>,
       )
 
       expect(log).toHaveBeenCalledTimes(0)
@@ -7482,16 +7482,16 @@ describe('AJV schema warnings', () => {
     render(
       <Form.Handler>
         <Field.String path="/foo" schema={schema} />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     await waitFor(() =>
       expect(log).toHaveBeenCalledWith(
         expect.any(String),
         expect.stringContaining(
-          'Field (/foo) received a JSON Schema but no ajvInstance'
-        )
-      )
+          'Field (/foo) received a JSON Schema but no ajvInstance',
+        ),
+      ),
     )
 
     log.mockRestore()
@@ -7546,7 +7546,7 @@ describe('Zod schema support', () => {
           path: identifier,
           value: '',
         }),
-      { wrapper }
+      { wrapper },
     )
 
     // Failing value -> expect error from context JSON Schema
@@ -7581,7 +7581,7 @@ describe('Zod schema support', () => {
       () => useFieldProps({ path: identifier }),
       {
         wrapper,
-      }
+      },
     )
 
     // Should handle undefined schema gracefully
@@ -7610,7 +7610,7 @@ describe('Zod schema support', () => {
           path: identifier,
           required: true,
         }),
-      { wrapper: zodWrapper }
+      { wrapper: zodWrapper },
     )
 
     expect(zodResult.current.required).toBe(true)
@@ -7643,7 +7643,7 @@ describe('Zod schema support', () => {
         useFieldProps({
           path: identifier,
         }),
-      { wrapper: jsonWrapper }
+      { wrapper: jsonWrapper },
     )
 
     expect(jsonResult.current).toBeDefined()
@@ -7676,7 +7676,7 @@ describe('Zod schema support', () => {
           path: identifier,
           value: '',
         }),
-      { wrapper }
+      { wrapper },
     )
 
     // Trigger change without focus to reveal errors
@@ -7707,7 +7707,7 @@ describe('Zod schema support', () => {
     // pointer.has() on a Zod schema object, which would fail.
     const { result } = renderHook(
       () => useFieldProps({ path: identifier }),
-      { wrapper }
+      { wrapper },
     )
 
     // The hook should work without throwing errors
@@ -7742,7 +7742,7 @@ describe('Zod schema support', () => {
           schema: fieldSchema, // local field schema
           validateInitially: true,
         }),
-      { wrapper }
+      { wrapper },
     )
 
     // Drive validation by changing the value (ensures local validator would run if not prioritized)
@@ -7783,7 +7783,7 @@ describe('Zod schema support', () => {
           schema: fieldSchema, // local field schema
           validateInitially: true,
         }),
-      { wrapper }
+      { wrapper },
     )
 
     // Drive validation to ensure the local validator runs

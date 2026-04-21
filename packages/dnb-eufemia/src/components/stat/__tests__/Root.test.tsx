@@ -8,7 +8,7 @@ describe('Stat.Root', () => {
     render(
       <Stat.Root top="large">
         <Stat.Label>Revenue growth</Stat.Label>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const root = document.querySelector('.dnb-stat__root')
@@ -20,7 +20,7 @@ describe('Stat.Root', () => {
     render(
       <Stat.Root top>
         <Stat.Label>Revenue growth</Stat.Label>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const root = document.querySelector('.dnb-stat__root')
@@ -32,7 +32,7 @@ describe('Stat.Root', () => {
     render(
       <Stat.Root id="my-root">
         <Stat.Label>Revenue growth</Stat.Label>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const root = document.querySelector('.dnb-stat__root')
@@ -44,7 +44,7 @@ describe('Stat.Root', () => {
     render(
       <Stat.Root style={{ color: 'red' }}>
         <Stat.Label>Revenue growth</Stat.Label>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const root = document.querySelector('.dnb-stat__root')
@@ -59,7 +59,7 @@ describe('Stat.Root', () => {
       <Stat.Root>
         <span>unsupported</span>
         <Stat.Label>Revenue growth</Stat.Label>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const didWarn = spy.mock.calls.some((call) =>
@@ -67,8 +67,8 @@ describe('Stat.Root', () => {
         .map((entry) => String(entry))
         .join(' ')
         .includes(
-          'Stat.Root should only contain Stat.Label and Stat.Content.'
-        )
+          'Stat.Root should only contain Stat.Label and Stat.Content.',
+        ),
     )
 
     expect(didWarn).toBe(true)
@@ -83,14 +83,14 @@ describe('Stat.Root', () => {
         <Stat.Content>
           <Stat.Currency value={1234} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const didWarn = spy.mock.calls.some((call) =>
       call
         .map((entry) => String(entry))
         .join(' ')
-        .includes('Stat.Root should contain a Stat.Label.')
+        .includes('Stat.Root should contain a Stat.Label.'),
     )
 
     expect(didWarn).toBe(true)
@@ -106,14 +106,14 @@ describe('Stat.Root', () => {
         <Stat.Content>
           <Stat.Currency value={1234} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const didWarn = spy.mock.calls.some((call) =>
       call
         .map((entry) => String(entry))
         .join(' ')
-        .includes('Stat.Root should contain a Stat.Label.')
+        .includes('Stat.Root should contain a Stat.Label.'),
     )
 
     expect(didWarn).toBe(false)
@@ -129,7 +129,7 @@ describe('Stat.Root', () => {
         <div>
           <Stat.Content direction="vertical">content</Stat.Content>
         </div>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     expect(await axeComponent(component)).not.toHaveNoViolations()
@@ -145,14 +145,14 @@ describe('Stat.Root', () => {
           <Stat.Currency value={1234} />
         </Stat.Content>
         <Stat.Label>Revenue</Stat.Label>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const didWarn = spy.mock.calls.some((call) =>
       call
         .map((entry) => String(entry))
         .join(' ')
-        .includes('every Stat.Content should be preceded by a Stat.Label')
+        .includes('every Stat.Content should be preceded by a Stat.Label'),
     )
 
     expect(didWarn).toBe(true)
@@ -168,14 +168,14 @@ describe('Stat.Root', () => {
         <Stat.Content>
           <Stat.Currency value={1234} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const didWarn = spy.mock.calls.some((call) =>
       call
         .map((entry) => String(entry))
         .join(' ')
-        .includes('every Stat.Content should be preceded by a Stat.Label')
+        .includes('every Stat.Content should be preceded by a Stat.Label'),
     )
 
     expect(didWarn).toBe(false)
@@ -193,14 +193,14 @@ describe('Stat.Root', () => {
           </Stat.Content>
         </>
         <Stat.Label>Revenue</Stat.Label>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const didWarn = spy.mock.calls.some((call) =>
       call
         .map((entry) => String(entry))
         .join(' ')
-        .includes('every Stat.Content should be preceded by a Stat.Label')
+        .includes('every Stat.Content should be preceded by a Stat.Label'),
     )
 
     expect(didWarn).toBe(true)
@@ -215,14 +215,14 @@ describe('Stat.Root', () => {
         <Stat.Content>
           <Stat.Currency value={1234} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const didWarnOrder = spy.mock.calls.some((call) =>
       call
         .map((entry) => String(entry))
         .join(' ')
-        .includes('every Stat.Content should be preceded by a Stat.Label')
+        .includes('every Stat.Content should be preceded by a Stat.Label'),
     )
 
     expect(didWarnOrder).toBe(false)
@@ -237,7 +237,7 @@ describe('Stat.Root', () => {
         aria-describedby="desc"
       >
         <Stat.Label>Revenue</Stat.Label>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const root = document.querySelector('.dnb-stat__root')
@@ -251,7 +251,7 @@ describe('Stat.Root', () => {
     render(
       <Stat.Root visualOrder="content-label" skeleton>
         <Stat.Label>Revenue</Stat.Label>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const root = document.querySelector('.dnb-stat__root')

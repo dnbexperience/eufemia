@@ -73,14 +73,14 @@ isLinux()
 const pageFocusElements: Record<string, string | HTMLElement> = {}
 export function setPageFocusElement(
   selectorOrElement: string | HTMLElement,
-  key = 'default'
+  key = 'default',
 ) {
   return (pageFocusElements[key] = selectorOrElement)
 }
 
 export function applyPageFocus(
   selector = 'default',
-  callback: ((element: HTMLElement) => void) | null = null
+  callback: ((element: HTMLElement) => void) | null = null,
 ) {
   try {
     let element: string | HTMLElement | null = /^[.#]/.test(selector)
@@ -204,7 +204,7 @@ export function scrollToLocationHashId({
                         onCompletion(elem)
                       }
                     }
-                  }
+                  },
                 )
                 // start observing
                 intersectionObserver.observe(elem)
@@ -230,7 +230,7 @@ export function scrollToLocationHashId({
         const elem = document.getElementById(id)
         if (elem instanceof HTMLElement) {
           window.addEventListener('beforeunload', () =>
-            clearTimeout(_timeout)
+            clearTimeout(_timeout),
           )
           if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', handleScroll)
@@ -398,7 +398,7 @@ export const warn = (...params) => {
       console.log(
         // How to generate it: JSON.stringify(chalk.reset.bold.hex('#00343E').bgHex('#A5E1D2')('Eufemia'))
         '\u001b[0m\u001b[1m\u001b[38;5;23m\u001b[48;5;152mEufemia\u001b[49m\u001b[39m\u001b[22m\u001b[0m',
-        ...params
+        ...params,
       )
     }
   }

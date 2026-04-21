@@ -12,11 +12,11 @@ describe('Toolbar', () => {
     render(
       <SectionContainerContext value={{}}>
         <Toolbar top="large">content</Toolbar>
-      </SectionContainerContext>
+      </SectionContainerContext>,
     )
 
     expect(
-      document.querySelector('.dnb-forms-section-toolbar')
+      document.querySelector('.dnb-forms-section-toolbar'),
     ).toHaveClass('dnb-space__top--large')
   })
 
@@ -24,7 +24,7 @@ describe('Toolbar', () => {
     render(
       <SectionContainerContext value={{}}>
         <Toolbar />
-      </SectionContainerContext>
+      </SectionContainerContext>,
     )
 
     expect(document.querySelector('button')).not.toBeInTheDocument()
@@ -34,7 +34,7 @@ describe('Toolbar', () => {
     render(
       <SectionContainerContext value={{}}>
         <Toolbar />
-      </SectionContainerContext>
+      </SectionContainerContext>,
     )
 
     expect(document.querySelector('hr')).toBeInTheDocument()
@@ -46,7 +46,7 @@ describe('Toolbar', () => {
         <Toolbar>
           <EditButton />
         </Toolbar>
-      </SectionContainerContext>
+      </SectionContainerContext>,
     )
 
     const buttons = document.querySelectorAll('button')

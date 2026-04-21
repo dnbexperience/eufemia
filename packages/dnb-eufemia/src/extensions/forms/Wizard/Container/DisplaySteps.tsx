@@ -56,7 +56,7 @@ export function DisplaySteps({
               inactive,
               status,
               statusState: statusState,
-            }) satisfies Omit<StepIndicatorItemProps, 'currentItemNum'>
+            }) satisfies Omit<StepIndicatorItemProps, 'currentItemNum'>,
         )}
         mode={mode}
         noAnimation={noAnimation}

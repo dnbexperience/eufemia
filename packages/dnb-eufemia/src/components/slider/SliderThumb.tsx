@@ -78,7 +78,7 @@ function Thumb({ value, currentIndex }: ThumbProps) {
   if (label) {
     helperParams['aria-labelledby'] = combineLabelledBy(
       helperParams,
-      label ? id + '-label' : null
+      label ? id + '-label' : null,
     )
   }
 
@@ -86,7 +86,7 @@ function Thumb({ value, currentIndex }: ThumbProps) {
     helperParams['aria-describedby'] = combineDescribedBy(
       helperParams,
       showStatus ? id + '-status' : null,
-      suffix ? id + '-suffix' : null
+      suffix ? id + '-suffix' : null,
     )
   }
 

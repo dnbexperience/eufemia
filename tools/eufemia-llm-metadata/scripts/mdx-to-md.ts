@@ -39,7 +39,7 @@ async function main() {
   const docsRoot = path.join(portalRoot, 'src/docs')
   const prettierConfigPath = path.join(portalRoot, '.prettierrc')
   const prettierConfig = JSON.parse(
-    fs.readFileSync(prettierConfigPath, 'utf-8')
+    fs.readFileSync(prettierConfigPath, 'utf-8'),
   ) as PrettierConfig
 
   const state: ConvertState = {
@@ -86,7 +86,7 @@ function resolvePortalRoot(startDir: string) {
     const portalCandidate = path.join(
       current,
       'packages',
-      'dnb-design-system-portal'
+      'dnb-design-system-portal',
     )
     if (fs.existsSync(portalCandidate)) {
       return portalCandidate
@@ -99,7 +99,7 @@ function resolvePortalRoot(startDir: string) {
   }
 
   throw new Error(
-    'Could not resolve dnb-design-system-portal root. Run from repo root or packages/dnb-design-system-portal.'
+    'Could not resolve dnb-design-system-portal root. Run from repo root or packages/dnb-design-system-portal.',
   )
 }
 
@@ -166,7 +166,7 @@ function extractImports(content: string) {
 
 function collectImportSpecifiers(
   statement: string,
-  importsByFile: ImportsByFile
+  importsByFile: ImportsByFile,
 ) {
   if (/^import\s+type\s+/.test(statement)) {
     return
@@ -463,7 +463,7 @@ function getReturnedJSX(fnNode?: any) {
     }
     if (t.isBlockStatement(fnNode.body)) {
       const returnStmt = fnNode.body.body.find((node) =>
-        t.isReturnStatement(node)
+        t.isReturnStatement(node),
       )
       const arg = returnStmt?.argument
       if (t.isJSXElement(arg) || t.isJSXFragment(arg)) {
@@ -474,7 +474,7 @@ function getReturnedJSX(fnNode?: any) {
 
   if (t.isFunctionDeclaration(fnNode) || t.isFunctionExpression(fnNode)) {
     const returnStmt = fnNode.body.body.find((node) =>
-      t.isReturnStatement(node)
+      t.isReturnStatement(node),
     )
     const arg = returnStmt?.argument
     if (t.isJSXElement(arg) || t.isJSXFragment(arg)) {
@@ -487,7 +487,7 @@ function getReturnedJSX(fnNode?: any) {
 
 async function formatJSXChildren(
   jsxNode: t.JSXElement | t.JSXFragment,
-  prettierConfig: PrettierConfig
+  prettierConfig: PrettierConfig,
 ) {
   let children: Array<any> = []
 
@@ -530,7 +530,7 @@ async function formatJSXChildren(
           const last = statements[statements.length - 1]
           if (t.isReturnStatement(last) && last.argument) {
             const renderCall = t.expressionStatement(
-              t.callExpression(t.identifier('render'), [last.argument])
+              t.callExpression(t.identifier('render'), [last.argument]),
             )
             childCode = statements
               .slice(0, -1)
@@ -594,7 +594,7 @@ function stripWrapperTags(content: string, tagNames: string[]) {
 
 function replaceComponentUsages(
   content: string,
-  componentCode: Map<string, ComponentEntry | string>
+  componentCode: Map<string, ComponentEntry | string>,
 ) {
   const componentRegex = /<([A-Z][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)*)\s*\/>/g
 

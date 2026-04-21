@@ -10,15 +10,15 @@ describe('Value.Email', () => {
     render(<Value.Email value="user@example.com" />)
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('user@example.com')
   })
 
   it('renders label when showEmpty is true', () => {
     render(<Value.Email showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      nb.Email.label
+      nb.Email.label,
     )
   })
 
@@ -26,18 +26,18 @@ describe('Value.Email', () => {
     render(<Value.Email value="user@example.com" />)
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('user@example.com')
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      nb.Email.label
+      nb.Email.label,
     )
   })
 
   it('renders custom label', () => {
     render(<Value.Email label="Custom label" showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      'Custom label'
+      'Custom label',
     )
   })
 
@@ -50,13 +50,13 @@ describe('Value.Email', () => {
     render(
       <Form.Handler data={{ myPath: 'user@example.com' }}>
         <Value.Email path="/myPath" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('user@example.com')
   })
 })

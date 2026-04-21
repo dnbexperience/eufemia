@@ -275,7 +275,7 @@ const paginationDefaultProps: Partial<PaginationProps> = {
 }
 
 export type PaginationComponent = ((
-  props: PaginationProps
+  props: PaginationProps,
 ) => React.JSX.Element) & {
   Bar: typeof PaginationBar
   Content: typeof PaginationContent
@@ -303,7 +303,7 @@ const Pagination = PaginationFunc as PaginationComponent
 export default Pagination
 
 const PaginationInstance = React.memo(function PaginationInstance(
-  ownProps: PaginationProps
+  ownProps: PaginationProps,
 ) {
   const ctx = useContext(PaginationContext)
   const contentRef = useRef<HTMLDivElement | null>(null)
@@ -312,7 +312,7 @@ const PaginationInstance = React.memo(function PaginationInstance(
     ownProps,
     paginationDefaultProps,
     ctx.getTranslation(ownProps).Pagination,
-    ctx.Pagination
+    ctx.Pagination,
   )
 
   const {
@@ -369,7 +369,7 @@ const PaginationInstance = React.memo(function PaginationInstance(
         align && `dnb-pagination--${align}`,
         paginationBarLayout &&
           `dnb-pagination--layout-${paginationBarLayout}`,
-        className
+        className,
       ),
       ...attributes,
     })
@@ -377,7 +377,7 @@ const PaginationInstance = React.memo(function PaginationInstance(
     validateDOMAttributes(props, mainParams)
 
     const content = items.find(
-      ({ pageNumber }) => pageNumber === currentPageInternal
+      ({ pageNumber }) => pageNumber === currentPageInternal,
     )?.content
 
     return (
@@ -453,7 +453,7 @@ export const Bar = (props: PaginationProps) => (
 )
 
 export const createPagination = (
-  initProps: Record<string, unknown> = {}
+  initProps: Record<string, unknown> = {},
 ): PaginationCreateReturn => {
   const store = React.createRef<Record<string, unknown>>()
   const rerender = React.createRef<

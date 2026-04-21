@@ -44,7 +44,7 @@ describe('Slider component', () => {
     const element = document.querySelector('.dnb-slider')
 
     expect(Array.from(element.classList)).toEqual(
-      expect.arrayContaining(['dnb-space__top--large'])
+      expect.arrayContaining(['dnb-space__top--large']),
     )
   })
 
@@ -54,7 +54,7 @@ describe('Slider component', () => {
     const element = document.querySelector('.dnb-slider')
 
     expect(Array.from(element.classList)).toEqual(
-      expect.arrayContaining(['custom-class'])
+      expect.arrayContaining(['custom-class']),
     )
   })
 
@@ -62,7 +62,7 @@ describe('Slider component', () => {
     render(<Slider {...props} data-extra="property-value" />)
 
     const element = document.querySelector(
-      '.dnb-slider__thumb .dnb-button'
+      '.dnb-slider__thumb .dnb-button',
     )
 
     expect(element.getAttribute('data-extra')).toBe('property-value')
@@ -74,7 +74,7 @@ describe('Slider component', () => {
     const element = document.querySelector('.dnb-slider')
 
     expect(Array.from(element.classList)).toEqual(
-      expect.arrayContaining(['dnb-slider--stretch'])
+      expect.arrayContaining(['dnb-slider--stretch']),
     )
   })
 
@@ -114,12 +114,12 @@ describe('Slider component', () => {
         {...props}
         hideButtons={false}
         numberFormat={{ currency: true, decimals: 1 }}
-      />
+      />,
     )
 
     const addElem = document.querySelector('.dnb-slider__button--add')
     const subtractElem = document.querySelector(
-      '.dnb-slider__button--subtract'
+      '.dnb-slider__button--subtract',
     )
 
     fireEvent.click(addElem)
@@ -129,7 +129,7 @@ describe('Slider component', () => {
     fireEvent.click(subtractElem)
     expect(parseFloat(getButtonHelper().value)).toBe(70)
     expect(subtractElem.getAttribute('aria-label')).toBe(
-      'Reduser (70,0 kroner)'
+      'Reduser (70,0 kroner)',
     )
   })
 
@@ -142,13 +142,13 @@ describe('Slider component', () => {
       simulateMouseMove({ pageX: 60, width: 100 })
 
       expect(onChange).toHaveBeenLastCalledWith(
-        expect.objectContaining({ value: 80 })
+        expect.objectContaining({ value: 80 }),
       )
 
       simulateMouseMove({ pageX: -10, width: 100 })
 
       expect(onChange).toHaveBeenLastCalledWith(
-        expect.objectContaining({ value: 50 })
+        expect.objectContaining({ value: 50 }),
       )
     })
 
@@ -160,7 +160,7 @@ describe('Slider component', () => {
       simulateMouseMove({ pageX: 0, width: 100 })
 
       expect(onChange).toHaveBeenLastCalledWith(
-        expect.objectContaining({ value: 5 })
+        expect.objectContaining({ value: 5 }),
       )
     })
   })
@@ -174,7 +174,7 @@ describe('Slider component', () => {
       simulateMouseMove({ pageX: 210, width: 100 })
 
       expect(onChange).toHaveBeenCalledWith(
-        expect.objectContaining({ value: 200 })
+        expect.objectContaining({ value: 200 }),
       )
     })
 
@@ -186,7 +186,7 @@ describe('Slider component', () => {
       simulateMouseMove({ pageX: 100, width: 100 })
 
       expect(onChange).toHaveBeenLastCalledWith(
-        expect.objectContaining({ value: 100 })
+        expect.objectContaining({ value: 100 }),
       )
     })
 
@@ -198,7 +198,7 @@ describe('Slider component', () => {
       simulateMouseMove({ pageX: 100, width: 100 })
 
       expect(onChange).toHaveBeenLastCalledWith(
-        expect.objectContaining({ value: 105 })
+        expect.objectContaining({ value: 105 }),
       )
     })
 
@@ -206,13 +206,13 @@ describe('Slider component', () => {
       const onChange = jest.fn()
 
       render(
-        <Slider max={2040} step={100} value={1000} onChange={onChange} />
+        <Slider max={2040} step={100} value={1000} onChange={onChange} />,
       )
 
       simulateMouseMove({ pageX: 100, width: 100 })
 
       expect(onChange).toHaveBeenLastCalledWith(
-        expect.objectContaining({ value: 2040 })
+        expect.objectContaining({ value: 2040 }),
       )
     })
   })
@@ -228,14 +228,19 @@ describe('Slider component', () => {
 
     it('shows always a Tooltip when alwaysShowTooltip is true', () => {
       render(
-        <Slider {...props} id="unique-tooltip" tooltip alwaysShowTooltip />
+        <Slider
+          {...props}
+          id="unique-tooltip"
+          tooltip
+          alwaysShowTooltip
+        />,
       )
 
       const tooltipElem = document.querySelector('.dnb-tooltip')
 
       expect(tooltipElem.textContent).toBe('70')
       expect(Array.from(tooltipElem.classList)).toEqual(
-        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active'])
+        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active']),
       )
     })
 
@@ -246,17 +251,17 @@ describe('Slider component', () => {
           id="unique-tooltip"
           numberFormat={{ currency: 'EUR' }}
           tooltip
-        />
+        />,
       )
 
       const mainElem = document.querySelector('.dnb-slider')
       const thumbElem = mainElem.querySelector(
-        '.dnb-slider__thumb .dnb-button'
+        '.dnb-slider__thumb .dnb-button',
       )
 
       // Slider uses omitDescribedBy, so sr-description should not exist
       const srDescription = document.querySelector(
-        '.dnb-tooltip__sr-description'
+        '.dnb-tooltip__sr-description',
       )
       expect(srDescription).toBeNull()
 
@@ -287,7 +292,7 @@ describe('Slider component', () => {
 
       // Slider uses omitDescribedBy, so sr-description should not exist
       const srDescription = document.querySelector(
-        '.dnb-tooltip__sr-description'
+        '.dnb-tooltip__sr-description',
       )
       expect(srDescription).toBeNull()
 
@@ -318,17 +323,17 @@ describe('Slider component', () => {
           numberFormat={(value) => formatPercent(value)}
           tooltip
           step={null}
-        />
+        />,
       )
 
       const mainElem = document.querySelector('.dnb-slider')
       const thumbElem = mainElem.querySelector(
-        '.dnb-slider__thumb .dnb-button'
+        '.dnb-slider__thumb .dnb-button',
       )
 
       // Slider uses omitDescribedBy, so sr-description should not exist
       const srDescription = document.querySelector(
-        '.dnb-tooltip__sr-description'
+        '.dnb-tooltip__sr-description',
       )
       expect(srDescription).toBeNull()
 
@@ -357,12 +362,12 @@ describe('Slider component', () => {
 
       const mainElem = document.querySelector('.dnb-slider')
       const thumbElem = mainElem.querySelector(
-        '.dnb-slider__thumb .dnb-button'
+        '.dnb-slider__thumb .dnb-button',
       )
 
       // Slider uses omitDescribedBy, so sr-description should not exist
       const srDescription = document.querySelector(
-        '.dnb-tooltip__sr-description'
+        '.dnb-tooltip__sr-description',
       )
       expect(srDescription).toBeNull()
 
@@ -393,7 +398,7 @@ describe('Slider component', () => {
           .reverse()
           .find(
             (callProps) =>
-              callProps && Object.hasOwn(callProps, 'targetRefreshKey')
+              callProps && Object.hasOwn(callProps, 'targetRefreshKey'),
           )
 
       const initialCall = findTooltipPopoverCall()
@@ -416,14 +421,14 @@ describe('Slider component', () => {
       const { rerender } = render(
         <Slider
           extensions={{ marker: { instance: SliderMarker, value: 30 } }}
-        />
+        />,
       )
 
       const sliderElement = document.querySelector('.dnb-slider')
       expect(sliderElement.innerHTML).toContain('dnb-slider__marker')
 
       const markerElement = sliderElement.querySelector(
-        '.dnb-slider__marker'
+        '.dnb-slider__marker',
       )
       expect(markerElement).toHaveAttribute('style', 'left: 30%;')
 
@@ -437,14 +442,14 @@ describe('Slider component', () => {
         <Slider
           extensions={{ marker: { instance: SliderMarker, value: 30 } }}
           vertical
-        />
+        />,
       )
 
       const sliderElement = document.querySelector('.dnb-slider')
       expect(sliderElement.innerHTML).toContain('dnb-slider__marker')
 
       const markerElement = sliderElement.querySelector(
-        '.dnb-slider__marker'
+        '.dnb-slider__marker',
       )
       expect(markerElement).toHaveAttribute('style', 'top: 70%;')
 
@@ -457,12 +462,12 @@ describe('Slider component', () => {
       const { rerender } = render(
         <Slider
           extensions={{ marker: { instance: SliderMarker, value: 30 } }}
-        />
+        />,
       )
 
       const sliderElement = document.querySelector('.dnb-slider')
       const markerElement = sliderElement.querySelector(
-        '.dnb-slider__marker'
+        '.dnb-slider__marker',
       )
       expect(markerElement).toHaveAttribute('style', 'left: 30%;')
       expect(markerElement).toHaveAttribute('aria-label', '30')
@@ -471,7 +476,7 @@ describe('Slider component', () => {
       rerender(
         <Slider
           extensions={{ marker: { instance: SliderMarker, value: 120 } }}
-        />
+        />,
       )
 
       expect(markerElement).toHaveAttribute('style', 'left: 100%;')
@@ -484,7 +489,7 @@ describe('Slider component', () => {
 
       const sliderElement = document.querySelector('.dnb-slider')
       const markerElement = sliderElement.querySelector(
-        '.dnb-slider__marker'
+        '.dnb-slider__marker',
       )
 
       fireEvent.mouseEnter(markerElement)
@@ -506,7 +511,7 @@ describe('Slider component', () => {
 
       const sliderElement = document.querySelector('.dnb-slider')
       const markerElement = sliderElement.querySelector(
-        '.dnb-slider__marker'
+        '.dnb-slider__marker',
       )
 
       fireEvent.mouseEnter(markerElement)
@@ -551,7 +556,7 @@ describe('Slider component', () => {
       <Slider
         onChange={onChange}
         numberFormat={{ currency: true, decimals: 1 }}
-      />
+      />,
     )
 
     simulateMouseMove({ pageX: 80, width: 100, height: 10 })
@@ -577,7 +582,7 @@ describe('Slider component', () => {
     expect(
       document
         .querySelector('.dnb-slider__button-helper')
-        .getAttribute('aria-valuetext')
+        .getAttribute('aria-valuetext'),
     ).toBe('80,0 kroner')
   })
 
@@ -596,7 +601,7 @@ describe('Slider component', () => {
   it('should not have type=button', () => {
     render(<Slider />)
     expect(
-      document.querySelector('.dnb-slider__thumb .dnb-button')
+      document.querySelector('.dnb-slider__thumb .dnb-button'),
     ).not.toHaveAttribute('type')
   })
 
@@ -649,12 +654,12 @@ describe('Slider component', () => {
 
       simulateMouseMove({ pageX: 20, width: 100, height: 10 })
       expect(getThumbElements(0).getAttribute('style')).toBe(
-        'z-index: 4; left: 20%;'
+        'z-index: 4; left: 20%;',
       )
 
       simulateMouseMove({ pageX: 80, width: 100, height: 10 })
       expect(getThumbElements(1).getAttribute('style')).toBe(
-        'z-index: 4; left: 80%;'
+        'z-index: 4; left: 80%;',
       )
 
       resetMouseSimulation()
@@ -669,7 +674,7 @@ describe('Slider component', () => {
           {...props}
           numberFormat={{ currency: true, decimals: 1 }}
           onChange={onChange}
-        />
+        />,
       )
 
       simulateMouseMove({ pageX: 80, width: 100, height: 10 })
@@ -720,10 +725,10 @@ describe('Slider component', () => {
       render(<SliderWithStateUpdate {...props} onChange={onChange} />)
 
       const secondThumb = document.querySelectorAll(
-        '.dnb-slider__button-helper'
+        '.dnb-slider__button-helper',
       )[1]
       const thirdThumb = document.querySelectorAll(
-        '.dnb-slider__button-helper'
+        '.dnb-slider__button-helper',
       )[2]
 
       fireEvent.focus(secondThumb)
@@ -750,14 +755,14 @@ describe('Slider component', () => {
           step={1}
           multiThumbBehavior="omit"
           onChange={onChange}
-        />
+        />,
       )
 
       const secondThumb = document.querySelectorAll(
-        '.dnb-slider__button-helper'
+        '.dnb-slider__button-helper',
       )[1]
       const thirdThumb = document.querySelectorAll(
-        '.dnb-slider__button-helper'
+        '.dnb-slider__button-helper',
       )[2]
 
       fireEvent.focus(secondThumb)
@@ -765,13 +770,13 @@ describe('Slider component', () => {
 
       expect(onChange.mock.calls[0][0].value).toEqual([10, 50, 60])
       expect(getThumbElements(0).getAttribute('style')).toBe(
-        'z-index: 3; left: 10%;'
+        'z-index: 3; left: 10%;',
       )
       expect(getThumbElements(1).getAttribute('style')).toBe(
-        'z-index: 4; left: 50%;'
+        'z-index: 4; left: 50%;',
       )
       expect(getThumbElements(2).getAttribute('style')).toBe(
-        'z-index: 3; left: 60%;'
+        'z-index: 3; left: 60%;',
       )
 
       resetMouseSimulation()
@@ -781,13 +786,13 @@ describe('Slider component', () => {
 
       expect(onChange.mock.calls[1][0].value).toEqual([10, 50, 50])
       expect(getThumbElements(0).getAttribute('style')).toBe(
-        'z-index: 3; left: 10%;'
+        'z-index: 3; left: 10%;',
       )
       expect(getThumbElements(1).getAttribute('style')).toBe(
-        'z-index: 3; left: 50%;'
+        'z-index: 3; left: 50%;',
       )
       expect(getThumbElements(2).getAttribute('style')).toBe(
-        'z-index: 4; left: 50%;'
+        'z-index: 4; left: 50%;',
       )
     })
 
@@ -802,14 +807,14 @@ describe('Slider component', () => {
           step={1}
           onChange={onChange}
           multiThumbBehavior="push"
-        />
+        />,
       )
 
       const secondThumb = document.querySelectorAll(
-        '.dnb-slider__button-helper'
+        '.dnb-slider__button-helper',
       )[1]
       const thirdThumb = document.querySelectorAll(
-        '.dnb-slider__button-helper'
+        '.dnb-slider__button-helper',
       )[2]
 
       fireEvent.focus(secondThumb)
@@ -817,13 +822,13 @@ describe('Slider component', () => {
 
       expect(onChange.mock.calls[0][0].value).toEqual([10, 50, 60])
       expect(getThumbElements(0).getAttribute('style')).toBe(
-        'z-index: 3; left: 10%;'
+        'z-index: 3; left: 10%;',
       )
       expect(getThumbElements(1).getAttribute('style')).toBe(
-        'z-index: 4; left: 50%;'
+        'z-index: 4; left: 50%;',
       )
       expect(getThumbElements(2).getAttribute('style')).toBe(
-        'z-index: 3; left: 60%;'
+        'z-index: 3; left: 60%;',
       )
 
       resetMouseSimulation()
@@ -833,13 +838,13 @@ describe('Slider component', () => {
 
       expect(onChange.mock.calls[1][0].value).toEqual([10, 20, 20])
       expect(getThumbElements(0).getAttribute('style')).toBe(
-        'z-index: 3; left: 10%;'
+        'z-index: 3; left: 10%;',
       )
       expect(getThumbElements(1).getAttribute('style')).toBe(
-        'z-index: 3; left: 20%;'
+        'z-index: 3; left: 20%;',
       )
       expect(getThumbElements(2).getAttribute('style')).toBe(
-        'z-index: 4; left: 20%;'
+        'z-index: 4; left: 20%;',
       )
     })
 
@@ -849,31 +854,31 @@ describe('Slider component', () => {
         <SliderWithStateUpdate
           {...props}
           numberFormat={{ currency: true, decimals: 1 }}
-        />
+        />,
       )
 
       simulateMouseMove({ pageX: 80, width: 100, height: 10 })
       expect(getThumbElements(2).getAttribute('style')).toBe(
-        'z-index: 4; left: 80%;'
+        'z-index: 4; left: 80%;',
       )
 
       simulateMouseMove({ pageX: 10, width: 100, height: 10 })
       expect(getThumbElements(0).getAttribute('style')).toBe(
-        'z-index: 4; left: 10%;'
+        'z-index: 4; left: 10%;',
       )
       expect(getThumbElements(2).getAttribute('style')).toBe(
-        'z-index: 3; left: 80%;'
+        'z-index: 3; left: 80%;',
       )
 
       simulateMouseMove({ pageX: 50, width: 100, height: 10 })
       expect(getThumbElements(1).getAttribute('style')).toBe(
-        'z-index: 4; left: 50%;'
+        'z-index: 4; left: 50%;',
       )
       expect(getThumbElements(0).getAttribute('style')).toBe(
-        'z-index: 3; left: 10%;'
+        'z-index: 3; left: 10%;',
       )
       expect(getThumbElements(2).getAttribute('style')).toBe(
-        'z-index: 3; left: 80%;'
+        'z-index: 3; left: 80%;',
       )
     })
 
@@ -889,45 +894,45 @@ describe('Slider component', () => {
           tooltip
           alwaysShowTooltip
           onChange={onChange}
-        />
+        />,
       )
 
       expect(getTooltipElements(0).textContent).toBe('-40,0 kr')
       expect(getThumbElements(0).getAttribute('style')).toBe(
-        'z-index: 3; left: 0%;'
+        'z-index: 3; left: 0%;',
       )
 
       expect(getTooltipElements(1).textContent).toBe('80,0 kr')
       expect(getThumbElements(1).getAttribute('style')).toBe(
-        'z-index: 3; left: 85.71428571428571%;'
+        'z-index: 3; left: 85.71428571428571%;',
       )
 
       simulateMouseMove({ pageX: 10, width: 100, height: 10 })
 
       expect(getTooltipElements(0).textContent).toBe('-26,0 kr')
       expect(getThumbElements(0).getAttribute('style')).toBe(
-        'z-index: 4; left: 10%;'
+        'z-index: 4; left: 10%;',
       )
 
       simulateMouseMove({ pageX: 0, width: 100, height: 10 })
 
       expect(getTooltipElements(0).textContent).toBe('-40,0 kr')
       expect(getThumbElements(0).getAttribute('style')).toBe(
-        'z-index: 4; left: 0%;'
+        'z-index: 4; left: 0%;',
       )
 
       simulateMouseMove({ pageX: -10, width: 100, height: 10 })
 
       expect(getTooltipElements(0).textContent).toBe('-40,0 kr')
       expect(getThumbElements(0).getAttribute('style')).toBe(
-        'z-index: 4; left: 0%;'
+        'z-index: 4; left: 0%;',
       )
 
       simulateMouseMove({ pageX: 20, width: 100, height: 10 })
 
       expect(getTooltipElements(0).textContent).toBe('-12,0 kr')
       expect(getThumbElements(0).getAttribute('style')).toBe(
-        'z-index: 4; left: 20%;'
+        'z-index: 4; left: 20%;',
       )
 
       resetMouseSimulation()
@@ -937,12 +942,12 @@ describe('Slider component', () => {
       render(
         <Provider formElement={{ labelDirection: 'vertical' }}>
           <SliderWithStateUpdate label="Label" />
-        </Provider>
+        </Provider>,
       )
 
       const element = document.querySelector('.dnb-slider')
       const attributes = Array.from(element.attributes).map(
-        (attr) => attr.name
+        (attr) => attr.name,
       )
 
       expect(attributes).toEqual(['class'])

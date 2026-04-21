@@ -12,7 +12,7 @@ import Provider from '../../../shared/Provider'
 describe('useNumberFormatWithParts', () => {
   it('will return object with parts by default', () => {
     const { result } = renderHook(() =>
-      useNumberFormatWithParts(1234, formatCurrency)
+      useNumberFormatWithParts(1234, formatCurrency),
     )
 
     expect(result.current).toEqual(
@@ -25,13 +25,13 @@ describe('useNumberFormatWithParts', () => {
           currency: 'kr',
           currencyPosition: 'after',
         }),
-      })
+      }),
     )
   })
 
   it('will include split parts for currency when currency is enabled', () => {
     const { result } = renderHook(() =>
-      useNumberFormatWithParts(-1234, formatCurrency)
+      useNumberFormatWithParts(-1234, formatCurrency),
     )
 
     expect(result.current).toEqual(
@@ -43,7 +43,7 @@ describe('useNumberFormatWithParts', () => {
           currency: 'kr',
           currencyPosition: 'after',
         }),
-      })
+      }),
     )
   })
 
@@ -52,7 +52,7 @@ describe('useNumberFormatWithParts', () => {
       useNumberFormatWithParts(1234, formatCurrency, {
         currency: 'NOK',
         locale: 'en-GB',
-      })
+      }),
     )
 
     expect(result.current).toEqual(
@@ -63,7 +63,7 @@ describe('useNumberFormatWithParts', () => {
           spaceAfterCurrency: true,
           spaceBeforeCurrency: false,
         }),
-      })
+      }),
     )
   })
 
@@ -71,7 +71,7 @@ describe('useNumberFormatWithParts', () => {
     const { result } = renderHook(() =>
       useNumberFormatWithParts(1234, formatCurrency, {
         locale: 'nb-NO',
-      })
+      }),
     )
 
     expect(result.current).toEqual(
@@ -82,7 +82,7 @@ describe('useNumberFormatWithParts', () => {
           spaceAfterCurrency: false,
           spaceBeforeCurrency: true,
         }),
-      })
+      }),
     )
   })
 
@@ -90,7 +90,7 @@ describe('useNumberFormatWithParts', () => {
     const { result } = renderHook(() =>
       useNumberFormatWithParts(1234, formatNumber, {
         signDisplay: 'always',
-      })
+      }),
     )
 
     expect(result.current).toEqual(
@@ -102,13 +102,13 @@ describe('useNumberFormatWithParts', () => {
           currency: null,
           currencyPosition: null,
         }),
-      })
+      }),
     )
   })
 
   it('will include split parts for percent values', () => {
     const { result } = renderHook(() =>
-      useNumberFormatWithParts(-12.34, formatPercent)
+      useNumberFormatWithParts(-12.34, formatPercent),
     )
 
     expect(result.current).toEqual(
@@ -123,7 +123,7 @@ describe('useNumberFormatWithParts', () => {
           percent: '%',
           percentSpacing: '\u00A0',
         }),
-      })
+      }),
     )
   })
 
@@ -133,7 +133,7 @@ describe('useNumberFormatWithParts', () => {
         currency: 'NOK',
         locale: 'en-GB',
         currencyPosition: 'after',
-      })
+      }),
     )
 
     expect(result.current).toEqual(
@@ -142,7 +142,7 @@ describe('useNumberFormatWithParts', () => {
           currencyPosition: 'after',
           currency: 'NOK',
         }),
-      })
+      }),
     )
   })
 
@@ -163,13 +163,13 @@ describe('useNumberFormatWithParts', () => {
         useNumberFormatWithParts(1234, formatNumber, {
           locale: 'en-GB',
         }),
-      { wrapper }
+      { wrapper },
     )
 
     expect(result.current).toEqual(
       expect.objectContaining({
         number: '1,234',
-      })
+      }),
     )
   })
 
@@ -177,7 +177,7 @@ describe('useNumberFormatWithParts', () => {
     const { result } = renderHook(() =>
       useNumberFormatWithParts(1234, formatCurrency, {
         returnAria: false,
-      })
+      }),
     )
 
     expect(result.current).toBe('1 234,00 kr')
@@ -194,7 +194,7 @@ describe('useNumberFormatWithParts', () => {
           currency: null,
           currencyPosition: null,
         }),
-      })
+      }),
     )
   })
 })

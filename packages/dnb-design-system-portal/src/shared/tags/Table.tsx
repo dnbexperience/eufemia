@@ -42,7 +42,7 @@ export default function Table({ children }) {
     recursiveFind(children, (child) =>
       child.type === 'table'
         ? (child.props as { children?: React.ReactNode }).children
-        : false
+        : false,
     ) || children
 
   children = recursiveMap(
@@ -74,7 +74,7 @@ export default function Table({ children }) {
       }
 
       return child
-    }
+    },
   )
 
   return (
@@ -91,7 +91,7 @@ type ChildWithChildren = React.ReactElement<{
 }>
 
 function getFirstChild(
-  children: ChildWithChildren
+  children: ChildWithChildren,
 ): React.ReactNode | undefined {
   const c = children.props?.children
   return Array.isArray(c) ? c[0] : c
@@ -103,7 +103,7 @@ function getChildren(children: ChildWithChildren) {
 
 function recursiveFind(
   children: React.ReactNode,
-  func: (child: ChildWithChildren) => unknown
+  func: (child: ChildWithChildren) => unknown,
 ) {
   let found = null
   if (children) {
@@ -120,7 +120,7 @@ function recursiveFind(
       ) {
         found = recursiveFind(
           (child.props as { children: React.ReactNode }).children,
-          func
+          func,
         )
         if (found) {
           return found
@@ -135,7 +135,7 @@ function recursiveMap(
   children: React.ReactNode,
   func:
     | ((child: React.ReactNode, isValid: boolean) => React.ReactNode)
-    | null = null
+    | null = null,
 ): React.ReactNode[] {
   return React.Children.map(children, (child: React.ReactNode) => {
     if (!React.isValidElement(child)) {
@@ -147,7 +147,7 @@ function recursiveMap(
       child = React.cloneElement(
         childWithChildren,
         {},
-        recursiveMap(childWithChildren.props.children, func)
+        recursiveMap(childWithChildren.props.children, func),
       ) as ChildWithChildren
     }
 

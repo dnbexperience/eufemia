@@ -22,7 +22,7 @@ const CardNumberText = ({ cardNumber, skeleton }: CardNumberTextProps) => {
     <span
       className={clsx(
         'dnb-payment-card__card__element--wrapper',
-        createSkeletonClass('font', skeleton)
+        createSkeletonClass('font', skeleton),
       )}
     >
       <P className="dnb-payment-card__card__numbers">{cardNumber}</P>
@@ -45,7 +45,7 @@ const formatCardNumberRegex = /(?=(?:....)*$)/g
  */
 export const formatCardNumber = (
   cardNumber: string,
-  digits = 8
+  digits = 8,
 ): string => {
   if (!cardNumber) {
     return cardNumber

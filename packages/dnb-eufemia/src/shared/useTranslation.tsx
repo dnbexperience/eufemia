@@ -18,7 +18,7 @@ import { isObject, warn } from './component-helper'
 
 export type TranslationId = string
 export type TranslationIdAsFunction<T = TranslationCustomLocales> = (
-  messages: T & Translation
+  messages: T & Translation,
 ) => string
 export type TranslationArguments = Record<TranslationId, unknown>
 export type UseTranslationMessages<T = Translation> =
@@ -37,7 +37,7 @@ export default function useTranslation<
   T extends Record<string, unknown> = Translation,
 >(
   messages?: UseTranslationMessages<T> | UseTranslationArgs<T>,
-  args?: TranslationArguments
+  args?: TranslationArguments,
 ) {
   const { locale, translation } = useContext(Context)
   const { translations: contextTranslations } = useContext(Context)
@@ -89,7 +89,7 @@ export default function useTranslation<
         translation: (baseOverride || translation) as Translation,
         messages: extMessages as TranslationCustomLocales,
         locale: translationLocale,
-      })
+      }),
     ) as TranslationFlatToObject<T> & AdditionalReturnUtils
 
     // Inline fallback behavior (opt-in via object arg)
@@ -134,14 +134,14 @@ export default function useTranslation<
       warnMissing(locale, warnLabel)
       const obj = generateTranslationKeyReferences(
         '',
-        fallbackMessages
+        fallbackMessages,
       ) as TranslationFlatToObject<T>
       return withUtils(base, obj)
     }
 
     const { result, hasMissing } = mergeMissingKeys<T>(
       base as TranslationFlatToObject<T>,
-      fallbackMessages
+      fallbackMessages,
     )
     if (hasMissing) {
       warnMissing(locale, warnLabel)
@@ -165,7 +165,7 @@ export default function useTranslation<
 
 function withUtils<T extends Record<string, unknown>>(
   base: TranslationFlatToObject<T> & AdditionalReturnUtils,
-  obj: TranslationFlatToObject<T>
+  obj: TranslationFlatToObject<T>,
 ): TranslationFlatToObject<T> & AdditionalReturnUtils {
   return Object.assign({}, base, obj, {
     formatMessage: base.formatMessage,
@@ -176,7 +176,7 @@ function withUtils<T extends Record<string, unknown>>(
 
 function mergeMissingKeys<T extends Record<string, unknown>>(
   target: TranslationFlatToObject<T>,
-  source: T
+  source: T,
 ): { result: TranslationFlatToObject<T>; hasMissing: boolean } {
   const resultLocal = {
     ...(target as Record<string, unknown>),
@@ -192,13 +192,13 @@ function mergeMissingKeys<T extends Record<string, unknown>>(
       if (!targetValue) {
         resultLocal[key] = generateTranslationKeyReferences(
           key,
-          sourceValue
+          sourceValue,
         )
         hasMissing = true
       } else if (isObject(targetValue)) {
         const nested = mergeMissingKeys(
           targetValue as TranslationFlatToObject<Record<string, unknown>>,
-          sourceValue as Record<string, unknown>
+          sourceValue as Record<string, unknown>,
         )
         ;(resultLocal as Record<string, unknown>)[key] =
           nested.result as Record<string, unknown>
@@ -217,7 +217,7 @@ function mergeMissingKeys<T extends Record<string, unknown>>(
 
 function generateTranslationKeyReferences(
   baseKey: string,
-  sourceValue: unknown
+  sourceValue: unknown,
 ): unknown {
   if (!isObject(sourceValue)) {
     return baseKey ? baseKey : sourceValue
@@ -260,7 +260,7 @@ export function useAdditionalUtils() {
     (id: TranslationId, args: TranslationArguments) => {
       return formatMessage(id, args, translationsRef.current)
     },
-    []
+    [],
   )
 
   const rM = useCallback((message: string) => {
@@ -273,7 +273,7 @@ export function useAdditionalUtils() {
       Object.assign(translations, { formatMessage: fM, renderMessage: rM })
       return translations
     },
-    [fM, rM]
+    [fM, rM],
   )
 
   return { assignUtils }
@@ -306,7 +306,7 @@ export function combineWithExternalTranslations({
 export function formatMessage(
   id: TranslationId | TranslationIdAsFunction,
   args?: TranslationArguments,
-  messages?: TranslationCustomLocales
+  messages?: TranslationCustomLocales,
 ) {
   let str = undefined
 
@@ -347,7 +347,7 @@ export function formatMessage(
 }
 
 export function renderMessage(
-  text: string | Array<React.ReactNode>
+  text: string | Array<React.ReactNode>,
 ): string | React.ReactNode {
   let element = text
 

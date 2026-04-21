@@ -24,7 +24,7 @@ export function initializeTestSetup() {
 }
 
 export function simulateAnimationEnd(
-  element: Element = document.querySelector('.dnb-height-animation')
+  element: Element = document.querySelector('.dnb-height-animation'),
 ) {
   act(() => {
     const event = new CustomEvent('transitionend')
@@ -37,7 +37,7 @@ export const getElement = () =>
 
 export const mockHeight = (
   height: number,
-  element = document.querySelector('.dnb-height-animation')
+  element = document.querySelector('.dnb-height-animation'),
 ) => {
   jest.spyOn(element, 'clientHeight', 'get').mockReturnValueOnce(height)
   element.setAttribute('data-height', String(height))

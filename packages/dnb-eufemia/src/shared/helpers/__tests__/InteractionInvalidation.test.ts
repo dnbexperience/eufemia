@@ -29,33 +29,33 @@ describe('InteractionInvalidation', () => {
       expect(
         document
           .querySelector(`${selector} h1`)
-          .getAttribute('aria-hidden')
+          .getAttribute('aria-hidden'),
       ).toBe('true')
       expect(
-        document.querySelector(`${selector} h1`).getAttribute('tabindex')
+        document.querySelector(`${selector} h1`).getAttribute('tabindex'),
       ).toBe('0')
 
       expect(
         document
           .querySelector(`${selector} h2`)
-          .getAttribute('aria-hidden')
+          .getAttribute('aria-hidden'),
       ).toBe('false')
       expect(
-        document.querySelector(`${selector} h2`).getAttribute('tabindex')
+        document.querySelector(`${selector} h2`).getAttribute('tabindex'),
       ).toBe('-1')
 
       expect(document.querySelector(`${selector} h3`)).not.toHaveAttribute(
-        'aria-hidden'
+        'aria-hidden',
       )
       expect(document.querySelector(`${selector} h3`)).not.toHaveAttribute(
-        'tabindex'
+        'tabindex',
       )
 
       expect(
-        document.querySelector(`${selector} path`)
+        document.querySelector(`${selector} path`),
       ).not.toHaveAttribute('aria-hidden')
       expect(
-        document.querySelector(`${selector} path`)
+        document.querySelector(`${selector} path`),
       ).not.toHaveAttribute('tabindex')
     }
 
@@ -63,35 +63,35 @@ describe('InteractionInvalidation', () => {
       expect(
         document
           .querySelector(`${selector} h1`)
-          .getAttribute('aria-hidden')
+          .getAttribute('aria-hidden'),
       ).toBe('true')
       expect(
-        document.querySelector(`${selector} h1`).getAttribute('tabindex')
+        document.querySelector(`${selector} h1`).getAttribute('tabindex'),
       ).toBe('-1')
 
       expect(
         document
           .querySelector(`${selector} h2`)
-          .getAttribute('aria-hidden')
+          .getAttribute('aria-hidden'),
       ).toBe('true')
       expect(
-        document.querySelector(`${selector} h2`).getAttribute('tabindex')
+        document.querySelector(`${selector} h2`).getAttribute('tabindex'),
       ).toBe('-1')
 
       expect(
         document
           .querySelector(`${selector} h3`)
-          .getAttribute('aria-hidden')
+          .getAttribute('aria-hidden'),
       ).toBe('true')
       expect(
-        document.querySelector(`${selector} h3`).getAttribute('tabindex')
+        document.querySelector(`${selector} h3`).getAttribute('tabindex'),
       ).toBe('-1')
 
       expect(
-        document.querySelector(`${selector} path`)
+        document.querySelector(`${selector} path`),
       ).not.toHaveAttribute('aria-hidden')
       expect(
-        document.querySelector(`${selector} path`)
+        document.querySelector(`${selector} path`),
       ).not.toHaveAttribute('tabindex')
     }
 
@@ -132,7 +132,7 @@ describe('InteractionInvalidation', () => {
 
     it('have invalidated only .effected by using setBypassElements', () => {
       const bypassElems = Array.from(
-        document.querySelectorAll('.bypass *')
+        document.querySelectorAll('.bypass *'),
       ) as HTMLElement[]
       ii.setBypassElements(bypassElems)
       ii.activate()
@@ -161,33 +161,33 @@ describe('InteractionInvalidation', () => {
       expect(
         document
           .querySelector(`${selector} h1`)
-          .getAttribute('aria-hidden')
+          .getAttribute('aria-hidden'),
       ).toBe('true')
       expect(
-        document.querySelector(`${selector} h1`).getAttribute('tabindex')
+        document.querySelector(`${selector} h1`).getAttribute('tabindex'),
       ).toBe('0')
 
       expect(
         document
           .querySelector(`${selector} h2`)
-          .getAttribute('aria-hidden')
+          .getAttribute('aria-hidden'),
       ).toBe('false')
       expect(
-        document.querySelector(`${selector} h2`).getAttribute('tabindex')
+        document.querySelector(`${selector} h2`).getAttribute('tabindex'),
       ).toBe('-1')
 
       expect(document.querySelector(`${selector} h3`)).not.toHaveAttribute(
-        'aria-hidden'
+        'aria-hidden',
       )
       expect(document.querySelector(`${selector} h3`)).not.toHaveAttribute(
-        'tabindex'
+        'tabindex',
       )
 
       expect(
-        document.querySelector(`${selector} path`)
+        document.querySelector(`${selector} path`),
       ).not.toHaveAttribute('aria-hidden')
       expect(
-        document.querySelector(`${selector} path`)
+        document.querySelector(`${selector} path`),
       ).not.toHaveAttribute('tabindex')
     }
 
@@ -195,27 +195,27 @@ describe('InteractionInvalidation', () => {
       expect(
         document
           .querySelector(`${selector} h1`)
-          .getAttribute('aria-hidden')
+          .getAttribute('aria-hidden'),
       ).toBe('true')
 
       expect(
         document
           .querySelector(`${selector} h2`)
-          .getAttribute('aria-hidden')
+          .getAttribute('aria-hidden'),
       ).toBe('false')
       expect(
-        document.querySelector(`${selector} h2`).getAttribute('tabindex')
+        document.querySelector(`${selector} h2`).getAttribute('tabindex'),
       ).toBe('-1')
 
       expect(document.querySelector(`${selector} h3`)).not.toHaveAttribute(
-        'aria-hidden'
+        'aria-hidden',
       )
 
       expect(
-        document.querySelector(`${selector} path`)
+        document.querySelector(`${selector} path`),
       ).not.toHaveAttribute('aria-hidden')
       expect(
-        document.querySelector(`${selector} path`)
+        document.querySelector(`${selector} path`),
       ).not.toHaveAttribute('tabindex')
     }
 

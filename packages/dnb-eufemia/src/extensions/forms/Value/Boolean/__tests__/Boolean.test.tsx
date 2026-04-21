@@ -10,8 +10,8 @@ describe('Value.Boolean', () => {
     render(<Value.Boolean value={true} />)
     expect(
       document.querySelector(
-        '.dnb-forms-value-boolean .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-boolean .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent(nb.BooleanField.yes)
   })
 
@@ -19,8 +19,8 @@ describe('Value.Boolean', () => {
     render(<Value.Boolean value={false} />)
     expect(
       document.querySelector(
-        '.dnb-forms-value-boolean .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-boolean .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent(nb.BooleanField.no)
   })
 
@@ -28,8 +28,8 @@ describe('Value.Boolean', () => {
     render(<Value.Boolean value={true} trueText="True Text" />)
     expect(
       document.querySelector(
-        '.dnb-forms-value-boolean .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-boolean .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('True Text')
   })
 
@@ -37,15 +37,15 @@ describe('Value.Boolean', () => {
     render(<Value.Boolean value={false} falseText="False Text" />)
     expect(
       document.querySelector(
-        '.dnb-forms-value-boolean .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-boolean .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('False Text')
   })
 
   it('renders label when showEmpty is true', () => {
     render(<Value.Boolean label="The Label" showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      'The Label'
+      'The Label',
     )
   })
 
@@ -53,11 +53,11 @@ describe('Value.Boolean', () => {
     render(<Value.Boolean label="The Label" value={true} />)
     expect(
       document.querySelector(
-        '.dnb-forms-value-boolean .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-boolean .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent(nb.BooleanField.yes)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      'The Label'
+      'The Label',
     )
   })
 
@@ -70,25 +70,25 @@ describe('Value.Boolean', () => {
     const { rerender } = render(
       <Form.Handler data={{ myPath: true }}>
         <Value.Boolean path="/myPath" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-boolean .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-boolean .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent(nb.BooleanField.yes)
 
     rerender(
       <Form.Handler data={{ myPath: false }}>
         <Value.Boolean path="/myPath" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-boolean .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-boolean .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent(nb.BooleanField.no)
   })
 })

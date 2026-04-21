@@ -41,7 +41,7 @@ describe('Field.Number', () => {
       render(<Field.Number placeholder="Enter some number" />)
       expect(
         // getByText instead of getByPlaceholderText since eufemia adds placeholder as tag, not placeholder-attribute
-        screen.getByText('Enter some number')
+        screen.getByText('Enter some number'),
       ).toBeInTheDocument()
     })
 
@@ -49,13 +49,13 @@ describe('Field.Number', () => {
       render(
         <Field.Number
           help={{ title: 'Help title', content: 'Help content' }}
-        />
+        />,
       )
       expect(document.querySelector('input')).toHaveAttribute(
-        'aria-describedby'
+        'aria-describedby',
       )
       expect(
-        document.querySelector('input').getAttribute('aria-describedby')
+        document.querySelector('input').getAttribute('aria-describedby'),
       ).toBe(document.querySelector('.dnb-help-button').id)
     })
 
@@ -69,7 +69,7 @@ describe('Field.Number', () => {
         <Field.Number
           mask={[/\d/, /\d/, /\d/, /\d/, /\d/, /\d/]}
           value={1234}
-        />
+        />,
       )
 
       expect(document.querySelector('input')).toHaveValue('1234')
@@ -85,7 +85,7 @@ describe('Field.Number', () => {
       render(
         <SharedProvider locale="en-GB">
           <Field.Number value={1234.56789} decimalLimit={2} />
-        </SharedProvider>
+        </SharedProvider>,
       )
       expect(document.querySelector('input')).toHaveValue('1,234.56')
     })
@@ -94,7 +94,7 @@ describe('Field.Number', () => {
       render(
         <SharedProvider locale="de-DE">
           <Field.Number value={1234.56789} decimalLimit={2} />
-        </SharedProvider>
+        </SharedProvider>,
       )
       expect(document.querySelector('input')).toHaveValue('1.234,56')
     })
@@ -123,7 +123,7 @@ describe('Field.Number', () => {
       const alertText = statusElement.textContent
       const expectedText = nb.NumberField.errorMinimum.replace(
         '{minimum}',
-        String(formatNumber(Number.MIN_SAFE_INTEGER, { locale: 'nb-NO' }))
+        String(formatNumber(Number.MIN_SAFE_INTEGER, { locale: 'nb-NO' })),
       )
       // Use regex to handle both regular and non-breaking spaces
       const expectedRegex = expectedText.replace(/\s/g, '\\s')
@@ -154,7 +154,7 @@ describe('Field.Number', () => {
       const alertText = statusElement.textContent
       const expectedText = nb.NumberField.errorMaximum.replace(
         '{maximum}',
-        String(formatNumber(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' }))
+        String(formatNumber(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' })),
       )
       // Use regex to handle both regular and non-breaking spaces
       const expectedRegex = expectedText.replace(/\s/g, '\\s')
@@ -163,7 +163,7 @@ describe('Field.Number', () => {
 
     it('should support disabled prop', () => {
       const { rerender } = render(
-        <Field.Number label="Disabled label" disabled />
+        <Field.Number label="Disabled label" disabled />,
       )
 
       const labelElement = () => document.querySelector('label')
@@ -177,35 +177,35 @@ describe('Field.Number', () => {
 
     it('renders autoComplete', () => {
       const { rerender } = render(
-        <Field.Number autoComplete="postal-code" />
+        <Field.Number autoComplete="postal-code" />,
       )
       expect(
-        document.querySelector('input').getAttribute('autocomplete')
+        document.querySelector('input').getAttribute('autocomplete'),
       ).toBe('postal-code')
 
       rerender(<Field.Number path="/postalCode" autoComplete="tel" />)
       expect(document.querySelector('input').getAttribute('name')).toBe(
-        'postalCode'
+        'postalCode',
       )
       expect(
-        document.querySelector('input').getAttribute('autocomplete')
+        document.querySelector('input').getAttribute('autocomplete'),
       ).toBe('tel')
     })
 
     it('renders name based on path', () => {
       render(<Field.Number path="/postalCode" />)
       expect(document.querySelector('input').getAttribute('name')).toBe(
-        'postalCode'
+        'postalCode',
       )
     })
 
     describe('error', () => {
       it('renders error', () => {
         render(
-          <Field.Number error={new Error('This is what went wrong')} />
+          <Field.Number error={new Error('This is what went wrong')} />,
         )
         expect(
-          screen.getByText('This is what went wrong')
+          screen.getByText('This is what went wrong'),
         ).toBeInTheDocument()
       })
 
@@ -213,10 +213,10 @@ describe('Field.Number', () => {
         render(
           <Field.Number
             error={() => new Error('This is what went wrong')}
-          />
+          />,
         )
         expect(
-          screen.getByText('This is what went wrong')
+          screen.getByText('This is what went wrong'),
         ).toBeInTheDocument()
       })
 
@@ -224,16 +224,16 @@ describe('Field.Number', () => {
         const { rerender } = render(
           <Field.Number
             error={() => new Error('This is what went wrong')}
-          />
+          />,
         )
         expect(
-          screen.getByText('This is what went wrong')
+          screen.getByText('This is what went wrong'),
         ).toBeInTheDocument()
 
         rerender(<Field.Number error={() => undefined} />)
 
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
 
@@ -244,10 +244,10 @@ describe('Field.Number', () => {
               new Error('This is what went wrong ' + value)
             }
             value={123}
-          />
+          />,
         )
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent('This is what went wrong 123')
       })
 
@@ -260,24 +260,24 @@ describe('Field.Number', () => {
                   return new Error('This is what went wrong ' + value)
                 })
               }}
-            />
+            />,
           )
 
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).not.toBeInTheDocument()
 
           await userEvent.type(document.querySelector('input'), '123')
           await userEvent.tab()
 
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toHaveTextContent('This is what went wrong 123')
 
           await userEvent.type(document.querySelector('input'), '4')
 
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toHaveTextContent('This is what went wrong 1234')
         })
 
@@ -292,29 +292,29 @@ describe('Field.Number', () => {
 
                 return new Error('This is what went wrong ' + value)
               }}
-            />
+            />,
           )
 
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toHaveTextContent('This is what went wrong 0')
 
           await userEvent.type(document.querySelector('input'), '12')
 
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toHaveTextContent('This is what went wrong 12')
 
           await userEvent.type(document.querySelector('input'), '3')
 
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).not.toBeInTheDocument()
 
           await userEvent.type(document.querySelector('input'), '4')
 
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toHaveTextContent('This is what went wrong 1234')
         })
 
@@ -331,65 +331,65 @@ describe('Field.Number', () => {
 
                     return new Error('This is what went wrong ' + value)
                   },
-                  { showInitially: true }
+                  { showInitially: true },
                 )
               }}
-            />
+            />,
           )
 
           const input = document.querySelector('input')
 
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toHaveTextContent('This is what went wrong 0')
 
           await userEvent.type(input, '1')
 
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toHaveTextContent('This is what went wrong 1')
 
           await userEvent.type(input, '2')
 
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toHaveTextContent('This is what went wrong 12')
 
           await userEvent.type(input, '3')
 
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).not.toBeInTheDocument()
 
           await userEvent.type(input, '4')
 
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).not.toBeInTheDocument()
 
           await userEvent.tab()
 
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toHaveTextContent('This is what went wrong 1234')
 
           await userEvent.type(input, '{Backspace}')
 
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).not.toBeInTheDocument()
 
           await userEvent.type(input, '4')
 
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).not.toBeInTheDocument()
 
           await userEvent.type(input, '5')
           await userEvent.tab()
 
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toHaveTextContent('This is what went wrong 12345')
         })
       })
@@ -399,7 +399,7 @@ describe('Field.Number', () => {
       it('renders warning', () => {
         render(<Field.Number warning={'This is what went wrong'} />)
         expect(
-          screen.getByText('This is what went wrong')
+          screen.getByText('This is what went wrong'),
         ).toBeInTheDocument()
       })
 
@@ -408,10 +408,10 @@ describe('Field.Number', () => {
           <Field.Number
             warning={(value) => 'This is what went wrong ' + value}
             value={123}
-          />
+          />,
         )
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent('This is what went wrong 123')
       })
 
@@ -430,17 +430,17 @@ describe('Field.Number', () => {
                   return String(value) + getValueByPath('/bar')
                 }}
               />
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toHaveTextContent('123456')
 
           await userEvent.type(document.querySelector('input'), '0')
 
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toHaveTextContent('1230456')
         })
       })
@@ -450,7 +450,7 @@ describe('Field.Number', () => {
       it('renders info', () => {
         render(<Field.Number info={'This is what went wrong'} />)
         expect(
-          screen.getByText('This is what went wrong')
+          screen.getByText('This is what went wrong'),
         ).toBeInTheDocument()
       })
 
@@ -459,10 +459,10 @@ describe('Field.Number', () => {
           <Field.Number
             info={(value) => 'This is what went wrong ' + value}
             value={123}
-          />
+          />,
         )
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent('This is what went wrong 123')
       })
 
@@ -472,11 +472,11 @@ describe('Field.Number', () => {
             info={() => {
               return ['Foo', 'Bar']
             }}
-          />
+          />,
         )
 
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(nb.Field.stateSummary + 'FooBar')
       })
 
@@ -503,17 +503,17 @@ describe('Field.Number', () => {
               />
 
               <Field.Number path="/bar" label="Bar Label" id="bar-id" />
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toHaveTextContent(
             JSON.stringify({
               value: 123,
               id: 'bar-id',
               label: 'Bar Label',
-            })
+            }),
           )
         })
       })
@@ -530,11 +530,11 @@ describe('Field.Number', () => {
       render(
         <FieldBlock>
           <Field.Number error={errorMessage} />
-        </FieldBlock>
+        </FieldBlock>,
       )
 
       const input = document.querySelector(
-        '.dnb-forms-field-number__input'
+        '.dnb-forms-field-number__input',
       )
       expect(input).toHaveClass('dnb-input__status--error')
     })
@@ -552,14 +552,14 @@ describe('Field.Number', () => {
 
       it('formats with percent and decimalLimit', () => {
         render(
-          <Field.Number value={1234.56789} percent decimalLimit={2} />
+          <Field.Number value={1234.56789} percent decimalLimit={2} />,
         )
         expect(document.querySelector('input')).toHaveValue('1 234,56 %')
       })
 
       it('formats with percent and decimalLimit 0', () => {
         render(
-          <Field.Number value={1234.56789} percent decimalLimit={0} />
+          <Field.Number value={1234.56789} percent decimalLimit={0} />,
         )
         expect(document.querySelector('input')).toHaveValue('1 234 %')
       })
@@ -573,14 +573,14 @@ describe('Field.Number', () => {
 
       it('formats with currency and decimalLimit', () => {
         render(
-          <Field.Number value={1234.56789} currency decimalLimit={2} />
+          <Field.Number value={1234.56789} currency decimalLimit={2} />,
         )
         expect(document.querySelector('input')).toHaveValue('1 234,56 kr')
       })
 
       it('formats with currency and decimalLimit 0', () => {
         render(
-          <Field.Number value={1234.56789} currency decimalLimit={0} />
+          <Field.Number value={1234.56789} currency decimalLimit={0} />,
         )
         expect(document.querySelector('input')).toHaveValue('1 234 kr')
       })
@@ -589,7 +589,7 @@ describe('Field.Number', () => {
         render(
           <SharedProvider locale="en-GB">
             <Field.Number value={1234.56789} currency decimalLimit={2} />
-          </SharedProvider>
+          </SharedProvider>,
         )
         expect(document.querySelector('input')).toHaveValue('1,234.56 NOK')
       })
@@ -604,14 +604,14 @@ describe('Field.Number', () => {
       it('formats with prefix', () => {
         render(<Field.Number value={12345} currency prefix="prefix " />)
         expect(document.querySelector('input')).toHaveValue(
-          'prefix 12 345 kr'
+          'prefix 12 345 kr',
         )
       })
 
       it('formats with suffix', () => {
         render(<Field.Number value={12345} suffix=" suffix" />)
         expect(document.querySelector('input')).toHaveValue(
-          '12 345 suffix'
+          '12 345 suffix',
         )
       })
 
@@ -621,7 +621,7 @@ describe('Field.Number', () => {
         })
         render(<Field.Number value={12345} currency prefix={prefix} />)
         expect(document.querySelector('input')).toHaveValue(
-          'prefix 12 345 kr'
+          'prefix 12 345 kr',
         )
         expect(prefix).toHaveBeenCalledTimes(1)
         expect(prefix).toHaveBeenCalledWith(12345)
@@ -633,7 +633,7 @@ describe('Field.Number', () => {
         })
         render(<Field.Number value={12345} suffix={suffix} />)
         expect(document.querySelector('input')).toHaveValue(
-          '12 345 suffix'
+          '12 345 suffix',
         )
         expect(suffix).toHaveBeenCalledTimes(1)
         expect(suffix).toHaveBeenCalledWith(12345)
@@ -669,7 +669,7 @@ describe('Field.Number', () => {
           <Field.Number value={123} align="left" />
           <Field.Number value={123} align="center" />
           <Field.Number value={123} align="right" />
-        </>
+        </>,
       )
 
       const inputs = document.querySelectorAll('.dnb-input')
@@ -689,7 +689,7 @@ describe('Field.Number', () => {
 
     it('should apply data-attributes', () => {
       render(
-        <Field.Number data-testid="testid" data-long-value="long-value" />
+        <Field.Number data-testid="testid" data-long-value="long-value" />,
       )
 
       const input = document.querySelector('input')
@@ -757,7 +757,7 @@ describe('Field.Number', () => {
       render(
         <Form.Handler onSubmit={onSubmit}>
           <Field.Number path="/amount" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -769,7 +769,7 @@ describe('Field.Number', () => {
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenCalledWith(
         { amount: -250 },
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -890,7 +890,7 @@ describe('Field.Number', () => {
         expect(onChange).toHaveBeenNthCalledWith(
           5,
           undefined,
-          expect.anything()
+          expect.anything(),
         )
 
         await userEvent.keyboard('0.1')
@@ -919,7 +919,7 @@ describe('Field.Number', () => {
         // Check that the message contains the Norwegian text and the formatted number
         const alertText = statusElement.textContent
         expect(alertText).toContain(
-          nb.NumberField.errorMaximum.split('{maximum}')[0]
+          nb.NumberField.errorMaximum.split('{maximum}')[0],
         )
         expect(alertText).toMatch(/1\s000/) // The number should be formatted with space separator (regular or non-breaking)
         expect(alertText).toContain('.') // Should end with a period
@@ -936,12 +936,12 @@ describe('Field.Number', () => {
 
       const expected = nb.NumberField.errorMinimum.replace(
         '{minimum}',
-        String(formatNumber(1.5, { locale: 'nb-NO', decimals: 1 }))
+        String(formatNumber(1.5, { locale: 'nb-NO', decimals: 1 })),
       )
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(expected)
       })
     })
@@ -956,12 +956,12 @@ describe('Field.Number', () => {
 
       const expected = nb.NumberField.errorExclusiveMinimum.replace(
         '{exclusiveMinimum}',
-        String(formatNumber(1.5, { locale: 'nb-NO', decimals: 1 }))
+        String(formatNumber(1.5, { locale: 'nb-NO', decimals: 1 })),
       )
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(expected)
       })
     })
@@ -976,12 +976,12 @@ describe('Field.Number', () => {
 
       const expected = nb.NumberField.errorExclusiveMaximum.replace(
         '{exclusiveMaximum}',
-        String(formatNumber(2.75, { locale: 'nb-NO', decimals: 2 }))
+        String(formatNumber(2.75, { locale: 'nb-NO', decimals: 2 })),
       )
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(expected)
       })
     })
@@ -996,14 +996,14 @@ describe('Field.Number', () => {
 
       const expected = nb.NumberField.errorMultipleOf.replace(
         '{multipleOf}',
-        String(formatNumber(3000, { locale: 'nb-NO' }))
+        String(formatNumber(3000, { locale: 'nb-NO' })),
       )
       // Use regex to handle both regular and non-breaking spaces
       const expectedRegex = expected.replace(/\s/g, '\\s')
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(new RegExp(expectedRegex))
       })
     })
@@ -1012,7 +1012,7 @@ describe('Field.Number', () => {
       render(
         <SharedProvider locale="en-GB">
           <Field.Number maximum={1000} />
-        </SharedProvider>
+        </SharedProvider>,
       )
 
       const input = document.querySelector('input')
@@ -1023,12 +1023,12 @@ describe('Field.Number', () => {
       const enFormatted = String(formatNumber(1000, { locale: 'en-GB' }))
       const expected = en.NumberField.errorMaximum.replace(
         '{maximum}',
-        enFormatted
+        enFormatted,
       )
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(expected)
       })
     })
@@ -1041,7 +1041,7 @@ describe('Field.Number', () => {
             exclusiveMinimum={20}
             validateInitially
             currency
-          />
+          />,
         )
 
         await waitFor(() => {
@@ -1050,12 +1050,12 @@ describe('Field.Number', () => {
 
           const expected = nb.NumberField.errorExclusiveMinimum.replace(
             '{exclusiveMinimum}',
-            String(formatCurrency(20, { locale: 'nb-NO' }))
+            String(formatCurrency(20, { locale: 'nb-NO' })),
           )
           // Use regex to handle both regular and non-breaking spaces
           const expectedRegex = expected.replace(/\s/g, '\\s')
           expect(statusElement.textContent).toMatch(
-            new RegExp(expectedRegex)
+            new RegExp(expectedRegex),
           )
         })
       })
@@ -1067,7 +1067,7 @@ describe('Field.Number', () => {
             exclusiveMaximum={100}
             validateInitially
             currency
-          />
+          />,
         )
 
         await waitFor(() => {
@@ -1076,12 +1076,12 @@ describe('Field.Number', () => {
 
           const expected = nb.NumberField.errorExclusiveMaximum.replace(
             '{exclusiveMaximum}',
-            String(formatCurrency(100, { locale: 'nb-NO' }))
+            String(formatCurrency(100, { locale: 'nb-NO' })),
           )
           // Use regex to handle both regular and non-breaking spaces
           const expectedRegex = expected.replace(/\s/g, '\\s')
           expect(statusElement.textContent).toMatch(
-            new RegExp(expectedRegex)
+            new RegExp(expectedRegex),
           )
         })
       })
@@ -1093,7 +1093,7 @@ describe('Field.Number', () => {
             minimum={50}
             validateInitially
             currency
-          />
+          />,
         )
 
         await waitFor(() => {
@@ -1102,12 +1102,12 @@ describe('Field.Number', () => {
 
           const expected = nb.NumberField.errorMinimum.replace(
             '{minimum}',
-            String(formatCurrency(50, { locale: 'nb-NO' }))
+            String(formatCurrency(50, { locale: 'nb-NO' })),
           )
           // Use regex to handle both regular and non-breaking spaces
           const expectedRegex = expected.replace(/\s/g, '\\s')
           expect(statusElement.textContent).toMatch(
-            new RegExp(expectedRegex)
+            new RegExp(expectedRegex),
           )
         })
       })
@@ -1119,7 +1119,7 @@ describe('Field.Number', () => {
             maximum={1000}
             validateInitially
             currency
-          />
+          />,
         )
 
         await waitFor(() => {
@@ -1128,12 +1128,12 @@ describe('Field.Number', () => {
 
           const expected = nb.NumberField.errorMaximum.replace(
             '{maximum}',
-            String(formatCurrency(1000, { locale: 'nb-NO' }))
+            String(formatCurrency(1000, { locale: 'nb-NO' })),
           )
           // Use regex to handle both regular and non-breaking spaces
           const expectedRegex = expected.replace(/\s/g, '\\s')
           expect(statusElement.textContent).toMatch(
-            new RegExp(expectedRegex)
+            new RegExp(expectedRegex),
           )
         })
       })
@@ -1145,7 +1145,7 @@ describe('Field.Number', () => {
             multipleOf={5}
             validateInitially
             currency
-          />
+          />,
         )
 
         await waitFor(() => {
@@ -1154,12 +1154,12 @@ describe('Field.Number', () => {
 
           const expected = nb.NumberField.errorMultipleOf.replace(
             '{multipleOf}',
-            String(formatCurrency(5, { locale: 'nb-NO' }))
+            String(formatCurrency(5, { locale: 'nb-NO' })),
           )
           // Use regex to handle both regular and non-breaking spaces
           const expectedRegex = expected.replace(/\s/g, '\\s')
           expect(statusElement.textContent).toMatch(
-            new RegExp(expectedRegex)
+            new RegExp(expectedRegex),
           )
         })
       })
@@ -1172,7 +1172,7 @@ describe('Field.Number', () => {
             validateInitially
             currency
             decimalLimit={2}
-          />
+          />,
         )
 
         await waitFor(() => {
@@ -1182,13 +1182,13 @@ describe('Field.Number', () => {
           const expected = nb.NumberField.errorExclusiveMinimum.replace(
             '{exclusiveMinimum}',
             String(
-              formatCurrency(20.123456, { locale: 'nb-NO', decimals: 2 })
-            )
+              formatCurrency(20.123456, { locale: 'nb-NO', decimals: 2 }),
+            ),
           )
           // Use regex to handle both regular and non-breaking spaces
           const expectedRegex = expected.replace(/\s/g, '\\s')
           expect(statusElement.textContent).toMatch(
-            new RegExp(expectedRegex)
+            new RegExp(expectedRegex),
           )
         })
       })
@@ -1202,7 +1202,7 @@ describe('Field.Number', () => {
             value={5}
             exclusiveMinimum={10}
             validateInitially
-          />
+          />,
         )
 
         await waitFor(() => {
@@ -1211,12 +1211,12 @@ describe('Field.Number', () => {
 
           const expected = nb.NumberField.errorExclusiveMinimum.replace(
             '{exclusiveMinimum}',
-            String(formatPercent(10, { locale: 'nb-NO' }))
+            String(formatPercent(10, { locale: 'nb-NO' })),
           )
           // Use regex to handle both regular and non-breaking spaces
           const expectedRegex = expected.replace(/\s/g, '\\s')
           expect(statusElement.textContent).toMatch(
-            new RegExp(expectedRegex)
+            new RegExp(expectedRegex),
           )
         })
       })
@@ -1228,7 +1228,7 @@ describe('Field.Number', () => {
             value={90}
             exclusiveMaximum={90}
             validateInitially
-          />
+          />,
         )
 
         await waitFor(() => {
@@ -1237,19 +1237,19 @@ describe('Field.Number', () => {
 
           const expected = nb.NumberField.errorExclusiveMaximum.replace(
             '{exclusiveMaximum}',
-            String(formatPercent(90, { locale: 'nb-NO' }))
+            String(formatPercent(90, { locale: 'nb-NO' })),
           )
           // Use regex to handle both regular and non-breaking spaces
           const expectedRegex = expected.replace(/\s/g, '\\s')
           expect(statusElement.textContent).toMatch(
-            new RegExp(expectedRegex)
+            new RegExp(expectedRegex),
           )
         })
       })
 
       it('should show percent-specific message for minimum', async () => {
         render(
-          <Field.Number percent value={2} minimum={5} validateInitially />
+          <Field.Number percent value={2} minimum={5} validateInitially />,
         )
 
         await waitFor(() => {
@@ -1258,12 +1258,12 @@ describe('Field.Number', () => {
 
           const expected = nb.NumberField.errorMinimum.replace(
             '{minimum}',
-            String(formatPercent(5, { locale: 'nb-NO' }))
+            String(formatPercent(5, { locale: 'nb-NO' })),
           )
           // Use regex to handle both regular and non-breaking spaces
           const expectedRegex = expected.replace(/\s/g, '\\s')
           expect(statusElement.textContent).toMatch(
-            new RegExp(expectedRegex)
+            new RegExp(expectedRegex),
           )
         })
       })
@@ -1275,7 +1275,7 @@ describe('Field.Number', () => {
             value={150}
             maximum={100}
             validateInitially
-          />
+          />,
         )
 
         await waitFor(() => {
@@ -1284,12 +1284,12 @@ describe('Field.Number', () => {
 
           const expected = nb.NumberField.errorMaximum.replace(
             '{maximum}',
-            String(formatPercent(100, { locale: 'nb-NO' }))
+            String(formatPercent(100, { locale: 'nb-NO' })),
           )
           // Use regex to handle both regular and non-breaking spaces
           const expectedRegex = expected.replace(/\s/g, '\\s')
           expect(statusElement.textContent).toMatch(
-            new RegExp(expectedRegex)
+            new RegExp(expectedRegex),
           )
         })
       })
@@ -1301,7 +1301,7 @@ describe('Field.Number', () => {
             value={3}
             multipleOf={2.5}
             validateInitially
-          />
+          />,
         )
 
         await waitFor(() => {
@@ -1310,12 +1310,12 @@ describe('Field.Number', () => {
 
           const expected = nb.NumberField.errorMultipleOf.replace(
             '{multipleOf}',
-            String(formatPercent(2.5, { locale: 'nb-NO', decimals: 1 }))
+            String(formatPercent(2.5, { locale: 'nb-NO', decimals: 1 })),
           )
           // Use regex to handle both regular and non-breaking spaces
           const expectedRegex = expected.replace(/\s/g, '\\s')
           expect(statusElement.textContent).toMatch(
-            new RegExp(expectedRegex)
+            new RegExp(expectedRegex),
           )
         })
       })
@@ -1328,7 +1328,7 @@ describe('Field.Number', () => {
             exclusiveMinimum={10.123456}
             validateInitially
             decimalLimit={1}
-          />
+          />,
         )
 
         await waitFor(() => {
@@ -1338,13 +1338,13 @@ describe('Field.Number', () => {
           const expected = nb.NumberField.errorExclusiveMinimum.replace(
             '{exclusiveMinimum}',
             String(
-              formatPercent(10.123456, { locale: 'nb-NO', decimals: 1 })
-            )
+              formatPercent(10.123456, { locale: 'nb-NO', decimals: 1 }),
+            ),
           )
           // Use regex to handle both regular and non-breaking spaces
           const expectedRegex = expected.replace(/\s/g, '\\s')
           expect(statusElement.textContent).toMatch(
-            new RegExp(expectedRegex)
+            new RegExp(expectedRegex),
           )
         })
       })
@@ -1393,7 +1393,7 @@ describe('Field.Number', () => {
         render(
           <DataContext.Provider ajvInstance={makeAjvInstance()}>
             <Field.Number schema={schema} value={invalidValue} />
-          </DataContext.Provider>
+          </DataContext.Provider>,
         )
 
         const input = document.querySelector('input')
@@ -1401,7 +1401,7 @@ describe('Field.Number', () => {
 
         const status = document.querySelector('.dnb-form-status')
         expect(status).toHaveTextContent(
-          'The field value (foo) type must be number'
+          'The field value (foo) type must be number',
         )
 
         log.mockRestore()
@@ -1424,7 +1424,7 @@ describe('Field.Number', () => {
         render(
           <DataContext.Provider ajvInstance={makeAjvInstance()}>
             <Field.Number schema={schema} />
-          </DataContext.Provider>
+          </DataContext.Provider>,
         )
 
         const input = document.querySelector('input')
@@ -1481,7 +1481,7 @@ describe('Field.Number', () => {
             data={data}
           >
             <Field.Number path="/myFieldWithUndefined" />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input')
@@ -1499,7 +1499,7 @@ describe('Field.Number', () => {
             data={data}
           >
             <Field.Number path="/myFieldWithZero" />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input')
@@ -1517,7 +1517,7 @@ describe('Field.Number', () => {
             data={data}
           >
             <Field.Number path="/myFieldWithNull" />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input')
@@ -1540,7 +1540,7 @@ describe('Field.Number', () => {
               path="/myFieldWitInvalidType"
               validateInitially
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         const input = document.querySelector('input')
@@ -1549,7 +1549,7 @@ describe('Field.Number', () => {
         const status = document.querySelector('.dnb-form-status')
         expect(status).toBeInTheDocument()
         expect(status).toHaveTextContent(
-          'Invalid input: expected number, received string'
+          'Invalid input: expected number, received string',
         )
 
         log.mockRestore()
@@ -1582,7 +1582,7 @@ describe('Field.Number', () => {
           render(
             <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
               <Field.Number path="/amount" />
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           const input = document.querySelector('input')
@@ -1602,7 +1602,7 @@ describe('Field.Number', () => {
           render(
             <Form.Handler schema={schema}>
               <Field.Number path="/amount" />
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           const input = document.querySelector('input')
@@ -1628,7 +1628,7 @@ describe('Field.Number', () => {
             path="/myValue"
             emptyValue={0}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       fireEvent.submit(document.querySelector('form'))
@@ -1636,7 +1636,7 @@ describe('Field.Number', () => {
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenCalledWith(
         { myValue: 0 },
-        expect.anything()
+        expect.anything(),
       )
     })
   })
@@ -1675,14 +1675,14 @@ describe('Field.Number', () => {
     it('should not show error initially', () => {
       render(<Field.Number required />)
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
     })
 
     it('should show error initially when validateInitially', () => {
       render(<Field.Number required validateInitially />)
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
     })
 
@@ -1696,18 +1696,18 @@ describe('Field.Number', () => {
           onChangeValidator={onChangeValidator}
           defaultValue={123}
           validateInitially
-        />
+        />,
       )
 
       expect(onChangeValidator).toHaveBeenCalledTimes(1)
       expect(onChangeValidator).toHaveBeenCalledWith(
         123,
-        expect.anything()
+        expect.anything(),
       )
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
       })
     })
@@ -1724,7 +1724,7 @@ describe('Field.Number', () => {
             onChangeValidator={onChangeValidator}
             defaultValue={123}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       fireEvent.submit(document.querySelector('form'))
@@ -1732,12 +1732,12 @@ describe('Field.Number', () => {
       expect(onChangeValidator).toHaveBeenCalledTimes(1)
       expect(onChangeValidator).toHaveBeenCalledWith(
         123,
-        expect.anything()
+        expect.anything(),
       )
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
       })
     })
@@ -1751,7 +1751,7 @@ describe('Field.Number', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toBeInTheDocument()
         })
       })
@@ -1763,7 +1763,7 @@ describe('Field.Number', () => {
         input.blur()
 
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
 
@@ -1771,21 +1771,21 @@ describe('Field.Number', () => {
         const { rerender } = render(
           <SharedProvider locale="nb-NO">
             <Field.Number required validateInitially />
-          </SharedProvider>
+          </SharedProvider>,
         )
 
         expect(
-          document.querySelector('.dnb-form-status__text')
+          document.querySelector('.dnb-form-status__text'),
         ).toHaveTextContent(nb.Field.errorRequired)
 
         rerender(
           <SharedProvider locale="en-GB">
             <Field.Number required validateInitially />
-          </SharedProvider>
+          </SharedProvider>,
         )
 
         expect(
-          document.querySelector('.dnb-form-status__text')
+          document.querySelector('.dnb-form-status__text'),
         ).toHaveTextContent(en.Field.errorRequired)
       })
     })
@@ -1799,7 +1799,7 @@ describe('Field.Number', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toBeInTheDocument()
         })
       })
@@ -1811,7 +1811,7 @@ describe('Field.Number', () => {
         input.blur()
 
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })
@@ -1825,7 +1825,7 @@ describe('Field.Number', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).toBeInTheDocument()
         })
       })
@@ -1838,7 +1838,7 @@ describe('Field.Number', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-form-status')
+            document.querySelector('.dnb-form-status'),
           ).not.toBeInTheDocument()
         })
       })
@@ -1863,7 +1863,7 @@ describe('Field.Number', () => {
       render(<Field.Number showStepControls value={0} step={10} />)
       const input = document.querySelector('input')
       const [decreaseButton, increaseButton] = Array.from(
-        document.querySelectorAll('.dnb-button')
+        document.querySelectorAll('.dnb-button'),
       )
 
       fireEvent.click(increaseButton)
@@ -1875,7 +1875,7 @@ describe('Field.Number', () => {
 
     it('should handle "defaultValue"', async () => {
       const { rerender } = render(
-        <Field.Number showStepControls defaultValue={1} />
+        <Field.Number showStepControls defaultValue={1} />,
       )
       const input = document.querySelector('input')
 
@@ -1897,7 +1897,7 @@ describe('Field.Number', () => {
       render(<Field.Number showStepControls startWith={-1} />)
       const input = document.querySelector('input')
       const [decreaseButton, increaseButton] = Array.from(
-        document.querySelectorAll('.dnb-button')
+        document.querySelectorAll('.dnb-button'),
       )
 
       fireEvent.click(increaseButton)
@@ -1933,12 +1933,12 @@ describe('Field.Number', () => {
           maximum={2}
           minimum={0}
           step={3}
-        />
+        />,
       )
 
       const input = document.querySelector('input')
       const [decreaseButton, increaseButton] = Array.from(
-        document.querySelectorAll('.dnb-button')
+        document.querySelectorAll('.dnb-button'),
       )
 
       expect(increaseButton).not.toBeDisabled()
@@ -1972,25 +1972,25 @@ describe('Field.Number', () => {
 
       const input = document.querySelector('.dnb-input__input')
       const [decreaseButton, increaseButton] = Array.from(
-        document.querySelectorAll('.dnb-button')
+        document.querySelectorAll('.dnb-button'),
       )
 
       expect(input).toHaveAttribute('role', 'spinbutton')
       expect(input).toHaveAttribute(
         'aria-valuemin',
-        String(settings.minimum)
+        String(settings.minimum),
       )
       expect(input).toHaveAttribute(
         'aria-valuemax',
-        String(settings.maximum)
+        String(settings.maximum),
       )
       expect(input).toHaveAttribute(
         'aria-valuenow',
-        String(settings.value)
+        String(settings.value),
       )
       expect(input).toHaveAttribute(
         'aria-valuetext',
-        String(settings.value)
+        String(settings.value),
       )
 
       expect(decreaseButton).toHaveAttribute('aria-hidden', 'true')
@@ -2009,7 +2009,7 @@ describe('Field.Number', () => {
             step={5}
             required
             validateInitially
-          />
+          />,
         )
 
         expect(await axeComponent(result)).toHaveNoViolations()
@@ -2029,7 +2029,7 @@ describe('Field.Number', () => {
             value={1}
             minimum={2}
             validateInitially
-          />
+          />,
         )
 
         const input = document.querySelector('input')
@@ -2041,7 +2041,7 @@ describe('Field.Number', () => {
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(
-        <Field.Number label="Label" required validateInitially />
+        <Field.Number label="Label" required validateInitially />,
       )
 
       expect(await axeComponent(result)).toHaveNoViolations()
@@ -2069,7 +2069,7 @@ describe('Field.Number', () => {
       render(
         <Form.Handler onSubmit={onSubmit}>
           <Field.Number path="/myValue" emptyValue={0} />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const form = document.querySelector('form')
@@ -2080,7 +2080,7 @@ describe('Field.Number', () => {
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
         { myValue: 0 },
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.type(input, '1')
@@ -2089,7 +2089,7 @@ describe('Field.Number', () => {
       expect(onSubmit).toHaveBeenCalledTimes(2)
       expect(onSubmit).toHaveBeenLastCalledWith(
         { myValue: 1 },
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.type(input, '{Backspace}')
@@ -2098,7 +2098,7 @@ describe('Field.Number', () => {
       expect(onSubmit).toHaveBeenCalledTimes(3)
       expect(onSubmit).toHaveBeenLastCalledWith(
         { myValue: 0 },
-        expect.anything()
+        expect.anything(),
       )
     })
   })
@@ -2115,7 +2115,7 @@ describe('Field.Number', () => {
             return null
           }}
         </DataContext.Consumer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
@@ -2162,7 +2162,7 @@ describe('Field.Number', () => {
             return null
           }}
         </DataContext.Consumer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
@@ -2228,8 +2228,8 @@ describe('Field.Number', () => {
         const expectedText = nb.NumberField.errorMaximum.replace(
           '{maximum}',
           String(
-            formatNumber(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' })
-          )
+            formatNumber(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' }),
+          ),
         )
         // Use regex to handle both regular and non-breaking spaces
         const expectedRegex = expectedText.replace(/\s/g, '\\s')
@@ -2253,7 +2253,7 @@ describe('Field.Number', () => {
 
       // No error yet
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       // Now type '2' to make it 9007199254740992 (> MAX_SAFE_INTEGER)
@@ -2268,8 +2268,8 @@ describe('Field.Number', () => {
         const expectedText = nb.NumberField.errorMaximum.replace(
           '{maximum}',
           String(
-            formatNumber(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' })
-          )
+            formatNumber(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' }),
+          ),
         )
         // Use regex to handle both regular and non-breaking spaces
         const expectedRegex = expectedText.replace(/\s/g, '\\s')
@@ -2292,8 +2292,8 @@ describe('Field.Number', () => {
         const expectedText = nb.NumberField.errorMinimum.replace(
           '{minimum}',
           String(
-            formatNumber(Number.MIN_SAFE_INTEGER, { locale: 'nb-NO' })
-          )
+            formatNumber(Number.MIN_SAFE_INTEGER, { locale: 'nb-NO' }),
+          ),
         )
         // Use regex to handle both regular and non-breaking spaces
         const expectedRegex = expectedText.replace(/\s/g, '\\s')
@@ -2316,7 +2316,7 @@ describe('Field.Number', () => {
         const alertText = statusElement.textContent
         const expectedText = nb.NumberField.errorMinimum.replace(
           '{minimum}',
-          String(formatNumber(minimum, { locale: 'nb-NO' }))
+          String(formatNumber(minimum, { locale: 'nb-NO' })),
         )
         // Use regex to handle both regular and non-breaking spaces
         const expectedRegex = expectedText.replace(/\s/g, '\\s')
@@ -2341,8 +2341,8 @@ describe('Field.Number', () => {
         const expectedText = nb.NumberField.errorMinimum.replace(
           '{minimum}',
           String(
-            formatNumber(Number.MIN_SAFE_INTEGER, { locale: 'nb-NO' })
-          )
+            formatNumber(Number.MIN_SAFE_INTEGER, { locale: 'nb-NO' }),
+          ),
         )
         // Use regex to handle both regular and non-breaking spaces
         const expectedRegex = expectedText.replace(/\s/g, '\\s')
@@ -2396,7 +2396,7 @@ describe('Field.Number', () => {
 
       // No error should appear during typing
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       // Error should appear on blur
@@ -2404,16 +2404,16 @@ describe('Field.Number', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         const expected = nb.NumberField.errorMaximum.replace(
           '{maximum}',
-          String(formatNumber(1000, { locale: 'nb-NO' }))
+          String(formatNumber(1000, { locale: 'nb-NO' })),
         )
         // Use regex to handle both regular and non-breaking spaces
         const expectedRegex = expected.replace(/\s/g, '\\s')
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(new RegExp(expectedRegex))
       })
     })
@@ -2428,7 +2428,10 @@ describe('Field.Number', () => {
       }
 
       render(
-        <Field.Number validateContinuously onChangeValidator={validator} />
+        <Field.Number
+          validateContinuously
+          onChangeValidator={validator}
+        />,
       )
       const input = document.querySelector('input')
 
@@ -2438,10 +2441,10 @@ describe('Field.Number', () => {
       // Error should appear during typing
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent('Value must be less than or equal to 1000')
       })
     })
@@ -2455,7 +2458,7 @@ describe('Field.Number', () => {
 
       // No error should appear during typing (default behavior)
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       // Error should appear on blur
@@ -2463,16 +2466,16 @@ describe('Field.Number', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         const expected = nb.NumberField.errorMaximum.replace(
           '{maximum}',
-          String(formatNumber(1000, { locale: 'nb-NO' }))
+          String(formatNumber(1000, { locale: 'nb-NO' })),
         )
         // Use regex to handle both regular and non-breaking spaces
         const expectedRegex = expected.replace(/\s/g, '\\s')
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(new RegExp(expectedRegex))
       })
     })
@@ -2486,7 +2489,7 @@ describe('Field.Number', () => {
 
       // No error should appear during typing (default behavior)
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       // Error should appear on blur
@@ -2494,16 +2497,16 @@ describe('Field.Number', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         const expected = nb.NumberField.errorExclusiveMaximum.replace(
           '{exclusiveMaximum}',
-          String(formatNumber(1000, { locale: 'nb-NO' }))
+          String(formatNumber(1000, { locale: 'nb-NO' })),
         )
         // Use regex to handle both regular and non-breaking spaces
         const expectedRegex = expected.replace(/\s/g, '\\s')
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(new RegExp(expectedRegex))
       })
     })
@@ -2525,8 +2528,8 @@ describe('Field.Number', () => {
         const expectedText = nb.NumberField.errorMaximum.replace(
           '{maximum}',
           String(
-            formatNumber(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' })
-          )
+            formatNumber(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' }),
+          ),
         )
         // Use regex to handle both regular and non-breaking spaces
         const expectedRegex = expectedText.replace(/\s/g, '\\s')
@@ -2551,8 +2554,8 @@ describe('Field.Number', () => {
         const expectedText = nb.NumberField.errorMaximum.replace(
           '{maximum}',
           String(
-            formatNumber(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' })
-          )
+            formatNumber(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' }),
+          ),
         )
         // Use regex to handle both regular and non-breaking spaces
         const expectedRegex = expectedText.replace(/\s/g, '\\s')
@@ -2577,7 +2580,7 @@ describe('Field.Number', () => {
         const alertText = statusElement.textContent
         const expectedText = nb.NumberField.errorMaximum.replace(
           '{maximum}',
-          String(formatNumber(maximum, { locale: 'nb-NO' }))
+          String(formatNumber(maximum, { locale: 'nb-NO' })),
         )
         // Use regex to handle both regular and non-breaking spaces
         const expectedRegex = expectedText.replace(/\s/g, '\\s')
@@ -2598,15 +2601,15 @@ describe('Field.Number', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(
           nb.NumberField.errorMinimum.replace(
             '{minimum}',
-            String(formatNumber(5, { locale: 'nb-NO' }))
-          )
+            String(formatNumber(5, { locale: 'nb-NO' })),
+          ),
         )
       })
     })
@@ -2617,7 +2620,7 @@ describe('Field.Number', () => {
       render(
         <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           <Field.Number path="/amount" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -2626,15 +2629,15 @@ describe('Field.Number', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(
           nb.NumberField.errorMaximum.replace(
             '{maximum}',
-            String(formatNumber(10, { locale: 'nb-NO' }))
-          )
+            String(formatNumber(10, { locale: 'nb-NO' })),
+          ),
         )
       })
     })
@@ -2651,15 +2654,15 @@ describe('Field.Number', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(
           nb.NumberField.errorMinimum.replace(
             '{minimum}',
-            String(formatNumber(5, { locale: 'nb-NO' }))
-          )
+            String(formatNumber(5, { locale: 'nb-NO' })),
+          ),
         )
       })
     })
@@ -2672,7 +2675,7 @@ describe('Field.Number', () => {
       render(
         <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           <Field.Number path="/amount" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -2683,15 +2686,15 @@ describe('Field.Number', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(
           nb.NumberField.errorMinimum.replace(
             '{minimum}',
-            String(formatNumber(10, { locale: 'nb-NO' }))
-          )
+            String(formatNumber(10, { locale: 'nb-NO' })),
+          ),
         )
       })
     })
@@ -2708,15 +2711,15 @@ describe('Field.Number', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(
           nb.NumberField.errorMultipleOf.replace(
             '{multipleOf}',
-            String(formatNumber(3, { locale: 'nb-NO' }))
-          )
+            String(formatNumber(3, { locale: 'nb-NO' })),
+          ),
         )
       })
     })
@@ -2731,15 +2734,15 @@ describe('Field.Number', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(
           nb.NumberField.errorMinimum.replace(
             '{minimum}',
-            String(formatNumber(5, { locale: 'nb-NO' }))
-          )
+            String(formatNumber(5, { locale: 'nb-NO' })),
+          ),
         )
       })
     })
@@ -2754,15 +2757,15 @@ describe('Field.Number', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(
           nb.NumberField.errorMaximum.replace(
             '{maximum}',
-            String(formatNumber(10, { locale: 'nb-NO' }))
-          )
+            String(formatNumber(10, { locale: 'nb-NO' })),
+          ),
         )
       })
     })
@@ -2777,15 +2780,15 @@ describe('Field.Number', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(
           nb.NumberField.errorExclusiveMinimum.replace(
             '{exclusiveMinimum}',
-            String(formatNumber(5, { locale: 'nb-NO' }))
-          )
+            String(formatNumber(5, { locale: 'nb-NO' })),
+          ),
         )
       })
     })
@@ -2800,15 +2803,15 @@ describe('Field.Number', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(
           nb.NumberField.errorExclusiveMaximum.replace(
             '{exclusiveMaximum}',
-            String(formatNumber(10, { locale: 'nb-NO' }))
-          )
+            String(formatNumber(10, { locale: 'nb-NO' })),
+          ),
         )
       })
     })
@@ -2823,15 +2826,15 @@ describe('Field.Number', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(
           nb.NumberField.errorMultipleOf.replace(
             '{multipleOf}',
-            String(formatNumber(3, { locale: 'nb-NO' }))
-          )
+            String(formatNumber(3, { locale: 'nb-NO' })),
+          ),
         )
       })
     })
@@ -2847,7 +2850,7 @@ describe('Field.Number', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })
@@ -2858,7 +2861,7 @@ describe('Field.Number', () => {
       render(
         <Form.Handler schema={schema}>
           <Field.Number path="/amount" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -2867,7 +2870,7 @@ describe('Field.Number', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })
@@ -2884,10 +2887,10 @@ describe('Field.Number', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent('Minimum 5 required')
       })
     })

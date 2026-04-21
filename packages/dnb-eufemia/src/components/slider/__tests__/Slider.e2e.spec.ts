@@ -12,7 +12,7 @@ test.describe('Slider', () => {
 
   test('should swap thumbs by using ArrowRight', async ({ page }) => {
     const inputElements = page.locator(
-      '[data-visual-test="slider-multi"] .dnb-slider:nth-child(2) input'
+      '[data-visual-test="slider-multi"] .dnb-slider:nth-child(2) input',
     )
 
     await expect(inputElements.nth(1)).toHaveValue('30')

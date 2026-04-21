@@ -71,8 +71,9 @@ export const gridStyle = ({
       width: 100%;
       height: 100%;
 
-      background-image: var(--grid-columns), var(--grid-columns-bold),
-        var(--grid-rows), var(--grid-rows-bold);
+      background-image:
+        var(--grid-columns), var(--grid-columns-bold), var(--grid-rows),
+        var(--grid-rows-bold);
 
       border-bottom: solid var(--grid-line-thickness)
         var(--grid-color-bold);

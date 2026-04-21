@@ -109,7 +109,7 @@ export function resolveCliOptions(argv: string[]): CliOptions {
 function getBaseCommandTokens(
   packageJson: { scripts: Record<string, string> } | null,
   packageRoot: string,
-  runAllWithoutBail: boolean
+  runAllWithoutBail: boolean,
 ): string[] {
   const baseCommand = packageJson?.scripts?.['test:screenshots:ci']
 
@@ -117,8 +117,8 @@ function getBaseCommandTokens(
     throw new Error(
       `Missing script "test:screenshots:ci" in ${path.join(
         packageRoot,
-        'package.json'
-      )}`
+        'package.json',
+      )}`,
     )
   }
 
@@ -135,7 +135,7 @@ function runCommand(packageRoot: string, commandTokens: string[]) {
   const [command, ...args] = commandTokens
 
   log.info(
-    logWithLabel(`Running command: ${[command, ...args].join(' ')}`)
+    logWithLabel(`Running command: ${[command, ...args].join(' ')}`),
   )
 
   execFileSync(command, args, {
@@ -148,7 +148,7 @@ function printExplainOutput(
   changedFilesMode: ChangedFilesMode,
   changedFiles: string[],
   selectedTests: string[],
-  testCauses: Record<string, string[]>
+  testCauses: Record<string, string[]>,
 ) {
   log.info(logWithLabel(`Change scope: ${changedFilesMode}`))
   log.info(logWithLabel('Changed files:'))
@@ -171,7 +171,7 @@ function printExplainOutput(
 }
 
 function printGlobalImpactCauses(
-  causes: Array<{ filePath: string; reason: string }>
+  causes: Array<{ filePath: string; reason: string }>,
 ) {
   if (causes.length === 0) {
     return
@@ -195,7 +195,7 @@ export async function runScreenshotsTests() {
   const commandTokens = getBaseCommandTokens(
     context.packageJson,
     context.packageRoot,
-    runAllFromCommit || runAllFromBranch
+    runAllFromCommit || runAllFromBranch,
   )
 
   if (runAllFromCommit || runAllFromBranch) {
@@ -205,8 +205,8 @@ export async function runScreenshotsTests() {
 
     log.info(
       logWithLabel(
-        `Running all screenshot tests without --bail ${reason}.`
-      )
+        `Running all screenshot tests without --bail ${reason}.`,
+      ),
     )
     if (!isDryRun) {
       runCommand(context.packageRoot, commandTokens)
@@ -218,7 +218,9 @@ export async function runScreenshotsTests() {
 
   if (changedFiles.length === 0) {
     log.info(
-      logWithLabel('No changed files resolved. Skipping screenshot tests.')
+      logWithLabel(
+        'No changed files resolved. Skipping screenshot tests.',
+      ),
     )
 
     if (shouldExplain) {
@@ -272,8 +274,8 @@ export async function runScreenshotsTests() {
           globalImpactCauses.length
         } trigger${
           globalImpactCauses.length === 1 ? '' : 's'
-        }). Running all screenshot tests.`
-      )
+        }). Running all screenshot tests.`,
+      ),
     )
 
     printGlobalImpactCauses(globalImpactCauses)
@@ -293,8 +295,8 @@ export async function runScreenshotsTests() {
   if (sourceChanges.length === 0 && !hasPortalDocsChanges) {
     log.info(
       logWithLabel(
-        'No visual source changes detected. Skipping screenshot tests.'
-      )
+        'No visual source changes detected. Skipping screenshot tests.',
+      ),
     )
 
     if (shouldExplain) {
@@ -309,15 +311,15 @@ export async function runScreenshotsTests() {
     ? findPortalDocsImpactedTests(
         context,
         changedFiles,
-        allScreenshotTests
+        allScreenshotTests,
       )
     : []
 
   if (sourceChanges.length === 0 && portalDocsImpactedTests.length === 0) {
     log.info(
       logWithLabel(
-        'No visual source changes detected. Skipping screenshot tests.'
-      )
+        'No visual source changes detected. Skipping screenshot tests.',
+      ),
     )
 
     if (shouldExplain) {
@@ -343,7 +345,7 @@ export async function runScreenshotsTests() {
   const compositionImpactedTests = findCompositionImpactedTests(
     context,
     sourceChanges,
-    allScreenshotTests
+    allScreenshotTests,
   )
 
   const analysis = analyzeSelection({
@@ -364,7 +366,7 @@ export async function runScreenshotsTests() {
       changedFilesMode,
       details.changedFiles,
       selection.tests,
-      details.testCauses
+      details.testCauses,
     )
   }
 

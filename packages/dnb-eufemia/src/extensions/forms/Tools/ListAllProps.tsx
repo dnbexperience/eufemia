@@ -18,7 +18,7 @@ export type GenerateRef<Data extends JsonObject = JsonObject> =
   ListAllPropsProps<Data>['generateRef']['current']
 
 export default function ListAllProps<Data extends JsonObject = JsonObject>(
-  props: ListAllPropsProps<Data>
+  props: ListAllPropsProps<Data>,
 ) {
   const { log, generateRef, filterData, children } = props || {}
   const { fieldInternalsRef, valueInternalsRef, data, hasContext } =
@@ -31,7 +31,7 @@ export default function ListAllProps<Data extends JsonObject = JsonObject>(
     const includeSchema = Boolean(log)
 
     const propsOfFields = Object.entries(
-      fieldInternalsRef?.current || {}
+      fieldInternalsRef?.current || {},
     ).reduce((acc, [path, { props }]) => {
       if (path.startsWith('/')) {
         const propertyValue = {}
@@ -75,7 +75,7 @@ export default function ListAllProps<Data extends JsonObject = JsonObject>(
     }, {})
 
     const propsOfValues = Object.entries(
-      valueInternalsRef?.current || {}
+      valueInternalsRef?.current || {},
     ).reduce((acc, [path, { props }]) => {
       if (path.startsWith('/')) {
         const propertyValue = {}

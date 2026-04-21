@@ -29,7 +29,7 @@ describe('Field.DateOfBirth', () => {
     render(<Field.DateOfBirth labelSize="large" />)
 
     expect(document.querySelector('.dnb-form-label').classList).toContain(
-      'dnb-h--large'
+      'dnb-h--large',
     )
   })
 
@@ -43,12 +43,12 @@ describe('Field.DateOfBirth', () => {
     render(
       <Form.Handler required>
         <Field.DateOfBirth required={false} />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const label = document.querySelector('legend')
     expect(label).toHaveTextContent(
-      `${nb.DateOfBirth.label} ${nb.Field.optionalLabelSuffix}`
+      `${nb.DateOfBirth.label} ${nb.Field.optionalLabelSuffix}`,
     )
   })
 
@@ -78,7 +78,7 @@ describe('Field.DateOfBirth', () => {
           year: '2023',
           month: '12',
           day: '24',
-        })
+        }),
       )
     })
 
@@ -88,7 +88,7 @@ describe('Field.DateOfBirth', () => {
       render(
         <Form.Handler onChange={onChange}>
           <Field.DateOfBirth path="/dob" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const dayInput = document.querySelectorAll('input')[0]
@@ -107,7 +107,7 @@ describe('Field.DateOfBirth', () => {
       expect(onChange).toHaveBeenCalledTimes(4)
       expect(onChange).toHaveBeenLastCalledWith(
         { dob: '2023-12-24' },
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -132,7 +132,7 @@ describe('Field.DateOfBirth', () => {
           }}
         >
           <Field.DateOfBirth path="/myField" transformIn={transformIn} />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(transformIn).toHaveBeenCalledTimes(2)
@@ -170,7 +170,7 @@ describe('Field.DateOfBirth', () => {
           }
 
           return undefined
-        }
+        },
       )
 
       const transformIn = jest.fn((external: unknown) => {
@@ -190,7 +190,7 @@ describe('Field.DateOfBirth', () => {
             transformOut={transformOut}
             transformIn={transformIn}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const dayInput = document.querySelectorAll('input')[0]
@@ -223,7 +223,7 @@ describe('Field.DateOfBirth', () => {
             day: '24',
           },
         },
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -254,7 +254,7 @@ describe('Field.DateOfBirth', () => {
         '2023-12-24',
         expect.objectContaining({
           year: '2023',
-        })
+        }),
       )
     })
 
@@ -285,7 +285,7 @@ describe('Field.DateOfBirth', () => {
         '2023-12-24',
         expect.objectContaining({
           month: '12',
-        })
+        }),
       )
     })
 
@@ -316,7 +316,7 @@ describe('Field.DateOfBirth', () => {
         '2023-12-24',
         expect.objectContaining({
           day: '24',
-        })
+        }),
       )
     })
 
@@ -327,7 +327,7 @@ describe('Field.DateOfBirth', () => {
       render(
         <Form.Handler onChange={onChangeContext}>
           <Field.DateOfBirth path="/myField" onChange={onChange} />{' '}
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const dayInput = document.querySelectorAll('input')[0]
@@ -356,7 +356,7 @@ describe('Field.DateOfBirth', () => {
         {
           myField: undefined,
         },
-        expect.anything()
+        expect.anything(),
       )
     })
   })
@@ -365,14 +365,14 @@ describe('Field.DateOfBirth', () => {
     it('should have autoComplete value bday-day', () => {
       render(<Field.DateOfBirth />)
       expect(
-        document.querySelectorAll('input')[0].getAttribute('autocomplete')
+        document.querySelectorAll('input')[0].getAttribute('autocomplete'),
       ).toBe('bday-day')
     })
 
     it('should have correct label description', () => {
       render(<Field.DateOfBirth />)
       expect(
-        screen.queryByText(nb.DateOfBirth.dayLabel)
+        screen.queryByText(nb.DateOfBirth.dayLabel),
       ).toBeInTheDocument()
     })
 
@@ -402,14 +402,14 @@ describe('Field.DateOfBirth', () => {
     it('should have autoComplete value bday-month', () => {
       render(<Field.DateOfBirth />)
       expect(
-        document.querySelectorAll('input')[1].getAttribute('autocomplete')
+        document.querySelectorAll('input')[1].getAttribute('autocomplete'),
       ).toBe('bday-month')
     })
 
     it('should have correct label description', () => {
       render(<Field.DateOfBirth />)
       expect(
-        screen.queryByText(nb.DateOfBirth.monthLabel)
+        screen.queryByText(nb.DateOfBirth.monthLabel),
       ).toBeInTheDocument()
     })
 
@@ -471,14 +471,14 @@ describe('Field.DateOfBirth', () => {
     it('should have autoComplete value bday-year', () => {
       render(<Field.DateOfBirth />)
       expect(
-        document.querySelectorAll('input')[2].getAttribute('autocomplete')
+        document.querySelectorAll('input')[2].getAttribute('autocomplete'),
       ).toBe('bday-year')
     })
 
     it('should have correct label description', () => {
       render(<Field.DateOfBirth />)
       expect(
-        screen.queryByText(nb.DateOfBirth.yearLabel)
+        screen.queryByText(nb.DateOfBirth.yearLabel),
       ).toBeInTheDocument()
     })
 
@@ -532,7 +532,7 @@ describe('Field.DateOfBirth', () => {
           required
           onChangeValidator={onChangeValidator}
           validateInitially
-        />
+        />,
       )
 
       await waitFor(() => {
@@ -556,7 +556,7 @@ describe('Field.DateOfBirth', () => {
         render(
           <Form.Handler>
             <Field.DateOfBirth value={dateOfBirth} validateInitially />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         fireEvent.blur(document.querySelector('input'))
@@ -574,7 +574,7 @@ describe('Field.DateOfBirth', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.DateOfBirth.errorDateOfBirth
+            nb.DateOfBirth.errorDateOfBirth,
           )
         })
       })
@@ -583,7 +583,7 @@ describe('Field.DateOfBirth', () => {
         'Invalid date: %s',
         async (dateOfBirth) => {
           render(
-            <Field.DateOfBirth value={dateOfBirth} validateInitially />
+            <Field.DateOfBirth value={dateOfBirth} validateInitially />,
           )
 
           fireEvent.blur(document.querySelector('input'))
@@ -591,10 +591,10 @@ describe('Field.DateOfBirth', () => {
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              nb.DateOfBirth.errorDateOfBirthFuture
+              nb.DateOfBirth.errorDateOfBirthFuture,
             )
           })
-        }
+        },
       )
     })
 
@@ -627,7 +627,7 @@ describe('Field.DateOfBirth', () => {
 
       const customValidator: Validator<string> = (
         value,
-        { validators }
+        { validators },
       ) => {
         const { dateOfBirthValidator } = validators
 
@@ -644,7 +644,7 @@ describe('Field.DateOfBirth', () => {
                 validateInitially
                 onBlurValidator={customValidator}
               />
-            </Form.Handler>
+            </Form.Handler>,
           )
 
           fireEvent.blur(document.querySelector('input'))
@@ -652,7 +652,7 @@ describe('Field.DateOfBirth', () => {
           await expect(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
           }).toNeverResolve()
-        }
+        },
       )
 
       it.each(validDatesNotIn1990)(
@@ -663,7 +663,7 @@ describe('Field.DateOfBirth', () => {
               value={dateOfBirth}
               validateInitially
               onBlurValidator={customValidator}
-            />
+            />,
           )
 
           fireEvent.blur(document.querySelector('input'))
@@ -671,10 +671,10 @@ describe('Field.DateOfBirth', () => {
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              customError
+              customError,
             )
           })
-        }
+        },
       )
 
       it.each(alsoNotIn1990)(
@@ -685,7 +685,7 @@ describe('Field.DateOfBirth', () => {
               value={dateOfBirth}
               validateInitially
               onBlurValidator={customValidator}
-            />
+            />,
           )
 
           fireEvent.blur(document.querySelector('input'))
@@ -693,10 +693,10 @@ describe('Field.DateOfBirth', () => {
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              customError
+              customError,
             )
           })
-        }
+        },
       )
 
       it.each(coreInvalidDatesWithCustom)(
@@ -707,7 +707,7 @@ describe('Field.DateOfBirth', () => {
               value={dateOfBirth}
               validateInitially
               onBlurValidator={customValidator}
-            />
+            />,
           )
 
           fireEvent.blur(document.querySelector('input'))
@@ -715,10 +715,10 @@ describe('Field.DateOfBirth', () => {
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              nb.DateOfBirth.errorDateOfBirth
+              nb.DateOfBirth.errorDateOfBirth,
             )
           })
-        }
+        },
       )
 
       it.each(invalidDatesInTheFuture)(
@@ -729,7 +729,7 @@ describe('Field.DateOfBirth', () => {
               value={dateOfBirth}
               validateInitially
               onBlurValidator={customValidator}
-            />
+            />,
           )
 
           fireEvent.blur(document.querySelector('input'))
@@ -737,10 +737,10 @@ describe('Field.DateOfBirth', () => {
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              nb.DateOfBirth.errorDateOfBirthFuture
+              nb.DateOfBirth.errorDateOfBirthFuture,
             )
           })
-        }
+        },
       )
 
       it.each(invalidDatesTooShort)(
@@ -751,7 +751,7 @@ describe('Field.DateOfBirth', () => {
               value={dateOfBirth}
               validateInitially
               onBlurValidator={customValidator}
-            />
+            />,
           )
 
           fireEvent.blur(document.querySelector('input'))
@@ -759,10 +759,10 @@ describe('Field.DateOfBirth', () => {
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              customError
+              customError,
             )
           })
-        }
+        },
       )
     })
   })
@@ -791,7 +791,7 @@ describe('Field.DateOfBirth', () => {
           value="2023/12/25"
           dateFormat="yyyy/MM/dd"
           onChange={onChange}
-        />
+        />,
       )
 
       const dayInput = document.querySelectorAll('input')[0]
@@ -826,7 +826,7 @@ describe('Field.DateOfBirth', () => {
           value="25/12/2023"
           dateFormat="dd/MM/yyyy"
           onChange={onChange}
-        />
+        />,
       )
 
       const dayInput = document.querySelectorAll('input')[0]
@@ -861,7 +861,7 @@ describe('Field.DateOfBirth', () => {
           value="12/25/2023"
           dateFormat="MM/dd/yyyy"
           onChange={onChange}
-        />
+        />,
       )
 
       const dayInput = document.querySelectorAll('input')[0]
@@ -896,7 +896,7 @@ describe('Field.DateOfBirth', () => {
           value="25-12-2023"
           dateFormat="dd-MM-yyyy"
           onChange={onChange}
-        />
+        />,
       )
 
       const dayInput = document.querySelectorAll('input')[0]
@@ -929,7 +929,7 @@ describe('Field.DateOfBirth', () => {
           value="25/12/2023"
           dateFormat="dd/MM/yyyy"
           validateInitially
-        />
+        />,
       )
 
       // Should not show error for valid date in custom format
@@ -944,7 +944,7 @@ describe('Field.DateOfBirth', () => {
           value="32/12/2023"
           dateFormat="dd/MM/yyyy"
           validateInitially
-        />
+        />,
       )
 
       fireEvent.blur(document.querySelector('input'))
@@ -952,7 +952,7 @@ describe('Field.DateOfBirth', () => {
       await waitFor(() => {
         expect(screen.queryByRole('alert')).toBeInTheDocument()
         expect(screen.queryByRole('alert')).toHaveTextContent(
-          nb.DateOfBirth.errorDateOfBirth
+          nb.DateOfBirth.errorDateOfBirth,
         )
       })
     })
@@ -964,7 +964,7 @@ describe('Field.DateOfBirth', () => {
           value={`25/12/${futureYear}`}
           dateFormat="dd/MM/yyyy"
           validateInitially
-        />
+        />,
       )
 
       fireEvent.blur(document.querySelector('input'))
@@ -972,7 +972,7 @@ describe('Field.DateOfBirth', () => {
       await waitFor(() => {
         expect(screen.queryByRole('alert')).toBeInTheDocument()
         expect(screen.queryByRole('alert')).toHaveTextContent(
-          nb.DateOfBirth.errorDateOfBirthFuture
+          nb.DateOfBirth.errorDateOfBirthFuture,
         )
       })
     })
@@ -985,7 +985,7 @@ describe('Field.DateOfBirth', () => {
           value=""
           dateFormat="dd/MM/yyyy"
           onChange={onChange}
-        />
+        />,
       )
 
       const dayInput = document.querySelectorAll('input')[0]
@@ -1005,7 +1005,7 @@ describe('Field.DateOfBirth', () => {
           value="invalid-date"
           dateFormat="dd/MM/yyyy"
           onChange={onChange}
-        />
+        />,
       )
 
       const dayInput = document.querySelectorAll('input')[0]
@@ -1030,7 +1030,7 @@ describe('Field.DateOfBirth', () => {
       render(
         <Form.Handler defaultData={sourceData}>
           <Field.DateOfBirth path="/personalInfo/dateOfBirth" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const dayInput = document.querySelectorAll('input')[0]
@@ -1053,7 +1053,7 @@ describe('Field.DateOfBirth', () => {
       const { rerender } = render(
         <Form.Handler defaultData={sourceData}>
           <Field.DateOfBirth path="/personalInfo/dateOfBirth" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const dayInput = document.querySelectorAll('input')[0]
@@ -1075,7 +1075,7 @@ describe('Field.DateOfBirth', () => {
       rerender(
         <Form.Handler data={updatedSourceData}>
           <Field.DateOfBirth path="/personalInfo/dateOfBirth" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       // Values should update to reflect new source data
@@ -1098,7 +1098,7 @@ describe('Field.DateOfBirth', () => {
             required
             validateInitially
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       // Should not show validation error for valid date from source
@@ -1117,7 +1117,7 @@ describe('Field.DateOfBirth', () => {
       render(
         <Form.Handler defaultData={sourceData}>
           <Field.DateOfBirth path="/personalInfo/dateOfBirth" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const dayInput = document.querySelectorAll('input')[0]
@@ -1141,7 +1141,7 @@ describe('Field.DateOfBirth', () => {
       render(
         <Form.Handler defaultData={sourceData} onChange={onChange}>
           <Field.DateOfBirth path="/personalInfo/dateOfBirth" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const dayInput = document.querySelectorAll('input')[0]
@@ -1157,7 +1157,7 @@ describe('Field.DateOfBirth', () => {
             dateOfBirth: expect.stringMatching(/1990-05-25/),
           },
         }),
-        expect.any(Object)
+        expect.any(Object),
       )
 
       // Clear the year input and type a new value
@@ -1170,7 +1170,7 @@ describe('Field.DateOfBirth', () => {
             dateOfBirth: expect.stringMatching(/1985-05-25/),
           },
         }),
-        expect.any(Object)
+        expect.any(Object),
       )
     })
 
@@ -1185,7 +1185,7 @@ describe('Field.DateOfBirth', () => {
       const { rerender } = render(
         <Form.Handler data={sourceData} onChange={onChange}>
           <Field.DateOfBirth path="/personalInfo/dateOfBirth" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       // Verify initial state - the field should be populated with source data
@@ -1207,7 +1207,7 @@ describe('Field.DateOfBirth', () => {
       rerender(
         <Form.Handler data={updatedSourceData} onChange={onChange}>
           <Field.DateOfBirth path="/personalInfo/dateOfBirth" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       // The field should now reflect the new source data
@@ -1220,7 +1220,7 @@ describe('Field.DateOfBirth', () => {
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(
-        <Field.DateOfBirth required validateInitially />
+        <Field.DateOfBirth required validateInitially />,
       )
 
       expect(await axeComponent(result)).toHaveNoViolations()
@@ -1256,10 +1256,10 @@ describe('Field.DateOfBirth', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).toBeInTheDocument()
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        nb.DateOfBirth.errorDateOfBirth
+        nb.DateOfBirth.errorDateOfBirth,
       )
     })
 
@@ -1269,7 +1269,7 @@ describe('Field.DateOfBirth', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).not.toBeInTheDocument()
     })
 
@@ -1279,10 +1279,10 @@ describe('Field.DateOfBirth', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).toBeInTheDocument()
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        nb.DateOfBirth.errorDateOfBirthFuture
+        nb.DateOfBirth.errorDateOfBirthFuture,
       )
     })
   })
@@ -1295,7 +1295,7 @@ describe('Field.DateOfBirth', () => {
         onStatusChange={onStatusChange}
         validateContinuously
         required
-      />
+      />,
     )
 
     const inputs = document.querySelectorAll('input')
@@ -1313,7 +1313,7 @@ describe('Field.DateOfBirth', () => {
       expect(onStatusChange).toHaveBeenLastCalledWith(
         expect.objectContaining({
           error: expect.anything(),
-        })
+        }),
       )
     })
 
@@ -1343,7 +1343,7 @@ describe('Field.DateOfBirth', () => {
       <Field.DateOfBirth
         onStatusChange={onStatusChange}
         error={undefined}
-      />
+      />,
     )
 
     // Initially no error should be called
@@ -1353,7 +1353,7 @@ describe('Field.DateOfBirth', () => {
 
     // Set error prop
     rerender(
-      <Field.DateOfBirth onStatusChange={onStatusChange} error={error1} />
+      <Field.DateOfBirth onStatusChange={onStatusChange} error={error1} />,
     )
 
     // Wait for onStatusChange to be called with error
@@ -1368,7 +1368,7 @@ describe('Field.DateOfBirth', () => {
 
     // Change to different error
     rerender(
-      <Field.DateOfBirth onStatusChange={onStatusChange} error={error2} />
+      <Field.DateOfBirth onStatusChange={onStatusChange} error={error2} />,
     )
 
     await waitFor(() => {
@@ -1385,7 +1385,7 @@ describe('Field.DateOfBirth', () => {
       <Field.DateOfBirth
         onStatusChange={onStatusChange}
         error={undefined}
-      />
+      />,
     )
 
     await waitFor(() => {
@@ -1400,7 +1400,7 @@ describe('Field.DateOfBirth', () => {
 
   it('should have constant of _supportsSpacingProps=undefined', () => {
     expect(
-      (Field.DateOfBirth as ComponentMarkers)._supportsSpacingProps
+      (Field.DateOfBirth as ComponentMarkers)._supportsSpacingProps,
     ).toBe(undefined)
   })
 })

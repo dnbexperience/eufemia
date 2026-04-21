@@ -4,7 +4,7 @@ import ModalHeaderBar from '../parts/ModalHeaderBar'
 import ModalContext from '../ModalContext'
 
 type IntersectionObserverCallback = (
-  entries: Partial<IntersectionObserverEntry>[]
+  entries: Partial<IntersectionObserverEntry>[],
 ) => void
 
 const defaultContext = {
@@ -25,7 +25,7 @@ const defaultContext = {
 
 function renderWithContext(
   ui: React.ReactElement,
-  context = defaultContext
+  context = defaultContext,
 ) {
   return render(<ModalContext value={context}>{ui}</ModalContext>)
 }
@@ -45,12 +45,12 @@ describe('ModalHeaderBar', () => {
       .mockImplementation(
         (
           cb: IntersectionObserverCallback,
-          options: IntersectionObserverInit
+          options: IntersectionObserverInit,
         ) => {
           observerCallback = cb
           observerOptions = options
           return { observe, disconnect }
-        }
+        },
       )
   })
 
@@ -122,7 +122,7 @@ describe('ModalHeaderBar', () => {
       <ModalContext value={defaultContext}>
         <ModalHeaderBar shadowClass="sticky-class" />
       </ModalContext>,
-      { container: wrapper }
+      { container: wrapper },
     )
 
     expect(observerOptions.root).toBe(scrollView)
@@ -158,7 +158,7 @@ describe('ModalHeaderBar', () => {
     const { rerender } = render(
       <ModalContext value={defaultContext}>
         <ModalHeaderBar>First</ModalHeaderBar>
-      </ModalContext>
+      </ModalContext>,
     )
 
     expect(window.IntersectionObserver).toHaveBeenCalledTimes(1)
@@ -167,7 +167,7 @@ describe('ModalHeaderBar', () => {
     rerender(
       <ModalContext value={defaultContext}>
         <ModalHeaderBar>Second</ModalHeaderBar>
-      </ModalContext>
+      </ModalContext>,
     )
 
     expect(disconnect).toHaveBeenCalledTimes(1)

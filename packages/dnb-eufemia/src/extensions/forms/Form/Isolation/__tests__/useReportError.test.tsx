@@ -47,12 +47,12 @@ describe('useReportError', () => {
 
     expect(setFieldErrorDataContext).toHaveBeenLastCalledWith(
       `/internal${path}`,
-      undefined
+      undefined,
     )
     expect(setFieldErrorWizard).toHaveBeenLastCalledWith(
       1,
       `/internal${path}`,
-      undefined
+      undefined,
     )
 
     rerender(error)
@@ -63,18 +63,18 @@ describe('useReportError', () => {
 
     expect(setFieldErrorDataContext).toHaveBeenLastCalledWith(
       `/internal${path}`,
-      error
+      error,
     )
     expect(setFieldErrorWizard).toHaveBeenLastCalledWith(
       1,
       `/internal${path}`,
-      true
+      true,
     )
     expect(setMountedFieldState).toHaveBeenLastCalledWith(
       `/internal${path}`,
       {
         isMounted: true,
-      }
+      },
     )
 
     rerender(undefined)
@@ -85,18 +85,18 @@ describe('useReportError', () => {
 
     expect(setFieldErrorDataContext).toHaveBeenLastCalledWith(
       `/internal${path}`,
-      undefined
+      undefined,
     )
     expect(setFieldErrorWizard).toHaveBeenLastCalledWith(
       1,
       `/internal${path}`,
-      undefined
+      undefined,
     )
     expect(setMountedFieldState).toHaveBeenLastCalledWith(
       `/internal${path}`,
       {
         isMounted: false,
-      }
+      },
     )
   })
 
@@ -140,18 +140,18 @@ describe('useReportError', () => {
 
     expect(setFieldErrorDataContext).toHaveBeenLastCalledWith(
       `/internal${path}`,
-      error
+      error,
     )
     expect(setFieldErrorWizard).toHaveBeenLastCalledWith(
       1,
       `/internal${path}`,
-      true
+      true,
     )
     expect(setMountedFieldState).toHaveBeenLastCalledWith(
       `/internal${path}`,
       {
         isMounted: true,
-      }
+      },
     )
 
     unmount()
@@ -162,18 +162,18 @@ describe('useReportError', () => {
 
     expect(setFieldErrorDataContext).toHaveBeenLastCalledWith(
       `/internal${path}`,
-      undefined
+      undefined,
     )
     expect(setFieldErrorWizard).toHaveBeenLastCalledWith(
       1,
       `/internal${path}`,
-      undefined
+      undefined,
     )
     expect(setMountedFieldState).toHaveBeenLastCalledWith(
       `/internal${path}`,
       {
         isMounted: false,
-      }
+      },
     )
   })
 
@@ -214,18 +214,18 @@ describe('useReportError', () => {
 
     expect(setFieldErrorDataContext).toHaveBeenLastCalledWith(
       `/internal${path}`,
-      error
+      error,
     )
     expect(setFieldErrorWizard).toHaveBeenLastCalledWith(
       1,
       `/internal${path}`,
-      true
+      true,
     )
     expect(setMountedFieldState).toHaveBeenLastCalledWith(
       `/internal${path}`,
       {
         isMounted: true,
-      }
+      },
     )
   })
 })

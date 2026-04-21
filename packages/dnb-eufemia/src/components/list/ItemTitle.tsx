@@ -40,14 +40,14 @@ function ItemTitleBase({
       className={clsx(
         'dnb-list__item__title',
         appliedSkeleton && createSkeletonClass('font', true),
-        className
+        className,
       )}
       {...rest}
     >
       <span
         className={clsx(
           `dnb-t__size--${fontSize}`,
-          fontWeight === 'medium' && 'dnb-t__weight--medium'
+          fontWeight === 'medium' && 'dnb-t__weight--medium',
         )}
       >
         {children}

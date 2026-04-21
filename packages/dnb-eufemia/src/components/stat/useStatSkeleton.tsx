@@ -10,13 +10,13 @@ import StatRootContext from './StatRootContext'
 
 export default function useStatSkeleton(
   skeleton?: SkeletonShow,
-  method: SkeletonMethods = 'font'
+  method: SkeletonMethods = 'font',
 ) {
   const context = React.useContext(Context)
   const { skeleton: rootSkeleton } = React.useContext(StatRootContext)
 
   const hasSkeleton = Boolean(
-    skeleton ?? rootSkeleton ?? context?.skeleton
+    skeleton ?? rootSkeleton ?? context?.skeleton,
   )
 
   return {
@@ -24,7 +24,7 @@ export default function useStatSkeleton(
     context,
     skeletonClass: createSkeletonClass(method, hasSkeleton, context),
     applySkeletonAttributes: (
-      attributes: React.HTMLProps<HTMLElement>
+      attributes: React.HTMLProps<HTMLElement>,
     ) => {
       skeletonDOMAttributes(attributes, hasSkeleton, context)
     },

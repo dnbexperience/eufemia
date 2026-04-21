@@ -32,7 +32,8 @@ export type ArrayItemAreaAllProps = {
   Pick<HeightAnimationProps, 'onAnimationEnd'>
 
 function ArrayItemArea(
-  props: ArrayItemAreaAllProps & Omit<FlexContainerProps, 'onAnimationEnd'>
+  props: ArrayItemAreaAllProps &
+    Omit<FlexContainerProps, 'onAnimationEnd'>,
 ) {
   const [, forceUpdate] = useReducer(() => ({}), {})
 
@@ -144,7 +145,7 @@ function ArrayItemArea(
         }
       }
     },
-    [containerMode, hasSubmitError, mode, previousContainerMode]
+    [containerMode, hasSubmitError, mode, previousContainerMode],
   )
 
   // - Remove the block with animation, if it's in the right mode
@@ -158,14 +159,15 @@ function ArrayItemArea(
       setFocus(state)
       onAnimationEnd?.(state)
     },
-    [onAnimationEnd, setFocus]
+    [onAnimationEnd, setFocus],
   )
 
   const handleRemoveItem = useCallback(() => {
     try {
       // Because "previousElementSibling" did not work in Jest/JSDOM
       nextFocusElementRef.current = Array.from(
-        localContextRef.current.elementRef.current.parentElement.childNodes
+        localContextRef.current.elementRef.current.parentElement
+          .childNodes,
       ).at(index - 1) as HTMLElement
     } catch (e) {
       //
@@ -190,7 +192,7 @@ function ArrayItemArea(
           variant && `dnb-forms-section-block--variant-${variant}`,
           isNew && 'dnb-forms-section-block--new',
           hasSubmitError && 'dnb-forms-section-block--error',
-          className
+          className,
         )}
         open={openRef.current}
         onAnimationEnd={handleAnimationEnd}

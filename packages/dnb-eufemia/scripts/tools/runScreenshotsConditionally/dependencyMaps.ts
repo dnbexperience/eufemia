@@ -11,14 +11,14 @@ import { collectScssFiles } from './discovery'
 import type { DepCruiserModule, RunnerContext } from './types'
 
 export function buildDependencyMap(
-  modules: DepCruiserModule[]
+  modules: DepCruiserModule[],
 ): Map<string, string[]> {
   const dependencyMap = new Map<string, string[]>()
 
   for (const module of modules) {
     dependencyMap.set(
       module.source,
-      Array.from(new Set(module.dependents || []))
+      Array.from(new Set(module.dependents || [])),
     )
   }
 
@@ -26,7 +26,7 @@ export function buildDependencyMap(
 }
 
 export function loadDependencyMap(
-  context: RunnerContext
+  context: RunnerContext,
 ): Map<string, string[]> {
   try {
     const output = execFileSync(
@@ -44,7 +44,7 @@ export function loadDependencyMap(
         cwd: context.packageRoot,
         encoding: 'utf8',
         maxBuffer: 100 * 1024 * 1024,
-      }
+      },
     )
 
     const report = JSON.parse(output)
@@ -52,7 +52,7 @@ export function loadDependencyMap(
   } catch (error) {
     const details = error instanceof Error ? error.message : String(error)
     log.warn(
-      `Warning: Could not build dependency map. Falling back to direct file matching. ${details}`
+      `Warning: Could not build dependency map. Falling back to direct file matching. ${details}`,
     )
     return new Map<string, string[]>()
   }
@@ -60,7 +60,7 @@ export function loadDependencyMap(
 
 export function expandReverseDependencies(
   seedFiles: string[],
-  dependencyMap: Map<string, string[]>
+  dependencyMap: Map<string, string[]>,
 ): Set<string> {
   const visited = new Set<string>()
   const queue = [...seedFiles]
@@ -115,11 +115,11 @@ function extractScssImportSpecifiers(fileContent: string): string[] {
 function resolveScssImportPath(
   sourceFile: string,
   importSpecifier: string,
-  knownScssFiles: Set<string>
+  knownScssFiles: Set<string>,
 ): string | null {
   const sourceDirectory = path.dirname(sourceFile)
   const candidateBase = normalizePath(
-    path.join(sourceDirectory, importSpecifier)
+    path.join(sourceDirectory, importSpecifier),
   )
   const baseName = path.basename(candidateBase)
   const dirname = path.dirname(candidateBase)
@@ -131,7 +131,7 @@ function resolveScssImportPath(
       path.join(dirname, `_${baseName}`),
       path.join(dirname, `_${baseName}.scss`),
       path.join(candidateBase, '_index.scss'),
-    ])
+    ]),
   ).map(normalizePath)
 
   const resolvedPath = candidates.find((candidate) => {
@@ -142,10 +142,10 @@ function resolveScssImportPath(
 }
 
 export function buildScssDependencyMap(
-  scssFilesWithContent: Array<{ path: string; content: string }>
+  scssFilesWithContent: Array<{ path: string; content: string }>,
 ): Map<string, string[]> {
   const scssFiles = new Set(
-    scssFilesWithContent.map((entry) => normalizePath(entry.path))
+    scssFilesWithContent.map((entry) => normalizePath(entry.path)),
   )
   const reverseDependents = new Map<string, Set<string>>()
 
@@ -162,7 +162,7 @@ export function buildScssDependencyMap(
       const resolvedPath = resolveScssImportPath(
         sourcePath,
         importSpecifier,
-        scssFiles
+        scssFiles,
       )
 
       if (!resolvedPath) {
@@ -187,7 +187,7 @@ export function buildScssDependencyMap(
 }
 
 export function loadScssDependencyMap(
-  context: RunnerContext
+  context: RunnerContext,
 ): Map<string, string[]> {
   const scssFiles = collectScssFiles(context)
   const filesWithContent = scssFiles

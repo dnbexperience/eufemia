@@ -32,7 +32,7 @@ export default function MenuList(props: MenuListProps) {
 
     const height = getVisibleMenuItemsHeight(
       ulRef.current,
-      maxVisibleListItems
+      maxVisibleListItems,
     )
 
     setMeasuredMaxHeight(height ? `${height}px` : undefined)
@@ -68,8 +68,8 @@ export default function MenuList(props: MenuListProps) {
     }
     return Array.from(
       menuEl.querySelectorAll<HTMLElement>(
-        '[role="menuitem"]:not([aria-disabled="true"])'
-      )
+        '[role="menuitem"]:not([aria-disabled="true"])',
+      ),
     )
   }, [])
 
@@ -80,13 +80,13 @@ export default function MenuList(props: MenuListProps) {
       }
       element.focus({ preventScroll: true })
       const refIndex = context.itemRefs.current.findIndex(
-        (r) => r?.current === element
+        (r) => r?.current === element,
       )
       if (refIndex !== -1) {
         context.setActiveIndex(refIndex)
       }
     },
-    [context]
+    [context],
   )
 
   const handleKeyDown = useCallback(
@@ -129,7 +129,7 @@ export default function MenuList(props: MenuListProps) {
             focusByDomOrder(items[items.length - 1])
           } else {
             focusByDomOrder(
-              items[(currentIdx - 1 + items.length) % items.length]
+              items[(currentIdx - 1 + items.length) % items.length],
             )
           }
           break
@@ -176,7 +176,7 @@ export default function MenuList(props: MenuListProps) {
         }
       }
     },
-    [context, getNavigableItems, focusByDomOrder]
+    [context, getNavigableItems, focusByDomOrder],
   )
 
   const resolvedMaxHeight = style?.maxHeight
@@ -210,14 +210,14 @@ export default function MenuList(props: MenuListProps) {
 
 function getVisibleMenuItemsHeight(
   ulElement: HTMLUListElement | null,
-  maxVisibleListItems: number
+  maxVisibleListItems: number,
 ) {
   if (!ulElement) {
     return null
   }
 
   const items = Array.from(ulElement.children).filter(
-    (element): element is HTMLElement => element instanceof HTMLElement
+    (element): element is HTMLElement => element instanceof HTMLElement,
   )
 
   const firstVisibleItem = items[0]
@@ -230,7 +230,7 @@ function getVisibleMenuItemsHeight(
   const contentHeight = Math.ceil(
     lastVisibleItem.offsetTop +
       lastVisibleItem.offsetHeight -
-      firstVisibleItem.offsetTop
+      firstVisibleItem.offsetTop,
   )
 
   const computedStyle = getComputedStyle(ulElement)

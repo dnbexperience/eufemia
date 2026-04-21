@@ -17,7 +17,7 @@ describe('useExternalValue', () => {
         value: 'test-value',
         emptyValue: '',
         transformers,
-      })
+      }),
     )
 
     expect(result.current).toBe('test-value')
@@ -34,7 +34,7 @@ describe('useExternalValue', () => {
       useExternalValue({
         value: 'test',
         transformers,
-      })
+      }),
     )
 
     expect(result.current).toBe('TEST')
@@ -46,7 +46,7 @@ describe('useExternalValue', () => {
         value: '',
         emptyValue: '',
         transformers,
-      })
+      }),
     )
 
     expect(result.current).toBe('')
@@ -70,7 +70,7 @@ describe('useExternalValue', () => {
             itemPath: '/',
             transformers,
           }),
-        { wrapper }
+        { wrapper },
       )
 
       expect(result.current).toBe('iterate-value')
@@ -95,7 +95,7 @@ describe('useExternalValue', () => {
             itemPath: '/nested',
             transformers,
           }),
-        { wrapper }
+        { wrapper },
       )
 
       expect(result.current).toBe('nested-value')
@@ -126,7 +126,7 @@ describe('useExternalValue', () => {
             itemPath: '/nested',
             transformers,
           }),
-        { wrapper }
+        { wrapper },
       )
 
       expect(result.current).toBe('NESTED-VALUE')
@@ -151,7 +151,7 @@ describe('useExternalValue', () => {
             path: '/',
             transformers,
           }),
-        { wrapper }
+        { wrapper },
       )
 
       expect(result.current).toEqual({ foo: 'bar' })
@@ -176,7 +176,7 @@ describe('useExternalValue', () => {
             path: '/nested/value',
             transformers,
           }),
-        { wrapper }
+        { wrapper },
       )
 
       expect(result.current).toBe('context-value')
@@ -207,7 +207,7 @@ describe('useExternalValue', () => {
             path: '/nested/value',
             transformers,
           }),
-        { wrapper }
+        { wrapper },
       )
 
       expect(result.current).toBe('CONTEXT-VALUE')
@@ -225,7 +225,7 @@ describe('useExternalValue', () => {
             emptyValue: 'empty',
             transformers,
           }),
-        { wrapper }
+        { wrapper },
       )
 
       expect(result.current).toBe('empty')
@@ -252,7 +252,7 @@ describe('useExternalValue', () => {
           emptyValue: 'empty',
           transformers,
         }),
-      { wrapper }
+      { wrapper },
     )
 
     expect(result.current).toBe('direct-value')
@@ -263,7 +263,7 @@ describe('useExternalValue', () => {
       useExternalValue({
         emptyValue: 'empty',
         transformers,
-      })
+      }),
     )
 
     expect(result.current).toBe('empty')
@@ -276,7 +276,7 @@ describe('useExternalValue', () => {
         itemPath: '/bar',
         emptyValue: 'empty',
         transformers,
-      })
+      }),
     )
 
     expect(result.current).toBe('empty')

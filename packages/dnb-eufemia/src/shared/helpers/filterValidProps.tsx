@@ -10,7 +10,7 @@
 export function filterValidProps<T extends Record<string, unknown>>(
   props: T | any,
   validKeys?: Record<string, unknown>,
-  excludeKeys?: Record<string, unknown>
+  excludeKeys?: Record<string, unknown>,
 ): T {
   const res = {}
   const o = Object.prototype.hasOwnProperty
@@ -37,12 +37,12 @@ export function filterValidProps<T extends Record<string, unknown>>(
  */
 export function pickFormElementProps(
   props: FormElementProps,
-  excludeProps?: Record<string, unknown>
+  excludeProps?: Record<string, unknown>,
 ) {
   return filterValidProps(props, validFormElementProps, excludeProps)
 }
 export function prepareFormElementContext<Props>(
-  props: Props & FormElementProps
+  props: Props & FormElementProps,
 ) {
   if (props.vertical) {
     if (typeof props.labelDirection === 'undefined') {

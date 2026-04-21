@@ -40,11 +40,11 @@ describe('postalCode', () => {
               onChangeValidator,
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const postalCodeInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       )
 
       expect(postalCodeInput).toHaveValue('')
@@ -54,11 +54,11 @@ describe('postalCode', () => {
       expect(postalCodeInput).toHaveValue('0000')
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
       })
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.PostalCodeAndCity.invalidCode
+        nb.PostalCodeAndCity.invalidCode,
       )
     })
 
@@ -77,18 +77,18 @@ describe('postalCode', () => {
               onChangeValidator,
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const postalCodeInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       )
 
       await userEvent.type(postalCodeInput, '0000')
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
 
@@ -99,10 +99,10 @@ describe('postalCode', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(nb.PostalCodeAndCity.invalidCode)
       })
     })
@@ -140,11 +140,11 @@ describe('postalCode', () => {
               onChangeValidator,
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const postalCodeInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       )
 
       await userEvent.type(postalCodeInput, '00000')
@@ -153,10 +153,10 @@ describe('postalCode', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toHaveTextContent(nb.PostalCodeAndCity.invalidCode)
       })
     })
@@ -175,11 +175,11 @@ describe('postalCode', () => {
               onChangeValidator,
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const postalCodeInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       )
 
       fireEvent.submit(document.querySelector('form'))
@@ -209,11 +209,11 @@ describe('postalCode', () => {
               onChangeValidator,
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const postalCodeInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       )
 
       expect(postalCodeInput).toHaveValue('')
@@ -224,7 +224,7 @@ describe('postalCode', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })
@@ -239,11 +239,11 @@ describe('postalCode', () => {
               onChangeValidator,
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const postalCodeInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       )
 
       expect(postalCodeInput).toHaveValue('0000')
@@ -253,11 +253,11 @@ describe('postalCode', () => {
       expect(postalCodeInput).toHaveValue('0001')
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
       })
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        unsupportedCountryCodeMessage.replace('{countryCode}', 'CH')
+        unsupportedCountryCodeMessage.replace('{countryCode}', 'CH'),
       )
     })
 
@@ -274,11 +274,11 @@ describe('postalCode', () => {
               onChangeValidator,
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const postalCodeInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       )
       const countryInput = document.querySelector('.country input')
 
@@ -290,17 +290,17 @@ describe('postalCode', () => {
       expect(postalCodeInput).toHaveValue('1391')
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
       })
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        unsupportedCountryCodeMessage.replace('{countryCode}', 'CH')
+        unsupportedCountryCodeMessage.replace('{countryCode}', 'CH'),
       )
 
       await userEvent.type(countryInput, '{Backspace>2}NO')
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
     })
 
@@ -312,7 +312,7 @@ describe('postalCode', () => {
       })
 
       const onChangeValidator = withConfig(
-        Connectors.Bring.postalCode.validator
+        Connectors.Bring.postalCode.validator,
       )
 
       render(
@@ -324,11 +324,11 @@ describe('postalCode', () => {
               onChangeValidator,
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const postalCodeInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       )
 
       expect(postalCodeInput).toHaveValue('')
@@ -358,11 +358,11 @@ describe('postalCode', () => {
               onBlurValidator,
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const postalCodeInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       )
 
       expect(postalCodeInput).toHaveValue('')
@@ -373,11 +373,11 @@ describe('postalCode', () => {
       expect(postalCodeInput).toHaveValue('0000')
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
       })
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.PostalCodeAndCity.invalidCode
+        nb.PostalCodeAndCity.invalidCode,
       )
     })
 
@@ -395,11 +395,11 @@ describe('postalCode', () => {
               onBlurValidator,
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const postalCodeInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       )
 
       fireEvent.submit(document.querySelector('form'))
@@ -429,11 +429,11 @@ describe('postalCode', () => {
               onBlurValidator,
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const postalCodeInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       )
 
       expect(postalCodeInput).toHaveValue('')
@@ -444,7 +444,7 @@ describe('postalCode', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })
@@ -459,11 +459,11 @@ describe('postalCode', () => {
               onBlurValidator,
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const postalCodeInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       )
 
       expect(postalCodeInput).toHaveValue('0000')
@@ -474,11 +474,11 @@ describe('postalCode', () => {
       expect(postalCodeInput).toHaveValue('0001')
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
       })
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        unsupportedCountryCodeMessage.replace('{countryCode}', 'CH')
+        unsupportedCountryCodeMessage.replace('{countryCode}', 'CH'),
       )
     })
 
@@ -495,11 +495,11 @@ describe('postalCode', () => {
               onBlurValidator,
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const postalCodeInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       )
       const countryInput = document.querySelector('.country input')
 
@@ -512,17 +512,17 @@ describe('postalCode', () => {
       expect(postalCodeInput).toHaveValue('1391')
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
       })
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        unsupportedCountryCodeMessage.replace('{countryCode}', 'CH')
+        unsupportedCountryCodeMessage.replace('{countryCode}', 'CH'),
       )
 
       await userEvent.type(countryInput, '{Backspace>2}NO')
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
     })
 
@@ -533,11 +533,11 @@ describe('postalCode', () => {
           postalCode={{
             onBlurValidator,
           }}
-        />
+        />,
       )
 
       const postalCodeInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       )
 
       // Enter a valid (for Norway) postal code
@@ -547,11 +547,11 @@ describe('postalCode', () => {
       expect(postalCodeInput).toHaveValue('1391')
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).toBeInTheDocument()
       })
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        unsupportedCountryCodeMessage.replace('{countryCode}', 'CH')
+        unsupportedCountryCodeMessage.replace('{countryCode}', 'CH'),
       )
     })
 
@@ -563,7 +563,7 @@ describe('postalCode', () => {
       })
 
       const onBlurValidator = withConfig(
-        Connectors.Bring.postalCode.validator
+        Connectors.Bring.postalCode.validator,
       )
 
       render(
@@ -575,11 +575,11 @@ describe('postalCode', () => {
               onBlurValidator,
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const postalCodeInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       )
 
       expect(postalCodeInput).toHaveValue('')
@@ -615,14 +615,14 @@ describe('postalCode', () => {
               path: '/city',
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const postalCodeInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       )
       const cityInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input',
       )
 
       expect(cityInput).toHaveValue('')
@@ -634,7 +634,7 @@ describe('postalCode', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })
@@ -651,14 +651,14 @@ describe('postalCode', () => {
               path: '/city',
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const postalCodeInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       )
       const cityInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input',
       )
 
       await userEvent.type(cityInput, 'something')
@@ -671,7 +671,7 @@ describe('postalCode', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-form-status')
+          document.querySelector('.dnb-form-status'),
         ).not.toBeInTheDocument()
       })
     })
@@ -689,14 +689,14 @@ describe('postalCode', () => {
               path: '/city',
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const postalCodeInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       )
       const cityInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input',
       )
 
       expect(postalCodeInput).toHaveValue('')
@@ -726,14 +726,14 @@ describe('postalCode', () => {
               path: '/city',
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const postalCodeInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       )
       const cityInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input',
       )
       const countryInput = document.querySelector('.country input')
 
@@ -766,14 +766,14 @@ describe('postalCode', () => {
               path: '/city',
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const postalCodeInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       )
       const cityInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input',
       )
 
       expect(postalCodeInput).toHaveValue('')
@@ -803,11 +803,11 @@ describe('postalCode', () => {
               onChange: onChange as (value: string) => void,
             }}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const postalCodeInput = document.querySelector(
-        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input',
       )
 
       expect(postalCodeInput).toHaveValue('')

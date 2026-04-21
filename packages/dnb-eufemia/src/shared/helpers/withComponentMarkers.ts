@@ -66,7 +66,7 @@ export type MarkedComponent<T> = T & ComponentMarkers
  */
 export default function withComponentMarkers<T>(
   component: T,
-  markers: ComponentMarkers
+  markers: ComponentMarkers,
 ): asserts component is T & ComponentMarkers {
   Object.assign(component, markers)
 }

@@ -15,7 +15,7 @@ export type UseExternalValueProps<Value> = {
 }
 
 export default function useExternalValue<Value>(
-  props: UseExternalValueProps<Value>
+  props: UseExternalValueProps<Value>,
 ) {
   const {
     path,
@@ -40,7 +40,7 @@ export default function useExternalValue<Value>(
       if (itemPath === '/') {
         return (
           transformers?.current?.fromExternal?.(
-            iterateElementValue as Value
+            iterateElementValue as Value,
           ) ?? emptyValue
         )
       }
@@ -48,7 +48,7 @@ export default function useExternalValue<Value>(
       if (pointer.has(iterateElementValue, itemPath)) {
         return (
           transformers?.current?.fromExternal?.(
-            pointer.get(iterateElementValue, itemPath) as Value
+            pointer.get(iterateElementValue, itemPath) as Value,
           ) ?? emptyValue
         )
       }

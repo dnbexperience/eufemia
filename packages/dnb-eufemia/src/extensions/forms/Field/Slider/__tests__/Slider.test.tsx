@@ -13,13 +13,13 @@ describe('Field.Slider', () => {
     render(
       <Form.Handler>
         <Field.Slider required />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     fireEvent.submit(document.querySelector('form'))
 
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      nb.Field.errorRequired
+      nb.Field.errorRequired,
     )
   })
 
@@ -42,7 +42,7 @@ describe('Field.Slider', () => {
       render(
         <Form.Handler>
           <Field.Slider defaultValue={value} />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       fireEvent.submit(document.querySelector('form'))
@@ -55,7 +55,7 @@ describe('Field.Slider', () => {
         <Form.Handler data={{ myValue: 30 }}>
           <Field.Number path="/myValue" />
           <Field.Slider path="/myValue" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('.dnb-input input')
@@ -74,7 +74,7 @@ describe('Field.Slider', () => {
         >
           <Field.Number path="/myValue" />
           <Field.Slider path="/myValue" min="/minValue" max="/maxValue" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('.dnb-input input')
@@ -105,7 +105,7 @@ describe('Field.Slider', () => {
               return null
             }}
           </DataContext.Consumer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
@@ -138,7 +138,7 @@ describe('Field.Slider', () => {
             max="/maxValue"
             step="/step"
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('.dnb-input input')
@@ -180,7 +180,7 @@ describe('Field.Slider', () => {
             transformOut={transformOut}
             transformIn={transformIn}
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(parseFloat(getButtonHelper().value)).toBe(value)
@@ -201,7 +201,7 @@ describe('Field.Slider', () => {
             value: value + 10,
           },
         },
-        expect.anything()
+        expect.anything(),
       )
     })
   })
@@ -214,7 +214,7 @@ describe('Field.Slider', () => {
       render(<Field.Slider value={value} onChange={onChange} />)
 
       const [firstThumb, secondThumb] = Array.from(
-        document.querySelectorAll('.dnb-slider__button-helper')
+        document.querySelectorAll('.dnb-slider__button-helper'),
       )
 
       fireEvent.focus(firstThumb)
@@ -223,7 +223,7 @@ describe('Field.Slider', () => {
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange).toHaveBeenLastCalledWith(
         [40, 80],
-        expect.anything()
+        expect.anything(),
       )
 
       resetMouseSimulation()
@@ -234,7 +234,7 @@ describe('Field.Slider', () => {
       expect(onChange).toHaveBeenCalledTimes(2)
       expect(onChange).toHaveBeenLastCalledWith(
         [20, 40],
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -244,14 +244,14 @@ describe('Field.Slider', () => {
           <Field.Number path="/first" />
           <Field.Number path="/second" />
           <Field.Slider paths={['/first', '/second']} />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [firstThumb, secondThumb] = Array.from(
-        document.querySelectorAll('.dnb-slider__button-helper')
+        document.querySelectorAll('.dnb-slider__button-helper'),
       )
       const [firstInput, secondInput] = Array.from(
-        document.querySelectorAll('.dnb-input input')
+        document.querySelectorAll('.dnb-input input'),
       )
 
       fireEvent.focus(firstThumb)
@@ -275,14 +275,14 @@ describe('Field.Slider', () => {
           <Field.Number path="/first" />
           <Field.Number path="/second" />
           <Field.Slider paths={['/first', '/second']} />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [firstThumb, secondThumb] = Array.from(
-        document.querySelectorAll('.dnb-slider__thumb')
+        document.querySelectorAll('.dnb-slider__thumb'),
       )
       const [firstInput, secondInput] = Array.from(
-        document.querySelectorAll('.dnb-input input')
+        document.querySelectorAll('.dnb-input input'),
       )
 
       await userEvent.type(firstInput, '{Backspace>8}80')
@@ -306,7 +306,7 @@ describe('Field.Slider', () => {
           }}
         >
           <Field.Slider label="Slider" path="/myValue" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(await axeComponent(result)).toHaveNoViolations()

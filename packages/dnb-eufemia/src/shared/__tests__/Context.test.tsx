@@ -77,14 +77,14 @@ describe('Context', () => {
     const helpButtonNb = screen.getByLabelText(titleNb)
     expect(helpButtonNb.getAttribute('aria-label')).toBe(titleNb)
     expect(helpButtonNb.getAttribute('aria-roledescription')).toBe(
-      'Hjelp-knapp'
+      'Hjelp-knapp',
     )
 
     render(<HelpButton lang="en-GB">content</HelpButton>)
     const helpButtonGb = screen.getByLabelText(titleGb)
     expect(helpButtonGb.getAttribute('aria-label')).toBe(titleGb)
     expect(helpButtonGb.getAttribute('aria-roledescription')).toBe(
-      'Help button'
+      'Help button',
     )
   })
 
@@ -135,7 +135,7 @@ describe('Context', () => {
             return null
           }}
         </Context.Consumer>
-      </Provider>
+      </Provider>,
     )
 
     expect(translation).not.toBeUndefined()
@@ -173,14 +173,14 @@ describe('Context', () => {
             )
           }}
         </Context.Consumer>
-      </Provider>
+      </Provider>,
     )
 
     expect(screen.getByTestId('datepicker-month')).toHaveTextContent(
-      'månad'
+      'månad',
     )
     expect(screen.getByTestId('helpbutton-title')).toHaveTextContent(
-      titleNb
+      titleNb,
     )
 
     unmount()
@@ -192,7 +192,7 @@ describe('Context', () => {
 
     const helpButton = document.querySelector('.dnb-help-button')
     expect(helpButton.getAttribute('aria-roledescription')).toBe(
-      'Hjelp-knapp'
+      'Hjelp-knapp',
     )
     expect(helpButton.getAttribute('aria-label')).toBe(titleNb)
   })

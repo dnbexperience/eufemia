@@ -104,11 +104,11 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
   const lang = sharedContext.locale?.split('-')[0] as CountryLang
 
   const countryCodeRef = useRef<FieldPhoneNumberProps['value']>(
-    props.emptyValue
+    props.emptyValue,
   )
   const prevCountryCodeRef = useRef(countryCodeRef.current)
   const numberRef = useRef<FieldPhoneNumberProps['value']>(
-    props.emptyValue
+    props.emptyValue,
   )
   const dataRef = useRef<Array<DrawerListDataArrayItem> | null>(null)
   const langRef = useRef<string>(lang)
@@ -121,7 +121,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
       'Field.errorPattern': errorRequired,
       ...props.errorMessages,
     }),
-    [errorRequired, props.errorMessages]
+    [errorRequired, props.errorMessages],
   )
 
   const validateRequired = useCallback(
@@ -143,7 +143,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
 
       return undefined
     },
-    []
+    [],
   )
 
   const fromExternal = useCallback(
@@ -161,7 +161,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
       }
       return external
     },
-    [props.omitCountryCodeField]
+    [props.omitCountryCodeField],
   )
 
   const toEvent = useCallback(
@@ -172,7 +172,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
       }
       return value
     },
-    [props.emptyValue]
+    [props.emptyValue],
   )
 
   const customTransformIn = props.transformIn
@@ -192,7 +192,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
 
       return value
     },
-    [customTransformIn]
+    [customTransformIn],
   )
 
   const provideAdditionalArgs = useCallback(
@@ -210,7 +210,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
         iso: currentCountryRef.current?.iso,
       } satisfies AdditionalArgs | Omit<AdditionalArgs, 'countryCode'>
     },
-    [props.omitCountryCodeField]
+    [props.omitCountryCodeField],
   )
 
   const schema = useMemo<Schema<string> | undefined>(() => {
@@ -298,7 +298,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
       setDisplayValue(
         number?.length > 0
           ? `${countryCodeRef.current} ${number}`
-          : undefined
+          : undefined,
       )
     }
   }, [inputRef, itemPath, path, setDisplayValue, value])
@@ -307,7 +307,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
     (country: CountryType) => {
       return countryFilter(country, filterCountries, ccFilter)
     },
-    [ccFilter, filterCountries]
+    [ccFilter, filterCountries],
   )
 
   const { countries } = useCountries()
@@ -352,7 +352,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
         iso: currentCountryRef.current?.iso as CountryISO,
       }
     },
-    [emptyValue, omitCountryCodeField]
+    [emptyValue, omitCountryCodeField],
   )
 
   const callOnChange = useCallback(
@@ -361,12 +361,12 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
 
       handleChange(
         toEvent(
-          toE164([eventValues.countryCode, eventValues.phoneNumber])
+          toE164([eventValues.countryCode, eventValues.phoneNumber]),
         ),
-        eventValues
+        eventValues,
       )
     },
-    [prepareEventValues, handleChange]
+    [prepareEventValues, handleChange],
   )
 
   const callOnBlurOrFocus = useCallback(
@@ -374,7 +374,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
       const eventValues = prepareEventValues()
       setHasFocus(hasFocus, undefined, eventValues)
     },
-    [prepareEventValues, setHasFocus]
+    [prepareEventValues, setHasFocus],
   )
 
   /**
@@ -439,7 +439,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
       onCountryCodeChange,
       callOnChange,
       onNumberChange,
-    ]
+    ],
   )
 
   const handleNumberChange = useCallback(
@@ -449,7 +449,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
       callOnChange({ phoneNumber })
       onNumberChange?.(phoneNumber)
     },
-    [emptyValue, callOnChange, onNumberChange]
+    [emptyValue, callOnChange, onNumberChange],
   )
 
   const handleOnBlur = useCallback(() => {
@@ -469,7 +469,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
       }
       handleOnFocus()
     },
-    [handleOnFocus, updateCurrentDataSet]
+    [handleOnFocus, updateCurrentDataSet],
   )
 
   const onTypeHandler = useCallback(
@@ -484,11 +484,11 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
           ? detected.countryCode.replace(/^\+/, '').replace(/-/g, '')
           : value
         const country = countries.find(
-          ({ cdc }) => cdc.replace(/-/g, '') === cdcVal?.replace(/-/g, '')
+          ({ cdc }) => cdc.replace(/-/g, '') === cdcVal?.replace(/-/g, ''),
         )
         if (country?.cdc) {
           const countryCode = (countryCodeRef.current = formatCountryCode(
-            country.cdc
+            country.cdc,
           ))
 
           updateCurrentDataSet()
@@ -503,7 +503,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
         }
       }
     },
-    [callOnChange, countries, updateCurrentDataSet]
+    [callOnChange, countries, updateCurrentDataSet],
   )
 
   const isDefault = countryCodeRef.current?.includes(defaultCountryCode)
@@ -525,7 +525,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
         <Autocomplete
           className={clsx(
             'dnb-forms-field-phone-number__country-code',
-            countryCodeFieldClassName
+            countryCodeFieldClassName,
           )}
           mode="async"
           placeholder={countryCodePlaceholder}
@@ -556,7 +556,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
       <StringField
         className={clsx(
           'dnb-forms-field-phone-number__number',
-          numberFieldClassName
+          numberFieldClassName,
         )}
         type="tel"
         autoComplete="tel-national"

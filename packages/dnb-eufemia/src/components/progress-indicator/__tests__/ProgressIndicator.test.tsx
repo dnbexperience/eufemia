@@ -23,7 +23,7 @@ describe('Circular ProgressIndicator component', () => {
   it('should have a stroke-dashoffset of 44 on 50%', () => {
     render(<ProgressIndicator {...props} type="circular" progress={50} />)
     expect(
-      document.querySelector(mainLineSelector).getAttribute('style')
+      document.querySelector(mainLineSelector).getAttribute('style'),
     ).toBe(`stroke-dashoffset: ${Math.PI * 50}%;`)
   })
 
@@ -31,18 +31,22 @@ describe('Circular ProgressIndicator component', () => {
     render(<ProgressIndicator {...props} type="circular" progress={50} />)
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('aria-label')).toBe(
-      formatPercent(50, { decimals: 2 })
+      formatPercent(50, { decimals: 2 }),
     )
   })
 
   it('has role of alert or progressbar depending if progress has a value', () => {
     const { rerender } = render(
-      <ProgressIndicator {...props} type="circular" progress={undefined} />
+      <ProgressIndicator
+        {...props}
+        type="circular"
+        progress={undefined}
+      />,
     )
     expect(screen.queryByRole('alert')).toBeInTheDocument()
 
     rerender(
-      <ProgressIndicator {...props} type="circular" progress={80} />
+      <ProgressIndicator {...props} type="circular" progress={80} />,
     )
     expect(screen.queryByRole('progressbar')).toBeInTheDocument()
   })
@@ -51,10 +55,10 @@ describe('Circular ProgressIndicator component', () => {
     render(<ProgressIndicator {...props} type="circular" progress={80} />)
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('aria-label')).toBe(
-      formatPercent(80, { decimals: 2 })
+      formatPercent(80, { decimals: 2 }),
     )
     expect(
-      document.querySelector(mainLineSelector).getAttribute('style')
+      document.querySelector(mainLineSelector).getAttribute('style'),
     ).toBe(`stroke-dashoffset: ${Math.PI * 20}%;`)
   })
 
@@ -63,7 +67,7 @@ describe('Circular ProgressIndicator component', () => {
 
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('aria-label')).toBe(
-      formatPercent(1, { decimals: 2 })
+      formatPercent(1, { decimals: 2 }),
     )
   })
 
@@ -72,7 +76,7 @@ describe('Circular ProgressIndicator component', () => {
 
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('title')).toBe(
-      formatPercent(1, { decimals: 2 })
+      formatPercent(1, { decimals: 2 }),
     )
   })
 
@@ -83,7 +87,7 @@ describe('Circular ProgressIndicator component', () => {
         type="circular"
         progress={null}
         title={null}
-      />
+      />,
     )
 
     const indicator = screen.getByRole('alert')
@@ -97,7 +101,7 @@ describe('Circular ProgressIndicator component', () => {
         type="circular"
         progress={null}
         title={null}
-      />
+      />,
     )
 
     const indicator = screen.getByRole('alert')
@@ -112,7 +116,7 @@ describe('Circular ProgressIndicator component', () => {
         type="circular"
         progress={1}
         title={title}
-      />
+      />,
     )
 
     const indicator = screen.getByRole('progressbar')
@@ -127,7 +131,7 @@ describe('Circular ProgressIndicator component', () => {
         type="circular"
         progress={1}
         title={title}
-      />
+      />,
     )
 
     const indicator = screen.getByRole('progressbar')
@@ -136,7 +140,7 @@ describe('Circular ProgressIndicator component', () => {
 
   it('should support spacing props', () => {
     render(
-      <ProgressIndicator type="circular" progress={1} top="2rem" hidden />
+      <ProgressIndicator type="circular" progress={1} top="2rem" hidden />,
     )
 
     const indicator = document.querySelector('.dnb-progress-indicator')
@@ -155,25 +159,25 @@ describe('Circular ProgressIndicator component', () => {
     expect(
       document
         .querySelector('.dnb-progress-indicator')
-        .getAttribute('style')
+        .getAttribute('style'),
     ).toBe('color: red;')
   })
 
   it('should support custom attributes', () => {
     render(
-      <ProgressIndicator type="circular" progress={1} top="2rem" hidden />
+      <ProgressIndicator type="circular" progress={1} top="2rem" hidden />,
     )
 
     const indicator = document.querySelector('.dnb-progress-indicator')
     const attributes = Array.from(indicator.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
     expect(attributes).toEqual(['class', 'hidden'])
   })
 
   it('should use span elements', () => {
     const { container } = render(
-      <ProgressIndicator type="circular" progress={1} showDefaultLabel />
+      <ProgressIndicator type="circular" progress={1} showDefaultLabel />,
     )
 
     expect(container.querySelectorAll('div')).toHaveLength(0)
@@ -184,11 +188,11 @@ describe('Circular ProgressIndicator component', () => {
     // Because it does not have any advantages over a label element (VoiceOver does not read it as a label)
 
     const { container } = render(
-      <ProgressIndicator type="circular" progress={1} showDefaultLabel />
+      <ProgressIndicator type="circular" progress={1} showDefaultLabel />,
     )
 
     expect(
-      container.querySelector('.dnb-progress-indicator__label').tagName
+      container.querySelector('.dnb-progress-indicator__label').tagName,
     ).toBe('SPAN')
   })
 
@@ -197,86 +201,86 @@ describe('Circular ProgressIndicator component', () => {
       <ProgressIndicator
         type="circular"
         customColors={{ line: 'red', shaft: 'green', background: 'blue' }}
-      />
+      />,
     )
 
     expect(
       container
         .querySelector('.dnb-progress-indicator__circular__background')
-        .getAttribute('style')
+        .getAttribute('style'),
     ).toBe('background-color: blue;')
 
     expect(
       container
         .querySelectorAll('.dnb-progress-indicator__circular__circle')[0]
-        .getAttribute('style')
+        .getAttribute('style'),
     ).toBe('stroke: green;')
     expect(
       container
         .querySelectorAll('.dnb-progress-indicator__circular__circle')[1]
-        .getAttribute('style')
+        .getAttribute('style'),
     ).toBe('stroke: red;')
     expect(
       container
         .querySelectorAll('.dnb-progress-indicator__circular__circle')[2]
-        .getAttribute('style')
+        .getAttribute('style'),
     ).toBe('stroke: green;')
   })
 
   it('with custom size', () => {
     const { container } = render(
-      <ProgressIndicator type="circular" size="4.53rem" />
+      <ProgressIndicator type="circular" size="4.53rem" />,
     )
 
     expect(
       container
         .querySelector('.dnb-progress-indicator')
-        .getAttribute('style')
+        .getAttribute('style'),
     ).toContain('--progress-indicator-circular-size: 4.53rem;')
     expect(
-      container.querySelector('.dnb-progress-indicator__circular')
+      container.querySelector('.dnb-progress-indicator__circular'),
     ).toHaveClass('dnb-progress-indicator__circular--custom-size')
   })
 
   it('with custom line width', () => {
     const { container } = render(
-      <ProgressIndicator type="circular" customCircleWidth="1.23rem" />
+      <ProgressIndicator type="circular" customCircleWidth="1.23rem" />,
     )
 
     expect(
       container
         .querySelector('.dnb-progress-indicator')
-        .getAttribute('style')
+        .getAttribute('style'),
     ).toContain('--progress-indicator-circular-stroke-width: 1.23rem;')
 
     const circles = container.querySelectorAll(
-      'circle.dnb-progress-indicator__circle'
+      'circle.dnb-progress-indicator__circle',
     )
     circles.forEach((circle) =>
       expect(circle.getAttribute('style')).not.toContain(
-        '--progress-indicator-circular-stroke-width'
-      )
+        '--progress-indicator-circular-stroke-width',
+      ),
     )
   })
 
   it('with custom line width in percentage', () => {
     const { container } = render(
-      <ProgressIndicator type="circular" customCircleWidth="20%" />
+      <ProgressIndicator type="circular" customCircleWidth="20%" />,
     )
 
     expect(
       container
         .querySelector('.dnb-progress-indicator')
-        .getAttribute('style')
+        .getAttribute('style'),
     ).toContain('--progress-indicator-circular-stroke-width: 20%;')
 
     const circles = container.querySelectorAll(
-      'circle.dnb-progress-indicator__circle'
+      'circle.dnb-progress-indicator__circle',
     )
     circles.forEach((circle) =>
       expect(circle.getAttribute('style')).toContain(
-        '--progress-indicator-circular-stroke-width: 25%;'
-      )
+        '--progress-indicator-circular-stroke-width: 25%;',
+      ),
     )
   })
 })
@@ -287,7 +291,7 @@ describe('Linear ProgressIndicator component', () => {
   it('should have a transform of translateX(-50%) on 50%', () => {
     render(<ProgressIndicator {...props} type="linear" progress={50} />)
     expect(
-      document.querySelector(mainLineSelector).getAttribute('style')
+      document.querySelector(mainLineSelector).getAttribute('style'),
     ).toBe('transform: translateX(-50%);')
   })
 
@@ -295,7 +299,7 @@ describe('Linear ProgressIndicator component', () => {
     render(<ProgressIndicator {...props} type="linear" progress={50} />)
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('aria-label')).toBe(
-      formatPercent(50, { decimals: 2 })
+      formatPercent(50, { decimals: 2 }),
     )
   })
 
@@ -304,13 +308,13 @@ describe('Linear ProgressIndicator component', () => {
 
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('title')).toBe(
-      formatPercent(50, { decimals: 2 })
+      formatPercent(50, { decimals: 2 }),
     )
   })
 
   it('has role of alert or progressbar depending if progress has a value', () => {
     const { rerender } = render(
-      <ProgressIndicator {...props} type="linear" progress={undefined} />
+      <ProgressIndicator {...props} type="linear" progress={undefined} />,
     )
     expect(screen.queryByRole('alert')).toBeInTheDocument()
 
@@ -322,10 +326,10 @@ describe('Linear ProgressIndicator component', () => {
     render(<ProgressIndicator {...props} type="linear" progress={80} />)
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('aria-label')).toBe(
-      formatPercent(80, { decimals: 2 })
+      formatPercent(80, { decimals: 2 }),
     )
     expect(
-      document.querySelector(mainLineSelector).getAttribute('style')
+      document.querySelector(mainLineSelector).getAttribute('style'),
     ).toBe('transform: translateX(-20%);')
   })
 
@@ -334,7 +338,7 @@ describe('Linear ProgressIndicator component', () => {
 
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('aria-label')).toBe(
-      formatPercent(1, { decimals: 2 })
+      formatPercent(1, { decimals: 2 }),
     )
   })
 
@@ -343,7 +347,7 @@ describe('Linear ProgressIndicator component', () => {
 
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('title')).toBe(
-      formatPercent(1, { decimals: 2 })
+      formatPercent(1, { decimals: 2 }),
     )
   })
 
@@ -354,7 +358,7 @@ describe('Linear ProgressIndicator component', () => {
         type="linear"
         progress={null}
         title={null}
-      />
+      />,
     )
 
     const indicator = screen.getByRole('alert')
@@ -368,7 +372,7 @@ describe('Linear ProgressIndicator component', () => {
         type="linear"
         progress={null}
         title={null}
-      />
+      />,
     )
 
     const indicator = screen.getByRole('alert')
@@ -383,7 +387,7 @@ describe('Linear ProgressIndicator component', () => {
         type="linear"
         progress={1}
         title={title}
-      />
+      />,
     )
 
     const indicator = screen.getByRole('progressbar')
@@ -398,7 +402,7 @@ describe('Linear ProgressIndicator component', () => {
         type="linear"
         progress={1}
         title={title}
-      />
+      />,
     )
 
     const indicator = screen.getByRole('progressbar')
@@ -407,7 +411,7 @@ describe('Linear ProgressIndicator component', () => {
 
   it('should support spacing props', () => {
     render(
-      <ProgressIndicator type="linear" progress={1} top="2rem" hidden />
+      <ProgressIndicator type="linear" progress={1} top="2rem" hidden />,
     )
 
     const indicator = document.querySelector('.dnb-progress-indicator')
@@ -427,25 +431,25 @@ describe('Linear ProgressIndicator component', () => {
     expect(
       document
         .querySelector('.dnb-progress-indicator')
-        .getAttribute('style')
+        .getAttribute('style'),
     ).toBe('color: red;')
   })
 
   it('should support custom attributes', () => {
     render(
-      <ProgressIndicator type="linear" progress={1} top="2rem" hidden />
+      <ProgressIndicator type="linear" progress={1} top="2rem" hidden />,
     )
 
     const indicator = document.querySelector('.dnb-progress-indicator')
     const attributes = Array.from(indicator.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
     expect(attributes).toEqual(['class', 'hidden'])
   })
 
   it('should use span elements', () => {
     const { container } = render(
-      <ProgressIndicator type="linear" progress={1} showDefaultLabel />
+      <ProgressIndicator type="linear" progress={1} showDefaultLabel />,
     )
 
     expect(container.querySelectorAll('div')).toHaveLength(0)
@@ -456,11 +460,11 @@ describe('Linear ProgressIndicator component', () => {
     // Because it does not have any advantages over a label element (VoiceOver does not read it as a label)
 
     const { container } = render(
-      <ProgressIndicator type="linear" progress={1} showDefaultLabel />
+      <ProgressIndicator type="linear" progress={1} showDefaultLabel />,
     )
 
     expect(
-      container.querySelector('.dnb-progress-indicator__label').tagName
+      container.querySelector('.dnb-progress-indicator__label').tagName,
     ).toBe('SPAN')
   })
 
@@ -469,38 +473,38 @@ describe('Linear ProgressIndicator component', () => {
       <ProgressIndicator
         type="linear"
         customColors={{ line: 'red', shaft: 'green' }}
-      />
+      />,
     )
 
     expect(
       container
         .querySelector('.dnb-progress-indicator__linear')
-        .getAttribute('style')
+        .getAttribute('style'),
     ).toBe('background-color: green;')
     expect(
       container
         .querySelectorAll('.dnb-progress-indicator__linear__bar')[0]
-        .getAttribute('style')
+        .getAttribute('style'),
     ).toBe('background-color: red;')
     expect(
       container
         .querySelectorAll('.dnb-progress-indicator__linear__bar')[1]
-        .getAttribute('style')
+        .getAttribute('style'),
     ).toBe('background-color: red;')
   })
 
   it('with custom size', () => {
     const { container } = render(
-      <ProgressIndicator type="linear" size="4.53rem" />
+      <ProgressIndicator type="linear" size="4.53rem" />,
     )
 
     expect(
       container
         .querySelector('.dnb-progress-indicator')
-        .getAttribute('style')
+        .getAttribute('style'),
     ).toContain('--progress-indicator-linear-size: 4.53rem;')
     expect(
-      container.querySelector('.dnb-progress-indicator__linear')
+      container.querySelector('.dnb-progress-indicator__linear'),
     ).toHaveClass('dnb-progress-indicator__linear--custom-size')
   })
 })
@@ -513,7 +517,7 @@ describe('ProgressIndicator ARIA', () => {
         type="circular"
         progress={50}
         showDefaultLabel
-      />
+      />,
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
@@ -525,7 +529,7 @@ describe('ProgressIndicator ARIA', () => {
         type="linear"
         progress={50}
         showDefaultLabel
-      />
+      />,
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
@@ -539,7 +543,7 @@ describe('ProgressIndicator scss', () => {
 
   it('should match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-progress-indicator-theme-ui.scss')
+      require.resolve('../style/themes/dnb-progress-indicator-theme-ui.scss'),
     )
     expect(css).toMatchSnapshot()
   })

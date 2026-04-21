@@ -83,7 +83,7 @@ function InfoOverlay(props: FormInfoOverlayProps) {
           overlayRef.current.focus?.()
         }
       },
-      [mountedRef]
+      [mountedRef],
     )
 
   // To keep the content visible while hiding it with the HightAnimation
@@ -174,7 +174,7 @@ function InfoOverlay(props: FormInfoOverlayProps) {
         'dnb-forms-info-overlay',
         status && `dnb-forms-info-overlay--${status}`,
         'dnb-no-focus',
-        className
+        className,
       )}
       tabIndex={-1}
       ref={overlayRef}

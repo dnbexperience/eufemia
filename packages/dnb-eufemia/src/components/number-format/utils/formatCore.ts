@@ -115,13 +115,13 @@ export function buildReturn({
           default:
             return item
         }
-      }
+      },
     )
   } else {
     const thousandsSeparator = getThousandsSeparator(locale)
     cleanedValue = String(display).replace(
       new RegExp(`${thousandsSeparator}(?=\\d{3})`, 'g'),
-      ''
+      '',
     )
   }
 
@@ -177,15 +177,18 @@ export {
  */
 export function formatWith(
   type: NumberFormatType,
-  formatterFn: (value: NumberFormatValue, locale: string) => FormattedParts
+  formatterFn: (
+    value: NumberFormatValue,
+    locale: string,
+  ) => FormattedParts,
 ): NumberFormatFunction {
   function formatter(
     value: NumberFormatValue | null | undefined,
-    options: NumberFormatOptionParams & { returnAria: true }
+    options: NumberFormatOptionParams & { returnAria: true },
   ): NumberFormatReturnValue
   function formatter(
     value: NumberFormatValue | null | undefined,
-    options?: NumberFormatOptionParams
+    options?: NumberFormatOptionParams,
   ): string
   function formatter(
     value: NumberFormatValue | null | undefined,
@@ -197,7 +200,7 @@ export function formatWith(
       returnAria = false,
       invalidAriaText = null,
       cleanCopyValue = null,
-    }: NumberFormatOptionParams = {}
+    }: NumberFormatOptionParams = {},
   ): string | NumberFormatReturnValue {
     value = isAbsent(value) ? ABSENT_VALUE_FORMAT : value
 
@@ -210,7 +213,7 @@ export function formatWith(
 
     const { number: display, aria: initialAria } = formatterFn(
       value,
-      locale
+      locale,
     )
 
     if (type === 'phone' && clean === null) {

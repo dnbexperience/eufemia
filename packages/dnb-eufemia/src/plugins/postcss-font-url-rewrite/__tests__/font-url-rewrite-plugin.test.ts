@@ -45,7 +45,7 @@ describe('font-url-rewrite-plugin', () => {
       basePath: '/custom/fonts/',
     })
     expect(output.css).toContain(
-      'url("/custom/fonts/subdir/TestFont.woff2")'
+      'url("/custom/fonts/subdir/TestFont.woff2")',
     )
   })
 
@@ -148,7 +148,7 @@ describe('font-url-rewrite-plugin', () => {
     `
     await processCSS(input, { verbose: true })
     expect(consoleSpy).toHaveBeenCalledWith(
-      `Skipped (no fonts segment): fonts/TestFont.woff2`
+      `Skipped (no fonts segment): fonts/TestFont.woff2`,
     )
     consoleSpy.mockRestore()
   })
@@ -186,7 +186,7 @@ describe('font-url-rewrite-plugin', () => {
       basePath: getFontBasePath(),
     })
     expect(output.css).toContain(
-      `url("${getFontBasePath()}TestFont.woff2")`
+      `url("${getFontBasePath()}TestFont.woff2")`,
     )
   })
 
@@ -201,7 +201,7 @@ describe('font-url-rewrite-plugin', () => {
       basePath: getFontBasePath(),
     })
     expect(output.css).toContain(
-      `url("${getFontBasePath()}subdir/TestFont.woff2")`
+      `url("${getFontBasePath()}subdir/TestFont.woff2")`,
     )
   })
 
@@ -229,7 +229,7 @@ describe('font-url-rewrite-plugin', () => {
     // Always verify the URL format, regardless of CDN response
     const basePathRegex = getFontBasePath().replace(
       /[.*+?^${}()|[\]\\]/g,
-      '\\$&'
+      '\\$&',
     )
     expect(fontUrl).toMatch(new RegExp(`^${basePathRegex}.*\\.woff2$`))
 
@@ -255,17 +255,17 @@ describe('font-url-rewrite-plugin', () => {
     expect(urlMatches).toHaveLength(1)
 
     const urls = urlMatches.map(
-      (match) => match.match(/url\("([^"]+)"\)/)[1]
+      (match) => match.match(/url\("([^"]+)"\)/)[1],
     )
 
     // Check each font URL format
     const basePathRegex = getFontBasePath().replace(
       /[.*+?^${}()|[\]\\]/g,
-      '\\$&'
+      '\\$&',
     )
     for (const fontUrl of urls) {
       expect(fontUrl).toMatch(
-        new RegExp(`^${basePathRegex}dnb/DNB-Bold\\.woff2$`)
+        new RegExp(`^${basePathRegex}dnb/DNB-Bold\\.woff2$`),
       )
     }
 
@@ -320,7 +320,7 @@ describe('font-url-rewrite-plugin', () => {
       basePath: 'https://cdn.example.com/fonts/',
     })
     expect(secondOutput.css).toContain(
-      'url("https://cdn.example.com/fonts/TestFont.woff2")'
+      'url("https://cdn.example.com/fonts/TestFont.woff2")',
     )
   })
 
@@ -337,7 +337,7 @@ describe('font-url-rewrite-plugin', () => {
       basePath: 'https://cdn.first.com/fonts/1.2.3/',
     })
     expect(firstOutput.css).toContain(
-      'url("https://cdn.first.com/fonts/1.2.3/TestFont.woff2")'
+      'url("https://cdn.first.com/fonts/1.2.3/TestFont.woff2")',
     )
 
     // Second run with custom basePath
@@ -345,7 +345,7 @@ describe('font-url-rewrite-plugin', () => {
       basePath: 'https://cdn.second.com/fonts/',
     })
     expect(secondOutput.css).toContain(
-      'url("https://cdn.second.com/fonts/TestFont.woff2")'
+      'url("https://cdn.second.com/fonts/TestFont.woff2")',
     )
   })
 
@@ -362,7 +362,7 @@ describe('font-url-rewrite-plugin', () => {
       basePath: 'https://cdn.first.com/fonts/1.2.3/',
     })
     expect(firstOutput.css).toContain(
-      'url("https://cdn.first.com/fonts/1.2.3/subdir/TestFont.woff2")'
+      'url("https://cdn.first.com/fonts/1.2.3/subdir/TestFont.woff2")',
     )
 
     // Second run with custom basePath
@@ -370,14 +370,14 @@ describe('font-url-rewrite-plugin', () => {
       basePath: 'https://cdn.second.com/fonts/',
     })
     expect(secondOutput.css).toContain(
-      'url("https://cdn.second.com/fonts/subdir/TestFont.woff2")'
+      'url("https://cdn.second.com/fonts/subdir/TestFont.woff2")',
     )
   })
 })
 
 // Helper function to make HTTP HEAD request
 function checkUrlExists(
-  urlString: string
+  urlString: string,
 ): Promise<{ status: number; accessible: boolean }> {
   return new Promise((resolve) => {
     const url = new URL(urlString)
@@ -400,7 +400,7 @@ function checkUrlExists(
           status: res.statusCode,
           accessible: res.statusCode === 200,
         })
-      }
+      },
     )
 
     req.on('error', () => {

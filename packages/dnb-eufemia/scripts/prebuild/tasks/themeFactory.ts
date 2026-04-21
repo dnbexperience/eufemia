@@ -55,7 +55,10 @@ const processToNamesIgnoreList = [
   '!**/*_not_in_use*',
 ]
 const prettierrc = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
+  fs.readFileSync(
+    path.resolve(__dirname, '../../../.prettierrc'),
+    'utf-8',
+  ),
 )
 const isCLI = require.main === module
 
@@ -75,7 +78,7 @@ async function runThemeFactory() {
     filesToFindGlob: [
       path.resolve(
         __dirname,
-        '../../../src/{components,fragments}/**/style/themes/**/*-theme-*.scss'
+        '../../../src/{components,fragments}/**/style/themes/**/*-theme-*.scss',
       ),
       ...processToNamesIgnoreList,
     ],
@@ -86,7 +89,7 @@ async function runThemeFactory() {
   }).then(() => {
     if (isCLI) {
       log.succeed(
-        '> PrePublish: "themeFactory" Created the themes files with all the components, elements, fragments and extensions'
+        '> PrePublish: "themeFactory" Created the themes files with all the components, elements, fragments and extensions',
       )
     }
   })
@@ -97,7 +100,7 @@ async function runThemeFactory() {
     filesToFindGlob: [
       path.resolve(
         __dirname,
-        '../../../src/elements/**/style/themes/**/*-theme-*.scss'
+        '../../../src/elements/**/style/themes/**/*-theme-*.scss',
       ),
       ...processToNamesIgnoreList,
     ],
@@ -107,7 +110,7 @@ async function runThemeFactory() {
   }).then(() => {
     if (isCLI) {
       log.succeed(
-        '> PrePublish: "themeFactory" Created the themes files with all the components, elements, fragments and extensions'
+        '> PrePublish: "themeFactory" Created the themes files with all the components, elements, fragments and extensions',
       )
     }
   })
@@ -118,7 +121,7 @@ async function runThemeFactory() {
     filesToFindGlob: [
       path.resolve(
         __dirname,
-        '../../../src/extensions/**/style/themes/**/*-theme-*.scss'
+        '../../../src/extensions/**/style/themes/**/*-theme-*.scss',
       ),
       ...processToNamesIgnoreList,
     ].concat(['!**/forms/style/themes/*']),
@@ -128,7 +131,7 @@ async function runThemeFactory() {
   }).then(() => {
     if (isCLI) {
       log.succeed(
-        '> PrePublish: "themeFactory" Created the themes files with all the components, elements, fragments and extensions'
+        '> PrePublish: "themeFactory" Created the themes files with all the components, elements, fragments and extensions',
       )
     }
   })
@@ -139,7 +142,7 @@ async function runThemeFactory() {
     filesToFindGlob: [
       path.resolve(
         __dirname,
-        '../../../src/extensions/forms/**/style/themes/**/*-theme-*.scss'
+        '../../../src/extensions/forms/**/style/themes/**/*-theme-*.scss',
       ),
       ...processToNamesIgnoreList,
     ].concat(['!**/forms/style/themes/*']),
@@ -149,7 +152,7 @@ async function runThemeFactory() {
   }).then(() => {
     if (isCLI) {
       log.succeed(
-        '> PrePublish: "themeFactory" Created the themes files with all the components, elements, fragments and extensions'
+        '> PrePublish: "themeFactory" Created the themes files with all the components, elements, fragments and extensions',
       )
     }
   })
@@ -178,7 +181,7 @@ export async function runFactory({
         await prettier.format(fileContent, {
           ...prettierrc,
           filepath: file,
-        })
+        }),
       )
     }
 
@@ -190,7 +193,7 @@ export async function runFactory({
       if (!fs.existsSync(file)) {
         fileContent = `${editAdvice.replace(
           '<file>',
-          targetFile
+          targetFile,
         )}${insertBelowAdvice}\n\n${files.join('')}`
 
         await write(file, fileContent)
@@ -214,7 +217,7 @@ export async function runFactory({
 
       fileContent = fileContent.replace(
         new RegExp(`(\\/\\*\\*[^]*${insertBelowTitle}[^]*\\*\\/)([^]*)`),
-        `$1\n\n${updatedFiles.join('')}\n${suffixContent}`
+        `$1\n\n${updatedFiles.join('')}\n${suffixContent}`,
       )
 
       if (returnResult) {
@@ -253,14 +256,14 @@ function getFallbackFiles({
 
   if (fallbackThemeName) {
     const fallbackIndex = themesWithRelatedFiles.findIndex(
-      ({ name }) => fallbackThemeName === name
+      ({ name }) => fallbackThemeName === name,
     )
     if (fallbackIndex >= 0) {
       files = [
         ...files,
         ...themesWithRelatedFiles[fallbackIndex].files.filter((file) => {
           return !files.includes(
-            file.replace(`-${fallbackThemeName}`, `-${currentThemeName}`)
+            file.replace(`-${fallbackThemeName}`, `-${currentThemeName}`),
           )
         }),
       ]
@@ -328,8 +331,8 @@ async function collectRelatedThemeFiles(themeSources: ThemeSources) {
       acc.push(
         `\n@use '${source.replace(
           new RegExp(`${path}/src/`, 'g'),
-          '../../../'
-        )}';`
+          '../../../',
+        )}';`,
       )
       return acc
     }, [])

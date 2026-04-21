@@ -71,7 +71,7 @@ export type TableTrProps = {
 
 export default function Tr(
   componentProps: TableTrProps &
-    React.TableHTMLAttributes<HTMLTableRowElement>
+    React.TableHTMLAttributes<HTMLTableRowElement>,
 ) {
   const {
     variant,
@@ -89,7 +89,7 @@ export default function Tr(
     currentVariant && `dnb-table__tr--${currentVariant}`,
     isLast && 'dnb-table__tr--last',
     noWrap && 'dnb-table--no-wrap',
-    _className
+    _className,
   )
 
   const tableContext = React.useContext(TableContext)

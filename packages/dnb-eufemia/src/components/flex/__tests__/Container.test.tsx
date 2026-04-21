@@ -15,12 +15,12 @@ describe('Flex.Container', () => {
     render(
       <Flex.Container aria-label="Aria Label">
         <Flex.Item>Flex</Flex.Item>
-      </Flex.Container>
+      </Flex.Container>,
     )
 
     const element = document.querySelector('.dnb-flex-container')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toContain('aria-label')
@@ -31,7 +31,7 @@ describe('Flex.Container', () => {
     const { rerender } = render(
       <Flex.Container top="large">
         <Flex.Item>Flex</Flex.Item>
-      </Flex.Container>
+      </Flex.Container>,
     )
     const element = document.querySelector('.dnb-flex-container ')
 
@@ -40,7 +40,7 @@ describe('Flex.Container', () => {
     rerender(
       <Flex.Container top="x-large">
         <Flex.Item>Flex</Flex.Item>
-      </Flex.Container>
+      </Flex.Container>,
     )
 
     expect(element.classList).toContain('dnb-space__top--x-large')
@@ -50,7 +50,7 @@ describe('Flex.Container', () => {
     render(
       <Flex.Container>
         <Flex.Item>Flex</Flex.Item>
-      </Flex.Container>
+      </Flex.Container>,
     )
 
     const element = document.querySelector('.dnb-flex-container')
@@ -61,7 +61,7 @@ describe('Flex.Container', () => {
     render(
       <Flex.Container className="custom-class">
         <Flex.Item>Flex</Flex.Item>
-      </Flex.Container>
+      </Flex.Container>,
     )
 
     const element = document.querySelector('.dnb-flex-container')
@@ -86,13 +86,13 @@ describe('Flex.Container', () => {
         <Flex.Item>Flex 1</Flex.Item>
         <Flex.Item>Flex 2</Flex.Item>
         <Flex.Item>Flex 3</Flex.Item>
-      </Flex.Container>
+      </Flex.Container>,
     )
 
     const element = document.querySelector('.dnb-flex-container')
     const children = element.children
     const childrenTextContents = Array.from(children).map((child) =>
-      child.textContent.replace(/[\u200C]/g, '')
+      child.textContent.replace(/[\u200C]/g, ''),
     )
 
     expect(children.length).toEqual(3)
@@ -103,7 +103,7 @@ describe('Flex.Container', () => {
     const { rerender } = render(
       <Flex.Container direction="vertical">
         <Flex.Item>Flex</Flex.Item>
-      </Flex.Container>
+      </Flex.Container>,
     )
 
     const element = document.querySelector('.dnb-flex-container')
@@ -113,7 +113,7 @@ describe('Flex.Container', () => {
     rerender(
       <Flex.Container>
         <Flex.Item>Flex</Flex.Item>
-      </Flex.Container>
+      </Flex.Container>,
     )
 
     expect(element).toHaveClass('dnb-flex-container--direction-horizontal')
@@ -125,7 +125,7 @@ describe('Flex.Container', () => {
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
-      </Flex.Container>
+      </Flex.Container>,
     )
   })
 
@@ -135,7 +135,7 @@ describe('Flex.Container', () => {
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
-      </Flex.Container>
+      </Flex.Container>,
     )
 
     const element = document.querySelector('.dnb-flex-container')
@@ -147,7 +147,7 @@ describe('Flex.Container', () => {
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
-      </Flex.Container>
+      </Flex.Container>,
     )
 
     expect(element).toHaveClass('dnb-flex-container--align-flex-end')
@@ -159,7 +159,7 @@ describe('Flex.Container', () => {
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
-      </Flex.Container>
+      </Flex.Container>,
     )
 
     const element = document.querySelector('.dnb-flex-container')
@@ -182,7 +182,7 @@ describe('Flex.Container', () => {
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
-      </Flex.Container>
+      </Flex.Container>,
     )
 
     expect(children.length).toBe(5)
@@ -194,17 +194,17 @@ describe('Flex.Container', () => {
 
     expect(children[1].tagName).toContain('HR')
     expect(children[1]).toHaveClass(
-      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
+      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr',
     )
 
     expect(children[2].tagName).toContain('DIV')
     expect(children[2]).toHaveClass(
-      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item'
+      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item',
     )
 
     expect(children[3].tagName).toContain('HR')
     expect(children[3]).toHaveClass(
-      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
+      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr',
     )
 
     expect(children[4]).toHaveClass('dnb-space__top--small')
@@ -217,7 +217,7 @@ describe('Flex.Container', () => {
       <Flex.Container direction="vertical" wrapChildrenInSpace={false}>
         <p>Alpha</p>
         <p>Beta</p>
-      </Flex.Container>
+      </Flex.Container>,
     )
 
     const container = document.querySelector('.dnb-flex-container')
@@ -231,7 +231,7 @@ describe('Flex.Container', () => {
     expect(children[1]).toHaveClass('dnb-space__top--small')
     expect(children[1]).toHaveClass('dnb-space__bottom--zero')
     expect(
-      document.querySelectorAll('.dnb-flex-container > .dnb-space')
+      document.querySelectorAll('.dnb-flex-container > .dnb-space'),
     ).toHaveLength(0)
   })
 
@@ -242,7 +242,7 @@ describe('Flex.Container', () => {
       <Flex.Container direction="vertical" wrapChildrenInSpace={false}>
         <TestComponent />
         <TestComponent />
-      </Flex.Container>
+      </Flex.Container>,
     )
 
     const container = document.querySelector('.dnb-flex-container')
@@ -267,7 +267,7 @@ describe('Flex.Container', () => {
         <H1>Heading</H1>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
-      </Flex.Container>
+      </Flex.Container>,
     )
 
     const container = document.querySelector('.dnb-flex-container')
@@ -304,7 +304,7 @@ describe('Flex.Container', () => {
 
     expect(children[0].tagName).toContain('H1')
     expect(children[0]).toHaveClass(
-      'dnb-space__top--zero dnb-space__bottom--zero dnb-h--xx-large'
+      'dnb-space__top--zero dnb-space__bottom--zero dnb-h--xx-large',
     )
 
     expect(children[1].tagName).toContain('DIV')
@@ -312,12 +312,12 @@ describe('Flex.Container', () => {
 
     expect(children[2].tagName).toContain('HR')
     expect(children[2]).toHaveClass(
-      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
+      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr',
     )
 
     expect(children[3].tagName).toContain('DIV')
     expect(children[3]).toHaveClass(
-      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item'
+      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item',
     )
   })
 
@@ -326,7 +326,7 @@ describe('Flex.Container', () => {
       <Flex.Container direction="vertical" divider="line">
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
-      </Flex.Container>
+      </Flex.Container>,
     )
 
     const element = document.querySelector('.dnb-flex-container')
@@ -337,17 +337,17 @@ describe('Flex.Container', () => {
 
     expect(children[0].tagName).toContain('DIV')
     expect(children[0]).toHaveClass(
-      'dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-item'
+      'dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-item',
     )
 
     expect(children[1].tagName).toContain('HR')
     expect(children[1]).toHaveClass(
-      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
+      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr',
     )
 
     expect(children[2].tagName).toContain('DIV')
     expect(children[2]).toHaveClass(
-      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item'
+      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item',
     )
   })
 
@@ -356,7 +356,7 @@ describe('Flex.Container', () => {
       <Flex.Container direction="vertical" divider="line-framed">
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
-      </Flex.Container>
+      </Flex.Container>,
     )
 
     const element = document.querySelector('.dnb-flex-container')
@@ -367,27 +367,27 @@ describe('Flex.Container', () => {
 
     expect(children[0].tagName).toContain('HR')
     expect(children[0]).toHaveClass(
-      'dnb-flex-container__hr dnb-space__top--zero dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
+      'dnb-flex-container__hr dnb-space__top--zero dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr',
     )
 
     expect(children[1].tagName).toContain('DIV')
     expect(children[1]).toHaveClass(
-      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item'
+      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item',
     )
 
     expect(children[2].tagName).toContain('HR')
     expect(children[2]).toHaveClass(
-      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
+      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr',
     )
 
     expect(children[3].tagName).toContain('DIV')
     expect(children[3]).toHaveClass(
-      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item'
+      'dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item',
     )
 
     expect(children[4].tagName).toContain('HR')
     expect(children[4]).toHaveClass(
-      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
+      'dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr',
     )
   })
 
@@ -397,7 +397,7 @@ describe('Flex.Container', () => {
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
-      </Flex.Container>
+      </Flex.Container>,
     )
 
     const element = document.querySelector('.dnb-flex-container')
@@ -420,7 +420,7 @@ describe('Flex.Container', () => {
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
-      </Flex.Container>
+      </Flex.Container>,
     )
 
     expect(children[0]).toHaveClass('dnb-space__left--zero')
@@ -437,7 +437,7 @@ describe('Flex.Container', () => {
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
-      </Flex.Container>
+      </Flex.Container>,
     )
 
     expect(children[0]).toHaveClass('dnb-space__left--zero')
@@ -456,7 +456,7 @@ describe('Flex.Container', () => {
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
-      </Flex.Container>
+      </Flex.Container>,
     )
 
     const element = document.querySelector('.dnb-flex-container')
@@ -507,7 +507,7 @@ describe('Flex.Container', () => {
           <TestComponent />
           <TestComponent />
           <TestComponent top="large" />
-        </Flex.Vertical>
+        </Flex.Vertical>,
       )
 
       const container = document.querySelector('.dnb-flex-container')
@@ -542,19 +542,19 @@ describe('Flex.Container', () => {
       `)
 
       expect(
-        document.querySelectorAll('.dnb-flex-container')
+        document.querySelectorAll('.dnb-flex-container'),
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('[class*="dnb-space__top"]')
+        document.querySelectorAll('[class*="dnb-space__top"]'),
       ).toHaveLength(3)
       expect(
-        document.querySelectorAll('.dnb-space__top--zero')
+        document.querySelectorAll('.dnb-space__top--zero'),
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('.dnb-space__top--small')
+        document.querySelectorAll('.dnb-space__top--small'),
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('.dnb-space__top--large')
+        document.querySelectorAll('.dnb-space__top--large'),
       ).toHaveLength(1)
     })
 
@@ -568,7 +568,7 @@ describe('Flex.Container', () => {
           <TestComponent />
           <TestComponent />
           <TestComponent top="large" />
-        </Flex.Vertical>
+        </Flex.Vertical>,
       )
 
       const container = document.querySelector('.dnb-flex-container')
@@ -595,19 +595,19 @@ describe('Flex.Container', () => {
       `)
 
       expect(
-        document.querySelectorAll('.dnb-flex-container')
+        document.querySelectorAll('.dnb-flex-container'),
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('[class*="dnb-space__top"]')
+        document.querySelectorAll('[class*="dnb-space__top"]'),
       ).toHaveLength(3)
       expect(
-        document.querySelectorAll('.dnb-space__top--zero')
+        document.querySelectorAll('.dnb-space__top--zero'),
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('.dnb-space__top--small')
+        document.querySelectorAll('.dnb-space__top--small'),
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('.dnb-space__top--large')
+        document.querySelectorAll('.dnb-space__top--large'),
       ).toHaveLength(1)
     })
 
@@ -624,7 +624,7 @@ describe('Flex.Container', () => {
             <TestComponent />
             <TestComponent top="large" />
           </Wrapper>
-        </Flex.Vertical>
+        </Flex.Vertical>,
       )
 
       const container = document.querySelector('.dnb-flex-container')
@@ -659,20 +659,20 @@ describe('Flex.Container', () => {
       `)
 
       expect(
-        document.querySelectorAll('.dnb-flex-container')
+        document.querySelectorAll('.dnb-flex-container'),
       ).toHaveLength(2)
       expect(document.querySelectorAll('.wrapper')).toHaveLength(1)
       expect(
-        document.querySelectorAll('[class*="dnb-space__top"]')
+        document.querySelectorAll('[class*="dnb-space__top"]'),
       ).toHaveLength(4)
       expect(
-        document.querySelectorAll('.dnb-space__top--zero')
+        document.querySelectorAll('.dnb-space__top--zero'),
       ).toHaveLength(2)
       expect(
-        document.querySelectorAll('.dnb-space__top--small')
+        document.querySelectorAll('.dnb-space__top--small'),
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('.dnb-space__top--large')
+        document.querySelectorAll('.dnb-space__top--large'),
       ).toHaveLength(1)
     })
 
@@ -686,7 +686,7 @@ describe('Flex.Container', () => {
           <Wrapper>
             Content A <p>Content B</p>
           </Wrapper>
-        </Flex.Vertical>
+        </Flex.Vertical>,
       )
 
       const container = document.querySelector('.dnb-flex-container')
@@ -718,11 +718,11 @@ describe('Flex.Container', () => {
       `)
 
       expect(
-        document.querySelectorAll('.dnb-flex-container')
+        document.querySelectorAll('.dnb-flex-container'),
       ).toHaveLength(2)
       expect(document.querySelectorAll('.wrapper')).toHaveLength(1)
       expect(
-        document.querySelectorAll('[class*="dnb-space__"]')
+        document.querySelectorAll('[class*="dnb-space__"]'),
       ).toHaveLength(3)
     })
 
@@ -737,7 +737,7 @@ describe('Flex.Container', () => {
             Content A <p>Content B</p>
             <TestComponent top="large" />
           </>
-        </Flex.Vertical>
+        </Flex.Vertical>,
       )
 
       const container = document.querySelector('.dnb-flex-container')
@@ -766,10 +766,10 @@ describe('Flex.Container', () => {
       `)
 
       expect(
-        document.querySelectorAll('.dnb-flex-container')
+        document.querySelectorAll('.dnb-flex-container'),
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('[class*="dnb-space__"]')
+        document.querySelectorAll('[class*="dnb-space__"]'),
       ).toHaveLength(3)
     })
 
@@ -788,7 +788,7 @@ describe('Flex.Container', () => {
               <TestComponent top="large" />
             </>
           </>
-        </Flex.Vertical>
+        </Flex.Vertical>,
       )
 
       const container = document.querySelector('.dnb-flex-container')
@@ -817,10 +817,10 @@ describe('Flex.Container', () => {
       `)
 
       expect(
-        document.querySelectorAll('.dnb-flex-container')
+        document.querySelectorAll('.dnb-flex-container'),
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('[class*="dnb-space__"]')
+        document.querySelectorAll('[class*="dnb-space__"]'),
       ).toHaveLength(3)
     })
 
@@ -859,7 +859,7 @@ describe('Flex.Container', () => {
               <P>text</P>
             </Form.Visibility>
           </Flex.Vertical>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const container = document.querySelector('.dnb-flex-container')
@@ -876,10 +876,10 @@ describe('Flex.Container', () => {
       `)
 
       expect(
-        document.querySelectorAll('.dnb-flex-container')
+        document.querySelectorAll('.dnb-flex-container'),
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('[class*="dnb-space__"]')
+        document.querySelectorAll('[class*="dnb-space__"]'),
       ).toHaveLength(1)
     })
 
@@ -926,7 +926,7 @@ describe('Flex.Container', () => {
               </>
             </>
           </Flex.Vertical>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const container = document.querySelector('.dnb-flex-container')
@@ -943,10 +943,10 @@ describe('Flex.Container', () => {
       `)
 
       expect(
-        document.querySelectorAll('.dnb-flex-container')
+        document.querySelectorAll('.dnb-flex-container'),
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('[class*="dnb-space__"]')
+        document.querySelectorAll('[class*="dnb-space__"]'),
       ).toHaveLength(1)
     })
   })
@@ -995,7 +995,7 @@ describe('Flex.Container', () => {
       const { rerender } = render(
         <Flex.Container>
           <Flex.Item span={6}>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       const element = document.querySelector('.dnb-flex-container')
@@ -1005,7 +1005,7 @@ describe('Flex.Container', () => {
       rerender(
         <Flex.Container sizeCount={6}>
           <Flex.Item span={6}>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       expect(element.getAttribute('style')).toBe('--sizeCount: 6;')
@@ -1013,7 +1013,7 @@ describe('Flex.Container', () => {
       rerender(
         <Flex.Container>
           <Flex.Item>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       expect(element.getAttribute('style')).toBe('')
@@ -1023,7 +1023,7 @@ describe('Flex.Container', () => {
       render(
         <Flex.Container>
           <Flex.Item span={6}>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       const element = document.querySelector('.dnb-flex-container')
@@ -1037,7 +1037,7 @@ describe('Flex.Container', () => {
       const { rerender } = render(
         <Flex.Container>
           <Flex.Item span={6}>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       const element = document.querySelector('.dnb-flex-container')
@@ -1049,7 +1049,7 @@ describe('Flex.Container', () => {
       rerender(
         <Flex.Container>
           <Flex.Item span={6}>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       expect(element.getAttribute('data-media-key')).toBe('medium')
@@ -1061,7 +1061,7 @@ describe('Flex.Container', () => {
       rerender(
         <Flex.Container>
           <Flex.Item span={6}>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       expect(element.getAttribute('data-media-key')).toBe('large')
@@ -1071,7 +1071,7 @@ describe('Flex.Container', () => {
       const { rerender } = render(
         <Flex.Container rowGap="medium">
           <Flex.Item>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       const element = document.querySelector('.dnb-flex-container')
@@ -1081,7 +1081,7 @@ describe('Flex.Container', () => {
       rerender(
         <Flex.Container rowGap="small">
           <Flex.Item>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       expect(element).toHaveClass('dnb-flex-container--row-gap-small')
@@ -1089,7 +1089,7 @@ describe('Flex.Container', () => {
       rerender(
         <Flex.Container rowGap={false}>
           <Flex.Item>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       expect(element).not.toHaveClass('dnb-flex-container--row-gap-small')
@@ -1099,7 +1099,7 @@ describe('Flex.Container', () => {
       const { rerender } = render(
         <Flex.Container>
           <Flex.Item span={6}>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       const element = document.querySelector('.dnb-flex-container')
@@ -1111,7 +1111,7 @@ describe('Flex.Container', () => {
       rerender(
         <Flex.Container rowGap={false}>
           <Flex.Item span={6}>FlexItem</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
 
       expect(element).toHaveClass('dnb-flex-container--has-size')
@@ -1126,7 +1126,7 @@ describe('Flex.Container', () => {
     render(
       <Flex.Container ref={ref}>
         <Flex.Item>Item 1</Flex.Item>
-      </Flex.Container>
+      </Flex.Container>,
     )
 
     const element = document.querySelector('.dnb-flex-container')
@@ -1142,7 +1142,7 @@ describe('Flex.Container', () => {
     render(
       <Flex.Container ref={refFn}>
         <Flex.Item>Item 1</Flex.Item>
-      </Flex.Container>
+      </Flex.Container>,
     )
 
     const element = document.querySelector('.dnb-flex-container')
@@ -1155,7 +1155,7 @@ describe('Flex.Container', () => {
         <Flex.Container>
           <Flex.Item>Item 1</Flex.Item>
           <Flex.Item>Item 2</Flex.Item>
-        </Flex.Container>
+        </Flex.Container>,
       )
       expect(await axeComponent(Comp)).toHaveNoViolations()
     })

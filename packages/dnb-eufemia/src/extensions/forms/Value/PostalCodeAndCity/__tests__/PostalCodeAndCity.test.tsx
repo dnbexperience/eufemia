@@ -10,8 +10,8 @@ describe('Value.PostalCodeAndCity', () => {
     render(<Value.PostalCodeAndCity value="0010 Oslo" />)
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('0010 Oslo')
   })
 
@@ -19,8 +19,8 @@ describe('Value.PostalCodeAndCity', () => {
     render(<Value.PostalCodeAndCity city={{ value: 'Oslo' }} />)
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('Oslo')
   })
 
@@ -28,15 +28,15 @@ describe('Value.PostalCodeAndCity', () => {
     render(<Value.PostalCodeAndCity postalCode={{ value: '0010' }} />)
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('0010')
   })
 
   it('renders label when showEmpty is true', () => {
     render(<Value.PostalCodeAndCity showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      nb.PostalCodeAndCity.label
+      nb.PostalCodeAndCity.label,
     )
   })
 
@@ -44,18 +44,18 @@ describe('Value.PostalCodeAndCity', () => {
     render(<Value.PostalCodeAndCity value="0010 Oslo" />)
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('0010 Oslo')
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      nb.PostalCodeAndCity.label
+      nb.PostalCodeAndCity.label,
     )
   })
 
   it('renders custom label', () => {
     render(<Value.PostalCodeAndCity label="Custom label" showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      'Custom label'
+      'Custom label',
     )
   })
 
@@ -68,13 +68,13 @@ describe('Value.PostalCodeAndCity', () => {
     render(
       <Form.Handler data={{ myPath: '0010 Oslo' }}>
         <Value.PostalCodeAndCity path="/myPath" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('0010 Oslo')
   })
 
@@ -82,13 +82,13 @@ describe('Value.PostalCodeAndCity', () => {
     render(
       <Form.Handler data={{ myCity: 'Oslo' }}>
         <Value.PostalCodeAndCity city={{ path: '/myCity' }} />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('Oslo')
   })
 
@@ -96,13 +96,13 @@ describe('Value.PostalCodeAndCity', () => {
     render(
       <Form.Handler data={{ myPostalCode: '0010' }}>
         <Value.PostalCodeAndCity postalCode={{ path: '/myPostalCode' }} />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('0010')
   })
 
@@ -113,13 +113,13 @@ describe('Value.PostalCodeAndCity', () => {
           postalCode={{ path: '/myPostalCode' }}
           city={{ path: '/myCity' }}
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('0010')
   })
 })

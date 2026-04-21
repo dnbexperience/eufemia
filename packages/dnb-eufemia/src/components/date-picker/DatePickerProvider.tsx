@@ -31,7 +31,7 @@ import useSubmittedDates from './hooks/useSubmittedDates'
 
 type DatePickerProviderProps = DatePickerAllProps & {
   setReturnObject: (
-    func: DatePickerContextValue['getReturnObject']
+    func: DatePickerContextValue['getReturnObject'],
   ) => DatePickerContextValue['getReturnObject']
   hidePicker?: DatePickerContextValue['hidePicker']
   attributes?: DatePickerEventAttributes
@@ -94,7 +94,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
 
   const returnFormat = useMemo(
     () => returnFormatProp || defaultReturnFormat,
-    [returnFormatProp, defaultReturnFormat]
+    [returnFormatProp, defaultReturnFormat],
   )
 
   const { dates, updateDates, previousDateProps } = useDates(
@@ -110,7 +110,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
     {
       dateFormat,
       isRange: range,
-    }
+    },
   )
 
   const { views, setViews, setHasClickedCalendarDay } = useViews({
@@ -205,7 +205,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
             : startDateIsValid,
       }
     },
-    [dates, views, attributes, maxDate, minDate, range, returnFormat]
+    [dates, views, attributes, maxDate, minDate, range, returnFormat],
   )
 
   const callOnChangeHandler = useCallback(
@@ -234,7 +234,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
       onChange,
       lastEventCallCache,
       setLastEventCallCache,
-    ]
+    ],
   )
 
   // Is this at any point something other than a function?

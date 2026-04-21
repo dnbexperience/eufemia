@@ -37,7 +37,7 @@ export default function useDataContextSnapshot({
       update(data || structuredClone(internalDataRef?.current))
       forceUpdate() // Ensure the hasContentChanged hook gets updated
     },
-    [internalDataRef, update]
+    [internalDataRef, update],
   )
 
   useEffect(() => {

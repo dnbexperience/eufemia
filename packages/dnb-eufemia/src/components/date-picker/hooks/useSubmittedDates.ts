@@ -13,7 +13,7 @@ export default function useSubmittedDates() {
     (dates: DatePickerSubmittedDates) => {
       submittedDatesRef.current = dates
     },
-    []
+    [],
   )
 
   return {

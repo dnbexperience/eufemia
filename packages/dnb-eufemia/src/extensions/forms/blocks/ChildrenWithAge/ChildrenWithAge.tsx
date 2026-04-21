@@ -126,7 +126,7 @@ function EditContainer({
             help={{
               title: tr.ChildrenWithAge.usesDaycare.fieldLabel,
               content: tr.renderMessage(
-                tr.ChildrenWithAge.usesDaycare.helpText
+                tr.ChildrenWithAge.usesDaycare.helpText,
               ),
             }}
           />

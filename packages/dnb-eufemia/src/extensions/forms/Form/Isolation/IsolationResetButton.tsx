@@ -56,7 +56,7 @@ export default function IsolationResetButton(props: Props) {
       setShowBoundaryErrors?.(false)
       buttonWrapperRef.current?.focus()
     },
-    [onClick, handleReset, setShowBoundaryErrors]
+    [onClick, handleReset, setShowBoundaryErrors],
   )
 
   if (hidden) {

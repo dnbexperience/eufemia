@@ -16,7 +16,7 @@ type SetActiveIndexHandler = NonNullable<
 
 export default function useStep(
   id: SharedStateId = null,
-  { onStepChange }: { onStepChange?: OnStepChange } = {}
+  { onStepChange }: { onStepChange?: OnStepChange } = {},
 ) {
   const setFormError = useCallback(() => null, [])
   const wizardContext = useContext(WizardContext) || { setFormError }
@@ -31,7 +31,7 @@ export default function useStep(
     typeof useSharedState<WizardContextState>
   > | null>(null)
   sharedDataRef.current = useSharedState<WizardContextState>(
-    id ? createReferenceKey(id, 'wizard') : undefined
+    id ? createReferenceKey(id, 'wizard') : undefined,
   )
 
   const data = sharedDataRef.current.data
@@ -51,7 +51,7 @@ export default function useStep(
     Array<Parameters<SetActiveIndexHandler>>
   >([])
   const setActiveIndexRef = useRef<SetActiveIndexHandler | undefined>(
-    undefined
+    undefined,
   )
 
   const setActiveIndexFromHook = useCallback<SetActiveIndexHandler>(
@@ -64,7 +64,7 @@ export default function useStep(
 
       pendingSetActiveIndexCallsRef.current.push([index, options])
     },
-    []
+    [],
   )
 
   useLayoutEffect(() => {

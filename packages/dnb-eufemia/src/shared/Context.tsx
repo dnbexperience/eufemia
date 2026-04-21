@@ -183,7 +183,7 @@ export type ContextProps = ContextComponents & {
   __context__?: Record<string, unknown>
   updateTranslation?: (
     locale: InternalLocale,
-    translation: Translation
+    translation: Translation,
   ) => void
   getTranslation?: (props: GetTranslationProps) => Translation
 }
@@ -242,7 +242,7 @@ export type TranslationObjectToFlat<T, Prefix extends string = ''> = {
 }[keyof T]
 
 export function prepareContext<Props>(
-  props: ContextProps = {}
+  props: ContextProps = {},
 ): Props & ContextProps {
   if (props?.__context__) {
     props = Object.assign({}, props, props.__context__)
@@ -255,7 +255,7 @@ export function prepareContext<Props>(
 
   const localeWithFallback = handleLocaleFallbacks(
     props.locale || LOCALE,
-    translations
+    translations,
   )
 
   /**
@@ -268,8 +268,8 @@ export function prepareContext<Props>(
     extendDeep(
       {},
       defaultLocales[LOCALE],
-      translations[localeWithFallback]
-    )
+      translations[localeWithFallback],
+    ),
   )
 
   const context = {
@@ -279,8 +279,8 @@ export function prepareContext<Props>(
         extendDeep(
           {},
           defaultLocales[LOCALE],
-          newTranslations[locale] || newTranslations[LOCALE]
-        ) as TranslationFlat
+          newTranslations[locale] || newTranslations[LOCALE],
+        ) as TranslationFlat,
       )
       context.translations = newTranslations
     },
@@ -296,8 +296,8 @@ export function prepareContext<Props>(
             extendDeep(
               {},
               defaultLocales[LOCALE],
-              context.translations[locale]
-            )
+              context.translations[locale],
+            ),
           )
         }
       }
@@ -316,7 +316,7 @@ export function prepareContext<Props>(
 
 function handleLocaleFallbacks(
   locale: InternalLocale | AnyLocale,
-  translations: Translations = {}
+  translations: Translations = {},
 ) {
   if (translations[locale]) {
     return locale
@@ -334,7 +334,7 @@ const Context = createContext<ContextProps>(
     locale: LOCALE,
     currency: CURRENCY,
     currencyDisplay: CURRENCY_DISPLAY,
-  })
+  }),
 )
 
 export default Context

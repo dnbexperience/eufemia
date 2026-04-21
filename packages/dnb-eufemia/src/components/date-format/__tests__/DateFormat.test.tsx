@@ -26,7 +26,7 @@ describe('DateFormat', () => {
   describe('absolute date', () => {
     it('should format the whole date based on `dateStyle`', () => {
       const { rerender } = render(
-        <DateFormat value="2025-08-01" dateStyle="full" />
+        <DateFormat value="2025-08-01" dateStyle="full" />,
       )
 
       const dateFormat = document.querySelector('.dnb-date-format')
@@ -54,7 +54,7 @@ describe('DateFormat', () => {
           value={dateInCurrentYear}
           dateStyle="full"
           hideCurrentYear
-        />
+        />,
       )
       for (const dateStyle of [
         'full',
@@ -67,7 +67,7 @@ describe('DateFormat', () => {
             value={dateInCurrentYear}
             dateStyle={dateStyle}
             hideCurrentYear
-          />
+          />,
         )
         const dateFormat = container.querySelector('.dnb-date-format')
         expect(dateFormat?.textContent).not.toContain('2025')
@@ -86,7 +86,7 @@ describe('DateFormat', () => {
           value="2024-02-04"
           dateStyle="medium"
           hideCurrentYear
-        />
+        />,
       )
       const dateFormat = container.querySelector('.dnb-date-format')
       expect(dateFormat?.textContent).toContain('2024')
@@ -96,7 +96,7 @@ describe('DateFormat', () => {
 
     it('should always hide year when hideYear is true', () => {
       const { rerender, container } = render(
-        <DateFormat value="2025-02-04" dateStyle="full" hideYear />
+        <DateFormat value="2025-02-04" dateStyle="full" hideYear />,
       )
       for (const dateStyle of [
         'full',
@@ -105,7 +105,7 @@ describe('DateFormat', () => {
         'short',
       ] as const) {
         rerender(
-          <DateFormat value="2025-02-04" dateStyle={dateStyle} hideYear />
+          <DateFormat value="2025-02-04" dateStyle={dateStyle} hideYear />,
         )
         const dateFormat = container.querySelector('.dnb-date-format')
         expect(dateFormat?.textContent).not.toContain('2025')
@@ -115,7 +115,7 @@ describe('DateFormat', () => {
 
     it('should hide year for dates in other years when hideYear is true', () => {
       const { container } = render(
-        <DateFormat value="2024-02-04" dateStyle="medium" hideYear />
+        <DateFormat value="2024-02-04" dateStyle="medium" hideYear />,
       )
       const dateFormat = container.querySelector('.dnb-date-format')
       expect(dateFormat?.textContent).not.toContain('2024')
@@ -150,7 +150,7 @@ describe('DateFormat', () => {
       jest.useFakeTimers({ now: now.getTime() })
 
       render(
-        <DateFormat value="2025-08-01" dateStyle="long" hideCurrentYear />
+        <DateFormat value="2025-08-01" dateStyle="long" hideCurrentYear />,
       )
 
       const timeElem = document.querySelector('.dnb-date-format')
@@ -185,7 +185,7 @@ describe('DateFormat', () => {
           dateStyle="long"
           timeStyle="short"
           hideYear
-        />
+        />,
       )
 
       const timeElem = document.querySelector('.dnb-date-format')
@@ -228,7 +228,7 @@ describe('DateFormat', () => {
               value="2025-08-01"
               dateStyle="long"
               {...extraProps}
-            />
+            />,
           )
 
           const timeElem = document.querySelector('.dnb-date-format')
@@ -251,7 +251,7 @@ describe('DateFormat', () => {
             jest.useRealTimers()
           }
         }
-      }
+      },
     )
 
     it('should include time when `timeStyle` is provided', () => {
@@ -270,7 +270,7 @@ describe('DateFormat', () => {
           dateStyle="short"
           timeStyle="short"
           dateTimeSeparator=" - "
-        />
+        />,
       )
 
       const dateFormat = document.querySelector('.dnb-date-format')
@@ -285,7 +285,7 @@ describe('DateFormat', () => {
           locale="nb-NO"
           dateStyle="long"
           timeStyle="short"
-        />
+        />,
       )
 
       const dateFormat = document.querySelector('.dnb-date-format')
@@ -300,7 +300,7 @@ describe('DateFormat', () => {
           locale="en-GB"
           dateStyle="long"
           timeStyle="short"
-        />
+        />,
       )
       expect(dateFormat).toHaveTextContent('1 August 2025 at 14:30')
 
@@ -311,7 +311,7 @@ describe('DateFormat', () => {
           locale="en-US"
           dateStyle="long"
           timeStyle="short"
-        />
+        />,
       )
       expect(dateFormat).toHaveTextContent(/August 1, 2025 at 2:30\sPM/)
     })
@@ -327,7 +327,7 @@ describe('DateFormat', () => {
           dateStyle="long"
           timeStyle="short"
           hideYear
-        />
+        />,
       )
 
       const dateFormat = document.querySelector('.dnb-date-format')
@@ -343,7 +343,7 @@ describe('DateFormat', () => {
           dateStyle="long"
           timeStyle="short"
           hideYear
-        />
+        />,
       )
       expect(dateFormat).toHaveTextContent('1 August at 14:30')
 
@@ -358,7 +358,7 @@ describe('DateFormat', () => {
           dateStyle="short"
           timeStyle="short"
           dateTimeSeparator=""
-        />
+        />,
       )
 
       const dateFormat = document.querySelector('.dnb-date-format')
@@ -383,7 +383,7 @@ describe('DateFormat', () => {
           timeStyle="short"
           dateTimeSeparator=" – "
           locale="en-GB"
-        />
+        />,
       )
 
       const dateFormat = document.querySelector('.dnb-date-format')
@@ -415,7 +415,7 @@ describe('DateFormat', () => {
           timeStyle="short"
           dateTimeSeparator=" – "
           locale="en-GB"
-        />
+        />,
       )
 
       const dateFormat = document.querySelector('.dnb-date-format')
@@ -480,7 +480,7 @@ describe('DateFormat', () => {
       render(
         <DateFormat value="2025-08-01" dateStyle="full">
           2026-12-13
-        </DateFormat>
+        </DateFormat>,
       )
 
       const dateFormat = document.querySelector('.dnb-date-format')
@@ -544,7 +544,7 @@ describe('DateFormat', () => {
         const { rerender } = render(
           <DateFormat locale="en-GB" dateStyle="full">
             2025-08-04
-          </DateFormat>
+          </DateFormat>,
         )
 
         const dateFormat = document.querySelector('.dnb-date-format')
@@ -554,28 +554,28 @@ describe('DateFormat', () => {
         rerender(
           <DateFormat locale="en-US" dateStyle="full">
             2025-08-04
-          </DateFormat>
+          </DateFormat>,
         )
         expect(dateFormat).toHaveTextContent('Monday, August 4, 2025')
 
         rerender(
           <DateFormat locale="sv-SE" dateStyle="full">
             2025-08-04
-          </DateFormat>
+          </DateFormat>,
         )
         expect(dateFormat).toHaveTextContent('måndag 4 augusti 2025')
 
         rerender(
           <DateFormat locale="da-DK" dateStyle="full">
             2025-08-04
-          </DateFormat>
+          </DateFormat>,
         )
         expect(dateFormat).toHaveTextContent('mandag den 4. august 2025')
 
         rerender(
           <DateFormat locale="nb-NO" dateStyle="full">
             2025-08-04
-          </DateFormat>
+          </DateFormat>,
         )
         expect(dateFormat).toHaveTextContent('mandag 4. august 2025')
       })
@@ -584,7 +584,7 @@ describe('DateFormat', () => {
         const { rerender } = render(
           <Provider locale="en-GB">
             <DateFormat dateStyle="full">2025-08-04</DateFormat>
-          </Provider>
+          </Provider>,
         )
 
         const dateFormat = document.querySelector('.dnb-date-format')
@@ -596,7 +596,7 @@ describe('DateFormat', () => {
             <DateFormat locale="en-US" dateStyle="full">
               2025-08-04
             </DateFormat>
-          </Provider>
+          </Provider>,
         )
         expect(dateFormat).toHaveTextContent('Monday, August 4, 2025')
 
@@ -605,7 +605,7 @@ describe('DateFormat', () => {
             <DateFormat locale="sv-SE" dateStyle="full">
               2025-08-04
             </DateFormat>
-          </Provider>
+          </Provider>,
         )
         expect(dateFormat).toHaveTextContent('måndag 4 augusti 2025')
 
@@ -614,7 +614,7 @@ describe('DateFormat', () => {
             <DateFormat locale="da-DK" dateStyle="full">
               2025-08-04
             </DateFormat>
-          </Provider>
+          </Provider>,
         )
         expect(dateFormat).toHaveTextContent('mandag den 4. august 2025')
 
@@ -623,7 +623,7 @@ describe('DateFormat', () => {
             <DateFormat locale="nb-NO" dateStyle="full">
               2025-08-04
             </DateFormat>
-          </Provider>
+          </Provider>,
         )
         expect(dateFormat).toHaveTextContent('mandag 4. august 2025')
       })
@@ -646,7 +646,7 @@ describe('DateFormat', () => {
       it('should apply skeleton classes when skeleton prop is true', () => {
         const pastDate = new Date(Date.now() - 60 * 1000) // 1 minute ago
         render(
-          <DateFormat value={pastDate} relativeTime skeleton={true} />
+          <DateFormat value={pastDate} relativeTime skeleton={true} />,
         )
 
         const element = document.querySelector('.dnb-date-format')
@@ -665,7 +665,7 @@ describe('DateFormat', () => {
             relativeTime
             skeleton={true}
             top="2rem"
-          />
+          />,
         )
 
         const element = document.querySelector('.dnb-date-format')
@@ -739,7 +739,7 @@ describe('DateFormat', () => {
           dateStyle="long"
           locale="en-US"
           relativeTimeReference={() => referenceDate}
-        />
+        />,
       )
 
       const dateFormat = document.querySelector('.dnb-date-format')
@@ -755,7 +755,7 @@ describe('DateFormat', () => {
           dateStyle="long"
           locale="en-US"
           relativeTimeReference={() => referenceDate}
-        />
+        />,
       )
 
       const longText = dateFormat.textContent
@@ -789,11 +789,11 @@ describe('DateFormat', () => {
       // When tooltip is active, aria-describedby should point to the tooltip id
       const tooltipId = timeElem.getAttribute('aria-describedby')
       const tooltipElem = document.body.querySelector(
-        '#' + tooltipId
+        '#' + tooltipId,
       ).parentElement
 
       expect(Array.from(tooltipElem.classList)).toEqual(
-        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active'])
+        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active']),
       )
 
       fireEvent.mouseLeave(timeElem)
@@ -801,7 +801,7 @@ describe('DateFormat', () => {
       // Wait for tooltip to hide
       await waitFor(() => {
         expect(Array.from(tooltipElem.classList)).toEqual(
-          expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--hide'])
+          expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--hide']),
         )
       })
     })
@@ -812,7 +812,7 @@ describe('DateFormat', () => {
           value="2025-08-01T14:30:00"
           relativeTime
           timeStyle="short"
-        />
+        />,
       )
 
       const timeElem = document.querySelector('.dnb-date-format')
@@ -830,7 +830,7 @@ describe('DateFormat', () => {
       const tooltipElem = document.body.querySelector('#' + tooltipId)
 
       expect(tooltipElem).toHaveTextContent(
-        'fredag 1. august 2025 kl. 14:30'
+        'fredag 1. august 2025 kl. 14:30',
       )
     })
 
@@ -840,7 +840,7 @@ describe('DateFormat', () => {
           value={new Date(Date.now() - 24 * 60 * 60 * 1000)}
           relativeTime
           locale="en-GB"
-        />
+        />,
       )
 
       let dateFormat = document.querySelector('.dnb-date-format')
@@ -851,7 +851,7 @@ describe('DateFormat', () => {
           value={new Date(Date.now() - 24 * 60 * 60 * 1000)}
           relativeTime
           locale="nb-NO"
-        />
+        />,
       )
 
       dateFormat = document.querySelector('.dnb-date-format')
@@ -866,7 +866,7 @@ describe('DateFormat', () => {
           value={new Date(Date.now() - 24 * 60 * 60 * 1000)}
           relativeTime
           dateStyle="long"
-        />
+        />,
       )
 
       let dateFormat = document.querySelector('.dnb-date-format')
@@ -879,7 +879,7 @@ describe('DateFormat', () => {
           value={new Date(Date.now() - 24 * 60 * 60 * 1000)}
           relativeTime
           dateStyle="short"
-        />
+        />,
       )
 
       dateFormat = document.querySelector('.dnb-date-format')
@@ -892,7 +892,7 @@ describe('DateFormat', () => {
           value={new Date(Date.now() - 24 * 60 * 60 * 1000)}
           relativeTime
           dateStyle="medium"
-        />
+        />,
       )
 
       dateFormat = document.querySelector('.dnb-date-format')
@@ -915,7 +915,7 @@ describe('DateFormat', () => {
 
       // Test short style (should be most abbreviated)
       const { rerender } = render(
-        <DateFormat value={pastDate} relativeTime dateStyle="short" />
+        <DateFormat value={pastDate} relativeTime dateStyle="short" />,
       )
       let dateFormat = document.querySelector('.dnb-date-format')
       // Short style (narrow) should be most concise
@@ -923,7 +923,7 @@ describe('DateFormat', () => {
 
       // Test medium style (should be moderately abbreviated)
       rerender(
-        <DateFormat value={pastDate} relativeTime dateStyle="medium" />
+        <DateFormat value={pastDate} relativeTime dateStyle="medium" />,
       )
       dateFormat = document.querySelector('.dnb-date-format')
       // Medium style (short) should be moderately abbreviated
@@ -931,7 +931,7 @@ describe('DateFormat', () => {
 
       // Test long style (should be full words)
       rerender(
-        <DateFormat value={pastDate} relativeTime dateStyle="long" />
+        <DateFormat value={pastDate} relativeTime dateStyle="long" />,
       )
       dateFormat = document.querySelector('.dnb-date-format')
       // Long style should use full words
@@ -1040,7 +1040,7 @@ describe('DateFormat', () => {
     it('should cleanup timers when component unmounts', () => {
       const pastDate = new Date('2025-01-15T13:30:00Z') // 1 hour before reference
       const { unmount } = render(
-        <DateFormat value={pastDate} relativeTime />
+        <DateFormat value={pastDate} relativeTime />,
       )
 
       // Verify timer is running
@@ -1058,7 +1058,7 @@ describe('DateFormat', () => {
       const pastDate2 = new Date('2025-01-15T12:30:00Z') // 2 hours before reference
 
       const { rerender } = render(
-        <DateFormat value={pastDate1} relativeTime />
+        <DateFormat value={pastDate1} relativeTime />,
       )
 
       // Get initial timer calls
@@ -1081,7 +1081,7 @@ describe('DateFormat', () => {
       const pastDate = new Date('2025-01-15T13:30:00Z') // 1 hour before reference
 
       const { rerender } = render(
-        <DateFormat value={pastDate} relativeTime locale="nb-NO" />
+        <DateFormat value={pastDate} relativeTime locale="nb-NO" />,
       )
 
       // Get initial timer calls
@@ -1109,7 +1109,7 @@ describe('DateFormat', () => {
       ).mock.calls
 
       const hasRelativeTimeTimer = timerCalls.some(
-        ([, delay]) => typeof delay === 'number' && delay > 1000
+        ([, delay]) => typeof delay === 'number' && delay > 1000,
       )
       expect(hasRelativeTimeTimer).toBe(false)
     })
@@ -1122,7 +1122,7 @@ describe('DateFormat', () => {
       ).mock.calls
 
       const hasRelativeTimeTimer = timerCalls.some(
-        ([, delay]) => typeof delay === 'number' && delay > 1000
+        ([, delay]) => typeof delay === 'number' && delay > 1000,
       )
       expect(hasRelativeTimeTimer).toBe(false)
     })
@@ -1137,7 +1137,7 @@ describe('DateFormat', () => {
             value={pastDate}
             relativeTime
             relativeTimeReference={() => referenceDate}
-          />
+          />,
         )
 
         const dateFormat = document.querySelector('.dnb-date-format')
@@ -1155,7 +1155,7 @@ describe('DateFormat', () => {
             value={pastDate}
             relativeTime
             relativeTimeReference={() => referenceDate1}
-          />
+          />,
         )
 
         let dateFormat = document.querySelector('.dnb-date-format')
@@ -1166,7 +1166,7 @@ describe('DateFormat', () => {
             value={pastDate}
             relativeTime
             relativeTimeReference={() => referenceDate2}
-          />
+          />,
         )
 
         dateFormat = document.querySelector('.dnb-date-format')
@@ -1193,7 +1193,7 @@ describe('DateFormat', () => {
             value={pastDate}
             relativeTime
             relativeTimeReference={relativeTimeReferenceFn}
-          />
+          />,
         )
 
         // The relativeTimeReference function should be called for initial render and updates
@@ -1209,7 +1209,7 @@ describe('DateFormat', () => {
             value={futureDate}
             relativeTime
             relativeTimeReference={() => referenceDate}
-          />
+          />,
         )
 
         const dateFormat = document.querySelector('.dnb-date-format')
@@ -1239,7 +1239,7 @@ describe('DateFormat', () => {
             top="2rem"
             bottom="1rem"
             left="small"
-          />
+          />,
         )
 
         const element = document.querySelector('.dnb-date-format')
@@ -1256,7 +1256,7 @@ describe('DateFormat', () => {
       it('should apply skeleton classes when skeleton prop is true', () => {
         const pastDate = new Date('2025-01-15T13:30:00Z') // 1 hour before reference
         render(
-          <DateFormat value={pastDate} relativeTime skeleton={true} />
+          <DateFormat value={pastDate} relativeTime skeleton={true} />,
         )
 
         const element = document.querySelector('.dnb-date-format')
@@ -1275,7 +1275,7 @@ describe('DateFormat', () => {
             relativeTime
             skeleton={true}
             top="2rem"
-          />
+          />,
         )
 
         const element = document.querySelector('.dnb-date-format')
@@ -1302,7 +1302,7 @@ describe('DateFormat', () => {
       it('should validate', async () => {
         const pastDate = new Date('2025-01-15T14:30:00Z') // Static date for testing
         const Component = render(
-          <DateFormat value={pastDate} relativeTime />
+          <DateFormat value={pastDate} relativeTime />,
         )
         expect(await axeComponent(Component)).toHaveNoViolations()
       })
@@ -1359,7 +1359,7 @@ describe('DateFormat', () => {
 
       rerender(<DateFormat value="P1DT2H30M" />)
       expect(dateFormat).toHaveTextContent(
-        '1 døgn, 2 timer og 30 minutter'
+        '1 døgn, 2 timer og 30 minutter',
       )
     })
 
@@ -1381,7 +1381,7 @@ describe('DateFormat', () => {
 
     it('should respect locale for duration formatting', () => {
       const { rerender } = render(
-        <DateFormat value="PT2H30M" locale="nb-NO" />
+        <DateFormat value="PT2H30M" locale="nb-NO" />,
       )
       let dateFormat = document.querySelector('.dnb-date-format')
       expect(dateFormat).toHaveTextContent('2 timer og 30 minutter')
@@ -1411,7 +1411,7 @@ describe('DateFormat', () => {
       const { rerender } = render(
         <Provider locale="en-GB">
           <DateFormat value="PT2H30M" />
-        </Provider>
+        </Provider>,
       )
       let dateFormat = document.querySelector('.dnb-date-format')
       expect(dateFormat).toHaveTextContent('2 hours, 30 minutes')
@@ -1419,7 +1419,7 @@ describe('DateFormat', () => {
       rerender(
         <Provider locale="en-GB">
           <DateFormat value="P1DT2H30M" />
-        </Provider>
+        </Provider>,
       )
       dateFormat = document.querySelector('.dnb-date-format')
       expect(dateFormat).toHaveTextContent('1 day, 2 hours, 30 minutes')
@@ -1427,7 +1427,7 @@ describe('DateFormat', () => {
       rerender(
         <Provider locale="en-GB">
           <DateFormat value="P1W" />
-        </Provider>
+        </Provider>,
       )
       dateFormat = document.querySelector('.dnb-date-format')
       expect(dateFormat).toHaveTextContent('1 week')
@@ -1435,7 +1435,7 @@ describe('DateFormat', () => {
       rerender(
         <Provider locale="en-GB">
           <DateFormat value="P1M" />
-        </Provider>
+        </Provider>,
       )
       dateFormat = document.querySelector('.dnb-date-format')
       expect(dateFormat).toHaveTextContent('1 month')
@@ -1443,7 +1443,7 @@ describe('DateFormat', () => {
       rerender(
         <Provider locale="en-GB">
           <DateFormat value="P1Y" />
-        </Provider>
+        </Provider>,
       )
       dateFormat = document.querySelector('.dnb-date-format')
       expect(dateFormat).toHaveTextContent('1 year')
@@ -1451,7 +1451,7 @@ describe('DateFormat', () => {
 
     it('should fallback to English for unsupported locales gracefully', () => {
       const { rerender } = render(
-        <DateFormat value="PT2H30M" locale="xx-XX" />
+        <DateFormat value="PT2H30M" locale="xx-XX" />,
       )
       let dateFormat = document.querySelector('.dnb-date-format')
       expect(dateFormat).toHaveTextContent('2 hours, 30 minutes')
@@ -1503,7 +1503,7 @@ describe('DateFormat', () => {
 
       const dateFormat = document.querySelector('.dnb-date-format')
       expect(dateFormat).toHaveTextContent(
-        'Ugyldig dato: invalid-duration'
+        'Ugyldig dato: invalid-duration',
       )
 
       rerender(<DateFormat value="PT" />)
@@ -1562,7 +1562,7 @@ describe('DateFormat', () => {
 
       rerender(<DateFormat value="P1Y6M2W3DT4H30M" />)
       expect(dateFormat).toHaveTextContent(
-        '1 år, 6 måneder, 2 uker, 3 døgn, 4 timer og 30 minutter'
+        '1 år, 6 måneder, 2 uker, 3 døgn, 4 timer og 30 minutter',
       )
     })
 
@@ -1615,7 +1615,7 @@ describe('DateFormat', () => {
       rerender(<DateFormat value="P1DT2H30M" />)
       dateFormat = document.querySelector('.dnb-date-format')
       expect(dateFormat).toHaveTextContent(
-        '1 døgn, 2 timer og 30 minutter'
+        '1 døgn, 2 timer og 30 minutter',
       )
     })
 
@@ -1641,7 +1641,7 @@ describe('DateFormat', () => {
       // The output depends on the current date and locale, so we'll check for a relative time pattern
       // This should match patterns like "in X days", "for X uker siden", "om X dager", etc.
       expect(dateFormat.textContent).toMatch(
-        /^(?:in |for |om )?\d+ (?:days?|dager?|dag|uker?|uke|weeks?|months?|måned(er)?|years?|år)(?:\s+(?:siden|ago))?$/
+        /^(?:in |for |om )?\d+ (?:days?|dager?|dag|uker?|uke|weeks?|months?|måned(er)?|years?|år)(?:\s+(?:siden|ago))?$/,
       )
     })
 
@@ -1672,7 +1672,7 @@ describe('DateFormat', () => {
     describe('ARIA', () => {
       it('should validate', async () => {
         const Component = render(
-          <DateFormat value="PT2H30M" dateStyle="long" />
+          <DateFormat value="PT2H30M" dateStyle="long" />,
         )
         expect(await axeComponent(Component)).toHaveNoViolations()
       })

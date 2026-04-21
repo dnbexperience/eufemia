@@ -17,7 +17,7 @@ export function verifyFiles(
     | 'errorLargeFile'
     | 'acceptedFileTypes'
     | 'fileMaxSize'
-  >
+  >,
 ) {
   const {
     fileMaxSize,
@@ -28,7 +28,7 @@ export function verifyFiles(
 
   const getFileType = (
     file: File,
-    listOfAcceptedFilesTypes: UploadAcceptedFiles
+    listOfAcceptedFilesTypes: UploadAcceptedFiles,
   ) => {
     return hasPreferredMimeType(listOfAcceptedFilesTypes, file)
       ? file.type
@@ -38,7 +38,7 @@ export function verifyFiles(
   const handleSize = (file: File) => {
     const validateFileSize = (
       fileSize: number,
-      maxFileSize: number | false
+      maxFileSize: number | false,
     ) => {
       if (
         maxFileSize &&
@@ -47,7 +47,7 @@ export function verifyFiles(
       ) {
         return String(errorLargeFile).replace(
           '%size',
-          formatNumber(maxFileSize).toString()
+          formatNumber(maxFileSize).toString(),
         )
       }
       return null
@@ -62,7 +62,7 @@ export function verifyFiles(
     } else if (isArrayOfObjects(acceptedFileTypes)) {
       const fileType = getFileType(
         file,
-        getAcceptedFileTypesAsListOfStrings(acceptedFileTypes)
+        getAcceptedFileTypesAsListOfStrings(acceptedFileTypes),
       )
 
       const acceptedFileTypeObj = (
@@ -75,7 +75,7 @@ export function verifyFiles(
         file.size,
         acceptedFileTypeObj?.fileMaxSize !== undefined
           ? acceptedFileTypeObj.fileMaxSize
-          : fileMaxSize
+          : fileMaxSize,
       )
     }
     return null
@@ -90,7 +90,7 @@ export function verifyFiles(
       getAcceptedFileTypesAsListOfStrings(acceptedFileTypes)
     const fileType = getFileType(file, listOfAcceptedFilesTypes)
     const foundType = extendWithAbbreviation(
-      listOfAcceptedFilesTypes
+      listOfAcceptedFilesTypes,
     ).some((type) => {
       /**
        * "file.type" can be e.g. "image/png"
@@ -128,10 +128,10 @@ export function getFileTypeFromExtension(file: File) {
 export function getAcceptedFileTypes(
   acceptedFileTypes:
     | UploadAcceptedFiles
-    | UploadAcceptedFileTypesWithFileMaxSize
+    | UploadAcceptedFileTypesWithFileMaxSize,
 ) {
   return extendWithAbbreviation(
-    getAcceptedFileTypesAsListOfStrings(acceptedFileTypes)
+    getAcceptedFileTypesAsListOfStrings(acceptedFileTypes),
   )
     .map((type) => (type.includes('/') ? type : `.${type}`))
     .join(',')
@@ -139,13 +139,13 @@ export function getAcceptedFileTypes(
 
 export function hasPreferredMimeType(
   acceptedFileTypes: UploadAcceptedFiles,
-  file: File
+  file: File,
 ) {
   return (
     file.type.split('/')[1] &&
     (!acceptedFileTypes?.length ||
       acceptedFileTypes?.some(
-        (type) => type.toLowerCase() === file.type.toLowerCase()
+        (type) => type.toLowerCase() === file.type.toLowerCase(),
       ))
   )
 }
@@ -153,12 +153,12 @@ export function hasPreferredMimeType(
 function getAcceptedFileTypesAsListOfStrings(
   acceptedFileTypes:
     | UploadAcceptedFiles
-    | UploadAcceptedFileTypesWithFileMaxSize
+    | UploadAcceptedFileTypesWithFileMaxSize,
 ) {
   return isArrayOfStrings(acceptedFileTypes)
     ? (acceptedFileTypes as UploadAcceptedFiles)
     : (acceptedFileTypes as UploadAcceptedFileTypesWithFileMaxSize).map(
-        (obj) => obj.fileType
+        (obj) => obj.fileType,
       )
 }
 
@@ -180,7 +180,7 @@ export function isArrayOfObjects(arr) {
 
 export function extendWithAbbreviation(
   acceptedFileTypes: UploadAcceptedFiles,
-  abbreviations = { jpg: 'jpeg' }
+  abbreviations = { jpg: 'jpeg' },
 ) {
   const list = [...acceptedFileTypes]
   const listSet = new Set(list)

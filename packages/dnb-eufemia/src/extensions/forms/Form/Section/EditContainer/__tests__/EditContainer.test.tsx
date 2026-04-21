@@ -13,15 +13,15 @@ describe('EditContainer', () => {
         <Form.Section.EditContainer>
           Edit Content
         </Form.Section.EditContainer>
-      </Form.Section>
+      </Form.Section>,
     )
 
     expect(document.querySelectorAll('button')).toHaveLength(2)
     expect(document.querySelectorAll('button')[0]).toHaveTextContent(
-      nb.SectionEditContainer.doneButton
+      nb.SectionEditContainer.doneButton,
     )
     expect(document.querySelectorAll('button')[1]).toHaveTextContent(
-      nb.SectionEditContainer.cancelButton
+      nb.SectionEditContainer.cancelButton,
     )
   })
 
@@ -32,7 +32,7 @@ describe('EditContainer', () => {
           Edit Content
           <Toolbar>no button</Toolbar>
         </Form.Section.EditContainer>
-      </Form.Section>
+      </Form.Section>,
     )
 
     expect(document.querySelectorAll('button')).toHaveLength(0)

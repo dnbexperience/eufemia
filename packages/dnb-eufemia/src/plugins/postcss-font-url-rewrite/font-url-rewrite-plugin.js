@@ -80,7 +80,7 @@ function postcssFontUrlRewrite(opts = {}) {
               const filename = path.posix.basename(subPath)
               const cleaned = filename.replace(
                 /-[a-f0-9]{6,}(?=\.[^.]+$)/,
-                ''
+                '',
               )
               const dir = path.posix.dirname(subPath)
 
@@ -99,7 +99,7 @@ function postcssFontUrlRewrite(opts = {}) {
               if (verbose)
                 console.log(`Rewriting: ${urlStr} → ${finalUrl}`)
               return `url("${finalUrl}")`
-            }
+            },
           )
         })
       },

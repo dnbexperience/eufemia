@@ -13,11 +13,11 @@ describe('Toolbar', () => {
     render(
       <IterateItemContext value={{}}>
         <Toolbar top="large">content</Toolbar>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     expect(
-      document.querySelector('.dnb-forms-iterate-toolbar')
+      document.querySelector('.dnb-forms-iterate-toolbar'),
     ).toHaveClass('dnb-space__top--large')
   })
 
@@ -31,7 +31,7 @@ describe('Toolbar', () => {
     render(
       <ArrayItemAreaContext value={{ toolbarVariant: 'custom' }}>
         <Toolbar>content</Toolbar>
-      </ArrayItemAreaContext>
+      </ArrayItemAreaContext>,
     )
 
     expect(document.querySelector('.dnb-hr')).not.toBeInTheDocument()
@@ -41,7 +41,7 @@ describe('Toolbar', () => {
     render(
       <ArrayItemAreaContext value={{ divider: 'line' }}>
         <Toolbar>content</Toolbar>
-      </ArrayItemAreaContext>
+      </ArrayItemAreaContext>,
     )
 
     expect(document.querySelector('.dnb-hr')).not.toBeInTheDocument()
@@ -51,11 +51,11 @@ describe('Toolbar', () => {
     render(
       <IterateItemContext value={{}}>
         <Toolbar />
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     expect(
-      document.querySelector('.dnb-forms-iterate-toolbar')
+      document.querySelector('.dnb-forms-iterate-toolbar'),
     ).not.toBeInTheDocument()
   })
 
@@ -67,7 +67,7 @@ describe('Toolbar', () => {
         <Toolbar>
           <RemoveButton />
         </Toolbar>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -86,7 +86,7 @@ describe('Toolbar', () => {
           <Toolbar>
             <RemoveButton />
           </Toolbar>
-        </IterateItemContext>
+        </IterateItemContext>,
       )
 
       const buttons = document.querySelectorAll('button')
@@ -105,7 +105,7 @@ describe('Toolbar', () => {
           <Toolbar>
             <RemoveButton />
           </Toolbar>
-        </IterateItemContext>
+        </IterateItemContext>,
       )
 
       const buttons = document.querySelectorAll('button')

@@ -19,7 +19,7 @@ type MenuCardProps = {
   title: React.ReactNode
   about: React.ReactNode
   icon: (
-    props?: React.HTMLAttributes<React.JSX.Element>
+    props?: React.HTMLAttributes<React.JSX.Element>,
   ) => React.JSX.Element
 }
 
@@ -41,7 +41,7 @@ export default function MenuCard(props: MenuCardProps) {
         className={clsx(
           linkStyle,
           'dnb-anchor--no-style',
-          isSelected() && 'current-card'
+          isSelected() && 'current-card',
         )}
         to={url}
         aria-current={isSelected()}

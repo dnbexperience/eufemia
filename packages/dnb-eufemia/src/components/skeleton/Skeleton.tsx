@@ -94,10 +94,10 @@ function Skeleton(props: SkeletonProps) {
           noAnimation: (ctx as Record<string, unknown>)
             .skeletonNoAnimation,
         },
-        ctx.getTranslation(propsToExtend).Skeleton
+        ctx.getTranslation(propsToExtend).Skeleton,
       )
     },
-    [props, context]
+    [props, context],
   )
 
   const updateAriaLive = React.useCallback(() => {
@@ -160,7 +160,7 @@ function Skeleton(props: SkeletonProps) {
       figure ? 'dnb-skeleton__figure' : 'dnb-skeleton__root',
       showSkeleton && 'dnb-skeleton',
       noAnimation && 'dnb-skeleton--no-animation',
-      className
+      className,
     ),
     // role: 'status',// is not needed as for now
     'aria-busy': showSkeleton,

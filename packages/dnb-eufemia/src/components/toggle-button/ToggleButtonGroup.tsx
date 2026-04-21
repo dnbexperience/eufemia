@@ -70,7 +70,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
   const _name = useId(ownProps.name)
 
   const [value, setValue] = useState<ToggleButtonGroupValue | undefined>(
-    ownProps.value
+    ownProps.value,
   )
   const [values, setValues] = useState<
     ToggleButtonGroupValue[] | undefined
@@ -79,7 +79,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
   const [prevPropsValues, setPrevPropsValues] = useState(ownProps.values)
 
   const prevContextRef = useRef<Record<string, unknown> | undefined>(
-    undefined
+    undefined,
   )
 
   const ownPropsRef = useRef(ownProps)
@@ -133,10 +133,10 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
           value: newValue,
           values: currentValues,
           event,
-        }
+        },
       )
     },
-    []
+    [],
   )
 
   const resolvedProps = {
@@ -157,7 +157,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
     (context as Record<string, unknown>).ToggleButtonGroup as Record<
       string,
       unknown
-    >
+    >,
   )
 
   const {
@@ -199,7 +199,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
       !label && 'dnb-toggle-button-group--no-label',
       `dnb-toggle-button-group--${layoutDirection}`,
       'dnb-form-component',
-      className
+      className,
     ),
   })
 
@@ -211,7 +211,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
     params['aria-describedby'] = combineDescribedBy(
       params,
       showStatus ? id + '-status' : null,
-      suffix ? id + '-suffix' : null
+      suffix ? id + '-suffix' : null,
     )
   }
   if (label) {
@@ -226,8 +226,8 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
       contextArg:
         | Record<string, unknown>
         | ((
-            prevContext: Record<string, unknown> | undefined
-          ) => Record<string, unknown>)
+            prevContext: Record<string, unknown> | undefined,
+          ) => Record<string, unknown>),
     ) => {
       let resolved: Record<string, unknown>
       if (typeof contextArg === 'function') {
@@ -244,7 +244,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
         setValues(resolved.values as ToggleButtonGroupValue[])
       }
     },
-    []
+    [],
   )
 
   const groupContext = {
@@ -313,7 +313,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
               <span
                 className={clsx(
                   'dnb-toggle-button-group__shell__children',
-                  `dnb-toggle-button-group__shell__children--${layoutDirection}`
+                  `dnb-toggle-button-group__shell__children--${layoutDirection}`,
                 )}
               >
                 {children as React.ReactNode}

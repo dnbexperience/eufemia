@@ -112,7 +112,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   } = extendPropsWithContext(
     localProps,
     defaultProps,
-    context?.BreadcrumbItem
+    context?.BreadcrumbItem,
   )
 
   const itemNo = itemNoProp ?? breadcrumbItemContext?.itemNo

@@ -8,10 +8,10 @@ describe('Flex.Vertical', () => {
     render(<Flex.Vertical aria-label="Aria Label">content</Flex.Vertical>)
 
     const element = document.querySelector(
-      '.dnb-flex-container--direction-vertical'
+      '.dnb-flex-container--direction-vertical',
     )
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toContain('aria-label')
@@ -20,10 +20,10 @@ describe('Flex.Vertical', () => {
 
   it('should support spacing props', () => {
     const { rerender } = render(
-      <Flex.Vertical top="large">content</Flex.Vertical>
+      <Flex.Vertical top="large">content</Flex.Vertical>,
     )
     const element = document.querySelector(
-      '.dnb-flex-container--direction-vertical'
+      '.dnb-flex-container--direction-vertical',
     )
 
     expect(element.classList).toContain('dnb-space__top--large')
@@ -37,7 +37,7 @@ describe('Flex.Vertical', () => {
     render(<Flex.Vertical className="custom-class">content</Flex.Vertical>)
 
     const element = document.querySelector(
-      '.dnb-flex-container--direction-vertical'
+      '.dnb-flex-container--direction-vertical',
     )
 
     expect(Array.from(element.classList)).toEqual([
@@ -59,15 +59,15 @@ describe('Flex.Vertical', () => {
         <Card>Content 1</Card>
         <Card>Content 2</Card>
         <Card>Content 3</Card>
-      </Flex.Vertical>
+      </Flex.Vertical>,
     )
 
     const element = document.querySelector(
-      '.dnb-flex-container--direction-vertical'
+      '.dnb-flex-container--direction-vertical',
     )
     const children = element.children
     const childrenTextContents = Array.from(children).map((child) =>
-      child.textContent.replace(/[\u200C]/g, '')
+      child.textContent.replace(/[\u200C]/g, ''),
     )
 
     expect(children.length).toEqual(3)
@@ -84,11 +84,11 @@ describe('Flex.Vertical', () => {
         <Card>Content 1</Card>
         <Card>Content 2</Card>
         <Card>Content 3</Card>
-      </Flex.Vertical>
+      </Flex.Vertical>,
     )
 
     const element = document.querySelector(
-      '.dnb-flex-container--direction-vertical'
+      '.dnb-flex-container--direction-vertical',
     )
     const children = element.children
 

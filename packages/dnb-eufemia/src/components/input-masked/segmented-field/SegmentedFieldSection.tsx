@@ -74,7 +74,7 @@ export default function SegmentedFieldSection({
     (element: HTMLSpanElement | null) => {
       sectionRefs.current[inputId] = element
     },
-    [inputId, sectionRefs]
+    [inputId, sectionRefs],
   )
 
   useLayoutEffect(() => {
@@ -122,7 +122,7 @@ export default function SegmentedFieldSection({
 
     setSectionCaret(
       inputId,
-      caretPositionsRef.current[inputId] ?? displayValue.length
+      caretPositionsRef.current[inputId] ?? displayValue.length,
     )
   }, [
     caretPositionsRef,
@@ -140,11 +140,11 @@ export default function SegmentedFieldSection({
     (nextValue: string) => {
       caretPositionsRef.current[inputId] = Math.min(
         caretPositionsRef.current[inputId] ?? 0,
-        nextValue.length
+        nextValue.length,
       )
       onChange(inputId, nextValue)
     },
-    [caretPositionsRef, inputId, onChange]
+    [caretPositionsRef, inputId, onChange],
   )
 
   const stepSpinButton = useCallback(
@@ -204,7 +204,7 @@ export default function SegmentedFieldSection({
       spinButton,
       updateValue,
       valuesRef,
-    ]
+    ],
   )
 
   const getNextSectionId = useCallback(
@@ -214,7 +214,7 @@ export default function SegmentedFieldSection({
         withinGroup = false,
       }: {
         withinGroup?: boolean
-      } = {}
+      } = {},
     ) => {
       const current = sectionRefs.current[inputId]
 
@@ -224,7 +224,7 @@ export default function SegmentedFieldSection({
 
       const root = withinGroup
         ? (current.closest(
-            '.dnb-segmented-field__group'
+            '.dnb-segmented-field__group',
           ) as HTMLElement | null) || undefined
         : scopeRef.current || undefined
       const sections = listAllSections(root)
@@ -240,7 +240,7 @@ export default function SegmentedFieldSection({
 
       return sections[index + 1]?.dataset.segmentedInputId
     },
-    [inputId, scopeRef, sectionRefs]
+    [inputId, scopeRef, sectionRefs],
   )
 
   const focusAdjacentSection = useCallback(
@@ -268,7 +268,7 @@ export default function SegmentedFieldSection({
       target.focus()
       return true
     },
-    [inputId, scopeRef, sectionRefs]
+    [inputId, scopeRef, sectionRefs],
   )
 
   const replaceWithChar = useCallback(
@@ -293,7 +293,7 @@ export default function SegmentedFieldSection({
 
         if (nextSectionId) {
           const nextMask = inputs.find(
-            ({ id }) => id === nextSectionId
+            ({ id }) => id === nextSectionId,
           )?.mask
           if (!nextMask?.[0]?.test(char)) {
             return false
@@ -321,7 +321,7 @@ export default function SegmentedFieldSection({
               key: char,
               bubbles: true,
               cancelable: true,
-            })
+            }),
           )
 
           return true
@@ -370,7 +370,7 @@ export default function SegmentedFieldSection({
       setSectionCaret,
       updateValue,
       valuesRef,
-    ]
+    ],
   )
 
   const sectionProps = useMemo(
@@ -378,7 +378,7 @@ export default function SegmentedFieldSection({
       ...pickSectionDomProps(htmlProps),
       ...pickSectionDomProps(sharedProps),
     }),
-    [htmlProps, sharedProps]
+    [htmlProps, sharedProps],
   )
 
   const handlePaste = useCallback(
@@ -390,7 +390,7 @@ export default function SegmentedFieldSection({
       handledPasteTimestampRef.current = event.timeStamp
 
       onPasteExternal?.(
-        event as unknown as React.ClipboardEvent<HTMLInputElement>
+        event as unknown as React.ClipboardEvent<HTMLInputElement>,
       )
 
       if (event.defaultPrevented) {
@@ -436,7 +436,7 @@ export default function SegmentedFieldSection({
       } else {
         setSectionCaret(
           inputId,
-          Math.min(nextValues[inputId].length, mask.length)
+          Math.min(nextValues[inputId].length, mask.length),
         )
       }
     },
@@ -449,7 +449,7 @@ export default function SegmentedFieldSection({
       onPasteExternal,
       setSectionCaret,
       valuesRef,
-    ]
+    ],
   )
 
   const clearWholeGroup = useCallback(() => {
@@ -495,7 +495,7 @@ export default function SegmentedFieldSection({
           'dnb-input__input',
           'dnb-segmented-field__section',
           hasTypedValue && 'dnb-segmented-field__section--highlight',
-          className
+          className,
         )}
         data-segmented-input-id={inputId}
         /**
@@ -716,7 +716,7 @@ export default function SegmentedFieldSection({
         }}
         onCopy={(event) => {
           onCopyExternal?.(
-            event as unknown as React.ClipboardEvent<HTMLInputElement>
+            event as unknown as React.ClipboardEvent<HTMLInputElement>,
           )
 
           if (event.defaultPrevented) {
@@ -726,7 +726,7 @@ export default function SegmentedFieldSection({
           event.preventDefault()
           event.clipboardData.setData(
             'text/plain',
-            joinValues(valuesRef.current, groupDelimiter)
+            joinValues(valuesRef.current, groupDelimiter),
           )
         }}
         onPasteCapture={handlePaste}
@@ -740,7 +740,7 @@ export default function SegmentedFieldSection({
           aria-hidden
           className={clsx(
             'dnb-segmented-field__delimiter',
-            hasTypedValue && 'dnb-segmented-field__delimiter--highlight'
+            hasTypedValue && 'dnb-segmented-field__delimiter--highlight',
           )}
         >
           {delimiter}

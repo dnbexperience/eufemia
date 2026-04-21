@@ -34,7 +34,7 @@ function UploadFileList() {
 
   const removeFile = (fileToBeRemoved: UploadFile) => {
     return filesRef.current.filter(
-      (fileListElement) => !fileIsSame(fileListElement, fileToBeRemoved)
+      (fileListElement) => !fileIsSame(fileListElement, fileToBeRemoved),
     )
   }
 
@@ -47,7 +47,7 @@ function UploadFileList() {
 
   const updateFile = (
     fileToBeUpdated: UploadFile,
-    props: Partial<UploadFile>
+    props: Partial<UploadFile>,
   ) => {
     return filesRef.current.map((fileListElement: UploadFile) => {
       return fileIsSame(fileListElement, fileToBeUpdated)
@@ -73,7 +73,7 @@ function UploadFileList() {
       updateFile(uploadFile, {
         isLoading: true,
         errorMessage: null,
-      })
+      }),
     )
 
     try {
@@ -85,7 +85,7 @@ function UploadFileList() {
           isLoading: false,
           errorMessage:
             error instanceof Error ? error.message : String(error),
-        })
+        }),
       )
     }
   }
@@ -94,7 +94,7 @@ function UploadFileList() {
     updateFiles(
       updateFile(uploadFile, {
         isLoading: true,
-      })
+      }),
     )
 
     try {
@@ -106,7 +106,7 @@ function UploadFileList() {
     updateFiles(
       updateFile(uploadFile, {
         isLoading: false,
-      })
+      }),
     )
   }
 

@@ -38,7 +38,7 @@ export const ThemeBasis = () => (
 
       const Demo = () => {
         const [name, setName] = React.useState<ThemeNames>(
-          'dnb' as ThemeNames
+          'dnb' as ThemeNames,
         )
 
         return (

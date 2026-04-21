@@ -11,19 +11,19 @@ describe('runScreenshotsConditionally runner cli options', () => {
 
   it('supports uncommitted shortcut', () => {
     expect(resolveCliOptions(['--uncommitted']).changedFilesMode).toBe(
-      'uncommitted'
+      'uncommitted',
     )
   })
 
   it('supports explicit changes flag using equals syntax', () => {
     expect(resolveCliOptions(['--changes=branch']).changedFilesMode).toBe(
-      'branch'
+      'branch',
     )
   })
 
   it('supports explicit changes flag using value syntax', () => {
     expect(
-      resolveCliOptions(['--changes', 'uncommitted']).changedFilesMode
+      resolveCliOptions(['--changes', 'uncommitted']).changedFilesMode,
     ).toBe('uncommitted')
   })
 

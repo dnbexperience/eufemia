@@ -145,7 +145,7 @@ function PaymentCard(props: PaymentCardProps) {
     },
     paymentCardDefaultProps,
     { locale: context.locale },
-    { skeleton: context?.skeleton }
+    { skeleton: context?.skeleton },
   )
 
   const {
@@ -172,7 +172,7 @@ function PaymentCard(props: PaymentCardProps) {
       `dnb-payment-card--${variant}`,
       createSkeletonClass(null, skeleton, context),
       className,
-      _className
+      _className,
     ),
     ...attributes,
   })
@@ -227,7 +227,7 @@ function PaymentCardContent({
       ...removeUndefinedProps({ ...props }),
     },
     translationDefaultPropsProps,
-    translation.PaymentCard
+    translation.PaymentCard,
   )
 
   return (
@@ -243,7 +243,7 @@ function PaymentCardContent({
         cardStatus={cardStatus}
         cardNumber={formatCardNumber(
           cardNumber,
-          parseFloat(String(digits))
+          parseFloat(String(digits)),
         )}
         translations={translations}
       />
@@ -255,7 +255,7 @@ export default PaymentCard
 
 export const getCardData = (productCode) => {
   const card = cardProducts.find(
-    (item) => item.productCode === productCode
+    (item) => item.productCode === productCode,
   )
   return card || defaultCard(productCode)
 }

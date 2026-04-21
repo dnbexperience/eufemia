@@ -38,7 +38,7 @@ function Root(props: RootProps) {
   }
   if (hasLabel && !hasValidLabelContentOrder(children)) {
     warn(
-      'Stat.Root: every Stat.Content should be preceded by a Stat.Label for valid dt/dd pairing.'
+      'Stat.Root: every Stat.Content should be preceded by a Stat.Label for valid dt/dd pairing.',
     )
   }
 
@@ -52,7 +52,7 @@ function Root(props: RootProps) {
           'dnb-stat',
           'dnb-stat__root',
           `dnb-stat__root--${visualOrder}`,
-          className
+          className,
         )}
         {...rest}
       >
@@ -68,7 +68,7 @@ export default Root
 
 function hasOnlySupportedChildren(children: React.ReactNode): boolean {
   return React.Children.toArray(children).every((child) =>
-    isSupportedChild(child)
+    isSupportedChild(child),
   )
 }
 
@@ -83,7 +83,7 @@ function isSupportedChild(child: React.ReactNode): boolean {
 
   if (child.type === React.Fragment) {
     return hasOnlySupportedChildren(
-      (child as React.ReactElement<any>).props.children
+      (child as React.ReactElement<any>).props.children,
     )
   }
 
@@ -93,7 +93,7 @@ function isSupportedChild(child: React.ReactNode): boolean {
 
 function hasRequiredLabel(children: React.ReactNode): boolean {
   return React.Children.toArray(children).some((child) =>
-    hasLabelChild(child)
+    hasLabelChild(child),
   )
 }
 
@@ -104,7 +104,7 @@ function hasLabelChild(child: React.ReactNode): boolean {
 
   if (child.type === React.Fragment) {
     return hasRequiredLabel(
-      (child as React.ReactElement<any>).props.children
+      (child as React.ReactElement<any>).props.children,
     )
   }
 
@@ -113,7 +113,7 @@ function hasLabelChild(child: React.ReactNode): boolean {
 }
 
 function flattenRoles(
-  children: React.ReactNode
+  children: React.ReactNode,
 ): Array<'label' | 'content'> {
   const roles: Array<'label' | 'content'> = []
 
@@ -124,7 +124,7 @@ function flattenRoles(
 
     if (child.type === React.Fragment) {
       roles.push(
-        ...flattenRoles((child as React.ReactElement<any>).props.children)
+        ...flattenRoles((child as React.ReactElement<any>).props.children),
       )
       continue
     }

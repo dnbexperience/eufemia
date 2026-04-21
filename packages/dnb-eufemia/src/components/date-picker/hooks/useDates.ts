@@ -30,7 +30,7 @@ export type DatePickerDates = {
 
 export default function useDates(
   dateProps: DatePickerDateProps,
-  { dateFormat, isRange = false }: UseDatesOptions
+  { dateFormat, isRange = false }: UseDatesOptions,
 ) {
   const [previousDateProps, setPreviousDateProps] = useState(dateProps)
   const [dates, setDates] = useState<DatePickerDates>({
@@ -68,7 +68,7 @@ export default function useDates(
 
         return dateProp !== previousDate
       }),
-    [dateProps, previousDateProps, dateFormat]
+    [dateProps, previousDateProps, dateFormat],
   )
 
   // Update dates on prop change
@@ -88,7 +88,7 @@ export default function useDates(
   const updateDates = useCallback(
     (
       newDates: DatePickerDates,
-      callback?: (dates: DatePickerDates) => void
+      callback?: (dates: DatePickerDates) => void,
     ) => {
       const currentDates = datesRef.current
 
@@ -110,7 +110,7 @@ export default function useDates(
 
       callback?.(nextDates)
     },
-    []
+    [],
   )
 
   return {
@@ -122,7 +122,7 @@ export default function useDates(
 
 function mapDates(
   dateProps: DatePickerDateProps,
-  { dateFormat, isRange }: Omit<UseDatesOptions, 'isLinked'>
+  { dateFormat, isRange }: Omit<UseDatesOptions, 'isLinked'>,
 ) {
   const date = dateProps.date
 
@@ -298,7 +298,7 @@ function getDate(date: DatePickerDateType, dateFormat: string) {
 
 function getStartDate(
   dateProps: DatePickerDateProps,
-  previousDateProps: DatePickerDateProps
+  previousDateProps: DatePickerDateProps,
 ) {
   // prioritize startDate over date if provided
   if (

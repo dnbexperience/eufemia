@@ -69,7 +69,7 @@ export type AmountProps = Omit<
 
 const renderAffix = (
   resolved: NumberFormatProps['prefix'] | NumberFormatProps['suffix'],
-  className: string
+  className: string,
 ) => {
   if (typeof resolved === 'function') {
     resolved = resolved()
@@ -176,7 +176,7 @@ function AmountBase(props: AmountProps) {
     auxiliarySize ?? fontSize ?? defaultFontSize
   const resolvedMainLineHeight = getHeadingLineHeightSize(resolvedMainSize)
   const resolvedAuxiliaryLineHeight = getHeadingLineHeightSize(
-    resolvedAuxiliarySize
+    resolvedAuxiliarySize,
   )
   const resolvedMainWeight = mainWeight ?? defaultMainWeight ?? 'medium'
   const resolvedAuxWeight =
@@ -191,19 +191,19 @@ function AmountBase(props: AmountProps) {
     'dnb-stat__currency',
     `dnb-t__size--${resolvedAuxiliarySize}`,
     `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
-    resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
+    resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`,
   )
   const amountClass = clsx(
     'dnb-stat__amount',
     `dnb-t__size--${resolvedMainSize}`,
     `dnb-t__line-height--${resolvedMainLineHeight}`,
-    `dnb-t__weight--${resolvedMainWeight}`
+    `dnb-t__weight--${resolvedMainWeight}`,
   )
   const percentClass = clsx(
     'dnb-stat__percent',
     `dnb-t__size--${resolvedAuxiliarySize}`,
     `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
-    resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
+    resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`,
   )
 
   let content = (
@@ -215,7 +215,7 @@ function AmountBase(props: AmountProps) {
               'dnb-stat__sign',
               `dnb-t__size--${resolvedMainSize}`,
               `dnb-t__line-height--${resolvedMainLineHeight}`,
-              `dnb-t__weight--${resolvedMainWeight}`
+              `dnb-t__weight--${resolvedMainWeight}`,
             )}
           >
             {renderSign}
@@ -262,8 +262,8 @@ function AmountBase(props: AmountProps) {
         'dnb-stat__prefix',
         `dnb-t__size--${resolvedAuxiliarySize}`,
         `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
-        resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
-      )
+        resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`,
+      ),
     )
     content = (
       <>
@@ -280,8 +280,8 @@ function AmountBase(props: AmountProps) {
         'dnb-stat__suffix',
         `dnb-t__size--${resolvedAuxiliarySize}`,
         `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
-        resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
-      )
+        resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`,
+      ),
     )
     const suffixSpace =
       typeof suffix === 'string' && suffix.startsWith('/') ? '' : ' '

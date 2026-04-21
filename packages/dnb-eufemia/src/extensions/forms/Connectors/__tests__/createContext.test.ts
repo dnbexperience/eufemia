@@ -40,7 +40,7 @@ describe('createContext', () => {
           url: 'https://example.com',
         },
       },
-      undefined
+      undefined,
     )
   })
 
@@ -69,7 +69,7 @@ describe('createContext', () => {
           },
         },
       },
-      undefined
+      undefined,
     )
   })
 
@@ -102,7 +102,7 @@ describe('createContext', () => {
             parameters,
           })
         }
-      }
+      },
     )
 
     const validator = withConfig(connector, {
@@ -116,7 +116,7 @@ describe('createContext', () => {
           url: expect.any(Function),
         },
       },
-      { countryCode: 'SE' }
+      { countryCode: 'SE' },
     )
 
     await validator()
@@ -198,7 +198,7 @@ describe('additional tests', () => {
     expect(mockAdditionalArgs.setFieldEventListener).toHaveBeenCalledWith(
       '/SE',
       'onPathChange',
-      expect.any(Function)
+      expect.any(Function),
     )
   })
 

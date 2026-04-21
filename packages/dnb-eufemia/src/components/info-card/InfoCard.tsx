@@ -134,7 +134,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
     {
       skeleton: context?.skeleton,
     },
-    context?.InfoCard
+    context?.InfoCard,
   )
 
   // Extract additional props from global context
@@ -172,7 +172,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
       centered && 'dnb-info-card--centered',
       stretch && 'dnb-info-card--stretch',
       dropShadow && 'dnb-info-card--shadow',
-      className
+      className,
     ),
   })
 

@@ -40,7 +40,7 @@ export default function Indeterminate(props: FieldIndeterminateProps) {
       setAllStates(value === valueOn)
       onChange?.(value === valueOn ? valueOn : valueOff)
     },
-    [onChange, setAllStates, valueOff, valueOn]
+    [onChange, setAllStates, valueOff, valueOn],
   )
 
   const value = useMemo(() => {

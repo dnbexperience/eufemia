@@ -171,7 +171,7 @@ export const WithAsyncFileHandler = () => {
         }
 
         async function mockAsyncFileUpload(
-          newFiles: UploadValue
+          newFiles: UploadValue,
         ): Promise<UploadValue> {
           const updatedFiles: UploadValue = []
 
@@ -260,7 +260,7 @@ export const WithAsyncOnFileDelete = () => {
         async function mockAsyncFileRemoval({ fileItem }) {
           const request = createRequest()
           console.log(
-            `making API request to remove: ${fileItem.file.name}`
+            `making API request to remove: ${fileItem.file.name}`,
           )
           await request(3000) // Simulate a request
           const mockResponse = {
@@ -289,12 +289,12 @@ export const WithAsyncOnFileClick = () => {
         async function mockAsyncFileClick({ fileItem }) {
           const request = createRequest()
           console.log(
-            `making API request to fetch the url of the file: ${fileItem.file.name}`
+            `making API request to fetch the url of the file: ${fileItem.file.name}`,
           )
           await request(2000) // Simulate a request
           window.open(
             `https://eufemia.dnb.no/images/avatars/${fileItem.file.name}`,
-            '_blank'
+            '_blank',
           )
         }
 
@@ -357,7 +357,7 @@ export const WithFileItemOptions = () => {
                     file: createMockFile(
                       'fileName-1.png',
                       100,
-                      'image/png'
+                      'image/png',
                     ),
                     id: '1',
                     description: 'My description',
@@ -487,7 +487,7 @@ export const WithOnValidationError = () => {
     <ComponentBox scope={{ createRequest }}>
       {() => {
         function validationErrorHandler(
-          invalidFiles: UploadValue
+          invalidFiles: UploadValue,
         ): UploadValue {
           return invalidFiles.map((file) => ({
             ...file,
@@ -498,7 +498,7 @@ export const WithOnValidationError = () => {
         }
 
         async function fileHandler(
-          validFiles: UploadValue
+          validFiles: UploadValue,
         ): Promise<UploadValue> {
           const updatedFiles: UploadValue = []
 
@@ -549,7 +549,7 @@ export const WithIterateArray = () => {
     <ComponentBox scope={{ createRequest }}>
       {() => {
         async function mockAsyncFileUpload(
-          newFiles: UploadFile[]
+          newFiles: UploadFile[],
         ): Promise<UploadFile[]> {
           const updatedFiles: UploadFile[] = []
 
@@ -589,19 +589,19 @@ export const WithIterateArray = () => {
           const request = createRequest()
           console.log(
             'making API request to fetch the url of the file: ' +
-              fileItem.file.name
+              fileItem.file.name,
           )
           await request(3000) // Simulate a request
           window.open(
             'https://eufemia.dnb.no/images/avatars/1501870.jpg',
-            '_blank'
+            '_blank',
           )
         }
 
         async function mockAsyncFileRemoval({ fileItem }) {
           const request = createRequest()
           console.log(
-            'Making API request to remove: ' + fileItem.file.name
+            'Making API request to remove: ' + fileItem.file.name,
           )
           await request(3000) // Simulate a request
         }

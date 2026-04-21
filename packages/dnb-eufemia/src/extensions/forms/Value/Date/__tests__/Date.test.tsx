@@ -9,7 +9,7 @@ describe('Value.Date', () => {
       render(<Value.Date value="2023-01-16" />)
       expect(
         document.querySelector('.dnb-forms-value-block__content')
-          .textContent
+          .textContent,
       ).toBe('16. januar 2023')
     })
 
@@ -22,10 +22,10 @@ describe('Value.Date', () => {
 
     it('renders label when showEmpty is true', () => {
       const { rerender } = render(
-        <Value.Date label="Date label" showEmpty />
+        <Value.Date label="Date label" showEmpty />,
       )
       expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-        'Date label'
+        'Date label',
       )
 
       rerender(<Value.Date label="Date label" />)
@@ -35,10 +35,10 @@ describe('Value.Date', () => {
     it('renders value and label', () => {
       render(<Value.Date label="Label" value="2023-01-16" />)
       expect(
-        document.querySelector('.dnb-forms-value-block__content')
+        document.querySelector('.dnb-forms-value-block__content'),
       ).toHaveTextContent('16. januar 2023')
       expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-        'Label'
+        'Label',
       )
     })
 
@@ -51,11 +51,11 @@ describe('Value.Date', () => {
       render(
         <Form.Handler data={{ myDate: '2023-01-16' }}>
           <Value.Date path="/myDate" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('.dnb-forms-value-block__content')
+        document.querySelector('.dnb-forms-value-block__content'),
       ).toHaveTextContent('16. januar 2023')
     })
 
@@ -63,7 +63,7 @@ describe('Value.Date', () => {
       render(<Value.Date value="2023-01-16" variant="short" />)
 
       expect(
-        document.querySelector('.dnb-forms-value-block__content')
+        document.querySelector('.dnb-forms-value-block__content'),
       ).toHaveTextContent('16. jan. 2023')
     })
 
@@ -71,7 +71,7 @@ describe('Value.Date', () => {
       render(<Value.Date value="2024-09-01" variant="numeric" />)
 
       expect(
-        document.querySelector('.dnb-forms-value-block__content')
+        document.querySelector('.dnb-forms-value-block__content'),
       ).toHaveTextContent('01.09.2024')
     })
 
@@ -82,7 +82,7 @@ describe('Value.Date', () => {
       render(<Value.Date value="2023-01-16" />)
 
       expect(
-        document.querySelector('.dnb-forms-value-block__content')
+        document.querySelector('.dnb-forms-value-block__content'),
       ).toHaveTextContent('16. januar 2023')
       expect(window.Intl).toBeUndefined()
 
@@ -91,17 +91,17 @@ describe('Value.Date', () => {
 
     it('should support date range values', () => {
       const { rerender } = render(
-        <Value.Date value="2024-09-01|2024-09-30" variant="numeric" />
+        <Value.Date value="2024-09-01|2024-09-30" variant="numeric" />,
       )
 
       const valueBlock = document.querySelector(
-        '.dnb-forms-value-block__content'
+        '.dnb-forms-value-block__content',
       )
 
       expect(valueBlock).toHaveTextContent('01.09.2024–30.09.2024')
 
       rerender(
-        <Value.Date value="2024-09-01|2024-09-30" variant="short" />
+        <Value.Date value="2024-09-01|2024-09-30" variant="short" />,
       )
 
       expect(valueBlock).toHaveTextContent('1.–30. sep. 2024')
@@ -116,17 +116,17 @@ describe('Value.Date', () => {
         render(<Value.Date value="2023-01-16" locale="en-GB" />)
 
         expect(
-          document.querySelector('.dnb-forms-value-block__content')
+          document.querySelector('.dnb-forms-value-block__content'),
         ).toHaveTextContent('16 January 2023')
       })
 
       it('formats with variant="short"', () => {
         render(
-          <Value.Date value="2023-01-16" variant="short" locale="en-GB" />
+          <Value.Date value="2023-01-16" variant="short" locale="en-GB" />,
         )
 
         expect(
-          document.querySelector('.dnb-forms-value-block__content')
+          document.querySelector('.dnb-forms-value-block__content'),
         ).toHaveTextContent('16 Jan 2023')
       })
 
@@ -134,11 +134,11 @@ describe('Value.Date', () => {
         render(
           <Form.Handler locale="en-GB">
             <Value.Date value="2023-01-16" />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(
-          document.querySelector('.dnb-forms-value-block__content')
+          document.querySelector('.dnb-forms-value-block__content'),
         ).toHaveTextContent('16 January 2023')
       })
 
@@ -146,11 +146,11 @@ describe('Value.Date', () => {
         render(
           <Provider locale="en-GB">
             <Value.Date value="2023-01-16" />
-          </Provider>
+          </Provider>,
         )
 
         expect(
-          document.querySelector('.dnb-forms-value-block__content')
+          document.querySelector('.dnb-forms-value-block__content'),
         ).toHaveTextContent('16 January 2023')
       })
     })
@@ -160,7 +160,7 @@ describe('Value.Date', () => {
         render(<Value.Date value="2023-01-16" dateFormat="dd/MM/yyyy" />)
 
         expect(
-          document.querySelector('.dnb-forms-value-block__content')
+          document.querySelector('.dnb-forms-value-block__content'),
         ).toHaveTextContent('16/01/2023')
       })
 
@@ -168,7 +168,7 @@ describe('Value.Date', () => {
         render(<Value.Date value="2023-01-16" dateFormat="MM/dd/yyyy" />)
 
         expect(
-          document.querySelector('.dnb-forms-value-block__content')
+          document.querySelector('.dnb-forms-value-block__content'),
         ).toHaveTextContent('01/16/2023')
       })
 
@@ -178,7 +178,7 @@ describe('Value.Date', () => {
         // yyyy-MM-dd is the DEFAULT_DATE_FORMAT, so custom formatting is not applied
         // It falls back to the default locale formatting
         expect(
-          document.querySelector('.dnb-forms-value-block__content')
+          document.querySelector('.dnb-forms-value-block__content'),
         ).toHaveTextContent('16. januar 2023')
       })
 
@@ -186,7 +186,7 @@ describe('Value.Date', () => {
         render(<Value.Date value="2023-01-16" dateFormat="dd-MM-yyyy" />)
 
         expect(
-          document.querySelector('.dnb-forms-value-block__content')
+          document.querySelector('.dnb-forms-value-block__content'),
         ).toHaveTextContent('16-01-2023')
       })
 
@@ -196,7 +196,7 @@ describe('Value.Date', () => {
         // The formatCustomDate function only handles yyyy, MM, dd patterns
         // Single digit patterns (d, M) are not replaced, so they remain as-is
         expect(
-          document.querySelector('.dnb-forms-value-block__content')
+          document.querySelector('.dnb-forms-value-block__content'),
         ).toHaveTextContent('d/M/2023')
       })
 
@@ -206,7 +206,7 @@ describe('Value.Date', () => {
         // The formatCustomDate function only handles yyyy, MM, dd patterns
         // Two digit year pattern (yy) is not replaced, so it remains as-is
         expect(
-          document.querySelector('.dnb-forms-value-block__content')
+          document.querySelector('.dnb-forms-value-block__content'),
         ).toHaveTextContent('16/01/yy')
       })
 
@@ -214,7 +214,7 @@ describe('Value.Date', () => {
         render(<Value.Date value="invalid-date" dateFormat="dd/MM/yyyy" />)
 
         expect(
-          document.querySelector('.dnb-forms-value-block__content')
+          document.querySelector('.dnb-forms-value-block__content'),
         ).toHaveTextContent('invalid-date')
       })
 
@@ -241,12 +241,12 @@ describe('Value.Date', () => {
           <Value.Date
             value="2024-09-01|2024-09-30"
             dateFormat="dd/MM/yyyy"
-          />
+          />,
         )
 
         // Range values fall back to default formatting, not custom dateFormat
         expect(
-          document.querySelector('.dnb-forms-value-block__content')
+          document.querySelector('.dnb-forms-value-block__content'),
         ).toHaveTextContent('1.–30. september 2024')
       })
 
@@ -256,11 +256,11 @@ describe('Value.Date', () => {
             value="2023-01-16"
             dateFormat="dd/MM/yyyy"
             locale="en-GB"
-          />
+          />,
         )
 
         expect(
-          document.querySelector('.dnb-forms-value-block__content')
+          document.querySelector('.dnb-forms-value-block__content'),
         ).toHaveTextContent('16/01/2023')
       })
 
@@ -268,11 +268,11 @@ describe('Value.Date', () => {
         render(
           <Form.Handler locale="en-GB">
             <Value.Date value="2023-01-16" dateFormat="dd/MM/yyyy" />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(
-          document.querySelector('.dnb-forms-value-block__content')
+          document.querySelector('.dnb-forms-value-block__content'),
         ).toHaveTextContent('16/01/2023')
       })
 
@@ -280,11 +280,11 @@ describe('Value.Date', () => {
         render(
           <Provider locale="en-GB">
             <Value.Date value="2023-01-16" dateFormat="dd/MM/yyyy" />
-          </Provider>
+          </Provider>,
         )
 
         expect(
-          document.querySelector('.dnb-forms-value-block__content')
+          document.querySelector('.dnb-forms-value-block__content'),
         ).toHaveTextContent('16/01/2023')
       })
 
@@ -294,14 +294,14 @@ describe('Value.Date', () => {
             value="2023-01-16"
             dateFormat="dd/MM/yyyy"
             label="Custom Date"
-          />
+          />,
         )
 
         expect(
-          document.querySelector('.dnb-forms-value-block__content')
+          document.querySelector('.dnb-forms-value-block__content'),
         ).toHaveTextContent('16/01/2023')
         expect(
-          document.querySelector('.dnb-form-label')
+          document.querySelector('.dnb-form-label'),
         ).toHaveTextContent('Custom Date')
       })
 
@@ -311,7 +311,7 @@ describe('Value.Date', () => {
             value=""
             dateFormat="dd/MM/yyyy"
             placeholder="No date selected"
-          />
+          />,
         )
 
         expect(screen.getByText('No date selected')).toBeInTheDocument()
@@ -324,11 +324,11 @@ describe('Value.Date', () => {
             dateFormat="dd/MM/yyyy"
             label="Date Label"
             showEmpty
-          />
+          />,
         )
 
         expect(
-          document.querySelector('.dnb-form-label')
+          document.querySelector('.dnb-form-label'),
         ).toHaveTextContent('Date Label')
         expect(document.body.textContent).toBe('Date Label')
       })
@@ -337,11 +337,11 @@ describe('Value.Date', () => {
         render(
           <Form.Handler data={{ myDate: '2023-01-16' }}>
             <Value.Date path="/myDate" dateFormat="dd/MM/yyyy" />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         expect(
-          document.querySelector('.dnb-forms-value-block__content')
+          document.querySelector('.dnb-forms-value-block__content'),
         ).toHaveTextContent('16/01/2023')
       })
 
@@ -351,22 +351,22 @@ describe('Value.Date', () => {
             value="2023-01-16"
             dateFormat="dd/MM/yyyy"
             variant="short"
-          />
+          />,
         )
 
         // dateFormat should take precedence over variant
         expect(
-          document.querySelector('.dnb-forms-value-block__content')
+          document.querySelector('.dnb-forms-value-block__content'),
         ).toHaveTextContent('16/01/2023')
       })
 
       it('formats with complex custom dateFormat', () => {
         render(
-          <Value.Date value="2023-01-16" dateFormat="dd-MM-yyyy (EEEE)" />
+          <Value.Date value="2023-01-16" dateFormat="dd-MM-yyyy (EEEE)" />,
         )
 
         expect(
-          document.querySelector('.dnb-forms-value-block__content')
+          document.querySelector('.dnb-forms-value-block__content'),
         ).toHaveTextContent('16-01-2023 (EEEE)')
       })
 
@@ -374,7 +374,7 @@ describe('Value.Date', () => {
         render(<Value.Date value="2023-01-16" dateFormat="yyyy" />)
 
         expect(
-          document.querySelector('.dnb-forms-value-block__content')
+          document.querySelector('.dnb-forms-value-block__content'),
         ).toHaveTextContent('2023')
       })
 
@@ -382,7 +382,7 @@ describe('Value.Date', () => {
         render(<Value.Date value="2023-01-16" dateFormat="MM" />)
 
         expect(
-          document.querySelector('.dnb-forms-value-block__content')
+          document.querySelector('.dnb-forms-value-block__content'),
         ).toHaveTextContent('01')
       })
 
@@ -390,7 +390,7 @@ describe('Value.Date', () => {
         render(<Value.Date value="2023-01-16" dateFormat="dd" />)
 
         expect(
-          document.querySelector('.dnb-forms-value-block__content')
+          document.querySelector('.dnb-forms-value-block__content'),
         ).toHaveTextContent('16')
       })
     })

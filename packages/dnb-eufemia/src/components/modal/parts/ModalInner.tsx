@@ -10,7 +10,7 @@ import type { SectionAllProps } from '../../Section'
 export type ModalInnerProps = SectionAllProps
 
 function ModalInner(
-  props: ModalInnerProps & React.HTMLProps<HTMLElement>
+  props: ModalInnerProps & React.HTMLProps<HTMLElement>,
 ) {
   const { className = null, ref, ...restProps } = props
 

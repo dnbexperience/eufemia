@@ -18,7 +18,7 @@ describe('DoneButton', () => {
         <Toolbar>
           <DoneButton />
         </Toolbar>
-      </SectionContainerContext>
+      </SectionContainerContext>,
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -50,7 +50,7 @@ describe('DoneButton', () => {
             </ToolbarContext>
           </Toolbar>
         </SectionContainerContext>
-      </FieldBoundaryContext>
+      </FieldBoundaryContext>,
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -82,7 +82,7 @@ describe('DoneButton', () => {
             </ToolbarContext>
           </Toolbar>
         </SectionContainerContext>
-      </FieldBoundaryContext>
+      </FieldBoundaryContext>,
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -115,7 +115,7 @@ describe('DoneButton', () => {
             </ToolbarContext>
           </Toolbar>
         </SectionContainerContext>
-      </FieldBoundaryContext>
+      </FieldBoundaryContext>,
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -131,7 +131,7 @@ describe('DoneButton', () => {
         <Toolbar>
           <DoneButton />
         </Toolbar>
-      </SectionContainerContext>
+      </SectionContainerContext>,
     )
 
     const button = document.querySelector('button')

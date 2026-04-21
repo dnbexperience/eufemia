@@ -71,7 +71,7 @@ describe('Stat.Percent', () => {
 
   it('supports fontSize and allows auxiliarySize to override it', () => {
     const { rerender } = render(
-      <Stat.Percent value={12.3} fontSize="x-large" />
+      <Stat.Percent value={12.3} fontSize="x-large" />,
     )
 
     let amount = document.querySelector('.dnb-stat__amount')
@@ -85,7 +85,7 @@ describe('Stat.Percent', () => {
         value={12.3}
         fontSize="x-large"
         auxiliarySize="basis"
-      />
+      />,
     )
 
     amount = document.querySelector('.dnb-stat__amount')
@@ -99,7 +99,7 @@ describe('Stat.Percent', () => {
     render(
       <Stat.Trend>
         <Stat.Percent value={12.3} />
-      </Stat.Trend>
+      </Stat.Trend>,
     )
 
     const amount = document.querySelector('.dnb-stat__amount')
@@ -113,7 +113,7 @@ describe('Stat.Percent', () => {
     render(
       <Stat.Info>
         <Stat.Percent value={12.3} />
-      </Stat.Info>
+      </Stat.Info>,
     )
 
     const amount = document.querySelector('.dnb-stat__amount')
@@ -127,7 +127,7 @@ describe('Stat.Percent', () => {
     render(
       <Stat.Info>
         <Stat.Percent value={12.3} />
-      </Stat.Info>
+      </Stat.Info>,
     )
 
     const amount = document.querySelector('.dnb-stat__amount')
@@ -146,7 +146,11 @@ describe('Stat.Percent', () => {
 
   it('should validate with ARIA rules', async () => {
     const component = render(
-      <Stat.Percent value={0.1234} signDisplay="always" srLabel="Change" />
+      <Stat.Percent
+        value={0.1234}
+        signDisplay="always"
+        srLabel="Change"
+      />,
     )
 
     expect(await axeComponent(component)).toHaveNoViolations()

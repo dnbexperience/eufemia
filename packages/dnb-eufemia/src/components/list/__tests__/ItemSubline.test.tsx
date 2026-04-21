@@ -43,7 +43,7 @@ describe('ItemSubline', () => {
         id="subline-id"
       >
         Content
-      </ItemSubline>
+      </ItemSubline>,
     )
 
     const element = document.querySelector('.dnb-list__item__subline')
@@ -82,7 +82,7 @@ describe('ItemSubline', () => {
     render(
       <ItemSubline fontSize="x-small" fontWeight="medium">
         Content
-      </ItemSubline>
+      </ItemSubline>,
     )
 
     const element = document.querySelector('.dnb-list__item__subline')
@@ -93,19 +93,19 @@ describe('ItemSubline', () => {
 
   it('supports variant description', () => {
     render(
-      <ItemSubline variant="description">Description text</ItemSubline>
+      <ItemSubline variant="description">Description text</ItemSubline>,
     )
 
     const element = document.querySelector('.dnb-list__item__subline')
 
     expect(element.classList).toContain(
-      'dnb-list__item__subline--description'
+      'dnb-list__item__subline--description',
     )
   })
 
   it('applies default fontSize small when variant is description', () => {
     render(
-      <ItemSubline variant="description">Description text</ItemSubline>
+      <ItemSubline variant="description">Description text</ItemSubline>,
     )
 
     const element = document.querySelector('.dnb-list__item__subline')
@@ -117,7 +117,7 @@ describe('ItemSubline', () => {
     render(
       <ItemSubline variant="description" fontSize="x-small">
         Description text
-      </ItemSubline>
+      </ItemSubline>,
     )
 
     const element = document.querySelector('.dnb-list__item__subline')
@@ -130,7 +130,7 @@ describe('ItemSubline', () => {
     render(
       <ItemSubline top="medium" left="x-small">
         Content
-      </ItemSubline>
+      </ItemSubline>,
     )
 
     const element = document.querySelector('.dnb-list__item__subline')
@@ -166,7 +166,7 @@ describe('ItemSubline', () => {
     render(
       <Container skeleton>
         <ItemSubline>Content</ItemSubline>
-      </Container>
+      </Container>,
     )
 
     const element = document.querySelector('.dnb-list__item__subline')
@@ -184,7 +184,7 @@ describe('ItemSubline', () => {
     render(
       <ItemSubline skeleton>
         <SkeletonConsumer />
-      </ItemSubline>
+      </ItemSubline>,
     )
 
     const consumer = document.querySelector('[data-skeleton]')
@@ -197,7 +197,7 @@ describe('ItemSubline', () => {
         <ItemContent>
           <ItemSubline>Subline content</ItemSubline>
         </ItemContent>
-      </Container>
+      </Container>,
     )
 
     expect(await axeComponent(container)).toHaveNoViolations()

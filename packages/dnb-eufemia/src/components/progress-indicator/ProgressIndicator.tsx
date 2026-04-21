@@ -109,7 +109,7 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
           labelDirection && `dnb-progress-indicator--${labelDirection}`,
           sizeVariant && `dnb-progress-indicator--${sizeVariant}`,
           noAnimation && 'dnb-progress-indicator--no-animation',
-          className
+          className,
         ),
         style: {
           ...style,
@@ -155,7 +155,7 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
 
 function updatePropsWithContext(
   props: ProgressIndicatorAllProps,
-  context: ContextProps
+  context: ContextProps,
 ) {
   const localPropsFromContext =
     context?.getTranslation(props).ProgressIndicator
@@ -164,7 +164,7 @@ function updatePropsWithContext(
     props,
     {},
     localPropsFromContext,
-    componentPropsFromContext
+    componentPropsFromContext,
   )
 }
 

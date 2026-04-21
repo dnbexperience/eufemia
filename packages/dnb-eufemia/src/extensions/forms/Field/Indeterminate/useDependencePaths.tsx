@@ -5,7 +5,7 @@ import type { FieldIndeterminateProps } from './Indeterminate'
 
 export default function useDependencePaths(
   dependencePaths: FieldIndeterminateProps['dependencePaths'],
-  propagateIndeterminateState: FieldIndeterminateProps['propagateIndeterminateState']
+  propagateIndeterminateState: FieldIndeterminateProps['propagateIndeterminateState'],
 ) {
   const { data, fieldInternalsRef, handlePathChange } =
     useContext(DataContext) || {}
@@ -72,7 +72,7 @@ export default function useDependencePaths(
         handlePathChange?.(path, value)
       })
     },
-    [dependencePaths, fieldInternalsRef, handlePathChange]
+    [dependencePaths, fieldInternalsRef, handlePathChange],
   )
 
   return {

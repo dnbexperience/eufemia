@@ -14,7 +14,7 @@ describe('RemoveButton', () => {
         <Toolbar>
           <RemoveButton />
         </Toolbar>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     const button = document.querySelector('button')
@@ -29,7 +29,7 @@ describe('RemoveButton', () => {
         <Toolbar>
           <RemoveButton />
         </Toolbar>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     const button = document.querySelector('button')

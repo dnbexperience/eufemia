@@ -47,13 +47,13 @@ if (isCI) {
         './src/style/themes/ui/ui-theme-components.scss',
         {
           returnResult: true,
-        }
+        },
       )
       global.files = await runFactory(
         './src/style/themes/ui/ui-theme-components.scss',
         {
           returnFiles: true,
-        }
+        },
       )
     })
 
@@ -73,7 +73,7 @@ if (isCI) {
 
     it('should contain a non minified and a minified content', () => {
       expect(global.components[0]).toContain(
-        'ATTENTION: This file is auto generated'
+        'ATTENTION: This file is auto generated',
       )
       expect(global.components[0]).toContain('@charset "UTF-8";')
       expect(global.components[0]).not.toContain(';--')
@@ -87,10 +87,10 @@ if (isCI) {
     it('includes correct files', () => {
       expect(global.files).toHaveLength(2)
       expect(global.files[0]).toContain(
-        '/style/themes/ui/ui-theme-components.css'
+        '/style/themes/ui/ui-theme-components.css',
       )
       expect(global.files[1]).toContain(
-        '/style/themes/ui/ui-theme-components.min.css'
+        '/style/themes/ui/ui-theme-components.min.css',
       )
     })
   })
@@ -101,7 +101,7 @@ if (isCI) {
         './src/style/dnb-ui-elements.scss',
         {
           returnResult: true,
-        }
+        },
       )
     })
 
@@ -118,7 +118,7 @@ if (isCI) {
         './src/style/themes/ui/ui-theme-basis.scss',
         {
           returnResult: true,
-        }
+        },
       )
     })
 
@@ -130,10 +130,10 @@ if (isCI) {
 
     it('has to have correct custom properties', () => {
       expect(global.theme[0]).toMatch(
-        new RegExp('--color-sea-green:\\s?#007272;')
+        new RegExp('--color-sea-green:\\s?#007272;'),
       )
       expect(global.theme[0]).toMatch(
-        new RegExp('color:\\s?var\\(--color-sea-green\\);')
+        new RegExp('color:\\s?var\\(--color-sea-green\\);'),
       )
       expect(global.theme[0]).not.toMatch(new RegExp('color:\\s?#007272;'))
       expect(global.theme[0]).not.toContain('fuchsia')
@@ -141,7 +141,7 @@ if (isCI) {
 
     it('has to have correct core path to fonts', () => {
       expect(global.theme[0]).toMatch(
-        new RegExp('("|\\()../../../assets/fonts/dnb/')
+        new RegExp('("|\\()../../../assets/fonts/dnb/'),
       )
     })
   })
@@ -180,13 +180,13 @@ if (isCI) {
         './src/style/themes/ui/ui-theme-basis.scss',
         {
           returnResult: true,
-        }
+        },
       )
       global.files = await runFactory(
         './src/style/themes/ui/ui-theme-basis.scss',
         {
           returnFiles: true,
-        }
+        },
       )
     })
 
@@ -201,16 +201,16 @@ if (isCI) {
 
     it('should contain the DNB Skeleton font URL in the CSS', () => {
       expect(global.css[0]).toContain(
-        `${getFontBasePath()}dnb/DNB-Regular.woff2`
+        `${getFontBasePath()}dnb/DNB-Regular.woff2`,
       )
     })
 
     it('should generate isolated CSS files when enableBuildStyleScope is true', async () => {
       expect(global.files.some((f) => f.includes('--isolated.css'))).toBe(
-        true
+        true,
       )
       expect(
-        global.files.some((f) => f.includes('--isolated.min.css'))
+        global.files.some((f) => f.includes('--isolated.min.css')),
       ).toBe(true)
     })
   })

@@ -10,15 +10,15 @@ describe('Value.NationalIdentityNumber', () => {
     render(<Value.NationalIdentityNumber value="20001234567" />)
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('200012 34567')
   })
 
   it('renders label when showEmpty is true', () => {
     render(<Value.NationalIdentityNumber showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      nb.NationalIdentityNumber.label
+      nb.NationalIdentityNumber.label,
     )
   })
 
@@ -26,18 +26,18 @@ describe('Value.NationalIdentityNumber', () => {
     render(<Value.NationalIdentityNumber value="20001234567" />)
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('200012 34567')
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      nb.NationalIdentityNumber.label
+      nb.NationalIdentityNumber.label,
     )
   })
 
   it('renders custom label', () => {
     render(<Value.NationalIdentityNumber label="Custom label" showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      'Custom label'
+      'Custom label',
     )
   })
 
@@ -50,13 +50,13 @@ describe('Value.NationalIdentityNumber', () => {
     render(
       <Form.Handler data={{ myPath: '20001234567' }}>
         <Value.NationalIdentityNumber path="/myPath" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('200012 34567')
   })
 

@@ -8,7 +8,7 @@ describe('Iterate.ItemNo', () => {
     render(
       <Iterate.Array value={['foo']}>
         <Iterate.ItemNo>{'Item no. {itemNo} string'}</Iterate.ItemNo>
-      </Iterate.Array>
+      </Iterate.Array>,
     )
     expect(document.body).toHaveTextContent('Item no. 1 string')
   })
@@ -17,7 +17,7 @@ describe('Iterate.ItemNo', () => {
     render(
       <Iterate.Array value={['foo', 'bar']}>
         <Iterate.ItemNo>{'Item no. {itemNo} string'}</Iterate.ItemNo>
-      </Iterate.Array>
+      </Iterate.Array>,
     )
     expect(document.body).toHaveTextContent('Item no. 1 string')
     expect(document.body).toHaveTextContent('Item no. 2 string')
@@ -29,11 +29,11 @@ describe('Iterate.ItemNo', () => {
         <Iterate.ItemNo>
           <b>{'Item no. {itemNo} string'}</b>
         </Iterate.ItemNo>
-      </Iterate.Array>
+      </Iterate.Array>,
     )
 
     expect(document.querySelector('b')?.textContent).toBe(
-      'Item no. 1 string'
+      'Item no. 1 string',
     )
     expect(document.querySelector('section')).toMatchInlineSnapshot(`
       <section
@@ -57,7 +57,7 @@ describe('Iterate.ItemNo', () => {
     render(
       <Iterate.Array value={['foo']}>
         <Iterate.ItemNo>{renderWithFormatting(label)}</Iterate.ItemNo>
-      </Iterate.Array>
+      </Iterate.Array>,
     )
 
     expect(document.body).toHaveTextContent('Item no. 1 – ready')

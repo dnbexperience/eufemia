@@ -8,7 +8,7 @@ export type SnapshotContextState = {
   name: SnapshotName
   setMountedField: (
     path: Path,
-    { isMounted }: { isMounted: boolean }
+    { isMounted }: { isMounted: boolean },
   ) => void
 }
 

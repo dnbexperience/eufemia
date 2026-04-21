@@ -36,7 +36,7 @@ function MediaQuery(props: MediaQueryProps) {
       state.mediaQueryList = makeMediaQueryList(
         { query, when, not },
         context?.breakpoints,
-        { disabled, correctRange, log }
+        { disabled, correctRange, log },
       )
 
       if (state.mediaQueryList?.matches) {
@@ -66,7 +66,7 @@ function MediaQuery(props: MediaQueryProps) {
     const mediaQueryList = makeMediaQueryList(
       { query, when, not },
       context?.breakpoints,
-      { disabled, correctRange, log }
+      { disabled, correctRange, log },
     )
 
     setState({
@@ -80,7 +80,7 @@ function MediaQuery(props: MediaQueryProps) {
         mediaQueryList,
         (match) => {
           setState((prev) => ({ ...prev, match }))
-        }
+        },
       )
     }
 

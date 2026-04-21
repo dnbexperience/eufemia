@@ -19,7 +19,7 @@ describe('PushButton', () => {
             {children}
           </IterateItemContext>
         ),
-      }
+      },
     )
 
     const button = document.querySelector('button')
@@ -38,7 +38,7 @@ describe('PushButton', () => {
         <Iterate.PushButton path="/foo" pushValue={pushValue}>
           Push Button
         </Iterate.PushButton>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const button = document.querySelector('button')
@@ -47,7 +47,7 @@ describe('PushButton', () => {
     expect(handleChange).toHaveBeenCalledTimes(1)
     expect(handleChange).toHaveBeenLastCalledWith(
       { foo: [pushValue] },
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -60,7 +60,7 @@ describe('PushButton', () => {
         <Iterate.PushButton path="/foo" pushValue={pushValue}>
           Push Button
         </Iterate.PushButton>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const button = document.querySelector('button')
@@ -68,7 +68,7 @@ describe('PushButton', () => {
 
     expect(handleChange).toHaveBeenLastCalledWith(
       { foo: ['push value'] },
-      expect.anything()
+      expect.anything(),
     )
     expect(pushValue).toHaveBeenLastCalledWith(undefined)
   })
@@ -77,7 +77,7 @@ describe('PushButton', () => {
     render(
       <Iterate.PushButton pushValue="push value">
         Push Button
-      </Iterate.PushButton>
+      </Iterate.PushButton>,
     )
 
     const button = document.querySelector('button')
@@ -88,7 +88,7 @@ describe('PushButton', () => {
     render(
       <Iterate.PushButton pushValue="push value">
         Push Button
-      </Iterate.PushButton>
+      </Iterate.PushButton>,
     )
 
     const button = document.querySelector('button')
@@ -111,7 +111,7 @@ describe('PushButton', () => {
 
   it('should accept children content as text', () => {
     render(
-      <Iterate.PushButton pushValue="push value">text</Iterate.PushButton>
+      <Iterate.PushButton pushValue="push value">text</Iterate.PushButton>,
     )
 
     const button = document.querySelector('button')
@@ -122,7 +122,7 @@ describe('PushButton', () => {
     render(
       <Iterate.PushButton pushValue="push value" aria-label="Aria Label">
         text
-      </Iterate.PushButton>
+      </Iterate.PushButton>,
     )
 
     const button = document.querySelector('button')
@@ -133,14 +133,14 @@ describe('PushButton', () => {
     render(
       <Iterate.PushButton pushValue="push value">
         Push Button
-      </Iterate.PushButton>
+      </Iterate.PushButton>,
     )
 
     const button = document.querySelector('.dnb-forms-iterate-push-button')
 
     expect(button.querySelector('.dnb-icon')).toHaveAttribute(
       'data-testid',
-      'add icon'
+      'add icon',
     )
   })
 
@@ -154,7 +154,7 @@ describe('PushButton', () => {
         </Iterate.Array>
 
         <Iterate.PushButton path="/myList" pushValue="push value" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const form = document.querySelector('form')
@@ -165,7 +165,7 @@ describe('PushButton', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { myList: [null] },
-      expect.anything()
+      expect.anything(),
     )
 
     await userEvent.click(button)
@@ -174,7 +174,7 @@ describe('PushButton', () => {
     expect(onSubmit).toHaveBeenCalledTimes(2)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { myList: [null, 'push value'] },
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -191,11 +191,11 @@ describe('PushButton', () => {
           pushValue="push value"
           text="Add no. {nextItemNo}"
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const pushButton = document.querySelector(
-      '.dnb-forms-iterate-push-button'
+      '.dnb-forms-iterate-push-button',
     )
 
     expect(pushButton).toHaveTextContent('Add no. 1')
@@ -204,7 +204,7 @@ describe('PushButton', () => {
     expect(pushButton).toHaveTextContent('Add no. 2')
 
     const removeButton = document.querySelector(
-      '.dnb-forms-iterate-remove-element-button'
+      '.dnb-forms-iterate-remove-element-button',
     )
     await userEvent.click(removeButton)
     expect(pushButton).toHaveTextContent('Add no. 1')
@@ -219,11 +219,11 @@ describe('PushButton', () => {
         </Iterate.Array>
 
         <Iterate.PushButton path="/myList" pushValue="push value" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const pushButton = document.querySelector(
-      '.dnb-forms-iterate-push-button'
+      '.dnb-forms-iterate-push-button',
     )
 
     // Add first item
@@ -246,7 +246,7 @@ describe('PushButton', () => {
     })
 
     const removeButton = document.querySelector(
-      '.dnb-forms-iterate-remove-element-button'
+      '.dnb-forms-iterate-remove-element-button',
     )
     await userEvent.click(removeButton)
 
@@ -280,7 +280,7 @@ describe('PushButton', () => {
               return null
             }}
           </DataContext.Consumer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(collectedData).toEqual({
@@ -288,7 +288,7 @@ describe('PushButton', () => {
       })
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate-push-button')
+        document.querySelector('.dnb-forms-iterate-push-button'),
       )
 
       expect(collectedData).toEqual({
@@ -296,7 +296,7 @@ describe('PushButton', () => {
       })
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate-remove-element-button')
+        document.querySelector('.dnb-forms-iterate-remove-element-button'),
       )
 
       expect(collectedData).toEqual({
@@ -304,7 +304,7 @@ describe('PushButton', () => {
       })
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate-remove-element-button')
+        document.querySelector('.dnb-forms-iterate-remove-element-button'),
       )
 
       expect(collectedData).toEqual({
@@ -312,7 +312,7 @@ describe('PushButton', () => {
       })
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate-push-button')
+        document.querySelector('.dnb-forms-iterate-push-button'),
       )
 
       expect(collectedData).toEqual({
@@ -355,7 +355,7 @@ describe('PushButton', () => {
               return null
             }}
           </DataContext.Consumer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(outerData).toEqual(undefined)
@@ -368,7 +368,7 @@ describe('PushButton', () => {
       })
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate-push-button')
+        document.querySelector('.dnb-forms-iterate-push-button'),
       )
 
       expect(outerData).toEqual(undefined)
@@ -381,7 +381,7 @@ describe('PushButton', () => {
       })
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate__done-button')
+        document.querySelector('.dnb-forms-iterate__done-button'),
       )
 
       expect(outerData).toEqual({ outer: [{ inner: ['new value'] }] })
@@ -439,7 +439,7 @@ describe('PushButton', () => {
               return null
             }}
           </DataContext.Consumer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(containerModeOfFirstItem).toEqual('view')
@@ -452,7 +452,7 @@ describe('PushButton', () => {
       })
 
       await userEvent.click(
-        document.querySelectorAll('.dnb-forms-iterate__done-button')[1]
+        document.querySelectorAll('.dnb-forms-iterate__done-button')[1],
       )
 
       expect(outerData).toEqual({
@@ -465,19 +465,19 @@ describe('PushButton', () => {
       })
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate-push-button')
+        document.querySelector('.dnb-forms-iterate-push-button'),
       )
 
       expect(containerModeOfFirstItem).toEqual('view')
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate__edit-button')
+        document.querySelector('.dnb-forms-iterate__edit-button'),
       )
 
       expect(containerModeOfFirstItem).toEqual('edit')
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-iterate-push-button')
+        document.querySelector('.dnb-forms-iterate-push-button'),
       )
 
       await expect(() => {
@@ -496,11 +496,11 @@ describe('PushButton', () => {
           <Form.Section path="/mySection">
             <Iterate.PushButton path="/myList" pushValue="foo" />
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const button = document.querySelector(
-        '.dnb-forms-iterate-push-button'
+        '.dnb-forms-iterate-push-button',
       )
 
       await userEvent.click(button)
@@ -513,7 +513,7 @@ describe('PushButton', () => {
             myList: ['foo'],
           },
         },
-        expect.anything()
+        expect.anything(),
       )
     })
   })

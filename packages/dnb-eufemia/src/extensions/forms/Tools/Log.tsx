@@ -37,7 +37,7 @@ function Log({
           : JSON.stringify(
               replaceUndefinedValues(logData ?? data),
               null,
-              2
+              2,
             )}
         {' ' /* Ensure one line of spacing */}
       </pre>
@@ -53,7 +53,7 @@ function Log({
  */
 function replaceUndefinedValues(
   value: unknown,
-  replaceWith = 'undefined' as unknown
+  replaceWith = 'undefined' as unknown,
 ): unknown {
   if (typeof value === 'undefined') {
     return replaceWith
@@ -66,7 +66,7 @@ function replaceUndefinedValues(
         Object.entries(value).map(([k, v]) => [
           k,
           replaceUndefinedValues(v, replaceWith),
-        ])
+        ]),
       ),
     }
   } else {

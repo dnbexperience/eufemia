@@ -43,7 +43,7 @@ describe('ItemOverline', () => {
         id="overline-id"
       >
         Content
-      </ItemOverline>
+      </ItemOverline>,
     )
 
     const element = document.querySelector('.dnb-list__item__overline')
@@ -90,7 +90,7 @@ describe('ItemOverline', () => {
     render(
       <ItemOverline fontSize="small" fontWeight="medium">
         Content
-      </ItemOverline>
+      </ItemOverline>,
     )
 
     const element = document.querySelector('.dnb-list__item__overline')
@@ -103,7 +103,7 @@ describe('ItemOverline', () => {
     render(
       <ItemOverline top="medium" left="x-small">
         Content
-      </ItemOverline>
+      </ItemOverline>,
     )
 
     const element = document.querySelector('.dnb-list__item__overline')
@@ -140,7 +140,7 @@ describe('ItemOverline', () => {
     render(
       <Container skeleton>
         <ItemOverline>Content</ItemOverline>
-      </Container>
+      </Container>,
     )
 
     const element = document.querySelector('.dnb-list__item__overline')
@@ -158,7 +158,7 @@ describe('ItemOverline', () => {
     render(
       <ItemOverline skeleton>
         <SkeletonConsumer />
-      </ItemOverline>
+      </ItemOverline>,
     )
 
     const consumer = document.querySelector('[data-skeleton]')
@@ -171,7 +171,7 @@ describe('ItemOverline', () => {
         <ItemContent>
           <ItemOverline>Overline content</ItemOverline>
         </ItemContent>
-      </Container>
+      </Container>,
     )
 
     expect(await axeComponent(container)).toHaveNoViolations()

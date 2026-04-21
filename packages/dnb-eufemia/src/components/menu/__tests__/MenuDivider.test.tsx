@@ -8,7 +8,7 @@ describe('MenuDivider', () => {
     render(
       <ul role="menu">
         <MenuDivider />
-      </ul>
+      </ul>,
     )
 
     const element = document.querySelector('.dnb-menu__divider')
@@ -20,7 +20,7 @@ describe('MenuDivider', () => {
     render(
       <ul role="menu">
         <MenuDivider />
-      </ul>
+      </ul>,
     )
 
     const element = document.querySelector('[role="separator"]')
@@ -31,7 +31,7 @@ describe('MenuDivider', () => {
     render(
       <ul role="menu">
         <MenuDivider className="custom-divider" />
-      </ul>
+      </ul>,
     )
 
     const element = document.querySelector('.dnb-menu__divider')
@@ -45,7 +45,7 @@ describe('MenuDivider', () => {
           <li role="menuitem">Item 1</li>
           <MenuDivider />
           <li role="menuitem">Item 2</li>
-        </ul>
+        </ul>,
       )
 
       expect(await axeComponent(container)).toHaveNoViolations()

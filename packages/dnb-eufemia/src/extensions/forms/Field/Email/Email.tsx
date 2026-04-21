@@ -36,7 +36,7 @@ function Email(props: FieldEmailProps) {
       'Field.errorPattern': errorPattern,
       ...props.errorMessages,
     }),
-    [errorPattern, errorRequired, props.errorMessages]
+    [errorPattern, errorRequired, props.errorMessages],
   )
 
   const StringFieldProps: FieldEmailProps = {

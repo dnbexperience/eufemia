@@ -17,7 +17,7 @@ describe('ValueBlock', () => {
     render(<ValueBlock label="Label" placeholder="Placeholder" />)
     const label = document.querySelector('.dnb-forms-value-block__label')
     const placeholder = document.querySelector(
-      '.dnb-forms-value-block__placeholder'
+      '.dnb-forms-value-block__placeholder',
     )
     expect(label).toBeInTheDocument()
     expect(label?.textContent).toBe('Label')
@@ -40,7 +40,11 @@ describe('ValueBlock', () => {
 
   it('renders no label when inline prop is true', () => {
     render(
-      <ValueBlock inline label="Don't show me" placeholder="Placeholder" />
+      <ValueBlock
+        inline
+        label="Don't show me"
+        placeholder="Placeholder"
+      />,
     )
     expect(document.querySelector('.dnb-form-label')).toBeNull()
   })
@@ -61,10 +65,10 @@ describe('ValueBlock', () => {
     render(<ValueBlock>content</ValueBlock>)
 
     const element = document.querySelector(
-      '.dnb-forms-value-block__content'
+      '.dnb-forms-value-block__content',
     )
     expect(element).toHaveClass(
-      'dnb-forms-value-block__content--max-width-large'
+      'dnb-forms-value-block__content--max-width-large',
     )
   })
 
@@ -72,10 +76,10 @@ describe('ValueBlock', () => {
     render(<ValueBlock maxWidth="medium"> content</ValueBlock>)
 
     const element = document.querySelector(
-      '.dnb-forms-value-block__content'
+      '.dnb-forms-value-block__content',
     )
     expect(element).toHaveClass(
-      'dnb-forms-value-block__content--max-width-medium'
+      'dnb-forms-value-block__content--max-width-medium',
     )
   })
 
@@ -83,7 +87,7 @@ describe('ValueBlock', () => {
     render(
       <ValueBlock label="Label" labelSrOnly>
         content
-      </ValueBlock>
+      </ValueBlock>,
     )
 
     const element = document.querySelector('.dnb-form-label')
@@ -97,15 +101,15 @@ describe('ValueBlock', () => {
     render(
       <Iterate.Array value={['foo']}>
         <ValueBlock label={renderWithFormatting(label)} showEmpty />
-      </Iterate.Array>
+      </Iterate.Array>,
     )
 
     expect(
       document.querySelector('.dnb-forms-value-block__label__content')
-        .textContent
+        .textContent,
     ).toContain('Item no. 1 – ready')
     expect(
-      document.querySelector('.dnb-forms-value-block__label__content')
+      document.querySelector('.dnb-forms-value-block__label__content'),
     ).toMatchInlineSnapshot(`
       <span
         class="dnb-forms-value-block__label__content"
@@ -128,7 +132,7 @@ describe('ValueBlock', () => {
     render(<ValueBlock>content</ValueBlock>)
 
     const element = document.querySelector(
-      '.dnb-forms-value-block__content'
+      '.dnb-forms-value-block__content',
     )
     expect(element).toHaveTextContent('content')
   })
@@ -137,7 +141,7 @@ describe('ValueBlock', () => {
     render(<ValueBlock label="Label">Value</ValueBlock>)
 
     expect(
-      document.querySelector('.dnb-forms-value-block__label').tagName
+      document.querySelector('.dnb-forms-value-block__label').tagName,
     ).toBe('STRONG')
   })
 
@@ -146,7 +150,7 @@ describe('ValueBlock', () => {
       render(
         <Value.SummaryList>
           <ValueBlock label="Label">Value</ValueBlock>
-        </Value.SummaryList>
+        </Value.SummaryList>,
       )
       const dl = document.querySelector('dl')
       expect(dl).toMatchInlineSnapshot(`
@@ -179,7 +183,7 @@ describe('ValueBlock', () => {
       const { rerender } = render(
         <Value.SummaryList>
           <ValueBlock>Value</ValueBlock>
-        </Value.SummaryList>
+        </Value.SummaryList>,
       )
 
       expect(document.querySelector('dl')).toBeInTheDocument()
@@ -189,7 +193,7 @@ describe('ValueBlock', () => {
       rerender(
         <Value.SummaryList>
           <ValueBlock label="Label">Value</ValueBlock>
-        </Value.SummaryList>
+        </Value.SummaryList>,
       )
 
       expect(document.querySelector('dl')).toBeInTheDocument()
@@ -204,7 +208,7 @@ describe('ValueBlock', () => {
             <ValueBlock>Value</ValueBlock>
             <Value.String value="omit error" />
           </Value.Composition>
-        </Value.SummaryList>
+        </Value.SummaryList>,
       )
 
       expect(document.querySelectorAll('dl')).toHaveLength(1)
@@ -217,7 +221,7 @@ describe('ValueBlock', () => {
             <ValueBlock label="Label">Value</ValueBlock>
             <Value.String value="omit error" />
           </Value.Composition>
-        </Value.SummaryList>
+        </Value.SummaryList>,
       )
 
       expect(document.querySelectorAll('dl')).toHaveLength(2)
@@ -229,7 +233,7 @@ describe('ValueBlock', () => {
       const result = render(
         <Value.SummaryList>
           <ValueBlock label="Label">Value</ValueBlock>
-        </Value.SummaryList>
+        </Value.SummaryList>,
       )
 
       expect(await axeComponent(result)).toHaveNoViolations()
@@ -241,11 +245,11 @@ describe('ValueBlock', () => {
           <ValueBlock label="Label" placeholder="Placeholder">
             Value
           </ValueBlock>
-        </Value.SummaryList>
+        </Value.SummaryList>,
       )
       const label = document.querySelector('.dnb-forms-value-block__label')
       const placeholder = document.querySelector(
-        '.dnb-forms-value-block__placeholder'
+        '.dnb-forms-value-block__placeholder',
       )
       expect(label).toBeInTheDocument()
       expect(label?.textContent).toBe('Label')
@@ -256,11 +260,11 @@ describe('ValueBlock', () => {
       render(
         <Value.SummaryList>
           <ValueBlock>Value</ValueBlock>
-        </Value.SummaryList>
+        </Value.SummaryList>,
       )
 
       expect(
-        document.querySelector('.dnb-forms-value-block__label')
+        document.querySelector('.dnb-forms-value-block__label'),
       ).toBeEmptyDOMElement()
     })
 
@@ -268,11 +272,11 @@ describe('ValueBlock', () => {
       render(
         <Value.SummaryList>
           <ValueBlock label="Label">Value</ValueBlock>
-        </Value.SummaryList>
+        </Value.SummaryList>,
       )
 
       expect(
-        document.querySelector('.dnb-forms-value-block__label strong')
+        document.querySelector('.dnb-forms-value-block__label strong'),
       ).toBeInTheDocument()
     })
 
@@ -291,39 +295,39 @@ describe('ValueBlock', () => {
           >
             <Value.String label="Label {itemNo}" itemPath="/value" />
           </Iterate.Array>
-        </Value.Composition>
+        </Value.Composition>,
       )
 
       expect(
         document.querySelectorAll(
-          '.dnb-forms-value-block__composition--horizontal'
-        )
+          '.dnb-forms-value-block__composition--horizontal',
+        ),
       ).toHaveLength(1)
       expect(
         document.querySelectorAll(
-          '.dnb-forms-value-block__content > .dnb-forms-value-block'
-        )
+          '.dnb-forms-value-block__content > .dnb-forms-value-block',
+        ),
       ).toHaveLength(2)
 
       expect(
         document.querySelector(
-          '.dnb-forms-value-block__content > .dnb-forms-value-block > .dnb-forms-value-block__label'
-        )
+          '.dnb-forms-value-block__content > .dnb-forms-value-block > .dnb-forms-value-block__label',
+        ),
       ).toHaveTextContent('Label 1')
       expect(
         document.querySelector(
-          '.dnb-forms-value-block__content > .dnb-forms-value-block > .dnb-forms-value-block__content'
-        )
+          '.dnb-forms-value-block__content > .dnb-forms-value-block > .dnb-forms-value-block__content',
+        ),
       ).toHaveTextContent('value 1')
       expect(
         document.querySelector(
-          '.dnb-forms-value-block__content > .dnb-forms-value-block:last-child > .dnb-forms-value-block__label'
-        )
+          '.dnb-forms-value-block__content > .dnb-forms-value-block:last-child > .dnb-forms-value-block__label',
+        ),
       ).toHaveTextContent('Label 2')
       expect(
         document.querySelector(
-          '.dnb-forms-value-block__content > .dnb-forms-value-block:last-child > .dnb-forms-value-block__content'
-        )
+          '.dnb-forms-value-block__content > .dnb-forms-value-block:last-child > .dnb-forms-value-block__content',
+        ),
       ).toHaveTextContent('value 2')
     })
 
@@ -347,39 +351,39 @@ describe('ValueBlock', () => {
               itemPath="/value"
             />
           </Iterate.Array>
-        </Value.Composition>
+        </Value.Composition>,
       )
 
       expect(
         document.querySelectorAll(
-          '.dnb-forms-value-block__composition--horizontal'
-        )
+          '.dnb-forms-value-block__composition--horizontal',
+        ),
       ).toHaveLength(1)
       expect(
         document.querySelectorAll(
-          '.dnb-forms-value-block__content > .dnb-forms-value-block'
-        )
+          '.dnb-forms-value-block__content > .dnb-forms-value-block',
+        ),
       ).toHaveLength(2)
 
       expect(
         document.querySelector(
-          '.dnb-forms-value-block__content > .dnb-forms-value-block > .dnb-forms-value-block__label'
-        )
+          '.dnb-forms-value-block__content > .dnb-forms-value-block > .dnb-forms-value-block__label',
+        ),
       ).toHaveTextContent('Label A')
       expect(
         document.querySelector(
-          '.dnb-forms-value-block__content > .dnb-forms-value-block > .dnb-forms-value-block__content'
-        )
+          '.dnb-forms-value-block__content > .dnb-forms-value-block > .dnb-forms-value-block__content',
+        ),
       ).toHaveTextContent('value 1')
       expect(
         document.querySelector(
-          '.dnb-forms-value-block__content > .dnb-forms-value-block:last-child > .dnb-forms-value-block__label'
-        )
+          '.dnb-forms-value-block__content > .dnb-forms-value-block:last-child > .dnb-forms-value-block__label',
+        ),
       ).toHaveTextContent('Label B')
       expect(
         document.querySelector(
-          '.dnb-forms-value-block__content > .dnb-forms-value-block:last-child > .dnb-forms-value-block__content'
-        )
+          '.dnb-forms-value-block__content > .dnb-forms-value-block:last-child > .dnb-forms-value-block__content',
+        ),
       ).toHaveTextContent('value 2')
     })
 
@@ -393,7 +397,7 @@ describe('ValueBlock', () => {
               <Form.Visibility pathUndefined="/undefined" animate>
                 <Value.String label="Label" value="Second value" />
               </Form.Visibility>
-            </Value.SummaryList>
+            </Value.SummaryList>,
           )
 
           const element = document.querySelector('.dnb-forms-summary-list')
@@ -404,17 +408,17 @@ describe('ValueBlock', () => {
           const fourthChild = element.children[3]
 
           expect(
-            firstChild.querySelector('.dnb-height-animation')
+            firstChild.querySelector('.dnb-height-animation'),
           ).not.toBeInTheDocument()
           expect(
-            secondChild.querySelector('.dnb-height-animation')
+            secondChild.querySelector('.dnb-height-animation'),
           ).not.toBeInTheDocument()
 
           expect(
-            thirdChild.querySelector('.dnb-height-animation')
+            thirdChild.querySelector('.dnb-height-animation'),
           ).toBeInTheDocument()
           expect(
-            fourthChild.querySelector('.dnb-height-animation')
+            fourthChild.querySelector('.dnb-height-animation'),
           ).toBeInTheDocument()
 
           expect(element.tagName).toBe('DL')
@@ -432,7 +436,7 @@ describe('ValueBlock', () => {
               <Form.Visibility pathUndefined="/undefined" animate>
                 <Value.String label="Label" value="Second value" />
               </Form.Visibility>
-            </Value.SummaryList>
+            </Value.SummaryList>,
           )
 
           const element = document.querySelector('.dnb-forms-summary-list')
@@ -441,10 +445,10 @@ describe('ValueBlock', () => {
           const fourthChild = element.children[3]
 
           expect(
-            thirdChild.querySelector('.dnb-height-animation').tagName
+            thirdChild.querySelector('.dnb-height-animation').tagName,
           ).toBe('SPAN')
           expect(
-            fourthChild.querySelector('.dnb-height-animation').tagName
+            fourthChild.querySelector('.dnb-height-animation').tagName,
           ).toBe('SPAN')
 
           expect(await axeComponent(result)).toHaveNoViolations()
@@ -460,7 +464,7 @@ describe('ValueBlock', () => {
               <Form.Visibility pathUndefined="/undefined" keepInDOM>
                 <Value.String label="Label" value="Second value" />
               </Form.Visibility>
-            </Value.SummaryList>
+            </Value.SummaryList>,
           )
 
           const element = document.querySelector('.dnb-forms-summary-list')
@@ -471,24 +475,24 @@ describe('ValueBlock', () => {
           const fourthChild = element.children[3]
 
           expect(
-            firstChild.querySelector('.dnb-forms-visibility')
+            firstChild.querySelector('.dnb-forms-visibility'),
           ).not.toBeInTheDocument()
           expect(
-            secondChild.querySelector('.dnb-forms-visibility')
+            secondChild.querySelector('.dnb-forms-visibility'),
           ).not.toBeInTheDocument()
 
           expect(
-            thirdChild.querySelector('.dnb-forms-visibility')
+            thirdChild.querySelector('.dnb-forms-visibility'),
           ).toBeInTheDocument()
           expect(
-            fourthChild.querySelector('.dnb-forms-visibility')
+            fourthChild.querySelector('.dnb-forms-visibility'),
           ).toBeInTheDocument()
 
           expect(
-            thirdChild.querySelector('.dnb-forms-visibility').tagName
+            thirdChild.querySelector('.dnb-forms-visibility').tagName,
           ).toBe('SPAN')
           expect(
-            fourthChild.querySelector('.dnb-forms-visibility').tagName
+            fourthChild.querySelector('.dnb-forms-visibility').tagName,
           ).toBe('SPAN')
 
           expect(element.tagName).toBe('DL')
@@ -507,21 +511,21 @@ describe('ValueBlock', () => {
     const { rerender } = render(
       <ValueBlock gap="medium" label="Label">
         Value
-      </ValueBlock>
+      </ValueBlock>,
     )
 
     expect(
-      document.querySelector('.dnb-forms-value-block__content')
+      document.querySelector('.dnb-forms-value-block__content'),
     ).toHaveClass('dnb-forms-value-block__content--gap-medium')
 
     rerender(
       <ValueBlock gap={false} label="Label">
         Value
-      </ValueBlock>
+      </ValueBlock>,
     )
 
     expect(
-      document.querySelector('.dnb-forms-value-block__content')
+      document.querySelector('.dnb-forms-value-block__content'),
     ).toHaveClass('dnb-forms-value-block__content--gap-none')
   })
 
@@ -532,13 +536,13 @@ describe('ValueBlock', () => {
       <>
         <ValueBlock label="Value A">Value</ValueBlock>
         <ValueBlock label="Value B">Value</ValueBlock>
-      </>
+      </>,
     )
     expect(log).toHaveBeenCalledTimes(1)
     expect(log).toHaveBeenLastCalledWith(
       expect.any(String),
       'Value components as siblings should be wrapped inside a Value.SummaryList:',
-      { itemPath: undefined, label: 'Value B', path: undefined }
+      { itemPath: undefined, label: 'Value B', path: undefined },
     )
 
     render(<ValueBlock>Value</ValueBlock>)
@@ -549,20 +553,20 @@ describe('ValueBlock', () => {
         <ValueBlock>Value</ValueBlock>
         <ValueBlock>Value</ValueBlock>
         <ValueBlock>Value</ValueBlock>
-      </>
+      </>,
     )
     expect(log).toHaveBeenCalledTimes(3)
     expect(log).toHaveBeenLastCalledWith(
       expect.any(String),
       'Value components as siblings should be wrapped inside a Value.SummaryList:',
-      { itemPath: undefined, label: undefined, path: undefined }
+      { itemPath: undefined, label: undefined, path: undefined },
     )
 
     render(
       <Value.SummaryList>
         <ValueBlock>Value</ValueBlock>
         <ValueBlock>Value</ValueBlock>
-      </Value.SummaryList>
+      </Value.SummaryList>,
     )
     expect(log).toHaveBeenCalledTimes(3)
 
@@ -573,13 +577,13 @@ describe('ValueBlock', () => {
           <ValueBlock>Value</ValueBlock>
           <ValueBlock>Value</ValueBlock>
         </Value.Composition>
-      </>
+      </>,
     )
     expect(log).toHaveBeenCalledTimes(4)
     expect(log).toHaveBeenLastCalledWith(
       expect.any(String),
       'Value components as siblings should be wrapped inside a Value.SummaryList:',
-      { itemPath: undefined, label: 'Composition label', path: undefined }
+      { itemPath: undefined, label: 'Composition label', path: undefined },
     )
 
     log.mockRestore()
@@ -593,15 +597,15 @@ describe('ValueBlock', () => {
           label="The label"
           transformLabel={transformLabel}
           showEmpty
-        />
+        />,
       )
       expect(transformLabel).toHaveBeenCalledTimes(1)
       expect(transformLabel).toHaveBeenLastCalledWith(
         'The label',
-        expect.anything()
+        expect.anything(),
       )
       expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-        'THE LABEL'
+        'THE LABEL',
       )
     })
 
@@ -614,21 +618,21 @@ describe('ValueBlock', () => {
             transformLabel={transformLabel}
             showEmpty
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
       expect(transformLabel).toHaveBeenCalledTimes(1)
       expect(transformLabel).toHaveBeenLastCalledWith(
         'The label',
-        expect.anything()
+        expect.anything(),
       )
       expect(
-        document.querySelector('.dnb-forms-value-string')
+        document.querySelector('.dnb-forms-value-string'),
       ).toHaveTextContent('THE LABEL')
     })
 
     it('should transform a JSX label and return "convertJsxToString"', () => {
       const transformLabel = jest.fn((label, { convertJsxToString }) =>
-        convertJsxToString(label).toUpperCase()
+        convertJsxToString(label).toUpperCase(),
       )
       render(
         <Form.Handler>
@@ -637,15 +641,15 @@ describe('ValueBlock', () => {
             transformLabel={transformLabel}
             showEmpty
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
       expect(transformLabel).toHaveBeenCalledTimes(1)
       expect(transformLabel).toHaveBeenLastCalledWith(
         <span>The label</span>,
-        expect.anything()
+        expect.anything(),
       )
       expect(
-        document.querySelector('.dnb-forms-value-string')
+        document.querySelector('.dnb-forms-value-string'),
       ).toHaveTextContent('THE LABEL')
     })
 
@@ -659,7 +663,7 @@ describe('ValueBlock', () => {
               <Value.String label="The label B" showEmpty />
             </Value.SummaryList>
           </Value.Provider>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [first, second] = Array.from(document.querySelectorAll('dt'))
@@ -669,12 +673,12 @@ describe('ValueBlock', () => {
       expect(transformLabel).toHaveBeenNthCalledWith(
         1,
         'The label A',
-        expect.anything()
+        expect.anything(),
       )
       expect(transformLabel).toHaveBeenNthCalledWith(
         2,
         'The label B',
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -687,11 +691,11 @@ describe('ValueBlock', () => {
             transformLabel={transformLabel}
             showEmpty
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('.dnb-forms-value-block')
+        document.querySelector('.dnb-forms-value-block'),
       ).toHaveTextContent('The label')
     })
   })
@@ -700,11 +704,11 @@ describe('ValueBlock', () => {
     render(
       <Form.Handler data={{ label: 'The label' }}>
         <Value.String label={<Value.String path="/label" />} showEmpty />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
-      document.querySelector('.dnb-forms-value-block')
+      document.querySelector('.dnb-forms-value-block'),
     ).toHaveTextContent('The label')
   })
 
@@ -718,13 +722,13 @@ describe('ValueBlock', () => {
         >
           <Field.String path="/myPath" label="The label" />
           <Value.String path="/myPath" inheritLabel />
-        </Form.Handler>
+        </Form.Handler>,
       )
       expect(
-        document.querySelector('.dnb-forms-field-string')
+        document.querySelector('.dnb-forms-field-string'),
       ).toHaveTextContent('The label')
       expect(
-        document.querySelector('.dnb-forms-value-string')
+        document.querySelector('.dnb-forms-value-string'),
       ).toHaveTextContent('The label')
     })
 
@@ -736,13 +740,13 @@ describe('ValueBlock', () => {
             label={<Value.String path="/label" />}
           />
           <Value.String path="/myPath" inheritLabel />
-        </Form.Handler>
+        </Form.Handler>,
       )
       expect(
-        document.querySelector('.dnb-forms-field-string')
+        document.querySelector('.dnb-forms-field-string'),
       ).toHaveTextContent('The label')
       expect(
-        document.querySelector('.dnb-forms-value-string')
+        document.querySelector('.dnb-forms-value-string'),
       ).toHaveTextContent('The label')
     })
   })
@@ -759,7 +763,7 @@ describe('ValueBlock', () => {
           }}
         >
           Value
-        </ValueBlock>
+        </ValueBlock>,
       )
 
       const element = document.querySelector('.dnb-help-button__content')
@@ -778,7 +782,7 @@ describe('ValueBlock', () => {
           }}
         >
           Value
-        </ValueBlock>
+        </ValueBlock>,
       )
 
       const element = document.querySelector('.dnb-help-button__content')
@@ -797,7 +801,7 @@ describe('ValueBlock', () => {
           }}
         >
           Value
-        </ValueBlock>
+        </ValueBlock>,
       )
 
       fireEvent.click(document.querySelector('button'))
@@ -805,7 +809,7 @@ describe('ValueBlock', () => {
       const element = document.querySelector('.dnb-help-button__content')
       expect(element).toBeInTheDocument()
       expect(
-        document.querySelector('.dnb-help-button__content')
+        document.querySelector('.dnb-help-button__content'),
       ).toHaveTextContent('Help title Help content')
     })
 
@@ -819,7 +823,7 @@ describe('ValueBlock', () => {
           }}
         >
           Value
-        </ValueBlock>
+        </ValueBlock>,
       )
 
       fireEvent.click(document.querySelector('button'))
@@ -828,7 +832,7 @@ describe('ValueBlock', () => {
         const element = document.querySelector('.dnb-help-button__content')
         expect(element).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-help-button__content')
+          document.querySelector('.dnb-help-button__content'),
         ).toHaveTextContent('Help title Help content')
       }
 
@@ -850,21 +854,21 @@ describe('ValueBlock', () => {
           }}
         >
           Value
-        </ValueBlock>
+        </ValueBlock>,
       )
 
       {
         const element = document.querySelector('.dnb-help-button__content')
         expect(element).toBeInTheDocument()
         expect(document.querySelector('button').getAttribute('id')).toBe(
-          'unique-help'
+          'unique-help',
         )
       }
       {
         const element = document.querySelector('.dnb-help-button__content')
         expect(element).toBeInTheDocument()
         expect(
-          document.querySelector('.dnb-section').getAttribute('id')
+          document.querySelector('.dnb-section').getAttribute('id'),
         ).toBe('unique-help-content')
       }
     })
@@ -881,13 +885,13 @@ describe('ValueBlock', () => {
           }}
         >
           Value
-        </ValueBlock>
+        </ValueBlock>,
       )
 
       const element = document.querySelector('.dnb-help-button__content')
       expect(element).toBeInTheDocument()
       expect(
-        document.querySelector('button').getAttribute('aria-controls')
+        document.querySelector('button').getAttribute('aria-controls'),
       ).toBe('unique-help-content')
     })
 
@@ -901,7 +905,7 @@ describe('ValueBlock', () => {
             }}
           >
             Value
-          </ValueBlock>
+          </ValueBlock>,
         )
 
         await userEvent.click(document.querySelector('button'))
@@ -921,7 +925,7 @@ describe('ValueBlock', () => {
             }}
           >
             Value
-          </ValueBlock>
+          </ValueBlock>,
         )
 
         await userEvent.click(document.querySelector('button'))
@@ -942,7 +946,7 @@ describe('ValueBlock', () => {
             }}
           >
             Value
-          </ValueBlock>
+          </ValueBlock>,
         )
 
         await userEvent.click(document.querySelector('button'))

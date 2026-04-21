@@ -52,10 +52,10 @@ const UploadFileInput = ({
       onInputUpload(
         Array.from(files).map((file) => {
           return { file }
-        })
+        }),
       )
     },
-    [onInputUpload]
+    [onInputUpload],
   )
 
   const onClickHandler = useCallback((event: React.SyntheticEvent) => {

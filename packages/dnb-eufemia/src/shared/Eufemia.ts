@@ -69,7 +69,7 @@ export function init() {
       }> {
         return window.__eufemiaSHAs.map((sha, i) => {
           const scopeElement = document.querySelector(
-            `[data-scope-hash-id][data-scope-sha="${sha}"]`
+            `[data-scope-hash-id][data-scope-sha="${sha}"]`,
           )
           const styleElement =
             scopeElement?.querySelector('.dnb-core-style')

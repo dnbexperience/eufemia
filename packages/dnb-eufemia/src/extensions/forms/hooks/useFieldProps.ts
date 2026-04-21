@@ -72,7 +72,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     omitMultiplePathWarning = false,
     forceUpdateWhenContextDataIsSet = false,
     omitSectionPath = false,
-  } = {}
+  } = {},
 ): typeof localProps & ReturnAdditional<Value> {
   const { extend } = useContext(FieldProviderContext)
   const props = extend(localProps)
@@ -109,7 +109,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     transformValue = (value: Value) => value,
     provideAdditionalArgs = (
       value: Value,
-      additionalArgs: ProvideAdditionalEventArgs
+      additionalArgs: ProvideAdditionalEventArgs,
     ) => additionalArgs,
     fromExternal = (value: Value) => value,
     validateRequired = (value, { emptyValue, required, error }) => {
@@ -184,7 +184,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const disabled = disabledProp ?? readOnly
   const inFieldBlock = Boolean(
-    fieldBlockContext && fieldBlockContext.disableStatusSummary !== true
+    fieldBlockContext && fieldBlockContext.disableStatusSummary !== true,
   )
 
   // Support schema as a factory function evaluated after props are extended
@@ -264,7 +264,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         identifier === sectionSchemaPath ||
         identifier.startsWith(`${sectionSchemaPath}/`)
       )
-    })
+    }),
   )
 
   const defaultValueRef = useRef(defaultValue)
@@ -312,7 +312,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   // Ensure externalValue is strongly typed as Value (transformIn returns Value by contract)
   const externalValue: Value = transformers.current.transformIn(
-    tmpValue ?? defaultValueRef.current
+    tmpValue ?? defaultValueRef.current,
   ) as Value
 
   // Initialize valueRef with externalValue on first render (useRef only uses
@@ -338,7 +338,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       warn(
         `Field${
           identifier ? ` (${identifier})` : ''
-        } received a JSON Schema but no ajvInstance was provided to Form.Handler. Provide "ajvInstance" on Form.Handler.`
+        } received a JSON Schema but no ajvInstance was provided to Form.Handler. Provide "ajvInstance" on Form.Handler.`,
       )
     }
   }, [
@@ -416,7 +416,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         }
       )
     },
-    [fieldInternalsRef]
+    [fieldInternalsRef],
   )
 
   // Shared schema validator ref — used by both useFieldError (clearErrorState) and useFieldValidation
@@ -601,7 +601,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       return false
     },
-    [emptyValue]
+    [emptyValue],
   )
 
   // ─── Wire removeError (circular dependency resolution) ───────────────
@@ -667,7 +667,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     async (
       hasFocus: boolean,
       overrideValue?: Value,
-      localAdditionalArgs?: ProvideAdditionalEventArgs
+      localAdditionalArgs?: ProvideAdditionalEventArgs,
     ) => {
       const args = getEventArgs({
         eventName: hasFocus ? 'onFocus' : 'onBlur',
@@ -701,7 +701,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         addToPool(
           'onBlurValidator',
           async () => await startOnBlurValidatorProcess({ overrideValue }),
-          isAsync(onBlurValidatorRef.current)
+          isAsync(onBlurValidatorRef.current),
         )
 
         await runPool(() => {
@@ -724,7 +724,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       runPool,
       startOnBlurValidatorProcess,
       revealError,
-    ]
+    ],
   )
 
   // ─── Value updates ───────────────────────────────────────────────────
@@ -747,8 +747,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         transformedValue,
         transformers.current.provideAdditionalArgs(
           transformedValue,
-          additionalArgs
-        )
+          additionalArgs,
+        ),
       )
 
       valueRef.current = transformedValue
@@ -756,7 +756,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       if (hasPath || itemPath) {
         handlePathChangeUnvalidatedDataContext(
           nestedIteratePath || identifier,
-          contextValue
+          contextValue,
         )
       }
 
@@ -765,20 +765,20 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           makeIteratePath(itemPath, '', {
             omitSectionPath: true,
           }),
-          contextValue
+          contextValue,
         )
       }
 
       addToPool(
         'onChangeValidator',
         validateValue,
-        isAsync(onChangeValidatorRef.current)
+        isAsync(onChangeValidatorRef.current),
       )
 
       addToPool(
         'onChangeContext',
         callOnChangeContext,
-        isAsync(onChangeContext)
+        isAsync(onChangeContext),
       )
 
       await runPool(() => {
@@ -804,7 +804,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       handleChangeIterateContext,
       makeIteratePath,
       handleError,
-    ]
+    ],
   )
 
   const setDisplayValue: ReturnAdditional<Value>['setDisplayValue'] =
@@ -819,7 +819,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         }
 
         fieldDisplayValueRef.current[fieldPath] = valueEqualsEmptyValue(
-          valueRef.current
+          valueRef.current,
         )
           ? { type }
           : { value, type }
@@ -830,17 +830,17 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         itemPath,
         path,
         valueEqualsEmptyValue,
-      ]
+      ],
     )
 
   const handleChange = useCallback(
     async (
       argFromInput: Value | unknown,
-      localAdditionalArgs: ProvideAdditionalEventArgs = undefined
+      localAdditionalArgs: ProvideAdditionalEventArgs = undefined,
     ) => {
       const currentValue = valueRef.current
       const fromInput = transformers.current.fromInput(
-        argFromInput as Value
+        argFromInput as Value,
       )
       const valueIsUnchanged = fromInput === currentValue
 
@@ -899,13 +899,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
               // If the value has changed during the async process, we don't want to call the onChange anymore
               await setEventResult(
                 ((await onChange?.(...(args as [any]))) ??
-                  null) as EventReturnWithStateObjectAndSuccess
+                  null) as EventReturnWithStateObjectAndSuccess,
               )
             } else {
               await setEventResult(null)
             }
           },
-          true
+          true,
         )
       } else {
         const args = getEventArgs({
@@ -917,7 +917,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
         setEventResult(
           (onChange?.(...(args as [any])) ??
-            null) as EventReturnWithStateObjectAndSuccess
+            null) as EventReturnWithStateObjectAndSuccess,
         )
       }
 
@@ -939,7 +939,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       transformers,
       updateValue,
       yieldAsyncProcess,
-    ]
+    ],
   )
 
   const handleFocus = useCallback(() => setHasFocus(true), [setHasFocus])
@@ -1076,7 +1076,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
             }>(createReferenceKey(dataContext.id, 'attachments')).get?.()
           : undefined
         const hasFieldConnection = Boolean(
-          sharedAttachments?.fieldConnectionsRef?.current?.[identifier]
+          sharedAttachments?.fieldConnectionsRef?.current?.[identifier],
         )
 
         if (!isMounted && !hasFieldConnection) {
@@ -1141,7 +1141,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         addToPool(
           'onBlurValidator',
           async () => await startOnBlurValidatorProcess(),
-          isAsync(onBlurValidatorRef.current)
+          isAsync(onBlurValidatorRef.current),
         )
 
         runPool(() => {
@@ -1366,11 +1366,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
 
       const valueIn: Value = transformers.current.transformIn(
-        valueToStore
+        valueToStore,
       ) as Value
       const transformedValue = transformers.current.transformOut(
         valueIn,
-        transformers.current.provideAdditionalArgs(valueIn)
+        transformers.current.provideAdditionalArgs(valueIn),
       )
       if (transformedValue !== valueToStore) {
         // When the value got transformed, we want to update the internal value, and avoid an infinite loop
@@ -1415,7 +1415,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       updateDataValueDataContext,
       validateDataDataContext,
       valueProp,
-    ]
+    ],
   )
 
   const isEmptyData = useCallback(
@@ -1432,7 +1432,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       dataContext.internalDataRef,
       dataContext.props?.emptyData,
       externalValueDeps, // ensure to include "externalValue" in order to properly remove errors
-    ]
+    ],
   )
 
   // Use "useLayoutEffect" to be in sync with the data context "updateDataValueDataContext".
@@ -1521,13 +1521,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     addToPool(
       'onChangeValidator',
       startOnChangeValidatorValidation,
-      isAsync(onChangeValidatorRef.current)
+      isAsync(onChangeValidatorRef.current),
     )
 
     addToPool(
       'onBlurValidator',
       startOnBlurValidatorProcess,
-      isAsync(onBlurValidatorRef.current)
+      isAsync(onBlurValidatorRef.current),
     )
 
     await runPool()
@@ -1667,7 +1667,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         }
         return acc
       },
-      { ...props.htmlAttributes }
+      { ...props.htmlAttributes },
     )
   }, [props])
 
@@ -1693,7 +1693,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           bufferedError && stateIds.error,
           warning && stateIds.warning,
           info && stateIds.information,
-        ].filter(Boolean)
+        ].filter(Boolean),
       )
     }
   } else {
@@ -1706,7 +1706,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     if (ids.length) {
       htmlAttributes['aria-describedby'] = combineDescribedBy(
         htmlAttributes,
-        ids
+        ids,
       )
     }
   }
@@ -1715,7 +1715,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   if (help?.title || help?.content) {
     htmlAttributes['aria-describedby'] = combineDescribedBy(
       htmlAttributes,
-      `${id}-help`
+      `${id}-help`,
     )
   }
 
@@ -1804,20 +1804,20 @@ export type ReturnAdditional<Value> = {
   setHasFocus: (
     hasFocus: boolean,
     overrideValue?: Value,
-    additionalArgs?: ProvideAdditionalEventArgs
+    additionalArgs?: ProvideAdditionalEventArgs,
   ) => void
   handleError: () => void
   handleFocus: () => void
   handleBlur: () => void
   handleChange: (
     value: Value | unknown,
-    additionalArgs?: ProvideAdditionalEventArgs
+    additionalArgs?: ProvideAdditionalEventArgs,
   ) => void
   updateValue: (value: Value) => void
   setChanged: (state: boolean) => void
   setDisplayValue: (
     value: React.ReactNode,
-    { path, type }?: { path?: Identifier; type?: 'field' }
+    { path, type }?: { path?: Identifier; type?: 'field' },
   ) => void
   forceUpdate: () => void
   hasError?: boolean

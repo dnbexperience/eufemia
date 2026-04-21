@@ -83,7 +83,7 @@ const UploadInfo = () => {
               <Dd>
                 {String(fileSizeContent).replace(
                   '%size',
-                  formatNumber(fileMaxSize).toString()
+                  formatNumber(fileMaxSize).toString(),
                 )}
               </Dd>
             </Dl.Item>
@@ -119,10 +119,10 @@ function UploadInfoAcceptedFileTypesTable() {
 
   const groupByFileMaxSize = (
     acceptedFileTypes: UploadProps['acceptedFileTypes'],
-    fallBackFileMaxSize: UploadProps['fileMaxSize']
+    fallBackFileMaxSize: UploadProps['fileMaxSize'],
   ) => {
     const fileMaxSizeIsFalseOrZero = (
-      fileMaxSize: UploadProps['fileMaxSize']
+      fileMaxSize: UploadProps['fileMaxSize'],
     ) => {
       return fileMaxSize === false || fileMaxSize === 0
     }
@@ -147,7 +147,7 @@ function UploadInfoAcceptedFileTypesTable() {
 
   const acceptedFileTypesGroupedByFileMaxSize = groupByFileMaxSize(
     acceptedFileTypes,
-    fileMaxSize
+    fileMaxSize,
   )
 
   return (
@@ -173,16 +173,16 @@ function UploadInfoAcceptedFileTypesTable() {
                   {prettifyAcceptedFileFormats(
                     acceptedFileTypesGroupedByFileMaxSize[key].map(
                       (
-                        acceptedFileTypesObj: UploadAcceptedFileTypeObject
-                      ) => acceptedFileTypesObj.fileType
-                    )
+                        acceptedFileTypesObj: UploadAcceptedFileTypeObject,
+                      ) => acceptedFileTypesObj.fileType,
+                    ),
                   )}
                 </Td>
                 <Td>
                   {key !== '0' &&
                     String(fileSizeContent).replace(
                       '%size',
-                      formatNumber(key).toString()
+                      formatNumber(key).toString(),
                     )}
                 </Td>
               </Tr>

@@ -19,7 +19,7 @@ function createDocsFixture(): DocsFixture {
 
   fs.writeFileSync(
     path.join(docsRoot, 'llm.md'),
-    '# Eufemia Docs\n\nWelcome.'
+    '# Eufemia Docs\n\nWelcome.',
   )
 
   fs.writeFileSync(
@@ -43,7 +43,7 @@ function createDocsFixture(): DocsFixture {
       '```json',
       JSON.stringify([{ name: 'onClick' }], null, 2),
       '```',
-    ].join('\n')
+    ].join('\n'),
   )
 
   fs.writeFileSync(
@@ -55,7 +55,7 @@ function createDocsFixture(): DocsFixture {
       '# Input',
       '',
       'The Input component is used in forms. This is a form components for text input.',
-    ].join('\n')
+    ].join('\n'),
   )
 
   fs.writeFileSync(
@@ -67,7 +67,7 @@ function createDocsFixture(): DocsFixture {
       '# Form',
       '',
       'Form components help build user interfaces. Use form elements like input fields.',
-    ].join('\n')
+    ].join('\n'),
   )
 
   fs.writeFileSync(
@@ -79,7 +79,7 @@ function createDocsFixture(): DocsFixture {
       '# TextField',
       '',
       'A text field is an input element for entering text data.',
-    ].join('\n')
+    ].join('\n'),
   )
 
   // Add Field.Address component in extensions/forms/feature-fields
@@ -87,7 +87,7 @@ function createDocsFixture(): DocsFixture {
     docsRoot,
     'uilib',
     'extensions',
-    'forms'
+    'forms',
   )
   const featureFieldsDir = path.join(extensionsFormsDir, 'feature-fields')
   fs.mkdirSync(featureFieldsDir, { recursive: true })
@@ -101,7 +101,7 @@ function createDocsFixture(): DocsFixture {
       '# Field.Address',
       '',
       'Field.Address is a wrapper component for the input of strings.',
-    ].join('\n')
+    ].join('\n'),
   )
 
   // Add Field.String component in extensions/forms/base-fields
@@ -117,7 +117,7 @@ function createDocsFixture(): DocsFixture {
       '# Field.String',
       '',
       'Field.String is the base component for receiving user input.',
-    ].join('\n')
+    ].join('\n'),
   )
 
   // Add Value.Address component in extensions/forms/Value
@@ -133,7 +133,7 @@ function createDocsFixture(): DocsFixture {
       '# Value.Address',
       '',
       'Value.Address is a wrapper component for displaying string values.',
-    ].join('\n')
+    ].join('\n'),
   )
 
   return {
@@ -146,7 +146,7 @@ function createDocsFixture(): DocsFixture {
 
 function getText(result: CallToolResult) {
   const block = result.content?.find(
-    (item): item is { type: 'text'; text: string } => item.type === 'text'
+    (item): item is { type: 'text'; text: string } => item.type === 'text',
   )
   return block?.text ?? ''
 }
@@ -288,7 +288,7 @@ describe('docs_search', () => {
     // Should find input.md which contains "form", "components", and "input"
     expect(hits.length).toBeGreaterThan(0)
     const inputHit = hits.find(
-      (h) => h.path === '/uilib/components/input.md'
+      (h) => h.path === '/uilib/components/input.md',
     )
     expect(inputHit).toBeDefined()
     expect(inputHit?.snippet.toLowerCase()).toMatch(/form/)
@@ -309,7 +309,7 @@ describe('docs_search', () => {
     }>
     // Should still find input.md even though words are in different order
     const inputHit = hits.find(
-      (h) => h.path === '/uilib/components/input.md'
+      (h) => h.path === '/uilib/components/input.md',
     )
     expect(inputHit).toBeDefined()
   })
@@ -326,10 +326,10 @@ describe('docs_search', () => {
     }>
     // Should find both input.md and form.md
     const inputHit = hits.find(
-      (h) => h.path === '/uilib/components/input.md'
+      (h) => h.path === '/uilib/components/input.md',
     )
     const formHit = hits.find(
-      (h) => h.path === '/uilib/components/form.md'
+      (h) => h.path === '/uilib/components/form.md',
     )
     expect(inputHit || formHit).toBeDefined()
   })
@@ -360,7 +360,7 @@ describe('docs_search', () => {
     // Should find results regardless of case
     expect(hits.length).toBeGreaterThan(0)
     const inputHit = hits.find(
-      (h) => h.path === '/uilib/components/input.md'
+      (h) => h.path === '/uilib/components/input.md',
     )
     expect(inputHit).toBeDefined()
   })
@@ -378,7 +378,7 @@ describe('docs_search', () => {
     // Should handle extra whitespace gracefully
     expect(hits.length).toBeGreaterThan(0)
     const inputHit = hits.find(
-      (h) => h.path === '/uilib/components/input.md'
+      (h) => h.path === '/uilib/components/input.md',
     )
     expect(inputHit).toBeDefined()
   })
@@ -408,7 +408,7 @@ describe('docs_search', () => {
     // Results should be sorted by score descending
     for (let i = 1; i < hits.length; i++) {
       expect(hits[i - 1]?.score).toBeGreaterThanOrEqual(
-        hits[i]?.score ?? 0
+        hits[i]?.score ?? 0,
       )
     }
   })
@@ -437,7 +437,7 @@ describe('docs_search', () => {
     }>
     expect(hits.length).toBeGreaterThan(0)
     const inputHit = hits.find(
-      (h) => h.path === '/uilib/components/input.md'
+      (h) => h.path === '/uilib/components/input.md',
     )
     expect(inputHit?.occurrences).toBeGreaterThan(0)
   })
@@ -480,7 +480,7 @@ describe('component_find', () => {
       docExists?: boolean
     }
     expect(info.doc).toBe(
-      '/uilib/extensions/forms/feature-fields/Address.mdx'
+      '/uilib/extensions/forms/feature-fields/Address.mdx',
     )
     expect(info.docExists).toBe(true)
   })
@@ -515,7 +515,7 @@ describe('component_find', () => {
       docExists?: boolean
     }
     expect(info.doc).toBe(
-      '/uilib/extensions/forms/feature-fields/Address.mdx'
+      '/uilib/extensions/forms/feature-fields/Address.mdx',
     )
     expect(info.docExists).toBe(true)
   })
@@ -528,7 +528,7 @@ describe('component_find', () => {
       docExists?: boolean
     }
     expect(info.doc).toBe(
-      '/uilib/extensions/forms/feature-fields/Nonexistent.mdx'
+      '/uilib/extensions/forms/feature-fields/Nonexistent.mdx',
     )
     expect(info.docExists).toBe(false)
   })
@@ -636,22 +636,22 @@ describe('MCP dependency configuration', () => {
   it('has @modelcontextprotocol/sdk dependency declared in package.json', () => {
     const packageJsonPath = path.join(__dirname, '../../../package.json')
     const packageJson = JSON.parse(
-      fs.readFileSync(packageJsonPath, 'utf8')
+      fs.readFileSync(packageJsonPath, 'utf8'),
     )
 
     expect(packageJson.dependencies).toBeDefined()
     expect(
-      packageJson.dependencies['@modelcontextprotocol/sdk']
+      packageJson.dependencies['@modelcontextprotocol/sdk'],
     ).toBeDefined()
     expect(
-      packageJson.dependencies['@modelcontextprotocol/sdk']
+      packageJson.dependencies['@modelcontextprotocol/sdk'],
     ).toBeTruthy()
   })
 
   it('has .vscode/mcp.json with correct eufemia server configuration', () => {
     const mcpConfigPath = path.join(
       __dirname,
-      '../../../../../.vscode/mcp.json'
+      '../../../../../.vscode/mcp.json',
     )
     expect(fs.existsSync(mcpConfigPath)).toBe(true)
 

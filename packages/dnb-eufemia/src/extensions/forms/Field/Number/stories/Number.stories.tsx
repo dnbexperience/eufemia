@@ -85,7 +85,7 @@ export const WithFreshValidator = () => {
 export const ConditionalInfo = () => {
   const conditionalInfo: UseFieldProps<number>['info'] = (
     maximum: number,
-    { conditionally, getValueByPath, getFieldByPath }
+    { conditionally, getValueByPath, getFieldByPath },
   ) => {
     return conditionally(
       () => {
@@ -118,13 +118,13 @@ export const ConditionalInfo = () => {
       },
       {
         showInitially: true,
-      }
+      },
     )
   }
 
   const onBlurValidator: UseFieldProps<number>['onBlurValidator'] = (
     amount: number,
-    { connectWithPath }
+    { connectWithPath },
   ) => {
     const maximum = connectWithPath('/maximum').getValue()
 

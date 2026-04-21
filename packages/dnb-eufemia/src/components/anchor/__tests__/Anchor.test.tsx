@@ -27,7 +27,7 @@ describe('Anchor element', () => {
       render(
         <Anchor href="/url" target="_blank" id="unique-id" lang="nb-NO">
           text
-        </Anchor>
+        </Anchor>,
       )
 
       const anchorElement = document.querySelector('a')
@@ -60,7 +60,7 @@ describe('Anchor element', () => {
           lang="nb-NO"
         >
           text
-        </Anchor>
+        </Anchor>,
       )
 
       const anchorElement = document.querySelector('a')
@@ -93,7 +93,7 @@ describe('Anchor element', () => {
           lang="nb-NO"
         >
           text
-        </Anchor>
+        </Anchor>,
       )
 
       const anchorElement = document.querySelector('a')
@@ -120,12 +120,12 @@ describe('Anchor element', () => {
       render(
         <Anchor href="/url" target="_blank">
           <span>text</span>
-        </Anchor>
+        </Anchor>,
       )
       expect(
         document.querySelector(
-          '.dnb-anchor .dnb-anchor__launch-icon.dnb-icon.dnb-icon--default'
-        )
+          '.dnb-anchor .dnb-anchor__launch-icon.dnb-icon.dnb-icon--default',
+        ),
       ).toBeInTheDocument()
     })
 
@@ -133,28 +133,28 @@ describe('Anchor element', () => {
       const { rerender } = render(
         <Anchor href="mailto:" target="_blank">
           <span>text</span>
-        </Anchor>
+        </Anchor>,
       )
       expect(
-        document.querySelector('.dnb-anchor--launch-icon')
+        document.querySelector('.dnb-anchor--launch-icon'),
       ).not.toBeInTheDocument()
 
       rerender(
         <Anchor href="tel:" target="_blank">
           <span>text</span>
-        </Anchor>
+        </Anchor>,
       )
       expect(
-        document.querySelector('.dnb-anchor--launch-icon')
+        document.querySelector('.dnb-anchor--launch-icon'),
       ).not.toBeInTheDocument()
 
       rerender(
         <Anchor href="sms:" target="_blank">
           <span>text</span>
-        </Anchor>
+        </Anchor>,
       )
       expect(
-        document.querySelector('.dnb-anchor--launch-icon')
+        document.querySelector('.dnb-anchor--launch-icon'),
       ).not.toBeInTheDocument()
     })
 
@@ -162,7 +162,7 @@ describe('Anchor element', () => {
       render(
         <Anchor href="/url" target="_blank">
           text
-        </Anchor>
+        </Anchor>,
       )
 
       const anchorElement = document.querySelector('a')
@@ -173,7 +173,7 @@ describe('Anchor element', () => {
       render(
         <Anchor href="/url" target="_blank" rel="custom-rel">
           text
-        </Anchor>
+        </Anchor>,
       )
 
       const anchorElement = document.querySelector('a')
@@ -188,10 +188,10 @@ describe('Anchor element', () => {
           className="dnb-anchor--no-launch-icon"
         >
           <span>text</span>
-        </Anchor>
+        </Anchor>,
       )
       expect(
-        document.querySelector('.dnb-anchor--launch-icon')
+        document.querySelector('.dnb-anchor--launch-icon'),
       ).not.toBeInTheDocument()
     })
 
@@ -199,13 +199,13 @@ describe('Anchor element', () => {
       render(
         <Anchor href="/url" target="_blank" title="Title">
           <span>text</span>
-        </Anchor>
+        </Anchor>,
       )
       expect(
-        document.querySelector('.dnb-tooltip')
+        document.querySelector('.dnb-tooltip'),
       ).not.toBeInTheDocument()
       expect(
-        document.querySelector('.dnb-tooltip__sr-description')
+        document.querySelector('.dnb-tooltip__sr-description'),
       ).not.toBeInTheDocument()
     })
 
@@ -213,7 +213,7 @@ describe('Anchor element', () => {
       const { rerender } = render(
         <Anchor href="/url" target="_blank" lang="en-GB">
           text
-        </Anchor>
+        </Anchor>,
       )
 
       const anchorElement = document.querySelector('a')
@@ -239,13 +239,13 @@ describe('Anchor element', () => {
       rerender(
         <Anchor href="/url" target="_blank" lang="en-GB" title={title}>
           text
-        </Anchor>
+        </Anchor>,
       )
 
       expect(
         (document.querySelector('a') as HTMLAnchorElement).getAttribute(
-          'title'
-        )
+          'title',
+        ),
       ).toBe(title)
       // When title is provided, tooltip should not be rendered
       expect(anchorElement.getAttribute('aria-describedby')).toBeNull()
@@ -260,12 +260,12 @@ describe('Anchor element', () => {
           iconPosition="right"
         >
           text
-        </Anchor>
+        </Anchor>,
       )
 
       expect(document.querySelectorAll('.dnb-icon')).toHaveLength(1)
       expect(
-        document.querySelector('.dnb-icon').getAttribute('data-testid')
+        document.querySelector('.dnb-icon').getAttribute('data-testid'),
       ).toBe('bell icon')
 
       rerender(
@@ -276,12 +276,12 @@ describe('Anchor element', () => {
           iconPosition="right"
         >
           text
-        </Anchor>
+        </Anchor>,
       )
 
       expect(document.querySelectorAll('.dnb-icon')).toHaveLength(1)
       expect(
-        document.querySelector('.dnb-icon').getAttribute('data-testid')
+        document.querySelector('.dnb-icon').getAttribute('data-testid'),
       ).toBe('bell icon')
     })
 
@@ -294,18 +294,18 @@ describe('Anchor element', () => {
           iconPosition="left"
         >
           text
-        </Anchor>
+        </Anchor>,
       )
 
       expect(document.querySelectorAll('.dnb-icon')).toHaveLength(2)
       expect(
         document
           .querySelector('.dnb-anchor .dnb-icon:first-child')
-          .getAttribute('data-testid')
+          .getAttribute('data-testid'),
       ).toBe('bell icon')
       expect(
         document.querySelector('.dnb-anchor .dnb-icon:last-child')
-          .classList
+          .classList,
       ).toContain('dnb-anchor__launch-icon')
 
       rerender(
@@ -316,18 +316,18 @@ describe('Anchor element', () => {
           iconPosition="left"
         >
           text
-        </Anchor>
+        </Anchor>,
       )
 
       expect(document.querySelectorAll('.dnb-icon')).toHaveLength(2)
       expect(
         document
           .querySelector('.dnb-anchor .dnb-icon:first-child')
-          .getAttribute('data-testid')
+          .getAttribute('data-testid'),
       ).toBe('bell icon')
       expect(
         document.querySelector('.dnb-anchor .dnb-icon:last-child')
-          .classList
+          .classList,
       ).toContain('dnb-anchor__launch-icon')
     })
   })
@@ -346,10 +346,10 @@ describe('Anchor element', () => {
     render(
       <Anchor href="/url" id="unique-id">
         text
-      </Anchor>
+      </Anchor>,
     )
     expect(document.querySelector('a').getAttribute('id')).toBe(
-      'unique-id'
+      'unique-id',
     )
   })
 
@@ -357,7 +357,7 @@ describe('Anchor element', () => {
     render(
       <Anchor href="/url" id="unique-id" tooltip="Tooltip">
         text
-      </Anchor>
+      </Anchor>,
     )
 
     const anchorElement = document.querySelector('a')
@@ -382,7 +382,7 @@ describe('Anchor element', () => {
     render(
       <Anchor href="/url" id="unique-id" tooltip="Tooltip">
         text
-      </Anchor>
+      </Anchor>,
     )
 
     const element = document.getElementById('unique-id')
@@ -408,7 +408,7 @@ describe('Anchor element', () => {
     render(
       <Anchor href="/url" id="unique-id" tooltip="Tooltip">
         text
-      </Anchor>
+      </Anchor>,
     )
 
     const element = document.getElementById('unique-id')
@@ -416,7 +416,7 @@ describe('Anchor element', () => {
 
     expect(
       document.querySelector('#unique-id-tooltip.dnb-tooltip__content')
-        .parentElement.classList
+        .parentElement.classList,
     ).toContain('dnb-tooltip--active')
 
     globalThis.IS_TEST = false
@@ -426,10 +426,10 @@ describe('Anchor element', () => {
     render(
       <Anchor href="/url">
         <span>text</span>
-      </Anchor>
+      </Anchor>,
     )
     expect(
-      document.querySelector('.dnb-anchor--was-node')
+      document.querySelector('.dnb-anchor--was-node'),
     ).toBeInTheDocument()
   })
 
@@ -439,7 +439,7 @@ describe('Anchor element', () => {
     render(
       <Anchor ref={ref} to="/url">
         text
-      </Anchor>
+      </Anchor>,
     )
 
     const element = document.querySelector('.dnb-anchor')
@@ -507,7 +507,7 @@ describe('Anchor element', () => {
     render(
       <Anchor rel="external" href="http://www.externallink.com/">
         text
-      </Anchor>
+      </Anchor>,
     )
     expect(document.querySelector('[rel="external"]')).toBeInTheDocument()
   })
@@ -521,10 +521,10 @@ describe('Anchor element', () => {
     render(
       <Anchor href="/url" icon="bell" iconPosition="left">
         text
-      </Anchor>
+      </Anchor>,
     )
     expect(
-      document.querySelector('.dnb-anchor--icon-left')
+      document.querySelector('.dnb-anchor--icon-left'),
     ).toBeInTheDocument()
   })
 
@@ -532,10 +532,10 @@ describe('Anchor element', () => {
     render(
       <Anchor href="/url" icon="bell" iconPosition="right">
         text
-      </Anchor>
+      </Anchor>,
     )
     expect(
-      document.querySelector('.dnb-anchor--icon-right')
+      document.querySelector('.dnb-anchor--icon-right'),
     ).toBeInTheDocument()
   })
 
@@ -543,10 +543,10 @@ describe('Anchor element', () => {
     render(
       <Anchor href="/url" icon="bell">
         text
-      </Anchor>
+      </Anchor>,
     )
     expect(
-      document.querySelector('.dnb-anchor--icon-left')
+      document.querySelector('.dnb-anchor--icon-left'),
     ).toBeInTheDocument()
   })
 
@@ -575,7 +575,7 @@ describe('Anchor element', () => {
     render(
       <Anchor to="/url" element={Link}>
         text
-      </Anchor>
+      </Anchor>,
     )
 
     expect(document.querySelector('a')).toHaveAttribute('href', '/url')
@@ -585,7 +585,7 @@ describe('Anchor element', () => {
     render(<Anchor element="button">text</Anchor>)
 
     expect(document.querySelector('.dnb-anchor').className).not.toContain(
-      'dnb-button'
+      'dnb-button',
     )
   })
 
@@ -652,7 +652,7 @@ describe('Anchor element', () => {
 
     expect(anchor).toHaveClass('dnb-anchor--no-launch-icon')
     expect(
-      document.querySelector('.dnb-anchor__launch-icon')
+      document.querySelector('.dnb-anchor__launch-icon'),
     ).not.toBeInTheDocument()
   })
 
@@ -661,7 +661,7 @@ describe('Anchor element', () => {
       render(
         <Theme.Context surface="dark">
           <Anchor href="/url">text</Anchor>
-        </Theme.Context>
+        </Theme.Context>,
       )
 
       const anchor = document.querySelector('.dnb-anchor')
@@ -674,7 +674,7 @@ describe('Anchor element', () => {
       render(
         <Anchor href="/url" target="_blank" disabled lang="nb-NO">
           text
-        </Anchor>
+        </Anchor>,
       )
 
       const anchorElement = document.querySelector('a')
@@ -697,7 +697,7 @@ describe('Anchor element', () => {
       render(
         <Anchor href="/url" tooltip="Tooltip" disabled>
           text
-        </Anchor>
+        </Anchor>,
       )
 
       const anchorElement = document.querySelector('a')
@@ -722,7 +722,7 @@ describe('Anchor element', () => {
       render(
         <Anchor href="/url" disabled onClick={onClick}>
           text
-        </Anchor>
+        </Anchor>,
       )
 
       const anchor = document.querySelector('a')
@@ -739,7 +739,7 @@ describe('Anchor element', () => {
       render(
         <Anchor element="button" disabled>
           text
-        </Anchor>
+        </Anchor>,
       )
 
       const button = document.querySelector('button')
@@ -750,11 +750,11 @@ describe('Anchor element', () => {
       render(
         <Anchor href="/url" target="_blank" disabled>
           text
-        </Anchor>
+        </Anchor>,
       )
 
       expect(
-        document.querySelector('.dnb-anchor__launch-icon')
+        document.querySelector('.dnb-anchor__launch-icon'),
       ).not.toBeInTheDocument()
     })
 
@@ -762,7 +762,7 @@ describe('Anchor element', () => {
       const Component = render(
         <Anchor href="/url" disabled>
           text
-        </Anchor>
+        </Anchor>,
       )
       expect(await axeComponent(Component)).toHaveNoViolations()
     })
@@ -780,10 +780,10 @@ describe('Anchor scss', () => {
     (themeName) => {
       const css = loadScss(
         require.resolve(
-          `../style/themes/dnb-anchor-theme-${themeName}.scss`
-        )
+          `../style/themes/dnb-anchor-theme-${themeName}.scss`,
+        ),
       )
       expect(css).toMatchSnapshot()
-    }
+    },
   )
 })

@@ -23,7 +23,7 @@ function createGitClient(context: RunnerContext): SimpleGit {
 
 async function runGitCommand(
   context: RunnerContext,
-  args: string[]
+  args: string[],
 ): Promise<string> {
   const git = createGitClient(context)
   const output = await git.raw(args)
@@ -32,7 +32,7 @@ async function runGitCommand(
 
 async function tryRunGitCommand(
   context: RunnerContext,
-  args: string[]
+  args: string[],
 ): Promise<string | null> {
   try {
     return await runGitCommand(context, args)
@@ -42,7 +42,7 @@ async function tryRunGitCommand(
 }
 
 async function getVersionBranchRefs(
-  context: RunnerContext
+  context: RunnerContext,
 ): Promise<string[]> {
   try {
     const output = await runGitCommand(context, [
@@ -62,7 +62,7 @@ async function getVersionBranchRefs(
 
 async function getCommitTimestamp(
   context: RunnerContext,
-  commitRef: string
+  commitRef: string,
 ): Promise<number | null> {
   const output = await tryRunGitCommand(context, [
     'show',
@@ -80,7 +80,7 @@ async function getCommitTimestamp(
 }
 
 export async function getLatestCommitMessage(
-  context: RunnerContext
+  context: RunnerContext,
 ): Promise<string> {
   try {
     return await runGitCommand(context, ['log', '-1', '--pretty=%B'])
@@ -97,7 +97,7 @@ export function shouldRunAll(commitMessage: string): boolean {
 
 async function getChangedFilesFromRange(
   context: RunnerContext,
-  rangeExpression: string
+  rangeExpression: string,
 ): Promise<string[]> {
   try {
     return parseFilesOutput(
@@ -105,7 +105,7 @@ async function getChangedFilesFromRange(
         'diff',
         '--name-only',
         rangeExpression,
-      ])
+      ]),
     )
   } catch {
     return []
@@ -113,7 +113,7 @@ async function getChangedFilesFromRange(
 }
 
 async function getChangedFilesFromUncommitted(
-  context: RunnerContext
+  context: RunnerContext,
 ): Promise<string[]> {
   const commands = [
     ['diff', '--name-only'],
@@ -127,7 +127,7 @@ async function getChangedFilesFromUncommitted(
       parseFilesOutput(await runGitCommand(context, command)).forEach(
         (filePath) => {
           files.add(filePath)
-        }
+        },
       )
     } catch {
       // Continue with other commands.
@@ -140,7 +140,7 @@ async function getChangedFilesFromUncommitted(
 }
 
 async function getChangedFilesFromBranchBase(
-  context: RunnerContext
+  context: RunnerContext,
 ): Promise<string[]> {
   const versionRefs = await getVersionBranchRefs(context)
   const explicitBaseRef = process.env[BASE_REF_ENV_VAR]
@@ -159,8 +159,8 @@ async function getChangedFilesFromBranchBase(
           explicitBaseRef.startsWith('origin/')
             ? explicitBaseRef.slice('origin/'.length)
             : `origin/${explicitBaseRef}`,
-        ].filter(Boolean) as string[]
-      )
+        ].filter(Boolean) as string[],
+      ),
     )
 
     for (const refName of explicitRefs) {
@@ -185,8 +185,8 @@ async function getChangedFilesFromBranchBase(
         ...githubBaseRefs,
         ...versionRefs,
         ...DEFAULT_BRANCH_BASE_REFS,
-      ].filter(Boolean) as string[]
-    )
+      ].filter(Boolean) as string[],
+    ),
   )
 
   let bestMergeBase: string | null = null
@@ -232,7 +232,7 @@ function getChangedFilesFromEnvironment(): string[] {
   }
 
   return Array.from(
-    new Set(removeEmptyValues(raw.split('\n')).map(normalizePath))
+    new Set(removeEmptyValues(raw.split('\n')).map(normalizePath)),
   ).sort((a, b) => {
     return a.localeCompare(b)
   })
@@ -240,7 +240,7 @@ function getChangedFilesFromEnvironment(): string[] {
 
 export async function getChangedFiles(
   context: RunnerContext,
-  mode: ChangedFilesMode = 'auto'
+  mode: ChangedFilesMode = 'auto',
 ): Promise<string[]> {
   if (mode === 'uncommitted') {
     return getChangedFilesFromUncommitted(context)
@@ -253,7 +253,7 @@ export async function getChangedFiles(
     }
 
     log.warn(
-      `Warning: ${CHANGED_FILES_ENV_VAR} is not set in CI. No changed files resolved.`
+      `Warning: ${CHANGED_FILES_ENV_VAR} is not set in CI. No changed files resolved.`,
     )
     return []
   }
@@ -267,7 +267,7 @@ export async function getChangedFiles(
   const filesFromBranchBase = await getChangedFilesFromBranchBase(context)
 
   return Array.from(
-    new Set([...filesFromUncommitted, ...filesFromBranchBase])
+    new Set([...filesFromUncommitted, ...filesFromBranchBase]),
   ).sort((a, b) => {
     return a.localeCompare(b)
   })

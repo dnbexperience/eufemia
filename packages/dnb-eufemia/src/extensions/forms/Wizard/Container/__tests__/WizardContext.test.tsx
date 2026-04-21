@@ -9,7 +9,7 @@ import { Button } from '../../../../../components'
 
 jest.mock('../../../../../shared/component-helper', () => {
   const original = jest.requireActual(
-    '../../../../../shared/component-helper'
+    '../../../../../shared/component-helper',
   )
   return {
     ...original,
@@ -62,7 +62,7 @@ describe('Wizard.Context', () => {
         <Wizard.Container onStepChange={onStepChange}>
           <MyStep title="Step 1" />
           <MyStep title="Step 2" />
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       expect(output()).toHaveTextContent('Step 1')
@@ -118,7 +118,7 @@ describe('Wizard.Context', () => {
         <Wizard.Container onStepChange={onStepChange}>
           <MyStep title="Step 1" />
           <MyStep title="Step 2" />
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       expect(output()).toHaveTextContent('Step 1')
@@ -179,7 +179,7 @@ describe('Wizard.Context', () => {
         <Wizard.Container>
           <MyStep title="Step 1" />
           <MyStep title="Step 2" />
-        </Wizard.Container>
+        </Wizard.Container>,
       )
 
       expect(output()).toHaveTextContent('Step 1')

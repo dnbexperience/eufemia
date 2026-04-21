@@ -30,13 +30,13 @@ function useValueProvider(props?: Omit<ValueProviderProps, 'children'>) {
         Object.keys(nestedValueProps).length > 0
           ? assignPropsWithContext(
               props,
-              nestedValueProps as Record<string, unknown>
+              nestedValueProps as Record<string, unknown>,
             )
           : props
 
       return value as T
     },
-    [nestedValueProps, overwriteProps]
+    [nestedValueProps, overwriteProps],
   )
 
   return {

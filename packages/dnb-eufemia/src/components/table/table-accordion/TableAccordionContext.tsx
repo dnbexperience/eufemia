@@ -9,7 +9,7 @@ import type { TableTrProps } from '../TableTr'
 type TableAccordionContextProps = {
   toggleOpenTr: (
     event: React.SyntheticEvent,
-    allowInteractiveElement?: boolean
+    allowInteractiveElement?: boolean,
   ) => void
   trIsOpen: boolean
   keepInDOM: TableTrProps['keepInDOM']

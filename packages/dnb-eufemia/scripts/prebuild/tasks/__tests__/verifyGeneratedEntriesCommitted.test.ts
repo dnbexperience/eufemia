@@ -28,11 +28,11 @@ describe('verifyGeneratedEntriesCommitted', () => {
           ' M src/shared/build-info/BuildInfoData.ts',
           ' M src/components/index.ts',
           ' M src/style/dnb-ui-components.scss',
-        ].join('\n') as any
+        ].join('\n') as any,
       )
 
     expect(() => verifyGeneratedEntriesCommitted()).toThrow(
-      'Generated entry files changed during CI prebuild'
+      'Generated entry files changed during CI prebuild',
     )
   })
 
@@ -43,11 +43,11 @@ describe('verifyGeneratedEntriesCommitted', () => {
         [
           ' M packages/dnb-eufemia/src/shared/build-info/BuildInfoData.js',
           ' M packages/dnb-eufemia/src/style/dnb-ui-components.scss',
-        ].join('\n') as any
+        ].join('\n') as any,
       )
 
     expect(() => verifyGeneratedEntriesCommitted()).toThrow(
-      'Generated entry files changed during CI prebuild'
+      'Generated entry files changed during CI prebuild',
     )
   })
 
@@ -61,28 +61,28 @@ describe('verifyGeneratedEntriesCommitted', () => {
       expect.objectContaining({
         cwd: expect.stringContaining('/packages/dnb-eufemia'),
         encoding: 'utf-8',
-      })
+      }),
     )
 
     expect(
       GENERATED_ENTRY_FILE_PATTERNS.some((pattern) =>
-        pattern.test('src/components/index.ts')
-      )
+        pattern.test('src/components/index.ts'),
+      ),
     ).toBe(true)
     expect(
       GENERATED_ENTRY_FILE_PATTERNS.some((pattern) =>
-        pattern.test('src/elements/H1.ts')
-      )
+        pattern.test('src/elements/H1.ts'),
+      ),
     ).toBe(true)
     expect(
       GENERATED_ENTRY_FILE_PATTERNS.some((pattern) =>
-        pattern.test('src/extensions/lib.js')
-      )
+        pattern.test('src/extensions/lib.js'),
+      ),
     ).toBe(true)
     expect(
       GENERATED_ENTRY_FILE_PATTERNS.some((pattern) =>
-        pattern.test('src/shared/build-info/BuildInfoData.ts')
-      )
+        pattern.test('src/shared/build-info/BuildInfoData.ts'),
+      ),
     ).toBe(false)
   })
 })

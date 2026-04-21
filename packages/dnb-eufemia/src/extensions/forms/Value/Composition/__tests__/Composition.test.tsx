@@ -9,11 +9,11 @@ describe('Value.Composition', () => {
       <Value.Composition>
         <Value.String value="foo" />
         <Value.String value="bar" />
-      </Value.Composition>
+      </Value.Composition>,
     )
 
     const element = document.querySelector(
-      '.dnb-forms-value-block__composition--horizontal'
+      '.dnb-forms-value-block__composition--horizontal',
     )
 
     expect(element.tagName).toBe('SPAN')
@@ -24,15 +24,15 @@ describe('Value.Composition', () => {
       <Value.Composition>
         <Value.String value="foo" />
         <Value.String value="bar" />
-      </Value.Composition>
+      </Value.Composition>,
     )
 
     const element = document.querySelector(
-      '.dnb-forms-value-block__composition--horizontal'
+      '.dnb-forms-value-block__composition--horizontal',
     )
 
     expect(element).not.toHaveClass(
-      'dnb-forms-value-block--max-width-large'
+      'dnb-forms-value-block--max-width-large',
     )
   })
 
@@ -41,15 +41,15 @@ describe('Value.Composition', () => {
       <Value.Composition maxWidth="medium">
         <Value.String value="foo" />
         <Value.String value="bar" />
-      </Value.Composition>
+      </Value.Composition>,
     )
 
     const element = document.querySelector(
-      '.dnb-forms-value-block__composition--horizontal .dnb-forms-value-block__content'
+      '.dnb-forms-value-block__composition--horizontal .dnb-forms-value-block__content',
     )
 
     expect(element).toHaveClass(
-      'dnb-forms-value-block__content--max-width-medium'
+      'dnb-forms-value-block__content--max-width-medium',
     )
   })
 
@@ -58,15 +58,15 @@ describe('Value.Composition', () => {
       <Value.Composition>
         <Value.String value="foo" />
         <Value.String value="bar" />
-      </Value.Composition>
+      </Value.Composition>,
     )
 
     const element = document.querySelector(
-      '.dnb-forms-value-block__composition--horizontal .dnb-forms-value-block__content'
+      '.dnb-forms-value-block__composition--horizontal .dnb-forms-value-block__content',
     )
 
     expect(element).toHaveClass(
-      'dnb-forms-value-block__content--gap-xx-small'
+      'dnb-forms-value-block__content--gap-xx-small',
     )
   })
 
@@ -75,15 +75,15 @@ describe('Value.Composition', () => {
       <Value.Composition gap="medium">
         <Value.String value="foo" />
         <Value.String value="bar" />
-      </Value.Composition>
+      </Value.Composition>,
     )
 
     const element = document.querySelector(
-      '.dnb-forms-value-block__composition--horizontal .dnb-forms-value-block__content'
+      '.dnb-forms-value-block__composition--horizontal .dnb-forms-value-block__content',
     )
 
     expect(element).toHaveClass(
-      'dnb-forms-value-block__content--gap-medium'
+      'dnb-forms-value-block__content--gap-medium',
     )
   })
 
@@ -94,11 +94,11 @@ describe('Value.Composition', () => {
           <Value.String value="foo" />
           <Value.String value="bar" />
         </Value.Composition>
-      </Value.SummaryList>
+      </Value.SummaryList>,
     )
 
     const element = document.querySelector(
-      '.dnb-forms-value-block__composition--horizontal'
+      '.dnb-forms-value-block__composition--horizontal',
     )
 
     expect(element.tagName).toBe('DD')
@@ -130,7 +130,7 @@ describe('Value.Composition', () => {
             />
             <Value.String label="Label" value="second value" />
           </Value.Composition>
-        </>
+        </>,
       )
 
       expect(await axeComponent(Comp)).toHaveNoViolations()
@@ -163,7 +163,7 @@ describe('Value.Composition', () => {
             <Value.String value="only a" />
             <Value.String value="value" />
           </Value.Composition>
-        </Value.SummaryList>
+        </Value.SummaryList>,
       )
 
       expect(await axeComponent(Comp)).toHaveNoViolations()
@@ -194,7 +194,7 @@ describe('Value.Composition', () => {
             <Value.String value="only a" />
             <Value.String value="value" />
           </Value.Composition>
-        </Value.SummaryList>
+        </Value.SummaryList>,
       )
 
       expect(await axeComponent(Comp)).toHaveNoViolations()
@@ -207,11 +207,11 @@ describe('Value.Composition', () => {
         <Value.Composition label="Label">
           <Value.String value="Value" />
         </Value.Composition>
-      </Value.SummaryList>
+      </Value.SummaryList>,
     )
 
     expect(
-      document.querySelector('.dnb-forms-value-block__label strong')
+      document.querySelector('.dnb-forms-value-block__label strong'),
     ).toBeInTheDocument()
   })
 
@@ -224,7 +224,7 @@ describe('Value.Composition', () => {
         >
           <Value.String path="/foo" />
           <Value.String path="/bar" />
-        </Value.Composition>
+        </Value.Composition>,
       )
 
       const label = document.querySelector('.dnb-form-label')
@@ -241,7 +241,7 @@ describe('Value.Composition', () => {
             <Value.String path="/foo" />
             <Value.String path="/bar" />
           </Value.Composition>
-        </Value.Provider>
+        </Value.Provider>,
       )
 
       const label = document.querySelector('.dnb-form-label')

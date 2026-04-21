@@ -35,13 +35,13 @@ export const useInputElement = () => {
 
   // Create the actual input element
   const inputElementRef = React.useRef<React.JSX.Element>(
-    <input ref={ref as React.Ref<HTMLInputElement>} />
+    <input ref={ref as React.Ref<HTMLInputElement>} />,
   )
 
   return useCallback(
     (
       params: Record<string, unknown>,
-      inputRef: { current: HTMLInputElement | null }
+      inputRef: { current: HTMLInputElement | null },
     ) => {
       // Set ref for Eufemia input
       inputRef.current = ref.current
@@ -59,6 +59,6 @@ export const useInputElement = () => {
         />
       )
     },
-    [allowOverflow, mask, overwriteMode, ref, showMask]
+    [allowOverflow, mask, overwriteMode, ref, showMask],
   )
 }

@@ -65,7 +65,7 @@ export class Store {
   saveState(
     expanded: boolean,
     id = this.id,
-    opts: AccordionStoreOptions = {}
+    opts: AccordionStoreOptions = {},
   ) {
     if (id) {
       try {

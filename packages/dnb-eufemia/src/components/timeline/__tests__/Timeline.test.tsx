@@ -36,11 +36,11 @@ describe('Timeline', () => {
           { title: 'Current', state: 'current' },
           { title: 'Completed', state: 'completed' },
         ]}
-      />
+      />,
     )
 
     expect(document.querySelectorAll('.dnb-timeline__item')).toHaveLength(
-      3
+      3,
     )
   })
 
@@ -50,11 +50,11 @@ describe('Timeline', () => {
         <Timeline.Item title="Upcoming" state="upcoming" />
         <Timeline.Item title="Current" state="current" />
         <Timeline.Item title="Completed" state="completed" />
-      </Timeline>
+      </Timeline>,
     )
 
     expect(document.querySelectorAll('.dnb-timeline__item')).toHaveLength(
-      3
+      3,
     )
   })
 
@@ -69,12 +69,12 @@ describe('Timeline', () => {
           { title: 'Completed', state: 'completed' },
           { title: 'Current', state: 'current' },
         ]}
-      />
+      />,
     )
 
     const currentItem = screen.getByText('Current')
     expect(
-      currentItem.parentElement.parentElement.getAttribute('aria-current')
+      currentItem.parentElement.parentElement.getAttribute('aria-current'),
     ).toBe('step')
   })
 
@@ -89,7 +89,7 @@ describe('Timeline', () => {
           { title: 'Completed', state: 'completed' },
           { title: 'Current', state: 'current' },
         ]}
-      />
+      />,
     )
 
     const element = document.querySelector('.dnb-timeline')
@@ -114,11 +114,11 @@ describe('Timeline', () => {
             },
           ]}
         />
-      </Provider>
+      </Provider>,
     )
 
     expect(
-      document.getElementsByClassName(skeletonClassName)
+      document.getElementsByClassName(skeletonClassName),
     ).toHaveLength(1)
   })
 
@@ -132,12 +132,12 @@ describe('Timeline', () => {
             state: 'upcoming',
           },
         ]}
-      />
+      />,
     )
 
     const element = document.querySelector('.dnb-timeline')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual(['class'])
@@ -160,7 +160,7 @@ describe('Timeline', () => {
           { title: 'Completed', state: 'completed' },
           { title: 'Current', state: 'current' },
         ]}
-      />
+      />,
     )
 
     const element = document.querySelector('.dnb-timeline')
@@ -178,7 +178,7 @@ describe('Timeline', () => {
       render(<TimelineItem {...props} />)
 
       expect(
-        document.querySelector('.dnb-timeline__item')
+        document.querySelector('.dnb-timeline__item'),
       ).toBeInTheDocument()
     })
 
@@ -195,7 +195,7 @@ describe('Timeline', () => {
           subtitle={subtitle}
           title="Complete"
           state="completed"
-        />
+        />,
       )
       expect(screen.queryByText(subtitle)).toBeInTheDocument()
     })
@@ -207,7 +207,7 @@ describe('Timeline', () => {
           subtitle={subtitles}
           title="Complete"
           state="completed"
-        />
+        />,
       )
 
       expect(screen.queryByText(subtitles[0])).toBeInTheDocument()
@@ -221,7 +221,7 @@ describe('Timeline', () => {
           infoMessage={infoMessage}
           title="Complete"
           state="completed"
-        />
+        />,
       )
       expect(screen.queryByText(infoMessage)).toBeInTheDocument()
     })
@@ -233,7 +233,7 @@ describe('Timeline', () => {
           icon={CustomIcon}
           title="Complete"
           state="completed"
-        />
+        />,
       )
 
       const element = screen.queryByTestId('bell icon')
@@ -247,7 +247,7 @@ describe('Timeline', () => {
           title="Complete"
           state="completed"
           iconAlt={iconAlt}
-        />
+        />,
       )
 
       expect(screen.queryByRole('img').getAttribute('alt')).toBe(iconAlt)
@@ -259,7 +259,7 @@ describe('Timeline', () => {
       render(<TimelineItem skeleton title="title" state="completed" />)
 
       expect(
-        document.getElementsByClassName(skeletonClassName)
+        document.getElementsByClassName(skeletonClassName),
       ).toHaveLength(1)
     })
 
@@ -269,11 +269,11 @@ describe('Timeline', () => {
       render(
         <Provider skeleton>
           <TimelineItem title="name" state="completed" />
-        </Provider>
+        </Provider>,
       )
 
       expect(
-        document.getElementsByClassName(skeletonClassName)
+        document.getElementsByClassName(skeletonClassName),
       ).toHaveLength(1)
     })
 
@@ -335,42 +335,42 @@ describe('Timeline', () => {
       it('renders check icon when state is completed', () => {
         render(<TimelineItem title="Complete" state="completed" />)
         expect(screen.queryByRole('img').getAttribute('aria-label')).toBe(
-          'check icon'
+          'check icon',
         )
       })
 
       it('renders pin icon when state is current', () => {
         render(<TimelineItem title="Current" state="current" />)
         expect(screen.queryByRole('img').getAttribute('aria-label')).toBe(
-          'pin icon'
+          'pin icon',
         )
       })
 
       it('renders calendar icon when state is upcoming', () => {
         render(<TimelineItem title="Upcoming" state="upcoming" />)
         expect(screen.queryByRole('img').getAttribute('aria-label')).toBe(
-          'calendar icon'
+          'calendar icon',
         )
       })
 
       it('renders alt label "Utfør"t when state is completed', () => {
         render(<TimelineItem title="Complete" state="completed" />)
         expect(screen.queryByRole('img').getAttribute('alt')).toBe(
-          'Utført'
+          'Utført',
         )
       })
 
       it('renders alt label "Nåværende" when state is current', () => {
         render(<TimelineItem title="Current" state="current" />)
         expect(screen.queryByRole('img').getAttribute('alt')).toBe(
-          'Nåværende'
+          'Nåværende',
         )
       })
 
       it('renders alt label "Kommende" when state is upcoming', () => {
         render(<TimelineItem title="Upcoming" state="upcoming" />)
         expect(screen.queryByRole('img').getAttribute('alt')).toBe(
-          'Kommende'
+          'Kommende',
         )
       })
     })
@@ -386,7 +386,7 @@ describe('Timeline', () => {
           { title: 'Completed', state: 'completed' },
           { title: 'Current', state: 'current' },
         ]}
-      />
+      />,
     )
 
     const element = document.querySelector('.dnb-timeline')
@@ -406,7 +406,7 @@ describe('Timeline', () => {
           { title: 'Completed', state: 'completed' },
           { title: 'Current', state: 'current' },
         ]}
-      />
+      />,
     )
 
     const element = document.querySelector('.dnb-timeline')
@@ -417,7 +417,7 @@ describe('Timeline', () => {
     render(
       <Timeline top="large" innerSpace="small">
         <Timeline.Item title="Current" state="current" />
-      </Timeline>
+      </Timeline>,
     )
 
     const element = document.querySelector('.dnb-timeline')
@@ -451,7 +451,7 @@ describe('Timeline aria', () => {
             infoMessage: 'Info message',
           },
         ]}
-      />
+      />,
     )
     expect(await axeComponent(Component)).toHaveNoViolations()
   })
@@ -465,7 +465,7 @@ describe('Timeline scss', () => {
 
   it('should match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-timeline-theme-ui.scss')
+      require.resolve('../style/themes/dnb-timeline-theme-ui.scss'),
     )
     expect(css).toMatchSnapshot()
   })

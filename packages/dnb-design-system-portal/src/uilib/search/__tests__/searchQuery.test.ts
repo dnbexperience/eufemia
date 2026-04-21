@@ -22,7 +22,9 @@ describe('searchQuery', () => {
 
   it('should skip node when no title is found', () => {
     expect(
-      transformer(makeNode({ fields: { slug: '/page' }, frontmatter: {} }))
+      transformer(
+        makeNode({ fields: { slug: '/page' }, frontmatter: {} }),
+      ),
     ).toHaveLength(0)
   })
 
@@ -32,8 +34,8 @@ describe('searchQuery', () => {
         makeNode({
           fields: { slug: '/page' },
           frontmatter: { draft: true },
-        })
-      )
+        }),
+      ),
     ).toHaveLength(0)
   })
 
@@ -45,8 +47,8 @@ describe('searchQuery', () => {
             slug: '/uilib/about-the-lib/releases/eufemia/v11-info/',
           },
           frontmatter: { title: 'v11' },
-        })
-      )
+        }),
+      ),
     ).toHaveLength(0)
   })
 
@@ -57,8 +59,8 @@ describe('searchQuery', () => {
           fields: { slug: '/page' },
           frontmatter: {},
           headings: [{ value: 'Heading 1', depth: 1 }],
-        })
-      )
+        }),
+      ),
     ).toEqual([{ headings: [], slug: '/page', title: 'Heading 1' }])
   })
 
@@ -72,8 +74,8 @@ describe('searchQuery', () => {
             { value: 'Heading 1', depth: 1 },
             { value: 'Heading 2', depth: 2 },
           ],
-        })
-      )
+        }),
+      ),
     ).toEqual([
       {
         slug: '/page',
@@ -101,8 +103,8 @@ describe('searchQuery', () => {
           fields: { slug: '/page' },
           frontmatter: { search: 'search string' },
           headings: [{ value: 'Heading 1', depth: 1 }],
-        })
-      )
+        }),
+      ),
     ).toEqual([
       {
         slug: '/page',
@@ -133,8 +135,8 @@ describe('searchQuery', () => {
               headings: [{ value: 'Heading 2', depth: 1 }],
             },
           ],
-        })
-      )
+        }),
+      ),
     ).toEqual([
       {
         category: {
@@ -166,8 +168,8 @@ describe('searchQuery', () => {
               headings: [{ value: 'Heading 2', depth: 1 }],
             },
           ],
-        })
-      )
+        }),
+      ),
     ).toEqual([
       {
         category: {
@@ -199,8 +201,8 @@ describe('searchQuery', () => {
               headings: [{ value: 'Heading 1', depth: 1 }],
             },
           ],
-        })
-      )
+        }),
+      ),
     ).toEqual([
       {
         category: {
@@ -236,8 +238,8 @@ describe('searchQuery', () => {
               frontmatter: { title: 'UI Library' },
             },
           ],
-        })
-      )[0].title
+        }),
+      )[0].title,
     ).toBe('CountryFlag → Properties')
   })
 

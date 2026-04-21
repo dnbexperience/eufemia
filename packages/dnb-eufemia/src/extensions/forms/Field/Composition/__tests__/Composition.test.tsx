@@ -31,7 +31,7 @@ describe('Field.Composition', () => {
       <Field.Composition>
         <Field.String required />
         <Field.String required />
-      </Field.Composition>
+      </Field.Composition>,
     )
 
     const element = document.querySelector('.dnb-form-status')
@@ -43,7 +43,7 @@ describe('Field.Composition', () => {
       <Field.Composition label="Label">
         <Field.String />
         <Field.String />
-      </Field.Composition>
+      </Field.Composition>,
     )
 
     const element = document.querySelector('.dnb-forms-field-block')
@@ -59,7 +59,7 @@ describe('Field.Composition', () => {
       <Field.Composition>
         <Field.String />
         <Field.String />
-      </Field.Composition>
+      </Field.Composition>,
     )
 
     const element = document.querySelector('.dnb-forms-field-block')
@@ -71,12 +71,12 @@ describe('Field.Composition', () => {
       <Field.Composition>
         <Field.String error={new Error(firstError)} />
         <Field.Number error={new Error(secondError)} />
-      </Field.Composition>
+      </Field.Composition>,
     )
 
     const element = document.querySelector('.dnb-form-status')
     expect(element).toHaveTextContent(
-      nb.Field.errorSummary + firstError + secondError
+      nb.Field.errorSummary + firstError + secondError,
     )
 
     const ul = document.querySelector('ul')
@@ -92,7 +92,7 @@ describe('Field.Composition', () => {
       <Field.Composition>
         <Field.String error={new Error(firstError)} />
         <Field.Number error={new Error(firstError)} />
-      </Field.Composition>
+      </Field.Composition>,
     )
 
     const status = document.querySelector('.dnb-form-status')
@@ -106,11 +106,11 @@ describe('Field.Composition', () => {
     render(<Field.Composition width="large">content</Field.Composition>)
 
     const element = document.querySelector(
-      '.dnb-forms-field-block__composition'
+      '.dnb-forms-field-block__composition',
     )
     expect(element).toHaveClass('dnb-forms-field-block--width-stretch')
     expect(element).toHaveClass(
-      'dnb-forms-field-block--content-width-large'
+      'dnb-forms-field-block--content-width-large',
     )
   })
 
@@ -119,16 +119,16 @@ describe('Field.Composition', () => {
       <Field.Composition>
         <Field.String required warning={firstWarning} info={firstInfo} />
         <Field.Number required warning={firstWarning} info={firstInfo} />
-      </Field.Composition>
+      </Field.Composition>,
     )
 
     const [firstInput, secondInput] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     {
       const statuses = Array.from(
-        document.querySelectorAll('.dnb-form-status')
+        document.querySelectorAll('.dnb-form-status'),
       )
       const [warningStatus, infoStatus] = statuses
 
@@ -142,7 +142,7 @@ describe('Field.Composition', () => {
 
     {
       const statuses = Array.from(
-        document.querySelectorAll('.dnb-form-status')
+        document.querySelectorAll('.dnb-form-status'),
       )
       const [errorStatus, warningStatus, infoStatus] = statuses
 
@@ -158,7 +158,7 @@ describe('Field.Composition', () => {
 
     {
       const statuses = Array.from(
-        document.querySelectorAll('.dnb-form-status')
+        document.querySelectorAll('.dnb-form-status'),
       )
       const [errorStatus, warningStatus, infoStatus] = statuses
 
@@ -172,7 +172,7 @@ describe('Field.Composition', () => {
 
     {
       const statuses = Array.from(
-        document.querySelectorAll('.dnb-form-status')
+        document.querySelectorAll('.dnb-form-status'),
       )
       const [warningStatus, infoStatus] = statuses
 
@@ -195,20 +195,20 @@ describe('Field.Composition', () => {
           warning={secondWarning}
           info={secondInfo}
         />
-      </Field.Composition>
+      </Field.Composition>,
     )
 
     const [error, warning, info] = Array.from(
-      document.querySelectorAll('.dnb-form-status')
+      document.querySelectorAll('.dnb-form-status'),
     )
     expect(error).toHaveTextContent(
-      nb.Field.errorSummary + firstError + secondError
+      nb.Field.errorSummary + firstError + secondError,
     )
     expect(warning).toHaveTextContent(
-      nb.Field.stateSummary + firstWarning + secondWarning
+      nb.Field.stateSummary + firstWarning + secondWarning,
     )
     expect(info).toHaveTextContent(
-      nb.Field.stateSummary + firstInfo + secondInfo
+      nb.Field.stateSummary + firstInfo + secondInfo,
     )
   })
 
@@ -229,20 +229,20 @@ describe('Field.Composition', () => {
           warning={secondWarning}
           info={secondInfo}
         />
-      </Field.Composition>
+      </Field.Composition>,
     )
 
     const [error, warning, info] = Array.from(
-      document.querySelectorAll('.dnb-form-status')
+      document.querySelectorAll('.dnb-form-status'),
     )
     expect(error).toHaveTextContent(
-      nb.Field.errorSummary + blockError + firstError + secondError
+      nb.Field.errorSummary + blockError + firstError + secondError,
     )
     expect(warning).toHaveTextContent(
-      nb.Field.stateSummary + blockWarning + firstWarning + secondWarning
+      nb.Field.stateSummary + blockWarning + firstWarning + secondWarning,
     )
     expect(info).toHaveTextContent(
-      nb.Field.stateSummary + blockInfo + firstInfo + secondInfo
+      nb.Field.stateSummary + blockInfo + firstInfo + secondInfo,
     )
   })
 
@@ -260,20 +260,20 @@ describe('Field.Composition', () => {
           validateInitially
         />
         <Field.Number warning={secondWarning} info={secondInfo} required />
-      </Field.Composition>
+      </Field.Composition>,
     )
 
     const [error, warning, info] = Array.from(
-      document.querySelectorAll('.dnb-form-status')
+      document.querySelectorAll('.dnb-form-status'),
     )
     expect(error).toHaveTextContent(
-      nb.Field.errorSummary + blockError + nb.Field.errorRequired
+      nb.Field.errorSummary + blockError + nb.Field.errorRequired,
     )
     expect(warning).toHaveTextContent(
-      nb.Field.stateSummary + blockWarning + firstWarning + secondWarning
+      nb.Field.stateSummary + blockWarning + firstWarning + secondWarning,
     )
     expect(info).toHaveTextContent(
-      nb.Field.stateSummary + blockInfo + firstInfo + secondInfo
+      nb.Field.stateSummary + blockInfo + firstInfo + secondInfo,
     )
   })
 
@@ -291,20 +291,20 @@ describe('Field.Composition', () => {
           required
           validateInitially
         />
-      </Field.Composition>
+      </Field.Composition>,
     )
 
     const [error, warning, info] = Array.from(
-      document.querySelectorAll('.dnb-form-status')
+      document.querySelectorAll('.dnb-form-status'),
     )
     expect(error).toHaveTextContent(
-      nb.Field.errorSummary + blockError + nb.Field.errorRequired
+      nb.Field.errorSummary + blockError + nb.Field.errorRequired,
     )
     expect(warning).toHaveTextContent(
-      nb.Field.stateSummary + blockWarning + firstWarning + secondWarning
+      nb.Field.stateSummary + blockWarning + firstWarning + secondWarning,
     )
     expect(info).toHaveTextContent(
-      nb.Field.stateSummary + blockInfo + firstInfo + secondInfo
+      nb.Field.stateSummary + blockInfo + firstInfo + secondInfo,
     )
   })
 
@@ -327,30 +327,33 @@ describe('Field.Composition', () => {
           info={secondInfo}
           required
         />
-      </Field.Composition>
+      </Field.Composition>,
     )
 
     const [error, warning, info] = Array.from(
-      document.querySelectorAll('.dnb-form-status')
+      document.querySelectorAll('.dnb-form-status'),
     )
 
     const toHaveWarningAndInfo = () => {
       expect(warning).toHaveTextContent(
-        nb.Field.stateSummary + blockWarning + firstWarning + secondWarning
+        nb.Field.stateSummary +
+          blockWarning +
+          firstWarning +
+          secondWarning,
       )
       expect(info).toHaveTextContent(
-        nb.Field.stateSummary + blockInfo + firstInfo + secondInfo
+        nb.Field.stateSummary + blockInfo + firstInfo + secondInfo,
       )
     }
 
     expect(error).not.toHaveTextContent(nb.Field.errorRequired)
     expect(error).toHaveTextContent(
-      nb.Field.errorSummary + blockError + firstError + secondError
+      nb.Field.errorSummary + blockError + firstError + secondError,
     )
     toHaveWarningAndInfo()
 
     const [firstInput, secondInput] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     // 1. Check the "first" input
@@ -358,7 +361,7 @@ describe('Field.Composition', () => {
 
     expect(error).not.toHaveTextContent(nb.Field.errorRequired)
     expect(error).toHaveTextContent(
-      nb.Field.errorSummary + blockError + firstError + secondError
+      nb.Field.errorSummary + blockError + firstError + secondError,
     )
     toHaveWarningAndInfo()
 
@@ -366,7 +369,7 @@ describe('Field.Composition', () => {
 
     expect(error).not.toHaveTextContent(nb.Field.errorRequired)
     expect(error).toHaveTextContent(
-      nb.Field.errorSummary + blockError + firstError + secondError
+      nb.Field.errorSummary + blockError + firstError + secondError,
     )
     toHaveWarningAndInfo()
 
@@ -378,7 +381,7 @@ describe('Field.Composition', () => {
         blockError +
         nb.Field.errorRequired +
         firstError +
-        secondError
+        secondError,
     )
     toHaveWarningAndInfo()
 
@@ -386,14 +389,14 @@ describe('Field.Composition', () => {
 
     expect(error).not.toHaveTextContent(nb.Field.errorRequired)
     expect(error).toHaveTextContent(
-      nb.Field.errorSummary + blockError + firstError + secondError
+      nb.Field.errorSummary + blockError + firstError + secondError,
     )
 
     fireEvent.blur(firstInput)
 
     expect(error).not.toHaveTextContent(nb.Field.errorRequired)
     expect(error).toHaveTextContent(
-      nb.Field.errorSummary + blockError + firstError + secondError
+      nb.Field.errorSummary + blockError + firstError + secondError,
     )
     toHaveWarningAndInfo()
 
@@ -402,7 +405,7 @@ describe('Field.Composition', () => {
 
     expect(error).not.toHaveTextContent(nb.Field.errorRequired)
     expect(error).toHaveTextContent(
-      nb.Field.errorSummary + blockError + firstError + secondError
+      nb.Field.errorSummary + blockError + firstError + secondError,
     )
     toHaveWarningAndInfo()
 
@@ -410,7 +413,7 @@ describe('Field.Composition', () => {
 
     expect(error).not.toHaveTextContent(nb.Field.errorRequired)
     expect(error).toHaveTextContent(
-      nb.Field.errorSummary + blockError + firstError + secondError
+      nb.Field.errorSummary + blockError + firstError + secondError,
     )
     toHaveWarningAndInfo()
 
@@ -422,7 +425,7 @@ describe('Field.Composition', () => {
         blockError +
         firstError +
         nb.Field.errorRequired +
-        secondError
+        secondError,
     )
     toHaveWarningAndInfo()
 
@@ -430,14 +433,14 @@ describe('Field.Composition', () => {
 
     expect(error).not.toHaveTextContent(nb.Field.errorRequired)
     expect(error).toHaveTextContent(
-      nb.Field.errorSummary + blockError + firstError + secondError
+      nb.Field.errorSummary + blockError + firstError + secondError,
     )
 
     fireEvent.blur(secondInput)
 
     expect(error).not.toHaveTextContent(nb.Field.errorRequired)
     expect(error).toHaveTextContent(
-      nb.Field.errorSummary + blockError + firstError + secondError
+      nb.Field.errorSummary + blockError + firstError + secondError,
     )
     toHaveWarningAndInfo()
   })
@@ -461,30 +464,33 @@ describe('Field.Composition', () => {
           info={secondInfo}
           required
         />
-      </Field.Composition>
+      </Field.Composition>,
     )
 
     const [error, warning, info] = Array.from(
-      document.querySelectorAll('.dnb-form-status')
+      document.querySelectorAll('.dnb-form-status'),
     )
 
     const toHaveWarningAndInfo = () => {
       expect(warning).toHaveTextContent(
-        nb.Field.stateSummary + blockWarning + firstWarning + secondWarning
+        nb.Field.stateSummary +
+          blockWarning +
+          firstWarning +
+          secondWarning,
       )
       expect(info).toHaveTextContent(
-        nb.Field.stateSummary + blockInfo + firstInfo + secondInfo
+        nb.Field.stateSummary + blockInfo + firstInfo + secondInfo,
       )
     }
 
     expect(error).not.toHaveTextContent(nb.Field.errorRequired)
     expect(error).toHaveTextContent(
-      nb.Field.errorSummary + blockError + firstError + secondError
+      nb.Field.errorSummary + blockError + firstError + secondError,
     )
     toHaveWarningAndInfo()
 
     const [firstInput, secondInput] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     // 1. Check the "first" input
@@ -492,7 +498,7 @@ describe('Field.Composition', () => {
 
     expect(error).not.toHaveTextContent(nb.Field.errorRequired)
     expect(error).toHaveTextContent(
-      nb.Field.errorSummary + blockError + firstError + secondError
+      nb.Field.errorSummary + blockError + firstError + secondError,
     )
     toHaveWarningAndInfo()
 
@@ -500,7 +506,7 @@ describe('Field.Composition', () => {
 
     expect(error).not.toHaveTextContent(nb.Field.errorRequired)
     expect(error).toHaveTextContent(
-      nb.Field.errorSummary + blockError + firstError + secondError
+      nb.Field.errorSummary + blockError + firstError + secondError,
     )
     toHaveWarningAndInfo()
 
@@ -512,7 +518,7 @@ describe('Field.Composition', () => {
         blockError +
         nb.Field.errorRequired +
         firstError +
-        secondError
+        secondError,
     )
     toHaveWarningAndInfo()
 
@@ -520,14 +526,14 @@ describe('Field.Composition', () => {
 
     expect(error).not.toHaveTextContent(nb.Field.errorRequired)
     expect(error).toHaveTextContent(
-      nb.Field.errorSummary + blockError + firstError + secondError
+      nb.Field.errorSummary + blockError + firstError + secondError,
     )
 
     fireEvent.blur(firstInput)
 
     expect(error).not.toHaveTextContent(nb.Field.errorRequired)
     expect(error).toHaveTextContent(
-      nb.Field.errorSummary + blockError + firstError + secondError
+      nb.Field.errorSummary + blockError + firstError + secondError,
     )
     toHaveWarningAndInfo()
 
@@ -536,7 +542,7 @@ describe('Field.Composition', () => {
 
     expect(error).not.toHaveTextContent(nb.Field.errorRequired)
     expect(error).toHaveTextContent(
-      nb.Field.errorSummary + blockError + firstError + secondError
+      nb.Field.errorSummary + blockError + firstError + secondError,
     )
     toHaveWarningAndInfo()
 
@@ -544,7 +550,7 @@ describe('Field.Composition', () => {
 
     expect(error).not.toHaveTextContent(nb.Field.errorRequired)
     expect(error).toHaveTextContent(
-      nb.Field.errorSummary + blockError + firstError + secondError
+      nb.Field.errorSummary + blockError + firstError + secondError,
     )
     toHaveWarningAndInfo()
 
@@ -556,7 +562,7 @@ describe('Field.Composition', () => {
         blockError +
         firstError +
         nb.Field.errorRequired +
-        secondError
+        secondError,
     )
     toHaveWarningAndInfo()
 
@@ -564,14 +570,14 @@ describe('Field.Composition', () => {
 
     expect(error).not.toHaveTextContent(nb.Field.errorRequired)
     expect(error).toHaveTextContent(
-      nb.Field.errorSummary + blockError + firstError + secondError
+      nb.Field.errorSummary + blockError + firstError + secondError,
     )
 
     fireEvent.blur(secondInput)
 
     expect(error).not.toHaveTextContent(nb.Field.errorRequired)
     expect(error).toHaveTextContent(
-      nb.Field.errorSummary + blockError + firstError + secondError
+      nb.Field.errorSummary + blockError + firstError + secondError,
     )
     toHaveWarningAndInfo()
   })
@@ -597,7 +603,7 @@ describe('Field.Composition', () => {
             <Field.Name.First path="/first" />
             <Field.Name.Last path="/last" />
           </Field.Composition>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       fireEvent.submit(document.querySelector('form'))
@@ -605,10 +611,10 @@ describe('Field.Composition', () => {
       const statusMessages = document.querySelectorAll('.dnb-form-status')
       expect(statusMessages).toHaveLength(1)
       expect(statusMessages[0]).toHaveTextContent(
-        nb.FirstName.errorRequired
+        nb.FirstName.errorRequired,
       )
       expect(statusMessages[0]).toHaveTextContent(
-        nb.LastName.errorRequired
+        nb.LastName.errorRequired,
       )
     })
 
@@ -632,16 +638,16 @@ describe('Field.Composition', () => {
             <Field.Name.First path="/first" validateInitially />
             <Field.Name.Last path="/last" validateInitially />
           </Field.Composition>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const statusMessages = document.querySelectorAll('.dnb-form-status')
       expect(statusMessages).toHaveLength(1)
       expect(statusMessages[0]).toHaveTextContent(
-        nb.FirstName.errorRequired
+        nb.FirstName.errorRequired,
       )
       expect(statusMessages[0]).toHaveTextContent(
-        nb.LastName.errorRequired
+        nb.LastName.errorRequired,
       )
     })
 
@@ -666,16 +672,16 @@ describe('Field.Composition', () => {
             <Field.String path="/first" value="f" validateInitially />
             <Field.String path="/last" value="l" validateInitially />
           </Field.Composition>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const statusMessages = document.querySelectorAll('.dnb-form-status')
       expect(statusMessages).toHaveLength(1)
       expect(statusMessages[0]).toHaveTextContent(
-        nb.StringField.errorMinLength.replace('{minLength}', '3')
+        nb.StringField.errorMinLength.replace('{minLength}', '3'),
       )
       expect(statusMessages[0]).toHaveTextContent(
-        nb.StringField.errorMinLength.replace('{minLength}', '6')
+        nb.StringField.errorMinLength.replace('{minLength}', '6'),
       )
     })
 
@@ -710,7 +716,7 @@ describe('Field.Composition', () => {
               validateContinuously
             />
           </Field.Composition>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [first, last] = Array.from(document.querySelectorAll('input'))
@@ -720,34 +726,34 @@ describe('Field.Composition', () => {
       const statusMessage = statusMessages[0]
 
       expect(statusMessage).toHaveTextContent(
-        nb.StringField.errorMinLength.replace('{minLength}', '3')
+        nb.StringField.errorMinLength.replace('{minLength}', '3'),
       )
       expect(statusMessage).toHaveTextContent(
-        nb.StringField.errorMinLength.replace('{minLength}', '6')
+        nb.StringField.errorMinLength.replace('{minLength}', '6'),
       )
 
       await userEvent.type(first, 'i')
 
       expect(statusMessage).toHaveTextContent(
-        nb.StringField.errorMinLength.replace('{minLength}', '3')
+        nb.StringField.errorMinLength.replace('{minLength}', '3'),
       )
 
       await userEvent.type(first, 'rst')
 
       expect(statusMessage).not.toHaveTextContent(
-        nb.StringField.errorMinLength.replace('{minLength}', '3')
+        nb.StringField.errorMinLength.replace('{minLength}', '3'),
       )
       expect(statusMessage).toHaveTextContent(
-        nb.StringField.errorMinLength.replace('{minLength}', '6')
+        nb.StringField.errorMinLength.replace('{minLength}', '6'),
       )
 
       await userEvent.type(last, 'ast name')
 
       expect(statusMessage).not.toHaveTextContent(
-        nb.StringField.errorMinLength.replace('{minLength}', '3')
+        nb.StringField.errorMinLength.replace('{minLength}', '3'),
       )
       expect(statusMessage).not.toHaveTextContent(
-        nb.StringField.errorMinLength.replace('{minLength}', '6')
+        nb.StringField.errorMinLength.replace('{minLength}', '6'),
       )
 
       expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(0)
@@ -756,7 +762,7 @@ describe('Field.Composition', () => {
 
       expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.StringField.errorMinLength.replace('{minLength}', '6')
+        nb.StringField.errorMinLength.replace('{minLength}', '6'),
       )
     })
   })
@@ -766,7 +772,7 @@ describe('Field.Composition', () => {
         <Field.Composition label="composition">
           <Field.String label="label1" required />
           <Field.String label="label2" required />
-        </Field.Composition>
+        </Field.Composition>,
       )
 
       expect(await axeComponent(result)).toHaveNoViolations()
@@ -777,7 +783,7 @@ describe('Field.Composition', () => {
         <Field.Composition>
           <Field.String label="label1" />
           <Field.String label="label2" />
-        </Field.Composition>
+        </Field.Composition>,
       )
 
       expect(await axeComponent(result)).toHaveNoViolations()

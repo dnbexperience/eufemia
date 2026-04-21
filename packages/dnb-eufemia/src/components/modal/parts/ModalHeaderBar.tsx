@@ -62,7 +62,7 @@ export default function ModalHeaderBar({
         root: scrollRoot,
         rootMargin: `${marginTop}px 0px 0px 0px`,
         threshold: 0.001,
-      }
+      },
     )
 
     observer.observe(element)
@@ -84,7 +84,7 @@ export default function ModalHeaderBar({
       className={clsx(
         'dnb-modal__header__bar',
         showShadow && shadowClass,
-        className
+        className,
       )}
       ref={sectionRef}
       {...props}

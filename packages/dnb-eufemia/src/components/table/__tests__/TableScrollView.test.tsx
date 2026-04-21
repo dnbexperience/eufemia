@@ -18,7 +18,7 @@ describe('Table.ScrollView', () => {
 
     render(<ScrollView {...props} />)
     expect(
-      document.querySelector('.dnb-table__scroll-view')
+      document.querySelector('.dnb-table__scroll-view'),
     ).toBeInTheDocument()
   })
 
@@ -28,7 +28,7 @@ describe('Table.ScrollView', () => {
         <Table>
           <BasicTable />
         </Table>
-      </ScrollView>
+      </ScrollView>,
     )
 
     const element = document.querySelector('.dnb-table__scroll-view')
@@ -56,7 +56,7 @@ describe('Table.ScrollView', () => {
         <Table>
           <BasicTable />
         </Table>
-      </ScrollView>
+      </ScrollView>,
     )
 
     const element = document.querySelector('.dnb-table__scroll-view')

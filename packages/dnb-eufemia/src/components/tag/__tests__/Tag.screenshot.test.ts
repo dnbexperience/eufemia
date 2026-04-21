@@ -80,6 +80,6 @@ describe('Tag', () => {
 
         expect(screenshot).toMatchImageSnapshot()
       })
-    }
+    },
   )
 })

@@ -41,7 +41,7 @@ describe('TextCounter', () => {
 
   it('handles text length exceeding max correctly in down variant', () => {
     render(
-      <TextCounter text="this is a long text" max={10} variant="down" />
+      <TextCounter text="this is a long text" max={10} variant="down" />,
     )
 
     const element = document.querySelector('.dnb-text-counter')
@@ -57,7 +57,7 @@ describe('TextCounter', () => {
 
   it('handles text length exceeding max correctly in up variant', () => {
     render(
-      <TextCounter text="this is a long text" max={10} variant="up" />
+      <TextCounter text="this is a long text" max={10} variant="up" />,
     )
 
     const element = document.querySelector('.dnb-text-counter')
@@ -86,7 +86,7 @@ describe('TextCounter', () => {
     const { rerender } = render(
       <Provider>
         <TextCounter text="test" max={10} lang="en-GB" />
-      </Provider>
+      </Provider>,
     )
 
     const element = document.querySelector('.dnb-text-counter')
@@ -96,7 +96,7 @@ describe('TextCounter', () => {
     rerender(
       <Provider>
         <TextCounter text="test" max={10} locale="en-GB" />
-      </Provider>
+      </Provider>,
     )
 
     expect(element).toHaveTextContent('6 of 10 characters remaining')
@@ -104,7 +104,7 @@ describe('TextCounter', () => {
     rerender(
       <Provider locale="en-GB">
         <TextCounter text="test" max={10} />
-      </Provider>
+      </Provider>,
     )
 
     expect(element).toHaveTextContent('6 of 10 characters remaining')
@@ -112,7 +112,7 @@ describe('TextCounter', () => {
     rerender(
       <Provider locale="nb-NO">
         <TextCounter text="test" max={10} />
-      </Provider>
+      </Provider>,
     )
 
     expect(element).toHaveTextContent('6 av 10 tegn gjenstår')

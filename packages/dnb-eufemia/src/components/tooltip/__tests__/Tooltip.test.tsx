@@ -93,11 +93,11 @@ describe('Tooltip', () => {
     render(
       <Tooltip open size="large">
         Tooltip
-      </Tooltip>
+      </Tooltip>,
     )
 
     expect(
-      Array.from(document.querySelector('.dnb-tooltip').classList)
+      Array.from(document.querySelector('.dnb-tooltip').classList),
     ).toEqual(expect.arrayContaining(['dnb-tooltip--large']))
   })
 
@@ -140,11 +140,11 @@ describe('Tooltip', () => {
     render(
       <Tooltip open fixedPosition>
         Tooltip
-      </Tooltip>
+      </Tooltip>,
     )
 
     expect(
-      Array.from(document.querySelector('.dnb-tooltip').classList)
+      Array.from(document.querySelector('.dnb-tooltip').classList),
     ).toEqual(expect.arrayContaining(['dnb-tooltip--fixed']))
   })
 
@@ -152,16 +152,16 @@ describe('Tooltip', () => {
     render(
       <Tooltip open placement="right">
         Tooltip
-      </Tooltip>
+      </Tooltip>,
     )
 
     expect(
-      Array.from(document.querySelector('.dnb-tooltip__arrow').classList)
+      Array.from(document.querySelector('.dnb-tooltip__arrow').classList),
     ).toEqual(
       expect.arrayContaining([
         'dnb-tooltip__arrow__arrow--center',
         'dnb-tooltip__arrow__placement--right',
-      ])
+      ]),
     )
   })
 
@@ -169,16 +169,16 @@ describe('Tooltip', () => {
     render(
       <Tooltip open arrow="right">
         Tooltip
-      </Tooltip>
+      </Tooltip>,
     )
 
     expect(
-      Array.from(document.querySelector('.dnb-tooltip__arrow').classList)
+      Array.from(document.querySelector('.dnb-tooltip__arrow').classList),
     ).toEqual(
       expect.arrayContaining([
         'dnb-tooltip__arrow__arrow--right',
         'dnb-tooltip__arrow__placement--top',
-      ])
+      ]),
     )
   })
 
@@ -204,11 +204,11 @@ describe('Tooltip', () => {
       render(
         <Tooltip open style={{ zIndex: 10 }}>
           Tooltip
-        </Tooltip>
+        </Tooltip>,
       )
 
       expect(
-        document.querySelector('.dnb-tooltip').getAttribute('style')
+        document.querySelector('.dnb-tooltip').getAttribute('style'),
       ).toBe('z-index: 10; left: 0px; top: 0px;')
     })
   })
@@ -227,7 +227,7 @@ describe('Tooltip', () => {
       render(<Tooltip keepInDOM />)
 
       expect(
-        document.querySelector('.dnb-tooltip').getAttribute('style')
+        document.querySelector('.dnb-tooltip').getAttribute('style'),
       ).toBeNull()
     })
 
@@ -235,10 +235,10 @@ describe('Tooltip', () => {
       render(<Tooltip open />)
 
       expect(
-        document.body.querySelectorAll('.dnb-tooltip__portal')
+        document.body.querySelectorAll('.dnb-tooltip__portal'),
       ).toHaveLength(1)
       expect(document.body.querySelectorAll('.dnb-tooltip')).toHaveLength(
-        1
+        1,
       )
     })
 
@@ -255,7 +255,7 @@ describe('Tooltip', () => {
         render(<Tooltip skipPortal open />)
 
         expect(
-          document.body.querySelectorAll('.dnb-tooltip__portal')
+          document.body.querySelectorAll('.dnb-tooltip__portal'),
         ).toHaveLength(0)
       })
 
@@ -288,7 +288,7 @@ describe('Tooltip', () => {
 
         await waitFor(() => {
           expect(getMainElem().classList).not.toContain(
-            'dnb-tooltip--active'
+            'dnb-tooltip--active',
           )
         })
       })
@@ -314,7 +314,7 @@ describe('Tooltip', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-tooltip')
+            document.querySelector('.dnb-tooltip'),
           ).not.toBeInTheDocument()
         })
       })
@@ -324,7 +324,7 @@ describe('Tooltip', () => {
 
         const tooltipElement = await waitFor(
           () => document.querySelector('.dnb-tooltip'),
-          { timeout: 3000 }
+          { timeout: 3000 },
         )
         expect(tooltipElement).toBeInTheDocument()
 
@@ -332,19 +332,19 @@ describe('Tooltip', () => {
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-tooltip')
+            document.querySelector('.dnb-tooltip'),
           ).toBeInTheDocument()
         })
       })
 
       it('should keep inline tooltip when keepInDOM is true and skipPortal is true', async () => {
         const { rerender } = render(
-          <Tooltip keepInDOM skipPortal={true} open />
+          <Tooltip keepInDOM skipPortal={true} open />,
         )
 
         const tooltipElement = await waitFor(
           () => document.querySelector('.dnb-tooltip'),
-          { timeout: 3000 }
+          { timeout: 3000 },
         )
         expect(tooltipElement).toBeInTheDocument()
 
@@ -352,13 +352,13 @@ describe('Tooltip', () => {
 
         expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
         expect(
-          document.body.querySelector('.dnb-tooltip__portal')
+          document.body.querySelector('.dnb-tooltip__portal'),
         ).not.toBeInTheDocument()
       })
 
       it('should unmount inline tooltip when keepInDOM is false and skipPortal is true', async () => {
         const { rerender } = render(
-          <Tooltip keepInDOM={false} skipPortal={true} open />
+          <Tooltip keepInDOM={false} skipPortal={true} open />,
         )
 
         await waitFor(() => document.querySelector('.dnb-tooltip'), {
@@ -366,12 +366,12 @@ describe('Tooltip', () => {
         })
 
         rerender(
-          <Tooltip keepInDOM={false} skipPortal={true} open={false} />
+          <Tooltip keepInDOM={false} skipPortal={true} open={false} />,
         )
 
         await waitFor(() => {
           expect(
-            document.querySelector('.dnb-tooltip')
+            document.querySelector('.dnb-tooltip'),
           ).not.toBeInTheDocument()
         })
       })
@@ -382,7 +382,7 @@ describe('Tooltip', () => {
         render(
           <Tooltip showDelay={0} hideDelay={0}>
             Tooltip content
-          </Tooltip>
+          </Tooltip>,
         )
 
         const buttonElem = document.querySelector('button')
@@ -395,7 +395,7 @@ describe('Tooltip', () => {
         render(
           <Tooltip showDelay={0} hideDelay={0} open>
             Tooltip content
-          </Tooltip>
+          </Tooltip>,
         )
 
         const buttonElem = document.querySelector('button')
@@ -432,7 +432,7 @@ describe('Tooltip', () => {
         render(
           <Tooltip showDelay={0} hideDelay={0}>
             Copied
-          </Tooltip>
+          </Tooltip>,
         )
 
         const buttonElem = document.querySelector('button')
@@ -477,7 +477,7 @@ describe('Tooltip', () => {
         render(<Tooltip open portalRootClass="custom-portal-class" />)
 
         const portalRoot = document.querySelector(
-          '.dnb-tooltip__portal.custom-portal-class'
+          '.dnb-tooltip__portal.custom-portal-class',
         )
         expect(portalRoot).toBeInTheDocument()
       })
@@ -490,17 +490,17 @@ describe('Tooltip', () => {
           expect.arrayContaining([
             'dnb-tooltip__portal',
             'dnb-popover__portal',
-          ])
+          ]),
         )
       })
 
       it('should work with multiple class names', () => {
         render(
-          <Tooltip open portalRootClass="class-one class-two custom" />
+          <Tooltip open portalRootClass="class-one class-two custom" />,
         )
 
         const portalRoot = document.querySelector(
-          '.dnb-tooltip__portal.class-one'
+          '.dnb-tooltip__portal.class-one',
         )
         expect(portalRoot).toBeInTheDocument()
         expect(portalRoot.classList).toContain('class-two')
@@ -577,7 +577,7 @@ describe('Tooltip', () => {
 
       await waitFor(() => {
         expect(getMainElem().classList).not.toContain(
-          'dnb-tooltip--active'
+          'dnb-tooltip--active',
         )
       })
     })
@@ -590,7 +590,7 @@ describe('Tooltip', () => {
           'dnb-tooltip',
           'dnb-tooltip--active',
           'dnb-tooltip--fixed',
-        ])
+        ]),
       )
     })
 
@@ -607,7 +607,7 @@ describe('Tooltip', () => {
           this: EventTarget,
           type: string,
           listener: EventListenerOrEventListenerObject,
-          options?: boolean | AddEventListenerOptions
+          options?: boolean | AddEventListenerOptions,
         ) {
           calls.push({ self: this, type })
           return originalAdd.call(this, type, listener, options)
@@ -619,7 +619,7 @@ describe('Tooltip', () => {
         const button = document.querySelector('button')
         const targetCalls = calls.filter((c) => c.self === button)
         const hasClickOrMouseDown = targetCalls.some(
-          (c) => c.type === 'click' || c.type === 'mousedown'
+          (c) => c.type === 'click' || c.type === 'mousedown',
         )
 
         expect(hasClickOrMouseDown).toBe(false)
@@ -679,7 +679,7 @@ describe('Tooltip', () => {
         render(
           <Tooltip open showDelay={0}>
             Tooltip content
-          </Tooltip>
+          </Tooltip>,
         )
 
         const buttonElem = document.querySelector('button')
@@ -693,7 +693,7 @@ describe('Tooltip', () => {
         render(
           <Tooltip open showDelay={0} omitDescribedBy>
             Tooltip content
-          </Tooltip>
+          </Tooltip>,
         )
 
         const buttonElem = document.querySelector('button')
@@ -717,7 +717,7 @@ describe('Tooltip', () => {
             >
               Tooltip content
             </OriginalTooltip>
-          </>
+          </>,
         )
 
         const buttonElem = document.querySelector('#test-button')
@@ -740,7 +740,7 @@ describe('Tooltip', () => {
             targetElement={buttonWithAria}
           >
             Tooltip content
-          </Tooltip>
+          </Tooltip>,
         )
 
         const buttonElem = document.querySelector('button')
@@ -765,11 +765,11 @@ describe('Tooltip', () => {
           }
         >
           5678
-        </NumberFormat.Number>
+        </NumberFormat.Number>,
       )
 
       const wrapperElement = document.querySelector(
-        '.dnb-tooltip__wrapper'
+        '.dnb-tooltip__wrapper',
       )
       expect(wrapperElement.getAttribute('tabindex')).toBe('0')
       expect(Array.from(wrapperElement.classList)).toEqual([
@@ -781,7 +781,7 @@ describe('Tooltip', () => {
 
       const tooltipElement = await waitFor(() => {
         const node = document.querySelector(
-          '.dnb-tooltip'
+          '.dnb-tooltip',
         ) as HTMLElement | null
         if (!node) {
           throw new Error('Tooltip not rendered')
@@ -789,7 +789,7 @@ describe('Tooltip', () => {
         return node
       })
       expect(Array.from(tooltipElement.classList)).toEqual(
-        expect.arrayContaining(['dnb-tooltip', 'custom-class'])
+        expect.arrayContaining(['dnb-tooltip', 'custom-class']),
       )
 
       const id = wrapperElement.getAttribute('aria-describedby')
@@ -806,7 +806,7 @@ describe('Tooltip', () => {
           }
         >
           1234
-        </NumberFormat.Number>
+        </NumberFormat.Number>,
       )
 
       fireEvent.focus(document.querySelector('.dnb-tooltip__wrapper'))
@@ -816,12 +816,12 @@ describe('Tooltip', () => {
       })
 
       const wrapperElement = document.querySelector(
-        '.dnb-tooltip__wrapper'
+        '.dnb-tooltip__wrapper',
       )
       const id = wrapperElement.getAttribute('aria-describedby')
 
       expect(
-        document.body.querySelector('#' + id).parentElement.classList
+        document.body.querySelector('#' + id).parentElement.classList,
       ).toContain('dnb-tooltip--active')
     })
   })
@@ -831,16 +831,16 @@ describe('Tooltip', () => {
     const heightAttr = 'data-tooltip-test-height'
     const originalOffsetWidth = Object.getOwnPropertyDescriptor(
       HTMLElement.prototype,
-      'offsetWidth'
+      'offsetWidth',
     )
     const originalOffsetHeight = Object.getOwnPropertyDescriptor(
       HTMLElement.prototype,
-      'offsetHeight'
+      'offsetHeight',
     )
 
     const getAttrValue = (
       element: HTMLElement,
-      attr: string
+      attr: string,
     ): number | null => {
       const value =
         typeof element.getAttribute === 'function'
@@ -886,14 +886,14 @@ describe('Tooltip', () => {
         Object.defineProperty(
           HTMLElement.prototype,
           'offsetWidth',
-          originalOffsetWidth
+          originalOffsetWidth,
         )
       }
       if (originalOffsetHeight) {
         Object.defineProperty(
           HTMLElement.prototype,
           'offsetHeight',
-          originalOffsetHeight
+          originalOffsetHeight,
         )
       }
     })
@@ -910,7 +910,7 @@ describe('Tooltip', () => {
       const target = document.createElement('button')
       document.body.appendChild(target)
       const originalBodyRect = document.body.getBoundingClientRect.bind(
-        document.body
+        document.body,
       )
       document.body.getBoundingClientRect = () => ({
         width: window.innerWidth,
@@ -976,13 +976,13 @@ describe('Tooltip', () => {
             data-tooltip-test-height="40"
           >
             Tooltip content
-          </Popover>
+          </Popover>,
         )
 
         await waitFor(() =>
           expect(document.querySelector('.dnb-tooltip')).toHaveStyle(
-            'left: 20px;'
-          )
+            'left: 20px;',
+          ),
         )
 
         await act(async () => {
@@ -992,8 +992,8 @@ describe('Tooltip', () => {
 
         await waitFor(() =>
           expect(document.querySelector('.dnb-tooltip')).toHaveStyle(
-            'left: 16px;'
-          )
+            'left: 16px;',
+          ),
         )
       } finally {
         setInnerWidth(originalInnerWidth)
@@ -1028,7 +1028,7 @@ describe('Tooltip', () => {
           targetElement={<button />}
         >
           Offset tooltip
-        </OriginalTooltip>
+        </OriginalTooltip>,
       )
 
       expect(collectedOffsets).toContain(20)
@@ -1042,7 +1042,7 @@ describe('Tooltip', () => {
       render(
         <Anchor href="/url" target="_blank" lang="en-GB">
           text
-        </Anchor>
+        </Anchor>,
       )
 
       const anchorElement = document.querySelector('a')
@@ -1066,21 +1066,21 @@ describe('Tooltip', () => {
       render(
         <Anchor href="/url" target="_blank" lang="en-GB">
           text
-        </Anchor>
+        </Anchor>,
       )
 
       fireEvent.mouseEnter(document.querySelector('a'))
 
       await waitFor(() =>
         expect(document.querySelector('.dnb-tooltip')).toHaveClass(
-          'dnb-tooltip--active'
-        )
+          'dnb-tooltip--active',
+        ),
       )
 
       fireEvent.mouseLeave(document.querySelector('a'))
 
       await waitFor(() =>
-        expect(document.querySelector('.dnb-tooltip')).toBeNull()
+        expect(document.querySelector('.dnb-tooltip')).toBeNull(),
       )
     })
 
@@ -1088,7 +1088,7 @@ describe('Tooltip', () => {
       render(
         <Anchor href="/url" target="_blank" lang="en-GB">
           text
-        </Anchor>
+        </Anchor>,
       )
 
       const element = document.querySelector('a')
@@ -1100,7 +1100,7 @@ describe('Tooltip', () => {
 
       const id = element.getAttribute('aria-describedby')
       expect(
-        document.body.querySelector('#' + id).parentElement.classList
+        document.body.querySelector('#' + id).parentElement.classList,
       ).toContain('dnb-tooltip--active')
     })
   })

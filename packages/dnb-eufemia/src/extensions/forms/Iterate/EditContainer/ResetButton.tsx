@@ -44,7 +44,7 @@ export default function ResetButton(props: Props) {
       setShowBoundaryErrors?.(false)
       buttonWrapperRef.current?.focus()
     },
-    [onClick, restoreOriginalValue, setShowBoundaryErrors, setShowError]
+    [onClick, restoreOriginalValue, setShowBoundaryErrors, setShowError],
   )
 
   if (hidden) {

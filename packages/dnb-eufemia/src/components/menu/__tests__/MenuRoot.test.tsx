@@ -20,7 +20,7 @@ describe('MenuRoot', () => {
         <MenuList>
           <MenuAction text="Item 1" />
         </MenuList>
-      </MenuRoot>
+      </MenuRoot>,
     )
 
     const element = document.querySelector('.dnb-menu')
@@ -40,7 +40,7 @@ describe('MenuRoot', () => {
         <MenuList>
           <MenuAction text="Item" />
         </MenuList>
-      </MenuRoot>
+      </MenuRoot>,
     )
 
     const trigger = document.querySelector('button')
@@ -57,7 +57,7 @@ describe('MenuRoot', () => {
         <MenuList>
           <MenuAction text="Item" />
         </MenuList>
-      </MenuRoot>
+      </MenuRoot>,
     )
 
     const trigger = document.querySelector('button')
@@ -73,7 +73,7 @@ describe('MenuRoot', () => {
         <MenuList>
           <MenuAction text="Item 1" />
         </MenuList>
-      </MenuRoot>
+      </MenuRoot>,
     )
 
     expect(document.querySelector('[role="menu"]')).not.toBeInTheDocument()
@@ -86,7 +86,7 @@ describe('MenuRoot', () => {
         <MenuList>
           <MenuAction text="Item 1" />
         </MenuList>
-      </MenuRoot>
+      </MenuRoot>,
     )
 
     expect(document.querySelector('[role="menu"]')).toBeInTheDocument()
@@ -107,7 +107,7 @@ describe('MenuRoot', () => {
         <MenuList>
           <MenuAction text="Item" />
         </MenuList>
-      </MenuRoot>
+      </MenuRoot>,
     )
 
     const trigger = document.querySelector('button')
@@ -125,7 +125,7 @@ describe('MenuRoot', () => {
         <MenuList>
           <MenuAction text="Item" />
         </MenuList>
-      </MenuRoot>
+      </MenuRoot>,
     )
 
     const element = document.querySelector('.dnb-menu')
@@ -141,7 +141,7 @@ describe('MenuRoot', () => {
         <MenuList>
           <MenuAction text="Item" />
         </MenuList>
-      </MenuRoot>
+      </MenuRoot>,
     )
 
     // The Popover mock doesn't forward id, but we verify it doesn't throw
@@ -158,7 +158,7 @@ describe('MenuRoot', () => {
           <MenuList>
             <MenuAction text="Item 1" />
           </MenuList>
-        </MenuRoot>
+        </MenuRoot>,
       )
 
       expect(await axeComponent(container)).toHaveNoViolations()
@@ -174,7 +174,7 @@ describe('MenuRoot', () => {
             <MenuAction text="Item 1" />
             <MenuAction text="Item 2" />
           </MenuList>
-        </MenuRoot>
+        </MenuRoot>,
       )
 
       expect(await axeComponent(container)).toHaveNoViolations()

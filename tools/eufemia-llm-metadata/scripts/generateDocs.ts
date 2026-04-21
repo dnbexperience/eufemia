@@ -51,13 +51,13 @@ export async function generateDocs() {
     'dnb-design-system-portal',
     'src',
     'docs',
-    'uilib'
+    'uilib',
   )
   const robotsRoot = path.join(
     repoRoot,
     'packages',
     'dnb-design-system-portal',
-    'static'
+    'static',
   )
   const outputRoot = path.join(packageRoot, 'build', 'docs')
   await fs.ensureDir(outputRoot)
@@ -153,7 +153,7 @@ export async function generateDocs() {
   })
 
   console.info(
-    `[llm-metadata] build outputs: ${entryFiles.length} markdown copies, llm.md`
+    `[llm-metadata] build outputs: ${entryFiles.length} markdown copies, llm.md`,
   )
   console.log('[llm-metadata] build done!')
 }

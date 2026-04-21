@@ -63,7 +63,7 @@ describe('runOldBuildDateWarning', () => {
 
     expect(consoleLogSpy).toHaveBeenCalledTimes(1)
     expect(consoleLogSpy).toHaveBeenCalledWith(
-      'Your Eufemia version is older than 3 months. Please update.'
+      'Your Eufemia version is older than 3 months. Please update.',
     )
   })
 })

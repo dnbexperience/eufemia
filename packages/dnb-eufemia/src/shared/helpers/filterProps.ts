@@ -10,7 +10,7 @@
 export function filterProps<Props = FilterProps>(
   props: Props,
   remove: FilterPropsRemove = null,
-  allowed: FilterPropsAllowed = null
+  allowed: FilterPropsAllowed = null,
 ) {
   if (Array.isArray(remove)) {
     remove = Object.fromEntries(remove.map((key) => [key, true]))
@@ -44,7 +44,7 @@ export function filterProps<Props = FilterProps>(
 
       return acc
     },
-    (isArray ? [] : {}) as Array<unknown>
+    (isArray ? [] : {}) as Array<unknown>,
   ) as Props
 }
 export type FilterProps = Record<string, unknown> | Array<string | number>

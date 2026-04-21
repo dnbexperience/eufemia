@@ -16,7 +16,7 @@ describe('renderWithFormatting', () => {
 
   it('inserts <br> for {br} tokens', () => {
     const { container } = renderNode(
-      renderWithFormatting('Line A{br}Line B{br}Line C')
+      renderWithFormatting('Line A{br}Line B{br}Line C'),
     )
     const brs = document.querySelectorAll('br')
     expect(brs.length).toBe(2)
@@ -25,7 +25,7 @@ describe('renderWithFormatting', () => {
 
   it('supports custom br', () => {
     const { container } = renderNode(
-      renderWithFormatting('A~B~C', { br: '~' })
+      renderWithFormatting('A~B~C', { br: '~' }),
     )
     expect(document.querySelectorAll('br').length).toBe(2)
     expect(container.textContent).toBe('ABC')
@@ -45,7 +45,7 @@ describe('renderWithFormatting', () => {
 
   it('handles combined formatting and line breaks', () => {
     const { container } = renderNode(
-      renderWithFormatting('**Bold** then _italic_{br}next line')
+      renderWithFormatting('**Bold** then _italic_{br}next line'),
     )
     expect(document.querySelectorAll('strong').length).toBe(1)
     expect(document.querySelectorAll('em').length).toBe(1)
@@ -58,10 +58,10 @@ describe('renderWithFormatting', () => {
       renderWithFormatting('**B** and _I_', {
         strong: (c) => <b data-testid="custom-strong">{c}</b>,
         em: (c) => <i data-testid="custom-em">{c}</i>,
-      })
+      }),
     )
     expect(screen.getByTestId('custom-strong').tagName.toLowerCase()).toBe(
-      'b'
+      'b',
     )
     expect(screen.getByTestId('custom-em').tagName.toLowerCase()).toBe('i')
     expect(container.textContent).toBe('B and I')
@@ -123,8 +123,8 @@ describe('renderWithFormatting', () => {
 
     const keyWarnings = spy.mock.calls.filter((args) =>
       args.some(
-        (a) => typeof a === 'string' && a.includes('unique "key" prop')
-      )
+        (a) => typeof a === 'string' && a.includes('unique "key" prop'),
+      ),
     )
     expect(keyWarnings.length).toBe(0)
 
@@ -143,7 +143,7 @@ describe('renderWithFormatting', () => {
     renderNode(renderWithFormatting(text))
     expect(document.querySelector('code')).toBeTruthy()
     expect(document.querySelector('code').textContent).toBe(
-      '**not bold** and _not italic_'
+      '**not bold** and _not italic_',
     )
     expect(document.querySelector('strong')).toBeNull()
     expect(document.querySelector('em')).toBeNull()
@@ -153,16 +153,16 @@ describe('renderWithFormatting', () => {
     render(
       <Field.String
         label={renderWithFormatting(
-          'A label with `code` and a **bold** text and a link: [DNB](https://www.dnb.no)'
+          'A label with `code` and a **bold** text and a link: [DNB](https://www.dnb.no)',
         )}
-      />
+      />,
     )
 
     expect(
       document.querySelector('.dnb-forms-field-block__label__content')
-        .innerHTML
+        .innerHTML,
     ).toMatchInlineSnapshot(
-      `"A label with <code class="dnb-code">code</code> and a <strong>bold</strong> text and a link: <a class="dnb-anchor dnb-anchor--was-node dnb-a" href="https://www.dnb.no" rel="noopener noreferrer">DNB</a>"`
+      `"A label with <code class="dnb-code">code</code> and a <strong>bold</strong> text and a link: <a class="dnb-anchor dnb-anchor--was-node dnb-a" href="https://www.dnb.no" rel="noopener noreferrer">DNB</a>"`,
     )
   })
 
@@ -202,7 +202,7 @@ describe('renderWithFormatting', () => {
     render(
       <Provider translations={translations} locale="en-GB">
         <Comp />
-      </Provider>
+      </Provider>,
     )
 
     expect(document.querySelectorAll('strong').length).toBe(1)
@@ -210,7 +210,7 @@ describe('renderWithFormatting', () => {
     expect(document.querySelectorAll('br').length).toBe(1)
     expect(document.querySelectorAll('code').length).toBe(1)
     expect(document.querySelector('a').getAttribute('href')).toBe(
-      'https://www.dnb.no'
+      'https://www.dnb.no',
     )
     expect(document.body).toMatchInlineSnapshot(`
       <body>
@@ -262,7 +262,7 @@ describe('renderWithFormatting', () => {
     render(
       <Form.Handler translations={translations} locale="en-GB">
         <Comp />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelectorAll('strong').length).toBe(1)
@@ -270,7 +270,7 @@ describe('renderWithFormatting', () => {
     expect(document.querySelectorAll('br').length).toBe(1)
     expect(document.querySelectorAll('code').length).toBe(1)
     expect(document.querySelector('a').getAttribute('href')).toBe(
-      'https://example.com'
+      'https://example.com',
     )
     expect(document.querySelector('form')).toMatchInlineSnapshot(`
       <form

@@ -23,7 +23,7 @@ import type { TableTrProps } from '../TableTr'
 // Extend the ViewTransition API types
 type DocumentWithViewTransition = Document & {
   startViewTransition?: (
-    updateCallback?: () => void | Promise<void>
+    updateCallback?: () => void | Promise<void>,
   ) => void
 }
 
@@ -72,7 +72,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
         headerContent.unshift(content)
       }
     },
-    [headerContent, tableContext.allProps.accordionChevronPlacement]
+    [headerContent, tableContext.allProps.accordionChevronPlacement],
   )
 
   const onMouseLeaveHandler = useCallback(() => {
@@ -100,14 +100,14 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
       setHadClick(true)
       onClick?.(event)
     },
-    [onClick, tableContext.hasAccordionRows, trIsOpen]
+    [onClick, tableContext.hasAccordionRows, trIsOpen],
   )
 
   const toggleOpenTr = useCallback(
     (event: React.SyntheticEvent, allowInteractiveElement?: boolean) => {
       onClickTr(event, allowInteractiveElement, toggleOpenFn)
     },
-    [toggleOpenFn]
+    [toggleOpenFn],
   )
 
   const onMouseEnterHandler = useCallback(() => {
@@ -118,7 +118,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
     (event: React.SyntheticEvent) => {
       toggleOpenTr(event, true)
     },
-    [toggleOpenTr]
+    [toggleOpenTr],
   )
 
   /**
@@ -161,14 +161,14 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
         icon="chevron_down"
         onClick={toggleOpenTr}
         key="td-icon"
-      />
+      />,
     )
   } else if (isTableHead(headerContent)) {
     addContent(
       <TableIconSrTh
         key="th-icon"
         text={tableContext?.allProps?.accordionToggleButtonSR}
-      />
+      />,
     )
   } else if (!hasAccordionContent) {
     addContent(<Td key="empty-td" />)

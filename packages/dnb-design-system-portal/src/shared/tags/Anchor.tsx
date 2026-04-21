@@ -28,7 +28,7 @@ function PortalLink<TState>({
         onClick(event)
       }
     },
-    [onClick]
+    [onClick],
   )
 
   return (

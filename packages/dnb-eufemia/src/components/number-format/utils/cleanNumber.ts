@@ -19,7 +19,7 @@ export function cleanNumber(
     thousandsSeparator?: string | null
     prefix?: string | null
     suffix?: string | null
-  } = {}
+  } = {},
 ): NumberFormatValue | null | undefined {
   if (
     typeof num === 'number' ||
@@ -80,7 +80,7 @@ export function cleanNumber(
   const thousandReg = thousandsSeparator
     ? new RegExp(
         `([0-9]|)(${escapeRegexChars(thousandsSeparator)})([0-9]{3})`,
-        'g'
+        'g',
       )
     : new RegExp(`([0-9]|)(${thousands})([0-9]{3})`, 'g')
   if (thousandReg.test(num)) {

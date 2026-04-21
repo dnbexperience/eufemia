@@ -180,7 +180,7 @@ function Accordion({
   // States ordered last here to make sure that the getInitialExpandedState have access to the store
   const [previousExpanded, setPreviousExpanded] = useState(props.expanded)
   const [expanded, setExpanded] = useState<boolean>(
-    getInitialExpandedState()
+    getInitialExpandedState(),
   )
   const hasAddedCallbackRef = useRef<boolean>(false)
 
@@ -338,7 +338,7 @@ function Accordion({
     nestedContext as Record<string, unknown>, // internal context
     { skeleton: globalContext?.skeleton },
     globalContext.Accordion, // global context
-    globalContext.translation['Accordion']
+    globalContext.translation['Accordion'],
   )
 
   if (expandedState === undefined && globalContext.Accordion) {
@@ -385,7 +385,7 @@ function Accordion({
       expandedState && 'dnb-accordion--expanded',
       extendedVariant && `dnb-accordion__variant--${extendedVariant}`,
       keepInDOM && 'dnb-accordion--prerender',
-      className
+      className,
     ),
   }) as HTMLProps<HTMLDivElement>
 
@@ -400,7 +400,7 @@ function Accordion({
     props,
     accordionDefaultProps,
     { expanded, group },
-    context
+    context,
   )
 
   const accordionContext = {
@@ -423,13 +423,13 @@ function Accordion({
       <div {...mainParams}>
         {findElementInChildren(
           children,
-          (cur) => cur.type === AccordionHeader
+          (cur) => cur.type === AccordionHeader,
         ) ? null : (
           <AccordionHeader />
         )}
         {findElementInChildren(
           children,
-          (cur) => cur.type === AccordionContent
+          (cur) => cur.type === AccordionContent,
         ) ? (
           children
         ) : (

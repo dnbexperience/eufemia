@@ -57,7 +57,7 @@ describe('Stat.Trend', () => {
     render(
       <Stat.Trend>
         <NumberFormat.Currency value={46692} signDisplay="always" />
-      </Stat.Trend>
+      </Stat.Trend>,
     )
 
     const trend = document.querySelector('.dnb-stat__trend')
@@ -126,7 +126,7 @@ describe('Stat.Trend', () => {
 
   it('should validate with ARIA rules', async () => {
     const component = render(
-      <Stat.Trend srLabel="Change:">{12.4}</Stat.Trend>
+      <Stat.Trend srLabel="Change:">{12.4}</Stat.Trend>,
     )
 
     expect(await axeComponent(component)).toHaveNoViolations()
@@ -224,12 +224,12 @@ describe('Stat.Trend', () => {
     render(
       <Stat.Trend>
         <div />
-      </Stat.Trend>
+      </Stat.Trend>,
     )
 
     expect(log).toHaveBeenCalledWith(
       expect.stringContaining('Eufemia'),
-      expect.stringContaining('could not resolve a value')
+      expect.stringContaining('could not resolve a value'),
     )
 
     log.mockRestore()
@@ -242,7 +242,7 @@ describe('Stat.Trend', () => {
         data-testid="stat-trend"
         data-foo="bar"
         aria-describedby="desc"
-      />
+      />,
     )
 
     const element = document.querySelector('.dnb-stat__trend')

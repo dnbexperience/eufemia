@@ -11,10 +11,10 @@ export type HeightAnimationOptions = {
   animate?: boolean
 }
 export type HeightAnimationOnStartCallback = (
-  state: HeightAnimationStates
+  state: HeightAnimationStates,
 ) => void
 export type HeightAnimationOnEndCallback = (
-  state: HeightAnimationStates
+  state: HeightAnimationStates,
 ) => void
 export type HeightAnimationOnStartStack =
   Array<HeightAnimationOnStartCallback>
@@ -219,7 +219,7 @@ export default class HeightAnimation {
   withFallback(
     elem: HTMLElement,
     key: 'clientHeight' | 'clientWidth',
-    fallback?: 'data-height' | 'data-width'
+    fallback?: 'data-height' | 'data-width',
   ) {
     const val =
       fallback && elem.hasAttribute(fallback)
@@ -240,7 +240,7 @@ export default class HeightAnimation {
   }
   start(
     fromHeight: HeightAnimationFromHeight,
-    toHeight: HeightAnimationToHeight
+    toHeight: HeightAnimationToHeight,
   ) {
     if (!this.elem || !this.isInBrowser) {
       return
@@ -347,7 +347,7 @@ export default class HeightAnimation {
   }
   adjustTo(
     fromHeight: HeightAnimationFromHeight = null,
-    toHeight: HeightAnimationToHeight = null
+    toHeight: HeightAnimationToHeight = null,
   ) {
     const opts = this.getOptions()
 
@@ -417,7 +417,7 @@ export default class HeightAnimation {
     return Boolean(
       this.startTime &&
       Date.now() - this.startTime >
-        (globalThis.animationDuration ?? this.duration)
+        (globalThis.animationDuration ?? this.duration),
     )
   }
   /**
@@ -441,7 +441,7 @@ export default class HeightAnimation {
 
     return Boolean(
       this.firstTime &&
-      Date.now() - this.firstTime < (globalThis.bypassTime ?? 100)
+      Date.now() - this.firstTime < (globalThis.bypassTime ?? 100),
     )
   }
 }

@@ -70,7 +70,7 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
     errorRequired,
   } = useTranslation().SelectCurrency
   const lang = (sharedContext.locale || LOCALE).split(
-    '-'
+    '-',
   )[0] as CurrencyLang
 
   const getCurrencyObjectByIso = useCallback(
@@ -81,7 +81,7 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
       }
       return currency
     },
-    [lang]
+    [lang],
   )
 
   const provideAdditionalArgs = useCallback(
@@ -94,14 +94,14 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
 
       return undefined
     },
-    [getCurrencyObjectByIso]
+    [getCurrencyObjectByIso],
   )
 
   const errorMessages = useMemo(
     () => ({
       required: errorRequired,
     }),
-    [errorRequired]
+    [errorRequired],
   )
 
   const preparedProps: FieldSelectCurrencyProps = {
@@ -147,7 +147,7 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
     (currency: CurrencyType) => {
       return currencyFilter(currency, filterCurrencies, ccFilter)
     },
-    [ccFilter, filterCurrencies]
+    [ccFilter, filterCurrencies],
   )
 
   /**
@@ -194,7 +194,7 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
         handleChange(currency.iso, currency)
       }
     },
-    [getCurrencyObjectByIso, handleChange]
+    [getCurrencyObjectByIso, handleChange],
   )
 
   const fillData = useCallback(() => {
@@ -216,7 +216,7 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
       updateData(dataRef.current)
       handleFocus()
     },
-    [fillData, handleFocus]
+    [fillData, handleFocus],
   )
 
   const onTypeHandler = useCallback(
@@ -225,7 +225,9 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
       if (typeof event?.nativeEvent?.data === 'undefined') {
         const search = currentValue.toLowerCase()
         const currency = currencies.find(({ i18n }) =>
-          Object.values(i18n).some((s) => s.toLowerCase().includes(search))
+          Object.values(i18n).some((s) =>
+            s.toLowerCase().includes(search),
+          ),
         )
         if (currency?.iso) {
           setHidden()
@@ -233,13 +235,13 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
         }
       }
     },
-    [handleChange]
+    [handleChange],
   )
 
   useMemo(() => {
     if (path || itemPath) {
       setDisplayValue(
-        getCurrencyObjectByIso(value)?.i18n?.[langRef.current]
+        getCurrencyObjectByIso(value)?.i18n?.[langRef.current],
       )
     }
   }, [getCurrencyObjectByIso, itemPath, path, setDisplayValue, value])
@@ -291,7 +293,7 @@ type GetCurrencyData = {
   enableSearch?: boolean
   makeObject?: (
     currency: CurrencyType,
-    lang: string
+    lang: string,
   ) => {
     selectedKey: string
     selectedValue: string
@@ -357,7 +359,7 @@ export function getCurrencyData({
 export function currencyFilter(
   currency: CurrencyType,
   filterCurrencies: (currency: CurrencyType) => boolean,
-  ccFilter: CurrencyFilterSet
+  ccFilter: CurrencyFilterSet,
 ) {
   let result = true
 

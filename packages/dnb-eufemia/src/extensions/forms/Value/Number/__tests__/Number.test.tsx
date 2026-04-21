@@ -7,16 +7,16 @@ describe('Value.Number', () => {
   it('renders value', () => {
     render(<Value.Number value={42} />)
     expect(
-      document.querySelector('.dnb-forms-value-number')
+      document.querySelector('.dnb-forms-value-number'),
     ).toHaveTextContent('42')
   })
 
   it('renders label when showEmpty is true', () => {
     const { rerender } = render(
-      <Value.Number label="Number label" showEmpty />
+      <Value.Number label="Number label" showEmpty />,
     )
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      'Number label'
+      'Number label',
     )
 
     rerender(<Value.Number label="Number label" />)
@@ -26,24 +26,24 @@ describe('Value.Number', () => {
   it('renders value and label', () => {
     render(<Value.Number label="Label" value={42} />)
     expect(
-      document.querySelector('.dnb-forms-value-number')
+      document.querySelector('.dnb-forms-value-number'),
     ).toHaveTextContent('42')
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      'Label'
+      'Label',
     )
   })
 
   it('renders given minimum value', () => {
     render(<Value.Number value={10} minimum={20} />)
     expect(
-      document.querySelector('.dnb-forms-value-number')
+      document.querySelector('.dnb-forms-value-number'),
     ).toHaveTextContent('20')
   })
 
   it('renders given maximum value', () => {
     render(<Value.Number value={20} maximum={10} />)
     expect(
-      document.querySelector('.dnb-forms-value-number')
+      document.querySelector('.dnb-forms-value-number'),
     ).toHaveTextContent('10')
   })
 
@@ -56,7 +56,7 @@ describe('Value.Number', () => {
     render(<Value.Number value={-12345678} />)
 
     expect(
-      document.querySelector('.dnb-forms-value-number')
+      document.querySelector('.dnb-forms-value-number'),
     ).toHaveTextContent('-12 345 678')
   })
 
@@ -64,11 +64,11 @@ describe('Value.Number', () => {
     render(
       <Form.Handler data={{ myNumber: 1234 }}>
         <Value.Number path="/myNumber" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
-      document.querySelector('.dnb-forms-value-number')
+      document.querySelector('.dnb-forms-value-number'),
     ).toHaveTextContent('1 234')
   })
 
@@ -76,7 +76,7 @@ describe('Value.Number', () => {
     render(<Value.Number value={-12345} percent />)
 
     expect(
-      document.querySelector('.dnb-forms-value-number')
+      document.querySelector('.dnb-forms-value-number'),
     ).toHaveTextContent('−12 345 %')
   })
 
@@ -84,7 +84,7 @@ describe('Value.Number', () => {
     render(<Value.Number value={0} prefix="prefix" suffix="suffix" />)
 
     expect(
-      document.querySelector('.dnb-forms-value-number')
+      document.querySelector('.dnb-forms-value-number'),
     ).toHaveTextContent('prefix 0 suffix')
   })
 
@@ -98,7 +98,7 @@ describe('Value.Number', () => {
     render(<Value.Number value={undefined} showEmpty suffix="suffix" />)
 
     expect(
-      document.querySelector('.dnb-forms-value-number')
+      document.querySelector('.dnb-forms-value-number'),
     ).toHaveTextContent('– suffix')
   })
 
@@ -106,7 +106,7 @@ describe('Value.Number', () => {
     render(<Value.Number value={-12345.6789} percent decimals={2} />)
 
     expect(
-      document.querySelector('.dnb-forms-value-number')
+      document.querySelector('.dnb-forms-value-number'),
     ).toHaveTextContent('−12 345,68 %')
   })
 
@@ -117,11 +117,11 @@ describe('Value.Number', () => {
         currency
         currencyPosition="before"
         currencyDisplay="code"
-      />
+      />,
     )
 
     expect(
-      document.querySelector('.dnb-forms-value-number')
+      document.querySelector('.dnb-forms-value-number'),
     ).toHaveTextContent('NOK -12 345,68')
   })
 
@@ -132,13 +132,13 @@ describe('Value.Number', () => {
         currency
         currencyPosition="before"
         currencyDisplay="code"
-      />
+      />,
     )
 
     expect(
       document
         .querySelector('.dnb-number-format .dnb-sr-only')
-        .getAttribute('data-text')
+        .getAttribute('data-text'),
     ).toBe('-12\u00A0345,68 kroner')
   })
 
@@ -151,16 +151,16 @@ describe('Value.Number', () => {
           currencyPosition="before"
           currencyDisplay="name"
         />
-      </Provider>
+      </Provider>,
     )
 
     expect(
-      document.querySelector('.dnb-forms-value-number')
+      document.querySelector('.dnb-forms-value-number'),
     ).toHaveTextContent('kroner -12,345.68')
     expect(
       document
         .querySelector('.dnb-number-format .dnb-sr-only')
-        .getAttribute('data-text')
+        .getAttribute('data-text'),
     ).toBe('-12,345.68 kroner')
 
     rerender(
@@ -171,27 +171,27 @@ describe('Value.Number', () => {
           currencyPosition="before"
           currencyDisplay="name"
         />
-      </Provider>
+      </Provider>,
     )
 
     expect(
-      document.querySelector('.dnb-forms-value-number')
+      document.querySelector('.dnb-forms-value-number'),
     ).toHaveTextContent('Swedish kronor -12,345.68')
     expect(
       document
         .querySelector('.dnb-number-format .dnb-sr-only')
-        .getAttribute('data-text')
+        .getAttribute('data-text'),
     ).toBe('-12,345.68 Swedish kronor')
   })
 
   it('should forward HTML attributes', () => {
     render(
-      <Value.Number path="/myValue" data-testid="testid" value={123} />
+      <Value.Number path="/myValue" data-testid="testid" value={123} />,
     )
 
     const element = document.querySelector('.dnb-number-format')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual(['lang', 'class', 'data-testid'])
@@ -208,13 +208,13 @@ describe('Value.Number', () => {
         >
           <Field.Number path="/myPath" label="The label" />
           <Value.Number path="/myPath" inheritLabel />
-        </Form.Handler>
+        </Form.Handler>,
       )
       expect(
-        document.querySelector('.dnb-forms-field-number')
+        document.querySelector('.dnb-forms-field-number'),
       ).toHaveTextContent('The label')
       expect(
-        document.querySelector('.dnb-forms-value-number')
+        document.querySelector('.dnb-forms-value-number'),
       ).toHaveTextContent('The label')
     })
   })

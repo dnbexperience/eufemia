@@ -24,10 +24,10 @@ export async function getNextReleaseVersion() {
     try {
       const { stdout } = await execAsync(
         'yarn workspace @dnb/eufemia semantic-release --dry-run',
-        { cwd: repoRoot }
+        { cwd: repoRoot },
       )
       const nextVersion = stdout.match(
-        /The next release version is ([^\n]*)/
+        /The next release version is ([^\n]*)/,
       )?.[1]
       if (nextVersion) {
         return nextVersion

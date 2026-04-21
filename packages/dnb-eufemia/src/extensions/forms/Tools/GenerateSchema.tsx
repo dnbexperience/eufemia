@@ -111,11 +111,11 @@ export default function GenerateSchema(props: GenerateSchemaProps) {
 
         return acc
       },
-      { type: 'object', properties: {}, required: [] }
+      { type: 'object', properties: {}, required: [] },
     )
 
     const propsOfFields = Object.entries(
-      fieldInternalsRef?.current || {}
+      fieldInternalsRef?.current || {},
     ).reduce((acc, [path, { props }]) => {
       if (path.startsWith('/')) {
         const propertyValue = {}
@@ -136,7 +136,7 @@ export default function GenerateSchema(props: GenerateSchemaProps) {
     }, {})
 
     const propsOfValues = Object.entries(
-      valueInternalsRef?.current || {}
+      valueInternalsRef?.current || {},
     ).reduce((acc, [path, { props }]) => {
       if (path.startsWith('/')) {
         const propertyValue = {}

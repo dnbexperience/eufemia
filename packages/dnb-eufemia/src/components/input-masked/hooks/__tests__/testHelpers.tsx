@@ -17,7 +17,7 @@ type WrapperProps = {
 
 export const createWrapper = (
   props: Partial<InputMaskedProps> = {},
-  context: TestContextProps = {}
+  context: TestContextProps = {},
 ) => {
   return ({ children }: WrapperProps) => (
     <InputMaskedContext

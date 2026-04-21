@@ -18,12 +18,12 @@ export function runOldBuildDateWarning() {
 
       const threeMonthsAfterBuildDate = new Date(buildDateValue)
       threeMonthsAfterBuildDate.setMonth(
-        threeMonthsAfterBuildDate.getMonth() + 3
+        threeMonthsAfterBuildDate.getMonth() + 3,
       )
 
       if (Date.now() > threeMonthsAfterBuildDate.getTime()) {
         console.log(
-          'Your Eufemia version is older than 3 months. Please update.'
+          'Your Eufemia version is older than 3 months. Please update.',
         )
       }
     }

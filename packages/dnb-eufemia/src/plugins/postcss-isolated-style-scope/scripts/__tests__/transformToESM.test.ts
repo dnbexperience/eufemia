@@ -51,7 +51,7 @@ describe('transformToESM script', () => {
       ['./build/**/plugins/**/*.js', '!./build/cjs/plugins/**/*.js'],
       {
         onlyFiles: true,
-      }
+      },
     )
   })
 
@@ -70,7 +70,7 @@ describe('transformToESM script', () => {
     // Verify that the excluded file is not processed
     expect(mockSync).toHaveBeenCalledWith(
       expect.arrayContaining(['!./build/cjs/plugins/**/*.js']),
-      expect.any(Object)
+      expect.any(Object),
     )
   })
 
@@ -89,7 +89,7 @@ describe('transformToESM script', () => {
     // Verify that files in other build subdirectories are included
     expect(mockSync).toHaveBeenCalledWith(
       expect.arrayContaining(['./build/**/plugins/**/*.js']),
-      expect.any(Object)
+      expect.any(Object),
     )
   })
 
@@ -106,7 +106,7 @@ describe('transformToESM script', () => {
     expect(mockReadFileSync).toHaveBeenCalledWith(testFiles[0], 'utf8')
     expect(mockTransform).toHaveBeenCalledWith(
       "import('./test.js'); require('./helper.js')",
-      ['commonjs']
+      ['commonjs'],
     )
   })
 
@@ -130,25 +130,25 @@ describe('transformToESM script', () => {
     expect(mockReadFileSync).toHaveBeenNthCalledWith(
       1,
       testFiles[0],
-      'utf8'
+      'utf8',
     )
     expect(mockReadFileSync).toHaveBeenNthCalledWith(
       2,
       testFiles[1],
-      'utf8'
+      'utf8',
     )
 
     expect(mockWriteFileSync).toHaveBeenNthCalledWith(
       1,
       testFiles[0],
       'transformed code',
-      'utf8'
+      'utf8',
     )
     expect(mockWriteFileSync).toHaveBeenNthCalledWith(
       2,
       testFiles[1],
       'transformed code',
-      'utf8'
+      'utf8',
     )
   })
 

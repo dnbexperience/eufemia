@@ -103,7 +103,7 @@ describe('useFieldProvider', () => {
     })
 
     expect(result.current.sharedProviderParams).not.toHaveProperty(
-      'translations'
+      'translations',
     )
   })
 
@@ -120,11 +120,11 @@ describe('useFieldProvider', () => {
     })
 
     expect(result.current.sharedProviderParams).toHaveProperty(
-      'translations'
+      'translations',
     )
     expect(
       result.current.sharedProviderParams.translations['nb-NO'].Field
-        .errorRequired
+        .errorRequired,
     ).toBe('Override')
   })
 })

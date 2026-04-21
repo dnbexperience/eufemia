@@ -143,7 +143,7 @@ function Visibility(props: FormVisibilityProps) {
         onVisible?.(state)
       }
     },
-    [mountedRef, onVisible]
+    [mountedRef, onVisible],
   )
 
   const summaryListContext = useContext(SummaryListContext)

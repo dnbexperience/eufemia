@@ -36,7 +36,7 @@ export function IterateOverSteps({
 
       if (child?.type !== Step && typeof child.type === 'function') {
         step = (child.type as (props: unknown) => React.ReactElement)(
-          child.props
+          child.props,
         ) as React.ReactElement
 
         if (step?.type === Step) {
@@ -91,7 +91,7 @@ export function IterateOverSteps({
                   key,
                   index,
                   prerenderFieldProps: true,
-                }
+                },
               ),
           }
         }

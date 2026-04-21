@@ -22,7 +22,7 @@ export default function useStepAnimation({
       try {
         const elements: Array<HTMLElement> =
           stepElementRef.current.querySelectorAll(
-            '.dnb-forms-step > *, .dnb-forms-button-row > *'
+            '.dnb-forms-step > *, .dnb-forms-button-row > *',
           )
         elements.forEach((element, i) => {
           element.style.setProperty('--element-index', String(i + 1))

@@ -5,7 +5,7 @@ import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared
 
 export default function useReactRouter(
   id: string = null,
-  { useSearchParams }
+  { useSearchParams },
 ) {
   const name = id ? `${id}-step` : 'step'
   const { setFormError } = useStep(id)
@@ -20,14 +20,14 @@ export default function useReactRouter(
         setFormError(error as Error)
       }
     },
-    [name, searchParams, setFormError, setSearchParams]
+    [name, searchParams, setFormError, setSearchParams],
   )
 
   const { setActiveIndex } = useStep(id, { onStepChange })
 
   const getIndex = useCallback(
     () => parseFloat(searchParams.get(name)),
-    [name, searchParams]
+    [name, searchParams],
   )
 
   useLayoutEffect(() => {

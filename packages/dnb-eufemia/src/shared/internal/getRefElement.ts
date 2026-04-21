@@ -3,7 +3,7 @@ import type React from 'react'
 type RefElement = React.RefObject<HTMLElement> | HTMLElement | null
 
 export default function getRefElement(
-  target: React.RefObject<unknown> | HTMLElement | null
+  target: React.RefObject<unknown> | HTMLElement | null,
 ): HTMLElement | null {
   if (!target) {
     return null

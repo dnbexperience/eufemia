@@ -42,7 +42,7 @@ beforeEach(() => {
   global.console.log = jest.fn((...args) => {
     if (
       !String(args[1]).includes(
-        'A Dialog or Drawer needs a h1 as its first element!'
+        'A Dialog or Drawer needs a h1 as its first element!',
       )
     ) {
       log(...args)
@@ -59,7 +59,7 @@ describe('Modal component', () => {
     render(
       <Modal {...props}>
         <DialogContent />
-      </Modal>
+      </Modal>,
     )
 
     fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
@@ -68,7 +68,7 @@ describe('Modal component', () => {
     expect(typeof window.__modalStack[0]).toBe('object')
 
     fireEvent.click(
-      document.querySelector('button.dnb-modal__close-button')
+      document.querySelector('button.dnb-modal__close-button'),
     )
 
     expect(window.__modalStack).toHaveLength(0)
@@ -83,7 +83,7 @@ describe('Modal component', () => {
             <button className="but-not-me">button</button>
           </DialogContent>
         </Modal>
-      </>
+      </>,
     )
 
     fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
@@ -91,30 +91,30 @@ describe('Modal component', () => {
     // Check the global button
     expect(document.querySelector('button.bypass-me')).toBeInTheDocument()
     expect(document.querySelector('button.bypass-me')).toHaveAttribute(
-      'aria-hidden'
+      'aria-hidden',
     )
     expect(
-      document.querySelector('button.bypass-me').getAttribute('tabindex')
+      document.querySelector('button.bypass-me').getAttribute('tabindex'),
     ).toBe('-1')
     expect(
-      document.querySelector('.dnb-modal__content')
+      document.querySelector('.dnb-modal__content'),
     ).not.toHaveAttribute('aria-hidden')
     expect(
       document
         .querySelector('.dnb-modal__content')
-        .querySelector('button.but-not-me')
+        .querySelector('button.but-not-me'),
     ).not.toHaveAttribute('aria-hidden')
 
     // And close it again
 
     fireEvent.click(
-      document.querySelector('button.dnb-modal__close-button')
+      document.querySelector('button.dnb-modal__close-button'),
     )
     expect(document.querySelector('button.bypass-me')).not.toHaveAttribute(
-      'aria-hidden'
+      'aria-hidden',
     )
     expect(document.querySelector('button.bypass-me')).not.toHaveAttribute(
-      'tabindex'
+      'tabindex',
     )
   })
 
@@ -126,24 +126,24 @@ describe('Modal component', () => {
         <Modal noAnimation bypassInvalidationSelectors={['.bypass-me']}>
           content
         </Modal>
-      </>
+      </>,
     )
 
     fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
     expect(document.querySelector('button.bypass-me')).not.toHaveAttribute(
-      'aria-hidden'
+      'aria-hidden',
     )
     expect(document.querySelector('button.bypass-me')).not.toHaveAttribute(
-      'tabindex'
+      'tabindex',
     )
 
     expect(
       document
         .querySelector('button.but-not-me')
-        .getAttribute('aria-hidden')
+        .getAttribute('aria-hidden'),
     ).toBe('true')
     expect(
-      document.querySelector('button.but-not-me').getAttribute('tabindex')
+      document.querySelector('button.but-not-me').getAttribute('tabindex'),
     ).toBe('-1')
   })
 
@@ -151,7 +151,7 @@ describe('Modal component', () => {
     render(
       <Modal {...props} open={true}>
         <Modal.Header />
-      </Modal>
+      </Modal>,
     )
     expect(document.querySelector('h1').textContent).toBe(props.title)
   })
@@ -183,12 +183,12 @@ describe('Modal component', () => {
     const { rerender } = render(<Modal {...props} />)
     rerender(<Modal {...props} omitTriggerButton={true} />)
     expect(
-      document.querySelector('button.dnb-modal__trigger')
+      document.querySelector('button.dnb-modal__trigger'),
     ).not.toBeInTheDocument()
 
     rerender(<Modal {...props} omitTriggerButton={false} />)
     expect(
-      document.querySelector('button.dnb-modal__trigger')
+      document.querySelector('button.dnb-modal__trigger'),
     ).toBeInTheDocument()
   })
 
@@ -200,16 +200,16 @@ describe('Modal component', () => {
             <Modal.Header />
           </Modal>
         }
-      />
+      />,
     )
     const buttonElem = document.querySelector('button.dnb-modal__trigger')
     expect(buttonElem.getAttribute('aria-label')).toBe(props.title)
     expect(buttonElem.getAttribute('aria-roledescription')).toBe(
-      'Hjelp-knapp'
+      'Hjelp-knapp',
     )
     fireEvent.click(document.querySelector('button'))
     expect(document.querySelector('.dnb-modal__title').textContent).toBe(
-      props.title
+      props.title,
     )
   })
 
@@ -221,23 +221,23 @@ describe('Modal component', () => {
             <Modal.Header />
           </Modal>
         }
-      />
+      />,
     )
     const buttonElem = document.querySelector('button.dnb-modal__trigger')
     expect(buttonElem.getAttribute('aria-label')).toBe('Hjelpetekst')
     fireEvent.click(document.querySelector('button'))
     expect(document.querySelector('.dnb-modal__title').textContent).toBe(
-      'Hjelpetekst'
+      'Hjelpetekst',
     )
   })
 
   it('has a disabled trigger button once we set trigger disabled to true', () => {
     const { rerender } = render(<Modal {...props} open />)
     rerender(
-      <Modal {...props} open triggerAttributes={{ disabled: true }} />
+      <Modal {...props} open triggerAttributes={{ disabled: true }} />,
     )
     expect(
-      document.querySelector('button.dnb-modal__trigger')
+      document.querySelector('button.dnb-modal__trigger'),
     ).toHaveAttribute('disabled')
   })
 
@@ -246,7 +246,7 @@ describe('Modal component', () => {
 
     const onOpen = jest.fn()
     const onClose = jest.fn(
-      ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
+      ({ triggeredBy }) => (testTriggeredBy = triggeredBy),
     )
 
     render(<Modal {...props} onClose={onClose} onOpen={onOpen} />)
@@ -267,14 +267,14 @@ describe('Modal component', () => {
     render(
       <Modal noAnimation={true} hideCloseButton>
         <DialogContent />
-      </Modal>
+      </Modal>,
     )
     fireEvent.click(document.querySelector('button'))
 
     // and check the class of that element
     await waitFor(() => {
       expect(document.activeElement.classList).toContain(
-        'dnb-modal__focus-helper'
+        'dnb-modal__focus-helper',
       )
     })
 
@@ -284,7 +284,7 @@ describe('Modal component', () => {
 
     // and check the class of that element
     expect(document.activeElement.classList).toContain(
-      'dnb-modal__trigger'
+      'dnb-modal__trigger',
     )
   })
 
@@ -294,14 +294,14 @@ describe('Modal component', () => {
         <DialogContent>
           <input type="text" id="focus-me" defaultValue="value" />
         </DialogContent>
-      </Modal>
+      </Modal>,
     )
 
     fireEvent.click(document.querySelector('button'))
 
     await waitFor(() => {
       const inputElement = document.getElementById(
-        'focus-me'
+        'focus-me',
       ) as HTMLInputElement
       expect(document.activeElement.id).toContain('focus-me')
       expect(inputElement).toHaveFocus()
@@ -317,14 +317,14 @@ describe('Modal component', () => {
         <DialogContent>
           <button id="focus-me">click me</button>
         </DialogContent>
-      </Modal>
+      </Modal>,
     )
 
     fireEvent.click(document.querySelector('button'))
 
     await waitFor(() => {
       const buttonElement = document.getElementById(
-        'focus-me'
+        'focus-me',
       ) as HTMLInputElement
       expect(document.activeElement.id).toContain('focus-me')
       expect(buttonElement).toHaveFocus()
@@ -342,7 +342,7 @@ describe('Modal component', () => {
           </Modal.Header>
           <Modal.Content>content</Modal.Content>
         </DialogContent>
-      </Modal>
+      </Modal>,
     )
 
     // Open modal
@@ -365,14 +365,14 @@ describe('Modal component', () => {
           </Modal.Header>
           <Modal.Content>content</Modal.Content>
         </DialogContent>
-      </Modal>
+      </Modal>,
     )
 
     // Open modal
     fireEvent.click(document.querySelector('button'))
 
     const focusHelper = document.querySelector(
-      '.dnb-modal__focus-helper.dnb-sr-only'
+      '.dnb-modal__focus-helper.dnb-sr-only',
     ) as HTMLButtonElement
     expect(focusHelper).toBeInTheDocument()
   })
@@ -385,7 +385,7 @@ describe('Modal component', () => {
         <DialogContent>
           <input type="text" id="focus-me" defaultValue="value" />
         </DialogContent>
-      </Modal>
+      </Modal>,
     )
 
     // Open modal
@@ -409,7 +409,7 @@ describe('Modal component', () => {
           </Modal.Header>
           <Modal.Content>content</Modal.Content>
         </DialogContent>
-      </Modal>
+      </Modal>,
     )
 
     // Open modal
@@ -432,25 +432,27 @@ describe('Modal component', () => {
             <button>inside</button>
           </DialogContent>
         </Modal>
-      </>
+      </>,
     )
 
     fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
 
     expect(
-      document.querySelector('button.dnb-modal--bypass-invalidation')
+      document.querySelector('button.dnb-modal--bypass-invalidation'),
     ).not.toHaveAttribute('aria-hidden')
     expect(
-      document.querySelector('button.dnb-modal--bypass-invalidation')
+      document.querySelector('button.dnb-modal--bypass-invalidation'),
     ).not.toHaveAttribute('tabindex')
 
     expect(
       document
         .querySelector('button.but-not-me')
-        ?.getAttribute('aria-hidden')
+        ?.getAttribute('aria-hidden'),
     ).toBe('true')
     expect(
-      document.querySelector('button.but-not-me')?.getAttribute('tabindex')
+      document
+        .querySelector('button.but-not-me')
+        ?.getAttribute('tabindex'),
     ).toBe('-1')
   })
 
@@ -466,25 +468,27 @@ describe('Modal component', () => {
             <button>inside</button>
           </DialogContent>
         </Modal>
-      </>
+      </>,
     )
 
     fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
 
     expect(
-      document.querySelector('button.bypass-child')
+      document.querySelector('button.bypass-child'),
     ).not.toHaveAttribute('aria-hidden')
     expect(
-      document.querySelector('button.bypass-child')
+      document.querySelector('button.bypass-child'),
     ).not.toHaveAttribute('tabindex')
 
     expect(
       document
         .querySelector('button.but-not-me')
-        ?.getAttribute('aria-hidden')
+        ?.getAttribute('aria-hidden'),
     ).toBe('true')
     expect(
-      document.querySelector('button.but-not-me')?.getAttribute('tabindex')
+      document
+        .querySelector('button.but-not-me')
+        ?.getAttribute('tabindex'),
     ).toBe('-1')
   })
 
@@ -492,7 +496,7 @@ describe('Modal component', () => {
     render(
       <Modal noAnimation={true} animationDuration={3}>
         <DialogContent />
-      </Modal>
+      </Modal>,
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -502,10 +506,10 @@ describe('Modal component', () => {
     })
 
     expect(document.activeElement.getAttribute('data-autofocus')).toBe(
-      'true'
+      'true',
     )
     expect(document.activeElement.classList).toContain(
-      'dnb-modal__trigger'
+      'dnb-modal__trigger',
     )
 
     await waitFor(() => {
@@ -517,7 +521,7 @@ describe('Modal component', () => {
     render(
       <Modal open={false} animationDuration={2}>
         <DialogContent />
-      </Modal>
+      </Modal>,
     )
 
     const trigger = document.querySelector('.dnb-modal__trigger')
@@ -553,7 +557,7 @@ describe('Modal component', () => {
         <DialogContent>
           <Modal.Header>{H2}</Modal.Header>
         </DialogContent>
-      </Modal>
+      </Modal>,
     )
 
     // open
@@ -561,7 +565,7 @@ describe('Modal component', () => {
 
     expect(helpers.warn).toHaveBeenCalledTimes(1)
     expect(helpers.warn).toHaveBeenCalledWith(
-      'A Dialog or Drawer needs a h1 as its first element!'
+      'A Dialog or Drawer needs a h1 as its first element!',
     )
 
     global.console.log = log
@@ -575,7 +579,7 @@ describe('Modal component', () => {
             <h1>custom heading</h1>
           </div>
         </Modal.Header>
-      </Modal>
+      </Modal>,
     )
     fireEvent.click(document.querySelector('button'))
 
@@ -591,15 +595,15 @@ describe('Modal component', () => {
             <h1>custom title</h1>
           </div>
         </Modal.Header>
-      </Modal>
+      </Modal>,
     )
     fireEvent.click(document.querySelector('button'))
 
     expect(
-      document.querySelector('.dnb-modal__focus-helper').textContent
+      document.querySelector('.dnb-modal__focus-helper').textContent,
     ).toBe('modal title')
     expect(
-      document.querySelector('.dnb-modal__title')
+      document.querySelector('.dnb-modal__title'),
     ).not.toBeInTheDocument()
   })
 
@@ -607,15 +611,15 @@ describe('Modal component', () => {
     render(
       <Modal noAnimation={true}>
         <Modal.Header title="my title" />
-      </Modal>
+      </Modal>,
     )
     fireEvent.click(document.querySelector('button'))
 
     expect(document.querySelector('.dnb-modal__title').textContent).toBe(
-      'my title'
+      'my title',
     )
     expect(
-      document.querySelector('.dnb-modal__focus-helper')
+      document.querySelector('.dnb-modal__focus-helper'),
     ).not.toBeInTheDocument()
   })
 
@@ -627,12 +631,12 @@ describe('Modal component', () => {
           <Modal.Header>header content</Modal.Header>
           <Modal.Content>modal content</Modal.Content>
         </DialogContent>
-      </Modal>
+      </Modal>,
     )
     fireEvent.click(document.querySelector('button'))
 
     const elements = document.querySelectorAll(
-      '.dnb-dialog__content > .dnb-section'
+      '.dnb-dialog__content > .dnb-section',
     )
 
     expect(elements[0].textContent).toContain('bar content')
@@ -687,24 +691,24 @@ describe('Modal component', () => {
             </DialogContent>
           </Modal>
         </Modal>
-      </Modal>
+      </Modal>,
     )
 
     expect(
-      document.querySelector('#content-third')
+      document.querySelector('#content-third'),
     ).not.toBeInTheDocument()
 
     fireEvent.click(document.querySelector('button#modal-first'))
     expect(
-      document.documentElement.getAttribute('data-dnb-modal-active')
+      document.documentElement.getAttribute('data-dnb-modal-active'),
     ).toBe('modal-first')
     fireEvent.click(document.querySelector('button#modal-second'))
     expect(
-      document.documentElement.getAttribute('data-dnb-modal-active')
+      document.documentElement.getAttribute('data-dnb-modal-active'),
     ).toBe('modal-second')
     fireEvent.click(document.querySelector('button#modal-third'))
     expect(
-      document.documentElement.getAttribute('data-dnb-modal-active')
+      document.documentElement.getAttribute('data-dnb-modal-active'),
     ).toBe('modal-third')
 
     await waitFor(() => {
@@ -714,31 +718,31 @@ describe('Modal component', () => {
     })
 
     expect(
-      document.querySelectorAll('button.dnb-modal__close-button').length
+      document.querySelectorAll('button.dnb-modal__close-button').length,
     ).toBe(3)
     expect(document.querySelector('#content-first')).toHaveAttribute(
-      'aria-hidden'
+      'aria-hidden',
     )
     expect(document.querySelector('#content-second')).toHaveAttribute(
-      'aria-hidden'
+      'aria-hidden',
     )
     expect(document.querySelector('#content-third')).not.toHaveAttribute(
-      'aria-hidden'
+      'aria-hidden',
     )
     expect(
       document.querySelector(
-        '#dnb-modal-modal-first button.dnb-modal__close-button'
-      )
+        '#dnb-modal-modal-first button.dnb-modal__close-button',
+      ),
     ).toHaveAttribute('aria-hidden')
     expect(
       document.querySelector(
-        '#dnb-modal-modal-second button.dnb-modal__close-button'
-      )
+        '#dnb-modal-modal-second button.dnb-modal__close-button',
+      ),
     ).toHaveAttribute('aria-hidden')
     expect(
       document.querySelector(
-        '#dnb-modal-modal-third button.dnb-modal__close-button'
-      )
+        '#dnb-modal-modal-third button.dnb-modal__close-button',
+      ),
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the third one
@@ -750,23 +754,23 @@ describe('Modal component', () => {
     })
 
     expect(
-      document.documentElement.getAttribute('data-dnb-modal-active')
+      document.documentElement.getAttribute('data-dnb-modal-active'),
     ).toBe('modal-second')
     expect(
-      document.querySelector('#content-third')
+      document.querySelector('#content-third'),
     ).not.toBeInTheDocument()
     expect(document.querySelector('#content-second')).not.toHaveAttribute(
-      'aria-hidden'
+      'aria-hidden',
     )
     expect(
       document.querySelector(
-        '#dnb-modal-modal-first button.dnb-modal__close-button'
-      )
+        '#dnb-modal-modal-first button.dnb-modal__close-button',
+      ),
     ).toHaveAttribute('aria-hidden')
     expect(
       document.querySelector(
-        '#dnb-modal-modal-second button.dnb-modal__close-button'
-      )
+        '#dnb-modal-modal-second button.dnb-modal__close-button',
+      ),
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the second one
@@ -778,16 +782,16 @@ describe('Modal component', () => {
     })
 
     expect(
-      document.documentElement.getAttribute('data-dnb-modal-active')
+      document.documentElement.getAttribute('data-dnb-modal-active'),
     ).toBe('modal-first')
     expect(
-      document.querySelector('#content-second')
+      document.querySelector('#content-second'),
     ).not.toBeInTheDocument()
     expect(document.querySelector('#content-first')).not.toHaveAttribute(
-      'aria-hidden'
+      'aria-hidden',
     )
     expect(
-      document.querySelectorAll('button.dnb-modal__close-button')[0]
+      document.querySelectorAll('button.dnb-modal__close-button')[0],
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the first one
@@ -799,10 +803,10 @@ describe('Modal component', () => {
     })
 
     expect(
-      document.querySelector('#content-first')
+      document.querySelector('#content-first'),
     ).not.toBeInTheDocument()
     expect(document.documentElement).not.toHaveAttribute(
-      'data-dnb-modal-active'
+      'data-dnb-modal-active',
     )
   })
 
@@ -829,19 +833,19 @@ describe('Modal component', () => {
     render(<HandleState />)
 
     expect(document.documentElement).not.toHaveAttribute(
-      'data-dnb-modal-active'
+      'data-dnb-modal-active',
     )
 
     fireEvent.click(document.querySelector('button#toggle'))
 
     expect(
-      document.documentElement.getAttribute('data-dnb-modal-active')
+      document.documentElement.getAttribute('data-dnb-modal-active'),
     ).toBe('modal-id')
 
     fireEvent.click(document.querySelector('button#toggle'))
 
     expect(document.documentElement).not.toHaveAttribute(
-      'data-dnb-modal-active'
+      'data-dnb-modal-active',
     )
   })
 
@@ -890,7 +894,7 @@ describe('Modal component', () => {
     let preventClose = true
     let testTriggeredBy = null
     const onClose = jest.fn(
-      ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
+      ({ triggeredBy }) => (testTriggeredBy = triggeredBy),
     )
     const onOpen = jest.fn()
     const onClosePrevent = jest.fn(({ triggeredBy, close }) => {
@@ -917,7 +921,7 @@ describe('Modal component', () => {
         onClosePrevent={onClosePrevent}
       >
         <DialogContent />
-      </Modal>
+      </Modal>,
     )
     fireEvent.click(document.querySelector('button'))
     expect(onOpen).toHaveBeenCalledTimes(1)
@@ -925,7 +929,7 @@ describe('Modal component', () => {
     document.dispatchEvent(
       new KeyboardEvent('keydown', {
         key: 'Escape',
-      })
+      }),
     )
 
     await waitFor(() => {
@@ -946,7 +950,7 @@ describe('Modal component', () => {
 
     // trigger the close button
     fireEvent.click(
-      document.querySelector('button.dnb-modal__close-button')
+      document.querySelector('button.dnb-modal__close-button'),
     )
     await waitFor(() => {
       expect(onClosePrevent).toHaveBeenCalledTimes(3)
@@ -957,7 +961,7 @@ describe('Modal component', () => {
     document.dispatchEvent(
       new KeyboardEvent('keydown', {
         key: 'Escape',
-      })
+      }),
     )
 
     await waitFor(() => {
@@ -972,24 +976,24 @@ describe('Modal component', () => {
     fireEvent.click(document.querySelector('div.dnb-modal__content'))
 
     expect(
-      document.querySelector('div.dnb-modal__content')
+      document.querySelector('div.dnb-modal__content'),
     ).toBeInTheDocument()
 
     // trigger the close button
     fireEvent.click(
-      document.querySelector('button.dnb-modal__close-button')
+      document.querySelector('button.dnb-modal__close-button'),
     )
 
     expect(testTriggeredBy).toBe('button')
     expect(
-      document.querySelector('div.dnb-modal__content')
+      document.querySelector('div.dnb-modal__content'),
     ).not.toBeInTheDocument()
   })
 
   it('will close the modal on overlay click', () => {
     let testTriggeredBy = null
     const onClose = jest.fn(
-      ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
+      ({ triggeredBy }) => (testTriggeredBy = triggeredBy),
     )
     const onOpen = jest.fn()
     render(<Modal {...props} onOpen={onOpen} onClose={onClose} />)
@@ -1004,7 +1008,7 @@ describe('Modal component', () => {
     expect(onClose).toHaveBeenCalledTimes(1)
     expect(testTriggeredBy).toBe('overlay')
     expect(
-      document.querySelector('div.dnb-modal__content')
+      document.querySelector('div.dnb-modal__content'),
     ).not.toBeInTheDocument()
   })
 
@@ -1018,7 +1022,7 @@ describe('Modal component', () => {
 
     expect(onClose).toHaveBeenCalledTimes(0)
     expect(
-      document.querySelector('div.dnb-modal__content')
+      document.querySelector('div.dnb-modal__content'),
     ).toBeInTheDocument()
   })
 
@@ -1041,7 +1045,7 @@ describe('Modal component', () => {
 
     expect(onClose).toHaveBeenCalledTimes(0)
     expect(
-      document.querySelector('div.dnb-modal__content')
+      document.querySelector('div.dnb-modal__content'),
     ).toBeInTheDocument()
 
     // trigger the close on the overlay
@@ -1053,29 +1057,29 @@ describe('Modal component', () => {
 
     expect(onClose).toHaveBeenCalledTimes(1)
     expect(
-      document.querySelector('div.dnb-modal__content')
+      document.querySelector('div.dnb-modal__content'),
     ).not.toBeInTheDocument()
   })
 
   it('has working open event and close event on changing the "open" prop', async () => {
     let testTriggeredBy = null
     const onClose = jest.fn(
-      ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
+      ({ triggeredBy }) => (testTriggeredBy = triggeredBy),
     )
     const onOpen = jest.fn()
 
     const { rerender } = render(
-      <Modal {...props} onClose={onClose} onOpen={onOpen} />
+      <Modal {...props} onClose={onClose} onOpen={onOpen} />,
     )
 
     rerender(
-      <Modal {...props} onClose={onClose} onOpen={onOpen} open={true} />
+      <Modal {...props} onClose={onClose} onOpen={onOpen} open={true} />,
     )
     expect(onOpen).toHaveBeenCalledTimes(1)
     expect(testTriggeredBy).toBe(null)
 
     rerender(
-      <Modal {...props} onClose={onClose} onOpen={onOpen} open={false} />
+      <Modal {...props} onClose={onClose} onOpen={onOpen} open={false} />,
     )
     expect(onClose).toHaveBeenCalledTimes(1)
     expect(testTriggeredBy).toBe('unmount')
@@ -1093,7 +1097,7 @@ describe('Modal component', () => {
       >
         <Modal.Bar />
         {modalContent}
-      </Modal>
+      </Modal>,
     )
 
     fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
@@ -1120,7 +1124,7 @@ describe('Modal component', () => {
         </Modal>
 
         <button id="my-button">I should become hidden after open</button>
-      </div>
+      </div>,
     )
 
     fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
@@ -1148,7 +1152,7 @@ describe('Modal component', () => {
         </div>
 
         <button id="my-button">I should become hidden after open</button>
-      </div>
+      </div>,
     )
 
     fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
@@ -1175,7 +1179,7 @@ describe('Modal component', () => {
     render(
       <Modal {...props}>
         <DialogContent />
-      </Modal>
+      </Modal>,
     )
     const elem = document.querySelector('button')
 
@@ -1190,7 +1194,7 @@ describe('Modal component', () => {
     expect(document.body.style.marginRight).toBe('0px')
     expect(document.documentElement.style.height).toBe('100%')
     expect(
-      document.documentElement.getAttribute('data-dnb-modal-active')
+      document.documentElement.getAttribute('data-dnb-modal-active'),
     ).toBe(props.id)
 
     // close modal
@@ -1199,7 +1203,7 @@ describe('Modal component', () => {
     expect(document.body.getAttribute('style')).toBe('')
     expect(document.documentElement.getAttribute('style')).toBe('')
     expect(document.documentElement).not.toHaveAttribute(
-      'data-dnb-modal-active'
+      'data-dnb-modal-active',
     )
   })
 
@@ -1207,7 +1211,7 @@ describe('Modal component', () => {
     render(
       <Modal {...props}>
         <DialogContent />
-      </Modal>
+      </Modal>,
     )
     const elem = document.querySelector('button')
 
@@ -1230,15 +1234,15 @@ describe('Modal component', () => {
     expect(addEventListener).toHaveBeenCalledWith(
       'touchmove',
       expect.any(Function),
-      { passive: false }
+      { passive: false },
     )
     expect(addEventListener).toHaveBeenCalledWith(
       'keydown',
-      expect.any(Function)
+      expect.any(Function),
     )
 
     expect(
-      document.documentElement.getAttribute('data-dnb-modal-active')
+      document.documentElement.getAttribute('data-dnb-modal-active'),
     ).toBe(props.id)
 
     // close modal
@@ -1248,18 +1252,18 @@ describe('Modal component', () => {
     expect(document.documentElement).not.toHaveAttribute('style')
 
     expect(document.documentElement).not.toHaveAttribute(
-      'data-dnb-modal-active'
+      'data-dnb-modal-active',
     )
 
     expect(removeEventListener).toHaveBeenCalledTimes(2)
     expect(removeEventListener).toHaveBeenCalledWith(
       'touchmove',
       expect.any(Function),
-      { passive: false }
+      { passive: false },
     )
     expect(removeEventListener).toHaveBeenCalledWith(
       'keydown',
-      expect.any(Function)
+      expect.any(Function),
     )
 
     addEventListener.mockRestore()
@@ -1270,7 +1274,7 @@ describe('Modal component', () => {
     render(
       <Modal {...props}>
         <DialogContent />
-      </Modal>
+      </Modal>,
     )
     const elem = document.querySelector('button')
 
@@ -1289,7 +1293,7 @@ describe('Modal component', () => {
     expect(document.body.style.height).toBe('auto')
     expect(document.documentElement.style.height).toBe('100%')
     expect(
-      document.documentElement.getAttribute('data-dnb-modal-active')
+      document.documentElement.getAttribute('data-dnb-modal-active'),
     ).toBe(props.id)
 
     // close modal
@@ -1298,7 +1302,7 @@ describe('Modal component', () => {
     expect(document.body.getAttribute('style')).toBe('')
     expect(document.documentElement.getAttribute('style')).toBe('')
     expect(document.documentElement).not.toHaveAttribute(
-      'data-dnb-modal-active'
+      'data-dnb-modal-active',
     )
   })
 
@@ -1307,12 +1311,12 @@ describe('Modal component', () => {
 
     rerender(<Modal {...props} open={true} />)
     expect(
-      document.querySelector('div.dnb-modal__content')
+      document.querySelector('div.dnb-modal__content'),
     ).toBeInTheDocument()
 
     rerender(<Modal {...props} open={false} />)
     expect(
-      document.querySelector('div.dnb-modal__content')
+      document.querySelector('div.dnb-modal__content'),
     ).not.toBeInTheDocument()
   })
 
@@ -1321,13 +1325,13 @@ describe('Modal component', () => {
     rerender(<Modal {...props} open={true} />)
 
     expect(
-      document.querySelector('div.dnb-modal__content')
+      document.querySelector('div.dnb-modal__content'),
     ).toBeInTheDocument()
 
     rerender(<Modal {...props} open={false} />)
 
     expect(
-      document.querySelector('div.dnb-modal__content')
+      document.querySelector('div.dnb-modal__content'),
     ).not.toBeInTheDocument()
   })
 
@@ -1370,21 +1374,21 @@ describe('Modal component', () => {
     expect(document.querySelector('span.count').textContent).toBe('1')
 
     expect(
-      document.querySelector('div.dnb-modal__content')
+      document.querySelector('div.dnb-modal__content'),
     ).not.toBeInTheDocument()
 
     fireEvent.click(document.querySelector('button#modal-trigger'))
 
     expect(
-      document.querySelector('div.dnb-modal__content')
+      document.querySelector('div.dnb-modal__content'),
     ).toBeInTheDocument()
 
     fireEvent.click(
-      document.querySelector('button.dnb-modal__close-button')
+      document.querySelector('button.dnb-modal__close-button'),
     )
 
     expect(
-      document.querySelector('div.dnb-modal__content')
+      document.querySelector('div.dnb-modal__content'),
     ).not.toBeInTheDocument()
 
     fireEvent.click(document.querySelector('button#count-trigger'))
@@ -1394,7 +1398,7 @@ describe('Modal component', () => {
     fireEvent.click(document.querySelector('button#modal-trigger'))
 
     expect(
-      document.querySelector('div.dnb-modal__content')
+      document.querySelector('div.dnb-modal__content'),
     ).toBeInTheDocument()
   })
 
@@ -1442,7 +1446,7 @@ describe('Modal component', () => {
     expect(onOpen).toHaveBeenCalledTimes(1)
     expect(onClose).toHaveBeenCalledTimes(1)
     expect(
-      document.querySelector('div.dnb-dialog')
+      document.querySelector('div.dnb-dialog'),
     ).not.toBeInTheDocument()
   })
 
@@ -1470,13 +1474,13 @@ describe('Modal component', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('div.dnb-modal-root__inner')
+        document.querySelector('div.dnb-modal-root__inner'),
       ).toBeInTheDocument()
     })
     await userEvent.keyboard('{Escape}')
     await waitFor(() => {
       expect(
-        document.querySelector('div.dnb-modal-root__inner')
+        document.querySelector('div.dnb-modal-root__inner'),
       ).not.toBeInTheDocument()
     })
   })
@@ -1485,8 +1489,8 @@ describe('Modal component', () => {
     render(<Modal {...props} open />)
     expect(
       document.querySelector(
-        `[aria-describedby="dnb-modal-${props.id}-content"]`
-      )
+        `[aria-describedby="dnb-modal-${props.id}-content"]`,
+      ),
     ).toBeInTheDocument()
   })
 
@@ -1519,14 +1523,14 @@ describe('Modal component', () => {
     render(
       <Modal {...props}>
         <Modal.Bar />
-      </Modal>
+      </Modal>,
     )
     // open modal
     fireEvent.click(document.querySelector('button'))
     expect(
       document
         .querySelector('button.dnb-modal__close-button')
-        .textContent.replace(/\u200C/g, '')
+        .textContent.replace(/\u200C/g, ''),
     ).toBe('Lukk')
   })
 
@@ -1537,12 +1541,12 @@ describe('Modal component', () => {
     expect(
       document
         .querySelector('.dnb-modal__content')
-        .getAttribute('aria-label')
+        .getAttribute('aria-label'),
     ).toContain('Vindu')
 
     rerender(<Modal {...props} title="now there is a title" />)
     expect(
-      document.querySelector('.dnb-modal__content')
+      document.querySelector('.dnb-modal__content'),
     ).not.toHaveAttribute('aria-label')
   })
 
@@ -1550,25 +1554,25 @@ describe('Modal component', () => {
     render(
       <Modal {...props}>
         <DialogContent />
-      </Modal>
+      </Modal>,
     )
     // open modal
     fireEvent.click(document.querySelector('button'))
     expect(
       document
         .querySelector('.dnb-modal__content')
-        .getAttribute('aria-labelledby')
+        .getAttribute('aria-labelledby'),
     ).toBe('dnb-modal-modal_id-title')
     expect(
       document
         .querySelector('.dnb-modal__content')
-        .getAttribute('aria-describedby')
+        .getAttribute('aria-describedby'),
     ).toBe('dnb-modal-modal_id-content')
     expect(
-      document.querySelector('.dnb-dialog__header').getAttribute('id')
+      document.querySelector('.dnb-dialog__header').getAttribute('id'),
     ).toBe('dnb-modal-modal_id-title')
     expect(
-      document.querySelector('.dnb-dialog__content').getAttribute('id')
+      document.querySelector('.dnb-dialog__content').getAttribute('id'),
     ).toBe('dnb-modal-modal_id-content')
   })
 
@@ -1583,7 +1587,7 @@ describe('Modal component', () => {
           variant: 'tertiary',
           icon: false,
         }}
-      />
+      />,
     )
     expect(document.querySelector('.dnb-icon')).not.toBeInTheDocument()
   })
@@ -1592,11 +1596,11 @@ describe('Modal component', () => {
     render(
       <Modal
         triggerAttributes={{ text: 'Open Modal', variant: 'tertiary' }}
-      />
+      />,
     )
     expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
     render(
-      <Modal triggerAttributes={{ text: 'Open Modal', icon: 'add' }} />
+      <Modal triggerAttributes={{ text: 'Open Modal', icon: 'add' }} />,
     )
     expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
   })
@@ -1606,13 +1610,13 @@ describe('Modal component', () => {
     render(
       <Modal triggerAttributes={{ text: customText }} open>
         The informational content
-      </Modal>
+      </Modal>,
     )
 
     expect(
       document
         .querySelector('button.dnb-modal__trigger')
-        .querySelector('.dnb-button__text').textContent
+        .querySelector('.dnb-button__text').textContent,
     ).toBe(customText)
   })
 
@@ -1623,7 +1627,7 @@ describe('Modal component', () => {
       const { rerender } = render(
         <Modal noAnimation onClose={onClose} open>
           Content
-        </Modal>
+        </Modal>,
       )
 
       expect(onClose).toHaveBeenCalledTimes(0)
@@ -1631,7 +1635,7 @@ describe('Modal component', () => {
       rerender(
         <Modal noAnimation onClose={onClose} open={false}>
           Content
-        </Modal>
+        </Modal>,
       )
 
       await userEvent.click(document.querySelector('button#close-button'))
@@ -1649,7 +1653,7 @@ describe('Modal component', () => {
       render(
         <Modal noAnimation onClose={onClose}>
           <ModalHeaderBar />
-        </Modal>
+        </Modal>,
       )
 
       fireEvent.click(document.querySelector('.dnb-modal__trigger'))
@@ -1663,7 +1667,7 @@ describe('Modal component', () => {
           id: expect.any(String),
           type: 'click',
           triggeredBy: 'button',
-        })
+        }),
       )
     })
 
@@ -1673,7 +1677,7 @@ describe('Modal component', () => {
       render(
         <Modal noAnimation onClose={onClose}>
           Content
-        </Modal>
+        </Modal>,
       )
 
       fireEvent.click(document.querySelector('.dnb-modal__trigger'))
@@ -1689,7 +1693,7 @@ describe('Modal component', () => {
           id: expect.any(String),
           type: 'click',
           triggeredBy: 'overlay',
-        })
+        }),
       )
     })
 
@@ -1699,7 +1703,7 @@ describe('Modal component', () => {
       render(
         <Modal noAnimation onClose={onClose}>
           Content
-        </Modal>
+        </Modal>,
       )
 
       fireEvent.click(document.querySelector('.dnb-modal__trigger'))
@@ -1712,7 +1716,7 @@ describe('Modal component', () => {
           event: expect.any(Object),
           id: expect.any(String),
           triggeredBy: 'keyboard',
-        })
+        }),
       )
     })
 
@@ -1728,7 +1732,7 @@ describe('Modal component', () => {
               )
             }) as (props: ModalContentProps) => React.ReactNode
           }
-        </Modal>
+        </Modal>,
       )
 
       fireEvent.click(document.querySelector('.dnb-modal__trigger'))
@@ -1741,7 +1745,7 @@ describe('Modal component', () => {
           event: expect.any(Object),
           id: expect.any(String),
           triggeredBy: 'handler',
-        })
+        }),
       )
     })
 
@@ -1755,7 +1759,7 @@ describe('Modal component', () => {
             <Modal noAnimation onOpen={onOpen} onClose={onClose}>
               Content
             </Modal>
-          </React.StrictMode>
+          </React.StrictMode>,
         )
 
         fireEvent.click(document.querySelector('.dnb-modal__trigger'))
@@ -1801,7 +1805,7 @@ describe('Modal component', () => {
         render(
           <React.StrictMode>
             <MockComponent />
-          </React.StrictMode>
+          </React.StrictMode>,
         )
 
         fireEvent.click(document.querySelector('button'))
@@ -1823,69 +1827,69 @@ describe('Modal trigger', () => {
     expect(
       document
         .querySelector('button.dnb-modal__trigger')
-        .getAttribute('aria-roledescription')
+        .getAttribute('aria-roledescription'),
     ).toBe(roledescription)
   })
 
   it('will have a aria-label', () => {
     render(
-      <Modal {...props} triggerAttributes={{ 'aria-label': 'label' }} />
+      <Modal {...props} triggerAttributes={{ 'aria-label': 'label' }} />,
     )
     expect(
       document
         .querySelector('button.dnb-modal__trigger')
-        .getAttribute('aria-roledescription')
+        .getAttribute('aria-roledescription'),
     ).toBe(roledescription)
     expect(
       document
         .querySelector('button.dnb-modal__trigger')
-        .getAttribute('aria-label')
+        .getAttribute('aria-label'),
     ).toBe('label')
   })
 
   it('will not act as a HelpButton if only triggerText was given', () => {
     render(<Modal {...props} triggerAttributes={{ text: 'text' }} />)
     expect(
-      document.querySelector('button.dnb-modal__trigger')
+      document.querySelector('button.dnb-modal__trigger'),
     ).not.toHaveAttribute('aria-roledescription')
     expect(
       document
         .querySelector('button.dnb-modal__trigger')
-        .querySelector('.dnb-button__icon')
+        .querySelector('.dnb-button__icon'),
     ).not.toBeInTheDocument()
     expect(
       document
         .querySelector('button.dnb-modal__trigger')
-        .textContent.replace(/\u200C/g, '')
+        .textContent.replace(/\u200C/g, ''),
     ).toBe('text')
   })
 
   it('will not act as a HelpButton if a different icon was given', () => {
     render(<Modal {...props} triggerAttributes={{ icon: 'bell' }} />)
     expect(
-      document.querySelector('button.dnb-modal__trigger')
+      document.querySelector('button.dnb-modal__trigger'),
     ).not.toHaveAttribute('aria-roledescription')
     expect(
       document
         .querySelector('button.dnb-modal__trigger')
-        .querySelector('.dnb-button__icon')
+        .querySelector('.dnb-button__icon'),
     ).toBeInTheDocument()
   })
 
   it('will not act as a HelpButton if trigger text was given', () => {
     render(<Modal {...props} triggerAttributes={{ text: 'text' }} />)
     expect(
-      document.querySelector('button.dnb-modal__trigger')
+      document.querySelector('button.dnb-modal__trigger'),
     ).not.toHaveAttribute('aria-roledescription')
     expect(
       document
         .querySelector('button.dnb-modal__trigger')
-        .querySelector('.dnb-button__icon')
+        .querySelector('.dnb-button__icon'),
     ).not.toBeInTheDocument()
     expect(
       document
         .querySelector('button.dnb-modal__trigger')
-        .textContent.replace(/\u200C/g, '')
+        .textContent.replace(/\u200C/g, ''),
     ).toBe('text')
   })
 })

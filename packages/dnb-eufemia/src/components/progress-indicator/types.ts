@@ -8,7 +8,7 @@ export type ValidSizes = (typeof validSizes)[number]
 export type ProgressIndicatorCustomSize = CSS.Property.Width
 
 export function isValidSize(
-  size: ProgressIndicatorProps['size']
+  size: ProgressIndicatorProps['size'],
 ): size is ValidSizes {
   return validSizes.some((validSize) => validSize === size)
 }

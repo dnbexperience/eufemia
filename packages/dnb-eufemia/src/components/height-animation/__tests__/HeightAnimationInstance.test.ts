@@ -42,7 +42,7 @@ describe('HeightAnimationInstance', () => {
     expect(inst.firstPaintStyle).not.toEqual(
       expect.objectContaining({
         position: 'absolute',
-      })
+      }),
     )
   })
 
@@ -165,26 +165,26 @@ describe('HeightAnimationInstance', () => {
       const addedElement = removedNodes[0][0] as HTMLElement
       expect(addedElement.querySelector('input')).toHaveAttribute(
         'class',
-        'myClass'
+        'myClass',
       )
       expect(addedElement.querySelector('input')).not.toHaveAttribute('id')
       expect(addedElement.querySelector('input')).not.toHaveAttribute(
-        'name'
+        'name',
       )
 
       const removedElement = removedNodes[0][0] as HTMLElement
       expect(removedElement.querySelector('input')).toHaveAttribute(
         'class',
-        'myClass'
+        'myClass',
       )
       expect(removedElement.querySelector('input')).not.toHaveAttribute(
-        'id'
+        'id',
       )
       expect(removedElement.querySelector('input')).not.toHaveAttribute(
-        'name'
+        'name',
       )
       expect(removedElement.outerHTML).toMatchInlineSnapshot(
-        `"<span data-height="100" style="visibility: hidden; opacity: 0; height: auto; position: absolute;"><input class="myClass"></span>"`
+        `"<span data-height="100" style="visibility: hidden; opacity: 0; height: auto; position: absolute;"><input class="myClass"></span>"`,
       )
     })
 
@@ -259,7 +259,7 @@ describe('HeightAnimationInstance', () => {
 
       expect(styles).toHaveLength(1)
       expect(styles[0].getAttribute('style')).toBe(
-        'visibility: hidden; opacity: 0; height: auto; position: absolute;'
+        'visibility: hidden; opacity: 0; height: auto; position: absolute;',
       )
     })
 
@@ -552,7 +552,7 @@ describe('HeightAnimationInstance', () => {
       element.style.overflowY = 'clip'
       expect(element).toHaveAttribute(
         'style',
-        'height: 100px; overflow-y: clip;'
+        'height: 100px; overflow-y: clip;',
       )
 
       simulateAnimationEnd(element)
@@ -653,7 +653,7 @@ describe('HeightAnimationInstance', () => {
 
       expect(element).toHaveAttribute(
         'style',
-        'height: 0px; visibility: hidden; overflow-y: clip;'
+        'height: 0px; visibility: hidden; overflow-y: clip;',
       )
 
       expect(onStart).toHaveBeenCalledTimes(1)

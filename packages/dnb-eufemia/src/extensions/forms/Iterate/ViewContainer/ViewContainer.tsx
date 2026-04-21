@@ -59,7 +59,7 @@ function ViewContainer(props: IterateViewContainerAllProps) {
   const hasToolbar =
     !toolbarElement &&
     (Array.isArray(children) ? children : [children]).some(
-      (child) => React.isValidElement(child) && child.type === Toolbar
+      (child) => React.isValidElement(child) && child.type === Toolbar,
     )
 
   return (

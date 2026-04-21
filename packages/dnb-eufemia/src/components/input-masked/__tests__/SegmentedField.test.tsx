@@ -47,16 +47,16 @@ const threeSegmentInputs: SegmentedFieldItem<'day' | 'month' | 'year'>[] =
   ]
 
 function renderSegmentedField(
-  props: Partial<SegmentedFieldProps<'first' | 'second'>> = {}
+  props: Partial<SegmentedFieldProps<'first' | 'second'>> = {},
 ) {
   return render(
-    <SegmentedField inputs={twoDigitInputs} delimiter="/" {...props} />
+    <SegmentedField inputs={twoDigitInputs} delimiter="/" {...props} />,
   )
 }
 
 const getSections = () =>
   Array.from(
-    document.querySelectorAll('.dnb-segmented-field__section')
+    document.querySelectorAll('.dnb-segmented-field__section'),
   ) as Array<HTMLInputElement>
 
 const getFirst = () => getSections()[0]
@@ -92,7 +92,7 @@ describe('SegmentedField', () => {
       renderSegmentedField({ delimiter: '/' })
 
       const delimiter = document.querySelector(
-        '.dnb-segmented-field__delimiter'
+        '.dnb-segmented-field__delimiter',
       )
       expect(delimiter).toBeInTheDocument()
       expect(delimiter).toHaveTextContent('/')
@@ -102,7 +102,7 @@ describe('SegmentedField', () => {
       renderSegmentedField({ delimiter: undefined })
 
       const delimiter = document.querySelector(
-        '.dnb-segmented-field__delimiter'
+        '.dnb-segmented-field__delimiter',
       )
       expect(delimiter).not.toBeInTheDocument()
     })
@@ -118,10 +118,10 @@ describe('SegmentedField', () => {
       renderSegmentedField({ label: 'My label' })
 
       const fieldset = document.querySelector(
-        '.dnb-segmented-field__fieldset'
+        '.dnb-segmented-field__fieldset',
       )
       expect(fieldset.classList).not.toContain(
-        'dnb-segmented-field__fieldset--horizontal'
+        'dnb-segmented-field__fieldset--horizontal',
       )
     })
 
@@ -132,10 +132,10 @@ describe('SegmentedField', () => {
       })
 
       const fieldset = document.querySelector(
-        '.dnb-segmented-field__fieldset'
+        '.dnb-segmented-field__fieldset',
       )
       expect(fieldset.classList).not.toContain(
-        'dnb-segmented-field__fieldset--horizontal'
+        'dnb-segmented-field__fieldset--horizontal',
       )
     })
 
@@ -146,7 +146,7 @@ describe('SegmentedField', () => {
       })
 
       const hiddenInput: HTMLInputElement = document.querySelector(
-        '.dnb-segmented-field__hidden-input'
+        '.dnb-segmented-field__hidden-input',
       )
       expect(hiddenInput).toBeInTheDocument()
       expect(hiddenInput.classList).toContain('dnb-sr-only')
@@ -157,7 +157,7 @@ describe('SegmentedField', () => {
       renderSegmentedField()
 
       const hiddenInput: HTMLInputElement = document.querySelector(
-        '.dnb-segmented-field__hidden-input'
+        '.dnb-segmented-field__hidden-input',
       )
 
       hiddenInput.focus()
@@ -405,7 +405,7 @@ describe('SegmentedField', () => {
           inputs={threeSegmentInputs}
           delimiter="."
           values={{ day: '03', month: '04', year: '2026' }}
-        />
+        />,
       )
 
       const [day, month, year] = getSections()
@@ -481,7 +481,7 @@ describe('SegmentedField', () => {
           inputs={threeSegmentInputs}
           delimiter="."
           values={{ day: '12', month: '11', year: '1234' }}
-        />
+        />,
       )
 
       const year = getSections()[2]
@@ -828,7 +828,7 @@ describe('SegmentedField', () => {
             values={{ first: '12', second: '34' }}
           />
           <button type="button">Next</button>
-        </>
+        </>,
       )
 
       const second = getSecond()
@@ -841,7 +841,7 @@ describe('SegmentedField', () => {
       await userEvent.tab()
 
       expect(document.activeElement).toBe(
-        document.querySelector('button[type="button"]')
+        document.querySelector('button[type="button"]'),
       )
       expect(second.selectionStart).toBe(second.value.length)
       expect(second.selectionEnd).toBe(second.value.length)
@@ -969,7 +969,7 @@ describe('SegmentedField', () => {
 
       expect(onChange).toHaveBeenCalled()
       expect(onChange).toHaveBeenLastCalledWith(
-        expect.objectContaining({ first: '12' })
+        expect.objectContaining({ first: '12' }),
       )
     })
 
@@ -1020,7 +1020,7 @@ describe('SegmentedField', () => {
           inputs={threeSegmentInputs}
           delimiter="."
           values={{ day: '16', month: '10', year: '2024' }}
-        />
+        />,
       )
 
       const [day, month, year] = getSections()
@@ -1046,7 +1046,7 @@ describe('SegmentedField', () => {
           inputs={threeSegmentInputs}
           delimiter="."
           values={{ day: '16', month: '10', year: '2024' }}
-        />
+        />,
       )
 
       const [day, month, year] = getSections()
@@ -1307,7 +1307,7 @@ describe('SegmentedField', () => {
           inputs={threeSegmentInputs}
           delimiter="."
           values={{ day: '30', month: '06', year: '2025' }}
-        />
+        />,
       )
 
       const sections = getSections()

@@ -57,12 +57,12 @@ function EditContainer(props: FormSectionEditContainerAllProps) {
       disableEditing,
       initialContainerMode,
       switchContainerMode,
-    ]
+    ],
   )
 
   const childArray = Array.isArray(children) ? children : [children]
   const hasToolbar = childArray.some(
-    (child) => React.isValidElement(child) && child.type === Toolbar
+    (child) => React.isValidElement(child) && child.type === Toolbar,
   )
 
   return (

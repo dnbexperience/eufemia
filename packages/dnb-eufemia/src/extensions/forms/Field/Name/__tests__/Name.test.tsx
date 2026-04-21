@@ -22,7 +22,7 @@ describe('Field.Name', () => {
     render(
       <Form.Handler onSubmit={onSubmit}>
         <Field.Name required />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const form = document.querySelector('form')
@@ -38,7 +38,7 @@ describe('Field.Name', () => {
     render(
       <Form.Handler onSubmit={onSubmit}>
         <Field.Name.First required path="/firstName" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
@@ -55,7 +55,7 @@ describe('Field.Name', () => {
 
     expect(onSubmit).toHaveBeenLastCalledWith(
       { firstName: 'My Name' },
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -65,7 +65,7 @@ describe('Field.Name', () => {
     render(
       <Form.Handler onSubmit={onSubmit}>
         <Field.Name path="/myValue" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const form = document.querySelector('form')
@@ -74,7 +74,7 @@ describe('Field.Name', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { myValue: undefined },
-      expect.anything()
+      expect.anything(),
     )
 
     const input = document.querySelector('input')
@@ -84,7 +84,7 @@ describe('Field.Name', () => {
 
     expect(onSubmit).toHaveBeenLastCalledWith(
       { myValue: 'Nora' },
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -120,7 +120,7 @@ describe('Field.Name', () => {
     const onChange = jest.fn()
 
     render(
-      <Field.Name capitalize onChange={onChange} value="first NAME" />
+      <Field.Name capitalize onChange={onChange} value="first NAME" />,
     )
 
     const input = document.querySelector('input')
@@ -132,7 +132,7 @@ describe('Field.Name', () => {
 
     expect(onChange).toHaveBeenLastCalledWith(
       'First Name Second',
-      expect.anything()
+      expect.anything(),
     )
 
     await userEvent.type(input, '-NAME')
@@ -140,7 +140,7 @@ describe('Field.Name', () => {
 
     expect(onChange).toHaveBeenLastCalledWith(
       'First Name Second-Name',
-      expect.anything()
+      expect.anything(),
     )
 
     await userEvent.type(input, '{Backspace>22}')
@@ -174,7 +174,7 @@ describe('Field.Name', () => {
     render(
       <Form.Handler onSubmit={onSubmit}>
         <Field.Name.Company path="/companyName" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
@@ -186,7 +186,7 @@ describe('Field.Name', () => {
 
     expect(onSubmit).toHaveBeenLastCalledWith(
       { companyName: 'foo' },
-      expect.anything()
+      expect.anything(),
     )
 
     // Note: Values with leading/trailing whitespace will fail pattern validation
@@ -207,7 +207,7 @@ describe('Field.Name', () => {
         onBlurValidator={customValidator}
         capitalize={false}
         required
-      />
+      />,
     )
 
     const input = document.querySelector('input')
@@ -221,7 +221,7 @@ describe('Field.Name', () => {
     fireEvent.blur(input)
 
     expect(
-      document.querySelector('[role="alert"]')
+      document.querySelector('[role="alert"]'),
     ).not.toBeInTheDocument()
   })
 
@@ -256,7 +256,7 @@ describe('Field.Name', () => {
     it.each(validNames)('Valid name: %s', (name) => {
       render(<Field.Name validateInitially value={name} />)
       expect(
-        document.querySelector('[role="alert"]')
+        document.querySelector('[role="alert"]'),
       ).not.toBeInTheDocument()
     })
 
@@ -264,7 +264,7 @@ describe('Field.Name', () => {
       render(<Field.Name validateInitially value={name} />)
       expect(document.querySelector('[role="alert"]')).toBeInTheDocument()
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        nb.Field.errorPattern
+        nb.Field.errorPattern,
       )
     })
   })
@@ -306,7 +306,7 @@ describe('Field.Name', () => {
     it.each(validNames)('Valid name: %s', (name) => {
       render(<Field.Name.Company validateInitially value={name} />)
       expect(
-        document.querySelector('[role="alert"]')
+        document.querySelector('[role="alert"]'),
       ).not.toBeInTheDocument()
     })
 
@@ -314,7 +314,7 @@ describe('Field.Name', () => {
       render(<Field.Name.Company validateInitially value={name} />)
       expect(document.querySelector('[role="alert"]')).toBeInTheDocument()
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        nb.Field.errorPattern
+        nb.Field.errorPattern,
       )
     })
 
@@ -334,12 +334,12 @@ describe('Field.Name', () => {
           onBlurValidator={customValidator}
           validateInitially
           value="Tech Solutions"
-        />
+        />,
       )
 
       await waitFor(() => {
         expect(
-          document.querySelector('[role="alert"]')
+          document.querySelector('[role="alert"]'),
         ).toBeInTheDocument()
       })
 
@@ -349,23 +349,23 @@ describe('Field.Name', () => {
           onBlurValidator={customValidator}
           validateInitially
           value="Tech Solutions Corp"
-        />
+        />,
       )
 
       await waitFor(() => {
         expect(
-          document.querySelector('[role="alert"]')
+          document.querySelector('[role="alert"]'),
         ).not.toBeInTheDocument()
       })
 
       // Test that default validator would reject invalid pattern
       rerender(
-        <Field.Name.Company validateInitially value="!Special Corp" />
+        <Field.Name.Company validateInitially value="!Special Corp" />,
       )
 
       await waitFor(() => {
         expect(
-          document.querySelector('[role="alert"]')
+          document.querySelector('[role="alert"]'),
         ).toBeInTheDocument()
       })
     })
@@ -373,11 +373,11 @@ describe('Field.Name', () => {
     it('should allow overriding minLength for company names', () => {
       // Override minLength to allow single character
       render(
-        <Field.Name.Company minLength={1} validateInitially value="A" />
+        <Field.Name.Company minLength={1} validateInitially value="A" />,
       )
 
       expect(
-        document.querySelector('[role="alert"]')
+        document.querySelector('[role="alert"]'),
       ).not.toBeInTheDocument()
 
       // Test that default minLength would reject this
@@ -385,7 +385,7 @@ describe('Field.Name', () => {
 
       expect(document.querySelector('[role="alert"]')).toBeInTheDocument()
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        nb.StringField.errorMinLength.replace('{minLength}', '3')
+        nb.StringField.errorMinLength.replace('{minLength}', '3'),
       )
     })
   })
@@ -394,28 +394,28 @@ describe('Field.Name', () => {
     it('should not show error for name with 1 or more characters', () => {
       render(<Field.Name validateInitially value="A" />)
       expect(
-        document.querySelector('[role="alert"]')
+        document.querySelector('[role="alert"]'),
       ).not.toBeInTheDocument()
     })
 
     it('should not show error for name with 2 or more characters', () => {
       render(<Field.Name validateInitially value="Ab" />)
       expect(
-        document.querySelector('[role="alert"]')
+        document.querySelector('[role="alert"]'),
       ).not.toBeInTheDocument()
     })
 
     it('should not show error for first name with 1 or more characters', () => {
       render(<Field.Name.First validateInitially value="A" />)
       expect(
-        document.querySelector('[role="alert"]')
+        document.querySelector('[role="alert"]'),
       ).not.toBeInTheDocument()
     })
 
     it('should not show error for last name with 1 or more characters', () => {
       render(<Field.Name.Last validateInitially value="A" />)
       expect(
-        document.querySelector('[role="alert"]')
+        document.querySelector('[role="alert"]'),
       ).not.toBeInTheDocument()
     })
 
@@ -423,7 +423,7 @@ describe('Field.Name', () => {
       render(<Field.Name.Company validateInitially value="A" />)
       expect(document.querySelector('[role="alert"]')).toBeInTheDocument()
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        nb.StringField.errorMinLength.replace('{minLength}', '3')
+        nb.StringField.errorMinLength.replace('{minLength}', '3'),
       )
     })
 
@@ -433,7 +433,7 @@ describe('Field.Name', () => {
       render(
         <Form.Handler onSubmit={onSubmit}>
           <Field.Name path="/name" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -444,7 +444,7 @@ describe('Field.Name', () => {
 
       expect(onSubmit).toHaveBeenCalled()
       expect(
-        document.querySelector('[role="alert"]')
+        document.querySelector('[role="alert"]'),
       ).not.toBeInTheDocument()
     })
   })
@@ -456,7 +456,7 @@ describe('Field.Name', () => {
           <Field.Name.First required validateInitially />
           <Field.Name.Last required validateInitially />
           <Field.Name.Company required validateInitially />
-        </>
+        </>,
       )
 
       expect(await axeComponent(result)).toHaveNoViolations()
@@ -661,7 +661,7 @@ describe('Name field patterns', () => {
         'should not match invalid name: %s',
         (name) => {
           expect(pattern.test(name)).toBe(false)
-        }
+        },
       )
     })
 
@@ -804,7 +804,7 @@ describe('Name field patterns', () => {
         'should match valid company name: %s',
         (name) => {
           expect(pattern.test(name)).toBe(true)
-        }
+        },
       )
     })
 
@@ -913,7 +913,7 @@ describe('Name field patterns', () => {
         'should not match invalid company name: %s',
         (name) => {
           expect(pattern.test(name)).toBe(false)
-        }
+        },
       )
     })
 

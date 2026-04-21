@@ -29,7 +29,7 @@ export default function useContainerDataStore() {
       const data = extendDeep(
         {},
         dataFromContext,
-        moveValueToPath(path, valueBackupRef.current)
+        moveValueToPath(path, valueBackupRef.current),
       )
       setData?.(data)
     }

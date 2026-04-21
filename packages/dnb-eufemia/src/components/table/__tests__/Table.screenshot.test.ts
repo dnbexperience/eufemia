@@ -225,7 +225,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
           waitAfterSimulate: 100, // same delay as the resize dispatch
           executeBeforeSimulate: () => {
             const element = document.querySelector(
-              '[data-visual-test="table-sticky"] table tbody tr:nth-of-type(5)'
+              '[data-visual-test="table-sticky"] table tbody tr:nth-of-type(5)',
             )
             element.scrollIntoView({
               behavior: 'auto',
@@ -234,7 +234,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
             // Ensure the window.resize event gets triggered in order to force the shadow to appear (after React v18 upgrade)
             setTimeout(
               () => window.dispatchEvent(new Event('resize')),
-              100
+              100,
             ) // A needed delay in order to activate the resize simulation
           },
         })
@@ -262,7 +262,7 @@ describe.each(['ui', 'sbanken'])(
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  }
+  },
 )
 
 describe.each(['ui', 'sbanken'])(
@@ -370,7 +370,7 @@ describe.each(['ui', 'sbanken'])(
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  }
+  },
 )
 
 describe.each(['ui', 'sbanken'])(
@@ -488,7 +488,7 @@ describe.each(['ui', 'sbanken'])(
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  }
+  },
 )
 
 describe.each(['ui', 'sbanken'])(
@@ -565,7 +565,7 @@ describe.each(['ui', 'sbanken'])(
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  }
+  },
 )
 
 describe('Table', () => {

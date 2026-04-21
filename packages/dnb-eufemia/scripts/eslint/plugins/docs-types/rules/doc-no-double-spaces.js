@@ -73,7 +73,7 @@ module.exports = {
                   : fixed.replace(/\\/g, '\\\\').replace(/"/g, '\\"')
               return fixer.replaceText(
                 node.value,
-                `${quote}${escaped}${quote}`
+                `${quote}${escaped}${quote}`,
               )
             }
 

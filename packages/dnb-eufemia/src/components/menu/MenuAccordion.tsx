@@ -40,7 +40,7 @@ export default function MenuAccordion(props: MenuAccordionProps) {
         return value
       })
     },
-    [onOpenChange]
+    [onOpenChange],
   )
 
   // Reset when parent menu closes
@@ -91,12 +91,12 @@ export default function MenuAccordion(props: MenuAccordionProps) {
 
   const focusFirstChild = useCallback(() => {
     const firstChild = contentRef.current?.querySelector<HTMLElement>(
-      '[role="menuitem"]:not([aria-disabled="true"])'
+      '[role="menuitem"]:not([aria-disabled="true"])',
     )
     if (firstChild && parentContext) {
       firstChild.focus({ preventScroll: true })
       const refIndex = parentContext.itemRefs.current.findIndex(
-        (r) => r?.current === firstChild
+        (r) => r?.current === firstChild,
       )
       if (refIndex !== -1) {
         parentContext.setActiveIndex(refIndex)
@@ -140,7 +140,7 @@ export default function MenuAccordion(props: MenuAccordionProps) {
         setIsOpen(false)
       }
     },
-    [disabled, isOpen, setIsOpen, focusFirstChild]
+    [disabled, isOpen, setIsOpen, focusFirstChild],
   )
 
   return (
@@ -150,7 +150,7 @@ export default function MenuAccordion(props: MenuAccordionProps) {
         'dnb-menu__accordion',
         isOpen && 'dnb-menu__accordion--open',
         disabled && 'dnb-menu__accordion--disabled',
-        className
+        className,
       )}
     >
       <div

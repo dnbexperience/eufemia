@@ -358,7 +358,7 @@ describe('validateTailwindVariables', () => {
 
     expect(result.isValid).toBe(false)
     expect(result.errors).toContain(
-      'Variable --sb-color-white still contains --sb- prefix'
+      'Variable --sb-color-white still contains --sb- prefix',
     )
   })
 
@@ -371,7 +371,7 @@ describe('validateTailwindVariables', () => {
 
     expect(result.isValid).toBe(false)
     expect(result.errors).toContain(
-      "Variable --invalid-namespace doesn't follow Tailwind namespace conventions"
+      "Variable --invalid-namespace doesn't follow Tailwind namespace conventions",
     )
   })
 
@@ -394,10 +394,10 @@ describe('validateTailwindVariables', () => {
     expect(result.isValid).toBe(false)
     expect(result.errors).toHaveLength(2)
     expect(result.errors).toContain(
-      'Variable --sb-color-black still contains --sb- prefix'
+      'Variable --sb-color-black still contains --sb- prefix',
     )
     expect(result.errors).toContain(
-      "Variable --invalid-namespace doesn't follow Tailwind namespace conventions"
+      "Variable --invalid-namespace doesn't follow Tailwind namespace conventions",
     )
   })
 })
@@ -435,14 +435,14 @@ describe('getTailwindNamespace', () => {
     expect(getTailwindNamespace('--color-sb-black')).toBe('--color-sb-')
     expect(getTailwindNamespace('--text-sb-small')).toBe('--text-sb-')
     expect(getTailwindNamespace('--spacing-sb-medium')).toBe(
-      '--spacing-sb-'
+      '--spacing-sb-',
     )
     expect(getTailwindNamespace('--font-sb-default')).toBe('--font-sb-')
     expect(getTailwindNamespace('--font-weight-sb-bold')).toBe(
-      '--font-weight-sb-'
+      '--font-weight-sb-',
     )
     expect(getTailwindNamespace('--leading-sb-tight')).toBe(
-      '--leading-sb-'
+      '--leading-sb-',
     )
     expect(getTailwindNamespace('--shadow-sb-large')).toBe('--shadow-sb-')
     expect(getTailwindNamespace('--ease-sb-default')).toBe('--ease-sb-')

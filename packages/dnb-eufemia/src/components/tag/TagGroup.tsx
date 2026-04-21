@@ -51,7 +51,7 @@ const defaultProps: Partial<TagGroupProps> = {
 const TagGroup = (
   localProps: TagGroupProps &
     SpacingProps &
-    Omit<React.HTMLProps<HTMLElement>, 'label'>
+    Omit<React.HTMLProps<HTMLElement>, 'label'>,
 ) => {
   // Every component should have a context
   const context = React.useContext(Context)

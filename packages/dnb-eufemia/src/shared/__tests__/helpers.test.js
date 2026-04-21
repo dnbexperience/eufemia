@@ -43,7 +43,7 @@ describe('"applyPageFocus" should', () => {
       `
       <div id="focus-content" class="focus-content">My Content</div>
       <button class="focus-button">My Button</button>
-      `
+      `,
     )
 
     setPageFocusElement('.focus-content', 'content')
@@ -97,7 +97,7 @@ describe('"applyPageFocus" should', () => {
     fireEvent.blur(focusElement)
 
     expect(focusElement.getAttribute('class')).not.toContain(
-      'dnb-no-focus'
+      'dnb-no-focus',
     )
   })
 })
@@ -109,7 +109,7 @@ describe('"scrollToLocationHashId" should', () => {
     const bodyElement = document.body
     bodyElement.insertAdjacentHTML(
       'afterbegin',
-      `<div id="scroll-hash">My Content</div>`
+      `<div id="scroll-hash">My Content</div>`,
     )
 
     scrollElement = document.querySelector('#scroll-hash')
@@ -268,7 +268,7 @@ describe('"warn" should', () => {
       '%cEufemia',
       'padding: 0.125rem 0.5rem 0;font-weight: bold;color: #00343E;background: #A5E1D2',
       'message-1',
-      'message-2'
+      'message-2',
     )
 
     process.env.NODE_ENV = env
@@ -284,7 +284,7 @@ describe('"warn" should', () => {
     expect(global.console.log).toHaveBeenCalledWith(
       '\u001b[0m\u001b[1m\u001b[38;5;23m\u001b[48;5;152mEufemia\u001b[49m\u001b[39m\u001b[22m\u001b[0m',
       'message-1',
-      'message-2'
+      'message-2',
     )
 
     process.env.NODE_ENV = env
@@ -310,7 +310,7 @@ describe('"warn" should', () => {
     expect(global.console.log).toHaveBeenCalledWith(
       '\u001b[0m\u001b[1m\u001b[38;5;23m\u001b[48;5;152mEufemia\u001b[49m\u001b[39m\u001b[22m\u001b[0m',
       'message-1',
-      'message-2'
+      'message-2',
     )
   })
 })

@@ -32,11 +32,11 @@ export const translationsWithoutEnUS = mergeTranslations(
   svSE_forms_countries,
   daDK,
   daDK_forms,
-  daDK_forms_countries
+  daDK_forms_countries,
 )
 export const translations = mergeTranslations(
   translationsWithoutEnUS,
-  enUS
+  enUS,
 )
 export const supportedTranslationsKey = [
   ...Object.keys(coreTranslations),

@@ -17,7 +17,7 @@ describe('Anchor with scrollToHash', () => {
       <>
         <Anchor onClick={() => scrollToHash('/path#hash-id')}>text</Anchor>
         <span id="hash-id" />
-      </>
+      </>,
     )
 
     fireEvent.click(document.querySelector('a'))

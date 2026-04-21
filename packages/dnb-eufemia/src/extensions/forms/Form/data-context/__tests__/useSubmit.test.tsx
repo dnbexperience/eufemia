@@ -12,7 +12,7 @@ describe('Form.useSubmit', () => {
     }
 
     expect(renderHookFn).toThrow(
-      'Form.useSubmit needs to run inside Form.Handler or have a valid id'
+      'Form.useSubmit needs to run inside Form.Handler or have a valid id',
     )
 
     log.mockRestore()
@@ -36,7 +36,7 @@ describe('Form.useSubmit', () => {
     }).not.toThrow()
 
     await expect(submitPromise).rejects.toThrow(
-      'Form.useSubmit needs to run inside Form.Handler or have a valid id'
+      'Form.useSubmit needs to run inside Form.Handler or have a valid id',
     )
   })
 
@@ -58,7 +58,7 @@ describe('Form.useSubmit', () => {
           <Field.String path="/foo" value="bar" />
         </Form.Element>
         <SubmitTrigger />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const button = document.querySelector('button')
@@ -70,7 +70,7 @@ describe('Form.useSubmit', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledWith(
       expect.objectContaining({ foo: 'bar' }),
-      expect.any(Object)
+      expect.any(Object),
     )
   })
 
@@ -112,7 +112,7 @@ describe('Form.useSubmit', () => {
           <Field.String path="/foo" value="bar" />
         </Form.Element>
         <SubmitTrigger />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const button = document.querySelector('button')
@@ -144,7 +144,7 @@ describe('Form.useSubmit', () => {
           <Field.String path="/name" value="Jane" />
         </Form.Handler>
         <SubmitButtonOutside />
-      </>
+      </>,
     )
 
     const button = document.querySelector('button')
@@ -156,7 +156,7 @@ describe('Form.useSubmit', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledWith(
       expect.objectContaining({ name: 'Jane' }),
-      expect.any(Object)
+      expect.any(Object),
     )
   })
 
@@ -178,7 +178,7 @@ describe('Form.useSubmit', () => {
         <div className="external-actions">
           <ExternalSubmitButton />
         </div>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const button = document.querySelector('.external-actions button')
@@ -190,7 +190,7 @@ describe('Form.useSubmit', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledWith(
       expect.objectContaining({ name: 'John' }),
-      expect.any(Object)
+      expect.any(Object),
     )
   })
 
@@ -224,7 +224,7 @@ describe('Form.useSubmit', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledWith(
       expect.objectContaining({ name: 'Alex' }),
-      expect.any(Object)
+      expect.any(Object),
     )
   })
 })

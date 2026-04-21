@@ -33,7 +33,7 @@ test.describe('Page Scroll', () => {
     })
 
     expect(
-      await page.evaluate(() => window.scrollY)
+      await page.evaluate(() => window.scrollY),
     ).toBeGreaterThanOrEqual(0)
 
     const anchorElement = (
@@ -42,14 +42,14 @@ test.describe('Page Scroll', () => {
     await anchorElement?.click()
 
     expect(page.url()).toContain(
-      '/contribute/getting-started/#style-dependencies'
+      '/contribute/getting-started/#style-dependencies',
     )
 
     await page.waitForFunction(() => window.scrollY >= 2000, {
       timeout: 5000,
     })
     expect(
-      await page.evaluate(() => window.scrollY)
+      await page.evaluate(() => window.scrollY),
     ).toBeGreaterThanOrEqual(2000)
   })
 })

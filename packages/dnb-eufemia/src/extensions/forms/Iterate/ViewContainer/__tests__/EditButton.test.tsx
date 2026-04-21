@@ -14,7 +14,7 @@ describe('EditButton', () => {
         <Toolbar>
           <EditButton />
         </Toolbar>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     const button = document.querySelector('button')
@@ -29,7 +29,7 @@ describe('EditButton', () => {
         <Toolbar>
           <EditButton />
         </Toolbar>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     const button = document.querySelector('button')

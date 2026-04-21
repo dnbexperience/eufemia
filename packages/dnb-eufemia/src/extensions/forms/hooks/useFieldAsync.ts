@@ -34,7 +34,7 @@ export type UseFieldAsyncParams<Value> = {
   persistErrorState: (
     method: PersistErrorStateMethod,
     initiator: ErrorInitiator,
-    error?: Error | FormError | Array<Error | FormError>
+    error?: Error | FormError | Array<Error | FormError>,
   ) => void
   revealError: () => void
   setFieldState: (state: SubmitStateWithValidating) => void
@@ -51,7 +51,7 @@ export type UseFieldAsyncParams<Value> = {
   identifier: Identifier
   executeOnChangeRegardlessOfError: boolean
   handlePathChangeDataContext: (
-    identifier: Identifier
+    identifier: Identifier,
   ) =>
     | EventReturnWithStateObjectAndSuccess
     | Promise<EventReturnWithStateObjectAndSuccess>
@@ -85,7 +85,7 @@ export default function useFieldAsync<Value>({
 
   const validatedValueRef = useRef<Value>(undefined)
   const changeEventResultRef = useRef<EventStateObjectWithSuccess | null>(
-    null
+    null,
   )
   const asyncProcessRef = useRef<AsyncProcesses | null>(null)
 
@@ -123,7 +123,7 @@ export default function useFieldAsync<Value>({
         eventPool.current[name] = { fn, runAsync }
       }
     },
-    []
+    [],
   )
 
   const runPool = useCallback(async (cb = null) => {
@@ -182,7 +182,7 @@ export default function useFieldAsync<Value>({
                   }))
 
               return result
-            }
+            },
           )
 
           return result
@@ -196,7 +196,7 @@ export default function useFieldAsync<Value>({
         }
       })
     },
-    [setFieldState, fieldStateRef]
+    [setFieldState, fieldStateRef],
   )
 
   // -- handleChangeEventResult --
@@ -265,7 +265,7 @@ export default function useFieldAsync<Value>({
 
       await handleChangeEventResult()
     },
-    [handleChangeEventResult]
+    [handleChangeEventResult],
   )
 
   // -- callOnChangeContext --
@@ -297,8 +297,8 @@ export default function useFieldAsync<Value>({
         if (!hasError() || executeOnChangeRegardlessOfError) {
           await setEventResult(
             (await handlePathChangeDataContext?.(
-              identifier
-            )) as EventReturnWithStateObjectAndSuccess
+              identifier,
+            )) as EventReturnWithStateObjectAndSuccess,
           )
         } else {
           await setEventResult(null)
@@ -306,8 +306,8 @@ export default function useFieldAsync<Value>({
       } else if (onChangeContext || !asyncBehaviorIsEnabled) {
         setEventResult(
           handlePathChangeDataContext?.(
-            identifier
-          ) as EventReturnWithStateObjectAndSuccess
+            identifier,
+          ) as EventReturnWithStateObjectAndSuccess,
         )
       }
     }

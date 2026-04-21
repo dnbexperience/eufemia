@@ -6,7 +6,7 @@ import { axeComponent } from '../../../core/jest/jestSetup'
 
 function getStyleProperties(
   element: HTMLElement,
-  properties: Array<string>
+  properties: Array<string>,
 ): Record<string, string> {
   const result: Record<string, string> = {}
 
@@ -25,12 +25,12 @@ describe('Grid.Item', () => {
     render(
       <Grid.Container>
         <Grid.Item aria-label="Aria Label">Item</Grid.Item>
-      </Grid.Container>
+      </Grid.Container>,
     )
 
     const element = document.querySelector('.dnb-grid-item')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toContain('aria-label')
@@ -41,7 +41,7 @@ describe('Grid.Item', () => {
     const { rerender } = render(
       <Grid.Container>
         <Grid.Item top="large">Item</Grid.Item>
-      </Grid.Container>
+      </Grid.Container>,
     )
     const element = document.querySelector('.dnb-grid-item ')
 
@@ -50,7 +50,7 @@ describe('Grid.Item', () => {
     rerender(
       <Grid.Container>
         <Grid.Item top="x-large">Item</Grid.Item>
-      </Grid.Container>
+      </Grid.Container>,
     )
 
     expect(element.classList).toContain('dnb-space__top--x-large')
@@ -60,7 +60,7 @@ describe('Grid.Item', () => {
     render(
       <Grid.Container>
         <Grid.Item className="custom-class">Item</Grid.Item>
-      </Grid.Container>
+      </Grid.Container>,
     )
 
     const element = document.querySelector('.dnb-grid-item')
@@ -114,7 +114,7 @@ describe('Grid.Item', () => {
         >
           Item D
         </Grid.Item>
-      </Grid.Container>
+      </Grid.Container>,
     )
 
     const elements: NodeListOf<HTMLElement> =
@@ -205,7 +205,7 @@ describe('Grid.Item', () => {
         >
           Item D
         </Grid.Item>
-      </Grid.Container>
+      </Grid.Container>,
     )
 
     const elements: NodeListOf<HTMLElement> =
@@ -260,7 +260,7 @@ describe('Grid.Item', () => {
         <Grid.Item span={[1, 6]}>Item A</Grid.Item>
 
         <Grid.Item span={[7, 12]}>Item B</Grid.Item>
-      </Grid.Container>
+      </Grid.Container>,
     )
 
     const elements: NodeListOf<HTMLElement> =

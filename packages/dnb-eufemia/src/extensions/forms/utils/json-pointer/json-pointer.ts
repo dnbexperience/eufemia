@@ -25,7 +25,7 @@ export function get<T = JsonObject>(obj: T, pointer: PointerPath) {
 export function set<T = JsonObject>(
   obj: T,
   pointer: PointerPath,
-  value: JsonValue
+  value: JsonValue,
 ) {
   const refTokens = (
     Array.isArray(pointer) ? pointer : parse(pointer)
@@ -106,7 +106,7 @@ export function dict<T = JsonObject>(obj: T, descend = null) {
     (value, pointer: string) => {
       results[pointer] = value
     },
-    descend
+    descend,
   )
   return results
 }
@@ -194,7 +194,7 @@ export function parse(pointer: Extract<PointerPath, string>): PointerPath {
  * Builds a json pointer from a array of reference tokens
  */
 export function compile(
-  refTokens: Extract<PointerPath, Array<string>>
+  refTokens: Extract<PointerPath, Array<string>>,
 ): string {
   if (refTokens.length === 0) {
     return ''

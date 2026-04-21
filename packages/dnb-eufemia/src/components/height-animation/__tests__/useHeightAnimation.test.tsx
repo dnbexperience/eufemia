@@ -38,7 +38,7 @@ describe('useHeightAnimation', () => {
           isInDOM && 'is-in-dom',
           isVisible && 'is-visible',
           isVisibleParallax && 'is-parallax',
-          isOpen && 'is-open'
+          isOpen && 'is-open',
         )}
       >
         <div ref={element} className="dnb-height-animation">
@@ -122,7 +122,7 @@ describe('useHeightAnimation', () => {
 
     expect(getElement()).toHaveAttribute(
       'style',
-      'height: 0px; visibility: hidden; overflow-y: clip;'
+      'height: 0px; visibility: hidden; overflow-y: clip;',
     )
   })
 
@@ -137,21 +137,21 @@ describe('useHeightAnimation', () => {
 
     expect(element).toHaveAttribute(
       'class',
-      'wrapper-element is-in-dom is-visible is-parallax'
+      'wrapper-element is-in-dom is-visible is-parallax',
     )
 
     simulateAnimationEnd()
 
     expect(element).toHaveAttribute(
       'class',
-      'wrapper-element is-in-dom is-visible is-parallax is-open'
+      'wrapper-element is-in-dom is-visible is-parallax is-open',
     )
 
     fireEvent.click(document.querySelector('button'))
 
     expect(element).toHaveAttribute(
       'class',
-      'wrapper-element is-in-dom is-visible is-open'
+      'wrapper-element is-in-dom is-visible is-open',
     )
 
     simulateAnimationEnd()
@@ -213,7 +213,7 @@ describe('useHeightAnimation', () => {
     const ref: React.RefObject<HTMLDivElement> = { current }
 
     const { result } = renderHook(() =>
-      useHeightAnimation(ref, { open: false })
+      useHeightAnimation(ref, { open: false }),
     )
 
     expect(result.current).toEqual({
@@ -238,7 +238,7 @@ describe('useHeightAnimation', () => {
       ({ open }) => useHeightAnimation(ref, { open, onAnimationEnd }),
       {
         initialProps: { open: false },
-      }
+      },
     )
 
     expect(onAnimationEnd).toHaveBeenCalledTimes(0)
@@ -260,7 +260,7 @@ describe('useHeightAnimation', () => {
       ({ open }) => useHeightAnimation(ref, { open, onAnimationEnd }),
       {
         initialProps: { open: true },
-      }
+      },
     )
 
     expect(onAnimationEnd).toHaveBeenCalledTimes(0)

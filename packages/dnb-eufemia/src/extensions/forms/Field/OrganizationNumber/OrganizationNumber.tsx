@@ -31,7 +31,7 @@ function OrganizationNumber(props: FieldOrganizationNumberProps) {
       'Field.errorPattern': errorOrgNo,
       ...props.errorMessages,
     }),
-    [errorRequired, errorOrgNo, props.errorMessages]
+    [errorRequired, errorOrgNo, props.errorMessages],
   )
 
   const organizationNumberValidator = useCallback(
@@ -49,7 +49,7 @@ function OrganizationNumber(props: FieldOrganizationNumberProps) {
 
       return undefined
     },
-    [errorOrgNo, errorOrgNoLength]
+    [errorOrgNo, errorOrgNoLength],
   )
 
   const {
@@ -66,7 +66,7 @@ function OrganizationNumber(props: FieldOrganizationNumberProps) {
       omitMask
         ? [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]
         : [/\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/],
-    [omitMask]
+    [omitMask],
   )
 
   const onBlurValidatorToUse =

@@ -18,7 +18,7 @@ describe('ToggleButton group component', () => {
     const { rerender } = render(
       <ToggleButton.Group label="Label" vertical>
         <ToggleButton />
-      </ToggleButton.Group>
+      </ToggleButton.Group>,
     )
 
     const element = document.querySelector('.dnb-toggle-button-group')
@@ -38,7 +38,7 @@ describe('ToggleButton group component', () => {
     rerender(
       <ToggleButton.Group label="Label" labelDirection="vertical">
         <ToggleButton />
-      </ToggleButton.Group>
+      </ToggleButton.Group>,
     )
 
     expect(Array.from(flexElement.classList)).toEqual([
@@ -67,10 +67,10 @@ describe('ToggleButton group component', () => {
           variant="radio"
           checked
         />
-      </ToggleButton.Group>
+      </ToggleButton.Group>,
     )
     expect(
-      document.querySelector('.dnb-radio__button')
+      document.querySelector('.dnb-radio__button'),
     ).toBeInTheDocument()
   })
 
@@ -88,10 +88,10 @@ describe('ToggleButton group component', () => {
           variant="radio"
           checked
         />
-      </ToggleButton.Group>
+      </ToggleButton.Group>,
     )
     expect(
-      document.querySelector('button#toggle-button-2')
+      document.querySelector('button#toggle-button-2'),
     ).toHaveAttribute('aria-pressed')
   })
 
@@ -118,7 +118,7 @@ describe('ToggleButton group component', () => {
           data-prop="value-2"
           data-attr="value"
         />
-      </ToggleButton.Group>
+      </ToggleButton.Group>,
     )
 
     // first click
@@ -139,7 +139,7 @@ describe('ToggleButton group component', () => {
       <ToggleButton.Group label="Legend">
         <ToggleButton text="First" value="first" />
         <ToggleButton text="Second" value="second" />
-      </ToggleButton.Group>
+      </ToggleButton.Group>,
     )
 
     expect(document.querySelectorAll('fieldset')).toHaveLength(1)
@@ -150,7 +150,7 @@ describe('ToggleButton group component', () => {
       <ToggleButton.Group>
         <ToggleButton text="First" value="first" />
         <ToggleButton text="Second" value="second" />
-      </ToggleButton.Group>
+      </ToggleButton.Group>,
     )
 
     expect(document.querySelector('fieldset')).not.toBeInTheDocument()
@@ -163,7 +163,7 @@ describe('ToggleButton group component', () => {
       <ToggleButton.Group>
         <ToggleButton text="First" value="first" />
         <ToggleButton text="Second" value="second" />
-      </ToggleButton.Group>
+      </ToggleButton.Group>,
     )
 
     expect(document.querySelector('label')).not.toBeInTheDocument()
@@ -175,7 +175,7 @@ describe('ToggleButton group component', () => {
         <ToggleButton.Group label="Legend">
           <ToggleButton text="First" value="first" />
           <ToggleButton text="Second" value="second" />
-        </ToggleButton.Group>
+        </ToggleButton.Group>,
       )
 
       const fieldset = document.querySelector('fieldset')
@@ -191,7 +191,7 @@ describe('ToggleButton group component', () => {
         <ToggleButton.Group label="Legend" variant="radio">
           <ToggleButton text="First" value="first" variant="radio" />
           <ToggleButton text="Second" value="second" variant="radio" />
-        </ToggleButton.Group>
+        </ToggleButton.Group>,
       )
 
       const fieldset = document.querySelector('fieldset')
@@ -207,14 +207,14 @@ describe('ToggleButton group component', () => {
         <ToggleButton.Group>
           <ToggleButton text="First" value="first" />
           <ToggleButton text="Second" value="second" />
-        </ToggleButton.Group>
+        </ToggleButton.Group>,
       )
 
       const fieldset = document.querySelector('fieldset')
       expect(fieldset).not.toBeInTheDocument()
 
       const div = document.querySelector(
-        '.dnb-toggle-button-group__fieldset'
+        '.dnb-toggle-button-group__fieldset',
       )
       expect(div).not.toHaveAttribute('aria-labelledby')
       // Note: The div still has role="group" because it's set by the component logic
@@ -226,11 +226,11 @@ describe('ToggleButton group component', () => {
         <ToggleButton.Group label="Legend">
           <ToggleButton text="First" value="first" />
           <ToggleButton text="Second" value="second" />
-        </ToggleButton.Group>
+        </ToggleButton.Group>,
       )
 
       const shell = document.querySelector(
-        '.dnb-toggle-button-group__shell'
+        '.dnb-toggle-button-group__shell',
       )
       expect(shell).not.toHaveAttribute('role')
     })
@@ -255,7 +255,7 @@ describe('ToggleButton group component', () => {
           text="ToggleButton 2"
           value="second"
         />
-      </ToggleButton.Group>
+      </ToggleButton.Group>,
     )
 
     // first click
@@ -268,12 +268,12 @@ describe('ToggleButton group component', () => {
     expect(
       document
         .querySelector('#toggle-button-1')
-        .getAttribute('aria-pressed')
+        .getAttribute('aria-pressed'),
     ).toBe('true')
     expect(
       document
         .querySelector('#toggle-button-2')
-        .getAttribute('aria-pressed')
+        .getAttribute('aria-pressed'),
     ).toBe('true')
 
     // second click
@@ -282,12 +282,12 @@ describe('ToggleButton group component', () => {
     expect(
       document
         .querySelector('#toggle-button-1')
-        .getAttribute('aria-pressed')
+        .getAttribute('aria-pressed'),
     ).toBe('false')
     expect(
       document
         .querySelector('#toggle-button-2')
-        .getAttribute('aria-pressed')
+        .getAttribute('aria-pressed'),
     ).toBe('true')
 
     // third click
@@ -296,12 +296,12 @@ describe('ToggleButton group component', () => {
     expect(
       document
         .querySelector('#toggle-button-1')
-        .getAttribute('aria-pressed')
+        .getAttribute('aria-pressed'),
     ).toBe('false')
     expect(
       document
         .querySelector('#toggle-button-2')
-        .getAttribute('aria-pressed')
+        .getAttribute('aria-pressed'),
     ).toBe('false')
   })
 
@@ -386,7 +386,7 @@ describe('ToggleButton group component', () => {
         document
           .querySelector(sel)
           .querySelector('.dnb-checkbox__input')
-          .getAttribute('data-checked')
+          .getAttribute('data-checked'),
       ).toBe('false')
 
       fireEvent.click(document.querySelector(sel))
@@ -394,24 +394,24 @@ describe('ToggleButton group component', () => {
         document
           .querySelector(sel)
           .querySelector('.dnb-checkbox__input')
-          .getAttribute('data-checked')
+          .getAttribute('data-checked'),
       ).toBe('true')
       expect(
-        document.querySelector(sel).getAttribute('aria-pressed')
+        document.querySelector(sel).getAttribute('aria-pressed'),
       ).toBe('true')
 
       fireEvent.click(document.querySelector(sel))
       expect(
-        document.querySelector(sel).getAttribute('aria-pressed')
+        document.querySelector(sel).getAttribute('aria-pressed'),
       ).toBe('false')
       expect(
-        document.querySelector('.dnb-toggle-button--checked')
+        document.querySelector('.dnb-toggle-button--checked'),
       ).not.toBeInTheDocument()
       expect(
         document
           .querySelector(sel)
           .querySelector('.dnb-checkbox__input')
-          .getAttribute('data-checked')
+          .getAttribute('data-checked'),
       ).toBe('false')
 
       fireEvent.click(document.querySelector(sel))
@@ -419,7 +419,7 @@ describe('ToggleButton group component', () => {
         document
           .querySelector(sel)
           .querySelector('.dnb-checkbox__input')
-          .getAttribute('data-checked')
+          .getAttribute('data-checked'),
       ).toBe('true')
 
       cleanup()
@@ -445,7 +445,7 @@ describe('ToggleButton group component', () => {
           text="ToggleButton 2"
           value="second"
         />
-      </ToggleButton.Group>
+      </ToggleButton.Group>,
     )
 
     const element = document.querySelector('.dnb-toggle-button-group')
@@ -476,12 +476,12 @@ describe('ToggleButton group component', () => {
             value="second"
           />
         </ToggleButton.Group>
-      </Provider>
+      </Provider>,
     )
 
     const element = document.querySelector('.dnb-toggle-button-group')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual(['class'])
@@ -493,9 +493,9 @@ describe('ToggleButton group component', () => {
     expect(
       Array.from(
         document.querySelector(
-          '.dnb-toggle-button-group .dnb-flex-container'
-        ).classList
-      )
+          '.dnb-toggle-button-group .dnb-flex-container',
+        ).classList,
+      ),
     ).toEqual([
       'dnb-space',
       'dnb-flex-container',
@@ -507,7 +507,7 @@ describe('ToggleButton group component', () => {
       'dnb-flex-container--divider-space',
     ])
     expect(
-      Array.from(document.querySelector('.dnb-flex-container').classList)
+      Array.from(document.querySelector('.dnb-flex-container').classList),
     ).toEqual([
       'dnb-space',
       'dnb-flex-container',
@@ -534,7 +534,7 @@ describe('ToggleButton group component', () => {
           variant="radio"
           checked
         />
-      </ToggleButton.Group>
+      </ToggleButton.Group>,
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
@@ -553,7 +553,7 @@ describe('ToggleButton group component', () => {
           variant="radio"
           checked
         />
-      </ToggleButton.Group>
+      </ToggleButton.Group>,
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
@@ -563,7 +563,7 @@ describe('ToggleButton group component', () => {
       <ToggleButton.Group label="Label" id="group">
         <ToggleButton id="toggle-button-1" text="ToggleButton 1" />
         <ToggleButton id="toggle-button-2" text="ToggleButton 2" checked />
-      </ToggleButton.Group>
+      </ToggleButton.Group>,
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })

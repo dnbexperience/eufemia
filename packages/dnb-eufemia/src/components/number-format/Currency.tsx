@@ -18,7 +18,7 @@ export type NumberFormatCurrencyProps = Omit<
 const NumberFormatCurrency = withFormatter<NumberFormatCurrencyProps>(
   'NumberFormat.Currency',
   formatCurrency,
-  { currency: true }
+  { currency: true },
 )
 
 export default NumberFormatCurrency

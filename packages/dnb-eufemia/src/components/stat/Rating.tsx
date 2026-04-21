@@ -45,7 +45,7 @@ function Rating(props: RatingProps) {
 
   if (resolvedMax > MAX_ALLOWED) {
     warn(
-      `Stat.Rating: max=${resolvedMax} exceeds the supported limit of ${MAX_ALLOWED}. The value will be clamped.`
+      `Stat.Rating: max=${resolvedMax} exceeds the supported limit of ${MAX_ALLOWED}. The value will be clamped.`,
     )
   }
 
@@ -73,7 +73,7 @@ function Rating(props: RatingProps) {
         'dnb-stat',
         'dnb-stat__rating',
         `dnb-stat__rating--${variant}`,
-        className
+        className,
       )}
       style={style}
       role="img"
@@ -141,7 +141,7 @@ function StarIcon({ variant }: { variant: 'base' | 'active' }) {
     <svg
       className={clsx(
         'dnb-stat__rating-icon',
-        `dnb-stat__rating-icon--${variant}`
+        `dnb-stat__rating-icon--${variant}`,
       )}
       width="12"
       height="12"

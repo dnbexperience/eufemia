@@ -26,7 +26,7 @@ describe('H element', () => {
     render(
       <H className="my-class" size="medium">
         Test heading
-      </H>
+      </H>,
     )
     const element = document.querySelector('.dnb-h--medium')
 
@@ -38,7 +38,7 @@ describe('H element', () => {
     render(
       <H element="h2" size="medium">
         Test heading
-      </H>
+      </H>,
     )
     const element = document.querySelector('.dnb-h--medium')
 
@@ -61,7 +61,7 @@ describe('H element', () => {
     it('applies proseMaxWidth style when provided', () => {
       render(<H proseMaxWidth={80}>Test heading</H>)
       const element = document.querySelector(
-        '.dnb-h--xx-large'
+        '.dnb-h--xx-large',
       ) as HTMLElement
 
       expect(element.style.maxWidth).toBe('80ch')
@@ -70,7 +70,7 @@ describe('H element', () => {
     it('does not apply proseMaxWidth style when not provided', () => {
       render(<H>Test heading</H>)
       const element = document.querySelector(
-        '.dnb-h--xx-large'
+        '.dnb-h--xx-large',
       ) as HTMLElement
 
       expect(element.style.maxWidth).toBe('')
@@ -80,10 +80,10 @@ describe('H element', () => {
       render(
         <H proseMaxWidth={60} style={{ color: 'red' }}>
           Test heading
-        </H>
+        </H>,
       )
       const element = document.querySelector(
-        '.dnb-h--xx-large'
+        '.dnb-h--xx-large',
       ) as HTMLElement
 
       expect(element.style.maxWidth).toBe('60ch')
@@ -93,7 +93,7 @@ describe('H element', () => {
     it('works with different character widths', () => {
       render(<H proseMaxWidth={40}>Short heading</H>)
       const element = document.querySelector(
-        '.dnb-h--xx-large'
+        '.dnb-h--xx-large',
       ) as HTMLElement
 
       expect(element.style.maxWidth).toBe('40ch')
@@ -103,10 +103,10 @@ describe('H element', () => {
       render(
         <H size="x-large" proseMaxWidth={100}>
           Large heading with width limit
-        </H>
+        </H>,
       )
       const element = document.querySelector(
-        '.dnb-h--x-large'
+        '.dnb-h--x-large',
       ) as HTMLElement
 
       expect(element.classList.contains('dnb-h--x-large')).toBe(true)
@@ -116,7 +116,7 @@ describe('H element', () => {
     it('applies proseMaxWidth as 60ch when true', () => {
       render(<H proseMaxWidth>Test heading</H>)
       const element = document.querySelector(
-        '.dnb-h--xx-large'
+        '.dnb-h--xx-large',
       ) as HTMLElement
 
       expect(element.style.maxWidth).toBe('60ch')
@@ -136,7 +136,7 @@ describe('H element', () => {
       render(
         <Theme.Context surface="dark">
           <H>Test heading</H>
-        </Theme.Context>
+        </Theme.Context>,
       )
 
       const element = document.querySelector('.dnb-h--xx-large')

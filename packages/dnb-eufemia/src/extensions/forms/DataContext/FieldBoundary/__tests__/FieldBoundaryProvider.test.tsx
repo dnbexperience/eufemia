@@ -10,7 +10,7 @@ import userEvent from '@testing-library/user-event'
 describe('FieldBoundaryProvider', () => {
   it('should render children', () => {
     const { getByText } = render(
-      <FieldBoundaryProvider>content</FieldBoundaryProvider>
+      <FieldBoundaryProvider>content</FieldBoundaryProvider>,
     )
 
     expect(getByText('content')).toBeInTheDocument()
@@ -31,7 +31,7 @@ describe('FieldBoundaryProvider', () => {
           <ContextConsumer />
           <Field.String />
         </FieldBoundaryProvider>
-      </Provider>
+      </Provider>,
     )
 
     expect(contextRef.current.hasError).toBe(false)
@@ -45,7 +45,7 @@ describe('FieldBoundaryProvider', () => {
           <ContextConsumer />
           <Field.String required />
         </FieldBoundaryProvider>
-      </Provider>
+      </Provider>,
     )
 
     expect(contextRef.current.hasError).toBe(true)
@@ -62,7 +62,7 @@ describe('FieldBoundaryProvider', () => {
           <Field.String required />
           <Form.SubmitButton />
         </FieldBoundaryProvider>
-      </Provider>
+      </Provider>,
     )
 
     await userEvent.click(document.querySelector('button'))
@@ -96,7 +96,7 @@ describe('FieldBoundaryProvider', () => {
           <Field.String required value="foo" />
           <Form.SubmitButton />
         </FieldBoundaryProvider>
-      </Provider>
+      </Provider>,
     )
 
     expect(contextRef.current.hasError).toBe(false)
@@ -111,7 +111,7 @@ describe('FieldBoundaryProvider', () => {
           <Field.String required path="/bar" />
           <Form.SubmitButton />
         </FieldBoundaryProvider>
-      </Provider>
+      </Provider>,
     )
 
     await userEvent.click(document.querySelector('button'))
@@ -140,7 +140,7 @@ describe('FieldBoundaryProvider', () => {
           <ContextConsumer />
           <Field.String />
         </FieldBoundaryProvider>
-      </Provider>
+      </Provider>,
     )
 
     expect(contextRef.current.showBoundaryErrors).toBe(true)
@@ -161,7 +161,7 @@ describe('FieldBoundaryProvider', () => {
           <ContextConsumer />
           <Field.String />
         </FieldBoundaryProvider>
-      </Provider>
+      </Provider>,
     )
 
     expect(contextRef.current.hasError).toBe(false)
@@ -175,7 +175,7 @@ describe('FieldBoundaryProvider', () => {
           <ContextConsumer />
           <Field.String required />
         </FieldBoundaryProvider>
-      </Provider>
+      </Provider>,
     )
 
     act(() => {
@@ -186,7 +186,7 @@ describe('FieldBoundaryProvider', () => {
     expect(contextRef.current.hasSubmitError).toBe(false)
     expect(contextRef.current.hasVisibleError).toBe(true)
     expect(contextRef.current.showBoundaryErrors).toEqual(
-      expect.any(Number)
+      expect.any(Number),
     )
 
     act(() => {
@@ -216,7 +216,7 @@ describe('FieldBoundaryProvider', () => {
             <Form.SubmitButton />
           </Contexts>
         </FieldBoundaryProvider>
-      </Provider>
+      </Provider>,
     )
 
     await userEvent.click(document.querySelector('button'))
@@ -265,7 +265,7 @@ describe('FieldBoundaryProvider', () => {
             }}
           </FieldBoundaryContext.Consumer>
         </Form.Section.EditContainer>
-      </Form.Section>
+      </Form.Section>,
     )
 
     const blocks = document.querySelectorAll('.dnb-forms-section-block')

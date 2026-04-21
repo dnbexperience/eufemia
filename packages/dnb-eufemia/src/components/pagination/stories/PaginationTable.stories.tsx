@@ -59,7 +59,7 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
 
   const onToggleExpanded = (
     { ssn: _ssn },
-    { pageNumber = 0, element = null, onExpanded = null } = {}
+    { pageNumber = 0, element = null, onExpanded = null } = {},
   ) => {
     const index = tableItems.findIndex(({ ssn }) => ssn === _ssn)
     if (index > -1) {
@@ -79,7 +79,7 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
   }
   const onMounted = (items) => {
     items.forEach(({ element: { current: element }, expanded }) =>
-      setHeight({ element, expanded, animation: false })
+      setHeight({ element, expanded, animation: false }),
     )
   }
   const content = (
@@ -108,7 +108,7 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
           setLocalPage(pageNumber)
         }
       },
-      Math.ceil(Math.random() * 1e3)
+      Math.ceil(Math.random() * 1e3),
     ) // simulate random delay
   }
 
@@ -383,7 +383,7 @@ const setHeight = ({
         element.style.height = '1px'
       }
       window.requestAnimationFrame(
-        () => (element.style.height = newHeight)
+        () => (element.style.height = newHeight),
       )
     })
   }

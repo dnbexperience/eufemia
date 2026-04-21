@@ -48,7 +48,7 @@ function ListContainer(props: ListContainerProps) {
   const { data: toggleData } =
     useSharedState<ListShowMoreButtonSharedState>(
       hasToggle ? props.id : undefined,
-      { expanded: false }
+      { expanded: false },
     )
 
   const expanded = hasToggle ? (toggleData?.expanded ?? false) : false
@@ -91,7 +91,7 @@ function ListContainer(props: ListContainerProps) {
         'dnb-list__container',
         variant && `dnb-list--variant-${variant}`,
         separated && 'dnb-list--separated',
-        className
+        className,
       )}
       {...rest}
     >

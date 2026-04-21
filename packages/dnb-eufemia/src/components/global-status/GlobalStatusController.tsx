@@ -89,7 +89,7 @@ function GlobalStatusController(ownProps: GlobalStatusControllerProps) {
     useRef<ReturnType<typeof GlobalStatusProvider.init>>(undefined)
   const statusIdRef = useRef<string | undefined>(undefined)
   const prevPropsRef = useRef<GlobalStatusControllerProps | undefined>(
-    undefined
+    undefined,
   )
   const removeOnUnmountRef = useRef(props.removeOnUnmount)
   removeOnUnmountRef.current = props.removeOnUnmount
@@ -127,7 +127,7 @@ function GlobalStatusController(ownProps: GlobalStatusControllerProps) {
 }
 
 const MemoizedGlobalStatusController = React.memo(
-  GlobalStatusController
+  GlobalStatusController,
 ) as React.MemoExoticComponent<typeof GlobalStatusController> & {
   Remove: typeof MemoizedGlobalStatusRemove
   Update: typeof MemoizedGlobalStatusController
@@ -153,7 +153,7 @@ function GlobalStatusRemove(ownProps: GlobalStatusRemovePropsLocal) {
   const providerRef =
     useRef<ReturnType<typeof GlobalStatusProvider.init>>(undefined)
   const prevPropsRef = useRef<GlobalStatusRemovePropsLocal | undefined>(
-    undefined
+    undefined,
   )
 
   // Initialize provider

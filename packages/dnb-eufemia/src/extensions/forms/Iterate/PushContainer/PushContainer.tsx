@@ -181,10 +181,10 @@ function PushContainer(props: IteratePushContainerAllProps) {
   } = useDataValue<Array<unknown>>(path || itemPath)
 
   const { setNextContainerMode } = useSwitchContainerMode(
-    path || absolutePath
+    path || absolutePath,
   )
   const { hasReachedLimit, setShowStatus } = useArrayLimit(
-    path || absolutePath
+    path || absolutePath,
   )
   const cancelHandler = useCallback(() => {
     if (hasReachedLimit) {
@@ -243,7 +243,7 @@ function PushContainer(props: IteratePushContainerAllProps) {
         pushContainerItems: [dataProp ?? defaultDataProp ?? clearedData],
       }
     },
-    [dataProp, defaultDataProp, isolatedData]
+    [dataProp, defaultDataProp, isolatedData],
   )
 
   // Derive an isolation-specific schema from parent context schema
@@ -260,7 +260,7 @@ function PushContainer(props: IteratePushContainerAllProps) {
       // Extract array element subschema: e.g. "/entries/0" → item schema
       const element = extractZodSubSchema(
         parentSchema as unknown as z.ZodTypeAny,
-        `${targetPath}/0`
+        `${targetPath}/0`,
       ) as z.ZodTypeAny
       return z.object({ pushContainerItems: z.array(element) })
     } else {
@@ -268,7 +268,7 @@ function PushContainer(props: IteratePushContainerAllProps) {
       // Convert e.g. "/entries" → "/properties/entries/items"
       const segments = String(targetPath).split('/').filter(Boolean)
       const schemaPointer = `/properties/${segments.join(
-        '/properties/'
+        '/properties/',
       )}/items`
       const itemsSchema = pointer.has(parentSchema, schemaPointer)
         ? pointer.get(parentSchema, schemaPointer)
@@ -312,7 +312,7 @@ function PushContainer(props: IteratePushContainerAllProps) {
                 ...entries.slice(insertAt),
               ]
             : [...entries, ...pushContainerItems],
-          absolutePath ? structuredClone(getValueByPath('/')) : {}
+          absolutePath ? structuredClone(getValueByPath('/')) : {},
         )
       }}
       onCommit={(data, options) => {
@@ -395,7 +395,7 @@ function NewContainer({
       : Boolean(
           !showOpenButton ||
           containerMode === 'edit' ||
-          ((required || hasContentChanged) && showStatus)
+          ((required || hasContentChanged) && showStatus),
         )
 
   const { preventUncommittedChangesText } = useTranslation().Isolation

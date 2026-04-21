@@ -24,12 +24,12 @@ describe('useQueryLocator', () => {
     return document.querySelector('output')
   }
   const mockUrl = (
-    { search } = { search: 'existing-query=foo&bar=baz' }
+    { search } = { search: 'existing-query=foo&bar=baz' },
   ) => {
     window.history.replaceState({}, '', `http://localhost/?${search}`)
 
     const realReplaceState = window.history.replaceState.bind(
-      window.history
+      window.history,
     )
     window.history.pushState = jest.fn((data, unused, url) => {
       realReplaceState(data, unused, url)
@@ -84,7 +84,7 @@ describe('useQueryLocator', () => {
           <Step />
           <Step />
         </Wizard.Container>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(output()).toHaveTextContent('{"activeIndex":0,"index":null}')
@@ -95,36 +95,36 @@ describe('useQueryLocator', () => {
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
     expect(window.location.search).toBe(
-      `?existing-query=foo&bar=baz&${identifier}-step=1`
+      `?existing-query=foo&bar=baz&${identifier}-step=1`,
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
       '',
-      `http://localhost/?existing-query=foo&bar=baz&${identifier}-step=1`
+      `http://localhost/?existing-query=foo&bar=baz&${identifier}-step=1`,
     )
 
     await userEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('{"activeIndex":2,"index":2}')
     expect(window.location.search).toBe(
-      `?existing-query=foo&bar=baz&${identifier}-step=2`
+      `?existing-query=foo&bar=baz&${identifier}-step=2`,
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
       '',
-      `http://localhost/?existing-query=foo&bar=baz&${identifier}-step=2`
+      `http://localhost/?existing-query=foo&bar=baz&${identifier}-step=2`,
     )
 
     await userEvent.click(previousButton())
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
     expect(window.location.search).toBe(
-      `?existing-query=foo&bar=baz&${identifier}-step=1`
+      `?existing-query=foo&bar=baz&${identifier}-step=1`,
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
       '',
-      `http://localhost/?existing-query=foo&bar=baz&${identifier}-step=1`
+      `http://localhost/?existing-query=foo&bar=baz&${identifier}-step=1`,
     )
   })
 
@@ -151,7 +151,7 @@ describe('useQueryLocator', () => {
           <Step />
           <Step />
         </Wizard.Container>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(output()).toHaveTextContent('{"activeIndex":0,"index":null}')
@@ -162,36 +162,36 @@ describe('useQueryLocator', () => {
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
     expect(window.location.search).toBe(
-      `?existing-query=foo&bar=baz&step=1`
+      `?existing-query=foo&bar=baz&step=1`,
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
       '',
-      `http://localhost/?existing-query=foo&bar=baz&step=1`
+      `http://localhost/?existing-query=foo&bar=baz&step=1`,
     )
 
     await userEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('{"activeIndex":2,"index":2}')
     expect(window.location.search).toBe(
-      `?existing-query=foo&bar=baz&step=2`
+      `?existing-query=foo&bar=baz&step=2`,
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
       '',
-      `http://localhost/?existing-query=foo&bar=baz&step=2`
+      `http://localhost/?existing-query=foo&bar=baz&step=2`,
     )
 
     await userEvent.click(previousButton())
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
     expect(window.location.search).toBe(
-      `?existing-query=foo&bar=baz&step=1`
+      `?existing-query=foo&bar=baz&step=1`,
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
       '',
-      `http://localhost/?existing-query=foo&bar=baz&step=1`
+      `http://localhost/?existing-query=foo&bar=baz&step=1`,
     )
   })
 
@@ -205,7 +205,7 @@ describe('useQueryLocator', () => {
           <Step />
           <Step />
         </Wizard.Container>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(output()).toHaveTextContent('{"activeIndex":0,"index":null}')
@@ -216,36 +216,36 @@ describe('useQueryLocator', () => {
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
     expect(window.location.search).toBe(
-      `?existing-query=foo&bar=baz&${identifier}-step=1`
+      `?existing-query=foo&bar=baz&${identifier}-step=1`,
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
       '',
-      `http://localhost/?existing-query=foo&bar=baz&${identifier}-step=1`
+      `http://localhost/?existing-query=foo&bar=baz&${identifier}-step=1`,
     )
 
     visitStep(2)
 
     expect(output()).toHaveTextContent('{"activeIndex":2,"index":2}')
     expect(window.location.search).toBe(
-      `?existing-query=foo&bar=baz&${identifier}-step=2`
+      `?existing-query=foo&bar=baz&${identifier}-step=2`,
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
       '',
-      `http://localhost/?existing-query=foo&bar=baz&${identifier}-step=2`
+      `http://localhost/?existing-query=foo&bar=baz&${identifier}-step=2`,
     )
 
     visitStep(1)
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
     expect(window.location.search).toBe(
-      `?existing-query=foo&bar=baz&${identifier}-step=1`
+      `?existing-query=foo&bar=baz&${identifier}-step=1`,
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
       '',
-      `http://localhost/?existing-query=foo&bar=baz&${identifier}-step=1`
+      `http://localhost/?existing-query=foo&bar=baz&${identifier}-step=1`,
     )
   })
 
@@ -262,7 +262,7 @@ describe('useQueryLocator', () => {
           <Step />
           <Step />
         </Wizard.Container>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelector('.dnb-form-status')).toBeNull()
@@ -270,7 +270,7 @@ describe('useQueryLocator', () => {
     await userEvent.click(nextButton())
 
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      'URL is not a constructor'
+      'URL is not a constructor',
     )
   })
 

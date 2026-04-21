@@ -131,10 +131,10 @@ export type NumberFormatOptionParams = {
 export type NumberFormatFunction = {
   (
     value: NumberFormatValue | null | undefined,
-    options: NumberFormatOptionParams & { returnAria: true }
+    options: NumberFormatOptionParams & { returnAria: true },
   ): NumberFormatReturnValue
   (
     value: NumberFormatValue | null | undefined,
-    options?: NumberFormatOptionParams
+    options?: NumberFormatOptionParams,
   ): string
 }

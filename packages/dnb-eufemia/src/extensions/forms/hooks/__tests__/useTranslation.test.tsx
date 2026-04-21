@@ -100,7 +100,7 @@ describe('Form.useTranslation', () => {
     })
 
     expect(result.current.Email).toMatchObject(
-      extendedLocale['nb-NO'].Email
+      extendedLocale['nb-NO'].Email,
     )
 
     const { result: resultGB } = renderHook(
@@ -109,11 +109,11 @@ describe('Form.useTranslation', () => {
         wrapper: ({ children }) => (
           <Provider locale="en-GB">{children}</Provider>
         ),
-      }
+      },
     )
 
     expect(resultGB.current.Email).not.toMatchObject(
-      extendedLocale['nb-NO'].Email
+      extendedLocale['nb-NO'].Email,
     )
   })
 
@@ -136,7 +136,7 @@ describe('Form.useTranslation', () => {
       const { result } = renderHook(useTranslation)
 
       expect(result.current.formatMessage('Field.errorRequired')).toBe(
-        forms_nbNO['nb-NO'].Field.errorRequired
+        forms_nbNO['nb-NO'].Field.errorRequired,
       )
     })
 
@@ -148,7 +148,7 @@ describe('Form.useTranslation', () => {
       })
 
       expect(result.current.formatMessage('Field.errorRequired')).toBe(
-        forms_enGB['en-GB'].Field.errorRequired
+        forms_enGB['en-GB'].Field.errorRequired,
       )
     })
 
@@ -161,19 +161,19 @@ describe('Form.useTranslation', () => {
       const { rerender } = render(
         <Provider locale="nb-NO">
           <MockComponent />
-        </Provider>
+        </Provider>,
       )
       expect(document.body.textContent).toBe(
-        forms_nbNO['nb-NO'].Field.errorRequired
+        forms_nbNO['nb-NO'].Field.errorRequired,
       )
 
       rerender(
         <Provider locale="en-GB">
           <MockComponent />
-        </Provider>
+        </Provider>,
       )
       expect(document.body.textContent).toBe(
-        forms_enGB['en-GB'].Field.errorRequired
+        forms_enGB['en-GB'].Field.errorRequired,
       )
     })
 
@@ -192,25 +192,25 @@ describe('Form.useTranslation', () => {
       const { rerender } = render(
         <Provider locale="nb-NO" translations={myTranslations}>
           <MockComponent />
-        </Provider>
+        </Provider>,
       )
       expect(document.body.textContent).toBe(
         myTranslations['nb-NO'].Custom.translation.replace(
           '{myKey}',
-          'value!'
-        )
+          'value!',
+        ),
       )
 
       rerender(
         <Provider locale="en-GB" translations={myTranslations}>
           <MockComponent />
-        </Provider>
+        </Provider>,
       )
       expect(document.body.textContent).toBe(
         myTranslations['en-GB'].Custom.translation.replace(
           '{myKey}',
-          'value!'
-        )
+          'value!',
+        ),
       )
     })
 
@@ -229,25 +229,25 @@ describe('Form.useTranslation', () => {
       const { rerender } = render(
         <Provider locale="nb-NO" translations={myTranslations}>
           <MockComponent />
-        </Provider>
+        </Provider>,
       )
       expect(document.body.textContent).toBe(
         myTranslations['nb-NO'].Custom.translation.replace(
           '{myKey}',
-          'value!'
-        )
+          'value!',
+        ),
       )
 
       rerender(
         <Provider locale="en-GB" translations={myTranslations}>
           <MockComponent />
-        </Provider>
+        </Provider>,
       )
       expect(document.body.textContent).toBe(
         myTranslations['en-GB'].Custom.translation.replace(
           '{myKey}',
-          'value!'
-        )
+          'value!',
+        ),
       )
     })
   })
@@ -272,7 +272,7 @@ describe('Form.useTranslation', () => {
         wrapper: (props) => (
           <Provider {...props} translations={translations} />
         ),
-      }
+      },
     )
 
     expect(result.current.my.string).toBe('Min streng')
@@ -377,21 +377,21 @@ describe('Form.useTranslation', () => {
           wrapper: ({ children }) => (
             <Provider locale="sv-SE">{children}</Provider>
           ),
-        }
+        },
       )
 
       // Should have the fallback translations as translation keys
       expect(result.current.MyComponent.title).toBe('MyComponent.title')
       expect(result.current.MyComponent.description).toBe(
-        'MyComponent.description'
+        'MyComponent.description',
       )
 
       // Should have warned about missing translations
       expect(console.log).toHaveBeenCalledWith(
         expect.any(String), // Eufemia styling prefix
         expect.stringContaining(
-          'Form.useTranslation: No translations found for locale "sv-SE"!'
-        )
+          'Form.useTranslation: No translations found for locale "sv-SE"!',
+        ),
       )
     })
 
@@ -423,7 +423,7 @@ describe('Form.useTranslation', () => {
           wrapper: ({ children }) => (
             <Provider locale="sv-SE">{children}</Provider>
           ),
-        }
+        },
       )
 
       // Should have the current locale's content for existing keys
@@ -435,8 +435,8 @@ describe('Form.useTranslation', () => {
       expect(console.log).toHaveBeenCalledWith(
         expect.any(String), // Eufemia styling prefix
         expect.stringContaining(
-          'Form.useTranslation: No translations found for locale "sv-SE"!'
-        )
+          'Form.useTranslation: No translations found for locale "sv-SE"!',
+        ),
       )
     })
 
@@ -468,15 +468,15 @@ describe('Form.useTranslation', () => {
           wrapper: ({ children }) => (
             <Provider locale="da-DK">{children}</Provider>
           ),
-        }
+        },
       )
 
       // Should only have the current locale's content, no fallback
       expect(result.current.MyComponent.title).toBe(
-        customTranslations['da-DK'].MyComponent.title
+        customTranslations['da-DK'].MyComponent.title,
       )
       expect(result.current.MyComponent.description).toBe(
-        customTranslations['da-DK'].MyComponent.description
+        customTranslations['da-DK'].MyComponent.description,
       )
 
       // Should not have warned about missing translations
@@ -507,21 +507,21 @@ describe('Form.useTranslation', () => {
               {children}
             </Provider>
           ),
-        }
+        },
       )
 
       // Should have the fallback translations from context
       expect(result.current.MyComponent.title).toBe('MyComponent.title')
       expect(result.current.MyComponent.description).toBe(
-        'MyComponent.description'
+        'MyComponent.description',
       )
 
       // Should have warned about empty locale
       expect(console.log).toHaveBeenCalledWith(
         expect.any(String), // Eufemia styling prefix
         expect.stringContaining(
-          'Form.useTranslation: No translations found for locale "sv-SE"!'
-        )
+          'Form.useTranslation: No translations found for locale "sv-SE"!',
+        ),
       )
     })
 

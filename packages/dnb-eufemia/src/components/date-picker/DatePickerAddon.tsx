@@ -41,7 +41,7 @@ function DatePickerAddon(props: DatePickerAddonProps) {
       startDate: startDate,
       endDate: endDate,
     }),
-    [startDate, endDate]
+    [startDate, endDate],
   )
 
   const callOnChange = useCallback(
@@ -62,7 +62,7 @@ function DatePickerAddon(props: DatePickerAddonProps) {
         event,
       })
     },
-    [updateDates, callOnChangeHandler]
+    [updateDates, callOnChangeHandler],
   )
 
   const setDate = useCallback(
@@ -100,7 +100,7 @@ function DatePickerAddon(props: DatePickerAddonProps) {
         hidePicker({ ...event, focusOnClose: true })
       }
     },
-    [callOnChange, currentDates, hidePicker]
+    [callOnChange, currentDates, hidePicker],
   )
 
   const shortcutsArray: Array<DatePickerShortcut> = useMemo(
@@ -110,7 +110,7 @@ function DatePickerAddon(props: DatePickerAddonProps) {
           ? JSON.parse(shortcuts)
           : shortcuts
         : [],
-    [shortcuts]
+    [shortcuts],
   )
 
   const hasShortcuts = shortcutsArray && shortcutsArray.length > 0
@@ -131,7 +131,7 @@ function DatePickerAddon(props: DatePickerAddonProps) {
           })}
         </>
       ),
-    [hasShortcuts, shortcutsArray, setDate]
+    [hasShortcuts, shortcutsArray, setDate],
   )
 
   if (!hasShortcuts && !renderElement) {

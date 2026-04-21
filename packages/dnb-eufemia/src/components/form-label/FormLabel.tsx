@@ -59,7 +59,7 @@ function FormLabel(localProps: FormLabelAllProps) {
     null,
     { skeleton: context?.skeleton },
     pickFormElementProps(context?.formElement),
-    context?.FormLabel
+    context?.FormLabel,
   )
 
   const nestedContent = props?.text || props?.children
@@ -89,7 +89,7 @@ function FormLabel(localProps: FormLabelAllProps) {
   const isInteractive = Boolean(
     !props.disabled &&
     !srOnly &&
-    (typeof props.onClick === 'function' || forId)
+    (typeof props.onClick === 'function' || forId),
   )
 
   const params = applySpacing(
@@ -104,11 +104,11 @@ function FormLabel(localProps: FormLabelAllProps) {
         size && `dnb-h--${size}`,
         isInteractive && 'dnb-form-label--interactive',
         createSkeletonClass('font', skeleton, context),
-        className
+        className,
       ),
       htmlFor: forId,
       ...(attributes as DynamicElementParams),
-    }
+    },
   )
 
   const labelRef = useRef<HTMLLabelElement>(null)
@@ -124,7 +124,7 @@ function FormLabel(localProps: FormLabelAllProps) {
           node
       }
     },
-    [refProp]
+    [refProp],
   )
 
   if (!nestedNode) {
@@ -167,7 +167,7 @@ function FormLabel(localProps: FormLabelAllProps) {
 
         // Also handle elements with role="button" (e.g. TermDefinition)
         const interactiveElements = elem.querySelectorAll(
-          '[role="button"]:not(button)'
+          '[role="button"]:not(button)',
         )
         interactiveElements.forEach((interactiveElem) => {
           interactiveElem.addEventListener('mouseenter', buttonEnter, {
@@ -186,7 +186,7 @@ function FormLabel(localProps: FormLabelAllProps) {
 
         // Also remove listeners from elements with role="button"
         const interactiveElements = elem.querySelectorAll(
-          '[role="button"]:not(button)'
+          '[role="button"]:not(button)',
         )
         interactiveElements.forEach((interactiveElem) => {
           interactiveElem.removeEventListener('mouseenter', buttonEnter)
@@ -207,7 +207,7 @@ function FormLabel(localProps: FormLabelAllProps) {
 
           // Also clean up listeners from elements with role="button"
           const interactiveElements = elem.querySelectorAll(
-            '[role="button"]:not(button)'
+            '[role="button"]:not(button)',
           )
           interactiveElements.forEach((interactiveElem) => {
             interactiveElem.removeEventListener('mouseenter', buttonEnter)

@@ -17,7 +17,7 @@ export async function loadRobots(baseDir: string | null = null) {
   }
   const content = await fs.promises.readFile(
     path.join(baseDir, 'robots.txt'),
-    'utf-8'
+    'utf-8',
   )
   return parseRobots(content)
 }
@@ -45,6 +45,6 @@ function parseRobots(content: string) {
 function prefLen(arr: string[], s: string) {
   return arr.reduce(
     (m, p) => (p && s.startsWith(p) && p.length > m ? p.length : m),
-    0
+    0,
   )
 }

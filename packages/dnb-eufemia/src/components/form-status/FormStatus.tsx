@@ -251,7 +251,7 @@ function getIcon({
 }
 
 function FormStatusComponent(
-  ownProps: FormStatusProps & { ref?: React.Ref<HTMLElement> }
+  ownProps: FormStatusProps & { ref?: React.Ref<HTMLElement> },
 ) {
   const { ref, ...restOwnProps } = ownProps
   const context = useContext(Context)
@@ -264,7 +264,7 @@ function FormStatusComponent(
     formStatusDefaultProps,
     { skeleton: context?.skeleton },
     pickFormElementProps(context?.formElement),
-    context?.FormStatus
+    context?.FormStatus,
   )
 
   const {
@@ -320,7 +320,7 @@ function FormStatusComponent(
       return p.show && getContent(p) ? true : false
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.show, props.text, props.children]
+    [props.show, props.text, props.children],
   )
 
   const updateWidth = useCallback(() => {
@@ -374,7 +374,7 @@ function FormStatusComponent(
             ...currentProps.globalStatus,
           })
         }
-      }
+      },
     )
 
     return () => {
@@ -449,7 +449,7 @@ function FormStatusComponent(
             },
             {
               preventRestack: true, // because of the internal "close"
-            }
+            },
           )
         } else if (!getContent(restOwnProps)) {
           globalStatusRef.current?.remove(statusId)
@@ -497,7 +497,7 @@ function FormStatusComponent(
       variant && `dnb-form-status__variant--${variant}`,
       stretch && 'dnb-form-status--stretch',
       hasStringContent ? 'dnb-form-status--has-content' : null,
-      className
+      className,
     ),
     id: !String(idProp).startsWith('null') ? id : null,
     title,
@@ -518,7 +518,7 @@ function FormStatusComponent(
   const textParams = {
     className: clsx(
       'dnb-form-status__text',
-      createSkeletonClass('font', skeleton, context)
+      createSkeletonClass('font', skeleton, context),
     ),
     id: !String(textId).startsWith('null') ? textId : null,
   }
@@ -527,7 +527,7 @@ function FormStatusComponent(
     { space: shellSpace },
     {
       className: 'dnb-form-status__shell',
-    }
+    },
   )
 
   skeletonDOMAttributes(params, skeleton, context)
@@ -558,10 +558,10 @@ function FormStatusComponent(
 FormStatusComponent.displayName = 'FormStatus'
 
 const FormStatus = React.memo(
-  FormStatusComponent
+  FormStatusComponent,
 ) as React.MemoExoticComponent<
   (
-    props: FormStatusProps & { ref?: React.Ref<HTMLElement> }
+    props: FormStatusProps & { ref?: React.Ref<HTMLElement> },
   ) => React.ReactNode
 >
 

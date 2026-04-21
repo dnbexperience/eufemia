@@ -43,7 +43,7 @@ export default class InputModeNumber {
     }
 
     this.labelElement = document.querySelector(
-      `[for="${id}"]`
+      `[for="${id}"]`,
     ) as HTMLLabelElement
 
     if (this.labelElement) {

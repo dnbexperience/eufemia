@@ -14,7 +14,7 @@ export default function useInvalidDates(): {
         ...invalidDates,
       }
     },
-    []
+    [],
   )
 
   return { invalidDatesRef, setInvalidDates }

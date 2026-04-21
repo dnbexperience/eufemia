@@ -286,7 +286,7 @@ export default function Heading(props: HeadingAllProps) {
       'dnb-heading',
       `dnb-h--${size}`,
       createSkeletonClass('font', skeleton, headingContext),
-      className
+      className,
     ),
   })
 

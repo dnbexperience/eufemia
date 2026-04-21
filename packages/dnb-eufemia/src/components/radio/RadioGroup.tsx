@@ -148,10 +148,10 @@ function RadioGroup(ownProps: RadioGroupProps) {
         {
           value: newValue,
           event,
-        }
+        },
       )
     },
-    []
+    [],
   )
 
   const resolvedProps = {
@@ -165,7 +165,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
     pickFormElementProps(context?.formElement),
     (context as Record<string, unknown>)?.RadioGroup as
       | Record<string, unknown>
-      | undefined
+      | undefined,
   )
 
   const {
@@ -203,7 +203,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
       status && `dnb-radio-group__status--${statusState}`,
       `dnb-radio-group--${layoutDirection}`,
       'dnb-form-component',
-      className
+      className,
     ),
   })
 
@@ -214,7 +214,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
     params['aria-describedby'] = combineDescribedBy(
       params,
       showStatus ? id + '-status' : null,
-      suffix ? id + '-suffix' : null
+      suffix ? id + '-suffix' : null,
     )
   }
   if (label) {

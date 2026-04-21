@@ -10,7 +10,7 @@ type BranchScopedThemeGroups = {
 export function onMain(callback: MainOnlyCallback): void
 export function onMain(themeName: ThemeName): ThemeName
 export function onMain(
-  themeNameOrCallback: ThemeName | MainOnlyCallback
+  themeNameOrCallback: ThemeName | MainOnlyCallback,
 ): ThemeName | void {
   if (typeof themeNameOrCallback === 'function') {
     if (isMainOrVersionBranch(resolveBranchName())) {

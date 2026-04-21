@@ -11,7 +11,7 @@ describe('Field.Currency', () => {
     const { rerender } = render(
       <Provider>
         <Field.Currency value={123} />
-      </Provider>
+      </Provider>,
     )
 
     const input = document.querySelector('input')
@@ -21,7 +21,7 @@ describe('Field.Currency', () => {
     rerender(
       <Provider locale="en-GB">
         <Field.Currency value={123} />
-      </Provider>
+      </Provider>,
     )
 
     expect(input).toHaveValue('123 NOK')
@@ -33,7 +33,7 @@ describe('Field.Currency', () => {
         <Field.Currency value={123} align="left" />
         <Field.Currency value={123} align="center" />
         <Field.Currency value={123} align="right" />
-      </>
+      </>,
     )
 
     const inputs = document.querySelectorAll('.dnb-input')
@@ -87,7 +87,7 @@ describe('Field.Currency', () => {
     render(
       <Form.Handler onSubmit={onSubmit}>
         <Field.Currency path="/amount" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
@@ -99,7 +99,7 @@ describe('Field.Currency', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledWith(
       { amount: -250 },
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -187,7 +187,7 @@ describe('Field.Currency', () => {
             return null
           }}
         </DataContext.Consumer>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
@@ -219,10 +219,10 @@ describe('Field.Currency', () => {
 
   it('should render autoComplete when provided', () => {
     render(
-      <Field.Currency value={123} autoComplete="transaction-amount" />
+      <Field.Currency value={123} autoComplete="transaction-amount" />,
     )
     expect(
-      document.querySelector('input').getAttribute('autocomplete')
+      document.querySelector('input').getAttribute('autocomplete'),
     ).toBe('transaction-amount')
   })
 
@@ -230,34 +230,34 @@ describe('Field.Currency', () => {
     const { rerender } = render(
       <Form.Handler data={{ currency: 'SEK' }}>
         <Field.Currency currency="/currency" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelector('input')).toHaveAttribute(
       'aria-placeholder',
-      'kr'
+      'kr',
     )
 
     rerender(
       <Form.Handler data={{ currency: 'EUR' }}>
         <Field.Currency currency="/currency" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelector('input')).toHaveAttribute(
       'aria-placeholder',
-      '€'
+      '€',
     )
 
     rerender(
       <Form.Handler data={{ currency: 'CHF' }}>
         <Field.Currency currency="/currency" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelector('input')).toHaveAttribute(
       'aria-placeholder',
-      'CHF'
+      'CHF',
     )
   })
 
@@ -269,13 +269,13 @@ describe('Field.Currency', () => {
         value={123}
         // @ts-expect-error - Testing invalid currency prop for validation
         currency="invalid"
-      />
+      />,
     )
 
     expect(document.querySelector('input')).toHaveValue('123 invalid')
     expect(log).toHaveBeenCalledWith(
       expect.any(String),
-      new RangeError('Invalid currency code : invalid')
+      new RangeError('Invalid currency code : invalid'),
     )
 
     log.mockRestore()
@@ -286,27 +286,27 @@ describe('Field.Currency', () => {
       const { rerender } = render(
         <Provider>
           <Field.Currency />
-        </Provider>
+        </Provider>,
       )
 
       expect(
-        document.querySelector('.dnb-input__placeholder').textContent
+        document.querySelector('.dnb-input__placeholder').textContent,
       ).toBe('kr')
 
       rerender(
         <Provider locale="en-GB">
           <Field.Currency />
-        </Provider>
+        </Provider>,
       )
 
       expect(
-        document.querySelector('.dnb-input__placeholder').textContent
+        document.querySelector('.dnb-input__placeholder').textContent,
       ).toBe('NOK')
 
       rerender(<Field.Currency currencyDisplay="name" />)
 
       expect(
-        document.querySelector('.dnb-input__placeholder').textContent
+        document.querySelector('.dnb-input__placeholder').textContent,
       ).toBe('kroner')
     })
 
@@ -314,7 +314,7 @@ describe('Field.Currency', () => {
       const { rerender } = render(
         <Provider>
           <Field.Currency value={1234} currencyDisplay="name" />
-        </Provider>
+        </Provider>,
       )
 
       const input = document.querySelector('input')
@@ -324,7 +324,7 @@ describe('Field.Currency', () => {
       rerender(
         <Provider>
           <Field.Currency value={1} currencyDisplay="name" />
-        </Provider>
+        </Provider>,
       )
 
       expect(input).toHaveValue('1 krone')
@@ -332,7 +332,7 @@ describe('Field.Currency', () => {
       rerender(
         <Provider locale="en-GB">
           <Field.Currency value={1234} currencyDisplay="name" />
-        </Provider>
+        </Provider>,
       )
 
       expect(input).toHaveValue('1,234 kroner')
@@ -340,7 +340,7 @@ describe('Field.Currency', () => {
       rerender(
         <Provider locale="de-CH">
           <Field.Currency value={1234} currencyDisplay="name" />
-        </Provider>
+        </Provider>,
       )
 
       expect(input).toHaveValue('1’234 Kronen')
@@ -352,7 +352,7 @@ describe('Field.Currency', () => {
             currency="SEK"
             currencyDisplay="name"
           />
-        </Provider>
+        </Provider>,
       )
 
       expect(input).toHaveValue('1 234 svenske kroner')
@@ -362,7 +362,7 @@ describe('Field.Currency', () => {
       const { rerender } = render(
         <Provider locale="en-GB">
           <Field.Currency value={1234} currencyDisplay="code" />
-        </Provider>
+        </Provider>,
       )
 
       const input = document.querySelector('input')
@@ -376,7 +376,7 @@ describe('Field.Currency', () => {
             currency="EUR"
             currencyDisplay="code"
           />
-        </Provider>
+        </Provider>,
       )
 
       expect(input).toHaveValue('EUR 1 234')
@@ -463,7 +463,7 @@ describe('Field.Currency', () => {
       expect(onChange).toHaveBeenNthCalledWith(
         5,
         undefined,
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.keyboard('0.1')
@@ -478,7 +478,7 @@ describe('Field.Currency', () => {
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(
-        <Field.Currency label="Label" required validateInitially />
+        <Field.Currency label="Label" required validateInitially />,
       )
 
       expect(await axeComponent(result)).toHaveNoViolations()

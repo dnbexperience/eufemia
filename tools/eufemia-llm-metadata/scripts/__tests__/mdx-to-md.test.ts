@@ -25,7 +25,7 @@ describe('mdx-to-md converter', () => {
         '  return <CustomImage />',
         '}',
         'export const InsideDrawer = () => <div />',
-      ].join('\n')
+      ].join('\n'),
     )
 
     const mdxPath = path.join(docsRoot, 'image.mdx')
@@ -43,7 +43,7 @@ describe('mdx-to-md converter', () => {
         'import * as Examples from "./Examples"',
         '',
         '<Examples.InsideDrawer />',
-      ].join('\n')
+      ].join('\n'),
     )
 
     const output = await convertMdxToMd({

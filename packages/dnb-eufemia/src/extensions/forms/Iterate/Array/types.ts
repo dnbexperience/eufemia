@@ -14,7 +14,7 @@ export type ElementChild =
   | ((
       value: any,
       index: number,
-      arrayItems: Array<IterateItemContextState>
+      arrayItems: Array<IterateItemContextState>,
     ) => React.ReactNode)
 export type IterateArrayProps = Omit<
   FlexContainerProps,

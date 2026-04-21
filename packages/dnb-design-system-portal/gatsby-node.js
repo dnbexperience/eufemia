@@ -37,17 +37,17 @@ const E2E_TEST_FALLBACK_PAGES = [
 ]
 
 const normalizedGeneralTestPages = new Set(
-  GENERAL_TEST_PAGES.map((page) => normalizePagePath(page))
+  GENERAL_TEST_PAGES.map((page) => normalizePagePath(page)),
 )
 const normalizedVisualFallbackPages = new Set(
   VISUAL_TEST_FALLBACK_PAGES.map((page) => normalizePagePath(page)).filter(
-    Boolean
-  )
+    Boolean,
+  ),
 )
 const normalizedE2eFallbackPages = new Set(
   E2E_TEST_FALLBACK_PAGES.map((page) => normalizePagePath(page)).filter(
-    Boolean
-  )
+    Boolean,
+  ),
 )
 
 let visualTestPagesCache = null
@@ -58,9 +58,9 @@ const visualTestWhitelist =
     ? mergePageSets(
         mergePageSets(
           normalizedGeneralTestPages,
-          normalizedVisualFallbackPages
+          normalizedVisualFallbackPages,
         ),
-        collectVisualTestPages()
+        collectVisualTestPages(),
       )
     : null
 
@@ -69,9 +69,9 @@ const e2eTestWhitelist =
     ? mergePageSets(
         mergePageSets(
           normalizedGeneralTestPages,
-          normalizedE2eFallbackPages
+          normalizedE2eFallbackPages,
         ),
-        collectE2eTestPages()
+        collectE2eTestPages(),
       )
     : null
 
@@ -203,7 +203,7 @@ exports.onPostBuild = async (params) => {
       params.reporter.warn(
         `❗️ These pages were deleted:\n${deletedPages
           .map((page) => `├ ${page}`)
-          .join('\n')}\n\n`
+          .join('\n')}\n\n`,
       )
     }
   }
@@ -356,20 +356,20 @@ exports.onCreateWebpackConfig = ({
       // Algolia info
       plugins.define({
         'process.env.ALGOLIA_INDEX_NAME': JSON.stringify(
-          process.env.ALGOLIA_INDEX_NAME || 'dev_eufemia_docs'
+          process.env.ALGOLIA_INDEX_NAME || 'dev_eufemia_docs',
         ),
         'process.env.ALGOLIA_APP_ID': JSON.stringify(
-          process.env.ALGOLIA_APP_ID || 'SLD6KEYMQ9'
+          process.env.ALGOLIA_APP_ID || 'SLD6KEYMQ9',
         ),
         'process.env.ALGOLIA_SEARCH_KEY': JSON.stringify(
           process.env.ALGOLIA_SEARCH_KEY ||
-            '6cf238b7456ffd9f7a400d8de37318a3'
+            '6cf238b7456ffd9f7a400d8de37318a3',
         ),
         'process.env.ENABLE_BUILD_STYLE_SCOPE': JSON.stringify(
-          enableBuildStyleScope()
+          enableBuildStyleScope(),
         ),
         'process.env.ENABLE_PORTAL_STYLE_SCOPE': JSON.stringify(
-          enablePortalStyleScope()
+          enablePortalStyleScope(),
         ),
       }),
     ],
@@ -378,7 +378,7 @@ exports.onCreateWebpackConfig = ({
   if (PREBUILD_EXISTS && stage === 'build-javascript') {
     if (PREBUILD_EXISTS && !isCI) {
       reporter.warn(
-        '😱 There is a "dnb-eufemia/build" in your local repo. It is used during your local Portal build! \nKeep in mind, the code from "dnb-eufemia/build" may be outdated. \n\n👉 You can remove the build with: "yarn build:clean"\n\n'
+        '😱 There is a "dnb-eufemia/build" in your local repo. It is used during your local Portal build! \nKeep in mind, the code from "dnb-eufemia/build" may be outdated. \n\n👉 You can remove the build with: "yarn build:clean"\n\n',
       )
     }
 
@@ -386,9 +386,9 @@ exports.onCreateWebpackConfig = ({
       plugins.normalModuleReplacement(/@dnb\/eufemia\/src/, (resource) => {
         resource.request = resource.request.replace(
           /@dnb\/eufemia\/src(.*)/,
-          '@dnb/eufemia/build$1'
+          '@dnb/eufemia/build$1',
         )
-      })
+      }),
     )
   }
 
@@ -396,7 +396,7 @@ exports.onCreateWebpackConfig = ({
   if (stage === 'build-javascript' || stage === 'develop') {
     const webpackConfig = getConfig()
     const miniCssExtractPlugin = webpackConfig.plugins.find(
-      (plugin) => plugin.constructor.name === 'MiniCssExtractPlugin'
+      (plugin) => plugin.constructor.name === 'MiniCssExtractPlugin',
     )
     if (miniCssExtractPlugin) {
       miniCssExtractPlugin.options.ignoreOrder = true
@@ -419,7 +419,7 @@ exports.onCreateDevServer = (params) => {
     params.reporter.info(
       `🚀 You can only visit these pages:\n\n${createdPages
         .map((page) => `├ http://localhost:8000${page}`)
-        .join('\n')}\n`
+        .join('\n')}\n`,
     )
   }
 }
@@ -478,19 +478,19 @@ function collectE2eTestPages() {
   const portalDir = path.join(__dirname, 'src', 'e2e')
   const portalFiles = collectTestFiles(
     portalDir,
-    (name) => name.endsWith('.spec.ts') || name.endsWith('.spec.tsx')
+    (name) => name.endsWith('.spec.ts') || name.endsWith('.spec.tsx'),
   )
 
   const componentRoot = path.join(
     repoRoot,
     'packages',
     'dnb-eufemia',
-    'src'
+    'src',
   )
   const componentFiles = collectTestFiles(
     componentRoot,
     (name) =>
-      name.endsWith('.e2e.spec.ts') || name.endsWith('.e2e.spec.tsx')
+      name.endsWith('.e2e.spec.ts') || name.endsWith('.e2e.spec.tsx'),
   )
 
   const pages = new Set()
@@ -638,7 +638,7 @@ function parseSourceFile(filePath) {
     content,
     ts.ScriptTarget.Latest,
     true,
-    scriptKind
+    scriptKind,
   )
 }
 

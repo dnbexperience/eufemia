@@ -40,7 +40,7 @@ describe('VippsWalletButton', () => {
     render(
       <Provider locale="en-GB">
         <VippsWalletButton />
-      </Provider>
+      </Provider>,
     )
 
     const element = document.querySelector('.dnb-button')
@@ -52,7 +52,7 @@ describe('VippsWalletButton', () => {
     render(
       <Provider locale="en-US">
         <VippsWalletButton />
-      </Provider>
+      </Provider>,
     )
 
     const element = document.querySelector('.dnb-button')
@@ -64,7 +64,7 @@ describe('VippsWalletButton', () => {
     render(
       <Provider locale="no">
         <VippsWalletButton />
-      </Provider>
+      </Provider>,
     )
 
     const element = document.querySelector('.dnb-button')
@@ -117,7 +117,7 @@ describe('VippsWalletButton', () => {
     render(<VippsWalletButton pending={true} />)
 
     const indicator = document.querySelector(
-      '.dnb-forms-submit-indicator--state-pending'
+      '.dnb-forms-submit-indicator--state-pending',
     )
 
     expect(indicator).toBeInTheDocument()
@@ -127,7 +127,7 @@ describe('VippsWalletButton', () => {
     render(<VippsWalletButton pending={false} />)
 
     const indicator = document.querySelector(
-      '.dnb-forms-submit-indicator--state-pending'
+      '.dnb-forms-submit-indicator--state-pending',
     )
 
     expect(indicator).not.toBeInTheDocument()

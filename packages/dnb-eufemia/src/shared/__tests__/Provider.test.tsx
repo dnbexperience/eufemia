@@ -102,35 +102,35 @@ describe('Provider', () => {
       const { rerender } = render(
         <LocalProvider>
           <HelpButton>content</HelpButton>
-        </LocalProvider>
+        </LocalProvider>,
       )
 
       expect(
         document
           .querySelector('button.dnb-help-button')
-          .getAttribute('aria-label')
+          .getAttribute('aria-label'),
       ).toBe(titleNb)
       expect(
         document
           .querySelector('button.dnb-help-button')
-          .getAttribute('aria-roledescription')
+          .getAttribute('aria-roledescription'),
       ).toBe('Hjelp-knapp')
 
       rerender(
         <LocalProvider locale="en-GB">
           <HelpButton>content</HelpButton>
-        </LocalProvider>
+        </LocalProvider>,
       )
 
       expect(
         document
           .querySelector('button.dnb-help-button')
-          .getAttribute('aria-label')
+          .getAttribute('aria-label'),
       ).toBe(titleGb)
       expect(
         document
           .querySelector('button.dnb-help-button')
-          .getAttribute('aria-roledescription')
+          .getAttribute('aria-roledescription'),
       ).toBe('Help button')
     })
 
@@ -166,7 +166,7 @@ describe('Provider', () => {
       render(
         <MagicProvider locale="nb-NO">
           <MagicProvider locale="en-GB" />
-        </MagicProvider>
+        </MagicProvider>,
       )
 
       const getRootElement = () => document.querySelectorAll('p')[0]
@@ -187,7 +187,7 @@ describe('Provider', () => {
       expect(
         document
           .querySelectorAll('.nb-NO button')[1]
-          .getAttribute('aria-pressed')
+          .getAttribute('aria-pressed'),
       ).toBe('true')
 
       // should not have changed
@@ -198,7 +198,7 @@ describe('Provider', () => {
       expect(
         document
           .querySelectorAll('.en-GB button')[0]
-          .getAttribute('aria-pressed')
+          .getAttribute('aria-pressed'),
       ).toBe('true')
       expect(getRootElement().textContent).toBe(titleGb)
 
@@ -207,7 +207,7 @@ describe('Provider', () => {
       expect(
         document
           .querySelectorAll('.en-US button')[0]
-          .getAttribute('aria-pressed')
+          .getAttribute('aria-pressed'),
       ).toBe('true')
       expect(getRootElement().textContent).toBe(titleGb)
 
@@ -229,7 +229,7 @@ describe('Provider', () => {
           <MagicProvider>
             <Consumer />
           </MagicProvider>
-        </MagicProvider>
+        </MagicProvider>,
       )
 
       expect(receivedLocale).toBe(locale)
@@ -269,7 +269,7 @@ describe('Provider', () => {
           <Provider>
             <NestedConsumer />
           </Provider>
-        </Provider>
+        </Provider>,
       )
 
       const getRootLocale = () =>
@@ -324,7 +324,7 @@ describe('Provider', () => {
           <Provider>
             <NestedConsumer />
           </Provider>
-        </Provider>
+        </Provider>,
       )
 
       const getRootLocale = () =>
@@ -378,7 +378,7 @@ describe('Provider', () => {
           <Provider>
             <NestedConsumer />
           </Provider>
-        </Provider>
+        </Provider>,
       )
 
       const getRootLocale = () =>
@@ -397,7 +397,7 @@ describe('Provider', () => {
           <Provider>
             <NestedConsumer />
           </Provider>
-        </Provider>
+        </Provider>,
       )
 
       expect(getRootLocale()).toBe('changed')
@@ -408,7 +408,7 @@ describe('Provider', () => {
       render(
         <MagicProvider locale="en-GB">
           <MagicProvider locale="nb-NO" />
-        </MagicProvider>
+        </MagicProvider>,
       )
 
       const getRootElement = () => document.querySelectorAll('p')[0]
@@ -424,13 +424,13 @@ describe('Provider', () => {
       expect(
         document
           .querySelectorAll('.en-GB button')[0]
-          .getAttribute('aria-pressed')
+          .getAttribute('aria-pressed'),
       ).toBe('true')
       expect(getNestedElement().textContent).toBe(titleNb)
       expect(
         document
           .querySelectorAll('.nb-NO button')[1]
-          .getAttribute('aria-pressed')
+          .getAttribute('aria-pressed'),
       ).toBe('true')
 
       // First, let's change the inner
@@ -440,13 +440,13 @@ describe('Provider', () => {
       expect(
         document
           .querySelectorAll('.en-GB button')[0]
-          .getAttribute('aria-pressed')
+          .getAttribute('aria-pressed'),
       ).toBe('true')
       expect(getNestedElement().textContent).toBe(titleNb)
       expect(
         document
           .querySelectorAll('.nb-NO button')[1]
-          .getAttribute('aria-pressed')
+          .getAttribute('aria-pressed'),
       ).toBe('true')
 
       switchNestedTo('en-GB')
@@ -455,13 +455,13 @@ describe('Provider', () => {
       expect(
         document
           .querySelectorAll('.en-GB button')[0]
-          .getAttribute('aria-pressed')
+          .getAttribute('aria-pressed'),
       ).toBe('true')
       expect(getNestedElement().textContent).toBe(titleGb)
       expect(
         document
           .querySelectorAll('.en-GB button')[1]
-          .getAttribute('aria-pressed')
+          .getAttribute('aria-pressed'),
       ).toBe('true')
 
       switchNestedTo('nb-NO')
@@ -470,13 +470,13 @@ describe('Provider', () => {
       expect(
         document
           .querySelectorAll('.nb-NO button')[0]
-          .getAttribute('aria-pressed')
+          .getAttribute('aria-pressed'),
       ).toBe('true')
       expect(getNestedElement().textContent).toBe(titleNb)
       expect(
         document
           .querySelectorAll('.nb-NO button')[1]
-          .getAttribute('aria-pressed')
+          .getAttribute('aria-pressed'),
       ).toBe('true')
 
       // Now, let's change the outer
@@ -486,13 +486,13 @@ describe('Provider', () => {
       expect(
         document
           .querySelectorAll('.en-GB button')[0]
-          .getAttribute('aria-pressed')
+          .getAttribute('aria-pressed'),
       ).toBe('true')
       expect(getNestedElement().textContent).toBe(titleNb)
       expect(
         document
           .querySelectorAll('.nb-NO button')[1]
-          .getAttribute('aria-pressed')
+          .getAttribute('aria-pressed'),
       ).toBe('true')
     })
 
@@ -518,27 +518,27 @@ describe('Provider', () => {
         >
           <HelpButton />
           <GlobalError statusCode={errorCode} />
-        </Provider>
+        </Provider>,
       )
 
       // HelpButton
       expect(
-        document.querySelector('.dnb-button').getAttribute('aria-label')
+        document.querySelector('.dnb-button').getAttribute('aria-label'),
       ).toBe(customText)
       expect(
         document
           .querySelector('.dnb-button')
-          .getAttribute('aria-roledescription')
+          .getAttribute('aria-roledescription'),
       ).toBe(en.HelpButton.ariaRole)
 
       // GlobalError
       expect(
         document.querySelector('.dnb-global-error__inner__content .dnb-p')
-          .textContent
+          .textContent,
       ).toBe(customText)
       expect(
         document.querySelector('.dnb-global-error__inner__content h1')
-          .textContent
+          .textContent,
       ).toBe(en.GlobalError[errorCode].title)
     })
 
@@ -558,27 +558,27 @@ describe('Provider', () => {
         >
           <HelpButton />
           <GlobalError statusCode={errorCode} />
-        </Provider>
+        </Provider>,
       )
 
       // HelpButton
       expect(
-        document.querySelector('.dnb-button').getAttribute('aria-label')
+        document.querySelector('.dnb-button').getAttribute('aria-label'),
       ).toBe(customText)
       expect(
         document
           .querySelector('.dnb-button')
-          .getAttribute('aria-roledescription')
+          .getAttribute('aria-roledescription'),
       ).toBe(en.HelpButton.ariaRole)
 
       // GlobalError
       expect(
         document.querySelector('.dnb-global-error__inner__content .dnb-p')
-          .textContent
+          .textContent,
       ).toBe(customText)
       expect(
         document.querySelector('.dnb-global-error__inner__content h1')
-          .textContent
+          .textContent,
       ).toBe(en.GlobalError[errorCode].title)
     })
 
@@ -613,17 +613,17 @@ describe('Provider', () => {
               <Translation id="Inner" />
             </span>
           </Provider>
-        </Provider>
+        </Provider>,
       )
 
       expect(document.querySelector('#root-in-root').textContent).toBe(
-        rootTranslation
+        rootTranslation,
       )
       expect(document.querySelector('#root-in-inner').textContent).toBe(
-        rootTranslation
+        rootTranslation,
       )
       expect(document.querySelector('#inner-in-inner').textContent).toBe(
-        innerTranslation
+        innerTranslation,
       )
     })
 
@@ -655,14 +655,14 @@ describe('Provider', () => {
               <Translation id="Root" />
             </span>
           </Provider>
-        </Provider>
+        </Provider>,
       )
 
       expect(document.querySelector('#root-in-root').textContent).toBe(
-        rootTranslation
+        rootTranslation,
       )
       expect(document.querySelector('#root-in-inner').textContent).toBe(
-        innerTranslation
+        innerTranslation,
       )
     })
 
@@ -690,7 +690,7 @@ describe('Provider', () => {
               <Translation id="Inner" />
             </span>
           </Form.Section>
-        </Provider>
+        </Provider>,
       )
 
       expect(spy).toHaveBeenCalledTimes(1)

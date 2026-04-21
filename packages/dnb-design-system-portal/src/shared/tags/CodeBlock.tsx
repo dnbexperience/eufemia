@@ -73,7 +73,7 @@ const CodeBlock = ({
 
   if (!language) {
     language = ((String(props && props.className).match(
-      /language-(.*)$|\s/
+      /language-(.*)$|\s/,
     ) || [])[1] || 'jsx') as string
   }
 
@@ -82,7 +82,7 @@ const CodeBlock = ({
       <div
         className={clsx(
           codeBlockStyle,
-          createSkeletonClass('code', context.skeleton)
+          createSkeletonClass('code', context.skeleton),
         )}
       >
         <LiveCode code={exampleCode as string} {...props} />
@@ -100,7 +100,7 @@ const CodeBlock = ({
           <div
             className={clsx(
               codeBlockStyle,
-              createSkeletonClass('code', context.skeleton)
+              createSkeletonClass('code', context.skeleton),
             )}
           >
             <Tag as="pre" className={className} css={style}>
@@ -161,7 +161,7 @@ function LiveCode(props: LiveCodeProps) {
     ThemeColorScheme | undefined
   >(undefined)
   const [surface, setSurface] = useState<ThemeSurface | undefined>(
-    props.surface
+    props.surface,
   )
 
   const {
@@ -203,7 +203,7 @@ function LiveCode(props: LiveCodeProps) {
         hidePreview && 'hide-preview',
         omitWrapper && 'omit-wrapper',
         background && `background--${background}`,
-        surface && `surface--${surface}`
+        surface && `surface--${surface}`,
       )}
     >
       <LiveProvider
@@ -214,7 +214,7 @@ function LiveCode(props: LiveCodeProps) {
         transformCode={useCallback(
           (code: string) =>
             !noInline && noFragments ? `<>${code}</>` : code,
-          [noInline, noFragments]
+          [noInline, noFragments],
         )}
         noInline={noInline}
         {...restProps}
@@ -308,7 +308,7 @@ function LiveCode(props: LiveCodeProps) {
             element="section"
             className={clsx(
               'dnb-live-editor',
-              createSkeletonClass('code', context.skeleton)
+              createSkeletonClass('code', context.skeleton),
             )}
             ref={editorElementRef}
           >

@@ -29,12 +29,12 @@ describe('Textarea component', () => {
     render(
       <Textarea {...props} value={null}>
         {null}
-      </Textarea>
+      </Textarea>,
     )
     fireEvent.focus(document.querySelector('textarea'))
 
     expect(document.querySelector('.dnb-textarea').classList).toContain(
-      'dnb-textarea--focus'
+      'dnb-textarea--focus',
     )
   })
 
@@ -42,10 +42,10 @@ describe('Textarea component', () => {
     render(
       <Textarea {...props} value={null}>
         {null}
-      </Textarea>
+      </Textarea>,
     )
     expect(
-      document.querySelector('.dnb-textarea').classList
+      document.querySelector('.dnb-textarea').classList,
     ).not.toContain('dnb-textarea--has-content')
 
     const value = 'new value'
@@ -55,7 +55,7 @@ describe('Textarea component', () => {
     })
 
     expect(document.querySelector('.dnb-textarea').classList).toContain(
-      'dnb-textarea--has-content'
+      'dnb-textarea--has-content',
     )
     expect(document.querySelector('textarea').value).toBe(value)
   })
@@ -65,7 +65,7 @@ describe('Textarea component', () => {
     const { rerender } = render(
       <Textarea {...props} value={null}>
         {null}
-      </Textarea>
+      </Textarea>,
     )
     const initValue = 'new prop value'
     const emptyValue = null
@@ -73,14 +73,14 @@ describe('Textarea component', () => {
     rerender(
       <Textarea {...props} value={initValue}>
         {null}
-      </Textarea>
+      </Textarea>,
     )
     expect(document.querySelector('textarea').value).toBe(initValue)
 
     rerender(
       <Textarea {...props} value={emptyValue}>
         {null}
-      </Textarea>
+      </Textarea>,
     )
     expect(document.querySelector('textarea').value).toBe('')
   })
@@ -98,7 +98,7 @@ describe('Textarea component', () => {
         value={initValue}
         onChange={onChange}
         onKeyDown={onKeyDown} // additional native event test
-      />
+      />,
     )
 
     expect(document.querySelector('textarea').value).toBe(initValue)
@@ -106,7 +106,7 @@ describe('Textarea component', () => {
     await waitFor(() => {
       expect(onChange.mock.calls.length).toBe(9)
       expect(document.querySelector('textarea').value).toBe(
-        initValue + newValue
+        initValue + newValue,
       )
     })
 
@@ -141,7 +141,7 @@ describe('Textarea component', () => {
 
     rerender(<Textarea value={zeroValue} />)
     expect(document.querySelector('textarea').value).toBe(
-      String(zeroValue)
+      String(zeroValue),
     )
   })
 
@@ -149,35 +149,35 @@ describe('Textarea component', () => {
     const Placeholder = ({ children }) => <span>{children}</span>
 
     const { rerender } = render(
-      <Textarea placeholder={<Placeholder>Placeholder</Placeholder>} />
+      <Textarea placeholder={<Placeholder>Placeholder</Placeholder>} />,
     )
 
     expect(
-      document.querySelector('textarea').getAttribute('aria-placeholder')
+      document.querySelector('textarea').getAttribute('aria-placeholder'),
     ).toContain('Placeholder')
     expect(
-      document.querySelector('.dnb-textarea__placeholder')
+      document.querySelector('.dnb-textarea__placeholder'),
     ).toHaveTextContent('Placeholder')
 
     rerender(
       <Textarea
         placeholder={<Placeholder>Placeholder-text</Placeholder>}
-      />
+      />,
     )
 
     expect(
-      document.querySelector('textarea').getAttribute('aria-placeholder')
+      document.querySelector('textarea').getAttribute('aria-placeholder'),
     ).toContain('Placeholder-text')
     expect(
-      document.querySelector('.dnb-textarea__placeholder')
+      document.querySelector('.dnb-textarea__placeholder'),
     ).toHaveTextContent('Placeholder-text')
 
     rerender(
-      <Textarea id="unique" placeholder={undefined} label={undefined} />
+      <Textarea id="unique" placeholder={undefined} label={undefined} />,
     )
 
     expect(document.querySelector('textarea')).not.toHaveAttribute(
-      'aria-placeholder'
+      'aria-placeholder',
     )
     expect(document.querySelector('.dnb-textarea__placeholder')).toBeNull()
   })
@@ -190,14 +190,14 @@ describe('Textarea component', () => {
   it('has correct size attribute (chars length) on textarea by using spread props', () => {
     render(<Textarea {...({ size: 2 } as Record<string, unknown>)} />)
     expect(document.querySelector('textarea').getAttribute('size')).toBe(
-      '2'
+      '2',
     )
   })
 
   it('has correct attributes on textarea by using spread props', () => {
     render(<Textarea {...({ wrap: 'hard' } as Record<string, unknown>)} />)
     expect(document.querySelector('textarea').getAttribute('wrap')).toBe(
-      'hard'
+      'hard',
     )
   })
 
@@ -205,13 +205,13 @@ describe('Textarea component', () => {
     const { rerender } = render(
       <Textarea {...props} value={null}>
         {null}
-      </Textarea>
+      </Textarea>,
     )
     const value = 'new value'
     rerender(
       <Textarea {...props} value={value}>
         {null}
-      </Textarea>
+      </Textarea>,
     )
     expect(document.querySelector('textarea').value).toBe(value)
   })
@@ -224,7 +224,7 @@ describe('Textarea component', () => {
   it('has to have a status value as defined in the prop', () => {
     render(<Textarea {...props} status="status" statusState="error" />)
     expect(
-      document.querySelector('.dnb-form-status__text').textContent
+      document.querySelector('.dnb-form-status__text').textContent,
     ).toBe('status')
   })
 
@@ -233,7 +233,7 @@ describe('Textarea component', () => {
     rerender(<Textarea disabled={true} />)
     expect(document.querySelector('textarea')).toHaveAttribute('disabled')
     expect(document.querySelector('.dnb-textarea')).toHaveClass(
-      'dnb-textarea--disabled'
+      'dnb-textarea--disabled',
     )
   })
 
@@ -241,10 +241,10 @@ describe('Textarea component', () => {
     render(
       <Provider Textarea={{ autoResize: true }}>
         <Textarea />
-      </Provider>
+      </Provider>,
     )
     expect(document.querySelector('.dnb-textarea')).toHaveClass(
-      'dnb-textarea__autoresize'
+      'dnb-textarea__autoresize',
     )
   })
 
@@ -296,12 +296,12 @@ describe('Textarea component', () => {
     render(
       <Provider formElement={{ labelDirection: 'vertical' }}>
         <Textarea label="Label" />
-      </Provider>
+      </Provider>,
     )
 
     const element = document.querySelector('.dnb-textarea')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual(['class'])
@@ -318,7 +318,7 @@ describe('Textarea component', () => {
       <>
         <label htmlFor="textarea">text</label>
         <Textarea {...props} id="textarea" value="some value" />
-      </>
+      </>,
     )
 
     expect(await axeComponent(Comp)).toHaveNoViolations()
@@ -358,7 +358,7 @@ describe('Textarea component', () => {
     render(<Textarea align="right" />)
 
     expect(document.querySelector('.dnb-textarea')).toHaveClass(
-      'dnb-textarea__align--right'
+      'dnb-textarea__align--right',
     )
   })
 
@@ -366,37 +366,37 @@ describe('Textarea component', () => {
     const { rerender } = render(
       <Provider>
         <Textarea size="medium" />
-      </Provider>
+      </Provider>,
     )
 
     expect(document.querySelector('.dnb-textarea')).toHaveClass(
-      'dnb-textarea__size--medium'
+      'dnb-textarea__size--medium',
     )
 
     rerender(
       <Provider>
         <Textarea size="large" />
-      </Provider>
+      </Provider>,
     )
 
     expect(document.querySelector('.dnb-textarea')).toHaveClass(
-      'dnb-textarea__size--large'
+      'dnb-textarea__size--large',
     )
 
     rerender(
       <Provider Textarea={{ size: 'medium' }}>
         <Textarea />
-      </Provider>
+      </Provider>,
     )
 
     expect(document.querySelector('.dnb-textarea')).toHaveClass(
-      'dnb-textarea__size--medium'
+      'dnb-textarea__size--medium',
     )
   })
 
   it('should render characterCounter', async () => {
     const { rerender } = render(
-      <Textarea characterCounter={{ max: 8 }} value="foo" />
+      <Textarea characterCounter={{ max: 8 }} value="foo" />,
     )
 
     const counter = document.querySelector('.dnb-text-counter')
@@ -406,7 +406,7 @@ describe('Textarea component', () => {
     expect(counter).toHaveTextContent(
       nb.TextCounter.characterDown
         .replace('%count', '5')
-        .replace('%max', '8')
+        .replace('%max', '8'),
     )
     expect(ariaLive).toHaveTextContent('')
 
@@ -415,22 +415,22 @@ describe('Textarea component', () => {
     expect(counter).toHaveTextContent(
       nb.TextCounter.characterDown
         .replace('%count', '2')
-        .replace('%max', '8')
+        .replace('%max', '8'),
     )
     expect(ariaLive).toHaveTextContent(
       nb.TextCounter.characterDown
         .replace('%count', '2')
-        .replace('%max', '8')
+        .replace('%max', '8'),
     )
 
     rerender(
-      <Textarea characterCounter={{ max: 8 }} value="foo" lang="en-GB" />
+      <Textarea characterCounter={{ max: 8 }} value="foo" lang="en-GB" />,
     )
 
     expect(counter).toHaveTextContent(
       gb.TextCounter.characterDown
         .replace('%count', '2')
-        .replace('%max', '8')
+        .replace('%max', '8'),
     )
 
     await userEvent.type(textarea, 'baz')
@@ -438,7 +438,7 @@ describe('Textarea component', () => {
     expect(ariaLive).toHaveTextContent(
       gb.TextCounter.characterExceeded
         .replace('%count', '1')
-        .replace('%max', '8')
+        .replace('%max', '8'),
     )
 
     rerender(
@@ -446,13 +446,13 @@ describe('Textarea component', () => {
         characterCounter={{ max: 8, variant: 'down' }}
         value="foo"
         lang="en-GB"
-      />
+      />,
     )
 
     expect(counter).toHaveTextContent(
       gb.TextCounter.characterExceeded
         .replace('%count', '1')
-        .replace('%max', '8')
+        .replace('%max', '8'),
     )
 
     rerender(
@@ -460,20 +460,20 @@ describe('Textarea component', () => {
         characterCounter={{ max: 8, variant: 'up' }}
         value="foo"
         lang="en-GB"
-      />
+      />,
     )
 
     expect(counter).toHaveTextContent(
       gb.TextCounter.characterExceeded
         .replace('%count', '1')
-        .replace('%max', '8')
+        .replace('%max', '8'),
     )
   })
 
   it('supports inline styling', () => {
     render(<Textarea style={{ color: 'red' }} />)
     expect(document.querySelector('textarea').getAttribute('style')).toBe(
-      'color: red;'
+      'color: red;',
     )
   })
 
@@ -538,7 +538,7 @@ describe('Textarea scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-textarea-theme-ui.scss')
+      require.resolve('../style/themes/dnb-textarea-theme-ui.scss'),
     )
     expect(css).toMatchSnapshot()
   })

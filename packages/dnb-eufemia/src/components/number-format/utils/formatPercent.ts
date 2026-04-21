@@ -27,11 +27,11 @@ import { countDecimals } from './decimals'
 
 export function formatPercent(
   value: NumberFormatValue | null | undefined,
-  options: NumberFormatOptionParams & { returnAria: true }
+  options: NumberFormatOptionParams & { returnAria: true },
 ): NumberFormatReturnValue
 export function formatPercent(
   value: NumberFormatValue | null | undefined,
-  options?: NumberFormatOptionParams
+  options?: NumberFormatOptionParams,
 ): string
 export function formatPercent(
   value: NumberFormatValue | null | undefined,
@@ -45,7 +45,7 @@ export function formatPercent(
     returnAria = false,
     invalidAriaText = null,
     cleanCopyValue = null,
-  }: NumberFormatOptionParams = {}
+  }: NumberFormatOptionParams = {},
 ): string | NumberFormatReturnValue {
   value = isAbsent(value) ? ABSENT_VALUE_FORMAT : value
 

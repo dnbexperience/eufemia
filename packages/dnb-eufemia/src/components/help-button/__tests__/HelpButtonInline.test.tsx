@@ -17,7 +17,7 @@ describe('HelpButtonInline', () => {
   it('should render without title and content', () => {
     render(<HelpButtonInline help={{ open: true }} />)
     expect(
-      document.querySelector('.dnb-help-button__content')
+      document.querySelector('.dnb-help-button__content'),
     ).toBeInTheDocument()
   })
 
@@ -41,13 +41,13 @@ describe('HelpButtonInline', () => {
     await userEvent.tab()
     expect(document.querySelector('button')).toHaveFocus()
     expect(document.querySelector('button')).not.toHaveClass(
-      'dnb-help-button__inline--open'
+      'dnb-help-button__inline--open',
     )
 
     await userEvent.type(document.querySelector('button'), '{Space}')
     expect(document.querySelector('button')).toHaveFocus()
     expect(document.querySelector('button')).toHaveClass(
-      'dnb-help-button__inline--open'
+      'dnb-help-button__inline--open',
     )
 
     await userEvent.keyboard('{Space}')
@@ -55,7 +55,7 @@ describe('HelpButtonInline', () => {
 
     // Will not close when Space is pressed
     expect(document.querySelector('button')).toHaveClass(
-      'dnb-help-button__inline--open'
+      'dnb-help-button__inline--open',
     )
   })
 
@@ -67,19 +67,19 @@ describe('HelpButtonInline', () => {
     await userEvent.tab()
     expect(document.querySelector('button')).toHaveFocus()
     expect(document.querySelector('button')).not.toHaveClass(
-      'dnb-help-button__inline--open'
+      'dnb-help-button__inline--open',
     )
 
     await userEvent.keyboard('{Enter}')
     expect(document.querySelector('button')).toHaveFocus()
     expect(document.querySelector('button')).toHaveClass(
-      'dnb-help-button__inline--open'
+      'dnb-help-button__inline--open',
     )
 
     await userEvent.keyboard('{Enter}')
     expect(document.querySelector('button')).toHaveFocus()
     expect(document.querySelector('button')).not.toHaveClass(
-      'dnb-help-button__inline--open'
+      'dnb-help-button__inline--open',
     )
   })
 
@@ -91,20 +91,20 @@ describe('HelpButtonInline', () => {
     await userEvent.tab()
     expect(document.querySelector('button')).toHaveFocus()
     expect(document.querySelector('button')).not.toHaveClass(
-      'dnb-help-button__inline--open'
+      'dnb-help-button__inline--open',
     )
 
     await userEvent.keyboard('{Enter}')
     expect(document.querySelector('button')).toHaveFocus()
     expect(document.querySelector('button')).toHaveClass(
-      'dnb-help-button__inline--open'
+      'dnb-help-button__inline--open',
     )
 
     await userEvent.keyboard('{Escape}')
     await waitFor(() => {
       expect(document.querySelector('button')).toHaveFocus()
       expect(document.querySelector('button')).not.toHaveClass(
-        'dnb-help-button__inline--open'
+        'dnb-help-button__inline--open',
       )
     })
   })
@@ -120,20 +120,20 @@ describe('HelpButtonInline', () => {
             open: true,
           }}
         />
-      </Dialog>
+      </Dialog>,
     )
 
     expect(
-      document.querySelector('.dnb-modal__content')
+      document.querySelector('.dnb-modal__content'),
     ).toBeInTheDocument()
     await waitFor(() => {
       expect(document.documentElement).toHaveAttribute(
-        'data-dnb-modal-active'
+        'data-dnb-modal-active',
       )
     })
 
     const section = document.querySelector(
-      '.dnb-help-button__content .dnb-section'
+      '.dnb-help-button__content .dnb-section',
     ) as HTMLElement
     expect(section).toBeInTheDocument()
 
@@ -146,18 +146,18 @@ describe('HelpButtonInline', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-help-button__content')
+        document.querySelector('.dnb-help-button__content'),
       ).not.toBeInTheDocument()
     })
 
     await waitFor(() => {
       expect(document.documentElement).toHaveAttribute(
-        'data-dnb-modal-active'
+        'data-dnb-modal-active',
       )
     })
 
     const closeButton = document.querySelector(
-      'button.dnb-modal__close-button'
+      'button.dnb-modal__close-button',
     ) as HTMLButtonElement
     closeButton.focus()
 
@@ -165,7 +165,7 @@ describe('HelpButtonInline', () => {
 
     await waitFor(() => {
       expect(document.documentElement).not.toHaveAttribute(
-        'data-dnb-modal-active'
+        'data-dnb-modal-active',
       )
     })
 
@@ -175,7 +175,7 @@ describe('HelpButtonInline', () => {
   describe('focusOnOpen', () => {
     it('should set focus on the button when closing with Escape key', async () => {
       render(
-        <HelpButtonInline focusOnOpen help={{ title: 'Help title' }} />
+        <HelpButtonInline focusOnOpen help={{ title: 'Help title' }} />,
       )
 
       expect(document.body).toHaveFocus()
@@ -196,7 +196,7 @@ describe('HelpButtonInline', () => {
 
     it('should set focus on the content when open', async () => {
       render(
-        <HelpButtonInline focusOnOpen help={{ title: 'Help title' }} />
+        <HelpButtonInline focusOnOpen help={{ title: 'Help title' }} />,
       )
 
       expect(document.body).toHaveFocus()
@@ -204,7 +204,7 @@ describe('HelpButtonInline', () => {
       await userEvent.click(document.querySelector('button'))
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-help-button__content .dnb-section')
+          document.querySelector('.dnb-help-button__content .dnb-section'),
         ).toHaveFocus()
       })
 
@@ -214,7 +214,7 @@ describe('HelpButtonInline', () => {
       await userEvent.click(document.querySelector('button'))
       await waitFor(() => {
         const section = document.querySelector(
-          '.dnb-help-button__content .dnb-section'
+          '.dnb-help-button__content .dnb-section',
         )
         expect(section).toHaveFocus()
         expect(section).toHaveClass('dnb-no-focus')
@@ -226,7 +226,7 @@ describe('HelpButtonInline', () => {
         <HelpButtonInline
           focusOnOpen
           help={{ open: true, title: 'Help title' }}
-        />
+        />,
       )
 
       expect(document.body).toHaveFocus()
@@ -237,7 +237,7 @@ describe('HelpButtonInline', () => {
       await userEvent.click(document.querySelector('button'))
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-help-button__content .dnb-section')
+          document.querySelector('.dnb-help-button__content .dnb-section'),
         ).toHaveFocus()
       })
     })
@@ -251,11 +251,11 @@ describe('HelpButtonInline', () => {
             open: true,
             content: 'Some content',
           }}
-        />
+        />,
       )
 
       expect(
-        document.querySelector('.dnb-help-button__content .dnb-section')
+        document.querySelector('.dnb-help-button__content .dnb-section'),
       ).toHaveAttribute('tabindex', '-1')
     })
 
@@ -267,11 +267,11 @@ describe('HelpButtonInline', () => {
             open: true,
             title: <span>Help title</span>,
           }}
-        />
+        />,
       )
 
       expect(
-        document.querySelector('.dnb-help-button__content .dnb-section')
+        document.querySelector('.dnb-help-button__content .dnb-section'),
       ).toHaveAttribute('aria-label', 'Help title')
     })
 
@@ -280,11 +280,11 @@ describe('HelpButtonInline', () => {
         <HelpButtonInline
           focusOnOpen
           help={{ open: true, title: 'Help title' }}
-        />
+        />,
       )
 
       expect(
-        document.querySelector('.dnb-help-button__content .dnb-section')
+        document.querySelector('.dnb-help-button__content .dnb-section'),
       ).toHaveAttribute('aria-label', 'Help title')
     })
 
@@ -293,11 +293,11 @@ describe('HelpButtonInline', () => {
         <HelpButtonInline
           focusOnOpen
           help={{ open: true, title: 'Help title' }}
-        />
+        />,
       )
 
       expect(document.querySelector('section')).not.toHaveAttribute(
-        'aria-live'
+        'aria-live',
       )
     })
   })
@@ -306,17 +306,17 @@ describe('HelpButtonInline', () => {
     render(
       <HelpButtonInline
         help={{ open: true, title: 'Help title', content: 'Help content' }}
-      />
+      />,
     )
 
     await waitFor(() => {
       expect(document.querySelector('section')).toHaveAttribute(
         'aria-live',
-        'polite'
+        'polite',
       )
       expect(document.querySelector('section')).toHaveAttribute(
         'aria-atomic',
-        'true'
+        'true',
       )
     })
   })
@@ -338,12 +338,12 @@ describe('HelpButtonInline', () => {
 
     const button = document.querySelector('button')
     expect(
-      document.querySelector('.dnb-help-button__content')
+      document.querySelector('.dnb-help-button__content'),
     ).not.toBeInTheDocument()
 
     await userEvent.click(button)
     expect(
-      document.querySelector('.dnb-help-button__content')
+      document.querySelector('.dnb-help-button__content'),
     ).toHaveTextContent('Help title')
   })
 
@@ -359,11 +359,11 @@ describe('HelpButtonInline', () => {
       <HelpButtonInline
         contentId={uniqueId}
         help={{ open: true, title: 'Help title' }}
-      />
+      />,
     )
 
     expect(
-      document.querySelector('.dnb-help-button__content .dnb-section')
+      document.querySelector('.dnb-help-button__content .dnb-section'),
     ).not.toBeInTheDocument()
   })
 
@@ -375,16 +375,16 @@ describe('HelpButtonInline', () => {
           help={{ open: true, title: 'Help title' }}
         />
         <HelpButtonInlineContent contentId={uniqueId} />
-      </>
+      </>,
     )
 
     const button = document.querySelector('button')
     expect(button).toHaveAttribute(
       'aria-controls',
-      expect.stringContaining(uniqueId + '-content')
+      expect.stringContaining(uniqueId + '-content'),
     )
     expect(
-      document.querySelector('.dnb-help-button__content .dnb-section')
+      document.querySelector('.dnb-help-button__content .dnb-section'),
     ).toHaveAttribute('id', expect.stringContaining(uniqueId + '-content'))
   })
 
@@ -396,7 +396,7 @@ describe('HelpButtonInline', () => {
           help={{ title: 'Help title' }}
         />
         <HelpButtonInlineContent contentId={uniqueId} />
-      </>
+      </>,
     )
 
     const button = document.querySelector('button')
@@ -419,17 +419,17 @@ describe('HelpButtonInline', () => {
           title: <span>Help title</span>,
           content: <span>Some content</span>,
         }}
-      />
+      />,
     )
 
     expect(
       document.querySelector('.dnb-help-button__content .dnb-section')
-        .innerHTML
+        .innerHTML,
     ).toContain(`<span>Help title</span>`)
 
     expect(
       document.querySelector('.dnb-help-button__content .dnb-section')
-        .innerHTML
+        .innerHTML,
     ).toContain(`<span>Some content</span>`)
   })
 
@@ -441,13 +441,13 @@ describe('HelpButtonInline', () => {
           title: 'Dialog Title',
           noAnimation: true,
         }}
-      />
+      />,
     )
 
     await userEvent.click(document.querySelector('button'))
     expect(document.querySelector('.dnb-dialog')).toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-help-button__content')
+      document.querySelector('.dnb-help-button__content'),
     ).not.toBeInTheDocument()
   })
 
@@ -459,7 +459,7 @@ describe('HelpButtonInline', () => {
           help={{ title: 'Help title' }}
         />
         <HelpButtonInlineContent contentId={uniqueId} />
-      </>
+      </>,
     )
     expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
 
@@ -498,10 +498,10 @@ describe('HelpButtonInline', () => {
     await waitFor(
       () => {
         expect(focusSpy).toHaveBeenCalledWith(
-          expect.objectContaining({ preventScroll: true })
+          expect.objectContaining({ preventScroll: true }),
         )
       },
-      { timeout: 200 }
+      { timeout: 200 },
     )
 
     focusSpy.mockRestore()
@@ -521,7 +521,7 @@ describe('HelpButtonInline', () => {
     // Get the content section element (where onKeyDown is attached when focusOnOpen is true)
     const content = (await waitFor(() => {
       const elem = document.querySelector(
-        '.dnb-help-button__content .dnb-section'
+        '.dnb-help-button__content .dnb-section',
       ) as HTMLElement
       expect(elem).toBeInTheDocument()
       return elem
@@ -539,7 +539,7 @@ describe('HelpButtonInline', () => {
       () => {
         expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
       },
-      { timeout: 200 }
+      { timeout: 200 },
     )
 
     focusSpy.mockRestore()
@@ -548,7 +548,7 @@ describe('HelpButtonInline', () => {
 
 describe('animation end reset', () => {
   const simulateAnimationEnd = (
-    element: Element = document.querySelector('.dnb-height-animation')
+    element: Element = document.querySelector('.dnb-height-animation'),
   ) => {
     act(() => {
       element.dispatchEvent(new CustomEvent('transitionend'))
@@ -579,7 +579,7 @@ describe('animation end reset', () => {
       <>
         <HelpButtonInline contentId={id} help={{ title: 'Help title' }} />
         <HelpButtonInlineContent contentId={id} />
-      </>
+      </>,
     )
 
     const button = document.querySelector('button')
@@ -616,11 +616,11 @@ describe('HelpButtonInlineContent Component', () => {
           open: true,
           content: 'Some content',
         }}
-      />
+      />,
     )
 
     expect(
-      document.querySelector('.dnb-help-button__content')
+      document.querySelector('.dnb-help-button__content'),
     ).toBeInTheDocument()
   })
 
@@ -628,7 +628,7 @@ describe('HelpButtonInlineContent Component', () => {
     render(<HelpButtonInlineContent contentId="test-content" />)
 
     expect(
-      document.querySelector('.dnb-help-button__content')
+      document.querySelector('.dnb-help-button__content'),
     ).not.toBeInTheDocument()
   })
 
@@ -639,11 +639,11 @@ describe('HelpButtonInlineContent Component', () => {
         help={{ open: true }}
         top="large"
         bottom="small"
-      />
+      />,
     )
 
     expect(document.querySelector('.dnb-section')).toHaveClass(
-      'dnb-space__top--large'
+      'dnb-space__top--large',
     )
   })
 })

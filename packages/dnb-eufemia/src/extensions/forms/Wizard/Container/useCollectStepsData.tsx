@@ -55,7 +55,7 @@ export function useCollectStepsData() {
       hasInvalidStepsState,
       stepsRef,
       translations.Step.stepHasError,
-    ]
+    ],
   )
 
   return { collectStepsData }

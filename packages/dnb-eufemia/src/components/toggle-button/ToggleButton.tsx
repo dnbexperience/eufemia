@@ -67,7 +67,7 @@ const parseChecked = (state: unknown) => /true|on/.test(String(state))
 
 function getInitialChecked(
   props: ToggleButtonProps,
-  groupContext: ToggleButtonGroupContextValue
+  groupContext: ToggleButtonGroupContextValue,
 ): boolean {
   if (groupContext.name && typeof props.value !== 'undefined') {
     if (typeof groupContext.value !== 'undefined') {
@@ -99,10 +99,10 @@ function ToggleButton(ownProps: ToggleButtonProps) {
   const id = useId(ownProps.id)
 
   const [checked, setChecked] = useState(() =>
-    getInitialChecked(ownProps, groupContext)
+    getInitialChecked(ownProps, groupContext),
   )
   const [prevPropsChecked, setPrevPropsChecked] = useState(
-    ownProps.checked
+    ownProps.checked,
   )
 
   // Track whether the internal state was just set by a click
@@ -168,10 +168,10 @@ function ToggleButton(ownProps: ToggleButtonProps) {
           checked: isChecked,
           value,
           event,
-        }
+        },
       )
     },
-    []
+    [],
   )
 
   const checkedRef = useRef(checked)
@@ -208,7 +208,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
         }
       }
     },
-    [callOnChange]
+    [callOnChange],
   )
 
   const onKeyDownHandler = useCallback(
@@ -217,7 +217,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
         onClickHandler({ event })
       }
     },
-    [onClickHandler]
+    [onClickHandler],
   )
 
   const onKeyUpHandler = useCallback(
@@ -226,7 +226,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
         onClickHandler({ event })
       }
     },
-    [onClickHandler]
+    [onClickHandler],
   )
 
   const resolvedProps = {
@@ -237,7 +237,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
   const contextProps = extendExistingPropsWithContext(
     resolvedProps,
     toggleButtonDefaultProps,
-    groupContext as Record<string, unknown>
+    groupContext as Record<string, unknown>,
   )
 
   // use only the props from context, who are available here anyway
@@ -251,7 +251,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
     (context as Record<string, unknown>).ToggleButton as Record<
       string,
       unknown
-    >
+    >,
   )
 
   const {
@@ -314,7 +314,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
       status && `dnb-toggle-button__status--${statusState}`,
       resolvedChecked && `dnb-toggle-button--checked`,
       labelDirection && `dnb-toggle-button--${labelDirection}`,
-      className
+      className,
     ),
   })
 
@@ -362,7 +362,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
     buttonParams['aria-describedby'] = combineDescribedBy(
       buttonParams,
       showStatus ? id + '-status' : null,
-      suffix ? id + '-suffix' : null
+      suffix ? id + '-suffix' : null,
     )
   }
   if (readOnly) {

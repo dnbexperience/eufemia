@@ -120,7 +120,7 @@ function PopoverPortal(props: PopoverPortalProps) {
           portalRootClass,
           theme && getThemeClasses(theme),
           modalContext?.id &&
-            baseClassNames.map((base) => `${base}--inside-modal`)
+            baseClassNames.map((base) => `${base}--inside-modal`),
         )}
       >
         <PopoverContainer

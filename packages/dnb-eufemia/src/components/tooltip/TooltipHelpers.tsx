@@ -12,7 +12,7 @@ export function injectTooltipSemantic(params) {
   params.className = clsx(
     'dnb-tooltip__wrapper',
     'dnb-tab-focus',
-    params.className
+    params.className,
   )
   return params
 }

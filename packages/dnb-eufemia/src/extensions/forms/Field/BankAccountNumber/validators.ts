@@ -7,7 +7,7 @@ export function norwegianBbanValidator(
   errorMessages: {
     errorBankAccountNumber: string
     errorBankAccountNumberLength: string
-  }
+  },
 ): Error | undefined {
   if (value !== undefined) {
     if (value.length !== 11) {

@@ -8,7 +8,7 @@ function ItemNo({ children }) {
 
   const processedChildren = useMemo(
     () => replaceItemNo(children, index),
-    [children, index]
+    [children, index],
   )
 
   return <>{processedChildren}</>
@@ -16,7 +16,7 @@ function ItemNo({ children }) {
 
 export function replaceItemNo(
   node: React.ReactNode,
-  index: number
+  index: number,
 ): React.ReactNode {
   if (node == null || node === false) {
     return node
@@ -43,7 +43,7 @@ export function replaceItemNo(
       : React.createElement(
           node.type as React.ComponentType<any>,
           rest,
-          nextChildren
+          nextChildren,
         )
   }
 

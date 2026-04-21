@@ -32,7 +32,7 @@ describe('Indeterminate', () => {
           valueOn="checked"
           valueOff="unchecked"
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [parent] = Array.from(document.querySelectorAll('input'))
@@ -59,7 +59,7 @@ describe('Indeterminate', () => {
           valueOn="checked"
           valueOff="unchecked"
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
     const [parent] = Array.from(document.querySelectorAll('input'))
     expect(parent).toHaveAttribute('aria-controls')
@@ -78,11 +78,11 @@ describe('Indeterminate', () => {
     render(
       <Form.Handler onChange={onChange} onSubmit={onSubmit}>
         <Field.Indeterminate dependencePaths={[]} path="/parent" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelector('input')).not.toHaveAttribute(
-      'aria-controls'
+      'aria-controls',
     )
   })
 
@@ -113,7 +113,7 @@ describe('Indeterminate', () => {
             valueOn="checked"
             valueOff="unchecked"
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       fireEvent.submit(document.querySelector('form'))
@@ -124,11 +124,11 @@ describe('Indeterminate', () => {
           child3: undefined,
           parent: undefined,
         }),
-        expect.anything()
+        expect.anything(),
       )
 
       const [parent, child1, child2, child3] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       expect(child1).not.toBeChecked()
@@ -145,7 +145,7 @@ describe('Indeterminate', () => {
           child3: undefined,
           parent: undefined,
         }),
-        expect.anything()
+        expect.anything(),
       )
 
       expect(child1).toBeChecked()
@@ -172,7 +172,7 @@ describe('Indeterminate', () => {
           child3: 'checked',
           parent: false,
         }),
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.click(child1)
@@ -200,7 +200,7 @@ describe('Indeterminate', () => {
           child3: 'unchecked',
           parent: false,
         }),
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -229,11 +229,11 @@ describe('Indeterminate', () => {
             valueOn="checked"
             valueOff="unchecked"
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [parent, child1, child2, child3] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       await userEvent.click(child1)
@@ -259,7 +259,7 @@ describe('Indeterminate', () => {
           child3: 'checked',
           parent: true,
         }),
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.click(child2)
@@ -285,7 +285,7 @@ describe('Indeterminate', () => {
           child3: 'checked',
           parent: true,
         }),
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -307,11 +307,11 @@ describe('Indeterminate', () => {
             valueOn="custom-on"
             valueOff="custom-off"
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [parent, child1, child2] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       await userEvent.click(child1)
@@ -334,7 +334,7 @@ describe('Indeterminate', () => {
           child2: 'custom-on',
           parent: 'what-ever',
         }),
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.click(child2)
@@ -357,7 +357,7 @@ describe('Indeterminate', () => {
           child2: 'custom-on',
           parent: 'what-ever',
         }),
-        expect.anything()
+        expect.anything(),
       )
     })
   })
@@ -389,7 +389,7 @@ describe('Indeterminate', () => {
             valueOn="checked"
             valueOff="unchecked"
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       fireEvent.submit(document.querySelector('form'))
@@ -400,11 +400,11 @@ describe('Indeterminate', () => {
           child3: undefined,
           parent: undefined,
         }),
-        expect.anything()
+        expect.anything(),
       )
 
       const [parent, child1, child2, child3] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       expect(child1).not.toBeChecked()
@@ -421,7 +421,7 @@ describe('Indeterminate', () => {
           child3: undefined,
           parent: undefined,
         }),
-        expect.anything()
+        expect.anything(),
       )
 
       expect(child1).toBeChecked()
@@ -448,7 +448,7 @@ describe('Indeterminate', () => {
           child3: 'checked',
           parent: true,
         }),
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.click(child1)
@@ -476,7 +476,7 @@ describe('Indeterminate', () => {
           child3: 'unchecked',
           parent: true,
         }),
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -505,11 +505,11 @@ describe('Indeterminate', () => {
             valueOn="checked"
             valueOff="unchecked"
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [parent, child1, child2, child3] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       await userEvent.click(child1)
@@ -535,7 +535,7 @@ describe('Indeterminate', () => {
           child3: 'unchecked',
           parent: false,
         }),
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.click(child2)
@@ -561,7 +561,7 @@ describe('Indeterminate', () => {
           child3: 'unchecked',
           parent: false,
         }),
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -583,11 +583,11 @@ describe('Indeterminate', () => {
             valueOn="custom-on"
             valueOff="custom-off"
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [parent, child1, child2] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       await userEvent.click(child1)
@@ -610,7 +610,7 @@ describe('Indeterminate', () => {
           child2: 'custom-off',
           parent: 'you-name-it',
         }),
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.click(child2)
@@ -633,7 +633,7 @@ describe('Indeterminate', () => {
           child2: 'custom-off',
           parent: 'you-name-it',
         }),
-        expect.anything()
+        expect.anything(),
       )
     })
   })
@@ -665,7 +665,7 @@ describe('Indeterminate', () => {
             valueOn="checked"
             valueOff="unchecked"
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       fireEvent.submit(document.querySelector('form'))
@@ -676,11 +676,11 @@ describe('Indeterminate', () => {
           child3: undefined,
           parent: undefined,
         }),
-        expect.anything()
+        expect.anything(),
       )
 
       const [parent, child1, child2, child3] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       expect(child1).not.toBeChecked()
@@ -697,7 +697,7 @@ describe('Indeterminate', () => {
           child3: undefined,
           parent: undefined,
         }),
-        expect.anything()
+        expect.anything(),
       )
 
       expect(child1).toBeChecked()
@@ -724,7 +724,7 @@ describe('Indeterminate', () => {
           child3: 'checked',
           parent: undefined,
         }),
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.click(child1)
@@ -752,7 +752,7 @@ describe('Indeterminate', () => {
           child3: 'unchecked',
           parent: true,
         }),
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -781,11 +781,11 @@ describe('Indeterminate', () => {
             valueOn="checked"
             valueOff="unchecked"
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [parent, child1, child2, child3] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       await userEvent.click(child1)
@@ -811,7 +811,7 @@ describe('Indeterminate', () => {
           child3: 'checked',
           parent: true,
         }),
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.click(child2)
@@ -837,7 +837,7 @@ describe('Indeterminate', () => {
           child3: 'unchecked',
           parent: false,
         }),
-        expect.anything()
+        expect.anything(),
       )
     })
 
@@ -859,11 +859,11 @@ describe('Indeterminate', () => {
             valueOn="custom-on"
             valueOff="custom-off"
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [parent, child1, child2] = Array.from(
-        document.querySelectorAll('input')
+        document.querySelectorAll('input'),
       )
 
       await userEvent.click(child1)
@@ -886,7 +886,7 @@ describe('Indeterminate', () => {
           child2: 'custom-on',
           parent: 'what-ever',
         }),
-        expect.anything()
+        expect.anything(),
       )
 
       await userEvent.click(child2)
@@ -909,7 +909,7 @@ describe('Indeterminate', () => {
           child2: 'custom-off',
           parent: 'you-name-it',
         }),
-        expect.anything()
+        expect.anything(),
       )
     })
   })
@@ -933,7 +933,7 @@ describe('Indeterminate', () => {
           valueOn="custom-on"
           valueOff="custom-off"
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const form = document.querySelector('form')
@@ -975,12 +975,12 @@ describe('Indeterminate', () => {
           valueOn="custom-on"
           valueOff="custom-off"
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const form = document.querySelector('form')
     const [, child1, child2] = Array.from(
-      document.querySelectorAll('input')
+      document.querySelectorAll('input'),
     )
 
     fireEvent.submit(form)

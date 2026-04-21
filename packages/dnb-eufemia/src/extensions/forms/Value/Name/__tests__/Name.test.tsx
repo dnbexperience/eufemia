@@ -10,8 +10,8 @@ describe('Value.Name', () => {
     render(<Value.Name value="Nora" />)
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('Nora')
   })
 
@@ -23,35 +23,35 @@ describe('Value.Name', () => {
   it('renders custom label', () => {
     render(<Value.Name label="Custom label" showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      'Custom label'
+      'Custom label',
     )
   })
 
   it('renders custom className', () => {
     render(<Value.Name label="Label" showEmpty className="custom-class" />)
     expect(document.querySelector('.dnb-forms-value-string')).toHaveClass(
-      'custom-class'
+      'custom-class',
     )
   })
 
   it('renders FirstName label', () => {
     render(<Value.Name.First showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      nb.FirstName.label
+      nb.FirstName.label,
     )
   })
 
   it('renders LastName label', () => {
     render(<Value.Name.Last showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      nb.LastName.label
+      nb.LastName.label,
     )
   })
 
   it('renders CompanyName label', () => {
     render(<Value.Name.Company showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      nb.CompanyName.label
+      nb.CompanyName.label,
     )
   })
 
@@ -64,13 +64,13 @@ describe('Value.Name', () => {
     render(
       <Form.Handler data={{ myPath: 'Nora' }}>
         <Value.Name path="/myPath" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('Nora')
   })
 })

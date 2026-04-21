@@ -14,7 +14,7 @@ describe('Blockquote', () => {
       render(
         <Blockquote>
           <Code>code</Code>
-        </Blockquote>
+        </Blockquote>,
       )
 
       const code = document.querySelector('.dnb-code')
@@ -25,7 +25,7 @@ describe('Blockquote', () => {
       render(
         <Blockquote noBackground>
           <Code>code</Code>
-        </Blockquote>
+        </Blockquote>,
       )
 
       const code = document.querySelector('.dnb-code')

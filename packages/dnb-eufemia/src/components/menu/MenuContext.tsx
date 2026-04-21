@@ -2,7 +2,7 @@ import { createContext, useContext } from 'react'
 import type { MenuContextValue } from './types'
 
 export const MenuContext = createContext<MenuContextValue | undefined>(
-  undefined
+  undefined,
 )
 
 export function useMenuContext() {

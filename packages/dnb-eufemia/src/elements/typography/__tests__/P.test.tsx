@@ -28,7 +28,7 @@ describe('P element', () => {
     render(
       <P>
         <P />
-      </P>
+      </P>,
     )
 
     const element = document.querySelector('.dnb-p > .dnb-p')
@@ -41,7 +41,7 @@ describe('P element', () => {
     render(
       <P>
         <P element={MockComponent} />
-      </P>
+      </P>,
     )
 
     const element = document.querySelector('.dnb-p > .dnb-p')
@@ -55,11 +55,11 @@ describe('P element', () => {
           <Dialog noAnimation open title="Dialog title">
             <P>Dialog paragraph</P>
           </Dialog>
-        </P>
+        </P>,
       )
 
       const dialogParagraph = document.querySelector(
-        '.dnb-dialog__content .dnb-p'
+        '.dnb-dialog__content .dnb-p',
       )
       expect(dialogParagraph.tagName).toBe('P')
     })
@@ -72,11 +72,11 @@ describe('P element', () => {
               <P>Inner Paragraph</P>
             </P>
           </Dialog>
-        </P>
+        </P>,
       )
 
       const nestedParagraph = document.querySelector(
-        '.dnb-dialog__content .dnb-p .dnb-p'
+        '.dnb-dialog__content .dnb-p .dnb-p',
       )
       expect(nestedParagraph.tagName).toBe('SPAN')
     })
@@ -89,11 +89,11 @@ describe('P element', () => {
           <Drawer noAnimation open title="Drawer title">
             <P>Drawer paragraph</P>
           </Drawer>
-        </P>
+        </P>,
       )
 
       const drawerParagraph = document.querySelector(
-        '.dnb-drawer__content .dnb-p'
+        '.dnb-drawer__content .dnb-p',
       )
       expect(drawerParagraph.tagName).toBe('P')
     })
@@ -106,11 +106,11 @@ describe('P element', () => {
               <P>Inner Paragraph</P>
             </P>
           </Drawer>
-        </P>
+        </P>,
       )
 
       const nestedParagraph = document.querySelector(
-        '.dnb-drawer__content .dnb-p .dnb-p'
+        '.dnb-drawer__content .dnb-p .dnb-p',
       )
       expect(nestedParagraph.tagName).toBe('SPAN')
     })
@@ -157,7 +157,7 @@ describe('P element', () => {
         family="monospace"
         weight="medium"
         decoration="underline"
-      />
+      />,
     )
     const element = document.querySelector('.dnb-p')
 
@@ -196,7 +196,7 @@ describe('P element', () => {
       render(
         <P proseMaxWidth={80} style={{ color: 'blue' }}>
           Test paragraph
-        </P>
+        </P>,
       )
       const element = document.querySelector('.dnb-p') as HTMLElement
 
@@ -215,7 +215,7 @@ describe('P element', () => {
       render(
         <P size="large" proseMaxWidth={100}>
           Large paragraph with width limit
-        </P>
+        </P>,
       )
       const element = document.querySelector('.dnb-p') as HTMLElement
 
@@ -231,7 +231,7 @@ describe('P element', () => {
       render(
         <P weight="bold" proseMaxWidth={50}>
           Bold paragraph with width limit
-        </P>
+        </P>,
       )
       const element = document.querySelector('.dnb-p') as HTMLElement
 
@@ -252,7 +252,7 @@ describe('P element', () => {
           proseMaxWidth={70}
         >
           Styled paragraph with width limit
-        </P>
+        </P>,
       )
       const element = document.querySelector('.dnb-p') as HTMLElement
 

@@ -71,7 +71,7 @@ const propNames: Array<keyof FlexContainerAllProps> = [
 export function pickFlexContainerProps<T extends FlexContainerAllProps>(
   props: T,
   defaults: Partial<FlexContainerAllProps> = {},
-  skip: Array<keyof FlexContainerAllProps> = []
+  skip: Array<keyof FlexContainerAllProps> = [],
 ): Omit<FlexContainerAllProps, 'children'> {
   return {
     ...defaults,
@@ -79,8 +79,8 @@ export function pickFlexContainerProps<T extends FlexContainerAllProps>(
       Object.entries(props ?? {}).filter(
         ([key]) =>
           propNames.includes(key as keyof FlexContainerAllProps) &&
-          !skip.includes(key as keyof FlexContainerAllProps)
-      )
+          !skip.includes(key as keyof FlexContainerAllProps),
+      ),
     ),
   }
 }
@@ -108,7 +108,7 @@ function FlexContainer(props: FlexContainerAllProps) {
 
   const spacing = useMemo(
     () => (direction === 'vertical' ? rowGap : undefined) ?? gap,
-    [direction, gap, rowGap]
+    [direction, gap, rowGap],
   )
   const childrenArray = replaceRootFragment(wrapChildren(props, children))
   const hasHeading = childrenArray.some((child, i) => {
@@ -227,7 +227,7 @@ function FlexContainer(props: FlexContainerAllProps) {
     rowGapClass,
     hasSizeProp && `${n}--has-size`,
     divider && `${n}--divider-${divider}`,
-    className
+    className,
   )
 
   return (
@@ -249,7 +249,7 @@ function FlexContainer(props: FlexContainerAllProps) {
 
 function wrapChildren(
   props: FlexContainerAllProps,
-  children: React.ReactNode
+  children: React.ReactNode,
 ) {
   return React.Children.toArray(children).map((child) => {
     if (
@@ -263,7 +263,7 @@ function wrapChildren(
         { key, ...childProps },
         <FlexContainer {...props}>
           {childElement.props.children}
-        </FlexContainer>
+        </FlexContainer>,
       )
     }
 

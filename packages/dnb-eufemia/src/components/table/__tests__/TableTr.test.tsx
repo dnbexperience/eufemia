@@ -13,7 +13,7 @@ describe('TableTr', () => {
         <tbody>
           <TableTr {...props} />
         </tbody>
-      </table>
+      </table>,
     )
     expect(document.querySelector('tr')).toBeInTheDocument()
   })
@@ -26,7 +26,7 @@ describe('TableTr', () => {
             <td>content</td>
           </TableTr>
         </tbody>
-      </table>
+      </table>,
     )
 
     const element = document.querySelector('tr')
@@ -42,7 +42,7 @@ describe('TableTr', () => {
             <td>content</td>
           </TableTr>
         </tbody>
-      </Table>
+      </Table>,
     )
 
     const element = document.querySelector('tr')
@@ -58,7 +58,7 @@ describe('TableTr', () => {
             <td>content</td>
           </TableTr>
         </tbody>
-      </table>
+      </table>,
     )
 
     const element = document.querySelector('tr')
@@ -74,12 +74,12 @@ describe('TableTr', () => {
             <td>content</td>
           </TableTr>
         </tbody>
-      </Table>
+      </Table>,
     )
 
     const element = document.querySelector('tr')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual(['role', 'class', 'aria-label'])
@@ -93,7 +93,7 @@ describe('TableTr', () => {
             <td>content</td>
           </TableTr>
         </tbody>
-      </Table>
+      </Table>,
     )
 
     const element = document.querySelector('tr')
@@ -109,7 +109,7 @@ describe('TableTr', () => {
             <td>content</td>
           </TableTr>
         </tbody>
-      </Table>
+      </Table>,
     )
 
     const element = document.querySelector('tr')
@@ -124,7 +124,7 @@ describe('TableTr', () => {
             <td>content</td>
           </TableTr>
         </tbody>
-      </Table>
+      </Table>,
     )
 
     const element = document.querySelector('tr')
@@ -140,7 +140,7 @@ describe('TableTr', () => {
             <td>content</td>
           </TableTr>
         </tbody>
-      </Table>
+      </Table>,
     )
 
     const element = document.querySelector('tr')
@@ -164,21 +164,21 @@ describe('TableTr', () => {
             <td>content</td>
           </TableTr>
         </tbody>
-      </Table>
+      </Table>,
     )
 
     const elements = document.querySelectorAll('tbody tr')
     expect(Array.from(elements[0].classList)).toContain(
-      'dnb-table__tr--odd'
+      'dnb-table__tr--odd',
     )
     expect(Array.from(elements[1].classList)).toContain(
-      'dnb-table__tr--even'
+      'dnb-table__tr--even',
     )
     expect(Array.from(elements[2].classList)).toContain(
-      'dnb-table__tr--odd'
+      'dnb-table__tr--odd',
     )
     expect(Array.from(elements[3].classList)).toContain(
-      'dnb-table__tr--even'
+      'dnb-table__tr--even',
     )
   })
 
@@ -199,21 +199,21 @@ describe('TableTr', () => {
             <td>content</td>
           </TableTr>
         </tbody>
-      </Table>
+      </Table>,
     )
 
     const elements = document.querySelectorAll('tbody tr')
     expect(Array.from(elements[0].classList)).toContain(
-      'dnb-table__tr--odd'
+      'dnb-table__tr--odd',
     )
     expect(Array.from(elements[1].classList)).toContain(
-      'dnb-table__tr--odd'
+      'dnb-table__tr--odd',
     )
     expect(Array.from(elements[2].classList)).toContain(
-      'dnb-table__tr--even'
+      'dnb-table__tr--even',
     )
     expect(Array.from(elements[3].classList)).toContain(
-      'dnb-table__tr--odd'
+      'dnb-table__tr--odd',
     )
   })
 
@@ -270,22 +270,22 @@ describe('TableTr', () => {
               <td>content</td>
             </TableTr>
           </tbody>
-        </Table>
+        </Table>,
       )
 
       let elements = document.querySelectorAll('tbody tr')
       expect(elements).toHaveLength(4)
       expect(Array.from(elements[0].classList)).toContain(
-        'dnb-table__tr--odd'
+        'dnb-table__tr--odd',
       )
       expect(Array.from(elements[1].classList)).toContain(
-        'dnb-table__tr--odd'
+        'dnb-table__tr--odd',
       )
       expect(Array.from(elements[2].classList)).toContain(
-        'dnb-table__tr--even'
+        'dnb-table__tr--even',
       )
       expect(Array.from(elements[3].classList)).toContain(
-        'dnb-table__tr--odd'
+        'dnb-table__tr--odd',
       )
 
       rerender(
@@ -301,19 +301,19 @@ describe('TableTr', () => {
               <td>content</td>
             </TableTr>
           </tbody>
-        </Table>
+        </Table>,
       )
 
       elements = document.querySelectorAll('tbody tr')
       expect(elements).toHaveLength(3)
       expect(Array.from(elements[0].classList)).toContain(
-        'dnb-table__tr--odd'
+        'dnb-table__tr--odd',
       )
       expect(Array.from(elements[1].classList)).toContain(
-        'dnb-table__tr--even'
+        'dnb-table__tr--even',
       )
       expect(Array.from(elements[2].classList)).toContain(
-        'dnb-table__tr--odd'
+        'dnb-table__tr--odd',
       )
 
       rerender(
@@ -332,23 +332,23 @@ describe('TableTr', () => {
               <td>content</td>
             </TableTr>
           </tbody>
-        </Table>
+        </Table>,
       )
 
       elements = document.querySelectorAll('tbody tr')
       expect(elements).toHaveLength(4)
       // console.log('document.body', document.body.innerHTML)
       expect(Array.from(elements[0].classList)).toContain(
-        'dnb-table__tr--odd'
+        'dnb-table__tr--odd',
       )
       expect(Array.from(elements[1].classList)).toContain(
-        'dnb-table__tr--even'
+        'dnb-table__tr--even',
       )
       expect(Array.from(elements[2].classList)).toContain(
-        'dnb-table__tr--even'
+        'dnb-table__tr--even',
       )
       expect(Array.from(elements[3].classList)).toContain(
-        'dnb-table__tr--odd'
+        'dnb-table__tr--odd',
       )
     })
 
@@ -359,15 +359,15 @@ describe('TableTr', () => {
       expect(elements).toHaveLength(3)
       expect(elements[0].textContent).toBe('content cab')
       expect(Array.from(elements[0].classList)).toContain(
-        'dnb-table__tr--even'
+        'dnb-table__tr--even',
       )
       expect(elements[1].textContent).toBe('content abc')
       expect(Array.from(elements[1].classList)).toContain(
-        'dnb-table__tr--odd'
+        'dnb-table__tr--odd',
       )
       expect(elements[2].textContent).toBe('content bac')
       expect(Array.from(elements[2].classList)).toContain(
-        'dnb-table__tr--even'
+        'dnb-table__tr--even',
       )
 
       fireEvent.click(screen.queryByText('re-order'))
@@ -376,15 +376,15 @@ describe('TableTr', () => {
       expect(elements).toHaveLength(3)
       expect(elements[0].textContent).toBe('content abc')
       expect(Array.from(elements[0].classList)).toContain(
-        'dnb-table__tr--even'
+        'dnb-table__tr--even',
       )
       expect(elements[1].textContent).toBe('content bac')
       expect(Array.from(elements[1].classList)).toContain(
-        'dnb-table__tr--odd'
+        'dnb-table__tr--odd',
       )
       expect(elements[2].textContent).toBe('content cab')
       expect(Array.from(elements[2].classList)).toContain(
-        'dnb-table__tr--even'
+        'dnb-table__tr--even',
       )
     })
 
@@ -392,22 +392,22 @@ describe('TableTr', () => {
       render(
         <React.StrictMode>
           <MockComponent />
-        </React.StrictMode>
+        </React.StrictMode>,
       )
 
       let elements = document.querySelectorAll('tbody tr')
       expect(elements).toHaveLength(3)
       expect(elements[0].textContent).toBe('content cab')
       expect(Array.from(elements[0].classList)).toContain(
-        'dnb-table__tr--even'
+        'dnb-table__tr--even',
       )
       expect(elements[1].textContent).toBe('content abc')
       expect(Array.from(elements[1].classList)).toContain(
-        'dnb-table__tr--odd'
+        'dnb-table__tr--odd',
       )
       expect(elements[2].textContent).toBe('content bac')
       expect(Array.from(elements[2].classList)).toContain(
-        'dnb-table__tr--even'
+        'dnb-table__tr--even',
       )
 
       fireEvent.click(screen.queryByText('re-order'))
@@ -416,15 +416,15 @@ describe('TableTr', () => {
       expect(elements).toHaveLength(3)
       expect(elements[0].textContent).toBe('content abc')
       expect(Array.from(elements[0].classList)).toContain(
-        'dnb-table__tr--even'
+        'dnb-table__tr--even',
       )
       expect(elements[1].textContent).toBe('content bac')
       expect(Array.from(elements[1].classList)).toContain(
-        'dnb-table__tr--odd'
+        'dnb-table__tr--odd',
       )
       expect(elements[2].textContent).toBe('content cab')
       expect(Array.from(elements[2].classList)).toContain(
-        'dnb-table__tr--even'
+        'dnb-table__tr--even',
       )
     })
   })

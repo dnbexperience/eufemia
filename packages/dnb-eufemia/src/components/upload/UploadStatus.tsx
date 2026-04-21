@@ -21,7 +21,7 @@ const UploadStatus = () => {
       <FormStatus state="warning" shellSpace={{ top: 'small' }} stretch>
         {String(errorAmountLimit).replace(
           '%amount',
-          String(filesAmountLimit)
+          String(filesAmountLimit),
         )}
       </FormStatus>
     </HeightAnimation>

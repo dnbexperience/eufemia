@@ -22,7 +22,7 @@ describe('Value.Provider', () => {
     render(
       <Value.Provider inheritVisibility={true}>
         <Collector myProp="value" />
-      </Value.Provider>
+      </Value.Provider>,
     )
 
     expect(collectedProps).toEqual({
@@ -48,7 +48,7 @@ describe('Value.Provider', () => {
     render(
       <Value.Provider inheritVisibility={true}>
         <Collector inheritVisibility={false} myProp="value" />
-      </Value.Provider>
+      </Value.Provider>,
     )
 
     expect(collectedProps).toEqual({
@@ -76,7 +76,7 @@ describe('Value.Provider', () => {
         <Value.Provider inheritVisibility={false}>
           <Collector inheritVisibility={true} myProp="value" />
         </Value.Provider>
-      </Value.Provider>
+      </Value.Provider>,
     )
 
     expect(collectedProps).toEqual({
@@ -104,7 +104,7 @@ describe('Value.Provider', () => {
         <Value.Provider inheritVisibility={false}>
           <Collector myProp="value" />
         </Value.Provider>
-      </Value.Provider>
+      </Value.Provider>,
     )
 
     expect(collectedProps).toEqual({
@@ -134,14 +134,14 @@ describe('Value.Provider', () => {
               <Value.String path="/bar" />
             </Value.SummaryList>
           </Value.Provider>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelectorAll('input')).toHaveLength(2)
       expect(document.querySelectorAll('dd')).toHaveLength(2)
 
       const [valueFoo, valueBar] = Array.from(
-        document.querySelectorAll('dd')
+        document.querySelectorAll('dd'),
       )
 
       expect(valueFoo).toHaveTextContent('Foo')

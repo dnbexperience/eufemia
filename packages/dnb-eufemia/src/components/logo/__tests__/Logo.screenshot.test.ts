@@ -79,13 +79,16 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  }
+  },
 )
 
 describe('png image', () => {
   it('have to match image snapshot', async () => {
     const image = await loadImage(
-      path.resolve(__dirname, '../../../../assets/images/dnb/dnb-logo.png')
+      path.resolve(
+        __dirname,
+        '../../../../assets/images/dnb/dnb-logo.png',
+      ),
     )
     expect(image).toMatchImageSnapshot()
   })

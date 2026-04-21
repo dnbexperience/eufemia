@@ -29,11 +29,11 @@ export type DatePickerContextValue = ContextProps &
     previousDateProps: DatePickerDateProps
     updateDates: (
       dates: DatePickerDates,
-      callback?: (dates: DatePickerDates) => void
+      callback?: (dates: DatePickerDates) => void,
     ) => void
     setViews: (
       views: Array<DatePickerCalendarView>,
-      callback?: () => void
+      callback?: () => void,
     ) => void
     setHasClickedCalendarDay: (hasClicked: boolean) => void
     hoverDate?: Date
@@ -43,12 +43,12 @@ export type DatePickerContextValue = ContextProps &
     callOnChangeHandler: <E>(event: DatePickerChangeEvent<E>) => void
     hidePicker: (event: DisplayPickerEvent) => void
     getReturnObject: <E>(
-      params: GetReturnObjectParams<E>
+      params: GetReturnObjectParams<E>,
     ) => DatePickerReturnObject<E>
   }
 
 const DatePickerContext = React.createContext<DatePickerContextValue>(
-  {} as DatePickerContextValue
+  {} as DatePickerContextValue,
 )
 
 export default DatePickerContext

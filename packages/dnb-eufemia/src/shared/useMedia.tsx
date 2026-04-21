@@ -105,7 +105,7 @@ type UseMediaQueryProps = {
 }
 
 export default function useMedia(
-  props: UseMediaProps = {}
+  props: UseMediaProps = {},
 ): UseMediaResult {
   const {
     initialValue = null,
@@ -140,7 +140,7 @@ export default function useMedia(
       const mediaQueryList = makeMediaQueryList(
         { when },
         breakpoints || context.breakpoints,
-        { disabled, correctRange, log }
+        { disabled, correctRange, log },
       )
 
       const event = createMediaQueryListener(mediaQueryList, (match) => {
@@ -157,7 +157,7 @@ export default function useMedia(
 
       return { event, mediaQueryList }
     },
-    [breakpoints, context.breakpoints, correctRange, disabled, log]
+    [breakpoints, context.breakpoints, correctRange, disabled, log],
   )
 
   const makeResult = useCallback(() => {
@@ -199,7 +199,7 @@ export default function useMedia(
 
         return acc
       },
-      { isSSR: !isMatchMediaSupported(), key: null } as UseMediaResult
+      { isSSR: !isMatchMediaSupported(), key: null } as UseMediaResult,
     ) as UseMediaResult
   }, [disabled, initialValue, queries, runQuery])
 
@@ -217,7 +217,7 @@ export default function useMedia(
       // Cache Object.keys() result for performance
       const resultKeys = Object.keys(result)
       const hasChanged = resultKeys.some(
-        (key) => resultRef.current[key] !== result[key]
+        (key) => resultRef.current[key] !== result[key],
       )
       if (hasChanged) {
         updateRerender(result)

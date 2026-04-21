@@ -20,7 +20,7 @@ const myAdultValidator: Validator<string> = () => {
 
 const myAdultFnrDnrValidator: Validator<string> = (
   value,
-  { validators }
+  { validators },
 ) => {
   const { dnrAndFnrValidator } = validators
 
@@ -41,7 +41,7 @@ const myDnrValidator: Validator<string> = (value, { validators }) => {
 
 const myFnrAndDnrValidator: Validator<string> = (
   value,
-  { validators }
+  { validators },
 ) => {
   const { dnrAndFnrValidator } = validators
 

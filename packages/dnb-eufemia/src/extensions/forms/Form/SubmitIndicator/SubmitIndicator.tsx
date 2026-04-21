@@ -60,7 +60,7 @@ function SubmitIndicator(props: FormSubmitIndicatorProps) {
       'dnb-forms-submit-indicator',
       state && `dnb-forms-submit-indicator--state-${state}`,
       willWrap && 'dnb-forms-submit-indicator--inline-wrap',
-      className
+      className,
     ),
     ...pickSpacingProps(rest),
   } as SpaceProps

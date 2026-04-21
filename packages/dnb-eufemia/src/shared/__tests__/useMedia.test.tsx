@@ -343,7 +343,7 @@ describe('useMedia', () => {
           isLarge: false,
           isSSR: false,
           key: 'medium',
-        })
+        }),
       )
 
       act(() => {
@@ -423,7 +423,7 @@ describe('useMedia', () => {
           isLarge: false,
           isSSR: false,
           key: 'medium',
-        })
+        }),
       )
 
       act(() => {
@@ -436,7 +436,7 @@ describe('useMedia', () => {
           isLarge: true,
           isSSR: false,
           key: 'large',
-        })
+        }),
       )
 
       expect(count).toBe(20)
@@ -556,7 +556,7 @@ describe('useMedia', () => {
             isMedium: false,
             isLarge: true,
             key: 'large',
-          })
+          }),
         )
 
         const queries = [
@@ -632,7 +632,7 @@ describe('useMedia', () => {
         const { result } = renderHook(() =>
           useMedia({
             breakpoints: { small: '30em', medium: SMALL, large: MEDIUM },
-          })
+          }),
         )
 
         expect(result.current).toEqual(
@@ -641,7 +641,7 @@ describe('useMedia', () => {
             isMedium: false,
             isLarge: true,
             key: 'large',
-          })
+          }),
         )
 
         const queries = [
@@ -726,7 +726,7 @@ describe('useMedia', () => {
               customMedium: { min: CUSTOM_SMALL, max: CUSTOM_LARGE },
               customLarge: { min: CUSTOM_LARGE },
             },
-          })
+          }),
         )
 
         expect(result.current).toEqual({
@@ -906,7 +906,7 @@ describe('useMedia', () => {
               isMedium: false,
               isLarge: false,
             },
-          })
+          }),
         )
         return null
       }
@@ -951,7 +951,7 @@ describe('useMedia', () => {
           isMedium: false,
           isLarge: false,
           key: null,
-        })
+        }),
       )
     })
 
@@ -972,7 +972,7 @@ describe('useMedia', () => {
           isMedium: false,
           isLarge: false,
           key: 'small',
-        })
+        }),
       )
     })
 
@@ -994,7 +994,7 @@ describe('useMedia', () => {
           isMedium: false,
           isLarge: true,
           key: 'large',
-        })
+        }),
       )
     })
   })

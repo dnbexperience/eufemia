@@ -21,7 +21,7 @@ type TableOfContentsProps = {
 const TableOfContents = ({ edges }: TableOfContentsProps) => {
   const orderedContents = edges
     .sort((edgeA, edgeB) =>
-      edgeA.node.frontmatter.order > edgeB.node.frontmatter.order ? 1 : -1
+      edgeA.node.frontmatter.order > edgeB.node.frontmatter.order ? 1 : -1,
     )
     .map(({ node }) => node.tableOfContents.items)
     .reduce<Array<TableOfContents>>((allContent, currentContent) => {

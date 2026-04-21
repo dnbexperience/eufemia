@@ -45,7 +45,7 @@ export function useVerifyChildren({
 export const countChildren = (
   children: React.ReactNode,
   ignoreTypes?: Array<string>,
-  count = 0
+  count = 0,
 ) => {
   return Children.toArray(children).reduce((count: number, child) => {
     if (child?.['type'] === Fragment) {

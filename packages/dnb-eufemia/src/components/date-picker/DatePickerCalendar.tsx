@@ -87,12 +87,12 @@ export type DatePickerCalendarProps = Omit<
     event: DatePickerChangeEvent<
       | React.MouseEvent<HTMLSpanElement>
       | React.KeyboardEvent<HTMLTableElement | HTMLButtonElement>
-    >
+    >,
   ) => void
   onKeyDown?: (
     event: React.KeyboardEvent<HTMLTableElement | HTMLButtonElement>,
     tableRef: React.RefObject<HTMLTableElement>,
-    nr: number
+    nr: number,
   ) => void
   /**
    * To define the locale used in the calendar. Needs to be an `date-fns` locale object, like `import { enGB } from 'date-fns/locale/en-GB'`. Defaults to `nb-NO`.
@@ -202,11 +202,11 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         | React.MouseEvent<HTMLSpanElement>
         | React.KeyboardEvent<HTMLTableElement>
       > &
-        DatePickerDates
+        DatePickerDates,
     ) => {
       onSelect?.(event)
     },
-    [onSelect]
+    [onSelect],
   )
 
   const getDays = useCallback(
@@ -217,7 +217,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         {
           onlyMonth,
           hideNextMonthWeek,
-        }
+        },
       ).map((date) =>
         makeDayObject(date, {
           startDate,
@@ -226,7 +226,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
           minDate,
           maxDate,
           month,
-        })
+        }),
       )
 
       if (onDaysRender) {
@@ -252,7 +252,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       onDaysRender,
       onlyMonth,
       startDate,
-    ]
+    ],
   )
 
   const keyNavCalc = useCallback((date: Date, keyCode: string) => {
@@ -284,7 +284,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
       if (Array.isArray(days.current[month])) {
         const foundDate = days.current[month].find((cur) =>
-          isSameDay(cur.date, date)
+          isSameDay(cur.date, date),
         )
 
         if (
@@ -304,12 +304,12 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
       return date
     },
-    [onDaysRender, getDays, keyNavCalc]
+    [onDaysRender, getDays, keyNavCalc],
   )
 
   const hasReachedEnd = useCallback(
     (date: Date) => isDisabled(date, minDate, maxDate),
-    [minDate, maxDate]
+    [minDate, maxDate],
   )
 
   const onKeyDownHandler = useCallback(
@@ -439,7 +439,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       keyNavCalc,
       nr,
       onlyMonth,
-    ]
+    ],
   )
 
   const cacheKey = useMemo(() => {
@@ -529,7 +529,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
               formatDate(month, {
                 locale,
                 options: { month: 'long' },
-              })
+              }),
             )}
             tabIndex={-1}
           >
@@ -624,7 +624,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                       className={clsx(
                         'dnb-date-picker__day',
                         'dnb-no-focus',
-                        buildDayClassNames(day)
+                        buildDayClassNames(day),
                       )}
                       {...paramsCell}
                     >
@@ -657,7 +657,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                                         event,
                                         nr,
                                         hidePicker: !isRange,
-                                      })
+                                      }),
                                     )
                                   },
                                 })
@@ -746,17 +746,17 @@ function onSelectRange({
 
   // set either startDate or endDate
   const daysToStartDate = Math.abs(
-    differenceInCalendarDays(startDate, day.date)
+    differenceInCalendarDays(startDate, day.date),
   )
   const daysToEndDate = Math.abs(
-    differenceInCalendarDays(endDate, day.date)
+    differenceInCalendarDays(endDate, day.date),
   )
 
   const range = toRange(
     endDate && !resetDate && daysToStartDate < daysToEndDate
       ? endDate
       : startDate,
-    day.date
+    day.date,
   )
 
   return onSelect({
@@ -792,6 +792,6 @@ function buildDayClassNames(day: DayObject) {
       'dnb-date-picker__day--disabled': day.isDisabled,
       'dnb-date-picker__day--today': day.isToday,
     },
-    day.className
+    day.className,
   )
 }

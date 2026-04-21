@@ -37,7 +37,7 @@ describe('DateFormatUtils', () => {
 
       expect(spy).toHaveBeenCalledWith(
         'en-GB',
-        expect.objectContaining({ dateStyle: 'short' })
+        expect.objectContaining({ dateStyle: 'short' }),
       )
 
       spy.mockRestore()
@@ -124,7 +124,7 @@ describe('DateFormatUtils', () => {
       const shortSeparator = getDateTimeSeparator(
         'nb-NO',
         'short',
-        'short'
+        'short',
       )
       const longSeparator = getDateTimeSeparator('nb-NO', 'long', 'short')
 
@@ -155,7 +155,7 @@ describe('DateFormatUtils', () => {
       // but we can assert it contains both formatted dates separated by something
       const res = formatDateRange(
         { startDate: '2024-10-01', endDate: '2024-10-31' },
-        opts
+        opts,
       )
       expect(res).toContain('2024')
     })
@@ -199,7 +199,7 @@ describe('DateFormatUtils', () => {
           style: 'long',
         },
         undefined,
-        referenceDate
+        referenceDate,
       )
       expect(res).toMatch(/hour|minute|second/)
       expect(res).toMatch(/ago|since/)
@@ -217,7 +217,7 @@ describe('DateFormatUtils', () => {
           style: 'long',
         },
         undefined,
-        relativeTimeReferenceFn
+        relativeTimeReferenceFn,
       )
       expect(res).toMatch(/hour|minute|second/)
       expect(res).toMatch(/ago|since/)
@@ -246,7 +246,7 @@ describe('DateFormatUtils', () => {
     it('returns a sane delay for larger units', () => {
       const relativeTimeReference = new Date('2024-10-05T12:00:00.000Z')
       const date = new Date(
-        relativeTimeReference.getTime() + 60 * 60 * 1000
+        relativeTimeReference.getTime() + 60 * 60 * 1000,
       ) // +1h
       const ms = getRelativeTimeNextUpdateMs(date, relativeTimeReference)
       expect(ms).toBeGreaterThan(1000)
@@ -274,7 +274,7 @@ describe('DateFormatUtils', () => {
       expect(parseDuration('PT2M')).toBe(120_000)
       expect(parseDuration('PT1H30M')).toBe(90 * 60 * 1000)
       expect(parseDuration('P1DT2H')).toBe(
-        24 * 60 * 60 * 1000 + 2 * 60 * 60 * 1000
+        24 * 60 * 60 * 1000 + 2 * 60 * 60 * 1000,
       )
       expect(parseDuration('P1W')).toBe(7 * 24 * 60 * 60 * 1000)
     })
@@ -289,7 +289,7 @@ describe('DateFormatUtils', () => {
   describe('formatDuration', () => {
     type DurationFormatCtor = new (
       locales?: string | string[],
-      options?: { style?: 'long' | 'short' | 'narrow' }
+      options?: { style?: 'long' | 'short' | 'narrow' },
     ) => { format(value: Record<string, number>): string }
     type IntlWithDuration = typeof Intl & {
       DurationFormat?: DurationFormatCtor
@@ -302,7 +302,7 @@ describe('DateFormatUtils', () => {
       intlRef.DurationFormat = class {
         constructor(
           public locales?: string | string[],
-          public options?: { style?: 'long' | 'short' | 'narrow' }
+          public options?: { style?: 'long' | 'short' | 'narrow' },
         ) {
           // touch props to avoid unused warnings
           void this.locales

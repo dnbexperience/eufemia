@@ -70,7 +70,7 @@ describe('List.ShowMoreButton', () => {
         id="toggle-custom"
         showLess="Hide items"
         showMore="Show items"
-      />
+      />,
     )
 
     expect(getButton().textContent).toContain('Show items')
@@ -90,17 +90,17 @@ describe('List.ShowMoreButton', () => {
           <ItemContent>Item 3</ItemContent>
           <ItemContent>Item 4</ItemContent>
         </Container>
-      </>
+      </>,
     )
 
     expect(
-      document.querySelectorAll('.dnb-list__item:not([hidden])')
+      document.querySelectorAll('.dnb-list__item:not([hidden])'),
     ).toHaveLength(2)
 
     fireEvent.click(getButton())
 
     expect(
-      document.querySelectorAll('.dnb-list__item:not([hidden])')
+      document.querySelectorAll('.dnb-list__item:not([hidden])'),
     ).toHaveLength(4)
   })
 
@@ -113,19 +113,19 @@ describe('List.ShowMoreButton', () => {
           <ItemContent>Item 2</ItemContent>
           <ItemContent>Item 3</ItemContent>
         </Container>
-      </>
+      </>,
     )
 
     fireEvent.click(getButton())
 
     expect(
-      document.querySelectorAll('.dnb-list__item:not([hidden])')
+      document.querySelectorAll('.dnb-list__item:not([hidden])'),
     ).toHaveLength(3)
 
     fireEvent.click(getButton())
 
     expect(
-      document.querySelectorAll('.dnb-list__item:not([hidden])')
+      document.querySelectorAll('.dnb-list__item:not([hidden])'),
     ).toHaveLength(1)
   })
 
@@ -138,7 +138,7 @@ describe('List.ShowMoreButton', () => {
           <ItemContent>Item 2</ItemContent>
           <ItemContent>Item 3</ItemContent>
         </Container>
-      </>
+      </>,
     )
 
     expect(document.querySelectorAll('.dnb-list__item')).toHaveLength(3)
@@ -151,11 +151,11 @@ describe('List.ShowMoreButton', () => {
         <ItemContent>Item 2</ItemContent>
         <ItemContent>Item 3</ItemContent>
         <ItemContent>Item 4</ItemContent>
-      </Container>
+      </Container>,
     )
 
     expect(
-      document.querySelectorAll('.dnb-list__item:not([hidden])')
+      document.querySelectorAll('.dnb-list__item:not([hidden])'),
     ).toHaveLength(2)
   })
 
@@ -177,11 +177,11 @@ describe('List.ShowMoreButton', () => {
             <ItemAccordion.Content>Content 4</ItemAccordion.Content>
           </ItemAccordion>
         </Container>
-      </>
+      </>,
     )
 
     const accordionHeaders = document.querySelectorAll(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
 
     fireEvent.click(accordionHeaders[1])
@@ -189,12 +189,12 @@ describe('List.ShowMoreButton', () => {
 
     fireEvent.click(getButton())
     expect(
-      document.querySelectorAll('.dnb-list__item:not([hidden])')
+      document.querySelectorAll('.dnb-list__item:not([hidden])'),
     ).toHaveLength(4)
 
     fireEvent.click(getButton())
     const updatedHeaders = document.querySelectorAll(
-      '.dnb-list__item__accordion__header'
+      '.dnb-list__item__accordion__header',
     )
     expect(updatedHeaders[1]).toHaveAttribute('aria-expanded', 'true')
   })
@@ -204,11 +204,11 @@ describe('List.ShowMoreButton', () => {
       <Container>
         <ItemContent>Item 1</ItemContent>
         <ItemContent>Item 2</ItemContent>
-      </Container>
+      </Container>,
     )
 
     expect(
-      container.querySelector('.dnb-height-animation')
+      container.querySelector('.dnb-height-animation'),
     ).not.toBeInTheDocument()
 
     rerender(
@@ -218,11 +218,11 @@ describe('List.ShowMoreButton', () => {
           <ItemContent>Item 1</ItemContent>
           <ItemContent>Item 2</ItemContent>
         </Container>
-      </>
+      </>,
     )
 
     expect(
-      container.querySelector('.dnb-height-animation')
+      container.querySelector('.dnb-height-animation'),
     ).toBeInTheDocument()
   })
 
@@ -236,7 +236,7 @@ describe('List.ShowMoreButton', () => {
           <ItemContent>Item 3</ItemContent>
           <ItemContent>Item 4</ItemContent>
         </Container>
-      </>
+      </>,
     )
 
     const items = document.querySelectorAll('.dnb-list__item')
@@ -261,7 +261,7 @@ describe('List.ShowMoreButton', () => {
           <ItemContent>Item 2</ItemContent>
           <ItemContent>Item 3</ItemContent>
         </Container>
-      </>
+      </>,
     )
 
     expect(getButton()).toHaveAttribute('aria-controls', 'controls-test')

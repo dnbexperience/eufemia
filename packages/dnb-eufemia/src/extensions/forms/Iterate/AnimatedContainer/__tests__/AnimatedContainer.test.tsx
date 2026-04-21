@@ -11,7 +11,7 @@ describe('AnimatedContainer', () => {
         <AnimatedContainer>
           <Value.String itemPath="/" />
         </AnimatedContainer>
-      </Iterate.Array>
+      </Iterate.Array>,
     )
 
     const sections = document.querySelectorAll('.dnb-forms-section-block')
@@ -25,11 +25,11 @@ describe('AnimatedContainer', () => {
     render(
       <IterateItemContext value={{ containerMode: 'edit' }}>
         <AnimatedContainer title="Item title">content</AnimatedContainer>
-      </IterateItemContext>
+      </IterateItemContext>,
     )
 
     expect(document.querySelector('.dnb-p')).toHaveTextContent(
-      'Item title'
+      'Item title',
     )
   })
 
@@ -39,7 +39,7 @@ describe('AnimatedContainer', () => {
         <AnimatedContainer title="Item title {itemNo}">
           content
         </AnimatedContainer>
-      </Iterate.Array>
+      </Iterate.Array>,
     )
 
     const leads = document.querySelectorAll('.dnb-p')

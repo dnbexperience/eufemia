@@ -22,7 +22,7 @@ export type ProviderProps = {
 } & ContextProps
 
 export default function Provider<Props>(
-  localProps: ProviderProps & Props
+  localProps: ProviderProps & Props,
 ) {
   const nestedContext = useContext(Context)
   const [localContext, setLocalContext] = useState(null)
@@ -40,14 +40,14 @@ export default function Provider<Props>(
       nestedContext.update?.(props)
       setLocalContext({ __context__: props })
     },
-    [nestedContext]
+    [nestedContext],
   )
 
   const setLocale = useCallback(
     (locale: InternalLocale) => {
       update({ locale })
     },
-    [update]
+    [update],
   )
 
   const value = useMemo(() => {
@@ -59,7 +59,7 @@ export default function Provider<Props>(
         mergeContextWithProps(nestedContext, {
           ...localContext,
           ...rest,
-        })
+        }),
       ),
     }
 
@@ -70,7 +70,7 @@ export default function Provider<Props>(
 
     nestedContext.updateTranslation(
       preparedContext.locale,
-      preparedContext.translations
+      preparedContext.translations,
     )
 
     return preparedContext
@@ -93,7 +93,7 @@ type MergeContextProps = {
 
 function mergeContextWithProps<ContextT, PropsT>(
   nestedContext: ContextT & ContextProps,
-  localProps: PropsT & MergeContextProps
+  localProps: PropsT & MergeContextProps,
 ) {
   // When value is given as so: <Provider value={{}} />
   const { value, ...rest } = localProps
@@ -110,7 +110,7 @@ function mergeContextWithProps<ContextT, PropsT>(
   if (nestedTranslations && localTranslations) {
     const mergedTranslations = mergeTranslations(
       nestedTranslations as Record<string, any>,
-      localTranslations as Record<string, any>
+      localTranslations as Record<string, any>,
     )
     mergedContext.translations = mergedTranslations
   }
@@ -122,7 +122,7 @@ function mergeContextWithProps<ContextT, PropsT>(
       ...props.formElement,
     }
     mergedContext.formElement = prepareFormElementContext(
-      mergedContext.formElement
+      mergedContext.formElement,
     )
   }
 

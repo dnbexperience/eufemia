@@ -61,7 +61,7 @@ export type FieldUploadProps = Omit<
     | 'disableDragAndDrop'
   > & {
     fileHandler?: (
-      newFiles: UploadValue
+      newFiles: UploadValue,
     ) => UploadValue | Promise<UploadValue>
     onValidationError?: (invalidFiles: UploadValue) => UploadValue | void
     width?: 'large' | 'stretch'
@@ -75,7 +75,7 @@ function UploadComponent(props: FieldUploadProps) {
     () => ({
       'Field.errorRequired': formsTr.errorRequired,
     }),
-    [formsTr.errorRequired]
+    [formsTr.errorRequired],
   )
 
   const validateRequired = useCallback(
@@ -93,7 +93,7 @@ function UploadComponent(props: FieldUploadProps) {
 
       return undefined
     },
-    []
+    [],
   )
 
   const fromInput = useCallback((value: UploadValue) => {
@@ -183,7 +183,7 @@ function UploadComponent(props: FieldUploadProps) {
   const isSameUploadFile = useCallback(
     (
       fileA: UploadFile | UploadFileNative,
-      fileB: UploadFile | UploadFileNative
+      fileB: UploadFile | UploadFileNative,
     ) => {
       if (!fileA || !fileB) {
         return false
@@ -195,14 +195,14 @@ function UploadComponent(props: FieldUploadProps) {
 
       return isFileEqual(fileA.file, fileB.file)
     },
-    []
+    [],
   )
 
   const isPendingOrErrorFile = useCallback(
     (file: UploadFile | UploadFileNative) => {
       return Boolean(file?.isLoading || file?.errorMessage)
     },
-    []
+    [],
   )
 
   useEffect(() => {
@@ -223,7 +223,7 @@ function UploadComponent(props: FieldUploadProps) {
       const localResolvedFile = localFiles.find(
         (localFile) =>
           isSameUploadFile(localFile, externalFile) &&
-          !localFile?.isLoading
+          !localFile?.isLoading,
       )
 
       return localResolvedFile || externalFile
@@ -235,7 +235,7 @@ function UploadComponent(props: FieldUploadProps) {
       }
 
       return !mergedExternalFiles.some((externalFile) =>
-        isSameUploadFile(externalFile, localFile)
+        isSameUploadFile(externalFile, localFile),
       )
     })
 
@@ -249,10 +249,10 @@ function UploadComponent(props: FieldUploadProps) {
       const existingFileIds =
         filesRef.current?.map((file) => file.id) || []
       const existingFiles = filesArray.filter((file) =>
-        existingFileIds.includes(file.id)
+        existingFileIds.includes(file.id),
       )
       const newFiles = filesArray.filter(
-        (file) => !existingFileIds.includes(file.id)
+        (file) => !existingFileIds.includes(file.id),
       )
       const newValidFiles = newFiles.filter((file) => !file.errorMessage)
 
@@ -286,7 +286,7 @@ function UploadComponent(props: FieldUploadProps) {
                 isLoading: false,
               }
               const foundIndex = newFilesLoading.findIndex(
-                (newFile) => newFile.isLoading
+                (newFile) => newFile.isLoading,
               )
               if (foundIndex >= 0) {
                 newFilesLoading[foundIndex] = incomingFileObj
@@ -307,7 +307,7 @@ function UploadComponent(props: FieldUploadProps) {
               const currentFile = filesRef.current?.find(
                 (f) =>
                   (f.id && f.id === file.id) ||
-                  (f.file && f.file === file.file)
+                  (f.file && f.file === file.file),
               )
 
               if (currentFile?.isLoading) {
@@ -319,14 +319,14 @@ function UploadComponent(props: FieldUploadProps) {
             })
 
             const indexOfFirstNewFile = filesRef.current.findIndex(
-              ({ id }) => id === newFiles[0].id
+              ({ id }) => id === newFiles[0].id,
             )
 
             const updatedFiles = [
               ...filesRef.current.slice(0, indexOfFirstNewFile),
               ...(newFilesLoading?.filter((file) => file != null) ?? []),
               ...filesRef.current.slice(
-                indexOfFirstNewFile + newFilesLoading.length
+                indexOfFirstNewFile + newFilesLoading.length,
               ),
             ]
             setFiles(updatedFiles)
@@ -347,13 +347,13 @@ function UploadComponent(props: FieldUploadProps) {
       setFieldInternals,
       setFieldState,
       setFiles,
-    ]
+    ],
   )
 
   const processValidationErrors = useCallback(
     (
       files: UploadValue,
-      existingFiles: UploadValue
+      existingFiles: UploadValue,
     ): UploadValue | undefined => {
       if (!files || !onValidationError) {
         return files
@@ -362,7 +362,7 @@ function UploadComponent(props: FieldUploadProps) {
       const existingFileIds = existingFiles?.map((file) => file.id) ?? []
 
       const newFiles = files.filter(
-        (file) => !existingFileIds.includes(file.id)
+        (file) => !existingFileIds.includes(file.id),
       )
 
       const newInvalidFiles = newFiles.filter((file) => file.errorMessage)
@@ -380,13 +380,13 @@ function UploadComponent(props: FieldUploadProps) {
         const processedFile = processedInvalidFiles.find(
           (processed) =>
             processed.id === file.id ||
-            (processed.file && processed.file === file.file)
+            (processed.file && processed.file === file.file),
         )
 
         return processedFile || file
       })
     },
-    [onValidationError]
+    [onValidationError],
   )
 
   const changeHandler = useCallback(
@@ -414,7 +414,7 @@ function UploadComponent(props: FieldUploadProps) {
       processValidationErrors,
       handleChangeAsync,
       handleChange,
-    ]
+    ],
   )
 
   const width = widthProp as FieldBlockWidth
@@ -507,7 +507,7 @@ export default UploadComponent
 withComponentMarkers(UploadComponent, { _supportsSpacingProps: true })
 
 export function transformFiles(
-  value: UploadValue
+  value: UploadValue,
 ): UploadValue | undefined {
   if (Array.isArray(value)) {
     if (value.length === 0) {

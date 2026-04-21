@@ -10,8 +10,8 @@ describe('Value.Address', () => {
     render(<Value.Address value="Dronning Eufemias gate 30" />)
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('Dronning Eufemias gate 30')
   })
 
@@ -23,21 +23,21 @@ describe('Value.Address', () => {
   it('renders custom label', () => {
     render(<Value.Address label="Custom label" showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      'Custom label'
+      'Custom label',
     )
   })
 
   it('renders PostalAddress label', () => {
     render(<Value.Address.Postal showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      nb.PostalAddress.label
+      nb.PostalAddress.label,
     )
   })
 
   it('renders StreetAddress label', () => {
     render(<Value.Address.Street showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      nb.StreetAddress.label
+      nb.StreetAddress.label,
     )
   })
 
@@ -50,13 +50,13 @@ describe('Value.Address', () => {
     render(
       <Form.Handler data={{ myPath: 'Dronning Eufemias gate 30' }}>
         <Value.Address path="/myPath" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('Dronning Eufemias gate 30')
   })
 })

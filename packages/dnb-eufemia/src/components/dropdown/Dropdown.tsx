@@ -241,7 +241,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
         externalRef.current = el
       }
     },
-    [externalRef]
+    [externalRef],
   )
 
   const setButtonRef = useCallback(
@@ -253,7 +253,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
         externalButtonRef.current = el
       }
     },
-    [externalButtonRef]
+    [externalButtonRef],
   )
 
   // Strip undefined values so they fall through to defaults,
@@ -293,7 +293,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
     (...args: unknown[]) => {
       context.drawerList.setHidden(...(args as [unknown[], (() => void)?]))
     },
-    [context.drawerList]
+    [context.drawerList],
   )
 
   const setFocus = useCallback((args: Record<string, unknown>) => {
@@ -310,7 +310,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
           dispatchCustomElementEvent(
             { props: propsWithDefaultsRef.current },
             'onCloseFocus',
-            { element }
+            { element },
           )
         }
       } catch (e) {
@@ -375,7 +375,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
           break
       }
     },
-    [setVisible, setHidden]
+    [setVisible, setHidden],
   )
 
   const onCloseHandler = useCallback(
@@ -387,7 +387,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
         {
           ...args,
           attributes,
-        }
+        },
       )
 
       if (res !== false) {
@@ -396,7 +396,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
 
       return res
     },
-    [setFocus]
+    [setFocus],
   )
 
   const onSelectHandler = useCallback((args: Record<string, unknown>) => {
@@ -408,7 +408,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
         {
           ...args,
           attributes,
-        }
+        },
       )
     }
   }, [])
@@ -421,7 +421,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
       {
         ...args,
         attributes,
-      }
+      },
     )
   }, [])
 
@@ -430,7 +430,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
     if (data && data.length > 0) {
       const currentOptionData = getCurrentData(
         context.drawerList.selectedItem,
-        data
+        data,
       )
       if (currentOptionData) {
         title =
@@ -449,7 +449,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
     (context as Record<string, any>).getTranslation(propsWithDefaults)
       .Dropdown,
     pickFormElementProps(context?.formElement),
-    (context as Record<string, any>).Dropdown
+    (context as Record<string, any>).Dropdown,
   )
 
   const {
@@ -545,7 +545,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
 
   Object.assign(
     context.drawerList.attributes,
-    validateDOMAttributes(null, attributes)
+    validateDOMAttributes(null, attributes),
   )
 
   const mainParams = applySpacing(props, {
@@ -563,7 +563,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
       status && `dnb-dropdown__status--${statusState}`,
       showStatus && 'dnb-dropdown__form-status',
       'dnb-form-component',
-      className
+      className,
     ),
   })
 
@@ -588,7 +588,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
     triggerParams['aria-describedby'] = combineDescribedBy(
       triggerParams,
       showStatus ? id + '-status' : null,
-      suffix ? id + '-suffix' : null
+      suffix ? id + '-suffix' : null,
     )
   }
 
@@ -596,7 +596,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
     triggerParams['aria-labelledby'] = combineLabelledBy(
       triggerParams,
       id + '-label',
-      id // used to read the current value
+      id, // used to read the current value
     )
   }
 
@@ -643,7 +643,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
             {CustomTrigger ? (
               React.createElement(
                 CustomTrigger as React.ElementType,
-                triggerParams
+                triggerParams,
               )
             ) : (
               <Button
@@ -667,7 +667,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
                       className={clsx(
                         'dnb-dropdown__icon',
                         parseFloat(String(selectedItem)) === 0 &&
-                          'dnb-dropdown__icon--first'
+                          'dnb-dropdown__icon--first',
                       )}
                     >
                       {icon !== false && (
@@ -694,7 +694,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
               portalClass={portalClass}
               listClass={clsx(
                 'dnb-dropdown__list',
-                variant === 'tertiary' && 'dnb-dropdown__list--tertiary'
+                variant === 'tertiary' && 'dnb-dropdown__list--tertiary',
               )}
               value={selectedItem}
               defaultValue={defaultValue}

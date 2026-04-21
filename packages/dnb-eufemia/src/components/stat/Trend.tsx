@@ -76,7 +76,7 @@ function Trend(props: TrendProps) {
         'dnb-stat',
         'dnb-stat__trend',
         `dnb-stat__trend--${usedTone}`,
-        className
+        className,
       )}
       style={style}
       skeleton={skeleton}
@@ -128,7 +128,7 @@ function getValueFromChildren(children: React.ReactNode): number | string {
   const text = convertJsxToString(children)
   if (!text) {
     warn(
-      'Stat.Trend could not resolve a value from the provided children. Falling back to "0".'
+      'Stat.Trend could not resolve a value from the provided children. Falling back to "0".',
     )
   }
 

@@ -76,27 +76,27 @@ export type UseFieldErrorParams<Value> = {
   // Context dispatch
   setFieldStateDataContext: (
     identifier: Identifier,
-    state: SubmitState
+    state: SubmitState,
   ) => void
   setFieldStateFieldBlock: FieldBlockContextProps['setFieldState']
   setFieldErrorDataContext: (
     identifier: Identifier,
-    error: Error | FormError | undefined
+    error: Error | FormError | undefined,
   ) => void
   setFieldErrorBoundary: (
     identifier: Identifier,
-    error: Error | FormError | undefined
+    error: Error | FormError | undefined,
   ) => void
   setFieldErrorWizard: (
     wizardIndex: number,
     identifier: Identifier,
-    hasError: boolean | undefined
+    hasError: boolean | undefined,
   ) => void
   setBlockRecord: FieldBlockContextProps['setBlockRecord']
   showFieldErrorFieldBlock: FieldBlockContextProps['showFieldError']
   revealErrorDataContext: (
     identifier: Identifier,
-    hasError: boolean
+    hasError: boolean,
   ) => void
   revealErrorBoundary: (identifier: Identifier, hasError: boolean) => void
   wizardIndex: number
@@ -167,7 +167,7 @@ export default function useFieldError<Value>({
   // -- ensureErrorMessageObject --
 
   const errorMessageCacheRef = useRef<Map<string, ErrorProp<Value>>>(
-    new Map()
+    new Map(),
   )
 
   const ensureErrorMessageObject = useCallback(<T>(error: T): T => {
@@ -191,7 +191,7 @@ export default function useFieldError<Value>({
       } else {
         errorMessageCacheRef.current.set(
           key,
-          returnValue as ErrorProp<Value>
+          returnValue as ErrorProp<Value>,
         )
       }
     }
@@ -214,7 +214,7 @@ export default function useFieldError<Value>({
   const executeMessage = useCallback(
     <ReturnValue extends MessageTypes<Value>>(
       message: MessageProp<Value, ReturnValue>,
-      forceReturnErrorMessageObject?: boolean
+      forceReturnErrorMessageObject?: boolean,
     ): ReturnValue => {
       if (typeof message === 'function') {
         const ALWAYS = 4
@@ -285,7 +285,7 @@ export default function useFieldError<Value>({
         ? ensureErrorMessageObject(message)
         : message
     },
-    [getFieldByPath, getValueByPath, ensureErrorMessageObject]
+    [getFieldByPath, getValueByPath, ensureErrorMessageObject],
   )
 
   // -- Compute error/warning/info from props --
@@ -295,7 +295,7 @@ export default function useFieldError<Value>({
   const error = executeMessage<UseFieldProps['error'] | 'initial'>(
     // @ts-expect-error - strictFunctionTypes
     errorProp,
-    true
+    true,
   )
   const warning = executeMessage<FieldStatus['warning']>(warningProp)
   const info = executeMessage<FieldStatus['info']>(infoProp)
@@ -345,7 +345,7 @@ export default function useFieldError<Value>({
     const extendedErrorMessages =
       extendErrorMessagesWithTranslationMessages(
         messages,
-        translationRef.current
+        translationRef.current,
       )
 
     errorMessagesCacheRef.current = {
@@ -381,7 +381,7 @@ export default function useFieldError<Value>({
                 (msg, [key, value]) => {
                   return msg.replace(`{${key}}`, value)
                 },
-                message
+                message,
               )
             }
           } else if (message.includes('.')) {
@@ -415,7 +415,7 @@ export default function useFieldError<Value>({
 
       return error as FormError
     },
-    [combinedErrorMessages, ensureErrorMessageObject, formatMessage]
+    [combinedErrorMessages, ensureErrorMessageObject, formatMessage],
   )
 
   // -- Context error computation --
@@ -478,7 +478,7 @@ export default function useFieldError<Value>({
 
   const hasError = useCallback(() => {
     return Boolean(
-      error ?? localErrorRef.current ?? contextErrorRef.current
+      error ?? localErrorRef.current ?? contextErrorRef.current,
     )
   }, [error])
 
@@ -502,7 +502,7 @@ export default function useFieldError<Value>({
       setFieldStateFieldBlock,
       validateInitially,
       forceUpdate,
-    ]
+    ],
   )
 
   // -- Error state management --
@@ -512,7 +512,7 @@ export default function useFieldError<Value>({
       setFieldErrorWizard?.(
         wizardIndex,
         identifier,
-        handleFieldAsVisible !== false ? hasError : undefined
+        handleFieldAsVisible !== false ? hasError : undefined,
       )
 
       showFieldErrorFieldBlock?.(identifier, hasError)
@@ -527,7 +527,7 @@ export default function useFieldError<Value>({
       setFieldErrorWizard,
       showFieldErrorFieldBlock,
       wizardIndex,
-    ]
+    ],
   )
 
   // Will reveal the error as a visible error (hasVisibleError)
@@ -558,7 +558,7 @@ export default function useFieldError<Value>({
         | Error
         | FormError
         | Array<Error | FormError>
-        | undefined = undefined
+        | undefined = undefined,
     ) => {
       const error = prepareError(errorArg)
 
@@ -607,7 +607,7 @@ export default function useFieldError<Value>({
         setFieldErrorWizard?.(
           wizardIndex,
           identifier,
-          Boolean(currentError)
+          Boolean(currentError),
         )
       }
 
@@ -629,7 +629,7 @@ export default function useFieldError<Value>({
       validateInitially,
       wizardIndex,
       forceUpdate,
-    ]
+    ],
   )
 
   const clearErrorState = useCallback(() => {
@@ -709,7 +709,7 @@ export default function useFieldError<Value>({
 }
 
 function resolveValidatingState(
-  state: SubmitStateWithValidating
+  state: SubmitStateWithValidating,
 ): SubmitState {
   return state === 'validating' ? 'pending' : state
 }

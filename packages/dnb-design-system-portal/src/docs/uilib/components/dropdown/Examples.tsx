@@ -204,7 +204,7 @@ export const DropdownEllipsisOverflow = () => (
 
 export const DropdownDirections = () => {
   const visualTestProps = (
-    enabled: boolean
+    enabled: boolean,
   ): VisibleWhenVisualTestReturn => {
     if (!enabled) {
       return {}

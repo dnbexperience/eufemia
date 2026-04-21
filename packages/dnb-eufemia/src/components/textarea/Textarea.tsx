@@ -52,7 +52,7 @@ export type TextareaCols = number | string
 export type TextareaElement =
   | ((
       params: React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-      ref: React.RefObject<HTMLTextAreaElement | null>
+      ref: React.RefObject<HTMLTextAreaElement | null>,
     ) => React.ReactNode)
   | React.ReactNode
 export type TextareaChildren = React.ReactNode | (() => React.ReactNode)
@@ -162,10 +162,10 @@ export type TextareaProps = Omit<
     children?: TextareaChildren
     onChange?: (event: TextareaChangeEvent) => void
     onFocus?: (
-      event: TextareaEvent<React.FocusEvent<HTMLTextAreaElement>>
+      event: TextareaEvent<React.FocusEvent<HTMLTextAreaElement>>,
     ) => void
     onBlur?: (
-      event: TextareaEvent<React.FocusEvent<HTMLTextAreaElement>>
+      event: TextareaEvent<React.FocusEvent<HTMLTextAreaElement>>,
     ) => void
     onKeyDown?: (event: TextareaKeyDownEvent) => void
     /**
@@ -242,7 +242,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     (context.getTranslation(ownProps) as Record<string, unknown>)
       ?.Textarea as Record<string, unknown>,
     pickFormElementProps(context?.formElement),
-    context?.Textarea as Record<string, unknown>
+    context?.Textarea as Record<string, unknown>,
   )
 
   const {
@@ -375,7 +375,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
         warn(e)
       }
     },
-    [autoResizeMaxRows, getLineHeight, getRows]
+    [autoResizeMaxRows, getLineHeight, getRows],
   )
 
   const onFocusHandler = useCallback(
@@ -386,7 +386,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       dispatchCustomElementEvent(props, 'onFocus', { value, event })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.onFocus]
+    [props.onFocus],
   )
 
   const onBlurHandler = useCallback(
@@ -397,7 +397,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       dispatchCustomElementEvent(props, 'onBlur', { value, event })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.onBlur]
+    [props.onBlur],
   )
 
   const onChangeHandler = useCallback(
@@ -423,7 +423,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [autoResize, prepareAutosize, getRows, setAutosize, props.onChange]
+    [autoResize, prepareAutosize, getRows, setAutosize, props.onChange],
   )
 
   const onKeyDownHandler = useCallback(
@@ -437,7 +437,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [getRows, props.onKeyDown]
+    [getRows, props.onKeyDown],
   )
 
   // Keep a ref to the latest setAutosize so the mount-time ResizeObserver
@@ -492,7 +492,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     className: clsx(
       'dnb-textarea__textarea',
       'dnb-input__border',
-      textareaClassName
+      textareaClassName,
     ),
     role: 'textbox',
     value: currentHasValue ? value : '',
@@ -514,7 +514,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     textareaParams['aria-describedby'] = combineDescribedBy(
       textareaParams,
       showStatus ? id + '-status' : null,
-      suffix ? id + '-suffix' : null
+      suffix ? id + '-suffix' : null,
     )
   }
   if (readOnly) {
@@ -539,14 +539,14 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       keepPlaceholder && `dnb-textarea--keep-placeholder`,
       'dnb-form-component',
       createSkeletonClass(null, skeleton),
-      className
+      className,
     ),
   })
 
   const innerParams = {
     className: clsx(
       'dnb-textarea__inner',
-      createSkeletonClass('shape', skeleton, context)
+      createSkeletonClass('shape', skeleton, context),
     ),
   }
 
@@ -619,7 +619,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
                 <span
                   className={clsx(
                     'dnb-textarea__placeholder',
-                    align ? `dnb-textarea__align--${align}` : null
+                    align ? `dnb-textarea__align--${align}` : null,
                   )}
                   style={placeholderStyle as React.CSSProperties}
                   aria-hidden

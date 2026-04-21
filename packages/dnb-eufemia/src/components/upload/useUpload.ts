@@ -10,7 +10,7 @@ export type UseUploadReturn = {
   setInternalFiles: (files: Array<UploadFile>) => void
   getExistingFile: (
     file: File,
-    fileItems?: Array<UploadFile>
+    fileItems?: Array<UploadFile>,
   ) => UploadFile
 }
 
@@ -33,26 +33,26 @@ function useUpload(id: UploadProps['id']): UseUploadReturn {
   const setFiles = useCallback(
     (files: Array<UploadFile | UploadFileNative>) => {
       const newFiles = files?.filter(
-        (file) => file?.file instanceof File
+        (file) => file?.file instanceof File,
       ) as UploadFile[]
       extend({
         files: newFiles,
       })
     },
-    [extend]
+    [extend],
   )
 
   const setInternalFiles = useCallback(
     (internalFiles: Array<UploadFile>) => {
       extend({ internalFiles })
     },
-    [extend]
+    [extend],
   )
 
   const files = useMemo(() => data?.files || [], [data?.files])
   const internalFiles = useMemo(
     () => data?.internalFiles || [],
-    [data?.internalFiles]
+    [data?.internalFiles],
   )
 
   const getExistingFile = useCallback(
@@ -61,7 +61,7 @@ function useUpload(id: UploadProps['id']): UseUploadReturn {
         return isFileEqual(file, f)
       })
     },
-    [files]
+    [files],
   )
 
   return {
@@ -78,7 +78,7 @@ export const isFileEqual = (fileA: File, fileB: File): boolean => {
   const compareExistingProperty = function (
     a: File,
     b: File,
-    property: string
+    property: string,
   ) {
     return (
       a &&

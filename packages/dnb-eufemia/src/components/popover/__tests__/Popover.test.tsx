@@ -127,7 +127,7 @@ describe('Popover', () => {
   }
 
   const setupPopoverPositionMocks = (
-    options: PositionMockOptions = {}
+    options: PositionMockOptions = {},
   ) => {
     const originalResizeObserver = global.ResizeObserver
     global.ResizeObserver = class ResizeObserver {
@@ -152,7 +152,7 @@ describe('Popover', () => {
 
     const originalOffsetParentDescriptor = Object.getOwnPropertyDescriptor(
       HTMLElement.prototype,
-      'offsetParent'
+      'offsetParent',
     )
     Object.defineProperty(HTMLElement.prototype, 'offsetParent', {
       configurable: true,
@@ -213,11 +213,11 @@ describe('Popover', () => {
 
     const originalOffsetWidth = Object.getOwnPropertyDescriptor(
       HTMLElement.prototype,
-      'offsetWidth'
+      'offsetWidth',
     )
     const originalOffsetHeight = Object.getOwnPropertyDescriptor(
       HTMLElement.prototype,
-      'offsetHeight'
+      'offsetHeight',
     )
 
     Object.defineProperty(HTMLElement.prototype, 'offsetWidth', {
@@ -256,7 +256,7 @@ describe('Popover', () => {
         Object.defineProperty(
           HTMLElement.prototype,
           'offsetWidth',
-          originalOffsetWidth
+          originalOffsetWidth,
         )
       } else {
         delete prototype.offsetWidth
@@ -265,7 +265,7 @@ describe('Popover', () => {
         Object.defineProperty(
           HTMLElement.prototype,
           'offsetHeight',
-          originalOffsetHeight
+          originalOffsetHeight,
         )
       } else {
         delete prototype.offsetHeight
@@ -275,7 +275,7 @@ describe('Popover', () => {
         Object.defineProperty(
           HTMLElement.prototype,
           'offsetParent',
-          originalOffsetParentDescriptor
+          originalOffsetParentDescriptor,
         )
       } else {
         delete prototype.offsetParent
@@ -296,7 +296,7 @@ describe('Popover', () => {
         {...extraProps}
       >
         {contentText}
-      </Popover>
+      </Popover>,
     )
 
   it('passes updated targetRefreshKey to PopoverContainer', () => {
@@ -306,7 +306,7 @@ describe('Popover', () => {
     const { rerender } = render(
       <Popover open targetElement={target.element} targetRefreshKey={1}>
         Shake
-      </Popover>
+      </Popover>,
     )
 
     expect(spy).toHaveBeenCalled()
@@ -316,7 +316,7 @@ describe('Popover', () => {
     rerender(
       <Popover open targetElement={target.element} targetRefreshKey={2}>
         Shake
-      </Popover>
+      </Popover>,
     )
 
     expect(spy).toHaveBeenCalled()
@@ -336,7 +336,7 @@ describe('Popover', () => {
     await userEvent.click(trigger)
 
     await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'true')
+      expect(trigger).toHaveAttribute('aria-expanded', 'true'),
     )
 
     const popoverElement = document.querySelector('.dnb-popover')
@@ -346,7 +346,7 @@ describe('Popover', () => {
     fireEvent.mouseDown(document.documentElement)
 
     await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false'),
     )
     expect(popoverElement).not.toHaveClass('dnb-popover--active')
   })
@@ -359,14 +359,14 @@ describe('Popover', () => {
 
     await waitFor(() =>
       expect(
-        document.querySelector('.dnb-popover__title strong')?.textContent
-      ).toBe('Definition')
+        document.querySelector('.dnb-popover__title strong')?.textContent,
+      ).toBe('Definition'),
     )
 
     await waitFor(() =>
       expect(document.activeElement).toBe(
-        document.querySelector('.dnb-popover__content')
-      )
+        document.querySelector('.dnb-popover__content'),
+      ),
     )
   })
 
@@ -375,11 +375,11 @@ describe('Popover', () => {
       <Popover
         trigger={<Button icon="question" title="Toggle popover" />}
         content={contentText}
-      />
+      />,
     )
 
     const trigger = document.querySelector(
-      '.dnb-button[aria-controls]'
+      '.dnb-button[aria-controls]',
     ) as HTMLButtonElement
 
     expect(trigger).not.toHaveClass('dnb-button--selected')
@@ -387,7 +387,7 @@ describe('Popover', () => {
     await userEvent.click(trigger)
 
     await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'true')
+      expect(trigger).toHaveAttribute('aria-expanded', 'true'),
     )
 
     expect(trigger).not.toHaveClass('dnb-button--selected')
@@ -405,11 +405,11 @@ describe('Popover', () => {
           />
         )}
         content={contentText}
-      />
+      />,
     )
 
     const trigger = document.querySelector(
-      '.dnb-button[aria-controls]'
+      '.dnb-button[aria-controls]',
     ) as HTMLButtonElement
 
     expect(trigger).not.toHaveClass('dnb-button--selected')
@@ -417,13 +417,13 @@ describe('Popover', () => {
     await userEvent.click(trigger)
 
     await waitFor(() =>
-      expect(trigger).toHaveClass('dnb-button--selected')
+      expect(trigger).toHaveClass('dnb-button--selected'),
     )
 
     fireEvent.mouseDown(document.documentElement)
 
     await waitFor(() =>
-      expect(trigger).not.toHaveClass('dnb-button--selected')
+      expect(trigger).not.toHaveClass('dnb-button--selected'),
     )
   })
 
@@ -442,11 +442,11 @@ describe('Popover', () => {
           )
         }}
         content={contentText}
-      />
+      />,
     )
 
     const trigger = document.querySelector(
-      'button[aria-controls]'
+      'button[aria-controls]',
     ) as HTMLButtonElement
 
     expect(activeStates.at(-1)).toBe(false)
@@ -465,11 +465,11 @@ describe('Popover', () => {
       <Popover
         trigger={<button type="button">Trigger</button>}
         content={contentText}
-      />
+      />,
     )
 
     const trigger = document.querySelector(
-      'button[aria-controls]'
+      'button[aria-controls]',
     ) as HTMLButtonElement
 
     expect(trigger).not.toHaveAttribute('selected')
@@ -477,7 +477,7 @@ describe('Popover', () => {
     await userEvent.click(trigger)
 
     await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'true')
+      expect(trigger).toHaveAttribute('aria-expanded', 'true'),
     )
 
     expect(trigger).not.toHaveAttribute('selected')
@@ -496,11 +496,11 @@ describe('Popover', () => {
         <button type="button" ref={focusRef}>
           Focus me
         </button>
-      </Popover>
+      </Popover>,
     )
 
     await waitFor(() =>
-      expect(document.activeElement).toBe(focusRef.current)
+      expect(document.activeElement).toBe(focusRef.current),
     )
   })
 
@@ -515,7 +515,7 @@ describe('Popover', () => {
         trigger={<button type="button">Trigger</button>}
       >
         Content
-      </Popover>
+      </Popover>,
     )
 
     expect(onFocusComplete).not.toHaveBeenCalled()
@@ -528,7 +528,7 @@ describe('Popover', () => {
 
     const trigger =
       (document.querySelector(
-        'button[aria-controls]'
+        'button[aria-controls]',
       ) as HTMLButtonElement) ??
       ((): never => {
         throw new Error('Popover trigger not rendered')
@@ -554,7 +554,7 @@ describe('Popover', () => {
 
       const content = await waitFor(() => {
         const contentElement = document.querySelector(
-          '.dnb-popover__content'
+          '.dnb-popover__content',
         )
         expect(contentElement).toBeInTheDocument()
         return contentElement as HTMLElement
@@ -583,7 +583,7 @@ describe('Popover', () => {
 
     // Get popover element and dispatch event on it so event.target is inside popover
     const popover = await waitFor(() =>
-      document.querySelector('.dnb-popover')
+      document.querySelector('.dnb-popover'),
     )
 
     // Dispatch Escape keydown event on the popover element
@@ -592,7 +592,7 @@ describe('Popover', () => {
       new KeyboardEvent('keydown', {
         key: 'Escape',
         bubbles: true,
-      })
+      }),
     )
 
     await waitFor(() => expect(onOpenChange).toHaveBeenCalledWith(false))
@@ -615,7 +615,7 @@ describe('Popover', () => {
             </button>
           </div>
         )}
-      />
+      />,
     )
 
     const trigger = document.querySelector('button[aria-controls]')
@@ -624,17 +624,17 @@ describe('Popover', () => {
     await waitFor(() =>
       expect(
         document.querySelector(
-          '.dnb-popover button[type="button"]:last-of-type'
-        )
-      ).toBeInTheDocument()
+          '.dnb-popover button[type="button"]:last-of-type',
+        ),
+      ).toBeInTheDocument(),
     )
     const customClose = document.querySelector(
-      '.dnb-popover button[type="button"]:last-of-type'
+      '.dnb-popover button[type="button"]:last-of-type',
     )
     await userEvent.click(customClose)
 
     await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false'),
     )
   })
 
@@ -646,8 +646,8 @@ describe('Popover', () => {
 
     await waitFor(() =>
       expect(
-        document.querySelector('.dnb-popover__close')
-      ).not.toBeInTheDocument()
+        document.querySelector('.dnb-popover__close'),
+      ).not.toBeInTheDocument(),
     )
   })
 
@@ -658,11 +658,11 @@ describe('Popover', () => {
     await userEvent.click(trigger)
 
     await waitFor(() =>
-      expect(document.querySelector('.dnb-popover')).toBeInTheDocument()
+      expect(document.querySelector('.dnb-popover')).toBeInTheDocument(),
     )
 
     expect(
-      document.querySelector('.dnb-popover__arrow')
+      document.querySelector('.dnb-popover__arrow'),
     ).not.toBeInTheDocument()
   })
 
@@ -673,11 +673,11 @@ describe('Popover', () => {
     await userEvent.click(trigger)
 
     await waitFor(() =>
-      expect(document.querySelector('.dnb-popover')).toBeInTheDocument()
+      expect(document.querySelector('.dnb-popover')).toBeInTheDocument(),
     )
 
     expect(
-      document.querySelector('.dnb-popover__arrow')
+      document.querySelector('.dnb-popover__arrow'),
     ).not.toBeInTheDocument()
   })
 
@@ -689,8 +689,8 @@ describe('Popover', () => {
 
     await waitFor(() =>
       expect(
-        document.querySelector('.dnb-popover__arrow')
-      ).toBeInTheDocument()
+        document.querySelector('.dnb-popover__arrow'),
+      ).toBeInTheDocument(),
     )
   })
 
@@ -703,7 +703,7 @@ describe('Popover', () => {
     fireEvent.keyUp(document.documentElement, { key: 'Tab' })
 
     await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false'),
     )
   })
 
@@ -718,14 +718,14 @@ describe('Popover', () => {
     fireEvent.touchEnd(document.body)
 
     await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'true')
+      expect(trigger).toHaveAttribute('aria-expanded', 'true'),
     )
 
     fireEvent.touchStart(document.body)
     fireEvent.touchEnd(document.body)
 
     await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false'),
     )
   })
 
@@ -736,10 +736,10 @@ describe('Popover', () => {
     await userEvent.click(trigger)
 
     const contentWrapper = await waitFor(() =>
-      document.querySelector('.dnb-popover__content')
+      document.querySelector('.dnb-popover__content'),
     )
     expect(
-      contentWrapper?.querySelector('.dnb-popover__body')
+      contentWrapper?.querySelector('.dnb-popover__body'),
     ).toBeInTheDocument()
     const closeButton = document.querySelector('.dnb-popover__close')
 
@@ -751,7 +751,7 @@ describe('Popover', () => {
     renderWithTrigger()
 
     const trigger = document.querySelector(
-      'button[aria-controls]'
+      'button[aria-controls]',
     ) as HTMLButtonElement
     await userEvent.click(trigger)
 
@@ -762,7 +762,7 @@ describe('Popover', () => {
 
     // Get all focus trap buttons - the last one is at the bottom
     const focusTrapButtons = document.querySelectorAll(
-      '.dnb-popover .dnb-sr-only button, .dnb-popover button.dnb-sr-only'
+      '.dnb-popover .dnb-sr-only button, .dnb-popover button.dnb-sr-only',
     ) as NodeListOf<HTMLButtonElement>
 
     expect(focusTrapButtons.length).toBeGreaterThanOrEqual(1)
@@ -778,7 +778,7 @@ describe('Popover', () => {
     fireEvent.focus(bottomFocusTrap)
 
     await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false'),
     )
 
     // Wait for focus to be restored to the trigger
@@ -791,7 +791,7 @@ describe('Popover', () => {
     renderWithTrigger()
 
     const trigger = document.querySelector(
-      'button[aria-controls]'
+      'button[aria-controls]',
     ) as HTMLButtonElement
     await userEvent.click(trigger)
 
@@ -802,7 +802,7 @@ describe('Popover', () => {
 
     // Get all focus trap buttons - the first one is at the top
     const focusTrapButtons = document.querySelectorAll(
-      '.dnb-popover .dnb-sr-only button, .dnb-popover button.dnb-sr-only'
+      '.dnb-popover .dnb-sr-only button, .dnb-popover button.dnb-sr-only',
     ) as NodeListOf<HTMLButtonElement>
 
     expect(focusTrapButtons.length).toBeGreaterThanOrEqual(2)
@@ -818,7 +818,7 @@ describe('Popover', () => {
     fireEvent.focus(topFocusTrap)
 
     await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false'),
     )
 
     // Wait for focus to be restored to the trigger
@@ -834,13 +834,13 @@ describe('Popover', () => {
     await userEvent.click(trigger)
 
     await waitFor(() =>
-      expect(document.querySelector('.dnb-popover')).toBeInTheDocument()
+      expect(document.querySelector('.dnb-popover')).toBeInTheDocument(),
     )
 
     const focusTrapButtons = Array.from(
       document.querySelectorAll(
-        '.dnb-popover .dnb-sr-only button, .dnb-popover button.dnb-sr-only'
-      )
+        '.dnb-popover .dnb-sr-only button, .dnb-popover button.dnb-sr-only',
+      ),
     )
 
     const focusTrapTitle = defaultLocales['nb-NO'].Popover.focusTrapTitle
@@ -881,7 +881,7 @@ describe('Popover', () => {
         >
           {contentText}
         </Popover>
-      </Provider>
+      </Provider>,
     )
 
     const trigger = document.querySelector('button[aria-controls]')
@@ -891,7 +891,7 @@ describe('Popover', () => {
     expect(trigger).toHaveAttribute('title', 'Show details')
 
     const srDesc = document.getElementById(
-      trigger.getAttribute('aria-describedby') as string
+      trigger.getAttribute('aria-describedby') as string,
     )
     expect(srDesc).toHaveTextContent('Show details')
   })
@@ -903,7 +903,7 @@ describe('Popover', () => {
       renderWithTrigger({ showDelay: 60 })
 
       const trigger = document.querySelector(
-        'button[aria-controls]'
+        'button[aria-controls]',
       ) as HTMLButtonElement
       await userEvent.click(trigger)
 
@@ -917,7 +917,7 @@ describe('Popover', () => {
       })
 
       await waitFor(() =>
-        expect(popoverElement).toHaveClass('dnb-popover--active')
+        expect(popoverElement).toHaveClass('dnb-popover--active'),
       )
     } finally {
       globalThis.IS_TEST = IS_TEST
@@ -933,7 +933,7 @@ describe('Popover', () => {
     const popoverElement = document.querySelector('.dnb-popover')
 
     await waitFor(() =>
-      expect(popoverElement).toHaveClass('dnb-popover--active')
+      expect(popoverElement).toHaveClass('dnb-popover--active'),
     )
 
     fireEvent.mouseDown(document.documentElement)
@@ -941,11 +941,11 @@ describe('Popover', () => {
     expect(popoverElement).toHaveClass('dnb-popover--active')
 
     await waitFor(() =>
-      expect(popoverElement).toHaveClass('dnb-popover--active')
+      expect(popoverElement).toHaveClass('dnb-popover--active'),
     )
 
     await waitFor(() =>
-      expect(popoverElement).not.toHaveClass('dnb-popover--active')
+      expect(popoverElement).not.toHaveClass('dnb-popover--active'),
     )
   })
 
@@ -957,8 +957,8 @@ describe('Popover', () => {
 
     await waitFor(() =>
       expect(
-        document.querySelector('.dnb-popover__portal .dnb-popover')
-      ).not.toBeNull()
+        document.querySelector('.dnb-popover__portal .dnb-popover'),
+      ).not.toBeNull(),
     )
   })
 
@@ -969,7 +969,7 @@ describe('Popover', () => {
     await userEvent.click(trigger)
 
     const popover = await waitFor(() =>
-      document.querySelector('.dnb-popover')
+      document.querySelector('.dnb-popover'),
     )
     expect(popover).toHaveAttribute('role', 'menu')
   })
@@ -981,7 +981,7 @@ describe('Popover', () => {
     await userEvent.click(trigger)
 
     const popover = await waitFor(() =>
-      document.querySelector('.dnb-popover')
+      document.querySelector('.dnb-popover'),
     )
     expect(popover).not.toHaveAttribute('role')
   })
@@ -993,7 +993,7 @@ describe('Popover', () => {
     await userEvent.click(trigger)
 
     const popover = await waitFor(() =>
-      document.querySelector('.dnb-popover')
+      document.querySelector('.dnb-popover'),
     )
     expect(popover).not.toHaveAttribute('aria-hidden', 'true')
   })
@@ -1005,7 +1005,7 @@ describe('Popover', () => {
     await userEvent.click(trigger)
 
     const popover = await waitFor(() =>
-      document.querySelector('.dnb-popover')
+      document.querySelector('.dnb-popover'),
     )
     expect(popover).not.toHaveAttribute('aria-hidden')
   })
@@ -1017,10 +1017,10 @@ describe('Popover', () => {
     await userEvent.click(trigger)
 
     await waitFor(() =>
-      expect(document.querySelector('.dnb-popover')).toBeInTheDocument()
+      expect(document.querySelector('.dnb-popover')).toBeInTheDocument(),
     )
     expect(
-      document.querySelector('.dnb-popover__portal')
+      document.querySelector('.dnb-popover__portal'),
     ).not.toBeInTheDocument()
   })
 
@@ -1032,8 +1032,8 @@ describe('Popover', () => {
 
     await waitFor(() =>
       expect(
-        document.querySelector('.dnb-popover__portal.custom-popover-root')
-      ).toBeInTheDocument()
+        document.querySelector('.dnb-popover__portal.custom-popover-root'),
+      ).toBeInTheDocument(),
     )
   })
 
@@ -1044,7 +1044,7 @@ describe('Popover', () => {
     await userEvent.click(trigger)
 
     const content = await waitFor(() =>
-      document.querySelector('.dnb-popover__content')
+      document.querySelector('.dnb-popover__content'),
     )
     expect(content).toHaveClass('dnb-no-focus')
     expect(content).toHaveAttribute('tabindex', '-1')
@@ -1057,12 +1057,12 @@ describe('Popover', () => {
     await userEvent.click(trigger)
 
     const closeBtn = await waitFor(() =>
-      document.querySelector('.dnb-popover__close')
+      document.querySelector('.dnb-popover__close'),
     )
     await userEvent.click(closeBtn)
 
     await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false'),
     )
   })
 
@@ -1073,12 +1073,12 @@ describe('Popover', () => {
 
     fireEvent.keyDown(trigger, { key: 'Enter' })
     await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'true')
+      expect(trigger).toHaveAttribute('aria-expanded', 'true'),
     )
 
     fireEvent.keyDown(trigger, { key: ' ' })
     await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false'),
     )
   })
 
@@ -1090,7 +1090,7 @@ describe('Popover', () => {
 
     // Get popover element and dispatch event on it so event.target is inside popover
     const popover = await waitFor(() =>
-      document.querySelector('.dnb-popover--active')
+      document.querySelector('.dnb-popover--active'),
     )
     expect(popover).toBeInTheDocument()
 
@@ -1100,11 +1100,11 @@ describe('Popover', () => {
       new KeyboardEvent('keydown', {
         key: 'Escape',
         bubbles: true,
-      })
+      }),
     )
 
     await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false'),
     )
     await waitFor(() => {
       expect(document.activeElement).toBe(trigger)
@@ -1120,7 +1120,7 @@ describe('Popover', () => {
     fireEvent.mouseDown(document.documentElement)
 
     await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false'),
     )
   })
 
@@ -1137,13 +1137,13 @@ describe('Popover', () => {
         >
           Popover content
         </Popover>
-      </Dialog>
+      </Dialog>,
     )
 
     // Wait for Dialog to be open
     await waitFor(() => {
       expect(document.documentElement).toHaveAttribute(
-        'data-dnb-modal-active'
+        'data-dnb-modal-active',
       )
     })
 
@@ -1169,7 +1169,7 @@ describe('Popover', () => {
     // So we check if the popover content exists and is focusable
     // Query for content within the active popover specifically
     const popoverContent = document.querySelector(
-      '.dnb-popover--active .dnb-popover__content'
+      '.dnb-popover--active .dnb-popover__content',
     )
     expect(popoverContent).toBeInTheDocument()
 
@@ -1183,15 +1183,15 @@ describe('Popover', () => {
       new KeyboardEvent('keydown', {
         key: 'Escape',
         bubbles: true,
-      })
+      }),
     )
 
     await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false'),
     )
     expect(document.querySelector('.dnb-dialog')).toBeInTheDocument()
     expect(document.documentElement).toHaveAttribute(
-      'data-dnb-modal-active'
+      'data-dnb-modal-active',
     )
 
     // Focus the dialog content to ensure Escape is handled by the dialog
@@ -1204,8 +1204,8 @@ describe('Popover', () => {
 
     await waitFor(() =>
       expect(document.documentElement).not.toHaveAttribute(
-        'data-dnb-modal-active'
-      )
+        'data-dnb-modal-active',
+      ),
     )
   })
 
@@ -1216,7 +1216,7 @@ describe('Popover', () => {
     await userEvent.click(trigger)
 
     const popoverElement = await waitFor(() =>
-      document.querySelector('.dnb-popover')
+      document.querySelector('.dnb-popover'),
     )
     expect(popoverElement).toHaveClass('dnb-popover--show-outline')
   })
@@ -1228,7 +1228,7 @@ describe('Popover', () => {
     await userEvent.click(trigger)
 
     const popoverElement = await waitFor(() =>
-      document.querySelector('.dnb-popover')
+      document.querySelector('.dnb-popover'),
     )
     expect(popoverElement).not.toHaveClass('dnb-popover--show-outline')
   })
@@ -1240,7 +1240,7 @@ describe('Popover', () => {
     await userEvent.click(trigger)
 
     const popoverElement = await waitFor(() =>
-      document.querySelector('.dnb-popover')
+      document.querySelector('.dnb-popover'),
     )
     expect(popoverElement).toHaveClass('dnb-popover--show-outline')
   })
@@ -1259,18 +1259,18 @@ describe('Popover', () => {
           triggerOffset={32}
         >
           {contentText}
-        </Popover>
+        </Popover>,
       )
 
       await waitFor(() => {
         const popoverElement = document.querySelector(
-          '.dnb-popover'
+          '.dnb-popover',
         ) as HTMLElement | null
         expect(popoverElement).toBeInTheDocument()
 
         const expectedTop = rect.top + rect.height + 32
         expect(parseFloat(popoverElement.style.top || 'NaN')).toBe(
-          expectedTop
+          expectedTop,
         )
       })
     } finally {
@@ -1287,18 +1287,18 @@ describe('Popover', () => {
       render(
         <Popover open noAnimation targetElement={targetElement}>
           {contentText}
-        </Popover>
+        </Popover>,
       )
 
       await waitFor(() => {
         const popoverElement = document.querySelector(
-          '.dnb-popover'
+          '.dnb-popover',
         ) as HTMLElement | null
         expect(popoverElement).toBeInTheDocument()
 
         const expectedTop = rect.top + rect.height
         expect(parseFloat(popoverElement.style.top || 'NaN')).toBe(
-          expectedTop
+          expectedTop,
         )
       })
     } finally {
@@ -1320,7 +1320,7 @@ describe('Popover', () => {
           horizontalOffset={0}
         >
           {contentText}
-        </Popover>
+        </Popover>,
       )
 
       const getPopoverElement = () =>
@@ -1343,12 +1343,12 @@ describe('Popover', () => {
           horizontalOffset={20}
         >
           {contentText}
-        </Popover>
+        </Popover>,
       )
 
       await waitFor(() => {
         const currentLeft = parseFloat(
-          getPopoverElement().style.left || 'NaN'
+          getPopoverElement().style.left || 'NaN',
         )
         expect(currentLeft - baseLeft).toBeGreaterThanOrEqual(20)
       })
@@ -1366,12 +1366,12 @@ describe('Popover', () => {
       render(
         <Popover open noAnimation targetElement={targetElement}>
           {contentText}
-        </Popover>
+        </Popover>,
       )
 
       await waitFor(() => {
         const popoverElement = document.querySelector(
-          '.dnb-popover'
+          '.dnb-popover',
         ) as HTMLElement | null
         expect(popoverElement).toBeInTheDocument()
 
@@ -1379,7 +1379,7 @@ describe('Popover', () => {
         const elementWidth = popoverElement.offsetWidth
         const expectedLeft = anchorX - elementWidth / 2
         expect(parseFloat(popoverElement.style.left || 'NaN')).toBe(
-          expectedLeft
+          expectedLeft,
         )
       })
     } finally {
@@ -1394,7 +1394,7 @@ describe('Popover', () => {
     await userEvent.click(trigger)
 
     const popoverElement = await waitFor(() =>
-      document.querySelector('.dnb-popover')
+      document.querySelector('.dnb-popover'),
     )
     expect(popoverElement).toHaveClass('dnb-popover--no-inner-space')
   })
@@ -1406,7 +1406,7 @@ describe('Popover', () => {
     await userEvent.click(trigger)
 
     const popoverElement = await waitFor(() =>
-      document.querySelector('.dnb-popover')
+      document.querySelector('.dnb-popover'),
     )
     expect(popoverElement).not.toHaveClass('dnb-popover--no-inner-space')
   })
@@ -1418,7 +1418,7 @@ describe('Popover', () => {
     await userEvent.click(trigger)
 
     const popoverElement = await waitFor(() =>
-      document.querySelector('.dnb-popover')
+      document.querySelector('.dnb-popover'),
     )
     // The class applies --inner-space: 0 via SCSS
     expect(popoverElement).toHaveClass('dnb-popover--no-inner-space')
@@ -1437,7 +1437,7 @@ describe('Popover', () => {
     })
 
     const trigger = (await waitFor(() =>
-      document.querySelector('button[aria-controls]')
+      document.querySelector('button[aria-controls]'),
     )) as HTMLButtonElement
 
     await userEvent.click(trigger)
@@ -1458,15 +1458,15 @@ describe('Popover', () => {
     })
 
     const trigger = (await waitFor(() =>
-      document.querySelector('button[aria-controls]')
+      document.querySelector('button[aria-controls]'),
     )) as HTMLButtonElement
     await userEvent.click(trigger)
 
     const popover = (await waitFor(() =>
-      document.querySelector('.dnb-popover')
+      document.querySelector('.dnb-popover'),
     )) as HTMLElement
     const content = (await waitFor(() =>
-      document.querySelector('.dnb-popover__content')
+      document.querySelector('.dnb-popover__content'),
     )) as HTMLElement
 
     expect(content).toHaveClass('custom-content')
@@ -1483,12 +1483,12 @@ describe('Popover', () => {
     })
 
     const trigger = (await waitFor(() =>
-      document.querySelector('button[aria-controls]')
+      document.querySelector('button[aria-controls]'),
     )) as HTMLButtonElement
     await userEvent.click(trigger)
 
     const closeButton = (await waitFor(() =>
-      document.querySelector('.dnb-popover__close')
+      document.querySelector('.dnb-popover__close'),
     )) as HTMLButtonElement
 
     expect(closeButton).toHaveAttribute('title', 'Dismiss tooltip')
@@ -1500,14 +1500,14 @@ describe('Popover', () => {
       renderWithTrigger({ preventClose: true })
 
       const trigger = (await waitFor(() =>
-        document.querySelector('button[aria-controls]')
+        document.querySelector('button[aria-controls]'),
       )) as HTMLButtonElement
       await userEvent.click(trigger)
 
       fireEvent.mouseDown(document.documentElement)
 
       await waitFor(() =>
-        expect(trigger).toHaveAttribute('aria-expanded', 'true')
+        expect(trigger).toHaveAttribute('aria-expanded', 'true'),
       )
     })
 
@@ -1515,19 +1515,19 @@ describe('Popover', () => {
       renderWithTrigger({ preventClose: true })
 
       const trigger = (await waitFor(() =>
-        document.querySelector('button[aria-controls]')
+        document.querySelector('button[aria-controls]'),
       )) as HTMLButtonElement
       await userEvent.click(trigger)
 
       const focusTrapButtons = await waitFor(() =>
-        document.querySelectorAll('.dnb-popover button.dnb-sr-only')
+        document.querySelectorAll('.dnb-popover button.dnb-sr-only'),
       )
       const firstTrap = focusTrapButtons[0]
 
       fireEvent.focus(firstTrap)
 
       await waitFor(() =>
-        expect(trigger).toHaveAttribute('aria-expanded', 'true')
+        expect(trigger).toHaveAttribute('aria-expanded', 'true'),
       )
     })
 
@@ -1535,22 +1535,22 @@ describe('Popover', () => {
       renderWithTrigger({ preventClose: true })
 
       const trigger = (await waitFor(() =>
-        document.querySelector('button[aria-controls]')
+        document.querySelector('button[aria-controls]'),
       )) as HTMLButtonElement
       await userEvent.click(trigger)
 
       const popover = (await waitFor(() =>
-        document.querySelector('.dnb-popover')
+        document.querySelector('.dnb-popover'),
       )) as HTMLElement
       popover?.dispatchEvent(
         new KeyboardEvent('keydown', {
           key: 'Escape',
           bubbles: true,
-        })
+        }),
       )
 
       await waitFor(() =>
-        expect(trigger).toHaveAttribute('aria-expanded', 'true')
+        expect(trigger).toHaveAttribute('aria-expanded', 'true'),
       )
     })
 
@@ -1558,17 +1558,17 @@ describe('Popover', () => {
       renderWithTrigger({ preventClose: true })
 
       const trigger = (await waitFor(() =>
-        document.querySelector('button[aria-controls]')
+        document.querySelector('button[aria-controls]'),
       )) as HTMLButtonElement
       await userEvent.click(trigger)
 
       const closeButton = (await waitFor(() =>
-        document.querySelector('.dnb-popover__close')
+        document.querySelector('.dnb-popover__close'),
       )) as HTMLButtonElement
       await userEvent.click(closeButton)
 
       await waitFor(() =>
-        expect(trigger).toHaveAttribute('aria-expanded', 'true')
+        expect(trigger).toHaveAttribute('aria-expanded', 'true'),
       )
     })
   })
@@ -1577,24 +1577,24 @@ describe('Popover', () => {
     renderWithTrigger({ restoreFocus: false })
 
     const trigger = (await waitFor(() =>
-      document.querySelector('button[aria-controls]')
+      document.querySelector('button[aria-controls]'),
     )) as HTMLButtonElement
 
     await userEvent.click(trigger)
     const focusSpy = jest.spyOn(trigger, 'focus')
 
     const popover = (await waitFor(() =>
-      document.querySelector('.dnb-popover')
+      document.querySelector('.dnb-popover'),
     )) as HTMLElement
     popover?.dispatchEvent(
       new KeyboardEvent('keydown', {
         key: 'Escape',
         bubbles: true,
-      })
+      }),
     )
 
     await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false'),
     )
 
     expect(focusSpy).not.toHaveBeenCalled()
@@ -1605,13 +1605,13 @@ describe('Popover', () => {
     renderWithTrigger()
 
     const trigger = (await waitFor(() =>
-      document.querySelector('button[aria-controls]')
+      document.querySelector('button[aria-controls]'),
     )) as HTMLButtonElement
 
     await userEvent.click(trigger)
 
     const content = (await waitFor(() =>
-      document.querySelector('.dnb-popover__content')
+      document.querySelector('.dnb-popover__content'),
     )) as HTMLElement
 
     // Spy on the content element's focus method
@@ -1624,7 +1624,7 @@ describe('Popover', () => {
       () => {
         expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
       },
-      { timeout: 100 }
+      { timeout: 100 },
     )
 
     focusSpy.mockRestore()
@@ -1634,7 +1634,7 @@ describe('Popover', () => {
     renderWithTrigger()
 
     const trigger = (await waitFor(() =>
-      document.querySelector('button[aria-controls]')
+      document.querySelector('button[aria-controls]'),
     )) as HTMLButtonElement
 
     const focusSpy = jest.spyOn(trigger, 'focus')
@@ -1646,7 +1646,7 @@ describe('Popover', () => {
     })
 
     const closeButton = (await waitFor(() =>
-      document.querySelector('.dnb-popover__close')
+      document.querySelector('.dnb-popover__close'),
     )) as HTMLButtonElement
     fireEvent.click(closeButton)
 
@@ -1659,7 +1659,7 @@ describe('Popover', () => {
       () => {
         expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
       },
-      { timeout: 100 }
+      { timeout: 100 },
     )
 
     focusSpy.mockRestore()
@@ -1669,12 +1669,12 @@ describe('Popover', () => {
     renderWithTrigger({ noMaxWidth: true })
 
     const trigger = (await waitFor(() =>
-      document.querySelector('button[aria-controls]')
+      document.querySelector('button[aria-controls]'),
     )) as HTMLButtonElement
     await userEvent.click(trigger)
 
     const popover = await waitFor(() =>
-      document.querySelector('.dnb-popover')
+      document.querySelector('.dnb-popover'),
     )
     expect(popover).toHaveClass('dnb-popover--no-max-width')
   })
@@ -1683,16 +1683,16 @@ describe('Popover', () => {
     renderWithTrigger({ disableFocusTrap: true })
 
     const trigger = (await waitFor(() =>
-      document.querySelector('button[aria-controls]')
+      document.querySelector('button[aria-controls]'),
     )) as HTMLButtonElement
     await userEvent.click(trigger)
 
     await waitFor(() =>
-      expect(document.querySelector('.dnb-popover')).toBeInTheDocument()
+      expect(document.querySelector('.dnb-popover')).toBeInTheDocument(),
     )
 
     expect(
-      document.querySelectorAll('.dnb-popover button.dnb-sr-only')
+      document.querySelectorAll('.dnb-popover button.dnb-sr-only'),
     ).toHaveLength(0)
   })
 
@@ -1700,12 +1700,12 @@ describe('Popover', () => {
     renderWithTrigger({ className: 'custom-popover' })
 
     const trigger = (await waitFor(() =>
-      document.querySelector('button[aria-controls]')
+      document.querySelector('button[aria-controls]'),
     )) as HTMLButtonElement
     await userEvent.click(trigger)
 
     const popover = await waitFor(() =>
-      document.querySelector('.dnb-popover')
+      document.querySelector('.dnb-popover'),
     )
     expect(popover).toHaveClass('custom-popover')
   })
@@ -1714,12 +1714,12 @@ describe('Popover', () => {
     renderWithTrigger({ fixedPosition: true })
 
     const trigger = (await waitFor(() =>
-      document.querySelector('button[aria-controls]')
+      document.querySelector('button[aria-controls]'),
     )) as HTMLButtonElement
     await userEvent.click(trigger)
 
     const popover = await waitFor(() =>
-      document.querySelector('.dnb-popover')
+      document.querySelector('.dnb-popover'),
     )
     expect(popover).toHaveClass('dnb-popover--fixed')
   })
@@ -1727,11 +1727,11 @@ describe('Popover', () => {
   describe('arrow alignment', () => {
     const originalOffsetWidth = Object.getOwnPropertyDescriptor(
       HTMLElement.prototype,
-      'offsetWidth'
+      'offsetWidth',
     )
     const originalOffsetHeight = Object.getOwnPropertyDescriptor(
       HTMLElement.prototype,
-      'offsetHeight'
+      'offsetHeight',
     )
 
     const setElementSize = (width: number, height: number) => {
@@ -1754,14 +1754,14 @@ describe('Popover', () => {
         Object.defineProperty(
           HTMLElement.prototype,
           'offsetWidth',
-          originalOffsetWidth
+          originalOffsetWidth,
         )
       }
       if (originalOffsetHeight) {
         Object.defineProperty(
           HTMLElement.prototype,
           'offsetHeight',
-          originalOffsetHeight
+          originalOffsetHeight,
         )
       }
     }
@@ -1789,11 +1789,11 @@ describe('Popover', () => {
 
         assignRect(
           targetElement,
-          createRect({ left: 100, top: 150, width: 200, height: 60 })
+          createRect({ left: 100, top: 150, width: 200, height: 60 }),
         )
         assignRect(
           alignmentElement,
-          createRect({ left: 260, top: 170, width: 30, height: 20 })
+          createRect({ left: 260, top: 170, width: 30, height: 20 }),
         )
 
         setElementSize(180, 80)
@@ -1805,12 +1805,12 @@ describe('Popover', () => {
             targetElement={targetElement}
             arrowPositionSelector=".alignment-hook"
             content="Aligned popover"
-          />
+          />,
         )
 
         await waitFor(() => {
           const arrow = document.querySelector(
-            '.dnb-popover__arrow'
+            '.dnb-popover__arrow',
           ) as HTMLElement
           expect(arrow?.style.left).toBe('82px')
         })
@@ -1836,11 +1836,11 @@ describe('Popover', () => {
 
         assignRect(
           targetElement,
-          createRect({ left: 50, top: 80, width: 120, height: 80 })
+          createRect({ left: 50, top: 80, width: 120, height: 80 }),
         )
         assignRect(
           alignmentElement,
-          createRect({ left: 60, top: 140, width: 20, height: 40 })
+          createRect({ left: 60, top: 140, width: 20, height: 40 }),
         )
 
         setElementSize(140, 60)
@@ -1853,12 +1853,12 @@ describe('Popover', () => {
             targetElement={targetElement}
             arrowPositionSelector=".alignment-hook"
             content="Aligned popover"
-          />
+          />,
         )
 
         await waitFor(() => {
           const popover = document.querySelector(
-            '.dnb-popover'
+            '.dnb-popover',
           ) as HTMLElement
           expect(popover?.style.top).toBe('130px')
         })
@@ -1882,7 +1882,7 @@ describe('Popover', () => {
 
       assignRect(
         targetElement,
-        createRect({ left: 120, top: 120, width: 80, height: 32 })
+        createRect({ left: 120, top: 120, width: 80, height: 32 }),
       )
 
       setElementSize(150, 120)
@@ -1895,12 +1895,12 @@ describe('Popover', () => {
           targetElement={targetElement}
         >
           Center arrow
-        </Popover>
+        </Popover>,
       )
 
       await waitFor(() => {
         const arrow = document.querySelector(
-          '.dnb-popover__arrow'
+          '.dnb-popover__arrow',
         ) as HTMLElement
         expect(arrow?.style.top).toBe('52px')
       })
@@ -1916,11 +1916,11 @@ describe('Popover', () => {
 
         assignRect(
           horizontalElement,
-          createRect({ left: 150, top: 80, width: 60, height: 30 })
+          createRect({ left: 150, top: 80, width: 60, height: 30 }),
         )
         assignRect(
           verticalElement,
-          createRect({ left: 20, top: 200, width: 40, height: 40 })
+          createRect({ left: 20, top: 200, width: 40, height: 40 }),
         )
 
         setElementSize(100, 80)
@@ -1935,11 +1935,11 @@ describe('Popover', () => {
             }}
           >
             Positioned content
-          </Popover>
+          </Popover>,
         )
 
         const popover = await waitFor(
-          () => document.querySelector('.dnb-popover') as HTMLElement
+          () => document.querySelector('.dnb-popover') as HTMLElement,
         )
 
         expect(popover?.style.left).toBe('130px')
@@ -1963,11 +1963,11 @@ describe('Popover', () => {
             }}
           >
             Escape content
-          </Popover>
+          </Popover>,
         )
 
         const popover = await waitFor(() =>
-          document.querySelector('.dnb-popover')
+          document.querySelector('.dnb-popover'),
         )
 
         popover?.dispatchEvent(
@@ -1975,11 +1975,11 @@ describe('Popover', () => {
             key: 'Escape',
             bubbles: true,
             cancelable: true,
-          })
+          }),
         )
 
         await waitFor(() =>
-          expect(document.activeElement).toBe(verticalElement)
+          expect(document.activeElement).toBe(verticalElement),
         )
 
         horizontalElement.remove()
@@ -1993,7 +1993,7 @@ describe('Popover', () => {
 
       const windowWidthDescriptor = Object.getOwnPropertyDescriptor(
         window,
-        'innerWidth'
+        'innerWidth',
       )
       Object.defineProperty(window, 'innerWidth', {
         configurable: true,
@@ -2011,7 +2011,7 @@ describe('Popover', () => {
 
       assignRect(
         targetElement,
-        createRect({ left: 200, top: 120, width: 160, height: 40 })
+        createRect({ left: 200, top: 120, width: 160, height: 40 }),
       )
 
       setElementSize(200, 80)
@@ -2024,12 +2024,12 @@ describe('Popover', () => {
           targetElement={targetElement}
         >
           Edge case
-        </Popover>
+        </Popover>,
       )
 
       await waitFor(() => {
         const arrow = document.querySelector(
-          '.dnb-popover__arrow'
+          '.dnb-popover__arrow',
         ) as HTMLElement
         expect(arrow?.style.left).toBe('176px')
       })
@@ -2085,22 +2085,22 @@ describe('Popover', () => {
           targetElement={targetElement}
         >
           Scroll guard left
-        </Popover>
+        </Popover>,
       )
 
       await waitFor(() => {
         const popover = document.querySelector(
-          '.dnb-popover'
+          '.dnb-popover',
         ) as HTMLElement
         const arrow = document.querySelector(
-          '.dnb-popover__arrow'
+          '.dnb-popover__arrow',
         ) as HTMLElement
         const popoverLeft = parseFloat(popover.style.left || '0')
         const expectedArrowLeft = scrollViewRect.left - popoverLeft
 
         expect(parseFloat(arrow?.style.left || '0')).toBeCloseTo(
           expectedArrowLeft,
-          1
+          1,
         )
       })
 
@@ -2153,15 +2153,15 @@ describe('Popover', () => {
           targetElement={targetElement}
         >
           Scroll guard right
-        </Popover>
+        </Popover>,
       )
 
       await waitFor(() => {
         const popover = document.querySelector(
-          '.dnb-popover'
+          '.dnb-popover',
         ) as HTMLElement
         const arrow = document.querySelector(
-          '.dnb-popover__arrow'
+          '.dnb-popover__arrow',
         ) as HTMLElement
         const popoverLeft = parseFloat(popover.style.left || '0')
         const arrowWidth = 16
@@ -2172,7 +2172,7 @@ describe('Popover', () => {
 
         // Allow tolerance for arrow boundary and coordinate system conversion
         expect(
-          Math.abs(actualArrowLeft - expectedArrowLeft)
+          Math.abs(actualArrowLeft - expectedArrowLeft),
         ).toBeLessThanOrEqual(arrowBoundary + 2)
       })
 
@@ -2186,7 +2186,7 @@ describe('Popover', () => {
 
       const windowWidthDescriptor = Object.getOwnPropertyDescriptor(
         window,
-        'innerWidth'
+        'innerWidth',
       )
       Object.defineProperty(window, 'innerWidth', {
         configurable: true,
@@ -2204,7 +2204,7 @@ describe('Popover', () => {
 
       assignRect(
         targetElement,
-        createRect({ left: 10, top: 120, width: 24, height: 40 })
+        createRect({ left: 10, top: 120, width: 24, height: 40 }),
       )
 
       setElementSize(220, 120)
@@ -2217,12 +2217,12 @@ describe('Popover', () => {
           targetElement={targetElement}
         >
           Clamped arrow
-        </Popover>
+        </Popover>,
       )
 
       await waitFor(() => {
         const arrow = document.querySelector(
-          '.dnb-popover__arrow'
+          '.dnb-popover__arrow',
         ) as HTMLElement
         expect(arrow?.style.left).toBe('8px')
       })
@@ -2239,7 +2239,7 @@ describe('Popover', () => {
 
       const windowHeightDescriptor = Object.getOwnPropertyDescriptor(
         window,
-        'innerHeight'
+        'innerHeight',
       )
       Object.defineProperty(window, 'innerHeight', {
         configurable: true,
@@ -2257,7 +2257,7 @@ describe('Popover', () => {
 
       assignRect(
         targetElement,
-        createRect({ left: 40, top: 260, width: 120, height: 40 })
+        createRect({ left: 40, top: 260, width: 120, height: 40 }),
       )
 
       setElementSize(200, 160)
@@ -2270,20 +2270,20 @@ describe('Popover', () => {
           targetElement={targetElement}
         >
           Auto flip
-        </Popover>
+        </Popover>,
       )
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__placement--top')
-        ).toBeInTheDocument()
+          document.querySelector('.dnb-popover__arrow__placement--top'),
+        ).toBeInTheDocument(),
       )
 
       if (windowHeightDescriptor) {
         Object.defineProperty(
           window,
           'innerHeight',
-          windowHeightDescriptor
+          windowHeightDescriptor,
         )
       }
       targetElement.remove()
@@ -2295,7 +2295,7 @@ describe('Popover', () => {
 
       const windowHeightDescriptor = Object.getOwnPropertyDescriptor(
         window,
-        'innerHeight'
+        'innerHeight',
       )
       Object.defineProperty(window, 'innerHeight', {
         configurable: true,
@@ -2313,7 +2313,7 @@ describe('Popover', () => {
 
       assignRect(
         targetElement,
-        createRect({ left: 40, top: 40, width: 120, height: 40 })
+        createRect({ left: 40, top: 40, width: 120, height: 40 }),
       )
 
       setElementSize(200, 160)
@@ -2326,20 +2326,20 @@ describe('Popover', () => {
           targetElement={targetElement}
         >
           Auto flip
-        </Popover>
+        </Popover>,
       )
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__placement--bottom')
-        ).toBeInTheDocument()
+          document.querySelector('.dnb-popover__arrow__placement--bottom'),
+        ).toBeInTheDocument(),
       )
 
       if (windowHeightDescriptor) {
         Object.defineProperty(
           window,
           'innerHeight',
-          windowHeightDescriptor
+          windowHeightDescriptor,
         )
       }
       targetElement.remove()
@@ -2351,7 +2351,7 @@ describe('Popover', () => {
 
       const windowHeightDescriptor = Object.getOwnPropertyDescriptor(
         window,
-        'innerHeight'
+        'innerHeight',
       )
       Object.defineProperty(window, 'innerHeight', {
         configurable: true,
@@ -2369,7 +2369,7 @@ describe('Popover', () => {
 
       assignRect(
         targetElement,
-        createRect({ left: 40, top: 160, width: 120, height: 40 })
+        createRect({ left: 40, top: 160, width: 120, height: 40 }),
       )
 
       setElementSize(220, 200)
@@ -2382,20 +2382,20 @@ describe('Popover', () => {
           targetElement={targetElement}
         >
           Large content
-        </Popover>
+        </Popover>,
       )
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__placement--bottom')
-        ).toBeInTheDocument()
+          document.querySelector('.dnb-popover__arrow__placement--bottom'),
+        ).toBeInTheDocument(),
       )
 
       if (windowHeightDescriptor) {
         Object.defineProperty(
           window,
           'innerHeight',
-          windowHeightDescriptor
+          windowHeightDescriptor,
         )
       }
       targetElement.remove()
@@ -2407,7 +2407,7 @@ describe('Popover', () => {
 
       const windowHeightDescriptor = Object.getOwnPropertyDescriptor(
         window,
-        'innerHeight'
+        'innerHeight',
       )
       Object.defineProperty(window, 'innerHeight', {
         configurable: true,
@@ -2425,7 +2425,7 @@ describe('Popover', () => {
 
       assignRect(
         targetElement,
-        createRect({ left: 40, top: 20, width: 120, height: 40 })
+        createRect({ left: 40, top: 20, width: 120, height: 40 }),
       )
 
       setElementSize(220, 200)
@@ -2438,20 +2438,20 @@ describe('Popover', () => {
           targetElement={targetElement}
         >
           Overflow prefer bottom
-        </Popover>
+        </Popover>,
       )
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__placement--bottom')
-        ).toBeInTheDocument()
+          document.querySelector('.dnb-popover__arrow__placement--bottom'),
+        ).toBeInTheDocument(),
       )
 
       if (windowHeightDescriptor) {
         Object.defineProperty(
           window,
           'innerHeight',
-          windowHeightDescriptor
+          windowHeightDescriptor,
         )
       }
       targetElement.remove()
@@ -2463,7 +2463,7 @@ describe('Popover', () => {
 
       const windowHeightDescriptor = Object.getOwnPropertyDescriptor(
         window,
-        'innerHeight'
+        'innerHeight',
       )
       Object.defineProperty(window, 'innerHeight', {
         configurable: true,
@@ -2481,7 +2481,7 @@ describe('Popover', () => {
 
       assignRect(
         targetElement,
-        createRect({ left: 40, top: 260, width: 120, height: 40 })
+        createRect({ left: 40, top: 260, width: 120, height: 40 }),
       )
 
       setElementSize(200, 160)
@@ -2495,20 +2495,20 @@ describe('Popover', () => {
           autoAlignMode="never"
         >
           Auto flip
-        </Popover>
+        </Popover>,
       )
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__placement--bottom')
-        ).toBeInTheDocument()
+          document.querySelector('.dnb-popover__arrow__placement--bottom'),
+        ).toBeInTheDocument(),
       )
 
       if (windowHeightDescriptor) {
         Object.defineProperty(
           window,
           'innerHeight',
-          windowHeightDescriptor
+          windowHeightDescriptor,
         )
       }
       targetElement.remove()
@@ -2520,7 +2520,7 @@ describe('Popover', () => {
 
       const windowHeightDescriptor = Object.getOwnPropertyDescriptor(
         window,
-        'innerHeight'
+        'innerHeight',
       )
       Object.defineProperty(window, 'innerHeight', {
         configurable: true,
@@ -2538,7 +2538,7 @@ describe('Popover', () => {
 
       assignRect(
         targetElement,
-        createRect({ left: 40, top: 260, width: 120, height: 40 })
+        createRect({ left: 40, top: 260, width: 120, height: 40 }),
       )
 
       setElementSize(200, 160)
@@ -2552,13 +2552,13 @@ describe('Popover', () => {
           autoAlignMode="initial"
         >
           Auto flip
-        </Popover>
+        </Popover>,
       )
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__placement--top')
-        ).toBeInTheDocument()
+          document.querySelector('.dnb-popover__arrow__placement--top'),
+        ).toBeInTheDocument(),
       )
 
       Object.defineProperty(window, 'innerHeight', {
@@ -2569,15 +2569,15 @@ describe('Popover', () => {
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__placement--top')
-        ).toBeInTheDocument()
+          document.querySelector('.dnb-popover__arrow__placement--top'),
+        ).toBeInTheDocument(),
       )
 
       if (windowHeightDescriptor) {
         Object.defineProperty(
           window,
           'innerHeight',
-          windowHeightDescriptor
+          windowHeightDescriptor,
         )
       }
       targetElement.remove()
@@ -2589,7 +2589,7 @@ describe('Popover', () => {
 
       const windowHeightDescriptor = Object.getOwnPropertyDescriptor(
         window,
-        'innerHeight'
+        'innerHeight',
       )
       Object.defineProperty(window, 'innerHeight', {
         configurable: true,
@@ -2607,7 +2607,7 @@ describe('Popover', () => {
 
       assignRect(
         targetElement,
-        createRect({ left: 40, top: 260, width: 120, height: 40 })
+        createRect({ left: 40, top: 260, width: 120, height: 40 }),
       )
 
       setElementSize(200, 160)
@@ -2621,13 +2621,13 @@ describe('Popover', () => {
           autoAlignMode="scroll"
         >
           Auto flip
-        </Popover>
+        </Popover>,
       )
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__placement--top')
-        ).toBeInTheDocument()
+          document.querySelector('.dnb-popover__arrow__placement--top'),
+        ).toBeInTheDocument(),
       )
 
       Object.defineProperty(window, 'innerHeight', {
@@ -2638,15 +2638,15 @@ describe('Popover', () => {
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__placement--bottom')
-        ).toBeInTheDocument()
+          document.querySelector('.dnb-popover__arrow__placement--bottom'),
+        ).toBeInTheDocument(),
       )
 
       if (windowHeightDescriptor) {
         Object.defineProperty(
           window,
           'innerHeight',
-          windowHeightDescriptor
+          windowHeightDescriptor,
         )
       }
       targetElement.remove()
@@ -2658,7 +2658,7 @@ describe('Popover', () => {
 
       const windowHeightDescriptor = Object.getOwnPropertyDescriptor(
         window,
-        'innerHeight'
+        'innerHeight',
       )
       Object.defineProperty(window, 'innerHeight', {
         configurable: true,
@@ -2676,7 +2676,7 @@ describe('Popover', () => {
 
       assignRect(
         targetElement,
-        createRect({ left: 60, top: 20, width: 120, height: 40 })
+        createRect({ left: 60, top: 20, width: 120, height: 40 }),
       )
 
       setElementSize(220, 180)
@@ -2689,15 +2689,15 @@ describe('Popover', () => {
           targetElement={targetElement}
         >
           Above viewport
-        </Popover>
+        </Popover>,
       )
 
       await waitFor(() => {
         const popover = document.querySelector(
-          '.dnb-popover'
+          '.dnb-popover',
         ) as HTMLElement
         expect(
-          document.querySelector('.dnb-popover__arrow__placement--bottom')
+          document.querySelector('.dnb-popover__arrow__placement--bottom'),
         ).toBeInTheDocument()
         expect(popover?.style.top).toBe('60px')
       })
@@ -2706,7 +2706,7 @@ describe('Popover', () => {
         Object.defineProperty(
           window,
           'innerHeight',
-          windowHeightDescriptor
+          windowHeightDescriptor,
         )
       }
       targetElement.remove()
@@ -2718,7 +2718,7 @@ describe('Popover', () => {
 
       const windowHeightDescriptor = Object.getOwnPropertyDescriptor(
         window,
-        'innerHeight'
+        'innerHeight',
       )
       Object.defineProperty(window, 'innerHeight', {
         configurable: true,
@@ -2747,12 +2747,12 @@ describe('Popover', () => {
           targetElement={targetElement}
         >
           Scrollable
-        </Popover>
+        </Popover>,
       )
 
       await waitFor(() => {
         const popover = document.querySelector(
-          '.dnb-popover'
+          '.dnb-popover',
         ) as HTMLElement
         expect(popover?.style.top).toBe('120px')
       })
@@ -2764,7 +2764,7 @@ describe('Popover', () => {
 
       await waitFor(() => {
         const popover = document.querySelector(
-          '.dnb-popover'
+          '.dnb-popover',
         ) as HTMLElement
         expect(popover?.style.top).toBe('180px')
       })
@@ -2773,7 +2773,7 @@ describe('Popover', () => {
         Object.defineProperty(
           window,
           'innerHeight',
-          windowHeightDescriptor
+          windowHeightDescriptor,
         )
       }
       targetElement.remove()
@@ -2782,11 +2782,11 @@ describe('Popover', () => {
     describe('Table.ScrollView guard', () => {
       const originalOffsetWidth = Object.getOwnPropertyDescriptor(
         HTMLElement.prototype,
-        'offsetWidth'
+        'offsetWidth',
       )
       const originalOffsetHeight = Object.getOwnPropertyDescriptor(
         HTMLElement.prototype,
-        'offsetHeight'
+        'offsetHeight',
       )
 
       const createRect = ({
@@ -2832,14 +2832,14 @@ describe('Popover', () => {
           Object.defineProperty(
             HTMLElement.prototype,
             'offsetWidth',
-            originalOffsetWidth
+            originalOffsetWidth,
           )
         }
         if (originalOffsetHeight) {
           Object.defineProperty(
             HTMLElement.prototype,
             'offsetHeight',
-            originalOffsetHeight
+            originalOffsetHeight,
           )
         }
       }
@@ -2915,7 +2915,7 @@ describe('Popover', () => {
             targetElement={targetElement}
           >
             Scrollable
-          </Popover>
+          </Popover>,
         )
       }
 
@@ -2933,7 +2933,7 @@ describe('Popover', () => {
 
         const windowHeightDescriptor = Object.getOwnPropertyDescriptor(
           window,
-          'innerHeight'
+          'innerHeight',
         )
         Object.defineProperty(window, 'innerHeight', {
           configurable: true,
@@ -2944,18 +2944,18 @@ describe('Popover', () => {
         renderScrollPopover(targetElement)
 
         const popover = await waitFor(() =>
-          document.querySelector('.dnb-popover')
+          document.querySelector('.dnb-popover'),
         )
         const initialTop = (popover as HTMLElement).style.top
 
         setTargetRect(250)
         scrollViewElement.dispatchEvent(
-          new Event('scroll', { bubbles: true })
+          new Event('scroll', { bubbles: true }),
         )
 
         await waitFor(() => {
           const currentPopover = document.querySelector(
-            '.dnb-popover'
+            '.dnb-popover',
           ) as HTMLElement
           expect(currentPopover?.style.top).toBe(initialTop)
         })
@@ -2964,7 +2964,7 @@ describe('Popover', () => {
           Object.defineProperty(
             window,
             'innerHeight',
-            windowHeightDescriptor
+            windowHeightDescriptor,
           )
         }
 
@@ -2981,7 +2981,7 @@ describe('Popover', () => {
 
         const windowHeightDescriptor = Object.getOwnPropertyDescriptor(
           window,
-          'innerHeight'
+          'innerHeight',
         )
         Object.defineProperty(window, 'innerHeight', {
           configurable: true,
@@ -2992,7 +2992,7 @@ describe('Popover', () => {
         renderScrollPopover(targetElement)
 
         const popover = await waitFor(() =>
-          document.querySelector('.dnb-popover')
+          document.querySelector('.dnb-popover'),
         )
         expect((popover as HTMLElement).style.top).toBe('120px')
 
@@ -3001,7 +3001,7 @@ describe('Popover', () => {
         // The event will bubble to document where the handler listens
         act(() => {
           scrollViewElement.dispatchEvent(
-            new Event('scroll', { bubbles: true, cancelable: true })
+            new Event('scroll', { bubbles: true, cancelable: true }),
           )
           window.dispatchEvent(new Event('resize'))
         })
@@ -3009,18 +3009,18 @@ describe('Popover', () => {
         await waitFor(
           () => {
             const currentPopover = document.querySelector(
-              '.dnb-popover'
+              '.dnb-popover',
             ) as HTMLElement
             expect(currentPopover?.style.top).toBe('180px')
           },
-          { timeout: 2000 }
+          { timeout: 2000 },
         )
 
         if (windowHeightDescriptor) {
           Object.defineProperty(
             window,
             'innerHeight',
-            windowHeightDescriptor
+            windowHeightDescriptor,
           )
         }
 
@@ -3039,21 +3039,21 @@ describe('Popover', () => {
         renderScrollPopover(targetElement)
 
         const popover = await waitFor(() =>
-          document.querySelector('.dnb-popover')
+          document.querySelector('.dnb-popover'),
         )
         expect((popover as HTMLElement).style.top).toBe('120px')
 
         setTargetRect(170)
         act(() => {
           scrollViewElement.dispatchEvent(
-            new Event('scroll', { bubbles: true, cancelable: true })
+            new Event('scroll', { bubbles: true, cancelable: true }),
           )
           window.dispatchEvent(new Event('resize'))
         })
 
         await waitFor(() => {
           const currentPopover = document.querySelector(
-            '.dnb-popover'
+            '.dnb-popover',
           ) as HTMLElement
 
           expect(currentPopover?.style.top).toBe('200px')
@@ -3085,7 +3085,7 @@ describe('Popover', () => {
 
     const windowHeightDescriptor = Object.getOwnPropertyDescriptor(
       window,
-      'innerHeight'
+      'innerHeight',
     )
     Object.defineProperty(window, 'innerHeight', {
       configurable: true,
@@ -3119,11 +3119,11 @@ describe('Popover', () => {
         targetElement={targetElement}
       >
         Scrollable
-      </Popover>
+      </Popover>,
     )
 
     const popover = await waitFor(() =>
-      document.querySelector('.dnb-popover')
+      document.querySelector('.dnb-popover'),
     )
     const initialTop = (popover as HTMLElement).style.top
 
@@ -3138,7 +3138,7 @@ describe('Popover', () => {
 
     await waitFor(() => {
       const currentPopover = document.querySelector(
-        '.dnb-popover'
+        '.dnb-popover',
       ) as HTMLElement
       expect(currentPopover?.style.top).toBe(initialTop)
     })
@@ -3154,7 +3154,7 @@ describe('Popover', () => {
     // The event will bubble to document where the handler listens
     act(() => {
       scrollViewElement.dispatchEvent(
-        new Event('scroll', { bubbles: true, cancelable: true })
+        new Event('scroll', { bubbles: true, cancelable: true }),
       )
       window.dispatchEvent(new Event('resize'))
     })
@@ -3162,11 +3162,11 @@ describe('Popover', () => {
     await waitFor(
       () => {
         const currentPopover = document.querySelector(
-          '.dnb-popover'
+          '.dnb-popover',
         ) as HTMLElement
         expect(currentPopover?.style.top).toBe('180px')
       },
-      { timeout: 2000 }
+      { timeout: 2000 },
     )
 
     if (windowHeightDescriptor) {
@@ -3185,7 +3185,7 @@ describe('Popover', () => {
 
       await waitFor(() => {
         expect(
-          document.body.querySelector('.dnb-popover__portal')
+          document.body.querySelector('.dnb-popover__portal'),
         ).toBeInTheDocument()
       })
 
@@ -3199,7 +3199,7 @@ describe('Popover', () => {
       // Portal should be removed again when keepInDOM is not enabled
       await waitFor(() => {
         expect(
-          document.body.querySelector('.dnb-popover__portal')
+          document.body.querySelector('.dnb-popover__portal'),
         ).not.toBeInTheDocument()
       })
     })
@@ -3212,7 +3212,7 @@ describe('Popover', () => {
 
       await waitFor(() => {
         expect(
-          document.body.querySelector('.dnb-popover__portal')
+          document.body.querySelector('.dnb-popover__portal'),
         ).toBeInTheDocument()
       })
 
@@ -3225,7 +3225,7 @@ describe('Popover', () => {
 
       // Portal should still be in DOM when keepInDOM is true
       expect(
-        document.body.querySelector('.dnb-popover__portal')
+        document.body.querySelector('.dnb-popover__portal'),
       ).toBeInTheDocument()
     })
 
@@ -3234,7 +3234,7 @@ describe('Popover', () => {
 
       // Portal should not exist initially
       expect(
-        document.body.querySelector('.dnb-popover__portal')
+        document.body.querySelector('.dnb-popover__portal'),
       ).not.toBeInTheDocument()
 
       const trigger = container.querySelector('button[aria-controls]')
@@ -3243,7 +3243,7 @@ describe('Popover', () => {
       // Portal should be mounted when opened
       await waitFor(() => {
         expect(
-          document.body.querySelector('.dnb-popover__portal')
+          document.body.querySelector('.dnb-popover__portal'),
         ).toBeInTheDocument()
       })
     })
@@ -3255,8 +3255,8 @@ describe('Popover', () => {
 
       await waitFor(() =>
         expect(
-          document.body.querySelector('.dnb-popover__portal')
-        ).toBeInTheDocument()
+          document.body.querySelector('.dnb-popover__portal'),
+        ).toBeInTheDocument(),
       )
       const portalRoot = document.getElementById('eufemia-portal-root')
       expect(portalRoot).toBeInTheDocument()
@@ -3271,7 +3271,7 @@ describe('Popover', () => {
       renderWithTrigger({ keepInDOM: false })
 
       expect(
-        document.body.querySelector('.dnb-popover__portal')
+        document.body.querySelector('.dnb-popover__portal'),
       ).not.toBeInTheDocument()
       const portalRoot = document.getElementById('eufemia-portal-root')
       expect(portalRoot).not.toBeInTheDocument()
@@ -3289,14 +3289,14 @@ describe('Popover', () => {
           attributes={{ className: 'test-hidden-popover' }}
         >
           Hidden content
-        </PopoverContainerModule.default>
+        </PopoverContainerModule.default>,
       )
 
       await waitFor(() => {
         const popover = document.querySelector('.test-hidden-popover')
         expect(popover).toBeInTheDocument()
         expect(popover.getAttribute('style')).toContain(
-          'visibility: hidden'
+          'visibility: hidden',
         )
       })
 
@@ -3310,7 +3310,7 @@ describe('Popover', () => {
       })
 
       await waitFor(() =>
-        expect(document.querySelector('.dnb-popover')).toBeInTheDocument()
+        expect(document.querySelector('.dnb-popover')).toBeInTheDocument(),
       )
 
       const popover = document.querySelector('.dnb-popover')
@@ -3337,16 +3337,16 @@ describe('Popover', () => {
 
         await waitFor(() =>
           expect(
-            document.querySelector('.dnb-popover')
-          ).toBeInTheDocument()
+            document.querySelector('.dnb-popover'),
+          ).toBeInTheDocument(),
         )
 
         fireEvent.mouseDown(document.documentElement)
 
         await waitFor(() =>
           expect(
-            document.querySelector('.dnb-popover')
-          ).not.toBeInTheDocument()
+            document.querySelector('.dnb-popover'),
+          ).not.toBeInTheDocument(),
         )
       })
 
@@ -3362,14 +3362,14 @@ describe('Popover', () => {
 
         await waitFor(() =>
           expect(
-            document.querySelector('.dnb-popover')
-          ).toBeInTheDocument()
+            document.querySelector('.dnb-popover'),
+          ).toBeInTheDocument(),
         )
 
         fireEvent.mouseDown(document.documentElement)
 
         await waitFor(() =>
-          expect(trigger).toHaveAttribute('aria-expanded', 'false')
+          expect(trigger).toHaveAttribute('aria-expanded', 'false'),
         )
 
         expect(document.querySelector('.dnb-popover')).toBeInTheDocument()
@@ -3416,11 +3416,11 @@ describe('Popover', () => {
 
         assignRect(
           horizontalElement,
-          createRect({ left: 150, top: 80, width: 80, height: 32 })
+          createRect({ left: 150, top: 80, width: 80, height: 32 }),
         )
         assignRect(
           verticalElement,
-          createRect({ left: 50, top: 220, width: 40, height: 32 })
+          createRect({ left: 50, top: 220, width: 40, height: 32 }),
         )
 
         Object.defineProperty(horizontalElement, 'offsetWidth', {
@@ -3468,11 +3468,11 @@ describe('Popover', () => {
           >
             Inline popover
           </Popover>,
-          { container: wrapper }
+          { container: wrapper },
         )
 
         const popover = await waitFor(() =>
-          document.querySelector('.dnb-popover')
+          document.querySelector('.dnb-popover'),
         )
 
         expect(popover).toBeInTheDocument()
@@ -3503,12 +3503,12 @@ describe('Popover', () => {
       render(
         <Popover trigger="invalid trigger" content={contentText}>
           {contentText}
-        </Popover>
+        </Popover>,
       )
 
       expect(warnSpy).toHaveBeenCalledTimes(1)
       expect(warnSpy).toHaveBeenCalledWith(
-        'Popover: `trigger` must be a valid React element or render function when not using targetElement/targetSelector.'
+        'Popover: `trigger` must be a valid React element or render function when not using targetElement/targetSelector.',
       )
 
       consoleLogSpy.mockRestore()
@@ -3523,12 +3523,12 @@ describe('Popover', () => {
           content={contentText}
         >
           {contentText}
-        </Popover>
+        </Popover>,
       )
 
       expect(warnSpy).toHaveBeenCalledTimes(1)
       expect(warnSpy).toHaveBeenCalledWith(
-        'Popover: `trigger` must be a valid React element or render function when not using targetElement/targetSelector.'
+        'Popover: `trigger` must be a valid React element or render function when not using targetElement/targetSelector.',
       )
 
       consoleLogSpy.mockRestore()
@@ -3543,12 +3543,12 @@ describe('Popover', () => {
           content={contentText}
         >
           {contentText}
-        </Popover>
+        </Popover>,
       )
 
       expect(warnSpy).toHaveBeenCalledTimes(1)
       expect(warnSpy).toHaveBeenCalledWith(
-        'Popover: `trigger` must be a valid React element or render function when not using targetElement/targetSelector.'
+        'Popover: `trigger` must be a valid React element or render function when not using targetElement/targetSelector.',
       )
 
       consoleLogSpy.mockRestore()
@@ -3561,7 +3561,7 @@ describe('Popover', () => {
 
       expect(warnSpy).toHaveBeenCalledTimes(1)
       expect(warnSpy).toHaveBeenCalledWith(
-        'Popover: please provide a `trigger` prop or point to an existing element using `targetElement` / `targetSelector`.'
+        'Popover: please provide a `trigger` prop or point to an existing element using `targetElement` / `targetSelector`.',
       )
 
       consoleLogSpy.mockRestore()
@@ -3573,12 +3573,12 @@ describe('Popover', () => {
       render(
         <Popover trigger={null} content={contentText}>
           {contentText}
-        </Popover>
+        </Popover>,
       )
 
       expect(warnSpy).toHaveBeenCalledTimes(1)
       expect(warnSpy).toHaveBeenCalledWith(
-        'Popover: please provide a `trigger` prop or point to an existing element using `targetElement` / `targetSelector`.'
+        'Popover: please provide a `trigger` prop or point to an existing element using `targetElement` / `targetSelector`.',
       )
 
       consoleLogSpy.mockRestore()
@@ -3591,7 +3591,7 @@ describe('Popover', () => {
           content={contentText}
         >
           {contentText}
-        </Popover>
+        </Popover>,
       )
 
       expect(warnSpy).not.toHaveBeenCalled()
@@ -3608,7 +3608,7 @@ describe('Popover', () => {
           content={contentText}
         >
           {contentText}
-        </Popover>
+        </Popover>,
       )
 
       expect(warnSpy).not.toHaveBeenCalled()
@@ -3621,7 +3621,7 @@ describe('Popover', () => {
       render(
         <Popover targetElement={targetElement} content={contentText}>
           {contentText}
-        </Popover>
+        </Popover>,
       )
 
       expect(warnSpy).not.toHaveBeenCalled()
@@ -3637,7 +3637,7 @@ describe('Popover', () => {
       render(
         <Popover targetSelector="#test-target" content={contentText}>
           {contentText}
-        </Popover>
+        </Popover>,
       )
 
       expect(warnSpy).not.toHaveBeenCalled()
@@ -3659,11 +3659,11 @@ describe('Popover', () => {
         noAnimation={false}
         showDelay={0}
         hideDelay={0}
-      />
+      />,
     )
 
     const popoverElement = document.querySelector(
-      '.dnb-popover'
+      '.dnb-popover',
     ) as HTMLElement
     expect(popoverElement).toBeInTheDocument()
 
@@ -3690,11 +3690,11 @@ describe('Popover', () => {
         noAnimation={false}
         showDelay={0}
         hideDelay={0}
-      />
+      />,
     )
 
     const popoverElement = document.querySelector(
-      '.dnb-popover'
+      '.dnb-popover',
     ) as HTMLElement
     expect(popoverElement).toBeInTheDocument()
 
@@ -3730,11 +3730,11 @@ describe('Popover', () => {
         noAnimation={false}
         showDelay={0}
         hideDelay={0}
-      />
+      />,
     )
 
     const popoverElement = document.querySelector(
-      '.dnb-popover'
+      '.dnb-popover',
     ) as HTMLElement
     expect(popoverElement).toBeInTheDocument()
 
@@ -3759,11 +3759,11 @@ describe('Popover', () => {
         noAnimation={false}
         showDelay={0}
         hideDelay={0}
-      />
+      />,
     )
 
     const defaultPopover = document.querySelector(
-      '.dnb-popover'
+      '.dnb-popover',
     ) as HTMLElement
     expect(defaultPopover).toBeInTheDocument()
     const defaultTop = parseFloat(defaultPopover.style.top)
@@ -3779,11 +3779,11 @@ describe('Popover', () => {
         noAnimation={false}
         showDelay={0}
         hideDelay={0}
-      />
+      />,
     )
 
     const leftPopover = document.querySelector(
-      '.dnb-popover'
+      '.dnb-popover',
     ) as HTMLElement
     expect(leftPopover).toBeInTheDocument()
     const top = parseFloat(leftPopover.style.top)
@@ -3852,7 +3852,7 @@ describe('Popover', () => {
         targetElement={targetElement}
       >
         {contentText}
-      </Popover>
+      </Popover>,
     )
 
     await waitFor(() => {
@@ -3871,7 +3871,7 @@ describe('Popover', () => {
       const Comp = render(
         <Popover id="popover-id" open targetElement={document.body}>
           {contentText}
-        </Popover>
+        </Popover>,
       )
       expect(await axeComponent(Comp)).toHaveNoViolations()
     })

@@ -6,14 +6,14 @@ import Flex from '../Flex'
 describe('Flex.Horizontal', () => {
   it('should forward HTML attributes', () => {
     render(
-      <Flex.Horizontal aria-label="Aria Label">content</Flex.Horizontal>
+      <Flex.Horizontal aria-label="Aria Label">content</Flex.Horizontal>,
     )
 
     const element = document.querySelector(
-      '.dnb-flex-container--direction-horizontal'
+      '.dnb-flex-container--direction-horizontal',
     )
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toContain('aria-label')
@@ -22,10 +22,10 @@ describe('Flex.Horizontal', () => {
 
   it('should support spacing props', () => {
     const { rerender } = render(
-      <Flex.Horizontal top="large">content</Flex.Horizontal>
+      <Flex.Horizontal top="large">content</Flex.Horizontal>,
     )
     const element = document.querySelector(
-      '.dnb-flex-container--direction-horizontal'
+      '.dnb-flex-container--direction-horizontal',
     )
 
     expect(element.classList).toContain('dnb-space__top--large')
@@ -37,11 +37,11 @@ describe('Flex.Horizontal', () => {
 
   it('should contain given classes', () => {
     render(
-      <Flex.Horizontal className="custom-class">content</Flex.Horizontal>
+      <Flex.Horizontal className="custom-class">content</Flex.Horizontal>,
     )
 
     const element = document.querySelector(
-      '.dnb-flex-container--direction-horizontal'
+      '.dnb-flex-container--direction-horizontal',
     )
 
     expect(Array.from(element.classList)).toEqual([
@@ -64,15 +64,15 @@ describe('Flex.Horizontal', () => {
         <Card>Content 1</Card>
         <Card>Content 2</Card>
         <Card>Content 3</Card>
-      </Flex.Horizontal>
+      </Flex.Horizontal>,
     )
 
     const element = document.querySelector(
-      '.dnb-flex-container--direction-horizontal'
+      '.dnb-flex-container--direction-horizontal',
     )
     const children = element.children
     const childrenTextContents = Array.from(children).map((child) =>
-      child.textContent.replace(/[\u200C]/g, '')
+      child.textContent.replace(/[\u200C]/g, ''),
     )
 
     expect(children.length).toEqual(3)
@@ -89,15 +89,15 @@ describe('Flex.Horizontal', () => {
         <Card>Content 1</Card>
         <Card>Content 2</Card>
         <Card>Content 3</Card>
-      </Flex.Horizontal>
+      </Flex.Horizontal>,
     )
 
     const element = document.querySelector(
-      '.dnb-flex-container--direction-horizontal'
+      '.dnb-flex-container--direction-horizontal',
     )
 
     expect(element.className).toContain(
-      'dnb-flex-container--spacing-small'
+      'dnb-flex-container--spacing-small',
     )
   })
 })

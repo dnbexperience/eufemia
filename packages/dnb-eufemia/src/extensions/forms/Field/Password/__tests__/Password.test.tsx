@@ -24,7 +24,7 @@ describe('Password component', () => {
     render(<Field.Password {...props} id="input" />)
 
     expect(
-      document.querySelector('.dnb-input__input').getAttribute('type')
+      document.querySelector('.dnb-input__input').getAttribute('type'),
     ).toBe('password')
   })
 
@@ -34,7 +34,7 @@ describe('Password component', () => {
     await userEvent.type(input, '{Backspace}')
     fireEvent.blur(input)
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      nb.Password.errorRequired
+      nb.Password.errorRequired,
     )
   })
 
@@ -44,7 +44,9 @@ describe('Password component', () => {
     fireEvent.focus(document.querySelector('input'))
 
     expect(
-      document.querySelector('.dnb-input').getAttribute('data-input-state')
+      document
+        .querySelector('.dnb-input')
+        .getAttribute('data-input-state'),
     ).toBe('focus')
   })
 
@@ -52,35 +54,35 @@ describe('Password component', () => {
     const { rerender } = render(
       <Form.Handler>
         <Field.Password />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const button = () => document.querySelector('button')
 
     expect(button().getAttribute('aria-label')).toBe(
-      nb.Password.ariaLabelShow
+      nb.Password.ariaLabelShow,
     )
 
     await userEvent.click(button())
 
     expect(button().getAttribute('aria-label')).toBe(
-      nb.Password.ariaLabelHide
+      nb.Password.ariaLabelHide,
     )
 
     rerender(
       <Form.Handler locale="en-GB">
         <Field.Password />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(button().getAttribute('aria-label')).toBe(
-      en.Password.ariaLabelHide
+      en.Password.ariaLabelHide,
     )
 
     await userEvent.click(button())
 
     expect(button().getAttribute('aria-label')).toBe(
-      en.Password.ariaLabelShow
+      en.Password.ariaLabelShow,
     )
   })
 
@@ -88,7 +90,7 @@ describe('Password component', () => {
     render(<Field.Password size="large" />)
 
     expect(document.querySelector('.dnb-input')).toHaveClass(
-      'dnb-input--large'
+      'dnb-input--large',
     )
   })
 
@@ -99,12 +101,12 @@ describe('Password component', () => {
     expect(
       document
         .querySelector('.dnb-input__input')
-        .getAttribute('aria-describedby')
+        .getAttribute('aria-describedby'),
     ).toBe('input-submit-button')
     expect(
       document
         .querySelector('button#input-submit-button')
-        .getAttribute('aria-controls')
+        .getAttribute('aria-controls'),
     ).toBe('input')
   })
 
@@ -112,11 +114,11 @@ describe('Password component', () => {
     render(<Field.Password id="input" />)
 
     expect(
-      document.querySelector('.dnb-input__input').getAttribute('id')
+      document.querySelector('.dnb-input__input').getAttribute('id'),
     ).toBe(
       document
         .querySelector('button.dnb-button--input-button')
-        .getAttribute('aria-controls')
+        .getAttribute('aria-controls'),
     )
   })
 
@@ -130,7 +132,7 @@ describe('Password component', () => {
     expect(
       document
         .querySelector('.dnb-input__submit-button')
-        .getAttribute('data-input-state')
+        .getAttribute('data-input-state'),
     ).toBe('focus')
   })
 
@@ -144,18 +146,18 @@ describe('Password component', () => {
     await userEvent.click(button())
 
     expect(
-      document.querySelector('.dnb-input__input').getAttribute('type')
+      document.querySelector('.dnb-input__input').getAttribute('type'),
     ).toBe('text')
 
     await userEvent.click(button())
     expect(
-      document.querySelector('.dnb-input__input').getAttribute('type')
+      document.querySelector('.dnb-input__input').getAttribute('type'),
     ).toBe('password')
 
     expect(
       document
         .querySelector('.dnb-input__submit-button')
-        .getAttribute('data-input-state')
+        .getAttribute('data-input-state'),
     ).not.toBe('focus')
   })
 
@@ -187,7 +189,7 @@ describe('Password component', () => {
       <Field.Password
         onShowPassword={onShowPassword}
         onHidePassword={onHidePassword}
-      />
+      />,
     )
 
     const button = () => document.querySelector('button')
@@ -197,7 +199,7 @@ describe('Password component', () => {
     await userEvent.click(button())
     expect(onShowPassword).toHaveBeenCalledTimes(1)
     expect(onShowPassword).toHaveBeenLastCalledWith(
-      expect.objectContaining({ value: 'password123' })
+      expect.objectContaining({ value: 'password123' }),
     )
     expect(onHidePassword).not.toHaveBeenCalled()
 
@@ -205,13 +207,13 @@ describe('Password component', () => {
     expect(onShowPassword).toHaveBeenCalledTimes(1)
     expect(onHidePassword).toHaveBeenCalledTimes(1)
     expect(onHidePassword).toHaveBeenLastCalledWith(
-      expect.objectContaining({ value: 'password123' })
+      expect.objectContaining({ value: 'password123' }),
     )
 
     await userEvent.click(button())
     expect(onShowPassword).toHaveBeenCalledTimes(2)
     expect(onShowPassword).toHaveBeenLastCalledWith(
-      expect.objectContaining({ value: 'password123' })
+      expect.objectContaining({ value: 'password123' }),
     )
     expect(onHidePassword).toHaveBeenCalledTimes(1)
   })
@@ -235,12 +237,12 @@ describe('Password component', () => {
     render(
       <Provider formElement={{ labelDirection: 'vertical' }}>
         <Field.Password label="Label" />
-      </Provider>
+      </Provider>,
     )
 
     const element = document.querySelector('.dnb-input')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual([
@@ -262,7 +264,7 @@ describe('Password component', () => {
 
   it('should validate with ARIA rules as a input with a label', async () => {
     const result = render(
-      <Field.Password id="input" label="label" value="some value" />
+      <Field.Password id="input" label="label" value="some value" />,
     )
     expect(await axeComponent(result)).toHaveNoViolations()
   })
@@ -280,7 +282,7 @@ describe('Password component', () => {
     render(
       <Form.Handler translations={tr}>
         <Field.Password />
-      </Form.Handler>
+      </Form.Handler>,
     )
     const button = () =>
       document.querySelector('.dnb-button--input-button')

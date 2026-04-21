@@ -19,7 +19,7 @@ describe('setData', () => {
     render(
       <Form.Handler id={identifier}>
         <Field.String path="/foo" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
@@ -31,7 +31,7 @@ describe('setData', () => {
     render(
       <Form.Handler id={identifier}>
         <Field.String path="/foo" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
@@ -55,7 +55,7 @@ describe('setData', () => {
     render(
       <Form.Handler id={identifier}>
         <Field.String path="/foo" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
@@ -83,7 +83,7 @@ describe('setData', () => {
     render(
       <Form.Handler id={identifier}>
         <Field.String path="/foo" value="existing value" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
@@ -101,7 +101,7 @@ describe('setData', () => {
     render(
       <Form.Handler id={identifier}>
         <Field.String path="/foo" defaultValue="existing value" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const input = document.querySelector('input')
@@ -129,7 +129,7 @@ describe('setData', () => {
         <Form.Handler id={identifier}>
           <Field.String path="/foo" defaultValue="foo" />
           <Field.String path="/bar" defaultValue="bar" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const { update } = setData<Data>(identifier)
@@ -159,7 +159,7 @@ describe('setData', () => {
       render(
         <Form.Handler id={identifier}>
           <Field.Number path="/foo" defaultValue={1} />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const { update } = setData<Data>(identifier)
@@ -187,7 +187,7 @@ describe('setData', () => {
         <Form.Handler id={identifier}>
           <Field.String path="/foo" />
           <Field.String path="/bar" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const { update } = setData<Data>(identifier)
@@ -214,7 +214,7 @@ describe('setData', () => {
       render(
         <Form.Handler id={identifier}>
           <Field.String path="/foo" defaultValue="foo" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const { update } = setData<Data>(identifier)

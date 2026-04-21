@@ -14,7 +14,7 @@ describe('useDataValue', () => {
 
     it('should return undefined value when incorrect path is provided', () => {
       const { result } = renderHook(() =>
-        useDataValue('/example/path', 'Test Value')
+        useDataValue('/example/path', 'Test Value'),
       )
 
       expect(result.current.value).toBeUndefined()
@@ -30,7 +30,7 @@ describe('useDataValue', () => {
               data={{ example: { path: 'Test Value' } }}
             />
           ),
-        }
+        },
       )
 
       expect(result.current.value).toBe('Test Value')
@@ -38,7 +38,7 @@ describe('useDataValue', () => {
 
     it('should return undefined when path is not found', () => {
       const { result } = renderHook(() =>
-        useDataValue('/nonexistent/path')
+        useDataValue('/nonexistent/path'),
       )
 
       expect(result.current.value).toBeUndefined()
@@ -55,7 +55,7 @@ describe('useDataValue', () => {
       })
 
       expect(result.current.getSourceValue('/example/path')).toBe(
-        'Test Value'
+        'Test Value',
       )
     })
 
@@ -78,7 +78,7 @@ describe('useDataValue', () => {
       const { result } = renderHook(() => useDataValue())
 
       expect(result.current.getSourceValue('Test Value')).toBe(
-        'Test Value'
+        'Test Value',
       )
     })
   })
@@ -112,7 +112,7 @@ describe('useDataValue', () => {
       expect(
         result.current.getData('/example/path', {
           includeCurrentPath: true,
-        })
+        }),
       ).toEqual({ example: { path: { nested: 'Test Value' } } })
     })
 
@@ -129,7 +129,7 @@ describe('useDataValue', () => {
       expect(
         result.current.getData('/', {
           includeCurrentPath: true,
-        })
+        }),
       ).toEqual({ example: { path: { nested: 'Test Value' } } })
     })
 

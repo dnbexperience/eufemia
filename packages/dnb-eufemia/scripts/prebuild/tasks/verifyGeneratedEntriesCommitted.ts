@@ -27,7 +27,7 @@ export const verifyGeneratedEntriesCommitted = () => {
     {
       cwd: packageRoot,
       encoding: 'utf-8',
-    }
+    },
   )
     .trim()
     .split('\n')
@@ -36,7 +36,7 @@ export const verifyGeneratedEntriesCommitted = () => {
     .map(normalizeChangedFilePath)
     .filter(Boolean)
   const changedGeneratedEntries = changedFiles.filter((file) =>
-    GENERATED_ENTRY_FILE_PATTERNS.some((pattern) => pattern.test(file))
+    GENERATED_ENTRY_FILE_PATTERNS.some((pattern) => pattern.test(file)),
   )
 
   if (changedGeneratedEntries.length > 0) {
@@ -46,7 +46,7 @@ export const verifyGeneratedEntriesCommitted = () => {
         'Please run the prebuild locally and commit the generated entries before pushing.',
         '',
         ...changedGeneratedEntries.map((file) => `- ${file}`),
-      ].join('\n')
+      ].join('\n'),
     )
   }
 }

@@ -48,7 +48,7 @@ function DateComponent(props: ValueDateProps) {
 
       return formatDate(value, { locale, options })
     },
-    [locale, options, dateFormat]
+    [locale, options, dateFormat],
   )
 
   const stringProps: ValueDateProps = {
@@ -61,7 +61,7 @@ function DateComponent(props: ValueDateProps) {
 }
 
 function convertVariantToDateStyle(
-  variant: ValueDateProps['variant']
+  variant: ValueDateProps['variant'],
 ): Intl.DateTimeFormatOptions {
   if (variant === 'long') {
     return { dateStyle: 'long' }

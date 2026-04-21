@@ -55,7 +55,7 @@ function StepIndicatorTriggerButton({
     ...contextWithoutDataRest,
     className: clsx(
       'dnb-step-indicator__trigger',
-      createSkeletonClass('font', skeleton)
+      createSkeletonClass('font', skeleton),
     ),
     'aria-live': 'polite',
   } as Omit<React.HTMLProps<HTMLElement>, 'onChange' | 'onClick'>
@@ -67,13 +67,13 @@ function StepIndicatorTriggerButton({
       `dnb-step-indicator__trigger__button--${
         open ? 'expanded' : 'collapsed'
       }`,
-      className
+      className,
     ),
   }
 
   buttonParams['aria-describedby'] = combineDescribedBy(
     buttonParams,
-    id + '-overview'
+    id + '-overview',
   )
 
   // Cache Object.keys() result for performance

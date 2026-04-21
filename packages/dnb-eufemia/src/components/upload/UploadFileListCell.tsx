@@ -116,7 +116,7 @@ const UploadFileListCell = ({
     const cellElement = cellRef.current
     const focusElement = getClosestParent(
       '.dnb-upload',
-      cellElement
+      cellElement,
     )?.querySelector('.dnb-upload__file-input-button') as HTMLButtonElement
     focusElement?.focus({ preventScroll: true })
   }, [cellRef])
@@ -132,7 +132,7 @@ const UploadFileListCell = ({
       className={clsx(
         'dnb-upload__file-cell',
         hasWarning && 'dnb-upload__file-cell--warning',
-        isDuplicate && 'dnb-upload__file-cell--highlight'
+        isDuplicate && 'dnb-upload__file-cell--highlight',
       )}
       ref={cellRef}
     >
@@ -152,7 +152,7 @@ const UploadFileListCell = ({
       <div
         className={clsx(
           'dnb-upload__file-cell__text-container',
-          'dnb-upload__file-cell__text-container--loading'
+          'dnb-upload__file-cell__text-container--loading',
         )}
       >
         {loadingText}
@@ -244,7 +244,7 @@ export function getFileIcon(
     isLoading: UploadFile['isLoading']
     size?: ProgressIndicatorAllProps['size']
   },
-  hasWarning?: boolean
+  hasWarning?: boolean,
 ) {
   if (loading?.isLoading) {
     return <ProgressIndicator size={loading?.size ?? 'default'} />

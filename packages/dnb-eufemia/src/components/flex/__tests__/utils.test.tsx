@@ -11,7 +11,7 @@ import {
 describe('isHeadingElement', () => {
   it('should detect if a heading component is given', () => {
     expect(
-      isHeadingElement(<MainHeading>Heading</MainHeading>)
+      isHeadingElement(<MainHeading>Heading</MainHeading>),
     ).toBeTruthy()
     expect(isHeadingElement(<SubHeading>Heading</SubHeading>)).toBeTruthy()
     expect(isHeadingElement(<H1>Heading</H1>)).toBeTruthy()
@@ -33,7 +33,7 @@ describe('pickSpacingProps', () => {
         bottom: 'large',
         left: 'large',
         space: 'large',
-      })
+      }),
     ).toEqual({
       top: 'large',
       right: 'large',
@@ -48,7 +48,7 @@ describe('pickSpacingProps', () => {
       pickSpacingProps({
         right: 'large',
         left: 'large',
-      })
+      }),
     ).toEqual({
       right: 'large',
       left: 'large',

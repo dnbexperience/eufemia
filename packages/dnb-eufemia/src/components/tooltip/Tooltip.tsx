@@ -62,7 +62,7 @@ function Tooltip(localProps: TooltipAllProps) {
     className: clsx(
       'dnb-tooltip',
       size === 'large' && 'dnb-tooltip--large',
-      className
+      className,
     ),
   }) as React.HTMLAttributes<HTMLElement>
 
@@ -83,11 +83,11 @@ function Tooltip(localProps: TooltipAllProps) {
 
 function resolveProps(
   localProps: TooltipAllProps,
-  context: ContextProps
+  context: ContextProps,
 ): TooltipAllProps {
   const inherited = getPropsFromTooltipProp(localProps)
   const translation = (context.getTranslation?.(
-    localProps as Record<string, unknown>
+    localProps as Record<string, unknown>,
   ) || {}) as Record<string, unknown>
   const tooltipTranslation = (translation['Tooltip'] || {}) as Record<
     string,
@@ -105,7 +105,7 @@ function resolveProps(
 
 function useTooltipTarget(
   targetElement: TooltipAllProps['targetElement'],
-  targetSelector: TooltipAllProps['targetSelector']
+  targetSelector: TooltipAllProps['targetSelector'],
 ) {
   const [target, setTarget] = useState<
     TooltipAllProps['targetElement'] | HTMLElement | null
@@ -122,7 +122,7 @@ function useTooltipTarget(
       getTargetElement(
         typeof source === 'string'
           ? source
-          : getRefElement(source as React.RefObject<unknown>)
+          : getRefElement(source as React.RefObject<unknown>),
       ) || (typeof source === 'string' ? null : source)
 
     setTarget(resolved as HTMLElement | React.ReactElement | null)

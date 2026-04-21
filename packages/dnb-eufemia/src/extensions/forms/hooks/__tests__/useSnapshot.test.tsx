@@ -47,7 +47,7 @@ describe('Form.useSnapshot', () => {
         undefined,
         {
           foo: 'bar',
-        }
+        },
       )
       result.current.revertSnapshot(snapshotId)
     })
@@ -116,7 +116,7 @@ describe('Form.useSnapshot', () => {
     })
 
     expect(
-      Array.from(result.current.internalSnapshotsRef.current)
+      Array.from(result.current.internalSnapshotsRef.current),
     ).toHaveLength(1)
 
     act(() => {
@@ -124,7 +124,7 @@ describe('Form.useSnapshot', () => {
     })
 
     expect(
-      Array.from(result.current.internalSnapshotsRef.current)
+      Array.from(result.current.internalSnapshotsRef.current),
     ).toHaveLength(0)
     expect(contextData.data).toEqual({ foo: 'bar' })
 
@@ -133,7 +133,7 @@ describe('Form.useSnapshot', () => {
     })
 
     expect(
-      Array.from(result.current.internalSnapshotsRef.current)
+      Array.from(result.current.internalSnapshotsRef.current),
     ).toHaveLength(0)
     expect(contextData.data).toEqual({ foo: 'bar' })
   })

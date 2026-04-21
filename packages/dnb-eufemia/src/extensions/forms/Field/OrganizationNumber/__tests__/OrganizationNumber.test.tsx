@@ -21,10 +21,10 @@ describe('Field.OrganizationNumber', () => {
     render(<Field.OrganizationNumber />)
 
     const element = document.querySelector(
-      '.dnb-forms-field-block__contents'
+      '.dnb-forms-field-block__contents',
     )
     expect(element.className).toContain(
-      'dnb-forms-field-block__contents--width-medium'
+      'dnb-forms-field-block__contents--width-medium',
     )
   })
 
@@ -42,7 +42,7 @@ describe('Field.OrganizationNumber', () => {
     const inputElement = document.querySelector('input')
 
     expect(inputElement.getAttribute('id')).toBe(
-      labelElement.getAttribute('for')
+      labelElement.getAttribute('for'),
     )
   })
 
@@ -91,7 +91,7 @@ describe('Field.OrganizationNumber', () => {
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        nb.OrganizationNumber.errorRequired
+        nb.OrganizationNumber.errorRequired,
       )
     })
   })
@@ -108,7 +108,7 @@ describe('Field.OrganizationNumber', () => {
         required
         onChangeValidator={onChangeValidator}
         validateInitially
-      />
+      />,
     )
 
     await waitFor(() => {
@@ -127,7 +127,7 @@ describe('Field.OrganizationNumber', () => {
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        nb.OrganizationNumber.errorRequired
+        nb.OrganizationNumber.errorRequired,
       )
     })
   })
@@ -138,7 +138,7 @@ describe('Field.OrganizationNumber', () => {
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        nb.OrganizationNumber.errorOrgNoLength
+        nb.OrganizationNumber.errorOrgNoLength,
       )
     })
   })
@@ -159,13 +159,13 @@ describe('Field.OrganizationNumber', () => {
           value="724841198" // valid, but not in the pattern
           pattern="^6"
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert').textContent).toBe(
-        nb.OrganizationNumber.errorOrgNo
+        nb.OrganizationNumber.errorOrgNo,
       )
     })
   })
@@ -183,7 +183,7 @@ describe('Field.OrganizationNumber', () => {
             return [dummyValidator]
           }}
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     await expect(() => {
@@ -198,13 +198,13 @@ describe('Field.OrganizationNumber', () => {
     render(
       <Form.Handler>
         <Field.OrganizationNumber validateInitially value="123321123" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert').textContent).toBe(
-        nb.OrganizationNumber.errorOrgNo
+        nb.OrganizationNumber.errorOrgNo,
       )
     })
   })
@@ -217,7 +217,7 @@ describe('Field.OrganizationNumber', () => {
           value="123"
           onBlurValidator={false}
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     await expect(() => {
@@ -238,13 +238,13 @@ describe('Field.OrganizationNumber', () => {
         value="123"
         validateInitially
         onBlurValidator={onBlurValidator}
-      />
+      />,
     )
 
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert').textContent).toBe(
-        'My error message'
+        'My error message',
       )
     })
 
@@ -264,7 +264,7 @@ describe('Field.OrganizationNumber', () => {
           validateInitially
           onBlurValidator={false}
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     fireEvent.blur(document.querySelector('input'))
@@ -284,7 +284,7 @@ describe('Field.OrganizationNumber', () => {
           validateInitially
           validate={false}
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     fireEvent.blur(document.querySelector('input'))
@@ -320,7 +320,7 @@ describe('Field.OrganizationNumber', () => {
           onChangeValidator={customValidator}
           onBlurValidator={false}
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     fireEvent.blur(document.querySelector('input'))
@@ -357,7 +357,7 @@ describe('Field.OrganizationNumber', () => {
           onChangeValidator={customValidator}
           onBlurValidator={false}
         />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     fireEvent.blur(document.querySelector('input'))
@@ -399,7 +399,7 @@ describe('Field.OrganizationNumber', () => {
         render(
           <Form.Handler>
             <Field.OrganizationNumber value={orgNo} validateInitially />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         fireEvent.blur(document.querySelector('input'))
@@ -407,14 +407,14 @@ describe('Field.OrganizationNumber', () => {
         await expect(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
         }).toNeverResolve()
-      }
+      },
     )
 
     it.each(invalidOrgNum)(
       'Invalid organization number: %s',
       async (orgNo) => {
         render(
-          <Field.OrganizationNumber value={orgNo} validateInitially />
+          <Field.OrganizationNumber value={orgNo} validateInitially />,
         )
 
         fireEvent.blur(document.querySelector('input'))
@@ -422,17 +422,17 @@ describe('Field.OrganizationNumber', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.OrganizationNumber.errorOrgNo
+            nb.OrganizationNumber.errorOrgNo,
           )
         })
-      }
+      },
     )
 
     it.each(invalidOrgNumTooShort)(
       'Invalid organization number: %s',
       async (orgNo) => {
         render(
-          <Field.OrganizationNumber value={orgNo} validateInitially />
+          <Field.OrganizationNumber value={orgNo} validateInitially />,
         )
 
         fireEvent.blur(document.querySelector('input'))
@@ -440,10 +440,10 @@ describe('Field.OrganizationNumber', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.OrganizationNumber.errorOrgNoLength
+            nb.OrganizationNumber.errorOrgNoLength,
           )
         })
-      }
+      },
     )
   })
 
@@ -492,7 +492,7 @@ describe('Field.OrganizationNumber', () => {
               validateInitially
               onBlurValidator={customValidator}
             />
-          </Form.Handler>
+          </Form.Handler>,
         )
 
         fireEvent.blur(document.querySelector('input'))
@@ -500,7 +500,7 @@ describe('Field.OrganizationNumber', () => {
         await expect(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
         }).toNeverResolve()
-      }
+      },
     )
 
     it.each(validOrgNumNotStartingWith1)(
@@ -511,14 +511,14 @@ describe('Field.OrganizationNumber', () => {
             value={orgNo}
             validateInitially
             onBlurValidator={customValidator}
-          />
+          />,
         )
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent('My error')
         })
-      }
+      },
     )
 
     it.each(invalidOrgNum)(
@@ -529,7 +529,7 @@ describe('Field.OrganizationNumber', () => {
             value={orgNo}
             validateInitially
             onBlurValidator={customValidator}
-          />
+          />,
         )
 
         fireEvent.blur(document.querySelector('input'))
@@ -537,10 +537,10 @@ describe('Field.OrganizationNumber', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.OrganizationNumber.errorOrgNo
+            nb.OrganizationNumber.errorOrgNo,
           )
         })
-      }
+      },
     )
 
     it.each(invalidOrgNumTooShort)(
@@ -551,7 +551,7 @@ describe('Field.OrganizationNumber', () => {
             value={orgNo}
             validateInitially
             onBlurValidator={customValidator}
-          />
+          />,
         )
 
         fireEvent.blur(document.querySelector('input'))
@@ -559,17 +559,17 @@ describe('Field.OrganizationNumber', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.OrganizationNumber.errorOrgNoLength
+            nb.OrganizationNumber.errorOrgNoLength,
           )
         })
-      }
+      },
     )
   })
 
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(
-        <Field.OrganizationNumber required validateInitially />
+        <Field.OrganizationNumber required validateInitially />,
       )
 
       expect(await axeComponent(result)).toHaveNoViolations()
@@ -600,10 +600,10 @@ describe('Field.OrganizationNumber', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).toBeInTheDocument()
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        nb.OrganizationNumber.errorOrgNoLength
+        nb.OrganizationNumber.errorOrgNoLength,
       )
     })
 
@@ -612,10 +612,10 @@ describe('Field.OrganizationNumber', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).toBeInTheDocument()
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        nb.OrganizationNumber.errorOrgNo
+        nb.OrganizationNumber.errorOrgNo,
       )
     })
 
@@ -625,7 +625,7 @@ describe('Field.OrganizationNumber', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-form-status--error')
+        document.querySelector('.dnb-form-status--error'),
       ).not.toBeInTheDocument()
     })
   })
@@ -638,7 +638,7 @@ describe('Field.OrganizationNumber', () => {
         onStatusChange={onStatusChange}
         validateContinuously
         required
-      />
+      />,
     )
 
     const input = document.querySelector('input')
@@ -651,7 +651,7 @@ describe('Field.OrganizationNumber', () => {
       expect(onStatusChange).toHaveBeenLastCalledWith(
         expect.objectContaining({
           error: expect.anything(),
-        })
+        }),
       )
     })
 
@@ -681,7 +681,7 @@ describe('Field.OrganizationNumber', () => {
       <Field.OrganizationNumber
         onStatusChange={onStatusChange}
         error={undefined}
-      />
+      />,
     )
 
     // Initially no error should be called
@@ -694,7 +694,7 @@ describe('Field.OrganizationNumber', () => {
       <Field.OrganizationNumber
         onStatusChange={onStatusChange}
         error={error1}
-      />
+      />,
     )
 
     // Wait for onStatusChange to be called with error
@@ -712,7 +712,7 @@ describe('Field.OrganizationNumber', () => {
       <Field.OrganizationNumber
         onStatusChange={onStatusChange}
         error={error2}
-      />
+      />,
     )
 
     await waitFor(() => {
@@ -729,7 +729,7 @@ describe('Field.OrganizationNumber', () => {
       <Field.OrganizationNumber
         onStatusChange={onStatusChange}
         error={undefined}
-      />
+      />,
     )
 
     await waitFor(() => {

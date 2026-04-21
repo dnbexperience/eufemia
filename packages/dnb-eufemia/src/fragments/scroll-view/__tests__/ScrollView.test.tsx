@@ -35,7 +35,7 @@ describe('ScrollView', () => {
     const { rerender } = render(
       <ScrollView ref={ref} interactive="auto">
         overflow content
-      </ScrollView>
+      </ScrollView>,
     )
 
     const element = document.querySelector('.dnb-scroll-view')
@@ -48,7 +48,7 @@ describe('ScrollView', () => {
       rerender(
         <ScrollView ref={ref} interactive="auto">
           new content to force hook re-render
-        </ScrollView>
+        </ScrollView>,
       )
     })
 
@@ -61,7 +61,7 @@ describe('ScrollView', () => {
       rerender(
         <ScrollView ref={ref} interactive="auto">
           again, new content to force hook re-render
-        </ScrollView>
+        </ScrollView>,
       )
     })
 
@@ -81,7 +81,7 @@ describe('ScrollView', () => {
     render(
       <ScrollView ref={ref} interactive="auto">
         overflow content
-      </ScrollView>
+      </ScrollView>,
     )
 
     const element = document.querySelector('.dnb-scroll-view')
@@ -112,7 +112,7 @@ describe('ScrollView', () => {
 
   it('should include custom classes', () => {
     render(
-      <ScrollView className="custom-class">overflow content</ScrollView>
+      <ScrollView className="custom-class">overflow content</ScrollView>,
     )
 
     const element = document.querySelector('.dnb-scroll-view')

@@ -37,11 +37,11 @@ const NUMBER_MINUS = '-|−|‐|‒|–|—|―'
  * @returns Boolean
  */
 export const isRequestingLocaleSupport = (
-  props: Record<string, any>
+  props: Record<string, any>,
 ): boolean => {
   return Object.entries(props).some(
     ([k, v]) =>
-      v && (enableLocaleSupportWhen as readonly string[]).includes(k)
+      v && (enableLocaleSupportWhen as readonly string[]).includes(k),
   )
 }
 
@@ -52,11 +52,11 @@ export const isRequestingLocaleSupport = (
  * @returns Boolean
  */
 export const isRequestingNumberMask = (
-  props: Record<string, any>
+  props: Record<string, any>,
 ): boolean => {
   return Object.entries(props).some(
     ([k, v]) =>
-      v && (enableNumberMaskWhen as readonly string[]).includes(k)
+      v && (enableNumberMaskWhen as readonly string[]).includes(k),
   )
 }
 
@@ -146,7 +146,7 @@ export const correctNumberValue = ({
     value = String(
       options.currency
         ? formatCurrency(value, options)
-        : formatNumber(value, options)
+        : formatNumber(value, options),
     )
   }
 
@@ -156,7 +156,7 @@ export const correctNumberValue = ({
   if (localValue !== null) {
     const invalidCharactersRegex = new RegExp(
       `[^${NUMBER_MINUS}\\d${decimalSymbol}]`,
-      'g'
+      'g',
     )
     const localNumberValue = localValue.replace(invalidCharactersRegex, '')
     const numberValue = value.replace(invalidCharactersRegex, '')
@@ -165,7 +165,7 @@ export const correctNumberValue = ({
     if (!valueHasDecimal) {
       const endsWithDecimal = localNumberValue.endsWith(decimalSymbol)
       const endsWithZeroAndDecimal = localNumberValue.endsWith(
-        `${decimalSymbol}0`
+        `${decimalSymbol}0`,
       )
 
       if (endsWithDecimal) {
@@ -211,7 +211,10 @@ export const correctNumberValue = ({
      */
     if (
       new RegExp(`^((${NUMBER_MINUS})|(${NUMBER_MINUS})0)$`).test(
-        localValue.replace(new RegExp(`[^\\d(${NUMBER_MINUS})0]`, 'g'), '')
+        localValue.replace(
+          new RegExp(`[^\\d(${NUMBER_MINUS})0]`, 'g'),
+          '',
+        ),
       )
     ) {
       value = localValue
@@ -238,7 +241,7 @@ export const correctCaretPosition = (
       prefix?: string
     }
   },
-  props: { mask?: Array<RegExp | { test?: (char: string) => boolean }> }
+  props: { mask?: Array<RegExp | { test?: (char: string) => boolean }> },
 ) => {
   const correction = () => {
     try {
@@ -443,7 +446,7 @@ export function getSoftKeyboardAttributes(
           allowDecimal?: boolean
           decimalLimit?: number
         }
-      }
+      },
 ): undefined | { inputMode: 'decimal' | 'numeric' } {
   if (mask?.instanceOf !== 'createNumberMask') {
     return undefined
@@ -495,7 +498,7 @@ export function handleDecimalSeparator(locale: string): string {
  */
 export function fromJSON<T = unknown>(
   str: unknown,
-  fallback: T | null = null
+  fallback: T | null = null,
 ): T | unknown {
   if (typeof str === 'string' && str[0] === '{') {
     return JSON.parse(str)

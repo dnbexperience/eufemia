@@ -219,7 +219,7 @@ var useEditable = (elementRef, onChange, opts) => {
     if (state.position) {
       const { position, extent } = state.position
       _ue_setCurrentRange(
-        _ue_makeRange(elementRef.current, position, position + extent)
+        _ue_makeRange(elementRef.current, position, position + extent),
       )
     }
     return () => {
@@ -237,7 +237,7 @@ var useEditable = (elementRef, onChange, opts) => {
       element.focus()
       const { position, extent } = state.position
       _ue_setCurrentRange(
-        _ue_makeRange(element, position, position + extent)
+        _ue_makeRange(element, position, position + extent),
       )
     }
     const prevWhiteSpace = element.style.whiteSpace
@@ -257,7 +257,7 @@ var useEditable = (elementRef, onChange, opts) => {
     const indentPattern = ' '.repeat(opts.indentation || 0)
     const indentRe = new RegExp('^(?:' + indentPattern + ')')
     const blanklineRe = new RegExp(
-      '^(?:' + indentPattern + ')*(' + indentPattern + ')$'
+      '^(?:' + indentPattern + ')*(' + indentPattern + ')$',
     )
     let _trackStateTimestamp = 0
     const trackState = (ignoreTimestamp) => {
@@ -300,7 +300,7 @@ var useEditable = (elementRef, onChange, opts) => {
           for (i = mutation.removedNodes.length - 1; i >= 0; i--)
             mutation.target.insertBefore(
               mutation.removedNodes[i],
-              mutation.nextSibling
+              mutation.nextSibling,
             )
           for (i = mutation.addedNodes.length - 1; i >= 0; i--)
             if (mutation.addedNodes[i].parentNode)
@@ -478,14 +478,14 @@ var CodeEditor = (props) => {
                     },
                     theme && typeof theme.plain === 'object'
                       ? theme.plain
-                      : {}
+                      : {},
                   ),
-                  _style
+                  _style,
                 ),
                 ref: _editorRef,
                 spellCheck: 'false',
               },
-              rest
+              rest,
             ),
             {
               children: tokens.map((line, lineIndex) =>
@@ -501,18 +501,18 @@ var CodeEditor = (props) => {
                             /* @__PURE__ */ jsx(
                               'span',
                               __spreadValues({}, getTokenProps({ token })),
-                              `token-${tokenIndex}`
-                            )
+                              `token-${tokenIndex}`,
+                            ),
                           ),
                         '\n',
                       ],
-                    }
+                    },
                   ),
-                  `line-${lineIndex}`
-                )
+                  `line-${lineIndex}`,
+                ),
               ),
-            }
-          )
+            },
+          ),
         ),
     }),
   })
@@ -556,8 +556,8 @@ var errorBoundary = (Element, errorCallback) => {
       return typeof Element === 'function'
         ? /* @__PURE__ */ jsx2(Element, {})
         : React.isValidElement(Element)
-        ? Element
-        : null
+          ? Element
+          : null
     }
   }
 }
@@ -576,7 +576,7 @@ function compose(...functions) {
   return functions.reduce(
     (acc, currentFn) =>
       (...args) =>
-        acc(currentFn(...args))
+        acc(currentFn(...args)),
   )
 }
 
@@ -588,7 +588,7 @@ var addJsxConst = (code) => jsxConst + code
 var wrapReturn = (code) => `return (${code})`
 var generateElement = (
   { code = '', scope = {}, enableTypeScript = true },
-  errorCallback
+  errorCallback,
 ) => {
   const firstPassTransforms = ['jsx']
   enableTypeScript && firstPassTransforms.push('typescript')
@@ -599,25 +599,25 @@ var generateElement = (
     spliceJsxConst,
     trimCode,
     transform({ transforms: firstPassTransforms }),
-    trimCode
+    trimCode,
   )(code)
   return errorBoundary_default(
     evalCode_default(
       transformed,
-      __spreadValues({ React: React2 }, scope)
+      __spreadValues({ React: React2 }, scope),
     ),
-    errorCallback
+    errorCallback,
   )
 }
 var renderElementAsync = (
   { code = '', scope = {}, enableTypeScript = true },
   resultCallback,
-  errorCallback
+  errorCallback,
 ) => {
   const render = (element) => {
     if (typeof element === 'undefined') {
       errorCallback(
-        new SyntaxError('`render` must be called with valid JSX.')
+        new SyntaxError('`render` must be called with valid JSX.'),
       )
     } else {
       resultCallback(errorBoundary_default(element, errorCallback))
@@ -625,14 +625,14 @@ var renderElementAsync = (
   }
   if (!/render\s*\(/.test(code)) {
     return errorCallback(
-      new SyntaxError('No-Inline evaluations must call `render`.')
+      new SyntaxError('No-Inline evaluations must call `render`.'),
     )
   }
   const transforms = ['jsx', 'imports']
   enableTypeScript && transforms.splice(1, 0, 'typescript')
   evalCode_default(
     transform({ transforms })(code),
-    __spreadProps(__spreadValues({ React: React2 }, scope), { render })
+    __spreadProps(__spreadValues({ React: React2 }, scope), { render }),
   )
 }
 
@@ -751,7 +751,7 @@ import { useContext } from 'react'
 import { jsx as jsx4 } from 'react/jsx-runtime'
 function LiveEditor(props) {
   const { code, language, theme, disabled, onChange } = useContext(
-    LiveContext_default
+    LiveContext_default,
   )
   return /* @__PURE__ */ jsx4(
     Editor_default,
@@ -763,8 +763,8 @@ function LiveEditor(props) {
         disabled,
         onChange,
       },
-      props
-    )
+      props,
+    ),
   )
 }
 
@@ -776,7 +776,7 @@ function LiveError(props) {
   return error
     ? /* @__PURE__ */ jsx5(
         'pre',
-        __spreadProps(__spreadValues({}, props), { children: error })
+        __spreadProps(__spreadValues({}, props), { children: error }),
       )
     : null
 }
@@ -793,7 +793,7 @@ function LivePreview(_a) {
     Component2,
     __spreadProps(__spreadValues({}, rest), {
       children: Element ? /* @__PURE__ */ jsx6(Element, {}) : null,
-    })
+    }),
   )
 }
 var LivePreview_default = LivePreview
@@ -806,7 +806,7 @@ function withLive(WrappedComponent) {
       children: (live) =>
         /* @__PURE__ */ jsx7(
           WrappedComponent,
-          __spreadValues({ live }, props)
+          __spreadValues({ live }, props),
         ),
     })
   WithLive.displayName = 'WithLive'

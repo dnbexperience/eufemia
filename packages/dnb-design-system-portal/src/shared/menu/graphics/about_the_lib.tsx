@@ -6,7 +6,7 @@
 import type { SVGProps } from 'react'
 
 export default function about_the_lib(
-  props: SVGProps<SVGSVGElement> = {}
+  props: SVGProps<SVGSVGElement> = {},
 ) {
   return (
     <svg

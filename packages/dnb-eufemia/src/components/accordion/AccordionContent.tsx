@@ -64,7 +64,7 @@ export default function AccordionContent(props: AccordionContentProps) {
 
           const containerElement = getClosestParent(
             'dnb-accordion-group--single-container',
-            contentElem
+            contentElem,
           ) as HTMLElement
 
           if (noAnimation) {

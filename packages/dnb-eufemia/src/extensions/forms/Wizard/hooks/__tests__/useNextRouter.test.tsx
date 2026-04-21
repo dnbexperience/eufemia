@@ -29,12 +29,12 @@ describe('useNextRouter', () => {
     return document.querySelector('output')
   }
   const mockUrl = (
-    { search } = { search: 'existing-query=foo&bar=baz' }
+    { search } = { search: 'existing-query=foo&bar=baz' },
   ) => {
     window.history.replaceState({}, '', `http://localhost/?${search}`)
 
     const realReplaceState = window.history.replaceState.bind(
-      window.history
+      window.history,
     )
     window.history.pushState = jest.fn((data, unused, url) => {
       realReplaceState(data, unused, url)
@@ -91,7 +91,7 @@ describe('useNextRouter', () => {
         useRouter,
         usePathname,
         useSearchParams,
-      })
+      }),
     )
 
     expect(() => {
@@ -127,7 +127,7 @@ describe('useNextRouter', () => {
           <Step />
           <Step />
         </Wizard.Container>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(output()).toHaveTextContent('{"activeIndex":0,"index":null}')
@@ -137,14 +137,14 @@ describe('useNextRouter', () => {
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
     expect(window.location.search).toBe(
-      `?existing-query=foo&bar=baz&${identifier}-step=1`
+      `?existing-query=foo&bar=baz&${identifier}-step=1`,
     )
 
     await userEvent.click(previousButton())
 
     expect(output()).toHaveTextContent('{"activeIndex":0,"index":null}')
     expect(window.location.search).toBe(
-      `?existing-query=foo&bar=baz&${identifier}-step=0`
+      `?existing-query=foo&bar=baz&${identifier}-step=0`,
     )
   })
 
@@ -177,7 +177,7 @@ describe('useNextRouter', () => {
           <Step />
           <Step />
         </Wizard.Container>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(output()).toHaveTextContent('{"activeIndex":0,"index":null}')
@@ -189,12 +189,12 @@ describe('useNextRouter', () => {
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
     expect(window.location.search).toBe(
-      `?existing-query=foo&bar=baz&${identifier}-step=1`
+      `?existing-query=foo&bar=baz&${identifier}-step=1`,
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
       '',
-      `http://localhost/?existing-query=foo&bar=baz&${identifier}-step=1`
+      `http://localhost/?existing-query=foo&bar=baz&${identifier}-step=1`,
     )
 
     visitStep(0)
@@ -202,12 +202,12 @@ describe('useNextRouter', () => {
 
     expect(output()).toHaveTextContent('{"activeIndex":0,"index":null}')
     expect(window.location.search).toBe(
-      `?existing-query=foo&bar=baz&${identifier}-step=0`
+      `?existing-query=foo&bar=baz&${identifier}-step=0`,
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
       '',
-      `http://localhost/?existing-query=foo&bar=baz&${identifier}-step=1`
+      `http://localhost/?existing-query=foo&bar=baz&${identifier}-step=1`,
     )
   })
 
@@ -241,7 +241,7 @@ describe('useNextRouter', () => {
           <Step />
           <Step />
         </Wizard.Container>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(document.querySelector('.dnb-form-status')).toBeNull()
@@ -249,7 +249,7 @@ describe('useNextRouter', () => {
     await userEvent.click(nextButton())
 
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      "Cannot read properties of undefined (reading 'push')"
+      "Cannot read properties of undefined (reading 'push')",
     )
   })
 

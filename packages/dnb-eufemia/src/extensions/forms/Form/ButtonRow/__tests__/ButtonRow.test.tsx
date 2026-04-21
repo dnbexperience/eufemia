@@ -8,12 +8,12 @@ describe('Form.ButtonRow', () => {
     render(
       <ButtonRow aria-label="Aria Label">
         <Button>Button</Button>
-      </ButtonRow>
+      </ButtonRow>,
     )
 
     const element = document.querySelector('.dnb-forms-button-row')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toContain('aria-label')
@@ -24,7 +24,7 @@ describe('Form.ButtonRow', () => {
     const { rerender } = render(
       <ButtonRow top="large">
         <Button>Button</Button>
-      </ButtonRow>
+      </ButtonRow>,
     )
 
     const element = document.querySelector('.dnb-forms-button-row')
@@ -34,7 +34,7 @@ describe('Form.ButtonRow', () => {
     rerender(
       <ButtonRow space={{ top: 'x-large' }}>
         <Button>Button</Button>
-      </ButtonRow>
+      </ButtonRow>,
     )
 
     expect(element.classList).toContain('dnb-space__top--x-large')
@@ -44,7 +44,7 @@ describe('Form.ButtonRow', () => {
     render(
       <ButtonRow className="custom-class">
         <Button>Button</Button>
-      </ButtonRow>
+      </ButtonRow>,
     )
 
     const element = document.querySelector('.dnb-forms-button-row')
@@ -62,7 +62,7 @@ describe('Form.ButtonRow', () => {
         <Button>Button 1</Button>
         <Button>Button 2</Button>
         <Button>Button 3</Button>
-      </ButtonRow>
+      </ButtonRow>,
     )
 
     const element = document.querySelector('.dnb-forms-button-row')
@@ -70,7 +70,7 @@ describe('Form.ButtonRow', () => {
     expect(children).toHaveLength(3)
 
     const childrenTextContents = Array.from(children).map((child) =>
-      child.textContent.replace(/[\u200C]/g, '')
+      child.textContent.replace(/[\u200C]/g, ''),
     )
 
     expect(childrenTextContents).toEqual([

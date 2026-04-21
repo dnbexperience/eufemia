@@ -167,15 +167,15 @@ describe('PaymentCard', () => {
         rawData={customData}
         variant="compact"
         cardNumber="************1337"
-      />
+      />,
     )
 
     expect(screen.queryByText(customData.productName)).toBeInTheDocument()
     expect(screen.queryByText(customData.productName).tagName).toEqual(
-      'FIGCAPTION'
+      'FIGCAPTION',
     )
     expect(
-      document.querySelector('div.dnb-payment-card__card--design-gold')
+      document.querySelector('div.dnb-payment-card__card--design-gold'),
     ).toBeInTheDocument()
   })
 
@@ -275,7 +275,7 @@ describe('PaymentCard translations', () => {
         }}
       >
         <PaymentCard {...defaultProps} cardStatus="expired" />
-      </Provider>
+      </Provider>,
     )
 
     expect(screen.queryByText(customText)).toBeInTheDocument()
@@ -292,7 +292,7 @@ describe('PaymentCard translations', () => {
         }}
       >
         <PaymentCard {...defaultProps} cardStatus="blocked" />
-      </Provider>
+      </Provider>,
     )
 
     expect(screen.queryByText(customText)).toBeInTheDocument()
@@ -309,7 +309,7 @@ describe('PaymentCard translations', () => {
         }}
       >
         <PaymentCard {...defaultProps} cardStatus="notActive" />
-      </Provider>
+      </Provider>,
     )
 
     expect(screen.queryByText(customText)).toBeInTheDocument()
@@ -326,7 +326,7 @@ describe('PaymentCard translations', () => {
         }}
       >
         <PaymentCard {...defaultProps} cardStatus="orderInProcess" />
-      </Provider>
+      </Provider>,
     )
 
     expect(screen.queryByText(customText)).toBeInTheDocument()
@@ -343,7 +343,7 @@ describe('PaymentCard translations', () => {
         }}
       >
         <PaymentCard {...defaultProps} cardStatus="renewed" />
-      </Provider>
+      </Provider>,
     )
 
     expect(screen.queryByText(customText)).toBeInTheDocument()
@@ -360,7 +360,7 @@ describe('PaymentCard translations', () => {
         }}
       >
         <PaymentCard {...defaultProps} cardStatus="replaced" />
-      </Provider>
+      </Provider>,
     )
 
     expect(screen.queryByText(customText)).toBeInTheDocument()
@@ -377,7 +377,7 @@ describe('PaymentCard translations', () => {
         }}
       >
         <PaymentCard {...defaultProps} cardStatus="unknown" />
-      </Provider>
+      </Provider>,
     )
 
     expect(screen.queryByText(customText)).toBeInTheDocument()
@@ -394,7 +394,7 @@ describe('PaymentCard translations', () => {
         }}
       >
         <PaymentCard {...defaultProps} cardStatus="new" />
-      </Provider>
+      </Provider>,
     )
 
     expect(screen.queryByText(customText)).toBeInTheDocument()
@@ -411,7 +411,7 @@ describe('PaymentCard translations', () => {
         }}
       >
         <PaymentCard {...defaultProps} cardStatus="newOrder" />
-      </Provider>
+      </Provider>,
     )
 
     expect(screen.queryByText(customText)).toBeInTheDocument()
@@ -428,7 +428,7 @@ describe('undefined props should fall through to defaults', () => {
     render(<PaymentCard {...defaultProps} variant={undefined} />)
 
     expect(
-      document.querySelector('.dnb-payment-card--normal')
+      document.querySelector('.dnb-payment-card--normal'),
     ).toBeInTheDocument()
   })
 })
@@ -441,7 +441,7 @@ describe('PaymentCard scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-payment-card-theme-ui.scss')
+      require.resolve('../style/themes/dnb-payment-card-theme-ui.scss'),
     )
     expect(css).toMatchSnapshot()
   })

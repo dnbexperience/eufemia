@@ -31,7 +31,7 @@ function isLikelyCustomZodMessage(issue: z.core.$ZodIssue): boolean {
 }
 
 function normalizeZodIssueMessage(
-  issue: z.core.$ZodIssue
+  issue: z.core.$ZodIssue,
 ): string | undefined {
   // Map common Zod issue messages to our translation keys
   if (
@@ -117,14 +117,14 @@ export function isZodSchema(schema: unknown): schema is ZodSchema {
  * Safely extracts message values from a Zod issue using proper type checking
  */
 function getMessageValuesFromZodIssue(
-  issue: z.core.$ZodIssue
+  issue: z.core.$ZodIssue,
 ): FormError['messageValues'] {
   // Prefer explicit message parameters provided by field validation
   // (e.g., pre-formatted and locale-aware values)
   const explicitParams = issue?.['messageValues']
   if (explicitParams && typeof explicitParams === 'object') {
     const messages = Object.fromEntries(
-      Object.entries(explicitParams).map(([k, v]) => [k, String(v)])
+      Object.entries(explicitParams).map(([k, v]) => [k, String(v)]),
     )
     return messages
   }
@@ -230,7 +230,7 @@ export function zodErrorToFormError(zodError: z.ZodError): FormError {
       normalizedMessage ?? issue.message ?? 'Validation error',
       {
         messageValues,
-      }
+      },
     )
   }
 
@@ -249,7 +249,7 @@ export function zodErrorToFormError(zodError: z.ZodError): FormError {
     // Use normalized translation key for defaults; fall back to original message
     return new FormError(
       normalizedMessage ?? issue.message ?? 'Validation error',
-      { messageValues }
+      { messageValues },
     )
   })
 
@@ -262,7 +262,7 @@ export function zodErrorToFormError(zodError: z.ZodError): FormError {
  * Converts an array of Zod issues to a single FormError
  */
 export function zodErrorsToOneFormError(
-  zodIssues: z.core.$ZodIssue[]
+  zodIssues: z.core.$ZodIssue[],
 ): FormError {
   if (zodIssues.length === 1) {
     const issue = zodIssues[0]
@@ -278,7 +278,7 @@ export function zodErrorsToOneFormError(
     // Use normalized translation key for defaults; fall back to original message
     return new FormError(
       normalizedMessage ?? issue.message ?? 'Validation error',
-      { messageValues }
+      { messageValues },
     )
   }
 
@@ -297,7 +297,7 @@ export function zodErrorsToOneFormError(
     // Use normalized translation key for defaults; fall back to original message
     return new FormError(
       normalizedMessage ?? issue.message ?? 'Validation error',
-      { messageValues }
+      { messageValues },
     )
   })
 
@@ -310,7 +310,7 @@ export function zodErrorsToOneFormError(
  * Converts an array of Zod issues to a record of path-mapped FormErrors
  */
 export const zodErrorsToFormErrors = (
-  issues?: z.core.$ZodIssue[] | null
+  issues?: z.core.$ZodIssue[] | null,
 ): Record<string, FormError> => {
   return (issues ?? []).reduce(
     (acc, issue) => {
@@ -326,13 +326,16 @@ export const zodErrorsToFormErrors = (
         // Use normalized translation key for defaults; fall back to original message
         acc[path] = new FormError(
           normalizedMessage ?? issue.message ?? 'Validation error',
-          { messageValues, ajvKeyword: normalizedMessage ?? issue.message }
+          {
+            messageValues,
+            ajvKeyword: normalizedMessage ?? issue.message,
+          },
         )
       }
 
       return acc
     },
-    {} as Record<string, FormError>
+    {} as Record<string, FormError>,
   )
 }
 

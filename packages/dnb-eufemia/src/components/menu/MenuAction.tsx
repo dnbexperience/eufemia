@@ -81,7 +81,7 @@ function MenuAction(props: MenuActionProps) {
         context?.closeAll()
       }
     },
-    [disabled, onClick, hasSubMenu, context, triggerOnClick]
+    [disabled, onClick, hasSubMenu, context, triggerOnClick],
   )
 
   const handleKeyDown = useCallback(
@@ -136,7 +136,7 @@ function MenuAction(props: MenuActionProps) {
       context,
       triggerOnKeyDown,
       externalOnKeyDown,
-    ]
+    ],
   )
 
   const content = (
@@ -160,7 +160,7 @@ function MenuAction(props: MenuActionProps) {
     isSubMenuOpen && 'dnb-menu__action--active-trigger',
     hasLink && 'dnb-menu__action--link',
     hasSubMenu && 'dnb-menu__action--has-submenu',
-    className
+    className,
   )
 
   return (

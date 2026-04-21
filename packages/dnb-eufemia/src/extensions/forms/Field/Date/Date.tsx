@@ -143,7 +143,7 @@ function DateComponent(props: DateProps): React.ReactElement {
     },
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.schema, props.pattern]
+    [props.schema, props.pattern],
   )
 
   const validateRequired = useCallback(
@@ -165,7 +165,7 @@ function DateComponent(props: DateProps): React.ReactElement {
 
       return !value || !isValid(parseISO(value)) ? error : undefined
     },
-    [props.range]
+    [props.range],
   )
 
   const dateValidator = useCallback(
@@ -200,7 +200,7 @@ function DateComponent(props: DateProps): React.ReactElement {
         ...(dateLimitErrors.length > 0 ? [] : rangeOrderErrors),
       ]
     },
-    [props.maxDate, props.minDate, props.range, invalidDatesRef, locale]
+    [props.maxDate, props.minDate, props.range, invalidDatesRef, locale],
   )
 
   const {
@@ -239,7 +239,7 @@ function DateComponent(props: DateProps): React.ReactElement {
 
       return props.range ? `${startDate}|${endDate}` : date
     },
-    [props.range, setInvalidDates]
+    [props.range, setInvalidDates],
   )
 
   const preparedProps = {
@@ -291,7 +291,7 @@ function DateComponent(props: DateProps): React.ReactElement {
       valueOnOpenRef.current = internalValue
       datePickerProps.onOpen?.(event)
     },
-    [internalValue, datePickerProps.onOpen]
+    [internalValue, datePickerProps.onOpen],
   )
 
   const handleCancel = useCallback(
@@ -310,7 +310,7 @@ function DateComponent(props: DateProps): React.ReactElement {
 
       datePickerProps.onCancel?.(event)
     },
-    [handleChange, range, datePickerProps.onCancel]
+    [handleChange, range, datePickerProps.onCancel],
   )
 
   const handleSubmit = useCallback(
@@ -318,14 +318,14 @@ function DateComponent(props: DateProps): React.ReactElement {
       valueOnOpenRef.current = internalValue
       datePickerProps.onSubmit?.(event)
     },
-    [internalValue, datePickerProps.onSubmit]
+    [internalValue, datePickerProps.onSubmit],
   )
 
   const handleReset = useCallback(
     (
       event: DatePickerEvent<
         React.MouseEvent<HTMLButtonElement, MouseEvent>
-      >
+      >,
     ) => {
       const initialValue = initialValueRef.current
 
@@ -358,7 +358,7 @@ function DateComponent(props: DateProps): React.ReactElement {
         ...reset,
       })
     },
-    [handleChange, onReset, setDisplayValue, range]
+    [handleChange, onReset, setDisplayValue, range],
   )
   const onFocus = useCallback(() => {
     handleFocus()
@@ -397,7 +397,7 @@ function DateComponent(props: DateProps): React.ReactElement {
       // To ensure that the form can show the required error message while typing and blurring
       setChanged(true)
     },
-    [handleChange, props.range, setChanged, internalValue]
+    [handleChange, props.range, setChanged, internalValue],
   )
 
   const { value, startDate, endDate } = useMemo(() => {
@@ -470,7 +470,7 @@ function DateComponent(props: DateProps): React.ReactElement {
 }
 
 export function parseRangeValue(
-  value: DateProps['value']
+  value: DateProps['value'],
 ): Array<string | null> {
   return (
     String(value)
@@ -542,7 +542,7 @@ function validateDateLimit({
       messages.push(
         new FormError('Date.errorMinDate', {
           messageValues: { date: formatDate(isoDates.minDate, options) },
-        })
+        }),
       )
     }
 
@@ -550,7 +550,7 @@ function validateDateLimit({
       messages.push(
         new FormError('Date.errorMaxDate', {
           messageValues: { date: formatDate(isoDates.maxDate, options) },
-        })
+        }),
       )
     }
 
@@ -562,7 +562,7 @@ function validateDateLimit({
     messages.push(
       new FormError('Date.errorStartDateMinDate', {
         messageValues: { date: formatDate(isoDates.minDate, options) },
-      })
+      }),
     )
   }
 
@@ -570,7 +570,7 @@ function validateDateLimit({
     messages.push(
       new FormError('Date.errorStartDateMaxDate', {
         messageValues: { date: formatDate(isoDates.maxDate, options) },
-      })
+      }),
     )
   }
 
@@ -579,7 +579,7 @@ function validateDateLimit({
     messages.push(
       new FormError('Date.errorEndDateMinDate', {
         messageValues: { date: formatDate(isoDates.minDate, options) },
-      })
+      }),
     )
   }
 
@@ -587,7 +587,7 @@ function validateDateLimit({
     messages.push(
       new FormError('Date.errorEndDateMaxDate', {
         messageValues: { date: formatDate(isoDates.maxDate, options) },
-      })
+      }),
     )
   }
 
@@ -669,7 +669,7 @@ function validateDate({
     errors.push(
       new FormError('Date.errorInvalidStartDate', {
         messageValues: { date: invalidStartDate },
-      })
+      }),
     )
   }
 
@@ -677,7 +677,7 @@ function validateDate({
     errors.push(
       new FormError('Date.errorInvalidEndDate', {
         messageValues: { date: invalidEndDate },
-      })
+      }),
     )
   }
 
@@ -747,7 +747,7 @@ function pickDatePickerProps(props: DateProps): Partial<DatePickerProps> {
 
       return datePickerProps
     },
-    {} as Partial<DatePickerProps>
+    {} as Partial<DatePickerProps>,
   )
 
   return datePickerProps

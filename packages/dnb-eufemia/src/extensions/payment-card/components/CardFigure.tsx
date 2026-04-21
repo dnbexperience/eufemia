@@ -32,7 +32,7 @@ function CardFigure({
   const cardClasses = clsx(
     'dnb-payment-card__card',
     `dnb-payment-card__${data.cardDesign.cardStyle}`,
-    `${isCardBlocked(cardStatus) ? 'dnb-payment-card__card--blocked' : ''}`
+    `${isCardBlocked(cardStatus) ? 'dnb-payment-card__card--blocked' : ''}`,
   )
 
   const ProviderIcons = () => {
@@ -46,7 +46,7 @@ function CardFigure({
             multipleProviders
               ? 'dnb-payment-card__card__providers--multiple'
               : ''
-          }`
+          }`,
         )}
       >
         <BankAxeptLogo

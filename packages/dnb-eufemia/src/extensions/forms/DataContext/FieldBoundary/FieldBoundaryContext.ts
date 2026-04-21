@@ -32,7 +32,7 @@ export type FieldBoundaryContextState = {
    * To set the boundary context error state.
    */
   setShowBoundaryErrors?: (
-    showBoundaryErrors: FieldBoundaryContextState['showBoundaryErrors']
+    showBoundaryErrors: FieldBoundaryContextState['showBoundaryErrors'],
   ) => void
 
   /**

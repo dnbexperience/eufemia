@@ -40,7 +40,7 @@ describe('Stat.Info', () => {
 
   it('supports prominent variant', () => {
     render(
-      <Stat.Info variant="prominent">Some additional content</Stat.Info>
+      <Stat.Info variant="prominent">Some additional content</Stat.Info>,
     )
 
     const info = document.querySelector('.dnb-stat__info')
@@ -69,7 +69,7 @@ describe('Stat.Info', () => {
 
   it('should validate with ARIA rules', async () => {
     const component = render(
-      <Stat.Info>Some additional content</Stat.Info>
+      <Stat.Info>Some additional content</Stat.Info>,
     )
 
     expect(await axeComponent(component)).toHaveNoViolations()
@@ -104,7 +104,7 @@ describe('Stat.Info', () => {
 
     expect(log).toHaveBeenCalledWith(
       expect.stringContaining('Eufemia'),
-      expect.stringContaining('Stat.Info should be used inside Stat.Root')
+      expect.stringContaining('Stat.Info should be used inside Stat.Root'),
     )
   })
 
@@ -115,12 +115,12 @@ describe('Stat.Info', () => {
         <Stat.Content>
           <Stat.Info>Details</Stat.Info>
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     expect(log).not.toHaveBeenCalledWith(
       expect.stringContaining('Eufemia'),
-      expect.stringContaining('Stat.Info should be used inside Stat.Root')
+      expect.stringContaining('Stat.Info should be used inside Stat.Root'),
     )
   })
 
@@ -137,7 +137,7 @@ describe('Stat.Info', () => {
             Details
           </Stat.Info>
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const info = document.querySelector('.dnb-stat__info')
@@ -156,7 +156,7 @@ describe('Stat.Info', () => {
             Details
           </Stat.Info>
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const info = document.querySelector('.dnb-stat__info')

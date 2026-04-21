@@ -12,7 +12,7 @@ describe('Form.SubHeading', () => {
 
     const element = document.querySelector('.dnb-forms-sub-heading')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toContain('aria-label')
@@ -21,7 +21,7 @@ describe('Form.SubHeading', () => {
 
   it('should support spacing props', () => {
     const { rerender } = render(
-      <SubHeading top="x-large">Space Heading</SubHeading>
+      <SubHeading top="x-large">Space Heading</SubHeading>,
     )
     const element = document.querySelector('.dnb-forms-sub-heading')
 

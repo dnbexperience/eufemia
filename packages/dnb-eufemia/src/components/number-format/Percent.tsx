@@ -9,7 +9,7 @@ export type NumberFormatPercentProps = Omit<
 
 const NumberFormatPercent = withFormatter<NumberFormatPercentProps>(
   'NumberFormat.Percent',
-  formatPercent
+  formatPercent,
 )
 
 export default NumberFormatPercent

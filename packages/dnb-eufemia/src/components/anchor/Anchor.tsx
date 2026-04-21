@@ -104,7 +104,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     defaultProps,
     { skeleton: context?.skeleton },
     context?.getTranslation(localProps as AnchorAllProps).Anchor,
-    context?.Anchor
+    context?.Anchor,
   )
 
   const fallbackRef = React.useRef<HTMLAnchorElement>(null)
@@ -182,7 +182,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
           elem
       }
     },
-    [refProp]
+    [refProp],
   )
 
   if (isDisabled) {
@@ -231,9 +231,9 @@ export function AnchorInstance(localProps: AnchorAllProps) {
                 !className?.includes('dnb-anchor--no-launch-icon') &&
                 'dnb-anchor--no-launch-icon',
               context?.theme?.surface === 'dark' &&
-                'dnb-anchor--surface-dark'
+                'dnb-anchor--surface-dark',
             ),
-          className
+          className,
         )}
         {...attributes}
         ref={anchorRef}
@@ -280,7 +280,7 @@ export function scrollToHash(hash: string) {
   if (anchorElem instanceof HTMLElement) {
     try {
       const scrollPadding = parseFloat(
-        window.getComputedStyle(document.documentElement).scrollPaddingTop
+        window.getComputedStyle(document.documentElement).scrollPaddingTop,
       )
       const top = getOffsetTop(anchorElem) - scrollPadding || 0
 

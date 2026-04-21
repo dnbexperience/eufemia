@@ -56,7 +56,7 @@ type SuggestionsConnectorReturn = (
     showIndicator: () => void
     hideIndicator: () => void
     updateData: (data: AddressResolverPayload) => void
-  } & ReceiveAdditionalEventArgs<string>
+  } & ReceiveAdditionalEventArgs<string>,
 ) => Promise<void>
 
 type SuggestionsHandlerConfig = HandlerConfig & {
@@ -108,7 +108,7 @@ export const responseResolver: ResponseResolver<
 
 export function suggestions(
   generalConfig: GeneralConfig,
-  handlerConfig?: SuggestionsHandlerConfig
+  handlerConfig?: SuggestionsHandlerConfig,
 ): SuggestionsConnectorReturn {
   const abortControllerRef = { current: null }
 
@@ -122,7 +122,7 @@ export function suggestions(
       showIndicator: () => void
       hideIndicator: () => void
       updateData: (data: AddressResolverPayload) => void
-    }
+    },
   ) {
     if (!(typeof value === 'string')) {
       return undefined // stop here
@@ -168,12 +168,12 @@ export function suggestions(
 
 export function suggestionsElement(
   generalConfig: GeneralConfig,
-  handlerConfig?: SuggestionsHandlerConfig
+  handlerConfig?: SuggestionsHandlerConfig,
 ) {
   const onType = suggestions(generalConfig, handlerConfig)
   const onChange: UseFieldProps<string>['onChange'] = (
     value,
-    additionalArgs
+    additionalArgs,
   ) => {
     const { cityPath, postalCodePath } = handlerConfig || {}
     const data = additionalArgs?.data as AddressResolverPayload[0]
@@ -182,7 +182,7 @@ export function suggestionsElement(
 
       dataContext.handlePathChangeUnvalidated(
         postalCodePath,
-        data.item.postal_code
+        data.item.postal_code,
       )
 
       dataContext.handlePathChangeUnvalidated(cityPath, data.item.city)
@@ -202,7 +202,7 @@ export function suggestionsElement(
           openOnFocus: true,
           placeholder: suggestionPlaceholder,
           onType: onType as unknown as (
-            event: AutocompleteOnTypeParams
+            event: AutocompleteOnTypeParams,
           ) => void,
           ...props?.autocompleteProps,
         }}

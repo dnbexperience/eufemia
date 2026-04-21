@@ -10,7 +10,7 @@ export type NumberFormatNationalIdentityNumberProps = Omit<
 const NumberFormatNationalIdentityNumber =
   withFormatter<NumberFormatNationalIdentityNumberProps>(
     'NumberFormat.NationalIdentityNumber',
-    formatNationalIdentityNumber
+    formatNationalIdentityNumber,
   )
 
 export default NumberFormatNationalIdentityNumber

@@ -196,7 +196,7 @@ export const humanizeTokenSegment = (value: string) => {
 }
 
 export const extractTokenModifiers = (
-  path: readonly string[]
+  path: readonly string[],
 ): TokenModifier[] => {
   const seen = new Set<TokenModifier>()
   const ordered: TokenModifier[] = []
@@ -224,7 +224,7 @@ export const extractTokenModifiers = (
 
 export const buildThemeTokenEntries = (
   source: FigmaTokenGroup,
-  path: string[] = []
+  path: string[] = [],
 ): TokenEntry[] => {
   return Object.entries(source).flatMap(([key, value]) => {
     if (key.startsWith('$')) {
@@ -255,12 +255,12 @@ export const buildThemeTokenEntries = (
 }
 
 export const buildTokenSections = (
-  themes: Record<ThemeName, FigmaTokenGroup> = themeSources
+  themes: Record<ThemeName, FigmaTokenGroup> = themeSources,
 ): TokenSection[] => {
   const entriesByTheme = Object.fromEntries(
     Object.entries(themes).map(([theme, source]) => {
       return [theme, buildThemeTokenEntries(source)]
-    })
+    }),
   ) as Record<ThemeName, TokenEntry[]>
 
   const tokenMap = new Map<string, TokenRow>()
@@ -334,7 +334,7 @@ export const buildTokenSections = (
           id: groupId,
           title: humanizeTokenSegment(groupId),
           tokens: groupTokens.sort((a, b) =>
-            collator.compare(a.name, b.name)
+            collator.compare(a.name, b.name),
           ),
         })),
     }

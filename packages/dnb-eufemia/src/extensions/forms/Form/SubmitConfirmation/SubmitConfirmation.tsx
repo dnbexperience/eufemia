@@ -71,7 +71,7 @@ function SubmitConfirmation(props: ConfirmProps) {
   const validatePreventSubmit = useCallback(() => {
     return (preventSubmitRef.current = preventSubmitWhen?.(
       // @ts-expect-error - strictFunctionTypes
-      getParamsRef.current()
+      getParamsRef.current(),
     ))
   }, [preventSubmitWhen])
 
@@ -83,13 +83,13 @@ function SubmitConfirmation(props: ConfirmProps) {
 
       const setBuffered = (
         target: 'pending' | 'complete',
-        keepPending: boolean
+        keepPending: boolean,
       ) => {
         // Defer non-pending transitions by one frame so UI can reflect intermediate content
         if (target === 'complete') {
           if (typeof window !== 'undefined') {
             window.requestAnimationFrame(() =>
-              setFormState(target, { keepPending })
+              setFormState(target, { keepPending }),
             )
             return
           }
@@ -114,7 +114,7 @@ function SubmitConfirmation(props: ConfirmProps) {
           forceUpdate()
       }
     },
-    [onStateChange, setFormState]
+    [onStateChange, setFormState],
   )
 
   const getParamsRef = useRef(() => {
@@ -187,7 +187,7 @@ function SubmitConfirmation(props: ConfirmProps) {
 
       await setConfirmationState('readyToBeSubmitted')
     },
-    [setConfirmationState, validatePreventSubmit]
+    [setConfirmationState, validatePreventSubmit],
   )
   const { removeEvent } = useEventListener('onSubmit', handleSubmit)
 

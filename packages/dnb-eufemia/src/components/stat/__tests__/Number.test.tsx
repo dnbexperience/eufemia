@@ -73,7 +73,7 @@ describe('Stat.Number', () => {
         currency="NOK"
         prefix="Fra"
         suffix="/mnd"
-      />
+      />,
     )
 
     const content = document.querySelector('.dnb-stat__content')
@@ -94,7 +94,7 @@ describe('Stat.Number', () => {
         value={1234}
         currency="NOK"
         suffix="/mnd"
-      />
+      />,
     )
 
     const content = document.querySelector('.dnb-stat__content')
@@ -116,7 +116,7 @@ describe('Stat.Number', () => {
         mainSize="xx-large"
         auxiliarySize="basis"
         prefix="From"
-      />
+      />,
     )
 
     const amount = document.querySelector('.dnb-stat__amount')
@@ -132,7 +132,7 @@ describe('Stat.Number', () => {
 
   it('supports fontSize as fallback for both main and auxiliary sizes', () => {
     render(
-      <Stat.Number value={12345.67} currency="NOK" fontSize="x-large" />
+      <Stat.Number value={12345.67} currency="NOK" fontSize="x-large" />,
     )
 
     const amount = document.querySelector('.dnb-stat__amount')
@@ -150,7 +150,7 @@ describe('Stat.Number', () => {
         fontSize="x-large"
         mainSize="xx-large"
         auxiliarySize="basis"
-      />
+      />,
     )
 
     const amount = document.querySelector('.dnb-stat__amount')
@@ -185,7 +185,7 @@ describe('Stat.Number', () => {
         value={12345.67}
         signDisplay="always"
         mainWeight="bold"
-      />
+      />,
     )
 
     const amount = document.querySelector('.dnb-stat__amount')
@@ -202,7 +202,7 @@ describe('Stat.Number', () => {
         currency="NOK"
         prefix="From"
         auxiliaryWeight="bold"
-      />
+      />,
     )
 
     const currency = document.querySelector('.dnb-stat__currency')
@@ -219,7 +219,7 @@ describe('Stat.Number', () => {
         currency="NOK"
         mainSize="large"
         auxiliarySize="large"
-      />
+      />,
     )
 
     const currency = document.querySelector('.dnb-stat__currency')
@@ -235,7 +235,7 @@ describe('Stat.Number', () => {
         mainSize="large"
         auxiliarySize="large"
         mainWeight="regular"
-      />
+      />,
     )
 
     const currency = document.querySelector('.dnb-stat__currency')
@@ -247,7 +247,7 @@ describe('Stat.Number', () => {
     render(
       <Stat.Trend>
         <Stat.Number value={1234} currency="NOK" />
-      </Stat.Trend>
+      </Stat.Trend>,
     )
 
     const amount = document.querySelector('.dnb-stat__amount')
@@ -266,7 +266,7 @@ describe('Stat.Number', () => {
           mainSize="x-large"
           auxiliarySize="small"
         />
-      </Stat.Trend>
+      </Stat.Trend>,
     )
 
     const amount = document.querySelector('.dnb-stat__amount')
@@ -280,7 +280,7 @@ describe('Stat.Number', () => {
     render(
       <Stat.Info>
         <Stat.Number value={1234} currency="NOK" />
-      </Stat.Info>
+      </Stat.Info>,
     )
 
     const amount = document.querySelector('.dnb-stat__amount')
@@ -294,7 +294,7 @@ describe('Stat.Number', () => {
     render(
       <Stat.Info>
         <Stat.Number value={1234} />
-      </Stat.Info>
+      </Stat.Info>,
     )
 
     const amount = document.querySelector('.dnb-stat__amount')
@@ -307,7 +307,7 @@ describe('Stat.Number', () => {
     render(
       <Stat.Trend>
         <Stat.Number value={1234} />
-      </Stat.Trend>
+      </Stat.Trend>,
     )
 
     const amount = document.querySelector('.dnb-stat__amount')
@@ -318,7 +318,7 @@ describe('Stat.Number', () => {
 
   it('supports signDisplay and renders plus for positive values', () => {
     render(
-      <Stat.Number value={12345.67} signDisplay="always" locale="en-GB" />
+      <Stat.Number value={12345.67} signDisplay="always" locale="en-GB" />,
     )
 
     const sign = document.querySelector('.dnb-stat__sign')
@@ -332,7 +332,11 @@ describe('Stat.Number', () => {
 
   it('renders minus sign separately when signDisplay is always', () => {
     render(
-      <Stat.Number value={-12345.67} signDisplay="always" locale="en-GB" />
+      <Stat.Number
+        value={-12345.67}
+        signDisplay="always"
+        locale="en-GB"
+      />,
     )
 
     const sign = document.querySelector('.dnb-stat__sign')
@@ -346,7 +350,7 @@ describe('Stat.Number', () => {
 
   it('does not render sign for zero when signDisplay is exceptZero', () => {
     render(
-      <Stat.Number value={0} signDisplay="exceptZero" locale="en-GB" />
+      <Stat.Number value={0} signDisplay="exceptZero" locale="en-GB" />,
     )
 
     const sign = document.querySelector('.dnb-stat__sign')
@@ -363,7 +367,7 @@ describe('Stat.Number', () => {
         signDisplay="always"
         colorizeBySign
         locale="en-GB"
-      />
+      />,
     )
 
     let root = document.querySelector('.dnb-stat')
@@ -376,7 +380,7 @@ describe('Stat.Number', () => {
         signDisplay="always"
         colorizeBySign
         locale="en-GB"
-      />
+      />,
     )
 
     root = document.querySelector('.dnb-stat')
@@ -386,7 +390,7 @@ describe('Stat.Number', () => {
 
   it('does not colorize when colorizeBySign is false', () => {
     render(
-      <Stat.Number value={12345.67} signDisplay="always" locale="en-GB" />
+      <Stat.Number value={12345.67} signDisplay="always" locale="en-GB" />,
     )
 
     const root = document.querySelector('.dnb-stat')
@@ -459,7 +463,7 @@ describe('Stat.Number', () => {
         value={12345.67}
         currency="NOK"
         currencyPosition="before"
-      />
+      />,
     )
 
     let content = document.querySelector('.dnb-stat__content')
@@ -474,7 +478,7 @@ describe('Stat.Number', () => {
         value={12345.67}
         currency="NOK"
         currencyPosition="after"
-      />
+      />,
     )
 
     content = document.querySelector('.dnb-stat__content')
@@ -491,7 +495,7 @@ describe('Stat.Number', () => {
         value={12345.67}
         currency="NOK"
         currencyDisplay={false}
-      />
+      />,
     )
 
     const currency = document.querySelector('.dnb-stat__currency')
@@ -534,7 +538,7 @@ describe('Stat.Number', () => {
       render(
         <Provider locale="en-GB">
           <Stat.Number value={12345.67} currency="NOK" />
-        </Provider>
+        </Provider>,
       )
 
       const root = document.querySelector('.dnb-stat')
@@ -550,7 +554,7 @@ describe('Stat.Number', () => {
       render(
         <Provider skeleton>
           <Stat.Number value={123} />
-        </Provider>
+        </Provider>,
       )
 
       const root = document.querySelector('.dnb-stat')
@@ -568,7 +572,7 @@ describe('Stat.Number', () => {
         currency="NOK"
         suffix="/mnd"
         signDisplay="always"
-      />
+      />,
     )
 
     expect(await axeComponent(component)).toHaveNoViolations()
@@ -581,7 +585,7 @@ describe('Stat.Number', () => {
         data-testid="stat-number"
         data-foo="bar"
         aria-describedby="desc"
-      />
+      />,
     )
 
     const element = document.querySelector('.dnb-stat')
@@ -599,7 +603,7 @@ describe('Stat.Number', () => {
         decimals={2}
         skeleton
         colorizeBySign
-      />
+      />,
     )
 
     const element = document.querySelector('.dnb-stat')

@@ -11,10 +11,10 @@ describe('usePath', () => {
       renderHook(() =>
         usePath({
           path: 'withoutSlash',
-        })
+        }),
       )
     }).toThrow(
-      'path="withoutSlash" must start with "/" or use "//" or "../"'
+      'path="withoutSlash" must start with "/" or use "//" or "../"',
     )
 
     log.mockRestore()
@@ -27,7 +27,7 @@ describe('usePath', () => {
       renderHook(() =>
         usePath({
           itemPath: 'withoutSlash',
-        })
+        }),
       )
     }).toThrow('itemPath="withoutSlash" must start with a slash')
 
@@ -115,7 +115,7 @@ describe('usePath', () => {
               <Form.Section path="/child">{children}</Form.Section>
             </Form.Section>
           ),
-        }
+        },
       )
       expect(result.current.path).toBe('/parent/sibling')
     })
@@ -131,7 +131,7 @@ describe('usePath', () => {
               </Form.Section>
             </Form.Section>
           ),
-        }
+        },
       )
       expect(result.current.path).toBe('/level-one/rootField')
     })
@@ -143,7 +143,7 @@ describe('usePath', () => {
           wrapper: ({ children }) => (
             <Form.Section path="/only-level">{children}</Form.Section>
           ),
-        }
+        },
       )
       expect(result.current.path).toBe('/field')
     })
@@ -157,7 +157,7 @@ describe('usePath', () => {
   it('joinPath', () => {
     const { result } = renderHook(() => usePath(), {})
     expect(
-      result.current.joinPath([undefined, null, '', 'foo/', '/bar//'])
+      result.current.joinPath([undefined, null, '', 'foo/', '/bar//']),
     ).toBe('/foo/bar')
   })
 
@@ -174,13 +174,13 @@ describe('usePath', () => {
       ),
     })
     expect(result.current.identifier).toBe(
-      `${iteratePath}/${iterateElementIndex}${itemPath}`
+      `${iteratePath}/${iterateElementIndex}${itemPath}`,
     )
     expect(result.current.path).toBe(
-      `${iteratePath}/${iterateElementIndex}${itemPath}`
+      `${iteratePath}/${iterateElementIndex}${itemPath}`,
     )
     expect(result.current.itemPath).toBe(
-      `${iteratePath}/${iterateElementIndex}${itemPath}`
+      `${iteratePath}/${iterateElementIndex}${itemPath}`,
     )
   })
 
@@ -198,7 +198,7 @@ describe('usePath', () => {
     })
     expect(result.current.path).toBe(`/${iterateElementIndex}${itemPath}`)
     expect(result.current.itemPath).toBe(
-      `/${iterateElementIndex}${itemPath}`
+      `/${iterateElementIndex}${itemPath}`,
     )
   })
 
@@ -218,7 +218,7 @@ describe('usePath', () => {
       ),
     })
     expect(result.current.path).toBe(
-      `${sectionPath}${iteratePath}/${iterateElementIndex}${itemPath}`
+      `${sectionPath}${iteratePath}/${iterateElementIndex}${itemPath}`,
     )
   })
 
@@ -263,7 +263,7 @@ describe('usePath', () => {
         ),
       })
       expect(result.current.makeIteratePath(itemPath, iteratePath)).toBe(
-        `${iteratePath}/${iterateElementIndex}${itemPath}`
+        `${iteratePath}/${iterateElementIndex}${itemPath}`,
       )
     })
   })
@@ -273,10 +273,10 @@ describe('appendPath', () => {
   it('should concatenate base and part when both are provided', () => {
     expect(appendPath('/section', '/field')).toBe('/section/field')
     expect(appendPath('/section/path', '/field')).toBe(
-      '/section/path/field'
+      '/section/path/field',
     )
     expect(appendPath('/section', '/field/nested')).toBe(
-      '/section/field/nested'
+      '/section/field/nested',
     )
   })
 
@@ -318,7 +318,7 @@ describe('appendPath', () => {
     // Simulating the actual usage in Provider.tsx
     expect(appendPath('/section', '/field')).toBe('/section/field')
     expect(appendPath('/section', '/field/error')).toBe(
-      '/section/field/error'
+      '/section/field/error',
     )
     expect(appendPath('/', '/field')).toBe('/field')
     expect(appendPath('/section', '/')).toBe('/section')
@@ -368,7 +368,7 @@ describe('cleanPath', () => {
     expect(cleanPath('/section//path//field')).toBe('/section/path/field')
     expect(cleanPath('/section/path/field/')).toBe('/section/path/field')
     expect(cleanPath('/section//path//field///')).toBe(
-      '/section/path/field'
+      '/section/path/field',
     )
   })
 

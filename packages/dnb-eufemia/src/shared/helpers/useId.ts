@@ -8,6 +8,6 @@ export default function useId(customId?: string) {
       customId ??
       id?.replace(/_/, 'id-').replace(/_/g, '') ??
       makeUniqueId(),
-    [customId, id]
+    [customId, id],
   )
 }

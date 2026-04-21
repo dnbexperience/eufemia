@@ -21,7 +21,7 @@ describe('useValueProps', () => {
 
       const transformIn = (external: unknown) => Number(external) + 1
       const { result } = renderHook(() =>
-        useValueProps({ value, transformIn })
+        useValueProps({ value, transformIn }),
       )
 
       expect(result.current.value).toBe(2)
@@ -38,7 +38,7 @@ describe('useValueProps', () => {
             value: 1,
             transformIn: (value: unknown) => Number(value) + 1,
           },
-        }
+        },
       )
 
       expect(result.current.value).toBe(2)
@@ -67,7 +67,7 @@ describe('useValueProps', () => {
               {children}
             </Provider>
           ),
-        }
+        },
       )
 
       expect(result.current.value).toBe(2)
@@ -88,7 +88,7 @@ describe('useValueProps', () => {
 
     const fromExternal = (value) => value + 1
     const { result } = renderHook(() =>
-      useValueProps({ value, fromExternal })
+      useValueProps({ value, fromExternal }),
     )
 
     expect(result.current.value).toBe(2)
@@ -112,7 +112,7 @@ describe('useValueProps', () => {
         wrapper: (props) => (
           <Provider data={{ foo: givenValue }} {...props} />
         ),
-      }
+      },
     )
 
     expect(result.current.value).toBe(value)
@@ -161,7 +161,7 @@ describe('useValueProps', () => {
     const value = 'value'
 
     const { result } = renderHook(() =>
-      useValueProps({ value, foo: 'foo', bar: 'bar' })
+      useValueProps({ value, foo: 'foo', bar: 'bar' }),
     )
 
     expect(result.current.value).toBe('value')
@@ -235,13 +235,13 @@ describe('useValueProps', () => {
         >
           <Field.String path="/myPath" label="The label" />
           <Value.String path="/myPath" inheritLabel />
-        </Form.Handler>
+        </Form.Handler>,
       )
       expect(
-        document.querySelector('.dnb-forms-field-string')
+        document.querySelector('.dnb-forms-field-string'),
       ).toHaveTextContent('The label')
       expect(
-        document.querySelector('.dnb-forms-value-string')
+        document.querySelector('.dnb-forms-value-string'),
       ).toHaveTextContent('The label')
     })
 
@@ -250,22 +250,22 @@ describe('useValueProps', () => {
         <Form.Handler data={{ myPath: 'A value' }}>
           <Value.String path="/myPath" inheritLabel />
           <Field.String path="/myPath" label="The label" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('.dnb-forms-field-string')
+        document.querySelector('.dnb-forms-field-string'),
       ).toHaveTextContent('The label')
 
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-forms-value-string')
+          document.querySelector('.dnb-forms-value-string'),
         ).toHaveTextContent('The label')
       })
 
       expect(
         document.querySelector('.dnb-forms-value-string')
-          .nextElementSibling.className
+          .nextElementSibling.className,
       ).toContain('dnb-forms-field-string')
     })
 
@@ -282,16 +282,16 @@ describe('useValueProps', () => {
             required={false}
           />
           <Value.String path="/myPath" inheritLabel />
-        </Form.Handler>
+        </Form.Handler>,
       )
       expect(
-        document.querySelector('.dnb-forms-field-string')
+        document.querySelector('.dnb-forms-field-string'),
       ).toHaveTextContent(`The label ${nb.Field.optionalLabelSuffix}`)
       expect(
-        document.querySelector('.dnb-forms-value-string')
+        document.querySelector('.dnb-forms-value-string'),
       ).toHaveTextContent('The label')
       expect(
-        document.querySelector('.dnb-forms-value-string')
+        document.querySelector('.dnb-forms-value-string'),
       ).not.toHaveTextContent(nb.Field.optionalLabelSuffix)
     })
 
@@ -304,13 +304,13 @@ describe('useValueProps', () => {
         >
           <Field.String path="/myPath" label="The label" />
           <Value.String path="/myPath" />
-        </Form.Handler>
+        </Form.Handler>,
       )
       expect(
-        document.querySelector('.dnb-forms-field-string')
+        document.querySelector('.dnb-forms-field-string'),
       ).toHaveTextContent('The label')
       expect(
-        document.querySelector('.dnb-forms-value-string')
+        document.querySelector('.dnb-forms-value-string'),
       ).not.toHaveTextContent('The label')
     })
 
@@ -324,13 +324,13 @@ describe('useValueProps', () => {
             inheritLabel
             showEmpty
           />
-        </Form.Handler>
+        </Form.Handler>,
       )
       expect(
-        document.querySelector('.dnb-forms-field-string')
+        document.querySelector('.dnb-forms-field-string'),
       ).toHaveTextContent('A field')
       expect(
-        document.querySelector('.dnb-forms-value-string')
+        document.querySelector('.dnb-forms-value-string'),
       ).toHaveTextContent('A value')
     })
 
@@ -347,13 +347,13 @@ describe('useValueProps', () => {
             <Field.String path="/myPath" label="The label" />
             <Value.String path="/myPath" inheritLabel />
           </Form.Section>
-        </Form.Handler>
+        </Form.Handler>,
       )
       expect(
-        document.querySelector('.dnb-forms-field-string')
+        document.querySelector('.dnb-forms-field-string'),
       ).toHaveTextContent('The label')
       expect(
-        document.querySelector('.dnb-forms-value-string')
+        document.querySelector('.dnb-forms-value-string'),
       ).toHaveTextContent('The label')
     })
 
@@ -369,19 +369,19 @@ describe('useValueProps', () => {
               <Value.String path="/myPath" inheritLabel showEmpty />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('.dnb-forms-field-string')
+        document.querySelector('.dnb-forms-field-string'),
       ).toHaveTextContent('The label')
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-next-button')
+        document.querySelector('.dnb-forms-next-button'),
       )
 
       expect(
-        document.querySelector('.dnb-forms-value-string')
+        document.querySelector('.dnb-forms-value-string'),
       ).toHaveTextContent('The label')
     })
 
@@ -394,14 +394,14 @@ describe('useValueProps', () => {
             required={false}
           />
           <Value.String path="/myPath" inheritLabel showEmpty />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(document.querySelector('label').textContent).toBe(
-        `The label${' '}${nb.Field.optionalLabelSuffix}`
+        `The label${' '}${nb.Field.optionalLabelSuffix}`,
       )
       expect(
-        document.querySelector('.dnb-forms-value-string').textContent
+        document.querySelector('.dnb-forms-value-string').textContent,
       ).toBe('The label')
     })
   })
@@ -430,18 +430,20 @@ describe('useValueProps', () => {
           </Form.Visibility>
 
           <Value.Selection path="/myValue" inheritVisibility />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [valueElementBefore, valueElementAfter] = Array.from(
-        document.querySelectorAll('.dnb-forms-value-string')
+        document.querySelectorAll('.dnb-forms-value-string'),
       )
 
       expect(
-        valueElementBefore.querySelector('.dnb-forms-value-block__content')
+        valueElementBefore.querySelector(
+          '.dnb-forms-value-block__content',
+        ),
       ).toHaveTextContent('Foo')
       expect(
-        valueElementAfter.querySelector('.dnb-forms-value-block__content')
+        valueElementAfter.querySelector('.dnb-forms-value-block__content'),
       ).toHaveTextContent('Foo')
     })
 
@@ -468,12 +470,12 @@ describe('useValueProps', () => {
           </Form.Visibility>
 
           <Value.Selection path="/myValue" inheritVisibility />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       {
         const [valueElementBefore, valueElementAfter] = Array.from(
-          document.querySelectorAll('.dnb-forms-value-string')
+          document.querySelectorAll('.dnb-forms-value-string'),
         )
 
         expect(valueElementBefore).toBeInTheDocument()
@@ -484,7 +486,7 @@ describe('useValueProps', () => {
 
       {
         const [valueElementBefore, valueElementAfter] = Array.from(
-          document.querySelectorAll('.dnb-forms-value-string')
+          document.querySelectorAll('.dnb-forms-value-string'),
         )
 
         expect(valueElementBefore).toBeInTheDocument()
@@ -500,7 +502,7 @@ describe('useValueProps', () => {
 
       await waitFor(() => {
         const [valueElementBefore, valueElementAfter] = Array.from(
-          document.querySelectorAll('.dnb-forms-value-string')
+          document.querySelectorAll('.dnb-forms-value-string'),
         )
         expect(valueElementBefore).toBeInTheDocument()
         expect(valueElementAfter).toBeInTheDocument()
@@ -511,7 +513,7 @@ describe('useValueProps', () => {
       const MyForm = () => {
         const [count, increment] = React.useReducer(
           (state) => state + 1,
-          1
+          1,
         )
 
         return (
@@ -541,7 +543,7 @@ describe('useValueProps', () => {
 
       {
         const [valueElementBefore, valueElementAfter] = Array.from(
-          document.querySelectorAll('.dnb-forms-value-string')
+          document.querySelectorAll('.dnb-forms-value-string'),
         )
 
         expect(valueElementBefore).toBeInTheDocument()
@@ -552,7 +554,7 @@ describe('useValueProps', () => {
 
       {
         const [valueElementBefore, valueElementAfter] = Array.from(
-          document.querySelectorAll('.dnb-forms-value-string')
+          document.querySelectorAll('.dnb-forms-value-string'),
         )
 
         expect(valueElementBefore).toBeInTheDocument()
@@ -568,7 +570,7 @@ describe('useValueProps', () => {
 
       await waitFor(() => {
         const [valueElementBefore, valueElementAfter] = Array.from(
-          document.querySelectorAll('.dnb-forms-value-string')
+          document.querySelectorAll('.dnb-forms-value-string'),
         )
         expect(valueElementBefore).toBeInTheDocument()
         expect(valueElementAfter).toBeInTheDocument()
@@ -609,7 +611,7 @@ describe('useValueProps', () => {
               <Wizard.Buttons />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const output = () => document.querySelector('output')
@@ -617,13 +619,13 @@ describe('useValueProps', () => {
       expect(output()).toHaveTextContent('Step 1')
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-next-button')
+        document.querySelector('.dnb-forms-next-button'),
       )
       expect(output()).toHaveTextContent('Step 2')
 
       {
         const valueElements = document.querySelectorAll(
-          '.dnb-forms-value-string'
+          '.dnb-forms-value-string',
         )
         expect(valueElements).toHaveLength(1)
         expect(valueElements[0]).toBeInTheDocument()
@@ -631,45 +633,45 @@ describe('useValueProps', () => {
       }
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-previous-button')
+        document.querySelector('.dnb-forms-previous-button'),
       )
       expect(output()).toHaveTextContent('Step 1')
 
       // Change the visibility
       await userEvent.click(
-        document.querySelector('.dnb-toggle-button button')
+        document.querySelector('.dnb-toggle-button button'),
       )
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-next-button')
+        document.querySelector('.dnb-forms-next-button'),
       )
       expect(output()).toHaveTextContent('Step 2')
 
       {
         const valueElements = document.querySelectorAll(
-          '.dnb-forms-value-string'
+          '.dnb-forms-value-string',
         )
         expect(valueElements).toHaveLength(0)
       }
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-previous-button')
+        document.querySelector('.dnb-forms-previous-button'),
       )
       expect(output()).toHaveTextContent('Step 1')
 
       // Change the visibility
       await userEvent.click(
-        document.querySelector('.dnb-toggle-button button')
+        document.querySelector('.dnb-toggle-button button'),
       )
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-next-button')
+        document.querySelector('.dnb-forms-next-button'),
       )
       expect(output()).toHaveTextContent('Step 2')
 
       {
         const valueElements = document.querySelectorAll(
-          '.dnb-forms-value-string'
+          '.dnb-forms-value-string',
         )
         expect(valueElements).toHaveLength(1)
         expect(valueElements[0]).toBeInTheDocument()

@@ -40,7 +40,7 @@ export function PrerenderFieldPropsOfOtherSteps({
                   return null
                 }
                 return <Fn key={index} />
-              }
+              },
             )}
         </iframe>
       </PrerenderFieldPropsProvider>
@@ -132,7 +132,7 @@ function usePreventSubmit() {
         return preventSubmit()
       }
     },
-    [hasUnknownSteps, hasInvalidStepsState, effectPromise]
+    [hasUnknownSteps, hasInvalidStepsState, effectPromise],
   )
 
   // Only add the listener when there is an unknown step state

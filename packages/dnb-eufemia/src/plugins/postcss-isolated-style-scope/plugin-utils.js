@@ -2,7 +2,7 @@ const path = require('path')
 const fs = require('fs')
 
 module.exports.findPathToScopeHash = function findPathToScopeHash(
-  filePath
+  filePath,
 ) {
   const parts = filePath.split(path.sep)
   parts.pop() // Remove the filename
@@ -24,10 +24,10 @@ module.exports.findPathToScopeHash = function findPathToScopeHash(
 }
 
 module.exports.getScopeHashFromFile = function getScopeHashFromFile(
-  scopeHashFromFile
+  scopeHashFromFile,
 ) {
   return fs.readFileSync(
     path.join(scopeHashFromFile, 'scope-hash.txt'),
-    'utf-8'
+    'utf-8',
   )
 }

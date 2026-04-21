@@ -159,7 +159,7 @@ const postcssIsolateStyle = (opts = {}) => {
                       sub.type === 'class' &&
                       (sub.value === scope ||
                         sub.value.startsWith(defaultScopeHash) ||
-                        skipClassNamesSet.has(sub.value))
+                        skipClassNamesSet.has(sub.value)),
                   )
                 }
                 return (
@@ -363,7 +363,7 @@ const postcssIsolateStyle = (opts = {}) => {
                   0,
                   space,
                   globalPseudo,
-                  space
+                  space,
                 )
               } else {
                 // plain " .scope "
@@ -372,7 +372,7 @@ const postcssIsolateStyle = (opts = {}) => {
                   0,
                   space,
                   scopeClass,
-                  space
+                  space,
                 )
               }
             })
@@ -392,7 +392,7 @@ const postcssIsolateStyle = (opts = {}) => {
           ) {
             const ast = selectorParser().astSync(selector.trim())
             const isAllGlobal = ast.nodes.some((group) =>
-              isGlobalSelector(group.nodes)
+              isGlobalSelector(group.nodes),
             )
             if (isAllGlobal) {
               processedSelectors.push(selector)
@@ -403,7 +403,7 @@ const postcssIsolateStyle = (opts = {}) => {
           // Check if selector contains [skip-isolation] and remove it
           if (selector.includes('[skip-isolation] ')) {
             processedSelectors.push(
-              selector.replace(/\[skip-isolation\]\s*/g, '').trim()
+              selector.replace(/\[skip-isolation\]\s*/g, '').trim(),
             )
             return
           }
@@ -414,19 +414,19 @@ const postcssIsolateStyle = (opts = {}) => {
               /\[scope-placeholder\]/g,
               isCssModule
                 ? `:global(.${scopeWithFallback})`
-                : `.${scopeWithFallback}`
+                : `.${scopeWithFallback}`,
             )
           }
 
           // Always add the main scope selector
           processedSelectors.push(
-            processSelector(selector, scopeWithFallback)
+            processSelector(selector, scopeWithFallback),
           )
 
           // Add shared hashes if they exist
           if (Array.isArray(sharedHashes) && sharedHashes.length > 0) {
             const uniqueSharedHashes = sharedHashes.filter(
-              (hash) => hash !== scopeWithFallback
+              (hash) => hash !== scopeWithFallback,
             )
             uniqueSharedHashes.forEach((hash) => {
               processedSelectors.push(processSelector(selector, hash))
@@ -461,7 +461,7 @@ Settings: ${JSON.stringify({ isCssModule }, null, 2)}
   ✨ @dnb/eufemia/plugins/postcss-isolated-style-scope
   - File: ${path.relative(process.cwd(), file)}
   - Selectors processed: ${countBefore} → ${countAfter}
-  `
+  `,
         )
       }
     },
@@ -476,7 +476,7 @@ function isGlobalSelector(nodes) {
   if (!nodes || nodes.length === 0) return false
   // Remove whitespace combinators
   const parts = nodes.filter(
-    (n) => !(n.type === 'combinator' && n.value.trim() === '')
+    (n) => !(n.type === 'combinator' && n.value.trim() === ''),
   )
   // Case 1: :global(html), :global(body), :global(html body), :global(html *), etc.
   if (

@@ -9,15 +9,15 @@ describe('Value.Selection', () => {
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('Bankaxept')
   })
 
   it('renders label when showEmpty is true', () => {
     render(<Value.Selection showEmpty label="My label" />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      'My label'
+      'My label',
     )
   })
 
@@ -25,19 +25,19 @@ describe('Value.Selection', () => {
     render(<Value.Selection label="My selections" value="Visa" />)
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('Visa')
 
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      'My selections'
+      'My selections',
     )
   })
 
   it('renders custom label', () => {
     render(<Value.Selection label="Custom label" showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      'Custom label'
+      'Custom label',
     )
   })
 
@@ -50,13 +50,13 @@ describe('Value.Selection', () => {
     render(
       <Form.Handler data={{ myPath: 'Mastercard' }}>
         <Value.Selection path="/myPath" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('Mastercard')
   })
 
@@ -74,13 +74,13 @@ describe('Value.Selection', () => {
         </Field.Selection>
 
         <Value.Selection path="/myPath" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('Foo title')
   })
 
@@ -98,13 +98,13 @@ describe('Value.Selection', () => {
         </Field.Selection>
 
         <Value.Selection path="/myPath" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     expect(
       document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
+        '.dnb-forms-value-string .dnb-forms-value-block__content',
+      ),
     ).toHaveTextContent('Bar title')
   })
 
@@ -122,11 +122,11 @@ describe('Value.Selection', () => {
         </Field.Selection>
 
         <Value.Selection path="/myPath" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const element = document.querySelector(
-      '.dnb-forms-value-string .dnb-forms-value-block__content'
+      '.dnb-forms-value-string .dnb-forms-value-block__content',
     )
 
     expect(element).toHaveTextContent('Foo title')
@@ -159,11 +159,11 @@ describe('Value.Selection', () => {
           variant="radio"
         />
         <Value.Selection path="/selection" dataPath="/myList" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const element = document.querySelector(
-      '.dnb-forms-value-string .dnb-forms-value-block__content'
+      '.dnb-forms-value-string .dnb-forms-value-block__content',
     )
 
     expect(element).toHaveTextContent('Foo title')
@@ -191,11 +191,11 @@ describe('Value.Selection', () => {
         }}
       >
         <Value.Selection path="/selection" dataPath="/myList" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const element = document.querySelector(
-      '.dnb-forms-value-string .dnb-forms-value-block__content'
+      '.dnb-forms-value-string .dnb-forms-value-block__content',
     )
 
     expect(element).toHaveTextContent('Bar title')
@@ -213,11 +213,11 @@ describe('Value.Selection', () => {
         }}
       >
         <Value.Selection dataPath="/myList" defaultValue="bar" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const element = document.querySelector(
-      '.dnb-forms-value-string .dnb-forms-value-block__content'
+      '.dnb-forms-value-string .dnb-forms-value-block__content',
     )
 
     expect(element).toHaveTextContent('Bar title')

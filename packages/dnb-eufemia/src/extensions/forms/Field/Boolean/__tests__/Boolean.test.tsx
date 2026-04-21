@@ -22,14 +22,14 @@ describe('Field.Boolean', () => {
           variant="checkbox"
           label="Boolean label"
           size="large"
-        />
+        />,
       )
 
       const fieldToggleElement: HTMLInputElement = document.querySelector(
-        '.dnb-forms-field-toggle'
+        '.dnb-forms-field-toggle',
       )
       expect(fieldToggleElement.classList).toContain(
-        'dnb-forms-field-block--label-height-large'
+        'dnb-forms-field-block--label-height-large',
       )
 
       const checkboxElement: HTMLInputElement =
@@ -54,18 +54,18 @@ describe('Field.Boolean', () => {
         <Field.Boolean
           variant="checkbox"
           help={{ title: 'Help title', content: 'Help content' }}
-        />
+        />,
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
       const helpButton = document.querySelector(
-        '.dnb-checkbox__suffix .dnb-help-button'
+        '.dnb-checkbox__suffix .dnb-help-button',
       )
       expect(helpButton).toBeInTheDocument()
       expect(document.querySelector('input')).toHaveAttribute(
-        'aria-describedby'
+        'aria-describedby',
       )
       expect(
-        document.querySelector('input').getAttribute('aria-describedby')
+        document.querySelector('input').getAttribute('aria-describedby'),
       ).toContain(document.querySelector('.dnb-help-button').id)
     })
 
@@ -74,10 +74,10 @@ describe('Field.Boolean', () => {
         <Field.Boolean
           variant="checkbox"
           error={new Error('This is what went wrong')}
-        />
+        />,
       )
       expect(
-        screen.getByText('This is what went wrong')
+        screen.getByText('This is what went wrong'),
       ).toBeInTheDocument()
     })
 
@@ -87,7 +87,7 @@ describe('Field.Boolean', () => {
           variant="checkbox"
           trueText="True text"
           falseText="False text"
-        />
+        />,
       )
       expect(screen.getByText('False text')).toBeInTheDocument()
       await userEvent.click(screen.getByText('False text'))
@@ -99,7 +99,7 @@ describe('Field.Boolean', () => {
         <Field.Boolean
           variant="checkbox"
           error={new Error('This is what went wrong')}
-        />
+        />,
       )
       const element = document.querySelector('.dnb-checkbox')
       expect(element.className).toContain('dnb-checkbox__status--error')
@@ -112,7 +112,7 @@ describe('Field.Boolean', () => {
           variant="checkbox"
           value={false}
           onChange={onChange}
-        />
+        />,
       )
       const input = screen.getByRole('checkbox')
       await userEvent.click(input)
@@ -128,7 +128,7 @@ describe('Field.Boolean', () => {
 
     it('should show error when no value is given', () => {
       render(
-        <Field.Boolean variant="checkbox" required validateInitially />
+        <Field.Boolean variant="checkbox" required validateInitially />,
       )
       expect(screen.getByRole('alert')).toBeInTheDocument()
     })
@@ -140,7 +140,7 @@ describe('Field.Boolean', () => {
           value={true}
           validateInitially
           required
-        />
+        />,
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
@@ -152,7 +152,7 @@ describe('Field.Boolean', () => {
           value={false}
           validateInitially
           required
-        />
+        />,
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
@@ -173,7 +173,7 @@ describe('Field.Boolean', () => {
               return null
             }}
           </DataContext.Consumer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
@@ -217,7 +217,7 @@ describe('Field.Boolean', () => {
               return null
             }}
           </DataContext.Consumer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
@@ -256,7 +256,7 @@ describe('Field.Boolean', () => {
           label="Label {itemNo}"
           variant="checkbox"
           onClick={onClick}
-        />
+        />,
       )
 
       const checkbox = document.querySelector('input')
@@ -270,7 +270,7 @@ describe('Field.Boolean', () => {
         false,
         expect.objectContaining({
           checked: false,
-        })
+        }),
       )
 
       await userEvent.click(checkbox)
@@ -281,7 +281,7 @@ describe('Field.Boolean', () => {
         false,
         expect.objectContaining({
           checked: false,
-        })
+        }),
       )
     })
 
@@ -293,7 +293,7 @@ describe('Field.Boolean', () => {
             variant="checkbox"
             validateInitially
             required
-          />
+          />,
         )
 
         expect(await axeComponent(result)).toHaveNoViolations()
@@ -313,7 +313,7 @@ describe('Field.Boolean', () => {
             variant="checkbox"
             validateInitially
             required
-          />
+          />,
         )
 
         const input = document.querySelector('input')
@@ -329,14 +329,14 @@ describe('Field.Boolean', () => {
           variant="switch"
           label="Boolean label"
           size="large"
-        />
+        />,
       )
 
       const fieldToggleElement: HTMLInputElement = document.querySelector(
-        '.dnb-forms-field-toggle'
+        '.dnb-forms-field-toggle',
       )
       expect(fieldToggleElement.classList).toContain(
-        'dnb-forms-field-block--label-height-large'
+        'dnb-forms-field-block--label-height-large',
       )
 
       const switchElement: HTMLInputElement =
@@ -361,18 +361,18 @@ describe('Field.Boolean', () => {
         <Field.Boolean
           variant="switch"
           help={{ title: 'Help title', content: 'Help content' }}
-        />
+        />,
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
       const helpButton = document.querySelector(
-        '.dnb-switch__suffix .dnb-help-button'
+        '.dnb-switch__suffix .dnb-help-button',
       )
       expect(helpButton).toBeInTheDocument()
       expect(document.querySelector('input')).toHaveAttribute(
-        'aria-describedby'
+        'aria-describedby',
       )
       expect(
-        document.querySelector('input').getAttribute('aria-describedby')
+        document.querySelector('input').getAttribute('aria-describedby'),
       ).toContain(document.querySelector('.dnb-help-button').id)
     })
 
@@ -381,10 +381,10 @@ describe('Field.Boolean', () => {
         <Field.Boolean
           variant="switch"
           error={new Error('This is what went wrong')}
-        />
+        />,
       )
       expect(
-        screen.getByText('This is what went wrong')
+        screen.getByText('This is what went wrong'),
       ).toBeInTheDocument()
     })
 
@@ -394,7 +394,7 @@ describe('Field.Boolean', () => {
           variant="switch"
           trueText="True text"
           falseText="False text"
-        />
+        />,
       )
       expect(screen.getByText('False text')).toBeInTheDocument()
       await userEvent.click(screen.getByText('False text'))
@@ -406,7 +406,7 @@ describe('Field.Boolean', () => {
         <Field.Boolean
           variant="switch"
           error={new Error('This is what went wrong')}
-        />
+        />,
       )
       const element = document.querySelector('.dnb-switch')
       expect(element.className).toContain('dnb-switch__status--error')
@@ -419,7 +419,7 @@ describe('Field.Boolean', () => {
           variant="switch"
           value={false}
           onChange={onChange}
-        />
+        />,
       )
       const input = screen.getByRole('switch')
       await userEvent.click(input)
@@ -445,7 +445,7 @@ describe('Field.Boolean', () => {
           value={true}
           validateInitially
           required
-        />
+        />,
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
@@ -457,7 +457,7 @@ describe('Field.Boolean', () => {
           value={false}
           validateInitially
           required
-        />
+        />,
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
@@ -478,7 +478,7 @@ describe('Field.Boolean', () => {
               return null
             }}
           </DataContext.Consumer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
@@ -522,7 +522,7 @@ describe('Field.Boolean', () => {
               return null
             }}
           </DataContext.Consumer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
@@ -561,7 +561,7 @@ describe('Field.Boolean', () => {
           label="Label {itemNo}"
           variant="switch"
           onClick={onClick}
-        />
+        />,
       )
 
       const switchElem = document.querySelector('input')
@@ -575,7 +575,7 @@ describe('Field.Boolean', () => {
         false,
         expect.objectContaining({
           checked: false,
-        })
+        }),
       )
 
       await userEvent.click(switchElem)
@@ -586,7 +586,7 @@ describe('Field.Boolean', () => {
         false,
         expect.objectContaining({
           checked: false,
-        })
+        }),
       )
     })
 
@@ -598,7 +598,7 @@ describe('Field.Boolean', () => {
             variant="switch"
             validateInitially
             required
-          />
+          />,
         )
 
         expect(await axeComponent(result)).toHaveNoViolations()
@@ -618,7 +618,7 @@ describe('Field.Boolean', () => {
             variant="switch"
             validateInitially
             required
-          />
+          />,
         )
 
         const input = document.querySelector('input')
@@ -634,18 +634,18 @@ describe('Field.Boolean', () => {
           variant="button"
           label="Boolean label"
           size="large"
-        />
+        />,
       )
 
       const fieldToggleElement: HTMLInputElement = document.querySelector(
-        '.dnb-forms-field-toggle'
+        '.dnb-forms-field-toggle',
       )
       expect(fieldToggleElement.classList).toContain(
-        'dnb-forms-field-block--label-height-large'
+        'dnb-forms-field-block--label-height-large',
       )
 
       const buttonElement: HTMLInputElement = document.querySelector(
-        '.dnb-toggle-button__button'
+        '.dnb-toggle-button__button',
       )
       expect(buttonElement.classList).toContain('dnb-button--size-large')
     })
@@ -667,16 +667,16 @@ describe('Field.Boolean', () => {
         <Field.Boolean
           variant="button"
           help={{ title: 'Help title', content: 'Help content' }}
-        />
+        />,
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
       expect(
-        document.querySelector('.dnb-toggle-button__button')
+        document.querySelector('.dnb-toggle-button__button'),
       ).toHaveAttribute('aria-describedby')
       expect(
         document
           .querySelector('.dnb-toggle-button__button')
-          .getAttribute('aria-describedby')
+          .getAttribute('aria-describedby'),
       ).toBe(document.querySelector('.dnb-help-button').id)
     })
 
@@ -685,10 +685,10 @@ describe('Field.Boolean', () => {
         <Field.Boolean
           variant="button"
           error={new Error('This is what went wrong')}
-        />
+        />,
       )
       expect(
-        screen.getByText('This is what went wrong')
+        screen.getByText('This is what went wrong'),
       ).toBeInTheDocument()
     })
 
@@ -698,7 +698,7 @@ describe('Field.Boolean', () => {
           variant="button"
           trueText="True text"
           falseText="False text"
-        />
+        />,
       )
       expect(screen.getByText('False text')).toBeInTheDocument()
       await userEvent.click(screen.getByText('False text'))
@@ -710,11 +710,11 @@ describe('Field.Boolean', () => {
         <Field.Boolean
           variant="button"
           error={new Error('This is what went wrong')}
-        />
+        />,
       )
       const element = document.querySelector('.dnb-toggle-button')
       expect(element.className).toContain(
-        'dnb-toggle-button__status--error'
+        'dnb-toggle-button__status--error',
       )
     })
 
@@ -730,7 +730,7 @@ describe('Field.Boolean', () => {
           value={true}
           validateInitially
           required
-        />
+        />,
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
@@ -742,7 +742,7 @@ describe('Field.Boolean', () => {
           value={false}
           validateInitially
           required
-        />
+        />,
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
@@ -763,7 +763,7 @@ describe('Field.Boolean', () => {
               return null
             }}
           </DataContext.Consumer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
@@ -807,7 +807,7 @@ describe('Field.Boolean', () => {
               return null
             }}
           </DataContext.Consumer>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
@@ -844,7 +844,7 @@ describe('Field.Boolean', () => {
             variant="button"
             validateInitially
             required
-          />
+          />,
         )
 
         expect(await axeComponent(result)).toHaveNoViolations()
@@ -864,7 +864,7 @@ describe('Field.Boolean', () => {
             variant="button"
             validateInitially
             required
-          />
+          />,
         )
 
         const button = document.querySelector('button')
@@ -880,33 +880,33 @@ describe('Field.Boolean', () => {
           variant="checkbox-button"
           label="Boolean label"
           size="large"
-        />
+        />,
       )
 
       const fieldToggleElement: HTMLInputElement = document.querySelector(
-        '.dnb-forms-field-toggle'
+        '.dnb-forms-field-toggle',
       )
       expect(fieldToggleElement.classList).toContain(
-        'dnb-forms-field-block--label-height-large'
+        'dnb-forms-field-block--label-height-large',
       )
 
       const checkboxButtonElement: HTMLInputElement =
         document.querySelector('.dnb-toggle-button__button')
       expect(checkboxButtonElement.classList).toContain(
-        'dnb-button--size-large'
+        'dnb-button--size-large',
       )
     })
 
     it('renders label', () => {
       render(
-        <Field.Boolean variant="checkbox-button" label="Boolean label" />
+        <Field.Boolean variant="checkbox-button" label="Boolean label" />,
       )
       expect(screen.getByText('Boolean label')).toBeInTheDocument()
     })
 
     it('label should render only once', () => {
       render(
-        <Field.Boolean variant="checkbox-button" label="Boolean label" />
+        <Field.Boolean variant="checkbox-button" label="Boolean label" />,
       )
       expect(screen.queryAllByLabelText('Boolean label')).toHaveLength(1)
       expect(screen.queryByText('Ja')).not.toBeInTheDocument()
@@ -918,16 +918,16 @@ describe('Field.Boolean', () => {
         <Field.Boolean
           variant="checkbox-button"
           help={{ title: 'Help title', content: 'Help content' }}
-        />
+        />,
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
       expect(
-        document.querySelector('.dnb-toggle-button__button')
+        document.querySelector('.dnb-toggle-button__button'),
       ).toHaveAttribute('aria-describedby')
       expect(
         document
           .querySelector('.dnb-toggle-button__button')
-          .getAttribute('aria-describedby')
+          .getAttribute('aria-describedby'),
       ).toBe(document.querySelector('.dnb-help-button').id)
     })
 
@@ -936,10 +936,10 @@ describe('Field.Boolean', () => {
         <Field.Boolean
           variant="checkbox-button"
           error={new Error('This is what went wrong')}
-        />
+        />,
       )
       expect(
-        screen.getByText('This is what went wrong')
+        screen.getByText('This is what went wrong'),
       ).toBeInTheDocument()
     })
 
@@ -949,7 +949,7 @@ describe('Field.Boolean', () => {
           variant="checkbox-button"
           trueText="True text"
           falseText="False text"
-        />
+        />,
       )
       expect(screen.getByText('False text')).toBeInTheDocument()
       await userEvent.click(screen.getByText('False text'))
@@ -961,11 +961,11 @@ describe('Field.Boolean', () => {
         <Field.Boolean
           variant="checkbox-button"
           error={new Error('This is what went wrong')}
-        />
+        />,
       )
       const element = document.querySelector('.dnb-toggle-button')
       expect(element.className).toContain(
-        'dnb-toggle-button__status--error'
+        'dnb-toggle-button__status--error',
       )
     })
 
@@ -975,7 +975,7 @@ describe('Field.Boolean', () => {
           variant="checkbox-button"
           required
           validateInitially
-        />
+        />,
       )
       expect(screen.getByRole('alert')).toBeInTheDocument()
     })
@@ -987,7 +987,7 @@ describe('Field.Boolean', () => {
           value={true}
           validateInitially
           required
-        />
+        />,
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
@@ -999,7 +999,7 @@ describe('Field.Boolean', () => {
           value={false}
           validateInitially
           required
-        />
+        />,
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
@@ -1012,7 +1012,7 @@ describe('Field.Boolean', () => {
             variant="checkbox-button"
             validateInitially
             required
-          />
+          />,
         )
 
         expect(await axeComponent(result)).toHaveNoViolations()
@@ -1024,7 +1024,7 @@ describe('Field.Boolean', () => {
             label="Label"
             variant="checkbox-button"
             required
-          />
+          />,
         )
 
         const button = document.querySelector('button')
@@ -1038,7 +1038,7 @@ describe('Field.Boolean', () => {
             variant="checkbox-button"
             validateInitially
             required
-          />
+          />,
         )
 
         const button = document.querySelector('button')
@@ -1054,28 +1054,28 @@ describe('Field.Boolean', () => {
           variant="buttons"
           label="Boolean label"
           size="large"
-        />
+        />,
       )
 
       const fieldToggleElement: HTMLInputElement = document.querySelector(
-        '.dnb-forms-field-toggle'
+        '.dnb-forms-field-toggle',
       )
       expect(fieldToggleElement.classList).toContain(
-        'dnb-forms-field-block--label-height-large'
+        'dnb-forms-field-block--label-height-large',
       )
 
       const buttonElementOne: Element = document.querySelectorAll(
-        '.dnb-toggle-button__button'
+        '.dnb-toggle-button__button',
       )[1]
       expect(buttonElementOne.classList).toContain(
-        'dnb-button--size-large'
+        'dnb-button--size-large',
       )
 
       const buttonElementTwo: Element = document.querySelectorAll(
-        '.dnb-toggle-button__button'
+        '.dnb-toggle-button__button',
       )[0]
       expect(buttonElementTwo.classList).toContain(
-        'dnb-button--size-large'
+        'dnb-button--size-large',
       )
     })
 
@@ -1096,11 +1096,11 @@ describe('Field.Boolean', () => {
         <Field.Boolean
           variant="buttons"
           help={{ title: 'Help title', content: 'Help content' }}
-        />
+        />,
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
       const toggleButtons = document.querySelectorAll(
-        '.dnb-toggle-button__button'
+        '.dnb-toggle-button__button',
       )
       expect(toggleButtons.length).toBeGreaterThan(0)
       toggleButtons.forEach((button) => {
@@ -1134,10 +1134,10 @@ describe('Field.Boolean', () => {
         <Field.Boolean
           variant="buttons"
           error={new Error('This is what went wrong')}
-        />
+        />,
       )
       expect(
-        screen.getByText('This is what went wrong')
+        screen.getByText('This is what went wrong'),
       ).toBeInTheDocument()
     })
 
@@ -1147,7 +1147,7 @@ describe('Field.Boolean', () => {
           variant="buttons"
           trueText="True text"
           falseText="False text"
-        />
+        />,
       )
       expect(screen.getByText('False text')).toBeInTheDocument()
       expect(screen.getByText('True text')).toBeInTheDocument()
@@ -1158,11 +1158,11 @@ describe('Field.Boolean', () => {
         <Field.Boolean
           variant="buttons"
           error={new Error('This is what went wrong')}
-        />
+        />,
       )
       const element = document.querySelector('.dnb-toggle-button')
       expect(element.className).toContain(
-        'dnb-toggle-button__status--error'
+        'dnb-toggle-button__status--error',
       )
     })
 
@@ -1170,11 +1170,11 @@ describe('Field.Boolean', () => {
       const { rerender } = render(
         <DataContext.Provider data={{ isTrue: true }}>
           <Field.Boolean variant="buttons" path="/isTrue" />
-        </DataContext.Provider>
+        </DataContext.Provider>,
       )
 
       const [yesElement, noElement]: Array<HTMLButtonElement> = Array.from(
-        document.querySelectorAll('.dnb-toggle-button__button')
+        document.querySelectorAll('.dnb-toggle-button__button'),
       )
 
       expect(yesElement).toHaveAttribute('aria-checked', 'true')
@@ -1183,7 +1183,7 @@ describe('Field.Boolean', () => {
       rerender(
         <DataContext.Provider data={{ isTrue: false }}>
           <Field.Boolean variant="buttons" path="/isTrue" />
-        </DataContext.Provider>
+        </DataContext.Provider>,
       )
 
       expect(yesElement).toHaveAttribute('aria-checked', 'false')
@@ -1194,11 +1194,11 @@ describe('Field.Boolean', () => {
       const { rerender } = render(
         <DataContext.Provider data={{ isTrue: true }}>
           <Field.Boolean variant="buttons" path="/isTrue" />
-        </DataContext.Provider>
+        </DataContext.Provider>,
       )
 
       const [yesElement, noElement]: Array<HTMLButtonElement> = Array.from(
-        document.querySelectorAll('.dnb-toggle-button__button')
+        document.querySelectorAll('.dnb-toggle-button__button'),
       )
 
       expect(yesElement).toHaveAttribute('aria-checked', 'true')
@@ -1207,7 +1207,7 @@ describe('Field.Boolean', () => {
       rerender(
         <DataContext.Provider data={{ isTrue: undefined }}>
           <Field.Boolean variant="buttons" path="/isTrue" />
-        </DataContext.Provider>
+        </DataContext.Provider>,
       )
 
       expect(yesElement).toHaveAttribute('aria-checked', 'false')
@@ -1231,10 +1231,10 @@ describe('Field.Boolean', () => {
       render(<MockComponent />)
 
       const resetButton = document.querySelector(
-        '.dnb-forms-submit-button'
+        '.dnb-forms-submit-button',
       )
       const [yesElement, noElement]: Array<HTMLButtonElement> = Array.from(
-        document.querySelectorAll('.dnb-toggle-button__button')
+        document.querySelectorAll('.dnb-toggle-button__button'),
       )
 
       expect(yesElement).toHaveAttribute('aria-checked', 'false')
@@ -1258,7 +1258,7 @@ describe('Field.Boolean', () => {
 
     it('should show error when no value is given', () => {
       render(
-        <Field.Boolean variant="buttons" required validateInitially />
+        <Field.Boolean variant="buttons" required validateInitially />,
       )
       expect(screen.getByRole('alert')).toBeInTheDocument()
     })
@@ -1270,7 +1270,7 @@ describe('Field.Boolean', () => {
           value={true}
           validateInitially
           required
-        />
+        />,
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
@@ -1282,7 +1282,7 @@ describe('Field.Boolean', () => {
           value={false}
           validateInitially
           required
-        />
+        />,
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
@@ -1295,7 +1295,7 @@ describe('Field.Boolean', () => {
             variant="buttons"
             validateInitially
             required
-          />
+          />,
         )
 
         expect(await axeComponent(result)).toHaveNoViolations()
@@ -1305,7 +1305,7 @@ describe('Field.Boolean', () => {
         render(<Field.Boolean label="Label" variant="buttons" required />)
 
         const [first, second] = Array.from(
-          document.querySelectorAll('button')
+          document.querySelectorAll('button'),
         )
         expect(first).toHaveAttribute('aria-required', 'true')
         expect(second).toHaveAttribute('aria-required', 'true')
@@ -1318,11 +1318,11 @@ describe('Field.Boolean', () => {
             variant="buttons"
             required
             validateInitially
-          />
+          />,
         )
 
         const [first, second] = Array.from(
-          document.querySelectorAll('button')
+          document.querySelectorAll('button'),
         )
         expect(first).toHaveAttribute('aria-invalid', 'true')
         expect(second).toHaveAttribute('aria-invalid', 'true')
@@ -1362,7 +1362,7 @@ describe('Field.Boolean', () => {
 
     it('should validate with ARIA rules when using fieldset', async () => {
       const Comp = render(
-        <Field.Boolean variant="buttons" label="Legend" />
+        <Field.Boolean variant="buttons" label="Legend" />,
       )
       expect(await axeComponent(Comp)).toHaveNoViolations()
     })
@@ -1380,14 +1380,14 @@ describe('Field.Boolean', () => {
           variant="radio"
           label="Boolean label"
           size="large"
-        />
+        />,
       )
 
       const fieldToggleElement: HTMLInputElement = document.querySelector(
-        '.dnb-forms-field-toggle'
+        '.dnb-forms-field-toggle',
       )
       expect(fieldToggleElement.classList).toContain(
-        'dnb-forms-field-block--label-height-large'
+        'dnb-forms-field-block--label-height-large',
       )
 
       const radioElementOne: Element =
@@ -1416,7 +1416,7 @@ describe('Field.Boolean', () => {
         <Field.Boolean
           variant="radio"
           help={{ title: 'Help title', content: 'Help content' }}
-        />
+        />,
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
       const radioButtons = document.querySelectorAll('.dnb-radio__input')
@@ -1452,10 +1452,10 @@ describe('Field.Boolean', () => {
         <Field.Boolean
           variant="radio"
           error={new Error('This is what went wrong')}
-        />
+        />,
       )
       expect(
-        screen.getByText('This is what went wrong')
+        screen.getByText('This is what went wrong'),
       ).toBeInTheDocument()
     })
 
@@ -1465,7 +1465,7 @@ describe('Field.Boolean', () => {
           variant="radio"
           trueText="True text"
           falseText="False text"
-        />
+        />,
       )
       expect(screen.getByText('False text')).toBeInTheDocument()
       expect(screen.getByText('True text')).toBeInTheDocument()
@@ -1476,7 +1476,7 @@ describe('Field.Boolean', () => {
         <Field.Boolean
           variant="radio"
           error={new Error('This is what went wrong')}
-        />
+        />,
       )
       const element = document.querySelector('.dnb-radio-group')
       expect(element.className).toContain('dnb-radio-group__status--error')
@@ -1486,11 +1486,11 @@ describe('Field.Boolean', () => {
       const { rerender } = render(
         <DataContext.Provider data={{ isTrue: true }}>
           <Field.Boolean variant="radio" path="/isTrue" />
-        </DataContext.Provider>
+        </DataContext.Provider>,
       )
 
       const [yesElement, noElement]: Array<HTMLButtonElement> = Array.from(
-        document.querySelectorAll('.dnb-radio__input')
+        document.querySelectorAll('.dnb-radio__input'),
       )
 
       expect(yesElement).toHaveAttribute('aria-checked', 'true')
@@ -1499,7 +1499,7 @@ describe('Field.Boolean', () => {
       rerender(
         <DataContext.Provider data={{ isTrue: false }}>
           <Field.Boolean variant="radio" path="/isTrue" />
-        </DataContext.Provider>
+        </DataContext.Provider>,
       )
 
       expect(yesElement).toHaveAttribute('aria-checked', 'false')
@@ -1510,11 +1510,11 @@ describe('Field.Boolean', () => {
       const { rerender } = render(
         <DataContext.Provider data={{ isTrue: true }}>
           <Field.Boolean variant="radio" path="/isTrue" />
-        </DataContext.Provider>
+        </DataContext.Provider>,
       )
 
       const [yesElement, noElement]: Array<HTMLButtonElement> = Array.from(
-        document.querySelectorAll('.dnb-radio__input')
+        document.querySelectorAll('.dnb-radio__input'),
       )
 
       expect(yesElement).toHaveAttribute('aria-checked', 'true')
@@ -1523,7 +1523,7 @@ describe('Field.Boolean', () => {
       rerender(
         <DataContext.Provider data={{ isTrue: undefined }}>
           <Field.Boolean variant="radio" path="/isTrue" />
-        </DataContext.Provider>
+        </DataContext.Provider>,
       )
 
       expect(yesElement).toHaveAttribute('aria-checked', 'false')
@@ -1547,10 +1547,10 @@ describe('Field.Boolean', () => {
       render(<MockComponent />)
 
       const resetButton = document.querySelector(
-        '.dnb-forms-submit-button'
+        '.dnb-forms-submit-button',
       )
       const [yesElement, noElement]: Array<HTMLButtonElement> = Array.from(
-        document.querySelectorAll('.dnb-radio__input')
+        document.querySelectorAll('.dnb-radio__input'),
       )
 
       expect(yesElement).toHaveAttribute('aria-checked', 'false')
@@ -1584,7 +1584,7 @@ describe('Field.Boolean', () => {
           value={true}
           validateInitially
           required
-        />
+        />,
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
@@ -1596,7 +1596,7 @@ describe('Field.Boolean', () => {
           value={false}
           validateInitially
           required
-        />
+        />,
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
@@ -1609,7 +1609,7 @@ describe('Field.Boolean', () => {
             variant="radio"
             validateInitially
             required
-          />
+          />,
         )
 
         expect(await axeComponent(result)).toHaveNoViolations()
@@ -1619,7 +1619,7 @@ describe('Field.Boolean', () => {
         render(<Field.Boolean label="Label" variant="radio" required />)
 
         const [first, second] = Array.from(
-          document.querySelectorAll('.dnb-radio__input')
+          document.querySelectorAll('.dnb-radio__input'),
         )
         expect(first).toHaveAttribute('aria-required', 'true')
         expect(second).toHaveAttribute('aria-required', 'true')
@@ -1632,11 +1632,11 @@ describe('Field.Boolean', () => {
             variant="radio"
             required
             validateInitially
-          />
+          />,
         )
 
         const [first, second] = Array.from(
-          document.querySelectorAll('.dnb-radio__input')
+          document.querySelectorAll('.dnb-radio__input'),
         )
         expect(first).toHaveAttribute('aria-invalid', 'true')
         expect(second).toHaveAttribute('aria-invalid', 'true')
@@ -1658,7 +1658,7 @@ describe('Field.Boolean', () => {
             schema={booleanSchema}
             validateInitially
           />
-        </DataContext.Provider>
+        </DataContext.Provider>,
       )
 
       const formStatus = document.querySelector('.dnb-form-status')
@@ -1679,13 +1679,13 @@ describe('Field.Boolean', () => {
             schema={booleanSchema}
             validateInitially
           />
-        </DataContext.Provider>
+        </DataContext.Provider>,
       )
 
       const formStatus = document.querySelector('.dnb-form-status')
       expect(formStatus).toBeInTheDocument()
       expect(formStatus).toHaveTextContent(
-        'must be equal to one of the allowed values'
+        'must be equal to one of the allowed values',
       )
     })
 
@@ -1707,7 +1707,7 @@ describe('Field.Boolean', () => {
           data={{ myField: false }}
         >
           <Field.Boolean path="/myField" validateInitially />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const formStatus = document.querySelector('.dnb-form-status')
@@ -1733,7 +1733,7 @@ describe('Field.Boolean', () => {
           data={{ myField: undefined }}
         >
           <Field.Boolean required path="/myField" />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const form = document.querySelector('form')
@@ -1761,7 +1761,7 @@ describe('Field.Boolean', () => {
         .refine((v) => v === true, { message: 'Must be true' })
 
       render(
-        <Field.Boolean value={false} schema={schema} validateInitially />
+        <Field.Boolean value={false} schema={schema} validateInitially />,
       )
 
       expect(screen.getByRole('alert')).toBeInTheDocument()
@@ -1774,7 +1774,7 @@ describe('Field.Boolean', () => {
         .refine((v) => v === true, { message: 'Must be true' })
 
       render(
-        <Field.Boolean value={true} schema={schema} validateInitially />
+        <Field.Boolean value={true} schema={schema} validateInitially />,
       )
 
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -1787,7 +1787,7 @@ describe('Field.Boolean', () => {
         render(
           <Form.Handler schema={schema} defaultData={{ agree: false }}>
             <Field.Boolean path="/agree" />
-          </Form.Handler>
+          </Form.Handler>,
         )
       }).not.toThrow()
 
@@ -1804,7 +1804,7 @@ describe('Field.Boolean', () => {
       render(
         <Form.Handler schema={schema}>
           <Field.Boolean path="/agree" value={true} validateInitially />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()

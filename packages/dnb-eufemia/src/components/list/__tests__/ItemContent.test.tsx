@@ -30,7 +30,7 @@ describe('ItemContent', () => {
     render(
       <ItemContent className="custom-class">
         <span>Child</span>
-      </ItemContent>
+      </ItemContent>,
     )
 
     const element = document.querySelector('.dnb-list__item')
@@ -53,7 +53,7 @@ describe('ItemContent', () => {
     render(
       <Container variant="basic">
         <ItemContent>Inherited</ItemContent>
-      </Container>
+      </Container>,
     )
 
     const element = document.querySelector('.dnb-list__item')
@@ -96,7 +96,7 @@ describe('ItemContent', () => {
         id="my-item"
       >
         Content
-      </ItemContent>
+      </ItemContent>,
     )
 
     const element = document.querySelector('.dnb-list__item')
@@ -111,7 +111,7 @@ describe('ItemContent', () => {
     render(
       <ItemContent top="large" bottom="small">
         Content
-      </ItemContent>
+      </ItemContent>,
     )
 
     const element = document.querySelector('.dnb-list__item')
@@ -127,7 +127,7 @@ describe('ItemContent', () => {
 
     expect(element.classList).toContain('dnb-list__item--pending')
     expect(
-      element.querySelector('.dnb-list__item__pending')
+      element.querySelector('.dnb-list__item__pending'),
     ).toBeInTheDocument()
   })
 
@@ -144,7 +144,7 @@ describe('ItemContent', () => {
     render(
       <Container skeleton>
         <ItemContent>Content</ItemContent>
-      </Container>
+      </Container>,
     )
 
     const element = document.querySelector('.dnb-list__item')
@@ -157,7 +157,7 @@ describe('ItemContent', () => {
     render(
       <Container skeleton>
         <ItemContent skeleton={false}>Content</ItemContent>
-      </Container>
+      </Container>,
     )
 
     const element = document.querySelector('.dnb-list__item')
@@ -174,7 +174,7 @@ describe('ItemContent', () => {
     render(
       <ItemContent skeleton>
         <SkeletonConsumer />
-      </ItemContent>
+      </ItemContent>,
     )
 
     const consumer = document.querySelector('[data-skeleton]')
@@ -197,7 +197,7 @@ describe('ItemContent', () => {
     const { container } = render(
       <Container>
         <ItemContent>Content</ItemContent>
-      </Container>
+      </Container>,
     )
 
     expect(await axeComponent(container)).toHaveNoViolations()
@@ -211,7 +211,7 @@ describe('ItemContent', () => {
         aria-label="Content item"
       >
         Content
-      </ItemContent>
+      </ItemContent>,
     )
 
     const element = document.querySelector('.dnb-list__item')
@@ -225,7 +225,7 @@ describe('ItemContent', () => {
     render(
       <ItemContent variant="basic" selected pending skeleton>
         Content
-      </ItemContent>
+      </ItemContent>,
     )
 
     const element = document.querySelector('.dnb-list__item')

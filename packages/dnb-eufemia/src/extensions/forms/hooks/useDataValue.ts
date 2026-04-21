@@ -15,7 +15,7 @@ export type GetValueByPath<Value = unknown> = <T = Value>(path: Path) => T
 
 export default function useDataValue<Value>(
   pathProp?: Path | undefined,
-  value?: Value
+  value?: Value,
 ) {
   const dataContextRef = useRef<ContextState>(undefined)
   dataContextRef.current = useContext(DataContext)
@@ -26,7 +26,7 @@ export default function useDataValue<Value>(
   const get = useCallback(
     (
       selector: Path,
-      data = dataContextRef.current?.internalDataRef?.current
+      data = dataContextRef.current?.internalDataRef?.current,
     ) => {
       if (selector === '/') {
         return data
@@ -35,7 +35,7 @@ export default function useDataValue<Value>(
         ? pointer.get(data, selector)
         : undefined
     },
-    []
+    [],
   )
 
   const getValueByPath = useCallback(
@@ -44,7 +44,7 @@ export default function useDataValue<Value>(
         return get(makePath(path), data)
       }
     },
-    [get, makePath]
+    [get, makePath],
   )
 
   const getValueByIteratePath = useCallback(
@@ -53,7 +53,7 @@ export default function useDataValue<Value>(
         return get(makeIteratePath(path))
       }
     },
-    [get, makeIteratePath]
+    [get, makeIteratePath],
   )
 
   const moveValueToPath = useCallback(
@@ -65,7 +65,7 @@ export default function useDataValue<Value>(
 
       return value
     },
-    []
+    [],
   )
 
   const getData = useCallback(
@@ -80,7 +80,7 @@ export default function useDataValue<Value>(
         return value
       }
     },
-    [getValueByPath, moveValueToPath]
+    [getValueByPath, moveValueToPath],
   )
 
   const getSourceValue = useCallback(
@@ -95,7 +95,7 @@ export default function useDataValue<Value>(
 
       return source
     },
-    [getValueByIteratePath, getValueByPath, iterateItemContext]
+    [getValueByIteratePath, getValueByPath, iterateItemContext],
   )
 
   if (pathProp) {

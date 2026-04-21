@@ -15,7 +15,7 @@ describe('Form.SubmitButton', () => {
       <Form.Element onSubmit={onSubmit}>
         <Field.String path="/foo" value="Value" />
         <Form.SubmitButton>Submit</Form.SubmitButton>
-      </Form.Element>
+      </Form.Element>,
     )
 
     const buttonElement = document.querySelector('button')
@@ -29,7 +29,7 @@ describe('Form.SubmitButton', () => {
     expect(onSubmit).toHaveBeenCalledTimes(2)
 
     expect(onSubmit).toHaveBeenCalledWith(
-      expect.objectContaining({ type: 'submit', target: buttonElement })
+      expect.objectContaining({ type: 'submit', target: buttonElement }),
     )
   })
 
@@ -40,7 +40,7 @@ describe('Form.SubmitButton', () => {
     render(
       <Form.Handler onSubmit={onSubmit}>
         <Form.SubmitButton>Submit</Form.SubmitButton>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const buttonElement = document.querySelector('button')
@@ -60,7 +60,7 @@ describe('Form.SubmitButton', () => {
     render(
       <Form.Handler>
         <Form.SubmitButton>Submit</Form.SubmitButton>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const buttonElement = document.querySelector('button')
@@ -75,7 +75,7 @@ describe('Form.SubmitButton', () => {
         <Form.SubmitButton className="custom-class">
           Submit
         </Form.SubmitButton>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const buttonElement = document.querySelector('button')
@@ -101,7 +101,7 @@ describe('Form.SubmitButton', () => {
     render(
       <Provider locale="en-GB">
         <Form.SubmitButton />
-      </Provider>
+      </Provider>,
     )
 
     const button = document.querySelector('.dnb-forms-submit-button')
@@ -156,7 +156,7 @@ describe('Form.SubmitButton', () => {
 
     expect(button.querySelector('.dnb-icon')).toHaveAttribute(
       'data-testid',
-      'send icon'
+      'send icon',
     )
   })
 
@@ -174,12 +174,12 @@ describe('Form.SubmitButton', () => {
         <Form.SubmitButton aria-label="Aria Label">
           Submit
         </Form.SubmitButton>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const buttonElement = document.querySelector('button')
     const attributes = Array.from(buttonElement.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual([
@@ -198,14 +198,14 @@ describe('Form.SubmitButton', () => {
 
     expect(
       buttonElement.querySelector(
-        '.dnb-forms-submit-indicator--state-pending'
-      )
+        '.dnb-forms-submit-indicator--state-pending',
+      ),
     ).toBeTruthy()
 
     rerender(<Form.SubmitButton />)
 
     expect(
-      document.querySelector('.dnb-forms-submit-indicator--state-pending')
+      document.querySelector('.dnb-forms-submit-indicator--state-pending'),
     ).toBeNull()
   })
 
@@ -218,7 +218,7 @@ describe('Form.SubmitButton', () => {
       <Form.Handler onSubmit={onSubmit}>
         <Form.SubmitButton>First</Form.SubmitButton>
         <Form.SubmitButton>Second</Form.SubmitButton>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const [firstButton, secondButton] = screen.getAllByRole('button')
@@ -226,17 +226,17 @@ describe('Form.SubmitButton', () => {
     fireEvent.click(secondButton)
 
     const firstIndicator = firstButton.querySelector(
-      '.dnb-forms-submit-indicator'
+      '.dnb-forms-submit-indicator',
     )
     const secondIndicator = secondButton.querySelector(
-      '.dnb-forms-submit-indicator'
+      '.dnb-forms-submit-indicator',
     )
 
     expect(firstIndicator).not.toHaveClass(
-      'dnb-forms-submit-indicator--state-pending'
+      'dnb-forms-submit-indicator--state-pending',
     )
     expect(secondIndicator).toHaveClass(
-      'dnb-forms-submit-indicator--state-pending'
+      'dnb-forms-submit-indicator--state-pending',
     )
   })
 
@@ -245,26 +245,26 @@ describe('Form.SubmitButton', () => {
 
     const buttonElement = document.querySelector('button')
     const indicatorElement = buttonElement.querySelector(
-      '.dnb-forms-submit-indicator'
+      '.dnb-forms-submit-indicator',
     )
     const indicatorContentElement = buttonElement.querySelector(
-      '.dnb-forms-submit-indicator__content'
+      '.dnb-forms-submit-indicator__content',
     )
 
     expect(indicatorElement).not.toHaveClass(
-      'dnb-forms-submit-indicator--state-pending'
+      'dnb-forms-submit-indicator--state-pending',
     )
 
     rerender(<Form.SubmitButton showIndicator />)
 
     expect(buttonElement).toHaveTextContent('Send...')
     expect(indicatorElement).toHaveClass(
-      'dnb-forms-submit-indicator--state-pending'
+      'dnb-forms-submit-indicator--state-pending',
     )
     expect(indicatorContentElement).toHaveAttribute('role', 'status')
     expect(indicatorContentElement).toHaveAttribute(
       'aria-label',
-      nb.SubmitIndicator.label
+      nb.SubmitIndicator.label,
     )
   })
 
@@ -273,18 +273,18 @@ describe('Form.SubmitButton', () => {
 
     const buttonElement = document.querySelector('button')
     const indicatorElement = buttonElement.querySelector(
-      '.dnb-forms-submit-indicator'
+      '.dnb-forms-submit-indicator',
     )
 
     expect(indicatorElement).not.toHaveClass(
-      'dnb-forms-submit-indicator--state-pending'
+      'dnb-forms-submit-indicator--state-pending',
     )
 
     rerender(<Form.SubmitButton text="Save" showIndicator />)
 
     expect(buttonElement).toHaveTextContent('Save...')
     expect(indicatorElement).toHaveClass(
-      'dnb-forms-submit-indicator--state-pending'
+      'dnb-forms-submit-indicator--state-pending',
     )
   })
 })

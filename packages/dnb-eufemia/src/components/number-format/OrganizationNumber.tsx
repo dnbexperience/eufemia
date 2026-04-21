@@ -10,7 +10,7 @@ export type NumberFormatOrganizationNumberProps = Omit<
 const NumberFormatOrganizationNumber =
   withFormatter<NumberFormatOrganizationNumberProps>(
     'NumberFormat.OrganizationNumber',
-    formatOrganizationNumber
+    formatOrganizationNumber,
   )
 
 export default NumberFormatOrganizationNumber

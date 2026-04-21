@@ -30,7 +30,7 @@ function findPortalRoot(startDir: string) {
     const portalCandidate = path.join(
       current,
       'packages',
-      'dnb-design-system-portal'
+      'dnb-design-system-portal',
     )
     if (fs.existsSync(portalCandidate)) {
       return portalCandidate
@@ -43,7 +43,7 @@ function findPortalRoot(startDir: string) {
   }
 
   throw new Error(
-    'Could not resolve dnb-design-system-portal root. Run from repo root or packages/dnb-design-system-portal.'
+    'Could not resolve dnb-design-system-portal root. Run from repo root or packages/dnb-design-system-portal.',
   )
 }
 

@@ -12,7 +12,7 @@ describe('createMinimumAgeValidator', () => {
   const errorMinimumAgeValidator =
     nb.NationalIdentityNumber.errorMinimumAgeValidator.replace(
       '{age}',
-      '18'
+      '18',
     )
 
   const minimum18YearsValidator = createMinimumAgeValidator(18)
@@ -26,7 +26,7 @@ describe('createMinimumAgeValidator', () => {
 
   const extendingDnrValidatorWithMin18Validator: Validator<string> = (
     value,
-    { validators }
+    { validators },
   ) => {
     const { dnrValidator } = validators
 
@@ -35,7 +35,7 @@ describe('createMinimumAgeValidator', () => {
 
   const extendingFnrValidatorWithMin18Validator: Validator<string> = (
     value,
-    { validators }
+    { validators },
   ) => {
     const { fnrValidator } = validators
 
@@ -52,13 +52,13 @@ describe('createMinimumAgeValidator', () => {
         onBlurValidator={myMinimum18YearsValidator}
         required
         validateInitially
-      />
+      />,
     )
 
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        nb.NationalIdentityNumber.errorRequired
+        nb.NationalIdentityNumber.errorRequired,
       )
     })
   })
@@ -69,13 +69,13 @@ describe('createMinimumAgeValidator', () => {
         onBlurValidator={myMinimum18YearsValidator}
         validateInitially
         value="123"
-      />
+      />,
     )
 
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        nb.NationalIdentityNumber.errorMinimumAgeValidatorLength
+        nb.NationalIdentityNumber.errorMinimumAgeValidatorLength,
       )
     })
   })
@@ -85,7 +85,7 @@ describe('createMinimumAgeValidator', () => {
       <Field.NationalIdentityNumber
         onBlurValidator={myMinimum18YearsValidator}
         validateInitially
-      />
+      />,
     )
 
     await expect(() => {
@@ -197,13 +197,13 @@ describe('createMinimumAgeValidator', () => {
               onBlurValidator={false}
               validateInitially
               value={validId}
-            />
+            />,
           )
 
           await expect(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
           }).toNeverResolve()
-        }
+        },
       )
 
       it.each(invalidIds)(
@@ -215,15 +215,15 @@ describe('createMinimumAgeValidator', () => {
               onBlurValidator={false}
               validateInitially
               value={invalidId}
-            />
+            />,
           )
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              errorMinimumAgeValidator
+              errorMinimumAgeValidator,
             )
           })
-        }
+        },
       )
     })
 
@@ -236,13 +236,13 @@ describe('createMinimumAgeValidator', () => {
               onBlurValidator={myMinimum18YearsValidator}
               validateInitially
               value={validId}
-            />
+            />,
           )
 
           await expect(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
           }).toNeverResolve()
-        }
+        },
       )
 
       it.each(invalidIds)(
@@ -253,15 +253,15 @@ describe('createMinimumAgeValidator', () => {
               onBlurValidator={myMinimum18YearsValidator}
               validateInitially
               value={invalidId}
-            />
+            />,
           )
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              errorMinimumAgeValidator
+              errorMinimumAgeValidator,
             )
           })
-        }
+        },
       )
     })
 
@@ -277,13 +277,13 @@ describe('createMinimumAgeValidator', () => {
               }
               validateInitially
               value={validId}
-            />
+            />,
           )
 
           await expect(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
           }).toNeverResolve()
-        }
+        },
       )
 
       it.each(invalidIds)(
@@ -297,15 +297,15 @@ describe('createMinimumAgeValidator', () => {
               }
               validateInitially
               value={invalidId}
-            />
+            />,
           )
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              errorMinimumAgeValidator
+              errorMinimumAgeValidator,
             )
           })
-        }
+        },
       )
 
       it.each(invalidDnums)(
@@ -319,15 +319,15 @@ describe('createMinimumAgeValidator', () => {
               }
               validateInitially
               value={invalidDnum}
-            />
+            />,
           )
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              nb.NationalIdentityNumber.errorDnr
+              nb.NationalIdentityNumber.errorDnr,
             )
           })
-        }
+        },
       )
 
       it.each(invalidFnrs)(
@@ -341,15 +341,15 @@ describe('createMinimumAgeValidator', () => {
               }
               validateInitially
               value={invalidFnr}
-            />
+            />,
           )
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              nb.NationalIdentityNumber.errorFnr
+              nb.NationalIdentityNumber.errorFnr,
             )
           })
-        }
+        },
       )
     })
 
@@ -364,13 +364,13 @@ describe('createMinimumAgeValidator', () => {
               }
               validateInitially
               value={validId}
-            />
+            />,
           )
 
           await expect(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
           }).toNeverResolve()
-        }
+        },
       )
 
       it.each(invalidIds)(
@@ -383,15 +383,15 @@ describe('createMinimumAgeValidator', () => {
               }
               validateInitially
               value={invalidId}
-            />
+            />,
           )
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              errorMinimumAgeValidator
+              errorMinimumAgeValidator,
             )
           })
-        }
+        },
       )
 
       it.each(invalidDnums)(
@@ -404,15 +404,15 @@ describe('createMinimumAgeValidator', () => {
               }
               validateInitially
               value={invalidDnum}
-            />
+            />,
           )
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              nb.NationalIdentityNumber.errorDnr
+              nb.NationalIdentityNumber.errorDnr,
             )
           })
-        }
+        },
       )
 
       it.each(invalidFnrs)(
@@ -425,15 +425,15 @@ describe('createMinimumAgeValidator', () => {
               }
               validateInitially
               value={invalidFnr}
-            />
+            />,
           )
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              nb.NationalIdentityNumber.errorFnr
+              nb.NationalIdentityNumber.errorFnr,
             )
           })
-        }
+        },
       )
     })
 
@@ -447,13 +447,13 @@ describe('createMinimumAgeValidator', () => {
               onChangeValidator={extendingDnrValidatorWithMin18Validator}
               validateInitially
               value={validDnum}
-            />
+            />,
           )
 
           await expect(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
           }).toNeverResolve()
-        }
+        },
       )
 
       it.each(dnrUnder18YearsOld)(
@@ -465,15 +465,15 @@ describe('createMinimumAgeValidator', () => {
               onChangeValidator={extendingDnrValidatorWithMin18Validator}
               validateInitially
               value={invalidDnum}
-            />
+            />,
           )
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              errorMinimumAgeValidator
+              errorMinimumAgeValidator,
             )
           })
-        }
+        },
       )
 
       it.each([...invalidDnums, ...invalidFnrs, ...fnr18YearsOldAndOlder])(
@@ -485,15 +485,15 @@ describe('createMinimumAgeValidator', () => {
               onChangeValidator={extendingDnrValidatorWithMin18Validator}
               validateInitially
               value={invalidDnum}
-            />
+            />,
           )
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              nb.NationalIdentityNumber.errorDnr
+              nb.NationalIdentityNumber.errorDnr,
             )
           })
-        }
+        },
       )
     })
 
@@ -506,13 +506,13 @@ describe('createMinimumAgeValidator', () => {
               onBlurValidator={extendingDnrValidatorWithMin18Validator}
               validateInitially
               value={validDnum}
-            />
+            />,
           )
 
           await expect(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
           }).toNeverResolve()
-        }
+        },
       )
 
       it.each(dnrUnder18YearsOld)(
@@ -523,15 +523,15 @@ describe('createMinimumAgeValidator', () => {
               onBlurValidator={extendingDnrValidatorWithMin18Validator}
               validateInitially
               value={invalidDnum}
-            />
+            />,
           )
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              errorMinimumAgeValidator
+              errorMinimumAgeValidator,
             )
           })
-        }
+        },
       )
 
       it.each([
@@ -545,12 +545,12 @@ describe('createMinimumAgeValidator', () => {
             onBlurValidator={extendingDnrValidatorWithMin18Validator}
             validateInitially
             value={invalidDnum}
-          />
+          />,
         )
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.NationalIdentityNumber.errorDnr
+            nb.NationalIdentityNumber.errorDnr,
           )
         })
       })
@@ -566,13 +566,13 @@ describe('createMinimumAgeValidator', () => {
               onChangeValidator={extendingFnrValidatorWithMin18Validator}
               validateInitially
               value={validFnr}
-            />
+            />,
           )
 
           await expect(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
           }).toNeverResolve()
-        }
+        },
       )
 
       it.each(fnrUnder18YearsOld)(
@@ -584,15 +584,15 @@ describe('createMinimumAgeValidator', () => {
               onChangeValidator={extendingFnrValidatorWithMin18Validator}
               validateInitially
               value={invalidFnr}
-            />
+            />,
           )
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              errorMinimumAgeValidator
+              errorMinimumAgeValidator,
             )
           })
-        }
+        },
       )
 
       it.each([...invalidFnrs, ...invalidDnums, ...dnr18YearsOldAndOlder])(
@@ -604,15 +604,15 @@ describe('createMinimumAgeValidator', () => {
               onChangeValidator={extendingFnrValidatorWithMin18Validator}
               validateInitially
               value={invalidFnr}
-            />
+            />,
           )
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              nb.NationalIdentityNumber.errorFnr
+              nb.NationalIdentityNumber.errorFnr,
             )
           })
-        }
+        },
       )
     })
 
@@ -625,13 +625,13 @@ describe('createMinimumAgeValidator', () => {
               onBlurValidator={extendingFnrValidatorWithMin18Validator}
               validateInitially
               value={validFnr}
-            />
+            />,
           )
 
           await expect(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
           }).toNeverResolve()
-        }
+        },
       )
 
       it.each(fnrUnder18YearsOld)(
@@ -642,15 +642,15 @@ describe('createMinimumAgeValidator', () => {
               onBlurValidator={extendingFnrValidatorWithMin18Validator}
               validateInitially
               value={invalidFnr}
-            />
+            />,
           )
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              errorMinimumAgeValidator
+              errorMinimumAgeValidator,
             )
           })
-        }
+        },
       )
 
       it.each([
@@ -664,12 +664,12 @@ describe('createMinimumAgeValidator', () => {
             onBlurValidator={extendingFnrValidatorWithMin18Validator}
             validateInitially
             value={invalidFnr}
-          />
+          />,
         )
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.NationalIdentityNumber.errorFnr
+            nb.NationalIdentityNumber.errorFnr,
           )
         })
       })

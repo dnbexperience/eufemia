@@ -81,7 +81,7 @@ export default function useSwitchContainerMode(path?: Path) {
         }
       }
     },
-    [hash]
+    [hash],
   )
 
   const setLastItemContainerMode = useCallback(
@@ -94,7 +94,7 @@ export default function useSwitchContainerMode(path?: Path) {
         return undefined
       })
     },
-    [setContainerMode]
+    [setContainerMode],
   )
 
   const getNextContainerMode = useCallback(():

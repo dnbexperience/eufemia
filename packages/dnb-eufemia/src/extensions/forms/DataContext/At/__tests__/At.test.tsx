@@ -16,7 +16,7 @@ describe('At', () => {
         <At path="/a/b">
           <MockComponent />
         </At>
-      </Provider>
+      </Provider>,
     )
 
     expect(screen.getByText('test')).toBeInTheDocument()
@@ -37,11 +37,11 @@ describe('At', () => {
         <At path="/a">
           <MockComponent />
         </At>
-      </Provider>
+      </Provider>,
     )
 
     expect(document.querySelector('output')).toHaveTextContent(
-      JSON.stringify({ b: 'test' })
+      JSON.stringify({ b: 'test' }),
     )
 
     act(() => {
@@ -49,7 +49,7 @@ describe('At', () => {
     })
 
     expect(document.querySelector('output')).toHaveTextContent(
-      JSON.stringify({ b: 'test', c: 'new value' })
+      JSON.stringify({ b: 'test', c: 'new value' }),
     )
   })
 
@@ -64,7 +64,7 @@ describe('At', () => {
         <At path="/a/b" iterate>
           <MockComponent />
         </At>
-      </Provider>
+      </Provider>,
     )
 
     expect(screen.queryByText('test')).toBeNull()

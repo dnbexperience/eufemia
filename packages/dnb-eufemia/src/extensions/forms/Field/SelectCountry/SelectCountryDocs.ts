@@ -21,5 +21,5 @@ export const SelectCountryProperties: PropertiesTableProps = {
 
 export const SelectCountryGeneralEvents = getFieldEventsWithTypes(
   { type: 'string', optional: true },
-  { type: 'object', optional: true }
+  { type: 'object', optional: true },
 )

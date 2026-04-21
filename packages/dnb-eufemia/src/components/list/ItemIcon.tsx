@@ -27,7 +27,7 @@ function ItemIcon({
       className={clsx(
         'dnb-list__item__icon',
         appliedSkeleton && createSkeletonClass('font', true),
-        className
+        className,
       )}
       innerSpace={{ left: 'small' }}
       {...rest}

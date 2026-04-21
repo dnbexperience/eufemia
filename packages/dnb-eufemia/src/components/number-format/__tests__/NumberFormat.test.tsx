@@ -65,14 +65,14 @@ describe('NumberFormat component', () => {
     render(<Component {...props} />)
 
     expect(
-      document.querySelector(displaySelector).textContent
+      document.querySelector(displaySelector).textContent,
     ).toBeTruthy()
   })
 
   it('have to match default number', () => {
     render(<Component value={value} />)
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '12 345 678,9876'
+      '12 345 678,9876',
     )
   })
 
@@ -80,7 +80,7 @@ describe('NumberFormat component', () => {
     render(<Component style={{ color: 'red' }} value="12345" />)
 
     expect(
-      document.querySelector('.dnb-number-format').getAttribute('style')
+      document.querySelector('.dnb-number-format').getAttribute('style'),
     ).toBe('color: red;')
   })
 
@@ -88,39 +88,39 @@ describe('NumberFormat component', () => {
     const { rerender } = render(<Component value={-value} currency />)
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12 345 678,99 kr'
+      '-12 345 678,99 kr',
     )
 
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('-12 345 678,99 kroner')
 
     // also check the formatting with one digit less
     rerender(<Component currency decimals={0} value={12345} />)
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '12 345 kr'
+      '12 345 kr',
     )
   })
 
   it('have to match currency in en locale', () => {
     const { rerender } = render(
-      <Component value={-value} currency locale="en" />
+      <Component value={-value} currency locale="en" />,
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-NOK 12,345,678.99'
+      '-NOK 12,345,678.99',
     )
 
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('-12,345,678.99 kroner')
 
     // also check the formatting with one digit less
     rerender(<Component currency locale="en" decimals={0} value={12345} />)
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      'NOK 12,345'
+      'NOK 12,345',
     )
   })
 
@@ -130,13 +130,13 @@ describe('NumberFormat component', () => {
     render(
       <NumberFormatBase locale="en-GB" decimals={2}>
         invalid
-      </NumberFormatBase>
+      </NumberFormatBase>,
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe('–')
 
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe(en.notAvailable)
 
     log.mockRestore()
@@ -148,15 +148,15 @@ describe('NumberFormat component', () => {
     render(
       <NumberFormatBase locale="else" decimals={2}>
         invalid
-      </NumberFormatBase>
+      </NumberFormatBase>,
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      'invalid'
+      'invalid',
     )
 
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('N/A')
 
     log.mockRestore()
@@ -165,7 +165,7 @@ describe('NumberFormat component', () => {
   it('have to match currency with large decimals', () => {
     render(<Component value="5000.0099" currency />)
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '5 000,01 kr'
+      '5 000,01 kr',
     )
   })
 
@@ -173,7 +173,7 @@ describe('NumberFormat component', () => {
     render(<Component value={-value} currency />)
 
     expect(document.querySelector('span').classList).not.toContain(
-      'dnb-number-format--selected'
+      'dnb-number-format--selected',
     )
 
     expect(document.querySelector('.dnb-tooltip')).not.toBeInTheDocument()
@@ -200,10 +200,10 @@ describe('NumberFormat component', () => {
       expect(document.querySelector('.dnb-tooltip')).toBeNull()
 
       fireEvent.click(
-        document.querySelector('.dnb-number-format__visible')
+        document.querySelector('.dnb-number-format__visible'),
       )
       fireEvent.copy(
-        document.querySelector('.dnb-number-format__selection')
+        document.querySelector('.dnb-number-format__selection'),
       )
 
       expect(triggerOffsets).toContain(8)
@@ -216,7 +216,7 @@ describe('NumberFormat component', () => {
     const { rerender } = render(<Component value={-value} currency />)
 
     expect(document.querySelector('span').classList).not.toContain(
-      'dnb-number-format--selected'
+      'dnb-number-format--selected',
     )
 
     expect(document.activeElement).toBe(document.body)
@@ -224,17 +224,17 @@ describe('NumberFormat component', () => {
     fireEvent.click(document.querySelector('.dnb-number-format__visible'))
 
     expect(document.activeElement).toBe(
-      document.querySelector('.dnb-number-format__selection')
+      document.querySelector('.dnb-number-format__selection'),
     )
     expect(document.querySelector('span').classList).toContain(
-      'dnb-number-format--selected'
+      'dnb-number-format--selected',
     )
 
     const { cleanedValue: noVal } = formatCurrency(-value, {
       returnAria: true,
     }) as NumberFormatReturnValue
     expect(
-      document.querySelector('.dnb-number-format__selection').textContent
+      document.querySelector('.dnb-number-format__selection').textContent,
     ).toBe(noVal)
     expect(window.getSelection().toString()).toBe('1234.56') // Hack! Having there the "cleanedNumber" would be optimal.
     expect(window.getSelection().rangeCount).toBe(1)
@@ -247,27 +247,27 @@ describe('NumberFormat component', () => {
     }) as NumberFormatReturnValue
 
     expect(
-      document.querySelector('.dnb-number-format__selection').textContent
+      document.querySelector('.dnb-number-format__selection').textContent,
     ).toBe(enVal)
 
     fireEvent.blur(document.querySelector('.dnb-number-format__selection'))
 
     expect(document.querySelector('span').classList).not.toContain(
-      'dnb-number-format--selected'
+      'dnb-number-format--selected',
     )
   })
 
   it('have to match currency with currencyPosition="after"', () => {
     const { rerender } = render(
-      <Component value={-value} currency currencyPosition="after" />
+      <Component value={-value} currency currencyPosition="after" />,
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12 345 678,99 kr'
+      '-12 345 678,99 kr',
     )
 
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('-12 345 678,99 kroner')
 
     rerender(
@@ -276,15 +276,15 @@ describe('NumberFormat component', () => {
         currency
         currencyPosition="after"
         locale="en-GB"
-      />
+      />,
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12,345,678.99 NOK'
+      '-12,345,678.99 NOK',
     )
 
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('-12,345,678.99 kroner')
 
     rerender(
@@ -294,11 +294,11 @@ describe('NumberFormat component', () => {
         locale="en-GB"
         currencyPosition="after"
         currencyDisplay="code"
-      />
+      />,
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12,345,678.99 NOK'
+      '-12,345,678.99 NOK',
     )
 
     rerender(
@@ -308,25 +308,25 @@ describe('NumberFormat component', () => {
         locale="no"
         currencyPosition="before"
         currencyDisplay="code"
-      />
+      />,
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      'NOK -12 345 678,99'
+      'NOK -12 345 678,99',
     )
   })
 
   it('have to match currency with currencyPosition="before"', () => {
     const { rerender } = render(
-      <Component value={-value} currency currencyPosition="before" />
+      <Component value={-value} currency currencyPosition="before" />,
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      'kr -12 345 678,99'
+      'kr -12 345 678,99',
     )
 
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('-12 345 678,99 kroner')
 
     rerender(
@@ -335,15 +335,15 @@ describe('NumberFormat component', () => {
         currency
         currencyPosition="before"
         locale="en-GB"
-      />
+      />,
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-NOK\u00A012,345,678.99'
+      '-NOK\u00A012,345,678.99',
     )
 
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('-12,345,678.99 kroner')
 
     rerender(
@@ -352,11 +352,11 @@ describe('NumberFormat component', () => {
         currency
         currencyPosition="before"
         locale="en-GB"
-      />
+      />,
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-NOK\u00A012,345,678.99'
+      '-NOK\u00A012,345,678.99',
     )
 
     rerender(
@@ -366,11 +366,11 @@ describe('NumberFormat component', () => {
         currencyPosition="after"
         currencyDisplay="code"
         locale="no"
-      />
+      />,
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12 345 678,99 NOK'
+      '-12 345 678,99 NOK',
     )
   })
 
@@ -378,11 +378,11 @@ describe('NumberFormat component', () => {
     render(<Component value={-12345.95} currency />)
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12 345,95 kr'
+      '-12 345,95 kr',
     )
 
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('-12345,95 kroner')
   })
 
@@ -390,25 +390,25 @@ describe('NumberFormat component', () => {
     render(<Component value={-12345.99} currency decimals={0} />)
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12 346 kr'
+      '-12 346 kr',
     )
 
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('-12346 kroner')
   })
 
   it('should yield strict zero when value gets rounded to zero because of decimals=0', () => {
     render(<NumberFormatBase value={-0.2} decimals={0} />)
     expect(document.querySelector('.dnb-number-format').textContent).toBe(
-      '0'
+      '0',
     )
   })
 
   it('should yield strict zero (no minus) currency when value gets rounded to zero because of decimals=0', () => {
     render(<NumberFormatBase value={-0.2} currency decimals={0} />)
     expect(document.querySelector('.dnb-number-format').textContent).toBe(
-      '0 kr'
+      '0 kr',
     )
   })
 
@@ -419,26 +419,26 @@ describe('NumberFormat component', () => {
         currency="SEK"
         locale="en-GB"
         decimals={0}
-      />
+      />,
     )
     expect(document.querySelector('.dnb-number-format').textContent).toBe(
-      '-SEK\u00A00'
+      '-SEK\u00A00',
     )
   })
 
   it('should yield strict (no minus) zero percent when value gets rounded to zero because of decimals=0', () => {
     const { rerender } = render(
-      <NumberFormat.Percent value={-0.2} decimals={0} />
+      <NumberFormat.Percent value={-0.2} decimals={0} />,
     )
     expect(document.querySelector('.dnb-number-format').textContent).toBe(
-      '0 %'
+      '0 %',
     )
 
     rerender(
-      <NumberFormat.Percent value={-0.2} decimals={0} locale="en-GB" />
+      <NumberFormat.Percent value={-0.2} decimals={0} locale="en-GB" />,
     )
     expect(document.querySelector('.dnb-number-format').textContent).toBe(
-      '0%'
+      '0%',
     )
   })
 
@@ -456,10 +456,10 @@ describe('NumberFormat component', () => {
 
   it('have to match phone number', () => {
     render(
-      <NumberFormat.PhoneNumber>+47 99999999</NumberFormat.PhoneNumber>
+      <NumberFormat.PhoneNumber>+47 99999999</NumberFormat.PhoneNumber>,
     )
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '+47 99 99 99 99'
+      '+47 99 99 99 99',
     )
   })
 
@@ -495,17 +495,17 @@ describe('NumberFormat component', () => {
     const { rerender } = render(
       <NumberFormat.BankAccountNumber>
         20001234567
-      </NumberFormat.BankAccountNumber>
+      </NumberFormat.BankAccountNumber>,
     )
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '2000 12 34567'
+      '2000 12 34567',
     )
 
     // also check the formatting with one digit less
     rerender(<NumberFormat.BankAccountNumber value="2000123456" />)
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '2000 12 3456'
+      '2000 12 3456',
     )
   })
 
@@ -513,13 +513,13 @@ describe('NumberFormat component', () => {
     render(
       <NumberFormat.NationalIdentityNumber>
         18089212345
-      </NumberFormat.NationalIdentityNumber>
+      </NumberFormat.NationalIdentityNumber>,
     )
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '180892 12345'
+      '180892 12345',
     )
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('18 08 92 1 2 3 4 5')
   })
 
@@ -527,13 +527,13 @@ describe('NumberFormat component', () => {
     render(
       <NumberFormat.OrganizationNumber suffix="MVA">
         123456789
-      </NumberFormat.OrganizationNumber>
+      </NumberFormat.OrganizationNumber>,
     )
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '123 456 789 MVA'
+      '123 456 789 MVA',
     )
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('1 2 3 4 5 6 7 8 9 MVA')
   })
 
@@ -541,23 +541,23 @@ describe('NumberFormat component', () => {
     render(
       <Component prefix={<span>prefix</span>} suffix={<span>suffix</span>}>
         123456789.5
-      </Component>
+      </Component>,
     )
     expect(document.querySelector(displaySelector).textContent).toBe(
-      'prefix 123 456 789,5 suffix'
+      'prefix 123 456 789,5 suffix',
     )
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('prefix 123 456 789,5 suffix')
   })
 
   it('omits space before suffix when suffix starts with slash', () => {
     render(<Component value={123} suffix="/mnd" />)
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '123/mnd'
+      '123/mnd',
     )
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('123/mnd')
   })
 
@@ -567,17 +567,17 @@ describe('NumberFormat component', () => {
         prefix={<span className="custom-prefix">custom</span>}
         suffix={<span className="custom-suffix">tail</span>}
         value={value}
-      />
+      />,
     )
 
     const prefixElement = document.querySelector(
-      '.dnb-number-format__prefix'
+      '.dnb-number-format__prefix',
     )
     expect(prefixElement).toBeTruthy()
     expect(prefixElement.classList).toContain('custom-prefix')
 
     const suffixElement = document.querySelector(
-      '.dnb-number-format__suffix'
+      '.dnb-number-format__suffix',
     )
     expect(suffixElement).toBeTruthy()
     expect(suffixElement.classList).toContain('custom-suffix')
@@ -586,29 +586,29 @@ describe('NumberFormat component', () => {
   it('will prefix aria-label with "srLabel" when given', () => {
     render(<Component value={-value} currency srLabel="Total:" />)
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('Total: -12 345 678,99 kroner')
     expect(
-      document.querySelector('.dnb-number-format').textContent
+      document.querySelector('.dnb-number-format').textContent,
     ).toContain('-12 345 678,99 kr')
   })
 
   it('will support "srLabel" given in a jsx element', () => {
     render(
-      <Component value={-value} currency srLabel={<span>Total:</span>} />
+      <Component value={-value} currency srLabel={<span>Total:</span>} />,
     )
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('Total: -12 345 678,99 kroner')
     expect(
-      document.querySelector('.dnb-number-format').textContent
+      document.querySelector('.dnb-number-format').textContent,
     ).toContain('-12 345 678,99 kr')
   })
 
   it('will have aria-hidden on the visual element', () => {
     render(<Component value={-value} currency />)
     expect(
-      document.querySelector('.dnb-number-format__visible')
+      document.querySelector('.dnb-number-format__visible'),
     ).toHaveAttribute('aria-hidden', 'true')
   })
 
@@ -628,19 +628,19 @@ describe('NumberFormat component', () => {
     render(<Component value={-value} currency />)
 
     expect(
-      document.querySelector('.dnb-number-format__selection').textContent
+      document.querySelector('.dnb-number-format__selection').textContent,
     ).toBe('')
 
     fireEvent.click(document.querySelector('.dnb-number-format__visible'))
 
     expect(
-      document.querySelector('.dnb-number-format__selection').textContent
+      document.querySelector('.dnb-number-format__selection').textContent,
     ).toBe('-12345678,99 kr')
 
     fireEvent.blur(document.querySelector('.dnb-number-format__selection'))
 
     expect(
-      document.querySelector('.dnb-number-format__selection').textContent
+      document.querySelector('.dnb-number-format__selection').textContent,
     ).toBe('')
   })
 
@@ -648,7 +648,7 @@ describe('NumberFormat component', () => {
     render(<Component value={-value} currency copySelection={false} />)
 
     expect(
-      document.querySelector('.dnb-number-format__selection')
+      document.querySelector('.dnb-number-format__selection'),
     ).not.toBeInTheDocument()
   })
 
@@ -656,11 +656,11 @@ describe('NumberFormat component', () => {
     const { rerender } = render(
       <NumberFormat.Percent options={{ maximumFractionDigits: 2 }}>
         12.3456
-      </NumberFormat.Percent>
+      </NumberFormat.Percent>,
     )
 
     expect(
-      document.querySelector('.dnb-number-format__visible').textContent
+      document.querySelector('.dnb-number-format__visible').textContent,
     ).toBe('12,35 %')
 
     rerender(
@@ -669,21 +669,21 @@ describe('NumberFormat component', () => {
         options={{ maximumFractionDigits: 2 }}
       >
         12.3456
-      </NumberFormat.Percent>
+      </NumberFormat.Percent>,
     )
 
     expect(
-      document.querySelector('.dnb-number-format__visible').textContent
+      document.querySelector('.dnb-number-format__visible').textContent,
     ).toBe('12,34 %')
 
     rerender(
       <NumberFormat.Percent options={{ maximumFractionDigits: 2 }}>
         12
-      </NumberFormat.Percent>
+      </NumberFormat.Percent>,
     )
 
     expect(
-      document.querySelector('.dnb-number-format__visible').textContent
+      document.querySelector('.dnb-number-format__visible').textContent,
     ).toBe('12 %')
 
     rerender(
@@ -691,45 +691,45 @@ describe('NumberFormat component', () => {
         options={{ minimumFractionDigits: 1, maximumFractionDigits: 2 }}
       >
         12
-      </NumberFormat.Percent>
+      </NumberFormat.Percent>,
     )
 
     expect(
-      document.querySelector('.dnb-number-format__visible').textContent
+      document.querySelector('.dnb-number-format__visible').textContent,
     ).toBe('12,0 %')
 
     rerender(<NumberFormat.Percent>12</NumberFormat.Percent>)
 
     expect(
-      document.querySelector('.dnb-number-format__visible').textContent
+      document.querySelector('.dnb-number-format__visible').textContent,
     ).toBe('12 %')
 
     expect(
-      document.querySelector('.dnb-number-format__visible').textContent
+      document.querySelector('.dnb-number-format__visible').textContent,
     ).toBe('12 %')
 
     rerender(<NumberFormat.Percent decimals={2}>12</NumberFormat.Percent>)
 
     expect(
-      document.querySelector('.dnb-number-format__visible').textContent
+      document.querySelector('.dnb-number-format__visible').textContent,
     ).toBe('12,00 %')
 
     rerender(
-      <NumberFormat.Percent decimals={2}>12.3456</NumberFormat.Percent>
+      <NumberFormat.Percent decimals={2}>12.3456</NumberFormat.Percent>,
     )
 
     expect(
-      document.querySelector('.dnb-number-format__visible').textContent
+      document.querySelector('.dnb-number-format__visible').textContent,
     ).toBe('12,35 %')
 
     rerender(
       <NumberFormat.Percent rounding="omit" decimals={2}>
         12.3456
-      </NumberFormat.Percent>
+      </NumberFormat.Percent>,
     )
 
     expect(
-      document.querySelector('.dnb-number-format__visible').textContent
+      document.querySelector('.dnb-number-format__visible').textContent,
     ).toBe('12,34 %')
   })
 
@@ -737,11 +737,11 @@ describe('NumberFormat component', () => {
     const { rerender } = render(
       <Component currency options={{ maximumFractionDigits: 2 }}>
         12.3456
-      </Component>
+      </Component>,
     )
 
     expect(
-      document.querySelector('.dnb-number-format__visible').textContent
+      document.querySelector('.dnb-number-format__visible').textContent,
     ).toBe('12,35 kr')
 
     rerender(
@@ -751,61 +751,61 @@ describe('NumberFormat component', () => {
         options={{ maximumFractionDigits: 2 }}
       >
         12.3456
-      </Component>
+      </Component>,
     )
 
     expect(
-      document.querySelector('.dnb-number-format__visible').textContent
+      document.querySelector('.dnb-number-format__visible').textContent,
     ).toBe('12,34 kr')
 
     rerender(
       <Component currency options={{ maximumFractionDigits: 2 }}>
         12
-      </Component>
+      </Component>,
     )
 
     expect(
-      document.querySelector('.dnb-number-format__visible').textContent
+      document.querySelector('.dnb-number-format__visible').textContent,
     ).toBe('12,00 kr')
 
     rerender(<Component currency>12</Component>)
 
     expect(
-      document.querySelector('.dnb-number-format__visible').textContent
+      document.querySelector('.dnb-number-format__visible').textContent,
     ).toBe('12,00 kr')
 
     expect(
-      document.querySelector('.dnb-number-format__visible').textContent
+      document.querySelector('.dnb-number-format__visible').textContent,
     ).toBe('12,00 kr')
 
     rerender(
       <Component currency decimals={2}>
         12
-      </Component>
+      </Component>,
     )
 
     expect(
-      document.querySelector('.dnb-number-format__visible').textContent
+      document.querySelector('.dnb-number-format__visible').textContent,
     ).toBe('12,00 kr')
 
     rerender(
       <Component currency decimals={2}>
         12.3456
-      </Component>
+      </Component>,
     )
 
     expect(
-      document.querySelector('.dnb-number-format__visible').textContent
+      document.querySelector('.dnb-number-format__visible').textContent,
     ).toBe('12,35 kr')
 
     rerender(
       <Component currency rounding="omit" decimals={2}>
         12.3456
-      </Component>
+      </Component>,
     )
 
     expect(
-      document.querySelector('.dnb-number-format__visible').textContent
+      document.querySelector('.dnb-number-format__visible').textContent,
     ).toBe('12,34 kr')
   })
 
@@ -813,30 +813,30 @@ describe('NumberFormat component', () => {
     const { rerender } = render(<Component currency>invalid</Component>)
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '- kr'
+      '- kr',
     )
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('Ikke tilgjengelig')
 
     rerender(<NumberFormat.Percent>invalid</NumberFormat.Percent>)
 
     expect(document.querySelector(displaySelector).textContent).toBe('– %')
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('Ikke tilgjengelig')
 
     rerender(<Component locale="en-GB">invalid</Component>)
 
     expect(document.querySelector(displaySelector).textContent).toBe('–')
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('Not available')
   })
 
   it('should validate with ARIA rules', async () => {
     const Comp = render(
-      <Component value={-value} currency srLabel="Total:" />
+      <Component value={-value} currency srLabel="Total:" />,
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
@@ -847,7 +847,7 @@ describe('NumberFormat component', () => {
     const comp = document.querySelector('.dnb-number-format')
     const number = document.querySelector('.dnb-number-format__visible')
     const selection = document.querySelector(
-      '.dnb-number-format__selection'
+      '.dnb-number-format__selection',
     )
 
     expect(comp).not.toHaveClass('dnb-number-format--select-all')
@@ -863,7 +863,7 @@ describe('NumberFormat component', () => {
 
     const number = document.querySelector('.dnb-number-format__visible')
     const selection = document.querySelector(
-      '.dnb-number-format__selection'
+      '.dnb-number-format__selection',
     ) as HTMLElement
 
     // Spy on the selection element's focus method
@@ -888,7 +888,7 @@ describe('NumberFormat component', () => {
     const comp = document.querySelector('.dnb-number-format')
     const number = document.querySelector('.dnb-number-format__visible')
     const selection = document.querySelector(
-      '.dnb-number-format__selection'
+      '.dnb-number-format__selection',
     ) as HTMLElement
 
     // Spy on the selection element's focus method
@@ -904,7 +904,7 @@ describe('NumberFormat component', () => {
         expect(comp).not.toHaveClass('dnb-number-format--selected')
         expect(selection).toHaveTextContent('')
       },
-      { timeout: 100 }
+      { timeout: 100 },
     )
 
     focusSpy.mockRestore()
@@ -919,7 +919,7 @@ describe('NumberFormat component', () => {
     const comp = document.querySelector('.dnb-number-format')
     const number = document.querySelector('.dnb-number-format__visible')
     const selection = document.querySelector(
-      '.dnb-number-format__selection'
+      '.dnb-number-format__selection',
     ) as HTMLElement
 
     // Spy on the selection element's focus method
@@ -978,7 +978,7 @@ describe('NumberFormat component', () => {
       const comp = document.querySelector('.dnb-number-format')
       const number = document.querySelector('.dnb-number-format__visible')
       const selection = document.querySelector(
-        '.dnb-number-format__selection'
+        '.dnb-number-format__selection',
       ) as HTMLElement
 
       // Spy on the selection element's focus method
@@ -1010,7 +1010,7 @@ describe('NumberFormat component', () => {
       const comp = document.querySelector('.dnb-number-format')
       const number = document.querySelector('.dnb-number-format__visible')
       const selection = document.querySelector(
-        '.dnb-number-format__selection'
+        '.dnb-number-format__selection',
       ) as HTMLElement
 
       // Spy on the selection element's focus method
@@ -1058,7 +1058,7 @@ describe('NumberFormat component', () => {
       const comp = document.querySelector('.dnb-number-format')
       const number = document.querySelector('.dnb-number-format__visible')
       const selection = document.querySelector(
-        '.dnb-number-format__selection'
+        '.dnb-number-format__selection',
       ) as HTMLElement
 
       // Spy on the selection element's focus method
@@ -1101,17 +1101,17 @@ describe('NumberFormat component', () => {
           rounding="omit"
           value={123456.789}
           decimals={2}
-        />
+        />,
       )
       expect(
-        document.querySelector('.dnb-number-format')
+        document.querySelector('.dnb-number-format'),
       ).toHaveTextContent('123 456,78') // without omit it would equal to 123 456,79
     })
 
     it('should support "half-even"', () => {
       render(<NumberFormatBase rounding="half-even" value={2.5} />)
       expect(
-        document.querySelector('.dnb-number-format')
+        document.querySelector('.dnb-number-format'),
       ).toHaveTextContent('2')
     })
   })
@@ -1120,80 +1120,80 @@ describe('NumberFormat component', () => {
     it('should support "auto" (default)', () => {
       const { rerender } = render(<NumberFormatBase value={1234} />)
       expect(
-        document.querySelector('.dnb-number-format').textContent
+        document.querySelector('.dnb-number-format').textContent,
       ).toBe('1\u00A0234')
 
       rerender(<NumberFormatBase value={-1234} />)
       expect(
-        document.querySelector('.dnb-number-format').textContent
+        document.querySelector('.dnb-number-format').textContent,
       ).toBe('-1\u00A0234')
     })
 
     it('should support "always"', () => {
       const { rerender } = render(
-        <NumberFormatBase signDisplay="always" value={1234} />
+        <NumberFormatBase signDisplay="always" value={1234} />,
       )
       expect(
-        document.querySelector('.dnb-number-format').textContent
+        document.querySelector('.dnb-number-format').textContent,
       ).toBe('+1\u00A0234')
 
       rerender(<NumberFormatBase signDisplay="always" value={-1234} />)
       expect(
-        document.querySelector('.dnb-number-format').textContent
+        document.querySelector('.dnb-number-format').textContent,
       ).toBe('-1\u00A0234')
 
       rerender(<NumberFormatBase signDisplay="always" value={0} />)
       expect(
-        document.querySelector('.dnb-number-format').textContent
+        document.querySelector('.dnb-number-format').textContent,
       ).toBe('+0')
     })
 
     it('should support "exceptZero"', () => {
       const { rerender } = render(
-        <NumberFormatBase signDisplay="exceptZero" value={1234} />
+        <NumberFormatBase signDisplay="exceptZero" value={1234} />,
       )
       expect(
-        document.querySelector('.dnb-number-format').textContent
+        document.querySelector('.dnb-number-format').textContent,
       ).toBe('+1\u00A0234')
 
       rerender(<NumberFormatBase signDisplay="exceptZero" value={-1234} />)
       expect(
-        document.querySelector('.dnb-number-format').textContent
+        document.querySelector('.dnb-number-format').textContent,
       ).toBe('-1\u00A0234')
 
       rerender(<NumberFormatBase signDisplay="exceptZero" value={0} />)
       expect(
-        document.querySelector('.dnb-number-format')
+        document.querySelector('.dnb-number-format'),
       ).toHaveTextContent('0')
     })
 
     it('should support "never"', () => {
       const { rerender } = render(
-        <NumberFormatBase signDisplay="never" value={1234} />
+        <NumberFormatBase signDisplay="never" value={1234} />,
       )
       expect(
-        document.querySelector('.dnb-number-format').textContent
+        document.querySelector('.dnb-number-format').textContent,
       ).toBe('1\u00A0234')
 
       rerender(<NumberFormatBase signDisplay="never" value={-1234} />)
       expect(
-        document.querySelector('.dnb-number-format').textContent
+        document.querySelector('.dnb-number-format').textContent,
       ).toBe('1\u00A0234')
     })
 
     it('should work with currency', () => {
       render(
-        <NumberFormatBase signDisplay="always" currency value={1234} />
+        <NumberFormatBase signDisplay="always" currency value={1234} />,
       )
       expect(
-        document.querySelector('.dnb-number-format').textContent
+        document.querySelector('.dnb-number-format').textContent,
       ).toBe('+1\u00A0234,00 kr')
     })
 
     it('should work with percent', () => {
       render(<NumberFormat.Percent signDisplay="always" value={12.34} />)
       expect(
-        document.querySelector('.dnb-number-format').textContent
+        document.querySelector('.dnb-number-format').textContent,
       ).toBe('+12,34\u00A0%')
     })
   })
@@ -1222,64 +1222,64 @@ describe('NumberFormat component', () => {
     it('when prefix', () => {
       const { rerender } = render(<Component value={''} prefix="prefix" />)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        'prefix –'
+        'prefix –',
       )
 
       rerender(<Component value={null} prefix="prefix" />)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        'prefix –'
+        'prefix –',
       )
 
       rerender(<Component value={undefined} prefix="prefix" />)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        'prefix –'
+        'prefix –',
       )
 
       rerender(<Component prefix="prefix">{''}</Component>)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        'prefix –'
+        'prefix –',
       )
 
       rerender(<Component prefix="prefix">{null}</Component>)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        'prefix –'
+        'prefix –',
       )
 
       rerender(<Component prefix="prefix">{undefined}</Component>)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        'prefix –'
+        'prefix –',
       )
     })
 
     it('when suffix', () => {
       const { rerender } = render(<Component value={''} suffix="suffix" />)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '– suffix'
+        '– suffix',
       )
 
       rerender(<Component value={null} suffix="suffix" />)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '– suffix'
+        '– suffix',
       )
 
       rerender(<Component value={undefined} suffix="suffix" />)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '– suffix'
+        '– suffix',
       )
 
       rerender(<Component suffix="suffix">{''}</Component>)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '– suffix'
+        '– suffix',
       )
 
       rerender(<Component suffix="suffix">{null}</Component>)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '– suffix'
+        '– suffix',
       )
 
       rerender(<Component suffix="suffix">{undefined}</Component>)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '– suffix'
+        '– suffix',
       )
     })
 
@@ -1305,7 +1305,7 @@ describe('NumberFormat component', () => {
 
     it('when rounding', () => {
       const { rerender } = render(
-        <Component value={''} rounding="half-even" />
+        <Component value={''} rounding="half-even" />,
       )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
@@ -1328,168 +1328,168 @@ describe('NumberFormat component', () => {
     it('when currency', () => {
       const { rerender } = render(<Component value={''} currency />)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- kr'
+        '- kr',
       )
 
       rerender(<Component value={null} currency />)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- kr'
+        '- kr',
       )
 
       rerender(<Component value={undefined} currency />)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- kr'
+        '- kr',
       )
 
       rerender(<Component currency>{''}</Component>)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- kr'
+        '- kr',
       )
 
       rerender(<Component currency>{null}</Component>)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- kr'
+        '- kr',
       )
 
       rerender(<Component currency>{undefined}</Component>)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- kr'
+        '- kr',
       )
     })
 
     it('when currency and currencyPosition', () => {
       const { rerender } = render(
-        <Component value={''} currency currencyPosition="after" />
+        <Component value={''} currency currencyPosition="after" />,
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- kr'
+        '- kr',
       )
 
       rerender(
-        <Component value={null} currency currencyPosition="after" />
+        <Component value={null} currency currencyPosition="after" />,
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- kr'
+        '- kr',
       )
 
       rerender(
-        <Component value={undefined} currency currencyPosition="after" />
+        <Component value={undefined} currency currencyPosition="after" />,
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- kr'
+        '- kr',
       )
 
       rerender(
         <Component currency currencyPosition="after">
           {''}
-        </Component>
+        </Component>,
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- kr'
+        '- kr',
       )
 
       rerender(
         <Component currency currencyPosition="after">
           {null}
-        </Component>
+        </Component>,
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- kr'
+        '- kr',
       )
 
       rerender(
         <Component currency currencyPosition="after">
           {undefined}
-        </Component>
+        </Component>,
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- kr'
+        '- kr',
       )
     })
 
     it('when currency and currencyDisplay', () => {
       const { rerender } = render(
-        <Component value={''} currency currencyDisplay="code" />
+        <Component value={''} currency currencyDisplay="code" />,
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        'NOK -'
+        'NOK -',
       )
 
       rerender(<Component value={null} currency currencyDisplay="code" />)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        'NOK -'
+        'NOK -',
       )
 
       rerender(
-        <Component value={undefined} currency currencyDisplay="code" />
+        <Component value={undefined} currency currencyDisplay="code" />,
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        'NOK -'
+        'NOK -',
       )
 
       rerender(
         <Component currency currencyDisplay="code">
           {''}
-        </Component>
+        </Component>,
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        'NOK -'
+        'NOK -',
       )
 
       rerender(
         <Component currency currencyDisplay="code">
           {null}
-        </Component>
+        </Component>,
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        'NOK -'
+        'NOK -',
       )
 
       rerender(
         <Component currency currencyDisplay="code">
           {undefined}
-        </Component>
+        </Component>,
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        'NOK -'
+        'NOK -',
       )
     })
 
     it('when percent', () => {
       const { rerender } = render(<NumberFormat.Percent value={''} />)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '– %'
+        '– %',
       )
 
       rerender(<NumberFormat.Percent value={null} />)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '– %'
+        '– %',
       )
 
       rerender(<NumberFormat.Percent value={undefined} />)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '– %'
+        '– %',
       )
 
       rerender(<NumberFormat.Percent>{''}</NumberFormat.Percent>)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '– %'
+        '– %',
       )
 
       rerender(<NumberFormat.Percent>{null}</NumberFormat.Percent>)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '– %'
+        '– %',
       )
 
       rerender(<NumberFormat.Percent>{undefined}</NumberFormat.Percent>)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '– %'
+        '– %',
       )
     })
 
     it('when ban', () => {
       const { rerender } = render(
-        <NumberFormat.BankAccountNumber value={''} />
+        <NumberFormat.BankAccountNumber value={''} />,
       )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
@@ -1502,28 +1502,28 @@ describe('NumberFormat component', () => {
       rerender(
         <NumberFormat.BankAccountNumber>
           {''}
-        </NumberFormat.BankAccountNumber>
+        </NumberFormat.BankAccountNumber>,
       )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
       rerender(
         <NumberFormat.BankAccountNumber>
           {null}
-        </NumberFormat.BankAccountNumber>
+        </NumberFormat.BankAccountNumber>,
       )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
       rerender(
         <NumberFormat.BankAccountNumber>
           {undefined}
-        </NumberFormat.BankAccountNumber>
+        </NumberFormat.BankAccountNumber>,
       )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
     })
 
     it('when nin', () => {
       const { rerender } = render(
-        <NumberFormat.NationalIdentityNumber value={''} />
+        <NumberFormat.NationalIdentityNumber value={''} />,
       )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
@@ -1536,28 +1536,28 @@ describe('NumberFormat component', () => {
       rerender(
         <NumberFormat.NationalIdentityNumber>
           {''}
-        </NumberFormat.NationalIdentityNumber>
+        </NumberFormat.NationalIdentityNumber>,
       )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
       rerender(
         <NumberFormat.NationalIdentityNumber>
           {null}
-        </NumberFormat.NationalIdentityNumber>
+        </NumberFormat.NationalIdentityNumber>,
       )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
       rerender(
         <NumberFormat.NationalIdentityNumber>
           {undefined}
-        </NumberFormat.NationalIdentityNumber>
+        </NumberFormat.NationalIdentityNumber>,
       )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
     })
 
     it('when org', () => {
       const { rerender } = render(
-        <NumberFormat.OrganizationNumber value={''} />
+        <NumberFormat.OrganizationNumber value={''} />,
       )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
@@ -1570,21 +1570,21 @@ describe('NumberFormat component', () => {
       rerender(
         <NumberFormat.OrganizationNumber>
           {''}
-        </NumberFormat.OrganizationNumber>
+        </NumberFormat.OrganizationNumber>,
       )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
       rerender(
         <NumberFormat.OrganizationNumber>
           {null}
-        </NumberFormat.OrganizationNumber>
+        </NumberFormat.OrganizationNumber>,
       )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
       rerender(
         <NumberFormat.OrganizationNumber>
           {undefined}
-        </NumberFormat.OrganizationNumber>
+        </NumberFormat.OrganizationNumber>,
       )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
     })
@@ -1606,7 +1606,7 @@ describe('NumberFormat component', () => {
       expect(document.querySelector(displaySelector).textContent).toBe('–')
 
       rerender(
-        <NumberFormat.PhoneNumber>{undefined}</NumberFormat.PhoneNumber>
+        <NumberFormat.PhoneNumber>{undefined}</NumberFormat.PhoneNumber>,
       )
       expect(document.querySelector(displaySelector).textContent).toBe('–')
     })
@@ -1641,40 +1641,40 @@ describe('NumberFormat compact', () => {
   it('have to match default compact number', () => {
     render(<Component value={-value} compact decimals={1} />)
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12,3 mill.'
+      '-12,3 mill.',
     )
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('-12,3 millioner')
   })
 
   it('have to match short compact number', () => {
     render(<Component value={-12345} compact="short" decimals={3} />)
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12,345k'
+      '-12,345k',
     )
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('-12,345 tusen')
   })
 
   it('have to match long compact number', () => {
     render(<Component value={-value} compact="long" decimals={3} />)
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12,346 millioner'
+      '-12,346 millioner',
     )
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('-12,346 millioner')
   })
 
   it('have to match currency based compact number', () => {
     render(<Component value={-value} compact currency decimals={2} />)
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12,35 mill. kr'
+      '-12,35 mill. kr',
     )
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('-12,35 millioner kroner')
   })
 
@@ -1686,37 +1686,37 @@ describe('NumberFormat compact', () => {
         value={-value}
         decimals={3}
         currencyDisplay="name"
-      />
+      />,
     )
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12,346 millioner kroner'
+      '-12,346 millioner kroner',
     )
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('-12,346 millioner kroner')
   })
 
   it('have to hide currency code on falsy currencyDisplay', () => {
     const { rerender } = render(
-      <Component currency currencyDisplay={false} value={-1234} />
+      <Component currency currencyDisplay={false} value={-1234} />,
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-1 234,00'
+      '-1 234,00',
     )
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('-1234,00 kroner')
 
     rerender(<Component currency currencyDisplay="" value={-1234567} />)
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-1 234 567,00'
+      '-1 234 567,00',
     )
 
     const element = document.querySelector('.dnb-number-format')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual(['lang', 'class'])
@@ -1725,23 +1725,23 @@ describe('NumberFormat compact', () => {
   it('have to match compact number with custom decimals', () => {
     render(<Component value={-value} compact currency decimals={4} />)
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12,3457 mill. kr'
+      '-12,3457 mill. kr',
     )
     expect(
-      document.querySelector(ariaSelector).getAttribute('data-text')
+      document.querySelector(ariaSelector).getAttribute('data-text'),
     ).toBe('-12,3457 millioner kroner')
   })
 
   describe('en-GB', () => {
     it('have to match default compact number', () => {
       render(
-        <Component value={-value} compact locale="en-GB" decimals="2" />
+        <Component value={-value} compact locale="en-GB" decimals="2" />,
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '-12.35M'
+        '-12.35M',
       )
       expect(
-        document.querySelector(ariaSelector).getAttribute('data-text')
+        document.querySelector(ariaSelector).getAttribute('data-text'),
       ).toBe('-12.35 million')
     })
 
@@ -1752,13 +1752,13 @@ describe('NumberFormat compact', () => {
           compact="long"
           locale="en-GB"
           decimals="2"
-        />
+        />,
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '-12.35 million'
+        '-12.35 million',
       )
       expect(
-        document.querySelector(ariaSelector).getAttribute('data-text')
+        document.querySelector(ariaSelector).getAttribute('data-text'),
       ).toBe('-12.35 million')
     })
 
@@ -1770,13 +1770,13 @@ describe('NumberFormat compact', () => {
           currency
           locale="en-GB"
           decimals="2"
-        />
+        />,
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '-NOK\u00A012.35M'
+        '-NOK\u00A012.35M',
       )
       expect(
-        document.querySelector(ariaSelector).getAttribute('data-text')
+        document.querySelector(ariaSelector).getAttribute('data-text'),
       ).toBe('-12.35 million kroner')
     })
   })
@@ -1855,12 +1855,12 @@ describe('NumberFormat compact', () => {
       render(<Component value={value} compact decimals={1} />)
 
       expect(document.querySelector(displaySelector).textContent).toBe(
-        display
+        display,
       )
       expect(
-        document.querySelector(ariaSelector).getAttribute('data-text')
+        document.querySelector(ariaSelector).getAttribute('data-text'),
       ).toBe(aria)
-    }
+    },
   )
 })
 
@@ -1875,10 +1875,10 @@ describe('NumberFormat component with provider', () => {
         NumberFormat={{ currency: true, currencyDisplay: 'name' }}
       >
         <Component value={value} />
-      </Provider>
+      </Provider>,
     )
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '12,345,678.99 kroner'
+      '12,345,678.99 kroner',
     )
   })
 })
@@ -1903,7 +1903,7 @@ describe('NumberFormat copy tooltip', () => {
   it('shows the tooltip from the NumberFormat copy handler', async () => {
     const { container } = render(<Component value={1234} />)
     const selection = container.querySelector<HTMLSpanElement>(
-      '.dnb-number-format__selection'
+      '.dnb-number-format__selection',
     )
 
     if (!selection) {
@@ -1916,14 +1916,14 @@ describe('NumberFormat copy tooltip', () => {
     expect(tooltip).toBeInTheDocument()
     expect(tooltip).toHaveClass('dnb-tooltip--active')
     expect(
-      document.querySelector('.dnb-tooltip__content')?.textContent
+      document.querySelector('.dnb-tooltip__content')?.textContent,
     ).toContain(en.clipboardCopy)
 
     jest.advanceTimersByTime(COPY_TOOLTIP_TIMEOUT)
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-tooltip--active')
+        document.querySelector('.dnb-tooltip--active'),
       ).not.toBeInTheDocument()
     })
   })

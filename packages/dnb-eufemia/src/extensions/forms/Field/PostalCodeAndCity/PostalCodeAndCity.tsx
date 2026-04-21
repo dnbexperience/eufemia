@@ -62,7 +62,7 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
 
       return { ...props, ...city }
     },
-    [countryCodeValue]
+    [countryCodeValue],
   )
 
   const {
@@ -93,7 +93,7 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
 
       return { ...props, ...postalCode }
     },
-    [countryCodeValue]
+    [countryCodeValue],
   )
 
   const {
@@ -110,7 +110,7 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
     <CompositionField
       className={clsx(
         'dnb-forms-field-postal-code-and-city',
-        props.className
+        props.className,
       )}
       {...compositionFieldProps}
       width={width}
@@ -119,7 +119,7 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
         size={size}
         className={clsx(
           'dnb-forms-field-postal-code-and-city__postal-code',
-          postalCodeClassName
+          postalCodeClassName,
         )}
         label={postalCodeLabel ?? translations.PostalCode.label}
         mask={postalCodeMask}
@@ -135,7 +135,7 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
             postalCodeErrorMessages,
             translations.PostalCode.errorPattern,
             translations.PostalCode.errorRequired,
-          ]
+          ],
         )}
         width={postalCodeWidth ?? false}
         inputClassName="dnb-forms-field-postal-code-and-city__postal-code-input"
@@ -150,7 +150,7 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
         size={size}
         className={clsx(
           'dnb-forms-field-postal-code-and-city__city',
-          cityClassName
+          cityClassName,
         )}
         label={cityLabel ?? translations.City.label}
         errorMessages={useMemo(
@@ -163,7 +163,7 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
             cityErrorMessages,
             translations.City.errorPattern,
             translations.City.errorRequired,
-          ]
+          ],
         )}
         pattern={cityPattern}
         trim

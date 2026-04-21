@@ -44,7 +44,7 @@ function Inline({
             'dnb-stat',
             'dnb-stat__inline',
             skeletonClass,
-            className
+            className,
           )}
         >
           {children}

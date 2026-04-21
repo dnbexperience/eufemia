@@ -12,7 +12,7 @@ describe('CountryFlag', () => {
     const flag = element.querySelector('.dnb-country-flag__flag')
 
     expect(element.className).toBe(
-      'dnb-space dnb-country-flag dnb-country-flag__size--auto'
+      'dnb-space dnb-country-flag dnb-country-flag__size--auto',
     )
     expect(flag.className).toBe('dnb-country-flag__flag fis fi-no')
   })
@@ -36,12 +36,12 @@ describe('CountryFlag', () => {
     render(
       <Provider locale="en-GB">
         <CountryFlag />
-      </Provider>
+      </Provider>,
     )
 
     const element = document.querySelector('.dnb-country-flag')
     expect(element.querySelector('.dnb-sr-only').textContent).toBe(
-      'Norway'
+      'Norway',
     )
   })
 
@@ -60,7 +60,7 @@ describe('CountryFlag', () => {
     const element = document.querySelector('.dnb-country-flag')
 
     expect(element.className).toBe(
-      'dnb-space dnb-country-flag dnb-country-flag__size--large'
+      'dnb-space dnb-country-flag dnb-country-flag__size--large',
     )
   })
 

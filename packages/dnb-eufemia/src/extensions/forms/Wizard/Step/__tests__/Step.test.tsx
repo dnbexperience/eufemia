@@ -27,7 +27,7 @@ describe('Step', () => {
     render(
       <WizardContext value={{ activeIndex }}>
         <Wizard.Step index={index}>Step Content</Wizard.Step>
-      </WizardContext>
+      </WizardContext>,
     )
 
     const stepElement = document.querySelector('.dnb-forms-step')
@@ -41,7 +41,7 @@ describe('Step', () => {
     render(
       <WizardContext value={{ activeIndex }}>
         <Wizard.Step index={index}>Step Content</Wizard.Step>
-      </WizardContext>
+      </WizardContext>,
     )
 
     const stepElement = document.querySelector('.dnb-forms-step')
@@ -52,7 +52,7 @@ describe('Step', () => {
     render(
       <WizardContext value={{}}>
         <Wizard.Step>Step Content</Wizard.Step>
-      </WizardContext>
+      </WizardContext>,
     )
 
     const stepElement = document.querySelector('.dnb-forms-step')
@@ -63,7 +63,7 @@ describe('Step', () => {
     render(
       <WizardContext value={{}}>
         <Wizard.Step>Step Content</Wizard.Step>
-      </WizardContext>
+      </WizardContext>,
     )
 
     const stepElement = document.querySelector('.dnb-forms-step')
@@ -76,7 +76,7 @@ describe('Step', () => {
     render(
       <WizardContext value={{ stepElementRef }}>
         <Wizard.Step>Step Content</Wizard.Step>
-      </WizardContext>
+      </WizardContext>,
     )
 
     const stepElement = document.querySelector('.dnb-forms-step')
@@ -85,7 +85,7 @@ describe('Step', () => {
 
   it('should set title as aria-label', () => {
     const { rerender } = render(
-      <Wizard.Step title="Aria Label">Step Content</Wizard.Step>
+      <Wizard.Step title="Aria Label">Step Content</Wizard.Step>,
     )
 
     const stepElement = document.querySelector('.dnb-forms-step')
@@ -94,7 +94,7 @@ describe('Step', () => {
     rerender(
       <Wizard.Step title={<div>Other Aria Label</div>}>
         Step Content
-      </Wizard.Step>
+      </Wizard.Step>,
     )
     expect(stepElement).toHaveAttribute('aria-label', 'Other Aria Label')
   })
@@ -105,7 +105,7 @@ describe('Step', () => {
         <Wizard.Container>
           <Wizard.Step title="My Aria Label">Step Content</Wizard.Step>
         </Wizard.Container>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const stepElement = document.querySelector('.dnb-forms-step')
@@ -125,7 +125,7 @@ describe('Step', () => {
     render(
       <WizardContext value={{ activeIndex }}>
         <Wizard.Step index={index}>Step Content</Wizard.Step>
-      </WizardContext>
+      </WizardContext>,
     )
 
     const stepElement = document.querySelector('.dnb-forms-step')
@@ -140,7 +140,7 @@ describe('Step', () => {
             <Field.String />
           </Wizard.Step>
         </WizardContext>
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const form = document.querySelector('form')
@@ -148,7 +148,7 @@ describe('Step', () => {
 
     expect(document.querySelector('input')).toHaveAttribute(
       'aria-required',
-      'true'
+      'true',
     )
   })
 
@@ -171,11 +171,11 @@ describe('Step', () => {
               3
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [s1, s2, s3] = Array.from(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       )
 
       expect(Array.from(s1.classList)).toEqual([
@@ -215,11 +215,11 @@ describe('Step', () => {
               4
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [s1, s2, s3, s4] = Array.from(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       )
       expect(s1).toHaveClass('dnb-step-indicator__item--inactive')
       expect(s2).toHaveClass('dnb-step-indicator__item--current')
@@ -244,14 +244,14 @@ describe('Step', () => {
 
             <Wizard.Buttons />
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const [s1, s2] = Array.from(
-        document.querySelectorAll('.dnb-step-indicator__item')
+        document.querySelectorAll('.dnb-step-indicator__item'),
       )
       const [b1, b2] = Array.from(
-        document.querySelectorAll('.dnb-step-indicator__item .dnb-anchor')
+        document.querySelectorAll('.dnb-step-indicator__item .dnb-anchor'),
       )
 
       expect(s1).toHaveClass('dnb-step-indicator__item--inactive')
@@ -263,7 +263,7 @@ describe('Step', () => {
       expect(b2.tagName).toBe('SPAN')
 
       await userEvent.click(
-        document.querySelector('.dnb-forms-previous-button')
+        document.querySelector('.dnb-forms-previous-button'),
       )
 
       expect(s1).toHaveClass('dnb-step-indicator__item--inactive')
@@ -286,11 +286,11 @@ describe('Step', () => {
             keepInDOM Content
           </Wizard.Step>
           <Wizard.Step index={2}>Hidden Content</Wizard.Step>
-        </WizardContext>
+        </WizardContext>,
       )
 
       const [step1, step2, step3] = Array.from(
-        document.querySelectorAll('.dnb-forms-step')
+        document.querySelectorAll('.dnb-forms-step'),
       )
 
       expect(step1).toHaveTextContent('Active Content')
@@ -311,7 +311,7 @@ describe('Step', () => {
           if (
             typeof index === 'number' &&
             ref.current.parentElement.parentElement.classList.contains(
-              'dnb-forms-step'
+              'dnb-forms-step',
             )
           ) {
             whatStepsDidRender.push(index)
@@ -337,7 +337,7 @@ describe('Step', () => {
               <CheckPrerender />
             </Wizard.Step>
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       // Only steps with a step context will be pre rendered.
@@ -393,7 +393,7 @@ describe('Step', () => {
               stepsRef={stepsRef}
             />
           </Wizard.Container>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(step0).toHaveBeenCalledTimes(0) // because its the current step

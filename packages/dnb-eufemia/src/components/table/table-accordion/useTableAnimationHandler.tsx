@@ -28,13 +28,13 @@ export function useTableAnimationHandler({
   const scrollViewHandler = useCallback(
     (clip: boolean) => {
       const scrollView = getClosestScrollViewElement(
-        trRef.current
+        trRef.current,
       ) as HTMLElement
       if (scrollView instanceof HTMLElement) {
         scrollView.style.overflowY = clip ? 'clip' : ''
       }
     },
-    [trRef]
+    [trRef],
   )
 
   const onOpen = useCallback((state) => {
@@ -60,14 +60,14 @@ export function useTableAnimationHandler({
 
       scrollViewHandler(false)
     },
-    [scrollViewHandler, tableAccordionContext, trRef]
+    [scrollViewHandler, tableAccordionContext, trRef],
   )
 
   const { isInDOM, isAnimating, isVisibleParallax, firstPaintStyle } =
     useHeightAnimation(contentRef, {
       open,
       animate: Boolean(
-        !noAnimation && !tableAccordionContext?.noAnimation
+        !noAnimation && !tableAccordionContext?.noAnimation,
       ),
       onOpen,
       onAnimationStart,

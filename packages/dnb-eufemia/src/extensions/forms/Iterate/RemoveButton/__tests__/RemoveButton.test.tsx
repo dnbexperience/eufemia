@@ -39,7 +39,7 @@ describe('RemoveButton', () => {
       render(
         <RemoveButton value={invalidValue as unknown as string[]}>
           Remove Button
-        </RemoveButton>
+        </RemoveButton>,
       )
     }).toThrow('RemoveButton must be inside an Iterate.Array')
 
@@ -96,12 +96,12 @@ describe('RemoveButton', () => {
     render(<RemoveButton>Remove Button</RemoveButton>, { wrapper })
 
     const button = document.querySelector(
-      '.dnb-forms-iterate-remove-element-button'
+      '.dnb-forms-iterate-remove-element-button',
     )
 
     expect(button.querySelector('.dnb-icon')).toHaveAttribute(
       'data-testid',
-      'trash icon'
+      'trash icon',
     )
   })
 
@@ -121,7 +121,7 @@ describe('RemoveButton', () => {
       >
         <RemoveButton />
       </Form.Handler>,
-      { wrapper }
+      { wrapper },
     )
 
     expect(screen.getByText(remove)).toBeInTheDocument()
@@ -145,7 +145,7 @@ describe('RemoveButton', () => {
             {children}
           </IterateItemContext>
         ),
-      }
+      },
     )
 
     await userEvent.click(document.querySelector('button'))
@@ -174,7 +174,7 @@ describe('RemoveButton', () => {
             {children}
           </IterateItemContext>
         ),
-      }
+      },
     )
 
     await userEvent.click(document.querySelector('button'))
@@ -187,7 +187,7 @@ describe('RemoveButton', () => {
     render(
       <Iterate.Array value={['foo', 'bar']}>
         <RemoveButton text="Remove item {itemNo}" />
-      </Iterate.Array>
+      </Iterate.Array>,
     )
 
     const buttons = document.querySelectorAll('button')
@@ -207,8 +207,8 @@ describe('RemoveButton', () => {
 
       await userEvent.click(
         document.querySelector(
-          '.dnb-dialog__inner button.dnb-button--primary'
-        )
+          '.dnb-dialog__inner button.dnb-button--primary',
+        ),
       )
 
       expect(handleRemove).toHaveBeenCalledTimes(1)
@@ -220,7 +220,7 @@ describe('RemoveButton', () => {
       await userEvent.click(document.querySelector('button'))
 
       expect(
-        document.querySelector('.dnb-dialog__inner')
+        document.querySelector('.dnb-dialog__inner'),
       ).toHaveTextContent(nb.confirmRemoveText)
     })
   })

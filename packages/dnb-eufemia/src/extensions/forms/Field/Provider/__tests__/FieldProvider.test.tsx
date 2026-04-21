@@ -10,7 +10,7 @@ const nb = nbNO['nb-NO']
 describe('Field.Provider', () => {
   it('should have constant of _supportsSpacingProps="children"', () => {
     expect(
-      (Field.Provider as ComponentMarkers)._supportsSpacingProps
+      (Field.Provider as ComponentMarkers)._supportsSpacingProps,
     ).toBe('children')
   })
 
@@ -31,7 +31,7 @@ describe('Field.Provider', () => {
     render(
       <Field.Provider disabled={true}>
         <Collector myProp="value" />
-      </Field.Provider>
+      </Field.Provider>,
     )
 
     expect(collectedProps).toEqual({
@@ -57,7 +57,7 @@ describe('Field.Provider', () => {
     render(
       <Field.Provider disabled={true}>
         <Collector disabled={false} myProp="value" />
-      </Field.Provider>
+      </Field.Provider>,
     )
 
     expect(collectedProps).toEqual({
@@ -85,7 +85,7 @@ describe('Field.Provider', () => {
         <Field.Provider disabled={false}>
           <Collector disabled={true} myProp="value" />
         </Field.Provider>
-      </Field.Provider>
+      </Field.Provider>,
     )
 
     expect(collectedProps).toEqual({
@@ -113,7 +113,7 @@ describe('Field.Provider', () => {
         <Field.Provider disabled={false}>
           <Collector myProp="value" />
         </Field.Provider>
-      </Field.Provider>
+      </Field.Provider>,
     )
 
     expect(collectedProps).toEqual({
@@ -128,7 +128,7 @@ describe('Field.Provider', () => {
         <Field.Provider disabled={true}>
           <Field.String />
           <Form.SubmitButton />
-        </Field.Provider>
+        </Field.Provider>,
       )
 
       const input = document.querySelector('input')
@@ -143,7 +143,7 @@ describe('Field.Provider', () => {
         <Field.Provider disabled={true}>
           <Field.String disabled={false} />
           <Form.SubmitButton disabled={false} />
-        </Field.Provider>
+        </Field.Provider>,
       )
 
       const input = document.querySelector('input')
@@ -160,7 +160,7 @@ describe('Field.Provider', () => {
             <Field.String />
             <Form.SubmitButton />
           </Field.Provider>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const input = document.querySelector('input')
@@ -175,7 +175,7 @@ describe('Field.Provider', () => {
             <Field.String />
             <Form.SubmitButton />
           </Field.Provider>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(input).not.toBeDisabled()
@@ -187,7 +187,7 @@ describe('Field.Provider', () => {
             <Field.String disabled={false} />
             <Form.SubmitButton disabled={false} />
           </Field.Provider>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(input).not.toBeDisabled()
@@ -201,7 +201,7 @@ describe('Field.Provider', () => {
             <Field.String />
             <Form.SubmitButton />
           </Field.Provider>
-        </Field.Provider>
+        </Field.Provider>,
       )
 
       const input = document.querySelector('input')
@@ -216,7 +216,7 @@ describe('Field.Provider', () => {
             <Field.String />
             <Form.SubmitButton />
           </Field.Provider>
-        </Field.Provider>
+        </Field.Provider>,
       )
 
       expect(input).not.toBeDisabled()
@@ -228,7 +228,7 @@ describe('Field.Provider', () => {
             <Field.String disabled={false} />
             <Form.SubmitButton disabled={false} />
           </Field.Provider>
-        </Field.Provider>
+        </Field.Provider>,
       )
 
       expect(input).not.toBeDisabled()
@@ -240,7 +240,7 @@ describe('Field.Provider', () => {
         <Field.Provider data-exclude-field>
           <Field.String />
           <Form.SubmitButton />
-        </Field.Provider>
+        </Field.Provider>,
       )
 
       const input = document.querySelector('input')
@@ -256,11 +256,11 @@ describe('Field.Provider', () => {
       render(
         <Field.Provider required={true}>
           <Field.String validateInitially />
-        </Field.Provider>
+        </Field.Provider>,
       )
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Field.errorRequired
+        nb.Field.errorRequired,
       )
     })
 
@@ -268,11 +268,11 @@ describe('Field.Provider', () => {
       render(
         <Field.Provider required={true}>
           <Field.String validateInitially required={false} />
-        </Field.Provider>
+        </Field.Provider>,
       )
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
     })
 
@@ -282,11 +282,11 @@ describe('Field.Provider', () => {
           <Field.Provider>
             <Field.String validateInitially />
           </Field.Provider>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).toBeInTheDocument()
 
       rerender(
@@ -294,11 +294,11 @@ describe('Field.Provider', () => {
           <Field.Provider required={false}>
             <Field.String validateInitially />
           </Field.Provider>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
 
       rerender(
@@ -306,11 +306,11 @@ describe('Field.Provider', () => {
           <Field.Provider>
             <Field.String validateInitially required={false} />
           </Field.Provider>
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       expect(
-        document.querySelector('.dnb-form-status')
+        document.querySelector('.dnb-form-status'),
       ).not.toBeInTheDocument()
     })
   })

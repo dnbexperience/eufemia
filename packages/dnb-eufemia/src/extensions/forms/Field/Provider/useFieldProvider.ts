@@ -60,7 +60,7 @@ function useFieldProvider(props?: Omit<FieldProviderProps, 'children'>) {
       {},
       sharedContext.translations,
       restProps?.translations,
-      dataContextRef.current?.props?.translations
+      dataContextRef.current?.props?.translations,
     ) as ContextProps
 
     return translations
@@ -99,7 +99,7 @@ function useFieldProvider(props?: Omit<FieldProviderProps, 'children'>) {
           ? assignPropsWithContext(
               props,
               { required },
-              nestedFieldProps as Record<string, unknown>
+              nestedFieldProps as Record<string, unknown>,
             )
           : props
 
@@ -109,7 +109,7 @@ function useFieldProvider(props?: Omit<FieldProviderProps, 'children'>) {
       nestedContext?.inheritedContext?.required,
       nestedFieldProps,
       overwriteProps,
-    ]
+    ],
   )
 
   return {

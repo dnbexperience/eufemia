@@ -57,7 +57,7 @@ const ItemAccordionContext = createContext<{
   icon?: IconIcon
   title?: React.ReactNode
   handleToggle: (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => void
 }>(undefined)
 
@@ -87,7 +87,7 @@ function ItemAccordion(props: ItemAccordionProps) {
   const childArray = Array.isArray(children) ? children : [children]
   const hasExplicitHeader = childArray.some(
     (child) =>
-      React.isValidElement(child) && child.type === AccordionHeader
+      React.isValidElement(child) && child.type === AccordionHeader,
   )
 
   useEffect(() => {
@@ -105,7 +105,7 @@ function ItemAccordion(props: ItemAccordionProps) {
         onClick?.(event)
       }
     },
-    [onClick, onChange, pending]
+    [onClick, onChange, pending],
   )
 
   return (
@@ -126,7 +126,7 @@ function ItemAccordion(props: ItemAccordionProps) {
         className={clsx(
           'dnb-list__item__accordion',
           openState && 'dnb-list__item__accordion--open',
-          className
+          className,
         )}
         direction="vertical"
         pending={pending}
@@ -162,7 +162,7 @@ function AccordionHeader(props: AccordionHeaderProps) {
         accordionContext.handleToggle(event)
       }
     },
-    [accordionContext, isInactive]
+    [accordionContext, isInactive],
   )
 
   const handleKeyDown = useCallback(
@@ -170,16 +170,16 @@ function AccordionHeader(props: AccordionHeaderProps) {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault()
         handleClick(
-          event as unknown as React.MouseEvent<HTMLDivElement, MouseEvent>
+          event as unknown as React.MouseEvent<HTMLDivElement, MouseEvent>,
         )
       }
     },
-    [handleClick]
+    [handleClick],
   )
 
   if (!accordionContext) {
     warn(
-      'List.Item.Accordion.Header should be used inside List.Item.Accordion.'
+      'List.Item.Accordion.Header should be used inside List.Item.Accordion.',
     )
     return null
   }
@@ -193,7 +193,7 @@ function AccordionHeader(props: AccordionHeaderProps) {
         'dnb-list__item__accordion__header',
         chevronPosition === 'left' && 'dnb-list__item--chevron-left',
         inheritedSkeleton && createSkeletonClass('font', true),
-        className
+        className,
       )}
       id={`${accordionId}-header`}
       role="button"
@@ -234,7 +234,7 @@ function AccordionContent(props: ItemContentProps) {
 
   if (!accordionContext) {
     warn(
-      'List.Item.Accordion.Content should be used inside List.Item.Accordion.'
+      'List.Item.Accordion.Content should be used inside List.Item.Accordion.',
     )
     return null
   }
@@ -248,7 +248,7 @@ function AccordionContent(props: ItemContentProps) {
       className={clsx(
         'dnb-list__item__accordion__content',
         inheritedSkeleton && createSkeletonClass('font', true),
-        className
+        className,
       )}
       id={`${accordionId}-content`}
       aria-labelledby={`${accordionId}-header`}

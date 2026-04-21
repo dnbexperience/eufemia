@@ -25,7 +25,7 @@ export default function usePath(props: UsePathProps = {}) {
     !isParentRelativePath(pathProp)
   ) {
     throw new Error(
-      `path="${pathProp}" must start with "/" or use "//" or "../"`
+      `path="${pathProp}" must start with "/" or use "//" or "../"`,
     )
   }
   if (itemPathProp && !itemPathProp.startsWith('/')) {
@@ -34,7 +34,7 @@ export default function usePath(props: UsePathProps = {}) {
 
   const joinPath = useCallback((paths: Array<Path>) => {
     return cleanPath(
-      paths.reduce((acc, cur) => (cur ? `${acc}/${cur}` : acc), '/')
+      paths.reduce((acc, cur) => (cur ? `${acc}/${cur}` : acc), '/'),
     )
   }, [])
 
@@ -51,17 +51,17 @@ export default function usePath(props: UsePathProps = {}) {
         return path
       }
       return cleanPath(
-        `${sectionPath && sectionPath !== '/' ? sectionPath : ''}${path}`
+        `${sectionPath && sectionPath !== '/' ? sectionPath : ''}${path}`,
       )
     },
-    [omitSectionPath, sectionPath]
+    [omitSectionPath, sectionPath],
   )
 
   const makeIteratePath = useCallback(
     (
       itemPath: Path = itemPathProp,
       iteratePath: Path = iteratePathProp,
-      { omitSectionPath = false } = {}
+      { omitSectionPath = false } = {},
     ) => {
       let root = ''
 
@@ -72,7 +72,7 @@ export default function usePath(props: UsePathProps = {}) {
       return cleanPath(
         `${root}${iteratePath || ''}/${iterateElementIndex}${
           itemPath || ''
-        }`
+        }`,
       )
     },
     [
@@ -81,7 +81,7 @@ export default function usePath(props: UsePathProps = {}) {
       sectionPath,
       iterateElementIndex,
       makeSectionPath,
-    ]
+    ],
   )
 
   const itemPath = useMemo(() => {
@@ -110,7 +110,7 @@ export default function usePath(props: UsePathProps = {}) {
       // Identifier is used is registries of multiple fields, like in the DataContext keeping track of errors
       return path
     },
-    [itemPathProp, sectionPath, itemPath, makeSectionPath]
+    [itemPathProp, sectionPath, itemPath, makeSectionPath],
   )
 
   const path = useMemo(() => {

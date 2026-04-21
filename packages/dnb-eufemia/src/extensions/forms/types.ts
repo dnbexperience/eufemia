@@ -66,7 +66,7 @@ export type ValidatorReturnAsync<Value> =
   | Promise<ValidatorReturnSync<Value>>
 export type Validator<Value, ErrorMessages = DefaultErrorMessages> = (
   value: Value,
-  additionalArgs: ReceiveAdditionalEventArgs<Value, ErrorMessages>
+  additionalArgs: ReceiveAdditionalEventArgs<Value, ErrorMessages>,
 ) => ValidatorReturnAsync<Value>
 
 export type ValidatorWithCustomValidators<
@@ -80,7 +80,7 @@ export type ValidatorWithCustomValidators<
     'validators'
   > & {
     validators: FieldValidators
-  }
+  },
 ) => ValidatorReturnAsync<Value>
 
 export type ReceiveAdditionalEventArgs<
@@ -120,7 +120,7 @@ export type ReceiveAdditionalEventArgs<
   setFieldEventListener: (
     path: Path,
     type: EventListenerCall['type'],
-    callback: EventListenerCall['callback']
+    callback: EventListenerCall['callback'],
   ) => void
 
   /**
@@ -196,22 +196,22 @@ export type DataValueReadProps<Value = unknown> = {
 const dataValueReadProps = ['path', 'itemPath', 'value']
 
 export function pickDataValueReadProps<Props extends DataValueReadProps>(
-  props: Props
+  props: Props,
 ): DataValueReadProps {
   return Object.fromEntries(
     Object.entries(props ?? {}).filter(([key]) =>
-      dataValueReadProps.includes(key)
-    )
+      dataValueReadProps.includes(key),
+    ),
   )
 }
 
 export function omitDataValueReadProps<Props extends DataValueReadProps>(
-  props: Props
+  props: Props,
 ): Omit<DataValueReadProps, keyof DataValueReadProps> {
   return Object.fromEntries(
     Object.entries(props ?? {}).filter(
-      ([key]) => !dataValueReadProps.includes(key)
-    )
+      ([key]) => !dataValueReadProps.includes(key),
+    ),
   )
 }
 
@@ -237,22 +237,22 @@ export type DataValueWriteProps<
 const dataValueWriteProps = ['emptyValue', 'onFocus', 'onBlur', 'onChange']
 
 export function pickDataValueWriteProps<Props extends DataValueWriteProps>(
-  props: Props
+  props: Props,
 ): DataValueWriteProps {
   return Object.fromEntries(
     Object.entries(props ?? {}).filter(([key]) =>
-      dataValueWriteProps.includes(key)
-    )
+      dataValueWriteProps.includes(key),
+    ),
   )
 }
 
 export function omitDataValueWriteProps<Props extends DataValueWriteProps>(
-  props: Props
+  props: Props,
 ): Omit<DataValueWriteProps, keyof DataValueWriteProps> {
   return Object.fromEntries(
     Object.entries(props ?? {}).filter(
-      ([key]) => !dataValueWriteProps.includes(key)
-    )
+      ([key]) => !dataValueWriteProps.includes(key),
+    ),
   )
 }
 
@@ -268,8 +268,8 @@ export function pickDataValueReadWriteProps<
     Object.entries(props ?? {}).filter(
       ([key]) =>
         dataValueReadProps.includes(key) ||
-        dataValueWriteProps.includes(key)
-    )
+        dataValueWriteProps.includes(key),
+    ),
   )
 }
 
@@ -280,8 +280,8 @@ export function omitDataValueReadWriteProps<
     Object.entries(props ?? {}).filter(
       ([key]) =>
         !dataValueReadProps.includes(key) &&
-        !dataValueWriteProps.includes(key)
-    )
+        !dataValueWriteProps.includes(key),
+    ),
   ) as Omit<Props, keyof DataValueReadWriteProps>
 }
 
@@ -306,7 +306,7 @@ export type MessagePropParams<Value, ReturnValue> = {
     callback: () => ReturnValue | void,
     options?: {
       showInitially?: boolean
-    }
+    },
   ) => ReturnValue
   getValueByPath: GetValueByPath<Value>
   getFieldByPath: (path: Path) => FieldInternalsValue
@@ -315,7 +315,7 @@ export type MessageProp<Value, ReturnValue> =
   | ReturnValue
   | ((
       value: Value,
-      options: MessagePropParams<Value, ReturnValue>
+      options: MessagePropParams<Value, ReturnValue>,
     ) => ReturnValue | undefined)
 export type MessageTypes<Value> =
   | UseFieldProps<Value>['info']
@@ -419,7 +419,7 @@ interface UseFieldPropsInterface<
       required: boolean
       isChanged: boolean
       error: FormError | undefined
-    }
+    },
   ) => FormError | undefined
   /**
    * Should error messages based on validation be shown initially (from given value-prop or source data)
@@ -455,7 +455,7 @@ interface UseFieldPropsInterface<
    */
   transformOut?: (
     internal: Value | ExtraValue,
-    additionalArgs?: unknown
+    additionalArgs?: unknown,
   ) => unknown
 
   /**
@@ -468,7 +468,7 @@ interface UseFieldPropsInterface<
    */
   provideAdditionalArgs?: (
     value: Value,
-    additionalArgs?: ProvideAdditionalEventArgs
+    additionalArgs?: ProvideAdditionalEventArgs,
   ) => ProvideAdditionalEventArgs
 
   /**
@@ -481,7 +481,7 @@ interface UseFieldPropsInterface<
    */
   toEvent?: (
     internal: Value,
-    type: 'onChange' | 'onFocus' | 'onBlur' | 'onBlurValidator'
+    type: 'onChange' | 'onFocus' | 'onBlur' | 'onBlurValidator',
   ) => Value
 
   /**
@@ -589,7 +589,7 @@ interface ValuePropsInterface<
    */
   transformLabel?: (
     label: React.ReactNode,
-    convertJsxToString: (label: React.ReactNode) => string
+    convertJsxToString: (label: React.ReactNode) => string,
   ) => React.ReactNode
 
   /**
@@ -687,7 +687,7 @@ export type OnSubmitParams<Data = JsonObject> = {
   /** Will remove data entries of fields that are not visible */
   reduceToVisibleFields: (
     data: Data,
-    options?: VisibleDataOptions
+    options?: VisibleDataOptions,
   ) => Partial<Data>
 
   /** Will call the given function for each data path. The returned `value` will replace each data entry. It's up to you to define the shape of the value. */
@@ -715,7 +715,7 @@ export type OnSubmit<Data = JsonObject> = (
     filterData,
     resetForm,
     clearData,
-  }: OnSubmitParams<Data>
+  }: OnSubmitParams<Data>,
 ) => OnSubmitReturn
 export type OnSubmitRequestReturn = OnSubmitReturn
 export type OnSubmitRequest = ({
@@ -732,7 +732,7 @@ export type OnCommit<Data = JsonObject> = (
   }: {
     clearData: () => void
     preventCommit?: () => void
-  }
+  },
 ) =>
   | EventReturnWithStateObject
   | void
@@ -740,7 +740,7 @@ export type OnCommit<Data = JsonObject> = (
 
 export type OnChange<Data = JsonObject> = (
   data: Data,
-  additionalArgs: Pick<OnSubmitParams, 'filterData'>
+  additionalArgs: Pick<OnSubmitParams, 'filterData'>,
 ) => OnChangeReturnType
 
 type OnChangeReturnType =

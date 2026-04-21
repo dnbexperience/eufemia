@@ -102,10 +102,10 @@ function DateFormat(props: DateFormatProps) {
         durationValue,
         locale,
         dateStyle,
-        String(value || children)
+        String(value || children),
       )
     },
-    [children, durationValue, locale, value]
+    [children, durationValue, locale, value],
   )
   const durationFormatted = useMemo(() => {
     return getDuration(dateStyle)
@@ -118,7 +118,7 @@ function DateFormat(props: DateFormatProps) {
     const attrs = applySpacing(props, {
       className: clsx(
         'dnb-date-format',
-        createSkeletonClass('font', skeleton, context)
+        createSkeletonClass('font', skeleton, context),
       ),
       lang: locale, // Makes sure that screen readers are reading the date correctly in the system language.
     })
@@ -135,7 +135,7 @@ function DateFormat(props: DateFormatProps) {
 
       return format(date, style)
     },
-    [date]
+    [date],
   )
 
   const getAbsoluteDateFormatted = useCallback(
@@ -189,7 +189,7 @@ function DateFormat(props: DateFormatProps) {
             : getDateTimeSeparator(
                 locale,
                 options.dateStyle,
-                options.timeStyle
+                options.timeStyle,
               )
 
         return `${formattedDate}${separator}${formattedTime}`
@@ -216,7 +216,7 @@ function DateFormat(props: DateFormatProps) {
       hideYear,
       value,
       children,
-    ]
+    ],
   )
 
   // Auto-updating relative time with minimal CPU: schedule updates only when the label changes next
@@ -227,7 +227,7 @@ function DateFormat(props: DateFormatProps) {
           locale,
           undefined,
           relativeTimeStyle || dateStyle,
-          relativeTimeReference
+          relativeTimeReference,
         )
       : undefined
   })
@@ -242,7 +242,7 @@ function DateFormat(props: DateFormatProps) {
     const scheduleNextUpdate = () => {
       const delay = getRelativeTimeNextUpdateMs(
         date,
-        relativeTimeReference
+        relativeTimeReference,
       )
       timeoutId = setTimeout(() => {
         const next = getRelativeTime(
@@ -250,7 +250,7 @@ function DateFormat(props: DateFormatProps) {
           locale,
           undefined,
           relativeTimeStyle || dateStyle,
-          relativeTimeReference
+          relativeTimeReference,
         )
         setLabel((prev) => (prev !== next ? next : prev))
         scheduleNextUpdate()
@@ -263,8 +263,8 @@ function DateFormat(props: DateFormatProps) {
         locale,
         undefined,
         relativeTimeStyle || dateStyle,
-        relativeTimeReference
-      )
+        relativeTimeReference,
+      ),
     )
     scheduleNextUpdate()
 
@@ -332,7 +332,7 @@ function DateFormat(props: DateFormatProps) {
       <span className="dnb-date-format">
         {invalidDate.replace(
           '{value}',
-          getInvalidValue({ value, children })
+          getInvalidValue({ value, children }),
         )}
       </span>
     )

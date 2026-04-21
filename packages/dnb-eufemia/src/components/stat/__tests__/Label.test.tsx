@@ -9,7 +9,7 @@ describe('Stat.Label', () => {
     render(
       <Stat.Root>
         <Stat.Label>Revenue growth</Stat.Label>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const label = document.querySelector('.dnb-stat__label')
@@ -30,7 +30,7 @@ describe('Stat.Label', () => {
         <Stat.Label fontSize="medium" fontWeight="bold" variant="subtle">
           Revenue growth
         </Stat.Label>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const label = document.querySelector('.dnb-stat__label')
@@ -46,7 +46,7 @@ describe('Stat.Label', () => {
     render(
       <Stat.Root>
         <Stat.Label variant="subtle">Revenue growth</Stat.Label>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const label = document.querySelector('.dnb-stat__label')
@@ -60,7 +60,7 @@ describe('Stat.Label', () => {
     render(
       <Stat.Root>
         <Stat.Label srOnly>Revenue growth</Stat.Label>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const label = document.querySelector('.dnb-stat__label')
@@ -80,7 +80,7 @@ describe('Stat.Label', () => {
       call
         .map((entry) => String(entry))
         .join(' ')
-        .includes('Stat.Label should be used inside Stat.Root')
+        .includes('Stat.Label should be used inside Stat.Root'),
     )
 
     expect(didWarn).toBe(true)
@@ -91,7 +91,7 @@ describe('Stat.Label', () => {
     render(
       <Stat.Root>
         <Stat.Label skeleton>Revenue growth</Stat.Label>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const label = document.querySelector('.dnb-stat__label')
@@ -117,7 +117,7 @@ describe('Stat.Label', () => {
         <Stat.Content>
           <Stat.Currency value={1234} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     expect(contextSkeleton).toBe(true)
@@ -139,7 +139,7 @@ describe('Stat.Label', () => {
         <Stat.Content>
           <Stat.Currency value={1234} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     expect(contextSkeleton).toBe(false)
@@ -149,7 +149,7 @@ describe('Stat.Label', () => {
     render(
       <Stat.Root>
         <Stat.Label top="large">Revenue growth</Stat.Label>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const label = document.querySelector('.dnb-stat__label')
@@ -164,7 +164,7 @@ describe('Stat.Label', () => {
         <Stat.Content>
           <Stat.Currency value={1234} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     expect(await axeComponent(component)).toHaveNoViolations()
@@ -174,7 +174,7 @@ describe('Stat.Label', () => {
     render(
       <Stat.Root>
         <Stat.Label id="my-label">Revenue</Stat.Label>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const label = document.querySelector('.dnb-stat__label')
@@ -186,7 +186,7 @@ describe('Stat.Label', () => {
     render(
       <Stat.Root>
         <Stat.Label style={{ color: 'red' }}>Revenue</Stat.Label>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const label = document.querySelector('.dnb-stat__label')
@@ -198,7 +198,7 @@ describe('Stat.Label', () => {
     render(
       <Stat.Root>
         <Stat.Label className="custom-class">Revenue</Stat.Label>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const label = document.querySelector('.dnb-stat__label')
@@ -228,7 +228,7 @@ describe('Stat.Label', () => {
         className="custom"
       >
         Revenue
-      </Stat.Label>
+      </Stat.Label>,
     )
 
     const label = document.querySelector('.dnb-stat__label')
@@ -266,7 +266,7 @@ describe('Stat.Label', () => {
         <Stat.Content>
           <Stat.Currency value={1234} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const info = document.querySelector('.dnb-stat__info')
@@ -284,12 +284,12 @@ describe('Stat.Label', () => {
         <Stat.Content>
           <Stat.Currency value={1234} />
         </Stat.Content>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const info = document.querySelector('.dnb-stat__info')
     const currency = document.querySelector(
-      '.dnb-stat__content-item > .dnb-stat'
+      '.dnb-stat__content-item > .dnb-stat',
     )
 
     expect(info.classList).toContain('dnb-skeleton')
@@ -306,7 +306,7 @@ describe('Stat.Label', () => {
         >
           Revenue
         </Stat.Label>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const label = document.querySelector('.dnb-stat__label')
@@ -327,7 +327,7 @@ describe('Stat.Label', () => {
         >
           Revenue
         </Stat.Label>
-      </Stat.Root>
+      </Stat.Root>,
     )
 
     const label = document.querySelector('.dnb-stat__label')

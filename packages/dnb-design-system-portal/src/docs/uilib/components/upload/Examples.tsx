@@ -131,7 +131,7 @@ export const UploadFilesAmountMessage = () => (
     {() => {
       const Component = () => {
         const { setInternalFiles, setFiles } = Upload.useUpload(
-          'upload-files-amount-message'
+          'upload-files-amount-message',
         )
 
         React.useEffect(() => {
@@ -175,7 +175,7 @@ export const UploadFilesAmountLimit = () => (
     {() => {
       const Component = () => {
         const { setInternalFiles, setFiles } = Upload.useUpload(
-          'upload-files-amount-limit'
+          'upload-files-amount-limit',
         )
 
         React.useEffect(() => {
@@ -248,7 +248,7 @@ export const UploadRemoveFile = () => (
                   setImages([...images])
                   reader = null
                 },
-                false
+                false,
               )
 
               reader.readAsDataURL(file)
@@ -307,7 +307,7 @@ export const UploadIsLoading = () => (
                 setFiles(
                   files.map((fileItem) => {
                     return { ...fileItem, isLoading: checked }
-                  })
+                  }),
                 )
               }
             >
@@ -327,7 +327,7 @@ export const UploadErrorMessage = () => (
     {() => {
       const Component = () => {
         const { files, setFiles } = Upload.useUpload(
-          'upload-error-message'
+          'upload-error-message',
         )
 
         return (
@@ -348,7 +348,7 @@ export const UploadErrorMessage = () => (
                         ? 'custom error message'
                         : null,
                     }
-                  })
+                  }),
                 )
               }}
             >
@@ -368,7 +368,7 @@ export const UploadAcceptedFormats = () => (
     {() => {
       const Component = () => {
         const { files, setFiles } = Upload.useUpload(
-          'upload-accepted-formats'
+          'upload-accepted-formats',
         )
 
         if (files.length) {
@@ -491,7 +491,7 @@ export const UploadOnFileClick = () => (
               file: createMockFile(
                 'file-name-that-is-very-long-and-has-letters.png',
                 123,
-                'image/png'
+                'image/png',
               ),
               id: '2',
             },
@@ -502,12 +502,12 @@ export const UploadOnFileClick = () => (
           const request = createRequest()
           console.log(
             'making API request to fetch the url of the file:',
-            fileItem.file.name
+            fileItem.file.name,
           )
           await request(2000) // Simulate a request
           window.open(
             `https://eufemia.dnb.no/images/avatars/${fileItem.file.name}`,
-            '_blank'
+            '_blank',
           )
         }
 
@@ -530,7 +530,7 @@ export const UploadClearFiles = () => (
     {() => {
       const Component = () => {
         const { setFiles, clearFiles } = Upload.useUpload(
-          'upload-clear-files'
+          'upload-clear-files',
         )
 
         React.useEffect(() => {
@@ -543,7 +543,7 @@ export const UploadClearFiles = () => (
               file: createMockFile(
                 'file-name-that-is-very-long-and-has-letters.png',
                 123,
-                'image/png'
+                'image/png',
               ),
               id: '2',
             },
@@ -587,7 +587,7 @@ export const UploadFileEmptySize = () => (
               file: createMockFile(
                 'file-name-that-is-very-long-and-has-letters.png',
                 0,
-                'image/png'
+                'image/png',
               ),
               id: '2',
             },
@@ -637,7 +637,7 @@ export const UploadDescription = () => (
               file: createMockFile(
                 'file-name-that-is-very-long-and-has-letters.png',
                 0,
-                'image/png'
+                'image/png',
               ),
               id: '2',
             },
@@ -673,7 +673,7 @@ export const UploadDescription = () => (
                     ...fileItem,
                     description: 'This is my description',
                   }
-                })
+                }),
               )
             }
           />
@@ -693,7 +693,7 @@ export const UploadRemoveDeleteButton = () => (
     {() => {
       const Component = () => {
         const { setFiles } = Upload.useUpload(
-          'upload-remove-delete-button'
+          'upload-remove-delete-button',
         )
 
         React.useEffect(() => {
@@ -706,7 +706,7 @@ export const UploadRemoveDeleteButton = () => (
               file: createMockFile(
                 'file-name-that-is-very-very-very-very-very-very-very-verylong-to-display-that-when-remove-button-is-hidden-file-name-will-take-full-width.png',
                 0,
-                'image/png'
+                'image/png',
               ),
               description:
                 'Description that is very very very very very very very very long to display that when delete button is removed, file description will take full width.',
@@ -737,7 +737,7 @@ export const UploadRemoveDeleteButton = () => (
                       tooltip: `Do you want to remove ${fileItem.file.name} file?`,
                     },
                   }
-                })
+                }),
               )
             }
           />
@@ -757,7 +757,7 @@ export const UploadCompactVariantFiles = () => (
     {() => {
       const Component = () => {
         const { setFiles } = Upload.useUpload(
-          'upload-compact-variant-files'
+          'upload-compact-variant-files',
         )
 
         React.useEffect(() => {
@@ -770,7 +770,7 @@ export const UploadCompactVariantFiles = () => (
               file: createMockFile(
                 'file-name-that-is-very-long-and-has-letters.png',
                 0,
-                'image/png'
+                'image/png',
               ),
               id: '2',
             },

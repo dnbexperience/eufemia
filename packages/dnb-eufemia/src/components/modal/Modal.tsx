@@ -89,7 +89,7 @@ function ModalComponent(ownProps: ModalAllProps) {
     modalDefaultProps,
     context.getTranslation(ownProps).Modal,
     context.Modal,
-    visualTestsPropsOverride
+    visualTestsPropsOverride,
   )
 
   const {
@@ -172,7 +172,7 @@ function ModalComponent(ownProps: ModalAllProps) {
       try {
         document.documentElement.setAttribute(
           'data-dnb-modal-active',
-          modalId
+          modalId,
         )
       } catch (e) {
         warn('Modal: Error on set "data-dnb-modal-active"', e)
@@ -188,7 +188,7 @@ function ModalComponent(ownProps: ModalAllProps) {
             () => {
               toggleOpenCloseRef.current(null, false)
             },
-            { _id: _id.current, props: propsRef.current }
+            { _id: _id.current, props: propsRef.current },
           )
           if (fn) {
             onUnmountRef.current.push(fn)
@@ -206,7 +206,7 @@ function ModalComponent(ownProps: ModalAllProps) {
                 elem?.removeAttribute('data-autofocus')
                 resolve()
               },
-              parseFloat(String(animationDuration)) / 3
+              parseFloat(String(animationDuration)) / 3,
             )
           })
         }
@@ -241,12 +241,12 @@ function ModalComponent(ownProps: ModalAllProps) {
       animationDuration,
       removeActiveState,
       setActiveState,
-    ]
+    ],
   )
 
   const toggleOpenCloseRef =
     useRef<(event?: Event | null, showModal?: boolean | null) => void>(
-      null
+      null,
     )
 
   const toggleOpenClose = useCallback(
@@ -317,7 +317,7 @@ function ModalComponent(ownProps: ModalAllProps) {
       openDelay,
       openModal,
       handleSideEffects,
-    ]
+    ],
   )
 
   // Keep the ref in sync
@@ -331,7 +331,7 @@ function ModalComponent(ownProps: ModalAllProps) {
         triggeredBy = 'handler',
       }: { ifIsLatest?: boolean; triggeredBy?: string } = {
         ifIsLatest: true,
-      }
+      },
     ) => {
       modalContentCloseRef.current?.(event, { triggeredBy })
 
@@ -359,7 +359,7 @@ function ModalComponent(ownProps: ModalAllProps) {
         toggleOpenCloseRef.current(event, false)
       }
     },
-    [preventClose]
+    [preventClose],
   )
 
   // Create a stable identity for the modal stack
@@ -447,7 +447,7 @@ function ModalComponent(ownProps: ModalAllProps) {
           ...ownProps,
           close: closeHandler,
         })
-      : ownProps
+      : ownProps,
   )
 
   const usedTriggerAttributes = {
@@ -496,7 +496,7 @@ function ModalComponent(ownProps: ModalAllProps) {
             ref: triggerRef,
             className: clsx(
               'dnb-modal__trigger',
-              usedTriggerAttributes.className
+              usedTriggerAttributes.className,
             ),
           })}
         />

@@ -77,7 +77,7 @@ export function RelativeTime() {
   const twoDaysAgo = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
   const twoWeeksAgo = new Date(Date.now() - 2 * 7 * 24 * 60 * 60 * 1000)
   const threeMonthsAgo = new Date(
-    Date.now() - 3 * 30 * 24 * 60 * 60 * 1000
+    Date.now() - 3 * 30 * 24 * 60 * 60 * 1000,
   )
   const oneYearAgo = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000)
 
@@ -85,10 +85,10 @@ export function RelativeTime() {
   const fiveMinutesUntilNow = new Date(Date.now() + 5 * 60 * 1000)
   const twoDaysUntilNow = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000)
   const twoWeeksUntilNow = new Date(
-    Date.now() + 2 * 7 * 24 * 60 * 60 * 1000
+    Date.now() + 2 * 7 * 24 * 60 * 60 * 1000,
   )
   const threeMonthsUntilNow = new Date(
-    Date.now() + 3 * 30 * 24 * 60 * 60 * 1000
+    Date.now() + 3 * 30 * 24 * 60 * 60 * 1000,
   )
   const oneYearUntilNow = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
 

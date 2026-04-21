@@ -184,7 +184,7 @@ function setIntent(event: Event) {
 function doUpdate(which: 'input' | 'intent') {
   document.documentElement.setAttribute(
     `data-what${which}`,
-    which === 'input' ? currentInput : currentIntent
+    which === 'input' ? currentInput : currentIntent,
   )
 }
 

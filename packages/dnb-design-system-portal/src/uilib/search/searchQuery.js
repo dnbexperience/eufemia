@@ -56,7 +56,7 @@ const flatten = (arr) =>
       }) =>
         !slug.includes('not_in_use') &&
         !excludedSlugPartials.some((partial) => slug.includes(partial)) &&
-        draft !== true
+        draft !== true,
     )
     .map(
       ({
@@ -99,7 +99,7 @@ const flatten = (arr) =>
                   sibling.fields &&
                   sibling.frontmatter &&
                   slug.includes(sibling.fields.slug) &&
-                  sibling.frontmatter.title
+                  sibling.frontmatter.title,
               )
 
               let newTitle = null
@@ -157,7 +157,7 @@ const flatten = (arr) =>
         }
 
         return result
-      }
+      },
     )
     .filter(Boolean)
 

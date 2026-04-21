@@ -92,7 +92,7 @@ export type LocalProps<overwriteProps = OverwritePropsDefaults> =
   }
 
 function SectionComponent<overwriteProps = OverwritePropsDefaults>(
-  props: LocalProps<overwriteProps>
+  props: LocalProps<overwriteProps>,
 ) {
   const {
     path,
@@ -142,14 +142,14 @@ function SectionComponent<overwriteProps = OverwritePropsDefaults>(
         : ''
 
     const combinedPath = cleanPath(
-      `${nestedPrefix}${resolvedPath}`
+      `${nestedPrefix}${resolvedPath}`,
     ) as Path
     return combinedPath || '/'
   }, [isRootRelativePath, nestedPath, resolvedPath])
 
   const handleChange = useCallback<OnChange>(
     (...args) => onChange?.(...args),
-    [onChange]
+    [onChange],
   )
   addOnChangeHandler?.(handleChange)
 

@@ -57,7 +57,7 @@ const allowedProviderContextProps: Array<
 
 export default function FormHandler<Data extends JsonObject>(
   props: ProviderProps<Data> &
-    Omit<FormHandlerProps, keyof ProviderProps<Data>>
+    Omit<FormHandlerProps, keyof ProviderProps<Data>>,
 ) {
   const { decoupleForm, children } = props
 
@@ -76,7 +76,7 @@ export default function FormHandler<Data extends JsonObject>(
   for (const key in props) {
     if (
       allowedProviderContextProps.includes(
-        key as keyof AllowedProviderContextProps
+        key as keyof AllowedProviderContextProps,
       )
     ) {
       providerProps[key] = props[key]

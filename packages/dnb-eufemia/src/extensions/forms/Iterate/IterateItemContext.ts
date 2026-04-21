@@ -24,7 +24,7 @@ export type IterateItemContextState = {
   modeOptions?: ModeOptions
   switchContainerMode?: (
     mode: ContainerMode,
-    options?: ModeOptions
+    options?: ModeOptions,
   ) => void
   handleChange?: (path: Path, value: unknown) => void
   handleRemove?: ({ keepItems }?: { keepItems?: boolean }) => void

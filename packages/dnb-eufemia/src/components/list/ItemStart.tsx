@@ -39,7 +39,7 @@ function ItemStart({
         fontSize && `dnb-t__size--${fontSize}`,
         fontWeight === 'medium' && 'dnb-t__weight--medium',
         appliedSkeleton && createSkeletonClass('font', true),
-        className
+        className,
       )}
       innerSpace={{ left: 'small' }}
       {...rest}

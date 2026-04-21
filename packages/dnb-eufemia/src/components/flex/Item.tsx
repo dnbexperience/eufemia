@@ -56,7 +56,7 @@ function FlexItem(props: FlexItemAllProps) {
     grow && 'dnb-flex-item--grow',
     shrink && 'dnb-flex-item--shrink',
     alignSelf && `dnb-flex-item--align-self-${alignSelf}`,
-    span && 'dnb-flex-item--responsive'
+    span && 'dnb-flex-item--responsive',
   )
 
   const isValidSpan = React.useCallback((span: FlexSpans) => {

@@ -22,7 +22,7 @@ export function getDecimalSeparator(locale: string | null = null): string {
  * Returns a thousands separator symbol based on the given locale.
  */
 export function getThousandsSeparator(
-  locale: string | null = null
+  locale: string | null = null,
 ): string {
   return (
     formatToParts({
@@ -39,7 +39,7 @@ export function getCurrencySymbol(
   locale: string | null = null,
   currency: string | boolean | null = null,
   display: string | boolean | null = null,
-  number: string | number = 2
+  number: string | number = 2,
 ): string {
   if (!currency || currency === true) {
     currency = CURRENCY
@@ -57,6 +57,6 @@ export function getCurrencySymbol(
         currencyDisplay,
       },
     }).find(({ type }) => type === 'currency')?.value || currency,
-    currencyDisplay
+    currencyDisplay,
   )
 }

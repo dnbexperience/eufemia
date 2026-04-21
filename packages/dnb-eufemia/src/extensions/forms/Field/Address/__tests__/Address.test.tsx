@@ -21,7 +21,7 @@ describe('Field.Address', () => {
     render(
       <Form.Handler onSubmit={onSubmit}>
         <Field.Address required />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const form = document.querySelector('form')
@@ -37,7 +37,7 @@ describe('Field.Address', () => {
     render(
       <Form.Handler onSubmit={onSubmit}>
         <Field.Address path="/address" />
-      </Form.Handler>
+      </Form.Handler>,
     )
 
     const form = document.querySelector('form')
@@ -46,7 +46,7 @@ describe('Field.Address', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { address: undefined },
-      expect.anything()
+      expect.anything(),
     )
 
     const input = document.querySelector('input')
@@ -56,7 +56,7 @@ describe('Field.Address', () => {
 
     expect(onSubmit).toHaveBeenLastCalledWith(
       { address: 'Dronning Eufemias gate 30' },
-      expect.anything()
+      expect.anything(),
     )
   })
 
@@ -75,7 +75,7 @@ describe('Field.Address', () => {
 
     expect(input).toHaveAttribute(
       'autocomplete',
-      'shipping street-address'
+      'shipping street-address',
     )
   })
 
@@ -120,7 +120,7 @@ describe('Field.Address', () => {
     expect(element.nodeName).toBe('TEXTAREA')
 
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
     expect(attributes).toEqual(['class'])
   })
@@ -137,12 +137,12 @@ describe('Field.Address', () => {
       render(
         <Form.Handler required>
           <Field.Address.Postal required={false} />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const label = document.querySelector('label')
       expect(label).toHaveTextContent(
-        `${nb.PostalAddress.label} ${nb.Field.optionalLabelSuffix}`
+        `${nb.PostalAddress.label} ${nb.Field.optionalLabelSuffix}`,
       )
     })
   })
@@ -159,12 +159,12 @@ describe('Field.Address', () => {
       render(
         <Form.Handler required>
           <Field.Address.Street required={false} />
-        </Form.Handler>
+        </Form.Handler>,
       )
 
       const label = document.querySelector('label')
       expect(label).toHaveTextContent(
-        `${nb.StreetAddress.label} ${nb.Field.optionalLabelSuffix}`
+        `${nb.StreetAddress.label} ${nb.Field.optionalLabelSuffix}`,
       )
     })
   })
@@ -175,7 +175,7 @@ describe('Field.Address', () => {
         <>
           <Field.Address.Postal required validateInitially />
           <Field.Address.Street required validateInitially />
-        </>
+        </>,
       )
 
       expect(await axeComponent(result)).toHaveNoViolations()

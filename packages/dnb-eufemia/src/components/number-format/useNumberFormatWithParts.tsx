@@ -38,23 +38,23 @@ export type NumberFormatReturnWithParts = NumberFormatReturnValue & {
 function useNumberFormatWithParts(
   value: NumberFormatValue,
   formatter: NumberFormatter,
-  options: NumberFormatOptionParams & { returnAria: false }
+  options: NumberFormatOptionParams & { returnAria: false },
 ): string
 function useNumberFormatWithParts(
   value: NumberFormatValue,
   formatter?: NumberFormatter,
-  options?: NumberFormatOptionParams
+  options?: NumberFormatOptionParams,
 ): NumberFormatReturnWithParts
 function useNumberFormatWithParts(
   value: NumberFormatValue,
   formatter: NumberFormatter = formatNumber,
-  options: NumberFormatOptionParams = {}
+  options: NumberFormatOptionParams = {},
 ): NumberFormatReturnWithParts | string {
   const context = useContext(Context)
   const params = extendPropsWithContext(
     { returnAria: true, ...options },
     { locale: context.locale },
-    context.NumberFormat
+    context.NumberFormat,
   ) as NumberFormatOptionParams
 
   const result = formatter(value, params) as

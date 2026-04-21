@@ -56,7 +56,7 @@ export default [
     'plugin:import/recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
-    'plugin:jsx-a11y/recommended'
+    'plugin:jsx-a11y/recommended',
   ),
   ...basePlugins.extends('plugin:compat/recommended').map((config) => ({
     ...config,

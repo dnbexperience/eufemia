@@ -20,13 +20,13 @@ describe('Table using mode="navigation" prop', () => {
             <td>content</td>
           </tr>
         </tbody>
-      </Table>
+      </Table>,
     )
 
     const element = document.querySelector('table')
 
     expect(Array.from(element.classList)).toContain(
-      'dnb-table--navigation'
+      'dnb-table--navigation',
     )
   })
 
@@ -38,13 +38,13 @@ describe('Table using mode="navigation" prop', () => {
             <Td>content</Td>
           </Tr>
         </tbody>
-      </Table>
+      </Table>,
     )
 
     const element = document.querySelector('tr')
 
     expect(Array.from(element.classList)).toContain(
-      'dnb-table__tr--clickable'
+      'dnb-table__tr--clickable',
     )
   })
 
@@ -59,7 +59,7 @@ describe('Table using mode="navigation" prop', () => {
             <Td>content</Td>
           </Tr>
         </tbody>
-      </Table>
+      </Table>,
     )
 
     const trElement = document.querySelector('tr')
@@ -89,7 +89,7 @@ describe('Table using mode="navigation" prop', () => {
             </Td>
           </Tr>
         </tbody>
-      </Table>
+      </Table>,
     )
 
     const trElement = document.querySelector('tr')
@@ -175,7 +175,7 @@ describe('Table using mode="navigation" prop', () => {
             <Td>Nothing</Td>
           </Tr>
         </tbody>
-      </Table>
+      </Table>,
     )
 
     const trElement = document.querySelector('tr')
@@ -198,12 +198,12 @@ describe('Table using mode="navigation" prop', () => {
             <Th>heading</Th>
           </Tr>
         </thead>
-      </Table>
+      </Table>,
     )
 
     const trElement = document.querySelectorAll('thead tr th')[1]
     expect(Array.from(trElement.classList)).toContain(
-      'dnb-table__th__button-icon'
+      'dnb-table__th__button-icon',
     )
 
     const divElement = trElement.querySelector('div')
@@ -218,12 +218,12 @@ describe('Table using mode="navigation" prop', () => {
             <Th>heading</Th>
           </Tr>
         </thead>
-      </Table>
+      </Table>,
     )
 
     const thElement = document.querySelectorAll('thead tr th')[1]
     expect(Array.from(thElement.classList)).toContain(
-      'dnb-table__th__button-icon'
+      'dnb-table__th__button-icon',
     )
 
     expect(thElement.textContent).toBe(nb.navigationButtonSR)
@@ -241,12 +241,12 @@ describe('Table using mode="navigation" prop', () => {
     const { rerender } = render(
       <Provider>
         <Table mode="navigation">{content}</Table>
-      </Provider>
+      </Provider>,
     )
 
     const thElement = document.querySelectorAll('thead tr th')[1]
     expect(Array.from(thElement.classList)).toContain(
-      'dnb-table__th__button-icon'
+      'dnb-table__th__button-icon',
     )
 
     expect(thElement.textContent).toBe(nb.navigationButtonSR)
@@ -256,7 +256,7 @@ describe('Table using mode="navigation" prop', () => {
         <Table mode="navigation" locale="en-GB">
           {content}
         </Table>
-      </Provider>
+      </Provider>,
     )
 
     expect(thElement.textContent).toBe(en.navigationButtonSR)
@@ -264,7 +264,7 @@ describe('Table using mode="navigation" prop', () => {
     rerender(
       <Provider locale="nb-NO">
         <Table mode="navigation">{content}</Table>
-      </Provider>
+      </Provider>,
     )
 
     expect(thElement.textContent).toBe(nb.navigationButtonSR)
@@ -274,7 +274,7 @@ describe('Table using mode="navigation" prop', () => {
         <Table mode="navigation" lang="en-GB">
           {content}
         </Table>
-      </Provider>
+      </Provider>,
     )
 
     expect(thElement.textContent).toBe(en.navigationButtonSR)
@@ -295,7 +295,7 @@ describe('Table using mode="navigation" prop', () => {
             <Td>content</Td>
           </Tr>
         </tbody>
-      </Table>
+      </Table>,
     )
 
     const trElement = document.querySelector('tbody tr')

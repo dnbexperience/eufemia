@@ -13,7 +13,7 @@ const validCurrencyDisplayValues: ReadonlySet<string> =
   new Set<CurrencyDisplayValue>(['code', 'name', 'symbol', 'narrowSymbol'])
 
 function isCurrencyDisplayValue(
-  value: string
+  value: string,
 ): value is CurrencyDisplayValue {
   return validCurrencyDisplayValues.has(value)
 }
@@ -23,7 +23,7 @@ function isCurrencyDisplayValue(
  */
 export function getFallbackCurrencyDisplay(
   locale: string | null = null,
-  currencyDisplay: string | boolean | null = null
+  currencyDisplay: string | boolean | null = null,
 ): CurrencyDisplayValue {
   // If currencyDisplay is not defined and locale is "no", use narrowSymbol
   if (!currencyDisplay && (!locale || /(no|nb|nn)$/i.test(locale))) {

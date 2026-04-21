@@ -67,7 +67,7 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  }
+  },
 )
 
 describe.each(['sbanken'])('Heading mobile for %s', (themeName) => {

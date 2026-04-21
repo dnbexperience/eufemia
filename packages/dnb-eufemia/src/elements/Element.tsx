@@ -80,7 +80,7 @@ function Element(localProps: ElementAllProps) {
   const internalClassName = clsx(
     !new RegExp(`${tagClass}(\\s|$)`).test(String(className)) && tagClass,
     className,
-    createSkeletonClass(skeletonMethod, skeleton, context)
+    createSkeletonClass(skeletonMethod, skeleton, context),
   )
 
   // applySpacing must be called before validateDOMAttributes
@@ -88,7 +88,7 @@ function Element(localProps: ElementAllProps) {
   const params = applySpacing(
     attributes,
     { ...attributes, className: internalClassName },
-    typeof Tag === 'string' ? `dnb-${Tag}` : null
+    typeof Tag === 'string' ? `dnb-${Tag}` : null,
   )
 
   validateDOMAttributes(null, params)

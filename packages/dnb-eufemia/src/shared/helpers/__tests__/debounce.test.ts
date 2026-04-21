@@ -59,7 +59,7 @@ describe('debounce', () => {
         expect(this.property).toBe(instance.property)
       },
       delay,
-      { instance }
+      { instance },
     )
 
     debounced()
@@ -75,7 +75,7 @@ describe('debounce', () => {
         expect(outside).toBe('two')
       },
       delay,
-      { immediate: true }
+      { immediate: true },
     )
 
     debounced({ inside: 'two' })
@@ -95,7 +95,7 @@ describe('debounce', () => {
         return inside
       },
       delay,
-      { immediate: true }
+      { immediate: true },
     )
 
     const immediateResult = debounced({ inside: 'two' })

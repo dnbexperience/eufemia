@@ -22,7 +22,7 @@ describe('List', () => {
         <List.Item.Basic title="Row two">
           <List.Cell.End>Value</List.Cell.End>
         </List.Item.Basic>
-      </List.Container>
+      </List.Container>,
     )
 
     const list = document.querySelector('.dnb-list')
@@ -54,7 +54,7 @@ describe('List', () => {
         >
           <List.Cell.End>123</List.Cell.End>
         </List.Item.Action>
-      </List.Container>
+      </List.Container>,
     )
 
     const list = document.querySelector('.dnb-list')
@@ -72,7 +72,7 @@ describe('List', () => {
         <List.Item.Action title="Link row" href="#section">
           <List.Cell.End>Value</List.Cell.End>
         </List.Item.Action>
-      </List.Container>
+      </List.Container>,
     )
 
     const link = document.querySelector('a[href="#section"]')
@@ -92,7 +92,7 @@ describe('List', () => {
             <List.Cell.Start innerSpace>Details here</List.Cell.Start>
           </List.Item.Accordion.Content>
         </List.Item.Accordion>
-      </List.Container>
+      </List.Container>,
     )
 
     const list = document.querySelector('.dnb-list')
@@ -118,7 +118,7 @@ describe('List', () => {
           <List.Cell.Center>Body</List.Cell.Center>
           <List.Cell.Footer>Footer cell</List.Cell.Footer>
         </List.Item.Basic>
-      </List.Container>
+      </List.Container>,
     )
 
     expect(document.body.textContent).toContain('Overline cell')
@@ -133,7 +133,7 @@ describe('List', () => {
           <List.Cell.Title.Subline>Subline text</List.Cell.Title.Subline>
           <List.Cell.End>Value</List.Cell.End>
         </List.Item.Basic>
-      </List.Container>
+      </List.Container>,
     )
 
     expect(document.body.textContent).toContain('Title text')
@@ -149,7 +149,7 @@ describe('List', () => {
           <List.Cell.Title.Subline>Description</List.Cell.Title.Subline>
           <List.Cell.End>123</List.Cell.End>
         </List.Item.Basic>
-      </List.Container>
+      </List.Container>,
     )
 
     const title = document.querySelector('.dnb-list__item__title')
@@ -169,7 +169,7 @@ describe('List', () => {
         <List.Item.Basic title="Two">
           <List.Cell.End>B</List.Cell.End>
         </List.Item.Basic>
-      </List.Container>
+      </List.Container>,
     )
 
     const list = document.querySelector('.dnb-list')
@@ -195,7 +195,7 @@ describe('List', () => {
             <List.Cell.Start innerSpace>Content</List.Cell.Start>
           </List.Item.Accordion.Content>
         </List.Item.Accordion>
-      </List.Container>
+      </List.Container>,
     )
 
     const items = document.querySelectorAll('.dnb-list__item')
@@ -218,7 +218,7 @@ describe('List', () => {
           <List.Item.Basic title="Row two">
             <List.Cell.End>Value</List.Cell.End>
           </List.Item.Basic>
-        </List.Container>
+        </List.Container>,
       )
 
       expect(await axeComponent(container)).toHaveNoViolations()
@@ -230,7 +230,7 @@ describe('List', () => {
           <List.Item.Action title="Click me" onClick={() => {}}>
             <List.Cell.End>123</List.Cell.End>
           </List.Item.Action>
-        </List.Container>
+        </List.Container>,
       )
 
       expect(await axeComponent(container)).toHaveNoViolations()
@@ -242,7 +242,7 @@ describe('List', () => {
           <List.Item.Action title="Link" href="#section">
             <List.Cell.End>Value</List.Cell.End>
           </List.Item.Action>
-        </List.Container>
+        </List.Container>,
       )
 
       expect(await axeComponent(container)).toHaveNoViolations()
@@ -260,7 +260,7 @@ describe('List', () => {
           >
             <List.Cell.End>Value</List.Cell.End>
           </List.Item.Action>
-        </List.Container>
+        </List.Container>,
       )
 
       expect(await axeComponent(container)).toHaveNoViolations()
@@ -277,7 +277,7 @@ describe('List', () => {
               <List.Cell.Start innerSpace>Details</List.Cell.Start>
             </List.Item.Accordion.Content>
           </List.Item.Accordion>
-        </List.Container>
+        </List.Container>,
       )
 
       expect(await axeComponent(container)).toHaveNoViolations()
@@ -294,7 +294,7 @@ describe('List', () => {
             <List.Cell.Center>Body</List.Cell.Center>
             <List.Cell.Footer>Footer</List.Cell.Footer>
           </List.Item.Basic>
-        </List.Container>
+        </List.Container>,
       )
 
       expect(await axeComponent(container)).toHaveNoViolations()
@@ -309,7 +309,7 @@ describe('List', () => {
           <List.Item.Basic title="Two">
             <List.Cell.End>B</List.Cell.End>
           </List.Item.Basic>
-        </List.Container>
+        </List.Container>,
       )
 
       expect(await axeComponent(container)).toHaveNoViolations()

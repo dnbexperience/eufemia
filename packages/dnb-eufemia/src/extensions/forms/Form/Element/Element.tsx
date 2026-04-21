@@ -28,7 +28,7 @@ function FormElementInstance(props: FormElementProps) {
   const dataContext = useContext(DataContext)
   const { submitState, restHandlerProps } = dataContext || {}
   const states = Object.entries(submitState || {}).filter(
-    ([, value]) => value
+    ([, value]) => value,
   )
 
   const {
@@ -65,7 +65,7 @@ function FormElementInstance(props: FormElementProps) {
         event.nativeEvent as Event & { submitter?: HTMLElement }
       )?.submitter
       const submitterId = submitter?.getAttribute?.(
-        'data-form-submit-button-id'
+        'data-form-submit-button-id',
       )
 
       if (dataContext.hasContext) {
@@ -80,7 +80,7 @@ function FormElementInstance(props: FormElementProps) {
         ;(onSubmit as (event: React.SyntheticEvent) => void)(event)
       }
     },
-    [dataContext, onSubmit, preventDefaultOnSubmit]
+    [dataContext, onSubmit, preventDefaultOnSubmit],
   )
 
   return (
@@ -93,7 +93,7 @@ function FormElementInstance(props: FormElementProps) {
           restProps,
           states.map(([key]) => {
             return `${id}-form-status-${key}`
-          })
+          }),
         ) || undefined
       }
       {...restProps}
