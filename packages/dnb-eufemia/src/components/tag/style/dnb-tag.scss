@@ -149,7 +149,7 @@
       }
 
       &[disabled] {
-        --tag-icon-fill-color: var(--token-color-background-action-disabled);
+        --tag-icon-fill-color: var(--token-color-background-neutral);
         --tag-icon-stroke-color: var(--token-color-stroke-action-disabled);
         --tag-icon-border-color: var(--token-color-stroke-action-disabled);
       }
