@@ -378,13 +378,6 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   const [inputState, setInputState] = useState(
     restProps.inputState || 'virgin'
   )
-  // Setter intentionally unused — calling setFocusState triggers re-renders
-  // that break timing-sensitive consumers (e.g. Autocomplete blur handling).
-  // The focusState is only read in the placeholder visibility check below.
-  const [focusState, _setFocusState] = useState<string | undefined>(
-    undefined
-  )
-
   const prevValuePropRef = useRef<string | number | null | undefined>(
     restProps.value
   )
@@ -780,7 +773,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
               />
             )}
 
-            {!hasVal && placeholder && focusState !== 'focus' && (
+            {!hasVal && placeholder && (
               <span
                 id={id + '-placeholder'}
                 className={clsx(
