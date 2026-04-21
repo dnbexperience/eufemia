@@ -17,18 +17,12 @@
 }
 
 .dnb-table {
-  --table-th-background-color: var(--sb-color-white);
-
   text-align: left;
 
   &__th,
   & thead th {
     padding: 0.5rem 1.5rem 0.25rem;
     font-weight: var(--font-weight-medium);
-  }
-
-  & &__tr--even {
-    background-color: var(--sb-color-gray-light-3);
   }
 
   &__td,
@@ -57,11 +51,8 @@
         bottom: -0.0625rem;
         left: 0;
         opacity: 0;
-        color: var(--sb-color-violet);
       }
-      &:not(:focus) .dnb-button__text::after {
-        color: var(--sb-color-violet);
-      }
+
       @include utilities.active() {
         @include button-mixins.buttonFocusRing(
           'mouse',
@@ -73,25 +64,12 @@
         ); // also, make a touch ring
         @include tableFocusRing();
       }
+
       @include utilities.focus() {
         @include tableFocusRing();
-        &:focus-visible {
-          color: var(--sb-color-blue-dark);
-        }
 
         &:not(:active) .dnb-button__text::after {
           visibility: hidden;
-        }
-      }
-    }
-  }
-
-  & > thead > tr > th#{&}--active,
-  & &__th#{&}--active {
-    .dnb-table__sort-button.dnb-button {
-      @include utilities.hover() {
-        & .dnb-button__text::after {
-          color: var(--sb-color-violet);
         }
       }
     }
@@ -100,28 +78,21 @@
 
 .dnb-table,
 .dnb-table__container {
-  --table-border-color: var(--sb-color-gray-light-2);
-  --table-outline-color: var(--sb-color-gray-light-2);
-  --table-accordion-border-color: var(--sb-color-gray-light-2);
-  --table-accordion-header-background: var(--sb-color-gray-light-2);
-
-  // Icon
-  --table-accordion-icon-color: var(--sb-color-text);
-  --table-accordion-icon-color--active: var(--sb-color-violet);
-  --table-accordion-icon-color--disabled: var(--sb-color-gray-dark-2);
-
-  // Outline
-  --table-accordion-outline-color: var(--sb-color-violet);
-  --table-accordion-outline-width: var(--table-accordion-border-width);
-  --table-accordion-outline-background--active: var(
-    --sb-color-gray-light-2
+  --table-accordion-header-background: var(
+    --token-color-background-neutral-subtle
   );
 
-  background-color: var(--sb-color-white);
+  // Icon
+  --table-accordion-icon-color: var(--token-color-icon-neutral);
+  --table-accordion-icon-color--active: var(--token-color-icon-action);
+  --table-accordion-icon-color--disabled: var(
+    --token-color-icon-neutral-alternative
+  );
 
-  html[data-visual-test] & {
-    --table-border-color: blue;
-    --table-outline-color: red;
-    --table-accordion-border-color: green;
-  }
+  // Outline
+  --table-accordion-outline-color: var(--token-color-stroke-action);
+  --table-accordion-outline-width: var(--table-accordion-border-width);
+  --table-accordion-outline-background--active: var(
+    --token-color-background-neutral-subtle
+  );
 }
