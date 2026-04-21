@@ -1302,6 +1302,33 @@ describe('Modal component', () => {
     )
   })
 
+  it('scrolls focused input into view on Android resize', () => {
+    jest.useFakeTimers()
+
+    global.userAgent.mockReturnValue('Android; 7.')
+
+    render(
+      <Modal {...props} open={true} noAnimation>
+        <input type="text" data-testid="modal-input" />
+      </Modal>
+    )
+
+    const input = document.querySelector(
+      '[data-testid="modal-input"]'
+    ) as HTMLInputElement
+    input.focus()
+    input.scrollIntoView = jest.fn()
+
+    // Simulate Android keyboard resize
+    window.dispatchEvent(new Event('resize'))
+
+    jest.runAllTimers()
+
+    expect(input.scrollIntoView).toHaveBeenCalledTimes(1)
+
+    jest.useRealTimers()
+  })
+
   it('has correct opened state when "open" is used', () => {
     const { rerender } = render(<Modal {...props} />)
 
