@@ -13,7 +13,7 @@
 
   &.dnb-button {
     appearance: none;
-    background-color: var(--color-black-8);
+    background-color: var(--token-color-background-neutral-base);
 
     padding-left: 0.5rem;
     padding-right: 0.5rem;
@@ -129,7 +129,7 @@
   }
 
   &--removable {
-    --tag-icon-fill-color: var(--color-white);
+    --tag-icon-fill-color: var(--token-color-background-neutral);
     --tag-icon-stroke-color: var(--token-color-stroke-action);
 
     &.dnb-button {
@@ -149,6 +149,7 @@
       }
 
       &[disabled] {
+        --tag-icon-fill-color: var(--token-color-background-action-disabled);
         --tag-icon-stroke-color: var(--token-color-stroke-action-disabled);
         --tag-icon-border-color: var(--token-color-stroke-action-disabled);
       }
