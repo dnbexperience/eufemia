@@ -1065,14 +1065,12 @@ function TabsComponent(ownProps: TabsProps) {
     children,
     ...rest
   }: React.PropsWithChildren<Record<string, unknown>>) => {
-    const { className, class: _className } = ownProps as TabsProps & {
-      class?: string
-    }
+    const { className } = ownProps as TabsProps
     const { ...attributes } = filterProps(ownProps, tabsDefaultProps)
 
     const params: Record<string, unknown> = applySpacing(ownProps, {
       ...attributes,
-      className: clsx('dnb-tabs', className, _className),
+      className: clsx('dnb-tabs', className),
     })
 
     validateDOMAttributes(ownProps, params)

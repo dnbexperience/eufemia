@@ -172,7 +172,6 @@ export type ButtonProps = {
   disabled?: boolean
   ref?: React.Ref<HTMLElement>
   className?: string
-  class?: string
   children?: ButtonChildren
   /**
    * Only meant to be used for special use cases. Defaults to `button` or `a` depending if href is set or not.

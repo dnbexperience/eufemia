@@ -98,7 +98,6 @@ export type PaymentCardProps = {
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow
-  class?: string
   className?: string
   children?: PaymentCardChildren
 } & Omit<React.HTMLProps<HTMLElement>, 'ref' | 'children'> &
@@ -159,7 +158,6 @@ function PaymentCard(props: PaymentCardProps) {
     locale,
     skeleton,
     className,
-    class: _className,
     children,
     ...attributes
   } = extendedProps
@@ -171,8 +169,7 @@ function PaymentCard(props: PaymentCardProps) {
       'dnb-payment-card',
       `dnb-payment-card--${variant}`,
       createSkeletonClass(null, skeleton, context),
-      className,
-      _className
+      className
     ),
     ...attributes,
   })
