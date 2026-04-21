@@ -18,6 +18,7 @@ import useTranslation from '../../hooks/useTranslation'
 import type {
   DatePickerEvent,
   DatePickerProps,
+  DisplayPickerEvent,
 } from '../../../../components/DatePicker'
 import { convertStringToDate } from '../../../../components/date-picker/DatePickerCalc'
 import type { ProviderProps } from '../../../../shared/Provider'
@@ -283,6 +284,43 @@ function DateComponent(props: DateProps): React.ReactElement {
 
   const datePickerProps = pickDatePickerProps(rest)
   const initialValueRef = useRef(props.value ?? props.defaultValue)
+  const valueOnOpenRef = useRef(internalValue)
+
+  const handleOpen = useCallback(
+    (event: DatePickerEvent<DisplayPickerEvent>) => {
+      valueOnOpenRef.current = internalValue
+      datePickerProps.onOpen?.(event)
+    },
+    [internalValue, datePickerProps.onOpen]
+  )
+
+  const handleCancel = useCallback(
+    (event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>) => {
+      const revertValue = valueOnOpenRef.current
+
+      if (range) {
+        const [startDate, endDate] = parseRangeValue(revertValue)
+        handleChange({
+          startDate: startDate ?? undefined,
+          endDate: endDate ?? undefined,
+        })
+      } else {
+        handleChange({ date: revertValue ?? undefined })
+      }
+
+      datePickerProps.onCancel?.(event)
+    },
+    [handleChange, range, datePickerProps.onCancel]
+  )
+
+  const handleSubmit = useCallback(
+    (event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>) => {
+      valueOnOpenRef.current = internalValue
+      datePickerProps.onSubmit?.(event)
+    },
+    [internalValue, datePickerProps.onSubmit]
+  )
+
   const handleReset = useCallback(
     (
       event: DatePickerEvent<
@@ -422,6 +460,9 @@ function DateComponent(props: DateProps): React.ReactElement {
         onFocus={onFocus}
         onBlur={handleBlur}
         {...datePickerProps}
+        onOpen={handleOpen}
+        onSubmit={handleSubmit}
+        onCancel={handleCancel}
         {...htmlAttributes}
       />
     </FieldBlock>

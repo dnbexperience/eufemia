@@ -681,6 +681,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
   return (
     <DatePickerProvider
       {...props}
+      open={open}
       attributes={remainingDOMProps}
       setReturnObject={(fn) => (getReturnObject.current = fn)}
       hidePicker={hidePicker}
