@@ -8,8 +8,8 @@
 @use './themes/tag-mixins.scss' as tag-mixins;
 
 .dnb-tag {
-  --tag-icon-color: var(--color-sea-green);
-  --tag-icon-border-color: var(--tag-icon-color);
+  --tag-icon-color: var(--token-color-background-action);
+  --tag-icon-border-color: var(--token-color-stroke-action);
 
   &.dnb-button {
     appearance: none;
@@ -35,22 +35,25 @@
 
   &--interactive {
     &.dnb-button {
-      color: var(--color-sea-green);
-      background-color: var(--color-pistachio);
+      color: var(--token-color-text-action);
+      background-color: var(--token-color-decorative-third-muted);
 
       @include utilities.fakeBorder(
-        var(--color-sea-green),
+        var(--token-color-stroke-action),
         0.0625rem,
         inset
       );
+
       @include button-mixins.buttonFocusVisible(
         $focus-color: var(--color-emerald-green)
       ) {
         --tag-icon-color: var(--color-emerald-green);
       }
+
       @include button-mixins.buttonHover() {
         --tag-icon-color: var(--color-emerald-green);
       }
+
       @include button-mixins.buttonActive(
         $background-color: var(--color-mint-green-50)
       ) {
@@ -81,7 +84,7 @@
 
   &--addable {
     --tag-icon-fill-color: var(--tag-icon-color);
-    --tag-icon-stroke-color: var(--color-white);
+    --tag-icon-stroke-color: var(--token-color-icon-neutral-inverse);
     svg {
       transform: rotate(45deg);
     }
@@ -89,7 +92,7 @@
 
   &--removable {
     --tag-icon-fill-color: var(--color-white);
-    --tag-icon-stroke-color: var(--tag-icon-color);
+    --tag-icon-stroke-color: var(--token-color-stroke-action);
   }
 
   // Default space between tags
