@@ -5,12 +5,9 @@
 
 @use '../../../style/core/utilities.scss' as utilities;
 
-:root {
+.dnb-checkbox {
   --checkbox-width--medium: 1.25rem;
   --checkbox-height--medium: 1.25rem;
-}
-
-.dnb-checkbox {
   --checkbox-border-radius: 0.25rem;
   --checkbox-border-width: 0.0625rem;
   --checkbox-width--large: 2rem;
