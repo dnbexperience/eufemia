@@ -49,7 +49,7 @@ export type HelpButtonInlineSharedStateDataProps = {
   focusOnOpen?: boolean
 }
 
-export default function HelpButtonInline(props: HelpButtonInlineProps) {
+function HelpButtonInline(props: HelpButtonInlineProps) {
   const {
     contentId,
     size,
@@ -78,6 +78,11 @@ export default function HelpButtonInline(props: HelpButtonInlineProps) {
     })
     wasOpenRef.current = !isOpen
   }, [focusOnOpen, isOpen, update])
+
+  // Reset the "was open" state when the content is closed without user intent
+  if (isUserIntent === undefined && !isOpen) {
+    wasOpenRef.current = undefined
+  }
 
   const onClickHandler = useCallback(
     ({
@@ -163,7 +168,7 @@ export type HelpButtonInlineContentProps = SpacingProps & {
   focusOnOpen?: boolean
 }
 
-export function HelpButtonInlineContent(
+function HelpButtonInlineContentComponent(
   props: HelpButtonInlineContentProps
 ) {
   const {
@@ -178,7 +183,7 @@ export function HelpButtonInlineContent(
     focusOnOpen: focusOnOpenProp,
     ...rest
   } = props
-  const { data, update } =
+  const { data, update, extend } =
     useSharedState<HelpButtonInlineSharedStateDataProps>(contentId)
   const {
     isOpen,
@@ -236,6 +241,12 @@ export function HelpButtonInlineContent(
     [buttonRef, onClose]
   )
 
+  const onAnimationEnd = useCallback(() => {
+    extend({
+      isUserIntent: undefined,
+    } as HelpButtonInlineSharedStateDataProps)
+  }, [extend])
+
   if (renderAs === 'dialog') {
     return (
       <Dialog
@@ -268,6 +279,7 @@ export function HelpButtonInlineContent(
       element={element}
       className={clsx('dnb-help-button__content', className)}
       open={isOpen ?? open ?? false}
+      onAnimationEnd={onAnimationEnd}
     >
       <Section
         id={`${contentId}-content`}
@@ -308,7 +320,16 @@ function HelpButtonIcon() {
   )
 }
 
-withComponentMarkers(HelpButtonInline, { _supportsSpacingProps: true })
+const MemoizedHelpButtonInline = React.memo(HelpButtonInline)
+export default MemoizedHelpButtonInline
+
+export const HelpButtonInlineContent = React.memo(
+  HelpButtonInlineContentComponent
+)
+
+withComponentMarkers(MemoizedHelpButtonInline, {
+  _supportsSpacingProps: true,
+})
 withComponentMarkers(HelpButtonInlineContent, {
   _supportsSpacingProps: true,
 })

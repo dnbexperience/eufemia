@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, waitFor, fireEvent } from '@testing-library/react'
+import { act, render, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { makeUniqueId } from '../../../shared/component-helper'
 import HelpButtonInline, {
@@ -543,6 +543,67 @@ describe('HelpButtonInline', () => {
     )
 
     focusSpy.mockRestore()
+  })
+})
+
+describe('animation end reset', () => {
+  const simulateAnimationEnd = (
+    element: Element = document.querySelector('.dnb-height-animation')
+  ) => {
+    act(() => {
+      element.dispatchEvent(new CustomEvent('transitionend'))
+    })
+  }
+
+  it('should remove --was-open class after closing animation ends', async () => {
+    render(<HelpButtonInline help={{ title: 'Help title' }} />)
+
+    const button = document.querySelector('button')
+
+    await userEvent.click(button)
+    expect(button).toHaveClass('dnb-help-button__inline--open')
+    expect(button).toHaveClass('dnb-help-button__inline--was-open')
+
+    await userEvent.click(button)
+    expect(button).not.toHaveClass('dnb-help-button__inline--open')
+
+    await waitFor(() => {
+      expect(button).not.toHaveClass('dnb-help-button__inline--was-open')
+    })
+  })
+
+  it('should remove --was-open class when using separate content', async () => {
+    const id = makeUniqueId()
+
+    render(
+      <>
+        <HelpButtonInline contentId={id} help={{ title: 'Help title' }} />
+        <HelpButtonInlineContent contentId={id} />
+      </>
+    )
+
+    const button = document.querySelector('button')
+
+    await userEvent.click(button)
+    expect(button).toHaveClass('dnb-help-button__inline--was-open')
+
+    await userEvent.click(button)
+
+    const heightAnimation = document.querySelector('.dnb-height-animation')
+    if (heightAnimation) {
+      simulateAnimationEnd(heightAnimation)
+    }
+
+    await waitFor(() => {
+      expect(button).not.toHaveClass('dnb-help-button__inline--was-open')
+    })
+  })
+
+  it('should not have --was-open class initially', () => {
+    render(<HelpButtonInline help={{ title: 'Help title' }} />)
+
+    const button = document.querySelector('button')
+    expect(button).not.toHaveClass('dnb-help-button__inline--was-open')
   })
 })
 
