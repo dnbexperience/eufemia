@@ -65,6 +65,7 @@
   display: inline-flex;
   align-items: center;
 
+  /* stylelint-disable-next-line eufemia/no-unresolved-component-vars, eufemia/no-undefined-custom-properties -- set via JS at runtime */
   font-size: var(--input-font-small);
   line-height: var(--input-height);
   text-align: left;

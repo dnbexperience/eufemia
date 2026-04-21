@@ -30,6 +30,7 @@
   }
 
   // Handle column spans
+  /* stylelint-disable eufemia/no-undefined-custom-properties -- responsive values set via JS at runtime */
   &--responsive {
     --sizeCount--default: 12;
     --span--default: var(--small);
@@ -43,6 +44,7 @@
     .dnb-flex-container[data-media-key='large'] & {
       --span: var(--large, var(--medium));
     }
+    /* stylelint-enable eufemia/no-undefined-custom-properties */
 
     --flex-basis: calc(
       100% / var(--sizeCount, var(--sizeCount--default)) *

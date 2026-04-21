@@ -127,12 +127,14 @@
 
       // Design for a business card without Visa support
       &-business-no-visa {
+        /* stylelint-disable-next-line eufemia/no-undefined-custom-properties -- set via JS at runtime */
         background-color: var(--dnb-payment-bg-business-no-visa);
         color: var(--color-white);
       }
 
       // Design for a business card with Visa support
       &-business-with-visa {
+        /* stylelint-disable-next-line eufemia/no-undefined-custom-properties -- set via JS at runtime */
         background-color: var(--dnb-payment-bg-business-with-visa);
         color: var(--color-white);
       }
