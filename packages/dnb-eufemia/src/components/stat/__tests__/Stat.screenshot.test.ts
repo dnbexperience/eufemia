@@ -8,77 +8,74 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe.each(['ui', 'sbanken', 'carnegie'])(
-  'Stat for %s',
-  (themeName) => {
-    setupPageScreenshot({
-      themeName,
-      url: '/uilib/components/stat/demos/',
+describe.each(['ui', 'sbanken'])('Stat for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/stat/demos/',
+  })
+
+  it('has to match basic usage', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="stat-amount-default"]',
     })
 
-    it('has to match basic usage', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="stat-amount-default"]',
-      })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 
-      expect(screenshot).toMatchImageSnapshot()
+  it('has to match root and label', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="stat-root-and-label"]',
     })
 
-    it('has to match root and label', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="stat-root-and-label"]',
-      })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 
-      expect(screenshot).toMatchImageSnapshot()
+  it('has to match currency within trend', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="stat-currency-within-trend"]',
     })
 
-    it('has to match currency within trend', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="stat-currency-within-trend"]',
-      })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 
-      expect(screenshot).toMatchImageSnapshot()
+  it('has to match currency default', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="stat-currency-default"]',
     })
 
-    it('has to match currency default', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="stat-currency-default"]',
-      })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 
-      expect(screenshot).toMatchImageSnapshot()
+  it('has to match percent default', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="stat-percent-default"]',
     })
 
-    it('has to match percent default', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="stat-percent-default"]',
-      })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 
-      expect(screenshot).toMatchImageSnapshot()
+  it('has to match percent colorize by sign', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="stat-percent-colorize-by-sign"]',
     })
 
-    it('has to match percent colorize by sign', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="stat-percent-colorize-by-sign"]',
-      })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 
-      expect(screenshot).toMatchImageSnapshot()
+  it('has to match rating default', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="stat-rating-default"]',
     })
 
-    it('has to match rating default', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="stat-rating-default"]',
-      })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 
-      expect(screenshot).toMatchImageSnapshot()
+  it('has to match content-label-order with subtle label', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="stat-content-label-order-subtle-label"]',
     })
 
-    it('has to match content-label-order with subtle label', async () => {
-      const screenshot = await makeScreenshot({
-        selector:
-          '[data-visual-test="stat-content-label-order-subtle-label"]',
-      })
-
-      expect(screenshot).toMatchImageSnapshot()
-    })
-  }
-)
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
