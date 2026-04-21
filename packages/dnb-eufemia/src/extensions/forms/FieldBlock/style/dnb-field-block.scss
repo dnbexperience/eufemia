@@ -43,6 +43,7 @@ fieldset.dnb-forms-field-block {
     }
     @include utilities.allAbove(x-small) {
       &-custom {
+        /* stylelint-disable-next-line eufemia/no-undefined-custom-properties -- set via JS at runtime */
         width: calc(var(--dnb-forms-field-block-width));
       }
       &-small {
@@ -230,6 +231,7 @@ fieldset.dnb-forms-field-block {
         width: 100%;
       }
       &-custom {
+        /* stylelint-disable-next-line eufemia/no-undefined-custom-properties -- set via JS at runtime */
         --field-block-content-width: calc(
           var(--dnb-forms-field-block-content-width)
         );

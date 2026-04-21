@@ -81,6 +81,7 @@
   }
 
   &__multiple &__item {
+    /* stylelint-disable-next-line eufemia/no-undefined-custom-properties -- set via JS at runtime */
     transition: transform 400ms var(--easing-default)
       calc(var(--delay) * 50ms);
     transform: translateX(-1rem);
