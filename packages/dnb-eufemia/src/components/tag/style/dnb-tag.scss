@@ -50,8 +50,10 @@
         --tag-icon-color: var(--color-emerald-green);
       }
 
-      @include button-mixins.buttonHover() {
-        --tag-icon-color: var(--color-emerald-green);
+      @include button-mixins.buttonHover(
+        $border-color: var(--token-color-stroke-action-hover)
+      ) {
+        --tag-icon-color: var(--token-color-background-neutral);
       }
 
       @include button-mixins.buttonActive(
@@ -88,11 +90,24 @@
     svg {
       transform: rotate(45deg);
     }
+
+    &.dnb-button {
+      @include utilities.hover() {
+        --tag-icon-fill: var(--token-color-background-neutral);
+        --tag-icon-stroke: var(--token-color-icon-action-hover);
+      }
+    }
   }
 
   &--removable {
     --tag-icon-fill-color: var(--color-white);
     --tag-icon-stroke-color: var(--token-color-stroke-action);
+
+    &.dnb-button {
+      @include utilities.hover() {
+        --tag-icon-fill: var(--token-color-background-action-hover);
+      }
+    }
   }
 
   // Default space between tags
