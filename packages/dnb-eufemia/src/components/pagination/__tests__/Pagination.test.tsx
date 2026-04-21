@@ -285,6 +285,39 @@ describe('Infinity scroller', () => {
     await wait(20)
   }
 
+  it('should derive startupPage from currentPage set after mount', async () => {
+    const onStartup = jest.fn()
+
+    const MyComponent = () => {
+      const [currentPage, setCurrentPage] = React.useState(null)
+
+      React.useEffect(() => {
+        setCurrentPage(3)
+      }, [])
+
+      return (
+        <Pagination
+          mode="infinity"
+          currentPage={currentPage}
+          minWaitTime={0}
+          onStartup={({ pageNumber, setContent }) => {
+            setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
+            onStartup({ pageNumber })
+          }}
+        />
+      )
+    }
+
+    render(<MyComponent />)
+
+    await waitForComponent()
+
+    expect(onStartup).toHaveBeenCalledTimes(1)
+    expect(onStartup).toHaveBeenCalledWith(
+      expect.objectContaining({ pageNumber: 3 })
+    )
+  })
+
   it('should load pages with intersection observer (after)', async () => {
     const action = ({ pageNumber, setContent }) => {
       setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)

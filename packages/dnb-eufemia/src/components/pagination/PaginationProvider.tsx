@@ -453,6 +453,21 @@ const PaginationProvider = (props: any) => {
     }
   }, [props.currentPage])
 
+  // ---- Derive startupPage from currentPage when not yet set ----
+  // Mirrors v10 getDerivedStateFromProps: when startupPage is not a number
+  // (e.g. currentPage was initially null), re-derive once currentPage arrives.
+  useIsomorphicLayoutEffect(() => {
+    if (typeof startupPageRef.current !== 'number') {
+      const derived =
+        parseFloat(props.startupPage) ||
+        parseFloat(props.currentPage) ||
+        currentPageInternalRef.current
+      if (typeof derived === 'number' && !isNaN(derived)) {
+        setStartupPage(derived)
+      }
+    }
+  }, [props.startupPage, props.currentPage])
+
   // ---- Handle resetContentHandler prop ----
   useIsomorphicLayoutEffect(() => {
     if (props.resetContentHandler === true) {
