@@ -313,6 +313,7 @@
       width: calc(var(--drawer-list-height) / 2);
       height: calc(var(--drawer-list-height) / 2);
       transform: translateY(60%) rotate(45deg);
+      clip-path: polygon(0% 0%, 100% 0%, 100% 100%);
 
       background-color: var(--drawer-list-list-background);
     }
