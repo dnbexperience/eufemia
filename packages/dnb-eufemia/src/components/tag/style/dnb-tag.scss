@@ -71,10 +71,12 @@
       }
 
       &[disabled] {
-        color: var(--color-sea-green-30);
-        background-color: var(--color-white);
+        color: var(--token-color-component-button-text-action-disabled);
+        background-color: var(--token-color-background-action-disabled);
 
-        @include utilities.fakeBorder(var(--color-sea-green-30));
+        @include utilities.fakeBorder(
+          var(--token-color-stroke-action-disabled)
+        );
       }
     }
   }
@@ -115,6 +117,13 @@
         --tag-icon-stroke: var(--token-color-icon-action-pressed);
         --tag-icon-border-color: var(--token-color-stroke-action-pressed);
       }
+
+      &[disabled] {
+        --tag-icon-fill-color: var(
+          --token-color-background-action-disabled
+        );
+        --tag-icon-border-color: var(--token-color-stroke-action-disabled);
+      }
     }
   }
 
@@ -136,6 +145,11 @@
         --tag-icon-fill: var(--token-color-background-action-pressed);
         --tag-icon-stroke: var(--token-color-icon-neutral-inverse);
         --tag-icon-border-color: var(--token-color-stroke-action-pressed);
+      }
+
+      &[disabled] {
+        --tag-icon-stroke-color: var(--token-color-stroke-action-disabled);
+        --tag-icon-border-color: var(--token-color-stroke-action-disabled);
       }
     }
   }
