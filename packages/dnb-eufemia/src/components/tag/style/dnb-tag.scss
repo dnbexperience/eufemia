@@ -56,6 +56,7 @@
       }
 
       @include button-mixins.buttonHover(
+        $color: var(--token-color-text-action-hover),
         $border-color: var(--token-color-stroke-action-hover)
       ) {
         --tag-icon-color: var(--token-color-background-neutral);

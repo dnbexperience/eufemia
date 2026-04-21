@@ -1014,6 +1014,7 @@ html:not([data-whatintent=touch]) .dnb-tag--interactive.dnb-button:hover[disable
   cursor: not-allowed;
 }
 html:not([data-whatintent=touch]) .dnb-tag--interactive.dnb-button:hover:not([disabled]) {
+  color: var(--token-color-text-action-hover);
   --border-color: var(--token-color-stroke-action-hover);
   --border-width: 0.125rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
