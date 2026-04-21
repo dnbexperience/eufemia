@@ -13,6 +13,7 @@
 - Write code in logical blocks.
 - Keep blank lines between logical blocks to ensure better readability.
 - Follow existing Prettier and ESLint configurations, and run them on files after making changes.
+- Run Prettier using the workspace version: `yarn exec prettier --write <file>`. Do NOT use `npx prettier`, as it bypasses Yarn PnP resolution and may use a wrong version.
 - Use TypeScript for type safety.
 - Use React Hooks over class components.
 - Use camelCase for functions and variables.
