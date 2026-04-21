@@ -4235,6 +4235,47 @@ describe('Autocomplete component', () => {
     expect(input.value).toBe('AA')
   })
 
+  it('should reopen dropdown with options when typing after Enter key selection', async () => {
+    render(<Autocomplete data={['AA', 'AB', 'BB']} {...mockProps} />)
+
+    const input = document.querySelector(
+      '.dnb-input__input'
+    ) as HTMLInputElement
+
+    // Open the dropdown
+    keyDownOnInput('ArrowDown')
+
+    // Navigate to first option and select with Enter
+    keyDownOnInput('ArrowDown')
+    keyDownOnInput('Enter')
+
+    // Wait for deferred refocus
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 100))
+    })
+
+    // Dropdown should be closed and value selected
+    expect(input.value).toBe('AA')
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).not.toBeInTheDocument()
+
+    // Clear and type a new search
+    await userEvent.clear(input)
+    await userEvent.type(input, 'B')
+
+    // Dropdown should reopen with matching options
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).toBeInTheDocument()
+
+    const options = document.querySelectorAll(
+      '.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+    )
+    expect(options.length).toBe(1)
+    expect(options[0].textContent).toBe('BB')
+  })
+
   it('should open and search after clearing input following keyboard selection', async () => {
     const movies = [
       'The Shawshank Redemption',
